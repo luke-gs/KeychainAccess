@@ -1,0 +1,21 @@
+PODS:
+  - Alamofire (4.2.0)
+  - AppDynamicsAgent (42.11.0)
+  - ConsistencyManager (4.0.0)
+  - RocketData (4.0.1):
+    - ConsistencyManager (~> 4.0.0)
+
+DEPENDENCIES:
+  - Alamofire (~> 4.2.0)
+  - AppDynamicsAgent (~> 42.11.0)
+  - RocketData (~> 4.0.1)
+
+SPEC CHECKSUMS:
+  Alamofire: aa2e09d871c9160ac53c90e83c68064a94e3dfbe
+  AppDynamicsAgent: d3a1c24ed1c609866a092007f3fb5742a3c66b25
+  ConsistencyManager: 323ee466a5c933973529dfa5baa5cbc238633a67
+  RocketData: a661f6e75dd8741dbe95856ca84f5e16ab3b377e
+
+PODFILE CHECKSUM: 2f4128e95f0d6935b5b15e144462284bf5ab13a1
+
+COCOAPODS: 1.1.1
