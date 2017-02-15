@@ -22,7 +22,7 @@ open class PushableSplitViewController: UIViewController {
     ///
     /// By default, the `embeddedSplitViewController`'s delegate is set to it's parent
     /// `PushableSplitViewController` instance.
-    public let embeddedSplitViewController: UISplitViewController = EmbeddedSplitViewController()
+    public let embeddedSplitViewController: UISplitViewController
     
     
     /// The storage for the back bar button item.
@@ -34,7 +34,7 @@ open class PushableSplitViewController: UIViewController {
     /// - Parameter viewControllers: The view controller's to assign as children of the split view controller.
     ///                              These correspond to the `UISplitViewController.viewControllers` property.
     public init(viewControllers: [UIViewController]) {
-        embeddedSplitViewController.viewControllers = viewControllers
+        embeddedSplitViewController = EmbeddedSplitViewController(viewControllers: viewControllers)
         super.init(nibName: nil, bundle: nil)
         
         embeddedSplitViewController.delegate = self
@@ -165,16 +165,20 @@ extension UIViewController {
 
 fileprivate class EmbeddedSplitViewController: UISplitViewController {
     
-    init() {
+    init(viewControllers: [UIViewController]) {
         super.init(nibName: nil, bundle: nil)
-        super.presentsWithGesture = false
-        self.preferredDisplayMode = .allVisible
+        self.viewControllers = viewControllers
+        commonInit()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        commonInit()
+    }
+    
+    private func commonInit() {
         super.presentsWithGesture = false
-        self.preferredDisplayMode = .allVisible
+        preferredDisplayMode = .allVisible
     }
     
     /// Blocks presenting with a gesture. This works around a bug in UISplitViewController within a navigation and tab stack.
