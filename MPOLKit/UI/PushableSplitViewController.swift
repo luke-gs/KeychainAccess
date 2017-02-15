@@ -22,7 +22,7 @@ open class PushableSplitViewController: UIViewController {
     ///
     /// By default, the `embeddedSplitViewController`'s delegate is set to it's parent
     /// `PushableSplitViewController` instance.
-    public let embeddedSplitViewController: UISplitViewController = UISplitViewController()
+    public let embeddedSplitViewController: UISplitViewController = EmbeddedSplitViewController()
     
     
     /// The storage for the back bar button item.
@@ -38,8 +38,6 @@ open class PushableSplitViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         
         embeddedSplitViewController.delegate = self
-        embeddedSplitViewController.preferredDisplayMode = .allVisible
-        embeddedSplitViewController.presentsWithGesture = false
         
         addChildViewController(embeddedSplitViewController)
         embeddedSplitViewController.didMove(toParentViewController: self)
@@ -160,6 +158,36 @@ extension UIViewController {
         }
         
         return nil
+    }
+    
+}
+
+
+fileprivate class EmbeddedSplitViewController: UISplitViewController {
+    
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        super.presentsWithGesture = false
+        self.preferredDisplayMode = .allVisible
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        super.presentsWithGesture = false
+        self.preferredDisplayMode = .allVisible
+    }
+    
+    open override var presentsWithGesture: Bool {
+        get { return false }
+        set { }
+    }
+    
+    open override var childViewControllerForStatusBarStyle : UIViewController? {
+        return viewControllers.first
+    }
+    
+    open override var childViewControllerForStatusBarHidden : UIViewController? {
+        return viewControllers.first
     }
     
 }

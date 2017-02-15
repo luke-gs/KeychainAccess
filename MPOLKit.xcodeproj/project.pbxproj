@@ -21,7 +21,6 @@
 		BC691B441E54041200EC3A20 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC691B341E54041200EC3A20 /* UIColor+Hex.swift */; };
 		BC691B451E54041200EC3A20 /* UITableView+DefaultReuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC691B351E54041200EC3A20 /* UITableView+DefaultReuse.swift */; };
 		BC691B461E54041200EC3A20 /* UITableViewCell+DefaultReuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC691B361E54041200EC3A20 /* UITableViewCell+DefaultReuse.swift */; };
-		BC691B471E54041200EC3A20 /* UIViewController+StatusBarAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC691B371E54041200EC3A20 /* UIViewController+StatusBarAppearance.swift */; };
 		BC691B481E54041200EC3A20 /* PushableSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC691B381E54041200EC3A20 /* PushableSplitViewController.swift */; };
 		BC691B491E54041200EC3A20 /* ScrollViewInsetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC691B391E54041200EC3A20 /* ScrollViewInsetManager.swift */; };
 		BC691B4A1E54041200EC3A20 /* SidebarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC691B3B1E54041200EC3A20 /* SidebarItem.swift */; };
@@ -84,7 +83,6 @@
 		BC691B341E54041200EC3A20 /* UIColor+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
 		BC691B351E54041200EC3A20 /* UITableView+DefaultReuse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+DefaultReuse.swift"; sourceTree = "<group>"; };
 		BC691B361E54041200EC3A20 /* UITableViewCell+DefaultReuse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+DefaultReuse.swift"; sourceTree = "<group>"; };
-		BC691B371E54041200EC3A20 /* UIViewController+StatusBarAppearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+StatusBarAppearance.swift"; sourceTree = "<group>"; };
 		BC691B381E54041200EC3A20 /* PushableSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushableSplitViewController.swift; sourceTree = "<group>"; };
 		BC691B391E54041200EC3A20 /* ScrollViewInsetManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollViewInsetManager.swift; sourceTree = "<group>"; };
 		BC691B3B1E54041200EC3A20 /* SidebarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SidebarItem.swift; sourceTree = "<group>"; };
@@ -198,7 +196,6 @@
 				BC691B341E54041200EC3A20 /* UIColor+Hex.swift */,
 				BC691B351E54041200EC3A20 /* UITableView+DefaultReuse.swift */,
 				BC691B361E54041200EC3A20 /* UITableViewCell+DefaultReuse.swift */,
-				BC691B371E54041200EC3A20 /* UIViewController+StatusBarAppearance.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -370,7 +367,6 @@
 				BC691B421E54041200EC3A20 /* UICollectionReusableView+DefaultReuse.swift in Sources */,
 				BC691B461E54041200EC3A20 /* UITableViewCell+DefaultReuse.swift in Sources */,
 				BC691B451E54041200EC3A20 /* UITableView+DefaultReuse.swift in Sources */,
-				BC691B471E54041200EC3A20 /* UIViewController+StatusBarAppearance.swift in Sources */,
 				BC691B4D1E54041200EC3A20 /* SidebarTableViewCell.swift in Sources */,
 				BC691B4C1E54041200EC3A20 /* SidebarSplitViewController.swift in Sources */,
 				BC691B4B1E54041200EC3A20 /* SidebarSourceItem.swift in Sources */,
