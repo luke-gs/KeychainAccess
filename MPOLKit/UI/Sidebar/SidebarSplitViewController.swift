@@ -88,6 +88,7 @@ open class SidebarSplitViewController: PushableSplitViewController {
 }
 
 
+// MARK: - SidebarViewControllerDelegate methods
 /// SidebarViewControllerDelegate methods
 extension SidebarSplitViewController : SidebarViewControllerDelegate {
     

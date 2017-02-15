@@ -38,6 +38,8 @@ open class PushableSplitViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         
         embeddedSplitViewController.delegate = self
+        embeddedSplitViewController.preferredDisplayMode = .allVisible
+        embeddedSplitViewController.presentsWithGesture = false
         
         addChildViewController(embeddedSplitViewController)
         embeddedSplitViewController.didMove(toParentViewController: self)

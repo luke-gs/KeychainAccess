@@ -17,7 +17,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        
         let theme = Theme.current
         
         let navBar = UINavigationBar.appearance()
@@ -28,10 +27,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let window = UIWindow()
         self.window = window
         
-        let pushableSplitViewController = PushableSplitViewController(viewControllers: [UINavigationController(rootViewController: PushableTestViewController(style: .grouped)), UINavigationController()])
+        let detailViewController = UIViewController()
+        let pushableSplitViewController = PushableSplitViewController(viewControllers: [UINavigationController(rootViewController: PushableTestViewController(style: .grouped)), UINavigationController(rootViewController: detailViewController)])
+        detailViewController.navigationItem.leftBarButtonItem = pushableSplitViewController.embeddedSplitViewController.displayModeButtonItem
+        detailViewController.navigationItem.leftItemsSupplementBackButton = true
         pushableSplitViewController.title = "Pushable SVC"
         let pushableSVNavController = UINavigationController(rootViewController: pushableSplitViewController)
-        
         
         let sidebarDetail1VC = UIViewController()
         sidebarDetail1VC.title = "Sidebar Test"
