@@ -177,6 +177,7 @@ fileprivate class EmbeddedSplitViewController: UISplitViewController {
         self.preferredDisplayMode = .allVisible
     }
     
+    /// Blocks presenting with a gesture. This works around a bug in UISplitViewController within a navigation and tab stack.
     open override var presentsWithGesture: Bool {
         get { return false }
         set { }

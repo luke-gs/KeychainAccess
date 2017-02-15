@@ -148,6 +148,7 @@ fileprivate extension SourceTableViewCell {
         animation.repeatCount = .infinity
         animation.duration = 1.0
         animation.autoreverses = true
+        animation.isRemovedOnCompletion = false
         animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
         glowView.layer.add(animation, forKey: "glow")
         
@@ -201,13 +202,11 @@ fileprivate class SourceIcon: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        clearsContextBeforeDrawing = true
         backgroundColor = .clear
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        clearsContextBeforeDrawing = true
         backgroundColor = .clear
     }
     

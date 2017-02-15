@@ -199,7 +199,6 @@ fileprivate class SidebarTableBadgeView: UIView {
     private func commonInit() {
         contentMode = .redraw
         backgroundColor = .clear
-        clearsContextBeforeDrawing = true
     }
     
     override func draw(_ rect: CGRect) {

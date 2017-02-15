@@ -19,7 +19,7 @@ public extension NSNotification.Name {
 ///
 /// Applications can define their own theme pack by including a compliant "ThemePack.json"
 /// file within their compiled bundle. Users who define their own theme should ensure they
-/// include all the values for all MPOl base color keys, to ensure that MPOL views render
+/// include all the values for all MPOL base color keys, to ensure that MPOL views render
 /// correctly according to the defined theme.
 ///
 /// Apps that don't define a theme pack will inherit the default MPOL theme pack and appearances.
