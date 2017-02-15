@@ -12,7 +12,7 @@ extension UIColor {
     
     /// Creates a color with in the given hex string and alpha.
     ///
-    /// - Parameter hexString: The hex string, with or without the hash character. Supports RGB or ARGB hex values.
+    /// - Parameter hexString: The hex string, with or without the hash character. Supports RGB or RGBA hex values.
     /// - Returns: A color with the given hex string and alpha, or `nil` if the hex string was invalid.
     public convenience init?(hexString: String) {
         var hex = hexString
