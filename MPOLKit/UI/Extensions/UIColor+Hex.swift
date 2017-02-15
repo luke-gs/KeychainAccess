@@ -18,8 +18,9 @@ extension UIColor {
         var hex = hexString
         
         // Check for and remove the hash
+        let hexStart = hex.startIndex
         if hex.hasPrefix("#") {
-            hex = hex.substring(from: hex.characters.index(hex.startIndex, offsetBy: 1))
+            hex.remove(at: hexStart)
         }
         
         if hex.characters.count == 3 {
@@ -29,19 +30,18 @@ extension UIColor {
         }
         
         if (hex.range(of: "(^[0-9A-Fa-f]{8}$)|(^[0-9A-Fa-f]{4}$)", options: .regularExpression) == nil) { return nil }
+        
         if hex.characters.count == 4 {
-            let redHex    = hex.substring(to: hex.characters.index(hex.startIndex, offsetBy: 1))
-            let greenHex  = hex.substring(with: Range<String.Index>(hex.characters.index(hex.startIndex, offsetBy: 1) ..< hex.characters.index(hex.startIndex, offsetBy: 2)))
-            let blueHex   = hex.substring(with: Range<String.Index>(hex.characters.index(hex.startIndex, offsetBy: 2) ..< hex.characters.index(hex.startIndex, offsetBy: 3)))
-            let alphaHex  = hex.substring(from: hex.characters.index(hex.startIndex, offsetBy: 3))
-            
-            hex = redHex + redHex + greenHex + greenHex + blueHex + blueHex + alphaHex + alphaHex
+            hex.insert(hex[hexStart], at: hexStart)
+            hex.insert(hex[hex.index(hexStart, offsetBy: 2)], at: hex.index(hexStart, offsetBy: 2))
+            hex.insert(hex[hex.index(hexStart, offsetBy: 4)], at: hex.index(hexStart, offsetBy: 4))
+            hex.insert(hex[hex.index(hexStart, offsetBy: 6)], at: hex.index(hexStart, offsetBy: 6))
         }
         
-        let redHex    = hex.substring(to: hex.characters.index(hex.startIndex, offsetBy: 2))
-        let greenHex  = hex.substring(with: Range<String.Index>(hex.characters.index(hex.startIndex, offsetBy: 2) ..< hex.characters.index(hex.startIndex, offsetBy: 4)))
-        let blueHex   = hex.substring(with: Range<String.Index>(hex.characters.index(hex.startIndex, offsetBy: 4) ..< hex.characters.index(hex.startIndex, offsetBy: 6)))
-        let alphaHex  = hex.substring(with: Range<String.Index>(hex.characters.index(hex.startIndex, offsetBy: 6) ..< hex.characters.index(hex.startIndex, offsetBy: 8)))
+        let redHex   = hex.substring(to: hex.index(hexStart, offsetBy: 2))
+        let greenHex = hex[hex.index(hexStart, offsetBy: 2) ..< hex.index(hexStart, offsetBy: 4)]
+        let blueHex  = hex[hex.index(hexStart, offsetBy: 4) ..< hex.index(hexStart, offsetBy: 6)]
+        let alphaHex = hex.substring(from: hex.index(hexStart, offsetBy: 6))
         
         var redInt:   CUnsignedInt = 0
         var greenInt: CUnsignedInt = 0
