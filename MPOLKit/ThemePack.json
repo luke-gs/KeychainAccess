@@ -1,0 +1,16 @@
+[
+    {
+        "name": "Light",
+        "isDark": false,
+        "statusBarStyle": 1,
+        "navigationBar": "NavigationBarLight",
+        "navigationBarStyle": 1,
+        "colors": {
+            "tint":              "#1EA546FF",
+            "navigationBarTint": "#FFFFFFFF",
+            "primaryText":       "#3D3E45FF",
+            "secondaryText":     "#75828DFF",
+            "separator":         "#E4E4E6FF"
+        }
+    }
+]
