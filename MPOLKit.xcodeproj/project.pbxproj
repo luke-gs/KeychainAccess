@@ -206,11 +206,11 @@
 		BC691B3A1E54041200EC3A20 /* Sidebar */ = {
 			isa = PBXGroup;
 			children = (
+				BC691B3D1E54041200EC3A20 /* SidebarSplitViewController.swift */,
+				BC691B3F1E54041200EC3A20 /* SidebarViewController.swift */,
 				BC691B3B1E54041200EC3A20 /* SidebarItem.swift */,
 				BC691B3C1E54041200EC3A20 /* SidebarSourceItem.swift */,
-				BC691B3D1E54041200EC3A20 /* SidebarSplitViewController.swift */,
 				BC691B3E1E54041200EC3A20 /* SidebarTableViewCell.swift */,
-				BC691B3F1E54041200EC3A20 /* SidebarViewController.swift */,
 				BC691B401E54041200EC3A20 /* SourceTableViewCell.swift */,
 			);
 			path = Sidebar;
