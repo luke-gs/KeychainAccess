@@ -199,8 +199,9 @@
 			isa = PBXGroup;
 			children = (
 				BC2FA2CC1E54023E00E2D0D1 /* MPOLKit.h */,
-				BC712E1D1E55348B00BD5DAE /* FormKit */,
+				BC712E8D1E55446900BD5DAE /* Core */,
 				BC691B301E54041200EC3A20 /* UI */,
+				BC712E1D1E55348B00BD5DAE /* FormKit */,
 				BC691B291E5403B200EC3A20 /* Assets.xcassets */,
 				BC2FA2CD1E54023E00E2D0D1 /* Info.plist */,
 				BC691B511E54043700EC3A20 /* ThemePack.json */,
@@ -337,6 +338,14 @@
 				BC712E711E5535B800BD5DAE /* SelectableButton.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		BC712E8D1E55446900BD5DAE /* Core */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Core;
+			path = UI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
