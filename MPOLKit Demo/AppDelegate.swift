@@ -25,6 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         navBar.tintColor = theme.colors[.NavigationBarTint]
         
         let window = UIWindow()
+        window.tintColor = theme.colors[.Tint]
         self.window = window
         
         let detailViewController = UIViewController()
@@ -48,7 +49,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         sidebarSplitViewController.sidebarViewController.sourceItems = [SidebarSourceItem(color: .red, title: "CRIMTRAC", count: 8), SidebarSourceItem(color: #colorLiteral(red: 0, green: 0.479532063, blue: 0.9950867295, alpha: 1), title: "DS2", count: 3), SidebarSourceItem(color: .red, title: "DS3", count: 1, isEnabled: false)]
         sidebarSplitViewController.sidebarViewController.selectedSourceIndex = 0
         sidebarSplitViewController.title = "Sidebar SVC"
-        
         
         let tabBarController = UITabBarController()
         tabBarController.viewControllers = [pushableSVNavController, UINavigationController(rootViewController: sidebarSplitViewController)]
