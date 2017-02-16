@@ -6,7 +6,7 @@
         "navigationBar": "NavigationBarLight",
         "navigationBarStyle": 1,
         "colors": {
-            "tint":              "#1EA546FF",
+            "tint":              "#007AFFFF",
             "navigationBarTint": "#FFFFFFFF",
             "primaryText":       "#3D3E45FF",
             "secondaryText":     "#75828DFF",
