@@ -17,6 +17,9 @@ extension UITableView {
     ///
     /// Table view cells will by default also preserve their superview's layout guides.
     /// To disable this, set the cell's `preservesSuperviewLayoutSubviews` to false.
+    /// 
+    /// The default for this property is the standard UITableViewCell settings. This property
+    /// is `nil`-resettable, and will always return a non-null value.
     public var cellLayoutMargins: UIEdgeInsets! {
         get {
             return (objc_getAssociatedObject(self, &cellLayoutMarginsKey) as? NSValue)?.uiEdgeInsetsValue ?? defaultCellLayoutMargins
@@ -30,16 +33,12 @@ extension UITableView {
             }
             objc_setAssociatedObject(self, &cellLayoutMarginsKey, value, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             
-            let visibleCells = self.visibleCells
-            if visibleCells.isEmpty { return }
-            
-            let cellLayoutMargins = newValue ?? defaultCellLayoutMargins
-            
-            beginUpdates()
-            for cell in visibleCells {
-                cell.apply(cellLayoutMargins)
+            // Reload all visible rows.
+            // It'd be better to apply the layout attributes directly and rely on -beginUpdates and -endUpdates
+            // to resize, but we can't because some cells may not have had cellLayoutMargins applied.
+            if let visibleRowIndexPaths = self.indexPathsForVisibleRows, visibleRowIndexPaths.isEmpty == false {
+                reloadRows(at: visibleRowIndexPaths, with: .fade)
             }
-            endUpdates()
         }
     }
     
@@ -55,15 +54,21 @@ extension UITableView {
     
     
     /// Dequeues a cell registered with the default reuse identifier for the class.
-    /// This method automatically applies the cell layout margins.
+    ///
+    /// - Note: Unlike the other methods for cell reuse below, this method applies cell layout margins
+    ///         by default. The other methods "default" implementation falls back to the
+    ///         `UITableView` standard dequeue methods which do not apply any layout margin adjustment.
     ///
     /// - Parameters:
     ///   - cellClass: The cell class to dequeue.
     ///   - indexPath: The index path to dequeue a cell for.
+    ///   - applyingLayoutMargins:  A boolean value indicating whether the cell layout margins should be applied. The default is `true`.
     /// - Returns: A correctly typed cell dequeued for use in the table view.
-    public func dequeueReusableCell<T: UITableViewCell>(of cellClass: T.Type, for indexPath: IndexPath) -> T {
+    public func dequeueReusableCell<T: UITableViewCell>(of cellClass: T.Type, for indexPath: IndexPath, applyingLayoutMargins: Bool = true) -> T {
         let cell = dequeueReusableCell(withIdentifier: cellClass.defaultReuseIdentifier, for: indexPath) as! T
-        cell.apply(cellLayoutMargins)
+        if applyingLayoutMargins {
+            cell.apply(cellLayoutMargins)
+        }
         return cell
     }
     
