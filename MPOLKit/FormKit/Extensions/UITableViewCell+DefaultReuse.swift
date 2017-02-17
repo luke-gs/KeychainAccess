@@ -23,24 +23,20 @@ public extension UITableViewCell {
     
     /// Applies layout margins to the cell.
     ///
-    /// - Parameters:
-    ///   - layout margins: The margins to apply, or nil.
-    ///   - preservingTableViewInsets: A boolean value indicating if the cell should preserve its table view insets.
-    public func apply(_ layoutMargins: UIEdgeInsets?) {
-        if let layoutMargins = layoutMargins {
-            // Left and right margins should be applied to the cell itself. This ensures the separators and accessories are adjusted correctly.
-            var cellLayoutMargins   = self.layoutMargins
-            cellLayoutMargins.left  = layoutMargins.left
-            cellLayoutMargins.right = layoutMargins.right
-            self.layoutMargins      = cellLayoutMargins
-            
-            // Top and bottom margins should be applied to the content view. They don't translate from the cell to the content view.
-            let contentView = self.contentView
-            var contentLayoutMargins    = contentView.layoutMargins
-            contentLayoutMargins.top    = layoutMargins.top
-            contentLayoutMargins.bottom = layoutMargins.bottom
-            contentView.layoutMargins   = contentLayoutMargins
-        }
+    /// - Parameter layoutMargins: The margins to apply.
+    public func apply(_ layoutMargins: UIEdgeInsets) {
+        // Left and right margins should be applied to the cell itself. This ensures the separators and accessories are adjusted correctly.
+        var cellLayoutMargins   = self.layoutMargins
+        cellLayoutMargins.left  = layoutMargins.left
+        cellLayoutMargins.right = layoutMargins.right
+        self.layoutMargins      = cellLayoutMargins
+        
+        // Top and bottom margins should be applied to the content view. They don't translate from the cell to the content view.
+        let contentView = self.contentView
+        var contentLayoutMargins    = contentView.layoutMargins
+        contentLayoutMargins.top    = layoutMargins.top
+        contentLayoutMargins.bottom = layoutMargins.bottom
+        contentView.layoutMargins   = contentLayoutMargins
     }
     
 }
