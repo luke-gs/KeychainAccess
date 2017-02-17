@@ -58,7 +58,6 @@
 		BC7150A31E56828A0093F958 /* UICollectionView+DefaultReuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC71509F1E56828A0093F958 /* UICollectionView+DefaultReuse.swift */; };
 		BC7150A41E56828A0093F958 /* UITableView+DefaultReuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7150A01E56828A0093F958 /* UITableView+DefaultReuse.swift */; };
 		BC7150A51E56828A0093F958 /* UITableViewCell+DefaultReuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7150A11E56828A0093F958 /* UITableViewCell+DefaultReuse.swift */; };
-		BC7150A71E568DB40093F958 /* FormTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7150A61E568DB40093F958 /* FormTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -147,7 +146,6 @@
 		BC71509F1E56828A0093F958 /* UICollectionView+DefaultReuse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UICollectionView+DefaultReuse.swift"; sourceTree = "<group>"; };
 		BC7150A01E56828A0093F958 /* UITableView+DefaultReuse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+DefaultReuse.swift"; sourceTree = "<group>"; };
 		BC7150A11E56828A0093F958 /* UITableViewCell+DefaultReuse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+DefaultReuse.swift"; sourceTree = "<group>"; };
-		BC7150A61E568DB40093F958 /* FormTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -235,7 +233,6 @@
 		BC691B301E54041200EC3A20 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				BC7150A61E568DB40093F958 /* FormTableViewController.swift */,
 				BC691B381E54041200EC3A20 /* PushableSplitViewController.swift */,
 				BC691B391E54041200EC3A20 /* ScrollViewInsetManager.swift */,
 				BC691B3A1E54041200EC3A20 /* Sidebar */,
@@ -512,7 +509,6 @@
 				BC7150A41E56828A0093F958 /* UITableView+DefaultReuse.swift in Sources */,
 				BC712E751E5535B800BD5DAE /* CollectionViewFormEditAction.swift in Sources */,
 				BC712E741E5535B800BD5DAE /* CollectionViewFormDecorationView.swift in Sources */,
-				BC7150A71E568DB40093F958 /* FormTableViewController.swift in Sources */,
 				BC7150A21E56828A0093F958 /* UICollectionReusableView+DefaultReuse.swift in Sources */,
 				BC712E821E5535B800BD5DAE /* TableViewFormCell.swift in Sources */,
 				BC712E761E5535B800BD5DAE /* CollectionViewFormRadioButtonCell.swift in Sources */,

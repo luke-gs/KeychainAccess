@@ -8,7 +8,41 @@
 
 import UIKit
 
+fileprivate var cellLayoutMarginsKey = 1
+fileprivate let defaultCellLayoutMargins = UIEdgeInsets(top: 11.0, left: 10.0, bottom: 10.5, right: 10.0)
+
 extension UITableView {
+    
+    /// The layout margins for the cells.
+    ///
+    /// Table view cells will by default also preserve their superview's layout guides.
+    /// To disable this, set the cell's `preservesSuperviewLayoutSubviews` to false.
+    public var cellLayoutMargins: UIEdgeInsets! {
+        get {
+            return (objc_getAssociatedObject(self, &cellLayoutMarginsKey) as? NSValue)?.uiEdgeInsetsValue ?? defaultCellLayoutMargins
+        }
+        set {
+            let value: NSValue?
+            if let newValue = newValue {
+                value = NSValue(uiEdgeInsets: newValue)
+            } else {
+                value = nil
+            }
+            objc_setAssociatedObject(self, &cellLayoutMarginsKey, value, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            
+            let visibleCells = self.visibleCells
+            if visibleCells.isEmpty { return }
+            
+            let cellLayoutMargins = newValue ?? defaultCellLayoutMargins
+            
+            beginUpdates()
+            for cell in visibleCells {
+                cell.apply(cellLayoutMargins)
+            }
+            endUpdates()
+        }
+    }
+    
     
     /// Registers a cell with the default reuse identifier for the class.
     ///
@@ -21,15 +55,16 @@ extension UITableView {
     
     
     /// Dequeues a cell registered with the default reuse identifier for the class.
+    /// This method automatically applies the cell layout margins.
     ///
     /// - Parameters:
     ///   - cellClass: The cell class to dequeue.
     ///   - indexPath: The index path to dequeue a cell for.
-    ///   - layoutMargins: Layout margins to apply to the cell, if any.
-    ///   - preservesTableLayoutMargins: A boolean value indicating if the cell should preserve the table view's layout margins.
-    /// - Returns: A correctly typed cell dequeued for use in the table view, with any layout adjustments completed.
-    public func dequeueReusableCell<T: UITableViewCell>(of cellClass: T.Type, for indexPath: IndexPath, layoutMargins: UIEdgeInsets? = nil, preservesTableLayoutMargins: Bool = true) -> T {
-        return dequeueReusableCell(withIdentifier: cellClass.defaultReuseIdentifier, for: indexPath, layoutMargins: layoutMargins, preservesTableLayoutMargins: preservesTableLayoutMargins) as! T
+    /// - Returns: A correctly typed cell dequeued for use in the table view.
+    public func dequeueReusableCell<T: UITableViewCell>(of cellClass: T.Type, for indexPath: IndexPath) -> T {
+        let cell = dequeueReusableCell(withIdentifier: cellClass.defaultReuseIdentifier, for: indexPath) as! T
+        cell.apply(cellLayoutMargins)
+        return cell
     }
     
     
@@ -38,19 +73,24 @@ extension UITableView {
     /// - Parameters:
     ///   - identifier: The identifier to dequeue the cell for.
     ///   - indexPath:  The index path to dequeue the cell for.
-    ///   - layoutMargins: Layout margins to apply to the cell, if any.
-    ///   - preservesTableLayoutMargins: A boolean value indicating if the cell should preserve the table view's layout margins.
-    /// - Returns: A cell dequeued for use in the table view, with any layout adjustments completed.
-    public func dequeueReusableCell(withIdentifier identifier: String, for indexPath: IndexPath, layoutMargins: UIEdgeInsets?, preservesTableLayoutMargins: Bool = true) -> UITableViewCell {
+    ///   - applyingLayoutMargins: A boolean value indicating whether the cell layout margins should be applied.
+    /// - Returns: A cell dequeued for use in the table view.
+    public func dequeueReusableCell(withIdentifier identifier: String, for indexPath: IndexPath, applyingLayoutMargins: Bool) -> UITableViewCell {
         let cell = dequeueReusableCell(withIdentifier: identifier, for: indexPath)
-        cell.applyLayoutMargins(layoutMargins, preservingTableViewInsets: preservesTableLayoutMargins)
+        if applyingLayoutMargins { cell.apply(cellLayoutMargins) }
         return cell
     }
     
     
-    public func dequeueReusableCell(withIdenfitier identifier: String, layoutMargins: UIEdgeInsets?, preservesTableLayoutMargins: Bool = true) -> UITableViewCell? {
+    /// Dequeues a reusable cell registered with the specified ID, if it exists.
+    ///
+    /// - Parameters:
+    ///   - identifier: The identifier to dequeue the cell for.
+    ///   - applyingLayoutMargins: A boolean value indicating whether the cell layout margins should be applied.
+    /// - Returns: A cell dequeued for use in the table view, or `nil`.
+    public func dequeueReusableCell(withIdenfitier identifier: String, applyingLayoutMargins: Bool) -> UITableViewCell? {
         let cell = dequeueReusableCell(withIdentifier: identifier)
-        cell?.applyLayoutMargins(layoutMargins, preservingTableViewInsets: preservesTableLayoutMargins)
+        if applyingLayoutMargins { cell?.apply(cellLayoutMargins) }
         return cell
     }
 }

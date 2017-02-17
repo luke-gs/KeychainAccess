@@ -21,13 +21,13 @@ public extension UITableViewCell {
     }
 
     
-    /// Applies layout options to the cell.
+    /// Applies layout margins to the cell.
     ///
     /// - Parameters:
-    ///   - margins: The margins to apply, or nil.
+    ///   - layout margins: The margins to apply, or nil.
     ///   - preservingTableViewInsets: A boolean value indicating if the cell should preserve its table view insets.
-    public func applyLayoutMargins(_ margins: UIEdgeInsets?, preservingTableViewInsets: Bool) {
-        if let layoutMargins = margins {
+    public func apply(_ layoutMargins: UIEdgeInsets?) {
+        if let layoutMargins = layoutMargins {
             // Left and right margins should be applied to the cell itself. This ensures the separators and accessories are adjusted correctly.
             var cellLayoutMargins   = self.layoutMargins
             cellLayoutMargins.left  = layoutMargins.left
@@ -41,7 +41,6 @@ public extension UITableViewCell {
             contentLayoutMargins.bottom = layoutMargins.bottom
             contentView.layoutMargins   = contentLayoutMargins
         }
-        self.preservesSuperviewLayoutMargins = preservingTableViewInsets
     }
     
 }

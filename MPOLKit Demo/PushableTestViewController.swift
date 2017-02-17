@@ -9,20 +9,11 @@
 import UIKit
 import MPOLKit
 
-class PushableTestViewController: FormTableViewController {
-    
-    override init(style: UITableViewStyle) {
-        super.init(style: style)
-        cellLayoutMargins = UIEdgeInsets(top: 25.0, left: 50.0, bottom: 25.0, right: 50.0)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        cellLayoutMargins = UIEdgeInsets(top: 25.0, left: 50.0, bottom: 25.0, right: 50.0)
-    }
+class PushableTestViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.cellLayoutMargins = UIEdgeInsets(top: 25.0, left: 50.0, bottom: 25.0, right: 50.0)
         tableView.estimatedRowHeight = 50.0
         tableView.register(TableViewFormCell.self)
         tableView.separatorColor = Theme.current.colors[.Separator]
@@ -33,7 +24,7 @@ class PushableTestViewController: FormTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = dequeueReusableCell(of: TableViewFormCell.self, for: indexPath)
+        let cell = tableView.dequeueReusableCell(of: TableViewFormCell.self, for: indexPath)
         cell.textLabel?.text = "Test Cell \(indexPath.row + 1)"
         return cell
     }
