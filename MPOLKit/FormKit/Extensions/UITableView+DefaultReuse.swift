@@ -20,15 +20,37 @@ extension UITableView {
     }
     
     
-    /// Dequeues a cell with the reuse identifier for the class.
+    /// Dequeues a cell registered with the default reuse identifier for the class.
     ///
-    /// - Important: The cell class must have been registered with the table view prior to using this method.
     /// - Parameters:
     ///   - cellClass: The cell class to dequeue.
     ///   - indexPath: The index path to dequeue a cell for.
-    /// - Returns: A correctly typed cell dequeued for use in the table view.
-    public func dequeueReusableCell<T: UITableViewCell>(of cellClass: T.Type, for indexPath: IndexPath) -> T {
-        return dequeueReusableCell(withIdentifier: cellClass.defaultReuseIdentifier, for: indexPath) as! T
+    ///   - layoutMargins: Layout margins to apply to the cell, if any.
+    ///   - preservesTableLayoutMargins: A boolean value indicating if the cell should preserve the table view's layout margins.
+    /// - Returns: A correctly typed cell dequeued for use in the table view, with any layout adjustments completed.
+    public func dequeueReusableCell<T: UITableViewCell>(of cellClass: T.Type, for indexPath: IndexPath, layoutMargins: UIEdgeInsets? = nil, preservesTableLayoutMargins: Bool = true) -> T {
+        return dequeueReusableCell(withIdentifier: cellClass.defaultReuseIdentifier, for: indexPath, layoutMargins: layoutMargins, preservesTableLayoutMargins: preservesTableLayoutMargins) as! T
     }
     
+    
+    /// Dequeues a cell registered with the specified ID.
+    ///
+    /// - Parameters:
+    ///   - identifier: The identifier to dequeue the cell for.
+    ///   - indexPath:  The index path to dequeue the cell for.
+    ///   - layoutMargins: Layout margins to apply to the cell, if any.
+    ///   - preservesTableLayoutMargins: A boolean value indicating if the cell should preserve the table view's layout margins.
+    /// - Returns: A cell dequeued for use in the table view, with any layout adjustments completed.
+    public func dequeueReusableCell(withIdentifier identifier: String, for indexPath: IndexPath, layoutMargins: UIEdgeInsets?, preservesTableLayoutMargins: Bool = true) -> UITableViewCell {
+        let cell = dequeueReusableCell(withIdentifier: identifier, for: indexPath)
+        cell.applyLayoutMargins(layoutMargins, preservingTableViewInsets: preservesTableLayoutMargins)
+        return cell
+    }
+    
+    
+    public func dequeueReusableCell(withIdenfitier identifier: String, layoutMargins: UIEdgeInsets?, preservesTableLayoutMargins: Bool = true) -> UITableViewCell? {
+        let cell = dequeueReusableCell(withIdentifier: identifier)
+        cell?.applyLayoutMargins(layoutMargins, preservingTableViewInsets: preservesTableLayoutMargins)
+        return cell
+    }
 }

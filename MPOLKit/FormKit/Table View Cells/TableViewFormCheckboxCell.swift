@@ -36,6 +36,7 @@ open class TableViewFormCheckboxCell: TableViewFormCell {
     
     private func commonInit() {
         selectionStyle = .none
+        minimumContentHeight = 43.5
         
         let contentView = self.contentView
         
@@ -46,8 +47,7 @@ open class TableViewFormCheckboxCell: TableViewFormCell {
             NSLayoutConstraint(item: checkbox, attribute: .leading,   relatedBy: .equal,              toItem: contentView, attribute: .leadingMargin),
             NSLayoutConstraint(item: checkbox, attribute: .trailing,  relatedBy: .lessThanOrEqual,    toItem: contentView, attribute: .trailingMargin),
             NSLayoutConstraint(item: checkbox, attribute: .centerY,   relatedBy: .equal,              toItem: contentView, attribute: .centerYWithinMargins),
-            NSLayoutConstraint(item: checkbox, attribute: .top,       relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .topMargin),
-            NSLayoutConstraint(item: contentView, attribute: .height, relatedBy: .greaterThanOrEqual, toConstant: 43.5)
+            NSLayoutConstraint(item: checkbox, attribute: .top,       relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .topMargin)
         ])
     }
     

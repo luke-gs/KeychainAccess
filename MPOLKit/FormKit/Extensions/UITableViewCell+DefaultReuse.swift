@@ -20,4 +20,28 @@ public extension UITableViewCell {
         return NSStringFromClass(self)
     }
 
+    
+    /// Applies layout options to the cell.
+    ///
+    /// - Parameters:
+    ///   - margins: The margins to apply, or nil.
+    ///   - preservingTableViewInsets: A boolean value indicating if the cell should preserve its table view insets.
+    public func applyLayoutMargins(_ margins: UIEdgeInsets?, preservingTableViewInsets: Bool) {
+        if let layoutMargins = margins {
+            // Left and right margins should be applied to the cell itself. This ensures the separators and accessories are adjusted correctly.
+            var cellLayoutMargins   = self.layoutMargins
+            cellLayoutMargins.left  = layoutMargins.left
+            cellLayoutMargins.right = layoutMargins.right
+            self.layoutMargins      = cellLayoutMargins
+            
+            // Top and bottom margins should be applied to the content view. They don't translate from the cell to the content view.
+            let contentView = self.contentView
+            var contentLayoutMargins    = contentView.layoutMargins
+            contentLayoutMargins.top    = layoutMargins.top
+            contentLayoutMargins.bottom = layoutMargins.bottom
+            contentView.layoutMargins   = contentLayoutMargins
+        }
+        self.preservesSuperviewLayoutMargins = preservingTableViewInsets
+    }
+    
 }
