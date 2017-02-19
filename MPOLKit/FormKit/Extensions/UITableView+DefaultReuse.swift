@@ -48,12 +48,12 @@ extension UITableView {
     /// - Important: This method uses the cell's default reuse identifier. Please see
     ///              the limitations with that API to ensure you avoid creating ID conflicts.
     /// - Parameter cellClass: The cell class to register.
-    public func register(_ cellClass: UITableViewCell.Type) {
+    public final func register<T: UITableViewCell>(_ cellClass: T.Type) where T: DefaultReusable {
         register(cellClass, forCellReuseIdentifier: cellClass.defaultReuseIdentifier)
     }
     
     
-    /// Dequeues a cell registered with the default reuse identifier for the class.
+    /// Dequeues a DefaultResuable cell registered with the default reuse identifier for the class.
     ///
     /// - Note: Unlike the other methods for cell reuse below, this method applies cell layout margins
     ///         by default. The other methods "default" implementation falls back to the
@@ -64,12 +64,8 @@ extension UITableView {
     ///   - indexPath: The index path to dequeue a cell for.
     ///   - applyingLayoutMargins:  A boolean value indicating whether the cell layout margins should be applied. The default is `true`.
     /// - Returns: A correctly typed cell dequeued for use in the table view.
-    public func dequeueReusableCell<T: UITableViewCell>(of cellClass: T.Type, for indexPath: IndexPath, applyingLayoutMargins: Bool = true) -> T {
-        let cell = dequeueReusableCell(withIdentifier: cellClass.defaultReuseIdentifier, for: indexPath) as! T
-        if applyingLayoutMargins {
-            cell.apply(cellLayoutMargins)
-        }
-        return cell
+    public final func dequeueReusableCell<T: UITableViewCell>(of cellClass: T.Type, for indexPath: IndexPath, applyingLayoutMargins: Bool = true) -> T where T: DefaultReusable {
+        return dequeueReusableCell(withIdentifier: cellClass.defaultReuseIdentifier, for: indexPath, applyingLayoutMargins: applyingLayoutMargins) as! T
     }
     
     
@@ -80,7 +76,7 @@ extension UITableView {
     ///   - indexPath:  The index path to dequeue the cell for.
     ///   - applyingLayoutMargins: A boolean value indicating whether the cell layout margins should be applied.
     /// - Returns: A cell dequeued for use in the table view.
-    public func dequeueReusableCell(withIdentifier identifier: String, for indexPath: IndexPath, applyingLayoutMargins: Bool) -> UITableViewCell {
+    public final func dequeueReusableCell(withIdentifier identifier: String, for indexPath: IndexPath, applyingLayoutMargins: Bool) -> UITableViewCell {
         let cell = dequeueReusableCell(withIdentifier: identifier, for: indexPath)
         if applyingLayoutMargins { cell.apply(cellLayoutMargins) }
         return cell

@@ -238,6 +238,9 @@ extension CollectionViewFormCell: UIScrollViewDelegate {
     }
 }
 
+extension CollectionViewFormCell: DefaultReusable {
+}
+
 
 /********** Overrides **********/
 
