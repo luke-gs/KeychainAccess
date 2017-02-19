@@ -89,7 +89,7 @@ extension UITableView {
     ///   - identifier: The identifier to dequeue the cell for.
     ///   - applyingLayoutMargins: A boolean value indicating whether the cell layout margins should be applied.
     /// - Returns: A cell dequeued for use in the table view, or `nil`.
-    public func dequeueReusableCell(withIdenfitier identifier: String, applyingLayoutMargins: Bool) -> UITableViewCell? {
+    public final func dequeueReusableCell(withIdenfitier identifier: String, applyingLayoutMargins: Bool) -> UITableViewCell? {
         let cell = dequeueReusableCell(withIdentifier: identifier)
         if applyingLayoutMargins { cell?.apply(cellLayoutMargins) }
         return cell
