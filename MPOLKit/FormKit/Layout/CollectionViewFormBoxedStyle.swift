@@ -1,5 +1,5 @@
 //
-//  CollectionViewFormLayoutBoxedStyle.swift
+//  CollectionViewFormBoxedStyle.swift
 //  MPOLKit
 //
 //  Created by Rod Brown on 19/2/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class CollectionViewFormLayoutBoxedStyle: CollectionViewFormLayoutStyle {
+public class CollectionViewFormBoxedStyle: CollectionViewFormStyle {
     
     public override func prepare() {
         super.prepare()
@@ -507,6 +507,8 @@ public class CollectionViewFormLayoutBoxedStyle: CollectionViewFormLayoutStyle {
         } else {
             globalFooterAttribute = nil
         }
+        
+        contentSize = CGSize(width: collectionViewWidth, height: currentYOffset)
     }
     
 }

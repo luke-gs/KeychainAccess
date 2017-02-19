@@ -65,7 +65,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     
     // MARK: - Public properties
     
-    public let style: CollectionViewFormLayoutStyle
+    public let style: CollectionViewFormStyle
     
     /// The layout margins for items within the collection.
     ///
@@ -251,7 +251,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     
     // MARK: - Initialization
     
-    public init(style: CollectionViewFormLayoutStyle) {
+    public init(style: CollectionViewFormStyle) {
         self.style = style
         super.init()
         style.formLayout = self

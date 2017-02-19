@@ -1,5 +1,5 @@
 //
-//  CollectionViewFormLayoutStyle.swift
+//  CollectionViewFormStyle.swift
 //  MPOLKit
 //
 //  Created by Rod Brown on 19/2/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class CollectionViewFormLayoutStyle {
+open class CollectionViewFormStyle {
     
     public internal(set) weak var formLayout: CollectionViewFormLayout?
     public internal(set) weak var collectionView: UICollectionView?
