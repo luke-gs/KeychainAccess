@@ -396,7 +396,8 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     // MARK: - Invalidation
     
     open override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
-        guard style.shouldInvalidateLayout(forBoundsChange: newBounds) else { return false }
+        guard let collectionView = self.collectionView,
+            style.shouldInvalidateLayout(forBoundsChange: newBounds) else { return false }
         
         let currentContentWidth = fabs(_lastLaidOutWidth ?? 0.0)
         let newWidth = fabs(newBounds.size.width)
@@ -408,14 +409,15 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
             let animationDuration = UIView.inheritedAnimationDuration
             if animationDuration.isZero { return true }
             
-            let collectionView = self.collectionView!
             DispatchQueue.main.async {
                 var firstCellIndexPath: IndexPath? = nil
                 
-                for attribute in self.layoutAttributesForElements(in: collectionView.bounds)! {
-                    if attribute.representedElementCategory != .cell { continue }
-                    firstCellIndexPath = attribute.indexPath
-                    break
+                if let attributes = self.layoutAttributesForElements(in: collectionView.bounds) {
+                    for attribute in attributes {
+                        if attribute.representedElementCategory != .cell { continue }
+                        firstCellIndexPath = attribute.indexPath
+                        break
+                    }
                 }
                 
                 self.invalidateLayout()
@@ -443,6 +445,8 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     fileprivate var deletedSections:  [Int]?
     
     open override func prepare(forCollectionViewUpdates updateItems: [UICollectionViewUpdateItem]) {
+        guard let collectionView = self.collectionView else { return }
+        
         insertedItemSeparators = []
         deletedItemSeparators  = []
         
@@ -456,7 +460,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
                 case .insert:
                     let section = item.indexPathAfterUpdate!.section
                     insertedSections!.append(section)
-                    insertedItemSeparators! += (0..<collectionView!.numberOfItems(inSection: section)).map { IndexPath(item: $0, section: section) }
+                    insertedItemSeparators! += (0..<collectionView.numberOfItems(inSection: section)).map { IndexPath(item: $0, section: section) }
                 case .delete:
                     let section = item.indexPathBeforeUpdate!.section
                     deletedSections!.append(section)
@@ -464,14 +468,14 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
                 case .reload:
                     let section = item.indexPathBeforeUpdate!.section
                     deletedItemSeparators! += (0..<previousSectionItemCounts[section]).map { IndexPath(item: $0, section: section) }
-                    insertedItemSeparators! += (0..<collectionView!.numberOfItems(inSection: section)).map { IndexPath(item: $0, section: section) }
+                    insertedItemSeparators! += (0..<collectionView.numberOfItems(inSection: section)).map { IndexPath(item: $0, section: section) }
                 case .move:
                     let oldSection = item.indexPathBeforeUpdate!.section
                     deletedSections!.append(oldSection)
                     deletedItemSeparators! += (0..<previousSectionItemCounts[oldSection]).map { IndexPath(item: $0, section: oldSection) }
                     let newSection = item.indexPathAfterUpdate!.section
                     insertedSections!.append(newSection)
-                    insertedItemSeparators! += (0..<collectionView!.numberOfItems(inSection: newSection)).map { IndexPath(item: $0, section: newSection) }
+                    insertedItemSeparators! += (0..<collectionView.numberOfItems(inSection: newSection)).map { IndexPath(item: $0, section: newSection) }
                 case .none:
                     break
                 }
