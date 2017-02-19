@@ -18,11 +18,7 @@
 		BC2FA2F91E54026D00E2D0D1 /* MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC2FA2C91E54023E00E2D0D1 /* MPOLKit.framework */; };
 		BC2FA2FA1E54026D00E2D0D1 /* MPOLKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BC2FA2C91E54023E00E2D0D1 /* MPOLKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BC691B2A1E5403B200EC3A20 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC691B291E5403B200EC3A20 /* Assets.xcassets */; };
-		BC691B421E54041200EC3A20 /* UICollectionReusableView+DefaultReuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC691B321E54041200EC3A20 /* UICollectionReusableView+DefaultReuse.swift */; };
-		BC691B431E54041200EC3A20 /* UICollectionView+DefaultReuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC691B331E54041200EC3A20 /* UICollectionView+DefaultReuse.swift */; };
 		BC691B441E54041200EC3A20 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC691B341E54041200EC3A20 /* UIColor+Hex.swift */; };
-		BC691B451E54041200EC3A20 /* UITableView+DefaultReuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC691B351E54041200EC3A20 /* UITableView+DefaultReuse.swift */; };
-		BC691B461E54041200EC3A20 /* UITableViewCell+DefaultReuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC691B361E54041200EC3A20 /* UITableViewCell+DefaultReuse.swift */; };
 		BC691B481E54041200EC3A20 /* PushableSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC691B381E54041200EC3A20 /* PushableSplitViewController.swift */; };
 		BC691B491E54041200EC3A20 /* ScrollViewInsetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC691B391E54041200EC3A20 /* ScrollViewInsetManager.swift */; };
 		BC691B4A1E54041200EC3A20 /* SidebarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC691B3B1E54041200EC3A20 /* SidebarItem.swift */; };
@@ -60,6 +56,10 @@
 		BC712E891E5535B800BD5DAE /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC712E701E5535B800BD5DAE /* RadioButton.swift */; };
 		BC712E8A1E5535B800BD5DAE /* SelectableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC712E711E5535B800BD5DAE /* SelectableButton.swift */; };
 		BC712E8C1E5536A000BD5DAE /* FormKitAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC712E8B1E5536A000BD5DAE /* FormKitAssets.xcassets */; };
+		BC7150A21E56828A0093F958 /* UICollectionReusableView+DefaultReuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC71509E1E56828A0093F958 /* UICollectionReusableView+DefaultReuse.swift */; };
+		BC7150A31E56828A0093F958 /* UICollectionView+DefaultReuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC71509F1E56828A0093F958 /* UICollectionView+DefaultReuse.swift */; };
+		BC7150A41E56828A0093F958 /* UITableView+DefaultReuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7150A01E56828A0093F958 /* UITableView+DefaultReuse.swift */; };
+		BC7150A51E56828A0093F958 /* UITableViewCell+DefaultReuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7150A11E56828A0093F958 /* UITableViewCell+DefaultReuse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -108,11 +108,7 @@
 		BC2FA2F31E54026700E2D0D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BC2FA2F51E54026700E2D0D1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BC691B291E5403B200EC3A20 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		BC691B321E54041200EC3A20 /* UICollectionReusableView+DefaultReuse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UICollectionReusableView+DefaultReuse.swift"; sourceTree = "<group>"; };
-		BC691B331E54041200EC3A20 /* UICollectionView+DefaultReuse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UICollectionView+DefaultReuse.swift"; sourceTree = "<group>"; };
 		BC691B341E54041200EC3A20 /* UIColor+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
-		BC691B351E54041200EC3A20 /* UITableView+DefaultReuse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+DefaultReuse.swift"; sourceTree = "<group>"; };
-		BC691B361E54041200EC3A20 /* UITableViewCell+DefaultReuse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+DefaultReuse.swift"; sourceTree = "<group>"; };
 		BC691B381E54041200EC3A20 /* PushableSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushableSplitViewController.swift; sourceTree = "<group>"; };
 		BC691B391E54041200EC3A20 /* ScrollViewInsetManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollViewInsetManager.swift; sourceTree = "<group>"; };
 		BC691B3B1E54041200EC3A20 /* SidebarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SidebarItem.swift; sourceTree = "<group>"; };
@@ -150,6 +146,10 @@
 		BC712E701E5535B800BD5DAE /* RadioButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
 		BC712E711E5535B800BD5DAE /* SelectableButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectableButton.swift; sourceTree = "<group>"; };
 		BC712E8B1E5536A000BD5DAE /* FormKitAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = FormKitAssets.xcassets; sourceTree = "<group>"; };
+		BC71509E1E56828A0093F958 /* UICollectionReusableView+DefaultReuse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UICollectionReusableView+DefaultReuse.swift"; sourceTree = "<group>"; };
+		BC71509F1E56828A0093F958 /* UICollectionView+DefaultReuse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UICollectionView+DefaultReuse.swift"; sourceTree = "<group>"; };
+		BC7150A01E56828A0093F958 /* UITableView+DefaultReuse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+DefaultReuse.swift"; sourceTree = "<group>"; };
+		BC7150A11E56828A0093F958 /* UITableViewCell+DefaultReuse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+DefaultReuse.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -249,11 +249,7 @@
 		BC691B311E54041200EC3A20 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				BC691B321E54041200EC3A20 /* UICollectionReusableView+DefaultReuse.swift */,
-				BC691B331E54041200EC3A20 /* UICollectionView+DefaultReuse.swift */,
 				BC691B341E54041200EC3A20 /* UIColor+Hex.swift */,
-				BC691B351E54041200EC3A20 /* UITableView+DefaultReuse.swift */,
-				BC691B361E54041200EC3A20 /* UITableViewCell+DefaultReuse.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -304,10 +300,14 @@
 			children = (
 				BC712E5E1E5535B800BD5DAE /* CoreGraphics+Rounding.swift */,
 				BC712E5F1E5535B800BD5DAE /* NSLayoutConstraint+Conveniences.swift */,
+				BC71509E1E56828A0093F958 /* UICollectionReusableView+DefaultReuse.swift */,
+				BC71509F1E56828A0093F958 /* UICollectionView+DefaultReuse.swift */,
 				BC712E601E5535B800BD5DAE /* UIColor+ActionColors.swift */,
 				BC712E611E5535B800BD5DAE /* UIEdgeInsets+InverseAndInset.swift */,
 				BC712E621E5535B800BD5DAE /* UIImage+FormKitDefaults.swift */,
 				BC712E631E5535B800BD5DAE /* UIScreen+SinglePixel.swift */,
+				BC7150A01E56828A0093F958 /* UITableView+DefaultReuse.swift */,
+				BC7150A11E56828A0093F958 /* UITableViewCell+DefaultReuse.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -512,11 +512,10 @@
 				BC712E891E5535B800BD5DAE /* RadioButton.swift in Sources */,
 				BC691B441E54041200EC3A20 /* UIColor+Hex.swift in Sources */,
 				BC712E791E5535B800BD5DAE /* CollectionViewFormTextViewCell.swift in Sources */,
-				BC691B421E54041200EC3A20 /* UICollectionReusableView+DefaultReuse.swift in Sources */,
-				BC691B461E54041200EC3A20 /* UITableViewCell+DefaultReuse.swift in Sources */,
-				BC691B451E54041200EC3A20 /* UITableView+DefaultReuse.swift in Sources */,
+				BC7150A41E56828A0093F958 /* UITableView+DefaultReuse.swift in Sources */,
 				BC712E751E5535B800BD5DAE /* CollectionViewFormEditAction.swift in Sources */,
 				BC712E741E5535B800BD5DAE /* CollectionViewFormDecorationView.swift in Sources */,
+				BC7150A21E56828A0093F958 /* UICollectionReusableView+DefaultReuse.swift in Sources */,
 				BC712E821E5535B800BD5DAE /* TableViewFormCell.swift in Sources */,
 				BC712E761E5535B800BD5DAE /* CollectionViewFormRadioButtonCell.swift in Sources */,
 				BC712E7C1E5535B800BD5DAE /* UIColor+ActionColors.swift in Sources */,
@@ -530,11 +529,12 @@
 				BC712E871E5535B800BD5DAE /* CheckBox.swift in Sources */,
 				BC712E7D1E5535B800BD5DAE /* UIEdgeInsets+InverseAndInset.swift in Sources */,
 				BC712E7F1E5535B800BD5DAE /* UIScreen+SinglePixel.swift in Sources */,
+				BC7150A51E56828A0093F958 /* UITableViewCell+DefaultReuse.swift in Sources */,
 				BC712E8A1E5535B800BD5DAE /* SelectableButton.swift in Sources */,
 				BC712E841E5535B800BD5DAE /* TableViewFormSubtitleCell.swift in Sources */,
 				BC691B4B1E54041200EC3A20 /* SidebarSourceItem.swift in Sources */,
+				BC7150A31E56828A0093F958 /* UICollectionView+DefaultReuse.swift in Sources */,
 				BC712E721E5535B800BD5DAE /* CollectionViewFormCell.swift in Sources */,
-				BC691B431E54041200EC3A20 /* UICollectionView+DefaultReuse.swift in Sources */,
 				BC712E801E5535B800BD5DAE /* CollectionViewFormAttributes.swift in Sources */,
 				BC712E831E5535B800BD5DAE /* TableViewFormCheckboxCell.swift in Sources */,
 				BC712E771E5535B800BD5DAE /* CollectionViewFormSubtitleCell.swift in Sources */,

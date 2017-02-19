@@ -40,7 +40,8 @@ open class TableViewFormCell: UITableViewCell {
     }
     
     private func commonInit() {
-        minimumHeightConstraint = NSLayoutConstraint(item: contentView, attribute: .bottomMargin, relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .topMargin, constant: 44.0 - UIScreen.main.singlePixelSize, priority: UILayoutPriorityDefaultHigh)
+        /// A minimum content height of 23.0 is the standard for a table view cell.
+        minimumHeightConstraint = NSLayoutConstraint(item: contentView, attribute: .bottomMargin, relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .topMargin, constant: 23.0, priority: UILayoutPriorityDefaultHigh)
         minimumHeightConstraint.isActive = true
     }
 }

@@ -10,10 +10,12 @@ import UIKit
 import MPOLKit
 
 class PushableTestViewController: UITableViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier:"CellID")
+        tableView.cellLayoutMargins = UIEdgeInsets(top: 25.0, left: 50.0, bottom: 25.0, right: 50.0)
+        tableView.estimatedRowHeight = 50.0
+        tableView.register(TableViewFormCell.self)
         tableView.separatorColor = Theme.current.colors[.Separator]
     }
 
@@ -22,7 +24,7 @@ class PushableTestViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CellID", for: indexPath)
+        let cell = tableView.dequeueReusableCell(of: TableViewFormCell.self, for: indexPath)
         cell.textLabel?.text = "Test Cell \(indexPath.row + 1)"
         return cell
     }
@@ -35,6 +37,6 @@ class PushableTestViewController: UITableViewController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return Theme.current.statusBarStyle
     }
-
+    
 }
 
