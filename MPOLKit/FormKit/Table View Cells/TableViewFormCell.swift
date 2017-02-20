@@ -45,3 +45,6 @@ open class TableViewFormCell: UITableViewCell {
         minimumHeightConstraint.isActive = true
     }
 }
+
+extension TableViewFormCell: DefaultReusable {
+}

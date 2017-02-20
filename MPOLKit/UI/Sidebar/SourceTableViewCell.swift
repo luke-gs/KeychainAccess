@@ -103,6 +103,9 @@ open class SourceTableViewCell: UITableViewCell {
     
 }
 
+extension SourceTableViewCell: DefaultReusable {
+}
+
 
 fileprivate extension SourceTableViewCell {
     
