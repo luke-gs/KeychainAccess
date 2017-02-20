@@ -178,6 +178,8 @@ fileprivate extension SidebarTableViewCell {
     
 }
 
+extension SidebarTableViewCell: DefaultReusable {
+}
 
 
 /// A private class to create the sidebar badge.
