@@ -812,16 +812,19 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
             let sectionBackgroundFrame = sectionBackgroundItem.frame
             if sectionBackgroundFrame.minY > rect.maxY { break }
             
-            for separator in sectionSeparatorAttributes[sectionIndex] {
-                let frame = separator.frame
-                if frame.minY > rect.maxY { break }
-                if frame.intersects(rect) {
-                    attributes.append(separator)
+            if wantsSectionSeparators {
+                for separator in sectionSeparatorAttributes[sectionIndex] {
+                    let frame = separator.frame
+                    if frame.minY > rect.maxY { break }
+                    if frame.intersects(rect) {
+                        attributes.append(separator)
+                    }
                 }
             }
             
             if sectionBackgroundFrame.intersects(rect) {
                 attributes.append(sectionBackgroundItem)
+                
                 
                 let itemSeparators = itemSeparatorAttributes[sectionIndex]
                 for (itemIndex, item) in itemAttributes[sectionIndex].enumerated() {
@@ -829,15 +832,19 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
                     if frame.minY > rect.maxY { break }
                     if frame.intersects(rect) {
                         attributes.append(item)
-                        attributes.append(itemSeparators[itemIndex])
+                        if wantsVerticalItemSeparators {
+                            attributes.append(itemSeparators[itemIndex])
+                        }
                     }
                 }
                 
-                for row in rowSeparatorAttributes[sectionIndex] {
-                    let frame = row.frame
-                    if frame.minY > rect.maxY { break }
-                    if frame.intersects(rect) {
-                        attributes.append(row)
+                if wantsHorizontalItemSeparators {
+                    for row in rowSeparatorAttributes[sectionIndex] {
+                        let frame = row.frame
+                        if frame.minY > rect.maxY { break }
+                        if frame.intersects(rect) {
+                            attributes.append(row)
+                        }
                     }
                 }
             }

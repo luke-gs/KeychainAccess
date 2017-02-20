@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window.tintColor = theme.colors[.Tint]
         self.window = window
         
-        let detailViewController = UIViewController()
+        let detailViewController = TestCollectionViewController()
         let pushableSplitViewController = PushableSplitViewController(viewControllers: [UINavigationController(rootViewController: PushableTestViewController(style: .grouped)), UINavigationController(rootViewController: detailViewController)])
         detailViewController.navigationItem.leftBarButtonItem = pushableSplitViewController.embeddedSplitViewController.displayModeButtonItem
         detailViewController.navigationItem.leftItemsSupplementBackButton = true

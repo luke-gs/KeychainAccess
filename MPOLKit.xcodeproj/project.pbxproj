@@ -58,6 +58,11 @@
 		BC7150A31E56828A0093F958 /* UICollectionView+DefaultReuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC71509F1E56828A0093F958 /* UICollectionView+DefaultReuse.swift */; };
 		BC7150A41E56828A0093F958 /* UITableView+DefaultReuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7150A01E56828A0093F958 /* UITableView+DefaultReuse.swift */; };
 		BC7150A51E56828A0093F958 /* UITableViewCell+DefaultReuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7150A11E56828A0093F958 /* UITableViewCell+DefaultReuse.swift */; };
+		BCA68EB21E5AFC5B00CDEF13 /* BorderedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA68EB11E5AFC5B00CDEF13 /* BorderedImageView.swift */; };
+		BCA68EB41E5B0A4A00CDEF13 /* TestCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA68EB31E5B0A4A00CDEF13 /* TestCollectionViewController.swift */; };
+		BCD35CA31E5A6D6C001B40A1 /* EntityCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD35CA21E5A6D6C001B40A1 /* EntityCollectionViewCell.swift */; };
+		BCD35CA51E5A75D4001B40A1 /* FontManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD35CA41E5A75D4001B40A1 /* FontManager.swift */; };
+		BCD35CA71E5AA472001B40A1 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD35CA61E5AA472001B40A1 /* BadgeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -146,6 +151,11 @@
 		BC71509F1E56828A0093F958 /* UICollectionView+DefaultReuse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UICollectionView+DefaultReuse.swift"; sourceTree = "<group>"; };
 		BC7150A01E56828A0093F958 /* UITableView+DefaultReuse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+DefaultReuse.swift"; sourceTree = "<group>"; };
 		BC7150A11E56828A0093F958 /* UITableViewCell+DefaultReuse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+DefaultReuse.swift"; sourceTree = "<group>"; };
+		BCA68EB11E5AFC5B00CDEF13 /* BorderedImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderedImageView.swift; sourceTree = "<group>"; };
+		BCA68EB31E5B0A4A00CDEF13 /* TestCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestCollectionViewController.swift; sourceTree = "<group>"; };
+		BCD35CA21E5A6D6C001B40A1 /* EntityCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityCollectionViewCell.swift; sourceTree = "<group>"; };
+		BCD35CA41E5A75D4001B40A1 /* FontManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontManager.swift; sourceTree = "<group>"; };
+		BCD35CA61E5AA472001B40A1 /* BadgeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -223,6 +233,7 @@
 			children = (
 				BC2FA2E91E54026700E2D0D1 /* AppDelegate.swift */,
 				BC691B531E54046C00EC3A20 /* PushableTestViewController.swift */,
+				BCA68EB31E5B0A4A00CDEF13 /* TestCollectionViewController.swift */,
 				BC2FA2F01E54026700E2D0D1 /* Assets.xcassets */,
 				BC2FA2F21E54026700E2D0D1 /* LaunchScreen.storyboard */,
 				BC2FA2F51E54026700E2D0D1 /* Info.plist */,
@@ -233,6 +244,10 @@
 		BC691B301E54041200EC3A20 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				BCD35CA61E5AA472001B40A1 /* BadgeView.swift */,
+				BCA68EB11E5AFC5B00CDEF13 /* BorderedImageView.swift */,
+				BCD35CA21E5A6D6C001B40A1 /* EntityCollectionViewCell.swift */,
+				BCD35CA41E5A75D4001B40A1 /* FontManager.swift */,
 				BC691B381E54041200EC3A20 /* PushableSplitViewController.swift */,
 				BC691B391E54041200EC3A20 /* ScrollViewInsetManager.swift */,
 				BC691B3A1E54041200EC3A20 /* Sidebar */,
@@ -511,6 +526,7 @@
 				BC712E741E5535B800BD5DAE /* CollectionViewFormDecorationView.swift in Sources */,
 				BC7150A21E56828A0093F958 /* UICollectionReusableView+DefaultReuse.swift in Sources */,
 				BC712E821E5535B800BD5DAE /* TableViewFormCell.swift in Sources */,
+				BCD35CA31E5A6D6C001B40A1 /* EntityCollectionViewCell.swift in Sources */,
 				BC712E761E5535B800BD5DAE /* CollectionViewFormRadioButtonCell.swift in Sources */,
 				BC712E7C1E5535B800BD5DAE /* UIColor+ActionColors.swift in Sources */,
 				BC691B4D1E54041200EC3A20 /* SidebarTableViewCell.swift in Sources */,
@@ -526,12 +542,15 @@
 				BC712E841E5535B800BD5DAE /* TableViewFormSubtitleCell.swift in Sources */,
 				BC691B4B1E54041200EC3A20 /* SidebarSourceItem.swift in Sources */,
 				BC7150A31E56828A0093F958 /* UICollectionView+DefaultReuse.swift in Sources */,
+				BCD35CA51E5A75D4001B40A1 /* FontManager.swift in Sources */,
 				BC712E721E5535B800BD5DAE /* CollectionViewFormCell.swift in Sources */,
+				BCA68EB21E5AFC5B00CDEF13 /* BorderedImageView.swift in Sources */,
 				BC712E801E5535B800BD5DAE /* CollectionViewFormAttributes.swift in Sources */,
 				BC712E831E5535B800BD5DAE /* TableViewFormCheckboxCell.swift in Sources */,
 				BC712E771E5535B800BD5DAE /* CollectionViewFormSubtitleCell.swift in Sources */,
 				BC691B4F1E54041200EC3A20 /* SourceTableViewCell.swift in Sources */,
 				BC691B481E54041200EC3A20 /* PushableSplitViewController.swift in Sources */,
+				BCD35CA71E5AA472001B40A1 /* BadgeView.swift in Sources */,
 				BC691B501E54041200EC3A20 /* Theme.swift in Sources */,
 				BC712E881E5535B800BD5DAE /* FormTextField.swift in Sources */,
 				BC712E7E1E5535B800BD5DAE /* UIImage+FormKitDefaults.swift in Sources */,
@@ -553,6 +572,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC691B541E54046C00EC3A20 /* PushableTestViewController.swift in Sources */,
+				BCA68EB41E5B0A4A00CDEF13 /* TestCollectionViewController.swift in Sources */,
 				BC2FA2EA1E54026700E2D0D1 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
