@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BC2152121E5935EA00193086 /* CollectionViewFormStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2152111E5935EA00193086 /* CollectionViewFormStyle.swift */; };
+		BC2152141E5950D500193086 /* CollectionViewFormBoxedStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2152131E5950D500193086 /* CollectionViewFormBoxedStyle.swift */; };
 		BC2FA2D31E54023E00E2D0D1 /* MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC2FA2C91E54023E00E2D0D1 /* MPOLKit.framework */; };
 		BC2FA2D81E54023E00E2D0D1 /* MPOLKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2FA2D71E54023E00E2D0D1 /* MPOLKitTests.swift */; };
 		BC2FA2DA1E54023E00E2D0D1 /* MPOLKit.h in Headers */ = {isa = PBXBuildFile; fileRef = BC2FA2CC1E54023E00E2D0D1 /* MPOLKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -98,6 +100,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		BC2152111E5935EA00193086 /* CollectionViewFormStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormStyle.swift; sourceTree = "<group>"; };
+		BC2152131E5950D500193086 /* CollectionViewFormBoxedStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormBoxedStyle.swift; sourceTree = "<group>"; };
 		BC2FA2C91E54023E00E2D0D1 /* MPOLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MPOLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC2FA2CC1E54023E00E2D0D1 /* MPOLKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPOLKit.h; sourceTree = "<group>"; };
 		BC2FA2CD1E54023E00E2D0D1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -330,6 +334,8 @@
 			isa = PBXGroup;
 			children = (
 				BC712E661E5535B800BD5DAE /* CollectionViewFormLayout.swift */,
+				BC2152111E5935EA00193086 /* CollectionViewFormStyle.swift */,
+				BC2152131E5950D500193086 /* CollectionViewFormBoxedStyle.swift */,
 				BC712E651E5535B800BD5DAE /* CollectionViewFormAttributes.swift */,
 			);
 			path = Layout;
@@ -539,9 +545,11 @@
 				BCD35CA31E5A6D6C001B40A1 /* EntityCollectionViewCell.swift in Sources */,
 				BC712E761E5535B800BD5DAE /* CollectionViewFormRadioButtonCell.swift in Sources */,
 				BC712E7C1E5535B800BD5DAE /* UIColor+ActionColors.swift in Sources */,
+				BC2152121E5935EA00193086 /* CollectionViewFormStyle.swift in Sources */,
 				BC691B4D1E54041200EC3A20 /* SidebarTableViewCell.swift in Sources */,
 				BC691B4C1E54041200EC3A20 /* SidebarSplitViewController.swift in Sources */,
 				BC712E7B1E5535B800BD5DAE /* NSLayoutConstraint+Conveniences.swift in Sources */,
+				BC2152141E5950D500193086 /* CollectionViewFormBoxedStyle.swift in Sources */,
 				BC712E7A1E5535B800BD5DAE /* CoreGraphics+Rounding.swift in Sources */,
 				BC712E811E5535B800BD5DAE /* CollectionViewFormLayout.swift in Sources */,
 				BC712E871E5535B800BD5DAE /* CheckBox.swift in Sources */,
