@@ -1,6 +1,6 @@
 //
 //  CollectionViewFormRadioButtonCell.swift
-//  VCom
+//  MPOLKit/FormKit
 //
 //  Created by Ryan Wu on 10/11/2016.
 //  Copyright © 2016 Gridstone. All rights reserved.

@@ -36,7 +36,7 @@ public class FontManager: NSObject {
         var collection: UITraitCollection? = nil
         
         if traitCollection.preferredContentSizeCategory != .unspecified {
-            category = traitCollection.preferredContentSizeCategory
+            category   = traitCollection.preferredContentSizeCategory
             collection = traitCollection
         }
         

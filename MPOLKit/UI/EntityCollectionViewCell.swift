@@ -8,6 +8,8 @@
 
 import UIKit
 
+fileprivate var sourceLabelContext = 1
+
 open class EntityCollectionViewCell: CollectionViewFormCell {
     
     public enum Style: Int {
@@ -29,6 +31,8 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
     public let subtitleLabel = UILabel(frame: .zero)
     
     public let detailLabel   = UILabel(frame: .zero)
+    
+    public let sourceLabel   = SourceLabel(frame: .zero)
     
     public var alertCount: UInt = 0 {
         didSet {
@@ -68,13 +72,29 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
     
     private func commonInit() {
         let contentView = self.contentView
+        
         contentView.addSubview(detailLabel)
         contentView.addSubview(subtitleLabel)
         contentView.addSubview(titleLabel)
         contentView.addSubview(borderedImageView)
         contentView.addSubview(badgeView)
+        contentView.addSubview(sourceLabel)
+        
+        sourceLabel.addObserver(self, forKeyPath: #keyPath(SourceLabel.text), options: [], context: &sourceLabelContext)
         
         applyFonts()
+    }
+    
+    deinit {
+        sourceLabel.removeObserver(self, forKeyPath: #keyPath(SourceLabel.text), context: &sourceLabelContext)
+    }
+    
+    open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if context == &sourceLabelContext {
+            setNeedsLayout()
+        } else {
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+        }
     }
     
 }
@@ -93,6 +113,7 @@ extension EntityCollectionViewCell {
         titleLabel.font    = fontManager.font(withStyle: .headline,  compatibleWith: traitCollection)
         subtitleLabel.font = fontManager.font(withStyle: .footnote1, compatibleWith: traitCollection)
         detailLabel.font   = fontManager.font(withStyle: .footnote2, compatibleWith: traitCollection)
+        
         setNeedsLayout()
     }
     
@@ -109,13 +130,13 @@ extension EntityCollectionViewCell {
         let contentView = self.contentView
         let contentRect = contentView.bounds.insetBy(contentView.layoutMargins)
         
-        let titleHeight    = titleLabel.font.lineHeight.ceiled(toScale: scale)
-        let subtitleHeight = subtitleLabel.font.lineHeight.ceiled(toScale: scale)
-        let detailHeight   = detailLabel.font.lineHeight.ceiled(toScale: scale)
+        let titleHeight:    CGFloat = titleLabel.text?.isEmpty    ?? true ? 0.0 : titleLabel.font.lineHeight.ceiled(toScale: scale)
+        let subtitleHeight: CGFloat = subtitleLabel.text?.isEmpty ?? true ? 0.0 : subtitleLabel.font.lineHeight.ceiled(toScale: scale)
+        let detailHeight:   CGFloat = detailLabel.text?.isEmpty   ?? true ? 0.0 : detailLabel.font.lineHeight.ceiled(toScale: scale)
         
         let imageViewFrame: CGRect
-        var textOrigin: CGPoint
-        var textWidth: CGFloat
+        var textOrigin:     CGPoint
+        var textWidth:      CGFloat
         
         switch style {
         case .hero:
@@ -124,8 +145,25 @@ extension EntityCollectionViewCell {
             textOrigin = CGPoint(x: imageViewFrame.minX + 1, y: imageViewFrame.maxY + 9.0)
         case .detail:
             imageViewFrame  = CGRect(x: contentRect.minX, y: contentRect.midY - 48.0, width: 96.0, height: 96.0)
-            let textHeight = titleHeight + subtitleHeight + detailHeight + 4.0
-            textOrigin = CGPoint(x: imageViewFrame.maxX + 15.0, y: contentRect.midY - (textHeight / 2.0))
+            
+            var textHeight: CGFloat = 0.0
+            if titleHeight.isZero == false {
+                textHeight += titleHeight
+            }
+            if subtitleHeight.isZero == false {
+                if textHeight.isZero == false {
+                    textHeight += 2.0
+                }
+                textHeight += subtitleHeight
+            }
+            if detailHeight.isZero == false {
+                if textHeight.isZero == false {
+                    textHeight += 2.0
+                }
+                textHeight += detailHeight
+            }
+            
+            textOrigin = CGPoint(x: imageViewFrame.maxX + 15.0, y: (contentRect.midY - (textHeight / 2.0)).floored(toScale: scale))
             textWidth = max(contentRect.width - 112.0, 0.0)
         }
         
@@ -135,7 +173,7 @@ extension EntityCollectionViewCell {
         textOrigin.y += titleHeight + 2.0
         
         subtitleLabel.frame = CGRect(origin: textOrigin, size: CGSize(width: textWidth, height: subtitleHeight))
-        textOrigin.y += subtitleHeight + 2.0
+        textOrigin.y += subtitleHeight.isZero ? 0.0 : subtitleHeight + 2.0
         
         detailLabel.frame = CGRect(origin: textOrigin, size: CGSize(width: textWidth, height: detailHeight))
         
@@ -147,6 +185,11 @@ extension EntityCollectionViewCell {
         badgeFrame.origin.y = max(0.0, preferredBadgeCenter.y - (badgeFrame.height / 2.0))
         badgeFrame.origin.x = min(bounds.maxX, (preferredBadgeCenter.x + badgeFrame.width / 2.0)) - badgeFrame.width
         badgeView.frame = badgeFrame
+        
+        var sourceLabelSize = sourceLabel.sizeThatFits(.zero)
+        sourceLabelSize.width = max(min(imageViewFrame.width - 16.0, sourceLabelSize.width), 0.0)
+        sourceLabel.frame = CGRect(origin: CGPoint(x: imageViewFrame.minX + 8.0, y: imageViewFrame.maxY - 8.0 - sourceLabelSize.height),
+                                   size: sourceLabelSize)
     }
     
 }

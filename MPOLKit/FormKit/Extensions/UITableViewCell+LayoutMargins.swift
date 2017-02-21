@@ -1,6 +1,6 @@
 //
-//  UITableViewCell+DefaultReuse.swift
-//  VCom
+//  UITableViewCell+LayoutMargins.swift
+//  MPOLKit/FormKit
 //
 //  Created by Rod on 20/02/2017.
 //  Copyright © 2017 Gridstone. All rights reserved.

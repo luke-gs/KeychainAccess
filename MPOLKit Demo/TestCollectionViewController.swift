@@ -41,12 +41,14 @@ class TestCollectionViewController: UICollectionViewController, CollectionViewDe
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(of: EntityCollectionViewCell.self, for: indexPath)
         
-        cell.imageView.image = #imageLiteral(resourceName: "Unknown5")
-        cell.titleLabel.text = "Frost, Deacon H."
+        cell.style              = .detail
+        cell.imageView.image    = #imageLiteral(resourceName: "Unknown5")
+        cell.titleLabel.text    = "Frost, Deacon H."
         cell.subtitleLabel.text = "27/10/1987 (33 Male)"
         cell.detailLabel.text   = "Williamstown VIC 3016"
-        cell.alertColor = .red
-        cell.alertCount = 8
+        cell.alertColor         = .red
+        cell.alertCount         = 8
+        cell.sourceLabel.text   = "DS1"
         
         return cell
     }
@@ -64,11 +66,11 @@ class TestCollectionViewController: UICollectionViewController, CollectionViewDe
     }
     
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, givenSectionWidth sectionWidth: CGFloat, edgeInsets: UIEdgeInsets) -> CGFloat {
-        return EntityCollectionViewCell.minimumContentWidth(forStyle: .hero)
+        return EntityCollectionViewCell.minimumContentWidth(forStyle: .detail) + 50.0
     }
     
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
-        return EntityCollectionViewCell.minimumContentHeight(forStyle: .hero, compatibleWith: traitCollection)
+        return EntityCollectionViewCell.minimumContentHeight(forStyle: .detail, compatibleWith: traitCollection)
     }
     
     
