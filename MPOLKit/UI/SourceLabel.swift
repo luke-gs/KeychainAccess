@@ -25,7 +25,7 @@ public final class SourceLabel : UILabel {
     private func commonInit() {
         font            = .systemFont(ofSize: 10.0, weight: UIFontWeightBold)
         textColor       = .white
-        backgroundColor = UIColor(white: 0.3, alpha: 0.8)
+        backgroundColor = UIColor(white: 0.3, alpha: 0.9)
         textAlignment   = .center
         clipsToBounds   = true
         layer.cornerRadius = 2.0

@@ -14,11 +14,12 @@ private let reuseIdentifier = "Cell"
 class TestCollectionViewController: UICollectionViewController, CollectionViewDelegateFormLayout {
 
     init() {
-        let layout = CollectionViewFormLayout()
+        let style = CollectionViewFormBoxedStyle()
+        style.wantsSectionSeparators = false
+        style.wantsVerticalItemSeparators = false
+        style.wantsHorizontalItemSeparators = false
+        let layout = CollectionViewFormLayout(style: style)
         layout.distribution = .none
-        layout.wantsSectionSeparators = false
-        layout.wantsVerticalItemSeparators = false
-        layout.wantsHorizontalItemSeparators = false
         super.init(collectionViewLayout: layout)
     }
     
@@ -42,7 +43,7 @@ class TestCollectionViewController: UICollectionViewController, CollectionViewDe
         let cell = collectionView.dequeueReusableCell(of: EntityCollectionViewCell.self, for: indexPath)
         
         cell.style              = .detail
-        cell.imageView.image    = #imageLiteral(resourceName: "Unknown5")
+        cell.imageView.image    = #imageLiteral(resourceName: "Avatar 1")
         cell.titleLabel.text    = "Frost, Deacon H."
         cell.subtitleLabel.text = "27/10/1987 (33 Male)"
         cell.detailLabel.text   = "Williamstown VIC 3016"

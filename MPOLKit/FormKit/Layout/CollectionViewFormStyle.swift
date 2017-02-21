@@ -31,11 +31,13 @@ open class CollectionViewFormStyle {
     
     fileprivate var _lastLaidOutWidth: CGFloat = 0.0
     
-    open func prepare() {
+    public init() {}
+    
+    open dynamic func prepare() {
         _lastLaidOutWidth = collectionView?.bounds.width ?? 0.0
     }
     
-    open func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
+    open dynamic func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
         return _lastLaidOutWidth != newBounds.width
     }
     

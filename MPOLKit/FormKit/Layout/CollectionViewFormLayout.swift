@@ -193,38 +193,6 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         }
     }
     
-    open var wantsVerticalItemSeparators: Bool = true {
-        didSet {
-            if wantsVerticalItemSeparators != oldValue {
-                invalidateLayout()
-            }
-        }
-    }
-    
-    open var wantsHorizontalItemSeparators: Bool = true {
-        didSet {
-            if wantsHorizontalItemSeparators != oldValue {
-                invalidateLayout()
-            }
-        }
-    }
-    
-    open var wantsSectionSeparators: Bool = true {
-        didSet {
-            if wantsSectionSeparators != oldValue {
-                invalidateLayout()
-            }
-        }
-    }
-    
-    open var wantsSectionBackgrounds: Bool = true {
-        didSet {
-            if wantsSectionBackgrounds != oldValue {
-                invalidateLayout()
-            }
-        }
-    }
-    
     
     /// The distribution method to use for cell sizing. The default is `CollectionViewFormLayout.Distribution.fillEqually`.
     open var distribution: CollectionViewFormLayout.Distribution = .fillEqually {
@@ -247,6 +215,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     
     fileprivate var previousSectionRowSeparatorCounts: [Int] = []
     fileprivate var previousSectionItemCounts:         [Int] = []
+    fileprivate var previousSectionSeparatorCounts:    [Int] = []
     
     
     // MARK: - Initialization
@@ -277,8 +246,9 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         
         guard let collectionView = self.collectionView else { return }
         
-        previousSectionRowSeparatorCounts = style.rowSeparatorAttributes.map  { $0.count }
+        previousSectionRowSeparatorCounts = style.rowSeparatorAttributes.map { $0.count }
         previousSectionItemCounts         = style.itemSeparatorAttributes.map { $0.count }
+        previousSectionSeparatorCounts    = style.sectionSeparatorAttributes.map { $0.count }
         
         _lastLaidOutWidth = collectionView.bounds.width
         
@@ -319,40 +289,30 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
             let sectionBackgroundFrame = sectionBackgroundItem.frame
             if sectionBackgroundFrame.minY > rect.maxY { break }
             
-            if wantsSectionSeparators {
-            for separator in style.sectionSeparatorAttributes[sectionIndex] {
-                let frame = separator.frame
-                if frame.minY > rect.maxY { break }
-                if frame.intersects(rect) {
+            if let sectionSeparators = style.sectionSeparatorAttributes[ifExists: sectionIndex] {
+                for separator in sectionSeparators where separator.frame.intersects(rect) {
                     attributes.append(separator)
-                    }
                 }
             }
-            
             
             if sectionBackgroundFrame.intersects(rect) {
                 attributes.append(sectionBackgroundItem)
                 
-                
-                let itemSeparators = style.itemSeparatorAttributes[sectionIndex]
+                let itemSeparators = style.itemSeparatorAttributes[ifExists: sectionIndex]
                 for (itemIndex, item) in style.itemAttributes[sectionIndex].enumerated() {
                     let frame = item.frame
                     if frame.minY > rect.maxY { break }
                     if frame.intersects(rect) {
                         attributes.append(item)
-                        if wantsVerticalItemSeparators {
-                            attributes.append(itemSeparators[itemIndex])
+                        if let itemSeparator = itemSeparators?[ifExists: itemIndex] {
+                            attributes.append(itemSeparator)
                         }
                     }
                 }
                 
-                if wantsHorizontalItemSeparators {
-                for row in style.rowSeparatorAttributes[sectionIndex] {
-                    let frame = row.frame
-                    if frame.minY > rect.maxY { break }
-                    if frame.intersects(rect) {
+                if let rowSeparators = style.rowSeparatorAttributes[ifExists: sectionIndex] {
+                    for row in rowSeparators where row.frame.intersects(rect) {
                         attributes.append(row)
-                        }
                     }
                 }
             }
@@ -505,32 +465,30 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         insertedRowSeparators = []
         deletedRowSeparators = []
         
-        if wantsHorizontalItemSeparators {
-            for (index, section) in style.rowSeparatorAttributes.enumerated() {
-                var newCount = section.count
-                var oldCount = previousSectionRowSeparatorCounts[ifExists: index] ?? 0
-                
-                if newCount != oldCount {
-                    while newCount > oldCount {
-                        insertedRowSeparators!.append(IndexPath(item:newCount - 1, section: index))
-                        newCount -= 1
-                    }
-                    while oldCount > newCount {
-                        deletedRowSeparators!.append(IndexPath(item:oldCount - 1, section: index))
-                        oldCount -= 1
-                    }
+        for (index, section) in style.rowSeparatorAttributes.enumerated() {
+            var newCount = section.count
+            var oldCount = previousSectionRowSeparatorCounts[ifExists: index] ?? 0
+            
+            if newCount != oldCount {
+                while newCount > oldCount {
+                    insertedRowSeparators!.append(IndexPath(item:newCount - 1, section: index))
+                    newCount -= 1
+                }
+                while oldCount > newCount {
+                    deletedRowSeparators!.append(IndexPath(item:oldCount - 1, section: index))
+                    oldCount -= 1
                 }
             }
         }
     }
     
     open override func finalizeCollectionViewUpdates() {
-        insertedItemSeparators     = nil
-        deletedItemSeparators      = nil
-        insertedRowSeparators      = nil
-        deletedRowSeparators       = nil
-        insertedSections           = nil
-        deletedSections            = nil
+        insertedItemSeparators = nil
+        deletedItemSeparators  = nil
+        insertedRowSeparators  = nil
+        deletedRowSeparators   = nil
+        insertedSections       = nil
+        deletedSections        = nil
     }
     
     open override func finalLayoutAttributesForDisappearingItem(at itemIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
@@ -549,11 +507,9 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
             return insertedSections?.map({ IndexPath(item: 0, section: $0) }) ?? []
         case collectionElementKindSeparatorSection:
             var allSectionSeparators: [IndexPath] = []
-            if wantsSectionSeparators {
-                insertedSections?.forEach {
-                    allSectionSeparators.append(IndexPath(item: 0, section: $0))
-                    allSectionSeparators.append(IndexPath(item: 1, section: $0))
-                    allSectionSeparators.append(IndexPath(item: 2, section: $0))
+            insertedSections?.forEach {
+                if let sectionSeparatorIndexPaths: [IndexPath] = style.sectionSeparatorAttributes[ifExists: $0]?.flatMap({ $0.indexPath }) {
+                    allSectionSeparators += sectionSeparatorIndexPaths
                 }
             }
             return allSectionSeparators
@@ -572,11 +528,9 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
             return deletedSections?.map({ IndexPath(item: 0, section: $0) }) ?? []
         case collectionElementKindSeparatorSection:
             var allSectionSeparators: [IndexPath] = []
-            if wantsHorizontalItemSeparators {
-                deletedSections?.forEach {
-                    allSectionSeparators.append(IndexPath(item: 0, section: $0))
-                    allSectionSeparators.append(IndexPath(item: 1, section: $0))
-                    allSectionSeparators.append(IndexPath(item: 2, section: $0))
+            deletedSections?.forEach { (section: Int) in
+                if let previousSectionCount = previousSectionSeparatorCounts[ifExists: section], previousSectionCount > 0 {
+                    allSectionSeparators += (0..<previousSectionCount).map { IndexPath(item: $0, section: section) }
                 }
             }
             return allSectionSeparators
@@ -685,29 +639,6 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     ///   - itemWidth:      The width for the item.
     /// - Returns:          The minimum required height for the item.
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat
-    
-    
-    /// Asks the delegate if the layout should display a horizontal separator on the left edge of the item.
-    /// If unimplemented, the default is `true`.
-    ///
-    /// - Parameters:
-    ///   - collectionView: The collection view displaying the form layout.
-    ///   - layout:         The layout object requesting the information.
-    ///   - indexPath:      The indexPath for the item.
-    /// - Returns:          A boolean value indicating whether a horizontal separator should be displayed.
-    @objc optional func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, shouldDisplayHorizontalSeparatorForItemAt indexPath: IndexPath) -> Bool
-    
-    
-    /// Asks the delegate if the layout should display a vertical separator on the bottom edge of the item.
-    /// If implemented, the layout requests this passing the final item in a row. If unimplemented, the
-    /// default is `true`.
-    ///
-    /// - Parameters:
-    ///   - collectionView: The collection view displaying the form layout.
-    ///   - layout:         The layout object requesting the information.
-    ///   - indexPath:      The indexPath for the item.
-    /// - Returns:          A boolean value indicating whether a vertical separator should be displayed.
-    @objc optional func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, shouldDisplayVerticalSeparatorBelowItemAt indexPath: IndexPath) -> Bool
 }
 
 

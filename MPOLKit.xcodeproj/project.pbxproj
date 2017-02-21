@@ -66,6 +66,8 @@
 		BCD35CA51E5A75D4001B40A1 /* FontManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD35CA41E5A75D4001B40A1 /* FontManager.swift */; };
 		BCD35CA71E5AA472001B40A1 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD35CA61E5AA472001B40A1 /* BadgeView.swift */; };
 		BCEBA1961E5BC1E900FD404D /* SourceLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEBA1951E5BC1E900FD404D /* SourceLabel.swift */; };
+		BCFD25571E5C03BE00EC2566 /* CollectionViewFormMPOLHeaderAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFD25551E5C03BE00EC2566 /* CollectionViewFormMPOLHeaderAttributes.swift */; };
+		BCFD25581E5C03BE00EC2566 /* CollectionViewFormMPOLStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFD25561E5C03BE00EC2566 /* CollectionViewFormMPOLStyle.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -162,6 +164,8 @@
 		BCD35CA41E5A75D4001B40A1 /* FontManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontManager.swift; sourceTree = "<group>"; };
 		BCD35CA61E5AA472001B40A1 /* BadgeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
 		BCEBA1951E5BC1E900FD404D /* SourceLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceLabel.swift; sourceTree = "<group>"; };
+		BCFD25551E5C03BE00EC2566 /* CollectionViewFormMPOLHeaderAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CollectionViewFormMPOLHeaderAttributes.swift; path = "FormKit MPOL Additions/CollectionViewFormMPOLHeaderAttributes.swift"; sourceTree = "<group>"; };
+		BCFD25561E5C03BE00EC2566 /* CollectionViewFormMPOLStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CollectionViewFormMPOLStyle.swift; path = "FormKit MPOL Additions/CollectionViewFormMPOLStyle.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -254,6 +258,7 @@
 				BCA68EB11E5AFC5B00CDEF13 /* BorderedImageView.swift */,
 				BCD35CA21E5A6D6C001B40A1 /* EntityCollectionViewCell.swift */,
 				BCD35CA41E5A75D4001B40A1 /* FontManager.swift */,
+				BCFD25541E5C03A800EC2566 /* FormKit MPOL Additions */,
 				BC691B381E54041200EC3A20 /* PushableSplitViewController.swift */,
 				BC691B391E54041200EC3A20 /* ScrollViewInsetManager.swift */,
 				BC691B3A1E54041200EC3A20 /* Sidebar */,
@@ -378,6 +383,15 @@
 				BCD35CA01E5A49B0001B40A1 /* DefaultReusable.swift */,
 			);
 			name = Protocols;
+			sourceTree = "<group>";
+		};
+		BCFD25541E5C03A800EC2566 /* FormKit MPOL Additions */ = {
+			isa = PBXGroup;
+			children = (
+				BCFD25561E5C03BE00EC2566 /* CollectionViewFormMPOLStyle.swift */,
+				BCFD25551E5C03BE00EC2566 /* CollectionViewFormMPOLHeaderAttributes.swift */,
+			);
+			name = "FormKit MPOL Additions";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -546,6 +560,7 @@
 				BC712E761E5535B800BD5DAE /* CollectionViewFormRadioButtonCell.swift in Sources */,
 				BC712E7C1E5535B800BD5DAE /* UIColor+ActionColors.swift in Sources */,
 				BC2152121E5935EA00193086 /* CollectionViewFormStyle.swift in Sources */,
+				BCFD25581E5C03BE00EC2566 /* CollectionViewFormMPOLStyle.swift in Sources */,
 				BC691B4D1E54041200EC3A20 /* SidebarTableViewCell.swift in Sources */,
 				BC691B4C1E54041200EC3A20 /* SidebarSplitViewController.swift in Sources */,
 				BC712E7B1E5535B800BD5DAE /* NSLayoutConstraint+Conveniences.swift in Sources */,
@@ -566,6 +581,7 @@
 				BC712E801E5535B800BD5DAE /* CollectionViewFormAttributes.swift in Sources */,
 				BC712E831E5535B800BD5DAE /* TableViewFormCheckboxCell.swift in Sources */,
 				BC712E771E5535B800BD5DAE /* CollectionViewFormSubtitleCell.swift in Sources */,
+				BCFD25571E5C03BE00EC2566 /* CollectionViewFormMPOLHeaderAttributes.swift in Sources */,
 				BCD35CA11E5A49B0001B40A1 /* DefaultReusable.swift in Sources */,
 				BC691B4F1E54041200EC3A20 /* SourceTableViewCell.swift in Sources */,
 				BC691B481E54041200EC3A20 /* PushableSplitViewController.swift in Sources */,
@@ -771,6 +787,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = FNW7L4X44S;
 				INFOPLIST_FILE = MPOLKitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = gridstone.MPOLKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -784,6 +801,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = FNW7L4X44S;
 				INFOPLIST_FILE = MPOLKitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = gridstone.MPOLKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -8,7 +8,57 @@
 
 import UIKit
 
+@objc protocol CollectionViewDelegateBoxedLayout: CollectionViewDelegateFormLayout {
+    
+    /// Asks the delegate if the layout should display a horizontal separator on the left edge of the item.
+    /// If unimplemented, the default is `true`.
+    ///
+    /// - Parameters:
+    ///   - collectionView: The collection view displaying the form layout.
+    ///   - layout:         The layout object requesting the information.
+    ///   - indexPath:      The indexPath for the item.
+    /// - Returns:          A boolean value indicating whether a horizontal separator should be displayed.
+    @objc optional func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, shouldDisplayHorizontalSeparatorForItemAt indexPath: IndexPath) -> Bool
+    
+    
+    /// Asks the delegate if the layout should display a vertical separator on the bottom edge of the item.
+    /// If implemented, the layout requests this passing the final item in a row. If unimplemented, the
+    /// default is `true`.
+    ///
+    /// - Parameters:
+    ///   - collectionView: The collection view displaying the form layout.
+    ///   - layout:         The layout object requesting the information.
+    ///   - indexPath:      The indexPath for the item.
+    /// - Returns:          A boolean value indicating whether a vertical separator should be displayed.
+    @objc optional func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, shouldDisplayVerticalSeparatorBelowItemAt indexPath: IndexPath) -> Bool
+    
+}
+
 public class CollectionViewFormBoxedStyle: CollectionViewFormStyle {
+    
+    public var wantsVerticalItemSeparators: Bool = true {
+        didSet {
+            if wantsVerticalItemSeparators != oldValue {
+                formLayout?.invalidateLayout()
+            }
+        }
+    }
+    
+    public var wantsHorizontalItemSeparators: Bool = true {
+        didSet {
+            if wantsHorizontalItemSeparators != oldValue {
+                formLayout?.invalidateLayout()
+            }
+        }
+    }
+    
+    public var wantsSectionSeparators: Bool = true {
+        didSet {
+            if wantsSectionSeparators != oldValue {
+                formLayout?.invalidateLayout()
+            }
+        }
+    }    
     
     public override func prepare() {
         super.prepare()
@@ -24,45 +74,31 @@ public class CollectionViewFormBoxedStyle: CollectionViewFormStyle {
         let separatorWidth = layout.separatorWidth
         let separatorVerticalSpacing = separatorWidth.ceiled(toScale: screenScale) // This value represents a pixel-aligned adjustment to ensure we don't get blurry cells.
         
-        let wantsSectionSeparators        = layout.wantsSectionSeparators
-        let wantsHorizontalItemSeparators = layout.wantsHorizontalItemSeparators
-        let wantsVerticalItemSeparators   = layout.wantsVerticalItemSeparators
-        let wantsSectionBackgrounds       = layout.wantsSectionBackgrounds
+        let wantsSectionSeparators        = self.wantsSectionSeparators
+        let wantsHorizontalItemSeparators = self.wantsHorizontalItemSeparators
+        let wantsVerticalItemSeparators   = self.wantsVerticalItemSeparators
         
-        var reusableSectionHeaderAttributes: [UICollectionViewLayoutAttributes] = []
-        for item in sectionHeaderAttributes where item != nil {
-            if let realItem = item { reusableSectionHeaderAttributes.append(realItem) }
-        }
-        var reusableSectionFooterAttributes: [UICollectionViewLayoutAttributes] = []
-        
-        for item in sectionFooterAttributes where item != nil {
-            if let realItem = item { reusableSectionFooterAttributes.append(realItem) }
-        }
-        var reusableSectionBackgroundAttributes = wantsSectionBackgrounds ? sectionBackgroundAttributes : []
-        var reusableItemAttributes = itemAttributes.flatMap { $0 }
-        
-        var reusableSectionSeparators: [CollectionViewFormDecorationAttributes] = []
-        if wantsSectionSeparators {
-            reusableSectionSeparators.reserveCapacity(sectionSeparatorAttributes.count * 3)
-            for section in sectionSeparatorAttributes {
-                reusableSectionSeparators.append(contentsOf: section)
-            }
-        }
-        
-        var reusableRowSeparators  = wantsHorizontalItemSeparators ? rowSeparatorAttributes.flatMap{$0}  : []
-        var reusableItemSeparators = wantsVerticalItemSeparators   ? itemSeparatorAttributes.flatMap{$0} : []
+        // Declare the types to avoid the compiler choosing the wrong flatMap.
+        var reusableSectionHeaderAttributes: [UICollectionViewLayoutAttributes] = sectionHeaderAttributes.flatMap{$0}
+        var reusableSectionFooterAttributes: [UICollectionViewLayoutAttributes] = sectionFooterAttributes.flatMap{$0}
+        var reusableSectionBackgroundAttributes = sectionBackgroundAttributes
+        var reusableItemAttributes: [CollectionViewFormItemAttributes] = itemAttributes.flatMap{$0}
+        var reusableSectionSeparators: [CollectionViewFormDecorationAttributes] = sectionSeparatorAttributes.flatMap { $0 }
+        var reusableRowSeparators:  [CollectionViewFormDecorationAttributes] = wantsHorizontalItemSeparators ? rowSeparatorAttributes.flatMap{$0}  : []
+        var reusableItemSeparators: [CollectionViewFormDecorationAttributes] = wantsVerticalItemSeparators   ? itemSeparatorAttributes.flatMap{$0} : []
         
         sectionRects.removeAll(keepingCapacity: true)
         itemAttributes.removeAll(keepingCapacity: true)
         sectionHeaderAttributes.removeAll(keepingCapacity: true)
         sectionFooterAttributes.removeAll(keepingCapacity: true)
-        sectionBackgroundAttributes.removeAll(keepingCapacity: wantsSectionBackgrounds)
+        sectionBackgroundAttributes.removeAll(keepingCapacity: true)
         sectionSeparatorAttributes.removeAll(keepingCapacity: wantsSectionSeparators)
         rowSeparatorAttributes.removeAll(keepingCapacity: wantsHorizontalItemSeparators)
         itemSeparatorAttributes.removeAll(keepingCapacity: wantsVerticalItemSeparators)
         
-        let delegateSupportsHidingHorizontalSeparators = wantsHorizontalItemSeparators && delegate.responds(to: #selector(CollectionViewDelegateFormLayout.collectionView(_:layout:shouldDisplayHorizontalSeparatorForItemAt:)))
-        let delegateSupportsHidingVerticalSeparators = wantsVerticalItemSeparators && delegate.responds(to: #selector(CollectionViewDelegateFormLayout.collectionView(_:layout:shouldDisplayVerticalSeparatorBelowItemAt:)))
+        let isBoxedLayoutDelegate = delegate is CollectionViewDelegateMPOLLayout
+        let delegateSupportsHidingHorizontalSeparators = wantsHorizontalItemSeparators && isBoxedLayoutDelegate && delegate.responds(to: #selector(CollectionViewDelegateBoxedLayout.collectionView(_:layout:shouldDisplayHorizontalSeparatorForItemAt:)))
+        let delegateSupportsHidingVerticalSeparators = wantsVerticalItemSeparators && isBoxedLayoutDelegate && delegate.responds(to: #selector(CollectionViewDelegateBoxedLayout.collectionView(_:layout:shouldDisplayVerticalSeparatorBelowItemAt:)))
         
         let numberOfSections = collectionView.numberOfSections
         sectionRects.reserveCapacity(numberOfSections)
@@ -243,7 +279,7 @@ public class CollectionViewFormBoxedStyle: CollectionViewFormStyle {
                                 let separatorFrame = CGRect(x: frame.maxX - separatorWidth, y: frame.minY - separatorVerticalSpacing + separatorWidth, width: separatorWidth, height: minHeight)
                                 separator.frame = separatorFrame
                                 if delegateSupportsHidingHorizontalSeparators {
-                                    separator.alpha = separatorFrame.maxX < collectionViewWidth && delegate.collectionView!(collectionView, layout: layout, shouldDisplayHorizontalSeparatorForItemAt: indexPath) ? 1.0 : 0.0
+                                    separator.alpha = separatorFrame.maxX < collectionViewWidth && (delegate as! CollectionViewDelegateBoxedLayout).collectionView!(collectionView, layout: layout, shouldDisplayHorizontalSeparatorForItemAt: indexPath) ? 1.0 : 0.0
                                 } else {
                                     separator.alpha = separatorFrame.maxX < collectionViewWidth ? 1.0 : 0.0
                                 }
@@ -268,7 +304,7 @@ public class CollectionViewFormBoxedStyle: CollectionViewFormStyle {
                             
                             let originX = point.x + sectionLeftInset
                             separator.frame = CGRect(x: originX, y: currentYOrigin + separatorVerticalSpacing - separatorWidth, width: sectionWidth, height: separatorWidth)
-                            separator.isHidden = delegateSupportsHidingVerticalSeparators && (delegate.collectionView!(collectionView, layout: layout, shouldDisplayVerticalSeparatorBelowItemAt: rowItems.last!.ip) == false)
+                            separator.isHidden = delegateSupportsHidingVerticalSeparators && ((delegate as! CollectionViewDelegateBoxedLayout).collectionView!(collectionView, layout: layout, shouldDisplayVerticalSeparatorBelowItemAt: rowItems.last!.ip) == false)
                             currentYOrigin += separatorVerticalSpacing
                             sectionRowAttributes.append(separator)
                         }
@@ -443,20 +479,18 @@ public class CollectionViewFormBoxedStyle: CollectionViewFormStyle {
                     sideSeparator?.frame = sideSepFrame
                 }
                 
-                if wantsSectionBackgrounds {
-                    let sectionBackgroundAttribute: CollectionViewFormDecorationAttributes
-                    let sectionBackgroundIndexPath = IndexPath(item: 0, section: section.0)
-                    if let dequeuedBackgroundAttribute = reusableSectionBackgroundAttributes.popLast() {
-                        dequeuedBackgroundAttribute.indexPath = sectionBackgroundIndexPath
-                        sectionBackgroundAttribute = dequeuedBackgroundAttribute
-                    } else {
-                        sectionBackgroundAttribute = CollectionViewFormDecorationAttributes(forDecorationViewOfKind: collectionElementKindSectionBackground, with: sectionBackgroundIndexPath)
+                let sectionBackgroundAttribute: CollectionViewFormDecorationAttributes
+                let sectionBackgroundIndexPath = IndexPath(item: 0, section: section.0)
+                if let dequeuedBackgroundAttribute = reusableSectionBackgroundAttributes.popLast() {
+                    dequeuedBackgroundAttribute.indexPath = sectionBackgroundIndexPath
+                    sectionBackgroundAttribute = dequeuedBackgroundAttribute
+                } else {
+                    sectionBackgroundAttribute = CollectionViewFormDecorationAttributes(forDecorationViewOfKind: collectionElementKindSectionBackground, with: sectionBackgroundIndexPath)
                         sectionBackgroundAttribute.backgroundColor = layout.sectionColor
                         sectionBackgroundAttribute.zIndex = 0
                     }
                     sectionBackgroundAttribute.frame = sectionBackgroundFrame
                     sectionBackgroundAttributes.append(sectionBackgroundAttribute)
-                }
                 
                 if wantsSectionSeparators, let sideSeparator = sideSeparator, let footerSeparator = footerSeparator  {
                     let zeroBackground = sectionBackgroundFrame.height.isZero
