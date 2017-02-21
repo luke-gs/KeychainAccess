@@ -14,12 +14,11 @@ private let reuseIdentifier = "Cell"
 class TestCollectionViewController: UICollectionViewController, CollectionViewDelegateFormLayout {
 
     init() {
-        let style = CollectionViewFormBoxedStyle()
-        style.wantsSectionSeparators = false
-        style.wantsVerticalItemSeparators = false
-        style.wantsHorizontalItemSeparators = false
-        let layout = CollectionViewFormLayout(style: style)
+        let layout = CollectionViewFormBoxedLayout()
         layout.distribution = .none
+        layout.wantsSectionSeparators = false
+        layout.wantsVerticalItemSeparators = false
+        layout.wantsHorizontalItemSeparators = false
         super.init(collectionViewLayout: layout)
     }
     

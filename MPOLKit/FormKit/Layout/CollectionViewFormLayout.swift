@@ -11,7 +11,7 @@ import UIKit
 public let collectionElementKindGlobalHeader = "collectionElementKindGlobalHeader"
 public let collectionElementKindGlobalFooter = "collectionElementKindGlobalFooter"
 
-public let collectionElementKindSectionBackground = "sectionBackground"
+public let collectionElementKindSectionItemBackground = "sectionItemBackground"
 public let collectionElementKindSeparatorSection  = "separatorSection"
 public let collectionElementKindSeparatorRow      = "separatorRow"
 public let collectionElementKindSeparatorItem     = "separatorItem"
@@ -65,8 +65,6 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     
     // MARK: - Public properties
     
-    public let style: CollectionViewFormStyle
-    
     /// The layout margins for items within the collection.
     ///
     /// The form layout uses these layout margins, together with section insets, to calculate the correct
@@ -96,12 +94,12 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     open var sectionColor: UIColor? {
         didSet {
             let sectionColor = self.sectionColor
-            let sectionBackgroundAttributes = style.sectionBackgroundAttributes
-            if sectionColor == oldValue || sectionBackgroundAttributes.isEmpty { return }
+            let sectionItemBackgroundAttributes = self.sectionItemBackgroundAttributes
+            if sectionColor == oldValue || sectionItemBackgroundAttributes.isEmpty { return }
             
-            let indexPaths: [IndexPath] = sectionBackgroundAttributes.map { $0.backgroundColor = sectionColor; return $0.indexPath }
+            let indexPaths: [IndexPath] = sectionItemBackgroundAttributes.map { $0.backgroundColor = sectionColor; return $0.indexPath }
             let invalidationContext = UICollectionViewLayoutInvalidationContext()
-            invalidationContext.invalidateDecorationElements(ofKind: collectionElementKindSectionBackground, at: indexPaths)
+            invalidationContext.invalidateDecorationElements(ofKind: collectionElementKindSectionItemBackground, at: indexPaths)
             invalidateLayout(with: invalidationContext)
         }
     }
@@ -113,12 +111,12 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     open var itemSeparatorColor: UIColor? = CollectionViewFormLayout.separatorGray {
         didSet {
             let separatorColor = self.itemSeparatorColor
-            let sectionRects = style.sectionRects
+            let sectionRects = self.sectionRects
             if separatorColor == oldValue || sectionRects.count == 0 { return }
             
             var rowSeparators: [IndexPath] = []
             var rowCapacity = 0
-            for section in style.rowSeparatorAttributes {
+            for section in rowSeparatorAttributes {
                 rowCapacity += section.count
                 if rowCapacity > 0 { rowSeparators.reserveCapacity(rowCapacity) }
                 for row in section {
@@ -129,7 +127,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
             
             var itemSeparators: [IndexPath] = []
             var itemCapacity = 0
-            for section in style.itemSeparatorAttributes {
+            for section in itemSeparatorAttributes {
                 itemCapacity += section.count
                 if rowCapacity > 0 { rowSeparators.reserveCapacity(rowCapacity) }
                 for item in section {
@@ -161,8 +159,8 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     /// The default color is a standard separator gray.
     open var sectionSeparatorColor: UIColor? = CollectionViewFormLayout.separatorGray {
         didSet {
-            let sectionSeparatorColor = self.sectionSeparatorColor
-            let sectionSeparatorAttributes = style.sectionSeparatorAttributes
+            let sectionSeparatorColor      = self.sectionSeparatorColor
+            let sectionSeparatorAttributes = self.sectionSeparatorAttributes
             
             var sectionSeparators: [IndexPath] = []
             sectionSeparators.reserveCapacity(sectionSeparatorAttributes.count * 3)
@@ -209,6 +207,24 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         }
     }
     
+    // MARK: - Protected properties
+    
+    public var contentSize: CGSize = .zero
+    public var sectionRects: [CGRect] = []
+    
+    public var globalHeaderAttribute: UICollectionViewLayoutAttributes?
+    public var globalFooterAttribute: UICollectionViewLayoutAttributes?
+    
+    public var sectionHeaderAttributes:     [UICollectionViewLayoutAttributes?]  = []
+    public var sectionFooterAttributes:     [UICollectionViewLayoutAttributes?]  = []
+    public var sectionItemBackgroundAttributes: [CollectionViewFormDecorationAttributes] = []
+    
+    public var itemAttributes: [[CollectionViewFormItemAttributes]] = []
+    
+    public var sectionSeparatorAttributes:  [[CollectionViewFormDecorationAttributes]] = []
+    public var rowSeparatorAttributes:      [[CollectionViewFormDecorationAttributes]] = []
+    public var itemSeparatorAttributes:     [[CollectionViewFormDecorationAttributes]] = []
+    
     
     // MARK: - Private properties
     
@@ -222,21 +238,21 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     
     // MARK: - Initialization
     
-    public init(style: CollectionViewFormStyle) {
-        self.style = style
+    public override init() {
         super.init()
-        style.formLayout = self
-        
-        register(CollectionViewFormDecorationView.self, forDecorationViewOfKind: collectionElementKindSectionBackground)
+        commonInit()
+    }
+    
+    public required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        commonInit()
+    }
+    
+    private func commonInit() {
+        register(CollectionViewFormDecorationView.self, forDecorationViewOfKind: collectionElementKindSectionItemBackground)
         register(CollectionViewFormDecorationView.self, forDecorationViewOfKind: collectionElementKindSeparatorSection)
         register(CollectionViewFormDecorationView.self, forDecorationViewOfKind: collectionElementKindSeparatorRow)
         register(CollectionViewFormDecorationView.self, forDecorationViewOfKind: collectionElementKindSeparatorItem)
-    }
-    
-    
-    /// CollectionViewFormLayout does not support NSCoding.
-    public required init?(coder aDecoder: NSCoder) {
-        fatalError("CollectionViewFormLayout does not support NSCoding.")
     }
     
     
@@ -248,50 +264,46 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         
         guard let collectionView = self.collectionView else { return }
         
-        previousSectionRowSeparatorCounts = style.rowSeparatorAttributes.map { $0.count }
-        previousSectionItemCounts         = style.itemSeparatorAttributes.map { $0.count }
-        previousSectionSeparatorCounts    = style.sectionSeparatorAttributes.map { $0.count }
+        previousSectionRowSeparatorCounts = rowSeparatorAttributes.map { $0.count }
+        previousSectionItemCounts         = itemSeparatorAttributes.map { $0.count }
+        previousSectionSeparatorCounts    = sectionSeparatorAttributes.map { $0.count }
         
         _lastLaidOutWidth = collectionView.bounds.width
-        
-        if collectionView != style.collectionView {
-            style.collectionView = collectionView
-        }
-        style.prepare()
     }
+    
     
     // MARK: - Layout attribute fetching
     
     open override var collectionViewContentSize : CGSize {
-        return style.contentSize
+        return contentSize
     }
     
     open override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         var attributes: [UICollectionViewLayoutAttributes] = []
         
-        if let globalHeaderAttribute = style.globalHeaderAttribute,
+        if let globalHeaderAttribute = self.globalHeaderAttribute,
             globalHeaderAttribute.frame.intersects(rect) {
             attributes.append(globalHeaderAttribute)
         }
-        if let globalFooterAttribute = style.globalFooterAttribute,
+        if let globalFooterAttribute = self.globalFooterAttribute,
             globalFooterAttribute.frame.intersects(rect) {
             attributes.append(globalFooterAttribute)
         }
         
-        for (sectionIndex, sectionRect) in style.sectionRects.enumerated() {
+        for (sectionIndex, sectionRect) in sectionRects.enumerated() {
             if sectionRect.minY > rect.maxY { break }
             if sectionRect.intersects(rect) == false { continue }
             
-            if let sectionHeaderItem = style.sectionHeaderAttributes[sectionIndex]
+            if let sectionHeaderItem = sectionHeaderAttributes[sectionIndex]
                 , sectionHeaderItem.frame.intersects(rect) {
                 attributes.append(sectionHeaderItem)
             }
             
-            let sectionBackgroundItem  = style.sectionBackgroundAttributes[sectionIndex]
+            let sectionBackgroundItem  = sectionItemBackgroundAttributes[sectionIndex]
             let sectionBackgroundFrame = sectionBackgroundItem.frame
             if sectionBackgroundFrame.minY > rect.maxY { break }
             
-            if let sectionSeparators = style.sectionSeparatorAttributes[ifExists: sectionIndex] {
+            if let sectionSeparators = sectionSeparatorAttributes[ifExists: sectionIndex] {
                 for separator in sectionSeparators where separator.frame.intersects(rect) {
                     attributes.append(separator)
                 }
@@ -300,8 +312,8 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
             if sectionBackgroundFrame.intersects(rect) {
                 attributes.append(sectionBackgroundItem)
                 
-                let itemSeparators = style.itemSeparatorAttributes[ifExists: sectionIndex]
-                for (itemIndex, item) in style.itemAttributes[sectionIndex].enumerated() {
+                let itemSeparators = itemSeparatorAttributes[ifExists: sectionIndex]
+                for (itemIndex, item) in itemAttributes[sectionIndex].enumerated() {
                     let frame = item.frame
                     if frame.minY > rect.maxY { break }
                     if frame.intersects(rect) {
@@ -312,14 +324,14 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
                     }
                 }
                 
-                if let rowSeparators = style.rowSeparatorAttributes[ifExists: sectionIndex] {
+                if let rowSeparators = rowSeparatorAttributes[ifExists: sectionIndex] {
                     for row in rowSeparators where row.frame.intersects(rect) {
                         attributes.append(row)
                     }
                 }
             }
             
-            if let sectionFooterItem = style.sectionFooterAttributes[sectionIndex] , sectionFooterItem.frame.intersects(rect) {
+            if let sectionFooterItem = sectionFooterAttributes[sectionIndex] , sectionFooterItem.frame.intersects(rect) {
                 attributes.append(sectionFooterItem)
             }
         }
@@ -327,19 +339,19 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     }
     
     open override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        return style.itemAttributes[ifExists: indexPath.section]?[ifExists: indexPath.row]
+        return itemAttributes[ifExists: indexPath.section]?[ifExists: indexPath.row]
     }
     
     open override func layoutAttributesForSupplementaryView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         switch elementKind {
         case UICollectionElementKindSectionHeader:
-            if let item = style.sectionHeaderAttributes[ifExists: indexPath.section] { return item }
+            if let item = sectionHeaderAttributes[ifExists: indexPath.section] { return item }
         case UICollectionElementKindSectionFooter:
-            if let item = style.sectionFooterAttributes[ifExists: indexPath.section] { return item }
+            if let item = sectionFooterAttributes[ifExists: indexPath.section] { return item }
         case collectionElementKindGlobalHeader:
-            if let header = style.globalHeaderAttribute, indexPath == header.indexPath { return header }
+            if let header = globalHeaderAttribute, indexPath == header.indexPath { return header }
         case collectionElementKindGlobalFooter:
-            if let footer = style.globalFooterAttribute, indexPath == footer.indexPath { return footer }
+            if let footer = globalFooterAttribute, indexPath == footer.indexPath { return footer }
         default:
             break
         }
@@ -351,11 +363,11 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         let attributes: CollectionViewFormDecorationAttributes?
         
         switch elementKind {
-        case collectionElementKindSectionBackground: attributes = style.sectionBackgroundAttributes[ifExists: indexPath.section]
-        case collectionElementKindSeparatorSection:  attributes = style.sectionSeparatorAttributes[ifExists: indexPath.section]?[ifExists: indexPath.row]
-        case collectionElementKindSeparatorRow:      attributes = style.rowSeparatorAttributes[ifExists: indexPath.section]?[ifExists: indexPath.row]
-        case collectionElementKindSeparatorItem:     attributes = style.itemSeparatorAttributes[ifExists: indexPath.section]?[ifExists: indexPath.row]
-        default:                                     attributes = nil
+        case collectionElementKindSectionItemBackground: attributes = sectionItemBackgroundAttributes[ifExists: indexPath.section]
+        case collectionElementKindSeparatorSection:      attributes = sectionSeparatorAttributes[ifExists: indexPath.section]?[ifExists: indexPath.row]
+        case collectionElementKindSeparatorRow:          attributes = rowSeparatorAttributes[ifExists: indexPath.section]?[ifExists: indexPath.row]
+        case collectionElementKindSeparatorItem:         attributes = itemSeparatorAttributes[ifExists: indexPath.section]?[ifExists: indexPath.row]
+        default:                                         attributes = nil
         }
         
         return attributes ?? CollectionViewFormDecorationAttributes(forDecorationViewOfKind: elementKind, with: indexPath)
@@ -365,14 +377,13 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     // MARK: - Invalidation
     
     open override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
-        guard let collectionView = self.collectionView,
-            style.shouldInvalidateLayout(forBoundsChange: newBounds) else { return false }
+        guard let collectionView = self.collectionView else { return false }
         
         let currentContentWidth = fabs(_lastLaidOutWidth ?? 0.0)
         let newWidth = fabs(newBounds.size.width)
-//        
-//        // Don't perform an update if there is no width, or if there is no content.
-//        if newWidth == currentContentWidth || (sectionRects.last?.maxY.isZero ?? true) { return false }
+        
+        // Don't perform an update if there is no width, or if there is no content.
+        if newWidth == currentContentWidth || (sectionRects.last?.maxY.isZero ?? true) { return false }
 
         if UIView.areAnimationsEnabled {
             let animationDuration = UIView.inheritedAnimationDuration
@@ -392,7 +403,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
                 self.invalidateLayout()
                 
                 if let firstIP = firstCellIndexPath {                    
-                    collectionView.scrollToItem(at: firstIP, at: UICollectionViewScrollPosition(), animated: false)
+                    collectionView.scrollToItem(at: firstIP, at: [], animated: false)
                 }
                 
                 UIView.transition(with: collectionView, duration: animationDuration, options: [.transitionCrossDissolve, .layoutSubviews, (newWidth > currentContentWidth ? .curveEaseOut : .curveEaseIn)], animations: nil)
@@ -467,7 +478,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         insertedRowSeparators = []
         deletedRowSeparators = []
         
-        for (index, section) in style.rowSeparatorAttributes.enumerated() {
+        for (index, section) in rowSeparatorAttributes.enumerated() {
             var newCount = section.count
             var oldCount = previousSectionRowSeparatorCounts[ifExists: index] ?? 0
             
@@ -505,12 +516,12 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
             return insertedItemSeparators ?? []
         case collectionElementKindSeparatorRow:
             return insertedRowSeparators ?? []
-        case collectionElementKindSectionBackground:
+        case collectionElementKindSectionItemBackground:
             return insertedSections?.map({ IndexPath(item: 0, section: $0) }) ?? []
         case collectionElementKindSeparatorSection:
             var allSectionSeparators: [IndexPath] = []
             insertedSections?.forEach {
-                if let sectionSeparatorIndexPaths: [IndexPath] = style.sectionSeparatorAttributes[ifExists: $0]?.flatMap({ $0.indexPath }) {
+                if let sectionSeparatorIndexPaths: [IndexPath] = sectionSeparatorAttributes[ifExists: $0]?.flatMap({ $0.indexPath }) {
                     allSectionSeparators += sectionSeparatorIndexPaths
                 }
             }
@@ -526,7 +537,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
             return deletedItemSeparators ?? []
         case collectionElementKindSeparatorRow:
             return deletedRowSeparators ?? []
-        case collectionElementKindSectionBackground:
+        case collectionElementKindSectionItemBackground:
             return deletedSections?.map({ IndexPath(item: 0, section: $0) }) ?? []
         case collectionElementKindSeparatorSection:
             var allSectionSeparators: [IndexPath] = []

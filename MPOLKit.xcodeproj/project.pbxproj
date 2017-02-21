@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BC2152121E5935EA00193086 /* CollectionViewFormStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2152111E5935EA00193086 /* CollectionViewFormStyle.swift */; };
-		BC2152141E5950D500193086 /* CollectionViewFormBoxedStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2152131E5950D500193086 /* CollectionViewFormBoxedStyle.swift */; };
+		BC2152141E5950D500193086 /* CollectionViewFormBoxedLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2152131E5950D500193086 /* CollectionViewFormBoxedLayout.swift */; };
 		BC2FA2D31E54023E00E2D0D1 /* MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC2FA2C91E54023E00E2D0D1 /* MPOLKit.framework */; };
 		BC2FA2D81E54023E00E2D0D1 /* MPOLKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2FA2D71E54023E00E2D0D1 /* MPOLKitTests.swift */; };
 		BC2FA2DA1E54023E00E2D0D1 /* MPOLKit.h in Headers */ = {isa = PBXBuildFile; fileRef = BC2FA2CC1E54023E00E2D0D1 /* MPOLKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -67,7 +66,7 @@
 		BCD35CA71E5AA472001B40A1 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD35CA61E5AA472001B40A1 /* BadgeView.swift */; };
 		BCEBA1961E5BC1E900FD404D /* SourceLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEBA1951E5BC1E900FD404D /* SourceLabel.swift */; };
 		BCFD25571E5C03BE00EC2566 /* CollectionViewFormMPOLHeaderAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFD25551E5C03BE00EC2566 /* CollectionViewFormMPOLHeaderAttributes.swift */; };
-		BCFD25581E5C03BE00EC2566 /* CollectionViewFormMPOLStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFD25561E5C03BE00EC2566 /* CollectionViewFormMPOLStyle.swift */; };
+		BCFD25581E5C03BE00EC2566 /* CollectionViewFormMPOLLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFD25561E5C03BE00EC2566 /* CollectionViewFormMPOLLayout.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,8 +101,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		BC2152111E5935EA00193086 /* CollectionViewFormStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormStyle.swift; sourceTree = "<group>"; };
-		BC2152131E5950D500193086 /* CollectionViewFormBoxedStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormBoxedStyle.swift; sourceTree = "<group>"; };
+		BC2152131E5950D500193086 /* CollectionViewFormBoxedLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormBoxedLayout.swift; sourceTree = "<group>"; };
 		BC2FA2C91E54023E00E2D0D1 /* MPOLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MPOLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC2FA2CC1E54023E00E2D0D1 /* MPOLKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPOLKit.h; sourceTree = "<group>"; };
 		BC2FA2CD1E54023E00E2D0D1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -165,7 +163,7 @@
 		BCD35CA61E5AA472001B40A1 /* BadgeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
 		BCEBA1951E5BC1E900FD404D /* SourceLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceLabel.swift; sourceTree = "<group>"; };
 		BCFD25551E5C03BE00EC2566 /* CollectionViewFormMPOLHeaderAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CollectionViewFormMPOLHeaderAttributes.swift; path = "FormKit MPOL Additions/CollectionViewFormMPOLHeaderAttributes.swift"; sourceTree = "<group>"; };
-		BCFD25561E5C03BE00EC2566 /* CollectionViewFormMPOLStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CollectionViewFormMPOLStyle.swift; path = "FormKit MPOL Additions/CollectionViewFormMPOLStyle.swift"; sourceTree = "<group>"; };
+		BCFD25561E5C03BE00EC2566 /* CollectionViewFormMPOLLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CollectionViewFormMPOLLayout.swift; path = "FormKit MPOL Additions/CollectionViewFormMPOLLayout.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -339,8 +337,7 @@
 			isa = PBXGroup;
 			children = (
 				BC712E661E5535B800BD5DAE /* CollectionViewFormLayout.swift */,
-				BC2152111E5935EA00193086 /* CollectionViewFormStyle.swift */,
-				BC2152131E5950D500193086 /* CollectionViewFormBoxedStyle.swift */,
+				BC2152131E5950D500193086 /* CollectionViewFormBoxedLayout.swift */,
 				BC712E651E5535B800BD5DAE /* CollectionViewFormAttributes.swift */,
 			);
 			path = Layout;
@@ -388,7 +385,7 @@
 		BCFD25541E5C03A800EC2566 /* FormKit MPOL Additions */ = {
 			isa = PBXGroup;
 			children = (
-				BCFD25561E5C03BE00EC2566 /* CollectionViewFormMPOLStyle.swift */,
+				BCFD25561E5C03BE00EC2566 /* CollectionViewFormMPOLLayout.swift */,
 				BCFD25551E5C03BE00EC2566 /* CollectionViewFormMPOLHeaderAttributes.swift */,
 			);
 			name = "FormKit MPOL Additions";
@@ -559,12 +556,11 @@
 				BCD35CA31E5A6D6C001B40A1 /* EntityCollectionViewCell.swift in Sources */,
 				BC712E761E5535B800BD5DAE /* CollectionViewFormRadioButtonCell.swift in Sources */,
 				BC712E7C1E5535B800BD5DAE /* UIColor+ActionColors.swift in Sources */,
-				BC2152121E5935EA00193086 /* CollectionViewFormStyle.swift in Sources */,
-				BCFD25581E5C03BE00EC2566 /* CollectionViewFormMPOLStyle.swift in Sources */,
+				BCFD25581E5C03BE00EC2566 /* CollectionViewFormMPOLLayout.swift in Sources */,
 				BC691B4D1E54041200EC3A20 /* SidebarTableViewCell.swift in Sources */,
 				BC691B4C1E54041200EC3A20 /* SidebarSplitViewController.swift in Sources */,
 				BC712E7B1E5535B800BD5DAE /* NSLayoutConstraint+Conveniences.swift in Sources */,
-				BC2152141E5950D500193086 /* CollectionViewFormBoxedStyle.swift in Sources */,
+				BC2152141E5950D500193086 /* CollectionViewFormBoxedLayout.swift in Sources */,
 				BC712E7A1E5535B800BD5DAE /* CoreGraphics+Rounding.swift in Sources */,
 				BC712E811E5535B800BD5DAE /* CollectionViewFormLayout.swift in Sources */,
 				BC712E871E5535B800BD5DAE /* CheckBox.swift in Sources */,

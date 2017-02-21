@@ -1,105 +1,131 @@
 //
-//  CollectionViewFormMPOLStyle.swift
+//  CollectionViewFormBoxedLayout.swift
 //  MPOLKit
 //
-//  Created by Rod Brown on 21/2/17.
+//  Created by Rod Brown on 19/2/17.
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 
 import UIKit
 
-
-@objc public protocol CollectionViewDelegateMPOLLayout: CollectionViewDelegateFormLayout {
+@objc protocol CollectionViewDelegateBoxedLayout: CollectionViewDelegateFormLayout {
     
-    @objc optional func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, separatorStyleForItemAt indexPath: IndexPath) -> CollectionViewFormMPOLStyle.SeparatorStyle
+    /// Asks the delegate if the layout should display a horizontal separator on the left edge of the item.
+    /// If unimplemented, the default is `true`.
+    ///
+    /// - Parameters:
+    ///   - collectionView: The collection view displaying the form layout.
+    ///   - layout:         The layout object requesting the information.
+    ///   - indexPath:      The indexPath for the item.
+    /// - Returns:          A boolean value indicating whether a horizontal separator should be displayed.
+    @objc optional func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormBoxedLayout, shouldDisplayHorizontalSeparatorForItemAt indexPath: IndexPath) -> Bool
+    
+    
+    /// Asks the delegate if the layout should display a vertical separator on the bottom edge of the item.
+    /// If implemented, the layout requests this passing the final item in a row. If unimplemented, the
+    /// default is `true`.
+    ///
+    /// - Parameters:
+    ///   - collectionView: The collection view displaying the form layout.
+    ///   - layout:         The layout object requesting the information.
+    ///   - indexPath:      The indexPath for the item.
+    /// - Returns:          A boolean value indicating whether a vertical separator should be displayed.
+    @objc optional func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormBoxedLayout, shouldDisplayVerticalSeparatorBelowItemAt indexPath: IndexPath) -> Bool
     
 }
 
-public class CollectionViewFormMPOLStyle: CollectionViewFormStyle {
+public class CollectionViewFormBoxedLayout: CollectionViewFormLayout {
     
-    @objc(CollectionViewFormMPOLSeparatorStyle) public enum SeparatorStyle: Int {
-        case automatic
-        
-        case indented
-        
-        case fullWidth
-        
-        case hidden
-    }
-    
-    public var separatorStyle: SeparatorStyle = .indented {
+    public var wantsVerticalItemSeparators: Bool = true {
         didSet {
-            if separatorStyle == .automatic {
-                separatorStyle = .indented
-            }
-            
-            if separatorStyle != oldValue {
-                formLayout?.invalidateLayout()
+            if wantsVerticalItemSeparators != oldValue {
+                invalidateLayout()
             }
         }
     }
     
-}
-
-
-extension CollectionViewFormMPOLStyle {
+    public var wantsHorizontalItemSeparators: Bool = true {
+        didSet {
+            if wantsHorizontalItemSeparators != oldValue {
+                invalidateLayout()
+            }
+        }
+    }
+    
+    public var wantsSectionSeparators: Bool = true {
+        didSet {
+            if wantsSectionSeparators != oldValue {
+                invalidateLayout()
+            }
+        }
+    }    
     
     public override func prepare() {
+        super.prepare()
         
         guard let collectionView = self.collectionView,
-            let layout = self.formLayout,
             let delegate = collectionView.delegate as? CollectionViewDelegateFormLayout else { return }
-        
-        let delegateIsMPOLDelegate = delegate is CollectionViewDelegateMPOLLayout
-        let delegateSpecifiesSeparatorStyle = delegateIsMPOLDelegate && delegate.responds(to: #selector(CollectionViewDelegateMPOLLayout.collectionView(_:layout:separatorStyleForItemAt:)))
         
         let collectionViewWidth = collectionView.bounds.width
         
         let screenScale = (collectionView.window?.screen ?? .main).scale
         let singlePixel: CGFloat = 1.0 / screenScale
-        let separatorWidth = layout.separatorWidth
+        let separatorWidth = self.separatorWidth
         let separatorVerticalSpacing = separatorWidth.ceiled(toScale: screenScale) // This value represents a pixel-aligned adjustment to ensure we don't get blurry cells.
         
-        var reusableSectionHeaderAttributes: [CollectionViewFormMPOLHeaderAttributes] = sectionHeaderAttributes.flatMap{$0 as? CollectionViewFormMPOLHeaderAttributes}
+        let wantsSectionSeparators        = self.wantsSectionSeparators
+        let wantsHorizontalItemSeparators = self.wantsHorizontalItemSeparators
+        let wantsVerticalItemSeparators   = self.wantsVerticalItemSeparators
+        
+        // Declare the types to avoid the compiler choosing the wrong flatMap.
+        var reusableSectionHeaderAttributes: [UICollectionViewLayoutAttributes] = sectionHeaderAttributes.flatMap{$0}
         var reusableSectionFooterAttributes: [UICollectionViewLayoutAttributes] = sectionFooterAttributes.flatMap{$0}
-        
-        var reusableSectionBackgroundAttributes = sectionBackgroundAttributes
-        var reusableItemAttributes: [CollectionViewFormItemAttributes]       = itemAttributes.flatMap { $0 }
-        var reusableItemSeparators: [CollectionViewFormDecorationAttributes] = itemSeparatorAttributes.flatMap { $0 }
-        
+        var reusableSectionBackgroundAttributes = sectionItemBackgroundAttributes
+        var reusableItemAttributes: [CollectionViewFormItemAttributes] = itemAttributes.flatMap{$0}
+        var reusableSectionSeparators: [CollectionViewFormDecorationAttributes] = sectionSeparatorAttributes.flatMap { $0 }
+        var reusableRowSeparators:  [CollectionViewFormDecorationAttributes] = wantsHorizontalItemSeparators ? rowSeparatorAttributes.flatMap{$0}  : []
+        var reusableItemSeparators: [CollectionViewFormDecorationAttributes] = wantsVerticalItemSeparators   ? itemSeparatorAttributes.flatMap{$0} : []
         
         sectionRects.removeAll(keepingCapacity: true)
         itemAttributes.removeAll(keepingCapacity: true)
         sectionHeaderAttributes.removeAll(keepingCapacity: true)
         sectionFooterAttributes.removeAll(keepingCapacity: true)
-        sectionBackgroundAttributes.removeAll(keepingCapacity: true)
-        itemSeparatorAttributes.removeAll(keepingCapacity: true)
+        sectionItemBackgroundAttributes.removeAll(keepingCapacity: true)
+        sectionSeparatorAttributes.removeAll(keepingCapacity: wantsSectionSeparators)
+        rowSeparatorAttributes.removeAll(keepingCapacity: wantsHorizontalItemSeparators)
+        itemSeparatorAttributes.removeAll(keepingCapacity: wantsVerticalItemSeparators)
+        
+        let isBoxedLayoutDelegate = delegate is CollectionViewDelegateMPOLLayout
+        let delegateSupportsHidingHorizontalSeparators = wantsHorizontalItemSeparators && isBoxedLayoutDelegate && delegate.responds(to: #selector(CollectionViewDelegateBoxedLayout.collectionView(_:layout:shouldDisplayHorizontalSeparatorForItemAt:)))
+        let delegateSupportsHidingVerticalSeparators = wantsVerticalItemSeparators && isBoxedLayoutDelegate && delegate.responds(to: #selector(CollectionViewDelegateBoxedLayout.collectionView(_:layout:shouldDisplayVerticalSeparatorBelowItemAt:)))
         
         let numberOfSections = collectionView.numberOfSections
         sectionRects.reserveCapacity(numberOfSections)
         itemAttributes.reserveCapacity(numberOfSections)
         sectionHeaderAttributes.reserveCapacity(numberOfSections)
         sectionFooterAttributes.reserveCapacity(numberOfSections)
-        sectionBackgroundAttributes.reserveCapacity(numberOfSections)
+        sectionItemBackgroundAttributes.reserveCapacity(numberOfSections)
+        sectionSeparatorAttributes.reserveCapacity(numberOfSections)
+        rowSeparatorAttributes.reserveCapacity(numberOfSections)
         itemSeparatorAttributes.reserveCapacity(numberOfSections)
         
-        let itemLayoutMargins     = layout.itemLayoutMargins
-        let itemSeparatorColor    = layout.itemSeparatorColor
-        let defaultSeparatorStyle = separatorStyle
+        let itemLayoutMargins     = self.itemLayoutMargins
+        let itemSeparatorColor    = self.itemSeparatorColor
+        let sectionSeparatorColor = self.sectionSeparatorColor
         
         // function to process a section's items. ensure that insets are accounted for.
         func processItemsInSection(_ section: Int, atPoint point: CGPoint, withWidth width: CGFloat) -> CGFloat { // Returns height of section items
             
             let sectionDistribution: CollectionViewFormLayout.Distribution
-            if let foundDistribution = delegate.collectionView?(collectionView, layout: layout, distributionForSection: section) , foundDistribution != .automatic {
+            if let foundDistribution = delegate.collectionView?(collectionView, layout: self, distributionForSection: section) , foundDistribution != .automatic {
                 sectionDistribution = foundDistribution
             } else {
-                sectionDistribution = layout.distribution
+                sectionDistribution = self.distribution
             }
             
             var currentYOrigin = point.y
             
-            let insets = delegate.collectionView(collectionView, layout: layout, insetForSection: section, givenSectionWidth: width)
+            let insets = delegate.collectionView(collectionView, layout: self, insetForSection: section, givenSectionWidth: width)
             let sectionLeftInset  = insets.left.rounded(toScale: screenScale)
             let sectionRightInset = insets.right.rounded(toScale: screenScale)
             
@@ -113,7 +139,7 @@ extension CollectionViewFormMPOLStyle {
             var itemMinWidths: [(IndexPath, CGFloat)] = (0..<collectionView.numberOfItems(inSection: section)).map {
                 // Create a tuple representing the index path for this item in the section. Provide the minimum width, at maximum of either zero, or the minimum of width and the section width. This ensures an item width that can fit and will never be below zero.
                 let indexPath = IndexPath(item: $0, section: section)
-                let width: CGFloat = max(min((delegate.collectionView(collectionView, layout: layout, minimumContentWidthForItemAt: indexPath, givenSectionWidth: width, edgeInsets: insets)).floored(toScale: screenScale), maximumAllowedWidth), 0.0)
+                let width: CGFloat = max(min((delegate.collectionView(collectionView, layout: self, minimumContentWidthForItemAt: indexPath, givenSectionWidth: width, edgeInsets: insets)).floored(toScale: screenScale), maximumAllowedWidth), 0.0)
                 return (indexPath, width)
             }
             
@@ -122,6 +148,7 @@ extension CollectionViewFormMPOLStyle {
             var sectionItemAttributes: [CollectionViewFormItemAttributes] = []
             sectionItemAttributes.reserveCapacity(sectionItemCount)
             
+            var sectionRowAttributes:  [CollectionViewFormDecorationAttributes] = []
             var sectionItemSepAttributes: [CollectionViewFormDecorationAttributes] = []
             sectionItemSepAttributes.reserveCapacity(sectionItemCount)
             
@@ -180,7 +207,7 @@ extension CollectionViewFormMPOLStyle {
                                 newContentWidth += leftOverSpace
                             }
                             
-                            let itemMinHeight = ceil(delegate.collectionView(collectionView, layout: layout, minimumContentHeightForItemAt: indexPath, givenItemContentWidth: newContentWidth))
+                            let itemMinHeight = ceil(delegate.collectionView(collectionView, layout: self, minimumContentHeightForItemAt: indexPath, givenItemContentWidth: newContentWidth))
                             if minHeight < itemMinHeight { minHeight = itemMinHeight }
                             
                             if rowItemCount == 1 {
@@ -219,8 +246,6 @@ extension CollectionViewFormMPOLStyle {
                         
                         minHeight += itemLayoutMargins.top + itemLayoutMargins.bottom
                         
-                        var rowHasSeparator = false
-                        
                         for item in rowItems {
                             let itemAttribute: CollectionViewFormItemAttributes
                             let indexPath = item.0
@@ -239,42 +264,47 @@ extension CollectionViewFormMPOLStyle {
                             
                             sectionItemAttributes.append(itemAttribute)
                             
-                            let separator: CollectionViewFormDecorationAttributes
-                            if let dequeuedAttribute = reusableItemSeparators.popLast() {
-                                dequeuedAttribute.indexPath = indexPath
-                                separator = dequeuedAttribute
-                            } else {
-                                separator = CollectionViewFormDecorationAttributes(forDecorationViewOfKind: collectionElementKindSeparatorItem, with: indexPath)
-                                separator.zIndex = 2
+                            if wantsVerticalItemSeparators {
+                                let separator: CollectionViewFormDecorationAttributes
+                                if let dequeuedAttribute = reusableItemSeparators.popLast() {
+                                    dequeuedAttribute.indexPath = indexPath
+                                    separator = dequeuedAttribute
+                                } else {
+                                    separator = CollectionViewFormDecorationAttributes(forDecorationViewOfKind: collectionElementKindSeparatorItem, with: indexPath)
+                                    separator.zIndex = 2
+                                }
+                                separator.backgroundColor = itemSeparatorColor
+                                let separatorFrame = CGRect(x: frame.maxX - separatorWidth, y: frame.minY - separatorVerticalSpacing + separatorWidth, width: separatorWidth, height: minHeight)
+                                separator.frame = separatorFrame
+                                if delegateSupportsHidingHorizontalSeparators {
+                                    separator.alpha = separatorFrame.maxX < collectionViewWidth && (delegate as! CollectionViewDelegateBoxedLayout).collectionView!(collectionView, layout: self, shouldDisplayHorizontalSeparatorForItemAt: indexPath) ? 1.0 : 0.0
+                                } else {
+                                    separator.alpha = separatorFrame.maxX < collectionViewWidth ? 1.0 : 0.0
+                                }
+                                
+                                sectionItemSepAttributes.append(separator)
                             }
-                            separator.backgroundColor = itemSeparatorColor
-                            
-                            let separatorStyle: SeparatorStyle
-                            if delegateSpecifiesSeparatorStyle {
-                                let style = (delegate as! CollectionViewDelegateMPOLLayout).collectionView!(collectionView, layout: layout, separatorStyleForItemAt: indexPath)
-                                separatorStyle = style == .automatic ? defaultSeparatorStyle : style
-                            } else {
-                                separatorStyle = defaultSeparatorStyle
-                            }
-                            
-                            var separatorFrame = CGRect(x: frame.minX, y: frame.maxY, width: frame.width, height: separatorWidth)
-                            if separatorStyle == .indented || (separatorStyle == .hidden && defaultSeparatorStyle == .indented) {
-                                separatorFrame.origin.x   += item.margins.left
-                                separatorFrame.size.width -= item.margins.left
-                            }
-                            
-                            separator.isHidden = separatorStyle == .hidden
-                            
-                            if separatorStyle != .hidden {
-                                rowHasSeparator = true
-                            }
-                            
-                            sectionItemSepAttributes.append(separator)
                         }
                         
                         currentYOrigin += minHeight
-                        if rowHasSeparator {
+                        
+                        if wantsHorizontalItemSeparators {
+                            let separator: CollectionViewFormDecorationAttributes
+                            let indexPath = IndexPath(item: rowCount, section: section)
+                            if let dequeuedAttribute = reusableRowSeparators.popLast() {
+                                dequeuedAttribute.indexPath = indexPath
+                                separator = dequeuedAttribute
+                            } else {
+                                separator = CollectionViewFormDecorationAttributes(forDecorationViewOfKind: collectionElementKindSeparatorRow, with: indexPath)
+                                separator.zIndex = 2
+                            }
+                            separator.backgroundColor = sectionSeparatorColor
+                            
+                            let originX = point.x + sectionLeftInset
+                            separator.frame = CGRect(x: originX, y: currentYOrigin + separatorVerticalSpacing - separatorWidth, width: sectionWidth, height: separatorWidth)
+                            separator.isHidden = delegateSupportsHidingVerticalSeparators && ((delegate as! CollectionViewDelegateBoxedLayout).collectionView!(collectionView, layout: self, shouldDisplayVerticalSeparatorBelowItemAt: rowItems.last!.ip) == false)
                             currentYOrigin += separatorVerticalSpacing
+                            sectionRowAttributes.append(separator)
                         }
                     }
                     
@@ -289,13 +319,14 @@ extension CollectionViewFormMPOLStyle {
             
             itemAttributes.append(sectionItemAttributes)
             itemSeparatorAttributes.append(sectionItemSepAttributes)
+            rowSeparatorAttributes.append(sectionRowAttributes)
             
             return currentYOrigin + max(0.0, round(insets.bottom)) - point.y
         }
         
         var currentYOffset: CGFloat = 0.0
         
-        if let globalHeaderHeight = delegate.collectionView?(collectionView, heightForGlobalHeaderInLayout: layout) , globalHeaderHeight > 0.0 {
+        if let globalHeaderHeight = delegate.collectionView?(collectionView, heightForGlobalHeaderInLayout: self) , globalHeaderHeight > 0.0 {
             let attribute = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: collectionElementKindGlobalHeader, with: IndexPath(index: 0))
             attribute.frame = CGRect(x: 0.0, y: currentYOffset, width: collectionViewWidth, height: ceil(globalHeaderHeight))
             attribute.zIndex = 1
@@ -309,7 +340,7 @@ extension CollectionViewFormMPOLStyle {
         let sectionGroups: [[(Int, (x: CGFloat, width: CGFloat))]]
         
         if delegate.responds(to: #selector(CollectionViewDelegateFormLayout.collectionView(_:layout:minimumWidthForSection:))) {
-            let widths = (0..<numberOfSections).map {($0, min(floor(delegate.collectionView!(collectionView, layout: layout, minimumWidthForSection: $0)), collectionViewWidth)) }
+            let widths = (0..<numberOfSections).map {($0, min(floor(delegate.collectionView!(collectionView, layout: self, minimumWidthForSection: $0)), collectionViewWidth)) }
             var groups: [[(Int, (x: CGFloat, width: CGFloat))]] = []
             
             var sectionPreferredWidths = widths
@@ -350,7 +381,7 @@ extension CollectionViewFormMPOLStyle {
             var largestHeight: CGFloat = 0.0
             let headerRects: [(Int, CGRect)] = sectionGroup.map {
                 let width = $1.width
-                let height = max(ceil(delegate.collectionView(collectionView, layout: layout, heightForHeaderInSection: $0, givenSectionWidth: width)), 0.0)
+                let height = max(ceil(delegate.collectionView(collectionView, layout: self, heightForHeaderInSection: $0, givenSectionWidth: width)), 0.0)
                 largestHeight = max(largestHeight, height)
                 return ($0, CGRect(x: $1.x, y: 0.0, width: width, height: height))
             }
@@ -366,19 +397,14 @@ extension CollectionViewFormMPOLStyle {
                     rect.origin.y = currentYOffset - height
                     
                     let sectionIndexPath = IndexPath(item: 0, section: headerRect.0)
-                    let headerAttribute: CollectionViewFormMPOLHeaderAttributes
+                    let headerAttribute: UICollectionViewLayoutAttributes
                     if let dequeuedAttributes = reusableSectionHeaderAttributes.popLast() {
                         dequeuedAttributes.indexPath = sectionIndexPath
                         headerAttribute = dequeuedAttributes
                     } else {
-                        headerAttribute = CollectionViewFormMPOLHeaderAttributes(forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, with: sectionIndexPath)
+                        headerAttribute = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, with: sectionIndexPath)
                         headerAttribute.zIndex = 1
                     }
-                    rect.size.height += separatorVerticalSpacing
-                    
-                    headerAttribute.itemPosition = rect.size.height
-                    rect.size.height += itemLayoutMargins.top
-                    
                     headerAttribute.frame = rect
                     sectionHeaderAttributes.append(headerAttribute)
                 }
@@ -389,6 +415,22 @@ extension CollectionViewFormMPOLStyle {
             if let sectionFooterSepAttributes = sectionSeparatorAttributes.last?.last , sectionFooterSepAttributes.frame.maxY == currentYOffset {
                 currentYOffset -= separatorVerticalSpacing
             }
+            
+            // Place in the section heading separators
+            let headerSeparatorAttributes: [CollectionViewFormDecorationAttributes] = wantsSectionSeparators ? sectionGroup.map {
+                let headerSeparator: CollectionViewFormDecorationAttributes
+                let indexPath = IndexPath(item: 0, section: $0.0)
+                if let dequeudAttribute = reusableSectionSeparators.popLast() {
+                    headerSeparator = dequeudAttribute
+                    headerSeparator.indexPath = indexPath
+                } else {
+                    headerSeparator = CollectionViewFormDecorationAttributes(forDecorationViewOfKind: collectionElementKindSeparatorSection, with: indexPath)
+                    headerSeparator.zIndex = 2
+                }
+                headerSeparator.backgroundColor = sectionSeparatorColor
+                headerSeparator.frame = CGRect(x: $0.1.x, y: currentYOffset, width: $0.1.width, height: separatorWidth)
+                return headerSeparator
+                } : []
             
             currentYOffset += separatorVerticalSpacing
             let startOfItems = currentYOffset
@@ -401,12 +443,39 @@ extension CollectionViewFormMPOLStyle {
             currentYOffset += maxSectionHeight
             
             // Place in the section backgrounds and remaining separators.
-            for section in sectionGroup {
+            for (sectionGroupIndex, section) in sectionGroup.enumerated() {
+                var sideSeparator: CollectionViewFormDecorationAttributes? = nil
+                var footerSeparator: CollectionViewFormDecorationAttributes? = nil
+                
                 let xOrigin = section.1.x
                 
                 let footerSeparatorFrame = CGRect(x: xOrigin, y: currentYOffset - separatorWidth, width: section.1.width, height: separatorWidth)
                 let sideSepFrame = CGRect(x: section.1.width + section.1.x - separatorWidth, y: startOfItems, width: separatorWidth, height: footerSeparatorFrame.minY - startOfItems)
                 let sectionBackgroundFrame = CGRect(x: xOrigin, y: startOfItems, width: sideSepFrame.maxX - xOrigin, height: currentYOffset - startOfItems)
+                
+                if wantsSectionSeparators {
+                    let footerSepIndexPath = IndexPath(item: 2, section: section.0)
+                    if let dequeudAttribute = reusableSectionSeparators.popLast() {
+                        footerSeparator = dequeudAttribute
+                        dequeudAttribute.indexPath = footerSepIndexPath
+                    } else {
+                        footerSeparator = CollectionViewFormDecorationAttributes(forDecorationViewOfKind: collectionElementKindSeparatorSection, with: footerSepIndexPath)
+                        footerSeparator?.zIndex = 2
+                    }
+                    footerSeparator?.backgroundColor = sectionSeparatorColor
+                    footerSeparator?.frame = footerSeparatorFrame
+                    
+                    let sideSepIndexPath = IndexPath(item: 1, section: section.0)
+                    if let dequeudAttribute = reusableSectionSeparators.popLast() {
+                        sideSeparator = dequeudAttribute
+                        dequeudAttribute.indexPath = sideSepIndexPath
+                    } else {
+                        sideSeparator = CollectionViewFormDecorationAttributes(forDecorationViewOfKind: collectionElementKindSeparatorSection, with: sideSepIndexPath)
+                        sideSeparator?.zIndex = 2
+                    }
+                    sideSeparator?.backgroundColor = sectionSeparatorColor
+                    sideSeparator?.frame = sideSepFrame
+                }
                 
                 let sectionBackgroundAttribute: CollectionViewFormDecorationAttributes
                 let sectionBackgroundIndexPath = IndexPath(item: 0, section: section.0)
@@ -414,19 +483,29 @@ extension CollectionViewFormMPOLStyle {
                     dequeuedBackgroundAttribute.indexPath = sectionBackgroundIndexPath
                     sectionBackgroundAttribute = dequeuedBackgroundAttribute
                 } else {
-                    sectionBackgroundAttribute = CollectionViewFormDecorationAttributes(forDecorationViewOfKind: collectionElementKindSectionBackground, with: sectionBackgroundIndexPath)
-                    sectionBackgroundAttribute.zIndex = 0
+                    sectionBackgroundAttribute = CollectionViewFormDecorationAttributes(forDecorationViewOfKind: collectionElementKindSectionItemBackground, with: sectionBackgroundIndexPath)
+                        sectionBackgroundAttribute.backgroundColor = sectionColor
+                        sectionBackgroundAttribute.zIndex = 0
+                    }
+                    sectionBackgroundAttribute.frame = sectionBackgroundFrame
+                    sectionItemBackgroundAttributes.append(sectionBackgroundAttribute)
+                
+                if wantsSectionSeparators, let sideSeparator = sideSeparator, let footerSeparator = footerSeparator  {
+                    let zeroBackground = sectionBackgroundFrame.height.isZero
+                    let headerSeparator = headerSeparatorAttributes[sectionGroupIndex]
+                    
+                    sideSeparator.alpha   = sectionBackgroundFrame.maxX >= collectionViewWidth || zeroBackground ? 0.0 : 1.0
+                    headerSeparator.alpha = zeroBackground ? 0.0 : 1.0
+                    footerSeparator.alpha = zeroBackground ? 0.0 : 1.0
+                    sectionSeparatorAttributes.append([headerSeparator, sideSeparator, footerSeparator])
                 }
-                sectionBackgroundAttribute.backgroundColor = .clear
-                sectionBackgroundAttribute.frame = sectionBackgroundFrame
-                sectionBackgroundAttributes.append(sectionBackgroundAttribute)
             }
             
             // Place in the footer views
             var largestFooter: CGFloat = 0.0
             for section in sectionGroup {
                 let width = section.1.width
-                let footerHeight = max(ceil(delegate.collectionView(collectionView, layout: layout, heightForFooterInSection: section.0, givenSectionWidth: width)), 0.0)
+                let footerHeight = max(ceil(delegate.collectionView(collectionView, layout: self, heightForFooterInSection: section.0, givenSectionWidth: width)), 0.0)
                 largestFooter = max(footerHeight, largestFooter)
                 
                 if footerHeight.isZero {
@@ -451,7 +530,7 @@ extension CollectionViewFormMPOLStyle {
             currentYOffset += largestFooter
         }
         
-        if let globalFooterHeight = delegate.collectionView?(collectionView, heightForGlobalFooterInLayout: layout) , globalFooterHeight > 0.0 {
+        if let globalFooterHeight = delegate.collectionView?(collectionView, heightForGlobalFooterInLayout: self) , globalFooterHeight > 0.0 {
             let attribute = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: collectionElementKindGlobalFooter, with: IndexPath(index: 0))
             attribute.frame = CGRect(x: 0.0, y: currentYOffset, width: collectionViewWidth, height: ceil(globalFooterHeight))
             attribute.zIndex = 1
@@ -465,6 +544,3 @@ extension CollectionViewFormMPOLStyle {
     }
     
 }
-
-
-
