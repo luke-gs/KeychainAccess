@@ -110,9 +110,8 @@ public class CollectionViewFormBoxedStyle: CollectionViewFormStyle {
         rowSeparatorAttributes.reserveCapacity(numberOfSections)
         itemSeparatorAttributes.reserveCapacity(numberOfSections)
         
-        let itemLayoutMargins = layout.itemLayoutMargins
-        
-        let itemSeparatorColor = layout.itemSeparatorColor
+        let itemLayoutMargins     = layout.itemLayoutMargins
+        let itemSeparatorColor    = layout.itemSeparatorColor
         let sectionSeparatorColor = layout.sectionSeparatorColor
         
         // function to process a section's items. ensure that insets are accounted for.

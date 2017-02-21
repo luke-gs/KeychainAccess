@@ -154,6 +154,8 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
             
         }
     }
+    
+    
     /// The color of section separators in the collection view.
     ///
     /// The default color is a standard separator gray.
