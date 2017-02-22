@@ -140,11 +140,11 @@ extension EntityCollectionViewCell {
         
         switch style {
         case .hero:
-            imageViewFrame  = CGRect(x: contentRect.midX - 92.0, y: contentRect.minY, width: 184.0, height: 160.0)
+            imageViewFrame  = CGRect(x: (contentRect.midX - 92.0).rounded(toScale: scale), y: contentRect.minY, width: 184.0, height: 160.0)
             textWidth = 182.0
             textOrigin = CGPoint(x: imageViewFrame.minX + 1, y: imageViewFrame.maxY + 9.0)
         case .detail:
-            imageViewFrame  = CGRect(x: contentRect.minX, y: contentRect.midY - 48.0, width: 96.0, height: 96.0)
+            imageViewFrame  = CGRect(x: contentRect.minX.rounded(toScale: scale), y: (contentRect.midY - 48.0).rounded(toScale: scale), width: 96.0, height: 96.0)
             
             var textHeight: CGFloat = 0.0
             if titleHeight.isZero == false {
@@ -206,10 +206,14 @@ extension EntityCollectionViewCell {
     }
     
     public class func minimumContentHeight(forStyle style: Style, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
-        // TODO: Adjust sizing for trait collections.
         switch style {
-        case .hero:     return 222.0
-        case .detail:   return 96.0
+        case .hero:
+            let fontManager = FontManager.shared
+            let scale = UIScreen.main.scale
+            let heightOfFonts =  fontManager.font(withStyle: .headline,  compatibleWith: traitCollection).lineHeight.ceiled(toScale: scale) + fontManager.font(withStyle: .footnote1, compatibleWith: traitCollection).lineHeight.ceiled(toScale: scale) + fontManager.font(withStyle: .footnote2, compatibleWith: traitCollection).lineHeight.ceiled(toScale: scale)
+            return 173.0 + heightOfFonts
+        case .detail:
+            return 96.0
         }
     }
     
