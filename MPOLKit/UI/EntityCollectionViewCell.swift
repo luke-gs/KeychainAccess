@@ -141,8 +141,8 @@ extension EntityCollectionViewCell {
         switch style {
         case .hero:
             imageViewFrame  = CGRect(x: (contentRect.midX - 92.0).rounded(toScale: scale), y: contentRect.minY, width: 184.0, height: 160.0)
-            textWidth = 182.0
             textOrigin = CGPoint(x: imageViewFrame.minX + 1, y: imageViewFrame.maxY + 9.0)
+            textWidth  = contentRect.width - (textOrigin.x - contentRect.minX)
         case .detail:
             imageViewFrame  = CGRect(x: contentRect.minX.rounded(toScale: scale), y: (contentRect.midY - 48.0).rounded(toScale: scale), width: 96.0, height: 96.0)
             
