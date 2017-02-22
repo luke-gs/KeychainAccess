@@ -12,29 +12,38 @@ public class CollectionViewFormMPOLHeaderView: UICollectionReusableView {
     
     // MARK: - Public properties
     
+    /// The text for the MPOL header.
     public var text: String? {
         get { return titleLabel.text }
         set { titleLabel.text = newValue; setNeedsLayout() }
     }
     
+    
+    /// The tint color for the view. The text and optional expansion icon will be tinted this color.
     public override var tintColor: UIColor! {
         get { return super.tintColor }
         set { super.tintColor = newValue }
     }
     
+    
+    /// The separator color.
     public var separatorColor: UIColor? {
         get { return separatorView.backgroundColor }
         set { separatorView.backgroundColor = newValue }
     }
     
-    public var allowsExpanding: Bool = false {
-        didSet {
-            if allowsExpanding != oldValue {
-                setNeedsLayout()
-            }
-        }
+    
+    /// A boolean value indicating whether the view should display an expand arrow.
+    /// 
+    /// The default is `false`.
+    public var showsExpandArrow: Bool = false {
+        didSet { if showsExpandArrow != oldValue { setNeedsLayout() } }
     }
     
+    
+    /// A boolean value indicating whether the expand arrow should be in an expanded state.
+    ///
+    /// The default is `false`. Setting this updates without an animation.
     public var isExpanded: Bool = false {
         didSet {
             if isExpanded == oldValue { return }
@@ -42,7 +51,13 @@ public class CollectionViewFormMPOLHeaderView: UICollectionReusableView {
             // TODO: Adjust rotation transform
         }
     }
+
     
+    /// Updates the isExpanded property, optionally with animation.
+    ///
+    /// - Parameters:
+    ///   - expanded: A boolean value indicating whether the header should be expanded.
+    ///   - animated: A boolean value indicating whether the update should be animated.
     public func setExpanded(_ expanded: Bool, animated: Bool) {
         if isExpanded == expanded { return }
         
@@ -55,6 +70,9 @@ public class CollectionViewFormMPOLHeaderView: UICollectionReusableView {
         }
     }
     
+    
+    /// An optional tap handler closure, passing the header view itself, and the associated
+    /// index path.
     public var tapHandler: ((CollectionViewFormMPOLHeaderView, IndexPath) -> (Void))?
     
     
@@ -108,6 +126,8 @@ public class CollectionViewFormMPOLHeaderView: UICollectionReusableView {
 }
 
 
+// MARK: - Overrides
+/// Overrides
 extension CollectionViewFormMPOLHeaderView {
     
     public override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
@@ -135,7 +155,7 @@ extension CollectionViewFormMPOLHeaderView {
         
         var titleInset = layoutMargins.left
         
-        if allowsExpanding {
+        if showsExpandArrow {
             titleInset += 15.0
             
             // TODO: Set up drop down view.
@@ -157,6 +177,8 @@ extension CollectionViewFormMPOLHeaderView {
 }
 
 
+// MARK: - Private methods
+/// Private methods
 fileprivate extension CollectionViewFormMPOLHeaderView {
     
     @objc fileprivate func tapGestureRecognizerDidRecognize() {
