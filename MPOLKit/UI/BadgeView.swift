@@ -8,31 +8,12 @@
 
 import UIKit
 
+
+/// `BadgeView` is a `UILabel` subclass designed for use as an iOS style count badge.
+///
+/// `BadgeView` automatically shows and hides depending on whether it has text. To
+/// adjust the badge color, update the backgroundColor property.
 public class BadgeView: UILabel {
-    
-    public override var bounds: CGRect {
-        didSet {
-            if bounds.size != oldValue.size {
-                updateCornerRadius()
-            }
-        }
-    }
-    
-    public override var frame: CGRect {
-        didSet {
-            if bounds.size != oldValue.size {
-                updateCornerRadius()
-            }
-        }
-    }
-    public override var text: String? {
-        didSet { isHidden = text?.isEmpty ?? true }
-    }
-    
-    public override var numberOfLines: Int {
-        get { return 1 }
-        set { }
-    }
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -52,6 +33,39 @@ public class BadgeView: UILabel {
         font = .systemFont(ofSize: 11.0, weight: UIFontWeightSemibold)
     }
     
+}
+
+
+// MARK: - Overrides
+/// Overrides
+extension BadgeView {
+    
+    public override var bounds: CGRect {
+        didSet {
+            if bounds.size != oldValue.size {
+                updateCornerRadius()
+            }
+        }
+    }
+    
+    public override var frame: CGRect {
+        didSet {
+            if bounds.size != oldValue.size {
+                updateCornerRadius()
+            }
+        }
+    }
+    
+    public override var text: String? {
+        didSet { isHidden = text?.isEmpty ?? true }
+    }
+    
+    /// Badge view cannot be configured to appear with multiple lines.
+    public override var numberOfLines: Int {
+        get { return 1 }
+        set { }
+    }
+    
     public override func textRect(forBounds bounds: CGRect, limitedToNumberOfLines numberOfLines: Int) -> CGRect {
         var rect = bounds.insetBy(layoutMargins)
         rect = super.textRect(forBounds: rect, limitedToNumberOfLines: numberOfLines)
@@ -62,7 +76,13 @@ public class BadgeView: UILabel {
         super.drawText(in: rect.insetBy(layoutMargins))
     }
     
-    private func updateCornerRadius() {
+}
+
+// MARK: - Private methods
+/// Private methods
+fileprivate extension BadgeView {
+    
+    fileprivate func updateCornerRadius() {
         let bounds = self.bounds
         let radius = (min(bounds.height, bounds.width) * 0.5)
         

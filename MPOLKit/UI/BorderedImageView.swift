@@ -8,19 +8,42 @@
 
 import UIKit
 
+
+/// `BorderedImageView` is a wrapper class for a `UIImageView`, with an optional border,
+/// and an MPOL style corner radius.
+///
+/// By setting a border color and width, the image view is inset with a surrounding border.
+/// When no border width or color is set, the image view reverts to full size.
 public class BorderedImageView: UIView {
     
+    /// The internal image view.
+    ///
+    /// By default, the image view's content mode is set to
+    /// `UIViewContentMode.scaleAspectFill`. This ensures that the image
+    /// fills the entire border.
     public let imageView = UIImageView(frame: .zero)
     
-    public var borderColor: UIColor? {
+    
+    /// The border color.
+    ///
+    /// When this value is `nil`, the border is automatically hidden.
+    /// The default is `nil`.
+    @NSCopying public var borderColor: UIColor? {
         didSet {
             if borderColor == oldValue { return }
             
             layer.borderColor = borderColor?.cgColor
-            updateCornerRadius()
+            if borderWidth > 0 {
+                updateCornerRadius()
+            }
         }
     }
     
+    
+    /// The border width.
+    ///
+    /// When this value is zero, the border is autmatically hidden.
+    /// The default is 2.0.
     public var borderWidth: CGFloat = 2.0 {
         didSet {
             if borderWidth != oldValue && borderColor != nil {
@@ -51,6 +74,8 @@ public class BorderedImageView: UIView {
 }
 
 
+// MARK: - Overrides
+/// Overrides
 extension BorderedImageView {
     
     public override var bounds: CGRect {
@@ -69,13 +94,20 @@ extension BorderedImageView {
         }
     }
     
+}
+
+
+// MARK: - Private methods
+/// Private methods
+fileprivate extension BorderedImageView {
+    
     fileprivate func updateCornerRadius() {
         let bounds = self.bounds
         let cornerRadius = ((min(bounds.width, bounds.height) + 300.0) / 80.0).rounded(toScale: (window?.screen ?? .main).scale)
         
         layer.cornerRadius = cornerRadius
         
-        if borderColor == nil {
+        if borderColor == nil || borderWidth == 0.0 {
             imageView.layer.cornerRadius = 0.0
             imageView.frame = bounds
             layer.borderWidth = 0.0
