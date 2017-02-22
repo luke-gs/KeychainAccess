@@ -11,14 +11,11 @@ import MPOLKit
 
 private let reuseIdentifier = "Cell"
 
-class TestCollectionViewController: UICollectionViewController, CollectionViewDelegateFormLayout {
+class TestCollectionViewController: UICollectionViewController, CollectionViewDelegateMPOLLayout {
 
     init() {
-        let layout = CollectionViewFormBoxedLayout()
-        layout.distribution = .none
-        layout.wantsSectionSeparators = false
-        layout.wantsVerticalItemSeparators = false
-        layout.wantsHorizontalItemSeparators = false
+        let layout = CollectionViewFormMPOLLayout()
+        layout.separatorStyle = .fullWidth
         super.init(collectionViewLayout: layout)
     }
     

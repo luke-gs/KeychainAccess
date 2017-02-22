@@ -41,6 +41,14 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
         }
     }
     
+    public var rowLeadingSeparatorsShouldAlwaysIndent: Bool = true {
+        didSet {
+            if rowLeadingSeparatorsShouldAlwaysIndent != oldValue {
+                invalidateLayout()
+            }
+        }
+    }
+    
     public var wantsInsetHeaders: Bool = true {
         didSet {
             if wantsInsetHeaders != oldValue {
@@ -68,7 +76,7 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
         var reusableSectionHeaderAttributes: [CollectionViewFormMPOLHeaderAttributes] = sectionHeaderAttributes.flatMap{$0 as? CollectionViewFormMPOLHeaderAttributes}
         var reusableSectionFooterAttributes: [UICollectionViewLayoutAttributes] = sectionFooterAttributes.flatMap{$0}
         
-        var reusableSectionBackgroundAttributes = sectionItemBackgroundAttributes
+        var reusableSectionItemBackgroundAttributes = sectionItemBackgroundAttributes
         var reusableItemAttributes: [CollectionViewFormItemAttributes]       = itemAttributes.flatMap { $0 }
         var reusableItemSeparators: [CollectionViewFormDecorationAttributes] = itemSeparatorAttributes.flatMap { $0 }
         
@@ -225,7 +233,7 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
                         
                         var rowHasSeparator = false
                         
-                        for item in rowItems {
+                        for (rowIndex, item) in rowItems.enumerated() {
                             let itemAttribute: CollectionViewFormItemAttributes
                             let indexPath = item.0
                             if let dequeuedAttributes = reusableItemAttributes.popLast() {
@@ -253,7 +261,7 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
                             }
                             separator.backgroundColor = itemSeparatorColor
                             
-                            let separatorStyle: SeparatorStyle
+                            var separatorStyle: SeparatorStyle
                             if delegateSpecifiesSeparatorStyle {
                                 let style = (delegate as! CollectionViewDelegateMPOLLayout).collectionView!(collectionView, layout: self, separatorStyleForItemAt: indexPath)
                                 separatorStyle = style == .automatic ? defaultSeparatorStyle : style
@@ -261,12 +269,16 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
                                 separatorStyle = defaultSeparatorStyle
                             }
                             
+                            if separatorStyle == .fullWidth && rowIndex == 0 && rowLeadingSeparatorsShouldAlwaysIndent {
+                                separatorStyle = .indented
+                            }
+                            
                             var separatorFrame = CGRect(x: frame.minX, y: frame.maxY, width: frame.width, height: separatorWidth)
-                            if separatorStyle == .indented || (separatorStyle == .hidden && defaultSeparatorStyle == .indented) {
+                            if separatorStyle == .indented || (separatorStyle == .hidden && (defaultSeparatorStyle == .indented || rowIndex == 0 && rowLeadingSeparatorsShouldAlwaysIndent)) {
                                 separatorFrame.origin.x   += item.margins.left
                                 separatorFrame.size.width -= item.margins.left
                             }
-                            
+                            separator.frame = separatorFrame
                             separator.isHidden = separatorStyle == .hidden
                             
                             if separatorStyle != .hidden {
@@ -393,12 +405,6 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
                 }
             }
             
-            // If we're laid right against another section's previous footer separator,
-            // we can overlap section header separators to avoid a double high separator.
-            if let sectionFooterSepAttributes = sectionSeparatorAttributes.last?.last , sectionFooterSepAttributes.frame.maxY == currentYOffset {
-                currentYOffset -= separatorVerticalSpacing
-            }
-            
             currentYOffset += separatorVerticalSpacing
             let startOfItems = currentYOffset
             
@@ -409,26 +415,26 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
             }
             currentYOffset += maxSectionHeight
             
-            // Place in the section backgrounds and remaining separators.
+            // Place in the section item backgrounds and remaining separators.
             for section in sectionGroup {
+                let sectionItemBackgroundAttribute: CollectionViewFormDecorationAttributes
+                let sectionItemBackgroundIndexPath = IndexPath(item: 0, section: section.0)
+                if let dequeuedBackgroundAttribute = reusableSectionItemBackgroundAttributes.popLast() {
+                    dequeuedBackgroundAttribute.indexPath = sectionItemBackgroundIndexPath
+                    sectionItemBackgroundAttribute = dequeuedBackgroundAttribute
+                } else {
+                    sectionItemBackgroundAttribute = CollectionViewFormDecorationAttributes(forDecorationViewOfKind: collectionElementKindSectionItemBackground, with: sectionItemBackgroundIndexPath)
+                    sectionItemBackgroundAttribute.zIndex = 0
+                }
+                sectionItemBackgroundAttribute.backgroundColor = .clear
+                
                 let xOrigin = section.1.x
                 
                 let footerSeparatorFrame = CGRect(x: xOrigin, y: currentYOffset - separatorWidth, width: section.1.width, height: separatorWidth)
                 let sideSepFrame = CGRect(x: section.1.width + section.1.x - separatorWidth, y: startOfItems, width: separatorWidth, height: footerSeparatorFrame.minY - startOfItems)
-                let sectionBackgroundFrame = CGRect(x: xOrigin, y: startOfItems, width: sideSepFrame.maxX - xOrigin, height: currentYOffset - startOfItems)
+                sectionItemBackgroundAttribute.frame = CGRect(x: xOrigin, y: startOfItems, width: sideSepFrame.maxX - xOrigin, height: currentYOffset - startOfItems)
                 
-                let sectionBackgroundAttribute: CollectionViewFormDecorationAttributes
-                let sectionBackgroundIndexPath = IndexPath(item: 0, section: section.0)
-                if let dequeuedBackgroundAttribute = reusableSectionBackgroundAttributes.popLast() {
-                    dequeuedBackgroundAttribute.indexPath = sectionBackgroundIndexPath
-                    sectionBackgroundAttribute = dequeuedBackgroundAttribute
-                } else {
-                    sectionBackgroundAttribute = CollectionViewFormDecorationAttributes(forDecorationViewOfKind: collectionElementKindSectionItemBackground, with: sectionBackgroundIndexPath)
-                    sectionBackgroundAttribute.zIndex = 0
-                }
-                sectionBackgroundAttribute.backgroundColor = .clear
-                sectionBackgroundAttribute.frame = sectionBackgroundFrame
-                sectionItemBackgroundAttributes.append(sectionBackgroundAttribute)
+                sectionItemBackgroundAttributes.append(sectionItemBackgroundAttribute)
             }
             
             // Place in the footer views
