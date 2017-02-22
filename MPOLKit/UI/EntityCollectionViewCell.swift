@@ -10,12 +10,32 @@ import UIKit
 
 fileprivate var sourceLabelContext = 1
 
-open class EntityCollectionViewCell: CollectionViewFormCell {
+
+/// `EntityCollectionViewCell` is a cell for displaying MPOL entities with a standardized
+/// MPOL branding and appearance.
+///
+/// `EntityCollectionViewCell supports displaying cells in two styles: "hero", and "detail".
+/// The "hero" appearance focuses on the photo/placeholder icon, and shows detail text
+/// labels below the context. The "detail" appearance shows the icon at the leading edge,
+/// with detail trailing behind.
+///
+/// EntityCollectionViewCell manages updating its own fonts from its trait collection's
+/// preferredContentSizeCategory. It is recommended you avoid updating them.
+public class EntityCollectionViewCell: CollectionViewFormCell {
     
+    
+    /// The style types for an `EntityCollectionViewCell`. These include
+    /// `.hero` and `.detail`.
     public enum Style: Int {
-        case hero, detail
+        /// The Hero style. This style emphasizes the icon.
+        case hero
+        
+        /// The Detail style. This style emphasizes the icon and detail equally.
+        case detail
     }
     
+    
+    /// The style for this cell. The default is `EntityCollectionViewCell.Style.hero`.
     public var style: Style = .hero {
         didSet {
             if style != oldValue {
@@ -24,16 +44,35 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
         }
     }
     
+    
+    /// The image view for the cell.
     public var imageView: UIImageView { return borderedImageView.imageView }
     
+    
+    /// The title label. This should be used for details such as the driver's name,
+    /// vehicle's registration, etc.
     public let titleLabel = UILabel(frame: .zero)
     
+    
+    /// The subtitle label. This should be used for ancillery entity details.
     public let subtitleLabel = UILabel(frame: .zero)
     
-    public let detailLabel   = UILabel(frame: .zero)
     
-    public let sourceLabel   = SourceLabel(frame: .zero)
+    /// The detail label. This should be any secondary details.
+    public let detailLabel = UILabel(frame: .zero)
     
+    
+    /// The source label.
+    ///
+    /// This label is positioned over the image view's bottom left corner, and
+    /// indicates the data source the entity was fetched from.
+    public let sourceLabel = SourceLabel(frame: .zero)
+    
+    
+    /// The alert count for the entity.
+    ///
+    /// This configures a badge in the top left corner.
+    /// The badge color will match the alertColor, or gray.
     public var alertCount: UInt = 0 {
         didSet {
             if alertCount == oldValue { return }
@@ -43,11 +82,16 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
         }
     }
     
+    
+    /// The alert color for the entity.
+    ///
+    /// This color is used for the alert badge, and when non-`nil` applies a colored
+    /// border around the image.
     public var alertColor: UIColor? {
         didSet {
             if alertColor == oldValue { return }
             
-            badgeView.backgroundColor = alertColor
+            badgeView.backgroundColor = alertColor ?? .gray
             borderedImageView.borderColor = alertColor
         }
     }
@@ -71,8 +115,9 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
     }
     
     private func commonInit() {
-        let contentView = self.contentView
+        badgeView.backgroundColor = .gray
         
+        let contentView = self.contentView
         contentView.addSubview(detailLabel)
         contentView.addSubview(subtitleLabel)
         contentView.addSubview(titleLabel)
@@ -89,40 +134,45 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
         sourceLabel.removeObserver(self, forKeyPath: #keyPath(SourceLabel.text), context: &sourceLabelContext)
     }
     
-    open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if context == &sourceLabelContext {
-            setNeedsLayout()
-        } else {
-            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+}
+
+
+// MARK: - Sizing class methods
+/// Sizing class methods.
+extension EntityCollectionViewCell {
+    
+    public class func minimumContentWidth(forStyle style: Style) -> CGFloat {
+        switch style {
+        case .hero:     return 182.0
+        case .detail:   return 250.0
+        }
+    }
+    
+    public class func minimumContentHeight(forStyle style: Style, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
+        switch style {
+        case .hero:
+            let fontManager = FontManager.shared
+            let scale = UIScreen.main.scale
+            let heightOfFonts =  fontManager.font(withStyle: .headline,  compatibleWith: traitCollection).lineHeight.ceiled(toScale: scale) + fontManager.font(withStyle: .footnote1, compatibleWith: traitCollection).lineHeight.ceiled(toScale: scale) + fontManager.font(withStyle: .footnote2, compatibleWith: traitCollection).lineHeight.ceiled(toScale: scale)
+            return 173.0 + heightOfFonts
+        case .detail:
+            return 96.0
         }
     }
     
 }
 
+
+// MARK: - Overrides
+/// Overrides
 extension EntityCollectionViewCell {
     
-    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         applyFonts()
     }
     
-    fileprivate func applyFonts() {
-        let fontManager = FontManager.shared
-        let traitCollection = self.traitCollection
-        
-        titleLabel.font    = fontManager.font(withStyle: .headline,  compatibleWith: traitCollection)
-        subtitleLabel.font = fontManager.font(withStyle: .footnote1, compatibleWith: traitCollection)
-        detailLabel.font   = fontManager.font(withStyle: .footnote2, compatibleWith: traitCollection)
-        
-        setNeedsLayout()
-    }
-    
-}
-
-
-extension EntityCollectionViewCell {
-    
-    open override func layoutSubviews() {
+    public override func layoutSubviews() {
         super.layoutSubviews()
         
         let scale = (window?.screen ?? .main).scale
@@ -192,29 +242,30 @@ extension EntityCollectionViewCell {
                                    size: sourceLabelSize)
     }
     
-}
-
-
-
-extension EntityCollectionViewCell {
-    
-    public class func minimumContentWidth(forStyle style: Style) -> CGFloat {
-        switch style {
-        case .hero:     return 182.0
-        case .detail:   return 250.0
+    public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if context == &sourceLabelContext {
+            setNeedsLayout()
+        } else {
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
     }
     
-    public class func minimumContentHeight(forStyle style: Style, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
-        switch style {
-        case .hero:
-            let fontManager = FontManager.shared
-            let scale = UIScreen.main.scale
-            let heightOfFonts =  fontManager.font(withStyle: .headline,  compatibleWith: traitCollection).lineHeight.ceiled(toScale: scale) + fontManager.font(withStyle: .footnote1, compatibleWith: traitCollection).lineHeight.ceiled(toScale: scale) + fontManager.font(withStyle: .footnote2, compatibleWith: traitCollection).lineHeight.ceiled(toScale: scale)
-            return 173.0 + heightOfFonts
-        case .detail:
-            return 96.0
-        }
+}
+
+
+// MARK: - Private methods
+/// Private methods
+fileprivate extension EntityCollectionViewCell {
+    
+    fileprivate func applyFonts() {
+        let fontManager = FontManager.shared
+        let traitCollection = self.traitCollection
+        
+        titleLabel.font    = fontManager.font(withStyle: .headline,  compatibleWith: traitCollection)
+        subtitleLabel.font = fontManager.font(withStyle: .footnote1, compatibleWith: traitCollection)
+        detailLabel.font   = fontManager.font(withStyle: .footnote2, compatibleWith: traitCollection)
+        
+        setNeedsLayout()
     }
     
 }
