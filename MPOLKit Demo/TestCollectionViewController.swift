@@ -28,6 +28,7 @@ class TestCollectionViewController: UICollectionViewController, CollectionViewDe
         
         collectionView?.backgroundColor = .white
         collectionView?.register(EntityCollectionViewCell.self)
+        collectionView?.register(CollectionViewFormMPOLHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -38,6 +39,13 @@ class TestCollectionViewController: UICollectionViewController, CollectionViewDe
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 1
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, class: CollectionViewFormMPOLHeaderView.self, for: indexPath)
+        header.tintColor = Theme.current.colors[.SecondaryText]
+        return header
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -55,7 +63,7 @@ class TestCollectionViewController: UICollectionViewController, CollectionViewDe
     }
 
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
-        return 0.0
+        return 20.0
     }
     
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForFooterInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
@@ -75,4 +83,7 @@ class TestCollectionViewController: UICollectionViewController, CollectionViewDe
     }
     
     
+}
+
+extension UICollectionReusableView: DefaultReusable {
 }

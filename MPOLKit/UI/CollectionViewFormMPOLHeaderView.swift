@@ -12,7 +12,15 @@ public class CollectionViewFormMPOLHeaderView: UICollectionReusableView {
     
     // MARK: - Public properties
     
-    public let titleLabel: UILabel = UILabel(frame: .zero)
+    public var text: String? {
+        get { return titleLabel.text }
+        set { titleLabel.text = newValue; setNeedsLayout() }
+    }
+    
+    public override var tintColor: UIColor! {
+        get { return super.tintColor }
+        set { super.tintColor = newValue }
+    }
     
     public var separatorColor: UIColor? {
         get { return separatorView.backgroundColor }
@@ -27,25 +35,32 @@ public class CollectionViewFormMPOLHeaderView: UICollectionReusableView {
         }
     }
     
-    public var isExpanded: Bool {
-        get { return _isExpanded }
-        set { _isExpanded = newValue }
-    }
-    
-    public func setExpanded(_ expanded: Bool, animated: Bool) {
-        if _isExpanded == expanded { return }
-        
-        if animated {
-            UIView.animate(withDuration: 0.1) {
-                self._isExpanded = expanded
-            }
-        } else {
-            _isExpanded = expanded
+    public var isExpanded: Bool = false {
+        didSet {
+            if isExpanded == oldValue { return }
+            
+            // TODO: Adjust rotation transform
         }
     }
     
+    public func setExpanded(_ expanded: Bool, animated: Bool) {
+        if isExpanded == expanded { return }
+        
+        if animated {
+            UIView.animate(withDuration: 0.1) {
+                self.isExpanded = expanded
+            }
+        } else {
+            isExpanded = expanded
+        }
+    }
+    
+    public var tapHandler: ((CollectionViewFormMPOLHeaderView, IndexPath) -> (Void))?
+    
     
     // MARK: - Private properties
+    
+    fileprivate let titleLabel: UILabel = UILabel(frame: .zero)
     
     fileprivate let separatorView = UIView(frame: .zero)
     
@@ -59,13 +74,7 @@ public class CollectionViewFormMPOLHeaderView: UICollectionReusableView {
         didSet { if fabs(separatorWidth - oldValue) > 0.1 { setNeedsLayout() } }
     }
     
-    fileprivate var _isExpanded: Bool = false {
-        didSet {
-            if _isExpanded == oldValue { return }
-            
-            // TODO: Adjust rotation transform
-        }
-    }
+    fileprivate var indexPath: IndexPath?
     
     
     // MARK: - Initializers
@@ -85,10 +94,15 @@ public class CollectionViewFormMPOLHeaderView: UICollectionReusableView {
         addSubview(titleLabel)
         addSubview(arrowView)
         
+        titleLabel.text = "1 ACTIVE ALERT"
+        titleLabel.textColor = tintColor
+        titleLabel.font = .systemFont(ofSize: 11.0, weight: UIFontWeightBold)
+        
         preservesSuperviewLayoutMargins = false
         
         separatorView.backgroundColor = Theme.current.colors[.Separator]
-        updateFonts()
+        
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognizerDidRecognize)))
     }
     
 }
@@ -98,6 +112,8 @@ extension CollectionViewFormMPOLHeaderView {
     
     public override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
         super.apply(layoutAttributes)
+        
+        indexPath = layoutAttributes.indexPath
         
         if let attributes = layoutAttributes as? CollectionViewFormMPOLHeaderAttributes {
             separatorWidth = attributes.separatorWidth
@@ -112,26 +128,41 @@ extension CollectionViewFormMPOLHeaderView {
         setNeedsLayout()
     }
     
-    override public func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
-            updateFonts()
-        }
-    }
-    
     public override func layoutSubviews() {
         super.layoutSubviews()
         
-        // TODO: Layout subviews
+        let scale = (window?.screen ?? .main).scale
+        
+        var titleInset = layoutMargins.left
+        
+        if allowsExpanding {
+            titleInset += 15.0
+            
+            // TODO: Set up drop down view.
+        }
+        
+        let titleLabelSize = titleLabel.sizeThatFits(.zero)
+        let titleLabelFrame = CGRect(origin: CGPoint(x: titleInset, y: (itemPosition - (separatorWidth / 2.0) - (titleLabelSize.height / 2.0)).rounded(toScale: scale)), size: titleLabelSize)
+        
+        titleLabel.frame = titleLabelFrame
+        
+        separatorView.frame = CGRect(x: titleLabelFrame.maxX + 7.0, y: itemPosition - separatorWidth, width: bounds.size.width - titleLabelFrame.maxX - 7.0, height: separatorWidth)
+    }
+    
+    public override func tintColorDidChange() {
+        super.tintColorDidChange()
+        titleLabel.textColor = tintColor
     }
     
 }
 
+
 fileprivate extension CollectionViewFormMPOLHeaderView {
     
-    fileprivate func updateFonts() {
-        titleLabel.font = FontManager.shared.font(withStyle: .footnote2, compatibleWith: traitCollection)
-        setNeedsLayout()
+    @objc fileprivate func tapGestureRecognizerDidRecognize() {
+        if let indexPath = self.indexPath {
+            tapHandler?(self, indexPath)
+        }
     }
     
 }

@@ -394,7 +394,12 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
                         headerAttribute = CollectionViewFormMPOLHeaderAttributes(forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, with: sectionIndexPath)
                         headerAttribute.zIndex = 1
                     }
-                    headerAttribute.leadingMargin = headerRect.2.left
+                    var sectionInset = headerRect.2.left
+                    if sectionInset.isZero {
+                       sectionInset = itemLayoutMargins.left
+                    }
+                    
+                    headerAttribute.leadingMargin = sectionInset
                     headerAttribute.separatorWidth = separatorWidth
                     
                     let wantsInsetSectionHeader = (delegate as? CollectionViewDelegateMPOLLayout)?.collectionView?(collectionView, layout: self, wantsInsetHeaderInSection: sectionIndexPath.section) ?? defaultWantsSectionHeaderInsets
