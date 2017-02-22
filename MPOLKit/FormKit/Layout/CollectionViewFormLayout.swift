@@ -382,36 +382,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         let currentContentWidth = fabs(_lastLaidOutWidth ?? 0.0)
         let newWidth = fabs(newBounds.size.width)
         
-        // Don't perform an update if there is no width, or if there is no content.
-        if newWidth == currentContentWidth || (sectionRects.last?.maxY.isZero ?? true) { return false }
-
-        if UIView.areAnimationsEnabled {
-            let animationDuration = UIView.inheritedAnimationDuration
-            if animationDuration.isZero { return true }
-            
-            DispatchQueue.main.async {
-                var firstCellIndexPath: IndexPath? = nil
-                
-                if let attributes = self.layoutAttributesForElements(in: collectionView.bounds) {
-                    for attribute in attributes {
-                        if attribute.representedElementCategory != .cell { continue }
-                        firstCellIndexPath = attribute.indexPath
-                        break
-                    }
-                }
-                
-                self.invalidateLayout()
-                
-                if let firstIP = firstCellIndexPath {                    
-                    collectionView.scrollToItem(at: firstIP, at: [], animated: false)
-                }
-                
-                UIView.transition(with: collectionView, duration: animationDuration, options: [.transitionCrossDissolve, .layoutSubviews, (newWidth > currentContentWidth ? .curveEaseOut : .curveEaseIn)], animations: nil)
-            }
-            return false
-        } else {
-            return true
-        }
+        return newWidth != currentContentWidth && (sectionRects.last?.maxY.isZero ?? true) == false
     }
     
     

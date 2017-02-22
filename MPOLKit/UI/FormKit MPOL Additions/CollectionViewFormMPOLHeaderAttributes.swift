@@ -16,7 +16,11 @@ import UIKit
 public class CollectionViewFormMPOLHeaderAttributes: UICollectionViewLayoutAttributes {
     
     /// The position of the item below within the y-axis of the header's frame.
-    public var itemPosition: CGFloat = 0.0
+    public var itemPosition: CGFloat   = 0.0
+    
+    public var separatorWidth: CGFloat = 0.0
+    
+    public var leadingMargin: CGFloat  = 0.0
     
 }
 
@@ -29,8 +33,10 @@ extension CollectionViewFormMPOLHeaderAttributes {
     }
     
     public override func isEqual(_ object: Any?) -> Bool {
-        guard let comparedAttribute = object as? CollectionViewFormMPOLHeaderAttributes else { return false }
-        if fabs(itemPosition - comparedAttribute.itemPosition) > 1e-15   { return false }
+        guard let comparedAttribute = object as? CollectionViewFormMPOLHeaderAttributes,
+              itemPosition   ==~ comparedAttribute.itemPosition,
+              separatorWidth ==~ comparedAttribute.separatorWidth,
+              leadingMargin  ==~ comparedAttribute.leadingMargin else { return false }
         return super.isEqual(comparedAttribute)
     }
     

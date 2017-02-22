@@ -16,6 +16,7 @@
 		BC2FA2F41E54026700E2D0D1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BC2FA2F21E54026700E2D0D1 /* LaunchScreen.storyboard */; };
 		BC2FA2F91E54026D00E2D0D1 /* MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC2FA2C91E54023E00E2D0D1 /* MPOLKit.framework */; };
 		BC2FA2FA1E54026D00E2D0D1 /* MPOLKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BC2FA2C91E54023E00E2D0D1 /* MPOLKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BC36ABE81E5D28310052C4C5 /* CollectionViewFormMPOLHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC36ABE71E5D28310052C4C5 /* CollectionViewFormMPOLHeaderView.swift */; };
 		BC691B2A1E5403B200EC3A20 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC691B291E5403B200EC3A20 /* Assets.xcassets */; };
 		BC691B441E54041200EC3A20 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC691B341E54041200EC3A20 /* UIColor+Hex.swift */; };
 		BC691B481E54041200EC3A20 /* PushableSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC691B381E54041200EC3A20 /* PushableSplitViewController.swift */; };
@@ -64,6 +65,7 @@
 		BCD35CA31E5A6D6C001B40A1 /* EntityCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD35CA21E5A6D6C001B40A1 /* EntityCollectionViewCell.swift */; };
 		BCD35CA51E5A75D4001B40A1 /* FontManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD35CA41E5A75D4001B40A1 /* FontManager.swift */; };
 		BCD35CA71E5AA472001B40A1 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD35CA61E5AA472001B40A1 /* BadgeView.swift */; };
+		BCEB664A1E5D45D00001138B /* CoreGraphics+Equality.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEB66491E5D45D00001138B /* CoreGraphics+Equality.swift */; };
 		BCEBA1961E5BC1E900FD404D /* SourceLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEBA1951E5BC1E900FD404D /* SourceLabel.swift */; };
 		BCFD25571E5C03BE00EC2566 /* CollectionViewFormMPOLHeaderAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFD25551E5C03BE00EC2566 /* CollectionViewFormMPOLHeaderAttributes.swift */; };
 		BCFD25581E5C03BE00EC2566 /* CollectionViewFormMPOLLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFD25561E5C03BE00EC2566 /* CollectionViewFormMPOLLayout.swift */; };
@@ -113,6 +115,7 @@
 		BC2FA2F01E54026700E2D0D1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BC2FA2F31E54026700E2D0D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BC2FA2F51E54026700E2D0D1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BC36ABE71E5D28310052C4C5 /* CollectionViewFormMPOLHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormMPOLHeaderView.swift; sourceTree = "<group>"; };
 		BC691B291E5403B200EC3A20 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BC691B341E54041200EC3A20 /* UIColor+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
 		BC691B381E54041200EC3A20 /* PushableSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushableSplitViewController.swift; sourceTree = "<group>"; };
@@ -161,6 +164,7 @@
 		BCD35CA21E5A6D6C001B40A1 /* EntityCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityCollectionViewCell.swift; sourceTree = "<group>"; };
 		BCD35CA41E5A75D4001B40A1 /* FontManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontManager.swift; sourceTree = "<group>"; };
 		BCD35CA61E5AA472001B40A1 /* BadgeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
+		BCEB66491E5D45D00001138B /* CoreGraphics+Equality.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CoreGraphics+Equality.swift"; sourceTree = "<group>"; };
 		BCEBA1951E5BC1E900FD404D /* SourceLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceLabel.swift; sourceTree = "<group>"; };
 		BCFD25551E5C03BE00EC2566 /* CollectionViewFormMPOLHeaderAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CollectionViewFormMPOLHeaderAttributes.swift; path = "FormKit MPOL Additions/CollectionViewFormMPOLHeaderAttributes.swift"; sourceTree = "<group>"; };
 		BCFD25561E5C03BE00EC2566 /* CollectionViewFormMPOLLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CollectionViewFormMPOLLayout.swift; path = "FormKit MPOL Additions/CollectionViewFormMPOLLayout.swift"; sourceTree = "<group>"; };
@@ -320,6 +324,7 @@
 		BC712E5D1E5535B800BD5DAE /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				BCEB66491E5D45D00001138B /* CoreGraphics+Equality.swift */,
 				BC712E5E1E5535B800BD5DAE /* CoreGraphics+Rounding.swift */,
 				BC712E5F1E5535B800BD5DAE /* NSLayoutConstraint+Conveniences.swift */,
 				BC71509F1E56828A0093F958 /* UICollectionView+DefaultReuse.swift */,
@@ -387,6 +392,7 @@
 			children = (
 				BCFD25561E5C03BE00EC2566 /* CollectionViewFormMPOLLayout.swift */,
 				BCFD25551E5C03BE00EC2566 /* CollectionViewFormMPOLHeaderAttributes.swift */,
+				BC36ABE71E5D28310052C4C5 /* CollectionViewFormMPOLHeaderView.swift */,
 			);
 			name = "FormKit MPOL Additions";
 			sourceTree = "<group>";
@@ -558,6 +564,7 @@
 				BC712E7C1E5535B800BD5DAE /* UIColor+ActionColors.swift in Sources */,
 				BCFD25581E5C03BE00EC2566 /* CollectionViewFormMPOLLayout.swift in Sources */,
 				BC691B4D1E54041200EC3A20 /* SidebarTableViewCell.swift in Sources */,
+				BCEB664A1E5D45D00001138B /* CoreGraphics+Equality.swift in Sources */,
 				BC691B4C1E54041200EC3A20 /* SidebarSplitViewController.swift in Sources */,
 				BC712E7B1E5535B800BD5DAE /* NSLayoutConstraint+Conveniences.swift in Sources */,
 				BC2152141E5950D500193086 /* CollectionViewFormBoxedLayout.swift in Sources */,
@@ -581,6 +588,7 @@
 				BCD35CA11E5A49B0001B40A1 /* DefaultReusable.swift in Sources */,
 				BC691B4F1E54041200EC3A20 /* SourceTableViewCell.swift in Sources */,
 				BC691B481E54041200EC3A20 /* PushableSplitViewController.swift in Sources */,
+				BC36ABE81E5D28310052C4C5 /* CollectionViewFormMPOLHeaderView.swift in Sources */,
 				BCEBA1961E5BC1E900FD404D /* SourceLabel.swift in Sources */,
 				BCD35CA71E5AA472001B40A1 /* BadgeView.swift in Sources */,
 				BC691B501E54041200EC3A20 /* Theme.swift in Sources */,

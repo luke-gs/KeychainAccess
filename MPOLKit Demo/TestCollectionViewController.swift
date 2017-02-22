@@ -29,6 +29,11 @@ class TestCollectionViewController: UICollectionViewController, CollectionViewDe
         collectionView?.backgroundColor = .white
         collectionView?.register(EntityCollectionViewCell.self)
     }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        collectionView?.collectionViewLayout.invalidateLayout()
+    }
 
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -38,7 +43,6 @@ class TestCollectionViewController: UICollectionViewController, CollectionViewDe
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(of: EntityCollectionViewCell.self, for: indexPath)
         
-        cell.style              = .detail
         cell.imageView.image    = #imageLiteral(resourceName: "Avatar 1")
         cell.titleLabel.text    = "Frost, Deacon H."
         cell.subtitleLabel.text = "27/10/1987 (33 Male)"
@@ -63,11 +67,11 @@ class TestCollectionViewController: UICollectionViewController, CollectionViewDe
     }
     
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, givenSectionWidth sectionWidth: CGFloat, edgeInsets: UIEdgeInsets) -> CGFloat {
-        return EntityCollectionViewCell.minimumContentWidth(forStyle: .detail) + 50.0
+        return EntityCollectionViewCell.minimumContentWidth(forStyle: .hero)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
-        return EntityCollectionViewCell.minimumContentHeight(forStyle: .detail, compatibleWith: traitCollection)
+        return EntityCollectionViewCell.minimumContentHeight(forStyle: .hero, compatibleWith: traitCollection)
     }
     
     
