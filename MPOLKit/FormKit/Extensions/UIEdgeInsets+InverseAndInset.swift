@@ -1,6 +1,6 @@
 //
 //  UIEdgeInsets+InverseAndInset.swift
-//  VCom
+//  MPOLKit/FormKit
 //
 //  Created by Rod Brown on 4/06/2016.
 //  Copyright © 2016 Gridstone. All rights reserved.

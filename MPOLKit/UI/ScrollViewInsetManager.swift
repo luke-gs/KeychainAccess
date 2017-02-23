@@ -1,6 +1,6 @@
 //
 //  ScrollViewInsetManager.swift
-//  vCom
+//  MPOLKit
 //
 //  Created by Rod Brown on 12/02/2017.
 //  Copyright © 2017 Gridstone. All rights reserved.

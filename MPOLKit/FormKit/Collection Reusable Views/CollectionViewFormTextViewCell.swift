@@ -1,6 +1,6 @@
 //
 //  CollectionViewFormTextViewCell.swift
-//  VCom
+//  MPOLKit/FormKit
 //
 //  Created by Rod Brown on 11/07/2016.
 //  Copyright © 2016 Gridstone. All rights reserved.
