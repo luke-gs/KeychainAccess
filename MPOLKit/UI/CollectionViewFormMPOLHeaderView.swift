@@ -125,6 +125,8 @@ public class CollectionViewFormMPOLHeaderView: UICollectionReusableView {
         arrowView.transform = CGAffineTransform(rotationAngle: -0.5 * CGFloat.pi)
         arrowView.isHidden = true
         
+        preservesSuperviewLayoutMargins = false
+        
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognizerDidRecognize)))
     }
     
