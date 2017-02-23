@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6DAAAFE91E5E771A000E57A9 /* EntityCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAAAFE81E5E771A000E57A9 /* EntityCollectionViewCell.swift */; };
+		6DAAAFED1E5E7B10000E57A9 /* UILabel+ContentObserving.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAAAFEC1E5E7B10000E57A9 /* UILabel+ContentObserving.swift */; };
 		BC2152141E5950D500193086 /* CollectionViewFormBoxedLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2152131E5950D500193086 /* CollectionViewFormBoxedLayout.swift */; };
 		BC2FA2D31E54023E00E2D0D1 /* MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC2FA2C91E54023E00E2D0D1 /* MPOLKit.framework */; };
 		BC2FA2D81E54023E00E2D0D1 /* MPOLKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2FA2D71E54023E00E2D0D1 /* MPOLKitTests.swift */; };
@@ -62,8 +64,6 @@
 		BCA68EB21E5AFC5B00CDEF13 /* BorderedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA68EB11E5AFC5B00CDEF13 /* BorderedImageView.swift */; };
 		BCA68EB41E5B0A4A00CDEF13 /* TestCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA68EB31E5B0A4A00CDEF13 /* TestCollectionViewController.swift */; };
 		BCD35CA11E5A49B0001B40A1 /* DefaultReusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD35CA01E5A49B0001B40A1 /* DefaultReusable.swift */; };
-		BCD35CA31E5A6D6C001B40A1 /* EntityCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD35CA21E5A6D6C001B40A1 /* EntityCollectionViewCell.swift */; };
-		BCD35CA51E5A75D4001B40A1 /* FontManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD35CA41E5A75D4001B40A1 /* FontManager.swift */; };
 		BCD35CA71E5AA472001B40A1 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD35CA61E5AA472001B40A1 /* BadgeView.swift */; };
 		BCEB664A1E5D45D00001138B /* CoreGraphics+Equality.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEB66491E5D45D00001138B /* CoreGraphics+Equality.swift */; };
 		BCEBA1961E5BC1E900FD404D /* SourceLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEBA1951E5BC1E900FD404D /* SourceLabel.swift */; };
@@ -103,6 +103,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6DAAAFE81E5E771A000E57A9 /* EntityCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EntityCollectionViewCell.swift; path = Cells/EntityCollectionViewCell.swift; sourceTree = "<group>"; };
+		6DAAAFEC1E5E7B10000E57A9 /* UILabel+ContentObserving.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+ContentObserving.swift"; sourceTree = "<group>"; };
 		BC2152131E5950D500193086 /* CollectionViewFormBoxedLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormBoxedLayout.swift; sourceTree = "<group>"; };
 		BC2FA2C91E54023E00E2D0D1 /* MPOLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MPOLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC2FA2CC1E54023E00E2D0D1 /* MPOLKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPOLKit.h; sourceTree = "<group>"; };
@@ -161,8 +163,6 @@
 		BCA68EB11E5AFC5B00CDEF13 /* BorderedImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderedImageView.swift; sourceTree = "<group>"; };
 		BCA68EB31E5B0A4A00CDEF13 /* TestCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestCollectionViewController.swift; sourceTree = "<group>"; };
 		BCD35CA01E5A49B0001B40A1 /* DefaultReusable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DefaultReusable.swift; path = Protocols/DefaultReusable.swift; sourceTree = "<group>"; };
-		BCD35CA21E5A6D6C001B40A1 /* EntityCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityCollectionViewCell.swift; sourceTree = "<group>"; };
-		BCD35CA41E5A75D4001B40A1 /* FontManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontManager.swift; sourceTree = "<group>"; };
 		BCD35CA61E5AA472001B40A1 /* BadgeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
 		BCEB66491E5D45D00001138B /* CoreGraphics+Equality.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CoreGraphics+Equality.swift"; sourceTree = "<group>"; };
 		BCEBA1951E5BC1E900FD404D /* SourceLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceLabel.swift; sourceTree = "<group>"; };
@@ -197,6 +197,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6DAAAFE71E5E76F8000E57A9 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				6DAAAFE81E5E771A000E57A9 /* EntityCollectionViewCell.swift */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
 		BC2FA2BF1E54023E00E2D0D1 = {
 			isa = PBXGroup;
 			children = (
@@ -258,8 +266,7 @@
 			children = (
 				BCD35CA61E5AA472001B40A1 /* BadgeView.swift */,
 				BCA68EB11E5AFC5B00CDEF13 /* BorderedImageView.swift */,
-				BCD35CA21E5A6D6C001B40A1 /* EntityCollectionViewCell.swift */,
-				BCD35CA41E5A75D4001B40A1 /* FontManager.swift */,
+				6DAAAFE71E5E76F8000E57A9 /* Cells */,
 				BCFD25541E5C03A800EC2566 /* FormKit MPOL Additions */,
 				BC691B381E54041200EC3A20 /* PushableSplitViewController.swift */,
 				BC691B391E54041200EC3A20 /* ScrollViewInsetManager.swift */,
@@ -331,6 +338,7 @@
 				BC712E601E5535B800BD5DAE /* UIColor+ActionColors.swift */,
 				BC712E611E5535B800BD5DAE /* UIEdgeInsets+InverseAndInset.swift */,
 				BC712E621E5535B800BD5DAE /* UIImage+FormKitDefaults.swift */,
+				6DAAAFEC1E5E7B10000E57A9 /* UILabel+ContentObserving.swift */,
 				BC712E631E5535B800BD5DAE /* UIScreen+SinglePixel.swift */,
 				BC7150A01E56828A0093F958 /* UITableView+DefaultReuse.swift */,
 				BC7150A11E56828A0093F958 /* UITableViewCell+LayoutMargins.swift */,
@@ -559,7 +567,6 @@
 				BC712E751E5535B800BD5DAE /* CollectionViewFormEditAction.swift in Sources */,
 				BC712E741E5535B800BD5DAE /* CollectionViewFormDecorationView.swift in Sources */,
 				BC712E821E5535B800BD5DAE /* TableViewFormCell.swift in Sources */,
-				BCD35CA31E5A6D6C001B40A1 /* EntityCollectionViewCell.swift in Sources */,
 				BC712E761E5535B800BD5DAE /* CollectionViewFormRadioButtonCell.swift in Sources */,
 				BC712E7C1E5535B800BD5DAE /* UIColor+ActionColors.swift in Sources */,
 				BCFD25581E5C03BE00EC2566 /* CollectionViewFormMPOLLayout.swift in Sources */,
@@ -577,8 +584,8 @@
 				BC712E8A1E5535B800BD5DAE /* SelectableButton.swift in Sources */,
 				BC712E841E5535B800BD5DAE /* TableViewFormSubtitleCell.swift in Sources */,
 				BC691B4B1E54041200EC3A20 /* SidebarSourceItem.swift in Sources */,
+				6DAAAFED1E5E7B10000E57A9 /* UILabel+ContentObserving.swift in Sources */,
 				BC7150A31E56828A0093F958 /* UICollectionView+DefaultReuse.swift in Sources */,
-				BCD35CA51E5A75D4001B40A1 /* FontManager.swift in Sources */,
 				BC712E721E5535B800BD5DAE /* CollectionViewFormCell.swift in Sources */,
 				BCA68EB21E5AFC5B00CDEF13 /* BorderedImageView.swift in Sources */,
 				BC712E801E5535B800BD5DAE /* CollectionViewFormAttributes.swift in Sources */,
@@ -596,6 +603,7 @@
 				BC712E7E1E5535B800BD5DAE /* UIImage+FormKitDefaults.swift in Sources */,
 				BC691B4E1E54041200EC3A20 /* SidebarViewController.swift in Sources */,
 				BC691B491E54041200EC3A20 /* ScrollViewInsetManager.swift in Sources */,
+				6DAAAFE91E5E771A000E57A9 /* EntityCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

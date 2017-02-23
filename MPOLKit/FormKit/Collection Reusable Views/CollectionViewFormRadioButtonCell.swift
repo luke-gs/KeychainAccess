@@ -55,25 +55,18 @@ open class CollectionViewFormRadioButtonCell: CollectionViewFormCell {
     }
     
     private func commonInit() {
-        func addObserver(for label: UILabel) {
-            label.addObserver(self, forKeyPath: #keyPath(UILabel.text), options: [], context: &textContext)
-            label.addObserver(self, forKeyPath: #keyPath(UILabel.font), options: [], context: &textContext)
-            label.addObserver(self, forKeyPath: #keyPath(UILabel.attributedText), options: [], context: &textContext)
-            label.addObserver(self, forKeyPath: #keyPath(UILabel.numberOfLines),  options: [], context: &textContext)
-        }
         
         let contentView = self.contentView
         
         titleLabel.font               = .systemFont(ofSize: 14.5, weight: UIFontWeightSemibold)
         titleLabel.lineBreakMode      = .byTruncatingTail
         titleLabel.minimumScaleFactor = 0.9
+        titleLabel.addObserverForContentSizeKeys(self, context: &textContext)
         
         textLabel.font               = .systemFont(ofSize: 14.5, weight: UIFontWeightSemibold)
         textLabel.lineBreakMode      = .byTruncatingTail
         textLabel.minimumScaleFactor = 0.9
-        
-        addObserver(for: titleLabel)
-        addObserver(for: textLabel)
+        textLabel.addObserverForContentSizeKeys(self, context: &textContext)
         
         contentView.addSubview(titleLabel)
         contentView.addSubview(textLabel)
@@ -83,16 +76,9 @@ open class CollectionViewFormRadioButtonCell: CollectionViewFormCell {
         updateImageTint()
     }
     
-    deinit {
-        func removeObserver(for label: UILabel) {
-            label.removeObserver(self, forKeyPath: #keyPath(UILabel.text), context: &textContext)
-            label.removeObserver(self, forKeyPath: #keyPath(UILabel.font), context: &textContext)
-            label.removeObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &textContext)
-            label.removeObserver(self, forKeyPath: #keyPath(UILabel.numberOfLines),  context: &textContext)
-        }
-        
-        removeObserver(for: textLabel)
-        removeObserver(for: titleLabel)
+    deinit {        
+        titleLabel.removeObserverForContentSizeKeys(self, context: &textContext)
+        textLabel.removeObserverForContentSizeKeys(self, context: &textContext)
     }
 }
 

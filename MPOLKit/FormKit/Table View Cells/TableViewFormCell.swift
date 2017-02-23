@@ -44,6 +44,10 @@ open class TableViewFormCell: UITableViewCell {
         minimumHeightConstraint = NSLayoutConstraint(item: contentView, attribute: .bottomMargin, relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .topMargin, constant: 23.0, priority: UILayoutPriorityDefaultHigh)
         minimumHeightConstraint.isActive = true
     }
+    
+    open dynamic func applyStandardFonts() {
+    }
+    
 }
 
 extension TableViewFormCell: DefaultReusable {

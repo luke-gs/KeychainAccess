@@ -21,6 +21,7 @@ import UIKit.UIGestureRecognizerSubclass
 /// `systemLayoutSizeFitting(_:)`. Users should note that `CollectionViewFormLayout` does not support self-sizing cells.
 open class CollectionViewFormCell: UICollectionViewCell {
     
+    
     // MARK: - Public properties
     
     /// The edit actions for the cell.
@@ -242,12 +243,27 @@ extension CollectionViewFormCell: DefaultReusable {
 }
 
 
+extension CollectionViewFormCell {
+    
+    open func applyStandardFonts() {}
+    
+}
+
+
+
 /********** Overrides **********/
 
 extension CollectionViewFormCell {
     
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
+            setNeedsLayout()
+        }
+    }
+    
     open class override func automaticallyNotifiesObservers(forKey key: String) -> Bool {
-        if key == "showingEditActions" {
+        if key == #keyPath(CollectionViewFormCell.isShowingEditActions) {
             return false
         } else {
             return super.automaticallyNotifiesObservers(forKey: key)

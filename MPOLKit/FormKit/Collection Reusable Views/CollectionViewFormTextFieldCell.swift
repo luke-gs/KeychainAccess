@@ -64,18 +64,12 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
         contentView.addSubview(titleLabel)
         contentView.addSubview(textField)
         
-        titleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.text), options: [], context: &textContext)
-        titleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.font), options: [], context: &textContext)
-        titleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.attributedText), options: [], context: &textContext)
-        titleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.numberOfLines),  options: [], context: &textContext)
+        titleLabel.addObserverForContentSizeKeys(self, context: &textContext)
         textField.addObserver(self, forKeyPath: #keyPath(UITextField.font), options: [], context: &textContext)
     }
     
     deinit {
-        titleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.text), context: &textContext)
-        titleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.font), context: &textContext)
-        titleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &textContext)
-        titleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.numberOfLines), context: &textContext)
+        titleLabel.removeObserverForContentSizeKeys(self, context: &textContext)
         textField.removeObserver(self, forKeyPath: #keyPath(UITextField.font), context: &textContext)
     }
     

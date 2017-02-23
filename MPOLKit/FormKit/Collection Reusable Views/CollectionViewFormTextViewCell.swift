@@ -99,10 +99,7 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
             NSLayoutConstraint(item: placeholderLabel, attribute: .bottom, relatedBy: .lessThanOrEqual, toItem: textView, attribute: .bottom)
         ])
         
-        titleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.text), options: [], context: &titleContext)
-        titleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.font), options: [], context: &titleContext)
-        titleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.attributedText), options: [], context: &titleContext)
-        titleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.numberOfLines),  options: [], context: &titleContext)
+        titleLabel.addObserverForContentSizeKeys(self, context: &titleContext)
         textView.addObserver(self, forKeyPath: #keyPath(UITextView.font), options: [], context: &textViewFontContext)
         textView.addObserver(self, forKeyPath: #keyPath(UITextView.text), options: [], context: &textViewTextContext)
         
@@ -110,10 +107,7 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
     }
     
     deinit {
-        titleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.text), context: &titleContext)
-        titleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.font), context: &titleContext)
-        titleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &titleContext)
-        titleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.numberOfLines),  context: &titleContext)
+        titleLabel.removeObserverForContentSizeKeys(self, context: &titleContext)
         textView.removeObserver(self, forKeyPath: #keyPath(UITextView.font), context: &textViewFontContext)
         textView.removeObserver(self, forKeyPath: #keyPath(UITextView.text), context: &textViewTextContext)
     }

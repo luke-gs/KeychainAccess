@@ -8,7 +8,7 @@
 
 import UIKit
 
-fileprivate var sourceLabelContext = 1
+fileprivate var labelContentContext = 1
 
 open class EntityCollectionViewCell: CollectionViewFormCell {
     
@@ -73,6 +73,18 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
     private func commonInit() {
         let contentView = self.contentView
         
+        let traitCollection = self.traitCollection
+        
+        titleLabel.font = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+        
+        let footnoteFont = UIFont.preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
+        subtitleLabel.font = footnoteFont
+        detailLabel.font   = footnoteFont
+        
+        titleLabel.adjustsFontForContentSizeCategory = true
+        subtitleLabel.adjustsFontForContentSizeCategory = true
+        detailLabel.adjustsFontForContentSizeCategory = true
+        
         contentView.addSubview(detailLabel)
         contentView.addSubview(subtitleLabel)
         contentView.addSubview(titleLabel)
@@ -80,41 +92,11 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
         contentView.addSubview(badgeView)
         contentView.addSubview(sourceLabel)
         
-        sourceLabel.addObserver(self, forKeyPath: #keyPath(SourceLabel.text), options: [], context: &sourceLabelContext)
-        
-        applyFonts()
+        sourceLabel.addObserverForContentSizeKeys(self, context: &labelContentContext)
     }
     
     deinit {
-        sourceLabel.removeObserver(self, forKeyPath: #keyPath(SourceLabel.text), context: &sourceLabelContext)
-    }
-    
-    open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if context == &sourceLabelContext {
-            setNeedsLayout()
-        } else {
-            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-        }
-    }
-    
-}
-
-extension EntityCollectionViewCell {
-    
-    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        applyFonts()
-    }
-    
-    fileprivate func applyFonts() {
-        let fontManager = FontManager.shared
-        let traitCollection = self.traitCollection
-        
-        titleLabel.font    = fontManager.font(withStyle: .headline,  compatibleWith: traitCollection)
-        subtitleLabel.font = fontManager.font(withStyle: .footnote1, compatibleWith: traitCollection)
-        detailLabel.font   = fontManager.font(withStyle: .footnote2, compatibleWith: traitCollection)
-        
-        setNeedsLayout()
+        sourceLabel.removeObserverForContentSizeKeys(self, context: &labelContentContext)
     }
     
 }
@@ -192,6 +174,14 @@ extension EntityCollectionViewCell {
                                    size: sourceLabelSize)
     }
     
+    open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if context == &labelContentContext {
+            setNeedsLayout()
+        } else {
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+        }
+    }
+    
 }
 
 
@@ -208,9 +198,8 @@ extension EntityCollectionViewCell {
     public class func minimumContentHeight(forStyle style: Style, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
         switch style {
         case .hero:
-            let fontManager = FontManager.shared
             let scale = UIScreen.main.scale
-            let heightOfFonts =  fontManager.font(withStyle: .headline,  compatibleWith: traitCollection).lineHeight.ceiled(toScale: scale) + fontManager.font(withStyle: .footnote1, compatibleWith: traitCollection).lineHeight.ceiled(toScale: scale) + fontManager.font(withStyle: .footnote2, compatibleWith: traitCollection).lineHeight.ceiled(toScale: scale)
+            let heightOfFonts = UIFont.preferredFont(forTextStyle: .headline, compatibleWith: traitCollection).lineHeight.ceiled(toScale: scale) + (UIFont.preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection).lineHeight.ceiled(toScale: scale) * 2.0)
             return 173.0 + heightOfFonts
         case .detail:
             return 96.0

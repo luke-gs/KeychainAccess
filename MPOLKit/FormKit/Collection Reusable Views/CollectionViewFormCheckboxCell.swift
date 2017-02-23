@@ -59,10 +59,7 @@ open class CollectionViewFormCheckboxCell: CollectionViewFormCell {
         textLabel.lineBreakMode      = .byTruncatingTail
         textLabel.minimumScaleFactor = 0.9
         
-        textLabel.addObserver(self, forKeyPath: #keyPath(UILabel.text), options: [], context: &textContext)
-        textLabel.addObserver(self, forKeyPath: #keyPath(UILabel.font), options: [], context: &textContext)
-        textLabel.addObserver(self, forKeyPath: #keyPath(UILabel.attributedText), options: [], context: &textContext)
-        textLabel.addObserver(self, forKeyPath: #keyPath(UILabel.numberOfLines),  options: [], context: &textContext)
+        textLabel.addObserverForContentSizeKeys(self, context: &textContext)
         
         contentView.addSubview(textLabel)
         contentView.addSubview(imageView)
@@ -71,10 +68,7 @@ open class CollectionViewFormCheckboxCell: CollectionViewFormCell {
     }
     
     deinit {
-        textLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.text), context: &textContext)
-        textLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.font), context: &textContext)
-        textLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &textContext)
-        textLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.numberOfLines),  context: &textContext)
+        textLabel.removeObserverForContentSizeKeys(self, context: &textContext)
     }
 }
 

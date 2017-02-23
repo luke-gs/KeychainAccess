@@ -34,18 +34,27 @@ open class TableViewFormSubtitleCell: TableViewFormCell {
         return super.detailTextLabel!
     }
     
+    /// The font emphasis for the cell. The default is `.title`.
+    open var emphasis: CollectionViewFormSubtitleCell.Emphasis = .title {
+        didSet { applyStandardFonts() }
+    }
+    
+    
     /// The label layout guide.
     /// This guide is responsible for the content rect of the labels as a group, and is accessible
     /// to allow adjustment of the vertical constraint. This is private and not accessible to users.
     fileprivate let labelLayoutGuide: UILayoutGuide = UILayoutGuide()
     
+    
     /// The current label vertical constraints. This is private and not accessible to users.
     fileprivate var labelConstraints: [NSLayoutConstraint]?
+    
     
     /// The label state for the cell.
     /// This is a helper tracker internally to help limit the occasions where updating label text will
     /// cause a constraint update.
     fileprivate var labelState: LabelState = .none
+    
     
     /// Initializes the cell with a reuse identifier.
     /// TableViewFormSubtitleCell does not utilize the `style` parameter, instead always using `Subtitle`.
@@ -57,11 +66,11 @@ open class TableViewFormSubtitleCell: TableViewFormCell {
         let textLabel       = self.textLabel
         let detailLabel     = self.detailTextLabel
         
-        textLabel.font       = CollectionViewFormSubtitleCell.fonts.0
-        detailLabel.font     = CollectionViewFormSubtitleCell.fonts.1
-        
         textLabel.translatesAutoresizingMaskIntoConstraints   = false
         detailLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        textLabel.adjustsFontForContentSizeCategory   = true
+        detailLabel.adjustsFontForContentSizeCategory = true
         
         textLabel.addObserver(self,   forKeyPath: #keyPath(UILabel.text),           options: [], context: &kvoContext)
         textLabel.addObserver(self,   forKeyPath: #keyPath(UILabel.attributedText), options: [], context: &kvoContext)
@@ -76,7 +85,7 @@ open class TableViewFormSubtitleCell: TableViewFormCell {
             NSLayoutConstraint(item: labelLayoutGuide, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerYWithinMargins),
             NSLayoutConstraint(item: labelLayoutGuide, attribute: .top, relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .topMargin),
             NSLayoutConstraint(item: labelLayoutGuide, attribute: .bottom, relatedBy: .lessThanOrEqual, toItem: contentView, attribute: .bottomMargin),
-            ])
+        ])
     }
     
     /// TableViewFormSubtitleCell does not support NSCoding.
@@ -156,6 +165,14 @@ extension TableViewFormSubtitleCell {
         
         super.updateConstraints()
     }
+    
+    open override func applyStandardFonts() {
+        super.applyStandardFonts()
+        
+        let traitCollection = self.traitCollection
+        textLabel.font       = CollectionViewFormSubtitleCell.font(withEmphasis: emphasis == .title,  compatibleWith: traitCollection)
+        detailTextLabel.font = CollectionViewFormSubtitleCell.font(withEmphasis: emphasis == .detail, compatibleWith: traitCollection)
+    }
 }
 
 fileprivate extension TableViewFormSubtitleCell {
@@ -191,4 +208,6 @@ fileprivate extension TableViewFormSubtitleCell {
             setNeedsUpdateConstraints()
         }
     }
+    
 }
+
