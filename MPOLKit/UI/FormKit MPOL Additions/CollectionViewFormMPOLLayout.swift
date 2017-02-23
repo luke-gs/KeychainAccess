@@ -422,7 +422,6 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
                 }
             }
             
-            currentYOffset += separatorVerticalSpacing
             let startOfItems = currentYOffset
             
             // Put each of the section item columns in place.
