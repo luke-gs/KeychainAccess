@@ -131,6 +131,15 @@ public class CollectionViewFormMPOLHeaderView: UICollectionReusableView {
 }
 
 
+// MARK: - Sizing
+/// Sizing
+extension CollectionViewFormMPOLHeaderView {
+    
+    public static let minimumHeight: CGFloat = 20.0
+    
+}
+
+
 // MARK: - Overrides
 /// Overrides
 extension CollectionViewFormMPOLHeaderView {
