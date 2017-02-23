@@ -362,6 +362,9 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
         let defaultWantsSectionHeaderInsets = wantsInsetHeaders
         
         for sectionGroup: [(Int, (x: CGFloat, width: CGFloat))] in sectionGroups {
+            
+            var sectionIndentAdded: Bool = false
+            
             // process each section group
             let startOfHeaders = currentYOffset
             
@@ -404,6 +407,11 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
                     
                     let wantsInsetSectionHeader = (delegate as? CollectionViewDelegateMPOLLayout)?.collectionView?(collectionView, layout: self, wantsInsetHeaderInSection: sectionIndexPath.section) ?? defaultWantsSectionHeaderInsets
                     if wantsInsetSectionHeader {
+                        if sectionIndentAdded == false {
+                            currentYOffset += separatorVerticalSpacing
+                            sectionIndentAdded = true
+                        }
+                        
                         rect.size.height += separatorVerticalSpacing
                         
                         headerAttribute.itemPosition = rect.size.height
@@ -421,6 +429,9 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
             var maxSectionHeight: CGFloat = 0.0
             for (rowIndex, section) in sectionGroup.enumerated() {
                 maxSectionHeight = max(maxSectionHeight, processItemsInSection(section.0, atPoint: CGPoint(x: section.1.x, y: startOfItems), withWidth: section.1.width, insets: headerRects[rowIndex].2))
+            }
+            if maxSectionHeight == 0.0 && sectionIndentAdded {
+                maxSectionHeight += itemLayoutMargins.top.ceiled(toScale: screenScale)
             }
             currentYOffset += maxSectionHeight
             

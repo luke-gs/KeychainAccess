@@ -45,6 +45,10 @@ class TestCollectionViewController: UICollectionViewController, CollectionViewDe
         
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, class: CollectionViewFormMPOLHeaderView.self, for: indexPath)
         header.tintColor = Theme.current.colors[.SecondaryText]
+        header.showsExpandArrow = true
+        header.tapHandler = { (header, ip) in
+            header.setExpanded(header.isExpanded == false, animated: true)
+        }
         return header
     }
 

@@ -46,9 +46,9 @@ public class CollectionViewFormMPOLHeaderView: UICollectionReusableView {
     /// The default is `false`. Setting this updates without an animation.
     public var isExpanded: Bool = false {
         didSet {
-            if isExpanded == oldValue { return }
-            
-            // TODO: Adjust rotation transform
+            if isExpanded != oldValue {
+                arrowView.transform = isExpanded ? .identity : CGAffineTransform(rotationAngle: -0.5 * CGFloat.pi)
+            }
         }
     }
 
@@ -62,7 +62,7 @@ public class CollectionViewFormMPOLHeaderView: UICollectionReusableView {
         if isExpanded == expanded { return }
         
         if animated {
-            UIView.animate(withDuration: 0.1) {
+            UIView.animate(withDuration: 0.15) {
                 self.isExpanded = expanded
             }
         } else {
@@ -82,7 +82,7 @@ public class CollectionViewFormMPOLHeaderView: UICollectionReusableView {
     
     fileprivate let separatorView = UIView(frame: .zero)
     
-    fileprivate let arrowView = UIImageView(image: UIImage(named: "Arrow"))
+    fileprivate let arrowView = UIImageView(image: UIImage(named: "DropDown", in: Bundle(for: CollectionViewFormMPOLHeaderView.self), compatibleWith: nil)?.withRenderingMode(.alwaysTemplate))
     
     fileprivate var itemPosition: CGFloat = 0.0 {
         didSet { if fabs(itemPosition - oldValue) > 0.1 { setNeedsLayout() } }
@@ -118,6 +118,8 @@ public class CollectionViewFormMPOLHeaderView: UICollectionReusableView {
         
         preservesSuperviewLayoutMargins = false
         
+        arrowView.transform = CGAffineTransform(rotationAngle: -0.5 * CGFloat.pi)
+        
         separatorView.backgroundColor = Theme.current.colors[.Separator]
         
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognizerDidRecognize)))
@@ -152,17 +154,18 @@ extension CollectionViewFormMPOLHeaderView {
         super.layoutSubviews()
         
         let scale = (window?.screen ?? .main).scale
+        let centerOfSeparator = itemPosition - (separatorWidth / 2.0)
         
         var titleInset = layoutMargins.left
         
+        arrowView.center = CGPoint(x: (arrowView.bounds.width / 2.0 + titleInset).rounded(toScale: scale), y: centerOfSeparator.rounded(toScale: scale))
+        
         if showsExpandArrow {
             titleInset += 15.0
-            
-            // TODO: Set up drop down view.
         }
         
         let titleLabelSize = titleLabel.sizeThatFits(.zero)
-        let titleLabelFrame = CGRect(origin: CGPoint(x: titleInset, y: (itemPosition - (separatorWidth / 2.0) - (titleLabelSize.height / 2.0)).rounded(toScale: scale)), size: titleLabelSize)
+        let titleLabelFrame = CGRect(origin: CGPoint(x: titleInset, y: (centerOfSeparator - (titleLabelSize.height / 2.0)).rounded(toScale: scale)), size: titleLabelSize)
         
         titleLabel.frame = titleLabelFrame
         
