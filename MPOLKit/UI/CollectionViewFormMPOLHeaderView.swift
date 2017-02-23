@@ -78,11 +78,11 @@ public class CollectionViewFormMPOLHeaderView: UICollectionReusableView {
     
     // MARK: - Private properties
     
-    fileprivate let titleLabel: UILabel = UILabel(frame: .zero)
+    fileprivate let titleLabel    = UILabel(frame: .zero)
     
     fileprivate let separatorView = UIView(frame: .zero)
     
-    fileprivate let arrowView = UIImageView(image: UIImage(named: "DropDown", in: Bundle(for: CollectionViewFormMPOLHeaderView.self), compatibleWith: nil)?.withRenderingMode(.alwaysTemplate))
+    fileprivate let arrowView     = UIImageView(image: UIImage(named: "DropDown", in: Bundle(for: CollectionViewFormMPOLHeaderView.self), compatibleWith: nil)?.withRenderingMode(.alwaysTemplate))
     
     fileprivate var itemPosition: CGFloat = 0.0 {
         didSet { if fabs(itemPosition - oldValue) > 0.1 { setNeedsLayout() } }
