@@ -46,6 +46,7 @@ class TestCollectionViewController: UICollectionViewController, CollectionViewDe
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, class: CollectionViewFormMPOLHeaderView.self, for: indexPath)
         header.tintColor = Theme.current.colors[.SecondaryText]
         header.showsExpandArrow = true
+        header.text = "1 ACTIVE ALERT"
         header.tapHandler = { (header, ip) in
             header.setExpanded(header.isExpanded == false, animated: true)
         }
@@ -67,7 +68,7 @@ class TestCollectionViewController: UICollectionViewController, CollectionViewDe
     }
 
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
-        return 20.0
+        return CollectionViewFormMPOLHeaderView.minimumHeight
     }
     
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForFooterInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {

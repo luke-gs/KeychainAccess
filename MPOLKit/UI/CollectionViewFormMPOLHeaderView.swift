@@ -37,7 +37,12 @@ public class CollectionViewFormMPOLHeaderView: UICollectionReusableView {
     /// 
     /// The default is `false`.
     public var showsExpandArrow: Bool = false {
-        didSet { if showsExpandArrow != oldValue { setNeedsLayout() } }
+        didSet {
+            if showsExpandArrow == oldValue { return }
+            
+            arrowView.isHidden = !showsExpandArrow
+            setNeedsLayout()
+        }
     }
     
     
@@ -112,18 +117,27 @@ public class CollectionViewFormMPOLHeaderView: UICollectionReusableView {
         addSubview(titleLabel)
         addSubview(arrowView)
         
-        titleLabel.text = "1 ACTIVE ALERT"
         titleLabel.textColor = tintColor
         titleLabel.font = .systemFont(ofSize: 11.0, weight: UIFontWeightBold)
         
-        preservesSuperviewLayoutMargins = false
+        separatorView.backgroundColor = Theme.current.colors[.Separator]
         
         arrowView.transform = CGAffineTransform(rotationAngle: -0.5 * CGFloat.pi)
+        arrowView.isHidden = true
         
-        separatorView.backgroundColor = Theme.current.colors[.Separator]
+        preservesSuperviewLayoutMargins = false
         
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognizerDidRecognize)))
     }
+    
+}
+
+
+// MARK: - Sizing
+/// Sizing
+extension CollectionViewFormMPOLHeaderView {
+    
+    public static let minimumHeight: CGFloat = 20.0
     
 }
 
@@ -169,7 +183,9 @@ extension CollectionViewFormMPOLHeaderView {
         
         titleLabel.frame = titleLabelFrame
         
-        separatorView.frame = CGRect(x: titleLabelFrame.maxX + 7.0, y: itemPosition - separatorWidth, width: bounds.size.width - titleLabelFrame.maxX - 7.0, height: separatorWidth)
+        let separatorInsetX = titleLabelSize.isEmpty == false ? titleLabelFrame.maxX + 7.0 : titleInset
+        
+        separatorView.frame = CGRect(x: separatorInsetX, y: itemPosition - separatorWidth, width: bounds.size.width - separatorInsetX, height: separatorWidth)
     }
     
     public override func tintColorDidChange() {
