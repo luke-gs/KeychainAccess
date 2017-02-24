@@ -55,9 +55,7 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
     /// in the vertical dimension.
     /// - note: Currently supports only .Top or .Center
     open override var contentMode: UIViewContentMode {
-        didSet {
-            if contentMode != oldValue { setNeedsLayout() }
-        }
+        didSet { if contentMode != oldValue { setNeedsLayout() } }
     }
     
     
@@ -74,11 +72,10 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
     }
     
     private func commonInit() {
-        textLabel.adjustsFontForContentSizeCategory = true
-        detailTextLabel.adjustsFontForContentSizeCategory = true
+        let contentView = self.contentView
+        
         applyStandardFonts()
         
-        let contentView = self.contentView
         contentView.addSubview(textLabel)
         contentView.addSubview(detailTextLabel)
         
@@ -148,12 +145,9 @@ extension CollectionViewFormSubtitleCell {
         }
     }
     
-    open override func applyStandardFonts() {
-        super.applyStandardFonts()
-        
-        let traitCollection = self.traitCollection
-        textLabel.font       = CollectionViewFormSubtitleCell.font(withEmphasis: emphasis == .title,  compatibleWith: traitCollection)
-        detailTextLabel.font = CollectionViewFormSubtitleCell.font(withEmphasis: emphasis == .detail, compatibleWith: traitCollection)
+    open override func prepareForReuse() {
+        super.prepareForReuse()
+        applyStandardFonts()
     }
     
 }
@@ -163,6 +157,15 @@ internal extension CollectionViewFormSubtitleCell {
     
     internal class func font(withEmphasis emphasis: Bool, compatibleWith traitCollection: UITraitCollection?) -> UIFont {
         return .preferredFont(forTextStyle: emphasis ? .headline : .footnote, compatibleWith: traitCollection)
+    }
+    
+    fileprivate func applyStandardFonts() {
+        let traitCollection = self.traitCollection
+        textLabel.font       = CollectionViewFormSubtitleCell.font(withEmphasis: emphasis == .title,  compatibleWith: traitCollection)
+        detailTextLabel.font = CollectionViewFormSubtitleCell.font(withEmphasis: emphasis == .detail, compatibleWith: traitCollection)
+        
+        textLabel.adjustsFontForContentSizeCategory = true
+        detailTextLabel.adjustsFontForContentSizeCategory = true
     }
     
 }

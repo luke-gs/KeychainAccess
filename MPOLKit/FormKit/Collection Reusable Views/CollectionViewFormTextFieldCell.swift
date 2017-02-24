@@ -12,8 +12,6 @@ private var textContext = 1
 
 open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
     
-    public static let fonts = (UIFont.systemFont(ofSize: 14.5, weight: UIFontWeightSemibold), UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightSemibold))
-    
     fileprivate static let interLabelSeparation: CGFloat = 2.0
     
     
@@ -56,9 +54,9 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
     }
     
     private func commonInit() {
-        titleLabel.font = CollectionViewFormTextFieldCell.fonts.0
-        textField.font  = CollectionViewFormTextFieldCell.fonts.1
         textField.clearButtonMode = .whileEditing
+        
+        applyStandardFonts()
         
         let contentView = self.contentView
         contentView.addSubview(titleLabel)
@@ -120,5 +118,24 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
     }
+    
+    open override func prepareForReuse() {
+        super.prepareForReuse()
+        applyStandardFonts()
+    }
+    
+}
+
+
+fileprivate extension CollectionViewFormTextFieldCell {
+    
+    fileprivate func applyStandardFonts() {
+        titleLabel.font = CollectionViewFormSubtitleCell.font(withEmphasis: false, compatibleWith: traitCollection)
+        textField.font  = CollectionViewFormSubtitleCell.font(withEmphasis: true,  compatibleWith: traitCollection)
+        
+        titleLabel.adjustsFontForContentSizeCategory = true
+        textField.adjustsFontForContentSizeCategory = true
+    }
+    
 }
 

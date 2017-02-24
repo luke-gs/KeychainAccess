@@ -45,10 +45,8 @@ open class TableViewFormCell: UITableViewCell {
         minimumHeightConstraint.isActive = true
     }
     
-    open dynamic func applyStandardFonts() {
-    }
-    
 }
 
 extension TableViewFormCell: DefaultReusable {
 }
+

@@ -75,9 +75,8 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
     }
     
     private func commonInit() {
-        titleLabel.font = CollectionViewFormTextViewCell.fonts.0
+        applyStandardFonts()
         
-        textView.font = CollectionViewFormTextViewCell.fonts.1
         textView.textContainerInset = UIEdgeInsets(top: 0.0, left: -5.0, bottom: 0.0, right: -3.5)
         textView.backgroundColor = .clear
         textView.isScrollEnabled = false
@@ -111,6 +110,11 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
         textView.removeObserver(self, forKeyPath: #keyPath(UITextView.font), context: &textViewFontContext)
         textView.removeObserver(self, forKeyPath: #keyPath(UITextView.text), context: &textViewTextContext)
     }
+    
+}
+
+
+extension CollectionViewFormTextViewCell {
     
     open override func layoutSubviews() {
         super.layoutSubviews()
@@ -151,11 +155,29 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
     }
+    
+    open override func prepareForReuse() {
+        super.prepareForReuse()
+        applyStandardFonts()
+    }
+    
 }
+
 
 fileprivate extension CollectionViewFormTextViewCell {
     
     @objc fileprivate func textViewTextDidChange() {
         placeholderLabel.isHidden = (textView.text?.isEmpty ?? true) == false
     }
+    
+    fileprivate func applyStandardFonts() {
+        titleLabel.font = CollectionViewFormSubtitleCell.font(withEmphasis: false, compatibleWith: traitCollection)
+        textView.font   = CollectionViewFormSubtitleCell.font(withEmphasis: true,  compatibleWith: traitCollection)
+        placeholderLabel.font = textView.font
+        
+        titleLabel.adjustsFontForContentSizeCategory = true
+        textView.adjustsFontForContentSizeCategory = true
+        placeholderLabel.adjustsFontForContentSizeCategory = true
+    }
+    
 }

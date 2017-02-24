@@ -30,22 +30,26 @@ open class TableViewFormTextFieldCell: UITableViewCell {
         if selected { _ = textField.becomeFirstResponder() }
     }
     
+    open override func prepareForReuse() {
+        super.prepareForReuse()
+        applyStandardFonts()
+    }
+    
 }
 
 fileprivate extension TableViewFormTextFieldCell {
     
-    func commonInit() {
+    fileprivate func commonInit() {
         selectionStyle = .none
         
-        let contentView = self.contentView
+        applyStandardFonts()
         
-        titleLabel.font = .systemFont(ofSize: 14.5, weight: UIFontWeightSemibold)
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        textField.font  = .systemFont(ofSize: 16.0, weight: UIFontWeightSemibold)
         textField.clearButtonMode = .whileEditing
+        
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
         textField.translatesAutoresizingMaskIntoConstraints = false
         
+        let contentView = self.contentView
         contentView.addSubview(titleLabel)
         contentView.addSubview(textField)
         
@@ -67,6 +71,14 @@ fileprivate extension TableViewFormTextFieldCell {
             NSLayoutConstraint(item: textField, attribute: .bottom, relatedBy: .equal, toItem: layoutGuide, attribute: .bottom),
             NSLayoutConstraint(item: textField, attribute: .trailing, relatedBy: .equal, toItem: layoutGuide, attribute: .trailing)
         ])
+    }
+    
+    fileprivate func applyStandardFonts() {
+        titleLabel.font = CollectionViewFormSubtitleCell.font(withEmphasis: false, compatibleWith: traitCollection)
+        textField.font  = CollectionViewFormSubtitleCell.font(withEmphasis: true,  compatibleWith: traitCollection)
+        
+        titleLabel.adjustsFontForContentSizeCategory = true
+        textField.adjustsFontForContentSizeCategory = true
     }
     
 }

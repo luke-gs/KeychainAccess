@@ -55,10 +55,7 @@ open class CollectionViewFormCheckboxCell: CollectionViewFormCell {
     private func commonInit() {
         let contentView = self.contentView
         
-        textLabel.font               = .systemFont(ofSize: 14.0)
-        textLabel.lineBreakMode      = .byTruncatingTail
-        textLabel.minimumScaleFactor = 0.9
-        
+        applyStandardFonts()
         textLabel.addObserverForContentSizeKeys(self, context: &textContext)
         
         contentView.addSubview(textLabel)
@@ -87,6 +84,7 @@ extension CollectionViewFormCheckboxCell {
     open override func prepareForReuse() {
         preparingForReuse = true
         super.prepareForReuse()
+        applyStandardFonts()
         preparingForReuse = false
     }
     
@@ -118,6 +116,7 @@ extension CollectionViewFormCheckboxCell {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
     }
+    
 }
 
 
@@ -149,4 +148,11 @@ fileprivate extension CollectionViewFormCheckboxCell {
             }
         }
     }
+    
+    func applyStandardFonts() {
+        textLabel.font = SelectableButton.font(compatibleWith: traitCollection)
+        textLabel.adjustsFontForContentSizeCategory = true
+        textLabel.minimumScaleFactor = 0.9
+    }
+    
 }

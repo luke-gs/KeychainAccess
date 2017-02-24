@@ -69,8 +69,7 @@ open class TableViewFormSubtitleCell: TableViewFormCell {
         textLabel.translatesAutoresizingMaskIntoConstraints   = false
         detailLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        textLabel.adjustsFontForContentSizeCategory   = true
-        detailLabel.adjustsFontForContentSizeCategory = true
+        applyStandardFonts()
         
         textLabel.addObserver(self,   forKeyPath: #keyPath(UILabel.text),           options: [], context: &kvoContext)
         textLabel.addObserver(self,   forKeyPath: #keyPath(UILabel.attributedText), options: [], context: &kvoContext)
@@ -102,6 +101,7 @@ open class TableViewFormSubtitleCell: TableViewFormCell {
         detailLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.text),           context: &kvoContext)
         detailLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &kvoContext)
     }
+    
 }
 
 
@@ -166,14 +166,13 @@ extension TableViewFormSubtitleCell {
         super.updateConstraints()
     }
     
-    open override func applyStandardFonts() {
-        super.applyStandardFonts()
-        
-        let traitCollection = self.traitCollection
-        textLabel.font       = CollectionViewFormSubtitleCell.font(withEmphasis: emphasis == .title,  compatibleWith: traitCollection)
-        detailTextLabel.font = CollectionViewFormSubtitleCell.font(withEmphasis: emphasis == .detail, compatibleWith: traitCollection)
+    open override func prepareForReuse() {
+        super.prepareForReuse()
+        applyStandardFonts()
     }
+    
 }
+
 
 fileprivate extension TableViewFormSubtitleCell {
     
@@ -186,7 +185,7 @@ fileprivate extension TableViewFormSubtitleCell {
     /// This is a workaround purely for performance: On scroll, if text changes but doesn't
     /// get removed, we can avoid changing constraints on the fly.
     /// This method should be called every time label text changes.
-    func updateLabelState() {
+    fileprivate func updateLabelState() {
         let hasText   = textLabel.text?.isEmpty       ?? true == false
         let hasDetail = detailTextLabel.text?.isEmpty ?? true == false
         
@@ -207,6 +206,15 @@ fileprivate extension TableViewFormSubtitleCell {
             self.labelState = newState
             setNeedsUpdateConstraints()
         }
+    }
+    
+    fileprivate func applyStandardFonts() {
+        let traitCollection = self.traitCollection
+        textLabel.font       = CollectionViewFormSubtitleCell.font(withEmphasis: emphasis == .title,  compatibleWith: traitCollection)
+        detailTextLabel.font = CollectionViewFormSubtitleCell.font(withEmphasis: emphasis == .detail, compatibleWith: traitCollection)
+        
+        textLabel.adjustsFontForContentSizeCategory = true
+        detailTextLabel.adjustsFontForContentSizeCategory = true
     }
     
 }

@@ -136,8 +136,8 @@ open class CollectionViewFormCell: UICollectionViewCell {
 }
 
 
-/********** Scroll Handling **********/
-
+// MARK: - Scroll handling
+/// Scroll handling
 extension CollectionViewFormCell: UIScrollViewDelegate {
     
     open func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -243,16 +243,9 @@ extension CollectionViewFormCell: DefaultReusable {
 }
 
 
-extension CollectionViewFormCell {
-    
-    open func applyStandardFonts() {}
-    
-}
 
-
-
-/********** Overrides **********/
-
+// MARK: - Overrides
+/// Overrides
 extension CollectionViewFormCell {
     
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -344,8 +337,8 @@ extension CollectionViewFormCell {
 }
 
 
-/********** Private **********/
-
+// MARK: - Private
+/// Private methods
 private extension CollectionViewFormCell {
     
     func commonInit() {

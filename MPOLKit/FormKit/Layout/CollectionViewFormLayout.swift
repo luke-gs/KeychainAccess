@@ -523,6 +523,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
 }
 
 
+// MARK: - CollectionViewDelegateFormLayout
 @objc public protocol CollectionViewDelegateFormLayout: UICollectionViewDelegate {
     
     /// Asks the delegate for the height of the global header view. If you do not implement this method,
@@ -624,6 +625,8 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
 }
 
 
+// MARK: - Convenience functions
+/// Convenience Functions
 public extension CollectionViewFormLayout {
     
     /// A convenience function for calculating content widths for cells in column formation.
@@ -660,8 +663,8 @@ public extension CollectionViewFormLayout {
 }
 
 
-/********** Convenience functions **********/
-
+// MARK: - Array Convenience Extensions
+/// Array Convenience Extensions
 private extension Array {
     /// Access the `index`th element, if it exists. Complexity: O(1).
     subscript (ifExists index: Int) -> Element? {

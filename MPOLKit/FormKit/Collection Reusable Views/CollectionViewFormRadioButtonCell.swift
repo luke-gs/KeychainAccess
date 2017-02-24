@@ -55,19 +55,12 @@ open class CollectionViewFormRadioButtonCell: CollectionViewFormCell {
     }
     
     private func commonInit() {
+        applyStandardFonts()
         
-        let contentView = self.contentView
-        
-        titleLabel.font               = .systemFont(ofSize: 14.5, weight: UIFontWeightSemibold)
-        titleLabel.lineBreakMode      = .byTruncatingTail
-        titleLabel.minimumScaleFactor = 0.9
         titleLabel.addObserverForContentSizeKeys(self, context: &textContext)
-        
-        textLabel.font               = .systemFont(ofSize: 14.5, weight: UIFontWeightSemibold)
-        textLabel.lineBreakMode      = .byTruncatingTail
-        textLabel.minimumScaleFactor = 0.9
         textLabel.addObserverForContentSizeKeys(self, context: &textContext)
         
+        let contentView = self.contentView
         contentView.addSubview(titleLabel)
         contentView.addSubview(textLabel)
         contentView.addSubview(imageView)
@@ -139,7 +132,14 @@ extension CollectionViewFormRadioButtonCell {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
     }
+    
+    open override func prepareForReuse() {
+        super.prepareForReuse()
+        applyStandardFonts()
+    }
+    
 }
+
 
 /// Private methods
 fileprivate extension CollectionViewFormRadioButtonCell {
@@ -150,6 +150,18 @@ fileprivate extension CollectionViewFormRadioButtonCell {
     
     fileprivate func updateImageTint() {
         imageView.tintColor = isHighlighted || isSelected ? nil : #colorLiteral(red: 0.7490196078, green: 0.7490196078, blue: 0.7490196078, alpha: 1)
+    }
+    
+    fileprivate func applyStandardFonts() {
+        titleLabel.font = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
+        titleLabel.minimumScaleFactor = 0.9
+        titleLabel.adjustsFontForContentSizeCategory = true
+        titleLabel.allowsDefaultTighteningForTruncation = true
+        
+        textLabel.font = SelectableButton.font(compatibleWith: traitCollection)
+        textLabel.minimumScaleFactor = 0.9
+        textLabel.adjustsFontForContentSizeCategory = true
+        textLabel.allowsDefaultTighteningForTruncation = true
     }
     
 }
