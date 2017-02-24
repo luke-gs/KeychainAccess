@@ -45,7 +45,6 @@
 		BC712E7C1E5535B800BD5DAE /* UIColor+ActionColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC712E601E5535B800BD5DAE /* UIColor+ActionColors.swift */; };
 		BC712E7D1E5535B800BD5DAE /* UIEdgeInsets+InverseAndInset.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC712E611E5535B800BD5DAE /* UIEdgeInsets+InverseAndInset.swift */; };
 		BC712E7E1E5535B800BD5DAE /* UIImage+FormKitDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC712E621E5535B800BD5DAE /* UIImage+FormKitDefaults.swift */; };
-		BC712E7F1E5535B800BD5DAE /* UIScreen+SinglePixel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC712E631E5535B800BD5DAE /* UIScreen+SinglePixel.swift */; };
 		BC712E801E5535B800BD5DAE /* CollectionViewFormAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC712E651E5535B800BD5DAE /* CollectionViewFormAttributes.swift */; };
 		BC712E811E5535B800BD5DAE /* CollectionViewFormLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC712E661E5535B800BD5DAE /* CollectionViewFormLayout.swift */; };
 		BC712E821E5535B800BD5DAE /* TableViewFormCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC712E681E5535B800BD5DAE /* TableViewFormCell.swift */; };
@@ -144,7 +143,6 @@
 		BC712E601E5535B800BD5DAE /* UIColor+ActionColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+ActionColors.swift"; sourceTree = "<group>"; };
 		BC712E611E5535B800BD5DAE /* UIEdgeInsets+InverseAndInset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIEdgeInsets+InverseAndInset.swift"; sourceTree = "<group>"; };
 		BC712E621E5535B800BD5DAE /* UIImage+FormKitDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+FormKitDefaults.swift"; sourceTree = "<group>"; };
-		BC712E631E5535B800BD5DAE /* UIScreen+SinglePixel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScreen+SinglePixel.swift"; sourceTree = "<group>"; };
 		BC712E651E5535B800BD5DAE /* CollectionViewFormAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormAttributes.swift; sourceTree = "<group>"; };
 		BC712E661E5535B800BD5DAE /* CollectionViewFormLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormLayout.swift; sourceTree = "<group>"; };
 		BC712E681E5535B800BD5DAE /* TableViewFormCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewFormCell.swift; sourceTree = "<group>"; };
@@ -339,7 +337,6 @@
 				BC712E611E5535B800BD5DAE /* UIEdgeInsets+InverseAndInset.swift */,
 				BC712E621E5535B800BD5DAE /* UIImage+FormKitDefaults.swift */,
 				6DAAAFEC1E5E7B10000E57A9 /* UILabel+ContentObserving.swift */,
-				BC712E631E5535B800BD5DAE /* UIScreen+SinglePixel.swift */,
 				BC7150A01E56828A0093F958 /* UITableView+DefaultReuse.swift */,
 				BC7150A11E56828A0093F958 /* UITableViewCell+LayoutMargins.swift */,
 			);
@@ -579,7 +576,6 @@
 				BC712E811E5535B800BD5DAE /* CollectionViewFormLayout.swift in Sources */,
 				BC712E871E5535B800BD5DAE /* CheckBox.swift in Sources */,
 				BC712E7D1E5535B800BD5DAE /* UIEdgeInsets+InverseAndInset.swift in Sources */,
-				BC712E7F1E5535B800BD5DAE /* UIScreen+SinglePixel.swift in Sources */,
 				BC7150A51E56828A0093F958 /* UITableViewCell+LayoutMargins.swift in Sources */,
 				BC712E8A1E5535B800BD5DAE /* SelectableButton.swift in Sources */,
 				BC712E841E5535B800BD5DAE /* TableViewFormSubtitleCell.swift in Sources */,

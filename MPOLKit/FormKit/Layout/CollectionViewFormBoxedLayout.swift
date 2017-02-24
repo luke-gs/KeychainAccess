@@ -95,7 +95,7 @@ public class CollectionViewFormBoxedLayout: CollectionViewFormLayout {
         rowSeparatorAttributes.removeAll(keepingCapacity: wantsHorizontalItemSeparators)
         itemSeparatorAttributes.removeAll(keepingCapacity: wantsVerticalItemSeparators)
         
-        let isBoxedLayoutDelegate = delegate is CollectionViewDelegateMPOLLayout
+        let isBoxedLayoutDelegate = delegate is CollectionViewDelegateBoxedLayout
         let delegateSupportsHidingHorizontalSeparators = wantsHorizontalItemSeparators && isBoxedLayoutDelegate && delegate.responds(to: #selector(CollectionViewDelegateBoxedLayout.collectionView(_:layout:shouldDisplayHorizontalSeparatorForItemAt:)))
         let delegateSupportsHidingVerticalSeparators = wantsVerticalItemSeparators && isBoxedLayoutDelegate && delegate.responds(to: #selector(CollectionViewDelegateBoxedLayout.collectionView(_:layout:shouldDisplayVerticalSeparatorBelowItemAt:)))
         

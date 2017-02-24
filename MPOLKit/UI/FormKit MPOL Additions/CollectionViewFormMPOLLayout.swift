@@ -63,8 +63,7 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
         guard let collectionView = self.collectionView,
             let delegate = collectionView.delegate as? CollectionViewDelegateFormLayout else { return }
         
-        let delegateIsMPOLDelegate = delegate is CollectionViewDelegateMPOLLayout
-        let delegateSpecifiesSeparatorStyle = delegateIsMPOLDelegate && delegate.responds(to: #selector(CollectionViewDelegateMPOLLayout.collectionView(_:layout:separatorStyleForItemAt:)))
+        let delegateSpecifiesSeparatorStyle = delegate.responds(to: #selector(CollectionViewDelegateMPOLLayout.collectionView(_:layout:separatorStyleForItemAt:)))
         
         let collectionViewWidth = collectionView.bounds.width
         
