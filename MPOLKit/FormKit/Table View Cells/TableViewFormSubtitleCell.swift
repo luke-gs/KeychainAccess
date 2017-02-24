@@ -34,8 +34,8 @@ open class TableViewFormSubtitleCell: TableViewFormCell {
         return super.detailTextLabel!
     }
     
-    /// The font emphasis for the cell. The default is `.title`.
-    open var emphasis: CollectionViewFormSubtitleCell.Emphasis = .title {
+    /// The font emphasis for the cell. The default is `.texdt`.
+    open var emphasis: CollectionViewFormDetailCell.Emphasis = .text {
         didSet { applyStandardFonts() }
     }
     
@@ -210,11 +210,11 @@ fileprivate extension TableViewFormSubtitleCell {
     
     fileprivate func applyStandardFonts() {
         let traitCollection = self.traitCollection
-        textLabel.font       = CollectionViewFormSubtitleCell.font(withEmphasis: emphasis == .title,  compatibleWith: traitCollection)
-        detailTextLabel.font = CollectionViewFormSubtitleCell.font(withEmphasis: emphasis == .detail, compatibleWith: traitCollection)
+        textLabel.font       = CollectionViewFormDetailCell.font(withEmphasis: emphasis == .text,   compatibleWith: traitCollection)
+        detailTextLabel.font = CollectionViewFormDetailCell.font(withEmphasis: emphasis == .detail, compatibleWith: traitCollection)
         
-        textLabel.adjustsFontForContentSizeCategory = true
-        detailTextLabel.adjustsFontForContentSizeCategory = true
+        //textLabel.adjustsFontForContentSizeCategory = true
+        //detailTextLabel.adjustsFontForContentSizeCategory = true
     }
     
 }

@@ -203,13 +203,13 @@ fileprivate extension TableViewFormTextViewCell {
     }
     
     fileprivate func applyStandardFonts() {
-        titleLabel.font = CollectionViewFormSubtitleCell.font(withEmphasis: false, compatibleWith: traitCollection)
-        textView.font   = CollectionViewFormSubtitleCell.font(withEmphasis: true,  compatibleWith: traitCollection)
+        titleLabel.font = CollectionViewFormDetailCell.font(withEmphasis: false, compatibleWith: traitCollection)
+        textView.font   = CollectionViewFormDetailCell.font(withEmphasis: true,  compatibleWith: traitCollection)
         placeholderLabel.font = textView.font
         
-        titleLabel.adjustsFontForContentSizeCategory = true
-        textView.adjustsFontForContentSizeCategory = true
-        placeholderLabel.adjustsFontForContentSizeCategory = true
+        //titleLabel.adjustsFontForContentSizeCategory = true
+        //textView.adjustsFontForContentSizeCategory = true
+        //placeholderLabel.adjustsFontForContentSizeCategory = true
     }
 }
 

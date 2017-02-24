@@ -74,11 +74,11 @@ fileprivate extension TableViewFormTextFieldCell {
     }
     
     fileprivate func applyStandardFonts() {
-        titleLabel.font = CollectionViewFormSubtitleCell.font(withEmphasis: false, compatibleWith: traitCollection)
-        textField.font  = CollectionViewFormSubtitleCell.font(withEmphasis: true,  compatibleWith: traitCollection)
+        titleLabel.font = CollectionViewFormDetailCell.font(withEmphasis: false, compatibleWith: traitCollection)
+        textField.font  = CollectionViewFormDetailCell.font(withEmphasis: true,  compatibleWith: traitCollection)
         
-        titleLabel.adjustsFontForContentSizeCategory = true
-        textField.adjustsFontForContentSizeCategory = true
+        //titleLabel.adjustsFontForContentSizeCategory = true
+        //textField.adjustsFontForContentSizeCategory = true
     }
     
 }

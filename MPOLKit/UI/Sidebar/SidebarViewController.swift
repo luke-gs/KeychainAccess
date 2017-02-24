@@ -190,7 +190,7 @@ extension SidebarViewController {
         
         if let view = self.view {
             
-            let isRightToLeft = traitCollection.layoutDirection == .rightToLeft
+            let isRightToLeft = false//traitCollection.layoutDirection == .rightToLeft
             
             let viewBounds = view.bounds
             let hasNoSources = sourceItems.isEmpty
@@ -230,12 +230,12 @@ extension SidebarViewController {
         sidebarTableView?.flashScrollIndicators()
     }
     
-    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        if previousTraitCollection?.layoutDirection != traitCollection.layoutDirection {
-            viewIfLoaded?.setNeedsLayout()
-        }
-    }
+//    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+//        super.traitCollectionDidChange(previousTraitCollection)
+//        if previousTraitCollection?.layoutDirection != traitCollection.layoutDirection {
+//            viewIfLoaded?.setNeedsLayout()
+//        }
+//    }
     
 }
 

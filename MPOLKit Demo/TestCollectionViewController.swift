@@ -15,6 +15,7 @@ class TestCollectionViewController: UICollectionViewController, CollectionViewDe
 
     init() {
         let layout = CollectionViewFormMPOLLayout()
+        layout.itemLayoutMargins = UIEdgeInsets(top: 16.0, left: 24.0, bottom: 16.0, right: 10.0)
         layout.separatorStyle = .fullWidth
         super.init(collectionViewLayout: layout)
     }
@@ -27,7 +28,7 @@ class TestCollectionViewController: UICollectionViewController, CollectionViewDe
         super.viewDidLoad()
         
         collectionView?.backgroundColor = .white
-        collectionView?.register(EntityCollectionViewCell.self)
+        collectionView?.register(CollectionViewFormSelectionCell.self)
         collectionView?.register(CollectionViewFormMPOLHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
     }
     
@@ -38,7 +39,7 @@ class TestCollectionViewController: UICollectionViewController, CollectionViewDe
 
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
+        return 100
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -54,15 +55,9 @@ class TestCollectionViewController: UICollectionViewController, CollectionViewDe
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(of: EntityCollectionViewCell.self, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSelectionCell.self, for: indexPath)
         
-        cell.imageView.image    = #imageLiteral(resourceName: "Avatar 1")
-        cell.titleLabel.text    = "Frost, Deacon H."
-        cell.subtitleLabel.text = "27/10/1987 (33 Male)"
-        cell.detailLabel.text   = "Williamstown VIC 3016"
-        cell.alertColor         = .red
-        cell.alertCount         = 8
-        cell.sourceLabel.text   = "DS1"
+        cell.textLabel.text = "Residential"
         
         return cell
     }
@@ -80,11 +75,11 @@ class TestCollectionViewController: UICollectionViewController, CollectionViewDe
     }
     
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, givenSectionWidth sectionWidth: CGFloat, edgeInsets: UIEdgeInsets) -> CGFloat {
-        return EntityCollectionViewCell.minimumContentWidth(forStyle: .hero)
+        return sectionWidth
     }
     
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
-        return EntityCollectionViewCell.minimumContentHeight(forStyle: .hero, compatibleWith: traitCollection)
+        return CollectionViewFormSelectionCell.minimumContentHeight(compatibleWith: traitCollection)
     }
     
     

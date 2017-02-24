@@ -248,13 +248,6 @@ extension CollectionViewFormCell: DefaultReusable {
 /// Overrides
 extension CollectionViewFormCell {
     
-    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
-            setNeedsLayout()
-        }
-    }
-    
     open class override func automaticallyNotifiesObservers(forKey key: String) -> Bool {
         if key == #keyPath(CollectionViewFormCell.isShowingEditActions) {
             return false
@@ -269,6 +262,7 @@ extension CollectionViewFormCell {
     
     open override func prepareForReuse() {
         super.prepareForReuse()
+        applyStandardFonts()
         setShowingEditActions(false, animated: false)
     }
     
@@ -336,6 +330,13 @@ extension CollectionViewFormCell {
     }
 }
 
+internal extension CollectionViewFormCell {
+    
+    internal func applyStandardFonts() {}
+    
+}
+
+
 
 // MARK: - Private
 /// Private methods
@@ -356,6 +357,8 @@ private extension CollectionViewFormCell {
         internalContentView.frame = scrollView.bounds
         internalContentView.clipsToBounds = true
         scrollView.addSubview(internalContentView)
+        
+        applyStandardFonts()
     }
     
     @objc func touchTriggerDidActivate(_ trigger: TouchRecognizer) {

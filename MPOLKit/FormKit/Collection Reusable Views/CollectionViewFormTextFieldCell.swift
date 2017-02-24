@@ -119,22 +119,17 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
         }
     }
     
-    open override func prepareForReuse() {
-        super.prepareForReuse()
-        applyStandardFonts()
-    }
-    
 }
 
 
-fileprivate extension CollectionViewFormTextFieldCell {
+internal extension CollectionViewFormTextFieldCell {
     
-    fileprivate func applyStandardFonts() {
-        titleLabel.font = CollectionViewFormSubtitleCell.font(withEmphasis: false, compatibleWith: traitCollection)
-        textField.font  = CollectionViewFormSubtitleCell.font(withEmphasis: true,  compatibleWith: traitCollection)
+    internal override func applyStandardFonts() {
+        titleLabel.font = CollectionViewFormDetailCell.font(withEmphasis: false, compatibleWith: traitCollection)
+        textField.font  = CollectionViewFormDetailCell.font(withEmphasis: true,  compatibleWith: traitCollection)
         
-        titleLabel.adjustsFontForContentSizeCategory = true
-        textField.adjustsFontForContentSizeCategory = true
+        //titleLabel.adjustsFontForContentSizeCategory = true
+        //textField.adjustsFontForContentSizeCategory = true
     }
     
 }

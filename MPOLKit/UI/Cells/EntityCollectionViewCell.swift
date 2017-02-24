@@ -118,8 +118,6 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
         
         let contentView = self.contentView
         
-        applyStandardFonts()
-        
         contentView.addSubview(detailLabel)
         contentView.addSubview(subtitleLabel)
         contentView.addSubview(titleLabel)
@@ -255,8 +253,8 @@ extension EntityCollectionViewCell {
     public class func minimumContentHeight(forStyle style: Style, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
         switch style {
         case .hero:
-            let titleFont    = UIFont.preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
-            let subtitleFont = UIFont.preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
+            let titleFont    = UIFont.preferredFont(forTextStyle: .headline)//, compatibleWith: traitCollection)
+            let subtitleFont = UIFont.preferredFont(forTextStyle: .footnote)//, compatibleWith: traitCollection)
             return minimumContentHeight(forStyle: style, withTitleFont: titleFont, subtitleFont: subtitleFont, detailFont: subtitleFont)
         case .detail:
             return 96.0
@@ -291,19 +289,19 @@ extension EntityCollectionViewCell {
 
 // MARK: - Private methods
 /// Private methods
-fileprivate extension EntityCollectionViewCell {
+internal extension EntityCollectionViewCell {
     
-    fileprivate func applyStandardFonts() {
+    internal override func applyStandardFonts() {
         let traitCollection = self.traitCollection
-        titleLabel.font = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+        titleLabel.font = .preferredFont(forTextStyle: .headline)//, compatibleWith: traitCollection)
         
-        let footnoteFont = UIFont.preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
+        let footnoteFont = UIFont.preferredFont(forTextStyle: .footnote)//, compatibleWith: traitCollection)
         subtitleLabel.font = footnoteFont
         detailLabel.font   = footnoteFont
-        
-        titleLabel.adjustsFontForContentSizeCategory = true
-        subtitleLabel.adjustsFontForContentSizeCategory = true
-        detailLabel.adjustsFontForContentSizeCategory = true
+//        
+//        titleLabel.adjustsFontForContentSizeCategory = true
+//        subtitleLabel.adjustsFontForContentSizeCategory = true
+//        detailLabel.adjustsFontForContentSizeCategory = true
     }
     
 }

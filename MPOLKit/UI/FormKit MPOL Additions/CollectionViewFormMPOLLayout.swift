@@ -58,6 +58,8 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
     }
     
     public override func prepare() {
+        let startTime = CFAbsoluteTimeGetCurrent()
+        
         super.prepare()
         
         guard let collectionView = self.collectionView,
@@ -495,6 +497,8 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
         }
         
         contentSize = CGSize(width: collectionViewWidth, height: currentYOffset)
+        
+        print("Time Taken: \(CFAbsoluteTimeGetCurrent() - startTime)")
     }
     
 }
