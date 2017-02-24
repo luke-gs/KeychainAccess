@@ -12,7 +12,7 @@ import UIKit
 open class SelectableButton: UIButton {
     
     internal class func font(compatibleWith traitCollection: UITraitCollection) -> UIFont {
-        return .preferredFont(forTextStyle: .subheadline)//, compatibleWith: traitCollection)
+        return .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
     }
     
     // MARK: - Properties
@@ -55,7 +55,7 @@ open class SelectableButton: UIButton {
         
         if let titleLabel = self.titleLabel {
             titleLabel.font = SelectableButton.font(compatibleWith: traitCollection)
-//            titleLabel.adjustsFontForContentSizeCategory = true
+            titleLabel.adjustsFontForContentSizeCategory = true
         }
         
         let lightGrayColor = UIColor.lightGray

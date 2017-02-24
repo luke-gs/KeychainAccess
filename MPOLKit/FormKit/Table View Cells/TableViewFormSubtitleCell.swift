@@ -213,8 +213,8 @@ fileprivate extension TableViewFormSubtitleCell {
         textLabel.font       = CollectionViewFormDetailCell.font(withEmphasis: emphasis == .text,   compatibleWith: traitCollection)
         detailTextLabel.font = CollectionViewFormDetailCell.font(withEmphasis: emphasis == .detail, compatibleWith: traitCollection)
         
-        //textLabel.adjustsFontForContentSizeCategory = true
-        //detailTextLabel.adjustsFontForContentSizeCategory = true
+        textLabel.adjustsFontForContentSizeCategory = true
+        detailTextLabel.adjustsFontForContentSizeCategory = true
     }
     
 }

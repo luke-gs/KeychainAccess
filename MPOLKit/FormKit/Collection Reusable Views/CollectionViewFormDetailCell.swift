@@ -211,7 +211,7 @@ extension CollectionViewFormDetailCell {
 internal extension CollectionViewFormDetailCell {
     
     internal class func font(withEmphasis emphasis: Bool, compatibleWith traitCollection: UITraitCollection?) -> UIFont {
-        return .preferredFont(forTextStyle: emphasis ? .headline : .footnote)//, compatibleWith: traitCollection)
+        return .preferredFont(forTextStyle: emphasis ? .headline : .footnote, compatibleWith: traitCollection)
     }
     
     internal override func applyStandardFonts() {
@@ -219,8 +219,8 @@ internal extension CollectionViewFormDetailCell {
         textLabel.font       = CollectionViewFormDetailCell.font(withEmphasis: emphasis == .text,   compatibleWith: traitCollection)
         detailTextLabel.font = CollectionViewFormDetailCell.font(withEmphasis: emphasis == .detail, compatibleWith: traitCollection)
         
-        //textLabel.adjustsFontForContentSizeCategory = true
-        //detailTextLabel.adjustsFontForContentSizeCategory = true
+        textLabel.adjustsFontForContentSizeCategory = true
+        detailTextLabel.adjustsFontForContentSizeCategory = true
     }
     
 }

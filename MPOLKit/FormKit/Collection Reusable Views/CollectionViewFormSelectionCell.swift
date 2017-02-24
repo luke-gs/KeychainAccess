@@ -85,7 +85,7 @@ internal extension CollectionViewFormSelectionCell {
     
     internal override func applyStandardFonts() {
         textLabel.font = SelectableButton.font(compatibleWith: traitCollection)
-        //textLabel.adjustsFontForContentSizeCategory = true
+        textLabel.adjustsFontForContentSizeCategory = true
         textLabel.minimumScaleFactor = 0.9
     }
     

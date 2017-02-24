@@ -57,7 +57,7 @@ open class TableViewFormCheckboxCell: TableViewFormCell {
         guard let checkboxTitleLabel = checkbox.titleLabel else { return }
         
         checkboxTitleLabel.font = SelectableButton.font(compatibleWith: traitCollection)
-        //checkboxTitleLabel.adjustsFontForContentSizeCategory = true
+        checkboxTitleLabel.adjustsFontForContentSizeCategory = true
     }
     
 }

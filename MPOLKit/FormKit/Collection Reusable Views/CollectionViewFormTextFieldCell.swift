@@ -128,8 +128,8 @@ internal extension CollectionViewFormTextFieldCell {
         titleLabel.font = CollectionViewFormDetailCell.font(withEmphasis: false, compatibleWith: traitCollection)
         textField.font  = CollectionViewFormDetailCell.font(withEmphasis: true,  compatibleWith: traitCollection)
         
-        //titleLabel.adjustsFontForContentSizeCategory = true
-        //textField.adjustsFontForContentSizeCategory = true
+        titleLabel.adjustsFontForContentSizeCategory = true
+        textField.adjustsFontForContentSizeCategory = true
     }
     
 }

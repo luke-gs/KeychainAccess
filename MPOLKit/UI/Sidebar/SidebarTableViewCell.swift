@@ -152,14 +152,14 @@ fileprivate extension SidebarTableViewCell {
     }
     
     func reloadFonts() {
-        let fontDescriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: .subheadline)//, compatibleWith: traitCollection)
+        let fontDescriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: .subheadline, compatibleWith: traitCollection)
         standardFont = UIFont(descriptor: fontDescriptor, size: fontDescriptor.pointSize - 1)
         if let highlightedDescriptor = fontDescriptor.withSymbolicTraits(.traitBold) {
             highlightedFont = UIFont(descriptor: highlightedDescriptor, size: fontDescriptor.pointSize - 1)
         } else {
             highlightedFont = standardFont
         }
-        detailTextLabel?.font = .preferredFont(forTextStyle: .caption1)//, compatibleWith: traitCollection)
+        detailTextLabel?.font = .preferredFont(forTextStyle: .caption1, compatibleWith: traitCollection)
     }
     
     func updateFonts() {

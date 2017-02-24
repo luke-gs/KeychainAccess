@@ -170,9 +170,9 @@ extension CollectionViewFormTextViewCell {
         textView.font   = CollectionViewFormDetailCell.font(withEmphasis: true,  compatibleWith: traitCollection)
         placeholderLabel.font = textView.font
         
-        //        titleLabel.adjustsFontForContentSizeCategory = true
-        //        textView.adjustsFontForContentSizeCategory = true
-        //        placeholderLabel.adjustsFontForContentSizeCategory = true
+        titleLabel.adjustsFontForContentSizeCategory = true
+        textView.adjustsFontForContentSizeCategory = true
+        placeholderLabel.adjustsFontForContentSizeCategory = true
     }
     
 }
