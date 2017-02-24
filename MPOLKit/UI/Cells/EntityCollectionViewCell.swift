@@ -8,7 +8,7 @@
 
 import UIKit
 
-fileprivate var labelContentContext = 1
+fileprivate var sourceLabelContext = 1
 
 /// `EntityCollectionViewCell` is a cell for displaying MPOL entities with a standardized
 /// MPOL branding and appearance.
@@ -129,11 +129,11 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
         
         sourceLabel.addObserver(self, forKeyPath: #keyPath(SourceLabel.text), options: [], context: &sourceLabelContext)
         
-        sourceLabel.addObserverForContentSizeKeys(self, context: &labelContentContext)
+        sourceLabel.addObserverForContentSizeKeys(self, context: &sourceLabelContext)
     }
     
     deinit {
-        sourceLabel.removeObserverForContentSizeKeys(self, context: &labelContentContext)
+        sourceLabel.removeObserverForContentSizeKeys(self, context: &sourceLabelContext)
     }
     
 }
@@ -214,7 +214,7 @@ extension EntityCollectionViewCell {
     }
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if context == &labelContentContext {
+        if context == &sourceLabelContext {
             setNeedsLayout()
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)

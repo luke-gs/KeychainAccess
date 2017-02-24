@@ -156,7 +156,7 @@ extension CollectionViewFormMPOLHeaderView {
             itemPosition   = attributes.itemPosition
             layoutMargins.left = attributes.leadingMargin
         } else {
-            separatorWidth = UIScreen.main.singlePixelSize
+            separatorWidth = 1.0 / (window?.screen ?? .main).scale
             itemPosition   = bounds.maxY
             layoutMargins.left = 10.0
         }

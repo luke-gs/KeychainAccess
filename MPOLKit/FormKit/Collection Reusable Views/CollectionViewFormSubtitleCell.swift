@@ -159,6 +159,10 @@ internal extension CollectionViewFormSubtitleCell {
         return .preferredFont(forTextStyle: emphasis ? .headline : .footnote, compatibleWith: traitCollection)
     }
     
+}
+
+fileprivate extension CollectionViewFormSubtitleCell {
+    
     fileprivate func applyStandardFonts() {
         let traitCollection = self.traitCollection
         textLabel.font       = CollectionViewFormSubtitleCell.font(withEmphasis: emphasis == .title,  compatibleWith: traitCollection)
