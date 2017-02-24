@@ -29,15 +29,19 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
     ///   - titleFont:   The title font of the cell. The default is the standard title font.
     ///   - contentFont: The content font for the text view. the default is the standard content font.
     /// - Returns:       The minimum appropriate height for the cell.
-    open class func minimumContentHeight(withTitle title: String?, text: String?, inWidth width: CGFloat, titleFont: UIFont = fonts.0, textFont: UIFont = fonts.1) -> CGFloat {
+    open class func minimumContentHeight(withTitle title: String?, text: String?, inWidth width: CGFloat, compatibleWidth traitCollection: UITraitCollection, titleFont: UIFont? = nil, textFont: UIFont? = nil) -> CGFloat {
         var height: CGFloat = 0.0
         let screenScale = UIScreen.main.scale
         if let title = title {
-            height += (title as NSString).boundingRect(with: CGSize(width: width - 0.5, height: .greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: titleFont], context: nil).height.ceiled(toScale: screenScale)
+            let titleLabelFont = titleFont ?? CollectionViewFormSubtitleCell.font(withEmphasis: false, compatibleWith: traitCollection)
+            
+            height += (title as NSString).boundingRect(with: CGSize(width: width - 0.5, height: .greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: titleLabelFont], context: nil).height.ceiled(toScale: screenScale)
             height += interLabelSeparation
         }
+        
+        let textViewFont = textFont ?? CollectionViewFormSubtitleCell.font(withEmphasis: true, compatibleWith: traitCollection)
         let detail = text ?? ""
-        height += (detail as NSString).boundingRect(with: CGSize(width: width - 0.5, height: .greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: textFont], context: nil).height.ceiled(toScale: screenScale)
+        height += (detail as NSString).boundingRect(with: CGSize(width: width - 0.5, height: .greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: textViewFont], context: nil).height.ceiled(toScale: screenScale)
         
         height += 6.0
         return height

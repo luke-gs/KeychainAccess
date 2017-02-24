@@ -15,11 +15,14 @@ private var textContext = 1
 /// The checkbox's selection is determined by selection status of the cell.
 open class CollectionViewFormCheckboxCell: CollectionViewFormCell {
     
-    open class func minimumContentWidth(withTitle title: String?) -> CGFloat {
-        let titleSize = ceil((title as NSString?)?.size(attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 14.0)]).width ?? 0 + 30.0)
-        
-        return titleSize
+    open class func minimumContentWidth(withTitle title: String?, font: UIFont) -> CGFloat {
+        return ceil((title as NSString?)?.size(attributes: [NSFontAttributeName: font]).width ?? 0 + 30.0)
     }
+    
+    open class func mininumContentWidth(withTitle title: String?, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
+        return minimumContentWidth(withTitle: title, font: SelectableButton.font(compatibleWith: traitCollection))
+    }
+        
     
     open let textLabel = UILabel(frame: .zero)
     fileprivate let imageView = UIImageView(image: .checkbox)

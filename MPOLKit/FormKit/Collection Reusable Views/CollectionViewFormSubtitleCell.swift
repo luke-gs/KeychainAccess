@@ -188,7 +188,7 @@ extension CollectionViewFormSubtitleCell {
     ///   - detailFont: The detail font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
     ///   - singleLineDetail: A boolean value indicating if the detail text should be constrained to a single line. The default is `false`.
     /// - Returns: The minumum content width for the cell.
-    open class func minimumContentWidth(forText text: String, detailText: String?, containedIn traitCollection: UITraitCollection, image: UIImage? = nil,
+    open class func minimumContentWidth(forText text: String, detailText: String?, compatibleWith traitCollection: UITraitCollection, image: UIImage? = nil,
                                         emphasis: Emphasis = .title, titleFont: UIFont? = nil, detailFont: UIFont? = nil, singleLineDetail: Bool = false) -> CGFloat {
         let textFont = titleFont ?? font(withEmphasis: emphasis == .title, compatibleWith: traitCollection)
         let detailTextFont = detailFont ?? font(withEmphasis: emphasis == .detail, compatibleWith: traitCollection)
@@ -225,7 +225,7 @@ extension CollectionViewFormSubtitleCell {
     ///   - detailFont: The detail font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
     ///   - singleLineDetail: A boolean value indicating if the detail text should be constrained to a single line. The default is `false`.
     /// - Returns: The minumum content height for the cell.
-    open class func minimumContentHeight(forText text: String, detailText: String, inWidth width: CGFloat, containedIn traitCollection: UITraitCollection,
+    open class func minimumContentHeight(forText text: String, detailText: String, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection,
                                          image: UIImage? = nil, emphasis: Emphasis = .title, titleFont: UIFont? = nil, detailFont: UIFont? = nil, singleLineDetail: Bool = false) -> CGFloat {
         let textFont       = titleFont  ?? font(withEmphasis: emphasis == .title,  compatibleWith: traitCollection)
         let detailTextFont = detailFont ?? font(withEmphasis: emphasis == .detail, compatibleWith: traitCollection)
