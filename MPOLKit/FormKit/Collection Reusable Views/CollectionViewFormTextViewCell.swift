@@ -8,27 +8,22 @@
 
 import UIKit
 
-private var titleContext        = 1
-private var textViewFontContext = 2
-private var textViewTextContext = 3
+private var kvoContext = 1
 
 open class CollectionViewFormTextViewCell: CollectionViewFormCell {
-    
-    public static let fonts = (UIFont.systemFont(ofSize: 14.5, weight: UIFontWeightSemibold), UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightSemibold))
-    
-    fileprivate static let interLabelSeparation: CGFloat = 2.0
     
     
     /// Calculates the minimum content height for an instance of CollectionViewFormTextViewCell.
     /// You should use this method instead of creating a separate reference cell.
     ///
     /// - Parameters:
-    ///   - title:       The title text for the cell.
-    ///   - content:     The content to enter into the text view.
-    ///   - width:       The content width for the cell.
-    ///   - titleFont:   The title font of the cell. The default is the standard title font.
-    ///   - contentFont: The content font for the text view. the default is the standard content font.
-    /// - Returns:       The minimum appropriate height for the cell.
+    ///   - title:      The title text for the cell.
+    ///   - text:       The content text for the text view.
+    ///   - width:      The content width for the cell.
+    ///   - traitCollection: The trait collection context the cell will be presented in. This may affect the standard fonts.
+    ///   - titleFont:  The title font of the cell. The default is `nil`, specifying the standard title font.
+    ///   - textFont:   The content font for the text view. the default is `nil`, specifying the standard content font.
+    /// - Returns:      The minimum appropriate height for the cell.
     open class func minimumContentHeight(withTitle title: String?, text: String?, inWidth width: CGFloat, compatibleWidth traitCollection: UITraitCollection, titleFont: UIFont? = nil, textFont: UIFont? = nil) -> CGFloat {
         var height: CGFloat = 0.0
         let screenScale = UIScreen.main.scale
@@ -36,12 +31,10 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
             let titleLabelFont = titleFont ?? CollectionViewFormDetailCell.font(withEmphasis: false, compatibleWith: traitCollection)
             
             height += (title as NSString).boundingRect(with: CGSize(width: width - 0.5, height: .greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: titleLabelFont], context: nil).height.ceiled(toScale: screenScale)
-            height += interLabelSeparation
         }
         
         let textViewFont = textFont ?? CollectionViewFormDetailCell.font(withEmphasis: true, compatibleWith: traitCollection)
-        let detail = text ?? ""
-        height += (detail as NSString).boundingRect(with: CGSize(width: width - 0.5, height: .greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: textViewFont], context: nil).height.ceiled(toScale: screenScale)
+        height += max((text as NSString?)?.boundingRect(with: CGSize(width: width - 0.5, height: .greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: textViewFont], context: nil).height ?? 0.0, textViewFont.lineHeight).ceiled(toScale: screenScale)
         
         height += 6.0
         return height
@@ -54,19 +47,18 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
     /// The text view for the cell.
     open let textView = UITextView(frame: .zero, textContainer: nil)
     
-    /// the placeholder label for the cell.
+    /// The placeholder label for the cell.
     open let placeholderLabel = UILabel(frame: .zero)
     
-    /// The content mode for the cell.
-    /// This causes the cell to re-layout its content with the requested content parameters,
-    /// in the vertical dimension.
-    ///
-    /// - Note: Currently supports only .top or .center
-    open override var contentMode: UIViewContentMode {
-        didSet {
-            if contentMode != oldValue { setNeedsLayout() }
-        }
+    
+    /// The selection state of the cell.
+    open override var isSelected: Bool {
+        didSet { if isSelected && oldValue == false { _ = textView.becomeFirstResponder() } }
     }
+    
+    
+    fileprivate var textViewHeightConstraint: NSLayoutConstraint!
+    
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -79,109 +71,129 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
     }
     
     private func commonInit() {
-        applyStandardFonts()
+        let contentView        = self.contentView
+        let contentLayoutGuide = self.contentModeLayoutGuide
         
-        textView.textContainerInset = UIEdgeInsets(top: 0.0, left: -5.0, bottom: 0.0, right: -3.5)
-        textView.backgroundColor = .clear
-        textView.isScrollEnabled = false
+        let titleLabel       = self.titleLabel
+        let textView         = self.textView
+        let placeholderLabel = self.placeholderLabel
         
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        textView.translatesAutoresizingMaskIntoConstraints = false
         placeholderLabel.translatesAutoresizingMaskIntoConstraints = false
-        placeholderLabel.font = CollectionViewFormTextViewCell.fonts.1
+        
+        textView.textContainerInset = .zero
+        
         placeholderLabel.textColor = .gray
         placeholderLabel.backgroundColor = .clear
         
-        let contentView = self.contentView
         contentView.addSubview(titleLabel)
         contentView.addSubview(textView)
         contentView.addSubview(placeholderLabel)
         
+        textViewHeightConstraint = NSLayoutConstraint(item: textView, attribute: .height, relatedBy: .equal, toConstant: textView.contentSize.height, priority: UILayoutPriorityDefaultLow)
+        
         NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: placeholderLabel, attribute: .leading, relatedBy: .equal, toItem: textView, attribute: .leading),
-            NSLayoutConstraint(item: placeholderLabel, attribute: .top, relatedBy: .equal, toItem: textView, attribute: .top),
-            NSLayoutConstraint(item: placeholderLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: textView, attribute: .trailing),
-            NSLayoutConstraint(item: placeholderLabel, attribute: .bottom, relatedBy: .lessThanOrEqual, toItem: textView, attribute: .bottom)
+            NSLayoutConstraint(item: titleLabel, attribute: .leading,  relatedBy: .equal, toItem: contentLayoutGuide, attribute: .leading),
+            NSLayoutConstraint(item: titleLabel, attribute: .top,      relatedBy: .equal, toItem: contentLayoutGuide, attribute: .top),
+            NSLayoutConstraint(item: titleLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentLayoutGuide, attribute: .trailing),
+            
+            // lay out the text field with some space for text editing space
+            NSLayoutConstraint(item: textView, attribute: .leading,  relatedBy: .equal, toItem: contentLayoutGuide, attribute: .leading, constant: -5.0),
+            NSLayoutConstraint(item: textView, attribute: .trailing, relatedBy: .equal, toItem: contentLayoutGuide, attribute: .trailing, constant: 3.5),
+            NSLayoutConstraint(item: textView, attribute: .top,      relatedBy: .equal, toItem: titleLabel,  attribute: .bottom, constant: 2.0),
+            NSLayoutConstraint(item: textView, attribute: .bottom,   relatedBy: .equal, toItem: contentLayoutGuide, attribute: .bottom),
+            textViewHeightConstraint,
+            
+            // lay out the placeholder so it is visually where the text view "appears" to be
+            NSLayoutConstraint(item: placeholderLabel, attribute: .leading,  relatedBy: .equal, toItem: contentLayoutGuide, attribute: .leading),
+            NSLayoutConstraint(item: placeholderLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentLayoutGuide, attribute: .trailing),
+        
+            // We should be using baseline, but we can't, so we have a dirty hack:
+            NSLayoutConstraint(item: placeholderLabel, attribute: .top, relatedBy: .equal, toItem: textView, attribute: .top, constant: 3.0),
         ])
         
-        titleLabel.addObserverForContentSizeKeys(self, context: &titleContext)
-        textView.addObserver(self, forKeyPath: #keyPath(UITextView.font), options: [], context: &textViewFontContext)
-        textView.addObserver(self, forKeyPath: #keyPath(UITextView.text), options: [], context: &textViewTextContext)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(textViewTextDidChange), name: .UITextViewTextDidChange, object: textView)
+        textView.addObserver(self, forKeyPath: #keyPath(UITextView.text),          context: &kvoContext)
+        textView.addObserver(self, forKeyPath: #keyPath(UITextView.contentSize),   context: &kvoContext)
+        textView.addObserver(self, forKeyPath: #keyPath(UITextView.contentOffset), context: &kvoContext)
+        NotificationCenter.default.addObserver(self, selector: #selector(updatePlaceholderAppearance), name: .UITextViewTextDidChange, object: textView)
     }
     
     deinit {
-        titleLabel.removeObserverForContentSizeKeys(self, context: &titleContext)
-        textView.removeObserver(self, forKeyPath: #keyPath(UITextView.font), context: &textViewFontContext)
-        textView.removeObserver(self, forKeyPath: #keyPath(UITextView.text), context: &textViewTextContext)
+        textView.removeObserver(self, forKeyPath: #keyPath(UITextView.text),          context: &kvoContext)
+        textView.removeObserver(self, forKeyPath: #keyPath(UITextView.contentSize),   context: &kvoContext)
+        textView.removeObserver(self, forKeyPath: #keyPath(UITextView.contentOffset), context: &kvoContext)
     }
-    
 }
+
 
 
 extension CollectionViewFormTextViewCell {
     
-    open override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        let contentBounds   = contentView.bounds
-        let contentRect     = contentBounds.insetBy(contentView.layoutMargins)
-        
-        let titleSize       = titleLabel.sizeThatFits(CGSize(width: contentRect.width, height: .greatestFiniteMagnitude))
-        
-        let maxTextViewSize = titleSize.isEmpty ? contentRect.size : CGSize(width: contentRect.width, height: max(contentRect.size.height - titleSize.height - 9.0, 0.0))
-        var textViewHeight  = textView.sizeThatFits(maxTextViewSize).height
-        
-        var currentYOffset: CGFloat
-        if contentMode == .center {
-            let heightForContent = titleSize.height + textViewHeight + (titleSize.height.isZero == false && textViewHeight.isZero == false ? CollectionViewFormTextViewCell.interLabelSeparation : 0.0)
-            let availableContentHeight = contentRect.height
-            currentYOffset = (contentRect.minY + max((availableContentHeight - heightForContent) / 2.0, 0.0)).rounded(toScale: window?.screen.scale ?? 1.0)
-        } else {
-            currentYOffset = contentRect.minY + 4.0
-        }
-        
-        titleLabel.frame = CGRect(origin: CGPoint(x: contentRect.minX, y: currentYOffset), size: titleSize)
-        currentYOffset += ceil(titleSize.height)
-        if titleSize.height.isZero == false && textViewHeight.isZero == false { currentYOffset += CollectionViewFormTextViewCell.interLabelSeparation }
-        
-        textViewHeight = max(0.0, min(textViewHeight, contentBounds.height - currentYOffset))
-        textView.frame = CGRect(x: contentRect.minX, y: currentYOffset, width: contentRect.width, height: textViewHeight)
-    }
-    
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if context == &titleContext {
-            setNeedsLayout()
-        } else if context == &textViewFontContext {
-            placeholderLabel.font = textView.font
-        } else if context == &textViewTextContext {
-            textViewTextDidChange()
+        if context == &kvoContext {
+            if let keyPath = keyPath {
+                switch keyPath {
+                case #keyPath(UITextView.text):
+                    updatePlaceholderAppearance()
+                case #keyPath(UITextView.contentSize):
+                    updateTextViewConstraint()
+                case #keyPath(UITextView.contentOffset):
+                    // There are a few bugs in UITextView where, during resizing, the content offset gets set to a scrolled position valid
+                    // prior to the update, eg a user enters text, which causes resizing and a scroll simultaneously.
+                    // We guard against the case, and if any content offset change tries to occur when it's not valid,
+                    // we reset back to zero.
+                    if textView.contentOffset.y !=~ 0.0 && textView.contentSize.height <= textView.bounds.height {
+                        textView.contentOffset.y = 0.0
+                    }
+                default:
+                    break
+                }
+            }
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
     }
     
-    open override func prepareForReuse() {
-        super.prepareForReuse()
-        applyStandardFonts()
-    }
-    
     internal override func applyStandardFonts() {
+        super.applyStandardFonts()
+        
+        let traitCollection = self.traitCollection
         titleLabel.font = CollectionViewFormDetailCell.font(withEmphasis: false, compatibleWith: traitCollection)
         textView.font   = CollectionViewFormDetailCell.font(withEmphasis: true,  compatibleWith: traitCollection)
-        placeholderLabel.font = textView.font
+        placeholderLabel.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
         
-        titleLabel.adjustsFontForContentSizeCategory = true
-        textView.adjustsFontForContentSizeCategory = true
+        titleLabel.adjustsFontForContentSizeCategory       = true
+        textView.adjustsFontForContentSizeCategory         = true
         placeholderLabel.adjustsFontForContentSizeCategory = true
     }
     
 }
 
 
+// MARK: - Private methods
+/// Private methods
 fileprivate extension CollectionViewFormTextViewCell {
     
-    @objc fileprivate func textViewTextDidChange() {
-        placeholderLabel.isHidden = (textView.text?.isEmpty ?? true) == false
+    fileprivate func updateTextViewConstraint() {
+        func performUpdate() {
+            let textHeight = textView.contentSize.height
+            if textViewHeightConstraint.constant !=~ textHeight {
+                textViewHeightConstraint.constant = textHeight
+            }
+        }
+        
+        if UIView.inheritedAnimationDuration > 0.0 {
+            // We need to delay this update for a slight amount. This works around a bug where updating during some animations
+            // where the animation will cause content size changes, causes auto-layout to break if we make the change during the animation.
+            // This will occur on rotation events, for example. `UIView.performWithoutAnimation(_:)` does not fix this bug.
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: performUpdate)
+        } else {
+            performUpdate()
+        }
     }
     
+    @objc fileprivate func updatePlaceholderAppearance() {
+        placeholderLabel.isHidden = textView.text?.isEmpty ?? true == false
+    }
 }

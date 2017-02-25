@@ -19,7 +19,7 @@ open class FormTextField: UITextField {
             _unitLabel!.textColor = textColor
             _unitLabel!.font      = font
             _unitLabel!.isHidden    = true
-            _unitLabel!.addObserver(self, forKeyPath: #keyPath(UILabel.text), options: [], context: &kvoContext)
+            _unitLabel!.addObserver(self, forKeyPath: #keyPath(UILabel.text),  context: &kvoContext)
             addSubview(_unitLabel!)
         }
         return _unitLabel!
@@ -54,7 +54,7 @@ extension FormTextField {
     
     open override var text: String? {
         didSet {
-            fm_textDidChange()
+            textDidChange()
         }
     }
     
@@ -62,7 +62,7 @@ extension FormTextField {
         willSet {
             if font != newValue && _unitLabel?.font == font {
                 _unitLabel?.font = newValue
-                fm_textDidChange()
+                textDidChange()
                 setNeedsLayout()
             }
         }
@@ -78,13 +78,13 @@ extension FormTextField {
     
     open override var bounds: CGRect {
         didSet {
-            fm_textDidChange()
+            textDidChange()
         }
     }
     
     open override var frame: CGRect {
         didSet {
-            fm_textDidChange()
+            textDidChange()
         }
     }
     
@@ -95,7 +95,7 @@ extension FormTextField {
     
     open override func becomeFirstResponder() -> Bool {
         if super.becomeFirstResponder() {
-            fm_textDidChange()
+            textDidChange()
             return true
         }
         return false
@@ -103,7 +103,7 @@ extension FormTextField {
     
     open override func resignFirstResponder() -> Bool {
         if super.resignFirstResponder() {
-            fm_textDidChange()
+            textDidChange()
             return true
         }
         return false
@@ -125,7 +125,7 @@ extension FormTextField {
         if context == &kvoContext {
             if _unitLabel?.text?.isEmpty ?? true == false {
                 _unitLabel!.sizeToFit()
-                fm_textDidChange()
+                textDidChange()
             }
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
@@ -136,10 +136,10 @@ extension FormTextField {
 private extension FormTextField {
     
     func commonInit() {
-        addTarget(self, action: #selector(fm_textDidChange), for: .editingChanged)
+        addTarget(self, action: #selector(textDidChange), for: .editingChanged)
     }
     
-    @objc func fm_textDidChange() {
+    @objc func textDidChange() {
         let hidden = _unitLabel?.text?.isEmpty ?? true || text?.isEmpty ?? true
         
         _unitLabel?.isHidden = hidden

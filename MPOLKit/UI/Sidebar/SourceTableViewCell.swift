@@ -135,7 +135,7 @@ fileprivate extension SourceTableViewCell {
         
         if glowColor != self.glowColor {
             self.glowColor = glowColor
-            self.glowView.image = nil//glowImage(withColor: glowColor)
+            self.glowView.image = glowImage(withColor: glowColor)
         }
         
         // We're already glowing. Don't bother with the animation.
@@ -160,23 +160,23 @@ fileprivate extension SourceTableViewCell {
     }
     
     
-//    private static let glowImageGenerator = UIGraphicsImageRenderer(size: CGSize(width: 60.0, height: 60.0))
-//    
-//    fileprivate func glowImage(withColor color: UIColor) -> UIImage {
-//        let drawColor  = color.withAlphaComponent(0.3)
-//        let clearColor = color.withAlphaComponent(0.0)
-//        
-//        return SourceTableViewCell.glowImageGenerator.image {_ in
-//            let colors = [drawColor.cgColor, clearColor.cgColor]
-//            
-//            guard let context = UIGraphicsGetCurrentContext(),
-//                let gradient = CGGradient(colorsSpace: nil, colors: colors as CFArray, locations: nil) else { return }
-//            
-//            let center = CGPoint(x: 30.0, y: 30.0)
-//            
-//            context.drawRadialGradient(gradient, startCenter: center, startRadius: 11.5, endCenter: center, endRadius: 30.0, options: [])
-//        }
-//    }
+    private static let glowImageGenerator = UIGraphicsImageRenderer(size: CGSize(width: 60.0, height: 60.0))
+    
+    fileprivate func glowImage(withColor color: UIColor) -> UIImage {
+        let drawColor  = color.withAlphaComponent(0.3)
+        let clearColor = color.withAlphaComponent(0.0)
+        
+        return SourceTableViewCell.glowImageGenerator.image {_ in
+            let colors = [drawColor.cgColor, clearColor.cgColor]
+            
+            guard let context = UIGraphicsGetCurrentContext(),
+                let gradient = CGGradient(colorsSpace: nil, colors: colors as CFArray, locations: nil) else { return }
+            
+            let center = CGPoint(x: 30.0, y: 30.0)
+            
+            context.drawRadialGradient(gradient, startCenter: center, startRadius: 11.5, endCenter: center, endRadius: 30.0, options: [])
+        }
+    }
 }
 
 /// A UIView subclass for drawing the Source Icon itself.

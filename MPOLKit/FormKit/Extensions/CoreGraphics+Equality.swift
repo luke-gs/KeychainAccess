@@ -9,12 +9,13 @@
 import CoreGraphics
 
 
-infix operator ==~: DefaultPrecedence
+
+infix operator ==~: ComparisonPrecedence
 func ==~ (left: CGFloat, right: CGFloat) -> Bool {
     return fabs(left.distance(to: right)) <= 1e-15
 }
 
-infix operator !=~: DefaultPrecedence
+infix operator !=~: ComparisonPrecedence
 func !=~ (left: CGFloat, right: CGFloat) -> Bool {
     return !(left ==~ right)
 }

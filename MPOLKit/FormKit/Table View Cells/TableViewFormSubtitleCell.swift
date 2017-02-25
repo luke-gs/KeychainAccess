@@ -69,12 +69,10 @@ open class TableViewFormSubtitleCell: TableViewFormCell {
         textLabel.translatesAutoresizingMaskIntoConstraints   = false
         detailLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        applyStandardFonts()
-        
-        textLabel.addObserver(self,   forKeyPath: #keyPath(UILabel.text),           options: [], context: &kvoContext)
-        textLabel.addObserver(self,   forKeyPath: #keyPath(UILabel.attributedText), options: [], context: &kvoContext)
-        detailLabel.addObserver(self, forKeyPath: #keyPath(UILabel.text),           options: [], context: &kvoContext)
-        detailLabel.addObserver(self, forKeyPath: #keyPath(UILabel.attributedText), options: [], context: &kvoContext)
+        textLabel.addObserver(self,   forKeyPath: #keyPath(UILabel.text),           context: &kvoContext)
+        textLabel.addObserver(self,   forKeyPath: #keyPath(UILabel.attributedText), context: &kvoContext)
+        detailLabel.addObserver(self, forKeyPath: #keyPath(UILabel.text),           context: &kvoContext)
+        detailLabel.addObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &kvoContext)
         
         contentView.addLayoutGuide(labelLayoutGuide)
         
@@ -166,9 +164,15 @@ extension TableViewFormSubtitleCell {
         super.updateConstraints()
     }
     
-    open override func prepareForReuse() {
-        super.prepareForReuse()
-        applyStandardFonts()
+    internal override func applyStandardFonts() {
+        super.applyStandardFonts()
+        
+        let traitCollection = self.traitCollection
+        textLabel.font       = CollectionViewFormDetailCell.font(withEmphasis: emphasis == .text,   compatibleWith: traitCollection)
+        detailTextLabel.font = CollectionViewFormDetailCell.font(withEmphasis: emphasis == .detail, compatibleWith: traitCollection)
+        
+        textLabel.adjustsFontForContentSizeCategory       = true
+        detailTextLabel.adjustsFontForContentSizeCategory = true
     }
     
 }
@@ -206,15 +210,6 @@ fileprivate extension TableViewFormSubtitleCell {
             self.labelState = newState
             setNeedsUpdateConstraints()
         }
-    }
-    
-    fileprivate func applyStandardFonts() {
-        let traitCollection = self.traitCollection
-        textLabel.font       = CollectionViewFormDetailCell.font(withEmphasis: emphasis == .text,   compatibleWith: traitCollection)
-        detailTextLabel.font = CollectionViewFormDetailCell.font(withEmphasis: emphasis == .detail, compatibleWith: traitCollection)
-        
-        textLabel.adjustsFontForContentSizeCategory = true
-        detailTextLabel.adjustsFontForContentSizeCategory = true
     }
     
 }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-open class TableViewFormTextFieldCell: UITableViewCell {
+open class TableViewFormTextFieldCell: TableViewFormCell {
     
     open let titleLabel: UILabel = UILabel(frame: .zero)
     
@@ -30,9 +30,14 @@ open class TableViewFormTextFieldCell: UITableViewCell {
         if selected { _ = textField.becomeFirstResponder() }
     }
     
-    open override func prepareForReuse() {
-        super.prepareForReuse()
-        applyStandardFonts()
+    internal override func applyStandardFonts() {
+        super.applyStandardFonts()
+        
+        titleLabel.font = CollectionViewFormDetailCell.font(withEmphasis: false, compatibleWith: traitCollection)
+        textField.font  = CollectionViewFormDetailCell.font(withEmphasis: true,  compatibleWith: traitCollection)
+        
+        titleLabel.adjustsFontForContentSizeCategory = true
+        textField.adjustsFontForContentSizeCategory  = true
     }
     
 }
@@ -41,8 +46,6 @@ fileprivate extension TableViewFormTextFieldCell {
     
     fileprivate func commonInit() {
         selectionStyle = .none
-        
-        applyStandardFonts()
         
         textField.clearButtonMode = .whileEditing
         
@@ -71,14 +74,6 @@ fileprivate extension TableViewFormTextFieldCell {
             NSLayoutConstraint(item: textField, attribute: .bottom, relatedBy: .equal, toItem: layoutGuide, attribute: .bottom),
             NSLayoutConstraint(item: textField, attribute: .trailing, relatedBy: .equal, toItem: layoutGuide, attribute: .trailing)
         ])
-    }
-    
-    fileprivate func applyStandardFonts() {
-        titleLabel.font = CollectionViewFormDetailCell.font(withEmphasis: false, compatibleWith: traitCollection)
-        textField.font  = CollectionViewFormDetailCell.font(withEmphasis: true,  compatibleWith: traitCollection)
-        
-        titleLabel.adjustsFontForContentSizeCategory = true
-        textField.adjustsFontForContentSizeCategory = true
     }
     
 }

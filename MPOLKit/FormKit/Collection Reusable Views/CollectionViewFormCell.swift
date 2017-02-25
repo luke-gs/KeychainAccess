@@ -94,6 +94,34 @@ open class CollectionViewFormCell: UICollectionViewCell {
     }
     
     
+    open let contentModeLayoutGuide: UILayoutGuide = UILayoutGuide()
+    
+    
+    /// CollectionViewFormCell overrides this UIView flag to adjust its content positioning.
+    ///
+    /// The default is `.center`.
+    open override var contentMode: UIViewContentMode {
+        didSet {
+            if contentMode == oldValue { return }
+            
+            let attribute: NSLayoutAttribute
+            switch contentMode {
+            case .top, .topLeft, .topRight:
+                attribute = .top
+            case .bottom, .bottomLeft, .bottomRight:
+                attribute = .bottom
+            default:
+                attribute = .centerY
+            }
+            contentModeLayoutConstraint?.isActive = false
+            contentModeLayoutConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: attribute, relatedBy: .equal, toItem: contentView.layoutMarginsGuide, attribute: attribute)
+            contentModeLayoutConstraint.isActive = true
+        }
+    }
+    
+    fileprivate var contentModeLayoutConstraint: NSLayoutConstraint!
+    
+    
     // MARK: - Private properties
     
     fileprivate let internalContentView = UIView(frame: .zero)
@@ -191,7 +219,7 @@ extension CollectionViewFormCell: UIScrollViewDelegate {
     }
     
     open func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        self.collectionView?.endEditing(true)
+        self.superview(of: UICollectionView.self)?.endEditing(true)
         scrollView.contentInset.right = scrollViewInset
         _deceleratingToOpen = false
     }
@@ -229,7 +257,7 @@ extension CollectionViewFormCell: UIScrollViewDelegate {
         let size = scrollView.bounds.size
         
         if actionView == nil && scrollContentOffset.x.isZero == false {
-            collectionView?.endEditing(true)
+            superview(of: UICollectionView.self)?.endEditing(true)
             actionView = CollectionViewFormCellActionView(cell: self)
             actionView!.updateForButtonsItems((editActions?.map { let color = $0.color ?? .gray;
                 return ($0.title, color)}))
@@ -343,7 +371,10 @@ internal extension CollectionViewFormCell {
 private extension CollectionViewFormCell {
     
     func commonInit() {
-        let trueContentView = super.contentView
+        super.contentMode = .center
+        
+        let trueContentView        = super.contentView
+        let contentModeLayoutGuide = self.contentModeLayoutGuide
         
         scrollView = CollectionViewFormCellScrollView(cell: self)
         scrollView.delegate      = self
@@ -357,6 +388,18 @@ private extension CollectionViewFormCell {
         internalContentView.frame = scrollView.bounds
         internalContentView.clipsToBounds = true
         scrollView.addSubview(internalContentView)
+        
+        internalContentView.addLayoutGuide(contentModeLayoutGuide)
+        
+        contentModeLayoutConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .centerY, relatedBy: .equal, toItem: internalContentView, attribute: .centerYWithinMargins)
+        
+        NSLayoutConstraint.activate([
+            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .leading, relatedBy: .equal, toItem: internalContentView, attribute: .leadingMargin),
+            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .trailing, relatedBy: .equal, toItem: internalContentView, attribute: .trailingMargin),
+            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .top, relatedBy: .greaterThanOrEqual, toItem: internalContentView, attribute: .topMargin),
+            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .bottom, relatedBy: .lessThanOrEqual, toItem: internalContentView, attribute: .bottomMargin, priority: 500),
+            contentModeLayoutConstraint
+        ])
         
         applyStandardFonts()
     }
@@ -372,7 +415,7 @@ private extension CollectionViewFormCell {
     
     func applyTouchTrigger() {
         if touchTrigger != nil { return }
-        if let collectionView = self.collectionView {
+        if let collectionView = superview(of: UICollectionView.self) {
             let touchTrigger = TouchRecognizer(target: self, action: #selector(touchTriggerDidActivate(_:)))
             touchTrigger.delegate = self
             collectionView.addGestureRecognizer(touchTrigger)
@@ -407,7 +450,7 @@ extension CollectionViewFormCell: UIGestureRecognizerDelegate {
     
     @objc public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         let view = gestureRecognizer.view
-        let myCollectionView = view as? UICollectionView ?? view?.collectionView
+        let myCollectionView = view as? UICollectionView ?? view?.superview(of: UICollectionView.self)
         let returnValue = otherGestureRecognizer.view == myCollectionView
         return returnValue
     }
@@ -449,7 +492,7 @@ private class CollectionViewFormCellScrollView: UIScrollView, UIGestureRecognize
     }
     
     override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        if let cells = cell?.collectionView?.visibleCells {
+        if let cells = cell?.superview(of: UICollectionView.self)?.visibleCells {
             if cells.contains(where: {
                 if let state = ($0 as? CollectionViewFormCell)?.scrollView.panGestureRecognizer.state {
                     return state != .possible && state != .failed
@@ -533,7 +576,7 @@ private class CollectionViewFormCellActionView: UIView {
             let tag = button.tag
             if editCount <= tag { return }
             
-            if let collectionView = self.collectionView, let indexPath = collectionView.indexPath(for: cell) {
+            if let indexPath = superview(of: UICollectionView.self)?.indexPath(for: cell) {
                 editActions[tag].action?(cell, indexPath)
             }
         }
@@ -558,20 +601,8 @@ fileprivate class TouchRecognizer: UIGestureRecognizer {
 
 extension UIView {
     
-    /// An convenience to find a view's nearest UICollectionView ancestor, if it exists.
-    var collectionView: UICollectionView? {
-        var superview = self.superview
-        while let superView = superview {
-            if let collection = superView as? UICollectionView {
-                return collection
-            }
-            superview = superView.superview
-        }
-        return nil
-    }
-    
     /// A convenience to find the subview which is currently the first responder, if any.
-    open var firstResponderSubview: UIView? {
+    var firstResponderSubview: UIView? {
         if isFirstResponder { return self }
         for subview in subviews {
             if let firstResponderSubview = subview.firstResponderSubview {

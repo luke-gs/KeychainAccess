@@ -43,9 +43,24 @@ open class TableViewFormCell: UITableViewCell {
         /// A minimum content height of 23.0 is the standard for a table view cell.
         minimumHeightConstraint = NSLayoutConstraint(item: contentView, attribute: .bottomMargin, relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .topMargin, constant: 23.0, priority: UILayoutPriorityDefaultHigh)
         minimumHeightConstraint.isActive = true
+        applyStandardFonts()
     }
     
 }
+
+
+extension TableViewFormCell {
+    
+    open override func prepareForReuse() {
+        super.prepareForReuse()
+        applyStandardFonts()
+    }
+    
+    internal func applyStandardFonts() {
+    }
+    
+}
+
 
 extension TableViewFormCell: DefaultReusable {
 }

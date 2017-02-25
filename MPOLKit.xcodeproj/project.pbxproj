@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6DA6533D1E61759800ADB768 /* UIView+SuperviewSearching.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA6533C1E61759800ADB768 /* UIView+SuperviewSearching.swift */; };
 		6DAAAFE91E5E771A000E57A9 /* EntityCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAAAFE81E5E771A000E57A9 /* EntityCollectionViewCell.swift */; };
-		6DAAAFED1E5E7B10000E57A9 /* UILabel+ContentObserving.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAAAFEC1E5E7B10000E57A9 /* UILabel+ContentObserving.swift */; };
 		BC2152141E5950D500193086 /* CollectionViewFormBoxedLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2152131E5950D500193086 /* CollectionViewFormBoxedLayout.swift */; };
 		BC2FA2D31E54023E00E2D0D1 /* MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC2FA2C91E54023E00E2D0D1 /* MPOLKit.framework */; };
 		BC2FA2D81E54023E00E2D0D1 /* MPOLKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2FA2D71E54023E00E2D0D1 /* MPOLKitTests.swift */; };
@@ -101,8 +101,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6DA6533C1E61759800ADB768 /* UIView+SuperviewSearching.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+SuperviewSearching.swift"; sourceTree = "<group>"; };
 		6DAAAFE81E5E771A000E57A9 /* EntityCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EntityCollectionViewCell.swift; path = Cells/EntityCollectionViewCell.swift; sourceTree = "<group>"; };
-		6DAAAFEC1E5E7B10000E57A9 /* UILabel+ContentObserving.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+ContentObserving.swift"; sourceTree = "<group>"; };
 		BC2152131E5950D500193086 /* CollectionViewFormBoxedLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormBoxedLayout.swift; sourceTree = "<group>"; };
 		BC2FA2C91E54023E00E2D0D1 /* MPOLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MPOLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC2FA2CC1E54023E00E2D0D1 /* MPOLKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPOLKit.h; sourceTree = "<group>"; };
@@ -333,9 +333,9 @@
 				BC712E601E5535B800BD5DAE /* UIColor+ActionColors.swift */,
 				BC712E611E5535B800BD5DAE /* UIEdgeInsets+InverseAndInset.swift */,
 				BC712E621E5535B800BD5DAE /* UIImage+FormKitDefaults.swift */,
-				6DAAAFEC1E5E7B10000E57A9 /* UILabel+ContentObserving.swift */,
 				BC7150A01E56828A0093F958 /* UITableView+DefaultReuse.swift */,
 				BC7150A11E56828A0093F958 /* UITableViewCell+LayoutMargins.swift */,
+				6DA6533C1E61759800ADB768 /* UIView+SuperviewSearching.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -560,6 +560,7 @@
 				BC712E751E5535B800BD5DAE /* CollectionViewFormEditAction.swift in Sources */,
 				BC712E741E5535B800BD5DAE /* CollectionViewFormDecorationView.swift in Sources */,
 				BC712E821E5535B800BD5DAE /* TableViewFormCell.swift in Sources */,
+				6DA6533D1E61759800ADB768 /* UIView+SuperviewSearching.swift in Sources */,
 				BC712E7C1E5535B800BD5DAE /* UIColor+ActionColors.swift in Sources */,
 				BCFD25581E5C03BE00EC2566 /* CollectionViewFormMPOLLayout.swift in Sources */,
 				BC691B4D1E54041200EC3A20 /* SidebarTableViewCell.swift in Sources */,
@@ -575,7 +576,6 @@
 				BC712E8A1E5535B800BD5DAE /* SelectableButton.swift in Sources */,
 				BC712E841E5535B800BD5DAE /* TableViewFormSubtitleCell.swift in Sources */,
 				BC691B4B1E54041200EC3A20 /* SidebarSourceItem.swift in Sources */,
-				6DAAAFED1E5E7B10000E57A9 /* UILabel+ContentObserving.swift in Sources */,
 				BC7150A31E56828A0093F958 /* UICollectionView+DefaultReuse.swift in Sources */,
 				BC712E721E5535B800BD5DAE /* CollectionViewFormCell.swift in Sources */,
 				BCA68EB21E5AFC5B00CDEF13 /* BorderedImageView.swift in Sources */,

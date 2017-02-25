@@ -48,33 +48,21 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
             if accessoryView == oldValue { return }
             
             oldValue?.removeFromSuperview()
+            
+            var newConstraints: [NSLayoutConstraint] = []
             if let newAccessoryView = accessoryView {
                 contentView.addSubview(newAccessoryView)
-                textLabelTrailingConstraint = NSLayoutConstraint(item: textLayoutGuide, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: newAccessoryView, attribute: .leading, constant: -10.0)
+                newAccessoryView.translatesAutoresizingMaskIntoConstraints = false
+                
+                textTrailingConstraint = NSLayoutConstraint(item: textLayoutGuide, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: newAccessoryView, attribute: .leading, constant: -10.0)
+                newConstraints.append(NSLayoutConstraint(item: newAccessoryView, attribute: .centerY, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .centerY))
+                newConstraints.append(NSLayoutConstraint(item: newAccessoryView, attribute: .top,     relatedBy: .greaterThanOrEqual, toItem: contentModeLayoutGuide, attribute: .top))
+                newConstraints.append(NSLayoutConstraint(item: newAccessoryView, attribute: .trailing, relatedBy: .equal, toItem: contentView, attribute: .trailingMargin))
             } else {
-                textLabelTrailingConstraint = NSLayoutConstraint(item: textLayoutGuide, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentView.layoutMarginsGuide, attribute: .trailing)
+                textTrailingConstraint = NSLayoutConstraint(item: textLayoutGuide, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentView, attribute: .trailingMargin)
             }
-            textLabelTrailingConstraint.isActive = true
-        }
-    }
-    
-    
-    /// The content mode for the cell.
-    /// This causes the cell to re-layout its content with the requested content parameters,
-    /// in the vertical dimension.
-    /// - note: Currently supports only .Top or .Center
-    open override var contentMode: UIViewContentMode {
-        didSet {
-            let newContentModeIsTop = contentMode == .top
-            let oldContentModeIsTop = oldValue == .top
-            
-            if oldContentModeIsTop != newContentModeIsTop {
-                textLabelYConstraint.isActive = false
-                let attribute: NSLayoutAttribute = newContentModeIsTop ? .top : .centerY
-                textLabelYConstraint = NSLayoutConstraint(item: textLayoutGuide, attribute: attribute, relatedBy: .equal, toItem: contentView.layoutMarginsGuide, attribute: attribute)
-                textLabelYConstraint.isActive = true
-            }
-        
+            newConstraints.append(textTrailingConstraint)
+            NSLayoutConstraint.activate(newConstraints)
         }
     }
     
@@ -83,17 +71,13 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
     
     fileprivate static var interLabelSeparation: CGFloat = 3.0
     
-    internal var imageViewYConstraint: NSLayoutConstraint!
-    
     fileprivate let textLayoutGuide = UILayoutGuide()
     
     fileprivate var interLabelConstraint: NSLayoutConstraint!
     
-    fileprivate var textLabelLeadingConstraint: NSLayoutConstraint!
+    fileprivate var textLeadingConstraint: NSLayoutConstraint!
     
-    fileprivate var textLabelTrailingConstraint: NSLayoutConstraint!
-    
-    fileprivate var textLabelYConstraint: NSLayoutConstraint!
+    fileprivate var textTrailingConstraint: NSLayoutConstraint!
     
     fileprivate var imageWidthConstraint: NSLayoutConstraint!
     
@@ -125,44 +109,52 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
         contentView.addSubview(detailTextLabel)
         contentView.addSubview(textLabel)
         contentView.addSubview(imageView)
+        
+        let textLayoutGuide        = self.textLayoutGuide
+        let contentModeLayoutGuide = self.contentModeLayoutGuide
         contentView.addLayoutGuide(textLayoutGuide)
+        contentView.addLayoutGuide(contentModeLayoutGuide)
         
         imageView.isHidden = true
         textLabel.isHidden = true
         detailTextLabel.isHidden = true
         
-        let contentLayoutGuide = contentView.layoutMarginsGuide
+        imageView.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .vertical)
+        imageView.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .horizontal)
         
-        imageWidthConstraint = NSLayoutConstraint(item: imageView, attribute: .width, relatedBy: .equal, toConstant: 0.0, priority: UILayoutPriorityRequired - 1)
-        interLabelConstraint = NSLayoutConstraint(item: detailTextLabel, attribute: .top, relatedBy: .equal, toItem: textLabel, attribute: .bottom)
-        textLabelLeadingConstraint = NSLayoutConstraint(item: textLayoutGuide, attribute: .leading, relatedBy: .equal, toItem: imageView, attribute: .trailing)
-        textLabelTrailingConstraint = NSLayoutConstraint(item: textLayoutGuide, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentLayoutGuide, attribute: .trailing)
-        
-        textLabelYConstraint = NSLayoutConstraint(item: textLayoutGuide, attribute: .centerY, relatedBy: .equal, toItem: contentLayoutGuide, attribute: .centerY)
-        imageViewYConstraint = NSLayoutConstraint(item: imageView, attribute: .centerY, relatedBy: .equal, toItem: textLayoutGuide, attribute: .centerY)
-        
+        imageWidthConstraint   = NSLayoutConstraint(item: imageView,       attribute: .width,    relatedBy: .equal, toConstant: 0.0, priority: UILayoutPriorityRequired - 1)
+        interLabelConstraint   = NSLayoutConstraint(item: detailTextLabel, attribute: .top,      relatedBy: .equal, toItem: textLabel, attribute: .bottom)
+        textLeadingConstraint  = NSLayoutConstraint(item: textLayoutGuide, attribute: .leading,  relatedBy: .equal, toItem: imageView, attribute: .trailing)
+        textTrailingConstraint = NSLayoutConstraint(item: textLayoutGuide, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentView, attribute: .trailingMargin)
         
         NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: imageView, attribute: .leading, relatedBy: .equal, toItem: contentLayoutGuide, attribute: .leading),
+            NSLayoutConstraint(item: imageView, attribute: .top,     relatedBy: .greaterThanOrEqual, toItem: contentModeLayoutGuide, attribute: .top),
+            NSLayoutConstraint(item: imageView, attribute: .centerY, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .centerY),
+            NSLayoutConstraint(item: imageView, attribute: .leading, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .leading),
+            imageWidthConstraint,
             
-            NSLayoutConstraint(item: textLabel, attribute: .top, relatedBy: .equal, toItem: textLayoutGuide, attribute: .top),
-            NSLayoutConstraint(item: textLabel, attribute: .leading, relatedBy: .equal, toItem: textLayoutGuide, attribute: .leading),
+            NSLayoutConstraint(item: textLabel, attribute: .top,      relatedBy: .equal,           toItem: textLayoutGuide, attribute: .top),
+            NSLayoutConstraint(item: textLabel, attribute: .leading,  relatedBy: .equal,           toItem: textLayoutGuide, attribute: .leading),
             NSLayoutConstraint(item: textLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: textLayoutGuide, attribute: .trailing),
             
-            NSLayoutConstraint(item: detailTextLabel, attribute: .leading, relatedBy: .equal, toItem: textLayoutGuide, attribute: .leading),
+            NSLayoutConstraint(item: detailTextLabel, attribute: .leading,  relatedBy: .equal,           toItem: textLayoutGuide, attribute: .leading),
             NSLayoutConstraint(item: detailTextLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: textLayoutGuide, attribute: .trailing),
-            NSLayoutConstraint(item: detailTextLabel, attribute: .bottom, relatedBy: .equal, toItem: textLayoutGuide, attribute: .bottom),
+            NSLayoutConstraint(item: detailTextLabel, attribute: .bottom,   relatedBy: .equal,           toItem: textLayoutGuide, attribute: .bottom),
             
-            NSLayoutConstraint(item: textLayoutGuide, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentLayoutGuide, attribute: .trailing),
+            NSLayoutConstraint(item: textLayoutGuide, attribute: .top,     relatedBy: .greaterThanOrEqual, toItem: contentModeLayoutGuide, attribute: .top),
+            NSLayoutConstraint(item: textLayoutGuide, attribute: .centerY, relatedBy: .equal,              toItem: contentModeLayoutGuide, attribute: .centerY),
+            textLeadingConstraint,
+            textTrailingConstraint,
+            interLabelConstraint,
             
-            textLabelLeadingConstraint, textLabelTrailingConstraint, textLabelYConstraint,
-            interLabelConstraint, imageWidthConstraint, imageViewYConstraint
+            NSLayoutConstraint(item: imageView,       attribute: .top, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .top, priority: UILayoutPriorityDefaultLow),
+            NSLayoutConstraint(item: textLayoutGuide, attribute: .top, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .top, priority: UILayoutPriorityDefaultLow)
         ])
         
         let textKeyPath = #keyPath(UILabel.text)
-        textLabel.addObserver(self, forKeyPath: textKeyPath, options: [], context: &contentContext)
-        detailTextLabel.addObserver(self, forKeyPath: textKeyPath, options: [], context: &contentContext)
-        imageView.addObserver(self, forKeyPath: #keyPath(UIImageView.image), options: [], context: &contentContext)
+        textLabel.addObserver(self, forKeyPath: textKeyPath, context: &contentContext)
+        detailTextLabel.addObserver(self, forKeyPath: textKeyPath, context: &contentContext)
+        imageView.addObserver(self, forKeyPath: #keyPath(UIImageView.image), context: &contentContext)
     }
    
     deinit {
@@ -189,7 +181,7 @@ extension CollectionViewFormDetailCell {
             case let imageView as UIImageView:
                 let imageSize = imageView.image?.size
                 imageView.isHidden = imageSize?.isEmpty ?? true
-                textLabelLeadingConstraint.constant = imageSize?.isEmpty ?? true ? 0.0 : 10.0
+                textLeadingConstraint.constant = imageSize?.isEmpty ?? true ? 0.0 : 10.0
                 imageWidthConstraint.constant = imageSize?.width ?? 0.0
             default:
                 break
@@ -197,12 +189,6 @@ extension CollectionViewFormDetailCell {
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
-    }
-    
-    open override func layoutSubviews() {
-        let startTime = CFAbsoluteTimeGetCurrent()
-        super.layoutSubviews()
-        print("Layout Time Taken: \(CFAbsoluteTimeGetCurrent() - startTime)")
     }
     
 }
@@ -219,7 +205,7 @@ internal extension CollectionViewFormDetailCell {
         textLabel.font       = CollectionViewFormDetailCell.font(withEmphasis: emphasis == .text,   compatibleWith: traitCollection)
         detailTextLabel.font = CollectionViewFormDetailCell.font(withEmphasis: emphasis == .detail, compatibleWith: traitCollection)
         
-        textLabel.adjustsFontForContentSizeCategory = true
+        textLabel.adjustsFontForContentSizeCategory       = true
         detailTextLabel.adjustsFontForContentSizeCategory = true
     }
     

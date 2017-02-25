@@ -15,24 +15,6 @@ private var textContext = 1
 /// The checkbox's selection is determined by selection status of the cell.
 open class CollectionViewFormSelectionCell: CollectionViewFormDetailCell {
     
-    
-    open class func mininumContentWidth(withTitle title: String?, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
-        return minimumContentWidth(withTitle: title, font: SelectableButton.font(compatibleWith: traitCollection))
-    }
-    
-    open class func minimumContentWidth(withTitle title: String?, font: UIFont) -> CGFloat {
-        return ceil((title as NSString?)?.size(attributes: [NSFontAttributeName: font]).width ?? 0 + 30.0)
-    }
-    
-    open class func minimumContentHeight(compatibleWith traitCollection: UITraitCollection) -> CGFloat {
-        return minimumContentHeight(withTitleFont: SelectableButton.font(compatibleWith: traitCollection))
-    }
-    
-    open class func minimumContentHeight(withTitleFont titleFont: UIFont) -> CGFloat {
-        return super.minimumContentHeight(forText: "Kj", detailText: nil, inWidth: .greatestFiniteMagnitude, compatibleWith: nil, image: .checkbox, emphasis: .text, titleFont: titleFont, detailFont: nil, singleLineDetail: true)
-    }
-    
-    
     public enum SelectionStyle {
         case checkbox
         case radio
@@ -79,10 +61,6 @@ extension CollectionViewFormSelectionCell {
         didSet { updateImageView() }
     }
     
-}
-
-internal extension CollectionViewFormSelectionCell {
-    
     internal override func applyStandardFonts() {
         textLabel.font = SelectableButton.font(compatibleWith: traitCollection)
         textLabel.adjustsFontForContentSizeCategory = true
@@ -92,7 +70,30 @@ internal extension CollectionViewFormSelectionCell {
 }
 
 
+// MARK: - Sizing
+/// Sizing
+extension CollectionViewFormSelectionCell {
+    
+    open class func mininumContentWidth(withTitle title: String?, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
+        return minimumContentWidth(withTitle: title, font: SelectableButton.font(compatibleWith: traitCollection))
+    }
+    
+    open class func minimumContentWidth(withTitle title: String?, font: UIFont) -> CGFloat {
+        return ceil((title as NSString?)?.size(attributes: [NSFontAttributeName: font]).width ?? 0 + 30.0)
+    }
+    
+    open class func minimumContentHeight(compatibleWith traitCollection: UITraitCollection) -> CGFloat {
+        return minimumContentHeight(withTitleFont: SelectableButton.font(compatibleWith: traitCollection))
+    }
+    
+    open class func minimumContentHeight(withTitleFont titleFont: UIFont) -> CGFloat {
+        return super.minimumContentHeight(forText: "Kj", detailText: nil, inWidth: .greatestFiniteMagnitude, compatibleWith: nil, image: .checkbox, emphasis: .text, titleFont: titleFont, detailFont: nil, singleLineDetail: true)
+    }
+    
+}
 
+
+// MARK: - Private methods
 /// Private methods
 fileprivate extension CollectionViewFormSelectionCell {
     

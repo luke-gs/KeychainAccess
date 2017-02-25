@@ -8,7 +8,7 @@
 
 import UIKit
 
-fileprivate var sourceLabelContext = 1
+fileprivate var textContext = 1
 
 /// `EntityCollectionViewCell` is a cell for displaying MPOL entities with a standardized
 /// MPOL branding and appearance.
@@ -37,8 +37,12 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
     /// The style for this cell. The default is `EntityCollectionViewCell.Style.hero`.
     public var style: Style = .hero {
         didSet {
-            if style != oldValue {
-                setNeedsLayout()
+            if style == oldValue { return }
+            
+            if let styleConstraints = self.styleConstraints, styleConstraints.isEmpty == false {
+                NSLayoutConstraint.deactivate(styleConstraints)
+                self.styleConstraints = nil
+                setNeedsUpdateConstraints()
             }
         }
     }
@@ -99,6 +103,16 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
     
     fileprivate let badgeView = BadgeView(frame: .zero)
     
+    fileprivate let contentBackingView = UIView(frame: .zero)
+    
+    fileprivate let textLabelGuide = UILayoutGuide()
+    
+    fileprivate var styleConstraints: [NSLayoutConstraint]?
+    
+    fileprivate var titleToSubtitleConstraint: NSLayoutConstraint!
+    
+    fileprivate var subtitleToDetailConstraint: NSLayoutConstraint!
+    
     
     
     // MARK: - Initializers
@@ -114,24 +128,83 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
     }
     
     private func commonInit() {
+        let backingView      = self.contentBackingView
+        let borderImageView  = self.borderedImageView
+        let titleLabel       = self.titleLabel
+        let subtitleLabel    = self.subtitleLabel
+        let detailLabel      = self.detailLabel
+        let badgeView        = self.badgeView
+        let sourceLabel      = self.sourceLabel
+        let textLabelGuide   = self.textLabelGuide
+        
+        backingView.translatesAutoresizingMaskIntoConstraints     = false
+        borderImageView.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.translatesAutoresizingMaskIntoConstraints      = false
+        subtitleLabel.translatesAutoresizingMaskIntoConstraints   = false
+        detailLabel.translatesAutoresizingMaskIntoConstraints     = false
+        badgeView.translatesAutoresizingMaskIntoConstraints       = false
+        sourceLabel.translatesAutoresizingMaskIntoConstraints     = false
+        
+        backingView.addSubview(borderImageView)
+        backingView.addSubview(titleLabel)
+        backingView.addSubview(subtitleLabel)
+        backingView.addSubview(detailLabel)
+        backingView.addSubview(badgeView)
+        backingView.addSubview(sourceLabel)
+        backingView.addLayoutGuide(textLabelGuide)
+        contentView.addSubview(backingView)
+        
+        titleLabel.isHidden    = true
+        subtitleLabel.isHidden = true
+        detailLabel.isHidden   = true
+        
+        titleToSubtitleConstraint  = NSLayoutConstraint(item: subtitleLabel, attribute: .top, relatedBy: .equal, toItem: titleLabel,    attribute: .bottom)
+        subtitleToDetailConstraint = NSLayoutConstraint(item: detailLabel,   attribute: .top, relatedBy: .equal, toItem: subtitleLabel, attribute: .bottom)
+        
+        NSLayoutConstraint.activate([
+            NSLayoutConstraint(item: borderImageView, attribute: .leading,  relatedBy: .equal,           toItem: backingView, attribute: .leading),
+            NSLayoutConstraint(item: borderImageView, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: backingView, attribute: .trailing),
+            NSLayoutConstraint(item: borderImageView, attribute: .bottom,   relatedBy: .lessThanOrEqual, toItem: backingView, attribute: .bottom),
+            NSLayoutConstraint(item: borderImageView, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: backingView, attribute: .trailing),
+            
+            NSLayoutConstraint(item: badgeView, attribute: .centerX, relatedBy: .equal, toItem: borderImageView, attribute: .trailing, constant: -2.0),
+            NSLayoutConstraint(item: badgeView, attribute: .centerY, relatedBy: .equal, toItem: borderImageView, attribute: .top,      constant: 2.0),
+            
+            NSLayoutConstraint(item: sourceLabel, attribute: .leading,  relatedBy: .equal,           toItem: borderImageView, attribute: .leading,   constant: 6.0),
+            NSLayoutConstraint(item: sourceLabel, attribute: .bottom,   relatedBy: .equal,           toItem: borderImageView, attribute: .bottom,   constant: -6.0),
+            NSLayoutConstraint(item: sourceLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: borderImageView, attribute: .trailing, constant: -6.0),
+            
+            NSLayoutConstraint(item: textLabelGuide, attribute: .bottom,   relatedBy: .lessThanOrEqual, toItem: backingView, attribute: .bottom),
+            NSLayoutConstraint(item: textLabelGuide, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: backingView, attribute: .trailing),
+            
+            NSLayoutConstraint(item: titleLabel,    attribute: .leading,  relatedBy: .equal,           toItem: textLabelGuide, attribute: .leading),
+            NSLayoutConstraint(item: subtitleLabel, attribute: .leading,  relatedBy: .equal,           toItem: textLabelGuide, attribute: .leading),
+            NSLayoutConstraint(item: detailLabel,   attribute: .leading,  relatedBy: .equal,           toItem: textLabelGuide, attribute: .leading),
+            NSLayoutConstraint(item: titleLabel,    attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: textLabelGuide, attribute: .trailing),
+            NSLayoutConstraint(item: subtitleLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: textLabelGuide, attribute: .trailing),
+            NSLayoutConstraint(item: detailLabel,   attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: textLabelGuide, attribute: .trailing),
+            
+            NSLayoutConstraint(item: titleLabel,  attribute: .top,    relatedBy: .equal, toItem: textLabelGuide, attribute: .top),
+            NSLayoutConstraint(item: detailLabel, attribute: .bottom, relatedBy: .equal, toItem: textLabelGuide, attribute: .bottom),
+            
+            titleToSubtitleConstraint, subtitleToDetailConstraint
+        ])
+        
         badgeView.backgroundColor = .gray
+        backingView.layer.shouldRasterize = true
+        backingView.layer.rasterizationScale = UIScreen.main.scale
         
-        let contentView = self.contentView
-        
-        contentView.addSubview(detailLabel)
-        contentView.addSubview(subtitleLabel)
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(borderedImageView)
-        contentView.addSubview(badgeView)
-        contentView.addSubview(sourceLabel)
-        
-        sourceLabel.addObserver(self, forKeyPath: #keyPath(SourceLabel.text), options: [], context: &sourceLabelContext)
-        
-        sourceLabel.addObserverForContentSizeKeys(self, context: &sourceLabelContext)
+        let textKey = #keyPath(UILabel.text)
+        titleLabel.addObserver(self,    forKeyPath: textKey, context: &textContext)
+        subtitleLabel.addObserver(self, forKeyPath: textKey, context: &textContext)
+        detailLabel.addObserver(self,   forKeyPath: textKey, context: &textContext)
     }
     
     deinit {
-        sourceLabel.removeObserverForContentSizeKeys(self, context: &sourceLabelContext)
+        let textKey = #keyPath(UILabel.text)
+        titleLabel.removeObserver(self,    forKeyPath: textKey, context: &textContext)
+        subtitleLabel.removeObserver(self, forKeyPath: textKey, context: &textContext)
+        detailLabel.removeObserver(self,   forKeyPath: textKey, context: &textContext)
     }
     
 }
@@ -141,87 +214,76 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
 /// Sizing class methods.
 extension EntityCollectionViewCell {
     
-    public override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        let scale = (window?.screen ?? .main).scale
-        
-        let contentView = self.contentView
-        let contentRect = contentView.bounds.insetBy(contentView.layoutMargins)
-        
-        let titleHeight:    CGFloat = titleLabel.text?.isEmpty    ?? true ? 0.0 : titleLabel.font.lineHeight.ceiled(toScale: scale)
-        let subtitleHeight: CGFloat = subtitleLabel.text?.isEmpty ?? true ? 0.0 : subtitleLabel.font.lineHeight.ceiled(toScale: scale)
-        let detailHeight:   CGFloat = detailLabel.text?.isEmpty   ?? true ? 0.0 : detailLabel.font.lineHeight.ceiled(toScale: scale)
-        
-        let imageViewFrame: CGRect
-        var textOrigin:     CGPoint
-        var textWidth:      CGFloat
-        
-        switch style {
-        case .hero:
-            imageViewFrame  = CGRect(x: (contentRect.midX - 92.0).rounded(toScale: scale), y: contentRect.minY, width: 184.0, height: 160.0)
-            textOrigin = CGPoint(x: imageViewFrame.minX + 1, y: imageViewFrame.maxY + 9.0)
-            textWidth  = contentRect.width - (textOrigin.x - contentRect.minX)
-        case .detail:
-            imageViewFrame  = CGRect(x: contentRect.minX.rounded(toScale: scale), y: (contentRect.midY - 48.0).rounded(toScale: scale), width: 96.0, height: 96.0)
+    public override func updateConstraints() {
+        if self.styleConstraints?.isEmpty ?? true {
+            let styleConstraints: [NSLayoutConstraint]
             
-            var textHeight: CGFloat = 0.0
-            if titleHeight.isZero == false {
-                textHeight += titleHeight
-            }
-            if subtitleHeight.isZero == false {
-                if textHeight.isZero == false {
-                    textHeight += 2.0
-                }
-                textHeight += subtitleHeight
-            }
-            if detailHeight.isZero == false {
-                if textHeight.isZero == false {
-                    textHeight += 2.0
-                }
-                textHeight += detailHeight
+            let contentView        = self.contentView
+            let contentBackingView = self.contentBackingView
+            
+            switch style {
+            case .hero:
+                styleConstraints = [
+                    NSLayoutConstraint(item: contentBackingView, attribute: .top,      relatedBy: .equal,           toItem: contentView, attribute: .topMargin),
+                    NSLayoutConstraint(item: contentBackingView, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentView, attribute: .trailingMargin),
+                    
+                    NSLayoutConstraint(item: borderedImageView, attribute: .width,   relatedBy: .equal, toConstant: 184.0),
+                    NSLayoutConstraint(item: borderedImageView, attribute: .height,  relatedBy: .equal, toConstant: 160.0),
+                    NSLayoutConstraint(item: borderedImageView, attribute: .top,     relatedBy: .equal, toItem: contentBackingView, attribute: .top),
+                    NSLayoutConstraint(item: borderedImageView, attribute: .centerX, relatedBy: .equal, toItem: contentView, attribute: .centerXWithinMargins),
+                    
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .leading, relatedBy: .equal, toItem: borderedImageView, attribute: .leading),
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .top,     relatedBy: .equal, toItem: borderedImageView, attribute: .bottom, constant: 9.0)
+                ]
+            case .detail:
+                styleConstraints = [
+                    NSLayoutConstraint(item: contentBackingView, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerYWithinMargins),
+                    NSLayoutConstraint(item: contentBackingView, attribute: .leading, relatedBy: .equal, toItem: contentView, attribute: .leadingMargin),
+                    NSLayoutConstraint(item: contentBackingView, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentView, attribute: .trailingMargin),
+                    
+                    NSLayoutConstraint(item: borderedImageView, attribute: .width,   relatedBy: .equal, toConstant: 96.0),
+                    NSLayoutConstraint(item: borderedImageView, attribute: .height,  relatedBy: .equal, toConstant: 96.0),
+                    NSLayoutConstraint(item: borderedImageView, attribute: .centerY, relatedBy: .equal, toItem: contentBackingView, attribute: .centerY),
+                    
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .leading, relatedBy: .equal, toItem: borderedImageView, attribute: .trailing, constant: 10.0),
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .centerY, relatedBy: .equal, toItem: contentBackingView, attribute: .centerY)
+                ]
             }
             
-            textOrigin = CGPoint(x: imageViewFrame.maxX + 15.0, y: (contentRect.midY - (textHeight / 2.0)).floored(toScale: scale))
-            textWidth = max(contentRect.width - 112.0, 0.0)
+            NSLayoutConstraint.activate(styleConstraints)
+            self.styleConstraints = styleConstraints
         }
         
-        borderedImageView.frame = imageViewFrame
-        
-        titleLabel.frame = CGRect(origin: textOrigin, size: CGSize(width: textWidth, height: titleHeight))
-        textOrigin.y += titleHeight + 2.0
-        
-        subtitleLabel.frame = CGRect(origin: textOrigin, size: CGSize(width: textWidth, height: subtitleHeight))
-        textOrigin.y += subtitleHeight.isZero ? 0.0 : subtitleHeight + 2.0
-        
-        detailLabel.frame = CGRect(origin: textOrigin, size: CGSize(width: textWidth, height: detailHeight))
-        
-        badgeView.sizeToFit()
-        
-        var badgeFrame = CGRect(origin: .zero, size: badgeView.sizeThatFits(.zero))
-        let preferredBadgeCenter = CGPoint(x: imageViewFrame.maxX - 5.0, y: imageViewFrame.minY + 5.0)
-        
-        badgeFrame.origin.y = max(0.0, preferredBadgeCenter.y - (badgeFrame.height / 2.0))
-        badgeFrame.origin.x = min(bounds.maxX, (preferredBadgeCenter.x + badgeFrame.width / 2.0)) - badgeFrame.width
-        badgeView.frame = badgeFrame
-        
-        var sourceLabelSize = sourceLabel.sizeThatFits(.zero)
-        sourceLabelSize.width = max(min(imageViewFrame.width - 16.0, sourceLabelSize.width), 0.0)
-        sourceLabel.frame = CGRect(origin: CGPoint(x: imageViewFrame.minX + 8.0, y: imageViewFrame.maxY - 8.0 - sourceLabelSize.height),
-                                   size: sourceLabelSize)
+        super.updateConstraints()
+    }
+    
+    open override func didMoveToWindow() {
+        super.didMoveToWindow()
+        contentBackingView.layer.rasterizationScale = (window?.screen ?? .main).scale
     }
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if context == &sourceLabelContext {
-            setNeedsLayout()
+        if context == &textContext {
+            let object = object as? NSObject
+            
+            if object == titleLabel {
+                titleLabel.isHidden = titleLabel.text?.isEmpty ?? true
+            } else {
+                let hasNoSubtitle = subtitleLabel.text?.isEmpty ?? true
+                let hasNoDetail   = detailLabel.text?.isEmpty   ?? true
+                
+                titleToSubtitleConstraint.constant  = hasNoSubtitle && hasNoDetail ? 0.0 : 2.0
+                subtitleToDetailConstraint.constant = hasNoDetail || hasNoSubtitle ? 0.0 : 2.0
+                
+                subtitleLabel.isHidden = hasNoSubtitle
+                detailLabel.isHidden   = hasNoDetail
+            }
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
     }
     
-    open override func prepareForReuse() {
-        super.prepareForReuse()
-    }
+    
     
 }
 
@@ -299,9 +361,9 @@ internal extension EntityCollectionViewCell {
         subtitleLabel.font = footnoteFont
         detailLabel.font   = footnoteFont
       
-        titleLabel.adjustsFontForContentSizeCategory = true
+        titleLabel.adjustsFontForContentSizeCategory    = true
         subtitleLabel.adjustsFontForContentSizeCategory = true
-        detailLabel.adjustsFontForContentSizeCategory = true
+        detailLabel.adjustsFontForContentSizeCategory   = true
     }
     
 }

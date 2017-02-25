@@ -26,12 +26,15 @@ open class TableViewFormTextViewCell: TableViewFormCell {
     /// The title label for the cell. This is guaranteed to be non-nil.
     open let titleLabel = UILabel()
     
+    
     /// The text view for the cell. Users are welcome to become the delegate and/or observe
     /// notifications from the text view in response to editing events
     open let textView: UITextView
     
+    
     /// The placeholder label for the cell.
     open var placeholderLabel = UILabel()
+    
     
     /// The height constraint guiding autolayout's sizing of the text view,
     /// and thus the cell. This is private and not accessible to users.
@@ -43,7 +46,6 @@ open class TableViewFormTextViewCell: TableViewFormCell {
     public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         let textView = UITextView(frame: .zero, textContainer: nil)
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.font               = CollectionViewFormTextViewCell.fonts.1
         textView.textContainerInset = UIEdgeInsets(top: 2.0, left: -4.0, bottom: 2.0, right: -3.5)
         textView.backgroundColor    = nil
         self.textView = textView
@@ -54,8 +56,6 @@ open class TableViewFormTextViewCell: TableViewFormCell {
         
         selectionStyle = .none
         
-        applyStandardFonts()
-        
         let titleLabel  = self.titleLabel
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
@@ -65,9 +65,9 @@ open class TableViewFormTextViewCell: TableViewFormCell {
         placeholderLabel.numberOfLines = 0
         placeholderLabel.textColor = .gray
         
-        textView.addObserver(self, forKeyPath: #keyPath(UITextView.contentSize),   options: [], context: &kvoContext)
-        textView.addObserver(self, forKeyPath: #keyPath(UITextView.text),          options: [], context: &kvoContext)
-        textView.addObserver(self, forKeyPath: #keyPath(UITextView.contentOffset), options: [], context: &kvoContext)
+        textView.addObserver(self, forKeyPath: #keyPath(UITextView.contentSize),   context: &kvoContext)
+        textView.addObserver(self, forKeyPath: #keyPath(UITextView.text),          context: &kvoContext)
+        textView.addObserver(self, forKeyPath: #keyPath(UITextView.contentOffset), context: &kvoContext)
         
         let layoutGuide = UILayoutGuide()
         
@@ -77,7 +77,7 @@ open class TableViewFormTextViewCell: TableViewFormCell {
         contentView.addSubview(textView)
         contentView.addSubview(titleLabel)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(textViewEditingChanged), name: .UITextViewTextDidChange, object: textView)
+        NotificationCenter.default.addObserver(self, selector: #selector(updatePlaceholderAppearance), name: .UITextViewTextDidChange, object: textView)
         
         NSLayoutConstraint.activate([
             NSLayoutConstraint(item: titleLabel, attribute: .leading,  relatedBy: .equal,              toItem: layoutGuide, attribute: .leading),
@@ -147,9 +147,16 @@ extension TableViewFormTextViewCell {
         }
     }
     
-    open override func prepareForReuse() {
-        super.prepareForReuse()
-        applyStandardFonts()
+    internal override func applyStandardFonts() {
+        super.applyStandardFonts()
+        
+        titleLabel.font = CollectionViewFormDetailCell.font(withEmphasis: false, compatibleWith: traitCollection)
+        textView.font   = CollectionViewFormDetailCell.font(withEmphasis: true,  compatibleWith: traitCollection)
+        placeholderLabel.font = textView.font
+        
+        titleLabel.adjustsFontForContentSizeCategory       = true
+        textView.adjustsFontForContentSizeCategory         = true
+        placeholderLabel.adjustsFontForContentSizeCategory = true
     }
 }
 
@@ -164,7 +171,7 @@ fileprivate extension TableViewFormTextViewCell {
         textViewHeightConstraint.constant = textHeight
         
         guard textView.isFirstResponder,
-            let tableView = self.tableView else {
+            let tableView = superview(of: UITableView.self) else {
                 layoutIfNeeded()
                 return
         }
@@ -194,37 +201,7 @@ fileprivate extension TableViewFormTextViewCell {
         }
     }
     
-    @objc fileprivate func textViewEditingChanged() {
-        updatePlaceholderAppearance()
+    @objc fileprivate func updatePlaceholderAppearance() {
+        placeholderLabel.isHidden = textView.text?.isEmpty ?? true == false
     }
-    
-    fileprivate func updatePlaceholderAppearance() {
-        placeholderLabel.isHidden = textView.text.isEmpty == false
-    }
-    
-    fileprivate func applyStandardFonts() {
-        titleLabel.font = CollectionViewFormDetailCell.font(withEmphasis: false, compatibleWith: traitCollection)
-        textView.font   = CollectionViewFormDetailCell.font(withEmphasis: true,  compatibleWith: traitCollection)
-        placeholderLabel.font = textView.font
-        
-        titleLabel.adjustsFontForContentSizeCategory = true
-        textView.adjustsFontForContentSizeCategory = true
-        placeholderLabel.adjustsFontForContentSizeCategory = true
-    }
-}
-
-
-fileprivate extension UITableViewCell {
-    
-    var tableView: UITableView? {
-        var superview = self.superview
-        while let superView = superview {
-            if let table = superView as? UITableView {
-                return table
-            }
-            superview = superView.superview
-        }
-        return nil
-    }
-    
 }
