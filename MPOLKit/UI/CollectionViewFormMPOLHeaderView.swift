@@ -90,11 +90,11 @@ public class CollectionViewFormMPOLHeaderView: UICollectionReusableView {
     fileprivate let arrowView     = UIImageView(image: UIImage(named: "DropDown", in: Bundle(for: CollectionViewFormMPOLHeaderView.self), compatibleWith: nil)?.withRenderingMode(.alwaysTemplate))
     
     fileprivate var itemPosition: CGFloat = 0.0 {
-        didSet { if fabs(itemPosition - oldValue) > 0.1 { setNeedsLayout() } }
+        didSet { if itemPosition !=~ oldValue { setNeedsLayout() } }
     }
     
     fileprivate var separatorWidth: CGFloat = 0.0 {
-        didSet { if fabs(separatorWidth - oldValue) > 0.1 { setNeedsLayout() } }
+        didSet { if separatorWidth !=~ oldValue { setNeedsLayout() } }
     }
     
     fileprivate var indexPath: IndexPath?

@@ -71,8 +71,8 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
     }
     
     private func commonInit() {
-        let contentView        = self.contentView
-        let contentLayoutGuide = self.contentModeLayoutGuide
+        let contentView = self.contentView
+        let layoutGuide = self.contentModeLayoutGuide
         
         let titleLabel       = self.titleLabel
         let textView         = self.textView
@@ -94,20 +94,20 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
         textViewHeightConstraint = NSLayoutConstraint(item: textView, attribute: .height, relatedBy: .equal, toConstant: textView.contentSize.height, priority: UILayoutPriorityDefaultLow)
         
         NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: titleLabel, attribute: .leading,  relatedBy: .equal, toItem: contentLayoutGuide, attribute: .leading),
-            NSLayoutConstraint(item: titleLabel, attribute: .top,      relatedBy: .equal, toItem: contentLayoutGuide, attribute: .top),
-            NSLayoutConstraint(item: titleLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentLayoutGuide, attribute: .trailing),
+            NSLayoutConstraint(item: titleLabel, attribute: .leading,  relatedBy: .equal,           toItem: layoutGuide, attribute: .leading),
+            NSLayoutConstraint(item: titleLabel, attribute: .top,      relatedBy: .equal,           toItem: layoutGuide, attribute: .top),
+            NSLayoutConstraint(item: titleLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: layoutGuide, attribute: .trailing),
             
             // lay out the text field with some space for text editing space
-            NSLayoutConstraint(item: textView, attribute: .leading,  relatedBy: .equal, toItem: contentLayoutGuide, attribute: .leading, constant: -5.0),
-            NSLayoutConstraint(item: textView, attribute: .trailing, relatedBy: .equal, toItem: contentLayoutGuide, attribute: .trailing, constant: 3.5),
+            NSLayoutConstraint(item: textView, attribute: .leading,  relatedBy: .equal, toItem: layoutGuide, attribute: .leading, constant: -5.0),
+            NSLayoutConstraint(item: textView, attribute: .trailing, relatedBy: .equal, toItem: layoutGuide, attribute: .trailing, constant: 3.5),
             NSLayoutConstraint(item: textView, attribute: .top,      relatedBy: .equal, toItem: titleLabel,  attribute: .bottom, constant: 2.0),
-            NSLayoutConstraint(item: textView, attribute: .bottom,   relatedBy: .equal, toItem: contentLayoutGuide, attribute: .bottom),
+            NSLayoutConstraint(item: textView, attribute: .bottom,   relatedBy: .equal, toItem: layoutGuide, attribute: .bottom),
             textViewHeightConstraint,
             
             // lay out the placeholder so it is visually where the text view "appears" to be
-            NSLayoutConstraint(item: placeholderLabel, attribute: .leading,  relatedBy: .equal, toItem: contentLayoutGuide, attribute: .leading),
-            NSLayoutConstraint(item: placeholderLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentLayoutGuide, attribute: .trailing),
+            NSLayoutConstraint(item: placeholderLabel, attribute: .leading,  relatedBy: .equal,           toItem: layoutGuide, attribute: .leading),
+            NSLayoutConstraint(item: placeholderLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: layoutGuide, attribute: .trailing),
         
             // We should be using baseline, but we can't, so we have a dirty hack:
             NSLayoutConstraint(item: placeholderLabel, attribute: .top, relatedBy: .equal, toItem: textView, attribute: .top, constant: 3.0),

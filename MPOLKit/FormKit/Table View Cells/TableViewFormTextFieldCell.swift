@@ -56,22 +56,15 @@ fileprivate extension TableViewFormTextFieldCell {
         contentView.addSubview(titleLabel)
         contentView.addSubview(textField)
         
-        let layoutGuide = UILayoutGuide()
-        contentView.addLayoutGuide(layoutGuide)
-        
+        let layoutGuide = contentModeLayoutGuide
         NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: layoutGuide, attribute: .leading, relatedBy: .equal, toItem: contentView, attribute: .leadingMargin),
-            NSLayoutConstraint(item: layoutGuide, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerYWithinMargins),
-            NSLayoutConstraint(item: layoutGuide, attribute: .trailing, relatedBy: .equal, toItem: contentView, attribute: .trailingMargin),
-            NSLayoutConstraint(item: layoutGuide, attribute: .top, relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .topMargin),
-
-            NSLayoutConstraint(item: titleLabel, attribute: .leading, relatedBy: .equal, toItem: layoutGuide, attribute: .leading),
-            NSLayoutConstraint(item: titleLabel, attribute: .top, relatedBy: .equal, toItem: layoutGuide, attribute: .top),
+            NSLayoutConstraint(item: titleLabel, attribute: .top,      relatedBy: .equal,           toItem: layoutGuide, attribute: .top),
+            NSLayoutConstraint(item: titleLabel, attribute: .leading,  relatedBy: .equal,           toItem: layoutGuide, attribute: .leading),
             NSLayoutConstraint(item: titleLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: layoutGuide, attribute: .trailing),
             
-            NSLayoutConstraint(item: textField, attribute: .top, relatedBy: .equal, toItem: titleLabel, attribute: .bottom),
-            NSLayoutConstraint(item: textField, attribute: .leading, relatedBy: .equal, toItem: layoutGuide, attribute: .leading),
-            NSLayoutConstraint(item: textField, attribute: .bottom, relatedBy: .equal, toItem: layoutGuide, attribute: .bottom),
+            NSLayoutConstraint(item: textField, attribute: .top,      relatedBy: .equal, toItem: titleLabel, attribute: .bottom),
+            NSLayoutConstraint(item: textField, attribute: .leading,  relatedBy: .equal, toItem: layoutGuide, attribute: .leading),
+            NSLayoutConstraint(item: textField, attribute: .bottom,   relatedBy: .equal, toItem: layoutGuide, attribute: .bottom),
             NSLayoutConstraint(item: textField, attribute: .trailing, relatedBy: .equal, toItem: layoutGuide, attribute: .trailing)
         ])
     }

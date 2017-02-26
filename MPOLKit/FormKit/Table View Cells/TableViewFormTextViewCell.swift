@@ -50,7 +50,7 @@ open class TableViewFormTextViewCell: TableViewFormCell {
         textView.backgroundColor    = nil
         self.textView = textView
         
-        textViewHeightConstraint = NSLayoutConstraint(item: textView, attribute: .height, relatedBy: .equal, toConstant: textView.contentSize.height, priority: UILayoutPriorityRequired - 1)
+        textViewHeightConstraint = NSLayoutConstraint(item: textView, attribute: .height, relatedBy: .equal, toConstant: textView.contentSize.height, priority: UILayoutPriorityDefaultLow)
         
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
         
@@ -69,38 +69,33 @@ open class TableViewFormTextViewCell: TableViewFormCell {
         textView.addObserver(self, forKeyPath: #keyPath(UITextView.text),          context: &kvoContext)
         textView.addObserver(self, forKeyPath: #keyPath(UITextView.contentOffset), context: &kvoContext)
         
-        let layoutGuide = UILayoutGuide()
-        
         let contentView = self.contentView
-        contentView.addLayoutGuide(layoutGuide)
         contentView.addSubview(placeholderLabel)
         contentView.addSubview(textView)
         contentView.addSubview(titleLabel)
         
         NotificationCenter.default.addObserver(self, selector: #selector(updatePlaceholderAppearance), name: .UITextViewTextDidChange, object: textView)
         
+        let layoutGuide = contentModeLayoutGuide
+        
         NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: titleLabel, attribute: .leading,  relatedBy: .equal,              toItem: layoutGuide, attribute: .leading),
-            NSLayoutConstraint(item: titleLabel, attribute: .top,      relatedBy: .equal,              toItem: layoutGuide, attribute: .top),
-            NSLayoutConstraint(item: titleLabel, attribute: .trailing, relatedBy: .lessThanOrEqual,    toItem: layoutGuide, attribute: .trailing),
+            NSLayoutConstraint(item: titleLabel, attribute: .leading,  relatedBy: .equal, toItem: layoutGuide, attribute: .leading),
+            NSLayoutConstraint(item: titleLabel, attribute: .top,      relatedBy: .equal, toItem: layoutGuide, attribute: .top),
+            NSLayoutConstraint(item: titleLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: layoutGuide, attribute: .trailing),
             
-            NSLayoutConstraint(item: placeholderLabel, attribute: .leading,  relatedBy: .equal,           toItem: textView, attribute: .leading),
-            NSLayoutConstraint(item: placeholderLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: textView, attribute: .trailing),
-            NSLayoutConstraint(item: placeholderLabel, attribute: .top,      relatedBy: .equal,           toItem: textView, attribute: .top, constant: 2.5),
-            NSLayoutConstraint(item: placeholderLabel, attribute: .bottom,   relatedBy: .lessThanOrEqual, toItem: textView, attribute: .bottom),
-            
-            NSLayoutConstraint(item: textView, attribute: .top,      relatedBy: .equal, toItem: titleLabel,  attribute: .bottom),
+            // lay out the text field with some space for text editing space
+            NSLayoutConstraint(item: textView, attribute: .leading,  relatedBy: .equal, toItem: layoutGuide, attribute: .leading, constant: -5.0),
+            NSLayoutConstraint(item: textView, attribute: .trailing, relatedBy: .equal, toItem: layoutGuide, attribute: .trailing, constant: 3.5),
+            NSLayoutConstraint(item: textView, attribute: .top,      relatedBy: .equal, toItem: titleLabel,  attribute: .bottom, constant: 2.0),
             NSLayoutConstraint(item: textView, attribute: .bottom,   relatedBy: .equal, toItem: layoutGuide, attribute: .bottom),
-            NSLayoutConstraint(item: textView, attribute: .leading,  relatedBy: .equal, toItem: layoutGuide, attribute: .leading),
-            NSLayoutConstraint(item: textView, attribute: .trailing, relatedBy: .equal, toItem: layoutGuide, attribute: .trailing),
+            textViewHeightConstraint,
             
-            NSLayoutConstraint(item: layoutGuide, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerYWithinMargins),
-            NSLayoutConstraint(item: layoutGuide, attribute: .centerX, relatedBy: .equal, toItem: contentView, attribute: .centerXWithinMargins),
-            NSLayoutConstraint(item: layoutGuide, attribute: .leading, relatedBy: .equal, toItem: contentView, attribute: .leadingMargin),
-            NSLayoutConstraint(item: layoutGuide, attribute: .top,     relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .topMargin),
+            // lay out the placeholder so it is visually where the text view "appears" to be
+            NSLayoutConstraint(item: placeholderLabel, attribute: .leading,  relatedBy: .equal, toItem: layoutGuide, attribute: .leading),
+            NSLayoutConstraint(item: placeholderLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: layoutGuide, attribute: .trailing),
             
-            NSLayoutConstraint(item: textView,  attribute: .height,   relatedBy: .greaterThanOrEqual, toConstant: 18.0),
-            textViewHeightConstraint
+            // We should be using baseline, but we can't, so we have a dirty hack:
+            NSLayoutConstraint(item: placeholderLabel, attribute: .top, relatedBy: .equal, toItem: textView, attribute: .top, constant: 3.0),
         ])
     }
     
@@ -110,8 +105,8 @@ open class TableViewFormTextViewCell: TableViewFormCell {
     }
     
     deinit {
-        textView.removeObserver(self, forKeyPath: #keyPath(UITextView.text),        context: &kvoContext)
-        textView.removeObserver(self, forKeyPath: #keyPath(UITextView.contentSize), context: &kvoContext)
+        textView.removeObserver(self, forKeyPath: #keyPath(UITextView.text),          context: &kvoContext)
+        textView.removeObserver(self, forKeyPath: #keyPath(UITextView.contentSize),   context: &kvoContext)
         textView.removeObserver(self, forKeyPath: #keyPath(UITextView.contentOffset), context: &kvoContext)
     }
     
@@ -158,6 +153,7 @@ extension TableViewFormTextViewCell {
         textView.adjustsFontForContentSizeCategory         = true
         placeholderLabel.adjustsFontForContentSizeCategory = true
     }
+    
 }
 
 
@@ -166,7 +162,7 @@ fileprivate extension TableViewFormTextViewCell {
     
     fileprivate func updateTextViewConstraint() {
         let textHeight = textView.contentSize.height
-        if abs(textViewHeightConstraint.constant - textHeight) < 0.1 { return }
+        if textViewHeightConstraint.constant ==~ textHeight { return }
         
         textViewHeightConstraint.constant = textHeight
         

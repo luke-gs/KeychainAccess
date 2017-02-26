@@ -94,10 +94,9 @@ open class CollectionViewFormCell: UICollectionViewCell {
     }
     
     
-    open let contentModeLayoutGuide: UILayoutGuide = UILayoutGuide()
-    
-    
-    /// CollectionViewFormCell overrides this UIView flag to adjust its content positioning.
+    /// CollectionViewFormCell overrides this UIView flag to adjust the constraints on the
+    /// `CollectionViewFormCell.contentModeLayoutGuide` to apply a top, bottom or center
+    /// position to the guide.
     ///
     /// The default is `.center`.
     open override var contentMode: UIViewContentMode {
@@ -114,15 +113,25 @@ open class CollectionViewFormCell: UICollectionViewCell {
                 attribute = .centerY
             }
             contentModeLayoutConstraint?.isActive = false
-            contentModeLayoutConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: attribute, relatedBy: .equal, toItem: contentView.layoutMarginsGuide, attribute: attribute)
+            contentModeLayoutConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: attribute, relatedBy: .equal, toItem: contentView.layoutMarginsGuide, attribute: attribute, priority: UILayoutPriorityDefaultLow - 1)
             contentModeLayoutConstraint.isActive = true
         }
     }
     
-    fileprivate var contentModeLayoutConstraint: NSLayoutConstraint!
+    /// This layout guide is applied to the cell's contentView, and positions content in the
+    /// correct vertical position for the current `contentMode`. This layout guide is constrainted
+    /// to the layout margins for the content view.
+    ///
+    /// Subclasses should position their content with this layout guide, rather than the content
+    /// view's layout margins.
+    open let contentModeLayoutGuide: UILayoutGuide = UILayoutGuide()
     
     
     // MARK: - Private properties
+    
+    /// The content mode guide. This guide is private and will update to enforce the current content
+    /// mode on the `contentModeLayoutGuide`.
+    fileprivate var contentModeLayoutConstraint: NSLayoutConstraint!
     
     fileprivate let internalContentView = UIView(frame: .zero)
     fileprivate var scrollView: CollectionViewFormCellScrollView!
@@ -358,9 +367,19 @@ extension CollectionViewFormCell {
     }
 }
 
+
 internal extension CollectionViewFormCell {
     
-    internal func applyStandardFonts() {}
+    /// Applies the standard fonts for the cell.
+    ///
+    /// This method is internal-only, and is expected to be called on reuse, and during
+    /// init methods.
+    ///
+    /// - Important: Subclasses must ensure that it is safe to call this method by
+    ///              `super.init()`, as it is called during the superclass's
+    ///              initializer.
+    internal func applyStandardFonts() {
+    }
     
 }
 
@@ -391,13 +410,13 @@ private extension CollectionViewFormCell {
         
         internalContentView.addLayoutGuide(contentModeLayoutGuide)
         
-        contentModeLayoutConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .centerY, relatedBy: .equal, toItem: internalContentView, attribute: .centerYWithinMargins)
+        contentModeLayoutConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .centerY, relatedBy: .equal, toItem: internalContentView, attribute: .centerYWithinMargins, priority: UILayoutPriorityDefaultLow - 1)
         
         NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .leading, relatedBy: .equal, toItem: internalContentView, attribute: .leadingMargin),
+            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .leading,  relatedBy: .equal, toItem: internalContentView, attribute: .leadingMargin),
             NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .trailing, relatedBy: .equal, toItem: internalContentView, attribute: .trailingMargin),
-            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .top, relatedBy: .greaterThanOrEqual, toItem: internalContentView, attribute: .topMargin),
-            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .bottom, relatedBy: .lessThanOrEqual, toItem: internalContentView, attribute: .bottomMargin, priority: 500),
+            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .top,      relatedBy: .greaterThanOrEqual, toItem: internalContentView, attribute: .topMargin),
+            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .bottom,   relatedBy: .lessThanOrEqual,    toItem: internalContentView, attribute: .bottomMargin, priority: 500),
             contentModeLayoutConstraint
         ])
         

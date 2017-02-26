@@ -40,12 +40,6 @@ open class TableViewFormSubtitleCell: TableViewFormCell {
     }
     
     
-    /// The label layout guide.
-    /// This guide is responsible for the content rect of the labels as a group, and is accessible
-    /// to allow adjustment of the vertical constraint. This is private and not accessible to users.
-    fileprivate let labelLayoutGuide: UILayoutGuide = UILayoutGuide()
-    
-    
     /// The current label vertical constraints. This is private and not accessible to users.
     fileprivate var labelConstraints: [NSLayoutConstraint]?
     
@@ -73,16 +67,6 @@ open class TableViewFormSubtitleCell: TableViewFormCell {
         textLabel.addObserver(self,   forKeyPath: #keyPath(UILabel.attributedText), context: &kvoContext)
         detailLabel.addObserver(self, forKeyPath: #keyPath(UILabel.text),           context: &kvoContext)
         detailLabel.addObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &kvoContext)
-        
-        contentView.addLayoutGuide(labelLayoutGuide)
-        
-        NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: labelLayoutGuide, attribute: .leading, relatedBy: .equal, toItem: contentView, attribute: .leadingMargin),
-            NSLayoutConstraint(item: labelLayoutGuide, attribute: .trailing, relatedBy: .equal, toItem: contentView, attribute: .trailingMargin),
-            NSLayoutConstraint(item: labelLayoutGuide, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerYWithinMargins),
-            NSLayoutConstraint(item: labelLayoutGuide, attribute: .top, relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .topMargin),
-            NSLayoutConstraint(item: labelLayoutGuide, attribute: .bottom, relatedBy: .lessThanOrEqual, toItem: contentView, attribute: .bottomMargin),
-        ])
     }
     
     /// TableViewFormSubtitleCell does not support NSCoding.
@@ -116,25 +100,26 @@ extension TableViewFormSubtitleCell {
     
     open override func updateConstraints() {
         let labelState = self.labelState
-        if labelConstraints == nil && labelState != .none {
+        if labelConstraints?.isEmpty ?? true && labelState != .none {
+            let layoutGuide = self.contentModeLayoutGuide
             
             let textLabel   = self.textLabel
             let detailLabel = self.detailTextLabel
             
             var newConstraints: [NSLayoutConstraint] = []
             if labelState != .detailOnly {
-                newConstraints += [
-                    NSLayoutConstraint(item: textLabel, attribute: .top, relatedBy: .equal, toItem: labelLayoutGuide, attribute: .top),
-                    NSLayoutConstraint(item: textLabel, attribute: .leading, relatedBy: .equal, toItem: labelLayoutGuide, attribute: .leading),
-                    NSLayoutConstraint(item: textLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: labelLayoutGuide, attribute: .trailing),
+                newConstraints = [
+                    NSLayoutConstraint(item: textLabel, attribute: .top,      relatedBy: .equal,           toItem: layoutGuide, attribute: .top),
+                    NSLayoutConstraint(item: textLabel, attribute: .leading,  relatedBy: .equal,           toItem: layoutGuide, attribute: .leading),
+                    NSLayoutConstraint(item: textLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: layoutGuide, attribute: .trailing)
                 ]
             }
             
             if labelState != .titleOnly {
                 newConstraints += [
-                    NSLayoutConstraint(item: detailLabel, attribute: .bottom, relatedBy: .equal, toItem: labelLayoutGuide, attribute: .bottom),
-                    NSLayoutConstraint(item: detailLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: labelLayoutGuide, attribute: .trailing),
-                    NSLayoutConstraint(item: detailLabel, attribute: .leading, relatedBy: .equal, toItem: labelLayoutGuide, attribute: .leading)
+                    NSLayoutConstraint(item: detailLabel, attribute: .bottom,   relatedBy: .equal,           toItem: layoutGuide, attribute: .bottom),
+                    NSLayoutConstraint(item: detailLabel, attribute: .leading,  relatedBy: .equal,           toItem: layoutGuide, attribute: .leading),
+                    NSLayoutConstraint(item: detailLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: layoutGuide, attribute: .trailing)
                 ]
             }
             
@@ -145,11 +130,11 @@ extension TableViewFormSubtitleCell {
             case .titleOnly:
                 // Constrain the text label's bottom to be the labelLayoutGuide's bottom.
                 // The detail label will have no height at our label's bottom.
-                newConstraints.append(NSLayoutConstraint(item: textLabel,   attribute: .bottom, relatedBy: .equal, toItem: labelLayoutGuide, attribute: .bottom))
+                newConstraints.append(NSLayoutConstraint(item: textLabel,   attribute: .bottom, relatedBy: .equal, toItem: layoutGuide, attribute: .bottom))
             case .detailOnly:
                 // Constrain the detail label's top to be the labelLayoutGuide's top.
                 // The detail label will have no height at our label's bottom.
-                newConstraints.append(NSLayoutConstraint(item: detailLabel, attribute: .top, relatedBy: .equal, toItem: labelLayoutGuide, attribute: .top))
+                newConstraints.append(NSLayoutConstraint(item: detailLabel, attribute: .top, relatedBy: .equal, toItem: layoutGuide, attribute: .top))
             case .none:
                 // This case will never be reached, we only follow this code path if it is not "none"
                 break

@@ -377,10 +377,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     // MARK: - Invalidation
     
     open override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
-        let currentContentWidth = fabs(_lastLaidOutWidth ?? 0.0)
-        let newWidth = fabs(newBounds.size.width)
-        
-        return newWidth != currentContentWidth && (sectionRects.last?.maxY.isZero ?? true) == false
+        return _lastLaidOutWidth ?? 0.0 !=~ newBounds.size.width && (sectionRects.last?.maxY.isZero ?? true) == false
     }
     
     
