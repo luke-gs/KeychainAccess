@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6D7B30161E640506009D4602 /* FormKitDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7B30151E640506009D4602 /* FormKitDefines.swift */; };
 		6DA6533D1E61759800ADB768 /* UIView+SuperviewSearching.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA6533C1E61759800ADB768 /* UIView+SuperviewSearching.swift */; };
 		6DAAAFE91E5E771A000E57A9 /* EntityCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAAAFE81E5E771A000E57A9 /* EntityCollectionViewCell.swift */; };
 		BC2152141E5950D500193086 /* CollectionViewFormBoxedLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2152131E5950D500193086 /* CollectionViewFormBoxedLayout.swift */; };
@@ -101,6 +102,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6D7B30151E640506009D4602 /* FormKitDefines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormKitDefines.swift; sourceTree = "<group>"; };
 		6DA6533C1E61759800ADB768 /* UIView+SuperviewSearching.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+SuperviewSearching.swift"; sourceTree = "<group>"; };
 		6DAAAFE81E5E771A000E57A9 /* EntityCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EntityCollectionViewCell.swift; path = Cells/EntityCollectionViewCell.swift; sourceTree = "<group>"; };
 		BC2152131E5950D500193086 /* CollectionViewFormBoxedLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormBoxedLayout.swift; sourceTree = "<group>"; };
@@ -298,13 +300,14 @@
 		BC712E1D1E55348B00BD5DAE /* FormKit */ = {
 			isa = PBXGroup;
 			children = (
-				BC712E8B1E5536A000BD5DAE /* FormKitAssets.xcassets */,
 				BC712E641E5535B800BD5DAE /* Layout */,
 				BC712E541E5535B800BD5DAE /* Collection Reusable Views */,
 				BC712E671E5535B800BD5DAE /* Table View Cells */,
 				BC712E6D1E5535B800BD5DAE /* Views */,
 				BCD35C9D1E5A462A001B40A1 /* Protocols */,
 				BC712E5D1E5535B800BD5DAE /* Extensions */,
+				6D7B30151E640506009D4602 /* FormKitDefines.swift */,
+				BC712E8B1E5536A000BD5DAE /* FormKitAssets.xcassets */,
 			);
 			path = FormKit;
 			sourceTree = "<group>";
@@ -589,6 +592,7 @@
 				BC36ABE81E5D28310052C4C5 /* CollectionViewFormMPOLHeaderView.swift in Sources */,
 				BCEBA1961E5BC1E900FD404D /* SourceLabel.swift in Sources */,
 				BCD35CA71E5AA472001B40A1 /* BadgeView.swift in Sources */,
+				6D7B30161E640506009D4602 /* FormKitDefines.swift in Sources */,
 				BC691B501E54041200EC3A20 /* Theme.swift in Sources */,
 				BC712E881E5535B800BD5DAE /* FormTextField.swift in Sources */,
 				BC712E7E1E5535B800BD5DAE /* UIImage+FormKitDefaults.swift in Sources */,
@@ -756,7 +760,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = MPOLKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = gridstone.MPOLKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -776,7 +780,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = MPOLKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = gridstone.MPOLKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -820,7 +824,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = FNW7L4X44S;
 				INFOPLIST_FILE = "MPOLKit Demo/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "gridstone.MPOLKit-Demo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -835,7 +839,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = FNW7L4X44S;
 				INFOPLIST_FILE = "MPOLKit Demo/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "gridstone.MPOLKit-Demo";
 				PRODUCT_NAME = "$(TARGET_NAME)";

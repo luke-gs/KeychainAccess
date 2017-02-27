@@ -31,12 +31,12 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
             let titleLabelFont = titleFont ?? CollectionViewFormDetailCell.font(withEmphasis: false, compatibleWith: traitCollection)
             
             height += (title as NSString).boundingRect(with: CGSize(width: width - 0.5, height: .greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: titleLabelFont], context: nil).height.ceiled(toScale: screenScale)
+            height += CellTitleDetailSeparation
         }
         
         let textViewFont = textFont ?? CollectionViewFormDetailCell.font(withEmphasis: true, compatibleWith: traitCollection)
         height += max((text as NSString?)?.boundingRect(with: CGSize(width: width - 0.5, height: .greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: textViewFont], context: nil).height ?? 0.0, textViewFont.lineHeight).ceiled(toScale: screenScale)
         
-        height += 6.0
         return height
     }
     
@@ -58,6 +58,8 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
     
     
     fileprivate var textViewHeightConstraint: NSLayoutConstraint!
+    
+    fileprivate var titleDetailSeparationConstraint: NSLayoutConstraint!
     
     
     public override init(frame: CGRect) {
@@ -92,6 +94,7 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
         contentView.addSubview(placeholderLabel)
         
         textViewHeightConstraint = NSLayoutConstraint(item: textView, attribute: .height, relatedBy: .equal, toConstant: textView.contentSize.height, priority: UILayoutPriorityDefaultLow)
+        titleDetailSeparationConstraint = NSLayoutConstraint(item: textView, attribute: .top, relatedBy: .equal, toItem: titleLabel, attribute: .bottom)
         
         NSLayoutConstraint.activate([
             NSLayoutConstraint(item: titleLabel, attribute: .leading,  relatedBy: .equal,           toItem: layoutGuide, attribute: .leading),
@@ -101,13 +104,13 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
             // lay out the text field with some space for text editing space
             NSLayoutConstraint(item: textView, attribute: .leading,  relatedBy: .equal, toItem: layoutGuide, attribute: .leading, constant: -5.0),
             NSLayoutConstraint(item: textView, attribute: .trailing, relatedBy: .equal, toItem: layoutGuide, attribute: .trailing, constant: 3.5),
-            NSLayoutConstraint(item: textView, attribute: .top,      relatedBy: .equal, toItem: titleLabel,  attribute: .bottom, constant: 2.0),
-            NSLayoutConstraint(item: textView, attribute: .bottom,   relatedBy: .equal, toItem: layoutGuide, attribute: .bottom),
+            NSLayoutConstraint(item: textView, attribute: .bottom,   relatedBy: .equal, toItem: layoutGuide, attribute: .bottom, constant: -1.0),
             textViewHeightConstraint,
             
             // lay out the placeholder so it is visually where the text view "appears" to be
             NSLayoutConstraint(item: placeholderLabel, attribute: .leading,  relatedBy: .equal,           toItem: layoutGuide, attribute: .leading),
             NSLayoutConstraint(item: placeholderLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: layoutGuide, attribute: .trailing),
+            titleDetailSeparationConstraint,
         
             // We should be using baseline, but we can't, so we have a dirty hack:
             NSLayoutConstraint(item: placeholderLabel, attribute: .top, relatedBy: .equal, toItem: textView, attribute: .top, constant: 3.0),
@@ -116,6 +119,8 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
         textView.addObserver(self, forKeyPath: #keyPath(UITextView.text),          context: &kvoContext)
         textView.addObserver(self, forKeyPath: #keyPath(UITextView.contentSize),   context: &kvoContext)
         textView.addObserver(self, forKeyPath: #keyPath(UITextView.contentOffset), context: &kvoContext)
+        titleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.text),           context: &kvoContext)
+        titleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &kvoContext)
         NotificationCenter.default.addObserver(self, selector: #selector(updatePlaceholderAppearance), name: .UITextViewTextDidChange, object: textView)
     }
     
@@ -123,6 +128,8 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
         textView.removeObserver(self, forKeyPath: #keyPath(UITextView.text),          context: &kvoContext)
         textView.removeObserver(self, forKeyPath: #keyPath(UITextView.contentSize),   context: &kvoContext)
         textView.removeObserver(self, forKeyPath: #keyPath(UITextView.contentOffset), context: &kvoContext)
+        titleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.text),           context: &kvoContext)
+        titleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &kvoContext)
     }
 }
 
@@ -132,22 +139,30 @@ extension CollectionViewFormTextViewCell {
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {
-            if let keyPath = keyPath {
-                switch keyPath {
-                case #keyPath(UITextView.text):
-                    updatePlaceholderAppearance()
-                case #keyPath(UITextView.contentSize):
-                    updateTextViewConstraint()
-                case #keyPath(UITextView.contentOffset):
-                    // There are a few bugs in UITextView where, during resizing, the content offset gets set to a scrolled position valid
-                    // prior to the update, eg a user enters text, which causes resizing and a scroll simultaneously.
-                    // We guard against the case, and if any content offset change tries to occur when it's not valid,
-                    // we reset back to zero.
-                    if textView.contentOffset.y !=~ 0.0 && textView.contentSize.height <= textView.bounds.height {
-                        textView.contentOffset.y = 0.0
+            if object is UITextView {
+                if let keyPath = keyPath {
+                    switch keyPath {
+                    case #keyPath(UITextView.text):
+                        updatePlaceholderAppearance()
+                    case #keyPath(UITextView.contentSize):
+                        updateTextViewConstraint()
+                    case #keyPath(UITextView.contentOffset):
+                        // There are a few bugs in UITextView where, during resizing, the content offset gets set to a scrolled position valid
+                        // prior to the update, eg a user enters text, which causes resizing and a scroll simultaneously.
+                        // We guard against the case, and if any content offset change tries to occur when it's not valid,
+                        // we reset back to zero.
+                        if textView.contentOffset.y !=~ 0.0 && textView.contentSize.height <= textView.bounds.height {
+                            textView.contentOffset.y = 0.0
+                        }
+                    default:
+                        break
                     }
-                default:
-                    break
+                }
+            } else if object is UILabel {
+                let titleDetailSpace = titleLabel.text?.isEmpty ?? true ? 0.0 : CellTitleDetailSeparation
+                
+                if titleDetailSeparationConstraint.constant !=~ titleDetailSpace {
+                    titleDetailSeparationConstraint.constant = titleDetailSpace
                 }
             }
         } else {

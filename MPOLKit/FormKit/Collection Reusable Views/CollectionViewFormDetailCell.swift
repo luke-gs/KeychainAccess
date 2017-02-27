@@ -13,7 +13,7 @@ fileprivate var contentContext = 1
 open class CollectionViewFormDetailCell: CollectionViewFormCell {
     
     public enum Emphasis {
-        case text
+        case title
         case detail
     }
     
@@ -35,7 +35,7 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
     ///  with stronger default fonts.
     ///
     /// Setting this property re-sets the label fonts to default
-    open var emphasis: Emphasis = .text {
+    open var emphasis: Emphasis = .title {
         didSet { if emphasis != oldValue { applyStandardFonts() } }
     }
     
@@ -69,11 +69,9 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
     
     // MARK: - Private properties
     
-    fileprivate static var interLabelSeparation: CGFloat = 3.0
-    
     fileprivate let textLayoutGuide = UILayoutGuide()
     
-    fileprivate var interLabelConstraint: NSLayoutConstraint!
+    fileprivate var titleDetailConstraint: NSLayoutConstraint!
     
     fileprivate var textLeadingConstraint: NSLayoutConstraint!
     
@@ -119,11 +117,13 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
         textLabel.isHidden = true
         detailTextLabel.isHidden = true
         
+        detailTextLabel.numberOfLines = 0
+        
         imageView.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .vertical)
         imageView.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .horizontal)
         
         imageWidthConstraint   = NSLayoutConstraint(item: imageView,       attribute: .width,    relatedBy: .equal, toConstant: 0.0, priority: UILayoutPriorityRequired - 1)
-        interLabelConstraint   = NSLayoutConstraint(item: detailTextLabel, attribute: .top,      relatedBy: .equal, toItem: textLabel, attribute: .bottom)
+        titleDetailConstraint  = NSLayoutConstraint(item: detailTextLabel, attribute: .top,      relatedBy: .equal, toItem: textLabel, attribute: .bottom)
         textLeadingConstraint  = NSLayoutConstraint(item: textLayoutGuide, attribute: .leading,  relatedBy: .equal, toItem: imageView, attribute: .trailing)
         textTrailingConstraint = NSLayoutConstraint(item: textLayoutGuide, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentView, attribute: .trailingMargin)
         
@@ -145,7 +145,7 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
             NSLayoutConstraint(item: textLayoutGuide, attribute: .centerY, relatedBy: .equal,              toItem: contentModeLayoutGuide, attribute: .centerY),
             textLeadingConstraint,
             textTrailingConstraint,
-            interLabelConstraint,
+            titleDetailConstraint,
             
             NSLayoutConstraint(item: imageView,       attribute: .top, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .top, priority: UILayoutPriorityDefaultLow),
             NSLayoutConstraint(item: textLayoutGuide, attribute: .top, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .top, priority: UILayoutPriorityDefaultLow)
@@ -177,7 +177,7 @@ extension CollectionViewFormDetailCell {
             switch object {
             case let label as UILabel:
                 label.isHidden = label.text?.isEmpty ?? true
-                interLabelConstraint.constant = (textLabel.text?.isEmpty ?? true || detailTextLabel.text?.isEmpty ?? true) ? 0.0 : 2.0
+                titleDetailConstraint.constant = (textLabel.text?.isEmpty ?? true || detailTextLabel.text?.isEmpty ?? true) ? 0.0 : 2.0
             case let imageView as UIImageView:
                 let imageSize = imageView.image?.size
                 imageView.isHidden = imageSize?.isEmpty ?? true
@@ -202,7 +202,7 @@ internal extension CollectionViewFormDetailCell {
     
     internal override func applyStandardFonts() {
         let traitCollection = self.traitCollection
-        textLabel.font       = type(of: self).font(withEmphasis: emphasis == .text,   compatibleWith: traitCollection)
+        textLabel.font       = type(of: self).font(withEmphasis: emphasis == .title,   compatibleWith: traitCollection)
         detailTextLabel.font = type(of: self).font(withEmphasis: emphasis == .detail, compatibleWith: traitCollection)
         
         textLabel.adjustsFontForContentSizeCategory       = true
@@ -219,18 +219,20 @@ extension CollectionViewFormDetailCell {
     /// Calculates the minimum content width for a cell, considering the text and font details.
     ///
     /// - Parameters:
-    ///   - text: The text for the cell.
-    ///   - detailText: The detail text for the cell.
+    ///   - title:      The title text for the cell.
+    ///   - detail:     The detail text for the cell.
     ///   - traitCollection: The trait collection the cell will be deisplayed in.
-    ///   - image: The leading image for the cell. The default is `nil`.
-    ///   - emphasis: The emphasis setting for the cell. The default is `.text`.
-    ///   - titleFont: The title font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
+    ///   - image:      The leading image for the cell. The default is `nil`.
+    ///   - emphasis:   The emphasis setting for the cell. The default is `.text`.
+    ///   - titleFont:  The title font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
     ///   - detailFont: The detail font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
+    ///   - singleLineTitle:  A boolean value indicating if the detail text should be constrained to a single line. The default is `true`.
     ///   - singleLineDetail: A boolean value indicating if the detail text should be constrained to a single line. The default is `false`.
-    /// - Returns: The minumum content width for the cell.
-    open class func minimumContentWidth(forText text: String?, detailText: String?, compatibleWith traitCollection: UITraitCollection, image: UIImage? = nil,
-                                        emphasis: Emphasis = .text, titleFont: UIFont? = nil, detailFont: UIFont? = nil, singleLineDetail: Bool = false) -> CGFloat {
-        let textFont = titleFont ?? font(withEmphasis: emphasis == .text, compatibleWith: traitCollection)
+    /// - Returns:      The minumum content width for the cell.
+    open class func minimumContentWidth(forTitle title: String?, detail: String?, compatibleWith traitCollection: UITraitCollection, image: UIImage? = nil,
+                                        emphasis: Emphasis = .title, titleFont: UIFont? = nil, detailFont: UIFont? = nil,
+                                        singleLineTitle: Bool = true, singleLineDetail: Bool = false) -> CGFloat {
+        let titleTextFont  = titleFont  ?? font(withEmphasis: emphasis == .title, compatibleWith: traitCollection)
         let detailTextFont = detailFont ?? font(withEmphasis: emphasis == .detail, compatibleWith: traitCollection)
         
         var imageSpace = image?.size.width ?? 0.0
@@ -239,42 +241,64 @@ extension CollectionViewFormDetailCell {
             imageSpace += 10.0
         }
         
-        let textWidth = (text as NSString?)?.size(attributes: [NSFontAttributeName: textFont]).width ?? 0.0
-        if let detailText = detailText {
-            if singleLineDetail {
-                let detailTextWidth = (detailText as NSString).size(attributes: [NSFontAttributeName: detailTextFont]).width
-                return ceil(max(textWidth, detailTextWidth)) + imageSpace
-            } else {
-                return max(ceil(textWidth), 50.0) + imageSpace
-            }
+        var displayScale = traitCollection.displayScale
+        if displayScale ==~ 0.0 {
+            displayScale = UIScreen.main.scale
         }
-        return ceil(textWidth) + imageSpace
+        
+        let maxSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
+        
+        let titleWidth = (title as NSString?)?.boundingRect(with: maxSize, options: singleLineTitle ? [] : .usesLineFragmentOrigin,
+                                                            attributes: [NSFontAttributeName: titleTextFont],
+                                                            context: nil).width.ceiled(toScale: displayScale) ?? 0.0
+        
+        let detailWidth = (detail as NSString?)?.boundingRect(with: maxSize, options: singleLineDetail ? [] : .usesLineFragmentOrigin,
+                                                              attributes: [NSFontAttributeName: detailTextFont],
+                                                              context: nil).width.ceiled(toScale: displayScale) ?? 0.0
+        
+        return max(titleWidth, detailWidth) + imageSpace
     }
     
     
     /// Calculates the minimum content height for a cell, considering the text and font details.
     ///
     /// - Parameters:
-    ///   - text: The text for the cell.
-    ///   - detailText: The detail text for the cell.
+    ///   - title:      The title text for the cell.
+    ///   - detail:     The detail text for the cell.
     ///   - width:      The width constraint for the cell.
     ///   - traitCollection: The trait collection the cell will be deisplayed in.
-    ///   - image: The leading image for the cell. The default is `nil`.
-    ///   - emphasis: The emphasis setting for the cell. The default is `.text`.
-    ///   - titleFont: The title font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
+    ///   - image:      The leading image for the cell. The default is `nil`.
+    ///   - emphasis:   The emphasis setting for the cell. The default is `.text`.
+    ///   - titleFont:  The title font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
     ///   - detailFont: The detail font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
     ///   - singleLineDetail: A boolean value indicating if the detail text should be constrained to a single line. The default is `false`.
-    /// - Returns: The minumum content height for the cell.
-    open class func minimumContentHeight(forText text: String?, detailText: String?, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection?,
-                                         image: UIImage? = nil, emphasis: Emphasis = .text, titleFont: UIFont? = nil, detailFont: UIFont? = nil, singleLineDetail: Bool = false) -> CGFloat {
-        let collection = traitCollection ?? UITraitCollection(preferredContentSizeCategory: .unspecified)
-        let textFont       = titleFont  ?? font(withEmphasis: emphasis == .text,   compatibleWith: collection)
-        let detailTextFont = detailFont ?? font(withEmphasis: emphasis == .detail, compatibleWith: collection)
+    /// - Returns:      The minumum content height for the cell.
+    open class func minimumContentHeight(forTitle title: String?, detail: String?, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection,
+                                         image: UIImage? = nil, emphasis: Emphasis = .title, titleFont: UIFont? = nil, detailFont: UIFont? = nil,
+                                         singleLineTitle: Bool = true, singleLineDetail: Bool = false) -> CGFloat {
+        let titleTextFont  = titleFont  ?? font(withEmphasis: emphasis == .title,   compatibleWith: traitCollection)
+        let detailTextFont = detailFont ?? font(withEmphasis: emphasis == .detail, compatibleWith: traitCollection)
         
-        let textHeight = ((text ?? "") as NSString).boundingRect(with: CGSize(width: width, height: .greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: textFont], context: nil).height
-        let detailTextHeight = ((detailText ?? "") as NSString).boundingRect(with: CGSize(width: width, height: .greatestFiniteMagnitude), options: singleLineDetail ? [] : .usesLineFragmentOrigin, attributes: [NSFontAttributeName: detailTextFont], context: nil).height
-        let height = ceil(textHeight) + ceil(detailTextHeight) + 6.0
-        return max(textHeight.isZero == false && detailTextHeight.isZero == false ? height + interLabelSeparation : height, image?.size.height ?? 0.0)
+        var displayScale = traitCollection.displayScale
+        if displayScale ==~ 0.0 {
+            displayScale = UIScreen.main.scale
+        }
+        
+        let size = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
+        
+        let textHeight = (title as NSString?)?.boundingRect(with: size, options: singleLineTitle ? [] : .usesLineFragmentOrigin,
+                                                            attributes: [NSFontAttributeName: titleTextFont],
+                                                            context: nil).height.ceiled(toScale: displayScale) ?? 0.0
+        
+        let detailHeight = (detail as NSString?)?.boundingRect(with: size, options: singleLineDetail ? [] : .usesLineFragmentOrigin,
+                                                               attributes: [NSFontAttributeName: detailTextFont],
+                                                               context: nil).height.ceiled(toScale: displayScale) ?? 0.0
+        var combinedHeight = textHeight + detailHeight
+        if textHeight !=~ 0.0 && detailHeight !=~ 0.0 {
+            combinedHeight += CellTitleDetailSeparation
+        }
+        
+        return combinedHeight
     }
     
 }

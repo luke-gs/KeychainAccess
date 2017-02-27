@@ -41,6 +41,9 @@ open class TableViewFormTextViewCell: TableViewFormCell {
     fileprivate let textViewHeightConstraint: NSLayoutConstraint
     
     
+    fileprivate var titleDetailSeparationConstraint: NSLayoutConstraint!
+    
+    
     /// Initializes the cell with a reuse identifier.
     /// `TableViewFormTextViewCell` does not utilize the `style` parameter.
     public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -68,6 +71,8 @@ open class TableViewFormTextViewCell: TableViewFormCell {
         textView.addObserver(self, forKeyPath: #keyPath(UITextView.contentSize),   context: &kvoContext)
         textView.addObserver(self, forKeyPath: #keyPath(UITextView.text),          context: &kvoContext)
         textView.addObserver(self, forKeyPath: #keyPath(UITextView.contentOffset), context: &kvoContext)
+        titleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.text),           context: &kvoContext)
+        titleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &kvoContext)
         
         let contentView = self.contentView
         contentView.addSubview(placeholderLabel)
@@ -75,6 +80,8 @@ open class TableViewFormTextViewCell: TableViewFormCell {
         contentView.addSubview(titleLabel)
         
         NotificationCenter.default.addObserver(self, selector: #selector(updatePlaceholderAppearance), name: .UITextViewTextDidChange, object: textView)
+        
+        titleDetailSeparationConstraint = NSLayoutConstraint(item: textView, attribute: .top, relatedBy: .equal, toItem: titleLabel, attribute: .bottom)
         
         let layoutGuide = contentModeLayoutGuide
         
@@ -86,9 +93,9 @@ open class TableViewFormTextViewCell: TableViewFormCell {
             // lay out the text field with some space for text editing space
             NSLayoutConstraint(item: textView, attribute: .leading,  relatedBy: .equal, toItem: layoutGuide, attribute: .leading, constant: -5.0),
             NSLayoutConstraint(item: textView, attribute: .trailing, relatedBy: .equal, toItem: layoutGuide, attribute: .trailing, constant: 3.5),
-            NSLayoutConstraint(item: textView, attribute: .top,      relatedBy: .equal, toItem: titleLabel,  attribute: .bottom, constant: 2.0),
             NSLayoutConstraint(item: textView, attribute: .bottom,   relatedBy: .equal, toItem: layoutGuide, attribute: .bottom),
             textViewHeightConstraint,
+            titleDetailSeparationConstraint,
             
             // lay out the placeholder so it is visually where the text view "appears" to be
             NSLayoutConstraint(item: placeholderLabel, attribute: .leading,  relatedBy: .equal, toItem: layoutGuide, attribute: .leading),
@@ -108,6 +115,8 @@ open class TableViewFormTextViewCell: TableViewFormCell {
         textView.removeObserver(self, forKeyPath: #keyPath(UITextView.text),          context: &kvoContext)
         textView.removeObserver(self, forKeyPath: #keyPath(UITextView.contentSize),   context: &kvoContext)
         textView.removeObserver(self, forKeyPath: #keyPath(UITextView.contentOffset), context: &kvoContext)
+        titleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.text),           context: &kvoContext)
+        titleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &kvoContext)
     }
     
 }
@@ -123,18 +132,26 @@ extension TableViewFormTextViewCell {
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {
-            if let keyPath = keyPath {
-                switch keyPath {
-                case #keyPath(UITextView.text):
-                    updatePlaceholderAppearance()
-                case #keyPath(UITextView.contentSize):
-                    updateTextViewConstraint()
-                case #keyPath(UITextView.contentOffset):
-                    if textView.contentOffset.y.isZero == false {
-                        textView.contentOffset.y = 0.0
+            if object is UITextView {
+                if let keyPath = keyPath {
+                    switch keyPath {
+                    case #keyPath(UITextView.text):
+                        updatePlaceholderAppearance()
+                    case #keyPath(UITextView.contentSize):
+                        updateTextViewConstraint()
+                    case #keyPath(UITextView.contentOffset):
+                        if textView.contentOffset.y.isZero == false {
+                            textView.contentOffset.y = 0.0
+                        }
+                    default:
+                        break
                     }
-                default:
-                    break
+                }
+            } else if object is UILabel {
+                let titleDetailSpace = titleLabel.text?.isEmpty ?? true ? 0.0 : CellTitleDetailSeparation
+                
+                if titleDetailSeparationConstraint.constant !=~ titleDetailSpace {
+                    titleDetailSeparationConstraint.constant = titleDetailSpace
                 }
             }
         } else {
@@ -147,7 +164,7 @@ extension TableViewFormTextViewCell {
         
         titleLabel.font = CollectionViewFormDetailCell.font(withEmphasis: false, compatibleWith: traitCollection)
         textView.font   = CollectionViewFormDetailCell.font(withEmphasis: true,  compatibleWith: traitCollection)
-        placeholderLabel.font = textView.font
+        placeholderLabel.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
         
         titleLabel.adjustsFontForContentSizeCategory       = true
         textView.adjustsFontForContentSizeCategory         = true

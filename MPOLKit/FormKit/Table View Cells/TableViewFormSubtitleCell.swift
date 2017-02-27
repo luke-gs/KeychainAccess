@@ -34,8 +34,8 @@ open class TableViewFormSubtitleCell: TableViewFormCell {
         return super.detailTextLabel!
     }
     
-    /// The font emphasis for the cell. The default is `.texdt`.
-    open var emphasis: CollectionViewFormDetailCell.Emphasis = .text {
+    /// The font emphasis for the cell. The default is `.title`.
+    open var emphasis: CollectionViewFormDetailCell.Emphasis = .title {
         didSet { applyStandardFonts() }
     }
     
@@ -56,7 +56,6 @@ open class TableViewFormSubtitleCell: TableViewFormCell {
         
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
         
-        let contentView     = self.contentView
         let textLabel       = self.textLabel
         let detailLabel     = self.detailTextLabel
         
@@ -126,7 +125,7 @@ extension TableViewFormSubtitleCell {
             switch labelState {
             case .titleAndDetail:
                 // Constrain the detail label's top to be slightly below the text label's bottom.
-                newConstraints.append(NSLayoutConstraint(item: detailLabel, attribute: .top, relatedBy: .equal, toItem: textLabel, attribute: .bottom, constant: 2.0))
+                newConstraints.append(NSLayoutConstraint(item: detailLabel, attribute: .top, relatedBy: .equal, toItem: textLabel, attribute: .bottom, constant: CellTitleDetailSeparation))
             case .titleOnly:
                 // Constrain the text label's bottom to be the labelLayoutGuide's bottom.
                 // The detail label will have no height at our label's bottom.
@@ -153,7 +152,7 @@ extension TableViewFormSubtitleCell {
         super.applyStandardFonts()
         
         let traitCollection = self.traitCollection
-        textLabel.font       = CollectionViewFormDetailCell.font(withEmphasis: emphasis == .text,   compatibleWith: traitCollection)
+        textLabel.font       = CollectionViewFormDetailCell.font(withEmphasis: emphasis == .title,   compatibleWith: traitCollection)
         detailTextLabel.font = CollectionViewFormDetailCell.font(withEmphasis: emphasis == .detail, compatibleWith: traitCollection)
         
         textLabel.adjustsFontForContentSizeCategory       = true

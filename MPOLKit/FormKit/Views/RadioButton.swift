@@ -10,16 +10,6 @@ import UIKit
 
 open class RadioButton: SelectableButton {
     
-    open class func minimumSize(withTitle title: String) -> CGSize {
-        var size = (title as NSString).size(attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 14.0)])
-        size.height = max(size.height, 20.0) + 14.0
-        size.width += 40.0
-        return size
-    }
-    
-    
-    // MARK: - Initialize
-    
     public override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()

@@ -53,9 +53,7 @@ open class FormTextField: UITextField {
 extension FormTextField {
     
     open override var text: String? {
-        didSet {
-            textDidChange()
-        }
+        didSet { textDidChange() }
     }
     
     open override var font: UIFont? {
@@ -77,15 +75,11 @@ extension FormTextField {
     }
     
     open override var bounds: CGRect {
-        didSet {
-            textDidChange()
-        }
+        didSet { textDidChange() }
     }
     
     open override var frame: CGRect {
-        didSet {
-            textDidChange()
-        }
+        didSet { textDidChange() }
     }
     
     open override func layoutSubviews() {
@@ -149,7 +143,8 @@ private extension FormTextField {
             } else {
                 if let text = self.text , text.isEmpty == false {
                     
-                    let textRect = (text as NSString).size(attributes: [NSFontAttributeName: self.font ?? .systemFont(ofSize: UIFont.systemFontSize)])
+                    let maxSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
+                    let textRect = text.boundingRect(with: maxSize, attributes:  [NSFontAttributeName: self.font ?? .systemFont(ofSize: UIFont.systemFontSize)] , context: nil)
                     valueInset = ceil(min(textRect.width + 1.0, self.textRect(forBounds: bounds).maxX)) + 4.0
                 } else {
                     valueInset =  4.0

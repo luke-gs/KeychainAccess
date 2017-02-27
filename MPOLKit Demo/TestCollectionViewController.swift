@@ -28,7 +28,7 @@ class TestCollectionViewController: UICollectionViewController, CollectionViewDe
         super.viewDidLoad()
         
         collectionView?.backgroundColor = .white
-        collectionView?.register(CollectionViewFormSelectionCell.self)
+        collectionView?.register(CollectionViewFormTextViewCell.self)
         collectionView?.register(CollectionViewFormMPOLHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
     }
     
@@ -55,9 +55,10 @@ class TestCollectionViewController: UICollectionViewController, CollectionViewDe
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSelectionCell.self, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormTextViewCell.self, for: indexPath)
         
-        cell.textLabel.text = "Residential"
+        cell.titleLabel.text =  "Test Title \(indexPath.item + 1)"
+        cell.textView.text = "Testing text \(indexPath.item + 1)"
         
         return cell
     }
@@ -75,11 +76,11 @@ class TestCollectionViewController: UICollectionViewController, CollectionViewDe
     }
     
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, givenSectionWidth sectionWidth: CGFloat, edgeInsets: UIEdgeInsets) -> CGFloat {
-        return sectionWidth
+        return layout.itemContentWidth(forEqualColumnCount: 2, givenSectionWidth: sectionWidth, edgeInsets: edgeInsets)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
-        return CollectionViewFormSelectionCell.minimumContentHeight(forText: "Kj", detailText: nil, inWidth: itemWidth, compatibleWith: traitCollection)
+        return CollectionViewFormTextViewCell.minimumContentHeight(withTitle: "Test Title \(indexPath.item + 1)", text: "Testing text \(indexPath.item + 1)", inWidth: itemWidth, compatibleWidth: traitCollection)
     }
     
     

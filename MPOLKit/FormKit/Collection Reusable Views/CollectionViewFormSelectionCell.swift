@@ -77,33 +77,42 @@ extension CollectionViewFormSelectionCell {
     /// Calculates the minimum content width for a cell, considering the text and font details, with a standard selection image.
     ///
     /// - Parameters:
-    ///   - text: The text for the cell.
-    ///   - detailText: The detail text for the cell.
-    ///   - traitCollection: The trait collection the cell will be deisplayed in.
-    ///   - emphasis: The emphasis setting for the cell. The default is `.text`.
-    ///   - titleFont: The title font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
-    ///   - detailFont: The detail font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
+    ///   - title:            The title text for the cell.
+    ///   - detail:           The detail text for the cell.
+    ///   - traitCollection:  The trait collection the cell will be deisplayed in.
+    ///   - emphasis:         The emphasis setting for the cell. The default is `.title`.
+    ///   - titleFont:        The title font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
+    ///   - detailFont:       The detail font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
+    ///   - singleLineTitle:  A boolean value indicating if the title text should be constrained to a single line. The default is `true`.
     ///   - singleLineDetail: A boolean value indicating if the detail text should be constrained to a single line. The default is `false`.
     /// - Returns: The minumum content width for the cell.
-    open class func minimumContentWidth(forText text: String?, detailText: String?, compatibleWith traitCollection: UITraitCollection,
-                                        emphasis: Emphasis = .text, titleFont: UIFont? = nil, detailFont: UIFont? = nil, singleLineDetail: Bool = false) -> CGFloat {
-        return super.minimumContentWidth(forText: text, detailText: detailText, compatibleWith: traitCollection, image: .checkbox, emphasis: emphasis, titleFont: titleFont, detailFont: detailFont, singleLineDetail: singleLineDetail)
+    open class func minimumContentWidth(forTitle title: String?, detail: String?, compatibleWith traitCollection: UITraitCollection,
+                                        emphasis: Emphasis = .title, titleFont: UIFont? = nil, detailFont: UIFont? = nil,
+                                        singleLineTitle: Bool = true, singleLineDetail: Bool = false) -> CGFloat {
+        return super.minimumContentWidth(forTitle: title, detail: detail, compatibleWith: traitCollection, image: .checkbox,
+                                         emphasis: emphasis, titleFont: titleFont, detailFont: detailFont,
+                                         singleLineTitle: singleLineTitle, singleLineDetail: singleLineDetail)
     }
     
     /// Calculates the minimum content height for a cell, considering the text and font details, with a standard selection image
     ///
     /// - Parameters:
-    ///   - text: The text for the cell.
-    ///   - detailText: The detail text for the cell.
-    ///   - width:      The width constraint for the cell.
-    ///   - traitCollection: The trait collection the cell will be deisplayed in.
-    ///   - emphasis: The emphasis setting for the cell. The default is `.text`.
-    ///   - titleFont: The title font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
-    ///   - detailFont: The detail font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
+    ///   - title:            The title text for the cell.
+    ///   - detail:           The detail text for the cell.
+    ///   - width:            The width constraint for the cell.
+    ///   - traitCollection:  The trait collection the cell will be deisplayed in.
+    ///   - emphasis:         The emphasis setting for the cell. The default is `.text`.
+    ///   - titleFont:        The title font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
+    ///   - detailFont:       The detail font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
+    ///   - singleLineTitle:  A boolean value indicating if the title text should be constrained to a single line. The default is `true`.
     ///   - singleLineDetail: A boolean value indicating if the detail text should be constrained to a single line. The default is `false`.
     /// - Returns: The minumum content height for the cell.
-    open class func minimumContentHeight(forText text: String?, detailText: String?, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection?, emphasis: Emphasis = .text, titleFont: UIFont? = nil, detailFont: UIFont? = nil, singleLineDetail: Bool = false) -> CGFloat {
-        return super.minimumContentHeight(forText: text, detailText: detailText, inWidth: width, compatibleWith: traitCollection, image: .checkbox, emphasis: emphasis, titleFont: titleFont, detailFont: detailFont, singleLineDetail: singleLineDetail)
+    open class func minimumContentHeight(forTitle title: String?, detail: String?, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection,
+                                         emphasis: Emphasis = .title, titleFont: UIFont? = nil, detailFont: UIFont? = nil,
+                                         singleLineTitle: Bool = true, singleLineDetail: Bool = false) -> CGFloat {
+        return super.minimumContentHeight(forTitle: title, detail: detail, inWidth: width, compatibleWith: traitCollection, image: .checkbox,
+                                          emphasis: emphasis, titleFont: titleFont, detailFont: detailFont,
+                                          singleLineTitle: singleLineTitle, singleLineDetail: singleLineDetail)
     }
     
     internal override class func font(withEmphasis emphasis: Bool, compatibleWith traitCollection: UITraitCollection) -> UIFont {
