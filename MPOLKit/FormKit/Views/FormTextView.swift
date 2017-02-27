@@ -125,7 +125,6 @@ fileprivate extension FormTextView {
     @objc fileprivate func updateMinimumHeightConstraint() {
         let minimumHeight = (font?.lineHeight ?? 17.0).ceiled(toScale: (window?.screen ?? .main).scale)
         
-        let oldConstant = minimumHeightConstraint.constant
         if minimumHeightConstraint.constant !=~ minimumHeight {
             minimumHeightConstraint.constant = minimumHeight
         }
