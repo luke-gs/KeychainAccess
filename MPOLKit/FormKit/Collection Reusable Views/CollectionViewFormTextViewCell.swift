@@ -45,10 +45,7 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
     open let titleLabel = UILabel(frame: .zero)
     
     /// The text view for the cell.
-    open let textView = UITextView(frame: .zero, textContainer: nil)
-    
-    /// The placeholder label for the cell.
-    open let placeholderLabel = UILabel(frame: .zero)
+    open let textView = FormTextView(frame: .zero, textContainer: nil)
     
     
     /// The selection state of the cell.
@@ -78,20 +75,12 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
         
         let titleLabel       = self.titleLabel
         let textView         = self.textView
-        let placeholderLabel = self.placeholderLabel
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         textView.translatesAutoresizingMaskIntoConstraints = false
-        placeholderLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        textView.textContainerInset = .zero
-        
-        placeholderLabel.textColor = .gray
-        placeholderLabel.backgroundColor = .clear
         
         contentView.addSubview(titleLabel)
         contentView.addSubview(textView)
-        contentView.addSubview(placeholderLabel)
         
         textViewHeightConstraint = NSLayoutConstraint(item: textView, attribute: .height, relatedBy: .equal, toConstant: textView.contentSize.height, priority: UILayoutPriorityDefaultLow)
         titleDetailSeparationConstraint = NSLayoutConstraint(item: textView, attribute: .top, relatedBy: .equal, toItem: titleLabel, attribute: .bottom)
@@ -106,26 +95,16 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
             NSLayoutConstraint(item: textView, attribute: .trailing, relatedBy: .equal, toItem: layoutGuide, attribute: .trailing, constant: 3.5),
             NSLayoutConstraint(item: textView, attribute: .bottom,   relatedBy: .equal, toItem: layoutGuide, attribute: .bottom,   constant: 1.0),
             textViewHeightConstraint,
-            
-            // lay out the placeholder so it is visually where the text view "appears" to be
-            NSLayoutConstraint(item: placeholderLabel, attribute: .leading,  relatedBy: .equal,           toItem: layoutGuide, attribute: .leading),
-            NSLayoutConstraint(item: placeholderLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: layoutGuide, attribute: .trailing),
-            titleDetailSeparationConstraint,
-        
-            // We should be using baseline, but we can't, so we have a dirty hack:
-            NSLayoutConstraint(item: placeholderLabel, attribute: .top, relatedBy: .equal, toItem: textView, attribute: .top, constant: 3.0),
+            titleDetailSeparationConstraint
         ])
         
-        textView.addObserver(self, forKeyPath: #keyPath(UITextView.text),          context: &kvoContext)
         textView.addObserver(self, forKeyPath: #keyPath(UITextView.contentSize),   context: &kvoContext)
         textView.addObserver(self, forKeyPath: #keyPath(UITextView.contentOffset), context: &kvoContext)
         titleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.text),           context: &kvoContext)
         titleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &kvoContext)
-        NotificationCenter.default.addObserver(self, selector: #selector(updatePlaceholderAppearance), name: .UITextViewTextDidChange, object: textView)
     }
     
     deinit {
-        textView.removeObserver(self, forKeyPath: #keyPath(UITextView.text),          context: &kvoContext)
         textView.removeObserver(self, forKeyPath: #keyPath(UITextView.contentSize),   context: &kvoContext)
         textView.removeObserver(self, forKeyPath: #keyPath(UITextView.contentOffset), context: &kvoContext)
         titleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.text),           context: &kvoContext)
@@ -142,8 +121,6 @@ extension CollectionViewFormTextViewCell {
             if object is UITextView {
                 if let keyPath = keyPath {
                     switch keyPath {
-                    case #keyPath(UITextView.text):
-                        updatePlaceholderAppearance()
                     case #keyPath(UITextView.contentSize):
                         updateTextViewConstraint()
                     case #keyPath(UITextView.contentOffset):
@@ -176,11 +153,11 @@ extension CollectionViewFormTextViewCell {
         let traitCollection = self.traitCollection
         titleLabel.font = CollectionViewFormDetailCell.font(withEmphasis: false, compatibleWith: traitCollection)
         textView.font   = CollectionViewFormDetailCell.font(withEmphasis: true,  compatibleWith: traitCollection)
-        placeholderLabel.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
+        textView.placeholderLabel.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
         
         titleLabel.adjustsFontForContentSizeCategory       = true
         textView.adjustsFontForContentSizeCategory         = true
-        placeholderLabel.adjustsFontForContentSizeCategory = true
+        textView.placeholderLabel.adjustsFontForContentSizeCategory = true
     }
     
 }
@@ -208,7 +185,4 @@ fileprivate extension CollectionViewFormTextViewCell {
         }
     }
     
-    @objc fileprivate func updatePlaceholderAppearance() {
-        placeholderLabel.isHidden = textView.text?.isEmpty ?? true == false
-    }
 }

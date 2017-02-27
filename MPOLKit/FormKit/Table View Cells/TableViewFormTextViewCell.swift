@@ -29,16 +29,12 @@ open class TableViewFormTextViewCell: TableViewFormCell {
     
     /// The text view for the cell. Users are welcome to become the delegate and/or observe
     /// notifications from the text view in response to editing events
-    open let textView: UITextView
-    
-    
-    /// The placeholder label for the cell.
-    open var placeholderLabel = UILabel()
+    open let textView = FormTextView(frame: .zero, textContainer: nil)
     
     
     /// The height constraint guiding autolayout's sizing of the text view,
     /// and thus the cell. This is private and not accessible to users.
-    fileprivate let textViewHeightConstraint: NSLayoutConstraint
+    fileprivate var textViewHeightConstraint: NSLayoutConstraint!
     
     
     fileprivate var titleDetailSeparationConstraint: NSLayoutConstraint!
@@ -47,40 +43,36 @@ open class TableViewFormTextViewCell: TableViewFormCell {
     /// Initializes the cell with a reuse identifier.
     /// `TableViewFormTextViewCell` does not utilize the `style` parameter.
     public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        let textView = UITextView(frame: .zero, textContainer: nil)
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.textContainerInset = .zero
-        textView.backgroundColor    = nil
-        self.textView = textView
-        
-        textViewHeightConstraint = NSLayoutConstraint(item: textView, attribute: .height, relatedBy: .equal, toConstant: textView.contentSize.height, priority: UILayoutPriorityDefaultLow)
-        
-        super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
-        
+        super.init(style: .default, reuseIdentifier: reuseIdentifier)
+        commonInit()
+    }
+    
+    /// TableViewFormTextViewCell does not support NSCoding.
+    public required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        commonInit()
+    }
+    
+    private func commonInit() {
         selectionStyle = .none
         
         let titleLabel  = self.titleLabel
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        let placeholderLabel = self.placeholderLabel
-        placeholderLabel.translatesAutoresizingMaskIntoConstraints = false
-        placeholderLabel.text = "-"
-        placeholderLabel.numberOfLines = 0
-        placeholderLabel.textColor = .gray
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        
+        textView.placeholderLabel.text = "-"
         
         textView.addObserver(self, forKeyPath: #keyPath(UITextView.contentSize),   context: &kvoContext)
-        textView.addObserver(self, forKeyPath: #keyPath(UITextView.text),          context: &kvoContext)
         textView.addObserver(self, forKeyPath: #keyPath(UITextView.contentOffset), context: &kvoContext)
         titleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.text),           context: &kvoContext)
         titleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &kvoContext)
         
         let contentView = self.contentView
-        contentView.addSubview(placeholderLabel)
         contentView.addSubview(textView)
         contentView.addSubview(titleLabel)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(updatePlaceholderAppearance), name: .UITextViewTextDidChange, object: textView)
-        
+        textViewHeightConstraint = NSLayoutConstraint(item: textView, attribute: .height, relatedBy: .equal, toConstant: textView.contentSize.height, priority: UILayoutPriorityDefaultLow)
         titleDetailSeparationConstraint = NSLayoutConstraint(item: textView, attribute: .top, relatedBy: .equal, toItem: titleLabel, attribute: .bottom)
         
         let layoutGuide = contentModeLayoutGuide
@@ -93,26 +85,13 @@ open class TableViewFormTextViewCell: TableViewFormCell {
             // lay out the text field with some space for text editing space
             NSLayoutConstraint(item: textView, attribute: .leading,  relatedBy: .equal, toItem: layoutGuide, attribute: .leading, constant: -5.0),
             NSLayoutConstraint(item: textView, attribute: .trailing, relatedBy: .equal, toItem: layoutGuide, attribute: .trailing, constant: 3.5),
-            NSLayoutConstraint(item: textView, attribute: .bottom,   relatedBy: .equal, toItem: layoutGuide, attribute: .bottom),
+            NSLayoutConstraint(item: textView, attribute: .bottom,   relatedBy: .equal, toItem: layoutGuide, attribute: .bottom, constant: 1.0),
             textViewHeightConstraint,
-            titleDetailSeparationConstraint,
-            
-            // lay out the placeholder so it is visually where the text view "appears" to be
-            NSLayoutConstraint(item: placeholderLabel, attribute: .leading,  relatedBy: .equal, toItem: layoutGuide, attribute: .leading),
-            NSLayoutConstraint(item: placeholderLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: layoutGuide, attribute: .trailing),
-            
-            // We should be using baseline, but we can't, so we have a dirty hack:
-            NSLayoutConstraint(item: placeholderLabel, attribute: .top, relatedBy: .equal, toItem: textView, attribute: .top, constant: 3.0),
-        ])
-    }
-    
-    /// TableViewFormTextViewCell does not support NSCoding.
-    public required init?(coder aDecoder: NSCoder) {
-        fatalError("TableViewFormTextViewCell does not support NSCoding.")
+            titleDetailSeparationConstraint
+            ])
     }
     
     deinit {
-        textView.removeObserver(self, forKeyPath: #keyPath(UITextView.text),          context: &kvoContext)
         textView.removeObserver(self, forKeyPath: #keyPath(UITextView.contentSize),   context: &kvoContext)
         textView.removeObserver(self, forKeyPath: #keyPath(UITextView.contentOffset), context: &kvoContext)
         titleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.text),           context: &kvoContext)
@@ -135,8 +114,6 @@ extension TableViewFormTextViewCell {
             if object is UITextView {
                 if let keyPath = keyPath {
                     switch keyPath {
-                    case #keyPath(UITextView.text):
-                        updatePlaceholderAppearance()
                     case #keyPath(UITextView.contentSize):
                         updateTextViewConstraint()
                     case #keyPath(UITextView.contentOffset):
@@ -164,11 +141,11 @@ extension TableViewFormTextViewCell {
         
         titleLabel.font = CollectionViewFormDetailCell.font(withEmphasis: false, compatibleWith: traitCollection)
         textView.font   = CollectionViewFormDetailCell.font(withEmphasis: true,  compatibleWith: traitCollection)
-        placeholderLabel.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
+        textView.placeholderLabel.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
         
         titleLabel.adjustsFontForContentSizeCategory       = true
         textView.adjustsFontForContentSizeCategory         = true
-        placeholderLabel.adjustsFontForContentSizeCategory = true
+        textView.placeholderLabel.adjustsFontForContentSizeCategory = true
     }
     
 }
@@ -212,9 +189,5 @@ fileprivate extension TableViewFormTextViewCell {
                 }
             }
         }
-    }
-    
-    @objc fileprivate func updatePlaceholderAppearance() {
-        placeholderLabel.isHidden = textView.text?.isEmpty ?? true == false
     }
 }

@@ -27,6 +27,7 @@ class PushableTestViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(of: TableViewFormTextViewCell.self, for: indexPath)
         cell.titleLabel.text =       "Test Cell \(indexPath.row + 1)"
         cell.textView.text = "Test Detail Cell \(indexPath.row + 1)"
+        cell.textView.placeholderLabel.text = "Test Placeholder"
         return cell
     }
     

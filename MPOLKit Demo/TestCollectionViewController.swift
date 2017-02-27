@@ -58,7 +58,8 @@ class TestCollectionViewController: UICollectionViewController, CollectionViewDe
         let cell = collectionView.dequeueReusableCell(of: CollectionViewFormTextViewCell.self, for: indexPath)
         
         cell.titleLabel.text =  "Test Title \(indexPath.item + 1)"
-        cell.textView.text = "Testing text \(indexPath.item + 1)"
+        //cell.textView.text = "Testing text \(indexPath.item + 1)"
+        cell.textView.placeholderLabel.text = "Testing placeholder \(indexPath.item + 1)"
         
         return cell
     }
