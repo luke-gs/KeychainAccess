@@ -190,7 +190,7 @@ extension SidebarViewController {
         
         if let view = self.view {
             
-            let isRightToLeft = false//traitCollection.layoutDirection == .rightToLeft
+            let isRightToLeft = traitCollection.layoutDirection == .rightToLeft
             
             let viewBounds = view.bounds
             let hasNoSources = sourceItems.isEmpty
