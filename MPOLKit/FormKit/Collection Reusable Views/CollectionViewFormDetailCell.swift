@@ -196,14 +196,14 @@ extension CollectionViewFormDetailCell {
 
 internal extension CollectionViewFormDetailCell {
     
-    internal class func font(withEmphasis emphasis: Bool, compatibleWith traitCollection: UITraitCollection?) -> UIFont {
+    internal class func font(withEmphasis emphasis: Bool, compatibleWith traitCollection: UITraitCollection) -> UIFont {
         return .preferredFont(forTextStyle: emphasis ? .headline : .footnote, compatibleWith: traitCollection)
     }
     
     internal override func applyStandardFonts() {
         let traitCollection = self.traitCollection
-        textLabel.font       = CollectionViewFormDetailCell.font(withEmphasis: emphasis == .text,   compatibleWith: traitCollection)
-        detailTextLabel.font = CollectionViewFormDetailCell.font(withEmphasis: emphasis == .detail, compatibleWith: traitCollection)
+        textLabel.font       = type(of: self).font(withEmphasis: emphasis == .text,   compatibleWith: traitCollection)
+        detailTextLabel.font = type(of: self).font(withEmphasis: emphasis == .detail, compatibleWith: traitCollection)
         
         textLabel.adjustsFontForContentSizeCategory       = true
         detailTextLabel.adjustsFontForContentSizeCategory = true
@@ -252,7 +252,7 @@ extension CollectionViewFormDetailCell {
     }
     
     
-    /// Calculates the minimum content width for a cell, considering the text and font details.
+    /// Calculates the minimum content height for a cell, considering the text and font details.
     ///
     /// - Parameters:
     ///   - text: The text for the cell.
@@ -267,8 +267,9 @@ extension CollectionViewFormDetailCell {
     /// - Returns: The minumum content height for the cell.
     open class func minimumContentHeight(forText text: String?, detailText: String?, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection?,
                                          image: UIImage? = nil, emphasis: Emphasis = .text, titleFont: UIFont? = nil, detailFont: UIFont? = nil, singleLineDetail: Bool = false) -> CGFloat {
-        let textFont       = titleFont  ?? font(withEmphasis: emphasis == .text,   compatibleWith: traitCollection)
-        let detailTextFont = detailFont ?? font(withEmphasis: emphasis == .detail, compatibleWith: traitCollection)
+        let collection = traitCollection ?? UITraitCollection(preferredContentSizeCategory: .unspecified)
+        let textFont       = titleFont  ?? font(withEmphasis: emphasis == .text,   compatibleWith: collection)
+        let detailTextFont = detailFont ?? font(withEmphasis: emphasis == .detail, compatibleWith: collection)
         
         let textHeight = ((text ?? "") as NSString).boundingRect(with: CGSize(width: width, height: .greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: textFont], context: nil).height
         let detailTextHeight = ((detailText ?? "") as NSString).boundingRect(with: CGSize(width: width, height: .greatestFiniteMagnitude), options: singleLineDetail ? [] : .usesLineFragmentOrigin, attributes: [NSFontAttributeName: detailTextFont], context: nil).height

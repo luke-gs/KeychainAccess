@@ -74,20 +74,40 @@ extension CollectionViewFormSelectionCell {
 /// Sizing
 extension CollectionViewFormSelectionCell {
     
-    open class func mininumContentWidth(withTitle title: String?, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
-        return minimumContentWidth(withTitle: title, font: SelectableButton.font(compatibleWith: traitCollection))
+    /// Calculates the minimum content width for a cell, considering the text and font details, with a standard selection image.
+    ///
+    /// - Parameters:
+    ///   - text: The text for the cell.
+    ///   - detailText: The detail text for the cell.
+    ///   - traitCollection: The trait collection the cell will be deisplayed in.
+    ///   - emphasis: The emphasis setting for the cell. The default is `.text`.
+    ///   - titleFont: The title font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
+    ///   - detailFont: The detail font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
+    ///   - singleLineDetail: A boolean value indicating if the detail text should be constrained to a single line. The default is `false`.
+    /// - Returns: The minumum content width for the cell.
+    open class func minimumContentWidth(forText text: String?, detailText: String?, compatibleWith traitCollection: UITraitCollection,
+                                        emphasis: Emphasis = .text, titleFont: UIFont? = nil, detailFont: UIFont? = nil, singleLineDetail: Bool = false) -> CGFloat {
+        return super.minimumContentWidth(forText: text, detailText: detailText, compatibleWith: traitCollection, image: .checkbox, emphasis: emphasis, titleFont: titleFont, detailFont: detailFont, singleLineDetail: singleLineDetail)
     }
     
-    open class func minimumContentWidth(withTitle title: String?, font: UIFont) -> CGFloat {
-        return ceil((title as NSString?)?.size(attributes: [NSFontAttributeName: font]).width ?? 0 + 30.0)
+    /// Calculates the minimum content height for a cell, considering the text and font details, with a standard selection image
+    ///
+    /// - Parameters:
+    ///   - text: The text for the cell.
+    ///   - detailText: The detail text for the cell.
+    ///   - width:      The width constraint for the cell.
+    ///   - traitCollection: The trait collection the cell will be deisplayed in.
+    ///   - emphasis: The emphasis setting for the cell. The default is `.text`.
+    ///   - titleFont: The title font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
+    ///   - detailFont: The detail font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
+    ///   - singleLineDetail: A boolean value indicating if the detail text should be constrained to a single line. The default is `false`.
+    /// - Returns: The minumum content height for the cell.
+    open class func minimumContentHeight(forText text: String?, detailText: String?, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection?, emphasis: Emphasis = .text, titleFont: UIFont? = nil, detailFont: UIFont? = nil, singleLineDetail: Bool = false) -> CGFloat {
+        return super.minimumContentHeight(forText: text, detailText: detailText, inWidth: width, compatibleWith: traitCollection, image: .checkbox, emphasis: emphasis, titleFont: titleFont, detailFont: detailFont, singleLineDetail: singleLineDetail)
     }
     
-    open class func minimumContentHeight(compatibleWith traitCollection: UITraitCollection) -> CGFloat {
-        return minimumContentHeight(withTitleFont: SelectableButton.font(compatibleWith: traitCollection))
-    }
-    
-    open class func minimumContentHeight(withTitleFont titleFont: UIFont) -> CGFloat {
-        return super.minimumContentHeight(forText: "Kj", detailText: nil, inWidth: .greatestFiniteMagnitude, compatibleWith: nil, image: .checkbox, emphasis: .text, titleFont: titleFont, detailFont: nil, singleLineDetail: true)
+    internal override class func font(withEmphasis emphasis: Bool, compatibleWith traitCollection: UITraitCollection) -> UIFont {
+        return emphasis ? SelectableButton.font(compatibleWith: traitCollection) : super.font(withEmphasis: emphasis, compatibleWith: traitCollection)
     }
     
 }

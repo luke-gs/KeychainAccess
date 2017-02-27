@@ -79,7 +79,7 @@ class TestCollectionViewController: UICollectionViewController, CollectionViewDe
     }
     
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
-        return CollectionViewFormSelectionCell.minimumContentHeight(compatibleWith: traitCollection)
+        return CollectionViewFormSelectionCell.minimumContentHeight(forText: "Kj", detailText: nil, inWidth: itemWidth, compatibleWith: traitCollection)
     }
     
     
