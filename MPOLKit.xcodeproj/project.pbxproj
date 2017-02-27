@@ -49,7 +49,7 @@
 		BC712E811E5535B800BD5DAE /* CollectionViewFormLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC712E661E5535B800BD5DAE /* CollectionViewFormLayout.swift */; };
 		BC712E821E5535B800BD5DAE /* TableViewFormCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC712E681E5535B800BD5DAE /* TableViewFormCell.swift */; };
 		BC712E831E5535B800BD5DAE /* TableViewFormCheckboxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC712E691E5535B800BD5DAE /* TableViewFormCheckboxCell.swift */; };
-		BC712E841E5535B800BD5DAE /* TableViewFormSubtitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC712E6A1E5535B800BD5DAE /* TableViewFormSubtitleCell.swift */; };
+		BC712E841E5535B800BD5DAE /* TableViewFormDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC712E6A1E5535B800BD5DAE /* TableViewFormDetailCell.swift */; };
 		BC712E851E5535B800BD5DAE /* TableViewFormTextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC712E6B1E5535B800BD5DAE /* TableViewFormTextFieldCell.swift */; };
 		BC712E861E5535B800BD5DAE /* TableViewFormTextViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC712E6C1E5535B800BD5DAE /* TableViewFormTextViewCell.swift */; };
 		BC712E871E5535B800BD5DAE /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC712E6E1E5535B800BD5DAE /* CheckBox.swift */; };
@@ -147,7 +147,7 @@
 		BC712E661E5535B800BD5DAE /* CollectionViewFormLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormLayout.swift; sourceTree = "<group>"; };
 		BC712E681E5535B800BD5DAE /* TableViewFormCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewFormCell.swift; sourceTree = "<group>"; };
 		BC712E691E5535B800BD5DAE /* TableViewFormCheckboxCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewFormCheckboxCell.swift; sourceTree = "<group>"; };
-		BC712E6A1E5535B800BD5DAE /* TableViewFormSubtitleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewFormSubtitleCell.swift; sourceTree = "<group>"; };
+		BC712E6A1E5535B800BD5DAE /* TableViewFormDetailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewFormDetailCell.swift; sourceTree = "<group>"; };
 		BC712E6B1E5535B800BD5DAE /* TableViewFormTextFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewFormTextFieldCell.swift; sourceTree = "<group>"; };
 		BC712E6C1E5535B800BD5DAE /* TableViewFormTextViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewFormTextViewCell.swift; sourceTree = "<group>"; };
 		BC712E6E1E5535B800BD5DAE /* CheckBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
@@ -358,7 +358,7 @@
 			children = (
 				BC712E681E5535B800BD5DAE /* TableViewFormCell.swift */,
 				BC712E691E5535B800BD5DAE /* TableViewFormCheckboxCell.swift */,
-				BC712E6A1E5535B800BD5DAE /* TableViewFormSubtitleCell.swift */,
+				BC712E6A1E5535B800BD5DAE /* TableViewFormDetailCell.swift */,
 				BC712E6B1E5535B800BD5DAE /* TableViewFormTextFieldCell.swift */,
 				BC712E6C1E5535B800BD5DAE /* TableViewFormTextViewCell.swift */,
 			);
@@ -577,7 +577,7 @@
 				BC712E7D1E5535B800BD5DAE /* UIEdgeInsets+InverseAndInset.swift in Sources */,
 				BC7150A51E56828A0093F958 /* UITableViewCell+LayoutMargins.swift in Sources */,
 				BC712E8A1E5535B800BD5DAE /* SelectableButton.swift in Sources */,
-				BC712E841E5535B800BD5DAE /* TableViewFormSubtitleCell.swift in Sources */,
+				BC712E841E5535B800BD5DAE /* TableViewFormDetailCell.swift in Sources */,
 				BC691B4B1E54041200EC3A20 /* SidebarSourceItem.swift in Sources */,
 				BC7150A31E56828A0093F958 /* UICollectionView+DefaultReuse.swift in Sources */,
 				BC712E721E5535B800BD5DAE /* CollectionViewFormCell.swift in Sources */,

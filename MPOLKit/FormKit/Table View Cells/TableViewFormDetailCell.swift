@@ -1,5 +1,5 @@
 //
-//  TableViewFormSubtitleCell.swift
+//  TableViewFormDetailCell.swift
 //  MPOLKit/FormKit
 //
 //  Created by Rod Brown on 10/08/2016.
@@ -11,18 +11,18 @@ import UIKit
 fileprivate var kvoContext = 1
 
 
-/// The `TableViewFormSubtitleCell` class implements a UITableViewCell subclass which provides
-/// analogous content and behaviour to `CollectionViewFormSubtitleCell`, but for use with `UITableView`.
+/// The `TableViewFormDetailCell` class implements a UITableViewCell subclass which provides
+/// analogous content and behaviour to `CollectionViewFormDetailCell`, but for use with `UITableView`.
 ///
-/// `TableViewFormSubtitleCell` adds to the behaviour of `UITableViewCellStyle.Subtitle` by providing support
+/// `TableViewFormDetailCell` adds to the behaviour of `UITableViewCellStyle.Subtitle` by providing support
 /// for mutli-line labels in both the title and detail label. This can be important in implementing support
 /// for content that must wrap and show in the detail, which the default cell does not support. Additionally
 /// the class configures the labels with the appropriate fonts to replicate the appearance of
-/// `CollectionViewFormSubtitleCell`.
+/// `CollectionViewFormDetailCell`.
 ///
-/// Unlike it's Collection-based counterpart, `TableViewFormSubtitleCell` self-sizes with AutoLayout. Users
+/// Unlike it's Collection-based counterpart, `TableViewFormDetailCell` self-sizes with AutoLayout. Users
 /// do not require to specify a default height, and can allow the cell to indicate it's height dynamically.
-open class TableViewFormSubtitleCell: TableViewFormCell {
+open class TableViewFormDetailCell: TableViewFormCell {
     
     /// The text label for the cell. This is guaranteed to be non-nil.
     open override var textLabel: UILabel {
@@ -51,7 +51,7 @@ open class TableViewFormSubtitleCell: TableViewFormCell {
     
     
     /// Initializes the cell with a reuse identifier.
-    /// TableViewFormSubtitleCell does not utilize the `style` parameter, instead always using `Subtitle`.
+    /// TableViewFormDetailCell does not utilize the `style` parameter, instead always using `Subtitle`.
     public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
@@ -68,9 +68,9 @@ open class TableViewFormSubtitleCell: TableViewFormCell {
         detailLabel.addObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &kvoContext)
     }
     
-    /// TableViewFormSubtitleCell does not support NSCoding.
+    /// TableViewFormDetailCell does not support NSCoding.
     public required init?(coder aDecoder: NSCoder) {
-        fatalError("TableViewFormSubtitleCell does not support NSCoding.")
+        fatalError("TableViewFormDetailCell does not support NSCoding.")
     }
     
     deinit {
@@ -87,7 +87,7 @@ open class TableViewFormSubtitleCell: TableViewFormCell {
 
 
 /// Overriden methods
-extension TableViewFormSubtitleCell {
+extension TableViewFormDetailCell {
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {
@@ -162,7 +162,7 @@ extension TableViewFormSubtitleCell {
 }
 
 
-fileprivate extension TableViewFormSubtitleCell {
+fileprivate extension TableViewFormDetailCell {
     
     /// A helper enum to help track the current state of the labels.
     enum LabelState {

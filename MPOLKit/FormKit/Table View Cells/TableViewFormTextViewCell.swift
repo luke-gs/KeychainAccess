@@ -49,7 +49,7 @@ open class TableViewFormTextViewCell: TableViewFormCell {
     public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         let textView = UITextView(frame: .zero, textContainer: nil)
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.textContainerInset = UIEdgeInsets(top: 2.0, left: -4.0, bottom: 2.0, right: -3.5)
+        textView.textContainerInset = .zero
         textView.backgroundColor    = nil
         self.textView = textView
         

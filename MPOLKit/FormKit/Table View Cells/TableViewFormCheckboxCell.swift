@@ -12,7 +12,7 @@ import UIKit
 /// The `TableViewFormCheckboxCell` class implements a UITableViewCell subclass which provides
 /// analogous content to `CollectionViewFormCheckboxCell`, but for use with `UITableView`.
 ///
-/// Unlike it's Collection-based counterpart, `TableViewFormSubtitleCell` self-sizes with AutoLayout. Users
+/// Unlike it's Collection-based counterpart, `TableViewFormDetailCell` self-sizes with AutoLayout. Users
 /// do not require to specify a default height, and can allow the cell to indicate it's height dynamically.
 ///
 /// Additionally, unlike it's Collection-based counterpart, this class does not tie it's selection to the

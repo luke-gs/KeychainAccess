@@ -102,9 +102,9 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
             NSLayoutConstraint(item: titleLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: layoutGuide, attribute: .trailing),
             
             // lay out the text field with some space for text editing space
-            NSLayoutConstraint(item: textView, attribute: .leading,  relatedBy: .equal, toItem: layoutGuide, attribute: .leading, constant: -5.0),
+            NSLayoutConstraint(item: textView, attribute: .leading,  relatedBy: .equal, toItem: layoutGuide, attribute: .leading,  constant: -5.0),
             NSLayoutConstraint(item: textView, attribute: .trailing, relatedBy: .equal, toItem: layoutGuide, attribute: .trailing, constant: 3.5),
-            NSLayoutConstraint(item: textView, attribute: .bottom,   relatedBy: .equal, toItem: layoutGuide, attribute: .bottom, constant: -1.0),
+            NSLayoutConstraint(item: textView, attribute: .bottom,   relatedBy: .equal, toItem: layoutGuide, attribute: .bottom,   constant: 1.0),
             textViewHeightConstraint,
             
             // lay out the placeholder so it is visually where the text view "appears" to be

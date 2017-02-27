@@ -50,10 +50,9 @@ open class TableViewFormTextFieldCell: TableViewFormCell {
             NSLayoutConstraint(item: titleLabel, attribute: .leading,  relatedBy: .equal,           toItem: layoutGuide, attribute: .leading),
             NSLayoutConstraint(item: titleLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: layoutGuide, attribute: .trailing),
             
-            NSLayoutConstraint(item: textField, attribute: .top,      relatedBy: .equal, toItem: titleLabel, attribute: .bottom),
             NSLayoutConstraint(item: textField, attribute: .leading,  relatedBy: .equal, toItem: layoutGuide, attribute: .leading),
-            NSLayoutConstraint(item: textField, attribute: .bottom,   relatedBy: .equal, toItem: layoutGuide, attribute: .bottom),
             NSLayoutConstraint(item: textField, attribute: .trailing, relatedBy: .equal, toItem: layoutGuide, attribute: .trailing),
+            NSLayoutConstraint(item: textField, attribute: .firstBaseline, relatedBy: .equal, toItem: layoutGuide, attribute: .bottom, constant: -2.0),
             titleDetailSeparationConstraint
         ])
         

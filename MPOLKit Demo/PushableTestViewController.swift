@@ -13,9 +13,9 @@ class PushableTestViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.cellLayoutMargins = UIEdgeInsets(top: 25.0, left: 50.0, bottom: 25.0, right: 50.0)
+        tableView.cellLayoutMargins = UIEdgeInsets(top: 16.0, left: 24.0, bottom: 16.0, right: 12.0)
         tableView.estimatedRowHeight = 50.0
-        tableView.register(TableViewFormCell.self)
+        tableView.register(TableViewFormTextViewCell.self)
         tableView.separatorColor = Theme.current.colors[.Separator]
     }
 
@@ -24,14 +24,13 @@ class PushableTestViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(of: TableViewFormCell.self, for: indexPath)
-        cell.textLabel?.text = "Test Cell \(indexPath.row + 1)"
+        let cell = tableView.dequeueReusableCell(of: TableViewFormTextViewCell.self, for: indexPath)
+        cell.titleLabel.text =       "Test Cell \(indexPath.row + 1)"
+        cell.textView.text = "Test Detail Cell \(indexPath.row + 1)"
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let splitViewController = PushableSplitViewController(viewControllers: [UINavigationController(rootViewController: PushableTestViewController(style: .grouped)), UINavigationController()])
-        pushableSplitViewController?.navigationController?.pushViewController(splitViewController, animated: true)
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
