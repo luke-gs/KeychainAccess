@@ -1,5 +1,5 @@
 //
-//  SidebarSourceItem.swift
+//  SourceItem.swift
 //  Test
 //
 //  Created by Rod Brown on 13/2/17.
@@ -9,8 +9,8 @@
 import UIKit
 
 
-/// An item representing a source in a SidebarViewController.
-public struct SidebarSourceItem {
+/// An item representing a source in a source list.
+public struct SourceItem {
     
     /// The color for the item. This color is applied to the round icon, and the
     /// count when not selected.
@@ -25,7 +25,7 @@ public struct SidebarSourceItem {
     /// Indicates whether the item is enabled. The default is `true`.
     var isEnabled: Bool
     
-    /// Initializes a SidebarSourceItem.
+    /// Initializes a SourceItem.
     public init(color: UIColor, title: String, count: UInt, isEnabled: Bool = true) {
         self.color = color
         self.title = title
