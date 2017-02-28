@@ -12,35 +12,41 @@ fileprivate var kvoContext = 1
 
 open class FormTextField: UITextField {
     
-    fileprivate var _unitLabel: UILabel?
-    open var unitLabel: UILabel {
-        if _unitLabel == nil {
-            _unitLabel = UILabel(frame: .zero)
-            _unitLabel!.textColor = textColor
-            _unitLabel!.font      = font
-            _unitLabel!.isHidden    = true
-            _unitLabel!.addObserver(self, forKeyPath: #keyPath(UILabel.text),  context: &kvoContext)
-            addSubview(_unitLabel!)
-        }
-        return _unitLabel!
+    public var unitLabel: UILabel {
+        if let unitLabel = _unitLabel { return unitLabel }
+        
+        let unitLabel = UILabel(frame: .zero)
+        unitLabel.textColor = textColor
+        unitLabel.font      = font
+        unitLabel.isHidden  = true
+        unitLabel.addObserver(self, forKeyPath: #keyPath(UILabel.text),  context: &kvoContext)
+        addSubview(unitLabel)
+        _unitLabel = unitLabel
+        return unitLabel
     }
     
+    @NSCopying public var placeholderFont: UIFont? {
+        didSet { if placeholderFont != oldValue { updatePlaceholder() } }
+    }
+    
+    @NSCopying public var placeholderTextColor: UIColor? {
+        didSet { if placeholderTextColor != oldValue { updatePlaceholder() } }
+    }
+    
+    fileprivate var _unitLabel: UILabel?
+    
     fileprivate var valueInset: CGFloat = 0.0 {
-        didSet {
-            if valueInset != oldValue {
-                updateUnitLabelOrigin()
-            }
-        }
+        didSet { if valueInset != oldValue { updateUnitLabelOrigin() } }
     }
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        commonInit()
+        addTarget(self, action: #selector(textDidChange), for: .editingChanged)
     }
     
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        commonInit()
+        addTarget(self, action: #selector(textDidChange), for: .editingChanged)
     }
     
     deinit {
@@ -125,35 +131,54 @@ extension FormTextField {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
     }
+    
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        if adjustsFontForContentSizeCategory,
+            let placeholderFontType = placeholderFont?.fontDescriptor.fontAttributes["NSCTFontUIUsageAttribute"] as? String {
+            placeholderFont = .preferredFont(forTextStyle: UIFontTextStyle(rawValue: placeholderFontType), compatibleWith: traitCollection)
+        }
+    }
 }
 
-private extension FormTextField {
+
+
+fileprivate extension FormTextField {
     
-    func commonInit() {
-        addTarget(self, action: #selector(textDidChange), for: .editingChanged)
-    }
-    
-    @objc func textDidChange() {
+    @objc fileprivate func textDidChange() {
         let hidden = _unitLabel?.text?.isEmpty ?? true || text?.isEmpty ?? true
         
         _unitLabel?.isHidden = hidden
+        
         if !hidden {
             if isEditing {
                 valueInset = ceil(min(caretRect(for: endOfDocument).maxX, editingRect(forBounds: bounds).maxX)) + 4.0
+            } else if let text = self.text , text.isEmpty == false {
+                
+                let maxSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
+                let textRect = text.boundingRect(with: maxSize, attributes:  [NSFontAttributeName: self.font ?? .systemFont(ofSize: UIFont.systemFontSize)] , context: nil)
+                valueInset = ceil(min(textRect.width + 1.0, self.textRect(forBounds: bounds).maxX)) + 4.0
             } else {
-                if let text = self.text , text.isEmpty == false {
-                    
-                    let maxSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
-                    let textRect = text.boundingRect(with: maxSize, attributes:  [NSFontAttributeName: self.font ?? .systemFont(ofSize: UIFont.systemFontSize)] , context: nil)
-                    valueInset = ceil(min(textRect.width + 1.0, self.textRect(forBounds: bounds).maxX)) + 4.0
-                } else {
-                    valueInset =  4.0
-                }
+                valueInset =  4.0
             }
         }
     }
     
-    func updateUnitLabelOrigin() {
+    fileprivate func updatePlaceholder() {
+        let attributes = [NSFontAttributeName: self.placeholderFont ?? UIFont.systemFont(ofSize: 15.0), NSForegroundColorAttributeName: self.placeholderTextColor ?? .lightGray]
+        
+        if let attributedPlaceholder = self.attributedPlaceholder?.mutableCopy() as? NSMutableAttributedString {
+            attributedPlaceholder.setAttributes(attributes, range: NSRange(location: 0, length: attributedPlaceholder.length))
+            self.attributedPlaceholder = attributedPlaceholder
+        } else if let placeholder = self.placeholder, placeholder.isEmpty == false {
+            self.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: attributes)
+        } else {
+            self.attributedPlaceholder = nil
+        }
+    }
+    
+    fileprivate func updateUnitLabelOrigin() {
         _unitLabel?.frame.origin = CGPoint(x: valueInset, y: 1.0)
     }
     
