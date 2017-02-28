@@ -77,7 +77,7 @@ class TestCollectionViewController: UICollectionViewController, CollectionViewDe
     }
     
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, givenSectionWidth sectionWidth: CGFloat, edgeInsets: UIEdgeInsets) -> CGFloat {
-        return layout.itemContentWidth(forEqualColumnCount: 2, givenSectionWidth: sectionWidth, edgeInsets: edgeInsets)
+        return sectionWidth
     }
     
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
