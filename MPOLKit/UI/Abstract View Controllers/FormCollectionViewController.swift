@@ -11,9 +11,9 @@ import UIKit
 
 private let tempID = "temp"
 
-open class FormCollectionViewController: UICollectionViewController {
+open class FormCollectionViewController: UICollectionViewController, PopoverViewController {
     
-    let formLayout: CollectionViewFormMPOLLayout
+    open let formLayout: CollectionViewFormMPOLLayout
     
     open var wantsTransparentBackground: Bool = false {
         didSet {
