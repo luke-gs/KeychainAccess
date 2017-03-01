@@ -93,7 +93,7 @@ extension FormTextView {
         let placeholderBaselineY = placeholderFont.ascender
         
         let placeholderOrigin = CGPoint(x: (textContainerInset.left + 5.0).rounded(toScale: displayScale), y: (firstBaselineY - placeholderBaselineY).rounded(toScale: displayScale))
-        var placeholderSize = placeholderLabel.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
+        var placeholderSize = placeholderLabel.sizeThatFits(.max)
         placeholderSize.width = min(placeholderSize.width, max(bounds.size.width - 9.0 - textContainerInset.left - textContainerInset.right, 0.0)).floored(toScale: displayScale)
         
         placeholderLabel.frame = CGRect(origin: placeholderOrigin, size: placeholderSize)

@@ -241,8 +241,7 @@ fileprivate class SourceIcon: UIView {
             textAttributes = [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 11.5), NSForegroundColorAttributeName: color]
         }
         
-        let maxSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
-        let textSize = text.boundingRect(with: maxSize, attributes: textAttributes, context: nil).size
+        let textSize = text.boundingRect(with: .max, attributes: textAttributes, context: nil).size
         
         var textRect =  CGRect(origin: CGPoint(x: 15.0 - textSize.width / 2.0, y: 14.5 - textSize.height / 2.0), size: textSize)
         if count > 9 {

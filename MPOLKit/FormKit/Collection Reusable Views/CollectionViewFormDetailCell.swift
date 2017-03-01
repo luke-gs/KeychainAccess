@@ -246,13 +246,11 @@ extension CollectionViewFormDetailCell {
             displayScale = UIScreen.main.scale
         }
         
-        let maxSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
-        
-        let titleWidth = (title as NSString?)?.boundingRect(with: maxSize, options: singleLineTitle ? [] : .usesLineFragmentOrigin,
+        let titleWidth = (title as NSString?)?.boundingRect(with: .max, options: singleLineTitle ? [] : .usesLineFragmentOrigin,
                                                             attributes: [NSFontAttributeName: titleTextFont],
                                                             context: nil).width.ceiled(toScale: displayScale) ?? 0.0
         
-        let detailWidth = (detail as NSString?)?.boundingRect(with: maxSize, options: singleLineDetail ? [] : .usesLineFragmentOrigin,
+        let detailWidth = (detail as NSString?)?.boundingRect(with: .max, options: singleLineDetail ? [] : .usesLineFragmentOrigin,
                                                               attributes: [NSFontAttributeName: detailTextFont],
                                                               context: nil).width.ceiled(toScale: displayScale) ?? 0.0
         

@@ -104,11 +104,9 @@ extension CollectionViewFormTextFieldCell {
             displayScale = UIScreen.main.scale
         }
         
-        let maxSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
-        
-        let titleWidth = (title as NSString?)?.boundingRect(with: maxSize, attributes: [NSFontAttributeName: titleTextFont], context: nil).width.ceiled(toScale: displayScale) ?? 0.0
-        let textWidth  = (enteredText as NSString?)?.boundingRect(with: maxSize, attributes: [NSFontAttributeName: enteredTextFont], context: nil).width.ceiled(toScale: displayScale) ?? 0.0
-        let placeWidth = (placeholder as NSString?)?.boundingRect(with: maxSize, attributes: [NSFontAttributeName: enteredTextFont], context: nil).width.ceiled(toScale: displayScale) ?? 0.0
+        let titleWidth = (title as NSString?)?.boundingRect(with: .max, attributes: [NSFontAttributeName: titleTextFont], context: nil).width.ceiled(toScale: displayScale) ?? 0.0
+        let textWidth  = (enteredText as NSString?)?.boundingRect(with: .max, attributes: [NSFontAttributeName: enteredTextFont], context: nil).width.ceiled(toScale: displayScale) ?? 0.0
+        let placeWidth = (placeholder as NSString?)?.boundingRect(with: .max, attributes: [NSFontAttributeName: enteredTextFont], context: nil).width.ceiled(toScale: displayScale) ?? 0.0
         
         return max(titleWidth, textWidth, placeWidth)
     }

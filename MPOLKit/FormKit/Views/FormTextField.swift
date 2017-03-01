@@ -156,8 +156,7 @@ fileprivate extension FormTextField {
                 valueInset = ceil(min(caretRect(for: endOfDocument).maxX, editingRect(forBounds: bounds).maxX)) + 4.0
             } else if let text = self.text , text.isEmpty == false {
                 
-                let maxSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
-                let textRect = text.boundingRect(with: maxSize, attributes:  [NSFontAttributeName: self.font ?? .systemFont(ofSize: UIFont.systemFontSize)] , context: nil)
+                let textRect = text.boundingRect(with: .max, attributes:  [NSFontAttributeName: self.font ?? .systemFont(ofSize: UIFont.systemFontSize)] , context: nil)
                 valueInset = ceil(min(textRect.width + 1.0, self.textRect(forBounds: bounds).maxX)) + 4.0
             } else {
                 valueInset =  4.0
