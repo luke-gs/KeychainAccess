@@ -165,12 +165,11 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
             NSLayoutConstraint(item: borderImageView, attribute: .leading,  relatedBy: .equal,           toItem: backingView, attribute: .leading),
             NSLayoutConstraint(item: borderImageView, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: backingView, attribute: .trailing),
             NSLayoutConstraint(item: borderImageView, attribute: .bottom,   relatedBy: .lessThanOrEqual, toItem: backingView, attribute: .bottom),
-            NSLayoutConstraint(item: borderImageView, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: backingView, attribute: .trailing),
             
             NSLayoutConstraint(item: badgeView, attribute: .centerX, relatedBy: .equal, toItem: borderImageView, attribute: .trailing, constant: -2.0),
             NSLayoutConstraint(item: badgeView, attribute: .centerY, relatedBy: .equal, toItem: borderImageView, attribute: .top,      constant: 2.0),
             
-            NSLayoutConstraint(item: sourceLabel, attribute: .leading,  relatedBy: .equal,           toItem: borderImageView, attribute: .leading,   constant: 6.0),
+            NSLayoutConstraint(item: sourceLabel, attribute: .leading,  relatedBy: .equal,           toItem: borderImageView, attribute: .leading,  constant: 6.0),
             NSLayoutConstraint(item: sourceLabel, attribute: .bottom,   relatedBy: .equal,           toItem: borderImageView, attribute: .bottom,   constant: -6.0),
             NSLayoutConstraint(item: sourceLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: borderImageView, attribute: .trailing, constant: -6.0),
             
