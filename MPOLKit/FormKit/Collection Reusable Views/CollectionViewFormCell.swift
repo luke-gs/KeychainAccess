@@ -21,6 +21,7 @@ import UIKit.UIGestureRecognizerSubclass
 /// `systemLayoutSizeFitting(_:)`. Users should note that `CollectionViewFormLayout` does not support self-sizing cells.
 open class CollectionViewFormCell: UICollectionViewCell {
     
+    
     // MARK: - Public properties
     
     /// The edit actions for the cell.
@@ -93,7 +94,44 @@ open class CollectionViewFormCell: UICollectionViewCell {
     }
     
     
+    /// CollectionViewFormCell overrides this UIView flag to adjust the constraints on the
+    /// `CollectionViewFormCell.contentModeLayoutGuide` to apply a top, bottom or center
+    /// position to the guide.
+    ///
+    /// The default is `.center`.
+    open override var contentMode: UIViewContentMode {
+        didSet {
+            if contentMode == oldValue { return }
+            
+            let attribute: NSLayoutAttribute
+            switch contentMode {
+            case .top, .topLeft, .topRight:
+                attribute = .top
+            case .bottom, .bottomLeft, .bottomRight:
+                attribute = .bottom
+            default:
+                attribute = .centerY
+            }
+            contentModeLayoutConstraint?.isActive = false
+            contentModeLayoutConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: attribute, relatedBy: .equal, toItem: contentView.layoutMarginsGuide, attribute: attribute, priority: UILayoutPriorityDefaultLow - 1)
+            contentModeLayoutConstraint.isActive = true
+        }
+    }
+    
+    /// This layout guide is applied to the cell's contentView, and positions content in the
+    /// correct vertical position for the current `contentMode`. This layout guide is constrainted
+    /// to the layout margins for the content view.
+    ///
+    /// Subclasses should position their content with this layout guide, rather than the content
+    /// view's layout margins.
+    open let contentModeLayoutGuide: UILayoutGuide = UILayoutGuide()
+    
+    
     // MARK: - Private properties
+    
+    /// The content mode guide. This guide is private and will update to enforce the current content
+    /// mode on the `contentModeLayoutGuide`.
+    fileprivate var contentModeLayoutConstraint: NSLayoutConstraint!
     
     fileprivate let internalContentView = UIView(frame: .zero)
     fileprivate var scrollView: CollectionViewFormCellScrollView!
@@ -135,8 +173,8 @@ open class CollectionViewFormCell: UICollectionViewCell {
 }
 
 
-/********** Scroll Handling **********/
-
+// MARK: - Scroll handling
+/// Scroll handling
 extension CollectionViewFormCell: UIScrollViewDelegate {
     
     open func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -190,7 +228,7 @@ extension CollectionViewFormCell: UIScrollViewDelegate {
     }
     
     open func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        self.collectionView?.endEditing(true)
+        self.superview(of: UICollectionView.self)?.endEditing(true)
         scrollView.contentInset.right = scrollViewInset
         _deceleratingToOpen = false
     }
@@ -228,7 +266,7 @@ extension CollectionViewFormCell: UIScrollViewDelegate {
         let size = scrollView.bounds.size
         
         if actionView == nil && scrollContentOffset.x.isZero == false {
-            collectionView?.endEditing(true)
+            superview(of: UICollectionView.self)?.endEditing(true)
             actionView = CollectionViewFormCellActionView(cell: self)
             actionView!.updateForButtonsItems((editActions?.map { let color = $0.color ?? .gray;
                 return ($0.title, color)}))
@@ -242,12 +280,13 @@ extension CollectionViewFormCell: DefaultReusable {
 }
 
 
-/********** Overrides **********/
 
+// MARK: - Overrides
+/// Overrides
 extension CollectionViewFormCell {
     
     open class override func automaticallyNotifiesObservers(forKey key: String) -> Bool {
-        if key == "showingEditActions" {
+        if key == #keyPath(CollectionViewFormCell.isShowingEditActions) {
             return false
         } else {
             return super.automaticallyNotifiesObservers(forKey: key)
@@ -260,6 +299,7 @@ extension CollectionViewFormCell {
     
     open override func prepareForReuse() {
         super.prepareForReuse()
+        applyStandardFonts()
         setShowingEditActions(false, animated: false)
     }
     
@@ -328,12 +368,32 @@ extension CollectionViewFormCell {
 }
 
 
-/********** Private **********/
+internal extension CollectionViewFormCell {
+    
+    /// Applies the standard fonts for the cell.
+    ///
+    /// This method is internal-only, and is expected to be called on reuse, and during
+    /// init methods.
+    ///
+    /// - Important: Subclasses must ensure that it is safe to call this method by
+    ///              `super.init()`, as it is called during the superclass's
+    ///              initializer.
+    internal func applyStandardFonts() {
+    }
+    
+}
 
+
+
+// MARK: - Private
+/// Private methods
 private extension CollectionViewFormCell {
     
     func commonInit() {
-        let trueContentView = super.contentView
+        super.contentMode = .center
+        
+        let trueContentView        = super.contentView
+        let contentModeLayoutGuide = self.contentModeLayoutGuide
         
         scrollView = CollectionViewFormCellScrollView(cell: self)
         scrollView.delegate      = self
@@ -347,6 +407,20 @@ private extension CollectionViewFormCell {
         internalContentView.frame = scrollView.bounds
         internalContentView.clipsToBounds = true
         scrollView.addSubview(internalContentView)
+        
+        internalContentView.addLayoutGuide(contentModeLayoutGuide)
+        
+        contentModeLayoutConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .centerY, relatedBy: .equal, toItem: internalContentView, attribute: .centerYWithinMargins, priority: UILayoutPriorityDefaultLow - 1)
+        
+        NSLayoutConstraint.activate([
+            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .leading,  relatedBy: .equal, toItem: internalContentView, attribute: .leadingMargin),
+            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .trailing, relatedBy: .equal, toItem: internalContentView, attribute: .trailingMargin),
+            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .top,      relatedBy: .greaterThanOrEqual, toItem: internalContentView, attribute: .topMargin),
+            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .bottom,   relatedBy: .lessThanOrEqual,    toItem: internalContentView, attribute: .bottomMargin, priority: 500),
+            contentModeLayoutConstraint
+        ])
+        
+        applyStandardFonts()
     }
     
     @objc func touchTriggerDidActivate(_ trigger: TouchRecognizer) {
@@ -360,7 +434,7 @@ private extension CollectionViewFormCell {
     
     func applyTouchTrigger() {
         if touchTrigger != nil { return }
-        if let collectionView = self.collectionView {
+        if let collectionView = superview(of: UICollectionView.self) {
             let touchTrigger = TouchRecognizer(target: self, action: #selector(touchTriggerDidActivate(_:)))
             touchTrigger.delegate = self
             collectionView.addGestureRecognizer(touchTrigger)
@@ -395,7 +469,7 @@ extension CollectionViewFormCell: UIGestureRecognizerDelegate {
     
     @objc public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         let view = gestureRecognizer.view
-        let myCollectionView = view as? UICollectionView ?? view?.collectionView
+        let myCollectionView = view as? UICollectionView ?? view?.superview(of: UICollectionView.self)
         let returnValue = otherGestureRecognizer.view == myCollectionView
         return returnValue
     }
@@ -437,7 +511,7 @@ private class CollectionViewFormCellScrollView: UIScrollView, UIGestureRecognize
     }
     
     override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        if let cells = cell?.collectionView?.visibleCells {
+        if let cells = cell?.superview(of: UICollectionView.self)?.visibleCells {
             if cells.contains(where: {
                 if let state = ($0 as? CollectionViewFormCell)?.scrollView.panGestureRecognizer.state {
                     return state != .possible && state != .failed
@@ -521,7 +595,7 @@ private class CollectionViewFormCellActionView: UIView {
             let tag = button.tag
             if editCount <= tag { return }
             
-            if let collectionView = self.collectionView, let indexPath = collectionView.indexPath(for: cell) {
+            if let indexPath = superview(of: UICollectionView.self)?.indexPath(for: cell) {
                 editActions[tag].action?(cell, indexPath)
             }
         }
@@ -546,20 +620,8 @@ fileprivate class TouchRecognizer: UIGestureRecognizer {
 
 extension UIView {
     
-    /// An convenience to find a view's nearest UICollectionView ancestor, if it exists.
-    var collectionView: UICollectionView? {
-        var superview = self.superview
-        while let superView = superview {
-            if let collection = superView as? UICollectionView {
-                return collection
-            }
-            superview = superView.superview
-        }
-        return nil
-    }
-    
     /// A convenience to find the subview which is currently the first responder, if any.
-    open var firstResponderSubview: UIView? {
+    var firstResponderSubview: UIView? {
         if isFirstResponder { return self }
         for subview in subviews {
             if let firstResponderSubview = subview.firstResponderSubview {

@@ -26,11 +26,3 @@ extension CGFloat {
     }
     
 }
-
-extension CGSize {
-    
-    public var isEmpty: Bool {
-        return width.isZero || height.isZero
-    }
-    
-}

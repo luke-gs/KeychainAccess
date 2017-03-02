@@ -230,12 +230,12 @@ extension SidebarViewController {
         sidebarTableView?.flashScrollIndicators()
     }
     
-    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        if previousTraitCollection?.layoutDirection != traitCollection.layoutDirection {
-            viewIfLoaded?.setNeedsLayout()
-        }
-    }
+//    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+//        super.traitCollectionDidChange(previousTraitCollection)
+//        if previousTraitCollection?.layoutDirection != traitCollection.layoutDirection {
+//            viewIfLoaded?.setNeedsLayout()
+//        }
+//    }
     
 }
 

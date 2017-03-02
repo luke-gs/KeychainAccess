@@ -15,6 +15,7 @@ class TestCollectionViewController: UICollectionViewController, CollectionViewDe
 
     init() {
         let layout = CollectionViewFormMPOLLayout()
+        layout.itemLayoutMargins = UIEdgeInsets(top: 16.0, left: 24.0, bottom: 16.0, right: 10.0)
         layout.separatorStyle = .fullWidth
         super.init(collectionViewLayout: layout)
     }
@@ -27,31 +28,44 @@ class TestCollectionViewController: UICollectionViewController, CollectionViewDe
         super.viewDidLoad()
         
         collectionView?.backgroundColor = .white
-        collectionView?.register(EntityCollectionViewCell.self)
+        collectionView?.register(CollectionViewFormTextViewCell.self)
+        collectionView?.register(CollectionViewFormMPOLHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        collectionView?.collectionViewLayout.invalidateLayout()
     }
 
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
+        return 100
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, class: CollectionViewFormMPOLHeaderView.self, for: indexPath)
+        header.tintColor = Theme.current.colors[.SecondaryText]
+        header.showsExpandArrow = true
+        header.text = "1 ACTIVE ALERT"
+        header.tapHandler = { (header, ip) in
+            header.setExpanded(header.isExpanded == false, animated: true)
+        }
+        return header
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(of: EntityCollectionViewCell.self, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormTextViewCell.self, for: indexPath)
         
-        cell.style              = .detail
-        cell.imageView.image    = #imageLiteral(resourceName: "Avatar 1")
-        cell.titleLabel.text    = "Frost, Deacon H."
-        cell.subtitleLabel.text = "27/10/1987 (33 Male)"
-        cell.detailLabel.text   = "Williamstown VIC 3016"
-        cell.alertColor         = .red
-        cell.alertCount         = 8
-        cell.sourceLabel.text   = "DS1"
+        cell.titleLabel.text =  "Test Title \(indexPath.item + 1)"
+        //cell.textView.text = "Testing text \(indexPath.item + 1)"
+        cell.textView.placeholderLabel.text = "Testing placeholder \(indexPath.item + 1)"
         
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
-        return 0.0
+        return CollectionViewFormMPOLHeaderView.minimumHeight
     }
     
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForFooterInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
@@ -63,12 +77,15 @@ class TestCollectionViewController: UICollectionViewController, CollectionViewDe
     }
     
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, givenSectionWidth sectionWidth: CGFloat, edgeInsets: UIEdgeInsets) -> CGFloat {
-        return EntityCollectionViewCell.minimumContentWidth(forStyle: .detail) + 50.0
+        return sectionWidth
     }
     
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
-        return EntityCollectionViewCell.minimumContentHeight(forStyle: .detail, compatibleWith: traitCollection)
+        return CollectionViewFormTextViewCell.minimumContentHeight(withTitle: "Test Title \(indexPath.item + 1)", text: "Testing text \(indexPath.item + 1)", inWidth: itemWidth, compatibleWidth: traitCollection)
     }
     
     
+}
+
+extension UICollectionReusableView: DefaultReusable {
 }

@@ -18,12 +18,12 @@ extension UIImage {
     public static let checkbox = templateImage(withName: "Checkbox")
     
     @nonobjc
-    public static let checkboxSelected = templateImage(withName: "CheckboxSelected")
+    public static let checkboxSelected = templateImage(withName: "CheckboxFilled")
     
     @nonobjc
-    public static let radioButton = templateImage(withName: "RadioButton")
+    public static let radioButton = templateImage(withName: "RadioFilled")
     
     @nonobjc
-    public static let radioButtonSelected = templateImage(withName: "RadioButtonSelected")
+    public static let radioButtonSelected = templateImage(withName: "RadioButtonFilled")
     
 }

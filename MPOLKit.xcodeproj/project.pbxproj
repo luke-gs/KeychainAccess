@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6D7B30161E640506009D4602 /* FormKitDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7B30151E640506009D4602 /* FormKitDefines.swift */; };
+		6DA0E0F01E64D4530032B54F /* FormTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA0E0EF1E64D4530032B54F /* FormTextView.swift */; };
+		6DA6533D1E61759800ADB768 /* UIView+SuperviewSearching.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA6533C1E61759800ADB768 /* UIView+SuperviewSearching.swift */; };
+		6DAAAFE91E5E771A000E57A9 /* EntityCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAAAFE81E5E771A000E57A9 /* EntityCollectionViewCell.swift */; };
 		BC2152141E5950D500193086 /* CollectionViewFormBoxedLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2152131E5950D500193086 /* CollectionViewFormBoxedLayout.swift */; };
 		BC2FA2D31E54023E00E2D0D1 /* MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC2FA2C91E54023E00E2D0D1 /* MPOLKit.framework */; };
 		BC2FA2D81E54023E00E2D0D1 /* MPOLKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2FA2D71E54023E00E2D0D1 /* MPOLKitTests.swift */; };
@@ -16,6 +20,7 @@
 		BC2FA2F41E54026700E2D0D1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BC2FA2F21E54026700E2D0D1 /* LaunchScreen.storyboard */; };
 		BC2FA2F91E54026D00E2D0D1 /* MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC2FA2C91E54023E00E2D0D1 /* MPOLKit.framework */; };
 		BC2FA2FA1E54026D00E2D0D1 /* MPOLKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BC2FA2C91E54023E00E2D0D1 /* MPOLKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BC36ABE81E5D28310052C4C5 /* CollectionViewFormMPOLHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC36ABE71E5D28310052C4C5 /* CollectionViewFormMPOLHeaderView.swift */; };
 		BC691B2A1E5403B200EC3A20 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC691B291E5403B200EC3A20 /* Assets.xcassets */; };
 		BC691B441E54041200EC3A20 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC691B341E54041200EC3A20 /* UIColor+Hex.swift */; };
 		BC691B481E54041200EC3A20 /* PushableSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC691B381E54041200EC3A20 /* PushableSplitViewController.swift */; };
@@ -30,11 +35,10 @@
 		BC691B521E54043700EC3A20 /* ThemePack.json in Resources */ = {isa = PBXBuildFile; fileRef = BC691B511E54043700EC3A20 /* ThemePack.json */; };
 		BC691B541E54046C00EC3A20 /* PushableTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC691B531E54046C00EC3A20 /* PushableTestViewController.swift */; };
 		BC712E721E5535B800BD5DAE /* CollectionViewFormCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC712E551E5535B800BD5DAE /* CollectionViewFormCell.swift */; };
-		BC712E731E5535B800BD5DAE /* CollectionViewFormCheckboxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC712E561E5535B800BD5DAE /* CollectionViewFormCheckboxCell.swift */; };
+		BC712E731E5535B800BD5DAE /* CollectionViewFormSelectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC712E561E5535B800BD5DAE /* CollectionViewFormSelectionCell.swift */; };
 		BC712E741E5535B800BD5DAE /* CollectionViewFormDecorationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC712E571E5535B800BD5DAE /* CollectionViewFormDecorationView.swift */; };
 		BC712E751E5535B800BD5DAE /* CollectionViewFormEditAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC712E581E5535B800BD5DAE /* CollectionViewFormEditAction.swift */; };
-		BC712E761E5535B800BD5DAE /* CollectionViewFormRadioButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC712E591E5535B800BD5DAE /* CollectionViewFormRadioButtonCell.swift */; };
-		BC712E771E5535B800BD5DAE /* CollectionViewFormSubtitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC712E5A1E5535B800BD5DAE /* CollectionViewFormSubtitleCell.swift */; };
+		BC712E771E5535B800BD5DAE /* CollectionViewFormDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC712E5A1E5535B800BD5DAE /* CollectionViewFormDetailCell.swift */; };
 		BC712E781E5535B800BD5DAE /* CollectionViewFormTextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC712E5B1E5535B800BD5DAE /* CollectionViewFormTextFieldCell.swift */; };
 		BC712E791E5535B800BD5DAE /* CollectionViewFormTextViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC712E5C1E5535B800BD5DAE /* CollectionViewFormTextViewCell.swift */; };
 		BC712E7A1E5535B800BD5DAE /* CoreGraphics+Rounding.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC712E5E1E5535B800BD5DAE /* CoreGraphics+Rounding.swift */; };
@@ -46,7 +50,7 @@
 		BC712E811E5535B800BD5DAE /* CollectionViewFormLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC712E661E5535B800BD5DAE /* CollectionViewFormLayout.swift */; };
 		BC712E821E5535B800BD5DAE /* TableViewFormCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC712E681E5535B800BD5DAE /* TableViewFormCell.swift */; };
 		BC712E831E5535B800BD5DAE /* TableViewFormCheckboxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC712E691E5535B800BD5DAE /* TableViewFormCheckboxCell.swift */; };
-		BC712E841E5535B800BD5DAE /* TableViewFormSubtitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC712E6A1E5535B800BD5DAE /* TableViewFormSubtitleCell.swift */; };
+		BC712E841E5535B800BD5DAE /* TableViewFormDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC712E6A1E5535B800BD5DAE /* TableViewFormDetailCell.swift */; };
 		BC712E851E5535B800BD5DAE /* TableViewFormTextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC712E6B1E5535B800BD5DAE /* TableViewFormTextFieldCell.swift */; };
 		BC712E861E5535B800BD5DAE /* TableViewFormTextViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC712E6C1E5535B800BD5DAE /* TableViewFormTextViewCell.swift */; };
 		BC712E871E5535B800BD5DAE /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC712E6E1E5535B800BD5DAE /* CheckBox.swift */; };
@@ -60,9 +64,9 @@
 		BCA68EB21E5AFC5B00CDEF13 /* BorderedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA68EB11E5AFC5B00CDEF13 /* BorderedImageView.swift */; };
 		BCA68EB41E5B0A4A00CDEF13 /* TestCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA68EB31E5B0A4A00CDEF13 /* TestCollectionViewController.swift */; };
 		BCD35CA11E5A49B0001B40A1 /* DefaultReusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD35CA01E5A49B0001B40A1 /* DefaultReusable.swift */; };
-		BCD35CA31E5A6D6C001B40A1 /* EntityCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD35CA21E5A6D6C001B40A1 /* EntityCollectionViewCell.swift */; };
-		BCD35CA51E5A75D4001B40A1 /* FontManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD35CA41E5A75D4001B40A1 /* FontManager.swift */; };
 		BCD35CA71E5AA472001B40A1 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD35CA61E5AA472001B40A1 /* BadgeView.swift */; };
+		BCE00E5A1E666FA000D39E09 /* CoreGraphics+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE00E591E666FA000D39E09 /* CoreGraphics+Convenience.swift */; };
+		BCEB664A1E5D45D00001138B /* FloatingPoint+Equality.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEB66491E5D45D00001138B /* FloatingPoint+Equality.swift */; };
 		BCEBA1961E5BC1E900FD404D /* SourceLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEBA1951E5BC1E900FD404D /* SourceLabel.swift */; };
 		BCFD25571E5C03BE00EC2566 /* CollectionViewFormMPOLHeaderAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFD25551E5C03BE00EC2566 /* CollectionViewFormMPOLHeaderAttributes.swift */; };
 		BCFD25581E5C03BE00EC2566 /* CollectionViewFormMPOLLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFD25561E5C03BE00EC2566 /* CollectionViewFormMPOLLayout.swift */; };
@@ -100,6 +104,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6D7B30151E640506009D4602 /* FormKitDefines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormKitDefines.swift; sourceTree = "<group>"; };
+		6DA0E0EF1E64D4530032B54F /* FormTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormTextView.swift; sourceTree = "<group>"; };
+		6DA6533C1E61759800ADB768 /* UIView+SuperviewSearching.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+SuperviewSearching.swift"; sourceTree = "<group>"; };
+		6DAAAFE81E5E771A000E57A9 /* EntityCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EntityCollectionViewCell.swift; path = Cells/EntityCollectionViewCell.swift; sourceTree = "<group>"; };
 		BC2152131E5950D500193086 /* CollectionViewFormBoxedLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormBoxedLayout.swift; sourceTree = "<group>"; };
 		BC2FA2C91E54023E00E2D0D1 /* MPOLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MPOLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC2FA2CC1E54023E00E2D0D1 /* MPOLKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPOLKit.h; sourceTree = "<group>"; };
@@ -112,6 +120,7 @@
 		BC2FA2F01E54026700E2D0D1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BC2FA2F31E54026700E2D0D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BC2FA2F51E54026700E2D0D1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BC36ABE71E5D28310052C4C5 /* CollectionViewFormMPOLHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormMPOLHeaderView.swift; sourceTree = "<group>"; };
 		BC691B291E5403B200EC3A20 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BC691B341E54041200EC3A20 /* UIColor+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
 		BC691B381E54041200EC3A20 /* PushableSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushableSplitViewController.swift; sourceTree = "<group>"; };
@@ -126,11 +135,10 @@
 		BC691B511E54043700EC3A20 /* ThemePack.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ThemePack.json; sourceTree = "<group>"; };
 		BC691B531E54046C00EC3A20 /* PushableTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushableTestViewController.swift; sourceTree = "<group>"; };
 		BC712E551E5535B800BD5DAE /* CollectionViewFormCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormCell.swift; sourceTree = "<group>"; };
-		BC712E561E5535B800BD5DAE /* CollectionViewFormCheckboxCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormCheckboxCell.swift; sourceTree = "<group>"; };
+		BC712E561E5535B800BD5DAE /* CollectionViewFormSelectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormSelectionCell.swift; sourceTree = "<group>"; };
 		BC712E571E5535B800BD5DAE /* CollectionViewFormDecorationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormDecorationView.swift; sourceTree = "<group>"; };
 		BC712E581E5535B800BD5DAE /* CollectionViewFormEditAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormEditAction.swift; sourceTree = "<group>"; };
-		BC712E591E5535B800BD5DAE /* CollectionViewFormRadioButtonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormRadioButtonCell.swift; sourceTree = "<group>"; };
-		BC712E5A1E5535B800BD5DAE /* CollectionViewFormSubtitleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormSubtitleCell.swift; sourceTree = "<group>"; };
+		BC712E5A1E5535B800BD5DAE /* CollectionViewFormDetailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormDetailCell.swift; sourceTree = "<group>"; };
 		BC712E5B1E5535B800BD5DAE /* CollectionViewFormTextFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormTextFieldCell.swift; sourceTree = "<group>"; };
 		BC712E5C1E5535B800BD5DAE /* CollectionViewFormTextViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormTextViewCell.swift; sourceTree = "<group>"; };
 		BC712E5E1E5535B800BD5DAE /* CoreGraphics+Rounding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CoreGraphics+Rounding.swift"; sourceTree = "<group>"; };
@@ -142,7 +150,7 @@
 		BC712E661E5535B800BD5DAE /* CollectionViewFormLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormLayout.swift; sourceTree = "<group>"; };
 		BC712E681E5535B800BD5DAE /* TableViewFormCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewFormCell.swift; sourceTree = "<group>"; };
 		BC712E691E5535B800BD5DAE /* TableViewFormCheckboxCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewFormCheckboxCell.swift; sourceTree = "<group>"; };
-		BC712E6A1E5535B800BD5DAE /* TableViewFormSubtitleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewFormSubtitleCell.swift; sourceTree = "<group>"; };
+		BC712E6A1E5535B800BD5DAE /* TableViewFormDetailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewFormDetailCell.swift; sourceTree = "<group>"; };
 		BC712E6B1E5535B800BD5DAE /* TableViewFormTextFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewFormTextFieldCell.swift; sourceTree = "<group>"; };
 		BC712E6C1E5535B800BD5DAE /* TableViewFormTextViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewFormTextViewCell.swift; sourceTree = "<group>"; };
 		BC712E6E1E5535B800BD5DAE /* CheckBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
@@ -156,9 +164,9 @@
 		BCA68EB11E5AFC5B00CDEF13 /* BorderedImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderedImageView.swift; sourceTree = "<group>"; };
 		BCA68EB31E5B0A4A00CDEF13 /* TestCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestCollectionViewController.swift; sourceTree = "<group>"; };
 		BCD35CA01E5A49B0001B40A1 /* DefaultReusable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DefaultReusable.swift; path = Protocols/DefaultReusable.swift; sourceTree = "<group>"; };
-		BCD35CA21E5A6D6C001B40A1 /* EntityCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityCollectionViewCell.swift; sourceTree = "<group>"; };
-		BCD35CA41E5A75D4001B40A1 /* FontManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontManager.swift; sourceTree = "<group>"; };
 		BCD35CA61E5AA472001B40A1 /* BadgeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
+		BCE00E591E666FA000D39E09 /* CoreGraphics+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CoreGraphics+Convenience.swift"; sourceTree = "<group>"; };
+		BCEB66491E5D45D00001138B /* FloatingPoint+Equality.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FloatingPoint+Equality.swift"; sourceTree = "<group>"; };
 		BCEBA1951E5BC1E900FD404D /* SourceLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceLabel.swift; sourceTree = "<group>"; };
 		BCFD25551E5C03BE00EC2566 /* CollectionViewFormMPOLHeaderAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CollectionViewFormMPOLHeaderAttributes.swift; path = "FormKit MPOL Additions/CollectionViewFormMPOLHeaderAttributes.swift"; sourceTree = "<group>"; };
 		BCFD25561E5C03BE00EC2566 /* CollectionViewFormMPOLLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CollectionViewFormMPOLLayout.swift; path = "FormKit MPOL Additions/CollectionViewFormMPOLLayout.swift"; sourceTree = "<group>"; };
@@ -191,6 +199,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6DAAAFE71E5E76F8000E57A9 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				6DAAAFE81E5E771A000E57A9 /* EntityCollectionViewCell.swift */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
 		BC2FA2BF1E54023E00E2D0D1 = {
 			isa = PBXGroup;
 			children = (
@@ -252,8 +268,7 @@
 			children = (
 				BCD35CA61E5AA472001B40A1 /* BadgeView.swift */,
 				BCA68EB11E5AFC5B00CDEF13 /* BorderedImageView.swift */,
-				BCD35CA21E5A6D6C001B40A1 /* EntityCollectionViewCell.swift */,
-				BCD35CA41E5A75D4001B40A1 /* FontManager.swift */,
+				6DAAAFE71E5E76F8000E57A9 /* Cells */,
 				BCFD25541E5C03A800EC2566 /* FormKit MPOL Additions */,
 				BC691B381E54041200EC3A20 /* PushableSplitViewController.swift */,
 				BC691B391E54041200EC3A20 /* ScrollViewInsetManager.swift */,
@@ -289,13 +304,14 @@
 		BC712E1D1E55348B00BD5DAE /* FormKit */ = {
 			isa = PBXGroup;
 			children = (
-				BC712E8B1E5536A000BD5DAE /* FormKitAssets.xcassets */,
 				BC712E641E5535B800BD5DAE /* Layout */,
 				BC712E541E5535B800BD5DAE /* Collection Reusable Views */,
 				BC712E671E5535B800BD5DAE /* Table View Cells */,
 				BC712E6D1E5535B800BD5DAE /* Views */,
 				BCD35C9D1E5A462A001B40A1 /* Protocols */,
 				BC712E5D1E5535B800BD5DAE /* Extensions */,
+				6D7B30151E640506009D4602 /* FormKitDefines.swift */,
+				BC712E8B1E5536A000BD5DAE /* FormKitAssets.xcassets */,
 			);
 			path = FormKit;
 			sourceTree = "<group>";
@@ -304,11 +320,10 @@
 			isa = PBXGroup;
 			children = (
 				BC712E551E5535B800BD5DAE /* CollectionViewFormCell.swift */,
-				BC712E561E5535B800BD5DAE /* CollectionViewFormCheckboxCell.swift */,
 				BC712E571E5535B800BD5DAE /* CollectionViewFormDecorationView.swift */,
+				BC712E5A1E5535B800BD5DAE /* CollectionViewFormDetailCell.swift */,
 				BC712E581E5535B800BD5DAE /* CollectionViewFormEditAction.swift */,
-				BC712E591E5535B800BD5DAE /* CollectionViewFormRadioButtonCell.swift */,
-				BC712E5A1E5535B800BD5DAE /* CollectionViewFormSubtitleCell.swift */,
+				BC712E561E5535B800BD5DAE /* CollectionViewFormSelectionCell.swift */,
 				BC712E5B1E5535B800BD5DAE /* CollectionViewFormTextFieldCell.swift */,
 				BC712E5C1E5535B800BD5DAE /* CollectionViewFormTextViewCell.swift */,
 			);
@@ -319,6 +334,8 @@
 			isa = PBXGroup;
 			children = (
 				BC712E5E1E5535B800BD5DAE /* CoreGraphics+Rounding.swift */,
+				BCE00E591E666FA000D39E09 /* CoreGraphics+Convenience.swift */,
+				BCEB66491E5D45D00001138B /* FloatingPoint+Equality.swift */,
 				BC712E5F1E5535B800BD5DAE /* NSLayoutConstraint+Conveniences.swift */,
 				BC71509F1E56828A0093F958 /* UICollectionView+DefaultReuse.swift */,
 				BC712E601E5535B800BD5DAE /* UIColor+ActionColors.swift */,
@@ -326,6 +343,7 @@
 				BC712E621E5535B800BD5DAE /* UIImage+FormKitDefaults.swift */,
 				BC7150A01E56828A0093F958 /* UITableView+DefaultReuse.swift */,
 				BC7150A11E56828A0093F958 /* UITableViewCell+LayoutMargins.swift */,
+				6DA6533C1E61759800ADB768 /* UIView+SuperviewSearching.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -345,7 +363,7 @@
 			children = (
 				BC712E681E5535B800BD5DAE /* TableViewFormCell.swift */,
 				BC712E691E5535B800BD5DAE /* TableViewFormCheckboxCell.swift */,
-				BC712E6A1E5535B800BD5DAE /* TableViewFormSubtitleCell.swift */,
+				BC712E6A1E5535B800BD5DAE /* TableViewFormDetailCell.swift */,
 				BC712E6B1E5535B800BD5DAE /* TableViewFormTextFieldCell.swift */,
 				BC712E6C1E5535B800BD5DAE /* TableViewFormTextViewCell.swift */,
 			);
@@ -357,6 +375,7 @@
 			children = (
 				BC712E6E1E5535B800BD5DAE /* CheckBox.swift */,
 				BC712E6F1E5535B800BD5DAE /* FormTextField.swift */,
+				6DA0E0EF1E64D4530032B54F /* FormTextView.swift */,
 				BC712E701E5535B800BD5DAE /* RadioButton.swift */,
 				BC712E711E5535B800BD5DAE /* SelectableButton.swift */,
 			);
@@ -384,6 +403,7 @@
 			children = (
 				BCFD25561E5C03BE00EC2566 /* CollectionViewFormMPOLLayout.swift */,
 				BCFD25551E5C03BE00EC2566 /* CollectionViewFormMPOLHeaderAttributes.swift */,
+				BC36ABE71E5D28310052C4C5 /* CollectionViewFormMPOLHeaderView.swift */,
 			);
 			name = "FormKit MPOL Additions";
 			sourceTree = "<group>";
@@ -469,7 +489,6 @@
 				TargetAttributes = {
 					BC2FA2C81E54023E00E2D0D1 = {
 						CreatedOnToolsVersion = 8.3;
-						DevelopmentTeam = FNW7L4X44S;
 						ProvisioningStyle = Automatic;
 					};
 					BC2FA2D11E54023E00E2D0D1 = {
@@ -540,9 +559,10 @@
 			files = (
 				BC712E861E5535B800BD5DAE /* TableViewFormTextViewCell.swift in Sources */,
 				BC691B4A1E54041200EC3A20 /* SidebarItem.swift in Sources */,
-				BC712E731E5535B800BD5DAE /* CollectionViewFormCheckboxCell.swift in Sources */,
+				BC712E731E5535B800BD5DAE /* CollectionViewFormSelectionCell.swift in Sources */,
 				BC712E851E5535B800BD5DAE /* TableViewFormTextFieldCell.swift in Sources */,
 				BC712E781E5535B800BD5DAE /* CollectionViewFormTextFieldCell.swift in Sources */,
+				6DA0E0F01E64D4530032B54F /* FormTextView.swift in Sources */,
 				BC712E891E5535B800BD5DAE /* RadioButton.swift in Sources */,
 				BC691B441E54041200EC3A20 /* UIColor+Hex.swift in Sources */,
 				BC712E791E5535B800BD5DAE /* CollectionViewFormTextViewCell.swift in Sources */,
@@ -550,11 +570,11 @@
 				BC712E751E5535B800BD5DAE /* CollectionViewFormEditAction.swift in Sources */,
 				BC712E741E5535B800BD5DAE /* CollectionViewFormDecorationView.swift in Sources */,
 				BC712E821E5535B800BD5DAE /* TableViewFormCell.swift in Sources */,
-				BCD35CA31E5A6D6C001B40A1 /* EntityCollectionViewCell.swift in Sources */,
-				BC712E761E5535B800BD5DAE /* CollectionViewFormRadioButtonCell.swift in Sources */,
+				6DA6533D1E61759800ADB768 /* UIView+SuperviewSearching.swift in Sources */,
 				BC712E7C1E5535B800BD5DAE /* UIColor+ActionColors.swift in Sources */,
 				BCFD25581E5C03BE00EC2566 /* CollectionViewFormMPOLLayout.swift in Sources */,
 				BC691B4D1E54041200EC3A20 /* SidebarTableViewCell.swift in Sources */,
+				BCEB664A1E5D45D00001138B /* FloatingPoint+Equality.swift in Sources */,
 				BC691B4C1E54041200EC3A20 /* SidebarSplitViewController.swift in Sources */,
 				BC712E7B1E5535B800BD5DAE /* NSLayoutConstraint+Conveniences.swift in Sources */,
 				BC2152141E5950D500193086 /* CollectionViewFormBoxedLayout.swift in Sources */,
@@ -564,26 +584,29 @@
 				BC712E7D1E5535B800BD5DAE /* UIEdgeInsets+InverseAndInset.swift in Sources */,
 				BC7150A51E56828A0093F958 /* UITableViewCell+LayoutMargins.swift in Sources */,
 				BC712E8A1E5535B800BD5DAE /* SelectableButton.swift in Sources */,
-				BC712E841E5535B800BD5DAE /* TableViewFormSubtitleCell.swift in Sources */,
+				BCE00E5A1E666FA000D39E09 /* CoreGraphics+Convenience.swift in Sources */,
+				BC712E841E5535B800BD5DAE /* TableViewFormDetailCell.swift in Sources */,
 				BC691B4B1E54041200EC3A20 /* SidebarSourceItem.swift in Sources */,
 				BC7150A31E56828A0093F958 /* UICollectionView+DefaultReuse.swift in Sources */,
-				BCD35CA51E5A75D4001B40A1 /* FontManager.swift in Sources */,
 				BC712E721E5535B800BD5DAE /* CollectionViewFormCell.swift in Sources */,
 				BCA68EB21E5AFC5B00CDEF13 /* BorderedImageView.swift in Sources */,
 				BC712E801E5535B800BD5DAE /* CollectionViewFormAttributes.swift in Sources */,
 				BC712E831E5535B800BD5DAE /* TableViewFormCheckboxCell.swift in Sources */,
-				BC712E771E5535B800BD5DAE /* CollectionViewFormSubtitleCell.swift in Sources */,
+				BC712E771E5535B800BD5DAE /* CollectionViewFormDetailCell.swift in Sources */,
 				BCFD25571E5C03BE00EC2566 /* CollectionViewFormMPOLHeaderAttributes.swift in Sources */,
 				BCD35CA11E5A49B0001B40A1 /* DefaultReusable.swift in Sources */,
 				BC691B4F1E54041200EC3A20 /* SourceTableViewCell.swift in Sources */,
 				BC691B481E54041200EC3A20 /* PushableSplitViewController.swift in Sources */,
+				BC36ABE81E5D28310052C4C5 /* CollectionViewFormMPOLHeaderView.swift in Sources */,
 				BCEBA1961E5BC1E900FD404D /* SourceLabel.swift in Sources */,
 				BCD35CA71E5AA472001B40A1 /* BadgeView.swift in Sources */,
+				6D7B30161E640506009D4602 /* FormKitDefines.swift in Sources */,
 				BC691B501E54041200EC3A20 /* Theme.swift in Sources */,
 				BC712E881E5535B800BD5DAE /* FormTextField.swift in Sources */,
 				BC712E7E1E5535B800BD5DAE /* UIImage+FormKitDefaults.swift in Sources */,
 				BC691B4E1E54041200EC3A20 /* SidebarViewController.swift in Sources */,
 				BC691B491E54041200EC3A20 /* ScrollViewInsetManager.swift in Sources */,
+				6DAAAFE91E5E771A000E57A9 /* EntityCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -737,8 +760,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = FNW7L4X44S;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -758,7 +782,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = FNW7L4X44S;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";

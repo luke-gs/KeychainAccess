@@ -98,8 +98,9 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
         let itemSeparatorColor    = self.itemSeparatorColor
         let defaultSeparatorStyle = separatorStyle
         
+        
         // function to process a section's items. ensure that insets are accounted for.
-        func processItemsInSection(_ section: Int, atPoint point: CGPoint, withWidth width: CGFloat) -> CGFloat { // Returns height of section items
+        func processItemsInSection(_ section: Int, atPoint point: CGPoint, withWidth width: CGFloat, insets: UIEdgeInsets) -> CGFloat { // Returns height of section items
             
             let sectionDistribution: CollectionViewFormLayout.Distribution
             if let foundDistribution = delegate.collectionView?(collectionView, layout: self, distributionForSection: section) , foundDistribution != .automatic {
@@ -110,7 +111,6 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
             
             var currentYOrigin = point.y
             
-            let insets = delegate.collectionView(collectionView, layout: self, insetForSection: section, givenSectionWidth: width)
             let sectionLeftInset  = insets.left.rounded(toScale: screenScale)
             let sectionRightInset = insets.right.rounded(toScale: screenScale)
             
@@ -357,19 +357,24 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
             sectionGroups = (0..<numberOfSections).map{[($0, (x: 0.0, width: collectionViewWidth))]}
         }
         
+        
         let defaultWantsSectionHeaderInsets = wantsInsetHeaders
         
         for sectionGroup: [(Int, (x: CGFloat, width: CGFloat))] in sectionGroups {
+            
+            var sectionIndentAdded: Bool = false
+            
             // process each section group
             let startOfHeaders = currentYOffset
             
             // First get headers, work out the taller of them, and add them putting them to the bottom as much as possible
             var largestHeight: CGFloat = 0.0
-            let headerRects: [(Int, CGRect)] = sectionGroup.map {
+            let headerRects: [(Int, CGRect, UIEdgeInsets)] = sectionGroup.map {
                 let width = $1.width
                 let height = max(ceil(delegate.collectionView(collectionView, layout: self, heightForHeaderInSection: $0, givenSectionWidth: width)), 0.0)
                 largestHeight = max(largestHeight, height)
-                return ($0, CGRect(x: $1.x, y: 0.0, width: width, height: height))
+                let edgeInsets = delegate.collectionView(collectionView, layout: self, insetForSection: $0, givenSectionWidth: width)
+                return ($0, CGRect(x: $1.x, y: 0.0, width: width, height: height), edgeInsets)
             }
             currentYOffset += largestHeight
             
@@ -391,9 +396,21 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
                         headerAttribute = CollectionViewFormMPOLHeaderAttributes(forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, with: sectionIndexPath)
                         headerAttribute.zIndex = 1
                     }
+                    var sectionInset = headerRect.2.left
+                    if sectionInset.isZero {
+                       sectionInset = itemLayoutMargins.left
+                    }
+                    
+                    headerAttribute.leadingMargin = sectionInset
+                    headerAttribute.separatorWidth = separatorWidth
                     
                     let wantsInsetSectionHeader = (delegate as? CollectionViewDelegateMPOLLayout)?.collectionView?(collectionView, layout: self, wantsInsetHeaderInSection: sectionIndexPath.section) ?? defaultWantsSectionHeaderInsets
                     if wantsInsetSectionHeader {
+                        if sectionIndentAdded == false {
+                            currentYOffset += separatorVerticalSpacing
+                            sectionIndentAdded = true
+                        }
+                        
                         rect.size.height += separatorVerticalSpacing
                         
                         headerAttribute.itemPosition = rect.size.height
@@ -404,13 +421,15 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
                 }
             }
             
-            currentYOffset += separatorVerticalSpacing
             let startOfItems = currentYOffset
             
             // Put each of the section item columns in place.
             var maxSectionHeight: CGFloat = 0.0
-            for section in sectionGroup {
-                maxSectionHeight = max(maxSectionHeight, processItemsInSection(section.0, atPoint: CGPoint(x: section.1.x, y: startOfItems), withWidth: section.1.width))
+            for (rowIndex, section) in sectionGroup.enumerated() {
+                maxSectionHeight = max(maxSectionHeight, processItemsInSection(section.0, atPoint: CGPoint(x: section.1.x, y: startOfItems), withWidth: section.1.width, insets: headerRects[rowIndex].2))
+            }
+            if maxSectionHeight == 0.0 && sectionIndentAdded {
+                maxSectionHeight += itemLayoutMargins.top.ceiled(toScale: screenScale)
             }
             currentYOffset += maxSectionHeight
             
