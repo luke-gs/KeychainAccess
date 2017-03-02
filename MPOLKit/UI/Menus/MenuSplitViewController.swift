@@ -102,14 +102,15 @@ extension MenuSplitViewController : MenuViewControllerDelegate {
     ///
     /// - Parameters:
     ///   - controller: The `MenuViewController` where the item changed.
-    ///   - item:       The menu source index selected.
+    ///   - index:      The menu source index selected.
     open func menuViewController(_ controller: MenuViewController, didSelectSourceAt index: Int) {
     }
     
 }
 
 
-/// UISplitViewControllerDelegate overrides
+// MARK: - UISplitViewControllerDelegate methods
+/// UISplitViewControllerDelegate methods
 extension MenuSplitViewController {
     
     open func splitViewController(_ splitViewController: UISplitViewController, showDetail vc: UIViewController, sender: Any?) -> Bool {

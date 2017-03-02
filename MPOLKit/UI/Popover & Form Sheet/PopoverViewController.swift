@@ -11,6 +11,8 @@
 /// MPOL background translucency, and PopoverNavigationController.
 protocol PopoverViewController: class {
     
+    /// A boolean value indicating whether the view controller (and its children)
+    /// should be translayed with a transparent background.
     var wantsTransparentBackground: Bool { get set }
     
 }

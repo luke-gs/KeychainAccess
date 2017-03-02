@@ -33,6 +33,7 @@ open class FormCollectionViewController: UICollectionViewController, PopoverView
     @NSCopying open var secondaryTextColor:   UIColor?
     @NSCopying open var placeholderTextColor: UIColor?
     
+    
     public init() {
         formLayout = CollectionViewFormMPOLLayout()
         formLayout.itemLayoutMargins = UIEdgeInsets(top: 16.0, left: 24.0, bottom: 16.0, right: 16.0)

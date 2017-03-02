@@ -2,7 +2,7 @@
 //  PopoverNavigationController.swift
 //  MPOL
 //
-//  Created by Rod Brown on 8/08/2016.
+//  Created by Rod Brown on 1/3/2017.
 //  Copyright © 2016 Gridstone. All rights reserved.
 //
 
@@ -18,11 +18,58 @@ import UIKit
 ///
 /// When the navigation controller moves into the Popover style, the navigation bar
 /// updates to be translucent, and observes theme changes to maintain correct appearance.
-public class PopoverNavigationController: UINavigationController {
+open class PopoverNavigationController: UINavigationController, PopoverViewController {
     
-    public var wantsTransparentBackground: Bool = true {
+    /// A boolean value indicating whether the navigation controller (and its children)
+    /// should be translayed with a transparent background.
+    open var wantsTransparentBackground: Bool = true {
         didSet { applyCurrentTheme() }
     }
+    
+    
+    /// `PopoverNavigationController` overrides `modalPresentationStyle` to apply standard defaults
+    /// to the navigation controller presentation.
+    ///
+    /// - When set to `.formSheet`, the style is overriden and set to `.custom`.
+    /// - When set to `.custom` (or the `.formSheet` style above), the navigation controller becomes
+    ///   the transitioning delegate by default, allowing a `PopoverFormSheetPresentationController`
+    ///   to be used. You can alternately set another transition delegate and take over management of
+    ///   the custom presentation.
+    /// - When set to `.popover`, the navigation controlle becomes the popover presentation
+    ///   controller's delegate by default.
+    open override var modalPresentationStyle: UIModalPresentationStyle {
+        didSet {
+            switch modalPresentationStyle {
+            case .formSheet:
+                modalPresentationStyle = .custom
+                fallthrough
+            case .custom:
+                transitioningDelegate = self
+            case .popover:
+                popoverPresentationController?.delegate = self
+                fallthrough
+            default:
+                transitioningDelegate = nil
+                formSheetPresentationController = nil
+            }
+        }
+    }
+    
+    
+    /// `PopoverNavigationController overrides the `delegate` property and sets it to itself.
+    /// Setting this property has no effect.
+    ///
+    /// If you wish to receive the delegate methods, it is recommended you subclass this class.
+    open override weak var delegate: UINavigationControllerDelegate? {
+        get { return self }
+        set { }
+    }
+    
+    
+    fileprivate var formSheetPresentationController: PopoverFormSheetPresentationController?
+    
+    
+    // MARK: - Initializers
     
     public override init(rootViewController: UIViewController) {
         super.init(rootViewController: rootViewController)
@@ -44,61 +91,61 @@ public class PopoverNavigationController: UINavigationController {
 }
 
 
+extension PopoverNavigationController {
+    
+    open override func viewDidLoad() {
+        super.viewDidLoad()
+        applyCurrentTheme()
+    }
+    
+    open override func pushViewController(_ viewController: UIViewController, animated: Bool) {
+        (viewController as? PopoverViewController)?.wantsTransparentBackground = wantsTransparentBackground
+        super.pushViewController(viewController, animated: animated)
+    }
+    
+}
+
+
 extension PopoverNavigationController: UINavigationControllerDelegate {
     
-    public func navigationController(_ navigationController: UINavigationController,
-                              animationControllerFor operation: UINavigationControllerOperation,
-                              from fromVC: UIViewController,
-                              to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    open func navigationController(_ navigationController: UINavigationController,
+                                   animationControllerFor operation: UINavigationControllerOperation,
+                                   from fromVC: UIViewController,
+                                   to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return wantsTransparentBackground ? ViewControllerTransition(transition: .transitionCrossDissolve, duration: 0.2) : nil
     }
+    
 }
 
 
 extension PopoverNavigationController: UIPopoverPresentationControllerDelegate {
     
-    public func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
-        if traitCollection.horizontalSizeClass == .compact {
-            return .fullScreen
-        }
+    open func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        if traitCollection.horizontalSizeClass == .compact { return .fullScreen }
         return .none
     }
     
-    public func presentationController(_ presentationController: UIPresentationController, willPresentWithAdaptiveStyle style: UIModalPresentationStyle, transitionCoordinator: UIViewControllerTransitionCoordinator?) {
+    open func presentationController(_ presentationController: UIPresentationController, willPresentWithAdaptiveStyle style: UIModalPresentationStyle, transitionCoordinator: UIViewControllerTransitionCoordinator?) {
         wantsTransparentBackground = (style == .none && (modalPresentationStyle == .popover || modalPresentationStyle == .custom))
     }
     
 }
 
 
-extension PopoverNavigationController {
+extension PopoverNavigationController: UIViewControllerTransitioningDelegate {
     
-    public override var delegate: UINavigationControllerDelegate? {
-        get { return self }
-        set { }
+    open func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+        formSheetPresentationController = PopoverFormSheetPresentationController(presentedViewController: presented, presenting: presenting)
+        formSheetPresentationController?.delegate = self
+        return formSheetPresentationController
     }
     
-    public override var modalPresentationStyle: UIModalPresentationStyle {
-        didSet {
-            switch modalPresentationStyle {
-            case .formSheet, .custom:
-                presentationController?.delegate = self
-            case .popover:
-                popoverPresentationController?.delegate = self
-            default:
-                presentationController?.delegate = nil
-            }
-        }
+    open func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return formSheetPresentationController
     }
     
-    public override func viewDidLoad() {
-        super.viewDidLoad()
-        applyCurrentTheme()
-    }
-    
-    public override func pushViewController(_ viewController: UIViewController, animated: Bool) {
-        (viewController as? PopoverViewController)?.wantsTransparentBackground = wantsTransparentBackground
-        super.pushViewController(viewController, animated: animated)
+    open func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return formSheetPresentationController
     }
     
 }
@@ -115,10 +162,11 @@ fileprivate extension PopoverNavigationController {
         let transparent = self.wantsTransparentBackground
         
         if transparent {
-            navigationBar.isTranslucent = true
             navigationBar.tintColor   = nil
             navigationBar.barStyle    = theme.isDark ? .black : .default
             navigationBar.setBackgroundImage(nil, for: .default)
+            
+            // Workaround
             if UIDevice.current.userInterfaceIdiom == .phone {
                 view.backgroundColor = theme.isDark ? #colorLiteral(red: 0.09803921569, green: 0.09803921569, blue: 0.09803921569, alpha: 1) : .clear
             } else {
@@ -126,7 +174,6 @@ fileprivate extension PopoverNavigationController {
             }
         } else {
             navigationBar.barStyle      = theme.navigationBarStyle
-            navigationBar.isTranslucent = false
             navigationBar.tintColor     = theme.colors[.NavigationBarTint]
             navigationBar.setBackgroundImage(theme.navigationBarBackgroundImage, for: .default)
             view.backgroundColor = .clear
