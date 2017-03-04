@@ -111,9 +111,9 @@ extension CollectionViewFormTextFieldCell {
         return max(titleWidth, textWidth, placeWidth)
     }
     
-    public class func minimumContentHeight(forTitle title: String?, enteredText: String?, placeholder: String?, inWidth: CGFloat, compatibleWith traitCollection: UITraitCollection, titleFont: UIFont? = nil, textFieldFont: UIFont? = nil) -> CGFloat {
+    public class func minimumContentHeight(forTitle title: String?, enteredText: String?, placeholder: String?, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection, titleFont: UIFont? = nil, textFieldFont: UIFont? = nil, placeholderFont: UIFont? = nil) -> CGFloat {
         
-        return 0.0
+        return 39
     }
     
 }

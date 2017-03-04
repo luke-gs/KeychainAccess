@@ -521,7 +521,7 @@ private class CollectionViewFormCellScrollView: UIScrollView, UIGestureRecognize
                 return false
             }
         }
-        if contentOffset.x.isZero && firstResponderSubview != nil {
+        if contentOffset.x.isZero && firstResponderSubview() != nil {
             return false
         }
         return true
@@ -617,17 +617,3 @@ fileprivate class TouchRecognizer: UIGestureRecognizer {
     }
 }
 
-
-extension UIView {
-    
-    /// A convenience to find the subview which is currently the first responder, if any.
-    var firstResponderSubview: UIView? {
-        if isFirstResponder { return self }
-        for subview in subviews {
-            if let firstResponderSubview = subview.firstResponderSubview {
-                return firstResponderSubview
-            }
-        }
-        return nil
-    }
-}

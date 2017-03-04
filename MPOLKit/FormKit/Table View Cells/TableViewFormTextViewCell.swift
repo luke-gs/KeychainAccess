@@ -34,7 +34,9 @@ open class TableViewFormTextViewCell: TableViewFormCell {
     
     /// The height constraint guiding autolayout's sizing of the text view,
     /// and thus the cell. This is private and not accessible to users.
-    fileprivate var textViewHeightConstraint: NSLayoutConstraint!
+    fileprivate var textViewPreferredHeightConstraint: NSLayoutConstraint!
+    
+    fileprivate var textViewMinimumHeightConstraint: NSLayoutConstraint!
     
     
     fileprivate var titleDetailSeparationConstraint: NSLayoutConstraint!
@@ -72,7 +74,8 @@ open class TableViewFormTextViewCell: TableViewFormCell {
         contentView.addSubview(textView)
         contentView.addSubview(titleLabel)
         
-        textViewHeightConstraint = NSLayoutConstraint(item: textView, attribute: .height, relatedBy: .equal, toConstant: textView.contentSize.height, priority: UILayoutPriorityDefaultLow)
+        textViewMinimumHeightConstraint = NSLayoutConstraint(item: textView, attribute: .height, relatedBy: .greaterThanOrEqual, toConstant: textView.font?.lineHeight ?? 17.0 + 1.0)
+        textViewPreferredHeightConstraint = NSLayoutConstraint(item: textView, attribute: .height, relatedBy: .equal, toConstant: ceil(textView.font?.lineHeight ?? 17.0 + (textView.font?.leading ?? 1.0)), priority: UILayoutPriorityDefaultLow)
         titleDetailSeparationConstraint = NSLayoutConstraint(item: textView, attribute: .top, relatedBy: .equal, toItem: titleLabel, attribute: .bottom)
         
         let layoutGuide = contentModeLayoutGuide
@@ -86,7 +89,7 @@ open class TableViewFormTextViewCell: TableViewFormCell {
             NSLayoutConstraint(item: textView, attribute: .leading,  relatedBy: .equal, toItem: layoutGuide, attribute: .leading, constant: -5.0),
             NSLayoutConstraint(item: textView, attribute: .trailing, relatedBy: .equal, toItem: layoutGuide, attribute: .trailing, constant: 3.5),
             NSLayoutConstraint(item: textView, attribute: .bottom,   relatedBy: .equal, toItem: layoutGuide, attribute: .bottom, constant: 1.0),
-            textViewHeightConstraint,
+            textViewPreferredHeightConstraint, textViewMinimumHeightConstraint,
             titleDetailSeparationConstraint
             ])
     }
@@ -115,7 +118,7 @@ extension TableViewFormTextViewCell {
                 if let keyPath = keyPath {
                     switch keyPath {
                     case #keyPath(UITextView.contentSize):
-                        updateTextViewConstraint()
+                        updateTextViewPreferredConstraint()
                     case #keyPath(UITextView.contentOffset):
                         if textView.contentOffset.y.isZero == false {
                             textView.contentOffset.y = 0.0
@@ -140,8 +143,11 @@ extension TableViewFormTextViewCell {
         super.applyStandardFonts()
         
         titleLabel.font = CollectionViewFormDetailCell.font(withEmphasis: false, compatibleWith: traitCollection)
-        textView.font   = CollectionViewFormDetailCell.font(withEmphasis: true,  compatibleWith: traitCollection)
+        let textViewFont = CollectionViewFormDetailCell.font(withEmphasis: true,  compatibleWith: traitCollection)
+        textView.font = textViewFont
         textView.placeholderLabel.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
+        
+        textViewMinimumHeightConstraint?.constant = ceil(textViewFont.lineHeight + textViewFont.leading)
         
         titleLabel.adjustsFontForContentSizeCategory       = true
         textView.adjustsFontForContentSizeCategory         = true
@@ -154,11 +160,11 @@ extension TableViewFormTextViewCell {
 /// Private methods
 fileprivate extension TableViewFormTextViewCell {
     
-    fileprivate func updateTextViewConstraint() {
+    fileprivate func updateTextViewPreferredConstraint() {
         let textHeight = textView.contentSize.height
-        if textViewHeightConstraint.constant ==~ textHeight { return }
+        if textViewPreferredHeightConstraint.constant ==~ textHeight { return }
         
-        textViewHeightConstraint.constant = textHeight
+        textViewPreferredHeightConstraint.constant = textHeight
         
         guard textView.isFirstResponder,
             let tableView = superview(of: UITableView.self) else {

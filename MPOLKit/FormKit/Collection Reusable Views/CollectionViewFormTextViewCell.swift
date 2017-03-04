@@ -24,7 +24,7 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
     ///   - titleFont:  The title font of the cell. The default is `nil`, specifying the standard title font.
     ///   - textFont:   The content font for the text view. the default is `nil`, specifying the standard content font.
     /// - Returns:      The minimum appropriate height for the cell.
-    open class func minimumContentHeight(withTitle title: String?, text: String?, inWidth width: CGFloat, compatibleWidth traitCollection: UITraitCollection, titleFont: UIFont? = nil, textFont: UIFont? = nil) -> CGFloat {
+    open class func minimumContentHeight(withTitle title: String?, enteredText: String?, placeholder: String?, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection, titleFont: UIFont? = nil, textViewFont: UIFont? = nil, placeholderFont: UIFont? = nil) -> CGFloat {
         var height: CGFloat = 0.0
         let screenScale = UIScreen.main.scale
         if let title = title {
@@ -34,8 +34,8 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
             height += CellTitleDetailSeparation
         }
         
-        let textViewFont = textFont ?? CollectionViewFormDetailCell.font(withEmphasis: true, compatibleWith: traitCollection)
-        height += max((text as NSString?)?.boundingRect(with: CGSize(width: width - 0.5, height: .greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: textViewFont], context: nil).height ?? 0.0, textViewFont.lineHeight).ceiled(toScale: screenScale)
+        let textFont = textViewFont ?? CollectionViewFormDetailCell.font(withEmphasis: true, compatibleWith: traitCollection)
+        height += max((enteredText as NSString?)?.boundingRect(with: CGSize(width: width - 0.5, height: .greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: textFont], context: nil).height ?? 0.0, textFont.lineHeight).ceiled(toScale: screenScale)
         
         return height
     }
@@ -54,7 +54,9 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
     }
     
     
-    fileprivate var textViewHeightConstraint: NSLayoutConstraint!
+    fileprivate var textViewMinimumHeightConstraint: NSLayoutConstraint!
+    
+    fileprivate var textViewPreferredHeightConstraint: NSLayoutConstraint!
     
     fileprivate var titleDetailSeparationConstraint: NSLayoutConstraint!
     
@@ -82,7 +84,9 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
         contentView.addSubview(titleLabel)
         contentView.addSubview(textView)
         
-        textViewHeightConstraint = NSLayoutConstraint(item: textView, attribute: .height, relatedBy: .equal, toConstant: textView.contentSize.height, priority: UILayoutPriorityDefaultLow)
+        textViewMinimumHeightConstraint = NSLayoutConstraint(item: textView, attribute: .height, relatedBy: .greaterThanOrEqual, toConstant: ceil(textView.font?.lineHeight ?? 17.0) + (textView.font?.leading ?? 1.0))
+        
+        textViewPreferredHeightConstraint = NSLayoutConstraint(item: textView, attribute: .height, relatedBy: .equal, toConstant: textView.contentSize.height, priority: UILayoutPriorityDefaultLow)
         titleDetailSeparationConstraint = NSLayoutConstraint(item: textView, attribute: .top, relatedBy: .equal, toItem: titleLabel, attribute: .bottom)
         
         NSLayoutConstraint.activate([
@@ -94,7 +98,8 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
             NSLayoutConstraint(item: textView, attribute: .leading,  relatedBy: .equal, toItem: layoutGuide, attribute: .leading,  constant: -5.0),
             NSLayoutConstraint(item: textView, attribute: .trailing, relatedBy: .equal, toItem: layoutGuide, attribute: .trailing, constant: 3.5),
             NSLayoutConstraint(item: textView, attribute: .bottom,   relatedBy: .equal, toItem: layoutGuide, attribute: .bottom,   constant: 1.0),
-            textViewHeightConstraint,
+            
+            textViewPreferredHeightConstraint, textViewMinimumHeightConstraint,
             titleDetailSeparationConstraint
         ])
         
@@ -122,7 +127,7 @@ extension CollectionViewFormTextViewCell {
                 if let keyPath = keyPath {
                     switch keyPath {
                     case #keyPath(UITextView.contentSize):
-                        updateTextViewConstraint()
+                        updateTextViewPreferredConstraint()
                     case #keyPath(UITextView.contentOffset):
                         // There are a few bugs in UITextView where, during resizing, the content offset gets set to a scrolled position valid
                         // prior to the update, eg a user enters text, which causes resizing and a scroll simultaneously.
@@ -152,12 +157,17 @@ extension CollectionViewFormTextViewCell {
         
         let traitCollection = self.traitCollection
         titleLabel.font = CollectionViewFormDetailCell.font(withEmphasis: false, compatibleWith: traitCollection)
-        textView.font   = CollectionViewFormDetailCell.font(withEmphasis: true,  compatibleWith: traitCollection)
+        
+        let textViewFont = CollectionViewFormDetailCell.font(withEmphasis: true,  compatibleWith: traitCollection)
+        textView.font   = textViewFont
         textView.placeholderLabel.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
+        
+        textViewMinimumHeightConstraint?.constant = ceil(textViewFont.lineHeight + textViewFont.leading)
         
         titleLabel.adjustsFontForContentSizeCategory       = true
         textView.adjustsFontForContentSizeCategory         = true
         textView.placeholderLabel.adjustsFontForContentSizeCategory = true
+        
     }
     
 }
@@ -167,11 +177,11 @@ extension CollectionViewFormTextViewCell {
 /// Private methods
 fileprivate extension CollectionViewFormTextViewCell {
     
-    fileprivate func updateTextViewConstraint() {
+    fileprivate func updateTextViewPreferredConstraint() {
         func performUpdate() {
             let textHeight = textView.contentSize.height
-            if textViewHeightConstraint.constant !=~ textHeight {
-                textViewHeightConstraint.constant = textHeight
+            if textViewPreferredHeightConstraint.constant !=~ textHeight {
+                textViewPreferredHeightConstraint.constant = textHeight
             }
         }
         

@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		6D7B30161E640506009D4602 /* FormKitDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7B30151E640506009D4602 /* FormKitDefines.swift */; };
 		6DA0E0F01E64D4530032B54F /* FormTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA0E0EF1E64D4530032B54F /* FormTextView.swift */; };
-		6DA6533D1E61759800ADB768 /* UIView+SuperviewSearching.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA6533C1E61759800ADB768 /* UIView+SuperviewSearching.swift */; };
+		6DA6533D1E61759800ADB768 /* UIView+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA6533C1E61759800ADB768 /* UIView+Convenience.swift */; };
 		6DAAAFE91E5E771A000E57A9 /* EntityCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAAAFE81E5E771A000E57A9 /* EntityCollectionViewCell.swift */; };
 		BC2152141E5950D500193086 /* CollectionViewFormBoxedLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2152131E5950D500193086 /* CollectionViewFormBoxedLayout.swift */; };
 		BC2FA2D31E54023E00E2D0D1 /* MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC2FA2C91E54023E00E2D0D1 /* MPOLKit.framework */; };
@@ -21,6 +21,10 @@
 		BC2FA2F91E54026D00E2D0D1 /* MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC2FA2C91E54023E00E2D0D1 /* MPOLKit.framework */; };
 		BC2FA2FA1E54026D00E2D0D1 /* MPOLKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BC2FA2C91E54023E00E2D0D1 /* MPOLKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BC36ABE81E5D28310052C4C5 /* CollectionViewFormMPOLHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC36ABE71E5D28310052C4C5 /* CollectionViewFormMPOLHeaderView.swift */; };
+		BC4511621E6AAA8700E522EB /* UIImage+RoundedRects.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4511611E6AAA8700E522EB /* UIImage+RoundedRects.swift */; };
+		BC45116B1E6ACE9900E522EB /* UITextView+Notifications.h in Headers */ = {isa = PBXBuildFile; fileRef = BC4511691E6ACE9900E522EB /* UITextView+Notifications.h */; };
+		BC45116C1E6ACE9900E522EB /* UITextView+Notifications.m in Sources */ = {isa = PBXBuildFile; fileRef = BC45116A1E6ACE9900E522EB /* UITextView+Notifications.m */; };
+		BC45116F1E6AD06C00E522EB /* KeyboardNumberBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC45116E1E6AD06C00E522EB /* KeyboardNumberBar.swift */; };
 		BC691B2A1E5403B200EC3A20 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC691B291E5403B200EC3A20 /* Assets.xcassets */; };
 		BC691B441E54041200EC3A20 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC691B341E54041200EC3A20 /* UIColor+Hex.swift */; };
 		BC691B481E54041200EC3A20 /* PushableSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC691B381E54041200EC3A20 /* PushableSplitViewController.swift */; };
@@ -106,7 +110,7 @@
 /* Begin PBXFileReference section */
 		6D7B30151E640506009D4602 /* FormKitDefines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormKitDefines.swift; sourceTree = "<group>"; };
 		6DA0E0EF1E64D4530032B54F /* FormTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormTextView.swift; sourceTree = "<group>"; };
-		6DA6533C1E61759800ADB768 /* UIView+SuperviewSearching.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+SuperviewSearching.swift"; sourceTree = "<group>"; };
+		6DA6533C1E61759800ADB768 /* UIView+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Convenience.swift"; sourceTree = "<group>"; };
 		6DAAAFE81E5E771A000E57A9 /* EntityCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EntityCollectionViewCell.swift; path = Cells/EntityCollectionViewCell.swift; sourceTree = "<group>"; };
 		BC2152131E5950D500193086 /* CollectionViewFormBoxedLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormBoxedLayout.swift; sourceTree = "<group>"; };
 		BC2FA2C91E54023E00E2D0D1 /* MPOLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MPOLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -121,6 +125,10 @@
 		BC2FA2F31E54026700E2D0D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BC2FA2F51E54026700E2D0D1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BC36ABE71E5D28310052C4C5 /* CollectionViewFormMPOLHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormMPOLHeaderView.swift; sourceTree = "<group>"; };
+		BC4511611E6AAA8700E522EB /* UIImage+RoundedRects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+RoundedRects.swift"; sourceTree = "<group>"; };
+		BC4511691E6ACE9900E522EB /* UITextView+Notifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+Notifications.h"; sourceTree = "<group>"; };
+		BC45116A1E6ACE9900E522EB /* UITextView+Notifications.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+Notifications.m"; sourceTree = "<group>"; };
+		BC45116E1E6AD06C00E522EB /* KeyboardNumberBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeyboardNumberBar.swift; path = "Keyboard Entry/KeyboardNumberBar.swift"; sourceTree = "<group>"; };
 		BC691B291E5403B200EC3A20 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BC691B341E54041200EC3A20 /* UIColor+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
 		BC691B381E54041200EC3A20 /* PushableSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushableSplitViewController.swift; sourceTree = "<group>"; };
@@ -263,6 +271,14 @@
 			path = "MPOLKit Demo";
 			sourceTree = "<group>";
 		};
+		BC5A8D1C1E6965CA000EAC07 /* Keyboard Entry */ = {
+			isa = PBXGroup;
+			children = (
+				BC45116E1E6AD06C00E522EB /* KeyboardNumberBar.swift */,
+			);
+			name = "Keyboard Entry";
+			sourceTree = "<group>";
+		};
 		BC691B301E54041200EC3A20 /* UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -270,6 +286,7 @@
 				BCA68EB11E5AFC5B00CDEF13 /* BorderedImageView.swift */,
 				6DAAAFE71E5E76F8000E57A9 /* Cells */,
 				BCFD25541E5C03A800EC2566 /* FormKit MPOL Additions */,
+				BC5A8D1C1E6965CA000EAC07 /* Keyboard Entry */,
 				BC691B381E54041200EC3A20 /* PushableSplitViewController.swift */,
 				BC691B391E54041200EC3A20 /* ScrollViewInsetManager.swift */,
 				BC691B3A1E54041200EC3A20 /* Sidebar */,
@@ -284,6 +301,9 @@
 			isa = PBXGroup;
 			children = (
 				BC691B341E54041200EC3A20 /* UIColor+Hex.swift */,
+				BC4511611E6AAA8700E522EB /* UIImage+RoundedRects.swift */,
+				BC4511691E6ACE9900E522EB /* UITextView+Notifications.h */,
+				BC45116A1E6ACE9900E522EB /* UITextView+Notifications.m */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -343,7 +363,7 @@
 				BC712E621E5535B800BD5DAE /* UIImage+FormKitDefaults.swift */,
 				BC7150A01E56828A0093F958 /* UITableView+DefaultReuse.swift */,
 				BC7150A11E56828A0093F958 /* UITableViewCell+LayoutMargins.swift */,
-				6DA6533C1E61759800ADB768 /* UIView+SuperviewSearching.swift */,
+				6DA6533C1E61759800ADB768 /* UIView+Convenience.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -416,6 +436,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC2FA2DA1E54023E00E2D0D1 /* MPOLKit.h in Headers */,
+				BC45116B1E6ACE9900E522EB /* UITextView+Notifications.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -489,6 +510,7 @@
 				TargetAttributes = {
 					BC2FA2C81E54023E00E2D0D1 = {
 						CreatedOnToolsVersion = 8.3;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
 					BC2FA2D11E54023E00E2D0D1 = {
@@ -570,12 +592,13 @@
 				BC712E751E5535B800BD5DAE /* CollectionViewFormEditAction.swift in Sources */,
 				BC712E741E5535B800BD5DAE /* CollectionViewFormDecorationView.swift in Sources */,
 				BC712E821E5535B800BD5DAE /* TableViewFormCell.swift in Sources */,
-				6DA6533D1E61759800ADB768 /* UIView+SuperviewSearching.swift in Sources */,
+				6DA6533D1E61759800ADB768 /* UIView+Convenience.swift in Sources */,
 				BC712E7C1E5535B800BD5DAE /* UIColor+ActionColors.swift in Sources */,
 				BCFD25581E5C03BE00EC2566 /* CollectionViewFormMPOLLayout.swift in Sources */,
 				BC691B4D1E54041200EC3A20 /* SidebarTableViewCell.swift in Sources */,
 				BCEB664A1E5D45D00001138B /* FloatingPoint+Equality.swift in Sources */,
 				BC691B4C1E54041200EC3A20 /* SidebarSplitViewController.swift in Sources */,
+				BC4511621E6AAA8700E522EB /* UIImage+RoundedRects.swift in Sources */,
 				BC712E7B1E5535B800BD5DAE /* NSLayoutConstraint+Conveniences.swift in Sources */,
 				BC2152141E5950D500193086 /* CollectionViewFormBoxedLayout.swift in Sources */,
 				BC712E7A1E5535B800BD5DAE /* CoreGraphics+Rounding.swift in Sources */,
@@ -593,11 +616,13 @@
 				BC712E801E5535B800BD5DAE /* CollectionViewFormAttributes.swift in Sources */,
 				BC712E831E5535B800BD5DAE /* TableViewFormCheckboxCell.swift in Sources */,
 				BC712E771E5535B800BD5DAE /* CollectionViewFormDetailCell.swift in Sources */,
+				BC45116C1E6ACE9900E522EB /* UITextView+Notifications.m in Sources */,
 				BCFD25571E5C03BE00EC2566 /* CollectionViewFormMPOLHeaderAttributes.swift in Sources */,
 				BCD35CA11E5A49B0001B40A1 /* DefaultReusable.swift in Sources */,
 				BC691B4F1E54041200EC3A20 /* SourceTableViewCell.swift in Sources */,
 				BC691B481E54041200EC3A20 /* PushableSplitViewController.swift in Sources */,
 				BC36ABE81E5D28310052C4C5 /* CollectionViewFormMPOLHeaderView.swift in Sources */,
+				BC45116F1E6AD06C00E522EB /* KeyboardNumberBar.swift in Sources */,
 				BCEBA1961E5BC1E900FD404D /* SourceLabel.swift in Sources */,
 				BCD35CA71E5AA472001B40A1 /* BadgeView.swift in Sources */,
 				6D7B30161E640506009D4602 /* FormKitDefines.swift in Sources */,
@@ -759,6 +784,8 @@
 		BC2FA2DE1E54023E00E2D0D1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
@@ -773,6 +800,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = gridstone.MPOLKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -780,6 +809,8 @@
 		BC2FA2DF1E54023E00E2D0D1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -793,6 +824,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = gridstone.MPOLKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

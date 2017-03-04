@@ -15,8 +15,6 @@ open class FormTextView: UITextView {
 
     open let placeholderLabel: UILabel = UILabel(frame: .zero)
     
-    fileprivate var minimumHeightConstraint: NSLayoutConstraint!
-    
     public override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
         commonInit()
@@ -39,38 +37,26 @@ open class FormTextView: UITextView {
         placeholderLabel.addObserver(self, forKeyPath: #keyPath(UILabel.font), context: &kvoContext)
         addSubview(placeholderLabel)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(updatePlaceholderAppearance), name: .UITextViewTextDidChange, object: self)
+        alwaysBounceVertical = false
         
-        let minimumHeight = (font?.lineHeight ?? 17.0).ceiled(toScale: (window?.screen ?? .main).scale)
-        minimumHeightConstraint = NSLayoutConstraint(item: self, attribute: .height, relatedBy: .greaterThanOrEqual, toConstant: minimumHeight)
+        NotificationCenter.default.addObserver(self, selector: #selector(updatePlaceholderAppearance), name: .UITextViewTextDidChange, object: self)
     }
     
     deinit {
         placeholderLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.font), context: &kvoContext)
     }
-
+    
 }
 
 
 extension FormTextView {
     
     open override var text: String? {
-        didSet {
-            updatePlaceholderAppearance()
-        }
+        didSet { updatePlaceholderAppearance() }
     }
     
     open override var attributedText: NSAttributedString? {
-        didSet {
-            updatePlaceholderAppearance()
-        }
-    }
-    
-    open override var font: UIFont? {
-        didSet {
-            updateMinimumHeightConstraint()
-            setNeedsLayout()
-        }
+        didSet { updatePlaceholderAppearance() }
     }
     
     open override var textContainerInset: UIEdgeInsets {
@@ -101,7 +87,6 @@ extension FormTextView {
     
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        updateMinimumHeightConstraint()
         setNeedsLayout()
     }
     
@@ -120,14 +105,6 @@ fileprivate extension FormTextView {
     
     @objc fileprivate func updatePlaceholderAppearance() {
         placeholderLabel.isHidden = (text?.isEmpty ?? true) == false
-    }
-    
-    @objc fileprivate func updateMinimumHeightConstraint() {
-        let minimumHeight = (font?.lineHeight ?? 17.0).ceiled(toScale: (window?.screen ?? .main).scale)
-        
-        if minimumHeightConstraint.constant !=~ minimumHeight {
-            minimumHeightConstraint.constant = minimumHeight
-        }
     }
     
 }

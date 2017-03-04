@@ -14,6 +14,8 @@ private let reuseIdentifier = "Cell"
 class TestCollectionViewController: UICollectionViewController, CollectionViewDelegateMPOLLayout {
 
     init() {
+        KeyboardNumberBar.isInstalled = true
+        
         let layout = CollectionViewFormMPOLLayout()
         layout.itemLayoutMargins = UIEdgeInsets(top: 16.0, left: 24.0, bottom: 16.0, right: 10.0)
         layout.separatorStyle = .fullWidth
@@ -58,8 +60,8 @@ class TestCollectionViewController: UICollectionViewController, CollectionViewDe
         let cell = collectionView.dequeueReusableCell(of: CollectionViewFormTextViewCell.self, for: indexPath)
         
         cell.titleLabel.text =  "Test Title \(indexPath.item + 1)"
-        //cell.textView.text = "Testing text \(indexPath.item + 1)"
         cell.textView.placeholderLabel.text = "Testing placeholder \(indexPath.item + 1)"
+        cell.textView.keyboardType = .numberPad
         
         return cell
     }
@@ -81,11 +83,11 @@ class TestCollectionViewController: UICollectionViewController, CollectionViewDe
     }
     
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
-        return CollectionViewFormTextViewCell.minimumContentHeight(withTitle: "Test Title \(indexPath.item + 1)", text: "Testing text \(indexPath.item + 1)", inWidth: itemWidth, compatibleWidth: traitCollection)
+        return CollectionViewFormTextViewCell.minimumContentHeight(withTitle: "Test Title \(indexPath.item + 1)", enteredText: "Testing text \(indexPath.item + 1)", placeholder: nil, inWidth: itemWidth, compatibleWith: traitCollection)
     }
     
-    
 }
+
 
 extension UICollectionReusableView: DefaultReusable {
 }
