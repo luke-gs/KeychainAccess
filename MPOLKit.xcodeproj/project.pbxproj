@@ -21,7 +21,6 @@
 		BC2FA2F91E54026D00E2D0D1 /* MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC2FA2C91E54023E00E2D0D1 /* MPOLKit.framework */; };
 		BC2FA2FA1E54026D00E2D0D1 /* MPOLKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BC2FA2C91E54023E00E2D0D1 /* MPOLKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BC36ABE81E5D28310052C4C5 /* CollectionViewFormMPOLHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC36ABE71E5D28310052C4C5 /* CollectionViewFormMPOLHeaderView.swift */; };
-		BC4511621E6AAA8700E522EB /* UIImage+RoundedRects.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4511611E6AAA8700E522EB /* UIImage+RoundedRects.swift */; };
 		BC45116B1E6ACE9900E522EB /* UITextView+Notifications.h in Headers */ = {isa = PBXBuildFile; fileRef = BC4511691E6ACE9900E522EB /* UITextView+Notifications.h */; };
 		BC45116C1E6ACE9900E522EB /* UITextView+Notifications.m in Sources */ = {isa = PBXBuildFile; fileRef = BC45116A1E6ACE9900E522EB /* UITextView+Notifications.m */; };
 		BC45116F1E6AD06C00E522EB /* KeyboardNumberBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC45116E1E6AD06C00E522EB /* KeyboardNumberBar.swift */; };
@@ -125,7 +124,6 @@
 		BC2FA2F31E54026700E2D0D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BC2FA2F51E54026700E2D0D1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BC36ABE71E5D28310052C4C5 /* CollectionViewFormMPOLHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormMPOLHeaderView.swift; sourceTree = "<group>"; };
-		BC4511611E6AAA8700E522EB /* UIImage+RoundedRects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+RoundedRects.swift"; sourceTree = "<group>"; };
 		BC4511691E6ACE9900E522EB /* UITextView+Notifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+Notifications.h"; sourceTree = "<group>"; };
 		BC45116A1E6ACE9900E522EB /* UITextView+Notifications.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+Notifications.m"; sourceTree = "<group>"; };
 		BC45116E1E6AD06C00E522EB /* KeyboardNumberBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeyboardNumberBar.swift; path = "Keyboard Entry/KeyboardNumberBar.swift"; sourceTree = "<group>"; };
@@ -301,7 +299,6 @@
 			isa = PBXGroup;
 			children = (
 				BC691B341E54041200EC3A20 /* UIColor+Hex.swift */,
-				BC4511611E6AAA8700E522EB /* UIImage+RoundedRects.swift */,
 				BC4511691E6ACE9900E522EB /* UITextView+Notifications.h */,
 				BC45116A1E6ACE9900E522EB /* UITextView+Notifications.m */,
 			);
@@ -598,7 +595,6 @@
 				BC691B4D1E54041200EC3A20 /* SidebarTableViewCell.swift in Sources */,
 				BCEB664A1E5D45D00001138B /* FloatingPoint+Equality.swift in Sources */,
 				BC691B4C1E54041200EC3A20 /* SidebarSplitViewController.swift in Sources */,
-				BC4511621E6AAA8700E522EB /* UIImage+RoundedRects.swift in Sources */,
 				BC712E7B1E5535B800BD5DAE /* NSLayoutConstraint+Conveniences.swift in Sources */,
 				BC2152141E5950D500193086 /* CollectionViewFormBoxedLayout.swift in Sources */,
 				BC712E7A1E5535B800BD5DAE /* CoreGraphics+Rounding.swift in Sources */,

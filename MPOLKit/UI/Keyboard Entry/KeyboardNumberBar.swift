@@ -16,17 +16,20 @@ public class KeyboardNumberBar: UIInputView {
     /// When set to `true`, the global KeyboardNumberBar will install itself on every `UITextView`,
     /// or `UITextField` instance when it becomes active, if it does not have its own custom
     /// textAccessoryView.
-    public class var isInstalled: Bool {
-        get {
-            return _isInstalled
-        }
-        @objc(setInstalled:) set {
-            if _isInstalled == newValue || (newValue && isNumberBarSupported == false) { return }
-            
-            _isInstalled = newValue
+    public static var isInstalled: Bool = false {
+        didSet {
+            if isInstalled == oldValue {
+                return
+            }
             
             let notificationCenter = NotificationCenter.default
-            if newValue {
+            
+            if isInstalled {
+                if KeyboardNumberBar.isSupported == false {
+                    isInstalled = false
+                    return
+                }
+                
                 let beginSelector = #selector(textControlDidBeginEditing(_:))
                 let endSelector   = #selector(textControlDidEndEditing(_:))
                 notificationCenter.addObserver(self, selector: beginSelector, name: NSNotification.Name(rawValue: "MPOL_UITextViewTextWillBeginEditingNotification"), object: nil)
@@ -40,15 +43,20 @@ public class KeyboardNumberBar: UIInputView {
             } else {
                 notificationCenter.removeObserver(self)
                 
-                if let currentResponder = _globalNumberBar.textInputView as? UIResponder {
+                if let currentResponder = globalNumberBar.textInputView as? UIResponder {
                     removeNumberBar(from: currentResponder, reloadingInputViews: true)
                 }
-                _cachedKeyboardTypes.removeAll()
+                cachedKeyboardTypes.removeAll()
             }
         }
     }
     
-    public static let isNumberBarSupported: Bool = {
+    
+    /// Indicates whether the Keyboard Number Bar is supported on this device.
+    ///
+    /// Currently the bar is supported on all iPhones, and iPads without a number bar
+    /// on its default keyboard.
+    public static let isSupported: Bool = {
         switch UIDevice.current.userInterfaceIdiom {
         case .phone:
             return true
@@ -64,10 +72,8 @@ public class KeyboardNumberBar: UIInputView {
         }
     }()
     
-    
-    fileprivate static var _isInstalled: Bool = false
-    fileprivate static var _cachedKeyboardTypes: [UIResponder: UIKeyboardType] = [:]
-    fileprivate static let _globalNumberBar = KeyboardNumberBar()
+    fileprivate static var cachedKeyboardTypes: [UIResponder: UIKeyboardType] = [:]
+    fileprivate static let globalNumberBar = KeyboardNumberBar()
     
     /// The text input view the number bar should forward text entry events towards.
     fileprivate weak var textInputView: UITextInput?
@@ -83,36 +89,26 @@ public class KeyboardNumberBar: UIInputView {
         }
     }
     
-    fileprivate lazy var lightButtonImage         = UIImage.resizableRoundedImage(cornerRadius: 4.0, borderWidth: 0.0, borderColor: nil, fillColor: .white)
-    fileprivate lazy var lightButtonSelectedImage = UIImage.resizableRoundedImage(cornerRadius: 4.0, borderWidth: 0.0, borderColor: nil, fillColor: #colorLiteral(red: 0.6823529412, green: 0.7019607843, blue: 0.7450980392, alpha: 1))
-    fileprivate lazy var darkButtonImage          = UIImage.resizableRoundedImage(cornerRadius: 4.0, borderWidth: 0.0, borderColor: nil, fillColor: #colorLiteral(red: 0.368627451, green: 0.368627451, blue: 0.368627451, alpha: 1))
+    fileprivate lazy var lightButtonImage         = KeyboardNumberBar.newButtonImage(forDarkTheme: false, selected: false)
+    fileprivate lazy var lightButtonSelectedImage = KeyboardNumberBar.newButtonImage(forDarkTheme: false, selected: true)
+    fileprivate lazy var darkButtonImage          = KeyboardNumberBar.newButtonImage(forDarkTheme: true,  selected: false)
     
     
     // MARK: - Initializers
     
     private init() {
-        let mainScreen = UIScreen.main
-        let buttonShadow: CGFloat = 1.0 / mainScreen.scale
-        
         func newButton(_ index: Int, text: String) -> UIButton {
             let button = UIButton(type: .custom)
             button.titleLabel?.font = .systemFont(ofSize: 20.0)
             button.setTitle(text, for: .normal)
             button.tag = index
-            
-            let layer = button.layer
-            layer.shadowColor = UIColor.black.cgColor
-            layer.shadowRadius = 0.0
-            layer.shadowOffset = CGSize(width: 0.0, height: buttonShadow)
-            layer.shadowOpacity = 0.8
-            
             return button
         }
         
         keys = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
         buttons = keys.enumerated().map(newButton)
         
-        super.init(frame: CGRect(x: 0.0, y: 0.0, width: mainScreen.bounds.width, height: 50.0), inputViewStyle: .keyboard)
+        super.init(frame: CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.width, height: 50.0), inputViewStyle: .keyboard)
         
         for button in buttons {
             button.addTarget(self, action: #selector(touchDown(in:)), for: .touchDown)
@@ -149,26 +145,39 @@ extension KeyboardNumberBar {
         
         let buttonCount: CGFloat = CGFloat(buttons.count)
         
-        let horizontalSpacing: CGFloat = 14.0
-        let verticalSpacing: CGFloat   = 6.0
-        let radius: CGFloat            = 3.5
-        
         let size = bounds.size
+        let screenScale = UIScreen.main.scale
         
-        let maximumSpacing: CGFloat = horizontalSpacing * buttonCount
+        let horizontalSpacing: CGFloat
+        let edgeInset: CGFloat
+        let verticalSpacing: CGFloat   = 6.0
+        
+        if traitCollection.horizontalSizeClass == .regular {
+            if UIDevice.current.userInterfaceIdiom == .phone {
+                edgeInset = 3.0
+                horizontalSpacing = 5.0
+            } else {
+                if size.width >= 1000.0 {
+                    edgeInset = 7.0
+                    horizontalSpacing = 14.0
+                } else {
+                    edgeInset = 6.0
+                    horizontalSpacing = 12.0
+                }
+            }
+        } else {
+            edgeInset = size.width > 400.0 ? 4.0 : 3.0
+            horizontalSpacing = 6.0
+        }
+        
+        let maximumSpacing: CGFloat = (horizontalSpacing * (buttonCount - 1)) + (edgeInset * 2.0)
         let buttonWidth: CGFloat    = (size.width - maximumSpacing) / buttonCount
         let buttonHeight: CGFloat   = size.height - (verticalSpacing * 2.0)
         
-        let offset: CGFloat = 1.0 / UIScreen.main.scale
-        
-        let shadowPath = UIBezierPath(roundedRect: CGRect(x: offset, y: buttonHeight - (radius * 2.0), width: floor(buttonWidth) - (offset * 2.0), height: radius * 2.0), cornerRadius: radius).cgPath
-        
-        var xPosition = round(horizontalSpacing * 0.5)
+        var xPosition = edgeInset
         for button in buttons {
-            button.frame = CGRect(x: xPosition, y: verticalSpacing, width: buttonWidth, height: buttonHeight)
-            button.layer.shadowPath = shadowPath
-            
-            xPosition = round(xPosition + buttonWidth + horizontalSpacing)
+            button.frame = CGRect(x: (xPosition).floored(toScale: screenScale), y: verticalSpacing, width: buttonWidth.ceiled(toScale: screenScale), height: buttonHeight)
+            xPosition = xPosition + buttonWidth + horizontalSpacing
         }
     }
     
@@ -195,22 +204,25 @@ fileprivate extension KeyboardNumberBar {
     @objc fileprivate func touchUp(in button: UIButton) {
         guard let view = textInputView else { return }
         
-        let beginning         = view.beginningOfDocument
-        let selectedTextRange = view.selectedTextRange ?? view.textRange(from: beginning, to: beginning)!
-        let selectionStart    = selectedTextRange.start
-        let selectionEnd      = selectedTextRange.end
-        let location          = view.offset(from: beginning,      to: selectionStart)
-        let length            = view.offset(from: selectionStart, to: selectionEnd)
+        let endOfDocument = view.endOfDocument
+        guard let selectedTextRange = view.selectedTextRange ?? view.textRange(from: endOfDocument, to: endOfDocument) else { return }
+        
+        let selectionStart = selectedTextRange.start
+        let selectionEnd   = selectedTextRange.end
+        
+        let location = view.offset(from: view.beginningOfDocument, to: selectionStart)
+        let length   = view.offset(from: selectionStart,           to: selectionEnd)
+        let range    = NSRange(location: location, length: length)
         
         let newText = keys[button.tag]
         
         let shouldReplace: Bool
         if let textField = view as? UITextField {
-            shouldReplace = textField.delegate?.textField?(textField, shouldChangeCharactersIn: NSRange(location: location, length: length), replacementString: newText) ?? true
+            shouldReplace = textField.delegate?.textField?(textField, shouldChangeCharactersIn: range, replacementString: newText) ?? true
         } else if let textView = view as? UITextView {
-            shouldReplace = textView.delegate?.textView?(textView, shouldChangeTextIn: NSRange(location: location, length: length), replacementText: newText) ?? true
+            shouldReplace = textView.delegate?.textView?(textView, shouldChangeTextIn: range, replacementText: newText) ?? true
         } else {
-            shouldReplace = true
+            shouldReplace = false
         }
         
         if shouldReplace {
@@ -219,43 +231,51 @@ fileprivate extension KeyboardNumberBar {
     }
     
     fileprivate class func applyNumberBar(to responder: UIResponder, reloadingInputViews: Bool) {
-        if _isInstalled == false || responder.inputAccessoryView != nil { return }
+        if isInstalled == false || responder.inputAccessoryView != nil { return }
         
         
         let useNumberBar: Bool
         if let textView = responder as? UITextView {
             let keyboardType = textView.keyboardType
-            _cachedKeyboardTypes[textView] = keyboardType
+            cachedKeyboardTypes[textView] = keyboardType
             
             switch keyboardType {
-            case .numberPad, .decimalPad, .numbersAndPunctuation, .namePhonePad:
-                textView.keyboardType = .default
-                useNumberBar = UIDevice.current.userInterfaceIdiom != .phone
+            case .numberPad, .decimalPad, .numbersAndPunctuation, .namePhonePad, .asciiCapableNumberPad:
+                if UIDevice.current.userInterfaceIdiom != .phone {
+                    textView.keyboardType = .default
+                    useNumberBar = true
+                } else {
+                    useNumberBar = false
+                }
             default:
                 useNumberBar = true
             }
             
             if useNumberBar {
-                textView.inputAccessoryView         = _globalNumberBar
-                _globalNumberBar.textInputView      = textView
-                _globalNumberBar.keyboardAppearance = textView.keyboardAppearance
+                textView.inputAccessoryView         = globalNumberBar
+                globalNumberBar.textInputView      = textView
+                globalNumberBar.keyboardAppearance = textView.keyboardAppearance
             }
         } else if let textField = responder as? UITextField {
             let keyboardType = textField.keyboardType
-            _cachedKeyboardTypes[textField] = keyboardType
+            cachedKeyboardTypes[textField] = keyboardType
             
             switch keyboardType {
-            case .numberPad, .decimalPad, .numbersAndPunctuation, .namePhonePad:
-                textField.keyboardType = .default
-                useNumberBar = UIDevice.current.userInterfaceIdiom != .phone
+            case .numberPad, .decimalPad, .numbersAndPunctuation, .namePhonePad, .asciiCapableNumberPad:
+                if UIDevice.current.userInterfaceIdiom != .phone {
+                    textField.keyboardType = .default
+                    useNumberBar = true
+                } else {
+                    useNumberBar = false
+                }
             default:
                 useNumberBar = true
             }
             
             if useNumberBar {
-                textView.inputAccessoryView         = _globalNumberBar
-                _globalNumberBar.textInputView      = textView
-                _globalNumberBar.keyboardAppearance = textView.keyboardAppearance
+                textField.inputAccessoryView         = globalNumberBar
+                globalNumberBar.textInputView      = textField
+                globalNumberBar.keyboardAppearance = textField.keyboardAppearance
             }
         }
         if reloadingInputViews {
@@ -264,15 +284,15 @@ fileprivate extension KeyboardNumberBar {
     }
     
     fileprivate class func removeNumberBar(from responder: UIResponder, reloadingInputViews: Bool) {
-        guard let cachedKeyboardType = _cachedKeyboardTypes.removeValue(forKey: responder) else { return }
+        guard let cachedKeyboardType = cachedKeyboardTypes.removeValue(forKey: responder) else { return }
         
         if let textView = responder as? UITextView {
-            if textView.inputAccessoryView == _globalNumberBar {
+            if textView.inputAccessoryView == globalNumberBar {
                 textView.inputAccessoryView = nil
             }
             textView.keyboardType = cachedKeyboardType
         } else if let textField = responder as? UITextField {
-            if textField.inputAccessoryView == _globalNumberBar {
+            if textField.inputAccessoryView == globalNumberBar {
                 textField.inputAccessoryView = nil
             }
             textField.keyboardType = cachedKeyboardType
@@ -286,14 +306,37 @@ fileprivate extension KeyboardNumberBar {
     fileprivate func updateKeyboardAppearance() {
         let light = keyboardAppearance != .dark
         let titleColor: UIColor = light ? .black : .white
-        let backgroundImage     = light ? lightButtonImage : darkButtonImage
-        let selectedBackgroundImage: UIImage? = light ? lightButtonSelectedImage : nil
+        let image = light ? lightButtonImage : darkButtonImage
+        let selectedImage: UIImage? = light ? lightButtonSelectedImage : nil
         
         for button in buttons {
-            button.setTitleColor(titleColor, for: .normal)
-            button.setBackgroundImage(backgroundImage, for: .normal)
-            button.setBackgroundImage(selectedBackgroundImage, for: .highlighted)
+            button.setTitleColor(titleColor,         for: .normal)
+            button.setBackgroundImage(image,         for: .normal)
+            button.setBackgroundImage(selectedImage, for: .highlighted)
         }
+    }
+    
+    fileprivate class func newButtonImage(forDarkTheme dark: Bool, selected: Bool) -> UIImage {
+        // We don't use a more generic method because we want to add shadow, and we want a specifical
+        // shadow without any blur. 
+        let imageRenderer = UIGraphicsImageRenderer(size: CGSize(width: 9.0, height: 10.0))
+        let image = imageRenderer.image { (_: UIGraphicsImageRendererContext) in
+            guard let context = UIGraphicsGetCurrentContext() else { return }
+            
+            context.addPath(CGPath(roundedRect: CGRect(x: 0.0, y: 0.0, width: 9.0, height: 9.0), cornerWidth: 4.0, cornerHeight: 4.0, transform: nil))
+            context.setShadow(offset: CGSize(width: 0.0, height: 1.0), blur: 0.0, color: #colorLiteral(red: 0.537254902, green: 0.5450510979, blue: 0.5607843137, alpha: 1).cgColor)
+            
+            let color: UIColor
+            if dark {
+                color = #colorLiteral(red: 0.368627451, green: 0.368627451, blue: 0.368627451, alpha: 1)
+            } else {
+                color = selected ? #colorLiteral(red: 0.6823529412, green: 0.7019607843, blue: 0.7450980392, alpha: 1) : .white
+            }
+            color.setFill()
+            context.fillPath()
+        }
+        
+        return image.resizableImage(withCapInsets: UIEdgeInsets(top: 4.0, left: 4.0, bottom: 5.0, right: 4.0), resizingMode: .stretch)
     }
     
 }

@@ -61,7 +61,6 @@ class TestCollectionViewController: UICollectionViewController, CollectionViewDe
         
         cell.titleLabel.text =  "Test Title \(indexPath.item + 1)"
         cell.textView.placeholderLabel.text = "Testing placeholder \(indexPath.item + 1)"
-        cell.textView.keyboardType = .numberPad
         
         return cell
     }
