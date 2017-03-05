@@ -17,7 +17,6 @@ class TestCollectionViewController: FormCollectionViewController  {
         super.viewDidLoad()
         
         collectionView?.register(CollectionViewFormTextFieldCell.self)
-        collectionView?.register(CollectionViewFormTextViewCell.self)
         collectionView?.register(CollectionViewFormMPOLHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
     }
     
@@ -44,11 +43,10 @@ class TestCollectionViewController: FormCollectionViewController  {
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormTextViewCell.self, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormTextFieldCell.self, for: indexPath)
         
         cell.titleLabel.text =  "Test Title \(indexPath.item + 1)"
-        //cell.textView.text = "Testing text \(indexPath.item + 1)"
-        cell.textView.placeholderLabel.text = "Testing placeholder \(indexPath.item + 1)"
+        cell.textField.placeholder = "Testing placeholder \(indexPath.item + 1)"
         
         return cell
     }
@@ -70,7 +68,7 @@ class TestCollectionViewController: FormCollectionViewController  {
     }
     
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
-        return CollectionViewFormTextViewCell.minimumContentHeight(withTitle: "Test Title \(indexPath.item + 1)", text: "Testing text \(indexPath.item + 1)", inWidth: itemWidth, compatibleWidth: traitCollection)
+        return 60.0
     }
     
     

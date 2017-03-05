@@ -27,16 +27,20 @@ open class TableViewFormTextViewCell: TableViewFormCell {
     open let titleLabel = UILabel()
     
     
-    /// The text view for the cell. Users are welcome to become the delegate and/or observe
-    /// notifications from the text view in response to editing events
+    /// The text view for the cell. You are welcome to become the delegate and/or observe
+    /// notifications from the text view in response to editing events.
     open let textView = FormTextView(frame: .zero, textContainer: nil)
     
     
-    /// The height constraint guiding autolayout's sizing of the text view,
-    /// and thus the cell. This is private and not accessible to users.
-    fileprivate var textViewHeightConstraint: NSLayoutConstraint!
+    /// The height constraint guiding autolayout's private sizing of the text view.
+    fileprivate var textViewPreferredHeightConstraint: NSLayoutConstraint!
     
     
+    /// The height constraint guiding autolayout's minimum sizing of the text view.
+    fileprivate var textViewMinimumHeightConstraint: NSLayoutConstraint!
+    
+    
+    /// The constraint separating the title label and text view.
     fileprivate var titleDetailSeparationConstraint: NSLayoutConstraint!
     
     
@@ -46,6 +50,7 @@ open class TableViewFormTextViewCell: TableViewFormCell {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         commonInit()
     }
+    
     
     /// TableViewFormTextViewCell does not support NSCoding.
     public required init?(coder aDecoder: NSCoder) {
@@ -63,16 +68,12 @@ open class TableViewFormTextViewCell: TableViewFormCell {
         
         textView.placeholderLabel.text = "-"
         
-        textView.addObserver(self, forKeyPath: #keyPath(UITextView.contentSize),   context: &kvoContext)
-        textView.addObserver(self, forKeyPath: #keyPath(UITextView.contentOffset), context: &kvoContext)
-        titleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.text),           context: &kvoContext)
-        titleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &kvoContext)
-        
         let contentView = self.contentView
         contentView.addSubview(textView)
         contentView.addSubview(titleLabel)
         
-        textViewHeightConstraint = NSLayoutConstraint(item: textView, attribute: .height, relatedBy: .equal, toConstant: textView.contentSize.height, priority: UILayoutPriorityDefaultLow)
+        textViewMinimumHeightConstraint = NSLayoutConstraint(item: textView, attribute: .height, relatedBy: .greaterThanOrEqual, toConstant: textView.font?.lineHeight ?? 17.0 + 1.0)
+        textViewPreferredHeightConstraint = NSLayoutConstraint(item: textView, attribute: .height, relatedBy: .equal, toConstant: ceil(textView.font?.lineHeight ?? 17.0 + (textView.font?.leading ?? 1.0)), priority: UILayoutPriorityDefaultLow)
         titleDetailSeparationConstraint = NSLayoutConstraint(item: textView, attribute: .top, relatedBy: .equal, toItem: titleLabel, attribute: .bottom)
         
         let layoutGuide = contentModeLayoutGuide
@@ -86,12 +87,19 @@ open class TableViewFormTextViewCell: TableViewFormCell {
             NSLayoutConstraint(item: textView, attribute: .leading,  relatedBy: .equal, toItem: layoutGuide, attribute: .leading, constant: -5.0),
             NSLayoutConstraint(item: textView, attribute: .trailing, relatedBy: .equal, toItem: layoutGuide, attribute: .trailing, constant: 3.5),
             NSLayoutConstraint(item: textView, attribute: .bottom,   relatedBy: .equal, toItem: layoutGuide, attribute: .bottom, constant: 1.0),
-            textViewHeightConstraint,
+            textViewPreferredHeightConstraint, textViewMinimumHeightConstraint,
             titleDetailSeparationConstraint
-            ])
+        ])
+        
+        textView.addObserver(self, forKeyPath: #keyPath(UITextView.font),          context: &kvoContext)
+        textView.addObserver(self, forKeyPath: #keyPath(UITextView.contentSize),   context: &kvoContext)
+        textView.addObserver(self, forKeyPath: #keyPath(UITextView.contentOffset), context: &kvoContext)
+        titleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.text),           context: &kvoContext)
+        titleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &kvoContext)
     }
     
     deinit {
+        textView.removeObserver(self, forKeyPath: #keyPath(UITextView.font),          context: &kvoContext)
         textView.removeObserver(self, forKeyPath: #keyPath(UITextView.contentSize),   context: &kvoContext)
         textView.removeObserver(self, forKeyPath: #keyPath(UITextView.contentOffset), context: &kvoContext)
         titleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.text),           context: &kvoContext)
@@ -115,7 +123,7 @@ extension TableViewFormTextViewCell {
                 if let keyPath = keyPath {
                     switch keyPath {
                     case #keyPath(UITextView.contentSize):
-                        updateTextViewConstraint()
+                        updateTextViewPreferredConstraint()
                     case #keyPath(UITextView.contentOffset):
                         if textView.contentOffset.y.isZero == false {
                             textView.contentOffset.y = 0.0
@@ -136,12 +144,20 @@ extension TableViewFormTextViewCell {
         }
     }
     
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        updateTextViewMinimumConstraint()
+    }
+    
     internal override func applyStandardFonts() {
         super.applyStandardFonts()
         
         titleLabel.font = CollectionViewFormDetailCell.font(withEmphasis: false, compatibleWith: traitCollection)
-        textView.font   = CollectionViewFormDetailCell.font(withEmphasis: true,  compatibleWith: traitCollection)
+        let textViewFont = CollectionViewFormDetailCell.font(withEmphasis: true,  compatibleWith: traitCollection)
+        textView.font = textViewFont
         textView.placeholderLabel.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
+        
+        textViewMinimumHeightConstraint?.constant = ceil(textViewFont.lineHeight + textViewFont.leading)
         
         titleLabel.adjustsFontForContentSizeCategory       = true
         textView.adjustsFontForContentSizeCategory         = true
@@ -154,11 +170,11 @@ extension TableViewFormTextViewCell {
 /// Private methods
 fileprivate extension TableViewFormTextViewCell {
     
-    fileprivate func updateTextViewConstraint() {
+    fileprivate func updateTextViewPreferredConstraint() {
         let textHeight = textView.contentSize.height
-        if textViewHeightConstraint.constant ==~ textHeight { return }
+        if textViewPreferredHeightConstraint.constant ==~ textHeight { return }
         
-        textViewHeightConstraint.constant = textHeight
+        textViewPreferredHeightConstraint.constant = textHeight
         
         guard textView.isFirstResponder,
             let tableView = superview(of: UITableView.self) else {
@@ -190,4 +206,10 @@ fileprivate extension TableViewFormTextViewCell {
             }
         }
     }
+    
+    fileprivate func updateTextViewMinimumConstraint() {
+        let textViewFont = textView.font
+        textViewMinimumHeightConstraint?.constant = ceil((textViewFont?.lineHeight ?? 17.0) + (textViewFont?.leading ?? 1.0))
+    }
+    
 }
