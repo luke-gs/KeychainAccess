@@ -11,9 +11,11 @@ import UIKit
 
 private let tempID = "temp"
 
-open class FormCollectionViewController: UICollectionViewController, PopoverViewController {
+open class FormCollectionViewController: UIViewController, PopoverViewController {
     
     open let formLayout: CollectionViewFormMPOLLayout
+    
+    open fileprivate(set) var collectionView: UICollectionView?
     
     open var wantsTransparentBackground: Bool = false {
         didSet {
@@ -33,11 +35,13 @@ open class FormCollectionViewController: UICollectionViewController, PopoverView
     @NSCopying open var secondaryTextColor:   UIColor?
     @NSCopying open var placeholderTextColor: UIColor?
     
+    fileprivate var collectionViewInsetManager: ScrollViewInsetManager?
+    
     
     public init() {
         formLayout = CollectionViewFormMPOLLayout()
         formLayout.itemLayoutMargins = UIEdgeInsets(top: 16.0, left: 24.0, bottom: 16.0, right: 16.0)
-        super.init(collectionViewLayout: formLayout)
+        super.init(nibName: nil, bundle: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(applyCurrentTheme), name: .ThemeDidChange, object: nil)
     }
     
@@ -50,11 +54,10 @@ open class FormCollectionViewController: UICollectionViewController, PopoverView
 /// View lifecycle
 extension FormCollectionViewController {
     
-    open dynamic override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        guard let collectionView = self.collectionView else { return }
-        
+    open dynamic override func loadView() {
+        let collectionView = UICollectionView(frame: UIScreen.main.bounds, collectionViewLayout: formLayout)
+        collectionView.dataSource = self
+        collectionView.delegate   = self
         collectionView.backgroundColor = wantsTransparentBackground ? .clear : backgroundColor
         collectionView.alwaysBounceVertical = true
         collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: collectionElementKindGlobalHeader,    withReuseIdentifier: tempID)
@@ -62,7 +65,22 @@ extension FormCollectionViewController {
         collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: tempID)
         collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: tempID)
         
+        self.collectionViewInsetManager = ScrollViewInsetManager(scrollView: collectionView)
+        self.collectionView = collectionView
+        self.view = collectionView
+    }
+    
+    open dynamic override func viewDidLoad() {
+        super.viewDidLoad()
         applyCurrentTheme()
+    }
+    
+    open override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        let contentInsets = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)
+        collectionViewInsetManager?.standardContentInset    = contentInsets
+        collectionViewInsetManager?.standardIndicatorInset  = contentInsets
     }
     
     open dynamic override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -122,9 +140,17 @@ extension FormCollectionViewController {
     }
 }
 
-extension FormCollectionViewController {
+extension FormCollectionViewController: UICollectionViewDataSource {
     
-    open dynamic override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    open dynamic func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 0
+    }
+    
+    open dynamic func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        fatalError("Subclasses must override this method, and must not call super.")
+    }
+    
+    open dynamic func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let defaultView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: tempID, for: indexPath)
         defaultView.isUserInteractionEnabled = false
         return defaultView
@@ -134,9 +160,9 @@ extension FormCollectionViewController {
 
 
 /// Collection view delegate
-extension FormCollectionViewController {
+extension FormCollectionViewController: UICollectionViewDelegate {
     
-    open dynamic override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    open dynamic func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         cell.selectedBackgroundView?.backgroundColor = selectionColor ?? #colorLiteral(red: 0.8, green: 0.8, blue: 0.8, alpha: 1)
         switch cell {
         case let formCell as EntityCollectionViewCell:
@@ -189,7 +215,7 @@ extension FormCollectionViewController {
         }
     }
     
-    open dynamic override func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
+    open dynamic func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
     }
     
 }
