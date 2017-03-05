@@ -157,7 +157,7 @@ extension TableViewFormTextViewCell {
         textView.font = textViewFont
         textView.placeholderLabel.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
         
-        textViewMinimumHeightConstraint?.constant = ceil(textViewFont.lineHeight + textViewFont.leading)
+        updateTextViewMinimumConstraint()
         
         titleLabel.adjustsFontForContentSizeCategory       = true
         textView.adjustsFontForContentSizeCategory         = true

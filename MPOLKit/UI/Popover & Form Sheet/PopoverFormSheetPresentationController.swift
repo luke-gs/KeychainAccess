@@ -8,6 +8,13 @@
 
 import UIKit
 
+/// A presentation controller for presenting view controllers in the `UIModalPresentationStyle.formSheet`
+/// style, except with a popover style blurred background. `PopoverFormSheetPresentationController`
+/// handles keyboard appearance to shift the view controller for optimal text entry, just like
+/// `UIModalPresentationStyle.formSheet`.
+///
+/// `PopoverFormSheetPresentationController` also conforms to `UIViewControllerAnimatedTransitioning`
+/// and provides an implementation for a standard form sheet presentation, with a little added "bounce".
 public class PopoverFormSheetPresentationController: UIPresentationController {
     
     
@@ -34,6 +41,8 @@ public class PopoverFormSheetPresentationController: UIPresentationController {
     
     
     public override func presentationTransitionWillBegin() {
+        super.presentationTransitionWillBegin()
+        
         let presentationWrappingView = UIVisualEffectView(effect: UIBlurEffect(style: Theme.current.isDark ? .dark : .extraLight))
         presentationWrappingView.clipsToBounds = true
         presentationWrappingView.layer.cornerRadius = 10.0
@@ -52,16 +61,33 @@ public class PopoverFormSheetPresentationController: UIPresentationController {
         dimmingView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         containerView?.addSubview(dimmingView)
         self.dimmingView = dimmingView
+        
+        presentedViewController.transitionCoordinator?.animate(alongsideTransition: { (_: UIViewControllerTransitionCoordinatorContext) in
+            dimmingView.alpha = 1.0
+        })
+    }
+    
+    public override func dismissalTransitionWillBegin() {
+        super.dismissalTransitionWillBegin()
+        
+        let dimmingView = self.dimmingView
+        presentedViewController.transitionCoordinator?.animate(alongsideTransition: { (_: UIViewControllerTransitionCoordinatorContext) in
+            dimmingView?.alpha = 0.0
+        })
     }
     
     public override func dismissalTransitionDidEnd(_ completed: Bool) {
         if completed {
             dimmingView?.removeFromSuperview()
         }
+        super.dismissalTransitionDidEnd(completed)
     }
     
     public override func size(forChildContentContainer container: UIContentContainer, withParentContainerSize parentSize: CGSize) -> CGSize {
         var containerSize = container.preferredContentSize
+        if containerSize.width  <= 0.0 { containerSize.width  = 540.0 }
+        if containerSize.height <= 0.0 { containerSize.height = 620.0 }
+        
         containerSize.width  = min(parentSize.width, containerSize.width)
         containerSize.height = min(parentSize.height, containerSize.height)
         return containerSize
@@ -130,7 +156,6 @@ extension PopoverFormSheetPresentationController: UIViewControllerAnimatedTransi
         
         let fromView = transitionContext.view(forKey: .from)
         let toView   = transitionContext.view(forKey: .to)
-        let dimmingView = self.dimmingView
         
         let isPresenting = fromViewController == presentingViewController
         
@@ -144,14 +169,11 @@ extension PopoverFormSheetPresentationController: UIViewControllerAnimatedTransi
             var toViewFrame = transitionContext.finalFrame(for: toViewController)
             toViewFrame.origin.y = containerView.bounds.maxY
             toView?.frame = toViewFrame
-            
-            dimmingView?.alpha = 0.0
         }
         
         let transitionDuration = self.transitionDuration(using: transitionContext)
         
         UIView.animate(withDuration: transitionDuration, delay: 0.0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.0, animations: {
-            dimmingView?.alpha = isPresenting ? 1.0 : 0.0
             if isPresenting {
                 toView?.frame = transitionContext.finalFrame(for: toViewController)
             } else {

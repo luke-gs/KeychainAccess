@@ -25,9 +25,8 @@ class TestCollectionViewController: FormCollectionViewController  {
         collectionView?.collectionViewLayout.invalidateLayout()
     }
 
-
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 100
+        return 1
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -49,6 +48,10 @@ class TestCollectionViewController: FormCollectionViewController  {
         cell.textField.placeholder = "Testing placeholder \(indexPath.item + 1)"
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        dismiss(animated: true, completion: nil)
     }
 
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {

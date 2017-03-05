@@ -144,6 +144,7 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
                 
                 var rowCount = 0
                 func processRow() {
+                    
                     var items: [(IndexPath, CGFloat)] = []
                     var minRowWidth: CGFloat = 0.0
                     var minRowContentWidths: CGFloat = 0.0
@@ -158,7 +159,7 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
                         } else {
                             newMinRowWidth = minRowWidth + itemLayoutMargins.left + itemLayoutMargins.right + item.1
                         }
-                        if (newMinRowWidth + lastItemRightWidthInset) > ceil(sectionWidth) { break }
+                        if (newMinRowWidth + lastItemRightWidthInset) > ceil(sectionWidth) && items.isEmpty == false { break }
                         
                         items.append(item)
                         minRowWidth = newMinRowWidth
