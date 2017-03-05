@@ -12,7 +12,7 @@ import UIKit
 /// The `TableViewFormCheckboxCell` class implements a UITableViewCell subclass which provides
 /// analogous content to `CollectionViewFormCheckboxCell`, but for use with `UITableView`.
 ///
-/// Unlike it's Collection-based counterpart, `TableViewFormSubtitleCell` self-sizes with AutoLayout. Users
+/// Unlike it's Collection-based counterpart, `TableViewFormDetailCell` self-sizes with AutoLayout. Users
 /// do not require to specify a default height, and can allow the cell to indicate it's height dynamically.
 ///
 /// Additionally, unlike it's Collection-based counterpart, this class does not tie it's selection to the
@@ -38,17 +38,27 @@ open class TableViewFormCheckboxCell: TableViewFormCell {
         selectionStyle = .none
         minimumContentHeight = 43.5
         
-        let contentView = self.contentView
+        let contentView            = self.contentView
+        let contentModeLayoutGuide = self.contentModeLayoutGuide
         
         checkbox.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(checkbox)
         
         NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: checkbox, attribute: .leading,   relatedBy: .equal,              toItem: contentView, attribute: .leadingMargin),
-            NSLayoutConstraint(item: checkbox, attribute: .trailing,  relatedBy: .lessThanOrEqual,    toItem: contentView, attribute: .trailingMargin),
-            NSLayoutConstraint(item: checkbox, attribute: .centerY,   relatedBy: .equal,              toItem: contentView, attribute: .centerYWithinMargins),
-            NSLayoutConstraint(item: checkbox, attribute: .top,       relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .topMargin)
+            NSLayoutConstraint(item: checkbox, attribute: .leading,   relatedBy: .equal,              toItem: contentModeLayoutGuide, attribute: .leading),
+            NSLayoutConstraint(item: checkbox, attribute: .trailing,  relatedBy: .lessThanOrEqual,    toItem: contentModeLayoutGuide, attribute: .trailing),
+            NSLayoutConstraint(item: checkbox, attribute: .centerY,   relatedBy: .equal,              toItem: contentModeLayoutGuide, attribute: .centerY),
+            NSLayoutConstraint(item: checkbox, attribute: .top,       relatedBy: .greaterThanOrEqual, toItem: contentModeLayoutGuide, attribute: .top)
         ])
+    }
+    
+    open override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        guard let checkboxTitleLabel = checkbox.titleLabel else { return }
+        
+        checkboxTitleLabel.font = SelectableButton.font(compatibleWith: traitCollection)
+        checkboxTitleLabel.adjustsFontForContentSizeCategory = true
     }
     
 }

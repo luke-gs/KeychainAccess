@@ -169,19 +169,23 @@ extension FormCollectionViewController: UICollectionViewDelegate {
             formCell.titleLabel.textColor    = primaryTextColor
             formCell.subtitleLabel.textColor = secondaryTextColor
             formCell.detailLabel.textColor   = secondaryTextColor
-        case let subtitleCell as CollectionViewFormSubtitleCell:
-            // TODO: Handle Emphasis
-            subtitleCell.textLabel.textColor       = secondaryTextColor
-            subtitleCell.detailTextLabel.textColor = primaryTextColor
+        case let detailCell as CollectionViewFormDetailCell:
+            if detailCell.emphasis == .title {
+                detailCell.textLabel.textColor       = primaryTextColor
+                detailCell.detailTextLabel.textColor = secondaryTextColor
+            } else {
+                detailCell.textLabel.textColor       = secondaryTextColor
+                detailCell.detailTextLabel.textColor = primaryTextColor
+            }
             
-            guard let title = subtitleCell.textLabel.text as NSString? else { return }
+            guard let title = detailCell.textLabel.text as NSString? else { return }
             
             let rangeOfStar = title.range(of: "*")
             if rangeOfStar.location == NSNotFound { return }
             
             let titleString = NSMutableAttributedString(string: title as String)
             titleString.setAttributes([NSForegroundColorAttributeName: UIColor.red], range: rangeOfStar)
-            subtitleCell.textLabel.attributedText = titleString
+            detailCell.textLabel.attributedText = titleString
         case let textFieldCell as CollectionViewFormTextFieldCell:
             textFieldCell.titleLabel.textColor = secondaryTextColor
             textFieldCell.textField.textColor  = primaryTextColor
@@ -195,12 +199,10 @@ extension FormCollectionViewController: UICollectionViewDelegate {
             let titleString = NSMutableAttributedString(string: title as String)
             titleString.setAttributes([NSForegroundColorAttributeName: UIColor.red], range: rangeOfStar)
             textFieldCell.titleLabel.attributedText = titleString
-        case let checkboxCell as CollectionViewFormCheckboxCell:
-            checkboxCell.textLabel.textColor = primaryTextColor
         case let textViewCell as CollectionViewFormTextViewCell:
             textViewCell.titleLabel.textColor       = secondaryTextColor
             textViewCell.textView.textColor         = primaryTextColor
-            textViewCell.placeholderLabel.textColor = placeholderTextColor
+            textViewCell.textView.placeholderLabel.textColor = placeholderTextColor
             
             guard let title = textViewCell.titleLabel.text as NSString? else { return }
             

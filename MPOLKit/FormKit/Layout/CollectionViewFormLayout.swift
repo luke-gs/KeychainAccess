@@ -377,41 +377,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     // MARK: - Invalidation
     
     open override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
-        guard let collectionView = self.collectionView else { return false }
-        
-        let currentContentWidth = fabs(_lastLaidOutWidth ?? 0.0)
-        let newWidth = fabs(newBounds.size.width)
-        
-        // Don't perform an update if there is no width, or if there is no content.
-        if newWidth == currentContentWidth || (sectionRects.last?.maxY.isZero ?? true) { return false }
-
-        if UIView.areAnimationsEnabled {
-            let animationDuration = UIView.inheritedAnimationDuration
-            if animationDuration.isZero { return true }
-            
-            DispatchQueue.main.async {
-                var firstCellIndexPath: IndexPath? = nil
-                
-                if let attributes = self.layoutAttributesForElements(in: collectionView.bounds) {
-                    for attribute in attributes {
-                        if attribute.representedElementCategory != .cell { continue }
-                        firstCellIndexPath = attribute.indexPath
-                        break
-                    }
-                }
-                
-                self.invalidateLayout()
-                
-                if let firstIP = firstCellIndexPath {                    
-                    collectionView.scrollToItem(at: firstIP, at: [], animated: false)
-                }
-                
-                UIView.transition(with: collectionView, duration: animationDuration, options: [.transitionCrossDissolve, .layoutSubviews, (newWidth > currentContentWidth ? .curveEaseOut : .curveEaseIn)], animations: nil)
-            }
-            return false
-        } else {
-            return true
-        }
+        return _lastLaidOutWidth ?? 0.0 !=~ newBounds.size.width && (sectionRects.last?.maxY.isZero ?? true) == false
     }
     
     
@@ -554,6 +520,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
 }
 
 
+// MARK: - CollectionViewDelegateFormLayout
 @objc public protocol CollectionViewDelegateFormLayout: UICollectionViewDelegate {
     
     /// Asks the delegate for the height of the global header view. If you do not implement this method,
@@ -655,6 +622,8 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
 }
 
 
+// MARK: - Convenience functions
+/// Convenience Functions
 public extension CollectionViewFormLayout {
     
     /// A convenience function for calculating content widths for cells in column formation.
@@ -691,8 +660,8 @@ public extension CollectionViewFormLayout {
 }
 
 
-/********** Convenience functions **********/
-
+// MARK: - Array Convenience Extensions
+/// Array Convenience Extensions
 private extension Array {
     /// Access the `index`th element, if it exists. Complexity: O(1).
     subscript (ifExists index: Int) -> Element? {

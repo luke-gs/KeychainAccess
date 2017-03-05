@@ -1,5 +1,5 @@
 //
-//  TableViewFormSubtitleCell.swift
+//  TableViewFormDetailCell.swift
 //  MPOLKit/FormKit
 //
 //  Created by Rod Brown on 10/08/2016.
@@ -11,18 +11,18 @@ import UIKit
 fileprivate var kvoContext = 1
 
 
-/// The `TableViewFormSubtitleCell` class implements a UITableViewCell subclass which provides
-/// analogous content and behaviour to `CollectionViewFormSubtitleCell`, but for use with `UITableView`.
+/// The `TableViewFormDetailCell` class implements a UITableViewCell subclass which provides
+/// analogous content and behaviour to `CollectionViewFormDetailCell`, but for use with `UITableView`.
 ///
-/// `TableViewFormSubtitleCell` adds to the behaviour of `UITableViewCellStyle.Subtitle` by providing support
+/// `TableViewFormDetailCell` adds to the behaviour of `UITableViewCellStyle.Subtitle` by providing support
 /// for mutli-line labels in both the title and detail label. This can be important in implementing support
 /// for content that must wrap and show in the detail, which the default cell does not support. Additionally
 /// the class configures the labels with the appropriate fonts to replicate the appearance of
-/// `CollectionViewFormSubtitleCell`.
+/// `CollectionViewFormDetailCell`.
 ///
-/// Unlike it's Collection-based counterpart, `TableViewFormSubtitleCell` self-sizes with AutoLayout. Users
+/// Unlike it's Collection-based counterpart, `TableViewFormDetailCell` self-sizes with AutoLayout. Users
 /// do not require to specify a default height, and can allow the cell to indicate it's height dynamically.
-open class TableViewFormSubtitleCell: TableViewFormCell {
+open class TableViewFormDetailCell: TableViewFormCell {
     
     /// The text label for the cell. This is guaranteed to be non-nil.
     open override var textLabel: UILabel {
@@ -34,54 +34,43 @@ open class TableViewFormSubtitleCell: TableViewFormCell {
         return super.detailTextLabel!
     }
     
-    /// The label layout guide.
-    /// This guide is responsible for the content rect of the labels as a group, and is accessible
-    /// to allow adjustment of the vertical constraint. This is private and not accessible to users.
-    fileprivate let labelLayoutGuide: UILayoutGuide = UILayoutGuide()
+    /// The font emphasis for the cell. The default is `.title`.
+    open var emphasis: CollectionViewFormDetailCell.Emphasis = .title {
+        didSet { applyStandardFonts() }
+    }
+    
     
     /// The current label vertical constraints. This is private and not accessible to users.
     fileprivate var labelConstraints: [NSLayoutConstraint]?
+    
     
     /// The label state for the cell.
     /// This is a helper tracker internally to help limit the occasions where updating label text will
     /// cause a constraint update.
     fileprivate var labelState: LabelState = .none
     
+    
     /// Initializes the cell with a reuse identifier.
-    /// TableViewFormSubtitleCell does not utilize the `style` parameter, instead always using `Subtitle`.
+    /// TableViewFormDetailCell does not utilize the `style` parameter, instead always using `Subtitle`.
     public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
         
-        let contentView     = self.contentView
         let textLabel       = self.textLabel
         let detailLabel     = self.detailTextLabel
-        
-        textLabel.font       = CollectionViewFormSubtitleCell.fonts.0
-        detailLabel.font     = CollectionViewFormSubtitleCell.fonts.1
         
         textLabel.translatesAutoresizingMaskIntoConstraints   = false
         detailLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        textLabel.addObserver(self,   forKeyPath: #keyPath(UILabel.text),           options: [], context: &kvoContext)
-        textLabel.addObserver(self,   forKeyPath: #keyPath(UILabel.attributedText), options: [], context: &kvoContext)
-        detailLabel.addObserver(self, forKeyPath: #keyPath(UILabel.text),           options: [], context: &kvoContext)
-        detailLabel.addObserver(self, forKeyPath: #keyPath(UILabel.attributedText), options: [], context: &kvoContext)
-        
-        contentView.addLayoutGuide(labelLayoutGuide)
-        
-        NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: labelLayoutGuide, attribute: .leading, relatedBy: .equal, toItem: contentView, attribute: .leadingMargin),
-            NSLayoutConstraint(item: labelLayoutGuide, attribute: .trailing, relatedBy: .equal, toItem: contentView, attribute: .trailingMargin),
-            NSLayoutConstraint(item: labelLayoutGuide, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerYWithinMargins),
-            NSLayoutConstraint(item: labelLayoutGuide, attribute: .top, relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .topMargin),
-            NSLayoutConstraint(item: labelLayoutGuide, attribute: .bottom, relatedBy: .lessThanOrEqual, toItem: contentView, attribute: .bottomMargin),
-            ])
+        textLabel.addObserver(self,   forKeyPath: #keyPath(UILabel.text),           context: &kvoContext)
+        textLabel.addObserver(self,   forKeyPath: #keyPath(UILabel.attributedText), context: &kvoContext)
+        detailLabel.addObserver(self, forKeyPath: #keyPath(UILabel.text),           context: &kvoContext)
+        detailLabel.addObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &kvoContext)
     }
     
-    /// TableViewFormSubtitleCell does not support NSCoding.
+    /// TableViewFormDetailCell does not support NSCoding.
     public required init?(coder aDecoder: NSCoder) {
-        fatalError("TableViewFormSubtitleCell does not support NSCoding.")
+        fatalError("TableViewFormDetailCell does not support NSCoding.")
     }
     
     deinit {
@@ -93,11 +82,12 @@ open class TableViewFormSubtitleCell: TableViewFormCell {
         detailLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.text),           context: &kvoContext)
         detailLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &kvoContext)
     }
+    
 }
 
 
 /// Overriden methods
-extension TableViewFormSubtitleCell {
+extension TableViewFormDetailCell {
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {
@@ -109,40 +99,41 @@ extension TableViewFormSubtitleCell {
     
     open override func updateConstraints() {
         let labelState = self.labelState
-        if labelConstraints == nil && labelState != .none {
+        if labelConstraints?.isEmpty ?? true && labelState != .none {
+            let layoutGuide = self.contentModeLayoutGuide
             
             let textLabel   = self.textLabel
             let detailLabel = self.detailTextLabel
             
             var newConstraints: [NSLayoutConstraint] = []
             if labelState != .detailOnly {
-                newConstraints += [
-                    NSLayoutConstraint(item: textLabel, attribute: .top, relatedBy: .equal, toItem: labelLayoutGuide, attribute: .top),
-                    NSLayoutConstraint(item: textLabel, attribute: .leading, relatedBy: .equal, toItem: labelLayoutGuide, attribute: .leading),
-                    NSLayoutConstraint(item: textLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: labelLayoutGuide, attribute: .trailing),
+                newConstraints = [
+                    NSLayoutConstraint(item: textLabel, attribute: .top,      relatedBy: .equal,           toItem: layoutGuide, attribute: .top),
+                    NSLayoutConstraint(item: textLabel, attribute: .leading,  relatedBy: .equal,           toItem: layoutGuide, attribute: .leading),
+                    NSLayoutConstraint(item: textLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: layoutGuide, attribute: .trailing)
                 ]
             }
             
             if labelState != .titleOnly {
                 newConstraints += [
-                    NSLayoutConstraint(item: detailLabel, attribute: .bottom, relatedBy: .equal, toItem: labelLayoutGuide, attribute: .bottom),
-                    NSLayoutConstraint(item: detailLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: labelLayoutGuide, attribute: .trailing),
-                    NSLayoutConstraint(item: detailLabel, attribute: .leading, relatedBy: .equal, toItem: labelLayoutGuide, attribute: .leading)
+                    NSLayoutConstraint(item: detailLabel, attribute: .bottom,   relatedBy: .equal,           toItem: layoutGuide, attribute: .bottom),
+                    NSLayoutConstraint(item: detailLabel, attribute: .leading,  relatedBy: .equal,           toItem: layoutGuide, attribute: .leading),
+                    NSLayoutConstraint(item: detailLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: layoutGuide, attribute: .trailing)
                 ]
             }
             
             switch labelState {
             case .titleAndDetail:
                 // Constrain the detail label's top to be slightly below the text label's bottom.
-                newConstraints.append(NSLayoutConstraint(item: detailLabel, attribute: .top, relatedBy: .equal, toItem: textLabel, attribute: .bottom, constant: 2.0))
+                newConstraints.append(NSLayoutConstraint(item: detailLabel, attribute: .top, relatedBy: .equal, toItem: textLabel, attribute: .bottom, constant: CellTitleDetailSeparation))
             case .titleOnly:
                 // Constrain the text label's bottom to be the labelLayoutGuide's bottom.
                 // The detail label will have no height at our label's bottom.
-                newConstraints.append(NSLayoutConstraint(item: textLabel,   attribute: .bottom, relatedBy: .equal, toItem: labelLayoutGuide, attribute: .bottom))
+                newConstraints.append(NSLayoutConstraint(item: textLabel,   attribute: .bottom, relatedBy: .equal, toItem: layoutGuide, attribute: .bottom))
             case .detailOnly:
                 // Constrain the detail label's top to be the labelLayoutGuide's top.
                 // The detail label will have no height at our label's bottom.
-                newConstraints.append(NSLayoutConstraint(item: detailLabel, attribute: .top, relatedBy: .equal, toItem: labelLayoutGuide, attribute: .top))
+                newConstraints.append(NSLayoutConstraint(item: detailLabel, attribute: .top, relatedBy: .equal, toItem: layoutGuide, attribute: .top))
             case .none:
                 // This case will never be reached, we only follow this code path if it is not "none"
                 break
@@ -156,9 +147,22 @@ extension TableViewFormSubtitleCell {
         
         super.updateConstraints()
     }
+    
+    internal override func applyStandardFonts() {
+        super.applyStandardFonts()
+        
+        let traitCollection = self.traitCollection
+        textLabel.font       = CollectionViewFormDetailCell.font(withEmphasis: emphasis == .title,   compatibleWith: traitCollection)
+        detailTextLabel.font = CollectionViewFormDetailCell.font(withEmphasis: emphasis == .detail, compatibleWith: traitCollection)
+        
+        textLabel.adjustsFontForContentSizeCategory       = true
+        detailTextLabel.adjustsFontForContentSizeCategory = true
+    }
+    
 }
 
-fileprivate extension TableViewFormSubtitleCell {
+
+fileprivate extension TableViewFormDetailCell {
     
     /// A helper enum to help track the current state of the labels.
     enum LabelState {
@@ -169,7 +173,7 @@ fileprivate extension TableViewFormSubtitleCell {
     /// This is a workaround purely for performance: On scroll, if text changes but doesn't
     /// get removed, we can avoid changing constraints on the fly.
     /// This method should be called every time label text changes.
-    func updateLabelState() {
+    fileprivate func updateLabelState() {
         let hasText   = textLabel.text?.isEmpty       ?? true == false
         let hasDetail = detailTextLabel.text?.isEmpty ?? true == false
         
@@ -191,4 +195,6 @@ fileprivate extension TableViewFormSubtitleCell {
             setNeedsUpdateConstraints()
         }
     }
+    
 }
+

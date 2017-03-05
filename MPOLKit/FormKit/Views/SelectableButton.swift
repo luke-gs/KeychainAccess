@@ -10,7 +10,11 @@ import UIKit
 
 
 open class SelectableButton: UIButton {
-
+    
+    internal class func font(compatibleWith traitCollection: UITraitCollection) -> UIFont {
+        return .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
+    }
+    
     // MARK: - Properties
     
     open override var isSelected: Bool {
@@ -25,7 +29,7 @@ open class SelectableButton: UIButton {
         didSet { updateAppearance() }
     }
     
-    open var shouldAnimateStateTransition: Bool = false
+    open var shouldAnimateStateTransition: Bool = true
     
     
     // MARK: - Private properties
@@ -49,6 +53,26 @@ open class SelectableButton: UIButton {
         adjustsImageWhenHighlighted = false
         adjustsImageWhenDisabled    = false
         
+        if let titleLabel = self.titleLabel {
+            titleLabel.font = SelectableButton.font(compatibleWith: traitCollection)
+            titleLabel.adjustsFontForContentSizeCategory = true
+        }
+        
+        let lightGrayColor = UIColor.lightGray
+        let disabledColor = lightGrayColor.withAlphaComponent(0.5)
+        
+        contentEdgeInsets = UIEdgeInsets(top: 7.0, left: 5.0, bottom: 7.0, right: 5.0)
+        contentHorizontalAlignment = .left
+        titleEdgeInsets = UIEdgeInsets(top: 0.0, left: 10.0, bottom: 0.0, right: 0.0)
+        
+        setTitleColor(.darkText, for: .normal)
+        setTitleColor(disabledColor, for: .disabled)
+        setTitleColor(disabledColor, for: [.selected, .disabled])
+        
+        setTintColor(lightGrayColor, forState: .normal)
+        setTintColor(disabledColor, forState: .disabled)
+        setTintColor(disabledColor, forState: [.disabled, .selected])
+        
         addTarget(self, action: #selector(_touchUpInside), for: .primaryActionTriggered)
         
         updateAppearance()
@@ -57,7 +81,7 @@ open class SelectableButton: UIButton {
     
     // MARK: - Event handling
     
-    dynamic fileprivate func _touchUpInside() {
+    @objc fileprivate func _touchUpInside() {
         isSelected = self.isSelected == false
         sendActions(for: .valueChanged)
     }
@@ -65,7 +89,7 @@ open class SelectableButton: UIButton {
     
     // MARK: - Appearance
     
-    dynamic open func setTintColor(_ color: UIColor?, forState state: UIControlState) {
+    @objc dynamic open func setTintColor(_ color: UIColor?, forState state: UIControlState) {
         if let color = color {
             tintMap[state.rawValue] = color
         } else {
@@ -87,6 +111,18 @@ open class SelectableButton: UIButton {
             animation.duration = 0.1
             layer.add(animation, forKey: "stateTransition")
         }
+    }
+    
+    // MARK: - Intrinsic content size
+    
+    open override var intrinsicContentSize : CGSize {
+        var intrinsicContentSize = super.intrinsicContentSize
+        
+        if (title(for: state)?.isEmpty ?? true) == false {
+            intrinsicContentSize.width += 12.0
+        }
+        
+        return intrinsicContentSize
     }
 
 }
