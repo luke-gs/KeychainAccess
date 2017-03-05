@@ -90,11 +90,6 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
         }
     }
     
-    
-    open override func layoutSubviews() {
-        super.layoutSubviews()
-    }
-    
 }
 
 
