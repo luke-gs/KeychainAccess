@@ -42,6 +42,9 @@ open class FormCollectionViewController: UIViewController, PopoverViewController
         formLayout = CollectionViewFormMPOLLayout()
         formLayout.itemLayoutMargins = UIEdgeInsets(top: 16.0, left: 24.0, bottom: 16.0, right: 16.0)
         super.init(nibName: nil, bundle: nil)
+        
+        automaticallyAdjustsScrollViewInsets = false // we manage this ourselves.
+        
         NotificationCenter.default.addObserver(self, selector: #selector(applyCurrentTheme), name: .ThemeDidChange, object: nil)
     }
     
