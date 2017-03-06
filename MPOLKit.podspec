@@ -32,9 +32,7 @@ s.ios.deployment_target = '10.0'
 
 s.source_files = 'MPOLKit/Classes/**/*'
 
-s.resource_bundles = {
-  'MPOLKit' => ['MPOLKit/Assets/MPOL/*']
-}
+s.resources = ['MPOLKit/Assets/MPOL/**/*']
 
 s.subspec 'FormKit' do |formkit|
 formkit.source_files = 'MPOLKit/Classes/FormKit/**/*'
