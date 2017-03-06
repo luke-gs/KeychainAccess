@@ -1,5 +1,5 @@
 //
-//  MenuTableViewCell.swift
+//  SidebarTableViewCell.swift
 //  MPOLKit
 //
 //  Created by Rod Brown on 11/2/17.
@@ -9,8 +9,8 @@
 import UIKit
 
 
-/// A UITableViewCell subclass for displaying items in a menu.
-open class MenuTableViewCell: UITableViewCell {
+/// A UITableViewCell subclass for displaying items in a sidebar.
+open class SidebarTableViewCell: UITableViewCell {
     
     fileprivate static let iconUnselectedColor = #colorLiteral(red: 0.5215686275, green: 0.5215686275, blue: 0.5215686275, alpha: 1)
     
@@ -22,7 +22,7 @@ open class MenuTableViewCell: UITableViewCell {
     
     fileprivate var isEnabled: Bool = true
     
-    fileprivate var badgeView: MenuBadgeView?
+    fileprivate var badgeView: SidebarBadgeView?
     
     public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: .value1, reuseIdentifier: reuseIdentifier)
@@ -41,13 +41,13 @@ open class MenuTableViewCell: UITableViewCell {
     }
     
     
-    /// Updates the cell with the content of the menu item.
+    /// Updates the cell with the content of the sidebar item.
     /// 
     /// Users should be aware that this does not create a link, and therefore changes to the
-    /// menu item are not automatically translated to updates within the cell.
+    /// sidebar item are not automatically translated to updates within the cell.
     ///
-    /// - Parameter item: The `MenuItem` to configure the cell for.
-    open func update(for item: MenuItem) {
+    /// - Parameter item: The `SidebarItem` to configure the cell for.
+    open func update(for item: SidebarItem) {
         
         isEnabled = item.isEnabled
         
@@ -72,12 +72,12 @@ open class MenuTableViewCell: UITableViewCell {
         
         if let badgeColor = item.badgeColor {
             // lazy load the badge view.
-            let badgeView: MenuBadgeView
+            let badgeView: SidebarBadgeView
             if let badge = self.badgeView {
                 badgeView = badge
                 badgeView.isHidden = false
             } else {
-                badgeView = MenuBadgeView(frame: CGRect(x: 0.0, y: 0.0, width: 12.0, height: 12.0))
+                badgeView = SidebarBadgeView(frame: CGRect(x: 0.0, y: 0.0, width: 12.0, height: 12.0))
                 self.badgeView = badgeView
                 contentView.addSubview(badgeView)
                 setNeedsLayout()
@@ -92,7 +92,7 @@ open class MenuTableViewCell: UITableViewCell {
 
 
 /// Overrides
-extension MenuTableViewCell {
+extension SidebarTableViewCell {
     
     open override func layoutSubviews() {
         super.layoutSubviews()
@@ -133,7 +133,7 @@ extension MenuTableViewCell {
 
 
 /// Content updates
-fileprivate extension MenuTableViewCell {
+fileprivate extension SidebarTableViewCell {
     
     private var currentTextColor: UIColor {
         let color: UIColor = isSelected || isHighlighted ? .white : .lightGray
@@ -145,7 +145,7 @@ fileprivate extension MenuTableViewCell {
         if isSelected || isHighlighted {
             color = imageHighlightedTintColor ?? imageTintColor ?? .white
         } else {
-            color = imageTintColor ?? MenuTableViewCell.iconUnselectedColor
+            color = imageTintColor ?? SidebarTableViewCell.iconUnselectedColor
         }
         
         return isEnabled ? color : color.withAlphaComponent(0.2)
@@ -178,12 +178,12 @@ fileprivate extension MenuTableViewCell {
     
 }
 
-extension MenuTableViewCell: DefaultReusable {
+extension SidebarTableViewCell: DefaultReusable {
 }
 
 
-/// A private class to create the menu badge.
-fileprivate class MenuBadgeView: UIView {
+/// A private class to create the sidebar badge.
+fileprivate class SidebarBadgeView: UIView {
     
     let borderColor: UIColor = #colorLiteral(red: 0.2279433608, green: 0.2033697367, blue: 0.2280697525, alpha: 1)
     var badgeColor: UIColor?

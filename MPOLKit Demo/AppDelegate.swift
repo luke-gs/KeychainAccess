@@ -35,23 +35,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         pushableSplitViewController.title = "Pushable SVC"
         let pushableSVNavController = UINavigationController(rootViewController: pushableSplitViewController)
         
-        let menuDetail1VC = UIViewController()
-        menuDetail1VC.title = "Menu Test"
-        menuDetail1VC.menuItem.image = #imageLiteral(resourceName: "MenuInfo")
-        menuDetail1VC.menuItem.selectedImage = #imageLiteral(resourceName: "MenuInfoFilled")
+        let sidebarDetail1VC = UIViewController()
+        sidebarDetail1VC.title = "Sidebar Test"
+        sidebarDetail1VC.sidebarItem.image = #imageLiteral(resourceName: "SidebarInfo")
+        sidebarDetail1VC.sidebarItem.selectedImage = #imageLiteral(resourceName: "SidebarInfoFilled")
         
-        let menuDetail2VC = PushableTestViewController(style: .plain)
-        menuDetail2VC.title = "Menu Test 2"
-        menuDetail2VC.menuItem.image = #imageLiteral(resourceName: "MenuAlert")
-        menuDetail2VC.menuItem.selectedImage = #imageLiteral(resourceName: "MenuAlertFilled")
+        let sidebarDetail2VC = PushableTestViewController(style: .plain)
+        sidebarDetail2VC.title = "Sidebar Test 2"
+        sidebarDetail2VC.sidebarItem.image = #imageLiteral(resourceName: "SidebarAlert")
+        sidebarDetail2VC.sidebarItem.selectedImage = #imageLiteral(resourceName: "SidebarAlertFilled")
         
-        let menuSplitViewController = MenuSplitViewController(detailViewControllers: [menuDetail1VC, menuDetail2VC])
-        menuSplitViewController.menuViewController.sourceItems = [SourceItem(color: .red, title: "CRIMTRAC", count: 8), SourceItem(color: #colorLiteral(red: 0, green: 0.479532063, blue: 0.9950867295, alpha: 1), title: "DS2", count: 3), SourceItem(color: .red, title: "DS3", count: 1, isEnabled: false)]
-        menuSplitViewController.menuViewController.selectedSourceIndex = 0
-        menuSplitViewController.title = "Menu SVC"
+        let sidebarSplitViewController = SidebarSplitViewController(detailViewControllers: [sidebarDetail1VC, sidebarDetail2VC])
+        sidebarSplitViewController.sidebarViewController.sourceItems = [SourceItem(color: .red, title: "CRIMTRAC", count: 8), SourceItem(color: #colorLiteral(red: 0, green: 0.479532063, blue: 0.9950867295, alpha: 1), title: "DS2", count: 3), SourceItem(color: .red, title: "DS3", count: 1, isEnabled: false)]
+        sidebarSplitViewController.sidebarViewController.selectedSourceIndex = 0
+        sidebarSplitViewController.title = "Sidebar SVC"
         
         let tabBarController = UITabBarController()
-        tabBarController.viewControllers = [pushableSVNavController, UINavigationController(rootViewController: menuSplitViewController)]
+        tabBarController.viewControllers = [pushableSVNavController, UINavigationController(rootViewController: sidebarSplitViewController)]
         window.rootViewController = tabBarController
         window.makeKeyAndVisible()
         

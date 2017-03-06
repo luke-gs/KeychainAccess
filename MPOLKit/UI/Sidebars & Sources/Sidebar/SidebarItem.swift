@@ -1,5 +1,5 @@
 //
-//  MenuItem.swift
+//  SidebarItem.swift
 //  Test
 //
 //  Created by Rod Brown on 10/2/17.
@@ -9,24 +9,24 @@
 import UIKit
 
 
-/// The `MenuItem` class implements an item on a `MenuViewController` object.
+/// The `SidebarItem` class implements an item on a `SidebarViewController` object.
 ///
 /// A menu operates strictly in radio mode, where one item is selected at a time —
 /// tapping a menu button toggles the view selected. You can also specify a count
 /// value indicating a count value on the trailing edge of the menu button.
-open class MenuItem: NSObject {
+open class SidebarItem: NSObject {
     
     /// Indicates whether the item is enabled. The default is `true`.
     open dynamic var isEnabled: Bool = true
     
     /// The image to display representing the item.
     ///
-    /// Using a template image applies the `MenuItem.color` property as a tint.
+    /// Using a template image applies the `SidebarItem.color` property as a tint.
     open dynamic var image: UIImage?
     
     /// The image to display representing the item when selected.
     ///
-    /// Using a template image applies the `MenuItem.selectedColor` property as a tint.
+    /// Using a template image applies the `SidebarItem.selectedColor` property as a tint.
     open dynamic var selectedImage: UIImage?
     
     /// The localized title of the item.

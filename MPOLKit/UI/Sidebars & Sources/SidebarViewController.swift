@@ -1,5 +1,5 @@
 //
-//  MenuViewController.swift
+//  SidebarViewController.swift
 //  Test
 //
 //  Created by Rod Brown on 11/2/17.
@@ -8,33 +8,33 @@
 
 import UIKit
 
-fileprivate var menuItemContext = 0
-fileprivate let menuKeys = [#keyPath(MenuItem.isEnabled),
-                            #keyPath(MenuItem.image),
-                            #keyPath(MenuItem.selectedImage),
-                            #keyPath(MenuItem.title),
-                            #keyPath(MenuItem.count),
-                            #keyPath(MenuItem.badgeColor),
-                            #keyPath(MenuItem.color),
-                            #keyPath(MenuItem.selectedColor)]
+fileprivate var sidebarItemContext = 0
+fileprivate let sidebarKeys = [#keyPath(SidebarItem.isEnabled),
+                               #keyPath(SidebarItem.image),
+                               #keyPath(SidebarItem.selectedImage),
+                               #keyPath(SidebarItem.title),
+                               #keyPath(SidebarItem.count),
+                               #keyPath(SidebarItem.badgeColor),
+                               #keyPath(SidebarItem.color),
+                               #keyPath(SidebarItem.selectedColor)]
 
 
-open class MenuViewController: UIViewController {
+open class SidebarViewController: UIViewController {
     
     /// The current items available to display.
-    public var items: [MenuItem] = [] {
+    public var items: [SidebarItem] = [] {
         didSet {
             let items = self.items
             
             for item in oldValue where items.contains(item) == false {
-                menuKeys.forEach { item.removeObserver(self, forKeyPath: $0, context: &menuItemContext) }
+                sidebarKeys.forEach { item.removeObserver(self, forKeyPath: $0, context: &sidebarItemContext) }
             }
             
             for item in items where oldValue.contains(item) == false {
-                menuKeys.forEach { item.addObserver(self, forKeyPath: $0, context: &menuItemContext) }
+                sidebarKeys.forEach { item.addObserver(self, forKeyPath: $0, context: &sidebarItemContext) }
             }
             
-            menuTableView?.reloadData()
+            sidebarTableView?.reloadData()
             
             if let selectedItem = self.selectedItem, items.contains(selectedItem) == false {
                 self.selectedItem = nil
@@ -48,7 +48,7 @@ open class MenuViewController: UIViewController {
     ///
     /// If `clearsSelectionOnViewWillAppear` is true, this property is set to nil
     /// when it receives a viewWillAppear(_:) message.
-    public var selectedItem: MenuItem? {
+    public var selectedItem: SidebarItem? {
         didSet { updateSelection() }
     }
     
@@ -69,10 +69,10 @@ open class MenuViewController: UIViewController {
     }
     
     
-    /// The table view for menu items.
+    /// The table view for sidebar items.
     /// 
-    /// This table view fills the menu, trailing the source bar if it appears.
-    public fileprivate(set) var menuTableView: UITableView?
+    /// This table view fills the sidebar, trailing the source bar if it appears.
+    public fileprivate(set) var sidebarTableView: UITableView?
     
     
     /// The table view for source items.
@@ -81,41 +81,41 @@ open class MenuViewController: UIViewController {
     public fileprivate(set) var sourceTableView: UITableView?
     
     
-    /// A Boolean value indicating whether the menu clears the selection when the view appears.
+    /// A Boolean value indicating whether the sidebar clears the selection when the view appears.
     ///
     /// The default value of this property is false. If true, the view controller clears the
     /// selectedItem when it receives a viewWillAppear(_:) message.
     open var clearsSelectionOnViewWillAppear: Bool = false
     
     
-    /// The delegate for the menu.
-    open weak var delegate: MenuViewControllerDelegate? = nil
+    /// The delegate for the sidebar.
+    open weak var delegate: SidebarViewControllerDelegate? = nil
     
     fileprivate var sourceInsetManager: ScrollViewInsetManager?
     
-    fileprivate var menuInsetManager: ScrollViewInsetManager?
+    fileprivate var sidebarInsetManager: ScrollViewInsetManager?
     
     deinit {
         items.forEach { item in
-            menuKeys.forEach {
-                item.removeObserver(self, forKeyPath: $0, context: &menuItemContext)
+            sidebarKeys.forEach {
+                item.removeObserver(self, forKeyPath: $0, context: &sidebarItemContext)
             }
         }
     }
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if context == &menuItemContext {
+        if context == &sidebarItemContext {
             if isViewLoaded == false { return }
             
-            guard let item = object as? MenuItem, let key = keyPath,
+            guard let item = object as? SidebarItem, let key = keyPath,
                   let itemIndex = items.index(of: item) else { return }
             
-            if key == #keyPath(MenuItem.isEnabled) && item.isEnabled == false && selectedItem == item {
+            if key == #keyPath(SidebarItem.isEnabled) && item.isEnabled == false && selectedItem == item {
                 selectedItem = nil
             }
             
-            if let menuCell = menuTableView?.cellForRow(at: IndexPath(row: itemIndex, section: 0)) as? MenuTableViewCell {
-                menuCell.update(for: item)
+            if let sidebarCell = sidebarTableView?.cellForRow(at: IndexPath(row: itemIndex, section: 0)) as? SidebarTableViewCell {
+                sidebarCell.update(for: item)
             }
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
@@ -125,7 +125,7 @@ open class MenuViewController: UIViewController {
 }
 
 /// View lifecycle
-extension MenuViewController {
+extension SidebarViewController {
     
     open override func loadView() {
         let view = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 320.0, height: 480.0))
@@ -158,27 +158,27 @@ extension MenuViewController {
         sourceTableView.register(SourceTableViewCell.self)
         view.addSubview(sourceTableView)
         
-        let menuTableView = UITableView(frame: tableFrame, style: .plain)
-        menuTableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        menuTableView.backgroundView   = sidebarBackground
-        menuTableView.dataSource = self
-        menuTableView.delegate   = self
-        menuTableView.separatorStyle = .none
-        menuTableView.estimatedRowHeight = 50.0
-        menuTableView.indicatorStyle = .white
-        menuTableView.register(MenuTableViewCell.self)
-        view.addSubview(menuTableView)
+        let sidebarTableView = UITableView(frame: tableFrame, style: .plain)
+        sidebarTableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        sidebarTableView.backgroundView   = sidebarBackground
+        sidebarTableView.dataSource = self
+        sidebarTableView.delegate   = self
+        sidebarTableView.separatorStyle = .none
+        sidebarTableView.estimatedRowHeight = 50.0
+        sidebarTableView.indicatorStyle = .white
+        sidebarTableView.register(SidebarTableViewCell.self)
+        view.addSubview(sidebarTableView)
         
         self.view             = view
         self.sourceTableView  = sourceTableView
-        self.menuTableView    = menuTableView
+        self.sidebarTableView    = sidebarTableView
         
         sourceInsetManager  = ScrollViewInsetManager(scrollView: sourceTableView)
-        menuInsetManager    = ScrollViewInsetManager(scrollView: menuTableView)
+        sidebarInsetManager    = ScrollViewInsetManager(scrollView: sidebarTableView)
         
         /* We apply these layout margins after all property setting is done because for some reason
            this causes a reload, which will crash if it is not from a valid set table view. */
-        menuTableView.layoutMargins = UIEdgeInsets(top: 0.0, left: 24.0, bottom: 0.0, right: 24.0)
+        sidebarTableView.layoutMargins = UIEdgeInsets(top: 0.0, left: 24.0, bottom: 0.0, right: 24.0)
     }
     
     open override func viewDidLayoutSubviews() {
@@ -196,7 +196,7 @@ extension MenuViewController {
                 sourceTableView.frame.origin.x = isRightToLeft ? viewBounds.maxX - 64.0 : 0.0
             }
             
-            if let tableView = self.menuTableView {
+            if let tableView = self.sidebarTableView {
                 var tableViewFrame      = tableView.frame
                 let insetWidth: CGFloat = hasNoSources ? 0.0 : 64.0
                 
@@ -209,8 +209,8 @@ extension MenuViewController {
         let contentInsets = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)
         sourceInsetManager?.standardContentInset    = contentInsets
         sourceInsetManager?.standardIndicatorInset  = contentInsets
-        menuInsetManager?.standardContentInset   = contentInsets
-        menuInsetManager?.standardIndicatorInset = contentInsets
+        sidebarInsetManager?.standardContentInset   = contentInsets
+        sidebarInsetManager?.standardIndicatorInset = contentInsets
     }
     
     open override func viewWillAppear(_ animated: Bool) {
@@ -223,7 +223,7 @@ extension MenuViewController {
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         sourceTableView?.flashScrollIndicators()
-        menuTableView?.flashScrollIndicators()
+        sidebarTableView?.flashScrollIndicators()
     }
     
 //    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -235,10 +235,10 @@ extension MenuViewController {
     
 }
 
-extension MenuViewController : UITableViewDataSource, UITableViewDelegate {
+extension SidebarViewController : UITableViewDataSource, UITableViewDelegate {
     
     open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if tableView == menuTableView {
+        if tableView == sidebarTableView {
             return items.count
         } else if tableView == sourceTableView {
             return sourceItems.count
@@ -247,8 +247,8 @@ extension MenuViewController : UITableViewDataSource, UITableViewDelegate {
     }
     
     open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if tableView == menuTableView {
-            let cell = tableView.dequeueReusableCell(of: MenuTableViewCell.self, for: indexPath)
+        if tableView == sidebarTableView {
+            let cell = tableView.dequeueReusableCell(of: SidebarTableViewCell.self, for: indexPath)
             cell.update(for: items[indexPath.row])
             return cell
         } else if tableView == sourceTableView {
@@ -260,7 +260,7 @@ extension MenuViewController : UITableViewDataSource, UITableViewDelegate {
     }
     
     public func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-        if tableView == menuTableView {
+        if tableView == sidebarTableView {
             return items[indexPath.row].isEnabled
         } else if tableView == sourceTableView {
             return sourceItems[indexPath.row].isEnabled
@@ -269,23 +269,23 @@ extension MenuViewController : UITableViewDataSource, UITableViewDelegate {
     }
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if tableView == menuTableView {
+        if tableView == sidebarTableView {
             let item = items[indexPath.row]
             if selectedItem == item { return }
             
             selectedItem = item
-            delegate?.menuViewController(self, didSelectItem: item)
+            delegate?.sidebarViewController(self, didSelectItem: item)
         } else if tableView == sourceTableView {
             if indexPath.row == selectedSourceIndex { return }
             
             selectedSourceIndex = indexPath.row
-            //delegate?.menuViewController(self, didSelectSourceAt: indexPath.row)
+            delegate?.sidebarViewController(self, didSelectSourceAt: indexPath.row)
         }
     }
     
 }
 
-extension MenuViewController {
+extension SidebarViewController {
     
     open override var preferredStatusBarStyle: UIStatusBarStyle {
         return Theme.current.statusBarStyle
@@ -293,7 +293,7 @@ extension MenuViewController {
     
 }
 
-extension MenuViewController {
+extension SidebarViewController {
     
     fileprivate func updateSourceSelection() {
         if let selectedIndex = selectedSourceIndex, selectedIndex < sourceItems.count, sourceItems[selectedIndex].isEnabled {
@@ -314,7 +314,7 @@ extension MenuViewController {
     }
     
     fileprivate func updateSelection() {
-        guard isViewLoaded, let tableView = menuTableView else { return }
+        guard isViewLoaded, let tableView = sidebarTableView else { return }
         
         if let selectedItem = self.selectedItem,
             let index = items.index(of: selectedItem) {
@@ -335,14 +335,17 @@ extension MenuViewController {
 ///
 /// Implement this protocol when you want to observe selection actions within
 /// a sidebar.
-public protocol MenuViewControllerDelegate : class {
+public protocol SidebarViewControllerDelegate : class {
     
     /// Indicates the sidebar has selected a new SidebarItem.
     ///
     /// - Parameters:
-    ///   - controller: The `MenuViewController` that has a new selection.
+    ///   - controller: The `SidebarViewController` that has a new selection.
     ///   - item:       The newly selected item.
-    func menuViewController(_ controller: MenuViewController, didSelectItem item: MenuItem)
+    func sidebarViewController(_ controller: SidebarViewController, didSelectItem item: SidebarItem)
+    
+    
+    func sidebarViewController(_ controller: SidebarViewController, didSelectSourceAt index: Int)
     
 }
 
