@@ -1,0 +1,34 @@
+{
+  "name": "MPOLKit",
+  "version": "0.1.0",
+  "summary": "A short description of MPOLKit.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/val@gridstone.com.au/MPOLKit",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "val@gridstone.com.au": "val@gridstone.com.au"
+  },
+  "source": {
+    "git": "https://github.com/val@gridstone.com.au/MPOLKit.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "10.0"
+  },
+  "source_files": "MPOLKit/Classes/**/*",
+  "resource_bundles": {
+    "MPOLKit": [
+      "MPOLKit/Assets/MPOL/*"
+    ]
+  },
+  "subspecs": [
+    {
+      "name": "FormKit",
+      "source_files": "MPOLKit/Classes/FormKit/**/*",
+      "resources": "MPOLKit/Assets/FormKit/*"
+    }
+  ]
+}

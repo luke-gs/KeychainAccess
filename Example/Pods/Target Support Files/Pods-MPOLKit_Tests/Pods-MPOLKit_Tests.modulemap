@@ -1,0 +1,6 @@
+framework module Pods_MPOLKit_Tests {
+  umbrella header "Pods-MPOLKit_Tests-umbrella.h"
+
+  export *
+  module * { export * }
+}
