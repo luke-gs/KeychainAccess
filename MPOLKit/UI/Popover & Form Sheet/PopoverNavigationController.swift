@@ -21,7 +21,7 @@ import UIKit
 open class PopoverNavigationController: UINavigationController, PopoverViewController {
     
     /// A boolean value indicating whether the navigation controller (and its children)
-    /// should be translayed with a transparent background.
+    /// should be displayed with a transparent background.
     open var wantsTransparentBackground: Bool = true {
         didSet { applyCurrentTheme() }
     }
@@ -35,7 +35,7 @@ open class PopoverNavigationController: UINavigationController, PopoverViewContr
     ///   the transitioning delegate by default, allowing a `PopoverFormSheetPresentationController`
     ///   to be used. You can alternately set another transition delegate and take over management of
     ///   the custom presentation.
-    /// - When set to `.popover`, the navigation controlle becomes the popover presentation
+    /// - When set to `.popover`, the navigation controller becomes the popover presentation
     ///   controller's delegate by default.
     open override var modalPresentationStyle: UIModalPresentationStyle {
         didSet {
