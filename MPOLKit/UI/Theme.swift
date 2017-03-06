@@ -200,13 +200,19 @@ public struct ThemeColorType: RawRepresentable, Equatable, Hashable {
         return rawValue.hashValue
     }
     
+    // Tint
     public static let Tint              = ThemeColorType(rawValue: "tint")
     public static let NavigationBarTint = ThemeColorType(rawValue: "navigationBarTint")
     
+    // Text
     public static let PrimaryText       = ThemeColorType(rawValue: "primaryText")
     public static let SecondaryText     = ThemeColorType(rawValue: "secondaryText")
+    public static let PlaceholderText   = ThemeColorType(rawValue: "placeholderText")
     
+    // System
+    public static let Background        = ThemeColorType(rawValue: "background")
     public static let Separator         = ThemeColorType(rawValue: "separator")
+    public static let CellSelection     = ThemeColorType(rawValue: "cellSelection")
 }
 
 public func ==(lhs: ThemeColorType, rhs: ThemeColorType) -> Bool {

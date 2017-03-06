@@ -32,6 +32,12 @@ class PushableTestViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let testVC = TestCollectionViewController()
+        
+        let popoverNavController = PopoverNavigationController(rootViewController: testVC)
+        popoverNavController.modalPresentationStyle = .formSheet
+        present(popoverNavController, animated: true)
+        
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
