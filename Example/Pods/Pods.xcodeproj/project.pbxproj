@@ -12,7 +12,6 @@
 		024FF23F82B8D8AA2896EE6828E40FBD /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E3A859D48EEB26ACE6D8B00CECA3618 /* Theme.swift */; };
 		058166B6798583DA5A6FFF7A28C05055 /* CollectionViewFormMPOLHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F8F89ECCF923027B598AA0753262E9 /* CollectionViewFormMPOLHeaderView.swift */; };
 		0AEB074389A4EC7ACC78A26592ECAC2E /* CoreGraphics+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B187F3ECC2D38BF61A4DD1BF50BF35 /* CoreGraphics+Convenience.swift */; };
-		0DDE4328BD163A84C228145847865A82 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 508B071A4A2C123535A592180DDDA95E /* Assets.xcassets */; };
 		10E39A86A1983A760E9F06B14D48CFD1 /* CollectionViewFormLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DC5D5DCC0E491CCDA653CA708E47AFF /* CollectionViewFormLayout.swift */; };
 		187DB76E28BE561BD498FEE0E66695CA /* Pods-MPOLKit_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 40ADF8E9393CFB916FCD4AA1D9C51B57 /* Pods-MPOLKit_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		189CEBA4246158AB4ADD369D62725685 /* PopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D543393A53564D5A8CE98423AC2134A3 /* PopoverViewController.swift */; };
@@ -21,6 +20,7 @@
 		2A8A7C4917854F833AB78454D15DE8E3 /* Pods-MPOLKit_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0B60CC5ABA506D7661E3616C8AB424 /* Pods-MPOLKit_Tests-dummy.m */; };
 		2BE15E64A08A1DF8F922B6E340D3A8FA /* MPOLKit-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 48CAEB445119027B7B45C4B5F1EA33BD /* MPOLKit-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2C5DAD10356C689E8DBBC4050A6C3E09 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBB3DE36805AF21409EC968A9691732F /* Foundation.framework */; };
+		2CB401D764DC6F0AA558EE9B8297B146 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B80B7CF64503E7F5DB823211F9A29C9 /* Assets.xcassets */; };
 		2D45408058591A5A427F22C22DF5BC6B /* TableViewFormCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99C85CCFC817CA36DF71BBDF4D3CEDD /* TableViewFormCell.swift */; };
 		2DBF533EED790273B92931002CFAD662 /* PopoverNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBFE95F8438014ECFBC61C5F8C4E9976 /* PopoverNavigationController.swift */; };
 		3B0C425C426B5BF4B6A6222272FD9C4E /* CollectionViewFormMPOLHeaderAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD26EB3CB41AF5C92EC9DA3D2FF99AF1 /* CollectionViewFormMPOLHeaderAttributes.swift */; };
@@ -69,6 +69,7 @@
 		CD08A5C9DB40595FB8624F2042405B44 /* CollectionViewFormMPOLLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34A464CBA98E7D073AAA52D38D42E12 /* CollectionViewFormMPOLLayout.swift */; };
 		CD2507ABD06AE60F2852E4C423A832A7 /* Pods-MPOLKit_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 143D3D33B5517634F7C19F875857489C /* Pods-MPOLKit_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CDB8ECD868D78A38CADE62D0CAA1133F /* FormTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE3820B53778587F2D81BBE75BA47AA /* FormTextField.swift */; };
+		D659ED66A649F090BC3B5AE27D0AA6AC /* ThemePack.json in Resources */ = {isa = PBXBuildFile; fileRef = 7D63D1467370FD0338EED745B28231B1 /* ThemePack.json */; };
 		D74A30D31364108B0243023DB071DB08 /* NSLayoutConstraint+Conveniences.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7BE1D0A9E5B97A68BB5068D11038CE /* NSLayoutConstraint+Conveniences.swift */; };
 		DDCA77FB33D521005289DE463812784F /* EntityCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F332FFD1B36C9A14AEA14926DCAF9427 /* EntityCollectionViewCell.swift */; };
 		EBC5637A3B3B6005D7DCFA6A0D5D766F /* TableViewFormTextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916CE97CD4759C82850BBB95B8B0EDE8 /* TableViewFormTextFieldCell.swift */; };
@@ -102,6 +103,7 @@
 		0CE3820B53778587F2D81BBE75BA47AA /* FormTextField.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FormTextField.swift; sourceTree = "<group>"; };
 		13C627A89332A22E5171DDC5BD7EC07D /* Pods-MPOLKit_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MPOLKit_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		143D3D33B5517634F7C19F875857489C /* Pods-MPOLKit_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-MPOLKit_Example-umbrella.h"; sourceTree = "<group>"; };
+		1B80B7CF64503E7F5DB823211F9A29C9 /* Assets.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1BD0C5A980B040E891A5A861D21C90A6 /* BadgeView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
 		1E9876E6B17C056709A6EC5642B84496 /* MPOLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = MPOLKit.framework; path = MPOLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		246564EC5A79488E0A9E4AA59D901125 /* Pods-MPOLKit_Tests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-MPOLKit_Tests-frameworks.sh"; sourceTree = "<group>"; };
@@ -121,7 +123,6 @@
 		4B8C8BFE372C5CC39D743F9B7604FAA5 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4C1ABD852B3A6B42020F9E9966537544 /* MPOLKit.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = MPOLKit.bundle; path = MPOLKit.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DC1685570CA8D9EB4530404A0E8A9F3 /* MPOLKit.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = MPOLKit.xcconfig; sourceTree = "<group>"; };
-		508B071A4A2C123535A592180DDDA95E /* Assets.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		556A56F7D4AE6E0C489985840C2036AF /* SidebarItem.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SidebarItem.swift; sourceTree = "<group>"; };
 		5DC5D5DCC0E491CCDA653CA708E47AFF /* CollectionViewFormLayout.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CollectionViewFormLayout.swift; sourceTree = "<group>"; };
 		61E7868CC3C0126C8A9C03AFCFF55303 /* CollectionViewFormTextFieldCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CollectionViewFormTextFieldCell.swift; sourceTree = "<group>"; };
@@ -135,6 +136,7 @@
 		6FAFA98F5ABBC14704EE264098485C3D /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		754A5B999869533D9393B2B19B408191 /* TableViewFormTextViewCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TableViewFormTextViewCell.swift; sourceTree = "<group>"; };
 		76927FB4728D2C2EF3F7072F89CDE546 /* Pods-MPOLKit_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-MPOLKit_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
+		7D63D1467370FD0338EED745B28231B1 /* ThemePack.json */ = {isa = PBXFileReference; includeInIndex = 1; path = ThemePack.json; sourceTree = "<group>"; };
 		83804F763F20014CB6CFCBB05C37A1F5 /* Pods-MPOLKit_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-MPOLKit_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		84398F2FFE66A138B7F9685E7011C9F1 /* BorderedImageView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BorderedImageView.swift; sourceTree = "<group>"; };
 		8FEC905BF087382941D5DF000AE3A497 /* ScrollViewInsetManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ScrollViewInsetManager.swift; sourceTree = "<group>"; };
@@ -402,10 +404,20 @@
 			path = "Table View Cells";
 			sourceTree = "<group>";
 		};
+		69AC98555E4991817B06ACE1663B72CE /* MPOL */ = {
+			isa = PBXGroup;
+			children = (
+				1B80B7CF64503E7F5DB823211F9A29C9 /* Assets.xcassets */,
+				7D63D1467370FD0338EED745B28231B1 /* ThemePack.json */,
+			);
+			name = MPOL;
+			path = MPOL;
+			sourceTree = "<group>";
+		};
 		6B5D6DBC9EFABD3D077A63AE98843493 /* MPOLKit */ = {
 			isa = PBXGroup;
 			children = (
-				D4E5087DC6E61E557E9A465DE500055C /* Assets */,
+				F7DA6B454F6B7496DA2519FCCF305420 /* Assets */,
 			);
 			name = MPOLKit;
 			path = MPOLKit;
@@ -616,15 +628,6 @@
 			path = Classes;
 			sourceTree = "<group>";
 		};
-		CDCEC0017F51024BEDEFCF67FF89A6DE /* MPOL */ = {
-			isa = PBXGroup;
-			children = (
-				508B071A4A2C123535A592180DDDA95E /* Assets.xcassets */,
-			);
-			name = MPOL;
-			path = MPOL;
-			sourceTree = "<group>";
-		};
 		D214F0B09797E41BF60DFACA120706CC /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -632,15 +635,6 @@
 			);
 			name = Cells;
 			path = Cells;
-			sourceTree = "<group>";
-		};
-		D4E5087DC6E61E557E9A465DE500055C /* Assets */ = {
-			isa = PBXGroup;
-			children = (
-				CDCEC0017F51024BEDEFCF67FF89A6DE /* MPOL */,
-			);
-			name = Assets;
-			path = Assets;
 			sourceTree = "<group>";
 		};
 		D727E95FAD7953DAC7534C61C0FD2063 /* Protocols */ = {
@@ -706,6 +700,15 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		F7DA6B454F6B7496DA2519FCCF305420 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				69AC98555E4991817B06ACE1663B72CE /* MPOL */,
+			);
+			name = Assets;
+			path = Assets;
+			sourceTree = "<group>";
+		};
 		FAFC4464034ECA4B1980F1ED2BCE7B1E /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -750,7 +753,7 @@
 			buildPhases = (
 				50D538A2A946AE0E847445DE03EEF72F /* Sources */,
 				D96D4C44C440F848B8540E7670208247 /* Frameworks */,
-				8CDB661EE57C74DCCDFC14C9EB2F1322 /* Resources */,
+				696CC337677AE7FE64866AC622A645D0 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -854,11 +857,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8CDB661EE57C74DCCDFC14C9EB2F1322 /* Resources */ = {
+		696CC337677AE7FE64866AC622A645D0 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0DDE4328BD163A84C228145847865A82 /* Assets.xcassets in Resources */,
+				2CB401D764DC6F0AA558EE9B8297B146 /* Assets.xcassets in Resources */,
+				D659ED66A649F090BC3B5AE27D0AA6AC /* ThemePack.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
