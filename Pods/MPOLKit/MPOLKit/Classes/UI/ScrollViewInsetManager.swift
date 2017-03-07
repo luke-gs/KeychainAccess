@@ -1,0 +1,180 @@
+//
+//  ScrollViewInsetManager.swift
+//  MPOLKit
+//
+//  Created by Rod Brown on 12/02/2017.
+//  Copyright © 2017 Gridstone. All rights reserved.
+//
+
+import UIKit
+
+/// The `ScrollViewInsetManager` manages insets on a scroll view, adding extra scrolling room
+/// when a keyboard is present. Users update the standard insets when required, and the manager
+/// handles adjusting the content to handle the keyboard where approrpriate.
+///
+/// `UIScrollView` does not adjust itself to compensate for the location of a keyboard on the 
+/// screen.  When a keyboard appears, best practice on iOS is to adjust the insets of the scroll
+/// view to allow scrolling beyond the content area. This allows the scroll view to appear blurred
+/// behind the keyboard in it's standard position, but gives it the ability to behave as if there
+/// is extra content and avoid "rubber banding" effects until it is beyond that portion of the
+/// screen.
+///
+/// `ScrollViewInsetManager` is designed to handle keyboard actions that require updating in
+/// unusual ways. This includes navigation actions, where the scroll view updates should be
+/// performed after the keyboard action finishes, and rotation events, where updates should
+/// wait until all rotations have completed.
+public final class ScrollViewInsetManager: NSObject {
+    
+    
+    /// The scroll view the manager is updating.
+    public let scrollView: UIScrollView
+    
+    
+    /// The standard content insets for the scroll view.
+    ///
+    /// This is the minimum inset that the scroll view. When the keyboard appears above the scroll
+    /// view, the insets are adjusted to allow the scroll view to scroll up, and allow access to
+    /// the content.
+    ///
+    /// Adjusting this property automatically adjusts the scroll view insets appropriately.
+    public var standardContentInset: UIEdgeInsets {
+        didSet {
+            if delayResetUntilComplete == false {
+                updateInsets()
+            }
+        }
+    }
+    
+    
+    /// The standard scroll indicator insets for the scroll view.
+    ///
+    /// This is the minimum inset that the scroll view. When the keyboard appears above the scroll
+    /// view, the insets are adjusted to allow the scroll view to scroll up, and allow access to
+    /// the content.
+    ///
+    /// Adjusting this property automatically adjusts the scroll indicator insets appropriately.
+    public var standardIndicatorInset: UIEdgeInsets {
+        didSet {
+            if delayResetUntilComplete == false {
+                updateInsets()
+            }
+        }
+    }
+    
+    
+    /// The keyboard frame in the screen bounds. We hold this value as a point of reference
+    /// as to allow adjusting the insets at any time.
+    fileprivate var keyboardFrameInScreen: CGRect? = nil
+    
+    
+    /// A boolean value indicating that we updating the scroll view is being delayed until
+    /// the keyboard dismisses.
+    fileprivate var delayResetUntilComplete = false
+    
+    
+    /// Initializes the manager with it's scroll view.
+    public init(scrollView: UIScrollView) {
+        self.scrollView = scrollView
+        
+        standardContentInset   = scrollView.contentInset
+        standardIndicatorInset = scrollView.scrollIndicatorInsets
+        
+        super.init()
+        
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(keyboardDidShow(_:)),  name: .UIKeyboardDidShow,  object: nil)
+        notificationCenter.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: .UIKeyboardWillHide, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(keyboardDidHide(_:)),  name: .UIKeyboardDidHide,  object: nil)
+    }
+    
+    
+    /// Updates the insets for the keyboard manually.
+    /// 
+    /// You should not need to call this method directly, except when the view has been
+    /// moved while the keyboard is onscreen. This updates the insets to account for the
+    /// keyboard's position in relation to the scroll view's current position.
+    public func updateInsets() {
+        if let keyboardFrameInScreen = keyboardFrameInScreen {
+            // Keyboard exists.
+            let keyboardFrame = scrollView.convert(keyboardFrameInScreen, from: nil)
+            
+            /// adjust insets if required to account for keyboard location.
+            var contentInset    = standardContentInset
+            var indicatorInset = standardIndicatorInset
+            
+            // Get scroll view's frame, and keyboard frame in the same coordinate space
+            let scrollViewBounds = scrollView.bounds
+            
+            // Work out how far inset the is (if there is one), and try to inset. Don't inset less than the initial insets.
+            let bottomInset       = max((scrollViewBounds.maxY - keyboardFrame.minY), 0.0)
+            contentInset.bottom   = max(bottomInset, contentInset.bottom)
+            indicatorInset.bottom = max(bottomInset, indicatorInset.bottom)
+            
+            // Apply
+            scrollView.contentInset          = contentInset
+            scrollView.scrollIndicatorInsets = indicatorInset
+        } else {
+            scrollView.contentInset          = standardContentInset
+            scrollView.scrollIndicatorInsets = standardIndicatorInset
+        }
+    }
+}
+
+
+/// Notifications
+fileprivate extension ScrollViewInsetManager {
+    
+    @objc func keyboardWillShow(_ notification: Notification) {
+        // Cancel any delayed content inset updates
+        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(resetContentInsets), object: nil)
+    }
+    
+    @objc func keyboardDidShow(_ notification: Notification) {
+        keyboardFrameInScreen = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
+        updateInsets()
+    }
+    
+    @objc func keyboardWillHide(_ notification: Notification) {
+        guard let userInfo = notification.userInfo else { return }
+        
+        // If the keyboard is not going to the bottom of the screen in it's hide, it will probably be part of a navigation slide. Delay inset reset.
+        if let keyboardFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
+            keyboardFrame.minY < UIScreen.main.bounds.maxY {
+            delayResetUntilComplete = true
+            return
+        }
+        
+        delayResetUntilComplete = false
+        
+        // If the keyboard animation has zero duration, it's probably due to a rotation animation and it's not going to dismiss!
+        // Delay inset reset, and let appearance cancel it.
+        if (userInfo[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue.isZero ?? true {
+            let resetSelector = #selector(resetContentInsets)
+            NSObject.cancelPreviousPerformRequests(withTarget: self, selector: resetSelector, object: nil)
+            perform(resetSelector, with: nil, afterDelay: 1.5, inModes: [.commonModes])
+            return
+        }
+        
+        resetContentInsets()
+    }
+    
+    @objc func keyboardDidHide(_ notification: Notification) {
+        if delayResetUntilComplete {
+            delayResetUntilComplete = false
+            resetContentInsets()
+        }
+    }
+    
+}
+
+
+/// Private methods
+fileprivate extension ScrollViewInsetManager {
+    
+    @objc func resetContentInsets() {
+        keyboardFrameInScreen = nil
+        updateInsets()
+    }
+    
+}
