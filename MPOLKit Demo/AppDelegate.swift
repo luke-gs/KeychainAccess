@@ -46,7 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         sidebarDetail2VC.sidebarItem.selectedImage = #imageLiteral(resourceName: "SidebarAlertFilled")
         
         let sidebarSplitViewController = SidebarSplitViewController(detailViewControllers: [sidebarDetail1VC, sidebarDetail2VC])
-        sidebarSplitViewController.sidebarViewController.sourceItems = [SidebarSourceItem(color: .red, title: "CRIMTRAC", count: 8), SidebarSourceItem(color: #colorLiteral(red: 0, green: 0.479532063, blue: 0.9950867295, alpha: 1), title: "DS2", count: 3), SidebarSourceItem(color: .red, title: "DS3", count: 1, isEnabled: false)]
+        sidebarSplitViewController.sidebarViewController.sourceItems = [SourceItem(color: .red, title: "CRIMTRAC", count: 8), SourceItem(color: #colorLiteral(red: 0, green: 0.479532063, blue: 0.9950867295, alpha: 1), title: "DS2", count: 3), SourceItem(color: .red, title: "DS3", count: 1, isEnabled: false)]
         sidebarSplitViewController.sidebarViewController.selectedSourceIndex = 0
         sidebarSplitViewController.title = "Sidebar SVC"
         

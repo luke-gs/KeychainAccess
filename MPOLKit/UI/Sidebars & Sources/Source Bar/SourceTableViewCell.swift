@@ -67,7 +67,7 @@ open class SourceTableViewCell: UITableViewCell {
         ])
     }
     
-    func update(for item: SidebarSourceItem) {
+    open func update(for item: SourceItem) {
         titleLabel.text = item.title
         
         if item.isEnabled == isEnabled && item.count == iconView.count && item.color == iconView.color {

@@ -103,6 +103,7 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
             titleDetailSeparationConstraint
         ])
         
+        textView.addObserver(self, forKeyPath: #keyPath(UITextView.font),          context: &kvoContext)
         textView.addObserver(self, forKeyPath: #keyPath(UITextView.contentSize),   context: &kvoContext)
         textView.addObserver(self, forKeyPath: #keyPath(UITextView.contentOffset), context: &kvoContext)
         titleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.text),           context: &kvoContext)
@@ -110,6 +111,7 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
     }
     
     deinit {
+        textView.removeObserver(self, forKeyPath: #keyPath(UITextView.font),          context: &kvoContext)
         textView.removeObserver(self, forKeyPath: #keyPath(UITextView.contentSize),   context: &kvoContext)
         textView.removeObserver(self, forKeyPath: #keyPath(UITextView.contentOffset), context: &kvoContext)
         titleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.text),           context: &kvoContext)
@@ -136,6 +138,8 @@ extension CollectionViewFormTextViewCell {
                         if textView.contentOffset.y !=~ 0.0 && textView.contentSize.height <= textView.bounds.height {
                             textView.contentOffset.y = 0.0
                         }
+                    case #keyPath(UITextView.font):
+                        updateTextViewMinimumConstraint()
                     default:
                         break
                     }
@@ -150,6 +154,11 @@ extension CollectionViewFormTextViewCell {
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
+    }
+    
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        updateTextViewMinimumConstraint()
     }
     
     internal override func applyStandardFonts() {
@@ -168,6 +177,7 @@ extension CollectionViewFormTextViewCell {
         textView.adjustsFontForContentSizeCategory         = true
         textView.placeholderLabel.adjustsFontForContentSizeCategory = true
         
+        updateTextViewMinimumConstraint()
     }
     
 }
@@ -193,6 +203,11 @@ fileprivate extension CollectionViewFormTextViewCell {
         } else {
             performUpdate()
         }
+    }
+    
+    fileprivate func updateTextViewMinimumConstraint() {
+        let textViewFont = textView.font
+        textViewMinimumHeightConstraint?.constant = ceil((textViewFont?.lineHeight ?? 17.0) + (textViewFont?.leading ?? 1.0))
     }
     
 }

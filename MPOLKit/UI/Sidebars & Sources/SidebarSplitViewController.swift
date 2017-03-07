@@ -1,6 +1,6 @@
 //
 //  SidebarSplitViewController.swift
-//  Test
+//  MPOLKit
 //
 //  Created by Rod Brown on 10/2/17.
 //  Copyright © 2017 Gridstone. All rights reserved.
@@ -9,16 +9,15 @@
 import UIKit
 
 
-/// The SidebarSplitViewController represents a standard split view controller
+/// The `SidebarSplitViewController` represents a standard split view controller
 /// with a standard MPOL sidebar configuration.
 ///
-/// Users can either initialize with detail view controllers, and configure the sidebar directly
-/// as required, or they can subclass as a point of abstraction between the sidebar and it's
-/// detail.
+/// You can either initialize with detail view controllers, and configure the sidebar directly
+/// as required, or subclass as a point of abstraction between the sidebar and it's detail.
 open class SidebarSplitViewController: PushableSplitViewController {
     
     
-    /// The sidebar controller for the split view controller.
+    /// The sidebar view controller for the split view controller.
     public let sidebarViewController: SidebarViewController = SidebarViewController(nibName: nil, bundle: nil)
     
     
@@ -32,7 +31,7 @@ open class SidebarSplitViewController: PushableSplitViewController {
     /// Otherwise, it is wrapped in a UINavigationController for presentation.
     public var selectedViewController: UIViewController? {
         didSet {
-            sidebarViewController.selectedSidebarItem = selectedViewController?.sidebarItem
+            sidebarViewController.selectedItem = selectedViewController?.sidebarItem
             if let selectedViewController = selectedViewController {
                 let selectedVCNavItem = (selectedViewController as? UINavigationController)?.viewControllers.first?.navigationItem ?? selectedViewController.navigationItem
                 selectedVCNavItem.leftItemsSupplementBackButton = true
@@ -62,17 +61,17 @@ open class SidebarSplitViewController: PushableSplitViewController {
         super.init(viewControllers: viewControllers)
         
         sidebarViewController.delegate = self
-        sidebarViewController.sidebarItems = detailViewControllers.map { $0.sidebarItem }
+        sidebarViewController.items = detailViewControllers.map { $0.sidebarItem }
         
         let embeddedSplitViewController = self.embeddedSplitViewController
         embeddedSplitViewController.minimumPrimaryColumnWidth = 272.0
         embeddedSplitViewController.preferredPrimaryColumnWidthFraction = 272.0 / 1024.0
         
-        var selectedSidebarItem: SidebarItem?
+        var selectedItem: SidebarItem?
         if embeddedSplitViewController.isCollapsed == false {
-            selectedSidebarItem = selectedViewController?.sidebarItem
+            selectedItem = selectedViewController?.sidebarItem
         }
-        sidebarViewController.selectedSidebarItem = selectedSidebarItem
+        sidebarViewController.selectedItem = selectedItem
     }
     
     
@@ -91,28 +90,27 @@ open class SidebarSplitViewController: PushableSplitViewController {
 /// SidebarViewControllerDelegate methods
 extension SidebarSplitViewController : SidebarViewControllerDelegate {
     
+    ///
+    /// - Parameters:
+    ///   - controller: The `SidebarViewController` that has a new selection.
+    ///   - item:       The newly selected item.
+    open func sidebarViewController(_ controller: SidebarViewController, didSelectItem item: SidebarItem) {
+    }
+
+    
     /// Handles when the sidebar selects a new source. By default, this does noting.
     ///
     /// - Parameters:
     ///   - controller: The `SidebarViewController` where the item changed.
-    ///   - item:       The sidebar source index selected.
+    ///   - index:      The sidebar source index selected.
     open func sidebarViewController(_ controller: SidebarViewController, didSelectSourceAt index: Int) {
-    }
-    
-    /// Handles when the sidebar selects a new item. By default, this pushes on the detail view controller
-    /// for that item.
-    ///
-    /// - Parameters:
-    ///   - controller: The `SidebarViewController` where the item changed.
-    ///   - item:       The sidebar item selected.
-    open func sidebarViewController(_ controller: SidebarViewController, didSelectItem item: SidebarItem) {
-        selectedViewController = detailViewControllers.first { $0.sidebarItem == item }
     }
     
 }
 
 
-/// UISplitViewControllerDelegate overrides
+// MARK: - UISplitViewControllerDelegate methods
+/// UISplitViewControllerDelegate methods
 extension SidebarSplitViewController {
     
     open func splitViewController(_ splitViewController: UISplitViewController, showDetail vc: UIViewController, sender: Any?) -> Bool {
@@ -121,15 +119,15 @@ extension SidebarSplitViewController {
     }
     
     open func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
-        sidebarViewController.selectedSidebarItem = nil
-        sidebarViewController.clearsSidebarSelectionOnViewWillAppear = true
+        sidebarViewController.selectedItem = nil
+        sidebarViewController.clearsSelectionOnViewWillAppear = true
         perform(#selector(collapsedStateDidChange), with: nil, afterDelay: 0.0, inModes: [.commonModes])
         return collapseToSidebar
     }
     
     open func splitViewController(_ splitViewController: UISplitViewController, separateSecondaryFrom primaryViewController: UIViewController) -> UIViewController? {
-        sidebarViewController.selectedSidebarItem = selectedViewController?.sidebarItem
-        sidebarViewController.clearsSidebarSelectionOnViewWillAppear = false
+        sidebarViewController.selectedItem = selectedViewController?.sidebarItem
+        sidebarViewController.clearsSelectionOnViewWillAppear = false
         perform(#selector(collapsedStateDidChange), with: nil, afterDelay: 0.0, inModes: [.commonModes])
         return nil
     }

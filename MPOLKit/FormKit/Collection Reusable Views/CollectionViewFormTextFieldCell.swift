@@ -95,25 +95,46 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
 
 extension CollectionViewFormTextFieldCell {
     
-    public class func minimumContentWidth(forTitle title: String?, enteredText: String?, placeholder: String?, compatibleWith traitCollection: UITraitCollection, titleFont: UIFont? = nil, textFieldFont: UIFont? = nil) -> CGFloat {
-        let titleTextFont   = titleFont     ?? CollectionViewFormDetailCell.font(withEmphasis: false, compatibleWith: traitCollection)
-        let enteredTextFont = textFieldFont ?? CollectionViewFormDetailCell.font(withEmphasis: true,  compatibleWith: traitCollection)
+    public class func minimumContentWidth(forTitle title: String?, enteredText: String?, placeholder: String?, compatibleWith traitCollection: UITraitCollection, titleFont: UIFont? = nil, textFieldFont: UIFont? = nil, placeholderFont: UIFont? = nil, singleLineTitle: Bool = true) -> CGFloat {
+        let titleTextFont   = titleFont       ?? CollectionViewFormDetailCell.font(withEmphasis: false, compatibleWith: traitCollection)
+        let enteredTextFont = textFieldFont   ?? CollectionViewFormDetailCell.font(withEmphasis: true,  compatibleWith: traitCollection)
+        let placeholderFont = placeholderFont ?? UIFont.preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
         
         var displayScale = traitCollection.displayScale
         if displayScale ==~ 0.0 {
             displayScale = UIScreen.main.scale
         }
         
-        let titleWidth = (title as NSString?)?.boundingRect(with: .max, attributes: [NSFontAttributeName: titleTextFont], context: nil).width.ceiled(toScale: displayScale) ?? 0.0
-        let textWidth  = (enteredText as NSString?)?.boundingRect(with: .max, attributes: [NSFontAttributeName: enteredTextFont], context: nil).width.ceiled(toScale: displayScale) ?? 0.0
-        let placeWidth = (placeholder as NSString?)?.boundingRect(with: .max, attributes: [NSFontAttributeName: enteredTextFont], context: nil).width.ceiled(toScale: displayScale) ?? 0.0
+        // title width can be shortcutted if we're doing multiple lines - we could break the text anywhere. Give decent minimal room.
+        let titleWidth = singleLineTitle ? (title as NSString?)?.boundingRect(with: .max, attributes: [NSFontAttributeName: titleTextFont], context: nil).width.ceiled(toScale: displayScale) ?? 0.0 : 20.0
+        
+        // Allow additional text rectangle for the clear icon.
+        let textWidth  = ((enteredText as NSString?)?.boundingRect(with: .max, attributes: [NSFontAttributeName: enteredTextFont], context: nil).width.ceiled(toScale: displayScale) ?? 0.0) + 10.0
+        let placeWidth = ((placeholder as NSString?)?.boundingRect(with: .max, attributes: [NSFontAttributeName: placeholderFont], context: nil).width.ceiled(toScale: displayScale) ?? 0.0) + 10.0
         
         return max(titleWidth, textWidth, placeWidth)
     }
     
-    public class func minimumContentHeight(forTitle title: String?, enteredText: String?, placeholder: String?, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection, titleFont: UIFont? = nil, textFieldFont: UIFont? = nil, placeholderFont: UIFont? = nil) -> CGFloat {
+    public class func minimumContentHeight(forTitle title: String?, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection, titleFont: UIFont? = nil, textFieldFont: UIFont? = nil, placeholderFont: UIFont? = nil, singleLineTitle: Bool = true) -> CGFloat {
         
-        return 39
+        var titleHeight: CGFloat
+        if title?.isEmpty ?? true {
+            titleHeight = 0.0
+        } else {
+            var displayScale = traitCollection.displayScale
+            if displayScale ==~ 0.0 {
+                displayScale = UIScreen.main.scale
+            }
+            
+            let titleTextFont = titleFont ?? CollectionViewFormDetailCell.font(withEmphasis: false, compatibleWith: traitCollection)
+            titleHeight = singleLineTitle ? titleTextFont.lineHeight : (title as NSString?)?.boundingRect(with: CGSize(width: width, height: .greatestFiniteMagnitude), attributes: [NSFontAttributeName: titleTextFont], context: nil).width.ceiled(toScale: displayScale) ?? 0.0
+            titleHeight += CellTitleDetailSeparation
+        }
+        
+        let enteredTextFont = textFieldFont   ?? CollectionViewFormDetailCell.font(withEmphasis: true, compatibleWith: traitCollection)
+        let placeholderFont = placeholderFont ?? UIFont.preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
+        
+        return titleHeight + ceil(max(enteredTextFont.lineHeight, placeholderFont.lineHeight))
     }
     
 }

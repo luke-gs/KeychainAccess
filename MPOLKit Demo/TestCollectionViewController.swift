@@ -11,26 +11,12 @@ import MPOLKit
 
 private let reuseIdentifier = "Cell"
 
-class TestCollectionViewController: UICollectionViewController, CollectionViewDelegateMPOLLayout {
-
-    init() {
-        KeyboardNumberBar.isInstalled = true
-        
-        let layout = CollectionViewFormMPOLLayout()
-        layout.itemLayoutMargins = UIEdgeInsets(top: 16.0, left: 24.0, bottom: 16.0, right: 10.0)
-        layout.separatorStyle = .fullWidth
-        super.init(collectionViewLayout: layout)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+class TestCollectionViewController: FormCollectionViewController  {
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        collectionView?.backgroundColor = .white
-        collectionView?.register(CollectionViewFormTextViewCell.self)
+        collectionView?.register(CollectionViewFormTextFieldCell.self)
         collectionView?.register(CollectionViewFormMPOLHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
     }
     
@@ -39,9 +25,8 @@ class TestCollectionViewController: UICollectionViewController, CollectionViewDe
         collectionView?.collectionViewLayout.invalidateLayout()
     }
 
-
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 100
+        return 1
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -57,36 +42,40 @@ class TestCollectionViewController: UICollectionViewController, CollectionViewDe
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormTextViewCell.self, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormTextFieldCell.self, for: indexPath)
         
         cell.titleLabel.text =  "Test Title \(indexPath.item + 1)"
-        cell.textView.placeholderLabel.text = "Testing placeholder \(indexPath.item + 1)"
+        cell.textField.placeholder = "Testing placeholder \(indexPath.item + 1)"
         
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        dismiss(animated: true, completion: nil)
+    }
 
-    func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
+    override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
         return CollectionViewFormMPOLHeaderView.minimumHeight
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForFooterInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
+    override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForFooterInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
         return 0.0
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, insetForSection section: Int, givenSectionWidth width: CGFloat) -> UIEdgeInsets {
+    override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, insetForSection section: Int, givenSectionWidth width: CGFloat) -> UIEdgeInsets {
         return .zero
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, givenSectionWidth sectionWidth: CGFloat, edgeInsets: UIEdgeInsets) -> CGFloat {
+    override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, givenSectionWidth sectionWidth: CGFloat, edgeInsets: UIEdgeInsets) -> CGFloat {
         return sectionWidth
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
-        return CollectionViewFormTextViewCell.minimumContentHeight(withTitle: "Test Title \(indexPath.item + 1)", enteredText: "Testing text \(indexPath.item + 1)", placeholder: nil, inWidth: itemWidth, compatibleWith: traitCollection)
+    override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
+        return 60.0
     }
     
+    
 }
-
 
 extension UICollectionReusableView: DefaultReusable {
 }

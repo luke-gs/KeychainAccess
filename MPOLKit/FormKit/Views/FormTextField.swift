@@ -33,6 +33,10 @@ open class FormTextField: UITextField {
         didSet { if placeholderTextColor != oldValue { updatePlaceholder() } }
     }
     
+    fileprivate var placeholderText: String? {
+        didSet { if placeholderText != oldValue { updatePlaceholder() }}
+    }
+    
     fileprivate var _unitLabel: UILabel?
     
     fileprivate var valueInset: CGFloat = 0.0 {
@@ -64,7 +68,7 @@ extension FormTextField {
     
     open override var font: UIFont? {
         willSet {
-            if font != newValue && _unitLabel?.font == font {
+            if newValue != _unitLabel?.font {
                 _unitLabel?.font = newValue
                 textDidChange()
                 setNeedsLayout()
@@ -74,10 +78,22 @@ extension FormTextField {
     
     open override var textColor: UIColor? {
         didSet {
-            if oldValue == unitLabel.textColor {
-                _unitLabel?.textColor = textColor
+            if textColor != oldValue {
+                if _unitLabel?.textColor == oldValue {
+                    _unitLabel?.textColor = textColor
+                }
             }
         }
+    }
+    
+    open override var placeholder: String? {
+        get { return placeholderText }
+        set { placeholderText = newValue }
+    }
+    
+    open override var attributedPlaceholder: NSAttributedString? {
+        get { return super.attributedPlaceholder }
+        set { self.placeholderText = newValue?.string }
     }
     
     open override var bounds: CGRect {
@@ -136,10 +152,12 @@ extension FormTextField {
         super.traitCollectionDidChange(previousTraitCollection)
         
         if adjustsFontForContentSizeCategory,
+            traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory,
             let placeholderFontType = placeholderFont?.fontDescriptor.fontAttributes["NSCTFontUIUsageAttribute"] as? String {
             placeholderFont = .preferredFont(forTextStyle: UIFontTextStyle(rawValue: placeholderFontType), compatibleWith: traitCollection)
         }
     }
+    
 }
 
 
@@ -165,15 +183,11 @@ fileprivate extension FormTextField {
     }
     
     fileprivate func updatePlaceholder() {
-        let attributes = [NSFontAttributeName: self.placeholderFont ?? UIFont.systemFont(ofSize: 15.0), NSForegroundColorAttributeName: self.placeholderTextColor ?? .lightGray]
-        
-        if let attributedPlaceholder = self.attributedPlaceholder?.mutableCopy() as? NSMutableAttributedString {
-            attributedPlaceholder.setAttributes(attributes, range: NSRange(location: 0, length: attributedPlaceholder.length))
-            self.attributedPlaceholder = attributedPlaceholder
-        } else if let placeholder = self.placeholder, placeholder.isEmpty == false {
-            self.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: attributes)
+        if let placeholder = placeholderText, placeholder.isEmpty == false {
+            let attributes = [NSFontAttributeName: self.placeholderFont ?? UIFont.systemFont(ofSize: 15.0), NSForegroundColorAttributeName: self.placeholderTextColor ?? .lightGray]
+            super.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: attributes)
         } else {
-            self.attributedPlaceholder = nil
+            super.attributedPlaceholder = nil
         }
     }
     

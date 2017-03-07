@@ -12,9 +12,8 @@ import UIKit
 /// The `SidebarItem` class implements an item on a `SidebarViewController` object.
 ///
 /// A sidebar operates strictly in radio mode, where one item is selected at a time —
-/// tapping a sidebar item toggles the view selected. You can also specify a count
-/// value indicating a (primarily numeric) value on the trailing edge of the sidebar
-/// button.
+/// tapping a sidebar button toggles the view selected. You can also specify a count
+/// value indicating a count value on the trailing edge of the sidebar button.
 open class SidebarItem: NSObject {
     
     /// Indicates whether the item is enabled. The default is `true`.

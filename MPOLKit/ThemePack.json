@@ -10,7 +10,10 @@
             "navigationBarTint": "#FFFFFFFF",
             "primaryText":       "#3D3E45FF",
             "secondaryText":     "#75828DFF",
-            "separator":         "#E4E4E6FF"
+            "placeholderText":   "#BFC4C8FF",
+            "background":        "#FFFFFFFF",
+            "separator":         "#E4E4E6FF",
+            "cellSelection":     "#D9D9D9FF"
         }
     }
 ]

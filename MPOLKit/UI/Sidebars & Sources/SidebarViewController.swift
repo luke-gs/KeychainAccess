@@ -21,45 +21,41 @@ fileprivate let sidebarKeys = [#keyPath(SidebarItem.isEnabled),
 
 open class SidebarViewController: UIViewController {
     
-    /// The current sidebar items available to display.
-    public var sidebarItems: [SidebarItem] = [] {
+    /// The current items available to display.
+    public var items: [SidebarItem] = [] {
         didSet {
-            let sidebarItems = self.sidebarItems
+            let items = self.items
             
-            for item in oldValue where sidebarItems.contains(item) == false {
-                sidebarKeys.forEach {
-                    item.removeObserver(self, forKeyPath: $0, context: &sidebarItemContext)
-                }
+            for item in oldValue where items.contains(item) == false {
+                sidebarKeys.forEach { item.removeObserver(self, forKeyPath: $0, context: &sidebarItemContext) }
             }
             
-            for item in sidebarItems where oldValue.contains(item) == false {
-                sidebarKeys.forEach {
-                    item.addObserver(self, forKeyPath: $0, context: &sidebarItemContext)
-                }
+            for item in items where oldValue.contains(item) == false {
+                sidebarKeys.forEach { item.addObserver(self, forKeyPath: $0, context: &sidebarItemContext) }
             }
             
             sidebarTableView?.reloadData()
             
-            if let selectedItem = self.selectedSidebarItem, sidebarItems.contains(selectedItem) == false {
-                selectedSidebarItem = nil
+            if let selectedItem = self.selectedItem, items.contains(selectedItem) == false {
+                self.selectedItem = nil
             } else {
                 updateSourceSelection()
             }
         }
     }
     
-    /// The selected sidebar item.
+    /// The selected item.
     ///
-    /// If `clearsSidebarSelectionOnViewWillAppear` is true, this property is set to nil
+    /// If `clearsSelectionOnViewWillAppear` is true, this property is set to nil
     /// when it receives a viewWillAppear(_:) message.
-    public var selectedSidebarItem: SidebarItem? {
-        didSet { updateSidebarSelection() }
+    public var selectedItem: SidebarItem? {
+        didSet { updateSelection() }
     }
     
     /// The current sources available to display.
     ///
     /// When empty, the source list is hidden.
-    public var sourceItems: [SidebarSourceItem] = [] {
+    public var sourceItems: [SourceItem] = [] {
         didSet {
             viewIfLoaded?.setNeedsLayout()
             sourceTableView?.reloadData()
@@ -78,6 +74,7 @@ open class SidebarViewController: UIViewController {
     /// This table view fills the sidebar, trailing the source bar if it appears.
     public fileprivate(set) var sidebarTableView: UITableView?
     
+    
     /// The table view for source items.
     ///
     /// This table view is positioned at the leading edge, and only appears when source items exist.
@@ -87,8 +84,8 @@ open class SidebarViewController: UIViewController {
     /// A Boolean value indicating whether the sidebar clears the selection when the view appears.
     ///
     /// The default value of this property is false. If true, the view controller clears the
-    /// selectedSidebarItem when it receives a viewWillAppear(_:) message.
-    open var clearsSidebarSelectionOnViewWillAppear: Bool = false
+    /// selectedItem when it receives a viewWillAppear(_:) message.
+    open var clearsSelectionOnViewWillAppear: Bool = false
     
     
     /// The delegate for the sidebar.
@@ -99,7 +96,7 @@ open class SidebarViewController: UIViewController {
     fileprivate var sidebarInsetManager: ScrollViewInsetManager?
     
     deinit {
-        sidebarItems.forEach { item in
+        items.forEach { item in
             sidebarKeys.forEach {
                 item.removeObserver(self, forKeyPath: $0, context: &sidebarItemContext)
             }
@@ -110,16 +107,15 @@ open class SidebarViewController: UIViewController {
         if context == &sidebarItemContext {
             if isViewLoaded == false { return }
             
-            guard let sidebarItem = object as? SidebarItem,
-                  let key = keyPath,
-                  let itemIndex = sidebarItems.index(of: sidebarItem) else { return }
+            guard let item = object as? SidebarItem, let key = keyPath,
+                  let itemIndex = items.index(of: item) else { return }
             
-            if key == #keyPath(SidebarItem.isEnabled) && sidebarItem.isEnabled == false && selectedSidebarItem == sidebarItem {
-                selectedSidebarItem = nil
+            if key == #keyPath(SidebarItem.isEnabled) && item.isEnabled == false && selectedItem == item {
+                selectedItem = nil
             }
             
             if let sidebarCell = sidebarTableView?.cellForRow(at: IndexPath(row: itemIndex, section: 0)) as? SidebarTableViewCell {
-                sidebarCell.update(for: sidebarItem)
+                sidebarCell.update(for: item)
             }
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
@@ -136,7 +132,7 @@ extension SidebarViewController {
         view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
         let sourceFrame  = CGRect(x: 0.0, y: 0.0, width: 64.0,  height: 480.0)
-        let sidebarFrame = CGRect(x: 0.0, y: 0.0, width: 200.0, height: 480.0)
+        let tableFrame = CGRect(x: 0.0, y: 0.0, width: 200.0, height: 480.0)
         
         let baseColor = #colorLiteral(red: 0.2604376972, green: 0.2660070062, blue: 0.292562902, alpha: 1)
         
@@ -144,12 +140,12 @@ extension SidebarViewController {
         sourceBackground.topColor    = #colorLiteral(red: 0.07436346263, green: 0.0783027485, blue: 0.08661026508, alpha: 1)
         sourceBackground.bottomColor = baseColor
         
-        let sidebarBackground = SidebarTableBackground(frame: sidebarFrame)
+        let sidebarBackground = SidebarTableBackground(frame: tableFrame)
         sidebarBackground.topColor    = #colorLiteral(red: 0.1135626361, green: 0.1174433306, blue: 0.1298944652, alpha: 1)
         sidebarBackground.bottomColor = baseColor
         
         let sourceTableView = UITableView(frame: sourceFrame, style: .plain)
-        sourceTableView.autoresizingMask = .flexibleHeight
+        sourceTableView.autoresizingMask = [.flexibleHeight]
         sourceTableView.backgroundView = sourceBackground
         sourceTableView.tableHeaderView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 64.0, height: 10.0))
         sourceTableView.tableFooterView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 64.0, height: 10.0))
@@ -162,7 +158,7 @@ extension SidebarViewController {
         sourceTableView.register(SourceTableViewCell.self)
         view.addSubview(sourceTableView)
         
-        let sidebarTableView = UITableView(frame: sidebarFrame, style: .plain)
+        let sidebarTableView = UITableView(frame: tableFrame, style: .plain)
         sidebarTableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         sidebarTableView.backgroundView   = sidebarBackground
         sidebarTableView.dataSource = self
@@ -175,10 +171,10 @@ extension SidebarViewController {
         
         self.view             = view
         self.sourceTableView  = sourceTableView
-        self.sidebarTableView = sidebarTableView
+        self.sidebarTableView    = sidebarTableView
         
         sourceInsetManager  = ScrollViewInsetManager(scrollView: sourceTableView)
-        sidebarInsetManager = ScrollViewInsetManager(scrollView: sidebarTableView)
+        sidebarInsetManager    = ScrollViewInsetManager(scrollView: sidebarTableView)
         
         /* We apply these layout margins after all property setting is done because for some reason
            this causes a reload, which will crash if it is not from a valid set table view. */
@@ -200,13 +196,13 @@ extension SidebarViewController {
                 sourceTableView.frame.origin.x = isRightToLeft ? viewBounds.maxX - 64.0 : 0.0
             }
             
-            if let sidebarTableView = self.sidebarTableView {
-                var sidebarTableViewFrame      = sidebarTableView.frame
-                let sidebarInsetWidth: CGFloat = hasNoSources ? 0.0 : 64.0
+            if let tableView = self.sidebarTableView {
+                var tableViewFrame      = tableView.frame
+                let insetWidth: CGFloat = hasNoSources ? 0.0 : 64.0
                 
-                sidebarTableViewFrame.origin.x   = isRightToLeft ? 0.0 : sidebarInsetWidth
-                sidebarTableViewFrame.size.width = viewBounds.size.width - sidebarInsetWidth
-                sidebarTableView.frame           = sidebarTableViewFrame
+                tableViewFrame.origin.x   = isRightToLeft ? 0.0 : insetWidth
+                tableViewFrame.size.width = viewBounds.size.width - insetWidth
+                tableView.frame           = tableViewFrame
             }
         }
         
@@ -219,8 +215,8 @@ extension SidebarViewController {
     
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if clearsSidebarSelectionOnViewWillAppear {
-            selectedSidebarItem = nil
+        if clearsSelectionOnViewWillAppear {
+            selectedItem = nil
         }
     }
     
@@ -243,7 +239,7 @@ extension SidebarViewController : UITableViewDataSource, UITableViewDelegate {
     
     open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == sidebarTableView {
-            return sidebarItems.count
+            return items.count
         } else if tableView == sourceTableView {
             return sourceItems.count
         }
@@ -252,9 +248,9 @@ extension SidebarViewController : UITableViewDataSource, UITableViewDelegate {
     
     open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == sidebarTableView {
-            let sidebarCell = tableView.dequeueReusableCell(of: SidebarTableViewCell.self, for: indexPath)
-            sidebarCell.update(for: sidebarItems[indexPath.row])
-            return sidebarCell
+            let cell = tableView.dequeueReusableCell(of: SidebarTableViewCell.self, for: indexPath)
+            cell.update(for: items[indexPath.row])
+            return cell
         } else if tableView == sourceTableView {
             let sourceCell = tableView.dequeueReusableCell(of: SourceTableViewCell.self, for: indexPath)
             sourceCell.update(for: sourceItems[indexPath.row])
@@ -265,7 +261,7 @@ extension SidebarViewController : UITableViewDataSource, UITableViewDelegate {
     
     public func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
         if tableView == sidebarTableView {
-            return sidebarItems[indexPath.row].isEnabled
+            return items[indexPath.row].isEnabled
         } else if tableView == sourceTableView {
             return sourceItems[indexPath.row].isEnabled
         }
@@ -274,11 +270,11 @@ extension SidebarViewController : UITableViewDataSource, UITableViewDelegate {
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == sidebarTableView {
-            let sidebarItem = sidebarItems[indexPath.row]
-            if selectedSidebarItem == sidebarItem { return }
+            let item = items[indexPath.row]
+            if selectedItem == item { return }
             
-            selectedSidebarItem = sidebarItem
-            delegate?.sidebarViewController(self, didSelectItem: sidebarItem)
+            selectedItem = item
+            delegate?.sidebarViewController(self, didSelectItem: item)
         } else if tableView == sourceTableView {
             if indexPath.row == selectedSourceIndex { return }
             
@@ -317,11 +313,11 @@ extension SidebarViewController {
         }
     }
     
-    fileprivate func updateSidebarSelection() {
+    fileprivate func updateSelection() {
         guard isViewLoaded, let tableView = sidebarTableView else { return }
         
-        if let selectedItem = self.selectedSidebarItem,
-            let index = sidebarItems.index(of: selectedItem) {
+        if let selectedItem = self.selectedItem,
+            let index = items.index(of: selectedItem) {
             let indexPath = IndexPath(row: index, section: 0)
             tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
             
@@ -349,11 +345,6 @@ public protocol SidebarViewControllerDelegate : class {
     func sidebarViewController(_ controller: SidebarViewController, didSelectItem item: SidebarItem)
     
     
-    /// Indicates the sidebar has selected a new SidebarSourceItem.
-    ///
-    /// - Parameters:
-    ///   - controller: The `SidebarViewController` that has a new selection.
-    ///   - index:      The newly selected source index.
     func sidebarViewController(_ controller: SidebarViewController, didSelectSourceAt index: Int)
     
 }

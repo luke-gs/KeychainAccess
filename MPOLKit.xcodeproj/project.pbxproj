@@ -7,11 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6D3EC8691E654AE900C6999A /* FormCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3EC8671E654AE900C6999A /* FormCollectionViewController.swift */; };
+		6D3EC86A1E654AE900C6999A /* PushableSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3EC8681E654AE900C6999A /* PushableSplitViewController.swift */; };
 		6D7B30161E640506009D4602 /* FormKitDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7B30151E640506009D4602 /* FormKitDefines.swift */; };
 		6DA0E0F01E64D4530032B54F /* FormTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA0E0EF1E64D4530032B54F /* FormTextView.swift */; };
 		6DA6533D1E61759800ADB768 /* UIView+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA6533C1E61759800ADB768 /* UIView+Convenience.swift */; };
-		6DAAAFE91E5E771A000E57A9 /* EntityCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAAAFE81E5E771A000E57A9 /* EntityCollectionViewCell.swift */; };
 		BC2152141E5950D500193086 /* CollectionViewFormBoxedLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2152131E5950D500193086 /* CollectionViewFormBoxedLayout.swift */; };
+		BC21A11B1E6CFE11008F3A14 /* SidebarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC21A1191E6CFE11008F3A14 /* SidebarItem.swift */; };
+		BC21A11C1E6CFE11008F3A14 /* SidebarTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC21A11A1E6CFE11008F3A14 /* SidebarTableViewCell.swift */; };
+		BC21A11F1E6CFE1A008F3A14 /* SourceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC21A11D1E6CFE1A008F3A14 /* SourceItem.swift */; };
+		BC21A1201E6CFE1A008F3A14 /* SourceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC21A11E1E6CFE1A008F3A14 /* SourceTableViewCell.swift */; };
+		BC21A1231E6CFE20008F3A14 /* SidebarSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC21A1211E6CFE20008F3A14 /* SidebarSplitViewController.swift */; };
+		BC21A1241E6CFE20008F3A14 /* SidebarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC21A1221E6CFE20008F3A14 /* SidebarViewController.swift */; };
+		BC27F7721E6BEAB500E28AA6 /* EntityCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC27F7711E6BEAB500E28AA6 /* EntityCollectionViewCell.swift */; };
+		BC27F7731E6BEAF000E28AA6 /* FloatingPoint+Equality.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEB66491E5D45D00001138B /* FloatingPoint+Equality.swift */; };
 		BC2FA2D31E54023E00E2D0D1 /* MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC2FA2C91E54023E00E2D0D1 /* MPOLKit.framework */; };
 		BC2FA2D81E54023E00E2D0D1 /* MPOLKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2FA2D71E54023E00E2D0D1 /* MPOLKitTests.swift */; };
 		BC2FA2DA1E54023E00E2D0D1 /* MPOLKit.h in Headers */ = {isa = PBXBuildFile; fileRef = BC2FA2CC1E54023E00E2D0D1 /* MPOLKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -26,14 +35,7 @@
 		BC45116F1E6AD06C00E522EB /* KeyboardNumberBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC45116E1E6AD06C00E522EB /* KeyboardNumberBar.swift */; };
 		BC691B2A1E5403B200EC3A20 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC691B291E5403B200EC3A20 /* Assets.xcassets */; };
 		BC691B441E54041200EC3A20 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC691B341E54041200EC3A20 /* UIColor+Hex.swift */; };
-		BC691B481E54041200EC3A20 /* PushableSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC691B381E54041200EC3A20 /* PushableSplitViewController.swift */; };
 		BC691B491E54041200EC3A20 /* ScrollViewInsetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC691B391E54041200EC3A20 /* ScrollViewInsetManager.swift */; };
-		BC691B4A1E54041200EC3A20 /* SidebarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC691B3B1E54041200EC3A20 /* SidebarItem.swift */; };
-		BC691B4B1E54041200EC3A20 /* SidebarSourceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC691B3C1E54041200EC3A20 /* SidebarSourceItem.swift */; };
-		BC691B4C1E54041200EC3A20 /* SidebarSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC691B3D1E54041200EC3A20 /* SidebarSplitViewController.swift */; };
-		BC691B4D1E54041200EC3A20 /* SidebarTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC691B3E1E54041200EC3A20 /* SidebarTableViewCell.swift */; };
-		BC691B4E1E54041200EC3A20 /* SidebarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC691B3F1E54041200EC3A20 /* SidebarViewController.swift */; };
-		BC691B4F1E54041200EC3A20 /* SourceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC691B401E54041200EC3A20 /* SourceTableViewCell.swift */; };
 		BC691B501E54041200EC3A20 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC691B411E54041200EC3A20 /* Theme.swift */; };
 		BC691B521E54043700EC3A20 /* ThemePack.json in Resources */ = {isa = PBXBuildFile; fileRef = BC691B511E54043700EC3A20 /* ThemePack.json */; };
 		BC691B541E54046C00EC3A20 /* PushableTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC691B531E54046C00EC3A20 /* PushableTestViewController.swift */; };
@@ -64,13 +66,20 @@
 		BC7150A31E56828A0093F958 /* UICollectionView+DefaultReuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC71509F1E56828A0093F958 /* UICollectionView+DefaultReuse.swift */; };
 		BC7150A41E56828A0093F958 /* UITableView+DefaultReuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7150A01E56828A0093F958 /* UITableView+DefaultReuse.swift */; };
 		BC7150A51E56828A0093F958 /* UITableViewCell+LayoutMargins.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7150A11E56828A0093F958 /* UITableViewCell+LayoutMargins.swift */; };
+		BC87024C1E6E7C47003AAC5B /* PopoverFormSheetPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8702491E6E7C47003AAC5B /* PopoverFormSheetPresentationController.swift */; };
+		BC87024D1E6E7C47003AAC5B /* PopoverNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC87024A1E6E7C47003AAC5B /* PopoverNavigationController.swift */; };
+		BC87024E1E6E7C47003AAC5B /* PopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC87024B1E6E7C47003AAC5B /* PopoverViewController.swift */; };
 		BCA68EB21E5AFC5B00CDEF13 /* BorderedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA68EB11E5AFC5B00CDEF13 /* BorderedImageView.swift */; };
 		BCA68EB41E5B0A4A00CDEF13 /* TestCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA68EB31E5B0A4A00CDEF13 /* TestCollectionViewController.swift */; };
+		BCBC224C1E66D72C0005550A /* PopoverFormSheetPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBC224B1E66D72C0005550A /* PopoverFormSheetPresentationController.swift */; };
 		BCD35CA11E5A49B0001B40A1 /* DefaultReusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD35CA01E5A49B0001B40A1 /* DefaultReusable.swift */; };
 		BCD35CA71E5AA472001B40A1 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD35CA61E5AA472001B40A1 /* BadgeView.swift */; };
 		BCE00E5A1E666FA000D39E09 /* CoreGraphics+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE00E591E666FA000D39E09 /* CoreGraphics+Convenience.swift */; };
-		BCEB664A1E5D45D00001138B /* FloatingPoint+Equality.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEB66491E5D45D00001138B /* FloatingPoint+Equality.swift */; };
+		BCE00E5D1E667A2E00D39E09 /* PopoverNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE00E5C1E667A2E00D39E09 /* PopoverNavigationController.swift */; };
+		BCE00E5F1E667DE000D39E09 /* PopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE00E5E1E667DE000D39E09 /* PopoverViewController.swift */; };
+		BCE00E611E667F6A00D39E09 /* ViewControllerTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE00E601E667F6A00D39E09 /* ViewControllerTransition.swift */; };
 		BCEBA1961E5BC1E900FD404D /* SourceLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEBA1951E5BC1E900FD404D /* SourceLabel.swift */; };
+		BCFB05D41E6C17A000D825EF /* CollectionViewFormMPOLHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC36ABE71E5D28310052C4C5 /* CollectionViewFormMPOLHeaderView.swift */; };
 		BCFD25571E5C03BE00EC2566 /* CollectionViewFormMPOLHeaderAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFD25551E5C03BE00EC2566 /* CollectionViewFormMPOLHeaderAttributes.swift */; };
 		BCFD25581E5C03BE00EC2566 /* CollectionViewFormMPOLLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFD25561E5C03BE00EC2566 /* CollectionViewFormMPOLLayout.swift */; };
 /* End PBXBuildFile section */
@@ -107,11 +116,19 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6D3EC8671E654AE900C6999A /* FormCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FormCollectionViewController.swift; path = "Abstract View Controllers/FormCollectionViewController.swift"; sourceTree = "<group>"; };
+		6D3EC8681E654AE900C6999A /* PushableSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PushableSplitViewController.swift; path = "Abstract View Controllers/PushableSplitViewController.swift"; sourceTree = "<group>"; };
 		6D7B30151E640506009D4602 /* FormKitDefines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormKitDefines.swift; sourceTree = "<group>"; };
 		6DA0E0EF1E64D4530032B54F /* FormTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormTextView.swift; sourceTree = "<group>"; };
 		6DA6533C1E61759800ADB768 /* UIView+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Convenience.swift"; sourceTree = "<group>"; };
-		6DAAAFE81E5E771A000E57A9 /* EntityCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EntityCollectionViewCell.swift; path = Cells/EntityCollectionViewCell.swift; sourceTree = "<group>"; };
 		BC2152131E5950D500193086 /* CollectionViewFormBoxedLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormBoxedLayout.swift; sourceTree = "<group>"; };
+		BC21A1191E6CFE11008F3A14 /* SidebarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SidebarItem.swift; path = "MPOLKit/UI/Sidebars & Sources/Sidebar/SidebarItem.swift"; sourceTree = SOURCE_ROOT; };
+		BC21A11A1E6CFE11008F3A14 /* SidebarTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SidebarTableViewCell.swift; path = "MPOLKit/UI/Sidebars & Sources/Sidebar/SidebarTableViewCell.swift"; sourceTree = SOURCE_ROOT; };
+		BC21A11D1E6CFE1A008F3A14 /* SourceItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SourceItem.swift; path = "MPOLKit/UI/Sidebars & Sources/Source Bar/SourceItem.swift"; sourceTree = SOURCE_ROOT; };
+		BC21A11E1E6CFE1A008F3A14 /* SourceTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SourceTableViewCell.swift; path = "MPOLKit/UI/Sidebars & Sources/Source Bar/SourceTableViewCell.swift"; sourceTree = SOURCE_ROOT; };
+		BC21A1211E6CFE20008F3A14 /* SidebarSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SidebarSplitViewController.swift; path = "MPOLKit/UI/Sidebars & Sources/SidebarSplitViewController.swift"; sourceTree = SOURCE_ROOT; };
+		BC21A1221E6CFE20008F3A14 /* SidebarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SidebarViewController.swift; path = "MPOLKit/UI/Sidebars & Sources/SidebarViewController.swift"; sourceTree = SOURCE_ROOT; };
+		BC27F7711E6BEAB500E28AA6 /* EntityCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EntityCollectionViewCell.swift; path = Cells/EntityCollectionViewCell.swift; sourceTree = "<group>"; };
 		BC2FA2C91E54023E00E2D0D1 /* MPOLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MPOLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC2FA2CC1E54023E00E2D0D1 /* MPOLKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPOLKit.h; sourceTree = "<group>"; };
 		BC2FA2CD1E54023E00E2D0D1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -129,14 +146,7 @@
 		BC45116E1E6AD06C00E522EB /* KeyboardNumberBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeyboardNumberBar.swift; path = "Keyboard Entry/KeyboardNumberBar.swift"; sourceTree = "<group>"; };
 		BC691B291E5403B200EC3A20 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BC691B341E54041200EC3A20 /* UIColor+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
-		BC691B381E54041200EC3A20 /* PushableSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushableSplitViewController.swift; sourceTree = "<group>"; };
 		BC691B391E54041200EC3A20 /* ScrollViewInsetManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollViewInsetManager.swift; sourceTree = "<group>"; };
-		BC691B3B1E54041200EC3A20 /* SidebarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SidebarItem.swift; sourceTree = "<group>"; };
-		BC691B3C1E54041200EC3A20 /* SidebarSourceItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SidebarSourceItem.swift; sourceTree = "<group>"; };
-		BC691B3D1E54041200EC3A20 /* SidebarSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SidebarSplitViewController.swift; sourceTree = "<group>"; };
-		BC691B3E1E54041200EC3A20 /* SidebarTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SidebarTableViewCell.swift; sourceTree = "<group>"; };
-		BC691B3F1E54041200EC3A20 /* SidebarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SidebarViewController.swift; sourceTree = "<group>"; };
-		BC691B401E54041200EC3A20 /* SourceTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceTableViewCell.swift; sourceTree = "<group>"; };
 		BC691B411E54041200EC3A20 /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		BC691B511E54043700EC3A20 /* ThemePack.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ThemePack.json; sourceTree = "<group>"; };
 		BC691B531E54046C00EC3A20 /* PushableTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushableTestViewController.swift; sourceTree = "<group>"; };
@@ -167,11 +177,18 @@
 		BC71509F1E56828A0093F958 /* UICollectionView+DefaultReuse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UICollectionView+DefaultReuse.swift"; sourceTree = "<group>"; };
 		BC7150A01E56828A0093F958 /* UITableView+DefaultReuse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+DefaultReuse.swift"; sourceTree = "<group>"; };
 		BC7150A11E56828A0093F958 /* UITableViewCell+LayoutMargins.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+LayoutMargins.swift"; sourceTree = "<group>"; };
+		BC8702491E6E7C47003AAC5B /* PopoverFormSheetPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PopoverFormSheetPresentationController.swift; path = "Popover & Form Sheet/PopoverFormSheetPresentationController.swift"; sourceTree = "<group>"; };
+		BC87024A1E6E7C47003AAC5B /* PopoverNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PopoverNavigationController.swift; path = "Popover & Form Sheet/PopoverNavigationController.swift"; sourceTree = "<group>"; };
+		BC87024B1E6E7C47003AAC5B /* PopoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PopoverViewController.swift; path = "Popover & Form Sheet/PopoverViewController.swift"; sourceTree = "<group>"; };
 		BCA68EB11E5AFC5B00CDEF13 /* BorderedImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderedImageView.swift; sourceTree = "<group>"; };
 		BCA68EB31E5B0A4A00CDEF13 /* TestCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestCollectionViewController.swift; sourceTree = "<group>"; };
+		BCBC224B1E66D72C0005550A /* PopoverFormSheetPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PopoverFormSheetPresentationController.swift; path = "Popover & Form Sheet/PopoverFormSheetPresentationController.swift"; sourceTree = "<group>"; };
 		BCD35CA01E5A49B0001B40A1 /* DefaultReusable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DefaultReusable.swift; path = Protocols/DefaultReusable.swift; sourceTree = "<group>"; };
 		BCD35CA61E5AA472001B40A1 /* BadgeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
 		BCE00E591E666FA000D39E09 /* CoreGraphics+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CoreGraphics+Convenience.swift"; sourceTree = "<group>"; };
+		BCE00E5C1E667A2E00D39E09 /* PopoverNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PopoverNavigationController.swift; path = "Popover & Form Sheet/PopoverNavigationController.swift"; sourceTree = "<group>"; };
+		BCE00E5E1E667DE000D39E09 /* PopoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PopoverViewController.swift; path = "Popover & Form Sheet/PopoverViewController.swift"; sourceTree = "<group>"; };
+		BCE00E601E667F6A00D39E09 /* ViewControllerTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerTransition.swift; sourceTree = "<group>"; };
 		BCEB66491E5D45D00001138B /* FloatingPoint+Equality.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FloatingPoint+Equality.swift"; sourceTree = "<group>"; };
 		BCEBA1951E5BC1E900FD404D /* SourceLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceLabel.swift; sourceTree = "<group>"; };
 		BCFD25551E5C03BE00EC2566 /* CollectionViewFormMPOLHeaderAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CollectionViewFormMPOLHeaderAttributes.swift; path = "FormKit MPOL Additions/CollectionViewFormMPOLHeaderAttributes.swift"; sourceTree = "<group>"; };
@@ -205,12 +222,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6DAAAFE71E5E76F8000E57A9 /* Cells */ = {
+		6D3EC8661E65450200C6999A /* Abstract View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				6DAAAFE81E5E771A000E57A9 /* EntityCollectionViewCell.swift */,
+				6D3EC8671E654AE900C6999A /* FormCollectionViewController.swift */,
+				6D3EC8681E654AE900C6999A /* PushableSplitViewController.swift */,
 			);
-			name = Cells;
+			name = "Abstract View Controllers";
+			sourceTree = "<group>";
+		};
+		6DA0E0F31E6504B00032B54F /* Sidebar */ = {
+			isa = PBXGroup;
+			children = (
+				BC21A1191E6CFE11008F3A14 /* SidebarItem.swift */,
+				BC21A11A1E6CFE11008F3A14 /* SidebarTableViewCell.swift */,
+			);
+			name = Sidebar;
+			sourceTree = "<group>";
+		};
+		6DA0E0F41E65058B0032B54F /* Source Bar */ = {
+			isa = PBXGroup;
+			children = (
+				BC21A11D1E6CFE1A008F3A14 /* SourceItem.swift */,
+				BC21A11E1E6CFE1A008F3A14 /* SourceTableViewCell.swift */,
+			);
+			name = "Source Bar";
 			sourceTree = "<group>";
 		};
 		BC2FA2BF1E54023E00E2D0D1 = {
@@ -280,16 +316,18 @@
 		BC691B301E54041200EC3A20 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				6D3EC8661E65450200C6999A /* Abstract View Controllers */,
 				BCD35CA61E5AA472001B40A1 /* BadgeView.swift */,
 				BCA68EB11E5AFC5B00CDEF13 /* BorderedImageView.swift */,
-				6DAAAFE71E5E76F8000E57A9 /* Cells */,
+				BC6EE0061E6BE7A2003E3D4C /* Cells */,
 				BCFD25541E5C03A800EC2566 /* FormKit MPOL Additions */,
+				BC691B3A1E54041200EC3A20 /* Sidebars & Sources */,
 				BC5A8D1C1E6965CA000EAC07 /* Keyboard Entry */,
-				BC691B381E54041200EC3A20 /* PushableSplitViewController.swift */,
+				BC8702481E6E7C26003AAC5B /* Popover & Form Sheet */,
 				BC691B391E54041200EC3A20 /* ScrollViewInsetManager.swift */,
-				BC691B3A1E54041200EC3A20 /* Sidebar */,
 				BCEBA1951E5BC1E900FD404D /* SourceLabel.swift */,
 				BC691B411E54041200EC3A20 /* Theme.swift */,
+				BCE00E601E667F6A00D39E09 /* ViewControllerTransition.swift */,
 				BC691B311E54041200EC3A20 /* Extensions */,
 			);
 			path = UI;
@@ -305,17 +343,24 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		BC691B3A1E54041200EC3A20 /* Sidebar */ = {
+		BC691B3A1E54041200EC3A20 /* Sidebars & Sources */ = {
 			isa = PBXGroup;
 			children = (
-				BC691B3D1E54041200EC3A20 /* SidebarSplitViewController.swift */,
-				BC691B3F1E54041200EC3A20 /* SidebarViewController.swift */,
-				BC691B3B1E54041200EC3A20 /* SidebarItem.swift */,
-				BC691B3C1E54041200EC3A20 /* SidebarSourceItem.swift */,
-				BC691B3E1E54041200EC3A20 /* SidebarTableViewCell.swift */,
-				BC691B401E54041200EC3A20 /* SourceTableViewCell.swift */,
+				BC21A1211E6CFE20008F3A14 /* SidebarSplitViewController.swift */,
+				BC21A1221E6CFE20008F3A14 /* SidebarViewController.swift */,
+				6DA0E0F31E6504B00032B54F /* Sidebar */,
+				6DA0E0F41E65058B0032B54F /* Source Bar */,
 			);
+			name = "Sidebars & Sources";
 			path = Sidebar;
+			sourceTree = "<group>";
+		};
+		BC6EE0061E6BE7A2003E3D4C /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				BC27F7711E6BEAB500E28AA6 /* EntityCollectionViewCell.swift */,
+			);
+			name = Cells;
 			sourceTree = "<group>";
 		};
 		BC712E1D1E55348B00BD5DAE /* FormKit */ = {
@@ -325,7 +370,7 @@
 				BC712E541E5535B800BD5DAE /* Collection Reusable Views */,
 				BC712E671E5535B800BD5DAE /* Table View Cells */,
 				BC712E6D1E5535B800BD5DAE /* Views */,
-				BCD35C9D1E5A462A001B40A1 /* Protocols */,
+				BCD35C9D1E5A462A001B40A1 /* Popovers & Form Sheet */,
 				BC712E5D1E5535B800BD5DAE /* Extensions */,
 				6D7B30151E640506009D4602 /* FormKitDefines.swift */,
 				BC712E8B1E5536A000BD5DAE /* FormKitAssets.xcassets */,
@@ -407,12 +452,24 @@
 			path = UI;
 			sourceTree = "<group>";
 		};
-		BCD35C9D1E5A462A001B40A1 /* Protocols */ = {
+		BC8702481E6E7C26003AAC5B /* Popover & Form Sheet */ = {
 			isa = PBXGroup;
 			children = (
-				BCD35CA01E5A49B0001B40A1 /* DefaultReusable.swift */,
+				BC8702491E6E7C47003AAC5B /* PopoverFormSheetPresentationController.swift */,
+				BC87024A1E6E7C47003AAC5B /* PopoverNavigationController.swift */,
+				BC87024B1E6E7C47003AAC5B /* PopoverViewController.swift */,
 			);
-			name = Protocols;
+			name = "Popover & Form Sheet";
+			sourceTree = "<group>";
+		};
+		BCD35C9D1E5A462A001B40A1 /* Popovers & Form Sheet */ = {
+			isa = PBXGroup;
+			children = (
+				BCE00E5C1E667A2E00D39E09 /* PopoverNavigationController.swift */,
+				BCE00E5E1E667DE000D39E09 /* PopoverViewController.swift */,
+				BCBC224B1E66D72C0005550A /* PopoverFormSheetPresentationController.swift */,
+			);
+			name = "Popovers & Form Sheet";
 			sourceTree = "<group>";
 		};
 		BCFD25541E5C03A800EC2566 /* FormKit MPOL Additions */ = {
@@ -576,13 +633,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC21A11C1E6CFE11008F3A14 /* SidebarTableViewCell.swift in Sources */,
 				BC712E861E5535B800BD5DAE /* TableViewFormTextViewCell.swift in Sources */,
-				BC691B4A1E54041200EC3A20 /* SidebarItem.swift in Sources */,
 				BC712E731E5535B800BD5DAE /* CollectionViewFormSelectionCell.swift in Sources */,
 				BC712E851E5535B800BD5DAE /* TableViewFormTextFieldCell.swift in Sources */,
 				BC712E781E5535B800BD5DAE /* CollectionViewFormTextFieldCell.swift in Sources */,
 				6DA0E0F01E64D4530032B54F /* FormTextView.swift in Sources */,
 				BC712E891E5535B800BD5DAE /* RadioButton.swift in Sources */,
+				BC87024C1E6E7C47003AAC5B /* PopoverFormSheetPresentationController.swift in Sources */,
 				BC691B441E54041200EC3A20 /* UIColor+Hex.swift in Sources */,
 				BC712E791E5535B800BD5DAE /* CollectionViewFormTextViewCell.swift in Sources */,
 				BC7150A41E56828A0093F958 /* UITableView+DefaultReuse.swift in Sources */,
@@ -590,44 +648,52 @@
 				BC712E741E5535B800BD5DAE /* CollectionViewFormDecorationView.swift in Sources */,
 				BC712E821E5535B800BD5DAE /* TableViewFormCell.swift in Sources */,
 				6DA6533D1E61759800ADB768 /* UIView+Convenience.swift in Sources */,
+				BCFB05D41E6C17A000D825EF /* CollectionViewFormMPOLHeaderView.swift in Sources */,
 				BC712E7C1E5535B800BD5DAE /* UIColor+ActionColors.swift in Sources */,
 				BCFD25581E5C03BE00EC2566 /* CollectionViewFormMPOLLayout.swift in Sources */,
-				BC691B4D1E54041200EC3A20 /* SidebarTableViewCell.swift in Sources */,
-				BCEB664A1E5D45D00001138B /* FloatingPoint+Equality.swift in Sources */,
-				BC691B4C1E54041200EC3A20 /* SidebarSplitViewController.swift in Sources */,
+				BC27F7721E6BEAB500E28AA6 /* EntityCollectionViewCell.swift in Sources */,
+				BC21A1201E6CFE1A008F3A14 /* SourceTableViewCell.swift in Sources */,
+				6D3EC86A1E654AE900C6999A /* PushableSplitViewController.swift in Sources */,
+				BC21A1241E6CFE20008F3A14 /* SidebarViewController.swift in Sources */,
 				BC712E7B1E5535B800BD5DAE /* NSLayoutConstraint+Conveniences.swift in Sources */,
 				BC2152141E5950D500193086 /* CollectionViewFormBoxedLayout.swift in Sources */,
 				BC712E7A1E5535B800BD5DAE /* CoreGraphics+Rounding.swift in Sources */,
 				BC712E811E5535B800BD5DAE /* CollectionViewFormLayout.swift in Sources */,
 				BC712E871E5535B800BD5DAE /* CheckBox.swift in Sources */,
+				BC21A11B1E6CFE11008F3A14 /* SidebarItem.swift in Sources */,
+				BCE00E5F1E667DE000D39E09 /* PopoverViewController.swift in Sources */,
+				BCBC224C1E66D72C0005550A /* PopoverFormSheetPresentationController.swift in Sources */,
+				BC21A11F1E6CFE1A008F3A14 /* SourceItem.swift in Sources */,
 				BC712E7D1E5535B800BD5DAE /* UIEdgeInsets+InverseAndInset.swift in Sources */,
+				6D3EC8691E654AE900C6999A /* FormCollectionViewController.swift in Sources */,
 				BC7150A51E56828A0093F958 /* UITableViewCell+LayoutMargins.swift in Sources */,
 				BC712E8A1E5535B800BD5DAE /* SelectableButton.swift in Sources */,
 				BCE00E5A1E666FA000D39E09 /* CoreGraphics+Convenience.swift in Sources */,
 				BC712E841E5535B800BD5DAE /* TableViewFormDetailCell.swift in Sources */,
-				BC691B4B1E54041200EC3A20 /* SidebarSourceItem.swift in Sources */,
 				BC7150A31E56828A0093F958 /* UICollectionView+DefaultReuse.swift in Sources */,
+				BC21A1231E6CFE20008F3A14 /* SidebarSplitViewController.swift in Sources */,
 				BC712E721E5535B800BD5DAE /* CollectionViewFormCell.swift in Sources */,
+				BCE00E5D1E667A2E00D39E09 /* PopoverNavigationController.swift in Sources */,
 				BCA68EB21E5AFC5B00CDEF13 /* BorderedImageView.swift in Sources */,
 				BC712E801E5535B800BD5DAE /* CollectionViewFormAttributes.swift in Sources */,
 				BC712E831E5535B800BD5DAE /* TableViewFormCheckboxCell.swift in Sources */,
+				BCE00E611E667F6A00D39E09 /* ViewControllerTransition.swift in Sources */,
+				BC87024D1E6E7C47003AAC5B /* PopoverNavigationController.swift in Sources */,
 				BC712E771E5535B800BD5DAE /* CollectionViewFormDetailCell.swift in Sources */,
 				BC45116C1E6ACE9900E522EB /* UITextView+Notifications.m in Sources */,
 				BCFD25571E5C03BE00EC2566 /* CollectionViewFormMPOLHeaderAttributes.swift in Sources */,
 				BCD35CA11E5A49B0001B40A1 /* DefaultReusable.swift in Sources */,
-				BC691B4F1E54041200EC3A20 /* SourceTableViewCell.swift in Sources */,
-				BC691B481E54041200EC3A20 /* PushableSplitViewController.swift in Sources */,
 				BC36ABE81E5D28310052C4C5 /* CollectionViewFormMPOLHeaderView.swift in Sources */,
 				BC45116F1E6AD06C00E522EB /* KeyboardNumberBar.swift in Sources */,
 				BCEBA1961E5BC1E900FD404D /* SourceLabel.swift in Sources */,
 				BCD35CA71E5AA472001B40A1 /* BadgeView.swift in Sources */,
+				BC27F7731E6BEAF000E28AA6 /* FloatingPoint+Equality.swift in Sources */,
+				BC87024E1E6E7C47003AAC5B /* PopoverViewController.swift in Sources */,
 				6D7B30161E640506009D4602 /* FormKitDefines.swift in Sources */,
 				BC691B501E54041200EC3A20 /* Theme.swift in Sources */,
 				BC712E881E5535B800BD5DAE /* FormTextField.swift in Sources */,
 				BC712E7E1E5535B800BD5DAE /* UIImage+FormKitDefaults.swift in Sources */,
-				BC691B4E1E54041200EC3A20 /* SidebarViewController.swift in Sources */,
 				BC691B491E54041200EC3A20 /* ScrollViewInsetManager.swift in Sources */,
-				6DAAAFE91E5E771A000E57A9 /* EntityCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
