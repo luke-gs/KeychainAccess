@@ -8,27 +8,44 @@
 
 import UIKit
 
+
+/// A view for displaying a gradient of colors.
+///
+/// `GradientView` uses Core Graphics to create gradients, rather than Core Animation
+/// and `CAGradientLayer`. Core Animation doesn't support dithering, so gradients tend
+/// to come out with banding that ruins the effect.
 public class GradientView: UIView {
     
-    public enum Direction: Int {
+    /// The gradient directions available on GradientView.
+    public enum Direction {
+        /// Vertical gradient. Colors will be drawn in the order top-to-bottom.
         case vertical
+        /// Horizontal gradient. Colors will be drawn from the leading-to-trailing.
         case horizontal
     }
     
+    
+    /// The gradient direction. The default is `.vertical`.
     public var gradientDirection: Direction = .vertical {
         didSet { if gradientDirection != oldValue { setNeedsDisplay() } }
     }
     
+    
+    /// The colors for the gradient. The default is none.
+    ///
+    /// There are optimizations that avoid drawing a full gradient, an requiring re-drawing
+    /// with single colors when resizing, when there is only one color. Gradient view also
+    /// toggles its own opacity to optimize when the colors are fully opaque.
     public var gradientColors: [UIColor] = [] {
         didSet {
             if gradientColors != oldValue {
-                let hasColors = gradientColors.isEmpty == false
+                let colorCount = gradientColors.count
                 
-                // Only set to have a redraw if we have colors.
-                contentMode = hasColors ? .redraw : .scaleToFill
+                // Only set to have a redraw if we have multiple colors.
+                contentMode = colorCount > 1 ? .redraw : .scaleToFill
                 
                 // set opacity on the basis of the colors - if we have at least one color and they're all opaque, we can safely set opaque.
-                isOpaque = hasColors && gradientColors.contains(where: {
+                isOpaque = colorCount > 0 && gradientColors.contains(where: {
                     var alphaComponent: CGFloat = 0.0
                     $0.getWhite(nil, alpha: &alphaComponent)
                     return alphaComponent < 1.0
@@ -39,15 +56,18 @@ public class GradientView: UIView {
         }
     }
 
+    
     public override init(frame: CGRect) {
         super.init(frame: frame)
         isOpaque = false
     }
     
+    
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         isOpaque = false
     }
+    
     
     public override func draw(_ rect: CGRect) {
         let colorCount = gradientColors.count
@@ -65,8 +85,9 @@ public class GradientView: UIView {
                 start = CGPoint(x: rect.midX, y: bounds.minY)
                 end   = CGPoint(x: rect.midX, y: bounds.maxY)
             } else {
-                start = CGPoint(x: rect.minX, y: bounds.midY)
-                end   = CGPoint(x: rect.maxX, y: bounds.midY)
+                let isRightToLeft = self.traitCollection.layoutDirection == .rightToLeft
+                start = CGPoint(x: isRightToLeft ? rect.minX : rect.maxX, y: bounds.midY)
+                end   = CGPoint(x: isRightToLeft ? rect.maxX : rect.minX, y: bounds.midY)
             }
             context.drawLinearGradient(gradient, start: start, end: end, options: [])
         } else {

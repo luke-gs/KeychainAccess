@@ -84,12 +84,6 @@ open class SidebarViewController: UIViewController {
     public fileprivate(set) var sidebarTableView: UITableView?
     
     
-    /// The source view.
-    ///
-    /// This view is positioned at the leading edge, and only appears when source items exist.
-    public fileprivate(set) var sourceView: SourceView?
-    
-    
     /// A Boolean value indicating whether the sidebar clears the selection when the view appears.
     ///
     /// The default value of this property is false. If true, the view controller clears the
@@ -99,6 +93,8 @@ open class SidebarViewController: UIViewController {
     
     /// The delegate for the sidebar.
     open weak var delegate: SidebarViewControllerDelegate? = nil
+    
+    fileprivate var sourceView: SourceView?
     
     fileprivate var sourceInsetManager: ScrollViewInsetManager?
     
