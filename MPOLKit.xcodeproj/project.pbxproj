@@ -32,7 +32,6 @@
 		BC36ABE81E5D28310052C4C5 /* CollectionViewFormMPOLHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC36ABE71E5D28310052C4C5 /* CollectionViewFormMPOLHeaderView.swift */; };
 		BC45116B1E6ACE9900E522EB /* UITextView+Notifications.h in Headers */ = {isa = PBXBuildFile; fileRef = BC4511691E6ACE9900E522EB /* UITextView+Notifications.h */; };
 		BC45116C1E6ACE9900E522EB /* UITextView+Notifications.m in Sources */ = {isa = PBXBuildFile; fileRef = BC45116A1E6ACE9900E522EB /* UITextView+Notifications.m */; };
-		BC45116F1E6AD06C00E522EB /* KeyboardNumberBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC45116E1E6AD06C00E522EB /* KeyboardNumberBar.swift */; };
 		BC691B2A1E5403B200EC3A20 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC691B291E5403B200EC3A20 /* Assets.xcassets */; };
 		BC691B441E54041200EC3A20 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC691B341E54041200EC3A20 /* UIColor+Hex.swift */; };
 		BC691B491E54041200EC3A20 /* ScrollViewInsetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC691B391E54041200EC3A20 /* ScrollViewInsetManager.swift */; };
@@ -73,6 +72,7 @@
 		BCA68EB21E5AFC5B00CDEF13 /* BorderedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA68EB11E5AFC5B00CDEF13 /* BorderedImageView.swift */; };
 		BCA68EB41E5B0A4A00CDEF13 /* TestCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA68EB31E5B0A4A00CDEF13 /* TestCollectionViewController.swift */; };
 		BCD35CA71E5AA472001B40A1 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD35CA61E5AA472001B40A1 /* BadgeView.swift */; };
+		BCDC5B961E6F8143007424FC /* KeyboardNumberBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDC5B951E6F8143007424FC /* KeyboardNumberBar.swift */; };
 		BCE00E5A1E666FA000D39E09 /* CoreGraphics+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE00E591E666FA000D39E09 /* CoreGraphics+Convenience.swift */; };
 		BCE00E611E667F6A00D39E09 /* ViewControllerTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE00E601E667F6A00D39E09 /* ViewControllerTransition.swift */; };
 		BCEBA1961E5BC1E900FD404D /* SourceLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEBA1951E5BC1E900FD404D /* SourceLabel.swift */; };
@@ -139,7 +139,6 @@
 		BC36ABE71E5D28310052C4C5 /* CollectionViewFormMPOLHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormMPOLHeaderView.swift; sourceTree = "<group>"; };
 		BC4511691E6ACE9900E522EB /* UITextView+Notifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+Notifications.h"; sourceTree = "<group>"; };
 		BC45116A1E6ACE9900E522EB /* UITextView+Notifications.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+Notifications.m"; sourceTree = "<group>"; };
-		BC45116E1E6AD06C00E522EB /* KeyboardNumberBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeyboardNumberBar.swift; path = "Keyboard Entry/KeyboardNumberBar.swift"; sourceTree = "<group>"; };
 		BC691B291E5403B200EC3A20 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BC691B341E54041200EC3A20 /* UIColor+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
 		BC691B391E54041200EC3A20 /* ScrollViewInsetManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollViewInsetManager.swift; sourceTree = "<group>"; };
@@ -180,6 +179,7 @@
 		BCA68EB11E5AFC5B00CDEF13 /* BorderedImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderedImageView.swift; sourceTree = "<group>"; };
 		BCA68EB31E5B0A4A00CDEF13 /* TestCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestCollectionViewController.swift; sourceTree = "<group>"; };
 		BCD35CA61E5AA472001B40A1 /* BadgeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
+		BCDC5B951E6F8143007424FC /* KeyboardNumberBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardNumberBar.swift; sourceTree = "<group>"; };
 		BCE00E591E666FA000D39E09 /* CoreGraphics+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CoreGraphics+Convenience.swift"; sourceTree = "<group>"; };
 		BCE00E601E667F6A00D39E09 /* ViewControllerTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerTransition.swift; sourceTree = "<group>"; };
 		BCEB66491E5D45D00001138B /* FloatingPoint+Equality.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FloatingPoint+Equality.swift"; sourceTree = "<group>"; };
@@ -298,14 +298,6 @@
 			path = "MPOLKit Demo";
 			sourceTree = "<group>";
 		};
-		BC5A8D1C1E6965CA000EAC07 /* Keyboard Entry */ = {
-			isa = PBXGroup;
-			children = (
-				BC45116E1E6AD06C00E522EB /* KeyboardNumberBar.swift */,
-			);
-			name = "Keyboard Entry";
-			sourceTree = "<group>";
-		};
 		BC691B301E54041200EC3A20 /* UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -314,10 +306,10 @@
 				BCA68EB11E5AFC5B00CDEF13 /* BorderedImageView.swift */,
 				BC6EE0061E6BE7A2003E3D4C /* Cells */,
 				BCFD25541E5C03A800EC2566 /* FormKit MPOL Additions */,
-				BC691B3A1E54041200EC3A20 /* Sidebars & Sources */,
-				BC5A8D1C1E6965CA000EAC07 /* Keyboard Entry */,
+				BCDC5B951E6F8143007424FC /* KeyboardNumberBar.swift */,
 				BC8702481E6E7C26003AAC5B /* Popover & Form Sheet */,
 				BC691B391E54041200EC3A20 /* ScrollViewInsetManager.swift */,
+				BC691B3A1E54041200EC3A20 /* Sidebars & Sources */,
 				BCEBA1951E5BC1E900FD404D /* SourceLabel.swift */,
 				BC691B411E54041200EC3A20 /* Theme.swift */,
 				BCE00E601E667F6A00D39E09 /* ViewControllerTransition.swift */,
@@ -650,6 +642,7 @@
 				BC712E7B1E5535B800BD5DAE /* NSLayoutConstraint+Conveniences.swift in Sources */,
 				BC2152141E5950D500193086 /* CollectionViewFormBoxedLayout.swift in Sources */,
 				BC712E7A1E5535B800BD5DAE /* CoreGraphics+Rounding.swift in Sources */,
+				BCDC5B961E6F8143007424FC /* KeyboardNumberBar.swift in Sources */,
 				BC712E811E5535B800BD5DAE /* CollectionViewFormLayout.swift in Sources */,
 				BC712E871E5535B800BD5DAE /* CheckBox.swift in Sources */,
 				BC21A11B1E6CFE11008F3A14 /* SidebarItem.swift in Sources */,
@@ -672,7 +665,6 @@
 				BC45116C1E6ACE9900E522EB /* UITextView+Notifications.m in Sources */,
 				BCFD25571E5C03BE00EC2566 /* CollectionViewFormMPOLHeaderAttributes.swift in Sources */,
 				BC36ABE81E5D28310052C4C5 /* CollectionViewFormMPOLHeaderView.swift in Sources */,
-				BC45116F1E6AD06C00E522EB /* KeyboardNumberBar.swift in Sources */,
 				BCEBA1961E5BC1E900FD404D /* SourceLabel.swift in Sources */,
 				BCD35CA71E5AA472001B40A1 /* BadgeView.swift in Sources */,
 				BC27F7731E6BEAF000E28AA6 /* FloatingPoint+Equality.swift in Sources */,
