@@ -10,7 +10,8 @@ import UIKit
 
 open class SourceTableViewCell: UITableViewCell {
     
-    fileprivate static let disabledColor = #colorLiteral(red: 0.2352941176, green: 0.2352941176, blue: 0.2352941176, alpha: 1)
+    fileprivate static let lightDisabledColor = #colorLiteral(red: 0.2352941176, green: 0.2352941176, blue: 0.2352941176, alpha: 0.2978102993)
+    fileprivate static let darkDisabledColor  = #colorLiteral(red: 0.2352941176, green: 0.2352941176, blue: 0.2352941176, alpha: 1)
     
     fileprivate let titleLabel = UILabel(frame: .zero)
     fileprivate let iconView   = SourceIcon(frame: .zero)
@@ -19,6 +20,9 @@ open class SourceTableViewCell: UITableViewCell {
     fileprivate var isEnabled: Bool = true
     fileprivate var isGlowing: Bool = false
     fileprivate var glowColor: UIColor?
+    
+    fileprivate var style:     SourceView.Style = .dark
+    fileprivate var glowStyle: SourceView.Style = .dark
     
     public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
@@ -67,22 +71,25 @@ open class SourceTableViewCell: UITableViewCell {
         ])
     }
     
-    open func update(for item: SourceItem) {
+    open func update(for item: SourceItem, withStyle style: SourceView.Style) {
         titleLabel.text = item.title
         
-        if item.isEnabled == isEnabled && item.count == iconView.count && item.color == iconView.color {
+        if item.isEnabled == isEnabled && item.count == iconView.count && item.color == iconView.color && self.style == style{
             return // Do no updates if there's nothing to update.
         }
         
+        self.style = style
+        
         isEnabled = item.isEnabled
         
-        iconView.color     = isEnabled ? item.color : SourceTableViewCell.disabledColor
-        iconView.count     = item.count
+        iconView.color = isEnabled ? item.color : style == .light ? SourceTableViewCell.lightDisabledColor : SourceTableViewCell.darkDisabledColor
+        iconView.count = item.count
+        iconView.style = style
         
         updateGlow()
         
-        if item.isEnabled == false {
-            titleLabel.textColor = SourceTableViewCell.disabledColor
+        if isEnabled == false {
+            titleLabel.textColor = style == .light ? SourceTableViewCell.lightDisabledColor : SourceTableViewCell.darkDisabledColor
             titleLabel.font = .systemFont(ofSize: 11.5, weight: UIFontWeightRegular)
         }
     }
@@ -102,9 +109,9 @@ open class SourceTableViewCell: UITableViewCell {
     }
     
 }
-
-extension SourceTableViewCell: DefaultReusable {
-}
+//
+//extension SourceTableViewCell: DefaultReusable {
+//}
 
 
 fileprivate extension SourceTableViewCell {
@@ -115,7 +122,7 @@ fileprivate extension SourceTableViewCell {
         guard shouldGlow, isEnabled, let glowColor = iconView.color else {
             if isEnabled {
                 titleLabel.font = .systemFont(ofSize: 11.5, weight: UIFontWeightRegular)
-                titleLabel.textColor = .lightGray
+                titleLabel.textColor = style == .light ? .gray : .lightGray
             }
             
             if isGlowing == false {
@@ -133,9 +140,13 @@ fileprivate extension SourceTableViewCell {
             return
         }
         
-        if glowColor != self.glowColor {
+        titleLabel.textColor = style == .light ? .darkGray : .white
+        titleLabel.font = .systemFont(ofSize: 12.5, weight: UIFontWeightBold)
+        
+        if glowColor != self.glowColor || glowStyle != style {
+            glowStyle = style
             self.glowColor = glowColor
-            self.glowView.image = nil//glowImage(withColor: glowColor)
+            self.glowView.image = glowImage(withColor: glowColor)
         }
         
         // We're already glowing. Don't bother with the animation.
@@ -154,29 +165,26 @@ fileprivate extension SourceTableViewCell {
         animation.isRemovedOnCompletion = false
         animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
         glowView.layer.add(animation, forKey: "glow")
-        
-        titleLabel.font = .systemFont(ofSize: 12.5, weight: UIFontWeightBold)
-        titleLabel.textColor = .white
     }
     
     
-//    private static let glowImageGenerator = UIGraphicsImageRenderer(size: CGSize(width: 60.0, height: 60.0))
-//    
-//    fileprivate func glowImage(withColor color: UIColor) -> UIImage {
-//        let drawColor  = color.withAlphaComponent(0.3)
-//        let clearColor = color.withAlphaComponent(0.0)
-//        
-//        return SourceTableViewCell.glowImageGenerator.image {_ in
-//            let colors = [drawColor.cgColor, clearColor.cgColor]
-//            
-//            guard let context = UIGraphicsGetCurrentContext(),
-//                let gradient = CGGradient(colorsSpace: nil, colors: colors as CFArray, locations: nil) else { return }
-//            
-//            let center = CGPoint(x: 30.0, y: 30.0)
-//            
-//            context.drawRadialGradient(gradient, startCenter: center, startRadius: 11.5, endCenter: center, endRadius: 30.0, options: [])
-//        }
-//    }
+    private static let glowImageGenerator = UIGraphicsImageRenderer(size: CGSize(width: 60.0, height: 60.0))
+    
+    fileprivate func glowImage(withColor color: UIColor) -> UIImage {
+        let drawColor  = color.withAlphaComponent(style == .light ? 0.1 : 0.3)
+        let clearColor = color.withAlphaComponent(0.0)
+        
+        return SourceTableViewCell.glowImageGenerator.image {_ in
+            let colors = [drawColor.cgColor, clearColor.cgColor]
+            
+            guard let context = UIGraphicsGetCurrentContext(),
+                let gradient = CGGradient(colorsSpace: nil, colors: colors as CFArray, locations: nil) else { return }
+            
+            let center = CGPoint(x: 30.0, y: 30.0)
+            
+            context.drawRadialGradient(gradient, startCenter: center, startRadius: 11.5, endCenter: center, endRadius: 30.0, options: [])
+        }
+    }
 }
 
 /// A UIView subclass for drawing the Source Icon itself.
@@ -193,6 +201,10 @@ fileprivate class SourceIcon: UIView {
             _isHighlighted = highlighted
             setNeedsDisplay()
         }
+    }
+    
+    var style: SourceView.Style = .dark {
+        didSet { if style != oldValue { setNeedsDisplay() } }
     }
     
     var color: UIColor? {
@@ -235,13 +247,13 @@ fileprivate class SourceIcon: UIView {
             color.withAlphaComponent(0.5).setStroke()
             context.strokeEllipse(in: CGRect(x: 0.5, y: 0.5, width: 29.0, height: 29.0))
             
-            textAttributes = [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 13.0), NSForegroundColorAttributeName: UIColor.black]
+            textAttributes = [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 13.0), NSForegroundColorAttributeName: style == .light ? UIColor.white : UIColor.black]
         } else {
             context.strokeEllipse(in: CGRect(x: 5.5, y: 5.5, width: 19.0, height: 19.0))
             textAttributes = [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 11.5), NSForegroundColorAttributeName: color]
         }
         
-        let textSize = text.boundingRect(with: .max, attributes: textAttributes, context: nil).size
+        let textSize = text.boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude), attributes: textAttributes, context: nil).size
         
         var textRect =  CGRect(origin: CGPoint(x: 15.0 - textSize.width / 2.0, y: 14.5 - textSize.height / 2.0), size: textSize)
         if count > 9 {

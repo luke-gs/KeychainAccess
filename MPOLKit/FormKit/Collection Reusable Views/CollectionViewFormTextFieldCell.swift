@@ -56,7 +56,7 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
         contentView.addSubview(titleLabel)
         contentView.addSubview(textField)
         
-        titleDetailSeparationConstraint = NSLayoutConstraint(item: textField, attribute: .top, relatedBy: .equal, toItem: titleLabel, attribute: .bottom, constant: 0.0)
+        titleDetailSeparationConstraint = NSLayoutConstraint(item: textField, attribute: .top, relatedBy: .equal, toItem: titleLabel, attribute: .bottom)
         
         NSLayoutConstraint.activate([
             NSLayoutConstraint(item: titleLabel, attribute: .top,      relatedBy: .equal,           toItem: contentModeLayoutGuide, attribute: .top),

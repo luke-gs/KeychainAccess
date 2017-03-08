@@ -42,7 +42,7 @@ open class TableViewFormTextFieldCell: TableViewFormCell {
         contentView.addSubview(titleLabel)
         contentView.addSubview(textField)
         
-        titleDetailSeparationConstraint = NSLayoutConstraint(item: textField, attribute: .top, relatedBy: .equal, toItem: titleLabel, attribute: .bottom, constant: 0.0)
+        titleDetailSeparationConstraint = NSLayoutConstraint(item: textField, attribute: .top, relatedBy: .equal, toItem: titleLabel, attribute: .bottom)
         
         let layoutGuide = contentModeLayoutGuide
         NSLayoutConstraint.activate([

@@ -13,12 +13,6 @@
 		6DA0E0F01E64D4530032B54F /* FormTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA0E0EF1E64D4530032B54F /* FormTextView.swift */; };
 		6DA6533D1E61759800ADB768 /* UIView+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA6533C1E61759800ADB768 /* UIView+Convenience.swift */; };
 		BC2152141E5950D500193086 /* CollectionViewFormBoxedLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2152131E5950D500193086 /* CollectionViewFormBoxedLayout.swift */; };
-		BC21A11B1E6CFE11008F3A14 /* SidebarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC21A1191E6CFE11008F3A14 /* SidebarItem.swift */; };
-		BC21A11C1E6CFE11008F3A14 /* SidebarTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC21A11A1E6CFE11008F3A14 /* SidebarTableViewCell.swift */; };
-		BC21A11F1E6CFE1A008F3A14 /* SourceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC21A11D1E6CFE1A008F3A14 /* SourceItem.swift */; };
-		BC21A1201E6CFE1A008F3A14 /* SourceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC21A11E1E6CFE1A008F3A14 /* SourceTableViewCell.swift */; };
-		BC21A1231E6CFE20008F3A14 /* SidebarSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC21A1211E6CFE20008F3A14 /* SidebarSplitViewController.swift */; };
-		BC21A1241E6CFE20008F3A14 /* SidebarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC21A1221E6CFE20008F3A14 /* SidebarViewController.swift */; };
 		BC27F7721E6BEAB500E28AA6 /* EntityCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC27F7711E6BEAB500E28AA6 /* EntityCollectionViewCell.swift */; };
 		BC27F7731E6BEAF000E28AA6 /* FloatingPoint+Equality.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEB66491E5D45D00001138B /* FloatingPoint+Equality.swift */; };
 		BC2FA2D31E54023E00E2D0D1 /* MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC2FA2C91E54023E00E2D0D1 /* MPOLKit.framework */; };
@@ -65,6 +59,14 @@
 		BC7150A31E56828A0093F958 /* UICollectionView+DefaultReuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC71509F1E56828A0093F958 /* UICollectionView+DefaultReuse.swift */; };
 		BC7150A41E56828A0093F958 /* UITableView+DefaultReuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7150A01E56828A0093F958 /* UITableView+DefaultReuse.swift */; };
 		BC7150A51E56828A0093F958 /* UITableViewCell+LayoutMargins.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7150A11E56828A0093F958 /* UITableViewCell+LayoutMargins.swift */; };
+		BC78D68B1E7008CA0069013B /* SidebarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC78D6871E7008CA0069013B /* SidebarItem.swift */; };
+		BC78D68C1E7008CA0069013B /* SidebarSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC78D6881E7008CA0069013B /* SidebarSplitViewController.swift */; };
+		BC78D68D1E7008CA0069013B /* SidebarTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC78D6891E7008CA0069013B /* SidebarTableViewCell.swift */; };
+		BC78D68E1E7008CA0069013B /* SidebarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC78D68A1E7008CA0069013B /* SidebarViewController.swift */; };
+		BC78D6911E7008DC0069013B /* SourceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC78D68F1E7008DC0069013B /* SourceItem.swift */; };
+		BC78D6941E7009250069013B /* SourceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC78D6931E7009250069013B /* SourceView.swift */; };
+		BC78D6961E7009630069013B /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC78D6951E7009630069013B /* GradientView.swift */; };
+		BC78D6971E700A3E0069013B /* SourceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC78D6901E7008DC0069013B /* SourceTableViewCell.swift */; };
 		BC87024C1E6E7C47003AAC5B /* PopoverFormSheetPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8702491E6E7C47003AAC5B /* PopoverFormSheetPresentationController.swift */; };
 		BC87024D1E6E7C47003AAC5B /* PopoverNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC87024A1E6E7C47003AAC5B /* PopoverNavigationController.swift */; };
 		BC87024E1E6E7C47003AAC5B /* PopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC87024B1E6E7C47003AAC5B /* PopoverViewController.swift */; };
@@ -118,12 +120,6 @@
 		6DA0E0EF1E64D4530032B54F /* FormTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormTextView.swift; sourceTree = "<group>"; };
 		6DA6533C1E61759800ADB768 /* UIView+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Convenience.swift"; sourceTree = "<group>"; };
 		BC2152131E5950D500193086 /* CollectionViewFormBoxedLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormBoxedLayout.swift; sourceTree = "<group>"; };
-		BC21A1191E6CFE11008F3A14 /* SidebarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SidebarItem.swift; path = "MPOLKit/UI/Sidebars & Sources/Sidebar/SidebarItem.swift"; sourceTree = SOURCE_ROOT; };
-		BC21A11A1E6CFE11008F3A14 /* SidebarTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SidebarTableViewCell.swift; path = "MPOLKit/UI/Sidebars & Sources/Sidebar/SidebarTableViewCell.swift"; sourceTree = SOURCE_ROOT; };
-		BC21A11D1E6CFE1A008F3A14 /* SourceItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SourceItem.swift; path = "MPOLKit/UI/Sidebars & Sources/Source Bar/SourceItem.swift"; sourceTree = SOURCE_ROOT; };
-		BC21A11E1E6CFE1A008F3A14 /* SourceTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SourceTableViewCell.swift; path = "MPOLKit/UI/Sidebars & Sources/Source Bar/SourceTableViewCell.swift"; sourceTree = SOURCE_ROOT; };
-		BC21A1211E6CFE20008F3A14 /* SidebarSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SidebarSplitViewController.swift; path = "MPOLKit/UI/Sidebars & Sources/SidebarSplitViewController.swift"; sourceTree = SOURCE_ROOT; };
-		BC21A1221E6CFE20008F3A14 /* SidebarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SidebarViewController.swift; path = "MPOLKit/UI/Sidebars & Sources/SidebarViewController.swift"; sourceTree = SOURCE_ROOT; };
 		BC27F7711E6BEAB500E28AA6 /* EntityCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EntityCollectionViewCell.swift; path = Cells/EntityCollectionViewCell.swift; sourceTree = "<group>"; };
 		BC2FA2C91E54023E00E2D0D1 /* MPOLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MPOLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC2FA2CC1E54023E00E2D0D1 /* MPOLKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPOLKit.h; sourceTree = "<group>"; };
@@ -172,6 +168,14 @@
 		BC71509F1E56828A0093F958 /* UICollectionView+DefaultReuse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UICollectionView+DefaultReuse.swift"; sourceTree = "<group>"; };
 		BC7150A01E56828A0093F958 /* UITableView+DefaultReuse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+DefaultReuse.swift"; sourceTree = "<group>"; };
 		BC7150A11E56828A0093F958 /* UITableViewCell+LayoutMargins.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+LayoutMargins.swift"; sourceTree = "<group>"; };
+		BC78D6871E7008CA0069013B /* SidebarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SidebarItem.swift; sourceTree = "<group>"; };
+		BC78D6881E7008CA0069013B /* SidebarSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SidebarSplitViewController.swift; sourceTree = "<group>"; };
+		BC78D6891E7008CA0069013B /* SidebarTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SidebarTableViewCell.swift; sourceTree = "<group>"; };
+		BC78D68A1E7008CA0069013B /* SidebarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SidebarViewController.swift; sourceTree = "<group>"; };
+		BC78D68F1E7008DC0069013B /* SourceItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceItem.swift; sourceTree = "<group>"; };
+		BC78D6901E7008DC0069013B /* SourceTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceTableViewCell.swift; sourceTree = "<group>"; };
+		BC78D6931E7009250069013B /* SourceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceView.swift; sourceTree = "<group>"; };
+		BC78D6951E7009630069013B /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		BC8702491E6E7C47003AAC5B /* PopoverFormSheetPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PopoverFormSheetPresentationController.swift; path = "Popover & Form Sheet/PopoverFormSheetPresentationController.swift"; sourceTree = "<group>"; };
 		BC87024A1E6E7C47003AAC5B /* PopoverNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PopoverNavigationController.swift; path = "Popover & Form Sheet/PopoverNavigationController.swift"; sourceTree = "<group>"; };
 		BC87024B1E6E7C47003AAC5B /* PopoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PopoverViewController.swift; path = "Popover & Form Sheet/PopoverViewController.swift"; sourceTree = "<group>"; };
@@ -222,24 +226,6 @@
 				6D3EC8681E654AE900C6999A /* PushableSplitViewController.swift */,
 			);
 			name = "Abstract View Controllers";
-			sourceTree = "<group>";
-		};
-		6DA0E0F31E6504B00032B54F /* Sidebar */ = {
-			isa = PBXGroup;
-			children = (
-				BC21A1191E6CFE11008F3A14 /* SidebarItem.swift */,
-				BC21A11A1E6CFE11008F3A14 /* SidebarTableViewCell.swift */,
-			);
-			name = Sidebar;
-			sourceTree = "<group>";
-		};
-		6DA0E0F41E65058B0032B54F /* Source Bar */ = {
-			isa = PBXGroup;
-			children = (
-				BC21A11D1E6CFE1A008F3A14 /* SourceItem.swift */,
-				BC21A11E1E6CFE1A008F3A14 /* SourceTableViewCell.swift */,
-			);
-			name = "Source Bar";
 			sourceTree = "<group>";
 		};
 		BC2FA2BF1E54023E00E2D0D1 = {
@@ -306,10 +292,12 @@
 				BCA68EB11E5AFC5B00CDEF13 /* BorderedImageView.swift */,
 				BC6EE0061E6BE7A2003E3D4C /* Cells */,
 				BCFD25541E5C03A800EC2566 /* FormKit MPOL Additions */,
+				BC78D6951E7009630069013B /* GradientView.swift */,
 				BCDC5B951E6F8143007424FC /* KeyboardNumberBar.swift */,
 				BC8702481E6E7C26003AAC5B /* Popover & Form Sheet */,
 				BC691B391E54041200EC3A20 /* ScrollViewInsetManager.swift */,
-				BC691B3A1E54041200EC3A20 /* Sidebars & Sources */,
+				BC691B3A1E54041200EC3A20 /* Sidebar */,
+				BC78D6861E70086F0069013B /* Source View */,
 				BCEBA1951E5BC1E900FD404D /* SourceLabel.swift */,
 				BC691B411E54041200EC3A20 /* Theme.swift */,
 				BCE00E601E667F6A00D39E09 /* ViewControllerTransition.swift */,
@@ -328,15 +316,14 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		BC691B3A1E54041200EC3A20 /* Sidebars & Sources */ = {
+		BC691B3A1E54041200EC3A20 /* Sidebar */ = {
 			isa = PBXGroup;
 			children = (
-				BC21A1211E6CFE20008F3A14 /* SidebarSplitViewController.swift */,
-				BC21A1221E6CFE20008F3A14 /* SidebarViewController.swift */,
-				6DA0E0F31E6504B00032B54F /* Sidebar */,
-				6DA0E0F41E65058B0032B54F /* Source Bar */,
+				BC78D6881E7008CA0069013B /* SidebarSplitViewController.swift */,
+				BC78D68A1E7008CA0069013B /* SidebarViewController.swift */,
+				BC78D6891E7008CA0069013B /* SidebarTableViewCell.swift */,
+				BC78D6871E7008CA0069013B /* SidebarItem.swift */,
 			);
-			name = "Sidebars & Sources";
 			path = Sidebar;
 			sourceTree = "<group>";
 		};
@@ -435,6 +422,17 @@
 			);
 			name = Core;
 			path = UI;
+			sourceTree = "<group>";
+		};
+		BC78D6861E70086F0069013B /* Source View */ = {
+			isa = PBXGroup;
+			children = (
+				BC78D6931E7009250069013B /* SourceView.swift */,
+				BC78D68F1E7008DC0069013B /* SourceItem.swift */,
+				BC78D6901E7008DC0069013B /* SourceTableViewCell.swift */,
+			);
+			name = "Source View";
+			path = Sidebar;
 			sourceTree = "<group>";
 		};
 		BC8702481E6E7C26003AAC5B /* Popover & Form Sheet */ = {
@@ -617,14 +615,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BC21A11C1E6CFE11008F3A14 /* SidebarTableViewCell.swift in Sources */,
 				BC712E861E5535B800BD5DAE /* TableViewFormTextViewCell.swift in Sources */,
+				BC78D6941E7009250069013B /* SourceView.swift in Sources */,
 				BC712E731E5535B800BD5DAE /* CollectionViewFormSelectionCell.swift in Sources */,
 				BC712E851E5535B800BD5DAE /* TableViewFormTextFieldCell.swift in Sources */,
+				BC78D6911E7008DC0069013B /* SourceItem.swift in Sources */,
 				BC712E781E5535B800BD5DAE /* CollectionViewFormTextFieldCell.swift in Sources */,
 				6DA0E0F01E64D4530032B54F /* FormTextView.swift in Sources */,
+				BC78D68B1E7008CA0069013B /* SidebarItem.swift in Sources */,
+				BC78D68D1E7008CA0069013B /* SidebarTableViewCell.swift in Sources */,
 				BC712E891E5535B800BD5DAE /* RadioButton.swift in Sources */,
 				BC87024C1E6E7C47003AAC5B /* PopoverFormSheetPresentationController.swift in Sources */,
+				BC78D6961E7009630069013B /* GradientView.swift in Sources */,
 				BC8702511E6E7CEC003AAC5B /* DefaultReusable.swift in Sources */,
 				BC691B441E54041200EC3A20 /* UIColor+Hex.swift in Sources */,
 				BC712E791E5535B800BD5DAE /* CollectionViewFormTextViewCell.swift in Sources */,
@@ -636,25 +638,23 @@
 				BC712E7C1E5535B800BD5DAE /* UIColor+ActionColors.swift in Sources */,
 				BCFD25581E5C03BE00EC2566 /* CollectionViewFormMPOLLayout.swift in Sources */,
 				BC27F7721E6BEAB500E28AA6 /* EntityCollectionViewCell.swift in Sources */,
-				BC21A1201E6CFE1A008F3A14 /* SourceTableViewCell.swift in Sources */,
+				BC78D68E1E7008CA0069013B /* SidebarViewController.swift in Sources */,
 				6D3EC86A1E654AE900C6999A /* PushableSplitViewController.swift in Sources */,
-				BC21A1241E6CFE20008F3A14 /* SidebarViewController.swift in Sources */,
 				BC712E7B1E5535B800BD5DAE /* NSLayoutConstraint+Conveniences.swift in Sources */,
 				BC2152141E5950D500193086 /* CollectionViewFormBoxedLayout.swift in Sources */,
 				BC712E7A1E5535B800BD5DAE /* CoreGraphics+Rounding.swift in Sources */,
 				BCDC5B961E6F8143007424FC /* KeyboardNumberBar.swift in Sources */,
 				BC712E811E5535B800BD5DAE /* CollectionViewFormLayout.swift in Sources */,
 				BC712E871E5535B800BD5DAE /* CheckBox.swift in Sources */,
-				BC21A11B1E6CFE11008F3A14 /* SidebarItem.swift in Sources */,
-				BC21A11F1E6CFE1A008F3A14 /* SourceItem.swift in Sources */,
 				BC712E7D1E5535B800BD5DAE /* UIEdgeInsets+InverseAndInset.swift in Sources */,
 				6D3EC8691E654AE900C6999A /* FormCollectionViewController.swift in Sources */,
 				BC7150A51E56828A0093F958 /* UITableViewCell+LayoutMargins.swift in Sources */,
+				BC78D6971E700A3E0069013B /* SourceTableViewCell.swift in Sources */,
 				BC712E8A1E5535B800BD5DAE /* SelectableButton.swift in Sources */,
 				BCE00E5A1E666FA000D39E09 /* CoreGraphics+Convenience.swift in Sources */,
 				BC712E841E5535B800BD5DAE /* TableViewFormDetailCell.swift in Sources */,
 				BC7150A31E56828A0093F958 /* UICollectionView+DefaultReuse.swift in Sources */,
-				BC21A1231E6CFE20008F3A14 /* SidebarSplitViewController.swift in Sources */,
+				BC78D68C1E7008CA0069013B /* SidebarSplitViewController.swift in Sources */,
 				BC712E721E5535B800BD5DAE /* CollectionViewFormCell.swift in Sources */,
 				BCA68EB21E5AFC5B00CDEF13 /* BorderedImageView.swift in Sources */,
 				BC712E801E5535B800BD5DAE /* CollectionViewFormAttributes.swift in Sources */,
