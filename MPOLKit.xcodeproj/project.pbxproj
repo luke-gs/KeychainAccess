@@ -24,6 +24,7 @@
 		BC2FA2F91E54026D00E2D0D1 /* MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC2FA2C91E54023E00E2D0D1 /* MPOLKit.framework */; };
 		BC2FA2FA1E54026D00E2D0D1 /* MPOLKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BC2FA2C91E54023E00E2D0D1 /* MPOLKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BC36ABE81E5D28310052C4C5 /* CollectionViewFormMPOLHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC36ABE71E5D28310052C4C5 /* CollectionViewFormMPOLHeaderView.swift */; };
+		BC3E85D31E70322F00D73E42 /* DefaultReusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3E85D21E70322F00D73E42 /* DefaultReusable.swift */; };
 		BC45116B1E6ACE9900E522EB /* UITextView+Notifications.h in Headers */ = {isa = PBXBuildFile; fileRef = BC4511691E6ACE9900E522EB /* UITextView+Notifications.h */; };
 		BC45116C1E6ACE9900E522EB /* UITextView+Notifications.m in Sources */ = {isa = PBXBuildFile; fileRef = BC45116A1E6ACE9900E522EB /* UITextView+Notifications.m */; };
 		BC691B2A1E5403B200EC3A20 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC691B291E5403B200EC3A20 /* Assets.xcassets */; };
@@ -70,7 +71,6 @@
 		BC87024C1E6E7C47003AAC5B /* PopoverFormSheetPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8702491E6E7C47003AAC5B /* PopoverFormSheetPresentationController.swift */; };
 		BC87024D1E6E7C47003AAC5B /* PopoverNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC87024A1E6E7C47003AAC5B /* PopoverNavigationController.swift */; };
 		BC87024E1E6E7C47003AAC5B /* PopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC87024B1E6E7C47003AAC5B /* PopoverViewController.swift */; };
-		BC8702511E6E7CEC003AAC5B /* DefaultReusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8702501E6E7CEC003AAC5B /* DefaultReusable.swift */; };
 		BCA68EB21E5AFC5B00CDEF13 /* BorderedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA68EB11E5AFC5B00CDEF13 /* BorderedImageView.swift */; };
 		BCA68EB41E5B0A4A00CDEF13 /* TestCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA68EB31E5B0A4A00CDEF13 /* TestCollectionViewController.swift */; };
 		BCD35CA71E5AA472001B40A1 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD35CA61E5AA472001B40A1 /* BadgeView.swift */; };
@@ -133,6 +133,7 @@
 		BC2FA2F31E54026700E2D0D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BC2FA2F51E54026700E2D0D1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BC36ABE71E5D28310052C4C5 /* CollectionViewFormMPOLHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormMPOLHeaderView.swift; sourceTree = "<group>"; };
+		BC3E85D21E70322F00D73E42 /* DefaultReusable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultReusable.swift; sourceTree = "<group>"; };
 		BC4511691E6ACE9900E522EB /* UITextView+Notifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+Notifications.h"; sourceTree = "<group>"; };
 		BC45116A1E6ACE9900E522EB /* UITextView+Notifications.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+Notifications.m"; sourceTree = "<group>"; };
 		BC691B291E5403B200EC3A20 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -179,7 +180,6 @@
 		BC8702491E6E7C47003AAC5B /* PopoverFormSheetPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PopoverFormSheetPresentationController.swift; path = "Popover & Form Sheet/PopoverFormSheetPresentationController.swift"; sourceTree = "<group>"; };
 		BC87024A1E6E7C47003AAC5B /* PopoverNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PopoverNavigationController.swift; path = "Popover & Form Sheet/PopoverNavigationController.swift"; sourceTree = "<group>"; };
 		BC87024B1E6E7C47003AAC5B /* PopoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PopoverViewController.swift; path = "Popover & Form Sheet/PopoverViewController.swift"; sourceTree = "<group>"; };
-		BC8702501E6E7CEC003AAC5B /* DefaultReusable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultReusable.swift; sourceTree = "<group>"; };
 		BCA68EB11E5AFC5B00CDEF13 /* BorderedImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderedImageView.swift; sourceTree = "<group>"; };
 		BCA68EB31E5B0A4A00CDEF13 /* TestCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestCollectionViewController.swift; sourceTree = "<group>"; };
 		BCD35CA61E5AA472001B40A1 /* BadgeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
@@ -448,7 +448,7 @@
 		BC87024F1E6E7CDC003AAC5B /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				BC8702501E6E7CEC003AAC5B /* DefaultReusable.swift */,
+				BC3E85D21E70322F00D73E42 /* DefaultReusable.swift */,
 			);
 			name = Protocols;
 			path = Views;
@@ -623,11 +623,11 @@
 				BC712E781E5535B800BD5DAE /* CollectionViewFormTextFieldCell.swift in Sources */,
 				6DA0E0F01E64D4530032B54F /* FormTextView.swift in Sources */,
 				BC78D68B1E7008CA0069013B /* SidebarItem.swift in Sources */,
+				BC3E85D31E70322F00D73E42 /* DefaultReusable.swift in Sources */,
 				BC78D68D1E7008CA0069013B /* SidebarTableViewCell.swift in Sources */,
 				BC712E891E5535B800BD5DAE /* RadioButton.swift in Sources */,
 				BC87024C1E6E7C47003AAC5B /* PopoverFormSheetPresentationController.swift in Sources */,
 				BC78D6961E7009630069013B /* GradientView.swift in Sources */,
-				BC8702511E6E7CEC003AAC5B /* DefaultReusable.swift in Sources */,
 				BC691B441E54041200EC3A20 /* UIColor+Hex.swift in Sources */,
 				BC712E791E5535B800BD5DAE /* CollectionViewFormTextViewCell.swift in Sources */,
 				BC7150A41E56828A0093F958 /* UITableView+DefaultReuse.swift in Sources */,
