@@ -69,7 +69,7 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
     ///
     /// This label is positioned over the image view's bottom left corner, and
     /// indicates the data source the entity was fetched from.
-    public let sourceLabel = SourceLabel(frame: .zero)
+    public let sourceLabel = RoundedRectLabel(frame: .zero)
     
     
     /// The alert count for the entity.
@@ -101,7 +101,7 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
     
     fileprivate let borderedImageView = BorderedImageView(frame: .zero)
     
-    fileprivate let badgeView = BadgeView(frame: .zero)
+    fileprivate let badgeView = SystemBadgeView(frame: .zero)
     
     fileprivate let contentBackingView = UIView(frame: .zero)
     

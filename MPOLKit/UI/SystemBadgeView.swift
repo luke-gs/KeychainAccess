@@ -1,5 +1,5 @@
 //
-//  BadgeView.swift
+//  SystemBadgeView.swift
 //  MPOLKit
 //
 //  Created by Rod Brown on 20/2/17.
@@ -9,11 +9,11 @@
 import UIKit
 
 
-/// `BadgeView` is a `UILabel` subclass designed for use as an iOS style count badge.
+/// `SystemBadgeView` is a `UILabel` subclass designed for use as an iOS style count badge.
 ///
-/// `BadgeView` automatically shows and hides depending on whether it has text. To
+/// `SystemBadgeView` automatically shows and hides depending on whether it has text. To
 /// adjust the badge color, update the backgroundColor property.
-public class BadgeView: UILabel {
+public class SystemBadgeView: UILabel {
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -38,7 +38,7 @@ public class BadgeView: UILabel {
 
 // MARK: - Overrides
 /// Overrides
-extension BadgeView {
+extension SystemBadgeView {
     
     public override var bounds: CGRect {
         didSet {
@@ -80,7 +80,7 @@ extension BadgeView {
 
 // MARK: - Private methods
 /// Private methods
-fileprivate extension BadgeView {
+fileprivate extension SystemBadgeView {
     
     fileprivate func updateCornerRadius() {
         let bounds = self.bounds
