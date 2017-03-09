@@ -1,0 +1,6 @@
+framework module Pods_MPOLKit_Example {
+  umbrella header "Pods-MPOLKit_Example-umbrella.h"
+
+  export *
+  module * { export * }
+}

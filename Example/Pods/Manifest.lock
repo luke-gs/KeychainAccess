@@ -1,0 +1,18 @@
+PODS:
+  - MPOLKit (0.1.0):
+    - MPOLKit/Core (= 0.1.0)
+  - MPOLKit/Core (0.1.0)
+
+DEPENDENCIES:
+  - MPOLKit (from `../`)
+
+EXTERNAL SOURCES:
+  MPOLKit:
+    :path: ../
+
+SPEC CHECKSUMS:
+  MPOLKit: f5163d40a1babdd4c377c833cb048464645f6141
+
+PODFILE CHECKSUM: 66a8f5bf685779f795824e4745a52c4e00f7556f
+
+COCOAPODS: 1.2.0

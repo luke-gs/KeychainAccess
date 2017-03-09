@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'MPOLKit_Example' do
+  pod 'MPOLKit', :path => '../'
+
+  target 'MPOLKit_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
