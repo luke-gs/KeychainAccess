@@ -13,7 +13,8 @@ import UIKit
 /// Source view provides a soft "glow" on selected items, and can be configured to
 /// optimize for light or dark contexts. When compressed the source bar allows scrolling
 /// to further elements.
-public class SourceView: GradientView {
+public class SourceBar: GradientView {
+    
     
     /// The style options available on SourceView.
     public enum Style {
@@ -84,7 +85,7 @@ public class SourceView: GradientView {
     
     
     /// The delegate to receive messages when the user interacts with the source view.
-    public weak var delegate: SourceViewDelegate?
+    public weak var delegate: SourceBarDelegate?
     
     
     /// The scroll view internal of the view.
@@ -92,22 +93,20 @@ public class SourceView: GradientView {
     /// This property is exposed to allow for adjusting content and scroll indicator insets
     /// to account for keyboard positions etc. You should not modify any other properties
     /// of the scroll view.
-    public let scrollView: UIScrollView
+    public var scrollView: UIScrollView {
+        return tableView
+    }
     
-    fileprivate let tableView: UITableView
+    fileprivate let tableView = UITableView(frame: .zero, style: .plain)
     
     fileprivate var isUserDrivenEvent: Bool = false
     
     public override init(frame: CGRect) {
-        tableView = UITableView(frame: .zero, style: .plain)
-        scrollView = tableView
         super.init(frame: frame)
         commonInit()
     }
     
     public required init?(coder aDecoder: NSCoder) {
-        tableView = UITableView(frame: .zero, style: .plain)
-        scrollView = tableView
         super.init(coder: aDecoder)
         commonInit()
     }
@@ -118,40 +117,33 @@ public class SourceView: GradientView {
         setContentHuggingPriority(UILayoutPriorityFittingSizeLevel, for: .vertical)
         setContentHuggingPriority(UILayoutPriorityRequired - 1,     for: .horizontal)
         
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.backgroundColor = .clear
-        tableView.separatorStyle = .none
+        tableView.frame            = bounds
+        tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        tableView.dataSource       = self
+        tableView.delegate         = self
+        tableView.tableHeaderView  = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 64.0, height: 10.0))
+        tableView.tableFooterView  = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 64.0, height: 10.0))
+        tableView.rowHeight        = 77.0
         tableView.alwaysBounceVertical = false
-        tableView.dataSource = self
-        tableView.rowHeight = 77.0
-        tableView.indicatorStyle = style == .dark ? .white : .black
-        tableView.tableHeaderView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 64.0, height: 10.0))
-        tableView.tableFooterView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 64.0, height: 10.0))
+        tableView.backgroundColor  = .clear
+        tableView.indicatorStyle   = style == .dark ? .white : .black
+        tableView.separatorStyle   = .none
         tableView.register(SourceTableViewCell.self)
         addSubview(tableView)
-        
-        NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: tableView, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX),
-            NSLayoutConstraint(item: tableView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY),
-            NSLayoutConstraint(item: tableView, attribute: .width,   relatedBy: .equal, toItem: self, attribute: .width),
-            NSLayoutConstraint(item: tableView, attribute: .height,  relatedBy: .equal, toItem: self, attribute: .height)
-            ])
     }
     
 }
 
 
-extension SourceView: UITableViewDataSource {
+extension SourceBar: UITableViewDataSource {
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        precondition(tableView == self.tableView, "SourceView only supports UITableViewDataSource methods for its own table view.")
+        precondition(tableView == self.tableView, "SourceBar only supports UITableViewDataSource methods for its own table view.")
         return items.count
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        precondition(tableView == self.tableView, "SourceView only supports UITableViewDataSource methods for its own table view.")
+        precondition(tableView == self.tableView, "SourceBar only supports UITableViewDataSource methods for its own table view.")
         
         let cell = tableView.dequeueReusableCell(of: SourceTableViewCell.self, for: indexPath)
         cell.update(for: items[indexPath.row], withStyle: style)
@@ -161,26 +153,26 @@ extension SourceView: UITableViewDataSource {
 }
 
 
-extension SourceView: UITableViewDelegate {
+extension SourceBar: UITableViewDelegate {
     
     public func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-        precondition(tableView == self.tableView, "SourceView only supports UITableViewDelegate methods for its own table view.")
+        precondition(tableView == self.tableView, "SourceBar only supports UITableViewDelegate methods for its own table view.")
         return items[indexPath.row].isEnabled
     }
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        precondition(tableView == self.tableView, "SourceView only supports UITableViewDelegate methods for its own table view.")
+        precondition(tableView == self.tableView, "SourceBar only supports UITableViewDelegate methods for its own table view.")
         
         isUserDrivenEvent = true
         selectedIndex = indexPath.row
         isUserDrivenEvent = false
         
-        delegate?.sourceView(self, didSelectItemAt: indexPath.row)
+        delegate?.sourceBar(self, didSelectItemAt: indexPath.row)
     }
     
 }
 
-extension SourceView {
+extension SourceBar {
     
     public override var intrinsicContentSize: CGSize {
         let sourceItemCount = items.count
@@ -192,10 +184,11 @@ extension SourceView {
 }
 
 
-/// The delegate of a `SourceView` object must adopt the SourceViewDelegate protocol.
+/// The delegate of a `SourceBar` object must adopt the SourceViewDelegate protocol.
 /// The protocol provides callbacks for when the selected item changed.
-public protocol SourceViewDelegate: class {
+public protocol SourceBarDelegate: class {
     
-    func sourceView(_ view: SourceView, didSelectItemAt index: Int)
+    func sourceBar(_ bar: SourceBar, didSelectItemAt index: Int)
     
 }
+

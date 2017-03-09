@@ -56,13 +56,13 @@ open class SidebarViewController: UIViewController {
     public var sourceItems: [SourceItem] = [] {
         didSet {
             viewIfLoaded?.setNeedsLayout()
-            sourceView?.items = sourceItems
+            sourceBar?.items = sourceItems
             
             if let selectedSourceIndex = selectedSourceIndex,
                 selectedSourceIndex >= sourceItems.count {
                 self.selectedSourceIndex = nil
             } else {
-                sourceView?.selectedIndex = selectedSourceIndex
+                sourceBar?.selectedIndex = selectedSourceIndex
             }
         }
     }
@@ -73,7 +73,7 @@ open class SidebarViewController: UIViewController {
             if let selectedSourceIndex = selectedSourceIndex {
                 precondition(selectedSourceIndex < sourceItems.count)
             }
-            sourceView?.selectedIndex = selectedSourceIndex
+            sourceBar?.selectedIndex = selectedSourceIndex
         }
     }
     
@@ -94,7 +94,7 @@ open class SidebarViewController: UIViewController {
     /// The delegate for the sidebar.
     open weak var delegate: SidebarViewControllerDelegate? = nil
     
-    fileprivate var sourceView: SourceView?
+    fileprivate var sourceBar: SourceBar?
     
     fileprivate var sourceInsetManager: ScrollViewInsetManager?
     
@@ -138,13 +138,13 @@ extension SidebarViewController {
         
         let baseColor = #colorLiteral(red: 0.2604376972, green: 0.2660070062, blue: 0.292562902, alpha: 1)
         
-        let sourceView = SourceView(frame: .zero)
-        sourceView.gradientColors = [#colorLiteral(red: 0.07436346263, green: 0.0783027485, blue: 0.08661026508, alpha: 1), baseColor]
-        sourceView.translatesAutoresizingMaskIntoConstraints = false
-        sourceView.delegate = self
-        sourceView.items = sourceItems
-        sourceView.selectedIndex = selectedSourceIndex
-        view.addSubview(sourceView)
+        let sourceBar = SourceBar(frame: .zero)
+        sourceBar.gradientColors = [#colorLiteral(red: 0.07436346263, green: 0.0783027485, blue: 0.08661026508, alpha: 1), baseColor]
+        sourceBar.translatesAutoresizingMaskIntoConstraints = false
+        sourceBar.delegate = self
+        sourceBar.items = sourceItems
+        sourceBar.selectedIndex = selectedSourceIndex
+        view.addSubview(sourceBar)
         
         let sidebarBackground = GradientView(frame: .zero)
         sidebarBackground.gradientColors = [#colorLiteral(red: 0.1135626361, green: 0.1174433306, blue: 0.1298944652, alpha: 1), baseColor]
@@ -161,21 +161,21 @@ extension SidebarViewController {
         view.addSubview(sidebarTableView)
         
         self.view             = view
-        self.sourceView       = sourceView
+        self.sourceBar        = sourceBar
         self.sidebarTableView = sidebarTableView
         
         NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: sourceView, attribute: .top,     relatedBy: .equal, toItem: view, attribute: .top),
-            NSLayoutConstraint(item: sourceView, attribute: .bottom,  relatedBy: .equal, toItem: view, attribute: .bottom),
-            NSLayoutConstraint(item: sourceView, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leading),
+            NSLayoutConstraint(item: sourceBar, attribute: .top,     relatedBy: .equal, toItem: view, attribute: .top),
+            NSLayoutConstraint(item: sourceBar, attribute: .bottom,  relatedBy: .equal, toItem: view, attribute: .bottom),
+            NSLayoutConstraint(item: sourceBar, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leading),
             
             NSLayoutConstraint(item: sidebarTableView, attribute: .top,      relatedBy: .equal, toItem: view,       attribute: .top),
             NSLayoutConstraint(item: sidebarTableView, attribute: .bottom,   relatedBy: .equal, toItem: view,       attribute: .bottom),
-            NSLayoutConstraint(item: sidebarTableView, attribute: .leading,  relatedBy: .equal, toItem: sourceView, attribute: .trailing),
+            NSLayoutConstraint(item: sidebarTableView, attribute: .leading,  relatedBy: .equal, toItem: sourceBar, attribute: .trailing),
             NSLayoutConstraint(item: sidebarTableView, attribute: .trailing, relatedBy: .equal, toItem: view,       attribute: .trailing)
         ])
         
-        sourceInsetManager  = ScrollViewInsetManager(scrollView: sourceView.scrollView)
+        sourceInsetManager  = ScrollViewInsetManager(scrollView: sourceBar.scrollView)
         sidebarInsetManager = ScrollViewInsetManager(scrollView: sidebarTableView)
         
         /* We apply these layout margins after all property setting is done because for some reason
@@ -202,7 +202,7 @@ extension SidebarViewController {
     
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        sourceView?.scrollView.flashScrollIndicators()
+        sourceBar?.scrollView.flashScrollIndicators()
         sidebarTableView?.flashScrollIndicators()
     }
     
@@ -234,9 +234,9 @@ extension SidebarViewController : UITableViewDataSource, UITableViewDelegate {
     
 }
 
-extension SidebarViewController: SourceViewDelegate {
+extension SidebarViewController: SourceBarDelegate {
     
-    public func sourceView(_ view: SourceView, didSelectItemAt index: Int) {
+    public func sourceBar(_ bar: SourceBar, didSelectItemAt index: Int) {
         selectedSourceIndex = index
         delegate?.sidebarViewController(self, didSelectSourceAt: index)
     }

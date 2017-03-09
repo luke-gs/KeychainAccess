@@ -55,7 +55,7 @@
 		BC00DFBB1E711CAA001ACB1E /* SidebarSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC445C811E71199800A58ACA /* SidebarSplitViewController.swift */; };
 		BC00DFBC1E711CAD001ACB1E /* SidebarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC445C791E71193B00A58ACA /* SidebarViewController.swift */; };
 		BC00DFBD1E711CAF001ACB1E /* SidebarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC445C7B1E71197C00A58ACA /* SidebarItem.swift */; };
-		BC00DFBE1E711CB4001ACB1E /* SourceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC445C831E7119C600A58ACA /* SourceView.swift */; };
+		BC00DFBE1E711CB4001ACB1E /* SourceBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC445C831E7119C600A58ACA /* SourceBar.swift */; };
 		BC00DFBF1E711CB6001ACB1E /* SourceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC445C851E7119C600A58ACA /* SourceItem.swift */; };
 		BC00DFC01E711CBA001ACB1E /* SourceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC445C841E7119C600A58ACA /* SourceTableViewCell.swift */; };
 		BC00DFC21E711DB8001ACB1E /* InterfaceBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC00DFC11E711DB8001ACB1E /* InterfaceBadgeView.swift */; };
@@ -160,7 +160,7 @@
 		BC445C7B1E71197C00A58ACA /* SidebarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SidebarItem.swift; sourceTree = "<group>"; };
 		BC445C7C1E71197C00A58ACA /* SidebarTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SidebarTableViewCell.swift; sourceTree = "<group>"; };
 		BC445C811E71199800A58ACA /* SidebarSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SidebarSplitViewController.swift; sourceTree = "<group>"; };
-		BC445C831E7119C600A58ACA /* SourceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceView.swift; sourceTree = "<group>"; };
+		BC445C831E7119C600A58ACA /* SourceBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceBar.swift; sourceTree = "<group>"; };
 		BC445C841E7119C600A58ACA /* SourceTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceTableViewCell.swift; sourceTree = "<group>"; };
 		BC445C851E7119C600A58ACA /* SourceItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceItem.swift; sourceTree = "<group>"; };
 		BC5906161E711896007C712A /* UITextView+Notifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+Notifications.h"; sourceTree = "<group>"; };
@@ -448,7 +448,7 @@
 				3BC69DE01435B5228C91666146B81067 /* FormKit MPOL Additions */,
 				2EC0E2145A4D5ED252E95F81D53542E1 /* Popover & Form Sheet */,
 				27D38F58DFE4397DF81CF0A98F05EFCA /* Sidebar */,
-				BC5906061E71182E007C712A /* Source View */,
+				BC5906061E71182E007C712A /* Source Bar */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -484,14 +484,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		BC5906061E71182E007C712A /* Source View */ = {
+		BC5906061E71182E007C712A /* Source Bar */ = {
 			isa = PBXGroup;
 			children = (
-				BC445C831E7119C600A58ACA /* SourceView.swift */,
+				BC445C831E7119C600A58ACA /* SourceBar.swift */,
 				BC445C851E7119C600A58ACA /* SourceItem.swift */,
 				BC445C841E7119C600A58ACA /* SourceTableViewCell.swift */,
 			);
-			path = "Source View";
+			path = "Source Bar";
 			sourceTree = "<group>";
 		};
 		CE8E3B8CC4B07121C06CD63008E9DC89 /* Classes */ = {
@@ -712,7 +712,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC5906191E711896007C712A /* UITextView+Notifications.m in Sources */,
-				BC00DFBE1E711CB4001ACB1E /* SourceView.swift in Sources */,
+				BC00DFBE1E711CB4001ACB1E /* SourceBar.swift in Sources */,
 				BC00DFBF1E711CB6001ACB1E /* SourceItem.swift in Sources */,
 				BC00DFC21E711DB8001ACB1E /* InterfaceBadgeView.swift in Sources */,
 				7B3EF20A726B534049A6040F4C6903FE /* BorderedImageView.swift in Sources */,

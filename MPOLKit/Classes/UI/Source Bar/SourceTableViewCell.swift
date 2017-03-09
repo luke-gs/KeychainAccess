@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class SourceTableViewCell: UITableViewCell {
+internal class SourceTableViewCell: UITableViewCell {
     
     fileprivate static let lightDisabledColor = #colorLiteral(red: 0.2352941176, green: 0.2352941176, blue: 0.2352941176, alpha: 0.2978102993)
     fileprivate static let darkDisabledColor  = #colorLiteral(red: 0.2352941176, green: 0.2352941176, blue: 0.2352941176, alpha: 1)
@@ -18,14 +18,14 @@ open class SourceTableViewCell: UITableViewCell {
     
     fileprivate var isEnabled: Bool = true
     
-    fileprivate var style: SourceView.Style = .dark
+    fileprivate var style: SourceBar.Style = .dark
     
-    public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    internal override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         commonInit()
     }
     
-    public required init?(coder aDecoder: NSCoder) {
+    internal required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         commonInit()
     }
@@ -57,10 +57,10 @@ open class SourceTableViewCell: UITableViewCell {
             NSLayoutConstraint(item: titleLabel, attribute: .centerX, relatedBy: .equal, toItem: contentView, attribute: .centerX),
             NSLayoutConstraint(item: titleLabel, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .top, constant: 59.0),
             NSLayoutConstraint(item: titleLabel, attribute: .leading, relatedBy: .equal, toItem: contentView, attribute: .leading, constant: 5.0)
-            ])
+        ])
     }
     
-    open func update(for item: SourceItem, withStyle style: SourceView.Style) {
+    internal func update(for item: SourceItem, withStyle style: SourceBar.Style) {
         self.style = style
         
         titleLabel.text = item.title
@@ -84,33 +84,35 @@ open class SourceTableViewCell: UITableViewCell {
         updateTextAttributes()
     }
     
-    open override func setSelected(_ selected: Bool, animated: Bool) {
+}
+
+extension SourceTableViewCell {
+    
+    internal override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         updateTextAttributes()
     }
     
-    open override func setHighlighted(_ highlighted: Bool, animated: Bool) {
+    internal override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         super.setHighlighted(highlighted, animated: animated)
         updateTextAttributes()
     }
     
-    open override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
-        return CGSize(width: 64.0, height: 88.0)
-    }
-    
-    private func updateTextAttributes() {
+}
+
+fileprivate extension SourceTableViewCell {
+    fileprivate func updateTextAttributes() {
         let highlight = isSelected || isHighlighted
         
         switch style {
         case .light:
-            titleLabel.textColor = isEnabled ? (highlight ? .darkGray : .gray) : SourceTableViewCell.lightDisabledColor
+            titleLabel.textColor = isEnabled ? (highlight ? .darkGray : .gray)   : SourceTableViewCell.lightDisabledColor
         case .dark:
             titleLabel.textColor = isEnabled ? (highlight ? .white : .lightGray) : SourceTableViewCell.darkDisabledColor
         }
         
         titleLabel.font = highlight ? .systemFont(ofSize: 12.5, weight: UIFontWeightBold) : .systemFont(ofSize: 11.5, weight: UIFontWeightRegular)
     }
-    
 }
 
 extension SourceTableViewCell: DefaultReusable {
