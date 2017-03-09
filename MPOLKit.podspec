@@ -22,16 +22,9 @@ s.source           = { :git => 'https://github.com/Gridstone/mPolKit-iOS.git', :
 
 s.ios.deployment_target = '10.0'
 
-s.default_subspec = "Core"
+s.source_files = 'MPOLKit/Classes/**/*'
 
-s.subspec "Core" do |core|
-core.source_files = 'MPOLKit/Classes/**/*'
 s.resources = ['MPOLKit/Assets/MPOL/**/*']
-end
-
-#s.source_files = 'MPOLKit/Classes/**/*'
-
-#s.resources = ['MPOLKit/Assets/MPOL/**/*']
 
 s.subspec 'FormKit' do |formkit|
 formkit.source_files = 'MPOLKit/Classes/FormKit/**/*'
