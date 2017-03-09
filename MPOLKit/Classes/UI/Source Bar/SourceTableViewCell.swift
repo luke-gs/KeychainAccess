@@ -56,7 +56,7 @@ internal class SourceTableViewCell: UITableViewCell {
             
             NSLayoutConstraint(item: titleLabel, attribute: .centerX, relatedBy: .equal, toItem: contentView, attribute: .centerX),
             NSLayoutConstraint(item: titleLabel, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .top, constant: 59.0),
-            NSLayoutConstraint(item: titleLabel, attribute: .leading, relatedBy: .equal, toItem: contentView, attribute: .leading, constant: 5.0)
+            NSLayoutConstraint(item: titleLabel, attribute: .leading, relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .leading, constant: 5.0)
         ])
     }
     
