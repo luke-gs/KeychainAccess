@@ -1,7 +1,7 @@
 PODS:
   - MPOLKit (0.1.0):
-    - MPOLKit/FormKit (= 0.1.0)
-  - MPOLKit/FormKit (0.1.0)
+    - MPOLKit/Core (= 0.1.0)
+  - MPOLKit/Core (0.1.0)
 
 DEPENDENCIES:
   - MPOLKit (from `../`)
@@ -11,8 +11,8 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  MPOLKit: e5d280dc2b1f4851567c207b5abaebf662c37574
+  MPOLKit: f5163d40a1babdd4c377c833cb048464645f6141
 
 PODFILE CHECKSUM: 66a8f5bf685779f795824e4745a52c4e00f7556f
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.2.0
