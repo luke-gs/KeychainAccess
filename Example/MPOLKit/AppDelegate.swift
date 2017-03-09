@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  MPOLKit Demo
+//  MPOLKit-Example
 //
 //  Created by Rod Brown on 15/2/17.
 //  Copyright © 2017 Gridstone. All rights reserved.

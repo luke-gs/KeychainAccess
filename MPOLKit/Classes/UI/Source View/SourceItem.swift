@@ -35,8 +35,7 @@ public struct SourceItem {
 }
 
 
-extension SourceItem: Equatable {
-}
+extension SourceItem: Equatable {}
 
 public func ==(lhs: SourceItem, rhs: SourceItem) -> Bool {
     return lhs.isEnabled == rhs.isEnabled

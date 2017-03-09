@@ -128,6 +128,7 @@ public class PopoverFormSheetPresentationController: UIPresentationController {
     public override func containerViewWillLayoutSubviews() {
         super.containerViewWillLayoutSubviews()
         
+        dimmingView?.alpha = 1.0
         presentationWrappingView?.frame = frameOfPresentedViewInContainerView
     }
     

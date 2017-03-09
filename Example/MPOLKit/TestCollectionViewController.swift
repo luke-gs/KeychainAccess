@@ -1,6 +1,6 @@
 //
 //  TestCollectionViewController.swift
-//  MPOLKit
+//  MPOLKit-Example
 //
 //  Created by Rod Brown on 20/2/17.
 //  Copyright © 2017 Gridstone. All rights reserved.
