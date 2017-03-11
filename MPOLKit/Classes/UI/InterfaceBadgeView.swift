@@ -248,14 +248,18 @@ fileprivate class InterfaceBadgeGlow: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        isUserInteractionEnabled = false
-        contentMode = .center
+        commonInit()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        commonInit()
+    }
+    
+    private func commonInit() {
         isUserInteractionEnabled = false
         contentMode = .redraw
+        isOpaque = false
     }
     
     override func draw(_ rect: CGRect) {

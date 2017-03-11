@@ -1,14 +1,15 @@
 //
-//  SourceTableViewCell.swift
-//  Test
+//  SourceBarCell.swift
+//  Pods
 //
-//  Created by Rod Brown on 13/2/17.
-//  Copyright © 2017 Gridstone. All rights reserved.
+//  Created by Rod Brown on 10/3/17.
+//
 //
 
 import UIKit
 
-internal class SourceTableViewCell: UITableViewCell {
+
+internal class SourceBarCell: UIControl {
     
     fileprivate static let lightDisabledColor = #colorLiteral(red: 0.2352941176, green: 0.2352941176, blue: 0.2352941176, alpha: 0.2978102993)
     fileprivate static let darkDisabledColor  = #colorLiteral(red: 0.2352941176, green: 0.2352941176, blue: 0.2352941176, alpha: 1)
@@ -16,12 +17,24 @@ internal class SourceTableViewCell: UITableViewCell {
     fileprivate let titleLabel = UILabel(frame: .zero)
     fileprivate let badgeView  = InterfaceBadgeView(frame: .zero)
     
-    fileprivate var isEnabled: Bool = true
-    
     fileprivate var style: SourceBar.Style = .dark
     
-    internal override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: .default, reuseIdentifier: reuseIdentifier)
+    override var isSelected: Bool {
+        didSet {
+            badgeView.isHighlighted = isSelected || isHighlighted
+            updateTextAttributes()
+        }
+    }
+    
+    override var isHighlighted: Bool {
+        didSet {
+            badgeView.isHighlighted = isSelected || isHighlighted
+            updateTextAttributes()
+        }
+    }
+    
+    internal override init(frame: CGRect) {
+        super.init(frame: frame)
         commonInit()
     }
     
@@ -31,10 +44,7 @@ internal class SourceTableViewCell: UITableViewCell {
     }
     
     private func commonInit() {
-        let contentView = self.contentView
-        
         backgroundColor = .clear
-        selectedBackgroundView = UIView()
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.adjustsFontSizeToFitWidth = true
@@ -47,16 +57,16 @@ internal class SourceTableViewCell: UITableViewCell {
         badgeView.translatesAutoresizingMaskIntoConstraints = false
         badgeView.pulsesWhenHighlighted = true
         
-        contentView.addSubview(badgeView)
-        contentView.addSubview(titleLabel)
+        addSubview(badgeView)
+        addSubview(titleLabel)
         
         NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: badgeView, attribute: .centerX, relatedBy: .equal, toItem: contentView, attribute: .centerX),
-            NSLayoutConstraint(item: badgeView, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .top, constant: 33.0),
+            NSLayoutConstraint(item: badgeView, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX),
+            NSLayoutConstraint(item: badgeView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .top, constant: 33.0),
             
-            NSLayoutConstraint(item: titleLabel, attribute: .centerX, relatedBy: .equal, toItem: contentView, attribute: .centerX),
-            NSLayoutConstraint(item: titleLabel, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .top, constant: 59.0),
-            NSLayoutConstraint(item: titleLabel, attribute: .leading, relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .leading, constant: 5.0)
+            NSLayoutConstraint(item: titleLabel, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX),
+            NSLayoutConstraint(item: titleLabel, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .top, constant: 59.0),
+            NSLayoutConstraint(item: titleLabel, attribute: .leading, relatedBy: .greaterThanOrEqual, toItem: self, attribute: .leading, constant: 5.0)
         ])
     }
     
@@ -74,7 +84,7 @@ internal class SourceTableViewCell: UITableViewCell {
         }
         
         badgeView.text = badgeText
-        badgeView.color = isEnabled ? item.color : style == .light ? SourceTableViewCell.lightDisabledColor : SourceTableViewCell.darkDisabledColor
+        badgeView.color = isEnabled ? item.color : style == .light ? SourceBarCell.lightDisabledColor : SourceBarCell.darkDisabledColor
         
         switch style {
         case .light: badgeView.glowAlpha = 0.1
@@ -86,34 +96,17 @@ internal class SourceTableViewCell: UITableViewCell {
     
 }
 
-extension SourceTableViewCell {
-    
-    internal override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        updateTextAttributes()
-    }
-    
-    internal override func setHighlighted(_ highlighted: Bool, animated: Bool) {
-        super.setHighlighted(highlighted, animated: animated)
-        updateTextAttributes()
-    }
-    
-}
-
-fileprivate extension SourceTableViewCell {
+fileprivate extension SourceBarCell {
     fileprivate func updateTextAttributes() {
         let highlight = isSelected || isHighlighted
         
         switch style {
         case .light:
-            titleLabel.textColor = isEnabled ? (highlight ? .darkGray : .gray)   : SourceTableViewCell.lightDisabledColor
+            titleLabel.textColor = isEnabled ? (highlight ? .darkGray : .gray)   : SourceBarCell.lightDisabledColor
         case .dark:
-            titleLabel.textColor = isEnabled ? (highlight ? .white : .lightGray) : SourceTableViewCell.darkDisabledColor
+            titleLabel.textColor = isEnabled ? (highlight ? .white : .lightGray) : SourceBarCell.darkDisabledColor
         }
         
         titleLabel.font = highlight ? .systemFont(ofSize: 12.5, weight: UIFontWeightBold) : .systemFont(ofSize: 11.5, weight: UIFontWeightRegular)
     }
-}
-
-extension SourceTableViewCell: DefaultReusable {
 }

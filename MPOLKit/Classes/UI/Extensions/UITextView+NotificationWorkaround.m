@@ -1,18 +1,18 @@
 //
-//  UITextView+Notifications.m
+//  UITextView+NotificationWorkaround.m
 //  MPOLKit
 //
 //  Created by Rod Brown on 4/3/17.
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 
+#import "UITextView+NotificationWorkaround.h"
 #import <objc/runtime.h>
-#import "UITextView+Notifications.h"
 
 
 NSNotificationName const MPOL_UITextFieldTextWillBeginEditingNotification = @"MPOL_UITextViewTextWillBeginEditingNotification";
 
-@implementation UITextView (Notifications)
+@implementation UITextView (NotificationWorkaround)
 
 + (void)load {
     static dispatch_once_t onceToken;
@@ -43,7 +43,13 @@ NSNotificationName const MPOL_UITextFieldTextWillBeginEditingNotification = @"MP
 }
 
 - (BOOL)mpol_becomeFirstResponder {
-    if ([self canBecomeFirstResponder] && [self isFirstResponder] == NO) {
+    
+    // We only fire the "will begin" notification iff:
+    //    1) The field isn't first responder,
+    //    2) It can become first responder (checks the delgate), and
+    //    3) The current window doesn't have a first responder, or it successfully resigned first responder.
+    // This is the same set of checks that determine if it will be successful.
+    if ([self isFirstResponder] == NO && [self canBecomeFirstResponder] && [[self window] endEditing:NO]) {
         [[NSNotificationCenter defaultCenter] postNotificationName:MPOL_UITextFieldTextWillBeginEditingNotification object:self];
     }
     

@@ -138,16 +138,19 @@ extension SidebarViewController {
         
         let baseColor = #colorLiteral(red: 0.2604376972, green: 0.2660070062, blue: 0.292562902, alpha: 1)
         
+        let sourceBackground = GradientView(frame: .zero)
+        sourceBackground.gradientColors = [#colorLiteral(red: 0.07436346263, green: 0.0783027485, blue: 0.08661026508, alpha: 1), baseColor]
+        
+        let sidebarBackground = GradientView(frame: .zero)
+        sidebarBackground.gradientColors = [#colorLiteral(red: 0.1135626361, green: 0.1174433306, blue: 0.1298944652, alpha: 1), baseColor]
+        
         let sourceBar = SourceBar(frame: .zero)
-        sourceBar.gradientColors = [#colorLiteral(red: 0.07436346263, green: 0.0783027485, blue: 0.08661026508, alpha: 1), baseColor]
         sourceBar.translatesAutoresizingMaskIntoConstraints = false
+        sourceBar.backgroundView = sourceBackground
         sourceBar.delegate = self
         sourceBar.items = sourceItems
         sourceBar.selectedIndex = selectedSourceIndex
         view.addSubview(sourceBar)
-        
-        let sidebarBackground = GradientView(frame: .zero)
-        sidebarBackground.gradientColors = [#colorLiteral(red: 0.1135626361, green: 0.1174433306, blue: 0.1298944652, alpha: 1), baseColor]
         
         let sidebarTableView = UITableView(frame: .zero, style: .plain)
         sidebarTableView.translatesAutoresizingMaskIntoConstraints = false
@@ -175,11 +178,11 @@ extension SidebarViewController {
             NSLayoutConstraint(item: sidebarTableView, attribute: .trailing, relatedBy: .equal, toItem: view,       attribute: .trailing)
         ])
         
-        sourceInsetManager  = ScrollViewInsetManager(scrollView: sourceBar.scrollView)
+        sourceInsetManager  = ScrollViewInsetManager(scrollView: sourceBar)
         sidebarInsetManager = ScrollViewInsetManager(scrollView: sidebarTableView)
         
-        /* We apply these layout margins after all property setting is done because for some reason
-           this causes a reload, which will crash if it is not from a valid set table view. */
+        // We apply these layout margins after all property setting is done because for some reason
+        // this causes a reload, which will crash if it is not from a valid set table view
         sidebarTableView.layoutMargins = UIEdgeInsets(top: 0.0, left: 24.0, bottom: 0.0, right: 24.0)
     }
     
@@ -202,7 +205,7 @@ extension SidebarViewController {
     
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        sourceBar?.scrollView.flashScrollIndicators()
+        sourceBar?.flashScrollIndicators()
         sidebarTableView?.flashScrollIndicators()
     }
     
