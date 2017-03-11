@@ -67,6 +67,7 @@
 		BC46D9981E736D72003854F3 /* KeyboardInputManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC46D9971E736D72003854F3 /* KeyboardInputManager.swift */; };
 		BC5906191E711896007C712A /* UITextView+NotificationWorkaround.m in Sources */ = {isa = PBXBuildFile; fileRef = BC5906171E711896007C712A /* UITextView+NotificationWorkaround.m */; };
 		BC72C67D1E72BEEA007D544C /* SourceBarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC72C67C1E72BEEA007D544C /* SourceBarCell.swift */; };
+		BCCD8C2D1E73AFDE0008DD4F /* FormKitAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCCD8C2C1E73AFDE0008DD4F /* FormKitAssets.xcassets */; };
 		BD82EC123014391767F7BB34CC15C675 /* UIColor+ActionColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C0EED910732D1F22E3F4DDFD408F9A9 /* UIColor+ActionColors.swift */; };
 		C1544AE9FD233DF3D2A80116774FAD42 /* CollectionViewFormDecorationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6FDBFEAD18DC2BBA2CE2E7571D17F8 /* CollectionViewFormDecorationView.swift */; };
 		C24A0AFA1C083039C2FF3DE9C267914D /* FloatingPoint+Equality.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D56AF2DB4CE5B06014288DFCFA6B056 /* FloatingPoint+Equality.swift */; };
@@ -167,6 +168,7 @@
 		BC5906161E711896007C712A /* UITextView+NotificationWorkaround.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+NotificationWorkaround.h"; sourceTree = "<group>"; };
 		BC5906171E711896007C712A /* UITextView+NotificationWorkaround.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+NotificationWorkaround.m"; sourceTree = "<group>"; };
 		BC72C67C1E72BEEA007D544C /* SourceBarCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceBarCell.swift; sourceTree = "<group>"; };
+		BCCD8C2C1E73AFDE0008DD4F /* FormKitAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = FormKitAssets.xcassets; sourceTree = "<group>"; };
 		BD99009F48316B0BA897FD2E1E5EBAAE /* Assets.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CB74B7291A40206B7CC8B818B143CD05 /* EntityCollectionViewCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EntityCollectionViewCell.swift; sourceTree = "<group>"; };
 		CBB3DE36805AF21409EC968A9691732F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
@@ -236,6 +238,7 @@
 		1BA4B2BB6004691C02BB2543727563D1 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				BCCD8C2B1E73AFDE0008DD4F /* FormKit */,
 				BB91852DBED3519B13993EFBAEA66C65 /* MPOL */,
 			);
 			path = Assets;
@@ -505,6 +508,14 @@
 			path = "Source Bar";
 			sourceTree = "<group>";
 		};
+		BCCD8C2B1E73AFDE0008DD4F /* FormKit */ = {
+			isa = PBXGroup;
+			children = (
+				BCCD8C2C1E73AFDE0008DD4F /* FormKitAssets.xcassets */,
+			);
+			path = FormKit;
+			sourceTree = "<group>";
+		};
 		CE8E3B8CC4B07121C06CD63008E9DC89 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -694,6 +705,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCCD8C2D1E73AFDE0008DD4F /* FormKitAssets.xcassets in Resources */,
 				2E74E4186FCB7F9F20434257D386C77B /* Assets.xcassets in Resources */,
 				6F9EAEDC9C942A812C77EB18D0AC8D75 /* ThemePack.json in Resources */,
 			);
