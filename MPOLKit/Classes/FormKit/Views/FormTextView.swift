@@ -66,6 +66,8 @@ extension FormTextView {
     open override func layoutSubviews() {
         super.layoutSubviews()
         
+        // There are bugs in using auto layout on subviews on a UITextView, so we'll do the work here in layout subviews
+        
         let displayScale = (window?.screen ?? .main).scale
         
         guard let textFont = font ?? placeholderLabel.font, let placeholderFont = placeholderLabel.font ?? font else { return }
@@ -77,11 +79,17 @@ extension FormTextView {
         
         let firstBaselineY = textFont.ascender + textContainerInset.top
         let placeholderBaselineY = placeholderFont.ascender
-        
-        let placeholderOrigin = CGPoint(x: (textContainerInset.left + 5.0).rounded(toScale: displayScale), y: (firstBaselineY - placeholderBaselineY).rounded(toScale: displayScale))
         var placeholderSize = placeholderLabel.sizeThatFits(.max)
+        
         placeholderSize.width = min(placeholderSize.width, max(bounds.size.width - 9.0 - textContainerInset.left - textContainerInset.right, 0.0)).floored(toScale: displayScale)
         
+        var placeholderOrigin: CGPoint = CGPoint(x: 0.0, y: (firstBaselineY - placeholderBaselineY).rounded(toScale: displayScale))
+            
+        if traitCollection.layoutDirection == .rightToLeft {
+            placeholderOrigin.x = (bounds.width - textContainerInset.left - 5.0 - placeholderSize.width).rounded(toScale: displayScale)
+        } else {
+            placeholderOrigin.x = (textContainerInset.left + 5.0).rounded(toScale: displayScale)
+        }
         placeholderLabel.frame = CGRect(origin: placeholderOrigin, size: placeholderSize)
     }
     

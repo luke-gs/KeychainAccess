@@ -133,7 +133,9 @@ extension TableViewFormTextViewCell {
                     }
                 }
             } else if object is UILabel {
-                let titleDetailSpace = titleLabel.text?.isEmpty ?? true ? 0.0 : CellTitleDetailSeparation
+                // We take 0.5 from the standard separation to deal with inconsistencies with how UITextView lays out text vs UILabel.
+                // This does not affect the sizing method.
+                let titleDetailSpace = titleLabel.text?.isEmpty ?? true ? 0.0 : CellTitleDetailSeparation - 0.5
                 
                 if titleDetailSeparationConstraint.constant !=~ titleDetailSpace {
                     titleDetailSeparationConstraint.constant = titleDetailSpace

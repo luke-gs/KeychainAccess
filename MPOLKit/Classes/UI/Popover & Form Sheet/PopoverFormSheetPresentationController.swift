@@ -85,8 +85,8 @@ public class PopoverFormSheetPresentationController: UIPresentationController {
     
     public override func size(forChildContentContainer container: UIContentContainer, withParentContainerSize parentSize: CGSize) -> CGSize {
         var containerSize = container.preferredContentSize
-        if containerSize.width  <= 0.0 { containerSize.width  = 540.0 }
-        if containerSize.height <= 0.0 { containerSize.height = 620.0 }
+        if containerSize.width  <=~ 0.0 { containerSize.width  = 540.0 }
+        if containerSize.height <=~ 0.0 { containerSize.height = 620.0 }
         
         containerSize.width  = min(parentSize.width, containerSize.width)
         containerSize.height = min(parentSize.height, containerSize.height)

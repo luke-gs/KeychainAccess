@@ -8,6 +8,8 @@
 
 import UIKit
 
+fileprivate var textContext = 1
+
 public class CollectionViewFormMPOLHeaderView: UICollectionReusableView {
     
     // MARK: - Public properties
@@ -41,7 +43,7 @@ public class CollectionViewFormMPOLHeaderView: UICollectionReusableView {
             if showsExpandArrow == oldValue { return }
             
             arrowView.isHidden = !showsExpandArrow
-            setNeedsLayout()
+            titleSeparatorConstraint.constant = showsExpandArrow ? 15.0 : 0.0
         }
     }
     
@@ -89,15 +91,13 @@ public class CollectionViewFormMPOLHeaderView: UICollectionReusableView {
     
     fileprivate let arrowView     = UIImageView(image: UIImage(named: "DropDown", in: Bundle(for: CollectionViewFormMPOLHeaderView.self), compatibleWith: nil)?.withRenderingMode(.alwaysTemplate))
     
-    fileprivate var itemPosition: CGFloat = 0.0 {
-        didSet { if itemPosition !=~ oldValue { setNeedsLayout() } }
-    }
-    
-    fileprivate var separatorWidth: CGFloat = 0.0 {
-        didSet { if separatorWidth !=~ oldValue { setNeedsLayout() } }
-    }
-    
     fileprivate var indexPath: IndexPath?
+    
+    fileprivate var separatorHeightConstraint: NSLayoutConstraint!
+    
+    fileprivate var titleSeparatorConstraint: NSLayoutConstraint!
+    
+    fileprivate var separatorSeparationConstraint: NSLayoutConstraint!
     
     
     // MARK: - Initializers
@@ -113,23 +113,50 @@ public class CollectionViewFormMPOLHeaderView: UICollectionReusableView {
     }
     
     private func commonInit() {
+        preservesSuperviewLayoutMargins = false
+        
+        arrowView.translatesAutoresizingMaskIntoConstraints = false
+        arrowView.transform = CGAffineTransform(rotationAngle: -0.5 * CGFloat.pi)
+        arrowView.isHidden = true
+        
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.textColor = tintColor
+        titleLabel.font = .systemFont(ofSize: 11.0, weight: UIFontWeightBold)
+        
+        separatorView.translatesAutoresizingMaskIntoConstraints = false
+        separatorView.backgroundColor = Theme.current.colors[.Separator]
+        
         addSubview(separatorView)
         addSubview(titleLabel)
         addSubview(arrowView)
         
-        titleLabel.textColor = tintColor
-        titleLabel.font = .systemFont(ofSize: 11.0, weight: UIFontWeightBold)
-        
-        separatorView.backgroundColor = Theme.current.colors[.Separator]
-        
-        arrowView.transform = CGAffineTransform(rotationAngle: -0.5 * CGFloat.pi)
-        arrowView.isHidden = true
-        
-        preservesSuperviewLayoutMargins = false
-        
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognizerDidRecognize)))
+        
+        separatorHeightConstraint = NSLayoutConstraint(item: separatorView, attribute: .height, relatedBy: .equal, toConstant: 1.0 / UIScreen.main.scale)
+        titleSeparatorConstraint  = NSLayoutConstraint(item: titleLabel, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leadingMargin)
+        separatorSeparationConstraint = NSLayoutConstraint(item: separatorView, attribute: .leading, relatedBy: .equal, toItem: titleLabel, attribute: .trailing)
+        
+        NSLayoutConstraint.activate([
+            NSLayoutConstraint(item: arrowView, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .leadingMargin, constant: (arrowView.image?.size.width ?? 0.0) / 2.0),
+            NSLayoutConstraint(item: arrowView, attribute: .centerY, relatedBy: .equal, toItem: titleLabel, attribute: .centerY),
+            
+            NSLayoutConstraint(item: titleLabel, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottomMargin),
+            titleSeparatorConstraint,
+            
+            separatorSeparationConstraint,
+            NSLayoutConstraint(item: separatorView, attribute: .top, relatedBy: .equal, toItem: titleLabel, attribute: .centerY),
+            NSLayoutConstraint(item: separatorView, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing),
+            separatorHeightConstraint,
+        ])
+        
+        titleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.text), context: &textContext)
+        titleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &textContext)
     }
     
+    deinit {
+        titleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.text), context: &textContext)
+        titleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &textContext)
+    }
 }
 
 
@@ -137,7 +164,7 @@ public class CollectionViewFormMPOLHeaderView: UICollectionReusableView {
 /// Sizing
 extension CollectionViewFormMPOLHeaderView {
     
-    public static let minimumHeight: CGFloat = 20.0
+    public static let minimumHeight: CGFloat = 32.0
     
 }
 
@@ -152,40 +179,22 @@ extension CollectionViewFormMPOLHeaderView {
         indexPath = layoutAttributes.indexPath
         
         if let attributes = layoutAttributes as? CollectionViewFormMPOLHeaderAttributes {
-            separatorWidth = attributes.separatorWidth
-            itemPosition   = attributes.itemPosition
-            layoutMargins.left = attributes.leadingMargin
+            layoutMargins = UIEdgeInsets(top: 12.0, left: attributes.leadingMargin, bottom: attributes.frame.height - attributes.itemPosition, right: 10.0)
+            separatorHeightConstraint.constant = attributes.separatorWidth
         } else {
-            separatorWidth = 1.0 / (window?.screen ?? .main).scale
-            itemPosition   = bounds.maxY
-            layoutMargins.left = 10.0
+            layoutMargins = UIEdgeInsets(top: 12.0, left: 10.0, bottom: 0.0, right: 10.0)
+            separatorHeightConstraint.constant = 1.0 / (window?.screen ?? .main).scale
         }
         
         setNeedsLayout()
     }
     
-    public override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        let scale = (window?.screen ?? .main).scale
-        let centerOfSeparator = itemPosition - (separatorWidth / 2.0)
-        
-        var titleInset = layoutMargins.left
-        
-        arrowView.center = CGPoint(x: (arrowView.bounds.width / 2.0 + titleInset).rounded(toScale: scale), y: centerOfSeparator.rounded(toScale: scale))
-        
-        if showsExpandArrow {
-            titleInset += 15.0
+    public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if context == &textContext {
+            separatorSeparationConstraint.constant = titleLabel.text?.isEmpty ?? true ? 0.0 : 8.0
+        } else {
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
-        
-        let titleLabelSize = titleLabel.sizeThatFits(.zero)
-        let titleLabelFrame = CGRect(origin: CGPoint(x: titleInset, y: (centerOfSeparator - (titleLabelSize.height / 2.0)).rounded(toScale: scale)), size: titleLabelSize)
-        
-        titleLabel.frame = titleLabelFrame
-        
-        let separatorInsetX = titleLabelSize.isEmpty == false ? titleLabelFrame.maxX + 7.0 : titleInset
-        
-        separatorView.frame = CGRect(x: separatorInsetX, y: itemPosition - separatorWidth, width: bounds.size.width - separatorInsetX, height: separatorWidth)
     }
     
     public override func tintColorDidChange() {

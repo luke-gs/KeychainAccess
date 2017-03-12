@@ -40,7 +40,7 @@ open class FormCollectionViewController: UIViewController, PopoverViewController
     
     public init() {
         formLayout = CollectionViewFormMPOLLayout()
-        formLayout.itemLayoutMargins = UIEdgeInsets(top: 16.0, left: 24.0, bottom: 16.0, right: 16.0)
+        formLayout.itemLayoutMargins = UIEdgeInsets(top: 16.0, left: 24.0, bottom: 15.0, right: 16.0)
         super.init(nibName: nil, bundle: nil)
         
         automaticallyAdjustsScrollViewInsets = false // we manage this ourselves.

@@ -40,7 +40,7 @@ public final class RoundedRectLabel : UILabel {
         
         var rect = bounds.insetBy(textInsets)
         rect = super.textRect(forBounds: rect, limitedToNumberOfLines: numberOfLines)
-        return rect.insetBy(textInsets.inverse)
+        return rect.insetBy(textInsets.inverted())
     }
     
     public override func drawText(in rect: CGRect) {

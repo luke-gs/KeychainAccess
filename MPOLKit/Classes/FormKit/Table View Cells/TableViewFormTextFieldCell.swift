@@ -52,7 +52,7 @@ open class TableViewFormTextFieldCell: TableViewFormCell {
             
             NSLayoutConstraint(item: textField, attribute: .leading,  relatedBy: .equal, toItem: layoutGuide, attribute: .leading),
             NSLayoutConstraint(item: textField, attribute: .trailing, relatedBy: .equal, toItem: layoutGuide, attribute: .trailing),
-            NSLayoutConstraint(item: textField, attribute: .firstBaseline, relatedBy: .equal, toItem: layoutGuide, attribute: .bottom, constant: -2.0),
+            NSLayoutConstraint(item: textField, attribute: .bottom,   relatedBy: .equal, toItem: layoutGuide, attribute: .bottom, constant: 0.5),
             titleDetailSeparationConstraint
         ])
         

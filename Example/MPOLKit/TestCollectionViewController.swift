@@ -71,7 +71,9 @@ class TestCollectionViewController: FormCollectionViewController  {
     }
     
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
-        return 39.0
+        // It just so happens that our demo size goal from the creatives for the content view should be 40.0.
+        // We've tested (and should unit test) that our sizing methods with default settings and single line detail hand back this value.
+        return 40.0
     }
     
     

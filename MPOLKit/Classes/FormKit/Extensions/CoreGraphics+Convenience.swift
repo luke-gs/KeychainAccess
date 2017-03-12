@@ -19,3 +19,18 @@ extension CGSize {
     }
     
 }
+
+
+extension CGRect {
+    
+    public func insetBy(_ edgeInsets: UIEdgeInsets) -> CGRect {
+        return UIEdgeInsetsInsetRect(self, edgeInsets)
+    }
+    
+    func rtlFlipped(forWidth width: CGFloat) -> CGRect {
+        var rect = self
+        rect.origin.x = width - maxX
+        return rect
+    }
+    
+}

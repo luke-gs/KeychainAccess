@@ -31,7 +31,7 @@
 		49FF7AC9E46EC90AFE5294FB30F894E2 /* FormTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0C769F2E1DEA6308691F3BAB5A3787 /* FormTextView.swift */; };
 		4AC046EDF8EA21EB91B3FDF794EBC1FF /* FormTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9743AC5499C3EDDAC1E366F81321C740 /* FormTextField.swift */; };
 		51937AA6A7BDD87CA5114F3D8512A394 /* TableViewFormCheckboxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB4670DB890E7B32A89ADD310D9E6CAF /* TableViewFormCheckboxCell.swift */; };
-		53A37AF52916F564B7E41C0A2D67E172 /* UIEdgeInsets+InverseAndInset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C8802C5CFD1B7D660047E375408441 /* UIEdgeInsets+InverseAndInset.swift */; };
+		53A37AF52916F564B7E41C0A2D67E172 /* UIEdgeInsets+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C8802C5CFD1B7D660047E375408441 /* UIEdgeInsets+Convenience.swift */; };
 		54135A990FB52647C60FB604F3C88CB0 /* MPOLKit-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BC6F591FB18B7F49169B8F603B65FF9 /* MPOLKit-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		58382FFBD7C738F66D0C748DDF3462DE /* TableViewFormDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10ECB6996EAB0074DA82C5A17E74188 /* TableViewFormDetailCell.swift */; };
 		5F9FE935E2D9BAF298E8A6F6332A27EB /* CollectionViewFormLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C31BD2DC6B728B5D0587CEBE2716A2 /* CollectionViewFormLayout.swift */; };
@@ -120,7 +120,7 @@
 		4B8C8BFE372C5CC39D743F9B7604FAA5 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4C0EED910732D1F22E3F4DDFD408F9A9 /* UIColor+ActionColors.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UIColor+ActionColors.swift"; sourceTree = "<group>"; };
 		5084DE84BA58264DE3EA9C71B8F9474D /* MPOLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MPOLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		55C8802C5CFD1B7D660047E375408441 /* UIEdgeInsets+InverseAndInset.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UIEdgeInsets+InverseAndInset.swift"; sourceTree = "<group>"; };
+		55C8802C5CFD1B7D660047E375408441 /* UIEdgeInsets+Convenience.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UIEdgeInsets+Convenience.swift"; sourceTree = "<group>"; };
 		5AF080ACAC8AD743C25F504EC2788B1E /* CoreGraphics+Convenience.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "CoreGraphics+Convenience.swift"; sourceTree = "<group>"; };
 		5CCE34183EED6E383A1479BEE0959C02 /* Pods_MPOLKit_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOLKit_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5DCDB8361B1D81493FB6028577C02192 /* PopoverViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PopoverViewController.swift; sourceTree = "<group>"; };
@@ -320,7 +320,7 @@
 				EEE957C445FD855DA6169899074DFA53 /* NSLayoutConstraint+Conveniences.swift */,
 				0118A9CDDB9BB8999296D234FC38AE12 /* UICollectionView+DefaultReuse.swift */,
 				4C0EED910732D1F22E3F4DDFD408F9A9 /* UIColor+ActionColors.swift */,
-				55C8802C5CFD1B7D660047E375408441 /* UIEdgeInsets+InverseAndInset.swift */,
+				55C8802C5CFD1B7D660047E375408441 /* UIEdgeInsets+Convenience.swift */,
 				9719A11464483402FCC6E2F7656969AE /* UIImage+FormKitDefaults.swift */,
 				B834E0F3C1D9E8DE321A87268F2EE71B /* UITableView+DefaultReuse.swift */,
 				6E2A077B99082BBABD9395647A9C9C15 /* UITableViewCell+LayoutMargins.swift */,
@@ -790,7 +790,7 @@
 				09A92C7646DE7BE0155FF3E928E3AA8D /* UICollectionView+DefaultReuse.swift in Sources */,
 				BD82EC123014391767F7BB34CC15C675 /* UIColor+ActionColors.swift in Sources */,
 				CE801788AB27F6B5EC5C83B3AB1E5362 /* UIColor+Hex.swift in Sources */,
-				53A37AF52916F564B7E41C0A2D67E172 /* UIEdgeInsets+InverseAndInset.swift in Sources */,
+				53A37AF52916F564B7E41C0A2D67E172 /* UIEdgeInsets+Convenience.swift in Sources */,
 				A7376F58E05496E55FDCEBBAAFE9C4B5 /* UIImage+FormKitDefaults.swift in Sources */,
 				C88AD179123856E05C0D8580ACE2E1A1 /* UITableView+DefaultReuse.swift in Sources */,
 				15EE3EB4BE3E2F964D1D42294AAA1AE3 /* UITableViewCell+LayoutMargins.swift in Sources */,

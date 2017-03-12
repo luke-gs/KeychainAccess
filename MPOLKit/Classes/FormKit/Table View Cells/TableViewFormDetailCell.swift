@@ -129,7 +129,7 @@ extension TableViewFormDetailCell {
             case .titleOnly:
                 // Constrain the text label's bottom to be the labelLayoutGuide's bottom.
                 // The detail label will have no height at our label's bottom.
-                newConstraints.append(NSLayoutConstraint(item: textLabel,   attribute: .bottom, relatedBy: .equal, toItem: layoutGuide, attribute: .bottom))
+                newConstraints.append(NSLayoutConstraint(item: textLabel, attribute: .bottom, relatedBy: .equal, toItem: layoutGuide, attribute: .bottom))
             case .detailOnly:
                 // Constrain the detail label's top to be the labelLayoutGuide's top.
                 // The detail label will have no height at our label's bottom.
@@ -152,7 +152,7 @@ extension TableViewFormDetailCell {
         super.applyStandardFonts()
         
         let traitCollection = self.traitCollection
-        textLabel.font       = CollectionViewFormDetailCell.font(withEmphasis: emphasis == .title,   compatibleWith: traitCollection)
+        textLabel.font       = CollectionViewFormDetailCell.font(withEmphasis: emphasis == .title,  compatibleWith: traitCollection)
         detailTextLabel.font = CollectionViewFormDetailCell.font(withEmphasis: emphasis == .detail, compatibleWith: traitCollection)
         
         textLabel.adjustsFontForContentSizeCategory       = true

@@ -17,6 +17,17 @@ import UIKit
     
 }
 
+
+
+/// A FormKit collection view layout for MPOL style collections.
+///
+/// `CollectionViewFormMPOLLayout` supports MPOL layouts where section header views
+/// overlap the top layout margins of a cell, and places item separators below each
+/// cell with an specified separator style.
+///
+/// MPOL layouts automatically handle right-to-left languages. All delegate methods
+/// and properties should return insets and details in left-to-right values, which
+/// the layout will transform when required.
 public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
     
     @objc(CollectionViewFormMPOLSeparatorStyle) public enum SeparatorStyle: Int {
@@ -63,6 +74,8 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
         guard let collectionView = self.collectionView,
             let delegate = collectionView.delegate as? CollectionViewDelegateFormLayout else { return }
         
+        let isRTL = collectionView.traitCollection.layoutDirection == .rightToLeft
+        
         let delegateSpecifiesSeparatorStyle = delegate.responds(to: #selector(CollectionViewDelegateMPOLLayout.collectionView(_:layout:separatorStyleForItemAt:)))
         
         let collectionViewWidth = collectionView.bounds.width
@@ -97,7 +110,6 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
         let itemLayoutMargins     = self.itemLayoutMargins
         let itemSeparatorColor    = self.itemSeparatorColor
         let defaultSeparatorStyle = separatorStyle
-        
         
         // function to process a section's items. ensure that insets are accounted for.
         func processItemsInSection(_ section: Int, atPoint point: CGPoint, withWidth width: CGFloat, insets: UIEdgeInsets) -> CGFloat { // Returns height of section items
@@ -246,8 +258,8 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
                             
                             var frame = item.frame
                             frame.size.height = minHeight
-                            itemAttribute.frame = frame
-                            itemAttribute.layoutMargins = item.margins
+                            itemAttribute.frame = isRTL ? frame.rtlFlipped(forWidth: collectionViewWidth) : frame
+                            itemAttribute.layoutMargins = isRTL ? item.margins.horizontallyFlipped() : item.margins
                             
                             sectionItemAttributes.append(itemAttribute)
                             
@@ -278,7 +290,7 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
                                 separatorFrame.origin.x   += item.margins.left
                                 separatorFrame.size.width -= item.margins.left
                             }
-                            separator.frame = separatorFrame
+                            separator.frame = isRTL ? separatorFrame.rtlFlipped(forWidth: collectionViewWidth) : separatorFrame
                             separator.isHidden = separatorStyle == .hidden
                             
                             if separatorStyle != .hidden {
@@ -417,7 +429,7 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
                         headerAttribute.itemPosition = rect.size.height
                         rect.size.height += itemLayoutMargins.top
                     }
-                    headerAttribute.frame = rect
+                    headerAttribute.frame = isRTL ? rect.rtlFlipped(forWidth: collectionViewWidth) : rect
                     sectionHeaderAttributes.append(headerAttribute)
                 }
             }
@@ -451,7 +463,8 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
                 
                 let footerSeparatorFrame = CGRect(x: xOrigin, y: currentYOffset - separatorWidth, width: section.1.width, height: separatorWidth)
                 let sideSepFrame = CGRect(x: section.1.width + section.1.x - separatorWidth, y: startOfItems, width: separatorWidth, height: footerSeparatorFrame.minY - startOfItems)
-                sectionItemBackgroundAttribute.frame = CGRect(x: xOrigin, y: startOfItems, width: sideSepFrame.maxX - xOrigin, height: currentYOffset - startOfItems)
+                let backgroundFrame = CGRect(x: xOrigin, y: startOfItems, width: sideSepFrame.maxX - xOrigin, height: currentYOffset - startOfItems)
+                sectionItemBackgroundAttribute.frame = isRTL ? backgroundFrame.rtlFlipped(forWidth: collectionViewWidth) : backgroundFrame
                 
                 sectionItemBackgroundAttributes.append(sectionItemBackgroundAttribute)
             }
@@ -475,7 +488,8 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
                         footerAttribute = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, with: footerIndexPath)
                         footerAttribute.zIndex = 1
                     }
-                    footerAttribute.frame = CGRect(x: section.1.x, y: currentYOffset, width: section.1.width, height: footerHeight)
+                    let footerFrame = CGRect(x: section.1.x, y: currentYOffset, width: section.1.width, height: footerHeight)
+                    footerAttribute.frame = isRTL ? footerFrame.rtlFlipped(forWidth: collectionViewWidth) : footerFrame
                     sectionFooterAttributes.append(footerAttribute)
                 }
                 
