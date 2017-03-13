@@ -141,8 +141,8 @@ public class CollectionViewFormMPOLHeaderView: UICollectionReusableView {
         
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognizerDidRecognize)))
         
-        separatorHeightConstraint = NSLayoutConstraint(item: separatorView, attribute: .height, relatedBy: .equal, toConstant: 1.0 / UIScreen.main.scale)
-        titleSeparatorConstraint  = NSLayoutConstraint(item: titleLabel, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leadingMargin)
+        separatorHeightConstraint     = NSLayoutConstraint(item: separatorView, attribute: .height,  relatedBy: .equal, toConstant: 1.0 / UIScreen.main.scale)
+        titleSeparatorConstraint      = NSLayoutConstraint(item: titleLabel,    attribute: .leading, relatedBy: .equal, toItem: self,       attribute: .leadingMargin)
         separatorSeparationConstraint = NSLayoutConstraint(item: separatorView, attribute: .leading, relatedBy: .equal, toItem: titleLabel, attribute: .trailing)
         
         NSLayoutConstraint.activate([
@@ -153,8 +153,8 @@ public class CollectionViewFormMPOLHeaderView: UICollectionReusableView {
             titleSeparatorConstraint,
             
             separatorSeparationConstraint,
-            NSLayoutConstraint(item: separatorView, attribute: .top, relatedBy: .equal, toItem: titleLabel, attribute: .centerY),
-            NSLayoutConstraint(item: separatorView, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing),
+            NSLayoutConstraint(item: separatorView, attribute: .top,      relatedBy: .equal, toItem: titleLabel, attribute: .centerY),
+            NSLayoutConstraint(item: separatorView, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, priority: UILayoutPriorityRequired - 1),
             separatorHeightConstraint,
         ])
         

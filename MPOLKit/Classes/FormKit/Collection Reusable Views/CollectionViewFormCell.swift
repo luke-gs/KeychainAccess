@@ -78,15 +78,15 @@ open class CollectionViewFormCell: UICollectionViewCell {
             }
             scrollView.setContentOffset(.zero, animated: animated)
             if !animated {
-                scrollView.contentInset.right = 0.0
                 removeActionView()
             } else {
                 _scrolling = scrollView.contentOffset != .zero
             }
         } else {
             applyTouchTrigger()
-            let offset = CGPoint(x: CGFloat(actionView?.buttons?.count ?? 0) * CollectionViewFormCellActionView.singleButtonWidth, y: 0.0)
             
+            let offsetValue = CGFloat(actionView?.buttons?.count ?? 0) * CollectionViewFormCellActionView.singleButtonWidth
+            let offset = CGPoint(x: traitCollection.layoutDirection == .rightToLeft ? -offsetValue : offsetValue, y: 0.0)
             scrollView.setContentOffset(offset, animated: animated)
             
             if animated {
@@ -147,7 +147,11 @@ open class CollectionViewFormCell: UICollectionViewCell {
         didSet {
             let dragging = scrollView.isDragging
             if dragging || scrollView.contentOffset.x.isZero == false {
-                scrollView.contentInset.right = scrollViewInset
+                if traitCollection.layoutDirection == .rightToLeft {
+                    scrollView.contentInset.left = scrollViewInset
+                } else {
+                    scrollView.contentInset.right = scrollViewInset
+                }
             }
             if dragging == false {
                 setShowingEditActions(isShowingEditActions, animated: window != nil)
@@ -219,13 +223,25 @@ extension CollectionViewFormCell: UIScrollViewDelegate {
     
     open func scrollViewDidScroll(_ scrollView: UIScrollView) {
         var contentOffset = scrollView.contentOffset
-        if contentOffset.x < 0 {
-            contentOffset.x = 0.0
-            scrollView.contentOffset = contentOffset
-        } else if contentOffset.x > scrollView.bounds.size.width {
-            contentOffset.x = scrollView.bounds.size.width
-            scrollView.contentOffset = contentOffset
+        
+        if traitCollection.layoutDirection == .rightToLeft {
+            if contentOffset.x > 0 {
+                contentOffset.x = 0.0
+                scrollView.contentOffset = contentOffset
+            } else if contentOffset.x < -scrollView.bounds.width {
+                contentOffset.x = -scrollView.bounds.width
+                scrollView.contentOffset = contentOffset
+            }
+        } else {
+            if contentOffset.x < 0 {
+                contentOffset.x = 0.0
+                scrollView.contentOffset = contentOffset
+            } else if contentOffset.x > scrollView.bounds.width {
+                contentOffset.x = scrollView.bounds.size.width
+                scrollView.contentOffset = contentOffset
+            }
         }
+        
         update(for: contentOffset)
     }
     
@@ -233,18 +249,36 @@ extension CollectionViewFormCell: UIScrollViewDelegate {
         let xVelocity = velocity.x
         
         var movingIntoEditing = false
-        if xVelocity < -0.25 {
-            targetContentOffset.pointee.x = 0.0
-        } else if xVelocity > 1.0 {
-            targetContentOffset.pointee.x = scrollView.contentInset.right
-            movingIntoEditing = true
-        } else {
-            let contentInset = scrollView.contentInset.right
-            if targetContentOffset.pointee.x > (contentInset / 2.0) {
-                movingIntoEditing = true
-                targetContentOffset.pointee.x = contentInset
-            } else {
+        
+        if traitCollection.layoutDirection == .rightToLeft {
+            if xVelocity > 0.25 {
                 targetContentOffset.pointee.x = 0.0
+            } else if xVelocity < -1.0 {
+                targetContentOffset.pointee.x = -scrollView.contentInset.left
+                movingIntoEditing = true
+            } else {
+                let contentInset = scrollView.contentInset.left
+                if targetContentOffset.pointee.x < (contentInset / -2.0) {
+                    movingIntoEditing = true
+                    targetContentOffset.pointee.x = -contentInset
+                } else {
+                    targetContentOffset.pointee.x = 0.0
+                }
+            }
+        } else {
+            if xVelocity < -0.25 {
+                targetContentOffset.pointee.x = 0.0
+            } else if xVelocity > 1.0 {
+                targetContentOffset.pointee.x = scrollView.contentInset.right
+                movingIntoEditing = true
+            } else {
+                let contentInset = scrollView.contentInset.right
+                if targetContentOffset.pointee.x > (contentInset / 2.0) {
+                    movingIntoEditing = true
+                    targetContentOffset.pointee.x = contentInset
+                } else {
+                    targetContentOffset.pointee.x = 0.0
+                }
             }
         }
         
@@ -261,15 +295,20 @@ extension CollectionViewFormCell: UIScrollViewDelegate {
         if decelerate == false {
             _deceleratingToOpen = false
             if scrollView.contentOffset.x.isZero {
-                scrollView.contentInset.right = 0.0
                 removeActionView()
             }
         }
     }
     
     open func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        self.superview(of: UICollectionView.self)?.endEditing(true)
-        scrollView.contentInset.right = scrollViewInset
+        let collectionView = superview(of: UICollectionView.self)
+        collectionView?.endEditing(true)
+        
+        if traitCollection.layoutDirection == .rightToLeft {
+            scrollView.contentInset.left = scrollViewInset
+        } else {
+            scrollView.contentInset.right = scrollViewInset
+        }
         _deceleratingToOpen = false
     }
     
@@ -282,7 +321,6 @@ extension CollectionViewFormCell: UIScrollViewDelegate {
         }
         _deceleratingToOpen = false
         if showing == false {
-            scrollView.contentInset.right = 0.0
             removeActionView()
         }
     }
@@ -297,7 +335,6 @@ extension CollectionViewFormCell: UIScrollViewDelegate {
         _deceleratingToOpen = false
         _scrolling = false
         if showing == false {
-            scrollView.contentInset.right = 0.0
             removeActionView()
         }
     }
@@ -312,7 +349,14 @@ extension CollectionViewFormCell: UIScrollViewDelegate {
                 return ($0.title, color)}))
             scrollView.addSubview(actionView!)
         }
-        actionView?.frame = CGRect(x: size.width, y: 0.0, width: scrollContentOffset.x, height: size.height)
+        
+        var frame: CGRect
+        if traitCollection.layoutDirection == .rightToLeft {
+            frame = CGRect(x: scrollContentOffset.x, y: 0.0, width: -scrollContentOffset.x, height: size.height)
+        } else {
+            frame = CGRect(x: size.width, y: 0.0, width: scrollContentOffset.x, height: size.height)
+        }
+        actionView?.frame = frame
     }
 }
 
@@ -429,6 +473,22 @@ extension CollectionViewFormCell {
             super.accessibilityCustomActions = newValue
         }
     }
+    
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        if (traitCollection.layoutDirection == .rightToLeft) != (previousTraitCollection?.layoutDirection == .rightToLeft) {
+            // If the trait collection's right-to-left status flipped, flip the content insets and the content offset, and update accordingly.
+            scrollView.contentInset = scrollView.contentInset.horizontallyFlipped()
+            
+            var contentOffset = scrollView.contentOffset
+            contentOffset.x = -contentOffset.x
+            scrollView.contentOffset = contentOffset
+            
+            update(for: contentOffset)
+        }
+    }
+    
 }
 
 
@@ -480,6 +540,8 @@ fileprivate extension CollectionViewFormCell {
     }
     
     fileprivate func removeActionView() {
+        scrollView.contentInset.left  = 0.0
+        scrollView.contentInset.right = 0.0
         if let actionView = self.actionView {
             actionView.removeFromSuperview()
             self.actionView = nil
@@ -569,6 +631,7 @@ private class CollectionViewFormCellScrollView: UIScrollView, UIGestureRecognize
         }
         return true
     }
+    
 }
 
 
@@ -597,13 +660,25 @@ private class CollectionViewFormCellActionView: UIView {
         UIView.performWithoutAnimation {
             let bounds = self.bounds
             let buttonWidth = CollectionViewFormCellActionView.singleButtonWidth
-            var startX: CGFloat = bounds.width - buttonWidth
             
-            self.buttons?.forEach { (button: UIButton) in
-                button.frame = CGRect(x: startX, y: 0.0, width: buttonWidth, height: bounds.height)
-                button.layoutIfNeeded()
-                startX -= buttonWidth
+            if self.traitCollection.layoutDirection == .rightToLeft {
+                var startX: CGFloat = 0.0
+                
+                self.buttons?.forEach { (button: UIButton) in
+                    button.frame = CGRect(x: startX, y: 0.0, width: buttonWidth, height: bounds.height)
+                    button.layoutIfNeeded()
+                    startX += buttonWidth
+                }
+            } else {
+                var startX: CGFloat = bounds.width - buttonWidth
+                
+                self.buttons?.forEach { (button: UIButton) in
+                    button.frame = CGRect(x: startX, y: 0.0, width: buttonWidth, height: bounds.height)
+                    button.layoutIfNeeded()
+                    startX -= buttonWidth
+                }
             }
+            
         }
     }
     
@@ -635,6 +710,14 @@ private class CollectionViewFormCellActionView: UIView {
     @objc func buttonDidTap(_ button: UIButton) {
         cell.performEditAction(at: button.tag)
     }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if (traitCollection.layoutDirection == .rightToLeft) != (previousTraitCollection?.layoutDirection == .rightToLeft) {
+            setNeedsLayout()
+        }
+    }
+    
 }
 
 
