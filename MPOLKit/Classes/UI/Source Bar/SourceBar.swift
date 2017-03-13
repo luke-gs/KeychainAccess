@@ -150,6 +150,10 @@ public class SourceBar: UIScrollView {
     }
     
     private func commonInit() {
+        isAccessibilityElement = false
+        accessibilityTraits = UIAccessibilityTraitTabBar
+        accessibilityLabel = "Source Bar"
+        
         setContentCompressionResistancePriority(UILayoutPriorityDefaultLow,  for: .vertical)
         setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .horizontal)
         setContentHuggingPriority(UILayoutPriorityFittingSizeLevel, for: .vertical)
@@ -201,6 +205,8 @@ extension SourceBar {
         reusableCells.forEach { $0.removeFromSuperview() }
         
         updateCellSelection()
+        
+        accessibilityElements = _cells
     }
     
     public override func touchesShouldCancel(in view: UIView) -> Bool {

@@ -44,6 +44,8 @@ internal class SourceBarCell: UIControl {
     }
     
     private func commonInit() {
+        isAccessibilityElement = true
+        
         backgroundColor = .clear
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -74,6 +76,8 @@ internal class SourceBarCell: UIControl {
         self.style = style
         
         titleLabel.text = item.title
+        accessibilityLabel = item.title
+        
         isEnabled = item.isEnabled
         
         let badgeText: String
@@ -82,6 +86,8 @@ internal class SourceBarCell: UIControl {
         } else {
             badgeText = "9+"
         }
+        
+        accessibilityValue = item.count == 0 ? nil : "Count " + badgeText
         
         badgeView.text = badgeText
         badgeView.color = isEnabled ? item.color : style == .light ? SourceBarCell.lightDisabledColor : SourceBarCell.darkDisabledColor

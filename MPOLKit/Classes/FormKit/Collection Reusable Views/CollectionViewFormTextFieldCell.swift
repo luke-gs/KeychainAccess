@@ -80,6 +80,7 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {
+            
             let titleDetailSpace = titleLabel.text?.isEmpty ?? true ? 0.0 : CellTitleDetailSeparation
             
             if titleDetailSeparationConstraint.constant !=~ titleDetailSpace {
@@ -139,7 +140,7 @@ extension CollectionViewFormTextFieldCell {
 }
 
 
-internal extension CollectionViewFormTextFieldCell {
+extension CollectionViewFormTextFieldCell {
     
     internal override func applyStandardFonts() {
         titleLabel.font = CollectionViewFormDetailCell.font(withEmphasis: false, compatibleWith: traitCollection)
@@ -152,3 +153,47 @@ internal extension CollectionViewFormTextFieldCell {
     
 }
 
+
+// MARK: - Accessibility
+/// Accessibility
+extension CollectionViewFormTextFieldCell {
+    
+    dynamic open override var accessibilityLabel: String? {
+        get {
+            if let setValue = super.accessibilityLabel {
+                return setValue
+            }
+            return titleLabel.text
+        }
+        set {
+            super.accessibilityLabel = newValue
+        }
+    }
+    
+    dynamic open override var accessibilityValue: String? {
+        get {
+            if let setValue = super.accessibilityValue {
+                return setValue
+            }
+            let text = textField.text
+            if text?.isEmpty ?? true {
+                return textField.placeholder
+            }
+            return text
+        }
+        set {
+            super.accessibilityValue = newValue
+        }
+    }
+    
+    dynamic open override var isAccessibilityElement: Bool {
+        get {
+            if textField.isEditing { return false }
+            return super.isAccessibilityElement
+        }
+        set {
+            super.isAccessibilityElement = newValue
+        }
+    }
+    
+}

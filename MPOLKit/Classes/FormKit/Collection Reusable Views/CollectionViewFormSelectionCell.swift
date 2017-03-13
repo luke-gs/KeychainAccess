@@ -34,6 +34,12 @@ open class CollectionViewFormSelectionCell: CollectionViewFormDetailCell {
             let alpha: CGFloat = isEnabled ? 1.0 : 0.5
             textLabel.alpha = alpha
             imageView.alpha = alpha
+            
+            if isEnabled {
+                accessibilityTraits += UIAccessibilityTraitNotEnabled
+            } else {
+                accessibilityTraits -= UIAccessibilityTraitNotEnabled
+            }
         }
     }
     

@@ -183,6 +183,48 @@ extension CollectionViewFormTextViewCell {
     
 }
 
+// MARK: - Accessibility
+/// Accessibility
+extension CollectionViewFormTextViewCell {
+    dynamic open override var accessibilityLabel: String? {
+        get {
+            if let setValue = super.accessibilityLabel {
+                return setValue
+            }
+            return titleLabel.text
+        }
+        set {
+            super.accessibilityLabel = newValue
+        }
+    }
+    
+    dynamic open override var accessibilityValue: String? {
+        get {
+            if let setValue = super.accessibilityValue {
+                return setValue
+            }
+            let text = textView.text
+            if text?.isEmpty ?? true {
+                return textView.placeholderLabel.text
+            }
+            return text
+        }
+        set {
+            super.accessibilityValue = newValue
+        }
+    }
+    
+    dynamic open override var isAccessibilityElement: Bool {
+        get {
+            if textView.isFirstResponder { return false }
+            return super.isAccessibilityElement
+        }
+        set {
+            super.isAccessibilityElement = newValue
+        }
+    }
+}
+
 
 // MARK: - Private methods
 /// Private methods

@@ -35,6 +35,8 @@ open class TableViewFormCheckboxCell: TableViewFormCell {
     }
     
     private func commonInit() {
+        isAccessibilityElement = false
+        
         selectionStyle = .none
         minimumContentHeight = 43.5
         

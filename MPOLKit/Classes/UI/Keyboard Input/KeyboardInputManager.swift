@@ -16,7 +16,7 @@ public class KeyboardInputManager: NSObject {
 
     
     /// The shared keyboard manager singleton.
-    static let shared: KeyboardInputManager = KeyboardInputManager()
+    public static let shared: KeyboardInputManager = KeyboardInputManager()
     
     
     /// Indicates whether the Keyboard Number Bar is supported on this device.
@@ -130,7 +130,9 @@ public class KeyboardInputManager: NSObject {
 
 fileprivate extension KeyboardInputManager {
     
-    @objc fileprivate func textControlWillBeginEditing(_ control: UIView) {
+    @objc fileprivate func textControlWillBeginEditing(_ notification: NSNotification) {
+        guard let control = notification.object as? UIView, control is UITextInput else { return }
+        
         activeTextControl = control
         if isNumberBarEnabled {
             applyNumberBar(to: control, reloadingInputViews: false)
@@ -138,7 +140,9 @@ fileprivate extension KeyboardInputManager {
     }
     
     
-    @objc fileprivate func textControlDidEndEditing(_ control: UIView) {
+    @objc fileprivate func textControlDidEndEditing(_ notification: NSNotification) {
+        guard let control = notification.object as? UIView, control is UITextInput else { return }
+        
         if activeTextControl == control {
             activeTextControl = nil
         }

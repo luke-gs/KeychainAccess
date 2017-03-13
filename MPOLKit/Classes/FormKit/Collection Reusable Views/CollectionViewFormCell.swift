@@ -46,6 +46,8 @@ open class CollectionViewFormCell: UICollectionViewCell {
                     actionView?.updateForButtonsItems(editActions?.map {($0.title, $0.color)})
                 }
             }
+            
+            cachedEditAccessiblityActions = nil
             scrollViewInset = CollectionViewFormCellActionView.singleButtonWidth * CGFloat(editActionCount)
         }
     }
@@ -153,6 +155,8 @@ open class CollectionViewFormCell: UICollectionViewCell {
         }
     }
     
+    fileprivate var cachedEditAccessiblityActions: [CollectionViewFormAccessibilityEditAction]?
+    
     
     // MARK: - Initialization
     
@@ -164,6 +168,42 @@ open class CollectionViewFormCell: UICollectionViewCell {
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         commonInit()
+    }
+    
+    private func commonInit() {
+        isAccessibilityElement = true
+        
+        super.contentMode = .center
+        
+        let trueContentView        = super.contentView
+        let contentModeLayoutGuide = self.contentModeLayoutGuide
+        
+        scrollView = CollectionViewFormCellScrollView(cell: self)
+        scrollView.delegate      = self
+        scrollView.frame         = trueContentView.bounds
+        scrollView.autoresizingMask  = [.flexibleWidth, .flexibleHeight]
+        scrollView.isScrollEnabled = false
+        trueContentView.addSubview(scrollView)
+        addGestureRecognizer(scrollView.panGestureRecognizer)
+        
+        internalContentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        internalContentView.frame = scrollView.bounds
+        internalContentView.clipsToBounds = true
+        scrollView.addSubview(internalContentView)
+        
+        internalContentView.addLayoutGuide(contentModeLayoutGuide)
+        
+        contentModeLayoutConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .centerY, relatedBy: .equal, toItem: internalContentView, attribute: .centerYWithinMargins, priority: UILayoutPriorityDefaultLow - 1)
+        
+        NSLayoutConstraint.activate([
+            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .leading,  relatedBy: .equal, toItem: internalContentView, attribute: .leadingMargin),
+            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .trailing, relatedBy: .equal, toItem: internalContentView, attribute: .trailingMargin),
+            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .top,      relatedBy: .greaterThanOrEqual, toItem: internalContentView, attribute: .topMargin),
+            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .bottom,   relatedBy: .lessThanOrEqual,    toItem: internalContentView, attribute: .bottomMargin, priority: 500),
+            contentModeLayoutConstraint
+        ])
+        
+        applyStandardFonts()
     }
     
     deinit {
@@ -365,6 +405,30 @@ extension CollectionViewFormCell {
     open override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
         return layoutAttributes
     }
+    
+    open override var accessibilityCustomActions: [UIAccessibilityCustomAction]? {
+        get {
+            let accessibilityActions = super.accessibilityCustomActions
+            guard let editActions = self.editActions, editActions.isEmpty == false else {
+                return accessibilityActions
+            }
+            
+            var accessibilityCustomActions = accessibilityActions ?? []
+            
+            if cachedEditAccessiblityActions == nil {
+                cachedEditAccessiblityActions = editActions.enumerated().map { CollectionViewFormAccessibilityEditAction(cell: self, title: $0.element.title, actionIndex: $0.offset) }
+            }
+            
+            if let actions: [UIAccessibilityCustomAction] = cachedEditAccessiblityActions {
+                accessibilityCustomActions += actions
+            }
+            
+            return accessibilityCustomActions
+        }
+        set {
+            super.accessibilityCustomActions = newValue
+        }
+    }
 }
 
 
@@ -387,43 +451,9 @@ internal extension CollectionViewFormCell {
 
 // MARK: - Private
 /// Private methods
-private extension CollectionViewFormCell {
+fileprivate extension CollectionViewFormCell {
     
-    func commonInit() {
-        super.contentMode = .center
-        
-        let trueContentView        = super.contentView
-        let contentModeLayoutGuide = self.contentModeLayoutGuide
-        
-        scrollView = CollectionViewFormCellScrollView(cell: self)
-        scrollView.delegate      = self
-        scrollView.frame         = trueContentView.bounds
-        scrollView.autoresizingMask  = [.flexibleWidth, .flexibleHeight]
-        scrollView.isScrollEnabled = false
-        trueContentView.addSubview(scrollView)
-        addGestureRecognizer(scrollView.panGestureRecognizer)
-        
-        internalContentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        internalContentView.frame = scrollView.bounds
-        internalContentView.clipsToBounds = true
-        scrollView.addSubview(internalContentView)
-        
-        internalContentView.addLayoutGuide(contentModeLayoutGuide)
-        
-        contentModeLayoutConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .centerY, relatedBy: .equal, toItem: internalContentView, attribute: .centerYWithinMargins, priority: UILayoutPriorityDefaultLow - 1)
-        
-        NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .leading,  relatedBy: .equal, toItem: internalContentView, attribute: .leadingMargin),
-            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .trailing, relatedBy: .equal, toItem: internalContentView, attribute: .trailingMargin),
-            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .top,      relatedBy: .greaterThanOrEqual, toItem: internalContentView, attribute: .topMargin),
-            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .bottom,   relatedBy: .lessThanOrEqual,    toItem: internalContentView, attribute: .bottomMargin, priority: 500),
-            contentModeLayoutConstraint
-        ])
-        
-        applyStandardFonts()
-    }
-    
-    @objc func touchTriggerDidActivate(_ trigger: TouchRecognizer) {
+    @objc fileprivate func touchTriggerDidActivate(_ trigger: TouchRecognizer) {
         // Don't fire the trigger if it's within the action view.
         if let actionView = self.actionView , actionView.bounds.contains(trigger.location(in: actionView)) {
             return
@@ -432,7 +462,7 @@ private extension CollectionViewFormCell {
         self.setShowingEditActions(false, animated: true)
     }
     
-    func applyTouchTrigger() {
+    fileprivate func applyTouchTrigger() {
         if touchTrigger != nil { return }
         if let collectionView = superview(of: UICollectionView.self) {
             let touchTrigger = TouchRecognizer(target: self, action: #selector(touchTriggerDidActivate(_:)))
@@ -442,19 +472,32 @@ private extension CollectionViewFormCell {
         }
     }
     
-    func removeTouchTrigger() {
+    fileprivate func removeTouchTrigger() {
         if let touchTrigger = self.touchTrigger {
             touchTrigger.view?.removeGestureRecognizer(touchTrigger)
             self.touchTrigger = nil
         }
     }
     
-    func removeActionView() {
+    fileprivate func removeActionView() {
         if let actionView = self.actionView {
             actionView.removeFromSuperview()
             self.actionView = nil
         }
     }
+    
+    @discardableResult
+    fileprivate func performEditAction(at index: Int) -> Bool {
+        let editCount = editActions?.count ?? 0
+        
+        if editCount > index,
+            let indexPath = superview(of: UICollectionView.self)?.indexPath(for: self) {
+            editActions?[index].action?(self, indexPath)
+            return true
+        }
+        return false
+    }
+    
 }
 
 extension CollectionViewFormCell: UIGestureRecognizerDelegate {
@@ -482,7 +525,7 @@ extension CollectionViewFormCell: UIGestureRecognizerDelegate {
 /// actions which cannot be accessed any other way.
 private class CollectionViewFormCellScrollView: UIScrollView, UIGestureRecognizerDelegate {
     
-    weak var cell: CollectionViewFormCell?
+    unowned let cell: CollectionViewFormCell
     
     override var frame: CGRect {
         didSet {
@@ -511,7 +554,7 @@ private class CollectionViewFormCellScrollView: UIScrollView, UIGestureRecognize
     }
     
     override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        if let cells = cell?.superview(of: UICollectionView.self)?.visibleCells {
+        if let cells = cell.superview(of: UICollectionView.self)?.visibleCells {
             if cells.contains(where: {
                 if let state = ($0 as? CollectionViewFormCell)?.scrollView.panGestureRecognizer.state {
                     return state != .possible && state != .failed
@@ -590,15 +633,7 @@ private class CollectionViewFormCellActionView: UIView {
     }
     
     @objc func buttonDidTap(_ button: UIButton) {
-        if let editActions = cell.editActions {
-            let editCount = editActions.count
-            let tag = button.tag
-            if editCount <= tag { return }
-            
-            if let indexPath = superview(of: UICollectionView.self)?.indexPath(for: cell) {
-                editActions[tag].action?(cell, indexPath)
-            }
-        }
+        cell.performEditAction(at: button.tag)
     }
 }
 
@@ -615,5 +650,25 @@ fileprivate class TouchRecognizer: UIGestureRecognizer {
         super.touchesBegan(touches, with: event)
         self.state = UIGestureRecognizerState.recognized
     }
+}
+
+
+fileprivate class CollectionViewFormAccessibilityEditAction: UIAccessibilityCustomAction {
+    
+    weak var cell: CollectionViewFormCell?
+    
+    let actionIndex: Int
+    
+    init(cell: CollectionViewFormCell, title: String, actionIndex: Int) {
+        self.cell = cell
+        self.actionIndex = actionIndex
+        super.init(name: title, target: nil, selector: #selector(performAction))
+        target = self
+    }
+    
+    @objc func performAction() -> Bool {
+        return cell?.performEditAction(at: actionIndex) ?? false
+    }
+    
 }
 

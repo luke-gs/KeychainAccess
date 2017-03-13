@@ -44,6 +44,12 @@ public class CollectionViewFormMPOLHeaderView: UICollectionReusableView {
             
             arrowView.isHidden = !showsExpandArrow
             titleSeparatorConstraint.constant = showsExpandArrow ? 15.0 : 0.0
+            
+            if showsExpandArrow {
+                accessibilityTraits += UIAccessibilityTraitButton
+            } else {
+                accessibilityTraits -= UIAccessibilityTraitButton
+            }
         }
     }
     
@@ -113,6 +119,9 @@ public class CollectionViewFormMPOLHeaderView: UICollectionReusableView {
     }
     
     private func commonInit() {
+        isAccessibilityElement = true
+        accessibilityTraits += UIAccessibilityTraitHeader
+        
         preservesSuperviewLayoutMargins = false
         
         arrowView.translatesAutoresizingMaskIntoConstraints = false
@@ -203,6 +212,35 @@ extension CollectionViewFormMPOLHeaderView {
     }
     
 }
+
+
+extension CollectionViewFormMPOLHeaderView {
+    
+    dynamic open override var accessibilityLabel: String? {
+        get {
+            if let setValue = super.accessibilityLabel {
+                return setValue
+            }
+            return titleLabel.text
+        }
+        set { super.accessibilityLabel = newValue }
+    }
+    
+    dynamic open override var accessibilityValue: String? {
+        get {
+            if let setValue = super.accessibilityValue {
+                return setValue
+            }
+            if showsExpandArrow == false {
+                return nil
+            }
+            return isExpanded ? "Expanded" : "Collapsed"
+        }
+        set { super.accessibilityValue = newValue }
+    }
+    
+}
+
 
 
 // MARK: - Private methods

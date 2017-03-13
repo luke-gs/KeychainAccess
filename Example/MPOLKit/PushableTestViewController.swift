@@ -13,9 +13,9 @@ class PushableTestViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.cellLayoutMargins = UIEdgeInsets(top: 16.0, left: 24.0, bottom: 16.0, right: 12.0)
         tableView.estimatedRowHeight = 50.0
         tableView.register(TableViewFormDetailCell.self)
+        tableView.cellLayoutMargins = UIEdgeInsets(top: 16.0, left: 24.0, bottom: 16.0, right: 12.0)
         tableView.separatorColor = Theme.current.colors[.Separator]
     }
 

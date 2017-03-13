@@ -95,6 +95,8 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
     private func commonInit() {
         super.contentMode = .center
         
+        accessibilityTraits += UIAccessibilityTraitStaticText
+        
         let contentView     = self.contentView
         let textLabel       = self.textLabel
         let detailTextLabel = self.detailTextLabel
@@ -188,6 +190,18 @@ extension CollectionViewFormDetailCell {
             }
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+        }
+    }
+    
+    dynamic open override var accessibilityLabel: String? {
+        get {
+            if let setValue = super.accessibilityLabel {
+                return setValue
+            }
+            return [textLabel, detailTextLabel].flatMap({ $0.text }).joined(separator: ", ")
+        }
+        set {
+            super.accessibilityLabel = newValue
         }
     }
     

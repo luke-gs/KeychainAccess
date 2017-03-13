@@ -50,6 +50,12 @@ public class KeyboardNumberBar: UIInputView {
     public init() {
         func newButton(_ index: Int, text: String) -> UIButton {
             let button = UIButton(type: .custom)
+            
+            var accessibilityTrait = button.accessibilityTraits
+            accessibilityTrait -= UIAccessibilityTraitButton
+            accessibilityTrait += UIAccessibilityTraitKeyboardKey
+            button.accessibilityTraits = accessibilityTrait
+            
             button.titleLabel?.font = .systemFont(ofSize: 20.0)
             button.setTitle(text, for: .normal)
             button.tag = index
@@ -129,6 +135,7 @@ extension KeyboardNumberBar {
     }
     
 }
+
 
 fileprivate extension KeyboardNumberBar {
     

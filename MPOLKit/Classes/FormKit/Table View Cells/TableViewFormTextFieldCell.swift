@@ -102,3 +102,49 @@ extension TableViewFormTextFieldCell {
     
 }
 
+
+// MARK: - Accessibility
+/// Accessibility
+extension TableViewFormTextFieldCell {
+    
+    dynamic open override var accessibilityLabel: String? {
+        get {
+            if let setValue = super.accessibilityLabel {
+                return setValue
+            }
+            return titleLabel.text
+        }
+        set {
+            super.accessibilityLabel = newValue
+        }
+    }
+    
+    dynamic open override var accessibilityValue: String? {
+        get {
+            if let setValue = super.accessibilityValue {
+                return setValue
+            }
+            let text = textField.text
+            if text?.isEmpty ?? true {
+                return textField.placeholder
+            }
+            return text
+        }
+        set {
+            super.accessibilityValue = newValue
+        }
+    }
+    
+    dynamic open override var isAccessibilityElement: Bool {
+        get {
+            if textField.isEditing { return false }
+            return super.isAccessibilityElement
+        }
+        set {
+            super.isAccessibilityElement = newValue
+        }
+    }
+    
+}
+
+
