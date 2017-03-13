@@ -409,6 +409,7 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
                         headerAttribute = CollectionViewFormMPOLHeaderAttributes(forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, with: sectionIndexPath)
                         headerAttribute.zIndex = 1
                     }
+                    
                     var sectionInset = headerRect.2.left
                     if sectionInset.isZero {
                        sectionInset = itemLayoutMargins.left

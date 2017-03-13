@@ -60,7 +60,7 @@ public class CollectionViewFormMPOLHeaderView: UICollectionReusableView {
     public var isExpanded: Bool = false {
         didSet {
             if isExpanded != oldValue {
-                arrowView.transform = isExpanded ? .identity : CGAffineTransform(rotationAngle: -0.5 * CGFloat.pi)
+                arrowView.transform = isExpanded ? .identity :  CGAffineTransform(rotationAngle: CGFloat.pi * (traitCollection.layoutDirection == .rightToLeft ? 0.5 : -0.5))
             }
         }
     }
@@ -125,7 +125,7 @@ public class CollectionViewFormMPOLHeaderView: UICollectionReusableView {
         preservesSuperviewLayoutMargins = false
         
         arrowView.translatesAutoresizingMaskIntoConstraints = false
-        arrowView.transform = CGAffineTransform(rotationAngle: -0.5 * CGFloat.pi)
+        arrowView.transform = CGAffineTransform(rotationAngle: CGFloat.pi * (traitCollection.layoutDirection == .rightToLeft ? 0.5 : -0.5))
         arrowView.isHidden = true
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -188,10 +188,12 @@ extension CollectionViewFormMPOLHeaderView {
         indexPath = layoutAttributes.indexPath
         
         if let attributes = layoutAttributes as? CollectionViewFormMPOLHeaderAttributes {
-            layoutMargins = UIEdgeInsets(top: 12.0, left: attributes.leadingMargin, bottom: attributes.frame.height - attributes.itemPosition, right: 10.0)
+            let layoutMargins = UIEdgeInsets(top: 12.0, left: attributes.leadingMargin, bottom: attributes.frame.height - attributes.itemPosition, right: 10.0)
+            self.layoutMargins = traitCollection.layoutDirection == .rightToLeft ? layoutMargins.horizontallyFlipped() : layoutMargins
             separatorHeightConstraint.constant = attributes.separatorWidth
         } else {
-            layoutMargins = UIEdgeInsets(top: 12.0, left: 10.0, bottom: 0.0, right: 10.0)
+            let layoutMargins = UIEdgeInsets(top: 12.0, left: 10.0, bottom: 0.0, right: 10.0)
+            self.layoutMargins = traitCollection.layoutDirection == .rightToLeft ? layoutMargins.horizontallyFlipped() : layoutMargins
             separatorHeightConstraint.constant = 1.0 / (window?.screen ?? .main).scale
         }
         
@@ -209,6 +211,17 @@ extension CollectionViewFormMPOLHeaderView {
     public override func tintColorDidChange() {
         super.tintColorDidChange()
         titleLabel.textColor = tintColor
+    }
+    
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        
+        let isRightToLeft = traitCollection.layoutDirection == .rightToLeft
+        if isExpanded == false, isRightToLeft != (previousTraitCollection?.layoutDirection == .rightToLeft) {
+            layoutMargins = layoutMargins.horizontallyFlipped()
+            arrowView.transform = CGAffineTransform(rotationAngle: CGFloat.pi * (isRightToLeft ? 0.5 : -0.5))
+        }
     }
     
 }
