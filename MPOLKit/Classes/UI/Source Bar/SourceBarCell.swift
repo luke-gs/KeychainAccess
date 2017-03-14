@@ -15,7 +15,7 @@ internal class SourceBarCell: UIControl {
     fileprivate static let darkDisabledColor  = #colorLiteral(red: 0.2352941176, green: 0.2352941176, blue: 0.2352941176, alpha: 1)
     
     fileprivate let titleLabel = UILabel(frame: .zero)
-    fileprivate let badgeView  = InterfaceBadgeView(frame: .zero)
+    fileprivate let badgeView  = AlertIndicatorView(frame: .zero)
     
     fileprivate var style: SourceBar.Style = .dark
     

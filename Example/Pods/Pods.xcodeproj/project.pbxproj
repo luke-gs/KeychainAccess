@@ -57,7 +57,7 @@
 		BC00DFBD1E711CAF001ACB1E /* SidebarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC445C7B1E71197C00A58ACA /* SidebarItem.swift */; };
 		BC00DFBE1E711CB4001ACB1E /* SourceBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC445C831E7119C600A58ACA /* SourceBar.swift */; };
 		BC00DFBF1E711CB6001ACB1E /* SourceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC445C851E7119C600A58ACA /* SourceItem.swift */; };
-		BC00DFC21E711DB8001ACB1E /* InterfaceBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC00DFC11E711DB8001ACB1E /* InterfaceBadgeView.swift */; };
+		BC00DFC21E711DB8001ACB1E /* AlertIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC00DFC11E711DB8001ACB1E /* AlertIndicatorView.swift */; };
 		BC3422C41E7114A4004EFA08 /* UIView+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3422C31E7114A4004EFA08 /* UIView+Convenience.swift */; };
 		BC3422C91E71151F004EFA08 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3422C51E71151F004EFA08 /* GradientView.swift */; };
 		BC3422CB1E71151F004EFA08 /* RoundedRectLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3422C71E71151F004EFA08 /* RoundedRectLabel.swift */; };
@@ -152,7 +152,7 @@
 		B0500D71596572DDB8FFB7B76F6CAF5D /* Pods-MPOLKit_Tests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-MPOLKit_Tests-resources.sh"; sourceTree = "<group>"; };
 		B834E0F3C1D9E8DE321A87268F2EE71B /* UITableView+DefaultReuse.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UITableView+DefaultReuse.swift"; sourceTree = "<group>"; };
 		BBB8D4F4BA7D9187C489FEBD2F9F9B46 /* CollectionViewFormMPOLHeaderAttributes.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CollectionViewFormMPOLHeaderAttributes.swift; sourceTree = "<group>"; };
-		BC00DFC11E711DB8001ACB1E /* InterfaceBadgeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterfaceBadgeView.swift; sourceTree = "<group>"; };
+		BC00DFC11E711DB8001ACB1E /* AlertIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertIndicatorView.swift; sourceTree = "<group>"; };
 		BC3422C31E7114A4004EFA08 /* UIView+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Convenience.swift"; sourceTree = "<group>"; };
 		BC3422C51E71151F004EFA08 /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		BC3422C71E71151F004EFA08 /* RoundedRectLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedRectLabel.swift; sourceTree = "<group>"; };
@@ -441,10 +441,10 @@
 		98BFC512AF7E75EC11A1119E6FA94292 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				BC00DFC11E711DB8001ACB1E /* AlertIndicatorView.swift */,
 				BC3422C81E71151F004EFA08 /* BadgeView.swift */,
 				15460445470300026F61FB9F64AB2FAB /* BorderedImageView.swift */,
 				BC3422C51E71151F004EFA08 /* GradientView.swift */,
-				BC00DFC11E711DB8001ACB1E /* InterfaceBadgeView.swift */,
 				BC3422C71E71151F004EFA08 /* RoundedRectLabel.swift */,
 				AC53396F0C1AD94C923861E422080C46 /* ScrollViewInsetManager.swift */,
 				A0CA5C293B3D14CC07766BE553CF56EC /* Theme.swift */,
@@ -740,7 +740,7 @@
 				BC5906191E711896007C712A /* UITextView+NotificationWorkaround.m in Sources */,
 				BC00DFBE1E711CB4001ACB1E /* SourceBar.swift in Sources */,
 				BC00DFBF1E711CB6001ACB1E /* SourceItem.swift in Sources */,
-				BC00DFC21E711DB8001ACB1E /* InterfaceBadgeView.swift in Sources */,
+				BC00DFC21E711DB8001ACB1E /* AlertIndicatorView.swift in Sources */,
 				7B3EF20A726B534049A6040F4C6903FE /* BorderedImageView.swift in Sources */,
 				1993D66207116280AE921F037E9D6543 /* CheckBox.swift in Sources */,
 				BC3422C91E71151F004EFA08 /* GradientView.swift in Sources */,

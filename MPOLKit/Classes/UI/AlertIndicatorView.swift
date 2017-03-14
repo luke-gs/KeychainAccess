@@ -1,5 +1,5 @@
 //
-//  InterfaceBadgeView.swift
+//  AlertIndicatorView.swift
 //  MPOLKit
 //
 //  Created by Rod Brown on 9/3/17.
@@ -8,10 +8,8 @@
 
 import UIKit
 
-/// A Badge View for presenting alerts within the MPOL interface.
-///
-/// - Note: I think we need a better name than this!
-public class InterfaceBadgeView: UIView {
+/// A an indicator view for presenting alerts within the MPOL interface.
+public class AlertIndicatorView: UIView {
 
     public var text: String? {
         get { return iconView.text }
