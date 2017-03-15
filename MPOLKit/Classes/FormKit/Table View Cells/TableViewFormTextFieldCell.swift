@@ -42,7 +42,7 @@ open class TableViewFormTextFieldCell: TableViewFormCell {
         contentView.addSubview(titleLabel)
         contentView.addSubview(textField)
         
-        titleDetailSeparationConstraint = NSLayoutConstraint(item: textField, attribute: .top, relatedBy: .equal, toItem: titleLabel, attribute: .bottom, constant: 0.0)
+        titleDetailSeparationConstraint = NSLayoutConstraint(item: textField, attribute: .top, relatedBy: .equal, toItem: titleLabel, attribute: .bottom)
         
         let layoutGuide = contentModeLayoutGuide
         NSLayoutConstraint.activate([
@@ -52,7 +52,7 @@ open class TableViewFormTextFieldCell: TableViewFormCell {
             
             NSLayoutConstraint(item: textField, attribute: .leading,  relatedBy: .equal, toItem: layoutGuide, attribute: .leading),
             NSLayoutConstraint(item: textField, attribute: .trailing, relatedBy: .equal, toItem: layoutGuide, attribute: .trailing),
-            NSLayoutConstraint(item: textField, attribute: .firstBaseline, relatedBy: .equal, toItem: layoutGuide, attribute: .bottom, constant: -2.0),
+            NSLayoutConstraint(item: textField, attribute: .bottom,   relatedBy: .equal, toItem: layoutGuide, attribute: .bottom, constant: 0.5),
             titleDetailSeparationConstraint
         ])
         
@@ -101,4 +101,50 @@ extension TableViewFormTextFieldCell {
     }
     
 }
+
+
+// MARK: - Accessibility
+/// Accessibility
+extension TableViewFormTextFieldCell {
+    
+    dynamic open override var accessibilityLabel: String? {
+        get {
+            if let setValue = super.accessibilityLabel {
+                return setValue
+            }
+            return titleLabel.text
+        }
+        set {
+            super.accessibilityLabel = newValue
+        }
+    }
+    
+    dynamic open override var accessibilityValue: String? {
+        get {
+            if let setValue = super.accessibilityValue {
+                return setValue
+            }
+            let text = textField.text
+            if text?.isEmpty ?? true {
+                return textField.placeholder
+            }
+            return text
+        }
+        set {
+            super.accessibilityValue = newValue
+        }
+    }
+    
+    dynamic open override var isAccessibilityElement: Bool {
+        get {
+            if textField.isEditing { return false }
+            return super.isAccessibilityElement
+        }
+        set {
+            super.isAccessibilityElement = newValue
+        }
+    }
+    
+}
+
 

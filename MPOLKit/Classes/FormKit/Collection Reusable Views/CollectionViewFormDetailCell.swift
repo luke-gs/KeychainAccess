@@ -95,6 +95,8 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
     private func commonInit() {
         super.contentMode = .center
         
+        accessibilityTraits |= UIAccessibilityTraitStaticText
+        
         let contentView     = self.contentView
         let textLabel       = self.textLabel
         let detailTextLabel = self.detailTextLabel
@@ -177,7 +179,7 @@ extension CollectionViewFormDetailCell {
             switch object {
             case let label as UILabel:
                 label.isHidden = label.text?.isEmpty ?? true
-                titleDetailConstraint.constant = (textLabel.text?.isEmpty ?? true || detailTextLabel.text?.isEmpty ?? true) ? 0.0 : 2.0
+                titleDetailConstraint.constant = (textLabel.text?.isEmpty ?? true || detailTextLabel.text?.isEmpty ?? true) ? 0.0 : CellTitleDetailSeparation
             case let imageView as UIImageView:
                 let imageSize = imageView.image?.size
                 imageView.isHidden = imageSize?.isEmpty ?? true
@@ -188,6 +190,18 @@ extension CollectionViewFormDetailCell {
             }
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+        }
+    }
+    
+    dynamic open override var accessibilityLabel: String? {
+        get {
+            if let setValue = super.accessibilityLabel {
+                return setValue
+            }
+            return [textLabel, detailTextLabel].flatMap({ $0.text }).joined(separator: ", ")
+        }
+        set {
+            super.accessibilityLabel = newValue
         }
     }
     
@@ -229,7 +243,7 @@ extension CollectionViewFormDetailCell {
     ///   - singleLineTitle:  A boolean value indicating if the detail text should be constrained to a single line. The default is `true`.
     ///   - singleLineDetail: A boolean value indicating if the detail text should be constrained to a single line. The default is `false`.
     /// - Returns:      The minumum content width for the cell.
-    open class func minimumContentWidth(forTitle title: String?, detail: String?, compatibleWith traitCollection: UITraitCollection, image: UIImage? = nil,
+    open class func minimumContentWidth(withTitle title: String?, detail: String?, compatibleWith traitCollection: UITraitCollection, image: UIImage? = nil,
                                         emphasis: Emphasis = .title, titleFont: UIFont? = nil, detailFont: UIFont? = nil,
                                         singleLineTitle: Bool = true, singleLineDetail: Bool = false) -> CGFloat {
         let titleTextFont  = titleFont  ?? font(withEmphasis: emphasis == .title, compatibleWith: traitCollection)
@@ -271,7 +285,7 @@ extension CollectionViewFormDetailCell {
     ///   - detailFont: The detail font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
     ///   - singleLineDetail: A boolean value indicating if the detail text should be constrained to a single line. The default is `false`.
     /// - Returns:      The minumum content height for the cell.
-    open class func minimumContentHeight(forTitle title: String?, detail: String?, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection,
+    open class func minimumContentHeight(withTitle title: String?, detail: String?, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection,
                                          image: UIImage? = nil, emphasis: Emphasis = .title, titleFont: UIFont? = nil, detailFont: UIFont? = nil,
                                          singleLineTitle: Bool = true, singleLineDetail: Bool = false) -> CGFloat {
         let titleTextFont  = titleFont  ?? font(withEmphasis: emphasis == .title,   compatibleWith: traitCollection)

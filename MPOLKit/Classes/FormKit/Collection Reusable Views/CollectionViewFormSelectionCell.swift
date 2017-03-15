@@ -34,6 +34,12 @@ open class CollectionViewFormSelectionCell: CollectionViewFormDetailCell {
             let alpha: CGFloat = isEnabled ? 1.0 : 0.5
             textLabel.alpha = alpha
             imageView.alpha = alpha
+            
+            if isEnabled {
+                accessibilityTraits |= UIAccessibilityTraitNotEnabled
+            } else {
+                accessibilityTraits &= ~UIAccessibilityTraitNotEnabled
+            }
         }
     }
     
@@ -86,10 +92,10 @@ extension CollectionViewFormSelectionCell {
     ///   - singleLineTitle:  A boolean value indicating if the title text should be constrained to a single line. The default is `true`.
     ///   - singleLineDetail: A boolean value indicating if the detail text should be constrained to a single line. The default is `false`.
     /// - Returns: The minumum content width for the cell.
-    open class func minimumContentWidth(forTitle title: String?, detail: String?, compatibleWith traitCollection: UITraitCollection,
+    open class func minimumContentWidth(withTitle title: String?, detail: String?, compatibleWith traitCollection: UITraitCollection,
                                         emphasis: Emphasis = .title, titleFont: UIFont? = nil, detailFont: UIFont? = nil,
                                         singleLineTitle: Bool = true, singleLineDetail: Bool = false) -> CGFloat {
-        return super.minimumContentWidth(forTitle: title, detail: detail, compatibleWith: traitCollection, image: .checkbox,
+        return super.minimumContentWidth(withTitle: title, detail: detail, compatibleWith: traitCollection, image: .checkbox,
                                          emphasis: emphasis, titleFont: titleFont, detailFont: detailFont,
                                          singleLineTitle: singleLineTitle, singleLineDetail: singleLineDetail)
     }
@@ -107,10 +113,10 @@ extension CollectionViewFormSelectionCell {
     ///   - singleLineTitle:  A boolean value indicating if the title text should be constrained to a single line. The default is `true`.
     ///   - singleLineDetail: A boolean value indicating if the detail text should be constrained to a single line. The default is `false`.
     /// - Returns: The minumum content height for the cell.
-    open class func minimumContentHeight(forTitle title: String?, detail: String?, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection,
+    open class func minimumContentHeight(withTitle title: String?, detail: String?, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection,
                                          emphasis: Emphasis = .title, titleFont: UIFont? = nil, detailFont: UIFont? = nil,
                                          singleLineTitle: Bool = true, singleLineDetail: Bool = false) -> CGFloat {
-        return super.minimumContentHeight(forTitle: title, detail: detail, inWidth: width, compatibleWith: traitCollection, image: .checkbox,
+        return super.minimumContentHeight(withTitle: title, detail: detail, inWidth: width, compatibleWith: traitCollection, image: .checkbox,
                                           emphasis: emphasis, titleFont: titleFont, detailFont: detailFont,
                                           singleLineTitle: singleLineTitle, singleLineDetail: singleLineDetail)
     }

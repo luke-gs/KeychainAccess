@@ -16,11 +16,19 @@ open class FormTextField: UITextField {
         if let unitLabel = _unitLabel { return unitLabel }
         
         let unitLabel = UILabel(frame: .zero)
+        unitLabel.translatesAutoresizingMaskIntoConstraints = false
         unitLabel.textColor = textColor
         unitLabel.font      = font
         unitLabel.isHidden  = true
         unitLabel.addObserver(self, forKeyPath: #keyPath(UILabel.text),  context: &kvoContext)
         addSubview(unitLabel)
+        
+        unitLabelOriginXConstraint = NSLayoutConstraint(item: unitLabel, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, constant: valueInset)
+        NSLayoutConstraint.activate([
+            NSLayoutConstraint(item: unitLabel, attribute: .firstBaseline, relatedBy: .equal, toItem: self, attribute: .firstBaseline),
+            unitLabelOriginXConstraint!
+        ])
+        
         _unitLabel = unitLabel
         return unitLabel
     }
@@ -40,8 +48,10 @@ open class FormTextField: UITextField {
     fileprivate var _unitLabel: UILabel?
     
     fileprivate var valueInset: CGFloat = 0.0 {
-        didSet { if valueInset != oldValue { updateUnitLabelOrigin() } }
+        didSet { if valueInset != oldValue { unitLabelOriginXConstraint?.constant = valueInset } }
     }
+    
+    fileprivate var unitLabelOriginXConstraint: NSLayoutConstraint?
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -104,11 +114,6 @@ extension FormTextField {
         didSet { textDidChange() }
     }
     
-    open override func layoutSubviews() {
-        super.layoutSubviews()
-        updateUnitLabelOrigin()
-    }
-    
     open override func becomeFirstResponder() -> Bool {
         if super.becomeFirstResponder() {
             textDidChange()
@@ -127,13 +132,29 @@ extension FormTextField {
     
     open override func textRect(forBounds bounds: CGRect) -> CGRect {
         var textRect = super.textRect(forBounds: bounds)
-        textRect.size.width -= _unitLabel?.frame.width ?? 0.0 + (clearButtonMode == .whileEditing ? 25.0 : 4.0)
+        
+        let inset = _unitLabel?.frame.width ?? 0.0 + ((clearButtonMode == .whileEditing || clearButtonMode == .whileEditing) ? 25.0 : 4.0)
+        let adjustment = min(textRect.width, inset)
+        
+        textRect.size.width -= adjustment
+        if traitCollection.layoutDirection == .rightToLeft {
+            textRect.origin.x += adjustment
+        }
+        
         return textRect
     }
     
     open override func editingRect(forBounds bounds: CGRect) -> CGRect {
         var editingRect = super.editingRect(forBounds: bounds)
-        editingRect.size.width -= _unitLabel?.frame.width ?? 0.0 + 4.0
+        
+        let inset = _unitLabel?.frame.width ?? 0.0 + ((clearButtonMode == .whileEditing || clearButtonMode == .whileEditing) ? 25.0 : 4.0)
+        let adjustment = min(editingRect.width, inset)
+        
+        editingRect.size.width -= adjustment
+        if traitCollection.layoutDirection == .rightToLeft {
+            editingRect.origin.x += adjustment
+        }
+        
         return editingRect
     }
     
@@ -170,14 +191,50 @@ fileprivate extension FormTextField {
         _unitLabel?.isHidden = hidden
         
         if !hidden {
-            if isEditing {
-                valueInset = ceil(min(caretRect(for: endOfDocument).maxX, editingRect(forBounds: bounds).maxX)) + 4.0
-            } else if let text = self.text , text.isEmpty == false {
+            
+            if traitCollection.layoutDirection == .rightToLeft {
                 
-                let textRect = text.boundingRect(with: .max, attributes:  [NSFontAttributeName: self.font ?? .systemFont(ofSize: UIFont.systemFontSize)] , context: nil)
-                valueInset = ceil(min(textRect.width + 1.0, self.textRect(forBounds: bounds).maxX)) + 4.0
+                if isEditing, let textRange = textRange(from: beginningOfDocument, to: endOfDocument) {
+                    // Get the maximum text rectangle for the text
+                    let maxTextRect = self.textRect(forBounds: bounds)
+                    
+                    // get the text rectangle and fix for the fact it's offset by the maxTextRect origin.
+                    var textRect = firstRect(for: textRange)
+                    textRect.origin.x += maxTextRect.origin.x
+                    
+                    // work out the intersection - only the text rect where its in the text max bounds
+                    textRect = textRect.intersection(maxTextRect)
+                    textRect = textRect.integral
+                    
+                    valueInset = bounds.width - textRect.minX + 2.0
+                } else if let text = self.text, text.isEmpty == false {
+                    let textWidth = text.boundingRect(with: .max, attributes:  [NSFontAttributeName: self.font ?? .systemFont(ofSize: UIFont.systemFontSize)] , context: nil).width
+                    let maxTextRect = textRect(forBounds: bounds)
+                    valueInset = bounds.width - maxTextRect.maxX + ceil(min(textWidth, maxTextRect.width)) + 2.0
+                } else {
+                    valueInset = 2.0
+                }
             } else {
-                valueInset =  4.0
+                if isEditing, let textRange = self.textRange(from: beginningOfDocument, to: endOfDocument) {
+                    // Get the maximum text rectangle for the text
+                    let maxTextRect = self.textRect(forBounds: bounds)
+                    
+                    // get the text rectangle and fix for the fact it's offset by the maxTextRect origin.
+                    var textRect = firstRect(for: textRange)
+                    textRect.origin.x += maxTextRect.origin.x
+                    
+                    // work out the intersection - only the text rect where its in the text max bounds
+                    textRect = textRect.intersection(maxTextRect)
+                    textRect = textRect.integral
+                    
+                    valueInset = textRect.maxX + 2.0
+                } else if let text = self.text, text.isEmpty == false {
+                    let textWidth = text.boundingRect(with: .max, attributes:  [NSFontAttributeName: self.font ?? .systemFont(ofSize: UIFont.systemFontSize)] , context: nil).width
+                    let maxTextRect = textRect(forBounds: bounds)
+                    valueInset = maxTextRect.minX + ceil(min(textWidth, maxTextRect.width)) + 2.0
+                } else {
+                    valueInset = 2.0
+                }
             }
         }
     }
@@ -189,10 +246,6 @@ fileprivate extension FormTextField {
         } else {
             super.attributedPlaceholder = nil
         }
-    }
-    
-    fileprivate func updateUnitLabelOrigin() {
-        _unitLabel?.frame.origin = CGPoint(x: valueInset, y: 1.0)
     }
     
 }

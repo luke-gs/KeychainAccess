@@ -383,21 +383,24 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     
     // MARK: - Updates
     
-    fileprivate var insertedItemSeparators: [IndexPath]?
-    fileprivate var deletedItemSeparators:  [IndexPath]?
-    fileprivate var insertedRowSeparators:  [IndexPath]?
-    fileprivate var deletedRowSeparators:   [IndexPath]?
-    fileprivate var insertedSections: [Int]?
-    fileprivate var deletedSections:  [Int]?
+    fileprivate var insertedSections:      IndexSet?
+    fileprivate var deletedSections:       IndexSet?
+    fileprivate var insertedItems:         [IndexPath]?
+    fileprivate var deletedItems:          [IndexPath]?
+    fileprivate var insertedRowSeparators: [IndexPath]?
+    fileprivate var deletedRowSeparators:  [IndexPath]?
     
     open override func prepare(forCollectionViewUpdates updateItems: [UICollectionViewUpdateItem]) {
         guard let collectionView = self.collectionView else { return }
         
-        insertedItemSeparators = []
-        deletedItemSeparators  = []
+        var insertedSections = IndexSet()
+        var deletedSections  = IndexSet()
         
-        insertedSections = []
-        deletedSections  = []
+        var insertedItems: [IndexPath] = []
+        var deletedItems:  [IndexPath] = []
+        
+        var insertedRowSeparators: [IndexPath] = []
+        var deletedRowSeparators:  [IndexPath] = []
         
         for item in updateItems {
             if (item.indexPathBeforeUpdate ?? item.indexPathAfterUpdate)?.row == NSIntegerMax {
@@ -405,23 +408,23 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
                 switch item.updateAction {
                 case .insert:
                     let section = item.indexPathAfterUpdate!.section
-                    insertedSections!.append(section)
-                    insertedItemSeparators! += (0..<collectionView.numberOfItems(inSection: section)).map { IndexPath(item: $0, section: section) }
+                    insertedSections.insert(section)
+                    insertedItems += (0..<collectionView.numberOfItems(inSection: section)).map { IndexPath(item: $0, section: section) }
                 case .delete:
                     let section = item.indexPathBeforeUpdate!.section
-                    deletedSections!.append(section)
-                    deletedItemSeparators! += (0..<previousSectionItemCounts[section]).map { IndexPath(item: $0, section: section) }
+                    deletedSections.insert(section)
+                    deletedItems += (0..<previousSectionItemCounts[section]).map { IndexPath(item: $0, section: section) }
                 case .reload:
                     let section = item.indexPathBeforeUpdate!.section
-                    deletedItemSeparators! += (0..<previousSectionItemCounts[section]).map { IndexPath(item: $0, section: section) }
-                    insertedItemSeparators! += (0..<collectionView.numberOfItems(inSection: section)).map { IndexPath(item: $0, section: section) }
+                    deletedItems += (0..<previousSectionItemCounts[section]).map { IndexPath(item: $0, section: section) }
+                    insertedItems += (0..<collectionView.numberOfItems(inSection: section)).map { IndexPath(item: $0, section: section) }
                 case .move:
                     let oldSection = item.indexPathBeforeUpdate!.section
-                    deletedSections!.append(oldSection)
-                    deletedItemSeparators! += (0..<previousSectionItemCounts[oldSection]).map { IndexPath(item: $0, section: oldSection) }
+                    deletedSections.insert(oldSection)
+                    deletedItems += (0..<previousSectionItemCounts[oldSection]).map { IndexPath(item: $0, section: oldSection) }
                     let newSection = item.indexPathAfterUpdate!.section
-                    insertedSections!.append(newSection)
-                    insertedItemSeparators! += (0..<collectionView.numberOfItems(inSection: newSection)).map { IndexPath(item: $0, section: newSection) }
+                    insertedSections.insert(newSection)
+                    insertedItems += (0..<collectionView.numberOfItems(inSection: newSection)).map { IndexPath(item: $0, section: newSection) }
                 case .none:
                     break
                 }
@@ -429,20 +432,17 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
                 // Item update
                 switch item.updateAction {
                 case .insert:
-                    insertedItemSeparators!.append(item.indexPathAfterUpdate!)
+                    insertedItems.append(item.indexPathAfterUpdate!)
                 case .delete:
-                    deletedItemSeparators!.append(item.indexPathBeforeUpdate!)
+                    deletedItems.append(item.indexPathBeforeUpdate!)
                 case .move:
-                    deletedItemSeparators!.append(item.indexPathBeforeUpdate!)
-                    insertedItemSeparators!.append(item.indexPathAfterUpdate!)
+                    deletedItems.append(item.indexPathBeforeUpdate!)
+                    insertedItems.append(item.indexPathAfterUpdate!)
                 default:
                     break
                 }
             }
         }
-        
-        insertedRowSeparators = []
-        deletedRowSeparators = []
         
         for (index, section) in rowSeparatorAttributes.enumerated() {
             var newCount = section.count
@@ -450,36 +450,89 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
             
             if newCount != oldCount {
                 while newCount > oldCount {
-                    insertedRowSeparators!.append(IndexPath(item:newCount - 1, section: index))
+                    insertedRowSeparators.append(IndexPath(item:newCount - 1, section: index))
                     newCount -= 1
                 }
                 while oldCount > newCount {
-                    deletedRowSeparators!.append(IndexPath(item:oldCount - 1, section: index))
+                    deletedRowSeparators.append(IndexPath(item:oldCount - 1, section: index))
                     oldCount -= 1
                 }
             }
         }
+        
+        self.insertedSections      = insertedSections
+        self.deletedSections       = deletedSections
+        self.insertedItems         = insertedItems
+        self.deletedItems          = deletedItems
+        self.insertedRowSeparators = insertedRowSeparators
+        self.deletedRowSeparators  = deletedRowSeparators
     }
     
     open override func finalizeCollectionViewUpdates() {
-        insertedItemSeparators = nil
-        deletedItemSeparators  = nil
+        insertedItems          = nil
+        deletedItems           = nil
         insertedRowSeparators  = nil
         deletedRowSeparators   = nil
         insertedSections       = nil
         deletedSections        = nil
     }
     
+    open override func initialLayoutAttributesForAppearingItem(at itemIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+        let attributes = super.initialLayoutAttributesForAppearingItem(at: itemIndexPath)
+        if insertedSections?.contains(itemIndexPath.section) ?? false || insertedItems?.contains(itemIndexPath) ?? false {
+            attributes?.alpha = 0.0
+        }
+        return attributes
+    }
+    
     open override func finalLayoutAttributesForDisappearingItem(at itemIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        let attributes = super.finalLayoutAttributesForDisappearingItem(at: itemIndexPath)?.copy() as? UICollectionViewLayoutAttributes
-        attributes?.alpha = 0.0
+        let attributes = super.finalLayoutAttributesForDisappearingItem(at: itemIndexPath)
+        if deletedItems?.contains(itemIndexPath) ?? false || deletedSections?.contains(itemIndexPath.section) ?? false {
+            attributes?.alpha = 0.0
+        }
+        return attributes
+    }
+    
+    open override func initialLayoutAttributesForAppearingSupplementaryElement(ofKind elementKind: String, at elementIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+        let attributes = super.initialLayoutAttributesForAppearingDecorationElement(ofKind: elementKind, at: elementIndexPath)
+        if insertedSections?.contains(elementIndexPath.section) ?? false {
+            attributes?.alpha = 0.0
+        }
+        return attributes
+    }
+    
+    open override func finalLayoutAttributesForDisappearingSupplementaryElement(ofKind elementKind: String, at elementIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+        let attributes = super.finalLayoutAttributesForDisappearingSupplementaryElement(ofKind: elementKind, at: elementIndexPath)
+        if deletedSections?.contains(elementIndexPath.section) ?? false {
+            attributes?.alpha = 0.0
+        }
+        return attributes
+    }
+    
+    open override func initialLayoutAttributesForAppearingDecorationElement(ofKind elementKind: String, at decorationIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+        let attributes = super.initialLayoutAttributesForAppearingDecorationElement(ofKind: elementKind, at: decorationIndexPath)
+        if insertedSections?.contains(decorationIndexPath.section) ?? false
+            || (elementKind == collectionElementKindSeparatorRow  && insertedRowSeparators?.contains(decorationIndexPath) ?? false)
+            || (elementKind == collectionElementKindSeparatorItem && insertedItems?.contains(decorationIndexPath) ?? false) {
+            attributes?.alpha = 0.0
+        }
+        return attributes
+    }
+    
+    open override func finalLayoutAttributesForDisappearingDecorationElement(ofKind elementKind: String, at decorationIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+        let attributes = super.finalLayoutAttributesForDisappearingDecorationElement(ofKind: elementKind, at: decorationIndexPath)
+        if deletedSections?.contains(decorationIndexPath.section) ?? false
+            || (elementKind == collectionElementKindSeparatorRow  && deletedRowSeparators?.contains(decorationIndexPath) ?? false)
+            || (elementKind == collectionElementKindSeparatorItem && deletedItems?.contains(decorationIndexPath) ?? false) {
+            attributes?.alpha = 0.0
+        }
         return attributes
     }
     
     open override func indexPathsToInsertForDecorationView(ofKind elementKind: String) -> [IndexPath] {
         switch elementKind {
         case collectionElementKindSeparatorItem:
-            return insertedItemSeparators ?? []
+            return insertedItems ?? []
         case collectionElementKindSeparatorRow:
             return insertedRowSeparators ?? []
         case collectionElementKindSectionItemBackground:
@@ -500,7 +553,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     open override func indexPathsToDeleteForDecorationView(ofKind elementKind: String) -> [IndexPath] {
         switch elementKind {
         case collectionElementKindSeparatorItem:
-            return deletedItemSeparators ?? []
+            return deletedItems ?? []
         case collectionElementKindSeparatorRow:
             return deletedRowSeparators ?? []
         case collectionElementKindSectionItemBackground:

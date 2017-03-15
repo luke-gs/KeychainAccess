@@ -33,3 +33,13 @@ public struct SourceItem {
         self.isEnabled = isEnabled
     }
 }
+
+
+extension SourceItem: Equatable {}
+
+public func ==(lhs: SourceItem, rhs: SourceItem) -> Bool {
+    return lhs.isEnabled == rhs.isEnabled
+        && lhs.count == rhs.count
+        && lhs.title == rhs.title
+        && lhs.color == rhs.color
+}

@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  MPOLKit Demo
+//  MPOLKit-Example
 //
 //  Created by Rod Brown on 15/2/17.
 //  Copyright © 2017 Gridstone. All rights reserved.
@@ -16,6 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        KeyboardInputManager.shared.isNumberBarEnabled = true
         
         let theme = Theme.current
         

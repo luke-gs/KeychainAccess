@@ -112,9 +112,19 @@ public final class ScrollViewInsetManager: NSObject {
             indicatorInset.bottom = max(bottomInset, indicatorInset.bottom)
             
             // Apply
+            let insetChange = scrollView.contentInset.top - contentInset.top
+            if insetChange !=~ 0.0 {
+                scrollView.contentOffset.y += insetChange
+            }
+            
             scrollView.contentInset          = contentInset
             scrollView.scrollIndicatorInsets = indicatorInset
         } else {
+            let insetChange = scrollView.contentInset.top - standardContentInset.top
+            if insetChange !=~ 0.0 {
+                scrollView.contentOffset.y += insetChange
+            }
+            
             scrollView.contentInset          = standardContentInset
             scrollView.scrollIndicatorInsets = standardIndicatorInset
         }

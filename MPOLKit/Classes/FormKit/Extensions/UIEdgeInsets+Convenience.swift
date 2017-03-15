@@ -10,16 +10,13 @@ import UIKit
 
 extension UIEdgeInsets {
     
-    public var inverse: UIEdgeInsets {
+    
+    public func inverted() -> UIEdgeInsets {
         return UIEdgeInsets(top: -top, left: -left, bottom: -bottom, right: -right)
     }
     
-}
-
-extension CGRect {
-    
-    public func insetBy(_ edgeInsets: UIEdgeInsets) -> CGRect {
-        return UIEdgeInsetsInsetRect(self, edgeInsets)
+    public func horizontallyFlipped() -> UIEdgeInsets {
+        return UIEdgeInsets(top: top, left: right, bottom: bottom, right: left)
     }
     
 }
