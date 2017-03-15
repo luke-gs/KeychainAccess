@@ -157,11 +157,6 @@ extension CollectionViewFormTextViewCell {
         }
     }
     
-    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        updateTextViewMinimumConstraint()
-    }
-    
     internal override func applyStandardFonts() {
         super.applyStandardFonts()
         

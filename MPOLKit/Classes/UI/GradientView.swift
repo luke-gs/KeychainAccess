@@ -107,6 +107,7 @@ public class GradientView: UIView {
         didSet {
             if semanticContentAttribute == oldValue || gradientDirection != .horizontal { return }
             setNeedsDisplay()
+            
         }
     }
     

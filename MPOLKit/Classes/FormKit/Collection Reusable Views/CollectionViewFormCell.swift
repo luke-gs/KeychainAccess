@@ -136,7 +136,7 @@ open class CollectionViewFormCell: UICollectionViewCell {
     fileprivate var contentModeLayoutConstraint: NSLayoutConstraint!
     
     fileprivate let internalContentView = UIView(frame: .zero)
-    fileprivate var scrollView: CollectionViewFormCellScrollView!
+    fileprivate let scrollView = CollectionViewFormCellScrollView(frame: .zero)
     fileprivate var actionView: CollectionViewFormCellActionView?
     fileprivate var _isShowingEditActions: Bool = false
     fileprivate var _deceleratingToOpen: Bool = false
@@ -191,18 +191,11 @@ open class CollectionViewFormCell: UICollectionViewCell {
     private func commonInit() {
         isAccessibilityElement = true
         
-        if #available(iOS 10, *) {
-            isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
-        } else {
-            isRightToLeft = UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft
-        }
-        
         super.contentMode = .center
         
         let trueContentView        = super.contentView
         let contentModeLayoutGuide = self.contentModeLayoutGuide
         
-        scrollView = CollectionViewFormCellScrollView(cell: self)
         scrollView.delegate      = self
         scrollView.frame         = trueContentView.bounds
         scrollView.autoresizingMask  = [.flexibleWidth, .flexibleHeight]
@@ -228,6 +221,13 @@ open class CollectionViewFormCell: UICollectionViewCell {
         ])
         
         applyStandardFonts()
+        
+        if #available(iOS 10, *) {
+            isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
+        } else {
+            isRightToLeft = UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft
+        }
+        
         
         if #available(iOS 10, *) { return }
         
@@ -368,7 +368,8 @@ extension CollectionViewFormCell: UIScrollViewDelegate {
         
         if actionView == nil && scrollContentOffset.x.isZero == false {
             superview(of: UICollectionView.self)?.endEditing(true)
-            actionView = CollectionViewFormCellActionView(cell: self)
+            actionView = CollectionViewFormCellActionView(frame: .zero)
+            actionView!.cell = self
             actionView!.updateForButtonsItems((editActions?.map { let color = $0.color ?? .gray;
                 return ($0.title, color)}))
             scrollView.addSubview(actionView!)
@@ -629,7 +630,7 @@ extension CollectionViewFormCell: UIGestureRecognizerDelegate {
 /// actions which cannot be accessed any other way.
 private class CollectionViewFormCellScrollView: UIScrollView, UIGestureRecognizerDelegate {
     
-    unowned let cell: CollectionViewFormCell
+    weak var cell: CollectionViewFormCell?
     
     override var frame: CGRect {
         didSet {
@@ -637,11 +638,17 @@ private class CollectionViewFormCellScrollView: UIScrollView, UIGestureRecognize
         }
     }
     
-    init(cell: CollectionViewFormCell) {
-        self.cell = cell
-        
+    override init(frame: CGRect) {
         super.init(frame: .zero)
-        
+        commonInit()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        commonInit()
+    }
+    
+    private func commonInit() {
         panGestureRecognizer.delegate = self
         decelerationRate = (UIScrollViewDecelerationRateFast + UIScrollViewDecelerationRateNormal) / 2.0
         delaysContentTouches = false
@@ -652,13 +659,8 @@ private class CollectionViewFormCellScrollView: UIScrollView, UIGestureRecognize
         isDirectionalLockEnabled = true
     }
     
-    /// CollectionViewFormCellScrollView does not support NSCoding.
-    required init?(coder aDecoder: NSCoder) {
-        return nil
-    }
-    
     override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        if let cells = cell.superview(of: UICollectionView.self)?.visibleCells {
+        if let cells = cell?.superview(of: UICollectionView.self)?.visibleCells {
             if cells.contains(where: {
                 if let state = ($0 as? CollectionViewFormCell)?.scrollView.panGestureRecognizer.state {
                     return state != .possible && state != .failed
@@ -682,7 +684,7 @@ fileprivate class CollectionViewFormCellActionView: UIView {
     
     static let singleButtonWidth: CGFloat = 80.0
     
-    unowned let cell: CollectionViewFormCell
+    weak var cell: CollectionViewFormCell?
     
     var buttons: [UIButton]?
     
@@ -694,14 +696,14 @@ fileprivate class CollectionViewFormCellActionView: UIView {
         }
     }
     
-    init(cell: CollectionViewFormCell) {
-        self.cell = cell
-        super.init(frame: .zero)
-        self.clipsToBounds = true
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        clipsToBounds = true
     }
     
     required init?(coder aDecoder: NSCoder) {
-        return nil
+        super.init(coder: aDecoder)
+        clipsToBounds = true
     }
     
     override func layoutSubviews() {
@@ -765,7 +767,7 @@ fileprivate class CollectionViewFormCellActionView: UIView {
     }
     
     @objc func buttonDidTap(_ button: UIButton) {
-        cell.performEditAction(at: button.tag)
+        cell?.performEditAction(at: button.tag)
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

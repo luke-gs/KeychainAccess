@@ -56,6 +56,7 @@ open class FormTextField: UITextField {
     fileprivate var isRightToLeft: Bool = false {
         didSet {
             if isRightToLeft != oldValue {
+                setNeedsLayout()
                 textDidChange()
             }
         }

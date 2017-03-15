@@ -137,7 +137,7 @@ extension CollectionViewFormTextFieldCell {
             titleHeight += CellTitleDetailSeparation
         }
         
-        let enteredTextFont = textFieldFont   ?? CollectionViewFormDetailCell.font(withEmphasis: true, compatibleWith: traitCollection)
+        let enteredTextFont = textFieldFont ?? CollectionViewFormDetailCell.font(withEmphasis: true, compatibleWith: traitCollection)
         
         let placeholderTextFont: UIFont
         if #available(iOS 10, *) {
