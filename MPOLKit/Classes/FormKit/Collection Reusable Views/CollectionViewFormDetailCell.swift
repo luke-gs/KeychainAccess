@@ -211,16 +211,18 @@ extension CollectionViewFormDetailCell {
 internal extension CollectionViewFormDetailCell {
     
     internal class func font(withEmphasis emphasis: Bool, compatibleWith traitCollection: UITraitCollection) -> UIFont {
-        return .preferredFont(forTextStyle: emphasis ? .headline : .footnote, compatibleWith: traitCollection)
+        let style: UIFontTextStyle = emphasis ? .headline : .footnote
+        if #available(iOS 10, *) {
+            return .preferredFont(forTextStyle: style, compatibleWith: traitCollection)
+        } else {
+            return .preferredFont(forTextStyle: style)
+        }
     }
     
     internal override func applyStandardFonts() {
         let traitCollection = self.traitCollection
-        textLabel.font       = type(of: self).font(withEmphasis: emphasis == .title,   compatibleWith: traitCollection)
+        textLabel.font       = type(of: self).font(withEmphasis: emphasis == .title,  compatibleWith: traitCollection)
         detailTextLabel.font = type(of: self).font(withEmphasis: emphasis == .detail, compatibleWith: traitCollection)
-        
-        textLabel.adjustsFontForContentSizeCategory       = true
-        detailTextLabel.adjustsFontForContentSizeCategory = true
     }
     
 }

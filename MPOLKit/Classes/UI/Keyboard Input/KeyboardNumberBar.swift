@@ -189,10 +189,8 @@ fileprivate extension KeyboardNumberBar {
     fileprivate class func newButtonImage(forDarkTheme dark: Bool, selected: Bool) -> UIImage {
         // We don't use a more generic method because we want to add shadow, and we want a specific
         // shadow without any blur. 
-        let imageRenderer = UIGraphicsImageRenderer(size: CGSize(width: 9.0, height: 10.0))
-        let image = imageRenderer.image { (_: UIGraphicsImageRendererContext) in
-            guard let context = UIGraphicsGetCurrentContext() else { return }
-            
+        
+        func drawButtonImage(in context: CGContext) {
             // These colors are to match the keyboard and are tested matches for standard system keys.
             // They're not really relevant for themes.
             let color: UIColor
@@ -210,6 +208,25 @@ fileprivate extension KeyboardNumberBar {
             
             color.setFill()
             context.fillPath()
+        }
+        
+        let image: UIImage
+        let imageSize = CGSize(width: 9.0, height: 10.0)
+        
+        if #available(iOS 10, *) {
+            let imageRenderer = UIGraphicsImageRenderer(size: imageSize)
+            image = imageRenderer.image { (_: UIGraphicsImageRendererContext) in
+                if let context = UIGraphicsGetCurrentContext() {
+                    drawButtonImage(in: context)
+                }
+            }
+        } else {
+            UIGraphicsBeginImageContextWithOptions(imageSize, false, 0.0)
+            if let context = UIGraphicsGetCurrentContext() {
+                drawButtonImage(in: context)
+            }
+            image = UIGraphicsGetImageFromCurrentImageContext()!
+            UIGraphicsEndImageContext()
         }
         
         return image.resizableImage(withCapInsets: UIEdgeInsets(top: 4.0, left: 4.0, bottom: 5.0, right: 4.0), resizingMode: .stretch)

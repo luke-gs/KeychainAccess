@@ -33,7 +33,7 @@ public class TableViewFormMPOLHeaderCell: UITableViewCell {
     public var isExpanded: Bool = false {
         didSet {
             if isExpanded != oldValue {
-                arrowView.transform = isExpanded ? .identity :  CGAffineTransform(rotationAngle: CGFloat.pi * (traitCollection.layoutDirection == .rightToLeft ? 0.5 : -0.5))
+                arrowView.transform = isExpanded ? .identity :  CGAffineTransform(rotationAngle: CGFloat.pi * (isRightToLeft ? 0.5 : -0.5))
             }
         }
     }
@@ -92,6 +92,16 @@ public class TableViewFormMPOLHeaderCell: UITableViewCell {
     
     fileprivate var separatorSeparationConstraint: NSLayoutConstraint!
     
+    fileprivate var isRightToLeft: Bool = false {
+        didSet {
+            if isRightToLeft == oldValue { return }
+            
+            if isExpanded == false {
+                arrowView.transform = CGAffineTransform(rotationAngle: CGFloat.pi * (isRightToLeft ? 0.5 : -0.5))
+            }
+        }
+    }
+    
     
     // MARK: - Initialization
     
@@ -106,6 +116,15 @@ public class TableViewFormMPOLHeaderCell: UITableViewCell {
     }
     
     private func commonInit() {
+        if #available(iOS 10, *) {
+            isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
+        } else {
+            isRightToLeft = UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft
+        }
+        
+        isAccessibilityElement = true
+        accessibilityTraits |= UIAccessibilityTraitHeader
+        
         separatorInset.left = 10000.0
         selectionStyle = .none
         
@@ -117,7 +136,7 @@ public class TableViewFormMPOLHeaderCell: UITableViewCell {
         separatorView.backgroundColor = #colorLiteral(red: 0.7843137255, green: 0.7803921569, blue: 0.8, alpha: 1)
         
         arrowView.translatesAutoresizingMaskIntoConstraints = false
-        arrowView.transform = CGAffineTransform(rotationAngle: CGFloat.pi * (traitCollection.layoutDirection == .rightToLeft ? 0.5 : -0.5))
+        arrowView.transform = CGAffineTransform(rotationAngle: CGFloat.pi * (isRightToLeft ? 0.5 : -0.5))
         arrowView.isHidden = true
         
         let contentView = self.contentView
@@ -172,9 +191,8 @@ extension TableViewFormMPOLHeaderCell {
         }
         separatorHeightConstraint?.constant = 1.0 / displayScale
         
-        let isRightToLeft = traitCollection.layoutDirection == .rightToLeft
-        if isExpanded == false, isRightToLeft != (previousTraitCollection?.layoutDirection == .rightToLeft) {
-            arrowView.transform = CGAffineTransform(rotationAngle: CGFloat.pi * (isRightToLeft ? 0.5 : -0.5))
+        if #available(iOS 10, *) {
+            isRightToLeft = self.effectiveUserInterfaceLayoutDirection == .rightToLeft
         }
     }
     
@@ -185,6 +203,18 @@ extension TableViewFormMPOLHeaderCell {
     
     public override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
         return CGSize(width: UIViewNoIntrinsicMetric, height: isFirstSection ? 30.0 : 48.0)
+    }
+    
+    public override var semanticContentAttribute: UISemanticContentAttribute {
+        didSet {
+            if semanticContentAttribute == oldValue { return }
+            
+            if #available(iOS 10, *) {
+                isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
+            } else {
+                isRightToLeft = UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft
+            }
+        }
     }
     
 }

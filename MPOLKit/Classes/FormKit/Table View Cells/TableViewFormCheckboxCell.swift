@@ -54,13 +54,9 @@ open class TableViewFormCheckboxCell: TableViewFormCell {
         ])
     }
     
-    open override func prepareForReuse() {
-        super.prepareForReuse()
-        
-        guard let checkboxTitleLabel = checkbox.titleLabel else { return }
-        
-        checkboxTitleLabel.font = SelectableButton.font(compatibleWith: traitCollection)
-        checkboxTitleLabel.adjustsFontForContentSizeCategory = true
+    override func applyStandardFonts() {
+        super.applyStandardFonts()
+        checkbox.titleLabel?.font = SelectableButton.font(compatibleWith: traitCollection)
     }
     
 }

@@ -154,9 +154,6 @@ extension TableViewFormDetailCell {
         let traitCollection = self.traitCollection
         textLabel.font       = CollectionViewFormDetailCell.font(withEmphasis: emphasis == .title,  compatibleWith: traitCollection)
         detailTextLabel.font = CollectionViewFormDetailCell.font(withEmphasis: emphasis == .detail, compatibleWith: traitCollection)
-        
-        textLabel.adjustsFontForContentSizeCategory       = true
-        detailTextLabel.adjustsFontForContentSizeCategory = true
     }
     
 }

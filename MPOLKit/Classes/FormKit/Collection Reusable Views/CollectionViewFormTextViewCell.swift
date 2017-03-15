@@ -169,14 +169,17 @@ extension CollectionViewFormTextViewCell {
         titleLabel.font = CollectionViewFormDetailCell.font(withEmphasis: false, compatibleWith: traitCollection)
         
         let textViewFont = CollectionViewFormDetailCell.font(withEmphasis: true,  compatibleWith: traitCollection)
-        textView.font   = textViewFont
-        textView.placeholderLabel.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
+        let placeholderFont: UIFont
+        if #available(iOS 10, *) {
+            placeholderFont = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
+        } else {
+            placeholderFont = .preferredFont(forTextStyle: .subheadline)
+        }
         
-        textViewMinimumHeightConstraint?.constant = ceil(textViewFont.lineHeight + textViewFont.leading)
+        textView.font = textViewFont
+        textView.placeholderLabel.font = placeholderFont
         
-        titleLabel.adjustsFontForContentSizeCategory       = true
-        textView.adjustsFontForContentSizeCategory         = true
-        textView.placeholderLabel.adjustsFontForContentSizeCategory = true
+        textViewMinimumHeightConstraint?.constant = ceil(max(textViewFont.lineHeight + textViewFont.leading, placeholderFont.lineHeight + placeholderFont.leading))
         
         updateTextViewMinimumConstraint()
     }

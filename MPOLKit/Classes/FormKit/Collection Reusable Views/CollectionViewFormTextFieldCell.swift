@@ -99,7 +99,13 @@ extension CollectionViewFormTextFieldCell {
     public class func minimumContentWidth(withTitle title: String?, enteredText: String?, placeholder: String?, compatibleWith traitCollection: UITraitCollection, titleFont: UIFont? = nil, textFieldFont: UIFont? = nil, placeholderFont: UIFont? = nil, singleLineTitle: Bool = true) -> CGFloat {
         let titleTextFont   = titleFont       ?? CollectionViewFormDetailCell.font(withEmphasis: false, compatibleWith: traitCollection)
         let enteredTextFont = textFieldFont   ?? CollectionViewFormDetailCell.font(withEmphasis: true,  compatibleWith: traitCollection)
-        let placeholderFont = placeholderFont ?? UIFont.preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
+        
+        let placeholderTextFont: UIFont
+        if #available(iOS 10, *) {
+            placeholderTextFont = placeholderFont ?? .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
+        } else {
+            placeholderTextFont = placeholderFont ?? .preferredFont(forTextStyle: .subheadline)
+        }
         
         var displayScale = traitCollection.displayScale
         if displayScale ==~ 0.0 {
@@ -111,7 +117,7 @@ extension CollectionViewFormTextFieldCell {
         
         // Allow additional text rectangle for the clear icon.
         let textWidth  = ((enteredText as NSString?)?.boundingRect(with: .max, attributes: [NSFontAttributeName: enteredTextFont], context: nil).width.ceiled(toScale: displayScale) ?? 0.0) + 10.0
-        let placeWidth = ((placeholder as NSString?)?.boundingRect(with: .max, attributes: [NSFontAttributeName: placeholderFont], context: nil).width.ceiled(toScale: displayScale) ?? 0.0) + 10.0
+        let placeWidth = ((placeholder as NSString?)?.boundingRect(with: .max, attributes: [NSFontAttributeName: placeholderTextFont], context: nil).width.ceiled(toScale: displayScale) ?? 0.0) + 10.0
         
         return max(titleWidth, textWidth, placeWidth)
     }
@@ -132,9 +138,15 @@ extension CollectionViewFormTextFieldCell {
         }
         
         let enteredTextFont = textFieldFont   ?? CollectionViewFormDetailCell.font(withEmphasis: true, compatibleWith: traitCollection)
-        let placeholderFont = placeholderFont ?? UIFont.preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
         
-        return titleHeight + max(enteredTextFont.lineHeight, placeholderFont.lineHeight).ceiled(toScale: displayScale)
+        let placeholderTextFont: UIFont
+        if #available(iOS 10, *) {
+            placeholderTextFont = placeholderFont ?? .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
+        } else {
+            placeholderTextFont = placeholderFont ?? .preferredFont(forTextStyle: .subheadline)
+        }
+        
+        return titleHeight + max(enteredTextFont.lineHeight, placeholderTextFont.lineHeight).ceiled(toScale: displayScale)
     }
     
 }
@@ -145,10 +157,12 @@ extension CollectionViewFormTextFieldCell {
     internal override func applyStandardFonts() {
         titleLabel.font = CollectionViewFormDetailCell.font(withEmphasis: false, compatibleWith: traitCollection)
         textField.font  = CollectionViewFormDetailCell.font(withEmphasis: true,  compatibleWith: traitCollection)
-        textField.placeholderFont = .preferredFont(forTextStyle: .subheadline,   compatibleWith: traitCollection)
         
-        titleLabel.adjustsFontForContentSizeCategory = true
-        textField.adjustsFontForContentSizeCategory  = true
+        if #available(iOS 10, *) {
+            textField.placeholderFont = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
+        } else {
+            textField.placeholderFont = .preferredFont(forTextStyle: .subheadline)
+        }
     }
     
 }

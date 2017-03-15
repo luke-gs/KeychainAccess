@@ -86,7 +86,7 @@ open class CollectionViewFormCell: UICollectionViewCell {
             applyTouchTrigger()
             
             let offsetValue = CGFloat(actionView?.buttons?.count ?? 0) * CollectionViewFormCellActionView.singleButtonWidth
-            let offset = CGPoint(x: traitCollection.layoutDirection == .rightToLeft ? -offsetValue : offsetValue, y: 0.0)
+            let offset = CGPoint(x: isRightToLeft ? -offsetValue : offsetValue, y: 0.0)
             scrollView.setContentOffset(offset, animated: animated)
             
             if animated {
@@ -143,11 +143,25 @@ open class CollectionViewFormCell: UICollectionViewCell {
     fileprivate var _scrolling: Bool    = false
     fileprivate var touchTrigger: TouchRecognizer?
     
+    fileprivate var isRightToLeft: Bool = false {
+        didSet {
+            if isRightToLeft == oldValue { return }
+            
+            scrollView.contentInset = scrollView.contentInset.horizontallyFlipped()
+            
+            var contentOffset = scrollView.contentOffset
+            contentOffset.x = -contentOffset.x
+            scrollView.contentOffset = contentOffset
+            
+            update(for: contentOffset)
+        }
+    }
+    
     fileprivate var scrollViewInset: CGFloat = 0.0 {
         didSet {
             let dragging = scrollView.isDragging
             if dragging || scrollView.contentOffset.x.isZero == false {
-                if traitCollection.layoutDirection == .rightToLeft {
+                if isRightToLeft {
                     scrollView.contentInset.left = scrollViewInset
                 } else {
                     scrollView.contentInset.right = scrollViewInset
@@ -176,6 +190,12 @@ open class CollectionViewFormCell: UICollectionViewCell {
     
     private func commonInit() {
         isAccessibilityElement = true
+        
+        if #available(iOS 10, *) {
+            isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
+        } else {
+            isRightToLeft = UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft
+        }
         
         super.contentMode = .center
         
@@ -208,6 +228,10 @@ open class CollectionViewFormCell: UICollectionViewCell {
         ])
         
         applyStandardFonts()
+        
+        if #available(iOS 10, *) { return }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(contentSizeCategoryDidChange(_:)), name: .UIContentSizeCategoryDidChange, object: nil)
     }
     
     deinit {
@@ -224,7 +248,7 @@ extension CollectionViewFormCell: UIScrollViewDelegate {
     open func scrollViewDidScroll(_ scrollView: UIScrollView) {
         var contentOffset = scrollView.contentOffset
         
-        if traitCollection.layoutDirection == .rightToLeft {
+        if isRightToLeft {
             if contentOffset.x > 0 {
                 contentOffset.x = 0.0
                 scrollView.contentOffset = contentOffset
@@ -250,7 +274,7 @@ extension CollectionViewFormCell: UIScrollViewDelegate {
         
         var movingIntoEditing = false
         
-        if traitCollection.layoutDirection == .rightToLeft {
+        if isRightToLeft {
             if xVelocity > 0.25 {
                 targetContentOffset.pointee.x = 0.0
             } else if xVelocity < -1.0 {
@@ -304,7 +328,7 @@ extension CollectionViewFormCell: UIScrollViewDelegate {
         let collectionView = superview(of: UICollectionView.self)
         collectionView?.endEditing(true)
         
-        if traitCollection.layoutDirection == .rightToLeft {
+        if isRightToLeft {
             scrollView.contentInset.left = scrollViewInset
         } else {
             scrollView.contentInset.right = scrollViewInset
@@ -351,7 +375,7 @@ extension CollectionViewFormCell: UIScrollViewDelegate {
         }
         
         var frame: CGRect
-        if traitCollection.layoutDirection == .rightToLeft {
+        if isRightToLeft {
             frame = CGRect(x: scrollContentOffset.x, y: 0.0, width: -scrollContentOffset.x, height: size.height)
         } else {
             frame = CGRect(x: size.width, y: 0.0, width: scrollContentOffset.x, height: size.height)
@@ -381,9 +405,22 @@ extension CollectionViewFormCell {
         return internalContentView
     }
     
+    open override var semanticContentAttribute: UISemanticContentAttribute {
+        didSet {
+            if semanticContentAttribute == oldValue { return }
+            
+            if #available(iOS 10, *) {
+                isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
+            } else {
+                isRightToLeft = UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft
+            }
+        }
+    }
+    
     open override func prepareForReuse() {
         super.prepareForReuse()
         applyStandardFonts()
+        setNeedsLayout()
         setShowingEditActions(false, animated: false)
     }
     
@@ -477,15 +514,15 @@ extension CollectionViewFormCell {
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         
+        guard #available(iOS 10, *) else { return }
+        
         if (traitCollection.layoutDirection == .rightToLeft) != (previousTraitCollection?.layoutDirection == .rightToLeft) {
-            // If the trait collection's right-to-left status flipped, flip the content insets and the content offset, and update accordingly.
-            scrollView.contentInset = scrollView.contentInset.horizontallyFlipped()
-            
-            var contentOffset = scrollView.contentOffset
-            contentOffset.x = -contentOffset.x
-            scrollView.contentOffset = contentOffset
-            
-            update(for: contentOffset)
+            isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
+        }
+        
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            applyStandardFonts()
+            setNeedsLayout()
         }
     }
     
@@ -558,6 +595,11 @@ fileprivate extension CollectionViewFormCell {
             return true
         }
         return false
+    }
+    
+    @objc fileprivate func contentSizeCategoryDidChange(_ notification: Notification) {
+        applyStandardFonts()
+        setNeedsLayout()
     }
     
 }
@@ -636,13 +678,21 @@ private class CollectionViewFormCellScrollView: UIScrollView, UIGestureRecognize
 
 
 /// A private view which manages the editing buttons for the cell.
-private class CollectionViewFormCellActionView: UIView {
+fileprivate class CollectionViewFormCellActionView: UIView {
     
     static let singleButtonWidth: CGFloat = 80.0
     
     unowned let cell: CollectionViewFormCell
     
     var buttons: [UIButton]?
+    
+    override var semanticContentAttribute: UISemanticContentAttribute {
+        didSet {
+            if semanticContentAttribute != oldValue {
+                setNeedsLayout()
+            }
+        }
+    }
     
     init(cell: CollectionViewFormCell) {
         self.cell = cell
@@ -661,7 +711,14 @@ private class CollectionViewFormCellActionView: UIView {
             let bounds = self.bounds
             let buttonWidth = CollectionViewFormCellActionView.singleButtonWidth
             
-            if self.traitCollection.layoutDirection == .rightToLeft {
+            let isRightToLeft: Bool
+            if #available(iOS 10, *) {
+                isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
+            } else {
+                isRightToLeft = UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft
+            }
+            
+            if isRightToLeft {
                 var startX: CGFloat = 0.0
                 
                 self.buttons?.forEach { (button: UIButton) in
@@ -713,7 +770,9 @@ private class CollectionViewFormCellActionView: UIView {
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        if (traitCollection.layoutDirection == .rightToLeft) != (previousTraitCollection?.layoutDirection == .rightToLeft) {
+        
+        if #available(iOS 10, *),
+            (traitCollection.layoutDirection == .rightToLeft) != (previousTraitCollection?.layoutDirection == .rightToLeft) {
             setNeedsLayout()
         }
     }

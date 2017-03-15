@@ -38,6 +38,10 @@ open class SidebarTableViewCell: UITableViewCell {
         backgroundColor = .clear
         selectedBackgroundView = UIView(frame: .zero)
         reloadFonts()
+        
+        if #available(iOS 10, *) { return }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(contentSizeCategoryDidChange(_:)), name: .UIContentSizeCategoryDidChange, object: nil)
     }
     
     
@@ -152,14 +156,22 @@ fileprivate extension SidebarTableViewCell {
     }
     
     func reloadFonts() {
-        let fontDescriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: .subheadline, compatibleWith: traitCollection)
+        let fontDescriptor: UIFontDescriptor
+        
+        if #available(iOS 10, *) {
+            fontDescriptor = .preferredFontDescriptor(withTextStyle: .subheadline, compatibleWith: traitCollection)
+            detailTextLabel?.font = .preferredFont(forTextStyle: .caption1, compatibleWith: traitCollection)
+        } else {
+            fontDescriptor = .preferredFontDescriptor(withTextStyle: .subheadline)
+            detailTextLabel?.font = .preferredFont(forTextStyle: .caption1)
+        }
+        
         standardFont = UIFont(descriptor: fontDescriptor, size: fontDescriptor.pointSize - 1)
         if let highlightedDescriptor = fontDescriptor.withSymbolicTraits(.traitBold) {
             highlightedFont = UIFont(descriptor: highlightedDescriptor, size: fontDescriptor.pointSize - 1)
         } else {
             highlightedFont = standardFont
         }
-        detailTextLabel?.font = .preferredFont(forTextStyle: .caption1, compatibleWith: traitCollection)
     }
     
     func updateFonts() {
@@ -174,6 +186,11 @@ fileprivate extension SidebarTableViewCell {
         imageView?.tintColor = currentImageColor
         textLabel?.textColor = currentTextColor
         detailTextLabel?.textColor = isEnabled ? .lightGray : UIColor.lightGray.withAlphaComponent(0.2)
+    }
+    
+    @objc fileprivate func contentSizeCategoryDidChange(_ notification: Notification) {
+        reloadFonts()
+        setNeedsLayout()
     }
     
 }

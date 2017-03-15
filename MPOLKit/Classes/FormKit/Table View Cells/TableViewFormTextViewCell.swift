@@ -155,15 +155,15 @@ extension TableViewFormTextViewCell {
         super.applyStandardFonts()
         
         titleLabel.font = CollectionViewFormDetailCell.font(withEmphasis: false, compatibleWith: traitCollection)
-        let textViewFont = CollectionViewFormDetailCell.font(withEmphasis: true,  compatibleWith: traitCollection)
-        textView.font = textViewFont
-        textView.placeholderLabel.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
+        textView.font   = CollectionViewFormDetailCell.font(withEmphasis: true,  compatibleWith: traitCollection)
+        
+        if #available(iOS 10, *) {
+            textView.placeholderLabel.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
+        } else {
+            textView.placeholderLabel.font = .preferredFont(forTextStyle: .subheadline)
+        }
         
         updateTextViewMinimumConstraint()
-        
-        titleLabel.adjustsFontForContentSizeCategory       = true
-        textView.adjustsFontForContentSizeCategory         = true
-        textView.placeholderLabel.adjustsFontForContentSizeCategory = true
     }
     
 }

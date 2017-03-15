@@ -85,7 +85,12 @@ public class GradientView: UIView {
                 start = CGPoint(x: rect.midX, y: bounds.minY)
                 end   = CGPoint(x: rect.midX, y: bounds.maxY)
             } else {
-                let isRightToLeft = self.traitCollection.layoutDirection == .rightToLeft
+                let isRightToLeft: Bool
+                if #available(iOS 10, *) {
+                    isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
+                } else {
+                    isRightToLeft = UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft
+                }
                 start = CGPoint(x: isRightToLeft ? rect.minX : rect.maxX, y: bounds.midY)
                 end   = CGPoint(x: isRightToLeft ? rect.maxX : rect.minX, y: bounds.midY)
             }
@@ -95,6 +100,22 @@ public class GradientView: UIView {
             let correctColor = gradientColors[0]
             correctColor.set()
             UIRectFill(bounds)
+        }
+    }
+    
+    public override var semanticContentAttribute: UISemanticContentAttribute  {
+        didSet {
+            if semanticContentAttribute == oldValue || gradientDirection != .horizontal { return }
+            setNeedsDisplay()
+        }
+    }
+    
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        if #available(iOS 10, *),
+            gradientDirection == .horizontal && traitCollection.layoutDirection != previousTraitCollection?.layoutDirection {
+            setNeedsDisplay()
         }
     }
 

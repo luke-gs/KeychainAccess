@@ -74,7 +74,12 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
         guard let collectionView = self.collectionView,
             let delegate = collectionView.delegate as? CollectionViewDelegateFormLayout else { return }
         
-        let isRTL = collectionView.traitCollection.layoutDirection == .rightToLeft
+        let isRTL: Bool
+        if #available(iOS 10, *) {
+            isRTL = collectionView.effectiveUserInterfaceLayoutDirection == .rightToLeft
+        } else {
+            isRTL = UIView.userInterfaceLayoutDirection(for: collectionView.semanticContentAttribute) == .rightToLeft
+        }
         
         let delegateSpecifiesSeparatorStyle = delegate.responds(to: #selector(CollectionViewDelegateMPOLLayout.collectionView(_:layout:separatorStyleForItemAt:)))
         

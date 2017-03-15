@@ -91,13 +91,6 @@ public class KeyboardInputManager: NSObject {
     private override init() {
         super.init()
         
-        // We may want to remove this and activate the shared input manager at MPOLKitInitialize() before any views
-        // become first responder, to allow this API to work without the reference to UIApplication. This would allow
-        // using the keyboard manager in app extensions. Ideally we'd use +load but this is disallowed in Swift.
-        if let textControl = UIApplication.shared.keyWindow?.firstResponderSubview(), textControl is UITextInput {
-            activeTextControl = textControl
-        }
-        
         let notificationCenter = NotificationCenter.default
         let beginSelector = #selector(textControlWillBeginEditing(_:))
         let endSelector   = #selector(textControlDidEndEditing(_:))

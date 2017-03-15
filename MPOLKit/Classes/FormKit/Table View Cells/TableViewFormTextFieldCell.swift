@@ -94,10 +94,12 @@ extension TableViewFormTextFieldCell {
         
         titleLabel.font = CollectionViewFormDetailCell.font(withEmphasis: false, compatibleWith: traitCollection)
         textField.font  = CollectionViewFormDetailCell.font(withEmphasis: true,  compatibleWith: traitCollection)
-        textField.placeholderFont = .preferredFont(forTextStyle: .subheadline,   compatibleWith: traitCollection)
         
-        titleLabel.adjustsFontForContentSizeCategory = true
-        textField.adjustsFontForContentSizeCategory  = true
+        if #available(iOS 10, *) {
+            textField.placeholderFont = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
+        } else {
+            textField.placeholderFont = .preferredFont(forTextStyle: .subheadline)
+        }
     }
     
 }
