@@ -17,6 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+        KeyboardInputManager.shared.isNumberBarEnabled = true
+        
         let theme = Theme.current
         
         let navBar = UINavigationBar.appearance()

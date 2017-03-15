@@ -52,8 +52,9 @@ public class KeyboardNumberBar: UIInputView {
             let button = UIButton(type: .custom)
             
             var accessibilityTrait = button.accessibilityTraits
-            accessibilityTrait -= UIAccessibilityTraitButton
-            accessibilityTrait += UIAccessibilityTraitKeyboardKey
+            accessibilityTrait &= ~UIAccessibilityTraitButton
+            accessibilityTrait |= UIAccessibilityTraitKeyboardKey
+            accessibilityTrait |= UIAccessibilityTraitPlaysSound
             button.accessibilityTraits = accessibilityTrait
             
             button.titleLabel?.font = .systemFont(ofSize: 20.0)

@@ -95,7 +95,7 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
     private func commonInit() {
         super.contentMode = .center
         
-        accessibilityTraits += UIAccessibilityTraitStaticText
+        accessibilityTraits |= UIAccessibilityTraitStaticText
         
         let contentView     = self.contentView
         let textLabel       = self.textLabel

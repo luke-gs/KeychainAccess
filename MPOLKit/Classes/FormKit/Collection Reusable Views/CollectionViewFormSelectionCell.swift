@@ -36,9 +36,9 @@ open class CollectionViewFormSelectionCell: CollectionViewFormDetailCell {
             imageView.alpha = alpha
             
             if isEnabled {
-                accessibilityTraits += UIAccessibilityTraitNotEnabled
+                accessibilityTraits |= UIAccessibilityTraitNotEnabled
             } else {
-                accessibilityTraits -= UIAccessibilityTraitNotEnabled
+                accessibilityTraits &= ~UIAccessibilityTraitNotEnabled
             }
         }
     }

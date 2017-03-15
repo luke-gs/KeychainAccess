@@ -46,9 +46,9 @@ public class CollectionViewFormMPOLHeaderView: UICollectionReusableView {
             titleSeparatorConstraint.constant = showsExpandArrow ? 15.0 : 0.0
             
             if showsExpandArrow {
-                accessibilityTraits += UIAccessibilityTraitButton
+                accessibilityTraits |= UIAccessibilityTraitButton
             } else {
-                accessibilityTraits -= UIAccessibilityTraitButton
+                accessibilityTraits &= ~UIAccessibilityTraitButton
             }
         }
     }
@@ -120,7 +120,7 @@ public class CollectionViewFormMPOLHeaderView: UICollectionReusableView {
     
     private func commonInit() {
         isAccessibilityElement = true
-        accessibilityTraits += UIAccessibilityTraitHeader
+        accessibilityTraits |= UIAccessibilityTraitHeader
         
         preservesSuperviewLayoutMargins = false
         
