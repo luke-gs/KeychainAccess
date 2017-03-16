@@ -1,8 +1,8 @@
 platform :ios, '10.0'
 use_frameworks!
 
+source 'https://github.com/Gridstone/SpecRepo-iOS.git'
+
 target 'MPOL' do
-  pod 'Alamofire', '~> 4.2.0'
-  pod 'AppDynamicsAgent', '~> 42.11.0'
-  pod 'RocketData', '~> 4.0.1'
+    pod 'MPOLKit', :git=> 'https://github.com/Gridstone/mPolKit-iOS'
 end

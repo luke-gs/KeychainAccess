@@ -1,21 +1,23 @@
 PODS:
-  - Alamofire (4.2.0)
-  - AppDynamicsAgent (42.11.0)
-  - ConsistencyManager (4.0.0)
-  - RocketData (4.0.1):
-    - ConsistencyManager (~> 4.0.0)
+  - MPOLKit (0.1.0):
+    - MPOLKit/Core (= 0.1.0)
+  - MPOLKit/Core (0.1.0)
 
 DEPENDENCIES:
-  - Alamofire (~> 4.2.0)
-  - AppDynamicsAgent (~> 42.11.0)
-  - RocketData (~> 4.0.1)
+  - MPOLKit (from `https://github.com/Gridstone/mPolKit-iOS`)
+
+EXTERNAL SOURCES:
+  MPOLKit:
+    :git: https://github.com/Gridstone/mPolKit-iOS
+
+CHECKOUT OPTIONS:
+  MPOLKit:
+    :commit: 1fd2b45dd1e70495552dfe53985b2e52536c19c6
+    :git: https://github.com/Gridstone/mPolKit-iOS
 
 SPEC CHECKSUMS:
-  Alamofire: aa2e09d871c9160ac53c90e83c68064a94e3dfbe
-  AppDynamicsAgent: d3a1c24ed1c609866a092007f3fb5742a3c66b25
-  ConsistencyManager: 323ee466a5c933973529dfa5baa5cbc238633a67
-  RocketData: a661f6e75dd8741dbe95856ca84f5e16ab3b377e
+  MPOLKit: f5163d40a1babdd4c377c833cb048464645f6141
 
-PODFILE CHECKSUM: 2f4128e95f0d6935b5b15e144462284bf5ab13a1
+PODFILE CHECKSUM: ca2e190302c05f52e5872bdb648a5879eed162eb
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.2.0
