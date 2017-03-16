@@ -1,5 +1,5 @@
 //
-//  SourceLabel.swift
+//  RoundedRectLabel.swift
 //  MPOLKit
 //
 //  Created by Rod Brown on 15/05/2016.
@@ -8,7 +8,11 @@
 
 import UIKit
 
-public final class SourceLabel : UILabel {
+
+/// A label subclass for creating a rounded rectangle background border
+/// appearance around text. This is generally used to show a source or a
+/// priority level.
+public final class RoundedRectLabel : UILabel {
     
     public var textInsets: UIEdgeInsets = UIEdgeInsets(top: 2.0, left: 10.0, bottom: 2.0, right: 10.0)
     
@@ -36,7 +40,7 @@ public final class SourceLabel : UILabel {
         
         var rect = bounds.insetBy(textInsets)
         rect = super.textRect(forBounds: rect, limitedToNumberOfLines: numberOfLines)
-        return rect.insetBy(textInsets.inverse)
+        return rect.insetBy(textInsets.inverted())
     }
     
     public override func drawText(in rect: CGRect) {

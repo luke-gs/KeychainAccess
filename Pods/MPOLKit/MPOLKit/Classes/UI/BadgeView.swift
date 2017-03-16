@@ -69,7 +69,7 @@ extension BadgeView {
     public override func textRect(forBounds bounds: CGRect, limitedToNumberOfLines numberOfLines: Int) -> CGRect {
         var rect = bounds.insetBy(layoutMargins)
         rect = super.textRect(forBounds: rect, limitedToNumberOfLines: numberOfLines)
-        return rect.insetBy(layoutMargins.inverse).integral
+        return rect.insetBy(layoutMargins.inverted()).integral
     }
     
     public override func drawText(in rect: CGRect) {

@@ -10,6 +10,7 @@
 #endif
 #endif
 
+#import "UITextView+NotificationWorkaround.h"
 
 FOUNDATION_EXPORT double MPOLKitVersionNumber;
 FOUNDATION_EXPORT const unsigned char MPOLKitVersionString[];

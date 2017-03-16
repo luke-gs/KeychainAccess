@@ -4,5 +4,5 @@ use_frameworks!
 source 'https://github.com/Gridstone/SpecRepo-iOS.git'
 
 target 'MPOL' do
-    pod 'MPOLKit', '~>0.1.0'
+    pod 'MPOLKit', :git=> 'https://github.com/Gridstone/mPolKit-iOS'
 end

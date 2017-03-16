@@ -38,8 +38,6 @@ open class SidebarViewController: UIViewController {
             
             if let selectedItem = self.selectedItem, items.contains(selectedItem) == false {
                 self.selectedItem = nil
-            } else {
-                updateSourceSelection()
             }
         }
     }
@@ -58,14 +56,25 @@ open class SidebarViewController: UIViewController {
     public var sourceItems: [SourceItem] = [] {
         didSet {
             viewIfLoaded?.setNeedsLayout()
-            sourceTableView?.reloadData()
-            updateSourceSelection()
+            sourceBar?.items = sourceItems
+            
+            if let selectedSourceIndex = selectedSourceIndex,
+                selectedSourceIndex >= sourceItems.count {
+                self.selectedSourceIndex = nil
+            } else {
+                sourceBar?.selectedIndex = selectedSourceIndex
+            }
         }
     }
     
     /// The selected source index.
     public var selectedSourceIndex: Int? = nil {
-        didSet { updateSourceSelection() }
+        didSet {
+            if let selectedSourceIndex = selectedSourceIndex {
+                precondition(selectedSourceIndex < sourceItems.count)
+            }
+            sourceBar?.selectedIndex = selectedSourceIndex
+        }
     }
     
     
@@ -73,12 +82,6 @@ open class SidebarViewController: UIViewController {
     /// 
     /// This table view fills the sidebar, trailing the source bar if it appears.
     public fileprivate(set) var sidebarTableView: UITableView?
-    
-    
-    /// The table view for source items.
-    ///
-    /// This table view is positioned at the leading edge, and only appears when source items exist.
-    public fileprivate(set) var sourceTableView: UITableView?
     
     
     /// A Boolean value indicating whether the sidebar clears the selection when the view appears.
@@ -90,6 +93,8 @@ open class SidebarViewController: UIViewController {
     
     /// The delegate for the sidebar.
     open weak var delegate: SidebarViewControllerDelegate? = nil
+    
+    fileprivate var sourceBar: SourceBar?
     
     fileprivate var sourceInsetManager: ScrollViewInsetManager?
     
@@ -131,35 +136,24 @@ extension SidebarViewController {
         let view = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 320.0, height: 480.0))
         view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
-        let sourceFrame  = CGRect(x: 0.0, y: 0.0, width: 64.0,  height: 480.0)
-        let tableFrame = CGRect(x: 0.0, y: 0.0, width: 200.0, height: 480.0)
-        
         let baseColor = #colorLiteral(red: 0.2604376972, green: 0.2660070062, blue: 0.292562902, alpha: 1)
         
-        let sourceBackground = SidebarTableBackground(frame: sourceFrame)
-        sourceBackground.topColor    = #colorLiteral(red: 0.07436346263, green: 0.0783027485, blue: 0.08661026508, alpha: 1)
-        sourceBackground.bottomColor = baseColor
+        let sourceBackground = GradientView(frame: .zero)
+        sourceBackground.gradientColors = [#colorLiteral(red: 0.07436346263, green: 0.0783027485, blue: 0.08661026508, alpha: 1), baseColor]
         
-        let sidebarBackground = SidebarTableBackground(frame: tableFrame)
-        sidebarBackground.topColor    = #colorLiteral(red: 0.1135626361, green: 0.1174433306, blue: 0.1298944652, alpha: 1)
-        sidebarBackground.bottomColor = baseColor
+        let sidebarBackground = GradientView(frame: .zero)
+        sidebarBackground.gradientColors = [#colorLiteral(red: 0.1135626361, green: 0.1174433306, blue: 0.1298944652, alpha: 1), baseColor]
         
-        let sourceTableView = UITableView(frame: sourceFrame, style: .plain)
-        sourceTableView.autoresizingMask = [.flexibleHeight]
-        sourceTableView.backgroundView = sourceBackground
-        sourceTableView.tableHeaderView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 64.0, height: 10.0))
-        sourceTableView.tableFooterView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 64.0, height: 10.0))
-        sourceTableView.dataSource = self
-        sourceTableView.delegate   = self
-        sourceTableView.separatorStyle = .none
-        sourceTableView.alwaysBounceVertical = false
-        sourceTableView.rowHeight = 77.0
-        sourceTableView.indicatorStyle = .white
-        sourceTableView.register(SourceTableViewCell.self)
-        view.addSubview(sourceTableView)
+        let sourceBar = SourceBar(frame: .zero)
+        sourceBar.translatesAutoresizingMaskIntoConstraints = false
+        sourceBar.backgroundView = sourceBackground
+        sourceBar.delegate = self
+        sourceBar.items = sourceItems
+        sourceBar.selectedIndex = selectedSourceIndex
+        view.addSubview(sourceBar)
         
-        let sidebarTableView = UITableView(frame: tableFrame, style: .plain)
-        sidebarTableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        let sidebarTableView = UITableView(frame: .zero, style: .plain)
+        sidebarTableView.translatesAutoresizingMaskIntoConstraints = false
         sidebarTableView.backgroundView   = sidebarBackground
         sidebarTableView.dataSource = self
         sidebarTableView.delegate   = self
@@ -170,41 +164,30 @@ extension SidebarViewController {
         view.addSubview(sidebarTableView)
         
         self.view             = view
-        self.sourceTableView  = sourceTableView
-        self.sidebarTableView    = sidebarTableView
+        self.sourceBar        = sourceBar
+        self.sidebarTableView = sidebarTableView
         
-        sourceInsetManager  = ScrollViewInsetManager(scrollView: sourceTableView)
-        sidebarInsetManager    = ScrollViewInsetManager(scrollView: sidebarTableView)
+        NSLayoutConstraint.activate([
+            NSLayoutConstraint(item: sourceBar, attribute: .top,     relatedBy: .equal, toItem: view, attribute: .top),
+            NSLayoutConstraint(item: sourceBar, attribute: .bottom,  relatedBy: .equal, toItem: view, attribute: .bottom),
+            NSLayoutConstraint(item: sourceBar, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leading),
+            
+            NSLayoutConstraint(item: sidebarTableView, attribute: .top,      relatedBy: .equal, toItem: view,       attribute: .top),
+            NSLayoutConstraint(item: sidebarTableView, attribute: .bottom,   relatedBy: .equal, toItem: view,       attribute: .bottom),
+            NSLayoutConstraint(item: sidebarTableView, attribute: .leading,  relatedBy: .equal, toItem: sourceBar, attribute: .trailing),
+            NSLayoutConstraint(item: sidebarTableView, attribute: .trailing, relatedBy: .equal, toItem: view,       attribute: .trailing)
+        ])
         
-        /* We apply these layout margins after all property setting is done because for some reason
-           this causes a reload, which will crash if it is not from a valid set table view. */
+        sourceInsetManager  = ScrollViewInsetManager(scrollView: sourceBar)
+        sidebarInsetManager = ScrollViewInsetManager(scrollView: sidebarTableView)
+        
+        // We apply these layout margins after all property setting is done because for some reason
+        // this causes a reload, which will crash if it is not from a valid set table view
         sidebarTableView.layoutMargins = UIEdgeInsets(top: 0.0, left: 24.0, bottom: 0.0, right: 24.0)
     }
     
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
-        if let view = self.view {
-            
-            let isRightToLeft = traitCollection.layoutDirection == .rightToLeft
-            
-            let viewBounds = view.bounds
-            let hasNoSources = sourceItems.isEmpty
-            
-            if let sourceTableView = sourceTableView {
-                sourceTableView.isHidden = hasNoSources
-                sourceTableView.frame.origin.x = isRightToLeft ? viewBounds.maxX - 64.0 : 0.0
-            }
-            
-            if let tableView = self.sidebarTableView {
-                var tableViewFrame      = tableView.frame
-                let insetWidth: CGFloat = hasNoSources ? 0.0 : 64.0
-                
-                tableViewFrame.origin.x   = isRightToLeft ? 0.0 : insetWidth
-                tableViewFrame.size.width = viewBounds.size.width - insetWidth
-                tableView.frame           = tableViewFrame
-            }
-        }
         
         let contentInsets = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)
         sourceInsetManager?.standardContentInset    = contentInsets
@@ -222,65 +205,43 @@ extension SidebarViewController {
     
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        sourceTableView?.flashScrollIndicators()
+        sourceBar?.flashScrollIndicators()
         sidebarTableView?.flashScrollIndicators()
     }
-    
-//    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-//        super.traitCollectionDidChange(previousTraitCollection)
-//        if previousTraitCollection?.layoutDirection != traitCollection.layoutDirection {
-//            viewIfLoaded?.setNeedsLayout()
-//        }
-//    }
     
 }
 
 extension SidebarViewController : UITableViewDataSource, UITableViewDelegate {
     
     open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if tableView == sidebarTableView {
-            return items.count
-        } else if tableView == sourceTableView {
-            return sourceItems.count
-        }
-        fatalError("This table view is not supported by this view controller.")
+        return items.count
     }
     
     open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if tableView == sidebarTableView {
-            let cell = tableView.dequeueReusableCell(of: SidebarTableViewCell.self, for: indexPath)
-            cell.update(for: items[indexPath.row])
-            return cell
-        } else if tableView == sourceTableView {
-            let sourceCell = tableView.dequeueReusableCell(of: SourceTableViewCell.self, for: indexPath)
-            sourceCell.update(for: sourceItems[indexPath.row])
-            return sourceCell
-        }
-        fatalError("This table view is not supported by this view controller.")
+        let cell = tableView.dequeueReusableCell(of: SidebarTableViewCell.self, for: indexPath)
+        cell.update(for: items[indexPath.row])
+        return cell
     }
     
     public func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-        if tableView == sidebarTableView {
-            return items[indexPath.row].isEnabled
-        } else if tableView == sourceTableView {
-            return sourceItems[indexPath.row].isEnabled
-        }
-        fatalError("This table view is not supported by this view controller.")
+        return items[indexPath.row].isEnabled
     }
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if tableView == sidebarTableView {
-            let item = items[indexPath.row]
-            if selectedItem == item { return }
-            
-            selectedItem = item
-            delegate?.sidebarViewController(self, didSelectItem: item)
-        } else if tableView == sourceTableView {
-            if indexPath.row == selectedSourceIndex { return }
-            
-            selectedSourceIndex = indexPath.row
-            delegate?.sidebarViewController(self, didSelectSourceAt: indexPath.row)
-        }
+        let item = items[indexPath.row]
+        if selectedItem == item { return }
+        
+        selectedItem = item
+        delegate?.sidebarViewController(self, didSelectItem: item)
+    }
+    
+}
+
+extension SidebarViewController: SourceBarDelegate {
+    
+    public func sourceBar(_ bar: SourceBar, didSelectItemAt index: Int) {
+        selectedSourceIndex = index
+        delegate?.sidebarViewController(self, didSelectSourceAt: index)
     }
     
 }
@@ -294,24 +255,6 @@ extension SidebarViewController {
 }
 
 extension SidebarViewController {
-    
-    fileprivate func updateSourceSelection() {
-        if let selectedIndex = selectedSourceIndex, selectedIndex < sourceItems.count, sourceItems[selectedIndex].isEnabled {
-            if let sourceTableView = self.sourceTableView {
-                let indexPath = IndexPath(row: selectedIndex, section: 0)
-                sourceTableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
-                
-                let rect = sourceTableView.rectForRow(at: indexPath)
-                sourceTableView.scrollRectToVisible(rect, animated: sourceTableView.window != nil)
-            }
-        } else {
-            if selectedSourceIndex != nil { selectedSourceIndex = nil }
-            if let sourceTableView = self.sourceTableView,
-                let selectedIndexPath = sourceTableView.indexPathForSelectedRow {
-                sourceTableView.deselectRow(at: selectedIndexPath, animated: false)
-            }
-        }
-    }
     
     fileprivate func updateSelection() {
         guard isViewLoaded, let tableView = sidebarTableView else { return }
@@ -346,35 +289,5 @@ public protocol SidebarViewControllerDelegate : class {
     
     
     func sidebarViewController(_ controller: SidebarViewController, didSelectSourceAt index: Int)
-    
-}
-
-
-
-/// A private class for the sidebar table background.
-fileprivate class SidebarTableBackground: UIView {
-    
-    var topColor    = #colorLiteral(red: 0.1723541915, green: 0.1761130691, blue: 0.1968527734, alpha: 1) { didSet { setNeedsDisplay() }}
-    var bottomColor = #colorLiteral(red: 0.1723541915, green: 0.1761130691, blue: 0.1968527734, alpha: 1) { didSet { setNeedsDisplay() }}
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        contentMode = .redraw
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        contentMode = .redraw
-    }
-    
-    override func draw(_ rect: CGRect) {
-        guard let context = UIGraphicsGetCurrentContext(),
-              let gradient = CGGradient(colorsSpace: nil, colors: [topColor.cgColor, bottomColor.cgColor] as CFArray, locations: nil) else { return }
-        
-        let bounds = self.bounds
-        let start = CGPoint(x: rect.midX, y: bounds.minY)
-        let end   = CGPoint(x: rect.midX, y: bounds.maxY)
-        context.drawLinearGradient(gradient, start: start, end: end, options: [])
-    }
     
 }

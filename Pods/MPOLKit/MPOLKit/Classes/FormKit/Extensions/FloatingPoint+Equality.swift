@@ -40,3 +40,19 @@ func !=~ (left: Double, right: Double) -> Bool {
 func !=~ (left: CGFloat, right: CGFloat) -> Bool {
     return !(left ==~ right)
 }
+
+
+
+infix operator <=~: ComparisonPrecedence
+
+func <=~ (left: Float, right: Float) -> Bool {
+    return left < right || left ==~ right
+}
+
+func <=~ (left: Double, right: Double) -> Bool {
+    return left < right || left ==~ right
+}
+
+func <=~ (left: CGFloat, right: CGFloat) -> Bool {
+    return left < right || left ==~ right
+}

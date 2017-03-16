@@ -1,14 +1,23 @@
 PODS:
   - MPOLKit (0.1.0):
-    - MPOLKit/FormKit (= 0.1.0)
-  - MPOLKit/FormKit (0.1.0)
+    - MPOLKit/Core (= 0.1.0)
+  - MPOLKit/Core (0.1.0)
 
 DEPENDENCIES:
-  - MPOLKit (~> 0.1.0)
+  - MPOLKit (from `https://github.com/Gridstone/mPolKit-iOS`)
+
+EXTERNAL SOURCES:
+  MPOLKit:
+    :git: https://github.com/Gridstone/mPolKit-iOS
+
+CHECKOUT OPTIONS:
+  MPOLKit:
+    :commit: 1fd2b45dd1e70495552dfe53985b2e52536c19c6
+    :git: https://github.com/Gridstone/mPolKit-iOS
 
 SPEC CHECKSUMS:
-  MPOLKit: 10e641fffdcd92de9e1d6d1bae10bd79f73b2f0e
+  MPOLKit: f5163d40a1babdd4c377c833cb048464645f6141
 
-PODFILE CHECKSUM: 47e447b5faad5efeaccdd584e45c556ddc7698da
+PODFILE CHECKSUM: ca2e190302c05f52e5872bdb648a5879eed162eb
 
 COCOAPODS: 1.2.0

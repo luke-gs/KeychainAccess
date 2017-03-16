@@ -23,7 +23,9 @@ public extension DefaultReusable {
         if let existingID = reuseIDMap[key] {
             reuseID = existingID
         } else {
-            reuseID = UUID().uuidString
+            // We create a UUID as a unique key to avoid collisions, and then append the key (which is
+            // the class name) to ensure we can debug this if/when it fails to dequeue.
+            reuseID = UUID().uuidString + " (\(key))"
             reuseIDMap[key] = reuseID
         }
         

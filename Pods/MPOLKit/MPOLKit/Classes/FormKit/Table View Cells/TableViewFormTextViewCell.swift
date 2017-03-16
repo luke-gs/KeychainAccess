@@ -133,7 +133,9 @@ extension TableViewFormTextViewCell {
                     }
                 }
             } else if object is UILabel {
-                let titleDetailSpace = titleLabel.text?.isEmpty ?? true ? 0.0 : CellTitleDetailSeparation
+                // We take 0.5 from the standard separation to deal with inconsistencies with how UITextView lays out text vs UILabel.
+                // This does not affect the sizing method.
+                let titleDetailSpace = titleLabel.text?.isEmpty ?? true ? 0.0 : CellTitleDetailSeparation - 0.5
                 
                 if titleDetailSeparationConstraint.constant !=~ titleDetailSpace {
                     titleDetailSeparationConstraint.constant = titleDetailSpace
@@ -162,6 +164,48 @@ extension TableViewFormTextViewCell {
         titleLabel.adjustsFontForContentSizeCategory       = true
         textView.adjustsFontForContentSizeCategory         = true
         textView.placeholderLabel.adjustsFontForContentSizeCategory = true
+    }
+    
+}
+
+extension TableViewFormTextViewCell {
+    
+    dynamic open override var accessibilityLabel: String? {
+        get {
+            if let setValue = super.accessibilityLabel {
+                return setValue
+            }
+            return titleLabel.text
+        }
+        set {
+            super.accessibilityLabel = newValue
+        }
+    }
+    
+    dynamic open override var accessibilityValue: String? {
+        get {
+            if let setValue = super.accessibilityValue {
+                return setValue
+            }
+            let text = textView.text
+            if text?.isEmpty ?? true {
+                return textView.placeholderLabel.text
+            }
+            return text
+        }
+        set {
+            super.accessibilityValue = newValue
+        }
+    }
+    
+    dynamic open override var isAccessibilityElement: Bool {
+        get {
+            if textView.isFirstResponder { return false }
+            return super.isAccessibilityElement
+        }
+        set {
+            super.isAccessibilityElement = newValue
+        }
     }
     
 }

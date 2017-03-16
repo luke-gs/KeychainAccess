@@ -36,7 +36,6 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
         
         let textFont = textViewFont ?? CollectionViewFormDetailCell.font(withEmphasis: true, compatibleWith: traitCollection)
         height += max((enteredText as NSString?)?.boundingRect(with: CGSize(width: width - 0.5, height: .greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: textFont], context: nil).height ?? 0.0, textFont.lineHeight).ceiled(toScale: screenScale)
-        
         return height
     }
     
@@ -135,7 +134,7 @@ extension CollectionViewFormTextViewCell {
                         // prior to the update, eg a user enters text, which causes resizing and a scroll simultaneously.
                         // We guard against the case, and if any content offset change tries to occur when it's not valid,
                         // we reset back to zero.
-                        if textView.contentOffset.y !=~ 0.0 && textView.contentSize.height <= textView.bounds.height {
+                        if textView.contentOffset.y !=~ 0.0 && textView.contentSize.height <=~ textView.bounds.height {
                             textView.contentOffset.y = 0.0
                         }
                     case #keyPath(UITextView.font):
@@ -145,7 +144,9 @@ extension CollectionViewFormTextViewCell {
                     }
                 }
             } else if object is UILabel {
-                let titleDetailSpace = titleLabel.text?.isEmpty ?? true ? 0.0 : CellTitleDetailSeparation
+                // We take 0.5 from the standard separation to deal with inconsistencies with how UITextView lays out text vs UILabel.
+                // This does not affect the sizing method.
+                let titleDetailSpace = titleLabel.text?.isEmpty ?? true ? 0.0 : CellTitleDetailSeparation - 0.5
                 
                 if titleDetailSeparationConstraint.constant !=~ titleDetailSpace {
                     titleDetailSeparationConstraint.constant = titleDetailSpace
@@ -166,8 +167,12 @@ extension CollectionViewFormTextViewCell {
         
         let traitCollection = self.traitCollection
         titleLabel.font = CollectionViewFormDetailCell.font(withEmphasis: false, compatibleWith: traitCollection)
-        textView.font   = CollectionViewFormDetailCell.font(withEmphasis: true,  compatibleWith: traitCollection)
+        
+        let textViewFont = CollectionViewFormDetailCell.font(withEmphasis: true,  compatibleWith: traitCollection)
+        textView.font   = textViewFont
         textView.placeholderLabel.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
+        
+        textViewMinimumHeightConstraint?.constant = ceil(textViewFont.lineHeight + textViewFont.leading)
         
         titleLabel.adjustsFontForContentSizeCategory       = true
         textView.adjustsFontForContentSizeCategory         = true
@@ -176,6 +181,48 @@ extension CollectionViewFormTextViewCell {
         updateTextViewMinimumConstraint()
     }
     
+}
+
+// MARK: - Accessibility
+/// Accessibility
+extension CollectionViewFormTextViewCell {
+    dynamic open override var accessibilityLabel: String? {
+        get {
+            if let setValue = super.accessibilityLabel {
+                return setValue
+            }
+            return titleLabel.text
+        }
+        set {
+            super.accessibilityLabel = newValue
+        }
+    }
+    
+    dynamic open override var accessibilityValue: String? {
+        get {
+            if let setValue = super.accessibilityValue {
+                return setValue
+            }
+            let text = textView.text
+            if text?.isEmpty ?? true {
+                return textView.placeholderLabel.text
+            }
+            return text
+        }
+        set {
+            super.accessibilityValue = newValue
+        }
+    }
+    
+    dynamic open override var isAccessibilityElement: Bool {
+        get {
+            if textView.isFirstResponder { return false }
+            return super.isAccessibilityElement
+        }
+        set {
+            super.isAccessibilityElement = newValue
+        }
+    }
 }
 
 

@@ -1,0 +1,36 @@
+{
+  "name": "MPOLKit",
+  "version": "0.1.0",
+  "summary": "MPOLKit is to be used for all projects that require the MPOL framework. Also includs FormKit",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/Gridstone/mPolKit-iOS",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "val@gridstone.com.au": "val@gridstone.com.au"
+  },
+  "source": {
+    "git": "https://github.com/Gridstone/mPolKit-iOS.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "10.0"
+  },
+  "default_subspecs": "Core",
+  "resources": [
+    "MPOLKit/Assets/MPOL/**/*"
+  ],
+  "subspecs": [
+    {
+      "name": "Core",
+      "source_files": "MPOLKit/Classes/**/*"
+    },
+    {
+      "name": "FormKit",
+      "source_files": "MPOLKit/Classes/FormKit/**/*",
+      "resources": "MPOLKit/Assets/FormKit/*"
+    }
+  ]
+}
