@@ -166,9 +166,9 @@ fileprivate extension SidebarTableViewCell {
             detailTextLabel?.font = .preferredFont(forTextStyle: .caption1)
         }
         
-        standardFont = UIFont(descriptor: fontDescriptor, size: fontDescriptor.pointSize - 1)
+        standardFont = UIFont(descriptor: fontDescriptor, size: fontDescriptor.pointSize - 2)
         if let highlightedDescriptor = fontDescriptor.withSymbolicTraits(.traitBold) {
-            highlightedFont = UIFont(descriptor: highlightedDescriptor, size: fontDescriptor.pointSize - 1)
+            highlightedFont = UIFont(descriptor: highlightedDescriptor, size: fontDescriptor.pointSize - 2)
         } else {
             highlightedFont = standardFont
         }
