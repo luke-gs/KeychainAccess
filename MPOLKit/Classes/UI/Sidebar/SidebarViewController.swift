@@ -186,6 +186,15 @@ extension SidebarViewController {
         sidebarTableView.layoutMargins = UIEdgeInsets(top: 0.0, left: 24.0, bottom: 0.0, right: 24.0)
     }
     
+    open override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        if let selectedItem = self.selectedItem,
+            let selectedIndex = items.index(of: selectedItem) {
+            sidebarTableView?.selectRow(at: IndexPath(row: selectedIndex, section: 0), animated: false, scrollPosition: .none)
+        }
+    }
+    
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         

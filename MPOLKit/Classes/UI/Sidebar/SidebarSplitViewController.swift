@@ -95,6 +95,7 @@ extension SidebarSplitViewController : SidebarViewControllerDelegate {
     ///   - controller: The `SidebarViewController` that has a new selection.
     ///   - item:       The newly selected item.
     open func sidebarViewController(_ controller: SidebarViewController, didSelectItem item: SidebarItem) {
+        selectedViewController = detailViewControllers.first(where: { $0.sidebarItem == item })
     }
 
     
