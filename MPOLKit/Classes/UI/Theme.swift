@@ -33,7 +33,7 @@ public class Theme: NSObject {
                 isThemePackFromFramework = false
                 return themeArray
             } else {
-                print("Application theme pack invalid.")
+                NSLog("Application theme pack invalid.")
             }
         }
             
@@ -42,7 +42,7 @@ public class Theme: NSObject {
                 isThemePackFromFramework = true
                 return themeArray
             } else {
-                print("MPOLKit theme pack invalid.")
+                NSLog("MPOLKit theme pack invalid.")
             }
         }
         

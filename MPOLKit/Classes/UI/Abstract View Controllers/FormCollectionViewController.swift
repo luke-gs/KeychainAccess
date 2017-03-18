@@ -58,15 +58,21 @@ open class FormCollectionViewController: UIViewController, PopoverViewController
 extension FormCollectionViewController {
     
     open dynamic override func loadView() {
-        let collectionView = UICollectionView(frame: UIScreen.main.bounds, collectionViewLayout: formLayout)
+        let backgroundBounds = UIScreen.main.bounds
+        
+        let collectionView = UICollectionView(frame: backgroundBounds, collectionViewLayout: formLayout)
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.dataSource = self
         collectionView.delegate   = self
-        collectionView.backgroundColor = wantsTransparentBackground ? .clear : backgroundColor
         collectionView.alwaysBounceVertical = true
         collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: collectionElementKindGlobalHeader,    withReuseIdentifier: tempID)
         collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: collectionElementKindGlobalFooter,    withReuseIdentifier: tempID)
         collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: tempID)
         collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: tempID)
+        
+        let backgroundView = UIView(frame: backgroundBounds)
+        backgroundView.backgroundColor = wantsTransparentBackground ? .clear : backgroundColor
+        backgroundView.addSubview(collectionView)
         
         self.collectionViewInsetManager = ScrollViewInsetManager(scrollView: collectionView)
         self.collectionView = collectionView
@@ -86,19 +92,6 @@ extension FormCollectionViewController {
         collectionViewInsetManager?.standardIndicatorInset  = contentInsets
     }
     
-    open dynamic override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        if wantsTransparentBackground == false,
-            let collectionView = self.collectionView,
-            let superview = collectionView.superview {
-            let backgroundColor = superview.backgroundColor
-            superview.backgroundColor = collectionView.backgroundColor
-            
-            coordinator.animate(alongsideTransition: nil, completion: { (context: UIViewControllerTransitionCoordinatorContext) in
-                superview.backgroundColor = backgroundColor
-            })
-        }
-    }
     
     public dynamic func applyCurrentTheme() {
         let colors = Theme.current.colors
@@ -113,8 +106,9 @@ extension FormCollectionViewController {
         setNeedsStatusBarAppearanceUpdate()
         
         if isViewLoaded,
+            let view = self.view,
             let collectionView = self.collectionView {
-            collectionView.backgroundColor = wantsTransparentBackground ? .clear : backgroundColor
+            view.backgroundColor = wantsTransparentBackground ? .clear : backgroundColor
             for cell in collectionView.visibleCells {
                 self.collectionView(collectionView, willDisplay: cell, forItemAt: collectionView.indexPath(for: cell)!)
             }
@@ -172,23 +166,30 @@ extension FormCollectionViewController: UICollectionViewDelegate {
             formCell.titleLabel.textColor    = primaryTextColor
             formCell.subtitleLabel.textColor = secondaryTextColor
             formCell.detailLabel.textColor   = secondaryTextColor
-        case let detailCell as CollectionViewFormDetailCell:
-            if detailCell.emphasis == .title || detailCell is CollectionViewFormSelectionCell {
-                detailCell.textLabel.textColor       = primaryTextColor
-                detailCell.detailTextLabel.textColor = secondaryTextColor
+        case let selectionCell as CollectionViewFormSelectionCell:
+            selectionCell.titleLabel.textColor = primaryTextColor
+        case let detailCell as CollectionViewFormSubtitleCell:
+            if detailCell.emphasis == .title {
+                detailCell.titleLabel.textColor    = primaryTextColor
+                detailCell.subtitleLabel.textColor = secondaryTextColor
             } else {
-                detailCell.textLabel.textColor       = secondaryTextColor
-                detailCell.detailTextLabel.textColor = detailCell.isDetailEditable ? primaryTextColor : secondaryTextColor
+                detailCell.titleLabel.textColor    = secondaryTextColor
+                
+                if detailCell.isEditableField {
+                    detailCell.subtitleLabel.textColor = primaryTextColor
+                    
+                    guard let title = detailCell.titleLabel.text as NSString? else { return }
+                    
+                    let rangeOfStar = title.range(of: "*")
+                    if rangeOfStar.location == NSNotFound { return }
+                    
+                    let titleString = NSMutableAttributedString(string: title as String)
+                    titleString.setAttributes([NSForegroundColorAttributeName: UIColor.red], range: rangeOfStar)
+                    detailCell.titleLabel.attributedText = titleString
+                } else {
+                    detailCell.subtitleLabel.textColor = secondaryTextColor
+                }
             }
-            
-            guard let title = detailCell.textLabel.text as NSString? else { return }
-            
-            let rangeOfStar = title.range(of: "*")
-            if rangeOfStar.location == NSNotFound { return }
-            
-            let titleString = NSMutableAttributedString(string: title as String)
-            titleString.setAttributes([NSForegroundColorAttributeName: UIColor.red], range: rangeOfStar)
-            detailCell.textLabel.attributedText = titleString
         case let textFieldCell as CollectionViewFormTextFieldCell:
             textFieldCell.titleLabel.textColor = secondaryTextColor
             textFieldCell.textField.textColor  = primaryTextColor

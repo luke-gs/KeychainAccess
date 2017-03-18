@@ -94,6 +94,7 @@ open class TableViewFormTextViewCell: TableViewFormCell {
         textView.addObserver(self, forKeyPath: #keyPath(UITextView.font),          context: &kvoContext)
         textView.addObserver(self, forKeyPath: #keyPath(UITextView.contentSize),   context: &kvoContext)
         textView.addObserver(self, forKeyPath: #keyPath(UITextView.contentOffset), context: &kvoContext)
+        textView.placeholderLabel.addObserver(self, forKeyPath: #keyPath(UILabel.font), context: &kvoContext)
         titleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.text),           context: &kvoContext)
         titleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &kvoContext)
     }
@@ -102,6 +103,7 @@ open class TableViewFormTextViewCell: TableViewFormCell {
         textView.removeObserver(self, forKeyPath: #keyPath(UITextView.font),          context: &kvoContext)
         textView.removeObserver(self, forKeyPath: #keyPath(UITextView.contentSize),   context: &kvoContext)
         textView.removeObserver(self, forKeyPath: #keyPath(UITextView.contentOffset), context: &kvoContext)
+        textView.placeholderLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.font), context: &kvoContext)
         titleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.text),           context: &kvoContext)
         titleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &kvoContext)
     }
@@ -119,7 +121,7 @@ extension TableViewFormTextViewCell {
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {
-            if object is UITextView {
+            if object is UITextView || (object as? NSObject == textView.placeholderLabel) {
                 if let keyPath = keyPath {
                     switch keyPath {
                     case #keyPath(UITextView.contentSize):
@@ -128,6 +130,8 @@ extension TableViewFormTextViewCell {
                         if textView.contentOffset.y.isZero == false {
                             textView.contentOffset.y = 0.0
                         }
+                    case #keyPath(UITextView.font), #keyPath(UILabel.font):
+                        updateTextViewMinimumConstraint()
                     default:
                         break
                     }
@@ -135,7 +139,7 @@ extension TableViewFormTextViewCell {
             } else if object is UILabel {
                 // We take 0.5 from the standard separation to deal with inconsistencies with how UITextView lays out text vs UILabel.
                 // This does not affect the sizing method.
-                let titleDetailSpace = titleLabel.text?.isEmpty ?? true ? 0.0 : CellTitleDetailSeparation - 0.5
+                let titleDetailSpace = titleLabel.text?.isEmpty ?? true ? 0.0 : CellTitleSubtitleSeparation - 0.5
                 
                 if titleDetailSeparationConstraint.constant !=~ titleDetailSpace {
                     titleDetailSeparationConstraint.constant = titleDetailSpace
@@ -146,24 +150,19 @@ extension TableViewFormTextViewCell {
         }
     }
     
-    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        updateTextViewMinimumConstraint()
-    }
-    
     internal override func applyStandardFonts() {
         super.applyStandardFonts()
         
-        titleLabel.font = CollectionViewFormDetailCell.font(withEmphasis: false, compatibleWith: traitCollection)
-        textView.font   = CollectionViewFormDetailCell.font(withEmphasis: true,  compatibleWith: traitCollection)
-        
         if #available(iOS 10, *) {
+            let traitCollection = self.traitCollection
+            titleLabel.font     = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
+            textView.font       = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
             textView.placeholderLabel.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
         } else {
+            titleLabel.font     = .preferredFont(forTextStyle: .footnote)
+            textView.font       = .preferredFont(forTextStyle: .headline)
             textView.placeholderLabel.font = .preferredFont(forTextStyle: .subheadline)
         }
-        
-        updateTextViewMinimumConstraint()
     }
     
 }
@@ -252,8 +251,18 @@ fileprivate extension TableViewFormTextViewCell {
     }
     
     fileprivate func updateTextViewMinimumConstraint() {
-        let textViewFont = textView.font
-        textViewMinimumHeightConstraint?.constant = ceil((textViewFont?.lineHeight ?? 17.0) + (textViewFont?.leading ?? 1.0))
+        let textViewFont: UIFont
+        let placeholderFont: UIFont
+        
+        if #available(iOS 10, *) {
+            textViewFont        = textView.font ?? .preferredFont(forTextStyle: .headline,    compatibleWith: traitCollection)
+            placeholderFont     = textView.placeholderLabel.font ?? .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
+        } else {
+            textViewFont        = textView.font ?? .preferredFont(forTextStyle: .headline)
+            placeholderFont     = textView.placeholderLabel.font ?? .preferredFont(forTextStyle: .subheadline)
+        }
+        
+        textViewMinimumHeightConstraint?.constant = ceil(max(textViewFont.lineHeight + textViewFont.leading, placeholderFont.lineHeight + placeholderFont.leading))
     }
     
 }

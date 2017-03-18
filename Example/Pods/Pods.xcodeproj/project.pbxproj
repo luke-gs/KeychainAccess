@@ -20,7 +20,7 @@
 		22BC97D64CF23249E51986FEC1865532 /* ViewControllerTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D552FAA29F44EAE8E7DE7A36A718CA5 /* ViewControllerTransition.swift */; };
 		28D5FC898C5B94805A73B5A91ECA4146 /* MPOLKit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E67E175BEEC71CFCFE25AE44D991F49F /* MPOLKit-dummy.m */; };
 		2A8A7C4917854F833AB78454D15DE8E3 /* Pods-MPOLKit_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0B60CC5ABA506D7661E3616C8AB424 /* Pods-MPOLKit_Tests-dummy.m */; };
-		2B4DF74026BD9BB7594E618069DB1D51 /* CollectionViewFormDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832A05A97E1BFFF405D933F9393F8B38 /* CollectionViewFormDetailCell.swift */; };
+		2B4DF74026BD9BB7594E618069DB1D51 /* CollectionViewFormSubtitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832A05A97E1BFFF405D933F9393F8B38 /* CollectionViewFormSubtitleCell.swift */; };
 		2E4F6BEC0736A0B022BB872E2D3F2F6D /* CoreGraphics+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF080ACAC8AD743C25F504EC2788B1E /* CoreGraphics+Convenience.swift */; };
 		2E74E4186FCB7F9F20434257D386C77B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD99009F48316B0BA897FD2E1E5EBAAE /* Assets.xcassets */; };
 		2ED27F5F3A98ADE38221626BEAF7EF0E /* CollectionViewFormEditAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFE18088BBA448C71B039ADE8E131F3 /* CollectionViewFormEditAction.swift */; };
@@ -33,7 +33,7 @@
 		51937AA6A7BDD87CA5114F3D8512A394 /* TableViewFormCheckboxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB4670DB890E7B32A89ADD310D9E6CAF /* TableViewFormCheckboxCell.swift */; };
 		53A37AF52916F564B7E41C0A2D67E172 /* UIEdgeInsets+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C8802C5CFD1B7D660047E375408441 /* UIEdgeInsets+Convenience.swift */; };
 		54135A990FB52647C60FB604F3C88CB0 /* MPOLKit-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BC6F591FB18B7F49169B8F603B65FF9 /* MPOLKit-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		58382FFBD7C738F66D0C748DDF3462DE /* TableViewFormDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10ECB6996EAB0074DA82C5A17E74188 /* TableViewFormDetailCell.swift */; };
+		58382FFBD7C738F66D0C748DDF3462DE /* TableViewFormSubtitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10ECB6996EAB0074DA82C5A17E74188 /* TableViewFormSubtitleCell.swift */; };
 		5F9FE935E2D9BAF298E8A6F6332A27EB /* CollectionViewFormLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C31BD2DC6B728B5D0587CEBE2716A2 /* CollectionViewFormLayout.swift */; };
 		646C9373FCBF974716A10885BDBBCF5E /* TableViewFormTextViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44A92A86AF3AE7682AB103B5939942BC /* TableViewFormTextViewCell.swift */; };
 		6F9EAEDC9C942A812C77EB18D0AC8D75 /* ThemePack.json in Resources */ = {isa = PBXBuildFile; fileRef = 7DF65475D24C38F457E737099A6A9401 /* ThemePack.json */; };
@@ -136,7 +136,7 @@
 		76927FB4728D2C2EF3F7072F89CDE546 /* Pods-MPOLKit_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-MPOLKit_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
 		7A01D12424149BD7A782C789926EA025 /* CollectionViewFormAttributes.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CollectionViewFormAttributes.swift; sourceTree = "<group>"; };
 		7DF65475D24C38F457E737099A6A9401 /* ThemePack.json */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.json; path = ThemePack.json; sourceTree = "<group>"; };
-		832A05A97E1BFFF405D933F9393F8B38 /* CollectionViewFormDetailCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CollectionViewFormDetailCell.swift; sourceTree = "<group>"; };
+		832A05A97E1BFFF405D933F9393F8B38 /* CollectionViewFormSubtitleCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CollectionViewFormSubtitleCell.swift; sourceTree = "<group>"; };
 		83804F763F20014CB6CFCBB05C37A1F5 /* Pods-MPOLKit_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-MPOLKit_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		8BC6F591FB18B7F49169B8F603B65FF9 /* MPOLKit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MPOLKit-umbrella.h"; sourceTree = "<group>"; };
 		8CFE18088BBA448C71B039ADE8E131F3 /* CollectionViewFormEditAction.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CollectionViewFormEditAction.swift; sourceTree = "<group>"; };
@@ -184,7 +184,7 @@
 		D7DD1869C898BCECB9434020C5459BE3 /* Pods-MPOLKit_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MPOLKit_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		DB4670DB890E7B32A89ADD310D9E6CAF /* TableViewFormCheckboxCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TableViewFormCheckboxCell.swift; sourceTree = "<group>"; };
 		DCD945EF3F3E933248FA914FAD9420F8 /* Pods-MPOLKit_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-MPOLKit_Example-acknowledgements.plist"; sourceTree = "<group>"; };
-		E10ECB6996EAB0074DA82C5A17E74188 /* TableViewFormDetailCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TableViewFormDetailCell.swift; sourceTree = "<group>"; };
+		E10ECB6996EAB0074DA82C5A17E74188 /* TableViewFormSubtitleCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TableViewFormSubtitleCell.swift; sourceTree = "<group>"; };
 		E154E02FE38B734B88F2C7A6FAE75D87 /* MPOLKit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MPOLKit-prefix.pch"; sourceTree = "<group>"; };
 		E67E175BEEC71CFCFE25AE44D991F49F /* MPOLKit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "MPOLKit-dummy.m"; sourceTree = "<group>"; };
 		EB6FDBFEAD18DC2BBA2CE2E7571D17F8 /* CollectionViewFormDecorationView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CollectionViewFormDecorationView.swift; sourceTree = "<group>"; };
@@ -577,7 +577,7 @@
 			children = (
 				3D6A465D8E1D39ADAE1B728BEF91C2EA /* TableViewFormCell.swift */,
 				DB4670DB890E7B32A89ADD310D9E6CAF /* TableViewFormCheckboxCell.swift */,
-				E10ECB6996EAB0074DA82C5A17E74188 /* TableViewFormDetailCell.swift */,
+				E10ECB6996EAB0074DA82C5A17E74188 /* TableViewFormSubtitleCell.swift */,
 				1F3050703719C0811ECA9A2D4F35AAA2 /* TableViewFormTextFieldCell.swift */,
 				44A92A86AF3AE7682AB103B5939942BC /* TableViewFormTextViewCell.swift */,
 			);
@@ -589,9 +589,9 @@
 			children = (
 				33CE40DB0DDF4F6B803023491FFC0763 /* CollectionViewFormCell.swift */,
 				EB6FDBFEAD18DC2BBA2CE2E7571D17F8 /* CollectionViewFormDecorationView.swift */,
-				832A05A97E1BFFF405D933F9393F8B38 /* CollectionViewFormDetailCell.swift */,
 				8CFE18088BBA448C71B039ADE8E131F3 /* CollectionViewFormEditAction.swift */,
 				ECD3017600131838B645970CCB45956C /* CollectionViewFormSelectionCell.swift */,
+				832A05A97E1BFFF405D933F9393F8B38 /* CollectionViewFormSubtitleCell.swift */,
 				8D9AF352C75F42C9B1C756828AE3D8AA /* CollectionViewFormTextFieldCell.swift */,
 				FDE9C45820D089E2149A51B81A8D4B27 /* CollectionViewFormTextViewCell.swift */,
 			);
@@ -758,7 +758,7 @@
 				71EFE54EFF8381F054F5E4564DDA41C1 /* CollectionViewFormCell.swift in Sources */,
 				BC46D9981E736D72003854F3 /* KeyboardInputManager.swift in Sources */,
 				C1544AE9FD233DF3D2A80116774FAD42 /* CollectionViewFormDecorationView.swift in Sources */,
-				2B4DF74026BD9BB7594E618069DB1D51 /* CollectionViewFormDetailCell.swift in Sources */,
+				2B4DF74026BD9BB7594E618069DB1D51 /* CollectionViewFormSubtitleCell.swift in Sources */,
 				2ED27F5F3A98ADE38221626BEAF7EF0E /* CollectionViewFormEditAction.swift in Sources */,
 				5F9FE935E2D9BAF298E8A6F6332A27EB /* CollectionViewFormLayout.swift in Sources */,
 				BC3422CC1E71151F004EFA08 /* BadgeView.swift in Sources */,
@@ -794,7 +794,7 @@
 				A96A3ACB64FF14D0E55975D20B0B467D /* SelectableButton.swift in Sources */,
 				311D5FFBABC34D97E82EE402FCC5A433 /* TableViewFormCell.swift in Sources */,
 				51937AA6A7BDD87CA5114F3D8512A394 /* TableViewFormCheckboxCell.swift in Sources */,
-				58382FFBD7C738F66D0C748DDF3462DE /* TableViewFormDetailCell.swift in Sources */,
+				58382FFBD7C738F66D0C748DDF3462DE /* TableViewFormSubtitleCell.swift in Sources */,
 				47748E028A35D48076F31B4FD153359A /* TableViewFormTextFieldCell.swift in Sources */,
 				646C9373FCBF974716A10885BDBBCF5E /* TableViewFormTextViewCell.swift in Sources */,
 				EE0C527F0D45FDA1D83CB9C1F02ABAD9 /* Theme.swift in Sources */,

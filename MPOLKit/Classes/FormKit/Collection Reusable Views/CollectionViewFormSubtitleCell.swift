@@ -1,5 +1,5 @@
 //
-//  CollectionViewFormDetailCell.swift
+//  CollectionViewFormSubtitleCell.swift
 //  FormKit
 //
 //  Created by Rod Brown on 6/05/2016.
@@ -10,25 +10,25 @@ import UIKit
 
 fileprivate var contentContext = 1
 
-open class CollectionViewFormDetailCell: CollectionViewFormCell {
+open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
     
     public enum Emphasis {
         case title
-        case detail
+        case subtitle
     }
     
     // MARK: - Public properties
     
     /// The text label for the cell.
-    public let textLabel       = UILabel(frame: .zero)
+    public let titleLabel: UILabel = UILabel(frame: .zero)
     
     
-    /// The detail text label for the cell.
-    public let detailTextLabel = UILabel(frame: .zero)
+    /// The subtitle text label for the cell.
+    public let subtitleLabel: UILabel = UILabel(frame: .zero)
     
     
     /// The image view for the cell.
-    public let imageView = UIImageView(frame: .zero)
+    public let imageView: UIImageView = UIImageView(frame: .zero)
     
     
     /// The emphasized element within the cell. The emphasized item will be highlighted
@@ -70,15 +70,15 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
     // MARK: - Private properties
     
     /// A boolean value indicating to MPOL applications that the cell represents an editable
-    /// detail. This variable is exposed via the additional MPOL property `isDetailEditable`,
+    /// field. This variable is exposed via the additional MPOL property `isEditableField`,
     /// and should be ignored when the cell is "title-emphasised".
     ///
     /// The default is `true`.
-    internal var mpol_isDetailEditable: Bool = true
+    internal var mpol_isEditableField: Bool = true
     
     fileprivate let textLayoutGuide = UILayoutGuide()
     
-    fileprivate var titleDetailConstraint: NSLayoutConstraint!
+    fileprivate var titleSubtitleConstraint: NSLayoutConstraint!
     
     fileprivate var textLeadingConstraint: NSLayoutConstraint!
     
@@ -104,17 +104,17 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
         
         accessibilityTraits |= UIAccessibilityTraitStaticText
         
-        let contentView     = self.contentView
-        let textLabel       = self.textLabel
-        let detailTextLabel = self.detailTextLabel
-        let imageView       = self.imageView
+        let contentView   = self.contentView
+        let titleLabel    = self.titleLabel
+        let subtitleLabel = self.subtitleLabel
+        let imageView     = self.imageView
         
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        textLabel.translatesAutoresizingMaskIntoConstraints = false
-        detailTextLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        contentView.addSubview(detailTextLabel)
-        contentView.addSubview(textLabel)
+        contentView.addSubview(subtitleLabel)
+        contentView.addSubview(titleLabel)
         contentView.addSubview(imageView)
         
         let textLayoutGuide        = self.textLayoutGuide
@@ -123,16 +123,16 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
         contentView.addLayoutGuide(contentModeLayoutGuide)
         
         imageView.isHidden = true
-        textLabel.isHidden = true
-        detailTextLabel.isHidden = true
+        titleLabel.isHidden = true
+        subtitleLabel.isHidden = true
         
-        detailTextLabel.numberOfLines = 0
+        subtitleLabel.numberOfLines = 0
         
         imageView.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .vertical)
         imageView.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .horizontal)
         
         imageWidthConstraint   = NSLayoutConstraint(item: imageView,       attribute: .width,    relatedBy: .equal, toConstant: 0.0, priority: UILayoutPriorityRequired - 1)
-        titleDetailConstraint  = NSLayoutConstraint(item: detailTextLabel, attribute: .top,      relatedBy: .equal, toItem: textLabel, attribute: .bottom)
+        titleSubtitleConstraint  = NSLayoutConstraint(item: subtitleLabel, attribute: .top,      relatedBy: .equal, toItem: titleLabel, attribute: .bottom)
         textLeadingConstraint  = NSLayoutConstraint(item: textLayoutGuide, attribute: .leading,  relatedBy: .equal, toItem: imageView, attribute: .trailing)
         textTrailingConstraint = NSLayoutConstraint(item: textLayoutGuide, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentView, attribute: .trailingMargin)
         
@@ -142,34 +142,34 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
             NSLayoutConstraint(item: imageView, attribute: .leading, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .leading),
             imageWidthConstraint,
             
-            NSLayoutConstraint(item: textLabel, attribute: .top,      relatedBy: .equal,           toItem: textLayoutGuide, attribute: .top),
-            NSLayoutConstraint(item: textLabel, attribute: .leading,  relatedBy: .equal,           toItem: textLayoutGuide, attribute: .leading),
-            NSLayoutConstraint(item: textLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: textLayoutGuide, attribute: .trailing),
+            NSLayoutConstraint(item: titleLabel, attribute: .top,      relatedBy: .equal,           toItem: textLayoutGuide, attribute: .top),
+            NSLayoutConstraint(item: titleLabel, attribute: .leading,  relatedBy: .equal,           toItem: textLayoutGuide, attribute: .leading),
+            NSLayoutConstraint(item: titleLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: textLayoutGuide, attribute: .trailing),
             
-            NSLayoutConstraint(item: detailTextLabel, attribute: .leading,  relatedBy: .equal,           toItem: textLayoutGuide, attribute: .leading),
-            NSLayoutConstraint(item: detailTextLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: textLayoutGuide, attribute: .trailing),
-            NSLayoutConstraint(item: detailTextLabel, attribute: .bottom,   relatedBy: .equal,           toItem: textLayoutGuide, attribute: .bottom),
+            NSLayoutConstraint(item: subtitleLabel, attribute: .leading,  relatedBy: .equal,           toItem: textLayoutGuide, attribute: .leading),
+            NSLayoutConstraint(item: subtitleLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: textLayoutGuide, attribute: .trailing),
+            NSLayoutConstraint(item: subtitleLabel, attribute: .bottom,   relatedBy: .equal,           toItem: textLayoutGuide, attribute: .bottom),
             
             NSLayoutConstraint(item: textLayoutGuide, attribute: .top,     relatedBy: .greaterThanOrEqual, toItem: contentModeLayoutGuide, attribute: .top),
             NSLayoutConstraint(item: textLayoutGuide, attribute: .centerY, relatedBy: .equal,              toItem: contentModeLayoutGuide, attribute: .centerY),
             textLeadingConstraint,
             textTrailingConstraint,
-            titleDetailConstraint,
+            titleSubtitleConstraint,
             
             NSLayoutConstraint(item: imageView,       attribute: .top, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .top, priority: UILayoutPriorityDefaultLow),
             NSLayoutConstraint(item: textLayoutGuide, attribute: .top, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .top, priority: UILayoutPriorityDefaultLow)
         ])
         
         let textKeyPath = #keyPath(UILabel.text)
-        textLabel.addObserver(self, forKeyPath: textKeyPath, context: &contentContext)
-        detailTextLabel.addObserver(self, forKeyPath: textKeyPath, context: &contentContext)
+        titleLabel.addObserver(self, forKeyPath: textKeyPath, context: &contentContext)
+        subtitleLabel.addObserver(self, forKeyPath: textKeyPath, context: &contentContext)
         imageView.addObserver(self, forKeyPath: #keyPath(UIImageView.image), context: &contentContext)
     }
    
     deinit {
         let textKeyPath = #keyPath(UILabel.text)
-        textLabel.removeObserver(self, forKeyPath: textKeyPath, context: &contentContext)
-        detailTextLabel.removeObserver(self, forKeyPath: textKeyPath, context: &contentContext)
+        titleLabel.removeObserver(self,    forKeyPath: textKeyPath, context: &contentContext)
+        subtitleLabel.removeObserver(self, forKeyPath: textKeyPath, context: &contentContext)
         imageView.removeObserver(self, forKeyPath: #keyPath(UIImageView.image), context: &contentContext)
     }
     
@@ -179,19 +179,19 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
 
 // MARK: - Overrides
 /// Overrides
-extension CollectionViewFormDetailCell {
+extension CollectionViewFormSubtitleCell {
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &contentContext {
             switch object {
             case let label as UILabel:
                 label.isHidden = label.text?.isEmpty ?? true
-                titleDetailConstraint.constant = (textLabel.text?.isEmpty ?? true || detailTextLabel.text?.isEmpty ?? true) ? 0.0 : CellTitleDetailSeparation
+                titleSubtitleConstraint.constant = (titleLabel.text?.isEmpty ?? true || subtitleLabel.text?.isEmpty ?? true) ? 0.0 : CellTitleSubtitleSeparation
             case let imageView as UIImageView:
                 let imageSize = imageView.image?.size
-                imageView.isHidden = imageSize?.isEmpty ?? true
+                imageView.isHidden             = imageSize?.isEmpty ?? true
                 textLeadingConstraint.constant = imageSize?.isEmpty ?? true ? 0.0 : 10.0
-                imageWidthConstraint.constant = imageSize?.width ?? 0.0
+                imageWidthConstraint.constant  = imageSize?.width ?? 0.0
             default:
                 break
             }
@@ -205,7 +205,7 @@ extension CollectionViewFormDetailCell {
             if let setValue = super.accessibilityLabel {
                 return setValue
             }
-            return [textLabel, detailTextLabel].flatMap({ $0.text }).joined(separator: ", ")
+            return [titleLabel, subtitleLabel].flatMap({ $0.text }).joined(separator: ", ")
         }
         set {
             super.accessibilityLabel = newValue
@@ -215,53 +215,58 @@ extension CollectionViewFormDetailCell {
 }
 
 
-internal extension CollectionViewFormDetailCell {
-    
-    internal class func font(withEmphasis emphasis: Bool, compatibleWith traitCollection: UITraitCollection) -> UIFont {
-        let style: UIFontTextStyle = emphasis ? .headline : .footnote
-        if #available(iOS 10, *) {
-            return .preferredFont(forTextStyle: style, compatibleWith: traitCollection)
-        } else {
-            return .preferredFont(forTextStyle: style)
-        }
-    }
+internal extension CollectionViewFormSubtitleCell {
     
     internal override func applyStandardFonts() {
-        let traitCollection = self.traitCollection
-        textLabel.font       = type(of: self).font(withEmphasis: emphasis == .title,  compatibleWith: traitCollection)
-        detailTextLabel.font = type(of: self).font(withEmphasis: emphasis == .detail, compatibleWith: traitCollection)
+        super.applyStandardFonts()
+        
+        if #available(iOS 10, *) {
+            let traitCollection = self.traitCollection
+            titleLabel.font    = .preferredFont(forTextStyle: emphasis == .title ? .headline : .footnote, compatibleWith: traitCollection)
+            subtitleLabel.font = .preferredFont(forTextStyle: emphasis == .title ? .footnote : .headline, compatibleWith: traitCollection)
+        } else {
+            titleLabel.font    = .preferredFont(forTextStyle: emphasis == .title ? .headline : .footnote)
+            subtitleLabel.font = .preferredFont(forTextStyle: emphasis == .title ? .footnote : .headline)
+        }
     }
     
 }
 
 // MARK: - Cell Sizing
 /// Cell sizing
-extension CollectionViewFormDetailCell {
+extension CollectionViewFormSubtitleCell {
     
     
     /// Calculates the minimum content width for a cell, considering the text and font details.
     ///
     /// - Parameters:
-    ///   - title:      The title text for the cell.
-    ///   - detail:     The detail text for the cell.
+    ///   - title:        The title text for the cell.
+    ///   - subtitle:     The subtitle text for the cell.
     ///   - traitCollection: The trait collection the cell will be deisplayed in.
-    ///   - image:      The leading image for the cell. The default is `nil`.
-    ///   - emphasis:   The emphasis setting for the cell. The default is `.text`.
-    ///   - titleFont:  The title font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
-    ///   - detailFont: The detail font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
-    ///   - singleLineTitle:  A boolean value indicating if the detail text should be constrained to a single line. The default is `true`.
-    ///   - singleLineDetail: A boolean value indicating if the detail text should be constrained to a single line. The default is `false`.
+    ///   - image:        The leading image for the cell. The default is `nil`.
+    ///   - emphasis:     The emphasis setting for the cell. The default is `.title`.
+    ///   - titleFont:    The title font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
+    ///   - subtitleFont: The subtitle font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
+    ///   - singleLineTitle:    A boolean value indicating if the title text should be constrained to a single line. The default is `true`.
+    ///   - singleLineSubtitle: A boolean value indicating if the subtitle text should be constrained to a single line. The default is `false`.
     /// - Returns:      The minumum content width for the cell.
-    open class func minimumContentWidth(withTitle title: String?, detail: String?, compatibleWith traitCollection: UITraitCollection, image: UIImage? = nil,
-                                        emphasis: Emphasis = .title, titleFont: UIFont? = nil, detailFont: UIFont? = nil,
-                                        singleLineTitle: Bool = true, singleLineDetail: Bool = false) -> CGFloat {
-        let titleTextFont  = titleFont  ?? font(withEmphasis: emphasis == .title, compatibleWith: traitCollection)
-        let detailTextFont = detailFont ?? font(withEmphasis: emphasis == .detail, compatibleWith: traitCollection)
+    open class func minimumContentWidth(withTitle title: String?, subtitle: String?, compatibleWith traitCollection: UITraitCollection, image: UIImage? = nil,
+                                        emphasis: Emphasis = .title, titleFont: UIFont? = nil, subtitleFont: UIFont? = nil,
+                                        singleLineTitle: Bool = true, singleLineSubtitle: Bool = false) -> CGFloat {
+        let titleTextFont:    UIFont
+        let subtitleTextFont: UIFont
+        
+        if #available(iOS 10, *) {
+            titleTextFont    = titleFont    ?? .preferredFont(forTextStyle: emphasis == .title ? .headline : .footnote, compatibleWith: traitCollection)
+            subtitleTextFont = subtitleFont ?? .preferredFont(forTextStyle: emphasis == .title ? .footnote : .headline, compatibleWith: traitCollection)
+        } else {
+            titleTextFont    = titleFont    ?? .preferredFont(forTextStyle: emphasis == .title ? .headline : .footnote)
+            subtitleTextFont = subtitleFont ?? .preferredFont(forTextStyle: emphasis == .title ? .footnote : .headline)
+        }
         
         var imageSpace = image?.size.width ?? 0.0
         if imageSpace > 0.0 {
-            imageSpace = ceil(imageSpace)
-            imageSpace += 10.0
+            imageSpace = ceil(imageSpace) + 10.0
         }
         
         var displayScale = traitCollection.displayScale
@@ -273,11 +278,11 @@ extension CollectionViewFormDetailCell {
                                                             attributes: [NSFontAttributeName: titleTextFont],
                                                             context: nil).width.ceiled(toScale: displayScale) ?? 0.0
         
-        let detailWidth = (detail as NSString?)?.boundingRect(with: .max, options: singleLineDetail ? [] : .usesLineFragmentOrigin,
-                                                              attributes: [NSFontAttributeName: detailTextFont],
-                                                              context: nil).width.ceiled(toScale: displayScale) ?? 0.0
+        let subtitleWidth = (subtitle as NSString?)?.boundingRect(with: .max, options: singleLineSubtitle ? [] : .usesLineFragmentOrigin,
+                                                                  attributes: [NSFontAttributeName: subtitleTextFont],
+                                                                  context: nil).width.ceiled(toScale: displayScale) ?? 0.0
         
-        return max(titleWidth, detailWidth) + imageSpace
+        return max(titleWidth, subtitleWidth) + imageSpace
     }
     
     
@@ -285,41 +290,53 @@ extension CollectionViewFormDetailCell {
     ///
     /// - Parameters:
     ///   - title:      The title text for the cell.
-    ///   - detail:     The detail text for the cell.
+    ///   - subtitle:     The subtitle text for the cell.
     ///   - width:      The width constraint for the cell.
     ///   - traitCollection: The trait collection the cell will be deisplayed in.
     ///   - image:      The leading image for the cell. The default is `nil`.
     ///   - emphasis:   The emphasis setting for the cell. The default is `.text`.
     ///   - titleFont:  The title font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
-    ///   - detailFont: The detail font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
-    ///   - singleLineDetail: A boolean value indicating if the detail text should be constrained to a single line. The default is `false`.
+    ///   - subtitleFont: The subtitle font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
+    ///   - singleLineTitle: A boolean value indicating if the title text should be constrained to a single line. The default is `false`.
+    ///   - singleLineSubtitle: A boolean value indicating if the subtitle text should be constrained to a single line. The default is `false`.
     /// - Returns:      The minumum content height for the cell.
-    open class func minimumContentHeight(withTitle title: String?, detail: String?, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection,
-                                         image: UIImage? = nil, emphasis: Emphasis = .title, titleFont: UIFont? = nil, detailFont: UIFont? = nil,
-                                         singleLineTitle: Bool = true, singleLineDetail: Bool = false) -> CGFloat {
-        let titleTextFont  = titleFont  ?? font(withEmphasis: emphasis == .title,   compatibleWith: traitCollection)
-        let detailTextFont = detailFont ?? font(withEmphasis: emphasis == .detail, compatibleWith: traitCollection)
+    open class func minimumContentHeight(withTitle title: String?, subtitle: String?, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection,
+                                         image: UIImage? = nil, emphasis: Emphasis = .title, titleFont: UIFont? = nil, subtitleFont: UIFont? = nil,
+                                         singleLineTitle: Bool = true, singleLineSubtitle: Bool = false) -> CGFloat {
+        let titleTextFont:    UIFont
+        let subtitleTextFont: UIFont
+        
+        if #available(iOS 10, *) {
+            titleTextFont    = titleFont    ?? .preferredFont(forTextStyle: emphasis == .title ? .headline : .footnote, compatibleWith: traitCollection)
+            subtitleTextFont = subtitleFont ?? .preferredFont(forTextStyle: emphasis == .title ? .footnote : .headline, compatibleWith: traitCollection)
+        } else {
+            titleTextFont    = titleFont    ?? .preferredFont(forTextStyle: emphasis == .title ? .headline : .footnote)
+            subtitleTextFont = subtitleFont ?? .preferredFont(forTextStyle: emphasis == .title ? .footnote : .headline)
+        }
+        
+        let imageSize = image?.size
+        
         
         var displayScale = traitCollection.displayScale
         if displayScale ==~ 0.0 {
             displayScale = UIScreen.main.scale
         }
         
-        let size = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
+        let size = CGSize(width: imageSize == nil ? width : width - imageSize!.width - 10.0, height: CGFloat.greatestFiniteMagnitude)
         
-        let textHeight = (title as NSString?)?.boundingRect(with: size, options: singleLineTitle ? [] : .usesLineFragmentOrigin,
-                                                            attributes: [NSFontAttributeName: titleTextFont],
-                                                            context: nil).height.ceiled(toScale: displayScale) ?? 0.0
+        let titleHeight = (title as NSString?)?.boundingRect(with: size, options: singleLineTitle ? [] : .usesLineFragmentOrigin,
+                                                             attributes: [NSFontAttributeName: titleTextFont],
+                                                             context: nil).height.ceiled(toScale: displayScale) ?? 0.0
         
-        let detailHeight = (detail as NSString?)?.boundingRect(with: size, options: singleLineDetail ? [] : .usesLineFragmentOrigin,
-                                                               attributes: [NSFontAttributeName: detailTextFont],
-                                                               context: nil).height.ceiled(toScale: displayScale) ?? 0.0
-        var combinedHeight = textHeight + detailHeight
-        if textHeight !=~ 0.0 && detailHeight !=~ 0.0 {
-            combinedHeight += CellTitleDetailSeparation
+        let subtitleHeight = (subtitle as NSString?)?.boundingRect(with: size, options: singleLineSubtitle ? [] : .usesLineFragmentOrigin,
+                                                                   attributes: [NSFontAttributeName: subtitleTextFont],
+                                                                   context: nil).height.ceiled(toScale: displayScale) ?? 0.0
+        var combinedHeight = titleHeight + subtitleHeight
+        if titleHeight !=~ 0.0 && subtitleHeight !=~ 0.0 {
+            combinedHeight += CellTitleSubtitleSeparation
         }
         
-        return combinedHeight
+        return max(combinedHeight, (imageSize?.height ?? 0.0))
     }
     
 }

@@ -362,6 +362,8 @@ extension EntityCollectionViewCell {
 internal extension EntityCollectionViewCell {
     
     internal override func applyStandardFonts() {
+        super.applyStandardFonts()
+        
         let titleFont: UIFont
         let footnoteFont: UIFont
         

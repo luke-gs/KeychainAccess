@@ -54,7 +54,7 @@ open class TableViewFormCheckboxCell: TableViewFormCell {
         ])
     }
     
-    override func applyStandardFonts() {
+    internal override func applyStandardFonts() {
         super.applyStandardFonts()
         checkbox.titleLabel?.font = SelectableButton.font(compatibleWith: traitCollection)
     }

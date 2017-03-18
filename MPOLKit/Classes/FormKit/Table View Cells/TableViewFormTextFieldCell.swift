@@ -73,7 +73,7 @@ extension TableViewFormTextFieldCell {
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {
-            let titleDetailSpace = titleLabel.text?.isEmpty ?? true ? 0.0 : CellTitleDetailSeparation
+            let titleDetailSpace = titleLabel.text?.isEmpty ?? true ? 0.0 : CellTitleSubtitleSeparation
             
             if titleDetailSeparationConstraint.constant !=~ titleDetailSpace {
                 titleDetailSeparationConstraint.constant = titleDetailSpace
@@ -92,12 +92,14 @@ extension TableViewFormTextFieldCell {
     internal override func applyStandardFonts() {
         super.applyStandardFonts()
         
-        titleLabel.font = CollectionViewFormDetailCell.font(withEmphasis: false, compatibleWith: traitCollection)
-        textField.font  = CollectionViewFormDetailCell.font(withEmphasis: true,  compatibleWith: traitCollection)
-        
         if #available(iOS 10, *) {
+            let traitCollection       = self.traitCollection
+            titleLabel.font           = .preferredFont(forTextStyle: .footnote,    compatibleWith: traitCollection)
+            textField.font            = .preferredFont(forTextStyle: .headline,    compatibleWith: traitCollection)
             textField.placeholderFont = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
         } else {
+            titleLabel.font           = .preferredFont(forTextStyle: .footnote)
+            textField.font            = .preferredFont(forTextStyle: .headline)
             textField.placeholderFont = .preferredFont(forTextStyle: .subheadline)
         }
     }

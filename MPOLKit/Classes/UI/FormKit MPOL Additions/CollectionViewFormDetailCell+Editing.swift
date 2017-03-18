@@ -8,18 +8,18 @@
 
 import UIKit
 
-extension CollectionViewFormDetailCell {
+extension CollectionViewFormSubtitleCell {
     
-    /// A boolean value indicating whether the cell represents an editable detail field.
+    /// A boolean value indicating whether the cell represents an editable field.
     /// The default is `true`.
     ///
     /// This value can be used to inform MPOL apps that detail field should be
     /// displayed with the standard MPOL editable colors and/or adornments.
     ///
     /// This should be ignored by MPOL apps when the emphasis is on the title.
-    open var isDetailEditable: Bool {
-        get { return mpol_isDetailEditable }
-        set { mpol_isDetailEditable = newValue }
+    open var isEditableField: Bool {
+        get { return mpol_isEditableField }
+        set { mpol_isEditableField = newValue }
     }
     
 }

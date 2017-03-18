@@ -1,5 +1,5 @@
 //
-//  TableViewFormDetailCell.swift
+//  TableViewFormSubtitleCell.swift
 //  MPOLKit/FormKit
 //
 //  Created by Rod Brown on 10/08/2016.
@@ -11,18 +11,18 @@ import UIKit
 fileprivate var kvoContext = 1
 
 
-/// The `TableViewFormDetailCell` class implements a UITableViewCell subclass which provides
-/// analogous content and behaviour to `CollectionViewFormDetailCell`, but for use with `UITableView`.
+/// The `TableViewFormSubtitleCell` class implements a UITableViewCell subclass which provides
+/// analogous content and behaviour to `CollectionViewFormSubtitleCell`, but for use with `UITableView`.
 ///
-/// `TableViewFormDetailCell` adds to the behaviour of `UITableViewCellStyle.Subtitle` by providing support
+/// `TableViewFormSubtitleCell` adds to the behaviour of `UITableViewCellStyle.Subtitle` by providing support
 /// for mutli-line labels in both the title and detail label. This can be important in implementing support
 /// for content that must wrap and show in the detail, which the default cell does not support. Additionally
 /// the class configures the labels with the appropriate fonts to replicate the appearance of
-/// `CollectionViewFormDetailCell`.
+/// `CollectionViewFormSubtitleCell`.
 ///
-/// Unlike it's Collection-based counterpart, `TableViewFormDetailCell` self-sizes with AutoLayout. Users
+/// Unlike it's Collection-based counterpart, `TableViewFormSubtitleCell` self-sizes with AutoLayout. Users
 /// do not require to specify a default height, and can allow the cell to indicate it's height dynamically.
-open class TableViewFormDetailCell: TableViewFormCell {
+open class TableViewFormSubtitleCell: TableViewFormCell {
     
     /// The text label for the cell. This is guaranteed to be non-nil.
     open override var textLabel: UILabel {
@@ -35,7 +35,7 @@ open class TableViewFormDetailCell: TableViewFormCell {
     }
     
     /// The font emphasis for the cell. The default is `.title`.
-    open var emphasis: CollectionViewFormDetailCell.Emphasis = .title {
+    open var emphasis: CollectionViewFormSubtitleCell.Emphasis = .title {
         didSet { applyStandardFonts() }
     }
     
@@ -51,11 +51,19 @@ open class TableViewFormDetailCell: TableViewFormCell {
     
     
     /// Initializes the cell with a reuse identifier.
-    /// TableViewFormDetailCell does not utilize the `style` parameter, instead always using `Subtitle`.
+    /// TableViewFormSubtitleCell does not utilize the `style` parameter, instead always using `.subtitle`.
     public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
-        
+        commonInit()
+    }
+    
+    /// TableViewFormSubtitleCell does not support NSCoding.
+    public required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        commonInit()
+    }
+    
+    private func commonInit() {
         let textLabel       = self.textLabel
         let detailLabel     = self.detailTextLabel
         
@@ -66,11 +74,6 @@ open class TableViewFormDetailCell: TableViewFormCell {
         textLabel.addObserver(self,   forKeyPath: #keyPath(UILabel.attributedText), context: &kvoContext)
         detailLabel.addObserver(self, forKeyPath: #keyPath(UILabel.text),           context: &kvoContext)
         detailLabel.addObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &kvoContext)
-    }
-    
-    /// TableViewFormDetailCell does not support NSCoding.
-    public required init?(coder aDecoder: NSCoder) {
-        fatalError("TableViewFormDetailCell does not support NSCoding.")
     }
     
     deinit {
@@ -87,7 +90,7 @@ open class TableViewFormDetailCell: TableViewFormCell {
 
 
 /// Overriden methods
-extension TableViewFormDetailCell {
+extension TableViewFormSubtitleCell {
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {
@@ -125,7 +128,7 @@ extension TableViewFormDetailCell {
             switch labelState {
             case .titleAndDetail:
                 // Constrain the detail label's top to be slightly below the text label's bottom.
-                newConstraints.append(NSLayoutConstraint(item: detailLabel, attribute: .top, relatedBy: .equal, toItem: textLabel, attribute: .bottom, constant: CellTitleDetailSeparation))
+                newConstraints.append(NSLayoutConstraint(item: detailLabel, attribute: .top, relatedBy: .equal, toItem: textLabel, attribute: .bottom, constant: CellTitleSubtitleSeparation))
             case .titleOnly:
                 // Constrain the text label's bottom to be the labelLayoutGuide's bottom.
                 // The detail label will have no height at our label's bottom.
@@ -151,15 +154,20 @@ extension TableViewFormDetailCell {
     internal override func applyStandardFonts() {
         super.applyStandardFonts()
         
-        let traitCollection = self.traitCollection
-        textLabel.font       = CollectionViewFormDetailCell.font(withEmphasis: emphasis == .title,  compatibleWith: traitCollection)
-        detailTextLabel.font = CollectionViewFormDetailCell.font(withEmphasis: emphasis == .detail, compatibleWith: traitCollection)
+        if #available(iOS 10, *) {
+            let traitCollection = self.traitCollection
+            textLabel.font       = .preferredFont(forTextStyle: emphasis == .title ? .headline : .footnote, compatibleWith: traitCollection)
+            detailTextLabel.font = .preferredFont(forTextStyle: emphasis == .title ? .footnote : .headline, compatibleWith: traitCollection)
+        } else {
+            textLabel.font       = .preferredFont(forTextStyle: emphasis == .title ? .headline : .footnote)
+            detailTextLabel.font = .preferredFont(forTextStyle: emphasis == .title ? .footnote : .headline)
+        }
     }
     
 }
 
 
-fileprivate extension TableViewFormDetailCell {
+fileprivate extension TableViewFormSubtitleCell {
     
     /// A helper enum to help track the current state of the labels.
     enum LabelState {
