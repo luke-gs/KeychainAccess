@@ -32,7 +32,6 @@ class TestCollectionViewController: FormCollectionViewController  {
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, class: CollectionViewFormMPOLHeaderView.self, for: indexPath)
-        header.tintColor = Theme.current.colors[.SecondaryText]
         header.showsExpandArrow = true
         header.text = "1 ACTIVE ALERT"
         header.tapHandler = { (header, ip) in
@@ -43,11 +42,8 @@ class TestCollectionViewController: FormCollectionViewController  {
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(of: CollectionViewFormTextFieldCell.self, for: indexPath)
-        
-        //cell.semanticContentAttribute = UISemanticContentAttribute.playback
         cell.titleLabel.text =  "Test Title \(indexPath.item + 1)"
         cell.textField.placeholder = "Testing placeholder \(indexPath.item + 1)"
-        
         return cell
     }
     

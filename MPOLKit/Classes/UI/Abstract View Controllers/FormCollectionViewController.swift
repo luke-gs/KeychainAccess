@@ -173,12 +173,12 @@ extension FormCollectionViewController: UICollectionViewDelegate {
             formCell.subtitleLabel.textColor = secondaryTextColor
             formCell.detailLabel.textColor   = secondaryTextColor
         case let detailCell as CollectionViewFormDetailCell:
-            if detailCell.emphasis == .title {
+            if detailCell.emphasis == .title || detailCell is CollectionViewFormSelectionCell {
                 detailCell.textLabel.textColor       = primaryTextColor
                 detailCell.detailTextLabel.textColor = secondaryTextColor
             } else {
                 detailCell.textLabel.textColor       = secondaryTextColor
-                detailCell.detailTextLabel.textColor = primaryTextColor
+                detailCell.detailTextLabel.textColor = detailCell.isDetailEditable ? primaryTextColor : secondaryTextColor
             }
             
             guard let title = detailCell.textLabel.text as NSString? else { return }
@@ -221,6 +221,12 @@ extension FormCollectionViewController: UICollectionViewDelegate {
     }
     
     open dynamic func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
+        switch view {
+        case let headerView as CollectionViewFormMPOLHeaderView:
+            headerView.tintColor = secondaryTextColor
+        default:
+            break
+        }
     }
     
 }

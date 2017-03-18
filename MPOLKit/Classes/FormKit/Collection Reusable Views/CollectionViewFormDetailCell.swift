@@ -69,6 +69,13 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
     
     // MARK: - Private properties
     
+    /// A boolean value indicating to MPOL applications that the cell represents an editable
+    /// detail. This variable is exposed via the additional MPOL property `isDetailEditable`,
+    /// and should be ignored when the cell is "title-emphasised".
+    ///
+    /// The default is `true`.
+    internal var mpol_isDetailEditable: Bool = true
+    
     fileprivate let textLayoutGuide = UILayoutGuide()
     
     fileprivate var titleDetailConstraint: NSLayoutConstraint!
