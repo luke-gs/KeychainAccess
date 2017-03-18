@@ -26,12 +26,16 @@ open class TableViewFormSubtitleCell: TableViewFormCell {
     
     /// The text label for the cell. This is guaranteed to be non-nil.
     open override var textLabel: UILabel {
-        return super.textLabel!
+        return titleLabel
     }
     
     /// The detail text label for the cell. This is guaranteed to be non-nil.
     open override var detailTextLabel: UILabel {
-        return super.detailTextLabel!
+        return subtitleLabel
+    }
+    
+    open override var imageView: UIImageView {
+        return _imageView
     }
     
     /// The font emphasis for the cell. The default is `.title`.
@@ -39,15 +43,26 @@ open class TableViewFormSubtitleCell: TableViewFormCell {
         didSet { applyStandardFonts() }
     }
     
+    // MARK: - Private properties
     
-    /// The current label vertical constraints. This is private and not accessible to users.
-    fileprivate var labelConstraints: [NSLayoutConstraint]?
+    fileprivate let titleLabel = UILabel(frame: .zero)
     
+    fileprivate let subtitleLabel = UILabel(frame: .zero)
     
-    /// The label state for the cell.
-    /// This is a helper tracker internally to help limit the occasions where updating label text will
-    /// cause a constraint update.
-    fileprivate var labelState: LabelState = .none
+    fileprivate let _imageView = UIImageView(frame: .zero)
+    
+    /// A boolean value indicating to MPOL applications that the cell represents an editable
+    /// field. This variable is exposed via the additional MPOL property `isEditableField`,
+    /// and should be ignored when the cell is "title-emphasised".
+    ///
+    /// The default is `true`.
+    internal var mpol_isEditableField: Bool = true
+    
+    fileprivate let textLayoutGuide = UILayoutGuide()
+    
+    fileprivate var titleSubtitleConstraint: NSLayoutConstraint!
+    
+    fileprivate var textLeadingConstraint: NSLayoutConstraint!
     
     
     /// Initializes the cell with a reuse identifier.
@@ -64,26 +79,80 @@ open class TableViewFormSubtitleCell: TableViewFormCell {
     }
     
     private func commonInit() {
-        let textLabel       = self.textLabel
-        let detailLabel     = self.detailTextLabel
+        accessibilityTraits |= UIAccessibilityTraitStaticText
         
-        textLabel.translatesAutoresizingMaskIntoConstraints   = false
-        detailLabel.translatesAutoresizingMaskIntoConstraints = false
+        let contentView   = self.contentView
+        let titleLabel    = self.titleLabel
+        let subtitleLabel = self.subtitleLabel
+        let imageView     = self.imageView
         
-        textLabel.addObserver(self,   forKeyPath: #keyPath(UILabel.text),           context: &kvoContext)
-        textLabel.addObserver(self,   forKeyPath: #keyPath(UILabel.attributedText), context: &kvoContext)
-        detailLabel.addObserver(self, forKeyPath: #keyPath(UILabel.text),           context: &kvoContext)
-        detailLabel.addObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &kvoContext)
+        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        contentView.addSubview(subtitleLabel)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(imageView)
+        
+        let textLayoutGuide        = self.textLayoutGuide
+        let contentModeLayoutGuide = self.contentModeLayoutGuide
+        contentView.addLayoutGuide(textLayoutGuide)
+        
+        imageView.isHidden = true
+        titleLabel.isHidden = true
+        subtitleLabel.isHidden = true
+        
+        subtitleLabel.numberOfLines = 0
+        
+        imageView.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .vertical)
+        imageView.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .horizontal)
+        imageView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
+        imageView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+        
+        titleSubtitleConstraint = NSLayoutConstraint(item: subtitleLabel,   attribute: .top,      relatedBy: .equal, toItem: titleLabel, attribute: .bottom)
+        textLeadingConstraint   = NSLayoutConstraint(item: textLayoutGuide, attribute: .leading,  relatedBy: .equal, toItem: imageView,  attribute: .trailing)
+        
+        NSLayoutConstraint.activate([
+            NSLayoutConstraint(item: imageView, attribute: .top,     relatedBy: .greaterThanOrEqual, toItem: contentModeLayoutGuide, attribute: .top),
+            NSLayoutConstraint(item: imageView, attribute: .centerY, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .centerY),
+            NSLayoutConstraint(item: imageView, attribute: .leading, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .leading),
+            
+            NSLayoutConstraint(item: titleLabel, attribute: .top,      relatedBy: .equal,           toItem: textLayoutGuide, attribute: .top),
+            NSLayoutConstraint(item: titleLabel, attribute: .leading,  relatedBy: .equal,           toItem: textLayoutGuide, attribute: .leading),
+            NSLayoutConstraint(item: titleLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: textLayoutGuide, attribute: .trailing),
+            
+            NSLayoutConstraint(item: subtitleLabel, attribute: .leading,  relatedBy: .equal,           toItem: textLayoutGuide, attribute: .leading),
+            NSLayoutConstraint(item: subtitleLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: textLayoutGuide, attribute: .trailing),
+            NSLayoutConstraint(item: subtitleLabel, attribute: .bottom,   relatedBy: .equal,           toItem: textLayoutGuide, attribute: .bottom),
+            
+            NSLayoutConstraint(item: textLayoutGuide, attribute: .top,     relatedBy: .greaterThanOrEqual, toItem: contentModeLayoutGuide, attribute: .top),
+            NSLayoutConstraint(item: textLayoutGuide, attribute: .centerY, relatedBy: .equal,              toItem: contentModeLayoutGuide, attribute: .centerY),
+            NSLayoutConstraint(item: textLayoutGuide, attribute: .trailing, relatedBy: .lessThanOrEqual,   toItem: contentView, attribute: .trailingMargin),
+            textLeadingConstraint,
+            titleSubtitleConstraint,
+            
+            NSLayoutConstraint(item: imageView,       attribute: .top, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .top, priority: UILayoutPriorityDefaultLow),
+            NSLayoutConstraint(item: textLayoutGuide, attribute: .top, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .top, priority: UILayoutPriorityDefaultLow)
+            ])
+
+        let textKeyPath     = #keyPath(UILabel.text)
+        let attrTextKeyPath = #keyPath(UILabel.attributedText)
+        titleLabel.addObserver(self,    forKeyPath: textKeyPath,     context: &kvoContext)
+        titleLabel.addObserver(self,    forKeyPath: attrTextKeyPath, context: &kvoContext)
+        subtitleLabel.addObserver(self, forKeyPath: textKeyPath,     context: &kvoContext)
+        subtitleLabel.addObserver(self, forKeyPath: attrTextKeyPath, context: &kvoContext)
+        imageView.addObserver(self, forKeyPath: #keyPath(UIImageView.image), context: &kvoContext)
     }
     
     deinit {
-        let textLabel   = self.textLabel
-        let detailLabel = self.detailTextLabel
-        
-        textLabel.removeObserver(self,   forKeyPath: #keyPath(UILabel.text),           context: &kvoContext)
-        textLabel.removeObserver(self,   forKeyPath: #keyPath(UILabel.attributedText), context: &kvoContext)
-        detailLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.text),           context: &kvoContext)
-        detailLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &kvoContext)
+        let textKeyPath = #keyPath(UILabel.text)
+        let attrTextKeyPath = #keyPath(UILabel.attributedText)
+        titleLabel.removeObserver(self,    forKeyPath: textKeyPath,     context: &kvoContext)
+        titleLabel.removeObserver(self,    forKeyPath: attrTextKeyPath, context: &kvoContext)
+        subtitleLabel.removeObserver(self, forKeyPath: textKeyPath,     context: &kvoContext)
+        subtitleLabel.removeObserver(self, forKeyPath: attrTextKeyPath, context: &kvoContext)
+        imageView.removeObserver(self, forKeyPath: #keyPath(UIImageView.image), context: &kvoContext)
     }
     
 }
@@ -94,62 +163,22 @@ extension TableViewFormSubtitleCell {
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {
-            updateLabelState()
+            switch object {
+            case let label as UILabel:
+                label.isHidden = label.text?.isEmpty ?? true
+                titleSubtitleConstraint.constant = (titleLabel.text?.isEmpty ?? true || subtitleLabel.text?.isEmpty ?? true) ? 0.0 : CellTitleSubtitleSeparation
+            case let imageView as UIImageView:
+                let noImage = imageView.image?.size.isEmpty ?? true
+                imageView.isHidden = noImage
+                textLeadingConstraint.constant = noImage ? 0.0 : 10.0
+            default:
+                break
+            }
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
     }
     
-    open override func updateConstraints() {
-        let labelState = self.labelState
-        if labelConstraints?.isEmpty ?? true && labelState != .none {
-            let layoutGuide = self.contentModeLayoutGuide
-            
-            let textLabel   = self.textLabel
-            let detailLabel = self.detailTextLabel
-            
-            var newConstraints: [NSLayoutConstraint] = []
-            if labelState != .detailOnly {
-                newConstraints = [
-                    NSLayoutConstraint(item: textLabel, attribute: .top,      relatedBy: .equal,           toItem: layoutGuide, attribute: .top),
-                    NSLayoutConstraint(item: textLabel, attribute: .leading,  relatedBy: .equal,           toItem: layoutGuide, attribute: .leading),
-                    NSLayoutConstraint(item: textLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: layoutGuide, attribute: .trailing)
-                ]
-            }
-            
-            if labelState != .titleOnly {
-                newConstraints += [
-                    NSLayoutConstraint(item: detailLabel, attribute: .bottom,   relatedBy: .equal,           toItem: layoutGuide, attribute: .bottom),
-                    NSLayoutConstraint(item: detailLabel, attribute: .leading,  relatedBy: .equal,           toItem: layoutGuide, attribute: .leading),
-                    NSLayoutConstraint(item: detailLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: layoutGuide, attribute: .trailing)
-                ]
-            }
-            
-            switch labelState {
-            case .titleAndDetail:
-                // Constrain the detail label's top to be slightly below the text label's bottom.
-                newConstraints.append(NSLayoutConstraint(item: detailLabel, attribute: .top, relatedBy: .equal, toItem: textLabel, attribute: .bottom, constant: CellTitleSubtitleSeparation))
-            case .titleOnly:
-                // Constrain the text label's bottom to be the labelLayoutGuide's bottom.
-                // The detail label will have no height at our label's bottom.
-                newConstraints.append(NSLayoutConstraint(item: textLabel, attribute: .bottom, relatedBy: .equal, toItem: layoutGuide, attribute: .bottom))
-            case .detailOnly:
-                // Constrain the detail label's top to be the labelLayoutGuide's top.
-                // The detail label will have no height at our label's bottom.
-                newConstraints.append(NSLayoutConstraint(item: detailLabel, attribute: .top, relatedBy: .equal, toItem: layoutGuide, attribute: .top))
-            case .none:
-                // This case will never be reached, we only follow this code path if it is not "none"
-                break
-            }
-            
-            if newConstraints.isEmpty == false {
-                NSLayoutConstraint.activate(newConstraints)
-                self.labelConstraints = newConstraints
-            }
-        }
-        
-        super.updateConstraints()
-    }
     
     internal override func applyStandardFonts() {
         super.applyStandardFonts()
@@ -161,43 +190,6 @@ extension TableViewFormSubtitleCell {
         } else {
             textLabel.font       = .preferredFont(forTextStyle: emphasis == .title ? .headline : .footnote)
             detailTextLabel.font = .preferredFont(forTextStyle: emphasis == .title ? .footnote : .headline)
-        }
-    }
-    
-}
-
-
-fileprivate extension TableViewFormSubtitleCell {
-    
-    /// A helper enum to help track the current state of the labels.
-    enum LabelState {
-        case none, titleOnly, detailOnly, titleAndDetail
-    }
-    
-    /// Updates the label state, and invalidates constraints if necessary.
-    /// This is a workaround purely for performance: On scroll, if text changes but doesn't
-    /// get removed, we can avoid changing constraints on the fly.
-    /// This method should be called every time label text changes.
-    fileprivate func updateLabelState() {
-        let hasText   = textLabel.text?.isEmpty       ?? true == false
-        let hasDetail = detailTextLabel.text?.isEmpty ?? true == false
-        
-        let newState: LabelState
-        if hasText {
-            newState = hasDetail ? .titleAndDetail : .titleOnly
-        } else if hasDetail {
-            newState = .detailOnly
-        } else {
-            newState = .none
-        }
-        
-        if newState != labelState {
-            if let labelConstraints = self.labelConstraints {
-                NSLayoutConstraint.deactivate(labelConstraints)
-                self.labelConstraints = nil
-            }
-            self.labelState = newState
-            setNeedsUpdateConstraints()
         }
     }
     

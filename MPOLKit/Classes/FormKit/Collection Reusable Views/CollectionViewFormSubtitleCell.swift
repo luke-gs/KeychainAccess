@@ -8,7 +8,7 @@
 
 import UIKit
 
-fileprivate var contentContext = 1
+fileprivate var kvoContext = 1
 
 open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
     
@@ -98,8 +98,6 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
     }
     
     private func commonInit() {
-        super.contentMode = .center
-        
         accessibilityTraits |= UIAccessibilityTraitStaticText
         
         let contentView   = self.contentView
@@ -130,9 +128,9 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
         imageView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
         imageView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
         
-        titleSubtitleConstraint  = NSLayoutConstraint(item: subtitleLabel, attribute: .top,      relatedBy: .equal, toItem: titleLabel, attribute: .bottom)
-        textLeadingConstraint  = NSLayoutConstraint(item: textLayoutGuide, attribute: .leading,  relatedBy: .equal, toItem: imageView, attribute: .trailing)
-        textTrailingConstraint = NSLayoutConstraint(item: textLayoutGuide, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentView, attribute: .trailingMargin)
+        titleSubtitleConstraint  = NSLayoutConstraint(item: subtitleLabel,   attribute: .top,      relatedBy: .equal, toItem: titleLabel, attribute: .bottom)
+        textLeadingConstraint    = NSLayoutConstraint(item: textLayoutGuide, attribute: .leading,  relatedBy: .equal, toItem: imageView, attribute: .trailing)
+        textTrailingConstraint   = NSLayoutConstraint(item: textLayoutGuide, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentView, attribute: .trailingMargin)
         
         NSLayoutConstraint.activate([
             NSLayoutConstraint(item: imageView, attribute: .top,     relatedBy: .greaterThanOrEqual, toItem: contentModeLayoutGuide, attribute: .top),
@@ -157,17 +155,23 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
             NSLayoutConstraint(item: textLayoutGuide, attribute: .top, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .top, priority: UILayoutPriorityDefaultLow)
         ])
         
-        let textKeyPath = #keyPath(UILabel.text)
-        titleLabel.addObserver(self, forKeyPath: textKeyPath, context: &contentContext)
-        subtitleLabel.addObserver(self, forKeyPath: textKeyPath, context: &contentContext)
-        imageView.addObserver(self, forKeyPath: #keyPath(UIImageView.image), context: &contentContext)
+        let textKeyPath     = #keyPath(UILabel.text)
+        let attrTextKeyPath = #keyPath(UILabel.attributedText)
+        titleLabel.addObserver(self,    forKeyPath: textKeyPath,     context: &kvoContext)
+        titleLabel.addObserver(self,    forKeyPath: attrTextKeyPath, context: &kvoContext)
+        subtitleLabel.addObserver(self, forKeyPath: textKeyPath,     context: &kvoContext)
+        subtitleLabel.addObserver(self, forKeyPath: attrTextKeyPath, context: &kvoContext)
+        imageView.addObserver(self, forKeyPath: #keyPath(UIImageView.image), context: &kvoContext)
     }
    
     deinit {
         let textKeyPath = #keyPath(UILabel.text)
-        titleLabel.removeObserver(self,    forKeyPath: textKeyPath, context: &contentContext)
-        subtitleLabel.removeObserver(self, forKeyPath: textKeyPath, context: &contentContext)
-        imageView.removeObserver(self, forKeyPath: #keyPath(UIImageView.image), context: &contentContext)
+        let attrTextKeyPath = #keyPath(UILabel.attributedText)
+        titleLabel.removeObserver(self,    forKeyPath: textKeyPath,     context: &kvoContext)
+        titleLabel.removeObserver(self,    forKeyPath: attrTextKeyPath, context: &kvoContext)
+        subtitleLabel.removeObserver(self, forKeyPath: textKeyPath,     context: &kvoContext)
+        subtitleLabel.removeObserver(self, forKeyPath: attrTextKeyPath, context: &kvoContext)
+        imageView.removeObserver(self, forKeyPath: #keyPath(UIImageView.image), context: &kvoContext)
     }
     
 }
@@ -179,7 +183,7 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
 extension CollectionViewFormSubtitleCell {
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if context == &contentContext {
+        if context == &kvoContext {
             switch object {
             case let label as UILabel:
                 label.isHidden = label.text?.isEmpty ?? true
