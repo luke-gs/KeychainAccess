@@ -16,7 +16,7 @@ class TestCollectionViewController: FormCollectionViewController  {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        collectionView?.register(CollectionViewFormTextFieldCell.self)
+        collectionView?.register(CollectionViewFormSelectionCell.self)
         collectionView?.register(CollectionViewFormMPOLHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
     }
     
@@ -41,9 +41,9 @@ class TestCollectionViewController: FormCollectionViewController  {
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormTextFieldCell.self, for: indexPath)
-        cell.titleLabel.text =  "Test Title \(indexPath.item + 1)"
-        cell.textField.placeholder = "Testing placeholder \(indexPath.item + 1)"
+        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSelectionCell.self, for: indexPath)
+        cell.titleLabel.text = "Test Title \(indexPath.item + 1)"
+        cell.selectionStyle = .checkbox
         return cell
     }
     

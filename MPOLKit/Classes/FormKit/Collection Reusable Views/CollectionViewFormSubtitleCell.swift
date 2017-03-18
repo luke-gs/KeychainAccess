@@ -84,8 +84,6 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
     
     fileprivate var textTrailingConstraint: NSLayoutConstraint!
     
-    fileprivate var imageWidthConstraint: NSLayoutConstraint!
-    
     
     // MARK: - Initialization
     
@@ -120,7 +118,6 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
         let textLayoutGuide        = self.textLayoutGuide
         let contentModeLayoutGuide = self.contentModeLayoutGuide
         contentView.addLayoutGuide(textLayoutGuide)
-        contentView.addLayoutGuide(contentModeLayoutGuide)
         
         imageView.isHidden = true
         titleLabel.isHidden = true
@@ -130,8 +127,9 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
         
         imageView.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .vertical)
         imageView.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .horizontal)
+        imageView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
+        imageView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
         
-        imageWidthConstraint   = NSLayoutConstraint(item: imageView,       attribute: .width,    relatedBy: .equal, toConstant: 0.0, priority: UILayoutPriorityRequired - 1)
         titleSubtitleConstraint  = NSLayoutConstraint(item: subtitleLabel, attribute: .top,      relatedBy: .equal, toItem: titleLabel, attribute: .bottom)
         textLeadingConstraint  = NSLayoutConstraint(item: textLayoutGuide, attribute: .leading,  relatedBy: .equal, toItem: imageView, attribute: .trailing)
         textTrailingConstraint = NSLayoutConstraint(item: textLayoutGuide, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentView, attribute: .trailingMargin)
@@ -140,7 +138,6 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
             NSLayoutConstraint(item: imageView, attribute: .top,     relatedBy: .greaterThanOrEqual, toItem: contentModeLayoutGuide, attribute: .top),
             NSLayoutConstraint(item: imageView, attribute: .centerY, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .centerY),
             NSLayoutConstraint(item: imageView, attribute: .leading, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .leading),
-            imageWidthConstraint,
             
             NSLayoutConstraint(item: titleLabel, attribute: .top,      relatedBy: .equal,           toItem: textLayoutGuide, attribute: .top),
             NSLayoutConstraint(item: titleLabel, attribute: .leading,  relatedBy: .equal,           toItem: textLayoutGuide, attribute: .leading),
@@ -188,10 +185,9 @@ extension CollectionViewFormSubtitleCell {
                 label.isHidden = label.text?.isEmpty ?? true
                 titleSubtitleConstraint.constant = (titleLabel.text?.isEmpty ?? true || subtitleLabel.text?.isEmpty ?? true) ? 0.0 : CellTitleSubtitleSeparation
             case let imageView as UIImageView:
-                let imageSize = imageView.image?.size
-                imageView.isHidden             = imageSize?.isEmpty ?? true
-                textLeadingConstraint.constant = imageSize?.isEmpty ?? true ? 0.0 : 10.0
-                imageWidthConstraint.constant  = imageSize?.width ?? 0.0
+                let noImage = imageView.image?.size.isEmpty ?? true
+                imageView.isHidden = noImage
+                textLeadingConstraint.constant = noImage ? 0.0 : 10.0
             default:
                 break
             }

@@ -52,8 +52,6 @@ open class CollectionViewFormSelectionCell: CollectionViewFormCell {
     
     public let titleLabel: UILabel = UILabel(frame: .zero)
     
-    
-    
     fileprivate let imageView: UIImageView = UIImageView(frame: .zero)
     
     
@@ -68,6 +66,34 @@ open class CollectionViewFormSelectionCell: CollectionViewFormCell {
     }
     
     private func commonInit() {
+        let contentView   = self.contentView
+        let imageView     = self.imageView
+        let titleLabel    = self.titleLabel
+        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(imageView)
+        
+        let contentModeLayoutGuide = self.contentModeLayoutGuide
+        
+        imageView.setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
+        imageView.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
+        imageView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
+        imageView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+
+        NSLayoutConstraint.activate([
+            NSLayoutConstraint(item: imageView, attribute: .top,     relatedBy: .greaterThanOrEqual, toItem: contentModeLayoutGuide, attribute: .top),
+            NSLayoutConstraint(item: imageView, attribute: .centerY, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .centerY),
+            NSLayoutConstraint(item: imageView, attribute: .leading, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .leading),
+            
+            NSLayoutConstraint(item: titleLabel, attribute: .top,      relatedBy: .greaterThanOrEqual, toItem: contentModeLayoutGuide, attribute: .top),
+            NSLayoutConstraint(item: titleLabel, attribute: .centerY,  relatedBy: .equal,           toItem: contentModeLayoutGuide, attribute: .centerY),
+            NSLayoutConstraint(item: titleLabel, attribute: .leading,  relatedBy: .equal,           toItem: imageView, attribute: .trailing, constant: 10.0),
+            NSLayoutConstraint(item: titleLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentModeLayoutGuide, attribute: .trailing),
+        ])
+        
         updateImageView()
     }
     
