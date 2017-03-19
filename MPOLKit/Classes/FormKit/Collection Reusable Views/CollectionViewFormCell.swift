@@ -22,6 +22,31 @@ import UIKit.UIGestureRecognizerSubclass
 open class CollectionViewFormCell: UICollectionViewCell {
     
     
+    /// The accessory view for the cell.
+    ///
+    /// This will be placed at the trailing edge of the cell.
+    open var accessoryView: UIView? {
+        didSet {
+            if oldValue == accessoryView { return }
+            
+            oldValue?.removeFromSuperview()
+            
+            if let accessoryView = self.accessoryView {
+                contentView.addSubview(accessoryView)
+                
+                let accessoryWidth = accessoryView.frame.width
+                if accessoryWidth > 0 {
+                    contentModeLayoutTrailingConstraint.constant = (accessoryWidth + 10.0) * -1.0
+                } else {
+                    contentModeLayoutTrailingConstraint?.constant = 0.0
+                }
+            } else {
+                contentModeLayoutTrailingConstraint?.constant = 0.0
+            }
+        }
+    }
+    
+    
     // MARK: - Public properties
     
     /// The edit actions for the cell.
@@ -114,11 +139,16 @@ open class CollectionViewFormCell: UICollectionViewCell {
             default:
                 attribute = .centerY
             }
-            contentModeLayoutConstraint?.isActive = false
-            contentModeLayoutConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: attribute, relatedBy: .equal, toItem: contentView.layoutMarginsGuide, attribute: attribute, priority: UILayoutPriorityDefaultLow - 1)
-            contentModeLayoutConstraint.isActive = true
+            contentModeLayoutVerticalConstraint?.isActive = false
+            contentModeLayoutVerticalConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: attribute, relatedBy: .equal, toItem: contentView.layoutMarginsGuide, attribute: attribute, priority: UILayoutPriorityDefaultLow - 1)
+            contentModeLayoutVerticalConstraint.isActive = true
+            
+            if accessoryView != nil {
+                setNeedsLayout()
+            }
         }
     }
+    
     
     /// This layout guide is applied to the cell's contentView, and positions content in the
     /// correct vertical position for the current `contentMode`. This layout guide is constrainted
@@ -133,7 +163,9 @@ open class CollectionViewFormCell: UICollectionViewCell {
     
     /// The content mode guide. This guide is private and will update to enforce the current content
     /// mode on the `contentModeLayoutGuide`.
-    fileprivate var contentModeLayoutConstraint: NSLayoutConstraint!
+    fileprivate var contentModeLayoutVerticalConstraint: NSLayoutConstraint!
+    
+    fileprivate var contentModeLayoutTrailingConstraint: NSLayoutConstraint!
     
     fileprivate let internalContentView = UIView(frame: .zero)
     fileprivate let scrollView = CollectionViewFormCellScrollView(frame: .zero)
@@ -210,14 +242,15 @@ open class CollectionViewFormCell: UICollectionViewCell {
         
         internalContentView.addLayoutGuide(contentModeLayoutGuide)
         
-        contentModeLayoutConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .centerY, relatedBy: .equal, toItem: internalContentView, attribute: .centerYWithinMargins, priority: UILayoutPriorityDefaultLow - 1)
+        contentModeLayoutVerticalConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .centerY, relatedBy: .equal, toItem: internalContentView, attribute: .centerYWithinMargins, priority: UILayoutPriorityDefaultLow - 1)
+        contentModeLayoutTrailingConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .trailing, relatedBy: .equal, toItem: internalContentView, attribute: .trailingMargin)
         
         NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .leading,  relatedBy: .equal, toItem: internalContentView, attribute: .leadingMargin),
-            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .trailing, relatedBy: .equal, toItem: internalContentView, attribute: .trailingMargin),
             NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .top,      relatedBy: .greaterThanOrEqual, toItem: internalContentView, attribute: .topMargin),
             NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .bottom,   relatedBy: .lessThanOrEqual,    toItem: internalContentView, attribute: .bottomMargin, priority: 500),
-            contentModeLayoutConstraint
+            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .leading,  relatedBy: .equal, toItem: internalContentView, attribute: .leadingMargin),
+            contentModeLayoutTrailingConstraint,
+            contentModeLayoutVerticalConstraint
         ])
         
         applyStandardFonts()
@@ -466,8 +499,7 @@ extension CollectionViewFormCell {
         // This will ensure we won't get selection activity, but we can still catch scroll behaviour.
         if scrollView.isDecelerating {
             if _deceleratingToOpen,
-                let actionView = self.actionView
-                , hitTestedView.isDescendant(of: actionView) {
+                let actionView = self.actionView, hitTestedView.isDescendant(of: actionView) {
                     return hitTestedView
             } else {
                 return internalContentView
@@ -482,6 +514,31 @@ extension CollectionViewFormCell {
         }
         
         return hitTestedView
+    }
+    
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        guard let accessoryView = self.accessoryView else { return }
+        
+        let isRightToLeft: Bool
+        if #available(iOS 10, *) {
+            isRightToLeft = contentView.effectiveUserInterfaceLayoutDirection == .rightToLeft
+        } else {
+            isRightToLeft = UIView.userInterfaceLayoutDirection(for: contentView.semanticContentAttribute) == .rightToLeft
+        }
+        
+        let contentLayoutGuide = contentModeLayoutGuide.layoutFrame
+        
+        var accessoryFrame = accessoryView.frame
+        accessoryFrame.origin.y = round(contentLayoutGuide.midY - (accessoryFrame.size.height * 0.5))
+        if isRightToLeft {
+            accessoryFrame.origin.x = contentLayoutGuide.minX - 10.0 - accessoryFrame.width
+        } else {
+            accessoryFrame.origin.x = contentLayoutGuide.maxX + 10.0
+        }
+        
+        accessoryView.frame = accessoryFrame
     }
     
     open override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {

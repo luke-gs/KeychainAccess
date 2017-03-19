@@ -40,33 +40,6 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
     }
     
     
-    /// The accessory view for the cell.
-    ///
-    /// This will be placed at the trailing edge of the cell.
-    open var accessoryView: UIView? {
-        didSet {
-            if accessoryView == oldValue { return }
-            
-            oldValue?.removeFromSuperview()
-            
-            var newConstraints: [NSLayoutConstraint] = []
-            if let newAccessoryView = accessoryView {
-                contentView.addSubview(newAccessoryView)
-                newAccessoryView.translatesAutoresizingMaskIntoConstraints = false
-                
-                textTrailingConstraint = NSLayoutConstraint(item: textLayoutGuide, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: newAccessoryView, attribute: .leading, constant: -10.0)
-                newConstraints.append(NSLayoutConstraint(item: newAccessoryView, attribute: .centerY, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .centerY))
-                newConstraints.append(NSLayoutConstraint(item: newAccessoryView, attribute: .top,     relatedBy: .greaterThanOrEqual, toItem: contentModeLayoutGuide, attribute: .top))
-                newConstraints.append(NSLayoutConstraint(item: newAccessoryView, attribute: .trailing, relatedBy: .equal, toItem: contentView, attribute: .trailingMargin))
-            } else {
-                textTrailingConstraint = NSLayoutConstraint(item: textLayoutGuide, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentView, attribute: .trailingMargin)
-            }
-            newConstraints.append(textTrailingConstraint)
-            NSLayoutConstraint.activate(newConstraints)
-        }
-    }
-    
-    
     // MARK: - Private properties
     
     /// A boolean value indicating to MPOL applications that the cell represents an editable
@@ -81,8 +54,6 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
     fileprivate var titleSubtitleConstraint: NSLayoutConstraint!
     
     fileprivate var textLeadingConstraint: NSLayoutConstraint!
-    
-    fileprivate var textTrailingConstraint: NSLayoutConstraint!
     
     
     // MARK: - Initialization
@@ -130,7 +101,6 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
         
         titleSubtitleConstraint  = NSLayoutConstraint(item: subtitleLabel,   attribute: .top,      relatedBy: .equal, toItem: titleLabel, attribute: .bottom)
         textLeadingConstraint    = NSLayoutConstraint(item: textLayoutGuide, attribute: .leading,  relatedBy: .equal, toItem: imageView, attribute: .trailing)
-        textTrailingConstraint   = NSLayoutConstraint(item: textLayoutGuide, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentView, attribute: .trailingMargin)
         
         NSLayoutConstraint.activate([
             NSLayoutConstraint(item: imageView, attribute: .top,     relatedBy: .greaterThanOrEqual, toItem: contentModeLayoutGuide, attribute: .top),
@@ -147,8 +117,8 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
             
             NSLayoutConstraint(item: textLayoutGuide, attribute: .top,     relatedBy: .greaterThanOrEqual, toItem: contentModeLayoutGuide, attribute: .top),
             NSLayoutConstraint(item: textLayoutGuide, attribute: .centerY, relatedBy: .equal,              toItem: contentModeLayoutGuide, attribute: .centerY),
+            NSLayoutConstraint(item: textLayoutGuide, attribute: .trailing, relatedBy: .lessThanOrEqual,   toItem: contentModeLayoutGuide, attribute: .trailing),
             textLeadingConstraint,
-            textTrailingConstraint,
             titleSubtitleConstraint,
             
             NSLayoutConstraint(item: imageView,       attribute: .top, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .top, priority: UILayoutPriorityDefaultLow),
@@ -165,7 +135,7 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
     }
    
     deinit {
-        let textKeyPath = #keyPath(UILabel.text)
+        let textKeyPath     = #keyPath(UILabel.text)
         let attrTextKeyPath = #keyPath(UILabel.attributedText)
         titleLabel.removeObserver(self,    forKeyPath: textKeyPath,     context: &kvoContext)
         titleLabel.removeObserver(self,    forKeyPath: attrTextKeyPath, context: &kvoContext)
@@ -197,6 +167,26 @@ extension CollectionViewFormSubtitleCell {
             }
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+        }
+    }
+    
+    open override var bounds: CGRect {
+        didSet {
+            let width = bounds.width
+            if width !=~ oldValue.width {
+                titleLabel.preferredMaxLayoutWidth    = width
+                subtitleLabel.preferredMaxLayoutWidth = width
+            }
+        }
+    }
+    
+    open override var frame: CGRect {
+        didSet {
+            let width = frame.width
+            if width !=~ oldValue.width {
+                titleLabel.preferredMaxLayoutWidth    = width
+                subtitleLabel.preferredMaxLayoutWidth = width
+            }
         }
     }
     
@@ -236,23 +226,23 @@ internal extension CollectionViewFormSubtitleCell {
 /// Cell sizing
 extension CollectionViewFormSubtitleCell {
     
-    
     /// Calculates the minimum content width for a cell, considering the text and font details.
     ///
     /// - Parameters:
-    ///   - title:        The title text for the cell.
-    ///   - subtitle:     The subtitle text for the cell.
-    ///   - traitCollection: The trait collection the cell will be deisplayed in.
-    ///   - image:        The leading image for the cell. The default is `nil`.
-    ///   - emphasis:     The emphasis setting for the cell. The default is `.title`.
-    ///   - titleFont:    The title font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
-    ///   - subtitleFont: The subtitle font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
+    ///   - title:              The title text for the cell.
+    ///   - subtitle:           The subtitle text for the cell.
+    ///   - traitCollection:    The trait collection the cell will be displayed in.
+    ///   - image:              The leading image for the cell. The default is `nil`.
+    ///   - emphasis:           The emphasis setting for the cell. The default is `.title`.
+    ///   - titleFont:          The title font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
+    ///   - subtitleFont:       The subtitle font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
     ///   - singleLineTitle:    A boolean value indicating if the title text should be constrained to a single line. The default is `true`.
     ///   - singleLineSubtitle: A boolean value indicating if the subtitle text should be constrained to a single line. The default is `false`.
-    /// - Returns:      The minumum content width for the cell.
+    ///   - accessoryViewWidth: The width for the accessory view.
+    /// - Returns: The minumum content width for the cell.
     open class func minimumContentWidth(withTitle title: String?, subtitle: String?, compatibleWith traitCollection: UITraitCollection, image: UIImage? = nil,
                                         emphasis: Emphasis = .title, titleFont: UIFont? = nil, subtitleFont: UIFont? = nil,
-                                        singleLineTitle: Bool = true, singleLineSubtitle: Bool = false) -> CGFloat {
+                                        singleLineTitle: Bool = true, singleLineSubtitle: Bool = false, accessoryViewWidth: CGFloat = 0.0) -> CGFloat {
         let titleTextFont:    UIFont
         let subtitleTextFont: UIFont
         
@@ -282,22 +272,22 @@ extension CollectionViewFormSubtitleCell {
                                                                   attributes: [NSFontAttributeName: subtitleTextFont],
                                                                   context: nil).width.ceiled(toScale: displayScale) ?? 0.0
         
-        return max(titleWidth, subtitleWidth) + imageSpace
+        return max(titleWidth, subtitleWidth) + imageSpace + (accessoryViewWidth > 0.00001 ? accessoryViewWidth + 10.0 : 0.0)
     }
     
     
     /// Calculates the minimum content height for a cell, considering the text and font details.
     ///
     /// - Parameters:
-    ///   - title:      The title text for the cell.
-    ///   - subtitle:     The subtitle text for the cell.
-    ///   - width:      The width constraint for the cell.
-    ///   - traitCollection: The trait collection the cell will be deisplayed in.
-    ///   - image:      The leading image for the cell. The default is `nil`.
-    ///   - emphasis:   The emphasis setting for the cell. The default is `.text`.
-    ///   - titleFont:  The title font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
-    ///   - subtitleFont: The subtitle font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
-    ///   - singleLineTitle: A boolean value indicating if the title text should be constrained to a single line. The default is `false`.
+    ///   - title:              The title text for the cell.
+    ///   - subtitle:           The subtitle text for the cell.
+    ///   - width:              The width constraint for the cell.
+    ///   - traitCollection:    The trait collection the cell will be displayed in.
+    ///   - image:              The leading image for the cell. The default is `nil`.
+    ///   - emphasis:           The emphasis setting for the cell. The default is `.text`.
+    ///   - titleFont:          The title font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
+    ///   - subtitleFont:       The subtitle font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
+    ///   - singleLineTitle:    A boolean value indicating if the title text should be constrained to a single line. The default is `false`.
     ///   - singleLineSubtitle: A boolean value indicating if the subtitle text should be constrained to a single line. The default is `false`.
     /// - Returns:      The minumum content height for the cell.
     open class func minimumContentHeight(withTitle title: String?, subtitle: String?, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection,

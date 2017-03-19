@@ -64,6 +64,7 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
             NSLayoutConstraint(item: titleLabel, attribute: .leading,  relatedBy: .equal,           toItem: layoutGuide, attribute: .leading),
             NSLayoutConstraint(item: titleLabel, attribute: .top,      relatedBy: .equal,           toItem: layoutGuide, attribute: .top),
             NSLayoutConstraint(item: titleLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: layoutGuide, attribute: .trailing),
+            NSLayoutConstraint(item: titleLabel, attribute: .trailing, relatedBy: .equal,           toItem: layoutGuide, attribute: .trailing, priority: UILayoutPriorityDefaultLow),
             
             // lay out the text field with some space for text editing space
             NSLayoutConstraint(item: textView, attribute: .leading,  relatedBy: .equal, toItem: layoutGuide, attribute: .leading,  constant: -5.0),
@@ -141,6 +142,24 @@ extension CollectionViewFormTextViewCell {
 // MARK: - Overrides
 /// Overrides
 extension CollectionViewFormTextViewCell {
+    
+    open override var bounds: CGRect {
+        didSet {
+            let width = bounds.width
+            if width !=~ oldValue.width {
+                titleLabel.preferredMaxLayoutWidth    = width
+            }
+        }
+    }
+    
+    open override var frame: CGRect {
+        didSet {
+            let width = frame.width
+            if width !=~ oldValue.width {
+                titleLabel.preferredMaxLayoutWidth    = width
+            }
+        }
+    }
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {

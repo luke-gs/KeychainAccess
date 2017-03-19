@@ -96,7 +96,7 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
 
 extension CollectionViewFormTextFieldCell {
     
-    public class func minimumContentWidth(withTitle title: String?, enteredText: String?, placeholder: String?, compatibleWith traitCollection: UITraitCollection, titleFont: UIFont? = nil, textFieldFont: UIFont? = nil, placeholderFont: UIFont? = nil, singleLineTitle: Bool = true) -> CGFloat {
+    public class func minimumContentWidth(withTitle title: String?, enteredText: String?, placeholder: String?, compatibleWith traitCollection: UITraitCollection, titleFont: UIFont? = nil, textFieldFont: UIFont? = nil, placeholderFont: UIFont? = nil, singleLineTitle: Bool = true, accessoryViewWidth: CGFloat = 0.0) -> CGFloat {
         let titleTextFont:       UIFont
         let enteredTextFont:     UIFont
         let placeholderTextFont: UIFont
@@ -123,7 +123,7 @@ extension CollectionViewFormTextFieldCell {
         let textWidth  = ((enteredText as NSString?)?.boundingRect(with: .max, attributes: [NSFontAttributeName: enteredTextFont], context: nil).width.ceiled(toScale: displayScale) ?? 0.0) + 10.0
         let placeWidth = ((placeholder as NSString?)?.boundingRect(with: .max, attributes: [NSFontAttributeName: placeholderTextFont], context: nil).width.ceiled(toScale: displayScale) ?? 0.0) + 10.0
         
-        return max(titleWidth, textWidth, placeWidth)
+        return max(titleWidth, textWidth, placeWidth) + (accessoryViewWidth > 0.00001 ? accessoryViewWidth + 10.0 : 0.0)
     }
     
     public class func minimumContentHeight(withTitle title: String?, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection, titleFont: UIFont? = nil, textFieldFont: UIFont? = nil, placeholderFont: UIFont? = nil, singleLineTitle: Bool = true) -> CGFloat {
@@ -163,6 +163,24 @@ extension CollectionViewFormTextFieldCell {
 
 
 extension CollectionViewFormTextFieldCell {
+    
+    open override var bounds: CGRect {
+        didSet {
+            let width = bounds.width
+            if width !=~ oldValue.width {
+                titleLabel.preferredMaxLayoutWidth    = width
+            }
+        }
+    }
+    
+    open override var frame: CGRect {
+        didSet {
+            let width = frame.width
+            if width !=~ oldValue.width {
+                titleLabel.preferredMaxLayoutWidth    = width
+            }
+        }
+    }
     
     internal override func applyStandardFonts() {
         super.applyStandardFonts()

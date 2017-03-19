@@ -65,6 +65,7 @@ extension FormCollectionViewController {
         collectionView.dataSource = self
         collectionView.delegate   = self
         collectionView.alwaysBounceVertical = true
+        collectionView.backgroundColor = nil
         collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: collectionElementKindGlobalHeader,    withReuseIdentifier: tempID)
         collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: collectionElementKindGlobalFooter,    withReuseIdentifier: tempID)
         collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: tempID)
@@ -76,7 +77,7 @@ extension FormCollectionViewController {
         
         self.collectionViewInsetManager = ScrollViewInsetManager(scrollView: collectionView)
         self.collectionView = collectionView
-        self.view = collectionView
+        self.view = backgroundView
     }
     
     open dynamic override func viewDidLoad() {

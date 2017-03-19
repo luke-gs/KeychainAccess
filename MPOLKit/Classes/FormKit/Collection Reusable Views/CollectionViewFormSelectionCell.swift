@@ -128,27 +128,14 @@ extension CollectionViewFormSelectionCell {
     /// Calculates the minimum content width for a cell, considering the text and font details, with a standard selection image.
     ///
     /// - Parameters:
-    ///   - title:
-    ///   - detail:           The detail text for the cell.
-    ///   - traitCollection:
-    ///   - emphasis:         The emphasis setting for the cell. The default is `.title`.
-    ///   - titleFont:
-    ///   - detailFont:       The detail font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
-    ///   - singleLineTitle:  A boolean value indicating if the title text should be constrained to a single line. The default is `true`.
-    ///   - singleLineDetail: A boolean value indicating if the detail text should be constrained to a single line. The default is `false`.
-    /// - Returns: The minumum content width for the cell.
-    
-    
-    /// Calculates the minimum content width for a cell, considering the text and font details, with a standard selection image.
-    ///
-    /// - Parameters:
-    ///   - title:           The title text for the cell.
-    ///   - traitCollection: The trait collection the cell will be deisplayed in.
-    ///   - titleFont:       The title font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
-    ///   - singleLineTitle: A boolean value indicating if the title text should be constrained to a single line. The default is `true`.
+    ///   - title:              The title text for the cell.
+    ///   - traitCollection:    The trait collection the cell will be displayed in.
+    ///   - titleFont:          The title font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
+    ///   - singleLineTitle:    A boolean value indicating if the title text should be constrained to a single line. The default is `true`.
+    ///   - accessoryViewWidth: The width for the accessory view.
     /// - Returns:           The minumum content width for the cell.
     open class func minimumContentWidth(withStyle style: SelectionStyle, title: String?, compatibleWith traitCollection: UITraitCollection,
-                                        titleFont: UIFont? = nil, singleLineTitle: Bool = true) -> CGFloat {
+                                        titleFont: UIFont? = nil, singleLineTitle: Bool = true, accessoryViewWidth: CGFloat = 0.0) -> CGFloat {
         let titleTextFont = titleFont ?? SelectableButton.font(compatibleWith: traitCollection)
         let imageSize = style.image(selected: false).size
         
@@ -160,22 +147,20 @@ extension CollectionViewFormSelectionCell {
         let titleWidth = (title as NSString?)?.boundingRect(with: .max, options: singleLineTitle ? [] : .usesLineFragmentOrigin,
                                                             attributes: [NSFontAttributeName: titleTextFont],
                                                             context: nil).width.ceiled(toScale: displayScale) ?? 0.0
-        return titleWidth + imageSize.width + 10.0
+        return titleWidth + imageSize.width + 10.0 + (accessoryViewWidth > 0.00001 ? accessoryViewWidth + 10.0 : 0.0)
     }
     
-    /// Calculates the minimum content height for a cell, considering the text and font details, with a standard selection image
+    
+    /// Calculates the minimum content height for a cell, considering the text and font details, with a standard selection image.
     ///
     /// - Parameters:
-    ///   - title:            The title text for the cell.
-    ///   - detail:           The detail text for the cell.
-    ///   - width:            The width constraint for the cell.
-    ///   - traitCollection:  The trait collection the cell will be deisplayed in.
-    ///   - emphasis:         The emphasis setting for the cell. The default is `.text`.
-    ///   - titleFont:        The title font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
-    ///   - detailFont:       The detail font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
-    ///   - singleLineTitle:  A boolean value indicating if the title text should be constrained to a single line. The default is `true`.
-    ///   - singleLineDetail: A boolean value indicating if the detail text should be constrained to a single line. The default is `false`.
-    /// - Returns: The minumum content height for the cell.
+    ///   - style:           The cell selection style.
+    ///   - title:           The title text.
+    ///   - width:           The width constraint.
+    ///   - traitCollection: The trait collection the cell will be displayed in.
+    ///   - titleFont:       The title font.
+    ///   - singleLineTitle: The default is `nil`, indicating the calculation should use the default.
+    /// - Returns:           The minumum content height for the cell.
     open class func minimumContentHeight(withStyle style: SelectionStyle, title: String?, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection,
                                          titleFont: UIFont? = nil, singleLineTitle: Bool = true) -> CGFloat {
         let titleTextFont = titleFont ?? SelectableButton.font(compatibleWith: traitCollection)

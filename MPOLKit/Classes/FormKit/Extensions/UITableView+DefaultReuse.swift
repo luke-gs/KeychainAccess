@@ -43,19 +43,12 @@ extension UITableView {
                 }
             }
             
-            // Reload all loaeded rows.
+            // Reload all loaded rows.
             // It'd be better to apply the layout attributes directly and rely on -beginUpdates and -endUpdates
             // to resize, but we can't because some cells may not have had cellLayoutMargins applied.
             if loadedCellIndexPaths.isEmpty == false {
                 reloadRows(at: loadedCellIndexPaths, with: .fade)
             }
-            
-//            // Reload all visible rows.
-//            // It'd be better to apply the layout attributes directly and rely on -beginUpdates and -endUpdates
-//            // to resize, but we can't because some cells may not have had cellLayoutMargins applied.
-//            if let visibleRowIndexPaths = self.indexPathsForVisibleRows, visibleRowIndexPaths.isEmpty == false {
-//                reloadRows(at: visibleRowIndexPaths, with: .fade)
-//            }
         }
     }
     

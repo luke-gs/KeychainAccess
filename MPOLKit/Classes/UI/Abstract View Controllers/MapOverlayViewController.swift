@@ -16,7 +16,7 @@ import MapKit
 /// environment.
 ///
 /// The map overlay contains a `SourceBar` and `UITableView` in front of a blurred
-/// backgroundm, which adjusts to the theme and map appearance.
+/// background, which adjusts to the theme and map appearance.
 open class MapOverlayViewController: UIViewController {
     
     // MARK: - Public properties

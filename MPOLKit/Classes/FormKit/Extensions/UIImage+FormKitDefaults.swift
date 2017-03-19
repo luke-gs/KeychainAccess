@@ -10,20 +10,23 @@ import UIKit
 
 extension UIImage {
     
-    private class func templateImage(withName name: String) -> UIImage {
+    private class func templateImage(named name: String) -> UIImage {
         return UIImage(named: name, in: Bundle(for: CollectionViewFormLayout.self), compatibleWith: nil)!.withRenderingMode(.alwaysTemplate)
     }
    
     @nonobjc
-    public static let checkbox = templateImage(withName: "Checkbox")
+    public static let checkbox = templateImage(named: "Checkbox")
     
     @nonobjc
-    public static let checkboxSelected = templateImage(withName: "CheckboxFilled")
+    public static let checkboxSelected = templateImage(named: "CheckboxFilled")
     
     @nonobjc
-    public static let radioButton = templateImage(withName: "RadioFilled")
+    public static let radioButton = templateImage(named: "RadioFilled")
     
     @nonobjc
-    public static let radioButtonSelected = templateImage(withName: "RadioButtonFilled")
+    public static let radioButtonSelected = templateImage(named: "RadioButtonFilled")
+    
+    @nonobjc
+    public static let formDisclosureIndicator = templateImage(named: "FormDisclosureIndicator").imageFlippedForRightToLeftLayoutDirection()
     
 }

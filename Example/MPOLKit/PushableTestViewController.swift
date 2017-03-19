@@ -26,7 +26,8 @@ class PushableTestViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(of: TableViewFormSubtitleCell.self, for: indexPath)
         cell.textLabel.text =       "Test Cell \(indexPath.row + 1)"
-        cell.detailTextLabel.text = "Test Detail Cell \(indexPath.row + 1)"
+        cell.detailTextLabel.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+        cell.detailTextLabel.numberOfLines = 2
         return cell
     }
     
