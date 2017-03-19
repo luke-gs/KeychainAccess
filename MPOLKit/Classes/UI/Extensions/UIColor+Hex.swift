@@ -10,62 +10,47 @@ import UIKit
 
 extension UIColor {
     
-    /// Creates a color with in the given hex string and alpha.
+    /// Creates a color with in the given 6 or 8 character RGBA hex string.
     ///
-    /// - Parameter hexString: The hex string, with or without the hash character. Supports RGB or RGBA hex values.
+    /// - Parameter hexString: The hex string, with or without the hash character. Supports 6 and 8 character RGB or RGBA hex values.
     /// - Returns: A color with the given hex string and alpha, or `nil` if the hex string was invalid.
     public convenience init?(hexString: String) {
-        var hex = hexString
+        let hasHash = hexString.hasPrefix("#")
+        let rgba: Bool
         
-        // Check for and remove the hash
-        let hexStartIndex = hex.startIndex
-        if hex.hasPrefix("#") {
-            hex.remove(at: hexStartIndex)
-        }
-        
-        if hex.characters.count == 3 {
-            hex += "F"
-        } else if hex.characters.count == 6 {
-            hex += "FF"
-        }
-        
-        if hex.range(of: "(^[0-9A-Fa-f]{8}$)|(^[0-9A-Fa-f]{4}$)", options: .regularExpression) == nil { return nil }
-        
-        let greenIndex: String.Index
-        let blueIndex:  String.Index
-        let alphaIndex: String.Index
-        if hex.characters.count == 4 {
-            hex.insert(hex[hexStartIndex], at: hexStartIndex)
-            
-            greenIndex = hex.index(hexStartIndex, offsetBy: 2)
-            hex.insert(hex[greenIndex], at: greenIndex)
-            
-            blueIndex = hex.index(hexStartIndex, offsetBy: 4)
-            hex.insert(hex[blueIndex], at: blueIndex)
-            
-            alphaIndex = hex.index(hexStartIndex, offsetBy: 6)
-            hex.insert(hex[alphaIndex], at: alphaIndex)
+        if hasHash {
+            switch hexString.characters.count {
+            case 7:  rgba = false
+            case 9:  rgba = true
+            default: return nil
+            }
         } else {
-            greenIndex = hex.index(hexStartIndex, offsetBy: 2)
-            blueIndex  = hex.index(hexStartIndex, offsetBy: 4)
-            alphaIndex = hex.index(hexStartIndex, offsetBy: 6)
+            switch hexString.characters.count {
+            case 6:  rgba = false
+            case 8:  rgba = true
+            default: return nil
+            }
         }
         
-        let redHex   = hex.substring(to: greenIndex)
-        let greenHex = hex[greenIndex ..< blueIndex]
-        let blueHex  = hex[blueIndex ..< alphaIndex]
-        let alphaHex = hex.substring(from: alphaIndex)
+        let scanner = Scanner(string: hexString)
+        if hasHash { scanner.scanLocation = 1 }
         
-        var redInt:   CUnsignedInt = 0
-        var greenInt: CUnsignedInt = 0
-        var blueInt:  CUnsignedInt = 0
-        var alphaInt: CUnsignedInt = 0
+        var hexValue:  UInt32 = 0
+        guard scanner.scanHexInt32(&hexValue) else { return nil }
         
-        Scanner(string: redHex).scanHexInt32(&redInt)
-        Scanner(string: greenHex).scanHexInt32(&greenInt)
-        Scanner(string: blueHex).scanHexInt32(&blueInt)
-        Scanner(string: alphaHex).scanHexInt32(&alphaInt)
-        
-        self.init(red: CGFloat(redInt) / 255.0, green: CGFloat(greenInt) / 255.0, blue: CGFloat(blueInt) / 255.0, alpha: CGFloat(alphaInt) / 255.0)
+        let divisor = CGFloat(255)
+        if rgba {
+            let red     = CGFloat((hexValue & 0xFF000000) >> 24) / divisor
+            let green   = CGFloat((hexValue & 0x00FF0000) >> 16) / divisor
+            let blue    = CGFloat((hexValue & 0x0000FF00) >>  8) / divisor
+            let alpha   = CGFloat( hexValue & 0x000000FF       ) / divisor
+            self.init(red: red, green: green, blue: blue, alpha: alpha)
+        } else {
+            let red     = CGFloat((hexValue & 0xFF0000) >> 16) / divisor
+            let green   = CGFloat((hexValue & 0x00FF00) >>  8) / divisor
+            let blue    = CGFloat( hexValue & 0x0000FF       ) / divisor
+            self.init(red: red, green: green, blue: blue, alpha: 1.0)
+        }
     }
+    
 }

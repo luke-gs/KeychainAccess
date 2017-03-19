@@ -16,7 +16,7 @@ class TestCollectionViewController: FormCollectionViewController  {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        collectionView?.register(CollectionViewFormTextFieldCell.self)
+        collectionView?.register(CollectionViewFormDetailCell.self)
         collectionView?.register(CollectionViewFormMPOLHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
     }
     
@@ -32,7 +32,6 @@ class TestCollectionViewController: FormCollectionViewController  {
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, class: CollectionViewFormMPOLHeaderView.self, for: indexPath)
-        header.tintColor = Theme.current.colors[.SecondaryText]
         header.showsExpandArrow = true
         header.text = "1 ACTIVE ALERT"
         header.tapHandler = { (header, ip) in
@@ -42,11 +41,11 @@ class TestCollectionViewController: FormCollectionViewController  {
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormTextFieldCell.self, for: indexPath)
-        
-        cell.titleLabel.text =  "Test Title \(indexPath.item + 1)"
-        cell.textField.placeholder = "Testing placeholder \(indexPath.item + 1)"
-        
+        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormDetailCell.self, for: indexPath)
+        cell.titleLabel.text = "Test Title \(indexPath.item + 1)"
+        cell.subtitleLabel.text = "Effective from 12/03/2017."
+        cell.detailLabel.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        cell.accessoryView = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
         return cell
     }
     
@@ -73,7 +72,7 @@ class TestCollectionViewController: FormCollectionViewController  {
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
         // It just so happens that our demo size goal from the creatives for the content view should be 40.0.
         // We've tested (and should unit test) that our sizing methods with default settings and single line detail hand back this value.
-        return 40.0
+        return 88.0
     }
     
     

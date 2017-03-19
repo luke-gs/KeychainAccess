@@ -151,8 +151,10 @@ public class SourceBar: UIScrollView {
     
     private func commonInit() {
         isAccessibilityElement = false
-        accessibilityTraits = UIAccessibilityTraitTabBar
         accessibilityLabel = "Source Bar"
+        if #available(iOS 10, *) {
+            accessibilityTraits = UIAccessibilityTraitTabBar
+        }
         
         setContentCompressionResistancePriority(UILayoutPriorityDefaultLow,  for: .vertical)
         setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .horizontal)

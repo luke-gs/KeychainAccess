@@ -60,7 +60,7 @@ public class CollectionViewFormMPOLHeaderView: UICollectionReusableView {
     public var isExpanded: Bool = false {
         didSet {
             if isExpanded != oldValue {
-                arrowView.transform = isExpanded ? .identity :  CGAffineTransform(rotationAngle: CGFloat.pi * (traitCollection.layoutDirection == .rightToLeft ? 0.5 : -0.5))
+                arrowView.transform = isExpanded ? .identity :  CGAffineTransform(rotationAngle: CGFloat.pi * (isRightToLeft ? 0.5 : -0.5))
             }
         }
     }
@@ -105,6 +105,16 @@ public class CollectionViewFormMPOLHeaderView: UICollectionReusableView {
     
     fileprivate var separatorSeparationConstraint: NSLayoutConstraint!
     
+    fileprivate var isRightToLeft: Bool = false {
+        didSet {
+            if isRightToLeft == oldValue { return }
+            
+            if isExpanded == false {
+                arrowView.transform = CGAffineTransform(rotationAngle: CGFloat.pi * (isRightToLeft ? 0.5 : -0.5))
+            }
+        }
+    }
+    
     
     // MARK: - Initializers
     
@@ -119,13 +129,19 @@ public class CollectionViewFormMPOLHeaderView: UICollectionReusableView {
     }
     
     private func commonInit() {
+        if #available(iOS 10, *) {
+            isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
+        } else {
+            isRightToLeft = UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft
+        }
+        
         isAccessibilityElement = true
         accessibilityTraits |= UIAccessibilityTraitHeader
         
         preservesSuperviewLayoutMargins = false
         
         arrowView.translatesAutoresizingMaskIntoConstraints = false
-        arrowView.transform = CGAffineTransform(rotationAngle: CGFloat.pi * (traitCollection.layoutDirection == .rightToLeft ? 0.5 : -0.5))
+        arrowView.transform = CGAffineTransform(rotationAngle: CGFloat.pi * (isRightToLeft ? 0.5 : -0.5))
         arrowView.isHidden = true
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -189,11 +205,11 @@ extension CollectionViewFormMPOLHeaderView {
         
         if let attributes = layoutAttributes as? CollectionViewFormMPOLHeaderAttributes {
             let layoutMargins = UIEdgeInsets(top: 12.0, left: attributes.leadingMargin, bottom: attributes.frame.height - attributes.itemPosition, right: 10.0)
-            self.layoutMargins = traitCollection.layoutDirection == .rightToLeft ? layoutMargins.horizontallyFlipped() : layoutMargins
+            self.layoutMargins = isRightToLeft ? layoutMargins.horizontallyFlipped() : layoutMargins
             separatorHeightConstraint.constant = attributes.separatorWidth
         } else {
             let layoutMargins = UIEdgeInsets(top: 12.0, left: 10.0, bottom: 0.0, right: 10.0)
-            self.layoutMargins = traitCollection.layoutDirection == .rightToLeft ? layoutMargins.horizontallyFlipped() : layoutMargins
+            self.layoutMargins = isRightToLeft ? layoutMargins.horizontallyFlipped() : layoutMargins
             separatorHeightConstraint.constant = 1.0 / (window?.screen ?? .main).scale
         }
         
@@ -213,17 +229,29 @@ extension CollectionViewFormMPOLHeaderView {
         titleLabel.textColor = tintColor
     }
     
+    public override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
+        return layoutAttributes
+    }
+    
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         
-        
-        let isRightToLeft = traitCollection.layoutDirection == .rightToLeft
-        if isExpanded == false, isRightToLeft != (previousTraitCollection?.layoutDirection == .rightToLeft) {
-            layoutMargins = layoutMargins.horizontallyFlipped()
-            arrowView.transform = CGAffineTransform(rotationAngle: CGFloat.pi * (isRightToLeft ? 0.5 : -0.5))
+        if #available(iOS 10, *) {
+            isRightToLeft = self.effectiveUserInterfaceLayoutDirection == .rightToLeft
         }
     }
     
+    public override var semanticContentAttribute: UISemanticContentAttribute {
+        didSet {
+            if semanticContentAttribute == oldValue { return }
+            
+            if #available(iOS 10, *) {
+                isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
+            } else {
+                isRightToLeft = UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft
+            }
+        }
+    }
 }
 
 

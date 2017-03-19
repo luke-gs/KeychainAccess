@@ -42,6 +42,7 @@ open class SidebarViewController: UIViewController {
         }
     }
     
+    
     /// The selected item.
     ///
     /// If `clearsSelectionOnViewWillAppear` is true, this property is set to nil
@@ -49,6 +50,7 @@ open class SidebarViewController: UIViewController {
     public var selectedItem: SidebarItem? {
         didSet { updateSelection() }
     }
+    
     
     /// The current sources available to display.
     ///
@@ -67,6 +69,7 @@ open class SidebarViewController: UIViewController {
         }
     }
     
+    
     /// The selected source index.
     public var selectedSourceIndex: Int? = nil {
         didSet {
@@ -84,6 +87,23 @@ open class SidebarViewController: UIViewController {
     public fileprivate(set) var sidebarTableView: UITableView?
     
     
+    /// The header view for the sidebar. This view is sized with auto layout much like
+    /// autosizing table view cells.
+    ///
+    /// It is highly recommended that you use this property rather than the table view's
+    /// `tableHeaderView` property.
+    open var headerView: UIView? {
+        didSet {
+            if headerView == oldValue { return }
+            
+            guard let sidebarTableView = sidebarTableView else { return }
+            
+            sidebarTableView.estimatedSectionHeaderHeight = headerView == nil ? 0.0 : 30.0
+            sidebarTableView.reloadSections(IndexSet(integer: 1), with: .none)
+        }
+    }
+    
+    
     /// A Boolean value indicating whether the sidebar clears the selection when the view appears.
     ///
     /// The default value of this property is false. If true, the view controller clears the
@@ -93,6 +113,7 @@ open class SidebarViewController: UIViewController {
     
     /// The delegate for the sidebar.
     open weak var delegate: SidebarViewControllerDelegate? = nil
+    
     
     fileprivate var sourceBar: SourceBar?
     
@@ -136,13 +157,13 @@ extension SidebarViewController {
         let view = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 320.0, height: 480.0))
         view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
-        let baseColor = #colorLiteral(red: 0.2604376972, green: 0.2660070062, blue: 0.292562902, alpha: 1)
+        let baseColor = #colorLiteral(red: 0.2, green: 0.2, blue: 0.2274509804, alpha: 1)
         
         let sourceBackground = GradientView(frame: .zero)
-        sourceBackground.gradientColors = [#colorLiteral(red: 0.07436346263, green: 0.0783027485, blue: 0.08661026508, alpha: 1), baseColor]
+        sourceBackground.gradientColors = [#colorLiteral(red: 0.05098039216, green: 0.05490196078, blue: 0.06274509804, alpha: 1), baseColor]
         
         let sidebarBackground = GradientView(frame: .zero)
-        sidebarBackground.gradientColors = [#colorLiteral(red: 0.1135626361, green: 0.1174433306, blue: 0.1298944652, alpha: 1), baseColor]
+        sidebarBackground.gradientColors = [#colorLiteral(red: 0.09411764706, green: 0.09803921569, blue: 0.1098039216, alpha: 1), baseColor]
         
         let sourceBar = SourceBar(frame: .zero)
         sourceBar.translatesAutoresizingMaskIntoConstraints = false
@@ -152,15 +173,18 @@ extension SidebarViewController {
         sourceBar.selectedIndex = selectedSourceIndex
         view.addSubview(sourceBar)
         
-        let sidebarTableView = UITableView(frame: .zero, style: .plain)
+        let sidebarTableView = UITableView(frame: .zero, style: .grouped)
         sidebarTableView.translatesAutoresizingMaskIntoConstraints = false
-        sidebarTableView.backgroundView   = sidebarBackground
-        sidebarTableView.dataSource = self
-        sidebarTableView.delegate   = self
-        sidebarTableView.separatorStyle = .none
+        sidebarTableView.backgroundView     = sidebarBackground
+        sidebarTableView.dataSource         = self
+        sidebarTableView.delegate           = self
+        sidebarTableView.separatorStyle     = .none
         sidebarTableView.estimatedRowHeight = 50.0
-        sidebarTableView.indicatorStyle = .white
+        sidebarTableView.indicatorStyle     = .white
+        sidebarTableView.tableHeaderView    = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 320.0, height: 10.0))
         sidebarTableView.register(SidebarTableViewCell.self)
+        sidebarTableView.sectionHeaderHeight = UITableViewAutomaticDimension
+        sidebarTableView.estimatedSectionHeaderHeight = headerView == nil ? 0.0 : 30.0
         view.addSubview(sidebarTableView)
         
         self.view             = view
@@ -184,6 +208,15 @@ extension SidebarViewController {
         // We apply these layout margins after all property setting is done because for some reason
         // this causes a reload, which will crash if it is not from a valid set table view
         sidebarTableView.layoutMargins = UIEdgeInsets(top: 0.0, left: 24.0, bottom: 0.0, right: 24.0)
+    }
+    
+    open override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        if let selectedItem = self.selectedItem,
+            let selectedIndex = items.index(of: selectedItem) {
+            sidebarTableView?.selectRow(at: IndexPath(row: selectedIndex, section: 0), animated: false, scrollPosition: .none)
+        }
     }
     
     open override func viewDidLayoutSubviews() {
@@ -215,6 +248,10 @@ extension SidebarViewController : UITableViewDataSource, UITableViewDelegate {
     
     open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count
+    }
+    
+    public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return headerView
     }
     
     open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

@@ -64,8 +64,8 @@ open class SidebarSplitViewController: PushableSplitViewController {
         sidebarViewController.items = detailViewControllers.map { $0.sidebarItem }
         
         let embeddedSplitViewController = self.embeddedSplitViewController
-        embeddedSplitViewController.minimumPrimaryColumnWidth = 272.0
-        embeddedSplitViewController.preferredPrimaryColumnWidthFraction = 272.0 / 1024.0
+        embeddedSplitViewController.minimumPrimaryColumnWidth = 280.0
+        embeddedSplitViewController.preferredPrimaryColumnWidthFraction = 280.0 / 1024.0
         
         var selectedItem: SidebarItem?
         if embeddedSplitViewController.isCollapsed == false {
@@ -95,6 +95,7 @@ extension SidebarSplitViewController : SidebarViewControllerDelegate {
     ///   - controller: The `SidebarViewController` that has a new selection.
     ///   - item:       The newly selected item.
     open func sidebarViewController(_ controller: SidebarViewController, didSelectItem item: SidebarItem) {
+        selectedViewController = detailViewControllers.first(where: { $0.sidebarItem == item })
     }
 
     

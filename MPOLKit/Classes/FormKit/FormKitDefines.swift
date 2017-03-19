@@ -7,4 +7,4 @@
 //
 
 /// The standard separation value between title and detail labels.
-internal let CellTitleDetailSeparation: CGFloat = 3.5
+internal let CellTitleSubtitleSeparation: CGFloat = 3.5

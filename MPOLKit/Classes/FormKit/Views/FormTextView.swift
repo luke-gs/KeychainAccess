@@ -15,6 +15,14 @@ open class FormTextView: UITextView {
 
     open let placeholderLabel: UILabel = UILabel(frame: .zero)
     
+    fileprivate var isRightToLeft: Bool = false {
+        didSet {
+            if isRightToLeft != oldValue {
+                setNeedsLayout()
+            }
+        }
+    }
+    
     public override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
         commonInit()
@@ -28,12 +36,17 @@ open class FormTextView: UITextView {
     private func commonInit() {
         super.textContainerInset = .zero
         
+        if #available(iOS 10, *) {
+            isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
+        } else {
+            isRightToLeft = UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft
+        }
+        
         backgroundColor = .clear
         
         placeholderLabel.numberOfLines = 0
         placeholderLabel.textColor = .gray
         placeholderLabel.backgroundColor = .clear
-        placeholderLabel.adjustsFontForContentSizeCategory = true
         placeholderLabel.addObserver(self, forKeyPath: #keyPath(UILabel.font), context: &kvoContext)
         addSubview(placeholderLabel)
         
@@ -63,6 +76,18 @@ extension FormTextView {
         didSet { setNeedsLayout() }
     }
     
+    open override var semanticContentAttribute: UISemanticContentAttribute {
+        didSet {
+            if semanticContentAttribute == oldValue { return }
+            
+            if #available(iOS 10, *) {
+                isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
+            } else {
+                isRightToLeft = UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft
+            }
+        }
+    }
+    
     open override func layoutSubviews() {
         super.layoutSubviews()
         
@@ -85,7 +110,7 @@ extension FormTextView {
         
         var placeholderOrigin: CGPoint = CGPoint(x: 0.0, y: (firstBaselineY - placeholderBaselineY).rounded(toScale: displayScale))
             
-        if traitCollection.layoutDirection == .rightToLeft {
+        if isRightToLeft {
             placeholderOrigin.x = (bounds.width - textContainerInset.left - 5.0 - placeholderSize.width).rounded(toScale: displayScale)
         } else {
             placeholderOrigin.x = (textContainerInset.left + 5.0).rounded(toScale: displayScale)
@@ -95,7 +120,10 @@ extension FormTextView {
     
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        setNeedsLayout()
+        
+        if #available(iOS 10, *) {
+            isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
+        }
     }
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {

@@ -20,7 +20,7 @@
 		22BC97D64CF23249E51986FEC1865532 /* ViewControllerTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D552FAA29F44EAE8E7DE7A36A718CA5 /* ViewControllerTransition.swift */; };
 		28D5FC898C5B94805A73B5A91ECA4146 /* MPOLKit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E67E175BEEC71CFCFE25AE44D991F49F /* MPOLKit-dummy.m */; };
 		2A8A7C4917854F833AB78454D15DE8E3 /* Pods-MPOLKit_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0B60CC5ABA506D7661E3616C8AB424 /* Pods-MPOLKit_Tests-dummy.m */; };
-		2B4DF74026BD9BB7594E618069DB1D51 /* CollectionViewFormDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832A05A97E1BFFF405D933F9393F8B38 /* CollectionViewFormDetailCell.swift */; };
+		2B4DF74026BD9BB7594E618069DB1D51 /* CollectionViewFormSubtitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832A05A97E1BFFF405D933F9393F8B38 /* CollectionViewFormSubtitleCell.swift */; };
 		2E4F6BEC0736A0B022BB872E2D3F2F6D /* CoreGraphics+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF080ACAC8AD743C25F504EC2788B1E /* CoreGraphics+Convenience.swift */; };
 		2E74E4186FCB7F9F20434257D386C77B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD99009F48316B0BA897FD2E1E5EBAAE /* Assets.xcassets */; };
 		2ED27F5F3A98ADE38221626BEAF7EF0E /* CollectionViewFormEditAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFE18088BBA448C71B039ADE8E131F3 /* CollectionViewFormEditAction.swift */; };
@@ -33,7 +33,7 @@
 		51937AA6A7BDD87CA5114F3D8512A394 /* TableViewFormCheckboxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB4670DB890E7B32A89ADD310D9E6CAF /* TableViewFormCheckboxCell.swift */; };
 		53A37AF52916F564B7E41C0A2D67E172 /* UIEdgeInsets+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C8802C5CFD1B7D660047E375408441 /* UIEdgeInsets+Convenience.swift */; };
 		54135A990FB52647C60FB604F3C88CB0 /* MPOLKit-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BC6F591FB18B7F49169B8F603B65FF9 /* MPOLKit-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		58382FFBD7C738F66D0C748DDF3462DE /* TableViewFormDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10ECB6996EAB0074DA82C5A17E74188 /* TableViewFormDetailCell.swift */; };
+		58382FFBD7C738F66D0C748DDF3462DE /* TableViewFormSubtitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10ECB6996EAB0074DA82C5A17E74188 /* TableViewFormSubtitleCell.swift */; };
 		5F9FE935E2D9BAF298E8A6F6332A27EB /* CollectionViewFormLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C31BD2DC6B728B5D0587CEBE2716A2 /* CollectionViewFormLayout.swift */; };
 		646C9373FCBF974716A10885BDBBCF5E /* TableViewFormTextViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44A92A86AF3AE7682AB103B5939942BC /* TableViewFormTextViewCell.swift */; };
 		6F9EAEDC9C942A812C77EB18D0AC8D75 /* ThemePack.json in Resources */ = {isa = PBXBuildFile; fileRef = 7DF65475D24C38F457E737099A6A9401 /* ThemePack.json */; };
@@ -67,7 +67,11 @@
 		BC46D9981E736D72003854F3 /* KeyboardInputManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC46D9971E736D72003854F3 /* KeyboardInputManager.swift */; };
 		BC5906191E711896007C712A /* UITextView+NotificationWorkaround.m in Sources */ = {isa = PBXBuildFile; fileRef = BC5906171E711896007C712A /* UITextView+NotificationWorkaround.m */; };
 		BC72C67D1E72BEEA007D544C /* SourceBarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC72C67C1E72BEEA007D544C /* SourceBarCell.swift */; };
+		BC7A1EFE1E7B9AF200200EF3 /* MapOverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7A1EFD1E7B9AF200200EF3 /* MapOverlayViewController.swift */; };
+		BCA182551E7E876F0001056F /* FormDisclosureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA182541E7E876F0001056F /* FormDisclosureView.swift */; };
 		BCCD8C2D1E73AFDE0008DD4F /* FormKitAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCCD8C2C1E73AFDE0008DD4F /* FormKitAssets.xcassets */; };
+		BCDC773F1E7D036800225737 /* CollectionViewFormDetailCell+Editing.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDC773E1E7D036700225737 /* CollectionViewFormDetailCell+Editing.swift */; };
+		BCE40C3B1E7E498A00C427B8 /* CollectionViewFormDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE40C3A1E7E498A00C427B8 /* CollectionViewFormDetailCell.swift */; };
 		BCE8F5C01E77406400EC89C4 /* TableViewFormMPOLHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE8F5BF1E77406400EC89C4 /* TableViewFormMPOLHeaderCell.swift */; };
 		BD82EC123014391767F7BB34CC15C675 /* UIColor+ActionColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C0EED910732D1F22E3F4DDFD408F9A9 /* UIColor+ActionColors.swift */; };
 		C1544AE9FD233DF3D2A80116774FAD42 /* CollectionViewFormDecorationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6FDBFEAD18DC2BBA2CE2E7571D17F8 /* CollectionViewFormDecorationView.swift */; };
@@ -134,7 +138,7 @@
 		76927FB4728D2C2EF3F7072F89CDE546 /* Pods-MPOLKit_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-MPOLKit_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
 		7A01D12424149BD7A782C789926EA025 /* CollectionViewFormAttributes.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CollectionViewFormAttributes.swift; sourceTree = "<group>"; };
 		7DF65475D24C38F457E737099A6A9401 /* ThemePack.json */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.json; path = ThemePack.json; sourceTree = "<group>"; };
-		832A05A97E1BFFF405D933F9393F8B38 /* CollectionViewFormDetailCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CollectionViewFormDetailCell.swift; sourceTree = "<group>"; };
+		832A05A97E1BFFF405D933F9393F8B38 /* CollectionViewFormSubtitleCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CollectionViewFormSubtitleCell.swift; sourceTree = "<group>"; };
 		83804F763F20014CB6CFCBB05C37A1F5 /* Pods-MPOLKit_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-MPOLKit_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		8BC6F591FB18B7F49169B8F603B65FF9 /* MPOLKit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MPOLKit-umbrella.h"; sourceTree = "<group>"; };
 		8CFE18088BBA448C71B039ADE8E131F3 /* CollectionViewFormEditAction.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CollectionViewFormEditAction.swift; sourceTree = "<group>"; };
@@ -169,7 +173,11 @@
 		BC5906161E711896007C712A /* UITextView+NotificationWorkaround.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+NotificationWorkaround.h"; sourceTree = "<group>"; };
 		BC5906171E711896007C712A /* UITextView+NotificationWorkaround.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+NotificationWorkaround.m"; sourceTree = "<group>"; };
 		BC72C67C1E72BEEA007D544C /* SourceBarCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceBarCell.swift; sourceTree = "<group>"; };
+		BC7A1EFD1E7B9AF200200EF3 /* MapOverlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapOverlayViewController.swift; sourceTree = "<group>"; };
+		BCA182541E7E876F0001056F /* FormDisclosureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormDisclosureView.swift; sourceTree = "<group>"; };
 		BCCD8C2C1E73AFDE0008DD4F /* FormKitAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = FormKitAssets.xcassets; sourceTree = "<group>"; };
+		BCDC773E1E7D036700225737 /* CollectionViewFormDetailCell+Editing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CollectionViewFormDetailCell+Editing.swift"; sourceTree = "<group>"; };
+		BCE40C3A1E7E498A00C427B8 /* CollectionViewFormDetailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormDetailCell.swift; sourceTree = "<group>"; };
 		BCE8F5BF1E77406400EC89C4 /* TableViewFormMPOLHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewFormMPOLHeaderCell.swift; sourceTree = "<group>"; };
 		BD99009F48316B0BA897FD2E1E5EBAAE /* Assets.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CB74B7291A40206B7CC8B818B143CD05 /* EntityCollectionViewCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EntityCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -180,7 +188,7 @@
 		D7DD1869C898BCECB9434020C5459BE3 /* Pods-MPOLKit_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MPOLKit_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		DB4670DB890E7B32A89ADD310D9E6CAF /* TableViewFormCheckboxCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TableViewFormCheckboxCell.swift; sourceTree = "<group>"; };
 		DCD945EF3F3E933248FA914FAD9420F8 /* Pods-MPOLKit_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-MPOLKit_Example-acknowledgements.plist"; sourceTree = "<group>"; };
-		E10ECB6996EAB0074DA82C5A17E74188 /* TableViewFormDetailCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TableViewFormDetailCell.swift; sourceTree = "<group>"; };
+		E10ECB6996EAB0074DA82C5A17E74188 /* TableViewFormSubtitleCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TableViewFormSubtitleCell.swift; sourceTree = "<group>"; };
 		E154E02FE38B734B88F2C7A6FAE75D87 /* MPOLKit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MPOLKit-prefix.pch"; sourceTree = "<group>"; };
 		E67E175BEEC71CFCFE25AE44D991F49F /* MPOLKit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "MPOLKit-dummy.m"; sourceTree = "<group>"; };
 		EB6FDBFEAD18DC2BBA2CE2E7571D17F8 /* CollectionViewFormDecorationView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CollectionViewFormDecorationView.swift; sourceTree = "<group>"; };
@@ -278,6 +286,7 @@
 		3BC69DE01435B5228C91666146B81067 /* FormKit MPOL Additions */ = {
 			isa = PBXGroup;
 			children = (
+				BCDC773E1E7D036700225737 /* CollectionViewFormDetailCell+Editing.swift */,
 				BC3422CD1E71153F004EFA08 /* CollectionViewFormMPOLHeaderView.swift */,
 				BBB8D4F4BA7D9187C489FEBD2F9F9B46 /* CollectionViewFormMPOLHeaderAttributes.swift */,
 				F02C23A4B399D14242A7A860712674B9 /* CollectionViewFormMPOLLayout.swift */,
@@ -373,6 +382,7 @@
 			isa = PBXGroup;
 			children = (
 				CD16FEEE8795829FA24C4AF4EAC81351 /* FormCollectionViewController.swift */,
+				BC7A1EFD1E7B9AF200200EF3 /* MapOverlayViewController.swift */,
 				3730F4D0F7DB6247B9381848B47DDE18 /* PushableSplitViewController.swift */,
 			);
 			path = "Abstract View Controllers";
@@ -444,6 +454,7 @@
 				BC00DFC11E711DB8001ACB1E /* AlertIndicatorView.swift */,
 				BC3422C81E71151F004EFA08 /* BadgeView.swift */,
 				15460445470300026F61FB9F64AB2FAB /* BorderedImageView.swift */,
+				BCA182541E7E876F0001056F /* FormDisclosureView.swift */,
 				BC3422C51E71151F004EFA08 /* GradientView.swift */,
 				BC3422C71E71151F004EFA08 /* RoundedRectLabel.swift */,
 				AC53396F0C1AD94C923861E422080C46 /* ScrollViewInsetManager.swift */,
@@ -571,7 +582,7 @@
 			children = (
 				3D6A465D8E1D39ADAE1B728BEF91C2EA /* TableViewFormCell.swift */,
 				DB4670DB890E7B32A89ADD310D9E6CAF /* TableViewFormCheckboxCell.swift */,
-				E10ECB6996EAB0074DA82C5A17E74188 /* TableViewFormDetailCell.swift */,
+				E10ECB6996EAB0074DA82C5A17E74188 /* TableViewFormSubtitleCell.swift */,
 				1F3050703719C0811ECA9A2D4F35AAA2 /* TableViewFormTextFieldCell.swift */,
 				44A92A86AF3AE7682AB103B5939942BC /* TableViewFormTextViewCell.swift */,
 			);
@@ -583,9 +594,10 @@
 			children = (
 				33CE40DB0DDF4F6B803023491FFC0763 /* CollectionViewFormCell.swift */,
 				EB6FDBFEAD18DC2BBA2CE2E7571D17F8 /* CollectionViewFormDecorationView.swift */,
-				832A05A97E1BFFF405D933F9393F8B38 /* CollectionViewFormDetailCell.swift */,
+				BCE40C3A1E7E498A00C427B8 /* CollectionViewFormDetailCell.swift */,
 				8CFE18088BBA448C71B039ADE8E131F3 /* CollectionViewFormEditAction.swift */,
 				ECD3017600131838B645970CCB45956C /* CollectionViewFormSelectionCell.swift */,
+				832A05A97E1BFFF405D933F9393F8B38 /* CollectionViewFormSubtitleCell.swift */,
 				8D9AF352C75F42C9B1C756828AE3D8AA /* CollectionViewFormTextFieldCell.swift */,
 				FDE9C45820D089E2149A51B81A8D4B27 /* CollectionViewFormTextViewCell.swift */,
 			);
@@ -752,7 +764,7 @@
 				71EFE54EFF8381F054F5E4564DDA41C1 /* CollectionViewFormCell.swift in Sources */,
 				BC46D9981E736D72003854F3 /* KeyboardInputManager.swift in Sources */,
 				C1544AE9FD233DF3D2A80116774FAD42 /* CollectionViewFormDecorationView.swift in Sources */,
-				2B4DF74026BD9BB7594E618069DB1D51 /* CollectionViewFormDetailCell.swift in Sources */,
+				2B4DF74026BD9BB7594E618069DB1D51 /* CollectionViewFormSubtitleCell.swift in Sources */,
 				2ED27F5F3A98ADE38221626BEAF7EF0E /* CollectionViewFormEditAction.swift in Sources */,
 				5F9FE935E2D9BAF298E8A6F6332A27EB /* CollectionViewFormLayout.swift in Sources */,
 				BC3422CC1E71151F004EFA08 /* BadgeView.swift in Sources */,
@@ -767,7 +779,9 @@
 				D1DECD18FE6932CA6104D45D91A6ACB3 /* CoreGraphics+Rounding.swift in Sources */,
 				0C4BE0CC8E6A5ADDF7ADA1FA691C473A /* DefaultReusable.swift in Sources */,
 				BCE8F5C01E77406400EC89C4 /* TableViewFormMPOLHeaderCell.swift in Sources */,
+				BCDC773F1E7D036800225737 /* CollectionViewFormDetailCell+Editing.swift in Sources */,
 				09BE25514E0A751239CA3B5D7E8577B1 /* EntityCollectionViewCell.swift in Sources */,
+				BCA182551E7E876F0001056F /* FormDisclosureView.swift in Sources */,
 				C24A0AFA1C083039C2FF3DE9C267914D /* FloatingPoint+Equality.swift in Sources */,
 				0347CC8710137CDA44CE54F64EB4D80F /* FormCollectionViewController.swift in Sources */,
 				85A6BC214106C28D643EC39EF613C023 /* FormKitDefines.swift in Sources */,
@@ -787,15 +801,17 @@
 				A96A3ACB64FF14D0E55975D20B0B467D /* SelectableButton.swift in Sources */,
 				311D5FFBABC34D97E82EE402FCC5A433 /* TableViewFormCell.swift in Sources */,
 				51937AA6A7BDD87CA5114F3D8512A394 /* TableViewFormCheckboxCell.swift in Sources */,
-				58382FFBD7C738F66D0C748DDF3462DE /* TableViewFormDetailCell.swift in Sources */,
+				58382FFBD7C738F66D0C748DDF3462DE /* TableViewFormSubtitleCell.swift in Sources */,
 				47748E028A35D48076F31B4FD153359A /* TableViewFormTextFieldCell.swift in Sources */,
 				646C9373FCBF974716A10885BDBBCF5E /* TableViewFormTextViewCell.swift in Sources */,
 				EE0C527F0D45FDA1D83CB9C1F02ABAD9 /* Theme.swift in Sources */,
 				09A92C7646DE7BE0155FF3E928E3AA8D /* UICollectionView+DefaultReuse.swift in Sources */,
 				BD82EC123014391767F7BB34CC15C675 /* UIColor+ActionColors.swift in Sources */,
+				BC7A1EFE1E7B9AF200200EF3 /* MapOverlayViewController.swift in Sources */,
 				CE801788AB27F6B5EC5C83B3AB1E5362 /* UIColor+Hex.swift in Sources */,
 				53A37AF52916F564B7E41C0A2D67E172 /* UIEdgeInsets+Convenience.swift in Sources */,
 				A7376F58E05496E55FDCEBBAAFE9C4B5 /* UIImage+FormKitDefaults.swift in Sources */,
+				BCE40C3B1E7E498A00C427B8 /* CollectionViewFormDetailCell.swift in Sources */,
 				C88AD179123856E05C0D8580ACE2E1A1 /* UITableView+DefaultReuse.swift in Sources */,
 				15EE3EB4BE3E2F964D1D42294AAA1AE3 /* UITableViewCell+LayoutMargins.swift in Sources */,
 				22BC97D64CF23249E51986FEC1865532 /* ViewControllerTransition.swift in Sources */,
@@ -819,6 +835,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = EBC6F67BA8142ABFEE5708A4F0E786D7 /* MPOLKit.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
@@ -833,7 +850,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/MPOLKit/MPOLKit-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/MPOLKit/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MODULEMAP_FILE = "Target Support Files/MPOLKit/MPOLKit.modulemap";
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -1005,6 +1022,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = EBC6F67BA8142ABFEE5708A4F0E786D7 /* MPOLKit.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
@@ -1019,7 +1037,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/MPOLKit/MPOLKit-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/MPOLKit/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MODULEMAP_FILE = "Target Support Files/MPOLKit/MPOLKit.modulemap";
 				MTL_ENABLE_DEBUG_INFO = YES;

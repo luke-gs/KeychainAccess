@@ -80,6 +80,10 @@ open class TableViewFormCell: UITableViewCell {
             ])
         
         applyStandardFonts()
+        
+        if #available(iOS 10, *) { return }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(contentSizeCategoryDidChange(_:)), name: .UIContentSizeCategoryDidChange, object: nil)
     }
     
 }
@@ -90,6 +94,18 @@ extension TableViewFormCell {
     open override func prepareForReuse() {
         super.prepareForReuse()
         applyStandardFonts()
+        setNeedsLayout()
+    }
+    
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        guard #available(iOS 10, *) else { return }
+        
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            applyStandardFonts()
+            setNeedsLayout()
+        }
     }
     
     /// Applies the standard fonts for the cell.
@@ -101,6 +117,15 @@ extension TableViewFormCell {
     ///              `super.init()`, as it is called during the superclass's
     ///              initializer.
     internal func applyStandardFonts() {
+    }
+    
+}
+
+fileprivate extension TableViewFormCell {
+    
+    @objc fileprivate func contentSizeCategoryDidChange(_ notification: Notification) {
+        applyStandardFonts()
+        setNeedsLayout()
     }
     
 }

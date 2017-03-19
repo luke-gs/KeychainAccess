@@ -22,6 +22,31 @@ import UIKit.UIGestureRecognizerSubclass
 open class CollectionViewFormCell: UICollectionViewCell {
     
     
+    /// The accessory view for the cell.
+    ///
+    /// This will be placed at the trailing edge of the cell.
+    open var accessoryView: UIView? {
+        didSet {
+            if oldValue == accessoryView { return }
+            
+            oldValue?.removeFromSuperview()
+            
+            if let accessoryView = self.accessoryView {
+                contentView.addSubview(accessoryView)
+                
+                let accessoryWidth = accessoryView.frame.width
+                if accessoryWidth > 0 {
+                    contentModeLayoutTrailingConstraint.constant = (accessoryWidth + 10.0) * -1.0
+                } else {
+                    contentModeLayoutTrailingConstraint?.constant = 0.0
+                }
+            } else {
+                contentModeLayoutTrailingConstraint?.constant = 0.0
+            }
+        }
+    }
+    
+    
     // MARK: - Public properties
     
     /// The edit actions for the cell.
@@ -86,7 +111,7 @@ open class CollectionViewFormCell: UICollectionViewCell {
             applyTouchTrigger()
             
             let offsetValue = CGFloat(actionView?.buttons?.count ?? 0) * CollectionViewFormCellActionView.singleButtonWidth
-            let offset = CGPoint(x: traitCollection.layoutDirection == .rightToLeft ? -offsetValue : offsetValue, y: 0.0)
+            let offset = CGPoint(x: isRightToLeft ? -offsetValue : offsetValue, y: 0.0)
             scrollView.setContentOffset(offset, animated: animated)
             
             if animated {
@@ -114,11 +139,16 @@ open class CollectionViewFormCell: UICollectionViewCell {
             default:
                 attribute = .centerY
             }
-            contentModeLayoutConstraint?.isActive = false
-            contentModeLayoutConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: attribute, relatedBy: .equal, toItem: contentView.layoutMarginsGuide, attribute: attribute, priority: UILayoutPriorityDefaultLow - 1)
-            contentModeLayoutConstraint.isActive = true
+            contentModeLayoutVerticalConstraint?.isActive = false
+            contentModeLayoutVerticalConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: attribute, relatedBy: .equal, toItem: contentView.layoutMarginsGuide, attribute: attribute, priority: UILayoutPriorityDefaultLow - 1)
+            contentModeLayoutVerticalConstraint.isActive = true
+            
+            if accessoryView != nil {
+                setNeedsLayout()
+            }
         }
     }
+    
     
     /// This layout guide is applied to the cell's contentView, and positions content in the
     /// correct vertical position for the current `contentMode`. This layout guide is constrainted
@@ -133,21 +163,37 @@ open class CollectionViewFormCell: UICollectionViewCell {
     
     /// The content mode guide. This guide is private and will update to enforce the current content
     /// mode on the `contentModeLayoutGuide`.
-    fileprivate var contentModeLayoutConstraint: NSLayoutConstraint!
+    fileprivate var contentModeLayoutVerticalConstraint: NSLayoutConstraint!
+    
+    fileprivate var contentModeLayoutTrailingConstraint: NSLayoutConstraint!
     
     fileprivate let internalContentView = UIView(frame: .zero)
-    fileprivate var scrollView: CollectionViewFormCellScrollView!
+    fileprivate let scrollView = CollectionViewFormCellScrollView(frame: .zero)
     fileprivate var actionView: CollectionViewFormCellActionView?
     fileprivate var _isShowingEditActions: Bool = false
     fileprivate var _deceleratingToOpen: Bool = false
     fileprivate var _scrolling: Bool    = false
     fileprivate var touchTrigger: TouchRecognizer?
     
+    fileprivate var isRightToLeft: Bool = false {
+        didSet {
+            if isRightToLeft == oldValue { return }
+            
+            scrollView.contentInset = scrollView.contentInset.horizontallyFlipped()
+            
+            var contentOffset = scrollView.contentOffset
+            contentOffset.x = -contentOffset.x
+            scrollView.contentOffset = contentOffset
+            
+            update(for: contentOffset)
+        }
+    }
+    
     fileprivate var scrollViewInset: CGFloat = 0.0 {
         didSet {
             let dragging = scrollView.isDragging
             if dragging || scrollView.contentOffset.x.isZero == false {
-                if traitCollection.layoutDirection == .rightToLeft {
+                if isRightToLeft {
                     scrollView.contentInset.left = scrollViewInset
                 } else {
                     scrollView.contentInset.right = scrollViewInset
@@ -182,7 +228,6 @@ open class CollectionViewFormCell: UICollectionViewCell {
         let trueContentView        = super.contentView
         let contentModeLayoutGuide = self.contentModeLayoutGuide
         
-        scrollView = CollectionViewFormCellScrollView(cell: self)
         scrollView.delegate      = self
         scrollView.frame         = trueContentView.bounds
         scrollView.autoresizingMask  = [.flexibleWidth, .flexibleHeight]
@@ -197,17 +242,29 @@ open class CollectionViewFormCell: UICollectionViewCell {
         
         internalContentView.addLayoutGuide(contentModeLayoutGuide)
         
-        contentModeLayoutConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .centerY, relatedBy: .equal, toItem: internalContentView, attribute: .centerYWithinMargins, priority: UILayoutPriorityDefaultLow - 1)
+        contentModeLayoutVerticalConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .centerY, relatedBy: .equal, toItem: internalContentView, attribute: .centerYWithinMargins, priority: UILayoutPriorityDefaultLow - 1)
+        contentModeLayoutTrailingConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .trailing, relatedBy: .equal, toItem: internalContentView, attribute: .trailingMargin)
         
         NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .leading,  relatedBy: .equal, toItem: internalContentView, attribute: .leadingMargin),
-            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .trailing, relatedBy: .equal, toItem: internalContentView, attribute: .trailingMargin),
             NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .top,      relatedBy: .greaterThanOrEqual, toItem: internalContentView, attribute: .topMargin),
             NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .bottom,   relatedBy: .lessThanOrEqual,    toItem: internalContentView, attribute: .bottomMargin, priority: 500),
-            contentModeLayoutConstraint
+            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .leading,  relatedBy: .equal, toItem: internalContentView, attribute: .leadingMargin),
+            contentModeLayoutTrailingConstraint,
+            contentModeLayoutVerticalConstraint
         ])
         
         applyStandardFonts()
+        
+        if #available(iOS 10, *) {
+            isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
+        } else {
+            isRightToLeft = UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft
+        }
+        
+        
+        if #available(iOS 10, *) { return }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(contentSizeCategoryDidChange(_:)), name: .UIContentSizeCategoryDidChange, object: nil)
     }
     
     deinit {
@@ -224,7 +281,7 @@ extension CollectionViewFormCell: UIScrollViewDelegate {
     open func scrollViewDidScroll(_ scrollView: UIScrollView) {
         var contentOffset = scrollView.contentOffset
         
-        if traitCollection.layoutDirection == .rightToLeft {
+        if isRightToLeft {
             if contentOffset.x > 0 {
                 contentOffset.x = 0.0
                 scrollView.contentOffset = contentOffset
@@ -250,7 +307,7 @@ extension CollectionViewFormCell: UIScrollViewDelegate {
         
         var movingIntoEditing = false
         
-        if traitCollection.layoutDirection == .rightToLeft {
+        if isRightToLeft {
             if xVelocity > 0.25 {
                 targetContentOffset.pointee.x = 0.0
             } else if xVelocity < -1.0 {
@@ -304,7 +361,7 @@ extension CollectionViewFormCell: UIScrollViewDelegate {
         let collectionView = superview(of: UICollectionView.self)
         collectionView?.endEditing(true)
         
-        if traitCollection.layoutDirection == .rightToLeft {
+        if isRightToLeft {
             scrollView.contentInset.left = scrollViewInset
         } else {
             scrollView.contentInset.right = scrollViewInset
@@ -344,14 +401,15 @@ extension CollectionViewFormCell: UIScrollViewDelegate {
         
         if actionView == nil && scrollContentOffset.x.isZero == false {
             superview(of: UICollectionView.self)?.endEditing(true)
-            actionView = CollectionViewFormCellActionView(cell: self)
+            actionView = CollectionViewFormCellActionView(frame: .zero)
+            actionView!.cell = self
             actionView!.updateForButtonsItems((editActions?.map { let color = $0.color ?? .gray;
                 return ($0.title, color)}))
             scrollView.addSubview(actionView!)
         }
         
         var frame: CGRect
-        if traitCollection.layoutDirection == .rightToLeft {
+        if isRightToLeft {
             frame = CGRect(x: scrollContentOffset.x, y: 0.0, width: -scrollContentOffset.x, height: size.height)
         } else {
             frame = CGRect(x: size.width, y: 0.0, width: scrollContentOffset.x, height: size.height)
@@ -381,9 +439,22 @@ extension CollectionViewFormCell {
         return internalContentView
     }
     
+    open override var semanticContentAttribute: UISemanticContentAttribute {
+        didSet {
+            if semanticContentAttribute == oldValue { return }
+            
+            if #available(iOS 10, *) {
+                isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
+            } else {
+                isRightToLeft = UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft
+            }
+        }
+    }
+    
     open override func prepareForReuse() {
         super.prepareForReuse()
         applyStandardFonts()
+        setNeedsLayout()
         setShowingEditActions(false, animated: false)
     }
     
@@ -428,8 +499,7 @@ extension CollectionViewFormCell {
         // This will ensure we won't get selection activity, but we can still catch scroll behaviour.
         if scrollView.isDecelerating {
             if _deceleratingToOpen,
-                let actionView = self.actionView
-                , hitTestedView.isDescendant(of: actionView) {
+                let actionView = self.actionView, hitTestedView.isDescendant(of: actionView) {
                     return hitTestedView
             } else {
                 return internalContentView
@@ -444,6 +514,31 @@ extension CollectionViewFormCell {
         }
         
         return hitTestedView
+    }
+    
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        guard let accessoryView = self.accessoryView else { return }
+        
+        let isRightToLeft: Bool
+        if #available(iOS 10, *) {
+            isRightToLeft = contentView.effectiveUserInterfaceLayoutDirection == .rightToLeft
+        } else {
+            isRightToLeft = UIView.userInterfaceLayoutDirection(for: contentView.semanticContentAttribute) == .rightToLeft
+        }
+        
+        let contentLayoutGuide = contentModeLayoutGuide.layoutFrame
+        
+        var accessoryFrame = accessoryView.frame
+        accessoryFrame.origin.y = round(contentLayoutGuide.midY - (accessoryFrame.size.height * 0.5))
+        if isRightToLeft {
+            accessoryFrame.origin.x = contentLayoutGuide.minX - 10.0 - accessoryFrame.width
+        } else {
+            accessoryFrame.origin.x = contentLayoutGuide.maxX + 10.0
+        }
+        
+        accessoryView.frame = accessoryFrame
     }
     
     open override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
@@ -477,15 +572,15 @@ extension CollectionViewFormCell {
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         
+        guard #available(iOS 10, *) else { return }
+        
         if (traitCollection.layoutDirection == .rightToLeft) != (previousTraitCollection?.layoutDirection == .rightToLeft) {
-            // If the trait collection's right-to-left status flipped, flip the content insets and the content offset, and update accordingly.
-            scrollView.contentInset = scrollView.contentInset.horizontallyFlipped()
-            
-            var contentOffset = scrollView.contentOffset
-            contentOffset.x = -contentOffset.x
-            scrollView.contentOffset = contentOffset
-            
-            update(for: contentOffset)
+            isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
+        }
+        
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            applyStandardFonts()
+            setNeedsLayout()
         }
     }
     
@@ -560,6 +655,11 @@ fileprivate extension CollectionViewFormCell {
         return false
     }
     
+    @objc fileprivate func contentSizeCategoryDidChange(_ notification: Notification) {
+        applyStandardFonts()
+        setNeedsLayout()
+    }
+    
 }
 
 extension CollectionViewFormCell: UIGestureRecognizerDelegate {
@@ -587,7 +687,7 @@ extension CollectionViewFormCell: UIGestureRecognizerDelegate {
 /// actions which cannot be accessed any other way.
 private class CollectionViewFormCellScrollView: UIScrollView, UIGestureRecognizerDelegate {
     
-    unowned let cell: CollectionViewFormCell
+    weak var cell: CollectionViewFormCell?
     
     override var frame: CGRect {
         didSet {
@@ -595,11 +695,17 @@ private class CollectionViewFormCellScrollView: UIScrollView, UIGestureRecognize
         }
     }
     
-    init(cell: CollectionViewFormCell) {
-        self.cell = cell
-        
+    override init(frame: CGRect) {
         super.init(frame: .zero)
-        
+        commonInit()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        commonInit()
+    }
+    
+    private func commonInit() {
         panGestureRecognizer.delegate = self
         decelerationRate = (UIScrollViewDecelerationRateFast + UIScrollViewDecelerationRateNormal) / 2.0
         delaysContentTouches = false
@@ -610,13 +716,8 @@ private class CollectionViewFormCellScrollView: UIScrollView, UIGestureRecognize
         isDirectionalLockEnabled = true
     }
     
-    /// CollectionViewFormCellScrollView does not support NSCoding.
-    required init?(coder aDecoder: NSCoder) {
-        return nil
-    }
-    
     override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        if let cells = cell.superview(of: UICollectionView.self)?.visibleCells {
+        if let cells = cell?.superview(of: UICollectionView.self)?.visibleCells {
             if cells.contains(where: {
                 if let state = ($0 as? CollectionViewFormCell)?.scrollView.panGestureRecognizer.state {
                     return state != .possible && state != .failed
@@ -636,22 +737,30 @@ private class CollectionViewFormCellScrollView: UIScrollView, UIGestureRecognize
 
 
 /// A private view which manages the editing buttons for the cell.
-private class CollectionViewFormCellActionView: UIView {
+fileprivate class CollectionViewFormCellActionView: UIView {
     
     static let singleButtonWidth: CGFloat = 80.0
     
-    unowned let cell: CollectionViewFormCell
+    weak var cell: CollectionViewFormCell?
     
     var buttons: [UIButton]?
     
-    init(cell: CollectionViewFormCell) {
-        self.cell = cell
-        super.init(frame: .zero)
-        self.clipsToBounds = true
+    override var semanticContentAttribute: UISemanticContentAttribute {
+        didSet {
+            if semanticContentAttribute != oldValue {
+                setNeedsLayout()
+            }
+        }
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        clipsToBounds = true
     }
     
     required init?(coder aDecoder: NSCoder) {
-        return nil
+        super.init(coder: aDecoder)
+        clipsToBounds = true
     }
     
     override func layoutSubviews() {
@@ -661,7 +770,14 @@ private class CollectionViewFormCellActionView: UIView {
             let bounds = self.bounds
             let buttonWidth = CollectionViewFormCellActionView.singleButtonWidth
             
-            if self.traitCollection.layoutDirection == .rightToLeft {
+            let isRightToLeft: Bool
+            if #available(iOS 10, *) {
+                isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
+            } else {
+                isRightToLeft = UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft
+            }
+            
+            if isRightToLeft {
                 var startX: CGFloat = 0.0
                 
                 self.buttons?.forEach { (button: UIButton) in
@@ -708,12 +824,14 @@ private class CollectionViewFormCellActionView: UIView {
     }
     
     @objc func buttonDidTap(_ button: UIButton) {
-        cell.performEditAction(at: button.tag)
+        cell?.performEditAction(at: button.tag)
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        if (traitCollection.layoutDirection == .rightToLeft) != (previousTraitCollection?.layoutDirection == .rightToLeft) {
+        
+        if #available(iOS 10, *),
+            (traitCollection.layoutDirection == .rightToLeft) != (previousTraitCollection?.layoutDirection == .rightToLeft) {
             setNeedsLayout()
         }
     }
