@@ -15,4 +15,8 @@ open class CollectionViewFormDecorationView: UICollectionReusableView {
         backgroundColor = (layoutAttributes as? CollectionViewFormDecorationAttributes)?.backgroundColor
     }
     
+    open override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
+        return layoutAttributes
+    }
+    
 }

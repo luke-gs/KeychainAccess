@@ -33,12 +33,29 @@ extension UITableView {
             }
             objc_setAssociatedObject(self, &cellLayoutMarginsKey, value, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             
-            // Reload all visible rows.
+            // Get the index paths of all cells. Don't rely on visibleCells because there may be
+            // first responder cells offscreen not visible, or there may be prefetched cells. We also want
+            // to avoid loading the table view unnecessarily.
+            var loadedCellIndexPaths = [IndexPath]()
+            for view in subviews  {
+                if let cell = view as? UITableViewCell, let indexPath = indexPath(for: cell) {
+                    loadedCellIndexPaths.append(indexPath)
+                }
+            }
+            
+            // Reload all loaeded rows.
             // It'd be better to apply the layout attributes directly and rely on -beginUpdates and -endUpdates
             // to resize, but we can't because some cells may not have had cellLayoutMargins applied.
-            if let visibleRowIndexPaths = self.indexPathsForVisibleRows, visibleRowIndexPaths.isEmpty == false {
-                reloadRows(at: visibleRowIndexPaths, with: .fade)
+            if loadedCellIndexPaths.isEmpty == false {
+                reloadRows(at: loadedCellIndexPaths, with: .fade)
             }
+            
+//            // Reload all visible rows.
+//            // It'd be better to apply the layout attributes directly and rely on -beginUpdates and -endUpdates
+//            // to resize, but we can't because some cells may not have had cellLayoutMargins applied.
+//            if let visibleRowIndexPaths = self.indexPathsForVisibleRows, visibleRowIndexPaths.isEmpty == false {
+//                reloadRows(at: visibleRowIndexPaths, with: .fade)
+//            }
         }
     }
     
