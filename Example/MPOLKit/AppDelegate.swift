@@ -53,7 +53,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         sidebarSplitViewController.title = "Sidebar SVC"
         
         let tabBarController = UITabBarController()
-        tabBarController.viewControllers = [pushableSVNavController, UINavigationController(rootViewController: sidebarSplitViewController)]
+        tabBarController.viewControllers = [pushableSVNavController, UINavigationController(rootViewController: sidebarSplitViewController), EntityDetailsSplitViewController(entity: NSObject())]
         window.rootViewController = tabBarController
         window.makeKeyAndVisible()
         

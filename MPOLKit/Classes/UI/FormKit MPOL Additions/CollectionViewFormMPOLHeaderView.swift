@@ -282,6 +282,9 @@ extension CollectionViewFormMPOLHeaderView {
     
 }
 
+extension CollectionViewFormMPOLHeaderView: DefaultReusable {
+}
+
 
 
 // MARK: - Private methods

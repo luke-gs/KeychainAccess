@@ -12,7 +12,7 @@ import UIKit
 fileprivate var kvoContext = 1
 
 
-public class CollectionViewFormDetailCell: CollectionViewFormCell {
+open class CollectionViewFormDetailCell: CollectionViewFormCell {
     
     
     public let titleLabel: UILabel = UILabel(frame: .zero)

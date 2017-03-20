@@ -18,18 +18,10 @@ extension UIColor {
         let hasHash = hexString.hasPrefix("#")
         let rgba: Bool
         
-        if hasHash {
-            switch hexString.characters.count {
-            case 7:  rgba = false
-            case 9:  rgba = true
-            default: return nil
-            }
-        } else {
-            switch hexString.characters.count {
-            case 6:  rgba = false
-            case 8:  rgba = true
-            default: return nil
-            }
+        switch (hexString.characters.count, hasHash) {
+        case (6, false), (7, true):  rgba = false
+        case (8, false), (9, true):  rgba = true
+        default: return nil
         }
         
         let scanner = Scanner(string: hexString)

@@ -58,6 +58,7 @@
 		BC00DFBE1E711CB4001ACB1E /* SourceBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC445C831E7119C600A58ACA /* SourceBar.swift */; };
 		BC00DFBF1E711CB6001ACB1E /* SourceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC445C851E7119C600A58ACA /* SourceItem.swift */; };
 		BC00DFC21E711DB8001ACB1E /* AlertIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC00DFC11E711DB8001ACB1E /* AlertIndicatorView.swift */; };
+		BC08F7FA1E7F8DE7007E5461 /* AlertLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC08F7F91E7F8DE7007E5461 /* AlertLevel.swift */; };
 		BC3422C41E7114A4004EFA08 /* UIView+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3422C31E7114A4004EFA08 /* UIView+Convenience.swift */; };
 		BC3422C91E71151F004EFA08 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3422C51E71151F004EFA08 /* GradientView.swift */; };
 		BC3422CB1E71151F004EFA08 /* RoundedRectLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3422C71E71151F004EFA08 /* RoundedRectLabel.swift */; };
@@ -68,7 +69,15 @@
 		BC5906191E711896007C712A /* UITextView+NotificationWorkaround.m in Sources */ = {isa = PBXBuildFile; fileRef = BC5906171E711896007C712A /* UITextView+NotificationWorkaround.m */; };
 		BC72C67D1E72BEEA007D544C /* SourceBarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC72C67C1E72BEEA007D544C /* SourceBarCell.swift */; };
 		BC7A1EFE1E7B9AF200200EF3 /* MapOverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7A1EFD1E7B9AF200200EF3 /* MapOverlayViewController.swift */; };
+		BC92F67A1E8095B9009A5D0A /* GalleryItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC92F6791E8095B9009A5D0A /* GalleryItemCell.swift */; };
+		BC934EF51E7FE76F0067295F /* GalleryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC934EF41E7FE76F0067295F /* GalleryCollectionViewCell.swift */; };
 		BCA182551E7E876F0001056F /* FormDisclosureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA182541E7E876F0001056F /* FormDisclosureView.swift */; };
+		BCC28DF81E7FEC6C00D710E9 /* EntityDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC28DF21E7FEC6C00D710E9 /* EntityDetailCollectionViewCell.swift */; };
+		BCC28DF91E7FEC6C00D710E9 /* PersonInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC28DF31E7FEC6C00D710E9 /* PersonInfoViewController.swift */; };
+		BCC28DFA1E7FEC6C00D710E9 /* EntityAlertsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC28DF41E7FEC6C00D710E9 /* EntityAlertsViewController.swift */; };
+		BCC28DFB1E7FEC6C00D710E9 /* EntityAssociationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC28DF51E7FEC6C00D710E9 /* EntityAssociationsViewController.swift */; };
+		BCC28DFC1E7FEC6C00D710E9 /* EntityDetailsSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC28DF61E7FEC6C00D710E9 /* EntityDetailsSplitViewController.swift */; };
+		BCC28DFD1E7FEC6C00D710E9 /* EntityOccurrencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC28DF71E7FEC6C00D710E9 /* EntityOccurrencesViewController.swift */; };
 		BCCD8C2D1E73AFDE0008DD4F /* FormKitAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCCD8C2C1E73AFDE0008DD4F /* FormKitAssets.xcassets */; };
 		BCDC773F1E7D036800225737 /* CollectionViewFormDetailCell+Editing.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDC773E1E7D036700225737 /* CollectionViewFormDetailCell+Editing.swift */; };
 		BCE40C3B1E7E498A00C427B8 /* CollectionViewFormDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE40C3A1E7E498A00C427B8 /* CollectionViewFormDetailCell.swift */; };
@@ -157,6 +166,7 @@
 		B834E0F3C1D9E8DE321A87268F2EE71B /* UITableView+DefaultReuse.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UITableView+DefaultReuse.swift"; sourceTree = "<group>"; };
 		BBB8D4F4BA7D9187C489FEBD2F9F9B46 /* CollectionViewFormMPOLHeaderAttributes.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CollectionViewFormMPOLHeaderAttributes.swift; sourceTree = "<group>"; };
 		BC00DFC11E711DB8001ACB1E /* AlertIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertIndicatorView.swift; sourceTree = "<group>"; };
+		BC08F7F91E7F8DE7007E5461 /* AlertLevel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertLevel.swift; sourceTree = "<group>"; };
 		BC3422C31E7114A4004EFA08 /* UIView+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Convenience.swift"; sourceTree = "<group>"; };
 		BC3422C51E71151F004EFA08 /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		BC3422C71E71151F004EFA08 /* RoundedRectLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedRectLabel.swift; sourceTree = "<group>"; };
@@ -174,7 +184,15 @@
 		BC5906171E711896007C712A /* UITextView+NotificationWorkaround.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+NotificationWorkaround.m"; sourceTree = "<group>"; };
 		BC72C67C1E72BEEA007D544C /* SourceBarCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceBarCell.swift; sourceTree = "<group>"; };
 		BC7A1EFD1E7B9AF200200EF3 /* MapOverlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapOverlayViewController.swift; sourceTree = "<group>"; };
+		BC92F6791E8095B9009A5D0A /* GalleryItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryItemCell.swift; sourceTree = "<group>"; };
+		BC934EF41E7FE76F0067295F /* GalleryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryCollectionViewCell.swift; sourceTree = "<group>"; };
 		BCA182541E7E876F0001056F /* FormDisclosureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormDisclosureView.swift; sourceTree = "<group>"; };
+		BCC28DF21E7FEC6C00D710E9 /* EntityDetailCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailCollectionViewCell.swift; sourceTree = "<group>"; };
+		BCC28DF31E7FEC6C00D710E9 /* PersonInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonInfoViewController.swift; sourceTree = "<group>"; };
+		BCC28DF41E7FEC6C00D710E9 /* EntityAlertsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityAlertsViewController.swift; sourceTree = "<group>"; };
+		BCC28DF51E7FEC6C00D710E9 /* EntityAssociationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityAssociationsViewController.swift; sourceTree = "<group>"; };
+		BCC28DF61E7FEC6C00D710E9 /* EntityDetailsSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailsSplitViewController.swift; sourceTree = "<group>"; };
+		BCC28DF71E7FEC6C00D710E9 /* EntityOccurrencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityOccurrencesViewController.swift; sourceTree = "<group>"; };
 		BCCD8C2C1E73AFDE0008DD4F /* FormKitAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = FormKitAssets.xcassets; sourceTree = "<group>"; };
 		BCDC773E1E7D036700225737 /* CollectionViewFormDetailCell+Editing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CollectionViewFormDetailCell+Editing.swift"; sourceTree = "<group>"; };
 		BCE40C3A1E7E498A00C427B8 /* CollectionViewFormDetailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormDetailCell.swift; sourceTree = "<group>"; };
@@ -411,6 +429,8 @@
 			isa = PBXGroup;
 			children = (
 				CB74B7291A40206B7CC8B818B143CD05 /* EntityCollectionViewCell.swift */,
+				BC934EF41E7FE76F0067295F /* GalleryCollectionViewCell.swift */,
+				BC92F6791E8095B9009A5D0A /* GalleryItemCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -460,6 +480,7 @@
 				AC53396F0C1AD94C923861E422080C46 /* ScrollViewInsetManager.swift */,
 				A0CA5C293B3D14CC07766BE553CF56EC /* Theme.swift */,
 				2D552FAA29F44EAE8E7DE7A36A718CA5 /* ViewControllerTransition.swift */,
+				BCC28DF01E7FEC4C00D710E9 /* Entity Details */,
 				723E5B4E7FF9EE04F8554FC9D363A6FB /* Abstract View Controllers */,
 				849431222C7BE2A992C25E04C4F5D220 /* Cells */,
 				3F62B27CF33B3D5805C22B8CCF1967D6 /* Extensions */,
@@ -495,6 +516,14 @@
 			path = MPOL;
 			sourceTree = "<group>";
 		};
+		BC08F7F81E7F8D9C007E5461 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				BC08F7F91E7F8DE7007E5461 /* AlertLevel.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
 		BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -522,6 +551,27 @@
 			path = "Source Bar";
 			sourceTree = "<group>";
 		};
+		BCC28DF01E7FEC4C00D710E9 /* Entity Details */ = {
+			isa = PBXGroup;
+			children = (
+				BCC28DF61E7FEC6C00D710E9 /* EntityDetailsSplitViewController.swift */,
+				BCC28DF11E7FEC6C00D710E9 /* Information */,
+				BCC28DF41E7FEC6C00D710E9 /* EntityAlertsViewController.swift */,
+				BCC28DF51E7FEC6C00D710E9 /* EntityAssociationsViewController.swift */,
+				BCC28DF71E7FEC6C00D710E9 /* EntityOccurrencesViewController.swift */,
+			);
+			path = "Entity Details";
+			sourceTree = "<group>";
+		};
+		BCC28DF11E7FEC6C00D710E9 /* Information */ = {
+			isa = PBXGroup;
+			children = (
+				BCC28DF21E7FEC6C00D710E9 /* EntityDetailCollectionViewCell.swift */,
+				BCC28DF31E7FEC6C00D710E9 /* PersonInfoViewController.swift */,
+			);
+			path = Information;
+			sourceTree = "<group>";
+		};
 		BCCD8C2B1E73AFDE0008DD4F /* FormKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -533,6 +583,7 @@
 		CE8E3B8CC4B07121C06CD63008E9DC89 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				BC08F7F81E7F8D9C007E5461 /* Core */,
 				8A171D3209227A893DDACAE852896D6D /* FormKit */,
 				98BFC512AF7E75EC11A1119E6FA94292 /* UI */,
 			);
@@ -755,10 +806,12 @@
 				BC00DFC21E711DB8001ACB1E /* AlertIndicatorView.swift in Sources */,
 				7B3EF20A726B534049A6040F4C6903FE /* BorderedImageView.swift in Sources */,
 				1993D66207116280AE921F037E9D6543 /* CheckBox.swift in Sources */,
+				BCC28DF91E7FEC6C00D710E9 /* PersonInfoViewController.swift in Sources */,
 				BC3422C91E71151F004EFA08 /* GradientView.swift in Sources */,
 				80F75266ACCCFE32863C5689837990E3 /* CollectionViewFormAttributes.swift in Sources */,
 				05D3ED81F205C9C882D80AD605C2328C /* CollectionViewFormBoxedLayout.swift in Sources */,
 				BC00DFBD1E711CAF001ACB1E /* SidebarItem.swift in Sources */,
+				BC92F67A1E8095B9009A5D0A /* GalleryItemCell.swift in Sources */,
 				BC00DFBA1E711BC2001ACB1E /* SidebarTableViewCell.swift in Sources */,
 				BC3422CB1E71151F004EFA08 /* RoundedRectLabel.swift in Sources */,
 				71EFE54EFF8381F054F5E4564DDA41C1 /* CollectionViewFormCell.swift in Sources */,
@@ -769,9 +822,11 @@
 				5F9FE935E2D9BAF298E8A6F6332A27EB /* CollectionViewFormLayout.swift in Sources */,
 				BC3422CC1E71151F004EFA08 /* BadgeView.swift in Sources */,
 				9C3F3A10DAE06FFE196B7FD4F63C247F /* CollectionViewFormMPOLHeaderAttributes.swift in Sources */,
+				BCC28DF81E7FEC6C00D710E9 /* EntityDetailCollectionViewCell.swift in Sources */,
 				CD9A506243B47AA0A05D277B209F91DC /* CollectionViewFormMPOLLayout.swift in Sources */,
 				BC72C67D1E72BEEA007D544C /* SourceBarCell.swift in Sources */,
 				B6F6FB01991159CB21E9E4AE513DB28A /* CollectionViewFormSelectionCell.swift in Sources */,
+				BC08F7FA1E7F8DE7007E5461 /* AlertLevel.swift in Sources */,
 				BC00DFBB1E711CAA001ACB1E /* SidebarSplitViewController.swift in Sources */,
 				8BCA5C5BC7F2B0D3191C0BE2BF928E2C /* CollectionViewFormTextFieldCell.swift in Sources */,
 				F83B30D49C86B5B33C153E5E4C5F9354 /* CollectionViewFormTextViewCell.swift in Sources */,
@@ -805,14 +860,19 @@
 				47748E028A35D48076F31B4FD153359A /* TableViewFormTextFieldCell.swift in Sources */,
 				646C9373FCBF974716A10885BDBBCF5E /* TableViewFormTextViewCell.swift in Sources */,
 				EE0C527F0D45FDA1D83CB9C1F02ABAD9 /* Theme.swift in Sources */,
+				BC934EF51E7FE76F0067295F /* GalleryCollectionViewCell.swift in Sources */,
 				09A92C7646DE7BE0155FF3E928E3AA8D /* UICollectionView+DefaultReuse.swift in Sources */,
+				BCC28DFB1E7FEC6C00D710E9 /* EntityAssociationsViewController.swift in Sources */,
 				BD82EC123014391767F7BB34CC15C675 /* UIColor+ActionColors.swift in Sources */,
 				BC7A1EFE1E7B9AF200200EF3 /* MapOverlayViewController.swift in Sources */,
 				CE801788AB27F6B5EC5C83B3AB1E5362 /* UIColor+Hex.swift in Sources */,
 				53A37AF52916F564B7E41C0A2D67E172 /* UIEdgeInsets+Convenience.swift in Sources */,
 				A7376F58E05496E55FDCEBBAAFE9C4B5 /* UIImage+FormKitDefaults.swift in Sources */,
+				BCC28DFD1E7FEC6C00D710E9 /* EntityOccurrencesViewController.swift in Sources */,
+				BCC28DFC1E7FEC6C00D710E9 /* EntityDetailsSplitViewController.swift in Sources */,
 				BCE40C3B1E7E498A00C427B8 /* CollectionViewFormDetailCell.swift in Sources */,
 				C88AD179123856E05C0D8580ACE2E1A1 /* UITableView+DefaultReuse.swift in Sources */,
+				BCC28DFA1E7FEC6C00D710E9 /* EntityAlertsViewController.swift in Sources */,
 				15EE3EB4BE3E2F964D1D42294AAA1AE3 /* UITableViewCell+LayoutMargins.swift in Sources */,
 				22BC97D64CF23249E51986FEC1865532 /* ViewControllerTransition.swift in Sources */,
 				BC00DFBC1E711CAD001ACB1E /* SidebarViewController.swift in Sources */,

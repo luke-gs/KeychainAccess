@@ -11,7 +11,9 @@ import UIKit
 extension UIImage {
     
     private class func templateImage(named name: String) -> UIImage {
-        return UIImage(named: name, in: Bundle(for: CollectionViewFormLayout.self), compatibleWith: nil)!.withRenderingMode(.alwaysTemplate)
+        let image = UIImage(named: name, in: Bundle(for: CollectionViewFormLayout.self), compatibleWith: nil)
+        
+        return image!.withRenderingMode(.alwaysTemplate)
     }
    
     @nonobjc

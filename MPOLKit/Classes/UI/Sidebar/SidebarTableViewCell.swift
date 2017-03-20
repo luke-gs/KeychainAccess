@@ -159,16 +159,16 @@ fileprivate extension SidebarTableViewCell {
         let fontDescriptor: UIFontDescriptor
         
         if #available(iOS 10, *) {
-            fontDescriptor = .preferredFontDescriptor(withTextStyle: .footnote, compatibleWith: traitCollection)
+            fontDescriptor = .preferredFontDescriptor(withTextStyle: .subheadline, compatibleWith: traitCollection)
             detailTextLabel?.font = .preferredFont(forTextStyle: .caption1, compatibleWith: traitCollection)
         } else {
-            fontDescriptor = .preferredFontDescriptor(withTextStyle: .footnote)
+            fontDescriptor = .preferredFontDescriptor(withTextStyle: .subheadline)
             detailTextLabel?.font = .preferredFont(forTextStyle: .caption1)
         }
         
-        standardFont = UIFont(descriptor: fontDescriptor, size: 0.0)
+        standardFont = UIFont(descriptor: fontDescriptor, size: fontDescriptor.pointSize - 1)
         if let highlightedDescriptor = fontDescriptor.withSymbolicTraits(.traitBold) {
-            highlightedFont = UIFont(descriptor: highlightedDescriptor, size: 0.0)
+            highlightedFont = UIFont(descriptor: highlightedDescriptor, size: fontDescriptor.pointSize - 1)
         } else {
             highlightedFont = standardFont
         }
