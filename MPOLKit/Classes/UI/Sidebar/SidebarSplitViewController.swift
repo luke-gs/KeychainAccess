@@ -64,8 +64,8 @@ open class SidebarSplitViewController: PushableSplitViewController {
         sidebarViewController.items = detailViewControllers.map { $0.sidebarItem }
         
         let embeddedSplitViewController = self.embeddedSplitViewController
-        embeddedSplitViewController.minimumPrimaryColumnWidth = 280.0
-        embeddedSplitViewController.preferredPrimaryColumnWidthFraction = 280.0 / 1024.0
+        embeddedSplitViewController.minimumPrimaryColumnWidth = 272.0
+        embeddedSplitViewController.preferredPrimaryColumnWidthFraction = 272.0 / 1024.0
         
         var selectedItem: SidebarItem?
         if embeddedSplitViewController.isCollapsed == false {
