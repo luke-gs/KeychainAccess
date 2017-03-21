@@ -490,11 +490,11 @@
 		BC92F68A1E80B18A009A5D0A /* Entity Details */ = {
 			isa = PBXGroup;
 			children = (
+				BC92F68D1E80B18A009A5D0A /* EntityDetailsSplitViewController.swift */,
+				BC92F68F1E80B18A009A5D0A /* Information */,
 				BC92F68B1E80B18A009A5D0A /* EntityAlertsViewController.swift */,
 				BC92F68C1E80B18A009A5D0A /* EntityAssociationsViewController.swift */,
-				BC92F68D1E80B18A009A5D0A /* EntityDetailsSplitViewController.swift */,
 				BC92F68E1E80B18A009A5D0A /* EntityOccurrencesViewController.swift */,
-				BC92F68F1E80B18A009A5D0A /* Information */,
 			);
 			path = "Entity Details";
 			sourceTree = "<group>";

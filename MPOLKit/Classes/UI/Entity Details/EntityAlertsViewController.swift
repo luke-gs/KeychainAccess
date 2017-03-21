@@ -19,7 +19,7 @@ open class EntityAlertsViewController: FormCollectionViewController {
         sidebarItem.image         = UIImage(named: "iconGeneralAlert",       in: bundle, compatibleWith: nil)
         sidebarItem.selectedImage = UIImage(named: "iconGeneralAlertFilled", in: bundle, compatibleWith: nil)
         sidebarItem.count = 5
-        sidebarItem.badgeColor = .red
+        sidebarItem.alertColor = AlertLevel.medium.color
     }
     
     public required init?(coder aDecoder: NSCoder) {

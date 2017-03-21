@@ -15,22 +15,30 @@ import UIKit
 /// adjust the badge color, update the backgroundColor property.
 public class BadgeView: UILabel {
     
-    public override init(frame: CGRect) {
-        super.init(frame: frame)
-        commonInit()
+    public enum Style {
+        case system
+        case pill
     }
     
-    public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        commonInit()
-    }
-    
-    private func commonInit() {
-        layoutMargins = UIEdgeInsets(top: 2.0, left: 5.0, bottom: 2.0, right: 5.0)
-        layer.masksToBounds = true
+    public init(style: Style) {
+        super.init(frame: .zero)
+        
+        switch style {
+        case .system:   layoutMargins = UIEdgeInsets(top: 2.0, left: 5.0, bottom: 2.0, right: 5.0)
+        case .pill:     layoutMargins = UIEdgeInsets(top: 1.0, left: 8.0, bottom: 1.0, right: 8.0)
+        }
+        
         textColor = .white
         isHidden = true
         font = .systemFont(ofSize: 11.0, weight: UIFontWeightSemibold)
+        
+        let layer = self.layer
+        layer.masksToBounds   = true
+        layer.shouldRasterize = true
+    }
+    
+    public convenience required init?(coder aDecoder: NSCoder) {
+        self.init(style: .system)
     }
     
 }

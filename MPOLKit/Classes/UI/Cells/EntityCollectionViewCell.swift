@@ -101,7 +101,7 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
     
     fileprivate let borderedImageView = BorderedImageView(frame: .zero)
     
-    fileprivate let badgeView = BadgeView(frame: .zero)
+    fileprivate let badgeView = BadgeView(style: .system)
     
     fileprivate let contentBackingView = UIView(frame: .zero)
     

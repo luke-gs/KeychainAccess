@@ -14,7 +14,7 @@ fileprivate let sidebarKeys = [#keyPath(SidebarItem.isEnabled),
                                #keyPath(SidebarItem.selectedImage),
                                #keyPath(SidebarItem.title),
                                #keyPath(SidebarItem.count),
-                               #keyPath(SidebarItem.badgeColor),
+                               #keyPath(SidebarItem.alertColor),
                                #keyPath(SidebarItem.color),
                                #keyPath(SidebarItem.selectedColor)]
 
@@ -157,13 +157,10 @@ extension SidebarViewController {
         let view = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 320.0, height: 480.0))
         view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
-        let baseColor = #colorLiteral(red: 0.09982200712, green: 0.113763161, blue: 0.1352989078, alpha: 1)
+        let sidebarColor = #colorLiteral(red: 0.1058823529, green: 0.1176470588, blue: 0.1411764706, alpha: 1)
         
         let sourceBackground = GradientView(frame: .zero)
-        sourceBackground.gradientColors = [#colorLiteral(red: 0.05098039216, green: 0.05490196078, blue: 0.06274509804, alpha: 1), baseColor]
-        
-        let sidebarBackground = GradientView(frame: .zero)
-        sidebarBackground.gradientColors = [#colorLiteral(red: 0.09411764706, green: 0.09803921569, blue: 0.1098039216, alpha: 1), baseColor]
+        sourceBackground.gradientColors = [#colorLiteral(red: 0.05098039216, green: 0.05490196078, blue: 0.06274509804, alpha: 1), sidebarColor]
         
         let sourceBar = SourceBar(frame: .zero)
         sourceBar.translatesAutoresizingMaskIntoConstraints = false
@@ -175,7 +172,7 @@ extension SidebarViewController {
         
         let sidebarTableView = UITableView(frame: .zero, style: .grouped)
         sidebarTableView.translatesAutoresizingMaskIntoConstraints = false
-        sidebarTableView.backgroundView     = sidebarBackground
+        sidebarTableView.backgroundColor    = sidebarColor
         sidebarTableView.dataSource         = self
         sidebarTableView.delegate           = self
         sidebarTableView.separatorStyle     = .none
