@@ -8,9 +8,9 @@
 
 import UIKit
 
-class EntityOccurrencesViewController: FormCollectionViewController {
+open class EntityOccurrencesViewController: FormCollectionViewController {
 
-    override init() {
+    public override init() {
         super.init()
         title = "Occurrences"
         
@@ -20,7 +20,7 @@ class EntityOccurrencesViewController: FormCollectionViewController {
         sidebarItem.selectedImage = UIImage(named: "iconFormOccurrenceFilled", in: bundle, compatibleWith: nil)
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 

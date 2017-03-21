@@ -8,13 +8,13 @@
 
 import UIKit
 
-public class EntityDetailsSplitViewController: SidebarSplitViewController {
+open class EntityDetailsSplitViewController: SidebarSplitViewController {
     
     public var entity: Any
     
-    fileprivate let headerTitleLabel = UILabel(frame: .zero)
+    public let headerTitleLabel: UILabel = UILabel(frame: .zero)
     
-    fileprivate let headerSubtitleLabel = UILabel(frame: .zero)
+    public let headerSubtitleLabel: UILabel = UILabel(frame: .zero)
     
     public init(entity: Any) {
         self.entity = entity
@@ -30,7 +30,7 @@ public class EntityDetailsSplitViewController: SidebarSplitViewController {
         
         title = "Details"
         
-        sidebarViewController.sourceItems = [SourceItem(color: .yellow, title: "DS1", count: 3)]
+        sidebarViewController.sourceItems = [SourceItem(color: AlertLevel.medium.color, title: "DS1", count: 3)]
         sidebarViewController.selectedSourceIndex = 0
         
         let formForwardIcon = UIImage(named: "iconFormForward", in: Bundle(for: FormCollectionViewController.self), compatibleWith: nil)
@@ -94,7 +94,7 @@ public class EntityDetailsSplitViewController: SidebarSplitViewController {
 
 extension EntityDetailsSplitViewController {
     
-    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         
         guard #available(iOS 10, *) else { return }

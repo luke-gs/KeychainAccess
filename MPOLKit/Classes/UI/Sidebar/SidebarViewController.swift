@@ -157,7 +157,7 @@ extension SidebarViewController {
         let view = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 320.0, height: 480.0))
         view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
-        let baseColor = #colorLiteral(red: 0.2, green: 0.2, blue: 0.2274509804, alpha: 1)
+        let baseColor = #colorLiteral(red: 0.09982200712, green: 0.113763161, blue: 0.1352989078, alpha: 1)
         
         let sourceBackground = GradientView(frame: .zero)
         sourceBackground.gradientColors = [#colorLiteral(red: 0.05098039216, green: 0.05490196078, blue: 0.06274509804, alpha: 1), baseColor]

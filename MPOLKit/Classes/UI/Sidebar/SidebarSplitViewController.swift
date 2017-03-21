@@ -22,7 +22,15 @@ open class SidebarSplitViewController: PushableSplitViewController {
     
     
     /// The detail controllers for the sidebar.
-    public let detailViewControllers: [UIViewController]
+    public var detailViewControllers: [UIViewController] {
+        didSet {
+            sidebarViewController.items = detailViewControllers.map { $0.sidebarItem }
+            
+            if let oldSelected = selectedViewController, detailViewControllers.contains(oldSelected) == false {
+                selectedViewController = nil
+            }
+        }
+    }
     
     
     /// The selected view controller.
@@ -31,11 +39,23 @@ open class SidebarSplitViewController: PushableSplitViewController {
     /// Otherwise, it is wrapped in a UINavigationController for presentation.
     public var selectedViewController: UIViewController? {
         didSet {
+            if let newValue = selectedViewController {
+                precondition(detailViewControllers.contains(newValue), "`selectedViewController` must be a member of detailViewControllers.")
+            }
+            
+            if selectedViewController == oldValue { return }
+            
             sidebarViewController.selectedItem = selectedViewController?.sidebarItem
             if let selectedViewController = selectedViewController {
                 let selectedVCNavItem = (selectedViewController as? UINavigationController)?.viewControllers.first?.navigationItem ?? selectedViewController.navigationItem
                 selectedVCNavItem.leftItemsSupplementBackButton = true
                 embeddedSplitViewController.showDetailViewController(navController(forDetail: selectedViewController), sender: self)
+            } else {
+                var splitViewControllers = embeddedSplitViewController.viewControllers
+                if splitViewControllers.count == 2 {
+                    splitViewControllers.remove(at: 1)
+                    embeddedSplitViewController.viewControllers = splitViewControllers
+                }
             }
         }
     }
@@ -43,7 +63,7 @@ open class SidebarSplitViewController: PushableSplitViewController {
     
     /// A boolean value indicating whether the split view controller should collapse
     /// to the sidebar.
-    fileprivate var collapseToSidebar: Bool = true
+    open var shouldCollapseToSidebar: Bool = true
     
     
     /// Initializes the sidebar split view controller with the specified detail view controllers.
@@ -74,12 +94,10 @@ open class SidebarSplitViewController: PushableSplitViewController {
         sidebarViewController.selectedItem = selectedItem
     }
     
-    
     /// `SidebarSplitViewController` does not support NSCoding.
     public required init?(coder aDecoder: NSCoder) {
         fatalError("SidebarSplitViewController does not support NSCoding.")
     }
-    
     
     /// A callback indicating the collapsed state of the split changed.
     open func collapsedStateDidChange() {}
@@ -98,7 +116,6 @@ extension SidebarSplitViewController : SidebarViewControllerDelegate {
         selectedViewController = detailViewControllers.first(where: { $0.sidebarItem == item })
     }
 
-    
     /// Handles when the sidebar selects a new source. By default, this does noting.
     ///
     /// - Parameters:
@@ -115,7 +132,7 @@ extension SidebarSplitViewController : SidebarViewControllerDelegate {
 extension SidebarSplitViewController {
     
     open func splitViewController(_ splitViewController: UISplitViewController, showDetail vc: UIViewController, sender: Any?) -> Bool {
-        collapseToSidebar = false
+        shouldCollapseToSidebar = false
         return false
     }
     
@@ -123,7 +140,7 @@ extension SidebarSplitViewController {
         sidebarViewController.selectedItem = nil
         sidebarViewController.clearsSelectionOnViewWillAppear = true
         perform(#selector(collapsedStateDidChange), with: nil, afterDelay: 0.0, inModes: [.commonModes])
-        return collapseToSidebar
+        return shouldCollapseToSidebar
     }
     
     open func splitViewController(_ splitViewController: UISplitViewController, separateSecondaryFrom primaryViewController: UIViewController) -> UIViewController? {

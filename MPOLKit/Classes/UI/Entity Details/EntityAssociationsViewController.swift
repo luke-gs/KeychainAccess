@@ -8,9 +8,9 @@
 
 import UIKit
 
-class EntityAssociationsViewController: FormCollectionViewController {
+open class EntityAssociationsViewController: FormCollectionViewController {
 
-    override init() {
+    public override init() {
         super.init()
         title = "Associations"
         
@@ -20,7 +20,7 @@ class EntityAssociationsViewController: FormCollectionViewController {
         sidebarItem.selectedImage = UIImage(named: "iconGeneralAssociationFilled", in: bundle, compatibleWith: nil)
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
