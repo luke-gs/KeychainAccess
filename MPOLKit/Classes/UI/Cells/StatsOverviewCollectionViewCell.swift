@@ -248,18 +248,29 @@ extension StatsOverviewCollectionViewCell {
     internal override func applyStandardFonts() {
         super.applyStandardFonts()
         
-        titleFont = iconLabelFont(compatibleWith: traitCollection)
+        titleFont = type(of: self).iconLabelFont(compatibleWith: traitCollection)
         iconLabels.forEach { $0.font = titleFont }
         setNeedsLayout()
     }
 }
+
+
+extension StatsOverviewCollectionViewCell {
+    
+    public class func minimumHeight(compatibleWith traitCollection: UITraitCollection) -> CGFloat {
+        let titleFont = iconLabelFont(compatibleWith: traitCollection)
+        return ceil((titleFont.lineHeight + titleFont.leading) * 2.0) + 66.0
+    }
+    
+}
+
 
 fileprivate extension StatsOverviewCollectionViewCell {
     
     @available(iOS 10, *)
     fileprivate static var fontCache: [UIContentSizeCategory: UIFont] = [:]
     
-    fileprivate func iconLabelFont(compatibleWith traitCollection: UITraitCollection) -> UIFont {
+    fileprivate class func iconLabelFont(compatibleWith traitCollection: UITraitCollection) -> UIFont {
         
         func fontCompatibleWith(_ traitCollection: UITraitCollection) -> UIFont {
             var fontDescriptor: UIFontDescriptor

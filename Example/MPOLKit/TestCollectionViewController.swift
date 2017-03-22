@@ -26,7 +26,7 @@ class TestCollectionViewController: FormCollectionViewController  {
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 100
+        return 10
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -41,11 +41,15 @@ class TestCollectionViewController: FormCollectionViewController  {
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormDetailCell.self, for: indexPath)
-        cell.titleLabel.text = "Test Title \(indexPath.item + 1)"
-        cell.subtitleLabel.text = "Effective from 12/03/2017."
-        cell.detailLabel.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-        cell.accessoryView = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
+        let cell = collectionView.dequeueReusableCell(of: StatsOverviewCollectionViewCell.self, for: indexPath)
+        
+        cell.items = [
+            StatsOverviewItem(icon: "8", color: AlertLevel.high.color,   title: "Finalized Demerit Points"),
+            StatsOverviewItem(icon: "2", color: AlertLevel.medium.color, title: "Times Licence Suspended"),
+            StatsOverviewItem(icon: "6", color: AlertLevel.medium.color, title: "Times Licence Refused"),
+            StatsOverviewItem(icon: "0", color: AlertLevel.low.color,    title: "Times Licence Cancelled"),
+        ]
+        
         return cell
     }
     
@@ -70,9 +74,8 @@ class TestCollectionViewController: FormCollectionViewController  {
     }
     
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
-        // It just so happens that our demo size goal from the creatives for the content view should be 40.0.
-        // We've tested (and should unit test) that our sizing methods with default settings and single line detail hand back this value.
-        return 112.0
+        
+        return StatsOverviewCollectionViewCell.minimumHeight(compatibleWith: traitCollection)
     }
     
     
