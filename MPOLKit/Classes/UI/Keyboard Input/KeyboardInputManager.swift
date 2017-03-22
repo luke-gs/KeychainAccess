@@ -1,9 +1,9 @@
 //
 //  KeyboardInputManager.swift
-//  Pods
+//  MPOLKit
 //
 //  Created by Rod Brown on 11/3/17.
-//
+//  Copyright © 2017 Gridstone. All rights reserved.
 //
 
 import UIKit

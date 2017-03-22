@@ -1,9 +1,9 @@
 //
 //  CollectionViewFormCell.swift
-//  FormKit
+//  MPOLKit/FormKit
 //
 //  Created by Rod Brown on 4/05/2016.
-//  Copyright © 2016 Rod Brown. All rights reserved.
+//  Copyright © 2016 Gridstone. All rights reserved.
 //
 
 import UIKit

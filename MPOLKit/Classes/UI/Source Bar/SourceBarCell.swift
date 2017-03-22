@@ -1,9 +1,9 @@
 //
 //  SourceBarCell.swift
-//  Pods
+//  MPOLKit
 //
 //  Created by Rod Brown on 10/3/17.
-//
+//  Copyright © 2017 Gridstone. All rights reserved.
 //
 
 import UIKit

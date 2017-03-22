@@ -121,4 +121,3 @@ fileprivate class AlertCollectionViewCell: CollectionViewFormDetailCell {
     }
     
 }
-

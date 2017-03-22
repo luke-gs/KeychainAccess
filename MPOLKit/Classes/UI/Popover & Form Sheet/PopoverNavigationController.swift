@@ -112,7 +112,7 @@ extension PopoverNavigationController: UINavigationControllerDelegate {
                                    animationControllerFor operation: UINavigationControllerOperation,
                                    from fromVC: UIViewController,
                                    to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return wantsTransparentBackground ? ViewControllerTransition(transition: .transitionCrossDissolve, duration: 0.2) : nil
+        return wantsTransparentBackground ? ViewControllerAnimationOptionTransition(transition: .transitionCrossDissolve, duration: 0.2) : nil
     }
     
 }

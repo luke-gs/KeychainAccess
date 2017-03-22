@@ -1,6 +1,6 @@
 //
 //  CollectionViewFormLayout.swift
-//  FormKit
+//  MPOLKit/FormKit
 //
 //  Created by Rod Brown on 27/04/2016.
 //  Copyright © 2016 Gridstone. All rights reserved.

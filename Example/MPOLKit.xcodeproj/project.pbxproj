@@ -105,7 +105,6 @@
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				397B77AD1E6D25E200696677 /* PushableTestViewController.swift */,
 				397B77AE1E6D25E200696677 /* TestCollectionViewController.swift */,
-				397B77B21E6D260200696677 /* LaunchScreen.storyboard */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
 			);
 			name = "Example for MPOLKit";
@@ -115,6 +114,7 @@
 		607FACD31AFB9204008FA782 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				397B77B21E6D260200696677 /* LaunchScreen.storyboard */,
 				397B77AC1E6D25E200696677 /* Assets.xcassets */,
 				607FACD41AFB9204008FA782 /* Info.plist */,
 			);

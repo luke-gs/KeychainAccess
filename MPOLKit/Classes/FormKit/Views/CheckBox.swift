@@ -1,9 +1,9 @@
 //
 //  CheckBox.swift
-//  FormKit
+//  MPOLKit/FormKit
 //
 //  Created by Rod Brown on 6/05/2016.
-//  Copyright © 2016 RodBrown. All rights reserved.
+//  Copyright © 2017 Gridstone. All rights reserved.
 //
 
 import UIKit
