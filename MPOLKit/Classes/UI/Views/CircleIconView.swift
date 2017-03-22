@@ -34,9 +34,9 @@ open class CircleIconView: UIView {
         }
     }
     
-    public var circleColor: UIColor? {
+    public var color: UIColor? {
         didSet {
-            if circleColor == oldValue { return }
+            if color == oldValue { return }
             
             setNeedsDisplay()
         }
@@ -102,7 +102,7 @@ extension CircleIconView {
     open override func draw(_ rect: CGRect) {
         guard let context = UIGraphicsGetCurrentContext() else { return }
         
-        context.setFillColor(circleColor?.cgColor ?? UIColor.gray.cgColor)
+        context.setFillColor(color?.cgColor ?? UIColor.gray.cgColor)
         context.fillEllipse(in: bounds)
     }
     

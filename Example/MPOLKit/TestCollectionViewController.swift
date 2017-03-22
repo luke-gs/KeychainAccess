@@ -16,7 +16,7 @@ class TestCollectionViewController: FormCollectionViewController  {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        collectionView?.register(CollectionViewFormDetailCell.self)
+        collectionView?.register(StatsOverviewCollectionViewCell.self)
         collectionView?.register(CollectionViewFormMPOLHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
     }
     
@@ -72,7 +72,7 @@ class TestCollectionViewController: FormCollectionViewController  {
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
         // It just so happens that our demo size goal from the creatives for the content view should be 40.0.
         // We've tested (and should unit test) that our sizing methods with default settings and single line detail hand back this value.
-        return 88.0
+        return 112.0
     }
     
     
