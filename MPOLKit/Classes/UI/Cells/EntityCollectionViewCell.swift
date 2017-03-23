@@ -206,12 +206,8 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
         detailLabel.removeObserver(self,   forKeyPath: textKey, context: &textContext)
     }
     
-}
 
-
-// MARK: - Sizing class methods
-/// Sizing class methods.
-extension EntityCollectionViewCell {
+    // MARK: - Layout methods
     
     public override func updateConstraints() {
         if self.styleConstraints?.isEmpty ?? true {
@@ -282,15 +278,29 @@ extension EntityCollectionViewCell {
         }
     }
     
+    internal override func applyStandardFonts() {
+        super.applyStandardFonts()
+        
+        let titleFont: UIFont
+        let footnoteFont: UIFont
+        
+        if #available(iOS 10, *) {
+            let traitCollection = self.traitCollection
+            titleFont    = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+            footnoteFont = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
+        } else {
+            titleFont    = .preferredFont(forTextStyle: .headline)
+            footnoteFont = .preferredFont(forTextStyle: .footnote)
+        }
+        
+        titleLabel.font    = titleFont
+        subtitleLabel.font = footnoteFont
+        detailLabel.font   = footnoteFont
+    }
     
     
-}
-
-
-// MARK: - Sizing
-/// Sizing
-extension EntityCollectionViewCell {
     
+    // MARK: - Class sizing methods
     
     /// Calculates the minimum width for an `EntityCollectionViewCell` with a specified style.
     ///
@@ -353,34 +363,6 @@ extension EntityCollectionViewCell {
             return 96.0
         }
     }
-    
-}
-
-
-// MARK: - Private methods
-/// Private methods
-internal extension EntityCollectionViewCell {
-    
-    internal override func applyStandardFonts() {
-        super.applyStandardFonts()
-        
-        let titleFont: UIFont
-        let footnoteFont: UIFont
-        
-        if #available(iOS 10, *) {
-            let traitCollection = self.traitCollection
-            titleFont    = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
-            footnoteFont = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
-        } else {
-            titleFont    = .preferredFont(forTextStyle: .headline)
-            footnoteFont = .preferredFont(forTextStyle: .footnote)
-        }
-        
-        titleLabel.font    = titleFont
-        subtitleLabel.font = footnoteFont
-        detailLabel.font   = footnoteFont
-    }
-    
 }
 
 

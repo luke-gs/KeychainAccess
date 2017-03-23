@@ -11,11 +11,14 @@ import UIKit
 
 private let tempID = "temp"
 
-open class FormCollectionViewController: UIViewController, PopoverViewController {
+open class FormCollectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, CollectionViewDelegateMPOLLayout, PopoverViewController {
+    
+    
+    // MARK: - Public properties
     
     open let formLayout: CollectionViewFormMPOLLayout
     
-    open fileprivate(set) var collectionView: UICollectionView?
+    open private(set) var collectionView: UICollectionView?
     
     open var wantsTransparentBackground: Bool = false {
         didSet {
@@ -26,17 +29,27 @@ open class FormCollectionViewController: UIViewController, PopoverViewController
     }
     
     @NSCopying open var tintColor:            UIColor?
+    
     @NSCopying open var backgroundColor:      UIColor?
+    
     @NSCopying open var selectionColor:       UIColor?
     
     @NSCopying open var sectionTitleColor:    UIColor?
     
     @NSCopying open var primaryTextColor:     UIColor?
+    
     @NSCopying open var secondaryTextColor:   UIColor?
+    
     @NSCopying open var placeholderTextColor: UIColor?
     
-    fileprivate var collectionViewInsetManager: ScrollViewInsetManager?
     
+    
+    // MARK: - Private properties
+    
+    private var collectionViewInsetManager: ScrollViewInsetManager?
+    
+    
+    // MARK: - Initializers
     
     public init() {
         formLayout = CollectionViewFormMPOLLayout()
@@ -51,13 +64,11 @@ open class FormCollectionViewController: UIViewController, PopoverViewController
     public required convenience init?(coder aDecoder: NSCoder) {
         self.init()
     }
-}
-
-
-/// View lifecycle
-extension FormCollectionViewController {
     
-    open dynamic override func loadView() {
+    
+    // MARK: - View lifecycle
+    
+    open override func loadView() {
         let backgroundBounds = UIScreen.main.bounds
         
         let collectionView = UICollectionView(frame: backgroundBounds, collectionViewLayout: formLayout)
@@ -80,7 +91,7 @@ extension FormCollectionViewController {
         self.view = backgroundView
     }
     
-    open dynamic override func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
         applyCurrentTheme()
     }
@@ -93,6 +104,8 @@ extension FormCollectionViewController {
         collectionViewInsetManager?.standardIndicatorInset  = contentInsets
     }
     
+    
+    // MARK: - Themes
     
     public dynamic func applyCurrentTheme() {
         let colors = Theme.current.colors
@@ -136,31 +149,28 @@ extension FormCollectionViewController {
             }
         }
     }
-}
-
-extension FormCollectionViewController: UICollectionViewDataSource {
     
-    open dynamic func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    
+    // MARK: - UICollectionViewDataSource methods
+    
+    open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 0
     }
     
-    open dynamic func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         fatalError("Subclasses must override this method, and must not call super.")
     }
     
-    open dynamic func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    open func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let defaultView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: tempID, for: indexPath)
         defaultView.isUserInteractionEnabled = false
         return defaultView
     }
     
-}
-
-
-/// Collection view delegate
-extension FormCollectionViewController: UICollectionViewDelegate {
     
-    open dynamic func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    // MARK: - UICollectionViewDelegate methods
+    
+    open func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         cell.selectedBackgroundView?.backgroundColor = selectionColor ?? #colorLiteral(red: 0.8, green: 0.8, blue: 0.8, alpha: 1)
         switch cell {
         case let formCell as EntityCollectionViewCell:
@@ -222,7 +232,7 @@ extension FormCollectionViewController: UICollectionViewDelegate {
         }
     }
     
-    open dynamic func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
+    open func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
         switch view {
         case let headerView as CollectionViewFormMPOLHeaderView:
             headerView.tintColor = secondaryTextColor
@@ -231,11 +241,8 @@ extension FormCollectionViewController: UICollectionViewDelegate {
         }
     }
     
-}
-
-
-/// Collection view delegate MPOL layout
-extension FormCollectionViewController: CollectionViewDelegateMPOLLayout {
+    
+    // MARK: - CollectionViewDelegateMPOLLayout methods
     
     open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
         return 0.0
@@ -257,11 +264,8 @@ extension FormCollectionViewController: CollectionViewDelegateMPOLLayout {
         return 39.0
     }
     
-}
-
-
-/// Status bar support
-extension FormCollectionViewController {
+    
+    // MARK: - Status bar overrides
     
     open override var preferredStatusBarStyle : UIStatusBarStyle {
         return Theme.current.statusBarStyle

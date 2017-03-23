@@ -9,7 +9,7 @@
 import UIKit
 
 /// A cell to present a horizontally scrolling gallery of items.
-open class GalleryCollectionViewCell: CollectionViewFormCell {
+open class GalleryCollectionViewCell: CollectionViewFormCell, UICollectionViewDataSource, UICollectionViewDelegate {
     
     /// The delegate for the gallery. Setting this will automatically cause a reload.
     open weak var delegate: GalleryCollectionViewCellDelegate? {
@@ -64,7 +64,7 @@ open class GalleryCollectionViewCell: CollectionViewFormCell {
         delegate = nil // Set the delegate back to nil (ensuring a reload to zero, and preparation for any further reuse)
     }
     
-    fileprivate let flowLayout:     UICollectionViewFlowLayout
+    private let flowLayout:     UICollectionViewFlowLayout
     fileprivate let galleryCollectionView: UICollectionView
     
     public override init(frame: CGRect) {
@@ -107,56 +107,30 @@ open class GalleryCollectionViewCell: CollectionViewFormCell {
         
         return convert(attributes.frame, from: galleryCollectionView)
     }
-}
-
-
-/// The delegate protocol for a GalleryCollectionViewCell.
-/// The delegate is responsible for entering content in the cell.
-@objc public protocol GalleryCollectionViewCellDelegate: NSObjectProtocol {
     
-    /// Returns the number of items in the gallery.
-    func numberOfItems(in cell: GalleryCollectionViewCell) -> Int
     
-    /// Returns a preview image for the items in the gallery.
-    func galleryCell(_ cell: GalleryCollectionViewCell, previewForItemAt index: Int) -> UIImage?
+    // MARK: - Updates
     
-    /// Returns an accessory icon to display over the image
-    func galleryCell(_ cell: GalleryCollectionViewCell, accessoryIconAt index: Int) -> UIImage?
-    
-    /// Notifies the delegate that the user selected an item in the gallery.
-    @objc optional func galleryCell(_ cell: GalleryCollectionViewCell, didSelectItemAt index: Int)
-    
-    @objc optional func galleryCell(_ cell: GalleryCollectionViewCell, shouldShowMenuForItemAt index: Int) -> Bool
-    
-    @objc optional func galleryCell(_ cell: GalleryCollectionViewCell, canPerformAction action: Selector, forItemAt index: Int, withSender sender: Any?) -> Bool
-    
-    @objc optional func galleryCell(_ cell: GalleryCollectionViewCell, performAction action: Selector, forItemAt index: Int, withSender sender: Any?)
-    @objc optional func galleryCellDidScroll(_ cell: GalleryCollectionViewCell)
-}
-
-extension GalleryCollectionViewCell {
-    
-    func insertItem(at index: Int) {
+    open func insertItem(at index: Int) {
         galleryCollectionView.insertItems(at: [IndexPath(item: index, section: 0)])
     }
     
-    func deleteItem(at index: Int) {
+    open func deleteItem(at index: Int) {
         galleryCollectionView.deleteItems(at: [IndexPath(item: index, section: 0)])
     }
-}
-
-
-extension GalleryCollectionViewCell: UICollectionViewDataSource {
     
-    public func numberOfSections(in collectionView: UICollectionView) -> Int {
+    
+    // MARK: - UICollectionViewDataSource
+    
+    open func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
-    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return delegate?.numberOfItems(in: self) ?? 0
     }
     
-    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(of: GalleryItemCell.self, for: indexPath)
         
         cell.galleryCell = self
@@ -165,9 +139,9 @@ extension GalleryCollectionViewCell: UICollectionViewDataSource {
         
         return cell
     }
-}
-
-extension GalleryCollectionViewCell: UICollectionViewDelegate {
+    
+    
+    // MARK: - UICollectionViewDelegate methods
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         delegate?.galleryCell?(self, didSelectItemAt: indexPath.item)
@@ -205,6 +179,33 @@ extension GalleryCollectionViewCell: UICollectionViewDelegate {
     
     open override func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {}
 }
+
+
+/// The delegate protocol for a GalleryCollectionViewCell.
+/// The delegate is responsible for entering content in the cell.
+@objc public protocol GalleryCollectionViewCellDelegate: NSObjectProtocol {
+    
+    /// Returns the number of items in the gallery.
+    func numberOfItems(in cell: GalleryCollectionViewCell) -> Int
+    
+    /// Returns a preview image for the items in the gallery.
+    func galleryCell(_ cell: GalleryCollectionViewCell, previewForItemAt index: Int) -> UIImage?
+    
+    /// Returns an accessory icon to display over the image
+    func galleryCell(_ cell: GalleryCollectionViewCell, accessoryIconAt index: Int) -> UIImage?
+    
+    /// Notifies the delegate that the user selected an item in the gallery.
+    @objc optional func galleryCell(_ cell: GalleryCollectionViewCell, didSelectItemAt index: Int)
+    
+    @objc optional func galleryCell(_ cell: GalleryCollectionViewCell, shouldShowMenuForItemAt index: Int) -> Bool
+    
+    @objc optional func galleryCell(_ cell: GalleryCollectionViewCell, canPerformAction action: Selector, forItemAt index: Int, withSender sender: Any?) -> Bool
+    
+    @objc optional func galleryCell(_ cell: GalleryCollectionViewCell, performAction action: Selector, forItemAt index: Int, withSender sender: Any?)
+    @objc optional func galleryCellDidScroll(_ cell: GalleryCollectionViewCell)
+}
+
+
 
 
 private class GalleryItemCell: UICollectionViewCell, DefaultReusable {
@@ -249,9 +250,6 @@ private class GalleryItemCell: UICollectionViewCell, DefaultReusable {
         selectionView.layer.cornerRadius = 10.0
         selectedBackgroundView = selectionView
     }
-}
-
-extension GalleryItemCell {
     
     override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
         if let cell = galleryCell,
