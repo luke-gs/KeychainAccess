@@ -504,9 +504,9 @@
 		BC92F68F1E80B18A009A5D0A /* Information */ = {
 			isa = PBXGroup;
 			children = (
-				BC92F6901E80B18A009A5D0A /* EntityDetailCollectionViewCell.swift */,
 				BC92F6911E80B18A009A5D0A /* EntityInfoViewController.swift */,
 				BC92F6921E80B18A009A5D0A /* PersonInfoViewController.swift */,
+				BC92F6901E80B18A009A5D0A /* EntityDetailCollectionViewCell.swift */,
 			);
 			path = Information;
 			sourceTree = "<group>";

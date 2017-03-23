@@ -16,7 +16,9 @@ class TestCollectionViewController: FormCollectionViewController  {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        collectionView?.register(StatsOverviewCollectionViewCell.self)
+        //formLayout.itemLayoutMargins = .zero
+        
+        collectionView?.register(EntityDetailCollectionViewCell.self)
         collectionView?.register(CollectionViewFormMPOLHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
     }
     
@@ -33,7 +35,7 @@ class TestCollectionViewController: FormCollectionViewController  {
         
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, class: CollectionViewFormMPOLHeaderView.self, for: indexPath)
         header.showsExpandArrow = true
-        header.text = "1 ACTIVE ALERT"
+        header.text = "LAST UPDATED: 23/03/17"
         header.tapHandler = { (header, ip) in
             header.setExpanded(header.isExpanded == false, animated: true)
         }
@@ -41,15 +43,13 @@ class TestCollectionViewController: FormCollectionViewController  {
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(of: StatsOverviewCollectionViewCell.self, for: indexPath)
-        
-        cell.items = [
-            StatsOverviewItem(icon: "8", color: AlertLevel.high.color,   title: "Finalized Demerit Points"),
-            StatsOverviewItem(icon: "2", color: AlertLevel.medium.color, title: "Times Licence Suspended"),
-            StatsOverviewItem(icon: "6", color: AlertLevel.medium.color, title: "Times Licence Refused"),
-            StatsOverviewItem(icon: "0", color: AlertLevel.low.color,    title: "Times Licence Cancelled"),
-        ]
-        
+        let cell = collectionView.dequeueReusableCell(of: EntityDetailCollectionViewCell.self, for: indexPath)
+        cell.imageView.image = #imageLiteral(resourceName: "Avatar 1")
+        cell.sourceLabel.text = "DATA SOURCE 1"
+        cell.titleLabel.text = "Smith, Max R."
+        cell.subtitleLabel.text = "08/05/1987 (29 Male)"
+        cell.descriptionLabel.text = "196 cm proportionate european male with short brown hair and brown eyes"
+        cell.additionalDescriptionsButton.setTitle("4 MORE DESCRIPTIONS", for: .normal)
         return cell
     }
     
@@ -74,8 +74,7 @@ class TestCollectionViewController: FormCollectionViewController  {
     }
     
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
-        
-        return StatsOverviewCollectionViewCell.minimumHeight(compatibleWith: traitCollection)
+        return EntityDetailCollectionViewCell.minimumContentHeight(withTitle: "Smith, Max R.", subtitle: "08/05/1987 (29 Male)", description: "196 cm proportionate european male with short brown hair and brown eyes", additionalDetails: "4 MORE DESCRIPTIONS", source: "DATA SOURCE 1", inWidth: itemWidth, compatibleWith: traitCollection)
     }
     
     
