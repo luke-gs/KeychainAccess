@@ -711,13 +711,3 @@ public extension CollectionViewFormLayout {
         return itemSize
     }
 }
-
-
-// MARK: - Array convenience extensions
-/// Array convenience extensions
-private extension Array {
-    /// Access the `index`th element, if it exists. Complexity: O(1).
-    subscript (ifExists index: Int) -> Element? {
-        return index < count ? self[index] : nil
-    }
-}

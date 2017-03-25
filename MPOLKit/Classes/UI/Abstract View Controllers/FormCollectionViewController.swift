@@ -54,6 +54,7 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     public init() {
         formLayout = CollectionViewFormMPOLLayout()
         formLayout.itemLayoutMargins = UIEdgeInsets(top: 16.0, left: 24.0, bottom: 15.0, right: 16.0)
+        formLayout.wantsInsetHeaders = true
         super.init(nibName: nil, bundle: nil)
         
         automaticallyAdjustsScrollViewInsets = false // we manage this ourselves.

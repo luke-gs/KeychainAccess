@@ -330,16 +330,6 @@ public struct StatsOverviewItem: Equatable {
         self.title = title
     }
     
-    public var iconImage: UIImage? {
-        get { return icon as? UIImage }
-        set { if let newValue = newValue { icon = newValue } }
-    }
-    
-    public var iconText: String? {
-        get { return icon as? String }
-        set { if let newValue = newValue { icon = newValue as NSString } }
-    }
-    
 }
 
 

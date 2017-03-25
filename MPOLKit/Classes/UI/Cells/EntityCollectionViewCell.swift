@@ -30,6 +30,9 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
         
         /// The Detail style. This style emphasizes the icon and detail equally.
         case detail
+        
+        /// The Thumbnail style. This style hides the labels to simplify and avoid clutter.
+        case thumbnail
     }
     
     
@@ -41,8 +44,9 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
     /// - Returns: The minimum content width for the cell
     public class func minimumContentWidth(forStyle style: Style) -> CGFloat {
         switch style {
-        case .hero:     return 182.0
-        case .detail:   return 250.0
+        case .hero:      return 182.0
+        case .detail:    return 250.0
+        case .thumbnail: return 96.0
         }
     }
     
@@ -69,7 +73,7 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
             }
             
             return minimumContentHeight(forStyle: style, withTitleFont: titleFont, subtitleFont: footnoteFont, detailFont: footnoteFont)
-        case .detail:
+        case .detail, .thumbnail:
             return 96.0
         }
     }
@@ -92,7 +96,7 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
             let scale = UIScreen.main.scale
             let heightOfFonts =  titleFont.lineHeight.ceiled(toScale: scale) + subtitleFont.lineHeight.ceiled(toScale: scale) + detailFont.lineHeight.ceiled(toScale: scale)
             return 173.0 + heightOfFonts
-        case .detail:
+        case .detail, .thumbnail:
             return 96.0
         }
     }
@@ -113,6 +117,11 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
                 self.styleConstraints = nil
                 setNeedsUpdateConstraints()
             }
+            
+            let isThumbnail = style == .thumbnail
+            titleLabel.isHidden    = isThumbnail
+            subtitleLabel.isHidden = isThumbnail
+            detailLabel.isHidden   = isThumbnail
         }
     }
     
@@ -246,7 +255,6 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
             NSLayoutConstraint(item: sourceLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: borderImageView, attribute: .trailing, constant: -6.0),
             
             NSLayoutConstraint(item: textLabelGuide, attribute: .bottom,   relatedBy: .lessThanOrEqual, toItem: backingView, attribute: .bottom),
-            NSLayoutConstraint(item: textLabelGuide, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: backingView, attribute: .trailing),
             
             NSLayoutConstraint(item: titleLabel,    attribute: .leading,  relatedBy: .equal,           toItem: textLabelGuide, attribute: .leading),
             NSLayoutConstraint(item: subtitleLabel, attribute: .leading,  relatedBy: .equal,           toItem: textLabelGuide, attribute: .leading),
@@ -299,8 +307,9 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
                     NSLayoutConstraint(item: borderedImageView, attribute: .top,     relatedBy: .equal, toItem: contentBackingView, attribute: .top),
                     NSLayoutConstraint(item: borderedImageView, attribute: .centerX, relatedBy: .equal, toItem: contentView, attribute: .centerXWithinMargins),
                     
-                    NSLayoutConstraint(item: textLabelGuide, attribute: .leading, relatedBy: .equal, toItem: borderedImageView, attribute: .leading),
-                    NSLayoutConstraint(item: textLabelGuide, attribute: .top,     relatedBy: .equal, toItem: borderedImageView, attribute: .bottom, constant: 9.0)
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .leading,  relatedBy: .equal, toItem: borderedImageView, attribute: .leading),
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .top,      relatedBy: .equal, toItem: borderedImageView, attribute: .bottom, constant: 9.0),
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentBackingView, attribute: .trailing)
                 ]
             case .detail:
                 styleConstraints = [
@@ -312,8 +321,23 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
                     NSLayoutConstraint(item: borderedImageView, attribute: .height,  relatedBy: .equal, toConstant: 96.0),
                     NSLayoutConstraint(item: borderedImageView, attribute: .centerY, relatedBy: .equal, toItem: contentBackingView, attribute: .centerY),
                     
-                    NSLayoutConstraint(item: textLabelGuide, attribute: .leading, relatedBy: .equal, toItem: borderedImageView, attribute: .trailing, constant: 10.0),
-                    NSLayoutConstraint(item: textLabelGuide, attribute: .centerY, relatedBy: .equal, toItem: contentBackingView, attribute: .centerY)
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .leading,  relatedBy: .equal, toItem: borderedImageView, attribute: .trailing, constant: 10.0),
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .centerY,  relatedBy: .equal, toItem: contentBackingView, attribute: .centerY),
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentBackingView, attribute: .trailing),
+                ]
+            case .thumbnail:
+                styleConstraints = [
+                    NSLayoutConstraint(item: contentBackingView, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerYWithinMargins),
+                    NSLayoutConstraint(item: contentBackingView, attribute: .leading, relatedBy: .equal, toItem: contentView, attribute: .leadingMargin),
+                    NSLayoutConstraint(item: contentBackingView, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentView, attribute: .trailingMargin),
+                    
+                    NSLayoutConstraint(item: borderedImageView, attribute: .width,   relatedBy: .equal, toConstant: 96.0),
+                    NSLayoutConstraint(item: borderedImageView, attribute: .height,  relatedBy: .equal, toConstant: 96.0),
+                    NSLayoutConstraint(item: borderedImageView, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerYWithinMargins),
+                    
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .leading,  relatedBy: .equal, toItem: borderedImageView, attribute: .trailing, constant: 10.0),
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .centerY,  relatedBy: .equal, toItem: contentBackingView, attribute: .centerY),
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: borderedImageView, attribute: .trailing, constant: 110),
                 ]
             }
             
