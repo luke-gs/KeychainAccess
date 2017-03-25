@@ -254,7 +254,6 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
     
     open override func didMoveToWindow() {
         super.didMoveToWindow()
-        contentBackingView.layer.rasterizationScale = (window?.screen ?? .main).scale
     }
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -276,6 +275,18 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
+    }
+    
+    
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        var displayScale = traitCollection.displayScale
+        if displayScale ==~ 0 {
+            displayScale = UIScreen.main.scale
+        }
+        
+        contentBackingView.layer.rasterizationScale = displayScale
     }
     
     internal override func applyStandardFonts() {

@@ -30,8 +30,7 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
         
         title = "Details"
         
-        sidebarViewController.sourceItems = [SourceItem(color: AlertLevel.medium.color, title: "DS1", count: 3)]
-        sidebarViewController.selectedSourceIndex = 0
+        sidebarViewController.sourceItems = [SourceItem(title: "DS1", state: .loading)]
         
         let formForwardIcon = UIImage(named: "iconFormForward", in: Bundle(for: FormCollectionViewController.self), compatibleWith: nil)
         
@@ -42,11 +41,12 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
         
         let headerView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 320.0, height: 60.0))
         headerView.preservesSuperviewLayoutMargins = true
+        headerView.accessibilityTraits |= UIAccessibilityTraitHeader
         
         headerTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         headerTitleLabel.adjustsFontSizeToFitWidth = true
         headerTitleLabel.numberOfLines = 0
-        headerTitleLabel.text = "Frost,\nDeacon R."
+        headerTitleLabel.text = "Frost, Deacon R."
         headerTitleLabel.font = .systemFont(ofSize: 28.0, weight: UIFontWeightBold)
         headerTitleLabel.textColor = .white
         

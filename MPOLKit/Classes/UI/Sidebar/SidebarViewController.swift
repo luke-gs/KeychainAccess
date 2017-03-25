@@ -278,6 +278,10 @@ extension SidebarViewController: SourceBarDelegate {
         delegate?.sidebarViewController(self, didSelectSourceAt: index)
     }
     
+    public func sourceBar(_ bar: SourceBar, didRequestLoadAt index: Int) {
+        delegate?.sidebarViewController(self, didRequestLoadSourceAt: index)
+    }
+    
 }
 
 extension SidebarViewController {
@@ -323,5 +327,7 @@ public protocol SidebarViewControllerDelegate : class {
     
     
     func sidebarViewController(_ controller: SidebarViewController, didSelectSourceAt index: Int)
+    
+    func sidebarViewController(_ controller: SidebarViewController, didRequestLoadSourceAt index: Int)
     
 }

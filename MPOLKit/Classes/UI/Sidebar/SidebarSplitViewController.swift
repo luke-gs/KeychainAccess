@@ -108,6 +108,8 @@ open class SidebarSplitViewController: PushableSplitViewController {
 /// SidebarViewControllerDelegate methods
 extension SidebarSplitViewController : SidebarViewControllerDelegate {
     
+    /// Handles when the sidebar selects a new item.
+    /// By default, this selects the associated detail view controller.
     ///
     /// - Parameters:
     ///   - controller: The `SidebarViewController` that has a new selection.
@@ -122,6 +124,10 @@ extension SidebarSplitViewController : SidebarViewControllerDelegate {
     ///   - controller: The `SidebarViewController` where the item changed.
     ///   - index:      The sidebar source index selected.
     open func sidebarViewController(_ controller: SidebarViewController, didSelectSourceAt index: Int) {
+    }
+    
+    open func sidebarViewController(_ controller: SidebarViewController, didRequestLoadSourceAt index: Int) {
+        
     }
     
 }

@@ -367,7 +367,7 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
         }
         
         if source?.isEmpty ?? true == false {
-            textHeight += UIFont.systemFont(ofSize: 11.0, weight: UIFontWeightBold).lineHeight.ceiled(toScale: displayScale) + 10.0
+            textHeight += UIFont.systemFont(ofSize: 11.0, weight: UIFontWeightBold).lineHeight.ceiled(toScale: displayScale) + 11.0
         }
         
         return isCompact ? textHeight : max(textHeight, 202.0) // 202 is the height for the image view in non-compact mode.

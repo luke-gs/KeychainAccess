@@ -112,19 +112,12 @@ public class SourceBar: UIScrollView {
     }
     
     
-    /// A public declaration of the source bar's delegate, conforming to `SourceBarDelegate` protocol.
+    /// The source bar's delegate, conforming to `SourceBarDelegate` protocol.
     ///
     /// Optimally, this would override the delegate and redeclare the conforming protocol type as the
     /// source bar delegate, much like `UITableViewDelegate` extends `UIScrollViewDelegate` also.
-    /// 
-    /// The correct definiton of this property should be: `public override var delegate: SourceBarDelegate?`
-    ///
-    /// This is a language limitation. You should only use a SourceBarDelegate as the delegate for this
-    /// class.
-    public var sourceBarDelegate: SourceBarDelegate? {
-        get { return delegate as? SourceBarDelegate }
-        set { delegate = newValue }
-    }
+    /// This is a language limitation, so we have a separate property.
+    public weak var sourceBarDelegate: SourceBarDelegate?
     
     
     
@@ -249,9 +242,16 @@ fileprivate extension SourceBar {
     
     @objc fileprivate func touchUp(in cell: SourceBarCell) {
         _highlightedIndex = nil
-        if let selectedIndex = _cells.index(of: cell) {
-            _selectedIndex = selectedIndex
-            (delegate as? SourceBarDelegate)?.sourceBar(self, didSelectItemAt: selectedIndex)
+        if let cellIndex = _cells.index(of: cell) {
+            switch items[cellIndex].state {
+            case .notLoaded:
+                sourceBarDelegate?.sourceBar(self, didRequestLoadAt: cellIndex)
+            case .loaded:
+                _selectedIndex = selectedIndex
+                sourceBarDelegate?.sourceBar(self, didSelectItemAt: cellIndex)
+            default:
+                break
+            }
         }
         updateCellSelection()
     }
@@ -274,8 +274,10 @@ fileprivate extension SourceBar {
 
 /// The delegate of a `SourceBar` object should adopt the SourceViewDelegate protocol.
 /// The protocol provides callbacks for when the selected item changed.
-@objc public protocol SourceBarDelegate: UIScrollViewDelegate {
+public protocol SourceBarDelegate: class {
     
     func sourceBar(_ bar: SourceBar, didSelectItemAt index: Int)
+    
+    func sourceBar(_ bar: SourceBar, didRequestLoadAt index: Int)
     
 }
