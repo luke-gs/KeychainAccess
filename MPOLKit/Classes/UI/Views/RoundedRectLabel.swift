@@ -30,7 +30,9 @@ open class RoundedRectLabel : UILabel {
         backgroundColor = UIColor(white: 0.3, alpha: 0.9)
         textAlignment   = .center
         clipsToBounds   = true
-        layoutMargins   = UIEdgeInsets(top: 3.0, left: 10.0, bottom: 2.0, right: 10.0)
+        
+        // Visually this appears slightly different on devices depending on scale. We vary the numbers depending on the screen scale.
+        layoutMargins = UIEdgeInsets(top: 2.0 + (1.0 / UIScreen.main.scale), left: 10.0, bottom: 2.0, right: 10.0)
         
         let layer = self.layer
         layer.cornerRadius = 2.0
@@ -41,8 +43,7 @@ open class RoundedRectLabel : UILabel {
     open override func textRect(forBounds bounds: CGRect, limitedToNumberOfLines numberOfLines: Int) -> CGRect {
         if text?.isEmpty ?? true { return CGRect.zero }
         
-        var rect = bounds.insetBy(layoutMargins)
-        rect = super.textRect(forBounds: rect, limitedToNumberOfLines: numberOfLines)
+        let rect = super.textRect(forBounds: bounds.insetBy(layoutMargins), limitedToNumberOfLines: numberOfLines)
         return rect.insetBy(layoutMargins.inverted())
     }
     

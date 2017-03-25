@@ -22,6 +22,7 @@ internal class SourceBarCell: UIControl {
     
     private var style: SourceBar.Style = .dark
     
+    private var isAvailable: Bool = true
     
     // MARK: - Initializers
     
@@ -144,6 +145,8 @@ internal class SourceBarCell: UIControl {
             accessibilityValue = count == 0 ? nil : "Count " + badgeText
         }
         
+        isAvailable = item.state != .notAvailable
+        
         updateTextAttributes()
     }
     
@@ -152,9 +155,9 @@ internal class SourceBarCell: UIControl {
         
         switch style {
         case .light:
-            titleLabel.textColor = isEnabled ? (highlight ? .darkGray : .gray)   : SourceBarCell.lightDisabledColor
+            titleLabel.textColor = isAvailable ? (highlight ? .darkGray : .gray)   : SourceBarCell.lightDisabledColor
         case .dark:
-            titleLabel.textColor = isEnabled ? (highlight ? .white : .lightGray) : SourceBarCell.darkDisabledColor
+            titleLabel.textColor = isAvailable ? (highlight ? .white : .lightGray) : SourceBarCell.darkDisabledColor
         }
         
         titleLabel.font = highlight ? .systemFont(ofSize: 12.5, weight: UIFontWeightBold) : .systemFont(ofSize: 11.5, weight: UIFontWeightRegular)

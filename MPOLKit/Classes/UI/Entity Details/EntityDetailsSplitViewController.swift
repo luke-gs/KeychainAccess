@@ -30,7 +30,7 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
         
         title = "Details"
         
-        sidebarViewController.sourceItems = [SourceItem(title: "DS1", state: .loading)]
+        sidebarViewController.sourceItems = [SourceItem(title: "DS1", state: .notLoaded)]
         
         let formForwardIcon = UIImage(named: "iconFormForward", in: Bundle(for: FormCollectionViewController.self), compatibleWith: nil)
         
