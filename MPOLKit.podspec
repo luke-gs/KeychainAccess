@@ -26,7 +26,7 @@ s.default_subspec = "Core"
 
 s.subspec "Core" do |core|
 core.source_files = 'MPOLKit/Classes/**/*'
-s.resources = ['MPOLKit/Assets/MPOL/**/*']
+s.resources = ['MPOLKit/Assets/MPOL/**/*', 'MPOLKit/Assets/FormKit/*']
 end
 
 s.subspec 'FormKit' do |formkit|
