@@ -22,9 +22,6 @@ public class CollectionViewFormMPOLHeaderAttributes: UICollectionViewLayoutAttri
     
     public var leadingMargin: CGFloat  = 0.0
     
-}
-
-extension CollectionViewFormMPOLHeaderAttributes {
     
     public override func copy(with zone: NSZone?) -> Any {
         let copy = super.copy(with: zone) as! CollectionViewFormMPOLHeaderAttributes

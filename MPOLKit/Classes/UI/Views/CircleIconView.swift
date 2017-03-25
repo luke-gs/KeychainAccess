@@ -41,6 +41,9 @@ open class CircleIconView: UIView {
             setNeedsDisplay()
         }
     }
+    
+    
+    // MARK: = Initializers
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -54,10 +57,8 @@ open class CircleIconView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-}
-
-
-extension CircleIconView {
+    
+    // MARK: - Overrides
     
     open override var frame: CGRect {
         get {

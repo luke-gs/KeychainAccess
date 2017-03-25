@@ -22,7 +22,6 @@ fileprivate var textContext = 1
 /// preferredContentSizeCategory. It is recommended you avoid updating them.
 public class EntityCollectionViewCell: CollectionViewFormCell {
     
-    
     /// The style types for an `EntityCollectionViewCell`. These include
     /// `.hero` and `.detail`.
     public enum Style: Int {
@@ -33,6 +32,76 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
         case detail
     }
     
+    
+    // MARK: - Class sizing methods
+    
+    /// Calculates the minimum width for an `EntityCollectionViewCell` with a specified style.
+    ///
+    /// - Parameter style: The style for the cell.
+    /// - Returns: The minimum content width for the cell
+    public class func minimumContentWidth(forStyle style: Style) -> CGFloat {
+        switch style {
+        case .hero:     return 182.0
+        case .detail:   return 250.0
+        }
+    }
+    
+    
+    /// Calculates the minimum content height for an `EntityCollectionViewCell` with default font settings
+    /// when contained within a specified trait collection.
+    ///
+    /// - Parameters:
+    ///   - style:           The style of the cell.
+    ///   - traitCollection: The trait collection sizing for.
+    /// - Returns: The minimum content height for the entity cell with default settings.
+    public class func minimumContentHeight(forStyle style: Style, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
+        switch style {
+        case .hero:
+            let titleFont: UIFont
+            let footnoteFont: UIFont
+            
+            if #available(iOS 10, *) {
+                titleFont    = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+                footnoteFont = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
+            } else {
+                titleFont    = .preferredFont(forTextStyle: .headline)
+                footnoteFont = .preferredFont(forTextStyle: .footnote)
+            }
+            
+            return minimumContentHeight(forStyle: style, withTitleFont: titleFont, subtitleFont: footnoteFont, detailFont: footnoteFont)
+        case .detail:
+            return 96.0
+        }
+    }
+    
+    
+    /// Calculates the minimum content height for an `EntityCollectionViewCell` with the specified fonts.
+    ///
+    /// It is recommended you use the `minimumContentHeight(forStyle:compatibleWith:)` method to calculate
+    /// the default height for cells.
+    ///
+    /// - Parameters:
+    ///   - style:        The style of the cell.
+    ///   - titleFont:    The font for the title label.
+    ///   - subtitleFont: The font for the subtitle label.
+    ///   - detailFont:   The font for the detail label.
+    /// - Returns: The minimum content height for an entity cell with the specified fonts.
+    public class func minimumContentHeight(forStyle style: Style, withTitleFont titleFont: UIFont, subtitleFont: UIFont, detailFont: UIFont) -> CGFloat {
+        switch style {
+        case .hero:
+            let scale = UIScreen.main.scale
+            let heightOfFonts =  titleFont.lineHeight.ceiled(toScale: scale) + subtitleFont.lineHeight.ceiled(toScale: scale) + detailFont.lineHeight.ceiled(toScale: scale)
+            return 173.0 + heightOfFonts
+        case .detail:
+            return 96.0
+        }
+    }
+
+    
+
+    
+    
+    // MARK: - Public properties
     
     /// The style for this cell. The default is `EntityCollectionViewCell.Style.hero`.
     public var style: Style = .hero {
@@ -99,19 +168,22 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
         }
     }
     
-    fileprivate let borderedImageView = BorderedImageView(frame: .zero)
     
-    fileprivate let badgeView = BadgeView(style: .system)
+    // MARK: - Private properties
     
-    fileprivate let contentBackingView = UIView(frame: .zero)
+    private let borderedImageView = BorderedImageView(frame: .zero)
     
-    fileprivate let textLabelGuide = UILayoutGuide()
+    private let badgeView = BadgeView(style: .system)
     
-    fileprivate var styleConstraints: [NSLayoutConstraint]?
+    private let contentBackingView = UIView(frame: .zero)
     
-    fileprivate var titleToSubtitleConstraint: NSLayoutConstraint!
+    private let textLabelGuide = UILayoutGuide()
     
-    fileprivate var subtitleToDetailConstraint: NSLayoutConstraint!
+    private var styleConstraints: [NSLayoutConstraint]?
+    
+    private var titleToSubtitleConstraint: NSLayoutConstraint!
+    
+    private var subtitleToDetailConstraint: NSLayoutConstraint!
     
     
     
@@ -252,9 +324,20 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
         super.updateConstraints()
     }
     
-    open override func didMoveToWindow() {
-        super.didMoveToWindow()
+    
+    // MARK: - Change handlers
+    
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        var displayScale = traitCollection.displayScale
+        if displayScale ==~ 0 {
+            displayScale = UIScreen.main.scale
+        }
+        
+        contentBackingView.layer.rasterizationScale = displayScale
     }
+    
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &textContext {
@@ -278,16 +361,6 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
     }
     
     
-    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        
-        var displayScale = traitCollection.displayScale
-        if displayScale ==~ 0 {
-            displayScale = UIScreen.main.scale
-        }
-        
-        contentBackingView.layer.rasterizationScale = displayScale
-    }
     
     internal override func applyStandardFonts() {
         super.applyStandardFonts()
@@ -311,69 +384,6 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
     
     
     
-    // MARK: - Class sizing methods
-    
-    /// Calculates the minimum width for an `EntityCollectionViewCell` with a specified style.
-    ///
-    /// - Parameter style: The style for the cell.
-    /// - Returns: The minimum content width for the cell
-    public class func minimumContentWidth(forStyle style: Style) -> CGFloat {
-        switch style {
-        case .hero:     return 182.0
-        case .detail:   return 250.0
-        }
-    }
-    
-    
-    /// Calculates the minimum content height for an `EntityCollectionViewCell` with default font settings
-    /// when contained within a specified trait collection.
-    ///
-    /// - Parameters:
-    ///   - style:           The style of the cell.
-    ///   - traitCollection: The trait collection sizing for.
-    /// - Returns: The minimum content height for the entity cell with default settings.
-    public class func minimumContentHeight(forStyle style: Style, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
-        switch style {
-        case .hero:
-            let titleFont: UIFont
-            let footnoteFont: UIFont
-            
-            if #available(iOS 10, *) {
-                titleFont    = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
-                footnoteFont = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
-            } else {
-                titleFont    = .preferredFont(forTextStyle: .headline)
-                footnoteFont = .preferredFont(forTextStyle: .footnote)
-            }
-            
-            return minimumContentHeight(forStyle: style, withTitleFont: titleFont, subtitleFont: footnoteFont, detailFont: footnoteFont)
-        case .detail:
-            return 96.0
-        }
-    }
-    
-    
-    /// Calculates the minimum content height for an `EntityCollectionViewCell` with the specified fonts.
-    /// 
-    /// It is recommended you use the `minimumContentHeight(forStyle:compatibleWith:)` method to calculate
-    /// the default height for cells.
-    ///
-    /// - Parameters:
-    ///   - style:        The style of the cell.
-    ///   - titleFont:    The font for the title label.
-    ///   - subtitleFont: The font for the subtitle label.
-    ///   - detailFont:   The font for the detail label.
-    /// - Returns: The minimum content height for an entity cell with the specified fonts.
-    public class func minimumContentHeight(forStyle style: Style, withTitleFont titleFont: UIFont, subtitleFont: UIFont, detailFont: UIFont) -> CGFloat {
-        switch style {
-        case .hero:
-            let scale = UIScreen.main.scale
-            let heightOfFonts =  titleFont.lineHeight.ceiled(toScale: scale) + subtitleFont.lineHeight.ceiled(toScale: scale) + detailFont.lineHeight.ceiled(toScale: scale)
-            return 173.0 + heightOfFonts
-        case .detail:
-            return 96.0
-        }
-    }
 }
 
 

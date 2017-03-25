@@ -12,6 +12,7 @@ fileprivate var kvoContext = 1
 
 open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
     
+    // MARK: Public properties
     
     /// The title label for the cell. This sits directly above the text field.
     open let titleLabel = UILabel(frame: .zero)
@@ -29,10 +30,10 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
     
     // MARK: - Private properties
     
-    fileprivate var titleDetailSeparationConstraint: NSLayoutConstraint!
+    private var titleDetailSeparationConstraint: NSLayoutConstraint!
     
     
-    // MARK: - Initialization
+    // MARK: - Initializers
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -78,6 +79,42 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
         titleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &kvoContext)
     }
     
+    
+    // MARK: - Overrides
+    
+    open override var bounds: CGRect {
+        didSet {
+            let width = bounds.width
+            if width !=~ oldValue.width {
+                titleLabel.preferredMaxLayoutWidth    = width
+            }
+        }
+    }
+    
+    open override var frame: CGRect {
+        didSet {
+            let width = frame.width
+            if width !=~ oldValue.width {
+                titleLabel.preferredMaxLayoutWidth    = width
+            }
+        }
+    }
+    
+    internal override func applyStandardFonts() {
+        super.applyStandardFonts()
+        
+        if #available(iOS 10, *) {
+            let traitCollection       = self.traitCollection
+            titleLabel.font           = .preferredFont(forTextStyle: .footnote,    compatibleWith: traitCollection)
+            textField.font            = .preferredFont(forTextStyle: .headline,    compatibleWith: traitCollection)
+            textField.placeholderFont = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
+        } else {
+            titleLabel.font           = .preferredFont(forTextStyle: .footnote)
+            textField.font            = .preferredFont(forTextStyle: .headline)
+            textField.placeholderFont = .preferredFont(forTextStyle: .subheadline)
+        }
+    }
+    
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {
             
@@ -91,10 +128,50 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
         }
     }
     
-}
-
-
-extension CollectionViewFormTextFieldCell {
+    
+    // MARK: - Accessibility
+    
+    open override var accessibilityLabel: String? {
+        get {
+            if let setValue = super.accessibilityLabel {
+                return setValue
+            }
+            return titleLabel.text
+        }
+        set {
+            super.accessibilityLabel = newValue
+        }
+    }
+    
+    open override var accessibilityValue: String? {
+        get {
+            if let setValue = super.accessibilityValue {
+                return setValue
+            }
+            let text = textField.text
+            if text?.isEmpty ?? true {
+                return textField.placeholder
+            }
+            return text
+        }
+        set {
+            super.accessibilityValue = newValue
+        }
+    }
+    
+    open override var isAccessibilityElement: Bool {
+        get {
+            if textField.isEditing { return false }
+            return super.isAccessibilityElement
+        }
+        set {
+            super.isAccessibilityElement = newValue
+        }
+    }
+    
+    
+    
+    // MARK: - Class sizing methods
     
     public class func minimumContentWidth(withTitle title: String?, enteredText: String?, placeholder: String?, compatibleWith traitCollection: UITraitCollection, titleFont: UIFont? = nil, textFieldFont: UIFont? = nil, placeholderFont: UIFont? = nil, singleLineTitle: Bool = true, accessoryViewWidth: CGFloat = 0.0) -> CGFloat {
         let titleTextFont:       UIFont
@@ -157,89 +234,6 @@ extension CollectionViewFormTextFieldCell {
         }
         
         return titleHeight + max(enteredTextFont.lineHeight, placeholderTextFont.lineHeight).ceiled(toScale: displayScale)
-    }
-    
-}
-
-
-extension CollectionViewFormTextFieldCell {
-    
-    open override var bounds: CGRect {
-        didSet {
-            let width = bounds.width
-            if width !=~ oldValue.width {
-                titleLabel.preferredMaxLayoutWidth    = width
-            }
-        }
-    }
-    
-    open override var frame: CGRect {
-        didSet {
-            let width = frame.width
-            if width !=~ oldValue.width {
-                titleLabel.preferredMaxLayoutWidth    = width
-            }
-        }
-    }
-    
-    internal override func applyStandardFonts() {
-        super.applyStandardFonts()
-        
-        if #available(iOS 10, *) {
-            let traitCollection       = self.traitCollection
-            titleLabel.font           = .preferredFont(forTextStyle: .footnote,    compatibleWith: traitCollection)
-            textField.font            = .preferredFont(forTextStyle: .headline,    compatibleWith: traitCollection)
-            textField.placeholderFont = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
-        } else {
-            titleLabel.font           = .preferredFont(forTextStyle: .footnote)
-            textField.font            = .preferredFont(forTextStyle: .headline)
-            textField.placeholderFont = .preferredFont(forTextStyle: .subheadline)
-        }
-    }
-    
-}
-
-
-// MARK: - Accessibility
-/// Accessibility
-extension CollectionViewFormTextFieldCell {
-    
-    dynamic open override var accessibilityLabel: String? {
-        get {
-            if let setValue = super.accessibilityLabel {
-                return setValue
-            }
-            return titleLabel.text
-        }
-        set {
-            super.accessibilityLabel = newValue
-        }
-    }
-    
-    dynamic open override var accessibilityValue: String? {
-        get {
-            if let setValue = super.accessibilityValue {
-                return setValue
-            }
-            let text = textField.text
-            if text?.isEmpty ?? true {
-                return textField.placeholder
-            }
-            return text
-        }
-        set {
-            super.accessibilityValue = newValue
-        }
-    }
-    
-    dynamic open override var isAccessibilityElement: Bool {
-        get {
-            if textField.isEditing { return false }
-            return super.isAccessibilityElement
-        }
-        set {
-            super.isAccessibilityElement = newValue
-        }
     }
     
 }

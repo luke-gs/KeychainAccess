@@ -40,7 +40,7 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
     }
     
     
-    // MARK: - Private properties
+    // MARK: - Private/internal properties
     
     /// A boolean value indicating to MPOL applications that the cell represents an editable
     /// field. This variable is exposed via the additional MPOL property `isEditableField`,
@@ -49,11 +49,11 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
     /// The default is `true`.
     internal var mpol_isEditableField: Bool = true
     
-    fileprivate let textLayoutGuide = UILayoutGuide()
+    private let textLayoutGuide = UILayoutGuide()
     
-    fileprivate var titleSubtitleConstraint: NSLayoutConstraint!
+    private var titleSubtitleConstraint: NSLayoutConstraint!
     
-    fileprivate var textLeadingConstraint: NSLayoutConstraint!
+    private var textLeadingConstraint: NSLayoutConstraint!
     
     
     // MARK: - Initialization
@@ -144,13 +144,8 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
         imageView.removeObserver(self, forKeyPath: #keyPath(UIImageView.image), context: &kvoContext)
     }
     
-}
-
-
-
-// MARK: - Overrides
-/// Overrides
-extension CollectionViewFormSubtitleCell {
+    
+    // MARK: - Overrides
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {
@@ -190,7 +185,7 @@ extension CollectionViewFormSubtitleCell {
         }
     }
     
-    dynamic open override var accessibilityLabel: String? {
+    open override var accessibilityLabel: String? {
         get {
             if let setValue = super.accessibilityLabel {
                 return setValue
@@ -201,11 +196,6 @@ extension CollectionViewFormSubtitleCell {
             super.accessibilityLabel = newValue
         }
     }
-    
-}
-
-
-internal extension CollectionViewFormSubtitleCell {
     
     internal override func applyStandardFonts() {
         super.applyStandardFonts()
@@ -220,11 +210,8 @@ internal extension CollectionViewFormSubtitleCell {
         }
     }
     
-}
-
-// MARK: - Cell Sizing
-/// Cell sizing
-extension CollectionViewFormSubtitleCell {
+    
+    // MARK: - Class sizing methods
     
     /// Calculates the minimum content width for a cell, considering the text and font details.
     ///

@@ -88,11 +88,9 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-}
-
-
-extension EntityDetailsSplitViewController {
+    
+    
+    // MARK: - Overrides
     
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
@@ -104,12 +102,10 @@ extension EntityDetailsSplitViewController {
         }
     }
     
-}
-
-
-fileprivate extension EntityDetailsSplitViewController {
     
-    @objc fileprivate func updateHeaderFonts() {
+    // MARK: - Private methods
+    
+    @objc private func updateHeaderFonts() {
         let headerSubtitleDescriptor: UIFontDescriptor
         if #available(iOS 10, *) {
             headerSubtitleDescriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: .subheadline, compatibleWith: traitCollection)
@@ -119,8 +115,10 @@ fileprivate extension EntityDetailsSplitViewController {
         headerSubtitleLabel.font = UIFont(descriptor: headerSubtitleDescriptor, size: headerSubtitleDescriptor.pointSize - 1.0)
     }
     
-    @objc fileprivate func refreshControlDidActivate(_ control: UIRefreshControl) {
+    @objc private func refreshControlDidActivate(_ control: UIRefreshControl) {
         
+        
+        // TODO: Actually refresh
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { 
             control.endRefreshing()
         }

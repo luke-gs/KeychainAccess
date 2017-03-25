@@ -19,7 +19,9 @@ fileprivate let sidebarKeys = [#keyPath(SidebarItem.isEnabled),
                                #keyPath(SidebarItem.selectedColor)]
 
 
-open class SidebarViewController: UIViewController {
+open class SidebarViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SourceBarDelegate {
+    
+    // MARK: - Public properties
     
     /// The current items available to display.
     public var items: [SidebarItem] = [] {
@@ -84,7 +86,7 @@ open class SidebarViewController: UIViewController {
     /// The table view for sidebar items.
     /// 
     /// This table view fills the sidebar, trailing the source bar if it appears.
-    public fileprivate(set) var sidebarTableView: UITableView?
+    public private(set) var sidebarTableView: UITableView?
     
     
     /// The header view for the sidebar. This view is sized with auto layout much like
@@ -115,11 +117,16 @@ open class SidebarViewController: UIViewController {
     open weak var delegate: SidebarViewControllerDelegate? = nil
     
     
-    fileprivate var sourceBar: SourceBar?
+    // MARK: - Private properties
     
-    fileprivate var sourceInsetManager: ScrollViewInsetManager?
+    private var sourceBar: SourceBar?
     
-    fileprivate var sidebarInsetManager: ScrollViewInsetManager?
+    private var sourceInsetManager: ScrollViewInsetManager?
+    
+    private var sidebarInsetManager: ScrollViewInsetManager?
+    
+    
+    // MARK: - Deinitializer
     
     deinit {
         items.forEach { item in
@@ -129,29 +136,8 @@ open class SidebarViewController: UIViewController {
         }
     }
     
-    open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if context == &sidebarItemContext {
-            if isViewLoaded == false { return }
-            
-            guard let item = object as? SidebarItem, let key = keyPath,
-                  let itemIndex = items.index(of: item) else { return }
-            
-            if key == #keyPath(SidebarItem.isEnabled) && item.isEnabled == false && selectedItem == item {
-                selectedItem = nil
-            }
-            
-            if let sidebarCell = sidebarTableView?.cellForRow(at: IndexPath(row: itemIndex, section: 0)) as? SidebarTableViewCell {
-                sidebarCell.update(for: item)
-            }
-        } else {
-            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-        }
-    }
     
-}
-
-/// View lifecycle
-extension SidebarViewController {
+    // MARK: - View lifecycle
     
     open override func loadView() {
         let view = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 320.0, height: 480.0))
@@ -165,7 +151,7 @@ extension SidebarViewController {
         let sourceBar = SourceBar(frame: .zero)
         sourceBar.translatesAutoresizingMaskIntoConstraints = false
         sourceBar.backgroundView = sourceBackground
-        sourceBar.delegate = self
+        sourceBar.sourceBarDelegate = self
         sourceBar.items = sourceItems
         sourceBar.selectedIndex = selectedSourceIndex
         view.addSubview(sourceBar)
@@ -197,7 +183,7 @@ extension SidebarViewController {
             NSLayoutConstraint(item: sidebarTableView, attribute: .bottom,   relatedBy: .equal, toItem: view,       attribute: .bottom),
             NSLayoutConstraint(item: sidebarTableView, attribute: .leading,  relatedBy: .equal, toItem: sourceBar, attribute: .trailing),
             NSLayoutConstraint(item: sidebarTableView, attribute: .trailing, relatedBy: .equal, toItem: view,       attribute: .trailing)
-        ])
+            ])
         
         sourceInsetManager  = ScrollViewInsetManager(scrollView: sourceBar)
         sidebarInsetManager = ScrollViewInsetManager(scrollView: sidebarTableView)
@@ -239,15 +225,14 @@ extension SidebarViewController {
         sidebarTableView?.flashScrollIndicators()
     }
     
-}
-
-extension SidebarViewController : UITableViewDataSource, UITableViewDelegate {
+    
+    // MARK: - Table view data source
     
     open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count
     }
     
-    public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    open func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return headerView
     }
     
@@ -257,11 +242,14 @@ extension SidebarViewController : UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
+    
+    // MARK: - Table view delegate
+    
     public func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
         return items[indexPath.row].isEnabled
     }
     
-    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = items[indexPath.row]
         if selectedItem == item { return }
         
@@ -269,9 +257,8 @@ extension SidebarViewController : UITableViewDataSource, UITableViewDelegate {
         delegate?.sidebarViewController(self, didSelectItem: item)
     }
     
-}
-
-extension SidebarViewController: SourceBarDelegate {
+    
+    // MARK: - Source bar delegate
     
     public func sourceBar(_ bar: SourceBar, didSelectItemAt index: Int) {
         selectedSourceIndex = index
@@ -282,19 +269,37 @@ extension SidebarViewController: SourceBarDelegate {
         delegate?.sidebarViewController(self, didRequestLoadSourceAt: index)
     }
     
-}
-
-extension SidebarViewController {
+    
+    
+    // MARK: - Overrides
+    
+    open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if context == &sidebarItemContext {
+            if isViewLoaded == false { return }
+            
+            guard let item = object as? SidebarItem, let key = keyPath,
+                  let itemIndex = items.index(of: item) else { return }
+            
+            if key == #keyPath(SidebarItem.isEnabled) && item.isEnabled == false && selectedItem == item {
+                selectedItem = nil
+            }
+            
+            if let sidebarCell = sidebarTableView?.cellForRow(at: IndexPath(row: itemIndex, section: 0)) as? SidebarTableViewCell {
+                sidebarCell.update(for: item)
+            }
+        } else {
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+        }
+    }
     
     open override var preferredStatusBarStyle: UIStatusBarStyle {
         return Theme.current.statusBarStyle
     }
     
-}
-
-extension SidebarViewController {
     
-    fileprivate func updateSelection() {
+    // MARK: - Private methods
+    
+    private func updateSelection() {
         guard isViewLoaded, let tableView = sidebarTableView else { return }
         
         if let selectedItem = self.selectedItem,
@@ -310,6 +315,10 @@ extension SidebarViewController {
     }
     
 }
+
+
+// MARK: -
+// MARK: - SidebarViewControllerDelegate
 
 
 /// The SidebarViewController's delegate protocol

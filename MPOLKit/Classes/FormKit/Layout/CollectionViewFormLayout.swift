@@ -228,12 +228,12 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     
     // MARK: - Private properties
     
-    fileprivate var _separatorWidth: CGFloat?
-    fileprivate var _lastLaidOutWidth: CGFloat?
+    private var _separatorWidth: CGFloat?
+    private var _lastLaidOutWidth: CGFloat?
     
-    fileprivate var previousSectionRowSeparatorCounts: [Int] = []
-    fileprivate var previousSectionItemCounts:         [Int] = []
-    fileprivate var previousSectionSeparatorCounts:    [Int] = []
+    private var previousSectionRowSeparatorCounts: [Int] = []
+    private var previousSectionItemCounts:         [Int] = []
+    private var previousSectionSeparatorCounts:    [Int] = []
     
     
     // MARK: - Initialization
@@ -383,12 +383,12 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     
     // MARK: - Updates
     
-    fileprivate var insertedSections:      IndexSet?
-    fileprivate var deletedSections:       IndexSet?
-    fileprivate var insertedItems:         [IndexPath]?
-    fileprivate var deletedItems:          [IndexPath]?
-    fileprivate var insertedRowSeparators: [IndexPath]?
-    fileprivate var deletedRowSeparators:  [IndexPath]?
+    private var insertedSections:      IndexSet?
+    private var deletedSections:       IndexSet?
+    private var insertedItems:         [IndexPath]?
+    private var deletedItems:          [IndexPath]?
+    private var insertedRowSeparators: [IndexPath]?
+    private var deletedRowSeparators:  [IndexPath]?
     
     open override func prepare(forCollectionViewUpdates updateItems: [UICollectionViewUpdateItem]) {
         guard let collectionView = self.collectionView else { return }
@@ -713,8 +713,8 @@ public extension CollectionViewFormLayout {
 }
 
 
-// MARK: - Array Convenience Extensions
-/// Array Convenience Extensions
+// MARK: - Array convenience extensions
+/// Array convenience extensions
 private extension Array {
     /// Access the `index`th element, if it exists. Complexity: O(1).
     subscript (ifExists index: Int) -> Element? {

@@ -14,7 +14,7 @@ import UIKit
 ///
 /// You can either initialize with detail view controllers, and configure the sidebar directly
 /// as required, or subclass as a point of abstraction between the sidebar and it's detail.
-open class SidebarSplitViewController: PushableSplitViewController {
+open class SidebarSplitViewController: PushableSplitViewController, SidebarViewControllerDelegate {
     
     
     /// The sidebar view controller for the split view controller.
@@ -84,6 +84,7 @@ open class SidebarSplitViewController: PushableSplitViewController {
         sidebarViewController.items = detailViewControllers.map { $0.sidebarItem }
         
         let embeddedSplitViewController = self.embeddedSplitViewController
+        embeddedSplitViewController.delegate = self
         embeddedSplitViewController.minimumPrimaryColumnWidth = 288.0
         embeddedSplitViewController.preferredPrimaryColumnWidthFraction = 320.0 / 1024.0
         
@@ -101,12 +102,9 @@ open class SidebarSplitViewController: PushableSplitViewController {
     
     /// A callback indicating the collapsed state of the split changed.
     open func collapsedStateDidChange() {}
-}
-
-
-// MARK: - SidebarViewControllerDelegate methods
-/// SidebarViewControllerDelegate methods
-extension SidebarSplitViewController : SidebarViewControllerDelegate {
+    
+    
+    // MARK: - SidebarViewControllerDelegate methods
     
     /// Handles when the sidebar selects a new item.
     /// By default, this selects the associated detail view controller.
@@ -130,12 +128,8 @@ extension SidebarSplitViewController : SidebarViewControllerDelegate {
         
     }
     
-}
-
-
-// MARK: - UISplitViewControllerDelegate methods
-/// UISplitViewControllerDelegate methods
-extension SidebarSplitViewController {
+    
+    // MARK: - UISplitViewControllerDelegate methods
     
     open func splitViewController(_ splitViewController: UISplitViewController, showDetail vc: UIViewController, sender: Any?) -> Bool {
         shouldCollapseToSidebar = false

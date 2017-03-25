@@ -10,22 +10,43 @@ import UIKit
 
 
 /// A UITableViewCell subclass for displaying items in a sidebar.
-open class SidebarTableViewCell: UITableViewCell {
+open class SidebarTableViewCell: UITableViewCell, DefaultReusable {
     
-    fileprivate static let unselectedColor      = #colorLiteral(red: 0.5450980392, green: 0.568627451, blue: 0.6235294118, alpha: 1)
-    fileprivate static let badgeBackgroundColor = #colorLiteral(red: 0.1647058824, green: 0.1803921569, blue: 0.2117647059, alpha: 1)
+    // MARK: - Private properties
     
-    fileprivate var standardFont: UIFont?
-    fileprivate var highlightedFont: UIFont?
+    private static let unselectedColor      = #colorLiteral(red: 0.5450980392, green: 0.568627451, blue: 0.6235294118, alpha: 1)
+    private static let badgeBackgroundColor = #colorLiteral(red: 0.1647058824, green: 0.1803921569, blue: 0.2117647059, alpha: 1)
     
-    fileprivate var imageTintColor: UIColor?
-    fileprivate var imageHighlightedTintColor: UIColor?
+    private var standardFont: UIFont?
+    private var highlightedFont: UIFont?
     
-    fileprivate var isEnabled: Bool = true
+    private var imageTintColor: UIColor?
+    private var imageHighlightedTintColor: UIColor?
     
-    fileprivate var alertIcon: SidebarAlertIcon?
+    private var isEnabled: Bool = true
     
-    fileprivate var badgeView: BadgeView?
+    private var alertIcon: SidebarAlertIcon?
+    
+    private var badgeView: BadgeView?
+    
+    private var currentTextColor: UIColor {
+        let color: UIColor = isSelected || isHighlighted ? .white : SidebarTableViewCell.unselectedColor
+        return isEnabled ? color : color.withAlphaComponent(0.2)
+    }
+    
+    private var currentImageColor: UIColor {
+        let color: UIColor
+        if isSelected || isHighlighted {
+            color = imageHighlightedTintColor ?? imageTintColor ?? .white
+        } else {
+            color = imageTintColor ?? SidebarTableViewCell.unselectedColor
+        }
+        
+        return isEnabled ? color : color.withAlphaComponent(0.2)
+    }
+    
+    
+    // MARK: - Initializers
     
     public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
@@ -47,6 +68,8 @@ open class SidebarTableViewCell: UITableViewCell {
         NotificationCenter.default.addObserver(self, selector: #selector(contentSizeCategoryDidChange(_:)), name: .UIContentSizeCategoryDidChange, object: nil)
     }
     
+    
+    // MARK: - Updates
     
     /// Updates the cell with the content of the sidebar item.
     /// 
@@ -114,11 +137,8 @@ open class SidebarTableViewCell: UITableViewCell {
         }
     }
     
-}
-
-
-/// Overrides
-extension SidebarTableViewCell {
+    
+    // MARK: - Overrides
     
     open override func layoutSubviews() {
         super.layoutSubviews()
@@ -155,29 +175,10 @@ extension SidebarTableViewCell {
         updateColors()
     }
     
-}
-
-
-/// Content updates
-fileprivate extension SidebarTableViewCell {
     
-    private var currentTextColor: UIColor {
-        let color: UIColor = isSelected || isHighlighted ? .white : SidebarTableViewCell.unselectedColor
-        return isEnabled ? color : color.withAlphaComponent(0.2)
-    }
+    // MARK: - Private methods
     
-    private var currentImageColor: UIColor {
-        let color: UIColor
-        if isSelected || isHighlighted {
-            color = imageHighlightedTintColor ?? imageTintColor ?? .white
-        } else {
-            color = imageTintColor ?? SidebarTableViewCell.unselectedColor
-        }
-        
-        return isEnabled ? color : color.withAlphaComponent(0.2)
-    }
-    
-    func reloadFonts() {
+    private func reloadFonts() {
         let fontDescriptor: UIFontDescriptor
         
         if #available(iOS 10, *) {
@@ -196,7 +197,7 @@ fileprivate extension SidebarTableViewCell {
         }
     }
     
-    func updateFonts() {
+    private func updateFonts() {
         if isSelected || isHighlighted {
             textLabel?.font = highlightedFont ?? standardFont
         } else {
@@ -204,21 +205,19 @@ fileprivate extension SidebarTableViewCell {
         }
     }
     
-    func updateColors() {
+    private func updateColors() {
         imageView?.tintColor = currentImageColor
         textLabel?.textColor = currentTextColor
         badgeView?.backgroundColor = SidebarTableViewCell.badgeBackgroundColor
     }
     
-    @objc fileprivate func contentSizeCategoryDidChange(_ notification: Notification) {
+    @objc private func contentSizeCategoryDidChange(_ notification: Notification) {
         reloadFonts()
         setNeedsLayout()
     }
     
 }
 
-extension SidebarTableViewCell: DefaultReusable {
-}
 
 
 /// A private class to create the sidebar alert icon

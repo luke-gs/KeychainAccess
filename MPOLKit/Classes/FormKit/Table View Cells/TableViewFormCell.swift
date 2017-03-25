@@ -16,7 +16,7 @@ import UIKit
 /// Unlike it's Collection-based counterpart, `TableViewFormCell` self-sizes with AutoLayout. Users do not
 /// need to use delegate methods to specify minimum height details, and can instead allow AutoLayout, and
 /// the mimumumContentHeight value, to indicate the size of the cell dynamically.
-open class TableViewFormCell: UITableViewCell {
+open class TableViewFormCell: UITableViewCell, DefaultReusable {
     
     /// The minimum content height for the cell.
     /// This value is analogous to providing a minimum height to CollectionViewDelegateFormLayout,
@@ -86,10 +86,8 @@ open class TableViewFormCell: UITableViewCell {
         NotificationCenter.default.addObserver(self, selector: #selector(contentSizeCategoryDidChange(_:)), name: .UIContentSizeCategoryDidChange, object: nil)
     }
     
-}
-
-
-extension TableViewFormCell {
+    
+    // MARK: - Overrides
     
     open override func prepareForReuse() {
         super.prepareForReuse()
@@ -108,6 +106,9 @@ extension TableViewFormCell {
         }
     }
     
+    
+    // MARK: - Internal only
+    
     /// Applies the standard fonts for the cell.
     ///
     /// This method is internal-only, and is expected to be called on reuse, and during
@@ -119,18 +120,12 @@ extension TableViewFormCell {
     internal func applyStandardFonts() {
     }
     
-}
-
-fileprivate extension TableViewFormCell {
     
-    @objc fileprivate func contentSizeCategoryDidChange(_ notification: Notification) {
+    // MARK: - Notifications
+    
+    @objc private func contentSizeCategoryDidChange(_ notification: Notification) {
         applyStandardFonts()
         setNeedsLayout()
     }
     
 }
-
-
-extension TableViewFormCell: DefaultReusable {
-}
-

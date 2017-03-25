@@ -12,6 +12,8 @@ fileprivate var kvoContext = 1
 
 open class FormTextField: UITextField {
     
+    // MARK: - Public properties
+    
     public var unitLabel: UILabel {
         if let unitLabel = _unitLabel { return unitLabel }
         
@@ -41,19 +43,22 @@ open class FormTextField: UITextField {
         didSet { if placeholderTextColor != oldValue { updatePlaceholder() } }
     }
     
-    fileprivate var placeholderText: String? {
+    
+    // MARK: - Private methods
+    
+    private var placeholderText: String? {
         didSet { if placeholderText != oldValue { updatePlaceholder() }}
     }
     
-    fileprivate var _unitLabel: UILabel?
+    private var _unitLabel: UILabel?
     
-    fileprivate var valueInset: CGFloat = 0.0 {
+    private var valueInset: CGFloat = 0.0 {
         didSet { if valueInset != oldValue { unitLabelOriginXConstraint?.constant = valueInset } }
     }
     
-    fileprivate var unitLabelOriginXConstraint: NSLayoutConstraint?
+    private var unitLabelOriginXConstraint: NSLayoutConstraint?
     
-    fileprivate var isRightToLeft: Bool = false {
+    private var isRightToLeft: Bool = false {
         didSet {
             if isRightToLeft != oldValue {
                 setNeedsLayout()
@@ -61,6 +66,9 @@ open class FormTextField: UITextField {
             }
         }
     }
+    
+    
+    // MARK: - Initializers
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -84,11 +92,9 @@ open class FormTextField: UITextField {
     deinit {
         _unitLabel?.removeObserver(self, forKeyPath: #keyPath(UILabel.text), context: &kvoContext)
     }
-}
-
-
-/// Overrides
-extension FormTextField {
+    
+    
+    // MARK: - Overrides
     
     open override var text: String? {
         didSet { textDidChange() }
@@ -212,13 +218,10 @@ extension FormTextField {
         isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
     }
     
-}
-
-
-
-fileprivate extension FormTextField {
     
-    @objc fileprivate func textDidChange() {
+    // MARK: - Private methods
+    
+    @objc private func textDidChange() {
         let hidden = _unitLabel?.text?.isEmpty ?? true || text?.isEmpty ?? true
         
         _unitLabel?.isHidden = hidden
@@ -272,7 +275,7 @@ fileprivate extension FormTextField {
         }
     }
     
-    fileprivate func updatePlaceholder() {
+    private func updatePlaceholder() {
         if let placeholder = placeholderText, placeholder.isEmpty == false {
             let attributes = [NSFontAttributeName: self.placeholderFont ?? UIFont.systemFont(ofSize: 15.0), NSForegroundColorAttributeName: self.placeholderTextColor ?? .lightGray]
             super.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: attributes)

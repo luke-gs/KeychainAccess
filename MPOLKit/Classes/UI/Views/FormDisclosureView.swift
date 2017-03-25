@@ -10,7 +10,7 @@ import UIKit
 
 public class FormDisclosureView: UIImageView {
     
-    fileprivate static var defaultTintColor = #colorLiteral(red: 0.7843137255, green: 0.7803921569, blue: 0.8, alpha: 1)
+    private static let defaultTintColor = #colorLiteral(red: 0.7843137255, green: 0.7803921569, blue: 0.8, alpha: 1)
     
     public override var tintColor: UIColor! {
         get {
@@ -24,7 +24,10 @@ public class FormDisclosureView: UIImageView {
         }
     }
     
-    fileprivate var isThemeUpdatingEnabled: Bool = true
+    private var isThemeUpdatingEnabled: Bool = true
+    
+    
+    // MARK: - Initializers
     
     public init() {
         let image = UIImage.formDisclosureIndicator
@@ -38,9 +41,8 @@ public class FormDisclosureView: UIImageView {
         fatalError("init(coder:) has not been implemented")
     }
     
-}
-
-extension FormDisclosureView {
+    
+    // MARK: - Overrides
     
     public override var image: UIImage? {
         get { return super.image }
@@ -62,12 +64,11 @@ extension FormDisclosureView {
         set { }
     }
     
-}
-
-fileprivate extension FormDisclosureView {
     
-    @objc fileprivate func themeDidChange(_ notification: Notification) {
+    // MARK: - Private methods
+    
+    @objc private func themeDidChange(_ notification: Notification) {
         super.tintColor = Theme.current.colors[.DisclosureIndicator] ?? FormDisclosureView.defaultTintColor
     }
-    
 }
+

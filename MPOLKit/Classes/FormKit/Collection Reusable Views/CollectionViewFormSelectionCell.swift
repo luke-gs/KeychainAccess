@@ -28,6 +28,8 @@ open class CollectionViewFormSelectionCell: CollectionViewFormCell {
     }
     
     
+    // MARK: - Properties
+    
     open var selectionStyle: SelectionStyle = .checkbox {
         didSet { if selectionStyle != oldValue { updateImageView() } }
     }
@@ -52,8 +54,10 @@ open class CollectionViewFormSelectionCell: CollectionViewFormCell {
     
     public let titleLabel: UILabel = UILabel(frame: .zero)
     
-    fileprivate let imageView: UIImageView = UIImageView(frame: .zero)
+    private let imageView: UIImageView = UIImageView(frame: .zero)
     
+    
+    // MARK: - Initializers
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -97,11 +101,8 @@ open class CollectionViewFormSelectionCell: CollectionViewFormCell {
         updateImageView()
     }
     
-}
-
-
-/// Overrides 
-extension CollectionViewFormSelectionCell {
+    
+    // MARK: - Overrides
     
     open override var isSelected: Bool {
         didSet { updateImageView() }
@@ -118,12 +119,19 @@ extension CollectionViewFormSelectionCell {
         titleLabel.minimumScaleFactor = 0.9
     }
     
-}
-
-
-// MARK: - Sizing
-/// Sizing
-extension CollectionViewFormSelectionCell {
+    
+    // MARK: - Private methods
+    
+    private func updateImageView() {
+        let isSelected    = self.isSelected
+        let isHighlighted = self.isHighlighted
+        
+        imageView.image = selectionStyle.image(selected: isSelected)
+        imageView.tintColor = isSelected || isHighlighted ? nil : #colorLiteral(red: 0.7490196078, green: 0.7490196078, blue: 0.7490196078, alpha: 1)
+    }
+    
+    
+    // MARK: - Class sizing methods
     
     /// Calculates the minimum content width for a cell, considering the text and font details, with a standard selection image.
     ///
@@ -178,21 +186,6 @@ extension CollectionViewFormSelectionCell {
                                                              context: nil).height.ceiled(toScale: displayScale) ?? 0.0
         
         return max(titleHeight, imageSize.height)
-    }
-    
-}
-
-
-// MARK: - Private methods
-/// Private methods
-fileprivate extension CollectionViewFormSelectionCell {
-    
-    func updateImageView() {
-        let isSelected    = self.isSelected
-        let isHighlighted = self.isHighlighted
-
-        imageView.image = selectionStyle.image(selected: isSelected)
-        imageView.tintColor = isSelected || isHighlighted ? nil : #colorLiteral(red: 0.7490196078, green: 0.7490196078, blue: 0.7490196078, alpha: 1)
     }
     
 }

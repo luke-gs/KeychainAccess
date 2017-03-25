@@ -15,7 +15,6 @@ import UIKit
 /// to further elements.
 public class SourceBar: UIScrollView {
     
-    
     /// The style options available on source bars.
     public enum Style {
         /// A light style. This appearance is optimized for display over lighter backgrounds.
@@ -24,6 +23,8 @@ public class SourceBar: UIScrollView {
         case dark
     }
     
+    
+    // MARK: - Public properties
     
     /// The currenty appearnace style. The default is `.dark`.
     public var style: Style = .dark {
@@ -120,17 +121,20 @@ public class SourceBar: UIScrollView {
     public weak var sourceBarDelegate: SourceBarDelegate?
     
     
+    // MARK: - Private properties
     
-    fileprivate var _selectedIndex: Int?
+    private var _selectedIndex: Int?
     
-    fileprivate var _highlightedIndex: Int?
+    private var _highlightedIndex: Int?
     
-    fileprivate var _dragCancelledHighlight: Bool = false
+    private var _dragCancelledHighlight: Bool = false
     
-    fileprivate var _cells: [SourceBarCell] = []
+    private var _cells: [SourceBarCell] = []
     
-    fileprivate var _needsCellReload: Bool = false
+    private var _needsCellReload: Bool = false
     
+    
+    // MARK: - Initializers
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -161,9 +165,8 @@ public class SourceBar: UIScrollView {
         panGestureRecognizer.addTarget(self, action: #selector(scrollViewPanRecognizeStateDidChange(_:)))
     }
     
-}
-
-extension SourceBar {
+    
+    // MARK: - Overrides
     
     public override func layoutSubviews() {
         super.layoutSubviews()
@@ -223,24 +226,22 @@ extension SourceBar {
         return size
     }
     
-}
-
-
-fileprivate extension SourceBar {
     
-    fileprivate func updateCellSelection() {
+    // MARK: - Private methods
+    
+    private func updateCellSelection() {
         _cells.enumerated().forEach {
             $0.element.isHighlighted = _highlightedIndex == $0.offset
             $0.element.isSelected    = _selectedIndex == $0.offset && _dragCancelledHighlight == false && (_highlightedIndex == nil || _highlightedIndex == $0.offset)
         }
     }
     
-    @objc fileprivate func touchDown(in cell: SourceBarCell) {
+    @objc private func touchDown(in cell: SourceBarCell) {
         _highlightedIndex = _cells.index(of: cell)
         updateCellSelection()
     }
     
-    @objc fileprivate func touchUp(in cell: SourceBarCell) {
+    @objc private func touchUp(in cell: SourceBarCell) {
         _highlightedIndex = nil
         if let cellIndex = _cells.index(of: cell) {
             switch items[cellIndex].state {
@@ -256,12 +257,12 @@ fileprivate extension SourceBar {
         updateCellSelection()
     }
     
-    @objc fileprivate func touchCancelled(in cell: SourceBarCell) {
+    @objc private func touchCancelled(in cell: SourceBarCell) {
         _highlightedIndex = nil
         updateCellSelection()
     }
     
-    @objc fileprivate func scrollViewPanRecognizeStateDidChange(_ recognizer: UIPanGestureRecognizer) {
+    @objc private func scrollViewPanRecognizeStateDidChange(_ recognizer: UIPanGestureRecognizer) {
         if (recognizer.state == .ended || recognizer.state == .cancelled) && _dragCancelledHighlight {
             // Handle where the pan ended, and we've got a "drag cancelled highlight" pause on highlights. Reset it to off and update selection.
             _dragCancelledHighlight = false

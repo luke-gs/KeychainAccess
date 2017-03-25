@@ -16,7 +16,9 @@ import UIKit
 /// use the shared `KeyboardInputManager` instance to apply the number bar globally.
 /// In cases where you want a number bar irresepctive of whether the global bar is
 /// enabled, create and set one directly as its `inputAccessoryView`.
-public class KeyboardNumberBar: UIInputView {
+public class KeyboardNumberBar: UIInputView, UIInputViewAudioFeedback {
+    
+    // MARK: - Public properties
     
     /// The text input view the number bar should forward text entry events towards.
     public weak var textInputView: UITextInput? {
@@ -36,13 +38,16 @@ public class KeyboardNumberBar: UIInputView {
         }
     }
     
-    fileprivate let keys:    [String]
-    fileprivate let buttons: [UIButton]
     
-    fileprivate static let lightButtonImage         = newButtonImage(forDarkTheme: false, selected: false)
-    fileprivate static let lightButtonSelectedImage = newButtonImage(forDarkTheme: false, selected: true)
-    fileprivate static let darkButtonImage          = newButtonImage(forDarkTheme: true,  selected: false)
-    fileprivate static let darkButtonSelectedImage  = newButtonImage(forDarkTheme: true,  selected: true)
+    // MARK: - Private properties
+    
+    private let keys:    [String]
+    private let buttons: [UIButton]
+    
+    private static let lightButtonImage         = newButtonImage(forDarkTheme: false, selected: false)
+    private static let lightButtonSelectedImage = newButtonImage(forDarkTheme: false, selected: true)
+    private static let darkButtonImage          = newButtonImage(forDarkTheme: true,  selected: false)
+    private static let darkButtonSelectedImage  = newButtonImage(forDarkTheme: true,  selected: true)
     
     
     // MARK: - Initializers
@@ -83,16 +88,14 @@ public class KeyboardNumberBar: UIInputView {
         fatalError("KeyboardNumberBar does not support NSCoding.")
     }
     
-}
-
-extension KeyboardNumberBar: UIInputViewAudioFeedback {
+    
+    // MARK: - UIInputViewAudioFeedback methods
     
     /// Enables keyboard clicks. This always returns `true` for `KeyboardNumberBar`.
     public var enableInputClicksWhenVisible: Bool { return true }
     
-}
-
-extension KeyboardNumberBar {
+    
+    // MARK: - Overrides
     
     public override func layoutSubviews() {
         super.layoutSubviews()
@@ -135,16 +138,14 @@ extension KeyboardNumberBar {
         }
     }
     
-}
-
-
-fileprivate extension KeyboardNumberBar {
     
-    @objc fileprivate func touchDown(in button: UIButton) {
+    // MARK: - Action methods
+    
+    @objc private func touchDown(in button: UIButton) {
         UIDevice.current.playInputClick()
     }
     
-    @objc fileprivate func touchUp(in button: UIButton) {
+    @objc private func touchUp(in button: UIButton) {
         guard let view = textInputView else { return }
         
         let endOfDocument = view.endOfDocument
@@ -173,7 +174,10 @@ fileprivate extension KeyboardNumberBar {
         }
     }
     
-    fileprivate func updateKeyboardAppearance() {
+    
+    // MARK: - Private methods
+    
+    private func updateKeyboardAppearance() {
         let light = keyboardAppearance != .dark
         let titleColor: UIColor = light ? .black : .white
         let image = light ? KeyboardNumberBar.lightButtonImage : KeyboardNumberBar.darkButtonImage
@@ -186,7 +190,7 @@ fileprivate extension KeyboardNumberBar {
         }
     }
     
-    fileprivate class func newButtonImage(forDarkTheme dark: Bool, selected: Bool) -> UIImage {
+    private class func newButtonImage(forDarkTheme dark: Bool, selected: Bool) -> UIImage {
         // We don't use a more generic method because we want to add shadow, and we want a specific
         // shadow without any blur. 
         

@@ -10,6 +10,16 @@ import UIKit
 
 open class StatsOverviewCollectionViewCell: CollectionViewFormCell {
     
+    // MARK: - Class sizing methods
+    
+    public class func minimumHeight(compatibleWith traitCollection: UITraitCollection) -> CGFloat {
+        let titleFont = iconLabelFont(compatibleWith: traitCollection)
+        return ceil((titleFont.lineHeight + titleFont.leading) * 2.0) + 66.0
+    }
+    
+    
+    // MARK: - Public properties
+    
     open var items: [StatsOverviewItem] = [] {
         didSet {
             if items == oldValue { return }
@@ -104,7 +114,10 @@ open class StatsOverviewCollectionViewCell: CollectionViewFormCell {
         }
     }
     
-    fileprivate var iconViews: [CircleIconView] = [] {
+    
+    // MARK: - Private properties
+    
+    private var iconViews: [CircleIconView] = [] {
         didSet {
             if iconViews == oldValue { return }
             
@@ -122,7 +135,7 @@ open class StatsOverviewCollectionViewCell: CollectionViewFormCell {
         }
     }
     
-    fileprivate var iconLabels: [UILabel] = [] {
+    private var iconLabels: [UILabel] = [] {
         didSet {
             if iconLabels == oldValue { return }
             
@@ -140,9 +153,12 @@ open class StatsOverviewCollectionViewCell: CollectionViewFormCell {
         }
     }
     
-    fileprivate let scrollView = UIScrollView(frame: .zero)
+    private let scrollView = UIScrollView(frame: .zero)
     
-    fileprivate var titleFont: UIFont!
+    private var titleFont: UIFont!
+    
+    
+    // MARK: - Initializers
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -161,10 +177,8 @@ open class StatsOverviewCollectionViewCell: CollectionViewFormCell {
         contentView.addSubview(scrollView)
     }
     
-}
-
-
-extension StatsOverviewCollectionViewCell {
+    
+    // MARK: - Overrides
     
     open override var bounds: CGRect {
         didSet {
@@ -252,25 +266,14 @@ extension StatsOverviewCollectionViewCell {
         iconLabels.forEach { $0.font = titleFont }
         setNeedsLayout()
     }
-}
-
-
-extension StatsOverviewCollectionViewCell {
     
-    public class func minimumHeight(compatibleWith traitCollection: UITraitCollection) -> CGFloat {
-        let titleFont = iconLabelFont(compatibleWith: traitCollection)
-        return ceil((titleFont.lineHeight + titleFont.leading) * 2.0) + 66.0
-    }
     
-}
-
-
-fileprivate extension StatsOverviewCollectionViewCell {
+    // MARK: - Class font caching
     
     @available(iOS 10, *)
-    fileprivate static var fontCache: [UIContentSizeCategory: UIFont] = [:]
+    private static var fontCache: [UIContentSizeCategory: UIFont] = [:]
     
-    fileprivate class func iconLabelFont(compatibleWith traitCollection: UITraitCollection) -> UIFont {
+    private class func iconLabelFont(compatibleWith traitCollection: UITraitCollection) -> UIFont {
         
         func fontCompatibleWith(_ traitCollection: UITraitCollection) -> UIFont {
             var fontDescriptor: UIFontDescriptor
@@ -309,7 +312,7 @@ fileprivate extension StatsOverviewCollectionViewCell {
 }
 
 
-public struct StatsOverviewItem {
+public struct StatsOverviewItem: Equatable {
     
     private(set) var icon: NSObject
     public var color: UIColor?
@@ -337,9 +340,6 @@ public struct StatsOverviewItem {
         set { if let newValue = newValue { icon = newValue as NSString } }
     }
     
-}
-
-extension StatsOverviewItem : Equatable {
 }
 
 

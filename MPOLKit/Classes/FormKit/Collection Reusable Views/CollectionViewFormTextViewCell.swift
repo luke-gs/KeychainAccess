@@ -12,6 +12,9 @@ private var kvoContext = 1
 
 open class CollectionViewFormTextViewCell: CollectionViewFormCell {
     
+    
+    // MARK: - Public properties
+    
     /// The title label for the cell.
     open let titleLabel = UILabel(frame: .zero)
     
@@ -25,12 +28,16 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
     }
     
     
-    fileprivate var textViewMinimumHeightConstraint: NSLayoutConstraint!
+    // MARK: - Private properties
     
-    fileprivate var textViewPreferredHeightConstraint: NSLayoutConstraint!
+    private var textViewMinimumHeightConstraint: NSLayoutConstraint!
     
-    fileprivate var titleDetailSeparationConstraint: NSLayoutConstraint!
+    private var textViewPreferredHeightConstraint: NSLayoutConstraint!
     
+    private var titleDetailSeparationConstraint: NSLayoutConstraint!
+    
+    
+    // MARK: - Initializers
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -91,57 +98,9 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
         titleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.text),           context: &kvoContext)
         titleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &kvoContext)
     }
-}
-
-
-// MARK: - Sizing
-/// Sizing
-extension CollectionViewFormTextViewCell {
     
     
-    /// Calculates the minimum content height for an instance of CollectionViewFormTextViewCell.
-    /// You should use this method instead of creating a separate reference cell.
-    ///
-    /// - Parameters:
-    ///   - title:      The title text for the cell.
-    ///   - text:       The content text for the text view.
-    ///   - width:      The content width for the cell.
-    ///   - traitCollection: The trait collection context the cell will be presented in. This may affect the standard fonts.
-    ///   - titleFont:  The title font of the cell. The default is `nil`, specifying the standard title font.
-    ///   - textFont:   The content font for the text view. the default is `nil`, specifying the standard content font.
-    /// - Returns:      The minimum appropriate height for the cell.
-    open class func minimumContentHeight(withTitle title: String?, enteredText: String?, placeholder: String?, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection, titleFont: UIFont? = nil, textViewFont: UIFont? = nil, placeholderFont: UIFont? = nil) -> CGFloat {
-        var height: CGFloat = 0.0
-        let screenScale = UIScreen.main.scale
-        if let title = title {
-            let titleTextFont: UIFont
-            if #available(iOS 10, *) {
-                titleTextFont = titleFont ?? .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
-            } else {
-                titleTextFont = titleFont ?? .preferredFont(forTextStyle: .footnote)
-            }
-            
-            height += (title as NSString).boundingRect(with: CGSize(width: width - 0.5, height: .greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: titleTextFont], context: nil).height.ceiled(toScale: screenScale)
-            height += CellTitleSubtitleSeparation
-        }
-        
-        let textFont: UIFont
-        if #available(iOS 10, *) {
-            textFont = textViewFont ?? .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
-        } else {
-            textFont = textViewFont ?? .preferredFont(forTextStyle: .headline)
-        }
-        
-        height += max((enteredText as NSString?)?.boundingRect(with: CGSize(width: width - 0.5, height: .greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: textFont], context: nil).height ?? 0.0, textFont.lineHeight).ceiled(toScale: screenScale)
-        return height
-    }
-    
-}
-
-
-// MARK: - Overrides
-/// Overrides
-extension CollectionViewFormTextViewCell {
+    // MARK: - Overrides
     
     open override var bounds: CGRect {
         didSet {
@@ -211,12 +170,10 @@ extension CollectionViewFormTextViewCell {
         }
     }
     
-}
+    
+    // MARK: - Accessibility
 
-// MARK: - Accessibility
-/// Accessibility
-extension CollectionViewFormTextViewCell {
-    dynamic open override var accessibilityLabel: String? {
+    open override var accessibilityLabel: String? {
         get {
             if let setValue = super.accessibilityLabel {
                 return setValue
@@ -228,7 +185,7 @@ extension CollectionViewFormTextViewCell {
         }
     }
     
-    dynamic open override var accessibilityValue: String? {
+    open override var accessibilityValue: String? {
         get {
             if let setValue = super.accessibilityValue {
                 return setValue
@@ -244,7 +201,7 @@ extension CollectionViewFormTextViewCell {
         }
     }
     
-    dynamic open override var isAccessibilityElement: Bool {
+    open override var isAccessibilityElement: Bool {
         get {
             if textView.isFirstResponder { return false }
             return super.isAccessibilityElement
@@ -253,14 +210,11 @@ extension CollectionViewFormTextViewCell {
             super.isAccessibilityElement = newValue
         }
     }
-}
-
-
-// MARK: - Private methods
-/// Private methods
-fileprivate extension CollectionViewFormTextViewCell {
     
-    fileprivate func updateTextViewPreferredConstraint() {
+    
+    // MARK: - Private methods
+    
+    private func updateTextViewPreferredConstraint() {
         func performUpdate() {
             let textHeight = textView.contentSize.height
             if textViewPreferredHeightConstraint.constant !=~ textHeight {
@@ -278,7 +232,7 @@ fileprivate extension CollectionViewFormTextViewCell {
         }
     }
     
-    fileprivate func updateTextViewMinimumConstraint() {
+    private func updateTextViewMinimumConstraint() {
         let textViewFont: UIFont
         let placeholderFont: UIFont
         
@@ -291,6 +245,46 @@ fileprivate extension CollectionViewFormTextViewCell {
         }
         
         textViewMinimumHeightConstraint?.constant = ceil(max(textViewFont.lineHeight + textViewFont.leading, placeholderFont.lineHeight + placeholderFont.leading))
+    }
+    
+    
+    // MARK: - Class sizing methods
+    
+    /// Calculates the minimum content height for an instance of CollectionViewFormTextViewCell.
+    /// You should use this method instead of creating a separate reference cell.
+    ///
+    /// - Parameters:
+    ///   - title:      The title text for the cell.
+    ///   - text:       The content text for the text view.
+    ///   - width:      The content width for the cell.
+    ///   - traitCollection: The trait collection context the cell will be presented in. This may affect the standard fonts.
+    ///   - titleFont:  The title font of the cell. The default is `nil`, specifying the standard title font.
+    ///   - textFont:   The content font for the text view. the default is `nil`, specifying the standard content font.
+    /// - Returns:      The minimum appropriate height for the cell.
+    open class func minimumContentHeight(withTitle title: String?, enteredText: String?, placeholder: String?, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection, titleFont: UIFont? = nil, textViewFont: UIFont? = nil, placeholderFont: UIFont? = nil) -> CGFloat {
+        var height: CGFloat = 0.0
+        let screenScale = UIScreen.main.scale
+        if let title = title {
+            let titleTextFont: UIFont
+            if #available(iOS 10, *) {
+                titleTextFont = titleFont ?? .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
+            } else {
+                titleTextFont = titleFont ?? .preferredFont(forTextStyle: .footnote)
+            }
+            
+            height += (title as NSString).boundingRect(with: CGSize(width: width - 0.5, height: .greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: titleTextFont], context: nil).height.ceiled(toScale: screenScale)
+            height += CellTitleSubtitleSeparation
+        }
+        
+        let textFont: UIFont
+        if #available(iOS 10, *) {
+            textFont = textViewFont ?? .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+        } else {
+            textFont = textViewFont ?? .preferredFont(forTextStyle: .headline)
+        }
+        
+        height += max((enteredText as NSString?)?.boundingRect(with: CGSize(width: width - 0.5, height: .greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: textFont], context: nil).height ?? 0.0, textFont.lineHeight).ceiled(toScale: screenScale)
+        return height
     }
     
 }

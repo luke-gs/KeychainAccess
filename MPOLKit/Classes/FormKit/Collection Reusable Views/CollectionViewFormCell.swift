@@ -19,7 +19,7 @@ import UIKit.UIGestureRecognizerSubclass
 /// `CollectionViewFormCell` also blocks auto-layout based self sizing for performance reasons. Subclasses that wish to support
 /// auto-layout based cell sizing should override `preferredLayoutAttributesFitting(_:)` and perform the caculations with
 /// `systemLayoutSizeFitting(_:)`. Users should note that `CollectionViewFormLayout` does not support self-sizing cells.
-open class CollectionViewFormCell: UICollectionViewCell {
+open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, UIScrollViewDelegate, UIGestureRecognizerDelegate {
     
     
     /// The accessory view for the cell.
@@ -82,7 +82,7 @@ open class CollectionViewFormCell: UICollectionViewCell {
     ///
     /// This property manages the display of edit actions. Setting this value calls `setShowingEditActions: animated:`
     /// without an animation.
-    open fileprivate(set) dynamic var isShowingEditActions: Bool {
+    open private(set) dynamic var isShowingEditActions: Bool {
         get { return _isShowingEditActions }
         set { setShowingEditActions(isShowingEditActions, animated: false) }
     }
@@ -161,21 +161,22 @@ open class CollectionViewFormCell: UICollectionViewCell {
     
     // MARK: - Private properties
     
+    fileprivate let scrollView = CollectionViewFormCellScrollView(frame: .zero)
+    
     /// The content mode guide. This guide is private and will update to enforce the current content
     /// mode on the `contentModeLayoutGuide`.
-    fileprivate var contentModeLayoutVerticalConstraint: NSLayoutConstraint!
+    private var contentModeLayoutVerticalConstraint: NSLayoutConstraint!
     
-    fileprivate var contentModeLayoutTrailingConstraint: NSLayoutConstraint!
+    private var contentModeLayoutTrailingConstraint: NSLayoutConstraint!
     
-    fileprivate let internalContentView = UIView(frame: .zero)
-    fileprivate let scrollView = CollectionViewFormCellScrollView(frame: .zero)
-    fileprivate var actionView: CollectionViewFormCellActionView?
-    fileprivate var _isShowingEditActions: Bool = false
-    fileprivate var _deceleratingToOpen: Bool = false
-    fileprivate var _scrolling: Bool    = false
-    fileprivate var touchTrigger: TouchRecognizer?
+    private let internalContentView = UIView(frame: .zero)
+    private var actionView: CollectionViewFormCellActionView?
+    private var _isShowingEditActions: Bool = false
+    private var _deceleratingToOpen: Bool = false
+    private var _scrolling: Bool    = false
+    private var touchTrigger: TouchRecognizer?
     
-    fileprivate var isRightToLeft: Bool = false {
+    private var isRightToLeft: Bool = false {
         didSet {
             if isRightToLeft == oldValue { return }
             
@@ -189,7 +190,7 @@ open class CollectionViewFormCell: UICollectionViewCell {
         }
     }
     
-    fileprivate var scrollViewInset: CGFloat = 0.0 {
+    private var scrollViewInset: CGFloat = 0.0 {
         didSet {
             let dragging = scrollView.isDragging
             if dragging || scrollView.contentOffset.x.isZero == false {
@@ -205,7 +206,7 @@ open class CollectionViewFormCell: UICollectionViewCell {
         }
     }
     
-    fileprivate var cachedEditAccessiblityActions: [CollectionViewFormAccessibilityEditAction]?
+    private var cachedEditAccessiblityActions: [CollectionViewFormAccessibilityEditAction]?
     
     
     // MARK: - Initialization
@@ -271,12 +272,22 @@ open class CollectionViewFormCell: UICollectionViewCell {
         removeTouchTrigger()
     }
     
-}
-
-
-// MARK: - Scroll handling
-/// Scroll handling
-extension CollectionViewFormCell: UIScrollViewDelegate {
+    
+    // MARK: - Font updates
+    
+    /// Applies the standard fonts for the cell.
+    ///
+    /// This method is internal-only, and is expected to be called on reuse, and during
+    /// init methods.
+    ///
+    /// - Important: Subclasses must ensure that it is safe to call this method by
+    ///              `super.init()`, as it is called during the superclass's
+    ///              initializer.
+    internal func applyStandardFonts() {
+    }
+    
+    
+    // MARK: - Scroll handling
     
     open func scrollViewDidScroll(_ scrollView: UIScrollView) {
         var contentOffset = scrollView.contentOffset
@@ -416,16 +427,28 @@ extension CollectionViewFormCell: UIScrollViewDelegate {
         }
         actionView?.frame = frame
     }
-}
-
-extension CollectionViewFormCell: DefaultReusable {
-}
-
-
-
-// MARK: - Overrides
-/// Overrides
-extension CollectionViewFormCell {
+    
+    
+    // MARK: - Gesture recognizer delegate methods
+    
+    open override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if let actionView = self.actionView {
+            if actionView.bounds.contains(gestureRecognizer.location(in: actionView)) {
+                return false
+            }
+        }
+        return true
+    }
+    
+    @objc public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        let view = gestureRecognizer.view
+        let myCollectionView = view as? UICollectionView ?? view?.superview(of: UICollectionView.self)
+        let returnValue = otherGestureRecognizer.view == myCollectionView
+        return returnValue
+    }
+    
+    
+    // MARK: - Overrides
     
     open class override func automaticallyNotifiesObservers(forKey key: String) -> Bool {
         if key == #keyPath(CollectionViewFormCell.isShowingEditActions) {
@@ -584,31 +607,10 @@ extension CollectionViewFormCell {
         }
     }
     
-}
-
-
-internal extension CollectionViewFormCell {
     
-    /// Applies the standard fonts for the cell.
-    ///
-    /// This method is internal-only, and is expected to be called on reuse, and during
-    /// init methods.
-    ///
-    /// - Important: Subclasses must ensure that it is safe to call this method by
-    ///              `super.init()`, as it is called during the superclass's
-    ///              initializer.
-    internal func applyStandardFonts() {
-    }
+    // MARK: - Private methods
     
-}
-
-
-
-// MARK: - Private
-/// Private methods
-fileprivate extension CollectionViewFormCell {
-    
-    @objc fileprivate func touchTriggerDidActivate(_ trigger: TouchRecognizer) {
+    @objc private func touchTriggerDidActivate(_ trigger: TouchRecognizer) {
         // Don't fire the trigger if it's within the action view.
         if let actionView = self.actionView , actionView.bounds.contains(trigger.location(in: actionView)) {
             return
@@ -617,7 +619,7 @@ fileprivate extension CollectionViewFormCell {
         self.setShowingEditActions(false, animated: true)
     }
     
-    fileprivate func applyTouchTrigger() {
+    private func applyTouchTrigger() {
         if touchTrigger != nil { return }
         if let collectionView = superview(of: UICollectionView.self) {
             let touchTrigger = TouchRecognizer(target: self, action: #selector(touchTriggerDidActivate(_:)))
@@ -627,14 +629,14 @@ fileprivate extension CollectionViewFormCell {
         }
     }
     
-    fileprivate func removeTouchTrigger() {
+    private func removeTouchTrigger() {
         if let touchTrigger = self.touchTrigger {
             touchTrigger.view?.removeGestureRecognizer(touchTrigger)
             self.touchTrigger = nil
         }
     }
     
-    fileprivate func removeActionView() {
+    private func removeActionView() {
         scrollView.contentInset.left  = 0.0
         scrollView.contentInset.right = 0.0
         if let actionView = self.actionView {
@@ -643,8 +645,8 @@ fileprivate extension CollectionViewFormCell {
         }
     }
     
-    @discardableResult
-    fileprivate func performEditAction(at index: Int) -> Bool {
+    // This method is declared fileprivate to allow associated classes to call back into the method.
+    @discardableResult fileprivate func performEditAction(at index: Int) -> Bool {
         let editCount = editActions?.count ?? 0
         
         if editCount > index,
@@ -655,31 +657,12 @@ fileprivate extension CollectionViewFormCell {
         return false
     }
     
-    @objc fileprivate func contentSizeCategoryDidChange(_ notification: Notification) {
+    @objc private func contentSizeCategoryDidChange(_ notification: Notification) {
         applyStandardFonts()
         setNeedsLayout()
     }
     
 }
-
-extension CollectionViewFormCell: UIGestureRecognizerDelegate {
-    open override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        if let actionView = self.actionView {
-            if actionView.bounds.contains(gestureRecognizer.location(in: actionView)) {
-                return false
-            }
-        }
-        return true
-    }
-    
-    @objc public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        let view = gestureRecognizer.view
-        let myCollectionView = view as? UICollectionView ?? view?.superview(of: UICollectionView.self)
-        let returnValue = otherGestureRecognizer.view == myCollectionView
-        return returnValue
-    }
-}
-
 
 
 

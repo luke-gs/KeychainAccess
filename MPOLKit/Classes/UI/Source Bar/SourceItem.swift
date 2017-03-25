@@ -10,9 +10,9 @@ import UIKit
 
 
 /// An item representing a source in a source list.
-public struct SourceItem {
+public struct SourceItem: Equatable {
     
-    public enum State {
+    public enum State: Equatable {
         case notLoaded
         
         case loading
@@ -37,15 +37,9 @@ public struct SourceItem {
     
 }
 
-
-extension SourceItem: Equatable {}
-
 public func ==(lhs: SourceItem, rhs: SourceItem) -> Bool {
     return lhs.state == rhs.state && lhs.title == rhs.title
 }
-
-
-extension SourceItem.State: Equatable {}
 
 public func ==(lhs: SourceItem.State, rhs: SourceItem.State) -> Bool {
     
