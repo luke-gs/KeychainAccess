@@ -370,7 +370,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         default:                                         attributes = nil
         }
         
-        return attributes ?? CollectionViewFormDecorationAttributes(forDecorationViewOfKind: elementKind, with: indexPath)
+        return attributes
     }
     
     

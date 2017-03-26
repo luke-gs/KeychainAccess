@@ -43,8 +43,6 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
                 precondition(detailViewControllers.contains(newValue), "`selectedViewController` must be a member of detailViewControllers.")
             }
             
-            if selectedViewController == oldValue { return }
-            
             sidebarViewController.selectedItem = selectedViewController?.sidebarItem
             if let selectedViewController = selectedViewController {
                 let selectedVCNavItem = (selectedViewController as? UINavigationController)?.viewControllers.first?.navigationItem ?? selectedViewController.navigationItem

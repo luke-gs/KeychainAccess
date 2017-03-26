@@ -205,8 +205,6 @@ public class CollectionViewFormMPOLHeaderView: UICollectionReusableView, Default
             self.layoutMargins = isRightToLeft ? layoutMargins.horizontallyFlipped() : layoutMargins
             separatorHeightConstraint.constant = 1.0 / (window?.screen ?? .main).scale
         }
-        
-        setNeedsLayout()
     }
     
     public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {

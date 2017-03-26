@@ -31,16 +31,8 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
     public let subtitleLabel = UILabel(frame: .zero)
     
     
-    /// The detail label. This should be any secondary details.
-    public let detailLabel = UILabel(frame: .zero)
-    
-    
     /// The description label. This should be a description of the entity, attributes etc.
     public let descriptionLabel = UILabel(frame: .zero)
-    
-    
-    /// A button for selecting/entering additional descriptions.
-    public var additionalDescriptionsButton = UIButton(type: .system)
     
     
     /// The alert color for the entity.
@@ -50,11 +42,16 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
     }
     
     
-    /// The delegate for the cell.
-    /// 
-    /// It is recommended you become the cell's delegate rather than using target action
-    /// on the `additionalDescriptionButton`.
-    public weak var delegate: EntityDetailCollectionViewCellDelegate?
+    /// A button for selecting/entering additional details.
+    public var additionalDetailsButton = UIButton(type: .system)
+    
+    
+    /// The additional description action method.
+    ///
+    /// It is recommended that you set this handler, rather than becoming
+    /// a target action receiver directly.
+    public var additionalDetailsButtonActionHandler: ((EntityDetailCollectionViewCell) -> Void)?
+    
     
     
     // MARK: - Private properties
@@ -105,8 +102,10 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
         descriptionLabel.numberOfLines = 0
         descriptionLabel.isHidden = true
         
+        additionalDetailsButton.translatesAutoresizingMaskIntoConstraints = false
+        additionalDetailsButton.titleLabel?.font = .systemFont(ofSize: 11, weight: UIFontWeightMedium)
+        
         borderedImageView.translatesAutoresizingMaskIntoConstraints = false
-        additionalDescriptionsButton.translatesAutoresizingMaskIntoConstraints = false
         
         let contentModeLayoutGuide = self.contentModeLayoutGuide
         let labelLayoutGuide = UILayoutGuide()
@@ -117,13 +116,13 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
         contentView.addSubview(titleLabel)
         contentView.addSubview(subtitleLabel)
         contentView.addSubview(descriptionLabel)
-        contentView.addSubview(additionalDescriptionsButton)
+        contentView.addSubview(additionalDetailsButton)
         contentView.addLayoutGuide(labelLayoutGuide)
         
         sourceToTitleConstraint   = NSLayoutConstraint(item: titleLabel,    attribute: .top, relatedBy: .equal, toItem: sourceLabel, attribute: .bottom) // 6.0 with content
         titleToSubtitleConstraint = NSLayoutConstraint(item: subtitleLabel, attribute: .top, relatedBy: .equal, toItem: titleLabel,  attribute: .bottom) // 3.0 with content
         subtitleToDescriptionConstraint = NSLayoutConstraint(item: descriptionLabel, attribute: .top, relatedBy: .equal, toItem: subtitleLabel, attribute: .bottom) // 16.0 with content
-        descriptionToMoreConstraint = NSLayoutConstraint(item: additionalDescriptionsButton, attribute: .top, relatedBy: .equal, toItem: descriptionLabel, attribute: .bottom) // 16.0 with content
+        descriptionToMoreConstraint = NSLayoutConstraint(item: additionalDetailsButton, attribute: .top, relatedBy: .equal, toItem: descriptionLabel, attribute: .bottom) // 16.0 with content
         
         NSLayoutConstraint.activate([
             NSLayoutConstraint(item: sourceLabel, attribute: .leading,  relatedBy: .equal,           toItem: labelLayoutGuide, attribute: .leading),
@@ -139,16 +138,16 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
             NSLayoutConstraint(item: subtitleLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: labelLayoutGuide, attribute: .trailing),
             
             subtitleToDescriptionConstraint,
-            NSLayoutConstraint(item: descriptionLabel, attribute: .leading,  relatedBy: .equal, toItem: labelLayoutGuide, attribute: .leading),
+            NSLayoutConstraint(item: descriptionLabel, attribute: .leading,  relatedBy: .equal,           toItem: labelLayoutGuide, attribute: .leading),
             NSLayoutConstraint(item: descriptionLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: labelLayoutGuide, attribute: .trailing),
             
             descriptionToMoreConstraint,
-            NSLayoutConstraint(item: additionalDescriptionsButton, attribute: .leading,  relatedBy: .equal, toItem: labelLayoutGuide, attribute: .leading),
-            NSLayoutConstraint(item: additionalDescriptionsButton, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: labelLayoutGuide, attribute: .trailing),
-            NSLayoutConstraint(item: additionalDescriptionsButton, attribute: .bottom,   relatedBy: .equal, toItem: labelLayoutGuide, attribute: .bottom),
+            NSLayoutConstraint(item: additionalDetailsButton, attribute: .leading,  relatedBy: .equal,           toItem: labelLayoutGuide, attribute: .leading),
+            NSLayoutConstraint(item: additionalDetailsButton, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: labelLayoutGuide, attribute: .trailing),
+            NSLayoutConstraint(item: additionalDetailsButton, attribute: .bottom,   relatedBy: .equal,           toItem: labelLayoutGuide, attribute: .bottom),
             
-            NSLayoutConstraint(item: labelLayoutGuide, attribute: .centerY, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .centerY),
-            NSLayoutConstraint(item: labelLayoutGuide, attribute: .height, relatedBy: .lessThanOrEqual, toItem: contentModeLayoutGuide, attribute: .height),
+            NSLayoutConstraint(item: labelLayoutGuide, attribute: .centerY,  relatedBy: .equal,           toItem: contentModeLayoutGuide, attribute: .centerY),
+            NSLayoutConstraint(item: labelLayoutGuide, attribute: .height,   relatedBy: .lessThanOrEqual, toItem: contentModeLayoutGuide, attribute: .height),
             NSLayoutConstraint(item: labelLayoutGuide, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentModeLayoutGuide, attribute: .trailing),
         ])
         
@@ -166,7 +165,7 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
             NSLayoutConstraint(item: labelLayoutGuide, attribute: .leading, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .leading)
         ]
         
-        additionalDescriptionsButton.addTarget(self, action: #selector(additionalDescriptionsButtonDidSelect), for: .touchUpInside)
+        additionalDetailsButton.addTarget(self, action: #selector(additionalDescriptionsButtonDidSelect), for: .touchUpInside)
         
         if traitCollection.horizontalSizeClass == .compact {
             borderedImageView.wantsRoundedCorners = false
@@ -181,7 +180,7 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
         titleLabel.addObserver(self,       forKeyPath: #keyPath(UILabel.text), context: &kvoContext)
         subtitleLabel.addObserver(self,    forKeyPath: #keyPath(UILabel.text), context: &kvoContext)
         descriptionLabel.addObserver(self, forKeyPath: #keyPath(UILabel.text), context: &kvoContext)
-        additionalDescriptionsButton.titleLabel?.addObserver(self, forKeyPath: #keyPath(UILabel.text), context: &kvoContext)
+        additionalDetailsButton.titleLabel?.addObserver(self, forKeyPath: #keyPath(UILabel.text), context: &kvoContext)
     }
     
     deinit {
@@ -189,14 +188,14 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
         titleLabel.removeObserver(self,       forKeyPath: #keyPath(UILabel.text), context: &kvoContext)
         subtitleLabel.removeObserver(self,    forKeyPath: #keyPath(UILabel.text), context: &kvoContext)
         descriptionLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.text), context: &kvoContext)
-        additionalDescriptionsButton.titleLabel?.removeObserver(self, forKeyPath: #keyPath(UILabel.text), context: &kvoContext)
+        additionalDetailsButton.titleLabel?.removeObserver(self, forKeyPath: #keyPath(UILabel.text), context: &kvoContext)
     }
     
     
     // MARK: - Action methods
     
     @objc private func additionalDescriptionsButtonDidSelect() {
-        delegate?.entityDetailCellDidSelectAdditionalDescriptions(self)
+        additionalDetailsButtonActionHandler?(self)
     }
     
     
@@ -257,7 +256,7 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
             let hasTitle           = titleLabel.text?.isEmpty       ?? true == false
             let hasSubtitle        = subtitleLabel.text?.isEmpty    ?? true == false
             let hasDescription     = descriptionLabel.text?.isEmpty ?? true == false
-            let hasMoreDescription = additionalDescriptionsButton.titleLabel?.text?.isEmpty ?? true == false
+            let hasMoreDescription = additionalDetailsButton.titleLabel?.text?.isEmpty ?? true == false
             
             if let object = object as? NSObject {
                 switch object {
@@ -289,11 +288,9 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
         if #available(iOS 10, *) {
             subtitleLabel.font    = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
             descriptionLabel.font = .preferredFont(forTextStyle: .headline,    compatibleWith: traitCollection)
-            additionalDescriptionsButton.titleLabel?.font = .preferredFont(forTextStyle: .caption1, compatibleWith: traitCollection)
         } else {
             subtitleLabel.font    = .preferredFont(forTextStyle: .subheadline)
             descriptionLabel.font = .preferredFont(forTextStyle: .headline)
-            additionalDescriptionsButton.titleLabel?.font = .preferredFont(forTextStyle: .caption1)
         }
     }
     
@@ -355,15 +352,9 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
             hasDescription = false
         }
         
-        if let additionalDetails = additionalDetails as NSString?, additionalDetails.length > 0 {
-            let additionalDescFont: UIFont
-            if #available(iOS 10, *) {
-                additionalDescFont = .preferredFont(forTextStyle: .caption1, compatibleWith: traitCollection)
-            } else {
-                additionalDescFont = .preferredFont(forTextStyle: .caption1)
-            }
+        if additionalDetails?.isEmpty ?? true == false {
             if hasDescription || hasSubtitle || hasTitle { textHeight += 16.0 }
-            textHeight += additionalDescFont.lineHeight.ceiled(toScale: displayScale) + 13.0
+            textHeight += UIFont.systemFont(ofSize: 11, weight: UIFontWeightMedium).lineHeight.ceiled(toScale: displayScale) + 13.0
         }
         
         if source?.isEmpty ?? true == false {
@@ -372,13 +363,5 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
         
         return isCompact ? textHeight : max(textHeight, 202.0) // 202 is the height for the image view in non-compact mode.
     }
-    
-}
-
-
-
-public protocol EntityDetailCollectionViewCellDelegate: class {
-    
-    func entityDetailCellDidSelectAdditionalDescriptions(_ cell: EntityDetailCollectionViewCell)
     
 }

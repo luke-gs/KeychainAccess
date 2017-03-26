@@ -96,8 +96,8 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
         
         imageView.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .vertical)
         imageView.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .horizontal)
-        imageView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
-        imageView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+        imageView.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh + 1, for: .vertical)
+        imageView.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh + 1, for: .horizontal)
         
         titleSubtitleConstraint  = NSLayoutConstraint(item: subtitleLabel,   attribute: .top,      relatedBy: .equal, toItem: titleLabel, attribute: .bottom)
         textLeadingConstraint    = NSLayoutConstraint(item: textLayoutGuide, attribute: .leading,  relatedBy: .equal, toItem: imageView, attribute: .trailing)
@@ -118,6 +118,7 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
             NSLayoutConstraint(item: textLayoutGuide, attribute: .top,     relatedBy: .greaterThanOrEqual, toItem: contentModeLayoutGuide, attribute: .top),
             NSLayoutConstraint(item: textLayoutGuide, attribute: .centerY, relatedBy: .equal,              toItem: contentModeLayoutGuide, attribute: .centerY),
             NSLayoutConstraint(item: textLayoutGuide, attribute: .trailing, relatedBy: .lessThanOrEqual,   toItem: contentModeLayoutGuide, attribute: .trailing),
+            NSLayoutConstraint(item: textLayoutGuide, attribute: .leading, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .leading, priority: UILayoutPriorityDefaultHigh),
             textLeadingConstraint,
             titleSubtitleConstraint,
             
@@ -155,8 +156,9 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
                 titleSubtitleConstraint.constant = (titleLabel.text?.isEmpty ?? true || subtitleLabel.text?.isEmpty ?? true) ? 0.0 : CellTitleSubtitleSeparation
             case let imageView as UIImageView:
                 let noImage = imageView.image?.size.isEmpty ?? true
-                imageView.isHidden = noImage
+                imageView.isHidden = false
                 textLeadingConstraint.constant = noImage ? 0.0 : 10.0
+                updateLabelMaxSizes()
             default:
                 break
             }
@@ -167,21 +169,32 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
     
     open override var bounds: CGRect {
         didSet {
-            let width = bounds.width
-            if width !=~ oldValue.width {
-                titleLabel.preferredMaxLayoutWidth    = width
-                subtitleLabel.preferredMaxLayoutWidth = width
+            if bounds.width !=~ oldValue.width {
+                updateLabelMaxSizes()
             }
         }
     }
     
     open override var frame: CGRect {
         didSet {
-            let width = frame.width
-            if width !=~ oldValue.width {
-                titleLabel.preferredMaxLayoutWidth    = width
-                subtitleLabel.preferredMaxLayoutWidth = width
+            if frame.width !=~ oldValue.width {
+                updateLabelMaxSizes()
             }
+        }
+    }
+    
+    open override var layoutMargins: UIEdgeInsets {
+        didSet {
+            let layoutMargins = self.layoutMargins
+            if layoutMargins.left !=~ oldValue.left || layoutMargins.right !=~ oldValue.right {
+                updateLabelMaxSizes()
+            }
+        }
+    }
+    
+    open override var accessoryView: UIView? {
+        didSet {
+            updateLabelMaxSizes()
         }
     }
     
@@ -208,6 +221,22 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
             titleLabel.font    = .preferredFont(forTextStyle: emphasis == .title ? .headline : .footnote)
             subtitleLabel.font = .preferredFont(forTextStyle: emphasis == .title ? .footnote : .headline)
         }
+    }
+    
+    
+    // MARK: - Private methods
+    
+    func updateLabelMaxSizes() {
+        
+        let width         = frame.width
+        let layoutMargins = self.layoutMargins
+        let accessoryViewWidth = accessoryView?.bounds.width ?? 0.0
+        let imageViewWidth = imageView.image?.size.width ?? 0.0
+        
+        let allowedTextWidth = width - layoutMargins.left - layoutMargins.right - (accessoryViewWidth > 0.0 ? accessoryViewWidth + 10.0 : 0.0) - (imageViewWidth > 0.0 ? imageViewWidth + 10.0 : 0.0)
+        
+        titleLabel.preferredMaxLayoutWidth    = allowedTextWidth
+        subtitleLabel.preferredMaxLayoutWidth = allowedTextWidth
     }
     
     

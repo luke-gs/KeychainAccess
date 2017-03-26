@@ -27,6 +27,7 @@ class TestCollectionViewController: FormCollectionViewController  {
         collectionView?.collectionViewLayout.invalidateLayout()
     }
 
+    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 10
     }
@@ -49,7 +50,7 @@ class TestCollectionViewController: FormCollectionViewController  {
         cell.titleLabel.text = "Smith, Max R."
         cell.subtitleLabel.text = "08/05/1987 (29 Male)"
         cell.descriptionLabel.text = "196 cm proportionate european male with short brown hair and brown eyes"
-        cell.additionalDescriptionsButton.setTitle("4 MORE DESCRIPTIONS", for: .normal)
+        cell.additionalDetailsButton.setTitle("4 MORE DESCRIPTIONS", for: .normal)
         return cell
     }
     

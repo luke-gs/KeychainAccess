@@ -113,7 +113,7 @@ public class BorderedImageView: UIView {
             layer.borderWidth = 0.0
         } else {
             imageView.layer.cornerRadius = max(cornerRadius - 3.0, 0.0)
-            imageView.frame = bounds.insetBy(dx: 4.0, dy: 4.0)
+            imageView.frame = wantsRoundedCorners ? bounds.insetBy(dx: 4.0, dy: 4.0) : bounds
             layer.borderWidth = borderWidth
         }
     }
