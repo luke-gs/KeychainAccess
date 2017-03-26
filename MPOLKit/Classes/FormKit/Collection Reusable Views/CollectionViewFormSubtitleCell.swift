@@ -49,7 +49,7 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
     /// The default is `true`.
     internal var mpol_isEditableField: Bool = true
     
-    private let textLayoutGuide = UILayoutGuide()
+    internal let textLayoutGuide = UILayoutGuide()
     
     private var titleSubtitleConstraint: NSLayoutConstraint!
     

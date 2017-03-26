@@ -95,7 +95,14 @@ open class PushableSplitViewController: UIViewController, UISplitViewControllerD
                 return nil
             }
             
-            let image = UIImage(named: "NavigationBarBackIndicator", in: Bundle(for: PushableSplitViewController.self), compatibleWith: self.traitCollection)?.withRenderingMode(.alwaysTemplate)
+            let arrowImage = UIImage(named: "NavigationBarBackIndicator", in: Bundle(for: PushableSplitViewController.self), compatibleWith: self.traitCollection)?.withRenderingMode(.alwaysTemplate)
+            
+            let image: UIImage?
+            if #available(iOS 10, *) {
+                image = arrowImage
+            } else {
+                image = (arrowImage?.flipsForRightToLeftLayoutDirection ?? true) ? arrowImage : arrowImage?.imageFlippedForRightToLeftLayoutDirection()
+            }
             
             // show back icon with pop action.
             return UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(backButtonItemDidSelect))
