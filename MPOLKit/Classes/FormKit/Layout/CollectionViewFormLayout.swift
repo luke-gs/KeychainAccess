@@ -575,6 +575,125 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
             return []
         }
     }
+    
+    
+    // MARK: - Column Conveniences
+    
+    
+    /// Calculates the item content width per item in a column style section, optionally filling multiple items by
+    /// merging columns together horizontally.
+    ///
+    /// - Parameters:
+    ///   - fillingColumns:    The amount of columns to fill with the item. The default is 1.
+    ///   - sectionColumns:    The amount of columns in the section.
+    ///   - sectionWidth:      The width for the section.
+    ///   - sectionEdgeInsets: The edge insets for the section.
+    /// - Returns:             The content width for an item that fills the specified (or 1) column in the defined layout.
+    public func itemContentWidth(fillingColumns: Int = 1, inSectionWithColumns sectionColumns: Int, sectionWidth: CGFloat, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
+        let columnWidth = columnContentWidth(forColumnCount: sectionColumns, inSectionWidth: sectionWidth, sectionEdgeInsets: sectionEdgeInsets)
+        if fillingColumns <= 1 {
+            return columnWidth
+        }
+        
+        let additionalColumnWidth = (columnWidth + itemLayoutMargins.left + itemLayoutMargins.right) * CGFloat(fillingColumns - 1)
+        return columnWidth + additionalColumnWidth
+    }
+    
+    
+    /// Calculats the item content width for an item that should fill across columns in a section until its minimum
+    /// content width is reached. This is helpful for maintaining a column style layout, while observing minimum
+    /// size constraints.
+    ///
+    /// - Parameters:
+    ///   - minimumItemContentWidth: The minimum width the item's content should fill.
+    ///   - sectionColumns:          The count of columns in the section.
+    ///   - sectionWidth:            The width for the section.
+    ///   - sectionEdgeInsets:       The edge insets for the section.
+    /// - Returns:                   The content width for an item that fills to the edges of the columns in the section.
+    ///                              This value is subpixel accurate and should be rounded appropriately for screen.
+    public func itemContentWidth(fillingColumnsForMinimumItemContentWidth minimumItemContentWidth: CGFloat, inSectionWithColumns sectionColumns: Int, sectionWidth: CGFloat, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
+        let columnWidth = columnContentWidth(forColumnCount: sectionColumns, inSectionWidth: sectionWidth, sectionEdgeInsets: sectionEdgeInsets)
+        if minimumItemContentWidth <=~ 0.0 {
+            return columnWidth
+        }
+        
+        let insetWidth = itemLayoutMargins.left + itemLayoutMargins.right
+        let totalColumnWidth = columnWidth + insetWidth
+        let minimumItemTotalSize = minimumItemContentWidth + insetWidth
+        
+        let columnsFilled = max(minimumItemTotalSize / totalColumnWidth, 1.0)
+        let totalItemWidth = columnsFilled * totalColumnWidth
+        return totalItemWidth - insetWidth
+    }
+    
+    
+    /// Calculates the column count appropriate for a section with a certain minimum item width.
+    ///
+    /// - Parameters:
+    ///   - itemWidth:         The minimum content width per item in the section.
+    ///   - sectionWidth:      The width for the section.
+    ///   - sectionEdgeInsets: The edge insets for the section.
+    /// - Returns:             The count of columns that will fit with the specified minimum content width and section details.
+    public func columnCountForSection(withMinimumItemContentWidth itemWidth: CGFloat, sectionWidth: CGFloat, sectionEdgeInsets: UIEdgeInsets) -> Int {
+        precondition(itemWidth > 0.0, "itemWidth must be more than zero.")
+        let standardizedSectionWidth = sectionWidthWithStandardMargins(forSectionWidth: sectionWidth, sectionEdgeInsets: sectionEdgeInsets)
+        let minimumTotalWidth = itemWidth + itemLayoutMargins.left + itemLayoutMargins.right
+        return max(Int(standardizedSectionWidth / minimumTotalWidth), 1)
+    }
+    
+    
+    /// Calculates the content widths per column in a section.
+    ///
+    /// - Parameters:
+    ///   - columnCount:       The column count for the section.
+    ///   - sectionWidth:      The total width for the section.
+    ///   - sectionEdgeInsets: The edge insets for the section.
+    /// - Returns:             The content width appropriate for a section with the specified column and width settings.
+    ///                        This value is subpixel accurate and should be rounded appropriately for screen.
+    public func columnContentWidth(forColumnCount columnCount: Int, inSectionWidth sectionWidth: CGFloat, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
+        let standardizedSectionWidth = sectionWidthWithStandardMargins(forSectionWidth: sectionWidth, sectionEdgeInsets: sectionEdgeInsets)
+        let totalColumnWidth = standardizedSectionWidth / CGFloat(columnCount)
+        return totalColumnWidth - itemLayoutMargins.left - itemLayoutMargins.right
+    }
+    
+    
+    /// Calculates the content width for a column-based layout in a section, with columns calculated from a minimum item content width.
+    ///
+    /// - Parameters:
+    ///   - itemWidth:          The minimum content width per item in the section.
+    ///   - maximumColumnCount: The maximum column count
+    ///   - sectionWidth:       The width for the section.
+    ///   - sectionEdgeInsets:  The edge insets for the section.
+    /// - Returns:              The content width appropriate for a section with the specified column and width settings.
+    ///                         This value is subpixel accurate and should be rounded appropriately for screen.
+    public func columnContentWidth(forMinimumItemContentWidth itemWidth: CGFloat, maximumColumnCount: Int = .max, sectionWidth: CGFloat, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
+        let standardizedSectionWidth = sectionWidthWithStandardMargins(forSectionWidth: sectionWidth, sectionEdgeInsets: sectionEdgeInsets)
+        let itemLayoutMargins = self.itemLayoutMargins
+        let minimumTotalWidth = itemWidth + itemLayoutMargins.left + itemLayoutMargins.right
+        let columnCount = min(max(floor(standardizedSectionWidth / minimumTotalWidth), 1.0), CGFloat(maximumColumnCount))
+        let totalColumnWidth = standardizedSectionWidth / columnCount
+        return totalColumnWidth - itemLayoutMargins.left - itemLayoutMargins.right
+    }
+    
+    
+    /// Calculates a section width for the section details, if it were to contain standard layout margins.
+    /// This is a private convenience to ease math for column calculation.
+    ///
+    /// - Parameters:
+    ///   - sectionWidth:      The total width for the section.
+    ///   - sectionEdgeInsets: The edge insets for the section.
+    /// - Returns:             The width of the section if it were to contain standard layout margins.
+    private func sectionWidthWithStandardMargins(forSectionWidth sectionWidth: CGFloat, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
+        var sectionWidthWithStandardMargins = sectionWidth
+        if sectionEdgeInsets.left.isZero == false {
+            sectionWidthWithStandardMargins -= (sectionEdgeInsets.left - itemLayoutMargins.left)
+        }
+        if sectionEdgeInsets.right.isZero == false {
+            sectionWidthWithStandardMargins -= (sectionEdgeInsets.right - itemLayoutMargins.right)
+        }
+        return sectionWidthWithStandardMargins
+    }
+    
 }
 
 
@@ -677,63 +796,4 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     ///   - itemWidth:      The width for the item.
     /// - Returns:          The minimum required height for the item.
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat
-}
-
-
-// MARK: - Convenience functions
-/// Convenience Functions
-public extension CollectionViewFormLayout {
-    
-    /// A convenience function for calculating content widths for cells in column formation.
-    ///
-    /// - Parameters:
-    ///   - columnCount:         The number of columns in the section.
-    ///   - sectionWidth:        The contentWidth of the section.
-    ///   - edgeInsets:          The edge insets for the section.
-    ///   - minimumContentWidth: The minimum width for the column. The default value is `0.0`.
-    /// - Returns:               The content width for a single item in the specified column layout. When a minumumColumnWidth
-    ///                          is specified, returns the correct width to spread the item between multiple columns.
-    public func itemContentWidth(forEqualColumnCount columnCount: Int, givenSectionWidth sectionWidth: CGFloat, edgeInsets: UIEdgeInsets, minimumContentWidth: CGFloat = 0.0) -> CGFloat {
-        precondition(columnCount > 0, "columnCount must be more than zero.")
-        
-        let itemLayoutMargins    = self.itemLayoutMargins
-        let leadingSectionInset  = ceil(edgeInsets.left.isZero  ? itemLayoutMargins.left  : edgeInsets.left)
-        let trailingSectionInset = ceil(edgeInsets.right.isZero ? itemLayoutMargins.right : edgeInsets.right)
-        
-        if columnCount == 1 { return sectionWidth - leadingSectionInset - trailingSectionInset}
-        
-        let columnCountFloat = CGFloat(columnCount)
-        
-        let adjustmentValue = ((columnCountFloat - 1.0) * (itemLayoutMargins.left + itemLayoutMargins.right)) + leadingSectionInset + trailingSectionInset
-        let singleItemSize = max(sectionWidth - adjustmentValue, 0.0) / columnCountFloat
-         
-        var itemSize = singleItemSize
-        let scale = collectionView?.window?.screen.scale ?? 1.0
-        while itemSize < minimumContentWidth {
-            itemSize += itemLayoutMargins.left + itemLayoutMargins.right + singleItemSize.floored(toScale: scale)
-        }
-        
-        return itemSize
-    }
-    
-    public func itemContentWidth(forEqualColumnsWithMinimumContentWidth minimumWidth: CGFloat, maximumColumnCount: Int = .max,
-                                 givenSectionWidth sectionWidth: CGFloat, edgeInsets: UIEdgeInsets) -> CGFloat {
-        precondition(minimumWidth > 0.0, "minimumContentWidth must be more than zero.")
-        precondition(maximumColumnCount > 0, "maximumColumnCount must be more than zero.")
-        
-        let itemLayoutMargins = self.itemLayoutMargins
-        
-        var sectionWidthWithStandardMargins = sectionWidth
-        if edgeInsets.left.isZero == false {
-            sectionWidthWithStandardMargins -= (edgeInsets.left - itemLayoutMargins.left)
-        }
-        if edgeInsets.right.isZero == false {
-            sectionWidthWithStandardMargins -= (edgeInsets.right - itemLayoutMargins.right)
-        }
-        
-        let minimumTotalWidth = minimumWidth + itemLayoutMargins.left + itemLayoutMargins.right
-        
-        let columnCount = min(Int(sectionWidthWithStandardMargins / minimumTotalWidth), maximumColumnCount)
-        return itemContentWidth(forEqualColumnCount: columnCount, givenSectionWidth: sectionWidth, edgeInsets: edgeInsets)
-    }
 }

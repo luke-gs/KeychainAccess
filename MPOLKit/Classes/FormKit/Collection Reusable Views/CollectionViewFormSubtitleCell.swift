@@ -275,10 +275,7 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
             imageSpace = ceil(imageSpace) + 10.0
         }
         
-        var displayScale = traitCollection.displayScale
-        if displayScale ==~ 0.0 {
-            displayScale = UIScreen.main.scale
-        }
+        let displayScale = traitCollection.currentDisplayScale
         
         let titleWidth = (title as NSString?)?.boundingRect(with: .max, options: singleLineTitle ? [] : .usesLineFragmentOrigin,
                                                             attributes: [NSFontAttributeName: titleTextFont],
@@ -323,10 +320,7 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
         let imageSize = image?.size
         
         
-        var displayScale = traitCollection.displayScale
-        if displayScale ==~ 0.0 {
-            displayScale = UIScreen.main.scale
-        }
+        let displayScale = traitCollection.currentDisplayScale
         
         let size = CGSize(width: imageSize == nil ? width : width - imageSize!.width - 10.0, height: CGFloat.greatestFiniteMagnitude)
         

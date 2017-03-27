@@ -185,11 +185,7 @@ public class TableViewFormMPOLHeaderCell: UITableViewCell {
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         
-        var displayScale = traitCollection.displayScale
-        if displayScale == 0.0 {
-            displayScale = UIScreen.main.scale
-        }
-        separatorHeightConstraint?.constant = 1.0 / displayScale
+        separatorHeightConstraint?.constant = 1.0 / traitCollection.currentDisplayScale
         
         if #available(iOS 10, *) {
             isRightToLeft = self.effectiveUserInterfaceLayoutDirection == .rightToLeft

@@ -146,15 +146,9 @@ open class CollectionViewFormSelectionCell: CollectionViewFormCell {
                                         titleFont: UIFont? = nil, singleLineTitle: Bool = true, accessoryViewWidth: CGFloat = 0.0) -> CGFloat {
         let titleTextFont = titleFont ?? SelectableButton.font(compatibleWith: traitCollection)
         let imageSize = style.image(selected: false).size
-        
-        var displayScale = traitCollection.displayScale
-        if displayScale ==~ 0.0 {
-            displayScale = UIScreen.main.scale
-        }
-        
         let titleWidth = (title as NSString?)?.boundingRect(with: .max, options: singleLineTitle ? [] : .usesLineFragmentOrigin,
                                                             attributes: [NSFontAttributeName: titleTextFont],
-                                                            context: nil).width.ceiled(toScale: displayScale) ?? 0.0
+                                                            context: nil).width.ceiled(toScale: traitCollection.currentDisplayScale) ?? 0.0
         return titleWidth + imageSize.width + 10.0 + (accessoryViewWidth > 0.00001 ? accessoryViewWidth + 10.0 : 0.0)
     }
     
@@ -174,16 +168,12 @@ open class CollectionViewFormSelectionCell: CollectionViewFormCell {
         let titleTextFont = titleFont ?? SelectableButton.font(compatibleWith: traitCollection)
         let imageSize = style.image(selected: false).size
         
-        var displayScale = traitCollection.displayScale
-        if displayScale ==~ 0.0 {
-            displayScale = UIScreen.main.scale
-        }
         
         let size = CGSize(width: width - imageSize.width - 10.0, height: CGFloat.greatestFiniteMagnitude)
         
         let titleHeight = (title as NSString?)?.boundingRect(with: size, options: singleLineTitle ? [] : .usesLineFragmentOrigin,
                                                              attributes: [NSFontAttributeName: titleTextFont],
-                                                             context: nil).height.ceiled(toScale: displayScale) ?? 0.0
+                                                             context: nil).height.ceiled(toScale: traitCollection.currentDisplayScale) ?? 0.0
         
         return max(titleHeight, imageSize.height)
     }

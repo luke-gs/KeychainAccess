@@ -300,11 +300,7 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
     public class func minimumContentHeight(withTitle title: String?, subtitle: String?, description: String?, additionalDetails: String?, source: String?, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
         
         let isCompact = traitCollection.horizontalSizeClass == .compact
-        
-        var displayScale = traitCollection.displayScale
-        if displayScale ==~ 0.0 {
-            displayScale = UIScreen.main.scale
-        }
+        let displayScale = traitCollection.currentDisplayScale
         
         var textHeight: CGFloat
         

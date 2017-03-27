@@ -427,11 +427,8 @@ open class MapOverlayViewController: UIViewController, UITableViewDataSource, UI
             updateOverlayForTraits()
         }
         
-        var displayScale = traitCollection.displayScale
-        if previousTraitCollection?.displayScale != displayScale {
-            if displayScale == 0.0 {
-                displayScale = UIScreen.main.scale
-            }
+        let displayScale = traitCollection.currentDisplayScale
+        if previousTraitCollection?.currentDisplayScale != displayScale {
             overlaySeparatorWidthConstraint?.constant = 1.0 / displayScale
         }
     }

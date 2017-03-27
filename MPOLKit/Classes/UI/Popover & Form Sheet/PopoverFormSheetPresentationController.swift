@@ -104,11 +104,7 @@ public class PopoverFormSheetPresentationController: UIPresentationController, U
         let containerBounds = containerView?.bounds ?? .zero
         let presentedViewSize = size(forChildContentContainer: presentedViewController, withParentContainerSize: containerBounds.size)
         
-        var displayScale = traitCollection.displayScale
-        if displayScale == 0.0 {
-            displayScale = UIScreen.main.scale
-        }
-        
+        let displayScale = traitCollection.currentDisplayScale
         let contentOrigin = CGPoint(x: (containerBounds.midX - (presentedViewSize.width / 2.0)).rounded(toScale: displayScale),
                                     y: (containerBounds.midY - (presentedViewSize.height / 2.0)).floored(toScale: displayScale))
         var positionedRect = CGRect(origin: contentOrigin, size: presentedViewSize)

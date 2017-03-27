@@ -53,13 +53,7 @@ open class RoundedRectLabel : UILabel {
     
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        
-        var displayScale = traitCollection.displayScale
-        if displayScale ==~ 0 {
-            displayScale = UIScreen.main.scale
-        }
-        
-        layer.rasterizationScale = displayScale
+        layer.rasterizationScale = traitCollection.currentDisplayScale
     }
     
 }

@@ -54,7 +54,7 @@ open class PersonInfoViewController: EntityInfoViewController {
             let cell = collectionView.dequeueReusableCell(of: CollectionViewFormProgressCell.self, for: indexPath)
             cell.emphasis = .subtitle
             cell.titleLabel.text    = item.localizedTitle
-            cell.subtitleLabel.text = item.value(from: nil)
+            cell.subtitleLabel.text = item.value(for: nil)
             cell.progressView.progressTintColor = #colorLiteral(red: 0.3001902103, green: 0.6874542236, blue: 0.311791122, alpha: 1)
             cell.progressView.progress = 0.5
             return cell
@@ -71,7 +71,7 @@ open class PersonInfoViewController: EntityInfoViewController {
             
             let licenceItem = LicenceItem(rawValue: indexPath.item)
             cell.titleLabel.text = licenceItem?.localizedTitle
-            cell.subtitleLabel.text = licenceItem?.value(from: nil)
+            cell.subtitleLabel.text = licenceItem?.value(for: nil)
             cell.subtitleLabel.numberOfLines = 1
         case .addresses:
             cell.imageView.image = UIImage(named: "iconGeneralLocation", in: .mpolKit, compatibleWith: nil)
@@ -109,7 +109,7 @@ open class PersonInfoViewController: EntityInfoViewController {
             section == .licences,
             let licenceItem = LicenceItem(rawValue: indexPath.item),
             licenceItem != .validity {
-            return layout.itemContentWidth(forEqualColumnCount: Int(sectionWidth / 180), givenSectionWidth: sectionWidth, edgeInsets: edgeInsets)
+            return layout.columnContentWidth(forMinimumItemContentWidth: 180.0, sectionWidth: sectionWidth, sectionEdgeInsets: edgeInsets)
         }
         return sectionWidth
     }
@@ -126,7 +126,7 @@ open class PersonInfoViewController: EntityInfoViewController {
         case .licences:
             let licenceItem = LicenceItem(rawValue: indexPath.item)
             title    = licenceItem?.localizedTitle ?? ""
-            subtitle = licenceItem?.value(from: nil) ?? ""
+            subtitle = licenceItem?.value(for: nil) ?? ""
             image    = nil
             wantsSingleLineSubtitle = true
         case .addresses:
@@ -187,7 +187,7 @@ open class PersonInfoViewController: EntityInfoViewController {
             }
         }
         
-        func value(from licence: Any?) -> String {
+        func value(for licence: Any?) -> String {
             // TODO: Fill these details in
             switch self {
             case .licenceClass:  return "Motor Vehicle"

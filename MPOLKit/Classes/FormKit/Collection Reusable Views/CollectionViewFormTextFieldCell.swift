@@ -188,10 +188,7 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
             placeholderTextFont = placeholderFont ?? .preferredFont(forTextStyle: .subheadline)
         }
         
-        var displayScale = traitCollection.displayScale
-        if displayScale ==~ 0.0 {
-            displayScale = UIScreen.main.scale
-        }
+        let displayScale = traitCollection.currentDisplayScale
         
         // title width can be shortcutted if we're doing multiple lines - we could break the text anywhere. Give decent minimal room.
         let titleWidth = singleLineTitle ? (title as NSString?)?.boundingRect(with: .max, attributes: [NSFontAttributeName: titleTextFont], context: nil).width.ceiled(toScale: displayScale) ?? 0.0 : 20.0
@@ -205,10 +202,8 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
     
     public class func minimumContentHeight(withTitle title: String?, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection, titleFont: UIFont? = nil, textFieldFont: UIFont? = nil, placeholderFont: UIFont? = nil, singleLineTitle: Bool = true) -> CGFloat {
         
-        var displayScale = traitCollection.displayScale
-        if displayScale ==~ 0.0 {
-            displayScale = UIScreen.main.scale
-        }
+        let displayScale = traitCollection.currentDisplayScale
+        
         var titleHeight: CGFloat
         if title?.isEmpty ?? true {
             titleHeight = 0.0

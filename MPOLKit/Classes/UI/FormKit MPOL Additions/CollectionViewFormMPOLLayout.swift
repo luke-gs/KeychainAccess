@@ -17,12 +17,6 @@ public let collectionElementKindMPOLSectionBackground = "mpolSectionBackground"
     
     @objc optional func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormMPOLLayout, shouldInsetHeaderInSection section: Int) -> Bool
     
-    
-    // This method should probably move down into `CollectionViewDelegateFormLayout`
-    // but with the time constraints of building MPOLKit, we only have the ability to
-    // support it in MPOL layout.
-    @objc optional func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormMPOLLayout, itemLayoutMarginsInSection section: Int) -> UIEdgeInsets
-    
     @objc optional func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormMPOLLayout, shouldDisplayBackgroundInSection section: Int) -> Bool
     
 }
@@ -98,7 +92,6 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
         // is a formal requirement of the cast (not just selector response ability) in Swift.
         let isMPOLDelegate = delegate is CollectionViewDelegateMPOLLayout
         let delegateSpecifiesSeparatorStyle    = isMPOLDelegate && delegate.responds(to: #selector(CollectionViewDelegateMPOLLayout.collectionView(_:layout:separatorStyleForItemAt:)))
-        let delegateSpecifiesSectionItemInsets = isMPOLDelegate && delegate.responds(to: #selector(CollectionViewDelegateMPOLLayout.collectionView(_:layout:itemLayoutMarginsInSection:)))
         let delegateHasWantsBackgroundsMethod  = isMPOLDelegate && delegate.responds(to: #selector(CollectionViewDelegateMPOLLayout.collectionView(_:layout:shouldDisplayBackgroundInSection:)))
         
         let collectionViewWidth = collectionView.bounds.width
@@ -137,7 +130,7 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
         let defaultSeparatorStyle = separatorStyle
         
         // function to process a section's items. ensure that insets are accounted for.
-        func processItemsInSection(_ section: Int, atPoint point: CGPoint, withWidth width: CGFloat, sectionInsets: UIEdgeInsets, itemLayoutMargins: UIEdgeInsets) -> CGFloat { // Returns height of section items
+        func processItemsInSection(_ section: Int, atPoint point: CGPoint, withWidth width: CGFloat, sectionInsets: UIEdgeInsets) -> CGFloat { // Returns height of section items
             
             let sectionDistribution: CollectionViewFormLayout.Distribution
             if let foundDistribution = delegate.collectionView?(collectionView, layout: self, distributionForSection: section) , foundDistribution != .automatic {
@@ -415,19 +408,12 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
             
             // First get headers, work out the taller of them, and add them putting them to the bottom as much as possible
             var largestHeight: CGFloat = 0.0
-            let headerRects: [(section: Int, headerRect: CGRect, sectionInsets: UIEdgeInsets, itemLayoutInsets: UIEdgeInsets)] = sectionGroup.map {
+            let headerRects: [(section: Int, headerRect: CGRect, sectionInsets: UIEdgeInsets)] = sectionGroup.map {
                 let width = $1.width
                 let height = max(ceil(delegate.collectionView(collectionView, layout: self, heightForHeaderInSection: $0, givenSectionWidth: width)), 0.0)
                 largestHeight = max(largestHeight, height)
                 let edgeInsets = delegate.collectionView(collectionView, layout: self, insetForSection: $0, givenSectionWidth: width)
-                
-                let itemInsets: UIEdgeInsets
-                if delegateSpecifiesSectionItemInsets {
-                    itemInsets = (delegate as! CollectionViewDelegateMPOLLayout).collectionView!(collectionView, layout: self, itemLayoutMarginsInSection: $0)
-                } else {
-                    itemInsets = itemLayoutMargins
-                }
-                return ($0, CGRect(x: $1.x, y: 0.0, width: width, height: height), edgeInsets, itemInsets)
+                return ($0, CGRect(x: $1.x, y: 0.0, width: width, height: height), edgeInsets)
             }
             currentYOffset += largestHeight
             
@@ -454,7 +440,7 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
                     
                     var sectionInset = headerRect.2.left
                     if sectionInset.isZero {
-                       sectionInset = headerRect.3.left
+                       sectionInset = itemLayoutMargins.left
                     }
                     
                     headerAttribute.leadingMargin = sectionInset
@@ -470,8 +456,8 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
                         rect.size.height += separatorVerticalSpacing
                         
                         headerAttribute.itemPosition = rect.size.height
-                        rect.size.height += headerRect.3.top
-                        maxHeaderInsetAdded = max(maxHeaderInsetAdded, headerRect.3.top + separatorVerticalSpacing)
+                        rect.size.height += itemLayoutMargins.top
+                        maxHeaderInsetAdded = max(maxHeaderInsetAdded, itemLayoutMargins.top + separatorVerticalSpacing)
                     }
                     headerAttribute.frame = isRTL ? rect.rtlFlipped(forWidth: collectionViewWidth) : rect
                     sectionHeaderAttributes.append(headerAttribute)
@@ -483,7 +469,7 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
             // Put each of the section item columns in place.
             var maxSectionHeight: CGFloat = 0.0
             for (rowIndex, section) in sectionGroup.enumerated() {
-                maxSectionHeight = max(maxSectionHeight, processItemsInSection(section.0, atPoint: CGPoint(x: section.1.x, y: startOfItems), withWidth: section.1.width, sectionInsets: headerRects[rowIndex].2, itemLayoutMargins: headerRects[rowIndex].3))
+                maxSectionHeight = max(maxSectionHeight, processItemsInSection(section.0, atPoint: CGPoint(x: section.1.x, y: startOfItems), withWidth: section.1.width, sectionInsets: headerRects[rowIndex].2))
             }
             if maxSectionHeight == 0.0 && sectionIndentAdded {
                 maxSectionHeight += maxHeaderInsetAdded.ceiled(toScale: screenScale)

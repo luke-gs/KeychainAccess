@@ -354,12 +354,7 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         
-        var displayScale = traitCollection.displayScale
-        if displayScale ==~ 0 {
-            displayScale = UIScreen.main.scale
-        }
-        
-        contentBackingView.layer.rasterizationScale = displayScale
+        contentBackingView.layer.rasterizationScale = traitCollection.currentDisplayScale
     }
     
     

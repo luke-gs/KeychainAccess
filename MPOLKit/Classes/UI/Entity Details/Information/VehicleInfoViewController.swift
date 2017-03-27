@@ -61,7 +61,7 @@ open class VehicleInfoViewController: EntityInfoViewController {
         case .owner:
             let ownerItem = OwnerItem(rawValue: indexPath.item)
             cell.titleLabel.text    = ownerItem?.localizedTitle
-            cell.subtitleLabel.text = ownerItem?.value(from: nil)
+            cell.subtitleLabel.text = ownerItem?.value(for: nil)
             
             if ownerItem?.wantsMultiLineDetail ?? false {
                 cell.subtitleLabel.numberOfLines = 0
@@ -135,8 +135,7 @@ open class VehicleInfoViewController: EntityInfoViewController {
             }
         }
         
-        return layout.itemContentWidth(forEqualColumnsWithMinimumContentWidth: minimumWidth, maximumColumnCount: maxColumnCount,
-                                       givenSectionWidth: sectionWidth, edgeInsets: edgeInsets)
+        return layout.columnContentWidth(forMinimumItemContentWidth: minimumWidth, maximumColumnCount: maxColumnCount, sectionWidth: sectionWidth, sectionEdgeInsets: edgeInsets).floored(toScale: traitCollection.currentDisplayScale)
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
@@ -155,7 +154,7 @@ open class VehicleInfoViewController: EntityInfoViewController {
         case .owner:
             let ownerItem = OwnerItem(rawValue: indexPath.item)
             title    = ownerItem?.localizedTitle ?? ""
-            subtitle = ownerItem?.value(from: nil) ?? ""
+            subtitle = ownerItem?.value(for: nil) ?? ""
             wantsMultiLineSubtitle = ownerItem?.wantsMultiLineDetail ?? false
         }
         
@@ -244,7 +243,7 @@ open class VehicleInfoViewController: EntityInfoViewController {
             }
         }
         
-        func value(from vehicle: Any?) -> String {
+        func value(for vehicle: Any?) -> String {
             // TODO: Fill these details in
             switch self {
             case .name:    return "Frost, Deacon R."
