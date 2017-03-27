@@ -225,8 +225,16 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
                                 extraAllocationWidth -= singlePixel
                             }
                             
-                            if index == rowItemCount - 1 && sectionDistribution == .fillLast {
-                                newContentWidth += leftOverSpace
+                            if leftOverSpace > 0.0 && index == rowItemCount - 1 {
+                                if sectionDistribution == .fillLast {
+                                    newContentWidth += leftOverSpace
+                                } else if sectionDistribution == .fillLastWithinColumnDistance {
+                                    let columnWidth = newContentWidth + itemLayoutMargins.left + itemLayoutMargins.right
+                                    if columnWidth > leftOverSpace {
+                                        // we can't fit in an extra column - fill it in.
+                                        newContentWidth += leftOverSpace
+                                    }
+                                }
                             }
                             
                             let itemMinHeight = ceil(delegate.collectionView(collectionView, layout: self, minimumContentHeightForItemAt: indexPath, givenItemContentWidth: newContentWidth))

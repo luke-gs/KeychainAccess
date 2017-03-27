@@ -20,7 +20,7 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
         self.entity = entity
         
         let detailVCs: [UIViewController] = [
-            PersonInfoViewController(),
+            VehicleInfoViewController(),
             EntityAlertsViewController(),
             EntityAssociationsViewController(),
             EntityOccurrencesViewController()

@@ -188,8 +188,8 @@ public class CollectionViewFormBoxedLayout: CollectionViewFormLayout {
                         let rowItemCountFloat = CGFloat(rowItemCount)
                         let insetSpace = (rowItemCountFloat - 1.0) * (itemLayoutMargins.left + itemLayoutMargins.right) + firstItemLeftWidthInset + lastItemRightWidthInset
                         
-                        let leftOverSpace = max(sectionWidth - insetSpace - minRowContentWidths, 0.0)
-                        let extraSpacePerItem = sectionDistribution == .fillEqually ? (leftOverSpace / rowItemCountFloat).floored(toScale: screenScale) : 0.0
+                        let leftOverSpace        = max(sectionWidth - insetSpace - minRowContentWidths, 0.0)
+                        let extraSpacePerItem    = sectionDistribution == .fillEqually ? (leftOverSpace / rowItemCountFloat).floored(toScale: screenScale) : 0.0
                         var extraAllocationWidth = sectionDistribution == .fillEqually ? (leftOverSpace * screenScale).truncatingRemainder(dividingBy: rowItemCountFloat) / screenScale : 0.0
                         
                         var minHeight:     CGFloat = 0.0
@@ -203,8 +203,16 @@ public class CollectionViewFormBoxedLayout: CollectionViewFormLayout {
                                 extraAllocationWidth -= singlePixel
                             }
                             
-                            if index == rowItemCount - 1 && sectionDistribution == .fillLast {
-                                newContentWidth += leftOverSpace
+                            if leftOverSpace > 0.0 && index == rowItemCount - 1 {
+                                if sectionDistribution == .fillLast {
+                                    newContentWidth += leftOverSpace
+                                } else if sectionDistribution == .fillLastWithinColumnDistance {
+                                    let columnWidth = newContentWidth + itemLayoutMargins.left + itemLayoutMargins.right
+                                    if columnWidth > leftOverSpace {
+                                        // we can't fit in an extra column - fill it in.
+                                        newContentWidth += leftOverSpace
+                                    }
+                                }
                             }
                             
                             let itemMinHeight = ceil(delegate.collectionView(collectionView, layout: self, minimumContentHeightForItemAt: indexPath, givenItemContentWidth: newContentWidth))

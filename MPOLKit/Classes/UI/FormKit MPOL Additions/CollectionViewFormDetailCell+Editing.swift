@@ -13,7 +13,7 @@ extension CollectionViewFormSubtitleCell {
     /// A boolean value indicating whether the cell represents an editable field.
     /// The default is `true`.
     ///
-    /// This value can be used to inform MPOL apps that detail field should be
+    /// This value can be used to inform MPOL apps that the cell should be
     /// displayed with the standard MPOL editable colors and/or adornments.
     ///
     /// This should be ignored by MPOL apps when the emphasis is on the title.

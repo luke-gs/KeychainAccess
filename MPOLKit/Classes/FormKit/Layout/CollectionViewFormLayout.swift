@@ -58,6 +58,11 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         /// Apportions additional space to the last item in a row
         case fillLast
         
+        /// Apportions additiona space to the last item in the row, when the item is
+        /// within a distance of the trailing edge where another item of the same
+        /// size would no longer fit. Otherwise, no distribution will occur.
+        case fillLastWithinColumnDistance
+        
         /// Cells will not be distributed excess space in rows.
         case none
     }
@@ -690,6 +695,7 @@ public extension CollectionViewFormLayout {
     ///                          is specified, returns the correct width to spread the item between multiple columns.
     public func itemContentWidth(forEqualColumnCount columnCount: Int, givenSectionWidth sectionWidth: CGFloat, edgeInsets sectionEdgeInsets: UIEdgeInsets, minimumContentWidth: CGFloat = 0.0) -> CGFloat {
         precondition(columnCount > 0, "columnCount must be more than zero.")
+        if columnCount == 1 { return sectionWidth }
         
         let itemLayoutMargins    = self.itemLayoutMargins
         let leadingSectionInset  = ceil(sectionEdgeInsets.left.isZero  ? itemLayoutMargins.left  : sectionEdgeInsets.left)

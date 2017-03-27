@@ -39,7 +39,7 @@ open class PersonInfoViewController: EntityInfoViewController {
         if kind == UICollectionElementKindSectionHeader && indexPath.section != 0 {
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormMPOLHeaderView.self, for: indexPath)
             headerView.showsExpandArrow = false
-            headerView.text = Section(rawValue: indexPath.section)?.title
+            headerView.text = Section(rawValue: indexPath.section)?.localizedTitle
             return headerView
         }
         
@@ -53,7 +53,7 @@ open class PersonInfoViewController: EntityInfoViewController {
         if section == .licences, let item = LicenceItem(rawValue: indexPath.item), item == .validity {
             let cell = collectionView.dequeueReusableCell(of: CollectionViewFormProgressCell.self, for: indexPath)
             cell.emphasis = .subtitle
-            cell.titleLabel.text    = item.title
+            cell.titleLabel.text    = item.localizedTitle
             cell.subtitleLabel.text = item.value(from: nil)
             cell.progressView.progressTintColor = #colorLiteral(red: 0.3001902103, green: 0.6874542236, blue: 0.311791122, alpha: 1)
             cell.progressView.progress = 0.5
@@ -70,7 +70,7 @@ open class PersonInfoViewController: EntityInfoViewController {
             cell.imageView.image = nil
             
             let licenceItem = LicenceItem(rawValue: indexPath.item)
-            cell.titleLabel.text = licenceItem?.title
+            cell.titleLabel.text = licenceItem?.localizedTitle
             cell.subtitleLabel.text = licenceItem?.value(from: nil)
             cell.subtitleLabel.numberOfLines = 1
         case .addresses:
@@ -125,7 +125,7 @@ open class PersonInfoViewController: EntityInfoViewController {
             return super.collectionView(collectionView, layout: layout, minimumContentHeightForItemAt: indexPath, givenItemContentWidth: itemWidth)
         case .licences:
             let licenceItem = LicenceItem(rawValue: indexPath.item)
-            title    = licenceItem?.title ?? ""
+            title    = licenceItem?.localizedTitle ?? ""
             subtitle = licenceItem?.value(from: nil) ?? ""
             image    = nil
             wantsSingleLineSubtitle = true
@@ -160,12 +160,12 @@ open class PersonInfoViewController: EntityInfoViewController {
         
         static let count = 4
         
-        var title: String {
+        var localizedTitle: String {
             switch self {
-            case .details:   return "LAST UPDATED"
-            case .licences:  return "LICENCES"
-            case .addresses: return "ADDRESSES"
-            case .contact:   return "CONTACT"
+            case .details:   return NSLocalizedString("LAST UPDATED", comment: "")
+            case .licences:  return NSLocalizedString("LICENCES", comment: "")
+            case .addresses: return NSLocalizedString("ADDRESSES", comment: "")
+            case .contact:   return NSLocalizedString("CONTACT", comment: "")
             }
         }
     }
@@ -178,16 +178,17 @@ open class PersonInfoViewController: EntityInfoViewController {
         
         static let count: Int = 4
         
-        var title: String {
+        var localizedTitle: String {
             switch self {
-            case .licenceClass:  return "Class"
-            case .licenceType:   return "Type"
-            case .number:        return "Licence number"
-            case .validity:      return "Valid until"
+            case .licenceClass:  return NSLocalizedString("Class", comment: "")
+            case .licenceType:   return NSLocalizedString("Type", comment: "")
+            case .number:        return NSLocalizedString("Licence number", comment: "")
+            case .validity:      return NSLocalizedString("Valid until", comment: "")
             }
         }
         
         func value(from licence: Any?) -> String {
+            // TODO: Fill these details in
             switch self {
             case .licenceClass:  return "Motor Vehicle"
             case .licenceType:   return "Open Licence"

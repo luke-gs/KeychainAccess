@@ -246,7 +246,7 @@ public class SourceBar: UIScrollView {
         if let cellIndex = _cells.index(of: cell) {
             switch items[cellIndex].state {
             case .notLoaded:
-                sourceBarDelegate?.sourceBar(self, didRequestLoadAt: cellIndex)
+                sourceBarDelegate?.sourceBar(self, didRequestToLoadItemAt: cellIndex)
             case .loaded:
                 _selectedIndex = selectedIndex
                 sourceBarDelegate?.sourceBar(self, didSelectItemAt: cellIndex)
@@ -279,6 +279,6 @@ public protocol SourceBarDelegate: class {
     
     func sourceBar(_ bar: SourceBar, didSelectItemAt index: Int)
     
-    func sourceBar(_ bar: SourceBar, didRequestLoadAt index: Int)
+    func sourceBar(_ bar: SourceBar, didRequestToLoadItemAt index: Int)
     
 }

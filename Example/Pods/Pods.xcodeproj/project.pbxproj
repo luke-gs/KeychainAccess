@@ -88,6 +88,7 @@
 		BC92F6E71E80B1DC009A5D0A /* FormDisclosureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC92F6E11E80B1DC009A5D0A /* FormDisclosureView.swift */; };
 		BC92F6E81E80B1DC009A5D0A /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC92F6E21E80B1DC009A5D0A /* GradientView.swift */; };
 		BC92F6E91E80B1DC009A5D0A /* RoundedRectLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC92F6E31E80B1DC009A5D0A /* RoundedRectLabel.swift */; };
+		BCC923811E88B133000D13B6 /* VehicleInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC923801E88B133000D13B6 /* VehicleInfoViewController.swift */; };
 		BCCD8C2D1E73AFDE0008DD4F /* FormKitAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCCD8C2C1E73AFDE0008DD4F /* FormKitAssets.xcassets */; };
 		BCD548A61E86BA99009E19B7 /* Array+IfExists.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD548A51E86BA99009E19B7 /* Array+IfExists.swift */; };
 		BCE40C3B1E7E498A00C427B8 /* CollectionViewFormDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE40C3A1E7E498A00C427B8 /* CollectionViewFormDetailCell.swift */; };
@@ -206,6 +207,7 @@
 		BC92F6E11E80B1DC009A5D0A /* FormDisclosureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormDisclosureView.swift; sourceTree = "<group>"; };
 		BC92F6E21E80B1DC009A5D0A /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		BC92F6E31E80B1DC009A5D0A /* RoundedRectLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedRectLabel.swift; sourceTree = "<group>"; };
+		BCC923801E88B133000D13B6 /* VehicleInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleInfoViewController.swift; sourceTree = "<group>"; };
 		BCCD8C2C1E73AFDE0008DD4F /* FormKitAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = FormKitAssets.xcassets; sourceTree = "<group>"; };
 		BCD548A51E86BA99009E19B7 /* Array+IfExists.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+IfExists.swift"; sourceTree = "<group>"; };
 		BCE40C3A1E7E498A00C427B8 /* CollectionViewFormDetailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormDetailCell.swift; sourceTree = "<group>"; };
@@ -512,6 +514,7 @@
 			children = (
 				BC92F6911E80B18A009A5D0A /* EntityInfoViewController.swift */,
 				BC92F6921E80B18A009A5D0A /* PersonInfoViewController.swift */,
+				BCC923801E88B133000D13B6 /* VehicleInfoViewController.swift */,
 				BC92F6901E80B18A009A5D0A /* EntityDetailCollectionViewCell.swift */,
 			);
 			path = Information;
@@ -824,6 +827,7 @@
 			files = (
 				BC92F6CB1E80B18A009A5D0A /* TableViewFormMPOLHeaderCell.swift in Sources */,
 				BCD548A61E86BA99009E19B7 /* Array+IfExists.swift in Sources */,
+				BCC923811E88B133000D13B6 /* VehicleInfoViewController.swift in Sources */,
 				BC92F6C51E80B18A009A5D0A /* UITextView+NotificationWorkaround.m in Sources */,
 				BC92F6C01E80B18A009A5D0A /* EntityDetailCollectionViewCell.swift in Sources */,
 				BC92F6E41E80B1DC009A5D0A /* AlertIndicatorView.swift in Sources */,

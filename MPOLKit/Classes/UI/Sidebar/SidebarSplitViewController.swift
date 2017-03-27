@@ -18,7 +18,7 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
     
     
     /// The sidebar view controller for the split view controller.
-    public let sidebarViewController: SidebarViewController = SidebarViewController(nibName: nil, bundle: nil)
+    public let sidebarViewController: SidebarViewController = SidebarViewController()
     
     
     /// The detail controllers for the sidebar.
@@ -122,7 +122,7 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
     open func sidebarViewController(_ controller: SidebarViewController, didSelectSourceAt index: Int) {
     }
     
-    open func sidebarViewController(_ controller: SidebarViewController, didRequestLoadSourceAt index: Int) {
+    open func sidebarViewController(_ controller: SidebarViewController, didRequestToLoadSourceAt index: Int) {
         
     }
     

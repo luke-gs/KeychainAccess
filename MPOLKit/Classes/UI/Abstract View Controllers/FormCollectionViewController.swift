@@ -60,6 +60,10 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
         automaticallyAdjustsScrollViewInsets = false // we manage this ourselves.
         
         NotificationCenter.default.addObserver(self, selector: #selector(applyCurrentTheme), name: .ThemeDidChange, object: nil)
+        
+        if #available(iOS 10, *) { return }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeCategoryDidChange), name: .UIContentSizeCategoryDidChange, object: nil)
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -105,10 +109,24 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
         collectionViewInsetManager?.standardIndicatorInset  = contentInsets
     }
     
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        guard #available(iOS 10, *) else { return }
+        
+        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
+            preferredContentSizeCategoryDidChange()
+        }
+    }
+    
+    open func preferredContentSizeCategoryDidChange() {
+        if isViewLoaded { formLayout.invalidateLayout() }
+    }
+    
     
     // MARK: - Themes
     
-    public dynamic func applyCurrentTheme() {
+    open func applyCurrentTheme() {
         let colors = Theme.current.colors
         
         formLayout.itemSeparatorColor = colors[.Separator]

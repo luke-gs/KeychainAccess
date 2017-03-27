@@ -13,6 +13,7 @@ open class EntityInfoViewController: FormCollectionViewController {
     public override init() {
         super.init()
         title = "Information"
+        formLayout.distribution = .fillLastWithinColumnDistance
         
         let sidebarItem = self.sidebarItem
         let bundle = Bundle(for: FormCollectionViewController.self)
