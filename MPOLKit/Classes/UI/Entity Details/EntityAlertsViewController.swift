@@ -15,9 +15,8 @@ open class EntityAlertsViewController: FormCollectionViewController {
         title = "Alerts"
         
         let sidebarItem = self.sidebarItem
-        let bundle = Bundle(for: FormCollectionViewController.self)
-        sidebarItem.image         = UIImage(named: "iconGeneralAlert",       in: bundle, compatibleWith: nil)
-        sidebarItem.selectedImage = UIImage(named: "iconGeneralAlertFilled", in: bundle, compatibleWith: nil)
+        sidebarItem.image         = UIImage(named: "iconGeneralAlert",       in: .mpolKit, compatibleWith: nil)
+        sidebarItem.selectedImage = UIImage(named: "iconGeneralAlertFilled", in: .mpolKit, compatibleWith: nil)
         sidebarItem.count = 5
         sidebarItem.alertColor = AlertLevel.medium.color
     }

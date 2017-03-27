@@ -15,9 +15,8 @@ open class EntityOccurrencesViewController: FormCollectionViewController {
         title = "Occurrences"
         
         let sidebarItem = self.sidebarItem
-        let bundle = Bundle(for: FormCollectionViewController.self)
-        sidebarItem.image         = UIImage(named: "iconFormOccurrence",       in: bundle, compatibleWith: nil)
-        sidebarItem.selectedImage = UIImage(named: "iconFormOccurrenceFilled", in: bundle, compatibleWith: nil)
+        sidebarItem.image         = UIImage(named: "iconFormOccurrence",       in: .mpolKit, compatibleWith: nil)
+        sidebarItem.selectedImage = UIImage(named: "iconFormOccurrenceFilled", in: .mpolKit, compatibleWith: nil)
     }
     
     public required init?(coder aDecoder: NSCoder) {

@@ -95,7 +95,7 @@ open class PushableSplitViewController: UIViewController, UISplitViewControllerD
                 return nil
             }
             
-            let arrowImage = UIImage(named: "NavigationBarBackIndicator", in: Bundle(for: PushableSplitViewController.self), compatibleWith: self.traitCollection)?.withRenderingMode(.alwaysTemplate)
+            let arrowImage = UIImage(named: "NavigationBarBackIndicator", in: .mpolKit, compatibleWith: self.traitCollection)?.withRenderingMode(.alwaysTemplate)
             
             let image: UIImage?
             if #available(iOS 10, *) {

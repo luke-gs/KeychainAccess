@@ -85,7 +85,7 @@ public class TableViewFormMPOLHeaderCell: UITableViewCell {
     
     // MARK: - Private properties
     
-    private let arrowView = UIImageView(image: UIImage(named: "DropDown", in: Bundle(for: TableViewFormMPOLHeaderCell.self), compatibleWith: nil)?.withRenderingMode(.alwaysTemplate))
+    private let arrowView = UIImageView(image: UIImage(named: "DropDown", in: .formKit, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate))
     
     private var separatorHeightConstraint: NSLayoutConstraint!
     

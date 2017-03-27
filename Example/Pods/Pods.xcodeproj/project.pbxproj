@@ -89,6 +89,9 @@
 		BC92F6E81E80B1DC009A5D0A /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC92F6E21E80B1DC009A5D0A /* GradientView.swift */; };
 		BC92F6E91E80B1DC009A5D0A /* RoundedRectLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC92F6E31E80B1DC009A5D0A /* RoundedRectLabel.swift */; };
 		BCC923811E88B133000D13B6 /* VehicleInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC923801E88B133000D13B6 /* VehicleInfoViewController.swift */; };
+		BCC923831E890339000D13B6 /* OrganizationInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC923821E890339000D13B6 /* OrganizationInfoViewController.swift */; };
+		BCC923851E8916E1000D13B6 /* Bundle+MPOLKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC923841E8916E1000D13B6 /* Bundle+MPOLKit.swift */; };
+		BCC923871E8917DD000D13B6 /* Bundle+FormKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC923861E8917DD000D13B6 /* Bundle+FormKit.swift */; };
 		BCCD8C2D1E73AFDE0008DD4F /* FormKitAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCCD8C2C1E73AFDE0008DD4F /* FormKitAssets.xcassets */; };
 		BCD548A61E86BA99009E19B7 /* Array+IfExists.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD548A51E86BA99009E19B7 /* Array+IfExists.swift */; };
 		BCE40C3B1E7E498A00C427B8 /* CollectionViewFormDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE40C3A1E7E498A00C427B8 /* CollectionViewFormDetailCell.swift */; };
@@ -208,6 +211,9 @@
 		BC92F6E21E80B1DC009A5D0A /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		BC92F6E31E80B1DC009A5D0A /* RoundedRectLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedRectLabel.swift; sourceTree = "<group>"; };
 		BCC923801E88B133000D13B6 /* VehicleInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleInfoViewController.swift; sourceTree = "<group>"; };
+		BCC923821E890339000D13B6 /* OrganizationInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizationInfoViewController.swift; sourceTree = "<group>"; };
+		BCC923841E8916E1000D13B6 /* Bundle+MPOLKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bundle+MPOLKit.swift"; sourceTree = "<group>"; };
+		BCC923861E8917DD000D13B6 /* Bundle+FormKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bundle+FormKit.swift"; sourceTree = "<group>"; };
 		BCCD8C2C1E73AFDE0008DD4F /* FormKitAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = FormKitAssets.xcassets; sourceTree = "<group>"; };
 		BCD548A51E86BA99009E19B7 /* Array+IfExists.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+IfExists.swift"; sourceTree = "<group>"; };
 		BCE40C3A1E7E498A00C427B8 /* CollectionViewFormDetailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormDetailCell.swift; sourceTree = "<group>"; };
@@ -323,6 +329,7 @@
 			isa = PBXGroup;
 			children = (
 				BCD548A51E86BA99009E19B7 /* Array+IfExists.swift */,
+				BCC923861E8917DD000D13B6 /* Bundle+FormKit.swift */,
 				5AF080ACAC8AD743C25F504EC2788B1E /* CoreGraphics+Convenience.swift */,
 				31B0756C7022C2D6E26050542AA7DFF7 /* CoreGraphics+Rounding.swift */,
 				6D56AF2DB4CE5B06014288DFCFA6B056 /* FloatingPoint+Comparison.swift */,
@@ -515,6 +522,7 @@
 				BC92F6911E80B18A009A5D0A /* EntityInfoViewController.swift */,
 				BC92F6921E80B18A009A5D0A /* PersonInfoViewController.swift */,
 				BCC923801E88B133000D13B6 /* VehicleInfoViewController.swift */,
+				BCC923821E890339000D13B6 /* OrganizationInfoViewController.swift */,
 				BC92F6901E80B18A009A5D0A /* EntityDetailCollectionViewCell.swift */,
 			);
 			path = Information;
@@ -523,6 +531,7 @@
 		BC92F6931E80B18A009A5D0A /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				BCC923841E8916E1000D13B6 /* Bundle+MPOLKit.swift */,
 				BC92F6941E80B18A009A5D0A /* UIColor+Hex.swift */,
 				BC92F6951E80B18A009A5D0A /* UITextView+NotificationWorkaround.h */,
 				BC92F6961E80B18A009A5D0A /* UITextView+NotificationWorkaround.m */,
@@ -825,6 +834,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCC923871E8917DD000D13B6 /* Bundle+FormKit.swift in Sources */,
 				BC92F6CB1E80B18A009A5D0A /* TableViewFormMPOLHeaderCell.swift in Sources */,
 				BCD548A61E86BA99009E19B7 /* Array+IfExists.swift in Sources */,
 				BCC923811E88B133000D13B6 /* VehicleInfoViewController.swift in Sources */,
@@ -865,6 +875,7 @@
 				BC92F6C31E80B18A009A5D0A /* UIColor+Hex.swift in Sources */,
 				BC92F6CF1E80B18A009A5D0A /* PopoverFormSheetPresentationController.swift in Sources */,
 				0C4BE0CC8E6A5ADDF7ADA1FA691C473A /* DefaultReusable.swift in Sources */,
+				BCC923831E890339000D13B6 /* OrganizationInfoViewController.swift in Sources */,
 				BC7D148D1E820D720052BEB6 /* CircleIconView.swift in Sources */,
 				BC92F6E81E80B1DC009A5D0A /* GradientView.swift in Sources */,
 				C24A0AFA1C083039C2FF3DE9C267914D /* FloatingPoint+Comparison.swift in Sources */,
@@ -885,6 +896,7 @@
 				BC7D148B1E8208780052BEB6 /* GalleryCollectionViewCell.swift in Sources */,
 				311D5FFBABC34D97E82EE402FCC5A433 /* TableViewFormCell.swift in Sources */,
 				51937AA6A7BDD87CA5114F3D8512A394 /* TableViewFormCheckboxCell.swift in Sources */,
+				BCC923851E8916E1000D13B6 /* Bundle+MPOLKit.swift in Sources */,
 				BC92F6E51E80B1DC009A5D0A /* BadgeView.swift in Sources */,
 				BC92F6BF1E80B18A009A5D0A /* EntityOccurrencesViewController.swift in Sources */,
 				58382FFBD7C738F66D0C748DDF3462DE /* TableViewFormSubtitleCell.swift in Sources */,

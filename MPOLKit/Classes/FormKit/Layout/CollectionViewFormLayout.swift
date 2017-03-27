@@ -58,7 +58,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         /// Apportions additional space to the last item in a row
         case fillLast
         
-        /// Apportions additiona space to the last item in the row, when the item is
+        /// Apportions additional space to the last item in the row, when the item is
         /// within a distance of the trailing edge where another item of the same
         /// size would no longer fit. Otherwise, no distribution will occur.
         case fillLastWithinColumnDistance
@@ -689,17 +689,16 @@ public extension CollectionViewFormLayout {
     /// - Parameters:
     ///   - columnCount:         The number of columns in the section.
     ///   - sectionWidth:        The contentWidth of the section.
-    ///   - sectionEdgeInsets:   The edge insets for the section.
+    ///   - edgeInsets:          The edge insets for the section.
     ///   - minimumContentWidth: The minimum width for the column. The default value is `0.0`.
     /// - Returns:               The content width for a single item in the specified column layout. When a minumumColumnWidth
     ///                          is specified, returns the correct width to spread the item between multiple columns.
-    public func itemContentWidth(forEqualColumnCount columnCount: Int, givenSectionWidth sectionWidth: CGFloat, edgeInsets sectionEdgeInsets: UIEdgeInsets, minimumContentWidth: CGFloat = 0.0) -> CGFloat {
+    public func itemContentWidth(forEqualColumnCount columnCount: Int, givenSectionWidth sectionWidth: CGFloat, edgeInsets: UIEdgeInsets, minimumContentWidth: CGFloat = 0.0) -> CGFloat {
         precondition(columnCount > 0, "columnCount must be more than zero.")
-        if columnCount == 1 { return sectionWidth }
         
         let itemLayoutMargins    = self.itemLayoutMargins
-        let leadingSectionInset  = ceil(sectionEdgeInsets.left.isZero  ? itemLayoutMargins.left  : sectionEdgeInsets.left)
-        let trailingSectionInset = ceil(sectionEdgeInsets.right.isZero ? itemLayoutMargins.right : sectionEdgeInsets.right)
+        let leadingSectionInset  = ceil(edgeInsets.left.isZero  ? itemLayoutMargins.left  : edgeInsets.left)
+        let trailingSectionInset = ceil(edgeInsets.right.isZero ? itemLayoutMargins.right : edgeInsets.right)
         
         if columnCount == 1 { return sectionWidth - leadingSectionInset - trailingSectionInset}
         
@@ -715,5 +714,26 @@ public extension CollectionViewFormLayout {
         }
         
         return itemSize
+    }
+    
+    public func itemContentWidth(forEqualColumnsWithMinimumContentWidth minimumWidth: CGFloat, maximumColumnCount: Int = .max,
+                                 givenSectionWidth sectionWidth: CGFloat, edgeInsets: UIEdgeInsets) -> CGFloat {
+        precondition(minimumWidth > 0.0, "minimumContentWidth must be more than zero.")
+        precondition(maximumColumnCount > 0, "maximumColumnCount must be more than zero.")
+        
+        let itemLayoutMargins = self.itemLayoutMargins
+        
+        var sectionWidthWithStandardMargins = sectionWidth
+        if edgeInsets.left.isZero == false {
+            sectionWidthWithStandardMargins -= (edgeInsets.left - itemLayoutMargins.left)
+        }
+        if edgeInsets.right.isZero == false {
+            sectionWidthWithStandardMargins -= (edgeInsets.right - itemLayoutMargins.right)
+        }
+        
+        let minimumTotalWidth = minimumWidth + itemLayoutMargins.left + itemLayoutMargins.right
+        
+        let columnCount = min(Int(sectionWidthWithStandardMargins / minimumTotalWidth), maximumColumnCount)
+        return itemContentWidth(forEqualColumnCount: columnCount, givenSectionWidth: sectionWidth, edgeInsets: edgeInsets)
     }
 }

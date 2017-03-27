@@ -28,7 +28,7 @@ open class PersonInfoViewController: EntityInfoViewController {
     
     open override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch Section(rawValue: section)! {
-        case .details:   return super.collectionView(collectionView, numberOfItemsInSection: section)
+        case .header:   return super.collectionView(collectionView, numberOfItemsInSection: section)
         case .licences:  return LicenceItem.count
         case .addresses: return 2
         case .contact:   return 1
@@ -48,7 +48,7 @@ open class PersonInfoViewController: EntityInfoViewController {
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let section = Section(rawValue: indexPath.section)!
-        if section == .details { return super.collectionView(collectionView, cellForItemAt: indexPath) }
+        if section == .header { return super.collectionView(collectionView, cellForItemAt: indexPath) }
         
         if section == .licences, let item = LicenceItem(rawValue: indexPath.item), item == .validity {
             let cell = collectionView.dequeueReusableCell(of: CollectionViewFormProgressCell.self, for: indexPath)
@@ -74,7 +74,7 @@ open class PersonInfoViewController: EntityInfoViewController {
             cell.subtitleLabel.text = licenceItem?.value(from: nil)
             cell.subtitleLabel.numberOfLines = 1
         case .addresses:
-            cell.imageView.image = UIImage(named: "iconGeneralLocation", in: Bundle(for: PersonInfoViewController.self), compatibleWith: nil)
+            cell.imageView.image = UIImage(named: "iconGeneralLocation", in: .mpolKit, compatibleWith: nil)
             if indexPath.item == 0 {
                 cell.titleLabel.text = "Residential"
                 cell.subtitleLabel.text = "8 Catherine Street, Southbank VIC 3006"
@@ -121,7 +121,7 @@ open class PersonInfoViewController: EntityInfoViewController {
         
         let wantsSingleLineSubtitle: Bool
         switch Section(rawValue: indexPath.section)! {
-        case .details:
+        case .header:
             return super.collectionView(collectionView, layout: layout, minimumContentHeightForItemAt: indexPath, givenItemContentWidth: itemWidth)
         case .licences:
             let licenceItem = LicenceItem(rawValue: indexPath.item)
@@ -130,7 +130,7 @@ open class PersonInfoViewController: EntityInfoViewController {
             image    = nil
             wantsSingleLineSubtitle = true
         case .addresses:
-            image = UIImage(named: "iconGeneralLocation", in: Bundle(for: PersonInfoViewController.self), compatibleWith: nil)
+            image = UIImage(named: "iconGeneralLocation", in: .mpolKit, compatibleWith: nil)
             if indexPath.item == 0 {
                 title = "Residential"
                 subtitle = "8 Catherine Street, Southbank VIC 3006"
@@ -153,7 +153,7 @@ open class PersonInfoViewController: EntityInfoViewController {
     // MARK: - Enums
     
     private enum Section: Int {
-        case details
+        case header
         case licences
         case addresses
         case contact
@@ -162,10 +162,10 @@ open class PersonInfoViewController: EntityInfoViewController {
         
         var localizedTitle: String {
             switch self {
-            case .details:   return NSLocalizedString("LAST UPDATED", comment: "")
-            case .licences:  return NSLocalizedString("LICENCES", comment: "")
-            case .addresses: return NSLocalizedString("ADDRESSES", comment: "")
-            case .contact:   return NSLocalizedString("CONTACT", comment: "")
+            case .header:    return NSLocalizedString("LAST UPDATED", bundle: .mpolKit, comment: "")
+            case .licences:  return NSLocalizedString("LICENCES",     bundle: .mpolKit, comment: "")
+            case .addresses: return NSLocalizedString("ADDRESSES",    bundle: .mpolKit, comment: "")
+            case .contact:   return NSLocalizedString("CONTACT",      bundle: .mpolKit, comment: "")
             }
         }
     }
@@ -180,10 +180,10 @@ open class PersonInfoViewController: EntityInfoViewController {
         
         var localizedTitle: String {
             switch self {
-            case .licenceClass:  return NSLocalizedString("Class", comment: "")
-            case .licenceType:   return NSLocalizedString("Type", comment: "")
-            case .number:        return NSLocalizedString("Licence number", comment: "")
-            case .validity:      return NSLocalizedString("Valid until", comment: "")
+            case .licenceClass:  return NSLocalizedString("Class",          bundle: .mpolKit, comment: "")
+            case .licenceType:   return NSLocalizedString("Type",           bundle: .mpolKit, comment: "")
+            case .number:        return NSLocalizedString("Licence number", bundle: .mpolKit, comment: "")
+            case .validity:      return NSLocalizedString("Valid until",    bundle: .mpolKit, comment: "")
             }
         }
         

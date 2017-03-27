@@ -32,7 +32,7 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
         
         sidebarViewController.sourceItems = [SourceItem(title: "DS1", state: .notLoaded)]
         
-        let formForwardIcon = UIImage(named: "iconFormForward", in: Bundle(for: FormCollectionViewController.self), compatibleWith: nil)
+        let formForwardIcon = UIImage(named: "iconFormForward", in: .mpolKit, compatibleWith: nil)
         
         sidebarViewController.title = "Details"
         sidebarViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(image: formForwardIcon, style: .plain, target: nil, action:  nil)
@@ -69,7 +69,7 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
             NSLayoutConstraint(item: headerSubtitleLabel, attribute: .top,      relatedBy: .equal, toItem: headerTitleLabel, attribute: .bottom, constant: 5.0),
             NSLayoutConstraint(item: headerSubtitleLabel, attribute: .leading,  relatedBy: .equal, toItem: headerView,       attribute: .leadingMargin),
             NSLayoutConstraint(item: headerSubtitleLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: headerView, attribute: .trailingMargin),
-            NSLayoutConstraint(item: headerSubtitleLabel, attribute: .bottom,   relatedBy: .equal, toItem: headerView,       attribute: .bottom, constant: -20.0),
+            NSLayoutConstraint(item: headerSubtitleLabel, attribute: .bottom,   relatedBy: .equal, toItem: headerView,       attribute: .bottom, constant: -20.0, priority: UILayoutPriorityRequired - 1),
         ])
         
         sidebarViewController.headerView = headerView

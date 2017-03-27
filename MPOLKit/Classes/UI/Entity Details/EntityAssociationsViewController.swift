@@ -15,9 +15,8 @@ open class EntityAssociationsViewController: FormCollectionViewController {
         title = "Associations"
         
         let sidebarItem = self.sidebarItem
-        let bundle = Bundle(for: FormCollectionViewController.self)
-        sidebarItem.image         = UIImage(named: "iconGeneralAssociation",       in: bundle, compatibleWith: nil)
-        sidebarItem.selectedImage = UIImage(named: "iconGeneralAssociationFilled", in: bundle, compatibleWith: nil)
+        sidebarItem.image         = UIImage(named: "iconGeneralAssociation",       in: .mpolKit, compatibleWith: nil)
+        sidebarItem.selectedImage = UIImage(named: "iconGeneralAssociationFilled", in: .mpolKit, compatibleWith: nil)
     }
     
     public required init?(coder aDecoder: NSCoder) {

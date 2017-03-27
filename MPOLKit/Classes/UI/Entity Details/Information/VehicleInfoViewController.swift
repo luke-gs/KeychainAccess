@@ -27,7 +27,7 @@ open class VehicleInfoViewController: EntityInfoViewController {
     
     open override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch Section(rawValue: section)! {
-        case .details:       return super.collectionView(collectionView, numberOfItemsInSection: section)
+        case .header:       return super.collectionView(collectionView, numberOfItemsInSection: section)
         case .registration:  return RegistrationItem.count
         case .owner:         return OwnerItem.count
         }
@@ -46,7 +46,7 @@ open class VehicleInfoViewController: EntityInfoViewController {
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let section = Section(rawValue: indexPath.section)!
-        if section == .details { return super.collectionView(collectionView, cellForItemAt: indexPath) }
+        if section == .header { return super.collectionView(collectionView, cellForItemAt: indexPath) }
         
         let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
         cell.emphasis = .subtitle
@@ -111,23 +111,32 @@ open class VehicleInfoViewController: EntityInfoViewController {
         }
         
         let minimumWidth: CGFloat
+        let maxColumnCount: Int
         
         switch Section(rawValue: indexPath.section)! {
-        case .details:
+        case .header:
             return super.collectionView(collectionView, layout: layout, minimumContentWidthForItemAt: indexPath, givenSectionWidth: sectionWidth, edgeInsets: edgeInsets)
         case .registration:
             switch RegistrationItem(rawValue: indexPath.item)! {
-            case .make, .model, .vin: minimumWidth = extraLargeText ? 250.0 : 180.0
-            default:                  minimumWidth = extraLargeText ? 180.0 : 150.0
+            case .make, .model, .vin:
+                minimumWidth = extraLargeText ? 250.0 : 180.0
+                maxColumnCount = 3
+            default:
+                minimumWidth = extraLargeText ? 180.0 : 115.0
+                maxColumnCount = 4
             }
         case .owner:
             switch OwnerItem(rawValue: indexPath.item)! {
-            case .address: return sectionWidth
-            default:       minimumWidth = extraLargeText ? 250.0 : 180.0
+            case .address:
+                return sectionWidth
+            default:
+                minimumWidth = extraLargeText ? 250.0 : 180.0
+                maxColumnCount = 3
             }
         }
         
-        return layout.itemContentWidth(forEqualColumnCount: max(Int(sectionWidth / minimumWidth), 1), givenSectionWidth: sectionWidth, edgeInsets: edgeInsets)
+        return layout.itemContentWidth(forEqualColumnsWithMinimumContentWidth: minimumWidth, maximumColumnCount: maxColumnCount,
+                                       givenSectionWidth: sectionWidth, edgeInsets: edgeInsets)
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
@@ -136,7 +145,7 @@ open class VehicleInfoViewController: EntityInfoViewController {
         
         let wantsMultiLineSubtitle: Bool
         switch Section(rawValue: indexPath.section)! {
-        case .details:
+        case .header:
             return super.collectionView(collectionView, layout: layout, minimumContentHeightForItemAt: indexPath, givenItemContentWidth: itemWidth)
         case .registration:
             let regoItem = RegistrationItem(rawValue: indexPath.item)
@@ -157,7 +166,7 @@ open class VehicleInfoViewController: EntityInfoViewController {
     // MARK: - Enums
     
     private enum Section: Int {
-        case details
+        case header
         case registration
         case owner
         
@@ -165,9 +174,9 @@ open class VehicleInfoViewController: EntityInfoViewController {
         
         var localizedTitle: String {
             switch self {
-            case .details:      return NSLocalizedString("LAST UPDATED", comment: "")
-            case .registration: return NSLocalizedString("REGISTRATION DETAILS", comment: "")
-            case .owner:        return NSLocalizedString("REGISTERED OWNER", comment: "")
+            case .header:       return NSLocalizedString("LAST UPDATED",         bundle: .mpolKit, comment: "")
+            case .registration: return NSLocalizedString("REGISTRATION DETAILS", bundle: .mpolKit, comment: "")
+            case .owner:        return NSLocalizedString("REGISTERED OWNER",     bundle: .mpolKit, comment: "")
             }
         }
     }
@@ -188,16 +197,16 @@ open class VehicleInfoViewController: EntityInfoViewController {
         
         var localizedTitle: String {
             switch self {
-            case .make:         return NSLocalizedString("Make", comment: "")
-            case .model:        return NSLocalizedString("Model", comment: "")
-            case .vin:          return NSLocalizedString("VIN/Chassis Number", comment: "")
-            case .manufactured: return NSLocalizedString("Manufactured in", comment: "")
-            case .transmission: return NSLocalizedString("Transmission", comment: "")
-            case .color1:       return NSLocalizedString("Colour 1", comment: "")
-            case .color2:       return NSLocalizedString("Colour 2", comment: "")
-            case .engine:       return NSLocalizedString("Engine", comment: "")
-            case .seating:      return NSLocalizedString("Seating", comment: "")
-            case .weight:       return NSLocalizedString("Curb weight", comment: "")
+            case .make:         return NSLocalizedString("Make",               bundle: .mpolKit, comment: "")
+            case .model:        return NSLocalizedString("Model",              bundle: .mpolKit, comment: "")
+            case .vin:          return NSLocalizedString("VIN/Chassis Number", bundle: .mpolKit, comment: "")
+            case .manufactured: return NSLocalizedString("Manufactured in",    bundle: .mpolKit, comment: "")
+            case .transmission: return NSLocalizedString("Transmission",       bundle: .mpolKit, comment: "")
+            case .color1:       return NSLocalizedString("Colour 1",           bundle: .mpolKit, comment: "")
+            case .color2:       return NSLocalizedString("Colour 2",           bundle: .mpolKit, comment: "")
+            case .engine:       return NSLocalizedString("Engine",             bundle: .mpolKit, comment: "")
+            case .seating:      return NSLocalizedString("Seating",            bundle: .mpolKit, comment: "")
+            case .weight:       return NSLocalizedString("Curb weight",        bundle: .mpolKit, comment: "")
             }
         }
         
@@ -228,10 +237,10 @@ open class VehicleInfoViewController: EntityInfoViewController {
         
         var localizedTitle: String {
             switch self {
-            case .name:    return NSLocalizedString("Name", comment: "")
-            case .dob:     return NSLocalizedString("Date of Birth", comment: "")
-            case .gender:  return NSLocalizedString("Gender",  comment: "")
-            case .address: return NSLocalizedString("Address", comment: "")
+            case .name:    return NSLocalizedString("Name",          bundle: .mpolKit, comment: "")
+            case .dob:     return NSLocalizedString("Date of Birth", bundle: .mpolKit, comment: "")
+            case .gender:  return NSLocalizedString("Gender",        bundle: .mpolKit, comment: "")
+            case .address: return NSLocalizedString("Address",       bundle: .mpolKit, comment: "")
             }
         }
         

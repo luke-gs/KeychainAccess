@@ -16,9 +16,8 @@ open class EntityInfoViewController: FormCollectionViewController {
         formLayout.distribution = .fillLastWithinColumnDistance
         
         let sidebarItem = self.sidebarItem
-        let bundle = Bundle(for: FormCollectionViewController.self)
-        sidebarItem.image         = UIImage(named: "iconGeneralInfo",       in: bundle, compatibleWith: nil)
-        sidebarItem.selectedImage = UIImage(named: "iconGeneralInfoFilled", in: bundle, compatibleWith: nil)
+        sidebarItem.image         = UIImage(named: "iconGeneralInfo",       in: .mpolKit, compatibleWith: nil)
+        sidebarItem.selectedImage = UIImage(named: "iconGeneralInfoFilled", in: .mpolKit, compatibleWith: nil)
     }
     
     public required init?(coder aDecoder: NSCoder) {

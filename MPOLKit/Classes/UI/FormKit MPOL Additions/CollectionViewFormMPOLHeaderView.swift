@@ -100,7 +100,7 @@ public class CollectionViewFormMPOLHeaderView: UICollectionReusableView, Default
     
     private let separatorView = UIView(frame: .zero)
     
-    private let arrowView     = UIImageView(image: UIImage(named: "DropDown", in: Bundle(for: CollectionViewFormMPOLHeaderView.self), compatibleWith: nil)?.withRenderingMode(.alwaysTemplate))
+    private let arrowView     = UIImageView(image: UIImage(named: "DropDown", in: .mpolKit, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate))
     
     private var indexPath: IndexPath?
     

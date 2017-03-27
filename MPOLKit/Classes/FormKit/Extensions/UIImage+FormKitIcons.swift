@@ -11,7 +11,7 @@ import UIKit
 extension UIImage {
     
     private class func formKitImage(named name: String, needsRtlFlipping: Bool = false) -> UIImage {
-        let image = UIImage(named: name, in: Bundle(for: CollectionViewFormLayout.self), compatibleWith: nil)!
+        let image = UIImage(named: name, in: .formKit, compatibleWith: nil)!
         
         if #available(iOS 10, *) {
             // RTL flipping is handled by the image asset in iOS 10.

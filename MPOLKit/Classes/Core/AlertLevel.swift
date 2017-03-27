@@ -23,9 +23,9 @@ public enum AlertLevel: Int {
     
     public var localizedIndicatorTitle: String {
         switch self {
-        case .low:    return NSLocalizedString("LOW",  comment: "Alert Level indicator title")
-        case .medium: return NSLocalizedString("MED",  comment: "Alert Level indicator title")
-        case .high:   return NSLocalizedString("HIGH", comment: "Alert Level indicator title")
+        case .low:    return NSLocalizedString("LOW",  bundle: .mpolKit, comment: "Alert Level indicator title")
+        case .medium: return NSLocalizedString("MED",  bundle: .mpolKit, comment: "Alert Level indicator title")
+        case .high:   return NSLocalizedString("HIGH", bundle: .mpolKit, comment: "Alert Level indicator title")
         }
     }
 }
