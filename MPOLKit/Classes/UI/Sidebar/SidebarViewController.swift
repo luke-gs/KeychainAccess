@@ -128,21 +128,6 @@ open class SidebarViewController: UIViewController, UITableViewDataSource, UITab
     
     // MARK: - Initializer
     
-    public init() {
-        super.init(nibName: nil, bundle: nil)
-        commonInit()
-    }
-    
-    public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        commonInit()
-    }
-    
-    private func commonInit() {
-        addKeyCommand(UIKeyCommand(input: UIKeyInputUpArrow,   modifierFlags: [], action: #selector(upKeyPressed)))
-        addKeyCommand(UIKeyCommand(input: UIKeyInputDownArrow, modifierFlags: [], action: #selector(downKeyPressed)))
-    }
-    
     deinit {
         items.forEach { item in
             sidebarKeys.forEach {
@@ -309,58 +294,6 @@ open class SidebarViewController: UIViewController, UITableViewDataSource, UITab
     
     open override var preferredStatusBarStyle: UIStatusBarStyle {
         return Theme.current.statusBarStyle
-    }
-    
-    
-    // MARK: - UIKeyCommand support
-    
-    open override var canBecomeFirstResponder: Bool {
-        return true
-    }
-    
-    @objc private func upKeyPressed() {
-        var previousItem: SidebarItem
-        
-        let reversedItems = Array(items.reversed())
-        
-        if let selectedItem = self.selectedItem,
-            let index = reversedItems.index(of: selectedItem) {
-            
-            // Has selection
-            if let previousAvailable = reversedItems.dropFirst(index + 1).first(where: { $0.isEnabled }) {
-                previousItem = previousAvailable
-            } else {
-                return
-            }
-        } else if let lastAvailable = reversedItems.first(where: { $0.isEnabled }) {
-            previousItem = lastAvailable
-        } else {
-            return
-        }
-        
-        selectedItem = previousItem
-        delegate?.sidebarViewController(self, didSelectItem: previousItem)
-    }
-    
-    @objc private func downKeyPressed() {
-        var nextItem: SidebarItem
-        
-        if let selectedItem = self.selectedItem,
-            let index = items.index(of: selectedItem) {
-            // Has selection
-            if let nextAvailable = items.dropFirst(index + 1).first(where: { $0.isEnabled }) {
-                nextItem = nextAvailable
-            } else {
-                return
-            }
-        } else if let firstAvailable = items.first(where: { $0.isEnabled }) {
-            nextItem = firstAvailable
-        } else {
-            return
-        }
-        
-        selectedItem = nextItem
-        delegate?.sidebarViewController(self, didSelectItem: nextItem)
     }
     
     
