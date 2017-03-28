@@ -101,10 +101,7 @@ open class VehicleInfoViewController: EntityInfoViewController {
         let extraLargeText: Bool
         
         switch preferredContentSizeCategory {
-        case UIContentSizeCategory.extraSmall,
-             UIContentSizeCategory.small,
-             UIContentSizeCategory.medium,
-             UIContentSizeCategory.large:
+        case UIContentSizeCategory.extraSmall, UIContentSizeCategory.small, UIContentSizeCategory.medium, UIContentSizeCategory.large:
             extraLargeText = false
         default:
             extraLargeText = true

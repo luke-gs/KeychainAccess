@@ -44,7 +44,7 @@
 		B6F6FB01991159CB21E9E4AE513DB28A /* CollectionViewFormSelectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD3017600131838B645970CCB45956C /* CollectionViewFormSelectionCell.swift */; };
 		BC08F7FA1E7F8DE7007E5461 /* AlertLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC08F7F91E7F8DE7007E5461 /* AlertLevel.swift */; };
 		BC3422C41E7114A4004EFA08 /* UIView+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3422C31E7114A4004EFA08 /* UIView+Convenience.swift */; };
-		BC34B7DA1E89D0D7005034E0 /* UITraitCollection+AbsoluteDisplayScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC34B7D91E89D0D7005034E0 /* UITraitCollection+AbsoluteDisplayScale.swift */; };
+		BC34B7DA1E89D0D7005034E0 /* UITraitCollection+CurrentDisplayScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC34B7D91E89D0D7005034E0 /* UITraitCollection+CurrentDisplayScale.swift */; };
 		BC4EFC151E87CA50000650F6 /* CollectionViewFormProgressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4EFC141E87CA50000650F6 /* CollectionViewFormProgressCell.swift */; };
 		BC7D148B1E8208780052BEB6 /* GalleryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7D148A1E8208780052BEB6 /* GalleryCollectionViewCell.swift */; };
 		BC7D148D1E820D720052BEB6 /* CircleIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7D148C1E820D720052BEB6 /* CircleIconView.swift */; };
@@ -167,7 +167,7 @@
 		B834E0F3C1D9E8DE321A87268F2EE71B /* UITableView+DefaultReuse.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UITableView+DefaultReuse.swift"; sourceTree = "<group>"; };
 		BC08F7F91E7F8DE7007E5461 /* AlertLevel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertLevel.swift; sourceTree = "<group>"; };
 		BC3422C31E7114A4004EFA08 /* UIView+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Convenience.swift"; sourceTree = "<group>"; };
-		BC34B7D91E89D0D7005034E0 /* UITraitCollection+AbsoluteDisplayScale.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITraitCollection+AbsoluteDisplayScale.swift"; sourceTree = "<group>"; };
+		BC34B7D91E89D0D7005034E0 /* UITraitCollection+CurrentDisplayScale.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITraitCollection+CurrentDisplayScale.swift"; sourceTree = "<group>"; };
 		BC4EFC141E87CA50000650F6 /* CollectionViewFormProgressCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormProgressCell.swift; sourceTree = "<group>"; };
 		BC7D148A1E8208780052BEB6 /* GalleryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryCollectionViewCell.swift; sourceTree = "<group>"; };
 		BC7D148C1E820D720052BEB6 /* CircleIconView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleIconView.swift; sourceTree = "<group>"; };
@@ -342,7 +342,7 @@
 				9719A11464483402FCC6E2F7656969AE /* UIImage+FormKitIcons.swift */,
 				B834E0F3C1D9E8DE321A87268F2EE71B /* UITableView+DefaultReuse.swift */,
 				6E2A077B99082BBABD9395647A9C9C15 /* UITableViewCell+LayoutMargins.swift */,
-				BC34B7D91E89D0D7005034E0 /* UITraitCollection+AbsoluteDisplayScale.swift */,
+				BC34B7D91E89D0D7005034E0 /* UITraitCollection+CurrentDisplayScale.swift */,
 				BC3422C31E7114A4004EFA08 /* UIView+Convenience.swift */,
 			);
 			path = Extensions;
@@ -917,7 +917,7 @@
 				BC92F6E91E80B1DC009A5D0A /* RoundedRectLabel.swift in Sources */,
 				BCE40C3B1E7E498A00C427B8 /* CollectionViewFormDetailCell.swift in Sources */,
 				BC92F6CA1E80B18A009A5D0A /* CollectionViewFormMPOLLayout.swift in Sources */,
-				BC34B7DA1E89D0D7005034E0 /* UITraitCollection+AbsoluteDisplayScale.swift in Sources */,
+				BC34B7DA1E89D0D7005034E0 /* UITraitCollection+CurrentDisplayScale.swift in Sources */,
 				C88AD179123856E05C0D8580ACE2E1A1 /* UITableView+DefaultReuse.swift in Sources */,
 				15EE3EB4BE3E2F964D1D42294AAA1AE3 /* UITableViewCell+LayoutMargins.swift in Sources */,
 				BC92F6C11E80B18A009A5D0A /* EntityInfoViewController.swift in Sources */,

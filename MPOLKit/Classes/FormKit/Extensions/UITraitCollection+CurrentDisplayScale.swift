@@ -1,5 +1,5 @@
 //
-//  UITraitCollection+AbsoluteDisplayScale.swift
+//  UITraitCollection+CurrentDisplayScale.swift
 //  Pods
 //
 //  Created by Rod Brown on 28/3/17.

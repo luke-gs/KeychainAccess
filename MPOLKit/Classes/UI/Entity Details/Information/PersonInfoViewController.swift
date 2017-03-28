@@ -53,6 +53,7 @@ open class PersonInfoViewController: EntityInfoViewController {
         if section == .licences, let item = LicenceItem(rawValue: indexPath.item), item == .validity {
             let cell = collectionView.dequeueReusableCell(of: CollectionViewFormProgressCell.self, for: indexPath)
             cell.emphasis = .subtitle
+            cell.isEditableField = false
             cell.titleLabel.text    = item.localizedTitle
             cell.subtitleLabel.text = item.value(for: nil)
             cell.progressView.progressTintColor = #colorLiteral(red: 0.3001902103, green: 0.6874542236, blue: 0.311791122, alpha: 1)
@@ -109,7 +110,7 @@ open class PersonInfoViewController: EntityInfoViewController {
             section == .licences,
             let licenceItem = LicenceItem(rawValue: indexPath.item),
             licenceItem != .validity {
-            return layout.columnContentWidth(forMinimumItemContentWidth: 180.0, sectionWidth: sectionWidth, sectionEdgeInsets: edgeInsets)
+            return layout.columnContentWidth(forMinimumItemContentWidth: 180.0, maximumColumnCount: 3, sectionWidth: sectionWidth, sectionEdgeInsets: edgeInsets)
         }
         return sectionWidth
     }
