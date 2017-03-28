@@ -382,7 +382,45 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     // MARK: - Invalidation
     
     open override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
-        return _lastLaidOutWidth ?? 0.0 !=~ newBounds.size.width && (sectionRects.last?.maxY.isZero ?? true) == false
+        let currentContentWidth = _lastLaidOutWidth ?? 0.0
+        let newWidth = fabs(newBounds.width)
+        
+        // Don't perform an update if there is no width change, or if there is no content.
+        if currentContentWidth ==~ newWidth || sectionRects.last?.maxY.isZero ?? true { return false }
+        
+        // We're going to do the animation direct - it's much faster.
+        
+        let animationDuration = UIView.inheritedAnimationDuration
+        if animationDuration <=~ 0.0 || UIView.areAnimationsEnabled == false { return true }
+        
+        let collectionView = self.collectionView!
+        
+        DispatchQueue.main.async {
+            var firstCellIndexPath: IndexPath? = nil
+            
+            if let attributes = self.layoutAttributesForElements(in: collectionView.bounds) {
+                for attribute in attributes {
+                    if attribute.representedElementCategory != .cell { continue }
+                    firstCellIndexPath = attribute.indexPath
+                    break
+                }
+            }
+            
+            self.invalidateLayout()
+            
+            if let firstIP = firstCellIndexPath {
+                collectionView.scrollToItem(at: firstIP, at: [], animated: false)
+            }
+            
+            collectionView.layoutIfNeeded()
+            
+            let transition = CATransition()
+            transition.duration = animationDuration
+            transition.timingFunction = CAMediaTimingFunction(name: newWidth > currentContentWidth ? kCAMediaTimingFunctionEaseOut : kCAMediaTimingFunctionEaseIn)
+            collectionView.layer.add(transition, forKey: nil)
+        }
+        
+        return false
     }
     
     
