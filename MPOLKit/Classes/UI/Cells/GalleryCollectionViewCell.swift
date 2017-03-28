@@ -96,10 +96,6 @@ open class GalleryCollectionViewCell: CollectionViewFormCell, UICollectionViewDa
         return CGSize(width: UIViewNoIntrinsicMetric, height: ceil(itemSize.height + layoutMargins.top + layoutMargins.bottom))
     }
     
-    open func reloadData() {
-        galleryCollectionView.reloadData()
-    }
-    
     open func rectForItem(at index: Int) -> CGRect {
         guard let attributes = galleryCollectionView.layoutAttributesForItem(at: IndexPath(item: index, section: 0)) else {
             return .zero
@@ -111,26 +107,30 @@ open class GalleryCollectionViewCell: CollectionViewFormCell, UICollectionViewDa
     
     // MARK: - Updates
     
-    open func insertItem(at index: Int) {
+    open func reloadData() {
+        galleryCollectionView.reloadData()
+    }
+    
+    public func insertItem(at index: Int) {
         galleryCollectionView.insertItems(at: [IndexPath(item: index, section: 0)])
     }
     
-    open func deleteItem(at index: Int) {
+    public func deleteItem(at index: Int) {
         galleryCollectionView.deleteItems(at: [IndexPath(item: index, section: 0)])
     }
     
     
-    // MARK: - UICollectionViewDataSource
+    // MARK: - UICollectionViewDataSource methods
     
-    open func numberOfSections(in collectionView: UICollectionView) -> Int {
+    public func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
-    open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return delegate?.numberOfItems(in: self) ?? 0
     }
     
-    open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(of: GalleryItemCell.self, for: indexPath)
         
         cell.galleryCell = self
@@ -161,6 +161,8 @@ open class GalleryCollectionViewCell: CollectionViewFormCell, UICollectionViewDa
     }
     
     
+    // MARK: - UIScrollViewDelegate
+    
     // These methods are overriden to block methods available in CollectionViewFormCell. These methods relate to swipe-to-delete.
     
     open override func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -179,7 +181,6 @@ open class GalleryCollectionViewCell: CollectionViewFormCell, UICollectionViewDa
     
     open override func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {}
 }
-
 
 /// The delegate protocol for a GalleryCollectionViewCell.
 /// The delegate is responsible for entering content in the cell.
@@ -206,9 +207,7 @@ open class GalleryCollectionViewCell: CollectionViewFormCell, UICollectionViewDa
 }
 
 
-
-
-private class GalleryItemCell: UICollectionViewCell, DefaultReusable {
+fileprivate class GalleryItemCell: UICollectionViewCell, DefaultReusable {
     
     let imageView: UIImageView = UIImageView(frame: .zero)
     let tagsIndicatorView: UIImageView = UIImageView(frame: .zero)
@@ -238,9 +237,9 @@ private class GalleryItemCell: UICollectionViewCell, DefaultReusable {
         tagsIndicatorView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             NSLayoutConstraint(item: tagsIndicatorView, attribute: .trailing, relatedBy: .equal, toItem: contentView, attribute: .trailing, constant: -8.0),
-            NSLayoutConstraint(item: tagsIndicatorView, attribute: .bottom, relatedBy: .equal, toItem: contentView, attribute: .bottom, constant: -8.0),
-            NSLayoutConstraint(item: tagsIndicatorView, attribute: .width, relatedBy: .equal, toConstant: 24.0),
-            NSLayoutConstraint(item: tagsIndicatorView, attribute: .height, relatedBy: .equal, toConstant: 22.0)
+            NSLayoutConstraint(item: tagsIndicatorView, attribute: .bottom,   relatedBy: .equal, toItem: contentView, attribute: .bottom,   constant: -8.0),
+            NSLayoutConstraint(item: tagsIndicatorView, attribute: .width,    relatedBy: .equal, toConstant: 24.0),
+            NSLayoutConstraint(item: tagsIndicatorView, attribute: .height,   relatedBy: .equal, toConstant: 22.0)
         ])
         
         backgroundView = imageView
