@@ -10,18 +10,20 @@ import UIKit
 
 fileprivate var kvoContext = 1
 
-
 open class FormTextView: UITextView {
 
     open let placeholderLabel: UILabel = UILabel(frame: .zero)
     
-    fileprivate var isRightToLeft: Bool = false {
+    private var isRightToLeft: Bool = false {
         didSet {
             if isRightToLeft != oldValue {
                 setNeedsLayout()
             }
         }
     }
+    
+    
+    // MARK: - Initializers
     
     public override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
@@ -59,10 +61,8 @@ open class FormTextView: UITextView {
         placeholderLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.font), context: &kvoContext)
     }
     
-}
-
-
-extension FormTextView {
+    
+    // MARK: - Overrides
     
     open override var text: String? {
         didSet { updatePlaceholderAppearance() }
@@ -134,12 +134,10 @@ extension FormTextView {
         }
     }
     
-}
-
-
-fileprivate extension FormTextView {
     
-    @objc fileprivate func updatePlaceholderAppearance() {
+    // MARK: - Private methods
+    
+    @objc private func updatePlaceholderAppearance() {
         placeholderLabel.isHidden = (text?.isEmpty ?? true) == false
     }
     

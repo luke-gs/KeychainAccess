@@ -23,6 +23,8 @@ fileprivate var kvoContext: Int = 1
 /// the correct location.
 open class TableViewFormTextViewCell: TableViewFormCell {
     
+    // MARK: - Public properties
+    
     /// The title label for the cell. This is guaranteed to be non-nil.
     open let titleLabel = UILabel()
     
@@ -32,17 +34,21 @@ open class TableViewFormTextViewCell: TableViewFormCell {
     open let textView = FormTextView(frame: .zero, textContainer: nil)
     
     
+    // MARK: - Private properties
+    
     /// The height constraint guiding autolayout's private sizing of the text view.
-    fileprivate var textViewPreferredHeightConstraint: NSLayoutConstraint!
+    private var textViewPreferredHeightConstraint: NSLayoutConstraint!
     
     
     /// The height constraint guiding autolayout's minimum sizing of the text view.
-    fileprivate var textViewMinimumHeightConstraint: NSLayoutConstraint!
+    private var textViewMinimumHeightConstraint: NSLayoutConstraint!
     
     
     /// The constraint separating the title label and text view.
-    fileprivate var titleDetailSeparationConstraint: NSLayoutConstraint!
+    private var titleDetailSeparationConstraint: NSLayoutConstraint!
     
+    
+    // MARK: - Initializers
     
     /// Initializes the cell with a reuse identifier.
     /// `TableViewFormTextViewCell` does not utilize the `style` parameter.
@@ -108,11 +114,8 @@ open class TableViewFormTextViewCell: TableViewFormCell {
         titleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &kvoContext)
     }
     
-}
-
-
-/// Overriden methods
-extension TableViewFormTextViewCell {
+    
+    // MARK: - Overrides
     
     open override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
@@ -165,11 +168,10 @@ extension TableViewFormTextViewCell {
         }
     }
     
-}
-
-extension TableViewFormTextViewCell {
     
-    dynamic open override var accessibilityLabel: String? {
+    // MARK: - Accessibility
+    
+    open override var accessibilityLabel: String? {
         get {
             if let setValue = super.accessibilityLabel {
                 return setValue
@@ -181,7 +183,7 @@ extension TableViewFormTextViewCell {
         }
     }
     
-    dynamic open override var accessibilityValue: String? {
+    open override var accessibilityValue: String? {
         get {
             if let setValue = super.accessibilityValue {
                 return setValue
@@ -197,7 +199,7 @@ extension TableViewFormTextViewCell {
         }
     }
     
-    dynamic open override var isAccessibilityElement: Bool {
+    open override var isAccessibilityElement: Bool {
         get {
             if textView.isFirstResponder { return false }
             return super.isAccessibilityElement
@@ -207,13 +209,10 @@ extension TableViewFormTextViewCell {
         }
     }
     
-}
-
-
-/// Private methods
-fileprivate extension TableViewFormTextViewCell {
     
-    fileprivate func updateTextViewPreferredConstraint() {
+    // MARK: - Private methods
+    
+    private func updateTextViewPreferredConstraint() {
         let textHeight = textView.contentSize.height
         if textViewPreferredHeightConstraint.constant ==~ textHeight { return }
         
@@ -250,7 +249,7 @@ fileprivate extension TableViewFormTextViewCell {
         }
     }
     
-    fileprivate func updateTextViewMinimumConstraint() {
+    private func updateTextViewMinimumConstraint() {
         let textViewFont: UIFont
         let placeholderFont: UIFont
         

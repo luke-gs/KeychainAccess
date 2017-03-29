@@ -18,7 +18,7 @@ import UIKit
 ///
 /// When the navigation controller moves into the Popover style, the navigation bar
 /// updates to be translucent, and observes theme changes to maintain correct appearance.
-open class PopoverNavigationController: UINavigationController, PopoverViewController {
+open class PopoverNavigationController: UINavigationController, PopoverViewController, UINavigationControllerDelegate, UIPopoverPresentationControllerDelegate, UIViewControllerTransitioningDelegate {
     
     /// A boolean value indicating whether the navigation controller (and its children)
     /// should be displayed with a transparent background.
@@ -66,7 +66,7 @@ open class PopoverNavigationController: UINavigationController, PopoverViewContr
     }
     
     
-    fileprivate var formSheetPresentationController: PopoverFormSheetPresentationController?
+    private var formSheetPresentationController: PopoverFormSheetPresentationController?
     
     
     // MARK: - Initializers
@@ -88,10 +88,8 @@ open class PopoverNavigationController: UINavigationController, PopoverViewContr
         super.delegate = self
     }
     
-}
-
-
-extension PopoverNavigationController {
+    
+    // MARK: - Overrides
     
     open override func viewDidLoad() {
         super.viewDidLoad()
@@ -103,22 +101,18 @@ extension PopoverNavigationController {
         super.pushViewController(viewController, animated: animated)
     }
     
-}
-
-
-extension PopoverNavigationController: UINavigationControllerDelegate {
+    
+    // MARK: - UINavigationControllerDelegate methods
     
     open func navigationController(_ navigationController: UINavigationController,
                                    animationControllerFor operation: UINavigationControllerOperation,
                                    from fromVC: UIViewController,
                                    to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return wantsTransparentBackground ? ViewControllerTransition(transition: .transitionCrossDissolve, duration: 0.2) : nil
+        return wantsTransparentBackground ? ViewControllerAnimationOptionTransition(transition: .transitionCrossDissolve, duration: 0.2) : nil
     }
     
-}
-
-
-extension PopoverNavigationController: UIPopoverPresentationControllerDelegate {
+    
+    // MARK: - UIPopoverPresentationControllerDelegate methods
     
     open func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
         if traitCollection.horizontalSizeClass == .compact { return .fullScreen }
@@ -129,10 +123,8 @@ extension PopoverNavigationController: UIPopoverPresentationControllerDelegate {
         wantsTransparentBackground = (style == .none && (modalPresentationStyle == .popover || modalPresentationStyle == .custom))
     }
     
-}
-
-
-extension PopoverNavigationController: UIViewControllerTransitioningDelegate {
+    
+    // MARK: - UIViewControllerTransitioningDelegate methods
     
     open func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         formSheetPresentationController = PopoverFormSheetPresentationController(presentedViewController: presented, presenting: presenting)
@@ -148,12 +140,10 @@ extension PopoverNavigationController: UIViewControllerTransitioningDelegate {
         return formSheetPresentationController?.traitCollection.horizontalSizeClass == .compact ? nil : formSheetPresentationController
     }
     
-}
-
-
-fileprivate extension PopoverNavigationController {
     
-    @objc fileprivate func applyCurrentTheme() {
+    // MARK: - Private methods
+    
+    @objc private func applyCurrentTheme() {
         if isViewLoaded == false { return }
         
         let theme = Theme.current
@@ -182,7 +172,6 @@ fileprivate extension PopoverNavigationController {
         viewControllers.forEach {
             ($0 as? PopoverViewController)?.wantsTransparentBackground = transparent
         }
-        
     }
     
 }

@@ -46,7 +46,7 @@ NSNotificationName const MPOL_UITextFieldTextWillBeginEditingNotification = @"MP
     
     // We only fire the "will begin" notification iff:
     //    1) The field isn't first responder,
-    //    2) It can become first responder (checks the delgate), and
+    //    2) It can become first responder (checks the delegate), and
     //    3) The current window doesn't have a first responder, or it successfully resigned first responder.
     // This is the same set of checks that determine if it will be successful.
     if ([self isFirstResponder] == NO && [self canBecomeFirstResponder] && [[self window] endEditing:NO]) {

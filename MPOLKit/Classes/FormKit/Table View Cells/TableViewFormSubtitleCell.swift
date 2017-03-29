@@ -45,11 +45,11 @@ open class TableViewFormSubtitleCell: TableViewFormCell {
     
     // MARK: - Private properties
     
-    fileprivate let titleLabel = UILabel(frame: .zero)
+    private let titleLabel = UILabel(frame: .zero)
     
-    fileprivate let subtitleLabel = UILabel(frame: .zero)
+    private let subtitleLabel = UILabel(frame: .zero)
     
-    fileprivate let _imageView = UIImageView(frame: .zero)
+    private let _imageView = UIImageView(frame: .zero)
     
     /// A boolean value indicating to MPOL applications that the cell represents an editable
     /// field. This variable is exposed via the additional MPOL property `isEditableField`,
@@ -58,12 +58,14 @@ open class TableViewFormSubtitleCell: TableViewFormCell {
     /// The default is `true`.
     internal var mpol_isEditableField: Bool = true
     
-    fileprivate let textLayoutGuide = UILayoutGuide()
+    private let textLayoutGuide = UILayoutGuide()
     
-    fileprivate var titleSubtitleConstraint: NSLayoutConstraint!
+    private var titleSubtitleConstraint: NSLayoutConstraint!
     
-    fileprivate var textLeadingConstraint: NSLayoutConstraint!
+    private var textLeadingConstraint: NSLayoutConstraint!
     
+    
+    // MARK: - Initializers
     
     /// Initializes the cell with a reuse identifier.
     /// TableViewFormSubtitleCell does not utilize the `style` parameter, instead always using `.subtitle`.
@@ -155,11 +157,8 @@ open class TableViewFormSubtitleCell: TableViewFormCell {
         imageView.removeObserver(self, forKeyPath: #keyPath(UIImageView.image), context: &kvoContext)
     }
     
-}
-
-
-/// Overriden methods
-extension TableViewFormSubtitleCell {
+    
+    // MARK: - Overrides
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {

@@ -13,6 +13,7 @@ fileprivate var textContext = 1
 
 public class TableViewFormMPOLHeaderCell: UITableViewCell {
     
+    // MARK: - Public properties
     
     /// A boolean value indicating whether the view should display an expand arrow.
     ///
@@ -84,15 +85,15 @@ public class TableViewFormMPOLHeaderCell: UITableViewCell {
     
     // MARK: - Private properties
     
-    fileprivate let arrowView = UIImageView(image: UIImage(named: "DropDown", in: Bundle(for: TableViewFormMPOLHeaderCell.self), compatibleWith: nil)?.withRenderingMode(.alwaysTemplate))
+    private let arrowView = UIImageView(image: UIImage(named: "DropDown", in: .formKit, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate))
     
-    fileprivate var separatorHeightConstraint: NSLayoutConstraint!
+    private var separatorHeightConstraint: NSLayoutConstraint!
     
-    fileprivate var titleSeparatorConstraint: NSLayoutConstraint!
+    private var titleSeparatorConstraint: NSLayoutConstraint!
     
-    fileprivate var separatorSeparationConstraint: NSLayoutConstraint!
+    private var separatorSeparationConstraint: NSLayoutConstraint!
     
-    fileprivate var isRightToLeft: Bool = false {
+    private var isRightToLeft: Bool = false {
         didSet {
             if isRightToLeft == oldValue { return }
             
@@ -103,7 +104,7 @@ public class TableViewFormMPOLHeaderCell: UITableViewCell {
     }
     
     
-    // MARK: - Initialization
+    // MARK: - Initializers
     
     public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
@@ -170,9 +171,8 @@ public class TableViewFormMPOLHeaderCell: UITableViewCell {
         titleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &textContext)
     }
     
-}
-
-extension TableViewFormMPOLHeaderCell {
+    
+    // MARK: - Overrides
     
     public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &textContext {
@@ -185,11 +185,7 @@ extension TableViewFormMPOLHeaderCell {
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         
-        var displayScale = traitCollection.displayScale
-        if displayScale == 0.0 {
-            displayScale = UIScreen.main.scale
-        }
-        separatorHeightConstraint?.constant = 1.0 / displayScale
+        separatorHeightConstraint?.constant = 1.0 / traitCollection.currentDisplayScale
         
         if #available(iOS 10, *) {
             isRightToLeft = self.effectiveUserInterfaceLayoutDirection == .rightToLeft

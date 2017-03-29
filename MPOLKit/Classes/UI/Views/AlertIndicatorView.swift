@@ -8,29 +8,12 @@
 
 import UIKit
 
-/// A an indicator view for presenting alerts within the MPOL interface.
+/// An indicator view for presenting alerts within the MPOL interface.
 public class AlertIndicatorView: UIView {
 
     public var text: String? {
         get { return iconView.text }
         set { iconView.text = newValue }
-    }
-    
-    @NSCopying public var color: UIColor! = .gray {
-        didSet {
-            let color: UIColor
-            if let setColor = self.color {
-                color = setColor
-            } else {
-                color = .gray
-                self.color = .gray
-            }
-            
-            if color == oldValue { return }
-            
-            iconView.color = color
-            glowView.color = color
-        }
     }
     
     public var glowAlpha: CGFloat = 0.3 {
@@ -43,7 +26,6 @@ public class AlertIndicatorView: UIView {
             glowAnimation?.toValue   = glowAlpha
         }
     }
-    
     
     private var _isHighlighted: Bool = false
     @objc public var isHighlighted: Bool {
@@ -75,7 +57,7 @@ public class AlertIndicatorView: UIView {
         }
     }
     
-    fileprivate var isPulsing: Bool = false {
+    private var isPulsing: Bool = false {
         didSet {
             if isPulsing == oldValue {
                 return
@@ -105,11 +87,11 @@ public class AlertIndicatorView: UIView {
         }
     }
     
-    fileprivate let iconView = InterfaceBadgeIcon(frame: .zero)
+    private let iconView = AlertIndicatorIconView(frame: .zero)
     
-    fileprivate let glowView = InterfaceBadgeGlow(frame: .zero)
+    private let glowView = AlertIndicatorGlowView(frame: .zero)
     
-    fileprivate var glowAnimation: CABasicAnimation?
+    private var glowAnimation: CABasicAnimation?
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -129,14 +111,12 @@ public class AlertIndicatorView: UIView {
         setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
         
         glowView.translatesAutoresizingMaskIntoConstraints = false
-        glowView.color    = color
         glowView.isHidden = !_isHighlighted
         glowView.alpha    = glowAlpha
         addSubview(glowView)
         
         iconView.translatesAutoresizingMaskIntoConstraints = false
         iconView.isHighlighted = _isHighlighted
-        iconView.color         = color
         addSubview(iconView)
         
         NSLayoutConstraint.activate([
@@ -155,7 +135,7 @@ public class AlertIndicatorView: UIView {
 
 
 
-fileprivate class InterfaceBadgeIcon: UIView {
+private class AlertIndicatorIconView: UIView {
     
     var isHighlighted: Bool = false {
         didSet {
@@ -165,23 +145,21 @@ fileprivate class InterfaceBadgeIcon: UIView {
         }
     }
     
-    @NSCopying var color: UIColor? {
-        didSet { if color != oldValue { setNeedsDisplay() } }
-    }
-    
     var text: String? {
         didSet { if text != oldValue { setNeedsDisplay() } }
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .clear
-        contentMode = .center
-        isUserInteractionEnabled = false
+        commonInit()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        commonInit()
+    }
+    
+    private func commonInit() {
         backgroundColor = .clear
         contentMode = .center
         isUserInteractionEnabled = false
@@ -194,7 +172,7 @@ fileprivate class InterfaceBadgeIcon: UIView {
     override func draw(_ rect: CGRect) {
         guard let context = UIGraphicsGetCurrentContext() else { return }
         
-        let color: UIColor = self.color ?? .gray
+        let color: UIColor = self.tintColor ?? .gray
         
         context.setLineWidth(1.0)
         color.set()
@@ -231,18 +209,14 @@ fileprivate class InterfaceBadgeIcon: UIView {
         }
     }
     
+    override func tintColorDidChange() {
+        super.tintColorDidChange()
+        setNeedsDisplay()
+    }
+    
 }
 
-fileprivate class InterfaceBadgeGlow: UIView {
-    
-    @NSCopying var color: UIColor? {
-        didSet {
-            if color == oldValue { return }
-            
-            let bounds = self.bounds
-            setNeedsDisplay(CGRect(x: bounds.midX - 30.0, y: bounds.midY - 30.0, width: 60.0, height: 60.0))
-        }
-    }
+private class AlertIndicatorGlowView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -260,8 +234,12 @@ fileprivate class InterfaceBadgeGlow: UIView {
         isOpaque = false
     }
     
+    override var intrinsicContentSize: CGSize {
+        return CGSize(width: 60.0, height: 60.0)
+    }
+    
     override func draw(_ rect: CGRect) {
-        let drawColor  = color ?? .gray
+        let drawColor  = tintColor ?? .gray
         let clearColor = drawColor.withAlphaComponent(0.0)
         
         let colors = [drawColor.cgColor, clearColor.cgColor]
@@ -274,8 +252,10 @@ fileprivate class InterfaceBadgeGlow: UIView {
         context.drawRadialGradient(gradient, startCenter: center, startRadius: 11.5, endCenter: center, endRadius: 30.0, options: [])
     }
     
-    override var intrinsicContentSize: CGSize {
-        return CGSize(width: 60.0, height: 60.0)
+    
+    override func tintColorDidChange() {
+        super.tintColorDidChange()
+        setNeedsDisplay(CGRect(x: bounds.midX - 30.0, y: bounds.midY - 30.0, width: 60.0, height: 60.0))
     }
     
 }

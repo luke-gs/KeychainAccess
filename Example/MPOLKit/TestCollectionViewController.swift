@@ -16,7 +16,9 @@ class TestCollectionViewController: FormCollectionViewController  {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        collectionView?.register(CollectionViewFormDetailCell.self)
+        //formLayout.itemLayoutMargins = .zero
+        
+        collectionView?.register(EntityDetailCollectionViewCell.self)
         collectionView?.register(CollectionViewFormMPOLHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
     }
     
@@ -25,15 +27,16 @@ class TestCollectionViewController: FormCollectionViewController  {
         collectionView?.collectionViewLayout.invalidateLayout()
     }
 
+    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 100
+        return 10
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, class: CollectionViewFormMPOLHeaderView.self, for: indexPath)
         header.showsExpandArrow = true
-        header.text = "1 ACTIVE ALERT"
+        header.text = "LAST UPDATED: 23/03/17"
         header.tapHandler = { (header, ip) in
             header.setExpanded(header.isExpanded == false, animated: true)
         }
@@ -41,11 +44,13 @@ class TestCollectionViewController: FormCollectionViewController  {
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormDetailCell.self, for: indexPath)
-        cell.titleLabel.text = "Test Title \(indexPath.item + 1)"
-        cell.subtitleLabel.text = "Effective from 12/03/2017."
-        cell.detailLabel.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-        cell.accessoryView = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
+        let cell = collectionView.dequeueReusableCell(of: EntityDetailCollectionViewCell.self, for: indexPath)
+        cell.imageView.image = #imageLiteral(resourceName: "Avatar 1")
+        cell.sourceLabel.text = "DATA SOURCE 1"
+        cell.titleLabel.text = "Smith, Max R."
+        cell.subtitleLabel.text = "08/05/1987 (29 Male)"
+        cell.descriptionLabel.text = "196 cm proportionate european male with short brown hair and brown eyes"
+        cell.additionalDetailsButton.setTitle("4 MORE DESCRIPTIONS", for: .normal)
         return cell
     }
     
@@ -70,9 +75,7 @@ class TestCollectionViewController: FormCollectionViewController  {
     }
     
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
-        // It just so happens that our demo size goal from the creatives for the content view should be 40.0.
-        // We've tested (and should unit test) that our sizing methods with default settings and single line detail hand back this value.
-        return 88.0
+        return EntityDetailCollectionViewCell.minimumContentHeight(withTitle: "Smith, Max R.", subtitle: "08/05/1987 (29 Male)", description: "196 cm proportionate european male with short brown hair and brown eyes", additionalDetails: "4 MORE DESCRIPTIONS", source: "DATA SOURCE 1", inWidth: itemWidth, compatibleWith: traitCollection)
     }
     
     

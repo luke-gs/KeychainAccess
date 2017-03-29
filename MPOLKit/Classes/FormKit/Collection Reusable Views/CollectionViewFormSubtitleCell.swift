@@ -1,9 +1,9 @@
 //
 //  CollectionViewFormSubtitleCell.swift
-//  FormKit
+//  MPOLKit/FormKit
 //
 //  Created by Rod Brown on 6/05/2016.
-//  Copyright © 2016 RodBrown. All rights reserved.
+//  Copyright © 2016 Gridstone. All rights reserved.
 //
 
 import UIKit
@@ -40,7 +40,7 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
     }
     
     
-    // MARK: - Private properties
+    // MARK: - Private/internal properties
     
     /// A boolean value indicating to MPOL applications that the cell represents an editable
     /// field. This variable is exposed via the additional MPOL property `isEditableField`,
@@ -49,11 +49,11 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
     /// The default is `true`.
     internal var mpol_isEditableField: Bool = true
     
-    fileprivate let textLayoutGuide = UILayoutGuide()
+    internal let textLayoutGuide = UILayoutGuide()
     
-    fileprivate var titleSubtitleConstraint: NSLayoutConstraint!
+    private var titleSubtitleConstraint: NSLayoutConstraint!
     
-    fileprivate var textLeadingConstraint: NSLayoutConstraint!
+    private var textLeadingConstraint: NSLayoutConstraint!
     
     
     // MARK: - Initialization
@@ -96,8 +96,8 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
         
         imageView.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .vertical)
         imageView.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .horizontal)
-        imageView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
-        imageView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+        imageView.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh + 1, for: .vertical)
+        imageView.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh + 1, for: .horizontal)
         
         titleSubtitleConstraint  = NSLayoutConstraint(item: subtitleLabel,   attribute: .top,      relatedBy: .equal, toItem: titleLabel, attribute: .bottom)
         textLeadingConstraint    = NSLayoutConstraint(item: textLayoutGuide, attribute: .leading,  relatedBy: .equal, toItem: imageView, attribute: .trailing)
@@ -118,6 +118,7 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
             NSLayoutConstraint(item: textLayoutGuide, attribute: .top,     relatedBy: .greaterThanOrEqual, toItem: contentModeLayoutGuide, attribute: .top),
             NSLayoutConstraint(item: textLayoutGuide, attribute: .centerY, relatedBy: .equal,              toItem: contentModeLayoutGuide, attribute: .centerY),
             NSLayoutConstraint(item: textLayoutGuide, attribute: .trailing, relatedBy: .lessThanOrEqual,   toItem: contentModeLayoutGuide, attribute: .trailing),
+            NSLayoutConstraint(item: textLayoutGuide, attribute: .leading, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .leading, priority: UILayoutPriorityDefaultHigh),
             textLeadingConstraint,
             titleSubtitleConstraint,
             
@@ -144,13 +145,8 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
         imageView.removeObserver(self, forKeyPath: #keyPath(UIImageView.image), context: &kvoContext)
     }
     
-}
-
-
-
-// MARK: - Overrides
-/// Overrides
-extension CollectionViewFormSubtitleCell {
+    
+    // MARK: - Overrides
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {
@@ -160,8 +156,9 @@ extension CollectionViewFormSubtitleCell {
                 titleSubtitleConstraint.constant = (titleLabel.text?.isEmpty ?? true || subtitleLabel.text?.isEmpty ?? true) ? 0.0 : CellTitleSubtitleSeparation
             case let imageView as UIImageView:
                 let noImage = imageView.image?.size.isEmpty ?? true
-                imageView.isHidden = noImage
+                imageView.isHidden = false
                 textLeadingConstraint.constant = noImage ? 0.0 : 10.0
+                updateLabelMaxSizes()
             default:
                 break
             }
@@ -172,25 +169,36 @@ extension CollectionViewFormSubtitleCell {
     
     open override var bounds: CGRect {
         didSet {
-            let width = bounds.width
-            if width !=~ oldValue.width {
-                titleLabel.preferredMaxLayoutWidth    = width
-                subtitleLabel.preferredMaxLayoutWidth = width
+            if bounds.width !=~ oldValue.width {
+                updateLabelMaxSizes()
             }
         }
     }
     
     open override var frame: CGRect {
         didSet {
-            let width = frame.width
-            if width !=~ oldValue.width {
-                titleLabel.preferredMaxLayoutWidth    = width
-                subtitleLabel.preferredMaxLayoutWidth = width
+            if frame.width !=~ oldValue.width {
+                updateLabelMaxSizes()
             }
         }
     }
     
-    dynamic open override var accessibilityLabel: String? {
+    open override var layoutMargins: UIEdgeInsets {
+        didSet {
+            let layoutMargins = self.layoutMargins
+            if layoutMargins.left !=~ oldValue.left || layoutMargins.right !=~ oldValue.right {
+                updateLabelMaxSizes()
+            }
+        }
+    }
+    
+    open override var accessoryView: UIView? {
+        didSet {
+            updateLabelMaxSizes()
+        }
+    }
+    
+    open override var accessibilityLabel: String? {
         get {
             if let setValue = super.accessibilityLabel {
                 return setValue
@@ -201,11 +209,6 @@ extension CollectionViewFormSubtitleCell {
             super.accessibilityLabel = newValue
         }
     }
-    
-}
-
-
-internal extension CollectionViewFormSubtitleCell {
     
     internal override func applyStandardFonts() {
         super.applyStandardFonts()
@@ -220,11 +223,24 @@ internal extension CollectionViewFormSubtitleCell {
         }
     }
     
-}
-
-// MARK: - Cell Sizing
-/// Cell sizing
-extension CollectionViewFormSubtitleCell {
+    
+    // MARK: - Private methods
+    
+    func updateLabelMaxSizes() {
+        
+        let width         = frame.width
+        let layoutMargins = self.layoutMargins
+        let accessoryViewWidth = accessoryView?.bounds.width ?? 0.0
+        let imageViewWidth = imageView.image?.size.width ?? 0.0
+        
+        let allowedTextWidth = width - layoutMargins.left - layoutMargins.right - (accessoryViewWidth > 0.0 ? accessoryViewWidth + 10.0 : 0.0) - (imageViewWidth > 0.0 ? imageViewWidth + 10.0 : 0.0)
+        
+        titleLabel.preferredMaxLayoutWidth    = allowedTextWidth
+        subtitleLabel.preferredMaxLayoutWidth = allowedTextWidth
+    }
+    
+    
+    // MARK: - Class sizing methods
     
     /// Calculates the minimum content width for a cell, considering the text and font details.
     ///
@@ -259,10 +275,7 @@ extension CollectionViewFormSubtitleCell {
             imageSpace = ceil(imageSpace) + 10.0
         }
         
-        var displayScale = traitCollection.displayScale
-        if displayScale ==~ 0.0 {
-            displayScale = UIScreen.main.scale
-        }
+        let displayScale = traitCollection.currentDisplayScale
         
         let titleWidth = (title as NSString?)?.boundingRect(with: .max, options: singleLineTitle ? [] : .usesLineFragmentOrigin,
                                                             attributes: [NSFontAttributeName: titleTextFont],
@@ -307,10 +320,7 @@ extension CollectionViewFormSubtitleCell {
         let imageSize = image?.size
         
         
-        var displayScale = traitCollection.displayScale
-        if displayScale ==~ 0.0 {
-            displayScale = UIScreen.main.scale
-        }
+        let displayScale = traitCollection.currentDisplayScale
         
         let size = CGSize(width: imageSize == nil ? width : width - imageSize!.width - 10.0, height: CGFloat.greatestFiniteMagnitude)
         

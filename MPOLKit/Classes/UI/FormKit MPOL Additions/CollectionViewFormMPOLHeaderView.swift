@@ -10,7 +10,12 @@ import UIKit
 
 fileprivate var textContext = 1
 
-public class CollectionViewFormMPOLHeaderView: UICollectionReusableView {
+public class CollectionViewFormMPOLHeaderView: UICollectionReusableView, DefaultReusable {
+    
+    // MARK: - Sizing
+    
+    public static let minimumHeight: CGFloat = 32.0
+    
     
     // MARK: - Public properties
     
@@ -91,21 +96,21 @@ public class CollectionViewFormMPOLHeaderView: UICollectionReusableView {
     
     // MARK: - Private properties
     
-    fileprivate let titleLabel    = UILabel(frame: .zero)
+    private let titleLabel    = UILabel(frame: .zero)
     
-    fileprivate let separatorView = UIView(frame: .zero)
+    private let separatorView = UIView(frame: .zero)
     
-    fileprivate let arrowView     = UIImageView(image: UIImage(named: "DropDown", in: Bundle(for: CollectionViewFormMPOLHeaderView.self), compatibleWith: nil)?.withRenderingMode(.alwaysTemplate))
+    private let arrowView     = UIImageView(image: UIImage(named: "DropDown", in: .mpolKit, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate))
     
-    fileprivate var indexPath: IndexPath?
+    private var indexPath: IndexPath?
     
-    fileprivate var separatorHeightConstraint: NSLayoutConstraint!
+    private var separatorHeightConstraint: NSLayoutConstraint!
     
-    fileprivate var titleSeparatorConstraint: NSLayoutConstraint!
+    private var titleSeparatorConstraint: NSLayoutConstraint!
     
-    fileprivate var separatorSeparationConstraint: NSLayoutConstraint!
+    private var separatorSeparationConstraint: NSLayoutConstraint!
     
-    fileprivate var isRightToLeft: Bool = false {
+    private var isRightToLeft: Bool = false {
         didSet {
             if isRightToLeft == oldValue { return }
             
@@ -182,21 +187,9 @@ public class CollectionViewFormMPOLHeaderView: UICollectionReusableView {
         titleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.text), context: &textContext)
         titleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &textContext)
     }
-}
-
-
-// MARK: - Sizing
-/// Sizing
-extension CollectionViewFormMPOLHeaderView {
     
-    public static let minimumHeight: CGFloat = 32.0
     
-}
-
-
-// MARK: - Overrides
-/// Overrides
-extension CollectionViewFormMPOLHeaderView {
+    // MARK: - Overrides
     
     public override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
         super.apply(layoutAttributes)
@@ -212,8 +205,6 @@ extension CollectionViewFormMPOLHeaderView {
             self.layoutMargins = isRightToLeft ? layoutMargins.horizontallyFlipped() : layoutMargins
             separatorHeightConstraint.constant = 1.0 / (window?.screen ?? .main).scale
         }
-        
-        setNeedsLayout()
     }
     
     public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -252,12 +243,11 @@ extension CollectionViewFormMPOLHeaderView {
             }
         }
     }
-}
-
-
-extension CollectionViewFormMPOLHeaderView {
     
-    dynamic open override var accessibilityLabel: String? {
+    
+    // MARK: - Accessibility
+    
+    open override var accessibilityLabel: String? {
         get {
             if let setValue = super.accessibilityLabel {
                 return setValue
@@ -267,7 +257,7 @@ extension CollectionViewFormMPOLHeaderView {
         set { super.accessibilityLabel = newValue }
     }
     
-    dynamic open override var accessibilityValue: String? {
+    open override var accessibilityValue: String? {
         get {
             if let setValue = super.accessibilityValue {
                 return setValue
@@ -280,15 +270,10 @@ extension CollectionViewFormMPOLHeaderView {
         set { super.accessibilityValue = newValue }
     }
     
-}
-
-
-
-// MARK: - Private methods
-/// Private methods
-fileprivate extension CollectionViewFormMPOLHeaderView {
     
-    @objc fileprivate func tapGestureRecognizerDidRecognize() {
+    // MARK: - Private methods
+    
+    @objc private func tapGestureRecognizerDidRecognize() {
         if let indexPath = self.indexPath {
             tapHandler?(self, indexPath)
         }

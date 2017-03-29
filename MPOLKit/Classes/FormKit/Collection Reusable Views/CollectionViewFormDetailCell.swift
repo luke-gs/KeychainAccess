@@ -1,9 +1,9 @@
 //
 //  CollectionViewFormDetailCell.swift
-//  Pods
+//  MPOLKit
 //
 //  Created by Rod Brown on 19/3/17.
-//
+//  Copyright © 2017 Gridstone. All rights reserved.
 //
 
 import UIKit
@@ -12,8 +12,9 @@ import UIKit
 fileprivate var kvoContext = 1
 
 
-public class CollectionViewFormDetailCell: CollectionViewFormCell {
+open class CollectionViewFormDetailCell: CollectionViewFormCell {
     
+    // MARK: - Public properties
     
     public let titleLabel: UILabel = UILabel(frame: .zero)
     
@@ -24,15 +25,19 @@ public class CollectionViewFormDetailCell: CollectionViewFormCell {
     public let detailLabel: UILabel = UILabel(frame: .zero)
     
     
-    fileprivate var titleSubtitleSeparation: NSLayoutConstraint!
+    // MARK: - Private properties
     
-    fileprivate var subtitleDetailSeparation: NSLayoutConstraint!
+    private var titleSubtitleSeparation: NSLayoutConstraint!
+    
+    private var subtitleDetailSeparation: NSLayoutConstraint!
+    
+    
+    // MARK: - Initializers
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
     }
-    
     
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -104,10 +109,8 @@ public class CollectionViewFormDetailCell: CollectionViewFormCell {
         detailLabel.removeObserver(self,   forKeyPath: attrTextKeyPath, context: &kvoContext)
     }
     
-}
-
-
-extension CollectionViewFormDetailCell {
+    
+    // MARK: - Overrides
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {
@@ -159,7 +162,6 @@ extension CollectionViewFormDetailCell {
             }
         }
     }
-    
     
     internal override func applyStandardFonts() {
         super.applyStandardFonts()

@@ -1,9 +1,9 @@
 //
 //  CollectionViewFormCheckboxCell.swift
-//  FormKit
+//  MPOLKit/FormKit
 //
 //  Created by Rod Brown on 28/05/2016.
-//  Copyright © 2016 Gridstone. All rights reserved.
+//  Copyright © 2017 Gridstone. All rights reserved.
 //
 
 import UIKit
@@ -27,6 +27,8 @@ open class CollectionViewFormSelectionCell: CollectionViewFormCell {
         }
     }
     
+    
+    // MARK: - Properties
     
     open var selectionStyle: SelectionStyle = .checkbox {
         didSet { if selectionStyle != oldValue { updateImageView() } }
@@ -52,8 +54,10 @@ open class CollectionViewFormSelectionCell: CollectionViewFormCell {
     
     public let titleLabel: UILabel = UILabel(frame: .zero)
     
-    fileprivate let imageView: UIImageView = UIImageView(frame: .zero)
+    private let imageView: UIImageView = UIImageView(frame: .zero)
     
+    
+    // MARK: - Initializers
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -97,11 +101,8 @@ open class CollectionViewFormSelectionCell: CollectionViewFormCell {
         updateImageView()
     }
     
-}
-
-
-/// Overrides 
-extension CollectionViewFormSelectionCell {
+    
+    // MARK: - Overrides
     
     open override var isSelected: Bool {
         didSet { updateImageView() }
@@ -118,12 +119,19 @@ extension CollectionViewFormSelectionCell {
         titleLabel.minimumScaleFactor = 0.9
     }
     
-}
-
-
-// MARK: - Sizing
-/// Sizing
-extension CollectionViewFormSelectionCell {
+    
+    // MARK: - Private methods
+    
+    private func updateImageView() {
+        let isSelected    = self.isSelected
+        let isHighlighted = self.isHighlighted
+        
+        imageView.image = selectionStyle.image(selected: isSelected)
+        imageView.tintColor = isSelected || isHighlighted ? nil : #colorLiteral(red: 0.7490196078, green: 0.7490196078, blue: 0.7490196078, alpha: 1)
+    }
+    
+    
+    // MARK: - Class sizing methods
     
     /// Calculates the minimum content width for a cell, considering the text and font details, with a standard selection image.
     ///
@@ -138,15 +146,9 @@ extension CollectionViewFormSelectionCell {
                                         titleFont: UIFont? = nil, singleLineTitle: Bool = true, accessoryViewWidth: CGFloat = 0.0) -> CGFloat {
         let titleTextFont = titleFont ?? SelectableButton.font(compatibleWith: traitCollection)
         let imageSize = style.image(selected: false).size
-        
-        var displayScale = traitCollection.displayScale
-        if displayScale ==~ 0.0 {
-            displayScale = UIScreen.main.scale
-        }
-        
         let titleWidth = (title as NSString?)?.boundingRect(with: .max, options: singleLineTitle ? [] : .usesLineFragmentOrigin,
                                                             attributes: [NSFontAttributeName: titleTextFont],
-                                                            context: nil).width.ceiled(toScale: displayScale) ?? 0.0
+                                                            context: nil).width.ceiled(toScale: traitCollection.currentDisplayScale) ?? 0.0
         return titleWidth + imageSize.width + 10.0 + (accessoryViewWidth > 0.00001 ? accessoryViewWidth + 10.0 : 0.0)
     }
     
@@ -166,33 +168,14 @@ extension CollectionViewFormSelectionCell {
         let titleTextFont = titleFont ?? SelectableButton.font(compatibleWith: traitCollection)
         let imageSize = style.image(selected: false).size
         
-        var displayScale = traitCollection.displayScale
-        if displayScale ==~ 0.0 {
-            displayScale = UIScreen.main.scale
-        }
         
         let size = CGSize(width: width - imageSize.width - 10.0, height: CGFloat.greatestFiniteMagnitude)
         
         let titleHeight = (title as NSString?)?.boundingRect(with: size, options: singleLineTitle ? [] : .usesLineFragmentOrigin,
                                                              attributes: [NSFontAttributeName: titleTextFont],
-                                                             context: nil).height.ceiled(toScale: displayScale) ?? 0.0
+                                                             context: nil).height.ceiled(toScale: traitCollection.currentDisplayScale) ?? 0.0
         
         return max(titleHeight, imageSize.height)
-    }
-    
-}
-
-
-// MARK: - Private methods
-/// Private methods
-fileprivate extension CollectionViewFormSelectionCell {
-    
-    func updateImageView() {
-        let isSelected    = self.isSelected
-        let isHighlighted = self.isHighlighted
-
-        imageView.image = selectionStyle.image(selected: isSelected)
-        imageView.tintColor = isSelected || isHighlighted ? nil : #colorLiteral(red: 0.7490196078, green: 0.7490196078, blue: 0.7490196078, alpha: 1)
     }
     
 }

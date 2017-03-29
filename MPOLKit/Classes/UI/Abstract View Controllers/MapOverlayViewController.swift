@@ -17,12 +17,12 @@ import MapKit
 ///
 /// The map overlay contains a `SourceBar` and `UITableView` in front of a blurred
 /// background, which adjusts to the theme and map appearance.
-open class MapOverlayViewController: UIViewController {
+open class MapOverlayViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     // MARK: - Public properties
     
     /// The map view for the view controller.
-    public fileprivate(set) var mapView: MKMapView?
+    public private(set) var mapView: MKMapView?
     
     
     /// The map type. The default is `MKMapType.standard`.
@@ -207,17 +207,17 @@ open class MapOverlayViewController: UIViewController {
     
     
     /// The source bar in the overlay.
-    public fileprivate(set) var sourceBar: SourceBar?
+    public private(set) var sourceBar: SourceBar?
     
     
     /// The table view in the overlay.
-    public fileprivate(set) var tableView: UITableView?
+    public private(set) var tableView: UITableView?
     
     
     /// A boolean value indicating whether the overlay has a light appearance. The default is `true`.
     ///
     /// Subclasses can override this property to detect when the overlay change occurs.
-    open fileprivate(set) var isOverlayLight: Bool = true {
+    open private(set) var isOverlayLight: Bool = true {
         didSet {
             let isLight = isOverlayLight
             if isLight == oldValue || isViewLoaded == false { return }
@@ -235,32 +235,34 @@ open class MapOverlayViewController: UIViewController {
     
     // MARK: - Private properties
     
-    fileprivate var _showsOverlay: Bool = true
+    private var _showsOverlay: Bool = true
     
-    fileprivate var _showsOverlayInCompactWidth: Bool = false
+    private var _showsOverlayInCompactWidth: Bool = false
     
-    fileprivate var overlayView: UIVisualEffectView?
+    private var overlayView: UIVisualEffectView?
     
-    fileprivate var overlaySeparator: UIView?
+    private var overlaySeparator: UIView?
     
-    fileprivate var sourceBackground: GradientView?
+    private var sourceBackground: GradientView?
     
     /// The full width constraint for the overlay.
     ///
     /// Activate in horizontally compact only.
-    fileprivate var overlayCompactConstraint: NSLayoutConstraint?
+    private var overlayCompactConstraint: NSLayoutConstraint?
     
     /// The constraint governing if the overlay is shown or hidden.
     ///
     /// Should be overlay.trailing == view.leading in hidden, and overlay.leading == view.leading in showing.
-    fileprivate var overlayShowHideConstraint: NSLayoutConstraint?
+    private var overlayShowHideConstraint: NSLayoutConstraint?
     
-    fileprivate var overlaySeparatorWidthConstraint: NSLayoutConstraint?
+    private var overlaySeparatorWidthConstraint: NSLayoutConstraint?
     
-    fileprivate var transitionMapCenter: CLLocationCoordinate2D?
+    private var transitionMapCenter: CLLocationCoordinate2D?
     
-    fileprivate var transitionMapCenterAnimated: Bool = false
+    private var transitionMapCenterAnimated: Bool = false
     
+    
+    // MARK: - Initializers
     
     public init() {
         super.init(nibName: nil, bundle: nil)
@@ -278,12 +280,8 @@ open class MapOverlayViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange(_:)), name: .ThemeDidChange, object: nil)
     }
     
-}
-
-
-// MARK: - View lifecycle
-/// View lifecycle
-extension MapOverlayViewController {
+    
+    // MARK: - View lifecycle
     
     open override func loadView() {
         let backgroundView = UIView(frame: UIScreen.main.bounds)
@@ -301,7 +299,7 @@ extension MapOverlayViewController {
         sourceBackground.gradientColors = isOverlayLight ? [#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1),#colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)] : [#colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.4031415053),#colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)]
         
         let sourceBar = SourceBar(frame: .zero)
-        sourceBar.items = [SourceItem(color: .red, title: "TEST", count: 3, isEnabled: true)]
+        sourceBar.items = [SourceItem(title: "TEST", state: .loaded(count: 3, color: AlertLevel.high.color))]
         sourceBar.style = isOverlayLight ? .light : .dark
         sourceBar.backgroundView = sourceBackground
         sourceBar.translatesAutoresizingMaskIntoConstraints = false
@@ -429,21 +427,14 @@ extension MapOverlayViewController {
             updateOverlayForTraits()
         }
         
-        var displayScale = traitCollection.displayScale
-        if previousTraitCollection?.displayScale != displayScale {
-            if displayScale == 0.0 {
-                displayScale = UIScreen.main.scale
-            }
+        let displayScale = traitCollection.currentDisplayScale
+        if previousTraitCollection?.currentDisplayScale != displayScale {
             overlaySeparatorWidthConstraint?.constant = 1.0 / displayScale
         }
     }
     
-}
-
-
-// MARK: - Table view data source and delegate
-
-extension MapOverlayViewController: UITableViewDataSource {
+    
+    // MARK: - UITableViewDataSource methods
     
     open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 0
@@ -453,19 +444,11 @@ extension MapOverlayViewController: UITableViewDataSource {
         fatalError("Subclasses must implement tableView(_:cellForItemAt:) and return a valid cell.")
     }
     
-}
-
-extension MapOverlayViewController: UITableViewDelegate {
     
-}
-
-
-// MARK: - Private methods
-/// Private methods
-fileprivate extension MapOverlayViewController {
+    // MARK: - Private methods
     
     // updates the overlay view for traits (changes).
-    fileprivate func updateOverlayForTraits() {
+    private func updateOverlayForTraits() {
         guard let overlayView = self.overlayView, let view = self.view else { return }
         
         let isCompact = traitCollection.horizontalSizeClass == .compact
@@ -485,7 +468,7 @@ fileprivate extension MapOverlayViewController {
         overlayShowHideConstraint?.isActive = true
     }
     
-    @objc fileprivate func themeDidChange(_ notification: Notification) {
+    @objc private func themeDidChange(_ notification: Notification) {
         isOverlayLight = Theme.current.isDark == false && mapType == .standard
     }
     

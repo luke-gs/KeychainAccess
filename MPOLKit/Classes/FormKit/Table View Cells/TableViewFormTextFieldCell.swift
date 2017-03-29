@@ -17,7 +17,7 @@ open class TableViewFormTextFieldCell: TableViewFormCell {
     
     open let textField: FormTextField = FormTextField(frame: .zero)
     
-    fileprivate var titleDetailSeparationConstraint: NSLayoutConstraint!
+    private var titleDetailSeparationConstraint: NSLayoutConstraint!
     
     public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
@@ -66,10 +66,8 @@ open class TableViewFormTextFieldCell: TableViewFormCell {
         titleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &kvoContext)
     }
     
-}
-
-
-extension TableViewFormTextFieldCell {
+    
+    // MARK: - Overrides
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {
@@ -104,14 +102,10 @@ extension TableViewFormTextFieldCell {
         }
     }
     
-}
-
-
-// MARK: - Accessibility
-/// Accessibility
-extension TableViewFormTextFieldCell {
     
-    dynamic open override var accessibilityLabel: String? {
+    // MARK: - Accessibility
+    
+    open override var accessibilityLabel: String? {
         get {
             if let setValue = super.accessibilityLabel {
                 return setValue
@@ -123,7 +117,7 @@ extension TableViewFormTextFieldCell {
         }
     }
     
-    dynamic open override var accessibilityValue: String? {
+    open override var accessibilityValue: String? {
         get {
             if let setValue = super.accessibilityValue {
                 return setValue
@@ -139,7 +133,7 @@ extension TableViewFormTextFieldCell {
         }
     }
     
-    dynamic open override var isAccessibilityElement: Bool {
+    open override var isAccessibilityElement: Bool {
         get {
             if textField.isEditing { return false }
             return super.isAccessibilityElement

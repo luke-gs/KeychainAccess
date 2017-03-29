@@ -52,6 +52,14 @@ public class BorderedImageView: UIView {
         }
     }
     
+    public var wantsRoundedCorners: Bool = true {
+        didSet {
+            if wantsRoundedCorners == oldValue { return }
+            
+            updateCornerRadius()
+        }
+    }
+    
     public override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
@@ -71,16 +79,12 @@ public class BorderedImageView: UIView {
         updateCornerRadius()
     }
     
-}
-
-
-// MARK: - Overrides
-/// Overrides
-extension BorderedImageView {
+    
+    // MARK: - Overrides
     
     public override var bounds: CGRect {
         didSet {
-            if bounds.size != oldValue.size {
+            if bounds.size != oldValue.size && wantsRoundedCorners {
                 updateCornerRadius()
             }
         }
@@ -88,34 +92,36 @@ extension BorderedImageView {
     
     public override var frame: CGRect {
         didSet {
-            if bounds.size != oldValue.size {
+            if bounds.size != oldValue.size && wantsRoundedCorners {
                 updateCornerRadius()
             }
         }
     }
     
-}
-
-
-// MARK: - Private methods
-/// Private methods
-fileprivate extension BorderedImageView {
     
-    fileprivate func updateCornerRadius() {
+    // MARK: - Private methods
+    
+    private func updateCornerRadius() {
         let bounds = self.bounds
-        let cornerRadius = ((min(bounds.width, bounds.height) + 300.0) / 80.0).rounded(toScale: (window?.screen ?? .main).scale)
+        let cornerRadius = wantsRoundedCorners ? ((min(bounds.width, bounds.height) + 300.0) / 80.0).rounded(toScale: (window?.screen ?? .main).scale) : 0.0
         
         layer.cornerRadius = cornerRadius
         
         if borderColor == nil || borderWidth == 0.0 {
-            imageView.layer.cornerRadius = 0.0
+            imageView.layer.cornerRadius = cornerRadius
             imageView.frame = bounds
             layer.borderWidth = 0.0
         } else {
             imageView.layer.cornerRadius = max(cornerRadius - 3.0, 0.0)
-            imageView.frame = bounds.insetBy(dx: 4.0, dy: 4.0)
+            imageView.frame = wantsRoundedCorners ? bounds.insetBy(dx: 4.0, dy: 4.0) : bounds
             layer.borderWidth = borderWidth
         }
+    }
+    
+    public override var intrinsicContentSize: CGSize {
+        return imageView.intrinsicContentSize
+        
+        
     }
     
 }

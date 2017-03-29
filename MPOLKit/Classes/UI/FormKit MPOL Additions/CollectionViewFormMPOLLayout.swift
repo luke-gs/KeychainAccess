@@ -9,11 +9,15 @@
 import UIKit
 
 
+public let collectionElementKindMPOLSectionBackground = "mpolSectionBackground"
+
 @objc public protocol CollectionViewDelegateMPOLLayout: CollectionViewDelegateFormLayout {
     
     @objc optional func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormMPOLLayout, separatorStyleForItemAt indexPath: IndexPath) -> CollectionViewFormMPOLLayout.SeparatorStyle
     
-    @objc optional func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormMPOLLayout, wantsInsetHeaderInSection section: Int) -> Bool
+    @objc optional func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormMPOLLayout, shouldInsetHeaderInSection section: Int) -> Bool
+    
+    @objc optional func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormMPOLLayout, shouldDisplayBackgroundInSection section: Int) -> Bool
     
 }
 
@@ -68,6 +72,8 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
         }
     }
     
+    private var mpolSectionBackgroundAttributes: [UICollectionViewLayoutAttributes?] = []
+    
     public override func prepare() {
         super.prepare()
         
@@ -81,7 +87,12 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
             isRTL = UIView.userInterfaceLayoutDirection(for: collectionView.semanticContentAttribute) == .rightToLeft
         }
         
-        let delegateSpecifiesSeparatorStyle = delegate.responds(to: #selector(CollectionViewDelegateMPOLLayout.collectionView(_:layout:separatorStyleForItemAt:)))
+        // We test whether the delegate is CollectionViewDelegateMPOLLayout. If we didn't test this
+        // but it responded to the selector, the later as! casts will crash because protocol conformance
+        // is a formal requirement of the cast (not just selector response ability) in Swift.
+        let isMPOLDelegate = delegate is CollectionViewDelegateMPOLLayout
+        let delegateSpecifiesSeparatorStyle    = isMPOLDelegate && delegate.responds(to: #selector(CollectionViewDelegateMPOLLayout.collectionView(_:layout:separatorStyleForItemAt:)))
+        let delegateHasWantsBackgroundsMethod  = isMPOLDelegate && delegate.responds(to: #selector(CollectionViewDelegateMPOLLayout.collectionView(_:layout:shouldDisplayBackgroundInSection:)))
         
         let collectionViewWidth = collectionView.bounds.width
         
@@ -103,6 +114,7 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
         sectionFooterAttributes.removeAll(keepingCapacity: true)
         sectionItemBackgroundAttributes.removeAll(keepingCapacity: true)
         itemSeparatorAttributes.removeAll(keepingCapacity: true)
+        mpolSectionBackgroundAttributes.removeAll(keepingCapacity: true)
         
         let numberOfSections = collectionView.numberOfSections
         sectionRects.reserveCapacity(numberOfSections)
@@ -111,13 +123,14 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
         sectionFooterAttributes.reserveCapacity(numberOfSections)
         sectionItemBackgroundAttributes.reserveCapacity(numberOfSections)
         itemSeparatorAttributes.reserveCapacity(numberOfSections)
+        mpolSectionBackgroundAttributes.reserveCapacity(numberOfSections)
         
         let itemLayoutMargins     = self.itemLayoutMargins
         let itemSeparatorColor    = self.itemSeparatorColor
         let defaultSeparatorStyle = separatorStyle
         
         // function to process a section's items. ensure that insets are accounted for.
-        func processItemsInSection(_ section: Int, atPoint point: CGPoint, withWidth width: CGFloat, insets: UIEdgeInsets) -> CGFloat { // Returns height of section items
+        func processItemsInSection(_ section: Int, atPoint point: CGPoint, withWidth width: CGFloat, sectionInsets: UIEdgeInsets) -> CGFloat { // Returns height of section items
             
             let sectionDistribution: CollectionViewFormLayout.Distribution
             if let foundDistribution = delegate.collectionView?(collectionView, layout: self, distributionForSection: section) , foundDistribution != .automatic {
@@ -128,10 +141,10 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
             
             var currentYOrigin = point.y
             
-            let sectionLeftInset  = insets.left.rounded(toScale: screenScale)
-            let sectionRightInset = insets.right.rounded(toScale: screenScale)
+            let sectionLeftInset  = sectionInsets.left.rounded(toScale: screenScale)
+            let sectionRightInset = sectionInsets.right.rounded(toScale: screenScale)
             
-            let firstItemLeftWidthInset = sectionLeftInset.isZero ? itemLayoutMargins.left : 0.0
+            let firstItemLeftWidthInset = sectionLeftInset.isZero  ? itemLayoutMargins.left  : 0.0
             let lastItemRightWidthInset = sectionRightInset.isZero ? itemLayoutMargins.right : 0.0
             
             let sectionWidth: CGFloat = width - sectionLeftInset - sectionRightInset
@@ -141,7 +154,7 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
             var itemMinWidths: [(IndexPath, CGFloat)] = (0..<collectionView.numberOfItems(inSection: section)).map {
                 // Create a tuple representing the index path for this item in the section. Provide the minimum width, at maximum of either zero, or the minimum of width and the section width. This ensures an item width that can fit and will never be below zero.
                 let indexPath = IndexPath(item: $0, section: section)
-                let width: CGFloat = max(min((delegate.collectionView(collectionView, layout: self, minimumContentWidthForItemAt: indexPath, givenSectionWidth: width, edgeInsets: insets)).floored(toScale: screenScale), maximumAllowedWidth), 0.0)
+                let width: CGFloat = max(min((delegate.collectionView(collectionView, layout: self, minimumContentWidthForItemAt: indexPath, givenSectionWidth: width, edgeInsets: sectionInsets)).floored(toScale: screenScale), maximumAllowedWidth), 0.0)
                 return (indexPath, width)
             }
             
@@ -157,7 +170,7 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
             if sectionItemCount > 0 {
                 
                 var currentItemIndex = 0
-                currentYOrigin += max(0.0, round(insets.top))
+                currentYOrigin += max(0.0, round(sectionInsets.top))
                 
                 var rowCount = 0
                 func processRow() {
@@ -191,7 +204,7 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
                         let insetSpace = (rowItemCountFloat - 1.0) * (itemLayoutMargins.left + itemLayoutMargins.right) + firstItemLeftWidthInset + lastItemRightWidthInset
                         
                         let leftOverSpace = max(sectionWidth - insetSpace - minRowContentWidths, 0.0)
-                        let extraSpacePerItem = sectionDistribution == .fillEqually ? (leftOverSpace / rowItemCountFloat).floored(toScale: screenScale) : 0.0
+                        let extraSpacePerItem    = sectionDistribution == .fillEqually ? (leftOverSpace / rowItemCountFloat).floored(toScale: screenScale) : 0.0
                         var extraAllocationWidth = sectionDistribution == .fillEqually ? (leftOverSpace * screenScale).truncatingRemainder(dividingBy: rowItemCountFloat) / screenScale : 0.0
                         
                         var minHeight:     CGFloat = 0.0
@@ -205,8 +218,16 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
                                 extraAllocationWidth -= singlePixel
                             }
                             
-                            if index == rowItemCount - 1 && sectionDistribution == .fillLast {
-                                newContentWidth += leftOverSpace
+                            if leftOverSpace > 0.0 && index == rowItemCount - 1 {
+                                if sectionDistribution == .fillLast {
+                                    newContentWidth += leftOverSpace
+                                } else if sectionDistribution == .fillLastWithinColumnDistance {
+                                    let columnWidth = newContentWidth + itemLayoutMargins.left + itemLayoutMargins.right
+                                    if columnWidth > leftOverSpace {
+                                        // we can't fit in an extra column - fill it in.
+                                        newContentWidth += leftOverSpace
+                                    }
+                                }
                             }
                             
                             let itemMinHeight = ceil(delegate.collectionView(collectionView, layout: self, minimumContentHeightForItemAt: indexPath, givenItemContentWidth: newContentWidth))
@@ -323,7 +344,7 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
             itemAttributes.append(sectionItemAttributes)
             itemSeparatorAttributes.append(sectionItemSepAttributes)
             
-            return currentYOrigin + max(0.0, round(insets.bottom)) - point.y
+            return currentYOrigin + max(0.0, round(sectionInsets.bottom)) - point.y
         }
         
         var currentYOffset: CGFloat = 0.0
@@ -387,7 +408,7 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
             
             // First get headers, work out the taller of them, and add them putting them to the bottom as much as possible
             var largestHeight: CGFloat = 0.0
-            let headerRects: [(Int, CGRect, UIEdgeInsets)] = sectionGroup.map {
+            let headerRects: [(section: Int, headerRect: CGRect, sectionInsets: UIEdgeInsets)] = sectionGroup.map {
                 let width = $1.width
                 let height = max(ceil(delegate.collectionView(collectionView, layout: self, heightForHeaderInSection: $0, givenSectionWidth: width)), 0.0)
                 largestHeight = max(largestHeight, height)
@@ -395,6 +416,8 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
                 return ($0, CGRect(x: $1.x, y: 0.0, width: width, height: height), edgeInsets)
             }
             currentYOffset += largestHeight
+            
+            var maxHeaderInsetAdded: CGFloat = 0.0
             
             for headerRect in headerRects {
                 var rect    = headerRect.1
@@ -423,7 +446,7 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
                     headerAttribute.leadingMargin = sectionInset
                     headerAttribute.separatorWidth = separatorWidth
                     
-                    let wantsInsetSectionHeader = (delegate as? CollectionViewDelegateMPOLLayout)?.collectionView?(collectionView, layout: self, wantsInsetHeaderInSection: sectionIndexPath.section) ?? defaultWantsSectionHeaderInsets
+                    let wantsInsetSectionHeader = (delegate as? CollectionViewDelegateMPOLLayout)?.collectionView?(collectionView, layout: self, shouldInsetHeaderInSection: sectionIndexPath.section) ?? defaultWantsSectionHeaderInsets
                     if wantsInsetSectionHeader {
                         if sectionIndentAdded == false {
                             currentYOffset += separatorVerticalSpacing
@@ -434,6 +457,7 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
                         
                         headerAttribute.itemPosition = rect.size.height
                         rect.size.height += itemLayoutMargins.top
+                        maxHeaderInsetAdded = max(maxHeaderInsetAdded, itemLayoutMargins.top + separatorVerticalSpacing)
                     }
                     headerAttribute.frame = isRTL ? rect.rtlFlipped(forWidth: collectionViewWidth) : rect
                     sectionHeaderAttributes.append(headerAttribute)
@@ -445,10 +469,10 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
             // Put each of the section item columns in place.
             var maxSectionHeight: CGFloat = 0.0
             for (rowIndex, section) in sectionGroup.enumerated() {
-                maxSectionHeight = max(maxSectionHeight, processItemsInSection(section.0, atPoint: CGPoint(x: section.1.x, y: startOfItems), withWidth: section.1.width, insets: headerRects[rowIndex].2))
+                maxSectionHeight = max(maxSectionHeight, processItemsInSection(section.0, atPoint: CGPoint(x: section.1.x, y: startOfItems), withWidth: section.1.width, sectionInsets: headerRects[rowIndex].2))
             }
             if maxSectionHeight == 0.0 && sectionIndentAdded {
-                maxSectionHeight += itemLayoutMargins.top.ceiled(toScale: screenScale)
+                maxSectionHeight += maxHeaderInsetAdded.ceiled(toScale: screenScale)
             }
             currentYOffset += maxSectionHeight
             
@@ -503,6 +527,17 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
             }
             
             currentYOffset += largestFooter
+            
+            for section in sectionGroup {
+                if delegateHasWantsBackgroundsMethod && (delegate as! CollectionViewDelegateMPOLLayout).collectionView!(collectionView, layout: self, shouldDisplayBackgroundInSection: section.0) {
+                    let backgroundAttribute = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: collectionElementKindMPOLSectionBackground, with: IndexPath(item: 0, section: section.0))
+                    backgroundAttribute.frame = CGRect(x: section.1.x, y: startOfHeaders, width: section.1.width, height: currentYOffset - startOfHeaders)
+                    backgroundAttribute.zIndex = 0
+                    mpolSectionBackgroundAttributes.append(backgroundAttribute)
+                } else {
+                    mpolSectionBackgroundAttributes.append(nil)
+                }
+            }
         }
         
         if let globalFooterHeight = delegate.collectionView?(collectionView, heightForGlobalFooterInLayout: self) , globalFooterHeight > 0.0 {
@@ -518,6 +553,30 @@ public class CollectionViewFormMPOLLayout: CollectionViewFormLayout {
         contentSize = CGSize(width: collectionViewWidth, height: currentYOffset)
     }
     
+    
+    // MARK: - Layout attribute fetching
+    
+    open override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+        var attributes: [UICollectionViewLayoutAttributes] = super.layoutAttributesForElements(in: rect) ?? []
+        
+        for (sectionIndex, sectionRect) in sectionRects.enumerated() {
+            
+            if sectionRect.minY > rect.maxY { break }
+            if sectionRect.intersects(rect), let header = mpolSectionBackgroundAttributes[sectionIndex] {
+                attributes.append(header)
+            }
+        }
+        
+        return attributes
+    }
+    
+    open override func layoutAttributesForSupplementaryView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+        if elementKind == collectionElementKindMPOLSectionBackground {
+            if let item = mpolSectionBackgroundAttributes[ifExists: indexPath.section] { return item }
+            return nil
+        }
+        return super.layoutAttributesForSupplementaryView(ofKind: elementKind, at: indexPath)
+    }
 }
 
 

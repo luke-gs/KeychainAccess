@@ -15,20 +15,18 @@ import UIKit
 /// should override `apply(_:)` to set their content view's layout margins.
 public class CollectionViewFormMPOLHeaderAttributes: UICollectionViewLayoutAttributes {
     
-    /// The position of the item below within the y-axis of the header's frame.
-    public var itemPosition: CGFloat   = 0.0
+    public var itemPosition: CGFloat = 0.0
     
     public var separatorWidth: CGFloat = 0.0
     
     public var leadingMargin: CGFloat  = 0.0
     
-}
-
-extension CollectionViewFormMPOLHeaderAttributes {
     
     public override func copy(with zone: NSZone?) -> Any {
         let copy = super.copy(with: zone) as! CollectionViewFormMPOLHeaderAttributes
         copy.itemPosition = itemPosition
+        copy.separatorWidth = separatorWidth
+        copy.leadingMargin  = leadingMargin
         return copy
     }
     

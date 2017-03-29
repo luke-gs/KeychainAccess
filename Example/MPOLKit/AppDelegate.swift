@@ -47,13 +47,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         sidebarDetail2VC.sidebarItem.image = #imageLiteral(resourceName: "SidebarAlert")
         sidebarDetail2VC.sidebarItem.selectedImage = #imageLiteral(resourceName: "SidebarAlertFilled")
         
+        let item1 = SourceItem(title: "CRIMTRAC", state: .loaded(count: 8, color: AlertLevel.high.color))
+        let item2 = SourceItem(title: "DS2", state: .loaded(count: 2, color: AlertLevel.low.color))
+        let item3 = SourceItem(title: "DS3", state: .loaded(count: 1, color: AlertLevel.low.color))
+        
         let sidebarSplitViewController = SidebarSplitViewController(detailViewControllers: [sidebarDetail1VC, sidebarDetail2VC])
-        sidebarSplitViewController.sidebarViewController.sourceItems = [SourceItem(color: .red, title: "CRIMTRAC", count: 8), SourceItem(color: #colorLiteral(red: 0, green: 0.479532063, blue: 0.9950867295, alpha: 1), title: "DS2", count: 3), SourceItem(color: .red, title: "DS3", count: 1, isEnabled: false)]
-        sidebarSplitViewController.sidebarViewController.selectedSourceIndex = 0
+        sidebarSplitViewController.sidebarViewController.sourceItems = [item1, item2, item3]
+        sidebarSplitViewController.sidebarViewController.selectedSourceIndex = 1
         sidebarSplitViewController.title = "Sidebar SVC"
         
         let tabBarController = UITabBarController()
-        tabBarController.viewControllers = [pushableSVNavController, UINavigationController(rootViewController: sidebarSplitViewController)]
+        tabBarController.viewControllers = [pushableSVNavController, UINavigationController(rootViewController: sidebarSplitViewController), EntityDetailsSplitViewController(entity: NSObject())]
         window.rootViewController = tabBarController
         window.makeKeyAndVisible()
         

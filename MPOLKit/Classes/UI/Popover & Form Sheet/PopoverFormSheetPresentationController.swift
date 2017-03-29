@@ -15,19 +15,21 @@ import UIKit
 ///
 /// `PopoverFormSheetPresentationController` also conforms to `UIViewControllerAnimatedTransitioning`
 /// and provides an implementation for a standard form sheet presentation, with a little added "bounce".
-public class PopoverFormSheetPresentationController: UIPresentationController {
+public class PopoverFormSheetPresentationController: UIPresentationController, UIViewControllerAnimatedTransitioning {
     
     
     public override var presentedView: UIView? {
         return presentationWrappingView
     }
     
-    fileprivate var presentationWrappingView: UIVisualEffectView?
+    private var presentationWrappingView: UIVisualEffectView?
     
-    fileprivate var dimmingView: UIView?
+    private var dimmingView: UIView?
     
-    fileprivate var keyboardInset: CGFloat = 0.0
+    private var keyboardInset: CGFloat = 0.0
     
+    
+    // MARK: - Initializers
     
     public override init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?) {
         super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
@@ -39,6 +41,8 @@ public class PopoverFormSheetPresentationController: UIPresentationController {
         notificationCenter.addObserver(self, selector: #selector(keyboardWillHide(_:)),  name: .UIKeyboardWillHide, object: nil)
     }
     
+    
+    // MARK: Presentation state start/end handlers
     
     public override func presentationTransitionWillBegin() {
         super.presentationTransitionWillBegin()
@@ -83,6 +87,9 @@ public class PopoverFormSheetPresentationController: UIPresentationController {
         super.dismissalTransitionDidEnd(completed)
     }
     
+    
+    // MARK: - Sizing
+    
     public override func size(forChildContentContainer container: UIContentContainer, withParentContainerSize parentSize: CGSize) -> CGSize {
         var containerSize = container.preferredContentSize
         if containerSize.width  <=~ 0.0 { containerSize.width  = 540.0 }
@@ -97,11 +104,7 @@ public class PopoverFormSheetPresentationController: UIPresentationController {
         let containerBounds = containerView?.bounds ?? .zero
         let presentedViewSize = size(forChildContentContainer: presentedViewController, withParentContainerSize: containerBounds.size)
         
-        var displayScale = traitCollection.displayScale
-        if displayScale == 0.0 {
-            displayScale = UIScreen.main.scale
-        }
-        
+        let displayScale = traitCollection.currentDisplayScale
         let contentOrigin = CGPoint(x: (containerBounds.midX - (presentedViewSize.width / 2.0)).rounded(toScale: displayScale),
                                     y: (containerBounds.midY - (presentedViewSize.height / 2.0)).floored(toScale: displayScale))
         var positionedRect = CGRect(origin: contentOrigin, size: presentedViewSize)
@@ -115,6 +118,8 @@ public class PopoverFormSheetPresentationController: UIPresentationController {
         return positionedRect
     }
 
+    
+    // MARK: - Layout
     
     public override func preferredContentSizeDidChange(forChildContentContainer container: UIContentContainer) {
         super.preferredContentSizeDidChange(forChildContentContainer: container)
@@ -132,10 +137,8 @@ public class PopoverFormSheetPresentationController: UIPresentationController {
         presentationWrappingView?.frame = frameOfPresentedViewInContainerView
     }
     
-}
-
-
-extension PopoverFormSheetPresentationController: UIViewControllerAnimatedTransitioning {
+    
+    // MARK: - UIViewControllerAnimatedTransitioning methods
     
     public func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return transitionContext?.isAnimated ?? true ? 0.6 : 0.0
@@ -143,8 +146,8 @@ extension PopoverFormSheetPresentationController: UIViewControllerAnimatedTransi
     
     public func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         guard let fromViewController = transitionContext.viewController(forKey: .from),
-              let toViewController   = transitionContext.viewController(forKey: .to),
-              let containerView      = self.containerView else {
+            let toViewController   = transitionContext.viewController(forKey: .to),
+            let containerView      = self.containerView else {
                 return
         }
         
@@ -192,21 +195,19 @@ extension PopoverFormSheetPresentationController: UIViewControllerAnimatedTransi
         })
     }
     
-}
-
-
-fileprivate extension PopoverFormSheetPresentationController {
     
-    @objc fileprivate func applyCurrentTheme() {
+    // MARK: - Private methods
+    
+    @objc private func applyCurrentTheme() {
         presentationWrappingView?.effect = UIBlurEffect(style: Theme.current.isDark ? .dark : .extraLight)
     }
     
-    @objc fileprivate func keyboardWillShow(_ notification: Notification) {
+    @objc private func keyboardWillShow(_ notification: Notification) {
         let keyboardInset = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height ?? 0.0
         setKeyboardInset(keyboardInset, userInfo: notification.userInfo)
     }
     
-    @objc fileprivate func keyboardWillHide(_ notification: Notification) {
+    @objc private func keyboardWillHide(_ notification: Notification) {
         setKeyboardInset(0.0, userInfo: notification.userInfo)
     }
     
@@ -234,8 +235,9 @@ fileprivate extension PopoverFormSheetPresentationController {
     
 }
 
+
 fileprivate extension UIViewAnimationCurve {
-    fileprivate var animationOption: UIViewAnimationOptions {
+    var animationOption: UIViewAnimationOptions {
         return UIViewAnimationOptions(rawValue: UInt(self.rawValue << 16))
     }
 }

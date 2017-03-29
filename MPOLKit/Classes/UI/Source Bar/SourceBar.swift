@@ -15,7 +15,6 @@ import UIKit
 /// to further elements.
 public class SourceBar: UIScrollView {
     
-    
     /// The style options available on source bars.
     public enum Style {
         /// A light style. This appearance is optimized for display over lighter backgrounds.
@@ -24,6 +23,8 @@ public class SourceBar: UIScrollView {
         case dark
     }
     
+    
+    // MARK: - Public properties
     
     /// The currenty appearnace style. The default is `.dark`.
     public var style: Style = .dark {
@@ -112,32 +113,28 @@ public class SourceBar: UIScrollView {
     }
     
     
-    /// A public declaration of the source bar's delegate, conforming to `SourceBarDelegate` protocol.
+    /// The source bar's delegate, conforming to `SourceBarDelegate` protocol.
     ///
     /// Optimally, this would override the delegate and redeclare the conforming protocol type as the
     /// source bar delegate, much like `UITableViewDelegate` extends `UIScrollViewDelegate` also.
-    /// 
-    /// The correct definiton of this property should be: `public override var delegate: SourceBarDelegate?`
-    ///
-    /// This is a language limitation. You should only use a SourceBarDelegate as the delegate for this
-    /// class.
-    public var sourceBarDelegate: SourceBarDelegate? {
-        get { return delegate as? SourceBarDelegate }
-        set { delegate = newValue }
-    }
+    /// This is a language limitation, so we have a separate property.
+    public weak var sourceBarDelegate: SourceBarDelegate?
     
     
+    // MARK: - Private properties
     
-    fileprivate var _selectedIndex: Int?
+    private var _selectedIndex: Int?
     
-    fileprivate var _highlightedIndex: Int?
+    private var _highlightedIndex: Int?
     
-    fileprivate var _dragCancelledHighlight: Bool = false
+    private var _dragCancelledHighlight: Bool = false
     
-    fileprivate var _cells: [SourceBarCell] = []
+    private var _cells: [SourceBarCell] = []
     
-    fileprivate var _needsCellReload: Bool = false
+    private var _needsCellReload: Bool = false
     
+    
+    // MARK: - Initializers
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -168,9 +165,8 @@ public class SourceBar: UIScrollView {
         panGestureRecognizer.addTarget(self, action: #selector(scrollViewPanRecognizeStateDidChange(_:)))
     }
     
-}
-
-extension SourceBar {
+    
+    // MARK: - Overrides
     
     public override func layoutSubviews() {
         super.layoutSubviews()
@@ -230,38 +226,43 @@ extension SourceBar {
         return size
     }
     
-}
-
-
-fileprivate extension SourceBar {
     
-    fileprivate func updateCellSelection() {
+    // MARK: - Private methods
+    
+    private func updateCellSelection() {
         _cells.enumerated().forEach {
             $0.element.isHighlighted = _highlightedIndex == $0.offset
             $0.element.isSelected    = _selectedIndex == $0.offset && _dragCancelledHighlight == false && (_highlightedIndex == nil || _highlightedIndex == $0.offset)
         }
     }
     
-    @objc fileprivate func touchDown(in cell: SourceBarCell) {
+    @objc private func touchDown(in cell: SourceBarCell) {
         _highlightedIndex = _cells.index(of: cell)
         updateCellSelection()
     }
     
-    @objc fileprivate func touchUp(in cell: SourceBarCell) {
+    @objc private func touchUp(in cell: SourceBarCell) {
         _highlightedIndex = nil
-        if let selectedIndex = _cells.index(of: cell) {
-            _selectedIndex = selectedIndex
-            (delegate as? SourceBarDelegate)?.sourceBar(self, didSelectItemAt: selectedIndex)
+        if let cellIndex = _cells.index(of: cell) {
+            switch items[cellIndex].state {
+            case .notLoaded:
+                sourceBarDelegate?.sourceBar(self, didRequestToLoadItemAt: cellIndex)
+            case .loaded:
+                _selectedIndex = selectedIndex
+                sourceBarDelegate?.sourceBar(self, didSelectItemAt: cellIndex)
+            default:
+                break
+            }
         }
         updateCellSelection()
     }
     
-    @objc fileprivate func touchCancelled(in cell: SourceBarCell) {
+    @objc private func touchCancelled(in cell: SourceBarCell) {
         _highlightedIndex = nil
         updateCellSelection()
     }
     
-    @objc fileprivate func scrollViewPanRecognizeStateDidChange(_ recognizer: UIPanGestureRecognizer) {
+    @objc private func scrollViewPanRecognizeStateDidChange(_ recognizer: UIPanGestureRecognizer) {
         if (recognizer.state == .ended || recognizer.state == .cancelled) && _dragCancelledHighlight {
             // Handle where the pan ended, and we've got a "drag cancelled highlight" pause on highlights. Reset it to off and update selection.
             _dragCancelledHighlight = false
@@ -274,8 +275,10 @@ fileprivate extension SourceBar {
 
 /// The delegate of a `SourceBar` object should adopt the SourceViewDelegate protocol.
 /// The protocol provides callbacks for when the selected item changed.
-@objc public protocol SourceBarDelegate: UIScrollViewDelegate {
+public protocol SourceBarDelegate: class {
     
     func sourceBar(_ bar: SourceBar, didSelectItemAt index: Int)
+    
+    func sourceBar(_ bar: SourceBar, didRequestToLoadItemAt index: Int)
     
 }
