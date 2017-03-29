@@ -224,7 +224,7 @@ open class SidebarTableViewCell: UITableViewCell, DefaultReusable {
 fileprivate class SidebarAlertIcon: UIView {
     
     var color: UIColor?
-    let borderColor: UIColor = #colorLiteral(red: 0.2279433608, green: 0.2033697367, blue: 0.2280697525, alpha: 1)
+    let borderColor: UIColor = #colorLiteral(red: 0.1058823529, green: 0.1176470588, blue: 0.1411764706, alpha: 1)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
