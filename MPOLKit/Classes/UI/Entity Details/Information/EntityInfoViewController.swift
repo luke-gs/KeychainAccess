@@ -54,7 +54,7 @@ open class EntityInfoViewController: FormCollectionViewController {
             let globalHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: EntityImageHeaderView.self, for: indexPath)
             let borderedImageView = globalHeader.borderedImageView
             borderedImageView.imageView.image = #imageLiteral(resourceName: "Avatar 1")
-            //borderedImageView.borderColor = AlertLevel.high.color
+            borderedImageView.borderColor = AlertLevel.high.color
             return globalHeader
         } else if indexPath.section == 0 && kind == UICollectionElementKindSectionHeader {
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormMPOLHeaderView.self, for: indexPath)
@@ -106,7 +106,8 @@ open class EntityInfoViewController: FormCollectionViewController {
     // MARK: - CollectionViewDelegateMPOLLayout methods
     
     public func collectionView(_ collectionView: UICollectionView, heightForGlobalHeaderInLayout layout: CollectionViewFormLayout) -> CGFloat {
-        if traitCollection.horizontalSizeClass == .compact {
+        let itemLayoutMargins = layout.itemLayoutMargins
+        if EntityDetailCollectionViewCell.displaysAsCompact(withContentWidth: collectionView.bounds.width - itemLayoutMargins.left - itemLayoutMargins.right) {
             return collectionView.bounds.width * 0.6
         }
         return 0.0

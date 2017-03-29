@@ -9,6 +9,7 @@
 import UIKit
 
 private var kvoContext = 1
+private let compactWidth: CGFloat = 420.0
 
 public class EntityDetailCollectionViewCell: CollectionViewFormCell {
     
@@ -69,6 +70,23 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
     private var subtitleToDescriptionConstraint: NSLayoutConstraint!
     
     private var descriptionToMoreConstraint: NSLayoutConstraint!
+    
+    private var displayAsCompact: Bool = false {
+        didSet {
+            if displayAsCompact != oldValue {
+                if displayAsCompact {
+                    NSLayoutConstraint.deactivate(regularWidthConstraints)
+                    NSLayoutConstraint.activate(compactWidthConstraints)
+                } else {
+                    NSLayoutConstraint.deactivate(compactWidthConstraints)
+                    NSLayoutConstraint.activate(regularWidthConstraints)
+                }
+                
+                borderedImageView.wantsRoundedCorners = displayAsCompact == false
+                borderedImageView.isHidden = displayAsCompact
+            }
+        }
+    }
     
     
     
@@ -204,7 +222,9 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
     open override var bounds: CGRect {
         didSet {
             if bounds.width !=~ oldValue.width {
-                let maxTextWidth = bounds.insetBy(layoutMargins).width - (traitCollection.horizontalSizeClass == .compact ? 0.0 : 217.0)
+                displayAsCompact = bounds.width - layoutMargins.left - layoutMargins.right <=~ compactWidth
+                
+                let maxTextWidth = bounds.insetBy(layoutMargins).width - (displayAsCompact ? 0.0 : 217.0)
                 titleLabel.preferredMaxLayoutWidth = maxTextWidth
                 descriptionLabel.preferredMaxLayoutWidth = maxTextWidth
             }
@@ -214,7 +234,9 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
     open override var frame: CGRect {
         didSet {
             if frame.width !=~ oldValue.width {
-                let maxTextWidth = bounds.insetBy(layoutMargins).width - (traitCollection.horizontalSizeClass == .compact ? 0.0 : 217.0)
+                displayAsCompact = bounds.width - layoutMargins.left - layoutMargins.right <=~ compactWidth
+                
+                let maxTextWidth = bounds.insetBy(layoutMargins).width - (displayAsCompact ? 0.0 : 217.0)
                 titleLabel.preferredMaxLayoutWidth = maxTextWidth
                 descriptionLabel.preferredMaxLayoutWidth = maxTextWidth
             }
@@ -225,27 +247,11 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
         didSet {
             let layoutMargins = self.layoutMargins
             if layoutMargins.left !=~ oldValue.left || layoutMargins.right !=~ oldValue.right {
-                let maxTextWidth = bounds.insetBy(layoutMargins).width - (traitCollection.horizontalSizeClass == .compact ? 0.0 : 217.0)
+                displayAsCompact = bounds.width - layoutMargins.left - layoutMargins.right <=~ compactWidth
+                
+                let maxTextWidth = bounds.insetBy(layoutMargins).width - (displayAsCompact ? 0.0 : 217.0)
                 titleLabel.preferredMaxLayoutWidth = maxTextWidth
                 descriptionLabel.preferredMaxLayoutWidth = maxTextWidth
-            }
-        }
-    }
-    
-    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        
-        let isCompact = traitCollection.horizontalSizeClass == .compact
-        if (previousTraitCollection?.horizontalSizeClass == .compact) != isCompact {
-            borderedImageView.wantsRoundedCorners = isCompact == false
-            borderedImageView.isHidden = isCompact
-            
-            if isCompact {
-                NSLayoutConstraint.deactivate(regularWidthConstraints)
-                NSLayoutConstraint.activate(compactWidthConstraints)
-            } else {
-                NSLayoutConstraint.deactivate(compactWidthConstraints)
-                NSLayoutConstraint.activate(regularWidthConstraints)
             }
         }
     }
@@ -297,9 +303,13 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
     
     // MARK: - Siing
     
+    public class func displaysAsCompact(withContentWidth width: CGFloat) -> Bool {
+        return width <=~ compactWidth
+    }
+    
     public class func minimumContentHeight(withTitle title: String?, subtitle: String?, description: String?, additionalDetails: String?, source: String?, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
         
-        let isCompact = traitCollection.horizontalSizeClass == .compact
+        let displayAsCompact = width <=~ compactWidth
         let displayScale = traitCollection.currentDisplayScale
         
         var textHeight: CGFloat
@@ -308,7 +318,7 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
         let hasSubtitle:    Bool
         let hasDescription: Bool
         
-        let maxTextSize = CGSize(width: (isCompact ? width : width - 217.0).floored(toScale: displayScale), height: CGFloat.greatestFiniteMagnitude)
+        let maxTextSize = CGSize(width: (displayAsCompact ? width : width - 217.0).floored(toScale: displayScale), height: CGFloat.greatestFiniteMagnitude)
         
         if let title = title as NSString?, title.length > 0 {
             let titleFont = UIFont.systemFont(ofSize: 28.0, weight: UIFontWeightBold)
@@ -357,7 +367,7 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
             textHeight += UIFont.systemFont(ofSize: 11.0, weight: UIFontWeightBold).lineHeight.ceiled(toScale: displayScale) + 11.0
         }
         
-        return isCompact ? textHeight : max(textHeight, 202.0) // 202 is the height for the image view in non-compact mode.
+        return displayAsCompact ? textHeight : max(textHeight, 202.0) // 202 is the height for the image view in non-compact mode.
     }
     
 }
