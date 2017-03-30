@@ -9,7 +9,7 @@
 import UIKit
 
 private var kvoContext = 1
-private let compactWidth: CGFloat = 420.0
+private let compactWidth: CGFloat = 404.0
 
 public class EntityDetailCollectionViewCell: CollectionViewFormCell {
     
@@ -178,21 +178,13 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
             
             NSLayoutConstraint(item: labelLayoutGuide, attribute: .leading, relatedBy: .equal, toItem: borderedImageView, attribute: .trailing, constant: 15.0)
         ]
+        NSLayoutConstraint.activate(regularWidthConstraints)
         
         compactWidthConstraints = [
             NSLayoutConstraint(item: labelLayoutGuide, attribute: .leading, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .leading)
         ]
         
         additionalDetailsButton.addTarget(self, action: #selector(additionalDescriptionsButtonDidSelect), for: .touchUpInside)
-        
-        if traitCollection.horizontalSizeClass == .compact {
-            borderedImageView.wantsRoundedCorners = false
-            sourceLabel.isHidden       = true
-            borderedImageView.isHidden = true
-            NSLayoutConstraint.activate(compactWidthConstraints)
-        } else {
-            NSLayoutConstraint.activate(regularWidthConstraints)
-        }
         
         sourceLabel.addObserver(self,      forKeyPath: #keyPath(UILabel.text), context: &kvoContext)
         titleLabel.addObserver(self,       forKeyPath: #keyPath(UILabel.text), context: &kvoContext)
@@ -222,11 +214,7 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
     open override var bounds: CGRect {
         didSet {
             if bounds.width !=~ oldValue.width {
-                displayAsCompact = bounds.width - layoutMargins.left - layoutMargins.right <=~ compactWidth
-                
-                let maxTextWidth = bounds.insetBy(layoutMargins).width - (displayAsCompact ? 0.0 : 217.0)
-                titleLabel.preferredMaxLayoutWidth = maxTextWidth
-                descriptionLabel.preferredMaxLayoutWidth = maxTextWidth
+                updateForWidthChange()
             }
         }
     }
@@ -234,11 +222,7 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
     open override var frame: CGRect {
         didSet {
             if frame.width !=~ oldValue.width {
-                displayAsCompact = bounds.width - layoutMargins.left - layoutMargins.right <=~ compactWidth
-                
-                let maxTextWidth = bounds.insetBy(layoutMargins).width - (displayAsCompact ? 0.0 : 217.0)
-                titleLabel.preferredMaxLayoutWidth = maxTextWidth
-                descriptionLabel.preferredMaxLayoutWidth = maxTextWidth
+                updateForWidthChange()
             }
         }
     }
@@ -247,11 +231,7 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
         didSet {
             let layoutMargins = self.layoutMargins
             if layoutMargins.left !=~ oldValue.left || layoutMargins.right !=~ oldValue.right {
-                displayAsCompact = bounds.width - layoutMargins.left - layoutMargins.right <=~ compactWidth
-                
-                let maxTextWidth = bounds.insetBy(layoutMargins).width - (displayAsCompact ? 0.0 : 217.0)
-                titleLabel.preferredMaxLayoutWidth = maxTextWidth
-                descriptionLabel.preferredMaxLayoutWidth = maxTextWidth
+                updateForWidthChange()
             }
         }
     }
@@ -309,7 +289,7 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
     
     public class func minimumContentHeight(withTitle title: String?, subtitle: String?, description: String?, additionalDetails: String?, source: String?, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
         
-        let displayAsCompact = width <=~ compactWidth
+        let displayAsCompact = displaysAsCompact(withContentWidth: width)
         let displayScale = traitCollection.currentDisplayScale
         
         var textHeight: CGFloat
@@ -368,6 +348,18 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
         }
         
         return displayAsCompact ? textHeight : max(textHeight, 202.0) // 202 is the height for the image view in non-compact mode.
+    }
+    
+    
+    // MARK: - Private methods
+    
+    private func updateForWidthChange() {
+        let contentWidth = bounds.insetBy(layoutMargins).width
+        displayAsCompact = EntityDetailCollectionViewCell.displaysAsCompact(withContentWidth: contentWidth)
+        
+        let maxTextWidth = contentWidth - (displayAsCompact ? 0.0 : 217.0)
+        titleLabel.preferredMaxLayoutWidth = maxTextWidth
+        descriptionLabel.preferredMaxLayoutWidth = maxTextWidth
     }
     
 }
