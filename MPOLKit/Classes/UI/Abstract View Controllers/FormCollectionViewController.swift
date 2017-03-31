@@ -11,12 +11,12 @@ import UIKit
 
 private let tempID = "temp"
 
-open class FormCollectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, CollectionViewDelegateMPOLLayout, PopoverViewController {
+open class FormCollectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, CollectionViewDelegateFormLayout, PopoverViewController {
     
     
     // MARK: - Public properties
     
-    open let formLayout: CollectionViewFormMPOLLayout
+    open let formLayout: CollectionViewFormLayout
     
     open private(set) var collectionView: UICollectionView?
     
@@ -42,6 +42,9 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     
     @NSCopying open var placeholderTextColor: UIColor?
     
+    @NSCopying open var separatorColor:       UIColor?
+    
+    
     
     
     // MARK: - Private properties
@@ -52,9 +55,7 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     // MARK: - Initializers
     
     public init() {
-        formLayout = CollectionViewFormMPOLLayout()
-        formLayout.itemLayoutMargins = UIEdgeInsets(top: 16.0, left: 24.0, bottom: 15.0, right: 16.0)
-        formLayout.wantsInsetHeaders = true
+        formLayout = CollectionViewFormLayout()
         super.init(nibName: nil, bundle: nil)
         
         automaticallyAdjustsScrollViewInsets = false // we manage this ourselves.
@@ -129,7 +130,7 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     open func applyCurrentTheme() {
         let colors = Theme.current.colors
         
-        formLayout.itemSeparatorColor = colors[.Separator]
+        separatorColor       = colors[.Separator]
         backgroundColor      = colors[.Background]
         selectionColor       = colors[.CellSelection]
         primaryTextColor     = colors[.PrimaryText]
@@ -253,7 +254,7 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     
     open func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
         switch view {
-        case let headerView as CollectionViewFormMPOLHeaderView:
+        case let headerView as CollectionViewFormExpandingHeaderView:
             headerView.tintColor = secondaryTextColor
         default:
             break

@@ -31,28 +31,3 @@ open class CollectionViewFormItemAttributes: UICollectionViewLayoutAttributes {
         return super.isEqual(comparedAttribute)
     }
 }
-
-
-
-/// A `CollectionViewFormDecorationAttributes` object extends `UICollectionViewLayoutAttributes`
-/// to support applying appearance attributes to decoration views.
-///
-/// Subclasses of `UICollectionReusableView` that want to implement the visual recommendations
-/// should override `apply(_:)` to set their background colors.
-open class CollectionViewFormDecorationAttributes: UICollectionViewLayoutAttributes {
-    
-    /// The requested background color.
-    open var backgroundColor: UIColor?
-    
-    open override func copy(with zone: NSZone?) -> Any {
-        let copy = super.copy(with: zone) as! CollectionViewFormDecorationAttributes
-        copy.backgroundColor = backgroundColor
-        return copy
-    }
-    
-    open override func isEqual(_ object: Any?) -> Bool {
-        guard let comparedAttribute = object as? CollectionViewFormDecorationAttributes else { return false }
-        if backgroundColor != comparedAttribute.backgroundColor { return false }
-        return super.isEqual(comparedAttribute)
-    }
-}

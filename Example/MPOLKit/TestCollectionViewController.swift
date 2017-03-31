@@ -19,7 +19,7 @@ class TestCollectionViewController: FormCollectionViewController  {
         //formLayout.itemLayoutMargins = .zero
         
         collectionView?.register(EntityDetailCollectionViewCell.self)
-        collectionView?.register(CollectionViewFormMPOLHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
+        collectionView?.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -34,7 +34,7 @@ class TestCollectionViewController: FormCollectionViewController  {
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, class: CollectionViewFormMPOLHeaderView.self, for: indexPath)
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
         header.showsExpandArrow = true
         header.text = "LAST UPDATED: 23/03/17"
         header.tapHandler = { (header, ip) in
@@ -59,7 +59,7 @@ class TestCollectionViewController: FormCollectionViewController  {
     }
 
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
-        return CollectionViewFormMPOLHeaderView.minimumHeight
+        return CollectionViewFormExpandingHeaderView.minimumHeight
     }
     
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForFooterInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {

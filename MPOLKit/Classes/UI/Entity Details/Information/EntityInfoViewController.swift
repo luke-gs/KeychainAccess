@@ -33,7 +33,7 @@ open class EntityInfoViewController: FormCollectionViewController {
         if let collectionView = self.collectionView {
             collectionView.register(EntityDetailCollectionViewCell.self)
             collectionView.register(EntityImageHeaderView.self, forSupplementaryViewOfKind: collectionElementKindGlobalHeader)
-            collectionView.register(CollectionViewFormMPOLHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
+            collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         }
     }
     
@@ -57,7 +57,7 @@ open class EntityInfoViewController: FormCollectionViewController {
             borderedImageView.borderColor = AlertLevel.high.color
             return globalHeader
         } else if indexPath.section == 0 && kind == UICollectionElementKindSectionHeader {
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormMPOLHeaderView.self, for: indexPath)
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
             header.showsExpandArrow = false
             header.tapHandler       = nil
             header.text = "LAST UPDATED: " + "NEVER"
@@ -115,7 +115,7 @@ open class EntityInfoViewController: FormCollectionViewController {
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
         if section == 0 {
-            return section == 0 ? CollectionViewFormMPOLHeaderView.minimumHeight : 0.0
+            return section == 0 ? CollectionViewFormExpandingHeaderView.minimumHeight : 0.0
         }
         return super.collectionView(collectionView, layout: layout, heightForHeaderInSection: section, givenSectionWidth: width)
     }
@@ -127,12 +127,12 @@ open class EntityInfoViewController: FormCollectionViewController {
         return super.collectionView(collectionView, layout: layout, minimumContentHeightForItemAt: indexPath, givenItemContentWidth: itemWidth)
     }
     
-    open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormMPOLLayout, separatorStyleForItemAt indexPath: IndexPath) -> CollectionViewFormMPOLLayout.SeparatorStyle {
-        if indexPath.section == 0 && indexPath.item == 0 {
-            return .hidden
-        }
-        return .automatic
-    }
+//    open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, separatorStyleForItemAt indexPath: IndexPath) -> CollectionViewFormLayout.SeparatorStyle {
+//        if indexPath.section == 0 && indexPath.item == 0 {
+//            return .hidden
+//        }
+//        return .automatic
+//    }
     
     
     // MARK: - Additional details action handler

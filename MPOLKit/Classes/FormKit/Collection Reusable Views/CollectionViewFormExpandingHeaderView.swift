@@ -1,5 +1,5 @@
 //
-//  CollectionViewFormMPOLHeaderView.swift
+//  CollectionViewFormExpandingHeaderView.swift
 //  MPOLKit
 //
 //  Created by Rod Brown on 22/2/17.
@@ -10,7 +10,7 @@ import UIKit
 
 fileprivate var textContext = 1
 
-public class CollectionViewFormMPOLHeaderView: UICollectionReusableView, DefaultReusable {
+public class CollectionViewFormExpandingHeaderView: UICollectionReusableView, DefaultReusable {
     
     // MARK: - Sizing
     
@@ -91,7 +91,7 @@ public class CollectionViewFormMPOLHeaderView: UICollectionReusableView, Default
     
     /// An optional tap handler closure, passing the header view itself, and the associated
     /// index path.
-    public var tapHandler: ((CollectionViewFormMPOLHeaderView, IndexPath) -> (Void))?
+    public var tapHandler: ((CollectionViewFormExpandingHeaderView, IndexPath) -> (Void))?
     
     
     // MARK: - Private properties
@@ -196,14 +196,12 @@ public class CollectionViewFormMPOLHeaderView: UICollectionReusableView, Default
         
         indexPath = layoutAttributes.indexPath
         
-        if let attributes = layoutAttributes as? CollectionViewFormMPOLHeaderAttributes {
+        if let attributes = layoutAttributes as? CollectionViewFormHeaderAttributes {
             let layoutMargins = UIEdgeInsets(top: 12.0, left: attributes.leadingMargin, bottom: attributes.frame.height - attributes.itemPosition, right: 10.0)
             self.layoutMargins = isRightToLeft ? layoutMargins.horizontallyFlipped() : layoutMargins
-            separatorHeightConstraint.constant = attributes.separatorWidth
         } else {
             let layoutMargins = UIEdgeInsets(top: 12.0, left: 10.0, bottom: 0.0, right: 10.0)
             self.layoutMargins = isRightToLeft ? layoutMargins.horizontallyFlipped() : layoutMargins
-            separatorHeightConstraint.constant = 1.0 / (window?.screen ?? .main).scale
         }
     }
     
@@ -226,6 +224,8 @@ public class CollectionViewFormMPOLHeaderView: UICollectionReusableView, Default
     
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
+        
+        separatorHeightConstraint.constant = 1.0 / traitCollection.currentDisplayScale
         
         if #available(iOS 10, *) {
             isRightToLeft = self.effectiveUserInterfaceLayoutDirection == .rightToLeft

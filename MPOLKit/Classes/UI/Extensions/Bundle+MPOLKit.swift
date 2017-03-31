@@ -12,6 +12,6 @@ import Foundation
 extension Bundle {
     
     /// The bundle containing MPOLKit and its assets.
-    internal static let mpolKit = Bundle(for: CollectionViewFormMPOLLayout.self)
+    internal static let mpolKit = Bundle(for: FormCollectionViewController.self)
     
 }

@@ -169,7 +169,6 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, UIScro
     
     private var contentModeLayoutTrailingConstraint: NSLayoutConstraint!
     
-    private let internalContentView = UIView(frame: .zero)
     private var actionView: CollectionViewFormCellActionView?
     private var _isShowingEditActions: Bool = false
     private var _deceleratingToOpen: Bool = false
@@ -226,30 +225,19 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, UIScro
         
         super.contentMode = .center
         
-        let trueContentView        = super.contentView
+        let contentView            = super.contentView
         let contentModeLayoutGuide = self.contentModeLayoutGuide
         
-        scrollView.delegate      = self
-        scrollView.frame         = trueContentView.bounds
-        scrollView.autoresizingMask  = [.flexibleWidth, .flexibleHeight]
-        scrollView.isScrollEnabled = false
-        trueContentView.addSubview(scrollView)
-        addGestureRecognizer(scrollView.panGestureRecognizer)
         
-        internalContentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        internalContentView.frame = scrollView.bounds
-        internalContentView.clipsToBounds = true
-        scrollView.addSubview(internalContentView)
+        contentView.addLayoutGuide(contentModeLayoutGuide)
         
-        internalContentView.addLayoutGuide(contentModeLayoutGuide)
-        
-        contentModeLayoutVerticalConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .centerY, relatedBy: .equal, toItem: internalContentView, attribute: .centerYWithinMargins, priority: UILayoutPriorityDefaultLow - 1)
-        contentModeLayoutTrailingConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .trailing, relatedBy: .equal, toItem: internalContentView, attribute: .trailingMargin)
+        contentModeLayoutVerticalConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerYWithinMargins, priority: UILayoutPriorityDefaultLow - 1)
+        contentModeLayoutTrailingConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .trailing, relatedBy: .equal, toItem: contentView, attribute: .trailingMargin)
         
         NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .top,      relatedBy: .greaterThanOrEqual, toItem: internalContentView, attribute: .topMargin),
-            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .bottom,   relatedBy: .lessThanOrEqual,    toItem: internalContentView, attribute: .bottomMargin, priority: 500),
-            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .leading,  relatedBy: .equal, toItem: internalContentView, attribute: .leadingMargin),
+            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .top,      relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .topMargin),
+            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .bottom,   relatedBy: .lessThanOrEqual,    toItem: contentView, attribute: .bottomMargin, priority: 500),
+            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .leading,  relatedBy: .equal, toItem: contentView, attribute: .leadingMargin),
             contentModeLayoutTrailingConstraint,
             contentModeLayoutVerticalConstraint
         ])
@@ -458,10 +446,6 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, UIScro
         }
     }
     
-    open override var contentView: UIView {
-        return internalContentView
-    }
-    
     open override var semanticContentAttribute: UISemanticContentAttribute {
         didSet {
             if semanticContentAttribute == oldValue { return }
@@ -500,8 +484,8 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, UIScro
             layoutMargins = newLayoutMargins
             setNeedsLayout()
         }
-        if internalContentView.layoutMargins != newLayoutMargins {
-            internalContentView.layoutMargins = newLayoutMargins
+        if contentView.layoutMargins != newLayoutMargins {
+            contentView.layoutMargins = newLayoutMargins
             setNeedsLayout()
         }
     }
@@ -509,7 +493,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, UIScro
     open override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         guard let hitTestedView = super.hitTest(point, with: event) else { return nil }
         
-        if _scrolling { return internalContentView }
+        if _scrolling { return self }
         
         
         // If we're dragging, don't receive additional touches.
@@ -525,14 +509,14 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, UIScro
                 let actionView = self.actionView, hitTestedView.isDescendant(of: actionView) {
                     return hitTestedView
             } else {
-                return internalContentView
+                return self
             }
         }
         
         // The hit test on the cell will find the content view, the scroll view or a subview. The content view
         // and the scroll view will block selection. If we're not currently showing edit actions, return ourself instead,
         // to allow selection to occur.
-        if isShowingEditActions == false && (hitTestedView == internalContentView || hitTestedView == scrollView) {
+        if isShowingEditActions == false && (hitTestedView == contentView || hitTestedView == scrollView) {
             return self
         }
         

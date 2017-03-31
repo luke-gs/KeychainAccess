@@ -313,7 +313,7 @@ open class MapOverlayViewController: UIViewController, UITableViewDataSource, UI
         tableView.delegate = self
         tableView.separatorStyle = .none
         tableView.tableFooterView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 0.0, height: 20.0))
-        tableView.register(TableViewFormMPOLHeaderCell.self, forCellReuseIdentifier: "Header")
+        tableView.register(TableViewFormExpandingHeaderCell.self, forCellReuseIdentifier: "Header")
         backgroundView.addSubview(tableView)
         
         let overlaySeparator = UIView(frame: .zero)

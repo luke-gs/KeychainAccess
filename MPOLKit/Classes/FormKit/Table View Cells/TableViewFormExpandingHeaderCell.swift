@@ -1,5 +1,5 @@
 //
-//  TableViewFormMPOLHeaderCell.swift
+//  TableViewFormExpandingHeaderCell.swift
 //  MPOL-CAD
 //
 //  Created by Rod Brown on 10/3/17.
@@ -11,7 +11,7 @@ import UIKit
 fileprivate var textContext = 1
 
 
-public class TableViewFormMPOLHeaderCell: UITableViewCell {
+public class TableViewFormExpandingHeaderCell: UITableViewCell {
     
     // MARK: - Public properties
     
