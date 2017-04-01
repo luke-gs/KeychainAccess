@@ -36,9 +36,6 @@ public let collectionElementKindGlobalFooter = "collectionElementKindGlobalFoote
 /// cells in the row are given the height of the largest item in the row.
 open class CollectionViewFormLayout: UICollectionViewLayout {
     
-    // This is the default standard separator color for iOS 7 - 10.
-    fileprivate static let separatorGray = #colorLiteral(red: 0.7843137255, green: 0.7803921569, blue: 0.8, alpha: 1)
-    
     
     // MARK: - Associated enums
     
@@ -75,7 +72,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     /// instances of `CollectionViewFormLayoutItemAttributes` and apply the contained `layoutMargins` property.
     ///
     /// - seealso: `CollectionViewFormItemAttributes.layoutMargins`
-    open var itemLayoutMargins: UIEdgeInsets = UIEdgeInsets(top: 16.0, left: 24.0, bottom: 16.0, right: 16.0) {
+    open var itemLayoutMargins: UIEdgeInsets = UIEdgeInsets(top: 16.5, left: 24.0, bottom: 14.5, right: 16.0) {
         didSet {
             let screenScale = (collectionView?.window?.screen ?? UIScreen.main).scale
             let setMargins = itemLayoutMargins
@@ -94,7 +91,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     }
     
     /// The distribution method to use for cell sizing. The default is `CollectionViewFormLayout.Distribution.fillEqually`.
-    open var distribution: CollectionViewFormLayout.Distribution = .fillEqually {
+    open var distribution: CollectionViewFormLayout.Distribution = .fillLastWithinColumnDistance {
         didSet {
             if distribution == .automatic {
                 distribution = .fillLastWithinColumnDistance
@@ -306,7 +303,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
                         
                         minHeight += itemLayoutMargins.top + itemLayoutMargins.bottom
                         
-                        for item in rowItems {
+                        for (index, item) in rowItems.enumerated() {
                             let itemAttribute: CollectionViewFormItemAttributes
                             let indexPath = item.0
                             if let dequeuedAttributes = reusableItemAttributes.popLast() {
@@ -316,6 +313,9 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
                                 itemAttribute = CollectionViewFormItemAttributes(forCellWith: indexPath)
                                 itemAttribute.zIndex = 1
                             }
+                            
+                            itemAttribute.rowIndex     = index
+                            itemAttribute.rowItemCount = rowCount
                             
                             var frame = item.frame
                             frame.size.height = minHeight
@@ -946,4 +946,5 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     
     
     @objc optional func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, shouldInsetHeaderInSection section: Int) -> Bool
+    
 }

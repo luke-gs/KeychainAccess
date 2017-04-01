@@ -103,6 +103,8 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
     }
     
     private func commonInit() {
+        separatorStyle = .none
+        
         sourceLabel.font = .systemFont(ofSize: 11.0, weight: UIFontWeightBold)
         sourceLabel.translatesAutoresizingMaskIntoConstraints = false
         sourceLabel.isHidden = true
@@ -236,7 +238,7 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
         }
     }
     
-    public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {
             let hasSource          = sourceLabel.text?.isEmpty      ?? true == false
             let hasTitle           = titleLabel.text?.isEmpty       ?? true == false

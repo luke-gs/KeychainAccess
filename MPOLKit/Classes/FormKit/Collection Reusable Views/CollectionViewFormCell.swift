@@ -21,6 +21,92 @@ import UIKit.UIGestureRecognizerSubclass
 /// `systemLayoutSizeFitting(_:)`. Users should note that `CollectionViewFormLayout` does not support self-sizing cells.
 open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, UIScrollViewDelegate, UIGestureRecognizerDelegate {
     
+    private static let standardSeparatorColor = #colorLiteral(red: 0.7843137255, green: 0.7803921569, blue: 0.8, alpha: 1)
+    
+    
+    @objc(CollectionViewFormSeparatorStyle) public enum SeparatorStyle: Int {
+        case none
+        
+        case indented
+        
+        case indentedAtRowLeading
+        
+        case fullWidth
+    }
+    
+    
+    @objc(CollectionViewFormHighlightStyle) public enum HighlightStyle: Int {
+        case none
+        
+        case fade
+    }
+    
+    
+    @objc(CollectionViewFormSelectionStyle) public enum SelectionStyle: Int {
+        case none
+        
+        case underline
+    }
+    
+    
+    
+    open var separatorStyle: SeparatorStyle = .indented {
+        didSet {
+            if separatorStyle != oldValue {
+                setNeedsLayout()
+            }
+        }
+    }
+    
+    @NSCopying open var separatorColor: UIColor? = CollectionViewFormCell.standardSeparatorColor {
+        didSet {
+            if selectionStyle != .underline || isSelected == false {
+                separatorView.backgroundColor = separatorColor
+            }
+        }
+    }
+    
+    
+    open override var isHighlighted: Bool {
+        didSet {
+            contentView.alpha = isHighlighted && highlightStyle == .fade ? 0.5 : 1.0
+        }
+    }
+    
+    open var highlightStyle: HighlightStyle = .none {
+        didSet {
+            if isHighlighted == false || highlightStyle == oldValue { return }
+            
+            contentView.alpha = highlightStyle == .fade ? 0.5 : 0.0
+        }
+    }
+    
+    open override var isSelected: Bool {
+        didSet {
+            if isSelected == oldValue { return }
+            
+            if selectionStyle == .underline {
+                separatorView.backgroundColor = isSelected ? tintColor : separatorColor
+                setNeedsLayout()
+            }
+            
+        }
+    }
+    
+    open var selectionStyle: SelectionStyle = .none {
+        didSet {
+            if selectionStyle == oldValue { return }
+            
+            if selectionStyle == .underline && isSelected {
+                separatorView.backgroundColor = tintColor
+                setNeedsLayout()
+            } else {
+                separatorView.backgroundColor = separatorColor
+            }
+        }
+    }
+    
+    
     
     /// The accessory view for the cell.
     ///
@@ -163,6 +249,8 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, UIScro
     
     fileprivate let scrollView = CollectionViewFormCellScrollView(frame: .zero)
     
+    private let separatorView = UIView(frame: .zero)
+    
     /// The content mode guide. This guide is private and will update to enforce the current content
     /// mode on the `contentModeLayoutGuide`.
     private var contentModeLayoutVerticalConstraint: NSLayoutConstraint!
@@ -175,6 +263,9 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, UIScro
     private var _scrolling: Bool    = false
     private var touchTrigger: TouchRecognizer?
     
+    private var isFirstInRow: Bool = false
+    
+    
     private var isRightToLeft: Bool = false {
         didSet {
             if isRightToLeft == oldValue { return }
@@ -186,6 +277,8 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, UIScro
             scrollView.contentOffset = contentOffset
             
             update(for: contentOffset)
+            
+            setNeedsLayout()
         }
     }
     
@@ -223,11 +316,15 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, UIScro
     private func commonInit() {
         isAccessibilityElement = true
         
+        separatorView.autoresizingMask = [.flexibleWidth, .flexibleTopMargin]
+        separatorView.backgroundColor = separatorColor
+        separatorView.isUserInteractionEnabled = false
+        addSubview(separatorView)
+        
         super.contentMode = .center
         
         let contentView            = super.contentView
         let contentModeLayoutGuide = self.contentModeLayoutGuide
-        
         
         contentView.addLayoutGuide(contentModeLayoutGuide)
         
@@ -249,7 +346,6 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, UIScro
         } else {
             isRightToLeft = UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft
         }
-        
         
         if #available(iOS 10, *) { return }
         
@@ -475,8 +571,10 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, UIScro
         
         let newLayoutMargins: UIEdgeInsets
         if let formAttribute = layoutAttributes as? CollectionViewFormItemAttributes {
+            isFirstInRow     = formAttribute.rowIndex == 0
             newLayoutMargins = formAttribute.layoutMargins
         } else {
+            isFirstInRow     = false
             newLayoutMargins = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
         }
         
@@ -526,26 +624,37 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, UIScro
     open override func layoutSubviews() {
         super.layoutSubviews()
         
-        guard let accessoryView = self.accessoryView else { return }
+        let bounds = self.bounds
         
-        let isRightToLeft: Bool
-        if #available(iOS 10, *) {
-            isRightToLeft = contentView.effectiveUserInterfaceLayoutDirection == .rightToLeft
-        } else {
-            isRightToLeft = UIView.userInterfaceLayoutDirection(for: contentView.semanticContentAttribute) == .rightToLeft
+        let separatorHeight = 1.0 / traitCollection.currentDisplayScale + (isSelected && selectionStyle == .underline ? 1.0 : 0.0)
+        var separatorFrame = CGRect(x: 0.0, y: bounds.height - separatorHeight, width: bounds.width, height: separatorHeight)
+        
+        if separatorStyle != .fullWidth && (separatorStyle != .indentedAtRowLeading || isFirstInRow) {
+            if isRightToLeft {
+                separatorFrame.size.width -= layoutMargins.right
+            } else {
+                let leftMargin = layoutMargins.left
+                separatorFrame.size.width -= leftMargin
+                separatorFrame.origin.x   += leftMargin
+            }
+        }
+        separatorView.frame = separatorFrame
+        separatorView.isHidden = separatorStyle == .none
+        bringSubview(toFront: separatorView)
+        
+        if let accessoryView = self.accessoryView {
+            let contentLayoutGuide = contentModeLayoutGuide.layoutFrame
+            
+            var accessoryFrame = accessoryView.frame
+            accessoryFrame.origin.y = round(contentLayoutGuide.midY - (accessoryFrame.size.height * 0.5))
+            if isRightToLeft {
+                accessoryFrame.origin.x = contentLayoutGuide.minX - 10.0 - accessoryFrame.width
+            } else {
+                accessoryFrame.origin.x = contentLayoutGuide.maxX + 10.0
+            }
+            accessoryView.frame = accessoryFrame
         }
         
-        let contentLayoutGuide = contentModeLayoutGuide.layoutFrame
-        
-        var accessoryFrame = accessoryView.frame
-        accessoryFrame.origin.y = round(contentLayoutGuide.midY - (accessoryFrame.size.height * 0.5))
-        if isRightToLeft {
-            accessoryFrame.origin.x = contentLayoutGuide.minX - 10.0 - accessoryFrame.width
-        } else {
-            accessoryFrame.origin.x = contentLayoutGuide.maxX + 10.0
-        }
-        
-        accessoryView.frame = accessoryFrame
     }
     
     open override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
@@ -588,6 +697,17 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, UIScro
         if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
             applyStandardFonts()
             setNeedsLayout()
+        }
+        
+        if traitCollection.currentDisplayScale != previousTraitCollection?.currentDisplayScale {
+            setNeedsLayout()
+        }
+    }
+    
+    open override func tintColorDidChange() {
+        super.tintColorDidChange()
+        if isSelected && selectionStyle == .underline {
+            separatorView.backgroundColor = tintColor
         }
     }
     
@@ -799,6 +919,10 @@ fileprivate class CollectionViewFormCellActionView: UIView {
         
         if #available(iOS 10, *),
             (traitCollection.layoutDirection == .rightToLeft) != (previousTraitCollection?.layoutDirection == .rightToLeft) {
+            setNeedsLayout()
+        }
+        
+        if traitCollection.currentDisplayScale != previousTraitCollection?.currentDisplayScale {
             setNeedsLayout()
         }
     }

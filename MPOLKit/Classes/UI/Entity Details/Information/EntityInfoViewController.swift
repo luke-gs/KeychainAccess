@@ -13,7 +13,6 @@ open class EntityInfoViewController: FormCollectionViewController {
     public override init() {
         super.init()
         title = "Information"
-        formLayout.distribution = .fillLastWithinColumnDistance
         
         let sidebarItem = self.sidebarItem
         sidebarItem.image         = UIImage(named: "iconGeneralInfo",       in: .mpolKit, compatibleWith: nil)
@@ -115,14 +114,14 @@ open class EntityInfoViewController: FormCollectionViewController {
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
         if section == 0 {
-            return section == 0 ? CollectionViewFormExpandingHeaderView.minimumHeight : 0.0
+            return CollectionViewFormExpandingHeaderView.minimumHeight
         }
         return super.collectionView(collectionView, layout: layout, heightForHeaderInSection: section, givenSectionWidth: width)
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
         if indexPath.section == 0 && indexPath.item == 0 {
-            return EntityDetailCollectionViewCell.minimumContentHeight(withTitle: "Smith, Max R.", subtitle: "08/05/1987 (29 Male)", description: "196 cm proportionate european male with short brown hair and brown eyes", additionalDetails: "4 MORE DESCRIPTIONS", source: "DATA SOURCE 1", inWidth: itemWidth, compatibleWith: traitCollection)
+            return EntityDetailCollectionViewCell.minimumContentHeight(withTitle: "Smith, Max R.", subtitle: "08/05/1987 (29 Male)", description: "196 cm proportionate european male with short brown hair and brown eyes", additionalDetails: "4 MORE DESCRIPTIONS", source: "DATA SOURCE 1", inWidth: itemWidth, compatibleWith: traitCollection) - layout.itemLayoutMargins.bottom
         }
         return super.collectionView(collectionView, layout: layout, minimumContentHeightForItemAt: indexPath, givenItemContentWidth: itemWidth)
     }

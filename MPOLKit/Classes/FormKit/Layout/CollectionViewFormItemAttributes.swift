@@ -19,15 +19,25 @@ open class CollectionViewFormItemAttributes: UICollectionViewLayoutAttributes {
     /// apply these layout margins to their content.
     open var layoutMargins: UIEdgeInsets = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
     
+    /// The index of the item in the row.
+    open var rowIndex: Int = 0
+    
+    /// The total number of items in the row.
+    open var rowItemCount: Int = 1
+    
     open override func copy(with zone: NSZone?) -> Any {
         let copy = super.copy(with: zone) as! CollectionViewFormItemAttributes
         copy.layoutMargins = layoutMargins
+        copy.rowIndex      = rowIndex
+        copy.rowItemCount  = rowItemCount
         return copy
     }
     
     open override func isEqual(_ object: Any?) -> Bool {
-        guard let comparedAttribute = object as? CollectionViewFormItemAttributes else { return false }
-        if layoutMargins != comparedAttribute.layoutMargins { return false }
+        guard let comparedAttribute = object as? CollectionViewFormItemAttributes,
+              layoutMargins == comparedAttribute.layoutMargins,
+              rowIndex      == comparedAttribute.rowIndex,
+              rowItemCount  == comparedAttribute.rowItemCount else { return false }
         return super.isEqual(comparedAttribute)
     }
 }
