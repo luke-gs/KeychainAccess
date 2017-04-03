@@ -72,7 +72,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     /// instances of `CollectionViewFormLayoutItemAttributes` and apply the contained `layoutMargins` property.
     ///
     /// - seealso: `CollectionViewFormItemAttributes.layoutMargins`
-    open var itemLayoutMargins: UIEdgeInsets = UIEdgeInsets(top: 16.5, left: 24.0, bottom: 14.5, right: 16.0) {
+    open var itemLayoutMargins: UIEdgeInsets = UIEdgeInsets(top: 16.5, left: 12.0, bottom: 14.5, right: 12.0) {
         didSet {
             let screenScale = (collectionView?.window?.screen ?? UIScreen.main).scale
             let setMargins = itemLayoutMargins
@@ -268,7 +268,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
                             if minHeight < itemMinHeight { minHeight = itemMinHeight }
                             
                             if rowItemCount == 1 {
-                                var insets = UIEdgeInsets(top: itemLayoutMargins.top, left: sectionLeftInset.isZero ? itemLayoutMargins.left : sectionLeftInset, bottom: itemLayoutMargins.bottom, right: itemLayoutMargins.right)
+                                var insets = UIEdgeInsets(top: itemLayoutMargins.top, left: sectionLeftInset.isZero ? itemLayoutMargins.left : sectionLeftInset, bottom: itemLayoutMargins.bottom, right: sectionRightInset.isZero ? itemLayoutMargins.right : sectionRightInset)
                                 
                                 let proposedEndOfContent = currentXValue + newContentWidth + insets.left
                                 let endOfMaxContent      = collectionViewWidth - (sectionRightInset.isZero ? itemLayoutMargins.right : sectionRightInset)
@@ -283,7 +283,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
                             if index == 0 {
                                 itemInsets = UIEdgeInsets(top: itemLayoutMargins.top, left: sectionLeftInset.isZero ? itemLayoutMargins.left : sectionLeftInset, bottom: itemLayoutMargins.bottom, right: itemLayoutMargins.right)
                             } else if index == rowItemCount - 1 {
-                                var insets = itemLayoutMargins
+                                var insets = UIEdgeInsets(top: itemLayoutMargins.top, left: itemLayoutMargins.left, bottom: itemLayoutMargins.bottom, right: sectionRightInset.isZero ? itemLayoutMargins.right : sectionRightInset)
                                 let proposedEndOfContent = currentXValue + newContentWidth + insets.left
                                 let endOfMaxContent      = collectionViewWidth - (sectionRightInset.isZero ? itemLayoutMargins.right : sectionRightInset)
                                 if proposedEndOfContent > endOfMaxContent {
@@ -314,10 +314,12 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
                                 itemAttribute.zIndex = 1
                             }
                             
-                            itemAttribute.rowIndex     = index
-                            itemAttribute.rowItemCount = rowCount
+                            itemAttribute.rowIndex         = index
+                            itemAttribute.rowItemCount     = rowItemCount
                             
                             var frame = item.frame
+                            itemAttribute.isAtTrailingEdge = fabs(frame.maxX - collectionViewWidth) < 0.5
+                            
                             frame.size.height = minHeight
                             itemAttribute.frame = isRTL ? frame.rtlFlipped(forWidth: collectionViewWidth) : frame
                             itemAttribute.layoutMargins = isRTL ? item.margins.horizontallyFlipped() : item.margins

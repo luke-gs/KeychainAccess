@@ -9,15 +9,20 @@
 import UIKit
 
 /// A structure representing a collection view edit action.
-public struct CollectionViewFormEditAction {
+public struct CollectionViewFormEditAction: Equatable {
     
     public var title:  String
     public var color:  UIColor?
-    public var action: ((CollectionViewFormCell, IndexPath) -> Void)?
+    public var handler: ((CollectionViewFormCell, IndexPath) -> Void)?
     
-    public init(title: String, color: UIColor?, action: ((CollectionViewFormCell, IndexPath) -> Void)?) {
-        self.title  = title
-        self.color  = color
-        self.action = action
+    public init(title: String, color: UIColor?, handler: ((CollectionViewFormCell, IndexPath) -> Void)?) {
+        self.title   = title
+        self.color   = color
+        self.handler = handler
     }
+    
+}
+
+public func ==(lhs: CollectionViewFormEditAction, rhs: CollectionViewFormEditAction) -> Bool {
+    return lhs.title == rhs.title && lhs.color == rhs.color
 }

@@ -81,6 +81,8 @@ open class GalleryCollectionViewCell: CollectionViewFormCell, UICollectionViewDa
         
         super.init(frame: frame)
         
+        actionView.panGestureRecognizer.require(toFail: galleryCollectionView.panGestureRecognizer)
+        
         galleryCollectionView.dataSource = self
         galleryCollectionView.delegate   = self
         
@@ -161,25 +163,13 @@ open class GalleryCollectionViewCell: CollectionViewFormCell, UICollectionViewDa
     }
     
     
-    // MARK: - UIScrollViewDelegate
+    // MARK: - UIScrollViewDelegate methods
     
-    // These methods are overriden to block methods available in CollectionViewFormCell. These methods relate to swipe-to-delete.
-    
-    open override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    open func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView == galleryCollectionView {
             delegate?.galleryCellDidScroll?(self)
         }
     }
-    
-    open override func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {}
-    
-    open override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {}
-    
-    open override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {}
-    
-    open override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {}
-    
-    open override func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {}
 }
 
 /// The delegate protocol for a GalleryCollectionViewCell.

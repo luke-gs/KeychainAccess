@@ -92,6 +92,7 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
         titleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &kvoContext)
         
         NotificationCenter.default.addObserver(self, selector: #selector(textViewDidBeginEditing(_:)), name: .UITextViewTextDidBeginEditing, object: textView)
+        NotificationCenter.default.addObserver(self, selector: #selector(textViewDidEndEditing(_:)),   name: .UITextViewTextDidEndEditing,   object: textView)
     }
     
     deinit {
@@ -258,6 +259,15 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
         
         collectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
         collectionView.delegate?.collectionView?(collectionView, didSelectItemAt: indexPath)
+    }
+    
+    @objc private func textViewDidEndEditing(_ notification: NSNotification) {
+        guard isSelected,
+            let collectionView = superview(of: UICollectionView.self),
+            let indexPath = collectionView.indexPath(for: self) else { return }
+        
+        collectionView.deselectItem(at: indexPath, animated: false)
+        collectionView.delegate?.collectionView?(collectionView, didDeselectItemAt: indexPath)
     }
     
     

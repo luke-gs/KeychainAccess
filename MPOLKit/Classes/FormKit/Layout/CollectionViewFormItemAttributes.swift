@@ -25,19 +25,23 @@ open class CollectionViewFormItemAttributes: UICollectionViewLayoutAttributes {
     /// The total number of items in the row.
     open var rowItemCount: Int = 1
     
+    open var isAtTrailingEdge: Bool = false
+    
     open override func copy(with zone: NSZone?) -> Any {
         let copy = super.copy(with: zone) as! CollectionViewFormItemAttributes
-        copy.layoutMargins = layoutMargins
-        copy.rowIndex      = rowIndex
-        copy.rowItemCount  = rowItemCount
+        copy.layoutMargins    = layoutMargins
+        copy.rowIndex         = rowIndex
+        copy.rowItemCount     = rowItemCount
+        copy.isAtTrailingEdge = isAtTrailingEdge
         return copy
     }
     
     open override func isEqual(_ object: Any?) -> Bool {
         guard let comparedAttribute = object as? CollectionViewFormItemAttributes,
-              layoutMargins == comparedAttribute.layoutMargins,
-              rowIndex      == comparedAttribute.rowIndex,
-              rowItemCount  == comparedAttribute.rowItemCount else { return false }
+              layoutMargins    == comparedAttribute.layoutMargins,
+              rowIndex         == comparedAttribute.rowIndex,
+              rowItemCount     == comparedAttribute.rowItemCount,
+              isAtTrailingEdge == comparedAttribute.isAtTrailingEdge else { return false }
         return super.isEqual(comparedAttribute)
     }
 }

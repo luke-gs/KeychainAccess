@@ -45,6 +45,7 @@ class TestCollectionViewController: FormCollectionViewController  {
         
         cell.titleLabel.text =  "Test Title \(indexPath.item + 1)"
         cell.textField.placeholder = "Testing placeholder \(indexPath.item + 1)"
+        cell.editActions = [CollectionViewFormEditAction(title: "DELETE", color: .destructive, handler: nil)]
         
         return cell
     }
@@ -55,10 +56,6 @@ class TestCollectionViewController: FormCollectionViewController  {
     
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForFooterInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
         return 0.0
-    }
-    
-    override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, insetForSection section: Int, givenSectionWidth width: CGFloat) -> UIEdgeInsets {
-        return .zero
     }
     
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, givenSectionWidth sectionWidth: CGFloat, edgeInsets: UIEdgeInsets) -> CGFloat {
