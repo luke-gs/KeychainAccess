@@ -11,11 +11,14 @@ import UIKit
 
 private let tempID = "temp"
 
-open class FormCollectionViewController: UIViewController, PopoverViewController {
+open class FormCollectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, CollectionViewDelegateFormLayout, PopoverViewController {
     
-    open let formLayout: CollectionViewFormMPOLLayout
     
-    open fileprivate(set) var collectionView: UICollectionView?
+    // MARK: - Public properties
+    
+    open let formLayout: CollectionViewFormLayout
+    
+    open private(set) var collectionView: UICollectionView?
     
     open var wantsTransparentBackground: Bool = false {
         didSet {
@@ -26,54 +29,75 @@ open class FormCollectionViewController: UIViewController, PopoverViewController
     }
     
     @NSCopying open var tintColor:            UIColor?
+    
     @NSCopying open var backgroundColor:      UIColor?
+    
     @NSCopying open var selectionColor:       UIColor?
     
     @NSCopying open var sectionTitleColor:    UIColor?
     
     @NSCopying open var primaryTextColor:     UIColor?
+    
     @NSCopying open var secondaryTextColor:   UIColor?
+    
     @NSCopying open var placeholderTextColor: UIColor?
     
-    fileprivate var collectionViewInsetManager: ScrollViewInsetManager?
+    @NSCopying open var separatorColor:       UIColor?
     
+    
+    
+    
+    // MARK: - Private properties
+    
+    private var collectionViewInsetManager: ScrollViewInsetManager?
+    
+    
+    // MARK: - Initializers
     
     public init() {
-        formLayout = CollectionViewFormMPOLLayout()
-        formLayout.itemLayoutMargins = UIEdgeInsets(top: 16.0, left: 24.0, bottom: 15.0, right: 16.0)
+        formLayout = CollectionViewFormLayout()
         super.init(nibName: nil, bundle: nil)
         
         automaticallyAdjustsScrollViewInsets = false // we manage this ourselves.
         
         NotificationCenter.default.addObserver(self, selector: #selector(applyCurrentTheme), name: .ThemeDidChange, object: nil)
+        
+        if #available(iOS 10, *) { return }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeCategoryDidChange), name: .UIContentSizeCategoryDidChange, object: nil)
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {
         self.init()
     }
-}
-
-
-/// View lifecycle
-extension FormCollectionViewController {
     
-    open dynamic override func loadView() {
-        let collectionView = UICollectionView(frame: UIScreen.main.bounds, collectionViewLayout: formLayout)
+    
+    // MARK: - View lifecycle
+    
+    open override func loadView() {
+        let backgroundBounds = UIScreen.main.bounds
+        
+        let collectionView = UICollectionView(frame: backgroundBounds, collectionViewLayout: formLayout)
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.dataSource = self
         collectionView.delegate   = self
-        collectionView.backgroundColor = wantsTransparentBackground ? .clear : backgroundColor
         collectionView.alwaysBounceVertical = true
+        collectionView.backgroundColor = nil
         collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: collectionElementKindGlobalHeader,    withReuseIdentifier: tempID)
         collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: collectionElementKindGlobalFooter,    withReuseIdentifier: tempID)
         collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: tempID)
         collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: tempID)
         
+        let backgroundView = UIView(frame: backgroundBounds)
+        backgroundView.backgroundColor = wantsTransparentBackground ? .clear : backgroundColor
+        backgroundView.addSubview(collectionView)
+        
         self.collectionViewInsetManager = ScrollViewInsetManager(scrollView: collectionView)
         self.collectionView = collectionView
-        self.view = collectionView
+        self.view = backgroundView
     }
     
-    open dynamic override func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
         applyCurrentTheme()
     }
@@ -81,29 +105,48 @@ extension FormCollectionViewController {
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        let contentInsets = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)
+        let topLayoutPosition: CGFloat
+        let bottomLayoutPosition: CGFloat
+        
+        let view = self.view!
+        let screenBounds = (view.window?.screen ?? .main).bounds
+        
+        if view.convert(view.bounds, to: nil).intersects(screenBounds) {
+            // Onscreen.
+            topLayoutPosition    = max(view.convert(CGPoint(x: 0.0, y: topLayoutGuide.length), from: nil).y, 0.0)
+            bottomLayoutPosition = max(screenBounds.height - view.convert(CGPoint(x: 0.0, y: screenBounds.height - bottomLayoutGuide.length), from: nil).y, 0.0)
+        } else {
+            // Not onscreen.
+            topLayoutPosition    = topLayoutGuide.length
+            bottomLayoutPosition = bottomLayoutGuide.length
+        }
+        
+        let contentInsets = UIEdgeInsets(top: topLayoutPosition, left: 0.0, bottom: bottomLayoutPosition, right: 0.0)
         collectionViewInsetManager?.standardContentInset    = contentInsets
         collectionViewInsetManager?.standardIndicatorInset  = contentInsets
     }
     
-    open dynamic override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        if wantsTransparentBackground == false,
-            let collectionView = self.collectionView,
-            let superview = collectionView.superview {
-            let backgroundColor = superview.backgroundColor
-            superview.backgroundColor = collectionView.backgroundColor
-            
-            coordinator.animate(alongsideTransition: nil, completion: { (context: UIViewControllerTransitionCoordinatorContext) in
-                superview.backgroundColor = backgroundColor
-            })
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        guard #available(iOS 10, *) else { return }
+        
+        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
+            preferredContentSizeCategoryDidChange()
         }
     }
     
-    public dynamic func applyCurrentTheme() {
+    open func preferredContentSizeCategoryDidChange() {
+        if isViewLoaded { formLayout.invalidateLayout() }
+    }
+    
+    
+    // MARK: - Themes
+    
+    open func applyCurrentTheme() {
         let colors = Theme.current.colors
         
-        formLayout.itemSeparatorColor = colors[.Separator]
+        separatorColor       = colors[.Separator]
         backgroundColor      = colors[.Background]
         selectionColor       = colors[.CellSelection]
         primaryTextColor     = colors[.PrimaryText]
@@ -113,8 +156,9 @@ extension FormCollectionViewController {
         setNeedsStatusBarAppearanceUpdate()
         
         if isViewLoaded,
+            let view = self.view,
             let collectionView = self.collectionView {
-            collectionView.backgroundColor = wantsTransparentBackground ? .clear : backgroundColor
+            view.backgroundColor = wantsTransparentBackground ? .clear : backgroundColor
             for cell in collectionView.visibleCells {
                 self.collectionView(collectionView, willDisplay: cell, forItemAt: collectionView.indexPath(for: cell)!)
             }
@@ -141,54 +185,60 @@ extension FormCollectionViewController {
             }
         }
     }
-}
-
-extension FormCollectionViewController: UICollectionViewDataSource {
     
-    open dynamic func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    
+    // MARK: - UICollectionViewDataSource methods
+    
+    open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 0
     }
     
-    open dynamic func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         fatalError("Subclasses must override this method, and must not call super.")
     }
     
-    open dynamic func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    open func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let defaultView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: tempID, for: indexPath)
         defaultView.isUserInteractionEnabled = false
         return defaultView
     }
     
-}
-
-
-/// Collection view delegate
-extension FormCollectionViewController: UICollectionViewDelegate {
     
-    open dynamic func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        cell.selectedBackgroundView?.backgroundColor = selectionColor ?? #colorLiteral(red: 0.8, green: 0.8, blue: 0.8, alpha: 1)
+    // MARK: - UICollectionViewDelegate methods
+    
+    open func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        
+        (cell as? CollectionViewFormCell)?.separatorColor = separatorColor
+        
         switch cell {
         case let formCell as EntityCollectionViewCell:
             formCell.titleLabel.textColor    = primaryTextColor
             formCell.subtitleLabel.textColor = secondaryTextColor
             formCell.detailLabel.textColor   = secondaryTextColor
-        case let detailCell as CollectionViewFormDetailCell:
+        case let selectionCell as CollectionViewFormOptionCell:
+            selectionCell.titleLabel.textColor = primaryTextColor
+        case let detailCell as CollectionViewFormSubtitleCell:
             if detailCell.emphasis == .title {
-                detailCell.textLabel.textColor       = primaryTextColor
-                detailCell.detailTextLabel.textColor = secondaryTextColor
+                detailCell.titleLabel.textColor    = primaryTextColor
+                detailCell.subtitleLabel.textColor = secondaryTextColor
             } else {
-                detailCell.textLabel.textColor       = secondaryTextColor
-                detailCell.detailTextLabel.textColor = primaryTextColor
+                detailCell.titleLabel.textColor    = secondaryTextColor
+                
+                if detailCell.isEditableField {
+                    detailCell.subtitleLabel.textColor = primaryTextColor
+                    
+                    guard let title = detailCell.titleLabel.text as NSString? else { return }
+                    
+                    let rangeOfStar = title.range(of: "*")
+                    if rangeOfStar.location == NSNotFound { return }
+                    
+                    let titleString = NSMutableAttributedString(string: title as String)
+                    titleString.setAttributes([NSForegroundColorAttributeName: UIColor.red], range: rangeOfStar)
+                    detailCell.titleLabel.attributedText = titleString
+                } else {
+                    detailCell.subtitleLabel.textColor = secondaryTextColor
+                }
             }
-            
-            guard let title = detailCell.textLabel.text as NSString? else { return }
-            
-            let rangeOfStar = title.range(of: "*")
-            if rangeOfStar.location == NSNotFound { return }
-            
-            let titleString = NSMutableAttributedString(string: title as String)
-            titleString.setAttributes([NSForegroundColorAttributeName: UIColor.red], range: rangeOfStar)
-            detailCell.textLabel.attributedText = titleString
         case let textFieldCell as CollectionViewFormTextFieldCell:
             textFieldCell.titleLabel.textColor = secondaryTextColor
             textFieldCell.textField.textColor  = primaryTextColor
@@ -220,14 +270,17 @@ extension FormCollectionViewController: UICollectionViewDelegate {
         }
     }
     
-    open dynamic func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
+    open func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
+        switch view {
+        case let headerView as CollectionViewFormExpandingHeaderView:
+            headerView.tintColor = secondaryTextColor
+        default:
+            break
+        }
     }
     
-}
-
-
-/// Collection view delegate MPOL layout
-extension FormCollectionViewController: CollectionViewDelegateMPOLLayout {
+    
+    // MARK: - CollectionViewDelegateMPOLLayout methods
     
     open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
         return 0.0
@@ -238,7 +291,7 @@ extension FormCollectionViewController: CollectionViewDelegateMPOLLayout {
     }
     
     open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, insetForSection section: Int, givenSectionWidth width: CGFloat) -> UIEdgeInsets {
-        return .zero
+        return UIEdgeInsets(top: 0.0, left: 24.0, bottom: 0.0, right: 16.0)
     }
     
     open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, givenSectionWidth sectionWidth: CGFloat, edgeInsets: UIEdgeInsets) -> CGFloat {
@@ -249,11 +302,8 @@ extension FormCollectionViewController: CollectionViewDelegateMPOLLayout {
         return 39.0
     }
     
-}
-
-
-/// Status bar support
-extension FormCollectionViewController {
+    
+    // MARK: - Status bar overrides
     
     open override var preferredStatusBarStyle : UIStatusBarStyle {
         return Theme.current.statusBarStyle

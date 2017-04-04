@@ -1,9 +1,9 @@
 //
 //  KeyboardInputManager.swift
-//  Pods
+//  MPOLKit
 //
 //  Created by Rod Brown on 11/3/17.
-//
+//  Copyright © 2017 Gridstone. All rights reserved.
 //
 
 import UIKit
@@ -14,10 +14,13 @@ fileprivate var keyboardAppearanceContext = 1
 /// adjustments globally each text field as it becomes active.
 public class KeyboardInputManager: NSObject {
 
+    // MARK: - Singleton
     
     /// The shared keyboard manager singleton.
     public static let shared: KeyboardInputManager = KeyboardInputManager()
     
+    
+    // MARK: - Public properties
     
     /// Indicates whether the Keyboard Number Bar is supported on this device.
     ///
@@ -71,13 +74,13 @@ public class KeyboardInputManager: NSObject {
     }
     
     
-    fileprivate var numberBar: KeyboardNumberBar?
+    // MARK: - Private properties
     
+    private var numberBar: KeyboardNumberBar?
     
-    fileprivate var cachedKeyboardTypes: [UIView: UIKeyboardType] = [:]
+    private var cachedKeyboardTypes: [UIView: UIKeyboardType] = [:]
     
-    
-    fileprivate var activeTextControl: /*UITextInput && */ UIView? {
+    private var activeTextControl: /*UITextInput && */ UIView? {
         didSet {
             if activeTextControl == oldValue { return }
             
@@ -88,15 +91,10 @@ public class KeyboardInputManager: NSObject {
     }
     
     
+    // MARK: - Initializers
+    
     private override init() {
         super.init()
-        
-        // We may want to remove this and activate the shared input manager at MPOLKitInitialize() before any views
-        // become first responder, to allow this API to work without the reference to UIApplication. This would allow
-        // using the keyboard manager in app extensions. Ideally we'd use +load but this is disallowed in Swift.
-        if let textControl = UIApplication.shared.keyWindow?.firstResponderSubview(), textControl is UITextInput {
-            activeTextControl = textControl
-        }
         
         let notificationCenter = NotificationCenter.default
         let beginSelector = #selector(textControlWillBeginEditing(_:))
@@ -114,6 +112,8 @@ public class KeyboardInputManager: NSObject {
     }
     
     
+    // MARK: - Overrides
+    
     public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &keyboardAppearanceContext {
             if let numberBar = self.numberBar,
@@ -126,11 +126,11 @@ public class KeyboardInputManager: NSObject {
         }
     }
     
-}
-
-fileprivate extension KeyboardInputManager {
     
-    @objc fileprivate func textControlWillBeginEditing(_ notification: NSNotification) {
+    
+    // MARK: - Notifications
+    
+    @objc private func textControlWillBeginEditing(_ notification: NSNotification) {
         guard let control = notification.object as? UIView, control is UITextInput else { return }
         
         activeTextControl = control
@@ -140,7 +140,7 @@ fileprivate extension KeyboardInputManager {
     }
     
     
-    @objc fileprivate func textControlDidEndEditing(_ notification: NSNotification) {
+    @objc private func textControlDidEndEditing(_ notification: NSNotification) {
         guard let control = notification.object as? UIView, control is UITextInput else { return }
         
         if activeTextControl == control {
@@ -149,7 +149,10 @@ fileprivate extension KeyboardInputManager {
     }
     
     
-    fileprivate func applyNumberBar(to view: UIView, reloadingInputViews: Bool) {
+    
+    // MARK: - Number bar install/remove methods
+    
+    private func applyNumberBar(to view: UIView, reloadingInputViews: Bool) {
         if isNumberBarEnabled == false || view.inputAccessoryView != nil { return }
         
         let useNumberBar: Bool
@@ -216,7 +219,7 @@ fileprivate extension KeyboardInputManager {
     }
     
     
-    fileprivate func removeNumberBar(from view: UIView, reloadingInputViews: Bool) {
+    private func removeNumberBar(from view: UIView, reloadingInputViews: Bool) {
         if numberBar == nil || view.inputAccessoryView != numberBar {
             return
         }

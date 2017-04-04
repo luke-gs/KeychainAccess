@@ -3,7 +3,7 @@
 //  MPOLKit/FormKit
 //
 //  Created by Rod Brown on 18/08/2016.
-//  Copyright © 2016 Gridstone. All rights reserved.
+//  Copyright © 2017 Gridstone. All rights reserved.
 //
 
 import UIKit
@@ -11,6 +11,8 @@ import UIKit
 fileprivate var kvoContext = 1
 
 open class FormTextField: UITextField {
+    
+    // MARK: - Public properties
     
     public var unitLabel: UILabel {
         if let unitLabel = _unitLabel { return unitLabel }
@@ -41,36 +43,58 @@ open class FormTextField: UITextField {
         didSet { if placeholderTextColor != oldValue { updatePlaceholder() } }
     }
     
-    fileprivate var placeholderText: String? {
+    
+    // MARK: - Private methods
+    
+    private var placeholderText: String? {
         didSet { if placeholderText != oldValue { updatePlaceholder() }}
     }
     
-    fileprivate var _unitLabel: UILabel?
+    private var _unitLabel: UILabel?
     
-    fileprivate var valueInset: CGFloat = 0.0 {
+    private var valueInset: CGFloat = 0.0 {
         didSet { if valueInset != oldValue { unitLabelOriginXConstraint?.constant = valueInset } }
     }
     
-    fileprivate var unitLabelOriginXConstraint: NSLayoutConstraint?
+    private var unitLabelOriginXConstraint: NSLayoutConstraint?
+    
+    private var isRightToLeft: Bool = false {
+        didSet {
+            if isRightToLeft != oldValue {
+                setNeedsLayout()
+                textDidChange()
+            }
+        }
+    }
+    
+    
+    // MARK: - Initializers
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        commonInit()
     }
     
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        commonInit()
+    }
+    
+    private func commonInit() {
+        if #available(iOS 10, *) {
+            isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
+        } else {
+            isRightToLeft = UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft
+        }
         addTarget(self, action: #selector(textDidChange), for: .editingChanged)
     }
     
     deinit {
         _unitLabel?.removeObserver(self, forKeyPath: #keyPath(UILabel.text), context: &kvoContext)
     }
-}
-
-
-/// Overrides
-extension FormTextField {
+    
+    
+    // MARK: - Overrides
     
     open override var text: String? {
         didSet { textDidChange() }
@@ -114,6 +138,18 @@ extension FormTextField {
         didSet { textDidChange() }
     }
     
+    open override var semanticContentAttribute: UISemanticContentAttribute {
+        didSet {
+            if semanticContentAttribute == oldValue { return }
+            
+            if #available(iOS 10, *) {
+                isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
+            } else {
+                isRightToLeft = UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft
+            }
+        }
+    }
+    
     open override func becomeFirstResponder() -> Bool {
         if super.becomeFirstResponder() {
             textDidChange()
@@ -137,7 +173,7 @@ extension FormTextField {
         let adjustment = min(textRect.width, inset)
         
         textRect.size.width -= adjustment
-        if traitCollection.layoutDirection == .rightToLeft {
+        if isRightToLeft {
             textRect.origin.x += adjustment
         }
         
@@ -151,7 +187,7 @@ extension FormTextField {
         let adjustment = min(editingRect.width, inset)
         
         editingRect.size.width -= adjustment
-        if traitCollection.layoutDirection == .rightToLeft {
+        if isRightToLeft {
             editingRect.origin.x += adjustment
         }
         
@@ -172,27 +208,27 @@ extension FormTextField {
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         
-        if adjustsFontForContentSizeCategory,
-            traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory,
+        guard #available(iOS 10, *) else { return }
+        
+        if adjustsFontForContentSizeCategory && traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory,
             let placeholderFontType = placeholderFont?.fontDescriptor.fontAttributes["NSCTFontUIUsageAttribute"] as? String {
             placeholderFont = .preferredFont(forTextStyle: UIFontTextStyle(rawValue: placeholderFontType), compatibleWith: traitCollection)
         }
+        
+        isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
     }
     
-}
-
-
-
-fileprivate extension FormTextField {
     
-    @objc fileprivate func textDidChange() {
+    // MARK: - Private methods
+    
+    @objc private func textDidChange() {
         let hidden = _unitLabel?.text?.isEmpty ?? true || text?.isEmpty ?? true
         
         _unitLabel?.isHidden = hidden
         
-        if !hidden {
+        if hidden == false {
             
-            if traitCollection.layoutDirection == .rightToLeft {
+            if isRightToLeft {
                 
                 if isEditing, let textRange = textRange(from: beginningOfDocument, to: endOfDocument) {
                     // Get the maximum text rectangle for the text
@@ -239,7 +275,7 @@ fileprivate extension FormTextField {
         }
     }
     
-    fileprivate func updatePlaceholder() {
+    private func updatePlaceholder() {
         if let placeholder = placeholderText, placeholder.isEmpty == false {
             let attributes = [NSFontAttributeName: self.placeholderFont ?? UIFont.systemFont(ofSize: 15.0), NSForegroundColorAttributeName: self.placeholderTextColor ?? .lightGray]
             super.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: attributes)

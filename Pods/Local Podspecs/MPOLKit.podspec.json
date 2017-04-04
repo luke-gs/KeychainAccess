@@ -16,11 +16,12 @@
     "tag": "0.1.0"
   },
   "platforms": {
-    "ios": "10.0"
+    "ios": "9.0"
   },
   "default_subspecs": "Core",
   "resources": [
-    "MPOLKit/Assets/MPOL/**/*"
+    "MPOLKit/Assets/MPOL/**/*",
+    "MPOLKit/Assets/FormKit/*"
   ],
   "subspecs": [
     {

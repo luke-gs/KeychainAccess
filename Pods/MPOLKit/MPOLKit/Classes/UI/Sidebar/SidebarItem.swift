@@ -41,8 +41,8 @@ open class SidebarItem: NSObject {
     /// The color to tint the image (or selected image) when selected.
     @NSCopying open dynamic var selectedColor: UIColor?
     
-    /// The color to apply to the badge icon over the image.
+    /// The color to apply to the alert icon over the image.
     ///
-    /// When nil, the badge is not displayed. The default is `nil`.
-    @NSCopying open dynamic var badgeColor:    UIColor?
+    /// When nil, the icon is not displayed. The default is `nil`.
+    @NSCopying open dynamic var alertColor: UIColor?
 }

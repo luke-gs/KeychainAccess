@@ -1,9 +1,9 @@
 //
 //  CollectionViewFormCell.swift
-//  FormKit
+//  MPOLKit/FormKit
 //
 //  Created by Rod Brown on 4/05/2016.
-//  Copyright © 2016 Rod Brown. All rights reserved.
+//  Copyright © 2016 Gridstone. All rights reserved.
 //
 
 import UIKit
@@ -19,7 +19,117 @@ import UIKit.UIGestureRecognizerSubclass
 /// `CollectionViewFormCell` also blocks auto-layout based self sizing for performance reasons. Subclasses that wish to support
 /// auto-layout based cell sizing should override `preferredLayoutAttributesFitting(_:)` and perform the caculations with
 /// `systemLayoutSizeFitting(_:)`. Users should note that `CollectionViewFormLayout` does not support self-sizing cells.
-open class CollectionViewFormCell: UICollectionViewCell {
+open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, CollectionViewFormCellActionDelegate, UIGestureRecognizerDelegate {
+    
+    private static let standardSeparatorColor = #colorLiteral(red: 0.7843137255, green: 0.7803921569, blue: 0.8, alpha: 1)
+    
+    
+    @objc(CollectionViewFormSeparatorStyle) public enum SeparatorStyle: Int {
+        case none
+        
+        case indented
+        
+        case indentedAtRowLeading
+        
+        case fullWidth
+    }
+    
+    
+    @objc(CollectionViewFormHighlightStyle) public enum HighlightStyle: Int {
+        case none
+        
+        case fade
+    }
+    
+    
+    @objc(CollectionViewFormSelectionStyle) public enum SelectionStyle: Int {
+        case none
+        
+        case underline
+    }
+    
+    
+    
+    open var separatorStyle: SeparatorStyle = .indented {
+        didSet {
+            if separatorStyle != oldValue {
+                setNeedsLayout()
+            }
+        }
+    }
+    
+    @NSCopying open var separatorColor: UIColor? = CollectionViewFormCell.standardSeparatorColor {
+        didSet {
+            if selectionStyle != .underline || isSelected == false {
+                separatorView.backgroundColor = separatorColor
+            }
+        }
+    }
+    
+    
+    open override var isHighlighted: Bool {
+        didSet {
+            contentView.alpha = isHighlighted && highlightStyle == .fade ? 0.5 : 1.0
+        }
+    }
+    
+    open var highlightStyle: HighlightStyle = .none {
+        didSet {
+            if isHighlighted == false || highlightStyle == oldValue { return }
+            
+            contentView.alpha = highlightStyle == .fade ? 0.5 : 0.0
+        }
+    }
+    
+    open override var isSelected: Bool {
+        didSet {
+            if isSelected == oldValue { return }
+            
+            if selectionStyle == .underline {
+                separatorView.backgroundColor = isSelected ? tintColor : separatorColor
+                setNeedsLayout()
+            }
+            
+        }
+    }
+    
+    open var selectionStyle: SelectionStyle = .none {
+        didSet {
+            if selectionStyle == oldValue { return }
+            
+            if selectionStyle == .underline && isSelected {
+                separatorView.backgroundColor = tintColor
+                setNeedsLayout()
+            } else {
+                separatorView.backgroundColor = separatorColor
+            }
+        }
+    }
+    
+    
+    /// The accessory view for the cell.
+    ///
+    /// This will be placed at the trailing edge of the cell.
+    open var accessoryView: UIView? {
+        didSet {
+            if oldValue == accessoryView { return }
+            
+            oldValue?.removeFromSuperview()
+            
+            if let accessoryView = self.accessoryView {
+                contentView.addSubview(accessoryView)
+                
+                let accessoryWidth = accessoryView.frame.width
+                if accessoryWidth > 0 {
+                    contentModeLayoutTrailingConstraint.constant = (accessoryWidth + 10.0) * -1.0
+                } else {
+                    contentModeLayoutTrailingConstraint?.constant = 0.0
+                }
+            } else {
+                contentModeLayoutTrailingConstraint?.constant = 0.0
+            }
+        }
+    }
     
     
     // MARK: - Public properties
@@ -27,28 +137,13 @@ open class CollectionViewFormCell: UICollectionViewCell {
     /// The edit actions for the cell.
     /// 
     /// Setting this property will close edit actions if there are no more edit actions.
-    open var editActions: [CollectionViewFormEditAction]? {
-        didSet {
-            if editActions?.isEmpty ?? true && oldValue?.isEmpty ?? true { return }
-            
-            let editActionCount = editActions?.count ?? 0
-            
-            if scrollView.isDragging == false {
-                scrollView.isScrollEnabled = editActionCount != 0
-                if editActionCount > 0 {
-                    actionView?.updateForButtonsItems(editActions?.map {($0.title, $0.color)})
-                }
-            } else {
-                if editActionCount == 0 {
-                    scrollView.isScrollEnabled = false
-                } else {
-                    scrollView.isScrollEnabled = true
-                    actionView?.updateForButtonsItems(editActions?.map {($0.title, $0.color)})
-                }
-            }
-            
+    open var editActions: [CollectionViewFormEditAction] {
+        get {
+            return actionView.actions
+        }
+        set {
+            actionView.actions = newValue
             cachedEditAccessiblityActions = nil
-            scrollViewInset = CollectionViewFormCellActionView.singleButtonWidth * CGFloat(editActionCount)
         }
     }
 
@@ -57,8 +152,10 @@ open class CollectionViewFormCell: UICollectionViewCell {
     ///
     /// This property manages the display of edit actions. Setting this value calls `setShowingEditActions: animated:`
     /// without an animation.
-    open fileprivate(set) dynamic var isShowingEditActions: Bool {
-        get { return _isShowingEditActions }
+    open private(set) dynamic var isShowingEditActions: Bool {
+        get {
+            return actionView.isShowingActions
+        }
         set { setShowingEditActions(isShowingEditActions, animated: false) }
     }
     
@@ -69,30 +166,7 @@ open class CollectionViewFormCell: UICollectionViewCell {
     ///   - showingActions: A boolean value indicating whether the cell should show edit actions.
     ///   - animated:       A boolean flag indicating whether the update should be animated.
     open func setShowingEditActions(_ showingActions: Bool, animated: Bool) {
-        if showingActions == false {
-            removeTouchTrigger()
-            if _isShowingEditActions {
-                willChangeValue(forKey: #keyPath(isShowingEditActions))
-                _isShowingEditActions = false
-                didChangeValue(forKey: #keyPath(isShowingEditActions))
-            }
-            scrollView.setContentOffset(.zero, animated: animated)
-            if !animated {
-                removeActionView()
-            } else {
-                _scrolling = scrollView.contentOffset != .zero
-            }
-        } else {
-            applyTouchTrigger()
-            
-            let offsetValue = CGFloat(actionView?.buttons?.count ?? 0) * CollectionViewFormCellActionView.singleButtonWidth
-            let offset = CGPoint(x: traitCollection.layoutDirection == .rightToLeft ? -offsetValue : offsetValue, y: 0.0)
-            scrollView.setContentOffset(offset, animated: animated)
-            
-            if animated {
-                _scrolling = scrollView.contentOffset != .zero
-            }
-        }
+        actionView.setShowingActions(showingActions, animated: animated)
     }
     
     
@@ -114,11 +188,16 @@ open class CollectionViewFormCell: UICollectionViewCell {
             default:
                 attribute = .centerY
             }
-            contentModeLayoutConstraint?.isActive = false
-            contentModeLayoutConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: attribute, relatedBy: .equal, toItem: contentView.layoutMarginsGuide, attribute: attribute, priority: UILayoutPriorityDefaultLow - 1)
-            contentModeLayoutConstraint.isActive = true
+            contentModeLayoutVerticalConstraint?.isActive = false
+            contentModeLayoutVerticalConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: attribute, relatedBy: .equal, toItem: contentView.layoutMarginsGuide, attribute: attribute, priority: UILayoutPriorityDefaultLow - 1)
+            contentModeLayoutVerticalConstraint.isActive = true
+            
+            if accessoryView != nil {
+                setNeedsLayout()
+            }
         }
     }
+    
     
     /// This layout guide is applied to the cell's contentView, and positions content in the
     /// correct vertical position for the current `contentMode`. This layout guide is constrainted
@@ -131,35 +210,31 @@ open class CollectionViewFormCell: UICollectionViewCell {
     
     // MARK: - Private properties
     
+    private let separatorView = UIView(frame: .zero)
+    
+    internal let actionView = CollectionViewFormCellActionView(frame: .zero)
+    
     /// The content mode guide. This guide is private and will update to enforce the current content
     /// mode on the `contentModeLayoutGuide`.
-    fileprivate var contentModeLayoutConstraint: NSLayoutConstraint!
+    private var contentModeLayoutVerticalConstraint: NSLayoutConstraint!
     
-    fileprivate let internalContentView = UIView(frame: .zero)
-    fileprivate var scrollView: CollectionViewFormCellScrollView!
-    fileprivate var actionView: CollectionViewFormCellActionView?
-    fileprivate var _isShowingEditActions: Bool = false
-    fileprivate var _deceleratingToOpen: Bool = false
-    fileprivate var _scrolling: Bool    = false
-    fileprivate var touchTrigger: TouchRecognizer?
+    private var contentModeLayoutTrailingConstraint: NSLayoutConstraint!
     
-    fileprivate var scrollViewInset: CGFloat = 0.0 {
+    private var touchTrigger: TouchRecognizer?
+    
+    private var isFirstInRow: Bool = false
+    private var isAtTrailingEdge: Bool = false {
         didSet {
-            let dragging = scrollView.isDragging
-            if dragging || scrollView.contentOffset.x.isZero == false {
-                if traitCollection.layoutDirection == .rightToLeft {
-                    scrollView.contentInset.left = scrollViewInset
-                } else {
-                    scrollView.contentInset.right = scrollViewInset
-                }
-            }
-            if dragging == false {
-                setShowingEditActions(isShowingEditActions, animated: window != nil)
-            }
+            actionView.wantsGradientMask = isAtTrailingEdge == false
         }
     }
     
-    fileprivate var cachedEditAccessiblityActions: [CollectionViewFormAccessibilityEditAction]?
+    
+    private var isRightToLeft: Bool = false {
+        didSet { if isRightToLeft != oldValue { setNeedsLayout() } }
+    }
+    
+    private var cachedEditAccessiblityActions: [CollectionViewFormAccessibilityEditAction]?
     
     
     // MARK: - Initialization
@@ -177,197 +252,111 @@ open class CollectionViewFormCell: UICollectionViewCell {
     private func commonInit() {
         isAccessibilityElement = true
         
+        separatorView.autoresizingMask = [.flexibleWidth, .flexibleTopMargin]
+        separatorView.backgroundColor = separatorColor
+        separatorView.isUserInteractionEnabled = false
+        addSubview(separatorView)
+        
+        actionView.frame = bounds
+        actionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        actionView.layoutMargins = layoutMargins
+        actionView.actionDelegate = self
+        addSubview(actionView)
+        addGestureRecognizer(actionView.panGestureRecognizer)
+        
         super.contentMode = .center
         
-        let trueContentView        = super.contentView
+        let contentView            = super.contentView
         let contentModeLayoutGuide = self.contentModeLayoutGuide
         
-        scrollView = CollectionViewFormCellScrollView(cell: self)
-        scrollView.delegate      = self
-        scrollView.frame         = trueContentView.bounds
-        scrollView.autoresizingMask  = [.flexibleWidth, .flexibleHeight]
-        scrollView.isScrollEnabled = false
-        trueContentView.addSubview(scrollView)
-        addGestureRecognizer(scrollView.panGestureRecognizer)
+        contentView.addLayoutGuide(contentModeLayoutGuide)
         
-        internalContentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        internalContentView.frame = scrollView.bounds
-        internalContentView.clipsToBounds = true
-        scrollView.addSubview(internalContentView)
-        
-        internalContentView.addLayoutGuide(contentModeLayoutGuide)
-        
-        contentModeLayoutConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .centerY, relatedBy: .equal, toItem: internalContentView, attribute: .centerYWithinMargins, priority: UILayoutPriorityDefaultLow - 1)
+        contentModeLayoutVerticalConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerYWithinMargins, priority: UILayoutPriorityDefaultLow - 1)
+        contentModeLayoutTrailingConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .trailing, relatedBy: .equal, toItem: contentView, attribute: .trailingMargin)
         
         NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .leading,  relatedBy: .equal, toItem: internalContentView, attribute: .leadingMargin),
-            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .trailing, relatedBy: .equal, toItem: internalContentView, attribute: .trailingMargin),
-            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .top,      relatedBy: .greaterThanOrEqual, toItem: internalContentView, attribute: .topMargin),
-            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .bottom,   relatedBy: .lessThanOrEqual,    toItem: internalContentView, attribute: .bottomMargin, priority: 500),
-            contentModeLayoutConstraint
+            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .top,      relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .topMargin),
+            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .bottom,   relatedBy: .lessThanOrEqual,    toItem: contentView, attribute: .bottomMargin, priority: 500),
+            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .leading,  relatedBy: .equal, toItem: contentView, attribute: .leadingMargin),
+            contentModeLayoutTrailingConstraint,
+            contentModeLayoutVerticalConstraint
         ])
         
         applyStandardFonts()
+        
+        if #available(iOS 10, *) {
+            isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
+        } else {
+            isRightToLeft = UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft
+        }
+        
+        if #available(iOS 10, *) { return }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(contentSizeCategoryDidChange(_:)), name: .UIContentSizeCategoryDidChange, object: nil)
     }
     
     deinit {
         removeTouchTrigger()
     }
     
-}
-
-
-// MARK: - Scroll handling
-/// Scroll handling
-extension CollectionViewFormCell: UIScrollViewDelegate {
     
-    open func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        var contentOffset = scrollView.contentOffset
-        
-        if traitCollection.layoutDirection == .rightToLeft {
-            if contentOffset.x > 0 {
-                contentOffset.x = 0.0
-                scrollView.contentOffset = contentOffset
-            } else if contentOffset.x < -scrollView.bounds.width {
-                contentOffset.x = -scrollView.bounds.width
-                scrollView.contentOffset = contentOffset
+    // MARK: - Font updates
+    
+    /// Applies the standard fonts for the cell.
+    ///
+    /// This method is internal-only, and is expected to be called on reuse, and during
+    /// init methods.
+    ///
+    /// - Important: Subclasses must ensure that it is safe to call this method by
+    ///              `super.init()`, as it is called during the superclass's
+    ///              initializer.
+    internal func applyStandardFonts() {
+    }
+    
+    
+    // MARK: - Gesture recognizer delegate methods
+    
+    open override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if gestureRecognizer == touchTrigger {
+            if let hitTestedView = actionView.hitTest(gestureRecognizer.location(in: actionView), with: nil),
+                hitTestedView != actionView {
+                return false
             }
-        } else {
-            if contentOffset.x < 0 {
-                contentOffset.x = 0.0
-                scrollView.contentOffset = contentOffset
-            } else if contentOffset.x > scrollView.bounds.width {
-                contentOffset.x = scrollView.bounds.size.width
-                scrollView.contentOffset = contentOffset
-            }
+            return true
         }
         
-        update(for: contentOffset)
+        return super.gestureRecognizerShouldBegin(gestureRecognizer)
     }
     
-    open func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        let xVelocity = velocity.x
-        
-        var movingIntoEditing = false
-        
-        if traitCollection.layoutDirection == .rightToLeft {
-            if xVelocity > 0.25 {
-                targetContentOffset.pointee.x = 0.0
-            } else if xVelocity < -1.0 {
-                targetContentOffset.pointee.x = -scrollView.contentInset.left
-                movingIntoEditing = true
-            } else {
-                let contentInset = scrollView.contentInset.left
-                if targetContentOffset.pointee.x < (contentInset / -2.0) {
-                    movingIntoEditing = true
-                    targetContentOffset.pointee.x = -contentInset
-                } else {
-                    targetContentOffset.pointee.x = 0.0
-                }
-            }
-        } else {
-            if xVelocity < -0.25 {
-                targetContentOffset.pointee.x = 0.0
-            } else if xVelocity > 1.0 {
-                targetContentOffset.pointee.x = scrollView.contentInset.right
-                movingIntoEditing = true
-            } else {
-                let contentInset = scrollView.contentInset.right
-                if targetContentOffset.pointee.x > (contentInset / 2.0) {
-                    movingIntoEditing = true
-                    targetContentOffset.pointee.x = contentInset
-                } else {
-                    targetContentOffset.pointee.x = 0.0
-                }
-            }
-        }
-        
-        if movingIntoEditing {
-            _deceleratingToOpen = true
-            applyTouchTrigger()
-        } else {
-            _deceleratingToOpen = false
-            removeTouchTrigger()
-        }
+    @objc public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        let view = gestureRecognizer.view
+        let myCollectionView = view as? UICollectionView ?? view?.superview(of: UICollectionView.self)
+        let returnValue = otherGestureRecognizer.view == myCollectionView
+        return returnValue
     }
     
-    open func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if decelerate == false {
-            _deceleratingToOpen = false
-            if scrollView.contentOffset.x.isZero {
-                removeActionView()
-            }
-        }
+    
+    // MARK: - CollectionViewFormCellActionDelegate methods
+    
+    func actionViewShouldBeginDragging(_ actionView: CollectionViewFormCellActionView) -> Bool {
+        return firstResponderSubview() == nil
     }
     
-    open func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        let collectionView = superview(of: UICollectionView.self)
-        collectionView?.endEditing(true)
-        
-        if traitCollection.layoutDirection == .rightToLeft {
-            scrollView.contentInset.left = scrollViewInset
-        } else {
-            scrollView.contentInset.right = scrollViewInset
-        }
-        _deceleratingToOpen = false
+    func actionViewWillShowActions(_ actionView: CollectionViewFormCellActionView) {
+        superview(of: UICollectionView.self)?.endEditing(false)
+        applyTouchTrigger()
     }
     
-    open func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        let showing = scrollView.contentOffset.x.isZero == false
-        if _isShowingEditActions != showing {
-            willChangeValue(forKey: #keyPath(isShowingEditActions))
-            _isShowingEditActions = showing
-            didChangeValue(forKey: #keyPath(isShowingEditActions))
-        }
-        _deceleratingToOpen = false
-        if showing == false {
-            removeActionView()
-        }
+    func actionViewDidHideActions(_ actionView: CollectionViewFormCellActionView) {
+        removeTouchTrigger()
     }
     
-    open func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-        let showing = scrollView.contentOffset.x.isZero == false
-        if _isShowingEditActions != showing {
-            willChangeValue(forKey: #keyPath(isShowingEditActions))
-            _isShowingEditActions = showing
-            didChangeValue(forKey: #keyPath(isShowingEditActions))
-        }
-        _deceleratingToOpen = false
-        _scrolling = false
-        if showing == false {
-            removeActionView()
-        }
+    func actionView(_ actionView: CollectionViewFormCellActionView, didSelectActionAt index: Int) {
+        performEditAction(at: index)
     }
     
-    fileprivate func update(for scrollContentOffset: CGPoint) {
-        let size = scrollView.bounds.size
-        
-        if actionView == nil && scrollContentOffset.x.isZero == false {
-            superview(of: UICollectionView.self)?.endEditing(true)
-            actionView = CollectionViewFormCellActionView(cell: self)
-            actionView!.updateForButtonsItems((editActions?.map { let color = $0.color ?? .gray;
-                return ($0.title, color)}))
-            scrollView.addSubview(actionView!)
-        }
-        
-        var frame: CGRect
-        if traitCollection.layoutDirection == .rightToLeft {
-            frame = CGRect(x: scrollContentOffset.x, y: 0.0, width: -scrollContentOffset.x, height: size.height)
-        } else {
-            frame = CGRect(x: size.width, y: 0.0, width: scrollContentOffset.x, height: size.height)
-        }
-        actionView?.frame = frame
-    }
-}
-
-extension CollectionViewFormCell: DefaultReusable {
-}
-
-
-
-// MARK: - Overrides
-/// Overrides
-extension CollectionViewFormCell {
+    
+    // MARK: - Overrides
     
     open class override func automaticallyNotifiesObservers(forKey key: String) -> Bool {
         if key == #keyPath(CollectionViewFormCell.isShowingEditActions) {
@@ -377,18 +366,28 @@ extension CollectionViewFormCell {
         }
     }
     
-    open override var contentView: UIView {
-        return internalContentView
+    open override var semanticContentAttribute: UISemanticContentAttribute {
+        didSet {
+            if semanticContentAttribute == oldValue { return }
+            
+            if #available(iOS 10, *) {
+                isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
+            } else {
+                isRightToLeft = UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft
+            }
+        }
     }
     
     open override func prepareForReuse() {
         super.prepareForReuse()
         applyStandardFonts()
+        setNeedsLayout()
         setShowingEditActions(false, animated: false)
     }
     
     open override func willMove(toSuperview newSuperview: UIView?) {
         super.willMove(toSuperview: newSuperview)
+        setShowingEditActions(false, animated: false)
         removeTouchTrigger()
     }
     
@@ -397,8 +396,12 @@ extension CollectionViewFormCell {
         
         let newLayoutMargins: UIEdgeInsets
         if let formAttribute = layoutAttributes as? CollectionViewFormItemAttributes {
+            isFirstInRow     = formAttribute.rowIndex == 0
+            isAtTrailingEdge = formAttribute.isAtTrailingEdge
             newLayoutMargins = formAttribute.layoutMargins
         } else {
+            isFirstInRow     = false
+            isAtTrailingEdge = false
             newLayoutMargins = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
         }
         
@@ -406,44 +409,63 @@ extension CollectionViewFormCell {
             layoutMargins = newLayoutMargins
             setNeedsLayout()
         }
-        if internalContentView.layoutMargins != newLayoutMargins {
-            internalContentView.layoutMargins = newLayoutMargins
+        if contentView.layoutMargins != newLayoutMargins {
+            contentView.layoutMargins = newLayoutMargins
             setNeedsLayout()
+        }
+        if actionView.layoutMargins != newLayoutMargins {
+            actionView.layoutMargins = newLayoutMargins
         }
     }
     
-    open override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        guard let hitTestedView = super.hitTest(point, with: event) else { return nil }
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+        let bounds = self.bounds
         
-        if _scrolling { return internalContentView }
+        let separatorHeight = 1.0 / traitCollection.currentDisplayScale + (isSelected && selectionStyle == .underline ? 1.0 : 0.0)
+        var separatorFrame = CGRect(x: 0.0, y: bounds.height - separatorHeight, width: bounds.width, height: separatorHeight)
         
-        
-        // If we're dragging, don't receive additional touches.
-        if scrollView.isDragging {
-            return scrollView
-        }
-        
-        // If the scroll view is decelerating, only accept touches on the action view, and only when decelerating to open.
-        // If not decelerating to open or not touching the action view, pass the touch to the content view.
-        // This will ensure we won't get selection activity, but we can still catch scroll behaviour.
-        if scrollView.isDecelerating {
-            if _deceleratingToOpen,
-                let actionView = self.actionView
-                , hitTestedView.isDescendant(of: actionView) {
-                    return hitTestedView
+        if separatorStyle != .fullWidth && (separatorStyle != .indentedAtRowLeading || isFirstInRow) {
+            let layoutMargins = self.layoutMargins
+            if isRightToLeft {
+                separatorFrame.size.width -= layoutMargins.right
+                if isAtTrailingEdge == false {
+                    separatorFrame.size.width -= layoutMargins.left
+                    separatorFrame.origin.x   += layoutMargins.left
+                }
             } else {
-                return internalContentView
+                separatorFrame.size.width -= layoutMargins.left
+                separatorFrame.origin.x   += layoutMargins.left
+                
+                if isAtTrailingEdge == false {
+                    separatorFrame.size.width -= layoutMargins.right
+                }
             }
         }
+        separatorView.frame = separatorFrame
+        separatorView.isHidden = separatorStyle == .none
         
-        // The hit test on the cell will find the content view, the scroll view or a subview. The content view
-        // and the scroll view will block selection. If we're not currently showing edit actions, return ourself instead,
-        // to allow selection to occur.
-        if isShowingEditActions == false && (hitTestedView == internalContentView || hitTestedView == scrollView) {
-            return self
+        if let accessoryView = self.accessoryView {
+            let contentLayoutGuide = contentModeLayoutGuide.layoutFrame
+            
+            var accessoryFrame = accessoryView.frame
+            accessoryFrame.origin.y = round(contentLayoutGuide.midY - (accessoryFrame.size.height * 0.5))
+            if isRightToLeft {
+                accessoryFrame.origin.x = contentLayoutGuide.minX - 10.0 - accessoryFrame.width
+            } else {
+                accessoryFrame.origin.x = contentLayoutGuide.maxX + 10.0
+            }
+            accessoryView.frame = accessoryFrame
         }
         
-        return hitTestedView
+        let subviews     = self.subviews
+        let subviewCount = subviews.count
+        
+        if subviews.index(of: actionView) != subviewCount - 2 || subviews.index(of: separatorView) != subviewCount - 1 {
+            bringSubview(toFront: actionView)
+            bringSubview(toFront: separatorView)
+        }
+        
     }
     
     open override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
@@ -453,7 +475,7 @@ extension CollectionViewFormCell {
     open override var accessibilityCustomActions: [UIAccessibilityCustomAction]? {
         get {
             let accessibilityActions = super.accessibilityCustomActions
-            guard let editActions = self.editActions, editActions.isEmpty == false else {
+            guard editActions.isEmpty == false else {
                 return accessibilityActions
             }
             
@@ -477,52 +499,43 @@ extension CollectionViewFormCell {
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         
+        guard #available(iOS 10, *) else { return }
+        
         if (traitCollection.layoutDirection == .rightToLeft) != (previousTraitCollection?.layoutDirection == .rightToLeft) {
-            // If the trait collection's right-to-left status flipped, flip the content insets and the content offset, and update accordingly.
-            scrollView.contentInset = scrollView.contentInset.horizontallyFlipped()
-            
-            var contentOffset = scrollView.contentOffset
-            contentOffset.x = -contentOffset.x
-            scrollView.contentOffset = contentOffset
-            
-            update(for: contentOffset)
+            isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
+        }
+        
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            applyStandardFonts()
+            setNeedsLayout()
+        }
+        
+        if traitCollection.currentDisplayScale != previousTraitCollection?.currentDisplayScale {
+            setNeedsLayout()
         }
     }
     
-}
-
-
-internal extension CollectionViewFormCell {
-    
-    /// Applies the standard fonts for the cell.
-    ///
-    /// This method is internal-only, and is expected to be called on reuse, and during
-    /// init methods.
-    ///
-    /// - Important: Subclasses must ensure that it is safe to call this method by
-    ///              `super.init()`, as it is called during the superclass's
-    ///              initializer.
-    internal func applyStandardFonts() {
+    open override func tintColorDidChange() {
+        super.tintColorDidChange()
+        if isSelected && selectionStyle == .underline {
+            separatorView.backgroundColor = tintColor
+        }
     }
     
-}
-
-
-
-// MARK: - Private
-/// Private methods
-fileprivate extension CollectionViewFormCell {
     
-    @objc fileprivate func touchTriggerDidActivate(_ trigger: TouchRecognizer) {
-        // Don't fire the trigger if it's within the action view.
-        if let actionView = self.actionView , actionView.bounds.contains(trigger.location(in: actionView)) {
+    // MARK: - Private methods
+    
+    @objc private func touchTriggerDidActivate(_ trigger: TouchRecognizer) {
+        // Don't fire the trigger if it's within a view in the action view.
+        if let hitTestedView = actionView.hitTest(trigger.location(in: actionView), with: nil),
+            hitTestedView != actionView {
             return
         }
         
-        self.setShowingEditActions(false, animated: true)
+        setShowingEditActions(false, animated: true)
     }
     
-    fileprivate func applyTouchTrigger() {
+    private func applyTouchTrigger() {
         if touchTrigger != nil { return }
         if let collectionView = superview(of: UICollectionView.self) {
             let touchTrigger = TouchRecognizer(target: self, action: #selector(touchTriggerDidActivate(_:)))
@@ -532,190 +545,26 @@ fileprivate extension CollectionViewFormCell {
         }
     }
     
-    fileprivate func removeTouchTrigger() {
+    private func removeTouchTrigger() {
         if let touchTrigger = self.touchTrigger {
             touchTrigger.view?.removeGestureRecognizer(touchTrigger)
             self.touchTrigger = nil
         }
     }
     
-    fileprivate func removeActionView() {
-        scrollView.contentInset.left  = 0.0
-        scrollView.contentInset.right = 0.0
-        if let actionView = self.actionView {
-            actionView.removeFromSuperview()
-            self.actionView = nil
-        }
-    }
-    
-    @discardableResult
-    fileprivate func performEditAction(at index: Int) -> Bool {
-        let editCount = editActions?.count ?? 0
-        
-        if editCount > index,
+    // This method is declared fileprivate to allow associated classes to call back into the method.
+    @discardableResult fileprivate func performEditAction(at index: Int) -> Bool {
+        if editActions.count > index,
             let indexPath = superview(of: UICollectionView.self)?.indexPath(for: self) {
-            editActions?[index].action?(self, indexPath)
+            editActions[index].handler?(self, indexPath)
             return true
         }
         return false
     }
     
-}
-
-extension CollectionViewFormCell: UIGestureRecognizerDelegate {
-    open override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        if let actionView = self.actionView {
-            if actionView.bounds.contains(gestureRecognizer.location(in: actionView)) {
-                return false
-            }
-        }
-        return true
-    }
-    
-    @objc public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        let view = gestureRecognizer.view
-        let myCollectionView = view as? UICollectionView ?? view?.superview(of: UICollectionView.self)
-        let returnValue = otherGestureRecognizer.view == myCollectionView
-        return returnValue
-    }
-}
-
-
-
-
-/// A private subclass of UIScrollView to handle the gesture recognizer delegate
-/// actions which cannot be accessed any other way.
-private class CollectionViewFormCellScrollView: UIScrollView, UIGestureRecognizerDelegate {
-    
-    unowned let cell: CollectionViewFormCell
-    
-    override var frame: CGRect {
-        didSet {
-            if frame.size.equalTo(contentSize) == false { contentSize = frame.size }
-        }
-    }
-    
-    init(cell: CollectionViewFormCell) {
-        self.cell = cell
-        
-        super.init(frame: .zero)
-        
-        panGestureRecognizer.delegate = self
-        decelerationRate = (UIScrollViewDecelerationRateFast + UIScrollViewDecelerationRateNormal) / 2.0
-        delaysContentTouches = false
-        alwaysBounceVertical = false
-        alwaysBounceHorizontal = true
-        showsVerticalScrollIndicator = false
-        showsHorizontalScrollIndicator = false
-        isDirectionalLockEnabled = true
-    }
-    
-    /// CollectionViewFormCellScrollView does not support NSCoding.
-    required init?(coder aDecoder: NSCoder) {
-        return nil
-    }
-    
-    override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        if let cells = cell.superview(of: UICollectionView.self)?.visibleCells {
-            if cells.contains(where: {
-                if let state = ($0 as? CollectionViewFormCell)?.scrollView.panGestureRecognizer.state {
-                    return state != .possible && state != .failed
-                }
-                return false
-            }) {
-                return false
-            }
-        }
-        if contentOffset.x.isZero && firstResponderSubview() != nil {
-            return false
-        }
-        return true
-    }
-    
-}
-
-
-/// A private view which manages the editing buttons for the cell.
-private class CollectionViewFormCellActionView: UIView {
-    
-    static let singleButtonWidth: CGFloat = 80.0
-    
-    unowned let cell: CollectionViewFormCell
-    
-    var buttons: [UIButton]?
-    
-    init(cell: CollectionViewFormCell) {
-        self.cell = cell
-        super.init(frame: .zero)
-        self.clipsToBounds = true
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        return nil
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        UIView.performWithoutAnimation {
-            let bounds = self.bounds
-            let buttonWidth = CollectionViewFormCellActionView.singleButtonWidth
-            
-            if self.traitCollection.layoutDirection == .rightToLeft {
-                var startX: CGFloat = 0.0
-                
-                self.buttons?.forEach { (button: UIButton) in
-                    button.frame = CGRect(x: startX, y: 0.0, width: buttonWidth, height: bounds.height)
-                    button.layoutIfNeeded()
-                    startX += buttonWidth
-                }
-            } else {
-                var startX: CGFloat = bounds.width - buttonWidth
-                
-                self.buttons?.forEach { (button: UIButton) in
-                    button.frame = CGRect(x: startX, y: 0.0, width: buttonWidth, height: bounds.height)
-                    button.layoutIfNeeded()
-                    startX -= buttonWidth
-                }
-            }
-            
-        }
-    }
-    
-    func updateForButtonsItems(_ items:[(title: String, color: UIColor?)]?) {
-        buttons?.forEach { $0.removeFromSuperview() }
-        var reusableButtons = buttons
-        buttons = items?.enumerated().map {
-            let button: UIButton
-            if let dequeuedButton = reusableButtons?.popLast() {
-                button = dequeuedButton
-            } else {
-                button = UIButton(type: .custom)
-                button.addTarget(self, action: #selector(buttonDidTap(_:)), for: .touchUpInside)
-                button.addTarget(self, action: #selector(buttonDidTap(_:)), for: .touchCancel)
-                button.setTitleColor(.white, for: .normal)
-                button.setTitleColor(.gray, for: .highlighted)
-            }
-            button.backgroundColor = $0.element.color ?? .gray
-            button.setTitle($0.element.title, for: .normal)
-            button.titleLabel?.adjustsFontSizeToFitWidth = true
-            button.tag = $0.offset
-            self.addSubview(button)
-            return button
-        }
-        
+    @objc private func contentSizeCategoryDidChange(_ notification: Notification) {
+        applyStandardFonts()
         setNeedsLayout()
-    }
-    
-    @objc func buttonDidTap(_ button: UIButton) {
-        cell.performEditAction(at: button.tag)
-    }
-    
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        if (traitCollection.layoutDirection == .rightToLeft) != (previousTraitCollection?.layoutDirection == .rightToLeft) {
-            setNeedsLayout()
-        }
     }
     
 }

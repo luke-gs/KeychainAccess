@@ -1,6 +1,6 @@
 //
 //  CollectionViewFormLayout.swift
-//  FormKit
+//  MPOLKit
 //
 //  Created by Rod Brown on 27/04/2016.
 //  Copyright © 2016 Gridstone. All rights reserved.
@@ -10,12 +10,6 @@ import UIKit
 
 public let collectionElementKindGlobalHeader = "collectionElementKindGlobalHeader"
 public let collectionElementKindGlobalFooter = "collectionElementKindGlobalFooter"
-
-public let collectionElementKindSectionItemBackground = "sectionItemBackground"
-public let collectionElementKindSeparatorSection  = "separatorSection"
-public let collectionElementKindSeparatorRow      = "separatorRow"
-public let collectionElementKindSeparatorItem     = "separatorItem"
-
 
 
 /// The `CollectionViewFormLayout` class is a concrete layout object that organizes items into a
@@ -42,9 +36,6 @@ public let collectionElementKindSeparatorItem     = "separatorItem"
 /// cells in the row are given the height of the largest item in the row.
 open class CollectionViewFormLayout: UICollectionViewLayout {
     
-    // This is the default standard separator color for iOS 7 - 10.
-    fileprivate static let separatorGray = #colorLiteral(red: 0.7843137255, green: 0.7803921569, blue: 0.8, alpha: 1)
-    
     
     // MARK: - Associated enums
     
@@ -57,6 +48,11 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         
         /// Apportions additional space to the last item in a row
         case fillLast
+        
+        /// Apportions additional space to the last item in the row, when the item is
+        /// within a distance of the trailing edge where another item of the same
+        /// size would no longer fit. Otherwise, no distribution will occur.
+        case fillLastWithinColumnDistance
         
         /// Cells will not be distributed excess space in rows.
         case none
@@ -76,7 +72,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     /// instances of `CollectionViewFormLayoutItemAttributes` and apply the contained `layoutMargins` property.
     ///
     /// - seealso: `CollectionViewFormItemAttributes.layoutMargins`
-    open var itemLayoutMargins: UIEdgeInsets = UIEdgeInsets(top: 8.0, left: 20.0, bottom: 8.0, right: 10.0) {
+    open var itemLayoutMargins: UIEdgeInsets = UIEdgeInsets(top: 16.5, left: 12.0, bottom: 14.5, right: 12.0) {
         didSet {
             let screenScale = (collectionView?.window?.screen ?? UIScreen.main).scale
             let setMargins = itemLayoutMargins
@@ -86,119 +82,19 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         }
     }
     
-    
-    /// The color of section backgrounds in the collection view.
-    ///
-    /// Section colors can be used to create an appearance similar to UITableView.
-    /// The default is `nil`.
-    open var sectionColor: UIColor? {
+    public var wantsInsetHeaders: Bool = true {
         didSet {
-            let sectionColor = self.sectionColor
-            let sectionItemBackgroundAttributes = self.sectionItemBackgroundAttributes
-            if sectionColor == oldValue || sectionItemBackgroundAttributes.isEmpty { return }
-            
-            let indexPaths: [IndexPath] = sectionItemBackgroundAttributes.map { $0.backgroundColor = sectionColor; return $0.indexPath }
-            let invalidationContext = UICollectionViewLayoutInvalidationContext()
-            invalidationContext.invalidateDecorationElements(ofKind: collectionElementKindSectionItemBackground, at: indexPaths)
-            invalidateLayout(with: invalidationContext)
-        }
-    }
-    
-    
-    /// The color of item separators in the collection view.
-    ///
-    /// The default color is a standard separator gray.
-    open var itemSeparatorColor: UIColor? = CollectionViewFormLayout.separatorGray {
-        didSet {
-            let separatorColor = self.itemSeparatorColor
-            let sectionRects = self.sectionRects
-            if separatorColor == oldValue || sectionRects.count == 0 { return }
-            
-            var rowSeparators: [IndexPath] = []
-            var rowCapacity = 0
-            for section in rowSeparatorAttributes {
-                rowCapacity += section.count
-                if rowCapacity > 0 { rowSeparators.reserveCapacity(rowCapacity) }
-                for row in section {
-                    row.backgroundColor = separatorColor
-                    rowSeparators.append(row.indexPath)
-                }
-            }
-            
-            var itemSeparators: [IndexPath] = []
-            var itemCapacity = 0
-            for section in itemSeparatorAttributes {
-                itemCapacity += section.count
-                if rowCapacity > 0 { rowSeparators.reserveCapacity(rowCapacity) }
-                for item in section {
-                    item.backgroundColor = separatorColor
-                    itemSeparators.append(item.indexPath)
-                }
-            }
-            
-            let invalidationContext = UICollectionViewLayoutInvalidationContext()
-            var invalidate = false
-            if rowSeparators.isEmpty == false {
-                invalidate = true
-                invalidationContext.invalidateDecorationElements(ofKind: collectionElementKindSeparatorRow, at: rowSeparators)
-            }
-            if itemSeparators.isEmpty == false {
-                invalidate = true
-                invalidationContext.invalidateDecorationElements(ofKind: collectionElementKindSeparatorItem, at: itemSeparators)
-            }
-            if invalidate {
-                invalidateLayout(with: invalidationContext)
-            }
-            
-        }
-    }
-    
-    
-    /// The color of section separators in the collection view.
-    ///
-    /// The default color is a standard separator gray.
-    open var sectionSeparatorColor: UIColor? = CollectionViewFormLayout.separatorGray {
-        didSet {
-            let sectionSeparatorColor      = self.sectionSeparatorColor
-            let sectionSeparatorAttributes = self.sectionSeparatorAttributes
-            
-            var sectionSeparators: [IndexPath] = []
-            sectionSeparators.reserveCapacity(sectionSeparatorAttributes.count * 3)
-            for section in sectionSeparatorAttributes {
-                for separator in section {
-                    separator.backgroundColor = sectionSeparatorColor
-                    sectionSeparators.append(separator.indexPath)
-                }
-            }
-            
-            if sectionSeparators.isEmpty == false {
-                let invalidationContext = UICollectionViewLayoutInvalidationContext()
-                invalidationContext.invalidateDecorationElements(ofKind: collectionElementKindSeparatorSection, at: sectionSeparators)
-                invalidateLayout(with: invalidationContext)
+            if wantsInsetHeaders != oldValue {
+                invalidateLayout()
             }
         }
     }
-    
-    /// The width for the item separators. The default is 1 pixel on the collection view's current screen.
-    open var separatorWidth: CGFloat {
-        get {
-            if let separator = _separatorWidth { return separator }
-            let screen = collectionView?.window?.screen ?? UIScreen.main
-            return 1.0 / screen.scale }
-        set {
-            let newWidth = max(0.0, newValue)
-            if newWidth == _separatorWidth { return }
-            _separatorWidth = newWidth
-            invalidateLayout()
-        }
-    }
-    
     
     /// The distribution method to use for cell sizing. The default is `CollectionViewFormLayout.Distribution.fillEqually`.
-    open var distribution: CollectionViewFormLayout.Distribution = .fillEqually {
+    open var distribution: CollectionViewFormLayout.Distribution = .fillLastWithinColumnDistance {
         didSet {
             if distribution == .automatic {
-                distribution = .fillEqually
+                distribution = .fillLastWithinColumnDistance
             }
             
             if distribution != oldValue {
@@ -206,6 +102,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
             }
         }
     }
+    
     
     // MARK: - Protected properties
     
@@ -215,46 +112,17 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     public var globalHeaderAttribute: UICollectionViewLayoutAttributes?
     public var globalFooterAttribute: UICollectionViewLayoutAttributes?
     
-    public var sectionHeaderAttributes:     [UICollectionViewLayoutAttributes?]  = []
+    public var sectionHeaderAttributes:     [CollectionViewFormHeaderAttributes?]  = []
     public var sectionFooterAttributes:     [UICollectionViewLayoutAttributes?]  = []
-    public var sectionItemBackgroundAttributes: [CollectionViewFormDecorationAttributes] = []
     
     public var itemAttributes: [[CollectionViewFormItemAttributes]] = []
-    
-    public var sectionSeparatorAttributes:  [[CollectionViewFormDecorationAttributes]] = []
-    public var rowSeparatorAttributes:      [[CollectionViewFormDecorationAttributes]] = []
-    public var itemSeparatorAttributes:     [[CollectionViewFormDecorationAttributes]] = []
     
     
     // MARK: - Private properties
     
-    fileprivate var _separatorWidth: CGFloat?
-    fileprivate var _lastLaidOutWidth: CGFloat?
+    private var _lastLaidOutWidth: CGFloat?
     
-    fileprivate var previousSectionRowSeparatorCounts: [Int] = []
-    fileprivate var previousSectionItemCounts:         [Int] = []
-    fileprivate var previousSectionSeparatorCounts:    [Int] = []
-    
-    
-    // MARK: - Initialization
-    
-    public override init() {
-        super.init()
-        commonInit()
-    }
-    
-    public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        commonInit()
-    }
-    
-    private func commonInit() {
-        register(CollectionViewFormDecorationView.self, forDecorationViewOfKind: collectionElementKindSectionItemBackground)
-        register(CollectionViewFormDecorationView.self, forDecorationViewOfKind: collectionElementKindSeparatorSection)
-        register(CollectionViewFormDecorationView.self, forDecorationViewOfKind: collectionElementKindSeparatorRow)
-        register(CollectionViewFormDecorationView.self, forDecorationViewOfKind: collectionElementKindSeparatorItem)
-    }
-    
+    private var previousSectionItemCounts:         [Int] = []
     
     
     // MARK: - Layout preparation
@@ -262,13 +130,386 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     open override func prepare() {
         super.prepare()
         
-        guard let collectionView = self.collectionView else { return }
+        guard let collectionView = self.collectionView,
+            let delegate = collectionView.delegate as? CollectionViewDelegateFormLayout else { return }
         
-        previousSectionRowSeparatorCounts = rowSeparatorAttributes.map { $0.count }
-        previousSectionItemCounts         = itemSeparatorAttributes.map { $0.count }
-        previousSectionSeparatorCounts    = sectionSeparatorAttributes.map { $0.count }
+        previousSectionItemCounts = itemAttributes.map { $0.count }
         
         _lastLaidOutWidth = collectionView.bounds.width
+        
+        let isRTL: Bool
+        if #available(iOS 10, *) {
+            isRTL = collectionView.effectiveUserInterfaceLayoutDirection == .rightToLeft
+        } else {
+            isRTL = UIView.userInterfaceLayoutDirection(for: collectionView.semanticContentAttribute) == .rightToLeft
+        }
+        
+        let collectionViewWidth = collectionView.bounds.width
+        
+        let screenScale = (collectionView.window?.screen ?? .main).scale
+        let singlePixel: CGFloat = 1.0 / screenScale
+        
+        var reusableSectionHeaderAttributes: [CollectionViewFormHeaderAttributes] = sectionHeaderAttributes.flatMap{$0}
+        var reusableSectionFooterAttributes: [UICollectionViewLayoutAttributes]   = sectionFooterAttributes.flatMap{$0}
+        var reusableItemAttributes:          [CollectionViewFormItemAttributes]   = itemAttributes.flatMap{$0}
+        
+        sectionRects.removeAll(keepingCapacity: true)
+        itemAttributes.removeAll(keepingCapacity: true)
+        sectionHeaderAttributes.removeAll(keepingCapacity: true)
+        sectionFooterAttributes.removeAll(keepingCapacity: true)
+        
+        let numberOfSections = collectionView.numberOfSections
+        sectionRects.reserveCapacity(numberOfSections)
+        itemAttributes.reserveCapacity(numberOfSections)
+        sectionHeaderAttributes.reserveCapacity(numberOfSections)
+        sectionFooterAttributes.reserveCapacity(numberOfSections)
+        
+        let itemLayoutMargins = self.itemLayoutMargins
+        
+        // function to process a section's items. ensure that insets are accounted for.
+        func processItemsInSection(_ section: Int, atPoint point: CGPoint, withWidth width: CGFloat, sectionInsets: UIEdgeInsets) -> CGFloat { // Returns height of section items
+            
+            let sectionDistribution: CollectionViewFormLayout.Distribution
+            if let foundDistribution = delegate.collectionView?(collectionView, layout: self, distributionForSection: section) , foundDistribution != .automatic {
+                sectionDistribution = foundDistribution
+            } else {
+                sectionDistribution = self.distribution
+            }
+            
+            var currentYOrigin = point.y
+            
+            let sectionLeftInset  = sectionInsets.left.rounded(toScale: screenScale)
+            let sectionRightInset = sectionInsets.right.rounded(toScale: screenScale)
+            
+            let firstItemLeftWidthInset = sectionLeftInset.isZero  ? itemLayoutMargins.left  : 0.0
+            let lastItemRightWidthInset = sectionRightInset.isZero ? itemLayoutMargins.right : 0.0
+            
+            let sectionWidth: CGFloat = width - sectionLeftInset - sectionRightInset
+            
+            let maximumAllowedWidth: CGFloat = sectionWidth - firstItemLeftWidthInset - lastItemRightWidthInset
+            
+            var itemMinWidths: [(IndexPath, CGFloat)] = (0..<collectionView.numberOfItems(inSection: section)).map {
+                // Create a tuple representing the index path for this item in the section. Provide the minimum width, at maximum of either zero, or the minimum of width and the section width. This ensures an item width that can fit and will never be below zero.
+                let indexPath = IndexPath(item: $0, section: section)
+                let width: CGFloat = max(min((delegate.collectionView(collectionView, layout: self, minimumContentWidthForItemAt: indexPath, givenSectionWidth: width, edgeInsets: sectionInsets)).floored(toScale: screenScale), maximumAllowedWidth), 0.0)
+                return (indexPath, width)
+            }
+            
+            let sectionItemCount = itemMinWidths.count
+            
+            var sectionItemAttributes: [CollectionViewFormItemAttributes] = []
+            sectionItemAttributes.reserveCapacity(sectionItemCount)
+            
+            let sectionItemStartY = currentYOrigin
+            if sectionItemCount > 0 {
+                
+                var currentItemIndex = 0
+                currentYOrigin += max(0.0, round(sectionInsets.top))
+                
+                var rowCount = 0
+                func processRow() {
+                    
+                    var items: [(IndexPath, CGFloat)] = []
+                    var minRowWidth: CGFloat = 0.0
+                    var minRowContentWidths: CGFloat = 0.0
+                    var rowItemCount = 0
+                    
+                    while currentItemIndex < sectionItemCount {
+                        let item = itemMinWidths[currentItemIndex]
+                        
+                        let newMinRowWidth: CGFloat
+                        if rowItemCount == 0 {
+                            newMinRowWidth = item.1 + firstItemLeftWidthInset
+                        } else {
+                            newMinRowWidth = minRowWidth + itemLayoutMargins.left + itemLayoutMargins.right + item.1
+                        }
+                        if (newMinRowWidth + lastItemRightWidthInset) > ceil(sectionWidth) && items.isEmpty == false { break }
+                        
+                        items.append(item)
+                        minRowWidth = newMinRowWidth
+                        minRowContentWidths += item.1
+                        rowItemCount += 1
+                        currentItemIndex += 1
+                    }
+                    if rowItemCount > 0 {
+                        // We've now got all items in the section. Work out how much extra space we have.
+                        
+                        let rowItemCountFloat = CGFloat(rowItemCount)
+                        let insetSpace = (rowItemCountFloat - 1.0) * (itemLayoutMargins.left + itemLayoutMargins.right) + firstItemLeftWidthInset + lastItemRightWidthInset
+                        
+                        let leftOverSpace = max(sectionWidth - insetSpace - minRowContentWidths, 0.0)
+                        let extraSpacePerItem    = sectionDistribution == .fillEqually ? (leftOverSpace / rowItemCountFloat).floored(toScale: screenScale) : 0.0
+                        var extraAllocationWidth = sectionDistribution == .fillEqually ? (leftOverSpace * screenScale).truncatingRemainder(dividingBy: rowItemCountFloat) / screenScale : 0.0
+                        
+                        var minHeight:     CGFloat = 0.0
+                        var currentXValue: CGFloat = point.x
+                        
+                        let rowItems: [(ip: IndexPath, frame: CGRect, margins: UIEdgeInsets)] = items.enumerated().map { (index: Int, element: (indexPath: IndexPath, contentWidth: CGFloat)) in
+                            let indexPath = element.indexPath
+                            var newContentWidth = element.contentWidth + extraSpacePerItem
+                            if extraAllocationWidth > 0.0 {
+                                newContentWidth += singlePixel
+                                extraAllocationWidth -= singlePixel
+                            }
+                            
+                            if leftOverSpace > 0.0 && index == rowItemCount - 1 {
+                                if sectionDistribution == .fillLast {
+                                    newContentWidth += leftOverSpace
+                                } else if sectionDistribution == .fillLastWithinColumnDistance {
+                                    let columnWidth = newContentWidth + itemLayoutMargins.left + itemLayoutMargins.right
+                                    if columnWidth > leftOverSpace {
+                                        // we can't fit in an extra column - fill it in.
+                                        newContentWidth += leftOverSpace
+                                    }
+                                }
+                            }
+                            
+                            let itemMinHeight = ceil(delegate.collectionView(collectionView, layout: self, minimumContentHeightForItemAt: indexPath, givenItemContentWidth: newContentWidth))
+                            if minHeight < itemMinHeight { minHeight = itemMinHeight }
+                            
+                            if rowItemCount == 1 {
+                                var insets = UIEdgeInsets(top: itemLayoutMargins.top, left: sectionLeftInset.isZero ? itemLayoutMargins.left : sectionLeftInset, bottom: itemLayoutMargins.bottom, right: sectionRightInset.isZero ? itemLayoutMargins.right : sectionRightInset)
+                                
+                                let proposedEndOfContent = currentXValue + newContentWidth + insets.left
+                                let endOfMaxContent      = collectionViewWidth - (sectionRightInset.isZero ? itemLayoutMargins.right : sectionRightInset)
+                                if proposedEndOfContent > endOfMaxContent {
+                                    let difference = proposedEndOfContent - endOfMaxContent
+                                    insets.right -= difference
+                                }
+                                return (indexPath, CGRect(x: currentXValue, y: currentYOrigin, width: newContentWidth + insets.left + insets.right, height: 0.0), insets)
+                            }
+                            
+                            let itemInsets: UIEdgeInsets
+                            if index == 0 {
+                                itemInsets = UIEdgeInsets(top: itemLayoutMargins.top, left: sectionLeftInset.isZero ? itemLayoutMargins.left : sectionLeftInset, bottom: itemLayoutMargins.bottom, right: itemLayoutMargins.right)
+                            } else if index == rowItemCount - 1 {
+                                var insets = UIEdgeInsets(top: itemLayoutMargins.top, left: itemLayoutMargins.left, bottom: itemLayoutMargins.bottom, right: sectionRightInset.isZero ? itemLayoutMargins.right : sectionRightInset)
+                                let proposedEndOfContent = currentXValue + newContentWidth + insets.left
+                                let endOfMaxContent      = collectionViewWidth - (sectionRightInset.isZero ? itemLayoutMargins.right : sectionRightInset)
+                                if proposedEndOfContent > endOfMaxContent {
+                                    let difference = proposedEndOfContent - endOfMaxContent
+                                    insets.right += difference
+                                }
+                                itemInsets = insets
+                            } else {
+                                itemInsets = itemLayoutMargins
+                            }
+                            
+                            let frame = CGRect(x: currentXValue, y:currentYOrigin, width: newContentWidth + itemInsets.left + itemInsets.right, height: 0.0)
+                            currentXValue = frame.maxX
+                            
+                            return (indexPath, frame, itemInsets)
+                        }
+                        
+                        minHeight += itemLayoutMargins.top + itemLayoutMargins.bottom
+                        
+                        for (index, item) in rowItems.enumerated() {
+                            let itemAttribute: CollectionViewFormItemAttributes
+                            let indexPath = item.0
+                            if let dequeuedAttributes = reusableItemAttributes.popLast() {
+                                dequeuedAttributes.indexPath = indexPath
+                                itemAttribute = dequeuedAttributes
+                            } else {
+                                itemAttribute = CollectionViewFormItemAttributes(forCellWith: indexPath)
+                                itemAttribute.zIndex = 1
+                            }
+                            
+                            itemAttribute.rowIndex         = index
+                            itemAttribute.rowItemCount     = rowItemCount
+                            
+                            var frame = item.frame
+                            itemAttribute.isAtTrailingEdge = fabs(frame.maxX - collectionViewWidth) < 0.5
+                            
+                            frame.size.height = minHeight
+                            itemAttribute.frame = isRTL ? frame.rtlFlipped(forWidth: collectionViewWidth) : frame
+                            itemAttribute.layoutMargins = isRTL ? item.margins.horizontallyFlipped() : item.margins
+                            
+                            sectionItemAttributes.append(itemAttribute)
+                        }
+                        
+                        currentYOrigin += minHeight
+                    }
+                    
+                    rowCount += 1
+                }
+                
+                // Process the rows from the minWidth
+                while currentItemIndex < sectionItemCount {
+                    processRow()
+                }
+            }
+            
+            itemAttributes.append(sectionItemAttributes)
+            
+            return currentYOrigin + max(0.0, round(sectionInsets.bottom)) - point.y
+        }
+        
+        var currentYOffset: CGFloat = 0.0
+        
+        if let globalHeaderHeight = delegate.collectionView?(collectionView, heightForGlobalHeaderInLayout: self) , globalHeaderHeight > 0.0 {
+            let attribute = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: collectionElementKindGlobalHeader, with: IndexPath(index: 0))
+            attribute.frame = CGRect(x: 0.0, y: currentYOffset, width: collectionViewWidth, height: ceil(globalHeaderHeight))
+            attribute.zIndex = 1
+            globalHeaderAttribute = attribute
+            currentYOffset += ceil(globalHeaderHeight)
+        } else {
+            globalHeaderAttribute = nil
+        }
+        
+        // Each section is grouped with a group horizontally, to attempt to layout side-by-side.
+        let sectionGroups: [[(Int, (x: CGFloat, width: CGFloat))]]
+        
+        if delegate.responds(to: #selector(CollectionViewDelegateFormLayout.collectionView(_:layout:minimumWidthForSection:))) {
+            let widths = (0..<numberOfSections).map {($0, min(floor(delegate.collectionView!(collectionView, layout: self, minimumWidthForSection: $0)), collectionViewWidth)) }
+            var groups: [[(Int, (x: CGFloat, width: CGFloat))]] = []
+            
+            var sectionPreferredWidths = widths
+            while sectionPreferredWidths.isEmpty == false {
+                var width: CGFloat = 0.0
+                var sectionItems: [Int] = []
+                while width < collectionViewWidth {
+                    guard let newProposedItem = sectionPreferredWidths.first else { break }
+                    let newProposedWidth = width + newProposedItem.1
+                    if newProposedWidth > collectionViewWidth { break }
+                    sectionItems.append(newProposedItem.0)
+                    sectionPreferredWidths.removeFirst()
+                    width = newProposedWidth
+                }
+                if sectionItems.isEmpty { break }
+                let leftOverPerItem = (collectionViewWidth - width) / CGFloat(sectionItems.count)
+                
+                var originX: CGFloat = 0.0
+                var items: [(Int, (x: CGFloat, width: CGFloat))] = []
+                for section in sectionItems {
+                    let width = ceil(widths[section].1 + leftOverPerItem)
+                    items.append((section, (x: originX, width: width)))
+                    originX += width
+                }
+                groups.append(items)
+            }
+            sectionGroups = groups
+        }
+        else {
+            sectionGroups = (0..<numberOfSections).map{[($0, (x: 0.0, width: collectionViewWidth))]}
+        }
+        
+        
+        let defaultWantsSectionHeaderInsets = wantsInsetHeaders
+        
+        for sectionGroup: [(Int, (x: CGFloat, width: CGFloat))] in sectionGroups {
+            
+            var sectionIndentAdded: Bool = false
+            
+            // process each section group
+            let startOfHeaders = currentYOffset
+            
+            // First get headers, work out the taller of them, and add them putting them to the bottom as much as possible
+            var largestHeight: CGFloat = 0.0
+            let headerRects: [(section: Int, headerRect: CGRect, sectionInsets: UIEdgeInsets)] = sectionGroup.map {
+                let width = $1.width
+                let height = max(ceil(delegate.collectionView(collectionView, layout: self, heightForHeaderInSection: $0, givenSectionWidth: width)), 0.0)
+                largestHeight = max(largestHeight, height)
+                let edgeInsets = delegate.collectionView(collectionView, layout: self, insetForSection: $0, givenSectionWidth: width)
+                return ($0, CGRect(x: $1.x, y: 0.0, width: width, height: height), edgeInsets)
+            }
+            currentYOffset += largestHeight
+            
+            var maxHeaderInsetAdded: CGFloat = 0.0
+            
+            for headerRect in headerRects {
+                var rect    = headerRect.1
+                let height = rect.size.height
+                
+                if height.isZero {
+                    sectionHeaderAttributes.append(nil)
+                } else {
+                    rect.origin.y = currentYOffset - height
+                    
+                    let sectionIndexPath = IndexPath(item: 0, section: headerRect.0)
+                    let headerAttribute: CollectionViewFormHeaderAttributes
+                    if let dequeuedAttributes = reusableSectionHeaderAttributes.popLast() {
+                        dequeuedAttributes.indexPath = sectionIndexPath
+                        headerAttribute = dequeuedAttributes
+                    } else {
+                        headerAttribute = CollectionViewFormHeaderAttributes(forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, with: sectionIndexPath)
+                        headerAttribute.zIndex = 1
+                    }
+                    
+                    var sectionInset = headerRect.2.left
+                    if sectionInset.isZero {
+                        sectionInset = itemLayoutMargins.left
+                    }
+                    
+                    headerAttribute.leadingMargin = sectionInset
+                    
+                    let wantsInsetSectionHeader = delegate.collectionView?(collectionView, layout: self, shouldInsetHeaderInSection: sectionIndexPath.section) ?? defaultWantsSectionHeaderInsets
+                    if wantsInsetSectionHeader {
+                        if sectionIndentAdded == false {
+                            sectionIndentAdded = true
+                        }
+                        
+                        headerAttribute.itemPosition = rect.size.height
+                        rect.size.height += itemLayoutMargins.top
+                        maxHeaderInsetAdded = max(maxHeaderInsetAdded, itemLayoutMargins.top)
+                    }
+                    headerAttribute.frame = isRTL ? rect.rtlFlipped(forWidth: collectionViewWidth) : rect
+                    sectionHeaderAttributes.append(headerAttribute)
+                }
+            }
+            
+            let startOfItems = currentYOffset
+            
+            // Put each of the section item columns in place.
+            var maxSectionHeight: CGFloat = 0.0
+            for (rowIndex, section) in sectionGroup.enumerated() {
+                maxSectionHeight = max(maxSectionHeight, processItemsInSection(section.0, atPoint: CGPoint(x: section.1.x, y: startOfItems), withWidth: section.1.width, sectionInsets: headerRects[rowIndex].2))
+            }
+            if maxSectionHeight == 0.0 && sectionIndentAdded {
+                maxSectionHeight += maxHeaderInsetAdded.ceiled(toScale: screenScale)
+            }
+            currentYOffset += maxSectionHeight
+            
+            // Place in the footer views
+            var largestFooter: CGFloat = 0.0
+            for section in sectionGroup {
+                let width = section.1.width
+                let footerHeight = max(ceil(delegate.collectionView(collectionView, layout: self, heightForFooterInSection: section.0, givenSectionWidth: width)), 0.0)
+                largestFooter = max(footerHeight, largestFooter)
+                
+                if footerHeight.isZero {
+                    sectionFooterAttributes.append(nil)
+                } else {
+                    let footerIndexPath = IndexPath(item: 0, section: section.0)
+                    let footerAttribute: UICollectionViewLayoutAttributes
+                    if let dequeuedAttributes = reusableSectionFooterAttributes.popLast() {
+                        dequeuedAttributes.indexPath = footerIndexPath
+                        footerAttribute = dequeuedAttributes
+                    } else {
+                        footerAttribute = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, with: footerIndexPath)
+                        footerAttribute.zIndex = 1
+                    }
+                    let footerFrame = CGRect(x: section.1.x, y: currentYOffset, width: section.1.width, height: footerHeight)
+                    footerAttribute.frame = isRTL ? footerFrame.rtlFlipped(forWidth: collectionViewWidth) : footerFrame
+                    sectionFooterAttributes.append(footerAttribute)
+                }
+                
+                sectionRects.append(CGRect(x: section.1.x, y: startOfHeaders, width: width, height: currentYOffset + footerHeight - startOfHeaders))
+            }
+            
+            currentYOffset += largestFooter
+        }
+        
+        if let globalFooterHeight = delegate.collectionView?(collectionView, heightForGlobalFooterInLayout: self) , globalFooterHeight > 0.0 {
+            let attribute = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: collectionElementKindGlobalFooter, with: IndexPath(index: 0))
+            attribute.frame = CGRect(x: 0.0, y: currentYOffset, width: collectionViewWidth, height: ceil(globalFooterHeight))
+            attribute.zIndex = 1
+            globalFooterAttribute = attribute
+            currentYOffset += ceil(globalFooterHeight)
+        } else {
+            globalFooterAttribute = nil
+        }
+        
+        contentSize = CGSize(width: collectionViewWidth, height: currentYOffset)
     }
     
     
@@ -294,44 +535,20 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
             if sectionRect.minY > rect.maxY { break }
             if sectionRect.intersects(rect) == false { continue }
             
-            if let sectionHeaderItem = sectionHeaderAttributes[sectionIndex]
-                , sectionHeaderItem.frame.intersects(rect) {
+            if let sectionHeaderItem = sectionHeaderAttributes[sectionIndex],
+                sectionHeaderItem.frame.intersects(rect) {
                 attributes.append(sectionHeaderItem)
             }
             
-            let sectionBackgroundItem  = sectionItemBackgroundAttributes[sectionIndex]
-            let sectionBackgroundFrame = sectionBackgroundItem.frame
-            if sectionBackgroundFrame.minY > rect.maxY { break }
-            
-            if let sectionSeparators = sectionSeparatorAttributes[ifExists: sectionIndex] {
-                for separator in sectionSeparators where separator.frame.intersects(rect) {
-                    attributes.append(separator)
+            for item in itemAttributes[sectionIndex] {
+                let frame = item.frame
+                if frame.minY > rect.maxY { break }
+                if frame.intersects(rect) {
+                    attributes.append(item)
                 }
             }
-            
-            if sectionBackgroundFrame.intersects(rect) {
-                attributes.append(sectionBackgroundItem)
-                
-                let itemSeparators = itemSeparatorAttributes[ifExists: sectionIndex]
-                for (itemIndex, item) in itemAttributes[sectionIndex].enumerated() {
-                    let frame = item.frame
-                    if frame.minY > rect.maxY { break }
-                    if frame.intersects(rect) {
-                        attributes.append(item)
-                        if let itemSeparator = itemSeparators?[ifExists: itemIndex] {
-                            attributes.append(itemSeparator)
-                        }
-                    }
-                }
-                
-                if let rowSeparators = rowSeparatorAttributes[ifExists: sectionIndex] {
-                    for row in rowSeparators where row.frame.intersects(rect) {
-                        attributes.append(row)
-                    }
-                }
-            }
-            
-            if let sectionFooterItem = sectionFooterAttributes[sectionIndex] , sectionFooterItem.frame.intersects(rect) {
+            if let sectionFooterItem = sectionFooterAttributes[sectionIndex],
+                sectionFooterItem.frame.intersects(rect) {
                 attributes.append(sectionFooterItem)
             }
         }
@@ -359,36 +576,58 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         return nil
     }
     
-    open override func layoutAttributesForDecorationView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        let attributes: CollectionViewFormDecorationAttributes?
-        
-        switch elementKind {
-        case collectionElementKindSectionItemBackground: attributes = sectionItemBackgroundAttributes[ifExists: indexPath.section]
-        case collectionElementKindSeparatorSection:      attributes = sectionSeparatorAttributes[ifExists: indexPath.section]?[ifExists: indexPath.row]
-        case collectionElementKindSeparatorRow:          attributes = rowSeparatorAttributes[ifExists: indexPath.section]?[ifExists: indexPath.row]
-        case collectionElementKindSeparatorItem:         attributes = itemSeparatorAttributes[ifExists: indexPath.section]?[ifExists: indexPath.row]
-        default:                                         attributes = nil
-        }
-        
-        return attributes ?? CollectionViewFormDecorationAttributes(forDecorationViewOfKind: elementKind, with: indexPath)
-    }
-    
     
     // MARK: - Invalidation
     
     open override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
-        return _lastLaidOutWidth ?? 0.0 !=~ newBounds.size.width && (sectionRects.last?.maxY.isZero ?? true) == false
+        let currentContentWidth = _lastLaidOutWidth ?? 0.0
+        let newWidth = fabs(newBounds.width)
+        
+        // Don't perform an update if there is no width change, or if there is no content.
+        if currentContentWidth ==~ newWidth || sectionRects.last?.maxY.isZero ?? true { return false }
+        
+        // We're going to do the animation direct - it's much faster.
+        
+        let animationDuration = UIView.inheritedAnimationDuration
+        if animationDuration <=~ 0.0 || UIView.areAnimationsEnabled == false { return true }
+        
+        let collectionView = self.collectionView!
+        
+        DispatchQueue.main.async {
+            var firstCellIndexPath: IndexPath? = nil
+            
+            if let attributes = self.layoutAttributesForElements(in: collectionView.bounds) {
+                for attribute in attributes {
+                    if attribute.representedElementCategory != .cell { continue }
+                    firstCellIndexPath = attribute.indexPath
+                    break
+                }
+            }
+            
+            self.invalidateLayout()
+            
+            if let firstIP = firstCellIndexPath {
+                collectionView.scrollToItem(at: firstIP, at: [], animated: false)
+            }
+            
+            collectionView.layoutIfNeeded()
+            
+            let transition = CATransition()
+            transition.duration = animationDuration
+            transition.timingFunction = CAMediaTimingFunction(name: newWidth > currentContentWidth ? kCAMediaTimingFunctionEaseOut : kCAMediaTimingFunctionEaseIn)
+            collectionView.layer.add(transition, forKey: nil)
+        }
+        
+        return false
     }
     
     
     // MARK: - Updates
     
-    fileprivate var insertedSections:      IndexSet?
-    fileprivate var deletedSections:       IndexSet?
-    fileprivate var insertedItems:         [IndexPath]?
-    fileprivate var deletedItems:          [IndexPath]?
-    fileprivate var insertedRowSeparators: [IndexPath]?
-    fileprivate var deletedRowSeparators:  [IndexPath]?
+    private var insertedSections:      IndexSet?
+    private var deletedSections:       IndexSet?
+    private var insertedItems:         [IndexPath]?
+    private var deletedItems:          [IndexPath]?
     
     open override func prepare(forCollectionViewUpdates updateItems: [UICollectionViewUpdateItem]) {
         guard let collectionView = self.collectionView else { return }
@@ -398,9 +637,6 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         
         var insertedItems: [IndexPath] = []
         var deletedItems:  [IndexPath] = []
-        
-        var insertedRowSeparators: [IndexPath] = []
-        var deletedRowSeparators:  [IndexPath] = []
         
         for item in updateItems {
             if (item.indexPathBeforeUpdate ?? item.indexPathAfterUpdate)?.row == NSIntegerMax {
@@ -444,35 +680,15 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
             }
         }
         
-        for (index, section) in rowSeparatorAttributes.enumerated() {
-            var newCount = section.count
-            var oldCount = previousSectionRowSeparatorCounts[ifExists: index] ?? 0
-            
-            if newCount != oldCount {
-                while newCount > oldCount {
-                    insertedRowSeparators.append(IndexPath(item:newCount - 1, section: index))
-                    newCount -= 1
-                }
-                while oldCount > newCount {
-                    deletedRowSeparators.append(IndexPath(item:oldCount - 1, section: index))
-                    oldCount -= 1
-                }
-            }
-        }
-        
         self.insertedSections      = insertedSections
         self.deletedSections       = deletedSections
         self.insertedItems         = insertedItems
         self.deletedItems          = deletedItems
-        self.insertedRowSeparators = insertedRowSeparators
-        self.deletedRowSeparators  = deletedRowSeparators
     }
     
     open override func finalizeCollectionViewUpdates() {
         insertedItems          = nil
         deletedItems           = nil
-        insertedRowSeparators  = nil
-        deletedRowSeparators   = nil
         insertedSections       = nil
         deletedSections        = nil
     }
@@ -509,67 +725,124 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         return attributes
     }
     
-    open override func initialLayoutAttributesForAppearingDecorationElement(ofKind elementKind: String, at decorationIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        let attributes = super.initialLayoutAttributesForAppearingDecorationElement(ofKind: elementKind, at: decorationIndexPath)
-        if insertedSections?.contains(decorationIndexPath.section) ?? false
-            || (elementKind == collectionElementKindSeparatorRow  && insertedRowSeparators?.contains(decorationIndexPath) ?? false)
-            || (elementKind == collectionElementKindSeparatorItem && insertedItems?.contains(decorationIndexPath) ?? false) {
-            attributes?.alpha = 0.0
+    
+    // MARK: - Column Conveniences
+    
+    
+    /// Calculates the item content width per item in a column style section, optionally filling multiple items by
+    /// merging columns together horizontally.
+    ///
+    /// - Parameters:
+    ///   - fillingColumns:    The amount of columns to fill with the item. The default is 1.
+    ///   - sectionColumns:    The amount of columns in the section.
+    ///   - sectionWidth:      The width for the section.
+    ///   - sectionEdgeInsets: The edge insets for the section.
+    /// - Returns:             The content width for an item that fills the specified (or 1) column in the defined layout.
+    public func itemContentWidth(fillingColumns: Int = 1, inSectionWithColumns sectionColumns: Int, sectionWidth: CGFloat, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
+        let columnWidth = columnContentWidth(forColumnCount: sectionColumns, inSectionWidth: sectionWidth, sectionEdgeInsets: sectionEdgeInsets)
+        if fillingColumns <= 1 {
+            return columnWidth
         }
-        return attributes
+        
+        let additionalColumnWidth = (columnWidth + itemLayoutMargins.left + itemLayoutMargins.right) * CGFloat(fillingColumns - 1)
+        return columnWidth + additionalColumnWidth
     }
     
-    open override func finalLayoutAttributesForDisappearingDecorationElement(ofKind elementKind: String, at decorationIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        let attributes = super.finalLayoutAttributesForDisappearingDecorationElement(ofKind: elementKind, at: decorationIndexPath)
-        if deletedSections?.contains(decorationIndexPath.section) ?? false
-            || (elementKind == collectionElementKindSeparatorRow  && deletedRowSeparators?.contains(decorationIndexPath) ?? false)
-            || (elementKind == collectionElementKindSeparatorItem && deletedItems?.contains(decorationIndexPath) ?? false) {
-            attributes?.alpha = 0.0
+    
+    /// Calculats the item content width for an item that should fill across columns in a section until its minimum
+    /// content width is reached. This is helpful for maintaining a column style layout, while observing minimum
+    /// size constraints.
+    ///
+    /// - Parameters:
+    ///   - minimumItemContentWidth: The minimum width the item's content should fill.
+    ///   - sectionColumns:          The count of columns in the section.
+    ///   - sectionWidth:            The width for the section.
+    ///   - sectionEdgeInsets:       The edge insets for the section.
+    /// - Returns:                   The content width for an item that fills to the edges of the columns in the section.
+    ///                              This value is subpixel accurate and should be rounded appropriately for screen.
+    public func itemContentWidth(fillingColumnsForMinimumItemContentWidth minimumItemContentWidth: CGFloat, inSectionWithColumns sectionColumns: Int, sectionWidth: CGFloat, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
+        let columnWidth = columnContentWidth(forColumnCount: sectionColumns, inSectionWidth: sectionWidth, sectionEdgeInsets: sectionEdgeInsets)
+        if minimumItemContentWidth <=~ 0.0 {
+            return columnWidth
         }
-        return attributes
+        
+        let insetWidth = itemLayoutMargins.left + itemLayoutMargins.right
+        let totalColumnWidth = columnWidth + insetWidth
+        let minimumItemTotalSize = minimumItemContentWidth + insetWidth
+        
+        let columnsFilled = max(minimumItemTotalSize / totalColumnWidth, 1.0)
+        let totalItemWidth = columnsFilled * totalColumnWidth
+        return totalItemWidth - insetWidth
     }
     
-    open override func indexPathsToInsertForDecorationView(ofKind elementKind: String) -> [IndexPath] {
-        switch elementKind {
-        case collectionElementKindSeparatorItem:
-            return insertedItems ?? []
-        case collectionElementKindSeparatorRow:
-            return insertedRowSeparators ?? []
-        case collectionElementKindSectionItemBackground:
-            return insertedSections?.map({ IndexPath(item: 0, section: $0) }) ?? []
-        case collectionElementKindSeparatorSection:
-            var allSectionSeparators: [IndexPath] = []
-            insertedSections?.forEach {
-                if let sectionSeparatorIndexPaths: [IndexPath] = sectionSeparatorAttributes[ifExists: $0]?.flatMap({ $0.indexPath }) {
-                    allSectionSeparators += sectionSeparatorIndexPaths
-                }
-            }
-            return allSectionSeparators
-        default:
-            return []
-        }
+    
+    /// Calculates the column count appropriate for a section with a certain minimum item width.
+    ///
+    /// - Parameters:
+    ///   - itemWidth:         The minimum content width per item in the section.
+    ///   - sectionWidth:      The width for the section.
+    ///   - sectionEdgeInsets: The edge insets for the section.
+    /// - Returns:             The count of columns that will fit with the specified minimum content width and section details.
+    public func columnCountForSection(withMinimumItemContentWidth itemWidth: CGFloat, sectionWidth: CGFloat, sectionEdgeInsets: UIEdgeInsets) -> Int {
+        precondition(itemWidth > 0.0, "itemWidth must be more than zero.")
+        let standardizedSectionWidth = sectionWidthWithStandardMargins(forSectionWidth: sectionWidth, sectionEdgeInsets: sectionEdgeInsets)
+        let minimumTotalWidth = itemWidth + itemLayoutMargins.left + itemLayoutMargins.right
+        return max(Int(standardizedSectionWidth / minimumTotalWidth), 1)
     }
     
-    open override func indexPathsToDeleteForDecorationView(ofKind elementKind: String) -> [IndexPath] {
-        switch elementKind {
-        case collectionElementKindSeparatorItem:
-            return deletedItems ?? []
-        case collectionElementKindSeparatorRow:
-            return deletedRowSeparators ?? []
-        case collectionElementKindSectionItemBackground:
-            return deletedSections?.map({ IndexPath(item: 0, section: $0) }) ?? []
-        case collectionElementKindSeparatorSection:
-            var allSectionSeparators: [IndexPath] = []
-            deletedSections?.forEach { (section: Int) in
-                if let previousSectionCount = previousSectionSeparatorCounts[ifExists: section], previousSectionCount > 0 {
-                    allSectionSeparators += (0..<previousSectionCount).map { IndexPath(item: $0, section: section) }
-                }
-            }
-            return allSectionSeparators
-        default:
-            return []
-        }
+    
+    /// Calculates the content widths per column in a section.
+    ///
+    /// - Parameters:
+    ///   - columnCount:       The column count for the section.
+    ///   - sectionWidth:      The total width for the section.
+    ///   - sectionEdgeInsets: The edge insets for the section.
+    /// - Returns:             The content width appropriate for a section with the specified column and width settings.
+    ///                        This value is subpixel accurate and should be rounded appropriately for screen.
+    public func columnContentWidth(forColumnCount columnCount: Int, inSectionWidth sectionWidth: CGFloat, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
+        let standardizedSectionWidth = sectionWidthWithStandardMargins(forSectionWidth: sectionWidth, sectionEdgeInsets: sectionEdgeInsets)
+        let totalColumnWidth = standardizedSectionWidth / CGFloat(columnCount)
+        return totalColumnWidth - itemLayoutMargins.left - itemLayoutMargins.right
     }
+    
+    
+    /// Calculates the content width for a column-based layout in a section, with columns calculated from a minimum item content width.
+    ///
+    /// - Parameters:
+    ///   - itemWidth:          The minimum content width per item in the section.
+    ///   - maximumColumnCount: The maximum column count
+    ///   - sectionWidth:       The width for the section.
+    ///   - sectionEdgeInsets:  The edge insets for the section.
+    /// - Returns:              The content width appropriate for a section with the specified column and width settings.
+    ///                         This value is subpixel accurate and should be rounded appropriately for screen.
+    public func columnContentWidth(forMinimumItemContentWidth itemWidth: CGFloat, maximumColumnCount: Int = .max, sectionWidth: CGFloat, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
+        let standardizedSectionWidth = sectionWidthWithStandardMargins(forSectionWidth: sectionWidth, sectionEdgeInsets: sectionEdgeInsets)
+        let itemLayoutMargins = self.itemLayoutMargins
+        let minimumTotalWidth = itemWidth + itemLayoutMargins.left + itemLayoutMargins.right
+        let columnCount = min(max(floor(standardizedSectionWidth / minimumTotalWidth), 1.0), CGFloat(maximumColumnCount))
+        let totalColumnWidth = standardizedSectionWidth / columnCount
+        return totalColumnWidth - itemLayoutMargins.left - itemLayoutMargins.right
+    }
+    
+    
+    /// Calculates a section width for the section details, if it were to contain standard layout margins.
+    /// This is a private convenience to ease math for column calculation.
+    ///
+    /// - Parameters:
+    ///   - sectionWidth:      The total width for the section.
+    ///   - sectionEdgeInsets: The edge insets for the section.
+    /// - Returns:             The width of the section if it were to contain standard layout margins.
+    private func sectionWidthWithStandardMargins(forSectionWidth sectionWidth: CGFloat, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
+        var sectionWidthWithStandardMargins = sectionWidth
+        if sectionEdgeInsets.left.isZero == false {
+            sectionWidthWithStandardMargins -= (sectionEdgeInsets.left - itemLayoutMargins.left)
+        }
+        if sectionEdgeInsets.right.isZero == false {
+            sectionWidthWithStandardMargins -= (sectionEdgeInsets.right - itemLayoutMargins.right)
+        }
+        return sectionWidthWithStandardMargins
+    }
+    
 }
 
 
@@ -672,52 +945,8 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     ///   - itemWidth:      The width for the item.
     /// - Returns:          The minimum required height for the item.
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat
-}
-
-
-// MARK: - Convenience functions
-/// Convenience Functions
-public extension CollectionViewFormLayout {
     
-    /// A convenience function for calculating content widths for cells in column formation.
-    ///
-    /// - Parameters:
-    ///   - columnCount:         The number of columns in the section.
-    ///   - sectionWidth:        The contentWidth of the section.
-    ///   - sectionEdgeInsets:   The edge insets for the section.
-    ///   - minimumContentWidth: The minimum width for the column. The default value is `0.0`.
-    /// - Returns:               The content width for a single item in the specified column layout. When a minumumColumnWidth
-    ///                          is specified, returns the correct width to spread the item between multiple columns.
-    public func itemContentWidth(forEqualColumnCount columnCount: Int, givenSectionWidth sectionWidth: CGFloat, edgeInsets sectionEdgeInsets: UIEdgeInsets, minimumContentWidth: CGFloat = 0.0) -> CGFloat {
-        precondition(columnCount > 0, "columnCount must be more than zero.")
-        
-        let itemLayoutMargins    = self.itemLayoutMargins
-        let leadingSectionInset  = ceil(sectionEdgeInsets.left.isZero  ? itemLayoutMargins.left  : sectionEdgeInsets.left)
-        let trailingSectionInset = ceil(sectionEdgeInsets.right.isZero ? itemLayoutMargins.right : sectionEdgeInsets.right)
-        
-        if columnCount == 1 { return sectionWidth - leadingSectionInset - trailingSectionInset}
-        
-        let columnCountFloat = CGFloat(columnCount)
-        
-        let adjustmentValue = ((columnCountFloat - 1.0) * (itemLayoutMargins.left + itemLayoutMargins.right)) + leadingSectionInset + trailingSectionInset
-        let singleItemSize = max(sectionWidth - adjustmentValue, 0.0) / columnCountFloat
-         
-        var itemSize = singleItemSize
-        let scale = collectionView?.window?.screen.scale ?? 1.0
-        while itemSize < minimumContentWidth {
-            itemSize += itemLayoutMargins.left + itemLayoutMargins.right + singleItemSize.floored(toScale: scale)
-        }
-        
-        return itemSize
-    }
-}
-
-
-// MARK: - Array Convenience Extensions
-/// Array Convenience Extensions
-private extension Array {
-    /// Access the `index`th element, if it exists. Complexity: O(1).
-    subscript (ifExists index: Int) -> Element? {
-        return index < count ? self[index] : nil
-    }
+    
+    @objc optional func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, shouldInsetHeaderInSection section: Int) -> Bool
+    
 }
