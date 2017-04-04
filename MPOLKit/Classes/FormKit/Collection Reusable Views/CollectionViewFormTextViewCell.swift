@@ -24,7 +24,7 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
     
     /// The selection state of the cell.
     open override var isSelected: Bool {
-        didSet { if isSelected && oldValue == false { _ = textView.becomeFirstResponder() } }
+        didSet { if isSelected && oldValue == false && textView.isEditable { _ = textView.becomeFirstResponder() } }
     }
     
     
@@ -50,6 +50,8 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
     }
     
     private func commonInit() {
+        selectionStyle = .underline
+        
         let contentView = self.contentView
         let layoutGuide = self.contentModeLayoutGuide
         
@@ -88,6 +90,9 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
         textView.placeholderLabel.addObserver(self, forKeyPath: #keyPath(UILabel.font), context: &kvoContext)
         titleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.text),           context: &kvoContext)
         titleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &kvoContext)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(textViewDidBeginEditing(_:)), name: .UITextViewTextDidBeginEditing, object: textView)
+        NotificationCenter.default.addObserver(self, selector: #selector(textViewDidEndEditing(_:)),   name: .UITextViewTextDidEndEditing,   object: textView)
     }
     
     deinit {
@@ -245,6 +250,24 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
         }
         
         textViewMinimumHeightConstraint?.constant = ceil(max(textViewFont.lineHeight + textViewFont.leading, placeholderFont.lineHeight + placeholderFont.leading))
+    }
+    
+    @objc private func textViewDidBeginEditing(_ notification: NSNotification) {
+        guard isSelected == false,
+            let collectionView = superview(of: UICollectionView.self),
+            let indexPath = collectionView.indexPath(for: self) else { return }
+        
+        collectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
+        collectionView.delegate?.collectionView?(collectionView, didSelectItemAt: indexPath)
+    }
+    
+    @objc private func textViewDidEndEditing(_ notification: NSNotification) {
+        guard isSelected,
+            let collectionView = superview(of: UICollectionView.self),
+            let indexPath = collectionView.indexPath(for: self) else { return }
+        
+        collectionView.deselectItem(at: indexPath, animated: false)
+        collectionView.delegate?.collectionView?(collectionView, didDeselectItemAt: indexPath)
     }
     
     

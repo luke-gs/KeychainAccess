@@ -24,7 +24,7 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
     
     /// The selection state of the cell.
     open override var isSelected: Bool {
-        didSet { if isSelected && oldValue == false { _ = textField.becomeFirstResponder() } }
+        didSet { if isSelected && oldValue == false && textField.isEnabled { _ = textField.becomeFirstResponder() } }
     }
     
     
@@ -46,6 +46,8 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
     }
     
     private func commonInit() {
+        selectionStyle = .underline
+        
         textField.clearButtonMode = .whileEditing
         
         let contentView            = self.contentView
@@ -72,6 +74,9 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
         
         titleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.text),           context: &kvoContext)
         titleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &kvoContext)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(textFieldDidBeginEditing(_:)), name: .UITextFieldTextDidBeginEditing, object: textField)
+        NotificationCenter.default.addObserver(self, selector: #selector(textFieldDidEndEditing(_:)),   name: .UITextFieldTextDidEndEditing,   object: textField)
     }
     
     deinit {
@@ -167,6 +172,27 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
         set {
             super.isAccessibilityElement = newValue
         }
+    }
+    
+    
+    // MARK: - Notifications
+    
+    @objc private func textFieldDidBeginEditing(_ notification: NSNotification) {
+        guard isSelected == false,
+            let collectionView = superview(of: UICollectionView.self),
+            let indexPath = collectionView.indexPath(for: self) else { return }
+        
+        collectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
+        collectionView.delegate?.collectionView?(collectionView, didSelectItemAt: indexPath)
+    }
+    
+    @objc private func textFieldDidEndEditing(_ notification: NSNotification) {
+        guard isSelected,
+            let collectionView = superview(of: UICollectionView.self),
+            let indexPath = collectionView.indexPath(for: self) else { return }
+        
+        collectionView.deselectItem(at: indexPath, animated: false)
+        collectionView.delegate?.collectionView?(collectionView, didDeselectItemAt: indexPath)
     }
     
     

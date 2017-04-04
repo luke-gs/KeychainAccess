@@ -11,12 +11,12 @@ import UIKit
 
 private let tempID = "temp"
 
-open class FormCollectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, CollectionViewDelegateMPOLLayout, PopoverViewController {
+open class FormCollectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, CollectionViewDelegateFormLayout, PopoverViewController {
     
     
     // MARK: - Public properties
     
-    open let formLayout: CollectionViewFormMPOLLayout
+    open let formLayout: CollectionViewFormLayout
     
     open private(set) var collectionView: UICollectionView?
     
@@ -42,6 +42,9 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     
     @NSCopying open var placeholderTextColor: UIColor?
     
+    @NSCopying open var separatorColor:       UIColor?
+    
+    
     
     
     // MARK: - Private properties
@@ -52,9 +55,7 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     // MARK: - Initializers
     
     public init() {
-        formLayout = CollectionViewFormMPOLLayout()
-        formLayout.itemLayoutMargins = UIEdgeInsets(top: 16.0, left: 24.0, bottom: 15.0, right: 16.0)
-        formLayout.wantsInsetHeaders = true
+        formLayout = CollectionViewFormLayout()
         super.init(nibName: nil, bundle: nil)
         
         automaticallyAdjustsScrollViewInsets = false // we manage this ourselves.
@@ -104,7 +105,23 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        let contentInsets = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)        
+        let topLayoutPosition: CGFloat
+        let bottomLayoutPosition: CGFloat
+        
+        let view = self.view!
+        let screenBounds = (view.window?.screen ?? .main).bounds
+        
+        if view.convert(view.bounds, to: nil).intersects(screenBounds) {
+            // Onscreen.
+            topLayoutPosition    = max(view.convert(CGPoint(x: 0.0, y: topLayoutGuide.length), from: nil).y, 0.0)
+            bottomLayoutPosition = max(screenBounds.height - view.convert(CGPoint(x: 0.0, y: screenBounds.height - bottomLayoutGuide.length), from: nil).y, 0.0)
+        } else {
+            // Not onscreen.
+            topLayoutPosition    = topLayoutGuide.length
+            bottomLayoutPosition = bottomLayoutGuide.length
+        }
+        
+        let contentInsets = UIEdgeInsets(top: topLayoutPosition, left: 0.0, bottom: bottomLayoutPosition, right: 0.0)
         collectionViewInsetManager?.standardContentInset    = contentInsets
         collectionViewInsetManager?.standardIndicatorInset  = contentInsets
     }
@@ -129,7 +146,7 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     open func applyCurrentTheme() {
         let colors = Theme.current.colors
         
-        formLayout.itemSeparatorColor = colors[.Separator]
+        separatorColor       = colors[.Separator]
         backgroundColor      = colors[.Background]
         selectionColor       = colors[.CellSelection]
         primaryTextColor     = colors[.PrimaryText]
@@ -190,13 +207,15 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     // MARK: - UICollectionViewDelegate methods
     
     open func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        cell.selectedBackgroundView?.backgroundColor = selectionColor ?? #colorLiteral(red: 0.8, green: 0.8, blue: 0.8, alpha: 1)
+        
+        (cell as? CollectionViewFormCell)?.separatorColor = separatorColor
+        
         switch cell {
         case let formCell as EntityCollectionViewCell:
             formCell.titleLabel.textColor    = primaryTextColor
             formCell.subtitleLabel.textColor = secondaryTextColor
             formCell.detailLabel.textColor   = secondaryTextColor
-        case let selectionCell as CollectionViewFormSelectionCell:
+        case let selectionCell as CollectionViewFormOptionCell:
             selectionCell.titleLabel.textColor = primaryTextColor
         case let detailCell as CollectionViewFormSubtitleCell:
             if detailCell.emphasis == .title {
@@ -253,7 +272,7 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     
     open func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
         switch view {
-        case let headerView as CollectionViewFormMPOLHeaderView:
+        case let headerView as CollectionViewFormExpandingHeaderView:
             headerView.tintColor = secondaryTextColor
         default:
             break
@@ -272,7 +291,7 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     }
     
     open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, insetForSection section: Int, givenSectionWidth width: CGFloat) -> UIEdgeInsets {
-        return .zero
+        return UIEdgeInsets(top: 0.0, left: 24.0, bottom: 0.0, right: 16.0)
     }
     
     open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, givenSectionWidth sectionWidth: CGFloat, edgeInsets: UIEdgeInsets) -> CGFloat {

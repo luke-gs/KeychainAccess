@@ -31,6 +31,16 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
     public let imageView: UIImageView = UIImageView(frame: .zero)
     
     
+    /// A boolean value indicating whether the cell represents an editable field.
+    /// The default is `true`.
+    ///
+    /// This value can be used to inform MPOL apps that the cell should be
+    /// displayed with the standard MPOL editable colors and/or adornments.
+    ///
+    /// This should be ignored by MPOL apps when the emphasis is on the title.
+    public var isEditableField: Bool = true
+    
+    
     /// The emphasized element within the cell. The emphasized item will be highlighted
     ///  with stronger default fonts.
     ///
@@ -47,7 +57,6 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
     /// and should be ignored when the cell is "title-emphasised".
     ///
     /// The default is `true`.
-    internal var mpol_isEditableField: Bool = true
     
     internal let textLayoutGuide = UILayoutGuide()
     

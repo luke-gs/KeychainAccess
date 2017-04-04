@@ -37,7 +37,7 @@ open class PersonInfoViewController: EntityInfoViewController {
     
     open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionElementKindSectionHeader && indexPath.section != 0 {
-            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormMPOLHeaderView.self, for: indexPath)
+            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
             headerView.showsExpandArrow = false
             headerView.text = Section(rawValue: indexPath.section)?.localizedTitle
             return headerView
@@ -102,7 +102,7 @@ open class PersonInfoViewController: EntityInfoViewController {
             return super.collectionView(collectionView, layout: layout, heightForHeaderInSection:section, givenSectionWidth: width)
         }
             
-        return CollectionViewFormMPOLHeaderView.minimumHeight
+        return CollectionViewFormExpandingHeaderView.minimumHeight
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, givenSectionWidth sectionWidth: CGFloat, edgeInsets: UIEdgeInsets) -> CGFloat {

@@ -13,7 +13,6 @@ open class EntityInfoViewController: FormCollectionViewController {
     public override init() {
         super.init()
         title = "Information"
-        formLayout.distribution = .fillLastWithinColumnDistance
         
         let sidebarItem = self.sidebarItem
         sidebarItem.image         = UIImage(named: "iconGeneralInfo",       in: .mpolKit, compatibleWith: nil)
@@ -33,7 +32,7 @@ open class EntityInfoViewController: FormCollectionViewController {
         if let collectionView = self.collectionView {
             collectionView.register(EntityDetailCollectionViewCell.self)
             collectionView.register(EntityImageHeaderView.self, forSupplementaryViewOfKind: collectionElementKindGlobalHeader)
-            collectionView.register(CollectionViewFormMPOLHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
+            collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         }
     }
     
@@ -57,7 +56,7 @@ open class EntityInfoViewController: FormCollectionViewController {
             borderedImageView.borderColor = AlertLevel.high.color
             return globalHeader
         } else if indexPath.section == 0 && kind == UICollectionElementKindSectionHeader {
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormMPOLHeaderView.self, for: indexPath)
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
             header.showsExpandArrow = false
             header.tapHandler       = nil
             header.text = "LAST UPDATED: " + "NEVER"
@@ -115,24 +114,24 @@ open class EntityInfoViewController: FormCollectionViewController {
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
         if section == 0 {
-            return section == 0 ? CollectionViewFormMPOLHeaderView.minimumHeight : 0.0
+            return CollectionViewFormExpandingHeaderView.minimumHeight
         }
         return super.collectionView(collectionView, layout: layout, heightForHeaderInSection: section, givenSectionWidth: width)
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
         if indexPath.section == 0 && indexPath.item == 0 {
-            return EntityDetailCollectionViewCell.minimumContentHeight(withTitle: "Smith, Max R.", subtitle: "08/05/1987 (29 Male)", description: "196 cm proportionate european male with short brown hair and brown eyes", additionalDetails: "4 MORE DESCRIPTIONS", source: "DATA SOURCE 1", inWidth: itemWidth, compatibleWith: traitCollection)
+            return EntityDetailCollectionViewCell.minimumContentHeight(withTitle: "Smith, Max R.", subtitle: "08/05/1987 (29 Male)", description: "196 cm proportionate european male with short brown hair and brown eyes", additionalDetails: "4 MORE DESCRIPTIONS", source: "DATA SOURCE 1", inWidth: itemWidth, compatibleWith: traitCollection) - layout.itemLayoutMargins.bottom
         }
         return super.collectionView(collectionView, layout: layout, minimumContentHeightForItemAt: indexPath, givenItemContentWidth: itemWidth)
     }
     
-    open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormMPOLLayout, separatorStyleForItemAt indexPath: IndexPath) -> CollectionViewFormMPOLLayout.SeparatorStyle {
-        if indexPath.section == 0 && indexPath.item == 0 {
-            return .hidden
-        }
-        return .automatic
-    }
+//    open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, separatorStyleForItemAt indexPath: IndexPath) -> CollectionViewFormLayout.SeparatorStyle {
+//        if indexPath.section == 0 && indexPath.item == 0 {
+//            return .hidden
+//        }
+//        return .automatic
+//    }
     
     
     // MARK: - Additional details action handler

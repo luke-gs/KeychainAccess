@@ -55,6 +55,14 @@ public class GradientView: UIView {
             }
         }
     }
+    
+    public var gradientLocations: [CGFloat]? = nil {
+        didSet {
+            if let oldValue = oldValue, let newValue = gradientLocations, oldValue == newValue { return }
+            if oldValue == nil && gradientLocations == nil { return }
+            setNeedsDisplay()
+        }
+    }
 
     
     public override init(frame: CGRect) {
@@ -76,8 +84,23 @@ public class GradientView: UIView {
         guard let context = UIGraphicsGetCurrentContext() else { return }
         let bounds = self.bounds
         
+        var locations: [CGFloat]? = nil
+        if let locationCount = gradientLocations?.count,
+            var allLocations = gradientLocations, locationCount > 0 {
+            let missingLocationCount = gradientColors.count - locationCount
+            
+            if missingLocationCount < 0 {
+                allLocations.removeLast(-missingLocationCount)
+            } else if missingLocationCount > 0 {
+                for _ in 0..<missingLocationCount {
+                    allLocations.append(1.0)
+                }
+            }
+            locations = allLocations
+        }
+        
         if colorCount > 1,
-            let gradient = CGGradient(colorsSpace: nil, colors: gradientColors.map({ $0.cgColor }) as CFArray, locations: nil) {
+            let gradient = CGGradient(colorsSpace: nil, colors: gradientColors.map({ $0.cgColor }) as CFArray, locations: locations) {
             // Draw the gradient
             let start: CGPoint
             let end:   CGPoint
@@ -91,8 +114,8 @@ public class GradientView: UIView {
                 } else {
                     isRightToLeft = UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft
                 }
-                start = CGPoint(x: isRightToLeft ? rect.minX : rect.maxX, y: bounds.midY)
-                end   = CGPoint(x: isRightToLeft ? rect.maxX : rect.minX, y: bounds.midY)
+                start = CGPoint(x: isRightToLeft ? rect.maxX : rect.minX, y: bounds.midY)
+                end   = CGPoint(x: isRightToLeft ? rect.minX : rect.maxX, y: bounds.midY)
             }
             context.drawLinearGradient(gradient, start: start, end: end, options: [])
         } else {

@@ -30,7 +30,7 @@ open class EntityAlertsViewController: FormCollectionViewController {
         
         guard let collectionView = self.collectionView else { return }
         
-        collectionView.register(CollectionViewFormMPOLHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
+        collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         collectionView.register(AlertCollectionViewCell.self)
     }
     
@@ -46,7 +46,7 @@ open class EntityAlertsViewController: FormCollectionViewController {
     
     open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionElementKindSectionHeader {
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormMPOLHeaderView.self, for: indexPath)
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
             header.text = "5 ACTIVE ALERTS"
             header.showsExpandArrow = true
             header.isExpanded = true
@@ -67,7 +67,7 @@ open class EntityAlertsViewController: FormCollectionViewController {
     
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
-        return CollectionViewFormMPOLHeaderView.minimumHeight
+        return CollectionViewFormExpandingHeaderView.minimumHeight
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {

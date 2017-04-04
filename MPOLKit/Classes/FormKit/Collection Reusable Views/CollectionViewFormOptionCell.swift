@@ -1,5 +1,5 @@
 //
-//  CollectionViewFormCheckboxCell.swift
+//  CollectionViewFormOptionCell.swift
 //  MPOLKit/FormKit
 //
 //  Created by Rod Brown on 28/05/2016.
@@ -11,11 +11,11 @@ import UIKit
 
 private var textContext = 1
 
-/// A simple cell class containing a checkbox.
+/// A simple cell class containing an option picker, either for a checkbox or a radio button.
 /// The checkbox's selection is determined by selection status of the cell.
-open class CollectionViewFormSelectionCell: CollectionViewFormCell {
+open class CollectionViewFormOptionCell: CollectionViewFormCell {
     
-    public enum SelectionStyle {
+    public enum OptionStyle {
         case checkbox
         case radio
         
@@ -30,8 +30,8 @@ open class CollectionViewFormSelectionCell: CollectionViewFormCell {
     
     // MARK: - Properties
     
-    open var selectionStyle: SelectionStyle = .checkbox {
-        didSet { if selectionStyle != oldValue { updateImageView() } }
+    open var optionStyle: OptionStyle = .checkbox {
+        didSet { if optionStyle != oldValue { updateImageView() } }
     }
     
     
@@ -126,14 +126,14 @@ open class CollectionViewFormSelectionCell: CollectionViewFormCell {
         let isSelected    = self.isSelected
         let isHighlighted = self.isHighlighted
         
-        imageView.image = selectionStyle.image(selected: isSelected)
+        imageView.image = optionStyle.image(selected: isSelected)
         imageView.tintColor = isSelected || isHighlighted ? nil : #colorLiteral(red: 0.7490196078, green: 0.7490196078, blue: 0.7490196078, alpha: 1)
     }
     
     
     // MARK: - Class sizing methods
     
-    /// Calculates the minimum content width for a cell, considering the text and font details, with a standard selection image.
+    /// Calculates the minimum content width for a cell, considering the text and font details, with a standard option image.
     ///
     /// - Parameters:
     ///   - title:              The title text for the cell.
@@ -142,7 +142,7 @@ open class CollectionViewFormSelectionCell: CollectionViewFormCell {
     ///   - singleLineTitle:    A boolean value indicating if the title text should be constrained to a single line. The default is `true`.
     ///   - accessoryViewWidth: The width for the accessory view.
     /// - Returns:           The minumum content width for the cell.
-    open class func minimumContentWidth(withStyle style: SelectionStyle, title: String?, compatibleWith traitCollection: UITraitCollection,
+    open class func minimumContentWidth(withStyle style: OptionStyle, title: String?, compatibleWith traitCollection: UITraitCollection,
                                         titleFont: UIFont? = nil, singleLineTitle: Bool = true, accessoryViewWidth: CGFloat = 0.0) -> CGFloat {
         let titleTextFont = titleFont ?? SelectableButton.font(compatibleWith: traitCollection)
         let imageSize = style.image(selected: false).size
@@ -163,7 +163,7 @@ open class CollectionViewFormSelectionCell: CollectionViewFormCell {
     ///   - titleFont:       The title font.
     ///   - singleLineTitle: The default is `nil`, indicating the calculation should use the default.
     /// - Returns:           The minumum content height for the cell.
-    open class func minimumContentHeight(withStyle style: SelectionStyle, title: String?, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection,
+    open class func minimumContentHeight(withStyle style: OptionStyle, title: String?, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection,
                                          titleFont: UIFont? = nil, singleLineTitle: Bool = true) -> CGFloat {
         let titleTextFont = titleFont ?? SelectableButton.font(compatibleWith: traitCollection)
         let imageSize = style.image(selected: false).size
