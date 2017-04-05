@@ -30,23 +30,21 @@ public class Theme: NSObject {
         
         if let themeURL = Bundle.main.url(forResource: "ThemePack", withExtension: "json") {
             if let themeArray = themeArray(at: themeURL) {
-                isThemePackFromFramework = false
+                bundle = .main
                 return themeArray
             } else {
-                print("Application theme pack invalid.")
+                NSLog("Application theme pack invalid.")
             }
         }
             
-        if let themeURL = Bundle(for: Theme.self).url(forResource: "ThemePack", withExtension: "json") {
+        if let themeURL = Bundle.mpolKit.url(forResource: "ThemePack", withExtension: "json") {
             if let themeArray = themeArray(at: themeURL) {
-                isThemePackFromFramework = true
+                bundle = .mpolKit
                 return themeArray
             } else {
-                print("MPOLKit theme pack invalid.")
+                NSLog("MPOLKit theme pack invalid.")
             }
         }
-        
-        isThemePackFromFramework = true
         return []
     }()
         
@@ -58,7 +56,7 @@ public class Theme: NSObject {
         return nil
     }
     
-    private static var isThemePackFromFramework: Bool = false
+    private static var bundle: Bundle = .main
     
     private static var loadedThemes: [String: Theme] = [:]
     
@@ -67,7 +65,7 @@ public class Theme: NSObject {
     public private(set) static var current: Theme = {
         guard let firstThemeItem = themePack.first(where: { ($0["name"] as? String)?.isEmpty ?? true == false }),
             let theme = Theme(details: firstThemeItem) else {
-            fatalError(isThemePackFromFramework ? "No themes provided in MPOL." : "Theme pack in application is empty.")
+            fatalError(bundle == .mpolKit ? "No themes provided in MPOL." : "Theme pack in application is empty.")
         }
         
         loadedThemes[theme.name] = theme
@@ -161,11 +159,7 @@ public class Theme: NSObject {
         self.colors = colors
         
         if let navBarName = details["navigationBar"] as? String {
-            if Theme.isThemePackFromFramework {
-                self.navigationBarBackgroundImage = UIImage(named: navBarName, in: Bundle(for: Theme.self), compatibleWith: nil)
-            } else {
-                self.navigationBarBackgroundImage = UIImage(named: navBarName)
-            }
+            self.navigationBarBackgroundImage = UIImage(named: navBarName, in: Theme.bundle, compatibleWith: nil)
         } else {
             self.navigationBarBackgroundImage = nil
         }
@@ -201,18 +195,19 @@ public struct ThemeColorType: RawRepresentable, Equatable, Hashable {
     }
     
     // Tint
-    public static let Tint              = ThemeColorType(rawValue: "tint")
-    public static let NavigationBarTint = ThemeColorType(rawValue: "navigationBarTint")
+    public static let Tint                = ThemeColorType(rawValue: "tint")
+    public static let NavigationBarTint   = ThemeColorType(rawValue: "navigationBarTint")
     
     // Text
-    public static let PrimaryText       = ThemeColorType(rawValue: "primaryText")
-    public static let SecondaryText     = ThemeColorType(rawValue: "secondaryText")
-    public static let PlaceholderText   = ThemeColorType(rawValue: "placeholderText")
+    public static let PrimaryText         = ThemeColorType(rawValue: "primaryText")
+    public static let SecondaryText       = ThemeColorType(rawValue: "secondaryText")
+    public static let PlaceholderText     = ThemeColorType(rawValue: "placeholderText")
     
     // System
-    public static let Background        = ThemeColorType(rawValue: "background")
-    public static let Separator         = ThemeColorType(rawValue: "separator")
-    public static let CellSelection     = ThemeColorType(rawValue: "cellSelection")
+    public static let Background          = ThemeColorType(rawValue: "background")
+    public static let Separator           = ThemeColorType(rawValue: "separator")
+    public static let CellSelection       = ThemeColorType(rawValue: "cellSelection")
+    public static let DisclosureIndicator = ThemeColorType(rawValue: "disclosureIndicator")
 }
 
 public func ==(lhs: ThemeColorType, rhs: ThemeColorType) -> Bool {

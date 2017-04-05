@@ -15,7 +15,7 @@ import UIKit
 /// PushableSplitViewController hides the navigation bar of a parent navigation controller when it appears.
 /// Users that require the navigation bar to reappear when it disappears should do so in `viewWillAppear(_:)`
 /// when the split view controller is popped off the navigation stack.
-open class PushableSplitViewController: UIViewController {
+open class PushableSplitViewController: UIViewController, UISplitViewControllerDelegate {
 
     
     /// The split view controller embedded within the container.
@@ -26,7 +26,7 @@ open class PushableSplitViewController: UIViewController {
     
     
     /// The storage for the back bar button item.
-    fileprivate var backBarButtonItem: UIBarButtonItem?
+    private var backBarButtonItem: UIBarButtonItem?
     
     
     /// Initializes the pushable split view controller.
@@ -95,7 +95,14 @@ open class PushableSplitViewController: UIViewController {
                 return nil
             }
             
-            let image = UIImage(named: "NavigationBarBackIndicator", in: Bundle(for: PushableSplitViewController.self), compatibleWith: self.traitCollection)?.withRenderingMode(.alwaysTemplate)
+            let arrowImage = UIImage(named: "NavigationBarBackIndicator", in: .mpolKit, compatibleWith: self.traitCollection)?.withRenderingMode(.alwaysTemplate)
+            
+            let image: UIImage?
+            if #available(iOS 10, *) {
+                image = arrowImage
+            } else {
+                image = (arrowImage?.flipsForRightToLeftLayoutDirection ?? true) ? arrowImage : arrowImage?.imageFlippedForRightToLeftLayoutDirection()
+            }
             
             // show back icon with pop action.
             return UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(backButtonItemDidSelect))
@@ -106,18 +113,6 @@ open class PushableSplitViewController: UIViewController {
         return nil
     }
     
-}
-
-
-/// Split View Controller Delegate conformance
-extension PushableSplitViewController: UISplitViewControllerDelegate {
-    
-}
-
-
-/// Status bar appearance delegation
-extension PushableSplitViewController {
-    
     open override var childViewControllerForStatusBarStyle: UIViewController? {
         return embeddedSplitViewController
     }
@@ -126,22 +121,16 @@ extension PushableSplitViewController {
         return embeddedSplitViewController
     }
     
-}
-
-
-/// Button actions
-fileprivate extension PushableSplitViewController {
-    
-    @objc func backButtonItemDidSelect(_ item: UIBarButtonItem) {
+    // MARK: - Button actions
+    @objc private func backButtonItemDidSelect(_ item: UIBarButtonItem) {
         navigationController?.popViewController(animated: true)
     }
     
-    @objc func closeButtonItemDidSelect(_ item: UIBarButtonItem) {
+    @objc private func closeButtonItemDidSelect(_ item: UIBarButtonItem) {
         presentingViewController?.dismiss(animated: true, completion: nil)
     }
     
 }
-
 
 /// Pushable Split View Controller accessors
 extension UIViewController {
@@ -163,7 +152,7 @@ extension UIViewController {
 }
 
 
-fileprivate class EmbeddedSplitViewController: UISplitViewController {
+private class EmbeddedSplitViewController: UISplitViewController {
     
     init(viewControllers: [UIViewController]) {
         super.init(nibName: nil, bundle: nil)

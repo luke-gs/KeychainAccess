@@ -20,7 +20,8 @@
   },
   "default_subspecs": "Core",
   "resources": [
-    "MPOLKit/Assets/MPOL/**/*"
+    "MPOLKit/Assets/MPOL/**/*",
+    "MPOLKit/Assets/FormKit/*"
   ],
   "subspecs": [
     {

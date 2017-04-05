@@ -1,6 +1,6 @@
 //
 //  SelectableButton.swift
-//  FormKit
+//  MPOLKit/FormKit
 //
 //  Created by Rod Brown on 12/05/2016.
 //  Copyright © 2016 Gridstone. All rights reserved.
@@ -12,7 +12,11 @@ import UIKit
 open class SelectableButton: UIButton {
     
     internal class func font(compatibleWith traitCollection: UITraitCollection) -> UIFont {
-        return .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
+        if #available(iOS 10, *) {
+            return .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
+        } else {
+            return .preferredFont(forTextStyle: .subheadline)
+        }
     }
     
     // MARK: - Properties
@@ -34,7 +38,7 @@ open class SelectableButton: UIButton {
     
     // MARK: - Private properties
     
-    fileprivate var tintMap: [UInt: UIColor] = [:]
+    private var tintMap: [UInt: UIColor] = [:]
     
     
     // MARK: - Initialize
@@ -55,7 +59,6 @@ open class SelectableButton: UIButton {
         
         if let titleLabel = self.titleLabel {
             titleLabel.font = SelectableButton.font(compatibleWith: traitCollection)
-            titleLabel.adjustsFontForContentSizeCategory = true
         }
         
         let lightGrayColor = UIColor.lightGray
@@ -81,7 +84,7 @@ open class SelectableButton: UIButton {
     
     // MARK: - Event handling
     
-    @objc fileprivate func _touchUpInside() {
+    @objc private func _touchUpInside() {
         isSelected = self.isSelected == false
         sendActions(for: .valueChanged)
     }
@@ -102,7 +105,7 @@ open class SelectableButton: UIButton {
         return tintMap[state.rawValue]
     }
     
-    fileprivate func updateAppearance() {
+    private func updateAppearance() {
         tintColor = tintColorForState(self.state)
         
         if shouldAnimateStateTransition {

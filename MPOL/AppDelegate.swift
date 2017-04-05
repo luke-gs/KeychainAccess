@@ -8,6 +8,7 @@
 
 import UIKit
 import UserNotifications
+import MPOLKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
@@ -17,11 +18,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        self.registerPushNotifications(application)
+        registerPushNotifications(application)
+        
+        // TODO: Refactor theme activation
+        
+        let theme = Theme.current
+        
+        let navBar = UINavigationBar.appearance()
+        navBar.setBackgroundImage(theme.navigationBarBackgroundImage, for: .default)
+        navBar.barStyle  = theme.navigationBarStyle
+        navBar.tintColor = theme.colors[.NavigationBarTint]
+                
+        let searchViewController = SearchViewController()
+        let searchNavController = UINavigationController(rootViewController: searchViewController)
         
         let tabBarController = UITabBarController()
+        tabBarController.viewControllers = [searchNavController]
         
         let window = UIWindow()
+        window.tintColor = theme.colors[.Tint]
         window.rootViewController = tabBarController
         
         self.window = window
@@ -40,7 +55,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         notificationCenter.delegate = self
         notificationCenter.requestAuthorization(options: [.badge,.sound, .alert]) { (granted, error) in
             if error == nil {
-                application.registerForRemoteNotifications()
+                #if !arch(i386) && !arch(x86_64)
+                    application.registerForRemoteNotifications()
+                #endif
             }
         }
 
@@ -67,7 +84,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        print("Failed to register for push notification:\(error)")
+        print("Failed to register for push notification: \(error)")
     }
 
 }
