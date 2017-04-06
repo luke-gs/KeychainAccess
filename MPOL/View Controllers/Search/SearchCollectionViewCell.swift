@@ -110,7 +110,7 @@ public class SearchCollectionViewCell: CollectionViewFormCell, UITextFieldDelega
     static public func cellHeight() -> CGFloat { return 70.0 }
     
     @objc func infoButtonTriggered(_ : UIButton) {
-        
+        print("Info button triggered")
     }
     
     @objc func segmentControllerIndexChanged(_ : UISegmentedControl) {

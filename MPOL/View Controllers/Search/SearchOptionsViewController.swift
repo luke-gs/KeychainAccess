@@ -190,6 +190,46 @@ open class SearchOptionsViewController: FormCollectionViewController, SearchColl
         
     }
     
+    
+    open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+//        self.collectionView(collectionView, didDeselectItemAt: indexPath)
+        
+        if indexPath.section == 1 {
+            switch segmentIndex {
+            case SearchSegments.person.rawValue:
+                
+                let tableView = popoverSelectableTableViewController()
+                tableView.sourceItems = searchSources[segmentIndex].filterOptions(atIndex: indexPath.item)
+                tableView.title = searchSources[segmentIndex].filterTitle(atIndex: indexPath.item)
+                
+                let popover = PopoverNavigationController(rootViewController: tableView)
+                popover.modalPresentationStyle = .popover
+                
+                if let presentationController = popover.popoverPresentationController {
+                    
+                    let cell = self.collectionView(collectionView, cellForItemAt: indexPath)
+                    
+                    presentationController.sourceView = cell
+                    presentationController.sourceRect = cell.bounds
+                    
+                }
+                
+                present(popover, animated: true, completion: nil)
+                break
+            case SearchSegments.vehicle.rawValue:
+                
+                break
+            case SearchSegments.organisation.rawValue:
+                
+                break
+            default:
+                
+                break
+            }
+        }
+    }
+    
     // MARK: - CollectionViewDelegate MPOLLayout Methods
     
     public func collectionView(_ collectionView: UICollectionView, heightForGlobalHeaderInLayout layout: CollectionViewFormLayout) -> CGFloat {
@@ -463,7 +503,7 @@ public class PersonSearchType: SearchType {
         case PersonFilterType.gender.rawValue:
             return ["Male", "Female", "Other"]
         case PersonFilterType.age.rawValue:
-            return []
+            return  [] //[0...100]
         default:
             break
         }
@@ -674,4 +714,66 @@ public class LocationSearchType: SearchType {
     public override init() {
         super.init()
     }
+}
+
+public class popoverSelectableTableViewController : UITableViewController {
+    
+    let cellIdentifier = "DefaultTableViewCellIdentifier"
+    let cellHeight: CGFloat = 40.0
+    
+    public var canMultiSelect: Bool = false
+    public var sourceItems: [String]? = []
+    
+    public init() {
+        super.init(style: .plain)
+        
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+    }
+    
+    public override var preferredContentSize: CGSize {
+        get {
+            let attributes = self.navigationController?.navigationBar.titleTextAttributes
+            let sizeOfText = self.title?.size(attributes: attributes)
+            
+            let width = min((sizeOfText?.width)! + 60.0 + 60.0, 300.0)
+            
+            let height = min(CGFloat((sourceItems?.count)!) * cellHeight, 400.0)
+            
+            return CGSize(width: width, height: height)
+        }
+        set { super.preferredContentSize = newValue }
+    }
+    
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK - TableviewDatasource
+    public override func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    public override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        if let count = sourceItems?.count {
+            return count
+        }
+        
+        return 0
+    }
+    
+    public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
+
+        cell.textLabel?.text = sourceItems?[indexPath.row]
+        
+        return cell
+    }
+    
+    public override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return cellHeight
+    }
+
+    // MARK - TableViewDelegate
 }
