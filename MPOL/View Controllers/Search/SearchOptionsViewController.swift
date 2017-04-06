@@ -193,8 +193,6 @@ open class SearchOptionsViewController: FormCollectionViewController, SearchColl
     
     open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-//        self.collectionView(collectionView, didDeselectItemAt: indexPath)
-        
         if indexPath.section == 1 {
             switch segmentIndex {
             case SearchSegments.person.rawValue:
@@ -208,10 +206,10 @@ open class SearchOptionsViewController: FormCollectionViewController, SearchColl
                 
                 if let presentationController = popover.popoverPresentationController {
                     
-                    let cell = self.collectionView(collectionView, cellForItemAt: indexPath)
+                    let cell = collectionView.cellForItem(at:indexPath)
                     
                     presentationController.sourceView = cell
-                    presentationController.sourceRect = cell.bounds
+                    presentationController.sourceRect = cell!.bounds
                     
                 }
                 
