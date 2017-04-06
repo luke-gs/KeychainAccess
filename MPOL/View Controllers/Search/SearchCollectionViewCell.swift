@@ -12,7 +12,7 @@ import MPOLKit
 
 public class SearchCollectionViewCell: CollectionViewFormCell, UITextFieldDelegate {
     
-    public var searchSources : [SearchSource] = [] {
+    public var searchSources : [SearchType] = [] {
         didSet {
                 sourceSegmentationController.removeAllSegments()
             
@@ -40,6 +40,8 @@ public class SearchCollectionViewCell: CollectionViewFormCell, UITextFieldDelega
     
     public var sourceSegmentationController = UISegmentedControl(frame: .zero)
     
+    public var infoButton = UIButton(type: .infoLight)
+    
     public var searchBarUnderline = UIView(frame: .zero)
     private var searchBarUnderlineHeightContraint: NSLayoutConstraint!
     
@@ -58,13 +60,17 @@ public class SearchCollectionViewCell: CollectionViewFormCell, UITextFieldDelega
     private func commonInit() {
         
         let vPadding : CGFloat = 20.0
+        let hPadding : CGFloat = 15.0
         
         sourceSegmentationController.selectedSegmentIndex = 0
         sourceSegmentationController.apportionsSegmentWidthsByContent = true
         sourceSegmentationController.translatesAutoresizingMaskIntoConstraints = false
         sourceSegmentationController.setTitleTextAttributes([NSFontAttributeName: UIFont.systemFont(ofSize: 14.0, weight: UIFontWeightRegular)], for: .normal)
         
-        sourceSegmentationController.addTarget(self, action: #selector(segmentControllerIndexChanged(_:)), for: UIControlEvents.valueChanged)
+        sourceSegmentationController.addTarget(self, action: #selector(segmentControllerIndexChanged(_:)), for: .valueChanged)
+        
+        infoButton.translatesAutoresizingMaskIntoConstraints = false
+        infoButton.addTarget(self, action: #selector(infoButtonTriggered(_:)), for: .primaryActionTriggered)
         
         searchTextField.textAlignment = .center
         searchTextField.font = UIFont.systemFont(ofSize: 20.0, weight: UIFontWeightHeavy)
@@ -79,12 +85,16 @@ public class SearchCollectionViewCell: CollectionViewFormCell, UITextFieldDelega
 
         let contentView = self.contentView
         contentView.addSubview(sourceSegmentationController)
+        contentView.addSubview(infoButton)
         contentView.addSubview(searchTextField)
         contentView.addSubview(searchBarUnderline)
         
         NSLayoutConstraint.activate([
             NSLayoutConstraint(item: sourceSegmentationController, attribute: .centerX, relatedBy: .equal, toItem:self.contentView, attribute: .centerX),
             NSLayoutConstraint(item: sourceSegmentationController, attribute: .top, relatedBy: .equal, toItem:self.contentView, attribute: .top, multiplier: 1.0, constant: vPadding),
+            
+            NSLayoutConstraint(item: infoButton, attribute: .left, relatedBy: .equal, toItem:sourceSegmentationController, attribute: .right, multiplier: 1.0, constant: hPadding),
+            NSLayoutConstraint(item: infoButton, attribute: .centerY, relatedBy: .equal, toItem:sourceSegmentationController, attribute: .centerY),
             
             NSLayoutConstraint(item: searchTextField, attribute: .centerX, relatedBy: .equal, toItem:self.contentView, attribute: .centerX),
             NSLayoutConstraint(item: searchTextField, attribute: .width, relatedBy: .greaterThanOrEqual, toConstant: 480.0),
@@ -95,16 +105,15 @@ public class SearchCollectionViewCell: CollectionViewFormCell, UITextFieldDelega
             NSLayoutConstraint(item: searchBarUnderline, attribute: .top, relatedBy: .equal, toItem:searchTextField, attribute: .bottom, multiplier: 1.0, constant: 5.0),
             searchBarUnderlineHeightContraint
         ])
-        
-        // Don't do this, it can cause undefined behaviour because it's not in the view heirarchy yet, and its not the cell's responsibility
-        // searchTextField.becomeFirstResponder()
     }
     
-    static public func cellHeight() -> CGFloat { return 100.0 }
+    static public func cellHeight() -> CGFloat { return 70.0 }
+    
+    @objc func infoButtonTriggered(_ : UIButton) {
+        
+    }
     
     @objc func segmentControllerIndexChanged(_ : UISegmentedControl) {
-        
-        print("Index:\(sourceSegmentationController.selectedSegmentIndex)")
         
         searchCollectionViewCellDelegate?.searchCollectionViewCell(self, didSelectSegmentAt: sourceSegmentationController.selectedSegmentIndex)
     }

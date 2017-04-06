@@ -4,20 +4,15 @@ PODS:
   - MPOLKit/Core (0.1.0)
 
 DEPENDENCIES:
-  - MPOLKit (from `https://github.com/Gridstone/mPolKit-iOS`)
+  - MPOLKit (from `../mPolKit-iOS`)
 
 EXTERNAL SOURCES:
   MPOLKit:
-    :git: https://github.com/Gridstone/mPolKit-iOS
-
-CHECKOUT OPTIONS:
-  MPOLKit:
-    :commit: 8247faacb7ecb5413f167709d8b0176d82c5fdeb
-    :git: https://github.com/Gridstone/mPolKit-iOS
+    :path: ../mPolKit-iOS
 
 SPEC CHECKSUMS:
   MPOLKit: 87d2026d94daa36b7550f4374c81dfc03b3e169a
 
-PODFILE CHECKSUM: ca2e190302c05f52e5872bdb648a5879eed162eb
+PODFILE CHECKSUM: 58c9ba97975ead70d03b280438c6ee8f1283071c
 
 COCOAPODS: 1.2.0
