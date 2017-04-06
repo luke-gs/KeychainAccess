@@ -87,6 +87,7 @@
 		BC92F6E71E80B1DC009A5D0A /* FormDisclosureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC92F6E11E80B1DC009A5D0A /* FormDisclosureView.swift */; };
 		BC92F6E81E80B1DC009A5D0A /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC92F6E21E80B1DC009A5D0A /* GradientView.swift */; };
 		BC92F6E91E80B1DC009A5D0A /* RoundedRectLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC92F6E31E80B1DC009A5D0A /* RoundedRectLabel.swift */; };
+		BCB79ED51E945F7F0010CFBE /* UIImage+EntityImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB79ED41E945F7F0010CFBE /* UIImage+EntityImages.swift */; };
 		BCC923811E88B133000D13B6 /* VehicleInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC923801E88B133000D13B6 /* VehicleInfoViewController.swift */; };
 		BCC923831E890339000D13B6 /* OrganizationInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC923821E890339000D13B6 /* OrganizationInfoViewController.swift */; };
 		BCC923851E8916E1000D13B6 /* Bundle+MPOLKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC923841E8916E1000D13B6 /* Bundle+MPOLKit.swift */; };
@@ -207,6 +208,7 @@
 		BC92F6E11E80B1DC009A5D0A /* FormDisclosureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormDisclosureView.swift; sourceTree = "<group>"; };
 		BC92F6E21E80B1DC009A5D0A /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		BC92F6E31E80B1DC009A5D0A /* RoundedRectLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedRectLabel.swift; sourceTree = "<group>"; };
+		BCB79ED41E945F7F0010CFBE /* UIImage+EntityImages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+EntityImages.swift"; sourceTree = "<group>"; };
 		BCC923801E88B133000D13B6 /* VehicleInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleInfoViewController.swift; sourceTree = "<group>"; };
 		BCC923821E890339000D13B6 /* OrganizationInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizationInfoViewController.swift; sourceTree = "<group>"; };
 		BCC923841E8916E1000D13B6 /* Bundle+MPOLKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bundle+MPOLKit.swift"; sourceTree = "<group>"; };
@@ -529,6 +531,7 @@
 			children = (
 				BCC923841E8916E1000D13B6 /* Bundle+MPOLKit.swift */,
 				BC92F6941E80B18A009A5D0A /* UIColor+Hex.swift */,
+				BCB79ED41E945F7F0010CFBE /* UIImage+EntityImages.swift */,
 				BC92F6951E80B18A009A5D0A /* UITextView+NotificationWorkaround.h */,
 				BC92F6961E80B18A009A5D0A /* UITextView+NotificationWorkaround.m */,
 			);
@@ -828,6 +831,7 @@
 				BC92F6C01E80B18A009A5D0A /* EntityDetailCollectionViewCell.swift in Sources */,
 				BC92F6E41E80B1DC009A5D0A /* AlertIndicatorView.swift in Sources */,
 				1993D66207116280AE921F037E9D6543 /* CheckBox.swift in Sources */,
+				BCB79ED51E945F7F0010CFBE /* UIImage+EntityImages.swift in Sources */,
 				80F75266ACCCFE32863C5689837990E3 /* CollectionViewFormItemAttributes.swift in Sources */,
 				BC92F6D71E80B18A009A5D0A /* SidebarViewController.swift in Sources */,
 				BC92F6B91E80B18A009A5D0A /* EntityCollectionViewCell.swift in Sources */,
