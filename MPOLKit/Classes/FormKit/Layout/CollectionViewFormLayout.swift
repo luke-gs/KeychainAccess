@@ -10,6 +10,7 @@ import UIKit
 
 public let collectionElementKindGlobalHeader = "collectionElementKindGlobalHeader"
 public let collectionElementKindGlobalFooter = "collectionElementKindGlobalFooter"
+public let collectionElementKindSectionBackground = "colloectionElementKindSectionBackground"
 
 
 /// The `CollectionViewFormLayout` class is a concrete layout object that organizes items into a
@@ -57,6 +58,9 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         /// Cells will not be distributed excess space in rows.
         case none
     }
+    
+    
+    open var wantsOptimizedResizeAnimation: Bool = true
     
     
     // MARK: - Public properties
@@ -112,8 +116,9 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     public var globalHeaderAttribute: UICollectionViewLayoutAttributes?
     public var globalFooterAttribute: UICollectionViewLayoutAttributes?
     
-    public var sectionHeaderAttributes:     [CollectionViewFormHeaderAttributes?]  = []
-    public var sectionFooterAttributes:     [UICollectionViewLayoutAttributes?]  = []
+    public var sectionHeaderAttributes:     [CollectionViewFormHeaderAttributes?] = []
+    public var sectionFooterAttributes:     [UICollectionViewLayoutAttributes?]   = []
+    public var sectionBackgroundAttributes: [UICollectionViewLayoutAttributes?]   = []
     
     public var itemAttributes: [[CollectionViewFormItemAttributes]] = []
     
@@ -157,12 +162,14 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         itemAttributes.removeAll(keepingCapacity: true)
         sectionHeaderAttributes.removeAll(keepingCapacity: true)
         sectionFooterAttributes.removeAll(keepingCapacity: true)
+        sectionBackgroundAttributes.removeAll(keepingCapacity: true)
         
         let numberOfSections = collectionView.numberOfSections
         sectionRects.reserveCapacity(numberOfSections)
         itemAttributes.reserveCapacity(numberOfSections)
         sectionHeaderAttributes.reserveCapacity(numberOfSections)
         sectionFooterAttributes.reserveCapacity(numberOfSections)
+        sectionBackgroundAttributes.reserveCapacity(numberOfSections)
         
         let itemLayoutMargins = self.itemLayoutMargins
         
@@ -497,6 +504,32 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
             }
             
             currentYOffset += largestFooter
+            
+            var minBackgroundHeight: CGFloat = 0.0
+            let sectionBackgrounds: [(section: Int, (x: CGFloat, width: CGFloat))?] = sectionGroup.map {
+                if delegate.collectionView?(collectionView, layout: self, wantsBackgroundInSection: $0.0) ?? false {
+                    let height = max(delegate.collectionView?(collectionView, layout: self, minimumHeightForBackgroundInSection: $0.0, givenSectionWidth: $0.1.width) ?? 0.0, 0.0)
+                    minBackgroundHeight = max(height, minBackgroundHeight)
+                    return $0
+                } else {
+                    return nil
+                }
+            }
+            
+            if (currentYOffset - startOfHeaders) < minBackgroundHeight {
+                currentYOffset = (startOfHeaders + minBackgroundHeight).ceiled(toScale: screenScale)
+            }
+            
+            for background in sectionBackgrounds {
+                if let background = background {
+                    let attribute = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: collectionElementKindSectionBackground, with: IndexPath(item: 0, section: background.0))
+                    let backgroundFrame = CGRect(x: background.1.x, y: startOfHeaders, width: background.1.width, height: currentYOffset - startOfHeaders)
+                    attribute.frame = isRTL ? backgroundFrame.rtlFlipped(forWidth: collectionViewWidth) : backgroundFrame
+                    sectionBackgroundAttributes.append(attribute)
+                } else {
+                    sectionBackgroundAttributes.append(nil)
+                }
+            }
         }
         
         if let globalFooterHeight = delegate.collectionView?(collectionView, heightForGlobalFooterInLayout: self) , globalFooterHeight > 0.0 {
@@ -535,6 +568,11 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
             if sectionRect.minY > rect.maxY { break }
             if sectionRect.intersects(rect) == false { continue }
             
+            if let backgroundAttribute = sectionBackgroundAttributes[sectionIndex],
+                backgroundAttribute.frame.intersects(rect) {
+                attributes.append(backgroundAttribute)
+            }
+            
             if let sectionHeaderItem = sectionHeaderAttributes[sectionIndex],
                 sectionHeaderItem.frame.intersects(rect) {
                 attributes.append(sectionHeaderItem)
@@ -569,6 +607,8 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
             if let header = globalHeaderAttribute, indexPath == header.indexPath { return header }
         case collectionElementKindGlobalFooter:
             if let footer = globalFooterAttribute, indexPath == footer.indexPath { return footer }
+        case collectionElementKindSectionBackground:
+            if let background = sectionBackgroundAttributes[ifExists: indexPath.section] { return background }
         default:
             break
         }
@@ -585,6 +625,10 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         
         // Don't perform an update if there is no width change, or if there is no content.
         if currentContentWidth ==~ newWidth || sectionRects.last?.maxY.isZero ?? true { return false }
+        
+        if wantsOptimizedResizeAnimation == false {
+            return true
+        }
         
         // We're going to do the animation direct - it's much faster.
         
@@ -949,4 +993,8 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     
     @objc optional func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, shouldInsetHeaderInSection section: Int) -> Bool
     
+    
+    @objc optional func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, wantsBackgroundInSection section: Int) -> Bool
+    
+    @objc optional func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumHeightForBackgroundInSection section: Int, givenSectionWidth sectionWidth: CGFloat) -> CGFloat
 }

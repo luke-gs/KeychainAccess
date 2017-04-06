@@ -243,7 +243,7 @@ open class VehicleInfoViewController: EntityInfoViewController {
         func value(for vehicle: Any?) -> String {
             // TODO: Fill these details in
             switch self {
-            case .name:    return "Frost, Deacon R."
+            case .name:    return "Citizen, John R"
             case .dob:     return "08/05/1987 (29)"
             case .gender:  return "Male"
             case .address: return "8 Catherine Street, Southbank VIC 3006"

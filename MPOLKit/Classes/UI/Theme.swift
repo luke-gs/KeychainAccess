@@ -208,6 +208,11 @@ public struct ThemeColorType: RawRepresentable, Equatable, Hashable {
     public static let Separator           = ThemeColorType(rawValue: "separator")
     public static let CellSelection       = ThemeColorType(rawValue: "cellSelection")
     public static let DisclosureIndicator = ThemeColorType(rawValue: "disclosureIndicator")
+    
+    // Alternate colors - Dark when light, light when dark.
+    public static let AlternatePrimaryText   = ThemeColorType(rawValue: "alternatePrimaryText")
+    public static let AlternateSecondaryText = ThemeColorType(rawValue: "alternateSecondaryText")
+    public static let AlternateSeparator     = ThemeColorType(rawValue: "alternateSeparator")
 }
 
 public func ==(lhs: ThemeColorType, rhs: ThemeColorType) -> Bool {
