@@ -10,7 +10,7 @@ import UIKit
 
 public let collectionElementKindGlobalHeader = "collectionElementKindGlobalHeader"
 public let collectionElementKindGlobalFooter = "collectionElementKindGlobalFooter"
-public let collectionElementKindSectionBackground = "colloectionElementKindSectionBackground"
+public let collectionElementKindSectionBackground = "collectionElementKindSectionBackground"
 
 
 /// The `CollectionViewFormLayout` class is a concrete layout object that organizes items into a
