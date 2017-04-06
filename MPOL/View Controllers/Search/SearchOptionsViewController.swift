@@ -206,9 +206,9 @@ open class SearchOptionsViewController: FormCollectionViewController, SearchColl
                 let popover = PopoverNavigationController(rootViewController: tableView)
                 popover.modalPresentationStyle = .popover
                 
-                if let presentationController = popover.popoverPresentationController {
-                    
-                    let cell = self.collectionView(collectionView, cellForItemAt: indexPath)
+                if let presentationController = popover.popoverPresentationController,
+                    let cell = collectionView.cellForItem(at: indexPath) {
+                
                     
                     presentationController.sourceView = cell
                     presentationController.sourceRect = cell.bounds
