@@ -64,6 +64,18 @@ class SearchResultsListViewController: FormCollectionViewController {
         }
     }
     
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        let isCompact = traitCollection.horizontalSizeClass == .compact
+        if isCompact != (previousTraitCollection?.horizontalSizeClass == .compact) {
+            if wantsThumbnails {
+                collectionView?.reloadData()
+            }
+            navigationItem.rightBarButtonItems = isCompact ? nil : [listStateItem]
+        }
+    }
+    
     
     // MARK: - UICollectionViewDataSource methods
     

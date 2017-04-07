@@ -11,6 +11,8 @@ import MPOLKit
 
 fileprivate let searchAnimationDuration: TimeInterval = 0.4
 
+fileprivate var kvoContext = 1
+
 class SearchViewController: UIViewController, SearchRecentsViewControllerDelegate, SearchResultsDelegate, SearchNavigationFieldDelegate {
     
     let recentsViewController = SearchRecentsViewController()
@@ -24,6 +26,8 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     private lazy var resultsListViewController: SearchResultsListViewController = { [unowned self] in
         let resultsController = SearchResultsListViewController()
         resultsController.delegate = self
+        self.isResultsListViewControllerLoaded = true
+        resultsController.navigationItem.addObserver(self, forKeyPath: #keyPath(UINavigationItem.rightBarButtonItems), context: &kvoContext)
         return resultsController
     }()
     
@@ -33,9 +37,6 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
         optionsController.didMove(toParentViewController: self)
         return optionsController
     }()
-    
-    
-    private var isSearchNavigationFieldLoaded = false
     
     private lazy var searchNavigationField: SearchNavigationField = { [unowned self] in
         let searchField = SearchNavigationField()
@@ -51,6 +52,8 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
         searchField.resultCountLabel.textColor = secondaryText
         searchField.clearButtonColor = secondaryText
         
+        self.isSearchNavigationFieldLoaded = true
+        
         return searchField
     }()
     
@@ -60,6 +63,10 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     private var searchDimmingView: UIControl?
     
     private var searchPreferredHeight: CGFloat = 0.0
+    
+    private var isSearchNavigationFieldLoaded = false
+    
+    private var isResultsListViewControllerLoaded = false
     
     
     // MARK: - Initializers
@@ -80,6 +87,12 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("SearchViewController does not support NSCoding.")
+    }
+    
+    deinit {
+        if isResultsListViewControllerLoaded {
+            resultsListViewController.navigationItem.removeObserver(self, forKeyPath: #keyPath(UINavigationItem.rightBarButtonItems), context: &kvoContext)
+        }
     }
     
     
@@ -253,6 +266,19 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     
     func searchResultsController(_ controller: UIViewController, didSelectEntity entity: Any?) {
         didSelectEntity(entity as Any)
+    }
+    
+    
+    // MARK: - KVO
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if context == &kvoContext {
+            if isShowingResults && isShowingSearchOptions == false {
+                updateNavigationItem(animated: true)
+            }
+        } else {
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+        }
     }
     
     

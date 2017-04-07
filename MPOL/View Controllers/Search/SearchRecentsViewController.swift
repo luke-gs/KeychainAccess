@@ -128,7 +128,7 @@ class SearchRecentsViewController: FormCollectionViewController {
         collectionView.deselectItem(at: indexPath, animated: true)
         
         switch indexPath.section {
-        case 0:
+        case 0 where traitCollection.horizontalSizeClass != .compact:
             delegate?.searchRecentsController(self, didSelectRecentEntity: nil)
         default:
             delegate?.searchRecentsController(self, didSelectRecentSearch: nil)

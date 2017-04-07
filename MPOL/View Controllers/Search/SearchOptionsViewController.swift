@@ -90,8 +90,7 @@ class SearchOptionsViewController: FormCollectionViewController, SearchCollectio
     }
     
     open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        
-        if indexPath.section == 1 && kind == UICollectionElementKindSectionHeader {
+        if kind == UICollectionElementKindSectionHeader && indexPath.section == 1 {
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
             header.showsExpandArrow = false
             header.tapHandler       = nil
@@ -130,9 +129,6 @@ class SearchOptionsViewController: FormCollectionViewController, SearchCollectio
     // MARK: - CollectionViewDelegate MPOLLayout Methods
     
     public func collectionView(_ collectionView: UICollectionView, heightForGlobalHeaderInLayout layout: CollectionViewFormLayout) -> CGFloat {
-        if traitCollection.horizontalSizeClass == .compact {
-            return collectionView.bounds.width * 0.6
-        }
         return 0.0
     }
     
