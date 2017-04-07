@@ -85,6 +85,15 @@ open class PushableSplitViewController: UIViewController, UISplitViewControllerD
         }
     }
     
+    open override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if isBeingDismissed == false,
+            let navigationController = self.navigationController, let newViewController = transitionCoordinator?.viewController(forKey: .to), newViewController is PushableSplitViewController == false {
+            navigationController.setNavigationBarHidden(false, animated: animated)
+        }
+    }
+    
     
     /// The back button item to apply to the nav bar of the master view controller, if available.
     open func backButtonItem() -> UIBarButtonItem? {

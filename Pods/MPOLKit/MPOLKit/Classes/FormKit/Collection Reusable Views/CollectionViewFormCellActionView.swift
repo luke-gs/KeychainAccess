@@ -130,6 +130,7 @@ internal class CollectionViewFormCellActionView: UIScrollView, UIScrollViewDeleg
         clipsToBounds = true
         super.delegate = self
         isHidden = true
+        isScrollEnabled = false
         decelerationRate = UIScrollViewDecelerationRateFast        
         
         alwaysBounceHorizontal         = true

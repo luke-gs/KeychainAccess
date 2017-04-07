@@ -92,7 +92,7 @@ internal class SourceBarCell: UIControl {
             
             let imageView = self.imageView()
             imageView.isHidden = false
-            imageView.image = UIImage(named: "TempSourceBarNotAvailable", in: .mpolKit, compatibleWith: traitCollection)
+            imageView.image = UIImage(named: "SourceBarNone", in: .mpolKit, compatibleWith: traitCollection)
             
             tintColor = style == .dark ? SourceBarCell.darkDisabledColor : SourceBarCell.lightDisabledColor
             

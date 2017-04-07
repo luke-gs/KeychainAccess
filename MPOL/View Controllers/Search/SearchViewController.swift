@@ -11,21 +11,47 @@ import MPOLKit
 
 fileprivate let searchAnimationDuration: TimeInterval = 0.4
 
-class SearchViewController: UIViewController {
+class SearchViewController: UIViewController, SearchRecentsViewControllerDelegate, SearchResultsDelegate, SearchNavigationFieldDelegate {
     
     let recentsViewController = SearchRecentsViewController()
     
-    private(set) var resultsViewController: UIViewController?
+    private(set) var currentResultsViewController: UIViewController?
     
-    var isShowingResults: Bool { return resultsViewController != nil }
+    var isShowingResults: Bool { return currentResultsViewController != nil }
     
     private(set) var isShowingSearchOptions: Bool = false
     
-    lazy var searchOptionsViewController: SearchOptionsViewController = { [unowned self] in
+    private lazy var resultsListViewController: SearchResultsListViewController = { [unowned self] in
+        let resultsController = SearchResultsListViewController()
+        resultsController.delegate = self
+        return resultsController
+    }()
+    
+    private lazy var searchOptionsViewController: SearchOptionsViewController = { [unowned self] in
         let optionsController = SearchOptionsViewController()
         self.addChildViewController(optionsController)
         optionsController.didMove(toParentViewController: self)
         return optionsController
+    }()
+    
+    
+    private var isSearchNavigationFieldLoaded = false
+    
+    private lazy var searchNavigationField: SearchNavigationField = { [unowned self] in
+        let searchField = SearchNavigationField()
+        searchField.titleLabel.text = "Citizen John"
+        searchField.typeLabel.text  = "PERSON"
+        searchField.resultCountLabel.text = "27 results found"
+        searchField.delegate = self
+        
+        let theme = Theme.current
+        let secondaryText = theme.colors[.SecondaryText]
+        
+        searchField.titleLabel.textColor = theme.colors[.PrimaryText]
+        searchField.resultCountLabel.textColor = secondaryText
+        searchField.clearButton.tintColor = secondaryText
+        
+        return searchField
     }()
     
     
@@ -41,8 +67,11 @@ class SearchViewController: UIViewController {
     init() {
         super.init(nibName: nil, bundle: nil)
         
+        automaticallyAdjustsScrollViewInsets = false
+        
         tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
         
+        recentsViewController.delegate = self
         addChildViewController(recentsViewController)
         recentsViewController.didMove(toParentViewController: self)
         
@@ -59,7 +88,7 @@ class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let currentVC = resultsViewController ?? recentsViewController
+        let currentVC = currentResultsViewController ?? recentsViewController
         let currentVCView = currentVC.view!
         
         let view = self.view!
@@ -83,6 +112,8 @@ class SearchViewController: UIViewController {
         super.viewDidLayoutSubviews()
         
         if let searchOptionsView = searchOptionsViewController.viewIfLoaded, searchOptionsView.superview == self.view {
+            searchOptionsView.setNeedsLayout()
+            
             let viewBounds = view.bounds
             var viewFrame = CGRect(x: 0, y: 0, width: viewBounds.width, height: min(searchPreferredHeight + topLayoutGuide.length, viewBounds.height))
             if isShowingSearchOptions == false {
@@ -90,7 +121,6 @@ class SearchViewController: UIViewController {
             }
             
             searchOptionsView.frame = viewFrame
-            searchOptionsView.setNeedsLayout()
             searchOptionsView.layoutIfNeeded()
         }
     }
@@ -195,6 +225,37 @@ class SearchViewController: UIViewController {
     }
     
     
+    // MARK: - SearchRecentsViewControllerDelegate
+    
+    func searchRecentsController(_ controller: SearchRecentsViewController, didSelectRecentEntity recentEntity: Any?) {
+        didSelectEntity(recentEntity as Any)
+    }
+    
+    func searchRecentsController(_ controller: SearchRecentsViewController, didSelectRecentSearch recentSearch: Any?) {
+        setShowingSearchOptions(true, animated: true)
+        searchOptionsViewController.beginEditingSearchField()
+    }
+    
+    
+    // MARK: - SearchNavigationFieldDelegate
+    
+    func searchNavigationFieldDidSelect(_ field: SearchNavigationField) {
+        setShowingSearchOptions(true, animated: true)
+    }
+    
+    func searchNavigationFieldDidSelectClear(_ field: SearchNavigationField) {
+        setCurrentResultsViewController(nil, animated: true)
+    }
+    
+    
+    // MARK: - SearchResultsDelegate {
+    
+    
+    func searchResultsController(_ controller: UIViewController, didSelectEntity entity: Any?) {
+        didSelectEntity(entity as Any)
+    }
+    
+    
     // MARK: - Private methods
     
     @objc private func displaySearchTriggered() {
@@ -209,17 +270,22 @@ class SearchViewController: UIViewController {
     
     @objc private func performSearchTriggered() {
         setShowingSearchOptions(false, animated: true)
-        // TODO
+        setCurrentResultsViewController(resultsListViewController, animated: true)
     }
     
-    private func setResultsViewController(_ controller: UIViewController?, animated: Bool) {
-        if controller == resultsViewController { return }
+    @objc private func addEntityTriggered() {
+    }
+    
+    private func setCurrentResultsViewController(_ controller: UIViewController?, animated: Bool) {
+        if controller == currentResultsViewController { return }
         
         // These will logically never be the same because of the above check.
-        let fromVC = resultsViewController ?? recentsViewController
+        let fromVC = currentResultsViewController ?? recentsViewController
         let toVC   = controller ?? recentsViewController
         
-        resultsViewController = controller
+        currentResultsViewController = controller
+        
+        updateNavigationItem(animated: true)
         
         if toVC == controller {
             addChildViewController(toVC)
@@ -236,12 +302,34 @@ class SearchViewController: UIViewController {
         }
         
         if isViewLoaded {
-            toVC.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            transition(from: fromVC, to: toVC, duration: animated ? 0.2 : 0.0, options: [.transitionCrossDissolve], animations: nil, completion: completionHandler)
+            let fromView = fromVC.view!
+            let toView = toVC.view!
+            let animate = animated && view.window != nil
+            
+            toView.frame = fromView.frame
+            toView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            toView.alpha = animate ? 0.0 : 1.0
+            
+            fromVC.beginAppearanceTransition(false, animated: animated)
+            toVC.beginAppearanceTransition(true, animated: animated)
+            
+            view.insertSubview(toView, aboveSubview: fromView)
+            
+            let transitionCompletionHandler = { (finished: Bool) in
+                fromView.removeFromSuperview()
+                fromVC.endAppearanceTransition()
+                toVC.endAppearanceTransition()
+                completionHandler(finished)
+            }
+            
+            if animate {
+                UIView.animate(withDuration: 0.15, animations: { toView.alpha = 1.0 }, completion: transitionCompletionHandler)
+            } else {
+                transitionCompletionHandler(true)
+            }
         } else {
             completionHandler(true)
         }
-        
     }
     
     private func updateNavigationItem(animated: Bool) {
@@ -252,14 +340,26 @@ class SearchViewController: UIViewController {
         
         if isShowingSearchOptions {
             titleView = nil
-            title = "New Search"
+            title = NSLocalizedString("New Search", comment: "")
             leftBarButtonItems  = [UIBarButtonItem(barButtonSystemItem: .cancel,   target: self, action: #selector(cancelSearchTriggered))]
             rightBarButtonItems = [UIBarButtonItem(title: "Search", style: .plain, target: self, action: #selector(performSearchTriggered))]
         } else if isShowingResults {
-            titleView = nil // TODO: Should be the mock search bar
+            if self.navigationItem.titleView != searchNavigationField {
+                let screenSize = UIScreen.main.bounds
+                let maxDimension = max(screenSize.width, screenSize.height)
+                searchNavigationField.frame.size.width = maxDimension
+            }
+            
+            titleView = searchNavigationField
             title = nil
-            leftBarButtonItems = nil
-            rightBarButtonItems = [] // TODO: Configure based on whether the current results vc's nav item options.
+            leftBarButtonItems = currentResultsViewController?.navigationItem.leftBarButtonItems
+            
+            var rightItems = [UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addEntityTriggered))]
+            if let childVCItems = currentResultsViewController?.navigationItem.rightBarButtonItems {
+               rightItems += childVCItems
+            }
+            
+            rightBarButtonItems = rightItems
         } else {
             titleView = nil
             title = "MPOL" // TODO: Should be from client
@@ -273,4 +373,10 @@ class SearchViewController: UIViewController {
         navigationItem.setLeftBarButtonItems(leftBarButtonItems,   animated: animated)
         navigationItem.setRightBarButtonItems(rightBarButtonItems, animated: animated)
     }
+    
+    private func didSelectEntity(_ entity: Any) {
+        let entityViewController = EntityDetailsSplitViewController(entity: entity)
+        navigationController?.pushViewController(entityViewController, animated: true)
+    }
+    
 }

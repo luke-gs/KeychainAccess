@@ -77,7 +77,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         didSet {
             if isHighlighted == false || highlightStyle == oldValue { return }
             
-            contentView.alpha = highlightStyle == .fade ? 0.5 : 0.0
+            contentView.alpha = highlightStyle == .fade ? 0.5 : 1.0
         }
     }
     
