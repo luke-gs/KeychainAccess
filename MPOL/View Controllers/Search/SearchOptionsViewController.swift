@@ -11,7 +11,7 @@ import MPOLKit
 
 fileprivate var kvoContext = 1
 
-open class SearchOptionsViewController: FormCollectionViewController, SearchCollectionViewCellDelegate {
+open class SearchOptionsViewController: FormCollectionViewController, SearchCollectionViewCellDelegate, PopoverTableViewDelegate {
     
     enum SearchSegments: Int {
         case person = 0, vehicle, organisation, location
@@ -105,6 +105,11 @@ open class SearchOptionsViewController: FormCollectionViewController, SearchColl
     
     // MARK: - CollectionView Methods
     
+    // Default global footer
+    class CollectionViewGlobalFooterView: UICollectionReusableView, DefaultReusable {
+        public static let minimumHeight: CGFloat = 20.0
+    }
+    
     open func numberOfSections(in collectionView: UICollectionView) -> Int {
         
         if segmentIndex == SearchSegments.location.rawValue {
@@ -193,27 +198,42 @@ open class SearchOptionsViewController: FormCollectionViewController, SearchColl
     
     open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        let index = indexPath.item
+        
         if indexPath.section == 1 {
             switch segmentIndex {
             case SearchSegments.person.rawValue:
                 
-                let tableView = popoverSelectableTableViewController()
-                tableView.sourceItems = searchSources[segmentIndex].filterOptions(atIndex: indexPath.item)
-                tableView.title = searchSources[segmentIndex].filterTitle(atIndex: indexPath.item)
-                
-                let popover = PopoverNavigationController(rootViewController: tableView)
-                popover.modalPresentationStyle = .popover
-                
-                if let presentationController = popover.popoverPresentationController {
+                if let personFilter = searchSources[segmentIndex] as? PersonSearchType {
                     
-                    let cell = collectionView.cellForItem(at:indexPath)
+                    let tableView = popoverSelectableTableViewController()
+                    tableView.sourceItems = personFilter.filterOptions(atIndex: index)
+                    tableView.title = personFilter.filterTitle(atIndex: index)
+                    tableView.popoverTableViewDelegate = self
+                    tableView.mustHaveValue = true
+                    tableView.canMultiSelect = true
                     
-                    presentationController.sourceView = cell
-                    presentationController.sourceRect = cell!.bounds
+//                    if personFilter.filterIsEmpty(atIndex: index) == false {
+//                        if let selectedIndex = tableView.sourceItems?.index(of: personFilter.filterValue(atIndex: index)) {
+//                            tableView.selectedItemsIndex = [selectedIndex]
+//                        }
+//                    }
+                    
+                    let popover = PopoverNavigationController(rootViewController: tableView)
+                    popover.modalPresentationStyle = .popover
+                    
+                    if let presentationController = popover.popoverPresentationController {
+                        
+                        let cell = collectionView.cellForItem(at:indexPath)
+                        
+                        presentationController.sourceView = cell
+                        presentationController.sourceRect = cell!.bounds
+                        
+                    }
+                    
+                    present(popover, animated: true, completion: nil)
                     
                 }
-                
-                present(popover, animated: true, completion: nil)
                 break
             case SearchSegments.vehicle.rawValue:
                 
@@ -325,9 +345,10 @@ open class SearchOptionsViewController: FormCollectionViewController, SearchColl
         }
     }
     
-    // Default global footer
-    class CollectionViewGlobalFooterView: UICollectionReusableView, DefaultReusable {
-        public static let minimumHeight: CGFloat = 20.0
+    // MARK - PopoverTableView Delegate
+    
+    public func popOverTableDidDismiss(_ tableView: popoverSelectableTableViewController) {
+        
     }
 }
 
@@ -719,8 +740,49 @@ public class popoverSelectableTableViewController : UITableViewController {
     let cellIdentifier = "DefaultTableViewCellIdentifier"
     let cellHeight: CGFloat = 40.0
     
-    public var canMultiSelect: Bool = false
+    public var mustHaveValue: Bool = false
+    
+    public var canMultiSelect: Bool = false {
+        didSet {
+            tableView.allowsMultipleSelection = canMultiSelect
+        }
+    }
     public var sourceItems: [String]? = []
+    
+    weak var popoverTableViewDelegate: PopoverTableViewDelegate?
+    
+    public var selectedItemsIndex: IndexSet = [] {
+        didSet {
+            for cell in self.tableView.visibleCells {
+                
+                if let indexPath = self.tableView.indexPath(for: cell) {
+                    
+                    if selectedItemsIndex.contains(indexPath.row) {
+//                        cell.setHighlighted(true, animated: false)
+//                        cell.setSelected(true, animated: false)
+                    } else {
+//                        cell.setHighlighted(false, animated: false)
+//                        cell.setSelected(false, animated: false)
+                    }
+                }
+            }
+        }
+    }
+    
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        tableView.addObserver(self, forKeyPath: #keyPath(UITableView.contentSize), context: &kvoContext)
+    }
+    
+    deinit {
+        
+        if let delegate = self.popoverTableViewDelegate {
+            delegate.popOverTableDidDismiss(self)
+        }
+        
+        tableView.removeObserver(self, forKeyPath: #keyPath(UITableView.contentSize), context: &kvoContext)
+    }
     
     public init() {
         super.init(style: .plain)
@@ -728,22 +790,20 @@ public class popoverSelectableTableViewController : UITableViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
     }
     
-    public override var preferredContentSize: CGSize {
-        get {
-            let attributes = self.navigationController?.navigationBar.titleTextAttributes
-            let sizeOfText = self.title?.size(attributes: attributes)
-            
-            let width = min((sizeOfText?.width)! + 60.0 + 60.0, 300.0)
-            
-            let height = min(CGFloat((sourceItems?.count)!) * cellHeight, 400.0)
-            
-            return CGSize(width: width, height: height)
-        }
-        set { super.preferredContentSize = newValue }
-    }
-    
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if context == &kvoContext {
+            if object is UITableView {
+                if let contentSize = self.tableView?.contentSize {
+                    self.preferredContentSize = contentSize
+                }
+            }
+        } else {
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+        }
     }
     
     // MARK - TableviewDatasource
@@ -766,6 +826,12 @@ public class popoverSelectableTableViewController : UITableViewController {
 
         cell.textLabel?.text = sourceItems?[indexPath.row]
         
+        if selectedItemsIndex.contains(indexPath.row) {
+            cell.setSelected(true, animated: false)
+        } else {
+            cell.setSelected(false, animated: false)
+        }
+        
         return cell
     }
     
@@ -774,4 +840,54 @@ public class popoverSelectableTableViewController : UITableViewController {
     }
 
     // MARK - TableViewDelegate
+    public override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        print("Did Select Row")
+        
+        let row = indexPath.row
+        let cell = tableView.cellForRow(at: indexPath)
+        
+        if selectedItemsIndex.contains(row) {
+            if mustHaveValue == true && selectedItemsIndex.count == 1 { // Cannot remove
+                print("Contains element: Must have value cannot remove")
+            } else {
+                selectedItemsIndex.remove(row)
+                print("Contains element: Removing")
+            }
+        } else {
+            
+            if canMultiSelect == true {
+                selectedItemsIndex.insert(row)
+                print("Doesn't contain element: Can multi select: Inserting")
+            } else {
+                selectedItemsIndex.removeAll()
+                selectedItemsIndex.insert(row)
+                print("Doesn't contain element: Cannot multi select: Removing all Then Inserting")
+            }
+        }
+    }
+    
+    public override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        print("Did deselect row")
+        
+        let row = indexPath.row
+        let cell = tableView.cellForRow(at: indexPath)
+        
+        if mustHaveValue == true && selectedItemsIndex.count == 1 {
+            print("Contains element: Must have value cannot remove")
+        } else {
+            selectedItemsIndex.remove(row)
+            print("Contains element: Removing")
+        }
+    }
+}
+
+// MARK - PopoverTableView delegate
+
+@objc protocol PopoverTableViewDelegate: class {
+    
+    @objc optional func popOverTableDidCancel(_ tableView: popoverSelectableTableViewController)
+    
+    // Use the sourceItems & selected options from the popOverTable to get selected values
+    func popOverTableDidDismiss(_ tableView: popoverSelectableTableViewController)
 }
