@@ -49,7 +49,7 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
         
         searchField.titleLabel.textColor = theme.colors[.PrimaryText]
         searchField.resultCountLabel.textColor = secondaryText
-        searchField.clearButton.tintColor = secondaryText
+        searchField.clearButtonColor = secondaryText
         
         return searchField
     }()
@@ -323,7 +323,7 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
             }
             
             if animate {
-                UIView.animate(withDuration: 0.15, animations: { toView.alpha = 1.0 }, completion: transitionCompletionHandler)
+                UIView.animate(withDuration: 0.2, animations: { toView.alpha = 1.0 }, completion: transitionCompletionHandler)
             } else {
                 transitionCompletionHandler(true)
             }
