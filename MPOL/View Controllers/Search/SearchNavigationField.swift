@@ -127,14 +127,7 @@ open class SearchNavigationField: UIView {
     open override func layoutSubviews() {
         super.layoutSubviews()
         
-        let isRightToLeft: Bool
-        if #available(iOS 10, *) {
-            isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
-        } else {
-            isRightToLeft = UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft
-        }
-        
-        if isRightToLeft {
+        if effectiveUserInterfaceLayoutDirection == .rightToLeft {
             resultCountLabel.isHidden = resultCountLabel.frame.maxX + 8.0 > titleLabel.frame.minX
         } else {
             resultCountLabel.isHidden = resultCountLabel.frame.minX < titleLabel.frame.maxX + 8.0
