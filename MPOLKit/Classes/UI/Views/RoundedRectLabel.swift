@@ -14,6 +14,23 @@ import UIKit
 /// priority level.
 open class RoundedRectLabel : UILabel {
     
+    open var cornerRadius: CGFloat = 2.0 {
+        didSet {
+            if cornerRadius ==~ oldValue { return }
+        }
+    }
+    
+    open override var backgroundColor: UIColor? {
+        get { return _backgroundColor }
+        set { _backgroundColor = newValue }
+    }
+    
+    private var _backgroundColor: UIColor?
+    
+    
+    
+    // MARK: - Initializer
+    
     public override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
@@ -27,17 +44,12 @@ open class RoundedRectLabel : UILabel {
     private func commonInit() {
         font            = .systemFont(ofSize: 10.0, weight: UIFontWeightBold)
         textColor       = .white
-        backgroundColor = UIColor(white: 0.3, alpha: 0.9)
         textAlignment   = .center
-        clipsToBounds   = true
+        isOpaque        = false
+        backgroundColor =  UIColor(white: 0.3, alpha: 0.9)
         
         // Visually this appears slightly different on devices depending on scale. We vary the numbers depending on the screen scale.
         layoutMargins = UIEdgeInsets(top: 2.0 + (1.0 / UIScreen.main.scale), left: 10.0, bottom: 2.0, right: 10.0)
-        
-        let layer = self.layer
-        layer.cornerRadius = 2.0
-        layer.shouldRasterize = true
-        layer.rasterizationScale = UIScreen.main.scale
     }
     
     open override func textRect(forBounds bounds: CGRect, limitedToNumberOfLines numberOfLines: Int) -> CGRect {
@@ -47,13 +59,23 @@ open class RoundedRectLabel : UILabel {
         return rect.insetBy(layoutMargins.inverted())
     }
     
-    open override func drawText(in rect: CGRect) {
-        super.drawText(in: rect.insetBy(layoutMargins))
+    open override func draw(_ rect: CGRect) {
+        
+        if let background = _backgroundColor {
+            background.setFill()
+            if cornerRadius > 0.0, let context = UIGraphicsGetCurrentContext() {
+                context.addPath(CGPath(roundedRect: bounds, cornerWidth: cornerRadius, cornerHeight: cornerRadius, transform: nil))
+                context.fillPath()
+            } else {
+                UIRectFill(bounds)
+            }
+        }
+        
+        super.draw(rect)
     }
     
-    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        layer.rasterizationScale = traitCollection.currentDisplayScale
+    open override func drawText(in rect: CGRect) {
+        super.drawText(in: rect.insetBy(layoutMargins))
     }
     
 }
