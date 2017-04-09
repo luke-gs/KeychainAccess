@@ -1,0 +1,606 @@
+//
+//  CollectionViewFormCell.swift
+//  MPOLKit
+//
+//  Created by Rod Brown on 4/05/2016.
+//  Copyright © 2016 Gridstone. All rights reserved.
+//
+
+import UIKit
+import UIKit.UIGestureRecognizerSubclass
+
+
+/// A basic cell that implements common form elements, including swipe-to-edit actions.
+///
+/// `CollectionViewFormCell` implements handling for `CollectionViewFormItemAttributes`. When used with a layout that
+/// vends form item attributes, e.g. `CollectionViewFormLayout`, the cell adjusts its layout margins
+/// to adhere to the form layout margins.
+///
+/// `CollectionViewFormCell` also blocks auto-layout based self sizing for performance reasons. Subclasses that wish to support
+/// auto-layout based cell sizing should override `preferredLayoutAttributesFitting(_:)` and perform the caculations with
+/// `systemLayoutSizeFitting(_:)`. Users should note that `CollectionViewFormLayout` does not support self-sizing cells.
+open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, CollectionViewFormCellActionDelegate, UIGestureRecognizerDelegate {
+    
+    private static let standardSeparatorColor = #colorLiteral(red: 0.7843137255, green: 0.7803921569, blue: 0.8, alpha: 1)
+    
+    
+    @objc(CollectionViewFormSeparatorStyle) public enum SeparatorStyle: Int {
+        case none
+        
+        case indented
+        
+        case indentedAtRowLeading
+        
+        case fullWidth
+    }
+    
+    
+    @objc(CollectionViewFormHighlightStyle) public enum HighlightStyle: Int {
+        case none
+        
+        case fade
+    }
+    
+    
+    @objc(CollectionViewFormSelectionStyle) public enum SelectionStyle: Int {
+        case none
+        
+        case underline
+    }
+    
+    
+    
+    open var separatorStyle: SeparatorStyle = .indented {
+        didSet {
+            if separatorStyle != oldValue {
+                setNeedsLayout()
+            }
+        }
+    }
+    
+    @NSCopying open var separatorColor: UIColor? = CollectionViewFormCell.standardSeparatorColor {
+        didSet {
+            if selectionStyle != .underline || isSelected == false {
+                separatorView.backgroundColor = separatorColor
+            }
+        }
+    }
+    
+    
+    open override var isHighlighted: Bool {
+        didSet {
+            contentView.alpha = isHighlighted && highlightStyle == .fade ? 0.5 : 1.0
+        }
+    }
+    
+    open var highlightStyle: HighlightStyle = .none {
+        didSet {
+            if isHighlighted == false || highlightStyle == oldValue { return }
+            
+            contentView.alpha = highlightStyle == .fade ? 0.5 : 1.0
+        }
+    }
+    
+    open override var isSelected: Bool {
+        didSet {
+            if isSelected == oldValue { return }
+            
+            if selectionStyle == .underline {
+                separatorView.backgroundColor = isSelected ? tintColor : separatorColor
+                setNeedsLayout()
+            }
+            
+        }
+    }
+    
+    open var selectionStyle: SelectionStyle = .none {
+        didSet {
+            if selectionStyle == oldValue { return }
+            
+            if selectionStyle == .underline && isSelected {
+                separatorView.backgroundColor = tintColor
+                setNeedsLayout()
+            } else {
+                separatorView.backgroundColor = separatorColor
+            }
+        }
+    }
+    
+    
+    /// The accessory view for the cell.
+    ///
+    /// This will be placed at the trailing edge of the cell.
+    open var accessoryView: UIView? {
+        didSet {
+            if oldValue == accessoryView { return }
+            
+            oldValue?.removeFromSuperview()
+            
+            if let accessoryView = self.accessoryView {
+                contentView.addSubview(accessoryView)
+                
+                let accessoryWidth = accessoryView.frame.width
+                if accessoryWidth > 0 {
+                    contentModeLayoutTrailingConstraint.constant = (accessoryWidth + 10.0) * -1.0
+                } else {
+                    contentModeLayoutTrailingConstraint?.constant = 0.0
+                }
+            } else {
+                contentModeLayoutTrailingConstraint?.constant = 0.0
+            }
+        }
+    }
+    
+    
+    // MARK: - Public properties
+    
+    /// The edit actions for the cell.
+    /// 
+    /// Setting this property will close edit actions if there are no more edit actions.
+    open var editActions: [CollectionViewFormEditAction] {
+        get {
+            return actionView.actions
+        }
+        set {
+            actionView.actions = newValue
+            cachedEditAccessiblityActions = nil
+        }
+    }
+
+    
+    /// The editing display state of the cell.
+    ///
+    /// This property manages the display of edit actions. Setting this value calls `setShowingEditActions: animated:`
+    /// without an animation.
+    open private(set) dynamic var isShowingEditActions: Bool {
+        get {
+            return actionView.isShowingActions
+        }
+        set { setShowingEditActions(isShowingEditActions, animated: false) }
+    }
+    
+    
+    /// Updates the editing display state of the cell.
+    ///
+    /// - Parameters:
+    ///   - showingActions: A boolean value indicating whether the cell should show edit actions.
+    ///   - animated:       A boolean flag indicating whether the update should be animated.
+    open func setShowingEditActions(_ showingActions: Bool, animated: Bool) {
+        actionView.setShowingActions(showingActions, animated: animated)
+    }
+    
+    
+    /// CollectionViewFormCell overrides this UIView flag to adjust the constraints on the
+    /// `CollectionViewFormCell.contentModeLayoutGuide` to apply a top, bottom or center
+    /// position to the guide.
+    ///
+    /// The default is `.center`.
+    open override var contentMode: UIViewContentMode {
+        didSet {
+            if contentMode == oldValue { return }
+            
+            let attribute: NSLayoutAttribute
+            switch contentMode {
+            case .top, .topLeft, .topRight:
+                attribute = .top
+            case .bottom, .bottomLeft, .bottomRight:
+                attribute = .bottom
+            default:
+                attribute = .centerY
+            }
+            contentModeLayoutVerticalConstraint?.isActive = false
+            contentModeLayoutVerticalConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: attribute, relatedBy: .equal, toItem: contentView.layoutMarginsGuide, attribute: attribute, priority: UILayoutPriorityDefaultLow - 1)
+            contentModeLayoutVerticalConstraint.isActive = true
+            
+            if accessoryView != nil {
+                setNeedsLayout()
+            }
+        }
+    }
+    
+    
+    /// This layout guide is applied to the cell's contentView, and positions content in the
+    /// correct vertical position for the current `contentMode`. This layout guide is constrainted
+    /// to the layout margins for the content view.
+    ///
+    /// Subclasses should position their content with this layout guide, rather than the content
+    /// view's layout margins.
+    open let contentModeLayoutGuide: UILayoutGuide = UILayoutGuide()
+    
+    
+    // MARK: - Private properties
+    
+    private let separatorView = UIView(frame: .zero)
+    
+    internal let actionView = CollectionViewFormCellActionView(frame: .zero)
+    
+    /// The content mode guide. This guide is private and will update to enforce the current content
+    /// mode on the `contentModeLayoutGuide`.
+    private var contentModeLayoutVerticalConstraint: NSLayoutConstraint!
+    
+    private var contentModeLayoutTrailingConstraint: NSLayoutConstraint!
+    
+    private var touchTrigger: TouchRecognizer?
+    
+    private var isFirstInRow: Bool = false
+    private var isAtTrailingEdge: Bool = false {
+        didSet {
+            actionView.wantsGradientMask = isAtTrailingEdge == false
+        }
+    }
+    
+    
+    private var isRightToLeft: Bool = false {
+        didSet { if isRightToLeft != oldValue { setNeedsLayout() } }
+    }
+    
+    private var cachedEditAccessiblityActions: [CollectionViewFormAccessibilityEditAction]?
+    
+    
+    // MARK: - Initialization
+    
+    public override init(frame: CGRect) {
+        super.init(frame: frame)
+        commonInit()
+    }
+    
+    public required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        commonInit()
+    }
+    
+    private func commonInit() {
+        isAccessibilityElement = true
+        
+        separatorView.autoresizingMask = [.flexibleWidth, .flexibleTopMargin]
+        separatorView.backgroundColor = separatorColor
+        separatorView.isUserInteractionEnabled = false
+        addSubview(separatorView)
+        
+        actionView.frame = bounds
+        actionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        actionView.layoutMargins = layoutMargins
+        actionView.actionDelegate = self
+        addSubview(actionView)
+        addGestureRecognizer(actionView.panGestureRecognizer)
+        
+        super.contentMode = .center
+        
+        let contentView            = super.contentView
+        let contentModeLayoutGuide = self.contentModeLayoutGuide
+        
+        contentView.addLayoutGuide(contentModeLayoutGuide)
+        
+        contentModeLayoutVerticalConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerYWithinMargins, priority: UILayoutPriorityDefaultLow - 1)
+        contentModeLayoutTrailingConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .trailing, relatedBy: .equal, toItem: contentView, attribute: .trailingMargin)
+        
+        NSLayoutConstraint.activate([
+            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .top,      relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .topMargin),
+            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .bottom,   relatedBy: .lessThanOrEqual,    toItem: contentView, attribute: .bottomMargin, priority: 500),
+            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .leading,  relatedBy: .equal, toItem: contentView, attribute: .leadingMargin),
+            contentModeLayoutTrailingConstraint,
+            contentModeLayoutVerticalConstraint
+        ])
+        
+        applyStandardFonts()
+        
+        if #available(iOS 10, *) {
+            isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
+        } else {
+            isRightToLeft = UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft
+        }
+        
+        if #available(iOS 10, *) { return }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(contentSizeCategoryDidChange(_:)), name: .UIContentSizeCategoryDidChange, object: nil)
+    }
+    
+    deinit {
+        removeTouchTrigger()
+    }
+    
+    
+    // MARK: - Font updates
+    
+    /// Applies the standard fonts for the cell.
+    ///
+    /// This method is internal-only, and is expected to be called on reuse, and during
+    /// init methods.
+    ///
+    /// - Important: Subclasses must ensure that it is safe to call this method by
+    ///              `super.init()`, as it is called during the superclass's
+    ///              initializer.
+    internal func applyStandardFonts() {
+    }
+    
+    
+    // MARK: - Gesture recognizer delegate methods
+    
+    open override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if gestureRecognizer == touchTrigger {
+            if let hitTestedView = actionView.hitTest(gestureRecognizer.location(in: actionView), with: nil),
+                hitTestedView != actionView {
+                return false
+            }
+            return true
+        }
+        
+        return super.gestureRecognizerShouldBegin(gestureRecognizer)
+    }
+    
+    @objc public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        let view = gestureRecognizer.view
+        let myCollectionView = view as? UICollectionView ?? view?.superview(of: UICollectionView.self)
+        let returnValue = otherGestureRecognizer.view == myCollectionView
+        return returnValue
+    }
+    
+    
+    // MARK: - CollectionViewFormCellActionDelegate methods
+    
+    func actionViewShouldBeginDragging(_ actionView: CollectionViewFormCellActionView) -> Bool {
+        return firstResponderSubview() == nil
+    }
+    
+    func actionViewWillShowActions(_ actionView: CollectionViewFormCellActionView) {
+        superview(of: UICollectionView.self)?.endEditing(false)
+        applyTouchTrigger()
+    }
+    
+    func actionViewDidHideActions(_ actionView: CollectionViewFormCellActionView) {
+        removeTouchTrigger()
+    }
+    
+    func actionView(_ actionView: CollectionViewFormCellActionView, didSelectActionAt index: Int) {
+        performEditAction(at: index)
+    }
+    
+    
+    // MARK: - Overrides
+    
+    open class override func automaticallyNotifiesObservers(forKey key: String) -> Bool {
+        if key == #keyPath(CollectionViewFormCell.isShowingEditActions) {
+            return false
+        } else {
+            return super.automaticallyNotifiesObservers(forKey: key)
+        }
+    }
+    
+    open override var semanticContentAttribute: UISemanticContentAttribute {
+        didSet {
+            if semanticContentAttribute == oldValue { return }
+            
+            if #available(iOS 10, *) {
+                isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
+            } else {
+                isRightToLeft = UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft
+            }
+        }
+    }
+    
+    open override func prepareForReuse() {
+        super.prepareForReuse()
+        applyStandardFonts()
+        setNeedsLayout()
+        setShowingEditActions(false, animated: false)
+    }
+    
+    open override func willMove(toSuperview newSuperview: UIView?) {
+        super.willMove(toSuperview: newSuperview)
+        setShowingEditActions(false, animated: false)
+        removeTouchTrigger()
+    }
+    
+    open override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
+        super.apply(layoutAttributes)
+        
+        let newLayoutMargins: UIEdgeInsets
+        if let formAttribute = layoutAttributes as? CollectionViewFormItemAttributes {
+            isFirstInRow     = formAttribute.rowIndex == 0
+            isAtTrailingEdge = formAttribute.isAtTrailingEdge
+            newLayoutMargins = formAttribute.layoutMargins
+        } else {
+            isFirstInRow     = false
+            isAtTrailingEdge = false
+            newLayoutMargins = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
+        }
+        
+        if layoutMargins != newLayoutMargins {
+            layoutMargins = newLayoutMargins
+            setNeedsLayout()
+        }
+        if contentView.layoutMargins != newLayoutMargins {
+            contentView.layoutMargins = newLayoutMargins
+            setNeedsLayout()
+        }
+        if actionView.layoutMargins != newLayoutMargins {
+            actionView.layoutMargins = newLayoutMargins
+        }
+    }
+    
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+        let bounds = self.bounds
+        
+        let separatorHeight = 1.0 / traitCollection.currentDisplayScale + (isSelected && selectionStyle == .underline ? 1.0 : 0.0)
+        var separatorFrame = CGRect(x: 0.0, y: bounds.height - separatorHeight, width: bounds.width, height: separatorHeight)
+        
+        if separatorStyle != .fullWidth && (separatorStyle != .indentedAtRowLeading || isFirstInRow) {
+            let layoutMargins = self.layoutMargins
+            if isRightToLeft {
+                separatorFrame.size.width -= layoutMargins.right
+                if isAtTrailingEdge == false {
+                    separatorFrame.size.width -= layoutMargins.left
+                    separatorFrame.origin.x   += layoutMargins.left
+                }
+            } else {
+                separatorFrame.size.width -= layoutMargins.left
+                separatorFrame.origin.x   += layoutMargins.left
+                
+                if isAtTrailingEdge == false {
+                    separatorFrame.size.width -= layoutMargins.right
+                }
+            }
+        }
+        separatorView.frame = separatorFrame
+        separatorView.isHidden = separatorStyle == .none
+        
+        if let accessoryView = self.accessoryView {
+            let contentLayoutGuide = contentModeLayoutGuide.layoutFrame
+            
+            var accessoryFrame = accessoryView.frame
+            accessoryFrame.origin.y = round(contentLayoutGuide.midY - (accessoryFrame.size.height * 0.5))
+            if isRightToLeft {
+                accessoryFrame.origin.x = contentLayoutGuide.minX - 10.0 - accessoryFrame.width
+            } else {
+                accessoryFrame.origin.x = contentLayoutGuide.maxX + 10.0
+            }
+            accessoryView.frame = accessoryFrame
+        }
+        
+        let subviews     = self.subviews
+        let subviewCount = subviews.count
+        
+        if subviews.index(of: actionView) != subviewCount - 2 || subviews.index(of: separatorView) != subviewCount - 1 {
+            bringSubview(toFront: actionView)
+            bringSubview(toFront: separatorView)
+        }
+        
+    }
+    
+    open override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
+        return layoutAttributes
+    }
+    
+    open override var accessibilityCustomActions: [UIAccessibilityCustomAction]? {
+        get {
+            let accessibilityActions = super.accessibilityCustomActions
+            guard editActions.isEmpty == false else {
+                return accessibilityActions
+            }
+            
+            var accessibilityCustomActions = accessibilityActions ?? []
+            
+            if cachedEditAccessiblityActions == nil {
+                cachedEditAccessiblityActions = editActions.enumerated().map { CollectionViewFormAccessibilityEditAction(cell: self, title: $0.element.title, actionIndex: $0.offset) }
+            }
+            
+            if let actions: [UIAccessibilityCustomAction] = cachedEditAccessiblityActions {
+                accessibilityCustomActions += actions
+            }
+            
+            return accessibilityCustomActions
+        }
+        set {
+            super.accessibilityCustomActions = newValue
+        }
+    }
+    
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        guard #available(iOS 10, *) else { return }
+        
+        if (traitCollection.layoutDirection == .rightToLeft) != (previousTraitCollection?.layoutDirection == .rightToLeft) {
+            isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
+        }
+        
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            applyStandardFonts()
+            setNeedsLayout()
+        }
+        
+        if traitCollection.currentDisplayScale != previousTraitCollection?.currentDisplayScale {
+            setNeedsLayout()
+        }
+    }
+    
+    open override func tintColorDidChange() {
+        super.tintColorDidChange()
+        if isSelected && selectionStyle == .underline {
+            separatorView.backgroundColor = tintColor
+        }
+    }
+    
+    
+    // MARK: - Private methods
+    
+    @objc private func touchTriggerDidActivate(_ trigger: TouchRecognizer) {
+        // Don't fire the trigger if it's within a view in the action view.
+        if let hitTestedView = actionView.hitTest(trigger.location(in: actionView), with: nil),
+            hitTestedView != actionView {
+            return
+        }
+        
+        setShowingEditActions(false, animated: true)
+    }
+    
+    private func applyTouchTrigger() {
+        if touchTrigger != nil { return }
+        if let collectionView = superview(of: UICollectionView.self) {
+            let touchTrigger = TouchRecognizer(target: self, action: #selector(touchTriggerDidActivate(_:)))
+            touchTrigger.delegate = self
+            collectionView.addGestureRecognizer(touchTrigger)
+            self.touchTrigger = touchTrigger
+        }
+    }
+    
+    private func removeTouchTrigger() {
+        if let touchTrigger = self.touchTrigger {
+            touchTrigger.view?.removeGestureRecognizer(touchTrigger)
+            self.touchTrigger = nil
+        }
+    }
+    
+    // This method is declared fileprivate to allow associated classes to call back into the method.
+    @discardableResult fileprivate func performEditAction(at index: Int) -> Bool {
+        if editActions.count > index,
+            let indexPath = superview(of: UICollectionView.self)?.indexPath(for: self) {
+            editActions[index].handler?(self, indexPath)
+            return true
+        }
+        return false
+    }
+    
+    @objc private func contentSizeCategoryDidChange(_ notification: Notification) {
+        applyStandardFonts()
+        setNeedsLayout()
+    }
+    
+}
+
+
+/// A private class used to recognize a touch beginning on a view, or it's subviews.
+/// This gesture should not interfere with other gesture recognizers eg scrolling.
+fileprivate class TouchRecognizer: UIGestureRecognizer {
+    
+    override init(target: Any?, action: Selector?) {
+        super.init(target: target, action: action)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent) {
+        super.touchesBegan(touches, with: event)
+        self.state = UIGestureRecognizerState.recognized
+    }
+}
+
+
+fileprivate class CollectionViewFormAccessibilityEditAction: UIAccessibilityCustomAction {
+    
+    weak var cell: CollectionViewFormCell?
+    
+    let actionIndex: Int
+    
+    init(cell: CollectionViewFormCell, title: String, actionIndex: Int) {
+        self.cell = cell
+        self.actionIndex = actionIndex
+        super.init(name: title, target: nil, selector: #selector(performAction))
+        target = self
+    }
+    
+    @objc func performAction() -> Bool {
+        return cell?.performEditAction(at: actionIndex) ?? false
+    }
+    
+}
+

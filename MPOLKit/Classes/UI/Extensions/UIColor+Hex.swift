@@ -1,6 +1,6 @@
 //
 //  UIColor+Hex.swift
-//  MPOLKit/FormKit
+//  MPOLKit
 //
 //  Created by Rod Brown on 19/05/2016.
 //  Copyright © 2016 Gridstone. All rights reserved.
