@@ -210,14 +210,15 @@ open class SearchOptionsViewController: FormCollectionViewController, SearchColl
                     tableView.sourceItems = personFilter.filterOptions(atIndex: index)
                     tableView.title = personFilter.filterTitle(atIndex: index)
                     tableView.popoverTableViewDelegate = self
-                    tableView.mustHaveValue = true
-                    tableView.canMultiSelect = true
+//                    tableView.mustHaveValue = true 
+//                    tableView.canMultiSelect = true
                     
-//                    if personFilter.filterIsEmpty(atIndex: index) == false {
-//                        if let selectedIndex = tableView.sourceItems?.index(of: personFilter.filterValue(atIndex: index)) {
-//                            tableView.selectedItemsIndex = [selectedIndex]
-//                        }
-//                    }
+                    // The cell doesn't select properly
+                    if personFilter.filterIsEmpty(atIndex: index) == false {
+                        if let selectedIndex = tableView.sourceItems?.index(of: personFilter.filterValue(atIndex: index)) {
+                            tableView.selectedItemsIndex = IndexSet(integer: selectedIndex)
+                        }
+                    }
                     
                     let popover = PopoverNavigationController(rootViewController: tableView)
                     popover.modalPresentationStyle = .popover
@@ -348,6 +349,12 @@ open class SearchOptionsViewController: FormCollectionViewController, SearchColl
     // MARK - PopoverTableView Delegate
     
     public func popOverTableDidDismiss(_ tableView: popoverSelectableTableViewController) {
+        
+        if tableView.selectedItemsIndex.count > 0 {
+            for selectedIndex in tableView.selectedItemsIndex  {
+                print ("Index selected:\(selectedIndex)")
+            }
+        }
         
     }
 }
@@ -756,13 +763,10 @@ public class popoverSelectableTableViewController : UITableViewController {
             for cell in self.tableView.visibleCells {
                 
                 if let indexPath = self.tableView.indexPath(for: cell) {
-                    
                     if selectedItemsIndex.contains(indexPath.row) {
-//                        cell.setHighlighted(true, animated: false)
-//                        cell.setSelected(true, animated: false)
+                        cell.setSelected(true, animated: true)
                     } else {
-//                        cell.setHighlighted(false, animated: false)
-//                        cell.setSelected(false, animated: false)
+                        cell.setSelected(false, animated: true)
                     }
                 }
             }
@@ -827,9 +831,9 @@ public class popoverSelectableTableViewController : UITableViewController {
         cell.textLabel?.text = sourceItems?[indexPath.row]
         
         if selectedItemsIndex.contains(indexPath.row) {
-            cell.setSelected(true, animated: false)
+            cell.setSelected(true, animated: true)
         } else {
-            cell.setSelected(false, animated: false)
+            cell.setSelected(false, animated: true)
         }
         
         return cell
@@ -838,31 +842,65 @@ public class popoverSelectableTableViewController : UITableViewController {
     public override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return cellHeight
     }
-
+    
     // MARK - TableViewDelegate
+    public override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        print ("Will select row")
+        
+        let row = indexPath.row
+        
+        if mustHaveValue == true && selectedItemsIndex.contains(row) == true {
+            if selectedItemsIndex.count == 1 {
+                return nil
+            }
+        }
+        
+        return indexPath
+    }
+    
+    public override func tableView(_ tableView: UITableView, willDeselectRowAt indexPath: IndexPath) -> IndexPath? {
+        print ("Will deselect row")
+        
+        let row = indexPath.row
+        
+        if mustHaveValue == true && selectedItemsIndex.contains(row) == true && canMultiSelect == true {
+            if selectedItemsIndex.count == 1 {
+                return nil
+            }
+        }
+        
+        return indexPath
+    }
+
     public override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         print("Did Select Row")
         
         let row = indexPath.row
-        let cell = tableView.cellForRow(at: indexPath)
         
-        if selectedItemsIndex.contains(row) {
-            if mustHaveValue == true && selectedItemsIndex.count == 1 { // Cannot remove
-                print("Contains element: Must have value cannot remove")
+        let rowIsSelected = selectedItemsIndex.contains(row)
+        
+        if canMultiSelect == true {
+            if rowIsSelected == true {
+                if mustHaveValue == true && selectedItemsIndex.count == 1 {
+                    // Don't allow to be deslected
+                } else {
+                    selectedItemsIndex.remove(row)
+                }
             } else {
-                selectedItemsIndex.remove(row)
-                print("Contains element: Removing")
+                selectedItemsIndex.insert(row)
             }
         } else {
-            
-            if canMultiSelect == true {
-                selectedItemsIndex.insert(row)
-                print("Doesn't contain element: Can multi select: Inserting")
+            if rowIsSelected == true {
+                if mustHaveValue == true {
+                    // Don't allow to be deselected
+                    
+                } else {
+                    tableView.deselectRow(at: indexPath, animated: true)
+                    selectedItemsIndex.remove(row)
+                }
             } else {
-                selectedItemsIndex.removeAll()
                 selectedItemsIndex.insert(row)
-                print("Doesn't contain element: Cannot multi select: Removing all Then Inserting")
             }
         }
     }
@@ -871,11 +909,8 @@ public class popoverSelectableTableViewController : UITableViewController {
         print("Did deselect row")
         
         let row = indexPath.row
-        let cell = tableView.cellForRow(at: indexPath)
         
-        if mustHaveValue == true && selectedItemsIndex.count == 1 {
-            print("Contains element: Must have value cannot remove")
-        } else {
+        if selectedItemsIndex.contains(row) {
             selectedItemsIndex.remove(row)
             print("Contains element: Removing")
         }
