@@ -1,6 +1,6 @@
 //
 //  CollectionViewFormCellActionView.swift
-//  Pods
+//  MPOLKit
 //
 //  Created by Rod Brown on 2/4/17.
 //
@@ -197,8 +197,6 @@ internal class CollectionViewFormCellActionView: UIScrollView, UIScrollViewDeleg
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
-        // TODO: Avoid allowing scrolling the action buttons *further* offscreen
         
         let bounds = self.bounds
         

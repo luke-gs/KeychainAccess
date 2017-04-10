@@ -1,6 +1,6 @@
 //
 //  UITraitCollection+CurrentDisplayScale.swift
-//  Pods
+//  MPOLKit
 //
 //  Created by Rod Brown on 28/3/17.
 //

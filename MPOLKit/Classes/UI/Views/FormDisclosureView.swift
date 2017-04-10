@@ -19,6 +19,7 @@ public class FormDisclosureView: UIImageView {
         set {
             if isThemeUpdatingEnabled {
                 NotificationCenter.default.removeObserver(self, name: .ThemeDidChange, object: nil)
+                isThemeUpdatingEnabled = false
             }
             super.tintColor = newValue
         }
@@ -37,8 +38,8 @@ public class FormDisclosureView: UIImageView {
         NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange(_:)), name: .ThemeDidChange, object: nil)
     }
     
-    public required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    public required convenience init(coder aDecoder: NSCoder) {
+        self.init()
     }
     
     

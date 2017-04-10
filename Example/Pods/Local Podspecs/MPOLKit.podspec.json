@@ -1,7 +1,7 @@
 {
   "name": "MPOLKit",
   "version": "0.1.0",
-  "summary": "MPOLKit is to be used for all projects that require the MPOL framework. Also includs FormKit",
+  "summary": "MPOLKit is to be used for all projects that require the MPOL framework.",
   "description": "TODO: Add long description of the pod here.",
   "homepage": "https://github.com/Gridstone/mPolKit-iOS",
   "license": {
@@ -16,21 +16,22 @@
     "tag": "0.1.0"
   },
   "platforms": {
-    "ios": "10.0"
+    "ios": "9.0"
   },
   "default_subspecs": "Core",
   "resources": [
-    "MPOLKit/Assets/MPOL/**/*"
+    "MPOLKit/Assets/MPOL/**/*",
+    "MPOLKit/Assets/Forms/*"
   ],
+  "dependencies": {
+    "JVFloatLabeledTextField": [
+
+    ]
+  },
   "subspecs": [
     {
       "name": "Core",
       "source_files": "MPOLKit/Classes/**/*"
-    },
-    {
-      "name": "FormKit",
-      "source_files": "MPOLKit/Classes/FormKit/**/*",
-      "resources": "MPOLKit/Assets/FormKit/*"
     }
   ]
 }
