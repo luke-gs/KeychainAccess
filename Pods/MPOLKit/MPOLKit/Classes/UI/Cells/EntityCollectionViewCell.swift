@@ -22,7 +22,6 @@ fileprivate var textContext = 1
 /// preferredContentSizeCategory. It is recommended you avoid updating them.
 public class EntityCollectionViewCell: CollectionViewFormCell {
     
-    
     /// The style types for an `EntityCollectionViewCell`. These include
     /// `.hero` and `.detail`.
     public enum Style: Int {
@@ -31,8 +30,82 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
         
         /// The Detail style. This style emphasizes the icon and detail equally.
         case detail
+        
+        /// The Thumbnail style. This style hides the labels to simplify and avoid clutter.
+        case thumbnail
     }
     
+    
+    // MARK: - Class sizing methods
+    
+    /// Calculates the minimum width for an `EntityCollectionViewCell` with a specified style.
+    ///
+    /// - Parameter style: The style for the cell.
+    /// - Returns: The minimum content width for the cell
+    public class func minimumContentWidth(forStyle style: Style) -> CGFloat {
+        switch style {
+        case .hero:      return 182.0
+        case .detail:    return 250.0
+        case .thumbnail: return 96.0
+        }
+    }
+    
+    
+    /// Calculates the minimum content height for an `EntityCollectionViewCell` with default font settings
+    /// when contained within a specified trait collection.
+    ///
+    /// - Parameters:
+    ///   - style:           The style of the cell.
+    ///   - traitCollection: The trait collection sizing for.
+    /// - Returns: The minimum content height for the entity cell with default settings.
+    public class func minimumContentHeight(forStyle style: Style, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
+        switch style {
+        case .hero:
+            let titleFont: UIFont
+            let footnoteFont: UIFont
+            
+            if #available(iOS 10, *) {
+                titleFont    = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+                footnoteFont = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
+            } else {
+                titleFont    = .preferredFont(forTextStyle: .headline)
+                footnoteFont = .preferredFont(forTextStyle: .footnote)
+            }
+            
+            return minimumContentHeight(forStyle: style, withTitleFont: titleFont, subtitleFont: footnoteFont, detailFont: footnoteFont)
+        case .detail, .thumbnail:
+            return 96.0
+        }
+    }
+    
+    
+    /// Calculates the minimum content height for an `EntityCollectionViewCell` with the specified fonts.
+    ///
+    /// It is recommended you use the `minimumContentHeight(forStyle:compatibleWith:)` method to calculate
+    /// the default height for cells.
+    ///
+    /// - Parameters:
+    ///   - style:        The style of the cell.
+    ///   - titleFont:    The font for the title label.
+    ///   - subtitleFont: The font for the subtitle label.
+    ///   - detailFont:   The font for the detail label.
+    /// - Returns: The minimum content height for an entity cell with the specified fonts.
+    public class func minimumContentHeight(forStyle style: Style, withTitleFont titleFont: UIFont, subtitleFont: UIFont, detailFont: UIFont) -> CGFloat {
+        switch style {
+        case .hero:
+            let scale = UIScreen.main.scale
+            let heightOfFonts =  titleFont.lineHeight.ceiled(toScale: scale) + subtitleFont.lineHeight.ceiled(toScale: scale) + detailFont.lineHeight.ceiled(toScale: scale)
+            return 173.0 + heightOfFonts
+        case .detail, .thumbnail:
+            return 96.0
+        }
+    }
+
+    
+
+    
+    
+    // MARK: - Public properties
     
     /// The style for this cell. The default is `EntityCollectionViewCell.Style.hero`.
     public var style: Style = .hero {
@@ -44,6 +117,11 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
                 self.styleConstraints = nil
                 setNeedsUpdateConstraints()
             }
+            
+            let isThumbnail = style == .thumbnail
+            titleLabel.isHidden    = isThumbnail
+            subtitleLabel.isHidden = isThumbnail
+            detailLabel.isHidden   = isThumbnail
         }
     }
     
@@ -99,19 +177,22 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
         }
     }
     
-    fileprivate let borderedImageView = BorderedImageView(frame: .zero)
     
-    fileprivate let badgeView = BadgeView(frame: .zero)
+    // MARK: - Private properties
     
-    fileprivate let contentBackingView = UIView(frame: .zero)
+    private let borderedImageView = BorderedImageView(frame: .zero)
     
-    fileprivate let textLabelGuide = UILayoutGuide()
+    private let badgeView = BadgeView(style: .system)
     
-    fileprivate var styleConstraints: [NSLayoutConstraint]?
+    private let contentBackingView = UIView(frame: .zero)
     
-    fileprivate var titleToSubtitleConstraint: NSLayoutConstraint!
+    private let textLabelGuide = UILayoutGuide()
     
-    fileprivate var subtitleToDetailConstraint: NSLayoutConstraint!
+    private var styleConstraints: [NSLayoutConstraint]?
+    
+    private var titleToSubtitleConstraint: NSLayoutConstraint!
+    
+    private var subtitleToDetailConstraint: NSLayoutConstraint!
     
     
     
@@ -128,6 +209,8 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
     }
     
     private func commonInit() {
+        separatorStyle = .none
+        
         let backingView      = self.contentBackingView
         let borderImageView  = self.borderedImageView
         let titleLabel       = self.titleLabel
@@ -163,8 +246,8 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
         
         NSLayoutConstraint.activate([
             NSLayoutConstraint(item: borderImageView, attribute: .leading,  relatedBy: .equal,           toItem: backingView, attribute: .leading),
-            NSLayoutConstraint(item: borderImageView, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: backingView, attribute: .trailing),
-            NSLayoutConstraint(item: borderImageView, attribute: .bottom,   relatedBy: .lessThanOrEqual, toItem: backingView, attribute: .bottom),
+            NSLayoutConstraint(item: borderImageView, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: backingView, attribute: .trailing, priority: UILayoutPriorityRequired - 1),
+            NSLayoutConstraint(item: borderImageView, attribute: .bottom,   relatedBy: .lessThanOrEqual, toItem: backingView, attribute: .bottom, priority: UILayoutPriorityRequired - 1),
             
             NSLayoutConstraint(item: badgeView, attribute: .centerX, relatedBy: .equal, toItem: borderImageView, attribute: .trailing, constant: -2.0),
             NSLayoutConstraint(item: badgeView, attribute: .centerY, relatedBy: .equal, toItem: borderImageView, attribute: .top,      constant: 2.0),
@@ -174,7 +257,6 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
             NSLayoutConstraint(item: sourceLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: borderImageView, attribute: .trailing, constant: -6.0),
             
             NSLayoutConstraint(item: textLabelGuide, attribute: .bottom,   relatedBy: .lessThanOrEqual, toItem: backingView, attribute: .bottom),
-            NSLayoutConstraint(item: textLabelGuide, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: backingView, attribute: .trailing),
             
             NSLayoutConstraint(item: titleLabel,    attribute: .leading,  relatedBy: .equal,           toItem: textLabelGuide, attribute: .leading),
             NSLayoutConstraint(item: subtitleLabel, attribute: .leading,  relatedBy: .equal,           toItem: textLabelGuide, attribute: .leading),
@@ -206,12 +288,8 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
         detailLabel.removeObserver(self,   forKeyPath: textKey, context: &textContext)
     }
     
-}
 
-
-// MARK: - Sizing class methods
-/// Sizing class methods.
-extension EntityCollectionViewCell {
+    // MARK: - Layout methods
     
     public override func updateConstraints() {
         if self.styleConstraints?.isEmpty ?? true {
@@ -231,8 +309,9 @@ extension EntityCollectionViewCell {
                     NSLayoutConstraint(item: borderedImageView, attribute: .top,     relatedBy: .equal, toItem: contentBackingView, attribute: .top),
                     NSLayoutConstraint(item: borderedImageView, attribute: .centerX, relatedBy: .equal, toItem: contentView, attribute: .centerXWithinMargins),
                     
-                    NSLayoutConstraint(item: textLabelGuide, attribute: .leading, relatedBy: .equal, toItem: borderedImageView, attribute: .leading),
-                    NSLayoutConstraint(item: textLabelGuide, attribute: .top,     relatedBy: .equal, toItem: borderedImageView, attribute: .bottom, constant: 9.0)
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .leading,  relatedBy: .equal, toItem: borderedImageView, attribute: .leading),
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .top,      relatedBy: .equal, toItem: borderedImageView, attribute: .bottom, constant: 9.0),
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentBackingView, attribute: .trailing)
                 ]
             case .detail:
                 styleConstraints = [
@@ -244,8 +323,23 @@ extension EntityCollectionViewCell {
                     NSLayoutConstraint(item: borderedImageView, attribute: .height,  relatedBy: .equal, toConstant: 96.0),
                     NSLayoutConstraint(item: borderedImageView, attribute: .centerY, relatedBy: .equal, toItem: contentBackingView, attribute: .centerY),
                     
-                    NSLayoutConstraint(item: textLabelGuide, attribute: .leading, relatedBy: .equal, toItem: borderedImageView, attribute: .trailing, constant: 10.0),
-                    NSLayoutConstraint(item: textLabelGuide, attribute: .centerY, relatedBy: .equal, toItem: contentBackingView, attribute: .centerY)
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .leading,  relatedBy: .equal, toItem: borderedImageView, attribute: .trailing, constant: 10.0),
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .centerY,  relatedBy: .equal, toItem: contentBackingView, attribute: .centerY),
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentBackingView, attribute: .trailing),
+                ]
+            case .thumbnail:
+                styleConstraints = [
+                    NSLayoutConstraint(item: contentBackingView, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerYWithinMargins),
+                    NSLayoutConstraint(item: contentBackingView, attribute: .leading, relatedBy: .equal, toItem: contentView, attribute: .leadingMargin),
+                    NSLayoutConstraint(item: contentBackingView, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentView, attribute: .trailingMargin),
+                    
+                    NSLayoutConstraint(item: borderedImageView, attribute: .width,   relatedBy: .equal, toConstant: 96.0),
+                    NSLayoutConstraint(item: borderedImageView, attribute: .height,  relatedBy: .equal, toConstant: 96.0),
+                    NSLayoutConstraint(item: borderedImageView, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerYWithinMargins),
+                    
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .leading,  relatedBy: .equal, toItem: borderedImageView, attribute: .trailing, constant: 10.0),
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .centerY,  relatedBy: .equal, toItem: contentBackingView, attribute: .centerY),
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: borderedImageView, attribute: .trailing, constant: 110),
                 ]
             }
             
@@ -256,10 +350,15 @@ extension EntityCollectionViewCell {
         super.updateConstraints()
     }
     
-    open override func didMoveToWindow() {
-        super.didMoveToWindow()
-        contentBackingView.layer.rasterizationScale = (window?.screen ?? .main).scale
+    
+    // MARK: - Change handlers
+    
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        contentBackingView.layer.rasterizationScale = traitCollection.currentDisplayScale
     }
+    
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &textContext {
@@ -284,86 +383,27 @@ extension EntityCollectionViewCell {
     
     
     
-}
-
-
-// MARK: - Sizing
-/// Sizing
-extension EntityCollectionViewCell {
-    
-    
-    /// Calculates the minimum width for an `EntityCollectionViewCell` with a specified style.
-    ///
-    /// - Parameter style: The style for the cell.
-    /// - Returns: The minimum content width for the cell
-    public class func minimumContentWidth(forStyle style: Style) -> CGFloat {
-        switch style {
-        case .hero:     return 182.0
-        case .detail:   return 250.0
-        }
-    }
-    
-    
-    /// Calculates the minimum content height for an `EntityCollectionViewCell` with default font settings
-    /// when contained within a specified trait collection.
-    ///
-    /// - Parameters:
-    ///   - style:           The style of the cell.
-    ///   - traitCollection: The trait collection sizing for.
-    /// - Returns: The minimum content height for the entity cell with default settings.
-    public class func minimumContentHeight(forStyle style: Style, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
-        switch style {
-        case .hero:
-            let titleFont    = UIFont.preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
-            let subtitleFont = UIFont.preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
-            return minimumContentHeight(forStyle: style, withTitleFont: titleFont, subtitleFont: subtitleFont, detailFont: subtitleFont)
-        case .detail:
-            return 96.0
-        }
-    }
-    
-    
-    /// Calculates the minimum content height for an `EntityCollectionViewCell` with the specified fonts.
-    /// 
-    /// It is recommended you use the `minimumContentHeight(forStyle:compatibleWith:)` method to calculate
-    /// the default height for cells.
-    ///
-    /// - Parameters:
-    ///   - style:        The style of the cell.
-    ///   - titleFont:    The font for the title label.
-    ///   - subtitleFont: The font for the subtitle label.
-    ///   - detailFont:   The font for the detail label.
-    /// - Returns: The minimum content height for an entity cell with the specified fonts.
-    public class func minimumContentHeight(forStyle style: Style, withTitleFont titleFont: UIFont, subtitleFont: UIFont, detailFont: UIFont) -> CGFloat {
-        switch style {
-        case .hero:
-            let scale = UIScreen.main.scale
-            let heightOfFonts =  titleFont.lineHeight.ceiled(toScale: scale) + subtitleFont.lineHeight.ceiled(toScale: scale) + detailFont.lineHeight.ceiled(toScale: scale)
-            return 173.0 + heightOfFonts
-        case .detail:
-            return 96.0
-        }
-    }
-    
-}
-
-
-// MARK: - Private methods
-/// Private methods
-internal extension EntityCollectionViewCell {
-    
     internal override func applyStandardFonts() {
-        let traitCollection = self.traitCollection
-        titleLabel.font = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+        super.applyStandardFonts()
         
-        let footnoteFont = UIFont.preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
+        let titleFont: UIFont
+        let footnoteFont: UIFont
+        
+        if #available(iOS 10, *) {
+            let traitCollection = self.traitCollection
+            titleFont    = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+            footnoteFont = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
+        } else {
+            titleFont    = .preferredFont(forTextStyle: .headline)
+            footnoteFont = .preferredFont(forTextStyle: .footnote)
+        }
+        
+        titleLabel.font    = titleFont
         subtitleLabel.font = footnoteFont
         detailLabel.font   = footnoteFont
-      
-        titleLabel.adjustsFontForContentSizeCategory    = true
-        subtitleLabel.adjustsFontForContentSizeCategory = true
-        detailLabel.adjustsFontForContentSizeCategory   = true
     }
+    
+    
     
 }
 

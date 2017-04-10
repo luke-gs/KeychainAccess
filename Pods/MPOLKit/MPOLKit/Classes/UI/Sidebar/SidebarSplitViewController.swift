@@ -14,15 +14,23 @@ import UIKit
 ///
 /// You can either initialize with detail view controllers, and configure the sidebar directly
 /// as required, or subclass as a point of abstraction between the sidebar and it's detail.
-open class SidebarSplitViewController: PushableSplitViewController {
+open class SidebarSplitViewController: PushableSplitViewController, SidebarViewControllerDelegate {
     
     
     /// The sidebar view controller for the split view controller.
-    public let sidebarViewController: SidebarViewController = SidebarViewController(nibName: nil, bundle: nil)
+    public let sidebarViewController: SidebarViewController = SidebarViewController()
     
     
     /// The detail controllers for the sidebar.
-    public let detailViewControllers: [UIViewController]
+    public var detailViewControllers: [UIViewController] {
+        didSet {
+            sidebarViewController.items = detailViewControllers.map { $0.sidebarItem }
+            
+            if let oldSelected = selectedViewController, detailViewControllers.contains(oldSelected) == false {
+                selectedViewController = nil
+            }
+        }
+    }
     
     
     /// The selected view controller.
@@ -31,11 +39,21 @@ open class SidebarSplitViewController: PushableSplitViewController {
     /// Otherwise, it is wrapped in a UINavigationController for presentation.
     public var selectedViewController: UIViewController? {
         didSet {
+            if let newValue = selectedViewController {
+                precondition(detailViewControllers.contains(newValue), "`selectedViewController` must be a member of detailViewControllers.")
+            }
+            
             sidebarViewController.selectedItem = selectedViewController?.sidebarItem
             if let selectedViewController = selectedViewController {
                 let selectedVCNavItem = (selectedViewController as? UINavigationController)?.viewControllers.first?.navigationItem ?? selectedViewController.navigationItem
                 selectedVCNavItem.leftItemsSupplementBackButton = true
                 embeddedSplitViewController.showDetailViewController(navController(forDetail: selectedViewController), sender: self)
+            } else {
+                var splitViewControllers = embeddedSplitViewController.viewControllers
+                if splitViewControllers.count == 2 {
+                    splitViewControllers.remove(at: 1)
+                    embeddedSplitViewController.viewControllers = splitViewControllers
+                }
             }
         }
     }
@@ -43,7 +61,7 @@ open class SidebarSplitViewController: PushableSplitViewController {
     
     /// A boolean value indicating whether the split view controller should collapse
     /// to the sidebar.
-    fileprivate var collapseToSidebar: Bool = true
+    open var shouldCollapseToSidebar: Bool = true
     
     
     /// Initializes the sidebar split view controller with the specified detail view controllers.
@@ -64,8 +82,9 @@ open class SidebarSplitViewController: PushableSplitViewController {
         sidebarViewController.items = detailViewControllers.map { $0.sidebarItem }
         
         let embeddedSplitViewController = self.embeddedSplitViewController
-        embeddedSplitViewController.minimumPrimaryColumnWidth = 272.0
-        embeddedSplitViewController.preferredPrimaryColumnWidthFraction = 272.0 / 1024.0
+        embeddedSplitViewController.delegate = self
+        embeddedSplitViewController.minimumPrimaryColumnWidth = 288.0
+        embeddedSplitViewController.preferredPrimaryColumnWidthFraction = 320.0 / 1024.0
         
         var selectedItem: SidebarItem?
         if embeddedSplitViewController.isCollapsed == false {
@@ -74,30 +93,27 @@ open class SidebarSplitViewController: PushableSplitViewController {
         sidebarViewController.selectedItem = selectedItem
     }
     
-    
     /// `SidebarSplitViewController` does not support NSCoding.
     public required init?(coder aDecoder: NSCoder) {
         fatalError("SidebarSplitViewController does not support NSCoding.")
     }
     
-    
     /// A callback indicating the collapsed state of the split changed.
     open func collapsedStateDidChange() {}
-}
-
-
-// MARK: - SidebarViewControllerDelegate methods
-/// SidebarViewControllerDelegate methods
-extension SidebarSplitViewController : SidebarViewControllerDelegate {
     
+    
+    // MARK: - SidebarViewControllerDelegate methods
+    
+    /// Handles when the sidebar selects a new item.
+    /// By default, this selects the associated detail view controller.
     ///
     /// - Parameters:
     ///   - controller: The `SidebarViewController` that has a new selection.
     ///   - item:       The newly selected item.
     open func sidebarViewController(_ controller: SidebarViewController, didSelectItem item: SidebarItem) {
+        selectedViewController = detailViewControllers.first(where: { $0.sidebarItem == item })
     }
 
-    
     /// Handles when the sidebar selects a new source. By default, this does noting.
     ///
     /// - Parameters:
@@ -106,15 +122,15 @@ extension SidebarSplitViewController : SidebarViewControllerDelegate {
     open func sidebarViewController(_ controller: SidebarViewController, didSelectSourceAt index: Int) {
     }
     
-}
-
-
-// MARK: - UISplitViewControllerDelegate methods
-/// UISplitViewControllerDelegate methods
-extension SidebarSplitViewController {
+    open func sidebarViewController(_ controller: SidebarViewController, didRequestToLoadSourceAt index: Int) {
+        
+    }
+    
+    
+    // MARK: - UISplitViewControllerDelegate methods
     
     open func splitViewController(_ splitViewController: UISplitViewController, showDetail vc: UIViewController, sender: Any?) -> Bool {
-        collapseToSidebar = false
+        shouldCollapseToSidebar = false
         return false
     }
     
@@ -122,7 +138,7 @@ extension SidebarSplitViewController {
         sidebarViewController.selectedItem = nil
         sidebarViewController.clearsSelectionOnViewWillAppear = true
         perform(#selector(collapsedStateDidChange), with: nil, afterDelay: 0.0, inModes: [.commonModes])
-        return collapseToSidebar
+        return shouldCollapseToSidebar
     }
     
     open func splitViewController(_ splitViewController: UISplitViewController, separateSecondaryFrom primaryViewController: UIViewController) -> UIViewController? {

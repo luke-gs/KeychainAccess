@@ -13,32 +13,7 @@ private var kvoContext = 1
 open class CollectionViewFormTextViewCell: CollectionViewFormCell {
     
     
-    /// Calculates the minimum content height for an instance of CollectionViewFormTextViewCell.
-    /// You should use this method instead of creating a separate reference cell.
-    ///
-    /// - Parameters:
-    ///   - title:      The title text for the cell.
-    ///   - text:       The content text for the text view.
-    ///   - width:      The content width for the cell.
-    ///   - traitCollection: The trait collection context the cell will be presented in. This may affect the standard fonts.
-    ///   - titleFont:  The title font of the cell. The default is `nil`, specifying the standard title font.
-    ///   - textFont:   The content font for the text view. the default is `nil`, specifying the standard content font.
-    /// - Returns:      The minimum appropriate height for the cell.
-    open class func minimumContentHeight(withTitle title: String?, enteredText: String?, placeholder: String?, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection, titleFont: UIFont? = nil, textViewFont: UIFont? = nil, placeholderFont: UIFont? = nil) -> CGFloat {
-        var height: CGFloat = 0.0
-        let screenScale = UIScreen.main.scale
-        if let title = title {
-            let titleLabelFont = titleFont ?? CollectionViewFormDetailCell.font(withEmphasis: false, compatibleWith: traitCollection)
-            
-            height += (title as NSString).boundingRect(with: CGSize(width: width - 0.5, height: .greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: titleLabelFont], context: nil).height.ceiled(toScale: screenScale)
-            height += CellTitleDetailSeparation
-        }
-        
-        let textFont = textViewFont ?? CollectionViewFormDetailCell.font(withEmphasis: true, compatibleWith: traitCollection)
-        height += max((enteredText as NSString?)?.boundingRect(with: CGSize(width: width - 0.5, height: .greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: textFont], context: nil).height ?? 0.0, textFont.lineHeight).ceiled(toScale: screenScale)
-        return height
-    }
-    
+    // MARK: - Public properties
     
     /// The title label for the cell.
     open let titleLabel = UILabel(frame: .zero)
@@ -49,16 +24,20 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
     
     /// The selection state of the cell.
     open override var isSelected: Bool {
-        didSet { if isSelected && oldValue == false { _ = textView.becomeFirstResponder() } }
+        didSet { if isSelected && oldValue == false && textView.isEditable { _ = textView.becomeFirstResponder() } }
     }
     
     
-    fileprivate var textViewMinimumHeightConstraint: NSLayoutConstraint!
+    // MARK: - Private properties
     
-    fileprivate var textViewPreferredHeightConstraint: NSLayoutConstraint!
+    private var textViewMinimumHeightConstraint: NSLayoutConstraint!
     
-    fileprivate var titleDetailSeparationConstraint: NSLayoutConstraint!
+    private var textViewPreferredHeightConstraint: NSLayoutConstraint!
     
+    private var titleDetailSeparationConstraint: NSLayoutConstraint!
+    
+    
+    // MARK: - Initializers
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -71,6 +50,8 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
     }
     
     private func commonInit() {
+        selectionStyle = .underline
+        
         let contentView = self.contentView
         let layoutGuide = self.contentModeLayoutGuide
         
@@ -92,6 +73,7 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
             NSLayoutConstraint(item: titleLabel, attribute: .leading,  relatedBy: .equal,           toItem: layoutGuide, attribute: .leading),
             NSLayoutConstraint(item: titleLabel, attribute: .top,      relatedBy: .equal,           toItem: layoutGuide, attribute: .top),
             NSLayoutConstraint(item: titleLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: layoutGuide, attribute: .trailing),
+            NSLayoutConstraint(item: titleLabel, attribute: .trailing, relatedBy: .equal,           toItem: layoutGuide, attribute: .trailing, priority: UILayoutPriorityDefaultLow),
             
             // lay out the text field with some space for text editing space
             NSLayoutConstraint(item: textView, attribute: .leading,  relatedBy: .equal, toItem: layoutGuide, attribute: .leading,  constant: -5.0),
@@ -105,26 +87,47 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
         textView.addObserver(self, forKeyPath: #keyPath(UITextView.font),          context: &kvoContext)
         textView.addObserver(self, forKeyPath: #keyPath(UITextView.contentSize),   context: &kvoContext)
         textView.addObserver(self, forKeyPath: #keyPath(UITextView.contentOffset), context: &kvoContext)
+        textView.placeholderLabel.addObserver(self, forKeyPath: #keyPath(UILabel.font), context: &kvoContext)
         titleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.text),           context: &kvoContext)
         titleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &kvoContext)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(textViewDidBeginEditing(_:)), name: .UITextViewTextDidBeginEditing, object: textView)
+        NotificationCenter.default.addObserver(self, selector: #selector(textViewDidEndEditing(_:)),   name: .UITextViewTextDidEndEditing,   object: textView)
     }
     
     deinit {
         textView.removeObserver(self, forKeyPath: #keyPath(UITextView.font),          context: &kvoContext)
         textView.removeObserver(self, forKeyPath: #keyPath(UITextView.contentSize),   context: &kvoContext)
         textView.removeObserver(self, forKeyPath: #keyPath(UITextView.contentOffset), context: &kvoContext)
+        textView.placeholderLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.font), context: &kvoContext)
         titleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.text),           context: &kvoContext)
         titleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &kvoContext)
     }
-}
-
-
-
-extension CollectionViewFormTextViewCell {
+    
+    
+    // MARK: - Overrides
+    
+    open override var bounds: CGRect {
+        didSet {
+            let width = bounds.width
+            if width !=~ oldValue.width {
+                titleLabel.preferredMaxLayoutWidth    = width
+            }
+        }
+    }
+    
+    open override var frame: CGRect {
+        didSet {
+            let width = frame.width
+            if width !=~ oldValue.width {
+                titleLabel.preferredMaxLayoutWidth    = width
+            }
+        }
+    }
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {
-            if object is UITextView {
+            if object is UITextView || (object as? NSObject == textView.placeholderLabel) {
                 if let keyPath = keyPath {
                     switch keyPath {
                     case #keyPath(UITextView.contentSize):
@@ -137,7 +140,7 @@ extension CollectionViewFormTextViewCell {
                         if textView.contentOffset.y !=~ 0.0 && textView.contentSize.height <=~ textView.bounds.height {
                             textView.contentOffset.y = 0.0
                         }
-                    case #keyPath(UITextView.font):
+                    case #keyPath(UITextView.font), #keyPath(UILabel.font):
                         updateTextViewMinimumConstraint()
                     default:
                         break
@@ -146,7 +149,7 @@ extension CollectionViewFormTextViewCell {
             } else if object is UILabel {
                 // We take 0.5 from the standard separation to deal with inconsistencies with how UITextView lays out text vs UILabel.
                 // This does not affect the sizing method.
-                let titleDetailSpace = titleLabel.text?.isEmpty ?? true ? 0.0 : CellTitleDetailSeparation - 0.5
+                let titleDetailSpace = titleLabel.text?.isEmpty ?? true ? 0.0 : CellTitleSubtitleSeparation - 0.5
                 
                 if titleDetailSeparationConstraint.constant !=~ titleDetailSpace {
                     titleDetailSeparationConstraint.constant = titleDetailSpace
@@ -157,36 +160,25 @@ extension CollectionViewFormTextViewCell {
         }
     }
     
-    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        updateTextViewMinimumConstraint()
-    }
-    
     internal override func applyStandardFonts() {
         super.applyStandardFonts()
         
-        let traitCollection = self.traitCollection
-        titleLabel.font = CollectionViewFormDetailCell.font(withEmphasis: false, compatibleWith: traitCollection)
-        
-        let textViewFont = CollectionViewFormDetailCell.font(withEmphasis: true,  compatibleWith: traitCollection)
-        textView.font   = textViewFont
-        textView.placeholderLabel.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
-        
-        textViewMinimumHeightConstraint?.constant = ceil(textViewFont.lineHeight + textViewFont.leading)
-        
-        titleLabel.adjustsFontForContentSizeCategory       = true
-        textView.adjustsFontForContentSizeCategory         = true
-        textView.placeholderLabel.adjustsFontForContentSizeCategory = true
-        
-        updateTextViewMinimumConstraint()
+        if #available(iOS 10, *) {
+            let traitCollection = self.traitCollection
+            titleLabel.font     = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
+            textView.font       = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+            textView.placeholderLabel.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
+        } else {
+            titleLabel.font     = .preferredFont(forTextStyle: .footnote)
+            textView.font       = .preferredFont(forTextStyle: .headline)
+            textView.placeholderLabel.font = .preferredFont(forTextStyle: .subheadline)
+        }
     }
     
-}
+    
+    // MARK: - Accessibility
 
-// MARK: - Accessibility
-/// Accessibility
-extension CollectionViewFormTextViewCell {
-    dynamic open override var accessibilityLabel: String? {
+    open override var accessibilityLabel: String? {
         get {
             if let setValue = super.accessibilityLabel {
                 return setValue
@@ -198,7 +190,7 @@ extension CollectionViewFormTextViewCell {
         }
     }
     
-    dynamic open override var accessibilityValue: String? {
+    open override var accessibilityValue: String? {
         get {
             if let setValue = super.accessibilityValue {
                 return setValue
@@ -214,7 +206,7 @@ extension CollectionViewFormTextViewCell {
         }
     }
     
-    dynamic open override var isAccessibilityElement: Bool {
+    open override var isAccessibilityElement: Bool {
         get {
             if textView.isFirstResponder { return false }
             return super.isAccessibilityElement
@@ -223,14 +215,11 @@ extension CollectionViewFormTextViewCell {
             super.isAccessibilityElement = newValue
         }
     }
-}
-
-
-// MARK: - Private methods
-/// Private methods
-fileprivate extension CollectionViewFormTextViewCell {
     
-    fileprivate func updateTextViewPreferredConstraint() {
+    
+    // MARK: - Private methods
+    
+    private func updateTextViewPreferredConstraint() {
         func performUpdate() {
             let textHeight = textView.contentSize.height
             if textViewPreferredHeightConstraint.constant !=~ textHeight {
@@ -248,9 +237,77 @@ fileprivate extension CollectionViewFormTextViewCell {
         }
     }
     
-    fileprivate func updateTextViewMinimumConstraint() {
-        let textViewFont = textView.font
-        textViewMinimumHeightConstraint?.constant = ceil((textViewFont?.lineHeight ?? 17.0) + (textViewFont?.leading ?? 1.0))
+    private func updateTextViewMinimumConstraint() {
+        let textViewFont: UIFont
+        let placeholderFont: UIFont
+        
+        if #available(iOS 10, *) {
+            textViewFont        = textView.font ?? .preferredFont(forTextStyle: .headline,    compatibleWith: traitCollection)
+            placeholderFont     = textView.placeholderLabel.font ?? .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
+        } else {
+            textViewFont        = textView.font ?? .preferredFont(forTextStyle: .headline)
+            placeholderFont     = textView.placeholderLabel.font ?? .preferredFont(forTextStyle: .subheadline)
+        }
+        
+        textViewMinimumHeightConstraint?.constant = ceil(max(textViewFont.lineHeight + textViewFont.leading, placeholderFont.lineHeight + placeholderFont.leading))
+    }
+    
+    @objc private func textViewDidBeginEditing(_ notification: NSNotification) {
+        guard isSelected == false,
+            let collectionView = superview(of: UICollectionView.self),
+            let indexPath = collectionView.indexPath(for: self) else { return }
+        
+        collectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
+        collectionView.delegate?.collectionView?(collectionView, didSelectItemAt: indexPath)
+    }
+    
+    @objc private func textViewDidEndEditing(_ notification: NSNotification) {
+        guard isSelected,
+            let collectionView = superview(of: UICollectionView.self),
+            let indexPath = collectionView.indexPath(for: self) else { return }
+        
+        collectionView.deselectItem(at: indexPath, animated: false)
+        collectionView.delegate?.collectionView?(collectionView, didDeselectItemAt: indexPath)
+    }
+    
+    
+    // MARK: - Class sizing methods
+    
+    /// Calculates the minimum content height for an instance of CollectionViewFormTextViewCell.
+    /// You should use this method instead of creating a separate reference cell.
+    ///
+    /// - Parameters:
+    ///   - title:      The title text for the cell.
+    ///   - text:       The content text for the text view.
+    ///   - width:      The content width for the cell.
+    ///   - traitCollection: The trait collection context the cell will be presented in. This may affect the standard fonts.
+    ///   - titleFont:  The title font of the cell. The default is `nil`, specifying the standard title font.
+    ///   - textFont:   The content font for the text view. the default is `nil`, specifying the standard content font.
+    /// - Returns:      The minimum appropriate height for the cell.
+    open class func minimumContentHeight(withTitle title: String?, enteredText: String?, placeholder: String?, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection, titleFont: UIFont? = nil, textViewFont: UIFont? = nil, placeholderFont: UIFont? = nil) -> CGFloat {
+        var height: CGFloat = 0.0
+        let screenScale = UIScreen.main.scale
+        if let title = title {
+            let titleTextFont: UIFont
+            if #available(iOS 10, *) {
+                titleTextFont = titleFont ?? .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
+            } else {
+                titleTextFont = titleFont ?? .preferredFont(forTextStyle: .footnote)
+            }
+            
+            height += (title as NSString).boundingRect(with: CGSize(width: width - 0.5, height: .greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: titleTextFont], context: nil).height.ceiled(toScale: screenScale)
+            height += CellTitleSubtitleSeparation
+        }
+        
+        let textFont: UIFont
+        if #available(iOS 10, *) {
+            textFont = textViewFont ?? .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+        } else {
+            textFont = textViewFont ?? .preferredFont(forTextStyle: .headline)
+        }
+        
+        height += max((enteredText as NSString?)?.boundingRect(with: CGSize(width: width - 0.5, height: .greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: textFont], context: nil).height ?? 0.0, textFont.lineHeight).ceiled(toScale: screenScale)
+        return height
     }
     
 }

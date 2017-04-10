@@ -16,7 +16,7 @@ import UIKit
 /// Unlike it's Collection-based counterpart, `TableViewFormCell` self-sizes with AutoLayout. Users do not
 /// need to use delegate methods to specify minimum height details, and can instead allow AutoLayout, and
 /// the mimumumContentHeight value, to indicate the size of the cell dynamically.
-open class TableViewFormCell: UITableViewCell {
+open class TableViewFormCell: UITableViewCell, DefaultReusable {
     
     /// The minimum content height for the cell.
     /// This value is analogous to providing a minimum height to CollectionViewDelegateFormLayout,
@@ -80,17 +80,34 @@ open class TableViewFormCell: UITableViewCell {
             ])
         
         applyStandardFonts()
+        
+        if #available(iOS 10, *) { return }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(contentSizeCategoryDidChange(_:)), name: .UIContentSizeCategoryDidChange, object: nil)
     }
     
-}
-
-
-extension TableViewFormCell {
+    
+    // MARK: - Overrides
     
     open override func prepareForReuse() {
         super.prepareForReuse()
         applyStandardFonts()
+        setNeedsLayout()
     }
+    
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        guard #available(iOS 10, *) else { return }
+        
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            applyStandardFonts()
+            setNeedsLayout()
+        }
+    }
+    
+    
+    // MARK: - Internal only
     
     /// Applies the standard fonts for the cell.
     ///
@@ -103,9 +120,12 @@ extension TableViewFormCell {
     internal func applyStandardFonts() {
     }
     
+    
+    // MARK: - Notifications
+    
+    @objc private func contentSizeCategoryDidChange(_ notification: Notification) {
+        applyStandardFonts()
+        setNeedsLayout()
+    }
+    
 }
-
-
-extension TableViewFormCell: DefaultReusable {
-}
-

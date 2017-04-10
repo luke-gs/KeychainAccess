@@ -10,36 +10,48 @@ import UIKit
 
 
 /// An item representing a source in a source list.
-public struct SourceItem {
+public struct SourceItem: Equatable {
     
-    /// The color for the item. This color is applied to the round icon, and the
-    /// count when not selected.
-    var color: UIColor
+    public enum State: Equatable {
+        case notLoaded
+        
+        case loading
+        
+        case loaded(count: UInt, color: UIColor)
+        
+        case notAvailable
+    }
     
     /// The title to show under the item.
-    var title: String
+    public var title: String?
     
-    /// The count for the item. This nubmer will appear within the selection icon.
-    var count: UInt
+    /// The state for the source item.
+    public var state: State
     
-    /// Indicates whether the item is enabled. The default is `true`.
-    var isEnabled: Bool
     
     /// Initializes a SourceItem.
-    public init(color: UIColor, title: String, count: UInt, isEnabled: Bool = true) {
-        self.color = color
+    public init(title: String, state: State) {
         self.title = title
-        self.count = count
-        self.isEnabled = isEnabled
+        self.state = state
     }
+    
 }
 
-
-extension SourceItem: Equatable {}
-
 public func ==(lhs: SourceItem, rhs: SourceItem) -> Bool {
-    return lhs.isEnabled == rhs.isEnabled
-        && lhs.count == rhs.count
-        && lhs.title == rhs.title
-        && lhs.color == rhs.color
+    return lhs.state == rhs.state && lhs.title == rhs.title
+}
+
+public func ==(lhs: SourceItem.State, rhs: SourceItem.State) -> Bool {
+    
+    switch (lhs, rhs) {
+    case let (.loaded(a, b), .loaded(c, d)):
+        /// In cases where both are loaded, check the values.
+        return a == c && b == d
+    case (.notLoaded, .notLoaded), (.loading, .loading), (.notAvailable, .notAvailable):
+        /// In non loaded cases, it's true if the values are equal
+        return true
+    default:
+        /// If the above don't match, they're not matches.
+        return false
+    }
 }
