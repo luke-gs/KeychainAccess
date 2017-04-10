@@ -184,8 +184,6 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
     
     private let badgeView = BadgeView(style: .system)
     
-    private let contentBackingView = UIView(frame: .zero)
-    
     private let textLabelGuide = UILayoutGuide()
     
     private var styleConstraints: [NSLayoutConstraint]?
@@ -211,7 +209,7 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
     private func commonInit() {
         separatorStyle = .none
         
-        let backingView      = self.contentBackingView
+        let contentView      = self.contentView
         let borderImageView  = self.borderedImageView
         let titleLabel       = self.titleLabel
         let subtitleLabel    = self.subtitleLabel
@@ -220,7 +218,6 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
         let sourceLabel      = self.sourceLabel
         let textLabelGuide   = self.textLabelGuide
         
-        backingView.translatesAutoresizingMaskIntoConstraints     = false
         borderImageView.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints      = false
         subtitleLabel.translatesAutoresizingMaskIntoConstraints   = false
@@ -228,14 +225,13 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
         badgeView.translatesAutoresizingMaskIntoConstraints       = false
         sourceLabel.translatesAutoresizingMaskIntoConstraints     = false
         
-        backingView.addSubview(borderImageView)
-        backingView.addSubview(titleLabel)
-        backingView.addSubview(subtitleLabel)
-        backingView.addSubview(detailLabel)
-        backingView.addSubview(badgeView)
-        backingView.addSubview(sourceLabel)
-        backingView.addLayoutGuide(textLabelGuide)
-        contentView.addSubview(backingView)
+        contentView.addSubview(borderImageView)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(subtitleLabel)
+        contentView.addSubview(detailLabel)
+        contentView.addSubview(badgeView)
+        contentView.addSubview(sourceLabel)
+        contentView.addLayoutGuide(textLabelGuide)
         
         titleLabel.isHidden    = true
         subtitleLabel.isHidden = true
@@ -245,18 +241,12 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
         subtitleToDetailConstraint = NSLayoutConstraint(item: detailLabel,   attribute: .top, relatedBy: .equal, toItem: subtitleLabel, attribute: .bottom)
         
         NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: borderImageView, attribute: .leading,  relatedBy: .equal,           toItem: backingView, attribute: .leading),
-            NSLayoutConstraint(item: borderImageView, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: backingView, attribute: .trailing, priority: UILayoutPriorityRequired - 1),
-            NSLayoutConstraint(item: borderImageView, attribute: .bottom,   relatedBy: .lessThanOrEqual, toItem: backingView, attribute: .bottom, priority: UILayoutPriorityRequired - 1),
-            
             NSLayoutConstraint(item: badgeView, attribute: .centerX, relatedBy: .equal, toItem: borderImageView, attribute: .trailing, constant: -2.0),
             NSLayoutConstraint(item: badgeView, attribute: .centerY, relatedBy: .equal, toItem: borderImageView, attribute: .top,      constant: 2.0),
             
             NSLayoutConstraint(item: sourceLabel, attribute: .leading,  relatedBy: .equal,           toItem: borderImageView, attribute: .leading,  constant: 6.0),
             NSLayoutConstraint(item: sourceLabel, attribute: .bottom,   relatedBy: .equal,           toItem: borderImageView, attribute: .bottom,   constant: -6.0),
             NSLayoutConstraint(item: sourceLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: borderImageView, attribute: .trailing, constant: -6.0),
-            
-            NSLayoutConstraint(item: textLabelGuide, attribute: .bottom,   relatedBy: .lessThanOrEqual, toItem: backingView, attribute: .bottom),
             
             NSLayoutConstraint(item: titleLabel,    attribute: .leading,  relatedBy: .equal,           toItem: textLabelGuide, attribute: .leading),
             NSLayoutConstraint(item: subtitleLabel, attribute: .leading,  relatedBy: .equal,           toItem: textLabelGuide, attribute: .leading),
@@ -272,8 +262,8 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
         ])
         
         badgeView.backgroundColor = .gray
-        backingView.layer.shouldRasterize = true
-        backingView.layer.rasterizationScale = UIScreen.main.scale
+        borderedImageView.layer.shouldRasterize = true
+        borderedImageView.layer.rasterizationScale = UIScreen.main.scale
         
         let textKey = #keyPath(UILabel.text)
         titleLabel.addObserver(self,    forKeyPath: textKey, context: &textContext)
@@ -295,50 +285,47 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
         if self.styleConstraints?.isEmpty ?? true {
             let styleConstraints: [NSLayoutConstraint]
             
-            let contentView        = self.contentView
-            let contentBackingView = self.contentBackingView
+            let contentView = self.contentView
+            let contentModeGuide = self.contentModeLayoutGuide
             
             switch style {
             case .hero:
                 styleConstraints = [
-                    NSLayoutConstraint(item: contentBackingView, attribute: .top,      relatedBy: .equal,           toItem: contentView, attribute: .topMargin),
-                    NSLayoutConstraint(item: contentBackingView, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentView, attribute: .trailingMargin),
-                    
                     NSLayoutConstraint(item: borderedImageView, attribute: .width,   relatedBy: .equal, toConstant: 184.0),
                     NSLayoutConstraint(item: borderedImageView, attribute: .height,  relatedBy: .equal, toConstant: 160.0),
-                    NSLayoutConstraint(item: borderedImageView, attribute: .top,     relatedBy: .equal, toItem: contentBackingView, attribute: .top),
-                    NSLayoutConstraint(item: borderedImageView, attribute: .centerX, relatedBy: .equal, toItem: contentView, attribute: .centerXWithinMargins),
+                    NSLayoutConstraint(item: borderedImageView, attribute: .top,     relatedBy: .equal, toItem: contentModeGuide, attribute: .top),
+                    NSLayoutConstraint(item: borderedImageView, attribute: .leading, relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .leading),
+                    NSLayoutConstraint(item: borderedImageView, attribute: .centerX, relatedBy: .equal, toItem: contentModeGuide, attribute: .centerX, priority: UILayoutPriorityRequired - 1),
                     
                     NSLayoutConstraint(item: textLabelGuide, attribute: .leading,  relatedBy: .equal, toItem: borderedImageView, attribute: .leading),
                     NSLayoutConstraint(item: textLabelGuide, attribute: .top,      relatedBy: .equal, toItem: borderedImageView, attribute: .bottom, constant: 9.0),
-                    NSLayoutConstraint(item: textLabelGuide, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentBackingView, attribute: .trailing)
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .bottom,   relatedBy: .equal, toItem: contentModeGuide, attribute: .bottom),
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentModeGuide, attribute: .trailing),
                 ]
             case .detail:
                 styleConstraints = [
-                    NSLayoutConstraint(item: contentBackingView, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerYWithinMargins),
-                    NSLayoutConstraint(item: contentBackingView, attribute: .leading, relatedBy: .equal, toItem: contentView, attribute: .leadingMargin),
-                    NSLayoutConstraint(item: contentBackingView, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentView, attribute: .trailingMargin),
-                    
                     NSLayoutConstraint(item: borderedImageView, attribute: .width,   relatedBy: .equal, toConstant: 96.0),
                     NSLayoutConstraint(item: borderedImageView, attribute: .height,  relatedBy: .equal, toConstant: 96.0),
-                    NSLayoutConstraint(item: borderedImageView, attribute: .centerY, relatedBy: .equal, toItem: contentBackingView, attribute: .centerY),
+                    NSLayoutConstraint(item: borderedImageView, attribute: .leading, relatedBy: .equal, toItem: contentModeGuide, attribute: .leading),
+                    NSLayoutConstraint(item: borderedImageView, attribute: .centerY, relatedBy: .equal, toItem: contentModeGuide, attribute: .centerY, priority: UILayoutPriorityRequired - 1),
+                    NSLayoutConstraint(item: borderedImageView, attribute: .top,     relatedBy: .greaterThanOrEqual, toItem: contentModeGuide, attribute: .top),
                     
                     NSLayoutConstraint(item: textLabelGuide, attribute: .leading,  relatedBy: .equal, toItem: borderedImageView, attribute: .trailing, constant: 10.0),
-                    NSLayoutConstraint(item: textLabelGuide, attribute: .centerY,  relatedBy: .equal, toItem: contentBackingView, attribute: .centerY),
-                    NSLayoutConstraint(item: textLabelGuide, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentBackingView, attribute: .trailing),
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .centerY,  relatedBy: .equal, toItem: borderedImageView, attribute: .centerY),
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .top,      relatedBy: .greaterThanOrEqual, toItem: contentModeGuide, attribute: .top),
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .trailing, relatedBy: .lessThanOrEqual,    toItem: contentModeGuide, attribute: .trailing),
                 ]
             case .thumbnail:
                 styleConstraints = [
-                    NSLayoutConstraint(item: contentBackingView, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerYWithinMargins),
-                    NSLayoutConstraint(item: contentBackingView, attribute: .leading, relatedBy: .equal, toItem: contentView, attribute: .leadingMargin),
-                    NSLayoutConstraint(item: contentBackingView, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentView, attribute: .trailingMargin),
-                    
                     NSLayoutConstraint(item: borderedImageView, attribute: .width,   relatedBy: .equal, toConstant: 96.0),
                     NSLayoutConstraint(item: borderedImageView, attribute: .height,  relatedBy: .equal, toConstant: 96.0),
-                    NSLayoutConstraint(item: borderedImageView, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerYWithinMargins),
+                    NSLayoutConstraint(item: borderedImageView, attribute: .top,     relatedBy: .equal, toItem: contentModeGuide, attribute: .top),
+                    NSLayoutConstraint(item: borderedImageView, attribute: .centerY, relatedBy: .equal, toItem: contentModeGuide, attribute: .centerY),
+                    NSLayoutConstraint(item: borderedImageView, attribute: .leading, relatedBy: .greaterThanOrEqual, toItem: contentModeGuide, attribute: .leading),
+                    NSLayoutConstraint(item: borderedImageView, attribute: .centerX, relatedBy: .equal, toItem: contentModeGuide, attribute: .centerX, priority: UILayoutPriorityRequired - 1),
                     
                     NSLayoutConstraint(item: textLabelGuide, attribute: .leading,  relatedBy: .equal, toItem: borderedImageView, attribute: .trailing, constant: 10.0),
-                    NSLayoutConstraint(item: textLabelGuide, attribute: .centerY,  relatedBy: .equal, toItem: contentBackingView, attribute: .centerY),
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .centerY,  relatedBy: .equal, toItem: borderedImageView, attribute: .centerY),
                     NSLayoutConstraint(item: textLabelGuide, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: borderedImageView, attribute: .trailing, constant: 110),
                 ]
             }
@@ -356,7 +343,7 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         
-        contentBackingView.layer.rasterizationScale = traitCollection.currentDisplayScale
+        borderedImageView.layer.rasterizationScale = traitCollection.currentDisplayScale
     }
     
     

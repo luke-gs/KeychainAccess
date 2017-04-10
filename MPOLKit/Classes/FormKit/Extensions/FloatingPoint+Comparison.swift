@@ -13,11 +13,11 @@ import CoreGraphics
 infix operator ==~: ComparisonPrecedence
 
 func ==~ (left: Float, right: Float) -> Bool {
-    return abs(left.distance(to: right)) <= 1e-10
+    return abs(left.distance(to: right)) <= 1e-5
 }
 
 func ==~ (left: Double, right: Double) -> Bool {
-    return abs(left.distance(to: right)) <= 1e-10
+    return abs(left.distance(to: right)) <= 1e-5
 }
 
 func ==~ (left: CGFloat, right: CGFloat) -> Bool {
