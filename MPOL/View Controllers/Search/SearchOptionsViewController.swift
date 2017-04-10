@@ -751,47 +751,84 @@ public class popoverSelectableTableViewController : UITableViewController {
     
     public var canMultiSelect: Bool = false {
         didSet {
-            tableView.allowsMultipleSelection = canMultiSelect
+            // What do you do here if you disable multiple selection and selectedItemsIndex contains multiple? Something to think about...
+            
+            if isViewLoaded {
+                tableView.allowsMultipleSelection = canMultiSelect
+            }
         }
     }
     public var sourceItems: [String]? = []
     
     weak var popoverTableViewDelegate: PopoverTableViewDelegate?
     
-    public var selectedItemsIndex: IndexSet = [] {
+    public var selectedItemsIndex: IndexSet = IndexSet() {
         didSet {
-            for cell in self.tableView.visibleCells {
-                
-                if let indexPath = self.tableView.indexPath(for: cell) {
-                    if selectedItemsIndex.contains(indexPath.row) {
-                        cell.setSelected(true, animated: true)
-                    } else {
-                        cell.setSelected(false, animated: true)
-                    }
-                }
+            if selectedItemsIndex == oldValue || isViewLoaded == false || isSelectionChangeFromUserInteraction { return }
+            
+            var newSelectedIndexPaths = Set(selectedItemsIndex.map({ IndexPath(row: $0, section: 0)}))
+            
+            let currentlySelectedIndexPaths = tableView.indexPathsForVisibleRows ?? []
+            
+            // for all that are currently selected that shouldn't be, remove them
+            for indexPath in currentlySelectedIndexPaths where newSelectedIndexPaths.contains(indexPath) == false {
+                tableView.deselectRow(at: indexPath, animated: false)
             }
+            
+            // remove all the currently selected ones to work out which ones should be selected
+            newSelectedIndexPaths.subtract(currentlySelectedIndexPaths)
+            
+            // select all left over
+            for indexPath in newSelectedIndexPaths {
+                tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+            }
+
         }
     }
     
+    private var isSelectionChangeFromUserInteraction = false
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableView.allowsMultipleSelection = canMultiSelect
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+        
+        // do this to force the first layout so we can get the size.
+        tableView.layoutIfNeeded()
+        
+        // Set this now, so that the popover automatically retains the correct height,
+        // rather than later in a KVO notification after it forces your table view to be a standard size
+        preferredContentSize = CGSize(width: 320.0, height: tableView.contentSize.height)
+        
+        for index in selectedItemsIndex {
+            tableView.selectRow(at: IndexPath(row: index, section: 0), animated: false, scrollPosition: .none)
+        }
         
         tableView.addObserver(self, forKeyPath: #keyPath(UITableView.contentSize), context: &kvoContext)
     }
     
     deinit {
         
-        if let delegate = self.popoverTableViewDelegate {
-            delegate.popOverTableDidDismiss(self)
-        }
+        /// you really shouldn't do this... it's not a correct judge of whether the popover dismissed. That and never call
+        /// anything nonessential in deinit.
+//        if let delegate = self.popoverTableViewDelegate {
+//            delegate.popOverTableDidDismiss(self)
+//        }
         
-        tableView.removeObserver(self, forKeyPath: #keyPath(UITableView.contentSize), context: &kvoContext)
+        if isViewLoaded {
+            tableView.removeObserver(self, forKeyPath: #keyPath(UITableView.contentSize), context: &kvoContext)
+        }
     }
     
     public init() {
         super.init(style: .plain)
         
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+        clearsSelectionOnViewWillAppear = false
+        
+        /// do not do this here:  you're causing your view to be loaded and avoiding all of
+        // UIViewController's optimizations.
+        //tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -800,10 +837,8 @@ public class popoverSelectableTableViewController : UITableViewController {
     
     public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {
-            if object is UITableView {
-                if let contentSize = self.tableView?.contentSize {
-                    self.preferredContentSize = contentSize
-                }
+            if isViewLoaded, let tableView = object as? UITableView, tableView == self.tableView {
+                preferredContentSize = CGSize(width: 320.0, height: tableView.contentSize.height)
             }
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
@@ -816,26 +851,12 @@ public class popoverSelectableTableViewController : UITableViewController {
     }
     
     public override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        if let count = sourceItems?.count {
-            return count
-        }
-        
-        return 0
+        return sourceItems?.count ?? 0
     }
     
     public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
-
         cell.textLabel?.text = sourceItems?[indexPath.row]
-        
-        if selectedItemsIndex.contains(indexPath.row) {
-            cell.setSelected(true, animated: true)
-        } else {
-            cell.setSelected(false, animated: true)
-        }
-        
         return cell
     }
     
@@ -876,33 +897,46 @@ public class popoverSelectableTableViewController : UITableViewController {
         
         print("Did Select Row")
         
-        let row = indexPath.row
+//        let row = indexPath.row
+//        
+//        let rowIsSelected = selectedItemsIndex.contains(row)
+//        
+//        if canMultiSelect == true {
+//            if rowIsSelected == true {
+//                if mustHaveValue == true && selectedItemsIndex.count == 1 {
+//                    // Don't allow to be deslected
+//                } else {
+//                    selectedItemsIndex.remove(row)
+//                }
+//            } else {
+//                selectedItemsIndex.insert(row)
+//            }
+//        } else {
+//            if rowIsSelected == true {
+//                if mustHaveValue == true {
+//                    // Don't allow to be deselected
+//                    
+//                } else {
+//                    tableView.deselectRow(at: indexPath, animated: true)
+//                    selectedItemsIndex.remove(row)
+//                }
+//            } else {
+//                selectedItemsIndex.insert(row)
+//            }
+//        }
         
-        let rowIsSelected = selectedItemsIndex.contains(row)
+        // Simplified:
         
-        if canMultiSelect == true {
-            if rowIsSelected == true {
-                if mustHaveValue == true && selectedItemsIndex.count == 1 {
-                    // Don't allow to be deslected
-                } else {
-                    selectedItemsIndex.remove(row)
-                }
-            } else {
-                selectedItemsIndex.insert(row)
-            }
+        // Set this temporarily to block unnecessary work. The selection has already occurred in UI
+        isSelectionChangeFromUserInteraction = true
+        
+        if canMultiSelect {
+            selectedItemsIndex.insert(indexPath.row)
         } else {
-            if rowIsSelected == true {
-                if mustHaveValue == true {
-                    // Don't allow to be deselected
-                    
-                } else {
-                    tableView.deselectRow(at: indexPath, animated: true)
-                    selectedItemsIndex.remove(row)
-                }
-            } else {
-                selectedItemsIndex.insert(row)
-            }
+            selectedItemsIndex = IndexSet(integer: indexPath.row)
         }
+        
+        isSelectionChangeFromUserInteraction = false
     }
     
     public override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
