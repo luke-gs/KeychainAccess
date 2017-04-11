@@ -208,6 +208,29 @@ open class SearchOptionsViewController: FormCollectionViewController, SearchColl
             switch segmentIndex {
             case SearchSegments.person.rawValue:
                 if let personFilter = searchSources[segmentIndex] as? PersonSearchType {
+                    
+                    if index == PersonSearchType.PersonFilterType.age.rawValue {
+                        
+                        let pickerView = SearchNumberRangePickerViewController(min: 0, max: 100)
+                        pickerView.title = personFilter.filterTitle(atIndex: index)
+                        
+                        let popover = PopoverNavigationController(rootViewController: pickerView)
+                        popover.modalPresentationStyle = .popover
+                        
+                        if let presentationController = popover.popoverPresentationController {
+                            
+                            let cell = collectionView.cellForItem(at:indexPath)
+                            
+                            presentationController.sourceView = cell
+                            presentationController.sourceRect = cell!.bounds
+                            
+                        }
+                        
+                        present(popover, animated: true, completion: nil)
+                        
+                        return
+                    }
+                    
                     let tableView = PopoverSelectableTableViewController(style: .plain)
                     tableView.sourceItems = personFilter.filterOptions(atIndex: index)
                     tableView.title = personFilter.filterTitle(atIndex: index)
@@ -228,8 +251,6 @@ open class SearchOptionsViewController: FormCollectionViewController, SearchColl
                         tableView.defaultValue = personFilter.filterDefaultText(atIndex: index)
                         tableView.canMultiSelect = true
                         tableView.selectedItemsIndex = personFilter.filterSelectedOptions(atIndex: index)
-                        break
-                    case PersonSearchType.PersonFilterType.age.rawValue:
                         break
                     default:
                         break
