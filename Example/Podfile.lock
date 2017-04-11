@@ -1,10 +1,7 @@
 PODS:
-  - JVFloatLabeledTextField (1.1.1)
   - MPOLKit (0.1.0):
-    - JVFloatLabeledTextField
     - MPOLKit/Core (= 0.1.0)
-  - MPOLKit/Core (0.1.0):
-    - JVFloatLabeledTextField
+  - MPOLKit/Core (0.1.0)
 
 DEPENDENCIES:
   - MPOLKit (from `../`)
@@ -14,8 +11,7 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  JVFloatLabeledTextField: 0e5524b097f102036214dd8279edc8ecf08b5e18
-  MPOLKit: f5b02e621d755acd5afa870eb95b0ac25a941364
+  MPOLKit: adc811535879068687b7b111d8ccff139dfc3fe3
 
 PODFILE CHECKSUM: 66a8f5bf685779f795824e4745a52c4e00f7556f
 

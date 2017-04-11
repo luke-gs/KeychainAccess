@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import JVFloatLabeledTextField
 
 fileprivate var kvoContext = 1
 
@@ -46,55 +45,45 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     
+    open private(set) lazy var usernameLabel: UILabel = {
+        let label = UILabel(frame: .zero)
+        label.text = NSLocalizedString("Username", comment: "")
+        label.font = .systemFont(ofSize: 14.0, weight: UIFontWeightRegular)
+        label.textColor = .white
+        return label
+    }()
+    
+    
     /// The username field.
-    open private(set) lazy var usernameField: JVFloatLabeledTextField = { [unowned self] in
-        let usernameField = JVFloatLabeledTextField(frame: .zero)
-        usernameField.delegate           = self
-        usernameField.clearButtonMode    = .whileEditing
+    open private(set) lazy var usernameField: UITextField = { [unowned self] in
+        let usernameField = self.newTextField(forPassword: false)
         usernameField.returnKeyType      = .next
-        usernameField.autocorrectionType = .no
-        usernameField.keepBaseline       = true
-        usernameField.floatingLabelYPadding = 6.0
         usernameField.addTarget(self, action: #selector(textFieldTextDidChange(_:)), for: .editingChanged)
-        usernameField.addObserver(self, forKeyPath: #keyPath(JVFloatLabeledTextField.text), context: &kvoContext)
+        usernameField.addObserver(self, forKeyPath: #keyPath(UITextField.text), context: &kvoContext)
         self.isUsernameFieldLoaded = true
-        
-        let white = UIColor.white
-        usernameField.textColor = white
-        usernameField.placeholderColor = .lightGray
-        usernameField.floatingLabelTextColor = white
-        usernameField.floatingLabelActiveTextColor = white
-        
-        usernameField.placeholder = NSLocalizedString("Username", comment: "")
         
         return usernameField
     }()
     
     
+    open private(set) lazy var passwordLabel: UILabel = {
+        let label = UILabel(frame: .zero)
+        label.text = NSLocalizedString("Password", comment: "")
+        label.font = .systemFont(ofSize: 14.0, weight: UIFontWeightRegular)
+        label.textColor = .white
+        return label
+    }()
+    
+    
     /// The password field.
-    open private(set) lazy var passwordField: JVFloatLabeledTextField = { [unowned self] in
-        let passwordField = JVFloatLabeledTextField(frame: .zero)
-        passwordField.isSecureTextEntry    = true
-        passwordField.returnKeyType        = .done
-        passwordField.clearButtonMode      = .whileEditing
+    open private(set) lazy var passwordField: UITextField = { [unowned self] in
+        let passwordField = self.newTextField(forPassword: true)
+        passwordField.delegate = self
+        passwordField.returnKeyType = .done
         passwordField.clearsOnBeginEditing = true
-        passwordField.autocorrectionType   = .no
-        passwordField.floatingLabelYPadding = 6.0
-        passwordField.enablesReturnKeyAutomatically = true
-        passwordField.delegate        = self
-        
-        passwordField.keepBaseline = true
         passwordField.addTarget(self, action: #selector(textFieldTextDidChange(_:)), for: .editingChanged)
-        passwordField.addObserver(self, forKeyPath: #keyPath(JVFloatLabeledTextField.text), context: &kvoContext)
+        passwordField.addObserver(self, forKeyPath: #keyPath(UITextField.text), context: &kvoContext)
         self.isPasswordFieldLoaded = true
-        
-        let white = UIColor.white
-        passwordField.textColor = white
-        passwordField.placeholderColor = .lightGray
-        passwordField.floatingLabelTextColor = white
-        passwordField.floatingLabelActiveTextColor = white
-        
-        passwordField.placeholder = NSLocalizedString("Password", comment: "")
         
         return passwordField
     }()
@@ -250,10 +239,10 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     
     deinit {
         if isUsernameFieldLoaded {
-            usernameField.removeObserver(self, forKeyPath:#keyPath(JVFloatLabeledTextField.text), context: &kvoContext)
+            usernameField.removeObserver(self, forKeyPath:#keyPath(UITextField.text), context: &kvoContext)
         }
         if isPasswordFieldLoaded {
-            passwordField.removeObserver(self, forKeyPath:#keyPath(JVFloatLabeledTextField.text), context: &kvoContext)
+            passwordField.removeObserver(self, forKeyPath:#keyPath(UITextField.text), context: &kvoContext)
         }
     }
     
@@ -261,8 +250,8 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     // MARK: - View lifecycle
     
     open override func loadView() {
-        let usernameField = self.usernameField
-        let passwordField = self.passwordField
+        
+        
         
         let backgroundView = UIImageView(image: backgroundImage)
         backgroundView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -276,27 +265,39 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         let contentGuide = UILayoutGuide()
         scrollView.addLayoutGuide(contentGuide)
         
+        let usernameLabel = self.usernameLabel
+        let passwordLabel = self.passwordLabel
+        let usernameField = self.usernameField
+        let passwordField = self.passwordField
+        
         let usernameSeparator = UIView(frame: .zero)
-        usernameSeparator.translatesAutoresizingMaskIntoConstraints = false
-        usernameSeparator.backgroundColor = #colorLiteral(red: 0.7630171865, green: 0.7580402272, blue: 0.7838609132, alpha: 0.8041923415)
-        usernameField.addSubview(usernameSeparator)
-        
         let passwordSeparator = UIView(frame: .zero)
-        passwordSeparator.translatesAutoresizingMaskIntoConstraints = false
-        passwordSeparator.backgroundColor = #colorLiteral(red: 0.7630171865, green: 0.7580402272, blue: 0.7838609132, alpha: 0.8041923415)
-        passwordField.addSubview(passwordSeparator)
+        let credentialsView = UIView(frame: .zero)
         
-        let credentialsStackView          = UIStackView(arrangedSubviews: [usernameField, passwordField, UIView()])
-        credentialsStackView.axis         = .vertical
-        credentialsStackView.alignment    = .fill
-        credentialsStackView.spacing      = 12.0
+        usernameSeparator.backgroundColor = #colorLiteral(red: 0.7630171865, green: 0.7580402272, blue: 0.7838609132, alpha: 0.8041923415)
+        passwordSeparator.backgroundColor = #colorLiteral(red: 0.7630171865, green: 0.7580402272, blue: 0.7838609132, alpha: 0.8041923415)
+        
+        usernameLabel.translatesAutoresizingMaskIntoConstraints = false
+        passwordLabel.translatesAutoresizingMaskIntoConstraints = false
+        usernameField.translatesAutoresizingMaskIntoConstraints = false
+        passwordField.translatesAutoresizingMaskIntoConstraints = false
+        usernameSeparator.translatesAutoresizingMaskIntoConstraints = false
+        passwordSeparator.translatesAutoresizingMaskIntoConstraints = false
+        credentialsView.translatesAutoresizingMaskIntoConstraints = false
+        
+        credentialsView.addSubview(usernameSeparator)
+        credentialsView.addSubview(passwordSeparator)
+        credentialsView.addSubview(usernameLabel)
+        credentialsView.addSubview(passwordLabel)
+        credentialsView.addSubview(usernameField)
+        credentialsView.addSubview(passwordField)
         
         let loginStackView = UIStackView(arrangedSubviews: [loginButton, termsAndConditionsLabel])
         loginStackView.axis = .vertical
         loginStackView.alignment = .center
         loginStackView.spacing   = 20.0
         
-        var contentViews: [UIView] = [credentialsStackView, loginStackView]
+        var contentViews: [UIView] = [credentialsView, loginStackView]
         if let header = headerView {
             contentViews.insert(header, at: 0)
         }
@@ -328,29 +329,20 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
             NSLayoutConstraint(item: scrollView, attribute: .top,      relatedBy: .equal, toItem: contentGuide, attribute: .top),
             NSLayoutConstraint(item: scrollView, attribute: .bottom,   relatedBy: .equal, toItem: contentStackView, attribute: .bottom, constant: 20.0),
             
-            NSLayoutConstraint(item: credentialsStackView, attribute: .width, relatedBy: .equal, toConstant: 256.0),
+            NSLayoutConstraint(item: credentialsView, attribute: .width, relatedBy: .equal, toConstant: 256.0),
+            NSLayoutConstraint(item: usernameLabel, attribute: .width,   relatedBy: .equal, toItem: credentialsView, attribute: .width),
+            NSLayoutConstraint(item: usernameLabel, attribute: .leading, relatedBy: .equal, toItem: credentialsView, attribute: .leading),
             
             NSLayoutConstraint(item: contentStackView, attribute: .centerX, relatedBy: .equal, toItem: contentGuide, attribute: .centerX),
             NSLayoutConstraint(item: contentStackView, attribute: .centerY, relatedBy: .equal, toItem: contentGuide, attribute: .centerY),
             NSLayoutConstraint(item: contentStackView, attribute: .bottom,  relatedBy: .lessThanOrEqual, toItem: contentGuide, attribute: .bottom, constant: -20.0),
             NSLayoutConstraint(item: contentStackView, attribute: .width,   relatedBy: .lessThanOrEqual, toItem: contentGuide, attribute: .width, constant: -20.0),
             
-            NSLayoutConstraint(item: usernameSeparator, attribute: .leading, relatedBy: .equal, toItem: usernameField, attribute: .leading),
-            NSLayoutConstraint(item: usernameSeparator, attribute: .trailing, relatedBy: .equal, toItem: usernameField, attribute: .trailing),
-            NSLayoutConstraint(item: usernameSeparator, attribute: .top, relatedBy: .equal, toItem: usernameField, attribute: .bottom, constant: 0.0),
             separatorHeightConstraint,
-            
-            NSLayoutConstraint(item: passwordSeparator, attribute: .leading, relatedBy: .equal, toItem: passwordField, attribute: .leading),
-            NSLayoutConstraint(item: passwordSeparator, attribute: .trailing, relatedBy: .equal, toItem: passwordField, attribute: .trailing),
-            NSLayoutConstraint(item: passwordSeparator, attribute: .top, relatedBy: .equal, toItem: passwordField, attribute: .bottom, constant: 0.0),
-            NSLayoutConstraint(item: passwordSeparator, attribute: .height,   relatedBy: .equal, toItem: usernameSeparator, attribute: .height),
             
             NSLayoutConstraint(item: loginButton, attribute: .width,  relatedBy: .greaterThanOrEqual, toConstant: 160.0),
             NSLayoutConstraint(item: loginButton, attribute: .height, relatedBy: .greaterThanOrEqual, toConstant: 48.0),
-            
-            NSLayoutConstraint(item: usernameField, attribute: .height, relatedBy: .equal, toConstant: 60.0),
-            NSLayoutConstraint(item: passwordField, attribute: .height, relatedBy: .equal, toConstant: 60.0)
-        ])
+        ] + NSLayoutConstraint.constraints(withVisualFormat: "V:|[ul]-4-[uf]-11-[us]-18-[pl]-4-[pf]-11-[ps(==us)]|", options: [.alignAllLeading, .alignAllTrailing], metrics: nil, views: ["ul": usernameLabel, "uf": usernameField, "us": usernameSeparator, "pl": passwordLabel, "pf": passwordField, "ps": passwordSeparator]))
         
         self.preferredLayoutGuideBottomConstraint = preferredLayoutGuideBottomConstraint
         self.separatorHeightConstraint            = separatorHeightConstraint
@@ -399,7 +391,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {
-            if keyPath == #keyPath(JVFloatLabeledTextField.text), let field = object as? UITextField {
+            if keyPath == #keyPath(UITextField.text), let field = object as? UITextField {
                 textFieldTextDidChange(field)
             }
         } else {
@@ -475,6 +467,17 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         let isPasswordValid: Bool = isPasswordFieldLoaded && passwordField.text?.characters.count ?? 0 >= minimumPasswordLength
         
         loginButton.isEnabled = isUsernameValid && isPasswordValid
+    }
+    
+    private func newTextField(forPassword password: Bool) -> UITextField {
+        let textField = UITextField(frame: .zero)
+        textField.font                 = .systemFont(ofSize: 17.0, weight: UIFontWeightSemibold)
+        textField.textColor            = .white
+        textField.isSecureTextEntry    = password
+        textField.attributedPlaceholder = NSAttributedString(string: "Required", attributes: [NSForegroundColorAttributeName: UIColor(white: 0.7, alpha: 0.5)])
+        textField.clearButtonMode      = .whileEditing
+        textField.autocorrectionType   = .no
+        return textField
     }
     
 }

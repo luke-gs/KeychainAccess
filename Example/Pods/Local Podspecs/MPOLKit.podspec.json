@@ -23,11 +23,6 @@
     "MPOLKit/Assets/MPOL/**/*",
     "MPOLKit/Assets/Forms/*"
   ],
-  "dependencies": {
-    "JVFloatLabeledTextField": [
-
-    ]
-  },
   "subspecs": [
     {
       "name": "Core",
