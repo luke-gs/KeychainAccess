@@ -49,6 +49,14 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
         didSet { if emphasis != oldValue { applyStandardFonts() } }
     }
     
+    open var preferredLabelSeparation: CGFloat = CellTitleSubtitleSeparation {
+        didSet {
+            if (titleLabel.text?.isEmpty ?? true) == false && (subtitleLabel.text?.isEmpty ?? true) == false {
+                titleSubtitleConstraint.constant = preferredLabelSeparation
+            }
+        }
+    }
+    
     
     // MARK: - Private/internal properties
     
@@ -162,11 +170,11 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
             switch object {
             case let label as UILabel:
                 label.isHidden = label.text?.isEmpty ?? true
-                titleSubtitleConstraint.constant = (titleLabel.text?.isEmpty ?? true || subtitleLabel.text?.isEmpty ?? true) ? 0.0 : CellTitleSubtitleSeparation
+                titleSubtitleConstraint.constant = (titleLabel.text?.isEmpty ?? true || subtitleLabel.text?.isEmpty ?? true) ? 0.0 : preferredLabelSeparation
             case let imageView as UIImageView:
                 let noImage = imageView.image?.size.isEmpty ?? true
                 imageView.isHidden = false
-                textLeadingConstraint.constant = noImage ? 0.0 : 10.0
+                textLeadingConstraint.constant = noImage ? 0.0 : 16.0
                 updateLabelMaxSizes()
             default:
                 break
@@ -242,7 +250,7 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
         let accessoryViewWidth = accessoryView?.bounds.width ?? 0.0
         let imageViewWidth = imageView.image?.size.width ?? 0.0
         
-        let allowedTextWidth = width - layoutMargins.left - layoutMargins.right - (accessoryViewWidth > 0.0 ? accessoryViewWidth + 10.0 : 0.0) - (imageViewWidth > 0.0 ? imageViewWidth + 10.0 : 0.0)
+        let allowedTextWidth = width - layoutMargins.left - layoutMargins.right - (accessoryViewWidth > 0.0 ? accessoryViewWidth + 10.0 : 0.0) - (imageViewWidth > 0.0 ? imageViewWidth + 16.0 : 0.0)
         
         titleLabel.preferredMaxLayoutWidth    = allowedTextWidth
         subtitleLabel.preferredMaxLayoutWidth = allowedTextWidth
@@ -281,7 +289,7 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
         
         var imageSpace = image?.size.width ?? 0.0
         if imageSpace > 0.0 {
-            imageSpace = ceil(imageSpace) + 10.0
+            imageSpace = ceil(imageSpace) + 16.0
         }
         
         let displayScale = traitCollection.currentDisplayScale
@@ -331,7 +339,7 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
         
         let displayScale = traitCollection.currentDisplayScale
         
-        let size = CGSize(width: imageSize == nil ? width : width - imageSize!.width - 10.0, height: CGFloat.greatestFiniteMagnitude)
+        let size = CGSize(width: imageSize == nil ? width : width - imageSize!.width - 16.0, height: CGFloat.greatestFiniteMagnitude)
         
         let titleHeight = (title as NSString?)?.boundingRect(with: size, options: singleLineTitle ? [] : .usesLineFragmentOrigin,
                                                              attributes: [NSFontAttributeName: titleTextFont],

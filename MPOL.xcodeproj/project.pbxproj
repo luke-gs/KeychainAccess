@@ -14,9 +14,12 @@
 		BC0D8E8D1E94067800EDFC45 /* SearchResultsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0D8E871E94067800EDFC45 /* SearchResultsListViewController.swift */; };
 		BC0D8E8E1E94067800EDFC45 /* SearchResultsMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0D8E881E94067800EDFC45 /* SearchResultsMapViewController.swift */; };
 		BC0D8E8F1E94067800EDFC45 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0D8E891E94067800EDFC45 /* SearchViewController.swift */; };
+		BC53AD1C1E96531300EA3397 /* SearchEntityListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC53AD1B1E96531300EA3397 /* SearchEntityListCell.swift */; };
+		BC911E701E95E999003B4893 /* SearchNavigationField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC911E6F1E95E999003B4893 /* SearchNavigationField.swift */; };
 		BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */; };
 		BCD4EA941E515ACE000B993D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCD4EA931E515ACE000B993D /* Assets.xcassets */; };
 		BCD4EA9F1E515ADE000B993D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCD4EA9E1E515ADE000B993D /* LaunchScreen.storyboard */; };
+		BCF2E4071E960EDA00D6D7F3 /* UIImage+RoundedRects.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF2E4061E960EDA00D6D7F3 /* UIImage+RoundedRects.swift */; };
 		C6131414A4E49390B53E6153 /* Pods_MPOL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49B155AAA46289B4B533225E /* Pods_MPOL.framework */; };
 /* End PBXBuildFile section */
 
@@ -31,11 +34,14 @@
 		BC0D8E871E94067800EDFC45 /* SearchResultsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultsListViewController.swift; sourceTree = "<group>"; };
 		BC0D8E881E94067800EDFC45 /* SearchResultsMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultsMapViewController.swift; sourceTree = "<group>"; };
 		BC0D8E891E94067800EDFC45 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		BC53AD1B1E96531300EA3397 /* SearchEntityListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchEntityListCell.swift; sourceTree = "<group>"; };
+		BC911E6F1E95E999003B4893 /* SearchNavigationField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchNavigationField.swift; sourceTree = "<group>"; };
 		BCD4EA891E515ACE000B993D /* MPOL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MPOL.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BCD4EA931E515ACE000B993D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BCD4EA981E515ACE000B993D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BCD4EA9E1E515ADE000B993D /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		BCF2E4061E960EDA00D6D7F3 /* UIImage+RoundedRects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+RoundedRects.swift"; sourceTree = "<group>"; };
 		E031BE23D26636C0971D8F80 /* Pods-MPOL.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOL.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOL/Pods-MPOL.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -77,6 +83,8 @@
 				BC0D8E861E94067800EDFC45 /* SearchRecentsViewController.swift */,
 				BC0D8E871E94067800EDFC45 /* SearchResultsListViewController.swift */,
 				BC0D8E881E94067800EDFC45 /* SearchResultsMapViewController.swift */,
+				BC911E6F1E95E999003B4893 /* SearchNavigationField.swift */,
+				BC53AD1B1E96531300EA3397 /* SearchEntityListCell.swift */,
 				BC0D8E841E94067800EDFC45 /* SearchCollectionViewCell.swift */,
 			);
 			path = Search;
@@ -106,11 +114,20 @@
 				397B76FF1E52C23600696677 /* MPOL.entitlements */,
 				BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */,
 				BC0D8E821E94067800EDFC45 /* View Controllers */,
+				BCF2E4051E960EDA00D6D7F3 /* Extensions */,
 				BCD4EA931E515ACE000B993D /* Assets.xcassets */,
 				BCD4EA9E1E515ADE000B993D /* LaunchScreen.storyboard */,
 				BCD4EA981E515ACE000B993D /* Info.plist */,
 			);
 			path = MPOL;
+			sourceTree = "<group>";
+		};
+		BCF2E4051E960EDA00D6D7F3 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				BCF2E4061E960EDA00D6D7F3 /* UIImage+RoundedRects.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		DD0BBC764CADEC1979F110FC /* Pods */ = {
@@ -258,8 +275,11 @@
 				BC0D8E8A1E94067800EDFC45 /* SearchCollectionViewCell.swift in Sources */,
 				BC0D8E8E1E94067800EDFC45 /* SearchResultsMapViewController.swift in Sources */,
 				BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */,
+				BCF2E4071E960EDA00D6D7F3 /* UIImage+RoundedRects.swift in Sources */,
+				BC53AD1C1E96531300EA3397 /* SearchEntityListCell.swift in Sources */,
 				BC0D8E8D1E94067800EDFC45 /* SearchResultsListViewController.swift in Sources */,
 				BC0D8E8C1E94067800EDFC45 /* SearchRecentsViewController.swift in Sources */,
+				BC911E701E95E999003B4893 /* SearchNavigationField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

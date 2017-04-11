@@ -7,7 +7,7 @@
     "37D535213086CEA32CC3C2A0C628BA3111AC099C" : 9223372036854775807,
     "B617A4F70D23A36355B9D310BF0FCF7A1455A206" : 9223372036854775807
   },
-  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "7B25549D-C5A7-43B8-86D3-80DD3E1B677C",
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "793966B2-3C64-4923-8E29-8B942A5F6FC3",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
     "37D535213086CEA32CC3C2A0C628BA3111AC099C" : "mPol-iOS\/",
     "B617A4F70D23A36355B9D310BF0FCF7A1455A206" : "mPolKit-iOS\/"
@@ -17,12 +17,12 @@
   "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "MPOL.xcworkspace",
   "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
     {
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:Gridstone\/mPol-iOS.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Gridstone\/mPol-iOS.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "37D535213086CEA32CC3C2A0C628BA3111AC099C"
     },
     {
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:Gridstone\/mPolKit-iOS.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Gridstone\/mPolKit-iOS.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "B617A4F70D23A36355B9D310BF0FCF7A1455A206"
     }

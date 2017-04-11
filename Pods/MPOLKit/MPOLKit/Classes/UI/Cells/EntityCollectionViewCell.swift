@@ -209,6 +209,8 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
     }
     
     private func commonInit() {
+        separatorStyle = .none
+        
         let backingView      = self.contentBackingView
         let borderImageView  = self.borderedImageView
         let titleLabel       = self.titleLabel
@@ -244,8 +246,8 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
         
         NSLayoutConstraint.activate([
             NSLayoutConstraint(item: borderImageView, attribute: .leading,  relatedBy: .equal,           toItem: backingView, attribute: .leading),
-            NSLayoutConstraint(item: borderImageView, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: backingView, attribute: .trailing),
-            NSLayoutConstraint(item: borderImageView, attribute: .bottom,   relatedBy: .lessThanOrEqual, toItem: backingView, attribute: .bottom),
+            NSLayoutConstraint(item: borderImageView, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: backingView, attribute: .trailing, priority: UILayoutPriorityRequired - 1),
+            NSLayoutConstraint(item: borderImageView, attribute: .bottom,   relatedBy: .lessThanOrEqual, toItem: backingView, attribute: .bottom, priority: UILayoutPriorityRequired - 1),
             
             NSLayoutConstraint(item: badgeView, attribute: .centerX, relatedBy: .equal, toItem: borderImageView, attribute: .trailing, constant: -2.0),
             NSLayoutConstraint(item: badgeView, attribute: .centerY, relatedBy: .equal, toItem: borderImageView, attribute: .top,      constant: 2.0),

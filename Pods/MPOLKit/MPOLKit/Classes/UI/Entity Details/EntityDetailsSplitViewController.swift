@@ -46,7 +46,7 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
         headerTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         headerTitleLabel.adjustsFontSizeToFitWidth = true
         headerTitleLabel.numberOfLines = 0
-        headerTitleLabel.text = "Frost, Deacon R."
+        headerTitleLabel.text = "Citizen, John R."
         headerTitleLabel.font = .systemFont(ofSize: 28.0, weight: UIFontWeightBold)
         headerTitleLabel.textColor = .white
         
