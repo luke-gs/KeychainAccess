@@ -48,8 +48,8 @@ open class SearchOptionsViewController: FormCollectionViewController, SearchColl
         collectionView?.removeObserver(self, forKeyPath: #keyPath(UICollectionView.contentSize), context: &kvoContext)
     }
     
-    public required convenience init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    public required convenience init(coder aDecoder: NSCoder) {
+        self.init()
     }
     
     // MARK - View Lifecycle
@@ -200,24 +200,39 @@ open class SearchOptionsViewController: FormCollectionViewController, SearchColl
         
         let index = indexPath.item
         
+        if let cell = collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as? SearchCollectionViewCell {
+            cell.searchTextField.resignFirstResponder()
+        }
+        
         if indexPath.section == 1 {
             switch segmentIndex {
             case SearchSegments.person.rawValue:
-                
                 if let personFilter = searchSources[segmentIndex] as? PersonSearchType {
-                    
-                    let tableView = popoverSelectableTableViewController()
+                    let tableView = PopoverSelectableTableViewController(style: .plain)
                     tableView.sourceItems = personFilter.filterOptions(atIndex: index)
                     tableView.title = personFilter.filterTitle(atIndex: index)
                     tableView.popoverTableViewDelegate = self
-//                    tableView.mustHaveValue = true 
-//                    tableView.canMultiSelect = true
+                    tableView.linkedSegmentAndIndex = IndexPath(item:index, section:segmentIndex)
                     
-                    // The cell doesn't select properly
-                    if personFilter.filterIsEmpty(atIndex: index) == false {
-                        if let selectedIndex = tableView.sourceItems?.index(of: personFilter.filterValue(atIndex: index)) {
-                            tableView.selectedItemsIndex = IndexSet(integer: selectedIndex)
-                        }
+                    switch index {
+                    case PersonSearchType.PersonFilterType.searchType.rawValue:
+                        tableView.mustHaveValue = true
+                        tableView.selectedItemsIndex = personFilter.filterSelectedOptions(atIndex: index)
+                        break
+                    case PersonSearchType.PersonFilterType.state.rawValue:
+                        tableView.defaultValue = personFilter.filterDefaultText(atIndex: index)
+                        tableView.canMultiSelect = true
+                        tableView.selectedItemsIndex = personFilter.filterSelectedOptions(atIndex: index)
+                        break
+                    case PersonSearchType.PersonFilterType.gender.rawValue:
+                        tableView.defaultValue = personFilter.filterDefaultText(atIndex: index)
+                        tableView.canMultiSelect = true
+                        tableView.selectedItemsIndex = personFilter.filterSelectedOptions(atIndex: index)
+                        break
+                    case PersonSearchType.PersonFilterType.age.rawValue:
+                        break
+                    default:
+                        break
                     }
                     
                     let popover = PopoverNavigationController(rootViewController: tableView)
@@ -233,11 +248,45 @@ open class SearchOptionsViewController: FormCollectionViewController, SearchColl
                     }
                     
                     present(popover, animated: true, completion: nil)
-                    
                 }
                 break
             case SearchSegments.vehicle.rawValue:
-                
+                if let vehicleFilter = searchSources[segmentIndex] as? VehicleSearchType {
+                    
+                    let tableView = PopoverSelectableTableViewController(style: .plain)
+                    tableView.sourceItems = vehicleFilter.filterOptions(atIndex: index)
+                    tableView.title = vehicleFilter.filterTitle(atIndex: index)
+                    tableView.popoverTableViewDelegate = self
+                    tableView.linkedSegmentAndIndex = IndexPath(item:index, section:segmentIndex)
+                    
+                    switch index {
+                    case VehicleSearchType.VehicleFilterType.searchType.rawValue:
+                        tableView.mustHaveValue = true
+                        tableView.selectedItemsIndex = vehicleFilter.filterSelectedOptions(atIndex: index)
+                        break
+                    case VehicleSearchType.VehicleFilterType.state.rawValue, VehicleSearchType.VehicleFilterType.make.rawValue, VehicleSearchType.VehicleFilterType.model.rawValue:
+                        tableView.defaultValue = vehicleFilter.filterDefaultText(atIndex: index)
+                        tableView.canMultiSelect = true
+                        tableView.selectedItemsIndex = vehicleFilter.filterSelectedOptions(atIndex: index)
+                        break
+                    default:
+                        break
+                    }
+                    
+                    let popover = PopoverNavigationController(rootViewController: tableView)
+                    popover.modalPresentationStyle = .popover
+                    
+                    if let presentationController = popover.popoverPresentationController {
+                        
+                        let cell = collectionView.cellForItem(at:indexPath)
+                        
+                        presentationController.sourceView = cell
+                        presentationController.sourceRect = cell!.bounds
+                        
+                    }
+                    
+                    present(popover, animated: true, completion: nil)
+                }
                 break
             case SearchSegments.organisation.rawValue:
                 
@@ -337,7 +386,6 @@ open class SearchOptionsViewController: FormCollectionViewController, SearchColl
     }
     
     public func searchCollectionViewCell(_ cell: SearchCollectionViewCell, didSelectSegmentAt index: Int) {
-        // TODO: Change filters
         segmentIndex = index
         collectionView?.reloadData()
         collectionView?.layoutIfNeeded()
@@ -347,16 +395,81 @@ open class SearchOptionsViewController: FormCollectionViewController, SearchColl
     }
     
     // MARK - PopoverTableView Delegate
-    
-    public func popOverTableDidDismiss(_ tableView: popoverSelectableTableViewController) {
+    func popOverTableSelectionChanged(_ tableView: PopoverSelectableTableViewController, newValues: IndexSet) {
+        print("Value changed")
         
-        if tableView.selectedItemsIndex.count > 0 {
-            for selectedIndex in tableView.selectedItemsIndex  {
-                print ("Index selected:\(selectedIndex)")
+        if newValues.count > 0 {
+            for index in newValues {
+                print("Index:\(index)")
             }
         }
         
+        if let segmentAndIndex = tableView.linkedSegmentAndIndex {
+            switch segmentAndIndex.section {
+            case SearchSegments.person.rawValue:
+                if let personFilter = searchSources[segmentIndex] as? PersonSearchType {
+                    switch segmentAndIndex.item {
+                    case PersonSearchType.PersonFilterType.searchType.rawValue:
+                        if let options = tableView.sourceItems {
+                            for index in newValues {
+                                if (personFilter.set(value: options[index], atIndex: segmentAndIndex.item)) {
+                                    collectionView?.reloadData()
+                                }
+                            }
+                        }
+                        break
+                    case PersonSearchType.PersonFilterType.state.rawValue, PersonSearchType.PersonFilterType.gender.rawValue:
+                        if let options = tableView.sourceItems {
+                            var selectedValues: [String] = []
+                            for index in newValues {
+                                selectedValues.append(options[index])
+                            }
+                            
+                            if (personFilter.set(value: selectedValues, atIndex: segmentAndIndex.item)) {
+                                collectionView?.reloadData()
+                            }
+                        }
+                        break
+                    default:
+                        break
+                    }
+                }
+            case SearchSegments.vehicle.rawValue:
+                if let vehicleFilter = searchSources[segmentIndex] as? VehicleSearchType {
+                    switch segmentAndIndex.item {
+                    case VehicleSearchType.VehicleFilterType.searchType.rawValue:
+                        if let options = tableView.sourceItems {
+                            for index in newValues {
+                                if (vehicleFilter.set(value: options[index], atIndex: segmentAndIndex.item)) {
+                                    collectionView?.reloadData()
+                                }
+                            }
+                        }
+                        break
+                    case VehicleSearchType.VehicleFilterType.state.rawValue, VehicleSearchType.VehicleFilterType.make.rawValue, VehicleSearchType.VehicleFilterType.model.rawValue:
+                        if let options = tableView.sourceItems {
+                            var selectedValues: [String] = []
+                            for index in newValues {
+                                selectedValues.append(options[index])
+                            }
+                            
+                            if (vehicleFilter.set(value: selectedValues, atIndex: segmentAndIndex.item)) {
+                                collectionView?.reloadData()
+                            }
+                        }
+                        break
+                    default:
+                        break
+                    }
+                }
+                break
+            default:
+                
+                break
+            }
+        }
     }
+    
 }
 
 // MARK - Search Type Classes
@@ -388,6 +501,11 @@ public class SearchType: NSObject {
     public func filterOptions(atIndex: Int) -> [String]? {
         
         return nil
+    }
+    
+    public func filterSelectedOptions(atIndex: Int) -> IndexSet {
+
+        return IndexSet()
     }
 }
 
@@ -480,13 +598,13 @@ public class PersonSearchType: SearchType {
             break
         case PersonFilterType.state.rawValue:
             if let stringArray = value as? [String] {
-                stateValue = stringArray
+                if stringArray.isEmpty { stateValue = nil } else { stateValue = stringArray }
                 return true
             }
             break
         case PersonFilterType.gender.rawValue:
             if let stringArray = value as? [String] {
-                genderValue = stringArray
+                if stringArray.isEmpty { genderValue = nil } else { genderValue = stringArray }
                 return true
             }
             break
@@ -535,6 +653,45 @@ public class PersonSearchType: SearchType {
         }
         
         return nil
+    }
+    
+    public override func filterSelectedOptions(atIndex: Int) -> IndexSet {
+        var selectedIndexes = IndexSet()
+        if let options = filterOptions(atIndex: atIndex) {
+            
+            switch atIndex {
+            case PersonFilterType.searchType.rawValue:
+                if let selectedIndex = options.index(of: filterValue(atIndex: atIndex)) {
+                    selectedIndexes.insert(selectedIndex)
+                }
+                break
+            case PersonFilterType.state.rawValue:
+                if let values = stateValue {
+                    for value in values {
+                        if let selectedIndex = options.index(of: value) {
+                            selectedIndexes.insert(selectedIndex)
+                        }
+                    }
+                }
+                break
+            case PersonFilterType.gender.rawValue:
+                if let values = genderValue {
+                    for value in values {
+                        if let selectedIndex = options.index(of: value) {
+                            selectedIndexes.insert(selectedIndex)
+                        }
+                    }
+                }
+                break
+            case PersonFilterType.age.rawValue:
+                
+                break
+            default:
+                break
+            }
+        }
+        
+        return selectedIndexes
     }
 }
 
@@ -626,19 +783,19 @@ public class VehicleSearchType: SearchType {
             break
         case VehicleFilterType.state.rawValue:
             if let stringArray = value as? [String] {
-                stateValue = stringArray
+                if stringArray.isEmpty { stateValue = nil } else { stateValue = stringArray }
                 return true
             }
             break
         case VehicleFilterType.make.rawValue:
             if let stringArray = value as? [String] {
-                makeValue = stringArray
+                if stringArray.isEmpty { makeValue = nil } else { makeValue = stringArray }
                 return true
             }
             break
         case VehicleFilterType.model.rawValue:
             if let stringArray = value as? [String] {
-                modelValue = stringArray
+                if stringArray.isEmpty { modelValue = nil } else { modelValue = stringArray }
                 return true
             }
             break
@@ -684,6 +841,51 @@ public class VehicleSearchType: SearchType {
         }
         
         return nil
+    }
+    
+    public override func filterSelectedOptions(atIndex: Int) -> IndexSet {
+        var selectedIndexes = IndexSet()
+        if let options = filterOptions(atIndex: atIndex) {
+            
+            switch atIndex {
+            case VehicleFilterType.searchType.rawValue:
+                if let selectedIndex = options.index(of: filterValue(atIndex: atIndex)) {
+                    selectedIndexes.insert(selectedIndex)
+                }
+                break
+            case VehicleFilterType.state.rawValue:
+                if let values = stateValue {
+                    for value in values {
+                        if let selectedIndex = options.index(of: value) {
+                            selectedIndexes.insert(selectedIndex)
+                        }
+                    }
+                }
+                break
+            case VehicleFilterType.make.rawValue:
+                if let values = makeValue {
+                    for value in values {
+                        if let selectedIndex = options.index(of: value) {
+                            selectedIndexes.insert(selectedIndex)
+                        }
+                    }
+                }
+                break
+            case VehicleFilterType.model.rawValue:
+                if let values = modelValue {
+                    for value in values {
+                        if let selectedIndex = options.index(of: value) {
+                            selectedIndexes.insert(selectedIndex)
+                        }
+                    }
+                }
+                break
+            default:
+                break
+            }
+        }
+        
+        return selectedIndexes
     }
 }
 
@@ -742,11 +944,21 @@ public class LocationSearchType: SearchType {
     }
 }
 
-public class popoverSelectableTableViewController : UITableViewController {
+public class PopoverSelectableTableViewController : UITableViewController {
     
     let cellIdentifier = "DefaultTableViewCellIdentifier"
     let cellHeight: CGFloat = 40.0
     
+    var hasMultipleSections: Bool {
+        if mustHaveValue == false && defaultValue != nil {
+            return true
+        }
+        
+        return false
+    }
+    
+    public var linkedSegmentAndIndex: IndexPath? = nil
+    public var defaultValue: String? = nil
     public var mustHaveValue: Bool = false
     
     public var canMultiSelect: Bool = false {
@@ -764,7 +976,17 @@ public class popoverSelectableTableViewController : UITableViewController {
     
     public var selectedItemsIndex: IndexSet = IndexSet() {
         didSet {
-            if selectedItemsIndex == oldValue || isViewLoaded == false || isSelectionChangeFromUserInteraction { return }
+            if selectedItemsIndex == oldValue || isViewLoaded == false || isSelectionChangeFromUserInteraction {
+                if popoverTableViewDelegate != nil && isSelectionChangeFromUserInteraction {
+                    popoverTableViewDelegate?.popOverTableSelectionChanged(self, newValues: selectedItemsIndex)
+                }
+                
+                if selectedItemsIndex.count == 0 && hasMultipleSections == true {
+                    tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .none)
+                }
+                
+                return
+            }
             
             var newSelectedIndexPaths = Set(selectedItemsIndex.map({ IndexPath(row: $0, section: 0)}))
             
@@ -782,7 +1004,6 @@ public class popoverSelectableTableViewController : UITableViewController {
             for indexPath in newSelectedIndexPaths {
                 tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
             }
-
         }
     }
     
@@ -801,8 +1022,18 @@ public class popoverSelectableTableViewController : UITableViewController {
         // rather than later in a KVO notification after it forces your table view to be a standard size
         preferredContentSize = CGSize(width: 320.0, height: tableView.contentSize.height)
         
+        
+        if selectedItemsIndex.count == 0 && hasMultipleSections == true {
+            tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .none)
+        }
+        
         for index in selectedItemsIndex {
-            tableView.selectRow(at: IndexPath(row: index, section: 0), animated: false, scrollPosition: .none)
+            var section = 0
+            
+            if hasMultipleSections {
+                section = 1
+            }
+            tableView.selectRow(at: IndexPath(row: index, section: section), animated: false, scrollPosition: .none)
         }
         
         tableView.addObserver(self, forKeyPath: #keyPath(UITableView.contentSize), context: &kvoContext)
@@ -810,29 +1041,25 @@ public class popoverSelectableTableViewController : UITableViewController {
     
     deinit {
         
-        /// you really shouldn't do this... it's not a correct judge of whether the popover dismissed. That and never call
-        /// anything nonessential in deinit.
-//        if let delegate = self.popoverTableViewDelegate {
-//            delegate.popOverTableDidDismiss(self)
-//        }
-        
         if isViewLoaded {
             tableView.removeObserver(self, forKeyPath: #keyPath(UITableView.contentSize), context: &kvoContext)
         }
+    }
+    
+    public override init(style: UITableViewStyle) {
+        super.init(style: style)
+        
+        clearsSelectionOnViewWillAppear = false
     }
     
     public init() {
         super.init(style: .plain)
         
         clearsSelectionOnViewWillAppear = false
-        
-        /// do not do this here:  you're causing your view to be loaded and avoiding all of
-        // UIViewController's optimizations.
-        //tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
     }
     
-    required public init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    required convenience public init(coder aDecoder: NSCoder) {
+        self.init()
     }
     
     public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -847,22 +1074,31 @@ public class popoverSelectableTableViewController : UITableViewController {
     
     // MARK - TableviewDatasource
     public override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return hasMultipleSections == true ? 2 : 1
     }
     
     public override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        if hasMultipleSections == true && section == 0 {
+            return 1
+        }
+        
         return sourceItems?.count ?? 0
     }
     
     public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
-        cell.textLabel?.text = sourceItems?[indexPath.row]
+        
+        if mustHaveValue == false && indexPath.section == 0 {
+            cell.textLabel?.text = defaultValue ?? "No value"
+        } else {
+            cell.textLabel?.text = sourceItems?[indexPath.row]
+        }
+        
         return cell
     }
     
-    public override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return cellHeight
-    }
     
     // MARK - TableViewDelegate
     public override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
@@ -884,6 +1120,10 @@ public class popoverSelectableTableViewController : UITableViewController {
         
         let row = indexPath.row
         
+        if hasMultipleSections && indexPath.section == 0{
+            return nil
+        }
+        
         if mustHaveValue == true && selectedItemsIndex.contains(row) == true && canMultiSelect == true {
             if selectedItemsIndex.count == 1 {
                 return nil
@@ -897,43 +1137,36 @@ public class popoverSelectableTableViewController : UITableViewController {
         
         print("Did Select Row")
         
-//        let row = indexPath.row
-//        
-//        let rowIsSelected = selectedItemsIndex.contains(row)
-//        
-//        if canMultiSelect == true {
-//            if rowIsSelected == true {
-//                if mustHaveValue == true && selectedItemsIndex.count == 1 {
-//                    // Don't allow to be deslected
-//                } else {
-//                    selectedItemsIndex.remove(row)
-//                }
-//            } else {
-//                selectedItemsIndex.insert(row)
-//            }
-//        } else {
-//            if rowIsSelected == true {
-//                if mustHaveValue == true {
-//                    // Don't allow to be deselected
-//                    
-//                } else {
-//                    tableView.deselectRow(at: indexPath, animated: true)
-//                    selectedItemsIndex.remove(row)
-//                }
-//            } else {
-//                selectedItemsIndex.insert(row)
-//            }
-//        }
-        
-        // Simplified:
-        
         // Set this temporarily to block unnecessary work. The selection has already occurred in UI
         isSelectionChangeFromUserInteraction = true
+        
+        if hasMultipleSections {
+            if indexPath.section == 0 {
+                // Deselect all
+
+                if selectedItemsIndex.count < 1 { return }
+                
+                for index in selectedItemsIndex {
+                    tableView.deselectRow(at: IndexPath(row: index, section:1), animated: false)
+                }
+                selectedItemsIndex.removeAll()
+                
+                isSelectionChangeFromUserInteraction = false
+                return
+            } else {
+                tableView.deselectRow(at: IndexPath(row:0, section:0), animated: false)
+            }
+        }
         
         if canMultiSelect {
             selectedItemsIndex.insert(indexPath.row)
         } else {
-            selectedItemsIndex = IndexSet(integer: indexPath.row)
+            if selectedItemsIndex.contains(indexPath.row) {
+                selectedItemsIndex.remove(indexPath.row)
+                tableView.deselectRow(at: indexPath, animated: false)
+            } else {
+                selectedItemsIndex = IndexSet(integer: indexPath.row)
+            }
         }
         
         isSelectionChangeFromUserInteraction = false
@@ -942,21 +1175,23 @@ public class popoverSelectableTableViewController : UITableViewController {
     public override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         print("Did deselect row")
         
+        if hasMultipleSections == true && canMultiSelect == true { isSelectionChangeFromUserInteraction = true }
+
         let row = indexPath.row
         
         if selectedItemsIndex.contains(row) {
             selectedItemsIndex.remove(row)
-            print("Contains element: Removing")
+            print("Contains element: Removing:\(row)")
         }
+        
+        isSelectionChangeFromUserInteraction = false
     }
 }
 
 // MARK - PopoverTableView delegate
-
 @objc protocol PopoverTableViewDelegate: class {
     
-    @objc optional func popOverTableDidCancel(_ tableView: popoverSelectableTableViewController)
-    
-    // Use the sourceItems & selected options from the popOverTable to get selected values
-    func popOverTableDidDismiss(_ tableView: popoverSelectableTableViewController)
+    @objc optional func popOverTableDidCancel(_ tableView: PopoverSelectableTableViewController)
+
+    func popOverTableSelectionChanged(_ tableView: PopoverSelectableTableViewController, newValues: IndexSet)
 }
