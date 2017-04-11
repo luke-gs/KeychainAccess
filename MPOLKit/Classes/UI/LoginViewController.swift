@@ -54,7 +54,6 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     }()
     
     
-    /// The username field.
     open private(set) lazy var usernameField: UITextField = { [unowned self] in
         let usernameField = self.newTextField(forPassword: false)
         usernameField.returnKeyType      = .next
@@ -75,7 +74,6 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     }()
     
     
-    /// The password field.
     open private(set) lazy var passwordField: UITextField = { [unowned self] in
         let passwordField = self.newTextField(forPassword: true)
         passwordField.delegate = self
@@ -91,7 +89,6 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     
     /// The login button.
     ///
-    /// This is only availale after the view is loaded.
     /// To default background image for this button is a template image and will adapt to the standard tintColor.
     open private(set) lazy var loginButton: UIButton = { [unowned self] in
         let buttonBackground = UIImage.resizableRoundedImage(cornerRadius: 6.0, borderWidth: 0.0, borderColor: nil, fillColor: .white)
@@ -250,9 +247,6 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     // MARK: - View lifecycle
     
     open override func loadView() {
-        
-        
-        
         let backgroundView = UIImageView(image: backgroundImage)
         backgroundView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         backgroundView.contentMode = .scaleAspectFill
@@ -320,7 +314,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         
         let separatorHeightConstraint = NSLayoutConstraint(item: usernameSeparator, attribute: .height, relatedBy: .equal, toConstant: 1.0 / traitCollection.currentDisplayScale)
         
-        NSLayoutConstraint.activate([
+        var constraints = [
             NSLayoutConstraint(item: contentGuide, attribute: .width, relatedBy: .equal, toItem: backgroundView, attribute: .width),
             preferredLayoutGuideBottomConstraint,
             
@@ -342,7 +336,11 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
             
             NSLayoutConstraint(item: loginButton, attribute: .width,  relatedBy: .greaterThanOrEqual, toConstant: 160.0),
             NSLayoutConstraint(item: loginButton, attribute: .height, relatedBy: .greaterThanOrEqual, toConstant: 48.0),
-        ] + NSLayoutConstraint.constraints(withVisualFormat: "V:|[ul]-4-[uf]-11-[us]-18-[pl]-4-[pf]-11-[ps(==us)]|", options: [.alignAllLeading, .alignAllTrailing], metrics: nil, views: ["ul": usernameLabel, "uf": usernameField, "us": usernameSeparator, "pl": passwordLabel, "pf": passwordField, "ps": passwordSeparator]))
+        ]
+        
+        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[ul]-4-[uf]-11-[us]-18-[pl]-4-[pf]-11-[ps(==us)]|", options: [.alignAllLeading, .alignAllTrailing], metrics: nil, views: ["ul": usernameLabel, "uf": usernameField, "us": usernameSeparator, "pl": passwordLabel, "pf": passwordField, "ps": passwordSeparator])
+        
+        NSLayoutConstraint.activate(constraints)
         
         self.preferredLayoutGuideBottomConstraint = preferredLayoutGuideBottomConstraint
         self.separatorHeightConstraint            = separatorHeightConstraint
@@ -374,7 +372,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: - Text field delegate
     
-    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    open func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if isUsernameFieldLoaded && textField == usernameField {
             passwordField.becomeFirstResponder()
         } else if isPasswordFieldLoaded && textField == passwordField {
@@ -386,6 +384,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         }
         return false
     }
+    
     
     // MARK: - Overrides
     
