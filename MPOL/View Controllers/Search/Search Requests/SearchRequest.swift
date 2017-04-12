@@ -9,45 +9,60 @@
 import UIKit
 
 
-protocol SearchRequest: class, NSCoding {
+class SearchRequest: NSObject, NSCoding {
     
-    static var localizedDisplayName: String { get }
+    class var localizedDisplayName: String {
+        return NSLocalizedString("Any Entity", comment: "")
+    }
     
+    var searchText: String?
     
-    var searchText: String? { get set }
+    weak var delegate: SearchRequestDelegate?
     
-    weak var delegate: SearchRequestDelegate? { get set }
+    required override init() {
+        super.init()
+    }
     
+    required init?(coder aDecoder: NSCoder) {
+        super.init()
+        // TODO
+    }
     
-    /// Initialises a new search request, copying common elements from the other search request.
-    ///
-    /// - Parameter searchRequest: The other search request to copy elements from, or nil
-    init(searchRequest: SearchRequest?)
-    
+    func encode(with aCoder: NSCoder) {
+        // TODO
+    }
     
     
     // MARK: - Filters
     
-    var numberOfFilters: Int { get }
+    var numberOfFilters: Int {
+        return 0
+    }
     
     /// The title for the filter.
     ///
     /// - Parameter index: The filter index.
     /// - Returns:         The title for the filter.
-    func titleForFilter(at index: Int) -> String
+    func titleForFilter(at index: Int) -> String {
+        return ""
+    }
     
     /// The value specified for the filter, if any.
     ///
     /// - Parameter index: The filter index.
     /// - Returns:         The value for the filter, if any.
     ///                    Returns `nil` when there is no specific value for the filter.
-    func valueForFilter(at index: Int) -> String?
+    func valueForFilter(at index: Int) -> String? {
+        return nil
+    }
     
     /// The default value for the filter when there is no specific value.
     ///
     /// - Parameter index: The filter index.
     /// - Returns:         The default value for the filter.
-    func defaultValueForFilter(at index: Int) -> String
+    func defaultValueForFilter(at index: Int) -> String {
+        return NSLocalizedString("Any", comment: "")
+    }
     
     
     /// The update controller for updating the values in this filter.
@@ -56,14 +71,8 @@ protocol SearchRequest: class, NSCoding {
     /// - Returns:         The view controller for updating this value.
     ///                    When a standard `UIViewController` is returned, it is expected it will be contained
     ///                    in a `UINavigationController`.
-    func updateController(forFilterAt index: Int) -> UIViewController?
-    
-}
-
-extension SearchRequest {
-    
-    func defaultValueForFilter(at index: Int) -> String {
-        return NSLocalizedString("Any", comment: "")
+    func updateController(forFilterAt index: Int) -> UIViewController? {
+        return nil
     }
     
 }

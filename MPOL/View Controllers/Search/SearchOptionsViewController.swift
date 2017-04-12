@@ -15,8 +15,16 @@ class SearchOptionsViewController: FormCollectionViewController, SearchCollectio
     
     let availableSearchTypes: [SearchRequest.Type]
     
+    private var cachedSearchRequests: [SearchRequest]
+    
     var searchRequest: SearchRequest {
         didSet {
+            if searchRequest == oldValue { return }
+            
+            if cachedSearchRequests.contains(searchRequest) == false {
+                // TODO: replace the internal one, and update *all* search requests with the new text.
+            }
+            
             if isViewLoaded {
                 reloadCollectionViewRetainingEditing()
             }
@@ -37,13 +45,14 @@ class SearchOptionsViewController: FormCollectionViewController, SearchCollectio
     // MARK: - Initializers
     
     public init(availableSearchTypes: [SearchRequest.Type] = [PersonSearchRequest.self, VehicleSearchRequest.self, OrganizationSearchRequest.self, LocationSearchRequest.self]) {
-        guard let firstType = availableSearchTypes.first else {
+        cachedSearchRequests = availableSearchTypes.map { $0.init() } // Init required explicitly because we're doing a dynamic metatype fetch.
+        
+        guard let firstRequest = cachedSearchRequests.first else {
             fatalError("SearchOptionsViewController requires at least one available search type")
         }
         
         self.availableSearchTypes   = availableSearchTypes
-        self.searchRequest          = firstType.init(searchRequest: nil) // Init required explicitly because we're doing a dynamic metatype fetch.
-        // TODO: self.searchRequest.delegate = self
+        self.searchRequest          = firstRequest
         
         super.init()
     }
@@ -384,9 +393,10 @@ class SearchOptionsViewController: FormCollectionViewController, SearchCollectio
     }
     
     public func searchCollectionViewCell(_ cell: SearchFieldCollectionViewCell, didSelectSegmentAt index: Int) {
-        let selectedType = availableSearchTypes[index]
-        if selectedType != type(of: searchRequest) {
-            searchRequest = selectedType.init(searchRequest: searchRequest)
+        let selectedRequest = cachedSearchRequests[index]
+        
+        if selectedRequest != searchRequest {
+            searchRequest = selectedRequest
         }
     }
     
@@ -474,10 +484,7 @@ class SearchOptionsViewController: FormCollectionViewController, SearchCollectio
         let index = segmentedControl.selectedSegmentIndex
         if index == UISegmentedControlNoSegment { return }
         
-        let type = availableSearchTypes[index]
-        if type == type(of: searchRequest) { return }
-        
-        searchRequest = type.init(searchRequest: searchRequest)
+        searchRequest = cachedSearchRequests[index]
     }
     
 }

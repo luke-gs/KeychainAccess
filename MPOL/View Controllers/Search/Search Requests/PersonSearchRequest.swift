@@ -8,36 +8,30 @@
 
 import UIKit
 
-class PersonSearchRequest: NSObject, SearchRequest, NSCoding {
+class PersonSearchRequest: SearchRequest {
 
-    static var localizedDisplayName: String {
+    override class var localizedDisplayName: String {
         return NSLocalizedString("Person", comment: "")
     }
     
+    // MARK: - Initializers
     
-    var searchText: String?
-    
-    weak var delegate: SearchRequestDelegate?
-    
-    
-    /// Initialises a new search request, copying common elements from the other search request.
-    ///
-    /// - Parameter searchRequest: The other search request to copy elements from, or nil
-    required init(searchRequest: SearchRequest?) {
-        searchText = searchRequest?.searchText
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
+    required init() {
         super.init()
     }
     
-    func encode(with aCoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    override func encode(with aCoder: NSCoder) {
+        super.encode(with: aCoder)
     }
     
     
     // MARK: - Filters
     
-    var numberOfFilters: Int {
+    override var numberOfFilters: Int {
         return FilterItem.count
     }
     
@@ -45,7 +39,7 @@ class PersonSearchRequest: NSObject, SearchRequest, NSCoding {
     ///
     /// - Parameter index: The filter index.
     /// - Returns:         The title for the filter.
-    func titleForFilter(at index: Int) -> String {
+    override func titleForFilter(at index: Int) -> String {
         return FilterItem(rawValue: index)?.title ?? "-"
     }
     
@@ -54,7 +48,7 @@ class PersonSearchRequest: NSObject, SearchRequest, NSCoding {
     /// - Parameter index: The filter index.
     /// - Returns:         The value for the filter, if any.
     ///                    Returns `nil` when there is no specific value for the filter.
-    func valueForFilter(at index: Int) -> String? {
+    override func valueForFilter(at index: Int) -> String? {
         return nil
     }
     
@@ -65,7 +59,7 @@ class PersonSearchRequest: NSObject, SearchRequest, NSCoding {
     /// - Returns:         The view controller for updating this value.
     ///                    When a standard `UIViewController` is returned, it is expected it will be contained
     ///                    in a `UINavigationController`.
-    func updateController(forFilterAt index: Int) -> UIViewController? {
+    override func updateController(forFilterAt index: Int) -> UIViewController? {
         return nil
     }
     
