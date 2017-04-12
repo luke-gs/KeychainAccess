@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
 s.name             = 'MPOLKit'
 s.version          = '0.1.0'
-s.summary          = 'MPOLKit is to be used for all projects that require the MPOL framework. Also includs FormKit'
+s.summary          = 'MPOLKit is to be used for all projects that require the MPOL framework.'
 
 s.description      = <<-DESC
 TODO: Add long description of the pod here.
@@ -26,15 +26,11 @@ s.default_subspec = "Core"
 
 s.subspec "Core" do |core|
 core.source_files = 'MPOLKit/Classes/**/*'
-s.resources = ['MPOLKit/Assets/MPOL/**/*', 'MPOLKit/Assets/FormKit/*']
-end
-
-s.subspec 'FormKit' do |formkit|
-formkit.source_files = 'MPOLKit/Classes/FormKit/**/*'
-formkit.resources = 'MPOLKit/Assets/FormKit/*'
+s.resources = ['MPOLKit/Assets/MPOL/**/*', 'MPOLKit/Assets/Forms/*']
 end
 
 # s.public_header_files = 'Pod/Classes/**/*.h'
 # s.frameworks = 'UIKit', 'MapKit'
-# s.dependency 'AFNetworking', '~> 2.3'
+# s.dependency
+
 end

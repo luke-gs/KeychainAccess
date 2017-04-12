@@ -1,6 +1,6 @@
 //
 //  OrganizationInfoViewController.swift
-//  Pods
+//  MPOLKit
 //
 //  Created by Rod Brown on 27/3/17.
 //

@@ -1,6 +1,6 @@
 //
 //  CircleIconView.swift
-//  Pods
+//  MPOLKit
 //
 //  Created by Rod Brown on 22/3/17.
 //

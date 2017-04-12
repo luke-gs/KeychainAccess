@@ -1,6 +1,6 @@
 //
 //  CollectionViewFormProgressCell.swift
-//  Pods
+//  MPOLKit
 //
 //  Created by Rod Brown on 26/3/17.
 //
