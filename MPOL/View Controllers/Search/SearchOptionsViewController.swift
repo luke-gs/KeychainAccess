@@ -11,7 +11,7 @@ import MPOLKit
 
 fileprivate var kvoContext = 1
 
-open class SearchOptionsViewController: FormCollectionViewController, SearchCollectionViewCellDelegate, PopoverTableViewDelegate {
+open class SearchOptionsViewController: FormCollectionViewController, SearchCollectionViewCellDelegate, PopoverTableViewDelegate, NumberRangePickerDelegate {
     
     enum SearchSegments: Int {
         case person = 0, vehicle, organisation, location
@@ -211,8 +211,23 @@ open class SearchOptionsViewController: FormCollectionViewController, SearchColl
                     
                     if index == PersonSearchType.PersonFilterType.age.rawValue {
                         
-                        let pickerView = SearchNumberRangePickerViewController(min: 0, max: 100)
+                        var minValue = 0
+                        var maxValue = 0
+                        
+                        let indexes = personFilter.filterSelectedOptions(atIndex: index)
+                        
+                        if let min = indexes.min() {
+                            minValue = min
+                        }
+                        
+                        if let max = indexes.max() {
+                            maxValue = max
+                        }
+                        
+                        let pickerView = SearchNumberRangePickerViewController(min: 0, max: 120, currentMin: minValue, currentMax:maxValue)
                         pickerView.title = personFilter.filterTitle(atIndex: index)
+                        pickerView.numberRangePickerDelegate = self
+                        pickerView.linkedSegmentAndIndex = IndexPath(item:index, section:segmentIndex)
                         
                         let popover = PopoverNavigationController(rootViewController: pickerView)
                         popover.modalPresentationStyle = .popover
@@ -416,7 +431,7 @@ open class SearchOptionsViewController: FormCollectionViewController, SearchColl
     }
     
     // MARK - PopoverTableView Delegate
-    func popOverTableSelectionChanged(_ tableView: PopoverSelectableTableViewController, newValues: IndexSet) {
+    func popoverTableSelectionChanged(_ tableView: PopoverSelectableTableViewController, newValues: IndexSet) {
         print("Value changed")
         
         if newValues.count > 0 {
@@ -486,6 +501,32 @@ open class SearchOptionsViewController: FormCollectionViewController, SearchColl
                 break
             default:
                 
+                break
+            }
+        }
+    }
+    
+    // MARK - NumberPicker Delegate
+    
+    func numberRangePickerValueChanged(_ numberPicker: SearchNumberRangePickerViewController, newMinValue: Int, newMaxValue: Int) {
+        print("ValueChanged Min:\(newMinValue) Max:\(newMaxValue)")
+        
+        if let segmentAndIndex = numberPicker.linkedSegmentAndIndex {
+            switch segmentAndIndex.section {
+            case SearchSegments.person.rawValue:
+                if let personFilter = searchSources[segmentIndex] as? PersonSearchType {
+                    switch segmentAndIndex.item {
+                    case PersonSearchType.PersonFilterType.age.rawValue:
+                        if personFilter.set(value: Range(uncheckedBounds: (newMinValue, newMaxValue)), atIndex: segmentAndIndex.item) == true {
+                            collectionView?.reloadData()
+                        }
+                        break
+                    default:
+                        break
+                    }
+                }
+                break
+            default:
                 break
             }
         }
@@ -596,7 +637,7 @@ public class PersonSearchType: SearchType {
             }
             break
         case PersonFilterType.age.rawValue:
-            if ageValue.isEmpty == true {
+            if ageValue.lowerBound == 0 && ageValue.upperBound == 0 {
                 valueText = filterDefaultText(atIndex: atIndex)
             } else {
                 valueText = "\(ageValue.lowerBound) - \(ageValue.upperBound)"
@@ -630,7 +671,10 @@ public class PersonSearchType: SearchType {
             }
             break
         case PersonFilterType.age.rawValue:
-            
+            if let newRange = value as? Range<Int> {
+                ageValue = newRange
+                return true
+            }
             break
         default:
             break
@@ -668,7 +712,7 @@ public class PersonSearchType: SearchType {
         case PersonFilterType.gender.rawValue:
             return ["Male", "Female", "Other"]
         case PersonFilterType.age.rawValue:
-            return  [] //[0...100]
+            return  nil
         default:
             break
         }
@@ -704,8 +748,12 @@ public class PersonSearchType: SearchType {
                     }
                 }
                 break
-            case PersonFilterType.age.rawValue:
+            case PersonFilterType.age.rawValue: // Assuming 0 is minumum
+                let minValue = ageValue.lowerBound
+                let maxValue = ageValue.upperBound
                 
+                selectedIndexes.insert(minValue)
+                selectedIndexes.insert(maxValue)
                 break
             default:
                 break
@@ -999,7 +1047,7 @@ public class PopoverSelectableTableViewController : UITableViewController {
         didSet {
             if selectedItemsIndex == oldValue || isViewLoaded == false || isSelectionChangeFromUserInteraction {
                 if popoverTableViewDelegate != nil && isSelectionChangeFromUserInteraction {
-                    popoverTableViewDelegate?.popOverTableSelectionChanged(self, newValues: selectedItemsIndex)
+                    popoverTableViewDelegate?.popoverTableSelectionChanged(self, newValues: selectedItemsIndex)
                 }
                 
                 if selectedItemsIndex.count == 0 && hasMultipleSections == true {
@@ -1212,7 +1260,7 @@ public class PopoverSelectableTableViewController : UITableViewController {
 // MARK - PopoverTableView delegate
 @objc protocol PopoverTableViewDelegate: class {
     
-    @objc optional func popOverTableDidCancel(_ tableView: PopoverSelectableTableViewController)
+    @objc optional func popoverTableDidCancel(_ tableView: PopoverSelectableTableViewController)
 
-    func popOverTableSelectionChanged(_ tableView: PopoverSelectableTableViewController, newValues: IndexSet)
+    func popoverTableSelectionChanged(_ tableView: PopoverSelectableTableViewController, newValues: IndexSet)
 }
