@@ -30,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
         window.tintColor = theme.colors[.Tint]
         self.window = window
         
-        updateInterface(forLogin: false, animated: false)
+        updateInterface(forLogin: true, animated: false)
         
         window.makeKeyAndVisible()
         
@@ -104,7 +104,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
     // MARK: - Login view controller delegate
     
     func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String) {
-        self.updateInterface(forLogin: false, animated: true)
+        controller.view.endEditing(true)
+        //self.updateInterface(forLogin: false, animated: true)
     }
     
 }

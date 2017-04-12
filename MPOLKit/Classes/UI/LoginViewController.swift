@@ -32,7 +32,11 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     /// and will be positioned by AutoLayout.
     open var headerView: UIView? {
         didSet {
-            guard headerView != oldValue, let contentStackView = self.contentStackView else { return }
+            if headerView == oldValue { return }
+            
+            headerView?.alpha = isHeaderViewHidden ? 0.0 : 1.0
+            
+            guard let contentStackView = self.contentStackView else { return }
             
             if oldValue?.superview == contentStackView {
                 oldValue?.removeFromSuperview()
@@ -192,20 +196,15 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     
     private var separatorHeightConstraint: NSLayoutConstraint?
     
+    private var showingHeaderConstraint: NSLayoutConstraint?
+    
+    private var hidingHeaderConstraint: NSLayoutConstraint?
+    
     private var keyboardInset: CGFloat = 0.0 {
         didSet {
-            if isViewLoaded {
-                view.setNeedsLayout()
-                
-                let hidden = keyboardInset !=~ 0.0
-                headerView?.isHidden = hidden
-                
-                let scrollView = self.scrollView!
-                scrollView.contentInset.bottom = keyboardInset
-                scrollView.scrollIndicatorInsets.bottom = keyboardInset
-                
-                scrollView.alwaysBounceVertical = hidden
-            }
+            if keyboardInset ==~ oldValue { return }
+            
+            viewIfLoaded?.setNeedsLayout()
         }
     }
     
@@ -214,6 +213,15 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     private var isPasswordFieldLoaded: Bool = false
     
     private var isLoginButtonLoaded: Bool = false
+    
+    private var isHeaderViewHidden: Bool = false {
+        didSet {
+            if isHeaderViewHidden == oldValue { return }
+            
+            headerView?.alpha = isHeaderViewHidden ? 0.0 : 1.0
+            showingHeaderConstraint?.isActive = isHeaderViewHidden == false
+        }
+    }
     
     
     
@@ -304,6 +312,9 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         contentStackView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
         scrollView.addSubview(contentStackView)
         
+        let stackAlignmentGuide = UILayoutGuide()
+        scrollView.addLayoutGuide(stackAlignmentGuide)
+        
         self.backgroundView   = backgroundView
         self.scrollView       = scrollView
         self.contentStackView = contentStackView
@@ -313,6 +324,8 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         let preferredLayoutGuideBottomConstraint = NSLayoutConstraint(item: contentGuide, attribute: .height, relatedBy: .greaterThanOrEqual, toItem: backgroundView, attribute: .height, priority: UILayoutPriorityRequired - 1)
         
         let separatorHeightConstraint = NSLayoutConstraint(item: usernameSeparator, attribute: .height, relatedBy: .equal, toConstant: 1.0 / traitCollection.currentDisplayScale)
+        
+        let showingHeaderConstraint = NSLayoutConstraint(item: stackAlignmentGuide, attribute: .top, relatedBy: .equal, toItem: contentStackView, attribute: .top)
         
         var constraints = [
             NSLayoutConstraint(item: contentGuide, attribute: .width, relatedBy: .equal, toItem: backgroundView, attribute: .width),
@@ -327,10 +340,15 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
             NSLayoutConstraint(item: usernameLabel, attribute: .width,   relatedBy: .equal, toItem: credentialsView, attribute: .width),
             NSLayoutConstraint(item: usernameLabel, attribute: .leading, relatedBy: .equal, toItem: credentialsView, attribute: .leading),
             
-            NSLayoutConstraint(item: contentStackView, attribute: .centerX, relatedBy: .equal, toItem: contentGuide, attribute: .centerX),
-            NSLayoutConstraint(item: contentStackView, attribute: .centerY, relatedBy: .equal, toItem: contentGuide, attribute: .centerY),
-            NSLayoutConstraint(item: contentStackView, attribute: .bottom,  relatedBy: .lessThanOrEqual, toItem: contentGuide, attribute: .bottom, constant: -20.0),
-            NSLayoutConstraint(item: contentStackView, attribute: .width,   relatedBy: .lessThanOrEqual, toItem: contentGuide, attribute: .width, constant: -20.0),
+            NSLayoutConstraint(item: stackAlignmentGuide, attribute: .centerX, relatedBy: .equal, toItem: contentGuide, attribute: .centerX),
+            NSLayoutConstraint(item: stackAlignmentGuide, attribute: .centerY, relatedBy: .equal, toItem: contentGuide, attribute: .centerY),
+            NSLayoutConstraint(item: stackAlignmentGuide, attribute: .bottom,  relatedBy: .lessThanOrEqual, toItem: contentGuide, attribute: .bottom, constant: -20.0),
+            NSLayoutConstraint(item: stackAlignmentGuide, attribute: .width,   relatedBy: .lessThanOrEqual, toItem: contentGuide, attribute: .width, constant: -20.0),
+            
+            NSLayoutConstraint(item: stackAlignmentGuide, attribute: .leading, relatedBy: .equal, toItem: contentStackView, attribute: .leading),
+            NSLayoutConstraint(item: stackAlignmentGuide, attribute: .trailing, relatedBy: .equal, toItem: contentStackView, attribute: .trailing),
+            NSLayoutConstraint(item: stackAlignmentGuide, attribute: .bottom,  relatedBy: .equal, toItem: contentStackView, attribute: .bottom),
+            NSLayoutConstraint(item: stackAlignmentGuide, attribute: .top, relatedBy: .equal, toItem: credentialsView, attribute: .top, priority: UILayoutPriorityDefaultLow),
             
             separatorHeightConstraint,
             
@@ -340,10 +358,15 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         
         constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[ul]-4-[uf]-11-[us]-18-[pl]-4-[pf]-11-[ps(==us)]|", options: [.alignAllLeading, .alignAllTrailing], metrics: nil, views: ["ul": usernameLabel, "uf": usernameField, "us": usernameSeparator, "pl": passwordLabel, "pf": passwordField, "ps": passwordSeparator])
         
+        if isHeaderViewHidden == false {
+            constraints.append(showingHeaderConstraint)
+        }
+        
         NSLayoutConstraint.activate(constraints)
         
         self.preferredLayoutGuideBottomConstraint = preferredLayoutGuideBottomConstraint
         self.separatorHeightConstraint            = separatorHeightConstraint
+        self.showingHeaderConstraint              = showingHeaderConstraint
     }
     
     open override func viewDidLoad() {
@@ -359,8 +382,21 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         let bottomLayoutInset = max(bottomLayoutGuide.length, keyboardInset, 20.0)
         
         preferredLayoutGuideBottomConstraint?.constant = (bottomLayoutInset + topLayoutInset) * -1.0
-        scrollView?.contentInset = UIEdgeInsets(top: topLayoutInset, left: 0.0, bottom: bottomLayoutInset, right: 0.0)
+        
+        let insets = UIEdgeInsets(top: topLayoutInset, left: 0.0, bottom: bottomLayoutInset, right: 0.0)
+        scrollView?.contentInset = insets
+        scrollView?.scrollIndicatorInsets = insets
+        
         super.viewWillLayoutSubviews()
+    }
+    
+    open override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        let topLayoutInset    = topLayoutGuide.length
+        let bottomLayoutInset = max(bottomLayoutGuide.length, keyboardInset, 20.0)
+        
+        isHeaderViewHidden = keyboardInset >~ 0.0 && (view.frame.height - topLayoutInset - bottomLayoutInset < (contentStackView?.frame.height ?? 0.0))
     }
     
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -485,48 +521,6 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
 public protocol LoginViewControllerDelegate: class {
     
     func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String)
-    
-}
-
-
-
-// MARK: - Keyboard animation conveniences
-
-private struct KeyboardAnimationDetails {
-    var startFrame: CGRect
-    var endFrame: CGRect
-    var duration: TimeInterval
-    var curve: UIViewAnimationOptions
-}
-
-private extension Notification {
-    
-    /// Returns the keyboard animation details from the notification, if it is a keyboard update notification.
-    func keyboardAnimationDetails() -> KeyboardAnimationDetails? {
-        guard let userInfo = self.userInfo,
-              let startFrame = userInfo[UIKeyboardFrameBeginUserInfoKey] as? CGRect,
-              let endframe   = userInfo[UIKeyboardFrameEndUserInfoKey] as? CGRect,
-              let duration   = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? TimeInterval else { return nil }
-        
-        let animationCurve: UIViewAnimationOptions
-        if let curveInt = userInfo[UIKeyboardAnimationCurveUserInfoKey] as? Int,
-            let curve = UIViewAnimationCurve(rawValue: curveInt) {
-            animationCurve = curve.animationOption
-        } else {
-            animationCurve = .curveEaseInOut
-        }
-        
-        return KeyboardAnimationDetails(startFrame: startFrame, endFrame: endframe, duration: duration, curve: animationCurve)
-    }
-    
-}
-
-
-private extension UIViewAnimationCurve {
-    
-    var animationOption: UIViewAnimationOptions {
-        return UIViewAnimationOptions(rawValue: UInt(self.rawValue << 16))
-    }
     
 }
 
