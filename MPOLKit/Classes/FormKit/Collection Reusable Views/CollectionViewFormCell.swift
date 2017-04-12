@@ -1,6 +1,6 @@
 //
 //  CollectionViewFormCell.swift
-//  MPOLKit/FormKit
+//  MPOLKit
 //
 //  Created by Rod Brown on 4/05/2016.
 //  Copyright © 2016 Gridstone. All rights reserved.
@@ -55,6 +55,14 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
             if separatorStyle != oldValue {
                 setNeedsLayout()
             }
+        }
+    }
+    
+    open var customSeparatorInsets: UIEdgeInsets? {
+        didSet {
+            if customSeparatorInsets == oldValue { return }
+            
+            setNeedsLayout()
         }
     }
     
@@ -135,7 +143,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     // MARK: - Public properties
     
     /// The edit actions for the cell.
-    /// 
+    ///
     /// Setting this property will close edit actions if there are no more edit actions.
     open var editActions: [CollectionViewFormEditAction] {
         get {
@@ -146,7 +154,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
             cachedEditAccessiblityActions = nil
         }
     }
-
+    
     
     /// The editing display state of the cell.
     ///
@@ -280,7 +288,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
             NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .leading,  relatedBy: .equal, toItem: contentView, attribute: .leadingMargin),
             contentModeLayoutTrailingConstraint,
             contentModeLayoutVerticalConstraint
-        ])
+            ])
         
         applyStandardFonts()
         
@@ -422,27 +430,22 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         super.layoutSubviews()
         let bounds = self.bounds
         
-        let separatorHeight = 1.0 / traitCollection.currentDisplayScale + (isSelected && selectionStyle == .underline ? 1.0 : 0.0)
-        var separatorFrame = CGRect(x: 0.0, y: bounds.height - separatorHeight, width: bounds.width, height: separatorHeight)
-        
-        if separatorStyle != .fullWidth && (separatorStyle != .indentedAtRowLeading || isFirstInRow) {
+        let separatorInset: UIEdgeInsets
+        if let customSeparatorInsets = self.customSeparatorInsets {
+            separatorInset = customSeparatorInsets
+        } else if separatorStyle != .fullWidth && (separatorStyle != .indentedAtRowLeading || isFirstInRow) {
             let layoutMargins = self.layoutMargins
             if isRightToLeft {
-                separatorFrame.size.width -= layoutMargins.right
-                if isAtTrailingEdge == false {
-                    separatorFrame.size.width -= layoutMargins.left
-                    separatorFrame.origin.x   += layoutMargins.left
-                }
+                separatorInset = UIEdgeInsets(top: 0.0, left: isAtTrailingEdge ? 0.0 : layoutMargins.left, bottom: 0.0, right: layoutMargins.right)
             } else {
-                separatorFrame.size.width -= layoutMargins.left
-                separatorFrame.origin.x   += layoutMargins.left
-                
-                if isAtTrailingEdge == false {
-                    separatorFrame.size.width -= layoutMargins.right
-                }
+                separatorInset = UIEdgeInsets(top: 0.0, left: layoutMargins.left, bottom: 0.0, right: isAtTrailingEdge ? 0.0 : layoutMargins.right)
             }
+        } else {
+            separatorInset = .zero
         }
-        separatorView.frame = separatorFrame
+        
+        let separatorHeight = 1.0 / traitCollection.currentDisplayScale + (isSelected && selectionStyle == .underline ? 1.0 : 0.0)
+        separatorView.frame = CGRect(x: separatorInset.left, y: bounds.height - separatorHeight, width: bounds.width - separatorInset.left - separatorInset.right, height: separatorHeight)
         separatorView.isHidden = separatorStyle == .none
         
         if let accessoryView = self.accessoryView {
