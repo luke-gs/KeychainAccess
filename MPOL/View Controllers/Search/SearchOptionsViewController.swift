@@ -11,46 +11,51 @@ import MPOLKit
 
 fileprivate var kvoContext = 1
 
-open class SearchOptionsViewController: FormCollectionViewController, SearchCollectionViewCellDelegate, PopoverTableViewDelegate {
+class SearchOptionsViewController: FormCollectionViewController, SearchCollectionViewCellDelegate, PopoverTableViewDelegate {
     
-    enum SearchSegments: Int {
-        case person = 0, vehicle, organisation, location
-    }
+    let availableSearchTypes: [SearchRequest.Type]
     
-    var searchSources : [SearchType] = []
-    var isFiltersHidden : Bool = true
-    
-    var segmentIndex = 0
-    
-    public init(items : [SearchType]? = nil) {
-        
-        super.init()
-        
-        if let sourceArray = items {
-            searchSources = sourceArray
-        } else {
-            // For testing
-            setupDefaultFilters()
+    var searchRequest: SearchRequest {
+        didSet {
+            if isViewLoaded {
+                reloadCollectionViewRetainingEditing()
+            }
         }
     }
     
-    public override init() {
-        super.init()
-        
-        setupDefaultFilters()
+    private(set) var areFiltersHidden: Bool = true {
+        didSet {
+            if areFiltersHidden == oldValue { return }
+            
+            if isViewLoaded {
+                reloadCollectionViewRetainingEditing()
+            }
+        }
     }
     
-    private func setupDefaultFilters() {
-        searchSources = [PersonSearchType(), VehicleSearchType(), OrganizationSearchType(), LocationSearchType()]
+    
+    // MARK: - Initializers
+    
+    public init(availableSearchTypes: [SearchRequest.Type] = [PersonSearchRequest.self]) {
+        guard let firstType = availableSearchTypes.first else {
+            fatalError("SearchOptionsViewController requires at least one available search type")
+        }
+        
+        self.availableSearchTypes   = availableSearchTypes
+        self.searchRequest          = firstType.init(searchRequest: nil) // Init required explicitly because we're doing a dynamic metatype fetch.
+        // TODO: self.searchRequest.delegate = self
+        
+        super.init()
+    }
+    
+    public required convenience init(coder aDecoder: NSCoder) {
+        self.init()
     }
     
     deinit {
         collectionView?.removeObserver(self, forKeyPath: #keyPath(UICollectionView.contentSize), context: &kvoContext)
     }
     
-    public required convenience init(coder aDecoder: NSCoder) {
-        self.init()
-    }
     
     // MARK - View Lifecycle
     
@@ -60,42 +65,52 @@ open class SearchOptionsViewController: FormCollectionViewController, SearchColl
         guard let collectionView = self.collectionView else { return }
         
         collectionView.register(SearchCollectionViewCell.self)
-        collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
-        collectionView.register(CollectionViewGlobalFooterView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter)
         collectionView.register(CollectionViewFormSubtitleCell.self)
+        collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         collectionView.alwaysBounceVertical = false
         
         collectionView.addObserver(self, forKeyPath: #keyPath(UICollectionView.contentSize), context: &kvoContext)
-    }
-    
-    open override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        if let searchCell = collectionView?.cellForItem(at: IndexPath(item: 0, section: 0)) as? SearchCollectionViewCell {
-            searchCell.searchTextField.becomeFirstResponder()
-        }
+        preferredContentSize = collectionView.contentSize
     }
     
     open override func viewWillDisappear(_ animated: Bool) {
-        collectionView?.endEditing(true)
+        endEditingSearchField()
         super.viewWillDisappear(animated)
     }
+    
+    private func reloadCollectionViewRetainingEditing() {
+        let wasSearchFieldActive = self.searchFieldCell?.searchTextField.isFirstResponder ?? false
+        
+        collectionView?.reloadData()
+        
+        if wasSearchFieldActive {
+            beginEditingSearchField()
+        }
+    }
+    
     
     // MARK: - Editing
     
     func beginEditingSearchField() {
-        if let searchCell = collectionView?.cellForItem(at: IndexPath(item: 0, section: 0)) as? SearchCollectionViewCell {
-            searchCell.searchTextField.becomeFirstResponder()
-        }
+        searchFieldCell?.becomeFirstResponder()
     }
+    
+    func endEditingSearchField() {
+        searchFieldCell?.resignFirstResponder()
+    }
+    
+    private var searchFieldCell: SearchCollectionViewCell? {
+        collectionView?.layoutIfNeeded()
+        return collectionView?.cellForItem(at: IndexPath(item: 1, section: 0)) as? SearchCollectionViewCell
+    }
+    
     
     // MARK: - KVO
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {
-            if object is UICollectionView {
-                if let contentSize = self.collectionView?.contentSize {
-                    self.preferredContentSize = contentSize
-                }
+            if let collectionView = object as? UICollectionView, collectionView == self.collectionView {
+                preferredContentSize = collectionView.contentSize
             }
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
@@ -103,372 +118,351 @@ open class SearchOptionsViewController: FormCollectionViewController, SearchColl
     }
     
     
-    // MARK: - CollectionView Methods
-    
-    // Default global footer
-    class CollectionViewGlobalFooterView: UICollectionReusableView, DefaultReusable {
-        public static let minimumHeight: CGFloat = 20.0
-    }
+    // MARK: - UICollectionViewDataSource methods
     
     open func numberOfSections(in collectionView: UICollectionView) -> Int {
-        
-        if segmentIndex == SearchSegments.location.rawValue {
-            return 1
-        }
-        
-        return isFiltersHidden == true ? 1 : 2
+        return searchRequest.numberOfFilters > 0 ? 2 : 1
     }
     
     open override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if section == 0 { return 1 }
-        if section == 1 {
-            
-            let source = searchSources[segmentIndex]
-
-            return source.numberOfFilters
+        // This we should force unwrap because if we get the wrong section count here,
+        // it's a fatal error anyway and we've seriously ruined our logic.
+        switch Section(rawValue: section)! {
+        case .generalDetails: return 2
+        case .filters:        return searchRequest.numberOfFilters
         }
-        
-        return 0
     }
     
     open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        
-        if kind == UICollectionElementKindSectionHeader {
+        switch kind {
+        case UICollectionElementKindSectionHeader:
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
             header.showsExpandArrow = false
-            header.tapHandler       = nil
-            header.text = "FILTER SEARCH"
+            header.text             = "FILTER SEARCH"
             return header
-        } else if kind == UICollectionElementKindSectionFooter {
-            let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewGlobalFooterView.self, for: indexPath)
+        default:
+            return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
+        }
+    }
+    
+    open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        switch Section(rawValue: indexPath.section)! {
+        case .generalDetails:
+            if indexPath.item == 0 {
+                // TODO: Segmented cell
+                
+                let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
+                cell.separatorStyle = .none
+                return cell
+            } else {
+                let cell = collectionView.dequeueReusableCell(of: SearchCollectionViewCell.self, for: indexPath)
+                cell.searchTypes = availableSearchTypes
+                cell.searchCollectionViewCellDelegate = self
+                
+                let selectedType = type(of: searchRequest)
+                cell.sourceSegmentationController.selectedSegmentIndex = availableSearchTypes.index(where: { $0 == selectedType }) ?? UISegmentedControlNoSegment
+                return cell
+            }
+        case .filters:
+            let filterCell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
+            filterCell.emphasis = .subtitle
+            filterCell.isEditableField = true
+            filterCell.subtitleLabel.numberOfLines = 1
             
-            return footer
+            let filterIndex = indexPath.item
+            let request = self.searchRequest
+            
+            filterCell.titleLabel.text     = request.titleForFilter(at: filterIndex)
+            if let value = request.valueForFilter(at: filterIndex) {
+                filterCell.subtitleLabel.text  = value
+                filterCell.subtitleLabel.alpha = 1.0
+            } else {
+                filterCell.subtitleLabel.text  = request.defaultValueForFilter(at: filterIndex)
+                filterCell.subtitleLabel.alpha = 0.3
+            }
+            
+            return filterCell
+        }
+    }
+    
+    // MARK: - CollectionView Delegates
+    
+    
+    open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        switch Section(rawValue: indexPath.section)! {
+        case .generalDetails:
+            // TODO: Handle the general details case.
+            
+            if indexPath.item == 1 {
+                beginEditingSearchField()
+            } else {
+                collectionView.deselectItem(at: indexPath, animated: false)
+            }
+        case .filters:
+            
+            // If there's no update view controller, we don't want to do anything.
+            // Quickly deselect the index path, and return out.
+            guard let updateViewController = searchRequest.updateController(forFilterAt: indexPath.item) else {
+                collectionView.deselectItem(at: indexPath, animated: false)
+                return
+            }
+            
+            // stop editing the field, if it is currently editing.
+            endEditingSearchField()
+            
+            // TODO: present the update view controller.
         }
         
-        return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
+        
+//        let index = indexPath.item
+//        
+//        if let cell = collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as? SearchCollectionViewCell {
+//            cell.searchTextField.resignFirstResponder()
+//        }
+//        
+//        if indexPath.section == 1 {
+//            switch segmentIndex {
+//            case SearchSegments.person.rawValue:
+//                if let personFilter = searchSources[segmentIndex] as? PersonSearchType {
+//                    let tableView = PopoverSelectableTableViewController(style: .plain)
+//                    tableView.sourceItems = personFilter.filterOptions(atIndex: index)
+//                    tableView.title = personFilter.filterTitle(atIndex: index)
+//                    tableView.popoverTableViewDelegate = self
+//                    tableView.linkedSegmentAndIndex = IndexPath(item:index, section:segmentIndex)
+//                    
+//                    switch index {
+//                    case PersonSearchType.PersonFilterType.searchType.rawValue:
+//                        tableView.mustHaveValue = true
+//                        tableView.selectedItemsIndex = personFilter.filterSelectedOptions(atIndex: index)
+//                        break
+//                    case PersonSearchType.PersonFilterType.state.rawValue:
+//                        tableView.defaultValue = personFilter.filterDefaultText(atIndex: index)
+//                        tableView.canMultiSelect = true
+//                        tableView.selectedItemsIndex = personFilter.filterSelectedOptions(atIndex: index)
+//                        break
+//                    case PersonSearchType.PersonFilterType.gender.rawValue:
+//                        tableView.defaultValue = personFilter.filterDefaultText(atIndex: index)
+//                        tableView.canMultiSelect = true
+//                        tableView.selectedItemsIndex = personFilter.filterSelectedOptions(atIndex: index)
+//                        break
+//                    case PersonSearchType.PersonFilterType.age.rawValue:
+//                        break
+//                    default:
+//                        break
+//                    }
+//                    
+//                    let popover = PopoverNavigationController(rootViewController: tableView)
+//                    popover.modalPresentationStyle = .popover
+//                    
+//                    if let presentationController = popover.popoverPresentationController {
+//                        
+//                        let cell = collectionView.cellForItem(at:indexPath)
+//                        
+//                        presentationController.sourceView = cell
+//                        presentationController.sourceRect = cell!.bounds
+//                        
+//                    }
+//                    
+//                    present(popover, animated: true, completion: nil)
+//                }
+//                break
+//            case SearchSegments.vehicle.rawValue:
+//                if let vehicleFilter = searchSources[segmentIndex] as? VehicleSearchType {
+//                    
+//                    let tableView = PopoverSelectableTableViewController(style: .plain)
+//                    tableView.sourceItems = vehicleFilter.filterOptions(atIndex: index)
+//                    tableView.title = vehicleFilter.filterTitle(atIndex: index)
+//                    tableView.popoverTableViewDelegate = self
+//                    tableView.linkedSegmentAndIndex = IndexPath(item:index, section:segmentIndex)
+//                    
+//                    switch index {
+//                    case VehicleSearchType.VehicleFilterType.searchType.rawValue:
+//                        tableView.mustHaveValue = true
+//                        tableView.selectedItemsIndex = vehicleFilter.filterSelectedOptions(atIndex: index)
+//                        break
+//                    case VehicleSearchType.VehicleFilterType.state.rawValue, VehicleSearchType.VehicleFilterType.make.rawValue, VehicleSearchType.VehicleFilterType.model.rawValue:
+//                        tableView.defaultValue = vehicleFilter.filterDefaultText(atIndex: index)
+//                        tableView.canMultiSelect = true
+//                        tableView.selectedItemsIndex = vehicleFilter.filterSelectedOptions(atIndex: index)
+//                        break
+//                    default:
+//                        break
+//                    }
+//                    
+//                    let popover = PopoverNavigationController(rootViewController: tableView)
+//                    popover.modalPresentationStyle = .popover
+//                    
+//                    if let presentationController = popover.popoverPresentationController {
+//                        
+//                        let cell = collectionView.cellForItem(at:indexPath)
+//                        
+//                        presentationController.sourceView = cell
+//                        presentationController.sourceRect = cell!.bounds
+//                        
+//                    }
+//                    
+//                    present(popover, animated: true, completion: nil)
+//                }
+//                break
+//            case SearchSegments.organisation.rawValue:
+//                
+//                break
+//            default:
+//                
+//                break
+//            }
+//        }
     }
+    
+    // MARK: - CollectionViewDelegate MPOLLayout Methods
+    
     
     public func collectionView(_ collectionView: UICollectionView, heightForGlobalFooterInLayout layout: CollectionViewFormLayout) -> CGFloat {
         return CollectionViewGlobalFooterView.minimumHeight
     }
     
-    open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.section == 0 && indexPath.item == 0 {
-            let cell = collectionView.dequeueReusableCell(of: SearchCollectionViewCell.self, for: indexPath)
-            
-            cell.searchSources = searchSources
-            cell.searchCollectionViewCellDelegate = self
-            cell.sourceSegmentationController.selectedSegmentIndex = segmentIndex
-            cell.separatorStyle = .none
-            
-            return cell
-        } else if indexPath.section == 1 {
-            let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
-            
-            cell.emphasis = .subtitle
-            cell.isEditableField = false
-            cell.subtitleLabel.numberOfLines = 1
-            cell.separatorStyle = .none
-            
-            let source = searchSources[segmentIndex]
-            
-            cell.titleLabel.text = source.filterTitle(atIndex: indexPath.item)
-            cell.subtitleLabel.text = source.filterValue(atIndex: indexPath.item)
-            cell.separatorStyle = .indented
-            
-            if source.filterIsEmpty(atIndex: indexPath.item) {
-                cell.subtitleLabel.alpha = 0.6
-            } else {
-                cell.subtitleLabel.alpha = 1.0
-            }
-            
-            return cell
-        }
-        
-        return super.collectionView(collectionView, cellForItemAt: indexPath)
-    }
-    
-    // MARK: - CollectionView Delegates
-    
-    open override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
-        
-    }
-    
-    
-    open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        let index = indexPath.item
-        
-        if let cell = collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as? SearchCollectionViewCell {
-            cell.searchTextField.resignFirstResponder()
-        }
-        
-        if indexPath.section == 1 {
-            switch segmentIndex {
-            case SearchSegments.person.rawValue:
-                if let personFilter = searchSources[segmentIndex] as? PersonSearchType {
-                    let tableView = PopoverSelectableTableViewController(style: .plain)
-                    tableView.sourceItems = personFilter.filterOptions(atIndex: index)
-                    tableView.title = personFilter.filterTitle(atIndex: index)
-                    tableView.popoverTableViewDelegate = self
-                    tableView.linkedSegmentAndIndex = IndexPath(item:index, section:segmentIndex)
-                    
-                    switch index {
-                    case PersonSearchType.PersonFilterType.searchType.rawValue:
-                        tableView.mustHaveValue = true
-                        tableView.selectedItemsIndex = personFilter.filterSelectedOptions(atIndex: index)
-                        break
-                    case PersonSearchType.PersonFilterType.state.rawValue:
-                        tableView.defaultValue = personFilter.filterDefaultText(atIndex: index)
-                        tableView.canMultiSelect = true
-                        tableView.selectedItemsIndex = personFilter.filterSelectedOptions(atIndex: index)
-                        break
-                    case PersonSearchType.PersonFilterType.gender.rawValue:
-                        tableView.defaultValue = personFilter.filterDefaultText(atIndex: index)
-                        tableView.canMultiSelect = true
-                        tableView.selectedItemsIndex = personFilter.filterSelectedOptions(atIndex: index)
-                        break
-                    case PersonSearchType.PersonFilterType.age.rawValue:
-                        break
-                    default:
-                        break
-                    }
-                    
-                    let popover = PopoverNavigationController(rootViewController: tableView)
-                    popover.modalPresentationStyle = .popover
-                    
-                    if let presentationController = popover.popoverPresentationController {
-                        
-                        let cell = collectionView.cellForItem(at:indexPath)
-                        
-                        presentationController.sourceView = cell
-                        presentationController.sourceRect = cell!.bounds
-                        
-                    }
-                    
-                    present(popover, animated: true, completion: nil)
-                }
-                break
-            case SearchSegments.vehicle.rawValue:
-                if let vehicleFilter = searchSources[segmentIndex] as? VehicleSearchType {
-                    
-                    let tableView = PopoverSelectableTableViewController(style: .plain)
-                    tableView.sourceItems = vehicleFilter.filterOptions(atIndex: index)
-                    tableView.title = vehicleFilter.filterTitle(atIndex: index)
-                    tableView.popoverTableViewDelegate = self
-                    tableView.linkedSegmentAndIndex = IndexPath(item:index, section:segmentIndex)
-                    
-                    switch index {
-                    case VehicleSearchType.VehicleFilterType.searchType.rawValue:
-                        tableView.mustHaveValue = true
-                        tableView.selectedItemsIndex = vehicleFilter.filterSelectedOptions(atIndex: index)
-                        break
-                    case VehicleSearchType.VehicleFilterType.state.rawValue, VehicleSearchType.VehicleFilterType.make.rawValue, VehicleSearchType.VehicleFilterType.model.rawValue:
-                        tableView.defaultValue = vehicleFilter.filterDefaultText(atIndex: index)
-                        tableView.canMultiSelect = true
-                        tableView.selectedItemsIndex = vehicleFilter.filterSelectedOptions(atIndex: index)
-                        break
-                    default:
-                        break
-                    }
-                    
-                    let popover = PopoverNavigationController(rootViewController: tableView)
-                    popover.modalPresentationStyle = .popover
-                    
-                    if let presentationController = popover.popoverPresentationController {
-                        
-                        let cell = collectionView.cellForItem(at:indexPath)
-                        
-                        presentationController.sourceView = cell
-                        presentationController.sourceRect = cell!.bounds
-                        
-                    }
-                    
-                    present(popover, animated: true, completion: nil)
-                }
-                break
-            case SearchSegments.organisation.rawValue:
-                
-                break
-            default:
-                
-                break
-            }
-        }
-    }
-    
-    // MARK: - CollectionViewDelegate MPOLLayout Methods
-    
-    public func collectionView(_ collectionView: UICollectionView, heightForGlobalHeaderInLayout layout: CollectionViewFormLayout) -> CGFloat {
-        if traitCollection.horizontalSizeClass == .compact {
-            return collectionView.bounds.width * 0.6
-        }
-        return 0.0
-    }
-    
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
-        
-        return section == 0 ? 0.0 : CollectionViewFormExpandingHeaderView.minimumHeight
-    }
-    
-    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
-        if indexPath.section == 0 && indexPath.item == 0 {
-            return SearchCollectionViewCell.cellHeight()
-        }
-        
-        var title: String? = ""
-        var subtitle: String? = ""
-        
-        let source = searchSources[segmentIndex]
-        
-        title = source.filterTitle(atIndex: indexPath.item)
-        subtitle = source.filterValue(atIndex: indexPath.item)
-
-        return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: title, subtitle: subtitle, inWidth: itemWidth, compatibleWith: traitCollection, emphasis: .subtitle, singleLineSubtitle: true)
+        return Section(rawValue: section) == .generalDetails ? 0.0 : CollectionViewFormExpandingHeaderView.minimumHeight
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, givenSectionWidth sectionWidth: CGFloat, edgeInsets: UIEdgeInsets) -> CGFloat {
         
-        let preferredContentSizeCategory: UIContentSizeCategory
-        if #available(iOS 10, *) {
-            let category = traitCollection.preferredContentSizeCategory
-            preferredContentSizeCategory = category == UIContentSizeCategory.unspecified ? .large : category
-        } else {
-            // references to the shared application are banned in extensions but this actually still works
-            // in apps and gets us the preferred content size. This is part of why they moved preferred
-            // content size category into trait collections as it couldn't be accessed on UIApplication
-            // in extensions (and MPOLKit is restrcted to extension-only API)
-            preferredContentSizeCategory = (UIApplication.value(forKey: "sharedApplication") as! UIApplication).preferredContentSizeCategory
+        if indexPath.section == 0 {
+            return sectionWidth
         }
         
         let extraLargeText: Bool
-        
-        switch preferredContentSizeCategory {
+        switch traitCollection.preferredContentSizeCategory {
         case UIContentSizeCategory.extraSmall, UIContentSizeCategory.small, UIContentSizeCategory.medium, UIContentSizeCategory.large:
             extraLargeText = false
         default:
             extraLargeText = true
         }
         
-        let minimumWidth: CGFloat
-        let maxColumnCount: Int
-        
-        if indexPath.section == 0 {
-            return sectionWidth
-        } else {
-            minimumWidth = extraLargeText ? 250.0 : 140.0
-            maxColumnCount = 4
-        }
+        let minimumWidth: CGFloat = extraLargeText ? 250.0 : 140.0
+        let maxColumnCount = 4
         
         return layout.columnContentWidth(forMinimumItemContentWidth: minimumWidth, maximumColumnCount: maxColumnCount, sectionWidth: sectionWidth, sectionEdgeInsets: edgeInsets).floored(toScale: UIScreen.main.scale)
+    }
+    
+    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
+        
+        switch Section(rawValue: indexPath.section)! {
+        case .generalDetails:
+            return SearchCollectionViewCell.cellHeight()
+        case .filters:
+            
+            let filterIndex = indexPath.item
+            let title    = searchRequest.titleForFilter(at: filterIndex)
+            let subtitle = searchRequest.valueForFilter(at: filterIndex) ?? searchRequest.defaultValueForFilter(at: filterIndex)
+            return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: title, subtitle: subtitle, inWidth: itemWidth, compatibleWith: traitCollection, emphasis: .subtitle, singleLineSubtitle: true)
+        }
+        
+        
     }
     
     // MARK: - SearchCollectionViewCell Delegates
     
     public func searchCollectionViewCell(_ cell: SearchCollectionViewCell, didChangeText text: String?) {
+        areFiltersHidden = text?.isEmpty ?? true == false
         
-        if isFiltersHidden && !(text?.isEmpty)! { // Show filters
-            isFiltersHidden = false
-            collectionView?.reloadData()
-            collectionView?.layoutIfNeeded()
-            if let cell = collectionView?.cellForItem(at: IndexPath(item: 0, section: 0)) as? SearchCollectionViewCell {
-                cell.searchTextField.becomeFirstResponder()
-            }
-        } else if !isFiltersHidden && (text?.isEmpty)! { // Hide Filters
-            isFiltersHidden = true
-            collectionView?.reloadData()
-            collectionView?.layoutIfNeeded()
-            if let cell = collectionView?.cellForItem(at: IndexPath(item: 0, section: 0)) as? SearchCollectionViewCell {
-                cell.searchTextField.becomeFirstResponder()
-            }
+        if areFiltersHidden && (text?.isEmpty ?? true == false) { // Show filters
+            areFiltersHidden = false
+            beginEditingSearchField()
+        } else if areFiltersHidden == false && (text?.isEmpty ?? true){ // Hide Filters
+            areFiltersHidden = true
+            beginEditingSearchField()
         }
     }
     
     public func searchCollectionViewCell(_ cell: SearchCollectionViewCell, didSelectSegmentAt index: Int) {
-        segmentIndex = index
-        collectionView?.reloadData()
-        collectionView?.layoutIfNeeded()
-        if let cell = collectionView?.cellForItem(at: IndexPath(item: 0, section: 0)) as? SearchCollectionViewCell {
-            cell.searchTextField.becomeFirstResponder()
+        let selectedType = availableSearchTypes[index]
+        if selectedType != type(of: searchRequest) {
+            searchRequest = selectedType.init(searchRequest: searchRequest)
         }
     }
     
     // MARK - PopoverTableView Delegate
     func popOverTableSelectionChanged(_ tableView: PopoverSelectableTableViewController, newValues: IndexSet) {
-        print("Value changed")
-        
-        if newValues.count > 0 {
-            for index in newValues {
-                print("Index:\(index)")
-            }
-        }
-        
-        if let segmentAndIndex = tableView.linkedSegmentAndIndex {
-            switch segmentAndIndex.section {
-            case SearchSegments.person.rawValue:
-                if let personFilter = searchSources[segmentIndex] as? PersonSearchType {
-                    switch segmentAndIndex.item {
-                    case PersonSearchType.PersonFilterType.searchType.rawValue:
-                        if let options = tableView.sourceItems {
-                            for index in newValues {
-                                if (personFilter.set(value: options[index], atIndex: segmentAndIndex.item)) {
-                                    collectionView?.reloadData()
-                                }
-                            }
-                        }
-                        break
-                    case PersonSearchType.PersonFilterType.state.rawValue, PersonSearchType.PersonFilterType.gender.rawValue:
-                        if let options = tableView.sourceItems {
-                            var selectedValues: [String] = []
-                            for index in newValues {
-                                selectedValues.append(options[index])
-                            }
-                            
-                            if (personFilter.set(value: selectedValues, atIndex: segmentAndIndex.item)) {
-                                collectionView?.reloadData()
-                            }
-                        }
-                        break
-                    default:
-                        break
-                    }
-                }
-            case SearchSegments.vehicle.rawValue:
-                if let vehicleFilter = searchSources[segmentIndex] as? VehicleSearchType {
-                    switch segmentAndIndex.item {
-                    case VehicleSearchType.VehicleFilterType.searchType.rawValue:
-                        if let options = tableView.sourceItems {
-                            for index in newValues {
-                                if (vehicleFilter.set(value: options[index], atIndex: segmentAndIndex.item)) {
-                                    collectionView?.reloadData()
-                                }
-                            }
-                        }
-                        break
-                    case VehicleSearchType.VehicleFilterType.state.rawValue, VehicleSearchType.VehicleFilterType.make.rawValue, VehicleSearchType.VehicleFilterType.model.rawValue:
-                        if let options = tableView.sourceItems {
-                            var selectedValues: [String] = []
-                            for index in newValues {
-                                selectedValues.append(options[index])
-                            }
-                            
-                            if (vehicleFilter.set(value: selectedValues, atIndex: segmentAndIndex.item)) {
-                                collectionView?.reloadData()
-                            }
-                        }
-                        break
-                    default:
-                        break
-                    }
-                }
-                break
-            default:
-                
-                break
-            }
-        }
+//        print("Value changed")
+//        
+//        if newValues.count > 0 {
+//            for index in newValues {
+//                print("Index:\(index)")
+//            }
+//        }
+//        
+//        if let segmentAndIndex = tableView.linkedSegmentAndIndex {
+//            switch segmentAndIndex.section {
+//            case SearchSegments.person.rawValue:
+//                if let personFilter = searchSources[segmentIndex] as? PersonSearchType {
+//                    switch segmentAndIndex.item {
+//                    case PersonSearchType.PersonFilterType.searchType.rawValue:
+//                        if let options = tableView.sourceItems {
+//                            for index in newValues {
+//                                if (personFilter.set(value: options[index], atIndex: segmentAndIndex.item)) {
+//                                    collectionView?.reloadData()
+//                                }
+//                            }
+//                        }
+//                        break
+//                    case PersonSearchType.PersonFilterType.state.rawValue, PersonSearchType.PersonFilterType.gender.rawValue:
+//                        if let options = tableView.sourceItems {
+//                            var selectedValues: [String] = []
+//                            for index in newValues {
+//                                selectedValues.append(options[index])
+//                            }
+//                            
+//                            if (personFilter.set(value: selectedValues, atIndex: segmentAndIndex.item)) {
+//                                collectionView?.reloadData()
+//                            }
+//                        }
+//                        break
+//                    default:
+//                        break
+//                    }
+//                }
+//            case SearchSegments.vehicle.rawValue:
+//                if let vehicleFilter = searchSources[segmentIndex] as? VehicleSearchType {
+//                    switch segmentAndIndex.item {
+//                    case VehicleSearchType.VehicleFilterType.searchType.rawValue:
+//                        if let options = tableView.sourceItems {
+//                            for index in newValues {
+//                                if (vehicleFilter.set(value: options[index], atIndex: segmentAndIndex.item)) {
+//                                    collectionView?.reloadData()
+//                                }
+//                            }
+//                        }
+//                        break
+//                    case VehicleSearchType.VehicleFilterType.state.rawValue, VehicleSearchType.VehicleFilterType.make.rawValue, VehicleSearchType.VehicleFilterType.model.rawValue:
+//                        if let options = tableView.sourceItems {
+//                            var selectedValues: [String] = []
+//                            for index in newValues {
+//                                selectedValues.append(options[index])
+//                            }
+//                            
+//                            if (vehicleFilter.set(value: selectedValues, atIndex: segmentAndIndex.item)) {
+//                                collectionView?.reloadData()
+//                            }
+//                        }
+//                        break
+//                    default:
+//                        break
+//                    }
+//                }
+//                break
+//            default:
+//                
+//                break
+//            }
+//        }
     }
+    
+    private enum Section: Int {
+        case generalDetails, filters
+    }
+    
     
 }
 
@@ -476,7 +470,6 @@ open class SearchOptionsViewController: FormCollectionViewController, SearchColl
 
 public class SearchType: NSObject {
     public var title: String { return "" }
-    public var endpoint: String { return "" }
     public var numberOfFilters: Int { return 0 }
     
     public func filterValue(atIndex: Int) -> String {
@@ -512,7 +505,7 @@ public class SearchType: NSObject {
 public class PersonSearchType: SearchType {
     
     enum PersonFilterType: Int {
-        case searchType = 0, state, gender, age
+        case searchType, state, gender, age
     }
     
     private var searchTypeValue: String? = nil
@@ -1194,4 +1187,10 @@ public class PopoverSelectableTableViewController : UITableViewController {
     @objc optional func popOverTableDidCancel(_ tableView: PopoverSelectableTableViewController)
 
     func popOverTableSelectionChanged(_ tableView: PopoverSelectableTableViewController, newValues: IndexSet)
+}
+
+
+// Default global footer
+class CollectionViewGlobalFooterView: UICollectionReusableView, DefaultReusable {
+    public static let minimumHeight: CGFloat = 20.0
 }

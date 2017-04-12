@@ -10,26 +10,14 @@ import UIKit
 import MPOLKit
 
 
-public class SearchCollectionViewCell: CollectionViewFormCell, UITextFieldDelegate {
+class SearchCollectionViewCell: CollectionViewFormCell, UITextFieldDelegate {
     
-    public var searchSources : [SearchType] = [] {
+    var searchTypes : [SearchRequest.Type] = [] {
         didSet {
-                sourceSegmentationController.removeAllSegments()
+            sourceSegmentationController.removeAllSegments()
             
-                let sources = searchSources.map{$0.title}
-            
-                let selectedIndex = sourceSegmentationController.selectedSegmentIndex
-                var index = 0
-                for title in sources {
-                    sourceSegmentationController.insertSegment(withTitle: title, at: index, animated: false)
-                    sourceSegmentationController.setWidth(120.0, forSegmentAt: index)
-                    index += 1
-            }
-            
-            if selectedIndex > sourceSegmentationController.numberOfSegments || selectedIndex < 0 {
-                sourceSegmentationController.selectedSegmentIndex = 0
-            } else {
-                sourceSegmentationController.selectedSegmentIndex = selectedIndex
+            for (index, source) in searchTypes.enumerated() {
+                sourceSegmentationController.insertSegment(withTitle: source.localizedDisplayName, at: index, animated: false)
             }
         }
     }
@@ -58,6 +46,8 @@ public class SearchCollectionViewCell: CollectionViewFormCell, UITextFieldDelega
     }
     
     private func commonInit() {
+        
+        separatorStyle = .none
         
         let vPadding : CGFloat = 20.0
         let hPadding : CGFloat = 15.0
@@ -143,7 +133,7 @@ public class SearchCollectionViewCell: CollectionViewFormCell, UITextFieldDelega
     }
 }
 
-public protocol SearchCollectionViewCellDelegate: class {
+protocol SearchCollectionViewCellDelegate: class {
     
     func searchCollectionViewCell(_ cell: SearchCollectionViewCell, didChangeText text: String?)
     
