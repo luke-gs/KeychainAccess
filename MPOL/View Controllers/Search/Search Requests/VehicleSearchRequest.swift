@@ -1,5 +1,5 @@
 //
-//  PersonSearchRequest.swift
+//  VehicleSearchRequest.swift
 //  MPOL
 //
 //  Created by Rod Brown on 12/4/17.
@@ -8,10 +8,10 @@
 
 import UIKit
 
-class PersonSearchRequest: NSObject, SearchRequest, NSCoding {
-
+class VehicleSearchRequest: NSObject, SearchRequest, NSCoding {
+    
     static var localizedDisplayName: String {
-        return NSLocalizedString("Person", comment: "")
+        return NSLocalizedString("Vehicle", comment: "")
     }
     
     
@@ -69,17 +69,18 @@ class PersonSearchRequest: NSObject, SearchRequest, NSCoding {
         return nil
     }
     
+    
     private enum FilterItem: Int {
-        case searchType, state, gender, age
+        case searchType, state, make, model
         
         static let count = 4
         
         var title: String {
             switch self {
             case .searchType: return NSLocalizedString("Search Type", comment: "")
-            case .state:  return NSLocalizedString("State/s",  comment: "")
-            case .gender: return NSLocalizedString("Gender/s", comment: "")
-            case .age:    return NSLocalizedString("Age",      comment: "")
+            case .state: return NSLocalizedString("State/s",  comment: "")
+            case .make:  return NSLocalizedString("Make",     comment: "")
+            case .model: return NSLocalizedString("Model",    comment: "")
             }
         }
     }

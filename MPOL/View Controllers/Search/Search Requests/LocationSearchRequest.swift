@@ -1,5 +1,5 @@
 //
-//  PersonSearchRequest.swift
+//  LocationSearchRequest.swift
 //  MPOL
 //
 //  Created by Rod Brown on 12/4/17.
@@ -8,10 +8,10 @@
 
 import UIKit
 
-class PersonSearchRequest: NSObject, SearchRequest, NSCoding {
-
+class LocationSearchRequest: NSObject, SearchRequest, NSCoding  {
+    
     static var localizedDisplayName: String {
-        return NSLocalizedString("Person", comment: "")
+        return NSLocalizedString("Location", comment: "")
     }
     
     
@@ -38,7 +38,7 @@ class PersonSearchRequest: NSObject, SearchRequest, NSCoding {
     // MARK: - Filters
     
     var numberOfFilters: Int {
-        return FilterItem.count
+        return 0
     }
     
     /// The title for the filter.
@@ -46,7 +46,7 @@ class PersonSearchRequest: NSObject, SearchRequest, NSCoding {
     /// - Parameter index: The filter index.
     /// - Returns:         The title for the filter.
     func titleForFilter(at index: Int) -> String {
-        return FilterItem(rawValue: index)?.title ?? "-"
+        return "-"
     }
     
     /// The value specified for the filter, if any.
@@ -67,21 +67,6 @@ class PersonSearchRequest: NSObject, SearchRequest, NSCoding {
     ///                    in a `UINavigationController`.
     func updateController(forFilterAt index: Int) -> UIViewController? {
         return nil
-    }
-    
-    private enum FilterItem: Int {
-        case searchType, state, gender, age
-        
-        static let count = 4
-        
-        var title: String {
-            switch self {
-            case .searchType: return NSLocalizedString("Search Type", comment: "")
-            case .state:  return NSLocalizedString("State/s",  comment: "")
-            case .gender: return NSLocalizedString("Gender/s", comment: "")
-            case .age:    return NSLocalizedString("Age",      comment: "")
-            }
-        }
     }
     
 }

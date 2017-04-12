@@ -36,7 +36,7 @@ class SearchOptionsViewController: FormCollectionViewController, SearchCollectio
     
     // MARK: - Initializers
     
-    public init(availableSearchTypes: [SearchRequest.Type] = [PersonSearchRequest.self]) {
+    public init(availableSearchTypes: [SearchRequest.Type] = [PersonSearchRequest.self, VehicleSearchRequest.self, OrganizationSearchRequest.self, LocationSearchRequest.self]) {
         guard let firstType = availableSearchTypes.first else {
             fatalError("SearchOptionsViewController requires at least one available search type")
         }
@@ -64,7 +64,8 @@ class SearchOptionsViewController: FormCollectionViewController, SearchCollectio
         
         guard let collectionView = self.collectionView else { return }
         
-        collectionView.register(SearchCollectionViewCell.self)
+        collectionView.register(SearchFieldCollectionViewCell.self)
+        collectionView.register(SegmentedControlCollectionViewCell.self)
         collectionView.register(CollectionViewFormSubtitleCell.self)
         collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         collectionView.alwaysBounceVertical = false
@@ -79,7 +80,7 @@ class SearchOptionsViewController: FormCollectionViewController, SearchCollectio
     }
     
     private func reloadCollectionViewRetainingEditing() {
-        let wasSearchFieldActive = self.searchFieldCell?.searchTextField.isFirstResponder ?? false
+        let wasSearchFieldActive = self.searchFieldCell?.textField.isFirstResponder ?? false
         
         collectionView?.reloadData()
         
@@ -92,16 +93,16 @@ class SearchOptionsViewController: FormCollectionViewController, SearchCollectio
     // MARK: - Editing
     
     func beginEditingSearchField() {
-        searchFieldCell?.becomeFirstResponder()
+        searchFieldCell?.textField.becomeFirstResponder()
     }
     
-    func endEditingSearchField() {
-        searchFieldCell?.resignFirstResponder()
+    func endEditingSearchField() {        
+        searchFieldCell?.textField.resignFirstResponder()
     }
     
-    private var searchFieldCell: SearchCollectionViewCell? {
+    private var searchFieldCell: SearchFieldCollectionViewCell? {
         collectionView?.layoutIfNeeded()
-        return collectionView?.cellForItem(at: IndexPath(item: 1, section: 0)) as? SearchCollectionViewCell
+        return collectionView?.cellForItem(at: IndexPath(item: 1, section: 0)) as? SearchFieldCollectionViewCell
     }
     
     
@@ -149,18 +150,22 @@ class SearchOptionsViewController: FormCollectionViewController, SearchCollectio
         switch Section(rawValue: indexPath.section)! {
         case .generalDetails:
             if indexPath.item == 0 {
-                // TODO: Segmented cell
-                
-                let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
-                cell.separatorStyle = .none
-                return cell
-            } else {
-                let cell = collectionView.dequeueReusableCell(of: SearchCollectionViewCell.self, for: indexPath)
-                cell.searchTypes = availableSearchTypes
-                cell.searchCollectionViewCellDelegate = self
+                let cell = collectionView.dequeueReusableCell(of: SegmentedControlCollectionViewCell.self, for: indexPath)
+                let segmentedControl = cell.segmentedControl
+                if segmentedControl.numberOfSegments == 0 {
+                    for (index, item) in availableSearchTypes.enumerated() {
+                        segmentedControl.insertSegment(withTitle: item.localizedDisplayName, at: index, animated: false)
+                    }
+                    segmentedControl.addTarget(self, action: #selector(searchTypeSegmentedControlValueDidChange(_:)), for: .valueChanged)
+                }
                 
                 let selectedType = type(of: searchRequest)
-                cell.sourceSegmentationController.selectedSegmentIndex = availableSearchTypes.index(where: { $0 == selectedType }) ?? UISegmentedControlNoSegment
+                segmentedControl.selectedSegmentIndex = availableSearchTypes.index(where: { $0 == selectedType }) ?? UISegmentedControlNoSegment
+                
+                return cell
+            } else {
+                let cell = collectionView.dequeueReusableCell(of: SearchFieldCollectionViewCell.self, for: indexPath)
+                
                 return cell
             }
         case .filters:
@@ -168,6 +173,8 @@ class SearchOptionsViewController: FormCollectionViewController, SearchCollectio
             filterCell.emphasis = .subtitle
             filterCell.isEditableField = true
             filterCell.subtitleLabel.numberOfLines = 1
+            filterCell.selectionStyle = .underline
+            filterCell.highlightStyle = .fade
             
             let filterIndex = indexPath.item
             let request = self.searchRequest
@@ -319,7 +326,7 @@ class SearchOptionsViewController: FormCollectionViewController, SearchCollectio
     
     
     public func collectionView(_ collectionView: UICollectionView, heightForGlobalFooterInLayout layout: CollectionViewFormLayout) -> CGFloat {
-        return CollectionViewGlobalFooterView.minimumHeight
+        return 32.0
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
@@ -350,7 +357,7 @@ class SearchOptionsViewController: FormCollectionViewController, SearchCollectio
         
         switch Section(rawValue: indexPath.section)! {
         case .generalDetails:
-            return SearchCollectionViewCell.cellHeight()
+            return SearchFieldCollectionViewCell.cellContentHeight
         case .filters:
             
             let filterIndex = indexPath.item
@@ -364,7 +371,7 @@ class SearchOptionsViewController: FormCollectionViewController, SearchCollectio
     
     // MARK: - SearchCollectionViewCell Delegates
     
-    public func searchCollectionViewCell(_ cell: SearchCollectionViewCell, didChangeText text: String?) {
+    public func searchCollectionViewCell(_ cell: SearchFieldCollectionViewCell, didChangeText text: String?) {
         areFiltersHidden = text?.isEmpty ?? true == false
         
         if areFiltersHidden && (text?.isEmpty ?? true == false) { // Show filters
@@ -376,7 +383,7 @@ class SearchOptionsViewController: FormCollectionViewController, SearchCollectio
         }
     }
     
-    public func searchCollectionViewCell(_ cell: SearchCollectionViewCell, didSelectSegmentAt index: Int) {
+    public func searchCollectionViewCell(_ cell: SearchFieldCollectionViewCell, didSelectSegmentAt index: Int) {
         let selectedType = availableSearchTypes[index]
         if selectedType != type(of: searchRequest) {
             searchRequest = selectedType.init(searchRequest: searchRequest)
@@ -463,6 +470,15 @@ class SearchOptionsViewController: FormCollectionViewController, SearchCollectio
         case generalDetails, filters
     }
     
+    @objc private func searchTypeSegmentedControlValueDidChange(_ segmentedControl: UISegmentedControl) {
+        let index = segmentedControl.selectedSegmentIndex
+        if index == UISegmentedControlNoSegment { return }
+        
+        let type = availableSearchTypes[index]
+        if type == type(of: searchRequest) { return }
+        
+        searchRequest = type.init(searchRequest: searchRequest)
+    }
     
 }
 
@@ -1187,10 +1203,4 @@ public class PopoverSelectableTableViewController : UITableViewController {
     @objc optional func popOverTableDidCancel(_ tableView: PopoverSelectableTableViewController)
 
     func popOverTableSelectionChanged(_ tableView: PopoverSelectableTableViewController, newValues: IndexSet)
-}
-
-
-// Default global footer
-class CollectionViewGlobalFooterView: UICollectionReusableView, DefaultReusable {
-    public static let minimumHeight: CGFloat = 20.0
 }
