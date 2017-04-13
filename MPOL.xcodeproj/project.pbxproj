@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		397B77011E52CEDA00696677 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 397B77001E52CEDA00696677 /* UserNotifications.framework */; };
+		996364DE1E9C9DDB00F86C35 /* NumberRangePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996364DD1E9C9DDB00F86C35 /* NumberRangePickerViewController.swift */; };
 		BC0D8E8B1E94067800EDFC45 /* SearchOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0D8E851E94067800EDFC45 /* SearchOptionsViewController.swift */; };
 		BC0D8E8C1E94067800EDFC45 /* SearchRecentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0D8E861E94067800EDFC45 /* SearchRecentsViewController.swift */; };
 		BC0D8E8D1E94067800EDFC45 /* SearchResultsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0D8E871E94067800EDFC45 /* SearchResultsListViewController.swift */; };
@@ -39,6 +40,7 @@
 		397B77001E52CEDA00696677 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		49B155AAA46289B4B533225E /* Pods_MPOL.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		91A39BA7C59DFBA980DDCA74 /* Pods-MPOL.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOL.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MPOL/Pods-MPOL.debug.xcconfig"; sourceTree = "<group>"; };
+		996364DD1E9C9DDB00F86C35 /* NumberRangePickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberRangePickerViewController.swift; sourceTree = "<group>"; };
 		BC0D8E851E94067800EDFC45 /* SearchOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchOptionsViewController.swift; sourceTree = "<group>"; };
 		BC0D8E861E94067800EDFC45 /* SearchRecentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRecentsViewController.swift; sourceTree = "<group>"; };
 		BC0D8E871E94067800EDFC45 /* SearchResultsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultsListViewController.swift; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 				BC0D8E881E94067800EDFC45 /* SearchResultsMapViewController.swift */,
 				BC911E6F1E95E999003B4893 /* SearchNavigationField.swift */,
 				BC53AD1B1E96531300EA3397 /* SearchEntityListCell.swift */,
+				996364DD1E9C9DDB00F86C35 /* NumberRangePickerViewController.swift */,
 				BCC5E9481E9F155E00A9635E /* Search Type Data Sources */,
 				BC9E485B1E9D9D2800767337 /* Search Requests */,
 				BC9E48681E9DE14D00767337 /* Cells */,
@@ -338,6 +341,7 @@
 				BCF2E4071E960EDA00D6D7F3 /* UIImage+RoundedRects.swift in Sources */,
 				BC9E486C1E9DE14D00767337 /* SearchTypeCollectionViewCell.swift in Sources */,
 				BC53AD1C1E96531300EA3397 /* SearchEntityListCell.swift in Sources */,
+				996364DE1E9C9DDB00F86C35 /* NumberRangePickerViewController.swift in Sources */,
 				BCC5E94B1E9F155E00A9635E /* PersonSearchDataSource.swift in Sources */,
 				BC0D8E8D1E94067800EDFC45 /* SearchResultsListViewController.swift in Sources */,
 				BC9E486B1E9DE14D00767337 /* SearchFieldCollectionViewCell.swift in Sources */,
