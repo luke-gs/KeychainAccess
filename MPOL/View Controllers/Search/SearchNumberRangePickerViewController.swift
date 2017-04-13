@@ -18,18 +18,30 @@ class SearchNumberRangePickerViewController: UIViewController, UIPickerViewDeleg
     
     public var linkedSegmentAndIndex: IndexPath? = nil
 
+    private var _currentMinValue: Int
+    private var _currentMaxValue: Int
+    
     public var currentMinValue: Int {
-        didSet {
-            if let picker = pickerView {
-                picker.selectRow(currentMinValue-minValue, inComponent: 0, animated: false)
-            }
+        get { return _currentMinValue }
+        set { setCurrentMinValue(newValue, animated: false) }
+    }
+    
+    public func setCurrentMinValue(_ minValue: Int, animated: Bool) {
+        _currentMinValue = minValue
+        if let picker = pickerView {
+            picker.selectRow(minValue-self.minValue, inComponent: 0, animated: animated)
         }
     }
+    
     public var currentMaxValue: Int {
-        didSet {
-            if let picker = pickerView {
-                picker.selectRow(currentMaxValue-minValue, inComponent: 1, animated: false)
-            }
+        get { return _currentMaxValue }
+        set { setCurrentMaxValue(newValue, animated: false) }
+    }
+    
+    public func setCurrentMaxValue(_ maxValue: Int, animated: Bool) {
+        _currentMaxValue = maxValue
+        if let picker = pickerView {
+            picker.selectRow(maxValue-self.minValue, inComponent: 1, animated: animated)
         }
     }
     
@@ -39,8 +51,8 @@ class SearchNumberRangePickerViewController: UIViewController, UIPickerViewDeleg
         self.minValue = 0
         self.maxValue = 0
         
-        self.currentMinValue = 0
-        self.currentMaxValue = 0
+        _currentMinValue = 0
+        _currentMaxValue = 0
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -49,8 +61,8 @@ class SearchNumberRangePickerViewController: UIViewController, UIPickerViewDeleg
         self.maxValue = max
         self.minValue = min
         
-        self.currentMinValue = min
-        self.currentMaxValue = min
+        _currentMinValue = min
+        _currentMaxValue = min
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -59,8 +71,8 @@ class SearchNumberRangePickerViewController: UIViewController, UIPickerViewDeleg
         self.maxValue = max
         self.minValue = min
         
-        self.currentMinValue = currentMin
-        self.currentMaxValue = currentMax
+        _currentMinValue = currentMin
+        _currentMaxValue = currentMax
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -72,7 +84,7 @@ class SearchNumberRangePickerViewController: UIViewController, UIPickerViewDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        preferredContentSize = CGSize(width: 200.0, height: 160.0)
+        preferredContentSize = CGSize(width: 400.0, height: 160.0)
         
         self.setupPicker()
     }
@@ -139,7 +151,7 @@ class SearchNumberRangePickerViewController: UIViewController, UIPickerViewDeleg
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        let difference = maxValue - minValue
+        let difference = (maxValue - minValue) + 1
         
         return difference > 0 ? difference : 0
     }
@@ -174,8 +186,8 @@ class SearchNumberRangePickerViewController: UIViewController, UIPickerViewDeleg
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
         let newValue = row+minValue
-        var max = currentMaxValue
-        var min = currentMinValue
+        var max = _currentMaxValue
+        var min = _currentMinValue
         
         if component == 0 {
             min = newValue
@@ -187,15 +199,15 @@ class SearchNumberRangePickerViewController: UIViewController, UIPickerViewDeleg
             max = min
         }
         
-        currentMinValue = min
-        currentMaxValue = max
+        setCurrentMinValue(min, animated: true)
+        setCurrentMaxValue(max, animated: true)
         
         if component == 0 {
             pickerView.reloadComponent(1)
         }
         
         if let delegate = numberRangePickerDelegate {
-            delegate.numberRangePickerValueChanged(self, newMinValue: currentMinValue, newMaxValue: currentMaxValue)
+            delegate.numberRangePickerValueChanged(self, newMinValue: _currentMinValue, newMaxValue: _currentMaxValue)
         }
     }
 }
