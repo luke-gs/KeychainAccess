@@ -367,8 +367,8 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
         if isShowingSearchOptions {
             titleView = nil
             title = NSLocalizedString("New Search", comment: "")
-            leftBarButtonItems  = [UIBarButtonItem(barButtonSystemItem: .cancel,   target: self, action: #selector(cancelSearchTriggered))]
-            rightBarButtonItems = [UIBarButtonItem(title: "Search", style: .plain, target: self, action: #selector(performSearchTriggered))]
+            leftBarButtonItems  = [UIBarButtonItem(barButtonSystemItem: .cancel,  target: self, action: #selector(cancelSearchTriggered))]
+            rightBarButtonItems = [UIBarButtonItem(title: "Search", style: .done, target: self, action: #selector(performSearchTriggered))]
         } else if isShowingResults {
             if self.navigationItem.titleView != searchNavigationField {
                 let screenSize = UIScreen.main.bounds

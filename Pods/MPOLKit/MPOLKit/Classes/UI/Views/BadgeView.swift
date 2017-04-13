@@ -68,9 +68,7 @@ open class BadgeView: RoundedRectLabel {
     
     private func updateCornerRadius() {
         let bounds = self.bounds
-        let radius = (min(bounds.height, bounds.width) * 0.5)
-        
-        layer.cornerRadius = radius
+        cornerRadius = (min(bounds.height, bounds.width) * 0.5)
     }
     
 }
