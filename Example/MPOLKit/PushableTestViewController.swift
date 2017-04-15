@@ -11,7 +11,7 @@ import MPOLKit
 
 class PushableTestViewController: UITableViewController {
     
-    enum TestDisplayItem: Int, DisplayItem {
+    enum TestDisplayItem: Int, Pickable {
         case item1
         case item2
         case item3
@@ -27,6 +27,7 @@ class PushableTestViewController: UITableViewController {
         var subtitle: String? {
             return nil
         }
+        
     }
     
     override func viewDidLoad() {
@@ -51,7 +52,7 @@ class PushableTestViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let displayItemVC = DisplayItemPickerViewController(style: .grouped, items: [TestDisplayItem.item1, TestDisplayItem.item2, TestDisplayItem.item3])
+        let displayItemVC = PickerTableViewController(style: .grouped, items: [TestDisplayItem.item1, TestDisplayItem.item2, TestDisplayItem.item3])
         displayItemVC.noItemTitle = "Any"
         displayItemVC.allowsMultipleSelection = true
         

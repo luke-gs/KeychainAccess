@@ -10,8 +10,8 @@ import UIKit
 
 extension UITableView {
     
-    /// The indexes of all visible sections header views
-    public var indexesForVisibleSectionHeaderViews: IndexSet {
+    /// The indexes of all visible sections headers.
+    public var indexesForVisibleSectionHeaders: IndexSet {
         // Note: We can't just use indexPathsForVisibleRows, since it won't return index paths for empty sections.
         
         var visibleSectionIndexes = IndexSet()
@@ -32,8 +32,8 @@ extension UITableView {
         return visibleSectionIndexes
     }
     
-    /// The indexes of all visible sections footer views
-    public var indexesForVisibleSectionFooterViews: IndexSet {
+    /// The indexes of all visible sections footers.
+    public var indexesForVisibleSectionFooters: IndexSet {
         
         var visibleSectionIndexes = IndexSet()
         let style  = self.style
@@ -54,11 +54,11 @@ extension UITableView {
     }
     
     public var visibleSectionHeaderViews: [UIView] {
-        return indexesForVisibleSectionHeaderViews.flatMap { self.headerView(forSection: $0) }
+        return indexesForVisibleSectionHeaders.flatMap { self.headerView(forSection: $0) }
     }
     
     public var visibleSectionFooterViews: [UIView] {
-        return indexesForVisibleSectionFooterViews.flatMap { self.footerView(forSection: $0) }
+        return indexesForVisibleSectionFooters.flatMap { self.footerView(forSection: $0) }
     }
     
 }

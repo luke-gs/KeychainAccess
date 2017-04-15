@@ -88,7 +88,7 @@ open class PopoverDatePickerViewController: FormTableViewController, UIPopoverPr
         super.init(style: .grouped)
         super.modalPresentationStyle = .popover
         popoverPresentationController?.delegate = self
-        wantsCalculatedContentSize = false
+        wantsCalculatedContentHeight = false
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {

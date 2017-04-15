@@ -1,6 +1,6 @@
 //
-//  DisplayItemPickerViewController.swift
-//  VCom
+//  PickerTableViewController.swift
+//  MPOLKit
 //
 //  Created by Rod Brown on 15/07/2016.
 //  Copyright © 2016 Gridstone. All rights reserved.
@@ -8,33 +8,47 @@
 
 import UIKit
 
-public protocol DisplayItem {
+fileprivate let cellID = "CellID"
+
+
+/// A type that can be picked from a list.
+///
+/// Types that conform to the `Pickable` protocol can be selected from a list,
+/// and should also conform to `Hashable`. This is not a protocol requirement,
+/// however, to avoid limiting the protocol to generic type constraints.
+public protocol Pickable {
     
+    /// The title for presentation in a picking UI.
     var title: String?    { get }
+    
+    /// An additional subtitle description.
     var subtitle: String? { get }
     
 }
 
-public protocol CustomSearchDisplayItem: DisplayItem {
+
+/// A `Pickable` type that allows a custom searching.
+public protocol CustomSearchPickable: Pickable {
     
     func contains(_ searchText: String) -> Bool
     
 }
 
 
-fileprivate let cellID = "CellID"
-
-open class DisplayItemPickerViewController<T>: FormSearchTableViewController where T: DisplayItem, T: Hashable {
+/// A table view for picking general items from a list.
+///
+/// `PickerTableViewController` presents items of a generic type that conforms
+/// to `Pickable` and `Hashable`, and can be configured for single and multiple
+/// selection modes.
+/// 
+/// When there are ten or more items in the list, the picker automatically
+/// presents a search bar to allow easy filtering through the list. This can be
+/// manually disabled if required.
+open class PickerTableViewController<T>: FormSearchTableViewController where T: Pickable, T: Hashable {
     
-    open var searchTerm: String? {
-        didSet {
-            if searchTerm != oldValue {
-                searchBar?.text = searchTerm
-                updateFilter()
-            }
-        }
-    }
+    // MARK: - Public properties
     
+    /// An array of items for selection in the picker.
     open var items: [T] = [] {
         didSet {
             setSearchBarHidden(items.count < 10, animated: false)
@@ -42,6 +56,10 @@ open class DisplayItemPickerViewController<T>: FormSearchTableViewController whe
         }
     }
     
+    
+    /// The current selected items from the list.
+    ///
+    /// The default is none.
     open var selectedItems: Set<T> = [] {
         didSet {
             guard manualSelectionUpdate == false, let tableView = self.tableView else { return }
@@ -85,6 +103,10 @@ open class DisplayItemPickerViewController<T>: FormSearchTableViewController whe
         }
     }
     
+    
+    /// A boolean value indicating whether multiple items can be selected in the list.
+    /// 
+    /// The default is false.
     open var allowsMultipleSelection: Bool = false {
         didSet {
             if allowsMultipleSelection == oldValue { return }
@@ -101,8 +123,17 @@ open class DisplayItemPickerViewController<T>: FormSearchTableViewController whe
         }
     }
     
+    
+    /// An update handler to fire when the selection changes.
+    ///
+    /// This closure is only called on user-interaction based changes, much like delegate
+    /// callbacks.
     open var selectionUpdateHandler: ((Set<T>?) -> Void)?
     
+    
+    /// The title for an item representing no selection.
+    ///
+    /// The default is `nil`, meaning no option is provided for "no selection".
     open var noItemTitle: String? {
         didSet {
             guard noItemTitle != oldValue,
@@ -118,6 +149,20 @@ open class DisplayItemPickerViewController<T>: FormSearchTableViewController whe
         }
     }
     
+    
+    /// The current search term.
+    ///
+    /// This is automatically set to `nil` when the search bar is hidden.
+    open var searchTerm: String? {
+        didSet {
+            if searchTerm == oldValue { return }
+            
+            searchBar?.text = searchTerm
+            updateFilter()
+        }
+    }
+    
+    
     open override func setSearchBarHidden(_ hidden: Bool, animated: Bool) {
         super.setSearchBarHidden(hidden, animated: animated)
         
@@ -127,8 +172,19 @@ open class DisplayItemPickerViewController<T>: FormSearchTableViewController whe
     }
     
     
+    // MARK: - Private properties
+    
     private var filteredItems: [T]? {
         didSet {
+            if let filteredItems = self.filteredItems {
+                if let oldValue = oldValue,
+                    filteredItems == oldValue {
+                    return
+                }
+            } else if oldValue == nil {
+                return
+            }
+            
             tableView?.reloadData()
         }
     }
@@ -142,6 +198,7 @@ open class DisplayItemPickerViewController<T>: FormSearchTableViewController whe
         super.init(style: style)
         
         preferredContentSize = CGSize(width: 320.0, height: 435.0)
+        clearsSelectionOnViewWillAppear = false
         
         NotificationCenter.default.addObserver(self, selector: #selector(applyCurrentTheme), name: .ThemeDidChange, object: nil)
         applyCurrentTheme()
@@ -164,6 +221,7 @@ open class DisplayItemPickerViewController<T>: FormSearchTableViewController whe
     open override func viewDidLoad() {
         super.viewDidLoad()
         tableView?.estimatedRowHeight = 44.0
+        searchBar?.text = searchTerm
     }
     
     open override func viewWillAppear(_ animated: Bool) {
@@ -186,7 +244,7 @@ open class DisplayItemPickerViewController<T>: FormSearchTableViewController whe
     }
     
     
-    // MARK: - UITableViewDataSource
+    // MARK: - UITableViewDataSource methods
     
     @objc(numberOfSectionsInTableView:) // Workaround. See: http://stackoverflow.com/questions/39416385/swift-3-objc-optional-protocol-method-not-called-in-subclass
     open func numberOfSections(in tableView: UITableView) -> Int {
@@ -235,7 +293,7 @@ open class DisplayItemPickerViewController<T>: FormSearchTableViewController whe
     }
     
     
-    // MARK: - Table view delegate
+    // MARK: - UITableViewDelegate methods
     
     open override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         super.tableView(tableView, willDisplay: cell, forRowAt: indexPath)
@@ -378,7 +436,7 @@ open class DisplayItemPickerViewController<T>: FormSearchTableViewController whe
                     if $0.subtitle?.localizedCaseInsensitiveContains(term) ?? false {
                         return true
                     }
-                    if ($0 as? CustomSearchDisplayItem)?.contains(term) ?? false {
+                    if ($0 as? CustomSearchPickable)?.contains(term) ?? false {
                         return true
                     }
                     return false

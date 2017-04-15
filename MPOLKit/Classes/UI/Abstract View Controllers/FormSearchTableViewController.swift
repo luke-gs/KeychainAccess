@@ -1,26 +1,48 @@
 //
 //  FormSearchTableViewController.swift
-//  VCom
+//  MPOLKit
 //
-//  Created by Rod Brown on 11/08/2016.
-//  Copyright © 2016 Gridstone. All rights reserved.
+//  Created by Rod Brown on 14/04/2017.
+//  Copyright © 2017 Gridstone. All rights reserved.
 //
 
 import UIKit
 
 fileprivate let cellID = "CellID"
 
+
+/// A `FormTableViewController` subclass with an optional search bar.
 open class FormSearchTableViewController: FormTableViewController, UISearchBarDelegate {
     
     // MARK: - Public Properties
     
-    open private(set) var searchBar: UISearchBar?
+    /// The search bar for the table.
+    ///
+    /// This view is positioned over the top of the table view, and is
+    /// lazy loaded.
+    open private(set) lazy var searchBar: UISearchBar = {
+        let searchBar = UISearchBar(frame: .zero)
+        searchBar.delegate = self
+        searchBar.placeholder = "Search"
+        return searchBar
+    }()
     
+    
+    /// A boolean value indicating whether the search bar is currently hidden.
+    ///
+    /// The default is `false`. Setting this value directly performs the update
+    /// without animation.
     open var isSearchBarHidden: Bool {
         get { return _isSearchBarHidden }
         set { setSearchBarHidden(newValue, animated: false) }
     }
     
+    
+    /// Shows or hides the search bar, with an optional animation.
+    ///
+    /// - Parameters:
+    ///   - hidden:   A boolean value indicating whether the search bar should be hidden.
+    ///   - animated: A boolean value indicating whether the update should be animated.
     open func setSearchBarHidden(_ hidden: Bool, animated: Bool) {
         if hidden == _isSearchBarHidden { return }
         
@@ -42,7 +64,7 @@ open class FormSearchTableViewController: FormTableViewController, UISearchBarDe
                            if view.window != nil {
                                view.setNeedsLayout()
                                view.layoutIfNeeded()
-                               self.updateContentSize()
+                               self.updateCalculatedContentHeight()
                            }
                        },
                        completion: { (isFinished: Bool) in
@@ -63,14 +85,9 @@ open class FormSearchTableViewController: FormTableViewController, UISearchBarDe
     open override func viewDidLoad() {
         super.viewDidLoad()
         
-        let searchBar = UISearchBar(frame: .zero)
-        searchBar.delegate = self
-        searchBar.placeholder = "Search"
         searchBar.isHidden = isSearchBarHidden
         searchBar.sizeToFit()
         view.addSubview(searchBar)
-        
-        self.searchBar = searchBar
         
         applyCurrentTheme()
     }
@@ -120,7 +137,7 @@ open class FormSearchTableViewController: FormTableViewController, UISearchBarDe
     }
     
     
-    // MARK: - Theme updates
+    // MARK: - Overrides
     
     open override func applyCurrentTheme() {
         super.applyCurrentTheme()
@@ -128,15 +145,8 @@ open class FormSearchTableViewController: FormTableViewController, UISearchBarDe
         searchBar?.barStyle = Theme.current.isDark ? .black : .default
     }
     
-    
-    // MARK: - Overrides
-    
-    override internal func updateContentSize() {
-        super.updateContentSize()
-        
-        if isSearchBarHidden == false, let searchBar = self.searchBar {
-            preferredContentSize.height += searchBar.frame.height
-        }
+    open override func calculatedContentHeight() -> CGFloat {
+        return super.calculatedContentHeight() + (isSearchBarHidden == false ? searchBar?.frame.height ?? 0.0 : 0.0)
     }
     
 }

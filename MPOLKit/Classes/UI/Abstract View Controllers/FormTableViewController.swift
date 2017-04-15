@@ -3,22 +3,51 @@
 //  MPOLKit
 //
 //  Created by Rod Brown on 13/4/17.
-//
+//  Copyright © 2017 Gridstone. All rights reserved.
 //
 
 import UIKit
 
-private var kvoContext = 1
+fileprivate var kvoContext = 1
 
-
+/// An abstract view controller for presenting a table view based interface in
+/// MPOL apps.
+///
+/// `FormTableViewController` differs from UITableViewController in several ways.
+///
+/// - First, the view of the view controller is a standard `UIView` instance, with a
+/// UITableView instance positioned covering it as a subview, rather than as the
+/// main view. This allows for subclasses to positon content visually above the
+/// table without convoluted hacks.
+///
+/// - Second, it manages its insets separately rather than allowing UIKit to
+/// automatically adjust the insets. This works around multiple UIKit issues with
+/// insets being incorrectly applied, especially in tab bar controllers.
+///
+/// - Third, it has default handling of MPOL theme-based changes. Where subclasses
+/// require to update for theme changes, they should override
+/// `tableView(_:willDisplay:for:)` and other analogous display preparation methods
+/// rathern than requiring reloads. Other view based changes can be completed with
+/// the open method `applyCurrentTheme()`.
 open class FormTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, PopoverViewController {
     
+    // MARK: - Public properties
+    
+    /// The style for the table view.
     open let tableViewStyle: UITableViewStyle
     
+    
+    /// The table view for the controller. This is lazily loaded with the view.
     open private(set) var tableView: UITableView?
     
+    
+    /// The table view's inset manager. This is lazily loaded with the view.
     open private(set) var tableViewInsetManager: ScrollViewInsetManager?
     
+    
+    /// A boolean value indicating whether the table background should be transparent.
+    ///
+    /// The default is `false`.
     open var wantsTransparentBackground: Bool = false {
         didSet {
             tableView?.backgroundColor = wantsTransparentBackground ? .clear : backgroundColor
@@ -26,12 +55,62 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
         }
     }
     
+    /// A boolean value indicating if the controller clears the selection when the
+    /// table appears.
+    /// 
+    /// The default value of this property is true. When true, the table view controller
+    /// clears the table’s current selection when it receives a viewWillAppear(_:)
+    /// message. Setting this property to false preserves the selection.
+    open var clearsSelectionOnViewWillAppear: Bool = true
+    
+    
+    /// A boolean value indicating whether the table view should display with separators
+    /// when with a transparent background.
+    ///
+    /// Some MPOL views require separators to be hidden when appearing transparently,
+    /// for example in a popover.
+    ///
+    /// The default is `false` on plain style table views, and `true` in the grouped style.
     open var wantsSeparatorWhenTransparent: Bool {
         didSet {
             guard wantsSeparatorWhenTransparent != oldValue, wantsTransparentBackground,
                 let tableView = self.tableView else { return }
             
             tableView.separatorStyle = wantsSeparatorWhenTransparent ? .singleLine : .none
+        }
+    }
+    
+    
+    /// A boolean value indicating whether the table view should automatically calculate
+    /// its `preferreContentSize`'s height property from the table view's content height.
+    ///
+    /// The default is `true`.
+    open var wantsCalculatedContentHeight = true {
+        didSet {
+            if wantsCalculatedContentHeight && oldValue == false {
+                updateCalculatedContentHeight()
+            }
+        }
+    }
+    
+    
+    /// The minimum allowed calculated content height. The default is `100.0`.
+    open var minimumCalculatedContentHeight: CGFloat = 100.0 {
+        didSet {
+            if isViewLoaded && minimumCalculatedContentHeight >~ preferredContentSize.height {
+                updateCalculatedContentHeight()
+            }
+        }
+    }
+    
+    
+    /// The maximum allowed calculated content height. The default is `.infinity`,
+    /// meaning there is no restriction on the content height.
+    open var maximumCalculatedContentHeight: CGFloat = .infinity {
+        didSet {
+            if isViewLoaded && maximumCalculatedContentHeight < preferredContentSize.height {
+                updateCalculatedContentHeight()
+            }
         }
     }
     
@@ -54,25 +133,14 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     @NSCopying open private(set) var separatorColor:       UIColor?
     
     
-    open var wantsCalculatedContentSize = true {
-        didSet {
-            if wantsCalculatedContentSize {
-                updateContentSize()
-            }
-        }
-    }
-    
-    open var minimumCalculatedContentHeight: CGFloat = 100.0
-    
-    open var maximumCalculatedContentHeight: CGFloat = .greatestFiniteMagnitude
-    
-    
     // MARK: - Initializers
     
     public init(style: UITableViewStyle) {
         tableViewStyle = style
         wantsSeparatorWhenTransparent = style == .grouped
         super.init(nibName: nil, bundle: nil)
+        
+        automaticallyAdjustsScrollViewInsets = false
         preferredContentSize.width = 320.0
         
         NotificationCenter.default.addObserver(self, selector: #selector(applyCurrentTheme), name: .ThemeDidChange, object: nil)
@@ -154,6 +222,19 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
         tableViewInsetManager?.standardIndicatorInset = contentInsets
     }
     
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if clearsSelectionOnViewWillAppear,
+            let tableView = self.tableView,
+            let selectedIndexPaths = tableView.indexPathsForVisibleRows {
+            
+            for indexPath in selectedIndexPaths {
+                tableView.deselectRow(at: indexPath, animated: animated)
+            }
+        }
+    }
+    
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         
@@ -188,13 +269,13 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
         updateTableBackgroundColor()
         tableView.separatorColor  = separatorColor
         
-        for index in tableView.indexesForVisibleSectionHeaderViews {
+        for index in tableView.indexesForVisibleSectionHeaders {
             if let headerView = tableView.headerView(forSection: index) {
                 self.tableView(tableView, willDisplayHeaderView: headerView, forSection: index)
             }
         }
         
-        for index in tableView.indexesForVisibleSectionFooterViews {
+        for index in tableView.indexesForVisibleSectionFooters {
             if let headerView = tableView.footerView(forSection: index) {
                 self.tableView(tableView, willDisplayFooterView: headerView, forSection: index)
             }
@@ -316,12 +397,48 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {
-            if wantsCalculatedContentSize {
-                updateContentSize()
+            if wantsCalculatedContentHeight {
+                updateCalculatedContentHeight()
             }
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
+    }
+    
+    
+    // MARK: - Content height methods
+    
+    
+    /// Updates the calculated content height of the table.
+    ///
+    /// Subclasses should not need to override this method, but
+    /// should call this method when their calculated content size changes.
+    open func updateCalculatedContentHeight() {
+        if wantsCalculatedContentHeight == false || isViewLoaded == false { return }
+        
+        let calculatedContentHeight = self.calculatedContentHeight()
+        
+        if preferredContentSize.height !=~ calculatedContentHeight {
+            preferredContentSize.height = calculatedContentHeight
+        }
+    }
+    
+    /// Calculates the current preferred content size for the table view.
+    ///
+    /// The default uses the current height of the table view, clamped to the min
+    /// and max values set on the class, and updates when the table view's content
+    /// height changes.
+    ///
+    /// Subclasses should override this method to adjust for any additional content
+    /// e.g. search bars and other adornments, but should observe the min and max
+    /// values set.
+    open func calculatedContentHeight() -> CGFloat {
+        let tableContentHeight = tableView?.contentSize.height ?? 0.0
+        
+        let minHeight = minimumCalculatedContentHeight
+        let maxHeight = maximumCalculatedContentHeight
+        
+        return max(min(tableContentHeight, maxHeight), minHeight)
     }
     
     
@@ -342,19 +459,6 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
         }
         
         tableView.backgroundColor = newColor
-    }
-    
-    internal func updateContentSize() {
-        guard wantsCalculatedContentSize, let tableView = self.tableView else { return }
-        
-        let tableContentSize = tableView.contentSize
-        
-        let minHeight = minimumCalculatedContentHeight
-        let maxHeight = maximumCalculatedContentHeight
-        
-        let clampedHeight = max(min(tableContentSize.height, maxHeight), minHeight)
-        
-        preferredContentSize = CGSize(width: tableContentSize.width, height: clampedHeight)
     }
 
 }
