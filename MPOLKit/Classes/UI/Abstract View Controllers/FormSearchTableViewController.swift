@@ -48,7 +48,7 @@ open class FormSearchTableViewController: FormTableViewController, UISearchBarDe
         
         _isSearchBarHidden = hidden
         
-        guard let view = self.view, let searchBar = self.searchBar else { return }
+        guard let view = self.view else { return }
         
         if hidden {
             // Disable search.
@@ -57,6 +57,8 @@ open class FormSearchTableViewController: FormTableViewController, UISearchBarDe
             searchBar.isHidden = false
         }
         
+        updateCalculatedContentHeight()
+        
         UIView.animate(withDuration: animated && searchBar.window != nil ? 0.3 : 0.0,
                        delay: 0.0,
                        options: .beginFromCurrentState,
@@ -64,12 +66,11 @@ open class FormSearchTableViewController: FormTableViewController, UISearchBarDe
                            if view.window != nil {
                                view.setNeedsLayout()
                                view.layoutIfNeeded()
-                               self.updateCalculatedContentHeight()
                            }
                        },
                        completion: { (isFinished: Bool) in
                            if hidden && isFinished {
-                               searchBar.isHidden = true
+                               self.searchBar.isHidden = true
                            }
                        })
     }
@@ -96,7 +97,7 @@ open class FormSearchTableViewController: FormTableViewController, UISearchBarDe
         // We don't call super because this would adjust things incorrectly, which we would need to reset,
         // and viewDidLayoutSubviews on UIViewController is a no-op.
         
-        guard let tableView = self.tableView, let searchBar = self.searchBar else { return }
+        guard let tableView = self.tableView, let tableViewInsetManager = self.tableViewInsetManager else { return }
         
         let topLayoutGuideInset = topLayoutGuide.length
         
@@ -105,15 +106,19 @@ open class FormSearchTableViewController: FormTableViewController, UISearchBarDe
         searchBarFrame.size.width = tableView.frame.width
         searchBar.frame = searchBarFrame
         
-        let insets = UIEdgeInsets(top: searchBarFrame.maxY, left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)
-        tableViewInsetManager?.standardContentInset   = insets
-        tableViewInsetManager?.standardIndicatorInset = insets
+        var tableViewContentOffset = tableView.contentOffset
         
+        let insets = UIEdgeInsets(top: searchBarFrame.maxY, left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)
+        let oldContentInset = tableViewInsetManager.standardContentInset
+        tableViewInsetManager.standardContentInset   = insets
+        tableViewInsetManager.standardIndicatorInset = insets
+        
+        // If the table view currently doesn't have any user interaction, adjust its content
+        // to keep the content onscreen.
         if tableView.isTracking || tableView.isDecelerating { return }
         
-        var tableViewContentOffset = tableView.contentOffset
-        tableViewContentOffset.y -= (insets.top - tableView.contentInset.top)
-        if tableViewContentOffset.y <= 0.0 && tableViewContentOffset.y > insets.top * -1.0 {
+        tableViewContentOffset.y -= (insets.top - oldContentInset.top)
+        if tableViewContentOffset.y <~ insets.top * -1.0 {
             tableViewContentOffset.y = insets.top * -1.0
         }
         
@@ -142,11 +147,11 @@ open class FormSearchTableViewController: FormTableViewController, UISearchBarDe
     open override func applyCurrentTheme() {
         super.applyCurrentTheme()
         
-        searchBar?.barStyle = Theme.current.isDark ? .black : .default
+        searchBar.barStyle = Theme.current.isDark ? .black : .default
     }
     
     open override func calculatedContentHeight() -> CGFloat {
-        return super.calculatedContentHeight() + (isSearchBarHidden == false ? searchBar?.frame.height ?? 0.0 : 0.0)
+        return super.calculatedContentHeight() + (isSearchBarHidden == false ? searchBar.frame.height : 0.0)
     }
     
 }

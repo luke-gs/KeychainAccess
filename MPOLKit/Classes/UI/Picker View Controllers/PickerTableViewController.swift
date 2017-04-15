@@ -157,7 +157,7 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
         didSet {
             if searchTerm == oldValue { return }
             
-            searchBar?.text = searchTerm
+            searchBar.text = searchTerm
             updateFilter()
         }
     }
@@ -221,7 +221,15 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
     open override func viewDidLoad() {
         super.viewDidLoad()
         tableView?.estimatedRowHeight = 44.0
-        searchBar?.text = searchTerm
+        searchBar.text = searchTerm
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) { 
+            self.setSearchBarHidden(false, animated: true)
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+            self.setSearchBarHidden(true, animated: true)
+        }
     }
     
     open override func viewWillAppear(_ animated: Bool) {

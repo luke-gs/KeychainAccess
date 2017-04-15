@@ -201,6 +201,8 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        guard let tableView = self.tableView, let tableViewInsetManager = self.tableViewInsetManager else { return }
+        
         let topLayoutPosition:    CGFloat
         let bottomLayoutPosition: CGFloat
         
@@ -217,9 +219,23 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
             bottomLayoutPosition = bottomLayoutGuide.length
         }
         
-        let contentInsets = UIEdgeInsets(top: topLayoutPosition, left: 0.0, bottom: bottomLayoutPosition, right: 0.0)
-        tableViewInsetManager?.standardContentInset   = contentInsets
-        tableViewInsetManager?.standardIndicatorInset = contentInsets
+        var tableViewContentOffset = tableView.contentOffset
+        
+        let insets = UIEdgeInsets(top: topLayoutPosition, left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)
+        let oldContentInset = tableViewInsetManager.standardContentInset
+        tableViewInsetManager.standardContentInset   = insets
+        tableViewInsetManager.standardIndicatorInset = insets
+        
+        // If the table view currently doesn't have any user interaction, adjust its content
+        // to keep the content onscreen.
+        if tableView.isTracking || tableView.isDecelerating { return }
+        
+        tableViewContentOffset.y -= (insets.top - oldContentInset.top)
+        if tableViewContentOffset.y <~ insets.top * -1.0 {
+            tableViewContentOffset.y = insets.top * -1.0
+        }
+        
+        tableView.contentOffset = tableViewContentOffset
     }
     
     open override func viewWillAppear(_ animated: Bool) {
