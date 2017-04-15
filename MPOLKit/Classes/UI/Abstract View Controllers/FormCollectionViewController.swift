@@ -105,7 +105,7 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        let topLayoutPosition: CGFloat
+        let topLayoutPosition:    CGFloat
         let bottomLayoutPosition: CGFloat
         
         let view = self.view!
@@ -129,10 +129,10 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         
-        guard #available(iOS 10, *) else { return }
-        
-        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
-            preferredContentSizeCategoryDidChange()
+        if #available(iOS 10, *) {
+            if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
+                preferredContentSizeCategoryDidChange()
+            }
         }
     }
     
@@ -159,8 +159,11 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
             let view = self.view,
             let collectionView = self.collectionView {
             view.backgroundColor = wantsTransparentBackground ? .clear : backgroundColor
+            
             for cell in collectionView.visibleCells {
-                self.collectionView(collectionView, willDisplay: cell, forItemAt: collectionView.indexPath(for: cell)!)
+                if let indexPath = collectionView.indexPath(for: cell) {
+                    self.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
+                }
             }
             
             if let globalHeader = collectionView.visibleSupplementaryViews(ofKind: collectionElementKindGlobalHeader).first {
@@ -210,6 +213,10 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
         
         (cell as? CollectionViewFormCell)?.separatorColor = separatorColor
         
+        let primaryTextColor     = self.primaryTextColor     ?? .black
+        let secondaryTextColor   = self.secondaryTextColor   ?? .darkGray
+        let placeholderTextColor = self.placeholderTextColor ?? .gray
+        
         switch cell {
         case let formCell as EntityCollectionViewCell:
             formCell.titleLabel.textColor    = primaryTextColor
@@ -217,26 +224,26 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
             formCell.detailLabel.textColor   = secondaryTextColor
         case let selectionCell as CollectionViewFormOptionCell:
             selectionCell.titleLabel.textColor = primaryTextColor
-        case let detailCell as CollectionViewFormSubtitleCell:
-            if detailCell.emphasis == .title {
-                detailCell.titleLabel.textColor    = primaryTextColor
-                detailCell.subtitleLabel.textColor = secondaryTextColor
+        case let subtitleCell as CollectionViewFormSubtitleCell:
+            if subtitleCell.emphasis == .title {
+                subtitleCell.titleLabel.textColor    = primaryTextColor
+                subtitleCell.subtitleLabel.textColor = secondaryTextColor
             } else {
-                detailCell.titleLabel.textColor    = secondaryTextColor
+                subtitleCell.titleLabel.textColor    = secondaryTextColor
                 
-                if detailCell.isEditableField {
-                    detailCell.subtitleLabel.textColor = primaryTextColor
+                if subtitleCell.isEditableField {
+                    subtitleCell.subtitleLabel.textColor = primaryTextColor
                     
-                    guard let title = detailCell.titleLabel.text as NSString? else { return }
+                    guard let title = subtitleCell.titleLabel.text as NSString? else { return }
                     
                     let rangeOfStar = title.range(of: "*")
                     if rangeOfStar.location == NSNotFound { return }
                     
                     let titleString = NSMutableAttributedString(string: title as String)
                     titleString.setAttributes([NSForegroundColorAttributeName: UIColor.red], range: rangeOfStar)
-                    detailCell.titleLabel.attributedText = titleString
+                    subtitleCell.titleLabel.attributedText = titleString
                 } else {
-                    detailCell.subtitleLabel.textColor = secondaryTextColor
+                    subtitleCell.subtitleLabel.textColor = secondaryTextColor
                 }
             }
         case let textFieldCell as CollectionViewFormTextFieldCell:
