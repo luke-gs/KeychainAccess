@@ -45,3 +45,7 @@ public class ManifestEntry: NSManagedObject {
     }
     
 }
+
+
+extension ManifestEntry: Pickable {
+}

@@ -268,7 +268,7 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
         
         let isSelected: Bool
         
-        if let item = displayItem(at: indexPath) {
+        if let item = pickableItem(at: indexPath) {
             cell.textLabel?.text       = item.title
             cell.detailTextLabel?.text = item.subtitle
             isSelected = selectedItems.contains(item)
@@ -300,7 +300,7 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
         
         let isSelected: Bool
         
-        if let item = displayItem(at: indexPath) {
+        if let item = pickableItem(at: indexPath) {
             isSelected = selectedItems.contains(item)
         } else {
             isSelected = selectedItems.isEmpty
@@ -326,7 +326,7 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
         
         let noSectionShowing = noItemTitle != nil && filteredItems == nil
         
-        if let item = displayItem(at: indexPath) {
+        if let item = pickableItem(at: indexPath) {
             if allowsMultipleSelection {
                 let isSelected = selectedItems.remove(item) == nil
                 if isSelected {
@@ -338,11 +338,10 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
                     reloadIndexPaths.append(IndexPath(row: 0, section: 0))
                 }
             } else {
-                if let oldIndexPath = self.indexPath(for: selectedItems.first) {
+                if let oldIndexPath = self.indexPath(for: selectedItems.first), oldIndexPath != indexPath {
                     reloadIndexPaths.append(oldIndexPath)
+                    selectedItems = [item]
                 }
-                
-                selectedItems = [item]
                 
                 updateCurrentCell(forCheck: true)
             }
@@ -387,7 +386,7 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
     
     // MARK: - Private methods
 
-    private func displayItem(at indexPath: IndexPath) -> T? {
+    private func pickableItem(at indexPath: IndexPath) -> T? {
         if let filteredItems = filteredItems {
             if indexPath.section != 0 { return nil }
             
@@ -402,16 +401,16 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
         }
     }
     
-    private func indexPath(for displayItem: T?) -> IndexPath? {
+    private func indexPath(for pickableItem: T?) -> IndexPath? {
         if let filteredItems = self.filteredItems {
-            if let item = displayItem,
+            if let item = pickableItem,
                 let index = filteredItems.index(of: item) {
                 return IndexPath(row: index, section: 0)
             } else {
                 return nil
             }
         } else {
-            if let displayItem = displayItem {
+            if let displayItem = pickableItem {
                 if let index = items.index(of: displayItem) {
                     return IndexPath(row: index, section: noItemTitle == nil ? 0 : 1)
                 } else {

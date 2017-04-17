@@ -32,8 +32,8 @@ public struct ManifestCollection: RawRepresentable, Equatable, Hashable {
     
     public let rawValue: String
     
-    static let States     = ManifestCollection(rawValue: "states")
-    static let Genders    = ManifestCollection(rawValue: "genders")
+    public static let States     = ManifestCollection(rawValue: "states")
+    public static let Genders    = ManifestCollection(rawValue: "genders")
     
     public var hashValue: Int {
         return rawValue.hashValue
