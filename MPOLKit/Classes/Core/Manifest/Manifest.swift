@@ -55,7 +55,7 @@ public final class Manifest: NSObject {
     }
     
     private override init() {
-        let modelLocation          = Bundle.main.url(forResource: "Manifest", withExtension: "momd")!
+        let modelLocation          = Bundle(for: Manifest.self).url(forResource: "Manifest", withExtension: "momd")!
         managedObjectModel         = NSManagedObjectModel(contentsOf: modelLocation)!
         persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
         
