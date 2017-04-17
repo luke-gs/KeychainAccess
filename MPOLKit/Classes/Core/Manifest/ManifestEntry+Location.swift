@@ -1,6 +1,6 @@
 //
 //  ManifestEntry+Location.swift
-//  VCom
+//  MPOLKit
 //
 //  Created by Rod Brown on 30/10/16.
 //  Copyright © 2016 Gridstone. All rights reserved.
