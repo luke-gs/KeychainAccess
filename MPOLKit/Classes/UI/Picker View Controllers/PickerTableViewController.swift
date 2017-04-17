@@ -222,14 +222,6 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
         super.viewDidLoad()
         tableView?.estimatedRowHeight = 44.0
         searchBar.text = searchTerm
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) { 
-            self.setSearchBarHidden(false, animated: true)
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
-            self.setSearchBarHidden(true, animated: true)
-        }
     }
     
     open override func viewWillAppear(_ animated: Bool) {

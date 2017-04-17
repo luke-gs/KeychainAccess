@@ -88,10 +88,17 @@ open class PushableSplitViewController: UIViewController, UISplitViewControllerD
     open override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        if isBeingDismissed == false,
-            let navigationController = self.navigationController, let newViewController = transitionCoordinator?.viewController(forKey: .to), newViewController is PushableSplitViewController == false {
-            navigationController.setNavigationBarHidden(false, animated: animated)
-        }
+        // We don't reset the nav bar back to its correct position when:
+        // 1. We are being dismissed.
+        //    This would create a weird appearance as part of the disappearance.
+        // 2. We are getting this as part of a presentation of a new view controller that hides us.
+        //    We detect this by checking if the presented view controller (if it exists) is being presented.
+        // 3. The new view controller in the transition is not a pushable view controller,
+        //    which would make it disappear anyway.
+        
+        if isBeingDismissed || presentedViewController?.isBeingPresented ?? false || transitionCoordinator?.viewController(forKey: .to) is PushableSplitViewController { return }
+        
+        navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
     

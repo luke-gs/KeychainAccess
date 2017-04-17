@@ -81,6 +81,12 @@ open class PopoverNavigationController: UINavigationController, PopoverViewContr
     
     private var formSheetPresentationController: PopoverFormSheetPresentationController?
     
+    private lazy var doneButtonItem: UIBarButtonItem = { [unowned self] in
+        return UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonItemDidSelect(_:)))
+    }()
+    
+    private var doneButtonInstalledNavItem: UINavigationItem?
+    
     
     // MARK: - Initializers
     
@@ -114,6 +120,18 @@ open class PopoverNavigationController: UINavigationController, PopoverViewContr
         super.pushViewController(viewController, animated: animated)
     }
     
+    open override func popViewController(animated: Bool) -> UIViewController? {
+        if let poppedViewController = super.popViewController(animated: animated) {
+            
+            if poppedViewController.navigationItem == doneButtonInstalledNavItem {
+                removeDoneButton()
+            }
+            
+            return poppedViewController
+        }
+        return nil
+    }
+    
     open override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
@@ -141,6 +159,17 @@ open class PopoverNavigationController: UINavigationController, PopoverViewContr
     }
     
     open func presentationController(_ presentationController: UIPresentationController, willPresentWithAdaptiveStyle style: UIModalPresentationStyle, transitionCoordinator: UIViewControllerTransitionCoordinator?) {
+        switch style {
+        case .fullScreen, .overFullScreen:
+            if isModalInPopover == false, let rootViewControllerItem = viewControllers.first?.navigationItem {
+                installDoneButton(on: rootViewControllerItem)
+            }
+            break
+        default:
+            removeDoneButton()
+            break
+        }
+        
         wantsTransparentBackground = (style == .none && (modalPresentationStyle == .popover || modalPresentationStyle == .custom))
     }
     
@@ -193,6 +222,37 @@ open class PopoverNavigationController: UINavigationController, PopoverViewContr
         viewControllers.forEach {
             ($0 as? PopoverViewController)?.wantsTransparentBackground = transparent
         }
+    }
+    
+    @objc private func doneButtonItemDidSelect(_ item: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
+    }
+
+    
+    private func installDoneButton(on item: UINavigationItem) {
+        if item.rightBarButtonItems?.isEmpty ?? true {
+            item.rightBarButtonItems = [doneButtonItem]
+            doneButtonInstalledNavItem = item
+        } else if item.leftBarButtonItems?.isEmpty ?? true {
+            item.leftBarButtonItems = [doneButtonItem]
+            doneButtonInstalledNavItem = item
+        }
+    }
+    
+    private func removeDoneButton() {
+        // TODO: Remove done button
+        
+        guard let item = doneButtonInstalledNavItem else { return }
+        
+        if var rightItems = item.rightBarButtonItems, let indexOfDone = rightItems.index(of: doneButtonItem) {
+            rightItems.remove(at: indexOfDone)
+            item.rightBarButtonItems = rightItems
+        } else if var leftItems = item.leftBarButtonItems, let indexOfDone = leftItems.index(of: doneButtonItem) {
+            leftItems.remove(at: indexOfDone)
+            item.leftBarButtonItems = leftItems
+        }
+        
+        doneButtonInstalledNavItem = nil
     }
     
 }
