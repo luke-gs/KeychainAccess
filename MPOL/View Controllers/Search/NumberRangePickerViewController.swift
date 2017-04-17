@@ -7,59 +7,120 @@
 //
 
 import UIKit
+import MPOLKit
+
 fileprivate var kvoContext = 1
 
-class NumberRangePickerViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+fileprivate var cellID = "cellID"
+
+class NumberRangePickerViewController: FormTableViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    // MARK: - Public properties
     
     weak var delegate: NumberRangePickerDelegate?
     
-    public var minValue: Int
-    public var maxValue: Int
-
-    private var _currentMinValue: Int
-    private var _currentMaxValue: Int
+    let minValue: Int
+    let maxValue: Int
     
-    public var currentMinValue: Int {
+    var currentMinValue: Int {
         get { return _currentMinValue }
         set { setCurrentMinValue(newValue, animated: false) }
     }
     
-    public func setCurrentMinValue(_ minValue: Int, animated: Bool) {
+    func setCurrentMinValue(_ minValue: Int, animated: Bool) {
         _currentMinValue = minValue
         if let picker = pickerView {
-            picker.selectRow(minValue-self.minValue, inComponent: 0, animated: animated)
+            picker.selectRow(minValue - self.minValue, inComponent: 0, animated: animated)
+            
+            _currentMaxValue = picker.selectedRow(inComponent: 1) + self.minValue
+            if _currentMaxValue < minValue {
+                setCurrentMaxValue(minValue, animated: animated)
+            }
+        } else if _currentMaxValue < minValue {
+            _currentMaxValue = minValue
         }
     }
     
-    public var currentMaxValue: Int {
+    var currentMaxValue: Int {
         get { return _currentMaxValue }
         set { setCurrentMaxValue(newValue, animated: false) }
     }
     
-    public func setCurrentMaxValue(_ maxValue: Int, animated: Bool) {
-        _currentMaxValue = maxValue
+    func setCurrentMaxValue(_ maxValue: Int, animated: Bool) {
         if let picker = pickerView {
-            picker.selectRow(maxValue-self.minValue, inComponent: 1, animated: animated)
+            _currentMinValue = picker.selectedRow(inComponent: 0)
+            _currentMaxValue = max(maxValue, _currentMinValue)
+            
+            picker.selectRow(_currentMaxValue - minValue, inComponent: 1, animated: animated)
+        } else {
+            _currentMaxValue = max(maxValue, _currentMinValue)
         }
     }
     
+    var noRangeTitle: String? {
+        didSet {
+            guard let tableView = self.tableView else { return }
+            
+            let hadSection = (oldValue?.isEmpty ?? true)     == false
+            let hasSection = (noRangeTitle?.isEmpty ?? true) == false
+            
+            switch (hadSection, hasSection) {
+            case (false, false):
+                return
+            case (false, true):
+                tableView.deleteSections(IndexSet(integer: 1), with: .fade)
+            case (true, false):
+                tableView.insertSections(IndexSet(integer: 1), with: .fade)
+            case (true, true):
+                if oldValue != noRangeTitle {
+                    tableView.reloadSections(IndexSet(integer: 1), with: .none)
+                }
+            }
+            
+        }
+    }
+    
+    
+    // MARK: - Private properties
+    
+    private var _currentMinValue: Int {
+        didSet {
+            if _currentMinValue != oldValue {
+                pickerView?.reloadComponent(1)
+            }
+        }
+    }
+    
+    private var _currentMaxValue: Int
+    
     private var pickerView: UIPickerView? = nil
+    
+    private var minLabel: UILabel?
+    
+    private var maxLabel: UILabel?
+    
+    private var dashLabel: UILabel?
     
     
     // MARK: - Initializers
     
     public init(min: Int, max: Int, currentMin: Int, currentMax: Int) {
+        precondition(min <= max, "min value must be less than or equal to the maximum value.")
+        precondition(currentMin >= min, "currentMin must be greater than or equal to the minimum value.")
+        precondition(currentMax >= max, "currentMax must be less than or equal to the maximum value.")
+        precondition(currentMin <= currentMax, "currentMin must be less than or equal to the currentMax value.")
+        
         self.maxValue = max
         self.minValue = min
         
         _currentMinValue = currentMin
         _currentMaxValue = currentMax
         
-        super.init(nibName: nil, bundle: nil)
+        super.init(style: .grouped)
     }
     
     public convenience init(min: Int, max: Int) {
-        self.init(min: min, max: max, currentMin: min, currentMax: min)
+        self.init(min: min, max: max, currentMin: min, currentMax: max)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -69,134 +130,186 @@ class NumberRangePickerViewController: UIViewController, UIPickerViewDelegate, U
     
     // MARK: - View lifecycle
     
-    override func loadView() {
-        let backgroundView = UIView(frame: .zero)
-        backgroundView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        
+    override func viewDidLoad() {
         let picker = UIPickerView(frame: .zero)
         picker.translatesAutoresizingMaskIntoConstraints = false
         picker.delegate   = self
         picker.dataSource = self
-        picker.selectRow(currentMinValue-minValue, inComponent: 0, animated: false)
-        picker.selectRow(currentMaxValue-minValue, inComponent: 1, animated: false)
-        backgroundView.addSubview(picker)
+        picker.selectRow(currentMinValue - minValue, inComponent: 0, animated: false)
+        picker.selectRow(currentMaxValue - minValue, inComponent: 1, animated: false)
         
-        let minTitle = UILabel(frame: .zero)
-        minTitle.text = NSLocalizedString("Min", comment: "Minimum value in picker view.")
-        minTitle.textAlignment = .center
-        minTitle.translatesAutoresizingMaskIntoConstraints = false
-        backgroundView.addSubview(minTitle)
+        let minLabel = UILabel(frame: .zero)
+        minLabel.translatesAutoresizingMaskIntoConstraints = false
+        minLabel.text = NSLocalizedString("Min", comment: "Minimum value in picker view.")
+        minLabel.textAlignment = .center
+        picker.addSubview(minLabel)
         
-        let maxTitle = UILabel(frame: .zero)
-        maxTitle.text = NSLocalizedString("Max", comment: "Maximum value in picker view")
-        maxTitle.textAlignment = .center
-        maxTitle.translatesAutoresizingMaskIntoConstraints = false
-        backgroundView.addSubview(maxTitle)
+        let maxLabel = UILabel(frame: .zero)
+        maxLabel.translatesAutoresizingMaskIntoConstraints = false
+        maxLabel.text = NSLocalizedString("Max", comment: "Maximum value in picker view")
+        maxLabel.textAlignment = .center
+        picker.addSubview(maxLabel)
         
         let dashLabel = UILabel(frame: .zero)
+        dashLabel.translatesAutoresizingMaskIntoConstraints = false
         dashLabel.text = NSLocalizedString("-", comment: "Separator between values in picker view")
         dashLabel.textAlignment = .center
-        dashLabel.translatesAutoresizingMaskIntoConstraints = false
         dashLabel.center = picker.center
-        backgroundView.addSubview(dashLabel)
-        
-        self.view       = backgroundView
-        self.pickerView = picker
+        picker.addSubview(dashLabel)
         
         NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: minTitle, attribute: .trailing, relatedBy: .equal, toItem: backgroundView, attribute: .centerX),
-            NSLayoutConstraint(item: minTitle, attribute: .width, relatedBy: .equal, toConstant: 60.0),
-            NSLayoutConstraint(item: minTitle, attribute: .top,   relatedBy: .equal, toItem: topLayoutGuide, attribute: .bottom, constant: 5.0),
+            NSLayoutConstraint(item: minLabel, attribute: .trailing, relatedBy: .equal, toItem: picker, attribute: .centerX, constant: 3.0),
+            NSLayoutConstraint(item: minLabel, attribute: .width,    relatedBy: .equal, toConstant: 60.0),
+            NSLayoutConstraint(item: minLabel, attribute: .top,      relatedBy: .equal, toItem: picker, attribute: .top, constant: 5.0),
             
-            NSLayoutConstraint(item: maxTitle, attribute: .leading,  relatedBy: .equal, toItem: backgroundView, attribute: .centerX),
-            NSLayoutConstraint(item: maxTitle, attribute: .width, relatedBy: .equal, toConstant: 60.0),
-            NSLayoutConstraint(item: maxTitle, attribute: .top,   relatedBy: .equal, toItem: topLayoutGuide, attribute: .bottom, constant: 5.0),
+            NSLayoutConstraint(item: maxLabel, attribute: .leading,  relatedBy: .equal, toItem: picker, attribute: .centerX, constant: 5.0),
+            NSLayoutConstraint(item: maxLabel, attribute: .width,    relatedBy: .equal, toConstant: 60.0),
+            NSLayoutConstraint(item: maxLabel, attribute: .top,      relatedBy: .equal, toItem: picker, attribute: .top, constant: 5.0),
             
-            NSLayoutConstraint(item: picker, attribute: .top,    relatedBy: .equal, toItem: minTitle, attribute: .bottom),
-            NSLayoutConstraint(item: picker, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom),
-            NSLayoutConstraint(item: picker, attribute: .leading,   relatedBy: .equal, toItem: self.view, attribute: .left),
-            NSLayoutConstraint(item: picker, attribute: .trailing,  relatedBy: .equal, toItem: self.view, attribute: .right),
-            
-            NSLayoutConstraint(item: dashLabel, attribute: .centerX, relatedBy: .equal, toItem: picker, attribute: .centerX),
+            NSLayoutConstraint(item: dashLabel, attribute: .centerX, relatedBy: .equal, toItem: picker, attribute: .centerX, constant: 5.0),
             NSLayoutConstraint(item: dashLabel, attribute: .centerY, relatedBy: .equal, toItem: picker, attribute: .centerY),
+            
+            NSLayoutConstraint(item: picker, attribute: .height, relatedBy: .equal, toConstant: picker.intrinsicContentSize.height, priority: UILayoutPriorityRequired - 1)
         ])
         
-        preferredContentSize = CGSize(width: 320.0, height: 160.0)
+        self.pickerView = picker
+        self.minLabel   = minLabel
+        self.maxLabel   = maxLabel
+        self.dashLabel  = dashLabel
         
+        tableView?.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
+        tableView?.estimatedRowHeight = 44.0
         
+        super.viewDidLoad()
+    }
+    
+    override func applyCurrentTheme() {
+        super.applyCurrentTheme()
+        
+        let primaryTextColor = self.primaryTextColor ?? .darkText
+        
+        minLabel?.textColor  = primaryTextColor
+        maxLabel?.textColor  = primaryTextColor
+        dashLabel?.textColor = primaryTextColor
+        
+        pickerView?.reloadAllComponents()
+    }
+    
+    // MARK: - UITableViewDataSource methods
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return noRangeTitle?.isEmpty ?? true ? 1 : 2
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
+        let contentView = cell.contentView
+        
+        if indexPath.section == 0 {
+            cell.textLabel?.text = nil
+            cell.selectionStyle = .none
+            
+            if let pickerView = self.pickerView, pickerView.superview != contentView {
+                contentView.addSubview(pickerView)
+                
+                NSLayoutConstraint.activate([
+                    NSLayoutConstraint(item: pickerView, attribute: .leading,  relatedBy: .equal, toItem: contentView, attribute: .leading),
+                    NSLayoutConstraint(item: pickerView, attribute: .trailing, relatedBy: .equal, toItem: contentView, attribute: .trailing),
+                    NSLayoutConstraint(item: pickerView, attribute: .top,      relatedBy: .equal, toItem: contentView, attribute: .top),
+                    NSLayoutConstraint(item: pickerView, attribute: .bottom,   relatedBy: .equal, toItem: contentView, attribute: .bottom),
+                    ])
+            }
+        } else {
+            if pickerView?.superview == contentView {
+                pickerView?.removeFromSuperview()
+            }
+            cell.textLabel?.text = noRangeTitle
+            cell.textLabel?.textAlignment = .center
+            cell.selectionStyle = .default
+        }
+        return cell
     }
     
     
-    // MARK: Picker datasource
+    // MARK: - UITableViewDelegate methods
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        super.tableView(tableView, willDisplay: cell, forRowAt: indexPath)
+        
+        if indexPath.section == 1 {
+            cell.textLabel?.textColor = tintColor
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        if indexPath.section == 1 {
+            delegate?.numberRangePickerDidSelectNoRange(self)
+        }
+    }
+    
+    
+    // MARK: - UIPickerViewDataSource methods
+    
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 2
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        let difference = (maxValue - minValue) + 1
-        
-        return difference > 0 ? difference : 0
+        // Calculate the number of rows between the values, plus one to represent the other value.
+        // eg in a picker with 0 and 1 as the valid values, this becomes 1 - 0 + 1 = 2 possible options.
+        return maxValue - minValue + 1
     }
     
-    // MARK: Picker delegate
+    
+    // MARK: - UIPickerViewDelegate methods
     
     func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
         return 60.0
     }
     
-    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
-        let label = UILabel()
-        label.text = "\(row+minValue)"
-        label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 24.0)
+    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+        return 30.0
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
         
-        if component == 1 {
-            let currentValue = row+minValue
-            
-            if currentValue < currentMinValue {
-                label.textColor = .lightGray
-                label.alpha = 0.5
-            } else {
-                label.textColor = .darkText
-                label.alpha = 1.0
-            }
+        let rowNumber = row + minValue
+        
+        let color: UIColor
+        if component == 1 && rowNumber < currentMinValue {
+            color = placeholderTextColor ?? .lightGray
+        } else {
+            color = primaryTextColor ?? .darkText
         }
         
-        return label
+        return NSAttributedString(string: String(describing: rowNumber), attributes: [NSForegroundColorAttributeName: color])
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        
-        let newValue = row+minValue
-        var max = _currentMaxValue
-        var min = _currentMinValue
-        
+        let rowValue = row + minValue
         if component == 0 {
-            min = newValue
+            setCurrentMinValue(rowValue, animated: true)
         } else {
-            max = newValue
+            setCurrentMaxValue(rowValue, animated: true)
         }
         
-        if max < min {
-            max = min
-        }
-        
-        setCurrentMinValue(min, animated: true)
-        setCurrentMaxValue(max, animated: true)
-        
-        if component == 0 {
-            pickerView.reloadComponent(1)
-        }
-        
-        if let delegate = numberRangePickerDelegate {
-            delegate.numberRangePickerValueChanged(self, newMinValue: _currentMinValue, newMaxValue: _currentMaxValue)
-        }
+        delegate?.numberRangePicker(self, didUpdateMinValue: currentMinValue, maxValue: currentMaxValue)
     }
 }
 
-// MARK - Delegate to return value
+
+
+// MARK - NumberRangePickerDelegate
 
 protocol NumberRangePickerDelegate: class {
     
-    func numberRangePickerValueChanged(_ numberPicker: SearchNumberRangePickerViewController, newMinValue: Int, newMaxValue: Int)
+    func numberRangePicker(_ numberPicker: NumberRangePickerViewController, didUpdateMinValue minValue: Int, maxValue: Int)
+    
+    func numberRangePickerDidSelectNoRange(_ picker: NumberRangePickerViewController)
 }

@@ -212,14 +212,28 @@ class SearchOptionsViewController: FormCollectionViewController {
             // Quickly deselect the index path, and return out.
             guard let updateViewController = selectedDataSource.updateController(forFilterAt: indexPath.item) else {
                 collectionView.deselectItem(at: indexPath, animated: false)
-                collectionView.selectItem(at: IndexPath(item: 1, section: Section.generalDetails.rawValue), animated: false, scrollPosition: [])
                 return
             }
             
             // stop editing the field, if it is currently editing.
             endEditingSearchField()
             
-            // TODO: present the update view controller.
+            updateViewController.modalPresentationStyle = .popover
+            if let popoverPresentationController = updateViewController.popoverPresentationController,
+                let cell = collectionView.cellForItem(at: indexPath) {
+                popoverPresentationController.sourceView = cell
+                popoverPresentationController.sourceRect = cell.bounds
+            }
+            
+            if let popoverNavigationController = updateViewController as? PopoverNavigationController {
+                let dataSourceSpecifiedDismissHandler = popoverNavigationController.dismissHandler
+                popoverNavigationController.dismissHandler = { [weak self] (animated: Bool) in
+                    dataSourceSpecifiedDismissHandler?(animated)
+                    self?.collectionView?.deselectItem(at: indexPath, animated: animated)
+                }
+            }
+            
+            present(updateViewController, animated: true)
         }
     }
     

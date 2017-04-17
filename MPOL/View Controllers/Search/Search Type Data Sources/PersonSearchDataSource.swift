@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MPOLKit
 
 class PersonSearchDataSource: SearchDataSource {
     
@@ -32,7 +33,9 @@ class PersonSearchDataSource: SearchDataSource {
         }
     }
     
-    override var localizedDisplayName: String { return NSLocalizedString("Person", comment: "") }
+    override var localizedDisplayName: String {
+        return NSLocalizedString("Person", comment: "")
+    }
     
     
     // MARK: - Filters
@@ -55,7 +58,14 @@ class PersonSearchDataSource: SearchDataSource {
     /// - Returns:         The value for the filter, if any.
     ///                    Returns `nil` when there is no specific value for the filter.
     override func valueForFilter(at index: Int) -> String? {
-        return nil
+        guard let filterItem = FilterItem(rawValue: index) else { return nil }
+        
+        switch filterItem {
+        case .searchType:
+            return personSearchRequest.searchType.title
+        default:
+            return nil
+        }
     }
     
     
@@ -66,7 +76,43 @@ class PersonSearchDataSource: SearchDataSource {
     ///                    When a standard `UIViewController` is returned, it is expected it will be contained
     ///                    in a `UINavigationController`.
     override func updateController(forFilterAt index: Int) -> UIViewController? {
-        return nil
+        guard let item = FilterItem(rawValue: index) else { return nil }
+        let viewController: UIViewController
+        
+        switch item {
+        case .searchType:
+            let values = PersonSearchRequest.SearchType.all
+            let picker = PickerTableViewController(style: .plain, items: values)
+            picker.title = NSLocalizedString("Search Type", comment: "")
+            picker.selectedItems = [personSearchRequest.searchType]
+            picker.selectionUpdateHandler = { [weak self] (selectedTypes: Set<PersonSearchRequest.SearchType>?) in
+                if let strongSelf = self,
+                    let item = selectedTypes?.first {
+                    strongSelf.personSearchRequest.searchType = item
+                    strongSelf.updatingDelegate?.searchDataSource(strongSelf, didUpdateFilterAt: index)
+                }
+            }
+            viewController = picker
+        case .gender:
+            let picker = PickerTableViewController(style: .plain, items: Manifest.shared.entries(for: .Genders) ?? [])
+            picker.title = NSLocalizedString("Gender/s", comment: "")
+            picker.noItemTitle = NSLocalizedString("Any", comment: "")
+            // TODO: Handle selection and preselecting
+            viewController = picker
+        case .state:
+            let picker = PickerTableViewController(style: .plain, items: Manifest.shared.entries(for: .States) ?? [])
+            picker.title = NSLocalizedString("State/s", comment: "")
+            picker.noItemTitle = NSLocalizedString("Any", comment: "")
+            // TODO: Handle selection and preselecting
+            viewController = picker
+        case .age:
+            let ageNumberPicker = NumberRangePickerViewController(min:0, max: 100)
+            ageNumberPicker.title = NSLocalizedString("Age Range", comment: "")
+            ageNumberPicker.noRangeTitle = NSLocalizedString("Any Age", comment: "")
+            viewController = ageNumberPicker
+        }
+        
+        return PopoverNavigationController(rootViewController: viewController)
     }
     
     private enum FilterItem: Int {

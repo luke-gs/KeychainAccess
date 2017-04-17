@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import MPOLKit
 
 class PersonSearchRequest: SearchRequest {
 
@@ -14,11 +15,10 @@ class PersonSearchRequest: SearchRequest {
         return NSLocalizedString("Person", comment: "")
     }
     
-    
-    private var searchTypeValue: String? = nil
-    private var states: [String]? = nil
-    private var gender: [String]? = nil
-    private var ageRange: Range = Range(uncheckedBounds: (0, 100))
+    var searchType: SearchType = .name
+    var states: [String]?
+    var gender: [String]?
+    var ageRange: Range<Int>?
     
     
     // MARK: - Initializers
@@ -33,6 +33,22 @@ class PersonSearchRequest: SearchRequest {
     
     override func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
+    }
+    
+    enum SearchType: Int, Pickable {
+        case name
+        
+        var title: String? {
+            switch self {
+            case .name: return NSLocalizedString("Name", comment: "")
+            }
+        }
+        
+        var subtitle: String? {
+            return nil
+        }
+        
+        static var all: [SearchType] = [.name]
     }
     
 }
