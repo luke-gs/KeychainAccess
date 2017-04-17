@@ -27,6 +27,17 @@ open class PopoverNavigationController: UINavigationController, PopoverViewContr
     }
     
     
+    /// An optional dismiss handler.
+    ///
+    /// The popover navigation controller fires this when it is about to dismiss after
+    /// being presented, and passes a boolean parameter, indicating whether the dismiss
+    /// will be animated.
+    ///
+    /// You should use this method to avoid assigning yourself as the popover presentation controller's
+    /// delegate, as this will interfere with the adaptive appearance APIs.
+    open var dismissHandler: ((Bool) -> Void)?
+    
+    
     /// `PopoverNavigationController` overrides `modalPresentationStyle` to apply standard defaults
     /// to the navigation controller presentation.
     ///
@@ -36,7 +47,9 @@ open class PopoverNavigationController: UINavigationController, PopoverViewContr
     ///   to be used. You can alternately set another transition delegate and take over management of
     ///   the custom presentation.
     /// - When set to `.popover`, the navigation controller becomes the popover presentation
-    ///   controller's delegate by default.
+    ///   controller's delegate by default. If you need to handle close notifications from the popover
+    ///   presentation controller, you should instead use the `dismissHandler` to avoid interfering
+    ///   with the adaptive appearance APIs.
     open override var modalPresentationStyle: UIModalPresentationStyle {
         didSet {
             switch modalPresentationStyle {
@@ -99,6 +112,14 @@ open class PopoverNavigationController: UINavigationController, PopoverViewContr
     open override func pushViewController(_ viewController: UIViewController, animated: Bool) {
         (viewController as? PopoverViewController)?.wantsTransparentBackground = wantsTransparentBackground
         super.pushViewController(viewController, animated: animated)
+    }
+    
+    open override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if isBeingDismissed {
+            dismissHandler?(animated)
+        }
     }
     
     

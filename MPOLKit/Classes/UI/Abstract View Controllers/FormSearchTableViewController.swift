@@ -97,32 +97,32 @@ open class FormSearchTableViewController: FormTableViewController, UISearchBarDe
         // We don't call super because this would adjust things incorrectly, which we would need to reset,
         // and viewDidLayoutSubviews on UIViewController is a no-op.
         
-        guard let tableView = self.tableView, let tableViewInsetManager = self.tableViewInsetManager else { return }
+        guard let scrollView = self.tableView, let insetManager = self.tableViewInsetManager else { return }
         
         let topLayoutGuideInset = topLayoutGuide.length
         
         var searchBarFrame = searchBar.frame
         searchBarFrame.origin.y   = topLayoutGuideInset - (isSearchBarHidden ? searchBarFrame.height : 0.0)
-        searchBarFrame.size.width = tableView.frame.width
+        searchBarFrame.size.width = scrollView.frame.width
         searchBar.frame = searchBarFrame
         
-        var tableViewContentOffset = tableView.contentOffset
+        var contentOffset = scrollView.contentOffset
         
         let insets = UIEdgeInsets(top: searchBarFrame.maxY, left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)
-        let oldContentInset = tableViewInsetManager.standardContentInset
-        tableViewInsetManager.standardContentInset   = insets
-        tableViewInsetManager.standardIndicatorInset = insets
+        let oldContentInset = insetManager.standardContentInset
+        insetManager.standardContentInset   = insets
+        insetManager.standardIndicatorInset = insets
         
-        // If the table view currently doesn't have any user interaction, adjust its content
+        // If the scroll view currently doesn't have any user interaction, adjust its content
         // to keep the content onscreen.
-        if tableView.isTracking || tableView.isDecelerating { return }
+        if scrollView.isTracking || scrollView.isDecelerating { return }
         
-        tableViewContentOffset.y -= (insets.top - oldContentInset.top)
-        if tableViewContentOffset.y <~ insets.top * -1.0 {
-            tableViewContentOffset.y = insets.top * -1.0
+        contentOffset.y -= (insets.top - oldContentInset.top)
+        if contentOffset.y <~ insets.top * -1.0 {
+            contentOffset.y = insets.top * -1.0
         }
         
-        tableView.contentOffset = tableViewContentOffset
+        scrollView.contentOffset = contentOffset
     }
     
     open override func viewDidAppear(_ animated: Bool) {

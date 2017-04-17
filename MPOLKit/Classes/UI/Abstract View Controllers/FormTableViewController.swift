@@ -201,41 +201,25 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        guard let tableView = self.tableView, let tableViewInsetManager = self.tableViewInsetManager else { return }
+        guard let scrollView = self.tableView, let insetManager = self.tableViewInsetManager else { return }
         
-        let topLayoutPosition:    CGFloat
-        let bottomLayoutPosition: CGFloat
+        var contentOffset = scrollView.contentOffset
         
-        let view = self.view!
-        let screenBounds = (view.window?.screen ?? .main).bounds
+        let insets = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)
+        let oldContentInset = insetManager.standardContentInset
+        insetManager.standardContentInset   = insets
+        insetManager.standardIndicatorInset = insets
         
-        if view.convert(view.bounds, to: nil).intersects(screenBounds) {
-            // Onscreen.
-            topLayoutPosition    = max(view.convert(CGPoint(x: 0.0, y: topLayoutGuide.length), from: nil).y, 0.0)
-            bottomLayoutPosition = max(screenBounds.height - view.convert(CGPoint(x: 0.0, y: screenBounds.height - bottomLayoutGuide.length), from: nil).y, 0.0)
-        } else {
-            // Not onscreen.
-            topLayoutPosition    = topLayoutGuide.length
-            bottomLayoutPosition = bottomLayoutGuide.length
-        }
-        
-        var tableViewContentOffset = tableView.contentOffset
-        
-        let insets = UIEdgeInsets(top: topLayoutPosition, left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)
-        let oldContentInset = tableViewInsetManager.standardContentInset
-        tableViewInsetManager.standardContentInset   = insets
-        tableViewInsetManager.standardIndicatorInset = insets
-        
-        // If the table view currently doesn't have any user interaction, adjust its content
+        // If the scroll view currently doesn't have any user interaction, adjust its content
         // to keep the content onscreen.
-        if tableView.isTracking || tableView.isDecelerating { return }
+        if scrollView.isTracking || scrollView.isDecelerating { return }
         
-        tableViewContentOffset.y -= (insets.top - oldContentInset.top)
-        if tableViewContentOffset.y <~ insets.top * -1.0 {
-            tableViewContentOffset.y = insets.top * -1.0
+        contentOffset.y -= (insets.top - oldContentInset.top)
+        if contentOffset.y <~ insets.top * -1.0 {
+            contentOffset.y = insets.top * -1.0
         }
         
-        tableView.contentOffset = tableViewContentOffset
+        scrollView.contentOffset = contentOffset
     }
     
     open override func viewWillAppear(_ animated: Bool) {
@@ -270,6 +254,7 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     open func applyCurrentTheme() {
         let colors = Theme.current.colors
         
+        tintColor            = colors[.Tint]
         separatorColor       = tableViewStyle == .grouped ? (colors[.GroupedTableSeparator]  ?? colors[.Separator])  : colors[.Separator]
         backgroundColor      = tableViewStyle == .grouped ? (colors[.GroupedTableBackground] ?? colors[.Background]) : colors[.Background]
         cellBackgroundColor  = tableViewStyle == .grouped ? colors[.GroupedTableCellBackground] : nil
@@ -280,7 +265,7 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
         
         setNeedsStatusBarAppearanceUpdate()
         
-        guard isViewLoaded, let tableView = self.tableView else { return }
+        guard let tableView = self.tableView else { return }
         
         updateTableBackgroundColor()
         tableView.separatorColor  = separatorColor

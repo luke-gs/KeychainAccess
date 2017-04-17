@@ -105,25 +105,25 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        let topLayoutPosition:    CGFloat
-        let bottomLayoutPosition: CGFloat
+        guard let scrollView = self.collectionView, let insetManager = self.collectionViewInsetManager else { return }
         
-        let view = self.view!
-        let screenBounds = (view.window?.screen ?? .main).bounds
+        var contentOffset = scrollView.contentOffset
         
-        if view.convert(view.bounds, to: nil).intersects(screenBounds) {
-            // Onscreen.
-            topLayoutPosition    = max(view.convert(CGPoint(x: 0.0, y: topLayoutGuide.length), from: nil).y, 0.0)
-            bottomLayoutPosition = max(screenBounds.height - view.convert(CGPoint(x: 0.0, y: screenBounds.height - bottomLayoutGuide.length), from: nil).y, 0.0)
-        } else {
-            // Not onscreen.
-            topLayoutPosition    = topLayoutGuide.length
-            bottomLayoutPosition = bottomLayoutGuide.length
+        let insets = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)
+        let oldContentInset = insetManager.standardContentInset
+        insetManager.standardContentInset   = insets
+        insetManager.standardIndicatorInset = insets
+        
+        // If the scroll view currently doesn't have any user interaction, adjust its content
+        // to keep the content onscreen.
+        if scrollView.isTracking || scrollView.isDecelerating { return }
+        
+        contentOffset.y -= (insets.top - oldContentInset.top)
+        if contentOffset.y <~ insets.top * -1.0 {
+            contentOffset.y = insets.top * -1.0
         }
         
-        let contentInsets = UIEdgeInsets(top: topLayoutPosition, left: 0.0, bottom: bottomLayoutPosition, right: 0.0)
-        collectionViewInsetManager?.standardContentInset    = contentInsets
-        collectionViewInsetManager?.standardIndicatorInset  = contentInsets
+        scrollView.contentOffset = contentOffset
     }
     
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -146,6 +146,7 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     open func applyCurrentTheme() {
         let colors = Theme.current.colors
         
+        tintColor            = colors[.Tint]
         separatorColor       = colors[.Separator]
         backgroundColor      = colors[.Background]
         selectionColor       = colors[.CellSelection]
