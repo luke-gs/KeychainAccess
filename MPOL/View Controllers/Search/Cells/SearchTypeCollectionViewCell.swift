@@ -15,6 +15,9 @@ class SegmentedControlCollectionViewCell: CollectionViewFormCell {
     
     let infoButton = UIButton(type: .infoLight)
     
+    
+    // MARK: - Initializers
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
@@ -51,6 +54,9 @@ class SegmentedControlCollectionViewCell: CollectionViewFormCell {
         ])
     }
     
+    
+    // MARK: - Overrides
+    
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         
@@ -58,6 +64,9 @@ class SegmentedControlCollectionViewCell: CollectionViewFormCell {
             updateSegmentedControlForTraits()
         }
     }
+    
+    
+    // MARK: - Private methods
     
     private func updateSegmentedControlForTraits() {
         
@@ -71,4 +80,5 @@ class SegmentedControlCollectionViewCell: CollectionViewFormCell {
             segmentedControl.setTitleTextAttributes(nil, for: .normal)
         }
     }
+    
 }

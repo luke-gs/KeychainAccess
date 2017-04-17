@@ -15,24 +15,38 @@ class SearchOptionsViewController: FormCollectionViewController {
     
     let dataSources: [SearchDataSource]
     
-    var selectedDataSource: SearchDataSource
-    
-    var selectedDataSourceIndex: Int = 0
+    var selectedDataSourceIndex: Int = 0 {
+        didSet {
+            if selectedDataSourceIndex == oldValue { return }
+            
+            if selectedDataSourceIndex >= dataSources.count {
+                fatalError("SearchOptionsViewController.selectedDataSourceIndex set to an invalid index. Index must be lower than the count of data sources.")
+            }
+            
+            selectedDataSource = dataSources[selectedDataSourceIndex]
+        }
+    }
     
     private(set) var areFiltersHidden: Bool = true {
         didSet {
             if areFiltersHidden == oldValue { return }
             
-            if isViewLoaded {
-                reloadCollectionViewRetainingEditing()
-            }
+            reloadCollectionViewRetainingEditing()
         }
     }
+    
+    private var selectedDataSource: SearchDataSource {
+        didSet {
+            reloadCollectionViewRetainingEditing()
+        }
+    }
+    
+    private var isEditingTextField: Bool = false
     
     
     // MARK: - Initializers
     
-    public init(dataSources: [SearchDataSource] = [PersonSearchDataSource(), VehicleSearchDataSource(), OrganizationSearchDataSource(), LocationSearchDataSource()]) {
+    init(dataSources: [SearchDataSource] = [PersonSearchDataSource(), VehicleSearchDataSource(), OrganizationSearchDataSource(), LocationSearchDataSource()]) {
         guard let firstDataSource = dataSources.first else {
             fatalError("SearchOptionsViewController requires at least one available search type")
         }
@@ -43,7 +57,7 @@ class SearchOptionsViewController: FormCollectionViewController {
         super.init()
     }
     
-    public required convenience init(coder aDecoder: NSCoder) {
+    required convenience init(coder aDecoder: NSCoder) {
         self.init()
     }
     
@@ -54,7 +68,7 @@ class SearchOptionsViewController: FormCollectionViewController {
     
     // MARK - View Lifecycle
     
-    open override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         
         guard let collectionView = self.collectionView else { return }
@@ -71,15 +85,25 @@ class SearchOptionsViewController: FormCollectionViewController {
         preferredContentSize = collectionView.contentSize
     }
     
-    open override func viewWillDisappear(_ animated: Bool) {
-        endEditingSearchField()
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if isEditingTextField {
+            beginEditingSearchField()
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        endEditingSearchField(changingState: false)
         super.viewWillDisappear(animated)
     }
     
     private func reloadCollectionViewRetainingEditing() {
+        guard let collectionView = self.collectionView else { return }
+        
         let wasSearchFieldActive = self.searchFieldCell?.textField.isFirstResponder ?? false
         
-        collectionView?.reloadData()
+        collectionView.reloadData()
         
         if wasSearchFieldActive {
             beginEditingSearchField()
@@ -90,22 +114,36 @@ class SearchOptionsViewController: FormCollectionViewController {
     // MARK: - Editing
     
     func beginEditingSearchField() {
+        collectionView?.selectItem(at: indexPathForSearchFieldCell, animated: false, scrollPosition: [])
         searchFieldCell?.textField.becomeFirstResponder()
+        isEditingTextField = true
     }
     
     func endEditingSearchField() {        
+        endEditingSearchField(changingState: true)
+    }
+    
+    private func endEditingSearchField(changingState: Bool) {
+        collectionView?.deselectItem(at: indexPathForSearchFieldCell, animated: false)
         searchFieldCell?.textField.resignFirstResponder()
+        if changingState {
+            isEditingTextField = false
+        }
     }
     
     private var searchFieldCell: SearchFieldCollectionViewCell? {
         collectionView?.layoutIfNeeded()
-        return collectionView?.cellForItem(at: IndexPath(item: 1, section: 0)) as? SearchFieldCollectionViewCell
+        return collectionView?.cellForItem(at: indexPathForSearchFieldCell) as? SearchFieldCollectionViewCell
+    }
+    
+    private var indexPathForSearchFieldCell: IndexPath {
+        return IndexPath(item: 1, section: 0)
     }
     
     
     // MARK: - KVO
     
-    open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {
             if let collectionView = object as? UICollectionView, collectionView == self.collectionView {
                 preferredContentSize = collectionView.contentSize
@@ -118,11 +156,11 @@ class SearchOptionsViewController: FormCollectionViewController {
     
     // MARK: - UICollectionViewDataSource methods
     
-    open func numberOfSections(in collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return selectedDataSource.numberOfFilters > 0 ? 2 : 1
     }
     
-    open override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // This we should force unwrap because if we get the wrong section count here,
         // it's a fatal error anyway and we've seriously ruined our logic.
         switch Section(rawValue: section)! {
@@ -131,7 +169,7 @@ class SearchOptionsViewController: FormCollectionViewController {
         }
     }
     
-    open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         switch kind {
         case UICollectionElementKindSectionHeader:
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
@@ -143,7 +181,7 @@ class SearchOptionsViewController: FormCollectionViewController {
         }
     }
     
-    open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch Section(rawValue: indexPath.section)! {
         case .generalDetails:
             if indexPath.item == 0 {
@@ -191,11 +229,21 @@ class SearchOptionsViewController: FormCollectionViewController {
     // MARK: - CollectionView Delegates
     
     
-    func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-        return Section(rawValue: indexPath.section) != .generalDetails || indexPath.item != 0
-    }
     
-    open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        func cancelSelection() {
+            collectionView.deselectItem(at: indexPath, animated: false)
+            
+            if isEditingTextField {
+                // Workaround:
+                // Calling this without dispatch async gets deselected *after* this call.
+                // Async it to get after this turn of the run loop.
+                DispatchQueue.main.async {
+                    self.beginEditingSearchField()
+                }
+            }
+        }
         
         switch Section(rawValue: indexPath.section)! {
         case .generalDetails:
@@ -204,19 +252,21 @@ class SearchOptionsViewController: FormCollectionViewController {
             if indexPath.item == 1 {
                 beginEditingSearchField()
             } else {
-                collectionView.deselectItem(at: indexPath, animated: false)
+                cancelSelection()
             }
         case .filters:
             
             // If there's no update view controller, we don't want to do anything.
             // Quickly deselect the index path, and return out.
             guard let updateViewController = selectedDataSource.updateController(forFilterAt: indexPath.item) else {
-                collectionView.deselectItem(at: indexPath, animated: false)
+                cancelSelection()
                 return
             }
             
             // stop editing the field, if it is currently editing.
-            endEditingSearchField()
+            if isEditingTextField {
+                endEditingSearchField()
+            }
             
             updateViewController.modalPresentationStyle = .popover
             if let popoverPresentationController = updateViewController.popoverPresentationController,
@@ -240,15 +290,15 @@ class SearchOptionsViewController: FormCollectionViewController {
     // MARK: - CollectionViewDelegate MPOLLayout Methods
     
     
-    public func collectionView(_ collectionView: UICollectionView, heightForGlobalFooterInLayout layout: CollectionViewFormLayout) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, heightForGlobalFooterInLayout layout: CollectionViewFormLayout) -> CGFloat {
         return 32.0
     }
     
-    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
+    override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
         return Section(rawValue: section) == .generalDetails ? 0.0 : CollectionViewFormExpandingHeaderView.minimumHeight
     }
     
-    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, givenSectionWidth sectionWidth: CGFloat, edgeInsets: UIEdgeInsets) -> CGFloat {
+    override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, givenSectionWidth sectionWidth: CGFloat, edgeInsets: UIEdgeInsets) -> CGFloat {
         
         if indexPath.section == 0 {
             return sectionWidth
@@ -268,7 +318,7 @@ class SearchOptionsViewController: FormCollectionViewController {
         return layout.columnContentWidth(forMinimumItemContentWidth: minimumWidth, maximumColumnCount: maxColumnCount, sectionWidth: sectionWidth, sectionEdgeInsets: edgeInsets).floored(toScale: UIScreen.main.scale)
     }
     
-    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
+    override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
         
         switch Section(rawValue: indexPath.section)! {
         case .generalDetails:
@@ -281,8 +331,9 @@ class SearchOptionsViewController: FormCollectionViewController {
             return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: title, subtitle: subtitle, inWidth: itemWidth, compatibleWith: traitCollection, emphasis: .subtitle, singleLineSubtitle: true)
         }
         
-        
     }
+    
+    
     
     private enum Section: Int {
         case generalDetails, filters
@@ -292,7 +343,7 @@ class SearchOptionsViewController: FormCollectionViewController {
         let index = segmentedControl.selectedSegmentIndex
         if index == UISegmentedControlNoSegment { return }
         
-        selectedDataSource = dataSources[index]
+        selectedDataSourceIndex = index
     }
     
 }
