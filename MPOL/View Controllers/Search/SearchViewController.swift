@@ -194,7 +194,7 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
                 
                 // re-enable and animate.
                 isShowingSearchOptions = true
-                UIView.animate(withDuration: searchAnimationDuration, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0,
+                UIView.animate(withDuration: searchAnimationDuration, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0, options: .beginFromCurrentState,
                                animations: {
                                    view.setNeedsLayout()
                                    view.layoutIfNeeded()
@@ -213,7 +213,9 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
             let dimmingView = self.searchDimmingView
             optionsVC.beginAppearanceTransition(false, animated: animated)
             
-            let completionHandler = { (finished: Bool) in
+            let completionHandler = { [weak self] (finished: Bool) in
+                if self?.isShowingSearchOptions ?? true { return }
+                
                 optionsVC.viewIfLoaded?.removeFromSuperview()
                 optionsVC.endAppearanceTransition()
                 
@@ -225,7 +227,7 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
                 let view = self.view!
                 view.setNeedsLayout()
                 
-                UIView.animate(withDuration: searchAnimationDuration, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0,
+                UIView.animate(withDuration: searchAnimationDuration, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0, options: .beginFromCurrentState,
                                animations: {
                                   view.layoutIfNeeded()
                                   dimmingView?.alpha = 0.0
