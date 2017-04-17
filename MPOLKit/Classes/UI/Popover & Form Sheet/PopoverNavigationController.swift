@@ -240,8 +240,6 @@ open class PopoverNavigationController: UINavigationController, PopoverViewContr
     }
     
     private func removeDoneButton() {
-        // TODO: Remove done button
-        
         guard let item = doneButtonInstalledNavItem else { return }
         
         if var rightItems = item.rightBarButtonItems, let indexOfDone = rightItems.index(of: doneButtonItem) {
