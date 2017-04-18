@@ -167,15 +167,9 @@ public final class Manifest: NSObject {
         guard let context = notification.object as? NSManagedObjectContext,
             context != viewContext && context.persistentStoreCoordinator == persistentStoreCoordinator else { return }
         
-        let merge = {
+        DispatchQueue.main.async {
             self.viewContext.mergeChanges(fromContextDidSave: notification)
             NotificationCenter.default.post(name: .ManifestDidUpdate, object: self)
-        }
-        
-        if Thread.isMainThread {
-            merge()
-        } else {
-            DispatchQueue.main.async(execute: merge)
         }
     }
     
@@ -194,7 +188,7 @@ public final class Manifest: NSObject {
 //                let updates = try result.resolve()
 //                
 //                guard updates.isEmpty == false else {
-//                    DispatchQueue.performOnMain {
+//                    DispatchQueue.main.async {
 //                        self.lastUpdateDate = checkedAtDate
 //                        completion?(nil);
 //                    }
@@ -256,12 +250,13 @@ public final class Manifest: NSObject {
 //                    
 //                    do {
 //                        try context.save()
-//                        DispatchQueue.performOnMain {
+//
+//                        DispatchQueue.main.async {
 //                            self.lastUpdateDate = checkedAtDate
 //                            completion?(nil)
 //                        }
 //                    } catch {
-//                        DispatchQueue.performOnMain {
+//                        DispatchQueue.main.async {
 //                            switch error {
 //                            case let networkError as NetworkError:
 //                                NSLog("Error saving manifest updates. Update count: \(updates.count). \(networkError.localizedDescription).")
