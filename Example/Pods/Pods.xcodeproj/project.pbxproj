@@ -91,7 +91,6 @@
 		BCA10F3B1EA45C9A00C3F0E7 /* ManifestCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA10F351EA45C9A00C3F0E7 /* ManifestCollection.swift */; };
 		BCA10F3E1EA45C9A00C3F0E7 /* ManifestEntry+Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA10F381EA45C9A00C3F0E7 /* ManifestEntry+Location.swift */; };
 		BCA10F3F1EA45C9A00C3F0E7 /* ManifestEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA10F391EA45C9A00C3F0E7 /* ManifestEntry.swift */; };
-		BCA10F441EA45D3300C3F0E7 /* DispatchQueue+PerformOnMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA10F411EA45D3300C3F0E7 /* DispatchQueue+PerformOnMain.swift */; };
 		BCA10F4A1EA45F3300C3F0E7 /* FileManager+URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA10F491EA45F3300C3F0E7 /* FileManager+URL.swift */; };
 		BCC6AF651EA0336B00801E2E /* FormSearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC6AF641EA0336B00801E2E /* FormSearchTableViewController.swift */; };
 		C2E93595DE864EA64A6D69E9F1DD2CCF /* TableViewFormCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130D8E496D538FF9FA259CF4FA5D1A2B /* TableViewFormCell.swift */; };
@@ -225,7 +224,6 @@
 		BCA10F351EA45C9A00C3F0E7 /* ManifestCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManifestCollection.swift; sourceTree = "<group>"; };
 		BCA10F381EA45C9A00C3F0E7 /* ManifestEntry+Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ManifestEntry+Location.swift"; sourceTree = "<group>"; };
 		BCA10F391EA45C9A00C3F0E7 /* ManifestEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManifestEntry.swift; sourceTree = "<group>"; };
-		BCA10F411EA45D3300C3F0E7 /* DispatchQueue+PerformOnMain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DispatchQueue+PerformOnMain.swift"; sourceTree = "<group>"; };
 		BCA10F491EA45F3300C3F0E7 /* FileManager+URL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FileManager+URL.swift"; sourceTree = "<group>"; };
 		BCC6AF641EA0336B00801E2E /* FormSearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormSearchTableViewController.swift; sourceTree = "<group>"; };
 		BD576C71617526D7FD7998A4F9E193B4 /* CollectionViewFormExpandingHeaderView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CollectionViewFormExpandingHeaderView.swift; sourceTree = "<group>"; };
@@ -673,7 +671,6 @@
 		BCA10F401EA45D3300C3F0E7 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				BCA10F411EA45D3300C3F0E7 /* DispatchQueue+PerformOnMain.swift */,
 				BCA10F491EA45F3300C3F0E7 /* FileManager+URL.swift */,
 			);
 			path = Extensions;
@@ -942,7 +939,6 @@
 				25737E9D4F6C54561C66F4367B62C292 /* MapOverlayViewController.swift in Sources */,
 				D922E0C4F9B31072E286EA65246B1ECF /* MPOLKit-dummy.m in Sources */,
 				30AEDE32253E9E49D4DA2ACD5A36B12E /* NSLayoutConstraint+Conveniences.swift in Sources */,
-				BCA10F441EA45D3300C3F0E7 /* DispatchQueue+PerformOnMain.swift in Sources */,
 				CF7EE8A511139F69A10CBB48D989A49F /* OrganizationInfoViewController.swift in Sources */,
 				BCA10F3E1EA45C9A00C3F0E7 /* ManifestEntry+Location.swift in Sources */,
 				38010BF1A22FB94AA43CD5055E9470DE /* PersonInfoViewController.swift in Sources */,
