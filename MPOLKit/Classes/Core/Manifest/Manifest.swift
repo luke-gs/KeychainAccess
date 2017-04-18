@@ -167,9 +167,15 @@ public final class Manifest: NSObject {
         guard let context = notification.object as? NSManagedObjectContext,
             context != viewContext && context.persistentStoreCoordinator == persistentStoreCoordinator else { return }
         
-        DispatchQueue.performOnMain {
+        let merge = {
             self.viewContext.mergeChanges(fromContextDidSave: notification)
             NotificationCenter.default.post(name: .ManifestDidUpdate, object: self)
+        }
+        
+        if Thread.isMainThread {
+            merge()
+        } else {
+            DispatchQueue.main.async(execute: merge)
         }
     }
     
