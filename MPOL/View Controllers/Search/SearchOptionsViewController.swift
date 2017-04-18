@@ -11,7 +11,7 @@ import MPOLKit
 
 fileprivate var kvoContext = 1
 
-class SearchOptionsViewController: FormCollectionViewController {
+class SearchOptionsViewController: FormCollectionViewController, UITextFieldDelegate {
     
     let dataSources: [SearchDataSource]
     
@@ -27,6 +27,16 @@ class SearchOptionsViewController: FormCollectionViewController {
         }
     }
     
+    weak var delegate: SearchOptionsViewControllerDelegate?
+    
+    private(set) lazy var searchBarButtonItem: UIBarButtonItem = { [unowned self] in
+        return  UIBarButtonItem(title: NSLocalizedString("Search", comment: ""), style: .done, target: self, action: #selector(searchButtonItemDidSelect(_:)))
+    }()
+    
+    private(set) lazy var cancelBarButtonItem: UIBarButtonItem = { [unowned self] in
+        return UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonItemDidSelect(_:)))
+    }()
+    
     private(set) var areFiltersHidden: Bool = true {
         didSet {
             if areFiltersHidden == oldValue { return }
@@ -34,6 +44,9 @@ class SearchOptionsViewController: FormCollectionViewController {
             reloadCollectionViewRetainingEditing()
         }
     }
+    
+    
+    // MARK: - Private methods
     
     private var selectedDataSource: SearchDataSource {
         didSet {
@@ -141,6 +154,21 @@ class SearchOptionsViewController: FormCollectionViewController {
     }
     
     
+    // MARK: - Action methods
+    
+    @objc private func searchButtonItemDidSelect(_ item: UIBarButtonItem) {
+        performSearch()
+    }
+    
+    @objc private func cancelButtonItemDidSelect(_ item: UIBarButtonItem) {
+        delegate?.searchOptionsControllerDidCancel(self)
+    }
+    
+    private func performSearch() {
+        delegate?.searchOptionsController(self, didFinishWith: selectedDataSource.request)
+    }
+    
+    
     // MARK: - KVO
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -164,8 +192,10 @@ class SearchOptionsViewController: FormCollectionViewController {
         // This we should force unwrap because if we get the wrong section count here,
         // it's a fatal error anyway and we've seriously ruined our logic.
         switch Section(rawValue: section)! {
-        case .generalDetails: return 2
-        case .filters:        return selectedDataSource.numberOfFilters
+        case .generalDetails:
+            return 2
+        case .filters:
+            return selectedDataSource.numberOfFilters
         }
     }
     
@@ -199,6 +229,12 @@ class SearchOptionsViewController: FormCollectionViewController {
                 return cell
             } else {
                 let cell = collectionView.dequeueReusableCell(of: SearchFieldCollectionViewCell.self, for: indexPath)
+                let textField = cell.textField
+                
+                textField.delegate = self
+                if textField.allTargets.contains(self) == false {
+                    textField.addTarget(self, action: #selector(textFieldTextDidChange(_:)), for: .editingChanged)
+                }
                 
                 return cell
             }
@@ -226,9 +262,8 @@ class SearchOptionsViewController: FormCollectionViewController {
         }
     }
     
-    // MARK: - CollectionView Delegates
     
-    
+    // MARK: - UICollectionViewDelegate methods
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
@@ -287,8 +322,22 @@ class SearchOptionsViewController: FormCollectionViewController {
         }
     }
     
-    // MARK: - CollectionViewDelegate MPOLLayout Methods
     
+    // MARK: - UITextFieldDelegate methods
+    
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return false
+    }
+    
+    @objc private func textFieldTextDidChange(_ textField: UITextField) {
+        let text = textField.text
+        dataSources.forEach { $0.request.searchText = text }
+    }
+    
+    
+    // MARK: - CollectionViewDelegateFormLayout methods
     
     func collectionView(_ collectionView: UICollectionView, heightForGlobalFooterInLayout layout: CollectionViewFormLayout) -> CGFloat {
         return 32.0
@@ -345,5 +394,13 @@ class SearchOptionsViewController: FormCollectionViewController {
         
         selectedDataSourceIndex = index
     }
+    
+}
+
+protocol SearchOptionsViewControllerDelegate: class {
+    
+    func searchOptionsController(_ controller: SearchOptionsViewController, didFinishWith searchRequest: SearchRequest)
+    
+    func searchOptionsControllerDidCancel(_ controller: SearchOptionsViewController)
     
 }

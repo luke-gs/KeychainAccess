@@ -205,6 +205,7 @@ private class RecentEntitiesBackgroundView: UICollectionReusableView, DefaultReu
         imageView.frame = bounds
         imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
         addSubview(imageView)
     }
     

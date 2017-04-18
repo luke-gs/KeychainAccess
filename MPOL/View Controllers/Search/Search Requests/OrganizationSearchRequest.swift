@@ -8,7 +8,7 @@
 
 import UIKit
 
-class OrganizationSearchRequest: SearchRequest  {
+class OrganizationSearchRequest: SearchRequest {
     
     override class var localizedDisplayName: String {
         return NSLocalizedString("Organisation", comment: "")

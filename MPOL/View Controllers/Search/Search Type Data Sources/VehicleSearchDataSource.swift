@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MPOLKit
 
 class VehicleSearchDataSource: SearchDataSource {
 
@@ -68,10 +69,13 @@ class VehicleSearchDataSource: SearchDataSource {
     ///                    When a standard `UIViewController` is returned, it is expected it will be contained
     ///                    in a `UINavigationController`.
     override func updateController(forFilterAt index: Int) -> UIViewController? {
-        return nil
+        let picker = PickerTableViewController(style: .plain, items: [ManifestEntry]())
+        picker.title = FilterItem(rawValue: index)?.title
+        picker.noItemTitle = NSLocalizedString("Any", comment: "")
+        return PopoverNavigationController(rootViewController: picker)
     }
-    
-    
+
+
     private enum FilterItem: Int {
         case searchType, state, make, model
         
