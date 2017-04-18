@@ -80,6 +80,7 @@
 		B2D32019954B4F95D180B18D9CF1F72A /* Bundle+MPOLKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C6D11CF315CB16DAAB9CED16F198F9 /* Bundle+MPOLKit.swift */; };
 		B4312689990ECC4DBEE2EF3AE990FE0E /* DefaultReusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A3EBF2E6EEDE30A13D3F6AC25D9F38 /* DefaultReusable.swift */; };
 		BA981A16D7D06EE37CACF93A0DEBCBF5 /* FormDisclosureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2675D2727220FD18F4C5036AB88CC381 /* FormDisclosureView.swift */; };
+		BC08BB5D1EA6C677004D0F75 /* ArchivedManifestEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC08BB5C1EA6C677004D0F75 /* ArchivedManifestEntry.swift */; };
 		BC0A79AE1E9DF540001AF192 /* KeyboardAnimationDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0A79AD1E9DF540001AF192 /* KeyboardAnimationDetails.swift */; };
 		BC0A79B01E9DF560001AF192 /* UIViewAnimationCurve+OptionConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0A79AF1E9DF560001AF192 /* UIViewAnimationCurve+OptionConversion.swift */; };
 		BC301C161EA04CCB007D1269 /* PopoverDatePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC301C151EA04CCB007D1269 /* PopoverDatePickerViewController.swift */; };
@@ -212,6 +213,7 @@
 		B50E86443557944C724B49E4913E60B4 /* EntityOccurrencesViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EntityOccurrencesViewController.swift; sourceTree = "<group>"; };
 		B84DEFEC9B1A4130EBD8C2AEC95FCE6B /* TableViewFormExpandingHeaderCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TableViewFormExpandingHeaderCell.swift; sourceTree = "<group>"; };
 		BAE6638DB82392C10F53ED2C0968BF3A /* TableViewFormSubtitleCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TableViewFormSubtitleCell.swift; sourceTree = "<group>"; };
+		BC08BB5C1EA6C677004D0F75 /* ArchivedManifestEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchivedManifestEntry.swift; sourceTree = "<group>"; };
 		BC0A79AD1E9DF540001AF192 /* KeyboardAnimationDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardAnimationDetails.swift; sourceTree = "<group>"; };
 		BC0A79AF1E9DF560001AF192 /* UIViewAnimationCurve+OptionConversion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewAnimationCurve+OptionConversion.swift"; sourceTree = "<group>"; };
 		BC301C151EA04CCB007D1269 /* PopoverDatePickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverDatePickerViewController.swift; sourceTree = "<group>"; };
@@ -664,6 +666,7 @@
 				BCA10F351EA45C9A00C3F0E7 /* ManifestCollection.swift */,
 				BCA10F381EA45C9A00C3F0E7 /* ManifestEntry+Location.swift */,
 				BCA10F391EA45C9A00C3F0E7 /* ManifestEntry.swift */,
+				BC08BB5C1EA6C677004D0F75 /* ArchivedManifestEntry.swift */,
 			);
 			path = Manifest;
 			sourceTree = "<group>";
@@ -956,6 +959,7 @@
 				A663AB6491EA11EAB72C0128A3CE113D /* SidebarSplitViewController.swift in Sources */,
 				85C140CBB42FD13F55572D8E062667DC /* SidebarTableViewCell.swift in Sources */,
 				C62C23263C567999B4B1C4E71E081F11 /* SidebarViewController.swift in Sources */,
+				BC08BB5D1EA6C677004D0F75 /* ArchivedManifestEntry.swift in Sources */,
 				B28154796E46D1CCD581DBC0D6E4FCEC /* SourceBar.swift in Sources */,
 				04A6D95A64D9F78CBC914E4932E58E07 /* SourceBarCell.swift in Sources */,
 				BCC6AF651EA0336B00801E2E /* FormSearchTableViewController.swift in Sources */,

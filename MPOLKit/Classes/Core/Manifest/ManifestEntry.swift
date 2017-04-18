@@ -44,6 +44,10 @@ public class ManifestEntry: NSManagedObject {
         _additionalDetails = nil
     }
     
+    public func archived() -> ArchivedManifestEntry {
+        return ArchivedManifestEntry(entry: self)
+    }
+    
 }
 
 
