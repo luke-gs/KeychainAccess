@@ -203,41 +203,27 @@ public class PopoverFormSheetPresentationController: UIPresentationController, U
     }
     
     @objc private func keyboardWillShow(_ notification: Notification) {
-        let keyboardInset = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height ?? 0.0
-        setKeyboardInset(keyboardInset, userInfo: notification.userInfo)
+        let keyboardAnimationDetails = notification.keyboardAnimationDetails()
+        let keyboardInset = keyboardAnimationDetails?.endFrame.height ?? 0.0
+        
+        setKeyboardInset(keyboardInset, animationDetails: keyboardAnimationDetails)
     }
     
     @objc private func keyboardWillHide(_ notification: Notification) {
-        setKeyboardInset(0.0, userInfo: notification.userInfo)
+        setKeyboardInset(0.0, animationDetails: notification.keyboardAnimationDetails())
     }
     
-    private func setKeyboardInset(_ inset: CGFloat, userInfo: [AnyHashable: Any]?) {
+    private func setKeyboardInset(_ inset: CGFloat, animationDetails: KeyboardAnimationDetails?) {
         let containerView = self.containerView
         
         keyboardInset = inset
         containerView?.setNeedsLayout()
         
-        guard let userInfo = userInfo, let animationDuration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? TimeInterval,
-            animationDuration > 0.0 else { return }
+        guard let details = animationDetails, details.duration >~ 0.0 else { return }
         
-        let animationCurveOption: UIViewAnimationOptions
-        if let animationCurveInt = userInfo[UIKeyboardAnimationCurveUserInfoKey] as? Int,
-            let curve = UIViewAnimationCurve(rawValue: animationCurveInt) {
-            animationCurveOption = curve.animationOption
-        } else {
-            animationCurveOption = .curveEaseInOut
-        }
-        
-        UIView.animate(withDuration: animationDuration, delay: 0.0, options: animationCurveOption, animations: {
+        UIView.animate(withDuration: details.duration, delay: 0.0, options: details.curve, animations: {
             containerView?.layoutIfNeeded()
         })
     }
     
-}
-
-
-fileprivate extension UIViewAnimationCurve {
-    var animationOption: UIViewAnimationOptions {
-        return UIViewAnimationOptions(rawValue: UInt(self.rawValue << 16))
-    }
 }

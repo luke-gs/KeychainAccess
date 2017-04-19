@@ -146,16 +146,15 @@ public final class ScrollViewInsetManager: NSObject {
     }
     
     @objc private func keyboardDidShow(_ notification: Notification) {
-        keyboardFrameInScreen = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
+        keyboardFrameInScreen = notification.keyboardAnimationDetails()?.endFrame
         updateInsets()
     }
     
     @objc private func keyboardWillHide(_ notification: Notification) {
-        guard let userInfo = notification.userInfo else { return }
+        guard let keyboardAnimationDetails = notification.keyboardAnimationDetails() else { return }
         
         // If the keyboard is not going to the bottom of the screen in it's hide, it will probably be part of a navigation slide. Delay inset reset.
-        if let keyboardFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
-            keyboardFrame.minY < UIScreen.main.bounds.maxY {
+        if keyboardAnimationDetails.endFrame.minY < UIScreen.main.bounds.maxY {
             delayResetUntilComplete = true
             return
         }
@@ -164,7 +163,7 @@ public final class ScrollViewInsetManager: NSObject {
         
         // If the keyboard animation has zero duration, it's probably due to a rotation animation and it's not going to dismiss!
         // Delay inset reset, and let appearance cancel it.
-        if (userInfo[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue.isZero ?? true {
+        if keyboardAnimationDetails.duration ==~ 0.0 {
             let resetSelector = #selector(resetContentInsets)
             NSObject.cancelPreviousPerformRequests(withTarget: self, selector: resetSelector, object: nil)
             perform(resetSelector, with: nil, afterDelay: 1.5, inModes: [.commonModes])

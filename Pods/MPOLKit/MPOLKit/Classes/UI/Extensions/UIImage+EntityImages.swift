@@ -1,6 +1,6 @@
 //
 //  UIImage+EntityImages.swift
-//  Pods
+//  MPOLKit
 //
 //  Created by Rod Brown on 5/4/17.
 //
