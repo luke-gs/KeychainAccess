@@ -9,7 +9,9 @@
 import Foundation
 
 
-class SearchRequest: NSObject, NSCoding {
+class SearchRequest: NSObject, NSSecureCoding {
+    
+    static var supportsSecureCoding: Bool { return true }
     
     class var localizedDisplayName: String {
         return NSLocalizedString("Any Entity", comment: "")

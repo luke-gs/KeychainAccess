@@ -123,9 +123,9 @@ class PersonSearchDataSource: SearchDataSource {
         var title: String {
             switch self {
             case .searchType: return NSLocalizedString("Search Type", comment: "")
-            case .state:  return NSLocalizedString("State/s",  comment: "")
-            case .gender: return NSLocalizedString("Gender/s", comment: "")
-            case .age:    return NSLocalizedString("Age",      comment: "")
+            case .state:      return NSLocalizedString("State/s",  comment: "")
+            case .gender:     return NSLocalizedString("Gender/s", comment: "")
+            case .age:        return NSLocalizedString("Age",      comment: "")
             }
         }
     }

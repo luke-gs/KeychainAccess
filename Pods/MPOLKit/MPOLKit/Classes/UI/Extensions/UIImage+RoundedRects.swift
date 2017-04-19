@@ -12,13 +12,8 @@ public extension UIImage {
     
     public class func roundedImage(size: CGSize, cornerRadius: CGFloat, borderWidth: CGFloat, borderColor: UIColor?, fillColor: UIColor?) -> UIImage {
         precondition(borderColor != nil || fillColor != nil, "UIImage.roundedImage(size: cornerRadius: borderWidth: borderColor: fillColor:) requires a fill or border color, or both.")
-<<<<<<< HEAD
-        precondition(borderWidth >= 0.0, "'borderWidth' parameter must be a positive number or zero.")
-        precondition(cornerRadius >= 0.0 && cornerRadius <= size.width / 2.0 && cornerRadius <= size.height / 2.0, "'cornerRadius` parameter must be a positive number or zero, and less than or equal to half both the width and height of the size.")
-=======
         precondition(borderWidth >=~ 0.0, "'borderWidth' parameter must be a positive number or zero.")
         precondition(cornerRadius >=~ 0.0 && cornerRadius <=~ size.width / 2.0 && cornerRadius <=~ size.height / 2.0, "'cornerRadius` parameter must be a positive number or zero, and less than or equal to half both the width and height of the size.")
->>>>>>> origin/master
         
         let imageSize = CGSize(width: ceil(size.width), height: ceil(size.height))
         
