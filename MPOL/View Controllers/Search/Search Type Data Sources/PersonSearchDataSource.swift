@@ -9,7 +9,22 @@
 import UIKit
 import MPOLKit
 
-class PersonSearchDataSource: SearchDataSource {
+class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
+    
+    private enum FilterItem: Int {
+        case searchType, state, gender, age
+        
+        static let count = 4
+        
+        var title: String {
+            switch self {
+            case .searchType: return NSLocalizedString("Search Type", comment: "")
+            case .state:      return NSLocalizedString("State/s",  comment: "")
+            case .gender:     return NSLocalizedString("Gender/s", comment: "")
+            case .age:        return NSLocalizedString("Age",      comment: "")
+            }
+        }
+    }
     
     override class var requestType: SearchRequest.Type {
         return PersonSearchRequest.self
@@ -63,6 +78,15 @@ class PersonSearchDataSource: SearchDataSource {
         switch filterItem {
         case .searchType:
             return personSearchRequest.searchType.title
+        case .age:
+            if let ageRange = personSearchRequest.ageRange {
+                if ageRange.lowerBound == ageRange.upperBound {
+                    return "\(ageRange.lowerBound)"
+                }
+                
+                return "\(ageRange.lowerBound) - \(ageRange.upperBound)"
+            }
+            return nil
         default:
             return nil
         }
@@ -107,26 +131,48 @@ class PersonSearchDataSource: SearchDataSource {
             viewController = picker
         case .age:
             let ageNumberPicker = NumberRangePickerViewController(min:0, max: 100)
+            ageNumberPicker.delegate = self
             ageNumberPicker.title = NSLocalizedString("Age Range", comment: "")
             ageNumberPicker.noRangeTitle = NSLocalizedString("Any Age", comment: "")
+            
+            if let ageRange = personSearchRequest.ageRange {
+                ageNumberPicker.currentMinValue = ageRange.lowerBound
+                ageNumberPicker.currentMaxValue = ageRange.upperBound
+            } else {
+                // Workaround:
+                // Delay the update until the presentation UI is in place.
+                // Reloading during selection causes bugs in UICollectionView.
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    self.personSearchRequest.ageRange = Range<Int>(uncheckedBounds: (ageNumberPicker.currentMinValue, ageNumberPicker.currentMaxValue))
+                    self.updatingDelegate?.searchDataSource(self, didUpdateFilterAt: FilterItem.age.rawValue)
+                }
+            }
+            
             viewController = ageNumberPicker
         }
         
         return PopoverNavigationController(rootViewController: viewController)
     }
     
-    private enum FilterItem: Int {
-        case searchType, state, gender, age
-        
-        static let count = 4
-        
-        var title: String {
-            switch self {
-            case .searchType: return NSLocalizedString("Search Type", comment: "")
-            case .state:      return NSLocalizedString("State/s",  comment: "")
-            case .gender:     return NSLocalizedString("Gender/s", comment: "")
-            case .age:        return NSLocalizedString("Age",      comment: "")
-            }
+    
+    
+    // MARK: - Number range picker delegate
+    
+    func numberRangePicker(_ numberPicker: NumberRangePickerViewController, didUpdateMinValue minValue: Int, maxValue: Int) {
+        let newRange = Range<Int>(uncheckedBounds: (minValue, maxValue))
+        if personSearchRequest.ageRange != newRange {
+            personSearchRequest.ageRange = newRange
+            updatingDelegate?.searchDataSource(self, didUpdateFilterAt: FilterItem.age.rawValue)
         }
     }
+    
+    func numberRangePickerDidSelectNoRange(_ picker: NumberRangePickerViewController) {
+        if personSearchRequest.ageRange != nil {
+            personSearchRequest.ageRange = nil
+            updatingDelegate?.searchDataSource(self, didUpdateFilterAt: FilterItem.age.rawValue)
+        }
+        
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
 }

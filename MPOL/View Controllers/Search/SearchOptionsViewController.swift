@@ -11,7 +11,7 @@ import MPOLKit
 
 fileprivate var kvoContext = 1
 
-class SearchOptionsViewController: FormCollectionViewController, UITextFieldDelegate {
+class SearchOptionsViewController: FormCollectionViewController, UITextFieldDelegate, SearchDataSourceUpdating {
     
     let dataSources: [SearchDataSource]
     
@@ -68,6 +68,8 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         self.selectedDataSource = firstDataSource
         
         super.init()
+        
+        dataSources.forEach { $0.updatingDelegate = self }
     }
     
     required convenience init(coder aDecoder: NSCoder) {
@@ -114,9 +116,15 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     private func reloadCollectionViewRetainingEditing() {
         guard let collectionView = self.collectionView else { return }
         
+        let selectedIndexPaths = collectionView.indexPathsForSelectedItems ?? []
+        
         let wasSearchFieldActive = self.searchFieldCell?.textField.isFirstResponder ?? false
         
         collectionView.reloadData()
+        
+        selectedIndexPaths.forEach {
+            collectionView.selectItem(at: $0, animated: false, scrollPosition: [])
+        }
         
         if wasSearchFieldActive {
             beginEditingSearchField()
@@ -393,6 +401,22 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         if index == UISegmentedControlNoSegment { return }
         
         selectedDataSourceIndex = index
+    }
+    
+    
+    // MARK: - SearchDataSourceUpdating
+    
+    func searchDataSourceRequestDidChange(_ dataSource: SearchDataSource) {
+        if dataSource == selectedDataSource {
+            reloadCollectionViewRetainingEditing()
+        }
+    }
+    
+    func searchDataSource(_ dataSource: SearchDataSource, didUpdateFilterAt index: Int) {
+        if dataSource == selectedDataSource {
+            // Can't currently update item in case of bugs. Perhaps when apple gets around to fixing this?? :S
+            reloadCollectionViewRetainingEditing()
+        }
     }
     
 }
