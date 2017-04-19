@@ -520,7 +520,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     
     open override func tintColorDidChange() {
         super.tintColorDidChange()
-        if isSelected && selectionStyle == .underline {
+        if isSelected && selectionStyle == .underline && tintAdjustmentMode != .dimmed {
             separatorView.backgroundColor = tintColor
         }
     }

@@ -27,6 +27,17 @@ open class PopoverNavigationController: UINavigationController, PopoverViewContr
     }
     
     
+    /// An optional dismiss handler.
+    ///
+    /// The popover navigation controller fires this when it is about to dismiss after
+    /// being presented, and passes a boolean parameter, indicating whether the dismiss
+    /// will be animated.
+    ///
+    /// You should use this method to avoid assigning yourself as the popover presentation controller's
+    /// delegate, as this will interfere with the adaptive appearance APIs.
+    open var dismissHandler: ((Bool) -> Void)?
+    
+    
     /// `PopoverNavigationController` overrides `modalPresentationStyle` to apply standard defaults
     /// to the navigation controller presentation.
     ///
@@ -36,7 +47,9 @@ open class PopoverNavigationController: UINavigationController, PopoverViewContr
     ///   to be used. You can alternately set another transition delegate and take over management of
     ///   the custom presentation.
     /// - When set to `.popover`, the navigation controller becomes the popover presentation
-    ///   controller's delegate by default.
+    ///   controller's delegate by default. If you need to handle close notifications from the popover
+    ///   presentation controller, you should instead use the `dismissHandler` to avoid interfering
+    ///   with the adaptive appearance APIs.
     open override var modalPresentationStyle: UIModalPresentationStyle {
         didSet {
             switch modalPresentationStyle {
@@ -67,6 +80,12 @@ open class PopoverNavigationController: UINavigationController, PopoverViewContr
     
     
     private var formSheetPresentationController: PopoverFormSheetPresentationController?
+    
+    private lazy var doneButtonItem: UIBarButtonItem = { [unowned self] in
+        return UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonItemDidSelect(_:)))
+    }()
+    
+    private var doneButtonInstalledNavItem: UINavigationItem?
     
     
     // MARK: - Initializers
@@ -101,6 +120,26 @@ open class PopoverNavigationController: UINavigationController, PopoverViewContr
         super.pushViewController(viewController, animated: animated)
     }
     
+    open override func popViewController(animated: Bool) -> UIViewController? {
+        if let poppedViewController = super.popViewController(animated: animated) {
+            
+            if poppedViewController.navigationItem == doneButtonInstalledNavItem {
+                removeDoneButton()
+            }
+            
+            return poppedViewController
+        }
+        return nil
+    }
+    
+    open override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if isBeingDismissed {
+            dismissHandler?(animated)
+        }
+    }
+    
     
     // MARK: - UINavigationControllerDelegate methods
     
@@ -120,6 +159,17 @@ open class PopoverNavigationController: UINavigationController, PopoverViewContr
     }
     
     open func presentationController(_ presentationController: UIPresentationController, willPresentWithAdaptiveStyle style: UIModalPresentationStyle, transitionCoordinator: UIViewControllerTransitionCoordinator?) {
+        switch style {
+        case .fullScreen, .overFullScreen:
+            if isModalInPopover == false, let rootViewControllerItem = viewControllers.first?.navigationItem {
+                installDoneButton(on: rootViewControllerItem)
+            }
+            break
+        default:
+            removeDoneButton()
+            break
+        }
+        
         wantsTransparentBackground = (style == .none && (modalPresentationStyle == .popover || modalPresentationStyle == .custom))
     }
     
@@ -172,6 +222,35 @@ open class PopoverNavigationController: UINavigationController, PopoverViewContr
         viewControllers.forEach {
             ($0 as? PopoverViewController)?.wantsTransparentBackground = transparent
         }
+    }
+    
+    @objc private func doneButtonItemDidSelect(_ item: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
+    }
+
+    
+    private func installDoneButton(on item: UINavigationItem) {
+        if item.rightBarButtonItems?.isEmpty ?? true {
+            item.rightBarButtonItems = [doneButtonItem]
+            doneButtonInstalledNavItem = item
+        } else if item.leftBarButtonItems?.isEmpty ?? true {
+            item.leftBarButtonItems = [doneButtonItem]
+            doneButtonInstalledNavItem = item
+        }
+    }
+    
+    private func removeDoneButton() {
+        guard let item = doneButtonInstalledNavItem else { return }
+        
+        if var rightItems = item.rightBarButtonItems, let indexOfDone = rightItems.index(of: doneButtonItem) {
+            rightItems.remove(at: indexOfDone)
+            item.rightBarButtonItems = rightItems
+        } else if var leftItems = item.leftBarButtonItems, let indexOfDone = leftItems.index(of: doneButtonItem) {
+            leftItems.remove(at: indexOfDone)
+            item.leftBarButtonItems = leftItems
+        }
+        
+        doneButtonInstalledNavItem = nil
     }
     
 }
