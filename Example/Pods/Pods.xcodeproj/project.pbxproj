@@ -80,8 +80,20 @@
 		B2D32019954B4F95D180B18D9CF1F72A /* Bundle+MPOLKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C6D11CF315CB16DAAB9CED16F198F9 /* Bundle+MPOLKit.swift */; };
 		B4312689990ECC4DBEE2EF3AE990FE0E /* DefaultReusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A3EBF2E6EEDE30A13D3F6AC25D9F38 /* DefaultReusable.swift */; };
 		BA981A16D7D06EE37CACF93A0DEBCBF5 /* FormDisclosureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2675D2727220FD18F4C5036AB88CC381 /* FormDisclosureView.swift */; };
+		BC08BB5D1EA6C677004D0F75 /* ArchivedManifestEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC08BB5C1EA6C677004D0F75 /* ArchivedManifestEntry.swift */; };
 		BC0A79AE1E9DF540001AF192 /* KeyboardAnimationDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0A79AD1E9DF540001AF192 /* KeyboardAnimationDetails.swift */; };
 		BC0A79B01E9DF560001AF192 /* UIViewAnimationCurve+OptionConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0A79AF1E9DF560001AF192 /* UIViewAnimationCurve+OptionConversion.swift */; };
+		BC301C161EA04CCB007D1269 /* PopoverDatePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC301C151EA04CCB007D1269 /* PopoverDatePickerViewController.swift */; };
+		BC8150C11E9F5BB200E2DF75 /* FormTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8150C01E9F5BB200E2DF75 /* FormTableViewController.swift */; };
+		BC8150C31E9F5F9200E2DF75 /* UITableView+SectionHeaderFooterFetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8150C21E9F5F9200E2DF75 /* UITableView+SectionHeaderFooterFetch.swift */; };
+		BC8150C81E9FAB4200E2DF75 /* PickerTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8150C51E9FAB4200E2DF75 /* PickerTableViewController.swift */; };
+		BCA10F321EA45C7100C3F0E7 /* Manifest.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BCA10F301EA45C7100C3F0E7 /* Manifest.xcdatamodeld */; };
+		BCA10F3A1EA45C9A00C3F0E7 /* Manifest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA10F341EA45C9A00C3F0E7 /* Manifest.swift */; };
+		BCA10F3B1EA45C9A00C3F0E7 /* ManifestCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA10F351EA45C9A00C3F0E7 /* ManifestCollection.swift */; };
+		BCA10F3E1EA45C9A00C3F0E7 /* ManifestEntry+Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA10F381EA45C9A00C3F0E7 /* ManifestEntry+Location.swift */; };
+		BCA10F3F1EA45C9A00C3F0E7 /* ManifestEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA10F391EA45C9A00C3F0E7 /* ManifestEntry.swift */; };
+		BCA10F4A1EA45F3300C3F0E7 /* FileManager+URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA10F491EA45F3300C3F0E7 /* FileManager+URL.swift */; };
+		BCC6AF651EA0336B00801E2E /* FormSearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC6AF641EA0336B00801E2E /* FormSearchTableViewController.swift */; };
 		C2E93595DE864EA64A6D69E9F1DD2CCF /* TableViewFormCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130D8E496D538FF9FA259CF4FA5D1A2B /* TableViewFormCell.swift */; };
 		C3A13F63F763D3D70657FCAFB6593974 /* UITraitCollection+CurrentDisplayScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7318661CCA64ED799BE064223C452B /* UITraitCollection+CurrentDisplayScale.swift */; };
 		C4A9DB4323BD5E3C47D06D90AD22F2CB /* TableViewFormSubtitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE6638DB82392C10F53ED2C0968BF3A /* TableViewFormSubtitleCell.swift */; };
@@ -201,9 +213,21 @@
 		B50E86443557944C724B49E4913E60B4 /* EntityOccurrencesViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EntityOccurrencesViewController.swift; sourceTree = "<group>"; };
 		B84DEFEC9B1A4130EBD8C2AEC95FCE6B /* TableViewFormExpandingHeaderCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TableViewFormExpandingHeaderCell.swift; sourceTree = "<group>"; };
 		BAE6638DB82392C10F53ED2C0968BF3A /* TableViewFormSubtitleCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TableViewFormSubtitleCell.swift; sourceTree = "<group>"; };
+		BC08BB5C1EA6C677004D0F75 /* ArchivedManifestEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchivedManifestEntry.swift; sourceTree = "<group>"; };
 		BC0A79AD1E9DF540001AF192 /* KeyboardAnimationDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardAnimationDetails.swift; sourceTree = "<group>"; };
 		BC0A79AF1E9DF560001AF192 /* UIViewAnimationCurve+OptionConversion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewAnimationCurve+OptionConversion.swift"; sourceTree = "<group>"; };
+		BC301C151EA04CCB007D1269 /* PopoverDatePickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverDatePickerViewController.swift; sourceTree = "<group>"; };
 		BC66DA52C5731FC4AB68308723AF40A3 /* CollectionViewFormOptionCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CollectionViewFormOptionCell.swift; sourceTree = "<group>"; };
+		BC8150C01E9F5BB200E2DF75 /* FormTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormTableViewController.swift; sourceTree = "<group>"; };
+		BC8150C21E9F5F9200E2DF75 /* UITableView+SectionHeaderFooterFetch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+SectionHeaderFooterFetch.swift"; sourceTree = "<group>"; };
+		BC8150C51E9FAB4200E2DF75 /* PickerTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerTableViewController.swift; sourceTree = "<group>"; };
+		BCA10F311EA45C7100C3F0E7 /* Manifest.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Manifest.xcdatamodel; sourceTree = "<group>"; };
+		BCA10F341EA45C9A00C3F0E7 /* Manifest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Manifest.swift; sourceTree = "<group>"; };
+		BCA10F351EA45C9A00C3F0E7 /* ManifestCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManifestCollection.swift; sourceTree = "<group>"; };
+		BCA10F381EA45C9A00C3F0E7 /* ManifestEntry+Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ManifestEntry+Location.swift"; sourceTree = "<group>"; };
+		BCA10F391EA45C9A00C3F0E7 /* ManifestEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManifestEntry.swift; sourceTree = "<group>"; };
+		BCA10F491EA45F3300C3F0E7 /* FileManager+URL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FileManager+URL.swift"; sourceTree = "<group>"; };
+		BCC6AF641EA0336B00801E2E /* FormSearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormSearchTableViewController.swift; sourceTree = "<group>"; };
 		BD576C71617526D7FD7998A4F9E193B4 /* CollectionViewFormExpandingHeaderView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CollectionViewFormExpandingHeaderView.swift; sourceTree = "<group>"; };
 		BE92A5F2C0BD000330AC11BEAD32FCC4 /* TableViewFormCheckboxCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TableViewFormCheckboxCell.swift; sourceTree = "<group>"; };
 		C472C221BEF1B5D3538D2AF710A8B15E /* CollectionViewFormTextFieldCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CollectionViewFormTextFieldCell.swift; sourceTree = "<group>"; };
@@ -359,6 +383,7 @@
 		3394CD46768A0B87CB4D65255EC5F2F3 /* MPOL */ = {
 			isa = PBXGroup;
 			children = (
+				BCA10F301EA45C7100C3F0E7 /* Manifest.xcdatamodeld */,
 				9AE1508E78E6476441876ADE3E0548FD /* Assets.xcassets */,
 				A0EB21ED153C5D46FC1B076C020524B4 /* ThemePack.json */,
 			);
@@ -378,6 +403,8 @@
 		3C9D77CD8C0BF45835DFB13BF852FDA9 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				BCA10F331EA45C9A00C3F0E7 /* Manifest */,
+				BCA10F401EA45D3300C3F0E7 /* Extensions */,
 				FD17171DCFE61EDD6629948CBCEE76E9 /* AlertLevel.swift */,
 			);
 			path = Core;
@@ -472,6 +499,8 @@
 			isa = PBXGroup;
 			children = (
 				25E11B09A5C00F982D2CEFCDF57CEE3E /* FormCollectionViewController.swift */,
+				BCC6AF641EA0336B00801E2E /* FormSearchTableViewController.swift */,
+				BC8150C01E9F5BB200E2DF75 /* FormTableViewController.swift */,
 				8F2FFDF5480C1F50AAF29521032EFC02 /* MapOverlayViewController.swift */,
 				290B2A435E25EE382ECE5106DD648170 /* PushableSplitViewController.swift */,
 			);
@@ -512,6 +541,7 @@
 				753E44796A62D82B22B5F71255E7D6C2 /* UIColor+Hex.swift */,
 				2D43D14EF3FEEB1B92555FBF522754C2 /* UIImage+EntityImages.swift */,
 				6044E117466CA9FC58E0699421CABC5E /* UIImage+RoundedRects.swift */,
+				BC8150C21E9F5F9200E2DF75 /* UITableView+SectionHeaderFooterFetch.swift */,
 				C65C76CF9F9797EBFF704D8444076023 /* UITextView+NotificationWorkaround.h */,
 				F33ECC997E66A946C8BE853B9A077682 /* UITextView+NotificationWorkaround.m */,
 				BC0A79AF1E9DF560001AF192 /* UIViewAnimationCurve+OptionConversion.swift */,
@@ -581,6 +611,7 @@
 				6B62304684A1C166F45286C8B010E39E /* Entity Details */,
 				8B52903E2B77C563C11143FE123A1B9B /* Extensions */,
 				11B91DA3665750F2DD6A734448D7E360 /* Keyboard Input */,
+				BC8150C41E9FAB4200E2DF75 /* Picker View Controllers */,
 				CB9A7D40859C3946088A7F42F9D2BE3B /* Popover & Form Sheet */,
 				F6E2364D8AD6DFAD35496F55DAE62F18 /* Sidebar */,
 				5796BD450E69042B006E3835E16AD463 /* Source Bar */,
@@ -617,6 +648,35 @@
 				7531C8F8DE19F1AA3C8A7AC97A91DC29 /* iOS */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BC8150C41E9FAB4200E2DF75 /* Picker View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				BC8150C51E9FAB4200E2DF75 /* PickerTableViewController.swift */,
+				BC301C151EA04CCB007D1269 /* PopoverDatePickerViewController.swift */,
+			);
+			path = "Picker View Controllers";
+			sourceTree = "<group>";
+		};
+		BCA10F331EA45C9A00C3F0E7 /* Manifest */ = {
+			isa = PBXGroup;
+			children = (
+				BCA10F341EA45C9A00C3F0E7 /* Manifest.swift */,
+				BCA10F351EA45C9A00C3F0E7 /* ManifestCollection.swift */,
+				BCA10F381EA45C9A00C3F0E7 /* ManifestEntry+Location.swift */,
+				BCA10F391EA45C9A00C3F0E7 /* ManifestEntry.swift */,
+				BC08BB5C1EA6C677004D0F75 /* ArchivedManifestEntry.swift */,
+			);
+			path = Manifest;
+			sourceTree = "<group>";
+		};
+		BCA10F401EA45D3300C3F0E7 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				BCA10F491EA45F3300C3F0E7 /* FileManager+URL.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		C2F821AEEC08F591EF4F1683F3488548 /* Views */ = {
@@ -844,21 +904,25 @@
 				0E985D1F7A604E8D169000997DB97646 /* CollectionViewFormCellActionView.swift in Sources */,
 				76E04F02DC6FD7635262F2315D7E11BD /* CollectionViewFormDetailCell.swift in Sources */,
 				EE4C38BF86280FA4C1F593B95DDC97E8 /* CollectionViewFormEditAction.swift in Sources */,
+				BCA10F321EA45C7100C3F0E7 /* Manifest.xcdatamodeld in Sources */,
 				86C44B002C4690851A44A68FA9A8C71C /* CollectionViewFormExpandingHeaderView.swift in Sources */,
 				9A8409BDBDAB646BE72B0CC7BE49F097 /* CollectionViewFormHeaderAttributes.swift in Sources */,
 				06D18328C86F72855C205F0D1F02EC24 /* CollectionViewFormItemAttributes.swift in Sources */,
 				9F58558F98911A6ADBE13CBD8746C729 /* CollectionViewFormLayout.swift in Sources */,
 				DBA0694CC372FB5F1146F1BBB4536ADC /* CollectionViewFormOptionCell.swift in Sources */,
 				61DB39C6DFCD45BECA251026CE7E04CA /* CollectionViewFormProgressCell.swift in Sources */,
+				BC8150C81E9FAB4200E2DF75 /* PickerTableViewController.swift in Sources */,
 				1BC3FE325F14AAF6AD97FD41AF985CF0 /* CollectionViewFormSubtitleCell.swift in Sources */,
 				666333BED77A8219496AD5BA339C8960 /* CollectionViewFormTextFieldCell.swift in Sources */,
 				6261B83C814F7212AA2182C11528DC4D /* CollectionViewFormTextViewCell.swift in Sources */,
 				AD7B1D0B55D115B71A958C3B15EACE2F /* CoreGraphics+Convenience.swift in Sources */,
+				BCA10F3F1EA45C9A00C3F0E7 /* ManifestEntry.swift in Sources */,
 				3870EB1778E80A9935EBC09761930E4E /* CoreGraphics+Rounding.swift in Sources */,
 				B4312689990ECC4DBEE2EF3AE990FE0E /* DefaultReusable.swift in Sources */,
 				85F34F44E4EAEFBC9568A2761198B975 /* EntityAlertsViewController.swift in Sources */,
 				EF1D76C126B0A8FC5CE29CA8CB3C80FD /* EntityAssociationsViewController.swift in Sources */,
 				0BE4D86FBA6E152C8DF3EC92DAD579BA /* EntityCollectionViewCell.swift in Sources */,
+				BC8150C31E9F5F9200E2DF75 /* UITableView+SectionHeaderFooterFetch.swift in Sources */,
 				5CFD36C607C9F372762B28D51213D862 /* EntityDetailCollectionViewCell.swift in Sources */,
 				84D17AA9ED5F7E6CCA31951F4FED0EE0 /* EntityDetailsSplitViewController.swift in Sources */,
 				35D08E248F7F61C1D71BE4E312E05CF8 /* EntityInfoViewController.swift in Sources */,
@@ -879,8 +943,11 @@
 				D922E0C4F9B31072E286EA65246B1ECF /* MPOLKit-dummy.m in Sources */,
 				30AEDE32253E9E49D4DA2ACD5A36B12E /* NSLayoutConstraint+Conveniences.swift in Sources */,
 				CF7EE8A511139F69A10CBB48D989A49F /* OrganizationInfoViewController.swift in Sources */,
+				BCA10F3E1EA45C9A00C3F0E7 /* ManifestEntry+Location.swift in Sources */,
 				38010BF1A22FB94AA43CD5055E9470DE /* PersonInfoViewController.swift in Sources */,
 				A3EB01AD546FCAAD4925AB8C8D61F2A6 /* PopoverFormSheetPresentationController.swift in Sources */,
+				BCA10F4A1EA45F3300C3F0E7 /* FileManager+URL.swift in Sources */,
+				BC8150C11E9F5BB200E2DF75 /* FormTableViewController.swift in Sources */,
 				C617B49D9508685CA1DAF5B4454F7B25 /* PopoverNavigationController.swift in Sources */,
 				25C4308F200E67507EE065C24642D9D5 /* PopoverViewController.swift in Sources */,
 				54416D91312707496CEB356B98F6FAF1 /* PushableSplitViewController.swift in Sources */,
@@ -892,8 +959,10 @@
 				A663AB6491EA11EAB72C0128A3CE113D /* SidebarSplitViewController.swift in Sources */,
 				85C140CBB42FD13F55572D8E062667DC /* SidebarTableViewCell.swift in Sources */,
 				C62C23263C567999B4B1C4E71E081F11 /* SidebarViewController.swift in Sources */,
+				BC08BB5D1EA6C677004D0F75 /* ArchivedManifestEntry.swift in Sources */,
 				B28154796E46D1CCD581DBC0D6E4FCEC /* SourceBar.swift in Sources */,
 				04A6D95A64D9F78CBC914E4932E58E07 /* SourceBarCell.swift in Sources */,
+				BCC6AF651EA0336B00801E2E /* FormSearchTableViewController.swift in Sources */,
 				82EC143D0794F119489C547BDEC4E2E0 /* SourceItem.swift in Sources */,
 				21DD3787CE613EF298B2E43E193A688E /* StatsOverviewCollectionViewCell.swift in Sources */,
 				C2E93595DE864EA64A6D69E9F1DD2CCF /* TableViewFormCell.swift in Sources */,
@@ -907,14 +976,17 @@
 				53F712387A23D947D7A32D650576B78E /* UICollectionView+DefaultReuse.swift in Sources */,
 				7301B31C4A7D5DBC1D7D495C58C0D2A5 /* UIColor+ActionColors.swift in Sources */,
 				1B337F024D75FB25C81CD4A0453B1B29 /* UIColor+Hex.swift in Sources */,
+				BC301C161EA04CCB007D1269 /* PopoverDatePickerViewController.swift in Sources */,
 				176DFF580A440A2C976EA5F7AB490A74 /* UIEdgeInsets+Convenience.swift in Sources */,
 				A7E399BD85BA9993A4987B58322BE3B2 /* UIImage+EntityImages.swift in Sources */,
 				3662FAF138CB93DE7DAC73A6EA42E081 /* UIImage+FormIcons.swift in Sources */,
+				BCA10F3B1EA45C9A00C3F0E7 /* ManifestCollection.swift in Sources */,
 				4FE67A770841FC04A029052CDD485FD8 /* UIImage+RoundedRects.swift in Sources */,
 				92B5C106E395409000493BE7D8BDB1F2 /* UITableView+DefaultReuse.swift in Sources */,
 				1BEA1D82D990A1EA14D78BD6CC1E1527 /* UITableViewCell+LayoutMargins.swift in Sources */,
 				302F72AF42D855C40480D361CE76E030 /* UITextView+NotificationWorkaround.m in Sources */,
 				C3A13F63F763D3D70657FCAFB6593974 /* UITraitCollection+CurrentDisplayScale.swift in Sources */,
+				BCA10F3A1EA45C9A00C3F0E7 /* Manifest.swift in Sources */,
 				CF16C9338B29628301B3C95BC7B66989 /* UIView+Convenience.swift in Sources */,
 				E2423FCCB690DE85189C025E0D119139 /* VehicleInfoViewController.swift in Sources */,
 				8FD63A5E22BEEE7B50C1C6869C961CEE /* ViewControllerAnimationOptionTransition.swift in Sources */,
@@ -1263,6 +1335,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		BCA10F301EA45C7100C3F0E7 /* Manifest.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				BCA10F311EA45C7100C3F0E7 /* Manifest.xcdatamodel */,
+			);
+			currentVersion = BCA10F311EA45C7100C3F0E7 /* Manifest.xcdatamodel */;
+			path = Manifest.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 }

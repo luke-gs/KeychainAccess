@@ -30,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
         window.tintColor = theme.colors[.Tint]
         self.window = window
         
-        updateInterface(forLogin: true, animated: false)
+        updateInterface(forLogin: false, animated: false)
         
         window.makeKeyAndVisible()
         

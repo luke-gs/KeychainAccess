@@ -17,7 +17,10 @@
             "disclosureIndicator":    "#C8C7CC",
             "alternatePrimaryText":   "#FFFFFF",
             "alternateSecondaryText": "#8A919E",
-            "alternateSeparator":     "#64696E"
+            "alternateSeparator":     "#64696E",
+            "groupedTableBackground": "#EFEFF4",
+            "groupedTableCellBackground": "#FFFFFF",
+            "groupedTableSeparator":  "#E3E3E5"
         }
     }
 ]

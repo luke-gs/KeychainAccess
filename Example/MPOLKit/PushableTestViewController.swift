@@ -11,6 +11,25 @@ import MPOLKit
 
 class PushableTestViewController: UITableViewController {
     
+    enum TestDisplayItem: Int, Pickable {
+        case item1
+        case item2
+        case item3
+        
+        var title: String? {
+            switch self {
+            case .item1: return "Item 1"
+            case .item2: return "Item 2"
+            case .item3: return "Item 3"
+            }
+        }
+        
+        var subtitle: String? {
+            return nil
+        }
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.estimatedRowHeight = 50.0
@@ -32,12 +51,19 @@ class PushableTestViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let testVC = TestCollectionViewController()
         
-        let popoverNavController = PopoverNavigationController(rootViewController: testVC)
-        popoverNavController.modalPresentationStyle = .formSheet
-        present(popoverNavController, animated: true)
+        let displayItemVC = PickerTableViewController(style: .grouped, items: [TestDisplayItem.item1, TestDisplayItem.item2, TestDisplayItem.item3])
+        displayItemVC.noItemTitle = "Any"
+        displayItemVC.allowsMultipleSelection = true
         
+        let popoverNavigationController = PopoverNavigationController(rootViewController: displayItemVC)
+        popoverNavigationController.modalPresentationStyle = .popover
+        if let popoverController = popoverNavigationController.popoverPresentationController {
+            popoverController.sourceRect = tableView.rectForRow(at: indexPath)
+            popoverController.sourceView = tableView
+        }
+        
+        present(popoverNavigationController, animated: true)
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {

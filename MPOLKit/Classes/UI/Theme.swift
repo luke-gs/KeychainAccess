@@ -213,6 +213,11 @@ public struct ThemeColorType: RawRepresentable, Equatable, Hashable {
     public static let AlternatePrimaryText   = ThemeColorType(rawValue: "alternatePrimaryText")
     public static let AlternateSecondaryText = ThemeColorType(rawValue: "alternateSecondaryText")
     public static let AlternateSeparator     = ThemeColorType(rawValue: "alternateSeparator")
+    
+    // Grouped Table specific
+    public static let GroupedTableBackground     = ThemeColorType(rawValue: "groupedTableBackground")
+    public static let GroupedTableCellBackground = ThemeColorType(rawValue: "groupedTableCellBackground")
+    public static let GroupedTableSeparator      = ThemeColorType(rawValue: "groupedTableSeparator")
 }
 
 public func ==(lhs: ThemeColorType, rhs: ThemeColorType) -> Bool {

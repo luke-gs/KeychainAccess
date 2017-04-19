@@ -1,6 +1,6 @@
 //
 //  KeyboardAnimationDetails.swift
-//  Pods
+//  MPOLKit
 //
 //  Created by Rod Brown on 12/4/17.
 //
