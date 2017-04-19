@@ -49,9 +49,9 @@ open class ArchivedManifestEntry: NSObject, NSSecureCoding {
         id            = entry.id
         lastUpdated   = entry.lastUpdated as Date?
         if let latitude = entry.latitude?.doubleValue, let longitude = entry.longitude?.doubleValue {
-            self.location = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+            location = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         } else {
-            self.location = kCLLocationCoordinate2DInvalid
+            location = kCLLocationCoordinate2DInvalid
         }
         rawValue      = entry.rawValue
         shortTitle    = entry.shortTitle
@@ -103,5 +103,12 @@ open class ArchivedManifestEntry: NSObject, NSSecureCoding {
     }
     
     
+    // MARK: - Fetch current version
+    
+    public func current() -> ManifestEntry? {
+        guard let id = self.id else { return nil }
+        
+        return Manifest.shared.entry(withID: id)
+    }
     
 }
