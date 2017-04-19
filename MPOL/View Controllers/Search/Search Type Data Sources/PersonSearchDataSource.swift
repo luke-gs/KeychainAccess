@@ -24,6 +24,15 @@ class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
             case .age:        return NSLocalizedString("Age",      comment: "")
             }
         }
+        
+        fileprivate var pickerTitle: String {
+            switch self {
+            case .searchType: return NSLocalizedString("Search Type", comment: "")
+            case .state:      return NSLocalizedString("State/s",  comment: "")
+            case .gender:     return NSLocalizedString("Gender/s", comment: "")
+            case .age:        return NSLocalizedString("Age Range",      comment: "")
+            }
+        }
     }
     
     override class var requestType: SearchRequest.Type {
@@ -107,7 +116,6 @@ class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
         case .searchType:
             let values = PersonSearchRequest.SearchType.all
             let picker = PickerTableViewController(style: .plain, items: values)
-            picker.title = NSLocalizedString("Search Type", comment: "")
             picker.selectedItems = [personSearchRequest.searchType]
             picker.selectionUpdateHandler = { [weak self] (selectedTypes: Set<PersonSearchRequest.SearchType>?) in
                 if let strongSelf = self,
@@ -120,19 +128,33 @@ class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
         case .gender:
             let picker = PickerTableViewController(style: .plain, items: Manifest.shared.entries(for: .Genders) ?? [])
             picker.title = NSLocalizedString("Gender/s", comment: "")
-            picker.noItemTitle = NSLocalizedString("Any", comment: "")
-            // TODO: Handle selection and preselecting
+            picker.selectedItems = Set(personSearchRequest.gender?.flatMap { $0.current() } ?? [])
+            
+            picker.selectionUpdateHandler = { [weak self] (items) in
+                if let strongSelf = self {
+                    strongSelf.personSearchRequest.gender = items?.flatMap { ArchivedManifestEntry(entry: $0) }
+                    strongSelf.updatingDelegate?.searchDataSource(strongSelf, didUpdateFilterAt: index)
+                }
+            }
+            
+            // TODO: Handle selection
             viewController = picker
         case .state:
             let picker = PickerTableViewController(style: .plain, items: Manifest.shared.entries(for: .States) ?? [])
-            picker.title = NSLocalizedString("State/s", comment: "")
-            picker.noItemTitle = NSLocalizedString("Any", comment: "")
-            // TODO: Handle selection and preselecting
+            picker.noItemTitle   = NSLocalizedString("Any", comment: "")
+            picker.selectedItems = Set(personSearchRequest.states?.flatMap { $0.current() } ?? [])
+            
+            picker.selectionUpdateHandler = { [weak self] (items) in
+                if let strongSelf = self {
+                    strongSelf.personSearchRequest.states = items?.flatMap { ArchivedManifestEntry(entry: $0) }
+                    strongSelf.updatingDelegate?.searchDataSource(strongSelf, didUpdateFilterAt: index)
+                }
+            }
+            
             viewController = picker
         case .age:
             let ageNumberPicker = NumberRangePickerViewController(min:0, max: 100)
             ageNumberPicker.delegate = self
-            ageNumberPicker.title = NSLocalizedString("Age Range", comment: "")
             ageNumberPicker.noRangeTitle = NSLocalizedString("Any Age", comment: "")
             
             if let ageRange = personSearchRequest.ageRange {
@@ -150,6 +172,7 @@ class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
             
             viewController = ageNumberPicker
         }
+        viewController.title = item.pickerTitle
         
         return PopoverNavigationController(rootViewController: viewController)
     }

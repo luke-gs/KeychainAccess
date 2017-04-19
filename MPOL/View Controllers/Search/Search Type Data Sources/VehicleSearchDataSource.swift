@@ -93,8 +93,16 @@ class VehicleSearchDataSource: SearchDataSource {
             viewController = picker
         case .state:
             let picker = PickerTableViewController(style: .plain, items: Manifest.shared.entries(for: .States) ?? [])
-            picker.noItemTitle = NSLocalizedString("Any", comment: "")
-            // TODO: Handle selection and preselecting
+            picker.noItemTitle   = NSLocalizedString("Any", comment: "")
+            picker.selectedItems = Set(vehicleSearchRequest.states?.flatMap { $0.current() } ?? [])
+            
+            picker.selectionUpdateHandler = { [weak self] (items) in
+                if let strongSelf = self {
+                    strongSelf.vehicleSearchRequest.states = items?.flatMap { ArchivedManifestEntry(entry: $0) }
+                    strongSelf.updatingDelegate?.searchDataSource(strongSelf, didUpdateFilterAt: index)
+                }
+            }
+            
             viewController = picker
         case .make:
             let picker = PickerTableViewController(style: .plain, items: [ManifestEntry]())
