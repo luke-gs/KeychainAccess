@@ -14,11 +14,7 @@ extension FileManager {
         
         guard url.isFileURL else { return false }
         
-        if isDirectory != nil {
-            return fileExists(atPath: url.path, isDirectory: isDirectory)
-        } else {
-            return fileExists(atPath: url.path)
-        }
+        return fileExists(atPath: url.path, isDirectory: isDirectory)
     }
     
 }

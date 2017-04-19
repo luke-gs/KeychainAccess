@@ -9,7 +9,15 @@
 import Foundation
 import CoreLocation
 
-open class ArchivedManifestEntry: NSObject, NSCoding {
+private let latKey  = "location.latitude"
+private let longKey = "location.longitude"
+
+open class ArchivedManifestEntry: NSObject, NSSecureCoding {
+    
+    public static var supportsSecureCoding: Bool {
+        return true
+    }
+    
     
     // MARK: - Public properties
     
@@ -63,7 +71,7 @@ open class ArchivedManifestEntry: NSObject, NSCoding {
         expiryDate      = aDecoder.decodeObject(of: NSDate.self,   forKey: #keyPath(expiryDate))  as Date?
         id              = aDecoder.decodeObject(of: NSString.self, forKey: #keyPath(id))          as String?
         lastUpdated     = aDecoder.decodeObject(of: NSDate.self,   forKey: #keyPath(lastUpdated)) as Date?
-        location        = aDecoder.decodeObject(of: NSValue.self,  forKey: #keyPath(location))?.mkCoordinateValue ?? kCLLocationCoordinate2DInvalid
+        location        = CLLocationCoordinate2D(latitude: aDecoder.decodeDouble(forKey: latKey), longitude: aDecoder.decodeDouble(forKey: longKey))
         rawValue        = aDecoder.decodeObject(of: NSString.self, forKey: #keyPath(rawValue))    as String?
         shortTitle      = aDecoder.decodeObject(of: NSString.self, forKey: #keyPath(shortTitle))  as String?
         sortOrder       = aDecoder.decodeDouble(forKey: #keyPath(sortOrder))
@@ -85,7 +93,8 @@ open class ArchivedManifestEntry: NSObject, NSCoding {
         aCoder.encode(expiryDate,  forKey: #keyPath(expiryDate))
         aCoder.encode(id,          forKey: #keyPath(id))
         aCoder.encode(lastUpdated, forKey: #keyPath(lastUpdated))
-        aCoder.encode(NSValue(mkCoordinate: location), forKey: #keyPath(location))
+        aCoder.encode(location.latitude, forKey: latKey)
+        aCoder.encode(location.longitude, forKey: longKey)
         aCoder.encode(rawValue,    forKey: #keyPath(rawValue))
         aCoder.encode(shortTitle,  forKey: #keyPath(shortTitle))
         aCoder.encode(sortOrder,   forKey: #keyPath(sortOrder))
