@@ -14,8 +14,8 @@
 		BC0D8E8D1E94067800EDFC45 /* SearchResultsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0D8E871E94067800EDFC45 /* SearchResultsListViewController.swift */; };
 		BC0D8E8E1E94067800EDFC45 /* SearchResultsMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0D8E881E94067800EDFC45 /* SearchResultsMapViewController.swift */; };
 		BC0D8E8F1E94067800EDFC45 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0D8E891E94067800EDFC45 /* SearchViewController.swift */; };
-		BC53AD1C1E96531300EA3397 /* SearchEntityListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC53AD1B1E96531300EA3397 /* SearchEntityListCell.swift */; };
-		BC911E701E95E999003B4893 /* SearchNavigationField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC911E6F1E95E999003B4893 /* SearchNavigationField.swift */; };
+		BC53108F1EA844C100E7DBE4 /* SearchEntityListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC53108E1EA844C100E7DBE4 /* SearchEntityListCell.swift */; };
+		BC5310911EA844FE00E7DBE4 /* SearchNavigationField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5310901EA844FE00E7DBE4 /* SearchNavigationField.swift */; };
 		BC9E485D1E9D9D2800767337 /* SearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9E485C1E9D9D2800767337 /* SearchRequest.swift */; };
 		BC9E485F1E9DA2A500767337 /* PersonSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9E485E1E9DA2A500767337 /* PersonSearchRequest.swift */; };
 		BC9E48631E9DDD3C00767337 /* VehicleSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9E48621E9DDD3C00767337 /* VehicleSearchRequest.swift */; };
@@ -46,8 +46,8 @@
 		BC0D8E871E94067800EDFC45 /* SearchResultsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultsListViewController.swift; sourceTree = "<group>"; };
 		BC0D8E881E94067800EDFC45 /* SearchResultsMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultsMapViewController.swift; sourceTree = "<group>"; };
 		BC0D8E891E94067800EDFC45 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
-		BC53AD1B1E96531300EA3397 /* SearchEntityListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchEntityListCell.swift; sourceTree = "<group>"; };
-		BC911E6F1E95E999003B4893 /* SearchNavigationField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchNavigationField.swift; sourceTree = "<group>"; };
+		BC53108E1EA844C100E7DBE4 /* SearchEntityListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchEntityListCell.swift; sourceTree = "<group>"; };
+		BC5310901EA844FE00E7DBE4 /* SearchNavigationField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchNavigationField.swift; sourceTree = "<group>"; };
 		BC9E485C1E9D9D2800767337 /* SearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRequest.swift; sourceTree = "<group>"; };
 		BC9E485E1E9DA2A500767337 /* PersonSearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonSearchRequest.swift; sourceTree = "<group>"; };
 		BC9E48621E9DDD3C00767337 /* VehicleSearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleSearchRequest.swift; sourceTree = "<group>"; };
@@ -107,12 +107,10 @@
 				BC0D8E861E94067800EDFC45 /* SearchRecentsViewController.swift */,
 				BC0D8E871E94067800EDFC45 /* SearchResultsListViewController.swift */,
 				BC0D8E881E94067800EDFC45 /* SearchResultsMapViewController.swift */,
-				BC911E6F1E95E999003B4893 /* SearchNavigationField.swift */,
-				BC53AD1B1E96531300EA3397 /* SearchEntityListCell.swift */,
 				996364DD1E9C9DDB00F86C35 /* NumberRangePickerViewController.swift */,
-				BCC5E9481E9F155E00A9635E /* Search Type Data Sources */,
 				BC9E485B1E9D9D2800767337 /* Search Requests */,
-				BC9E48681E9DE14D00767337 /* Cells */,
+				BCC5E9481E9F155E00A9635E /* Search Type Data Sources */,
+				BC9E48681E9DE14D00767337 /* Views */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -129,13 +127,15 @@
 			path = "Search Requests";
 			sourceTree = "<group>";
 		};
-		BC9E48681E9DE14D00767337 /* Cells */ = {
+		BC9E48681E9DE14D00767337 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				BC9E486A1E9DE14D00767337 /* SearchTypeCollectionViewCell.swift */,
+				BC53108E1EA844C100E7DBE4 /* SearchEntityListCell.swift */,
 				BC9E48691E9DE14D00767337 /* SearchFieldCollectionViewCell.swift */,
+				BC5310901EA844FE00E7DBE4 /* SearchNavigationField.swift */,
+				BC9E486A1E9DE14D00767337 /* SearchTypeCollectionViewCell.swift */,
 			);
-			path = Cells;
+			path = Views;
 			sourceTree = "<group>";
 		};
 		BCC5E9481E9F155E00A9635E /* Search Type Data Sources */ = {
@@ -333,6 +333,7 @@
 				BC0D8E8B1E94067800EDFC45 /* SearchOptionsViewController.swift in Sources */,
 				BC9E48651E9DDE0A00767337 /* OrganizationSearchRequest.swift in Sources */,
 				BC9E485D1E9D9D2800767337 /* SearchRequest.swift in Sources */,
+				BC5310911EA844FE00E7DBE4 /* SearchNavigationField.swift in Sources */,
 				BC0D8E8F1E94067800EDFC45 /* SearchViewController.swift in Sources */,
 				BCC5E94C1E9F155E00A9635E /* SearchDataSource.swift in Sources */,
 				BC0D8E8E1E94067800EDFC45 /* SearchResultsMapViewController.swift in Sources */,
@@ -340,7 +341,6 @@
 				BCC5E9501E9F27BA00A9635E /* OrganizationSearchDataSource.swift in Sources */,
 				BCF2E4071E960EDA00D6D7F3 /* UIImage+RoundedRects.swift in Sources */,
 				BC9E486C1E9DE14D00767337 /* SearchTypeCollectionViewCell.swift in Sources */,
-				BC53AD1C1E96531300EA3397 /* SearchEntityListCell.swift in Sources */,
 				996364DE1E9C9DDB00F86C35 /* NumberRangePickerViewController.swift in Sources */,
 				BCC5E94B1E9F155E00A9635E /* PersonSearchDataSource.swift in Sources */,
 				BC0D8E8D1E94067800EDFC45 /* SearchResultsListViewController.swift in Sources */,
@@ -349,8 +349,8 @@
 				BCC5E9521E9F286500A9635E /* LocationSearchDataSource.swift in Sources */,
 				BC0D8E8C1E94067800EDFC45 /* SearchRecentsViewController.swift in Sources */,
 				BC9E485F1E9DA2A500767337 /* PersonSearchRequest.swift in Sources */,
+				BC53108F1EA844C100E7DBE4 /* SearchEntityListCell.swift in Sources */,
 				BC9E48671E9DDE8900767337 /* LocationSearchRequest.swift in Sources */,
-				BC911E701E95E999003B4893 /* SearchNavigationField.swift in Sources */,
 				BCC5E94E1E9F183900A9635E /* VehicleSearchDataSource.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
