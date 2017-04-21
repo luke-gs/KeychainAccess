@@ -111,7 +111,7 @@ open class SearchNavigationField: UIView {
             NSLayoutConstraint(item: clearButton, attribute: .centerX,  relatedBy: .equal, toItem: self, attribute: .trailing, constant: -15.0),
             NSLayoutConstraint(item: clearButton, attribute: .centerY,  relatedBy: .equal, toItem: self, attribute: .centerY),
             NSLayoutConstraint(item: clearButton, attribute: .width,    relatedBy: .greaterThanOrEqual,  toConstant: 44.0),
-            NSLayoutConstraint(item: clearButton, attribute: .height,   relatedBy: .greaterThanOrEqual, toConstant: 44.0),
+            NSLayoutConstraint(item: clearButton, attribute: .height,   relatedBy: .greaterThanOrEqual,  toConstant: 44.0),
             NSLayoutConstraint(item: titleLabel,  attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: resultCountLabel, attribute: .leading, constant: 8.0, priority: 200)
         ]
         NSLayoutConstraint.activate(constraints)

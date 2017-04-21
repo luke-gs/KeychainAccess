@@ -8,14 +8,26 @@
 
 /* Begin PBXBuildFile section */
 		397B77011E52CEDA00696677 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 397B77001E52CEDA00696677 /* UserNotifications.framework */; };
-		BC0D8E8A1E94067800EDFC45 /* SearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0D8E841E94067800EDFC45 /* SearchCollectionViewCell.swift */; };
+		996364DE1E9C9DDB00F86C35 /* NumberRangePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996364DD1E9C9DDB00F86C35 /* NumberRangePickerViewController.swift */; };
 		BC0D8E8B1E94067800EDFC45 /* SearchOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0D8E851E94067800EDFC45 /* SearchOptionsViewController.swift */; };
 		BC0D8E8C1E94067800EDFC45 /* SearchRecentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0D8E861E94067800EDFC45 /* SearchRecentsViewController.swift */; };
 		BC0D8E8D1E94067800EDFC45 /* SearchResultsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0D8E871E94067800EDFC45 /* SearchResultsListViewController.swift */; };
 		BC0D8E8E1E94067800EDFC45 /* SearchResultsMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0D8E881E94067800EDFC45 /* SearchResultsMapViewController.swift */; };
 		BC0D8E8F1E94067800EDFC45 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0D8E891E94067800EDFC45 /* SearchViewController.swift */; };
-		BC53AD1C1E96531300EA3397 /* SearchEntityListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC53AD1B1E96531300EA3397 /* SearchEntityListCell.swift */; };
-		BC911E701E95E999003B4893 /* SearchNavigationField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC911E6F1E95E999003B4893 /* SearchNavigationField.swift */; };
+		BC53108F1EA844C100E7DBE4 /* SearchEntityListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC53108E1EA844C100E7DBE4 /* SearchEntityListCell.swift */; };
+		BC5310911EA844FE00E7DBE4 /* SearchNavigationField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5310901EA844FE00E7DBE4 /* SearchNavigationField.swift */; };
+		BC9E485D1E9D9D2800767337 /* SearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9E485C1E9D9D2800767337 /* SearchRequest.swift */; };
+		BC9E485F1E9DA2A500767337 /* PersonSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9E485E1E9DA2A500767337 /* PersonSearchRequest.swift */; };
+		BC9E48631E9DDD3C00767337 /* VehicleSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9E48621E9DDD3C00767337 /* VehicleSearchRequest.swift */; };
+		BC9E48651E9DDE0A00767337 /* OrganizationSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9E48641E9DDE0A00767337 /* OrganizationSearchRequest.swift */; };
+		BC9E48671E9DDE8900767337 /* LocationSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9E48661E9DDE8900767337 /* LocationSearchRequest.swift */; };
+		BC9E486B1E9DE14D00767337 /* SearchFieldCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9E48691E9DE14D00767337 /* SearchFieldCollectionViewCell.swift */; };
+		BC9E486C1E9DE14D00767337 /* SearchTypeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9E486A1E9DE14D00767337 /* SearchTypeCollectionViewCell.swift */; };
+		BCC5E94B1E9F155E00A9635E /* PersonSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC5E9491E9F155E00A9635E /* PersonSearchDataSource.swift */; };
+		BCC5E94C1E9F155E00A9635E /* SearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC5E94A1E9F155E00A9635E /* SearchDataSource.swift */; };
+		BCC5E94E1E9F183900A9635E /* VehicleSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC5E94D1E9F183900A9635E /* VehicleSearchDataSource.swift */; };
+		BCC5E9501E9F27BA00A9635E /* OrganizationSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC5E94F1E9F27BA00A9635E /* OrganizationSearchDataSource.swift */; };
+		BCC5E9521E9F286500A9635E /* LocationSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC5E9511E9F286500A9635E /* LocationSearchDataSource.swift */; };
 		BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */; };
 		BCD4EA941E515ACE000B993D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCD4EA931E515ACE000B993D /* Assets.xcassets */; };
 		BCD4EA9F1E515ADE000B993D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCD4EA9E1E515ADE000B993D /* LaunchScreen.storyboard */; };
@@ -28,14 +40,26 @@
 		397B77001E52CEDA00696677 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		49B155AAA46289B4B533225E /* Pods_MPOL.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		91A39BA7C59DFBA980DDCA74 /* Pods-MPOL.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOL.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MPOL/Pods-MPOL.debug.xcconfig"; sourceTree = "<group>"; };
-		BC0D8E841E94067800EDFC45 /* SearchCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCell.swift; sourceTree = "<group>"; };
+		996364DD1E9C9DDB00F86C35 /* NumberRangePickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberRangePickerViewController.swift; sourceTree = "<group>"; };
 		BC0D8E851E94067800EDFC45 /* SearchOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchOptionsViewController.swift; sourceTree = "<group>"; };
 		BC0D8E861E94067800EDFC45 /* SearchRecentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRecentsViewController.swift; sourceTree = "<group>"; };
 		BC0D8E871E94067800EDFC45 /* SearchResultsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultsListViewController.swift; sourceTree = "<group>"; };
 		BC0D8E881E94067800EDFC45 /* SearchResultsMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultsMapViewController.swift; sourceTree = "<group>"; };
 		BC0D8E891E94067800EDFC45 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
-		BC53AD1B1E96531300EA3397 /* SearchEntityListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchEntityListCell.swift; sourceTree = "<group>"; };
-		BC911E6F1E95E999003B4893 /* SearchNavigationField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchNavigationField.swift; sourceTree = "<group>"; };
+		BC53108E1EA844C100E7DBE4 /* SearchEntityListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchEntityListCell.swift; sourceTree = "<group>"; };
+		BC5310901EA844FE00E7DBE4 /* SearchNavigationField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchNavigationField.swift; sourceTree = "<group>"; };
+		BC9E485C1E9D9D2800767337 /* SearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRequest.swift; sourceTree = "<group>"; };
+		BC9E485E1E9DA2A500767337 /* PersonSearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonSearchRequest.swift; sourceTree = "<group>"; };
+		BC9E48621E9DDD3C00767337 /* VehicleSearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleSearchRequest.swift; sourceTree = "<group>"; };
+		BC9E48641E9DDE0A00767337 /* OrganizationSearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizationSearchRequest.swift; sourceTree = "<group>"; };
+		BC9E48661E9DDE8900767337 /* LocationSearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSearchRequest.swift; sourceTree = "<group>"; };
+		BC9E48691E9DE14D00767337 /* SearchFieldCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchFieldCollectionViewCell.swift; sourceTree = "<group>"; };
+		BC9E486A1E9DE14D00767337 /* SearchTypeCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTypeCollectionViewCell.swift; sourceTree = "<group>"; };
+		BCC5E9491E9F155E00A9635E /* PersonSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonSearchDataSource.swift; sourceTree = "<group>"; };
+		BCC5E94A1E9F155E00A9635E /* SearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchDataSource.swift; sourceTree = "<group>"; };
+		BCC5E94D1E9F183900A9635E /* VehicleSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleSearchDataSource.swift; sourceTree = "<group>"; };
+		BCC5E94F1E9F27BA00A9635E /* OrganizationSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizationSearchDataSource.swift; sourceTree = "<group>"; };
+		BCC5E9511E9F286500A9635E /* LocationSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSearchDataSource.swift; sourceTree = "<group>"; };
 		BCD4EA891E515ACE000B993D /* MPOL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MPOL.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BCD4EA931E515ACE000B993D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -83,11 +107,47 @@
 				BC0D8E861E94067800EDFC45 /* SearchRecentsViewController.swift */,
 				BC0D8E871E94067800EDFC45 /* SearchResultsListViewController.swift */,
 				BC0D8E881E94067800EDFC45 /* SearchResultsMapViewController.swift */,
-				BC911E6F1E95E999003B4893 /* SearchNavigationField.swift */,
-				BC53AD1B1E96531300EA3397 /* SearchEntityListCell.swift */,
-				BC0D8E841E94067800EDFC45 /* SearchCollectionViewCell.swift */,
+				996364DD1E9C9DDB00F86C35 /* NumberRangePickerViewController.swift */,
+				BC9E485B1E9D9D2800767337 /* Search Requests */,
+				BCC5E9481E9F155E00A9635E /* Search Type Data Sources */,
+				BC9E48681E9DE14D00767337 /* Views */,
 			);
 			path = Search;
+			sourceTree = "<group>";
+		};
+		BC9E485B1E9D9D2800767337 /* Search Requests */ = {
+			isa = PBXGroup;
+			children = (
+				BC9E485C1E9D9D2800767337 /* SearchRequest.swift */,
+				BC9E485E1E9DA2A500767337 /* PersonSearchRequest.swift */,
+				BC9E48621E9DDD3C00767337 /* VehicleSearchRequest.swift */,
+				BC9E48641E9DDE0A00767337 /* OrganizationSearchRequest.swift */,
+				BC9E48661E9DDE8900767337 /* LocationSearchRequest.swift */,
+			);
+			path = "Search Requests";
+			sourceTree = "<group>";
+		};
+		BC9E48681E9DE14D00767337 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				BC53108E1EA844C100E7DBE4 /* SearchEntityListCell.swift */,
+				BC9E48691E9DE14D00767337 /* SearchFieldCollectionViewCell.swift */,
+				BC5310901EA844FE00E7DBE4 /* SearchNavigationField.swift */,
+				BC9E486A1E9DE14D00767337 /* SearchTypeCollectionViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		BCC5E9481E9F155E00A9635E /* Search Type Data Sources */ = {
+			isa = PBXGroup;
+			children = (
+				BCC5E94A1E9F155E00A9635E /* SearchDataSource.swift */,
+				BCC5E9491E9F155E00A9635E /* PersonSearchDataSource.swift */,
+				BCC5E94D1E9F183900A9635E /* VehicleSearchDataSource.swift */,
+				BCC5E94F1E9F27BA00A9635E /* OrganizationSearchDataSource.swift */,
+				BCC5E9511E9F286500A9635E /* LocationSearchDataSource.swift */,
+			);
+			path = "Search Type Data Sources";
 			sourceTree = "<group>";
 		};
 		BCD4EA801E515ACE000B993D = {
@@ -271,15 +331,27 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC0D8E8B1E94067800EDFC45 /* SearchOptionsViewController.swift in Sources */,
+				BC9E48651E9DDE0A00767337 /* OrganizationSearchRequest.swift in Sources */,
+				BC9E485D1E9D9D2800767337 /* SearchRequest.swift in Sources */,
+				BC5310911EA844FE00E7DBE4 /* SearchNavigationField.swift in Sources */,
 				BC0D8E8F1E94067800EDFC45 /* SearchViewController.swift in Sources */,
-				BC0D8E8A1E94067800EDFC45 /* SearchCollectionViewCell.swift in Sources */,
+				BCC5E94C1E9F155E00A9635E /* SearchDataSource.swift in Sources */,
 				BC0D8E8E1E94067800EDFC45 /* SearchResultsMapViewController.swift in Sources */,
 				BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */,
+				BCC5E9501E9F27BA00A9635E /* OrganizationSearchDataSource.swift in Sources */,
 				BCF2E4071E960EDA00D6D7F3 /* UIImage+RoundedRects.swift in Sources */,
-				BC53AD1C1E96531300EA3397 /* SearchEntityListCell.swift in Sources */,
+				BC9E486C1E9DE14D00767337 /* SearchTypeCollectionViewCell.swift in Sources */,
+				996364DE1E9C9DDB00F86C35 /* NumberRangePickerViewController.swift in Sources */,
+				BCC5E94B1E9F155E00A9635E /* PersonSearchDataSource.swift in Sources */,
 				BC0D8E8D1E94067800EDFC45 /* SearchResultsListViewController.swift in Sources */,
+				BC9E486B1E9DE14D00767337 /* SearchFieldCollectionViewCell.swift in Sources */,
+				BC9E48631E9DDD3C00767337 /* VehicleSearchRequest.swift in Sources */,
+				BCC5E9521E9F286500A9635E /* LocationSearchDataSource.swift in Sources */,
 				BC0D8E8C1E94067800EDFC45 /* SearchRecentsViewController.swift in Sources */,
-				BC911E701E95E999003B4893 /* SearchNavigationField.swift in Sources */,
+				BC9E485F1E9DA2A500767337 /* PersonSearchRequest.swift in Sources */,
+				BC53108F1EA844C100E7DBE4 /* SearchEntityListCell.swift in Sources */,
+				BC9E48671E9DDE8900767337 /* LocationSearchRequest.swift in Sources */,
+				BCC5E94E1E9F183900A9635E /* VehicleSearchDataSource.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -13,7 +13,7 @@ fileprivate let searchAnimationDuration: TimeInterval = 0.4
 
 fileprivate var kvoContext = 1
 
-class SearchViewController: UIViewController, SearchRecentsViewControllerDelegate, SearchResultsDelegate, SearchNavigationFieldDelegate {
+class SearchViewController: UIViewController, SearchRecentsViewControllerDelegate, SearchResultsDelegate, SearchNavigationFieldDelegate, SearchOptionsViewControllerDelegate {
     
     let recentsViewController = SearchRecentsViewController()
     
@@ -33,6 +33,7 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     
     private lazy var searchOptionsViewController: SearchOptionsViewController = { [unowned self] in
         let optionsController = SearchOptionsViewController()
+        optionsController.delegate = self
         self.addChildViewController(optionsController)
         optionsController.didMove(toParentViewController: self)
         return optionsController
@@ -213,7 +214,9 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
             let dimmingView = self.searchDimmingView
             optionsVC.beginAppearanceTransition(false, animated: animated)
             
-            let completionHandler = { (finished: Bool) in
+            let completionHandler = { [weak self] (finished: Bool) in
+                if self?.isShowingSearchOptions ?? true { return }
+                
                 optionsVC.viewIfLoaded?.removeFromSuperview()
                 optionsVC.endAppearanceTransition()
                 
@@ -261,8 +264,19 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     }
     
     
-    // MARK: - SearchResultsDelegate {
+    // MARK: - SearchOptionsViewControllerDelegate
     
+    func searchOptionsController(_ controller: SearchOptionsViewController, didFinishWith searchRequest: SearchRequest) {
+        setShowingSearchOptions(false, animated: true)
+        setCurrentResultsViewController(resultsListViewController, animated: true)
+    }
+    
+    func searchOptionsControllerDidCancel(_ controller: SearchOptionsViewController) {
+        cancelSearchTriggered()
+    }
+    
+    
+    // MARK: - SearchResultsDelegate
     
     func searchResultsController(_ controller: UIViewController, didSelectEntity entity: Any?) {
         didSelectEntity(entity as Any)
@@ -292,11 +306,6 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     
     @objc private func cancelSearchTriggered() {
         setShowingSearchOptions(false, animated: true)
-    }
-    
-    @objc private func performSearchTriggered() {
-        setShowingSearchOptions(false, animated: true)
-        setCurrentResultsViewController(resultsListViewController, animated: true)
     }
     
     @objc private func addEntityTriggered() {
@@ -367,8 +376,8 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
         if isShowingSearchOptions {
             titleView = nil
             title = NSLocalizedString("New Search", comment: "")
-            leftBarButtonItems  = [UIBarButtonItem(barButtonSystemItem: .cancel,   target: self, action: #selector(cancelSearchTriggered))]
-            rightBarButtonItems = [UIBarButtonItem(title: "Search", style: .plain, target: self, action: #selector(performSearchTriggered))]
+            leftBarButtonItems  = [searchOptionsViewController.cancelBarButtonItem]
+            rightBarButtonItems = [searchOptionsViewController.searchBarButtonItem]
         } else if isShowingResults {
             if self.navigationItem.titleView != searchNavigationField {
                 let screenSize = UIScreen.main.bounds
