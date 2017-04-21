@@ -9,7 +9,7 @@
 import UIKit
 import MPOLKit
 
-private let alertCellID = "alertCell"
+fileprivate let alertCellID = "alertCell"
 
 class SearchResultsListViewController: FormCollectionViewController {
     
@@ -29,10 +29,10 @@ class SearchResultsListViewController: FormCollectionViewController {
     
     private let listStateItem = UIBarButtonItem(image: #imageLiteral(resourceName: "iconNavBarList"), style: .plain, target: nil, action: nil)
     
-    fileprivate var alertEntities = [NSObject(), NSObject(), NSObject(), NSObject()]
-    fileprivate var alertExpanded = true
+    private var alertEntities = [NSObject(), NSObject(), NSObject(), NSObject()]
+    private var alertExpanded = true
     
-    fileprivate var dataSourceResults: [DataSourceResult] = [
+    private var dataSourceResults: [DataSourceResult] = [
         DataSourceResult(name: "Data Source 1", isExpanded: true, items: [NSObject(), NSObject(), NSObject(), NSObject()]),
         DataSourceResult(name: "Data Source 2", isExpanded: true, items: [NSObject(), NSObject(), NSObject(), NSObject()])
     ]

@@ -9,9 +9,8 @@
 import UIKit
 import MPOLKit
 
-fileprivate var kvoContext = 1
 
-fileprivate var cellID = "cellID"
+fileprivate let cellID = "cellID"
 
 class NumberRangePickerViewController: FormTableViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
