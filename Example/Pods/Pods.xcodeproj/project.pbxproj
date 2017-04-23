@@ -83,6 +83,7 @@
 		BC08BB5D1EA6C677004D0F75 /* ArchivedManifestEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC08BB5C1EA6C677004D0F75 /* ArchivedManifestEntry.swift */; };
 		BC0A79AE1E9DF540001AF192 /* KeyboardAnimationDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0A79AD1E9DF540001AF192 /* KeyboardAnimationDetails.swift */; };
 		BC0A79B01E9DF560001AF192 /* UIViewAnimationCurve+OptionConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0A79AF1E9DF560001AF192 /* UIViewAnimationCurve+OptionConversion.swift */; };
+		BC0EA8C61EA7741C00A44997 /* EntityDetailsSidebarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0EA8C51EA7741C00A44997 /* EntityDetailsSidebarHeaderView.swift */; };
 		BC301C161EA04CCB007D1269 /* PopoverDatePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC301C151EA04CCB007D1269 /* PopoverDatePickerViewController.swift */; };
 		BC8150C11E9F5BB200E2DF75 /* FormTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8150C01E9F5BB200E2DF75 /* FormTableViewController.swift */; };
 		BC8150C31E9F5F9200E2DF75 /* UITableView+SectionHeaderFooterFetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8150C21E9F5F9200E2DF75 /* UITableView+SectionHeaderFooterFetch.swift */; };
@@ -216,6 +217,7 @@
 		BC08BB5C1EA6C677004D0F75 /* ArchivedManifestEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchivedManifestEntry.swift; sourceTree = "<group>"; };
 		BC0A79AD1E9DF540001AF192 /* KeyboardAnimationDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardAnimationDetails.swift; sourceTree = "<group>"; };
 		BC0A79AF1E9DF560001AF192 /* UIViewAnimationCurve+OptionConversion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewAnimationCurve+OptionConversion.swift"; sourceTree = "<group>"; };
+		BC0EA8C51EA7741C00A44997 /* EntityDetailsSidebarHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailsSidebarHeaderView.swift; sourceTree = "<group>"; };
 		BC301C151EA04CCB007D1269 /* PopoverDatePickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverDatePickerViewController.swift; sourceTree = "<group>"; };
 		BC66DA52C5731FC4AB68308723AF40A3 /* CollectionViewFormOptionCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CollectionViewFormOptionCell.swift; sourceTree = "<group>"; };
 		BC8150C01E9F5BB200E2DF75 /* FormTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormTableViewController.swift; sourceTree = "<group>"; };
@@ -486,9 +488,10 @@
 		6B62304684A1C166F45286C8B010E39E /* Entity Details */ = {
 			isa = PBXGroup;
 			children = (
+				FA16C4B968E67E8392EDC2525A4FBA54 /* EntityDetailsSplitViewController.swift */,
+				BC0EA8C51EA7741C00A44997 /* EntityDetailsSidebarHeaderView.swift */,
 				CCD88A31EF0EB911E1CD7B7324880D20 /* EntityAlertsViewController.swift */,
 				6C56EE3DA71C9594D63A0C1C2046B56A /* EntityAssociationsViewController.swift */,
-				FA16C4B968E67E8392EDC2525A4FBA54 /* EntityDetailsSplitViewController.swift */,
 				B50E86443557944C724B49E4913E60B4 /* EntityOccurrencesViewController.swift */,
 				DE6EC74CE8EFF136EEFD590E73386DD2 /* Information */,
 			);
@@ -837,7 +840,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0830;
 			};
 			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -981,6 +984,7 @@
 				A7E399BD85BA9993A4987B58322BE3B2 /* UIImage+EntityImages.swift in Sources */,
 				3662FAF138CB93DE7DAC73A6EA42E081 /* UIImage+FormIcons.swift in Sources */,
 				BCA10F3B1EA45C9A00C3F0E7 /* ManifestCollection.swift in Sources */,
+				BC0EA8C61EA7741C00A44997 /* EntityDetailsSidebarHeaderView.swift in Sources */,
 				4FE67A770841FC04A029052CDD485FD8 /* UIImage+RoundedRects.swift in Sources */,
 				92B5C106E395409000493BE7D8BDB1F2 /* UITableView+DefaultReuse.swift in Sources */,
 				1BEA1D82D990A1EA14D78BD6CC1E1527 /* UITableViewCell+LayoutMargins.swift in Sources */,
@@ -1054,15 +1058,19 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGNING_REQUIRED = NO;
 				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"POD_CONFIGURATION_DEBUG=1",
@@ -1133,14 +1141,18 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGNING_REQUIRED = NO;
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"POD_CONFIGURATION_RELEASE=1",
 					"$(inherited)",
@@ -1154,6 +1166,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
 				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SYMROOT = "${SRCROOT}/../build";
 				VALIDATE_PRODUCT = YES;
 			};
