@@ -40,7 +40,12 @@ open class EntityDetailsSidebarHeaderView: UIView {
         thumbnailView.translatesAutoresizingMaskIntoConstraints = false
         thumbnailView.contentMode = .scaleAspectFill
         thumbnailView.clipsToBounds = true
-        thumbnailView.layer.cornerRadius = 32.0
+        
+        let thumbnailLayer = thumbnailView.layer
+        thumbnailLayer.cornerRadius = 32.0
+        thumbnailLayer.shouldRasterize = true
+        thumbnailLayer.rasterizationScale = traitCollection.currentDisplayScale
+        
         addSubview(thumbnailView)
         
         let secondaryColor = #colorLiteral(red: 0.5561795831, green: 0.5791077614, blue: 0.6335693598, alpha: 1)
@@ -108,6 +113,8 @@ open class EntityDetailsSidebarHeaderView: UIView {
     
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
+        
+        thumbnailView.layer.rasterizationScale = traitCollection.currentDisplayScale
         
         if #available(iOS 10.0, *), previousTraitCollection?.preferredContentSizeCategory ?? .large != traitCollection.preferredContentSizeCategory {
             updateFonts()
