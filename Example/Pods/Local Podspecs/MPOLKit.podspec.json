@@ -23,6 +23,11 @@
     "MPOLKit/Assets/MPOL/**/*",
     "MPOLKit/Assets/Forms/*"
   ],
+  "dependencies": {
+    "Alamofire": [
+
+    ]
+  },
   "subspecs": [
     {
       "name": "Core",
