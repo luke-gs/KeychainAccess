@@ -11,8 +11,7 @@ import Foundation
 
 /// A subclass of `Operation` that executes zero or more operations as part of its
 /// own execution. This class of operation is very useful for abstracting several
-/// smaller operations into a larger operation. As an example, the `GetEarthquakesOperation`
-/// is composed of both a `DownloadEarthquakesOperation` and a `ParseEarthquakesOperation`.
+/// smaller operations into a larger operation.
 ///
 /// Additionally, `GroupOperation`s are useful if you establish a chain of dependencies,
 /// but part of the chain may "loop". For example, if you have an operation that
@@ -24,12 +23,12 @@ open class GroupOperation: Operation, OperationQueueDelegate  {
     
     // MARK: - Private properties
     
-    private let internalQueue      = OperationQueue()
+    private let internalQueue = OperationQueue()
     
     /// A private operation for tracking the start of the group operation.
     ///
     /// This operation should be a dependent of all operations in the group.
-    private let startingOperation  = Foundation.BlockOperation(block: {})
+    private let startingOperation = Foundation.BlockOperation(block: {})
     
     /// A private operation for tracking the end of the group operation.
     ///
