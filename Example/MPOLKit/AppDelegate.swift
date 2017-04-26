@@ -20,8 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
     override init() {
         super.init()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(networkActivityDidBegin), name: .NetworkMonitorActivityDidBegin, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(networkActivityDidEnd),   name: .NetworkMonitorActivityDidEnd,   object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(networkActivityDidBegin), name: .NetworkActivityDidBegin, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(networkActivityDidEnd),   name: .NetworkActivityDidEnd,   object: nil)
     }
     
     
@@ -115,7 +115,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
     
     func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String) {
         controller.view.endEditing(true)
-        self.updateInterface(forLogin: false, animated: true)
+        updateInterface(forLogin: false, animated: true)
     }
     
     

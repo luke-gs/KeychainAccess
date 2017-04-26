@@ -110,6 +110,7 @@
 		BB41E5BCF8FED91C3D3D3441F49A12F6 /* SourceBarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A38EDFA8FEB4240FE40573BC9AA92F7 /* SourceBarCell.swift */; };
 		BBEFE2F9CEB73DC7BD97FFA66A0D9D4F /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B029DBC43E49A740F12B5E4D2E6DD452 /* Validation.swift */; };
 		BC08B9A81EB0823E0047759B /* GroupOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC08B9A61EB07EC90047759B /* GroupOperation.swift */; };
+		BCB293A51EB0EEA2007AAC0C /* NetworkActivityObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB293A31EB0E011007AAC0C /* NetworkActivityObserver.swift */; };
 		BE5C67A07E289FE1F9BE27335B159997 /* ParameterEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6639346628280A0D0FAD35196BF56108 /* ParameterEncoding.swift */; };
 		BF08FBE4B9DFCDD293C7347DC891EE14 /* KeyboardNumberBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C561B004A642FA50C6D039413C8C2C /* KeyboardNumberBar.swift */; };
 		C137789DFCF1515534EBEC26F9899668 /* FileManager+URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F9DCBAEE16D4F37AFEEE7C4BB7098C /* FileManager+URL.swift */; };
@@ -299,6 +300,7 @@
 		B44A27EFBB0DA84D738057B77F3413B1 /* Alamofire-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Alamofire-umbrella.h"; sourceTree = "<group>"; };
 		BB677C1B65F797D6A81BE14CF3BAD252 /* CollectionViewFormTextFieldCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CollectionViewFormTextFieldCell.swift; sourceTree = "<group>"; };
 		BC08B9A61EB07EC90047759B /* GroupOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupOperation.swift; sourceTree = "<group>"; };
+		BCB293A31EB0E011007AAC0C /* NetworkActivityObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkActivityObserver.swift; sourceTree = "<group>"; };
 		BCCA9CA7D9C1A2047BB93336C5708DFD /* Alamofire-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Alamofire-prefix.pch"; sourceTree = "<group>"; };
 		BD42E7590F36056F0506BD61196E8B2D /* Manifest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Manifest.swift; sourceTree = "<group>"; };
 		BD484C738D1CD00EB3022101E1411D55 /* UITableViewCell+LayoutMargins.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+LayoutMargins.swift"; sourceTree = "<group>"; };
@@ -777,6 +779,7 @@
 			isa = PBXGroup;
 			children = (
 				C3998AC1BBBE42D3B5D05A84F4F742FF /* BlockObserver.swift */,
+				BCB293A31EB0E011007AAC0C /* NetworkActivityObserver.swift */,
 				95718C0EC550CC0D44F6AF44FEAC1F8F /* OperationObserver.swift */,
 			);
 			path = Observers;
@@ -1170,6 +1173,7 @@
 				D0F5FF9CC8758AFF109FC13FF8D6BB18 /* EntityDetailsSplitViewController.swift in Sources */,
 				FF50EBB5A05707151BBB1D15CEE5E313 /* EntityInfoViewController.swift in Sources */,
 				BC08B9A81EB0823E0047759B /* GroupOperation.swift in Sources */,
+				BCB293A51EB0EEA2007AAC0C /* NetworkActivityObserver.swift in Sources */,
 				2D64328FDEA9531D97BEE98B52D9DB10 /* EntityOccurrencesViewController.swift in Sources */,
 				FF9DA93F62EB983A3157563AA75E16D2 /* ExclusivityController.swift in Sources */,
 				C137789DFCF1515534EBEC26F9899668 /* FileManager+URL.swift in Sources */,
