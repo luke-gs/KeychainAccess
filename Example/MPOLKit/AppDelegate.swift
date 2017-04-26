@@ -15,6 +15,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
     
     var window: UIWindow?
     
+    private var delayedNetworkEndTimer: Timer?
+    
+    override init() {
+        super.init()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(networkActivityDidBegin), name: .NetworkMonitorActivityDidBegin, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(networkActivityDidEnd),   name: .NetworkMonitorActivityDidEnd,   object: nil)
+    }
+    
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         KeyboardInputManager.shared.isNumberBarEnabled = true
@@ -105,7 +115,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
     
     func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String) {
         controller.view.endEditing(true)
-        //self.updateInterface(forLogin: false, animated: true)
+        self.updateInterface(forLogin: false, animated: true)
+    }
+    
+    
+    // MARK: - Network activity
+    
+    @objc private func networkActivityDidBegin() {
+        delayedNetworkEndTimer?.invalidate()
+        delayedNetworkEndTimer = nil
+        
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+    }
+    
+    @objc private func networkActivityDidEnd() {
+        delayedNetworkEndTimer?.invalidate()
+        
+        if #available(iOS 10, *) {
+            delayedNetworkEndTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { (_: Timer) in
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                self.delayedNetworkEndTimer = nil
+            }
+        } else {
+            delayedNetworkEndTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(hideNetworkActivityIndicator(_:)), userInfo: nil, repeats: false)
+        }
+    }
+    
+    @available(iOS, introduced: 9.0, deprecated: 10.0, message: "Use block based timer APIs on iOS 10 and later.")
+    @objc private func hideNetworkActivityIndicator(_ timer: Timer) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        delayedNetworkEndTimer = nil
     }
     
 }
