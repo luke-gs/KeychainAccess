@@ -22,11 +22,11 @@ public extension NSNotification.Name {
 
 /// `NetworkActivityMonitor` is an object wrapper around a global count of active network interactions.
 ///
-/// Actions that start network activity should register the activity, and call the returned
-/// completion handler when the action ceases, whether it was successful or not.
+/// Actions that start network activity should call the `networkEventDidBegin()` method, and call the 
+/// paired `networkEventDidEnd()` method.
 ///
-/// Applications can observe network monitor notifications to toggle on and off their
-/// network activity indicator.
+/// Applications can observe network monitor notifications to toggle on and off their network activity
+/// indicator. These notifications will always be called on the main queue.
 public final class NetworkMonitor: NSObject {
     
     
