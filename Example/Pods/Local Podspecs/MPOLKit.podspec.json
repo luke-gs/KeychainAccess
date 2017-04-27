@@ -18,8 +18,8 @@
   "platforms": {
     "ios": "9.0"
   },
-  "source_files": "MPOLKit/Classes/**/*",
-  "resources": "MPOLKit/Assets/**/*",
+  "source_files": "Classes/**/*",
+  "resources": "Assets/**/*",
   "dependencies": {
     "Alamofire": [
 

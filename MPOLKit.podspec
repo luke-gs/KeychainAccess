@@ -22,8 +22,8 @@ s.source           = { :git => 'https://github.com/Gridstone/mPolKit-iOS.git', :
 
 s.ios.deployment_target = '9.0'
 
-s.source_files = 'MPOLKit/Classes/**/*'
-s.resources = 'MPOLKit/Assets/**/*'
+s.source_files = 'Classes/**/*'
+s.resources = 'Assets/**/*'
 
 # s.public_header_files = 'Pod/Classes/**/*.h'
 # s.frameworks = 'UIKit', 'MapKit'
