@@ -520,6 +520,25 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     
     // MARK: - Private methods
     
+    private func updateSelectionHighlightAppearance() {
+        let isSelected     = self.isSelected
+        let selectionStyle = self.selectionStyle
+        
+        let correctAlpha: CGFloat = (isSelected && selectionStyle == .fade) || (isHighlighted && highlightStyle == .fade) ? 0.5 : 1.0
+        
+        // Don't set unless necessary to avoid interfering with inflight animations.
+        if contentView.alpha !=~ correctAlpha {
+            contentView.alpha = correctAlpha
+        }
+        
+        let wantsUnderline = isSelected && selectionStyle == .underline
+        
+        separatorView.backgroundColor = wantsUnderline ? separatorView.tintColor : separatorColor
+        if (separatorView.frame.height > 1.0) != wantsUnderline {
+            setNeedsLayout()
+        }
+    }
+    
     @objc private func touchTriggerDidActivate(_ trigger: TouchRecognizer) {
         // Don't fire the trigger if it's within a view in the action view.
         if let hitTestedView = actionView.hitTest(trigger.location(in: actionView), with: nil),
@@ -528,20 +547,6 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         }
         
         setShowingEditActions(false, animated: true)
-    }
-    
-    private func updateSelectionHighlightAppearance() {
-        let isSelected     = self.isSelected
-        let selectionStyle = self.selectionStyle
-        
-        contentView.alpha = (isSelected && selectionStyle == .fade) || (isHighlighted && highlightStyle == .fade) ? 0.5 : 1.0
-        
-        let wantsUnderline = isSelected && selectionStyle == .underline
-        
-        separatorView.backgroundColor = wantsUnderline ? separatorView.tintColor : separatorColor
-        if (separatorView.frame.height > 1.0) != wantsUnderline {
-            setNeedsLayout()
-        }
     }
     
     private func applyTouchTrigger() {

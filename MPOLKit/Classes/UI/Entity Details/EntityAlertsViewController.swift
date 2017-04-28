@@ -49,6 +49,8 @@ open class EntityAlertsViewController: FormCollectionViewController {
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(of: CollectionViewFormDetailCell.self, for: indexPath)
+        cell.highlightStyle     = .fade
+        cell.selectionStyle     = .fade
         
         let alertLevel = AlertLevel(rawValue: indexPath.item % 3 + 1)!
         if let cachedImage = statusDotCache[alertLevel] {
@@ -59,8 +61,6 @@ open class EntityAlertsViewController: FormCollectionViewController {
             cell.imageView.image = image
         }
         
-        cell.highlightStyle     = .fade
-        cell.selectionStyle     = .fade
         cell.titleLabel.text    = "Wanted For Questioning"
         cell.subtitleLabel.text = "Effective from 21/01/15 - 21/12/14"
         cell.detailLabel.text   = "Individual is wanted for questioning in connection to a confrontation that happed at the Royal Motel, 133-155 Kingsclere Avenue, Keysborough VIC 3173. The event took place on..."
