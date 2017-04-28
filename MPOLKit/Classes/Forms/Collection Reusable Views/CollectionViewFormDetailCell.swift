@@ -13,6 +13,8 @@ fileprivate var kvoContext = 1
 
 fileprivate let imageTextInset: CGFloat = 16.0
 
+fileprivate let titleDetailSeparation: CGFloat = 7.0
+
 
 open class CollectionViewFormDetailCell: CollectionViewFormCell {
     
@@ -26,10 +28,10 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
         let fonts = defaultFonts(compatibleWith: traitCollection)
         let displayScale = traitCollection.currentDisplayScale
         
-        let titleFontHeight = fonts.titleFont.lineHeight.ceiled(toScale: displayScale) + fonts.subtitleFont.lineHeight.ceiled(toScale: displayScale)
+        let titleFontHeight = fonts.titleFont.lineHeight.ceiled(toScale: displayScale) + fonts.subtitleFont.lineHeight.ceiled(toScale: displayScale) + CellTitleSubtitleSeparation
         let titleImageHeight = max(titleFontHeight, imageSize?.height ?? 0.0)
         
-        return titleImageHeight + ((fonts.detailFont.lineHeight * 2.0) + fonts.detailFont.leading).ceiled(toScale: displayScale)
+        return titleImageHeight + ((fonts.detailFont.lineHeight * 2.0) + fonts.detailFont.leading).ceiled(toScale: displayScale) + titleDetailSeparation
     }
     
     private class func defaultFonts(compatibleWith traitCollection: UITraitCollection) -> (titleFont: UIFont, subtitleFont: UIFont, detailFont: UIFont) {
@@ -193,7 +195,7 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
                     titleSubtitleSeparation.constant = titleSubtitleSeparationDistance
                 }
                 
-                let subtitleDetailSeparationDistance: CGFloat = (hasTitle || hasSubtitle) && hasDetail ? 7.0 : 0.0
+                let subtitleDetailSeparationDistance: CGFloat = (hasTitle || hasSubtitle) && hasDetail ? titleDetailSeparation : 0.0
                 if subtitleDetailSeparationDistance !=~ subtitleDetailSeparation.constant {
                     subtitleDetailSeparation.constant = subtitleDetailSeparationDistance
                 }

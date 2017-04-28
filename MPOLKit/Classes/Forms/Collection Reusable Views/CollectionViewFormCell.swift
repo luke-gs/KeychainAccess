@@ -45,6 +45,8 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     @objc(CollectionViewFormSelectionStyle) public enum SelectionStyle: Int {
         case none
         
+        case fade
+        
         case underline
     }
     
@@ -77,40 +79,29 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     
     open override var isHighlighted: Bool {
         didSet {
-            contentView.alpha = isHighlighted && highlightStyle == .fade ? 0.5 : 1.0
+            if isHighlighted == oldValue || highlightStyle == .none { return }
+            updateSelectionHighlightAppearance()
         }
     }
     
     open var highlightStyle: HighlightStyle = .none {
         didSet {
             if isHighlighted == false || highlightStyle == oldValue { return }
-            
-            contentView.alpha = highlightStyle == .fade ? 0.5 : 1.0
+            updateSelectionHighlightAppearance()
         }
     }
     
     open override var isSelected: Bool {
         didSet {
-            if isSelected == oldValue { return }
-            
-            if selectionStyle == .underline {
-                separatorView.backgroundColor = isSelected ? tintColor : separatorColor
-                setNeedsLayout()
-            }
-            
+            if isSelected == oldValue || selectionStyle == .none { return }
+            updateSelectionHighlightAppearance()
         }
     }
     
     open var selectionStyle: SelectionStyle = .none {
         didSet {
-            if selectionStyle == oldValue { return }
-            
-            if selectionStyle == .underline && isSelected {
-                separatorView.backgroundColor = tintColor
-                setNeedsLayout()
-            } else {
-                separatorView.backgroundColor = separatorColor
-            }
+            if selectionStyle == oldValue || isSelected == false { return }
+            updateSelectionHighlightAppearance()
         }
     }
     
@@ -262,6 +253,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         
         separatorView.autoresizingMask = [.flexibleWidth, .flexibleTopMargin]
         separatorView.backgroundColor = separatorColor
+        separatorView.tintAdjustmentMode = .normal
         separatorView.isUserInteractionEnabled = false
         addSubview(separatorView)
         
@@ -288,7 +280,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
             NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .leading,  relatedBy: .equal, toItem: contentView, attribute: .leadingMargin),
             contentModeLayoutTrailingConstraint,
             contentModeLayoutVerticalConstraint
-            ])
+        ])
         
         applyStandardFonts()
         
@@ -520,8 +512,8 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     
     open override func tintColorDidChange() {
         super.tintColorDidChange()
-        if isSelected && selectionStyle == .underline && tintAdjustmentMode != .dimmed {
-            separatorView.backgroundColor = tintColor
+        if isSelected && selectionStyle == .underline {
+            separatorView.backgroundColor = separatorView.tintColor
         }
     }
     
@@ -536,6 +528,20 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         }
         
         setShowingEditActions(false, animated: true)
+    }
+    
+    private func updateSelectionHighlightAppearance() {
+        let isSelected     = self.isSelected
+        let selectionStyle = self.selectionStyle
+        
+        contentView.alpha = (isSelected && selectionStyle == .fade) || (isHighlighted && highlightStyle == .fade) ? 0.5 : 1.0
+        
+        let wantsUnderline = isSelected && selectionStyle == .underline
+        
+        separatorView.backgroundColor = wantsUnderline ? separatorView.tintColor : separatorColor
+        if (separatorView.frame.height > 1.0) != wantsUnderline {
+            setNeedsLayout()
+        }
     }
     
     private func applyTouchTrigger() {
