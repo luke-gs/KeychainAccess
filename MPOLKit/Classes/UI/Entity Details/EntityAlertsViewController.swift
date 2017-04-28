@@ -10,6 +10,8 @@ import UIKit
 
 open class EntityAlertsViewController: FormCollectionViewController {
     
+    private var statusDotCache: [AlertLevel: UIImage] = [:]
+    
     public override init() {
         super.init()
         title = "Alerts"
@@ -19,6 +21,13 @@ open class EntityAlertsViewController: FormCollectionViewController {
         sidebarItem.selectedImage = UIImage(named: "iconGeneralAlertFilled", in: .mpolKit, compatibleWith: nil)
         sidebarItem.count = 5
         sidebarItem.alertColor = AlertLevel.medium.color
+        
+        // By default, form layouts have a slight vertical adjustment downwards in their layout margins
+        // to make fields look right in forms. To make them look like rows, we need to adjust the margins
+        // so they're equal.
+        var itemLayoutMargins = formLayout.itemLayoutMargins
+        itemLayoutMargins.bottom = itemLayoutMargins.top
+        formLayout.itemLayoutMargins = itemLayoutMargins
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -31,7 +40,7 @@ open class EntityAlertsViewController: FormCollectionViewController {
         guard let collectionView = self.collectionView else { return }
         
         collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
-        collectionView.register(AlertCollectionViewCell.self)
+        collectionView.register(CollectionViewFormDetailCell.self)
     }
     
     open override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -39,8 +48,23 @@ open class EntityAlertsViewController: FormCollectionViewController {
     }
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(of: AlertCollectionViewCell.self, for: indexPath)
-        cell.configure(for: NSObject())
+        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormDetailCell.self, for: indexPath)
+        
+        let alertLevel = AlertLevel(rawValue: indexPath.item % 3 + 1)!
+        if let cachedImage = statusDotCache[alertLevel] {
+            cell.imageView.image = cachedImage
+        } else {
+            let image = UIImage.statusDot(withColor: alertLevel.color)
+            statusDotCache[alertLevel] = image
+            cell.imageView.image = image
+        }
+        
+        cell.titleLabel.text    = "Wanted For Questioning"
+        cell.subtitleLabel.text = "Effective from 21/01/15 - 21/12/14"
+        cell.detailLabel.text   = "Individual is wanted for questioning in connection to a confrontation that happed at the Royal Motel, 133-155 Kingsclere Avenue, Keysborough VIC 3173. The event took place on..."
+        
+        cell.accessoryView = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
+        
         return cell
     }
     
@@ -58,7 +82,7 @@ open class EntityAlertsViewController: FormCollectionViewController {
     open override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
         
-        if let alertCell = cell as? AlertCollectionViewCell {
+        if let alertCell = cell as? CollectionViewFormDetailCell {
             alertCell.titleLabel.textColor    = primaryTextColor
             alertCell.subtitleLabel.textColor = secondaryTextColor
             alertCell.detailLabel.textColor   = primaryTextColor
@@ -71,52 +95,10 @@ open class EntityAlertsViewController: FormCollectionViewController {
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
-        return 88.0
+        let height = CollectionViewFormDetailCell.minimumContentHeight(withImageSize: UIImage.statusDotFrameSize, compatibleWith: traitCollection)
+        
+        return height
     }
     
 }
 
-fileprivate class AlertCollectionViewCell: CollectionViewFormDetailCell {
-    
-    let alertLevelLabel = RoundedRectLabel(frame: .zero)
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        let disclosureView = FormDisclosureView()
-        accessoryView = disclosureView
-        
-        alertLevelLabel.translatesAutoresizingMaskIntoConstraints = false
-        alertLevelLabel.setContentHuggingPriority(UILayoutPriorityRequired - 1, for: .vertical)
-        alertLevelLabel.setContentHuggingPriority(UILayoutPriorityRequired - 1, for: .horizontal)
-        alertLevelLabel.textColor = .black
-        
-        contentView.addSubview(alertLevelLabel)
-        
-        NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: alertLevelLabel, attribute: .trailing, relatedBy: .equal, toItem: contentView, attribute: .trailingMargin),
-            NSLayoutConstraint(item: alertLevelLabel, attribute: .top,      relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .top, priority: UILayoutPriorityDefaultHigh),
-            NSLayoutConstraint(item: alertLevelLabel, attribute: .bottom,   relatedBy: .lessThanOrEqual,    toItem: disclosureView, attribute: .top),
-            NSLayoutConstraint(item: alertLevelLabel, attribute: .leading,  relatedBy: .greaterThanOrEqual, toItem: titleLabel,     attribute: .trailing, constant: 8.0),
-            NSLayoutConstraint(item: alertLevelLabel, attribute: .leading,  relatedBy: .greaterThanOrEqual, toItem: subtitleLabel,  attribute: .trailing, constant: 8.0),
-        ])
-        
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func configure(for alert: Any) {
-        // TODO: Get alert details
-        
-        titleLabel.text    = "Wanted For Questioning"
-        subtitleLabel.text = "Effective from 21/01/15 - 21/12/14"
-        detailLabel.text   = "Individual is wanted for questioning in connection to a confrontation that happed at the Royal Motel, 133-155 Kingsclere Avenue, Keysborough VIC 3173. The event took place on..."
-        
-        let alertLevel = AlertLevel.medium
-        alertLevelLabel.text            = alertLevel.localizedIndicatorTitle
-        alertLevelLabel.backgroundColor = alertLevel.color
-    }
-    
-}
