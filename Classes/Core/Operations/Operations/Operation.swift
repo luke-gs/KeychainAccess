@@ -195,7 +195,7 @@ open class Operation: Foundation.Operation {
     
     private(set) var conditions = [OperationCondition]()
     
-    open func addCondition(condition: OperationCondition) {
+    open func addCondition(_ condition: OperationCondition) {
         assert(state < .evaluatingConditions, "Cannot modify conditions after execution has begun.")
         
         conditions.append(condition)

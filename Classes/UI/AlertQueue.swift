@@ -16,17 +16,6 @@ import UIKit
 /// This class should only be accessed from the main thread.
 public class AlertQueue: NSObject {
     
-    
-    /// States of the queue
-    public enum State: Int {
-        /// The queue has been suspended and will not start any tasks until receiving the `resume()` method.
-        case suspended
-        
-        /// The queue is currently running.
-        case running
-    }
-    
-    
     /// Singleton instance of the AlertQueue
     public static let shared = AlertQueue()
     
@@ -43,16 +32,6 @@ public class AlertQueue: NSObject {
     public var extensionViewController: UIViewController?  {
         didSet {
             assert(alertContainerViewController == nil, "Cannot change extensionViewController after a presentation has occurred.")
-        }
-    }
-    
-    
-    /// The current state of the queue. The default is `.running`.
-    public private(set) var state: State = .running {
-        didSet {
-            if state == .running {
-                presentAlerts()
-            }
         }
     }
     
@@ -111,58 +90,16 @@ public class AlertQueue: NSObject {
         
         queue.append(alertController)
         
-        if state == .running {
-            presentAlerts()
-        }
+        presentAlerts()
     }
-    
-    
-    /// Suspends the queue from processing tasks.
-    public func suspend() {
-        assert(Thread.isMainThread, "AlertQueue should only be accessed from the main thread.")
-        
-        state = .suspended
-    }
-    
-    
-    /// Requests the queue to resume processing tasks
-    public func resume() {
-        assert(Thread.isMainThread, "AlertQueue should only be accessed from the main thread.")
-        
-        state = .running
-    }
-    
     
     
     // MARK: - Private methods
     
-    fileprivate func presentNextAlertIfNeeded() {
-        presentingAlert = nil
-        
-        if (queue.isEmpty || state == .suspended) {
-            
-            if extensionViewController != nil {
-                alertContainerViewController?.dismiss(animated: false, completion: {
-                    self.alertContainerViewController = nil
-                    self.window?.isHidden = true
-                    self.window = nil
-                })
-            } else {
-                alertContainerViewController = nil
-                window?.isHidden = true
-                window = nil
-            }
-        } else {
-            presentAlerts()
-        }
-    }
-    
     /// Presents alert task from the queue
     private func presentAlerts() {
-        assert(Thread.isMainThread, "AlertQueue should only be accessed from the main thread.")
         
-        guard state == .running,
-              presentingAlert == nil,
+        guard presentingAlert == nil,
               queue.isEmpty == false else { return }
         
         let nextAlert = queue.removeFirst()
@@ -188,7 +125,7 @@ public class AlertQueue: NSObject {
             alertContainerViewController = alertContainer
             
             if let baseViewController = extensionViewController {
-                baseViewController.present(alertContainer, animated: false)
+                baseViewController.deepestPresentedViewController.present(alertContainer, animated: false)
             } else {
                 self.window?.isHidden = true
                 
@@ -205,6 +142,23 @@ public class AlertQueue: NSObject {
         alertContainer.present(viewControllerToPresent, animated: animated)
     }
     
+    fileprivate func alertDidFinish() {
+        presentingAlert = nil
+        
+        if queue.isEmpty {
+            if extensionViewController != nil {
+                alertContainerViewController?.dismiss(animated: false)
+                alertContainerViewController = nil
+            } else {
+                alertContainerViewController = nil
+                window?.isHidden = true
+                window = nil
+            }
+        } else {
+            presentAlerts()
+        }
+    }
+    
 }
 
 
@@ -212,7 +166,7 @@ public class AlertQueue: NSObject {
 /// status bar style.
 fileprivate class AlertContainerViewController: UIViewController {
     
-    fileprivate override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+    override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
         if presentedViewController == nil {
             super.dismiss(animated: flag, completion: completion)
             return
@@ -220,11 +174,11 @@ fileprivate class AlertContainerViewController: UIViewController {
         
         super.dismiss(animated: flag) { () -> Void in
             completion?()
-            AlertQueue.shared.presentNextAlertIfNeeded()
+            AlertQueue.shared.alertDidFinish()
         }
     }
     
-    fileprivate override var preferredStatusBarStyle: UIStatusBarStyle {
+    override var preferredStatusBarStyle: UIStatusBarStyle {
         return AlertQueue.shared.preferredStatusBarStyle
     }
 }
@@ -232,16 +186,16 @@ fileprivate class AlertContainerViewController: UIViewController {
 
 fileprivate extension UIViewController {
     
-    
-    /// The deepest presented view controller for this view controller.
+    /// The deepest presented view controller for this view controller, or self.
     ///
     /// Really this is a bit of a hack. There's a lot of state transition that doesn't work
     /// really well and we're doing a "best effort" to try and find the deepest presented.
     var deepestPresentedViewController: UIViewController {
         var viewController = self
-        while let presentedViewController = viewController.presentedViewController,
-            presentedViewController.isBeingPresented == false && presentedViewController.isBeingDismissed == false {
-                viewController = presentedViewController
+        while let presented = viewController.presentedViewController,
+            presented.isBeingPresented == false,
+            presented.isBeingDismissed == false {
+                viewController = presented
         }
         return viewController
     }

@@ -1,6 +1,6 @@
 //
 //  MutuallyExclusiveCondition.swift
-//  Pods
+//  MPOLKit
 //
 //  Created by Rod Brown on 26/4/17.
 //  Copyright © 2017 Gridstone. All rights reserved.

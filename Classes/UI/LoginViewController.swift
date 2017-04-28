@@ -3,7 +3,7 @@
 //  MPOLKit
 //
 //  Created by Rod Brown on 9/4/17.
-//
+//  Copyright © 2017 Gridstone. All rights reserved.
 //
 
 import UIKit

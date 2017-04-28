@@ -1,9 +1,9 @@
 //
 //  NetworkActivityObserver.swift
-//  Pods
+//  MPOLKit
 //
 //  Created by Rod Brown on 27/4/17.
-//
+//  Copyright © 2017 Gridstone. All rights reserved.
 //
 
 import Foundation
