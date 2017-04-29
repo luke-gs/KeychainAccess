@@ -54,8 +54,12 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     
     // MARK: - Initializers
     
-    public init() {
-        formLayout = CollectionViewFormLayout()
+    
+    /// Initializes the controller with an initial set of layout margins for the collection.
+    ///
+    /// - Parameter layoutMargins: The initial layout margins for the class.
+    public init(layoutMargins: UIEdgeInsets) {
+        formLayout = CollectionViewFormLayout(layoutMargins: layoutMargins)
         super.init(nibName: nil, bundle: nil)
         
         automaticallyAdjustsScrollViewInsets = false // we manage this ourselves.
@@ -68,7 +72,7 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {
-        self.init()
+        self.init(layoutMargins: CollectionViewFormLayout.fieldLayoutMargins)
     }
     
     

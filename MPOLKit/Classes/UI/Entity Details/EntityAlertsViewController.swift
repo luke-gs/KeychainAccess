@@ -12,8 +12,8 @@ open class EntityAlertsViewController: FormCollectionViewController {
     
     private var statusDotCache: [AlertLevel: UIImage] = [:]
     
-    public override init() {
-        super.init()
+    public init() {
+        super.init(layoutMargins: CollectionViewFormLayout.rowLayoutMargins)
         title = "Alerts"
         
         let sidebarItem = self.sidebarItem
@@ -21,13 +21,6 @@ open class EntityAlertsViewController: FormCollectionViewController {
         sidebarItem.selectedImage = UIImage(named: "iconGeneralAlertFilled", in: .mpolKit, compatibleWith: nil)
         sidebarItem.count = 5
         sidebarItem.alertColor = AlertLevel.medium.color
-        
-        // By default, form layouts have a slight vertical adjustment downwards in their layout margins
-        // to make fields look right in forms. To make them look like rows, we need to adjust the margins
-        // so they're equal.
-        var itemLayoutMargins = formLayout.itemLayoutMargins
-        itemLayoutMargins.bottom = itemLayoutMargins.top
-        formLayout.itemLayoutMargins = itemLayoutMargins
     }
     
     public required init?(coder aDecoder: NSCoder) {

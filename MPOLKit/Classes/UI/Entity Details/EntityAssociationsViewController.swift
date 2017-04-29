@@ -10,8 +10,8 @@ import UIKit
 
 open class EntityAssociationsViewController: FormCollectionViewController {
 
-    public override init() {
-        super.init()
+    public init() {
+        super.init(layoutMargins: CollectionViewFormLayout.rowLayoutMargins)
         title = "Associations"
         
         let sidebarItem = self.sidebarItem

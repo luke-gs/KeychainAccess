@@ -64,7 +64,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
             self.window?.rootViewController = loginViewController
         } else {
             
-            let detailViewController = TestCollectionViewController()
+            let detailViewController = TestCollectionViewController(layoutMargins: CollectionViewFormLayout.fieldLayoutMargins)
             let pushableSplitViewController = PushableSplitViewController(viewControllers: [UINavigationController(rootViewController: PushableTestViewController(style: .grouped)), UINavigationController(rootViewController: detailViewController)])
             detailViewController.navigationItem.leftBarButtonItem = pushableSplitViewController.embeddedSplitViewController.displayModeButtonItem
             detailViewController.navigationItem.leftItemsSupplementBackButton = true

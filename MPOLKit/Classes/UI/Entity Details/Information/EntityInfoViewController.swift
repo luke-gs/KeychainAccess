@@ -10,8 +10,8 @@ import UIKit
 
 open class EntityInfoViewController: FormCollectionViewController {
     
-    public override init() {
-        super.init()
+    public init() {
+        super.init(layoutMargins: CollectionViewFormLayout.fieldLayoutMargins)
         title = "Information"
         
         let sidebarItem = self.sidebarItem
