@@ -76,7 +76,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     /// instances of `CollectionViewFormLayoutItemAttributes` and apply the contained `layoutMargins` property.
     ///
     /// - seealso: `CollectionViewFormItemAttributes.layoutMargins`
-    open var itemLayoutMargins: UIEdgeInsets = UIEdgeInsets(top: 16.0, left: 12.0, bottom: 16.0, right: 12.0) {
+    open var itemLayoutMargins: UIEdgeInsets = UIEdgeInsets(top: 16.0, left: 12.0, bottom: 15.0, right: 12.0) {
         didSet {
             let screenScale = (collectionView?.window?.screen ?? UIScreen.main).scale
             let setMargins = itemLayoutMargins
