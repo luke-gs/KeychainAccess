@@ -60,26 +60,12 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     }
     
     
-    // MARK: - Class properties
-    
-    open class var fieldLayoutMargins: UIEdgeInsets {
-        return UIEdgeInsets(top: 18.0, left: 12.0, bottom: 14.5, right: 12.0)
-    }
-    
-    open class var rowLayoutMargins: UIEdgeInsets {
-        return UIEdgeInsets(top: 16.0, left: 12.0, bottom: 16.0, right: 12.0)
-    }
-    
-    
-    // MARK: - Public properties
-    
     open var wantsOptimizedResizeAnimation: Bool = true
     
     
     // MARK: - Public properties
     
     /// The layout margins for items within the collection.
-    /// The default is the `fieldLayoutMargins` property on the class.
     ///
     /// The form layout uses these layout margins, together with section insets, to calculate the correct
     /// layout margins for each item.
@@ -90,7 +76,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     /// instances of `CollectionViewFormLayoutItemAttributes` and apply the contained `layoutMargins` property.
     ///
     /// - seealso: `CollectionViewFormItemAttributes.layoutMargins`
-    open var itemLayoutMargins: UIEdgeInsets {
+    open var itemLayoutMargins: UIEdgeInsets = UIEdgeInsets(top: 16.0, left: 12.0, bottom: 16.0, right: 12.0) {
         didSet {
             let screenScale = (collectionView?.window?.screen ?? UIScreen.main).scale
             let setMargins = itemLayoutMargins
@@ -141,19 +127,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     
     private var _lastLaidOutWidth: CGFloat?
     
-    private var previousSectionItemCounts:         [Int] = []
-    
-    
-    // MARK: - Initializers
-    
-    public init(layoutMargins: UIEdgeInsets) {
-        itemLayoutMargins = layoutMargins
-        super.init()
-    }
-    
-    public required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    private var previousSectionItemCounts: [Int] = []
     
     
     // MARK: - Layout preparation

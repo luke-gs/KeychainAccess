@@ -12,8 +12,8 @@ open class EntityAlertsViewController: FormCollectionViewController {
     
     private var statusDotCache: [AlertLevel: UIImage] = [:]
     
-    public init() {
-        super.init(layoutMargins: CollectionViewFormLayout.rowLayoutMargins)
+    public override init() {
+        super.init()
         title = "Alerts"
         
         let sidebarItem = self.sidebarItem

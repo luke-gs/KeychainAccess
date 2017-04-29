@@ -10,8 +10,8 @@ import UIKit
 
 open class EntityOccurrencesViewController: FormCollectionViewController {
 
-    public init() {
-        super.init(layoutMargins: CollectionViewFormLayout.rowLayoutMargins)
+    public override init() {
+        super.init()
         title = "Occurrences"
         
         let sidebarItem = self.sidebarItem
