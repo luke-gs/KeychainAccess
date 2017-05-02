@@ -18,6 +18,6 @@ public enum Alert { }
 public typealias AlertExclusiveCondition = MutuallyExclusiveCondition<Alert>
 
 
-/// A condition describing that the targetted operation affects the view
-/// controller heirarchy and cannot be used with operations that do this as well.
+/// A condition describing that the targeted operation affects the view
+/// controller hierarchy and cannot be used with other operations that do this also.
 public typealias ViewControllerExclusiveCondition = MutuallyExclusiveCondition<UIViewController>

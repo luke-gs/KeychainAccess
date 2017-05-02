@@ -10,7 +10,7 @@ import UIKit
 
 
 /// `AlertQueue` is a singleton alert manager that handles presenting alerts sequentially
-/// and outside the view controller heirarchy where possible. Each alert is presented in
+/// and outside the view controller hierachy where possible. Each alert is presented in
 /// a queue to avoid a "doubling up" presentations.
 ///
 /// This class should only be accessed from the main thread.
@@ -48,7 +48,7 @@ public class AlertQueue: NSObject {
     ///
     /// - Note: This property only affects appearance when presented without an
     ///   `extensionViewController` context set. When presented with an extension
-    ///   view controller, the alert will inherit the default view heirarchy `tintColor`.
+    ///   view controller, the alert will inherit the default view hierarchy `tintColor`.
     public var tintColor: UIColor? {
         didSet { window?.tintColor = tintColor }
     }
