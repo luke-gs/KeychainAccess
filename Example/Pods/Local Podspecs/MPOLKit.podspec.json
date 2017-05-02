@@ -22,7 +22,13 @@
   "resources": "Assets/**/*",
   "dependencies": {
     "Alamofire": [
-
+      "4.4.0"
+    ],
+    "Unbox": [
+      "2.4.0"
+    ],
+    "Wrap": [
+      "2.1.0"
     ]
   }
 }
