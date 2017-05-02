@@ -18,20 +18,11 @@
   "platforms": {
     "ios": "9.0"
   },
-  "default_subspecs": "Core",
-  "resources": [
-    "MPOLKit/Assets/MPOL/**/*",
-    "MPOLKit/Assets/Forms/*"
-  ],
+  "source_files": "Classes/**/*",
+  "resources": "Assets/**/*",
   "dependencies": {
     "Alamofire": [
 
     ]
-  },
-  "subspecs": [
-    {
-      "name": "Core",
-      "source_files": "MPOLKit/Classes/**/*"
-    }
-  ]
+  }
 }
