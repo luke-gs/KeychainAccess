@@ -37,8 +37,8 @@ extension UITableView {
             // first responder cells offscreen not visible, or there may be prefetched cells. We also want
             // to avoid loading the table view unnecessarily.
             var loadedCellIndexPaths = [IndexPath]()
-            for view in subviews  {
-                if let cell = view as? UITableViewCell, let indexPath = indexPath(for: cell) {
+            for case let cell as UITableViewCell in subviews  {
+                if let indexPath = indexPath(for: cell) {
                     loadedCellIndexPaths.append(indexPath)
                 }
             }

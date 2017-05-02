@@ -78,10 +78,8 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
             var indexPathsToReload: [IndexPath] = []
             
             if let filteredItems = self.filteredItems {
-                for (index, item) in filteredItems.enumerated() {
-                    if itemsChangingSelection.contains(item) {
-                        indexPathsToReload.append(IndexPath(row: index, section: 0))
-                    }
+                for (index, item) in filteredItems.enumerated() where itemsChangingSelection.contains(item) {
+                    indexPathsToReload.append(IndexPath(row: index, section: 0))
                 }
             } else {
                 let hasNoSection = noItemTitle != nil
@@ -90,10 +88,8 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
                 }
                 
                 let section = hasNoSection ? 1 : 0
-                for (index, item) in items.enumerated() {
-                    if itemsChangingSelection.contains(item) {
-                        indexPathsToReload.append(IndexPath(row: index, section: section))
-                    }
+                for (index, item) in items.enumerated() where itemsChangingSelection.contains(item) {
+                    indexPathsToReload.append(IndexPath(row: index, section: section))
                 }
             }
             
@@ -358,10 +354,8 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
             
                 reloadIndexPaths.reserveCapacity(selectedItemCount)
                 
-                for (index, item) in items.enumerated() {
-                    if oldSelectedItems.contains(item) {
-                        reloadIndexPaths.append(IndexPath(row: index, section: 1))
-                    }
+                for (index, item) in items.enumerated() where oldSelectedItems.contains(item) {
+                    reloadIndexPaths.append(IndexPath(row: index, section: 1))
                 }
             }
         }

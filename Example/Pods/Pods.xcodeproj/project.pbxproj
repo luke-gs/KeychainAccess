@@ -90,6 +90,7 @@
 		B6B58D35088BEF839AA4A2D0563A0122 /* UIImage+EntityImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C687B081DE39DC9A335BE1884DD1DFB /* UIImage+EntityImages.swift */; };
 		B6BF0700F1A66A98D0C08C4A968E5F90 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33AEBC93D958432AAFDE63F6D3A9BE8E /* UIColor+Hex.swift */; };
 		B971CFD25389969ACB169B99BA985C39 /* SidebarSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BB8505B9BC5DE24F7DEA15D002760E /* SidebarSplitViewController.swift */; };
+		BC9F9D7F1EB7142200E58B91 /* TabStripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9F9D7E1EB7142200E58B91 /* TabStripView.swift */; };
 		BCB101601EB595BF00CC803C /* NavigationBarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB1015F1EB595BF00CC803C /* NavigationBarExtension.swift */; };
 		BCC5D28BFCB9F80565774B3DE4259075 /* CollectionViewFormEditAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63F66F961436CBA8220F0CE86061E04 /* CollectionViewFormEditAction.swift */; };
 		BDA0F1AEA261690B77B2DD09E270052B /* CoreGraphics+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84318F5547DC353A30B91B8F40A15948 /* CoreGraphics+Convenience.swift */; };
@@ -227,6 +228,7 @@
 		B89EFF74B3B58AA5ACC6DFE18A021AC5 /* TableViewFormSubtitleCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TableViewFormSubtitleCell.swift; sourceTree = "<group>"; };
 		BC08C56EF317A41EB4704CD687616EB4 /* OrganizationInfoViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = OrganizationInfoViewController.swift; sourceTree = "<group>"; };
 		BC7705647A3A502B47F17BFDA9A5437E /* ArchivedManifestEntry.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ArchivedManifestEntry.swift; sourceTree = "<group>"; };
+		BC9F9D7E1EB7142200E58B91 /* TabStripView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabStripView.swift; sourceTree = "<group>"; };
 		BCB1015F1EB595BF00CC803C /* NavigationBarExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationBarExtension.swift; sourceTree = "<group>"; };
 		BD1C5B20A0F7C66A04C8BCB37E152185 /* PickerTableViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PickerTableViewController.swift; sourceTree = "<group>"; };
 		BDBFB5BF69BBC4460C7D6B42503CF89F /* AlertIndicatorView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AlertIndicatorView.swift; sourceTree = "<group>"; };
@@ -308,6 +310,7 @@
 				CFC1F4C39F85E4EB403543F100B656E5 /* FormDisclosureView.swift */,
 				7EAA288CFCA8CCC0289A7C9F44B50DCB /* GradientView.swift */,
 				BCB1015F1EB595BF00CC803C /* NavigationBarExtension.swift */,
+				BC9F9D7E1EB7142200E58B91 /* TabStripView.swift */,
 				7D9F26DBE319070749EF439AE9AA1522 /* RoundedRectLabel.swift */,
 			);
 			path = Views;
@@ -936,6 +939,7 @@
 				124ACED4DFC0DBE37CA070C860980965 /* EntityOccurrencesViewController.swift in Sources */,
 				FED172D47212E9D0E7E624196BBE3774 /* FileManager+URL.swift in Sources */,
 				F6240BDAC0DACB0C58556B9432212567 /* FloatingPoint+Comparison.swift in Sources */,
+				BC9F9D7F1EB7142200E58B91 /* TabStripView.swift in Sources */,
 				05F277D9B3E0F503FE112E5B009FC66F /* FormCollectionViewController.swift in Sources */,
 				DAB8473B07889C72706A53854E152CE2 /* FormDefines.swift in Sources */,
 				97281D59D01C940F7F214298A329D66B /* FormDisclosureView.swift in Sources */,
