@@ -4,6 +4,7 @@
         "isDark": false,
         "statusBarStyle": 1,
         "navigationBar": "NavigationBarLight",
+        "navigationBarExtension": "NavigationBarLightExtension",
         "navigationBarStyle": 1,
         "colors": {
             "tint":                   "#007AFF",

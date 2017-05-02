@@ -20,6 +20,8 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     
     open private(set) var collectionView: UICollectionView?
     
+    open private(set) var collectionViewInsetManager: ScrollViewInsetManager?
+    
     open var wantsTransparentBackground: Bool = false {
         didSet {
             if isViewLoaded {
@@ -43,13 +45,6 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     @NSCopying open var placeholderTextColor: UIColor?
     
     @NSCopying open var separatorColor:       UIColor?
-    
-    
-    
-    
-    // MARK: - Private properties
-    
-    private var collectionViewInsetManager: ScrollViewInsetManager?
     
     
     // MARK: - Initializers

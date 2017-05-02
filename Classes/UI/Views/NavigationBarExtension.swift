@@ -94,7 +94,7 @@ open class NavigationBarExtension: UIView {
     
     // MARK: - UIAppearance setters
     
-    @objc dynamic func setBackgroundImage(_ backgroundImage: UIImage?) {
+    @objc open dynamic func setBackgroundImage(_ backgroundImage: UIImage?) {
         backgroundImageView.image = backgroundImage
     }
     
