@@ -1,6 +1,6 @@
 //
 //  SearchOptionsViewController.swift
-//  Pods
+//  MPOL
 //
 //  Created by Valery Shorinov on 31/3/17.
 //
@@ -45,6 +45,8 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         }
     }
     
+    private var navigationBarExtension: NavigationBarExtension?
+    
     
     // MARK: - Private methods
     
@@ -86,6 +88,20 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let view = self.view!
+        let navBarExtension = NavigationBarExtension(frame: .zero)
+        navBarExtension.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(navBarExtension)
+        
+        navigationBarExtension = navBarExtension
+        
+        NSLayoutConstraint.activate([
+            NSLayoutConstraint(item: navBarExtension, attribute: .leading,  relatedBy: .equal, toItem: view, attribute: .leading),
+            NSLayoutConstraint(item: navBarExtension, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailing),
+            NSLayoutConstraint(item: navBarExtension, attribute: .top,      relatedBy: .equal, toItem: topLayoutGuide, attribute: .bottom),
+            NSLayoutConstraint(item: navBarExtension, attribute: .height,   relatedBy: .equal, toConstant: 40.0),
+        ])
+        
         guard let collectionView = self.collectionView else { return }
         
         collectionView.layer.presentation()
@@ -97,7 +113,40 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         collectionView.alwaysBounceVertical = false
         
         collectionView.addObserver(self, forKeyPath: #keyPath(UICollectionView.contentSize), context: &kvoContext)
-        preferredContentSize = collectionView.contentSize
+        
+        var contentSize = collectionView.contentSize
+        contentSize.height += navigationBarExtension?.frame.height ?? 0.0
+        preferredContentSize = contentSize
+    }
+    
+    open override func viewDidLayoutSubviews() {
+        updatePreferredContentSize()
+        
+        guard let scrollView = self.collectionView, let insetManager = self.collectionViewInsetManager else { return }
+        
+        var contentOffset = scrollView.contentOffset
+        
+        let insets = UIEdgeInsets(top: topLayoutGuide.length + (navigationBarExtension?.frame.height ?? 0.0), left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)
+        let oldContentInset = insetManager.standardContentInset
+        insetManager.standardContentInset   = insets
+        insetManager.standardIndicatorInset = insets
+        
+        // If the scroll view currently doesn't have any user interaction, adjust its content
+        // to keep the content onscreen.
+        if scrollView.isTracking || scrollView.isDecelerating { return }
+        
+        contentOffset.y -= (insets.top - oldContentInset.top)
+        if contentOffset.y < insets.top * -1.0 {
+            contentOffset.y = insets.top * -1.0
+        }
+        
+        scrollView.contentOffset = contentOffset
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.navigationBar.shadowImage = UIImage()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -110,6 +159,8 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     
     override func viewWillDisappear(_ animated: Bool) {
         endEditingSearchField(changingState: false)
+        
+        navigationController?.navigationBar.shadowImage = nil
         super.viewWillDisappear(animated)
     }
     
@@ -158,7 +209,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     }
     
     private var indexPathForSearchFieldCell: IndexPath {
-        return IndexPath(item: 1, section: 0)
+        return IndexPath(item: 0, section: 0)
     }
     
     
@@ -181,8 +232,8 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {
-            if let collectionView = object as? UICollectionView, collectionView == self.collectionView {
-                preferredContentSize = collectionView.contentSize
+            if let collectionView = object as? UICollectionView, collectionView === self.collectionView {
+                updatePreferredContentSize()
             }
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
@@ -200,8 +251,8 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         // This we should force unwrap because if we get the wrong section count here,
         // it's a fatal error anyway and we've seriously ruined our logic.
         switch Section(rawValue: section)! {
-        case .generalDetails:
-            return 2
+        case .searchField:
+            return 1
         case .filters:
             return selectedDataSource.numberOfFilters
         }
@@ -221,31 +272,16 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch Section(rawValue: indexPath.section)! {
-        case .generalDetails:
-            if indexPath.item == 0 {
-                let cell = collectionView.dequeueReusableCell(of: SegmentedControlCollectionViewCell.self, for: indexPath)
-                let segmentedControl = cell.segmentedControl
-                if segmentedControl.numberOfSegments == 0 {
-                    for (index, source) in dataSources.enumerated() {
-                        segmentedControl.insertSegment(withTitle: source.localizedDisplayName, at: index, animated: false)
-                    }
-                    segmentedControl.addTarget(self, action: #selector(searchTypeSegmentedControlValueDidChange(_:)), for: .valueChanged)
-                }
-                
-                segmentedControl.selectedSegmentIndex = dataSources.index(where: { $0 == selectedDataSource }) ?? UISegmentedControlNoSegment
-                
-                return cell
-            } else {
-                let cell = collectionView.dequeueReusableCell(of: SearchFieldCollectionViewCell.self, for: indexPath)
-                let textField = cell.textField
-                
-                textField.delegate = self
-                if textField.allTargets.contains(self) == false {
-                    textField.addTarget(self, action: #selector(textFieldTextDidChange(_:)), for: .editingChanged)
-                }
-                
-                return cell
+        case .searchField:
+            let cell = collectionView.dequeueReusableCell(of: SearchFieldCollectionViewCell.self, for: indexPath)
+            let textField = cell.textField
+            
+            textField.delegate = self
+            if textField.allTargets.contains(self) == false {
+                textField.addTarget(self, action: #selector(textFieldTextDidChange(_:)), for: .editingChanged)
             }
+            
+            return cell
         case .filters:
             let filterCell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
             filterCell.emphasis = .subtitle
@@ -275,34 +311,24 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        func cancelSelection() {
-            collectionView.deselectItem(at: indexPath, animated: false)
-            
-            if isEditingTextField {
-                // Workaround:
-                // Calling this without dispatch async gets deselected *after* this call.
-                // Async it to get after this turn of the run loop.
-                DispatchQueue.main.async {
-                    self.beginEditingSearchField()
-                }
-            }
-        }
-        
         switch Section(rawValue: indexPath.section)! {
-        case .generalDetails:
-            // TODO: Handle the general details case.
-            
-            if indexPath.item == 1 {
-                beginEditingSearchField()
-            } else {
-                cancelSelection()
-            }
+        case .searchField:
+            beginEditingSearchField()
         case .filters:
             
             // If there's no update view controller, we don't want to do anything.
             // Quickly deselect the index path, and return out.
             guard let updateViewController = selectedDataSource.updateController(forFilterAt: indexPath.item) else {
-                cancelSelection()
+                collectionView.deselectItem(at: indexPath, animated: false)
+                
+                if isEditingTextField {
+                    // Workaround:
+                    // Calling this without dispatch async gets deselected *after* this call.
+                    // Async it to get after this turn of the run loop.
+                    DispatchQueue.main.async {
+                        self.beginEditingSearchField()
+                    }
+                }
                 return
             }
             
@@ -352,12 +378,12 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     }
     
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
-        return Section(rawValue: section) == .generalDetails ? 0.0 : CollectionViewFormExpandingHeaderView.minimumHeight
+        return Section(rawValue: section) == .searchField ? 0.0 : CollectionViewFormExpandingHeaderView.minimumHeight
     }
     
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, givenSectionWidth sectionWidth: CGFloat, edgeInsets: UIEdgeInsets) -> CGFloat {
         
-        if indexPath.section == 0 {
+        if Section(rawValue: indexPath.section) == .searchField  {
             return sectionWidth
         }
         
@@ -378,7 +404,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
         
         switch Section(rawValue: indexPath.section)! {
-        case .generalDetails:
+        case .searchField:
             return SearchFieldCollectionViewCell.cellContentHeight
         case .filters:
             
@@ -391,16 +417,18 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     }
     
     
+    // MARK: - Private
     
     private enum Section: Int {
-        case generalDetails, filters
+        case searchField, filters
     }
     
-    @objc private func searchTypeSegmentedControlValueDidChange(_ segmentedControl: UISegmentedControl) {
-        let index = segmentedControl.selectedSegmentIndex
-        if index == UISegmentedControlNoSegment { return }
+    private func updatePreferredContentSize() {
+        guard let collectionView = self.collectionView else { return }
         
-        selectedDataSourceIndex = index
+        var contentSize = collectionView.contentSize
+        contentSize.height += navigationBarExtension?.frame.height ?? 0.0
+        preferredContentSize = contentSize
     }
     
     
