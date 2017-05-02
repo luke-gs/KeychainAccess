@@ -22,15 +22,11 @@ s.source           = { :git => 'https://github.com/Gridstone/mPolKit-iOS.git', :
 
 s.ios.deployment_target = '9.0'
 
-s.default_subspec = "Core"
-
-s.subspec "Core" do |core|
-core.source_files = 'MPOLKit/Classes/**/*'
-s.resources = ['MPOLKit/Assets/MPOL/**/*', 'MPOLKit/Assets/Forms/*']
-end
+s.source_files = 'Classes/**/*'
+s.resources = 'Assets/**/*'
 
 # s.public_header_files = 'Pod/Classes/**/*.h'
 # s.frameworks = 'UIKit', 'MapKit'
-# s.dependency
+s.dependency 'Alamofire'
 
 end
