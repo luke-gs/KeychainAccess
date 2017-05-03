@@ -65,7 +65,9 @@ open class NavigationBarExtension: UIView {
         })
     }
     
-    private let backgroundImageView: UIImageView = UIImageView(frame: .zero)
+    private let backgroundImageView = UIImageView(frame: .zero)
+    
+    private let shadowImageView = UIImageView(frame: .zero)
     
     private var _contentView: UIView?
     
@@ -89,13 +91,29 @@ open class NavigationBarExtension: UIView {
         backgroundImageView.frame = bounds
         backgroundImageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         addSubview(backgroundImageView)
+        
+        shadowImageView.translatesAutoresizingMaskIntoConstraints = false
+        shadowImageView.image = UIImage(named: "UINavigationBarShadow", in: .mpolKit, compatibleWith: nil)
+        addSubview(shadowImageView)
+        
+        NSLayoutConstraint.activate([
+            NSLayoutConstraint(item: shadowImageView, attribute: .leading,  relatedBy: .equal, toItem: self, attribute: .leading),
+            NSLayoutConstraint(item: shadowImageView, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing),
+            NSLayoutConstraint(item: shadowImageView, attribute: .top,      relatedBy: .equal, toItem: self, attribute: .bottom)
+        ])
     }
     
     
     // MARK: - UIAppearance setters
     
-    @objc open dynamic func setBackgroundImage(_ backgroundImage: UIImage?) {
-        backgroundImageView.image = backgroundImage
+    @objc open dynamic var backgroundImage: UIImage? {
+        get { return backgroundImageView.image }
+        set { backgroundImageView.image = newValue }
+    }
+    
+    @objc open dynamic var shadowImage: UIImage? {
+        get { return shadowImageView.image }
+        set { shadowImageView.image = newValue }
     }
     
     

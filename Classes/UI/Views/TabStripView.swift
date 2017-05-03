@@ -9,13 +9,21 @@
 import UIKit
 
 fileprivate let defaultSelectionBarHeight: CGFloat = 2.0
-fileprivate let minItemPadding: CGFloat = 16.0
+fileprivate let minItemPadding: CGFloat = 30.0
+
+
+public protocol TabStripViewDelegate: class {
+    
+    func tabStripView(_ tabStripView: TabStripView, didSelectItemAt index: Int)
+    
+}
+
 
 open class TabStripView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     // MARK: - Public properties
     
-    public var items: [AnyHashable] = [] {
+    open var items: [AnyHashable] = [] {
         didSet {
             if items == oldValue { return }
             
@@ -24,20 +32,27 @@ open class TabStripView: UIView, UICollectionViewDataSource, UICollectionViewDel
         }
     }
     
-    public var selectedItemIndex: Int? {
+    open var selectedItemIndex: Int? {
         get { return _selectedItemIndex }
         set { setSelectedItemIndex(newValue, animated: false) }
     }
     
-    public func setSelectedItemIndex(_ newIndex: Int?, animated: Bool) {
-        
+    open func setSelectedItemIndex(_ newIndex: Int?, animated: Bool) {
         if _selectedItemIndex == newIndex { return }
         
-        // TODO: Make sure you fire KVO notifications.
+        _selectedItemIndex = newIndex
         
+        if let newValue = newIndex {
+            collectionView.selectItem(at: IndexPath(item: newValue, section: 0 ), animated: animated, scrollPosition: .centeredHorizontally)
+        } else {
+            collectionView.selectItem(at: nil, animated: animated, scrollPosition: [])
+        }
     }
     
-    public var unselectedItemTintColor: UIColor = #colorLiteral(red: 0.9999160171, green: 1, blue: 0.9998849034, alpha: 0.5) {
+    open weak var delegate: TabStripViewDelegate?
+    
+    
+    open var unselectedItemTintColor: UIColor = #colorLiteral(red: 0.9999160171, green: 1, blue: 0.9998849034, alpha: 0.5) {
         didSet {
             if unselectedItemTintColor == oldValue { return }
             
@@ -164,6 +179,8 @@ open class TabStripView: UIView, UICollectionViewDataSource, UICollectionViewDel
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.dataSource = self
         collectionView.delegate   = self
+        collectionView.backgroundColor = .clear
+        collectionView.indicatorStyle  = .white
         collectionView.register(TabStripViewImageCell.self)
         collectionView.register(TabStripViewTextCell.self)
         addSubview(collectionView)
@@ -207,6 +224,8 @@ open class TabStripView: UIView, UICollectionViewDataSource, UICollectionViewDel
     // MARK: - UICollectionViewDelegate
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        _selectedItemIndex = indexPath.item
+        delegate?.tabStripView(self, didSelectItemAt: indexPath.item)
     }
     
     
@@ -350,6 +369,7 @@ fileprivate class TabStripViewCell: UICollectionViewCell, DefaultReusable {
         contentView.preservesSuperviewLayoutMargins = false
         contentView.layoutMargins = UIEdgeInsets(top: 0.0, left: 0.0, bottom: selectionBarHeight, right: 0.0)
         
+        selectionBar.translatesAutoresizingMaskIntoConstraints = false
         selectionBar.backgroundColor = tintColor
         selectionBar.alpha = 0.0
         contentView.addSubview(selectionBar)
@@ -359,7 +379,7 @@ fileprivate class TabStripViewCell: UICollectionViewCell, DefaultReusable {
         
         NSLayoutConstraint.activate([
             NSLayoutConstraint(item: itemView, attribute: .centerX, relatedBy: .equal, toItem: contentView, attribute: .centerXWithinMargins),
-            NSLayoutConstraint(item: itemView, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerXWithinMargins),
+            NSLayoutConstraint(item: itemView, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerYWithinMargins),
             NSLayoutConstraint(item: itemView, attribute: .leading, relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .leadingMargin),
             NSLayoutConstraint(item: itemView, attribute: .top,     relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .topMargin),
             
@@ -375,6 +395,7 @@ fileprivate class TabStripViewCell: UICollectionViewCell, DefaultReusable {
     override func tintColorDidChange() {
         super.tintColorDidChange()
         selectionBar.backgroundColor = tintColor
+        updateSelectionHighlight()
     }
     
     func updateSelectionHighlight() {
@@ -405,7 +426,7 @@ fileprivate class TabStripViewTextCell: TabStripViewCell {
     override func updateSelectionHighlight() {
         super.updateSelectionHighlight()
         
-        textLabel.textColor = isHighlighted || isSelected ? nil : unselectedItemTintColor
+        textLabel.textColor = isHighlighted || isSelected ? tintColor : unselectedItemTintColor
     }
     
 }
