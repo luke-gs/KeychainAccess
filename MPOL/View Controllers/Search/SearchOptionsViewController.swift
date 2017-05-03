@@ -11,7 +11,7 @@ import MPOLKit
 
 fileprivate var kvoContext = 1
 
-class SearchOptionsViewController: FormCollectionViewController, UITextFieldDelegate, SearchDataSourceUpdating {
+class SearchOptionsViewController: FormCollectionViewController, UITextFieldDelegate, SearchDataSourceUpdating, TabStripViewDelegate {
     
     let dataSources: [SearchDataSource]
     
@@ -46,6 +46,8 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     }
     
     private var navigationBarExtension: NavigationBarExtension?
+    
+    private var tabStripView: TabStripView?
     
     
     // MARK: - Private methods
@@ -88,23 +90,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let view = self.view!
-        let navBarExtension = NavigationBarExtension(frame: .zero)
-        navBarExtension.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(navBarExtension)
-        
-        navigationBarExtension = navBarExtension
-        
-        NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: navBarExtension, attribute: .leading,  relatedBy: .equal, toItem: view, attribute: .leading),
-            NSLayoutConstraint(item: navBarExtension, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailing),
-            NSLayoutConstraint(item: navBarExtension, attribute: .top,      relatedBy: .equal, toItem: topLayoutGuide, attribute: .bottom),
-            NSLayoutConstraint(item: navBarExtension, attribute: .height,   relatedBy: .equal, toConstant: 40.0),
-        ])
-        
-        guard let collectionView = self.collectionView else { return }
-        
-        collectionView.layer.presentation()
+        guard let view = self.view, let collectionView = self.collectionView else { return }
         
         collectionView.register(SearchFieldCollectionViewCell.self)
         collectionView.register(SegmentedControlCollectionViewCell.self)
@@ -113,6 +99,25 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         collectionView.alwaysBounceVertical = false
         
         collectionView.addObserver(self, forKeyPath: #keyPath(UICollectionView.contentSize), context: &kvoContext)
+        
+        let navBarExtension = NavigationBarExtension(frame: .zero)
+        navBarExtension.translatesAutoresizingMaskIntoConstraints = false
+        
+        let tabStripView = TabStripView(frame: .zero)
+        tabStripView.items = dataSources.map { $0.localizedDisplayName }
+        tabStripView.selectedItemIndex = selectedDataSourceIndex
+        tabStripView.delegate = self
+        navBarExtension.contentView = tabStripView
+        
+        view.addSubview(navBarExtension)
+        navigationBarExtension = navBarExtension
+        self.tabStripView      = tabStripView
+        
+        NSLayoutConstraint.activate([
+            NSLayoutConstraint(item: navBarExtension, attribute: .leading,  relatedBy: .equal, toItem: view, attribute: .leading),
+            NSLayoutConstraint(item: navBarExtension, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailing),
+            NSLayoutConstraint(item: navBarExtension, attribute: .top,      relatedBy: .equal, toItem: topLayoutGuide, attribute: .bottom),
+        ])
         
         var contentSize = collectionView.contentSize
         contentSize.height += navigationBarExtension?.frame.height ?? 0.0
@@ -373,6 +378,10 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     
     // MARK: - CollectionViewDelegateFormLayout methods
     
+    func collectionView(_ collectionView: UICollectionView, heightForGlobalHeaderInLayout layout: CollectionViewFormLayout) -> CGFloat {
+        return 12.0
+    }
+    
     func collectionView(_ collectionView: UICollectionView, heightForGlobalFooterInLayout layout: CollectionViewFormLayout) -> CGFloat {
         return 32.0
     }
@@ -417,21 +426,6 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     }
     
     
-    // MARK: - Private
-    
-    private enum Section: Int {
-        case searchField, filters
-    }
-    
-    private func updatePreferredContentSize() {
-        guard let collectionView = self.collectionView else { return }
-        
-        var contentSize = collectionView.contentSize
-        contentSize.height += navigationBarExtension?.frame.height ?? 0.0
-        preferredContentSize = contentSize
-    }
-    
-    
     // MARK: - SearchDataSourceUpdating
     
     func searchDataSourceRequestDidChange(_ dataSource: SearchDataSource) {
@@ -445,6 +439,29 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
             // Can't currently update item in case of bugs. Perhaps when apple gets around to fixing this?? :S
             reloadCollectionViewRetainingEditing()
         }
+    }
+    
+    
+    // MARK: - TabStripViewDelegate
+    
+    
+    func tabStripView(_ tabStripView: TabStripView, didSelectItemAt index: Int) {
+        selectedDataSourceIndex = index
+    }
+    
+    
+    // MARK: - Private
+    
+    private enum Section: Int {
+        case searchField, filters
+    }
+    
+    private func updatePreferredContentSize() {
+        guard let collectionView = self.collectionView else { return }
+        
+        var contentSize = collectionView.contentSize
+        contentSize.height += navigationBarExtension?.frame.height ?? 0.0
+        preferredContentSize = contentSize
     }
     
 }

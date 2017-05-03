@@ -22,7 +22,6 @@
 		BC9E48651E9DDE0A00767337 /* OrganizationSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9E48641E9DDE0A00767337 /* OrganizationSearchRequest.swift */; };
 		BC9E48671E9DDE8900767337 /* LocationSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9E48661E9DDE8900767337 /* LocationSearchRequest.swift */; };
 		BC9E486B1E9DE14D00767337 /* SearchFieldCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9E48691E9DE14D00767337 /* SearchFieldCollectionViewCell.swift */; };
-		BC9E486C1E9DE14D00767337 /* SearchTypeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9E486A1E9DE14D00767337 /* SearchTypeCollectionViewCell.swift */; };
 		BCC5E94B1E9F155E00A9635E /* PersonSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC5E9491E9F155E00A9635E /* PersonSearchDataSource.swift */; };
 		BCC5E94C1E9F155E00A9635E /* SearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC5E94A1E9F155E00A9635E /* SearchDataSource.swift */; };
 		BCC5E94E1E9F183900A9635E /* VehicleSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC5E94D1E9F183900A9635E /* VehicleSearchDataSource.swift */; };
@@ -53,7 +52,6 @@
 		BC9E48641E9DDE0A00767337 /* OrganizationSearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizationSearchRequest.swift; sourceTree = "<group>"; };
 		BC9E48661E9DDE8900767337 /* LocationSearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSearchRequest.swift; sourceTree = "<group>"; };
 		BC9E48691E9DE14D00767337 /* SearchFieldCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchFieldCollectionViewCell.swift; sourceTree = "<group>"; };
-		BC9E486A1E9DE14D00767337 /* SearchTypeCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTypeCollectionViewCell.swift; sourceTree = "<group>"; };
 		BCC5E9491E9F155E00A9635E /* PersonSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonSearchDataSource.swift; sourceTree = "<group>"; };
 		BCC5E94A1E9F155E00A9635E /* SearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchDataSource.swift; sourceTree = "<group>"; };
 		BCC5E94D1E9F183900A9635E /* VehicleSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleSearchDataSource.swift; sourceTree = "<group>"; };
@@ -131,7 +129,6 @@
 				BC53108E1EA844C100E7DBE4 /* SearchEntityListCell.swift */,
 				BC9E48691E9DE14D00767337 /* SearchFieldCollectionViewCell.swift */,
 				BC5310901EA844FE00E7DBE4 /* SearchNavigationField.swift */,
-				BC9E486A1E9DE14D00767337 /* SearchTypeCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -328,7 +325,6 @@
 				BC0D8E8E1E94067800EDFC45 /* SearchResultsMapViewController.swift in Sources */,
 				BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */,
 				BCC5E9501E9F27BA00A9635E /* OrganizationSearchDataSource.swift in Sources */,
-				BC9E486C1E9DE14D00767337 /* SearchTypeCollectionViewCell.swift in Sources */,
 				996364DE1E9C9DDB00F86C35 /* NumberRangePickerViewController.swift in Sources */,
 				BCC5E94B1E9F155E00A9635E /* PersonSearchDataSource.swift in Sources */,
 				BC0D8E8D1E94067800EDFC45 /* SearchResultsListViewController.swift in Sources */,

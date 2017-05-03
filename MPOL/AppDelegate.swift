@@ -29,8 +29,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         navBar.barStyle  = theme.navigationBarStyle
         navBar.tintColor = theme.colors[.NavigationBarTint]
         
-        NavigationBarExtension.appearance().setBackgroundImage(theme.navigationBarBackgroundExtensionImage)
-        
+        let navBarExtension = NavigationBarExtension.appearance()
+        navBarExtension.backgroundImage = theme.navigationBarBackgroundExtensionImage
+        navBarExtension.tintColor = theme.colors[.NavigationBarTint]
         
         let searchViewController = SearchViewController()
         let searchNavController = UINavigationController(rootViewController: searchViewController)
