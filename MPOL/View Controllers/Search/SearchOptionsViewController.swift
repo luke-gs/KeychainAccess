@@ -93,7 +93,6 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         guard let view = self.view, let collectionView = self.collectionView else { return }
         
         collectionView.register(SearchFieldCollectionViewCell.self)
-        collectionView.register(SegmentedControlCollectionViewCell.self)
         collectionView.register(CollectionViewFormSubtitleCell.self)
         collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         collectionView.alwaysBounceVertical = false
