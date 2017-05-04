@@ -1,9 +1,9 @@
 //
 //  TabStripView.swift
-//  Pods
+//  MPOLKit
 //
 //  Created by Rod Brown on 1/5/17.
-//
+//  Copyright © 2017 Gridstone. All rights reserved.
 //
 
 import UIKit
@@ -19,10 +19,13 @@ public protocol TabStripViewDelegate: class {
 }
 
 
+/// A view for displaying an iOS style tab bar in a navigation bar.
 open class TabStripView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     // MARK: - Public properties
     
+    
+    /// The items to display in the view.
     open var items: [AnyHashable] = [] {
         didSet {
             if items == oldValue { return }
@@ -32,11 +35,21 @@ open class TabStripView: UIView, UICollectionViewDataSource, UICollectionViewDel
         }
     }
     
+    
+    /// The index of the current selected item.
+    ///
+    /// The default is `nil`. Setting this updates the view without animation.
     open var selectedItemIndex: Int? {
         get { return _selectedItemIndex }
         set { setSelectedItemIndex(newValue, animated: false) }
     }
     
+    
+    /// Selects a new item in the tab with an optional animation.
+    ///
+    /// - Parameters:
+    ///   - newIndex: The new index, or `nil`.
+    ///   - animated: A boolean value indicating whether the update should be animated.
     open func setSelectedItemIndex(_ newIndex: Int?, animated: Bool) {
         if _selectedItemIndex == newIndex { return }
         
@@ -49,9 +62,14 @@ open class TabStripView: UIView, UICollectionViewDataSource, UICollectionViewDel
         }
     }
     
+    
+    /// The delegate for the bar.
     open weak var delegate: TabStripViewDelegate?
     
     
+    /// The tint color for unselected items.
+    /// 
+    /// The default is white with an alpha channel of 0.5.
     open var unselectedItemTintColor: UIColor = #colorLiteral(red: 0.9999160171, green: 1, blue: 0.9998849034, alpha: 0.5) {
         didSet {
             if unselectedItemTintColor == oldValue { return }
@@ -62,6 +80,8 @@ open class TabStripView: UIView, UICollectionViewDataSource, UICollectionViewDel
         }
     }
     
+    
+    /// The height for the selection bar beneath the item. The default is `2.0`.
     public var selectionBarHeight: CGFloat = defaultSelectionBarHeight {
         didSet {
             if selectionBarHeight ==~ oldValue { return }
@@ -74,6 +94,8 @@ open class TabStripView: UIView, UICollectionViewDataSource, UICollectionViewDel
         }
     }
     
+    
+    /// The font appearance for text items in the bar.
     public var textFont: UIFont = .systemFont(ofSize: 14.0, weight: UIFontWeightSemibold) {
         didSet {
             if textFont == oldValue { return }
@@ -114,7 +136,7 @@ open class TabStripView: UIView, UICollectionViewDataSource, UICollectionViewDel
     }
     
     open override var intrinsicContentSize: CGSize {
-        return CGSize(width: intrinsicWidth, height: 40.0 + selectionBarHeight)
+        return CGSize(width: intrinsicWidth, height: 38.0 + selectionBarHeight)
     }
     
     

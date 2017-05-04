@@ -65,6 +65,28 @@ open class NavigationBarExtension: UIView {
         })
     }
     
+    
+    /// The background image for the bar extension. The default is `nil`.
+    ///
+    /// This property conforms to UIAppearance.
+    @objc open dynamic var backgroundImage: UIImage? {
+        get { return backgroundImageView.image }
+        set { backgroundImageView.image = newValue }
+    }
+    
+    
+    /// The shadow image at the bottom of the bar. The default is the default
+    /// shadow image appearance on UINavigationBar.
+    ///
+    /// This property conforms to UIAppearance.
+    @objc open dynamic var shadowImage: UIImage? {
+        get { return shadowImageView.image }
+        set { shadowImageView.image = newValue }
+    }
+    
+    
+    // MARK: - Private properties
+    
     private let backgroundImageView = UIImageView(frame: .zero)
     
     private let shadowImageView = UIImageView(frame: .zero)
@@ -101,19 +123,6 @@ open class NavigationBarExtension: UIView {
             NSLayoutConstraint(item: shadowImageView, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing),
             NSLayoutConstraint(item: shadowImageView, attribute: .top,      relatedBy: .equal, toItem: self, attribute: .bottom)
         ])
-    }
-    
-    
-    // MARK: - UIAppearance setters
-    
-    @objc open dynamic var backgroundImage: UIImage? {
-        get { return backgroundImageView.image }
-        set { backgroundImageView.image = newValue }
-    }
-    
-    @objc open dynamic var shadowImage: UIImage? {
-        get { return shadowImageView.image }
-        set { shadowImageView.image = newValue }
     }
     
     
