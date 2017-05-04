@@ -248,7 +248,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     // MARK: - UICollectionViewDataSource methods
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return selectedDataSource.numberOfFilters > 0 ? 2 : 1
+        return (selectedDataSource.numberOfFilters > 0) && (selectedDataSource.request.searchText?.isEmpty ?? true == false) ? 2 : 1
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -372,6 +372,15 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     @objc private func textFieldTextDidChange(_ textField: UITextField) {
         let text = textField.text
         dataSources.forEach { $0.request.searchText = text }
+        
+        guard let collectionView = self.collectionView else { return }
+        
+        let has2Sections   = collectionView.numberOfSections == 2
+        let wants2Sections = (selectedDataSource.numberOfFilters > 0) && (text?.isEmpty ?? true == false)
+        
+        if has2Sections != wants2Sections {
+            reloadCollectionViewRetainingEditing()
+        }
     }
     
     
