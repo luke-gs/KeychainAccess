@@ -11,7 +11,7 @@ import UserNotifications
 import MPOLKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, LoginViewControllerDelegate {
 
     var window: UIWindow?
     var tabBarController: UITabBarController?
@@ -33,18 +33,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         navBarExtension.backgroundImage = theme.navigationBarBackgroundExtensionImage
         navBarExtension.tintColor = theme.colors[.NavigationBarTint]
         
-        let searchViewController = SearchViewController()
-        let searchNavController = UINavigationController(rootViewController: searchViewController)
-        
-        let tabBarController = UITabBarController()
-        tabBarController.viewControllers = [searchNavController]
         
         let window = UIWindow()
         window.tintColor = theme.colors[.Tint]
         window.rootViewController = tabBarController
         
         self.window = window
-        self.tabBarController = tabBarController
+        
+        updateInterface(forLogin: true, animated: false)
         
         window.makeKeyAndVisible()
         
@@ -90,6 +86,75 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("Failed to register for push notification: \(error)")
     }
-
+    
+    
+    // MARK: - Login view controller delegate
+    
+    func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String) {
+        updateInterface(forLogin: false, animated: true)
+    }
+    
+    
+    // MARK: - Private methods
+    
+    private func updateInterface(forLogin login: Bool, animated: Bool) {
+        if login {
+            let headerLabel = UILabel(frame: .zero)
+            headerLabel.translatesAutoresizingMaskIntoConstraints = false
+            headerLabel.text = "The MPOL Project"
+            headerLabel.font = .systemFont(ofSize: 28.0, weight: UIFontWeightSemibold)
+            headerLabel.textColor = .white
+            headerLabel.adjustsFontSizeToFitWidth = true
+            
+            let headerImage = UIImageView(image: #imageLiteral(resourceName: "MPOLIcon"))
+            headerImage.translatesAutoresizingMaskIntoConstraints = false
+            
+            let headerView = UIView(frame: .zero)
+            headerView.addSubview(headerImage)
+            headerView.addSubview(headerLabel)
+            
+            var constraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|[hi]-(==20@900)-[hl]|", options: [.alignAllCenterX], metrics: nil, views: ["hi": headerImage, "hl": headerLabel])
+            constraints.append(NSLayoutConstraint(item: headerImage, attribute: .centerX, relatedBy: .equal, toItem: headerView, attribute: .centerX))
+            NSLayoutConstraint.activate(constraints)
+            
+            let loginViewController = LoginViewController()
+            loginViewController.delegate = self
+            loginViewController.backgroundImage = #imageLiteral(resourceName: "Login")
+            loginViewController.headerView = headerView
+            self.window?.rootViewController = loginViewController
+        } else {
+            
+            func settingsBarButtonItem() -> UIBarButtonItem {
+                return UIBarButtonItem(image: #imageLiteral(resourceName: "iconOtherSettings"), style: .plain, target: self, action: #selector(settingsButtonItemDidSelect(_:)))
+            }
+            
+            let searchViewController = SearchViewController()
+            searchViewController.recentsViewController.title = "MPOL" // TODO: Should be client name
+            searchViewController.recentsViewController.navigationItem.leftBarButtonItem = settingsBarButtonItem()
+            
+            let searchNavController = UINavigationController(rootViewController: searchViewController)
+            
+            let tabBarController = UITabBarController()
+            tabBarController.viewControllers = [searchNavController]
+            
+            self.tabBarController = tabBarController
+            self.window?.rootViewController = tabBarController
+        }
+        
+        if animated, let window = self.window {
+            UIView.transition(with: window, duration: 0.2, options: .transitionCrossDissolve, animations: nil, completion: nil)
+        }
+    }
+    
+    @objc private func settingsButtonItemDidSelect(_ item: UIBarButtonItem) {
+        let settingsNavController = PopoverNavigationController(rootViewController: SettingsViewController())
+        settingsNavController.modalPresentationStyle = .popover
+        
+        if let popoverController = settingsNavController.popoverPresentationController {
+            popoverController.barButtonItem = item
+        }
+        
+        tabBarController?.present(settingsNavController, animated: true)
+    }
 }
 

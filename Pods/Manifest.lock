@@ -1,6 +1,6 @@
 PODS:
   - Alamofire (4.4.0)
-  - MPOLKit (0.1.0):
+  - MPOLKit (0.2.0):
     - Alamofire
 
 DEPENDENCIES:
@@ -12,7 +12,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
-  MPOLKit: b7f2c8ca9fd71008d7a75004f7eeffe41b32541f
+  MPOLKit: c7f9e26dc55d7ea7c3a2dbd2b660057279451d23
 
 PODFILE CHECKSUM: 4f5450afe18ff54978cba5ccf4a1b9e4f6d59150
 
