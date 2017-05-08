@@ -44,8 +44,7 @@ public class OAuthAccessToken: Unboxable, Equatable {
     
     // MARK: - Unboxable
     
-    // This date transformer is currently thread-safe. Change if this is no longer thread-safe.
-    private static let dateTransformer: EpochDateTransformer = EpochDateTransformer()
+    private static let dateTransformer: EpochDateTransformer = EpochDateTransformer.shared
     
     public required convenience init(unboxer: Unboxer) throws {
         
@@ -56,11 +55,8 @@ public class OAuthAccessToken: Unboxable, Equatable {
         
         let refreshToken: String? = unboxer.unbox(key: "refresh_token")
 
-        let expiresAtRawValue: Double? = unboxer.unbox(key: "access_token_expiry_time")
-        let refreshTokenExpiresAtRawValue: Double? = unboxer.unbox(key: "refresh_token_expiry_time")
-        
-        let expiresAt: Date? = OAuthAccessToken.dateTransformer.transform(expiresAtRawValue)
-        let refreshTokenExpiresAt: Date? = OAuthAccessToken.dateTransformer.transform(refreshTokenExpiresAtRawValue)
+        let expiresAt: Date? = unboxer.unbox(key: "access_token_expiry_time", formatter: OAuthAccessToken.dateTransformer)
+        let refreshTokenExpiresAt: Date? = unboxer.unbox(key: "refresh_token_expiry_time", formatter: OAuthAccessToken.dateTransformer)
         
         self.init(accessToken: accessToken, type: type, expiresAt: expiresAt, refreshToken: refreshToken, refreshTokenExpiresAt: refreshTokenExpiresAt)
     }
