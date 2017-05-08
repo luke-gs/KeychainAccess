@@ -18,27 +18,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+        NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: .ThemeDidChange, object: nil)
+        
         registerPushNotifications(application)
         
-        // TODO: Refactor theme activation
-        
-        let theme = Theme.current
-        
-        let navBar = UINavigationBar.appearance()
-        navBar.setBackgroundImage(theme.navigationBarBackgroundImage, for: .default)
-        navBar.barStyle  = theme.navigationBarStyle
-        navBar.tintColor = theme.colors[.NavigationBarTint]
-        
-        let navBarExtension = NavigationBarExtension.appearance()
-        navBarExtension.backgroundImage = theme.navigationBarBackgroundExtensionImage
-        navBarExtension.tintColor = theme.colors[.NavigationBarTint]
-        
-        
         let window = UIWindow()
-        window.tintColor = theme.colors[.Tint]
-        window.rootViewController = tabBarController
-        
         self.window = window
+        
+        applyCurrentTheme()
         
         updateInterface(forLogin: true, animated: false)
         
@@ -155,6 +142,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         
         tabBarController?.present(settingsNavController, animated: true)
+    }
+    
+    @objc private func themeDidChange() {
+        applyCurrentTheme()
+        
+        if let window = self.window {
+            let views = window.subviews
+            for view in views {
+                view.removeFromSuperview()
+            }
+            for view in views {
+                window.addSubview(view)
+            }
+            
+            if UIApplication.shared.applicationState != .background {
+                UIView.transition(with: window, duration: 0.2, options: .transitionCrossDissolve, animations: nil, completion: nil)
+            }
+        }
+    }
+    
+    private func applyCurrentTheme() {
+        let theme = Theme.current
+        
+        let navBar = UINavigationBar.appearance()
+        navBar.setBackgroundImage(theme.navigationBarBackgroundImage, for: .default)
+        navBar.barStyle  = theme.navigationBarStyle
+        navBar.tintColor = theme.colors[.NavigationBarTint]
+        
+        let navBarExtension = NavigationBarExtension.appearance()
+        navBarExtension.backgroundImage = theme.navigationBarBackgroundExtensionImage
+        navBarExtension.tintColor = theme.colors[.NavigationBarTint]
+        
+        UITabBar.appearance().barStyle = theme.tabBarStyle
+        
+        window?.tintColor = theme.colors[.Tint]
+        
+        AlertQueue.shared.preferredStatusBarStyle = theme.statusBarStyle
     }
 }
 

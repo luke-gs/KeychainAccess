@@ -109,7 +109,9 @@ class SettingsViewController: FormTableViewController {
             set {
                 switch self {
                 case .darkMode:
-                break // TODO
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        _ = Theme.applyTheme(withName: newValue ? "Dark" : "Light")
+                    }
                 case .numericKeyboard:
                     return KeyboardInputManager.shared.isNumberBarEnabled = newValue
                 }
