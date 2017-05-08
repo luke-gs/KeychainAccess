@@ -6,7 +6,7 @@
         "navigationBar": "NavigationBarLight",
         "navigationBarExtension": "NavigationBarLightExtension",
         "navigationBarStyle": 1,
-        "tabBarStyle": 1,
+        "tabBarStyle": 0,
         "colors": {
             "tint":                   "#007AFF",
             "navigationBarTint":      "#FFFFFF",
