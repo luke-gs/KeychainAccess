@@ -10,6 +10,8 @@ import Foundation
 
 public class EpochDateTransformer: OptionalTransformer {
 
+    public static let shared = EpochDateTransformer()
+        
     public func transform(_ value: Double) -> Date? {
         return Date(timeIntervalSince1970: value)
     }
