@@ -114,7 +114,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         } else {
             
             func settingsBarButtonItem() -> UIBarButtonItem {
-                return UIBarButtonItem(image: #imageLiteral(resourceName: "iconOtherSettings"), style: .plain, target: self, action: #selector(settingsButtonItemDidSelect(_:)))
+                let settingsItem = UIBarButtonItem(image: #imageLiteral(resourceName: "iconOtherSettings"), style: .plain, target: self, action: #selector(settingsButtonItemDidSelect(_:)))
+                settingsItem.accessibilityLabel = NSLocalizedString("Settings", comment: "SettingsIconAccessibility")
+                return settingsItem
             }
             
             let searchViewController = SearchViewController()
