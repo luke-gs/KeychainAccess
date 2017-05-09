@@ -15,8 +15,8 @@ public extension DefaultCustomStringConvertible {
         
         description = "\(type(of: self))"
         
-        var s = self
-        withUnsafePointer(to: &s) {
+        var lSelf = self
+        withUnsafePointer(to: &lSelf) {
             description += " <\($0.debugDescription)>\n"
         }
 
