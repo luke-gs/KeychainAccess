@@ -114,13 +114,16 @@ class SearchRecentsViewController: FormCollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
         
-        let currentTheme = Theme.current
-        if currentTheme.isDark == false,
-            let entityCell = cell as? EntityCollectionViewCell {
-            let primaryColor = currentTheme.colors[.AlternatePrimaryText]
-            entityCell.titleLabel.textColor    = primaryColor
-            entityCell.subtitleLabel.textColor = primaryColor
-            entityCell.detailLabel.textColor   = currentTheme.colors[.AlternateSecondaryText]
+        if let entityCell = cell as? EntityCollectionViewCell {
+            let theme = Theme.current
+            if theme.isDark {
+                entityCell.subtitleLabel.textColor = primaryTextColor
+            } else {
+                let primaryColor = theme.colors[.AlternatePrimaryText]
+                entityCell.titleLabel.textColor    = primaryColor
+                entityCell.subtitleLabel.textColor = primaryColor
+                entityCell.detailLabel.textColor   = theme.colors[.AlternateSecondaryText]
+            }
         }
     }
     
