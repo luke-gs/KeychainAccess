@@ -346,7 +346,6 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
         borderedImageView.layer.rasterizationScale = traitCollection.currentDisplayScale
     }
     
-    
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &textContext {
             let object = object as? NSObject
@@ -367,8 +366,6 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
     }
-    
-    
     
     internal override func applyStandardFonts() {
         super.applyStandardFonts()
@@ -391,6 +388,16 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
     }
     
     
+    // MARK: - Accessibility
+    
+    public override var accessibilityLabel: String? {
+        get {
+            return super.accessibilityLabel ?? [titleLabel.text, subtitleLabel.text, detailLabel.text].flatMap({$0}).joined(separator: ". ")
+        }
+        set {
+            super.accessibilityLabel = newValue
+        }
+    }
     
 }
 
