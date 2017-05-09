@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import CoreFoundation
 
 fileprivate var keyboardAppearanceContext = 1
+
+fileprivate let isNumberBarEnabledKey = "KeyboardInputManager.isNumberBarEnabled"
 
 /// A keyboard manager that monitors the current active text field, and applies
 /// adjustments globally each text field as it becomes active.
@@ -44,17 +47,24 @@ public class KeyboardInputManager: NSObject {
     
     
     /// Updates whether the KeyboardNumberBar is globally installed on every text view and text field.
-    /// The default is `false`.
     ///
     /// When set to `true`, a global KeyboardNumberBar will be installed on every `UITextView`,
     /// or `UITextField` instance when it becomes active, if it does not have its own custom
     /// `textAccessoryView`.
-    public var isNumberBarEnabled: Bool = false {
+    public var isNumberBarEnabled: Bool = UserDefaults.mpol.bool(forKey: isNumberBarEnabledKey) {
         didSet {
             if isNumberBarEnabled == oldValue {
                 return
             }
-
+            
+            let userDefaults = UserDefaults.mpol
+            if userDefaults.bool(forKey: isNumberBarEnabledKey) != isNumberBarEnabled {
+                userDefaults.set(isNumberBarEnabled, forKey: isNumberBarEnabledKey)
+                
+                UserDefaults.postMPOLDefaultsDidChangeNotification(forKey: isNumberBarEnabledKey)
+            }
+            
+            
             if isNumberBarEnabled {
                 if isNumberBarSupported == false {
                     isNumberBarEnabled = false
@@ -94,6 +104,7 @@ public class KeyboardInputManager: NSObject {
     // MARK: - Initializers
     
     private override init() {
+        
         super.init()
         
         let notificationCenter = NotificationCenter.default
@@ -104,6 +115,12 @@ public class KeyboardInputManager: NSObject {
         notificationCenter.addObserver(self, selector: beginSelector, name: .UITextFieldTextDidBeginEditing, object: nil)
         notificationCenter.addObserver(self, selector: endSelector,   name: .UITextViewTextDidEndEditing, object: nil)
         notificationCenter.addObserver(self, selector: endSelector,   name: .UITextFieldTextDidEndEditing, object: nil)
+        
+        let changeCallback: CFNotificationCallback = { center, observer, name, object, userInfo in
+            KeyboardInputManager.shared.isNumberBarEnabled = UserDefaults.mpol.bool(forKey: isNumberBarEnabledKey)
+        }
+        
+        CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), nil, changeCallback, UserDefaults.mpolDefaultsDidChangeNotificationName(forKey: isNumberBarEnabledKey), nil, .deliverImmediately)
     }
     
     
