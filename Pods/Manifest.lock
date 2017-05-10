@@ -4,16 +4,21 @@ PODS:
     - Alamofire
 
 DEPENDENCIES:
-  - MPOLKit (from `../mPolKit-iOS`)
+  - MPOLKit (from `https://github.com/Gridstone/mPolKit-iOS`)
 
 EXTERNAL SOURCES:
   MPOLKit:
-    :path: "../mPolKit-iOS"
+    :git: https://github.com/Gridstone/mPolKit-iOS
+
+CHECKOUT OPTIONS:
+  MPOLKit:
+    :commit: d7f23d2b02dc75bcbb8cb52cb10bb353b119632e
+    :git: https://github.com/Gridstone/mPolKit-iOS
 
 SPEC CHECKSUMS:
   Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
   MPOLKit: c7f9e26dc55d7ea7c3a2dbd2b660057279451d23
 
-PODFILE CHECKSUM: 4f5450afe18ff54978cba5ccf4a1b9e4f6d59150
+PODFILE CHECKSUM: 6d14e5254642a96f1aabaa7bbffc06fdb6838b61
 
 COCOAPODS: 1.2.1
