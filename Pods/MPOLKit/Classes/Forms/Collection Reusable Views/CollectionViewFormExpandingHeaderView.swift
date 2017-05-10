@@ -141,7 +141,6 @@ public class CollectionViewFormExpandingHeaderView: UICollectionReusableView, De
         }
         
         isAccessibilityElement = true
-        accessibilityTraits |= UIAccessibilityTraitHeader
         
         preservesSuperviewLayoutMargins = false
         

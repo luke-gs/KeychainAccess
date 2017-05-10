@@ -13,13 +13,20 @@ fileprivate var textContext = 1
 /// `EntityCollectionViewCell` is a cell for displaying MPOL entities with a standardized
 /// MPOL branding and appearance.
 ///
-/// `EntityCollectionViewCell supports displaying cells in two styles: "hero", and "detail".
+/// `EntityCollectionViewCell` supports displaying cells in three styles: "hero", "detail",
+/// and `Thumbnail`.
+///
 /// The "hero" appearance focuses on the photo/placeholder icon, and shows detail text
 /// labels below the context. The "detail" appearance shows the icon at the leading edge,
-/// with detail trailing behind.
+/// with detail trailing behind. The "thumbnail" shows only the thumbnail.
 ///
 /// EntityCollectionViewCell manages updating its own fonts from its trait collection's
 /// preferredContentSizeCategory. It is recommended you avoid updating them.
+///
+/// You should set the content on all labels regardless of the style of the cell. This allows
+/// for transitions and for accessibility.
+///
+/// TODO: Note alert levels & counts as part of the accessibility value.
 public class EntityCollectionViewCell: CollectionViewFormCell {
     
     /// The style types for an `EntityCollectionViewCell`. These include
@@ -346,7 +353,6 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
         borderedImageView.layer.rasterizationScale = traitCollection.currentDisplayScale
     }
     
-    
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &textContext {
             let object = object as? NSObject
@@ -367,8 +373,6 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
     }
-    
-    
     
     internal override func applyStandardFonts() {
         super.applyStandardFonts()
@@ -391,6 +395,16 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
     }
     
     
+    // MARK: - Accessibility
+    
+    public override var accessibilityLabel: String? {
+        get {
+            return super.accessibilityLabel ?? [sourceLabel.text, titleLabel.text, subtitleLabel.text, detailLabel.text].flatMap({$0}).joined(separator: ". ")
+        }
+        set {
+            super.accessibilityLabel = newValue
+        }
+    }
     
 }
 

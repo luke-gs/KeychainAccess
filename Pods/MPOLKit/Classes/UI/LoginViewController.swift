@@ -52,6 +52,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     open private(set) lazy var usernameLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.text = NSLocalizedString("Username", comment: "")
+        label.isAccessibilityElement = false
         label.font = .systemFont(ofSize: 14.0, weight: UIFontWeightRegular)
         label.textColor = .white
         return label
@@ -59,7 +60,8 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     
     
     open private(set) lazy var usernameField: UITextField = { [unowned self] in
-        let usernameField = self.newTextField(forPassword: false)
+        let usernameField = self.newTextField()
+        usernameField.accessibilityLabel = NSLocalizedString("Username Field", comment: "Accessibility")
         usernameField.returnKeyType      = .next
         usernameField.addTarget(self, action: #selector(textFieldTextDidChange(_:)), for: .editingChanged)
         usernameField.addObserver(self, forKeyPath: #keyPath(UITextField.text), context: &kvoContext)
@@ -72,6 +74,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     open private(set) lazy var passwordLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.text = NSLocalizedString("Password", comment: "")
+        label.isAccessibilityElement = false
         label.font = .systemFont(ofSize: 14.0, weight: UIFontWeightRegular)
         label.textColor = .white
         return label
@@ -79,7 +82,9 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     
     
     open private(set) lazy var passwordField: UITextField = { [unowned self] in
-        let passwordField = self.newTextField(forPassword: true)
+        let passwordField = self.newTextField()
+        passwordField.accessibilityLabel = NSLocalizedString("Password Field", comment: "Accessibility")
+        passwordField.isSecureTextEntry = true
         passwordField.delegate = self
         passwordField.returnKeyType = .done
         passwordField.clearsOnBeginEditing = true
@@ -504,11 +509,10 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         loginButton.isEnabled = isUsernameValid && isPasswordValid
     }
     
-    private func newTextField(forPassword password: Bool) -> UITextField {
+    private func newTextField() -> UITextField {
         let textField = UITextField(frame: .zero)
         textField.font                 = .systemFont(ofSize: 17.0, weight: UIFontWeightSemibold)
         textField.textColor            = .white
-        textField.isSecureTextEntry    = password
         textField.attributedPlaceholder = NSAttributedString(string: "Required", attributes: [NSForegroundColorAttributeName: UIColor(white: 0.7, alpha: 0.5)])
         textField.clearButtonMode      = .whileEditing
         textField.autocorrectionType   = .no

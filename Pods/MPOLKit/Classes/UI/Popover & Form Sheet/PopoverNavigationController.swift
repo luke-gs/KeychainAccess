@@ -194,9 +194,10 @@ open class PopoverNavigationController: UINavigationController, PopoverViewContr
     // MARK: - Private methods
     
     @objc private func applyCurrentTheme() {
-        if isViewLoaded == false { return }
-        
         let theme = Theme.current
+        popoverPresentationController?.backgroundColor = theme.colors[.PopoverBackground]
+        
+        if isViewLoaded == false { return }
         
         let navigationBar = self.navigationBar
         let transparent = self.wantsTransparentBackground

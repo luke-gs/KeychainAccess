@@ -123,9 +123,15 @@ public class Theme: NSObject {
     /// The navigation bar background image.
     public let navigationBarBackgroundImage: UIImage?
     
+    /// The background image for an extension of the navigation bar
+    public let navigationBarBackgroundExtensionImage: UIImage?
+    
     /// The navigation bar style. When there is a background image set, this adjusts the
     /// title details etc.
     public let navigationBarStyle: UIBarStyle
+    
+    /// The tab bar style.
+    public let tabBarStyle: UIBarStyle
     
     /// The colors for the theme.
     public let colors: [ThemeColorType: UIColor]
@@ -164,11 +170,24 @@ public class Theme: NSObject {
             self.navigationBarBackgroundImage = nil
         }
         
+        if let navBarExtensionName = details["navigationBarExtension"] as? String {
+            self.navigationBarBackgroundExtensionImage = UIImage(named: navBarExtensionName, in: Theme.bundle, compatibleWith: nil)
+        } else {
+            self.navigationBarBackgroundExtensionImage = nil
+        }
+        
         if let navBarStyleInt = details["navigationBarStyle"] as? Int,
             let navBarStyle = UIBarStyle(rawValue: navBarStyleInt) {
             self.navigationBarStyle = navBarStyle
         } else {
             self.navigationBarStyle = .default
+        }
+        
+        if let tabBarStyleInt = details["tabBarStyle"] as? Int,
+            let tabBarStyle = UIBarStyle(rawValue: tabBarStyleInt) {
+            self.tabBarStyle = tabBarStyle
+        } else {
+            self.tabBarStyle = .default
         }
     }
     
@@ -208,6 +227,7 @@ public struct ThemeColorType: RawRepresentable, Equatable, Hashable {
     public static let Separator           = ThemeColorType(rawValue: "separator")
     public static let CellSelection       = ThemeColorType(rawValue: "cellSelection")
     public static let DisclosureIndicator = ThemeColorType(rawValue: "disclosureIndicator")
+    public static let PopoverBackground   = ThemeColorType(rawValue: "popoverBackground")
     
     // Alternate colors - Dark when light, light when dark.
     public static let AlternatePrimaryText   = ThemeColorType(rawValue: "alternatePrimaryText")
