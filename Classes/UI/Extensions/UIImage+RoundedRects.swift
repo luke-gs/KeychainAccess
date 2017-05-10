@@ -1,9 +1,9 @@
 //
 //  UIImage+RoundedRects.swift
-//  MPOL
+//  MPOLKit
 //
 //  Created by Rod Brown on 7/05/2016.
-//  Copyright © 2016 RodBrown. All rights reserved.
+//  Copyright © 2016 Gridstone. All rights reserved.
 //
 
 import UIKit
@@ -32,14 +32,13 @@ public extension UIImage {
         }
         
         if #available(iOS 10, *) {
-            let imageRenderer = UIGraphicsImageRenderer(size: imageSize)
-            return imageRenderer.image { (_: UIGraphicsImageRendererContext) in drawImage() }
+            return UIGraphicsImageRenderer(size: imageSize).image { (_: UIGraphicsImageRendererContext) in drawImage() }
         } else {
             UIGraphicsBeginImageContextWithOptions(imageSize, false, 0.0)
+            defer { UIGraphicsEndImageContext() }
+            
             drawImage()
-            let image = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            return image ?? UIImage()
+            return UIGraphicsGetImageFromCurrentImageContext() ?? UIImage()
         }
     }
     

@@ -49,6 +49,11 @@ public class KeyboardNumberBar: UIInputView, UIInputViewAudioFeedback {
     private static let darkButtonImage          = newButtonImage(forDarkTheme: true,  selected: false)
     private static let darkButtonSelectedImage  = newButtonImage(forDarkTheme: true,  selected: true)
     
+    private static let buttonImageSize = CGSize(width: 9.0, height: 10.0)
+    
+    @available(iOS 10, *)
+    private static let buttonImageGenerator = UIGraphicsImageRenderer(size: buttonImageSize)
+    
     
     // MARK: - Initializers
     
@@ -215,21 +220,15 @@ public class KeyboardNumberBar: UIInputView, UIInputViewAudioFeedback {
         }
         
         let image: UIImage
-        let imageSize = CGSize(width: 9.0, height: 10.0)
         
         if #available(iOS 10, *) {
-            let imageRenderer = UIGraphicsImageRenderer(size: imageSize)
-            image = imageRenderer.image { (_: UIGraphicsImageRendererContext) in
-                if let context = UIGraphicsGetCurrentContext() {
-                    drawButtonImage(in: context)
-                }
-            }
+            image = buttonImageGenerator.image { drawButtonImage(in: $0.cgContext) }
         } else {
-            UIGraphicsBeginImageContextWithOptions(imageSize, false, 0.0)
+            UIGraphicsBeginImageContextWithOptions(buttonImageSize, false, 0.0)
             if let context = UIGraphicsGetCurrentContext() {
                 drawButtonImage(in: context)
             }
-            image = UIGraphicsGetImageFromCurrentImageContext()!
+            image = UIGraphicsGetImageFromCurrentImageContext() ?? UIImage()
             UIGraphicsEndImageContext()
         }
         
