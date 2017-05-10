@@ -27,6 +27,31 @@ extension UIView {
         return nil
     }
     
+    
+    /// Searches for all subviews of the specified type throughout the
+    /// view hierarchy.
+    ///
+    /// - Important: This search is relatively expensive, and checks all
+    ///   nodes in the view heirarchy. You should avoid using this method
+    ///   except where necessary.
+    ///
+    /// - Parameter type: The type searched for.
+    /// - Returns: An array of subviews found in the view heirarchy.
+    public func allSubviews<T: UIView>(of type: T.Type) -> [T] {
+        var foundSubviews: [T] = []
+        
+        for subview in subviews {
+            if let foundSubview = subview as? T {
+                foundSubviews.append(foundSubview)
+            }
+            
+            foundSubviews += subview.allSubviews(of: type)
+        }
+        
+        return foundSubviews
+    }
+    
+    
     /// Finds the subview which is currently the first responder, if any.
     ///
     /// - Important: This method becomes exponentially more complex the deeper

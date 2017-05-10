@@ -197,6 +197,10 @@ open class TabStripView: UIView, UICollectionViewDataSource, UICollectionViewDel
     }
     
     private func commonInit() {
+        if #available(iOS 10.0, *) {
+            accessibilityTraits |= UIAccessibilityTraitTabBar
+        } 
+        
         collectionView.frame = bounds
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.dataSource = self
@@ -387,6 +391,9 @@ fileprivate class TabStripViewCell: UICollectionViewCell, DefaultReusable {
     }
     
     private func commonInit() {
+        isAccessibilityElement = true
+        accessibilityTraits |= UIAccessibilityTraitButton
+        
         let contentView = self.contentView
         contentView.preservesSuperviewLayoutMargins = false
         contentView.layoutMargins = UIEdgeInsets(top: 0.0, left: 0.0, bottom: selectionBarHeight, right: 0.0)
@@ -437,6 +444,11 @@ fileprivate class TabStripViewImageCell: TabStripViewCell {
     
     override var itemView: UIView { return imageView }
     
+    override var accessibilityLabel: String? {
+        get { return super.accessibilityLabel ?? imageView.image?.accessibilityLabel }
+        set { super.accessibilityLabel = newValue }
+    }
+    
 }
 
 fileprivate class TabStripViewTextCell: TabStripViewCell {
@@ -449,6 +461,11 @@ fileprivate class TabStripViewTextCell: TabStripViewCell {
         super.updateSelectionHighlight()
         
         textLabel.textColor = isHighlighted || isSelected ? tintColor : unselectedItemTintColor
+    }
+    
+    override var accessibilityLabel: String? {
+        get { return super.accessibilityLabel ?? textLabel.accessibilityLabel }
+        set { super.accessibilityLabel = newValue }
     }
     
 }

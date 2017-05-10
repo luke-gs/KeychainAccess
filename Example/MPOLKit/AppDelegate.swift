@@ -26,8 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
     
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        
-        KeyboardInputManager.shared.isNumberBarEnabled = true
+        MPOLKitInitialize()
         
         let theme = Theme.current
         
