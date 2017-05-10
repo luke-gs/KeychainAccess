@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import CoreFoundation
 
 fileprivate var keyboardAppearanceContext = 1
 
