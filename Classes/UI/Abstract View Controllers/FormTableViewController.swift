@@ -463,21 +463,3 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     }
 
 }
-
-private extension UIView {
-    
-    func allSubviews<T: UIView>(of type: T.Type) -> [T] {
-        var foundSubviews: [T] = []
-        
-        for subview in subviews {
-            if let foundSubview = subview as? T {
-                foundSubviews.append(foundSubview)
-            }
-            
-            foundSubviews += subview.allSubviews(of: type)
-        }
-        
-        return foundSubviews
-    }
-    
-}
