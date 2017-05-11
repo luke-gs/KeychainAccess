@@ -10,6 +10,9 @@ import UIKit
 
 fileprivate var keyboardAppearanceContext = 1
 
+fileprivate var isNumberBarEnabledContext = 1
+fileprivate let isNumberBarEnabledKey = "isNumberBarEnabled"
+
 /// A keyboard manager that monitors the current active text field, and applies
 /// adjustments globally each text field as it becomes active.
 public class KeyboardInputManager: NSObject {
@@ -44,17 +47,21 @@ public class KeyboardInputManager: NSObject {
     
     
     /// Updates whether the KeyboardNumberBar is globally installed on every text view and text field.
-    /// The default is `false`.
     ///
     /// When set to `true`, a global KeyboardNumberBar will be installed on every `UITextView`,
     /// or `UITextField` instance when it becomes active, if it does not have its own custom
     /// `textAccessoryView`.
-    public var isNumberBarEnabled: Bool = false {
+    public var isNumberBarEnabled: Bool = UserDefaults.mpol.bool(forKey: isNumberBarEnabledKey) {
         didSet {
             if isNumberBarEnabled == oldValue {
                 return
             }
-
+            
+            let userDefaults = UserDefaults.mpol
+            if userDefaults.bool(forKey: isNumberBarEnabledKey) != isNumberBarEnabled {
+                userDefaults.set(isNumberBarEnabled, forKey: isNumberBarEnabledKey)
+            }
+            
             if isNumberBarEnabled {
                 if isNumberBarSupported == false {
                     isNumberBarEnabled = false
@@ -94,6 +101,7 @@ public class KeyboardInputManager: NSObject {
     // MARK: - Initializers
     
     private override init() {
+        
         super.init()
         
         let notificationCenter = NotificationCenter.default
@@ -104,11 +112,14 @@ public class KeyboardInputManager: NSObject {
         notificationCenter.addObserver(self, selector: beginSelector, name: .UITextFieldTextDidBeginEditing, object: nil)
         notificationCenter.addObserver(self, selector: endSelector,   name: .UITextViewTextDidEndEditing, object: nil)
         notificationCenter.addObserver(self, selector: endSelector,   name: .UITextFieldTextDidEndEditing, object: nil)
+        
+        UserDefaults.mpol.addObserver(self, forKeyPath: isNumberBarEnabledKey, context: &isNumberBarEnabledContext)
     }
     
     
     deinit {
         activeTextControl?.removeObserver(self, forKeyPath: #keyPath(UITextInputTraits.keyboardAppearance), context: &keyboardAppearanceContext)
+        UserDefaults.mpol.removeObserver(self, forKeyPath: isNumberBarEnabledKey, context: &isNumberBarEnabledContext)
     }
     
     
@@ -121,6 +132,8 @@ public class KeyboardInputManager: NSObject {
                 let appearance = (object as? UITextInputTraits)?.keyboardAppearance {
                 numberBar.keyboardAppearance = appearance
             }
+        } else if context == &isNumberBarEnabledContext {
+            isNumberBarEnabled = UserDefaults.mpol.bool(forKey: isNumberBarEnabledKey)
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }

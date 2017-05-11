@@ -36,12 +36,7 @@ extension UITableView {
             // Get the index paths of all cells. Don't rely on visibleCells because there may be
             // first responder cells offscreen not visible, or there may be prefetched cells. We also want
             // to avoid loading the table view unnecessarily.
-            var loadedCellIndexPaths = [IndexPath]()
-            for view in subviews  {
-                if let cell = view as? UITableViewCell, let indexPath = indexPath(for: cell) {
-                    loadedCellIndexPaths.append(indexPath)
-                }
-            }
+            let loadedCellIndexPaths = allSubviews(of: UITableViewCell.self).flatMap { indexPath(for: $0) }
             
             // Reload all loaded rows.
             // It'd be better to apply the layout attributes directly and rely on -beginUpdates and -endUpdates

@@ -284,7 +284,7 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
         
         // Don't use visibleCells for this - it will cause an inadvertant load of
         // cells if we are before the layout pass, commonly in viewDidLoad().
-        for case let cell as UITableViewCell in tableView.subviews {
+        for cell in tableView.allSubviews(of: UITableViewCell.self) {
             if let indexPath = tableView.indexPath(for: cell) {
                 self.tableView(tableView, willDisplay: cell, forRowAt: indexPath)
             }

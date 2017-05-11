@@ -20,7 +20,6 @@ public final class ViewControllerAnimationOptionTransition: NSObject, UIViewCont
         self.transition = transition
         self.duration   = duration
         
-        
         super.init()
     }
     

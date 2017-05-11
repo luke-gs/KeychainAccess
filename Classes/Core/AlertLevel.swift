@@ -22,11 +22,4 @@ public enum AlertLevel: Int, UnboxableEnum {
         }
     }
     
-    public var localizedIndicatorTitle: String {
-        switch self {
-        case .low:    return NSLocalizedString("LOW",  bundle: .mpolKit, comment: "Alert Level indicator title")
-        case .medium: return NSLocalizedString("MED",  bundle: .mpolKit, comment: "Alert Level indicator title")
-        case .high:   return NSLocalizedString("HIGH", bundle: .mpolKit, comment: "Alert Level indicator title")
-        }
-    }
 }
