@@ -69,6 +69,7 @@ public func == (lhs: OAuthAccessToken, rhs: OAuthAccessToken) -> Bool {
     return lhs.accessToken == rhs.accessToken &&
         lhs.type == rhs.type &&
         lhs.expiresAt == rhs.expiresAt &&
-        lhs.refreshToken == rhs.refreshToken
+        lhs.refreshToken == rhs.refreshToken &&
+        lhs.refreshTokenExpiresAt == rhs.refreshTokenExpiresAt
 }
 
