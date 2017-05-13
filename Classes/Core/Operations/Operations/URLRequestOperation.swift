@@ -20,9 +20,12 @@ import Alamofire
 /// `NetworkMonitor`.
 open class URLRequestOperation: Operation {
     
-    
     // MARK: - Properties
     
+    /// The Alamofire request backing the operation.
+    ///
+    /// It is recommended that subclasses avoid loading this at creation, and
+    /// instead set it in `loadRequest()`.
     open var request: Alamofire.Request?
     
     /// The errors aggregated throughout the operation.
@@ -63,6 +66,10 @@ open class URLRequestOperation: Operation {
     
     open override func cancel() {
         if let request = self.request {
+            // Cancel all subsequent operations prior to canceling the request
+            // so that they don't start firing after the cancel method is called.
+            // This is unlikely because the callback from the url session will
+            // probably fire asynchronously, but lets do best practice.
             request.delegate.queue.cancelAllOperations()
             request.cancel()
         }
