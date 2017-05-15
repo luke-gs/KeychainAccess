@@ -241,6 +241,17 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
         subtitleLabel.isHidden = true
         detailLabel.isHidden   = true
         
+        if #available(iOS 10, *) {
+            titleLabel.adjustsFontForContentSizeCategory    = true
+            subtitleLabel.adjustsFontForContentSizeCategory = true
+            detailLabel.adjustsFontForContentSizeCategory   = true
+        }
+        
+        let footnoteFont   = UIFont.preferredFont(forTextStyle: .footnote)
+        titleLabel.font    = .preferredFont(forTextStyle: .headline)
+        subtitleLabel.font = footnoteFont
+        detailLabel.font   = footnoteFont
+    
         titleToSubtitleConstraint  = NSLayoutConstraint(item: subtitleLabel, attribute: .top, relatedBy: .equal, toItem: titleLabel,    attribute: .bottom)
         subtitleToDetailConstraint = NSLayoutConstraint(item: detailLabel,   attribute: .top, relatedBy: .equal, toItem: subtitleLabel, attribute: .bottom)
         
@@ -371,24 +382,14 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
         }
     }
     
-    internal func applyStandardFonts() {
-        // TODO: Modernize Fonts
+    public override func contentSizeCategoryDidChange(_ newCategory: UIContentSizeCategory) {
+        super.contentSizeCategoryDidChange(newCategory)
         
-        let titleFont: UIFont
-        let footnoteFont: UIFont
+        if #available(iOS 10, *) { return }
         
-        if #available(iOS 10, *) {
-            let traitCollection = self.traitCollection
-            titleFont    = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
-            footnoteFont = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
-        } else {
-            titleFont    = .preferredFont(forTextStyle: .headline)
-            footnoteFont = .preferredFont(forTextStyle: .footnote)
-        }
-        
-        titleLabel.font    = titleFont
-        subtitleLabel.font = footnoteFont
-        detailLabel.font   = footnoteFont
+        titleLabel.legacy_adjustFontForContentSizeCategoryChange()
+        subtitleLabel.legacy_adjustFontForContentSizeCategoryChange()
+        detailLabel.legacy_adjustFontForContentSizeCategoryChange()
     }
     
     
