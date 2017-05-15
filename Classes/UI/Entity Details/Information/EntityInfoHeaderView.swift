@@ -11,7 +11,7 @@ import UIKit
 private var kvoContext = 1
 private let compactWidth: CGFloat = 404.0
 
-public class EntityDetailCollectionViewCell: CollectionViewFormCell {
+public class EntityInfoHeaderView: UICollectionReusableView, DefaultReusable {
     
     // MARK: - Public properties
     
@@ -51,7 +51,7 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
     ///
     /// It is recommended that you set this handler, rather than becoming
     /// a target action receiver directly.
-    public var additionalDetailsButtonActionHandler: ((EntityDetailCollectionViewCell) -> Void)?
+    public var additionalDetailsButtonActionHandler: ((EntityInfoHeaderView) -> Void)?
     
     
     
@@ -103,8 +103,6 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
     }
     
     private func commonInit() {
-        separatorStyle = .none
-        
         sourceLabel.font = .systemFont(ofSize: 11.0, weight: UIFontWeightBold)
         sourceLabel.translatesAutoresizingMaskIntoConstraints = false
         sourceLabel.isHidden = true
@@ -127,17 +125,16 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
         
         borderedImageView.translatesAutoresizingMaskIntoConstraints = false
         
-        let contentModeLayoutGuide = self.contentModeLayoutGuide
+        let contentModeLayoutGuide = self.layoutMarginsGuide
         let labelLayoutGuide = UILayoutGuide()
         
-        let contentView = self.contentView
-        contentView.addSubview(borderedImageView)
-        contentView.addSubview(sourceLabel)
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(subtitleLabel)
-        contentView.addSubview(descriptionLabel)
-        contentView.addSubview(additionalDetailsButton)
-        contentView.addLayoutGuide(labelLayoutGuide)
+        addSubview(borderedImageView)
+        addSubview(sourceLabel)
+        addSubview(titleLabel)
+        addSubview(subtitleLabel)
+        addSubview(descriptionLabel)
+        addSubview(additionalDetailsButton)
+        addLayoutGuide(labelLayoutGuide)
         
         sourceToTitleConstraint   = NSLayoutConstraint(item: titleLabel,    attribute: .top, relatedBy: .equal, toItem: sourceLabel, attribute: .bottom) // 6.0 with content
         titleToSubtitleConstraint = NSLayoutConstraint(item: subtitleLabel, attribute: .top, relatedBy: .equal, toItem: titleLabel,  attribute: .bottom) // 3.0 with content
@@ -193,6 +190,8 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
         subtitleLabel.addObserver(self,    forKeyPath: #keyPath(UILabel.text), context: &kvoContext)
         descriptionLabel.addObserver(self, forKeyPath: #keyPath(UILabel.text), context: &kvoContext)
         additionalDetailsButton.titleLabel?.addObserver(self, forKeyPath: #keyPath(UILabel.text), context: &kvoContext)
+        
+        applyStandardFonts()
     }
     
     deinit {
@@ -238,6 +237,21 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
         }
     }
     
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        if #available(iOS 10, *),
+            let previous = previousTraitCollection,
+            previous.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
+            applyStandardFonts()
+        }
+    }
+    
+    open override func prepareForReuse() {
+        super.prepareForReuse()
+        applyStandardFonts()
+    }
+    
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {
             let hasSource          = sourceLabel.text?.isEmpty      ?? true == false
@@ -267,18 +281,6 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
             }
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-        }
-    }
-    
-    internal override func applyStandardFonts() {
-        super.applyStandardFonts()
-        
-        if #available(iOS 10, *) {
-            subtitleLabel.font    = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
-            descriptionLabel.font = .preferredFont(forTextStyle: .headline,    compatibleWith: traitCollection)
-        } else {
-            subtitleLabel.font    = .preferredFont(forTextStyle: .subheadline)
-            descriptionLabel.font = .preferredFont(forTextStyle: .headline)
         }
     }
     
@@ -355,9 +357,19 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
     
     // MARK: - Private methods
     
+    private func applyStandardFonts() {
+        if #available(iOS 10, *) {
+            subtitleLabel.font    = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
+            descriptionLabel.font = .preferredFont(forTextStyle: .headline,    compatibleWith: traitCollection)
+        } else {
+            subtitleLabel.font    = .preferredFont(forTextStyle: .subheadline)
+            descriptionLabel.font = .preferredFont(forTextStyle: .headline)
+        }
+    }
+    
     private func updateForWidthChange() {
         let contentWidth = bounds.insetBy(layoutMargins).width
-        displayAsCompact = EntityDetailCollectionViewCell.displaysAsCompact(withContentWidth: contentWidth)
+        displayAsCompact = EntityInfoHeaderView.displaysAsCompact(withContentWidth: contentWidth)
         
         let maxTextWidth = contentWidth - (displayAsCompact ? 0.0 : 217.0)
         titleLabel.preferredMaxLayoutWidth = maxTextWidth

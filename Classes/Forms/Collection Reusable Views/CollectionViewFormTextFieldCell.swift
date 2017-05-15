@@ -56,6 +56,15 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         textField.translatesAutoresizingMaskIntoConstraints  = false
         
+        if #available(iOS 10, *) {
+            titleLabel.adjustsFontForContentSizeCategory = true
+            textField.adjustsFontForContentSizeCategory = true
+        }
+        
+        titleLabel.font           = .preferredFont(forTextStyle: .footnote)
+        textField.font            = .preferredFont(forTextStyle: .headline)
+        textField.placeholderFont = .preferredFont(forTextStyle: .subheadline)
+        
         contentView.addSubview(titleLabel)
         contentView.addSubview(textField)
         
@@ -105,18 +114,19 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
         }
     }
     
-    internal override func applyStandardFonts() {
-        super.applyStandardFonts()
+    open override func contentSizeCategoryDidChange(_ newCategory: UIContentSizeCategory) {
+        super.contentSizeCategoryDidChange(newCategory)
         
-        if #available(iOS 10, *) {
-            let traitCollection       = self.traitCollection
-            titleLabel.font           = .preferredFont(forTextStyle: .footnote,    compatibleWith: traitCollection)
-            textField.font            = .preferredFont(forTextStyle: .headline,    compatibleWith: traitCollection)
-            textField.placeholderFont = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
-        } else {
-            titleLabel.font           = .preferredFont(forTextStyle: .footnote)
-            textField.font            = .preferredFont(forTextStyle: .headline)
-            textField.placeholderFont = .preferredFont(forTextStyle: .subheadline)
+        if #available(iOS 10, *) { return }
+        
+        if let titleTextStyle = titleLabel.font?.textStyle {
+            titleLabel.font = .preferredFont(forTextStyle: titleTextStyle)
+        }
+        if let textFieldStyle = textField.font?.textStyle {
+            textField.font = .preferredFont(forTextStyle: textFieldStyle)
+        }
+        if let placeholderStyle = textField.placeholderFont?.textStyle {
+            textField.placeholderFont = .preferredFont(forTextStyle: placeholderStyle)
         }
     }
     

@@ -21,13 +21,12 @@ open class VehicleInfoViewController: EntityInfoViewController {
     
     // MARK: - UICollectionViewDataSource
     
-    open override func numberOfSections(in collectionView: UICollectionView) -> Int {
+    open func numberOfSections(in collectionView: UICollectionView) -> Int {
         return Section.count
     }
     
     open override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch Section(rawValue: section)! {
-        case .header:       return super.collectionView(collectionView, numberOfItemsInSection: section)
         case .registration:  return RegistrationItem.count
         case .owner:         return OwnerItem.count
         }
@@ -45,15 +44,12 @@ open class VehicleInfoViewController: EntityInfoViewController {
     }
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let section = Section(rawValue: indexPath.section)!
-        if section == .header { return super.collectionView(collectionView, cellForItemAt: indexPath) }
-        
         let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
         cell.emphasis = .subtitle
         cell.isEditableField = false
         cell.subtitleLabel.numberOfLines = 1
         
-        switch section {
+        switch Section(rawValue: indexPath.section)! {
         case .registration:
             let regoItem = RegistrationItem(rawValue: indexPath.item)
             cell.titleLabel.text    = regoItem?.localizedTitle
@@ -66,8 +62,6 @@ open class VehicleInfoViewController: EntityInfoViewController {
             if ownerItem?.wantsMultiLineDetail ?? false {
                 cell.subtitleLabel.numberOfLines = 0
             }
-        default:
-            break
         }
         
         return cell
@@ -111,8 +105,6 @@ open class VehicleInfoViewController: EntityInfoViewController {
         let maxColumnCount: Int
         
         switch Section(rawValue: indexPath.section)! {
-        case .header:
-            return super.collectionView(collectionView, layout: layout, minimumContentWidthForItemAt: indexPath, givenSectionWidth: sectionWidth, edgeInsets: edgeInsets)
         case .registration:
             switch RegistrationItem(rawValue: indexPath.item)! {
             case .make, .model, .vin:
@@ -141,8 +133,6 @@ open class VehicleInfoViewController: EntityInfoViewController {
         
         let wantsMultiLineSubtitle: Bool
         switch Section(rawValue: indexPath.section)! {
-        case .header:
-            return super.collectionView(collectionView, layout: layout, minimumContentHeightForItemAt: indexPath, givenItemContentWidth: itemWidth)
         case .registration:
             let regoItem = RegistrationItem(rawValue: indexPath.item)
             title    = regoItem?.localizedTitle ?? ""
@@ -162,15 +152,13 @@ open class VehicleInfoViewController: EntityInfoViewController {
     // MARK: - Enums
     
     private enum Section: Int {
-        case header
         case registration
         case owner
         
-        static let count = 3
+        static let count = 2
         
         var localizedTitle: String {
             switch self {
-            case .header:       return NSLocalizedString("LAST UPDATED",         bundle: .mpolKit, comment: "")
             case .registration: return NSLocalizedString("REGISTRATION DETAILS", bundle: .mpolKit, comment: "")
             case .owner:        return NSLocalizedString("REGISTERED OWNER",     bundle: .mpolKit, comment: "")
             }

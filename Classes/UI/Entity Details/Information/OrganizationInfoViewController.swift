@@ -22,13 +22,12 @@ open class OrganizationInfoViewController: EntityInfoViewController {
     
     // MARK: - UICollectionViewDataSource
     
-    open override func numberOfSections(in collectionView: UICollectionView) -> Int {
+    open func numberOfSections(in collectionView: UICollectionView) -> Int {
         return Section.count
     }
     
     open override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch Section(rawValue: section)! {
-        case .header:   return super.collectionView(collectionView, numberOfItemsInSection: section)
         case .details:  return DetailItem.count
         case .aliases:  return 1
         }
@@ -46,15 +45,12 @@ open class OrganizationInfoViewController: EntityInfoViewController {
     }
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let section = Section(rawValue: indexPath.section)!
-        if section == .header { return super.collectionView(collectionView, cellForItemAt: indexPath) }
-        
         let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
         cell.emphasis = .subtitle
         cell.isEditableField = false
         cell.subtitleLabel.numberOfLines = 1
         
-        switch section {
+        switch Section(rawValue: indexPath.section)! {
         case .details:
             let detailItem = DetailItem(rawValue: indexPath.item)
             cell.titleLabel.text    = detailItem?.localizedTitle
@@ -63,8 +59,6 @@ open class OrganizationInfoViewController: EntityInfoViewController {
         case .aliases:
             cell.titleLabel.text    = "Alernative name"
             cell.subtitleLabel.text = "Orion Central Bank Melbourne"
-        default:
-            break
         }
         
         return cell
@@ -86,8 +80,6 @@ open class OrganizationInfoViewController: EntityInfoViewController {
         let displayScale = traitCollection.currentDisplayScale
         
         switch Section(rawValue: indexPath.section)! {
-        case .header:
-            return super.collectionView(collectionView, layout: layout, minimumContentWidthForItemAt: indexPath, givenSectionWidth: sectionWidth, edgeInsets: edgeInsets)
         case .details:
             let columnCount = min(3, layout.columnCountForSection(withMinimumItemContentWidth: 180.0, sectionWidth: sectionWidth, sectionEdgeInsets: edgeInsets))
             if columnCount <= 1 { return sectionWidth }
@@ -111,8 +103,6 @@ open class OrganizationInfoViewController: EntityInfoViewController {
         
         let wantsMultiLineSubtitle: Bool
         switch Section(rawValue: indexPath.section)! {
-        case .header:
-            return super.collectionView(collectionView, layout: layout, minimumContentHeightForItemAt: indexPath, givenItemContentWidth: itemWidth)
         case .details:
             let detailItem = DetailItem(rawValue: indexPath.item)
             title    = detailItem?.localizedTitle ?? ""
@@ -131,15 +121,13 @@ open class OrganizationInfoViewController: EntityInfoViewController {
     // MARK: - Enums
     
     private enum Section: Int {
-        case header
         case details
         case aliases
         
-        static let count = 3
+        static let count = 2
         
         var localizedTitle: String {
             switch self {
-            case .header:  return NSLocalizedString("LAST UPDATED",          bundle: .mpolKit, comment: "")
             case .details: return NSLocalizedString("BUSINESS/ORGANISATION", bundle: .mpolKit, comment: "")
             case .aliases: return NSLocalizedString("ALIASES",               bundle: .mpolKit, comment: "")
             }

@@ -282,8 +282,6 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
             contentModeLayoutVerticalConstraint
         ])
         
-        applyStandardFonts()
-        
         if #available(iOS 10, *) {
             isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
         } else {
@@ -292,7 +290,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         
         if #available(iOS 10, *) { return }
         
-        NotificationCenter.default.addObserver(self, selector: #selector(contentSizeCategoryDidChange(_:)), name: .UIContentSizeCategoryDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(contentSizeCategoryDidChangeNotification(_:)), name: .UIContentSizeCategoryDidChange, object: nil)
     }
     
     deinit {
@@ -300,17 +298,23 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     }
     
     
-    // MARK: - Font updates
+    // MARK: - Content size updates
     
-    /// Applies the standard fonts for the cell.
+    @available(iOS, introduced: 7.0, deprecated: 10.0, obsoleted: 10.0)
+    @objc private func contentSizeCategoryDidChangeNotification(_ notification: Notification) {
+        guard let newCategoryString = notification.userInfo?[UIContentSizeCategoryNewValueKey] as? String else { return }
+        
+        self.contentSizeCategoryDidChange(UIContentSizeCategory(rawValue: newCategoryString))
+    }
+    
+    /// Informs the cell that the content size category did change. Subclasses should
+    /// override this method to adjust the fonts of content where appropriate.
     ///
-    /// This method is internal-only, and is expected to be called on reuse, and during
-    /// init methods.
+    /// - Important: From iOS 10 onwards, you should avoid setting the fonts for text labels
+    ///              directly, and instead use the `UIContentSizeAdjusting` protocol
     ///
-    /// - Important: Subclasses must ensure that it is safe to call this method by
-    ///              `super.init()`, as it is called during the superclass's
-    ///              initializer.
-    internal func applyStandardFonts() {
+    /// - Parameter newCategory: The new content size category.
+    public func contentSizeCategoryDidChange(_ newCategory: UIContentSizeCategory) {
     }
     
     
@@ -380,8 +384,6 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     
     open override func prepareForReuse() {
         super.prepareForReuse()
-        applyStandardFonts()
-        setNeedsLayout()
         setShowingEditActions(false, animated: false)
     }
     
@@ -496,13 +498,13 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         
         guard #available(iOS 10, *) else { return }
         
-        if (traitCollection.layoutDirection == .rightToLeft) != (previousTraitCollection?.layoutDirection == .rightToLeft) {
-            isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
+        let newCategory = traitCollection.preferredContentSizeCategory
+        if newCategory != previousTraitCollection?.preferredContentSizeCategory ?? .unspecified {
+            contentSizeCategoryDidChange(newCategory)
         }
         
-        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
-            applyStandardFonts()
-            setNeedsLayout()
+        if (traitCollection.layoutDirection == .rightToLeft) != (previousTraitCollection?.layoutDirection == .rightToLeft) {
+            isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
         }
         
         if traitCollection.currentDisplayScale != previousTraitCollection?.currentDisplayScale {
@@ -574,11 +576,6 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
             return true
         }
         return false
-    }
-    
-    @objc private func contentSizeCategoryDidChange(_ notification: Notification) {
-        applyStandardFonts()
-        setNeedsLayout()
     }
     
 }

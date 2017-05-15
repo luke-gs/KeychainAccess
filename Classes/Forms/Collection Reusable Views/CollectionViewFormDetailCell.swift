@@ -116,6 +116,17 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
         subtitleLabel.preferredMaxLayoutWidth = width
         detailLabel.preferredMaxLayoutWidth   = width
         
+        if #available(iOS 10, *) {
+            titleLabel.adjustsFontForContentSizeCategory    = true
+            subtitleLabel.adjustsFontForContentSizeCategory = true
+            detailLabel.adjustsFontForContentSizeCategory   = true
+        }
+        
+        let defaultFonts = CollectionViewFormDetailCell.defaultFonts(compatibleWith: traitCollection)
+        titleLabel.font    = defaultFonts.titleFont
+        subtitleLabel.font = defaultFonts.subtitleFont
+        detailLabel.font   = defaultFonts.detailFont
+        
         detailLabel.numberOfLines = 2
         
         titleSubtitleSeparation  = NSLayoutConstraint(item: subtitleLabel, attribute: .top, relatedBy: .equal, toItem: titleLabel,    attribute: .bottom)
@@ -248,13 +259,20 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
         }
     }
     
-    internal override func applyStandardFonts() {
-        super.applyStandardFonts()
+    open override func contentSizeCategoryDidChange(_ newCategory: UIContentSizeCategory) {
+        super.contentSizeCategoryDidChange(newCategory)
         
-        let defaultFonts = CollectionViewFormDetailCell.defaultFonts(compatibleWith: traitCollection)
-        titleLabel.font    = defaultFonts.titleFont
-        subtitleLabel.font = defaultFonts.subtitleFont
-        detailLabel.font   = defaultFonts.detailFont
+        if #available(iOS 10, *) { return }
+        
+        if let titleTextStyle = titleLabel.font?.textStyle {
+            titleLabel.font = .preferredFont(forTextStyle: titleTextStyle)
+        }
+        if let subtitleTextStyle = subtitleLabel.font?.textStyle {
+            subtitleLabel.font = .preferredFont(forTextStyle: subtitleTextStyle)
+        }
+        if let detailTextStyle = detailLabel.font?.textStyle {
+            detailLabel.font = .preferredFont(forTextStyle: detailTextStyle)
+        }
     }
     
     private func updatePreferredMaxWidths() {

@@ -374,9 +374,7 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
         }
     }
     
-    internal override func applyStandardFonts() {
-        super.applyStandardFonts()
-        
+    internal func applyStandardFonts() {
         let titleFont: UIFont
         let footnoteFont: UIFont
         

@@ -22,13 +22,12 @@ open class PersonInfoViewController: EntityInfoViewController {
     
     // MARK: - UICollectionViewDataSource
     
-    open override func numberOfSections(in collectionView: UICollectionView) -> Int {
+    open func numberOfSections(in collectionView: UICollectionView) -> Int {
         return Section.count
     }
     
     open override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch Section(rawValue: section)! {
-        case .header:   return super.collectionView(collectionView, numberOfItemsInSection: section)
         case .licences:  return LicenceItem.count
         case .addresses: return 2
         case .contact:   return 1
@@ -48,8 +47,6 @@ open class PersonInfoViewController: EntityInfoViewController {
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let section = Section(rawValue: indexPath.section)!
-        if section == .header { return super.collectionView(collectionView, cellForItemAt: indexPath) }
-        
         if section == .licences, let item = LicenceItem(rawValue: indexPath.item), item == .validity {
             let cell = collectionView.dequeueReusableCell(of: CollectionViewFormProgressCell.self, for: indexPath)
             cell.emphasis = .subtitle
@@ -87,8 +84,6 @@ open class PersonInfoViewController: EntityInfoViewController {
             cell.imageView.image = nil
             cell.titleLabel.text = "Email address"
             cell.subtitleLabel.text = "john.citizen@gmail.com"
-        default:
-            break
         }
         
         return cell
@@ -122,8 +117,6 @@ open class PersonInfoViewController: EntityInfoViewController {
         
         let wantsSingleLineSubtitle: Bool
         switch Section(rawValue: indexPath.section)! {
-        case .header:
-            return super.collectionView(collectionView, layout: layout, minimumContentHeightForItemAt: indexPath, givenItemContentWidth: itemWidth)
         case .licences:
             let licenceItem = LicenceItem(rawValue: indexPath.item)
             title    = licenceItem?.localizedTitle ?? ""
@@ -154,16 +147,14 @@ open class PersonInfoViewController: EntityInfoViewController {
     // MARK: - Enums
     
     private enum Section: Int {
-        case header
         case licences
         case addresses
         case contact
         
-        static let count = 4
+        static let count = 3
         
         var localizedTitle: String {
             switch self {
-            case .header:    return NSLocalizedString("LAST UPDATED", bundle: .mpolKit, comment: "")
             case .licences:  return NSLocalizedString("LICENCES",     bundle: .mpolKit, comment: "")
             case .addresses: return NSLocalizedString("ADDRESSES",    bundle: .mpolKit, comment: "")
             case .contact:   return NSLocalizedString("CONTACT",      bundle: .mpolKit, comment: "")

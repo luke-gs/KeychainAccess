@@ -77,6 +77,13 @@ open class CollectionViewFormOptionCell: CollectionViewFormCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
+        if #available(iOS 10, *) {
+            titleLabel.adjustsFontForContentSizeCategory = true
+        }
+        
+        titleLabel.font = SelectableButton.font(compatibleWith: traitCollection)
+        titleLabel.minimumScaleFactor = 0.9
+        
         contentView.addSubview(titleLabel)
         contentView.addSubview(imageView)
         
@@ -112,11 +119,14 @@ open class CollectionViewFormOptionCell: CollectionViewFormCell {
         didSet { updateImageView() }
     }
     
-    internal override func applyStandardFonts() {
-        super.applyStandardFonts()
+    open override func contentSizeCategoryDidChange(_ newCategory: UIContentSizeCategory) {
+        super.contentSizeCategoryDidChange(newCategory)
         
-        titleLabel.font = SelectableButton.font(compatibleWith: traitCollection)
-        titleLabel.minimumScaleFactor = 0.9
+        if #available(iOS 10, *) { return }
+        
+        if let titleTextStyle = titleLabel.font?.textStyle {
+            titleLabel.font = .preferredFont(forTextStyle: titleTextStyle)
+        }
     }
     
     

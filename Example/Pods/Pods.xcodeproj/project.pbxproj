@@ -108,7 +108,7 @@
 		A375076D56BE1E260ABB18CFF033D487 /* Foundation.Operation+MPOLAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AB051F3150D5903D59C313ABBBD1C06 /* Foundation.Operation+MPOLAdditions.swift */; };
 		A55939E3162F7DE3B7EB15DE04009DB4 /* NSLayoutConstraint+Conveniences.swift in Sources */ = {isa = PBXBuildFile; fileRef = C661DAD1E9C6CA934601F3CF0C2BBE41 /* NSLayoutConstraint+Conveniences.swift */; };
 		A8AA058344A9290CAAE55FD6A0860EF1 /* OperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED4C4B8A0541CDB34DB2A4B6BC4F2BF /* OperationQueue.swift */; };
-		A96EC43ABBAE082D8310A8C5CA833675 /* EntityDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E96936846BEB5C61F7D9CC891300C7 /* EntityDetailCollectionViewCell.swift */; };
+		A96EC43ABBAE082D8310A8C5CA833675 /* EntityInfoHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E96936846BEB5C61F7D9CC891300C7 /* EntityInfoHeaderView.swift */; };
 		A974B28D048E3317288CB71FA9B4EF7E /* SelectableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5C5E6343D2EBCD6404F3FFC3755F4D6 /* SelectableButton.swift */; };
 		A9EEEA7477981DEEBC72432DE9990A4B /* Alamofire-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C1C119BCE81C53F76CAC2BE27C38E0 /* Alamofire-dummy.m */; };
 		AE1EF48399533730D0066E04B22CA2D6 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CDAC6C1187C5467E576980E1062C8B /* SessionManager.swift */; };
@@ -125,6 +125,7 @@
 		BC6229491EC173E800164997 /* UserDefaults+MPOL.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6229471EC16DFE00164997 /* UserDefaults+MPOL.swift */; };
 		BC62294E1EC1768B00164997 /* MPOLKitInitialize.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC62294D1EC1768B00164997 /* MPOLKitInitialize.swift */; };
 		BC626D6BB7A4DD716F844FB7CE644246 /* ScrollViewInsetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875DC46F65E196D9D070CD95BE01CB17 /* ScrollViewInsetManager.swift */; };
+		BC7C5E6C1EC87847000A7567 /* UIFont+TextStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB180461EC830DF00C2F9CE /* UIFont+TextStyle.swift */; };
 		BE19ADA353D440EA7BDAB11C41FB0976 /* FormDisclosureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421B8B7F4E2264FC84D64ED25F78F0D4 /* FormDisclosureView.swift */; };
 		BE5C67A07E289FE1F9BE27335B159997 /* ParameterEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6639346628280A0D0FAD35196BF56108 /* ParameterEncoding.swift */; };
 		C12F2B07436FA506EC5EE9EA094F90BC /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24958E16F8139C4477C682C44556B3E9 /* LoginViewController.swift */; };
@@ -330,13 +331,14 @@
 		BC6229471EC16DFE00164997 /* UserDefaults+MPOL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaults+MPOL.swift"; sourceTree = "<group>"; };
 		BC62294D1EC1768B00164997 /* MPOLKitInitialize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MPOLKitInitialize.swift; path = Classes/MPOLKitInitialize.swift; sourceTree = "<group>"; };
 		BCA9F76EC7643DE86E503332D5CFE11F /* Array+IfExists.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "Array+IfExists.swift"; sourceTree = "<group>"; };
+		BCB180461EC830DF00C2F9CE /* UIFont+TextStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+TextStyle.swift"; sourceTree = "<group>"; };
 		BCCA9CA7D9C1A2047BB93336C5708DFD /* Alamofire-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Alamofire-prefix.pch"; sourceTree = "<group>"; };
 		C35710F4BDB1ABC10FBED57E4F0D8513 /* PersonInfoViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PersonInfoViewController.swift; sourceTree = "<group>"; };
 		C45B39BDAE06C5D56C0BB7B245697B2E /* FormSearchTableViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FormSearchTableViewController.swift; sourceTree = "<group>"; };
 		C4CB76311ECCE3595D3969F16BA5099D /* BorderedImageView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BorderedImageView.swift; sourceTree = "<group>"; };
 		C661DAD1E9C6CA934601F3CF0C2BBE41 /* NSLayoutConstraint+Conveniences.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "NSLayoutConstraint+Conveniences.swift"; sourceTree = "<group>"; };
 		C77CF421D64CD304823321DD86F604F6 /* PickerTableViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PickerTableViewController.swift; sourceTree = "<group>"; };
-		C8E96936846BEB5C61F7D9CC891300C7 /* EntityDetailCollectionViewCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EntityDetailCollectionViewCell.swift; sourceTree = "<group>"; };
+		C8E96936846BEB5C61F7D9CC891300C7 /* EntityInfoHeaderView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EntityInfoHeaderView.swift; sourceTree = "<group>"; };
 		C920E93148A46C1FC3D9888DA51CCC41 /* OrganizationInfoViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = OrganizationInfoViewController.swift; sourceTree = "<group>"; };
 		CB333A77D576955F3B1A5C50EB9A25B9 /* SidebarSplitViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SidebarSplitViewController.swift; sourceTree = "<group>"; };
 		CF5EF50012A514B0F471FF81983463D7 /* Pods-MPOLKit_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-MPOLKit_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
@@ -561,6 +563,7 @@
 				A8C118E892DEF6E4CBBF6ADFB83665B7 /* UICollectionView+DefaultReuse.swift */,
 				32C582D4C553632C35953D3F1AF91B1E /* UIColor+ActionColors.swift */,
 				28C7BA9E6029AD200E0711337660A0D1 /* UIEdgeInsets+Convenience.swift */,
+				BCB180461EC830DF00C2F9CE /* UIFont+TextStyle.swift */,
 				82E41810D2B6C9BB14046A23979D8A60 /* UIImage+FormIcons.swift */,
 				B9BD5969A518C70B6D0E0D4488216D2E /* UITableView+DefaultReuse.swift */,
 				82B1149B0E19C6AEC5A852A04A4B5094 /* UITableViewCell+LayoutMargins.swift */,
@@ -671,7 +674,7 @@
 		65E0EABCBF5764A9F0DF26B70B64605C /* Information */ = {
 			isa = PBXGroup;
 			children = (
-				C8E96936846BEB5C61F7D9CC891300C7 /* EntityDetailCollectionViewCell.swift */,
+				C8E96936846BEB5C61F7D9CC891300C7 /* EntityInfoHeaderView.swift */,
 				3EF939D187E160A0C16ACC5CAEBE2916 /* EntityInfoViewController.swift */,
 				C920E93148A46C1FC3D9888DA51CCC41 /* OrganizationInfoViewController.swift */,
 				C35710F4BDB1ABC10FBED57E4F0D8513 /* PersonInfoViewController.swift */,
@@ -1162,8 +1165,9 @@
 				85375B0BDDA6A1B7607C828DFE87E843 /* DefaultReusable.swift in Sources */,
 				0AEA9F3818EBEACBB19BCFD22A373C13 /* EntityAlertsViewController.swift in Sources */,
 				5A313D9D5124F2B97D23C7D0C0DC6C57 /* EntityAssociationsViewController.swift in Sources */,
+				BC7C5E6C1EC87847000A7567 /* UIFont+TextStyle.swift in Sources */,
 				7289CB07B071383EB6D294DDCE8D7414 /* EntityCollectionViewCell.swift in Sources */,
-				A96EC43ABBAE082D8310A8C5CA833675 /* EntityDetailCollectionViewCell.swift in Sources */,
+				A96EC43ABBAE082D8310A8C5CA833675 /* EntityInfoHeaderView.swift in Sources */,
 				9A14533E06E536E1C4A0816461F4811D /* EntityDetailsSidebarHeaderView.swift in Sources */,
 				3D78FE6F2E8F2C5846BD5DC4E122801F /* EntityDetailsSplitViewController.swift in Sources */,
 				5DEA715CCD44632CF9B04C8BE8EDA90A /* EntityInfoViewController.swift in Sources */,
