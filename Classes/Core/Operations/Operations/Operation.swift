@@ -16,9 +16,9 @@ open class Operation: Foundation.Operation {
         var keyPaths = super.keyPathsForValuesAffectingValue(forKey: key)
         
         switch key {
-        case #keyPath(isReady),
-             #keyPath(isExecuting),
-             #keyPath(isFinished):
+        case "isReady",
+             "isExecuting",
+             "isFinished":
             keyPaths.insert(#keyPath(state))
         default:
             break
