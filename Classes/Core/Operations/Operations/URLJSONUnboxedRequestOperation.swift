@@ -13,7 +13,7 @@ import Unbox
 ///
 /// `URLJSONUnboxedRequestOperation` lazily loads its request during execution from
 /// the specified session manager.
-public class URLJSONUnboxedRequestOperation<UnboxableType: Any>: URLRequestOperation where UnboxableType: Unboxable {
+public class URLJSONUnboxedRequestOperation<UnboxableType: Unboxable>: URLRequestOperation {
     
     // MARK: - Properties
     
