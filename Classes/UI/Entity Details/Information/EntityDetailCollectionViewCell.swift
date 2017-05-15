@@ -11,7 +11,7 @@ import UIKit
 private var kvoContext = 1
 private let compactWidth: CGFloat = 404.0
 
-public class EntityInfoHeaderView: UICollectionReusableView, DefaultReusable {
+public class EntityDetailCollectionViewCell: CollectionViewFormCell {
     
     // MARK: - Public properties
     
@@ -51,7 +51,7 @@ public class EntityInfoHeaderView: UICollectionReusableView, DefaultReusable {
     ///
     /// It is recommended that you set this handler, rather than becoming
     /// a target action receiver directly.
-    public var additionalDetailsButtonActionHandler: ((EntityInfoHeaderView) -> Void)?
+    public var additionalDetailsButtonActionHandler: ((EntityDetailCollectionViewCell) -> Void)?
     
     
     
@@ -73,17 +73,22 @@ public class EntityInfoHeaderView: UICollectionReusableView, DefaultReusable {
     
     private var displayAsCompact: Bool = false {
         didSet {
-            if displayAsCompact != oldValue {
-                if displayAsCompact {
-                    NSLayoutConstraint.deactivate(regularWidthConstraints)
-                    NSLayoutConstraint.activate(compactWidthConstraints)
-                } else {
-                    NSLayoutConstraint.deactivate(compactWidthConstraints)
-                    NSLayoutConstraint.activate(regularWidthConstraints)
-                }
+            if displayAsCompact == oldValue { return }
+            
+            if displayAsCompact {
+                sourceLabel.font   = .systemFont(ofSize: 10.0, weight: UIFontWeightBold)
+                titleLabel.font    = .preferredFont(forTextStyle: .headline)
+                subtitleLabel.font = .preferredFont(forTextStyle: .footnote)
                 
-                borderedImageView.wantsRoundedCorners = displayAsCompact == false
-                borderedImageView.isHidden = displayAsCompact
+                NSLayoutConstraint.deactivate(regularWidthConstraints)
+                NSLayoutConstraint.activate(compactWidthConstraints)
+            } else {
+                sourceLabel.font   = .systemFont(ofSize: 11.0, weight: UIFontWeightBold)
+                titleLabel.font    = .systemFont(ofSize: 28.0, weight: UIFontWeightBold)
+                subtitleLabel.font = .preferredFont(forTextStyle: .subheadline)
+                
+                NSLayoutConstraint.deactivate(compactWidthConstraints)
+                NSLayoutConstraint.activate(regularWidthConstraints)
             }
         }
     }
@@ -103,6 +108,8 @@ public class EntityInfoHeaderView: UICollectionReusableView, DefaultReusable {
     }
     
     private func commonInit() {
+        separatorStyle = .none
+        
         sourceLabel.font = .systemFont(ofSize: 11.0, weight: UIFontWeightBold)
         sourceLabel.translatesAutoresizingMaskIntoConstraints = false
         sourceLabel.isHidden = true
@@ -114,73 +121,114 @@ public class EntityInfoHeaderView: UICollectionReusableView, DefaultReusable {
         
         subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
         subtitleLabel.adjustsFontSizeToFitWidth = true
+        subtitleLabel.font = .preferredFont(forTextStyle: .subheadline)
         subtitleLabel.isHidden = true
         
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         descriptionLabel.numberOfLines = 0
+        descriptionLabel.font = .preferredFont(forTextStyle: .headline)
         descriptionLabel.isHidden = true
         
         additionalDetailsButton.translatesAutoresizingMaskIntoConstraints = false
         additionalDetailsButton.titleLabel?.font = .systemFont(ofSize: 11, weight: UIFontWeightMedium)
         
+        if #available(iOS 10, *) {
+            sourceLabel.adjustsFontForContentSizeCategory = true
+            titleLabel.adjustsFontForContentSizeCategory = true
+            subtitleLabel.adjustsFontForContentSizeCategory = true
+            descriptionLabel.adjustsFontForContentSizeCategory = true
+            additionalDetailsButton.titleLabel?.adjustsFontForContentSizeCategory = true
+        }
+        
         borderedImageView.translatesAutoresizingMaskIntoConstraints = false
         
-        let contentModeLayoutGuide = self.layoutMarginsGuide
-        let labelLayoutGuide = UILayoutGuide()
+        let contentModeLayoutGuide = self.contentModeLayoutGuide
         
-        addSubview(borderedImageView)
-        addSubview(sourceLabel)
-        addSubview(titleLabel)
-        addSubview(subtitleLabel)
-        addSubview(descriptionLabel)
-        addSubview(additionalDetailsButton)
-        addLayoutGuide(labelLayoutGuide)
+        let compactMainContentGuide = UILayoutGuide()
+        let mainLabelLayoutGuide   = UILayoutGuide()
+        let detailLabelLayoutGuide = UILayoutGuide()
+        
+        let contentView = self.contentView
+        contentView.addSubview(borderedImageView)
+        contentView.addSubview(sourceLabel)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(subtitleLabel)
+        contentView.addSubview(descriptionLabel)
+        contentView.addSubview(additionalDetailsButton)
+        
+        contentView.addLayoutGuide(compactMainContentGuide)
+        contentView.addLayoutGuide(mainLabelLayoutGuide)
+        contentView.addLayoutGuide(detailLabelLayoutGuide)
         
         sourceToTitleConstraint   = NSLayoutConstraint(item: titleLabel,    attribute: .top, relatedBy: .equal, toItem: sourceLabel, attribute: .bottom) // 6.0 with content
         titleToSubtitleConstraint = NSLayoutConstraint(item: subtitleLabel, attribute: .top, relatedBy: .equal, toItem: titleLabel,  attribute: .bottom) // 3.0 with content
-        subtitleToDescriptionConstraint = NSLayoutConstraint(item: descriptionLabel, attribute: .top, relatedBy: .equal, toItem: subtitleLabel, attribute: .bottom) // 16.0 with content
+        subtitleToDescriptionConstraint = NSLayoutConstraint(item: descriptionLabel, attribute: .top, relatedBy: .equal, toItem: subtitleLabel, attribute: .bottom) // 16.0 with content. Only active in regular mode
         descriptionToMoreConstraint = NSLayoutConstraint(item: additionalDetailsButton, attribute: .top, relatedBy: .equal, toItem: descriptionLabel, attribute: .bottom) // 16.0 with content
         
         NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: sourceLabel, attribute: .leading,  relatedBy: .equal,           toItem: labelLayoutGuide, attribute: .leading),
-            NSLayoutConstraint(item: sourceLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: labelLayoutGuide, attribute: .trailing),
-            NSLayoutConstraint(item: sourceLabel, attribute: .top, relatedBy: .equal, toItem: labelLayoutGuide, attribute: .top),
+            NSLayoutConstraint(item: sourceLabel, attribute: .leading,  relatedBy: .equal,           toItem: mainLabelLayoutGuide, attribute: .leading),
+            NSLayoutConstraint(item: sourceLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: mainLabelLayoutGuide, attribute: .trailing),
+            NSLayoutConstraint(item: sourceLabel, attribute: .top, relatedBy: .equal, toItem: mainLabelLayoutGuide, attribute: .top),
             sourceToTitleConstraint,
             
-            NSLayoutConstraint(item: titleLabel, attribute: .leading,  relatedBy: .equal,           toItem: labelLayoutGuide, attribute: .leading),
-            NSLayoutConstraint(item: titleLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: labelLayoutGuide, attribute: .trailing),
+            NSLayoutConstraint(item: titleLabel, attribute: .leading,  relatedBy: .equal,           toItem: mainLabelLayoutGuide, attribute: .leading),
+            NSLayoutConstraint(item: titleLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: mainLabelLayoutGuide, attribute: .trailing),
             
             titleToSubtitleConstraint,
-            NSLayoutConstraint(item: subtitleLabel, attribute: .leading,  relatedBy: .equal,           toItem: labelLayoutGuide, attribute: .leading),
-            NSLayoutConstraint(item: subtitleLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: labelLayoutGuide, attribute: .trailing),
+            NSLayoutConstraint(item: subtitleLabel, attribute: .leading,  relatedBy: .equal,           toItem: mainLabelLayoutGuide, attribute: .leading),
+            NSLayoutConstraint(item: subtitleLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: mainLabelLayoutGuide, attribute: .trailing),
+            NSLayoutConstraint(item: subtitleLabel, attribute: .bottom, relatedBy: .equal, toItem: mainLabelLayoutGuide, attribute: .bottom),
             
-            subtitleToDescriptionConstraint,
-            NSLayoutConstraint(item: descriptionLabel, attribute: .leading,  relatedBy: .equal,           toItem: labelLayoutGuide, attribute: .leading),
-            NSLayoutConstraint(item: descriptionLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: labelLayoutGuide, attribute: .trailing),
+            NSLayoutConstraint(item: descriptionLabel, attribute: .top,      relatedBy: .equal,           toItem: detailLabelLayoutGuide, attribute: .top),
+            NSLayoutConstraint(item: descriptionLabel, attribute: .leading,  relatedBy: .equal,           toItem: detailLabelLayoutGuide, attribute: .leading),
+            NSLayoutConstraint(item: descriptionLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: detailLabelLayoutGuide, attribute: .trailing),
             
             descriptionToMoreConstraint,
-            NSLayoutConstraint(item: additionalDetailsButton, attribute: .leading,  relatedBy: .equal,           toItem: labelLayoutGuide, attribute: .leading),
-            NSLayoutConstraint(item: additionalDetailsButton, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: labelLayoutGuide, attribute: .trailing),
-            NSLayoutConstraint(item: additionalDetailsButton, attribute: .bottom,   relatedBy: .equal,           toItem: labelLayoutGuide, attribute: .bottom),
+            NSLayoutConstraint(item: additionalDetailsButton, attribute: .leading,  relatedBy: .equal,           toItem: detailLabelLayoutGuide, attribute: .leading),
+            NSLayoutConstraint(item: additionalDetailsButton, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: detailLabelLayoutGuide, attribute: .trailing),
+            NSLayoutConstraint(item: additionalDetailsButton, attribute: .bottom,   relatedBy: .equal,           toItem: detailLabelLayoutGuide, attribute: .bottom),
             
-            NSLayoutConstraint(item: labelLayoutGuide, attribute: .centerY,  relatedBy: .equal,           toItem: contentModeLayoutGuide, attribute: .centerY),
-            NSLayoutConstraint(item: labelLayoutGuide, attribute: .height,   relatedBy: .lessThanOrEqual, toItem: contentModeLayoutGuide, attribute: .height),
-            NSLayoutConstraint(item: labelLayoutGuide, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentModeLayoutGuide, attribute: .trailing),
+            NSLayoutConstraint(item: mainLabelLayoutGuide, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentModeLayoutGuide, attribute: .trailing),
+            
+            NSLayoutConstraint(item: detailLabelLayoutGuide, attribute: .bottom,   relatedBy: .lessThanOrEqual, toItem: contentModeLayoutGuide, attribute: .bottom),
+            NSLayoutConstraint(item: detailLabelLayoutGuide, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentModeLayoutGuide, attribute: .trailing),
+            
+            NSLayoutConstraint(item: borderedImageView, attribute: .leading,  relatedBy: .equal,           toItem: contentModeLayoutGuide, attribute: .leading),
+            NSLayoutConstraint(item: mainLabelLayoutGuide, attribute: .leading, relatedBy: .equal, toItem: borderedImageView, attribute: .trailing, constant: 16.0),
         ])
         
         regularWidthConstraints = [
-            NSLayoutConstraint(item: borderedImageView, attribute: .leading,  relatedBy: .equal,           toItem: contentModeLayoutGuide, attribute: .leading),
             NSLayoutConstraint(item: borderedImageView, attribute: .top,      relatedBy: .equal,           toItem: contentModeLayoutGuide, attribute: .top),
             NSLayoutConstraint(item: borderedImageView, attribute: .height,   relatedBy: .lessThanOrEqual, toItem: contentModeLayoutGuide, attribute: .height),
             NSLayoutConstraint(item: borderedImageView, attribute: .height,   relatedBy: .equal,           toItem: borderedImageView, attribute: .width),
             NSLayoutConstraint(item: borderedImageView, attribute: .width,    relatedBy: .equal,           toConstant: 202),
             
-            NSLayoutConstraint(item: labelLayoutGuide, attribute: .leading, relatedBy: .equal, toItem: borderedImageView, attribute: .trailing, constant: 15.0)
+            
+            NSLayoutConstraint(item: mainLabelLayoutGuide, attribute: .top, relatedBy: .equal, toItem: borderedImageView, attribute: .top, constant: 17.0),
+            
+            NSLayoutConstraint(item: detailLabelLayoutGuide, attribute: .leading, relatedBy: .equal, toItem: mainLabelLayoutGuide, attribute: .leading),
+            
+            subtitleToDescriptionConstraint
         ]
         NSLayoutConstraint.activate(regularWidthConstraints)
         
         compactWidthConstraints = [
-            NSLayoutConstraint(item: labelLayoutGuide, attribute: .leading, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .leading)
+            NSLayoutConstraint(item: borderedImageView, attribute: .width,  relatedBy: .equal, toConstant: 96.0),
+            NSLayoutConstraint(item: borderedImageView, attribute: .height, relatedBy: .equal, toConstant: 96.0),
+            
+            NSLayoutConstraint(item: compactMainContentGuide, attribute: .top, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .top),
+            NSLayoutConstraint(item: compactMainContentGuide, attribute: .leading, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .leading),
+            NSLayoutConstraint(item: compactMainContentGuide, attribute: .trailing, relatedBy: .equal, toItem: mainLabelLayoutGuide, attribute: .trailing),
+            
+            NSLayoutConstraint(item: borderedImageView, attribute: .top, relatedBy: .equal, toItem: compactMainContentGuide, attribute: .top),
+            NSLayoutConstraint(item: borderedImageView, attribute: .bottom, relatedBy: .lessThanOrEqual, toItem: compactMainContentGuide, attribute: .bottom),
+            
+            NSLayoutConstraint(item: mainLabelLayoutGuide, attribute: .height, relatedBy: .lessThanOrEqual, toItem: compactMainContentGuide, attribute: .height),
+            NSLayoutConstraint(item: mainLabelLayoutGuide, attribute: .centerY, relatedBy: .equal, toItem: compactMainContentGuide, attribute: .centerY),
+            
+            
+            NSLayoutConstraint(item: detailLabelLayoutGuide, attribute: .top, relatedBy: .equal, toItem: compactMainContentGuide, attribute: .bottom, constant: 12.0),
+            NSLayoutConstraint(item: detailLabelLayoutGuide, attribute: .leading, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .leading),
         ]
         
         additionalDetailsButton.addTarget(self, action: #selector(additionalDescriptionsButtonDidSelect), for: .touchUpInside)
@@ -190,8 +238,6 @@ public class EntityInfoHeaderView: UICollectionReusableView, DefaultReusable {
         subtitleLabel.addObserver(self,    forKeyPath: #keyPath(UILabel.text), context: &kvoContext)
         descriptionLabel.addObserver(self, forKeyPath: #keyPath(UILabel.text), context: &kvoContext)
         additionalDetailsButton.titleLabel?.addObserver(self, forKeyPath: #keyPath(UILabel.text), context: &kvoContext)
-        
-        applyStandardFonts()
     }
     
     deinit {
@@ -237,21 +283,6 @@ public class EntityInfoHeaderView: UICollectionReusableView, DefaultReusable {
         }
     }
     
-    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        
-        if #available(iOS 10, *),
-            let previous = previousTraitCollection,
-            previous.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
-            applyStandardFonts()
-        }
-    }
-    
-    open override func prepareForReuse() {
-        super.prepareForReuse()
-        applyStandardFonts()
-    }
-    
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {
             let hasSource          = sourceLabel.text?.isEmpty      ?? true == false
@@ -283,6 +314,31 @@ public class EntityInfoHeaderView: UICollectionReusableView, DefaultReusable {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
     }
+    
+    open override func contentSizeCategoryDidChange(_ newCategory: UIContentSizeCategory) {
+        super.contentSizeCategoryDidChange(newCategory)
+        
+        if #available(iOS 10, *) { return }        
+        
+        sourceLabel.legacy_adjustFontForContentSizeCategoryChange()
+        titleLabel.legacy_adjustFontForContentSizeCategoryChange()
+        subtitleLabel.legacy_adjustFontForContentSizeCategoryChange()
+        descriptionLabel.legacy_adjustFontForContentSizeCategoryChange()
+        additionalDetailsButton.titleLabel?.legacy_adjustFontForContentSizeCategoryChange()
+    }
+    
+    
+//    internal override func applyStandardFonts() {
+//        super.applyStandardFonts()
+//        
+//        if #available(iOS 10, *) {
+//            subtitleLabel.font    = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
+//            descriptionLabel.font = .preferredFont(forTextStyle: .headline,    compatibleWith: traitCollection)
+//        } else {
+//
+//            descriptionLabel.font =
+//        }
+//    }
     
     
     // MARK: - Siing
@@ -357,23 +413,12 @@ public class EntityInfoHeaderView: UICollectionReusableView, DefaultReusable {
     
     // MARK: - Private methods
     
-    private func applyStandardFonts() {
-        if #available(iOS 10, *) {
-            subtitleLabel.font    = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
-            descriptionLabel.font = .preferredFont(forTextStyle: .headline,    compatibleWith: traitCollection)
-        } else {
-            subtitleLabel.font    = .preferredFont(forTextStyle: .subheadline)
-            descriptionLabel.font = .preferredFont(forTextStyle: .headline)
-        }
-    }
-    
     private func updateForWidthChange() {
         let contentWidth = bounds.insetBy(layoutMargins).width
-        displayAsCompact = EntityInfoHeaderView.displaysAsCompact(withContentWidth: contentWidth)
+        displayAsCompact = EntityDetailCollectionViewCell.displaysAsCompact(withContentWidth: contentWidth)
         
-        let maxTextWidth = contentWidth - (displayAsCompact ? 0.0 : 217.0)
-        titleLabel.preferredMaxLayoutWidth = maxTextWidth
-        descriptionLabel.preferredMaxLayoutWidth = maxTextWidth
+        titleLabel.preferredMaxLayoutWidth = contentWidth - (displayAsCompact ? 112.0 : 218.0)
+        descriptionLabel.preferredMaxLayoutWidth = contentWidth - (displayAsCompact ? 0.0 : 218.0)
     }
     
 }

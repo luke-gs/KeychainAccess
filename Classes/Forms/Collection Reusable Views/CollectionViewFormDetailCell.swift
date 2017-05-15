@@ -264,15 +264,9 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
         
         if #available(iOS 10, *) { return }
         
-        if let titleTextStyle = titleLabel.font?.textStyle {
-            titleLabel.font = .preferredFont(forTextStyle: titleTextStyle)
-        }
-        if let subtitleTextStyle = subtitleLabel.font?.textStyle {
-            subtitleLabel.font = .preferredFont(forTextStyle: subtitleTextStyle)
-        }
-        if let detailTextStyle = detailLabel.font?.textStyle {
-            detailLabel.font = .preferredFont(forTextStyle: detailTextStyle)
-        }
+        titleLabel.legacy_adjustFontForContentSizeCategoryChange()
+        subtitleLabel.legacy_adjustFontForContentSizeCategoryChange()
+        detailLabel.legacy_adjustFontForContentSizeCategoryChange()
     }
     
     private func updatePreferredMaxWidths() {

@@ -124,9 +124,7 @@ open class CollectionViewFormOptionCell: CollectionViewFormCell {
         
         if #available(iOS 10, *) { return }
         
-        if let titleTextStyle = titleLabel.font?.textStyle {
-            titleLabel.font = .preferredFont(forTextStyle: titleTextStyle)
-        }
+        titleLabel.legacy_adjustFontForContentSizeCategoryChange()
     }
     
     

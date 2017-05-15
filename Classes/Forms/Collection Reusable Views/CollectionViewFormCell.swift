@@ -21,7 +21,7 @@ import UIKit.UIGestureRecognizerSubclass
 /// `systemLayoutSizeFitting(_:)`. Users should note that `CollectionViewFormLayout` does not support self-sizing cells.
 open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, CollectionViewFormCellActionDelegate, UIGestureRecognizerDelegate {
     
-    private static let standardSeparatorColor = #colorLiteral(red: 0.7843137255, green: 0.7803921569, blue: 0.8, alpha: 1)
+    internal static let standardSeparatorColor = #colorLiteral(red: 0.7843137255, green: 0.7803921569, blue: 0.8, alpha: 1)
     
     
     @objc(CollectionViewFormSeparatorStyle) public enum SeparatorStyle: Int {

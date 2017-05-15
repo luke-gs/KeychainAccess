@@ -170,20 +170,13 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
         }
     }
     
-    public override func contentSizeCategoryDidChange(_ newCategory: UIContentSizeCategory) {
+    open override func contentSizeCategoryDidChange(_ newCategory: UIContentSizeCategory) {
         super.contentSizeCategoryDidChange(newCategory)
         
         if #available(iOS 10, *) { return }
         
-        if let titleTextStyle = titleLabel.font?.textStyle {
-            titleLabel.font = .preferredFont(forTextStyle: titleTextStyle)
-        }
-        if let textViewStyle = textView.font?.textStyle {
-            textView.font = .preferredFont(forTextStyle: textViewStyle)
-        }
-        if let placeholderStyle = textView.placeholderLabel.font?.textStyle {
-            textView.placeholderLabel.font = .preferredFont(forTextStyle: placeholderStyle)
-        }
+        titleLabel.legacy_adjustFontForContentSizeCategoryChange()
+        textView.legacy_adjustFontForContentSizeCategoryChange()
     }
     
     

@@ -100,7 +100,7 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
         didSet {
             let width = bounds.width
             if width !=~ oldValue.width {
-                titleLabel.preferredMaxLayoutWidth    = width
+                titleLabel.preferredMaxLayoutWidth = width
             }
         }
     }
@@ -109,7 +109,7 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
         didSet {
             let width = frame.width
             if width !=~ oldValue.width {
-                titleLabel.preferredMaxLayoutWidth    = width
+                titleLabel.preferredMaxLayoutWidth = width
             }
         }
     }
@@ -119,15 +119,8 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
         
         if #available(iOS 10, *) { return }
         
-        if let titleTextStyle = titleLabel.font?.textStyle {
-            titleLabel.font = .preferredFont(forTextStyle: titleTextStyle)
-        }
-        if let textFieldStyle = textField.font?.textStyle {
-            textField.font = .preferredFont(forTextStyle: textFieldStyle)
-        }
-        if let placeholderStyle = textField.placeholderFont?.textStyle {
-            textField.placeholderFont = .preferredFont(forTextStyle: placeholderStyle)
-        }
+        titleLabel.legacy_adjustFontForContentSizeCategoryChange()
+        textField.legacy_adjustFontForContentSizeCategoryChange()
     }
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {

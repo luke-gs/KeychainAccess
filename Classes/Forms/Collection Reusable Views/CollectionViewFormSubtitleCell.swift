@@ -234,17 +234,13 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
         }
     }
     
-    public override func contentSizeCategoryDidChange(_ newCategory: UIContentSizeCategory) {
+    open override func contentSizeCategoryDidChange(_ newCategory: UIContentSizeCategory) {
         super.contentSizeCategoryDidChange(newCategory)
         
         if #available(iOS 10, *) { return }
         
-        if let titleTextStyle = titleLabel.font?.textStyle {
-            titleLabel.font = .preferredFont(forTextStyle: titleTextStyle)
-        }
-        if let subtitleTextStyle = subtitleLabel.font?.textStyle {
-            subtitleLabel.font = .preferredFont(forTextStyle: subtitleTextStyle)
-        }
+        titleLabel.legacy_adjustFontForContentSizeCategoryChange()
+        subtitleLabel.legacy_adjustFontForContentSizeCategoryChange()
     }
     
     

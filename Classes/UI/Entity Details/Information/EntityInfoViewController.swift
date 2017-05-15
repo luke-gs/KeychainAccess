@@ -29,52 +29,99 @@ open class EntityInfoViewController: FormCollectionViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
         
-        guard let collectionView = self.collectionView else { return }
-        
-        collectionView.register(EntityInfoHeaderView.self, forSupplementaryViewOfKind: collectionElementKindGlobalHeader)
-        collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
+        if let collectionView = self.collectionView {
+            collectionView.register(EntityDetailCollectionViewCell.self)
+            collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
+        }
     }
     
     
     // MARK: - UICollectionViewDataSource methods
     
+    open func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    open override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 1
+    }
+    
     open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        
-        if kind == collectionElementKindGlobalHeader {
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: EntityInfoHeaderView.self, for: indexPath)
-            header.layoutMargins = formLayout.itemLayoutMargins
-            header.imageView.image = #imageLiteral(resourceName: "Avatar 1")
-            header.sourceLabel.text = "DATA SOURCE 1"
-            header.titleLabel.text = "Citizen, John R."
-            header.subtitleLabel.text = "08/05/1987 (29 Male)"
-            header.descriptionLabel.text = "196 cm proportionate european male with short brown hair and brown eyes"
-            header.additionalDetailsButton.setTitle("4 MORE DESCRIPTIONS", for: .normal)
-            header.alertColor = AlertLevel.high.color
-            header.additionalDetailsButtonActionHandler = { [weak self] in self?.headerDidSelectAdditionalDetails($0) }
+        if indexPath.section == 0 && kind == UICollectionElementKindSectionHeader {
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
+            header.showsExpandArrow = false
+            header.tapHandler       = nil
+            header.text = "LAST UPDATED: " + "NEVER"
             return header
         }
         
         return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
     }
     
+    open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if indexPath.section == 0 && indexPath.item == 0 {
+            let cell = collectionView.dequeueReusableCell(of: EntityDetailCollectionViewCell.self, for: indexPath)
+            cell.additionalDetailsButtonActionHandler = { [weak self] (cell: EntityDetailCollectionViewCell) in
+                self?.entityDetailCellDidSelectAdditionalDetails(cell)
+            }
+            
+            /// Temp updates
+            cell.imageView.image = #imageLiteral(resourceName: "Avatar 1")
+            cell.sourceLabel.text = "DATA SOURCE 1"
+            cell.titleLabel.text = "Citizen, John R."
+            cell.subtitleLabel.text = "08/05/1987 (29 Male)"
+            cell.descriptionLabel.text = "196 cm proportionate european male with short brown hair and brown eyes"
+            cell.additionalDetailsButton.setTitle("4 MORE DESCRIPTIONS", for: .normal)
+            cell.alertColor = AlertLevel.high.color
+            
+            return cell
+        }
+        
+        return super.collectionView(collectionView, cellForItemAt: indexPath)
+    }
+    
+    
     // MARK: - UICollectionViewDelegate methods
     
-//    open override func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
-//    }
+    open override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
+        
+        if let detailCell = cell as? EntityDetailCollectionViewCell {
+            detailCell.titleLabel.textColor       = primaryTextColor   ?? .black
+            detailCell.subtitleLabel.textColor    = secondaryTextColor ?? .darkGray
+            detailCell.descriptionLabel.textColor = secondaryTextColor ?? .darkGray
+        }
+    }
     
     
     // MARK: - CollectionViewDelegateMPOLLayout methods
     
-    public func collectionView(_ collectionView: UICollectionView, heightForGlobalHeaderInLayout layout: CollectionViewFormLayout) -> CGFloat {
-        let contentHeight = EntityInfoHeaderView.minimumContentHeight(withTitle: "Smith, Max R.", subtitle: "08/05/1987 (29 Male)", description: "196 cm proportionate european male with short brown hair and brown eyes", additionalDetails: "4 MORE DESCRIPTIONS", source: "DATA SOURCE 1", inWidth: collectionView.bounds.width, compatibleWith: traitCollection)
-        let insets = layout.itemLayoutMargins
-        return contentHeight + insets.top + insets.bottom
+    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
+        if section == 0 {
+            return CollectionViewFormExpandingHeaderView.minimumHeight
+        }
+        return super.collectionView(collectionView, layout: layout, heightForHeaderInSection: section, givenSectionWidth: width)
     }
+    
+    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
+        if indexPath.section == 0 && indexPath.item == 0 {
+            return EntityDetailCollectionViewCell.minimumContentHeight(withTitle: "Smith, Max R.", subtitle: "08/05/1987 (29 Male)", description: "196 cm proportionate european male with short brown hair and brown eyes", additionalDetails: "4 MORE DESCRIPTIONS", source: "DATA SOURCE 1", inWidth: itemWidth, compatibleWith: traitCollection) - layout.itemLayoutMargins.bottom
+        }
+        return super.collectionView(collectionView, layout: layout, minimumContentHeightForItemAt: indexPath, givenItemContentWidth: itemWidth)
+    }
+    
+//    open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, separatorStyleForItemAt indexPath: IndexPath) -> CollectionViewFormLayout.SeparatorStyle {
+//        if indexPath.section == 0 && indexPath.item == 0 {
+//            return .hidden
+//        }
+//        return .automatic
+//    }
     
     
     // MARK: - Additional details action handler
     
-    private func headerDidSelectAdditionalDetails(_ header: EntityInfoHeaderView) {
+    open func entityDetailCellDidSelectAdditionalDetails(_ cell: EntityDetailCollectionViewCell) {
     }
+    
     
 }

@@ -107,9 +107,6 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
             return 96.0
         }
     }
-
-    
-
     
     
     // MARK: - Public properties
@@ -375,6 +372,8 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
     }
     
     internal func applyStandardFonts() {
+        // TODO: Modernize Fonts
+        
         let titleFont: UIFont
         let footnoteFont: UIFont
         

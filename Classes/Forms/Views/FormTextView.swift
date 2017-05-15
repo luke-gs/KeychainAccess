@@ -141,4 +141,14 @@ open class FormTextView: UITextView {
         placeholderLabel.isHidden = (text?.isEmpty ?? true) == false
     }
     
+    
+    
+    // MARK: - Legacy support
+    
+    @available(iOS, introduced: 7.0, deprecated: 10.0, obsoleted: 10.0)
+    public override func legacy_adjustFontForContentSizeCategoryChange() {
+        super.legacy_adjustFontForContentSizeCategoryChange()
+        placeholderLabel.legacy_adjustFontForContentSizeCategoryChange()
+    }
+    
 }
