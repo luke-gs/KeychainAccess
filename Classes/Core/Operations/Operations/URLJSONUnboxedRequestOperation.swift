@@ -55,7 +55,7 @@ public class URLJSONUnboxedRequestOperation<UnboxableType: Any>: URLRequestOpera
     // MARK: - Request loading
     
     public final override func loadRequest() {
-        super.request = sessionManager.request(urlRequest).responseObject(completionHandler: { [weak self] in
+        super.request = sessionManager.request(urlRequest).validate().responseObject(completionHandler: { [weak self] in
             self?.response = $0
         })
     }
