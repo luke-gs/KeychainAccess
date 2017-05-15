@@ -328,20 +328,7 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
     }
     
     
-//    internal override func applyStandardFonts() {
-//        super.applyStandardFonts()
-//        
-//        if #available(iOS 10, *) {
-//            subtitleLabel.font    = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
-//            descriptionLabel.font = .preferredFont(forTextStyle: .headline,    compatibleWith: traitCollection)
-//        } else {
-//
-//            descriptionLabel.font =
-//        }
-//    }
-    
-    
-    // MARK: - Siing
+    // MARK: - Sizing
     
     public class func displaysAsCompact(withContentWidth width: CGFloat) -> Bool {
         return width <=~ compactWidth
