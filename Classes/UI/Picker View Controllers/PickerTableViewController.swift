@@ -309,9 +309,9 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
     open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         manualSelectionUpdate = true
         
-        func updateCurrentCell(forCheck check: Bool) {
+        func updateCurrentCell(checked: Bool) {
             if let cell = tableView.cellForRow(at: indexPath) {
-                cell.accessoryType = check ? .checkmark : .none
+                cell.accessoryType = checked ? .checkmark : .none
                 cell.setNeedsLayout()
                 cell.layoutIfNeeded()
                 self.tableView(tableView, willDisplay: cell, forRowAt: indexPath)
@@ -328,7 +328,7 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
                 if isSelected {
                     selectedItems.insert(item)
                 }
-                updateCurrentCell(forCheck: isSelected)
+                updateCurrentCell(checked: isSelected)
                 
                 if (selectedItems.isEmpty || (isSelected && selectedItems.count == 1)) && noSectionShowing {
                     reloadIndexPaths.append(IndexPath(row: 0, section: 0))
@@ -336,10 +336,10 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
             } else {
                 if let oldIndexPath = self.indexPath(for: selectedItems.first), oldIndexPath != indexPath {
                     reloadIndexPaths.append(oldIndexPath)
-                    selectedItems = [item]
                 }
+                selectedItems = [item]
                 
-                updateCurrentCell(forCheck: true)
+                updateCurrentCell(checked: true)
             }
         } else if noSectionShowing {
             // "No" item selected. Filter not showing.
@@ -350,7 +350,7 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
                 let oldSelectedItems = selectedItems
             
                 selectedItems = []
-                updateCurrentCell(forCheck: true)
+                updateCurrentCell(checked: true)
             
                 reloadIndexPaths.reserveCapacity(selectedItemCount)
                 
