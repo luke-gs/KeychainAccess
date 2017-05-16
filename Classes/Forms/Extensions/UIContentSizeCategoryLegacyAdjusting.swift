@@ -11,7 +11,8 @@ import UIKit
 
 extension UILabel {
     
-    @available(iOS, introduced: 7.0, deprecated: 10.0, obsoleted: 10.0)
+    /// Updates the font for the current content size category.
+    @available(iOS, introduced: 7.0, deprecated: 10.0, obsoleted: 10.0, message: "Use the adjustsFontForContentSizeCategory property on iOS 10 and later.")
     public func legacy_adjustFontForContentSizeCategoryChange() {
         if let fontTextStyle = font?.textStyle {
             font = .preferredFont(forTextStyle: fontTextStyle)
@@ -22,7 +23,8 @@ extension UILabel {
 
 extension UITextField {
     
-    @available(iOS, introduced: 7.0, deprecated: 10.0, obsoleted: 10.0)
+    /// Updates the font for the current content size category.
+    @available(iOS, introduced: 7.0, deprecated: 10.0, obsoleted: 10.0, message: "Use the adjustsFontForContentSizeCategory property on iOS 10 and later.")
     public func legacy_adjustFontForContentSizeCategoryChange() {
         if let fontTextStyle = font?.textStyle {
             font = .preferredFont(forTextStyle: fontTextStyle)
@@ -33,7 +35,8 @@ extension UITextField {
 
 extension UITextView {
     
-    @available(iOS, introduced: 7.0, deprecated: 10.0, obsoleted: 10.0)
+    /// Updates the font for the current content size category.
+    @available(iOS, introduced: 7.0, deprecated: 10.0, obsoleted: 10.0, message: "Use the adjustsFontForContentSizeCategory property on iOS 10 and later.")
     public func legacy_adjustFontForContentSizeCategoryChange() {
         if let fontTextStyle = font?.textStyle {
             font = .preferredFont(forTextStyle: fontTextStyle)

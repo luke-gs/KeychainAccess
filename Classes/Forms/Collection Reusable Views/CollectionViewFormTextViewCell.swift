@@ -64,7 +64,6 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
         if #available(iOS 10, *) {
             titleLabel.adjustsFontForContentSizeCategory = true
             textView.adjustsFontForContentSizeCategory = true
-            textView.placeholderLabel.adjustsFontForContentSizeCategory = true
         }
         
         titleLabel.font = .preferredFont(forTextStyle: .footnote)
