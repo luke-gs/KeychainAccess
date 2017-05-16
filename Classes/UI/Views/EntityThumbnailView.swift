@@ -1,5 +1,5 @@
 //
-//  BorderedImageView.swift
+//  EntityThumbnailView.swift
 //  MPOLKit
 //
 //  Created by Rod Brown on 20/2/17.
@@ -9,18 +9,11 @@
 import UIKit
 
 
-/// `BorderedImageView` is a wrapper class for a `UIImageView`, with an optional border,
-/// and an MPOL style corner radius.
-///
-/// By setting a border color and width, the image view is inset with a surrounding border.
-/// When no border width or color is set, the image view reverts to full size.
-public class BorderedImageView: UIView {
+/// A view for displaying entity thumbnails within an MPOL interface.
+public class EntityThumbnailView: UIControl {
     
-    /// The internal image view.
-    ///
-    /// By default, the image view's content mode is set to
-    /// `UIViewContentMode.scaleAspectFill`. This ensures that the image
-    /// fills the entire border.
+    public let backgroundImageView = UIImageView(frame: .zero)
+    
     public let imageView = UIImageView(frame: .zero)
     
     
@@ -52,13 +45,6 @@ public class BorderedImageView: UIView {
         }
     }
     
-    public var wantsRoundedCorners: Bool = true {
-        didSet {
-            if wantsRoundedCorners == oldValue { return }
-            
-            updateCornerRadius()
-        }
-    }
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -71,12 +57,29 @@ public class BorderedImageView: UIView {
     }
     
     private func commonInit() {
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
+        backgroundImageView.frame = bounds
+        backgroundImageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        backgroundImageView.contentMode = .scaleAspectFill
+        backgroundImageView.clipsToBounds = true
+        addSubview(backgroundImageView)
+        
+        imageView.frame = backgroundImageView.bounds
         imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        addSubview(imageView)
+        backgroundImageView.addSubview(imageView)
         
         updateCornerRadius()
+        
+        layer.rasterizationScale = traitCollection.currentDisplayScale
+        layer.shouldRasterize = true
+    }
+    
+    
+    // MARK: - Configuration
+    
+    public func configure(for entity: Any) {
+        // TODO: Configure for real entities
+        backgroundImageView.image = #imageLiteral(resourceName: "Avatar 1")
+        borderColor = AlertLevel.high.color
     }
     
     
@@ -84,7 +87,7 @@ public class BorderedImageView: UIView {
     
     public override var bounds: CGRect {
         didSet {
-            if bounds.size != oldValue.size && wantsRoundedCorners {
+            if bounds.size != oldValue.size {
                 updateCornerRadius()
             }
         }
@@ -92,10 +95,20 @@ public class BorderedImageView: UIView {
     
     public override var frame: CGRect {
         didSet {
-            if bounds.size != oldValue.size && wantsRoundedCorners {
+            if bounds.size != oldValue.size {
                 updateCornerRadius()
             }
         }
+    }
+    
+    public override var intrinsicContentSize: CGSize {
+        return imageView.intrinsicContentSize
+    }
+    
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        layer.rasterizationScale = traitCollection.currentDisplayScale
     }
     
     
@@ -103,25 +116,19 @@ public class BorderedImageView: UIView {
     
     private func updateCornerRadius() {
         let bounds = self.bounds
-        let cornerRadius = wantsRoundedCorners ? ((min(bounds.width, bounds.height) + 300.0) / 80.0).rounded(toScale: (window?.screen ?? .main).scale) : 0.0
+        let cornerRadius = ((min(bounds.width, bounds.height) + 300.0) / 80.0).rounded(toScale: (window?.screen ?? .main).scale)
         
         layer.cornerRadius = cornerRadius
         
         if borderColor == nil || borderWidth == 0.0 {
-            imageView.layer.cornerRadius = cornerRadius
-            imageView.frame = bounds
+            backgroundImageView.layer.cornerRadius = cornerRadius
+            backgroundImageView.frame = bounds
             layer.borderWidth = 0.0
         } else {
-            imageView.layer.cornerRadius = max(cornerRadius - 3.0, 0.0)
-            imageView.frame = wantsRoundedCorners ? bounds.insetBy(dx: 4.0, dy: 4.0) : bounds
+            backgroundImageView.layer.cornerRadius = max(cornerRadius - 3.0, 0.0)
+            backgroundImageView.frame = bounds.insetBy(dx: 4.0, dy: 4.0)
             layer.borderWidth = borderWidth
         }
-    }
-    
-    public override var intrinsicContentSize: CGSize {
-        return imageView.intrinsicContentSize
-        
-        
     }
     
 }

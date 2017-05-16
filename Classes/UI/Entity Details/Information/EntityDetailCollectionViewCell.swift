@@ -16,7 +16,7 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
     // MARK: - Public properties
     
     /// The image view for the cell.
-    public var imageView: UIImageView { return borderedImageView.imageView }
+    public var thumbnailView = EntityThumbnailView(frame: .zero)
     
     
     /// The source label.
@@ -36,13 +36,6 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
     public let descriptionLabel = UILabel(frame: .zero)
     
     
-    /// The alert color for the entity.
-    public var alertColor: UIColor? {
-        get { return borderedImageView.borderColor }
-        set { borderedImageView.borderColor = newValue }
-    }
-    
-    
     /// A button for selecting/entering additional details.
     public var additionalDetailsButton = UIButton(type: .system)
     
@@ -56,8 +49,6 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
     
     
     // MARK: - Private properties
-    
-    private let borderedImageView = BorderedImageView(frame: .zero)
     
     private var compactWidthConstraints: [NSLayoutConstraint] = []
     
@@ -142,7 +133,7 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
             additionalDetailsButton.titleLabel?.adjustsFontForContentSizeCategory = true
         }
         
-        borderedImageView.translatesAutoresizingMaskIntoConstraints = false
+        thumbnailView.translatesAutoresizingMaskIntoConstraints = false
         
         let contentModeLayoutGuide = self.contentModeLayoutGuide
         
@@ -151,7 +142,7 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
         let detailLabelLayoutGuide = UILayoutGuide()
         
         let contentView = self.contentView
-        contentView.addSubview(borderedImageView)
+        contentView.addSubview(thumbnailView)
         contentView.addSubview(sourceLabel)
         contentView.addSubview(titleLabel)
         contentView.addSubview(subtitleLabel)
@@ -195,17 +186,17 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
             NSLayoutConstraint(item: detailLabelLayoutGuide, attribute: .bottom,   relatedBy: .lessThanOrEqual, toItem: contentModeLayoutGuide, attribute: .bottom),
             NSLayoutConstraint(item: detailLabelLayoutGuide, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentModeLayoutGuide, attribute: .trailing),
             
-            NSLayoutConstraint(item: borderedImageView, attribute: .leading,  relatedBy: .equal,           toItem: contentModeLayoutGuide, attribute: .leading),
-            NSLayoutConstraint(item: mainLabelLayoutGuide, attribute: .leading, relatedBy: .equal, toItem: borderedImageView, attribute: .trailing, constant: 16.0),
+            NSLayoutConstraint(item: thumbnailView, attribute: .leading,  relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .leading),
+            NSLayoutConstraint(item: mainLabelLayoutGuide, attribute: .leading, relatedBy: .equal, toItem: thumbnailView, attribute: .trailing, constant: 16.0),
         ])
         
         regularWidthConstraints = [
-            NSLayoutConstraint(item: borderedImageView, attribute: .top,      relatedBy: .equal,           toItem: contentModeLayoutGuide, attribute: .top),
-            NSLayoutConstraint(item: borderedImageView, attribute: .height,   relatedBy: .lessThanOrEqual, toItem: contentModeLayoutGuide, attribute: .height),
-            NSLayoutConstraint(item: borderedImageView, attribute: .height,   relatedBy: .equal,           toItem: borderedImageView, attribute: .width),
-            NSLayoutConstraint(item: borderedImageView, attribute: .width,    relatedBy: .equal,           toConstant: 202),
+            NSLayoutConstraint(item: thumbnailView, attribute: .top,      relatedBy: .equal,           toItem: contentModeLayoutGuide, attribute: .top),
+            NSLayoutConstraint(item: thumbnailView, attribute: .height,   relatedBy: .lessThanOrEqual, toItem: contentModeLayoutGuide, attribute: .height),
+            NSLayoutConstraint(item: thumbnailView, attribute: .height,   relatedBy: .equal,           toItem: thumbnailView, attribute: .width),
+            NSLayoutConstraint(item: thumbnailView, attribute: .width,    relatedBy: .equal,           toConstant: 202),
             
-            NSLayoutConstraint(item: mainLabelLayoutGuide, attribute: .top, relatedBy: .equal, toItem: borderedImageView, attribute: .top, constant: 17.0),
+            NSLayoutConstraint(item: mainLabelLayoutGuide, attribute: .top, relatedBy: .equal, toItem: thumbnailView, attribute: .top, constant: 17.0),
             
             NSLayoutConstraint(item: detailLabelLayoutGuide, attribute: .leading, relatedBy: .equal, toItem: mainLabelLayoutGuide, attribute: .leading),
             
@@ -215,15 +206,15 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
         NSLayoutConstraint.activate(regularWidthConstraints)
         
         compactWidthConstraints = [
-            NSLayoutConstraint(item: borderedImageView, attribute: .width,  relatedBy: .equal, toConstant: 96.0),
-            NSLayoutConstraint(item: borderedImageView, attribute: .height, relatedBy: .equal, toConstant: 96.0),
+            NSLayoutConstraint(item: thumbnailView, attribute: .width,  relatedBy: .equal, toConstant: 96.0),
+            NSLayoutConstraint(item: thumbnailView, attribute: .height, relatedBy: .equal, toConstant: 96.0),
             
             NSLayoutConstraint(item: compactMainContentGuide, attribute: .top, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .top),
             NSLayoutConstraint(item: compactMainContentGuide, attribute: .leading, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .leading),
             NSLayoutConstraint(item: compactMainContentGuide, attribute: .trailing, relatedBy: .equal, toItem: mainLabelLayoutGuide, attribute: .trailing),
             
-            NSLayoutConstraint(item: borderedImageView, attribute: .top, relatedBy: .equal, toItem: compactMainContentGuide, attribute: .top),
-            NSLayoutConstraint(item: borderedImageView, attribute: .bottom, relatedBy: .lessThanOrEqual, toItem: compactMainContentGuide, attribute: .bottom),
+            NSLayoutConstraint(item: thumbnailView, attribute: .top, relatedBy: .equal, toItem: compactMainContentGuide, attribute: .top),
+            NSLayoutConstraint(item: thumbnailView, attribute: .bottom, relatedBy: .lessThanOrEqual, toItem: compactMainContentGuide, attribute: .bottom),
             
             NSLayoutConstraint(item: mainLabelLayoutGuide, attribute: .height, relatedBy: .lessThanOrEqual, toItem: compactMainContentGuide, attribute: .height),
             NSLayoutConstraint(item: mainLabelLayoutGuide, attribute: .centerY, relatedBy: .equal, toItem: compactMainContentGuide, attribute: .centerY),

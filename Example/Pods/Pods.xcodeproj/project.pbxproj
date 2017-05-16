@@ -128,7 +128,7 @@
 		CE187F9FFA5BE8154F8F94AC74651D36 /* TableViewFormTextViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DF80D9EF85914B987BC64AEF60B8C9 /* TableViewFormTextViewCell.swift */; };
 		CE415629904BF8F2856896BA32C6010E /* FormSearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83CBDB95CCD2ACF765C0E413943DCFCE /* FormSearchTableViewController.swift */; };
 		CE9971752F3DAC20EB9731A817AD32AC /* UITraitCollection+CurrentDisplayScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F21C2747DA59BC058D704DDE35D8B0 /* UITraitCollection+CurrentDisplayScale.swift */; };
-		CFA15F03E80F578021439C75653B835F /* BorderedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB607288B4C98B0565FEFE1AE5998F79 /* BorderedImageView.swift */; };
+		CFA15F03E80F578021439C75653B835F /* EntityThumbnailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB607288B4C98B0565FEFE1AE5998F79 /* EntityThumbnailView.swift */; };
 		D0B237CC4A05C8F45B8F1E11E45C2D0A /* URLJSONRequestOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56D5666B767FAD70487AD38BFE27C84 /* URLJSONRequestOperation.swift */; };
 		D49D37F8D63F76C99CD4EE97386E52AB /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 706C7AFFE37BA158C3553250F4B5FAED /* Alamofire.framework */; };
 		D5A543A6E26A69378AAB2C9070164010 /* SelectableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A19CDD2144D96A949D4D0C537B25BC /* SelectableButton.swift */; };
@@ -337,7 +337,7 @@
 		C5E74F545B4DB3DA535CCA3F355ACF83 /* UIEdgeInsets+Convenience.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UIEdgeInsets+Convenience.swift"; sourceTree = "<group>"; };
 		C7FAD6D7AA31F7DB94ADE482636F38A2 /* PopoverDatePickerViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PopoverDatePickerViewController.swift; sourceTree = "<group>"; };
 		C9FAD3141CDE312B43BA692D05741B5D /* CommonConditions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CommonConditions.swift; sourceTree = "<group>"; };
-		CB607288B4C98B0565FEFE1AE5998F79 /* BorderedImageView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BorderedImageView.swift; sourceTree = "<group>"; };
+		CB607288B4C98B0565FEFE1AE5998F79 /* EntityThumbnailView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EntityThumbnailView.swift; sourceTree = "<group>"; };
 		CBCDA84686C759D6724D1D19180CD7A7 /* OperationErrors.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = OperationErrors.swift; sourceTree = "<group>"; };
 		CF5EF50012A514B0F471FF81983463D7 /* Pods-MPOLKit_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-MPOLKit_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
 		CFD68DF6670A8D3F7815C7E9F6AF68F9 /* Pods-MPOLKit_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MPOLKit_Tests.release.xcconfig"; sourceTree = "<group>"; };
@@ -780,8 +780,8 @@
 			children = (
 				F3A7DCCE0301A7D977FC7C71DAEAFA33 /* AlertIndicatorView.swift */,
 				9A40393F04F07E88D03F0C608FC8833E /* BadgeView.swift */,
-				CB607288B4C98B0565FEFE1AE5998F79 /* BorderedImageView.swift */,
 				E9878AC38EB516FAE7EBE92CC06AE0CF /* CircleIconView.swift */,
+				CB607288B4C98B0565FEFE1AE5998F79 /* EntityThumbnailView.swift */,
 				4092386EF8114CD819690772D13C58E3 /* FormDisclosureView.swift */,
 				208B2D2371B36FB47DBBFB9C0FE7D2F0 /* GradientView.swift */,
 				017FED112A84B3137E28DD4DAAD71AF4 /* NavigationBarExtension.swift */,
@@ -1118,7 +1118,7 @@
 				AE04AE25E91CCC6B03A5FC4E9A3742E9 /* Array+IfExists.swift in Sources */,
 				66D86557FFBCB7124C729389F6EEC231 /* BadgeView.swift in Sources */,
 				F8BBAE58BE81B381EBB0668C26F6A24A /* BlockObserver.swift in Sources */,
-				CFA15F03E80F578021439C75653B835F /* BorderedImageView.swift in Sources */,
+				CFA15F03E80F578021439C75653B835F /* EntityThumbnailView.swift in Sources */,
 				68B9D07D4F2DD2F21D9CB569AD529523 /* Bundle+MPOLKit.swift in Sources */,
 				6610C0F821D746DDF829BDF4765F7693 /* CheckBox.swift in Sources */,
 				FE2B329ABBD4B852F453433B4BBF4C08 /* CircleIconView.swift in Sources */,

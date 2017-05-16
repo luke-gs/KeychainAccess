@@ -1,6 +1,6 @@
 //
 //  MPOLKitInitialize.swift
-//  Pods
+//  MPOLKit
 //
 //  Created by Rod Brown on 9/5/17.
 //

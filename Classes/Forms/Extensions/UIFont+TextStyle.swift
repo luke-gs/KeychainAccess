@@ -1,9 +1,9 @@
 //
 //  UIFont+TextStyle.swift
-//  Pods
+//  MPOLKit
 //
 //  Created by Rod Brown on 14/5/17.
-//
+//  Copyright © 2017 Gridstone. All rights reserved.
 //
 
 import UIKit

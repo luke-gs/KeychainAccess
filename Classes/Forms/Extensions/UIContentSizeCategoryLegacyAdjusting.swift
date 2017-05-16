@@ -1,6 +1,6 @@
 //
 //  UIContentSizeCategoryLegacyAdjusting.swift
-//  Pods
+//  MPOLKit
 //
 //  Created by Rod Brown on 16/5/17.
 //

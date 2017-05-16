@@ -66,13 +66,12 @@ open class EntityInfoViewController: FormCollectionViewController {
             }
             
             /// Temp updates
-            cell.imageView.image = #imageLiteral(resourceName: "Avatar 1")
+            cell.thumbnailView.configure(for: NSObject())
             cell.sourceLabel.text = "DATA SOURCE 1"
             cell.titleLabel.text = "Citizen, John R."
             cell.subtitleLabel.text = "08/05/1987 (29 Male)"
             cell.descriptionLabel.text = "196 cm proportionate european male with short brown hair and brown eyes"
             cell.additionalDetailsButton.setTitle("4 MORE DESCRIPTIONS", for: .normal)
-            cell.alertColor = AlertLevel.high.color
             
             return cell
         }
