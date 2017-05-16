@@ -376,7 +376,7 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
         }
         
         if source?.isEmpty ?? true == false {
-            mainTextHeight += UIFont.systemFont(ofSize: 11.0, weight: UIFontWeightBold).lineHeight.ceiled(toScale: displayScale) + 11.0
+            mainTextHeight += sourceFont.lineHeight.ceiled(toScale: displayScale) + 11.0
         }
         
         var detailsHeight: CGFloat
