@@ -13,20 +13,20 @@ import Unbox
 ///
 /// `URLJSONUnboxedRequestOperation` lazily loads its request during execution from
 /// the specified session manager.
-public class URLJSONUnboxedRequestOperation<UnboxableType: Unboxable>: URLRequestOperation {
+final public class URLJSONUnboxedRequestOperation<UnboxableType: Unboxable>: URLRequestOperation {
     
     // MARK: - Properties
     
-    open private(set) var urlRequest: URLRequestConvertible
+    public private(set) var urlRequest: URLRequestConvertible
     
-    open let sessionManager: SessionManager
+    public let sessionManager: SessionManager
     
-    open override var request: Request? {
+    public override var request: Request? {
         get { return super.request }
         set {  }
     }
     
-    open private(set) var response: DataResponse<UnboxableType>?
+    public private(set) var response: DataResponse<UnboxableType>?
     
     public let type: UnboxableType.Type
     
