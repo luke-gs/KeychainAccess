@@ -15,7 +15,7 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
     
     // MARK: - Public properties
     
-    /// The image view for the cell.
+    /// The thumbnail view for the cell.
     public var thumbnailView = EntityThumbnailView(frame: .zero)
     
     
