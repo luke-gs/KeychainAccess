@@ -69,7 +69,9 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
     
     private var subtitleToDescriptionConstraint: NSLayoutConstraint!
     
-    private var descriptionToMoreConstraint: NSLayoutConstraint!
+    private var descriptionToMoreRegularConstraint: NSLayoutConstraint!
+    
+    private var descriptionToMoreCompactConstraint: NSLayoutConstraint!
     
     private var displayAsCompact: Bool = false {
         didSet {
@@ -162,8 +164,9 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
         
         sourceToTitleConstraint   = NSLayoutConstraint(item: titleLabel,    attribute: .top, relatedBy: .equal, toItem: sourceLabel, attribute: .bottom) // 6.0 with content
         titleToSubtitleConstraint = NSLayoutConstraint(item: subtitleLabel, attribute: .top, relatedBy: .equal, toItem: titleLabel,  attribute: .bottom) // 3.0 with content
-        subtitleToDescriptionConstraint = NSLayoutConstraint(item: descriptionLabel, attribute: .top, relatedBy: .equal, toItem: subtitleLabel, attribute: .bottom) // 16.0 with content. Only active in regular mode
-        descriptionToMoreConstraint = NSLayoutConstraint(item: additionalDetailsButton, attribute: .top, relatedBy: .equal, toItem: descriptionLabel, attribute: .bottom) // 16.0 with content
+        subtitleToDescriptionConstraint = NSLayoutConstraint(item: descriptionLabel, attribute: .top, relatedBy: .equal, toItem: subtitleLabel, attribute: .bottom) // 16.0 with content. Only active in regular mode.
+        descriptionToMoreRegularConstraint = NSLayoutConstraint(item: additionalDetailsButton, attribute: .top, relatedBy: .equal, toItem: descriptionLabel, attribute: .bottom) // 16.0 with content
+        descriptionToMoreCompactConstraint = NSLayoutConstraint(item: additionalDetailsButton, attribute: .top, relatedBy: .equal, toItem: descriptionLabel, attribute: .bottom) // 9.0 with content
         
         NSLayoutConstraint.activate([
             NSLayoutConstraint(item: sourceLabel, attribute: .leading,  relatedBy: .equal,           toItem: mainLabelLayoutGuide, attribute: .leading),
@@ -183,7 +186,6 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
             NSLayoutConstraint(item: descriptionLabel, attribute: .leading,  relatedBy: .equal,           toItem: detailLabelLayoutGuide, attribute: .leading),
             NSLayoutConstraint(item: descriptionLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: detailLabelLayoutGuide, attribute: .trailing),
             
-            descriptionToMoreConstraint,
             NSLayoutConstraint(item: additionalDetailsButton, attribute: .leading,  relatedBy: .equal,           toItem: detailLabelLayoutGuide, attribute: .leading),
             NSLayoutConstraint(item: additionalDetailsButton, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: detailLabelLayoutGuide, attribute: .trailing),
             NSLayoutConstraint(item: additionalDetailsButton, attribute: .bottom,   relatedBy: .equal,           toItem: detailLabelLayoutGuide, attribute: .bottom),
@@ -203,12 +205,12 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
             NSLayoutConstraint(item: borderedImageView, attribute: .height,   relatedBy: .equal,           toItem: borderedImageView, attribute: .width),
             NSLayoutConstraint(item: borderedImageView, attribute: .width,    relatedBy: .equal,           toConstant: 202),
             
-            
             NSLayoutConstraint(item: mainLabelLayoutGuide, attribute: .top, relatedBy: .equal, toItem: borderedImageView, attribute: .top, constant: 17.0),
             
             NSLayoutConstraint(item: detailLabelLayoutGuide, attribute: .leading, relatedBy: .equal, toItem: mainLabelLayoutGuide, attribute: .leading),
             
-            subtitleToDescriptionConstraint
+            subtitleToDescriptionConstraint,
+            descriptionToMoreRegularConstraint,
         ]
         NSLayoutConstraint.activate(regularWidthConstraints)
         
@@ -226,9 +228,10 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
             NSLayoutConstraint(item: mainLabelLayoutGuide, attribute: .height, relatedBy: .lessThanOrEqual, toItem: compactMainContentGuide, attribute: .height),
             NSLayoutConstraint(item: mainLabelLayoutGuide, attribute: .centerY, relatedBy: .equal, toItem: compactMainContentGuide, attribute: .centerY),
             
-            
-            NSLayoutConstraint(item: detailLabelLayoutGuide, attribute: .top, relatedBy: .equal, toItem: compactMainContentGuide, attribute: .bottom, constant: 12.0),
+            NSLayoutConstraint(item: detailLabelLayoutGuide, attribute: .top, relatedBy: .equal, toItem: compactMainContentGuide, attribute: .bottom, constant: 9.0),
             NSLayoutConstraint(item: detailLabelLayoutGuide, attribute: .leading, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .leading),
+            
+            descriptionToMoreCompactConstraint
         ]
         
         additionalDetailsButton.addTarget(self, action: #selector(additionalDescriptionsButtonDidSelect), for: .touchUpInside)
@@ -307,7 +310,8 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
                     descriptionLabel.isHidden                = hasDescription == false
                     subtitleToDescriptionConstraint.constant = (hasTitle || hasSubtitle) && hasDescription ? 16.0 : 0.0
                 default:
-                    descriptionToMoreConstraint.constant     = (hasTitle || hasSubtitle || hasDescription) && hasMoreDescription ? 16.0 : 0.0
+                    descriptionToMoreRegularConstraint.constant = (hasTitle || hasSubtitle || hasDescription) && hasMoreDescription ? 16.0 : 0.0
+                    descriptionToMoreCompactConstraint.constant = hasDescription && hasMoreDescription ? 8.0 : 0.0
                 }
             }
         } else {
@@ -339,36 +343,44 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
         let displayAsCompact = displaysAsCompact(withContentWidth: width)
         let displayScale = traitCollection.currentDisplayScale
         
-        var textHeight: CGFloat
+        var mainTextHeight: CGFloat
         
         let hasTitle:       Bool
-        let hasSubtitle:    Bool
         let hasDescription: Bool
         
-        let maxTextSize = CGSize(width: (displayAsCompact ? width : width - 217.0).floored(toScale: displayScale), height: CGFloat.greatestFiniteMagnitude)
+        let maxMainTextSize = CGSize(width: (width - (displayAsCompact ? 112.0 : 218.0)).floored(toScale: displayScale), height: CGFloat.greatestFiniteMagnitude)
         
+        let sourceFont: UIFont = .systemFont(ofSize: displayAsCompact ? 10.0 : 11.0, weight: UIFontWeightBold)
+        
+        let titleFont: UIFont
+        let subtitleFont: UIFont
+        if #available(iOS 10, *) {
+            titleFont = displayAsCompact ? .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection) : .systemFont(ofSize: 28.0, weight: UIFontWeightBold)
+            subtitleFont = .preferredFont(forTextStyle: displayAsCompact ? .footnote : .subheadline, compatibleWith: traitCollection)
+        } else {
+            titleFont = displayAsCompact ? .preferredFont(forTextStyle: .headline) : .systemFont(ofSize: 28.0, weight: UIFontWeightBold)
+            subtitleFont = .preferredFont(forTextStyle: displayAsCompact ? .footnote : .subheadline)
+        }
+    
         if let title = title as NSString?, title.length > 0 {
-            let titleFont = UIFont.systemFont(ofSize: 28.0, weight: UIFontWeightBold)
-            textHeight = title.boundingRect(with: maxTextSize, options: [.usesLineFragmentOrigin], attributes: [NSFontAttributeName: titleFont], context: nil).height.ceiled(toScale: displayScale)
+            mainTextHeight = title.boundingRect(with: maxMainTextSize, options: [.usesLineFragmentOrigin], attributes: [NSFontAttributeName: titleFont], context: nil).height.ceiled(toScale: displayScale)
             hasTitle = true
         } else {
-            textHeight = 0.0
+            mainTextHeight = 0.0
             hasTitle = false
         }
         
-        if subtitle?.isEmpty ?? true {
-            hasSubtitle = false
-        } else {
-            let subtitleFont: UIFont
-            if #available(iOS 10, *) {
-                subtitleFont = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
-            } else {
-                subtitleFont = .preferredFont(forTextStyle: .subheadline)
-            }
-            hasSubtitle = true
-            if hasTitle { textHeight += 3.0 }
-            textHeight += subtitleFont.lineHeight.ceiled(toScale: displayScale)
+        if subtitle?.isEmpty ?? true == false {
+            if hasTitle { mainTextHeight += 3.0 }
+            mainTextHeight += subtitleFont.lineHeight.ceiled(toScale: displayScale)
         }
+        
+        if source?.isEmpty ?? true == false {
+            mainTextHeight += UIFont.systemFont(ofSize: 11.0, weight: UIFontWeightBold).lineHeight.ceiled(toScale: displayScale) + 11.0
+        }
+        
+        var detailsHeight: CGFloat
+        let detailsSize = CGSize(width: displayAsCompact ? width : maxMainTextSize.width, height: CGFloat.greatestFiniteMagnitude)
         
         if let description = description as NSString?, description.length > 0 {
             let descriptionFont: UIFont
@@ -378,23 +390,32 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
                 descriptionFont = .preferredFont(forTextStyle: .headline)
             }
             hasDescription = true
-            if hasTitle || hasSubtitle { textHeight += 16.0 }
             
-            textHeight += description.boundingRect(with: maxTextSize, options: [.usesLineFragmentOrigin], attributes: [NSFontAttributeName: descriptionFont], context: nil).height.ceiled(toScale: displayScale)
+            detailsHeight = description.boundingRect(with: detailsSize, options: [.usesLineFragmentOrigin], attributes: [NSFontAttributeName: descriptionFont], context: nil).height.ceiled(toScale: displayScale)
         } else {
+            detailsHeight = 0.0
             hasDescription = false
         }
         
         if additionalDetails?.isEmpty ?? true == false {
-            if hasDescription || hasSubtitle || hasTitle { textHeight += 16.0 }
-            textHeight += UIFont.systemFont(ofSize: 11, weight: UIFontWeightMedium).lineHeight.ceiled(toScale: displayScale) + 13.0
+            if hasDescription { detailsHeight += (displayAsCompact ? 8.0 : 16.0) }
+            detailsHeight += UIFont.systemFont(ofSize: 11, weight: UIFontWeightMedium).lineHeight.ceiled(toScale: displayScale) + 13.0
         }
         
-        if source?.isEmpty ?? true == false {
-            textHeight += UIFont.systemFont(ofSize: 11.0, weight: UIFontWeightBold).lineHeight.ceiled(toScale: displayScale) + 11.0
+        var contentHeight: CGFloat
+        if displayAsCompact {
+            contentHeight = max(mainTextHeight, 96.0) // 96 is the height for the image view in compact mode.
+            if detailsHeight > 0.0 {
+                contentHeight += detailsHeight + 9.0
+            }
+        } else {
+            if detailsHeight > 0.0 {
+                mainTextHeight += detailsHeight + 16.0
+            }
+            contentHeight = max(mainTextHeight, 202.0) // 202 is the height for the image view in regular mode.
         }
         
-        return displayAsCompact ? textHeight : max(textHeight, 202.0) // 202 is the height for the image view in non-compact mode.
+        return contentHeight
     }
     
     
