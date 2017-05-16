@@ -88,11 +88,6 @@ open class FormTextView: UITextView {
         }
     }
     
-    @available(iOS 10.0, *)
-    open override var adjustsFontForContentSizeCategory: Bool {
-        didSet { placeholderLabel.adjustsFontForContentSizeCategory = adjustsFontForContentSizeCategory }
-    }
-    
     open override func layoutSubviews() {
         super.layoutSubviews()
         
@@ -144,16 +139,6 @@ open class FormTextView: UITextView {
     
     @objc private func updatePlaceholderAppearance() {
         placeholderLabel.isHidden = (text?.isEmpty ?? true) == false
-    }
-    
-    
-    
-    // MARK: - Legacy support
-    
-    @available(iOS, introduced: 7.0, deprecated: 10.0, obsoleted: 10.0, message: "Use the adjustsFontForContentSizeCategory property on iOS 10 and later.")
-    public override func legacy_adjustFontForContentSizeCategoryChange() {
-        super.legacy_adjustFontForContentSizeCategoryChange()
-        placeholderLabel.legacy_adjustFontForContentSizeCategoryChange()
     }
     
 }
