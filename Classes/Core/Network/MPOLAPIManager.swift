@@ -24,6 +24,10 @@ open class MPOLAPIManager {
         sessionManager = Alamofire.SessionManager(configuration: configuration)
     }
     
+    /// Create a access token request.
+    ///
+    /// - Parameter grant: The grant type and required field for it.
+    /// - Returns: A URLRequest to request for access token.
     open func accessTokenRequest(grant: OAuthAuthorizationGrant) -> URLRequest {
         
         let path = "login"
@@ -38,6 +42,13 @@ open class MPOLAPIManager {
         return encodedURLRequest
     }
     
+    
+    /// Create a credentials validation using basic authentatication request.
+    ///
+    /// - Parameters:
+    ///   - username: The username
+    ///   - password: The password
+    /// - Returns: A URLRequest to check validity of the credentials.
     open func basicAuthenticationLogin(using username: String, password: String) -> URLRequest {
         
         let path = "login"
