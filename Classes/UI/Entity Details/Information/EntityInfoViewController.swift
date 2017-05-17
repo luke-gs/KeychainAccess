@@ -67,6 +67,11 @@ open class EntityInfoViewController: FormCollectionViewController {
             
             /// Temp updates
             cell.thumbnailView.configure(for: NSObject())
+            if cell.thumbnailView.allTargets.contains(self) == false {
+                cell.thumbnailView.isEnabled = true
+                cell.thumbnailView.addTarget(self, action: #selector(entityThumbnailDidSelect(_:)), for: .primaryActionTriggered)
+            }
+            
             cell.sourceLabel.text = "DATA SOURCE 1"
             cell.titleLabel.text = "Citizen, John R."
             cell.subtitleLabel.text = "08/05/1987 (29 Male)"
@@ -122,5 +127,9 @@ open class EntityInfoViewController: FormCollectionViewController {
     open func entityDetailCellDidSelectAdditionalDetails(_ cell: EntityDetailCollectionViewCell) {
     }
     
+    
+    open func entityThumbnailDidSelect(_ thumbnail: EntityThumbnailView) {
+        
+    }
     
 }

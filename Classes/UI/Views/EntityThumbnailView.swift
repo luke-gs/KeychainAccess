@@ -16,7 +16,6 @@ public class EntityThumbnailView: UIControl {
     
     public let imageView = UIImageView(frame: .zero)
     
-    
     /// The border color.
     ///
     /// When this value is `nil`, the border is automatically hidden.
@@ -46,6 +45,24 @@ public class EntityThumbnailView: UIControl {
     }
     
     
+    // MARK: - Private properties
+    
+    private lazy var highlightView: UIView = { [unowned self] in
+        defer { self.isHighlightViewLoaded = true }
+        
+        let highlightView = UIView(frame: self.backgroundImageView.bounds)
+        highlightView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        highlightView.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.2980303697)
+        highlightView.isHidden = self.isHighlighted == false && self.isEnabled
+        self.backgroundImageView.addSubview(highlightView)
+        return highlightView
+    }()
+    
+    private var isHighlightViewLoaded = false
+    
+    
+    // MARK: - Initializers
+    
     public override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
@@ -71,6 +88,11 @@ public class EntityThumbnailView: UIControl {
         
         layer.rasterizationScale = traitCollection.currentDisplayScale
         layer.shouldRasterize = true
+        
+        accessibilityTraits |= UIAccessibilityTraitButton
+        isEnabled = false
+        
+        addTarget(self, action: #selector(touchUpInside), for: .touchUpInside)
     }
     
     
@@ -101,6 +123,14 @@ public class EntityThumbnailView: UIControl {
         }
     }
     
+    public override var isEnabled: Bool {
+        didSet { updateHighlight() }
+    }
+    
+    public override var isHighlighted: Bool {
+        didSet { updateHighlight() }
+    }
+    
     public override var intrinsicContentSize: CGSize {
         return imageView.intrinsicContentSize
     }
@@ -129,6 +159,16 @@ public class EntityThumbnailView: UIControl {
             backgroundImageView.frame = bounds.insetBy(dx: 4.0, dy: 4.0)
             layer.borderWidth = borderWidth
         }
+    }
+    
+    private func updateHighlight() {
+        if isHighlightViewLoaded || isHighlighted {
+            highlightView.isHidden = isHighlighted == false && isEnabled
+        }
+    }
+    
+    @objc private func touchUpInside() {
+        sendActions(for: .primaryActionTriggered)
     }
     
 }
