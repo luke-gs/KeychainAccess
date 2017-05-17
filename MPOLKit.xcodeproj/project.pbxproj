@@ -155,6 +155,17 @@
 		C605F9EB1ECCB449001194DD /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C605F9E81ECCB449001194DD /* Alamofire.framework */; };
 		C605F9EC1ECCB449001194DD /* Unbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C605F9E91ECCB449001194DD /* Unbox.framework */; };
 		C605F9ED1ECCB449001194DD /* Wrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C605F9EA1ECCB449001194DD /* Wrap.framework */; };
+		C60C890B1ECCB94F00785932 /* SimplePerson.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F9F31ECCB5E4001194DD /* SimplePerson.swift */; };
+		C60C890C1ECCB9A000785932 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C605F9E81ECCB449001194DD /* Alamofire.framework */; };
+		C60C890D1ECCB9A000785932 /* Unbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C605F9E91ECCB449001194DD /* Unbox.framework */; };
+		C60C890E1ECCB9A000785932 /* Wrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C605F9EA1ECCB449001194DD /* Wrap.framework */; };
+		C60C890F1ECCB9A800785932 /* UnboxableResponseSerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F9F11ECCB5C4001194DD /* UnboxableResponseSerializerTests.swift */; };
+		C60C891A1ECCBEC700785932 /* SimplePerson.json in Resources */ = {isa = PBXBuildFile; fileRef = C60C89141ECCBEC700785932 /* SimplePerson.json */; };
+		C60C891B1ECCBEC700785932 /* SimplePersonArray.json in Resources */ = {isa = PBXBuildFile; fileRef = C60C89151ECCBEC700785932 /* SimplePersonArray.json */; };
+		C60C891C1ECCBEC700785932 /* SimplePersonArrayKeyPath.json in Resources */ = {isa = PBXBuildFile; fileRef = C60C89161ECCBEC700785932 /* SimplePersonArrayKeyPath.json */; };
+		C60C891D1ECCBEC700785932 /* SimplePersonArrayNestedKeyPath.json in Resources */ = {isa = PBXBuildFile; fileRef = C60C89171ECCBEC700785932 /* SimplePersonArrayNestedKeyPath.json */; };
+		C60C891E1ECCBEC700785932 /* SimplePersonKeyPath.json in Resources */ = {isa = PBXBuildFile; fileRef = C60C89181ECCBEC700785932 /* SimplePersonKeyPath.json */; };
+		C60C891F1ECCBEC700785932 /* SimplePersonNestedKeyPath.json in Resources */ = {isa = PBXBuildFile; fileRef = C60C89191ECCBEC700785932 /* SimplePersonNestedKeyPath.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -319,6 +330,14 @@
 		C605F9E81ECCB449001194DD /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		C605F9E91ECCB449001194DD /* Unbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Unbox.framework; path = Carthage/Build/iOS/Unbox.framework; sourceTree = "<group>"; };
 		C605F9EA1ECCB449001194DD /* Wrap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Wrap.framework; path = Carthage/Build/iOS/Wrap.framework; sourceTree = "<group>"; };
+		C605F9F11ECCB5C4001194DD /* UnboxableResponseSerializerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnboxableResponseSerializerTests.swift; sourceTree = "<group>"; };
+		C605F9F31ECCB5E4001194DD /* SimplePerson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimplePerson.swift; sourceTree = "<group>"; };
+		C60C89141ECCBEC700785932 /* SimplePerson.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SimplePerson.json; sourceTree = "<group>"; };
+		C60C89151ECCBEC700785932 /* SimplePersonArray.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SimplePersonArray.json; sourceTree = "<group>"; };
+		C60C89161ECCBEC700785932 /* SimplePersonArrayKeyPath.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SimplePersonArrayKeyPath.json; sourceTree = "<group>"; };
+		C60C89171ECCBEC700785932 /* SimplePersonArrayNestedKeyPath.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SimplePersonArrayNestedKeyPath.json; sourceTree = "<group>"; };
+		C60C89181ECCBEC700785932 /* SimplePersonKeyPath.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SimplePersonKeyPath.json; sourceTree = "<group>"; };
+		C60C89191ECCBEC700785932 /* SimplePersonNestedKeyPath.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SimplePersonNestedKeyPath.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -336,6 +355,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C60C890C1ECCB9A000785932 /* Alamofire.framework in Frameworks */,
+				C60C890D1ECCB9A000785932 /* Unbox.framework in Frameworks */,
+				C60C890E1ECCB9A000785932 /* Wrap.framework in Frameworks */,
 				C605F8901ECCAB2C001194DD /* MPOLKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -376,6 +398,7 @@
 			isa = PBXGroup;
 			children = (
 				C605F8941ECCAB2C001194DD /* MPOLKitTests.swift */,
+				C605F9F01ECCB5C4001194DD /* UnboxableResponseSerializerTests */,
 				C605F8961ECCAB2C001194DD /* Info.plist */,
 			);
 			path = MPOLKitTests;
@@ -812,6 +835,29 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		C605F9F01ECCB5C4001194DD /* UnboxableResponseSerializerTests */ = {
+			isa = PBXGroup;
+			children = (
+				C605F9F51ECCB6B5001194DD /* JSON */,
+				C605F9F11ECCB5C4001194DD /* UnboxableResponseSerializerTests.swift */,
+				C605F9F31ECCB5E4001194DD /* SimplePerson.swift */,
+			);
+			path = UnboxableResponseSerializerTests;
+			sourceTree = "<group>";
+		};
+		C605F9F51ECCB6B5001194DD /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				C60C89141ECCBEC700785932 /* SimplePerson.json */,
+				C60C89151ECCBEC700785932 /* SimplePersonArray.json */,
+				C60C89161ECCBEC700785932 /* SimplePersonArrayKeyPath.json */,
+				C60C89171ECCBEC700785932 /* SimplePersonArrayNestedKeyPath.json */,
+				C60C89181ECCBEC700785932 /* SimplePersonKeyPath.json */,
+				C60C89191ECCBEC700785932 /* SimplePersonNestedKeyPath.json */,
+			);
+			path = JSON;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -918,6 +964,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C60C891D1ECCBEC700785932 /* SimplePersonArrayNestedKeyPath.json in Resources */,
+				C60C891C1ECCBEC700785932 /* SimplePersonArrayKeyPath.json in Resources */,
+				C60C891F1ECCBEC700785932 /* SimplePersonNestedKeyPath.json in Resources */,
+				C60C891E1ECCBEC700785932 /* SimplePersonKeyPath.json in Resources */,
+				C60C891B1ECCBEC700785932 /* SimplePersonArray.json in Resources */,
+				C60C891A1ECCBEC700785932 /* SimplePerson.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1073,7 +1125,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C60C890B1ECCB94F00785932 /* SimplePerson.swift in Sources */,
 				C605F8951ECCAB2C001194DD /* MPOLKitTests.swift in Sources */,
+				C60C890F1ECCB9A800785932 /* UnboxableResponseSerializerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1240,8 +1294,12 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = FNW7L4X44S;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = MPOLKitTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/iOS";
 				PRODUCT_BUNDLE_IDENTIFIER = au.com.gridstone.MPOLKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
@@ -1253,8 +1311,12 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = FNW7L4X44S;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = MPOLKitTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(PROJECT_DIR)/Carthage/Build/iOS";
 				PRODUCT_BUNDLE_IDENTIFIER = au.com.gridstone.MPOLKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
