@@ -13,11 +13,11 @@ public enum OAuthAuthorizationGrant {
     /// - Parameters:
     ///   - username: The username.
     ///   - password: The password.
-    case credentials(String, String)
+    case credentials(username: String, password: String)
     
     /// A refresh token grant.
     ///
-    /// - Parameters
+    /// - Parameters:
     ///   - refreshToken: The refresh token.
     case refreshToken(String)
         
