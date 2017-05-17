@@ -8,12 +8,12 @@
 
 import Alamofire
 
-public class MPOLAPIManager {
+open class MPOLAPIManager {
     
-    public let baseURLString: String
-    public let baseURL: URL
+    open let baseURLString: String
+    open let baseURL: URL
     
-    public let sessionManager: Alamofire.SessionManager
+    open let sessionManager: Alamofire.SessionManager
     
     public init(baseURLString: String) {
         self.baseURLString = baseURLString
@@ -24,12 +24,12 @@ public class MPOLAPIManager {
         sessionManager = Alamofire.SessionManager(configuration: configuration)
     }
     
-    public func accessTokenRequest(using username: String, password: String) -> URLRequest {
+    open func accessTokenRequest(grant: OAuthAuthorizationGrant) -> URLRequest {
         
         let path = "login"
-        let requestPath = baseURL.appendingPathComponent(path)
+        let requestPath = url(with: path)
         
-        let parameters = [ "username" : username, "password" : password, "grant_type" : "password" ]
+        let parameters = grant.parameters
         
         // Only known parameters are passed in, if this fail, might as well crash.
         let request: URLRequest = try! URLRequest(url: requestPath, method: .post)
@@ -38,10 +38,10 @@ public class MPOLAPIManager {
         return encodedURLRequest
     }
     
-    public func basicAuthenticationLogin(using username: String, password: String) -> URLRequest {
+    open func basicAuthenticationLogin(using username: String, password: String) -> URLRequest {
         
         let path = "login"
-        let requestPath = baseURL.appendingPathComponent(path)
+        let requestPath = url(with: path)
         
         var headers: HTTPHeaders = [:]
         
@@ -53,4 +53,8 @@ public class MPOLAPIManager {
         return request
     }
     
+    // MARK : - Internal Utilities
+    func url(with path: String) -> URL {
+        return baseURL.appendingPathComponent(path)
+    }
 }
