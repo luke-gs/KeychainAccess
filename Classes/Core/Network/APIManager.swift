@@ -10,14 +10,13 @@ import Alamofire
 
 open class APIManager {
     
-    open let baseURLString: String
     open let baseURL: URL
     
     open let sessionManager: Alamofire.SessionManager
     
-    public init(baseURLString: String) {
-        self.baseURLString = baseURLString
-        baseURL = URL(string: baseURLString)!
+    public init(baseURL: URLConvertible) {
+
+        self.baseURL = try! baseURL.asURL()
         
         let configuration = URLSessionConfiguration.ephemeral
         configuration.httpAdditionalHeaders = SessionManager.defaultHTTPHeaders
