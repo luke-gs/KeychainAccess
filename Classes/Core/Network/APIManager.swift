@@ -1,5 +1,5 @@
 //
-//  MPOLAPIManager.swift
+//  APIManager.swift
 //  MPOL
 //
 //  Created by Herli Halim on 11/5/17.
@@ -8,7 +8,7 @@
 
 import Alamofire
 
-open class MPOLAPIManager {
+open class APIManager {
     
     open let baseURLString: String
     open let baseURL: URL
