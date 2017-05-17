@@ -24,6 +24,8 @@ open class MPOLAPIManager {
         sessionManager = Alamofire.SessionManager(configuration: configuration)
     }
     
+    // MARK: - Authentications
+    
     /// Create a access token request.
     ///
     /// - Parameter grant: The grant type and required field for it.

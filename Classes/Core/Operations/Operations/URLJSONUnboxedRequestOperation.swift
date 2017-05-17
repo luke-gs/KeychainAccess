@@ -32,6 +32,14 @@ final public class URLJSONUnboxedRequestOperation<UnboxableType: Unboxable>: URL
     
     // MARK: - Initializers
     
+    
+    /// The designated initializer for `URLJSONUnboxedRequestOperation`.
+    ///
+    /// - Parameters:
+    ///   - urlRequest: The URL request to be used.
+    ///   - sessionManager: The session manager responsible for the request.
+    ///   - completionHandler: The completion handler with that returns DataResponse that
+    ///                        contains Unboxable protocol comformant.
     public init(urlRequest: URLRequestConvertible,
                 sessionManager: SessionManager = .default,
                 completionHandler: ((DataResponse<UnboxableType>) -> Void)? = nil) {
@@ -41,6 +49,18 @@ final public class URLJSONUnboxedRequestOperation<UnboxableType: Unboxable>: URL
         super.init()
     }
     
+    /// A convenience initializer for creating a `URLJSONUnboxedRequestOperation` with
+    /// the basic components of a request.
+    ///
+    /// - Parameters:
+    ///   - url: The URL for the request.
+    ///   - method: The `HTTPMethod` to perform. The default is `.get`.
+    ///   - parameters: Additional `Parameters` for the request. These will be JSON encoded.
+    ///                 The default is `nil`.
+    ///   - headers: Additional `HTTPHeaders` for the request. The default is `nil`.
+    ///   - sessionManager: The session manager responsible for the request.
+    /// - Throws: Throws an error if the URL request could not be formed from the components,
+    ///           including where the JSON encoding fails.
     public convenience init(url: URLConvertible,
                             method: HTTPMethod = .get,
                             parameters: Parameters? = nil,
