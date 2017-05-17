@@ -1,7 +1,11 @@
 PODS:
   - Alamofire (4.4.0)
   - MPOLKit (0.2.0):
-    - Alamofire
+    - Alamofire (= 4.4.0)
+    - Unbox (= 2.4.0)
+    - Wrap (= 2.1.0)
+  - Unbox (2.4.0)
+  - Wrap (2.1.0)
 
 DEPENDENCIES:
   - MPOLKit (from `../`)
@@ -12,7 +16,9 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
-  MPOLKit: c7f9e26dc55d7ea7c3a2dbd2b660057279451d23
+  MPOLKit: 117cef6bb8881980caaf8aad92525a4c9ff4680f
+  Unbox: c8b2ab69d3337597b4a3f47a0538807dc12db670
+  Wrap: 731fe4fe3c2429c913a8252a17dbe8bb191e69e1
 
 PODFILE CHECKSUM: 246a667faa853e2fff72b019b40242f2642445dd
 
