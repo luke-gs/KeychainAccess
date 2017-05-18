@@ -23,11 +23,7 @@ open class LocalAPIManager: WebAPIURLRequestProvider {
     }
     
     open func basicAuthenticationLogin(using username: String, password: String) -> URLRequest {
-        guard let url = localBundle.url(forResource: "", withExtension: "json") else {
-            throwError(message: #function)
-        }
-        
-        return URLRequest(url: url)
+        fatalError("\(#function) is not implemented")
     }
     
     private func throwError(message: String) -> Never {
