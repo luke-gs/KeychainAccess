@@ -8,7 +8,7 @@
 
 import Alamofire
 
-open class APIManager {
+open class APIManager: WebAPIURLRequestProvider {
     
     open let baseURL: URL
     
