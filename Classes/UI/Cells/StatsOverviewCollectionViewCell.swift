@@ -175,6 +175,8 @@ open class StatsOverviewCollectionViewCell: CollectionViewFormCell {
         scrollView.frame = contentView.bounds
         scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         contentView.addSubview(scrollView)
+        
+        updateFonts()
     }
     
     
@@ -259,9 +261,12 @@ open class StatsOverviewCollectionViewCell: CollectionViewFormCell {
         scrollView.contentOffset = CGPoint(x: -contentInset.left, y: -contentInset.top)
     }
     
-    internal override func applyStandardFonts() {
-        super.applyStandardFonts()
-        
+    open override func contentSizeCategoryDidChange(_ newCategory: UIContentSizeCategory) {
+        super.contentSizeCategoryDidChange(newCategory)
+        updateFonts()
+    }
+    
+    private func updateFonts() {
         titleFont = type(of: self).iconLabelFont(compatibleWith: traitCollection)
         iconLabels.forEach { $0.font = titleFont }
         setNeedsLayout()

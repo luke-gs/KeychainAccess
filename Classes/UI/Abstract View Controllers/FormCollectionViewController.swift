@@ -312,7 +312,4 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
         return Theme.current.statusBarStyle
     }
     
-    open override var prefersStatusBarHidden : Bool {
-        return false
-    }
 }

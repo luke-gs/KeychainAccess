@@ -56,6 +56,15 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         textField.translatesAutoresizingMaskIntoConstraints  = false
         
+        if #available(iOS 10, *) {
+            titleLabel.adjustsFontForContentSizeCategory = true
+            textField.adjustsFontForContentSizeCategory = true
+        }
+        
+        titleLabel.font           = .preferredFont(forTextStyle: .footnote)
+        textField.font            = .preferredFont(forTextStyle: .headline)
+        textField.placeholderFont = .preferredFont(forTextStyle: .subheadline)
+        
         contentView.addSubview(titleLabel)
         contentView.addSubview(textField)
         
@@ -91,7 +100,7 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
         didSet {
             let width = bounds.width
             if width !=~ oldValue.width {
-                titleLabel.preferredMaxLayoutWidth    = width
+                titleLabel.preferredMaxLayoutWidth = width
             }
         }
     }
@@ -100,24 +109,18 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
         didSet {
             let width = frame.width
             if width !=~ oldValue.width {
-                titleLabel.preferredMaxLayoutWidth    = width
+                titleLabel.preferredMaxLayoutWidth = width
             }
         }
     }
     
-    internal override func applyStandardFonts() {
-        super.applyStandardFonts()
+    open override func contentSizeCategoryDidChange(_ newCategory: UIContentSizeCategory) {
+        super.contentSizeCategoryDidChange(newCategory)
         
-        if #available(iOS 10, *) {
-            let traitCollection       = self.traitCollection
-            titleLabel.font           = .preferredFont(forTextStyle: .footnote,    compatibleWith: traitCollection)
-            textField.font            = .preferredFont(forTextStyle: .headline,    compatibleWith: traitCollection)
-            textField.placeholderFont = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
-        } else {
-            titleLabel.font           = .preferredFont(forTextStyle: .footnote)
-            textField.font            = .preferredFont(forTextStyle: .headline)
-            textField.placeholderFont = .preferredFont(forTextStyle: .subheadline)
-        }
+        if #available(iOS 10, *) { return }
+        
+        titleLabel.legacy_adjustFontForContentSizeCategoryChange()
+        textField.legacy_adjustFontForContentSizeCategoryChange()
     }
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {

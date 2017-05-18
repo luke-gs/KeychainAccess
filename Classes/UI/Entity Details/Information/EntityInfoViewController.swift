@@ -31,7 +31,6 @@ open class EntityInfoViewController: FormCollectionViewController {
         
         if let collectionView = self.collectionView {
             collectionView.register(EntityDetailCollectionViewCell.self)
-            collectionView.register(EntityImageHeaderView.self, forSupplementaryViewOfKind: collectionElementKindGlobalHeader)
             collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         }
     }
@@ -48,14 +47,7 @@ open class EntityInfoViewController: FormCollectionViewController {
     }
     
     open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        
-        if kind == collectionElementKindGlobalHeader {
-            let globalHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: EntityImageHeaderView.self, for: indexPath)
-            let borderedImageView = globalHeader.borderedImageView
-            borderedImageView.imageView.image = #imageLiteral(resourceName: "Avatar 1")
-            borderedImageView.borderColor = AlertLevel.high.color
-            return globalHeader
-        } else if indexPath.section == 0 && kind == UICollectionElementKindSectionHeader {
+        if indexPath.section == 0 && kind == UICollectionElementKindSectionHeader {
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
             header.showsExpandArrow = false
             header.tapHandler       = nil
@@ -74,13 +66,17 @@ open class EntityInfoViewController: FormCollectionViewController {
             }
             
             /// Temp updates
-            cell.imageView.image = #imageLiteral(resourceName: "Avatar 1")
+            cell.thumbnailView.configure(for: NSObject())
+            if cell.thumbnailView.allTargets.contains(self) == false {
+                cell.thumbnailView.isEnabled = true
+                cell.thumbnailView.addTarget(self, action: #selector(entityThumbnailDidSelect(_:)), for: .primaryActionTriggered)
+            }
+            
             cell.sourceLabel.text = "DATA SOURCE 1"
             cell.titleLabel.text = "Citizen, John R."
             cell.subtitleLabel.text = "08/05/1987 (29 Male)"
             cell.descriptionLabel.text = "196 cm proportionate european male with short brown hair and brown eyes"
             cell.additionalDetailsButton.setTitle("4 MORE DESCRIPTIONS", for: .normal)
-            cell.alertColor = AlertLevel.high.color
             
             return cell
         }
@@ -103,14 +99,6 @@ open class EntityInfoViewController: FormCollectionViewController {
     
     
     // MARK: - CollectionViewDelegateMPOLLayout methods
-    
-    public func collectionView(_ collectionView: UICollectionView, heightForGlobalHeaderInLayout layout: CollectionViewFormLayout) -> CGFloat {
-        let itemLayoutMargins = layout.itemLayoutMargins
-        if EntityDetailCollectionViewCell.displaysAsCompact(withContentWidth: collectionView.bounds.width - itemLayoutMargins.left - itemLayoutMargins.right) {
-            return collectionView.bounds.width * 0.6
-        }
-        return 0.0
-    }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
         if section == 0 {
@@ -139,27 +127,9 @@ open class EntityInfoViewController: FormCollectionViewController {
     open func entityDetailCellDidSelectAdditionalDetails(_ cell: EntityDetailCollectionViewCell) {
     }
     
-}
-
-
-private class EntityImageHeaderView: UICollectionReusableView, DefaultReusable {
     
-    let borderedImageView = BorderedImageView(frame: CGRect(x: 0.0, y: 0.0, width: 100.0, height: 100.0))
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    open func entityThumbnailDidSelect(_ thumbnail: EntityThumbnailView) {
         
-        borderedImageView.frame = bounds
-        borderedImageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        borderedImageView.wantsRoundedCorners = false
-        addSubview(borderedImageView)
     }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    
     
 }
-

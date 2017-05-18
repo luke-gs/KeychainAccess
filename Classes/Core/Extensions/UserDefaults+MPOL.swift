@@ -1,9 +1,9 @@
 //
 //  UserDefaults+MPOL.swift
-//  Pods
+//  MPOLKit
 //
 //  Created by Rod Brown on 9/5/17.
-//
+//  Copyright © 2017 Gridstone. All rights reserved.
 //
 
 import Foundation
