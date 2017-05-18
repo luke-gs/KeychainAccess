@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		C605F8901ECCAB2C001194DD /* MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C605F8861ECCAB2B001194DD /* MPOLKit.framework */; };
 		C605F8951ECCAB2C001194DD /* MPOLKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F8941ECCAB2C001194DD /* MPOLKitTests.swift */; };
-		C605F8A71ECCAD3B001194DD /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = C605F8A21ECCAD3B001194DD /* .gitkeep */; };
 		C605F8A81ECCAD3B001194DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C605F8A31ECCAD3B001194DD /* Assets.xcassets */; };
 		C605F8A91ECCAD3B001194DD /* Manifest.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C605F8A41ECCAD3B001194DD /* Manifest.xcdatamodeld */; };
 		C605F8AA1ECCAD3B001194DD /* ThemePack.json in Resources */ = {isa = PBXBuildFile; fileRef = C605F8A61ECCAD3B001194DD /* ThemePack.json */; };
@@ -183,7 +182,6 @@
 		C605F88F1ECCAB2C001194DD /* MPOLKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MPOLKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C605F8941ECCAB2C001194DD /* MPOLKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPOLKitTests.swift; sourceTree = "<group>"; };
 		C605F8961ECCAB2C001194DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C605F8A21ECCAD3B001194DD /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		C605F8A31ECCAD3B001194DD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C605F8A51ECCAD3B001194DD /* Manifest.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Manifest.xcdatamodel; sourceTree = "<group>"; };
 		C605F8A61ECCAD3B001194DD /* ThemePack.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ThemePack.json; sourceTree = "<group>"; };
@@ -407,7 +405,6 @@
 		C605F8A11ECCAD3B001194DD /* Assets */ = {
 			isa = PBXGroup;
 			children = (
-				C605F8A21ECCAD3B001194DD /* .gitkeep */,
 				C605F8A31ECCAD3B001194DD /* Assets.xcassets */,
 				C605F8A41ECCAD3B001194DD /* Manifest.xcdatamodeld */,
 				C605F8A61ECCAD3B001194DD /* ThemePack.json */,
@@ -956,7 +953,6 @@
 			files = (
 				C605F8AA1ECCAD3B001194DD /* ThemePack.json in Resources */,
 				C605F8A81ECCAD3B001194DD /* Assets.xcassets in Resources */,
-				C605F8A71ECCAD3B001194DD /* .gitkeep in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
