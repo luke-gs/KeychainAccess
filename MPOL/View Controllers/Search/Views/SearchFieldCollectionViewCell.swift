@@ -84,6 +84,14 @@ class SearchFieldCollectionViewCell: CollectionViewFormCell {
         
         NotificationCenter.default.addObserver(self, selector: #selector(textFieldDidBeginEditing(_:)), name: .UITextFieldTextDidBeginEditing, object: textField)
         NotificationCenter.default.addObserver(self, selector: #selector(textFieldDidEndEditing(_:)),   name: .UITextFieldTextDidEndEditing,   object: textField)
+        
+        accessibilityLabel  = NSLocalizedString("Search", comment: "Accessibility")
+        accessibilityTraits |= UIAccessibilityTraitSearchField
+    }
+    
+    override var accessibilityValue: String? {
+        get { return textField.text }
+        set { }
     }
     
     

@@ -13,6 +13,15 @@ fileprivate let searchAnimationDuration: TimeInterval = 0.4
 
 fileprivate var kvoContext = 1
 
+fileprivate let navigationItemKeyPaths: [String] = [
+    #keyPath(UINavigationItem.leftBarButtonItems),
+    #keyPath(UINavigationItem.leftBarButtonItem),
+    #keyPath(UINavigationItem.rightBarButtonItems),
+    #keyPath(UINavigationItem.rightBarButtonItem),
+    #keyPath(UINavigationItem.title),
+    #keyPath(UINavigationItem.titleView)
+]
+
 class SearchViewController: UIViewController, SearchRecentsViewControllerDelegate, SearchResultsDelegate, SearchNavigationFieldDelegate, SearchOptionsViewControllerDelegate {
     
     let recentsViewController = SearchRecentsViewController()
@@ -27,7 +36,10 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
         let resultsController = SearchResultsListViewController()
         resultsController.delegate = self
         self.isResultsListViewControllerLoaded = true
+        
+        
         resultsController.navigationItem.addObserver(self, forKeyPath: #keyPath(UINavigationItem.rightBarButtonItems), context: &kvoContext)
+        resultsController.navigationItem.addObserver(self, forKeyPath: #keyPath(UINavigationItem.rightBarButtonItem), context: &kvoContext)
         return resultsController
     }()
     
@@ -83,6 +95,11 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
         addChildViewController(recentsViewController)
         recentsViewController.didMove(toParentViewController: self)
         
+        let recentsNavItem = recentsViewController.navigationItem
+        navigationItemKeyPaths.forEach {
+            recentsNavItem.addObserver(self, forKeyPath: $0, context: &kvoContext)
+        }
+        
         updateNavigationItem(animated: false)
     }
     
@@ -93,6 +110,12 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     deinit {
         if isResultsListViewControllerLoaded {
             resultsListViewController.navigationItem.removeObserver(self, forKeyPath: #keyPath(UINavigationItem.rightBarButtonItems), context: &kvoContext)
+            resultsListViewController.navigationItem.removeObserver(self, forKeyPath: #keyPath(UINavigationItem.rightBarButtonItem), context: &kvoContext)
+        }
+        
+        let recentsNavItem = recentsViewController.navigationItem
+        navigationItemKeyPaths.forEach {
+            recentsNavItem.removeObserver(self, forKeyPath: $0, context: &kvoContext)
         }
     }
     
@@ -287,8 +310,10 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {
-            if isShowingResults && isShowingSearchOptions == false {
-                updateNavigationItem(animated: true)
+            if let navItem = object as? UINavigationItem {
+                if (navItem == recentsViewController.navigationItem && isShowingSearchOptions == false && isShowingResults == false) || (navItem == resultsListViewController && isShowingResults && isShowingSearchOptions == false) {
+                    updateNavigationItem(animated: true)
+                }
             }
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
@@ -396,10 +421,12 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
             
             rightBarButtonItems = rightItems
         } else {
-            titleView = nil
-            title = "MPOL" // TODO: Should be from client
-            leftBarButtonItems = nil
-            rightBarButtonItems = [UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(displaySearchTriggered))]
+            let recentsNavItem = recentsViewController.navigationItem
+            
+            titleView = recentsNavItem.titleView
+            title = recentsNavItem.title
+            leftBarButtonItems = recentsNavItem.leftBarButtonItems
+            rightBarButtonItems = [UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(displaySearchTriggered))] + (recentsNavItem.rightBarButtonItems ?? [])
         }
         
         let navigationItem = self.navigationItem
