@@ -10,6 +10,7 @@
 #endif
 #endif
 
+#import "MPOLKit.h"
 #import "UITextView+NotificationWorkaround.h"
 
 FOUNDATION_EXPORT double MPOLKitVersionNumber;
