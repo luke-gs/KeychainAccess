@@ -107,9 +107,6 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
             return 96.0
         }
     }
-
-    
-
     
     
     // MARK: - Public properties
@@ -133,8 +130,8 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
     }
     
     
-    /// The image view for the cell.
-    public var imageView: UIImageView { return borderedImageView.imageView }
+    /// The thumbnail view for the cell.
+    public let thumbnailView = EntityThumbnailView(frame: .zero)
     
     
     /// The title label. This should be used for details such as the driver's name,
@@ -171,23 +168,7 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
     }
     
     
-    /// The alert color for the entity.
-    ///
-    /// This color is used for the alert badge, and when non-`nil` applies a colored
-    /// border around the image.
-    public var alertColor: UIColor? {
-        didSet {
-            if alertColor == oldValue { return }
-            
-            badgeView.backgroundColor = alertColor ?? .gray
-            borderedImageView.borderColor = alertColor
-        }
-    }
-    
-    
     // MARK: - Private properties
-    
-    private let borderedImageView = BorderedImageView(frame: .zero)
     
     private let badgeView = BadgeView(style: .system)
     
@@ -216,23 +197,23 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
     private func commonInit() {
         separatorStyle = .none
         
-        let contentView      = self.contentView
-        let borderImageView  = self.borderedImageView
-        let titleLabel       = self.titleLabel
-        let subtitleLabel    = self.subtitleLabel
-        let detailLabel      = self.detailLabel
-        let badgeView        = self.badgeView
-        let sourceLabel      = self.sourceLabel
-        let textLabelGuide   = self.textLabelGuide
+        let contentView    = self.contentView
+        let thumbnailView  = self.thumbnailView
+        let titleLabel     = self.titleLabel
+        let subtitleLabel  = self.subtitleLabel
+        let detailLabel    = self.detailLabel
+        let badgeView      = self.badgeView
+        let sourceLabel    = self.sourceLabel
+        let textLabelGuide = self.textLabelGuide
         
-        borderImageView.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.translatesAutoresizingMaskIntoConstraints      = false
-        subtitleLabel.translatesAutoresizingMaskIntoConstraints   = false
-        detailLabel.translatesAutoresizingMaskIntoConstraints     = false
-        badgeView.translatesAutoresizingMaskIntoConstraints       = false
-        sourceLabel.translatesAutoresizingMaskIntoConstraints     = false
+        thumbnailView.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.translatesAutoresizingMaskIntoConstraints    = false
+        subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        detailLabel.translatesAutoresizingMaskIntoConstraints   = false
+        badgeView.translatesAutoresizingMaskIntoConstraints     = false
+        sourceLabel.translatesAutoresizingMaskIntoConstraints   = false
         
-        contentView.addSubview(borderImageView)
+        contentView.addSubview(thumbnailView)
         contentView.addSubview(titleLabel)
         contentView.addSubview(subtitleLabel)
         contentView.addSubview(detailLabel)
@@ -244,16 +225,27 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
         subtitleLabel.isHidden = true
         detailLabel.isHidden   = true
         
+        if #available(iOS 10, *) {
+            titleLabel.adjustsFontForContentSizeCategory    = true
+            subtitleLabel.adjustsFontForContentSizeCategory = true
+            detailLabel.adjustsFontForContentSizeCategory   = true
+        }
+        
+        let footnoteFont   = UIFont.preferredFont(forTextStyle: .footnote)
+        titleLabel.font    = .preferredFont(forTextStyle: .headline)
+        subtitleLabel.font = footnoteFont
+        detailLabel.font   = footnoteFont
+    
         titleToSubtitleConstraint  = NSLayoutConstraint(item: subtitleLabel, attribute: .top, relatedBy: .equal, toItem: titleLabel,    attribute: .bottom)
         subtitleToDetailConstraint = NSLayoutConstraint(item: detailLabel,   attribute: .top, relatedBy: .equal, toItem: subtitleLabel, attribute: .bottom)
         
         NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: badgeView, attribute: .centerX, relatedBy: .equal, toItem: borderImageView, attribute: .trailing, constant: -2.0),
-            NSLayoutConstraint(item: badgeView, attribute: .centerY, relatedBy: .equal, toItem: borderImageView, attribute: .top,      constant: 2.0),
+            NSLayoutConstraint(item: badgeView, attribute: .centerX, relatedBy: .equal, toItem: thumbnailView, attribute: .trailing, constant: -2.0),
+            NSLayoutConstraint(item: badgeView, attribute: .centerY, relatedBy: .equal, toItem: thumbnailView, attribute: .top,      constant: 2.0),
             
-            NSLayoutConstraint(item: sourceLabel, attribute: .leading,  relatedBy: .equal,           toItem: borderImageView, attribute: .leading,  constant: 6.0),
-            NSLayoutConstraint(item: sourceLabel, attribute: .bottom,   relatedBy: .equal,           toItem: borderImageView, attribute: .bottom,   constant: -6.0),
-            NSLayoutConstraint(item: sourceLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: borderImageView, attribute: .trailing, constant: -6.0),
+            NSLayoutConstraint(item: sourceLabel, attribute: .leading,  relatedBy: .equal,           toItem: thumbnailView, attribute: .leading,  constant: 6.0),
+            NSLayoutConstraint(item: sourceLabel, attribute: .bottom,   relatedBy: .equal,           toItem: thumbnailView, attribute: .bottom,   constant: -6.0),
+            NSLayoutConstraint(item: sourceLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: thumbnailView, attribute: .trailing, constant: -6.0),
             
             NSLayoutConstraint(item: titleLabel,    attribute: .leading,  relatedBy: .equal,           toItem: textLabelGuide, attribute: .leading),
             NSLayoutConstraint(item: subtitleLabel, attribute: .leading,  relatedBy: .equal,           toItem: textLabelGuide, attribute: .leading),
@@ -269,8 +261,6 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
         ])
         
         badgeView.backgroundColor = .gray
-        borderedImageView.layer.shouldRasterize = true
-        borderedImageView.layer.rasterizationScale = UIScreen.main.scale
         
         let textKey = #keyPath(UILabel.text)
         titleLabel.addObserver(self,    forKeyPath: textKey, context: &textContext)
@@ -298,42 +288,42 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
             switch style {
             case .hero:
                 styleConstraints = [
-                    NSLayoutConstraint(item: borderedImageView, attribute: .width,   relatedBy: .equal, toConstant: 184.0),
-                    NSLayoutConstraint(item: borderedImageView, attribute: .height,  relatedBy: .equal, toConstant: 160.0),
-                    NSLayoutConstraint(item: borderedImageView, attribute: .top,     relatedBy: .equal, toItem: contentModeGuide, attribute: .top),
-                    NSLayoutConstraint(item: borderedImageView, attribute: .leading, relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .leading),
-                    NSLayoutConstraint(item: borderedImageView, attribute: .centerX, relatedBy: .equal, toItem: contentModeGuide, attribute: .centerX, priority: UILayoutPriorityRequired - 1),
+                    NSLayoutConstraint(item: thumbnailView, attribute: .width,   relatedBy: .equal, toConstant: 184.0),
+                    NSLayoutConstraint(item: thumbnailView, attribute: .height,  relatedBy: .equal, toConstant: 160.0),
+                    NSLayoutConstraint(item: thumbnailView, attribute: .top,     relatedBy: .equal, toItem: contentModeGuide, attribute: .top),
+                    NSLayoutConstraint(item: thumbnailView, attribute: .leading, relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .leading),
+                    NSLayoutConstraint(item: thumbnailView, attribute: .centerX, relatedBy: .equal, toItem: contentModeGuide, attribute: .centerX, priority: UILayoutPriorityRequired - 1),
                     
-                    NSLayoutConstraint(item: textLabelGuide, attribute: .leading,  relatedBy: .equal, toItem: borderedImageView, attribute: .leading),
-                    NSLayoutConstraint(item: textLabelGuide, attribute: .top,      relatedBy: .equal, toItem: borderedImageView, attribute: .bottom, constant: 9.0),
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .leading,  relatedBy: .equal, toItem: thumbnailView, attribute: .leading),
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .top,      relatedBy: .equal, toItem: thumbnailView, attribute: .bottom, constant: 9.0),
                     NSLayoutConstraint(item: textLabelGuide, attribute: .bottom,   relatedBy: .equal, toItem: contentModeGuide, attribute: .bottom),
                     NSLayoutConstraint(item: textLabelGuide, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentModeGuide, attribute: .trailing),
                 ]
             case .detail:
                 styleConstraints = [
-                    NSLayoutConstraint(item: borderedImageView, attribute: .width,   relatedBy: .equal, toConstant: 96.0),
-                    NSLayoutConstraint(item: borderedImageView, attribute: .height,  relatedBy: .equal, toConstant: 96.0),
-                    NSLayoutConstraint(item: borderedImageView, attribute: .leading, relatedBy: .equal, toItem: contentModeGuide, attribute: .leading),
-                    NSLayoutConstraint(item: borderedImageView, attribute: .centerY, relatedBy: .equal, toItem: contentModeGuide, attribute: .centerY, priority: UILayoutPriorityRequired - 1),
-                    NSLayoutConstraint(item: borderedImageView, attribute: .top,     relatedBy: .greaterThanOrEqual, toItem: contentModeGuide, attribute: .top),
+                    NSLayoutConstraint(item: thumbnailView, attribute: .width,   relatedBy: .equal, toConstant: 96.0),
+                    NSLayoutConstraint(item: thumbnailView, attribute: .height,  relatedBy: .equal, toConstant: 96.0),
+                    NSLayoutConstraint(item: thumbnailView, attribute: .leading, relatedBy: .equal, toItem: contentModeGuide, attribute: .leading),
+                    NSLayoutConstraint(item: thumbnailView, attribute: .centerY, relatedBy: .equal, toItem: contentModeGuide, attribute: .centerY, priority: UILayoutPriorityRequired - 1),
+                    NSLayoutConstraint(item: thumbnailView, attribute: .top,     relatedBy: .greaterThanOrEqual, toItem: contentModeGuide, attribute: .top),
                     
-                    NSLayoutConstraint(item: textLabelGuide, attribute: .leading,  relatedBy: .equal, toItem: borderedImageView, attribute: .trailing, constant: 10.0),
-                    NSLayoutConstraint(item: textLabelGuide, attribute: .centerY,  relatedBy: .equal, toItem: borderedImageView, attribute: .centerY),
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .leading,  relatedBy: .equal, toItem: thumbnailView, attribute: .trailing, constant: 10.0),
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .centerY,  relatedBy: .equal, toItem: thumbnailView, attribute: .centerY),
                     NSLayoutConstraint(item: textLabelGuide, attribute: .top,      relatedBy: .greaterThanOrEqual, toItem: contentModeGuide, attribute: .top),
                     NSLayoutConstraint(item: textLabelGuide, attribute: .trailing, relatedBy: .lessThanOrEqual,    toItem: contentModeGuide, attribute: .trailing),
                 ]
             case .thumbnail:
                 styleConstraints = [
-                    NSLayoutConstraint(item: borderedImageView, attribute: .width,   relatedBy: .equal, toConstant: 96.0),
-                    NSLayoutConstraint(item: borderedImageView, attribute: .height,  relatedBy: .equal, toConstant: 96.0),
-                    NSLayoutConstraint(item: borderedImageView, attribute: .top,     relatedBy: .equal, toItem: contentModeGuide, attribute: .top),
-                    NSLayoutConstraint(item: borderedImageView, attribute: .centerY, relatedBy: .equal, toItem: contentModeGuide, attribute: .centerY),
-                    NSLayoutConstraint(item: borderedImageView, attribute: .leading, relatedBy: .greaterThanOrEqual, toItem: contentModeGuide, attribute: .leading),
-                    NSLayoutConstraint(item: borderedImageView, attribute: .centerX, relatedBy: .equal, toItem: contentModeGuide, attribute: .centerX, priority: UILayoutPriorityRequired - 1),
+                    NSLayoutConstraint(item: thumbnailView, attribute: .width,   relatedBy: .equal, toConstant: 96.0),
+                    NSLayoutConstraint(item: thumbnailView, attribute: .height,  relatedBy: .equal, toConstant: 96.0),
+                    NSLayoutConstraint(item: thumbnailView, attribute: .top,     relatedBy: .equal, toItem: contentModeGuide, attribute: .top),
+                    NSLayoutConstraint(item: thumbnailView, attribute: .centerY, relatedBy: .equal, toItem: contentModeGuide, attribute: .centerY),
+                    NSLayoutConstraint(item: thumbnailView, attribute: .leading, relatedBy: .greaterThanOrEqual, toItem: contentModeGuide, attribute: .leading),
+                    NSLayoutConstraint(item: thumbnailView, attribute: .centerX, relatedBy: .equal, toItem: contentModeGuide, attribute: .centerX, priority: UILayoutPriorityRequired - 1),
                     
-                    NSLayoutConstraint(item: textLabelGuide, attribute: .leading,  relatedBy: .equal, toItem: borderedImageView, attribute: .trailing, constant: 10.0),
-                    NSLayoutConstraint(item: textLabelGuide, attribute: .centerY,  relatedBy: .equal, toItem: borderedImageView, attribute: .centerY),
-                    NSLayoutConstraint(item: textLabelGuide, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: borderedImageView, attribute: .trailing, constant: 110),
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .leading,  relatedBy: .equal, toItem: thumbnailView, attribute: .trailing, constant: 10.0),
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .centerY,  relatedBy: .equal, toItem: thumbnailView, attribute: .centerY),
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: thumbnailView, attribute: .trailing, constant: 110),
                 ]
             }
             
@@ -346,12 +336,6 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
     
     
     // MARK: - Change handlers
-    
-    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        
-        borderedImageView.layer.rasterizationScale = traitCollection.currentDisplayScale
-    }
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &textContext {
@@ -374,24 +358,14 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
         }
     }
     
-    internal override func applyStandardFonts() {
-        super.applyStandardFonts()
+    public override func contentSizeCategoryDidChange(_ newCategory: UIContentSizeCategory) {
+        super.contentSizeCategoryDidChange(newCategory)
         
-        let titleFont: UIFont
-        let footnoteFont: UIFont
+        if #available(iOS 10, *) { return }
         
-        if #available(iOS 10, *) {
-            let traitCollection = self.traitCollection
-            titleFont    = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
-            footnoteFont = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
-        } else {
-            titleFont    = .preferredFont(forTextStyle: .headline)
-            footnoteFont = .preferredFont(forTextStyle: .footnote)
-        }
-        
-        titleLabel.font    = titleFont
-        subtitleLabel.font = footnoteFont
-        detailLabel.font   = footnoteFont
+        titleLabel.legacy_adjustFontForContentSizeCategoryChange()
+        subtitleLabel.legacy_adjustFontForContentSizeCategoryChange()
+        detailLabel.legacy_adjustFontForContentSizeCategoryChange()
     }
     
     

@@ -121,10 +121,14 @@ open class PushableSplitViewController: UIViewController, UISplitViewControllerD
             }
             
             // show back icon with pop action.
-            return UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(backButtonItemDidSelect))
+            let backItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(backButtonItemDidSelect))
+            backItem.accessibilityLabel = NSLocalizedString("Back", comment: "Navigation bar button item accessibility")
+            return backItem
         } else if presentingViewController != nil || isBeingPresented || isBeingDismissed {
             // show close icon with dismiss action
-            return UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(closeButtonItemDidSelect))
+            let closeItem = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(closeButtonItemDidSelect))
+            closeItem.accessibilityLabel = NSLocalizedString("Close", comment: "Navigation bar button item accessibility")
+            return closeItem
         }
         return nil
     }

@@ -19,7 +19,23 @@ internal class CollectionViewFormCellActionView: UIScrollView, UIScrollViewDeleg
     
     var actions: [CollectionViewFormEditAction] = [] {
         didSet {
-            if actions == oldValue { return }
+            
+            // Run a visual equivalence check.
+            let actionCount = actions.count
+            if actionCount == oldValue.count {
+                var same: Bool = true
+                for i in 0..<actionCount {
+                    if actions[i].isVisuallyEqual(to: oldValue[i]) == false {
+                        // This item was not the same. Break out.
+                        same = false
+                        break
+                    }
+                }
+                if same {
+                    // if all visually the same, return out.
+                    return
+                }
+            }
             
             setNeedsButtonReload()
             

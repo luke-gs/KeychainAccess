@@ -61,6 +61,16 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         textView.translatesAutoresizingMaskIntoConstraints = false
         
+        if #available(iOS 10, *) {
+            titleLabel.adjustsFontForContentSizeCategory = true
+            textView.adjustsFontForContentSizeCategory = true
+            textView.placeholderLabel.adjustsFontForContentSizeCategory = true
+        }
+        
+        titleLabel.font = .preferredFont(forTextStyle: .footnote)
+        textView.font   = .preferredFont(forTextStyle: .headline)
+        textView.placeholderLabel.font = .preferredFont(forTextStyle: .subheadline)
+        
         contentView.addSubview(titleLabel)
         contentView.addSubview(textView)
         
@@ -160,19 +170,14 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
         }
     }
     
-    internal override func applyStandardFonts() {
-        super.applyStandardFonts()
+    open override func contentSizeCategoryDidChange(_ newCategory: UIContentSizeCategory) {
+        super.contentSizeCategoryDidChange(newCategory)
         
-        if #available(iOS 10, *) {
-            let traitCollection = self.traitCollection
-            titleLabel.font     = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
-            textView.font       = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
-            textView.placeholderLabel.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
-        } else {
-            titleLabel.font     = .preferredFont(forTextStyle: .footnote)
-            textView.font       = .preferredFont(forTextStyle: .headline)
-            textView.placeholderLabel.font = .preferredFont(forTextStyle: .subheadline)
-        }
+        if #available(iOS 10, *) { return }
+        
+        titleLabel.legacy_adjustFontForContentSizeCategoryChange()
+        textView.legacy_adjustFontForContentSizeCategoryChange()
+        textView.placeholderLabel.legacy_adjustFontForContentSizeCategoryChange()
     }
     
     

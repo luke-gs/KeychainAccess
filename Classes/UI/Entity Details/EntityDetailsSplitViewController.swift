@@ -30,10 +30,12 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
         
         sidebarViewController.sourceItems = [SourceItem(title: "DS1", state: .notLoaded)]
         
-        let formForwardIcon = UIImage(named: "iconFormForward", in: .mpolKit, compatibleWith: nil)
+//        let formForwardIcon = UIImage(named: "iconFormForward", in: .mpolKit, compatibleWith: nil)
+//        let actionsButtonItem = UIBarButtonItem(image: formForwardIcon, style: .plain, target: nil, action:  nil)
+//        actionsButtonItem.accessibilityLabel = NSLocalizedString("Actions", comment: "Navigation bar button item accessibility")
+//        sidebarViewController.navigationItem.rightBarButtonItem = actionsButtonItem
         
         sidebarViewController.title = "Details"
-        sidebarViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(image: formForwardIcon, style: .plain, target: nil, action:  nil)
         sidebarViewController.headerView = headerView
         
         headerView.typeLabel.text        = "PERSON"
