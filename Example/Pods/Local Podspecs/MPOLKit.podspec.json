@@ -19,7 +19,7 @@
     "ios": "9.0"
   },
   "source_files": "Classes/**/*",
-  "resources": "Assets/**/*",
+  "resources": "Assets/*",
   "dependencies": {
     "Alamofire": [
       "4.4.0"

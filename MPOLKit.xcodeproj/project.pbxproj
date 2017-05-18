@@ -165,6 +165,9 @@
 		C60C891D1ECCBEC700785932 /* SimplePersonArrayNestedKeyPath.json in Resources */ = {isa = PBXBuildFile; fileRef = C60C89171ECCBEC700785932 /* SimplePersonArrayNestedKeyPath.json */; };
 		C60C891E1ECCBEC700785932 /* SimplePersonKeyPath.json in Resources */ = {isa = PBXBuildFile; fileRef = C60C89181ECCBEC700785932 /* SimplePersonKeyPath.json */; };
 		C60C891F1ECCBEC700785932 /* SimplePersonNestedKeyPath.json in Resources */ = {isa = PBXBuildFile; fileRef = C60C89191ECCBEC700785932 /* SimplePersonNestedKeyPath.json */; };
+		C6F5DED21ECD5C62008E7BE2 /* AccessToken.json in Resources */ = {isa = PBXBuildFile; fileRef = C6F5DED11ECD5C62008E7BE2 /* AccessToken.json */; };
+		C6F5DED41ECD5CE0008E7BE2 /* LocalAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F5DED31ECD5CE0008E7BE2 /* LocalAPIManager.swift */; };
+		C6F5DED61ECD5CE6008E7BE2 /* WebAPIProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F5DED51ECD5CE6008E7BE2 /* WebAPIProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -336,6 +339,9 @@
 		C60C89181ECCBEC700785932 /* SimplePersonKeyPath.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SimplePersonKeyPath.json; sourceTree = "<group>"; };
 		C60C89191ECCBEC700785932 /* SimplePersonNestedKeyPath.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SimplePersonNestedKeyPath.json; sourceTree = "<group>"; };
 		C60C89261ECD420900785932 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
+		C6F5DED11ECD5C62008E7BE2 /* AccessToken.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AccessToken.json; sourceTree = "<group>"; };
+		C6F5DED31ECD5CE0008E7BE2 /* LocalAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalAPIManager.swift; sourceTree = "<group>"; };
+		C6F5DED51ECD5CE6008E7BE2 /* WebAPIProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebAPIProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -408,6 +414,7 @@
 				C605F8A31ECCAD3B001194DD /* Assets.xcassets */,
 				C605F8A41ECCAD3B001194DD /* Manifest.xcdatamodeld */,
 				C605F8A61ECCAD3B001194DD /* ThemePack.json */,
+				C6F5DED01ECD5C62008E7BE2 /* Mock JSONs */,
 			);
 			path = Assets;
 			sourceTree = SOURCE_ROOT;
@@ -488,7 +495,9 @@
 			isa = PBXGroup;
 			children = (
 				C605F8C31ECCAD47001194DD /* APIManager.swift */,
+				C6F5DED31ECD5CE0008E7BE2 /* LocalAPIManager.swift */,
 				C605F8C41ECCAD47001194DD /* OAuthAuthorizationGrant.swift */,
+				C6F5DED51ECD5CE6008E7BE2 /* WebAPIProtocol.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -855,6 +864,14 @@
 			path = JSON;
 			sourceTree = "<group>";
 		};
+		C6F5DED01ECD5C62008E7BE2 /* Mock JSONs */ = {
+			isa = PBXGroup;
+			children = (
+				C6F5DED11ECD5C62008E7BE2 /* AccessToken.json */,
+			);
+			path = "Mock JSONs";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -951,6 +968,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C6F5DED21ECD5C62008E7BE2 /* AccessToken.json in Resources */,
 				C605F8AA1ECCAD3B001194DD /* ThemePack.json in Resources */,
 				C605F8A81ECCAD3B001194DD /* Assets.xcassets in Resources */,
 			);
@@ -981,6 +999,7 @@
 				C605F95D1ECCAD48001194DD /* OAuthAccessToken.swift in Sources */,
 				C605F9671ECCAD48001194DD /* Entity.swift in Sources */,
 				C605F96C1ECCAD48001194DD /* OAuthAuthorizationGrant.swift in Sources */,
+				C6F5DED61ECD5CE6008E7BE2 /* WebAPIProtocol.swift in Sources */,
 				C605F9871ECCAD48001194DD /* CollectionViewFormExpandingHeaderView.swift in Sources */,
 				C605F9D71ECCAD48001194DD /* SidebarTableViewCell.swift in Sources */,
 				C605F9961ECCAD48001194DD /* UITableViewCell+LayoutMargins.swift in Sources */,
@@ -1007,6 +1026,7 @@
 				C605F9C11ECCAD48001194DD /* UIColor+Hex.swift in Sources */,
 				C605F9C01ECCAD48001194DD /* Bundle+MPOLKit.swift in Sources */,
 				C605F9B21ECCAD48001194DD /* CollectionViewFormProgressCell.swift in Sources */,
+				C6F5DED41ECD5CE0008E7BE2 /* LocalAPIManager.swift in Sources */,
 				C605F9A01ECCAD48001194DD /* TableViewFormExpandingHeaderCell.swift in Sources */,
 				C605F9BB1ECCAD48001194DD /* EntityDetailCollectionViewCell.swift in Sources */,
 				C605F9CC1ECCAD48001194DD /* LoginViewController.swift in Sources */,
