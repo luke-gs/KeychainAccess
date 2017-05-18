@@ -10,9 +10,17 @@ import Unbox
 
 open class Entity: NSObject, Serialisable {
     
+    open class var localizedDisplayName: String {
+        return NSLocalizedString("Entity", comment: "")
+    }
+    
+    
     open let id: String
+    open var source: String?
     open var alertLevel: AlertLevel?
     open var associatedAlertLevel: AlertLevel?
+    
+    open var actionCount: UInt = 0
     
     open var alerts: [AlertLevel]?
     

@@ -10,6 +10,7 @@ import UIKit
 
 open class PersonInfoViewController: EntityInfoViewController {
     
+    
     // MARK: - View lifecycle
     
     open override func viewDidLoad() {

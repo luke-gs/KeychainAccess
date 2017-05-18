@@ -8,9 +8,11 @@
 
 import UIKit
 
-open class EntityAlertsViewController: FormCollectionViewController {
+open class EntityAlertsViewController: FormCollectionViewController, EntityDetailViewController {
     
     private var statusDotCache: [AlertLevel: UIImage] = [:]
+    
+    open var entity: Entity?
     
     public override init() {
         super.init()

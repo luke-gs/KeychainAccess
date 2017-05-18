@@ -8,8 +8,10 @@
 
 import UIKit
 
-open class EntityAssociationsViewController: FormCollectionViewController {
+open class EntityAssociationsViewController: FormCollectionViewController, EntityDetailViewController {
 
+    open var entity: Entity?
+    
     public override init() {
         super.init()
         title = "Associations"

@@ -8,7 +8,9 @@
 
 import UIKit
 
-open class EntityOccurrencesViewController: FormCollectionViewController {
+open class EntityOccurrencesViewController: FormCollectionViewController, EntityDetailViewController {
+    
+    open var entity: Entity?
 
     public override init() {
         super.init()

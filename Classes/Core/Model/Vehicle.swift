@@ -10,6 +10,10 @@ import Unbox
 
 open class Vehicle: Entity {
     
+    open override class var localizedDisplayName: String {
+        return NSLocalizedString("Vehicle", comment: "")
+    }
+    
     open var bodyType: String?
     
     open var primaryColor: String?

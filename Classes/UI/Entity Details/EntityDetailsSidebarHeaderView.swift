@@ -38,7 +38,8 @@ open class EntityDetailsSidebarHeaderView: UIView {
         accessibilityTraits |= UIAccessibilityTraitHeader
         
         thumbnailView.translatesAutoresizingMaskIntoConstraints = false
-        thumbnailView.contentMode = .scaleAspectFill
+        thumbnailView.contentMode = .scaleAspectFit
+        thumbnailView.backgroundColor = #colorLiteral(red: 0.1642476916, green: 0.1795658767, blue: 0.2130921185, alpha: 1)
         thumbnailView.clipsToBounds = true
         
         let thumbnailLayer = thumbnailView.layer

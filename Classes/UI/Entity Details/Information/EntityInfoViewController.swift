@@ -8,7 +8,12 @@
 
 import UIKit
 
-open class EntityInfoViewController: FormCollectionViewController {
+open class EntityInfoViewController: FormCollectionViewController, EntityDetailViewController {
+    
+    open var entity: Entity?
+    
+    
+    // MARK: - Initializers
     
     public override init() {
         super.init()
@@ -72,7 +77,7 @@ open class EntityInfoViewController: FormCollectionViewController {
                 cell.thumbnailView.addTarget(self, action: #selector(entityThumbnailDidSelect(_:)), for: .primaryActionTriggered)
             }
             
-            cell.sourceLabel.text = "DATA SOURCE 1"
+            cell.sourceLabel.text = entity?.source?.localizedUppercase
             cell.titleLabel.text = "Citizen, John R."
             cell.subtitleLabel.text = "08/05/1987 (29 Male)"
             cell.descriptionLabel.text = "196 cm proportionate european male with short brown hair and brown eyes"

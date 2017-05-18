@@ -100,7 +100,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
             sidebarSplitViewController.title = "Sidebar SVC"
             
             let tabBarController = UITabBarController()
-            tabBarController.viewControllers = [pushableSVNavController, UINavigationController(rootViewController: sidebarSplitViewController), EntityDetailsSplitViewController(entity: NSObject())]
+            
+            
+            let person = Person()
+            person.source = "LEAP"
+            
+            tabBarController.viewControllers = [pushableSVNavController, UINavigationController(rootViewController: sidebarSplitViewController), EntityDetailsSplitViewController(entity: person)]
             self.window?.rootViewController = tabBarController
         }
         
