@@ -144,7 +144,6 @@
 		C605F9DD1ECCAD48001194DD /* ViewControllerAnimationOptionTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F94F1ECCAD47001194DD /* ViewControllerAnimationOptionTransition.swift */; };
 		C605F9DE1ECCAD48001194DD /* AlertIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F9511ECCAD48001194DD /* AlertIndicatorView.swift */; };
 		C605F9DF1ECCAD48001194DD /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F9521ECCAD48001194DD /* BadgeView.swift */; };
-		C605F9E01ECCAD48001194DD /* BorderedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F9531ECCAD48001194DD /* BorderedImageView.swift */; };
 		C605F9E11ECCAD48001194DD /* CircleIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F9541ECCAD48001194DD /* CircleIconView.swift */; };
 		C605F9E21ECCAD48001194DD /* FormDisclosureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F9551ECCAD48001194DD /* FormDisclosureView.swift */; };
 		C605F9E31ECCAD48001194DD /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F9561ECCAD48001194DD /* GradientView.swift */; };
@@ -168,6 +167,9 @@
 		C6F5DED21ECD5C62008E7BE2 /* AccessToken.json in Resources */ = {isa = PBXBuildFile; fileRef = C6F5DED11ECD5C62008E7BE2 /* AccessToken.json */; };
 		C6F5DED41ECD5CE0008E7BE2 /* LocalAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F5DED31ECD5CE0008E7BE2 /* LocalAPIManager.swift */; };
 		C6F5DED61ECD5CE6008E7BE2 /* WebAPIProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F5DED51ECD5CE6008E7BE2 /* WebAPIProtocol.swift */; };
+		C6F5E01A1ECD6496008E7BE2 /* UIContentSizeCategoryLegacyAdjusting.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F5E0191ECD6496008E7BE2 /* UIContentSizeCategoryLegacyAdjusting.swift */; };
+		C6F5E01C1ECD649E008E7BE2 /* UIFont+TextStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F5E01B1ECD649E008E7BE2 /* UIFont+TextStyle.swift */; };
+		C6F5E01E1ECD64EE008E7BE2 /* EntityThumbnailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F5E01D1ECD64EE008E7BE2 /* EntityThumbnailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -320,7 +322,6 @@
 		C605F94F1ECCAD47001194DD /* ViewControllerAnimationOptionTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerAnimationOptionTransition.swift; sourceTree = "<group>"; };
 		C605F9511ECCAD48001194DD /* AlertIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertIndicatorView.swift; sourceTree = "<group>"; };
 		C605F9521ECCAD48001194DD /* BadgeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
-		C605F9531ECCAD48001194DD /* BorderedImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderedImageView.swift; sourceTree = "<group>"; };
 		C605F9541ECCAD48001194DD /* CircleIconView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleIconView.swift; sourceTree = "<group>"; };
 		C605F9551ECCAD48001194DD /* FormDisclosureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormDisclosureView.swift; sourceTree = "<group>"; };
 		C605F9561ECCAD48001194DD /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
@@ -342,6 +343,9 @@
 		C6F5DED11ECD5C62008E7BE2 /* AccessToken.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AccessToken.json; sourceTree = "<group>"; };
 		C6F5DED31ECD5CE0008E7BE2 /* LocalAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalAPIManager.swift; sourceTree = "<group>"; };
 		C6F5DED51ECD5CE6008E7BE2 /* WebAPIProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebAPIProtocol.swift; sourceTree = "<group>"; };
+		C6F5E0191ECD6496008E7BE2 /* UIContentSizeCategoryLegacyAdjusting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIContentSizeCategoryLegacyAdjusting.swift; sourceTree = "<group>"; };
+		C6F5E01B1ECD649E008E7BE2 /* UIFont+TextStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+TextStyle.swift"; sourceTree = "<group>"; };
+		C6F5E01D1ECD64EE008E7BE2 /* EntityThumbnailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityThumbnailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -616,7 +620,9 @@
 				C605F8F21ECCAD47001194DD /* NSLayoutConstraint+Conveniences.swift */,
 				C605F8F31ECCAD47001194DD /* UICollectionView+DefaultReuse.swift */,
 				C605F8F41ECCAD47001194DD /* UIColor+ActionColors.swift */,
+				C6F5E0191ECD6496008E7BE2 /* UIContentSizeCategoryLegacyAdjusting.swift */,
 				C605F8F51ECCAD47001194DD /* UIEdgeInsets+Convenience.swift */,
+				C6F5E01B1ECD649E008E7BE2 /* UIFont+TextStyle.swift */,
 				C605F8F61ECCAD47001194DD /* UIImage+FormIcons.swift */,
 				C605F8F71ECCAD47001194DD /* UITableView+DefaultReuse.swift */,
 				C605F8F81ECCAD47001194DD /* UITableViewCell+LayoutMargins.swift */,
@@ -820,8 +826,8 @@
 			children = (
 				C605F9511ECCAD48001194DD /* AlertIndicatorView.swift */,
 				C605F9521ECCAD48001194DD /* BadgeView.swift */,
-				C605F9531ECCAD48001194DD /* BorderedImageView.swift */,
 				C605F9541ECCAD48001194DD /* CircleIconView.swift */,
+				C6F5E01D1ECD64EE008E7BE2 /* EntityThumbnailView.swift */,
 				C605F9551ECCAD48001194DD /* FormDisclosureView.swift */,
 				C605F9561ECCAD48001194DD /* GradientView.swift */,
 				C605F9571ECCAD48001194DD /* NavigationBarExtension.swift */,
@@ -1007,6 +1013,7 @@
 				C605F9B81ECCAD48001194DD /* EntityDetailsSidebarHeaderView.swift in Sources */,
 				C605F9D31ECCAD48001194DD /* PopoverViewController.swift in Sources */,
 				C605F9BF1ECCAD48001194DD /* VehicleInfoViewController.swift in Sources */,
+				C6F5E01A1ECD6496008E7BE2 /* UIContentSizeCategoryLegacyAdjusting.swift in Sources */,
 				C605F9B91ECCAD48001194DD /* EntityDetailsSplitViewController.swift in Sources */,
 				C605F9CB1ECCAD48001194DD /* KeyboardAnimationDetails.swift in Sources */,
 				C605F9911ECCAD48001194DD /* UICollectionView+DefaultReuse.swift in Sources */,
@@ -1065,6 +1072,7 @@
 				C605F9761ECCAD48001194DD /* Operation.swift in Sources */,
 				C605F96F1ECCAD48001194DD /* OperationCondition.swift in Sources */,
 				C605F9D41ECCAD48001194DD /* ScrollViewInsetManager.swift in Sources */,
+				C6F5E01E1ECD64EE008E7BE2 /* EntityThumbnailView.swift in Sources */,
 				C605F9BE1ECCAD48001194DD /* PersonInfoViewController.swift in Sources */,
 				C605F9B51ECCAD48001194DD /* StatsOverviewCollectionViewCell.swift in Sources */,
 				C605F99D1ECCAD48001194DD /* DefaultReusable.swift in Sources */,
@@ -1084,8 +1092,8 @@
 				C605F98D1ECCAD48001194DD /* CoreGraphics+Convenience.swift in Sources */,
 				C605F99E1ECCAD48001194DD /* TableViewFormCell.swift in Sources */,
 				C605F96E1ECCAD48001194DD /* MutuallyExclusiveCondition.swift in Sources */,
+				C6F5E01C1ECD649E008E7BE2 /* UIFont+TextStyle.swift in Sources */,
 				C605F9601ECCAD48001194DD /* UnboxableResponseSerializer.swift in Sources */,
-				C605F9E01ECCAD48001194DD /* BorderedImageView.swift in Sources */,
 				C605F9DD1ECCAD48001194DD /* ViewControllerAnimationOptionTransition.swift in Sources */,
 				C605F9C71ECCAD48001194DD /* UITextView+NotificationWorkaround.m in Sources */,
 				C605F9681ECCAD48001194DD /* EntityAlert.swift in Sources */,
@@ -1274,6 +1282,7 @@
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = au.com.gridstone.MPOLKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1297,6 +1306,7 @@
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = au.com.gridstone.MPOLKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
