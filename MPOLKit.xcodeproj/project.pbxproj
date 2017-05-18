@@ -42,7 +42,7 @@
 		C605F9761ECCAD48001194DD /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F8D31ECCAD47001194DD /* Operation.swift */; };
 		C605F9771ECCAD48001194DD /* OperationErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F8D41ECCAD47001194DD /* OperationErrors.swift */; };
 		C605F9781ECCAD48001194DD /* URLJSONRequestOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F8D51ECCAD47001194DD /* URLJSONRequestOperation.swift */; };
-		C605F9791ECCAD48001194DD /* URLJSONUnboxedRequestOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F8D61ECCAD47001194DD /* URLJSONUnboxedRequestOperation.swift */; };
+		C605F9791ECCAD48001194DD /* UnboxedURLRequestOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F8D61ECCAD47001194DD /* UnboxedURLRequestOperation.swift */; };
 		C605F97A1ECCAD48001194DD /* URLRequestOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F8D71ECCAD47001194DD /* URLRequestOperation.swift */; };
 		C605F97B1ECCAD48001194DD /* DefaultCustomStringConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F8D91ECCAD47001194DD /* DefaultCustomStringConvertible.swift */; };
 		C605F97C1ECCAD48001194DD /* ModelVersionable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F8DA1ECCAD47001194DD /* ModelVersionable.swift */; };
@@ -220,7 +220,7 @@
 		C605F8D31ECCAD47001194DD /* Operation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operation.swift; sourceTree = "<group>"; };
 		C605F8D41ECCAD47001194DD /* OperationErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationErrors.swift; sourceTree = "<group>"; };
 		C605F8D51ECCAD47001194DD /* URLJSONRequestOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLJSONRequestOperation.swift; sourceTree = "<group>"; };
-		C605F8D61ECCAD47001194DD /* URLJSONUnboxedRequestOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLJSONUnboxedRequestOperation.swift; sourceTree = "<group>"; };
+		C605F8D61ECCAD47001194DD /* UnboxedURLRequestOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnboxedURLRequestOperation.swift; sourceTree = "<group>"; };
 		C605F8D71ECCAD47001194DD /* URLRequestOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLRequestOperation.swift; sourceTree = "<group>"; };
 		C605F8D91ECCAD47001194DD /* DefaultCustomStringConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultCustomStringConvertible.swift; sourceTree = "<group>"; };
 		C605F8DA1ECCAD47001194DD /* ModelVersionable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelVersionable.swift; sourceTree = "<group>"; };
@@ -552,7 +552,7 @@
 				C605F8D31ECCAD47001194DD /* Operation.swift */,
 				C605F8D41ECCAD47001194DD /* OperationErrors.swift */,
 				C605F8D51ECCAD47001194DD /* URLJSONRequestOperation.swift */,
-				C605F8D61ECCAD47001194DD /* URLJSONUnboxedRequestOperation.swift */,
+				C605F8D61ECCAD47001194DD /* UnboxedURLRequestOperation.swift */,
 				C605F8D71ECCAD47001194DD /* URLRequestOperation.swift */,
 			);
 			path = Operations;
@@ -1050,7 +1050,7 @@
 				C605F98A1ECCAD48001194DD /* CollectionViewFormTextFieldCell.swift in Sources */,
 				C605F9831ECCAD48001194DD /* CollectionViewFormCell.swift in Sources */,
 				C605F9B01ECCAD48001194DD /* PushableSplitViewController.swift in Sources */,
-				C605F9791ECCAD48001194DD /* URLJSONUnboxedRequestOperation.swift in Sources */,
+				C605F9791ECCAD48001194DD /* UnboxedURLRequestOperation.swift in Sources */,
 				C605F95B1ECCAD48001194DD /* AlertLevel.swift in Sources */,
 				C605F9B61ECCAD48001194DD /* EntityAlertsViewController.swift in Sources */,
 				C605F9CF1ECCAD48001194DD /* PickerTableViewController.swift in Sources */,
