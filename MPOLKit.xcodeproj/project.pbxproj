@@ -265,7 +265,6 @@
 		C605F90C1ECCAD47001194DD /* FormTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormTextView.swift; sourceTree = "<group>"; };
 		C605F90D1ECCAD47001194DD /* RadioButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
 		C605F90E1ECCAD47001194DD /* SelectableButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectableButton.swift; sourceTree = "<group>"; };
-		C605F90F1ECCAD47001194DD /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Classes/Info.plist; sourceTree = "<group>"; };
 		C605F9101ECCAD47001194DD /* MPOLKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPOLKit.h; sourceTree = "<group>"; };
 		C605F9111ECCAD47001194DD /* MPOLKitInitialize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPOLKitInitialize.swift; sourceTree = "<group>"; };
 		C605F9141ECCAD47001194DD /* FormCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormCollectionViewController.swift; sourceTree = "<group>"; };
@@ -338,6 +337,7 @@
 		C60C89171ECCBEC700785932 /* SimplePersonArrayNestedKeyPath.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SimplePersonArrayNestedKeyPath.json; sourceTree = "<group>"; };
 		C60C89181ECCBEC700785932 /* SimplePersonKeyPath.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SimplePersonKeyPath.json; sourceTree = "<group>"; };
 		C60C89191ECCBEC700785932 /* SimplePersonNestedKeyPath.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SimplePersonNestedKeyPath.json; sourceTree = "<group>"; };
+		C60C89261ECD420900785932 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -369,7 +369,6 @@
 			isa = PBXGroup;
 			children = (
 				C605F8881ECCAB2B001194DD /* MPOLKit */,
-				C605F90F1ECCAD47001194DD /* Info.plist */,
 				C605F9E71ECCB423001194DD /* Frameworks */,
 				C605F8931ECCAB2C001194DD /* MPOLKitTests */,
 				C605F8871ECCAB2B001194DD /* Products */,
@@ -390,6 +389,7 @@
 			children = (
 				C605F8AB1ECCAD47001194DD /* Classes */,
 				C605F8A11ECCAD3B001194DD /* Assets */,
+				C60C89261ECD420900785932 /* Info.plist */,
 			);
 			path = MPOLKit;
 			sourceTree = "<group>";
@@ -1256,7 +1256,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/Classes/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = au.com.gridstone.MPOLKit;
@@ -1279,7 +1279,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/Classes/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = au.com.gridstone.MPOLKit;
