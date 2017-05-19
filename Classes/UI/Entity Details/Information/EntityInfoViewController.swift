@@ -8,9 +8,7 @@
 
 import UIKit
 
-open class EntityInfoViewController: FormCollectionViewController, EntityDetailViewController {
-    
-    open var entity: Entity?
+open class EntityInfoViewController: EntityDetailCollectionViewController {
     
     
     // MARK: - Initializers

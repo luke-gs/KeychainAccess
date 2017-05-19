@@ -71,14 +71,14 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
         
         selectedRepresentation = entity
                 
-        let detailVCs: [UIViewController] = [
+        let detailVCs: [EntityDetailCollectionViewController] = [
             PersonInfoViewController(),
             EntityAlertsViewController(),
             EntityAssociationsViewController(),
             EntityOccurrencesViewController()
         ]
         
-        detailVCs.forEach { ($0 as! EntityDetailViewController).entity = entity }
+        detailVCs.forEach { $0.entity = entity }
         
         super.init(detailViewControllers: detailVCs)
         

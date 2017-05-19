@@ -8,9 +8,15 @@
 
 import UIKit
 
-open class EntityAssociationsViewController: FormCollectionViewController, EntityDetailViewController {
-
-    open var entity: Entity?
+open class EntityAssociationsViewController: EntityDetailCollectionViewController {
+    
+    open override var entity: Entity? {
+        didSet {
+            updateNoContentSubtitle()
+            hasContent = false // temp
+        }
+    }
+    
     
     public override init() {
         super.init()
@@ -24,5 +30,24 @@ open class EntityAssociationsViewController: FormCollectionViewController, Entit
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    
+    open override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        noContentTitleLabel?.text = NSLocalizedString("No Associations Found", comment: "")
+        updateNoContentSubtitle()
+    }
 
+    
+    private func updateNoContentSubtitle() {
+        guard let label = noContentSubtitleLabel else { return }
+        
+        var noContentSubtitle = NSLocalizedString("This entity has no associations", comment: "")
+        if let entity = entity {
+            noContentSubtitle = noContentSubtitle.replacingOccurrences(of: "entity", with: type(of: entity).localizedDisplayName.lowercased(with: nil))
+        }
+        label.text = noContentSubtitle
+    }
+    
 }

@@ -8,16 +8,45 @@
 
 import UIKit
 
-open class EntityAlertsViewController: FormCollectionViewController, EntityDetailViewController {
+open class EntityAlertsViewController: EntityDetailCollectionViewController {
     
     private var statusDotCache: [Alert.Level: UIImage] = [:]
     
-    open var entity: Entity? {
+    open override var entity: Entity? {
         didSet {
+            updateNoContentSubtitle()
+            let sidebarItem = self.sidebarItem
+            
+            guard var alerts = entity?.alerts, alerts.isEmpty == false else {
+                self.sections = []
+                sidebarItem.count = 0
+                return
+            }
+            
+            alerts.sort(by: { $0.level.rawValue > $1.level.rawValue })
+            
+            sidebarItem.count = UInt(alerts.count)
+            sidebarItem.alertColor = alerts.first?.level.color
+            
+            var sections: [[Alert]] = []
+            while let firstAlertLevel = alerts.first?.level {
+                if let firstDifferentIndex = alerts.index(where: { $0.level != firstAlertLevel }) {
+                    sections.append(Array(alerts.dropFirst(firstDifferentIndex)))
+                } else {
+                    sections.append(alerts)
+                    alerts.removeAll()
+                }
+            }
+            self.sections = sections
         }
     }
     
-    private var sections: [[Alert]] = []
+    private var sections: [[Alert]] = [[]] {
+        didSet {
+            hasContent = sections.isEmpty == false
+            collectionView?.reloadData()
+        }
+    }
     
     public override init() {
         super.init()
@@ -26,8 +55,6 @@ open class EntityAlertsViewController: FormCollectionViewController, EntityDetai
         let sidebarItem = self.sidebarItem
         sidebarItem.image         = UIImage(named: "iconGeneralAlert",       in: .mpolKit, compatibleWith: nil)
         sidebarItem.selectedImage = UIImage(named: "iconGeneralAlertFilled", in: .mpolKit, compatibleWith: nil)
-        sidebarItem.count = 5
-        sidebarItem.alertColor = Alert.Level.medium.color
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -36,6 +63,9 @@ open class EntityAlertsViewController: FormCollectionViewController, EntityDetai
     
     open override func viewDidLoad() {
         super.viewDidLoad()
+        
+        noContentTitleLabel?.text = NSLocalizedString("No Alerts Found", comment: "")
+        updateNoContentSubtitle()
         
         guard let collectionView = self.collectionView else { return }
         
@@ -55,8 +85,11 @@ open class EntityAlertsViewController: FormCollectionViewController, EntityDetai
         let cell = collectionView.dequeueReusableCell(of: CollectionViewFormDetailCell.self, for: indexPath)
         cell.highlightStyle     = .fade
         cell.selectionStyle     = .fade
+        cell.accessoryView = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
         
-        let alertLevel = Alert.Level(rawValue: indexPath.item % 3 + 1)!
+        let alert = sections[indexPath.section][indexPath.item]
+        
+        let alertLevel = alert.level
         if let cachedImage = statusDotCache[alertLevel] {
             cell.imageView.image = cachedImage
         } else {
@@ -65,11 +98,14 @@ open class EntityAlertsViewController: FormCollectionViewController, EntityDetai
             cell.imageView.image = image
         }
         
-        cell.titleLabel.text    = "Wanted For Questioning"
-        cell.subtitleLabel.text = "Effective from 21/01/15 - 21/12/14"
-        cell.detailLabel.text   = "Individual is wanted for questioning in connection to a confrontation that happed at the Royal Motel, 133-155 Kingsclere Avenue, Keysborough VIC 3173. The event took place on..."
+        cell.titleLabel.text    = alert.title
+        cell.detailLabel.text = alert.description
         
-        cell.accessoryView = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
+        if let date = alert.effectiveDate {
+            cell.subtitleLabel.text = NSLocalizedString("Effective from ", comment: "") + DateFormatter.shortDate.string(from: date)
+        } else {
+            cell.subtitleLabel.text = NSLocalizedString("Effective date unknown", comment: "")
+        }
         
         return cell
     }
@@ -77,9 +113,15 @@ open class EntityAlertsViewController: FormCollectionViewController, EntityDetai
     open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionElementKindSectionHeader {
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
-            header.text = "5 ACTIVE ALERTS"
-            header.showsExpandArrow = true
-            header.isExpanded = true
+            
+            let alerts = sections[indexPath.section]
+            let alertCount = alerts.count
+            if alertCount > 0 {
+                let alertLevel = alerts.first!.level
+                header.text = "\(alertCount) \(alertLevel.localizedTitle.uppercased(with: nil)) " + (alertCount > 1 ? NSLocalizedString("ALERTS", comment: "") : NSLocalizedString("ALERT", comment: ""))
+            } else {
+                header.text = nil
+            }
             return header
         }
         return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
@@ -108,6 +150,16 @@ open class EntityAlertsViewController: FormCollectionViewController, EntityDetai
     
     
     // MARK: - Private
+    
+    private func updateNoContentSubtitle() {
+        guard let label = noContentSubtitleLabel else { return }
+        
+        var noContentSubtitle = NSLocalizedString("This entity has no alerts", comment: "")
+        if let entity = entity {
+            noContentSubtitle = noContentSubtitle.replacingOccurrences(of: "entity", with: type(of: entity).localizedDisplayName.lowercased(with: nil))
+        }
+        label.text = noContentSubtitle
+    }
     
 }
 

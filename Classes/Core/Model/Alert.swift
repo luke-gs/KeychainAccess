@@ -10,6 +10,8 @@ import Unbox
 
 open class Alert: NSObject, Serialisable {
     
+    private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
+    
     public enum Level: Int, UnboxableEnum {
         case low    = 1
         case medium = 2
@@ -23,10 +25,26 @@ open class Alert: NSObject, Serialisable {
             }
         }
         
+        public var localizedTitle: String {
+            switch self {
+            case .low:    return NSLocalizedString("Low",    comment: "Alert Level Title")
+            case .medium: return NSLocalizedString("Medium", comment: "Alert Level Title")
+            case .high:   return NSLocalizedString("High",   comment: "Alert Level Title")
+            }
+        }
+        
     }
     
     open var id: String
     open var level: Alert.Level
+    
+    // MARK: - Temp properties
+    open var title: String?
+    open var details: String?
+    open var effectiveDate: Date?
+    
+    
+    // MARK: - Equality
     
     open override func isEqual(_ object: Any?) -> Bool {
         if let object = object as? Alert {
@@ -46,7 +64,11 @@ open class Alert: NSObject, Serialisable {
         
         self.id = id
         self.level = level
-
+        
+        // temp properties
+        title   = unboxer.unbox(key: "title")
+        details = unboxer.unbox(key: "details")
+        effectiveDate = unboxer.unbox(key: "effectiveDate", formatter: Alert.dateTransformer)
     }
     
     // MARK: - NSSecureCoding
@@ -59,6 +81,10 @@ open class Alert: NSObject, Serialisable {
         
         self.id = id
         self.level = level
+        
+        title = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.title.rawValue) as String?
+        details = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.details.rawValue) as String?
+        effectiveDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.effectiveDate.rawValue) as Date?
         
         super.init()
     }
@@ -83,4 +109,7 @@ private enum CodingKey: String {
     case version
     case id
     case level
+    case title
+    case details
+    case effectiveDate
 }

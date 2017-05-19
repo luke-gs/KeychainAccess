@@ -25,6 +25,10 @@ open class Person: Entity {
         }
     }
     
+    open override class var localizedDisplayName: String {
+        return NSLocalizedString("Person", comment: "")
+    }
+    
     open var givenName: String?
 
     open var familyName: String?

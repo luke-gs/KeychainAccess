@@ -167,6 +167,14 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
         }
     }
     
+    public var alertColor: UIColor? {
+        didSet {
+            if alertColor == oldValue { return }
+            
+            badgeView.backgroundColor = alertColor ?? .gray
+        }
+    }
+    
     
     // MARK: - Private properties
     
