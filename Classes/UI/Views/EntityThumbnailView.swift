@@ -101,7 +101,7 @@ public class EntityThumbnailView: UIControl {
     public func configure(for entity: Any) {
         // TODO: Configure for real entities
         backgroundImageView.image = #imageLiteral(resourceName: "Avatar 1")
-        borderColor = AlertLevel.high.color
+        borderColor = Alert.Level.high.color
     }
     
     

@@ -17,12 +17,12 @@ open class Entity: NSObject, Serialisable {
     
     open let id: String
     open var source: String?
-    open var alertLevel: AlertLevel?
-    open var associatedAlertLevel: AlertLevel?
+    open var alertLevel: Alert.Level?
+    open var associatedAlertLevel: Alert.Level?
     
     open var actionCount: UInt = 0
     
-    open var alerts: [AlertLevel]?
+    open var alerts: [Alert]?
     
     public required init(id: String = NSUUID().uuidString) {
         self.id = id
@@ -53,8 +53,8 @@ open class Entity: NSObject, Serialisable {
         
         self.id = id
         
-        alertLevel = AlertLevel(rawValue: aDecoder.decodeInteger(forKey: CodingKey.alertLevel.rawValue))
-        associatedAlertLevel = AlertLevel(rawValue: aDecoder.decodeInteger(forKey: CodingKey.alertLevel.rawValue))
+        alertLevel = Alert.Level(rawValue: aDecoder.decodeInteger(forKey: CodingKey.alertLevel.rawValue))
+        associatedAlertLevel = Alert.Level(rawValue: aDecoder.decodeInteger(forKey: CodingKey.alertLevel.rawValue))
 
         super.init()
     }

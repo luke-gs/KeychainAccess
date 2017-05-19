@@ -180,7 +180,7 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
         
         switch selectedRepresentation {
         case _ as Person:
-            return (#imageLiteral(resourceName: "Avatar 1"), .scaleAspectFill)
+            return (#imageLiteral(resourceName: "Avatar 1"), .scaleAspectFill) // TODO: Get image from person
         case _ as Vehicle:
             return (nil, .scaleAspectFit) // vehicle image
         default:

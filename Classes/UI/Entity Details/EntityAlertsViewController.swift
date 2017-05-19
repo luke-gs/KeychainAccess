@@ -10,9 +10,14 @@ import UIKit
 
 open class EntityAlertsViewController: FormCollectionViewController, EntityDetailViewController {
     
-    private var statusDotCache: [AlertLevel: UIImage] = [:]
+    private var statusDotCache: [Alert.Level: UIImage] = [:]
     
-    open var entity: Entity?
+    open var entity: Entity? {
+        didSet {
+        }
+    }
+    
+    private var sections: [[Alert]] = []
     
     public override init() {
         super.init()
@@ -22,7 +27,7 @@ open class EntityAlertsViewController: FormCollectionViewController, EntityDetai
         sidebarItem.image         = UIImage(named: "iconGeneralAlert",       in: .mpolKit, compatibleWith: nil)
         sidebarItem.selectedImage = UIImage(named: "iconGeneralAlertFilled", in: .mpolKit, compatibleWith: nil)
         sidebarItem.count = 5
-        sidebarItem.alertColor = AlertLevel.medium.color
+        sidebarItem.alertColor = Alert.Level.medium.color
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -38,8 +43,12 @@ open class EntityAlertsViewController: FormCollectionViewController, EntityDetai
         collectionView.register(CollectionViewFormDetailCell.self)
     }
     
+    public func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return sections.count
+    }
+    
     open override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 100
+        return sections[section].count
     }
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -47,7 +56,7 @@ open class EntityAlertsViewController: FormCollectionViewController, EntityDetai
         cell.highlightStyle     = .fade
         cell.selectionStyle     = .fade
         
-        let alertLevel = AlertLevel(rawValue: indexPath.item % 3 + 1)!
+        let alertLevel = Alert.Level(rawValue: indexPath.item % 3 + 1)!
         if let cachedImage = statusDotCache[alertLevel] {
             cell.imageView.image = cachedImage
         } else {
@@ -96,6 +105,9 @@ open class EntityAlertsViewController: FormCollectionViewController, EntityDetai
         
         return height
     }
+    
+    
+    // MARK: - Private
     
 }
 
