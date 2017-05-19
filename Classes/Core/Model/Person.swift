@@ -34,6 +34,8 @@ open class Person: Entity {
     
     open var gender: Gender?
     
+    open var addresses: [Address]?
+    
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -56,6 +58,8 @@ open class Person: Entity {
         dateOfDeath = unboxer.unbox(key: "dateOfDeath", formatter: Person.dateTransformer)
      
         gender = unboxer.unbox(key: "gender")
+        
+        addresses = unboxer.unbox(key: "addresses")
     }
     
     open override func encode(with aCoder: NSCoder) {
