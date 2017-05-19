@@ -31,7 +31,7 @@ open class Entity: NSObject, Serialisable {
     
     // MARK: - Unboxable
     public required init(unboxer: Unboxer) throws {
-        guard let id: String = unboxer.unbox(key: "") else {
+        guard let id: String = unboxer.unbox(key: "id") else {
             throw ParsingError.missingRequiredField
         }
         

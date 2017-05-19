@@ -1,5 +1,5 @@
 //
-//  URLJSONUnboxedRequestOperation.swift
+//  UnboxedURLRequestOperation.swift
 //  MPOL
 //
 //  Created by Herli Halim on 15/5/17.
@@ -11,9 +11,9 @@ import Unbox
 
 /// A `URLRequestOperation` for conducting json requests with a remote server and parsing them to Unbox comformant.
 ///
-/// `URLJSONUnboxedRequestOperation` lazily loads its request during execution from
+/// `UnboxedURLRequestOperation` lazily loads its request during execution from
 /// the specified session manager.
-final public class URLJSONUnboxedRequestOperation<UnboxableType: Unboxable>: URLRequestOperation {
+final public class UnboxedURLRequestOperation<UnboxableType: Unboxable>: URLRequestOperation {
     
     // MARK: - Properties
     
