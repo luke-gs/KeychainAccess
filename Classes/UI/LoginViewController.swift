@@ -61,6 +61,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     
     open private(set) lazy var usernameField: UITextField = { [unowned self] in
         let usernameField = self.newTextField()
+        usernameField.delegate = self
         usernameField.accessibilityLabel = NSLocalizedString("Username Field", comment: "Accessibility")
         usernameField.returnKeyType      = .next
         usernameField.addTarget(self, action: #selector(textFieldTextDidChange(_:)), for: .editingChanged)
