@@ -37,6 +37,8 @@ open class Alert: NSObject, Serialisable {
     
     open var id: String
     open var level: Alert.Level
+    open var associatedAlertLevel: Alert.Level?
+    
     
     // MARK: - Temp properties
     open var title: String?
@@ -64,11 +66,14 @@ open class Alert: NSObject, Serialisable {
         
         self.id = id
         self.level = level
+        self.associatedAlertLevel = unboxer.unbox(key: "associatedAlertLevel")
         
         // temp properties
         title   = unboxer.unbox(key: "title")
         details = unboxer.unbox(key: "details")
         effectiveDate = unboxer.unbox(key: "effectiveDate", formatter: Alert.dateTransformer)
+        
+        super.init()
     }
     
     // MARK: - NSSecureCoding

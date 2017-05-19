@@ -42,6 +42,7 @@ open class Entity: NSObject, Serialisable {
         
         self.alerts = unboxer.unbox(key: "alerts")
 
+        super.init()
     }
     
     // MARK: - NSSecureCoding

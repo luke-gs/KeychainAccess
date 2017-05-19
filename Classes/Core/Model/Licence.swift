@@ -1,5 +1,5 @@
 //
-//  Address.swift
+//  Licence.swift
 //  MPOLKit
 //
 //  Created by Herli Halim on 19/5/17.
@@ -8,48 +8,42 @@
 
 import Unbox
 
-open class Address: NSObject, Serialisable {
-
+open class Licence: NSObject, Serialisable {
 
     open let id : String
     
-    open var commonName : String?
-    open var country : String?
+    open var number: String?
+    open var state: String?
+    open var country: String?
+    open var effectiveFromDate: Date?
+    open var effectiveToDate: Date?
+    open var status: String?
     
-    open var floor : String?
     
-    open var postcode : String?
-    
-    open var state : String?
-    open var streetDirectional : String?
-    open var streetName : String?
-    open var streetNumber : String?
-    open var streetType : String?
-    open var suburb : String?
-    open var unitNumber : String?
-    
+
     public required init(id: String = NSUUID().uuidString) {
         self.id = id
         super.init()
     }
-
+    
+    private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
+    
     public required init(unboxer: Unboxer) throws {
+        
         guard let id: String = unboxer.unbox(key: "id") else {
             throw ParsingError.missingRequiredField
         }
         
         self.id = id
         
-        commonName = unboxer.unbox(key: "commonName")
+        number = unboxer.unbox(key: "licenceNumber") //"licenceNumber" <~~ json
+    
         country = unboxer.unbox(key: "country")
-        floor = unboxer.unbox(key: "floor")
-        postcode = unboxer.unbox(key: "postcode")
         state = unboxer.unbox(key: "state")
-        streetDirectional = unboxer.unbox(key: "streetDirectional")
-        streetName = unboxer.unbox(key: "streetName")
-        streetType = unboxer.unbox(key: "streetType")
-        suburb = unboxer.unbox(key: "suburb")
-        unitNumber = unboxer.unbox(key: "unitNumber")
+        status = unboxer.unbox(key: "status")
+        
+        effectiveFromDate = unboxer.unbox(key: "effectiveDate", formatter: Licence.dateTransformer)
+        effectiveToDate = unboxer.unbox(key: "expiryDate", formatter: Licence.dateTransformer)
         
         super.init()
     }
