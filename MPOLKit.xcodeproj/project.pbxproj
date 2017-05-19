@@ -7,12 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BCDDBBE81ECED2B900D66D45 /* EntityAlertsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDDBBDC1ECED2B900D66D45 /* EntityAlertsViewController.swift */; };
+		BCDDBBE91ECED2B900D66D45 /* EntityAssociationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDDBBDD1ECED2B900D66D45 /* EntityAssociationsViewController.swift */; };
+		BCDDBBEA1ECED2B900D66D45 /* EntityDetailsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDDBBDE1ECED2B900D66D45 /* EntityDetailsCollectionViewController.swift */; };
+		BCDDBBEB1ECED2B900D66D45 /* EntityDetailsSidebarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDDBBDF1ECED2B900D66D45 /* EntityDetailsSidebarHeaderView.swift */; };
+		BCDDBBEC1ECED2B900D66D45 /* EntityDetailsSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDDBBE01ECED2B900D66D45 /* EntityDetailsSplitViewController.swift */; };
+		BCDDBBED1ECED2B900D66D45 /* EntityOccurrencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDDBBE11ECED2B900D66D45 /* EntityOccurrencesViewController.swift */; };
+		BCDDBBEE1ECED2B900D66D45 /* EntityDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDDBBE31ECED2B900D66D45 /* EntityDetailCollectionViewCell.swift */; };
+		BCDDBBEF1ECED2B900D66D45 /* EntityInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDDBBE41ECED2B900D66D45 /* EntityInfoViewController.swift */; };
+		BCDDBBF01ECED2B900D66D45 /* OrganizationInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDDBBE51ECED2B900D66D45 /* OrganizationInfoViewController.swift */; };
+		BCDDBBF11ECED2B900D66D45 /* PersonInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDDBBE61ECED2B900D66D45 /* PersonInfoViewController.swift */; };
+		BCDDBBF21ECED2B900D66D45 /* VehicleInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDDBBE71ECED2B900D66D45 /* VehicleInfoViewController.swift */; };
+		BCDDBBF41ECED2E700D66D45 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDDBBF31ECED2E700D66D45 /* Alert.swift */; };
 		C605F8901ECCAB2C001194DD /* MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C605F8861ECCAB2B001194DD /* MPOLKit.framework */; };
 		C605F8951ECCAB2C001194DD /* MPOLKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F8941ECCAB2C001194DD /* MPOLKitTests.swift */; };
 		C605F8A81ECCAD3B001194DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C605F8A31ECCAD3B001194DD /* Assets.xcassets */; };
 		C605F8A91ECCAD3B001194DD /* Manifest.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C605F8A41ECCAD3B001194DD /* Manifest.xcdatamodeld */; };
 		C605F8AA1ECCAD3B001194DD /* ThemePack.json in Resources */ = {isa = PBXBuildFile; fileRef = C605F8A61ECCAD3B001194DD /* ThemePack.json */; };
-		C605F95B1ECCAD48001194DD /* AlertLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F8AE1ECCAD47001194DD /* AlertLevel.swift */; };
 		C605F95C1ECCAD48001194DD /* AuthenticationHeaderAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F8B01ECCAD47001194DD /* AuthenticationHeaderAdapter.swift */; };
 		C605F95D1ECCAD48001194DD /* OAuthAccessToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F8B11ECCAD47001194DD /* OAuthAccessToken.swift */; };
 		C605F95E1ECCAD48001194DD /* FileManager+URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F8B31ECCAD47001194DD /* FileManager+URL.swift */; };
@@ -25,7 +36,6 @@
 		C605F9651ECCAD48001194DD /* ManifestEntry+Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F8BB1ECCAD47001194DD /* ManifestEntry+Location.swift */; };
 		C605F9661ECCAD48001194DD /* ManifestEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F8BC1ECCAD47001194DD /* ManifestEntry.swift */; };
 		C605F9671ECCAD48001194DD /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F8BE1ECCAD47001194DD /* Entity.swift */; };
-		C605F9681ECCAD48001194DD /* EntityAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F8BF1ECCAD47001194DD /* EntityAlert.swift */; };
 		C605F9691ECCAD48001194DD /* ParseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F8C01ECCAD47001194DD /* ParseError.swift */; };
 		C605F96A1ECCAD48001194DD /* Vehicle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F8C11ECCAD47001194DD /* Vehicle.swift */; };
 		C605F96B1ECCAD48001194DD /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F8C31ECCAD47001194DD /* APIManager.swift */; };
@@ -102,16 +112,6 @@
 		C605F9B31ECCAD48001194DD /* EntityCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F91C1ECCAD47001194DD /* EntityCollectionViewCell.swift */; };
 		C605F9B41ECCAD48001194DD /* GalleryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F91D1ECCAD47001194DD /* GalleryCollectionViewCell.swift */; };
 		C605F9B51ECCAD48001194DD /* StatsOverviewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F91E1ECCAD47001194DD /* StatsOverviewCollectionViewCell.swift */; };
-		C605F9B61ECCAD48001194DD /* EntityAlertsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F9201ECCAD47001194DD /* EntityAlertsViewController.swift */; };
-		C605F9B71ECCAD48001194DD /* EntityAssociationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F9211ECCAD47001194DD /* EntityAssociationsViewController.swift */; };
-		C605F9B81ECCAD48001194DD /* EntityDetailsSidebarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F9221ECCAD47001194DD /* EntityDetailsSidebarHeaderView.swift */; };
-		C605F9B91ECCAD48001194DD /* EntityDetailsSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F9231ECCAD47001194DD /* EntityDetailsSplitViewController.swift */; };
-		C605F9BA1ECCAD48001194DD /* EntityOccurrencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F9241ECCAD47001194DD /* EntityOccurrencesViewController.swift */; };
-		C605F9BB1ECCAD48001194DD /* EntityDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F9261ECCAD47001194DD /* EntityDetailCollectionViewCell.swift */; };
-		C605F9BC1ECCAD48001194DD /* EntityInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F9271ECCAD47001194DD /* EntityInfoViewController.swift */; };
-		C605F9BD1ECCAD48001194DD /* OrganizationInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F9281ECCAD47001194DD /* OrganizationInfoViewController.swift */; };
-		C605F9BE1ECCAD48001194DD /* PersonInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F9291ECCAD47001194DD /* PersonInfoViewController.swift */; };
-		C605F9BF1ECCAD48001194DD /* VehicleInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F92A1ECCAD47001194DD /* VehicleInfoViewController.swift */; };
 		C605F9C01ECCAD48001194DD /* Bundle+MPOLKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F92C1ECCAD47001194DD /* Bundle+MPOLKit.swift */; };
 		C605F9C11ECCAD48001194DD /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F92D1ECCAD47001194DD /* UIColor+Hex.swift */; };
 		C605F9C21ECCAD48001194DD /* UIImage+EntityImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F92E1ECCAD47001194DD /* UIImage+EntityImages.swift */; };
@@ -185,6 +185,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BCDDBBDC1ECED2B900D66D45 /* EntityAlertsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityAlertsViewController.swift; sourceTree = "<group>"; };
+		BCDDBBDD1ECED2B900D66D45 /* EntityAssociationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityAssociationsViewController.swift; sourceTree = "<group>"; };
+		BCDDBBDE1ECED2B900D66D45 /* EntityDetailsCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailsCollectionViewController.swift; sourceTree = "<group>"; };
+		BCDDBBDF1ECED2B900D66D45 /* EntityDetailsSidebarHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailsSidebarHeaderView.swift; sourceTree = "<group>"; };
+		BCDDBBE01ECED2B900D66D45 /* EntityDetailsSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailsSplitViewController.swift; sourceTree = "<group>"; };
+		BCDDBBE11ECED2B900D66D45 /* EntityOccurrencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityOccurrencesViewController.swift; sourceTree = "<group>"; };
+		BCDDBBE31ECED2B900D66D45 /* EntityDetailCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailCollectionViewCell.swift; sourceTree = "<group>"; };
+		BCDDBBE41ECED2B900D66D45 /* EntityInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityInfoViewController.swift; sourceTree = "<group>"; };
+		BCDDBBE51ECED2B900D66D45 /* OrganizationInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizationInfoViewController.swift; sourceTree = "<group>"; };
+		BCDDBBE61ECED2B900D66D45 /* PersonInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonInfoViewController.swift; sourceTree = "<group>"; };
+		BCDDBBE71ECED2B900D66D45 /* VehicleInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleInfoViewController.swift; sourceTree = "<group>"; };
+		BCDDBBF31ECED2E700D66D45 /* Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		C605F8861ECCAB2B001194DD /* MPOLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MPOLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C605F88F1ECCAB2C001194DD /* MPOLKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MPOLKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C605F8941ECCAB2C001194DD /* MPOLKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPOLKitTests.swift; sourceTree = "<group>"; };
@@ -192,7 +204,6 @@
 		C605F8A31ECCAD3B001194DD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C605F8A51ECCAD3B001194DD /* Manifest.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Manifest.xcdatamodel; sourceTree = "<group>"; };
 		C605F8A61ECCAD3B001194DD /* ThemePack.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ThemePack.json; sourceTree = "<group>"; };
-		C605F8AE1ECCAD47001194DD /* AlertLevel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertLevel.swift; sourceTree = "<group>"; };
 		C605F8B01ECCAD47001194DD /* AuthenticationHeaderAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationHeaderAdapter.swift; sourceTree = "<group>"; };
 		C605F8B11ECCAD47001194DD /* OAuthAccessToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuthAccessToken.swift; sourceTree = "<group>"; };
 		C605F8B31ECCAD47001194DD /* FileManager+URL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FileManager+URL.swift"; sourceTree = "<group>"; };
@@ -205,7 +216,6 @@
 		C605F8BB1ECCAD47001194DD /* ManifestEntry+Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ManifestEntry+Location.swift"; sourceTree = "<group>"; };
 		C605F8BC1ECCAD47001194DD /* ManifestEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManifestEntry.swift; sourceTree = "<group>"; };
 		C605F8BE1ECCAD47001194DD /* Entity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
-		C605F8BF1ECCAD47001194DD /* EntityAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityAlert.swift; sourceTree = "<group>"; };
 		C605F8C01ECCAD47001194DD /* ParseError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseError.swift; sourceTree = "<group>"; };
 		C605F8C11ECCAD47001194DD /* Vehicle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vehicle.swift; sourceTree = "<group>"; };
 		C605F8C31ECCAD47001194DD /* APIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
@@ -282,16 +292,6 @@
 		C605F91C1ECCAD47001194DD /* EntityCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityCollectionViewCell.swift; sourceTree = "<group>"; };
 		C605F91D1ECCAD47001194DD /* GalleryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryCollectionViewCell.swift; sourceTree = "<group>"; };
 		C605F91E1ECCAD47001194DD /* StatsOverviewCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsOverviewCollectionViewCell.swift; sourceTree = "<group>"; };
-		C605F9201ECCAD47001194DD /* EntityAlertsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityAlertsViewController.swift; sourceTree = "<group>"; };
-		C605F9211ECCAD47001194DD /* EntityAssociationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityAssociationsViewController.swift; sourceTree = "<group>"; };
-		C605F9221ECCAD47001194DD /* EntityDetailsSidebarHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailsSidebarHeaderView.swift; sourceTree = "<group>"; };
-		C605F9231ECCAD47001194DD /* EntityDetailsSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailsSplitViewController.swift; sourceTree = "<group>"; };
-		C605F9241ECCAD47001194DD /* EntityOccurrencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityOccurrencesViewController.swift; sourceTree = "<group>"; };
-		C605F9261ECCAD47001194DD /* EntityDetailCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailCollectionViewCell.swift; sourceTree = "<group>"; };
-		C605F9271ECCAD47001194DD /* EntityInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityInfoViewController.swift; sourceTree = "<group>"; };
-		C605F9281ECCAD47001194DD /* OrganizationInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizationInfoViewController.swift; sourceTree = "<group>"; };
-		C605F9291ECCAD47001194DD /* PersonInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonInfoViewController.swift; sourceTree = "<group>"; };
-		C605F92A1ECCAD47001194DD /* VehicleInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleInfoViewController.swift; sourceTree = "<group>"; };
 		C605F92C1ECCAD47001194DD /* Bundle+MPOLKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bundle+MPOLKit.swift"; sourceTree = "<group>"; };
 		C605F92D1ECCAD47001194DD /* UIColor+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
 		C605F92E1ECCAD47001194DD /* UIImage+EntityImages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+EntityImages.swift"; sourceTree = "<group>"; };
@@ -377,6 +377,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BCDDBBDB1ECED2B900D66D45 /* Entity Details */ = {
+			isa = PBXGroup;
+			children = (
+				BCDDBBDC1ECED2B900D66D45 /* EntityAlertsViewController.swift */,
+				BCDDBBDD1ECED2B900D66D45 /* EntityAssociationsViewController.swift */,
+				BCDDBBDE1ECED2B900D66D45 /* EntityDetailsCollectionViewController.swift */,
+				BCDDBBDF1ECED2B900D66D45 /* EntityDetailsSidebarHeaderView.swift */,
+				BCDDBBE01ECED2B900D66D45 /* EntityDetailsSplitViewController.swift */,
+				BCDDBBE11ECED2B900D66D45 /* EntityOccurrencesViewController.swift */,
+				BCDDBBE21ECED2B900D66D45 /* Information */,
+			);
+			path = "Entity Details";
+			sourceTree = "<group>";
+		};
+		BCDDBBE21ECED2B900D66D45 /* Information */ = {
+			isa = PBXGroup;
+			children = (
+				BCDDBBE31ECED2B900D66D45 /* EntityDetailCollectionViewCell.swift */,
+				BCDDBBE41ECED2B900D66D45 /* EntityInfoViewController.swift */,
+				BCDDBBE51ECED2B900D66D45 /* OrganizationInfoViewController.swift */,
+				BCDDBBE61ECED2B900D66D45 /* PersonInfoViewController.swift */,
+				BCDDBBE71ECED2B900D66D45 /* VehicleInfoViewController.swift */,
+			);
+			path = Information;
+			sourceTree = "<group>";
+		};
 		C605F87C1ECCAB2B001194DD = {
 			isa = PBXGroup;
 			children = (
@@ -442,7 +468,6 @@
 		C605F8AD1ECCAD47001194DD /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				C605F8AE1ECCAD47001194DD /* AlertLevel.swift */,
 				C605F8AF1ECCAD47001194DD /* Authentication */,
 				C605F8B21ECCAD47001194DD /* Extensions */,
 				C605F8B71ECCAD47001194DD /* Manifest */,
@@ -492,8 +517,8 @@
 			isa = PBXGroup;
 			children = (
 				C6A5F0011ECE796B00B0D915 /* Address.swift */,
+				BCDDBBF31ECED2E700D66D45 /* Alert.swift */,
 				C605F8BE1ECCAD47001194DD /* Entity.swift */,
-				C605F8BF1ECCAD47001194DD /* EntityAlert.swift */,
 				C605F8C01ECCAD47001194DD /* ParseError.swift */,
 				C6A5EFFF1ECE76E900B0D915 /* Person.swift */,
 				C605F8C11ECCAD47001194DD /* Vehicle.swift */,
@@ -687,7 +712,7 @@
 				C605F9131ECCAD47001194DD /* Abstract View Controllers */,
 				C605F9191ECCAD47001194DD /* AlertQueue.swift */,
 				C605F91A1ECCAD47001194DD /* Cells */,
-				C605F91F1ECCAD47001194DD /* Entity Details */,
+				BCDDBBDB1ECED2B900D66D45 /* Entity Details */,
 				C605F92B1ECCAD47001194DD /* Extensions */,
 				C605F9351ECCAD47001194DD /* Keyboard Input */,
 				C605F9381ECCAD47001194DD /* KeyboardAnimationDetails.swift */,
@@ -726,31 +751,6 @@
 				C605F91E1ECCAD47001194DD /* StatsOverviewCollectionViewCell.swift */,
 			);
 			path = Cells;
-			sourceTree = "<group>";
-		};
-		C605F91F1ECCAD47001194DD /* Entity Details */ = {
-			isa = PBXGroup;
-			children = (
-				C605F9201ECCAD47001194DD /* EntityAlertsViewController.swift */,
-				C605F9211ECCAD47001194DD /* EntityAssociationsViewController.swift */,
-				C605F9221ECCAD47001194DD /* EntityDetailsSidebarHeaderView.swift */,
-				C605F9231ECCAD47001194DD /* EntityDetailsSplitViewController.swift */,
-				C605F9241ECCAD47001194DD /* EntityOccurrencesViewController.swift */,
-				C605F9251ECCAD47001194DD /* Information */,
-			);
-			path = "Entity Details";
-			sourceTree = "<group>";
-		};
-		C605F9251ECCAD47001194DD /* Information */ = {
-			isa = PBXGroup;
-			children = (
-				C605F9261ECCAD47001194DD /* EntityDetailCollectionViewCell.swift */,
-				C605F9271ECCAD47001194DD /* EntityInfoViewController.swift */,
-				C605F9281ECCAD47001194DD /* OrganizationInfoViewController.swift */,
-				C605F9291ECCAD47001194DD /* PersonInfoViewController.swift */,
-				C605F92A1ECCAD47001194DD /* VehicleInfoViewController.swift */,
-			);
-			path = Information;
 			sourceTree = "<group>";
 		};
 		C605F92B1ECCAD47001194DD /* Extensions */ = {
@@ -1013,14 +1013,12 @@
 				C605F96C1ECCAD48001194DD /* OAuthAuthorizationGrant.swift in Sources */,
 				C6F5DED61ECD5CE6008E7BE2 /* WebAPIProtocol.swift in Sources */,
 				C605F9871ECCAD48001194DD /* CollectionViewFormExpandingHeaderView.swift in Sources */,
+				BCDDBBF01ECED2B900D66D45 /* OrganizationInfoViewController.swift in Sources */,
 				C605F9D71ECCAD48001194DD /* SidebarTableViewCell.swift in Sources */,
 				C605F9961ECCAD48001194DD /* UITableViewCell+LayoutMargins.swift in Sources */,
 				C605F9641ECCAD48001194DD /* ManifestCollection.swift in Sources */,
-				C605F9B81ECCAD48001194DD /* EntityDetailsSidebarHeaderView.swift in Sources */,
 				C605F9D31ECCAD48001194DD /* PopoverViewController.swift in Sources */,
-				C605F9BF1ECCAD48001194DD /* VehicleInfoViewController.swift in Sources */,
 				C6F5E01A1ECD6496008E7BE2 /* UIContentSizeCategoryLegacyAdjusting.swift in Sources */,
-				C605F9B91ECCAD48001194DD /* EntityDetailsSplitViewController.swift in Sources */,
 				C605F9CB1ECCAD48001194DD /* KeyboardAnimationDetails.swift in Sources */,
 				C605F9911ECCAD48001194DD /* UICollectionView+DefaultReuse.swift in Sources */,
 				C605F9861ECCAD48001194DD /* CollectionViewFormEditAction.swift in Sources */,
@@ -1029,8 +1027,10 @@
 				C605F9DA1ECCAD48001194DD /* SourceBarCell.swift in Sources */,
 				C605F9661ECCAD48001194DD /* ManifestEntry.swift in Sources */,
 				C605F96A1ECCAD48001194DD /* Vehicle.swift in Sources */,
+				BCDDBBEA1ECED2B900D66D45 /* EntityDetailsCollectionViewController.swift in Sources */,
 				C605F9931ECCAD48001194DD /* UIEdgeInsets+Convenience.swift in Sources */,
 				C605F9D11ECCAD48001194DD /* PopoverFormSheetPresentationController.swift in Sources */,
+				BCDDBBEF1ECED2B900D66D45 /* EntityInfoViewController.swift in Sources */,
 				C605F9981ECCAD48001194DD /* UIView+Convenience.swift in Sources */,
 				C605F9C31ECCAD48001194DD /* UIImage+RoundedRects.swift in Sources */,
 				C605F97D1ECCAD48001194DD /* Serialisable.swift in Sources */,
@@ -1041,24 +1041,22 @@
 				C605F9B21ECCAD48001194DD /* CollectionViewFormProgressCell.swift in Sources */,
 				C6F5DED41ECD5CE0008E7BE2 /* LocalAPIManager.swift in Sources */,
 				C605F9A01ECCAD48001194DD /* TableViewFormExpandingHeaderCell.swift in Sources */,
-				C605F9BB1ECCAD48001194DD /* EntityDetailCollectionViewCell.swift in Sources */,
+				BCDDBBE81ECED2B900D66D45 /* EntityAlertsViewController.swift in Sources */,
 				C605F9CC1ECCAD48001194DD /* LoginViewController.swift in Sources */,
 				C605F97F1ECCAD48001194DD /* EpochDateTransformer+UnboxFormatter.swift in Sources */,
 				C605F9811ECCAD48001194DD /* ISO8601DateTransformer+UnboxFormatter.swift in Sources */,
 				C605F9651ECCAD48001194DD /* ManifestEntry+Location.swift in Sources */,
 				C605F9A81ECCAD48001194DD /* SelectableButton.swift in Sources */,
-				C605F9BC1ECCAD48001194DD /* EntityInfoViewController.swift in Sources */,
 				C605F9D21ECCAD48001194DD /* PopoverNavigationController.swift in Sources */,
 				C605F9CE1ECCAD48001194DD /* CommonConditions.swift in Sources */,
 				C605F9E41ECCAD48001194DD /* NavigationBarExtension.swift in Sources */,
 				C605F9951ECCAD48001194DD /* UITableView+DefaultReuse.swift in Sources */,
 				C605F9971ECCAD48001194DD /* UITraitCollection+CurrentDisplayScale.swift in Sources */,
+				BCDDBBED1ECED2B900D66D45 /* EntityOccurrencesViewController.swift in Sources */,
 				C605F98A1ECCAD48001194DD /* CollectionViewFormTextFieldCell.swift in Sources */,
 				C605F9831ECCAD48001194DD /* CollectionViewFormCell.swift in Sources */,
 				C605F9B01ECCAD48001194DD /* PushableSplitViewController.swift in Sources */,
 				C605F9791ECCAD48001194DD /* UnboxedURLRequestOperation.swift in Sources */,
-				C605F95B1ECCAD48001194DD /* AlertLevel.swift in Sources */,
-				C605F9B61ECCAD48001194DD /* EntityAlertsViewController.swift in Sources */,
 				C605F9CF1ECCAD48001194DD /* PickerTableViewController.swift in Sources */,
 				C605F97B1ECCAD48001194DD /* DefaultCustomStringConvertible.swift in Sources */,
 				C605F9C91ECCAD48001194DD /* KeyboardInputManager.swift in Sources */,
@@ -1069,17 +1067,18 @@
 				C605F9731ECCAD48001194DD /* ExclusivityController.swift in Sources */,
 				C605F9A71ECCAD48001194DD /* RadioButton.swift in Sources */,
 				C605F9901ECCAD48001194DD /* NSLayoutConstraint+Conveniences.swift in Sources */,
+				BCDDBBE91ECED2B900D66D45 /* EntityAssociationsViewController.swift in Sources */,
 				C605F9891ECCAD48001194DD /* CollectionViewFormSubtitleCell.swift in Sources */,
 				C605F9621ECCAD48001194DD /* ArchivedManifestEntry.swift in Sources */,
 				C605F9CA1ECCAD48001194DD /* KeyboardNumberBar.swift in Sources */,
 				C605F9E31ECCAD48001194DD /* GradientView.swift in Sources */,
-				C605F9B71ECCAD48001194DD /* EntityAssociationsViewController.swift in Sources */,
 				C605F9AC1ECCAD48001194DD /* FormCollectionViewController.swift in Sources */,
+				BCDDBBEB1ECED2B900D66D45 /* EntityDetailsSidebarHeaderView.swift in Sources */,
 				C605F9761ECCAD48001194DD /* Operation.swift in Sources */,
 				C605F96F1ECCAD48001194DD /* OperationCondition.swift in Sources */,
 				C605F9D41ECCAD48001194DD /* ScrollViewInsetManager.swift in Sources */,
 				C6F5E01E1ECD64EE008E7BE2 /* EntityThumbnailView.swift in Sources */,
-				C605F9BE1ECCAD48001194DD /* PersonInfoViewController.swift in Sources */,
+				BCDDBBEC1ECED2B900D66D45 /* EntityDetailsSplitViewController.swift in Sources */,
 				C605F9B51ECCAD48001194DD /* StatsOverviewCollectionViewCell.swift in Sources */,
 				C605F99D1ECCAD48001194DD /* DefaultReusable.swift in Sources */,
 				C605F9741ECCAD48001194DD /* OperationQueue.swift in Sources */,
@@ -1099,17 +1098,19 @@
 				C605F99E1ECCAD48001194DD /* TableViewFormCell.swift in Sources */,
 				C605F96E1ECCAD48001194DD /* MutuallyExclusiveCondition.swift in Sources */,
 				C6F5E01C1ECD649E008E7BE2 /* UIFont+TextStyle.swift in Sources */,
+				BCDDBBEE1ECED2B900D66D45 /* EntityDetailCollectionViewCell.swift in Sources */,
 				C605F9601ECCAD48001194DD /* UnboxableResponseSerializer.swift in Sources */,
 				C605F9DD1ECCAD48001194DD /* ViewControllerAnimationOptionTransition.swift in Sources */,
 				C605F9C71ECCAD48001194DD /* UITextView+NotificationWorkaround.m in Sources */,
-				C605F9681ECCAD48001194DD /* EntityAlert.swift in Sources */,
 				C605F9841ECCAD48001194DD /* CollectionViewFormCellActionView.swift in Sources */,
 				C605F9DC1ECCAD48001194DD /* Theme.swift in Sources */,
 				C605F9A11ECCAD48001194DD /* TableViewFormSubtitleCell.swift in Sources */,
 				C605F9A51ECCAD48001194DD /* FormTextField.swift in Sources */,
+				BCDDBBF21ECED2B900D66D45 /* VehicleInfoViewController.swift in Sources */,
 				C605F9A21ECCAD48001194DD /* TableViewFormTextFieldCell.swift in Sources */,
 				C605F9701ECCAD48001194DD /* BlockObserver.swift in Sources */,
 				C605F96D1ECCAD48001194DD /* NetworkMonitor.swift in Sources */,
+				BCDDBBF11ECED2B900D66D45 /* PersonInfoViewController.swift in Sources */,
 				C605F99F1ECCAD48001194DD /* TableViewFormCheckboxCell.swift in Sources */,
 				C605F9E21ECCAD48001194DD /* FormDisclosureView.swift in Sources */,
 				C605F97A1ECCAD48001194DD /* URLRequestOperation.swift in Sources */,
@@ -1121,7 +1122,6 @@
 				C605F9921ECCAD48001194DD /* UIColor+ActionColors.swift in Sources */,
 				C605F9AB1ECCAD48001194DD /* MPOLKitInitialize.swift in Sources */,
 				C6A5F0001ECE76E900B0D915 /* Person.swift in Sources */,
-				C605F9BD1ECCAD48001194DD /* OrganizationInfoViewController.swift in Sources */,
 				C605F97E1ECCAD48001194DD /* Transformer.swift in Sources */,
 				C605F99A1ECCAD48001194DD /* CollectionViewFormHeaderAttributes.swift in Sources */,
 				C605F9C51ECCAD48001194DD /* UITableView+SectionHeaderFooterFetch.swift in Sources */,
@@ -1132,6 +1132,7 @@
 				C605F9C81ECCAD48001194DD /* UIViewAnimationCurve+OptionConversion.swift in Sources */,
 				C605F9781ECCAD48001194DD /* URLJSONRequestOperation.swift in Sources */,
 				C605F9851ECCAD48001194DD /* CollectionViewFormDetailCell.swift in Sources */,
+				BCDDBBF41ECED2E700D66D45 /* Alert.swift in Sources */,
 				C6A5F0021ECE796B00B0D915 /* Address.swift in Sources */,
 				C605F9751ECCAD48001194DD /* GroupOperation.swift in Sources */,
 				C605F9D91ECCAD48001194DD /* SourceBar.swift in Sources */,
@@ -1145,7 +1146,6 @@
 				C605F9991ECCAD48001194DD /* FormDefines.swift in Sources */,
 				C605F9C21ECCAD48001194DD /* UIImage+EntityImages.swift in Sources */,
 				C605F9DB1ECCAD48001194DD /* SourceItem.swift in Sources */,
-				C605F9BA1ECCAD48001194DD /* EntityOccurrencesViewController.swift in Sources */,
 				C605F9AE1ECCAD48001194DD /* FormTableViewController.swift in Sources */,
 				C605F9D61ECCAD48001194DD /* SidebarSplitViewController.swift in Sources */,
 				C605F95F1ECCAD48001194DD /* Foundation.Operation+MPOLAdditions.swift in Sources */,
