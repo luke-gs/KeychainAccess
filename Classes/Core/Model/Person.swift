@@ -36,6 +36,8 @@ open class Person: Entity {
     
     open var addresses: [Address]?
     
+    open var licences: [Licence]?
+    
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -60,6 +62,7 @@ open class Person: Entity {
         gender = unboxer.unbox(key: "gender")
         
         addresses = unboxer.unbox(key: "addresses")
+        licences = unboxer.unbox(key: "licences")
     }
     
     open override func encode(with aCoder: NSCoder) {
