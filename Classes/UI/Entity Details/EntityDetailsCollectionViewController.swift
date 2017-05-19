@@ -24,6 +24,12 @@ open class EntityDetailCollectionViewController: FormCollectionViewController {
     
     private var noContentView: UIView?
     
+    public override init() {
+        super.init()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(currentLocaleDidChange), name: NSLocale.currentLocaleDidChangeNotification, object: nil)
+    }
+    
     
     open override func viewDidLoad() {
         let noContentTitleLabel = UILabel(frame: .zero)
@@ -77,6 +83,10 @@ open class EntityDetailCollectionViewController: FormCollectionViewController {
     open override func preferredContentSizeCategoryDidChange() {
         super.preferredContentSizeCategoryDidChange()
         updateNoContentTitleLabelFont()
+    }
+    
+    open func currentLocaleDidChange() {
+        collectionView?.reloadData()
     }
     
     private func updateNoContentTitleLabelFont() {

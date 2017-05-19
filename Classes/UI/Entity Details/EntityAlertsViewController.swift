@@ -10,20 +10,18 @@ import UIKit
 
 open class EntityAlertsViewController: EntityDetailCollectionViewController {
     
-    private var statusDotCache: [Alert.Level: UIImage] = [:]
+    // MARK: - Public Properties
     
     open override var entity: Entity? {
         didSet {
             updateNoContentSubtitle()
             let sidebarItem = self.sidebarItem
             
-            guard var alerts = entity?.alerts, alerts.isEmpty == false else {
+            guard var alerts = entity?.alerts?.sorted(by: { $0.level.rawValue > $1.level.rawValue }), alerts.isEmpty == false else {
                 self.sections = []
                 sidebarItem.count = 0
                 return
             }
-            
-            alerts.sort(by: { $0.level.rawValue > $1.level.rawValue })
             
             sidebarItem.count = UInt(alerts.count)
             sidebarItem.alertColor = alerts.first?.level.color
@@ -31,7 +29,9 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
             var sections: [[Alert]] = []
             while let firstAlertLevel = alerts.first?.level {
                 if let firstDifferentIndex = alerts.index(where: { $0.level != firstAlertLevel }) {
-                    sections.append(Array(alerts.dropFirst(firstDifferentIndex)))
+                    let alertLevelSlice = alerts.prefix(upTo: firstDifferentIndex)
+                    alerts.removeFirst(firstDifferentIndex)
+                    sections.append(Array(alertLevelSlice))
                 } else {
                     sections.append(alerts)
                     alerts.removeAll()
@@ -41,6 +41,9 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
         }
     }
     
+    
+    // MARK: - Private properties
+    
     private var sections: [[Alert]] = [[]] {
         didSet {
             hasContent = sections.isEmpty == false
@@ -48,9 +51,15 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
         }
     }
     
+    private var statusDotCache: [Alert.Level: UIImage] = [:]
+    
+    
+    
+    // MARK: - Initializers
+    
     public override init() {
         super.init()
-        title = "Alerts"
+        title = NSLocalizedString("Alerts", comment: "")
         
         let sidebarItem = self.sidebarItem
         sidebarItem.image         = UIImage(named: "iconGeneralAlert",       in: .mpolKit, compatibleWith: nil)
@@ -60,6 +69,9 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    
+    // MARK: - View lifecycle
     
     open override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,6 +85,9 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
         collectionView.register(CollectionViewFormDetailCell.self)
     }
     
+    
+    // MARK: - UICollectionViewDataSource
+    
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
         return sections.count
     }
@@ -83,10 +98,10 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(of: CollectionViewFormDetailCell.self, for: indexPath)
-        cell.highlightStyle     = .fade
-        cell.selectionStyle     = .fade
-        cell.accessoryView = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
-        
+//        cell.highlightStyle     = .fade
+//        cell.selectionStyle     = .fade
+//        cell.accessoryView = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
+//        
         let alert = sections[indexPath.section][indexPath.item]
         
         let alertLevel = alert.level
@@ -98,8 +113,8 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
             cell.imageView.image = image
         }
         
-        cell.titleLabel.text    = alert.title
-        cell.detailLabel.text = alert.description
+        cell.titleLabel.text  = alert.title
+        cell.detailLabel.text = alert.details
         
         if let date = alert.effectiveDate {
             cell.subtitleLabel.text = NSLocalizedString("Effective from ", comment: "") + DateFormatter.shortDate.string(from: date)
@@ -118,7 +133,7 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
             let alertCount = alerts.count
             if alertCount > 0 {
                 let alertLevel = alerts.first!.level
-                header.text = "\(alertCount) \(alertLevel.localizedTitle.uppercased(with: nil)) " + (alertCount > 1 ? NSLocalizedString("ALERTS", comment: "") : NSLocalizedString("ALERT", comment: ""))
+                header.text = "\(alertCount) \(alertLevel.localizedDescription.uppercased(with: nil)) " + (alertCount > 1 ? NSLocalizedString("ALERTS", comment: "") : NSLocalizedString("ALERT", comment: ""))
             } else {
                 header.text = nil
             }
@@ -126,6 +141,9 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
         }
         return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
     }
+    
+    
+    // MARK: - UICollectionViewDelegate
     
     open override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
@@ -136,7 +154,6 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
             alertCell.detailLabel.textColor   = primaryTextColor
         }
     }
-    
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
         return CollectionViewFormExpandingHeaderView.minimumHeight
@@ -149,7 +166,7 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
     }
     
     
-    // MARK: - Private
+    // MARK: - Private methods
     
     private func updateNoContentSubtitle() {
         guard let label = noContentSubtitleLabel else { return }

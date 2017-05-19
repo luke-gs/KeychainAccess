@@ -104,6 +104,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
             
             let person = Person()
             person.source = "LEAP"
+            person.familyName = "Citizen"
+            person.givenName = "John R."
+            person.lastUpdated = Date()
+            person.gender = .male
+            person.dateOfBirth = Date(timeIntervalSince1970: 578123820)
+            
+            let alert = Alert(id: UUID().uuidString, level: .high)
+            alert.title = "Threat"
+            alert.effectiveDate = Date().addingTimeInterval(-30000)
+            alert.details = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu."
+            
+            
+            let mediumAlert = Alert(id: UUID().uuidString, level: .medium)
+            mediumAlert.title = "Attention Grabber"
+            mediumAlert.effectiveDate = Date().addingTimeInterval(-300000000)
+            mediumAlert.details = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu."
+            
+            person.alerts = [mediumAlert, alert, mediumAlert]
+            
             
             tabBarController.viewControllers = [pushableSVNavController, UINavigationController(rootViewController: sidebarSplitViewController), EntityDetailsSplitViewController(entity: person)]
             self.window?.rootViewController = tabBarController

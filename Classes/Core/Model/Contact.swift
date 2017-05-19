@@ -14,7 +14,7 @@ open class Contact: NSObject, Serialisable {
     open var type: String?
     open var value: String?
     
-    public required init(id: String = NSUUID().uuidString) {
+    public required init(id: String = UUID().uuidString) {
         self.id = id
         super.init()
     }

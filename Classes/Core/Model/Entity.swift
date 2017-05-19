@@ -24,7 +24,14 @@ open class Entity: NSObject, Serialisable {
     
     open var alerts: [Alert]?
     
-    public required init(id: String = NSUUID().uuidString) {
+    open var summary: String {
+        return "-"
+    }
+    
+    // MARK: - Temp properties
+    open var lastUpdated: Date?
+    
+    public required init(id: String = UUID().uuidString) {
         self.id = id
         super.init()
     }

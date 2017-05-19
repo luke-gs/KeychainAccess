@@ -19,7 +19,7 @@ open class EntityOccurrencesViewController: EntityDetailCollectionViewController
     
     public override init() {
         super.init()
-        title = "Occurrences"
+        title = NSLocalizedString("Involvements", comment: "")
         
         let sidebarItem = self.sidebarItem
         sidebarItem.image         = UIImage(named: "iconFormOccurrence",       in: .mpolKit, compatibleWith: nil)

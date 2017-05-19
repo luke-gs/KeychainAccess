@@ -28,7 +28,7 @@ open class Address: NSObject, Serialisable {
     open var suburb : String?
     open var unitNumber : String?
     
-    public required init(id: String = NSUUID().uuidString) {
+    public required init(id: String = UUID().uuidString) {
         self.id = id
         super.init()
     }

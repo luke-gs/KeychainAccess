@@ -14,6 +14,10 @@ open class Vehicle: Entity {
         return NSLocalizedString("Vehicle", comment: "")
     }
     
+    open override var summary: String {
+        return registration ?? NSLocalizedString("Registration Unknown", comment: "")
+    }
+    
     open var bodyType: String?
     
     open var primaryColor: String?

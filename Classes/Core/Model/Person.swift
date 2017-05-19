@@ -29,6 +29,19 @@ open class Person: Entity {
         return NSLocalizedString("Person", comment: "")
     }
     
+    open override var summary: String {
+        var names = [String]()
+        if let familyName = self.familyName {
+            names.append(familyName)
+        }
+        if let givenName = self.givenName {
+            names.append(givenName)
+        }
+        if names.isEmpty { return NSLocalizedString("Name Unknown", comment: "") }
+        
+        return names.joined(separator: ", ")
+    }
+    
     open var givenName: String?
 
     open var familyName: String?
@@ -48,7 +61,7 @@ open class Person: Entity {
         super.init(coder: aDecoder)
     }
     
-    public required init(id: String = NSUUID().uuidString) {
+    public required init(id: String = UUID().uuidString) {
         super.init(id: id)
     }
     

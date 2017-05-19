@@ -25,7 +25,7 @@ open class Alert: NSObject, Serialisable {
             }
         }
         
-        public var localizedTitle: String {
+        public var localizedDescription: String {
             switch self {
             case .low:    return NSLocalizedString("Low",    comment: "Alert Level Title")
             case .medium: return NSLocalizedString("Medium", comment: "Alert Level Title")
@@ -54,6 +54,16 @@ open class Alert: NSObject, Serialisable {
         }
         return super.isEqual(object)
     }
+    
+    // MARK: - Temp
+    
+    public init(id: String, level: Alert.Level) {
+        self.id = id
+        self.level = level
+        
+        super.init()
+    }
+    
     
     // MARK: - Unboxable
     

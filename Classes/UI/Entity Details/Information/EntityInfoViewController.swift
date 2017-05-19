@@ -15,7 +15,7 @@ open class EntityInfoViewController: EntityDetailCollectionViewController {
     
     public override init() {
         super.init()
-        title = "Information"
+        title = NSLocalizedString("Information", comment: "")
         
         let sidebarItem = self.sidebarItem
         sidebarItem.image         = UIImage(named: "iconGeneralInfo",       in: .mpolKit, compatibleWith: nil)
@@ -54,7 +54,14 @@ open class EntityInfoViewController: EntityDetailCollectionViewController {
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
             header.showsExpandArrow = false
             header.tapHandler       = nil
-            header.text = "LAST UPDATED: " + "NEVER"
+            
+            let lastUpdatedString: String
+            if let lastUpdated = entity?.lastUpdated {
+                lastUpdatedString = DateFormatter.shortDate.string(from: lastUpdated)
+            } else {
+                lastUpdatedString = NSLocalizedString("UNKNOWN", comment: "Unknown Date")
+            }
+            header.text = NSLocalizedString("LAST UPDATED: ", comment: "") + lastUpdatedString
             return header
         }
         

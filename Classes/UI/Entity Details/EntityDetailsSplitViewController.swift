@@ -38,7 +38,6 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
             updateHeaderView()
 
             // TODO
-            
         }
     }
     
@@ -171,9 +170,15 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
         headerView.thumbnailView.image = headerIcon.image
         headerView.thumbnailView.contentMode = headerIcon.mode
         
-        // TODO:
-        headerView.titleLabel.text = "Citizen, John R."
-        headerView.lastUpdatedLabel.text = "Last Updated: 27/02/16"
+        headerView.titleLabel.text = selectedRepresentation.summary
+        
+        let lastUpdatedString: String
+        if let lastUpdated = selectedRepresentation.lastUpdated {
+            lastUpdatedString = DateFormatter.shortDate.string(from: lastUpdated)
+        } else {
+            lastUpdatedString = NSLocalizedString("Unknown", comment: "Unknown Date")
+        }
+        headerView.lastUpdatedLabel.text = NSLocalizedString("Last Updated: ", comment: "") + lastUpdatedString
     }
     
     private func headerIconAndMode() -> (image: UIImage?, mode: UIViewContentMode) {
