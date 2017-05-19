@@ -35,7 +35,7 @@ open class GroupOperation: Operation, OperationQueueDelegate  {
     /// This operation should depend on all operations to complete prior to it executing.
     private let finishingOperation = Foundation.BlockOperation(block: {})
     
-    /// The errors aggregated through all the
+    /// The errors aggregated through all the sub operations.
     private var aggregatedErrors = [NSError]()
     
     
@@ -101,7 +101,7 @@ open class GroupOperation: Operation, OperationQueueDelegate  {
     ///   `OperationQueueDelegate` methods.
     ///
     /// - Parameter error: An error to add to the aggregated error list.
-    public final func aggregateError(error: NSError) {
+    public final func aggregateError(_ error: NSError) {
         aggregatedErrors.append(error)
     }
     

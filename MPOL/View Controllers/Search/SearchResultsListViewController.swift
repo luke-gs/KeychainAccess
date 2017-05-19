@@ -136,7 +136,7 @@ class SearchResultsListViewController: FormCollectionViewController {
             let cell = collectionView.dequeueReusableCell(of: SearchEntityListCell.self, for: indexPath)
             cell.titleLabel.text    = "Citizen, John R."
             cell.subtitleLabel.text = "08/05/1987 (29 Male) : Southbank VIC 3006"
-            cell.imageView.image  = #imageLiteral(resourceName: "Avatar 1")
+            cell.thumbnailView.configure(for: NSObject())
             cell.alertColor       = AlertLevel.high.color
             cell.alertCount       = 9
             cell.highlightStyle   = .fade
@@ -157,8 +157,8 @@ class SearchResultsListViewController: FormCollectionViewController {
             cell.subtitleLabel.text = "08/05/1987 (29 Male)"
             cell.detailLabel.text   = "Southbank VIC 3006"
         }
-        cell.imageView.image  = #imageLiteral(resourceName: "Avatar 1")
-        cell.alertColor       = AlertLevel.high.color
+        cell.thumbnailView.configure(for: NSObject())
+        cell.alertColor         = AlertLevel.high.color
         cell.alertCount       = 9
         cell.highlightStyle   = .fade
         cell.sourceLabel.text = "DS1"

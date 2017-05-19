@@ -13,9 +13,12 @@ fileprivate var keyboardAppearanceContext = 1
 fileprivate var isNumberBarEnabledContext = 1
 fileprivate let isNumberBarEnabledKey = "isNumberBarEnabled"
 
-/// A keyboard manager that monitors the current active text field, and applies
-/// adjustments globally each text field as it becomes active.
+/// A keyboard manager that monitors the current active text field/view, and
+/// applies adjustments globally to each text view as it becomes active.
 public class KeyboardInputManager: NSObject {
+    
+    // FIXME Swift 4: Update for Subclass Existentials iaw SE-0156.
+    // public typealias TextInputView = UIView & UITextInput & TextInputSettable
 
     // MARK: - Singleton
     
@@ -57,17 +60,17 @@ public class KeyboardInputManager: NSObject {
                 return
             }
             
+            if isNumberBarEnabled && isNumberBarSupported == false {
+                isNumberBarEnabled = false
+                return
+            }
+            
             let userDefaults = UserDefaults.mpol
             if userDefaults.bool(forKey: isNumberBarEnabledKey) != isNumberBarEnabled {
                 userDefaults.set(isNumberBarEnabled, forKey: isNumberBarEnabledKey)
             }
             
             if isNumberBarEnabled {
-                if isNumberBarSupported == false {
-                    isNumberBarEnabled = false
-                    return
-                }
-                
                 if let activeControl = activeTextControl, activeControl.inputAccessoryView == nil {
                     applyNumberBar(to: activeControl, reloadingInputViews: true)
                 }
@@ -85,9 +88,9 @@ public class KeyboardInputManager: NSObject {
     
     private var numberBar: KeyboardNumberBar?
     
-    private var cachedKeyboardTypes: [UIView: UIKeyboardType] = [:]
+    private var cachedKeyboardTypes: [UIView: UIKeyboardType] = [:] // FIXME Swift 4: Update to [TextInputView: UIKeyboardType].
     
-    private var activeTextControl: /*UITextInput && */ UIView? {
+    private var activeTextControl: UIView? { // FIXME Swift 4: Update to TextInputView?.
         didSet {
             if activeTextControl == oldValue { return }
             
@@ -166,6 +169,9 @@ public class KeyboardInputManager: NSObject {
     // MARK: - Number bar install/remove methods
     
     private func applyNumberBar(to view: UIView, reloadingInputViews: Bool) {
+        // FIXME Swift 4: Update view type to TextInputView.
+        // This should dramatically improve the clarity of this method.
+        
         if isNumberBarEnabled == false || view.inputAccessoryView != nil { return }
         
         let useNumberBar: Bool
@@ -233,9 +239,10 @@ public class KeyboardInputManager: NSObject {
     
     
     private func removeNumberBar(from view: UIView, reloadingInputViews: Bool) {
-        if numberBar == nil || view.inputAccessoryView != numberBar {
-            return
-        }
+        // FIXME Swift 4: Update view type to TextInputView.
+        // This should dramatically improve the clarity of this method.
+        
+        if numberBar == nil || view.inputAccessoryView != numberBar { return }
         
         let cachedKeyboardType = cachedKeyboardTypes.removeValue(forKey: view)
         
@@ -257,3 +264,13 @@ public class KeyboardInputManager: NSObject {
     }
     
 }
+
+// FIXME Swift 4: Support for Existential declaring the input views are settable.
+//
+//protocol TextInputSettable: NSObjectProtocol {
+//    
+//    var inputView: UIView? { get set }
+//    
+//    var inputAccessoryView: UIView? { get set }
+//    
+//}

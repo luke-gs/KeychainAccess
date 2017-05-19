@@ -284,4 +284,15 @@ open class FormTextField: UITextField {
         }
     }
     
+    
+    // MARK: - Legacy support
+    
+    @available(iOS, introduced: 7.0, deprecated: 10.0, obsoleted: 10.0, message: "Use the adjustsFontForContentSizeCategory property on iOS 10 and later.")
+    public override func legacy_adjustFontForContentSizeCategoryChange() {
+        super.legacy_adjustFontForContentSizeCategoryChange()
+        if let placeholderStyle = placeholderFont?.textStyle {
+            placeholderFont = .preferredFont(forTextStyle: placeholderStyle)
+        }
+    }
+    
 }

@@ -80,7 +80,7 @@ class SearchRecentsViewController: FormCollectionViewController {
             cell.titleLabel.text    = "Citizen, John R."
             cell.subtitleLabel.text = "08/05/1987 (29 Male)"
             cell.detailLabel.text   = "Southbank VIC 3006"
-            cell.imageView.image    = #imageLiteral(resourceName: "Avatar 1")
+            cell.thumbnailView.configure(for: NSObject())
             cell.alertColor         = AlertLevel.high.color
             cell.alertCount         = 9
             cell.highlightStyle     = .fade

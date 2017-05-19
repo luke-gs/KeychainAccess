@@ -14,9 +14,7 @@ class SearchEntityListCell: CollectionViewFormCell {
 
     // MARK: - Public properties
     
-    var imageView: UIImageView {
-        return borderedImageView.imageView
-    }
+    var thumbnailView: EntityThumbnailView = EntityThumbnailView(frame: .zero)
     
     let sourceLabel: RoundedRectLabel = RoundedRectLabel(frame: .zero)
     
@@ -40,7 +38,6 @@ class SearchEntityListCell: CollectionViewFormCell {
             if alertColor == oldValue { return }
             
             badgeView.backgroundColor = alertColor ?? .gray
-            borderedImageView.borderColor = alertColor
         }
     }
     
@@ -48,8 +45,6 @@ class SearchEntityListCell: CollectionViewFormCell {
     // MARK: - Private/internal properties
     
     private let textLayoutGuide = UILayoutGuide()
-    
-    private let borderedImageView = BorderedImageView(frame: .zero)
     
     private let badgeView = BadgeView(style: .system)
     
@@ -71,7 +66,7 @@ class SearchEntityListCell: CollectionViewFormCell {
         accessibilityTraits |= UIAccessibilityTraitStaticText
         
         let contentView       = self.contentView
-        let borderedImageView = self.borderedImageView
+        let borderedImageView = self.thumbnailView
         let sourceLabel       = self.sourceLabel
         let titleLabel        = self.titleLabel
         let subtitleLabel     = self.subtitleLabel

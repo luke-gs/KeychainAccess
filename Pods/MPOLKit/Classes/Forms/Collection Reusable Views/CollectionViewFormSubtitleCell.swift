@@ -42,11 +42,11 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
     
     
     /// The emphasized element within the cell. The emphasized item will be highlighted
-    ///  with stronger default fonts.
+    /// with stronger default fonts.
     ///
-    /// Setting this property re-sets the label fonts to default
+    /// Changing this property resets the label fonts to default.
     open var emphasis: Emphasis = .title {
-        didSet { if emphasis != oldValue { applyStandardFonts() } }
+        didSet { if emphasis != oldValue { updateFonts() } }
     }
     
     open var preferredLabelSeparation: CGFloat = CellTitleSubtitleSeparation {
@@ -105,9 +105,16 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
         let contentModeLayoutGuide = self.contentModeLayoutGuide
         contentView.addLayoutGuide(textLayoutGuide)
         
-        imageView.isHidden = true
-        titleLabel.isHidden = true
+        imageView.isHidden     = true
+        titleLabel.isHidden    = true
         subtitleLabel.isHidden = true
+        
+        if #available(iOS 10, *) {
+            titleLabel.adjustsFontForContentSizeCategory = true
+            subtitleLabel.adjustsFontForContentSizeCategory = true
+        }
+        
+        updateFonts()
         
         subtitleLabel.numberOfLines = 0
         
@@ -227,24 +234,24 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
         }
     }
     
-    internal override func applyStandardFonts() {
-        super.applyStandardFonts()
+    open override func contentSizeCategoryDidChange(_ newCategory: UIContentSizeCategory) {
+        super.contentSizeCategoryDidChange(newCategory)
         
-        if #available(iOS 10, *) {
-            let traitCollection = self.traitCollection
-            titleLabel.font    = .preferredFont(forTextStyle: emphasis == .title ? .headline : .footnote, compatibleWith: traitCollection)
-            subtitleLabel.font = .preferredFont(forTextStyle: emphasis == .title ? .footnote : .headline, compatibleWith: traitCollection)
-        } else {
-            titleLabel.font    = .preferredFont(forTextStyle: emphasis == .title ? .headline : .footnote)
-            subtitleLabel.font = .preferredFont(forTextStyle: emphasis == .title ? .footnote : .headline)
-        }
+        if #available(iOS 10, *) { return }
+        
+        titleLabel.legacy_adjustFontForContentSizeCategoryChange()
+        subtitleLabel.legacy_adjustFontForContentSizeCategoryChange()
     }
     
     
     // MARK: - Private methods
     
-    func updateLabelMaxSizes() {
-        
+    private func updateFonts() {
+        titleLabel.font    = .preferredFont(forTextStyle: emphasis == .title ? .headline : .footnote)
+        subtitleLabel.font = .preferredFont(forTextStyle: emphasis == .title ? .footnote : .headline)
+    }
+    
+    private func updateLabelMaxSizes() {
         let width         = frame.width
         let layoutMargins = self.layoutMargins
         let accessoryViewWidth = accessoryView?.bounds.width ?? 0.0

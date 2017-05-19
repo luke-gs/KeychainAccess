@@ -298,10 +298,6 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
         return Theme.current.statusBarStyle
     }
     
-    open override var prefersStatusBarHidden : Bool {
-        return false
-    }
-    
     
     // MARK: - UITableViewDataSource methods
     

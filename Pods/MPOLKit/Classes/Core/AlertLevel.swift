@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import Unbox
 
-public enum AlertLevel: Int {
+public enum AlertLevel: Int, UnboxableEnum {
     case low    = 1
     case medium = 2
     case high   = 3
