@@ -65,6 +65,48 @@ open class APIManager: WebAPIURLRequestProvider {
         return request
     }
     
+    open func searchVehicle(with searchCriteria: String) -> URLRequest {
+        let path = "mpol/entity/vehicle/search"
+        let requestPath = url(with: path)
+        
+        let parameters = [ "criteria": searchCriteria ]
+        
+        let request: URLRequest = try! URLRequest(url: requestPath, method: .get)
+        let encodedURLRequest = try! URLEncoding.default.encode(request, with: parameters)
+        
+        return encodedURLRequest
+        
+    }
+    
+    open func retrieveVehicleDetails(with vehicleID: String) -> URLRequest {
+        let path = "mpol/entity/vehicle/\(vehicleID)"
+        let requestPath = url(with: path)
+        
+        let request: URLRequest = try! URLRequest(url: requestPath, method: .get)
+        return request
+    }
+    
+    open func searchPerson(with searchCriteria: String) -> URLRequest {
+        let path = "mpol/entity/person/search"
+        let requestPath = url(with: path)
+        
+        let parameters = [ "criteria": searchCriteria ]
+        
+        let request: URLRequest = try! URLRequest(url: requestPath, method: .get)
+        let encodedURLRequest = try! URLEncoding.default.encode(request, with: parameters)
+        
+        return encodedURLRequest
+    }
+    
+    open func retrievePersonDetails(with personID: String) -> URLRequest {
+        let path = "mpol/entity/person/\(personID)"
+        let requestPath = url(with: path)
+        
+        let request: URLRequest = try! URLRequest(url: requestPath, method: .get)
+        return request
+    }
+
+    
     // MARK : - Internal Utilities
     func url(with path: String) -> URL {
         return baseURL.appendingPathComponent(path)

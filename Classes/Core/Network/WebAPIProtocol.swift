@@ -26,6 +26,18 @@ public protocol WebAPIURLRequestProvider {
     /// - Returns: A URLRequest to check validity of the credentials.
     func basicAuthenticationLogin(using username: String, password: String) -> URLRequest
     
+    // FIXME: Please.. Not even sure what this is
     
     // MARK: - Entity Search
+    
+    func searchPerson(with searchCriteria: String) -> URLRequest
+    
+    func searchVehicle(with searchCriteria: String) -> URLRequest
+    
+    // MARK: - Entity Details
+    
+    func retrieveVehicleDetails(with vehicleID: String) -> URLRequest
+    
+    func retrievePersonDetails(with personID: String) -> URLRequest
+    
 }
