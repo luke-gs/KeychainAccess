@@ -28,6 +28,7 @@ open class Contact: NSObject, Serialisable {
         self.id = id
         type = unboxer.unbox(key: "type")
         value = unboxer.unbox(key: "value")
+        super.init()
     }
     
     public required init?(coder aDecoder: NSCoder) {

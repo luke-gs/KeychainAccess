@@ -33,6 +33,7 @@ open class EntityAlert: NSObject, Serialisable {
         self.id = id
         self.level = level
         self.associatedAlertLevel = unboxer.unbox(key: "associatedAlertLevel")
+        super.init()
     }
     
     // MARK: - NSSecureCoding

@@ -30,6 +30,7 @@ open class Address: NSObject, Serialisable {
     
     public required init(id: String = NSUUID().uuidString) {
         self.id = id
+        super.init()
     }
 
     public required init(unboxer: Unboxer) throws {
@@ -49,6 +50,8 @@ open class Address: NSObject, Serialisable {
         streetType = unboxer.unbox(key: "streetType")
         suburb = unboxer.unbox(key: "suburb")
         unitNumber = unboxer.unbox(key: "unitNumber")
+        
+        super.init()
     }
     
     public required init?(coder aDecoder: NSCoder) {

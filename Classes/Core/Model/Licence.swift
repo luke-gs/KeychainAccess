@@ -45,6 +45,7 @@ open class Licence: NSObject, Serialisable {
         effectiveFromDate = unboxer.unbox(key: "effectiveDate", formatter: Licence.dateTransformer)
         effectiveToDate = unboxer.unbox(key: "expiryDate", formatter: Licence.dateTransformer)
         
+        super.init()
     }
     
     public required init?(coder aDecoder: NSCoder) {
