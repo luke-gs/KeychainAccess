@@ -165,6 +165,7 @@
 		C60C891E1ECCBEC700785932 /* SimplePersonKeyPath.json in Resources */ = {isa = PBXBuildFile; fileRef = C60C89181ECCBEC700785932 /* SimplePersonKeyPath.json */; };
 		C60C891F1ECCBEC700785932 /* SimplePersonNestedKeyPath.json in Resources */ = {isa = PBXBuildFile; fileRef = C60C89191ECCBEC700785932 /* SimplePersonNestedKeyPath.json */; };
 		C6A5F0001ECE76E900B0D915 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A5EFFF1ECE76E900B0D915 /* Person.swift */; };
+		C6A5F0021ECE796B00B0D915 /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A5F0011ECE796B00B0D915 /* Address.swift */; };
 		C6F5DED21ECD5C62008E7BE2 /* AccessToken.json in Resources */ = {isa = PBXBuildFile; fileRef = C6F5DED11ECD5C62008E7BE2 /* AccessToken.json */; };
 		C6F5DED41ECD5CE0008E7BE2 /* LocalAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F5DED31ECD5CE0008E7BE2 /* LocalAPIManager.swift */; };
 		C6F5DED61ECD5CE6008E7BE2 /* WebAPIProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F5DED51ECD5CE6008E7BE2 /* WebAPIProtocol.swift */; };
@@ -342,6 +343,7 @@
 		C60C89191ECCBEC700785932 /* SimplePersonNestedKeyPath.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SimplePersonNestedKeyPath.json; sourceTree = "<group>"; };
 		C60C89261ECD420900785932 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
 		C6A5EFFF1ECE76E900B0D915 /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
+		C6A5F0011ECE796B00B0D915 /* Address.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
 		C6F5DED11ECD5C62008E7BE2 /* AccessToken.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AccessToken.json; sourceTree = "<group>"; };
 		C6F5DED31ECD5CE0008E7BE2 /* LocalAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalAPIManager.swift; sourceTree = "<group>"; };
 		C6F5DED51ECD5CE6008E7BE2 /* WebAPIProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebAPIProtocol.swift; sourceTree = "<group>"; };
@@ -489,6 +491,7 @@
 		C605F8BD1ECCAD47001194DD /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				C6A5F0011ECE796B00B0D915 /* Address.swift */,
 				C605F8BE1ECCAD47001194DD /* Entity.swift */,
 				C605F8BF1ECCAD47001194DD /* EntityAlert.swift */,
 				C605F8C01ECCAD47001194DD /* ParseError.swift */,
@@ -1129,6 +1132,7 @@
 				C605F9C81ECCAD48001194DD /* UIViewAnimationCurve+OptionConversion.swift in Sources */,
 				C605F9781ECCAD48001194DD /* URLJSONRequestOperation.swift in Sources */,
 				C605F9851ECCAD48001194DD /* CollectionViewFormDetailCell.swift in Sources */,
+				C6A5F0021ECE796B00B0D915 /* Address.swift in Sources */,
 				C605F9751ECCAD48001194DD /* GroupOperation.swift in Sources */,
 				C605F9D91ECCAD48001194DD /* SourceBar.swift in Sources */,
 				C605F9A31ECCAD48001194DD /* TableViewFormTextViewCell.swift in Sources */,
