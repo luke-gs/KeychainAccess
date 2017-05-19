@@ -10,14 +10,14 @@ import Unbox
 
 open class Licence: NSObject, Serialisable {
 
-    public let id : String
+    open let id : String
     
-    public var number: String?
-    public var state: String?
-    public var country: String?
-    public var effectiveFromDate: Date?
-    public var effectiveToDate: Date?
-    public var status: String?
+    open var number: String?
+    open var state: String?
+    open var country: String?
+    open var effectiveFromDate: Date?
+    open var effectiveToDate: Date?
+    open var status: String?
     
     
 

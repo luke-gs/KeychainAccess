@@ -167,6 +167,7 @@
 		C6A5F0001ECE76E900B0D915 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A5EFFF1ECE76E900B0D915 /* Person.swift */; };
 		C6A5F0021ECE796B00B0D915 /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A5F0011ECE796B00B0D915 /* Address.swift */; };
 		C6A5F0041ECE7E2900B0D915 /* Licence.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A5F0031ECE7E2900B0D915 /* Licence.swift */; };
+		C6A5F0061ECE820D00B0D915 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A5F0051ECE820D00B0D915 /* Contact.swift */; };
 		C6F5DED21ECD5C62008E7BE2 /* AccessToken.json in Resources */ = {isa = PBXBuildFile; fileRef = C6F5DED11ECD5C62008E7BE2 /* AccessToken.json */; };
 		C6F5DED41ECD5CE0008E7BE2 /* LocalAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F5DED31ECD5CE0008E7BE2 /* LocalAPIManager.swift */; };
 		C6F5DED61ECD5CE6008E7BE2 /* WebAPIProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F5DED51ECD5CE6008E7BE2 /* WebAPIProtocol.swift */; };
@@ -346,6 +347,7 @@
 		C6A5EFFF1ECE76E900B0D915 /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		C6A5F0011ECE796B00B0D915 /* Address.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
 		C6A5F0031ECE7E2900B0D915 /* Licence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Licence.swift; sourceTree = "<group>"; };
+		C6A5F0051ECE820D00B0D915 /* Contact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 		C6F5DED11ECD5C62008E7BE2 /* AccessToken.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AccessToken.json; sourceTree = "<group>"; };
 		C6F5DED31ECD5CE0008E7BE2 /* LocalAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalAPIManager.swift; sourceTree = "<group>"; };
 		C6F5DED51ECD5CE6008E7BE2 /* WebAPIProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebAPIProtocol.swift; sourceTree = "<group>"; };
@@ -494,6 +496,7 @@
 			isa = PBXGroup;
 			children = (
 				C6A5F0011ECE796B00B0D915 /* Address.swift */,
+				C6A5F0051ECE820D00B0D915 /* Contact.swift */,
 				C605F8BE1ECCAD47001194DD /* Entity.swift */,
 				C605F8BF1ECCAD47001194DD /* EntityAlert.swift */,
 				C6A5F0031ECE7E2900B0D915 /* Licence.swift */,
@@ -1033,6 +1036,7 @@
 				C605F9661ECCAD48001194DD /* ManifestEntry.swift in Sources */,
 				C605F96A1ECCAD48001194DD /* Vehicle.swift in Sources */,
 				C605F9931ECCAD48001194DD /* UIEdgeInsets+Convenience.swift in Sources */,
+				C6A5F0061ECE820D00B0D915 /* Contact.swift in Sources */,
 				C605F9D11ECCAD48001194DD /* PopoverFormSheetPresentationController.swift in Sources */,
 				C605F9981ECCAD48001194DD /* UIView+Convenience.swift in Sources */,
 				C605F9C31ECCAD48001194DD /* UIImage+RoundedRects.swift in Sources */,

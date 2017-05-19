@@ -38,6 +38,8 @@ open class Person: Entity {
     
     open var licences: [Licence]?
     
+    open var contacts: [Contact]?
+    
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -63,6 +65,7 @@ open class Person: Entity {
         
         addresses = unboxer.unbox(key: "addresses")
         licences = unboxer.unbox(key: "licences")
+        contacts = unboxer.unbox(key: "contacts")
     }
     
     open override func encode(with aCoder: NSCoder) {
