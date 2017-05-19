@@ -12,6 +12,7 @@ open class EntityAlert: NSObject, Serialisable {
     
     open var id: String
     open var level: AlertLevel
+    open var associatedAlertLevel: AlertLevel?
     
     open override func isEqual(_ object: Any?) -> Bool {
         if let object = object as? EntityAlert {
@@ -31,7 +32,7 @@ open class EntityAlert: NSObject, Serialisable {
         
         self.id = id
         self.level = level
-
+        self.associatedAlertLevel = unboxer.unbox(key: "associatedAlertLevel")
     }
     
     // MARK: - NSSecureCoding
