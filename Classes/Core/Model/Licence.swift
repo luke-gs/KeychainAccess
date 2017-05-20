@@ -8,6 +8,7 @@
 
 import Unbox
 
+@objc(MPLLicence)
 open class Licence: NSObject, Serialisable {
 
     open let id : String

@@ -110,6 +110,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
             person.gender = .male
             person.dateOfBirth = Date(timeIntervalSince1970: 578123820)
             
+            let address1 = Address()
+            address1.streetName   = "Swanston"
+            address1.streetType   = "Street"
+            address1.streetNumber = "13A"
+            address1.suburb       = "Melbourne"
+            address1.state        = "VIC"
+            address1.postcode     = "3205"
+            person.addresses = [address1]
+            
             let alert = Alert(id: UUID().uuidString, level: .high)
             alert.title = "Threat"
             alert.effectiveDate = Date().addingTimeInterval(-30000)
@@ -121,6 +130,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
             mediumAlert.effectiveDate = Date().addingTimeInterval(-300000000)
             mediumAlert.details = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu."
             
+            person.alertLevel = .high
             person.alerts = [mediumAlert, alert, mediumAlert]
             
             

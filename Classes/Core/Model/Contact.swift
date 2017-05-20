@@ -8,6 +8,7 @@
 
 import Unbox
 
+@objc(MPLContact)
 open class Contact: NSObject, Serialisable {
 
     open let id : String

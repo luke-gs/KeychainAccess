@@ -76,7 +76,7 @@ open class EntityInfoViewController: EntityDetailCollectionViewController {
             }
             
             /// Temp updates
-            cell.thumbnailView.configure(for: NSObject())
+            cell.thumbnailView.configure(for: entity)
             if cell.thumbnailView.allTargets.contains(self) == false {
                 cell.thumbnailView.isEnabled = true
                 cell.thumbnailView.addTarget(self, action: #selector(entityThumbnailDidSelect(_:)), for: .primaryActionTriggered)

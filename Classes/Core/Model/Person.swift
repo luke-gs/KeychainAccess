@@ -8,6 +8,7 @@
 
 import Unbox
 
+@objc(MPLPerson)
 open class Person: Entity {
     
     public enum Gender: Int, CustomStringConvertible, UnboxableEnum {
@@ -30,6 +31,13 @@ open class Person: Entity {
     }
     
     open override var summary: String {
+        return formattedName ?? NSLocalizedString("Name Unknown", comment: "")
+    }
+    
+    open var givenName: String?
+    open var familyName: String?
+    
+    open var formattedName: String? {
         var names = [String]()
         if let familyName = self.familyName {
             names.append(familyName)
@@ -37,14 +45,8 @@ open class Person: Entity {
         if let givenName = self.givenName {
             names.append(givenName)
         }
-        if names.isEmpty { return NSLocalizedString("Name Unknown", comment: "") }
-        
         return names.joined(separator: ", ")
     }
-    
-    open var givenName: String?
-
-    open var familyName: String?
     
     open var dateOfBirth: Date?
     open var dateOfDeath: Date?

@@ -8,6 +8,7 @@
 
 import Unbox
 
+@objc(MPLVehicle)
 open class Vehicle: Entity {
     
     open override class var localizedDisplayName: String {

@@ -8,6 +8,7 @@
 
 import Unbox
 
+@objc(MPLAlert)
 open class Alert: NSObject, Serialisable {
     
     private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared

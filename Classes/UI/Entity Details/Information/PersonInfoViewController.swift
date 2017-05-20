@@ -16,7 +16,36 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
     }
     
     private var person: Person? {
-        didSet { collectionView?.reloadData() }
+        didSet {
+            guard let person = self.person else {
+                hasContent = false
+                self.sections = []
+                return
+            }
+            hasContent = true
+            
+            var sections: [(SectionType, [Any]?)] = [(.header, nil), (.details, [DetailItem.mni])]
+            
+            if let licences = person.licences {
+                licences.forEach {
+                    sections.append((.licence($0), LicenceItem.licenceItems(for: $0)))
+                }
+            }
+            
+            if let addresses = person.addresses, addresses.isEmpty == false {
+                sections.append((.addresses, addresses)) // TODO: Sort by date
+            }
+            
+            sections.append((.contact, ContactDetailItem.allCases))
+            
+            self.sections = sections
+        }
+    }
+    
+    private var sections: [(type: SectionType, items: [Any]?)] = [(.header, nil)] {
+        didSet {
+            collectionView?.reloadData()
+        }
     }
     
     
@@ -24,7 +53,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
     
     public override init() {
         super.init()
-        title = NSLocalizedString("Information", comment: "")
+        title = NSLocalizedString("Information", bundle: .mpolKit, comment: "")
         
         let sidebarItem = self.sidebarItem
         sidebarItem.image         = UIImage(named: "iconGeneralInfo",       in: .mpolKit, compatibleWith: nil)
@@ -41,6 +70,9 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
         
+        noContentTitleLabel?.text = NSLocalizedString("No Person Found", bundle: .mpolKit, comment: "")
+        noContentSubtitleLabel?.text = NSLocalizedString("There are no details for this person", bundle: .mpolKit, comment: "")
+        
         guard let collectionView = self.collectionView else { return }
         
         collectionView.register(EntityDetailCollectionViewCell.self)
@@ -54,16 +86,11 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
     // MARK: - UICollectionViewDataSource
     
     open func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return Section.count
+        return sections.count
     }
     
     open override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        switch Section(rawValue: section)! {
-        case .header:    return 1
-        case .licences:  return LicenceItem.count
-        case .addresses: return 2
-        case .contact:   return 1
-        }
+        return sections[section].items?.count ?? 1
     }
     
     open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -71,18 +98,19 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
             headerView.showsExpandArrow = false
             
-            let section = indexPath.section
+            let section = sections[indexPath.section]
             
-            if section == 0 {
+            switch section.type {
+            case .header:
                 let lastUpdatedString: String
                 if let lastUpdated = person?.lastUpdated {
                     lastUpdatedString = DateFormatter.shortDate.string(from: lastUpdated)
                 } else {
-                    lastUpdatedString = NSLocalizedString("UNKNOWN", comment: "Unknown Date")
+                    lastUpdatedString = NSLocalizedString("UNKNOWN", bundle: .mpolKit, comment: "Unknown Date")
                 }
-                headerView.text = NSLocalizedString("LAST UPDATED: ", comment: "") + lastUpdatedString
-            } else {
-                headerView.text = Section(rawValue: section)?.localizedTitle
+                headerView.text = NSLocalizedString("LAST UPDATED: ", bundle: .mpolKit, comment: "") + lastUpdatedString
+            default:
+                headerView.text = section.type.localizedTitle(withCount: section.items?.count)
             }
             
             return headerView
@@ -92,16 +120,26 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
     }
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let section = Section(rawValue: indexPath.section)!
         
-        if section == .header {
+        func subtitleFieldCell() -> CollectionViewFormSubtitleCell {
+            let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
+            cell.emphasis = .subtitle
+            cell.isEditableField = false
+            cell.subtitleLabel.numberOfLines = 0
+            return cell
+        }
+        
+        let section = sections[indexPath.section]
+        
+        switch section.type {
+        case .header:
             let cell = collectionView.dequeueReusableCell(of: EntityDetailCollectionViewCell.self, for: indexPath)
             cell.additionalDetailsButtonActionHandler = { [weak self] (cell: EntityDetailCollectionViewCell) in
                 self?.entityDetailCellDidSelectAdditionalDetails(cell)
             }
             
             /// Temp updates
-            cell.thumbnailView.configure(for: NSObject())
+            cell.thumbnailView.configure(for: person)
             if cell.thumbnailView.allTargets.contains(self) == false {
                 cell.thumbnailView.isEnabled = true
                 cell.thumbnailView.addTarget(self, action: #selector(entityThumbnailDidSelect(_:)), for: .primaryActionTriggered)
@@ -122,60 +160,44 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
                 }
                 cell.subtitleLabel.text = dobString
             } else if let gender = person?.gender {
-                cell.subtitleLabel.text = gender.description + " (\(NSLocalizedString("DOB unknown", comment: "")))"
+                cell.subtitleLabel.text = gender.description + " (\(NSLocalizedString("DOB unknown", bundle: .mpolKit, comment: "")))"
             } else {
-                cell.subtitleLabel.text = NSLocalizedString("DOB and gender unknown", comment: "")
+                cell.subtitleLabel.text = NSLocalizedString("DOB and gender unknown", bundle: .mpolKit, comment: "")
             }
             
             cell.descriptionLabel.text = "196 cm proportionate european male with short brown hair and brown eyes"
             cell.additionalDetailsButton.setTitle(nil, for: .normal)
             
             return cell
-        }
-        
-        
-        if section == .licences, let item = LicenceItem(rawValue: indexPath.item), item == .validity {
-            let cell = collectionView.dequeueReusableCell(of: CollectionViewFormProgressCell.self, for: indexPath)
-            cell.emphasis = .subtitle
-            cell.isEditableField = false
-            cell.titleLabel.text    = item.localizedTitle
-            cell.subtitleLabel.text = item.value(for: nil)
-            cell.progressView.progressTintColor = #colorLiteral(red: 0.3001902103, green: 0.6874542236, blue: 0.311791122, alpha: 1)
-            cell.progressView.progress = 0.5
+        case .details:
+            let cell = subtitleFieldCell()
+            
+            let item = section.items![indexPath.item] as! DetailItem
+            cell.titleLabel.text = item.localizedTitle
+            cell.subtitleLabel.text = item.value(for: person!)
+            cell.imageView.image = nil
             return cell
-        }
-        
-        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
-        cell.emphasis = .subtitle
-        cell.isEditableField = false
-        cell.subtitleLabel.numberOfLines = 0
-        
-        switch section {
-        case .licences:
+        case .addresses:
+            let cell = subtitleFieldCell()
+            
+            let item = section.items![indexPath.item] as! Address
+            cell.titleLabel.text = "Recorded date unknown"
+            cell.subtitleLabel.text = item.formatted()
+            cell.imageView.image = UIImage(named: "iconGeneralLocation", in: .mpolKit, compatibleWith: nil)
+            
+            return cell
+        case .contact:
+            let cell = subtitleFieldCell()
+            
+            let item = section.items![indexPath.item] as! ContactDetailItem
+            cell.titleLabel.text = item.localizedTitle
+            cell.subtitleLabel.text = item.value(for: person!)
             cell.imageView.image = nil
             
-            let licenceItem = LicenceItem(rawValue: indexPath.item)
-            cell.titleLabel.text = licenceItem?.localizedTitle
-            cell.subtitleLabel.text = licenceItem?.value(for: nil)
-            cell.subtitleLabel.numberOfLines = 1
-        case .addresses:
-            cell.imageView.image = UIImage(named: "iconGeneralLocation", in: .mpolKit, compatibleWith: nil)
-            if indexPath.item == 0 {
-                cell.titleLabel.text = "Residential"
-                cell.subtitleLabel.text = "8 Catherine Street, Southbank VIC 3006"
-            } else {
-                cell.titleLabel.text = "Work"
-                cell.subtitleLabel.text = "285-287 Coventry Street, South Morang VIC 3205"
-            }
-        case .contact:
-            cell.imageView.image = nil
-            cell.titleLabel.text = "Email address"
-            cell.subtitleLabel.text = "john.citizen@gmail.com"
+            return cell
         default:
-            break
+            return subtitleFieldCell()
         }
-        
-        return cell
     }
     
     open override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
@@ -196,41 +218,27 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, givenSectionWidth sectionWidth: CGFloat, edgeInsets: UIEdgeInsets) -> CGFloat {
-        if let section = Section(rawValue: indexPath.section),
-            section == .licences,
-            let licenceItem = LicenceItem(rawValue: indexPath.item),
-            licenceItem != .validity {
-            return layout.columnContentWidth(forMinimumItemContentWidth: 180.0, maximumColumnCount: 3, sectionWidth: sectionWidth, sectionEdgeInsets: edgeInsets)
+        switch sections[indexPath.section].type {
+        case .contact:
+            return layout.columnContentWidth(forMinimumItemContentWidth: 250.0, maximumColumnCount: 2, sectionWidth: sectionWidth, sectionEdgeInsets: edgeInsets).floored(toScale: traitCollection.currentDisplayScale)
+        default:
+            return sectionWidth
         }
-        return sectionWidth
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
+        
+        let section = sections[indexPath.section]
+        
+        let wantsSingleLineSubtitle: Bool
         let title: String
         let subtitle: String
         let image: UIImage?
         
-        let wantsSingleLineSubtitle: Bool
-        switch Section(rawValue: indexPath.section)! {
+        switch section.type {
         case .header:
             return EntityDetailCollectionViewCell.minimumContentHeight(withTitle: "Smith, Max R.", subtitle: "08/05/1987 (29 Male)", description: "196 cm proportionate european male with short brown hair and brown eyes", additionalDetails: "4 MORE DESCRIPTIONS", source: "DATA SOURCE 1", inWidth: itemWidth, compatibleWith: traitCollection) - layout.itemLayoutMargins.bottom
-        case .licences:
-            let licenceItem = LicenceItem(rawValue: indexPath.item)
-            title    = licenceItem?.localizedTitle ?? ""
-            subtitle = licenceItem?.value(for: nil) ?? ""
-            image    = nil
-            wantsSingleLineSubtitle = true
-        case .addresses:
-            image = UIImage(named: "iconGeneralLocation", in: .mpolKit, compatibleWith: nil)
-            if indexPath.item == 0 {
-                title = "Residential"
-                subtitle = "8 Catherine Street, Southbank VIC 3006"
-            } else {
-                title = "Work"
-                subtitle = "285-287 Coventry Street, South Morang VIC 3205"
-            }
-            wantsSingleLineSubtitle = false
-        case .contact:
+        default:
             image = nil
             title = "Email address"
             subtitle = "john.citizen@gmail.com"
@@ -243,31 +251,66 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
     
     // MARK: - Private
     
-    private enum Section: Int {
+    private enum SectionType {
         case header
-        case licences
+        case details
+        case alias
+        case licence(Licence)
         case addresses
         case contact
         
-        static let count = 4
-        
-        var localizedTitle: String {
+        func localizedTitle(withCount count: Int? = nil) -> String {
             switch self {
-            case .header:    return NSLocalizedString("LAST UPDATED", bundle: .mpolKit, comment: "")
-            case .licences:  return NSLocalizedString("LICENCES",     bundle: .mpolKit, comment: "")
-            case .addresses: return NSLocalizedString("ADDRESSES",    bundle: .mpolKit, comment: "")
-            case .contact:   return NSLocalizedString("CONTACT",      bundle: .mpolKit, comment: "")
+            case .header:
+                return NSLocalizedString("LAST UPDATED", bundle: .mpolKit, comment: "")
+            case .details:
+                return NSLocalizedString("DETAILS", bundle: .mpolKit, comment: "")
+            case .alias:
+                switch count {
+                case .some(1):
+                    return NSLocalizedString("1 ALIAS", bundle: .mpolKit, comment: "")
+                default:
+                    return String(format: NSLocalizedString("%@ ALIASES", bundle: .mpolKit, comment: ""),
+                                  count ?? NSLocalizedString("NO", bundle: .mpolKit, comment: ""))
+                }
+            case .licence(_):
+                return NSLocalizedString("LICENCE", bundle: .mpolKit, comment: "")
+            case .addresses:
+                switch count {
+                case .some(1):
+                    return NSLocalizedString("1 ADDRESS", bundle: .mpolKit, comment: "")
+                default:
+                    return String(format: NSLocalizedString("%@ ADDRESSES", bundle: .mpolKit, comment: ""),
+                                  count ?? NSLocalizedString("NO", bundle: .mpolKit, comment: ""))
+                }
+            case .contact:
+                return NSLocalizedString("CONTACT DETAILS", bundle: .mpolKit, comment: "")
             }
         }
     }
     
-    private enum LicenceItem: Int {
+    private enum DetailItem {
+        case mni
+        
+        var localizedTitle: String {
+            return NSLocalizedString("MNI Number", bundle: .mpolKit, comment: "")
+        }
+        
+        func value(for person: Person) -> String? {
+            // TODO
+            return "Unknown"
+        }
+    }
+    
+    private enum LicenceItem {
         case licenceClass
         case licenceType
         case number
         case validity
         
-        static let count: Int = 4
+        static func licenceItems(for licence: Licence) -> [LicenceItem] {
+            return [.licenceClass, .licenceType, .number, .validity]
+        }
         
         var localizedTitle: String {
             switch self {
@@ -278,7 +321,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
             }
         }
         
-        func value(for licence: Any?) -> String {
+        func value(for licence: Licence) -> String? {
             // TODO: Fill these details in
             switch self {
             case .licenceClass:  return "Motor Vehicle"
@@ -287,6 +330,28 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
             case .validity:      return "15/05/17"
             }
         }
+    }
+    
+    private enum ContactDetailItem {
+        case email
+        case phone
+        
+        static let allCases: [ContactDetailItem] = [.email, .phone]
+        
+        var localizedTitle: String {
+            switch self {
+            case .email: return NSLocalizedString("Email Address", bundle: .mpolKit, comment: "")
+            case .phone: return NSLocalizedString("Contact Number", bundle: .mpolKit, comment: "")
+            }
+        }
+        
+        func value(for person: Person) -> String? {
+            switch self {
+            case .email: return "john.citizen@gmail.com"
+            case .phone: return "N/A"
+            }
+        }
+        
     }
     
     
