@@ -163,6 +163,8 @@
 		C60C891D1ECCBEC700785932 /* SimplePersonArrayNestedKeyPath.json in Resources */ = {isa = PBXBuildFile; fileRef = C60C89171ECCBEC700785932 /* SimplePersonArrayNestedKeyPath.json */; };
 		C60C891E1ECCBEC700785932 /* SimplePersonKeyPath.json in Resources */ = {isa = PBXBuildFile; fileRef = C60C89181ECCBEC700785932 /* SimplePersonKeyPath.json */; };
 		C60C891F1ECCBEC700785932 /* SimplePersonNestedKeyPath.json in Resources */ = {isa = PBXBuildFile; fileRef = C60C89191ECCBEC700785932 /* SimplePersonNestedKeyPath.json */; };
+		C6A56FC41ECFD61F00B844AB /* EntityDetailsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A56FC31ECFD61F00B844AB /* EntityDetailsCollectionViewController.swift */; };
+		C6A56FC61ECFD65A00B844AB /* DateFormatter+Static.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A56FC51ECFD65A00B844AB /* DateFormatter+Static.swift */; };
 		C6A5F0001ECE76E900B0D915 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A5EFFF1ECE76E900B0D915 /* Person.swift */; };
 		C6A5F0021ECE796B00B0D915 /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A5F0011ECE796B00B0D915 /* Address.swift */; };
 		C6A5F0041ECE7E2900B0D915 /* Licence.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A5F0031ECE7E2900B0D915 /* Licence.swift */; };
@@ -343,6 +345,8 @@
 		C60C89181ECCBEC700785932 /* SimplePersonKeyPath.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SimplePersonKeyPath.json; sourceTree = "<group>"; };
 		C60C89191ECCBEC700785932 /* SimplePersonNestedKeyPath.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SimplePersonNestedKeyPath.json; sourceTree = "<group>"; };
 		C60C89261ECD420900785932 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
+		C6A56FC31ECFD61F00B844AB /* EntityDetailsCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailsCollectionViewController.swift; sourceTree = "<group>"; };
+		C6A56FC51ECFD65A00B844AB /* DateFormatter+Static.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Static.swift"; sourceTree = "<group>"; };
 		C6A5EFFF1ECE76E900B0D915 /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		C6A5F0011ECE796B00B0D915 /* Address.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
 		C6A5F0031ECE7E2900B0D915 /* Licence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Licence.swift; sourceTree = "<group>"; };
@@ -738,6 +742,7 @@
 			children = (
 				C605F9201ECCAD47001194DD /* EntityAlertsViewController.swift */,
 				C605F9211ECCAD47001194DD /* EntityAssociationsViewController.swift */,
+				C6A56FC31ECFD61F00B844AB /* EntityDetailsCollectionViewController.swift */,
 				C605F9221ECCAD47001194DD /* EntityDetailsSidebarHeaderView.swift */,
 				C605F9231ECCAD47001194DD /* EntityDetailsSplitViewController.swift */,
 				C605F9241ECCAD47001194DD /* EntityOccurrencesViewController.swift */,
@@ -762,6 +767,7 @@
 			isa = PBXGroup;
 			children = (
 				C605F92C1ECCAD47001194DD /* Bundle+MPOLKit.swift */,
+				C6A56FC51ECFD65A00B844AB /* DateFormatter+Static.swift */,
 				C605F92D1ECCAD47001194DD /* UIColor+Hex.swift */,
 				C605F92E1ECCAD47001194DD /* UIImage+EntityImages.swift */,
 				C605F92F1ECCAD47001194DD /* UIImage+RoundedRects.swift */,
@@ -1083,6 +1089,7 @@
 				C605F9E31ECCAD48001194DD /* GradientView.swift in Sources */,
 				C605F9B71ECCAD48001194DD /* EntityAssociationsViewController.swift in Sources */,
 				C605F9AC1ECCAD48001194DD /* FormCollectionViewController.swift in Sources */,
+				C6A56FC41ECFD61F00B844AB /* EntityDetailsCollectionViewController.swift in Sources */,
 				C605F9761ECCAD48001194DD /* Operation.swift in Sources */,
 				C6A5F0041ECE7E2900B0D915 /* Licence.swift in Sources */,
 				C605F96F1ECCAD48001194DD /* OperationCondition.swift in Sources */,
@@ -1137,6 +1144,7 @@
 				C605F98F1ECCAD48001194DD /* FloatingPoint+Comparison.swift in Sources */,
 				C605F9B31ECCAD48001194DD /* EntityCollectionViewCell.swift in Sources */,
 				C605F9E11ECCAD48001194DD /* CircleIconView.swift in Sources */,
+				C6A56FC61ECFD65A00B844AB /* DateFormatter+Static.swift in Sources */,
 				C605F9C81ECCAD48001194DD /* UIViewAnimationCurve+OptionConversion.swift in Sources */,
 				C605F9781ECCAD48001194DD /* URLJSONRequestOperation.swift in Sources */,
 				C605F9851ECCAD48001194DD /* CollectionViewFormDetailCell.swift in Sources */,

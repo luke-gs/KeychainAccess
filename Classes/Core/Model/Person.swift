@@ -35,18 +35,21 @@ open class Person: Entity {
     }
     
     open var givenName: String?
-    open var familyName: String?
-    
+    open var surname: String?
+    open var middleNames: [String]?
+        
+
     open var formattedName: String? {
         var names = [String]()
-        if let familyName = self.familyName {
-            names.append(familyName)
+        if let surname = self.surname {
+            names.append(surname)
         }
         if let givenName = self.givenName {
             names.append(givenName)
         }
         return names.joined(separator: ", ")
     }
+    
     
     open var dateOfBirth: Date?
     open var dateOfDeath: Date?
@@ -58,6 +61,13 @@ open class Person: Entity {
     open var licences: [Licence]?
     
     open var contacts: [Contact]?
+    
+    // MARK: - ?
+    open var actionsCount: Int?
+    open var isAlias: Bool?
+    open var highestAlertLevel: Alert.Level?
+    open var fullName: String?
+    open var matchScore: Int?
     
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -75,7 +85,8 @@ open class Person: Entity {
         }
 
         givenName = unboxer.unbox(key: "givenName")
-        familyName = unboxer.unbox(key: "familyName")
+        surname = unboxer.unbox(key: "surname")
+        middleNames = unboxer.unbox(key: "middleNames")
 
         dateOfBirth = unboxer.unbox(key: "dateOfBirth", formatter: Person.dateTransformer)
         dateOfDeath = unboxer.unbox(key: "dateOfDeath", formatter: Person.dateTransformer)
