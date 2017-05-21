@@ -112,7 +112,7 @@ open class PersonOrdersViewController: EntityDetailCollectionViewController {
             
             let orderCount = orders?.count ?? 0
             if orderCount > 0 {
-                let baseString = orderCount > 1 ? NSLocalizedString("%@ ORDERS", bundle: .mpolKit, comment: "") : NSLocalizedString("%@ ORDERS", bundle: .mpolKit, comment: "")
+                let baseString = orderCount > 1 ? NSLocalizedString("%d ORDERS", bundle: .mpolKit, comment: "") : NSLocalizedString("%d ORDER", bundle: .mpolKit, comment: "")
                 header.text = String(format: baseString, orderCount)
             } else {
                 header.text = nil
