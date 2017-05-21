@@ -133,7 +133,7 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
             let alertCount = alerts.count
             if alertCount > 0 {
                 let alertLevel = alerts.first!.level
-                header.text = "\(alertCount) \(alertLevel.localizedDescription.uppercased(with: nil)) " + (alertCount > 1 ? NSLocalizedString("ALERTS", bundle: .mpolKit, comment: "") : NSLocalizedString("ALERT", bundle: .mpolKit, comment: ""))
+                header.text = "\(alertCount) \(alertLevel.localizedDescription.localizedUppercase) " + (alertCount > 1 ? NSLocalizedString("ALERTS", bundle: .mpolKit, comment: "") : NSLocalizedString("ALERT", bundle: .mpolKit, comment: ""))
             } else {
                 header.text = nil
             }
@@ -173,7 +173,7 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
         
         let entityDisplayName: String
         if let entity = entity {
-            entityDisplayName = type(of: entity).localizedDisplayName.lowercased(with: nil)
+            entityDisplayName = type(of: entity).localizedDisplayName.localizedLowercase
         } else {
             entityDisplayName = NSLocalizedString("entity", bundle: .mpolKit, comment: "")
         }

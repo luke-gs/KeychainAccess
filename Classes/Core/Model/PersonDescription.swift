@@ -61,21 +61,21 @@ open class PersonDescription: NSObject, Serialisable {
             initialString = "\(height) cm "
         }
         if let build = build, build.isEmpty == false {
-            initialString += build.lowercased(with: nil)
+            initialString += build.localizedLowercase
             initialString += " "
         }
         if let weight = weight, weight.isEmpty == false {
             initialString += "\(weight)"
         }
         if let complexion = complexion, complexion.isEmpty == false {
-            initialString += complexion.lowercased(with: nil)
+            initialString += complexion.localizedLowercase
             initialString += " "
         }
         if let indigenousStatus = indigenousAustralianStatus, indigenousStatus.isEmpty == false {
-            initialString += indigenousStatus.lowercased()
+            initialString += indigenousStatus.localizedLowercase
             initialString += " "
         } else if let nationality = nationality, nationality.isEmpty == false {
-            initialString += nationality.lowercased(with: nil)
+            initialString += nationality.localizedLowercase
             initialString += " "
         }
         
@@ -89,11 +89,11 @@ open class PersonDescription: NSObject, Serialisable {
         
         var hair = ""
         if let hairLength = hairLength, hairLength.isEmpty == false {
-            hair += hairLength.lowercased(with: nil)
+            hair += hairLength.localizedLowercase
             hair += " "
         }
         if let hairColour = hairColour, hairColour.isEmpty {
-            hair += hairColour.lowercased(with: nil)
+            hair += hairColour.localizedLowercase
             hair += " "
         }
         if hair.isEmpty == false {
@@ -101,28 +101,28 @@ open class PersonDescription: NSObject, Serialisable {
             formattedComponents.append(hair)
         }
         if let eyeColour = eyeColour, eyeColour.isEmpty == false {
-            formattedComponents.append(eyeColour.lowercased(with: nil) + " eyes")
+            formattedComponents.append(eyeColour.localizedLowercase + " eyes")
         }
         if let glasses = glasses, glasses.isEmpty == false {
-            formattedComponents.append(glasses.lowercased(with: nil) + " glasses")
+            formattedComponents.append(glasses.localizedLowercase + " glasses")
         }
         if let facialHair = facialHair, facialHair.isEmpty == false {
-            formattedComponents.append(facialHair.lowercased(with: nil) + " facial hair")
+            formattedComponents.append(facialHair.localizedLowercase + " facial hair")
         }
         if let teeth = teeth, teeth.isEmpty == false {
-            formattedComponents.append(teeth.lowercased(with: nil) + " teeth")
+            formattedComponents.append(teeth.localizedLowercase + " teeth")
         }
         if let speech = speech, speech.isEmpty == false {
-            formattedComponents.append(speech.lowercased(with: nil) + " speech")
+            formattedComponents.append(speech.localizedLowercase + " speech")
         }
         if let occupation = occupation, occupation.isEmpty == false {
-            formattedComponents.append(occupation.lowercased(with: nil))
+            formattedComponents.append(occupation.localizedLowercase)
         }
         if let maritalStatus = maritalStatus, maritalStatus.isEmpty == false {
-            formattedComponents.append(maritalStatus.lowercased(with: nil))
+            formattedComponents.append(maritalStatus.localizedLowercase)
         }
         if let religion = religion, religion.isEmpty == false {
-            formattedComponents.append(religion.lowercased(with: nil))
+            formattedComponents.append(religion.localizedLowercase)
         }
         
         if formattedComponents.isEmpty {

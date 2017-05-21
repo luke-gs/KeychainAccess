@@ -20,7 +20,25 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
     
     public typealias Source = String // Temporary
     
-    public var sources: [Source] {
+    open class func detailViewControllers(for entity: Entity) -> [EntityDetailCollectionViewController] {
+        var viewControllers = [
+            EntityAlertsViewController(),
+            EntityAssociationsViewController(),
+            EntityOccurrencesViewController()
+        ]
+    
+        switch entity {
+        case _ as Person:
+            viewControllers.insert(PersonInfoViewController(), at: 0)
+            viewControllers.append(PersonOrdersViewController())
+        default:
+            break
+        }
+        return viewControllers
+    }
+    
+    
+    open var sources: [Source] {
         didSet {
             if sources != oldValue {
                 updateSourceItems()
@@ -28,7 +46,7 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
         }
     }
     
-    public var selectedRepresentation: Entity {
+    open var selectedRepresentation: Entity {
         didSet {
             if selectedRepresentation == oldValue { return }
             
@@ -41,7 +59,7 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
         }
     }
     
-    public var representations: [Source: EntityLoad] {
+    open var representations: [Source: EntityLoad] {
         didSet {
             if representations == oldValue { return }
             
@@ -70,12 +88,7 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
         
         selectedRepresentation = entity
                 
-        let detailVCs: [EntityDetailCollectionViewController] = [
-            PersonInfoViewController(),
-            EntityAlertsViewController(),
-            EntityAssociationsViewController(),
-            EntityOccurrencesViewController()
-        ]
+        let detailVCs = type(of: self).detailViewControllers(for: entity)
         
         detailVCs.forEach { $0.entity = entity }
         

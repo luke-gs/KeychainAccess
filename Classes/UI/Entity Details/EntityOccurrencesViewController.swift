@@ -34,7 +34,7 @@ open class EntityOccurrencesViewController: EntityDetailCollectionViewController
     open override func viewDidLoad() {
         super.viewDidLoad()
         
-        noContentTitleLabel?.text = NSLocalizedString("No Occurrences Found", comment: "")
+        noContentTitleLabel?.text = NSLocalizedString("No Involvements Found", comment: "")
         updateNoContentSubtitle()
     }
     
@@ -42,11 +42,14 @@ open class EntityOccurrencesViewController: EntityDetailCollectionViewController
     private func updateNoContentSubtitle() {
         guard let label = noContentSubtitleLabel else { return }
         
-        var noContentSubtitle = NSLocalizedString("This entity has no related occurrences", comment: "")
+        let entityDisplayName: String
         if let entity = entity {
-            noContentSubtitle = noContentSubtitle.replacingOccurrences(of: "entity", with: type(of: entity).localizedDisplayName.lowercased(with: nil))
+            entityDisplayName = type(of: entity).localizedDisplayName.localizedLowercase
+        } else {
+            entityDisplayName = NSLocalizedString("entity", bundle: .mpolKit, comment: "")
         }
-        label.text = noContentSubtitle
+        
+        label.text = String(format: NSLocalizedString("This %@ has no related involvements", bundle: .mpolKit, comment: ""), entityDisplayName)
     }
     
 

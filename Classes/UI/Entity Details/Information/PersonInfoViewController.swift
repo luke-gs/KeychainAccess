@@ -444,13 +444,13 @@ fileprivate extension Alias {
             
             var dobString = DateFormatter.mediumNumericDate.string(from: dob) + " (\(yearComponent.year!)"
             
-            if let gender = sex?.capitalized(with: nil) {
+            if let gender = sex?.localizedCapitalized {
                 dobString += " \(gender))"
             } else {
                 dobString += ")"
             }
             return dobString
-        } else if let gender = sex?.capitalized(with: nil), gender.isEmpty == false {
+        } else if let gender = sex?.localizedCapitalized, gender.isEmpty == false {
             return gender + " (\(NSLocalizedString("DOB unknown", bundle: .mpolKit, comment: "")))"
         } else {
             return NSLocalizedString("DOB and gender unknown", bundle: .mpolKit, comment: "")
