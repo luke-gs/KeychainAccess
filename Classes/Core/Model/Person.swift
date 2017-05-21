@@ -84,6 +84,8 @@ open class Person: Entity {
     
     open var cautions: [Caution]?
     
+    open var knownAssociates: [KnownAssociate]?
+    
     
     // MARK: - ?
     open var highestAlertLevel: Alert.Level?
@@ -120,6 +122,7 @@ open class Person: Entity {
         descriptions = unboxer.unbox(key: "descriptions")
         aliases = unboxer.unbox(key: "aliases")
         cautions = unboxer.unbox(key: "cautions")
+        knownAssociates = unboxer.unbox(key: "knownAssociates")
     }
     
     open override func encode(with aCoder: NSCoder) {
