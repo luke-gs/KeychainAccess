@@ -36,7 +36,7 @@ open class Licence: NSObject, Serialisable {
         
         self.id = id
         
-        number = unboxer.unbox(key: "licenceNumber") //"licenceNumber" <~~ json
+        number = unboxer.unbox(key: "licenceNumber")
     
         country = unboxer.unbox(key: "country")
         state = unboxer.unbox(key: "state")
