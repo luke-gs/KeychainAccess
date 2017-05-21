@@ -1,0 +1,100 @@
+{
+    "id": "25625aa4-3394-48e2-8dbc-2387498e16b0",
+    "firstName": "John",
+    "surname": "Citizen",
+    "middleNames": "[Robert, Junior]",
+    "fullName": "Citizen, John R. J.",
+    "initials": "JC",
+    "race": "Caucasian",
+    "gender": 1,
+    "actionCount": 3,
+    "dateOfBirth": "1990-01-01T10:00:00.484Z",
+    "addresses": [
+        {
+            "streetName": "Swanston",
+            "suburb": "Melbourne",
+            "state": "VIC",
+            "streetNumber": "12",
+            "id": "25625aa4-3394-48e2-8dbc-2387498e41b0",
+            "postalCode": "3000",
+            "streetType": "St",
+            "country": "Australia"
+        },
+        {
+            "streetName": "Wellington",
+            "suburb": "Collingwood",
+            "state": "VIC",
+            "streetNumber": "90",
+            "id": "25625aa4-3394-4124-8dbc-2387498e41b0",
+            "postalCode": "3066",
+            "streetType": "St",
+            "country": "Australia"
+        }
+    ],
+    "aliases": [
+        {
+            "id": "25625aa4-3194-48e2-8dbc-2387498e16b0",
+            "firstName": "Johnny",
+            "lastName": "Citizen",
+            "sex": "M",
+            "dateOfBirth": "1990-01-01T10:00:00.484Z",
+            "type": "Alias"
+        }
+    ],
+    "bailOrders": [
+        {
+            "reportingToStation": "Melbourne West",
+            "hasOwnerUndertaking": true,
+            "informantMember": "Citizen",
+            "id": "5408958C-66D1-478A-95CA-020DFE9303D4",
+            "firstReportDate": "2010-08-31 02:34:48",
+            "informantStation": "Melbourne West",
+            "hearingDate": "2014-08-26 02:34:48",
+            "conditions": [
+                "Reporting daily.",
+                "Not allowed to go out after 9pm,"
+            ],
+            "postedAt": "12 Swanston St, Melbourne, VIC 3000",
+            "postedDate": "2014-09-15 02:34:48",
+            "hearingLocation": "13 Swanston St, Melbourne, VIC 3000",
+            "reportingRequirements": [
+                "Required to show up daily.",
+                "Required to write report weekly."
+            ]
+        }
+    ],
+    "interventionOrders": [
+        {
+            "status": "Current",
+            "id": "41CE3794-A83D-4D0F-925C-DB1261125BDF",
+            "respondentDateOfBirth": "1988-12-15 04:30:20",
+            "respondentName": "Not John Citizen",
+            "address": "18 Swanston St, Melbourne, VIC 3000",
+            "type": "Banning",
+            "servedDate": "2014-09-15 02:34:48"
+        }
+    ],
+    "alerts": [
+        {
+            "details": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu.",
+            "title": "Attention Grabber",
+            "level": "medium",
+            "id": "F8E3F7C7-DD32-449C-A99A-9648998D9CBD",
+            "effectiveDate": "2007-11-18 22:17:21"
+        },
+        {
+            "details": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu.",
+            "title": "Threat",
+            "level": "high",
+            "id": "F64DEF4B-4F8E-4B70-8D5B-301CFDF6B673",
+            "effectiveDate": "2017-05-21 18:17:21"
+        },
+        {
+            "details": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu.",
+            "title": "Attention Grabber",
+            "level": "medium",
+            "id": "F8E3F7C7-DD32-449C-A99A-9648998D9CBD",
+            "effectiveDate": "2007-11-18 22:17:21"
+        }
+    ]
+}
