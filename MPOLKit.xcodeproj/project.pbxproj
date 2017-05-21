@@ -184,6 +184,7 @@
 		C6A5F0081ECE89A300B0D915 /* VehicleSearch.json in Resources */ = {isa = PBXBuildFile; fileRef = C6A5F0071ECE89A300B0D915 /* VehicleSearch.json */; };
 		C6BABED31ED1788200E423CB /* Caution.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BABED21ED1788200E423CB /* Caution.swift */; };
 		C6BABED51ED1799500E423CB /* KnownAssociate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BABED41ED1799500E423CB /* KnownAssociate.swift */; };
+		C6BABED71ED17A6500E423CB /* Warrant.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BABED61ED17A6500E423CB /* Warrant.swift */; };
 		C6F5DED21ECD5C62008E7BE2 /* AccessToken.json in Resources */ = {isa = PBXBuildFile; fileRef = C6F5DED11ECD5C62008E7BE2 /* AccessToken.json */; };
 		C6F5DED41ECD5CE0008E7BE2 /* LocalAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F5DED31ECD5CE0008E7BE2 /* LocalAPIManager.swift */; };
 		C6F5DED61ECD5CE6008E7BE2 /* WebAPIProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F5DED51ECD5CE6008E7BE2 /* WebAPIProtocol.swift */; };
@@ -380,6 +381,7 @@
 		C6A5F0071ECE89A300B0D915 /* VehicleSearch.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = VehicleSearch.json; sourceTree = "<group>"; };
 		C6BABED21ED1788200E423CB /* Caution.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Caution.swift; sourceTree = "<group>"; };
 		C6BABED41ED1799500E423CB /* KnownAssociate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KnownAssociate.swift; path = Classes/Core/Model/KnownAssociate.swift; sourceTree = SOURCE_ROOT; };
+		C6BABED61ED17A6500E423CB /* Warrant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Warrant.swift; sourceTree = "<group>"; };
 		C6F5DED11ECD5C62008E7BE2 /* AccessToken.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AccessToken.json; sourceTree = "<group>"; };
 		C6F5DED31ECD5CE0008E7BE2 /* LocalAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalAPIManager.swift; sourceTree = "<group>"; };
 		C6F5DED51ECD5CE6008E7BE2 /* WebAPIProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebAPIProtocol.swift; sourceTree = "<group>"; };
@@ -542,6 +544,7 @@
 				C6A56FE01ED1697200B844AB /* RiskFactor.swift */,
 				C6A56FD81ED1518200B844AB /* TelephoneNumber.swift */,
 				C605F8C11ECCAD47001194DD /* Vehicle.swift */,
+				C6BABED61ED17A6500E423CB /* Warrant.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1078,6 +1081,7 @@
 				C605F9871ECCAD48001194DD /* CollectionViewFormExpandingHeaderView.swift in Sources */,
 				C605F9D71ECCAD48001194DD /* SidebarTableViewCell.swift in Sources */,
 				C605F9961ECCAD48001194DD /* UITableViewCell+LayoutMargins.swift in Sources */,
+				C6BABED71ED17A6500E423CB /* Warrant.swift in Sources */,
 				C605F9641ECCAD48001194DD /* ManifestCollection.swift in Sources */,
 				C605F9B81ECCAD48001194DD /* EntityDetailsSidebarHeaderView.swift in Sources */,
 				C605F9D31ECCAD48001194DD /* PopoverViewController.swift in Sources */,
