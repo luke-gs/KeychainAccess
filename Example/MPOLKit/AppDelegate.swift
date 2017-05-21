@@ -9,6 +9,7 @@
 
 import UIKit
 import MPOLKit
+import Unbox
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelegate {
@@ -102,97 +103,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
             let tabBarController = UITabBarController()
             
             
-            let person = Person()
-            person.source = "LEAP"
-            person.surname = "Citizen"
-            person.givenName = "John"
-            person.middleNames = ["Roger"]
-            person.fullName = "Citizen, John R."
-            person.lastUpdated = Date()
-            person.gender = .male
-            person.actionCount = 3
-            person.dateOfBirth = Date(timeIntervalSince1970: 578123820)
+            let bundle = Bundle(for: Person.self)
+            let url = bundle.url(forResource: "Person_25625aa4-3394-48e2-8dbc-2387498e16b0", withExtension: "json", subdirectory: "Mock JSONs")!
+            let data = try! Data(contentsOf: url)
             
-            let licence = Licence()
-            licence.state   = "VIC"
-            licence.country = "Australia"
-            licence.effectiveFromDate = Date(timeIntervalSinceNow: -36288000)
-            licence.effectiveToDate   = Date(timeIntervalSinceNow: 17280000)
-            licence.number = "123456789"
-            licence.status = "Open"
-            person.licences = [licence]
-            
-            let alias = Alias()
-            alias.firstName = "John"
-            alias.lastName = "Citz"
-            alias.sex = "Male"
-            alias.dateOfBirth = Date(timeIntervalSince1970: 567993600)
-            person.aliases = [alias]
-            
-            let address1 = Address()
-            address1.streetName   = "Swanston"
-            address1.streetType   = "Street"
-            address1.streetNumber = "13A"
-            address1.suburb       = "Melbourne"
-            address1.state        = "VIC"
-            address1.postcode     = "3205"
-            person.addresses = [address1]
-            
-            let description = PersonDescription()
-            description.reportDate = Date(timeIntervalSinceNow: -84600)
-            description.height = 180
-            description.complexion = "Caucasian"
-            description.hairColour = "Brown"
-            description.hairLength = "Short"
-            description.eyeColour  = "Brown"
-            description.facialHair = "Stubble"
-            description.build      = "Muscular"
-            person.descriptions = [description]
-            
-            let alert = Alert(id: UUID().uuidString, level: .high)
-            alert.title = "Threat"
-            alert.effectiveDate = Date().addingTimeInterval(-30000)
-            alert.details = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu."
-            
-            
-            let mediumAlert = Alert(id: UUID().uuidString, level: .medium)
-            mediumAlert.title = "Attention Grabber"
-            mediumAlert.effectiveDate = Date().addingTimeInterval(-300000000)
-            mediumAlert.details = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu."
-            
-            person.alertLevel = .high
-            person.alerts = [mediumAlert, alert, mediumAlert]
-            
-            let bailOrder = BailOrder(id: UUID().uuidString)
-            bailOrder.hasOwnerUndertaking = true
-            bailOrder.reportingRequirements = [ "Required to show up daily.", "Required to write report weekly."]
-            bailOrder.firstReportDate = Date().addingTimeInterval(-86400 * 2456)
-            bailOrder.informantStation = "Melbourne West"
-            bailOrder.informantMember = "Citizen"
-            
-            bailOrder.hearingDate = Date().addingTimeInterval(-86400 * 1000)
-            bailOrder.postedDate = Date().addingTimeInterval(-86400 * 980)
-            
-            bailOrder.conditions = [ "Reporting daily.", "Not allowed to go out after 9pm," ]
-            bailOrder.reportingToStation = "Melbourne West"
-            
-            bailOrder.postedAt = "12 Swanston St, Melbourne, VIC 3000"
-            bailOrder.hearingLocation = "13 Swanston St, Melbourne, VIC 3000"
-            
-            person.bailOrders = [bailOrder]
-            
-            let interventionOrder = InterventionOrder(id: UUID().uuidString)
-            interventionOrder.servedDate = Date().addingTimeInterval(-86400 * 980)
-            interventionOrder.respondentName = "Not John Citizen"
-            interventionOrder.type = "Banning"
-//            interventionOrder.complainants = ["Junior Citizen", "Sernior Citizen"]
-            interventionOrder.status = "Current"
-            interventionOrder.respondentDateOfBirth = Date(timeIntervalSince1970: 598123820)
-            interventionOrder.address = "18 Swanston St, Melbourne, VIC 3000"
-            
-            person.interventionOrders = [interventionOrder]
+            let person: Person = try! unbox(data: data)
 
-            
             tabBarController.viewControllers = [pushableSVNavController, UINavigationController(rootViewController: sidebarSplitViewController), EntityDetailsSplitViewController(entity: person)]
             self.window?.rootViewController = tabBarController
         }
@@ -201,7 +117,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
             UIView.transition(with: window, duration: 0.2, options: .transitionCrossDissolve, animations: nil, completion: nil)
         }
     }
-    
     
     // MARK: - Login view controller delegate
     
@@ -241,3 +156,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
     
 }
 
+    
+            
+    
