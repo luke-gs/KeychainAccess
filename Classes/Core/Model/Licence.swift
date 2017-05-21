@@ -42,8 +42,8 @@ open class Licence: NSObject, Serialisable {
         state = unboxer.unbox(key: "state")
         status = unboxer.unbox(key: "status")
         
-        effectiveFromDate = unboxer.unbox(key: "effectiveDate", formatter: Licence.dateTransformer)
-        effectiveToDate = unboxer.unbox(key: "expiryDate", formatter: Licence.dateTransformer)
+        effectiveFromDate = unboxer.unbox(key: "effectiveFromDate", formatter: Licence.dateTransformer)
+        effectiveToDate = unboxer.unbox(key: "effectiveToDate", formatter: Licence.dateTransformer)
         
         super.init()
     }

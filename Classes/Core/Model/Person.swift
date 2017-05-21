@@ -37,6 +37,7 @@ open class Person: Entity {
     open var givenName: String?
     open var surname: String?
     open var middleNames: [String]?
+    open var initials: String?
     
     // TEMP?
     open var formattedName: String? {
@@ -115,6 +116,7 @@ open class Person: Entity {
         givenName = unboxer.unbox(key: "givenName")
         surname = unboxer.unbox(key: "surname")
         middleNames = unboxer.unbox(key: "middleNames")
+        fullName    = unboxer.unbox(key: "fullName")
 
         dateOfBirth = unboxer.unbox(key: "dateOfBirth", formatter: Person.dateTransformer)
         dateOfDeath = unboxer.unbox(key: "dateOfDeath", formatter: Person.dateTransformer)
@@ -132,6 +134,20 @@ open class Person: Entity {
         warnings = unboxer.unbox(key: "warnings")
         scarMarksTattoos = unboxer.unbox(key: "scarsMarksTattoos")
         
+        if let initials: String = unboxer.unbox(key: "initials") {
+            self.initials = initials
+        } else {
+            var initials = ""
+            if let givenName = givenName, givenName.isEmpty == false {
+                initials += givenName.substring(to: givenName.index(after: givenName.startIndex))
+            }
+            if let surname = surname, surname.isEmpty == false {
+                initials += surname.substring(to: surname.index(after: surname.startIndex))
+            }
+            if initials.isEmpty == false {
+                self.initials = initials
+            }
+        }
     }
     
     open override func encode(with aCoder: NSCoder) {

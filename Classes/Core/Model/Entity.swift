@@ -44,10 +44,10 @@ open class Entity: NSObject, Serialisable {
         }
         
         self.id = id
+        self.source = unboxer.unbox(key: "source")
 
         self.alertLevel = unboxer.unbox(key: "alertLevel")
         self.associatedAlertLevel = unboxer.unbox(key: "associatedAlertLevel")
-        
         self.alerts = unboxer.unbox(key: "alerts")
 
         super.init()

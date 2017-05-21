@@ -1,16 +1,17 @@
 {
     "id": "25625aa4-3394-48e2-8dbc-2387498e16b0",
-    "firstName": "John",
+    "givenName": "John",
     "surname": "Citizen",
-    "middleNames": "[Robert, Junior]",
-    "fullName": "Citizen, John R. J.",
+    "middleNames": ["Robert", "Junior"],
+    "fullName": "Citizen, John R.",
     "initials": "JC",
     "race": "Caucasian",
     "gender": 1,
     "actionCount": 3,
     "associatedAlertLevel": 2,
-    "alertLevel": 2,
+    "alertLevel": 3,
     "dateOfBirth": "1990-01-01T10:00:00Z",
+    "source": "LEAP",
     "addresses": [
         {
             "streetName": "Swanston",
