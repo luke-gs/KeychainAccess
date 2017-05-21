@@ -43,11 +43,14 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
     private func updateNoContentSubtitle() {
         guard let label = noContentSubtitleLabel else { return }
         
-        var noContentSubtitle = NSLocalizedString("This entity has no associations", comment: "")
+        let entityDisplayName: String
         if let entity = entity {
-            noContentSubtitle = noContentSubtitle.replacingOccurrences(of: "entity", with: type(of: entity).localizedDisplayName.lowercased(with: nil))
+            entityDisplayName = type(of: entity).localizedDisplayName.localizedLowercase
+        } else {
+            entityDisplayName = NSLocalizedString("entity", bundle: .mpolKit, comment: "")
         }
-        label.text = noContentSubtitle
+        
+        label.text = String(format: NSLocalizedString("This %@ has no associations", bundle: .mpolKit, comment: ""), entityDisplayName)
     }
     
 }

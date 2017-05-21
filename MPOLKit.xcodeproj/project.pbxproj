@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BC61E5011ED1A6430044D2D4 /* PersonOrdersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC61E5001ED1A6430044D2D4 /* PersonOrdersViewController.swift */; };
 		BCDDBBFC1ECEDB9600D66D45 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDDBBFB1ECEDB9600D66D45 /* Alert.swift */; };
 		C605F8901ECCAB2C001194DD /* MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C605F8861ECCAB2B001194DD /* MPOLKit.framework */; };
 		C605F8951ECCAB2C001194DD /* MPOLKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F8941ECCAB2C001194DD /* MPOLKitTests.swift */; };
@@ -207,6 +208,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BC61E5001ED1A6430044D2D4 /* PersonOrdersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonOrdersViewController.swift; sourceTree = "<group>"; };
 		BCDDBBFB1ECEDB9600D66D45 /* Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		C605F8861ECCAB2B001194DD /* MPOLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MPOLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C605F88F1ECCAB2C001194DD /* MPOLKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MPOLKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -794,6 +796,7 @@
 				C605F9221ECCAD47001194DD /* EntityDetailsSidebarHeaderView.swift */,
 				C605F9231ECCAD47001194DD /* EntityDetailsSplitViewController.swift */,
 				C605F9241ECCAD47001194DD /* EntityOccurrencesViewController.swift */,
+				BC61E5001ED1A6430044D2D4 /* PersonOrdersViewController.swift */,
 				C605F9251ECCAD47001194DD /* Information */,
 			);
 			path = "Entity Details";
@@ -1228,6 +1231,7 @@
 				C605F9851ECCAD48001194DD /* CollectionViewFormDetailCell.swift in Sources */,
 				C6A5F0021ECE796B00B0D915 /* Address.swift in Sources */,
 				C605F9751ECCAD48001194DD /* GroupOperation.swift in Sources */,
+				BC61E5011ED1A6430044D2D4 /* PersonOrdersViewController.swift in Sources */,
 				C605F9D91ECCAD48001194DD /* SourceBar.swift in Sources */,
 				C6A56FDD1ED159B600B844AB /* Member.swift in Sources */,
 				C605F9A31ECCAD48001194DD /* TableViewFormTextViewCell.swift in Sources */,

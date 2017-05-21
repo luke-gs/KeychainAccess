@@ -8,7 +8,7 @@
 
 import Unbox
 
-class InterventionOrder: NSObject, Serialisable {
+open class InterventionOrder: NSObject, Serialisable {
 
     open let id: String
     
