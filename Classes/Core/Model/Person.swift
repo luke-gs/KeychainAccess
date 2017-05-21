@@ -109,9 +109,8 @@ open class Person: Entity {
     private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
     
     public required init(unboxer: Unboxer) throws {
-        do {
-            try super.init(unboxer: unboxer)
-        }
+        
+        try super.init(unboxer: unboxer)
 
         givenName = unboxer.unbox(key: "givenName")
         surname = unboxer.unbox(key: "surname")
