@@ -82,6 +82,8 @@ open class Person: Entity {
     
     open var aliases: [Alias]?
     
+    open var cautions: [Caution]?
+    
     
     // MARK: - ?
     open var highestAlertLevel: Alert.Level?
@@ -117,6 +119,7 @@ open class Person: Entity {
         contacts = unboxer.unbox(key: "contacts")
         descriptions = unboxer.unbox(key: "descriptions")
         aliases = unboxer.unbox(key: "aliases")
+        cautions = unboxer.unbox(key: "cautions")
     }
     
     open override func encode(with aCoder: NSCoder) {
