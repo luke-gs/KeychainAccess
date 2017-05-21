@@ -39,6 +39,24 @@ open class PersonDescription: NSObject, Serialisable {
         }
         self.id = id
         
+        religion = unboxer.unbox(key: "religion")
+        indigenousAustralianStatus = unboxer.unbox(key: "indigenousAustralianStatus")
+        occupation = unboxer.unbox(key: "occupation")
+        complexion = unboxer.unbox(key: "complexion")
+        nationality = unboxer.unbox(key: "nationality")
+        teeth = unboxer.unbox(key: "teeth")
+        facialHair = unboxer.unbox(key: "facialHair")
+        build = unboxer.unbox(key: "build")
+        weight = unboxer.unbox(key: "weight")
+        hairColour = unboxer.unbox(key: "hairColour")
+        hairLength = unboxer.unbox(key: "hairLength")
+        speech = unboxer.unbox(key: "speech")
+        maritalStatus = unboxer.unbox(key: "maritalStatus")
+        eyeColour = unboxer.unbox(key: "eyeColour")
+        height = unboxer.unbox(key: "height")
+        glasses = unboxer.unbox(key: "glasses")
+        reportDate = unboxer.unbox(key: "reportDate", formatter: ISO8601DateTransformer.shared)
+        
         super.init()
     }
     
