@@ -48,14 +48,11 @@ open class PersonDescription: NSObject, Serialisable {
     }
     
     public required init?(coder aDecoder: NSCoder) {
-        guard let id = aDecoder.decodeObject(of: NSString.self, forKey: "id") as String? else {
-            return nil
-        }
-        self.id = id
-        super.init()
+        fatalError("Not implemented yet")
     }
     
     public func encode(with aCoder: NSCoder) {
+        fatalError("Not implemented yet")
     }
     
     public func formatted() -> String? {

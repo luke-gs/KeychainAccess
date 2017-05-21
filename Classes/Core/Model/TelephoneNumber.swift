@@ -8,6 +8,7 @@
 
 import Unbox
 
+@objc(MPLTelephoneNumber)
 open class TelephoneNumber: NSObject, Serialisable {
 
     open let id: String

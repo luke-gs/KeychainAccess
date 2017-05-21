@@ -8,6 +8,7 @@
 
 import Unbox
 
+@objc(MPLRiskFactor)
 open class RiskFactor: NSObject, Serialisable {
     
     open var type: String?

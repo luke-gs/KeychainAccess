@@ -8,6 +8,7 @@
 
 import Unbox
 
+@objc(MPLReportedPerson)
 open class ReportedPerson: NSObject, Serialisable {
     
     open let id: String
