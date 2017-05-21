@@ -91,6 +91,7 @@ open class Person: Entity {
     open var scarMarksTattoos: [ScarMarkTattoo]?
     
     open var interventionOrders: [InterventionOrder]?
+    open var bailOrders: [BailOrder]?
     
     // MARK: - ?
     open var highestAlertLevel: Alert.Level?
