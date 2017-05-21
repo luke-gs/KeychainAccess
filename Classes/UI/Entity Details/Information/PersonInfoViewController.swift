@@ -308,7 +308,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
                     return NSLocalizedString("1 ALIAS", bundle: .mpolKit, comment: "")
                 default:
                     return String(format: NSLocalizedString("%@ ALIASES", bundle: .mpolKit, comment: ""),
-                                  count ?? NSLocalizedString("NO", bundle: .mpolKit, comment: ""))
+                                  count != nil ? String(describing: count!) : NSLocalizedString("NO", bundle: .mpolKit, comment: ""))
                 }
             case .licence(_):
                 return NSLocalizedString("LICENCE", bundle: .mpolKit, comment: "")
@@ -318,7 +318,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
                     return NSLocalizedString("1 ADDRESS", bundle: .mpolKit, comment: "")
                 default:
                     return String(format: NSLocalizedString("%@ ADDRESSES", bundle: .mpolKit, comment: ""),
-                                  count ?? NSLocalizedString("NO", bundle: .mpolKit, comment: ""))
+                                  count != nil ? String(describing: count!) : NSLocalizedString("NO", bundle: .mpolKit, comment: ""))
                 }
             case .contact:
                 return NSLocalizedString("CONTACT DETAILS", bundle: .mpolKit, comment: "")
