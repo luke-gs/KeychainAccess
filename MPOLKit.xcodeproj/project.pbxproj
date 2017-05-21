@@ -174,6 +174,8 @@
 		C6A56FD91ED1518200B844AB /* TelephoneNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A56FD81ED1518200B844AB /* TelephoneNumber.swift */; };
 		C6A56FDB1ED156DC00B844AB /* Whereabouts.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A56FDA1ED156DC00B844AB /* Whereabouts.swift */; };
 		C6A56FDD1ED159B600B844AB /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A56FDC1ED159B600B844AB /* Member.swift */; };
+		C6A56FDF1ED1695C00B844AB /* ReportedPerson.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A56FDE1ED1695C00B844AB /* ReportedPerson.swift */; };
+		C6A56FE11ED1697200B844AB /* RiskFactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A56FE01ED1697200B844AB /* RiskFactor.swift */; };
 		C6A5F0001ECE76E900B0D915 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A5EFFF1ECE76E900B0D915 /* Person.swift */; };
 		C6A5F0021ECE796B00B0D915 /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A5F0011ECE796B00B0D915 /* Address.swift */; };
 		C6A5F0041ECE7E2900B0D915 /* Licence.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A5F0031ECE7E2900B0D915 /* Licence.swift */; };
@@ -365,6 +367,8 @@
 		C6A56FD81ED1518200B844AB /* TelephoneNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TelephoneNumber.swift; sourceTree = "<group>"; };
 		C6A56FDA1ED156DC00B844AB /* Whereabouts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Whereabouts.swift; sourceTree = "<group>"; };
 		C6A56FDC1ED159B600B844AB /* Member.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Member.swift; sourceTree = "<group>"; };
+		C6A56FDE1ED1695C00B844AB /* ReportedPerson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportedPerson.swift; sourceTree = "<group>"; };
+		C6A56FE01ED1697200B844AB /* RiskFactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RiskFactor.swift; sourceTree = "<group>"; };
 		C6A5EFFF1ECE76E900B0D915 /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		C6A5F0011ECE796B00B0D915 /* Address.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
 		C6A5F0031ECE7E2900B0D915 /* Licence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Licence.swift; sourceTree = "<group>"; };
@@ -525,6 +529,8 @@
 				C6A56FDC1ED159B600B844AB /* Member.swift */,
 				C605F8C01ECCAD47001194DD /* ParseError.swift */,
 				C6A5EFFF1ECE76E900B0D915 /* Person.swift */,
+				C6A56FDE1ED1695C00B844AB /* ReportedPerson.swift */,
+				C6A56FE01ED1697200B844AB /* RiskFactor.swift */,
 				C6A56FD81ED1518200B844AB /* TelephoneNumber.swift */,
 				C605F8C11ECCAD47001194DD /* Vehicle.swift */,
 			);
@@ -1128,6 +1134,7 @@
 				C605F9E31ECCAD48001194DD /* GradientView.swift in Sources */,
 				C605F9B71ECCAD48001194DD /* EntityAssociationsViewController.swift in Sources */,
 				C605F9AC1ECCAD48001194DD /* FormCollectionViewController.swift in Sources */,
+				C6A56FDF1ED1695C00B844AB /* ReportedPerson.swift in Sources */,
 				C6A56FC41ECFD61F00B844AB /* EntityDetailsCollectionViewController.swift in Sources */,
 				C605F9761ECCAD48001194DD /* Operation.swift in Sources */,
 				C6A5F0041ECE7E2900B0D915 /* Licence.swift in Sources */,
@@ -1156,6 +1163,7 @@
 				C605F99E1ECCAD48001194DD /* TableViewFormCell.swift in Sources */,
 				C605F96E1ECCAD48001194DD /* MutuallyExclusiveCondition.swift in Sources */,
 				C6F5E01C1ECD649E008E7BE2 /* UIFont+TextStyle.swift in Sources */,
+				C6A56FE11ED1697200B844AB /* RiskFactor.swift in Sources */,
 				C605F9601ECCAD48001194DD /* UnboxableResponseSerializer.swift in Sources */,
 				C605F9DD1ECCAD48001194DD /* ViewControllerAnimationOptionTransition.swift in Sources */,
 				C605F9C71ECCAD48001194DD /* UITextView+NotificationWorkaround.m in Sources */,
