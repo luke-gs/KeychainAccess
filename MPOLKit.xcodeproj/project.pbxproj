@@ -187,6 +187,7 @@
 		C6BABED71ED17A6500E423CB /* Warrant.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BABED61ED17A6500E423CB /* Warrant.swift */; };
 		C6BABED91ED17B3600E423CB /* ScarMarkTattoo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BABED81ED17B3600E423CB /* ScarMarkTattoo.swift */; };
 		C6BABEDB1ED17B4200E423CB /* Warning.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BABEDA1ED17B4200E423CB /* Warning.swift */; };
+		C6BABEDD1ED1AE6500E423CB /* Alias.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BABEDC1ED1AE6500E423CB /* Alias.swift */; };
 		C6F5DED21ECD5C62008E7BE2 /* AccessToken.json in Resources */ = {isa = PBXBuildFile; fileRef = C6F5DED11ECD5C62008E7BE2 /* AccessToken.json */; };
 		C6F5DED41ECD5CE0008E7BE2 /* LocalAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F5DED31ECD5CE0008E7BE2 /* LocalAPIManager.swift */; };
 		C6F5DED61ECD5CE6008E7BE2 /* WebAPIProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F5DED51ECD5CE6008E7BE2 /* WebAPIProtocol.swift */; };
@@ -386,6 +387,7 @@
 		C6BABED61ED17A6500E423CB /* Warrant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Warrant.swift; sourceTree = "<group>"; };
 		C6BABED81ED17B3600E423CB /* ScarMarkTattoo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScarMarkTattoo.swift; sourceTree = "<group>"; };
 		C6BABEDA1ED17B4200E423CB /* Warning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Warning.swift; sourceTree = "<group>"; };
+		C6BABEDC1ED1AE6500E423CB /* Alias.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alias.swift; sourceTree = "<group>"; };
 		C6F5DED11ECD5C62008E7BE2 /* AccessToken.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AccessToken.json; sourceTree = "<group>"; };
 		C6F5DED31ECD5CE0008E7BE2 /* LocalAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalAPIManager.swift; sourceTree = "<group>"; };
 		C6F5DED51ECD5CE6008E7BE2 /* WebAPIProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebAPIProtocol.swift; sourceTree = "<group>"; };
@@ -534,6 +536,7 @@
 			children = (
 				C6A5F0011ECE796B00B0D915 /* Address.swift */,
 				BCDDBBFB1ECEDB9600D66D45 /* Alert.swift */,
+				C6BABEDC1ED1AE6500E423CB /* Alias.swift */,
 				C6BABED21ED1788200E423CB /* Caution.swift */,
 				C6A5F0051ECE820D00B0D915 /* Contact.swift */,
 				C605F8BE1ECCAD47001194DD /* Entity.swift */,
@@ -1187,6 +1190,7 @@
 				C6F5E01C1ECD649E008E7BE2 /* UIFont+TextStyle.swift in Sources */,
 				C6A56FE11ED1697200B844AB /* RiskFactor.swift in Sources */,
 				C605F9601ECCAD48001194DD /* UnboxableResponseSerializer.swift in Sources */,
+				C6BABEDD1ED1AE6500E423CB /* Alias.swift in Sources */,
 				C605F9DD1ECCAD48001194DD /* ViewControllerAnimationOptionTransition.swift in Sources */,
 				C605F9C71ECCAD48001194DD /* UITextView+NotificationWorkaround.m in Sources */,
 				C605F9841ECCAD48001194DD /* CollectionViewFormCellActionView.swift in Sources */,
