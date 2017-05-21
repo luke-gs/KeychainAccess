@@ -31,23 +31,39 @@ open class Person: Entity {
     }
     
     open override var summary: String {
-        return formattedName ?? NSLocalizedString("Name Unknown", comment: "")
+        return fullName ?? formattedName ?? NSLocalizedString("Name Unknown", comment: "")
     }
     
     open var givenName: String?
     open var surname: String?
     open var middleNames: [String]?
-        
-
+    
+    // TEMP?
     open var formattedName: String? {
-        var names = [String]()
-        if let surname = self.surname {
-            names.append(surname)
+        var formattedName: String = ""
+        
+        let middleNames = self.middleNames?.filter { $0.isEmpty == false }
+        
+        if let surname = self.surname, surname.isEmpty == false {
+            formattedName = surname
+            
+            if givenName?.isEmpty ?? true == false || middleNames?.isEmpty ?? true == false {
+                formattedName += ", "
+            }
         }
-        if let givenName = self.givenName {
-            names.append(givenName)
+        if let givenName = self.givenName, givenName.isEmpty == false {
+            formattedName += givenName
+            
+            if middleNames?.isEmpty ?? true == false {
+                formattedName += " "
+            }
         }
-        return names.joined(separator: ", ")
+        if let firstMiddleNameInitial = middleNames?.first?.characters.first {
+            formattedName.append(firstMiddleNameInitial)
+            formattedName += "."
+        }
+        
+        return formattedName
     }
     
     
@@ -62,9 +78,12 @@ open class Person: Entity {
     
     open var contacts: [Contact]?
     
+    open var descriptions: [PersonDescription]?
+    
+    open var aliases: [Alias]?
+    
+    
     // MARK: - ?
-    open var actionsCount: Int?
-    open var isAlias: Bool?
     open var highestAlertLevel: Alert.Level?
     open var fullName: String?
     open var matchScore: Int?
@@ -96,6 +115,8 @@ open class Person: Entity {
         addresses = unboxer.unbox(key: "addresses")
         licences = unboxer.unbox(key: "licences")
         contacts = unboxer.unbox(key: "contacts")
+        descriptions = unboxer.unbox(key: "descriptions")
+        aliases = unboxer.unbox(key: "aliases")
     }
     
     open override func encode(with aCoder: NSCoder) {
@@ -106,4 +127,47 @@ open class Person: Entity {
     override open class var modelVersion: Int {
         return 0
     }
+}
+
+
+open class Alias: NSObject, Serialisable {
+    
+    public static var supportsSecureCoding: Bool {
+        return true
+    }
+    
+    open var id: String
+    
+    open var firstName: String?
+    open var lastName: String?
+    open var set: String?
+    open var dateOfBirth: Date?
+    open var type: String?
+    
+    public required init(id: String = UUID().uuidString) {
+        self.id = id
+        super.init()
+    }
+    
+    public required init(unboxer: Unboxer) throws {
+        guard let id: String = unboxer.unbox(key: "id") else {
+            throw ParsingError.missingRequiredField
+        }
+        self.id = id
+        
+        super.init()
+    }
+    
+    public required init?(coder aDecoder: NSCoder) {
+        guard let id = aDecoder.decodeObject(of: NSString.self, forKey: "id") as String? else {
+            return nil
+        }
+        self.id = id
+        
+        super.init()
+    }
+    
+    public func encode(with aCoder: NSCoder) {
+    }
+    
 }

@@ -35,6 +35,17 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
     /// The description label. This should be a description of the entity, attributes etc.
     public let descriptionLabel = UILabel(frame: .zero)
     
+    public var isDescriptionPlaceholder: Bool = false {
+        didSet {
+            let textStyle: UIFontTextStyle = isDescriptionPlaceholder ? .subheadline : .headline
+            if #available(iOS 10, *) {
+                descriptionLabel.font = .preferredFont(forTextStyle: textStyle, compatibleWith: traitCollection)
+            } else {
+                descriptionLabel.font = .preferredFont(forTextStyle: textStyle)
+            }
+        }
+    }
+    
     
     /// A button for selecting/entering additional details.
     public var additionalDetailsButton = UIButton(type: .system)
@@ -329,7 +340,7 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
         return width <=~ compactWidth
     }
     
-    public class func minimumContentHeight(withTitle title: String?, subtitle: String?, description: String?, additionalDetails: String?, source: String?, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
+    public class func minimumContentHeight(withTitle title: String?, subtitle: String?, description: String?, descriptionPlaceholder: String?, additionalDetails: String?, source: String?, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
         
         let displayAsCompact = displaysAsCompact(withContentWidth: width)
         let displayScale = traitCollection.currentDisplayScale
@@ -372,17 +383,17 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
         
         var detailsHeight: CGFloat
         let detailsSize = CGSize(width: displayAsCompact ? width : maxMainTextSize.width, height: CGFloat.greatestFiniteMagnitude)
-        
-        if let description = description as NSString?, description.length > 0 {
+        if let descriptionText = (description ?? descriptionPlaceholder) as NSString?, descriptionText.length > 0 {
+            let textStyle: UIFontTextStyle = description == nil ? .subheadline : .headline
             let descriptionFont: UIFont
             if #available(iOS 10, *) {
-                descriptionFont = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+                descriptionFont = .preferredFont(forTextStyle: textStyle, compatibleWith: traitCollection)
             } else {
-                descriptionFont = .preferredFont(forTextStyle: .headline)
+                descriptionFont = .preferredFont(forTextStyle: textStyle)
             }
             hasDescription = true
             
-            detailsHeight = description.boundingRect(with: detailsSize, options: [.usesLineFragmentOrigin], attributes: [NSFontAttributeName: descriptionFont], context: nil).height.ceiled(toScale: displayScale)
+            detailsHeight = descriptionText.boundingRect(with: detailsSize, options: [.usesLineFragmentOrigin], attributes: [NSFontAttributeName: descriptionFont], context: nil).height.ceiled(toScale: displayScale)
         } else {
             detailsHeight = 0.0
             hasDescription = false

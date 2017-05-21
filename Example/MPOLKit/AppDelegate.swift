@@ -104,11 +104,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
             
             let person = Person()
             person.source = "LEAP"
-            person.familyName = "Citizen"
-            person.givenName = "John R."
+            person.surname = "Citizen"
+            person.givenName = "John"
+            person.middleNames = ["Roger"]
+            person.fullName = "Citizen, John R."
             person.lastUpdated = Date()
             person.gender = .male
+            person.actionCount = 3
             person.dateOfBirth = Date(timeIntervalSince1970: 578123820)
+            
+            let licence = Licence()
+            licence.state   = "VIC"
+            licence.country = "Australia"
+            licence.effectiveFromDate = Date(timeIntervalSinceNow: -36288000)
+            licence.effectiveToDate   = Date(timeIntervalSinceNow: 17280000)
+            licence.number = "123456789"
+            licence.status = "Open"
+            person.licences = [licence]
             
             let address1 = Address()
             address1.streetName   = "Swanston"

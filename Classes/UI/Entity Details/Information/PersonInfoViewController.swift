@@ -120,16 +120,11 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
     }
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        func subtitleFieldCell() -> CollectionViewFormSubtitleCell {
-            let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
-            cell.emphasis = .subtitle
-            cell.isEditableField = false
-            cell.subtitleLabel.numberOfLines = 0
-            return cell
-        }
-        
         let section = sections[indexPath.section]
+        
+        let title: String
+        let detail: String?
+        let image: UIImage?
         
         switch section.type {
         case .header:
@@ -138,66 +133,82 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
                 self?.entityDetailCellDidSelectAdditionalDetails(cell)
             }
             
-            /// Temp updates
             cell.thumbnailView.configure(for: person)
-            if cell.thumbnailView.allTargets.contains(self) == false {
-                cell.thumbnailView.isEnabled = true
-                cell.thumbnailView.addTarget(self, action: #selector(entityThumbnailDidSelect(_:)), for: .primaryActionTriggered)
-            }
+// TODO
+//            if cell.thumbnailView.allTargets.contains(self) == false {
+//                cell.thumbnailView.isEnabled = true
+//                cell.thumbnailView.addTarget(self, action: #selector(entityThumbnailDidSelect(_:)), for: .primaryActionTriggered)
+//            }
             
             cell.sourceLabel.text = person?.source?.localizedUppercase
             cell.titleLabel.text = person?.summary
-            
-            if let dob = person?.dateOfBirth {
-                let yearComponent = Calendar.current.dateComponents([.year], from: dob, to: Date())
-                
-                var dobString = DateFormatter.mediumNumericDate.string(from: dob) + " (\(yearComponent.year!)"
-                
-                if let gender = person?.gender {
-                    dobString += " \(gender.description))"
-                } else {
-                    dobString += ")"
-                }
-                cell.subtitleLabel.text = dobString
-            } else if let gender = person?.gender {
-                cell.subtitleLabel.text = gender.description + " (\(NSLocalizedString("DOB unknown", bundle: .mpolKit, comment: "")))"
-            } else {
-                cell.subtitleLabel.text = NSLocalizedString("DOB and gender unknown", bundle: .mpolKit, comment: "")
-            }
-            
-            cell.descriptionLabel.text = "196 cm proportionate european male with short brown hair and brown eyes"
+            cell.subtitleLabel.text = person?.formattedDOBAgeGender()
+            cell.descriptionLabel.text = NSLocalizedString("No description", bundle: .mpolKit, comment: "") // TODO: "196 cm proportionate european male with short brown hair and brown eyes"
+            cell.isDescriptionPlaceholder = true
             cell.additionalDetailsButton.setTitle(nil, for: .normal)
             
             return cell
         case .details:
-            let cell = subtitleFieldCell()
-            
             let item = section.items![indexPath.item] as! DetailItem
-            cell.titleLabel.text = item.localizedTitle
-            cell.subtitleLabel.text = item.value(for: person!)
-            cell.imageView.image = nil
-            return cell
+            title = item.localizedTitle
+            detail = item.value(for: person!)
+            image = nil
         case .addresses:
-            let cell = subtitleFieldCell()
-            
             let item = section.items![indexPath.item] as! Address
-            cell.titleLabel.text = "Recorded date unknown"
-            cell.subtitleLabel.text = item.formatted()
-            cell.imageView.image = UIImage(named: "iconGeneralLocation", in: .mpolKit, compatibleWith: nil)
-            
-            return cell
+            title = "Recorded date unknown"
+            detail = item.formatted()
+            image = UIImage(named: "iconGeneralLocation", in: .mpolKit, compatibleWith: nil)
         case .contact:
-            let cell = subtitleFieldCell()
-            
             let item = section.items![indexPath.item] as! ContactDetailItem
-            cell.titleLabel.text = item.localizedTitle
-            cell.subtitleLabel.text = item.value(for: person!)
-            cell.imageView.image = nil
+            title = item.localizedTitle
+            detail = item.value(for: person!)
+            image = nil
             
-            return cell
+        case .licence(let licence):
+            let item = section.items![indexPath.item] as! LicenceItem
+            
+            title  = item.localizedTitle
+            detail = item.value(for: licence)
+            image  = nil
+            
+            if item == .validity {
+                let progressCell = collectionView.dequeueReusableCell(of: CollectionViewFormProgressCell.self, for: indexPath)
+                progressCell.imageView.image = image
+                progressCell.titleLabel.text = title
+                progressCell.subtitleLabel.text = detail
+                progressCell.isEditableField = false
+                progressCell.emphasis = .subtitle
+                
+                if let startDate = licence.effectiveFromDate, let endDate = licence.effectiveToDate {
+                    progressCell.progressView.isHidden = false
+                    
+                    let timeIntervalBetween = endDate.timeIntervalSince(startDate)
+                    let timeIntervalToNow   = startDate.timeIntervalSinceNow * -1.0
+                    let progress = Float(timeIntervalToNow / timeIntervalBetween)
+                    progressCell.progressView.progress = progress
+                    progressCell.progressView.progressTintColor = progress > 1.0 ? #colorLiteral(red: 1, green: 0.231372549, blue: 0.1882352941, alpha: 1) : #colorLiteral(red: 0.2980392157, green: 0.6862745098, blue: 0.3137254902, alpha: 1)
+                } else {
+                    progressCell.progressView.isHidden = true
+                }
+                
+                return progressCell
+            }
         default:
-            return subtitleFieldCell()
+            title = ""
+            detail = nil
+            image = nil
         }
+        
+        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
+        cell.emphasis = .subtitle
+        cell.isEditableField = false
+        cell.subtitleLabel.numberOfLines = 0
+        
+        cell.titleLabel.text    = title
+        cell.subtitleLabel.text = detail
+        cell.imageView.image    = image
+        
+        return cell
     }
     
     open override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
@@ -206,7 +217,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
         if let detailCell = cell as? EntityDetailCollectionViewCell {
             detailCell.titleLabel.textColor       = primaryTextColor   ?? .black
             detailCell.subtitleLabel.textColor    = secondaryTextColor ?? .darkGray
-            detailCell.descriptionLabel.textColor = secondaryTextColor ?? .darkGray
+            detailCell.descriptionLabel.textColor = detailCell.isDescriptionPlaceholder ? placeholderTextColor ?? .lightGray : secondaryTextColor ?? .darkGray
         }
     }
     
@@ -221,6 +232,11 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
         switch sections[indexPath.section].type {
         case .contact:
             return layout.columnContentWidth(forMinimumItemContentWidth: 250.0, maximumColumnCount: 2, sectionWidth: sectionWidth, sectionEdgeInsets: edgeInsets).floored(toScale: traitCollection.currentDisplayScale)
+        case .licence(_):
+            let item = sections[indexPath.section].items![indexPath.item] as! LicenceItem
+            
+            let columnCount = max(min(layout.columnCountForSection(withMinimumItemContentWidth: 180.0, sectionWidth: sectionWidth, sectionEdgeInsets: edgeInsets), 3), 1)
+            return layout.itemContentWidth(fillingColumns: item == .validity ? 2 : 1, inSectionWithColumns: columnCount, sectionWidth: sectionWidth, sectionEdgeInsets: edgeInsets)
         default:
             return sectionWidth
         }
@@ -237,7 +253,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
         
         switch section.type {
         case .header:
-            return EntityDetailCollectionViewCell.minimumContentHeight(withTitle: "Smith, Max R.", subtitle: "08/05/1987 (29 Male)", description: "196 cm proportionate european male with short brown hair and brown eyes", additionalDetails: "4 MORE DESCRIPTIONS", source: "DATA SOURCE 1", inWidth: itemWidth, compatibleWith: traitCollection) - layout.itemLayoutMargins.bottom
+            return EntityDetailCollectionViewCell.minimumContentHeight(withTitle: person?.summary ?? "", subtitle: person?.formattedDOBAgeGender(), description: nil, descriptionPlaceholder: NSLocalizedString("No description", bundle: .mpolKit, comment: ""), additionalDetails: nil, source: person?.source, inWidth: itemWidth, compatibleWith: traitCollection)
         default:
             image = nil
             title = "Email address"
@@ -302,21 +318,23 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
         }
     }
     
-    private enum LicenceItem {
-        case licenceClass
-        case licenceType
+    private enum LicenceItem: Int {
         case number
+        case state
+        case country
+        case status
         case validity
         
         static func licenceItems(for licence: Licence) -> [LicenceItem] {
-            return [.licenceClass, .licenceType, .number, .validity]
+            return [.number, .state, .country, .status, .validity]
         }
         
         var localizedTitle: String {
             switch self {
-            case .licenceClass:  return NSLocalizedString("Class",          bundle: .mpolKit, comment: "")
-            case .licenceType:   return NSLocalizedString("Type",           bundle: .mpolKit, comment: "")
             case .number:        return NSLocalizedString("Licence number", bundle: .mpolKit, comment: "")
+            case .state:         return NSLocalizedString("State",          bundle: .mpolKit, comment: "")
+            case .country:       return NSLocalizedString("Country",        bundle: .mpolKit, comment: "")
+            case .status:        return NSLocalizedString("Status",         bundle: .mpolKit, comment: "")
             case .validity:      return NSLocalizedString("Valid until",    bundle: .mpolKit, comment: "")
             }
         }
@@ -324,10 +342,20 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
         func value(for licence: Licence) -> String? {
             // TODO: Fill these details in
             switch self {
-            case .licenceClass:  return "Motor Vehicle"
-            case .licenceType:   return "Open Licence"
-            case .number:        return "0123456789"
-            case .validity:      return "15/05/17"
+            case .number:
+                return licence.number
+            case .state:
+                return licence.state
+            case .country:
+                return licence.country
+            case .status:
+                return licence.status
+            case .validity:
+                if let effectiveDate = licence.effectiveToDate {
+                    return DateFormatter.mediumNumericDate.string(from: effectiveDate)
+                } else {
+                    return NSLocalizedString("Expiry date unknown", bundle: .mpolKit, comment: "")
+                }
             }
         }
     }
@@ -360,6 +388,29 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
     
     
     @objc private func entityThumbnailDidSelect(_ thumbnail: EntityThumbnailView) {
+    }
+    
+}
+
+fileprivate extension Person {
+    
+    func formattedDOBAgeGender() -> String? {
+        if let dob = dateOfBirth {
+            let yearComponent = Calendar.current.dateComponents([.year], from: dob, to: Date())
+            
+            var dobString = DateFormatter.mediumNumericDate.string(from: dob) + " (\(yearComponent.year!)"
+            
+            if let gender = gender {
+                dobString += " \(gender.description))"
+            } else {
+                dobString += ")"
+            }
+            return dobString
+        } else if let gender = gender {
+            return gender.description + " (\(NSLocalizedString("DOB unknown", bundle: .mpolKit, comment: "")))"
+        } else {
+            return NSLocalizedString("DOB and gender unknown", bundle: .mpolKit, comment: "")
+        }
     }
     
 }

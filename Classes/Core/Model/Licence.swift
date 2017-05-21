@@ -20,7 +20,6 @@ open class Licence: NSObject, Serialisable {
     open var effectiveToDate: Date?
     open var status: String?
     
-    
 
     public required init(id: String = UUID().uuidString) {
         self.id = id

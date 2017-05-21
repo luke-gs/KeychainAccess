@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BCA1EA911ED145280050CABA /* PersonDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA1EA901ED145280050CABA /* PersonDescription.swift */; };
 		BCDDBBFC1ECEDB9600D66D45 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDDBBFB1ECEDB9600D66D45 /* Alert.swift */; };
 		C605F8901ECCAB2C001194DD /* MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C605F8861ECCAB2B001194DD /* MPOLKit.framework */; };
 		C605F8951ECCAB2C001194DD /* MPOLKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F8941ECCAB2C001194DD /* MPOLKitTests.swift */; };
@@ -189,6 +190,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BCA1EA901ED145280050CABA /* PersonDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonDescription.swift; sourceTree = "<group>"; };
 		BCDDBBFB1ECEDB9600D66D45 /* Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		C605F8861ECCAB2B001194DD /* MPOLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MPOLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C605F88F1ECCAB2C001194DD /* MPOLKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MPOLKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -505,6 +507,7 @@
 				C6A5F0031ECE7E2900B0D915 /* Licence.swift */,
 				C605F8C01ECCAD47001194DD /* ParseError.swift */,
 				C6A5EFFF1ECE76E900B0D915 /* Person.swift */,
+				BCA1EA901ED145280050CABA /* PersonDescription.swift */,
 				C605F8C11ECCAD47001194DD /* Vehicle.swift */,
 			);
 			path = Model;
@@ -1048,6 +1051,7 @@
 				C605F9D11ECCAD48001194DD /* PopoverFormSheetPresentationController.swift in Sources */,
 				C605F9981ECCAD48001194DD /* UIView+Convenience.swift in Sources */,
 				C605F9C31ECCAD48001194DD /* UIImage+RoundedRects.swift in Sources */,
+				BCA1EA911ED145280050CABA /* PersonDescription.swift in Sources */,
 				C605F97D1ECCAD48001194DD /* Serialisable.swift in Sources */,
 				C605F9721ECCAD48001194DD /* OperationObserver.swift in Sources */,
 				C605F9DE1ECCAD48001194DD /* AlertIndicatorView.swift in Sources */,
