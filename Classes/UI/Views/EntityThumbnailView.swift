@@ -74,6 +74,7 @@ public class EntityThumbnailView: UIControl {
     }
     
     private func commonInit() {
+        backgroundImageView.image = UIImage(named: "EntityThumbnailBackground", in: .mpolKit, compatibleWith: nil)
         backgroundImageView.frame = bounds
         backgroundImageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         backgroundImageView.contentMode = .scaleAspectFill
@@ -98,10 +99,28 @@ public class EntityThumbnailView: UIControl {
     
     // MARK: - Configuration
     
-    public func configure(for entity: Any) {
-        // TODO: Configure for real entities
-        backgroundImageView.image = #imageLiteral(resourceName: "Avatar 1")
-        borderColor = Alert.Level.high.color
+    public func configure(for entity: Entity?) {
+        guard let entity = entity else { return }
+        
+        switch entity {
+        case let person as Person:
+            imageView.image = #imageLiteral(resourceName: "Avatar 1") // TODO: Get real image, or get placeholder
+            imageView.contentMode = .scaleAspectFill
+        case _ as Vehicle:
+            imageView.image = UIImage(named: "iconEntityAutomotive", in: .mpolKit, compatibleWith: nil)
+            imageView.contentMode = .scaleAspectFit
+        default:
+            imageView.image = UIImage(named: "iconEntityAutomotive", in: .mpolKit, compatibleWith: nil)
+            imageView.contentMode = .scaleAspectFit
+        }
+        
+        if entity is Person {
+            tintColor = UIColor(white: 0.2, alpha: 1.0)
+            borderColor = entity.alertLevel?.color
+        } else {
+            tintColor = entity.alertLevel?.color ?? UIColor(white: 0.2, alpha: 1.0)
+            borderColor = entity.associatedAlertLevel?.color
+        }
     }
     
     

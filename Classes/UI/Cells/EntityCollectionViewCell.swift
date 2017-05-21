@@ -154,15 +154,15 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
     public let sourceLabel = RoundedRectLabel(frame: .zero)
     
     
-    /// The alert count for the entity.
+    /// The action count for the entity.
     ///
     /// This configures a badge in the top left corner.
     /// The badge color will match the alertColor, or gray.
-    public var alertCount: UInt = 0 {
+    public var actionCount: UInt = 0 {
         didSet {
-            if alertCount == oldValue { return }
+            if actionCount == oldValue { return }
             
-            badgeView.text = String(describing: alertCount)
+            badgeView.text = String(describing: actionCount)
             setNeedsLayout()
         }
     }

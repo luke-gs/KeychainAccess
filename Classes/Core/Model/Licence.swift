@@ -8,6 +8,7 @@
 
 import Unbox
 
+@objc(MPLLicence)
 open class Licence: NSObject, Serialisable {
 
     open let id : String
@@ -18,7 +19,6 @@ open class Licence: NSObject, Serialisable {
     open var effectiveFromDate: Date?
     open var effectiveToDate: Date?
     open var status: String?
-    
     
 
     public required init(id: String = UUID().uuidString) {

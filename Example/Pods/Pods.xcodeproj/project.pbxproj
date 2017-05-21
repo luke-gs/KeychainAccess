@@ -136,6 +136,7 @@
 		B922BEF22C1073009413D84C5466AB65 /* OAuthAuthorizationGrant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F3925A36CEC9C14E0191404160A85B /* OAuthAuthorizationGrant.swift */; };
 		BBEFE2F9CEB73DC7BD97FFA66A0D9D4F /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031703E0BF6A73707FEFA7A7789E0682 /* Validation.swift */; };
 		BC76CBE01ECE9E9B008F2562 /* DateFormatter+Static.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC76CBDE1ECE9DF3008F2562 /* DateFormatter+Static.swift */; };
+		BCA1EA8F1ED1450C0050CABA /* PersonDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA1EA8D1ED142D40050CABA /* PersonDescription.swift */; };
 		BCDDBBDA1ECEB84B00D66D45 /* EntityDetailsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDDBBD81ECEB7D100D66D45 /* EntityDetailsCollectionViewController.swift */; };
 		BCDDBBF91ECEDAD700D66D45 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDDBBF51ECEDACB00D66D45 /* Contact.swift */; };
 		BCDDBBFA1ECEDAD700D66D45 /* Licence.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDDBBF61ECEDACB00D66D45 /* Licence.swift */; };
@@ -425,6 +426,7 @@
 		B9975340C35EADD1E86BCD62C76BF336 /* PickerTableViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PickerTableViewController.swift; sourceTree = "<group>"; };
 		BB01FCB7D8D5843875A3C0A312BB326E /* TableViewFormCheckboxCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TableViewFormCheckboxCell.swift; sourceTree = "<group>"; };
 		BC76CBDE1ECE9DF3008F2562 /* DateFormatter+Static.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Static.swift"; sourceTree = "<group>"; };
+		BCA1EA8D1ED142D40050CABA /* PersonDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonDescription.swift; sourceTree = "<group>"; };
 		BCDDBBD81ECEB7D100D66D45 /* EntityDetailsCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailsCollectionViewController.swift; sourceTree = "<group>"; };
 		BCDDBBF51ECEDACB00D66D45 /* Contact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 		BCDDBBF61ECEDACB00D66D45 /* Licence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Licence.swift; sourceTree = "<group>"; };
@@ -653,6 +655,7 @@
 				1E6A630FED3AFE647E88048D33B928D4 /* Entity.swift */,
 				49047F26ED0BE6237DF21FE2ECE4E867 /* ParseError.swift */,
 				2620BAB57878608C6E7DC03E9996EE94 /* Person.swift */,
+				BCA1EA8D1ED142D40050CABA /* PersonDescription.swift */,
 				88C066B26CC7C8A14238FACFAAAC2458 /* Vehicle.swift */,
 			);
 			path = Model;
@@ -1488,6 +1491,7 @@
 				F322A07F176FBA442CA0005049332C67 /* Entity.swift in Sources */,
 				5D8E58F64B37780CDA250774BBAD567A /* EntityAlertsViewController.swift in Sources */,
 				A2AC5172503B07B7F5695FD15A6E0978 /* EntityAssociationsViewController.swift in Sources */,
+				BCA1EA8F1ED1450C0050CABA /* PersonDescription.swift in Sources */,
 				95DE28DEBBA9D38621BB2ADABC671B9E /* EntityCollectionViewCell.swift in Sources */,
 				9591C0EE4363D90B49AE796CB5AE6F9F /* EntityDetailCollectionViewCell.swift in Sources */,
 				5CE02091D2907C9278BDC0685CBDEAEF /* EntityDetailsSidebarHeaderView.swift in Sources */,

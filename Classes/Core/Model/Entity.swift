@@ -8,6 +8,7 @@
 
 import Unbox
 
+@objc(MPLEntity)
 open class Entity: NSObject, Serialisable {
     
     open class var localizedDisplayName: String {

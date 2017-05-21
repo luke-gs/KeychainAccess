@@ -59,7 +59,7 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
     
     public override init() {
         super.init()
-        title = NSLocalizedString("Alerts", comment: "")
+        title = NSLocalizedString("Alerts", bundle: .mpolKit, comment: "")
         
         let sidebarItem = self.sidebarItem
         sidebarItem.image         = UIImage(named: "iconGeneralAlert",       in: .mpolKit, compatibleWith: nil)
@@ -76,7 +76,7 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
         
-        noContentTitleLabel?.text = NSLocalizedString("No Alerts Found", comment: "")
+        noContentTitleLabel?.text = NSLocalizedString("No Alerts Found", bundle: .mpolKit, comment: "")
         updateNoContentSubtitle()
         
         guard let collectionView = self.collectionView else { return }
@@ -117,9 +117,9 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
         cell.detailLabel.text = alert.details
         
         if let date = alert.effectiveDate {
-            cell.subtitleLabel.text = NSLocalizedString("Effective from ", comment: "") + DateFormatter.shortDate.string(from: date)
+            cell.subtitleLabel.text = NSLocalizedString("Effective from ", bundle: .mpolKit, comment: "") + DateFormatter.shortDate.string(from: date)
         } else {
-            cell.subtitleLabel.text = NSLocalizedString("Effective date unknown", comment: "")
+            cell.subtitleLabel.text = NSLocalizedString("Effective date unknown", bundle: .mpolKit, comment: "")
         }
         
         return cell
@@ -133,7 +133,7 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
             let alertCount = alerts.count
             if alertCount > 0 {
                 let alertLevel = alerts.first!.level
-                header.text = "\(alertCount) \(alertLevel.localizedDescription.uppercased(with: nil)) " + (alertCount > 1 ? NSLocalizedString("ALERTS", comment: "") : NSLocalizedString("ALERT", comment: ""))
+                header.text = "\(alertCount) \(alertLevel.localizedDescription.uppercased(with: nil)) " + (alertCount > 1 ? NSLocalizedString("ALERTS", bundle: .mpolKit, comment: "") : NSLocalizedString("ALERT", bundle: .mpolKit, comment: ""))
             } else {
                 header.text = nil
             }
@@ -171,11 +171,14 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
     private func updateNoContentSubtitle() {
         guard let label = noContentSubtitleLabel else { return }
         
-        var noContentSubtitle = NSLocalizedString("This entity has no alerts", comment: "")
+        let entityDisplayName: String
         if let entity = entity {
-            noContentSubtitle = noContentSubtitle.replacingOccurrences(of: "entity", with: type(of: entity).localizedDisplayName.lowercased(with: nil))
+            entityDisplayName = type(of: entity).localizedDisplayName.lowercased(with: nil)
+        } else {
+            entityDisplayName = NSLocalizedString("entity", bundle: .mpolKit, comment: "")
         }
-        label.text = noContentSubtitle
+        
+        label.text = String(format: NSLocalizedString("This %@ has no alerts", bundle: .mpolKit, comment: ""), entityDisplayName)
     }
     
 }

@@ -104,11 +104,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
             
             let person = Person()
             person.source = "LEAP"
-            person.familyName = "Citizen"
-            person.givenName = "John R."
+            person.surname = "Citizen"
+            person.givenName = "John"
+            person.middleNames = ["Roger"]
+            person.fullName = "Citizen, John R."
             person.lastUpdated = Date()
             person.gender = .male
+            person.actionCount = 3
             person.dateOfBirth = Date(timeIntervalSince1970: 578123820)
+            
+            let licence = Licence()
+            licence.state   = "VIC"
+            licence.country = "Australia"
+            licence.effectiveFromDate = Date(timeIntervalSinceNow: -36288000)
+            licence.effectiveToDate   = Date(timeIntervalSinceNow: 17280000)
+            licence.number = "123456789"
+            licence.status = "Open"
+            person.licences = [licence]
+            
+            let address1 = Address()
+            address1.streetName   = "Swanston"
+            address1.streetType   = "Street"
+            address1.streetNumber = "13A"
+            address1.suburb       = "Melbourne"
+            address1.state        = "VIC"
+            address1.postcode     = "3205"
+            person.addresses = [address1]
             
             let alert = Alert(id: UUID().uuidString, level: .high)
             alert.title = "Threat"
@@ -121,6 +142,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
             mediumAlert.effectiveDate = Date().addingTimeInterval(-300000000)
             mediumAlert.details = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu."
             
+            person.alertLevel = .high
             person.alerts = [mediumAlert, alert, mediumAlert]
             
             
