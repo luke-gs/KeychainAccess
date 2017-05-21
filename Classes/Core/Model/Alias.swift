@@ -30,11 +30,18 @@ open class Alias: NSObject, Serialisable {
         super.init()
     }
     
+    private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
+    
     public required init(unboxer: Unboxer) throws {
         guard let id: String = unboxer.unbox(key: "id") else {
             throw ParsingError.missingRequiredField
         }
         self.id = id
+        firstName = unboxer.unbox(key: "firstName")
+        lastName = unboxer.unbox(key: "lastName")
+        sex = unboxer.unbox(key: "sex")
+        dateOfBirth = unboxer.unbox(key: "dateOfBirth", formatter: Alias.dateTransformer)
+        type = unboxer.unbox(key: "type")
         
         super.init()
     }
