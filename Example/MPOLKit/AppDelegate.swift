@@ -122,6 +122,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
             licence.status = "Open"
             person.licences = [licence]
             
+            let alias = Alias()
+            alias.firstName = "John"
+            alias.lastName = "Citz"
+            alias.sex = "Male"
+            alias.dateOfBirth = Date(timeIntervalSince1970: 567993600)
+            person.aliases = [alias]
+            
             let address1 = Address()
             address1.streetName   = "Swanston"
             address1.streetType   = "Street"
@@ -130,6 +137,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
             address1.state        = "VIC"
             address1.postcode     = "3205"
             person.addresses = [address1]
+            
+            let description = PersonDescription()
+            description.reportDate = Date(timeIntervalSinceNow: -84600)
+            description.height = 180
+            description.complexion = "Caucasian"
+            description.hairColour = "Brown"
+            description.hairLength = "Short"
+            description.eyeColour  = "Brown"
+            description.facialHair = "Stubble"
+            description.build      = "Muscular"
+            person.descriptions = [description]
             
             let alert = Alert(id: UUID().uuidString, level: .high)
             alert.title = "Threat"

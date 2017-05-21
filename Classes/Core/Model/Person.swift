@@ -130,6 +130,7 @@ open class Person: Entity {
 }
 
 
+@objc(MPLAlias)
 open class Alias: NSObject, Serialisable {
     
     public static var supportsSecureCoding: Bool {
@@ -140,7 +141,7 @@ open class Alias: NSObject, Serialisable {
     
     open var firstName: String?
     open var lastName: String?
-    open var set: String?
+    open var sex: String?
     open var dateOfBirth: Date?
     open var type: String?
     
@@ -168,6 +169,25 @@ open class Alias: NSObject, Serialisable {
     }
     
     public func encode(with aCoder: NSCoder) {
+    }
+    
+    // TEMP?
+    open var formattedName: String? {
+        var formattedName: String = ""
+        
+        if let lastName = self.lastName, lastName.isEmpty == false {
+            formattedName = lastName
+            
+            if firstName?.isEmpty ?? true == false {
+                formattedName += ", "
+            }
+        }
+        if let givenName = self.firstName, givenName.isEmpty == false {
+            formattedName += givenName
+            
+        }
+        
+        return formattedName
     }
     
 }

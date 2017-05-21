@@ -28,9 +28,9 @@ open class Alert: NSObject, Serialisable {
         
         public var localizedDescription: String {
             switch self {
-            case .low:    return NSLocalizedString("Low",    comment: "Alert Level Title")
-            case .medium: return NSLocalizedString("Medium", comment: "Alert Level Title")
-            case .high:   return NSLocalizedString("High",   comment: "Alert Level Title")
+            case .low:    return NSLocalizedString("Low",    bundle: .mpolKit, comment: "Alert Level Title")
+            case .medium: return NSLocalizedString("Medium", bundle: .mpolKit, comment: "Alert Level Title")
+            case .high:   return NSLocalizedString("High",   bundle: .mpolKit, comment: "Alert Level Title")
             }
         }
         
@@ -38,7 +38,6 @@ open class Alert: NSObject, Serialisable {
     
     open var id: String
     open var level: Alert.Level
-    open var associatedAlertLevel: Alert.Level?
     
     
     // MARK: - Temp properties
@@ -77,7 +76,6 @@ open class Alert: NSObject, Serialisable {
         
         self.id = id
         self.level = level
-        self.associatedAlertLevel = unboxer.unbox(key: "associatedAlertLevel")
         
         // temp properties
         title   = unboxer.unbox(key: "title")

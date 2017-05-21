@@ -32,6 +32,10 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
                 }
             }
             
+            if let aliases = person.aliases, aliases.isEmpty == false {
+                sections.append((.aliases, aliases))
+            }
+            
             if let addresses = person.addresses, addresses.isEmpty == false {
                 sections.append((.addresses, addresses)) // TODO: Sort by date
             }
@@ -125,6 +129,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
         let title: String
         let detail: String?
         let image: UIImage?
+        let emphasis: CollectionViewFormSubtitleCell.Emphasis
         
         switch section.type {
         case .header:
@@ -143,8 +148,15 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
             cell.sourceLabel.text = person?.source?.localizedUppercase
             cell.titleLabel.text = person?.summary
             cell.subtitleLabel.text = person?.formattedDOBAgeGender()
-            cell.descriptionLabel.text = NSLocalizedString("No description", bundle: .mpolKit, comment: "") // TODO: "196 cm proportionate european male with short brown hair and brown eyes"
-            cell.isDescriptionPlaceholder = true
+            
+            if let description = person?.descriptions?.first {
+                cell.descriptionLabel.text = description.formatted()
+                cell.isDescriptionPlaceholder = false
+            } else {
+                cell.descriptionLabel.text = NSLocalizedString("No description", bundle: .mpolKit, comment: "")
+                cell.isDescriptionPlaceholder = true
+            }
+            
             cell.additionalDetailsButton.setTitle(nil, for: .normal)
             
             return cell
@@ -153,23 +165,32 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
             title = item.localizedTitle
             detail = item.value(for: person!)
             image = nil
+            emphasis = .subtitle
         case .addresses:
             let item = section.items![indexPath.item] as! Address
             title = "Recorded date unknown"
             detail = item.formatted()
             image = UIImage(named: "iconGeneralLocation", in: .mpolKit, compatibleWith: nil)
+            emphasis = .subtitle
         case .contact:
             let item = section.items![indexPath.item] as! ContactDetailItem
             title = item.localizedTitle
             detail = item.value(for: person!)
             image = nil
-            
+            emphasis = .subtitle
+        case .aliases:
+            let alias = section.items![indexPath.item] as! Alias
+            title = alias.formattedName ?? ""
+            detail = alias.formattedDOBAgeGender()
+            image = nil
+            emphasis = .title
         case .licence(let licence):
             let item = section.items![indexPath.item] as! LicenceItem
             
             title  = item.localizedTitle
             detail = item.value(for: licence)
             image  = nil
+            emphasis = .subtitle
             
             if item == .validity {
                 let progressCell = collectionView.dequeueReusableCell(of: CollectionViewFormProgressCell.self, for: indexPath)
@@ -177,7 +198,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
                 progressCell.titleLabel.text = title
                 progressCell.subtitleLabel.text = detail
                 progressCell.isEditableField = false
-                progressCell.emphasis = .subtitle
+                progressCell.emphasis = emphasis
                 
                 if let startDate = licence.effectiveFromDate, let endDate = licence.effectiveToDate {
                     progressCell.progressView.isHidden = false
@@ -193,20 +214,16 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
                 
                 return progressCell
             }
-        default:
-            title = ""
-            detail = nil
-            image = nil
         }
         
         let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
-        cell.emphasis = .subtitle
         cell.isEditableField = false
         cell.subtitleLabel.numberOfLines = 0
         
         cell.titleLabel.text    = title
         cell.subtitleLabel.text = detail
         cell.imageView.image    = image
+        cell.emphasis           = emphasis
         
         return cell
     }
@@ -218,6 +235,10 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
             detailCell.titleLabel.textColor       = primaryTextColor   ?? .black
             detailCell.subtitleLabel.textColor    = secondaryTextColor ?? .darkGray
             detailCell.descriptionLabel.textColor = detailCell.isDescriptionPlaceholder ? placeholderTextColor ?? .lightGray : secondaryTextColor ?? .darkGray
+        }
+        
+        if let subtitleCell = cell as? CollectionViewFormSubtitleCell, subtitleCell.emphasis == .title {
+            subtitleCell.titleLabel.textColor = secondaryTextColor
         }
     }
     
@@ -270,7 +291,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
     private enum SectionType {
         case header
         case details
-        case alias
+        case aliases
         case licence(Licence)
         case addresses
         case contact
@@ -281,7 +302,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
                 return NSLocalizedString("LAST UPDATED", bundle: .mpolKit, comment: "")
             case .details:
                 return NSLocalizedString("DETAILS", bundle: .mpolKit, comment: "")
-            case .alias:
+            case .aliases:
                 switch count {
                 case .some(1):
                     return NSLocalizedString("1 ALIAS", bundle: .mpolKit, comment: "")
@@ -413,4 +434,26 @@ fileprivate extension Person {
         }
     }
     
+}
+
+fileprivate extension Alias {
+    
+    func formattedDOBAgeGender() -> String? {
+        if let dob = dateOfBirth {
+            let yearComponent = Calendar.current.dateComponents([.year], from: dob, to: Date())
+            
+            var dobString = DateFormatter.mediumNumericDate.string(from: dob) + " (\(yearComponent.year!)"
+            
+            if let gender = sex?.capitalized(with: nil) {
+                dobString += " \(gender))"
+            } else {
+                dobString += ")"
+            }
+            return dobString
+        } else if let gender = sex?.capitalized(with: nil), gender.isEmpty == false {
+            return gender + " (\(NSLocalizedString("DOB unknown", bundle: .mpolKit, comment: "")))"
+        } else {
+            return NSLocalizedString("DOB and gender unknown", bundle: .mpolKit, comment: "")
+        }
+    }
 }
