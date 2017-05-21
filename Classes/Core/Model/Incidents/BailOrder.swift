@@ -33,11 +33,27 @@ open class BailOrder: NSObject, Serialisable {
         super.init()
     }
     
+    private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
+    
     public required init(unboxer: Unboxer) throws {
         guard let id: String = unboxer.unbox(key: "id") else {
             throw ParsingError.missingRequiredField
         }
         self.id = id
+        
+        hasOwnerUndertaking = unboxer.unbox(key: "hasOwnerUndertaking")
+        reportingRequirements = unboxer.unbox(key: "bailReportingRequirements")
+        firstReportDate = unboxer.unbox(key: "firstReportDate", formatter: BailOrder.dateTransformer)
+        informantStation = unboxer.unbox(key: "informantStation")
+        informantMember = unboxer.unbox(key: "informantMember")
+        
+        hearingDate = unboxer.unbox(key: "bailHearingDate", formatter: BailOrder.dateTransformer)
+        postedDate = unboxer.unbox(key: "bailPostedDate", formatter: BailOrder.dateTransformer)
+        
+        conditions = unboxer.unbox(key: "bailConditions")
+        reportingToStation = unboxer.unbox(key: "reportingToStation")
+        postedAt = unboxer.unbox(key: "bailPostedAt")
+        hearingLocation = unboxer.unbox(key: "bailHearingLocation")
     }
     
     public required init?(coder aDecoder: NSCoder) {
