@@ -153,7 +153,7 @@
 		BCA5A1491ED18EE80088A164 /* TelephoneNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA5A1431ED18EE80088A164 /* TelephoneNumber.swift */; };
 		BCA5A14A1ED18EE80088A164 /* Warning.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA5A1441ED18EE80088A164 /* Warning.swift */; };
 		BCA5A14B1ED18EE80088A164 /* Warrant.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA5A1451ED18EE80088A164 /* Warrant.swift */; };
-		BCC611D61ED1945F00610F0E /* Alias.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC611D51ED1945F00610F0E /* Alias.swift */; };
+		BCC611D71ED1963600610F0E /* Alias.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC611D51ED1945F00610F0E /* Alias.swift */; };
 		BCDDBBDA1ECEB84B00D66D45 /* EntityDetailsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDDBBD81ECEB7D100D66D45 /* EntityDetailsCollectionViewController.swift */; };
 		BCDDBBF91ECEDAD700D66D45 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDDBBF51ECEDACB00D66D45 /* Contact.swift */; };
 		BCDDBBFA1ECEDAD700D66D45 /* Licence.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDDBBF61ECEDACB00D66D45 /* Licence.swift */; };
@@ -1491,7 +1491,6 @@
 				EFD264FC408EBF3BA2528E70B08DDD94 /* Notifications.swift in Sources */,
 				BE5C67A07E289FE1F9BE27335B159997 /* ParameterEncoding.swift in Sources */,
 				5387216E723A3C68E851CA15573CDD71 /* Request.swift in Sources */,
-				BCC611D61ED1945F00610F0E /* Alias.swift in Sources */,
 				CB6D60925223897FFA2662667DF83E8A /* Response.swift in Sources */,
 				F6BECD98B97CBFEBE2C96F0E9E72A6C0 /* ResponseSerialization.swift in Sources */,
 				7D8CC01E8C9EFFF9F4D65406CDE0AB66 /* Result.swift in Sources */,
@@ -1606,6 +1605,7 @@
 				F402C41E70D33187DFA00CC072FADB9C /* NetworkMonitor.swift in Sources */,
 				F7487C39BC909E7114D4145B518C58E5 /* NSLayoutConstraint+Conveniences.swift in Sources */,
 				3BE118C2D552706450D72B42B871FB7F /* OAuthAccessToken.swift in Sources */,
+				BCC611D71ED1963600610F0E /* Alias.swift in Sources */,
 				BCA5A1491ED18EE80088A164 /* TelephoneNumber.swift in Sources */,
 				B922BEF22C1073009413D84C5466AB65 /* OAuthAuthorizationGrant.swift in Sources */,
 				BCA5A1381ED18E5F0088A164 /* MissingPerson.swift in Sources */,
