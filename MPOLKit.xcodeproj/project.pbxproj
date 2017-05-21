@@ -182,6 +182,11 @@
 		C6A5F0041ECE7E2900B0D915 /* Licence.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A5F0031ECE7E2900B0D915 /* Licence.swift */; };
 		C6A5F0061ECE820D00B0D915 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A5F0051ECE820D00B0D915 /* Contact.swift */; };
 		C6A5F0081ECE89A300B0D915 /* VehicleSearch.json in Resources */ = {isa = PBXBuildFile; fileRef = C6A5F0071ECE89A300B0D915 /* VehicleSearch.json */; };
+		C6BABED31ED1788200E423CB /* Caution.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BABED21ED1788200E423CB /* Caution.swift */; };
+		C6BABED51ED1799500E423CB /* KnownAssociate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BABED41ED1799500E423CB /* KnownAssociate.swift */; };
+		C6BABED71ED17A6500E423CB /* Warrant.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BABED61ED17A6500E423CB /* Warrant.swift */; };
+		C6BABED91ED17B3600E423CB /* ScarMarkTattoo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BABED81ED17B3600E423CB /* ScarMarkTattoo.swift */; };
+		C6BABEDB1ED17B4200E423CB /* Warning.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BABEDA1ED17B4200E423CB /* Warning.swift */; };
 		C6F5DED21ECD5C62008E7BE2 /* AccessToken.json in Resources */ = {isa = PBXBuildFile; fileRef = C6F5DED11ECD5C62008E7BE2 /* AccessToken.json */; };
 		C6F5DED41ECD5CE0008E7BE2 /* LocalAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F5DED31ECD5CE0008E7BE2 /* LocalAPIManager.swift */; };
 		C6F5DED61ECD5CE6008E7BE2 /* WebAPIProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F5DED51ECD5CE6008E7BE2 /* WebAPIProtocol.swift */; };
@@ -376,6 +381,11 @@
 		C6A5F0031ECE7E2900B0D915 /* Licence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Licence.swift; sourceTree = "<group>"; };
 		C6A5F0051ECE820D00B0D915 /* Contact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 		C6A5F0071ECE89A300B0D915 /* VehicleSearch.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = VehicleSearch.json; sourceTree = "<group>"; };
+		C6BABED21ED1788200E423CB /* Caution.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Caution.swift; sourceTree = "<group>"; };
+		C6BABED41ED1799500E423CB /* KnownAssociate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KnownAssociate.swift; path = Classes/Core/Model/KnownAssociate.swift; sourceTree = SOURCE_ROOT; };
+		C6BABED61ED17A6500E423CB /* Warrant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Warrant.swift; sourceTree = "<group>"; };
+		C6BABED81ED17B3600E423CB /* ScarMarkTattoo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScarMarkTattoo.swift; sourceTree = "<group>"; };
+		C6BABEDA1ED17B4200E423CB /* Warning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Warning.swift; sourceTree = "<group>"; };
 		C6F5DED11ECD5C62008E7BE2 /* AccessToken.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AccessToken.json; sourceTree = "<group>"; };
 		C6F5DED31ECD5CE0008E7BE2 /* LocalAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalAPIManager.swift; sourceTree = "<group>"; };
 		C6F5DED51ECD5CE6008E7BE2 /* WebAPIProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebAPIProtocol.swift; sourceTree = "<group>"; };
@@ -524,9 +534,11 @@
 			children = (
 				C6A5F0011ECE796B00B0D915 /* Address.swift */,
 				BCDDBBFB1ECEDB9600D66D45 /* Alert.swift */,
+				C6BABED21ED1788200E423CB /* Caution.swift */,
 				C6A5F0051ECE820D00B0D915 /* Contact.swift */,
 				C605F8BE1ECCAD47001194DD /* Entity.swift */,
 				C6A56FC91ED1451500B844AB /* Incidents */,
+				C6BABED41ED1799500E423CB /* KnownAssociate.swift */,
 				C6A5F0031ECE7E2900B0D915 /* Licence.swift */,
 				C6A56FDC1ED159B600B844AB /* Member.swift */,
 				C605F8C01ECCAD47001194DD /* ParseError.swift */,
@@ -534,8 +546,11 @@
 				C6A56FE21ED16E9B00B844AB /* PersonDescription.swift */,
 				C6A56FDE1ED1695C00B844AB /* ReportedPerson.swift */,
 				C6A56FE01ED1697200B844AB /* RiskFactor.swift */,
+				C6BABED81ED17B3600E423CB /* ScarMarkTattoo.swift */,
 				C6A56FD81ED1518200B844AB /* TelephoneNumber.swift */,
 				C605F8C11ECCAD47001194DD /* Vehicle.swift */,
+				C6BABED61ED17A6500E423CB /* Warrant.swift */,
+				C6BABEDA1ED17B4200E423CB /* Warning.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1072,6 +1087,7 @@
 				C605F9871ECCAD48001194DD /* CollectionViewFormExpandingHeaderView.swift in Sources */,
 				C605F9D71ECCAD48001194DD /* SidebarTableViewCell.swift in Sources */,
 				C605F9961ECCAD48001194DD /* UITableViewCell+LayoutMargins.swift in Sources */,
+				C6BABED71ED17A6500E423CB /* Warrant.swift in Sources */,
 				C605F9641ECCAD48001194DD /* ManifestCollection.swift in Sources */,
 				C605F9B81ECCAD48001194DD /* EntityDetailsSidebarHeaderView.swift in Sources */,
 				C605F9D31ECCAD48001194DD /* PopoverViewController.swift in Sources */,
@@ -1122,6 +1138,7 @@
 				C6A56FD21ED1464D00B844AB /* FamilyIncident.swift in Sources */,
 				C6A56FD11ED1464D00B844AB /* BailOrder.swift in Sources */,
 				C605F9B61ECCAD48001194DD /* EntityAlertsViewController.swift in Sources */,
+				C6BABED31ED1788200E423CB /* Caution.swift in Sources */,
 				C605F9CF1ECCAD48001194DD /* PickerTableViewController.swift in Sources */,
 				C605F97B1ECCAD48001194DD /* DefaultCustomStringConvertible.swift in Sources */,
 				C605F9C91ECCAD48001194DD /* KeyboardInputManager.swift in Sources */,
@@ -1155,6 +1172,7 @@
 				C605F9D01ECCAD48001194DD /* PopoverDatePickerViewController.swift in Sources */,
 				C605F9D51ECCAD48001194DD /* SidebarItem.swift in Sources */,
 				C605F9711ECCAD48001194DD /* NetworkActivityObserver.swift in Sources */,
+				C6BABEDB1ED17B4200E423CB /* Warning.swift in Sources */,
 				C605F9881ECCAD48001194DD /* CollectionViewFormOptionCell.swift in Sources */,
 				C605F9801ECCAD48001194DD /* EpochDateTransformer.swift in Sources */,
 				C605F9AF1ECCAD48001194DD /* MapOverlayViewController.swift in Sources */,
@@ -1182,8 +1200,10 @@
 				C605F99F1ECCAD48001194DD /* TableViewFormCheckboxCell.swift in Sources */,
 				C605F9E21ECCAD48001194DD /* FormDisclosureView.swift in Sources */,
 				C605F97A1ECCAD48001194DD /* URLRequestOperation.swift in Sources */,
+				C6BABED51ED1799500E423CB /* KnownAssociate.swift in Sources */,
 				C605F9A61ECCAD48001194DD /* FormTextView.swift in Sources */,
 				C605F99C1ECCAD48001194DD /* CollectionViewFormLayout.swift in Sources */,
+				C6BABED91ED17B3600E423CB /* ScarMarkTattoo.swift in Sources */,
 				C605F9821ECCAD48001194DD /* ISO8601DateTransformer.swift in Sources */,
 				C605F9DF1ECCAD48001194DD /* BadgeView.swift in Sources */,
 				C605F98B1ECCAD48001194DD /* CollectionViewFormTextViewCell.swift in Sources */,
