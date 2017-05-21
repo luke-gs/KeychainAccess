@@ -163,6 +163,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
             person.alertLevel = .high
             person.alerts = [mediumAlert, alert, mediumAlert]
             
+            let bailOrder = BailOrder(id: UUID().uuidString)
+            bailOrder.hasOwnerUndertaking = true
+            bailOrder.reportingRequirements = [ "Required to show up daily.", "Required to write report weekly."]
+            bailOrder.firstReportDate = Date().addingTimeInterval(-86400 * 2456)
+            bailOrder.informantStation = "Melbourne West"
+            bailOrder.informantMember = "Citizen"
+            
+            bailOrder.hearingDate = Date().addingTimeInterval(-86400 * 1000)
+            bailOrder.postedDate = Date().addingTimeInterval(-86400 * 980)
+            
+            bailOrder.conditions = [ "Reporting daily.", "Not allowed to go out after 9pm," ]
+            bailOrder.reportingToStation = "Melbourne West"
+            
+            bailOrder.postedAt = "12 Swanston St, Melbourne, VIC 3000"
+            bailOrder.hearingLocation = "13 Swanston St, Melbourne, VIC 3000"
+            
+            person.bailOrders = [bailOrder]
+            
+            let interventionOrder = InterventionOrder(id: UUID().uuidString)
+            interventionOrder.servedDate = Date().addingTimeInterval(-86400 * 980)
+            interventionOrder.respondentName = "Not John Citizen"
+            interventionOrder.type = "Banning"
+//            interventionOrder.complainants = ["Junior Citizen", "Sernior Citizen"]
+            interventionOrder.status = "Current"
+            interventionOrder.respondentDateOfBirth = Date(timeIntervalSince1970: 598123820)
+            interventionOrder.address = "18 Swanston St, Melbourne, VIC 3000"
+            
+            person.interventionOrders = [interventionOrder]
+
             
             tabBarController.viewControllers = [pushableSVNavController, UINavigationController(rootViewController: sidebarSplitViewController), EntityDetailsSplitViewController(entity: person)]
             self.window?.rootViewController = tabBarController
