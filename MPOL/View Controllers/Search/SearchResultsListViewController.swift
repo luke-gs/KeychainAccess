@@ -182,7 +182,7 @@ class SearchResultsListViewController: FormCollectionViewController {
             cell.alertColor       = entity.alertLevel?.color
             cell.actionCount      = entity.actionCount
             cell.highlightStyle   = .fade
-            cell.sourceLabel.text = entity.source
+            cell.sourceLabel.text = entity.source?.localizedBadgeTitle
             cell.accessoryView = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
             
             return cell
@@ -203,7 +203,7 @@ class SearchResultsListViewController: FormCollectionViewController {
         cell.alertColor       = Alert.Level.high.color
         cell.actionCount      = entity.actionCount
         cell.highlightStyle   = .fade
-        cell.sourceLabel.text = entity.source
+        cell.sourceLabel.text = entity.source?.localizedBadgeTitle
         return cell
     }
     
