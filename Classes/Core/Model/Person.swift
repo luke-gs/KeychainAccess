@@ -161,4 +161,48 @@ open class Person: Entity {
     override open class var modelVersion: Int {
         return 0
     }
+    
+    
+    
+    // MARK: - Display
+    
+    open override var summaryDetail1: String? {
+        return formattedDOBAgeGender()
+    }
+    
+    open override var summaryDetail2: String? {
+        return formattedSuburbStatePostcode()
+    }
+    
+    private func formattedDOBAgeGender() -> String? {
+        if let dob = dateOfBirth {
+            let yearComponent = Calendar.current.dateComponents([.year], from: dob, to: Date())
+            
+            var dobString = DateFormatter.mediumNumericDate.string(from: dob) + " (\(yearComponent.year!)"
+            
+            if let gender = gender {
+                dobString += " \(gender.description))"
+            } else {
+                dobString += ")"
+            }
+            return dobString
+        } else if let gender = gender {
+            return gender.description + " (\(NSLocalizedString("DOB unknown", bundle: .mpolKit, comment: "")))"
+        } else {
+            return NSLocalizedString("DOB and gender unknown", bundle: .mpolKit, comment: "")
+        }
+    }
+    
+    private func formattedSuburbStatePostcode() -> String? {
+        if let address = addresses?.first {
+            
+            let components = [address.suburb, address.state, address.postcode].flatMap({$0})
+            if components.isEmpty == false {
+                return components.joined(separator: " ")
+            }
+        }
+        
+        return nil
+    }
+    
 }

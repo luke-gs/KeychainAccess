@@ -108,10 +108,10 @@ public class EntityThumbnailView: UIControl {
             imageView.contentMode = .scaleAspectFill
         case _ as Vehicle:
             imageView.image = UIImage(named: "iconEntityAutomotive", in: .mpolKit, compatibleWith: nil)
-            imageView.contentMode = .scaleAspectFit
+            imageView.contentMode = .center
         default:
-            imageView.image = UIImage(named: "iconEntityAutomotive", in: .mpolKit, compatibleWith: nil)
-            imageView.contentMode = .scaleAspectFit
+            imageView.image = #imageLiteral(resourceName: "Avatar 1") // TODO: Get real image, or get placeholder
+            imageView.contentMode = .scaleAspectFill
         }
         
         if entity is Person {

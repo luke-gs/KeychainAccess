@@ -25,9 +25,6 @@ open class Entity: NSObject, Serialisable {
     
     open var alerts: [Alert]?
     
-    open var summary: String {
-        return "-"
-    }
     
     // MARK: - Temp properties
     open var lastUpdated: Date?
@@ -95,6 +92,21 @@ open class Entity: NSObject, Serialisable {
     open class var modelVersion: Int {
         return 0
     }
+    
+    // MARK: - Display
+    
+    open var summary: String {
+        return "-"
+    }
+    
+    open var summaryDetail1: String? {
+        return nil
+    }
+    
+    open var summaryDetail2: String? {
+        return nil
+    }
+    
 }
 
 private enum CodingKey: String {

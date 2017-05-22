@@ -147,7 +147,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
             
             cell.sourceLabel.text = person?.source?.localizedUppercase
             cell.titleLabel.text = person?.summary
-            cell.subtitleLabel.text = person?.formattedDOBAgeGender()
+            cell.subtitleLabel.text = person?.summaryDetail1
             
             if let description = person?.descriptions?.first {
                 cell.descriptionLabel.text = description.formatted()
@@ -168,7 +168,13 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
             emphasis = .subtitle
         case .addresses:
             let item = section.items![indexPath.item] as! Address
-            title = "Recorded date unknown"
+            
+            if let date = item.reportDate {
+                title = String(format: NSLocalizedString("Recorded as at %@", bundle: .mpolKit, comment: ""), DateFormatter.mediumNumericDate.string(from: date))
+            } else {
+                title = NSLocalizedString("Recorded date unknown", bundle: .mpolKit, comment: "")
+            }
+            
             detail = item.formatted()
             image = UIImage(named: "iconGeneralLocation", in: .mpolKit, compatibleWith: nil)
             emphasis = .subtitle
@@ -274,7 +280,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
         
         switch section.type {
         case .header:
-            return EntityDetailCollectionViewCell.minimumContentHeight(withTitle: person?.summary ?? "", subtitle: person?.formattedDOBAgeGender(), description: nil, descriptionPlaceholder: NSLocalizedString("No description", bundle: .mpolKit, comment: ""), additionalDetails: nil, source: person?.source, inWidth: itemWidth, compatibleWith: traitCollection)
+            return EntityDetailCollectionViewCell.minimumContentHeight(withTitle: person?.summary ?? "", subtitle: person?.summaryDetail1, description: nil, descriptionPlaceholder: NSLocalizedString("No description", bundle: .mpolKit, comment: ""), additionalDetails: nil, source: person?.source, inWidth: itemWidth, compatibleWith: traitCollection)
         default:
             image = nil
             title = "Email address"
@@ -334,8 +340,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
         }
         
         func value(for person: Person) -> String? {
-            // TODO
-            return "Unknown"
+            return "N/A" // TODO
         }
     }
     
@@ -409,29 +414,6 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
     
     
     @objc private func entityThumbnailDidSelect(_ thumbnail: EntityThumbnailView) {
-    }
-    
-}
-
-fileprivate extension Person {
-    
-    func formattedDOBAgeGender() -> String? {
-        if let dob = dateOfBirth {
-            let yearComponent = Calendar.current.dateComponents([.year], from: dob, to: Date())
-            
-            var dobString = DateFormatter.mediumNumericDate.string(from: dob) + " (\(yearComponent.year!)"
-            
-            if let gender = gender {
-                dobString += " \(gender.description))"
-            } else {
-                dobString += ")"
-            }
-            return dobString
-        } else if let gender = gender {
-            return gender.description + " (\(NSLocalizedString("DOB unknown", bundle: .mpolKit, comment: "")))"
-        } else {
-            return NSLocalizedString("DOB and gender unknown", bundle: .mpolKit, comment: "")
-        }
     }
     
 }

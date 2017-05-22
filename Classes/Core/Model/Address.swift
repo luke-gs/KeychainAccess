@@ -29,6 +29,8 @@ open class Address: NSObject, Serialisable {
     open var suburb : String?
     open var unitNumber : String?
     
+    open var reportDate: Date?
+    
     public required init(id: String = UUID().uuidString) {
         self.id = id
         super.init()
@@ -44,13 +46,15 @@ open class Address: NSObject, Serialisable {
         commonName = unboxer.unbox(key: "commonName")
         country = unboxer.unbox(key: "country")
         floor = unboxer.unbox(key: "floor")
-        postcode = unboxer.unbox(key: "postcode")
+        postcode = unboxer.unbox(key: "postalCode")
         state = unboxer.unbox(key: "state")
         streetDirectional = unboxer.unbox(key: "streetDirectional")
         streetName = unboxer.unbox(key: "streetName")
         streetType = unboxer.unbox(key: "streetType")
         suburb = unboxer.unbox(key: "suburb")
         unitNumber = unboxer.unbox(key: "unitNumber")
+        
+        reportDate = unboxer.unbox(key: "reportDate", formatter: ISO8601DateTransformer.shared)
         
         super.init()
     }
@@ -76,7 +80,7 @@ open class Address: NSObject, Serialisable {
         if includingName, let name = commonName {
             lines.append([name])
         }
-//        if let postalBox = postalBox {
+// TODO       if let postalBox = postalBox {
 //            lines.append([postalBox])
 //        }
         

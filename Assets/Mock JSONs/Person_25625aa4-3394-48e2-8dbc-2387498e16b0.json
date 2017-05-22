@@ -21,7 +21,8 @@
             "id": "25625aa4-3394-48e2-8dbc-2387498e41b0",
             "postalCode": "3000",
             "streetType": "St",
-            "country": "Australia"
+            "country": "Australia",
+            "reportDate": "2014-08-26T02:34:48Z"
         },
         {
             "streetName": "Wellington",
@@ -31,7 +32,8 @@
             "id": "25625aa4-3394-4124-8dbc-2387498e41b0",
             "postalCode": "3066",
             "streetType": "St",
-            "country": "Australia"
+            "country": "Australia",
+            "reportDate": "2014-08-26T02:34:48Z"
         }
     ],
     "aliases": [
