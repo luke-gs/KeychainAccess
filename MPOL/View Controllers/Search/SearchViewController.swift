@@ -55,7 +55,7 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
         let searchField = SearchNavigationField()
         searchField.titleLabel.text = "Citizen John"
         searchField.typeLabel.text  = "PERSON"
-        searchField.resultCountLabel.text = "27 results found"
+        searchField.resultCountLabel.text = "3 results found"
         searchField.delegate = self
         
         let theme = Theme.current
@@ -266,8 +266,8 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     
     // MARK: - SearchRecentsViewControllerDelegate
     
-    func searchRecentsController(_ controller: SearchRecentsViewController, didSelectRecentEntity recentEntity: Any?) {
-        didSelectEntity(recentEntity as Any)
+    func searchRecentsController(_ controller: SearchRecentsViewController, didSelectRecentEntity recentEntity: Entity) {
+        didSelectEntity(recentEntity)
     }
     
     func searchRecentsController(_ controller: SearchRecentsViewController, didSelectRecentSearch recentSearch: Any?) {
@@ -301,8 +301,8 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     
     // MARK: - SearchResultsDelegate
     
-    func searchResultsController(_ controller: UIViewController, didSelectEntity entity: Any?) {
-        didSelectEntity(entity as Any)
+    func searchResultsController(_ controller: UIViewController, didSelectEntity entity: Entity) {
+        didSelectEntity(entity)
     }
     
     
@@ -436,7 +436,7 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
         navigationItem.setRightBarButtonItems(rightBarButtonItems, animated: animated)
     }
     
-    private func didSelectEntity(_ entity: Any) {
+    private func didSelectEntity(_ entity: Entity) {
         let entityViewController = EntityDetailsSplitViewController(entity: entity)
         navigationController?.pushViewController(entityViewController, animated: true)
     }

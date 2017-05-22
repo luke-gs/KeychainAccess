@@ -80,9 +80,10 @@ class SearchRecentsViewController: FormCollectionViewController {
             cell.titleLabel.text    = "Citizen, John R."
             cell.subtitleLabel.text = "08/05/1987 (29 Male)"
             cell.detailLabel.text   = "Southbank VIC 3006"
-            cell.thumbnailView.configure(for: NSObject())
-            cell.alertColor         = AlertLevel.high.color
-            cell.alertCount         = 9
+            cell.thumbnailView.configure(for: Entity())
+            cell.thumbnailView.borderColor = Alert.Level.high.color
+            cell.alertColor         = Alert.Level.high.color
+            cell.actionCount        = 9
             cell.highlightStyle     = .fade
             cell.sourceLabel.text   = "DS1"
             return cell
@@ -132,7 +133,8 @@ class SearchRecentsViewController: FormCollectionViewController {
         
         switch indexPath.section {
         case 0 where traitCollection.horizontalSizeClass != .compact:
-            delegate?.searchRecentsController(self, didSelectRecentEntity: nil)
+            // TODO: delegate?.searchRecentsController(self, didSelectRecentEntity: nil)
+            break
         default:
             delegate?.searchRecentsController(self, didSelectRecentSearch: nil)
         }
@@ -186,7 +188,7 @@ protocol SearchRecentsViewControllerDelegate: class {
     
     func searchRecentsController(_ controller: SearchRecentsViewController, didSelectRecentSearch recentSearch: Any?)
     
-    func searchRecentsController(_ controller: SearchRecentsViewController, didSelectRecentEntity recentEntity: Any?)
+    func searchRecentsController(_ controller: SearchRecentsViewController, didSelectRecentEntity recentEntity: Entity)
     
 }
 

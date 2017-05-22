@@ -23,11 +23,11 @@ class SearchEntityListCell: CollectionViewFormCell {
     let subtitleLabel: UILabel = UILabel(frame: .zero)
     
     
-    var alertCount: UInt = 0 {
+    var actionCount: UInt = 0 {
         didSet {
-            if alertCount == oldValue { return }
+            if actionCount == oldValue { return }
             
-            badgeView.text = String(describing: alertCount)
+            badgeView.text = String(describing: actionCount)
             setNeedsLayout()
         }
     }
