@@ -90,7 +90,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         if login {
             let headerLabel = UILabel(frame: .zero)
             headerLabel.translatesAutoresizingMaskIntoConstraints = false
-            headerLabel.text = "The MPOL Project"
+            headerLabel.text = "BlueConnect"
             headerLabel.font = .systemFont(ofSize: 28.0, weight: UIFontWeightSemibold)
             headerLabel.textColor = .white
             headerLabel.adjustsFontSizeToFitWidth = true
