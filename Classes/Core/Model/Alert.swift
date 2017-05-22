@@ -14,23 +14,35 @@ open class Alert: NSObject, Serialisable {
     private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
     
     public enum Level: Int, UnboxableEnum {
+        case none   = 0
         case low    = 1
         case medium = 2
         case high   = 3
         
         public var color: UIColor {
             switch self {
-            case .low:    return #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
-            case .medium: return #colorLiteral(red: 1, green: 0.8, blue: 0, alpha: 1)
             case .high:   return #colorLiteral(red: 1, green: 0.231372549, blue: 0.1882352941, alpha: 1)
+            case .medium: return #colorLiteral(red: 1, green: 0.8, blue: 0, alpha: 1)
+            case .low:    return #colorLiteral(red: 1, green: 0.8, blue: 0, alpha: 1)
+            case .none:   return #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
             }
         }
         
-        public var localizedDescription: String {
-            switch self {
-            case .low:    return NSLocalizedString("Low",    bundle: .mpolKit, comment: "Alert Level Title")
-            case .medium: return NSLocalizedString("Medium", bundle: .mpolKit, comment: "Alert Level Title")
-            case .high:   return NSLocalizedString("High",   bundle: .mpolKit, comment: "Alert Level Title")
+        public func localizedDescription(plural: Bool) -> String {
+            if plural {
+                switch self {
+                case .high:   return NSLocalizedString("Safety Warnings",     bundle: .mpolKit, comment: "Alert Level Title")
+                case .medium: return NSLocalizedString("Actions",             bundle: .mpolKit, comment: "Alert Level Title")
+                case .low:    return NSLocalizedString("Persons Of Interest", bundle: .mpolKit, comment: "Alert Level Title")
+                case .none:   return NSLocalizedString("Interest Flags",      bundle: .mpolKit, comment: "Alert Level Title")
+                }
+            } else {
+                switch self {
+                case .high:   return NSLocalizedString("Safety Warning",     bundle: .mpolKit, comment: "Alert Level Title")
+                case .medium: return NSLocalizedString("Action",             bundle: .mpolKit, comment: "Alert Level Title")
+                case .low:    return NSLocalizedString("Person Of Interest", bundle: .mpolKit, comment: "Alert Level Title")
+                case .none:   return NSLocalizedString("Interest Flag",      bundle: .mpolKit, comment: "Alert Level Title")
+                }
             }
         }
         

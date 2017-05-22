@@ -134,6 +134,9 @@ open class Person: Entity {
         warnings = unboxer.unbox(key: "warnings")
         scarMarksTattoos = unboxer.unbox(key: "scarsMarksTattoos")
         
+        interventionOrders = unboxer.unbox(key: "interventionOrders")
+        bailOrders = unboxer.unbox(key: "bailOrders")
+        
         if let initials: String = unboxer.unbox(key: "initials") {
             self.initials = initials
         } else {

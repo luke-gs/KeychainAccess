@@ -96,12 +96,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
             let item3 = SourceItem(title: "DS3", state: .loaded(count: 1, color: Alert.Level.low.color))
             
             let sidebarSplitViewController = SidebarSplitViewController(detailViewControllers: [sidebarDetail1VC, sidebarDetail2VC])
-            sidebarSplitViewController.sidebarViewController.sourceItems = [item1, item2, item3]
+                sidebarSplitViewController.sidebarViewController.sourceItems = [item1, item2, item3]
             sidebarSplitViewController.sidebarViewController.selectedSourceIndex = 1
             sidebarSplitViewController.title = "Sidebar SVC"
             
             let tabBarController = UITabBarController()
-            
             
             let bundle = Bundle(for: Person.self)
             let url = bundle.url(forResource: "Person_25625aa4-3394-48e2-8dbc-2387498e16b0", withExtension: "json", subdirectory: "Mock JSONs")!

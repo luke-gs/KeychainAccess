@@ -13,8 +13,9 @@ open class InterventionOrder: NSObject, Serialisable {
     open let id: String
     
     open var servedDate: Date?
-    open var respondentName: String?
     open var type: String?
+    
+    open var respondentName: String?
     open var complainants: [NSObject]?
     open var conditions: [NSObject]?
     open var status: String?

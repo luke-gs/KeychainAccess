@@ -79,9 +79,9 @@
     ],
     "alerts": [
         {
-            "alertLevel": 2,
+            "alertLevel": 1,
             "details": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu.",
-            "title": "Attention Grabber",
+            "title": "Organised Crime",
             "level": "medium",
             "id": "F8E3F7C7-DD32-449C-A99A-9648998D9CBD",
             "effectiveDate": "2007-11-18T22:17:21Z"
@@ -89,15 +89,15 @@
         {
             "alertLevel": 3,
             "details": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu.",
-            "title": "Threat",
+            "title": "Weapons",
             "level": "high",
             "id": "F64DEF4B-4F8E-4B70-8D5B-301CFDF6B673",
             "effectiveDate": "2017-05-21T18:17:21Z"
         },
         {
-            "alertLevel": 1,
+            "alertLevel": 0,
             "details": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu.",
-            "title": "Attention Grabber",
+            "title": "Medical Condition",
             "level": "medium",
             "id": "F8E3F7C7-DD32-449C-A99A-9648998D9CBD",
             "effectiveDate": "2007-11-18T22:17:21Z"

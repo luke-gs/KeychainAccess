@@ -46,6 +46,10 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
     
     private var sections: [[Alert]] = [[]] {
         didSet {
+            if oldValue.isEmpty == true && sections.isEmpty == true {
+                return
+            }
+            
             hasContent = sections.isEmpty == false
             collectionView?.reloadData()
         }
@@ -133,7 +137,7 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
             let alertCount = alerts.count
             if alertCount > 0 {
                 let alertLevel = alerts.first!.level
-                header.text = "\(alertCount) \(alertLevel.localizedDescription.localizedUppercase) " + (alertCount > 1 ? NSLocalizedString("ALERTS", bundle: .mpolKit, comment: "") : NSLocalizedString("ALERT", bundle: .mpolKit, comment: ""))
+                header.text = "\(alertCount) \(alertLevel.localizedDescription(plural: alertCount > 1).localizedUppercase) "
             } else {
                 header.text = nil
             }

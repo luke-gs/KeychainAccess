@@ -17,21 +17,16 @@ open class PersonOrdersViewController: EntityDetailCollectionViewController {
     
     private var person: Person? {
         didSet {
-            orders = person?.interventionOrders?.sorted {
-                switch ($0.servedDate, $1.servedDate) {
-                case (.some(let date0), .some(let date1)):
-                    return date0 > date1
-                case (.some(_), .none):
-                    return true
-                default:
-                    return false
-                }}
+            orders = person?.interventionOrders
         }
     }
     
     private var orders: [InterventionOrder]? {
         didSet {
-            hasContent = orders?.isEmpty ?? true == false
+            let orderCount = orders?.count ?? 0
+            sidebarItem.count = UInt(orderCount)
+            
+            hasContent = orderCount > 0
             collectionView?.reloadData()
         }
     }
@@ -93,15 +88,7 @@ open class PersonOrdersViewController: EntityDetailCollectionViewController {
             cell.subtitleLabel.text = NSLocalizedString("Date served unknown", bundle: .mpolKit, comment: "")
         }
         
-        
-//        cell.titleLabel.text  = alert.title
-//        cell.detailLabel.text = alert.details
-//        
-//        if let date = alert.effectiveDate {
-//            cell.subtitleLabel.text = NSLocalizedString("Effective from ", bundle: .mpolKit, comment: "") + DateFormatter.shortDate.string(from: date)
-//        } else {
-//            cell.subtitleLabel.text = NSLocalizedString("Effective date unknown", bundle: .mpolKit, comment: "")
-//        }
+        cell.detailLabel.text = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu."
         
         return cell
     }
