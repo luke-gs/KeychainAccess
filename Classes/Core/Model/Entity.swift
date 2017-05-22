@@ -49,6 +49,10 @@ open class Entity: NSObject, Serialisable {
         self.alertLevel = unboxer.unbox(key: "alertLevel")
         self.associatedAlertLevel = unboxer.unbox(key: "associatedAlertLevel")
         self.alerts = unboxer.unbox(key: "alerts")
+        
+        if let actionCount: UInt = unboxer.unbox(key: "actionCount") {
+            self.actionCount = actionCount
+        }
 
         super.init()
     }
