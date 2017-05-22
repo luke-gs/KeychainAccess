@@ -129,4 +129,12 @@
             "facialHair": "Stubble"
         }
     ],
+    "knownAssociates": [
+        {
+            "id": "2AB83A7E-13AA-49CE-922A-44805FB3A93D",
+            "fullName": "Citizen, Jane",
+            "dateOfBirth": "1990-01-01T10:00:00Z",
+            "description": "Southbank VIC 3000",
+        }
+    ],
 }

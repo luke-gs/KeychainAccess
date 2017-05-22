@@ -13,7 +13,14 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
     open override var entity: Entity? {
         didSet {
             updateNoContentSubtitle()
-            hasContent = false // temp
+            associations = (entity as? Person)?.knownAssociates ?? [] // TODO: Refactor for all associations.
+        }
+    }
+    
+    private var associations: [KnownAssociate] = [] {
+        didSet {
+            sidebarItem.count = UInt(associations.count)
+            hasContent = associations.isEmpty == false
         }
     }
     
@@ -25,6 +32,9 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
         let sidebarItem = self.sidebarItem
         sidebarItem.image         = UIImage(named: "iconGeneralAssociation",       in: .mpolKit, compatibleWith: nil)
         sidebarItem.selectedImage = UIImage(named: "iconGeneralAssociationFilled", in: .mpolKit, compatibleWith: nil)
+        
+        formLayout.itemLayoutMargins = UIEdgeInsets(top: 16.5, left: 8.0, bottom: 14.5, right: 8.0)
+        formLayout.distribution = .none
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -37,7 +47,77 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
         
         noContentTitleLabel?.text = NSLocalizedString("No Associations Found", comment: "")
         updateNoContentSubtitle()
+        
+        guard let collectionView = self.collectionView else { return }
+        
+        collectionView.register(EntityCollectionViewCell.self)
+        collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
     }
+    
+    
+    open func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return associations.isEmpty ? 0 : 1
+    }
+    
+    open override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return associations.count
+    }
+    
+    open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        switch kind {
+        case UICollectionElementKindSectionHeader:
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
+            let count = associations.count
+            header.text = String(format: (count == 1 ? "%d PERSON" : "%d PEOPLE"), count)
+            header.showsExpandArrow = false
+            return header
+        default:
+            return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
+        }
+    }
+    
+    open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(of: EntityCollectionViewCell.self, for: indexPath)
+        let associate = associations[indexPath.item]
+        
+        cell.style = .hero
+        cell.titleLabel.text = associate.fullName
+        
+        if let date = associate.dateOfBirth {
+            cell.subtitleLabel.text = DateFormatter.mediumNumericDate.string(from: date)
+        } else {
+            cell.subtitleLabel.text = nil
+        }
+        
+        cell.detailLabel.text = associate.knownAssociateDescription
+        
+        return cell
+    }
+    
+    
+    
+    
+    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
+        return CollectionViewFormExpandingHeaderView.minimumHeight
+    }
+    
+    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, insetForSection section: Int, givenSectionWidth width: CGFloat) -> UIEdgeInsets {
+        var inset = super.collectionView(collectionView, layout: layout, insetForSection: section, givenSectionWidth: width)
+        inset.top    = 4.0
+        inset.bottom = 0
+        return inset
+    }
+    
+    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, givenSectionWidth sectionWidth: CGFloat, edgeInsets: UIEdgeInsets) -> CGFloat {
+        return EntityCollectionViewCell.minimumContentWidth(forStyle: .hero)
+    }
+    
+    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
+        return EntityCollectionViewCell.minimumContentHeight(forStyle: .hero, compatibleWith: traitCollection) - 12.0
+    }
+    
+    
+    
 
     
     private func updateNoContentSubtitle() {
