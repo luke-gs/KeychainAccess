@@ -145,7 +145,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
 //                cell.thumbnailView.addTarget(self, action: #selector(entityThumbnailDidSelect(_:)), for: .primaryActionTriggered)
 //            }
             
-            cell.sourceLabel.text = person?.source?.localizedUppercase
+            cell.sourceLabel.text = person?.source?.localizedBadgeTitle
             cell.titleLabel.text = person?.summary
             cell.subtitleLabel.text = person?.summaryDetail1
             
@@ -280,7 +280,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
         
         switch section.type {
         case .header:
-            return EntityDetailCollectionViewCell.minimumContentHeight(withTitle: person?.summary ?? "", subtitle: person?.summaryDetail1, description: nil, descriptionPlaceholder: NSLocalizedString("No description", bundle: .mpolKit, comment: ""), additionalDetails: nil, source: person?.source, inWidth: itemWidth, compatibleWith: traitCollection)
+            return EntityDetailCollectionViewCell.minimumContentHeight(withTitle: person?.summary ?? "", subtitle: person?.summaryDetail1, description: nil, descriptionPlaceholder: NSLocalizedString("No description", bundle: .mpolKit, comment: ""), additionalDetails: nil, source: person?.source?.localizedBadgeTitle, inWidth: itemWidth, compatibleWith: traitCollection)
         default:
             image = nil
             title = "Email address"

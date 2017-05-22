@@ -1,6 +1,6 @@
 //
 //  Alias.swift
-//  Pods
+//  MPOLKit
 //
 //  Created by Rod Brown on 21/5/17.
 //

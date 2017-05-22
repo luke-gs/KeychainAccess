@@ -82,7 +82,7 @@ open class EntityInfoViewController: EntityDetailCollectionViewController {
                 cell.thumbnailView.addTarget(self, action: #selector(entityThumbnailDidSelect(_:)), for: .primaryActionTriggered)
             }
             
-            cell.sourceLabel.text = entity?.source?.localizedUppercase
+            cell.sourceLabel.text = entity?.source?.localizedBadgeTitle
             cell.titleLabel.text = "Citizen, John R."
             cell.subtitleLabel.text = "08/05/1987 (29 Male)"
             cell.descriptionLabel.text = "196 cm proportionate european male with short brown hair and brown eyes"

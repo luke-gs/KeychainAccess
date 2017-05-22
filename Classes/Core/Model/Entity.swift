@@ -17,7 +17,7 @@ open class Entity: NSObject, Serialisable {
     
     
     open let id: String
-    open var source: String?
+    open var source: Source?
     open var alertLevel: Alert.Level?
     open var associatedAlertLevel: Alert.Level?
     

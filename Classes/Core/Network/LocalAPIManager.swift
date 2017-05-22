@@ -1,6 +1,6 @@
 //
 //  LocalAPIManager.swift
-//  Pods
+//  MPOLKit
 //
 //  Created by Herli Halim on 18/5/17.
 //

@@ -1,6 +1,6 @@
 //
 //  DateFormatter+Static.swift
-//  Pods
+//  MPOLKit
 //
 //  Created by Rod Brown on 19/5/17.
 //

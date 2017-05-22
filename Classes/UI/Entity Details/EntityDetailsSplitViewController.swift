@@ -17,9 +17,6 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
         case notAvailable
     }
     
-    
-    public typealias Source = String // Temporary
-    
     open class func detailViewControllers(for entity: Entity) -> [EntityDetailCollectionViewController] {
         var viewControllers = [
             EntityAlertsViewController(),
@@ -83,8 +80,8 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
     public init(entity: Entity) {
         // TODO: Refactor sources into the current MPOL Context
         
-        sources = ["LEAP"]
-        representations = ["LEAP": .loaded(entity)]
+        sources = [.leap]
+        representations = [.leap: .loaded(entity)]
         
         selectedRepresentation = entity
                 
@@ -163,7 +160,7 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
                 itemState = .notLoaded
             }
             
-            return SourceItem(title: $0, state: itemState)
+            return SourceItem(title: $0.localizedBarTitle, state: itemState)
         }
         
         if let source = selectedRepresentation.source {
