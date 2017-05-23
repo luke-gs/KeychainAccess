@@ -178,7 +178,7 @@ class SearchResultsListViewController: FormCollectionViewController {
             
             let subtitleComponents = [entity.summaryDetail1, entity.summaryDetail2].flatMap({$0})
             cell.subtitleLabel.text = subtitleComponents.isEmpty ? nil : subtitleComponents.joined(separator: " : ")
-            cell.thumbnailView.configure(for: entity)
+            cell.thumbnailView.configure(for: entity, size: .small)
             cell.alertColor       = entity.alertLevel?.color
             cell.actionCount      = entity.actionCount
             cell.highlightStyle   = .fade
@@ -189,21 +189,16 @@ class SearchResultsListViewController: FormCollectionViewController {
         }
         
         let cell: EntityCollectionViewCell
+        let style: EntityCollectionViewCell.Style
         if indexPath.section == 0 {
             cell = collectionView.dequeueReusableCell(withReuseIdentifier: alertCellID, for: indexPath) as! EntityCollectionViewCell
-            cell.style = .thumbnail
+            style = .thumbnail
         } else {
             cell = collectionView.dequeueReusableCell(of: EntityCollectionViewCell.self, for: indexPath)
-            cell.style              = .hero
-            cell.titleLabel.text    = entity.summary
-            cell.subtitleLabel.text = entity.summaryDetail1
-            cell.detailLabel.text   = entity.summaryDetail2
+            style = .hero
         }
-        cell.thumbnailView.configure(for: entity)
-        cell.alertColor       = Alert.Level.high.color
-        cell.actionCount      = entity.actionCount
+        cell.configure(for: entity, style: style)
         cell.highlightStyle   = .fade
-        cell.sourceLabel.text = entity.source?.localizedBadgeTitle
         return cell
     }
     

@@ -76,14 +76,16 @@ class SearchRecentsViewController: FormCollectionViewController {
         switch indexPath.section {
         case 0 where traitCollection.horizontalSizeClass != .compact:
             let cell = collectionView.dequeueReusableCell(of: EntityCollectionViewCell.self, for: indexPath)
+            let person = Person()
+            person.initials = "JC"
             cell.style              = .detail
             cell.titleLabel.text    = "Citizen, John R."
             cell.subtitleLabel.text = "08/05/1987 (29 Male)"
             cell.detailLabel.text   = "Southbank VIC 3006"
-            cell.thumbnailView.configure(for: Entity())
+            cell.thumbnailView.configure(for: person, size: .medium)
             cell.thumbnailView.borderColor = Alert.Level.high.color
             cell.alertColor         = Alert.Level.high.color
-            cell.actionCount        = 9
+            cell.badgeCount         = 9
             cell.highlightStyle     = .fade
             cell.sourceLabel.text   = "DS1"
             return cell
