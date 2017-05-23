@@ -93,6 +93,10 @@ open class Person: Entity {
     
     open var interventionOrders: [InterventionOrder]?
     open var bailOrders: [BailOrder]?
+    open var fieldContacts: [FieldContact]?
+    open var whereabouts: [Whereabouts]?
+    open var missingPersonReports: [MissingPersonReport]?
+    open var familyIncidents: [FamilyIncident]?
     
     // MARK: - ?
     open var highestAlertLevel: Alert.Level?
@@ -136,6 +140,10 @@ open class Person: Entity {
         
         interventionOrders = unboxer.unbox(key: "interventionOrders")
         bailOrders = unboxer.unbox(key: "bailOrders")
+        fieldContacts = unboxer.unbox(key: "fieldContacts")
+        whereabouts = unboxer.unbox(key: "whereabouts")
+        missingPersonReports = unboxer.unbox(key: "missingPersonReports")
+        familyIncidents = unboxer.unbox(key: "familyIncidents")
         
         if let initials: String = unboxer.unbox(key: "initials") {
             self.initials = initials
