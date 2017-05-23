@@ -138,7 +138,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
                 self?.entityDetailCellDidSelectAdditionalDetails(cell)
             }
             
-            cell.thumbnailView.configure(for: person)
+            cell.thumbnailView.configure(for: person, size: .large)
 // TODO
 //            if cell.thumbnailView.allTargets.contains(self) == false {
 //                cell.thumbnailView.isEnabled = true
