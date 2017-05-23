@@ -414,7 +414,7 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
             title = nil
             leftBarButtonItems = currentResultsViewController?.navigationItem.leftBarButtonItems
             
-            var rightItems = [UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addEntityTriggered))]
+            var rightItems: [UIBarButtonItem] = [/*UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addEntityTriggered))*/]
             if let childVCItems = currentResultsViewController?.navigationItem.rightBarButtonItems {
                rightItems += childVCItems
             }
