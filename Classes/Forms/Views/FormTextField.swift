@@ -243,7 +243,7 @@ open class FormTextField: UITextField {
                     textRect = textRect.integral
                     
                     valueInset = bounds.width - textRect.minX + 2.0
-                } else if let text = self.text, text.isEmpty == false {
+                } else if let text = self.text?.ifNotEmpty() {
                     let textWidth = text.boundingRect(with: .max, attributes:  [NSFontAttributeName: self.font ?? .systemFont(ofSize: UIFont.systemFontSize)] , context: nil).width
                     let maxTextRect = textRect(forBounds: bounds)
                     valueInset = bounds.width - maxTextRect.maxX + ceil(min(textWidth, maxTextRect.width)) + 2.0
@@ -264,7 +264,7 @@ open class FormTextField: UITextField {
                     textRect = textRect.integral
                     
                     valueInset = textRect.maxX + 2.0
-                } else if let text = self.text, text.isEmpty == false {
+                } else if let text = self.text?.ifNotEmpty() {
                     let textWidth = text.boundingRect(with: .max, attributes:  [NSFontAttributeName: self.font ?? .systemFont(ofSize: UIFont.systemFontSize)] , context: nil).width
                     let maxTextRect = textRect(forBounds: bounds)
                     valueInset = maxTextRect.minX + ceil(min(textWidth, maxTextRect.width)) + 2.0
@@ -276,7 +276,7 @@ open class FormTextField: UITextField {
     }
     
     private func updatePlaceholder() {
-        if let placeholder = placeholderText, placeholder.isEmpty == false {
+        if let placeholder = placeholderText?.ifNotEmpty() {
             let attributes = [NSFontAttributeName: self.placeholderFont ?? UIFont.systemFont(ofSize: 15.0), NSForegroundColorAttributeName: self.placeholderTextColor ?? .lightGray]
             super.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: attributes)
         } else {

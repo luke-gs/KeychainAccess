@@ -137,4 +137,11 @@
             "description": "Southbank VIC 3000",
         }
     ],
+    "criminalHistory": [
+        {
+            "offenceDescription": "Breaking and Entering",
+            "offenceCount": 1,
+            "lastOccurredDate": "2017-01-01T12:00:00Z"
+        }
+    ]
 }

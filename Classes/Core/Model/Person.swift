@@ -45,14 +45,14 @@ open class Person: Entity {
         
         let middleNames = self.middleNames?.filter { $0.isEmpty == false }
         
-        if let surname = self.surname, surname.isEmpty == false {
+        if let surname = self.surname?.ifNotEmpty() {
             formattedName = surname
             
             if givenName?.isEmpty ?? true == false || middleNames?.isEmpty ?? true == false {
                 formattedName += ", "
             }
         }
-        if let givenName = self.givenName, givenName.isEmpty == false {
+        if let givenName = self.givenName?.ifNotEmpty() {
             formattedName += givenName
             
             if middleNames?.isEmpty ?? true == false {
@@ -93,6 +93,8 @@ open class Person: Entity {
     
     open var interventionOrders: [InterventionOrder]?
     open var bailOrders: [BailOrder]?
+    
+    open var criminalHistory: [CriminalHistory]?
     
     // MARK: - ?
     open var highestAlertLevel: Alert.Level?
@@ -137,14 +139,16 @@ open class Person: Entity {
         interventionOrders = unboxer.unbox(key: "interventionOrders")
         bailOrders = unboxer.unbox(key: "bailOrders")
         
+        criminalHistory = unboxer.unbox(key: "criminalHistory")
+        
         if let initials: String = unboxer.unbox(key: "initials") {
             self.initials = initials
         } else {
             var initials = ""
-            if let givenName = givenName, givenName.isEmpty == false {
+            if let givenName = givenName?.ifNotEmpty() {
                 initials += givenName.substring(to: givenName.index(after: givenName.startIndex))
             }
-            if let surname = surname, surname.isEmpty == false {
+            if let surname = surname?.ifNotEmpty() {
                 initials += surname.substring(to: surname.index(after: surname.startIndex))
             }
             if initials.isEmpty == false {

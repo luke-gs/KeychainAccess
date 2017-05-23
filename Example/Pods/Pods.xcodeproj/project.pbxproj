@@ -135,6 +135,9 @@
 		B8F342192A59B2FED8CEE74862F03FC2 /* PopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF68188A80F54AED1AE88BF035230556 /* PopoverViewController.swift */; };
 		B922BEF22C1073009413D84C5466AB65 /* OAuthAuthorizationGrant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F3925A36CEC9C14E0191404160A85B /* OAuthAuthorizationGrant.swift */; };
 		BBEFE2F9CEB73DC7BD97FFA66A0D9D4F /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031703E0BF6A73707FEFA7A7789E0682 /* Validation.swift */; };
+		BC4F33821ED3F3DF00198505 /* CriminalHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4F33811ED3F3DF00198505 /* CriminalHistory.swift */; };
+		BC4F33861ED3F62500198505 /* PersonCriminalHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4F33851ED3F62500198505 /* PersonCriminalHistoryViewController.swift */; };
+		BC4F338A1ED3FB4E00198505 /* String+EmptyFiltering.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4F33891ED3FB4E00198505 /* String+EmptyFiltering.swift */; };
 		BC61E4FF1ED1A6330044D2D4 /* PersonOrdersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC61E4FE1ED1A6330044D2D4 /* PersonOrdersViewController.swift */; };
 		BC76CBE01ECE9E9B008F2562 /* DateFormatter+Static.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC76CBDE1ECE9DF3008F2562 /* DateFormatter+Static.swift */; };
 		BC9CD4021ED3991400D91786 /* Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9CD4011ED3991400D91786 /* Source.swift */; };
@@ -444,6 +447,9 @@
 		B781D307105D1630319F75139EB761AB /* ParameterEncoding.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ParameterEncoding.swift; path = Source/ParameterEncoding.swift; sourceTree = "<group>"; };
 		B9975340C35EADD1E86BCD62C76BF336 /* PickerTableViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PickerTableViewController.swift; sourceTree = "<group>"; };
 		BB01FCB7D8D5843875A3C0A312BB326E /* TableViewFormCheckboxCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TableViewFormCheckboxCell.swift; sourceTree = "<group>"; };
+		BC4F33811ED3F3DF00198505 /* CriminalHistory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CriminalHistory.swift; sourceTree = "<group>"; };
+		BC4F33851ED3F62500198505 /* PersonCriminalHistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonCriminalHistoryViewController.swift; sourceTree = "<group>"; };
+		BC4F33891ED3FB4E00198505 /* String+EmptyFiltering.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+EmptyFiltering.swift"; sourceTree = "<group>"; };
 		BC61E4FE1ED1A6330044D2D4 /* PersonOrdersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonOrdersViewController.swift; sourceTree = "<group>"; };
 		BC76CBDE1ECE9DF3008F2562 /* DateFormatter+Static.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Static.swift"; sourceTree = "<group>"; };
 		BC9CD4011ED3991400D91786 /* Source.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Source.swift; sourceTree = "<group>"; };
@@ -661,6 +667,7 @@
 				A593905E24CAB2C52C02497DD5995CF0 /* EntityDetailsSplitViewController.swift */,
 				91925917DB66A253D07757E4F59E73A2 /* EntityOccurrencesViewController.swift */,
 				BC61E4FE1ED1A6330044D2D4 /* PersonOrdersViewController.swift */,
+				BC4F33851ED3F62500198505 /* PersonCriminalHistoryViewController.swift */,
 				CE24FD8B461ABE07E749A32D3D0BC544 /* Information */,
 			);
 			path = "Entity Details";
@@ -693,6 +700,7 @@
 				9252C1A7B078B71562FF0B2CDEDB5CB6 /* Alert.swift */,
 				BCA5A13A1ED18EC10088A164 /* Caution.swift */,
 				BCDDBBF51ECEDACB00D66D45 /* Contact.swift */,
+				BC4F33811ED3F3DF00198505 /* CriminalHistory.swift */,
 				BCA5A13B1ED18EC10088A164 /* KnownAssociate.swift */,
 				1E6A630FED3AFE647E88048D33B928D4 /* Entity.swift */,
 				BCDDBBF61ECEDACB00D66D45 /* Licence.swift */,
@@ -1102,6 +1110,7 @@
 			children = (
 				7F1159A4EB4A56AD283AB796F3938FB9 /* Bundle+MPOLKit.swift */,
 				BC76CBDE1ECE9DF3008F2562 /* DateFormatter+Static.swift */,
+				BC4F33891ED3FB4E00198505 /* String+EmptyFiltering.swift */,
 				EEE536CA92E242F5F059E14D2D9ED171 /* UIColor+Hex.swift */,
 				D2C49B7D2E7A558EE793ECE52D59E3A8 /* UIImage+EntityImages.swift */,
 				92C21512636DEDD05FFAAF9C5E537DA6 /* UIImage+RoundedRects.swift */,
@@ -1557,6 +1566,7 @@
 				7AA401625F0C947A4297DAC6AE2E35CA /* DefaultCustomStringConvertible.swift in Sources */,
 				560011E9130A17E957A8FBDB64E2BAD4 /* DefaultReusable.swift in Sources */,
 				F322A07F176FBA442CA0005049332C67 /* Entity.swift in Sources */,
+				BC4F33821ED3F3DF00198505 /* CriminalHistory.swift in Sources */,
 				5D8E58F64B37780CDA250774BBAD567A /* EntityAlertsViewController.swift in Sources */,
 				A2AC5172503B07B7F5695FD15A6E0978 /* EntityAssociationsViewController.swift in Sources */,
 				BCA1EA8F1ED1450C0050CABA /* PersonDescription.swift in Sources */,
@@ -1582,6 +1592,7 @@
 				DD81BEF536D4EFB4F649000D098B1195 /* FormTextField.swift in Sources */,
 				BC76CBE01ECE9E9B008F2562 /* DateFormatter+Static.swift in Sources */,
 				E79610B97C1203E1F47F0C91DCB6DD19 /* FormTextView.swift in Sources */,
+				BC4F338A1ED3FB4E00198505 /* String+EmptyFiltering.swift in Sources */,
 				CBF7759E08BC05E931667D74032C7A6A /* Foundation.Operation+MPOLAdditions.swift in Sources */,
 				5867577D4B014160A7808AEE57ADE836 /* GalleryCollectionViewCell.swift in Sources */,
 				2B670082F50C4BF31AC5CB88F2550F00 /* GradientView.swift in Sources */,
@@ -1651,6 +1662,7 @@
 				C562C36E9D541F2BAE71F9CA371B3062 /* StatsOverviewCollectionViewCell.swift in Sources */,
 				1DEAC7A80EB48A839006F2E27E90E731 /* TableViewFormCell.swift in Sources */,
 				E5179503843F220659136FB894713705 /* TableViewFormCheckboxCell.swift in Sources */,
+				BC4F33861ED3F62500198505 /* PersonCriminalHistoryViewController.swift in Sources */,
 				9285B0C73600F5513745BFC17FFBCB40 /* TableViewFormExpandingHeaderCell.swift in Sources */,
 				BCDDBBFA1ECEDAD700D66D45 /* Licence.swift in Sources */,
 				B8DA85EA8FB168A9BDBB91862742AC3F /* TableViewFormSubtitleCell.swift in Sources */,

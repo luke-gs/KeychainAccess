@@ -85,17 +85,17 @@ open class Address: NSObject, Serialisable {
 //        }
         
         var line: [String] = []
-        if let unitNumber = self.unitNumber , unitNumber.isEmpty == false { line.append("Unit \(unitNumber)") }
-        if let floor = self.floor , floor.isEmpty == false { line.append("Floor \(floor)")}
+        if let unitNumber = self.unitNumber?.ifNotEmpty() { line.append("Unit \(unitNumber)") }
+        if let floor = self.floor?.ifNotEmpty() { line.append("Floor \(floor)")}
         if line.isEmpty == false {
             lines.append(line)
             line.removeAll()
         }
         
-        if let streetNumber = self.streetNumber, streetNumber.isEmpty == false { line.append(streetNumber) }
-        if let streetName   = self.streetName,   streetName.isEmpty   == false { line.append(streetName) }
-        if let streetType   = self.streetType,   streetType.isEmpty   == false { line.append(streetType) }
-        if let streetDirectional = self.streetDirectional , streetDirectional.isEmpty == false { line.append(streetDirectional) }
+        if let streetNumber = self.streetNumber?.ifNotEmpty() { line.append(streetNumber) }
+        if let streetName   = self.streetName?.ifNotEmpty() { line.append(streetName) }
+        if let streetType   = self.streetType?.ifNotEmpty() { line.append(streetType) }
+        if let streetDirectional = self.streetDirectional?.ifNotEmpty() { line.append(streetDirectional) }
         if line.isEmpty == false {
             if includingName && commonName != nil && lines.isEmpty == false && line.joined(separator: " ") == commonName {
                 _ = lines.remove(at: 0)
@@ -104,12 +104,12 @@ open class Address: NSObject, Serialisable {
             line.removeAll()
         }
         
-        if let suburb = self.suburb , suburb.isEmpty == false { line.append(suburb) }
-        if let state  = self.state  , state.isEmpty  == false { line.append(state)  }
-        if let postCode = self.postcode, postCode.isEmpty == false { line.append(postCode) }
+        if let suburb = self.suburb?.ifNotEmpty() { line.append(suburb) }
+        if let state  = self.state?.ifNotEmpty() { line.append(state)  }
+        if let postCode = self.postcode?.ifNotEmpty() { line.append(postCode) }
         
         if line.isEmpty == false { lines.append(line) }
-        if let country = self.country , country.isEmpty == false { lines.append([country]) }
+        if let country = self.country?.ifNotEmpty() { lines.append([country]) }
         
         return lines.flatMap({ $0.isEmpty == false ? $0.joined(separator: " ") : nil })
     }
