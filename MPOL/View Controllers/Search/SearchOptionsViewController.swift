@@ -63,7 +63,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     
     // MARK: - Initializers
     
-    init(dataSources: [SearchDataSource] = [PersonSearchDataSource(), VehicleSearchDataSource(), OrganizationSearchDataSource(), LocationSearchDataSource()]) {
+    init(dataSources: [SearchDataSource] = [PersonSearchDataSource(), /*VehicleSearchDataSource(), OrganizationSearchDataSource(), LocationSearchDataSource()*/]) {
         guard let firstDataSource = dataSources.first else {
             fatalError("SearchOptionsViewController requires at least one available search type")
         }
@@ -366,6 +366,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+        delegate?.searchOptionsController(self, didFinishWith: selectedDataSource.request)
         return false
     }
     
