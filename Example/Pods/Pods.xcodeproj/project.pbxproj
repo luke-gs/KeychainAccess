@@ -140,6 +140,7 @@
 		BC4F338A1ED3FB4E00198505 /* String+EmptyFiltering.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4F33891ED3FB4E00198505 /* String+EmptyFiltering.swift */; };
 		BC61E4FF1ED1A6330044D2D4 /* PersonOrdersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC61E4FE1ED1A6330044D2D4 /* PersonOrdersViewController.swift */; };
 		BC76CBE01ECE9E9B008F2562 /* DateFormatter+Static.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC76CBDE1ECE9DF3008F2562 /* DateFormatter+Static.swift */; };
+		BC945A631ED4EEBF00822D43 /* InitialThumbnailGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC945A621ED4EEBF00822D43 /* InitialThumbnailGenerator.swift */; };
 		BC9CD4021ED3991400D91786 /* Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9CD4011ED3991400D91786 /* Source.swift */; };
 		BCA1EA8F1ED1450C0050CABA /* PersonDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA1EA8D1ED142D40050CABA /* PersonDescription.swift */; };
 		BCA5A1331ED18E5F0088A164 /* BailOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA5A12C1ED18E5F0088A164 /* BailOrder.swift */; };
@@ -452,6 +453,7 @@
 		BC4F33891ED3FB4E00198505 /* String+EmptyFiltering.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+EmptyFiltering.swift"; sourceTree = "<group>"; };
 		BC61E4FE1ED1A6330044D2D4 /* PersonOrdersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonOrdersViewController.swift; sourceTree = "<group>"; };
 		BC76CBDE1ECE9DF3008F2562 /* DateFormatter+Static.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Static.swift"; sourceTree = "<group>"; };
+		BC945A621ED4EEBF00822D43 /* InitialThumbnailGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialThumbnailGenerator.swift; sourceTree = "<group>"; };
 		BC9CD4011ED3991400D91786 /* Source.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Source.swift; sourceTree = "<group>"; };
 		BCA1EA8D1ED142D40050CABA /* PersonDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonDescription.swift; sourceTree = "<group>"; };
 		BCA5A12C1ED18E5F0088A164 /* BailOrder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BailOrder.swift; sourceTree = "<group>"; };
@@ -1195,6 +1197,7 @@
 			isa = PBXGroup;
 			children = (
 				CB1AFB10E2E28D7FAB17E80657D4D207 /* AlertQueue.swift */,
+				BC945A621ED4EEBF00822D43 /* InitialThumbnailGenerator.swift */,
 				35B68FC721EC9F41CF92234FAEF3839D /* KeyboardAnimationDetails.swift */,
 				EA3887A41BB0193629602911B58E98D0 /* LoginViewController.swift */,
 				3A8EC0CEE5AB7CCA4C5F4452FCE3D525 /* ScrollViewInsetManager.swift */,
@@ -1617,6 +1620,7 @@
 				2A1E7735E221E8A96875779A1A778E6A /* MapOverlayViewController.swift in Sources */,
 				F2CD77A1B47576D1B46DE46B9BE43926 /* ModelVersionable.swift in Sources */,
 				8ACC6258EC46592FA0C070EE80CAF2CB /* MPOLKit-dummy.m in Sources */,
+				BC945A631ED4EEBF00822D43 /* InitialThumbnailGenerator.swift in Sources */,
 				58C95CD29B040D09CE609EC33C396BA1 /* MPOLKitInitialize.swift in Sources */,
 				4FDB63F0142C373C6A8933C2D4E59F21 /* MutuallyExclusiveCondition.swift in Sources */,
 				10286CC8F24F738FDC63EED50C5C7236 /* NavigationBarExtension.swift in Sources */,

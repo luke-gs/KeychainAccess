@@ -63,9 +63,13 @@ open class Entity: NSObject, Serialisable {
         
         self.id = id
         
-        alertLevel = Alert.Level(rawValue: aDecoder.decodeInteger(forKey: CodingKey.alertLevel.rawValue))
-        associatedAlertLevel = Alert.Level(rawValue: aDecoder.decodeInteger(forKey: CodingKey.alertLevel.rawValue))
-
+        if aDecoder.containsValue(forKey: CodingKey.alertLevel.rawValue) {
+            alertLevel = aDecoder.decodeInteger(forKey: CodingKey.alertLevel.rawValue)
+        }
+        if aDecoder.containsValue(forKey: CodingKey.associatedAlertLevel.rawValue) {
+            associatedAlertLevel = aDecoder.decodeInteger(forKey: CodingKey.associatedAlertLevel.rawValue)
+        }
+        
         super.init()
     }
     
@@ -75,11 +79,11 @@ open class Entity: NSObject, Serialisable {
         aCoder.encode(id, forKey: CodingKey.id.rawValue)
         
         if let alertLevel = alertLevel {
-            aCoder.encode(alertLevel.rawValue, forKey: CodingKey.alertLevel.rawValue)
+            aCoder.encode(alertLevel, forKey: CodingKey.alertLevel.rawValue)
         }
         
         if let associatedAlertLevel = associatedAlertLevel {
-            aCoder.encode(associatedAlertLevel.rawValue, forKey: CodingKey.associatedAlertLevel.rawValue)
+            aCoder.encode(associatedAlertLevel, forKey: CodingKey.associatedAlertLevel.rawValue)
         }
     }
     

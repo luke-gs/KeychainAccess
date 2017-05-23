@@ -80,7 +80,7 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
         let cell = collectionView.dequeueReusableCell(of: EntityCollectionViewCell.self, for: indexPath)
         let associate = associations[indexPath.item]
         
-        // This is a massive temporary hack.
+        // TEMPORARY: This is a massive hack.
         
         cell.style = .hero
         cell.titleLabel.text = associate.fullName
