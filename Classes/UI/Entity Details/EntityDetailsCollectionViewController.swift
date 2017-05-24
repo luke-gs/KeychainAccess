@@ -3,20 +3,43 @@
 //  MPOLKit
 //
 //  Created by Rod Brown on 19/5/17.
-//
+//  Copyright © 2017 Gridstone. All rights reserved.
 //
 
 import UIKit
 
+
+/// An abstract view controller for presenting entity details.
 open class EntityDetailCollectionViewController: FormCollectionViewController {
     
+    // MARK: Public properties
+    
+    /// The current entity to be presented.
+    ///
+    /// Subclasses should override this property to handle updating their
+    /// content.
     open var entity: Entity?
     
+    
+    /// The "no content" title label.
+    ///
+    /// This label and it's associated subtitle label are hidden when the `hasContent`
+    /// property is set to `true`.
     open var noContentTitleLabel: UILabel?
     
+    
+    /// The "no content" subtitle label.
+    ///
+    /// This label and it's associated title label are hidden when the `hasContent`
+    /// property is set to `true`.
     open var noContentSubtitleLabel: UILabel?
     
-    public var hasContent: Bool = true {
+    
+    /// A boolean value indicating whether the view controller has content.
+    /// 
+    /// This updates the appearance of the "no content" labels on the view.
+    /// The default is `true`, hiding the labels.
+    open var hasContent: Bool = true {
         didSet {
             noContentView?.isHidden = hasContent
         }
@@ -24,12 +47,17 @@ open class EntityDetailCollectionViewController: FormCollectionViewController {
     
     private var noContentView: UIView?
     
+    
+    // MARK: - Initializers
+    
     public override init() {
         super.init()
         
         NotificationCenter.default.addObserver(self, selector: #selector(currentLocaleDidChange), name: NSLocale.currentLocaleDidChangeNotification, object: nil)
     }
     
+    
+    // MARK: - View lifecycle
     
     open override func viewDidLoad() {
         let noContentTitleLabel = UILabel(frame: .zero)
@@ -65,7 +93,7 @@ open class EntityDetailCollectionViewController: FormCollectionViewController {
         NSLayoutConstraint.activate([
             NSLayoutConstraint(item: stackView, attribute: .centerX, relatedBy: .equal, toItem: readableContentGuide, attribute: .centerX),
             NSLayoutConstraint(item: stackView, attribute: .centerY, relatedBy: .equal, toItem: readableContentGuide, attribute: .centerY),
-            NSLayoutConstraint(item: stackView, attribute: .width, relatedBy: .lessThanOrEqual, toItem: readableContentGuide, attribute: .width),
+            NSLayoutConstraint(item: stackView, attribute: .width,  relatedBy: .lessThanOrEqual, toItem: readableContentGuide, attribute: .width),
             NSLayoutConstraint(item: stackView, attribute: .height, relatedBy: .lessThanOrEqual, toItem: readableContentGuide, attribute: .height),
         ])
         
@@ -80,6 +108,8 @@ open class EntityDetailCollectionViewController: FormCollectionViewController {
     }
     
     
+    // MARK: - Change handlers
+    
     open override func preferredContentSizeCategoryDidChange() {
         super.preferredContentSizeCategoryDidChange()
         updateNoContentTitleLabelFont()
@@ -88,6 +118,9 @@ open class EntityDetailCollectionViewController: FormCollectionViewController {
     open func currentLocaleDidChange() {
         collectionView?.reloadData()
     }
+    
+    
+    // MARK: - Private methods
     
     private func updateNoContentTitleLabelFont() {
         var fontDescriptor: UIFontDescriptor

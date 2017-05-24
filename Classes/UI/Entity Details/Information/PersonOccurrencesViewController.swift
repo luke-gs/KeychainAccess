@@ -57,11 +57,10 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController {
     // Help!!
     private var events: [AnyObject]? {
         didSet {
-            if let events = events, events.count > 0 {
-                self.hasContent = true
-            } else {
-                self.hasContent = false
-            }
+            let eventCount = events?.count ?? 0
+            
+            hasContent = eventCount > 0
+            sidebarItem.count = UInt(eventCount)
             collectionView?.reloadData()
         }
     }
@@ -76,30 +75,10 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController {
     private var missingPersons: [MissingPerson]?
     private var familyIncidents: [FamilyIncident]?
     */
-    
-    // MARK: - Initializers
-    
-    public override init() {
-        super.init()
-        title = NSLocalizedString("Information", bundle: .mpolKit, comment: "")
-        
-        let sidebarItem = self.sidebarItem
-        sidebarItem.image         = UIImage(named: "iconGeneralInfo",       in: .mpolKit, compatibleWith: nil)
-        sidebarItem.selectedImage = UIImage(named: "iconGeneralInfoFilled", in: .mpolKit, compatibleWith: nil)
-    }
-    
-    public required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    
     // MARK: - View lifecycle
     
     open override func viewDidLoad() {
         super.viewDidLoad()
-        
-        noContentTitleLabel?.text = NSLocalizedString("No Person Found", bundle: .mpolKit, comment: "")
-        noContentSubtitleLabel?.text = NSLocalizedString("There are no details for this person", bundle: .mpolKit, comment: "")
         
         guard let collectionView = self.collectionView else { return }
         
@@ -120,9 +99,11 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController {
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(of: CollectionViewFormDetailCell.self, for: indexPath)
+        cell.highlightStyle = .fade
+        cell.selectionStyle = .fade
+        cell.accessoryView = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
 
         let event = events![indexPath.item]
-        
         let cellTexts = appropriateTexts(for: event)
 
         cell.titleLabel.text = cellTexts.0

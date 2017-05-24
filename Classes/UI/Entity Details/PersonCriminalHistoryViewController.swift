@@ -1,13 +1,15 @@
 //
 //  PersonCriminalHistoryViewController.swift
-//  Pods
+//  MPOLKit
 //
 //  Created by Rod Brown on 23/5/17.
-//
+//  Copyright © 2017 Gridstone. All rights reserved.
 //
 
 import UIKit
 
+
+/// A view controller for presenting a person's criminal history.
 open class PersonCriminalHistoryViewController: EntityDetailCollectionViewController {
     
     open override var entity: Entity? {
@@ -31,6 +33,9 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
         }
     }
     
+    
+    // MARK: - Initializers
+    
     public override init() {
         super.init()
         
@@ -48,6 +53,8 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
     }
     
     
+    // MARK: - View lifecycle
+    
     open override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -59,6 +66,9 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
         collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         collectionView.register(CollectionViewFormSubtitleCell.self)
     }
+    
+    
+    // MARK: - UICollectionViewDataSource
     
     open func numberOfSections(in collectionView: UICollectionView) -> Int {
         return criminalHistory?.isEmpty ?? true ? 0 : 1
@@ -72,7 +82,9 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
         let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
         cell.emphasis = .title
         
-        let text = textForItem(at: indexPath)
+        let history = criminalHistory![indexPath.item]
+        let text = cellText(for: history)
+        
         cell.titleLabel.text = text.title
         cell.subtitleLabel.text = text.subtitle
         
@@ -96,23 +108,22 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
     }
     
     
-    // MARK: - UICollectionViewDelegate
+    // MARK: - CollectionViewDelegateFormLayout
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
         return CollectionViewFormExpandingHeaderView.minimumHeight
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
-        let text = textForItem(at: indexPath)
+        let history = criminalHistory![indexPath.item]
+        let text = cellText(for: history)
         return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: text.title, subtitle: text.subtitle, inWidth: itemWidth, compatibleWith: traitCollection, emphasis: .title)
     }
     
     
-    /// MARK: - Private
+    // MARK: - Private
     
-    private func textForItem(at indexPath: IndexPath) -> (title: String, subtitle: String){
-        let history = criminalHistory![indexPath.item]
-        
+    private func cellText(for history: CriminalHistory) -> (title: String, subtitle: String) {
         var offenceCountText = ""
         if let offenceCount = history.offenceCount {
             offenceCountText = "(\(offenceCount)) "

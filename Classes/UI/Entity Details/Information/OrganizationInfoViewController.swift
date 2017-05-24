@@ -8,21 +8,41 @@
 
 import UIKit
 
-open class OrganizationInfoViewController: EntityInfoViewController {
-
+open class OrganizationInfoViewController: EntityDetailCollectionViewController {
+    
+    
+    // MARK: - Initializers
+    
+    public override init() {
+        super.init()
+        title = NSLocalizedString("Information", comment: "")
+        
+        let sidebarItem = self.sidebarItem
+        sidebarItem.image         = UIImage(named: "iconGeneralInfo",       in: .mpolKit, compatibleWith: nil)
+        sidebarItem.selectedImage = UIImage(named: "iconGeneralInfoFilled", in: .mpolKit, compatibleWith: nil)
+    }
+    
+    public required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
     // MARK: - View lifecycle
     
     open override func viewDidLoad() {
         super.viewDidLoad()
         
-        collectionView?.register(CollectionViewFormSubtitleCell.self)
+        guard let collectionView = self.collectionView else { return }
+        
+        collectionView.register(CollectionViewFormSubtitleCell.self)
+        collectionView.register(EntityDetailCollectionViewCell.self)
+        collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
     }
-    
     
     
     // MARK: - UICollectionViewDataSource
     
-    open override func numberOfSections(in collectionView: UICollectionView) -> Int {
+    open func numberOfSections(in collectionView: UICollectionView) -> Int {
         return Section.count
     }
     
@@ -35,10 +55,23 @@ open class OrganizationInfoViewController: EntityInfoViewController {
     }
     
     open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        if kind == UICollectionElementKindSectionHeader && indexPath.section != 0 {
+        if kind == UICollectionElementKindSectionHeader {
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
             headerView.showsExpandArrow = false
-            headerView.text = Section(rawValue: indexPath.section)?.localizedTitle
+            
+            let section = Section(rawValue: indexPath.section)!
+            
+            if section == .header {
+                let lastUpdatedString: String
+                if let lastUpdated = entity?.lastUpdated {
+                    lastUpdatedString = DateFormatter.shortDate.string(from: lastUpdated)
+                } else {
+                    lastUpdatedString = NSLocalizedString("UNKNOWN", bundle: .mpolKit, comment: "Unknown Date")
+                }
+                headerView.text = NSLocalizedString("LAST UPDATED: ", bundle: .mpolKit, comment: "") + lastUpdatedString
+            } else {
+                headerView.text = Section(rawValue: indexPath.section)?.localizedTitle
+            }
             return headerView
         }
         
@@ -46,38 +79,70 @@ open class OrganizationInfoViewController: EntityInfoViewController {
     }
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let section = Section(rawValue: indexPath.section)!
-        if section == .header { return super.collectionView(collectionView, cellForItemAt: indexPath) }
+        let title: String?
+        let subtitle: String?
+        let multiLineLabel: Bool
+        
+        switch Section(rawValue: indexPath.section)! {
+        case .header:
+            let cell = collectionView.dequeueReusableCell(of: EntityDetailCollectionViewCell.self, for: indexPath)
+            cell.additionalDetailsButtonActionHandler = { [weak self] (cell: EntityDetailCollectionViewCell) in
+                self?.entityDetailCellDidSelectAdditionalDetails(cell)
+            }
+            
+            /// Temp updates
+            cell.thumbnailView.configure(for: entity, size: .large)
+            if cell.thumbnailView.allTargets.contains(self) == false {
+                cell.thumbnailView.isEnabled = true
+                cell.thumbnailView.addTarget(self, action: #selector(entityThumbnailDidSelect(_:)), for: .primaryActionTriggered)
+            }
+            
+            cell.sourceLabel.text = entity?.source?.localizedBadgeTitle
+            cell.titleLabel.text = "Citizen, John R."
+            cell.subtitleLabel.text = "08/05/1987 (29 Male)"
+            cell.descriptionLabel.text = "196 cm proportionate european male with short brown hair and brown eyes"
+            cell.additionalDetailsButton.setTitle("4 MORE DESCRIPTIONS", for: .normal)
+            
+            return cell
+        case .details:
+            let detailItem = DetailItem(rawValue: indexPath.item)
+            title    = detailItem?.localizedTitle
+            subtitle = detailItem?.value(for: nil)
+            multiLineLabel = detailItem?.wantsMultiLineSubtitle ?? false
+        case .aliases:
+            title    = "Alernative name"
+            subtitle = "Orion Central Bank Melbourne"
+            multiLineLabel = false
+        }
         
         let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
         cell.emphasis = .subtitle
         cell.isEditableField = false
-        cell.subtitleLabel.numberOfLines = 1
         
-        switch section {
-        case .details:
-            let detailItem = DetailItem(rawValue: indexPath.item)
-            cell.titleLabel.text    = detailItem?.localizedTitle
-            cell.subtitleLabel.text = detailItem?.value(for: nil)
-            cell.subtitleLabel.numberOfLines = detailItem?.wantsMultiLineSubtitle ?? false ? 1 : 0
-        case .aliases:
-            cell.titleLabel.text    = "Alernative name"
-            cell.subtitleLabel.text = "Orion Central Bank Melbourne"
-        default:
-            break
-        }
+        cell.titleLabel.text = title
+        cell.subtitleLabel.text = subtitle
+        cell.subtitleLabel.numberOfLines = multiLineLabel ? 0 : 1
         
         return cell
     }
     
     
-    // MARK: - CollectionViewDelegateMPOLLayout
+    // MARK: - UICollectionViewDelegate
+    
+    open override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
+        
+        if let detailCell = cell as? EntityDetailCollectionViewCell {
+            detailCell.titleLabel.textColor       = primaryTextColor   ?? .black
+            detailCell.subtitleLabel.textColor    = secondaryTextColor ?? .darkGray
+            detailCell.descriptionLabel.textColor = secondaryTextColor ?? .darkGray
+        }
+    }
+    
+    
+    // MARK: - CollectionViewDelegateFormLayout
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
-        if section == 0 {
-            return super.collectionView(collectionView, layout: layout, heightForHeaderInSection:section, givenSectionWidth: width)
-        }
-        
         return CollectionViewFormExpandingHeaderView.minimumHeight
     }
     
@@ -87,7 +152,7 @@ open class OrganizationInfoViewController: EntityInfoViewController {
         
         switch Section(rawValue: indexPath.section)! {
         case .header:
-            return super.collectionView(collectionView, layout: layout, minimumContentWidthForItemAt: indexPath, givenSectionWidth: sectionWidth, edgeInsets: edgeInsets)
+            return sectionWidth
         case .details:
             let columnCount = min(3, layout.columnCountForSection(withMinimumItemContentWidth: 180.0, sectionWidth: sectionWidth, sectionEdgeInsets: edgeInsets))
             if columnCount <= 1 { return sectionWidth }
@@ -112,7 +177,7 @@ open class OrganizationInfoViewController: EntityInfoViewController {
         let wantsMultiLineSubtitle: Bool
         switch Section(rawValue: indexPath.section)! {
         case .header:
-            return super.collectionView(collectionView, layout: layout, minimumContentHeightForItemAt: indexPath, givenItemContentWidth: itemWidth)
+            return EntityDetailCollectionViewCell.minimumContentHeight(withTitle: "Smith, Max R.", subtitle: "08/05/1987 (29 Male)", description: "196 cm proportionate european male with short brown hair and brown eyes", descriptionPlaceholder: nil, additionalDetails: "4 MORE DESCRIPTIONS", source: "DATA SOURCE 1", inWidth: itemWidth, compatibleWith: traitCollection) - layout.itemLayoutMargins.bottom
         case .details:
             let detailItem = DetailItem(rawValue: indexPath.item)
             title    = detailItem?.localizedTitle ?? ""
@@ -178,7 +243,12 @@ open class OrganizationInfoViewController: EntityInfoViewController {
             default:       return false
             }
         }
-        
+    }
+    
+    @objc private func entityDetailCellDidSelectAdditionalDetails(_ cell: EntityDetailCollectionViewCell) {
+    }
+    
+    @objc private func entityThumbnailDidSelect(_ thumbnail: EntityThumbnailView) {
     }
     
 }

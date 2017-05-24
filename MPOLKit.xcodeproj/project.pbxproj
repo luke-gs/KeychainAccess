@@ -112,7 +112,6 @@
 		C605F9B91ECCAD48001194DD /* EntityDetailsSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F9231ECCAD47001194DD /* EntityDetailsSplitViewController.swift */; };
 		C605F9BA1ECCAD48001194DD /* EntityOccurrencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F9241ECCAD47001194DD /* EntityOccurrencesViewController.swift */; };
 		C605F9BB1ECCAD48001194DD /* EntityDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F9261ECCAD47001194DD /* EntityDetailCollectionViewCell.swift */; };
-		C605F9BC1ECCAD48001194DD /* EntityInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F9271ECCAD47001194DD /* EntityInfoViewController.swift */; };
 		C605F9BD1ECCAD48001194DD /* OrganizationInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F9281ECCAD47001194DD /* OrganizationInfoViewController.swift */; };
 		C605F9BE1ECCAD48001194DD /* PersonInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F9291ECCAD47001194DD /* PersonInfoViewController.swift */; };
 		C605F9BF1ECCAD48001194DD /* VehicleInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F92A1ECCAD47001194DD /* VehicleInfoViewController.swift */; };
@@ -319,7 +318,6 @@
 		C605F9231ECCAD47001194DD /* EntityDetailsSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailsSplitViewController.swift; sourceTree = "<group>"; };
 		C605F9241ECCAD47001194DD /* EntityOccurrencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityOccurrencesViewController.swift; sourceTree = "<group>"; };
 		C605F9261ECCAD47001194DD /* EntityDetailCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailCollectionViewCell.swift; sourceTree = "<group>"; };
-		C605F9271ECCAD47001194DD /* EntityInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityInfoViewController.swift; sourceTree = "<group>"; };
 		C605F9281ECCAD47001194DD /* OrganizationInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizationInfoViewController.swift; sourceTree = "<group>"; };
 		C605F9291ECCAD47001194DD /* PersonInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonInfoViewController.swift; sourceTree = "<group>"; };
 		C605F92A1ECCAD47001194DD /* VehicleInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleInfoViewController.swift; sourceTree = "<group>"; };
@@ -818,7 +816,6 @@
 			isa = PBXGroup;
 			children = (
 				C605F9261ECCAD47001194DD /* EntityDetailCollectionViewCell.swift */,
-				C605F9271ECCAD47001194DD /* EntityInfoViewController.swift */,
 				C605F9281ECCAD47001194DD /* OrganizationInfoViewController.swift */,
 				C605F9291ECCAD47001194DD /* PersonInfoViewController.swift */,
 				C605F92A1ECCAD47001194DD /* VehicleInfoViewController.swift */,
@@ -1143,7 +1140,6 @@
 				C605F9811ECCAD48001194DD /* ISO8601DateTransformer+UnboxFormatter.swift in Sources */,
 				C605F9651ECCAD48001194DD /* ManifestEntry+Location.swift in Sources */,
 				C605F9A81ECCAD48001194DD /* SelectableButton.swift in Sources */,
-				C605F9BC1ECCAD48001194DD /* EntityInfoViewController.swift in Sources */,
 				C605F9D21ECCAD48001194DD /* PopoverNavigationController.swift in Sources */,
 				C6A56FD51ED1464D00B844AB /* Interest.swift in Sources */,
 				C605F9CE1ECCAD48001194DD /* CommonConditions.swift in Sources */,

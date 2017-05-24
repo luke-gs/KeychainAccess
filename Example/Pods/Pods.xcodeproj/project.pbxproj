@@ -70,7 +70,6 @@
 		5871481C88D26584E3F75D6F9EDA4A2A /* UICollectionView+DefaultReuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27399E1AA7435BBCA9A15CA3D23FC385 /* UICollectionView+DefaultReuse.swift */; };
 		58C5A6E8766C5E65713DC905C561E6BF /* UIView+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F1873060F6FF8C68D0D6D038274CC6 /* UIView+Convenience.swift */; };
 		58C95CD29B040D09CE609EC33C396BA1 /* MPOLKitInitialize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24ACC902CA268DD53553DCC9D8C2E0C2 /* MPOLKitInitialize.swift */; };
-		592AFCE395CEFD56C244E4F8E7EB55A8 /* EntityInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0DC3AE13FDAAEC2F1A3035CEF36CD8 /* EntityInfoViewController.swift */; };
 		5A87CC09F1BFD76AC4054D35FD7EA76B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21D9747C4F0C7AB73D10DA3FF02ADAE5 /* Foundation.framework */; };
 		5AAB972C900140870474CA1D84EE3663 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CCF2DDA6B384E6F5A5C486D231D044 /* APIManager.swift */; };
 		5CE02091D2907C9278BDC0685CBDEAEF /* EntityDetailsSidebarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822A40347E633AADAA8B4DA770949019 /* EntityDetailsSidebarHeaderView.swift */; };
@@ -356,7 +355,6 @@
 		4D08A46ABC86DE47C81D4718DA85B42B /* NetworkReachabilityManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NetworkReachabilityManager.swift; path = Source/NetworkReachabilityManager.swift; sourceTree = "<group>"; };
 		4E9D1FD683680D14E536D872BF3B993E /* CollectionViewFormSubtitleCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CollectionViewFormSubtitleCell.swift; sourceTree = "<group>"; };
 		4EBD10650356EF56C9EB5AD8D245F83D /* CollectionViewFormTextViewCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CollectionViewFormTextViewCell.swift; sourceTree = "<group>"; };
-		4F0DC3AE13FDAAEC2F1A3035CEF36CD8 /* EntityInfoViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EntityInfoViewController.swift; sourceTree = "<group>"; };
 		4FB3A8FEEF16CF7723903FD979AA6425 /* Unbox-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Unbox-dummy.m"; sourceTree = "<group>"; };
 		5066D868B44AE25881CC3B79412DC673 /* OperationObserver.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = OperationObserver.swift; sourceTree = "<group>"; };
 		51F41BCAD8C06AA0A602B26F3854AE21 /* ManifestEntry+Location.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "ManifestEntry+Location.swift"; sourceTree = "<group>"; };
@@ -1131,7 +1129,6 @@
 			isa = PBXGroup;
 			children = (
 				C1D7CCE059CFA519E9AD8DF92C164E68 /* EntityDetailCollectionViewCell.swift */,
-				4F0DC3AE13FDAAEC2F1A3035CEF36CD8 /* EntityInfoViewController.swift */,
 				EF0177404F043F78CC83EDB1885C5487 /* OrganizationInfoViewController.swift */,
 				6D8A15A6BDE05B694E156731EA77F46E /* PersonInfoViewController.swift */,
 				C6DBDBFE1ED1E8C20072479F /* PersonOccurrencesViewController.swift */,
@@ -1581,7 +1578,6 @@
 				9591C0EE4363D90B49AE796CB5AE6F9F /* EntityDetailCollectionViewCell.swift in Sources */,
 				5CE02091D2907C9278BDC0685CBDEAEF /* EntityDetailsSidebarHeaderView.swift in Sources */,
 				5D65B661A20511E1A108750135F1A5EE /* EntityDetailsSplitViewController.swift in Sources */,
-				592AFCE395CEFD56C244E4F8E7EB55A8 /* EntityInfoViewController.swift in Sources */,
 				2D151B5160BAD2CC7078B23F7DF94618 /* EntityOccurrencesViewController.swift in Sources */,
 				BCA5A1331ED18E5F0088A164 /* BailOrder.swift in Sources */,
 				2D19653472E4EE7BC30DCA8470D2CC5D /* EntityThumbnailView.swift in Sources */,
