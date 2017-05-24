@@ -11,6 +11,7 @@ import Unbox
 @objc(MPLEntity)
 open class Entity: NSObject, Serialisable {
     
+    
     open class var localizedDisplayName: String {
         return NSLocalizedString("Entity", comment: "")
     }
@@ -91,13 +92,19 @@ open class Entity: NSObject, Serialisable {
         return true
     }
     
+    
     // MARK: - Model Versionable
     
     open class var modelVersion: Int {
         return 0
     }
     
+    
     // MARK: - Display
+    
+    open func thumbnailImage(ofSize size: EntityThumbnailView.ThumbnailSize) -> (image: UIImage, mode: UIViewContentMode)? {
+        return nil
+    }
     
     open var summary: String {
         return "-"

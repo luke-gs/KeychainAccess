@@ -100,6 +100,14 @@ open class Person: Entity {
     
     open var criminalHistory: [CriminalHistory]?
     
+    open var thumbnail: UIImage? = #imageLiteral(resourceName: "Avatar 1")
+    private lazy var initialThumbnail: UIImage = { [unowned self] in
+        if let initials = self.initials?.ifNotEmpty() {
+            return generateThumbnail(forInitials: initials)
+        }
+        return UIImage()
+    }()
+    
     // MARK: - ?
     open var highestAlertLevel: Alert.Level?
     open var fullName: String?
@@ -177,6 +185,16 @@ open class Person: Entity {
     
     
     // MARK: - Display
+    
+    open override func thumbnailImage(ofSize size: EntityThumbnailView.ThumbnailSize) -> (UIImage, UIViewContentMode)? {
+        if let thumbnail = self.thumbnail {
+            return (thumbnail, .scaleAspectFill)
+        }
+        if initials?.isEmpty ?? true == false {
+            return (initialThumbnail, .scaleAspectFill)
+        }
+        return nil
+    }
     
     open override var summaryDetail1: String? {
         return formattedDOBAgeGender()

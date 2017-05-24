@@ -106,51 +106,19 @@ public class EntityThumbnailView: UIControl {
     // MARK: - Configuration
     
     public func configure(for entity: Entity?, size: ThumbnailSize) {
-        guard let entity = entity else { return }
-        
-        switch entity {
-        case let person as Person:
-//            if let thumbnail = person.thumbnail {
-//                imageView.image = thumbnail
-//                imageView.contentMode = .scaleAspectFill
-//            } else {
-                imageView.image = generateThumbnail(forInitials: person.initials!)
-                imageView.contentMode = .scaleAspectFill
-//            }
-        case _ as Vehicle:
-            let imageName: String
-            switch size {
-            case .small:
-                imageName = "iconEntityAutomotiveFilled"
-            case .medium:
-                imageName = "iconEntityAutomotive48Filled"
-            case .large:
-                imageName = "iconEntityAutomotive96Filled"
-            }
-            
-            imageView.image = UIImage(named: imageName, in: .mpolKit, compatibleWith: nil)
-            imageView.contentMode = .center
-        default:
-            let imageName: String
-            switch size {
-            case .small:
-                imageName = "iconEntityAutomotiveFilled"
-            case .medium:
-                imageName = "iconEntityAutomotive48Filled"
-            case .large:
-                imageName = "iconEntityAutomotive96Filled"
-            }
-            
-            imageView.image = UIImage(named: imageName, in: .mpolKit, compatibleWith: nil)
-            imageView.contentMode = .center
+        if let thumbnail = entity?.thumbnailImage(ofSize: .large) {
+            imageView.image = thumbnail.image
+            imageView.contentMode = thumbnail.mode
+        } else {
+            imageView.image = nil
         }
         
         if entity is Person {
             tintColor = UIColor(white: 0.2, alpha: 1.0)
-            borderColor = entity.alertLevel?.color
+            borderColor = entity?.alertLevel?.color
         } else {
-            tintColor = entity.alertLevel?.color ?? UIColor(white: 0.2, alpha: 1.0)
-            borderColor = entity.associatedAlertLevel?.color
+            tintColor = entity?.alertLevel?.color ?? UIColor(white: 0.2, alpha: 1.0)
+            borderColor = entity?.associatedAlertLevel?.color
         }
     }
     

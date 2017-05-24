@@ -141,9 +141,8 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
         
     }
     
-    /// Updates the source items and selection in the bar.
-    ///
-    /// Call this method when representations update.
+    /// Updates the source items and selection in the bar. Call this method when
+    /// representations update.
     private func updateSourceItems() {
         sidebarViewController.sourceItems = sources.map {
             let itemState: SourceItem.State
@@ -174,15 +173,16 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
     }
     
     /// Updates the header view with the details for the latest selected representation.
-    ///
-    /// Call this method when the selected representation changes.
+    /// Call this methodwhen the selected representation changes.
     private func updateHeaderView() {
         headerView.typeLabel.text = type(of: selectedRepresentation).localizedDisplayName.localizedUppercase
         
-        let headerIcon = headerIconAndMode()
-        headerView.thumbnailView.image = headerIcon.image
-        headerView.thumbnailView.contentMode = headerIcon.mode
-        
+        if let headerIcon = selectedRepresentation.thumbnailImage(ofSize: .medium) {
+            headerView.thumbnailView.image = headerIcon.image
+            headerView.thumbnailView.contentMode = headerIcon.mode
+        } else {
+            headerView.thumbnailView.image = nil
+        }
         headerView.summaryLabel.text = selectedRepresentation.summary
         
         let lastUpdatedString: String
@@ -195,7 +195,6 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
     }
     
     private func headerIconAndMode() -> (image: UIImage?, mode: UIViewContentMode) {
-        
         switch selectedRepresentation {
         case let person as Person:
             return (generateThumbnail(forInitials: person.initials!), .scaleAspectFill) // TODO: Get image from person

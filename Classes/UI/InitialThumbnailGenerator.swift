@@ -8,7 +8,7 @@
 
 import UIKit
 
-// TEMPORARY: This is a massive hack.
+// TEMPORARY: This is a hack.
 
 private let initialThumbnailSize = CGSize(width: 200.0, height: 200.0)
 
@@ -27,7 +27,7 @@ func generateThumbnail(forInitials initials: String) -> UIImage {
         
         let originPoint = CGPoint(x: ((initialThumbnailSize.width - textSize.width) / 2.0).rounded(toScale: screenScale), y: ((initialThumbnailSize.height - textSize.height) / 2.0).rounded(toScale: screenScale))
         
-        (initials as NSString).draw(at: originPoint, withAttributes: attributes)
+        initialString.draw(at: originPoint, withAttributes: attributes)
     }
     
     if #available(iOS 10, *) {

@@ -108,6 +108,24 @@ open class Vehicle: Entity {
         vehicleDescription = unboxer.unbox(key: "vehicleDescription")
     }
     
+    open override func thumbnailImage(ofSize size: EntityThumbnailView.ThumbnailSize) -> (UIImage, UIViewContentMode)? {
+        let imageName: String
+        switch size {
+        case .small:
+            imageName = "iconEntityAutomotiveFilled"
+        case .medium:
+            imageName = "iconEntityAutomotive48Filled"
+        case .large:
+            imageName = "iconEntityAutomotive96Filled"
+        }
+        
+        if let image = UIImage(named: imageName, in: .mpolKit, compatibleWith: nil) {
+            return (image, .center)
+        }
+        
+        return super.thumbnailImage(ofSize: size)
+    }
+    
 }
 
 private enum CodingKey: String {
