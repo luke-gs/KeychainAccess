@@ -13,6 +13,10 @@ open class RiskFactor: NSObject, Serialisable {
     
     open var type: String?
     open var riskFactorDescription: String?
+
+    override public init() {
+
+    }
     
     public required init(unboxer: Unboxer) throws {
         type = unboxer.unbox(key: "riskFactorType")
