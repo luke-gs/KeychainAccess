@@ -138,46 +138,39 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController {
         case let mpReport as MissingPersonReport:
             titleText = "Missing Person"
             subtitleText = formattedTitle(for: mpReport.reportedDate)
-            detailText = ""
+            detailText = nil
         case let bailOrder as BailOrder:
             titleText = "Bail Order"
             subtitleText = formattedTitle(for: bailOrder.firstReportDate)
-            detailText = ""
-            
+            detailText = nil
         case let caution as Caution:
             titleText = "Caution"
             subtitleText = formattedTitle(for: caution.processedDate)
-            detailText = ""
-            
+            detailText = nil
         case let interventionOrder as InterventionOrder:
             titleText = "Intervention Order"
             subtitleText = formattedTitle(for: interventionOrder.servedDate)
-            detailText = ""
-            
+            detailText = nil
         case let whereabouts as Whereabouts:
             titleText = "Whereabouts"
             subtitleText = formattedTitle(for: whereabouts.reportDate)
-            detailText = ""
-            
+            detailText = nil
         case let warrant as Warrant:
             titleText = "Warrant"
             subtitleText = formattedTitle(for: warrant.issueDate)
-            detailText = ""
-            
+            detailText = nil
         case let fieldContact as FieldContact:
             titleText = "Field Contact"
             subtitleText = formattedTitle(for: fieldContact.contactDate)
-            detailText = ""
-            
+            detailText = nil
         case let familyIncident as FamilyIncident:
             titleText = "Family Incident"
             subtitleText = formattedTitle(for: familyIncident.occurrenceDate)
-            detailText = ""
-            
+            detailText = nil
         default:
-            titleText = "Stuff"
-            subtitleText = "StuffStuff"
-            detailText = "StuffStuffStuff"
+            titleText = "Unknown"
+            subtitleText = formattedTitle(for: nil)
+            detailText = nil
             break
         }
         
