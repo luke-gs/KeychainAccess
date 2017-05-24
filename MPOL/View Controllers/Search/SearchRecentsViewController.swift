@@ -83,8 +83,8 @@ class SearchRecentsViewController: FormCollectionViewController {
             cell.subtitleLabel.text = "08/05/1987 (29 Male)"
             cell.detailLabel.text   = "Southbank VIC 3006"
             cell.thumbnailView.configure(for: person, size: .medium)
-            cell.thumbnailView.borderColor = Alert.Level.high.color
-            cell.alertColor         = Alert.Level.high.color
+            cell.thumbnailView.borderColor = (3 as Alert.Level).color
+            cell.alertColor         = (3 as Alert.Level).color
             cell.badgeCount         = 9
             cell.highlightStyle     = .fade
             cell.sourceLabel.text   = "DS1"
