@@ -93,6 +93,10 @@ open class Person: Entity {
     
     open var interventionOrders: [InterventionOrder]?
     open var bailOrders: [BailOrder]?
+    open var fieldContacts: [FieldContact]?
+    open var whereabouts: [Whereabouts]?
+    open var missingPersonReports: [MissingPersonReport]?
+    open var familyIncidents: [FamilyIncident]?
     
     open var criminalHistory: [CriminalHistory]?
     
@@ -138,6 +142,10 @@ open class Person: Entity {
         
         interventionOrders = unboxer.unbox(key: "interventionOrders")
         bailOrders = unboxer.unbox(key: "bailOrders")
+        fieldContacts = unboxer.unbox(key: "fieldContacts")
+        whereabouts = unboxer.unbox(key: "whereabouts")
+        missingPersonReports = unboxer.unbox(key: "missingPersonReports")
+        familyIncidents = unboxer.unbox(key: "familyIncidents")
         
         criminalHistory = unboxer.unbox(key: "criminalHistory")
         

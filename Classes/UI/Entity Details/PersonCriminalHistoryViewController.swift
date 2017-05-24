@@ -110,16 +110,6 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
     
     // MARK: - UICollectionViewDelegate
     
-    open override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
-        
-        if let alertCell = cell as? CollectionViewFormDetailCell {
-            alertCell.titleLabel.textColor    = primaryTextColor
-            alertCell.subtitleLabel.textColor = secondaryTextColor
-            alertCell.detailLabel.textColor   = primaryTextColor
-        }
-    }
-    
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
         return CollectionViewFormExpandingHeaderView.minimumHeight
     }

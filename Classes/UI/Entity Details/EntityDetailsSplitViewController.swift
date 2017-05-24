@@ -21,13 +21,14 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
         var viewControllers = [
             EntityAlertsViewController(),
             EntityAssociationsViewController(),
-            EntityOccurrencesViewController()
+            
         ]
     
         switch entity {
         case _ as Person:
             viewControllers.insert(PersonInfoViewController(), at: 0)
             viewControllers.append(PersonOrdersViewController())
+            viewControllers.append(PersonOccurrencesViewController())
             viewControllers.append(PersonCriminalHistoryViewController())
         default:
             break
