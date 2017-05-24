@@ -123,7 +123,7 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController {
 
         let event = events![indexPath.item]
         
-        let cellTexts = appropriateTextsFor(event)
+        let cellTexts = appropriateTexts(for: event)
 
         cell.titleLabel.text = cellTexts.0
         cell.subtitleLabel.text = cellTexts.1
@@ -152,11 +152,16 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController {
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
         return CollectionViewFormExpandingHeaderView.minimumHeight
     }
+    
+    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
+        return CollectionViewFormDetailCell.minimumContentHeight(compatibleWith: traitCollection)
+    }
+
 
     // MARK: - Private
     // Seems like a common pattern, potential refactor point to have a standard formatter for these?
     
-    private func appropriateTextsFor(_ event: AnyObject) -> (titleText: String?, subtitleText: String?, detailText: String?) {
+    private func appropriateTexts(for event: AnyObject) -> (titleText: String?, subtitleText: String?, detailText: String?) {
         let titleText: String?
         let subtitleText: String?
         let detailText: String?
@@ -169,31 +174,31 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController {
         case let bailOrder as BailOrder:
             titleText = "Bail Order"
             subtitleText = formattedTitle(for: bailOrder.firstReportDate)
-            detailText = nil
+            detailText = bailOrder.reportingToStation != nil ? "Report to \(bailOrder.reportingToStation!)" : nil
         case let caution as Caution:
             titleText = "Caution"
             subtitleText = formattedTitle(for: caution.processedDate)
-            detailText = nil
+            detailText = caution.cautionDescription
         case let interventionOrder as InterventionOrder:
             titleText = "Intervention Order"
             subtitleText = formattedTitle(for: interventionOrder.servedDate)
-            detailText = nil
+            detailText = interventionOrder.type
         case let whereabouts as Whereabouts:
             titleText = "Whereabouts"
             subtitleText = formattedTitle(for: whereabouts.reportDate)
-            detailText = nil
+            detailText = whereabouts.notifyMemberDescription != nil ? "Notify \(whereabouts.notifyMemberDescription!)" : nil
         case let warrant as Warrant:
             titleText = "Warrant"
             subtitleText = formattedTitle(for: warrant.issueDate)
-            detailText = nil
+            detailText = warrant.warrantDescription
         case let fieldContact as FieldContact:
             titleText = "Field Contact"
             subtitleText = formattedTitle(for: fieldContact.contactDate)
-            detailText = nil
+            detailText = fieldContact.contactMember?.stationCode != nil ? "Contact \(fieldContact.contactMember!.stationCode!)" : nil
         case let familyIncident as FamilyIncident:
             titleText = "Family Incident"
             subtitleText = formattedTitle(for: familyIncident.occurrenceDate)
-            detailText = nil
+            detailText = familyIncident.incidentDescription
         default:
             titleText = "Unknown"
             subtitleText = formattedTitle(for: nil)

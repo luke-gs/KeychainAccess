@@ -31,7 +31,7 @@ open class Warrant: NSObject, Serialisable {
         
         self.id = id
         type = unboxer.unbox(key: "type")
-        warrantDescription = unboxer.unbox(key: "value")
+        warrantDescription = unboxer.unbox(key: "description")
         issueDate = unboxer.unbox(key: "issueDate", formatter: Warrant.dateTransformer)
         
         super.init()
