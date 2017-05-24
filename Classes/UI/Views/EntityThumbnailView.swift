@@ -12,6 +12,12 @@ import UIKit
 /// A view for displaying entity thumbnails within an MPOL interface.
 public class EntityThumbnailView: UIControl {
     
+    public enum ThumbnailSize {
+        case small
+        case medium
+        case large
+    }
+    
     public let backgroundImageView = UIImageView(frame: .zero)
     
     public let imageView = UIImageView(frame: .zero)
@@ -99,19 +105,44 @@ public class EntityThumbnailView: UIControl {
     
     // MARK: - Configuration
     
-    public func configure(for entity: Entity?) {
+    public func configure(for entity: Entity?, size: ThumbnailSize) {
         guard let entity = entity else { return }
         
         switch entity {
         case let person as Person:
-            imageView.image = #imageLiteral(resourceName: "Avatar 1") // TODO: Get real image, or get placeholder
-            imageView.contentMode = .scaleAspectFill
+//            if let thumbnail = person.thumbnail {
+//                imageView.image = thumbnail
+//                imageView.contentMode = .scaleAspectFill
+//            } else {
+                imageView.image = generateThumbnail(forInitials: person.initials!)
+                imageView.contentMode = .scaleAspectFill
+//            }
         case _ as Vehicle:
-            imageView.image = UIImage(named: "iconEntityAutomotive", in: .mpolKit, compatibleWith: nil)
+            let imageName: String
+            switch size {
+            case .small:
+                imageName = "iconEntityAutomotiveFilled"
+            case .medium:
+                imageName = "iconEntityAutomotive48Filled"
+            case .large:
+                imageName = "iconEntityAutomotive96Filled"
+            }
+            
+            imageView.image = UIImage(named: imageName, in: .mpolKit, compatibleWith: nil)
             imageView.contentMode = .center
         default:
-            imageView.image = #imageLiteral(resourceName: "Avatar 1") // TODO: Get real image, or get placeholder
-            imageView.contentMode = .scaleAspectFill
+            let imageName: String
+            switch size {
+            case .small:
+                imageName = "iconEntityAutomotiveFilled"
+            case .medium:
+                imageName = "iconEntityAutomotive48Filled"
+            case .large:
+                imageName = "iconEntityAutomotive96Filled"
+            }
+            
+            imageView.image = UIImage(named: imageName, in: .mpolKit, compatibleWith: nil)
+            imageView.contentMode = .center
         }
         
         if entity is Person {

@@ -59,14 +59,14 @@ open class Alias: NSObject, Serialisable {
     open var formattedName: String? {
         var formattedName: String = ""
         
-        if let lastName = self.lastName, lastName.isEmpty == false {
+        if let lastName = self.lastName?.ifNotEmpty() {
             formattedName = lastName
             
             if firstName?.isEmpty ?? true == false {
                 formattedName += ", "
             }
         }
-        if let givenName = self.firstName, givenName.isEmpty == false {
+        if let givenName = self.firstName?.ifNotEmpty() {
             formattedName += givenName
             
         }

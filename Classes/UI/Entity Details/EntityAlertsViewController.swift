@@ -17,14 +17,14 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
             updateNoContentSubtitle()
             let sidebarItem = self.sidebarItem
             
-            guard var alerts = entity?.alerts?.sorted(by: { $0.level.rawValue > $1.level.rawValue }), alerts.isEmpty == false else {
+            guard var alerts = entity?.alerts?.sorted(by: { ($0.level ?? 0) > ($1.level ?? 0) }), alerts.isEmpty == false else {
                 self.sections = []
                 sidebarItem.count = 0
                 return
             }
             
             sidebarItem.count = UInt(alerts.count)
-            sidebarItem.alertColor = alerts.first?.level.color
+            sidebarItem.alertColor = alerts.first?.level?.color
             
             var sections: [[Alert]] = []
             while let firstAlertLevel = alerts.first?.level {
@@ -109,13 +109,16 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
         let alert = sections[indexPath.section][indexPath.item]
         
         let alertLevel = alert.level
-        if let cachedImage = statusDotCache[alertLevel] {
-            cell.imageView.image = cachedImage
-        } else {
-            let image = UIImage.statusDot(withColor: alertLevel.color)
-            statusDotCache[alertLevel] = image
-            cell.imageView.image = image
+        if let alertLevel = alert.level {
+            if let cachedImage = statusDotCache[alertLevel] {
+                cell.imageView.image = cachedImage
+            } else {
+                let image = UIImage.statusDot(withColor: alertLevel.color!)
+                statusDotCache[alertLevel] = image
+                cell.imageView.image = image
+            }
         }
+        
         
         cell.titleLabel.text  = alert.title
         cell.detailLabel.text = alert.details
@@ -135,9 +138,8 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
             
             let alerts = sections[indexPath.section]
             let alertCount = alerts.count
-            if alertCount > 0 {
-                let alertLevel = alerts.first!.level
-                header.text = "\(alertCount) \(alertLevel.localizedDescription(plural: alertCount > 1).localizedUppercase) "
+            if alertCount > 0, let levelDescription = alerts.first!.level?.localizedDescription(plural: alertCount > 1) {
+                header.text = "\(alertCount) \(levelDescription.localizedUppercase) "
             } else {
                 header.text = nil
             }

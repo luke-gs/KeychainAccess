@@ -29,6 +29,7 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
             viewControllers.insert(PersonInfoViewController(), at: 0)
             viewControllers.append(PersonOrdersViewController())
             viewControllers.append(PersonOccurrencesViewController())
+            viewControllers.append(PersonCriminalHistoryViewController())
         default:
             break
         }
@@ -195,8 +196,8 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
     private func headerIconAndMode() -> (image: UIImage?, mode: UIViewContentMode) {
         
         switch selectedRepresentation {
-        case _ as Person:
-            return (#imageLiteral(resourceName: "Avatar 1"), .scaleAspectFill) // TODO: Get image from person
+        case let person as Person:
+            return (generateThumbnail(forInitials: person.initials!), .scaleAspectFill) // TODO: Get image from person
         case _ as Vehicle:
             return (nil, .scaleAspectFit) // vehicle image
         default:

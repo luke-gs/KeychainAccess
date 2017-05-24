@@ -138,7 +138,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
                 self?.entityDetailCellDidSelectAdditionalDetails(cell)
             }
             
-            cell.thumbnailView.configure(for: person)
+            cell.thumbnailView.configure(for: person, size: .large)
 // TODO
 //            if cell.thumbnailView.allTargets.contains(self) == false {
 //                cell.thumbnailView.isEnabled = true
@@ -273,22 +273,61 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
         
         let section = sections[indexPath.section]
         
+        let emphasis: CollectionViewFormSubtitleCell.Emphasis
         let wantsSingleLineSubtitle: Bool
         let title: String
-        let subtitle: String
+        let detail: String?
         let image: UIImage?
         
         switch section.type {
         case .header:
-            return EntityDetailCollectionViewCell.minimumContentHeight(withTitle: person?.summary ?? "", subtitle: person?.summaryDetail1, description: nil, descriptionPlaceholder: NSLocalizedString("No description", bundle: .mpolKit, comment: ""), additionalDetails: nil, source: person?.source?.localizedBadgeTitle, inWidth: itemWidth, compatibleWith: traitCollection)
-        default:
+            return EntityDetailCollectionViewCell.minimumContentHeight(withTitle: person?.summary ?? "", subtitle: person?.summaryDetail1, description: person?.descriptions?.first?.formatted(), descriptionPlaceholder: NSLocalizedString("No description", bundle: .mpolKit, comment: ""), additionalDetails: nil, source: person?.source?.localizedBadgeTitle, inWidth: itemWidth, compatibleWith: traitCollection) - layout.itemLayoutMargins.bottom
+            
+        case .details:
+            let item = section.items![indexPath.item] as! DetailItem
+            title = item.localizedTitle
+            detail = item.value(for: person!)
             image = nil
-            title = "Email address"
-            subtitle = "john.citizen@gmail.com"
+            emphasis = .subtitle
+            wantsSingleLineSubtitle = true
+        case .addresses:
+            let item = section.items![indexPath.item] as! Address
+            
+            if let date = item.reportDate {
+                title = String(format: NSLocalizedString("Recorded as at %@", bundle: .mpolKit, comment: ""), DateFormatter.mediumNumericDate.string(from: date))
+            } else {
+                title = NSLocalizedString("Recorded date unknown", bundle: .mpolKit, comment: "")
+            }
+            
+            detail = item.formatted()
+            image = UIImage(named: "iconGeneralLocation", in: .mpolKit, compatibleWith: nil)
+            emphasis = .subtitle
             wantsSingleLineSubtitle = false
+        case .contact:
+            let item = section.items![indexPath.item] as! ContactDetailItem
+            title = item.localizedTitle
+            detail = item.value(for: person!)
+            image = nil
+            emphasis = .subtitle
+            wantsSingleLineSubtitle = true
+        case .aliases:
+            let alias = section.items![indexPath.item] as! Alias
+            title = alias.formattedName ?? ""
+            detail = alias.formattedDOBAgeGender()
+            image = nil
+            emphasis = .title
+            wantsSingleLineSubtitle = true
+        case .licence(let licence):
+            let item = section.items![indexPath.item] as! LicenceItem
+            
+            title  = item.localizedTitle
+            detail = item.value(for: licence)
+            image  = nil
+            emphasis = .subtitle
+            wantsSingleLineSubtitle = true
         }
         
-        return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: title, subtitle: subtitle, inWidth: itemWidth, compatibleWith: traitCollection, image: image, emphasis: .subtitle, singleLineSubtitle: wantsSingleLineSubtitle)
+        return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: title, subtitle: detail, inWidth: itemWidth, compatibleWith: traitCollection, image: image, emphasis: emphasis, singleLineSubtitle: wantsSingleLineSubtitle)
     }
     
     
