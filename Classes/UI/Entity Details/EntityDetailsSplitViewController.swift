@@ -183,7 +183,7 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
         headerView.thumbnailView.image = headerIcon.image
         headerView.thumbnailView.contentMode = headerIcon.mode
         
-        headerView.titleLabel.text = selectedRepresentation.summary
+        headerView.summaryLabel.text = selectedRepresentation.summary
         
         let lastUpdatedString: String
         if let lastUpdated = selectedRepresentation.lastUpdated {

@@ -45,6 +45,9 @@ open class EntityDetailCollectionViewController: FormCollectionViewController {
         }
     }
     
+    
+    // MARK: - Private properties
+    
     private var noContentView: UIView?
     
     
