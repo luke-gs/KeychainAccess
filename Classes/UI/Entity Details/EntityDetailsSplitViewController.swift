@@ -18,18 +18,19 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
     }
     
     open class func detailViewControllers(for entity: Entity) -> [EntityDetailCollectionViewController] {
+        /// This is nasty.
         var viewControllers = [
             EntityAlertsViewController(),
             EntityAssociationsViewController(),
-            
         ]
-    
         switch entity {
         case _ as Person:
             viewControllers.insert(PersonInfoViewController(), at: 0)
-            viewControllers.append(PersonOrdersViewController())
-            viewControllers.append(PersonOccurrencesViewController())
-            viewControllers.append(PersonCriminalHistoryViewController())
+            viewControllers += [
+                PersonOccurrencesViewController(),
+                PersonOrdersViewController(),
+                PersonCriminalHistoryViewController()
+            ]
         default:
             break
         }

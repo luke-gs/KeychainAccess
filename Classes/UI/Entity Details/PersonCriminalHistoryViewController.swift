@@ -70,23 +70,11 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
-        let history = criminalHistory![indexPath.item]
-        
         cell.emphasis = .title
         
-        var offenceCountText = ""
-        if let offenceCount = history.offenceCount {
-            offenceCountText = "(\(offenceCount)) "
-        }
-        cell.titleLabel.text = offenceCountText + (history.offenceDescription?.ifNotEmpty() ?? NSLocalizedString("Unknown Offence", bundle: .mpolKit, comment: ""))
-        
-        let lastOccurredDateString: String
-        if let lastOccurred = history.lastOccurred {
-            lastOccurredDateString = DateFormatter.mediumNumericDate.string(from: lastOccurred)
-        } else {
-            lastOccurredDateString = NSLocalizedString("Unknown", bundle: .mpolKit, comment: "Unknown date")
-        }
-        cell.subtitleLabel.text = String(format: NSLocalizedString("Last occurred: %@", bundle: .mpolKit, comment: ""), lastOccurredDateString)
+        let text = textForItem(at: indexPath)
+        cell.titleLabel.text = text.title
+        cell.subtitleLabel.text = text.subtitle
         
         return cell
     }
@@ -115,7 +103,14 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
-        
+        let text = textForItem(at: indexPath)
+        return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: text.title, subtitle: text.subtitle, inWidth: itemWidth, compatibleWith: traitCollection, emphasis: .title)
+    }
+    
+    
+    /// MARK: - Private
+    
+    private func textForItem(at indexPath: IndexPath) -> (title: String, subtitle: String){
         let history = criminalHistory![indexPath.item]
         
         var offenceCountText = ""
@@ -131,9 +126,9 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
         }
         
         let title = offenceCountText + (history.offenceDescription?.ifNotEmpty() ?? NSLocalizedString("Unknown Offence", bundle: .mpolKit, comment: ""))
-        let detail = String(format: NSLocalizedString("Last occurred: %@", bundle: .mpolKit, comment: ""), lastOccurredDateString)
+        let subtitle = String(format: NSLocalizedString("Last occurred: %@", bundle: .mpolKit, comment: ""), lastOccurredDateString)
         
-        return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: title, subtitle: detail, inWidth: itemWidth, compatibleWith: traitCollection, emphasis: .title)
+        return (title, subtitle)
     }
     
 }
