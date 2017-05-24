@@ -108,7 +108,6 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
 //        
         let alert = sections[indexPath.section][indexPath.item]
         
-        let alertLevel = alert.level
         if let alertLevel = alert.level {
             if let cachedImage = statusDotCache[alertLevel] {
                 cell.imageView.image = cachedImage
@@ -117,8 +116,9 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
                 statusDotCache[alertLevel] = image
                 cell.imageView.image = image
             }
+        } else  {
+            cell.imageView.image = nil
         }
-        
         
         cell.titleLabel.text  = alert.title
         cell.detailLabel.text = alert.details
