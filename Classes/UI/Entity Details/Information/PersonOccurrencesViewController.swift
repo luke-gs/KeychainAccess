@@ -104,6 +104,7 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController {
         guard let collectionView = self.collectionView else { return }
         
         collectionView.register(CollectionViewFormDetailCell.self)
+        collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
     }
     
     open func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -114,6 +115,8 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController {
         let count =  events?.count ?? 0
         return count
     }
+    
+    // MARK: - UICollectionViewDelegate
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(of: CollectionViewFormDetailCell.self, for: indexPath)
@@ -128,6 +131,30 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController {
         
         return cell
     }
+    
+    open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if kind == UICollectionElementKindSectionHeader {
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
+            
+            // Probably a refactor point as well.
+            let eventCount = events?.count ?? 0
+            if eventCount > 0 {
+                let baseString = eventCount > 1 ? NSLocalizedString("%d ITEMS", bundle: .mpolKit, comment: "") : NSLocalizedString("%d ITEM", bundle: .mpolKit, comment: "")
+                header.text = String(format: baseString, eventCount)
+            } else {
+                header.text = nil
+            }
+            return header
+        }
+        return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
+    }
+    
+    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
+        return CollectionViewFormExpandingHeaderView.minimumHeight
+    }
+
+    // MARK: - Private
+    // Seems like a common pattern, potential refactor point to have a standard formatter for these?
     
     private func appropriateTextsFor(_ event: AnyObject) -> (titleText: String?, subtitleText: String?, detailText: String?) {
         let titleText: String?
