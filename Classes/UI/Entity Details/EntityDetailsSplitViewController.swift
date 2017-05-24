@@ -196,7 +196,7 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
         
         switch selectedRepresentation {
         case let person as Person:
-            return (generateInitialThumbnail(initials: person.initials!), .scaleAspectFill) // TODO: Get image from person
+            return (generateThumbnail(forInitials: person.initials!), .scaleAspectFill) // TODO: Get image from person
         case _ as Vehicle:
             return (nil, .scaleAspectFit) // vehicle image
         default:

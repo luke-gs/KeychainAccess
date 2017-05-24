@@ -90,7 +90,7 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
             if initials.isEmpty {
                 cell.thumbnailView.imageView.image = nil
             } else {
-                cell.thumbnailView.imageView.image = generateInitialThumbnail(initials: String(initials.reversed()))
+                cell.thumbnailView.imageView.image = generateThumbnail(forInitials: String(initials.reversed()))
                 cell.thumbnailView.imageView.contentMode = .scaleAspectFill
             }
         } else {

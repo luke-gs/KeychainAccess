@@ -114,7 +114,7 @@ public class EntityThumbnailView: UIControl {
 //                imageView.image = thumbnail
 //                imageView.contentMode = .scaleAspectFill
 //            } else {
-                imageView.image = generateInitialThumbnail(initials: person.initials!)
+                imageView.image = generateThumbnail(forInitials: person.initials!)
                 imageView.contentMode = .scaleAspectFill
 //            }
         case _ as Vehicle:
