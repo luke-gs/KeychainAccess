@@ -102,6 +102,7 @@ open class Entity: NSObject, Serialisable {
     
     // MARK: - Display
     
+    // TEMPORARY
     open func thumbnailImage(ofSize size: EntityThumbnailView.ThumbnailSize) -> (image: UIImage, mode: UIViewContentMode)? {
         return nil
     }

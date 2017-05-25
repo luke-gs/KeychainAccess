@@ -108,6 +108,7 @@ open class Vehicle: Entity {
         vehicleDescription = unboxer.unbox(key: "vehicleDescription")
     }
     
+    // TEMPORARY
     open override func thumbnailImage(ofSize size: EntityThumbnailView.ThumbnailSize) -> (UIImage, UIViewContentMode)? {
         let imageName: String
         switch size {

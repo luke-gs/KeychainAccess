@@ -186,6 +186,7 @@ open class Person: Entity {
     
     // MARK: - Display
     
+    // TEMPORARY
     open override func thumbnailImage(ofSize size: EntityThumbnailView.ThumbnailSize) -> (UIImage, UIViewContentMode)? {
         if let thumbnail = self.thumbnail {
             return (thumbnail, .scaleAspectFill)
