@@ -57,11 +57,10 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController {
     // Help!!
     private var events: [AnyObject]? {
         didSet {
-            if let events = events, events.count > 0 {
-                self.hasContent = true
-            } else {
-                self.hasContent = false
-            }
+            let eventCount = events?.count ?? 0
+            
+            hasContent = eventCount > 0
+            sidebarItem.count = UInt(eventCount)
             collectionView?.reloadData()
         }
     }
@@ -76,30 +75,10 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController {
     private var missingPersons: [MissingPerson]?
     private var familyIncidents: [FamilyIncident]?
     */
-    
-    // MARK: - Initializers
-    
-    public override init() {
-        super.init()
-        title = NSLocalizedString("Information", bundle: .mpolKit, comment: "")
-        
-        let sidebarItem = self.sidebarItem
-        sidebarItem.image         = UIImage(named: "iconGeneralInfo",       in: .mpolKit, compatibleWith: nil)
-        sidebarItem.selectedImage = UIImage(named: "iconGeneralInfoFilled", in: .mpolKit, compatibleWith: nil)
-    }
-    
-    public required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    
     // MARK: - View lifecycle
     
     open override func viewDidLoad() {
         super.viewDidLoad()
-        
-        noContentTitleLabel?.text = NSLocalizedString("No Person Found", bundle: .mpolKit, comment: "")
-        noContentSubtitleLabel?.text = NSLocalizedString("There are no details for this person", bundle: .mpolKit, comment: "")
         
         guard let collectionView = self.collectionView else { return }
         
@@ -116,21 +95,48 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController {
         return count
     }
     
-    // MARK: - UICollectionViewDelegate
-    
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(of: CollectionViewFormDetailCell.self, for: indexPath)
-
-        let event = events![indexPath.item]
+        cell.highlightStyle = .fade
+        cell.selectionStyle = .fade
+        cell.accessoryView = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
         
+        let event = events![indexPath.item]
         let cellTexts = appropriateTexts(for: event)
-
-        cell.titleLabel.text = cellTexts.0
-        cell.subtitleLabel.text = cellTexts.1
-        cell.detailLabel.text = cellTexts.2
+        
+        cell.titleLabel.text = cellTexts.titleText
+        cell.subtitleLabel.text = cellTexts.subtitleText
+        cell.detailLabel.text = cellTexts.detailText
         
         return cell
     }
+    
+    
+    // MARK: - UICollectionViewDelegate
+    
+    open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        
+        let detailViewController: UIViewController?
+        
+        switch events![indexPath.item] {
+        case let fieldContact as FieldContact:
+            let fieldContactVC = FieldContactDetailsViewController()
+            fieldContactVC.fieldContact = fieldContact
+            detailViewController = fieldContactVC
+        default:
+            detailViewController = nil
+        }
+        
+        guard let detailVC = detailViewController,
+            let navController = pushableSplitViewController?.navigationController ?? navigationController else { return }
+        
+        navController.pushViewController(detailVC, animated: true)
+    }
+    
+    
+    
+    // MARK: - CollectionViewDelegateFormLayout
     
     open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionElementKindSectionHeader {

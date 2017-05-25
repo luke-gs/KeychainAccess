@@ -105,7 +105,7 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
 //        cell.highlightStyle     = .fade
 //        cell.selectionStyle     = .fade
 //        cell.accessoryView = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
-//        
+
         let alert = sections[indexPath.section][indexPath.item]
         
         if let alertLevel = alert.level {

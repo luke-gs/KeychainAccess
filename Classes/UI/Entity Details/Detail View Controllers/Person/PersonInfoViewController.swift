@@ -234,6 +234,9 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
         return cell
     }
     
+    
+    // MARK: - UICollectionViewDelegate
+    
     open override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
         
@@ -249,7 +252,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
     }
     
     
-    // MARK: - CollectionViewDelegateMPOLLayout
+    // MARK: - CollectionViewDelegateFormLayout
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
         return CollectionViewFormExpandingHeaderView.minimumHeight
@@ -448,9 +451,8 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
     }
     
     
-    private func entityDetailCellDidSelectAdditionalDetails(_ cell: EntityDetailCollectionViewCell) {
+    @objc private func entityDetailCellDidSelectAdditionalDetails(_ cell: EntityDetailCollectionViewCell) {
     }
-    
     
     @objc private func entityThumbnailDidSelect(_ thumbnail: EntityThumbnailView) {
     }
