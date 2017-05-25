@@ -102,8 +102,8 @@ open class Person: Entity {
     
     open var thumbnail: UIImage? = #imageLiteral(resourceName: "Avatar 1")
     private lazy var initialThumbnail: UIImage = { [unowned self] in
-        if let initials = self.initials?.ifNotEmpty() {
-            return generateThumbnail(forInitials: initials)
+        if let initials = self.initials?.ifNotEmpty() {            
+            return UIImage.thumbnail(withInitials: initials)
         }
         return UIImage()
     }()
