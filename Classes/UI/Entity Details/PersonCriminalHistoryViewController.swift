@@ -1,14 +1,14 @@
 //
-//  PersonOrdersViewController.swift
-//  MPOLKit
+//  PersonCriminalHistoryViewController.swift
+//  Pods
 //
-//  Created by Rod Brown on 21/5/17.
+//  Created by Rod Brown on 23/5/17.
 //
 //
 
 import UIKit
 
-open class PersonOrdersViewController: EntityDetailCollectionViewController {
+open class PersonCriminalHistoryViewController: EntityDetailCollectionViewController {
     
     open override var entity: Entity? {
         get { return person }
@@ -17,13 +17,13 @@ open class PersonOrdersViewController: EntityDetailCollectionViewController {
     
     private var person: Person? {
         didSet {
-            orders = person?.interventionOrders
+            criminalHistory = person?.criminalHistory
         }
     }
     
-    private var orders: [InterventionOrder]? {
+    private var criminalHistory: [CriminalHistory]? {
         didSet {
-            let orderCount = orders?.count ?? 0
+            let orderCount = criminalHistory?.count ?? 0
             sidebarItem.count = UInt(orderCount)
             
             hasContent = orderCount > 0
@@ -36,7 +36,7 @@ open class PersonOrdersViewController: EntityDetailCollectionViewController {
         
         hasContent = false
         
-        title = NSLocalizedString("Orders", comment: "")
+        title = NSLocalizedString("Criminal History", comment: "")
         
         let sidebarItem = self.sidebarItem
         sidebarItem.image         = UIImage(named: "iconFormFolder",       in: .mpolKit, compatibleWith: nil)
@@ -51,44 +51,30 @@ open class PersonOrdersViewController: EntityDetailCollectionViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
         
-        noContentTitleLabel?.text = NSLocalizedString("No Orders Found", bundle: .mpolKit, comment: "")
-        noContentSubtitleLabel?.text = NSLocalizedString("This person has no related orders", bundle: .mpolKit, comment: "")
+        noContentTitleLabel?.text = NSLocalizedString("No Criminal History Found", bundle: .mpolKit, comment: "")
+        noContentSubtitleLabel?.text = NSLocalizedString("This person has no criminal history", bundle: .mpolKit, comment: "")
         
         guard let collectionView = self.collectionView else { return }
         
         collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
-        collectionView.register(CollectionViewFormDetailCell.self)
+        collectionView.register(CollectionViewFormSubtitleCell.self)
     }
     
     open func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return orders?.isEmpty ?? true ? 0 : 1
+        return criminalHistory?.isEmpty ?? true ? 0 : 1
     }
     
     open override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return orders?.count ?? 0
+        return criminalHistory?.count ?? 0
     }
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormDetailCell.self, for: indexPath)
-        //        cell.highlightStyle     = .fade
-        //        cell.selectionStyle     = .fade
-        //        cell.accessoryView = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
-        //
-        let order = orders![indexPath.item]
+        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
+        cell.emphasis = .title
         
-        if let type = order.type {
-            cell.titleLabel.text = String(format: NSLocalizedString("%@ Order", bundle: .mpolKit, comment: "Order Title"), type.localizedCapitalized)
-        } else {
-            cell.titleLabel.text = NSLocalizedString("Order (Unknown Type)", bundle: .mpolKit, comment: "")
-        }
-        
-        if let servedDate = order.servedDate {
-            cell.subtitleLabel.text = String(format: NSLocalizedString("Date served: %@", bundle: .mpolKit, comment: ""), DateFormatter.mediumNumericDate.string(from: servedDate))
-        } else {
-            cell.subtitleLabel.text = NSLocalizedString("Date served unknown", bundle: .mpolKit, comment: "")
-        }
-        
-        cell.detailLabel.text = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu."
+        let text = textForItem(at: indexPath)
+        cell.titleLabel.text = text.title
+        cell.subtitleLabel.text = text.subtitle
         
         return cell
     }
@@ -97,9 +83,9 @@ open class PersonOrdersViewController: EntityDetailCollectionViewController {
         if kind == UICollectionElementKindSectionHeader {
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
             
-            let orderCount = orders?.count ?? 0
+            let orderCount = criminalHistory?.count ?? 0
             if orderCount > 0 {
-                let baseString = orderCount > 1 ? NSLocalizedString("%d ORDERS", bundle: .mpolKit, comment: "") : NSLocalizedString("%d ORDER", bundle: .mpolKit, comment: "")
+                let baseString = orderCount > 1 ? NSLocalizedString("%d ITEMS", bundle: .mpolKit, comment: "") : NSLocalizedString("%d ITEM", bundle: .mpolKit, comment: "")
                 header.text = String(format: baseString, orderCount)
             } else {
                 header.text = nil
@@ -117,10 +103,32 @@ open class PersonOrdersViewController: EntityDetailCollectionViewController {
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
-        let height = CollectionViewFormDetailCell.minimumContentHeight(withImageSize: UIImage.statusDotFrameSize, compatibleWith: traitCollection)
-        
-        return height
+        let text = textForItem(at: indexPath)
+        return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: text.title, subtitle: text.subtitle, inWidth: itemWidth, compatibleWith: traitCollection, emphasis: .title)
     }
-
+    
+    
+    /// MARK: - Private
+    
+    private func textForItem(at indexPath: IndexPath) -> (title: String, subtitle: String){
+        let history = criminalHistory![indexPath.item]
+        
+        var offenceCountText = ""
+        if let offenceCount = history.offenceCount {
+            offenceCountText = "(\(offenceCount)) "
+        }
+        
+        let lastOccurredDateString: String
+        if let lastOccurred = history.lastOccurred {
+            lastOccurredDateString = DateFormatter.mediumNumericDate.string(from: lastOccurred)
+        } else {
+            lastOccurredDateString = NSLocalizedString("Unknown", bundle: .mpolKit, comment: "Unknown date")
+        }
+        
+        let title = offenceCountText + (history.offenceDescription?.ifNotEmpty() ?? NSLocalizedString("Unknown Offence", bundle: .mpolKit, comment: ""))
+        let subtitle = String(format: NSLocalizedString("Last occurred: %@", bundle: .mpolKit, comment: ""), lastOccurredDateString)
+        
+        return (title, subtitle)
+    }
     
 }

@@ -18,16 +18,19 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
     }
     
     open class func detailViewControllers(for entity: Entity) -> [EntityDetailCollectionViewController] {
+        /// This is nasty.
         var viewControllers = [
             EntityAlertsViewController(),
             EntityAssociationsViewController(),
-            EntityOccurrencesViewController()
         ]
-    
         switch entity {
         case _ as Person:
             viewControllers.insert(PersonInfoViewController(), at: 0)
-            viewControllers.append(PersonOrdersViewController())
+            viewControllers += [
+                PersonOccurrencesViewController(),
+                PersonOrdersViewController(),
+                PersonCriminalHistoryViewController()
+            ]
         default:
             break
         }
@@ -194,8 +197,8 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
     private func headerIconAndMode() -> (image: UIImage?, mode: UIViewContentMode) {
         
         switch selectedRepresentation {
-        case _ as Person:
-            return (#imageLiteral(resourceName: "Avatar 1"), .scaleAspectFill) // TODO: Get image from person
+        case let person as Person:
+            return (generateThumbnail(forInitials: person.initials!), .scaleAspectFill) // TODO: Get image from person
         case _ as Vehicle:
             return (nil, .scaleAspectFit) // vehicle image
         default:

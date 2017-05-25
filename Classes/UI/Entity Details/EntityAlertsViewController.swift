@@ -17,14 +17,14 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
             updateNoContentSubtitle()
             let sidebarItem = self.sidebarItem
             
-            guard var alerts = entity?.alerts?.sorted(by: { $0.level.rawValue > $1.level.rawValue }), alerts.isEmpty == false else {
+            guard var alerts = entity?.alerts?.sorted(by: { ($0.level ?? 0) > ($1.level ?? 0) }), alerts.isEmpty == false else {
                 self.sections = []
                 sidebarItem.count = 0
                 return
             }
             
             sidebarItem.count = UInt(alerts.count)
-            sidebarItem.alertColor = alerts.first?.level.color
+            sidebarItem.alertColor = alerts.first?.level?.color
             
             var sections: [[Alert]] = []
             while let firstAlertLevel = alerts.first?.level {
@@ -108,13 +108,16 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
 //        
         let alert = sections[indexPath.section][indexPath.item]
         
-        let alertLevel = alert.level
-        if let cachedImage = statusDotCache[alertLevel] {
-            cell.imageView.image = cachedImage
-        } else {
-            let image = UIImage.statusDot(withColor: alertLevel.color)
-            statusDotCache[alertLevel] = image
-            cell.imageView.image = image
+        if let alertLevel = alert.level {
+            if let cachedImage = statusDotCache[alertLevel] {
+                cell.imageView.image = cachedImage
+            } else {
+                let image = UIImage.statusDot(withColor: alertLevel.color!)
+                statusDotCache[alertLevel] = image
+                cell.imageView.image = image
+            }
+        } else  {
+            cell.imageView.image = nil
         }
         
         cell.titleLabel.text  = alert.title
@@ -135,9 +138,8 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
             
             let alerts = sections[indexPath.section]
             let alertCount = alerts.count
-            if alertCount > 0 {
-                let alertLevel = alerts.first!.level
-                header.text = "\(alertCount) \(alertLevel.localizedDescription(plural: alertCount > 1).localizedUppercase) "
+            if alertCount > 0, let levelDescription = alerts.first!.level?.localizedDescription(plural: alertCount > 1) {
+                header.text = "\(alertCount) \(levelDescription.localizedUppercase) "
             } else {
                 header.text = nil
             }
@@ -149,24 +151,12 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
     
     // MARK: - UICollectionViewDelegate
     
-    open override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
-        
-        if let alertCell = cell as? CollectionViewFormDetailCell {
-            alertCell.titleLabel.textColor    = primaryTextColor
-            alertCell.subtitleLabel.textColor = secondaryTextColor
-            alertCell.detailLabel.textColor   = primaryTextColor
-        }
-    }
-    
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
         return CollectionViewFormExpandingHeaderView.minimumHeight
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
-        let height = CollectionViewFormDetailCell.minimumContentHeight(withImageSize: UIImage.statusDotFrameSize, compatibleWith: traitCollection)
-        
-        return height
+        return CollectionViewFormDetailCell.minimumContentHeight(withImageSize: UIImage.statusDotFrameSize, compatibleWith: traitCollection)
     }
     
     

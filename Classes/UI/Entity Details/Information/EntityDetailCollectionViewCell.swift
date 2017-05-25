@@ -11,31 +11,31 @@ import UIKit
 private var kvoContext = 1
 private let compactWidth: CGFloat = 404.0
 
-public class EntityDetailCollectionViewCell: CollectionViewFormCell {
+open class EntityDetailCollectionViewCell: CollectionViewFormCell {
     
     // MARK: - Public properties
     
     /// The thumbnail view for the cell.
-    public var thumbnailView = EntityThumbnailView(frame: .zero)
+    open var thumbnailView = EntityThumbnailView(frame: .zero)
     
     
     /// The source label.
-    public let sourceLabel = RoundedRectLabel(frame: .zero)
+    open let sourceLabel = RoundedRectLabel(frame: .zero)
     
     
     /// The title label. This should be used for details such as the driver's name,
     /// vehicle's registration, etc.
-    public let titleLabel = UILabel(frame: .zero)
+    open let titleLabel = UILabel(frame: .zero)
     
 
     /// The subtitle label. This should be used for ancillery entity details.
-    public let subtitleLabel = UILabel(frame: .zero)
+    open let subtitleLabel = UILabel(frame: .zero)
     
     
     /// The description label. This should be a description of the entity, attributes etc.
-    public let descriptionLabel = UILabel(frame: .zero)
+    open let descriptionLabel = UILabel(frame: .zero)
     
-    public var isDescriptionPlaceholder: Bool = false {
+    open var isDescriptionPlaceholder: Bool = false {
         didSet {
             let textStyle: UIFontTextStyle = isDescriptionPlaceholder ? .subheadline : .headline
             if #available(iOS 10, *) {
@@ -48,14 +48,14 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
     
     
     /// A button for selecting/entering additional details.
-    public var additionalDetailsButton = UIButton(type: .system)
+    open var additionalDetailsButton = UIButton(type: .system)
     
     
     /// The additional description action method.
     ///
     /// It is recommended that you set this handler, rather than becoming
     /// a target action receiver directly.
-    public var additionalDetailsButtonActionHandler: ((EntityDetailCollectionViewCell) -> Void)?
+    open var additionalDetailsButtonActionHandler: ((EntityDetailCollectionViewCell) -> Void)?
     
     
     
@@ -336,11 +336,11 @@ public class EntityDetailCollectionViewCell: CollectionViewFormCell {
     
     // MARK: - Sizing
     
-    public class func displaysAsCompact(withContentWidth width: CGFloat) -> Bool {
+    open class func displaysAsCompact(withContentWidth width: CGFloat) -> Bool {
         return width <=~ compactWidth
     }
     
-    public class func minimumContentHeight(withTitle title: String?, subtitle: String?, description: String?, descriptionPlaceholder: String?, additionalDetails: String?, source: String?, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
+    open class func minimumContentHeight(withTitle title: String?, subtitle: String?, description: String?, descriptionPlaceholder: String?, additionalDetails: String?, source: String?, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
         
         let displayAsCompact = displaysAsCompact(withContentWidth: width)
         let displayScale = traitCollection.currentDisplayScale

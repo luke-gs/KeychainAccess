@@ -37,10 +37,13 @@ open class EntityDetailsSidebarHeaderView: UIView {
         preservesSuperviewLayoutMargins = true
         accessibilityTraits |= UIAccessibilityTraitHeader
         
+        let secondaryColor = #colorLiteral(red: 0.5561795831, green: 0.5791077614, blue: 0.6335693598, alpha: 1)
+        
         thumbnailView.translatesAutoresizingMaskIntoConstraints = false
         thumbnailView.contentMode = .scaleAspectFit
         thumbnailView.backgroundColor = #colorLiteral(red: 0.1642476916, green: 0.1795658767, blue: 0.2130921185, alpha: 1)
         thumbnailView.clipsToBounds = true
+        thumbnailView.tintColor = secondaryColor
         
         let thumbnailLayer = thumbnailView.layer
         thumbnailLayer.cornerRadius = 32.0
@@ -48,8 +51,6 @@ open class EntityDetailsSidebarHeaderView: UIView {
         thumbnailLayer.rasterizationScale = traitCollection.currentDisplayScale
         
         addSubview(thumbnailView)
-        
-        let secondaryColor = #colorLiteral(red: 0.5561795831, green: 0.5791077614, blue: 0.6335693598, alpha: 1)
         
         typeLabel.translatesAutoresizingMaskIntoConstraints = false
         typeLabel.adjustsFontSizeToFitWidth = true

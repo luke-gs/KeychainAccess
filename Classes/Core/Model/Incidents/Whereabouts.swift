@@ -66,6 +66,10 @@ open class WhereaboutsRemark: NSObject, Serialisable {
     open var text: String?
     open var action: String?
     
+    override public init() {
+        super.init()
+    }
+        
     public required init(unboxer: Unboxer) throws {
         reportDate = unboxer.unbox(key: "reportDate", formatter: dateTransformer)
         text = unboxer.unbox(key: "text")

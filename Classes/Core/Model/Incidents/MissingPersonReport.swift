@@ -1,5 +1,5 @@
 //
-//  MissingPerson.swift
+//  MissingPersonReport.swift
 //  MPOLKit
 //
 //  Created by Herli Halim on 21/5/17.
@@ -8,7 +8,7 @@
 
 import Unbox
 
-open class MissingPerson: NSObject, Serialisable {
+open class MissingPersonReport: NSObject, Serialisable {
 
     open let id: String
     
@@ -49,13 +49,13 @@ open class MissingPerson: NSObject, Serialisable {
         self.id = id
         
         subincidentID = unboxer.unbox(key: "subincidentId")
-        missingFromDate = unboxer.unbox(key: "missingFrom", formatter: MissingPerson.dateTransformer)
-        reportedDate = unboxer.unbox(key: "reported", formatter: MissingPerson.dateTransformer)
+        missingFromDate = unboxer.unbox(key: "missingFrom", formatter: MissingPersonReport.dateTransformer)
+        reportedDate = unboxer.unbox(key: "reported", formatter: MissingPersonReport.dateTransformer)
         fullName = unboxer.unbox(key: "fullName")
         
-        foundDate = unboxer.unbox(key: "found", formatter: MissingPerson.dateTransformer)
+        foundDate = unboxer.unbox(key: "found", formatter: MissingPersonReport.dateTransformer)
         // Note delcaration
-        declarationDate = unboxer.unbox(key: "delcaration", formatter: MissingPerson.dateTransformer)
+        declarationDate = unboxer.unbox(key: "delcaration", formatter: MissingPersonReport.dateTransformer)
         lastKnownLocation = unboxer.unbox(key: "lastKnownLocation")
         
         physicalHealthDescription = unboxer.unbox(key: "physicalHealth")
