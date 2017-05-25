@@ -109,7 +109,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
             let person: Person = try! unbox(data: data)
 
             tabBarController.viewControllers = [pushableSVNavController, UINavigationController(rootViewController: sidebarSplitViewController), EntityDetailsSplitViewController(entity: person)]
-            self.window?.rootViewController = tabBarController
+//            self.window?.rootViewController = tabBarController
+            let bailOrder = person.bailOrders![0]
+            self.window?.rootViewController = UINavigationController(rootViewController:BailOrderViewController(bailOrder: bailOrder))
         }
         
         if animated, let window = self.window {
