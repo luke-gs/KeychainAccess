@@ -21,11 +21,12 @@ open class FieldContact: NSObject, Serialisable {
     open var areaType: String?
     
     // MARK: - ????
+    open var contactLocation: String?
     open var locationResponseZone: String?
     open var neighbourhoodWatchArea: String?
-    open var contactLocation: String?
-    open var contactDescriptions: [String]?
     open var localGovernmentArea: String?
+    
+    open var contactDescriptions: [String]?
     open var reportingStation: String?
     
     public init(id: String) {
