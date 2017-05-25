@@ -164,6 +164,7 @@
 		BCFB7FBE1ED645AB00567111 /* PersonOccurrencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFB7FB21ED645AB00567111 /* PersonOccurrencesViewController.swift */; };
 		BCFB7FBF1ED645AB00567111 /* PersonOrdersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFB7FB31ED645AB00567111 /* PersonOrdersViewController.swift */; };
 		BCFB7FC01ED645AB00567111 /* VehicleInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFB7FB51ED645AB00567111 /* VehicleInfoViewController.swift */; };
+		BCFB7FC51ED65E6600567111 /* FieldContactDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFB7FC41ED65E6600567111 /* FieldContactDetailsViewController.swift */; };
 		BD82DB973917FDA8B4630B6CCB62E5B6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21D9747C4F0C7AB73D10DA3FF02ADAE5 /* Foundation.framework */; };
 		BD83BB2C2EE6CC9AF27DE3E6B840919E /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4F4F34FA50AFA9401EAAE8BF5B8E01 /* Theme.swift */; };
 		BDFA2DAA100EECB69249B9EBC387A429 /* ManifestEntry+Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F41BCAD8C06AA0A602B26F3854AE21 /* ManifestEntry+Location.swift */; };
@@ -479,6 +480,7 @@
 		BCFB7FB21ED645AB00567111 /* PersonOccurrencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonOccurrencesViewController.swift; sourceTree = "<group>"; };
 		BCFB7FB31ED645AB00567111 /* PersonOrdersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonOrdersViewController.swift; sourceTree = "<group>"; };
 		BCFB7FB51ED645AB00567111 /* VehicleInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleInfoViewController.swift; sourceTree = "<group>"; };
+		BCFB7FC41ED65E6600567111 /* FieldContactDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FieldContactDetailsViewController.swift; sourceTree = "<group>"; };
 		C2CDEF4A2F7B0DDFB3C7EBFB5686DA94 /* SourceBar.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SourceBar.swift; sourceTree = "<group>"; };
 		C3983393D260434CBF59A21903892043 /* URLJSONRequestOperation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = URLJSONRequestOperation.swift; sourceTree = "<group>"; };
 		C46FEE5782C683C69AAC8B25FA3513CB /* Wrap-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Wrap-umbrella.h"; sourceTree = "<group>"; };
@@ -1104,6 +1106,7 @@
 				BCFB7FB11ED645AB00567111 /* PersonInfoViewController.swift */,
 				BCFB7FB21ED645AB00567111 /* PersonOccurrencesViewController.swift */,
 				BCFB7FB31ED645AB00567111 /* PersonOrdersViewController.swift */,
+				BCFB7FC31ED65E6600567111 /* Occurrence Details */,
 			);
 			path = Person;
 			sourceTree = "<group>";
@@ -1114,6 +1117,14 @@
 				BCFB7FB51ED645AB00567111 /* VehicleInfoViewController.swift */,
 			);
 			path = Vehicle;
+			sourceTree = "<group>";
+		};
+		BCFB7FC31ED65E6600567111 /* Occurrence Details */ = {
+			isa = PBXGroup;
+			children = (
+				BCFB7FC41ED65E6600567111 /* FieldContactDetailsViewController.swift */,
+			);
+			path = "Occurrence Details";
 			sourceTree = "<group>";
 		};
 		C59A6F457749813FF0EFE4F78C11575F /* Collection Reusable Views */ = {
@@ -1602,6 +1613,7 @@
 				5D65B661A20511E1A108750135F1A5EE /* EntityDetailsSplitViewController.swift in Sources */,
 				BCA5A1331ED18E5F0088A164 /* BailOrder.swift in Sources */,
 				2D19653472E4EE7BC30DCA8470D2CC5D /* EntityThumbnailView.swift in Sources */,
+				BCFB7FC51ED65E6600567111 /* FieldContactDetailsViewController.swift in Sources */,
 				FCF4CE386BC51692D3032B4C3550CA08 /* EpochDateTransformer+UnboxFormatter.swift in Sources */,
 				6A61B9E31E44CBCC64DE06D1F31D5973 /* EpochDateTransformer.swift in Sources */,
 				A41886BF0A513F2876C771EF53D9BF93 /* ExclusivityController.swift in Sources */,

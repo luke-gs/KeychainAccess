@@ -95,23 +95,48 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController {
         return count
     }
     
-    // MARK: - UICollectionViewDelegate
-    
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(of: CollectionViewFormDetailCell.self, for: indexPath)
         cell.highlightStyle = .fade
         cell.selectionStyle = .fade
         cell.accessoryView = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
-
+        
         let event = events![indexPath.item]
         let cellTexts = appropriateTexts(for: event)
-
+        
         cell.titleLabel.text = cellTexts.0
         cell.subtitleLabel.text = cellTexts.1
         cell.detailLabel.text = cellTexts.2
         
         return cell
     }
+    
+    
+    // MARK: - UICollectionViewDelegate
+    
+    open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        
+        let detailViewController: UIViewController?
+        
+        switch events![indexPath.item] {
+        case let fieldContact as FieldContact:
+            let fieldContactVC = FieldContactDetailsViewController()
+            fieldContactVC.fieldContact = fieldContact
+            detailViewController = fieldContactVC
+        default:
+            detailViewController = nil
+        }
+        
+        guard let detailVC = detailViewController,
+            let navController = pushableSplitViewController?.navigationController ?? navigationController else { return }
+        
+        navController.pushViewController(detailVC, animated: true)
+    }
+    
+    
+    
+    // MARK: - CollectionViewDelegateFormLayout
     
     open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionElementKindSectionHeader {
