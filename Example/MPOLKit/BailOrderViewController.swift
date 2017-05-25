@@ -11,7 +11,40 @@ import MPOLKit
 
 class BailOrderViewController: FormCollectionViewController {
     
-    private var bailOrder: BailOrder?
+    public var bailOrder: BailOrder? {
+        didSet {
+            var sections: [(SectionType, [FormItem]?)] = [(.header, nil)]
+            
+            // Reporting Requirements
+            var reporting: [FormItem] = []
+            reporting.append(FormItem(title: "Reporting Requirements", detail: displayString(forArray: bailOrder?.reportingRequirements), image: nil))
+            reporting.append(FormItem(title: "Reporting To Station", detail: bailOrder?.reportingToStation, image: nil))
+            reporting.append(FormItem(title: "Conditions", detail: displayString(forArray: bailOrder?.conditions), image: nil))
+            sections.append((.reporting, reporting))
+            
+            // Hearing Details
+            var hearing: [FormItem] = []
+            hearing.append(FormItem(title: "Hearing Date", detail: displayString(forDate: bailOrder?.hearingDate), image: nil))
+            hearing.append(FormItem(title: "Hearing Location", detail: bailOrder?.hearingLocation, image: nil))
+            sections.append((.hearing, hearing))
+            
+            // Informant Details
+            var informant: [FormItem] = []
+            informant.append(FormItem(title: "Informant Station", detail: bailOrder?.informantStation , image: nil))
+            informant.append((FormItem(title: "Informant Member", detail: bailOrder?.informantMember, image: nil)))
+            sections.append((.informant, informant))
+            
+            // Posted Details
+            var posted: [FormItem] = []
+            posted.append(FormItem(title: "Posted Date", detail: displayString(forDate: bailOrder?.postedDate), image: nil))
+            posted.append(FormItem(title: "Posted At", detail: bailOrder?.postedAt, image: nil))
+            posted.append(FormItem(title: "Has Owner Undetaking", detail: displayString(forBool: bailOrder?.hasOwnerUndertaking), image: nil))
+            posted.append(FormItem(title: "First Report Date", detail: displayString(forDate: bailOrder?.firstReportDate), image: nil))
+            sections.append((.posted, posted))
+            
+            self.sections = sections
+        }
+    }
     
     private static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -27,16 +60,12 @@ class BailOrderViewController: FormCollectionViewController {
     
     // MARK: - Initializers
     
-    public override init() {
+    public init(bailOrder: BailOrder!) {
         super.init()
         title = "Involvement Detail" //NSLocalizedString("Bail Order", bundle: .mpolKit, comment: "")
-    }
-    
-    public convenience init(bailOrder: BailOrder!) {
-        self.init()
-        self.bailOrder = bailOrder
-        
-        createFormDisplayItems()
+        defer {
+            self.bailOrder = bailOrder
+        }
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -152,40 +181,6 @@ class BailOrderViewController: FormCollectionViewController {
     }
     
     // MARK: - Private
-    
-    private func createFormDisplayItems() {
-        
-        var sections: [(SectionType, [FormItem]?)] = [(.header, nil)]
-        
-        // Reporting Requirements
-        var reporting: [FormItem] = []
-        reporting.append(FormItem(title: "Reporting Requirements", detail: displayString(forArray: bailOrder?.reportingRequirements), image: nil))
-        reporting.append(FormItem(title: "Reporting To Station", detail: bailOrder?.reportingToStation, image: nil))
-        reporting.append(FormItem(title: "Conditions", detail: displayString(forArray: bailOrder?.conditions), image: nil))
-        sections.append((.reporting, reporting))
-        
-        // Hearing Details
-        var hearing: [FormItem] = []
-        hearing.append(FormItem(title: "Hearing Date", detail: displayString(forDate: bailOrder?.hearingDate), image: nil))
-        hearing.append(FormItem(title: "Hearing Location", detail: bailOrder?.hearingLocation, image: nil))
-        sections.append((.hearing, hearing))
-        
-        // Informant Details
-        var informant: [FormItem] = []
-        informant.append(FormItem(title: "Informant Station", detail: bailOrder?.informantStation , image: nil))
-        informant.append((FormItem(title: "Informant Member", detail: bailOrder?.informantMember, image: nil)))
-        sections.append((.informant, informant))
-        
-        // Posted Details
-        var posted: [FormItem] = []
-        posted.append(FormItem(title: "Posted Date", detail: displayString(forDate: bailOrder?.postedDate), image: nil))
-        posted.append(FormItem(title: "Posted At", detail: bailOrder?.postedAt, image: nil))
-        posted.append(FormItem(title: "Has Owner Undetaking", detail: displayString(forBool: bailOrder?.hasOwnerUndertaking), image: nil))
-        posted.append(FormItem(title: "First Report Date", detail: displayString(forDate: bailOrder?.firstReportDate), image: nil))
-        sections.append((.posted, posted))
-        
-        self.sections = sections
-    }
     
     /// Iterates and appends an array of strings with a new line character. If the
     /// array is nil or its count is 0 it will return nil
