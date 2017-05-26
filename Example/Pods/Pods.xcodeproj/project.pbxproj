@@ -130,8 +130,8 @@
 		BBEFE2F9CEB73DC7BD97FFA66A0D9D4F /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031703E0BF6A73707FEFA7A7789E0682 /* Validation.swift */; };
 		BC4F33821ED3F3DF00198505 /* CriminalHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4F33811ED3F3DF00198505 /* CriminalHistory.swift */; };
 		BC4F338A1ED3FB4E00198505 /* String+EmptyFiltering.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4F33891ED3FB4E00198505 /* String+EmptyFiltering.swift */; };
+		BC4F79711ED68B5300A2D910 /* EventDetailHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4F79701ED68B5300A2D910 /* EventDetailHeaderCell.swift */; };
 		BC76CBE01ECE9E9B008F2562 /* DateFormatter+Static.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC76CBDE1ECE9DF3008F2562 /* DateFormatter+Static.swift */; };
-		BC945A631ED4EEBF00822D43 /* InitialThumbnailGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC945A621ED4EEBF00822D43 /* InitialThumbnailGenerator.swift */; };
 		BC9CD4021ED3991400D91786 /* Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9CD4011ED3991400D91786 /* Source.swift */; };
 		BCA1EA8F1ED1450C0050CABA /* PersonDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA1EA8D1ED142D40050CABA /* PersonDescription.swift */; };
 		BCA5A1331ED18E5F0088A164 /* BailOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA5A12C1ED18E5F0088A164 /* BailOrder.swift */; };
@@ -151,6 +151,7 @@
 		BCA5A14A1ED18EE80088A164 /* Warning.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA5A1441ED18EE80088A164 /* Warning.swift */; };
 		BCA5A14B1ED18EE80088A164 /* Warrant.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA5A1451ED18EE80088A164 /* Warrant.swift */; };
 		BCC611D71ED1963600610F0E /* Alias.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC611D51ED1945F00610F0E /* Alias.swift */; };
+		BCCCB6D71ED6C95400F1EF9D /* UIImage+Initials.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCCB6D61ED6C95400F1EF9D /* UIImage+Initials.swift */; };
 		BCDDBBF91ECEDAD700D66D45 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDDBBF51ECEDACB00D66D45 /* Contact.swift */; };
 		BCDDBBFA1ECEDAD700D66D45 /* Licence.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDDBBF61ECEDACB00D66D45 /* Licence.swift */; };
 		BCFB7FB61ED645AB00567111 /* EntityAlertsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFB7FA81ED645AB00567111 /* EntityAlertsViewController.swift */; };
@@ -446,8 +447,8 @@
 		BB01FCB7D8D5843875A3C0A312BB326E /* TableViewFormCheckboxCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TableViewFormCheckboxCell.swift; sourceTree = "<group>"; };
 		BC4F33811ED3F3DF00198505 /* CriminalHistory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CriminalHistory.swift; sourceTree = "<group>"; };
 		BC4F33891ED3FB4E00198505 /* String+EmptyFiltering.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+EmptyFiltering.swift"; sourceTree = "<group>"; };
+		BC4F79701ED68B5300A2D910 /* EventDetailHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailHeaderCell.swift; sourceTree = "<group>"; };
 		BC76CBDE1ECE9DF3008F2562 /* DateFormatter+Static.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Static.swift"; sourceTree = "<group>"; };
-		BC945A621ED4EEBF00822D43 /* InitialThumbnailGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialThumbnailGenerator.swift; sourceTree = "<group>"; };
 		BC9CD4011ED3991400D91786 /* Source.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Source.swift; sourceTree = "<group>"; };
 		BCA1EA8D1ED142D40050CABA /* PersonDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonDescription.swift; sourceTree = "<group>"; };
 		BCA5A12C1ED18E5F0088A164 /* BailOrder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BailOrder.swift; sourceTree = "<group>"; };
@@ -467,6 +468,7 @@
 		BCA5A1441ED18EE80088A164 /* Warning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Warning.swift; sourceTree = "<group>"; };
 		BCA5A1451ED18EE80088A164 /* Warrant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Warrant.swift; sourceTree = "<group>"; };
 		BCC611D51ED1945F00610F0E /* Alias.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alias.swift; sourceTree = "<group>"; };
+		BCCCB6D61ED6C95400F1EF9D /* UIImage+Initials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Initials.swift"; sourceTree = "<group>"; };
 		BCDDBBF51ECEDACB00D66D45 /* Contact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 		BCDDBBF61ECEDACB00D66D45 /* Licence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Licence.swift; sourceTree = "<group>"; };
 		BCFB7FA81ED645AB00567111 /* EntityAlertsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityAlertsViewController.swift; sourceTree = "<group>"; };
@@ -1122,6 +1124,7 @@
 		BCFB7FC31ED65E6600567111 /* Occurrence Details */ = {
 			isa = PBXGroup;
 			children = (
+				BC4F79701ED68B5300A2D910 /* EventDetailHeaderCell.swift */,
 				BCFB7FC41ED65E6600567111 /* FieldContactDetailsViewController.swift */,
 			);
 			path = "Occurrence Details";
@@ -1162,6 +1165,7 @@
 				BC4F33891ED3FB4E00198505 /* String+EmptyFiltering.swift */,
 				EEE536CA92E242F5F059E14D2D9ED171 /* UIColor+Hex.swift */,
 				D2C49B7D2E7A558EE793ECE52D59E3A8 /* UIImage+EntityImages.swift */,
+				BCCCB6D61ED6C95400F1EF9D /* UIImage+Initials.swift */,
 				92C21512636DEDD05FFAAF9C5E537DA6 /* UIImage+RoundedRects.swift */,
 				7FC6001AABA70C6901BC1082DD2FAF43 /* UIImage+StatusDot.swift */,
 				E36B17F070AFD7744739B5393C975DAF /* UITableView+SectionHeaderFooterFetch.swift */,
@@ -1232,7 +1236,6 @@
 			isa = PBXGroup;
 			children = (
 				CB1AFB10E2E28D7FAB17E80657D4D207 /* AlertQueue.swift */,
-				BC945A621ED4EEBF00822D43 /* InitialThumbnailGenerator.swift */,
 				35B68FC721EC9F41CF92234FAEF3839D /* KeyboardAnimationDetails.swift */,
 				EA3887A41BB0193629602911B58E98D0 /* LoginViewController.swift */,
 				3A8EC0CEE5AB7CCA4C5F4452FCE3D525 /* ScrollViewInsetManager.swift */,
@@ -1658,7 +1661,6 @@
 				2A1E7735E221E8A96875779A1A778E6A /* MapOverlayViewController.swift in Sources */,
 				F2CD77A1B47576D1B46DE46B9BE43926 /* ModelVersionable.swift in Sources */,
 				8ACC6258EC46592FA0C070EE80CAF2CB /* MPOLKit-dummy.m in Sources */,
-				BC945A631ED4EEBF00822D43 /* InitialThumbnailGenerator.swift in Sources */,
 				58C95CD29B040D09CE609EC33C396BA1 /* MPOLKitInitialize.swift in Sources */,
 				4FDB63F0142C373C6A8933C2D4E59F21 /* MutuallyExclusiveCondition.swift in Sources */,
 				10286CC8F24F738FDC63EED50C5C7236 /* NavigationBarExtension.swift in Sources */,
@@ -1669,6 +1671,7 @@
 				BCC611D71ED1963600610F0E /* Alias.swift in Sources */,
 				BCA5A1491ED18EE80088A164 /* TelephoneNumber.swift in Sources */,
 				B922BEF22C1073009413D84C5466AB65 /* OAuthAuthorizationGrant.swift in Sources */,
+				BCCCB6D71ED6C95400F1EF9D /* UIImage+Initials.swift in Sources */,
 				BCA5A1381ED18E5F0088A164 /* MissingPersonReport.swift in Sources */,
 				50BD062E124D2A452FEEDD6ABEDB7F95 /* Operation.swift in Sources */,
 				BCA5A14A1ED18EE80088A164 /* Warning.swift in Sources */,
@@ -1716,6 +1719,7 @@
 				CC56C2C0344F836AC8878287B997D65E /* UIColor+ActionColors.swift in Sources */,
 				12BD02D587281A8FE4D07AD8E5E03508 /* UIColor+Hex.swift in Sources */,
 				4B6AFF8E57B524ACA72B7F8748C7C41A /* UIContentSizeCategoryLegacyAdjusting.swift in Sources */,
+				BC4F79711ED68B5300A2D910 /* EventDetailHeaderCell.swift in Sources */,
 				D22AF5AAB3902DD9A09D05A3E1160579 /* UIEdgeInsets+Convenience.swift in Sources */,
 				BCA5A1371ED18E5F0088A164 /* InterventionOrder.swift in Sources */,
 				44608992CBAF0D135D56A85B7CB5D9F3 /* UIFont+TextStyle.swift in Sources */,

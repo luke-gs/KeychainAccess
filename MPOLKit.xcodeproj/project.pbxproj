@@ -11,6 +11,20 @@
 		BC4F33841ED3F41F00198505 /* CriminalHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4F33831ED3F41F00198505 /* CriminalHistory.swift */; };
 		BC9CD4041ED3994700D91786 /* Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9CD4031ED3994700D91786 /* Source.swift */; };
 		BCDDBBFC1ECEDB9600D66D45 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDDBBFB1ECEDB9600D66D45 /* Alert.swift */; };
+		BCFB7FDC1ED66E6700567111 /* EntityAlertsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFB7FCA1ED66E6700567111 /* EntityAlertsViewController.swift */; };
+		BCFB7FDD1ED66E6700567111 /* EntityAssociationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFB7FCB1ED66E6700567111 /* EntityAssociationsViewController.swift */; };
+		BCFB7FDE1ED66E6700567111 /* EntityDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFB7FCC1ED66E6700567111 /* EntityDetailCollectionViewCell.swift */; };
+		BCFB7FDF1ED66E6700567111 /* EntityDetailsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFB7FCD1ED66E6700567111 /* EntityDetailsCollectionViewController.swift */; };
+		BCFB7FE01ED66E6700567111 /* EntityOccurrencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFB7FCE1ED66E6700567111 /* EntityOccurrencesViewController.swift */; };
+		BCFB7FE11ED66E6700567111 /* OrganizationInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFB7FD01ED66E6700567111 /* OrganizationInfoViewController.swift */; };
+		BCFB7FE21ED66E6700567111 /* FieldContactDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFB7FD31ED66E6700567111 /* FieldContactDetailsViewController.swift */; };
+		BCFB7FE31ED66E6700567111 /* PersonCriminalHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFB7FD41ED66E6700567111 /* PersonCriminalHistoryViewController.swift */; };
+		BCFB7FE41ED66E6700567111 /* PersonInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFB7FD51ED66E6700567111 /* PersonInfoViewController.swift */; };
+		BCFB7FE51ED66E6700567111 /* PersonOccurrencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFB7FD61ED66E6700567111 /* PersonOccurrencesViewController.swift */; };
+		BCFB7FE61ED66E6700567111 /* PersonOrdersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFB7FD71ED66E6700567111 /* PersonOrdersViewController.swift */; };
+		BCFB7FE71ED66E6700567111 /* VehicleInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFB7FD91ED66E6700567111 /* VehicleInfoViewController.swift */; };
+		BCFB7FE81ED66E6700567111 /* EntityDetailsSidebarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFB7FDA1ED66E6700567111 /* EntityDetailsSidebarHeaderView.swift */; };
+		BCFB7FE91ED66E6700567111 /* EntityDetailsSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFB7FDB1ED66E6700567111 /* EntityDetailsSplitViewController.swift */; };
 		C605F8901ECCAB2C001194DD /* MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C605F8861ECCAB2B001194DD /* MPOLKit.framework */; };
 		C605F8951ECCAB2C001194DD /* MPOLKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F8941ECCAB2C001194DD /* MPOLKitTests.swift */; };
 		C605F8A81ECCAD3B001194DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C605F8A31ECCAD3B001194DD /* Assets.xcassets */; };
@@ -104,8 +118,6 @@
 		C605F9B31ECCAD48001194DD /* EntityCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F91C1ECCAD47001194DD /* EntityCollectionViewCell.swift */; };
 		C605F9B41ECCAD48001194DD /* GalleryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F91D1ECCAD47001194DD /* GalleryCollectionViewCell.swift */; };
 		C605F9B51ECCAD48001194DD /* StatsOverviewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F91E1ECCAD47001194DD /* StatsOverviewCollectionViewCell.swift */; };
-		C605F9B81ECCAD48001194DD /* EntityDetailsSidebarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F9221ECCAD47001194DD /* EntityDetailsSidebarHeaderView.swift */; };
-		C605F9B91ECCAD48001194DD /* EntityDetailsSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F9231ECCAD47001194DD /* EntityDetailsSplitViewController.swift */; };
 		C605F9C01ECCAD48001194DD /* Bundle+MPOLKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F92C1ECCAD47001194DD /* Bundle+MPOLKit.swift */; };
 		C605F9C11ECCAD48001194DD /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F92D1ECCAD47001194DD /* UIColor+Hex.swift */; };
 		C605F9C21ECCAD48001194DD /* UIImage+EntityImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F92E1ECCAD47001194DD /* UIImage+EntityImages.swift */; };
@@ -158,28 +170,13 @@
 		C60C891D1ECCBEC700785932 /* SimplePersonArrayNestedKeyPath.json in Resources */ = {isa = PBXBuildFile; fileRef = C60C89171ECCBEC700785932 /* SimplePersonArrayNestedKeyPath.json */; };
 		C60C891E1ECCBEC700785932 /* SimplePersonKeyPath.json in Resources */ = {isa = PBXBuildFile; fileRef = C60C89181ECCBEC700785932 /* SimplePersonKeyPath.json */; };
 		C60C891F1ECCBEC700785932 /* SimplePersonNestedKeyPath.json in Resources */ = {isa = PBXBuildFile; fileRef = C60C89191ECCBEC700785932 /* SimplePersonNestedKeyPath.json */; };
-		C684AF211ED67F62008E2E3D /* MissingPersonReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = C684AF201ED67F62008E2E3D /* MissingPersonReport.swift */; };
-		C684AF231ED67FAB008E2E3D /* String+EmptyFiltering.swift in Sources */ = {isa = PBXBuildFile; fileRef = C684AF221ED67FAB008E2E3D /* String+EmptyFiltering.swift */; };
-		C684AF351ED68008008E2E3D /* EntityAlertsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C684AF251ED68008008E2E3D /* EntityAlertsViewController.swift */; };
-		C684AF361ED68008008E2E3D /* EntityAssociationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C684AF261ED68008008E2E3D /* EntityAssociationsViewController.swift */; };
-		C684AF371ED68008008E2E3D /* EntityDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C684AF271ED68008008E2E3D /* EntityDetailCollectionViewCell.swift */; };
-		C684AF381ED68008008E2E3D /* EntityDetailsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C684AF281ED68008008E2E3D /* EntityDetailsCollectionViewController.swift */; };
-		C684AF391ED68008008E2E3D /* EntityOccurrencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C684AF291ED68008008E2E3D /* EntityOccurrencesViewController.swift */; };
-		C684AF3A1ED68008008E2E3D /* OrganizationInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C684AF2B1ED68008008E2E3D /* OrganizationInfoViewController.swift */; };
-		C684AF3B1ED68008008E2E3D /* FieldContactDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C684AF2E1ED68008008E2E3D /* FieldContactDetailsViewController.swift */; };
-		C684AF3C1ED68008008E2E3D /* PersonCriminalHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C684AF2F1ED68008008E2E3D /* PersonCriminalHistoryViewController.swift */; };
-		C684AF3D1ED68008008E2E3D /* PersonInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C684AF301ED68008008E2E3D /* PersonInfoViewController.swift */; };
-		C684AF3E1ED68008008E2E3D /* PersonOccurrencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C684AF311ED68008008E2E3D /* PersonOccurrencesViewController.swift */; };
-		C684AF3F1ED68008008E2E3D /* PersonOrdersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C684AF321ED68008008E2E3D /* PersonOrdersViewController.swift */; };
-		C684AF401ED68008008E2E3D /* VehicleInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C684AF341ED68008008E2E3D /* VehicleInfoViewController.swift */; };
-		C684AF421ED68428008E2E3D /* Person_25625aa4-3394-48e2-8dbc-2387498e16b0.json in Resources */ = {isa = PBXBuildFile; fileRef = C684AF411ED68428008E2E3D /* Person_25625aa4-3394-48e2-8dbc-2387498e16b0.json */; };
-		C684AF441ED68504008E2E3D /* CautionDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C684AF431ED68504008E2E3D /* CautionDetailsViewController.swift */; };
 		C6A56FC61ECFD65A00B844AB /* DateFormatter+Static.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A56FC51ECFD65A00B844AB /* DateFormatter+Static.swift */; };
 		C6A56FD11ED1464D00B844AB /* BailOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A56FCC1ED1464D00B844AB /* BailOrder.swift */; };
 		C6A56FD21ED1464D00B844AB /* FamilyIncident.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A56FCD1ED1464D00B844AB /* FamilyIncident.swift */; };
 		C6A56FD31ED1464D00B844AB /* FieldContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A56FCE1ED1464D00B844AB /* FieldContact.swift */; };
 		C6A56FD41ED1464D00B844AB /* InterventionOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A56FCF1ED1464D00B844AB /* InterventionOrder.swift */; };
 		C6A56FD51ED1464D00B844AB /* Interest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A56FD01ED1464D00B844AB /* Interest.swift */; };
+		C6A56FD71ED1501A00B844AB /* MissingPerson.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A56FD61ED1501A00B844AB /* MissingPerson.swift */; };
 		C6A56FD91ED1518200B844AB /* TelephoneNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A56FD81ED1518200B844AB /* TelephoneNumber.swift */; };
 		C6A56FDB1ED156DC00B844AB /* Whereabouts.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A56FDA1ED156DC00B844AB /* Whereabouts.swift */; };
 		C6A56FDD1ED159B600B844AB /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A56FDC1ED159B600B844AB /* Member.swift */; };
@@ -220,6 +217,20 @@
 		BC4F33831ED3F41F00198505 /* CriminalHistory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CriminalHistory.swift; sourceTree = "<group>"; };
 		BC9CD4031ED3994700D91786 /* Source.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Source.swift; sourceTree = "<group>"; };
 		BCDDBBFB1ECEDB9600D66D45 /* Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
+		BCFB7FCA1ED66E6700567111 /* EntityAlertsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityAlertsViewController.swift; sourceTree = "<group>"; };
+		BCFB7FCB1ED66E6700567111 /* EntityAssociationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityAssociationsViewController.swift; sourceTree = "<group>"; };
+		BCFB7FCC1ED66E6700567111 /* EntityDetailCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailCollectionViewCell.swift; sourceTree = "<group>"; };
+		BCFB7FCD1ED66E6700567111 /* EntityDetailsCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailsCollectionViewController.swift; sourceTree = "<group>"; };
+		BCFB7FCE1ED66E6700567111 /* EntityOccurrencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityOccurrencesViewController.swift; sourceTree = "<group>"; };
+		BCFB7FD01ED66E6700567111 /* OrganizationInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizationInfoViewController.swift; sourceTree = "<group>"; };
+		BCFB7FD31ED66E6700567111 /* FieldContactDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FieldContactDetailsViewController.swift; sourceTree = "<group>"; };
+		BCFB7FD41ED66E6700567111 /* PersonCriminalHistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonCriminalHistoryViewController.swift; sourceTree = "<group>"; };
+		BCFB7FD51ED66E6700567111 /* PersonInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonInfoViewController.swift; sourceTree = "<group>"; };
+		BCFB7FD61ED66E6700567111 /* PersonOccurrencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonOccurrencesViewController.swift; sourceTree = "<group>"; };
+		BCFB7FD71ED66E6700567111 /* PersonOrdersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonOrdersViewController.swift; sourceTree = "<group>"; };
+		BCFB7FD91ED66E6700567111 /* VehicleInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleInfoViewController.swift; sourceTree = "<group>"; };
+		BCFB7FDA1ED66E6700567111 /* EntityDetailsSidebarHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailsSidebarHeaderView.swift; sourceTree = "<group>"; };
+		BCFB7FDB1ED66E6700567111 /* EntityDetailsSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailsSplitViewController.swift; sourceTree = "<group>"; };
 		C605F8861ECCAB2B001194DD /* MPOLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MPOLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C605F88F1ECCAB2C001194DD /* MPOLKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MPOLKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C605F8941ECCAB2C001194DD /* MPOLKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPOLKitTests.swift; sourceTree = "<group>"; };
@@ -315,8 +326,6 @@
 		C605F91C1ECCAD47001194DD /* EntityCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityCollectionViewCell.swift; sourceTree = "<group>"; };
 		C605F91D1ECCAD47001194DD /* GalleryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryCollectionViewCell.swift; sourceTree = "<group>"; };
 		C605F91E1ECCAD47001194DD /* StatsOverviewCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsOverviewCollectionViewCell.swift; sourceTree = "<group>"; };
-		C605F9221ECCAD47001194DD /* EntityDetailsSidebarHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailsSidebarHeaderView.swift; sourceTree = "<group>"; };
-		C605F9231ECCAD47001194DD /* EntityDetailsSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailsSplitViewController.swift; sourceTree = "<group>"; };
 		C605F92C1ECCAD47001194DD /* Bundle+MPOLKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bundle+MPOLKit.swift"; sourceTree = "<group>"; };
 		C605F92D1ECCAD47001194DD /* UIColor+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
 		C605F92E1ECCAD47001194DD /* UIImage+EntityImages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+EntityImages.swift"; sourceTree = "<group>"; };
@@ -367,28 +376,13 @@
 		C60C89181ECCBEC700785932 /* SimplePersonKeyPath.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SimplePersonKeyPath.json; sourceTree = "<group>"; };
 		C60C89191ECCBEC700785932 /* SimplePersonNestedKeyPath.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SimplePersonNestedKeyPath.json; sourceTree = "<group>"; };
 		C60C89261ECD420900785932 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
-		C684AF201ED67F62008E2E3D /* MissingPersonReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MissingPersonReport.swift; sourceTree = "<group>"; };
-		C684AF221ED67FAB008E2E3D /* String+EmptyFiltering.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+EmptyFiltering.swift"; sourceTree = "<group>"; };
-		C684AF251ED68008008E2E3D /* EntityAlertsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityAlertsViewController.swift; sourceTree = "<group>"; };
-		C684AF261ED68008008E2E3D /* EntityAssociationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityAssociationsViewController.swift; sourceTree = "<group>"; };
-		C684AF271ED68008008E2E3D /* EntityDetailCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailCollectionViewCell.swift; sourceTree = "<group>"; };
-		C684AF281ED68008008E2E3D /* EntityDetailsCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailsCollectionViewController.swift; sourceTree = "<group>"; };
-		C684AF291ED68008008E2E3D /* EntityOccurrencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityOccurrencesViewController.swift; sourceTree = "<group>"; };
-		C684AF2B1ED68008008E2E3D /* OrganizationInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizationInfoViewController.swift; sourceTree = "<group>"; };
-		C684AF2E1ED68008008E2E3D /* FieldContactDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FieldContactDetailsViewController.swift; sourceTree = "<group>"; };
-		C684AF2F1ED68008008E2E3D /* PersonCriminalHistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonCriminalHistoryViewController.swift; sourceTree = "<group>"; };
-		C684AF301ED68008008E2E3D /* PersonInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonInfoViewController.swift; sourceTree = "<group>"; };
-		C684AF311ED68008008E2E3D /* PersonOccurrencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonOccurrencesViewController.swift; sourceTree = "<group>"; };
-		C684AF321ED68008008E2E3D /* PersonOrdersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonOrdersViewController.swift; sourceTree = "<group>"; };
-		C684AF341ED68008008E2E3D /* VehicleInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleInfoViewController.swift; sourceTree = "<group>"; };
-		C684AF411ED68428008E2E3D /* Person_25625aa4-3394-48e2-8dbc-2387498e16b0.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Person_25625aa4-3394-48e2-8dbc-2387498e16b0.json"; sourceTree = "<group>"; };
-		C684AF431ED68504008E2E3D /* CautionDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CautionDetailsViewController.swift; sourceTree = "<group>"; };
 		C6A56FC51ECFD65A00B844AB /* DateFormatter+Static.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Static.swift"; sourceTree = "<group>"; };
 		C6A56FCC1ED1464D00B844AB /* BailOrder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BailOrder.swift; sourceTree = "<group>"; };
 		C6A56FCD1ED1464D00B844AB /* FamilyIncident.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FamilyIncident.swift; sourceTree = "<group>"; };
 		C6A56FCE1ED1464D00B844AB /* FieldContact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FieldContact.swift; sourceTree = "<group>"; };
 		C6A56FCF1ED1464D00B844AB /* InterventionOrder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterventionOrder.swift; sourceTree = "<group>"; };
 		C6A56FD01ED1464D00B844AB /* Interest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Interest.swift; sourceTree = "<group>"; };
+		C6A56FD61ED1501A00B844AB /* MissingPerson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MissingPerson.swift; sourceTree = "<group>"; };
 		C6A56FD81ED1518200B844AB /* TelephoneNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TelephoneNumber.swift; sourceTree = "<group>"; };
 		C6A56FDA1ED156DC00B844AB /* Whereabouts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Whereabouts.swift; sourceTree = "<group>"; };
 		C6A56FDC1ED159B600B844AB /* Member.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Member.swift; sourceTree = "<group>"; };
@@ -439,6 +433,67 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BCFB7FC81ED66E6700567111 /* Entity Details */ = {
+			isa = PBXGroup;
+			children = (
+				BCFB7FC91ED66E6700567111 /* Detail View Controllers */,
+				BCFB7FDA1ED66E6700567111 /* EntityDetailsSidebarHeaderView.swift */,
+				BCFB7FDB1ED66E6700567111 /* EntityDetailsSplitViewController.swift */,
+			);
+			path = "Entity Details";
+			sourceTree = "<group>";
+		};
+		BCFB7FC91ED66E6700567111 /* Detail View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				BCFB7FCA1ED66E6700567111 /* EntityAlertsViewController.swift */,
+				BCFB7FCB1ED66E6700567111 /* EntityAssociationsViewController.swift */,
+				BCFB7FCC1ED66E6700567111 /* EntityDetailCollectionViewCell.swift */,
+				BCFB7FCD1ED66E6700567111 /* EntityDetailsCollectionViewController.swift */,
+				BCFB7FCE1ED66E6700567111 /* EntityOccurrencesViewController.swift */,
+				BCFB7FCF1ED66E6700567111 /* Organization */,
+				BCFB7FD11ED66E6700567111 /* Person */,
+				BCFB7FD81ED66E6700567111 /* Vehicle */,
+			);
+			path = "Detail View Controllers";
+			sourceTree = "<group>";
+		};
+		BCFB7FCF1ED66E6700567111 /* Organization */ = {
+			isa = PBXGroup;
+			children = (
+				BCFB7FD01ED66E6700567111 /* OrganizationInfoViewController.swift */,
+			);
+			path = Organization;
+			sourceTree = "<group>";
+		};
+		BCFB7FD11ED66E6700567111 /* Person */ = {
+			isa = PBXGroup;
+			children = (
+				BCFB7FD21ED66E6700567111 /* Occurrence Details */,
+				BCFB7FD41ED66E6700567111 /* PersonCriminalHistoryViewController.swift */,
+				BCFB7FD51ED66E6700567111 /* PersonInfoViewController.swift */,
+				BCFB7FD61ED66E6700567111 /* PersonOccurrencesViewController.swift */,
+				BCFB7FD71ED66E6700567111 /* PersonOrdersViewController.swift */,
+			);
+			path = Person;
+			sourceTree = "<group>";
+		};
+		BCFB7FD21ED66E6700567111 /* Occurrence Details */ = {
+			isa = PBXGroup;
+			children = (
+				BCFB7FD31ED66E6700567111 /* FieldContactDetailsViewController.swift */,
+			);
+			path = "Occurrence Details";
+			sourceTree = "<group>";
+		};
+		BCFB7FD81ED66E6700567111 /* Vehicle */ = {
+			isa = PBXGroup;
+			children = (
+				BCFB7FD91ED66E6700567111 /* VehicleInfoViewController.swift */,
+			);
+			path = Vehicle;
+			sourceTree = "<group>";
+		};
 		C605F87C1ECCAB2B001194DD = {
 			isa = PBXGroup;
 			children = (
@@ -764,7 +819,7 @@
 				C605F9131ECCAD47001194DD /* Abstract View Controllers */,
 				C605F9191ECCAD47001194DD /* AlertQueue.swift */,
 				C605F91A1ECCAD47001194DD /* Cells */,
-				C605F91F1ECCAD47001194DD /* Entity Details */,
+				BCFB7FC81ED66E6700567111 /* Entity Details */,
 				C605F92B1ECCAD47001194DD /* Extensions */,
 				BC0EFBF11ED45DAD008A3612 /* InitialThumbnailGenerator.swift */,
 				C605F9351ECCAD47001194DD /* Keyboard Input */,
@@ -806,30 +861,11 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
-		C605F91F1ECCAD47001194DD /* Entity Details */ = {
-			isa = PBXGroup;
-			children = (
-				C684AF241ED68008008E2E3D /* Detail View Controllers */,
-				C605F9221ECCAD47001194DD /* EntityDetailsSidebarHeaderView.swift */,
-				C605F9231ECCAD47001194DD /* EntityDetailsSplitViewController.swift */,
-				C605F9251ECCAD47001194DD /* Information */,
-			);
-			path = "Entity Details";
-			sourceTree = "<group>";
-		};
-		C605F9251ECCAD47001194DD /* Information */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Information;
-			sourceTree = "<group>";
-		};
 		C605F92B1ECCAD47001194DD /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				C605F92C1ECCAD47001194DD /* Bundle+MPOLKit.swift */,
 				C6A56FC51ECFD65A00B844AB /* DateFormatter+Static.swift */,
-				C684AF221ED67FAB008E2E3D /* String+EmptyFiltering.swift */,
 				C605F92D1ECCAD47001194DD /* UIColor+Hex.swift */,
 				C605F92E1ECCAD47001194DD /* UIImage+EntityImages.swift */,
 				C605F92F1ECCAD47001194DD /* UIImage+RoundedRects.swift */,
@@ -949,67 +985,15 @@
 			path = JSON;
 			sourceTree = "<group>";
 		};
-		C684AF241ED68008008E2E3D /* Detail View Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				C684AF251ED68008008E2E3D /* EntityAlertsViewController.swift */,
-				C684AF261ED68008008E2E3D /* EntityAssociationsViewController.swift */,
-				C684AF271ED68008008E2E3D /* EntityDetailCollectionViewCell.swift */,
-				C684AF281ED68008008E2E3D /* EntityDetailsCollectionViewController.swift */,
-				C684AF291ED68008008E2E3D /* EntityOccurrencesViewController.swift */,
-				C684AF2A1ED68008008E2E3D /* Organization */,
-				C684AF2C1ED68008008E2E3D /* Person */,
-				C684AF331ED68008008E2E3D /* Vehicle */,
-			);
-			path = "Detail View Controllers";
-			sourceTree = "<group>";
-		};
-		C684AF2A1ED68008008E2E3D /* Organization */ = {
-			isa = PBXGroup;
-			children = (
-				C684AF2B1ED68008008E2E3D /* OrganizationInfoViewController.swift */,
-			);
-			path = Organization;
-			sourceTree = "<group>";
-		};
-		C684AF2C1ED68008008E2E3D /* Person */ = {
-			isa = PBXGroup;
-			children = (
-				C684AF2D1ED68008008E2E3D /* Occurrence Details */,
-				C684AF2F1ED68008008E2E3D /* PersonCriminalHistoryViewController.swift */,
-				C684AF301ED68008008E2E3D /* PersonInfoViewController.swift */,
-				C684AF311ED68008008E2E3D /* PersonOccurrencesViewController.swift */,
-				C684AF321ED68008008E2E3D /* PersonOrdersViewController.swift */,
-			);
-			path = Person;
-			sourceTree = "<group>";
-		};
-		C684AF2D1ED68008008E2E3D /* Occurrence Details */ = {
-			isa = PBXGroup;
-			children = (
-				C684AF2E1ED68008008E2E3D /* FieldContactDetailsViewController.swift */,
-				C684AF431ED68504008E2E3D /* CautionDetailsViewController.swift */,
-			);
-			path = "Occurrence Details";
-			sourceTree = "<group>";
-		};
-		C684AF331ED68008008E2E3D /* Vehicle */ = {
-			isa = PBXGroup;
-			children = (
-				C684AF341ED68008008E2E3D /* VehicleInfoViewController.swift */,
-			);
-			path = Vehicle;
-			sourceTree = "<group>";
-		};
 		C6A56FC91ED1451500B844AB /* Incidents */ = {
 			isa = PBXGroup;
 			children = (
 				C6A56FCC1ED1464D00B844AB /* BailOrder.swift */,
 				C6A56FCD1ED1464D00B844AB /* FamilyIncident.swift */,
 				C6A56FCE1ED1464D00B844AB /* FieldContact.swift */,
-				C684AF201ED67F62008E2E3D /* MissingPersonReport.swift */,
 				C6A56FDA1ED156DC00B844AB /* Whereabouts.swift */,
 				C6A56FCF1ED1464D00B844AB /* InterventionOrder.swift */,
+				C6A56FD61ED1501A00B844AB /* MissingPerson.swift */,
 				C6A56FD01ED1464D00B844AB /* Interest.swift */,
 			);
 			path = Incidents;
@@ -1019,7 +1003,6 @@
 			isa = PBXGroup;
 			children = (
 				C6A5F0071ECE89A300B0D915 /* VehicleSearch.json */,
-				C684AF411ED68428008E2E3D /* Person_25625aa4-3394-48e2-8dbc-2387498e16b0.json */,
 				C6F5DED11ECD5C62008E7BE2 /* AccessToken.json */,
 			);
 			path = "Mock JSONs";
@@ -1125,7 +1108,6 @@
 				C6F5DED21ECD5C62008E7BE2 /* AccessToken.json in Resources */,
 				C605F8AA1ECCAD3B001194DD /* ThemePack.json in Resources */,
 				C605F8A81ECCAD3B001194DD /* Assets.xcassets in Resources */,
-				C684AF421ED68428008E2E3D /* Person_25625aa4-3394-48e2-8dbc-2387498e16b0.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1151,10 +1133,7 @@
 			files = (
 				C605F9691ECCAD48001194DD /* ParseError.swift in Sources */,
 				C605F8A91ECCAD3B001194DD /* Manifest.xcdatamodeld in Sources */,
-				C684AF3F1ED68008008E2E3D /* PersonOrdersViewController.swift in Sources */,
 				C605F95D1ECCAD48001194DD /* OAuthAccessToken.swift in Sources */,
-				C684AF361ED68008008E2E3D /* EntityAssociationsViewController.swift in Sources */,
-				C684AF351ED68008008E2E3D /* EntityAlertsViewController.swift in Sources */,
 				C605F9671ECCAD48001194DD /* Entity.swift in Sources */,
 				C605F96C1ECCAD48001194DD /* OAuthAuthorizationGrant.swift in Sources */,
 				C6F5DED61ECD5CE6008E7BE2 /* WebAPIProtocol.swift in Sources */,
@@ -1163,12 +1142,9 @@
 				C605F9961ECCAD48001194DD /* UITableViewCell+LayoutMargins.swift in Sources */,
 				C6BABED71ED17A6500E423CB /* Warrant.swift in Sources */,
 				C605F9641ECCAD48001194DD /* ManifestCollection.swift in Sources */,
-				C684AF231ED67FAB008E2E3D /* String+EmptyFiltering.swift in Sources */,
-				C605F9B81ECCAD48001194DD /* EntityDetailsSidebarHeaderView.swift in Sources */,
-				C684AF441ED68504008E2E3D /* CautionDetailsViewController.swift in Sources */,
+				BCFB7FDF1ED66E6700567111 /* EntityDetailsCollectionViewController.swift in Sources */,
 				C605F9D31ECCAD48001194DD /* PopoverViewController.swift in Sources */,
 				C6F5E01A1ECD6496008E7BE2 /* UIContentSizeCategoryLegacyAdjusting.swift in Sources */,
-				C605F9B91ECCAD48001194DD /* EntityDetailsSplitViewController.swift in Sources */,
 				C605F9CB1ECCAD48001194DD /* KeyboardAnimationDetails.swift in Sources */,
 				C605F9911ECCAD48001194DD /* UICollectionView+DefaultReuse.swift in Sources */,
 				C605F9861ECCAD48001194DD /* CollectionViewFormEditAction.swift in Sources */,
@@ -1182,6 +1158,7 @@
 				C605F9931ECCAD48001194DD /* UIEdgeInsets+Convenience.swift in Sources */,
 				C6A5F0061ECE820D00B0D915 /* Contact.swift in Sources */,
 				C605F9D11ECCAD48001194DD /* PopoverFormSheetPresentationController.swift in Sources */,
+				BCFB7FE91ED66E6700567111 /* EntityDetailsSplitViewController.swift in Sources */,
 				C605F9981ECCAD48001194DD /* UIView+Convenience.swift in Sources */,
 				C605F9C31ECCAD48001194DD /* UIImage+RoundedRects.swift in Sources */,
 				C605F97D1ECCAD48001194DD /* Serialisable.swift in Sources */,
@@ -1201,28 +1178,24 @@
 				C605F9A81ECCAD48001194DD /* SelectableButton.swift in Sources */,
 				C605F9D21ECCAD48001194DD /* PopoverNavigationController.swift in Sources */,
 				C6A56FD51ED1464D00B844AB /* Interest.swift in Sources */,
-				C684AF3E1ED68008008E2E3D /* PersonOccurrencesViewController.swift in Sources */,
 				C605F9CE1ECCAD48001194DD /* CommonConditions.swift in Sources */,
-				C684AF3C1ED68008008E2E3D /* PersonCriminalHistoryViewController.swift in Sources */,
-				C684AF3D1ED68008008E2E3D /* PersonInfoViewController.swift in Sources */,
-				C684AF371ED68008008E2E3D /* EntityDetailCollectionViewCell.swift in Sources */,
 				C605F9E41ECCAD48001194DD /* NavigationBarExtension.swift in Sources */,
 				C605F9951ECCAD48001194DD /* UITableView+DefaultReuse.swift in Sources */,
 				C605F9971ECCAD48001194DD /* UITraitCollection+CurrentDisplayScale.swift in Sources */,
 				C605F98A1ECCAD48001194DD /* CollectionViewFormTextFieldCell.swift in Sources */,
 				C605F9831ECCAD48001194DD /* CollectionViewFormCell.swift in Sources */,
+				BCFB7FE81ED66E6700567111 /* EntityDetailsSidebarHeaderView.swift in Sources */,
 				C605F9B01ECCAD48001194DD /* PushableSplitViewController.swift in Sources */,
 				C605F9791ECCAD48001194DD /* UnboxedURLRequestOperation.swift in Sources */,
 				C6A56FD21ED1464D00B844AB /* FamilyIncident.swift in Sources */,
 				C6A56FD11ED1464D00B844AB /* BailOrder.swift in Sources */,
+				BCFB7FE71ED66E6700567111 /* VehicleInfoViewController.swift in Sources */,
 				C6BABED31ED1788200E423CB /* Caution.swift in Sources */,
 				C605F9CF1ECCAD48001194DD /* PickerTableViewController.swift in Sources */,
 				C605F97B1ECCAD48001194DD /* DefaultCustomStringConvertible.swift in Sources */,
 				C605F9C91ECCAD48001194DD /* KeyboardInputManager.swift in Sources */,
 				C605F9A41ECCAD48001194DD /* CheckBox.swift in Sources */,
-				C684AF3B1ED68008008E2E3D /* FieldContactDetailsViewController.swift in Sources */,
 				C605F9C41ECCAD48001194DD /* UIImage+StatusDot.swift in Sources */,
-				C684AF3A1ED68008008E2E3D /* OrganizationInfoViewController.swift in Sources */,
 				C605F9941ECCAD48001194DD /* UIImage+FormIcons.swift in Sources */,
 				C605F95C1ECCAD48001194DD /* AuthenticationHeaderAdapter.swift in Sources */,
 				C605F9731ECCAD48001194DD /* ExclusivityController.swift in Sources */,
@@ -1238,8 +1211,10 @@
 				C6A5F0041ECE7E2900B0D915 /* Licence.swift in Sources */,
 				C605F96F1ECCAD48001194DD /* OperationCondition.swift in Sources */,
 				C605F9D41ECCAD48001194DD /* ScrollViewInsetManager.swift in Sources */,
+				BCFB7FDC1ED66E6700567111 /* EntityAlertsViewController.swift in Sources */,
 				C6F5E01E1ECD64EE008E7BE2 /* EntityThumbnailView.swift in Sources */,
 				C605F9B51ECCAD48001194DD /* StatsOverviewCollectionViewCell.swift in Sources */,
+				BCFB7FE61ED66E6700567111 /* PersonOrdersViewController.swift in Sources */,
 				C605F99D1ECCAD48001194DD /* DefaultReusable.swift in Sources */,
 				C605F9741ECCAD48001194DD /* OperationQueue.swift in Sources */,
 				C605F9AD1ECCAD48001194DD /* FormSearchTableViewController.swift in Sources */,
@@ -1254,14 +1229,16 @@
 				C605F9AF1ECCAD48001194DD /* MapOverlayViewController.swift in Sources */,
 				C605F97C1ECCAD48001194DD /* ModelVersionable.swift in Sources */,
 				C605F98C1ECCAD48001194DD /* Array+IfExists.swift in Sources */,
+				BCFB7FDD1ED66E6700567111 /* EntityAssociationsViewController.swift in Sources */,
 				C605F98E1ECCAD48001194DD /* CoreGraphics+Rounding.swift in Sources */,
 				C6A56FD91ED1518200B844AB /* TelephoneNumber.swift in Sources */,
 				C605F9611ECCAD48001194DD /* UserDefaults+MPOL.swift in Sources */,
 				C605F98D1ECCAD48001194DD /* CoreGraphics+Convenience.swift in Sources */,
 				C605F99E1ECCAD48001194DD /* TableViewFormCell.swift in Sources */,
-				C684AF401ED68008008E2E3D /* VehicleInfoViewController.swift in Sources */,
+				BCFB7FE01ED66E6700567111 /* EntityOccurrencesViewController.swift in Sources */,
 				C605F96E1ECCAD48001194DD /* MutuallyExclusiveCondition.swift in Sources */,
 				C6F5E01C1ECD649E008E7BE2 /* UIFont+TextStyle.swift in Sources */,
+				BCFB7FE41ED66E6700567111 /* PersonInfoViewController.swift in Sources */,
 				C6A56FE11ED1697200B844AB /* RiskFactor.swift in Sources */,
 				C605F9601ECCAD48001194DD /* UnboxableResponseSerializer.swift in Sources */,
 				BC0EFBF21ED45DAD008A3612 /* InitialThumbnailGenerator.swift in Sources */,
@@ -1272,11 +1249,13 @@
 				C605F9DC1ECCAD48001194DD /* Theme.swift in Sources */,
 				C605F9A11ECCAD48001194DD /* TableViewFormSubtitleCell.swift in Sources */,
 				C605F9A51ECCAD48001194DD /* FormTextField.swift in Sources */,
+				BCFB7FE51ED66E6700567111 /* PersonOccurrencesViewController.swift in Sources */,
 				C605F9A21ECCAD48001194DD /* TableViewFormTextFieldCell.swift in Sources */,
 				C605F9701ECCAD48001194DD /* BlockObserver.swift in Sources */,
 				C6A56FD31ED1464D00B844AB /* FieldContact.swift in Sources */,
 				C605F96D1ECCAD48001194DD /* NetworkMonitor.swift in Sources */,
 				C605F99F1ECCAD48001194DD /* TableViewFormCheckboxCell.swift in Sources */,
+				BCFB7FE11ED66E6700567111 /* OrganizationInfoViewController.swift in Sources */,
 				C605F9E21ECCAD48001194DD /* FormDisclosureView.swift in Sources */,
 				C605F97A1ECCAD48001194DD /* URLRequestOperation.swift in Sources */,
 				C6BABED51ED1799500E423CB /* KnownAssociate.swift in Sources */,
@@ -1284,12 +1263,13 @@
 				C605F99C1ECCAD48001194DD /* CollectionViewFormLayout.swift in Sources */,
 				C6BABED91ED17B3600E423CB /* ScarMarkTattoo.swift in Sources */,
 				C605F9821ECCAD48001194DD /* ISO8601DateTransformer.swift in Sources */,
-				C684AF391ED68008008E2E3D /* EntityOccurrencesViewController.swift in Sources */,
+				BCFB7FE31ED66E6700567111 /* PersonCriminalHistoryViewController.swift in Sources */,
 				BC4F33841ED3F41F00198505 /* CriminalHistory.swift in Sources */,
 				C605F9DF1ECCAD48001194DD /* BadgeView.swift in Sources */,
 				C605F98B1ECCAD48001194DD /* CollectionViewFormTextViewCell.swift in Sources */,
 				C605F9921ECCAD48001194DD /* UIColor+ActionColors.swift in Sources */,
 				C605F9AB1ECCAD48001194DD /* MPOLKitInitialize.swift in Sources */,
+				BCFB7FE21ED66E6700567111 /* FieldContactDetailsViewController.swift in Sources */,
 				C6A5F0001ECE76E900B0D915 /* Person.swift in Sources */,
 				C605F97E1ECCAD48001194DD /* Transformer.swift in Sources */,
 				C605F99A1ECCAD48001194DD /* CollectionViewFormHeaderAttributes.swift in Sources */,
@@ -1306,18 +1286,18 @@
 				C605F9751ECCAD48001194DD /* GroupOperation.swift in Sources */,
 				C605F9D91ECCAD48001194DD /* SourceBar.swift in Sources */,
 				C6A56FDD1ED159B600B844AB /* Member.swift in Sources */,
-				C684AF381ED68008008E2E3D /* EntityDetailsCollectionViewController.swift in Sources */,
 				C605F9A31ECCAD48001194DD /* TableViewFormTextViewCell.swift in Sources */,
 				C605F9E51ECCAD48001194DD /* RoundedRectLabel.swift in Sources */,
 				C605F95E1ECCAD48001194DD /* FileManager+URL.swift in Sources */,
 				C605F9771ECCAD48001194DD /* OperationErrors.swift in Sources */,
 				C605F9D81ECCAD48001194DD /* SidebarViewController.swift in Sources */,
 				C605F9B41ECCAD48001194DD /* GalleryCollectionViewCell.swift in Sources */,
+				BCFB7FDE1ED66E6700567111 /* EntityDetailCollectionViewCell.swift in Sources */,
 				C605F9B11ECCAD48001194DD /* AlertQueue.swift in Sources */,
 				C605F9991ECCAD48001194DD /* FormDefines.swift in Sources */,
-				C684AF211ED67F62008E2E3D /* MissingPersonReport.swift in Sources */,
 				C605F9C21ECCAD48001194DD /* UIImage+EntityImages.swift in Sources */,
 				C605F9DB1ECCAD48001194DD /* SourceItem.swift in Sources */,
+				C6A56FD71ED1501A00B844AB /* MissingPerson.swift in Sources */,
 				C605F9AE1ECCAD48001194DD /* FormTableViewController.swift in Sources */,
 				C605F9D61ECCAD48001194DD /* SidebarSplitViewController.swift in Sources */,
 				C605F95F1ECCAD48001194DD /* Foundation.Operation+MPOLAdditions.swift in Sources */,
