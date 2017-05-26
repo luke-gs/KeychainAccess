@@ -1,16 +1,16 @@
 //
-//  BailOrderViewController.swift
-//  MPOLKit
+//  InterventionOrderViewController.swift
+//  Pods
 //
-//  Created by Gridstone on 23/5/17.
-//  Copyright © 2017 CocoaPods. All rights reserved.
+//  Created by Gridstone on 26/5/17.
+//
 //
 
 import UIKit
 
-open class BailOrderViewController: FormCollectionViewController {
+open class InterventionOrderViewController: FormCollectionViewController {
     
-    open var bailOrder: BailOrder? {
+    open var interventionOrder: InterventionOrder? {
         didSet {
             updateSections()
         }
@@ -23,10 +23,10 @@ open class BailOrderViewController: FormCollectionViewController {
     }
     
     // MARK: - Initializers
-    
+
     public override init() {
         super.init()
-        title = NSLocalizedString("Bail Order", bundle: .mpolKit, comment: "")
+        title = NSLocalizedString("Intervention Order", bundle: .mpolKit, comment: "")
     }
     
     // MARK: - View lifecycle
@@ -72,11 +72,11 @@ open class BailOrderViewController: FormCollectionViewController {
         let detail: String?
         let image: UIImage?
         let emphasis: CollectionViewFormSubtitleCell.Emphasis
-
+        
         switch section.type {
         case .header:
-            title = "Bail Order"
-            detail = "#\(bailOrder!.id)"
+            title = "Intervention Order"
+            detail = "#\(interventionOrder!.id)"
             image = nil
             emphasis = .title
         default:
@@ -99,14 +99,20 @@ open class BailOrderViewController: FormCollectionViewController {
     }
     
     // MARK: - CollectionViewDelegateMPOLLayout
-
+    
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
         return CollectionViewFormExpandingHeaderView.minimumHeight
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, givenSectionWidth sectionWidth: CGFloat, edgeInsets: UIEdgeInsets) -> CGFloat {
         switch sections[indexPath.section].type {
-        case .hearing, .informant, .posted:
+        case .order:
+            if indexPath.row != 0 {
+                return layout.columnContentWidth(forMinimumItemContentWidth: 250.0, maximumColumnCount: 2, sectionWidth: sectionWidth, sectionEdgeInsets: edgeInsets).floored(toScale: traitCollection.currentDisplayScale)
+            } else {
+                return sectionWidth
+            }
+        case .respondent:
             return layout.columnContentWidth(forMinimumItemContentWidth: 250.0, maximumColumnCount: 2, sectionWidth: sectionWidth, sectionEdgeInsets: edgeInsets).floored(toScale: traitCollection.currentDisplayScale)
         default:
             return sectionWidth
@@ -119,7 +125,7 @@ open class BailOrderViewController: FormCollectionViewController {
         
         switch section.type {
         case .header:
-            return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: "Title", subtitle: "Id", inWidth: itemWidth, compatibleWith: traitCollection, image: nil, emphasis: .title, singleLineSubtitle: false)
+            return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: "Title", subtitle: "Involvement #\(interventionOrder!.id)", inWidth: itemWidth, compatibleWith: traitCollection, image: nil, emphasis: .title, singleLineSubtitle: false)
         default:
             let item = section.items![indexPath.row]
             
@@ -135,47 +141,53 @@ open class BailOrderViewController: FormCollectionViewController {
     // MARK: - Private
     
     private func updateSections() {
-        guard let bailOrder = self.bailOrder else {
+        guard let interventionOrder = self.interventionOrder else {
             sections = []
             return
         }
         
-        // Reporting Requirements
-        let reporting: [FormItem] = [
-            FormItem(title: "Reporting Requirements", detail: displayString(for: bailOrder.reportingRequirements), image: nil),
-            FormItem(title: "Reporting To Station", detail: bailOrder.reportingToStation, image: UIImage(named: "iconGeneralLocation", in: .mpolKit, compatibleWith: nil)),
-            FormItem(title: "Conditions", detail: displayString(for: bailOrder.conditions), image: nil)
+        let order: [FormItem] = [
+            FormItem(title: "Type", detail: interventionOrder.type, image: nil),
+            FormItem(title: "Served Date", detail: displayString(for: interventionOrder.servedDate), image: UIImage(named: "iconFormCalendar", in: .mpolKit, compatibleWith: nil)),
+            FormItem(title: "Address", detail: interventionOrder.address, image: UIImage(named: "iconGeneralLocation", in: .mpolKit, compatibleWith: nil))
         ]
         
-        // Hearing Details
-        let hearing: [FormItem] = [
-            FormItem(title: "Hearing Date", detail: displayString(for: bailOrder.hearingDate), image: UIImage(named: "iconFormCalendar", in: .mpolKit, compatibleWith: nil)),
-            FormItem(title: "Hearing Location", detail: bailOrder.hearingLocation, image: UIImage(named: "iconGeneralLocation", in: .mpolKit, compatibleWith: nil))
+        let respondent: [FormItem] = [
+            FormItem(title: "Responent Name", detail: interventionOrder.respondentName, image: UIImage(named: "iconEntityPerson", in: .mpolKit, compatibleWith: nil)),
+            FormItem(title: "Respondent Date of Birth", detail: displayString(for: interventionOrder.respondentDateOfBirth), image: UIImage(named: "iconFormCalendar", in: .mpolKit, compatibleWith: nil))
         ]
         
-        // Informant Details
-        let informant: [FormItem] = [
-            FormItem(title: "Informant Station", detail: bailOrder.informantStation , image: UIImage(named: "iconGeneralLocation", in: .mpolKit, compatibleWith: nil)),
-            FormItem(title: "Informant Member", detail: bailOrder.informantMember, image: UIImage(named: "iconEntityPerson", in: .mpolKit, compatibleWith: nil))
-        ]
-        
-        // Posted Details
-        let posted: [FormItem] = [
-            FormItem(title: "Posted Date", detail: displayString(for: bailOrder.postedDate), image: UIImage(named: "iconFormCalendar", in: .mpolKit, compatibleWith: nil)),
-            FormItem(title: "Posted At", detail: bailOrder.postedAt, image: UIImage(named: "iconGeneralLocation", in: .mpolKit, compatibleWith: nil)),
-            FormItem(title: "Has Owner Undetaking", detail: displayString(for: bailOrder.hasOwnerUndertaking), image: nil),
-            FormItem(title: "First Report Date", detail: displayString(for: bailOrder.firstReportDate), image: UIImage(named: "iconFormCalendar", in: .mpolKit, compatibleWith: nil))
+        let status: [FormItem] = [
+            FormItem(title: "Status", detail: interventionOrder.status, image: nil),
+            FormItem(title: "Complainants", detail: "-", image: nil),
+            FormItem(title: "Conditions", detail: "-", image: nil)
         ]
         
         self.sections = [
             (.header, nil),
-            (.reporting, reporting),
-            (.hearing, hearing),
-            (.informant, informant),
-            (.posted, posted)
+            (.order, order),
+            (.respondent, respondent),
+            (.status, status)
         ]
     }
     
+    private enum SectionType: Int {
+        case header
+        case order
+        case status
+        case respondent
+        
+        var localizedTitle: String {
+            switch self {
+            case .header:           return NSLocalizedString("DESCRIPTION", bundle: .mpolKit, comment: "")
+            case .order:            return NSLocalizedString("ORDER DETAILS", bundle: .mpolKit, comment: "")
+            case .respondent:       return NSLocalizedString("RESPONDENT DETAILS", bundle: .mpolKit, comment: "")
+            case .status:           return NSLocalizedString("INTERVENTION DETAILS", bundle: .mpolKit, comment: "")
+            }
+        }
+    }
+    
+    // TODO: When VC has common involvement detail superclass which contains the methods below, remove this logic from this class
     private func displayString(for array: [String]?) -> String? {
         return array?.joined(separator: " ").ifNotEmpty()
     }
@@ -183,29 +195,6 @@ open class BailOrderViewController: FormCollectionViewController {
     private func displayString(for date: Date?) -> String? {
         guard let date = date else { return nil }
         return DateFormatter.longDateAndTime.string(from: date)
-    }
-    
-    private func displayString(for bool: Bool?) -> String? {
-        guard let bool = bool else { return nil }
-        return bool ? "Yes" : "No"
-    }
-    
-    private enum SectionType: Int {
-        case header
-        case reporting
-        case hearing
-        case informant
-        case posted
-        
-        var localizedTitle: String {
-            switch self {
-            case .header:       return NSLocalizedString("DESCRIPTION", bundle: .mpolKit, comment: "")
-            case .reporting:    return NSLocalizedString("REPORTING REQUIREMENTS", bundle: .mpolKit, comment: "")
-            case .hearing:      return NSLocalizedString("HEARING DETAILS", bundle: .mpolKit, comment: "")
-            case .informant:    return NSLocalizedString("INFORMANT DETAILS", bundle: .mpolKit, comment: "")
-            case .posted:       return NSLocalizedString("POSTED DETAILS", bundle: .mpolKit, comment: "")
-            }
-        }
     }
     
     private struct FormItem {
