@@ -11,48 +11,14 @@ import MPOLKit
 
 class BailOrderViewController: FormCollectionViewController {
     
+    
     public var bailOrder: BailOrder? {
         didSet {
-            var sections: [(SectionType, [FormItem]?)] = [(.header, nil)]
-            
-            // Reporting Requirements
-            var reporting: [FormItem] = []
-            reporting.append(FormItem(title: "Reporting Requirements", detail: displayString(forArray: bailOrder?.reportingRequirements), image: nil))
-            reporting.append(FormItem(title: "Reporting To Station", detail: bailOrder?.reportingToStation, image: nil))
-            reporting.append(FormItem(title: "Conditions", detail: displayString(forArray: bailOrder?.conditions), image: nil))
-            sections.append((.reporting, reporting))
-            
-            // Hearing Details
-            var hearing: [FormItem] = []
-            hearing.append(FormItem(title: "Hearing Date", detail: displayString(forDate: bailOrder?.hearingDate), image: nil))
-            hearing.append(FormItem(title: "Hearing Location", detail: bailOrder?.hearingLocation, image: nil))
-            sections.append((.hearing, hearing))
-            
-            // Informant Details
-            var informant: [FormItem] = []
-            informant.append(FormItem(title: "Informant Station", detail: bailOrder?.informantStation , image: nil))
-            informant.append((FormItem(title: "Informant Member", detail: bailOrder?.informantMember, image: nil)))
-            sections.append((.informant, informant))
-            
-            // Posted Details
-            var posted: [FormItem] = []
-            posted.append(FormItem(title: "Posted Date", detail: displayString(forDate: bailOrder?.postedDate), image: nil))
-            posted.append(FormItem(title: "Posted At", detail: bailOrder?.postedAt, image: nil))
-            posted.append(FormItem(title: "Has Owner Undetaking", detail: displayString(forBool: bailOrder?.hasOwnerUndertaking), image: nil))
-            posted.append(FormItem(title: "First Report Date", detail: displayString(forDate: bailOrder?.firstReportDate), image: nil))
-            sections.append((.posted, posted))
-            
-            self.sections = sections
+            updateSections()
         }
     }
     
-    private static let dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMMM d, y @ h:mm a"
-        return formatter
-    }()
-    
-    private var sections: [(type: SectionType, items: [FormItem]?)] = [(.header, nil)] {
+    private var sections: [(type: SectionType, items: [FormItem]?)] = [] {
         didSet {
             collectionView?.reloadData()
         }
@@ -60,19 +26,13 @@ class BailOrderViewController: FormCollectionViewController {
     
     // MARK: - Initializers
     
-    public init(bailOrder: BailOrder!) {
+    public override init() {
         super.init()
         title = "Involvement Detail" //NSLocalizedString("Bail Order", bundle: .mpolKit, comment: "")
-        defer {
-            self.bailOrder = bailOrder
-        }
-    }
-    
-    public required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: - View lifecycle
+    
     
     open override func viewDidLoad() {
         super.viewDidLoad()
@@ -109,7 +69,7 @@ class BailOrderViewController: FormCollectionViewController {
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let section = sections[indexPath.section]
-        let item = section.items?[indexPath.row]
+        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
         
         let title: String
         let detail: String?
@@ -122,19 +82,14 @@ class BailOrderViewController: FormCollectionViewController {
             detail = "Involvement #\(bailOrder!.id)"
             image = nil
             emphasis = .title
-            break
-        case .reporting, .hearing, .informant, .posted:
-            title = (item?.title)!
-            if let itemDetail = item?.detail {
-                detail = itemDetail
-            } else {
-                detail = "N/A"
-            }
-            image = item?.image
+        default:
+            guard let item = section.items?[indexPath.row] else { return cell }
+            title = item.title
+            detail = item.detail ?? "N/A"
+            image = item.image
             emphasis = .subtitle
         }
         
-        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
         cell.isEditableField = false
         cell.subtitleLabel.numberOfLines = 0
         
@@ -169,7 +124,7 @@ class BailOrderViewController: FormCollectionViewController {
         case .header:
             return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: "Title", subtitle: "Id", inWidth: itemWidth, compatibleWith: traitCollection, image: nil, emphasis: .title, singleLineSubtitle: false)
         default:
-            let item = (section.items?[indexPath.row])!
+            let item = section.items![indexPath.row]
             
             let image = item.image
             let title = item.title
@@ -182,43 +137,60 @@ class BailOrderViewController: FormCollectionViewController {
     
     // MARK: - Private
     
-    /// Iterates and appends an array of strings with a new line character. If the
-    /// array is nil or its count is 0 it will return nil
-    ///
-    /// - Parameters:
-    ///   - array:      The array of strings to append.
-    /// - Returns:      The appended string or nil.
+    private func updateSections() {
+        guard let bailOrder = self.bailOrder else {
+            sections = []
+            return
+        }
+        
+        // Reporting Requirements
+        let reporting: [FormItem] = [
+            FormItem(title: "Reporting Requirements", detail: displayString(forArray: bailOrder.reportingRequirements), image: nil),
+            FormItem(title: "Reporting To Station", detail: bailOrder.reportingToStation, image: nil),
+            FormItem(title: "Conditions", detail: displayString(forArray: bailOrder.conditions), image: nil)
+        ]
+        
+        // Hearing Details
+        let hearing: [FormItem] = [
+            FormItem(title: "Hearing Date", detail: displayString(forDate: bailOrder.hearingDate), image: nil),
+            FormItem(title: "Hearing Location", detail: bailOrder.hearingLocation, image: nil)
+        ]
+        
+        // Informant Details
+        let informant: [FormItem] = [
+            FormItem(title: "Informant Station", detail: bailOrder.informantStation , image: nil),
+            FormItem(title: "Informant Member", detail: bailOrder.informantMember, image: nil)
+        ]
+        
+        // Posted Details
+        let posted: [FormItem] = [
+            FormItem(title: "Posted Date", detail: displayString(forDate: bailOrder.postedDate), image: nil),
+            FormItem(title: "Posted At", detail: bailOrder.postedAt, image: nil),
+            FormItem(title: "Has Owner Undetaking", detail: displayString(forBool: bailOrder.hasOwnerUndertaking), image: nil),
+            FormItem(title: "First Report Date", detail: displayString(forDate: bailOrder.firstReportDate), image: nil)
+        ]
+        
+        self.sections = [
+            (.header, nil),
+            (.reporting, reporting),
+            (.hearing, hearing),
+            (.informant, informant),
+            (.posted, posted)
+        ]
+    }
+    
     private func displayString(forArray array: [String]?) -> String? {
-        if array != nil {
-            if (array!.count == 0) { return nil }
-            
-            return array!.joined(separator: " ")
-        }
-        return nil
+        return array?.joined(separator: " ").ifNotEmpty()
     }
     
-    /// Returns a display string for a date or nil if the date is nil
-    ///
-    /// - Parameters:
-    ///   - date:       The date to convert to a string.
-    /// - Returns:      The display string or nil.
     private func displayString(forDate date: Date?) -> String? {
-        if (date != nil) {
-            return BailOrderViewController.dateFormatter.string(from: date!)
-        }
-        return nil
+        guard let date = date else { return nil }
+        return DateFormatter.longDateAndTime.string(from: date)
     }
     
-    /// Returns a "Yes" or "No" for a bool or nil if the bool is nil
-    ///
-    /// - Parameters:
-    ///   - bool:       The bool to convert to a string.
-    /// - Returns:      "Yes", "No" or nil.
     private func displayString(forBool bool: Bool?) -> String? {
-        if bool != nil {
-            return bool! ? "Yes" : "No"
-        }
-        return nil
+        guard let bool = bool else { return nil }
+        return bool ? "Yes" : "No"
     }
     
     private enum SectionType: Int {
