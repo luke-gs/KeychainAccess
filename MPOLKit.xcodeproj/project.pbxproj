@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BC0EFBF21ED45DAD008A3612 /* InitialThumbnailGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0EFBF11ED45DAD008A3612 /* InitialThumbnailGenerator.swift */; };
 		BC4F33841ED3F41F00198505 /* CriminalHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4F33831ED3F41F00198505 /* CriminalHistory.swift */; };
+		BC77860D1ED8107A0099FA4F /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC77860C1ED8107A0099FA4F /* Event.swift */; };
 		BC9CD4041ED3994700D91786 /* Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9CD4031ED3994700D91786 /* Source.swift */; };
 		BCDDBBFC1ECEDB9600D66D45 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDDBBFB1ECEDB9600D66D45 /* Alert.swift */; };
 		BCFB7FDC1ED66E6700567111 /* EntityAlertsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFB7FCA1ED66E6700567111 /* EntityAlertsViewController.swift */; };
@@ -213,8 +213,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		BC0EFBF11ED45DAD008A3612 /* InitialThumbnailGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialThumbnailGenerator.swift; sourceTree = "<group>"; };
 		BC4F33831ED3F41F00198505 /* CriminalHistory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CriminalHistory.swift; sourceTree = "<group>"; };
+		BC77860C1ED8107A0099FA4F /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		BC9CD4031ED3994700D91786 /* Source.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Source.swift; sourceTree = "<group>"; };
 		BCDDBBFB1ECEDB9600D66D45 /* Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		BCFB7FCA1ED66E6700567111 /* EntityAlertsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityAlertsViewController.swift; sourceTree = "<group>"; };
@@ -614,6 +614,7 @@
 				C6A5F0051ECE820D00B0D915 /* Contact.swift */,
 				BC4F33831ED3F41F00198505 /* CriminalHistory.swift */,
 				C605F8BE1ECCAD47001194DD /* Entity.swift */,
+				BC77860C1ED8107A0099FA4F /* Event.swift */,
 				C6A56FC91ED1451500B844AB /* Incidents */,
 				C6BABED41ED1799500E423CB /* KnownAssociate.swift */,
 				C6A5F0031ECE7E2900B0D915 /* Licence.swift */,
@@ -821,7 +822,6 @@
 				C605F91A1ECCAD47001194DD /* Cells */,
 				BCFB7FC81ED66E6700567111 /* Entity Details */,
 				C605F92B1ECCAD47001194DD /* Extensions */,
-				BC0EFBF11ED45DAD008A3612 /* InitialThumbnailGenerator.swift */,
 				C605F9351ECCAD47001194DD /* Keyboard Input */,
 				C605F9381ECCAD47001194DD /* KeyboardAnimationDetails.swift */,
 				C605F9391ECCAD47001194DD /* LoginViewController.swift */,
@@ -1213,6 +1213,7 @@
 				C605F9D41ECCAD48001194DD /* ScrollViewInsetManager.swift in Sources */,
 				BCFB7FDC1ED66E6700567111 /* EntityAlertsViewController.swift in Sources */,
 				C6F5E01E1ECD64EE008E7BE2 /* EntityThumbnailView.swift in Sources */,
+				BC77860D1ED8107A0099FA4F /* Event.swift in Sources */,
 				C605F9B51ECCAD48001194DD /* StatsOverviewCollectionViewCell.swift in Sources */,
 				BCFB7FE61ED66E6700567111 /* PersonOrdersViewController.swift in Sources */,
 				C605F99D1ECCAD48001194DD /* DefaultReusable.swift in Sources */,
@@ -1241,7 +1242,6 @@
 				BCFB7FE41ED66E6700567111 /* PersonInfoViewController.swift in Sources */,
 				C6A56FE11ED1697200B844AB /* RiskFactor.swift in Sources */,
 				C605F9601ECCAD48001194DD /* UnboxableResponseSerializer.swift in Sources */,
-				BC0EFBF21ED45DAD008A3612 /* InitialThumbnailGenerator.swift in Sources */,
 				C6BABEDD1ED1AE6500E423CB /* Alias.swift in Sources */,
 				C605F9DD1ECCAD48001194DD /* ViewControllerAnimationOptionTransition.swift in Sources */,
 				C605F9C71ECCAD48001194DD /* UITextView+NotificationWorkaround.m in Sources */,

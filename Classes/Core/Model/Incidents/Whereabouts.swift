@@ -10,9 +10,7 @@ import Unbox
 
 private let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
 
-open class Whereabouts: NSObject, Serialisable {
-    
-    open let id: String
+open class Whereabouts: Event {
     
     open var requestingMemberID: String?
     open var notifyMemberName: String?
@@ -25,16 +23,8 @@ open class Whereabouts: NSObject, Serialisable {
     open var action: String?
     open var reasonRequired: String?
     
-    public init(id: String) {
-        self.id = id
-        super.init()
-    }
-    
     public required init(unboxer: Unboxer) throws {
-        guard let id: String = unboxer.unbox(key: "id") else {
-            throw ParsingError.missingRequiredField
-        }
-        self.id = id
+        try super.init(unboxer: unboxer)
         
         requestingMemberID = unboxer.unbox(key: "requestingMemberId")
         notifyMemberName = unboxer.unbox(key: "notifyMemberName")
@@ -51,12 +41,13 @@ open class Whereabouts: NSObject, Serialisable {
         fatalError("Not implemented yet")
     }
     
-    open func encode(with aCoder: NSCoder) {
-        
+    public required init(id: String) {
+        super.init(id: id)
     }
     
-    open static var supportsSecureCoding: Bool {
-        return true
+    open override func encode(with aCoder: NSCoder) {
+        super.encode(with: aCoder)
+        fatalError("Not implemented yet")
     }
 }
 

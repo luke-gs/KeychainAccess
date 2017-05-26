@@ -133,6 +133,7 @@
 		BC4F338A1ED3FB4E00198505 /* String+EmptyFiltering.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4F33891ED3FB4E00198505 /* String+EmptyFiltering.swift */; };
 		BC4F79711ED68B5300A2D910 /* EventDetailHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4F79701ED68B5300A2D910 /* EventDetailHeaderCell.swift */; };
 		BC76CBE01ECE9E9B008F2562 /* DateFormatter+Static.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC76CBDE1ECE9DF3008F2562 /* DateFormatter+Static.swift */; };
+		BC77860B1ED80D910099FA4F /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC77860A1ED80D910099FA4F /* Event.swift */; };
 		BC9CD4021ED3991400D91786 /* Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9CD4011ED3991400D91786 /* Source.swift */; };
 		BCA1EA8F1ED1450C0050CABA /* PersonDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA1EA8D1ED142D40050CABA /* PersonDescription.swift */; };
 		BCA5A1331ED18E5F0088A164 /* BailOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA5A12C1ED18E5F0088A164 /* BailOrder.swift */; };
@@ -451,6 +452,7 @@
 		BC4F33891ED3FB4E00198505 /* String+EmptyFiltering.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+EmptyFiltering.swift"; sourceTree = "<group>"; };
 		BC4F79701ED68B5300A2D910 /* EventDetailHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailHeaderCell.swift; sourceTree = "<group>"; };
 		BC76CBDE1ECE9DF3008F2562 /* DateFormatter+Static.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Static.swift"; sourceTree = "<group>"; };
+		BC77860A1ED80D910099FA4F /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		BC9CD4011ED3991400D91786 /* Source.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Source.swift; sourceTree = "<group>"; };
 		BCA1EA8D1ED142D40050CABA /* PersonDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonDescription.swift; sourceTree = "<group>"; };
 		BCA5A12C1ED18E5F0088A164 /* BailOrder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BailOrder.swift; sourceTree = "<group>"; };
@@ -696,7 +698,7 @@
 		38C942A38A1D74E48C7C06B6C3FC4108 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				BCA5A12B1ED18E5F0088A164 /* Incidents */,
+				BCA5A12B1ED18E5F0088A164 /* Events */,
 				9887C7F502DE29D24966E0BA96BBC6CA /* Address.swift */,
 				BCC611D51ED1945F00610F0E /* Alias.swift */,
 				9252C1A7B078B71562FF0B2CDEDB5CB6 /* Alert.swift */,
@@ -705,6 +707,7 @@
 				BC4F33811ED3F3DF00198505 /* CriminalHistory.swift */,
 				BCA5A13B1ED18EC10088A164 /* KnownAssociate.swift */,
 				1E6A630FED3AFE647E88048D33B928D4 /* Entity.swift */,
+				BC77860A1ED80D910099FA4F /* Event.swift */,
 				BCDDBBF61ECEDACB00D66D45 /* Licence.swift */,
 				BCA5A13E1ED18ED50088A164 /* Member.swift */,
 				49047F26ED0BE6237DF21FE2ECE4E867 /* ParseError.swift */,
@@ -1066,7 +1069,7 @@
 			path = ../..;
 			sourceTree = "<group>";
 		};
-		BCA5A12B1ED18E5F0088A164 /* Incidents */ = {
+		BCA5A12B1ED18E5F0088A164 /* Events */ = {
 			isa = PBXGroup;
 			children = (
 				BCA5A12C1ED18E5F0088A164 /* BailOrder.swift */,
@@ -1077,6 +1080,7 @@
 				BCA5A1311ED18E5F0088A164 /* MissingPersonReport.swift */,
 				BCA5A1321ED18E5F0088A164 /* Whereabouts.swift */,
 			);
+			name = Events;
 			path = Incidents;
 			sourceTree = "<group>";
 		};
@@ -1638,6 +1642,7 @@
 				8B275FD5DE2B97C8CA073D9F3163D0A8 /* FormCollectionViewController.swift in Sources */,
 				BCFB7FBC1ED645AB00567111 /* PersonCriminalHistoryViewController.swift in Sources */,
 				BCFB7FBD1ED645AB00567111 /* PersonInfoViewController.swift in Sources */,
+				BC77860B1ED80D910099FA4F /* Event.swift in Sources */,
 				BCDDBBF91ECEDAD700D66D45 /* Contact.swift in Sources */,
 				496626C574AC8F6BF5C00AC8363C9D80 /* FormDefines.swift in Sources */,
 				D897461022D64F5F35EA02E8E8AFB770 /* FormDisclosureView.swift in Sources */,
