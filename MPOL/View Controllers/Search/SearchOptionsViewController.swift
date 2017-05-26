@@ -52,7 +52,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     
     // MARK: - Private methods
     
-    private var selectedDataSource: SearchDataSource {
+    private(set) var selectedDataSource: SearchDataSource {
         didSet {
             reloadCollectionViewRetainingEditing()
         }
@@ -279,6 +279,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         case .searchField:
             let cell = collectionView.dequeueReusableCell(of: SearchFieldCollectionViewCell.self, for: indexPath)
             let textField = cell.textField
+            textField.text = selectedDataSource.request.searchText
             
             textField.delegate = self
             if textField.allTargets.contains(self) == false {

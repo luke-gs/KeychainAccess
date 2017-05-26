@@ -8,6 +8,7 @@
 
 import UIKit
 import MPOLKit
+import Unbox
 
 private let maxRecentViewedCount = 6
 
@@ -135,7 +136,13 @@ class SearchRecentsViewController: FormCollectionViewController {
         
         switch indexPath.section {
         case 0 where traitCollection.horizontalSizeClass != .compact:
-            // TODO: delegate?.searchRecentsController(self, didSelectRecentEntity: nil)
+            // TEMP
+            let bundle = Bundle(for: Person.self)
+            let url = bundle.url(forResource: "Person_25625aa4-3394-48e2-8dbc-2387498e16b0", withExtension: "json", subdirectory: "Mock JSONs")!
+            let data = try! Data(contentsOf: url)
+            let person: Person = try! unbox(data: data)
+            
+            delegate?.searchRecentsController(self, didSelectRecentEntity: person)
             break
         default:
             delegate?.searchRecentsController(self, didSelectRecentSearch: nil)

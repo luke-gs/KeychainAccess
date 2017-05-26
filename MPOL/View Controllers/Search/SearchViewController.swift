@@ -32,6 +32,16 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     
     private(set) var isShowingSearchOptions: Bool = false
     
+    
+    // Temp
+    private var searchedTerm: String?
+    
+    
+    // Temp
+    private var ageRange: Range<Int>?
+    
+    
+    
     private lazy var resultsListViewController: SearchResultsListViewController = { [unowned self] in
         let resultsController = SearchResultsListViewController()
         resultsController.delegate = self
@@ -53,7 +63,6 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     
     private lazy var searchNavigationField: SearchNavigationField = { [unowned self] in
         let searchField = SearchNavigationField()
-        searchField.titleLabel.text = "Citizen John"
         searchField.typeLabel.text  = "PERSON"
         searchField.resultCountLabel.text = "3 results found"
         searchField.delegate = self
@@ -271,6 +280,14 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     }
     
     func searchRecentsController(_ controller: SearchRecentsViewController, didSelectRecentSearch recentSearch: Any?) {
+        
+        // TEMP
+        let request = searchOptionsViewController.selectedDataSource.request as! PersonSearchRequest
+        request.searchText = "Citizen John"
+        request.ageRange   = nil
+        searchOptionsViewController.collectionView?.reloadData()
+        
+        
         setShowingSearchOptions(true, animated: true)
         searchOptionsViewController.beginEditingSearchField()
     }
@@ -279,6 +296,12 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     // MARK: - SearchNavigationFieldDelegate
     
     func searchNavigationFieldDidSelect(_ field: SearchNavigationField) {
+        // Temp
+        let request = searchOptionsViewController.selectedDataSource.request as! PersonSearchRequest
+        request.searchText = searchedTerm
+        request.ageRange   = ageRange
+        searchOptionsViewController.collectionView?.reloadData()
+        
         setShowingSearchOptions(true, animated: true)
     }
     
@@ -290,6 +313,14 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     // MARK: - SearchOptionsViewControllerDelegate
     
     func searchOptionsController(_ controller: SearchOptionsViewController, didFinishWith searchRequest: SearchRequest) {
+        
+        // Temp
+        let request = searchRequest as! PersonSearchRequest
+        searchedTerm = request.searchText
+        ageRange     = request.ageRange
+        searchNavigationField.titleLabel.text = searchedTerm
+        searchOptionsViewController.collectionView?.reloadData()
+        
         setShowingSearchOptions(false, animated: true)
         setCurrentResultsViewController(resultsListViewController, animated: true)
     }
@@ -325,6 +356,13 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     
     @objc private func displaySearchTriggered() {
         // TODO: Reset search details
+        
+        // Temp
+        let request = searchOptionsViewController.selectedDataSource.request as! PersonSearchRequest
+        request.searchText = nil
+        request.ageRange   = nil
+        searchOptionsViewController.collectionView?.reloadData()
+        
         setShowingSearchOptions(true, animated: true)
         searchOptionsViewController.beginEditingSearchField()
     }
