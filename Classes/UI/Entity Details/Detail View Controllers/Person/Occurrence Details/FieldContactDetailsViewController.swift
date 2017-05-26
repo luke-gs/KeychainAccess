@@ -10,18 +10,30 @@ import UIKit
 
 open class FieldContactDetailsViewController: FormCollectionViewController {
     
+    // MARK: - Public properties
+    
     open var fieldContact: FieldContact? {
         didSet {
             collectionView?.reloadData()
         }
     }
     
-    public override init() {
+    
+    // MARK: - Initializers
+    
+    public init(fieldContact: FieldContact? = nil) {
         super.init()
         
         title = NSLocalizedString("Field Contact", comment: "Form Title")
+        self.fieldContact = fieldContact
     }
     
+    public required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    // MARK: - View lifecycle
     
     open override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +45,8 @@ open class FieldContactDetailsViewController: FormCollectionViewController {
         collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
     }
     
+    
+    // MARK: - UICollectionViewDataSource
     
     open func numberOfSections(in collectionView: UICollectionView) -> Int {
         return Section.count(for: fieldContact)
@@ -172,7 +186,6 @@ open class FieldContactDetailsViewController: FormCollectionViewController {
         
         return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: title, subtitle: detail, inWidth: itemWidth, compatibleWith: traitCollection, image: image, emphasis: emphasis)
     }
-    
     
     
     // MARK: - Private
