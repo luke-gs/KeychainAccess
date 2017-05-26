@@ -104,9 +104,9 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController {
         let event = events![indexPath.item]
         let cellTexts = appropriateTexts(for: event)
         
-        cell.titleLabel.text = cellTexts.0
-        cell.subtitleLabel.text = cellTexts.1
-        cell.detailLabel.text = cellTexts.2
+        cell.titleLabel.text = cellTexts.titleText
+        cell.subtitleLabel.text = cellTexts.subtitleText
+        cell.detailLabel.text = cellTexts.detailText
         
         return cell
     }
@@ -124,6 +124,10 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController {
             let fieldContactVC = FieldContactDetailsViewController()
             fieldContactVC.fieldContact = fieldContact
             detailViewController = fieldContactVC
+        case let bailOrder as BailOrder:
+            let bailOrderVC = BailOrderViewController()
+            bailOrderVC.bailOrder = bailOrder
+            detailViewController = bailOrderVC
         default:
             detailViewController = nil
         }

@@ -42,18 +42,18 @@ open class BailOrder: NSObject, Serialisable {
         self.id = id
         
         hasOwnerUndertaking = unboxer.unbox(key: "hasOwnerUndertaking")
-        reportingRequirements = unboxer.unbox(key: "bailReportingRequirements")
+        reportingRequirements = unboxer.unbox(key: "reportingRequirements")
         firstReportDate = unboxer.unbox(key: "firstReportDate", formatter: BailOrder.dateTransformer)
         informantStation = unboxer.unbox(key: "informantStation")
         informantMember = unboxer.unbox(key: "informantMember")
         
-        hearingDate = unboxer.unbox(key: "bailHearingDate", formatter: BailOrder.dateTransformer)
-        postedDate = unboxer.unbox(key: "bailPostedDate", formatter: BailOrder.dateTransformer)
+        hearingDate = unboxer.unbox(key: "hearingDate", formatter: BailOrder.dateTransformer)
+        postedDate = unboxer.unbox(key: "postedDate", formatter: BailOrder.dateTransformer)
         
-        conditions = unboxer.unbox(key: "bailConditions")
+        conditions = unboxer.unbox(key: "conditions")
         reportingToStation = unboxer.unbox(key: "reportingToStation")
-        postedAt = unboxer.unbox(key: "bailPostedAt")
-        hearingLocation = unboxer.unbox(key: "bailHearingLocation")
+        postedAt = unboxer.unbox(key: "postedAt")
+        hearingLocation = unboxer.unbox(key: "hearingLocation")
     }
     
     public required init?(coder aDecoder: NSCoder) {
