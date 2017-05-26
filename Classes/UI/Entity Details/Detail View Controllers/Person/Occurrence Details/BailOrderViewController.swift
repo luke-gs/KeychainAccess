@@ -7,12 +7,10 @@
 //
 
 import UIKit
-import MPOLKit
 
-class BailOrderViewController: FormCollectionViewController {
+open class BailOrderViewController: FormCollectionViewController {
     
-    
-    public var bailOrder: BailOrder? {
+    open var bailOrder: BailOrder? {
         didSet {
             updateSections()
         }
@@ -28,7 +26,7 @@ class BailOrderViewController: FormCollectionViewController {
     
     public override init() {
         super.init()
-        title = "Involvement Detail" //NSLocalizedString("Bail Order", bundle: .mpolKit, comment: "")
+        title = NSLocalizedString("Bail Order", bundle: .mpolKit, comment: "")
     }
     
     // MARK: - View lifecycle
@@ -145,29 +143,29 @@ class BailOrderViewController: FormCollectionViewController {
         
         // Reporting Requirements
         let reporting: [FormItem] = [
-            FormItem(title: "Reporting Requirements", detail: displayString(forArray: bailOrder.reportingRequirements), image: nil),
-            FormItem(title: "Reporting To Station", detail: bailOrder.reportingToStation, image: nil),
-            FormItem(title: "Conditions", detail: displayString(forArray: bailOrder.conditions), image: nil)
+            FormItem(title: "Reporting Requirements", detail: displayString(for: bailOrder.reportingRequirements), image: nil),
+            FormItem(title: "Reporting To Station", detail: bailOrder.reportingToStation, image: UIImage(named: "iconGeneralLocation", in: .mpolKit, compatibleWith: nil)),
+            FormItem(title: "Conditions", detail: displayString(for: bailOrder.conditions), image: nil)
         ]
         
         // Hearing Details
         let hearing: [FormItem] = [
-            FormItem(title: "Hearing Date", detail: displayString(forDate: bailOrder.hearingDate), image: nil),
-            FormItem(title: "Hearing Location", detail: bailOrder.hearingLocation, image: nil)
+            FormItem(title: "Hearing Date", detail: displayString(for: bailOrder.hearingDate), image: UIImage(named: "iconFormCalendar", in: .mpolKit, compatibleWith: nil)),
+            FormItem(title: "Hearing Location", detail: bailOrder.hearingLocation, image: UIImage(named: "iconGeneralLocation", in: .mpolKit, compatibleWith: nil))
         ]
         
         // Informant Details
         let informant: [FormItem] = [
-            FormItem(title: "Informant Station", detail: bailOrder.informantStation , image: nil),
-            FormItem(title: "Informant Member", detail: bailOrder.informantMember, image: nil)
+            FormItem(title: "Informant Station", detail: bailOrder.informantStation , image: UIImage(named: "iconGeneralLocation", in: .mpolKit, compatibleWith: nil)),
+            FormItem(title: "Informant Member", detail: bailOrder.informantMember, image: UIImage(named: "iconEntityPerson", in: .mpolKit, compatibleWith: nil))
         ]
         
         // Posted Details
         let posted: [FormItem] = [
-            FormItem(title: "Posted Date", detail: displayString(forDate: bailOrder.postedDate), image: nil),
-            FormItem(title: "Posted At", detail: bailOrder.postedAt, image: nil),
-            FormItem(title: "Has Owner Undetaking", detail: displayString(forBool: bailOrder.hasOwnerUndertaking), image: nil),
-            FormItem(title: "First Report Date", detail: displayString(forDate: bailOrder.firstReportDate), image: nil)
+            FormItem(title: "Posted Date", detail: displayString(for: bailOrder.postedDate), image: UIImage(named: "iconFormCalendar", in: .mpolKit, compatibleWith: nil)),
+            FormItem(title: "Posted At", detail: bailOrder.postedAt, image: UIImage(named: "iconGeneralLocation", in: .mpolKit, compatibleWith: nil)),
+            FormItem(title: "Has Owner Undetaking", detail: displayString(for: bailOrder.hasOwnerUndertaking), image: nil),
+            FormItem(title: "First Report Date", detail: displayString(for: bailOrder.firstReportDate), image: UIImage(named: "iconFormCalendar", in: .mpolKit, compatibleWith: nil))
         ]
         
         self.sections = [
@@ -179,16 +177,16 @@ class BailOrderViewController: FormCollectionViewController {
         ]
     }
     
-    private func displayString(forArray array: [String]?) -> String? {
+    private func displayString(for array: [String]?) -> String? {
         return array?.joined(separator: " ").ifNotEmpty()
     }
     
-    private func displayString(forDate date: Date?) -> String? {
+    private func displayString(for date: Date?) -> String? {
         guard let date = date else { return nil }
         return DateFormatter.longDateAndTime.string(from: date)
     }
     
-    private func displayString(forBool bool: Bool?) -> String? {
+    private func displayString(for bool: Bool?) -> String? {
         guard let bool = bool else { return nil }
         return bool ? "Yes" : "No"
     }
@@ -202,11 +200,11 @@ class BailOrderViewController: FormCollectionViewController {
         
         var localizedTitle: String {
             switch self {
-            case .header:       return "DESCRIPTION" //return NSLocalizedString("DESCRIPTION", bundle: .mpolKit, comment: "")
-            case .reporting:    return "REPORTING REQUIREMENTS" //return NSLocalizedString("REPORTING REQUIREMENTS", bundle: .mpolKit, comment: "")
-            case .hearing:      return "HEARING DETAILS" //return NSLocalizedString("HEARING DETAILS", bundle: .mpolKit, comment: "")
-            case .informant:    return "INFORMANT DETAILS" //return NSLocalizedString("INFORMANT DETAILS", bundle: .mpolKit, comment: "")
-            case .posted:       return "POSTED DETAILS" //return NSLocalizedString("POSTED DETAILS", bundle: .mpolKit, comment: "")
+            case .header:       return NSLocalizedString("DESCRIPTION", bundle: .mpolKit, comment: "")
+            case .reporting:    return NSLocalizedString("REPORTING REQUIREMENTS", bundle: .mpolKit, comment: "")
+            case .hearing:      return NSLocalizedString("HEARING DETAILS", bundle: .mpolKit, comment: "")
+            case .informant:    return NSLocalizedString("INFORMANT DETAILS", bundle: .mpolKit, comment: "")
+            case .posted:       return NSLocalizedString("POSTED DETAILS", bundle: .mpolKit, comment: "")
             }
         }
     }

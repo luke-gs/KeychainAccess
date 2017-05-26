@@ -13,7 +13,6 @@
 		397B77B41E6D260200696677 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 397B77B21E6D260200696677 /* LaunchScreen.storyboard */; };
 		4DD6FB77D736AC2698715EE2 /* Pods_MPOLKit_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE10E7B59DCE345AFE61F92E /* Pods_MPOLKit_Example.framework */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
-		6DCE4CB61ED3FFC000CF26D8 /* BailOrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCE4CB51ED3FFC000CF26D8 /* BailOrderViewController.swift */; };
 		876366BA56D482D17652CEA4 /* Pods_MPOLKit_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6405DD3D35C32C13D1FF426 /* Pods_MPOLKit_Tests.framework */; };
 /* End PBXBuildFile section */
 
@@ -42,7 +41,6 @@
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		607FACE51AFB9204008FA782 /* MPOLKit_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MPOLKit_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6DCE4CB51ED3FFC000CF26D8 /* BailOrderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BailOrderViewController.swift; sourceTree = "<group>"; };
 		B6405DD3D35C32C13D1FF426 /* Pods_MPOLKit_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOLKit_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC6229461EC169CF00164997 /* MPOLKit_Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MPOLKit_Example.entitlements; sourceTree = "<group>"; };
 		E9CD6C523B139F0673E598CD /* MPOLKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = MPOLKit.podspec; path = ../MPOLKit.podspec; sourceTree = "<group>"; };
@@ -109,7 +107,6 @@
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				397B77AD1E6D25E200696677 /* PushableTestViewController.swift */,
 				397B77AE1E6D25E200696677 /* TestCollectionViewController.swift */,
-				6DCE4CB51ED3FFC000CF26D8 /* BailOrderViewController.swift */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
 			);
 			name = "Example for MPOLKit";
@@ -372,7 +369,6 @@
 				397B77B01E6D25E200696677 /* PushableTestViewController.swift in Sources */,
 				397B77B11E6D25E200696677 /* TestCollectionViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
-				6DCE4CB61ED3FFC000CF26D8 /* BailOrderViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

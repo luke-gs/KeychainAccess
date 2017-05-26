@@ -124,6 +124,10 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController {
             let fieldContactVC = FieldContactDetailsViewController()
             fieldContactVC.fieldContact = fieldContact
             detailViewController = fieldContactVC
+        case let bailOrder as BailOrder:
+            let bailOrderVC = BailOrderViewController()
+            bailOrderVC.bailOrder = bailOrder
+            detailViewController = bailOrderVC
         default:
             detailViewController = nil
         }
