@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BC1F93381ED95DFB00F7A50C /* EventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1F93361ED95DFB00F7A50C /* EventDetailViewController.swift */; };
+		BC1F93391ED95DFB00F7A50C /* FieldContactDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1F93371ED95DFB00F7A50C /* FieldContactDetailViewController.swift */; };
 		BC4F33841ED3F41F00198505 /* CriminalHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4F33831ED3F41F00198505 /* CriminalHistory.swift */; };
 		BC77860D1ED8107A0099FA4F /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC77860C1ED8107A0099FA4F /* Event.swift */; };
 		BC9CD4041ED3994700D91786 /* Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9CD4031ED3994700D91786 /* Source.swift */; };
@@ -213,6 +215,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BC1F93361ED95DFB00F7A50C /* EventDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailViewController.swift; sourceTree = "<group>"; };
+		BC1F93371ED95DFB00F7A50C /* FieldContactDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FieldContactDetailViewController.swift; sourceTree = "<group>"; };
 		BC4F33831ED3F41F00198505 /* CriminalHistory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CriminalHistory.swift; sourceTree = "<group>"; };
 		BC77860C1ED8107A0099FA4F /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		BC9CD4031ED3994700D91786 /* Source.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Source.swift; sourceTree = "<group>"; };
@@ -433,6 +437,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BC1F93351ED95DFB00F7A50C /* Event Details */ = {
+			isa = PBXGroup;
+			children = (
+				BC1F93361ED95DFB00F7A50C /* EventDetailViewController.swift */,
+				BC1F93371ED95DFB00F7A50C /* FieldContactDetailViewController.swift */,
+			);
+			path = "Event Details";
+			sourceTree = "<group>";
+		};
 		BCFB7FC81ED66E6700567111 /* Entity Details */ = {
 			isa = PBXGroup;
 			children = (
@@ -451,6 +464,7 @@
 				BCFB7FCC1ED66E6700567111 /* EntityDetailCollectionViewCell.swift */,
 				BCFB7FCD1ED66E6700567111 /* EntityDetailsCollectionViewController.swift */,
 				BCFB7FCE1ED66E6700567111 /* EntityOccurrencesViewController.swift */,
+				BC1F93351ED95DFB00F7A50C /* Event Details */,
 				BCFB7FCF1ED66E6700567111 /* Organization */,
 				BCFB7FD11ED66E6700567111 /* Person */,
 				BCFB7FD81ED66E6700567111 /* Vehicle */,
@@ -1153,6 +1167,7 @@
 				C605F9DA1ECCAD48001194DD /* SourceBarCell.swift in Sources */,
 				C605F9661ECCAD48001194DD /* ManifestEntry.swift in Sources */,
 				C605F96A1ECCAD48001194DD /* Vehicle.swift in Sources */,
+				BC1F93391ED95DFB00F7A50C /* FieldContactDetailViewController.swift in Sources */,
 				BCDDBBFC1ECEDB9600D66D45 /* Alert.swift in Sources */,
 				C6A56FDB1ED156DC00B844AB /* Whereabouts.swift in Sources */,
 				C605F9931ECCAD48001194DD /* UIEdgeInsets+Convenience.swift in Sources */,
@@ -1257,6 +1272,7 @@
 				C605F99F1ECCAD48001194DD /* TableViewFormCheckboxCell.swift in Sources */,
 				BCFB7FE11ED66E6700567111 /* OrganizationInfoViewController.swift in Sources */,
 				C605F9E21ECCAD48001194DD /* FormDisclosureView.swift in Sources */,
+				BC1F93381ED95DFB00F7A50C /* EventDetailViewController.swift in Sources */,
 				C605F97A1ECCAD48001194DD /* URLRequestOperation.swift in Sources */,
 				C6BABED51ED1799500E423CB /* KnownAssociate.swift in Sources */,
 				C605F9A61ECCAD48001194DD /* FormTextView.swift in Sources */,

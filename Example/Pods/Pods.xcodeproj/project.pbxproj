@@ -129,11 +129,13 @@
 		B8F342192A59B2FED8CEE74862F03FC2 /* PopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF68188A80F54AED1AE88BF035230556 /* PopoverViewController.swift */; };
 		B922BEF22C1073009413D84C5466AB65 /* OAuthAuthorizationGrant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F3925A36CEC9C14E0191404160A85B /* OAuthAuthorizationGrant.swift */; };
 		BBEFE2F9CEB73DC7BD97FFA66A0D9D4F /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031703E0BF6A73707FEFA7A7789E0682 /* Validation.swift */; };
+		BC1F93341ED926E100F7A50C /* FieldContactDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1F93331ED926E100F7A50C /* FieldContactDetailViewController.swift */; };
 		BC4F33821ED3F3DF00198505 /* CriminalHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4F33811ED3F3DF00198505 /* CriminalHistory.swift */; };
 		BC4F338A1ED3FB4E00198505 /* String+EmptyFiltering.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4F33891ED3FB4E00198505 /* String+EmptyFiltering.swift */; };
 		BC4F79711ED68B5300A2D910 /* EventDetailHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4F79701ED68B5300A2D910 /* EventDetailHeaderCell.swift */; };
 		BC76CBE01ECE9E9B008F2562 /* DateFormatter+Static.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC76CBDE1ECE9DF3008F2562 /* DateFormatter+Static.swift */; };
 		BC77860B1ED80D910099FA4F /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC77860A1ED80D910099FA4F /* Event.swift */; };
+		BC7786111ED812A70099FA4F /* EventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7786101ED812A70099FA4F /* EventDetailViewController.swift */; };
 		BC9CD4021ED3991400D91786 /* Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9CD4011ED3991400D91786 /* Source.swift */; };
 		BCA1EA8F1ED1450C0050CABA /* PersonDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA1EA8D1ED142D40050CABA /* PersonDescription.swift */; };
 		BCA5A1331ED18E5F0088A164 /* BailOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA5A12C1ED18E5F0088A164 /* BailOrder.swift */; };
@@ -448,11 +450,13 @@
 		B781D307105D1630319F75139EB761AB /* ParameterEncoding.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ParameterEncoding.swift; path = Source/ParameterEncoding.swift; sourceTree = "<group>"; };
 		B9975340C35EADD1E86BCD62C76BF336 /* PickerTableViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PickerTableViewController.swift; sourceTree = "<group>"; };
 		BB01FCB7D8D5843875A3C0A312BB326E /* TableViewFormCheckboxCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TableViewFormCheckboxCell.swift; sourceTree = "<group>"; };
+		BC1F93331ED926E100F7A50C /* FieldContactDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FieldContactDetailViewController.swift; sourceTree = "<group>"; };
 		BC4F33811ED3F3DF00198505 /* CriminalHistory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CriminalHistory.swift; sourceTree = "<group>"; };
 		BC4F33891ED3FB4E00198505 /* String+EmptyFiltering.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+EmptyFiltering.swift"; sourceTree = "<group>"; };
 		BC4F79701ED68B5300A2D910 /* EventDetailHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailHeaderCell.swift; sourceTree = "<group>"; };
 		BC76CBDE1ECE9DF3008F2562 /* DateFormatter+Static.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Static.swift"; sourceTree = "<group>"; };
 		BC77860A1ED80D910099FA4F /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		BC7786101ED812A70099FA4F /* EventDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailViewController.swift; sourceTree = "<group>"; };
 		BC9CD4011ED3991400D91786 /* Source.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Source.swift; sourceTree = "<group>"; };
 		BCA1EA8D1ED142D40050CABA /* PersonDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonDescription.swift; sourceTree = "<group>"; };
 		BCA5A12C1ED18E5F0088A164 /* BailOrder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BailOrder.swift; sourceTree = "<group>"; };
@@ -1069,6 +1073,15 @@
 			path = ../..;
 			sourceTree = "<group>";
 		};
+		BC77860F1ED812960099FA4F /* Event Details */ = {
+			isa = PBXGroup;
+			children = (
+				BC7786101ED812A70099FA4F /* EventDetailViewController.swift */,
+				BC1F93331ED926E100F7A50C /* FieldContactDetailViewController.swift */,
+			);
+			path = "Event Details";
+			sourceTree = "<group>";
+		};
 		BCA5A12B1ED18E5F0088A164 /* Events */ = {
 			isa = PBXGroup;
 			children = (
@@ -1092,6 +1105,7 @@
 				BCFB7FAA1ED645AB00567111 /* EntityDetailCollectionViewCell.swift */,
 				BCFB7FAB1ED645AB00567111 /* EntityDetailsCollectionViewController.swift */,
 				BCFB7FAC1ED645AB00567111 /* EntityOccurrencesViewController.swift */,
+				BC77860F1ED812960099FA4F /* Event Details */,
 				BCFB7FAD1ED645AB00567111 /* Organization */,
 				BCFB7FAF1ED645AB00567111 /* Person */,
 				BCFB7FB41ED645AB00567111 /* Vehicle */,
@@ -1673,6 +1687,7 @@
 				BCA5A1481ED18EE80088A164 /* ScarMarkTattoo.swift in Sources */,
 				BDFA2DAA100EECB69249B9EBC387A429 /* ManifestEntry+Location.swift in Sources */,
 				BC9CD4021ED3991400D91786 /* Source.swift in Sources */,
+				BC7786111ED812A70099FA4F /* EventDetailViewController.swift in Sources */,
 				0BF6916E7CF791C02D2950921002BDC7 /* ManifestEntry.swift in Sources */,
 				2A1E7735E221E8A96875779A1A778E6A /* MapOverlayViewController.swift in Sources */,
 				F2CD77A1B47576D1B46DE46B9BE43926 /* ModelVersionable.swift in Sources */,
@@ -1742,6 +1757,7 @@
 				44608992CBAF0D135D56A85B7CB5D9F3 /* UIFont+TextStyle.swift in Sources */,
 				0A822E1E66FDD5B49DAC8AD36B00E775 /* UIImage+EntityImages.swift in Sources */,
 				3AE3C8CDF4E967B21646A6C9595A7B4B /* UIImage+FormIcons.swift in Sources */,
+				BC1F93341ED926E100F7A50C /* FieldContactDetailViewController.swift in Sources */,
 				4BCEBEFEEED6B7E9EF82BC56C72D4A5B /* UIImage+RoundedRects.swift in Sources */,
 				BCA5A1391ED18E5F0088A164 /* Whereabouts.swift in Sources */,
 				EA9B0BF11678708A0B96244293353676 /* UIImage+StatusDot.swift in Sources */,

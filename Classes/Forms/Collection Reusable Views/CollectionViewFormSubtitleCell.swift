@@ -12,7 +12,7 @@ fileprivate var kvoContext = 1
 
 open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
     
-    public enum Emphasis {
+    @objc(CollectionViewFormSubtitleEmphasis) public enum Emphasis: Int {
         case title
         case subtitle
     }
