@@ -12,9 +12,12 @@ fileprivate var kvoContext = 1
 
 open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
     
-    @objc(CollectionViewFormSubtitleEmphasis) public enum Emphasis: Int {
-        case title
-        case subtitle
+    private class func standardFonts(compatibleWith traitCollection: UITraitCollection) -> (titleFont: UIFont, subtitleFont: UIFont) {
+        if #available(iOS 10, *) {
+            return (UIFont.preferredFont(forTextStyle: .headline, compatibleWith: traitCollection), UIFont.preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection))
+        } else {
+            return (UIFont.preferredFont(forTextStyle: .headline), UIFont.preferredFont(forTextStyle: .footnote))
+        }
     }
     
     // MARK: - Public properties
@@ -31,24 +34,6 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
     public let imageView: UIImageView = UIImageView(frame: .zero)
     
     
-    /// A boolean value indicating whether the cell represents an editable field.
-    /// The default is `true`.
-    ///
-    /// This value can be used to inform MPOL apps that the cell should be
-    /// displayed with the standard MPOL editable colors and/or adornments.
-    ///
-    /// This should be ignored by MPOL apps when the emphasis is on the title.
-    public var isEditableField: Bool = true
-    
-    
-    /// The emphasized element within the cell. The emphasized item will be highlighted
-    /// with stronger default fonts.
-    ///
-    /// Changing this property resets the label fonts to default.
-    open var emphasis: Emphasis = .title {
-        didSet { if emphasis != oldValue { updateFonts() } }
-    }
-    
     open var preferredLabelSeparation: CGFloat = CellTitleSubtitleSeparation {
         didSet {
             if (titleLabel.text?.isEmpty ?? true) == false && (subtitleLabel.text?.isEmpty ?? true) == false {
@@ -59,14 +44,6 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
     
     
     // MARK: - Private/internal properties
-    
-    /// A boolean value indicating to MPOL applications that the cell represents an editable
-    /// field. This variable is exposed via the additional MPOL property `isEditableField`,
-    /// and should be ignored when the cell is "title-emphasised".
-    ///
-    /// The default is `true`.
-    
-    internal let textLayoutGuide = UILayoutGuide()
     
     private var titleSubtitleConstraint: NSLayoutConstraint!
     
@@ -101,8 +78,9 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
         contentView.addSubview(titleLabel)
         contentView.addSubview(imageView)
         
-        let textLayoutGuide        = self.textLayoutGuide
         let contentModeLayoutGuide = self.contentModeLayoutGuide
+        
+        let textLayoutGuide = UILayoutGuide()
         contentView.addLayoutGuide(textLayoutGuide)
         
         imageView.isHidden     = true
@@ -114,7 +92,9 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
             subtitleLabel.adjustsFontForContentSizeCategory = true
         }
         
-        updateFonts()
+        let fonts = type(of: self).standardFonts(compatibleWith: traitCollection)
+        titleLabel.font = fonts.titleFont
+        subtitleLabel.font = fonts.subtitleFont
         
         subtitleLabel.numberOfLines = 0
         
@@ -246,11 +226,6 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
     
     // MARK: - Private methods
     
-    private func updateFonts() {
-        titleLabel.font    = .preferredFont(forTextStyle: emphasis == .title ? .headline : .footnote)
-        subtitleLabel.font = .preferredFont(forTextStyle: emphasis == .title ? .footnote : .headline)
-    }
-    
     private func updateLabelMaxSizes() {
         let width         = frame.width
         let layoutMargins = self.layoutMargins
@@ -273,26 +248,19 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
     ///   - subtitle:           The subtitle text for the cell.
     ///   - traitCollection:    The trait collection the cell will be displayed in.
     ///   - image:              The leading image for the cell. The default is `nil`.
-    ///   - emphasis:           The emphasis setting for the cell. The default is `.title`.
-    ///   - titleFont:          The title font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
-    ///   - subtitleFont:       The subtitle font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
+    ///   - titleFont:          The title font. The default is `nil`, indicating the calculation should use the default.
+    ///   - subtitleFont:       The subtitle font. The default is `nil`, indicating the calculation should use the default.
     ///   - singleLineTitle:    A boolean value indicating if the title text should be constrained to a single line. The default is `true`.
     ///   - singleLineSubtitle: A boolean value indicating if the subtitle text should be constrained to a single line. The default is `false`.
     ///   - accessoryViewWidth: The width for the accessory view.
     /// - Returns: The minumum content width for the cell.
-    open class func minimumContentWidth(withTitle title: String?, subtitle: String?, compatibleWith traitCollection: UITraitCollection, image: UIImage? = nil,
-                                        emphasis: Emphasis = .title, titleFont: UIFont? = nil, subtitleFont: UIFont? = nil,
+    open class func minimumContentWidth(withTitle title: String?, subtitle: String?, compatibleWith traitCollection: UITraitCollection,
+                                        image: UIImage? = nil, titleFont: UIFont? = nil, subtitleFont: UIFont? = nil,
                                         singleLineTitle: Bool = true, singleLineSubtitle: Bool = false, accessoryViewWidth: CGFloat = 0.0) -> CGFloat {
-        let titleTextFont:    UIFont
-        let subtitleTextFont: UIFont
+        let standardFonts = self.standardFonts(compatibleWith: traitCollection)
         
-        if #available(iOS 10, *) {
-            titleTextFont    = titleFont    ?? .preferredFont(forTextStyle: emphasis == .title ? .headline : .footnote, compatibleWith: traitCollection)
-            subtitleTextFont = subtitleFont ?? .preferredFont(forTextStyle: emphasis == .title ? .footnote : .headline, compatibleWith: traitCollection)
-        } else {
-            titleTextFont    = titleFont    ?? .preferredFont(forTextStyle: emphasis == .title ? .headline : .footnote)
-            subtitleTextFont = subtitleFont ?? .preferredFont(forTextStyle: emphasis == .title ? .footnote : .headline)
-        }
+        let titleTextFont = titleFont ?? standardFonts.titleFont
+        let subtitleTextFont = subtitleFont ?? standardFonts.subtitleFont
         
         var imageSpace = image?.size.width ?? 0.0
         if imageSpace > 0.0 {
@@ -321,25 +289,18 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
     ///   - width:              The width constraint for the cell.
     ///   - traitCollection:    The trait collection the cell will be displayed in.
     ///   - image:              The leading image for the cell. The default is `nil`.
-    ///   - emphasis:           The emphasis setting for the cell. The default is `.text`.
-    ///   - titleFont:          The title font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
-    ///   - subtitleFont:       The subtitle font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
+    ///   - titleFont:          The title font. The default is `nil`, indicating the calculation should use the default.
+    ///   - subtitleFont:       The subtitle font. The default is `nil`, indicating the calculation should use the default.
     ///   - singleLineTitle:    A boolean value indicating if the title text should be constrained to a single line. The default is `false`.
     ///   - singleLineSubtitle: A boolean value indicating if the subtitle text should be constrained to a single line. The default is `false`.
     /// - Returns:      The minumum content height for the cell.
     open class func minimumContentHeight(withTitle title: String?, subtitle: String?, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection,
-                                         image: UIImage? = nil, emphasis: Emphasis = .title, titleFont: UIFont? = nil, subtitleFont: UIFont? = nil,
+                                         image: UIImage? = nil, titleFont: UIFont? = nil, subtitleFont: UIFont? = nil,
                                          singleLineTitle: Bool = true, singleLineSubtitle: Bool = false) -> CGFloat {
-        let titleTextFont:    UIFont
-        let subtitleTextFont: UIFont
+        let standardFonts = self.standardFonts(compatibleWith: traitCollection)
         
-        if #available(iOS 10, *) {
-            titleTextFont    = titleFont    ?? .preferredFont(forTextStyle: emphasis == .title ? .headline : .footnote, compatibleWith: traitCollection)
-            subtitleTextFont = subtitleFont ?? .preferredFont(forTextStyle: emphasis == .title ? .footnote : .headline, compatibleWith: traitCollection)
-        } else {
-            titleTextFont    = titleFont    ?? .preferredFont(forTextStyle: emphasis == .title ? .headline : .footnote)
-            subtitleTextFont = subtitleFont ?? .preferredFont(forTextStyle: emphasis == .title ? .footnote : .headline)
-        }
+        let titleTextFont = titleFont ?? standardFonts.titleFont
+        let subtitleTextFont = subtitleFont ?? standardFonts.subtitleFont
         
         let imageSize = image?.size
         

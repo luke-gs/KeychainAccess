@@ -36,6 +36,7 @@ open class VehicleInfoViewController: EntityDetailCollectionViewController {
         collectionView.register(EntityDetailCollectionViewCell.self)
         collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         collectionView.register(CollectionViewFormSubtitleCell.self)
+        collectionView.register(CollectionViewFormValueFieldCell.self)
     }
     
     
@@ -111,13 +112,12 @@ open class VehicleInfoViewController: EntityDetailCollectionViewController {
             multiLineSubtitle = ownerItem.wantsMultiLineDetail
         }
         
-        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
-        cell.emphasis = .subtitle
-        cell.isEditableField = false
+        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormValueFieldCell.self, for: indexPath)
+        cell.isEditable = false
         
         cell.titleLabel.text = title
-        cell.subtitleLabel.text = subtitle
-        cell.subtitleLabel.numberOfLines = multiLineSubtitle ? 0 : 1
+        cell.valueLabel.text = subtitle
+        cell.valueLabel.numberOfLines = multiLineSubtitle ? 0 : 1
         
         return cell
     }
@@ -195,25 +195,25 @@ open class VehicleInfoViewController: EntityDetailCollectionViewController {
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
         let title: String
-        let subtitle: String
+        let value: String
         
-        let wantsMultiLineSubtitle: Bool
+        let wantsMultiLineValue: Bool
         switch Section(rawValue: indexPath.section)! {
         case .header:
             return EntityDetailCollectionViewCell.minimumContentHeight(withTitle: "Smith, Max R.", subtitle: "08/05/1987 (29 Male)", description: "196 cm proportionate european male with short brown hair and brown eyes", descriptionPlaceholder: nil, additionalDetails: "4 MORE DESCRIPTIONS", source: "DATA SOURCE 1", inWidth: itemWidth, compatibleWith: traitCollection) - layout.itemLayoutMargins.bottom
         case .registration:
             let regoItem = RegistrationItem(rawValue: indexPath.item)
             title    = regoItem?.localizedTitle ?? ""
-            subtitle = regoItem?.value(from: nil) ?? ""
-            wantsMultiLineSubtitle = false
+            value = regoItem?.value(from: nil) ?? ""
+            wantsMultiLineValue = false
         case .owner:
             let ownerItem = OwnerItem(rawValue: indexPath.item)
             title    = ownerItem?.localizedTitle ?? ""
-            subtitle = ownerItem?.value(for: nil) ?? ""
-            wantsMultiLineSubtitle = ownerItem?.wantsMultiLineDetail ?? false
+            value = ownerItem?.value(for: nil) ?? ""
+            wantsMultiLineValue = ownerItem?.wantsMultiLineDetail ?? false
         }
         
-        return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: title, subtitle: subtitle, inWidth: itemWidth, compatibleWith: traitCollection, emphasis: .subtitle, singleLineSubtitle: wantsMultiLineSubtitle == false)
+        return CollectionViewFormValueFieldCell.minimumContentHeight(withTitle: title, value: value, inWidth: itemWidth, compatibleWith: traitCollection, singleLineValue: wantsMultiLineValue == false)
     }
     
     

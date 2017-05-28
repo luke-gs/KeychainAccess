@@ -30,16 +30,16 @@ open class EventDetailViewController: FormCollectionViewController {
         
         public var style: Style
         public var title: String?
-        public var subtitle: String?
+        public var detail: String?
         public var placeholder: String?
         public var image: UIImage?
         public var preferredColumnCount: Int
         public var minimumContentWidth: CGFloat
         
-        public init(style: Style = .valueField, title: String, subtitle: String?, placeholder: String? = nil, image: UIImage? = nil, preferredColumnCount: Int = 3, minimumContentWidth: CGFloat = 180.0) {
+        public init(style: Style = .valueField, title: String?, detail: String?, placeholder: String? = nil, image: UIImage? = nil, preferredColumnCount: Int = 3, minimumContentWidth: CGFloat = 180.0) {
             self.style = style
-            self.title = title
-            self.subtitle = subtitle
+            self.title = title?.ifNotEmpty()
+            self.detail = detail?.ifNotEmpty()
             self.placeholder = placeholder
             self.image = image
             self.preferredColumnCount = preferredColumnCount
@@ -89,6 +89,7 @@ open class EventDetailViewController: FormCollectionViewController {
         guard let collectionView = self.collectionView else { return }
         
         collectionView.register(CollectionViewFormSubtitleCell.self)
+        collectionView.register(CollectionViewFormValueFieldCell.self)
         collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
     }
     
@@ -116,34 +117,31 @@ open class EventDetailViewController: FormCollectionViewController {
     }
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
-        
         let item = sections[indexPath.section].items[indexPath.item]
         switch item.style {
         case .header:
-            cell.emphasis = .title
+            let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
+            cell.imageView.image = item.image
             cell.titleLabel.font = .systemFont(ofSize: 28.0, weight: UIFontWeightBold)
+            cell.titleLabel.text = item.title
+            cell.subtitleLabel.text = item.detail
+            return cell
         case .item:
-            if cell.emphasis == .title {
-                // Toggle emphasis to subtitle and then back to ensure the default font is reset.
-                cell.emphasis = .subtitle
-            }
-            cell.emphasis = .title
+            let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
+            cell.imageView.image = item.image
+            cell.titleLabel.font = .preferredFont(forTextStyle: .headline)
+            cell.titleLabel.text = item.title
+            cell.subtitleLabel.text = item.detail
+            return cell
         case .valueField:
-            cell.emphasis = .subtitle
-            cell.isEditableField = false
+            let cell = collectionView.dequeueReusableCell(of: CollectionViewFormValueFieldCell.self, for: indexPath)
+            cell.imageView.image = item.image
+            cell.isEditable = false
+            cell.titleLabel.text = item.title
+            cell.valueLabel.text = item.detail
+            cell.placeholderLabel.text = item.placeholder
+            return cell
         }
-        
-        cell.titleLabel.text = item.title
-        
-        if let subtitle = item.subtitle?.ifNotEmpty() {
-            // TODO: Handle placeholder on subtitle cell
-            cell.subtitleLabel.text = subtitle
-        } else {
-            cell.subtitleLabel.text = item.placeholder
-        }
-        
-        return cell
     }
     
     
@@ -178,23 +176,14 @@ open class EventDetailViewController: FormCollectionViewController {
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
         let item = sections[indexPath.section].items[indexPath.item]
         
-        let titleFont: UIFont?
-        let singleLineTitle: Bool
         
         switch item.style {
-        case .header:
-            titleFont = .systemFont(ofSize: 28.0, weight: UIFontWeightBold)
-            singleLineTitle = false
-        case .item:
-            titleFont = nil
-            singleLineTitle = false
+        case .header, .item:
+            let titleFont: UIFont? = item.style == .header ? .systemFont(ofSize: 28.0, weight: UIFontWeightBold) : nil
+            return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: item.title, subtitle: item.detail?.ifNotEmpty(), inWidth: itemWidth, compatibleWith: traitCollection, image: item.image, titleFont: titleFont, singleLineTitle: false)
         case .valueField:
-            titleFont = nil
-            singleLineTitle = true
+            return CollectionViewFormValueFieldCell.minimumContentHeight(withTitle: item.title, value: item.detail ?? item.placeholder, inWidth: itemWidth, compatibleWith: traitCollection)
         }
-        // TODO: Handle placeholder on subtitle cell
-        
-        return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: item.title, subtitle: item.subtitle?.ifNotEmpty() ?? item.placeholder, inWidth: itemWidth, compatibleWith: traitCollection, image: item.image, emphasis: item.style == .valueField ? .subtitle : .title, titleFont: titleFont, singleLineTitle: singleLineTitle)
     }
     
 }

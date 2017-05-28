@@ -12,6 +12,7 @@
 		BC4F33841ED3F41F00198505 /* CriminalHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4F33831ED3F41F00198505 /* CriminalHistory.swift */; };
 		BC77860D1ED8107A0099FA4F /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC77860C1ED8107A0099FA4F /* Event.swift */; };
 		BC9CD4041ED3994700D91786 /* Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9CD4031ED3994700D91786 /* Source.swift */; };
+		BCC532D91EDAEF0400E2C994 /* CollectionViewFormValueFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC532D81EDAEF0400E2C994 /* CollectionViewFormValueFieldCell.swift */; };
 		BCDDBBFC1ECEDB9600D66D45 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDDBBFB1ECEDB9600D66D45 /* Alert.swift */; };
 		BCFB7FDC1ED66E6700567111 /* EntityAlertsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFB7FCA1ED66E6700567111 /* EntityAlertsViewController.swift */; };
 		BCFB7FDD1ED66E6700567111 /* EntityAssociationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFB7FCB1ED66E6700567111 /* EntityAssociationsViewController.swift */; };
@@ -220,6 +221,7 @@
 		BC4F33831ED3F41F00198505 /* CriminalHistory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CriminalHistory.swift; sourceTree = "<group>"; };
 		BC77860C1ED8107A0099FA4F /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		BC9CD4031ED3994700D91786 /* Source.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Source.swift; sourceTree = "<group>"; };
+		BCC532D81EDAEF0400E2C994 /* CollectionViewFormValueFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormValueFieldCell.swift; sourceTree = "<group>"; };
 		BCDDBBFB1ECEDB9600D66D45 /* Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		BCFB7FCA1ED66E6700567111 /* EntityAlertsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityAlertsViewController.swift; sourceTree = "<group>"; };
 		BCFB7FCB1ED66E6700567111 /* EntityAssociationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityAssociationsViewController.swift; sourceTree = "<group>"; };
@@ -757,6 +759,7 @@
 				C605F8E81ECCAD47001194DD /* CollectionViewFormExpandingHeaderView.swift */,
 				C605F8E91ECCAD47001194DD /* CollectionViewFormOptionCell.swift */,
 				C605F8EA1ECCAD47001194DD /* CollectionViewFormSubtitleCell.swift */,
+				BCC532D81EDAEF0400E2C994 /* CollectionViewFormValueFieldCell.swift */,
 				C605F8EB1ECCAD47001194DD /* CollectionViewFormTextFieldCell.swift */,
 				C605F8EC1ECCAD47001194DD /* CollectionViewFormTextViewCell.swift */,
 			);
@@ -1284,6 +1287,7 @@
 				C605F9DF1ECCAD48001194DD /* BadgeView.swift in Sources */,
 				C605F98B1ECCAD48001194DD /* CollectionViewFormTextViewCell.swift in Sources */,
 				C605F9921ECCAD48001194DD /* UIColor+ActionColors.swift in Sources */,
+				BCC532D91EDAEF0400E2C994 /* CollectionViewFormValueFieldCell.swift in Sources */,
 				C605F9AB1ECCAD48001194DD /* MPOLKitInitialize.swift in Sources */,
 				BCFB7FE21ED66E6700567111 /* FieldContactDetailsViewController.swift in Sources */,
 				C6A5F0001ECE76E900B0D915 /* Person.swift in Sources */,

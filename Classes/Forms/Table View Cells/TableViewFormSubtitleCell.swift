@@ -24,6 +24,11 @@ fileprivate var kvoContext = 1
 /// do not require to specify a default height, and can allow the cell to indicate it's height dynamically.
 open class TableViewFormSubtitleCell: TableViewFormCell {
     
+    public enum Emphasis {
+        case title
+        case subtitle
+    }
+    
     /// The text label for the cell. This is guaranteed to be non-nil.
     open override var textLabel: UILabel {
         return titleLabel
@@ -39,7 +44,7 @@ open class TableViewFormSubtitleCell: TableViewFormCell {
     }
     
     /// The font emphasis for the cell. The default is `.title`.
-    open var emphasis: CollectionViewFormSubtitleCell.Emphasis = .title {
+    open var emphasis: Emphasis = .title {
         didSet { applyStandardFonts() }
     }
     
