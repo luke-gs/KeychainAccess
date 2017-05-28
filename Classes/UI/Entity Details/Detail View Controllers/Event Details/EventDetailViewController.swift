@@ -180,7 +180,7 @@ open class EventDetailViewController: FormCollectionViewController {
         switch item.style {
         case .header, .item:
             let titleFont: UIFont? = item.style == .header ? .systemFont(ofSize: 28.0, weight: UIFontWeightBold) : nil
-            return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: item.title, subtitle: item.detail?.ifNotEmpty(), inWidth: itemWidth, compatibleWith: traitCollection, image: item.image, titleFont: titleFont, singleLineTitle: false)
+            return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: item.title, subtitle: item.detail?.ifNotEmpty(), inWidth: itemWidth, compatibleWith: traitCollection, image: item.image, titleFont: titleFont, singleLineTitle: false) + (item.style == .header ? 15.0 : 0.0)
         case .valueField:
             return CollectionViewFormValueFieldCell.minimumContentHeight(withTitle: item.title, value: item.detail ?? item.placeholder, inWidth: itemWidth, compatibleWith: traitCollection)
         }
