@@ -93,7 +93,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         guard let view = self.view, let collectionView = self.collectionView else { return }
         
         collectionView.register(SearchFieldCollectionViewCell.self)
-        collectionView.register(CollectionViewFormSubtitleCell.self)
+        collectionView.register(CollectionViewFormValueFieldCell.self)
         collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         collectionView.alwaysBounceVertical = false
         
@@ -288,10 +288,9 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
             
             return cell
         case .filters:
-            let filterCell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
-            filterCell.emphasis = .subtitle
-            filterCell.isEditableField = true
-            filterCell.subtitleLabel.numberOfLines = 1
+            let filterCell = collectionView.dequeueReusableCell(of: CollectionViewFormValueFieldCell.self, for: indexPath)
+            filterCell.isEditable = true
+            filterCell.valueLabel.numberOfLines = 1
             filterCell.selectionStyle = .underline
             filterCell.highlightStyle = .fade
             
@@ -299,13 +298,8 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
             let dataSource = self.selectedDataSource
             
             filterCell.titleLabel.text = dataSource.titleForFilter(at: filterIndex)
-            if let value = dataSource.valueForFilter(at: filterIndex) {
-                filterCell.subtitleLabel.text  = value
-                filterCell.subtitleLabel.alpha = 1.0
-            } else {
-                filterCell.subtitleLabel.text  = dataSource.defaultValueForFilter(at: filterIndex)
-                filterCell.subtitleLabel.alpha = 0.3
-            }
+            filterCell.valueLabel.text = dataSource.valueForFilter(at: filterIndex)
+            filterCell.placeholderLabel.text = dataSource.defaultValueForFilter(at: filterIndex)
             
             return filterCell
         }
@@ -430,7 +424,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
             let filterIndex = indexPath.item
             let title    = selectedDataSource.titleForFilter(at: filterIndex)
             let subtitle = selectedDataSource.valueForFilter(at: filterIndex) ?? selectedDataSource.defaultValueForFilter(at: filterIndex)
-            return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: title, subtitle: subtitle, inWidth: itemWidth, compatibleWith: traitCollection, emphasis: .subtitle, singleLineSubtitle: true)
+            return CollectionViewFormValueFieldCell.minimumContentHeight(withTitle: title, value: subtitle, inWidth: itemWidth, compatibleWith: traitCollection, singleLineValue: true)
         }
         
     }
