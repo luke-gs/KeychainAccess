@@ -8,9 +8,7 @@
 
 import Unbox
 
-open class MissingPersonReport: NSObject, Serialisable {
-
-    open let id: String
+open class MissingPersonReport: Event {
     
     open var subincidentID: String?
     open var missingFromDate: Date?
@@ -35,18 +33,10 @@ open class MissingPersonReport: NSObject, Serialisable {
     open var missingPersonReports: [String]?
     open var probableDestination: String?
     
-    public init(id: String) {
-        self.id = id
-        super.init()
-    }
-    
     private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
     
     public required init(unboxer: Unboxer) throws {
-        guard let id: String = unboxer.unbox(key: "id") else {
-            throw ParsingError.missingRequiredField
-        }
-        self.id = id
+        try super.init(unboxer: unboxer)
         
         subincidentID = unboxer.unbox(key: "subincidentId")
         missingFromDate = unboxer.unbox(key: "missingFrom", formatter: MissingPersonReport.dateTransformer)
@@ -78,12 +68,12 @@ open class MissingPersonReport: NSObject, Serialisable {
         fatalError("Not implemented yet")
     }
     
-    open func encode(with aCoder: NSCoder) {
-        
+    public required init(id: String) {
+        super.init(id: id)
     }
     
-    open static var supportsSecureCoding: Bool {
-        return true
+    open override func encode(with aCoder: NSCoder) {
+        super.encode(with: aCoder)
+        fatalError("Not implemented yet")
     }
-    
 }

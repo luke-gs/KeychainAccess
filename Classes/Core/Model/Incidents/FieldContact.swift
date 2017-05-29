@@ -8,9 +8,7 @@
 
 import Unbox
 
-open class FieldContact: NSObject, Serialisable {
-
-    open let id: String
+open class FieldContact: Event {
     
     open var remarks: String?
     
@@ -29,18 +27,10 @@ open class FieldContact: NSObject, Serialisable {
     open var contactDescriptions: [String]?
     open var reportingStation: String?
     
-    public init(id: String) {
-        self.id = id
-        super.init()
-    }
-    
     private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
     
     public required init(unboxer: Unboxer) throws {
-        guard let id: String = unboxer.unbox(key: "id") else {
-            throw ParsingError.missingRequiredField
-        }
-        self.id = id
+        try super.init(unboxer: unboxer)
         
         remarks = unboxer.unbox(key: "remarks")
         
@@ -63,11 +53,12 @@ open class FieldContact: NSObject, Serialisable {
         fatalError("Not implemented yet")
     }
     
-    open func encode(with aCoder: NSCoder) {
-        
+    public required init(id: String) {
+        super.init(id: id)
     }
     
-    open static var supportsSecureCoding: Bool {
-        return true
+    open override func encode(with aCoder: NSCoder) {
+        super.encode(with: aCoder)
+        fatalError("Not implemented yet")
     }
 }

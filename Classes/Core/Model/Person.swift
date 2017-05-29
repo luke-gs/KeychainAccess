@@ -100,7 +100,7 @@ open class Person: Entity {
     
     open var criminalHistory: [CriminalHistory]?
     
-    open var thumbnail: UIImage? = #imageLiteral(resourceName: "Avatar 1")
+    open var thumbnail: UIImage?
     private lazy var initialThumbnail: UIImage = { [unowned self] in
         if let initials = self.initials?.ifNotEmpty() {            
             return UIImage.thumbnail(withInitials: initials)

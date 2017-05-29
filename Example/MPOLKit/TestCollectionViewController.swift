@@ -14,7 +14,8 @@ class TestCollectionViewController: FormCollectionViewController  {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        collectionView?.register(CollectionViewFormTextFieldCell.self)
+        collectionView?.register(CollectionViewFormSubtitleCell.self)
+        collectionView?.register(CollectionViewFormValueFieldCell.self)
         collectionView?.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
     }
     
@@ -41,10 +42,17 @@ class TestCollectionViewController: FormCollectionViewController  {
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormTextFieldCell.self, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormValueFieldCell.self, for: indexPath)
         
         cell.titleLabel.text =  "Test Title \(indexPath.item + 1)"
-        cell.textField.placeholder = "Testing placeholder \(indexPath.item + 1)"
+        cell.placeholderLabel.text = "Testing placeholder \(indexPath.item + 1)"
+        
+        if indexPath.item % 2 == 0 {
+            cell.valueLabel.text = "Testing value \(indexPath.item + 1)"
+        } else {
+            cell.valueLabel.text = nil
+        }
+        
         cell.editActions = [CollectionViewFormEditAction(title: "DELETE", color: .destructive, handler: nil)]
         
         return cell
@@ -63,7 +71,7 @@ class TestCollectionViewController: FormCollectionViewController  {
     }
     
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
-        return CollectionViewFormTextFieldCell.minimumContentHeight(withTitle: "Kj", inWidth: itemWidth, compatibleWith: traitCollection)
+        return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: "Kj", subtitle: "Kj", inWidth: itemWidth, compatibleWith: traitCollection)
     }
     
     

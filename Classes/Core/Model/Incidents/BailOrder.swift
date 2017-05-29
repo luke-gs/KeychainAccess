@@ -8,10 +8,8 @@
 
 import Unbox
 
-open class BailOrder: NSObject, Serialisable {
+open class BailOrder: Event {
 
-    open let id: String
-    
     open var hasOwnerUndertaking: Bool?
     open var reportingRequirements: [String]?
     open var firstReportDate: Date?
@@ -27,19 +25,10 @@ open class BailOrder: NSObject, Serialisable {
     open var postedAt: String?
     open var hearingLocation: String?
     
-    
-    public init(id: String) {
-        self.id = id
-        super.init()
-    }
-    
     private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
     
     public required init(unboxer: Unboxer) throws {
-        guard let id: String = unboxer.unbox(key: "id") else {
-            throw ParsingError.missingRequiredField
-        }
-        self.id = id
+        try super.init(unboxer: unboxer)
         
         hasOwnerUndertaking = unboxer.unbox(key: "hasOwnerUndertaking")
         reportingRequirements = unboxer.unbox(key: "reportingRequirements")
@@ -60,11 +49,13 @@ open class BailOrder: NSObject, Serialisable {
         fatalError("Not implemented yet")
     }
     
-    open func encode(with aCoder: NSCoder) {
-        
+    public required init(id: String) {
+        super.init(id: id)
     }
     
-    open static var supportsSecureCoding: Bool {
-        return true
+    open override func encode(with aCoder: NSCoder) {
+        super.encode(with: aCoder)
+        fatalError("Not implemented yet")
     }
+    
 }

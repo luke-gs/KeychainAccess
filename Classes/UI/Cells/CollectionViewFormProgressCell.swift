@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class CollectionViewFormProgressCell: CollectionViewFormSubtitleCell {
+open class CollectionViewFormProgressCell: CollectionViewFormValueFieldCell {
 
     public let progressView: UIProgressView = UIProgressView(progressViewStyle: .default)
     

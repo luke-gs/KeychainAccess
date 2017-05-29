@@ -35,6 +35,7 @@ open class OrganizationInfoViewController: EntityDetailCollectionViewController 
         guard let collectionView = self.collectionView else { return }
         
         collectionView.register(CollectionViewFormSubtitleCell.self)
+        collectionView.register(CollectionViewFormValueFieldCell.self)
         collectionView.register(EntityDetailCollectionViewCell.self)
         collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
     }
@@ -115,13 +116,12 @@ open class OrganizationInfoViewController: EntityDetailCollectionViewController 
             multiLineLabel = false
         }
         
-        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
-        cell.emphasis = .subtitle
-        cell.isEditableField = false
+        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormValueFieldCell.self, for: indexPath)
+        cell.isEditable = false
         
         cell.titleLabel.text = title
-        cell.subtitleLabel.text = subtitle
-        cell.subtitleLabel.numberOfLines = multiLineLabel ? 0 : 1
+        cell.valueLabel.text = subtitle
+        cell.valueLabel.numberOfLines = multiLineLabel ? 0 : 1
         
         return cell
     }
@@ -172,24 +172,24 @@ open class OrganizationInfoViewController: EntityDetailCollectionViewController 
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
         let title: String
-        let subtitle: String
+        let value: String
         
-        let wantsMultiLineSubtitle: Bool
+        let wantsMultiLineValue: Bool
         switch Section(rawValue: indexPath.section)! {
         case .header:
             return EntityDetailCollectionViewCell.minimumContentHeight(withTitle: "Smith, Max R.", subtitle: "08/05/1987 (29 Male)", description: "196 cm proportionate european male with short brown hair and brown eyes", descriptionPlaceholder: nil, additionalDetails: "4 MORE DESCRIPTIONS", source: "DATA SOURCE 1", inWidth: itemWidth, compatibleWith: traitCollection) - layout.itemLayoutMargins.bottom
         case .details:
             let detailItem = DetailItem(rawValue: indexPath.item)
             title    = detailItem?.localizedTitle ?? ""
-            subtitle = detailItem?.value(for: nil) ?? ""
-            wantsMultiLineSubtitle = detailItem?.wantsMultiLineSubtitle ?? false
+            value = detailItem?.value(for: nil) ?? ""
+            wantsMultiLineValue = detailItem?.wantsMultiLineSubtitle ?? false
         case .aliases:
             title    = "Alernative name"
-            subtitle = "Orion Central Bank Melbourne"
-            wantsMultiLineSubtitle = false
+            value = "Orion Central Bank Melbourne"
+            wantsMultiLineValue = false
         }
         
-        return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: title, subtitle: subtitle, inWidth: itemWidth, compatibleWith: traitCollection, emphasis: .subtitle, singleLineSubtitle: wantsMultiLineSubtitle == false)
+        return CollectionViewFormValueFieldCell.minimumContentHeight(withTitle: title, value: value, inWidth: itemWidth, compatibleWith: traitCollection, singleLineValue: wantsMultiLineValue == false)
     }
     
     

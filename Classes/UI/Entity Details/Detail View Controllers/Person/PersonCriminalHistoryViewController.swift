@@ -65,6 +65,7 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
         
         collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         collectionView.register(CollectionViewFormSubtitleCell.self)
+        collectionView.register(CollectionViewFormValueFieldCell.self)
     }
     
     
@@ -80,7 +81,6 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
-        cell.emphasis = .title
         
         let history = criminalHistory![indexPath.item]
         let text = cellText(for: history)
@@ -117,7 +117,7 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
         let history = criminalHistory![indexPath.item]
         let text = cellText(for: history)
-        return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: text.title, subtitle: text.subtitle, inWidth: itemWidth, compatibleWith: traitCollection, emphasis: .title)
+        return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: text.title, subtitle: text.subtitle, inWidth: itemWidth, compatibleWith: traitCollection)
     }
     
     
