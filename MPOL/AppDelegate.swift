@@ -11,7 +11,7 @@ import UserNotifications
 import MPOLKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, LoginViewControllerDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, LoginViewControllerDelegate, TermsConditionsViewControllerDelegate {
 
     var window: UIWindow?
     var tabBarController: UITabBarController?
@@ -80,7 +80,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     // MARK: - Login view controller delegate
     
     func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String) {
-        updateInterface(forLogin: false, animated: true)
+        let tsAndCsVC = TermsConditionsViewController()
+        tsAndCsVC.delegate = self
+        let navController = PopoverNavigationController(rootViewController: tsAndCsVC)
+        navController.modalPresentationStyle = .formSheet
+        controller.present(navController, animated: true)
+    }
+    
+    
+    // MARK: - Terms and conditions delegate
+    
+    func termsConditionsController(_ controller: TermsConditionsViewController, didFinishAcceptingConditions accept: Bool) {
+        controller.dismiss(animated: true) { 
+            if accept {
+                self.updateInterface(forLogin: false, animated: true)
+            }
+        }
     }
     
     
@@ -184,5 +199,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         AlertQueue.shared.preferredStatusBarStyle = theme.statusBarStyle
     }
+    
+    
 }
 
