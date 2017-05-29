@@ -355,16 +355,24 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     // MARK: - Private methods
     
     @objc private func displaySearchTriggered() {
-        // TODO: Reset search details
+        func showSearchDetails() {
+            // TODO: Reset search details
+            
+            // Temp
+            let request = searchOptionsViewController.selectedDataSource.request as! PersonSearchRequest
+            request.searchText = nil
+            request.ageRange   = nil
+            searchOptionsViewController.collectionView?.reloadData()
+            
+            setShowingSearchOptions(true, animated: true)
+            searchOptionsViewController.beginEditingSearchField()
+        }
         
-        // Temp
-        let request = searchOptionsViewController.selectedDataSource.request as! PersonSearchRequest
-        request.searchText = nil
-        request.ageRange   = nil
-        searchOptionsViewController.collectionView?.reloadData()
-        
-        setShowingSearchOptions(true, animated: true)
-        searchOptionsViewController.beginEditingSearchField()
+        if presentedViewController != nil {
+            dismiss(animated: true, completion: showSearchDetails)
+        } else {
+            showSearchDetails()
+        }
     }
     
     @objc private func cancelSearchTriggered() {
