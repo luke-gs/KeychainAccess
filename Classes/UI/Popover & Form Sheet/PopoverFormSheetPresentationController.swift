@@ -177,7 +177,7 @@ public class PopoverFormSheetPresentationController: UIPresentationController, U
         
         let transitionDuration = self.transitionDuration(using: transitionContext)
         
-        UIView.animate(withDuration: transitionDuration, delay: 0.0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.0, animations: {
+        UIView.animate(withDuration: transitionDuration, delay: 0.0, usingSpringWithDamping: isPresenting ? 0.6 : 1.0, initialSpringVelocity: 0.0, animations: {
             if isPresenting {
                 toView?.frame = transitionContext.finalFrame(for: toViewController)
             } else {
