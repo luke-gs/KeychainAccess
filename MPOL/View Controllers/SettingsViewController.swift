@@ -10,10 +10,11 @@ import UIKit
 import MPOLKit
 
 private let switchCellID = "SwitchCell"
+private let buttonCellID = "ButtonCell"
 
 class SettingsViewController: FormTableViewController {
 
-    private let sections: [SettingSection]
+    private var sections: [SettingSection]
     
     // MARK: - Intializers
     
@@ -22,7 +23,7 @@ class SettingsViewController: FormTableViewController {
         if KeyboardInputManager.shared.isNumberBarSupported {
             items.append(.numericKeyboard)
         }
-        sections = [SettingSection(title: nil, items: items)]
+        sections = [SettingSection(title: nil, items: items), SettingSection(title: nil, items: [.logOut])]
         
         super.init(style: .grouped)
         title = NSLocalizedString("Settings", comment: "SettingsTitle")
@@ -37,7 +38,11 @@ class SettingsViewController: FormTableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView?.register(UITableViewCell.self, forCellReuseIdentifier: switchCellID)
+        
+        guard let tableView = self.tableView else { return }
+        
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: buttonCellID)
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: switchCellID)
     }
 
     
@@ -56,30 +61,49 @@ class SettingsViewController: FormTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: switchCellID, for: indexPath)
         let setting = sections[indexPath.section].items[indexPath.row]
         
-        cell.textLabel?.text = setting.localizedTitle
-        
-        let switchControl: UISwitch
-        if let switchAccessory = cell.accessoryView as? UISwitch {
-            switchControl = switchAccessory
-        } else {
-            switchControl = UISwitch()
-            switchControl.addTarget(self, action: #selector(switchControlValueDidChange(_:)), for: .valueChanged)
-            cell.accessoryView = switchControl
-            cell.selectionStyle = .none
+        switch setting.style {
+        case .button:
+            let cell = tableView.dequeueReusableCell(withIdentifier: buttonCellID, for: indexPath)
+            cell.textLabel?.text = setting.localizedTitle
+            return cell
+        case .switchControl:
+            let cell = tableView.dequeueReusableCell(withIdentifier: switchCellID, for: indexPath)
+            
+            cell.textLabel?.text = setting.localizedTitle
+            
+            let switchControl: UISwitch
+            if let switchAccessory = cell.accessoryView as? UISwitch {
+                switchControl = switchAccessory
+            } else {
+                switchControl = UISwitch()
+                switchControl.addTarget(self, action: #selector(switchControlValueDidChange(_:)), for: .valueChanged)
+                cell.accessoryView = switchControl
+                cell.selectionStyle = .none
+            }
+            
+            switchControl.isOn = setting.currentValue
+            
+            return cell
         }
-        
-        switchControl.isOn = setting.currentValue
-        
-        return cell
     }
     
     
     // MARK: - UITableViewDelegate methods
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let setting = sections[indexPath.section].items[indexPath.row]
+        
+        if setting.style == .button {
+            sections[indexPath.section].items[indexPath.row].currentValue = true
+            tableView.deselectRow(at: indexPath, animated: true)
+            if setting == .logOut {
+                dismiss(animated: true)
+            }
+            return
+        }
+        
         tableView.deselectRow(at: indexPath, animated: false)
     }
     
@@ -91,14 +115,30 @@ class SettingsViewController: FormTableViewController {
         var items: [Setting]
     }
     
-    private enum Setting: Int {
+    private enum SettingStyle {
+        case switchControl
+        case button
+    }
+    
+    private enum Setting {
         case darkMode
         case numericKeyboard
+        case logOut
+        
+        var style: SettingStyle {
+            switch self {
+            case .logOut:
+                return .button
+            case .darkMode, .numericKeyboard:
+                return .switchControl
+            }
+        }
         
         var localizedTitle: String {
             switch self {
             case .darkMode:        return NSLocalizedString("Dark Mode",        comment: "DarkModeSwitchTitle")
             case .numericKeyboard: return NSLocalizedString("Numeric Keyboard", comment: "NumericKeyboardSwitchTitle")
+            case .logOut:          return NSLocalizedString("Log Out",          comment: "NumericKeyboardSwitchTitle")
             }
         }
         
@@ -107,6 +147,7 @@ class SettingsViewController: FormTableViewController {
                 switch self {
                 case .darkMode:        return Theme.current.isDark
                 case .numericKeyboard: return KeyboardInputManager.shared.isNumberBarEnabled
+                case .logOut:          return false
                 }
             }
             set {
@@ -116,7 +157,11 @@ class SettingsViewController: FormTableViewController {
                         _ = Theme.applyTheme(withName: newValue ? "Dark" : "Light")
                     }
                 case .numericKeyboard:
-                    return KeyboardInputManager.shared.isNumberBarEnabled = newValue
+                    KeyboardInputManager.shared.isNumberBarEnabled = newValue
+                case .logOut:
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+                        (UIApplication.shared.delegate as! AppDelegate).logOut()
+                    })
                 }
             }
         }
@@ -126,8 +171,7 @@ class SettingsViewController: FormTableViewController {
         guard let tableView = self.tableView,
             let indexPath = tableView.indexPathForRow(at: tableView.convert(control.bounds.origin, from: control)) else { return }
         
-        var setting = sections[indexPath.section].items[indexPath.row]
-        setting.currentValue = control.isOn
+        sections[indexPath.section].items[indexPath.row].currentValue = control.isOn
     }
     
 }

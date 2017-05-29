@@ -101,6 +101,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     // MARK: - Private methods
     
+    // TEMP
+    func logOut() {
+        updateInterface(forLogin: true, animated: true)
+    }
+    
+    
     private func updateInterface(forLogin login: Bool, animated: Bool) {
         if login {
             let headerLabel = UILabel(frame: .zero)
