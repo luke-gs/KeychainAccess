@@ -52,7 +52,7 @@ class SearchRecentsViewController: FormCollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return 1
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -188,6 +188,10 @@ class SearchRecentsViewController: FormCollectionViewController {
     
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, wantsBackgroundInSection section: Int) -> Bool {
         return section == 0 && traitCollection.horizontalSizeClass != .compact
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumHeightForBackgroundInSection section: Int, givenSectionWidth sectionWidth: CGFloat) -> CGFloat {
+        return section == 0 && traitCollection.horizontalSizeClass != .compact ? 310.0 : 0.0
     }
     
 }

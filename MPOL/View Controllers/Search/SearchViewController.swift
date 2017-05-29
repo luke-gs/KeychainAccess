@@ -342,7 +342,7 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {
             if let navItem = object as? UINavigationItem {
-                if (navItem == recentsViewController.navigationItem && isShowingSearchOptions == false && isShowingResults == false) || (navItem == resultsListViewController && isShowingResults && isShowingSearchOptions == false) {
+                if (navItem == recentsViewController.navigationItem && isShowingSearchOptions == false && isShowingResults == false) || (navItem == resultsListViewController.navigationItem && isShowingResults && isShowingSearchOptions == false) {
                     updateNavigationItem(animated: true)
                 }
             }
