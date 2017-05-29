@@ -129,8 +129,8 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController {
             bailOrderVC.event = bailOrder
             detailViewController = bailOrderVC
         case let interventionOrder as InterventionOrder:
-            let interventionOrderVC = InterventionOrderViewController()
-            interventionOrderVC.interventionOrder = interventionOrder
+            let interventionOrderVC = InterventionOrderDetailViewController()
+            interventionOrderVC.event = interventionOrder
             detailViewController = interventionOrderVC
         default:
             detailViewController = nil
