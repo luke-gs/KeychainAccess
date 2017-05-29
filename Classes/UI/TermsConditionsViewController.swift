@@ -43,6 +43,7 @@ open class TermsConditionsViewController: UIViewController {
     
     open override func loadView() {
         let textView = UITextView(frame: .zero, textContainer: nil)
+        textView.textContainerInset = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
         textView.alwaysBounceVertical = true
         textView.isEditable = false
         if #available(iOS 10, *) {
