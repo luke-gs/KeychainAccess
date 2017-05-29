@@ -82,7 +82,7 @@ open class InterventionOrderViewController: FormCollectionViewController {
         default:
             guard let item = section.items?[indexPath.row] else { return cell }
             title = item.title
-            detail = item.detail ?? "N/A"
+            detail = item.detail.ifNotEmpty() ?? "N/A"
             image = item.image
             emphasis = .subtitle
         }
@@ -153,7 +153,7 @@ open class InterventionOrderViewController: FormCollectionViewController {
         ]
         
         let respondent: [FormItem] = [
-            FormItem(title: "Responent Name", detail: interventionOrder.respondentName, image: UIImage(named: "iconEntityPerson", in: .mpolKit, compatibleWith: nil)),
+            FormItem(title: "Respondent Name", detail: interventionOrder.respondentName, image: UIImage(named: "iconEntityPerson", in: .mpolKit, compatibleWith: nil)),
             FormItem(title: "Respondent Date of Birth", detail: displayString(for: interventionOrder.respondentDateOfBirth), image: UIImage(named: "iconFormCalendar", in: .mpolKit, compatibleWith: nil))
         ]
         
