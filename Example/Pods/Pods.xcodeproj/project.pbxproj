@@ -134,6 +134,7 @@
 		BC76CBE01ECE9E9B008F2562 /* DateFormatter+Static.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC76CBDE1ECE9DF3008F2562 /* DateFormatter+Static.swift */; };
 		BC77860B1ED80D910099FA4F /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC77860A1ED80D910099FA4F /* Event.swift */; };
 		BC7786111ED812A70099FA4F /* EventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7786101ED812A70099FA4F /* EventDetailViewController.swift */; };
+		BC99BB991EDBC4A50082DE0B /* TermsConditionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC99BB981EDBC4A50082DE0B /* TermsConditionsViewController.swift */; };
 		BC9CD4021ED3991400D91786 /* Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9CD4011ED3991400D91786 /* Source.swift */; };
 		BCA1EA8F1ED1450C0050CABA /* PersonDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA1EA8D1ED142D40050CABA /* PersonDescription.swift */; };
 		BCA5A1331ED18E5F0088A164 /* BailOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA5A12C1ED18E5F0088A164 /* BailOrder.swift */; };
@@ -454,6 +455,7 @@
 		BC76CBDE1ECE9DF3008F2562 /* DateFormatter+Static.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Static.swift"; sourceTree = "<group>"; };
 		BC77860A1ED80D910099FA4F /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		BC7786101ED812A70099FA4F /* EventDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailViewController.swift; sourceTree = "<group>"; };
+		BC99BB981EDBC4A50082DE0B /* TermsConditionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TermsConditionsViewController.swift; sourceTree = "<group>"; };
 		BC9CD4011ED3991400D91786 /* Source.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Source.swift; sourceTree = "<group>"; };
 		BCA1EA8D1ED142D40050CABA /* PersonDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonDescription.swift; sourceTree = "<group>"; };
 		BCA5A12C1ED18E5F0088A164 /* BailOrder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BailOrder.swift; sourceTree = "<group>"; };
@@ -1248,6 +1250,7 @@
 				CB1AFB10E2E28D7FAB17E80657D4D207 /* AlertQueue.swift */,
 				35B68FC721EC9F41CF92234FAEF3839D /* KeyboardAnimationDetails.swift */,
 				EA3887A41BB0193629602911B58E98D0 /* LoginViewController.swift */,
+				BC99BB981EDBC4A50082DE0B /* TermsConditionsViewController.swift */,
 				3A8EC0CEE5AB7CCA4C5F4452FCE3D525 /* ScrollViewInsetManager.swift */,
 				8A4F4F34FA50AFA9401EAAE8BF5B8E01 /* Theme.swift */,
 				DC970E159E49B3C8EF96EA06E51314F1 /* ViewControllerAnimationOptionTransition.swift */,
@@ -1597,6 +1600,7 @@
 				8C2AE4D14BCD123F5BCA42E57450A4FB /* AlertQueue.swift in Sources */,
 				5AAB972C900140870474CA1D84EE3663 /* APIManager.swift in Sources */,
 				45A6688B2890CF54DDB28E3B50555C71 /* ArchivedManifestEntry.swift in Sources */,
+				BC99BB991EDBC4A50082DE0B /* TermsConditionsViewController.swift in Sources */,
 				D7E37E01A08C8930D8BC8F546AEDCAC9 /* Array+IfExists.swift in Sources */,
 				EF58D2CEB6CE32B7DFBA2141E4797720 /* AuthenticationHeaderAdapter.swift in Sources */,
 				36854A05A64451DAD79A58C66EC60031 /* BadgeView.swift in Sources */,

@@ -11,6 +11,7 @@
 		BC1F93391ED95DFB00F7A50C /* FieldContactDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1F93371ED95DFB00F7A50C /* FieldContactDetailViewController.swift */; };
 		BC4F33841ED3F41F00198505 /* CriminalHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4F33831ED3F41F00198505 /* CriminalHistory.swift */; };
 		BC77860D1ED8107A0099FA4F /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC77860C1ED8107A0099FA4F /* Event.swift */; };
+		BC99BB9B1EDBDF390082DE0B /* TermsConditionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC99BB9A1EDBDF390082DE0B /* TermsConditionsViewController.swift */; };
 		BC9CD4041ED3994700D91786 /* Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9CD4031ED3994700D91786 /* Source.swift */; };
 		BCC532D91EDAEF0400E2C994 /* CollectionViewFormValueFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC532D81EDAEF0400E2C994 /* CollectionViewFormValueFieldCell.swift */; };
 		BCDDBBFC1ECEDB9600D66D45 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDDBBFB1ECEDB9600D66D45 /* Alert.swift */; };
@@ -220,6 +221,7 @@
 		BC1F93371ED95DFB00F7A50C /* FieldContactDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FieldContactDetailViewController.swift; sourceTree = "<group>"; };
 		BC4F33831ED3F41F00198505 /* CriminalHistory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CriminalHistory.swift; sourceTree = "<group>"; };
 		BC77860C1ED8107A0099FA4F /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		BC99BB9A1EDBDF390082DE0B /* TermsConditionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TermsConditionsViewController.swift; sourceTree = "<group>"; };
 		BC9CD4031ED3994700D91786 /* Source.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Source.swift; sourceTree = "<group>"; };
 		BCC532D81EDAEF0400E2C994 /* CollectionViewFormValueFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormValueFieldCell.swift; sourceTree = "<group>"; };
 		BCDDBBFB1ECEDB9600D66D45 /* Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
@@ -849,6 +851,7 @@
 				C605F9451ECCAD47001194DD /* Sidebar */,
 				C605F94A1ECCAD47001194DD /* Source Bar */,
 				C605F94E1ECCAD47001194DD /* Theme.swift */,
+				BC99BB9A1EDBDF390082DE0B /* TermsConditionsViewController.swift */,
 				C605F94F1ECCAD47001194DD /* ViewControllerAnimationOptionTransition.swift */,
 				C605F9501ECCAD48001194DD /* Views */,
 			);
@@ -1319,6 +1322,7 @@
 				C605F9DB1ECCAD48001194DD /* SourceItem.swift in Sources */,
 				C6A56FD71ED1501A00B844AB /* MissingPerson.swift in Sources */,
 				C605F9AE1ECCAD48001194DD /* FormTableViewController.swift in Sources */,
+				BC99BB9B1EDBDF390082DE0B /* TermsConditionsViewController.swift in Sources */,
 				C605F9D61ECCAD48001194DD /* SidebarSplitViewController.swift in Sources */,
 				C605F95F1ECCAD48001194DD /* Foundation.Operation+MPOLAdditions.swift in Sources */,
 				C605F9E61ECCAD48001194DD /* TabStripView.swift in Sources */,
