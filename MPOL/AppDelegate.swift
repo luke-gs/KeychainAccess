@@ -145,9 +145,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             searchViewController.recentsViewController.navigationItem.leftBarButtonItem = settingsBarButtonItem()
             
             let searchNavController = UINavigationController(rootViewController: searchViewController)
+            let actionListNavController = UINavigationController(rootViewController: ActionListViewController())
+            let eventListNavController = UINavigationController(rootViewController: EventsListViewController())
+            
+            let tasksProxyViewController = UIViewController()
+            tasksProxyViewController.tabBarItem.title = NSLocalizedString("Tasks", comment: "Tab Bar Item title")
+            tasksProxyViewController.tabBarItem.image = #imageLiteral(resourceName: "iconOtherTask")
+            tasksProxyViewController.tabBarItem.selectedImage = #imageLiteral(resourceName: "iconOtherTaskFilled")
+            tasksProxyViewController.tabBarItem.isEnabled = false
             
             let tabBarController = UITabBarController()
-            tabBarController.viewControllers = [searchNavController]
+            tabBarController.viewControllers = [searchNavController, actionListNavController, eventListNavController, tasksProxyViewController]
             
             self.tabBarController = tabBarController
             self.window?.rootViewController = tabBarController
