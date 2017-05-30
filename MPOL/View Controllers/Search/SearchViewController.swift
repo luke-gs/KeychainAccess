@@ -81,7 +81,7 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     private lazy var searchNavigationField: SearchNavigationField = { [unowned self] in
         let searchField = SearchNavigationField()
         searchField.typeLabel.text  = "PERSON"
-        searchField.resultCountLabel.text = "3 results found"
+        searchField.resultCountLabel.text = "1 result found"
         searchField.delegate = self
         
         let theme = Theme.current
