@@ -26,10 +26,6 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
             sidebarItem.count = UInt(alerts.count)
             sidebarItem.alertColor = alerts.first?.level?.color
             
-            if collapsedSections[(entity?.id)!] == nil {
-                collapsedSections[(entity?.id)!] = []
-            }
-            
             var sections: [[Alert]] = []
             while let firstAlertLevel = alerts.first?.level {
                 if let firstDifferentIndex = alerts.index(where: { $0.level != firstAlertLevel }) {
@@ -61,7 +57,7 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
     
     private var statusDotCache: [Alert.Level: UIImage] = [:]
     
-    private var collapsedSections: [String: Set<Alert.Level>] = [:]
+    lazy private var collapsedSections: [String: Set<Alert.Level>] = [:]
     
     
     
@@ -109,11 +105,8 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
     open override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let alerts = sections[section]
         let level = alerts.first!.level!
-        
-        let id = (self.entity?.id)!
-        let collapsedSections = self.collapsedSections[id]
-        
-        if (collapsedSections?.contains(level))! {
+        if collapsedSections[entity!.id]?.contains(level) ?? false {
+            // Don't assume there is a collapsed sections here because we should load it lazily.
             return 0
         } else {
             return alerts.count
@@ -158,29 +151,27 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
             
             let alerts = sections[indexPath.section]
             let alertCount = alerts.count
-            let personId = (self.entity?.id)!
+            let personId = self.entity!.id
             let level = alerts.first!.level!
             
-            if alertCount > 0, let levelDescription = alerts.first!.level?.localizedDescription(plural: alertCount > 1) {
+            if alertCount > 0, let levelDescription = level.localizedDescription(plural: alertCount > 1) {
                 header.text = "\(alertCount) \(levelDescription.localizedUppercase) "
                 header.showsExpandArrow = true
                 
                 header.tapHandler = { [weak self] (headerView, indexPath) in
                     guard let `self` = self else { return }
                     
-                    var collapsedSections = self.collapsedSections[personId]
-                    if (collapsedSections?.contains(level))! {
-                        collapsedSections?.remove(level)
-                    } else {
-                        collapsedSections?.insert(level)
+                    var collapsedSections = self.collapsedSections[personId] ?? []
+                    if collapsedSections.remove(level) == nil {
+                        // This section wasn't in there and didn't remove
+                        collapsedSections.insert(level)
                     }
                     self.collapsedSections[personId] = collapsedSections
                     
                     self.collectionView?.reloadData()
                 }
                 
-                let collapsedSections = self.collapsedSections[personId]
-                header.isExpanded = !(collapsedSections?.contains(level))!
+                header.isExpanded = !(collapsedSections[personId]?.contains(level) ?? false)
             } else {
                 header.text = nil
             }
