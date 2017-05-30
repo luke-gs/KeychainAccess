@@ -78,6 +78,7 @@
 		6390F4AE97B355D4375A5FB5E69AACDE /* CollectionViewFormOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEDB5FD06E79DF70F1D59C4472EC33C /* CollectionViewFormOptionCell.swift */; };
 		6A61B9E31E44CBCC64DE06D1F31D5973 /* EpochDateTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F63EDABE7EBDA4B9C77190407548DF /* EpochDateTransformer.swift */; };
 		6C9C4608B583B72FBB1330351922BAA2 /* Wrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1C7C6BE94F973B31FD2ECC9A1AC2E30 /* Wrap.framework */; };
+		6D04B7481EDD201F007664BD /* PersonActionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D04B7471EDD201F007664BD /* PersonActionsViewController.swift */; };
 		6DDD98381EDBBDD100241946 /* InterventionOrderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDD98371EDBBDD100241946 /* InterventionOrderDetailViewController.swift */; };
 		7018CB863057E4C5E136850D24E0034D /* UITableView+DefaultReuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0692D5E563B251FAF57516CBE9E7346B /* UITableView+DefaultReuse.swift */; };
 		73B9C996AED49ED7CF8EC2A6F1738059 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21D9747C4F0C7AB73D10DA3FF02ADAE5 /* Foundation.framework */; };
@@ -169,7 +170,6 @@
 		BCFB7FBC1ED645AB00567111 /* PersonCriminalHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFB7FB01ED645AB00567111 /* PersonCriminalHistoryViewController.swift */; };
 		BCFB7FBD1ED645AB00567111 /* PersonInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFB7FB11ED645AB00567111 /* PersonInfoViewController.swift */; };
 		BCFB7FBE1ED645AB00567111 /* PersonOccurrencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFB7FB21ED645AB00567111 /* PersonOccurrencesViewController.swift */; };
-		BCFB7FBF1ED645AB00567111 /* PersonOrdersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFB7FB31ED645AB00567111 /* PersonOrdersViewController.swift */; };
 		BCFB7FC01ED645AB00567111 /* VehicleInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFB7FB51ED645AB00567111 /* VehicleInfoViewController.swift */; };
 		BD82DB973917FDA8B4630B6CCB62E5B6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21D9747C4F0C7AB73D10DA3FF02ADAE5 /* Foundation.framework */; };
 		BD83BB2C2EE6CC9AF27DE3E6B840919E /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4F4F34FA50AFA9401EAAE8BF5B8E01 /* Theme.swift */; };
@@ -385,6 +385,7 @@
 		64F9BC6893EC417EA472835EAF19A870 /* MapOverlayViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MapOverlayViewController.swift; sourceTree = "<group>"; };
 		65CA0079D3792081E86ACEC03E5EC78E /* UIEdgeInsets+Convenience.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UIEdgeInsets+Convenience.swift"; sourceTree = "<group>"; };
 		66CE735EDA3BAEEA03C82F00AA94976D /* UIImage+FormIcons.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UIImage+FormIcons.swift"; sourceTree = "<group>"; };
+		6D04B7471EDD201F007664BD /* PersonActionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonActionsViewController.swift; sourceTree = "<group>"; };
 		6D0B60CC5ABA506D7661E3616C8AB424 /* Pods-MPOLKit_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-MPOLKit_Tests-dummy.m"; sourceTree = "<group>"; };
 		6DDD98371EDBBDD100241946 /* InterventionOrderDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterventionOrderDetailViewController.swift; sourceTree = "<group>"; };
 		6EA1198A5B876EB4AB1CEDD16064C880 /* CollectionViewFormExpandingHeaderView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CollectionViewFormExpandingHeaderView.swift; sourceTree = "<group>"; };
@@ -491,7 +492,6 @@
 		BCFB7FB01ED645AB00567111 /* PersonCriminalHistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonCriminalHistoryViewController.swift; sourceTree = "<group>"; };
 		BCFB7FB11ED645AB00567111 /* PersonInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonInfoViewController.swift; sourceTree = "<group>"; };
 		BCFB7FB21ED645AB00567111 /* PersonOccurrencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonOccurrencesViewController.swift; sourceTree = "<group>"; };
-		BCFB7FB31ED645AB00567111 /* PersonOrdersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonOrdersViewController.swift; sourceTree = "<group>"; };
 		BCFB7FB51ED645AB00567111 /* VehicleInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleInfoViewController.swift; sourceTree = "<group>"; };
 		C2CDEF4A2F7B0DDFB3C7EBFB5686DA94 /* SourceBar.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SourceBar.swift; sourceTree = "<group>"; };
 		C3983393D260434CBF59A21903892043 /* URLJSONRequestOperation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = URLJSONRequestOperation.swift; sourceTree = "<group>"; };
@@ -1130,8 +1130,8 @@
 			children = (
 				BCFB7FB01ED645AB00567111 /* PersonCriminalHistoryViewController.swift */,
 				BCFB7FB11ED645AB00567111 /* PersonInfoViewController.swift */,
+				6D04B7471EDD201F007664BD /* PersonActionsViewController.swift */,
 				BCFB7FB21ED645AB00567111 /* PersonOccurrencesViewController.swift */,
-				BCFB7FB31ED645AB00567111 /* PersonOrdersViewController.swift */,
 			);
 			path = Person;
 			sourceTree = "<group>";
@@ -1597,7 +1597,6 @@
 			files = (
 				9334FFC722F3B3BB9E7A1C9C7BF2B4E4 /* Address.swift in Sources */,
 				48790B31516FC3A86327F2F764820F76 /* Alert.swift in Sources */,
-				BCFB7FBF1ED645AB00567111 /* PersonOrdersViewController.swift in Sources */,
 				FA24C543CC2885F6C545B4317353B80B /* AlertIndicatorView.swift in Sources */,
 				7847FEE20BB45D7518E2E92766D291FD /* AlertOperation.swift in Sources */,
 				8C2AE4D14BCD123F5BCA42E57450A4FB /* AlertQueue.swift in Sources */,
@@ -1728,6 +1727,7 @@
 				C8F87978C3D204C53EDCDD8DB5008ACC /* SidebarTableViewCell.swift in Sources */,
 				25946958CC3C8D101044902F5E6C320C /* SidebarViewController.swift in Sources */,
 				1F6B14ABA58D929BA501E0CAF782F577 /* SourceBar.swift in Sources */,
+				6D04B7481EDD201F007664BD /* PersonActionsViewController.swift in Sources */,
 				74A0517E286CE0D78CCFBD18BE38A6B4 /* SourceBarCell.swift in Sources */,
 				D2C618AB7B17BF3380CC145C9CB0E77E /* SourceItem.swift in Sources */,
 				C562C36E9D541F2BAE71F9CA371B3062 /* StatsOverviewCollectionViewCell.swift in Sources */,
