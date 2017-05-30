@@ -78,6 +78,7 @@
 		6390F4AE97B355D4375A5FB5E69AACDE /* CollectionViewFormOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEDB5FD06E79DF70F1D59C4472EC33C /* CollectionViewFormOptionCell.swift */; };
 		6A61B9E31E44CBCC64DE06D1F31D5973 /* EpochDateTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F63EDABE7EBDA4B9C77190407548DF /* EpochDateTransformer.swift */; };
 		6C9C4608B583B72FBB1330351922BAA2 /* Wrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1C7C6BE94F973B31FD2ECC9A1AC2E30 /* Wrap.framework */; };
+		6DDD98381EDBBDD100241946 /* InterventionOrderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDD98371EDBBDD100241946 /* InterventionOrderDetailViewController.swift */; };
 		7018CB863057E4C5E136850D24E0034D /* UITableView+DefaultReuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0692D5E563B251FAF57516CBE9E7346B /* UITableView+DefaultReuse.swift */; };
 		73B9C996AED49ED7CF8EC2A6F1738059 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21D9747C4F0C7AB73D10DA3FF02ADAE5 /* Foundation.framework */; };
 		74A0517E286CE0D78CCFBD18BE38A6B4 /* SourceBarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B5C58AC54D63AEC072AADE995C8B34 /* SourceBarCell.swift */; };
@@ -385,6 +386,7 @@
 		65CA0079D3792081E86ACEC03E5EC78E /* UIEdgeInsets+Convenience.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UIEdgeInsets+Convenience.swift"; sourceTree = "<group>"; };
 		66CE735EDA3BAEEA03C82F00AA94976D /* UIImage+FormIcons.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UIImage+FormIcons.swift"; sourceTree = "<group>"; };
 		6D0B60CC5ABA506D7661E3616C8AB424 /* Pods-MPOLKit_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-MPOLKit_Tests-dummy.m"; sourceTree = "<group>"; };
+		6DDD98371EDBBDD100241946 /* InterventionOrderDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterventionOrderDetailViewController.swift; sourceTree = "<group>"; };
 		6EA1198A5B876EB4AB1CEDD16064C880 /* CollectionViewFormExpandingHeaderView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CollectionViewFormExpandingHeaderView.swift; sourceTree = "<group>"; };
 		716ADEC529EB8FBBACC6A8A0141F51C7 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		73A209AE72DA41FDA68E9829EB134928 /* GalleryCollectionViewCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GalleryCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -1079,6 +1081,7 @@
 				BC7786101ED812A70099FA4F /* EventDetailViewController.swift */,
 				BCC532D61EDADFB000E2C994 /* BailOrderDetailViewController.swift */,
 				BC1F93331ED926E100F7A50C /* FieldContactDetailViewController.swift */,
+				6DDD98371EDBBDD100241946 /* InterventionOrderDetailViewController.swift */,
 			);
 			path = "Event Details";
 			sourceTree = "<group>";
@@ -1614,6 +1617,7 @@
 				DBCC432F8E59C57DE5F16BF1ABEA715C /* CollectionViewFormEditAction.swift in Sources */,
 				3F85F0AAEF44FDEAEDED2B9429D909AA /* CollectionViewFormExpandingHeaderView.swift in Sources */,
 				BCA5A13F1ED18ED50088A164 /* Member.swift in Sources */,
+				6DDD98381EDBBDD100241946 /* InterventionOrderDetailViewController.swift in Sources */,
 				3A69621BC7912C96D53F39EFC9B3E4C8 /* CollectionViewFormHeaderAttributes.swift in Sources */,
 				E18EE14C403FC7F92FD57359144A427C /* CollectionViewFormItemAttributes.swift in Sources */,
 				C733BE43E05C47A81F1278789C226C77 /* CollectionViewFormLayout.swift in Sources */,
