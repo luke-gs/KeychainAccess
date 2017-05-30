@@ -18,8 +18,8 @@ class LocationSearchRequest: SearchRequest  {
     
     // MARK: - Initializers
     
-    required init() {
-        super.init()
+    required init(searchText: String? = nil) {
+        super.init(searchText: searchText)
     }
     
     required init?(coder aDecoder: NSCoder) {

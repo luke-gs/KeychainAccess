@@ -52,7 +52,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     
     // MARK: - Private methods
     
-    private(set) var selectedDataSource: SearchDataSource {
+    private var selectedDataSource: SearchDataSource {
         didSet {
             reloadCollectionViewRetainingEditing()
         }
@@ -82,6 +82,28 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     
     deinit {
         collectionView?.removeObserver(self, forKeyPath: #keyPath(UICollectionView.contentSize), context: &kvoContext)
+    }
+    
+    
+    // MARK: - Updating search requests
+    
+    func resetSearchRequests() {
+        dataSources.forEach { $0.reset() }
+    }
+    
+    func setCurrentSearchRequest(_ request: SearchRequest) {
+        let dataSourceText = request.searchText
+        let correctDataSourceIndex = dataSources.index(where: { $0.supports(request) })
+        
+        selectedDataSourceIndex = correctDataSourceIndex ?? 0
+        
+        dataSources.enumerated().forEach { (offset, dataSource) in
+            if offset == correctDataSourceIndex {
+                dataSource.request = request
+            } else {
+                dataSource.reset(withSearchText: dataSourceText)
+            }
+        }
     }
     
     

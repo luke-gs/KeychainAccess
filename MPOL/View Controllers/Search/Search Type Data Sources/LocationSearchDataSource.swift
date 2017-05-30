@@ -10,11 +10,9 @@ import UIKit
 
 class LocationSearchDataSource: SearchDataSource {
     
-    override class func supports(_ request: SearchRequest) -> Bool {
-        return request is LocationSearchRequest
-    }
     
-    private var locationSearchRequest = LocationSearchRequest() {
+    
+    @NSCopying private var locationSearchRequest = LocationSearchRequest() {
         didSet {
             updatingDelegate?.searchDataSourceRequestDidChange(self)
         }
@@ -30,6 +28,14 @@ class LocationSearchDataSource: SearchDataSource {
             }
             locationSearchRequest = newRequest
         }
+    }
+    
+    override func supports(_ request: SearchRequest) -> Bool {
+        return request is LocationSearchRequest
+    }
+    
+    override func reset(withSearchText searchText: String?) {
+        locationSearchRequest = LocationSearchRequest(searchText: searchText)
     }
     
     override var localizedDisplayName: String {

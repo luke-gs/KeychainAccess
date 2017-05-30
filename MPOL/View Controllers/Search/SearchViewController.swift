@@ -29,22 +29,20 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     private(set) var currentResultsViewController: UIViewController? {
         didSet {
             if isShowingSearchOptions == false {
-                isHidingNavigationBarShadow =  currentResultsViewController == nil && recentsViewController.isShowingNavBarExtension
+                isHidingNavigationBarShadow = isShowingResults == false && recentsViewController.isShowingNavBarExtension
             }
         }
     }
     
-    var isShowingResults: Bool { return currentResultsViewController != nil }
+    var isShowingResults: Bool {
+        return currentResultsViewController != nil
+    }
     
     private(set) var isShowingSearchOptions: Bool = false {
         didSet {
             if isShowingSearchOptions == oldValue { return }
             
-            if isShowingSearchOptions {
-                isHidingNavigationBarShadow = true
-            } else {
-                isHidingNavigationBarShadow = isShowingResults == false && recentsViewController.isShowingNavBarExtension
-            }
+            isHidingNavigationBarShadow = isShowingSearchOptions || (isShowingResults == false && recentsViewController.isShowingNavBarExtension)
         }
     }
     
@@ -336,22 +334,7 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     }
     
     func searchRecentsController(_ controller: SearchRecentsViewController, didSelectRecentSearch recentSearch: SearchRequest) {
-        
-        //let dataSources = searchOptionsViewController.dataSources
-        let request = searchOptionsViewController.selectedDataSource.request as! PersonSearchRequest
-        request.searchText = "Citizen John"
-        request.ageRange   = nil
-        request.gender     = nil
-        searchOptionsViewController.collectionView?.reloadData()
-//        
-//        guard let dataSourceIndex = dataSources.index(where: { type(of: $0).supports(recentSearch) }) else {
-//            return
-//        }
-//        
-//        let dataSource = dataSources[dataSourceIndex]
-//        dataSource.request = recentSearch
-//        searchOptionsViewController.selectedDataSourceIndex = dataSourceIndex
-//        
+        searchOptionsViewController.setCurrentSearchRequest(recentSearch)
         setShowingSearchOptions(true, animated: true)
         searchOptionsViewController.beginEditingSearchField()
     }
@@ -361,11 +344,11 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     
     func searchNavigationFieldDidSelect(_ field: SearchNavigationField) {
         // Temp
-        let request = searchOptionsViewController.selectedDataSource.request as! PersonSearchRequest
-        request.searchText = searchedTerm
-        request.ageRange   = ageRange
-        request.gender     = gender
-        searchOptionsViewController.collectionView?.reloadData()
+//        let request = searchOptionsViewController.selectedDataSource.request as! PersonSearchRequest
+//        request.searchText = searchedTerm
+//        request.ageRange   = ageRange
+//        request.gender     = gender
+//        searchOptionsViewController.collectionView?.reloadData()
         
         setShowingSearchOptions(true, animated: true)
     }
@@ -428,15 +411,8 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     
     @objc private func displaySearchTriggered() {
         func showSearchDetails() {
-            // TODO: Reset search details
-            
-            // Temp
-            let request = searchOptionsViewController.selectedDataSource.request as! PersonSearchRequest
-            request.searchText = nil
-            request.ageRange   = nil
-            request.gender     = nil
-            searchOptionsViewController.collectionView?.reloadData()
-            
+            // Reset every data source prior to presenting.
+            searchOptionsViewController.resetSearchRequests()
             setShowingSearchOptions(true, animated: true)
             searchOptionsViewController.beginEditingSearchField()
         }

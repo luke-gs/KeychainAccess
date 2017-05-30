@@ -9,12 +9,8 @@
 import UIKit
 
 class OrganizationSearchDataSource: SearchDataSource {
-
-    override class func supports(_ request: SearchRequest) -> Bool {
-        return request is OrganizationSearchRequest
-    }
     
-    private var organizationSearchRequest = OrganizationSearchRequest() {
+    @NSCopying private var organizationSearchRequest = OrganizationSearchRequest() {
         didSet {
             updatingDelegate?.searchDataSourceRequestDidChange(self)
         }
@@ -30,6 +26,14 @@ class OrganizationSearchDataSource: SearchDataSource {
             }
             organizationSearchRequest = newRequest
         }
+    }
+    
+    override func supports(_ request: SearchRequest) -> Bool {
+        return request is OrganizationSearchRequest
+    }
+    
+    override func reset(withSearchText searchText: String?) {
+        organizationSearchRequest = OrganizationSearchRequest(searchText: searchText)
     }
     
     override var localizedDisplayName: String {

@@ -9,7 +9,7 @@
 import Foundation
 
 @objc(MPLSearchRequest)
-class SearchRequest: NSObject, NSSecureCoding {
+class SearchRequest: NSObject, NSSecureCoding, NSCopying {
     
     static var supportsSecureCoding: Bool { return true }
     
@@ -32,7 +32,8 @@ class SearchRequest: NSObject, NSSecureCoding {
     
     private var cachedValidity = false
     
-    required override init() {
+    required init(searchText: String? = nil) {
+        self.searchText = searchText
         super.init()
     }
     
@@ -43,6 +44,10 @@ class SearchRequest: NSObject, NSSecureCoding {
     
     func encode(with aCoder: NSCoder) {
         aCoder.encode(searchText, forKey: #keyPath(searchText))
+    }
+    
+    func copy(with zone: NSZone? = nil) -> Any {
+        return type(of: self).init(searchText: self.searchText)
     }
     
     @objc dynamic var isValid: Bool {

@@ -11,11 +11,7 @@ import MPOLKit
 
 class VehicleSearchDataSource: SearchDataSource {
     
-    override class func supports(_ request: SearchRequest) -> Bool {
-        return request is VehicleSearchRequest
-    }
-    
-    private var vehicleSearchRequest = VehicleSearchRequest() {
+    @NSCopying private var vehicleSearchRequest = VehicleSearchRequest() {
         didSet {            
             updatingDelegate?.searchDataSourceRequestDidChange(self)
         }
@@ -31,6 +27,14 @@ class VehicleSearchDataSource: SearchDataSource {
             }
             vehicleSearchRequest = newRequest
         }
+    }
+    
+    override func supports(_ request: SearchRequest) -> Bool {
+        return request is VehicleSearchRequest
+    }
+    
+    override func reset(withSearchText searchText: String?) {
+        vehicleSearchRequest = VehicleSearchRequest(searchText: searchText)
     }
     
     override var localizedDisplayName: String {

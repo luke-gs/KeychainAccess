@@ -19,6 +19,7 @@ class SearchRecentsViewController: FormCollectionViewController {
     var recentSearches: [SearchRequest] = {
         var request = PersonSearchRequest()
         request.searchText = "Citizen John"
+        request.gender = .male
         return [request]
         }() {
             didSet {

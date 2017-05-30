@@ -34,12 +34,8 @@ class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
             }
         }
     }
-    
-    override class func supports(_ request: SearchRequest) -> Bool {
-        return request is PersonSearchRequest
-    }
 
-    private var personSearchRequest: PersonSearchRequest = PersonSearchRequest() {
+    @NSCopying private var personSearchRequest: PersonSearchRequest = PersonSearchRequest() {
         didSet {
             updatingDelegate?.searchDataSourceRequestDidChange(self)
         }
@@ -56,6 +52,15 @@ class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
             personSearchRequest = newRequest
         }
     }
+    
+    override func supports(_ request: SearchRequest) -> Bool {
+        return request is PersonSearchRequest
+    }
+    
+    override func reset(withSearchText searchText: String?) {
+        personSearchRequest = PersonSearchRequest(searchText: searchText)
+    }
+    
     
     override var localizedDisplayName: String {
         return NSLocalizedString("Person", comment: "")

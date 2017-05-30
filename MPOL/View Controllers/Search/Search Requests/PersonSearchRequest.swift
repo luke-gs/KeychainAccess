@@ -9,9 +9,13 @@
 import Foundation
 import MPOLKit
 
+private let statesKey      = "states"
+private let genderKey      = "gender"
 private let searchTypeKey  = "searchType"
-private let ageRangeMinKey = "ageRange.min"
-private let ageRangeMaxKey = "ageRange.max"
+private let ageRangeMinKey = "ageRangeMin"
+private let ageRangeMaxKey = "ageRangeMax"
+
+
 
 @objc(MPLPersonSearchRequest)
 class PersonSearchRequest: SearchRequest {
@@ -45,8 +49,8 @@ class PersonSearchRequest: SearchRequest {
     
     // MARK: - Initializers
     
-    required init() {
-        super.init()
+    required init(searchText: String? = nil) {
+        super.init(searchText: searchText)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -55,10 +59,8 @@ class PersonSearchRequest: SearchRequest {
         if aDecoder.containsValue(forKey: ageRangeMinKey), aDecoder.containsValue(forKey: ageRangeMaxKey) {
             ageRange = Range<Int>(uncheckedBounds: (aDecoder.decodeInteger(forKey: ageRangeMinKey), aDecoder.decodeInteger(forKey: ageRangeMaxKey)))
         }
-        
-        // TEMP
-        if aDecoder.containsValue(forKey: "gender") {
-            gender = Person.Gender(rawValue: aDecoder.decodeInteger(forKey: "gender"))
+        if aDecoder.containsValue(forKey: genderKey) {
+            gender = Person.Gender(rawValue: aDecoder.decodeInteger(forKey: genderKey))
         }
         
         super.init(coder: aDecoder)
@@ -73,8 +75,17 @@ class PersonSearchRequest: SearchRequest {
         
         // TEMP
         if let gender = self.gender {
-            aCoder.encode(gender.rawValue, forKey: "gender")
+            aCoder.encode(gender.rawValue, forKey: genderKey)
         }
+    }
+    
+    override func copy(with zone: NSZone? = nil) -> Any {
+        let copy = super.copy(with: zone) as! PersonSearchRequest
+        copy.searchType = searchType
+        copy.states     = states
+        copy.gender     = gender
+        copy.ageRange   = ageRange
+        return copy
     }
     
 }
