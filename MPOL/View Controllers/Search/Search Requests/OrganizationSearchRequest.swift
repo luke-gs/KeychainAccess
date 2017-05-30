@@ -8,6 +8,7 @@
 
 import UIKit
 
+@objc(MPLOrganizationSearchRequest)
 class OrganizationSearchRequest: SearchRequest {
     
     override class var localizedDisplayName: String {

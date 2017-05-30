@@ -10,8 +10,8 @@ import UIKit
 
 class LocationSearchDataSource: SearchDataSource {
     
-    override class var requestType: SearchRequest.Type {
-        return LocationSearchRequest.self
+    override class func supports(_ request: SearchRequest) -> Bool {
+        return request is LocationSearchRequest
     }
     
     private var locationSearchRequest = LocationSearchRequest() {

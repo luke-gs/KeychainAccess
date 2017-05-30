@@ -16,6 +16,12 @@ class SearchRecentsViewController: FormCollectionViewController {
     
     weak var delegate: SearchRecentsViewControllerDelegate?
     
+    var recentSearches: [SearchRequest] = {
+        var request = PersonSearchRequest()
+        request.searchText = "Citizen John"
+        return [request]
+    }()
+    
     
     override init() {
         super.init()
@@ -52,6 +58,9 @@ class SearchRecentsViewController: FormCollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if traitCollection.horizontalSizeClass == .compact || section == 1 {
+            return recentSearches.count
+        }
         return 1
     }
     
@@ -145,7 +154,7 @@ class SearchRecentsViewController: FormCollectionViewController {
             delegate?.searchRecentsController(self, didSelectRecentEntity: person)
             break
         default:
-            delegate?.searchRecentsController(self, didSelectRecentSearch: nil)
+            delegate?.searchRecentsController(self, didSelectRecentSearch: recentSearches[indexPath.item])
         }
     }
     
@@ -199,7 +208,7 @@ class SearchRecentsViewController: FormCollectionViewController {
 
 protocol SearchRecentsViewControllerDelegate: class {
     
-    func searchRecentsController(_ controller: SearchRecentsViewController, didSelectRecentSearch recentSearch: Any?)
+    func searchRecentsController(_ controller: SearchRecentsViewController, didSelectRecentSearch recentSearch: SearchRequest)
     
     func searchRecentsController(_ controller: SearchRecentsViewController, didSelectRecentEntity recentEntity: Entity)
     

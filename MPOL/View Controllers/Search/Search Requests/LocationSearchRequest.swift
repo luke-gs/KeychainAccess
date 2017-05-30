@@ -8,6 +8,7 @@
 
 import UIKit
 
+@objc(MPLLocationSearchRequest)
 class LocationSearchRequest: SearchRequest  {
     
     override class var localizedDisplayName: String {

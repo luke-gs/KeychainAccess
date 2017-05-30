@@ -279,14 +279,17 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
         didSelectEntity(recentEntity)
     }
     
-    func searchRecentsController(_ controller: SearchRecentsViewController, didSelectRecentSearch recentSearch: Any?) {
+    func searchRecentsController(_ controller: SearchRecentsViewController, didSelectRecentSearch recentSearch: SearchRequest) {
         
-        // TEMP
-        let request = searchOptionsViewController.selectedDataSource.request as! PersonSearchRequest
-        request.searchText = "Citizen John"
-        request.ageRange   = nil
-        searchOptionsViewController.collectionView?.reloadData()
+        let dataSources = searchOptionsViewController.dataSources
         
+        guard let dataSourceIndex = dataSources.index(where: { type(of: $0).supports(recentSearch) }) else {
+            return
+        }
+        
+        let dataSource = dataSources[dataSourceIndex]
+        dataSource.request = recentSearch
+        searchOptionsViewController.selectedDataSourceIndex = dataSourceIndex
         
         setShowingSearchOptions(true, animated: true)
         searchOptionsViewController.beginEditingSearchField()

@@ -8,7 +8,7 @@
 
 import Foundation
 
-
+@objc(MPLSearchRequest)
 class SearchRequest: NSObject, NSSecureCoding {
     
     static var supportsSecureCoding: Bool { return true }

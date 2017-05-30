@@ -35,8 +35,8 @@ class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
         }
     }
     
-    override class var requestType: SearchRequest.Type {
-        return PersonSearchRequest.self
+    override class func supports(_ request: SearchRequest) -> Bool {
+        return request is PersonSearchRequest
     }
 
     private var personSearchRequest: PersonSearchRequest = PersonSearchRequest() {

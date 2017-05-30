@@ -13,7 +13,7 @@ private let searchTypeKey  = "searchType"
 private let ageRangeMinKey = "ageRange.min"
 private let ageRangeMaxKey = "ageRange.max"
 
-
+@objc(MPLPersonSearchRequest)
 class PersonSearchRequest: SearchRequest {
     
     enum SearchType: Int, Pickable {

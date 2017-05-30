@@ -10,13 +10,13 @@ import UIKit
 import MPOLKit
 
 class VehicleSearchDataSource: SearchDataSource {
-
-    override class var requestType: SearchRequest.Type {
-        return VehicleSearchRequest.self
+    
+    override class func supports(_ request: SearchRequest) -> Bool {
+        return request is VehicleSearchRequest
     }
     
     private var vehicleSearchRequest = VehicleSearchRequest() {
-        didSet {
+        didSet {            
             updatingDelegate?.searchDataSourceRequestDidChange(self)
         }
     }

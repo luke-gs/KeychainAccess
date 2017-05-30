@@ -10,8 +10,8 @@ import UIKit
 
 class SearchDataSource: NSObject {
     
-    dynamic class var requestType: SearchRequest.Type {
-        return SearchRequest.self
+    class func supports(_ request: SearchRequest) -> Bool {
+        return false
     }
     
     /// The request for this data source.

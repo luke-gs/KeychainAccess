@@ -9,6 +9,7 @@
 import UIKit
 import MPOLKit
 
+@objc(MPLVehicleSearchRequest)
 class VehicleSearchRequest: SearchRequest {
     
     enum SearchType: Int, Pickable {

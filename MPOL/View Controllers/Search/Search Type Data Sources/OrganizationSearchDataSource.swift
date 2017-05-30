@@ -10,8 +10,8 @@ import UIKit
 
 class OrganizationSearchDataSource: SearchDataSource {
 
-    override class var requestType: SearchRequest.Type {
-        return OrganizationSearchRequest.self
+    override class func supports(_ request: SearchRequest) -> Bool {
+        return request is OrganizationSearchRequest
     }
     
     private var organizationSearchRequest = OrganizationSearchRequest() {
