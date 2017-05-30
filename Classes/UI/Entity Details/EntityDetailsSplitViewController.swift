@@ -181,6 +181,9 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
         } else {
             headerView.thumbnailView.image = nil
         }
+        // TEMP:
+        headerView.thumbnailView.image = #imageLiteral(resourceName: "Avatar 1")
+        
         headerView.summaryLabel.text = selectedRepresentation.summary
         
         let lastUpdatedString: String

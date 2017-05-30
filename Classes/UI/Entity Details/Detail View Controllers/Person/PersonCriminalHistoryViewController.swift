@@ -46,6 +46,10 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
         let sidebarItem = self.sidebarItem
         sidebarItem.image         = UIImage(named: "iconFormFolder",       in: .mpolKit, compatibleWith: nil)
         sidebarItem.selectedImage = UIImage(named: "iconFormFolderFilled", in: .mpolKit, compatibleWith: nil)
+        
+        let filterIcon = UIBarButtonItem(image: UIImage(named: "iconFormFilter", in: .mpolKit, compatibleWith: nil), style: .plain, target: nil, action: nil)
+        filterIcon.isEnabled = false
+        navigationItem.rightBarButtonItem = filterIcon
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -81,6 +85,9 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
+        cell.highlightStyle     = .fade
+        cell.selectionStyle     = .fade
+        cell.accessoryView = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
         
         let history = criminalHistory![indexPath.item]
         let text = cellText(for: history)
@@ -107,6 +114,10 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
         return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
     }
     
+    
+    open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+    }
     
     // MARK: - CollectionViewDelegateFormLayout
     

@@ -11,7 +11,7 @@ import Unbox
 @objc(MPLPerson)
 open class Person: Entity {
     
-    public enum Gender: Int, CustomStringConvertible, UnboxableEnum {
+    public enum Gender: Int, CustomStringConvertible, UnboxableEnum, Pickable {
         case female, male, other
         
         public var description: String {
@@ -24,6 +24,12 @@ open class Person: Entity {
                 return "Other"
             }
         }
+        
+        public var title: String? { return description }
+        
+        public var subtitle: String? { return nil }
+        
+        public static let allCases: [Gender] = [.female, .male, .other]
     }
     
     open override class var localizedDisplayName: String {

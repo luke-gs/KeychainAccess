@@ -24,6 +24,10 @@ open class EntityOccurrencesViewController: EntityDetailCollectionViewController
         let sidebarItem = self.sidebarItem
         sidebarItem.image         = UIImage(named: "iconFormOccurrence",       in: .mpolKit, compatibleWith: nil)
         sidebarItem.selectedImage = UIImage(named: "iconFormOccurrenceFilled", in: .mpolKit, compatibleWith: nil)
+        
+        let filterIcon = UIBarButtonItem(image: UIImage(named: "iconFormFilter", in: .mpolKit, compatibleWith: nil), style: .plain, target: nil, action: nil)
+        filterIcon.isEnabled = false
+        navigationItem.rightBarButtonItem = filterIcon
     }
     
     public required init?(coder aDecoder: NSCoder) {
