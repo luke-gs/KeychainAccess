@@ -49,10 +49,14 @@ open class Person: Entity {
     open var formattedName: String? {
         var formattedName: String = ""
         
+        if isAlias ?? false {
+            formattedName += "@ "
+        }
+        
         let middleNames = self.middleNames?.filter { $0.isEmpty == false }
         
         if let surname = self.surname?.ifNotEmpty() {
-            formattedName = surname
+            formattedName += surname
             
             if givenName?.isEmpty ?? true == false || middleNames?.isEmpty ?? true == false {
                 formattedName += ", "
@@ -105,6 +109,8 @@ open class Person: Entity {
     open var familyIncidents: [FamilyIncident]?
     
     open var criminalHistory: [CriminalHistory]?
+    
+    open var isAlias: Bool?
     
     open var thumbnail: UIImage?
     private lazy var initialThumbnail: UIImage = { [unowned self] in
@@ -177,6 +183,8 @@ open class Person: Entity {
                 self.initials = initials
             }
         }
+        
+        isAlias = unboxer.unbox(key: "isAlias")
     }
     
     open override func encode(with aCoder: NSCoder) {
