@@ -26,6 +26,9 @@ class SearchRecentsViewController: FormCollectionViewController {
             }
     }
     
+    
+    // All this is work in progress.👇
+    
     @objc dynamic var isShowingNavBarExtension: Bool = false {
         didSet {
             compactNavBarExtension?.alpha = isShowingNavBarExtension ? 1.0 : 0.0
@@ -37,6 +40,8 @@ class SearchRecentsViewController: FormCollectionViewController {
     
     private var showsRecentSearchesWhenCompact: Bool = false
     
+    
+    // MARK: - Initializer
     
     override init() {
         super.init()

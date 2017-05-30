@@ -337,21 +337,21 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     
     func searchRecentsController(_ controller: SearchRecentsViewController, didSelectRecentSearch recentSearch: SearchRequest) {
         
-        let dataSources = searchOptionsViewController.dataSources
+        //let dataSources = searchOptionsViewController.dataSources
         let request = searchOptionsViewController.selectedDataSource.request as! PersonSearchRequest
         request.searchText = "Citizen John"
         request.ageRange   = nil
         request.gender     = nil
         searchOptionsViewController.collectionView?.reloadData()
-        
-        guard let dataSourceIndex = dataSources.index(where: { type(of: $0).supports(recentSearch) }) else {
-            return
-        }
-        
-        let dataSource = dataSources[dataSourceIndex]
-        dataSource.request = recentSearch
-        searchOptionsViewController.selectedDataSourceIndex = dataSourceIndex
-        
+//        
+//        guard let dataSourceIndex = dataSources.index(where: { type(of: $0).supports(recentSearch) }) else {
+//            return
+//        }
+//        
+//        let dataSource = dataSources[dataSourceIndex]
+//        dataSource.request = recentSearch
+//        searchOptionsViewController.selectedDataSourceIndex = dataSourceIndex
+//        
         setShowingSearchOptions(true, animated: true)
         searchOptionsViewController.beginEditingSearchField()
     }
