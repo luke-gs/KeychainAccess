@@ -40,6 +40,10 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     // Temp
     private var ageRange: Range<Int>?
     
+    // Temp
+    
+    private var gender: Person.Gender?
+    
     
     
     private lazy var resultsListViewController: SearchResultsListViewController = { [unowned self] in
@@ -282,6 +286,11 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     func searchRecentsController(_ controller: SearchRecentsViewController, didSelectRecentSearch recentSearch: SearchRequest) {
         
         let dataSources = searchOptionsViewController.dataSources
+        let request = searchOptionsViewController.selectedDataSource.request as! PersonSearchRequest
+        request.searchText = "Citizen John"
+        request.ageRange   = nil
+        request.gender     = nil
+        searchOptionsViewController.collectionView?.reloadData()
         
         guard let dataSourceIndex = dataSources.index(where: { type(of: $0).supports(recentSearch) }) else {
             return
@@ -303,6 +312,7 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
         let request = searchOptionsViewController.selectedDataSource.request as! PersonSearchRequest
         request.searchText = searchedTerm
         request.ageRange   = ageRange
+        request.gender     = gender
         searchOptionsViewController.collectionView?.reloadData()
         
         setShowingSearchOptions(true, animated: true)
@@ -321,6 +331,7 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
         let request = searchRequest as! PersonSearchRequest
         searchedTerm = request.searchText
         ageRange     = request.ageRange
+        gender       = request.gender
         searchNavigationField.titleLabel.text = searchedTerm
         searchOptionsViewController.collectionView?.reloadData()
         
@@ -365,6 +376,7 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
             let request = searchOptionsViewController.selectedDataSource.request as! PersonSearchRequest
             request.searchText = nil
             request.ageRange   = nil
+            request.gender     = nil
             searchOptionsViewController.collectionView?.reloadData()
             
             setShowingSearchOptions(true, animated: true)

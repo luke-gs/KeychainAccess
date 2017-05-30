@@ -39,7 +39,7 @@ class PersonSearchRequest: SearchRequest {
     
     var searchType: SearchType = .name
     var states: [ArchivedManifestEntry]?
-    var gender: [ArchivedManifestEntry]?
+    var gender: Person.Gender?
     var ageRange: Range<Int>?
     
     
@@ -52,10 +52,15 @@ class PersonSearchRequest: SearchRequest {
     required init?(coder aDecoder: NSCoder) {
         searchType = SearchType(rawValue: aDecoder.decodeInteger(forKey: searchTypeKey)) ?? .name
         states     = aDecoder.decodeObject(of: NSArray.self, forKey: #keyPath(states)) as? [ArchivedManifestEntry]
-        gender     = aDecoder.decodeObject(of: NSArray.self, forKey: #keyPath(gender)) as? [ArchivedManifestEntry]
         if aDecoder.containsValue(forKey: ageRangeMinKey), aDecoder.containsValue(forKey: ageRangeMaxKey) {
             ageRange = Range<Int>(uncheckedBounds: (aDecoder.decodeInteger(forKey: ageRangeMinKey), aDecoder.decodeInteger(forKey: ageRangeMaxKey)))
         }
+        
+        // TEMP
+        if aDecoder.containsValue(forKey: "gender") {
+            gender = Person.Gender(rawValue: aDecoder.decodeInteger(forKey: "gender"))
+        }
+        
         super.init(coder: aDecoder)
     }
     
@@ -63,9 +68,13 @@ class PersonSearchRequest: SearchRequest {
         super.encode(with: aCoder)
         aCoder.encode(searchType.rawValue, forKey: searchTypeKey)
         aCoder.encode(states, forKey: #keyPath(states))
-        aCoder.encode(gender, forKey: #keyPath(gender))
         aCoder.encode(ageRange?.lowerBound, forKey: ageRangeMinKey)
         aCoder.encode(ageRange?.upperBound, forKey: ageRangeMaxKey)
+        
+        // TEMP
+        if let gender = self.gender {
+            aCoder.encode(gender.rawValue, forKey: "gender")
+        }
     }
     
 }
