@@ -139,6 +139,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
             }
             
             cell.thumbnailView.configure(for: person, size: .large)
+            cell.thumbnailView.imageView.image = #imageLiteral(resourceName: "Avatar 1")
 // TODO
 //            if cell.thumbnailView.allTargets.contains(self) == false {
 //                cell.thumbnailView.isEnabled = true

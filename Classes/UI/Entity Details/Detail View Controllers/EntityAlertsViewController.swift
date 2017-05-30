@@ -74,6 +74,10 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
         let sidebarItem = self.sidebarItem
         sidebarItem.image         = UIImage(named: "iconGeneralAlert",       in: .mpolKit, compatibleWith: nil)
         sidebarItem.selectedImage = UIImage(named: "iconGeneralAlertFilled", in: .mpolKit, compatibleWith: nil)
+        
+        let filterIcon = UIBarButtonItem(image: UIImage(named: "iconFormFilter", in: .mpolKit, compatibleWith: nil), style: .plain, target: nil, action: nil)
+        filterIcon.isEnabled = false
+        navigationItem.rightBarButtonItem = filterIcon
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -118,9 +122,9 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(of: CollectionViewFormDetailCell.self, for: indexPath)
-//        cell.highlightStyle     = .fade
-//        cell.selectionStyle     = .fade
-//        cell.accessoryView = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
+        cell.highlightStyle     = .fade
+        cell.selectionStyle     = .fade
+        cell.accessoryView = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
 
         let alert = sections[indexPath.section][indexPath.item]
         
@@ -188,6 +192,10 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
     
     
     // MARK: - UICollectionViewDelegate
+    
+    open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+    }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
         return CollectionViewFormExpandingHeaderView.minimumHeight

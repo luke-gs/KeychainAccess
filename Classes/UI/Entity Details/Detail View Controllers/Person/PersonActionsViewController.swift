@@ -41,6 +41,10 @@ open class PersonActionsViewController: EntityDetailCollectionViewController {
         let sidebarItem = self.sidebarItem
         sidebarItem.image         = UIImage(named: "iconFormFolder",       in: .mpolKit, compatibleWith: nil)
         sidebarItem.selectedImage = UIImage(named: "iconFormFolderFilled", in: .mpolKit, compatibleWith: nil)
+        
+        let filterIcon = UIBarButtonItem(image: UIImage(named: "iconFormFilter", in: .mpolKit, compatibleWith: nil), style: .plain, target: nil, action: nil)
+        filterIcon.isEnabled = false
+        navigationItem.rightBarButtonItem = filterIcon
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -70,10 +74,10 @@ open class PersonActionsViewController: EntityDetailCollectionViewController {
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(of: CollectionViewFormDetailCell.self, for: indexPath)
-        //        cell.highlightStyle     = .fade
-        //        cell.selectionStyle     = .fade
-        //        cell.accessoryView = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
-        //
+        cell.highlightStyle     = .fade
+        cell.selectionStyle     = .fade
+        cell.accessoryView = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
+        
         let order = actions![indexPath.item]
         
         if let type = order.type {
@@ -111,6 +115,10 @@ open class PersonActionsViewController: EntityDetailCollectionViewController {
     
     
     // MARK: - UICollectionViewDelegate
+    
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+    }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
         return CollectionViewFormExpandingHeaderView.minimumHeight
