@@ -57,6 +57,8 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
     
     private var statusDotCache: [Alert.Level: UIImage] = [:]
     
+    lazy private var collapsedSections: [String: Set<Alert.Level>] = [:]
+    
     
     
     // MARK: - Initializers
@@ -101,7 +103,14 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
     }
     
     open override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return sections[section].count
+        let alerts = sections[section]
+        let level = alerts.first!.level!
+        if collapsedSections[entity!.id]?.contains(level) ?? false {
+            // Don't assume there is a collapsed sections here because we should load it lazily.
+            return 0
+        } else {
+            return alerts.count
+        }
     }
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -142,11 +151,31 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
             
             let alerts = sections[indexPath.section]
             let alertCount = alerts.count
-            if alertCount > 0, let levelDescription = alerts.first!.level?.localizedDescription(plural: alertCount > 1) {
+            let personId = self.entity!.id
+            let level = alerts.first!.level!
+            
+            if alertCount > 0, let levelDescription = level.localizedDescription(plural: alertCount > 1) {
                 header.text = "\(alertCount) \(levelDescription.localizedUppercase) "
+                header.showsExpandArrow = true
+                
+                header.tapHandler = { [weak self] (headerView, indexPath) in
+                    guard let `self` = self else { return }
+                    
+                    var collapsedSections = self.collapsedSections[personId] ?? []
+                    if collapsedSections.remove(level) == nil {
+                        // This section wasn't in there and didn't remove
+                        collapsedSections.insert(level)
+                    }
+                    self.collapsedSections[personId] = collapsedSections
+                    
+                    self.collectionView?.reloadData()
+                }
+                
+                header.isExpanded = !(collapsedSections[personId]?.contains(level) ?? false)
             } else {
                 header.text = nil
             }
+            
             return header
         }
         return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)

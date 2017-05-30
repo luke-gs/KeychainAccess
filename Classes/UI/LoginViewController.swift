@@ -97,6 +97,20 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     }()
     
     
+    open private(set) lazy var forgotPasswordButton: UIButton = { [unowned self] in
+        let button = UIButton(type: UIButtonType.system)
+        button.titleLabel?.font = .systemFont(ofSize: 17.0, weight: UIFontWeightSemibold)
+        button.setTitle("FORGOT YOUR PASSWORD?", for: .normal)
+        button.setTitleColor(.lightGray, for: .normal)
+        button.setTitleColor(UIColor(white: 1.0, alpha: 0.5), for: .disabled)
+        button.titleLabel?.font = .systemFont(ofSize: 11.0, weight: UIFontWeightRegular)
+        button.titleLabel?.textAlignment = .left
+        button.isEnabled = false
+        
+        return button
+        }()
+    
+    
     /// The login button.
     ///
     /// To default background image for this button is a template image and will adapt to the standard tintColor.
@@ -277,6 +291,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         let passwordLabel = self.passwordLabel
         let usernameField = self.usernameField
         let passwordField = self.passwordField
+        let forgotPasswordButton = self.forgotPasswordButton
         
         let usernameSeparator = UIView(frame: .zero)
         let passwordSeparator = UIView(frame: .zero)
@@ -289,6 +304,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         passwordLabel.translatesAutoresizingMaskIntoConstraints = false
         usernameField.translatesAutoresizingMaskIntoConstraints = false
         passwordField.translatesAutoresizingMaskIntoConstraints = false
+        forgotPasswordButton.translatesAutoresizingMaskIntoConstraints = false
         usernameSeparator.translatesAutoresizingMaskIntoConstraints = false
         passwordSeparator.translatesAutoresizingMaskIntoConstraints = false
         credentialsView.translatesAutoresizingMaskIntoConstraints = false
@@ -299,6 +315,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         credentialsView.addSubview(passwordLabel)
         credentialsView.addSubview(usernameField)
         credentialsView.addSubview(passwordField)
+        credentialsView.addSubview(forgotPasswordButton)
         
         let loginStackView = UIStackView(arrangedSubviews: [loginButton, termsAndConditionsLabel])
         loginStackView.axis = .vertical
@@ -362,7 +379,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
             NSLayoutConstraint(item: loginButton, attribute: .height, relatedBy: .greaterThanOrEqual, toConstant: 48.0),
         ]
         
-        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[ul]-4-[uf]-11-[us]-18-[pl]-4-[pf]-11-[ps(==us)]|", options: [.alignAllLeading, .alignAllTrailing], metrics: nil, views: ["ul": usernameLabel, "uf": usernameField, "us": usernameSeparator, "pl": passwordLabel, "pf": passwordField, "ps": passwordSeparator])
+        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[ul]-4-[uf]-11-[us]-18-[pl]-4-[pf]-11-[ps(==us)]-11-[fpb]|", options: [.alignAllLeading, .alignAllTrailing], metrics: nil, views: ["ul": usernameLabel, "uf": usernameField, "us": usernameSeparator, "pl": passwordLabel, "pf": passwordField, "ps": passwordSeparator, "fpb": forgotPasswordButton])
         
         if isHeaderViewHidden == false {
             constraints.append(showingHeaderConstraint)
