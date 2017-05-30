@@ -26,11 +26,27 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     
     let recentsViewController = SearchRecentsViewController()
     
-    private(set) var currentResultsViewController: UIViewController?
+    private(set) var currentResultsViewController: UIViewController? {
+        didSet {
+            if isShowingSearchOptions == false {
+                isHidingNavigationBarShadow =  currentResultsViewController == nil && recentsViewController.isShowingNavBarExtension
+            }
+        }
+    }
     
     var isShowingResults: Bool { return currentResultsViewController != nil }
     
-    private(set) var isShowingSearchOptions: Bool = false
+    private(set) var isShowingSearchOptions: Bool = false {
+        didSet {
+            if isShowingSearchOptions == oldValue { return }
+            
+            if isShowingSearchOptions {
+                isHidingNavigationBarShadow = true
+            } else {
+                isHidingNavigationBarShadow = isShowingResults == false && recentsViewController.isShowingNavBarExtension
+            }
+        }
+    }
     
     
     // Temp
@@ -44,13 +60,10 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     
     private var gender: Person.Gender?
     
-    
-    
     private lazy var resultsListViewController: SearchResultsListViewController = { [unowned self] in
         let resultsController = SearchResultsListViewController()
         resultsController.delegate = self
         self.isResultsListViewControllerLoaded = true
-        
         
         resultsController.navigationItem.addObserver(self, forKeyPath: #keyPath(UINavigationItem.rightBarButtonItems), context: &kvoContext)
         resultsController.navigationItem.addObserver(self, forKeyPath: #keyPath(UINavigationItem.rightBarButtonItem), context: &kvoContext)
@@ -94,6 +107,26 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     
     private var isResultsListViewControllerLoaded = false
     
+    private var isHidingNavigationBarShadow = false {
+        didSet {
+            if isHidingNavigationBarShadow == oldValue {
+                return
+            }
+            
+            navigationController?.navigationBar.shadowImage = isHidingNavigationBarShadow ? UIImage() : Theme.current.navigationBarShadowImage
+        }
+    }
+    
+    private var isOnscreen: Bool = false {
+        didSet {
+            if isOnscreen == oldValue { return }
+            
+            if isOnscreen && isHidingNavigationBarShadow {
+                navigationController?.navigationBar.shadowImage = UIImage()
+            }
+        }
+    }
+    
     
     // MARK: - Initializers
     
@@ -113,6 +146,8 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
             recentsNavItem.addObserver(self, forKeyPath: $0, context: &kvoContext)
         }
         
+        recentsViewController.addObserver(self, forKeyPath: #keyPath(SearchRecentsViewController.isShowingNavBarExtension), context: &kvoContext)
+        
         updateNavigationItem(animated: false)
     }
     
@@ -125,6 +160,8 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
             resultsListViewController.navigationItem.removeObserver(self, forKeyPath: #keyPath(UINavigationItem.rightBarButtonItems), context: &kvoContext)
             resultsListViewController.navigationItem.removeObserver(self, forKeyPath: #keyPath(UINavigationItem.rightBarButtonItem), context: &kvoContext)
         }
+        
+        recentsViewController.removeObserver(self, forKeyPath: #keyPath(SearchRecentsViewController.isShowingNavBarExtension), context: &kvoContext)
         
         let recentsNavItem = recentsViewController.navigationItem
         navigationItemKeyPaths.forEach {
@@ -156,6 +193,21 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
             view.addSubview(dimmingView)
             view.addSubview(searchOptionsViewController.view!)
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        isOnscreen = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        isOnscreen = false
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        isOnscreen = false
     }
     
     override func viewDidLayoutSubviews() {
@@ -355,7 +407,13 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {
-            if let navItem = object as? UINavigationItem {
+            guard let object = object as? NSObject else { return } // KVO on something that wasn't an NSObject? Weird.
+            
+            if object == recentsViewController {
+                if isShowingSearchOptions == false && isShowingResults == false {
+                    isHidingNavigationBarShadow = recentsViewController.isShowingNavBarExtension
+                }
+            } else if let navItem = object as? UINavigationItem {
                 if (navItem == recentsViewController.navigationItem && isShowingSearchOptions == false && isShowingResults == false) || (navItem == resultsListViewController.navigationItem && isShowingResults && isShowingSearchOptions == false) {
                     updateNavigationItem(animated: true)
                 }

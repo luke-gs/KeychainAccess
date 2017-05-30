@@ -202,10 +202,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         navBar.setBackgroundImage(theme.navigationBarBackgroundImage, for: .default)
         navBar.barStyle  = theme.navigationBarStyle
         navBar.tintColor = theme.colors[.NavigationBarTint]
+        navBar.shadowImage = theme.navigationBarShadowImage
         
         let navBarExtension = NavigationBarExtension.appearance()
+        navBarExtension.barStyle  = theme.navigationBarStyle
         navBarExtension.backgroundImage = theme.navigationBarBackgroundExtensionImage
         navBarExtension.tintColor = theme.colors[.NavigationBarTint]
+        navBarExtension.shadowImage = theme.navigationBarShadowImage
         
         UITabBar.appearance().barStyle = theme.tabBarStyle
         

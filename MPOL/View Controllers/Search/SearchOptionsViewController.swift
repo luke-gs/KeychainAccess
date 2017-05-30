@@ -147,12 +147,6 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         scrollView.contentOffset = contentOffset
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        navigationController?.navigationBar.shadowImage = UIImage()
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -163,8 +157,6 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     
     override func viewWillDisappear(_ animated: Bool) {
         endEditingSearchField(changingState: false)
-        
-        navigationController?.navigationBar.shadowImage = nil
         super.viewWillDisappear(animated)
     }
     

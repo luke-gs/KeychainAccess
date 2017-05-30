@@ -20,7 +20,22 @@ class SearchRecentsViewController: FormCollectionViewController {
         var request = PersonSearchRequest()
         request.searchText = "Citizen John"
         return [request]
-    }()
+        }() {
+            didSet {
+                collectionView?.reloadData()
+            }
+    }
+    
+    @objc dynamic var isShowingNavBarExtension: Bool = false {
+        didSet {
+            compactNavBarExtension?.alpha = isShowingNavBarExtension ? 1.0 : 0.0
+        }
+    }
+    
+    private var compactNavBarExtension: NavigationBarExtension?
+    private var compactSegmentedControl: UISegmentedControl?
+    
+    private var showsRecentSearchesWhenCompact: Bool = false
     
     
     override init() {
@@ -34,20 +49,69 @@ class SearchRecentsViewController: FormCollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let collectionView = self.collectionView {
-            collectionView.register(EntityCollectionViewCell.self)
-            collectionView.register(CollectionViewFormSubtitleCell.self)
-            collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
-            collectionView.register(RecentEntitiesBackgroundView.self,          forSupplementaryViewOfKind: collectionElementKindSectionBackground)
-        }
+        guard let view = self.view, let collectionView = self.collectionView else { return }
+        
+        let segmentedControl = UISegmentedControl(items: [NSLocalizedString("Recently Viewed", comment: ""), NSLocalizedString("Recent Searches", comment: "")])
+        segmentedControl.selectedSegmentIndex = showsRecentSearchesWhenCompact ? 1 : 0
+        
+        let navBarExtension = NavigationBarExtension(frame: .zero)
+        navBarExtension.translatesAutoresizingMaskIntoConstraints = false
+        navBarExtension.contentView = segmentedControl
+        navBarExtension.alpha = isShowingNavBarExtension ? 1.0 : 0.0
+        view.addSubview(navBarExtension)
+        
+        NSLayoutConstraint.activate([
+            NSLayoutConstraint(item: segmentedControl, attribute: .width, relatedBy: .equal, toItem: navBarExtension, attribute: .width, constant: -32.0),
+            NSLayoutConstraint(item: segmentedControl, attribute: .top, relatedBy: .equal, toItem: navBarExtension, attribute: .top),
+            NSLayoutConstraint(item: segmentedControl, attribute: .bottom, relatedBy: .equal, toItem: navBarExtension, attribute: .bottom, constant: -17.0),
+            NSLayoutConstraint(item: navBarExtension, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leading),
+            NSLayoutConstraint(item: navBarExtension, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailing),
+            NSLayoutConstraint(item: navBarExtension, attribute: .top, relatedBy: .equal, toItem: topLayoutGuide, attribute: .bottom),
+        ])
+        
+        compactSegmentedControl = segmentedControl
+        compactNavBarExtension = navBarExtension
+        
+        collectionView.register(EntityCollectionViewCell.self)
+        collectionView.register(CollectionViewFormSubtitleCell.self)
+        collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
+        collectionView.register(RecentEntitiesBackgroundView.self,          forSupplementaryViewOfKind: collectionElementKindSectionBackground)
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         
-        if traitCollection.horizontalSizeClass != (previousTraitCollection?.horizontalSizeClass ?? .unspecified) {
+        let horizontallyCompact = traitCollection.horizontalSizeClass == .compact
+        if horizontallyCompact != ((previousTraitCollection?.horizontalSizeClass ?? .unspecified) == .compact) {
             collectionView?.reloadData()
+            isShowingNavBarExtension = horizontallyCompact
         }
+    }
+    
+    open override func viewDidLayoutSubviews() {
+        guard let scrollView = self.collectionView, let insetManager = self.collectionViewInsetManager else { return }
+        
+        var contentOffset = scrollView.contentOffset
+        
+        var insets = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)
+        if traitCollection.horizontalSizeClass == .compact {
+            insets.top += (compactNavBarExtension?.frame.height ?? 0.0)
+        }
+        
+        let oldContentInset = insetManager.standardContentInset
+        insetManager.standardContentInset   = insets
+        insetManager.standardIndicatorInset = insets
+        
+        // If the scroll view currently doesn't have any user interaction, adjust its content
+        // to keep the content onscreen.
+        if scrollView.isTracking || scrollView.isDecelerating { return }
+        
+        contentOffset.y -= (insets.top - oldContentInset.top)
+        if contentOffset.y < insets.top * -1.0 {
+            contentOffset.y = insets.top * -1.0
+        }
+        
+        scrollView.contentOffset = contentOffset
     }
     
     
