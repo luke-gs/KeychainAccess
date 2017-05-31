@@ -12,9 +12,15 @@ import Unbox
 
 fileprivate let alertCellID = "alertCell"
 
-class SearchResultsListViewController: FormCollectionViewController {
+class SearchResultsListViewController: FormCollectionViewController, SearchNavigationFieldDelegate {
     
     weak var delegate: SearchResultsDelegate?
+    
+    @NSCopying var searchRequest: SearchRequest? {
+        didSet {
+            searchField.updateForSearchRequest(searchRequest, resultCount: 1)
+        }
+    }
     
     private var wantsThumbnails: Bool = true {
         didSet {
@@ -29,6 +35,8 @@ class SearchResultsListViewController: FormCollectionViewController {
     }
     
     private let listStateItem = UIBarButtonItem(image: #imageLiteral(resourceName: "iconNavBarList"), style: .plain, target: nil, action: nil)
+    
+    private let searchField = SearchNavigationField()
     
     private var alertEntities: [Entity] = []
     private var alertExpanded = true
@@ -50,9 +58,19 @@ class SearchResultsListViewController: FormCollectionViewController {
         formLayout.itemLayoutMargins = UIEdgeInsets(top: 16.5, left: 8.0, bottom: 14.5, right: 8.0)
         formLayout.distribution = .none
         
+        let theme = Theme.current
+        let secondaryText = theme.colors[.SecondaryText]
+        
+        searchField.titleLabel.textColor = theme.colors[.PrimaryText]
+        searchField.resultCountLabel.textColor = secondaryText
+        searchField.clearButtonColor = secondaryText
+        searchField.delegate = self
+        
         listStateItem.target = self
         listStateItem.action = #selector(toggleThumbnails)
         listStateItem.imageInsets = .zero
+        
+        navigationItem.titleView = searchField
         navigationItem.rightBarButtonItems = [listStateItem]
     }
     
@@ -258,6 +276,17 @@ class SearchResultsListViewController: FormCollectionViewController {
     }
     
     
+    // MARK: - SearchNavigationFieldDelegate
+    
+    func searchNavigationFieldDidSelect(_ field: SearchNavigationField) {
+        delegate?.searchResultsController(self, didRequestToEdit: searchRequest)
+    }
+    
+    func searchNavigationFieldDidSelectClear(_ field: SearchNavigationField) {
+        delegate?.searchResultsControllerDidCancel(self)
+    }
+    
+    
     // MARK: - Private methods
     
     @objc private func toggleThumbnails() {
@@ -286,6 +315,30 @@ fileprivate struct DataSourceResult {
 
 protocol SearchResultsDelegate: class {
     
+    func searchResultsController(_ controller: UIViewController, didRequestToEdit searchRequest: SearchRequest?)
+    
     func searchResultsController(_ controller: UIViewController, didSelectEntity entity: Entity)
+    
+    func searchResultsControllerDidCancel(_ controller: UIViewController)
+    
+}
+
+private extension SearchNavigationField {
+    
+    func updateForSearchRequest(_ request: SearchRequest?, resultCount: Int?) {
+        if let request = request {
+            typeLabel.text = type(of: request).localizedDisplayName.uppercased(with: nil)
+            titleLabel.text = request.searchText
+        } else {
+            typeLabel.text = nil
+            titleLabel.text = nil
+        }
+        
+        if let resultCount = resultCount, resultCount > 0 {
+            resultCountLabel.text = String(format: (resultCount == 1 ? NSLocalizedString("%d Result Found", comment: "") : NSLocalizedString("%d Results Found", comment: "")), resultCount)
+        } else {
+            resultCountLabel.text = nil
+        }
+    }
     
 }

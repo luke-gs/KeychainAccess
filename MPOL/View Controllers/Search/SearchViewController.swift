@@ -19,15 +19,23 @@ fileprivate let navigationItemKeyPaths: [String] = [
     #keyPath(UINavigationItem.rightBarButtonItems),
     #keyPath(UINavigationItem.rightBarButtonItem),
     #keyPath(UINavigationItem.title),
-    #keyPath(UINavigationItem.titleView)
+    #keyPath(UINavigationItem.titleView),
+    #keyPath(UINavigationItem.prompt)
 ]
 
-class SearchViewController: UIViewController, SearchRecentsViewControllerDelegate, SearchResultsDelegate, SearchNavigationFieldDelegate, SearchOptionsViewControllerDelegate {
+class SearchViewController: UIViewController, SearchRecentsViewControllerDelegate, SearchResultsDelegate, SearchOptionsViewControllerDelegate {
     
     let recentsViewController = SearchRecentsViewController()
     
-    private(set) var currentResultsViewController: UIViewController? {
+    @objc dynamic private(set) var currentResultsViewController: UIViewController? {
         didSet {
+            if currentResultsViewController != oldValue {
+                navigationItemKeyPaths.forEach {
+                    oldValue?.navigationItem.removeObserver(self, forKeyPath: $0, context: &kvoContext)
+                    currentResultsViewController?.navigationItem.addObserver(self, forKeyPath: $0, context: &kvoContext)
+                }
+            }
+            
             if isShowingSearchOptions == false {
                 isHidingNavigationBarShadow = isShowingResults == false && recentsViewController.isShowingNavBarExtension
             }
@@ -46,25 +54,11 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
         }
     }
     
-    
-    // Temp
-    private var searchedTerm: String?
-    
-    
-    // Temp
-    private var ageRange: Range<Int>?
-    
-    // Temp
-    
-    private var gender: Person.Gender?
+    // MARK: - Private methods
     
     private lazy var resultsListViewController: SearchResultsListViewController = { [unowned self] in
         let resultsController = SearchResultsListViewController()
         resultsController.delegate = self
-        self.isResultsListViewControllerLoaded = true
-        
-        resultsController.navigationItem.addObserver(self, forKeyPath: #keyPath(UINavigationItem.rightBarButtonItems), context: &kvoContext)
-        resultsController.navigationItem.addObserver(self, forKeyPath: #keyPath(UINavigationItem.rightBarButtonItem), context: &kvoContext)
         return resultsController
     }()
     
@@ -76,34 +70,12 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
         return optionsController
     }()
     
-    private lazy var searchNavigationField: SearchNavigationField = { [unowned self] in
-        let searchField = SearchNavigationField()
-        searchField.typeLabel.text  = "PERSON"
-        searchField.resultCountLabel.text = "1 result found"
-        searchField.delegate = self
-        
-        let theme = Theme.current
-        let secondaryText = theme.colors[.SecondaryText]
-        
-        searchField.titleLabel.textColor = theme.colors[.PrimaryText]
-        searchField.resultCountLabel.textColor = secondaryText
-        searchField.clearButtonColor = secondaryText
-        
-        self.isSearchNavigationFieldLoaded = true
-        
-        return searchField
-    }()
-    
     
     // MARK: - Private properties
     
     private var searchDimmingView: UIControl?
     
     private var searchPreferredHeight: CGFloat = 0.0
-    
-    private var isSearchNavigationFieldLoaded = false
-    
-    private var isResultsListViewControllerLoaded = false
     
     private var isHidingNavigationBarShadow = false {
         didSet {
@@ -154,16 +126,13 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     }
     
     deinit {
-        if isResultsListViewControllerLoaded {
-            resultsListViewController.navigationItem.removeObserver(self, forKeyPath: #keyPath(UINavigationItem.rightBarButtonItems), context: &kvoContext)
-            resultsListViewController.navigationItem.removeObserver(self, forKeyPath: #keyPath(UINavigationItem.rightBarButtonItem), context: &kvoContext)
-        }
-        
         recentsViewController.removeObserver(self, forKeyPath: #keyPath(SearchRecentsViewController.isShowingNavBarExtension), context: &kvoContext)
         
         let recentsNavItem = recentsViewController.navigationItem
+        let resultsNavItem = currentResultsViewController?.navigationItem
         navigationItemKeyPaths.forEach {
             recentsNavItem.removeObserver(self, forKeyPath: $0, context: &kvoContext)
+            resultsNavItem?.removeObserver(self, forKeyPath: $0, context: &kvoContext)
         }
     }
     
@@ -340,34 +309,11 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     }
     
     
-    // MARK: - SearchNavigationFieldDelegate
-    
-    func searchNavigationFieldDidSelect(_ field: SearchNavigationField) {
-        // Temp
-//        let request = searchOptionsViewController.selectedDataSource.request as! PersonSearchRequest
-//        request.searchText = searchedTerm
-//        request.ageRange   = ageRange
-//        request.gender     = gender
-//        searchOptionsViewController.collectionView?.reloadData()
-        
-        setShowingSearchOptions(true, animated: true)
-    }
-    
-    func searchNavigationFieldDidSelectClear(_ field: SearchNavigationField) {
-        setCurrentResultsViewController(nil, animated: true)
-    }
-    
-    
     // MARK: - SearchOptionsViewControllerDelegate
     
     func searchOptionsController(_ controller: SearchOptionsViewController, didFinishWith searchRequest: SearchRequest) {
+        resultsListViewController.searchRequest = searchRequest
         
-        // Temp
-        let request = searchRequest as! PersonSearchRequest
-        searchedTerm = request.searchText
-        ageRange     = request.ageRange
-        gender       = request.gender
-        searchNavigationField.titleLabel.text = searchedTerm
         searchOptionsViewController.collectionView?.reloadData()
         
         setShowingSearchOptions(false, animated: true)
@@ -380,6 +326,14 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     
     
     // MARK: - SearchResultsDelegate
+    
+    func searchResultsController(_ controller: UIViewController, didRequestToEdit searchRequest: SearchRequest?) {
+        setShowingSearchOptions(true, animated: true)
+    }
+    
+    func searchResultsControllerDidCancel(_ controller: UIViewController) {
+        setCurrentResultsViewController(nil, animated: true)
+    }
     
     func searchResultsController(_ controller: UIViewController, didSelectEntity entity: Entity) {
         didSelectEntity(entity)
@@ -397,7 +351,10 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
                     isHidingNavigationBarShadow = recentsViewController.isShowingNavBarExtension
                 }
             } else if let navItem = object as? UINavigationItem {
-                if (navItem == recentsViewController.navigationItem && isShowingSearchOptions == false && isShowingResults == false) || (navItem == resultsListViewController.navigationItem && isShowingResults && isShowingSearchOptions == false) {
+                if isShowingSearchOptions { return }
+                
+                if (navItem == currentResultsViewController?.navigationItem && isShowingResults) ||
+                    (navItem == recentsViewController.navigationItem && isShowingResults == false)  {
                     updateNavigationItem(animated: true)
                 }
             }
@@ -439,7 +396,6 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
         let toVC   = controller ?? recentsViewController
         
         currentResultsViewController = controller
-        
         updateNavigationItem(animated: true)
         
         if toVC == controller {
@@ -490,6 +446,7 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     private func updateNavigationItem(animated: Bool) {
         let titleView: UIView?
         let title: String?
+        let prompt: String?
         let leftBarButtonItems: [UIBarButtonItem]?
         let rightBarButtonItems: [UIBarButtonItem]?
         
@@ -498,15 +455,19 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
             title = NSLocalizedString("New Search", comment: "")
             leftBarButtonItems  = [searchOptionsViewController.cancelBarButtonItem]
             rightBarButtonItems = [searchOptionsViewController.searchBarButtonItem]
+            prompt = nil
         } else if isShowingResults {
-            if self.navigationItem.titleView != searchNavigationField {
+            let resultsNavItem = currentResultsViewController?.navigationItem
+            
+            if let searchNavigationField = resultsNavItem?.titleView as? SearchNavigationField {
                 let screenSize = UIScreen.main.bounds
                 let maxDimension = max(screenSize.width, screenSize.height)
                 searchNavigationField.frame.size.width = maxDimension
             }
             
-            titleView = searchNavigationField
-            title = nil
+            titleView = resultsNavItem?.titleView
+            title = resultsNavItem?.title
+            prompt = resultsNavItem?.prompt
             leftBarButtonItems = currentResultsViewController?.navigationItem.leftBarButtonItems
             
             var rightItems: [UIBarButtonItem] = [/*UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addEntityTriggered))*/]
@@ -520,6 +481,7 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
             
             titleView = recentsNavItem.titleView
             title = recentsNavItem.title
+            prompt = recentsNavItem.prompt
             leftBarButtonItems = recentsNavItem.leftBarButtonItems
             rightBarButtonItems = [UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(displaySearchTriggered))] + (recentsNavItem.rightBarButtonItems ?? [])
         }
@@ -527,6 +489,7 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
         let navigationItem = self.navigationItem
         navigationItem.title = title
         navigationItem.titleView = titleView
+        navigationItem.prompt = prompt
         navigationItem.setLeftBarButtonItems(leftBarButtonItems,   animated: animated)
         navigationItem.setRightBarButtonItems(rightBarButtonItems, animated: animated)
     }
