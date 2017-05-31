@@ -72,8 +72,6 @@ class PersonSearchRequest: SearchRequest {
         aCoder.encode(states, forKey: #keyPath(states))
         aCoder.encode(ageRange?.lowerBound, forKey: ageRangeMinKey)
         aCoder.encode(ageRange?.upperBound, forKey: ageRangeMaxKey)
-        
-        // TEMP
         if let gender = self.gender {
             aCoder.encode(gender.rawValue, forKey: genderKey)
         }

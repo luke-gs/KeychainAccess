@@ -16,6 +16,14 @@ class SearchRecentsViewController: FormCollectionViewController {
     
     weak var delegate: SearchRecentsViewControllerDelegate?
     
+    var recentlyViewed: [Entity] = [] {
+        didSet {
+            if traitCollection.horizontalSizeClass != .compact || showsRecentSearchesWhenCompact == false {
+                collectionView?.reloadData()
+            }
+        }
+    }
+
     var recentSearches: [SearchRequest] = [] {
         didSet {
             if traitCollection.horizontalSizeClass != .compact || showsRecentSearchesWhenCompact {
@@ -35,7 +43,7 @@ class SearchRecentsViewController: FormCollectionViewController {
     private var compactNavBarExtension: NavigationBarExtension?
     private var compactSegmentedControl: UISegmentedControl?
     
-    private var showsRecentSearchesWhenCompact: Bool = false {
+    private var showsRecentSearchesWhenCompact: Bool = true {
         didSet {
             if showsRecentSearchesWhenCompact != oldValue && traitCollection.horizontalSizeClass == .compact {
                 collectionView?.reloadData()
@@ -59,8 +67,8 @@ class SearchRecentsViewController: FormCollectionViewController {
         
         guard let view = self.view, let collectionView = self.collectionView else { return }
         
-        let segmentedControl = UISegmentedControl(items: [NSLocalizedString("Recently Viewed", comment: ""), NSLocalizedString("Recent Searches", comment: "")])
-        segmentedControl.selectedSegmentIndex = showsRecentSearchesWhenCompact ? 1 : 0
+        let segmentedControl = UISegmentedControl(items: [NSLocalizedString("Recent Searches", comment: ""), NSLocalizedString("Recent Entities", comment: "")])
+        segmentedControl.selectedSegmentIndex = showsRecentSearchesWhenCompact ? 0 : 1
         segmentedControl.addTarget(self, action: #selector(segmentedControlValueDidChange(_:)), for: .valueChanged)
         
         let navBarExtension = NavigationBarExtension(frame: .zero)
@@ -251,6 +259,8 @@ class SearchRecentsViewController: FormCollectionViewController {
     // MARK: - CollectionViewDelegateFormLayout methods
     
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
+        if traitCollection.horizontalSizeClass == .compact { return 0.0 }
+        
         return CollectionViewFormExpandingHeaderView.minimumHeight
     }
     
@@ -311,7 +321,7 @@ class SearchRecentsViewController: FormCollectionViewController {
     
     @objc private func segmentedControlValueDidChange(_ control: UISegmentedControl) {
         if control == compactSegmentedControl {
-            showsRecentSearchesWhenCompact = control.selectedSegmentIndex != 0
+            showsRecentSearchesWhenCompact = control.selectedSegmentIndex == 0
         }
     }
     
