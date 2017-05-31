@@ -88,4 +88,10 @@ class PersonSearchRequest: SearchRequest {
         return copy
     }
     
+    override func isEqual(_ object: Any?) -> Bool {
+        guard let otherRequest = object as? PersonSearchRequest else { return false }
+        
+        return searchType == otherRequest.searchType && gender == otherRequest.gender && ageRange == otherRequest.ageRange && (searchText ?? "") == (otherRequest.searchText ?? "") && (states ?? []) == (otherRequest.states ?? [])
+    }
+    
 }

@@ -16,17 +16,13 @@ class SearchRecentsViewController: FormCollectionViewController {
     
     weak var delegate: SearchRecentsViewControllerDelegate?
     
-    var recentSearches: [SearchRequest] = {
-        var request = PersonSearchRequest()
-        request.searchText = "Citizen John"
-        request.gender = .male
-        return [request]
-        }() {
-            didSet {
+    var recentSearches: [SearchRequest] = [] {
+        didSet {
+            if traitCollection.horizontalSizeClass != .compact || showsRecentSearchesWhenCompact {
                 collectionView?.reloadData()
             }
+        }
     }
-    
     
     // All this is work in progress.👇
     
@@ -39,7 +35,13 @@ class SearchRecentsViewController: FormCollectionViewController {
     private var compactNavBarExtension: NavigationBarExtension?
     private var compactSegmentedControl: UISegmentedControl?
     
-    private var showsRecentSearchesWhenCompact: Bool = false
+    private var showsRecentSearchesWhenCompact: Bool = false {
+        didSet {
+            if showsRecentSearchesWhenCompact != oldValue && traitCollection.horizontalSizeClass == .compact {
+                collectionView?.reloadData()
+            }
+        }
+    }
     
     
     // MARK: - Initializer
@@ -59,6 +61,7 @@ class SearchRecentsViewController: FormCollectionViewController {
         
         let segmentedControl = UISegmentedControl(items: [NSLocalizedString("Recently Viewed", comment: ""), NSLocalizedString("Recent Searches", comment: "")])
         segmentedControl.selectedSegmentIndex = showsRecentSearchesWhenCompact ? 1 : 0
+        segmentedControl.addTarget(self, action: #selector(segmentedControlValueDidChange(_:)), for: .valueChanged)
         
         let navBarExtension = NavigationBarExtension(frame: .zero)
         navBarExtension.translatesAutoresizingMaskIntoConstraints = false
@@ -128,20 +131,29 @@ class SearchRecentsViewController: FormCollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if traitCollection.horizontalSizeClass == .compact || section == 1 {
-            return recentSearches.count
+        let isRecentlySearched: Bool
+        if traitCollection.horizontalSizeClass == .compact {
+            isRecentlySearched = self.showsRecentSearchesWhenCompact
+        } else {
+            isRecentlySearched = section != 0
         }
-        return 1
+        return isRecentlySearched ? recentSearches.count : 1
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         switch kind {
         case UICollectionElementKindSectionHeader:
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
-            if indexPath.section == 0 && traitCollection.horizontalSizeClass != .compact {
-                header.text = NSLocalizedString("RECENTLY VIEWED", comment: "")
+            let isRecentlySearched: Bool
+            if traitCollection.horizontalSizeClass == .compact {
+                isRecentlySearched = self.showsRecentSearchesWhenCompact
             } else {
+                isRecentlySearched = indexPath.section != 0
+            }
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
+            if isRecentlySearched {
                 header.text = NSLocalizedString("RECENTLY SEARCHED", comment: "")
+            } else {
+                header.text = NSLocalizedString("RECENTLY VIEWED", comment: "")
             }
             return header
         case collectionElementKindSectionBackground:
@@ -153,8 +165,24 @@ class SearchRecentsViewController: FormCollectionViewController {
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        switch indexPath.section {
-        case 0 where traitCollection.horizontalSizeClass != .compact:
+        let isRecentlySearched: Bool
+        if traitCollection.horizontalSizeClass == .compact {
+            isRecentlySearched = self.showsRecentSearchesWhenCompact
+        } else {
+            isRecentlySearched = indexPath.section != 0
+        }
+        
+        if isRecentlySearched {
+            let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
+            let request = recentSearches[indexPath.item]
+            cell.titleLabel.text    = request.searchText?.ifNotEmpty() ?? NSLocalizedString("(No Search Term)", comment: "")
+            cell.subtitleLabel.text = request.localizedDescription
+            cell.accessoryView      = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
+            cell.highlightStyle     = .fade
+            cell.imageView.image    = summaryIcon(for: request)
+            cell.preferredLabelSeparation = 2.0
+            return cell
+        } else {
             let cell = collectionView.dequeueReusableCell(of: EntityCollectionViewCell.self, for: indexPath)
             let person = Person()
             person.initials = "JC"
@@ -168,15 +196,6 @@ class SearchRecentsViewController: FormCollectionViewController {
             cell.badgeCount         = 9
             cell.highlightStyle     = .fade
             cell.sourceLabel.text   = "DS1"
-            return cell
-        default:
-            let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
-            cell.titleLabel.text    = "Citizen John"
-            cell.subtitleLabel.text = "Person"
-            cell.accessoryView      = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
-            cell.highlightStyle     = .fade
-            cell.imageView.image    = .personOutline
-            cell.preferredLabelSeparation = 2.0
             return cell
         }
     }
@@ -197,7 +216,7 @@ class SearchRecentsViewController: FormCollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
         
-        if let entityCell = cell as? EntityCollectionViewCell {
+        if traitCollection.horizontalSizeClass != .compact, let entityCell = cell as? EntityCollectionViewCell {
             let theme = Theme.current
             if theme.isDark {
                 entityCell.subtitleLabel.textColor = primaryTextColor
@@ -257,11 +276,12 @@ class SearchRecentsViewController: FormCollectionViewController {
     
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
         
-        switch indexPath.section {
-        case 0 where traitCollection.horizontalSizeClass != .compact:
+        if traitCollection.horizontalSizeClass == .compact && showsRecentSearchesWhenCompact || indexPath.section == 1 {
+            let recentSearch = recentSearches[indexPath.item]
+            
+            return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: recentSearch.localizedTitle, subtitle: recentSearch.localizedDescription, inWidth: itemWidth, compatibleWith: traitCollection, image: summaryIcon(for: recentSearch))
+        } else {
             return EntityCollectionViewCell.minimumContentHeight(forStyle: .detail, compatibleWith: traitCollection)
-        default:
-            return 40.0
         }
     }
     
@@ -271,6 +291,28 @@ class SearchRecentsViewController: FormCollectionViewController {
     
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumHeightForBackgroundInSection section: Int, givenSectionWidth sectionWidth: CGFloat) -> CGFloat {
         return section == 0 && traitCollection.horizontalSizeClass != .compact ? 310.0 : 0.0
+    }
+    
+    
+    // MARK: - Private methods
+    
+    private func summaryIcon(for searchRequest: SearchRequest) -> UIImage? {
+        switch searchRequest {
+        case _ as PersonSearchRequest:
+            return .personOutline
+        case _ as VehicleSearchRequest:
+            return .carOutline
+        case _ as OrganizationSearchRequest:
+            return .buildingOutline
+        default:
+            return nil
+        }
+    }
+    
+    @objc private func segmentedControlValueDidChange(_ control: UISegmentedControl) {
+        if control == compactSegmentedControl {
+            showsRecentSearchesWhenCompact = control.selectedSegmentIndex != 0
+        }
     }
     
 }

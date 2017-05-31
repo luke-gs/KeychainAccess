@@ -6,7 +6,7 @@
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 @objc(MPLSearchRequest)
 class SearchRequest: NSObject, NSSecureCoding, NSCopying {
@@ -63,6 +63,15 @@ class SearchRequest: NSObject, NSSecureCoding, NSCopying {
             cachedValidity = isValid
         }
     }
+    
+    var localizedTitle: String? {
+        return searchText
+    }
+    
+    var localizedDescription: String {
+        return type(of: self).localizedDisplayName
+    }
+    
     
 }
 

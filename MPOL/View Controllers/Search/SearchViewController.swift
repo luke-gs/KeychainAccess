@@ -73,15 +73,19 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     
     // MARK: - Private properties
     
+    private var recentSearches: [SearchRequest] = [] {
+        didSet {
+            recentsViewController.recentSearches = recentSearches
+        }
+    }
+    
     private var searchDimmingView: UIControl?
     
     private var searchPreferredHeight: CGFloat = 0.0
     
     private var isHidingNavigationBarShadow = false {
         didSet {
-            if isHidingNavigationBarShadow == oldValue {
-                return
-            }
+            if isHidingNavigationBarShadow == oldValue || isOnscreen == false { return }
             
             navigationController?.navigationBar.shadowImage = isHidingNavigationBarShadow ? UIImage() : Theme.current.navigationBarShadowImage
         }
@@ -89,11 +93,9 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     
     private var isOnscreen: Bool = false {
         didSet {
-            if isOnscreen == oldValue { return }
+            if isOnscreen == oldValue || isHidingNavigationBarShadow == false { return }
             
-            if isOnscreen && isHidingNavigationBarShadow {
-                navigationController?.navigationBar.shadowImage = UIImage()
-            }
+            navigationController?.navigationBar.shadowImage = isOnscreen ? UIImage() : Theme.current.navigationBarShadowImage
         }
     }
     
@@ -314,7 +316,9 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     func searchOptionsController(_ controller: SearchOptionsViewController, didFinishWith searchRequest: SearchRequest) {
         resultsListViewController.searchRequest = searchRequest
         
-        searchOptionsViewController.collectionView?.reloadData()
+        if recentSearches.isEmpty || searchRequest != recentSearches.first {
+            recentSearches.insert(searchRequest, at: 0)
+        }
         
         setShowingSearchOptions(false, animated: true)
         setCurrentResultsViewController(resultsListViewController, animated: true)
