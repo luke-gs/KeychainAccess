@@ -123,6 +123,10 @@ public class Theme: NSObject {
     /// The navigation bar background image.
     public let navigationBarBackgroundImage: UIImage?
     
+    /// The navigation bar shadow image. This should be shared between the actual navigation
+    /// bar, and any associated navigation bar background extensions
+    public let navigationBarShadowImage: UIImage?
+    
     /// The background image for an extension of the navigation bar
     public let navigationBarBackgroundExtensionImage: UIImage?
     
@@ -174,6 +178,12 @@ public class Theme: NSObject {
             self.navigationBarBackgroundExtensionImage = UIImage(named: navBarExtensionName, in: Theme.bundle, compatibleWith: nil)
         } else {
             self.navigationBarBackgroundExtensionImage = nil
+        }
+        
+        if let navBarShadowName = details["navigationBarShadow"] as? String {
+            self.navigationBarShadowImage = UIImage(named: navBarShadowName, in: Theme.bundle, compatibleWith: nil)
+        } else {
+            self.navigationBarShadowImage = nil
         }
         
         if let navBarStyleInt = details["navigationBarStyle"] as? Int,
