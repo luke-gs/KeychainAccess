@@ -275,6 +275,7 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
         switch view {
         case let headerView as CollectionViewFormExpandingHeaderView:
             headerView.tintColor = secondaryTextColor
+            headerView.separatorColor = separatorColor
         default:
             break
         }
