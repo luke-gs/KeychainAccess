@@ -24,7 +24,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
             }
             hasContent = true
             
-            var sections: [(SectionType, [Any]?)] = [(.header, nil), (.details, [DetailItem.mni])]
+            var sections: [(SectionType, [Any]?)] = [(.header, nil), (.details, [DetailItem.mni, DetailItem.ethnicity])]
             
             if let licences = person.licences {
                 licences.forEach {
@@ -40,7 +40,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
                 sections.append((.addresses, addresses)) // TODO: Sort by date
             }
             
-            sections.append((.contact, ContactDetailItem.allCases))
+            // sections.append((.contact, ContactDetailItem.allCases))
             
             self.sections = sections
         }
@@ -170,9 +170,9 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
             let item = section.items![indexPath.item] as! Address
             
             if let date = item.reportDate {
-                title = String(format: NSLocalizedString("Recorded as at %@", bundle: .mpolKit, comment: ""), DateFormatter.mediumNumericDate.string(from: date))
+                title = String(format: NSLocalizedString("%@ - Recorded as at %@", bundle: .mpolKit, comment: ""), item.type ?? "Unknown", DateFormatter.mediumNumericDate.string(from: date))
             } else {
-                title = NSLocalizedString("Recorded date unknown", bundle: .mpolKit, comment: "")
+                title = String(format:NSLocalizedString("%@ - Recorded date unknown", bundle: .mpolKit, comment: ""),  item.type ?? "Unknown")
             }
             
             value = item.formatted()
@@ -285,14 +285,14 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
             title = item.localizedTitle
             value = item.value(for: person!)
             image = nil
-            wantsSingleLineValue = true
+            wantsSingleLineValue = false
         case .addresses:
             let item = section.items![indexPath.item] as! Address
             
             if let date = item.reportDate {
-                title = String(format: NSLocalizedString("Recorded as at %@", bundle: .mpolKit, comment: ""), DateFormatter.mediumNumericDate.string(from: date))
+                title = String(format: NSLocalizedString("%@ Recorded as at %@", bundle: .mpolKit, comment: ""), item.type ?? "Unknown", DateFormatter.mediumNumericDate.string(from: date))
             } else {
-                title = NSLocalizedString("Recorded date unknown", bundle: .mpolKit, comment: "")
+                title = String(format: NSLocalizedString("%@ Recorded date unknown", bundle: .mpolKit, comment: ""), item.type ?? "Unknown")
             }
             
             value = item.formatted()
@@ -365,13 +365,24 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
     
     private enum DetailItem {
         case mni
+        case ethnicity
         
         var localizedTitle: String {
-            return NSLocalizedString("MNI Number", bundle: .mpolKit, comment: "")
+            switch self {
+            case .mni:
+                return NSLocalizedString("MNI Number", bundle: .mpolKit, comment: "")
+            case .ethnicity:
+                return NSLocalizedString("Ethnicity", bundle: .mpolKit, comment: "")
+            }
         }
         
         func value(for person: Person) -> String? {
-            return "N/A" // TODO
+            switch self {
+            case .mni:
+                return person.id
+            case .ethnicity:
+                return person.ethnicity ?? "N/A"
+            }
         }
     }
     

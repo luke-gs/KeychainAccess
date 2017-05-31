@@ -25,7 +25,7 @@
     "ethnicity": "CAUCASIAN",
     "gender": 0,
     "alertLevel": 1,
-    "actions": 1
+    "actionCount": 1
   },
   {
     "id": 345384177,
@@ -50,7 +50,7 @@
     "ethnicity": "CAUCASIAN",
     "gender": 1,
     "alertLevel": null,
-    "actions": 0
+    "actionCount": 0
   },
   {
     "id": 345384177,
@@ -75,7 +75,7 @@
     "ethnicity": "CAUCASIAN",
     "gender": 1,
     "alertLevel": null,
-    "actions": 0
+    "actionCount": 0
   },
   {
     "id": 388919269,
@@ -103,7 +103,7 @@
     "ethnicity": 2,
     "gender": 0,
     "alertLevel": null,
-    "actions": 0
+    "actionCount": 0
   },
   {
     "id": 345384214,
@@ -128,7 +128,7 @@
     "ethnicity": "BLACK",
     "gender": 1,
     "alertLevel": 1,
-    "actions": 0
+    "actionCount": 0
   },
   {
     "id": 345384214,
@@ -153,7 +153,7 @@
     "ethnicity": "BLACK",
     "gender": 1,
     "alertLevel": 1,
-    "actions": 0
+    "actionCount": 0
   },
   {
     "id": 345384325,
@@ -178,7 +178,7 @@
     "ethnicity": "MAORI",
     "gender": 1,
     "alertLevel": null,
-    "actions": 0
+    "actionCount": 0
   },
   {
     "id": 388919306,
@@ -206,7 +206,7 @@
     "ethnicity": "CAUCASIAN",
     "gender": 0,
     "alertLevel": null,
-    "actions": 0
+    "actionCount": 0
   },
   {
     "id": 345384288,
@@ -231,7 +231,7 @@
     "ethnicity": "CAUCASIAN",
     "gender": 1,
     "alertLevel": 3,
-    "actions": 2
+    "actionCount": 2
   },
   {
     "id": 345384288,
@@ -256,7 +256,7 @@
     "ethnicity": "CAUCASIAN",
     "gender": 1,
     "alertLevel": 3,
-    "actions": 2
+    "actionCount": 2
   },
   {
     "id": 345384436,
@@ -282,7 +282,7 @@
     "ethnicity": "CAUCASIAN",
     "gender": 1,
     "alertLevel": null,
-    "actions": 0
+    "actionCount": 0
   },
   {
     "id": 345384436,
@@ -308,7 +308,7 @@
     "ethnicity": "CAUCASIAN",
     "gender": 1,
     "alertLevel": null,
-    "actions": 0
+    "actionCount": 0
   },
   {
     "id": 345384399,
@@ -334,7 +334,7 @@
     "ethnicity": 2,
     "gender": 1,
     "alertLevel": 1,
-    "actions": 1
+    "actionCount": 1
   },
   {
     "id": 345384399,
@@ -360,7 +360,7 @@
     "ethnicity": 2,
     "gender": 1,
     "alertLevel": 1,
-    "actions": 1
+    "actionCount": 1
   },
   {
     "id": 345384251,
@@ -386,7 +386,7 @@
     "ethnicity": "CAUCASIAN",
     "gender": 1,
     "alertLevel": null,
-    "actions": 0
+    "actionCount": 0
   },
   {
     "id": 345384251,
@@ -412,7 +412,7 @@
     "ethnicity": "CAUCASIAN",
     "gender": 1,
     "alertLevel": null,
-    "actions": 0
+    "actionCount": 0
   },
   {
     "id": 345384547,
@@ -438,7 +438,7 @@
     "ethnicity": "BLACK",
     "gender": 1,
     "alertLevel": null,
-    "actions": 0
+    "actionCount": 0
   },
   {
     "id": 345384547,
@@ -464,7 +464,7 @@
     "ethnicity": "BLACK",
     "gender": 1,
     "alertLevel": null,
-    "actions": 0
+    "actionCount": 0
   },
   {
     "id": 345384362,
@@ -490,7 +490,7 @@
     "ethnicity": "CAUCASIAN",
     "gender": 1,
     "alertLevel": null,
-    "actions": 0
+    "actionCount": 0
   },
   {
     "id": 345384510,
@@ -516,7 +516,7 @@
     "ethnicity": "CAUCASIAN",
     "gender": "UNKOWN",
     "alertLevel": null,
-    "actions": 0
+    "actionCount": 0
   },
   {
     "id": 345384510,
@@ -542,7 +542,7 @@
     "ethnicity": "CAUCASIAN",
     "gender": "UNKOWN",
     "alertLevel": null,
-    "actions": 0
+    "actionCount": 0
   },
   {
     "id": 345384362,
@@ -568,7 +568,7 @@
     "ethnicity": "CAUCASIAN",
     "gender": 1,
     "alertLevel": null,
-    "actions": 0
+    "actionCount": 0
   },
   {
     "id": 345384658,
@@ -594,7 +594,7 @@
     "ethnicity": "BLACK",
     "gender": 1,
     "alertLevel": null,
-    "actions": 0
+    "actionCount": 0
   },
   {
     "id": 345384658,
@@ -620,7 +620,7 @@
     "ethnicity": "BLACK",
     "gender": 1,
     "alertLevel": null,
-    "actions": 0
+    "actionCount": 0
   },
   {
     "id": 345384473,
@@ -646,7 +646,7 @@
     "ethnicity": "MAORI",
     "gender": 1,
     "alertLevel": null,
-    "actions": 0
+    "actionCount": 0
   },
   {
     "id": 345384621,
@@ -672,7 +672,7 @@
     "ethnicity": "CAUCASIAN",
     "gender": 1,
     "alertLevel": null,
-    "actions": 0
+    "actionCount": 0
   },
   {
     "id": 345384473,
@@ -698,7 +698,7 @@
     "ethnicity": "MAORI",
     "gender": 1,
     "alertLevel": null,
-    "actions": 0
+    "actionCount": 0
   },
   {
     "id": 345384621,
@@ -724,7 +724,7 @@
     "ethnicity": "CAUCASIAN",
     "gender": 1,
     "alertLevel": null,
-    "actions": 0
+    "actionCount": 0
   },
   {
     "id": 345384584,
@@ -750,7 +750,7 @@
     "ethnicity": "CAUCASIAN",
     "gender": 1,
     "alertLevel": null,
-    "actions": 0
+    "actionCount": 0
   },
   {
     "id": 345384584,
@@ -776,7 +776,7 @@
     "ethnicity": "CAUCASIAN",
     "gender": 1,
     "alertLevel": null,
-    "actions": 0
+    "actionCount": 0
   },
   {
     "id": 345384695,
@@ -802,7 +802,7 @@
     "ethnicity": "CAUCASIAN",
     "gender": 1,
     "alertLevel": null,
-    "actions": 0
+    "actionCount": 0
   },
   {
     "id": 345384695,
@@ -828,7 +828,7 @@
     "ethnicity": "CAUCASIAN",
     "gender": 1,
     "alertLevel": null,
-    "actions": 0
+    "actionCount": 0
   },
   {
     "id": "25625aa4-3394-48e2-8dbc-2387498e16b0",

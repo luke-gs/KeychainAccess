@@ -21,7 +21,7 @@ open class Person: Entity {
             case .male:
                 return "Male"
             case .other:
-                return "Other"
+                return "Unknown"
             }
         }
         
@@ -124,6 +124,7 @@ open class Person: Entity {
     open var highestAlertLevel: Alert.Level?
     open var fullName: String?
     open var matchScore: Int?
+    open var ethnicity: String?
     
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -185,6 +186,7 @@ open class Person: Entity {
         }
         
         isAlias = unboxer.unbox(key: "isAlias")
+        ethnicity = unboxer.unbox(key: "ethnicity")
     }
     
     open override func encode(with aCoder: NSCoder) {
