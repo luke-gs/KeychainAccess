@@ -22,7 +22,13 @@ open class RoundedRectLabel : UILabel {
     
     open override var backgroundColor: UIColor? {
         get { return _backgroundColor }
-        set { _backgroundColor = newValue }
+        set {
+            if _backgroundColor == newValue {
+                return
+            }
+            _backgroundColor = newValue
+            self.setNeedsDisplay()
+        }
     }
     
     private var _backgroundColor: UIColor?
