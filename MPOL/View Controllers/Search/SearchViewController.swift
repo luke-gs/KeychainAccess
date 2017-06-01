@@ -73,9 +73,15 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     
     // MARK: - Private properties
     
-    private var recentSearches: [SearchRequest] = [] {
+    private var recentlySearched: [SearchRequest] = [] {
         didSet {
-            recentsViewController.recentSearches = recentSearches
+            recentsViewController.recentlySearched = recentlySearched
+        }
+    }
+    
+    private var recentlyViewedEntities: [Entity] = [] {
+        didSet {
+            recentsViewController.recentlyViewed = recentlyViewedEntities
         }
     }
     
@@ -316,8 +322,8 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     func searchOptionsController(_ controller: SearchOptionsViewController, didFinishWith searchRequest: SearchRequest) {
         resultsListViewController.searchRequest = searchRequest
         
-        if recentSearches.isEmpty || searchRequest != recentSearches.first {
-            recentSearches.insert(searchRequest, at: 0)
+        if recentlySearched.isEmpty || searchRequest != recentlySearched.first {
+            recentlySearched.insert(searchRequest, at: 0)
         }
         
         setShowingSearchOptions(false, animated: true)
@@ -473,16 +479,9 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
             title = resultsNavItem?.title
             prompt = resultsNavItem?.prompt
             leftBarButtonItems = currentResultsViewController?.navigationItem.leftBarButtonItems
-            
-            var rightItems: [UIBarButtonItem] = [/*UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addEntityTriggered))*/]
-            if let childVCItems = currentResultsViewController?.navigationItem.rightBarButtonItems {
-               rightItems += childVCItems
-            }
-            
-            rightBarButtonItems = rightItems
+            rightBarButtonItems = currentResultsViewController?.navigationItem.rightBarButtonItems
         } else {
             let recentsNavItem = recentsViewController.navigationItem
-            
             titleView = recentsNavItem.titleView
             title = recentsNavItem.title
             prompt = recentsNavItem.prompt
@@ -501,6 +500,19 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     private func didSelectEntity(_ entity: Entity) {
         let entityViewController = EntityDetailsSplitViewController(entity: entity)
         navigationController?.pushViewController(entityViewController, animated: true)
+        
+        // Do this after the push.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+            var recents = self.recentlyViewedEntities
+            if recents.first == entity {
+                return
+            }
+            if let oldIndex = recents.index(of: entity) {
+                recents.remove(at: oldIndex)
+            }
+            recents.insert(entity, at: 0)
+            self.recentlyViewedEntities = recents
+        }
     }
     
 }

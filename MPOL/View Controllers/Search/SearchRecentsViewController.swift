@@ -24,7 +24,7 @@ class SearchRecentsViewController: FormCollectionViewController {
         }
     }
 
-    var recentSearches: [SearchRequest] = [] {
+    var recentlySearched: [SearchRequest] = [] {
         didSet {
             if traitCollection.horizontalSizeClass != .compact || showsRecentSearchesWhenCompact {
                 collectionView?.reloadData()
@@ -139,13 +139,23 @@ class SearchRecentsViewController: FormCollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let isRecentlySearched: Bool
         if traitCollection.horizontalSizeClass == .compact {
-            isRecentlySearched = self.showsRecentSearchesWhenCompact
+            if showsRecentSearchesWhenCompact {
+                return recentlySearched.count
+            } else {
+                return recentlyViewed.count
+            }
         } else {
-            isRecentlySearched = section != 0
+            if section == 0 {
+                let screenSize = UIScreen.main.bounds.size
+                let maxScreenDimension = max(screenSize.width, screenSize.height)
+                // TODO: Adhoc rule to check if on iPad Pro 12". Need to refactor for more well rounded calculation of max appropriate counts.
+                let maxRecentCount: Int = maxScreenDimension > 1024.0001 ? 8 : 6
+                return min(recentlyViewed.count, maxRecentCount)
+            } else {
+                return recentlySearched.count
+            }
         }
-        return isRecentlySearched ? recentSearches.count : 1
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -182,7 +192,7 @@ class SearchRecentsViewController: FormCollectionViewController {
         
         if isRecentlySearched {
             let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
-            let request = recentSearches[indexPath.item]
+            let request = recentlySearched[indexPath.item]
             cell.titleLabel.text    = request.searchText?.ifNotEmpty() ?? NSLocalizedString("(No Search Term)", comment: "")
             cell.subtitleLabel.text = request.localizedDescription
             cell.accessoryView      = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
@@ -240,18 +250,17 @@ class SearchRecentsViewController: FormCollectionViewController {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         
-        switch indexPath.section {
-        case 0 where traitCollection.horizontalSizeClass != .compact:
-            // TEMP
-            let bundle = Bundle(for: Person.self)
-            let url = bundle.url(forResource: "Person_25625aa4-3394-48e2-8dbc-2387498e16b0", withExtension: "json", subdirectory: "Mock JSONs")!
-            let data = try! Data(contentsOf: url)
-            let person: Person = try! unbox(data: data)
-            
-            delegate?.searchRecentsController(self, didSelectRecentEntity: person)
-            break
-        default:
-            delegate?.searchRecentsController(self, didSelectRecentSearch: recentSearches[indexPath.item])
+        let isRecentlySearched: Bool
+        if traitCollection.horizontalSizeClass == .compact {
+            isRecentlySearched = self.showsRecentSearchesWhenCompact
+        } else {
+            isRecentlySearched = indexPath.section != 0
+        }
+        
+        if isRecentlySearched {
+            delegate?.searchRecentsController(self, didSelectRecentSearch: recentlySearched[indexPath.item])
+        } else {
+            delegate?.searchRecentsController(self, didSelectRecentEntity: recentlyViewed[indexPath.item])
         }
     }
     
@@ -286,8 +295,15 @@ class SearchRecentsViewController: FormCollectionViewController {
     
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
         
-        if traitCollection.horizontalSizeClass == .compact && showsRecentSearchesWhenCompact || indexPath.section == 1 {
-            let recentSearch = recentSearches[indexPath.item]
+        let isRecentlySearched: Bool
+        if traitCollection.horizontalSizeClass == .compact {
+            isRecentlySearched = self.showsRecentSearchesWhenCompact
+        } else {
+            isRecentlySearched = indexPath.section != 0
+        }
+        
+        if isRecentlySearched {
+            let recentSearch = recentlySearched[indexPath.item]
             
             return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: recentSearch.localizedTitle, subtitle: recentSearch.localizedDescription, inWidth: itemWidth, compatibleWith: traitCollection, image: summaryIcon(for: recentSearch))
         } else {
