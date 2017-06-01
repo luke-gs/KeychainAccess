@@ -10,8 +10,6 @@ import UIKit
 
 class LocationSearchDataSource: SearchDataSource {
     
-    
-    
     @NSCopying private var locationSearchRequest = LocationSearchRequest() {
         didSet {
             updatingDelegate?.searchDataSourceRequestDidChange(self)

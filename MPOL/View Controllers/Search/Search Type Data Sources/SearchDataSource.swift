@@ -13,7 +13,7 @@ class SearchDataSource: NSObject {
     /// The request for this data source.
     ///
     /// - Important: This is a computed property. All subclasses should override and return a correct type.
-    ///              The stored value should always be copied (e.g. @NSCoping), and must
+    ///              The stored value should always be copied (e.g. @NSCoping).
     ///              When setting, this value must pass the `supports(_:)` test.
     var request: SearchRequest {
         get {
