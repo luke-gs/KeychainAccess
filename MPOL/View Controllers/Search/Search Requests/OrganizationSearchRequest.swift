@@ -6,7 +6,7 @@
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 @objc(MPLOrganizationSearchRequest)
 class OrganizationSearchRequest: SearchRequest {

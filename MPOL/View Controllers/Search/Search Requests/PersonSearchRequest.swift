@@ -7,14 +7,6 @@
 //
 
 import Foundation
-import MPOLKit
-
-private let statesKey      = "states"
-private let genderKey      = "gender"
-private let searchTypeKey  = "searchType"
-private let ageRangeMinKey = "ageRangeMin"
-private let ageRangeMaxKey = "ageRangeMax"
-
 
 @objc(MPLPersonSearchRequest)
 class PersonSearchRequest: SearchRequest {
