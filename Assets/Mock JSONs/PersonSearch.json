@@ -50,7 +50,7 @@
   "source": "LEAP",
   "ethnicity": "CAUCASIAN",
   "gender": 1,
-  "alertLevel": 0,
+  "alertLevel": null,
   "actionCount": 0
   },
   {
@@ -104,7 +104,7 @@
   "source": "LEAP",
   "ethnicity": "CAUCASIAN",
   "gender": 1,
-  "alertLevel": 0,
+  "alertLevel": null,
   "actionCount": 0
   },
   {
@@ -157,7 +157,7 @@
   "source": "LEAP",
   "ethnicity": "BLACK",
   "gender": 1,
-  "alertLevel": 0,
+  "alertLevel": null,
   "actionCount": 0
   },
   {
@@ -184,7 +184,7 @@
   "source": "LEAP",
   "ethnicity": "CAUCASIAN",
   "gender": 1,
-  "alertLevel": 0,
+  "alertLevel": null,
   "actionCount": 0
   },
   {
@@ -211,7 +211,7 @@
   "source": "LEAP",
   "ethnicity": "NORTH/EUROPE",
   "gender": 1,
-  "alertLevel": 0,
+  "alertLevel": null,
   "actionCount": 0
   },
   {
@@ -265,7 +265,7 @@
   "source": "LEAP",
   "ethnicity": "BLACK",
   "gender": 1,
-  "alertLevel": 0,
+  "alertLevel": null,
   "actionCount": 0
   },
   {
@@ -291,7 +291,7 @@
   "source": "LEAP",
   "ethnicity": "CAUCASIAN",
   "gender": 1,
-  "alertLevel": 0,
+  "alertLevel": null,
   "actionCount": 0
   },
   {
@@ -345,7 +345,7 @@
   "source": "LEAP",
   "ethnicity": "MAORI",
   "gender": 1,
-  "alertLevel": 0,
+  "alertLevel": null,
   "actionCount": 0
   },
   {
@@ -399,7 +399,7 @@
   "source": "LEAP",
   "ethnicity": "BLACK",
   "gender": 1,
-  "alertLevel": 0,
+  "alertLevel": null,
   "actionCount": 0
   },
   {
@@ -453,7 +453,7 @@
   "source": "LEAP",
   "ethnicity": "CAUCASIAN",
   "gender": 1,
-  "alertLevel": 0,
+  "alertLevel": null,
   "actionCount": 0
   },
   {
@@ -479,7 +479,7 @@
   "source": "LEAP",
   "ethnicity": "BLACK",
   "gender": 1,
-  "alertLevel": 0,
+  "alertLevel": null,
   "actionCount": 0
   },
   {
@@ -506,7 +506,7 @@
   "source": "LEAP",
   "ethnicity": "CAUCASIAN",
   "gender": 1,
-  "alertLevel": 0,
+  "alertLevel": null,
   "actionCount": 0
   },
   {
@@ -532,7 +532,7 @@
   "source": "LEAP",
   "ethnicity": "MAORI",
   "gender": 1,
-  "alertLevel": 0,
+  "alertLevel": null,
   "actionCount": 0
   },
   {
@@ -585,7 +585,7 @@
   "source": "LEAP",
   "ethnicity": "CAUCASIAN",
   "gender": 1,
-  "alertLevel": 0,
+  "alertLevel": null,
   "actionCount": 0
   },
   {
@@ -639,7 +639,7 @@
   "source": "LEAP",
   "ethnicity": "CAUCASIAN",
   "gender": 1,
-  "alertLevel": 0,
+  "alertLevel": null,
   "actionCount": 0
   },
   {
@@ -665,7 +665,7 @@
   "source": "LEAP",
   "ethnicity": "CAUCASIAN",
   "gender": 1,
-  "alertLevel": 0,
+  "alertLevel": null,
   "actionCount": 0
   },
   {
@@ -691,7 +691,7 @@
   "source": "LEAP",
   "ethnicity": "CAUCASIAN",
   "gender": 1,
-  "alertLevel": 0,
+  "alertLevel": null,
   "actionCount": 0
   },
   {
@@ -743,7 +743,7 @@
   "source": "LEAP",
   "ethnicity": "CAUCASIAN",
   "gender": 1,
-  "alertLevel": 0,
+  "alertLevel": null,
   "actionCount": 0
   },
   {
@@ -795,7 +795,7 @@
   "source": "LEAP",
   "ethnicity": "MAORI",
   "gender": 1,
-  "alertLevel": 0,
+  "alertLevel": null,
   "actionCount": 0
   },
   {
@@ -821,7 +821,7 @@
   "source": "LEAP",
   "ethnicity": "CAUCASIAN",
   "gender": 1,
-  "alertLevel": 0,
+  "alertLevel": null,
   "actionCount": 0
   },
   {
@@ -873,7 +873,7 @@
   "source": "LEAP",
   "ethnicity": "CAUCASIAN",
   "gender": 1,
-  "alertLevel": 0,
+  "alertLevel": null,
   "actionCount": 0
   },
   {
@@ -899,7 +899,7 @@
   "source": "LEAP",
   "ethnicity": "MAORI",
   "gender": 1,
-  "alertLevel": 0,
+  "alertLevel": null,
   "actionCount": 0
   },
   {
@@ -925,7 +925,7 @@
   "source": "LEAP",
   "ethnicity": "CAUCASIAN",
   "gender": "UNKOWN",
-  "alertLevel": 0,
+  "alertLevel": null,
   "actionCount": 0
   },
   {
@@ -951,7 +951,7 @@
   "source": "LEAP",
   "ethnicity": "BLACK",
   "gender": 1,
-  "alertLevel": 0,
+  "alertLevel": null,
   "actionCount": 0
   },
   {
@@ -977,7 +977,7 @@
   "source": "LEAP",
   "ethnicity": "CAUCASIAN",
   "gender": 1,
-  "alertLevel": 0,
+  "alertLevel": null,
   "actionCount": 0
   },
   {
@@ -1003,7 +1003,7 @@
   "source": "LEAP",
   "ethnicity": "CAUCASIAN",
   "gender": 1,
-  "alertLevel": 0,
+  "alertLevel": null,
   "actionCount": 0
   },
   {
@@ -1029,7 +1029,7 @@
   "source": "LEAP",
   "ethnicity": "BLACK",
   "gender": 1,
-  "alertLevel": 0,
+  "alertLevel": null,
   "actionCount": 0
   },
   {
@@ -1055,7 +1055,7 @@
   "source": "LEAP",
   "ethnicity": "CAUCASIAN",
   "gender": 1,
-  "alertLevel": 0,
+  "alertLevel": null,
   "actionCount": 0
   },
   {
@@ -1109,7 +1109,7 @@
   "source": "LEAP",
   "ethnicity": 0,
   "gender": 0,
-  "alertLevel": 0,
+  "alertLevel": null,
   "actionCount": 0
   },
   {
@@ -1136,7 +1136,7 @@
   "source": "LEAP",
   "ethnicity": "CAUCASIAN",
   "gender": 0,
-  "alertLevel": 0,
+  "alertLevel": null,
   "actionCount": 0
   }
   ]

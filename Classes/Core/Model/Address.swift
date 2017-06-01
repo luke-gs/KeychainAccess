@@ -55,7 +55,7 @@ open class Address: NSObject, Serialisable {
         commonName = unboxer.unbox(key: "commonName")
         country = unboxer.unbox(key: "country")
         floor = unboxer.unbox(key: "floor")
-        postcode = unboxer.unbox(key: "postalCode")
+        postcode = unboxer.unbox(key: "postCode")
         state = unboxer.unbox(key: "state")
         streetDirectional = unboxer.unbox(key: "streetDirectional")
         streetName = unboxer.unbox(key: "streetName")

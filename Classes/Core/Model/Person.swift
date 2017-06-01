@@ -243,9 +243,9 @@ open class Person: Entity {
     private func formattedSuburbStatePostcode() -> String? {
         if let address = addresses?.first {
             
-            let components = [address.suburb, address.state, address.postcode].flatMap({$0})
+            let components = [address.city, address.suburb, address.state, address.postcode].flatMap({$0})
             if components.isEmpty == false {
-                return components.joined(separator: " ")
+                return components.joined(separator: ", ")
             }
         }
         
