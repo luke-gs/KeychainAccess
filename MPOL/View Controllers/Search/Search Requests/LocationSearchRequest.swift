@@ -15,19 +15,4 @@ class LocationSearchRequest: SearchRequest  {
         return NSLocalizedString("Location", comment: "")
     }
     
-    
-    // MARK: - Initializers
-    
-    required init(searchText: String? = nil) {
-        super.init(searchText: searchText)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-    
-    override func encode(with aCoder: NSCoder) {
-        super.encode(with: aCoder)
-    }
-    
 }
