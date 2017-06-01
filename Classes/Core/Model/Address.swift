@@ -64,7 +64,7 @@ open class Address: NSObject, Serialisable {
         unitNumber = unboxer.unbox(key: "unitNumber")
         streetNumber = unboxer.unbox(key: "streetNumber")
         
-        reportDate = unboxer.unbox(key: "reportDate", formatter: ISO8601DateTransformer.shared)
+        reportDate = unboxer.unbox(key: "reportedDate", formatter: ISO8601DateTransformer.shared)
         type = unboxer.unbox(key: "addressType")
         city = unboxer.unbox(key: "city")
         

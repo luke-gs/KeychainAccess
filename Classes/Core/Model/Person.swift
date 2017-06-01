@@ -42,7 +42,7 @@ open class Person: Entity {
     
     open var givenName: String?
     open var surname: String?
-    open var middleNames: [String]?
+    open var middleNames: String?
     open var initials: String?
     
     // TEMP?
@@ -52,8 +52,6 @@ open class Person: Entity {
         if isAlias ?? false {
             formattedName += "@ "
         }
-        
-        let middleNames = self.middleNames?.filter { $0.isEmpty == false }
         
         if let surname = self.surname?.ifNotEmpty() {
             formattedName += surname
@@ -69,7 +67,8 @@ open class Person: Entity {
                 formattedName += " "
             }
         }
-        if let firstMiddleNameInitial = middleNames?.first?.characters.first {
+        
+        if let firstMiddleNameInitial = middleNames?.characters.first {
             formattedName.append(firstMiddleNameInitial)
             formattedName += "."
         }
@@ -123,7 +122,7 @@ open class Person: Entity {
     // MARK: - ?
     open var highestAlertLevel: Alert.Level?
     open var fullName: String?
-    open var matchScore: Int?
+    open var matchScore: Int = 0
     open var ethnicity: String?
     
     public required init?(coder aDecoder: NSCoder) {
@@ -187,6 +186,7 @@ open class Person: Entity {
         
         isAlias = unboxer.unbox(key: "isAlias")
         ethnicity = unboxer.unbox(key: "ethnicity")
+        matchScore = unboxer.unbox(key: "nameScore") ?? 0
     }
     
     open override func encode(with aCoder: NSCoder) {

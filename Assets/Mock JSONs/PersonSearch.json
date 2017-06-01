@@ -1,1050 +1,1142 @@
-[
+ [
   {
-    "id": 388919232,
-    "isAlias": false,
-    "surname": "JOHNSON",
-    "givenName": "KATIE",
-    "middleNames": [
-      "JANE"
-    ],
-    "dateOfBirth": "1999-03-05T00:00:00Z",
-    "addresses": [
-      {
-        "addressType": "RESIDENTIAL",
-        "streetNumber": "2",
-        "streetName": "QUEEN",
-        "streetType": "STREET",
-        "city": "HORSHAM",
-        "state": "VICTORIA",
-        "postalCode": 3400,
-        "noFixedAddress": false,
-        "reportDate": "2014-08-19T00:00:00Z"
-      }
-    ],
-    "source": "LEAP",
-    "ethnicity": "CAUCASIAN",
-    "gender": 0,
-    "alertLevel": 1,
-    "actionCount": 1
+  "id": 345345672,
+  "nameScore": 88,
+  "isAlias": true,
+  "surname": "SMITH",
+  "givenName": "JOHN",
+  "middleNames": "R",
+  "dateOfBirth": "1999-04-06T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "RESIDENTIAL",
+                "apartmentNumber": 2,
+                "streetNumber": "7a",
+                "streetName": "HIGH",
+                "streetType": "STREET",
+                "city": "ESSENDON",
+                "state": "VICTORIA",
+                "postCode": 3040,
+                "noFixedAddress": false,
+                "reportedDate": "2015-08-20T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": "NORTH/EUROPE",
+  "gender": 1,
+  "alertLevel": 3,
+  "actionCount": 5
   },
   {
-    "id": 345384177,
-    "isAlias": false,
-    "surname": "SCOTT",
-    "givenName": "TONY",
-    "dateOfBirth": "1975-06-13T00:00:00Z",
-    "addresses": [
-      {
-        "addressType": "RESIDENTIAL",
-        "streetNumber": "37",
-        "streetName": "RUBY",
-        "streetType": "STREET",
-        "city": "WARRAGUL",
-        "state": "VICTORIA",
-        "postalCode": 3820,
-        "noFixedAddress": true,
-        "reportDate": "2014-12-12T00:00:00Z"
-      }
-    ],
-    "source": "LEAP",
-    "ethnicity": "CAUCASIAN",
-    "gender": 1,
-    "alertLevel": null,
-    "actionCount": 0
+  "id": 345345675,
+  "nameScore": 90,
+  "isAlias": true,
+  "surname": "SMITH",
+  "givenName": "JAMES",
+  "dateOfBirth": "1999-11-12T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "RESIDENTIAL",
+                "streetNumber": "45",
+                "streetName": "BOURKE",
+                "streetType": "STREET",
+                "city": "FLEMINGTON",
+                "state": "VICTORIA",
+                "postCode": 3031,
+                "noFixedAddress": false,
+                "reportedDate": "2015-06-14T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": "CAUCASIAN",
+  "gender": 1,
+  "alertLevel": 0,
+  "actionCount": 0
   },
   {
-    "id": 345384177,
-    "isAlias": false,
-    "surname": "SCOTT",
-    "givenName": "TONY",
-    "dateOfBirth": "1975-06-13T00:00:00Z",
-    "addresses": [
-      {
-        "addressType": "RESIDENTIAL",
-        "streetNumber": "37",
-        "streetName": "RUBY",
-        "streetType": "STREET",
-        "city": "WARRAGUL",
-        "state": "VICTORIA",
-        "postalCode": 3820,
-        "noFixedAddress": true,
-        "reportDate": "2014-12-12T00:00:00Z"
-      }
-    ],
-    "source": "LEAP",
-    "ethnicity": "CAUCASIAN",
-    "gender": 1,
-    "alertLevel": null,
-    "actionCount": 0
+  "id": 345345678,
+  "nameScore": 91,
+  "isAlias": false,
+  "surname": "SMITH",
+  "givenName": "JANE",
+  "middleNames": "G",
+  "dateOfBirth": "1998-10-02T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "RESIDENTIAL",
+                "streetNumber": "7",
+                "streetName": "COLLINS",
+                "streetType": "STREET",
+                "city": "SHEPPARTON",
+                "state": "VICTORIA",
+                "postCode": 3630,
+                "noFixedAddress": false,
+                "reportedDate": "2015-05-13T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": "BLACK",
+  "gender": 1,
+  "alertLevel": 1,
+  "actionCount": 2
   },
   {
-    "id": 388919269,
-    "isAlias": false,
-    "surname": "JOHNSON",
-    "givenName": "KATIE",
-    "middleNames": [
-      "J"
-    ],
-    "dateOfBirth": "1999-03-27T00:00:00Z",
-    "addresses": [
-      {
-        "addressType": "RESIDENTIAL",
-        "streetNumber": "54",
-        "streetName": "BRUCE",
-        "streetType": "STREET",
-        "city": "KERANG",
-        "state": "VICTORIA",
-        "postalCode": 3579,
-        "noFixedAddress": false,
-        "reportDate": "2014-07-18T00:00:00Z"
-      }
-    ],
-    "source": "LEAP",
-    "ethnicity": 2,
-    "gender": 0,
-    "alertLevel": null,
-    "actionCount": 0
+  "id": 345345681,
+  "nameScore": 86,
+  "isAlias": true,
+  "surname": "SMITH",
+  "givenName": "JOHN",
+  "middleNames": "H",
+  "dateOfBirth": "1999-05-10T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "RESIDENTIAL",
+                "streetNumber": "4a",
+                "streetName": "MAIN",
+                "streetType": "ROAD",
+                "city": "BENALLA",
+                "state": "VICTORIA",
+                "postCode": 3671,
+                "noFixedAddress": false,
+                "reportedDate": "2015-07-28T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": "CAUCASIAN",
+  "gender": 1,
+  "alertLevel": 0,
+  "actionCount": 0
   },
   {
-    "id": 345384214,
-    "isAlias": true,
-    "surname": "SCOTT",
-    "givenName": "TONY",
-    "dateOfBirth": "1975-08-06T00:00:00Z",
-    "addresses": [
-      {
-        "addressType": "RESIDENTIAL",
-        "streetNumber": "723",
-        "streetName": "POWER",
-        "streetType": "STREET",
-        "city": "SALE",
-        "state": "VICTORIA",
-        "postalCode": 3850,
-        "noFixedAddress": false,
-        "reportDate": "2014-11-10T00:00:00Z"
-      }
-    ],
-    "source": "LEAP",
-    "ethnicity": "BLACK",
-    "gender": 1,
-    "alertLevel": 1,
-    "actionCount": 0
+  "id": 345345684,
+  "nameScore": 88,
+  "isAlias": false,
+  "surname": "SMITH",
+  "givenName": "JAMES",
+  "dateOfBirth": "1998-03-30T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "RESIDENTIAL",
+                "streetNumber": "89",
+                "streetName": "WILL",
+                "streetType": "STREET",
+                "city": "PRESTON",
+                "state": "VICTORIA",
+                "postCode": 3072,
+                "noFixedAddress": false,
+                "reportedDate": "2015-05-22T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": "CAUCASIAN",
+  "gender": 1,
+  "alertLevel": 3,
+  "actionCount": 4
   },
   {
-    "id": 345384214,
-    "isAlias": true,
-    "surname": "SCOTT",
-    "givenName": "TONY",
-    "dateOfBirth": "1975-08-06T00:00:00Z",
-    "addresses": [
-      {
-        "addressType": "RESIDENTIAL",
-        "streetNumber": "723",
-        "streetName": "POWER",
-        "streetType": "STREET",
-        "city": "SALE",
-        "state": "VICTORIA",
-        "postalCode": 3850,
-        "noFixedAddress": false,
-        "reportDate": "2014-11-10T00:00:00Z"
-      }
-    ],
-    "source": "LEAP",
-    "ethnicity": "BLACK",
-    "gender": 1,
-    "alertLevel": 1,
-    "actionCount": 0
+  "id": 345345687,
+  "nameScore": 89,
+  "isAlias": true,
+  "surname": "SMITH",
+  "givenName": "JULIE",
+  "middleNames": "R",
+  "dateOfBirth": "1998-11-05T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "RESIDENTIAL",
+                "streetNumber": "6",
+                "streetName": "MAIN",
+                "streetType": "STREET",
+                "city": "BLACKBURN",
+                "state": "VICTORIA",
+                "postCode": 3130,
+                "noFixedAddress": false,
+                "reportedDate": "2015-04-20T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": "BLACK",
+  "gender": 1,
+  "alertLevel": 0,
+  "actionCount": 0
   },
   {
-    "id": 345384325,
-    "isAlias": true,
-    "surname": "SCOTT",
-    "givenName": "T",
-    "dateOfBirth": "1975-04-06T00:00:00Z",
-    "addresses": [
-      {
-        "addressType": "RESIDENTIAL",
-        "streetNumber": "45b",
-        "streetName": "MEADOW",
-        "streetType": "ROAD",
-        "city": "ROSEBUD",
-        "state": "VICTORIA",
-        "postalCode": 3939,
-        "noFixedAddress": false,
-        "reportDate": "2014-10-18T00:00:00Z"
-      }
-    ],
-    "source": "LEAP",
-    "ethnicity": "MAORI",
-    "gender": 1,
-    "alertLevel": null,
-    "actionCount": 0
+  "id": 345345690,
+  "nameScore": 84,
+  "isAlias": true,
+  "surname": "SMITH",
+  "givenName": "JASPER",
+  "middleNames": "Y",
+  "dateOfBirth": "1997-09-25T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "RESIDENTIAL",
+                "streetNumber": "43",
+                "streetName": "EDWARD",
+                "streetType": "STREET",
+                "city": "MALVERN",
+                "state": "VICTORIA",
+                "postCode": 3144,
+                "noFixedAddress": false,
+                "reportedDate": "2015-07-05T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": "CAUCASIAN",
+  "gender": 1,
+  "alertLevel": 0,
+  "actionCount": 0
   },
   {
-    "id": 388919306,
-    "isAlias": false,
-    "surname": "JOHNSON",
-    "givenName": "KATIE",
-    "middleNames": [
-      "J"
-    ],
-    "dateOfBirth": "1999-01-31T00:00:00Z",
-    "addresses": [
-      {
-        "addressType": "RESIDENTIAL",
-        "streetNumber": "57",
-        "streetName": "TURNER",
-        "streetType": "STREET",
-        "city": "ORBOST",
-        "state": "VICTORIA",
-        "postalCode": 3888,
-        "noFixedAddress": false,
-        "reportDate": "2014-10-02T00:00:00Z"
-      }
-    ],
-    "source": "LEAP",
-    "ethnicity": "CAUCASIAN",
-    "gender": 0,
-    "alertLevel": null,
-    "actionCount": 0
+  "id": 345345693,
+  "nameScore": 86,
+  "isAlias": true,
+  "surname": "SMITH",
+  "givenName": "JACK",
+  "middleNames": "ROGER",
+  "dateOfBirth": "1998-05-03T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "RESIDENTIAL",
+                "streetNumber": "3",
+                "streetName": "KENDAL",
+                "streetType": "ROAD",
+                "city": "HAWTHORN",
+                "state": "VICTORIA",
+                "postCode": 3122,
+                "noFixedAddress": false,
+                "reportedDate": "2015-04-29T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": "NORTH/EUROPE",
+  "gender": 1,
+  "alertLevel": 0,
+  "actionCount": 0
   },
   {
-    "id": 345384288,
-    "isAlias": false,
-    "surname": "SCOTT",
-    "givenName": "TONY",
-    "dateOfBirth": "1975-07-03T00:00:00Z",
-    "addresses": [
-      {
-        "addressType": "BUSINESS",
-        "streetNumber": "234",
-        "streetName": "SPRING",
-        "streetType": "STREET",
-        "city": "MORWELL",
-        "state": "VICTORIA",
-        "postalCode": 3840,
-        "noFixedAddress": false,
-        "reportDate": "2014-11-19T00:00:00Z"
-      }
-    ],
-    "source": "LEAP",
-    "ethnicity": "CAUCASIAN",
-    "gender": 1,
-    "alertLevel": 3,
-    "actionCount": 2
+  "id": 345345696,
+  "nameScore": 87,
+  "isAlias": true,
+  "surname": "SMITH",
+  "givenName": "JACK",
+  "middleNames": "WILL",
+  "dateOfBirth": "1997-03-23T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "RESIDENTIAL",
+                "streetNumber": "6",
+                "streetName": "DAVIDSON",
+                "streetType": "STREET",
+                "city": "KEW",
+                "state": "VICTORIA",
+                "postCode": 2439,
+                "noFixedAddress": false,
+                "reportedDate": "2015-03-28T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": "CAUCASIAN",
+  "gender": 1,
+  "alertLevel": 2,
+  "actionCount": 2
   },
   {
-    "id": 345384288,
-    "isAlias": false,
-    "surname": "SCOTT",
-    "givenName": "TONY",
-    "dateOfBirth": "1975-07-03T00:00:00Z",
-    "addresses": [
-      {
-        "addressType": "BUSINESS",
-        "streetNumber": "234",
-        "streetName": "SPRING",
-        "streetType": "STREET",
-        "city": "MORWELL",
-        "state": "VICTORIA",
-        "postalCode": 3840,
-        "noFixedAddress": false,
-        "reportDate": "2014-11-19T00:00:00Z"
-      }
-    ],
-    "source": "LEAP",
-    "ethnicity": "CAUCASIAN",
-    "gender": 1,
-    "alertLevel": 3,
-    "actionCount": 2
+  "id": 345345699,
+  "nameScore": 82,
+  "isAlias": false,
+  "surname": "SMITH",
+  "givenName": "JACOB",
+  "middleNames": "T",
+  "dateOfBirth": "1997-10-29T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "BUSINESS",
+                "streetNumber": "87",
+                "streetName": "ELDER",
+                "streetType": "STREET",
+                "city": "SALE",
+                "state": "VICTORIA",
+                "postCode": 3850,
+                "noFixedAddress": false,
+                "reportedDate": "2015-06-12T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": "BLACK",
+  "gender": 1,
+  "alertLevel": 0,
+  "actionCount": 0
   },
   {
-    "id": 345384436,
-    "NameScore": 91,
-    "isAlias": true,
-    "surname": "SCOTT",
-    "givenName": "T",
-    "dateOfBirth": "1975-04-26T00:00:00Z",
-    "addresses": [
-      {
-        "addressType": "RESIDENTIAL",
-        "streetNumber": "7",
-        "streetName": "RONALD",
-        "streetType": "STREET",
-        "city": "BROADMEADOWS",
-        "state": "VICTORIA",
-        "postalCode": 3047,
-        "noFixedAddress": false,
-        "reportDate": "2014-09-25T00:00:00Z"
-      }
-    ],
-    "source": "LEAP",
-    "ethnicity": "CAUCASIAN",
-    "gender": 1,
-    "alertLevel": null,
-    "actionCount": 0
+  "id": 345345702,
+  "nameScore": 84,
+  "isAlias": true,
+  "surname": "SMITH",
+  "givenName": "JOHN",
+  "dateOfBirth": "1996-09-18T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "RESIDENTIAL",
+                "streetNumber": "6",
+                "streetName": "MARTIN",
+                "streetType": "WAY",
+                "city": "BALLARAT",
+                "state": "VICTORIA",
+                "postCode": 3350,
+                "noFixedAddress": false,
+                "reportedDate": "2015-04-06T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": "CAUCASIAN",
+  "gender": 1,
+  "alertLevel": 0,
+  "actionCount": 0
   },
   {
-    "id": 345384436,
-    "NameScore": 91,
-    "isAlias": true,
-    "surname": "SCOTT",
-    "givenName": "T",
-    "dateOfBirth": "1975-04-26T00:00:00Z",
-    "addresses": [
-      {
-        "addressType": "RESIDENTIAL",
-        "streetNumber": "7",
-        "streetName": "RONALD",
-        "streetType": "STREET",
-        "city": "BROADMEADOWS",
-        "state": "VICTORIA",
-        "postalCode": 3047,
-        "noFixedAddress": false,
-        "reportDate": "2014-09-25T00:00:00Z"
-      }
-    ],
-    "source": "LEAP",
-    "ethnicity": "CAUCASIAN",
-    "gender": 1,
-    "alertLevel": null,
-    "actionCount": 0
+  "id": 345345705,
+  "nameScore": 85,
+  "isAlias": false,
+  "surname": "SMITH",
+  "givenName": "JAMES",
+  "middleNames": "H",
+  "dateOfBirth": "1997-04-26T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "RESIDENTIAL",
+                "streetNumber": "3",
+                "streetName": "CASEY",
+                "streetType": "CRESCENT",
+                "city": "GEELONG",
+                "state": "VICTORIA",
+                "postCode": 3220,
+                "noFixedAddress": false,
+                "reportedDate": "2015-03-05T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": "NORTH/EUROPE",
+  "gender": "UNKOWN",
+  "alertLevel": 3,
+  "actionCount": 5
   },
   {
-    "id": 345384399,
-    "NameScore": 90,
-    "isAlias": false,
-    "surname": "SCOTT",
-    "givenName": "TON",
-    "dateOfBirth": "1975-03-03T00:00:00Z",
-    "addresses": [
-      {
-        "addressType": "RESIDENTIAL",
-        "streetNumber": "4",
-        "streetName": "COLLINS",
-        "streetType": "STREET",
-        "city": "CARRUM DOWNS",
-        "state": "VICTORIA",
-        "postalCode": 3201,
-        "noFixedAddress": false,
-        "reportDate": "2014-10-27T00:00:00Z"
-      }
-    ],
-    "source": "LEAP",
-    "ethnicity": 2,
-    "gender": 1,
-    "alertLevel": 1,
-    "actionCount": 1
+  "id": 345345708,
+  "nameScore": 80,
+  "isAlias": true,
+  "surname": "SMITH",
+  "givenName": "JESSICA",
+  "middleNames": "K",
+  "dateOfBirth": "1996-03-16T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "RESIDENTIAL",
+                "streetNumber": "2",
+                "streetName": "CAM",
+                "streetType": "STREET",
+                "city": "FRANKSTON",
+                "state": "VICTORIA",
+                "postCode": 3199,
+                "noFixedAddress": false,
+                "reportedDate": "2015-05-20T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": "MAORI",
+  "gender": 1,
+  "alertLevel": 0,
+  "actionCount": 0
   },
   {
-    "id": 345384399,
-    "NameScore": 90,
-    "isAlias": false,
-    "surname": "SCOTT",
-    "givenName": "TON",
-    "dateOfBirth": "1975-03-03T00:00:00Z",
-    "addresses": [
-      {
-        "addressType": "RESIDENTIAL",
-        "streetNumber": "4",
-        "streetName": "COLLINS",
-        "streetType": "STREET",
-        "city": "CARRUM DOWNS",
-        "state": "VICTORIA",
-        "postalCode": 3201,
-        "noFixedAddress": false,
-        "reportDate": "2014-10-27T00:00:00Z"
-      }
-    ],
-    "source": "LEAP",
-    "ethnicity": 2,
-    "gender": 1,
-    "alertLevel": 1,
-    "actionCount": 1
+  "id": 345345711,
+  "nameScore": 82,
+  "isAlias": true,
+  "surname": "SMITH",
+  "givenName": "JAKE",
+  "middleNames": "WILLIAM",
+  "dateOfBirth": "1996-10-22T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "RESIDENTIAL",
+                "streetNumber": "5",
+                "streetName": "DUNCAN",
+                "streetType": "AVENUE",
+                "city": "THOMASTOWN",
+                "state": "VICTORIA",
+                "postCode": 3074,
+                "noFixedAddress": false,
+                "reportedDate": "2015-03-14T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": "BLACK",
+  "gender": 1,
+  "alertLevel": 1,
+  "actionCount": 1
   },
   {
-    "id": 345384251,
-    "NameScore": 90,
-    "isAlias": true,
-    "surname": "SCOTT",
-    "givenName": "T",
-    "dateOfBirth": "1975-05-10T00:00:00Z",
-    "addresses": [
-      {
-        "addressType": "RESIDENTIAL",
-        "streetNumber": "4",
-        "streetName": "MURRAY",
-        "streetType": "ROAD",
-        "city": "LORNE",
-        "state": "VICTORIA",
-        "postalCode": 2439,
-        "noFixedAddress": false,
-        "reportDate": "2015-01-25T00:00:00Z"
-      }
-    ],
-    "source": "LEAP",
-    "ethnicity": "CAUCASIAN",
-    "gender": 1,
-    "alertLevel": null,
-    "actionCount": 0
+  "id": 345345714,
+  "nameScore": 83,
+  "isAlias": false,
+  "surname": "SMITH",
+  "givenName": "JAYDEN",
+  "middleNames": "J",
+  "dateOfBirth": "1995-09-12T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "RESIDENTIAL",
+                "streetNumber": "7",
+                "streetName": "LADD",
+                "streetType": "STREET",
+                "city": "ELWOOD",
+                "state": "VICTORIA",
+                "postCode": 3184,
+                "noFixedAddress": false,
+                "reportedDate": "2015-02-10T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": "BLACK",
+  "gender": 1,
+  "alertLevel": 0,
+  "actionCount": 0
   },
   {
-    "id": 345384251,
-    "NameScore": 90,
-    "isAlias": true,
-    "surname": "SCOTT",
-    "givenName": "T",
-    "dateOfBirth": "1975-05-10T00:00:00Z",
-    "addresses": [
-      {
-        "addressType": "RESIDENTIAL",
-        "streetNumber": "4",
-        "streetName": "MURRAY",
-        "streetType": "ROAD",
-        "city": "LORNE",
-        "state": "VICTORIA",
-        "postalCode": 2439,
-        "noFixedAddress": false,
-        "reportDate": "2015-01-25T00:00:00Z"
-      }
-    ],
-    "source": "LEAP",
-    "ethnicity": "CAUCASIAN",
-    "gender": 1,
-    "alertLevel": null,
-    "actionCount": 0
+  "id": 345345717,
+  "nameScore": 78,
+  "isAlias": true,
+  "surname": "SMITH",
+  "givenName": "JULIA",
+  "middleNames": "ELLE",
+  "dateOfBirth": "1996-04-19T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "RESIDENTIAL",
+                "streetNumber": "8b",
+                "streetName": "LONGS",
+                "streetType": "ROAD",
+                "city": "ST KILDA",
+                "state": "VICTORIA",
+                "postCode": 3182,
+                "noFixedAddress": false,
+                "reportedDate": "2015-04-27T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": "CAUCASIAN",
+  "gender": 1,
+  "alertLevel": 2,
+  "actionCount": 0
   },
   {
-    "id": 345384547,
-    "NameScore": 89,
-    "isAlias": true,
-    "surname": "SCOTT",
-    "givenName": "TONY",
-    "dateOfBirth": "1974-12-25T00:00:00Z",
-    "addresses": [
-      {
-        "addressType": "RESIDENTIAL",
-        "streetNumber": "88",
-        "streetName": "BOOTH",
-        "streetType": "STREET",
-        "city": "ECHUCA",
-        "state": "VICTORIA",
-        "postalCode": 3564,
-        "noFixedAddress": false,
-        "reportDate": "2014-09-02T00:00:00Z"
-      }
-    ],
-    "source": "LEAP",
-    "ethnicity": "BLACK",
-    "gender": 1,
-    "alertLevel": null,
-    "actionCount": 0
+  "id": 345345720,
+  "nameScore": 80,
+  "isAlias": false,
+  "surname": "SMITH",
+  "givenName": "JOSH",
+  "middleNames": "T",
+  "dateOfBirth": "1995-03-10T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "RESIDENTIAL",
+                "streetNumber": "56",
+                "streetName": "HOTHAM",
+                "streetType": "STREET",
+                "city": "MELTON",
+                "state": "VICTORIA",
+                "postCode": 3337,
+                "noFixedAddress": false,
+                "reportedDate": "2015-02-19T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": "CAUCASIAN",
+  "gender": 1,
+  "alertLevel": 0,
+  "actionCount": 0
   },
   {
-    "id": 345384547,
-    "NameScore": 89,
-    "isAlias": true,
-    "surname": "SCOTT",
-    "givenName": "TONY",
-    "dateOfBirth": "1974-12-25T00:00:00Z",
-    "addresses": [
-      {
-        "addressType": "RESIDENTIAL",
-        "streetNumber": "88",
-        "streetName": "BOOTH",
-        "streetType": "STREET",
-        "city": "ECHUCA",
-        "state": "VICTORIA",
-        "postalCode": 3564,
-        "noFixedAddress": false,
-        "reportDate": "2014-09-02T00:00:00Z"
-      }
-    ],
-    "source": "LEAP",
-    "ethnicity": "BLACK",
-    "gender": 1,
-    "alertLevel": null,
-    "actionCount": 0
+  "id": 345345723,
+  "nameScore": 81,
+  "isAlias": true,
+  "surname": "SMITH",
+  "givenName": "JOE",
+  "dateOfBirth": "1995-10-16T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "BUSINESS",
+                "streetNumber": "6",
+                "streetName": "BUTLER",
+                "streetType": "STREET",
+                "city": "MELBOURNE",
+                "state": "VICTORIA",
+                "postCode": 3000,
+                "noFixedAddress": false,
+                "reportedDate": "2015-01-18T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": "BLACK",
+  "gender": 1,
+  "alertLevel": 0,
+  "actionCount": 0
   },
   {
-    "id": 345384362,
-    "NameScore": 88,
-    "isAlias": true,
-    "surname": "SCOTT",
-    "givenName": "TONY",
-    "dateOfBirth": "1975-05-30T00:00:00Z",
-    "addresses": [
-      {
-        "addressType": "RESIDENTIAL",
-        "streetNumber": "54",
-        "streetName": "TASMAN",
-        "streetType": "STREET",
-        "city": "DANDENONG",
-        "state": "VICTORIA",
-        "postalCode": 3175,
-        "noFixedAddress": false,
-        "reportDate": "2015-01-02T00:00:00Z"
-      }
-    ],
-    "source": "LEAP",
-    "ethnicity": "CAUCASIAN",
-    "gender": 1,
-    "alertLevel": null,
-    "actionCount": 0
+  "id": 345345726,
+  "nameScore": 76,
+  "isAlias": true,
+  "surname": "SMITH",
+  "givenName": "JOE",
+  "middleNames": "R",
+  "dateOfBirth": "1994-09-05T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "RESIDENTIAL",
+                "streetNumber": "6",
+                "streetName": "BAILEY",
+                "streetType": "AVENUE",
+                "city": "MULGRAVE",
+                "state": "VICTORIA",
+                "postCode": 2756,
+                "noFixedAddress": false,
+                "reportedDate": "2015-04-04T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": "CAUCASIAN",
+  "gender": 1,
+  "alertLevel": 0,
+  "actionCount": 0
   },
   {
-    "id": 345384510,
-    "NameScore": 88,
-    "isAlias": true,
-    "surname": "SCOTT",
-    "givenName": "TONY",
-    "dateOfBirth": "1975-03-23T00:00:00Z",
-    "addresses": [
-      {
-        "addressType": "RESIDENTIAL",
-        "streetNumber": "675f",
-        "streetName": "BOYD",
-        "streetType": "CRESCENT",
-        "city": "GEELONG",
-        "state": "VICTORIA",
-        "postalCode": 3220,
-        "noFixedAddress": false,
-        "reportDate": "2014-10-04T00:00:00Z"
-      }
-    ],
-    "source": "LEAP",
-    "ethnicity": "CAUCASIAN",
-    "gender": "UNKOWN",
-    "alertLevel": null,
-    "actionCount": 0
+  "id": 345345729,
+  "nameScore": 78,
+  "isAlias": true,
+  "surname": "SMITH",
+  "givenName": "JASON",
+  "dateOfBirth": "1995-04-13T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "RESIDENTIAL",
+                "streetNumber": "346",
+                "streetName": "EMERALD",
+                "streetType": "STREET",
+                "city": "HURSTBRIDGE",
+                "state": "VICTORIA",
+                "postCode": 3099,
+                "noFixedAddress": false,
+                "reportedDate": "2015-01-27T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": "MAORI",
+  "gender": 1,
+  "alertLevel": 0,
+  "actionCount": 0
   },
   {
-    "id": 345384510,
-    "NameScore": 88,
-    "isAlias": true,
-    "surname": "SCOTT",
-    "givenName": "TONY",
-    "dateOfBirth": "1975-03-23T00:00:00Z",
-    "addresses": [
-      {
-        "addressType": "RESIDENTIAL",
-        "streetNumber": "675f",
-        "streetName": "BOYD",
-        "streetType": "CRESCENT",
-        "city": "GEELONG",
-        "state": "VICTORIA",
-        "postalCode": 3220,
-        "noFixedAddress": false,
-        "reportDate": "2014-10-04T00:00:00Z"
-      }
-    ],
-    "source": "LEAP",
-    "ethnicity": "CAUCASIAN",
-    "gender": "UNKOWN",
-    "alertLevel": null,
-    "actionCount": 0
+  "id": 345345732,
+  "nameScore": 79,
+  "isAlias": false,
+  "surname": "SMITH",
+  "givenName": "JASON",
+  "dateOfBirth": "1994-03-03T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "RESIDENTIAL",
+                "streetNumber": "2",
+                "streetName": "COOPER",
+                "streetType": "STREET",
+                "city": "POINT COOK",
+                "state": "VICTORIA",
+                "postCode": 3030,
+                "noFixedAddress": false,
+                "reportedDate": "2014-12-26T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": 0,
+  "gender": 1,
+  "alertLevel": 1,
+  "actionCount": 0
   },
   {
-    "id": 345384362,
-    "NameScore": 88,
-    "isAlias": true,
-    "surname": "SCOTT",
-    "givenName": "TONY",
-    "dateOfBirth": "1975-05-30T00:00:00Z",
-    "addresses": [
-      {
-        "addressType": "RESIDENTIAL",
-        "streetNumber": "54",
-        "streetName": "TASMAN",
-        "streetType": "STREET",
-        "city": "DANDENONG",
-        "state": "VICTORIA",
-        "postalCode": 3175,
-        "noFixedAddress": false,
-        "reportDate": "2015-01-02T00:00:00Z"
-      }
-    ],
-    "source": "LEAP",
-    "ethnicity": "CAUCASIAN",
-    "gender": 1,
-    "alertLevel": null,
-    "actionCount": 0
+  "id": 345345735,
+  "nameScore": 74,
+  "isAlias": false,
+  "surname": "SMITH",
+  "givenName": "JENNIFER",
+  "middleNames": "VIOLET",
+  "dateOfBirth": "1994-10-09T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "RESIDENTIAL",
+                "streetNumber": "26a",
+                "streetName": "GOWER",
+                "streetType": "STREET",
+                "city": "WERRIBEE",
+                "state": "VICTORIA",
+                "postCode": 3030,
+                "noFixedAddress": false,
+                "reportedDate": "2015-03-12T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": "CAUCASIAN",
+  "gender": 1,
+  "alertLevel": 0,
+  "actionCount": 0
   },
   {
-    "id": 345384658,
-    "NameScore": 87,
-    "isAlias": false,
-    "surname": "SCOTT",
-    "givenName": "T",
-    "dateOfBirth": "1975-01-14T00:00:00Z",
-    "addresses": [
-      {
-        "addressType": "RESIDENTIAL",
-        "streetNumber": "975",
-        "streetName": "KENDALL",
-        "streetType": "STREET",
-        "city": "LANG LANG",
-        "state": "VICTORIA",
-        "postalCode": 3984,
-        "noFixedAddress": false,
-        "reportDate": "2014-08-10T00:00:00Z"
-      }
-    ],
-    "source": "LEAP",
-    "ethnicity": "BLACK",
-    "gender": 1,
-    "alertLevel": null,
-    "actionCount": 0
+  "id": 345345738,
+  "nameScore": 76,
+  "isAlias": true,
+  "surname": "SMITH",
+  "givenName": "JACINTA",
+  "middleNames": "S",
+  "dateOfBirth": "1993-08-29T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "RESIDENTIAL",
+                "streetNumber": "7",
+                "streetName": "DEAN",
+                "streetType": "STREET",
+                "city": "BROADMEADOWS",
+                "state": "VICTORIA",
+                "postCode": 3047,
+                "noFixedAddress": false,
+                "reportedDate": "2015-01-04T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": "BLACK",
+  "gender": "UNKOWN",
+  "alertLevel": 2,
+  "actionCount": 1
   },
   {
-    "id": 345384658,
-    "NameScore": 87,
-    "isAlias": false,
-    "surname": "SCOTT",
-    "givenName": "T",
-    "dateOfBirth": "1975-01-14T00:00:00Z",
-    "addresses": [
-      {
-        "addressType": "RESIDENTIAL",
-        "streetNumber": "975",
-        "streetName": "KENDALL",
-        "streetType": "STREET",
-        "city": "LANG LANG",
-        "state": "VICTORIA",
-        "postalCode": 3984,
-        "noFixedAddress": false,
-        "reportDate": "2014-08-10T00:00:00Z"
-      }
-    ],
-    "source": "LEAP",
-    "ethnicity": "BLACK",
-    "gender": 1,
-    "alertLevel": null,
-    "actionCount": 0
+  "id": 345345741,
+  "nameScore": 77,
+  "isAlias": false,
+  "surname": "SMITH",
+  "givenName": "JOEL",
+  "middleNames": "T",
+  "dateOfBirth": "1994-04-06T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "RESIDENTIAL",
+                "streetNumber": "547",
+                "streetName": "BELGROVE",
+                "streetType": "STREET",
+                "city": "SOUTH MORANG",
+                "state": "VICTORIA",
+                "postCode": 3752,
+                "noFixedAddress": false,
+                "reportedDate": "2014-12-03T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": "CAUCASIAN",
+  "gender": 1,
+  "alertLevel": 0,
+  "actionCount": 0
   },
   {
-    "id": 345384473,
-    "NameScore": 86,
-    "isAlias": false,
-    "surname": "SCOTT",
-    "givenName": "T",
-    "dateOfBirth": "1975-01-28T00:00:00Z",
-    "addresses": [
-      {
-        "addressType": "RESIDENTIAL",
-        "streetNumber": "76",
-        "streetName": "GEORGE",
-        "streetType": "STREET",
-        "city": "CAMPBELLFIELD",
-        "state": "VICTORIA",
-        "postalCode": 3061,
-        "noFixedAddress": false,
-        "reportDate": "2014-12-10T00:00:00Z"
-      }
-    ],
-    "source": "LEAP",
-    "ethnicity": "MAORI",
-    "gender": 1,
-    "alertLevel": null,
-    "actionCount": 0
+  "id": 345345744,
+  "nameScore": 72,
+  "isAlias": true,
+  "surname": "SMITH",
+  "givenName": "JAYDEN",
+  "dateOfBirth": "1993-02-24T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "RESIDENTIAL",
+                "streetNumber": "57",
+                "streetName": "OAK",
+                "streetType": "ROAD",
+                "city": "STAWELL",
+                "state": "VICTORIA",
+                "postCode": 3380,
+                "noFixedAddress": false,
+                "reportedDate": "2015-02-17T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": "CAUCASIAN",
+  "gender": 1,
+  "alertLevel": 0,
+  "actionCount": 0
   },
   {
-    "id": 345384621,
-    "NameScore": 86,
-    "isAlias": false,
-    "surname": "SCOTT",
-    "givenName": "T",
-    "dateOfBirth": "1974-11-21T00:00:00Z",
-    "addresses": [
-      {
-        "addressType": "RESIDENTIAL",
-        "streetNumber": "5",
-        "streetName": "MATTHEW",
-        "streetType": "AVENUE",
-        "city": "BAIRNSDALE",
-        "state": "VICTORIA",
-        "postalCode": 3875,
-        "noFixedAddress": false,
-        "reportDate": "2014-09-11T00:00:00Z"
-      }
-    ],
-    "source": "LEAP",
-    "ethnicity": "CAUCASIAN",
-    "gender": 1,
-    "alertLevel": null,
-    "actionCount": 0
+  "id": 345384177,
+  "nameScore": 98,
+  "isAlias": false,
+  "surname": "SCOTT",
+  "givenName": "TONY",
+  "dateOfBirth": "1975-06-13T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "RESIDENTIAL",
+                "streetNumber": "37",
+                "streetName": "RUBY",
+                "streetType": "STREET",
+                "city": "WARRAGUL",
+                "state": "VICTORIA",
+                "postCode": 3820,
+                "noFixedAddress": true,
+                "reportedDate": "2014-12-12T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": "CAUCASIAN",
+  "gender": 1,
+  "alertLevel": 0,
+  "actionCount": 0
   },
   {
-    "id": 345384473,
-    "NameScore": 86,
-    "isAlias": false,
-    "surname": "SCOTT",
-    "givenName": "T",
-    "dateOfBirth": "1975-01-28T00:00:00Z",
-    "addresses": [
-      {
-        "addressType": "RESIDENTIAL",
-        "streetNumber": "76",
-        "streetName": "GEORGE",
-        "streetType": "STREET",
-        "city": "CAMPBELLFIELD",
-        "state": "VICTORIA",
-        "postalCode": 3061,
-        "noFixedAddress": false,
-        "reportDate": "2014-12-10T00:00:00Z"
-      }
-    ],
-    "source": "LEAP",
-    "ethnicity": "MAORI",
-    "gender": 1,
-    "alertLevel": null,
-    "actionCount": 0
+  "id": 345384214,
+  "nameScore": 95,
+  "isAlias": true,
+  "surname": "SCOTT",
+  "givenName": "TONY",
+  "dateOfBirth": "1975-08-06T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "RESIDENTIAL",
+                "streetNumber": "723",
+                "streetName": "POWER",
+                "streetType": "STREET",
+                "city": "SALE",
+                "state": "VICTORIA",
+                "postCode": 3850,
+                "noFixedAddress": false,
+                "reportedDate": "2014-11-10T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": "BLACK",
+  "gender": 1,
+  "alertLevel": 1,
+  "actionCount": 0
   },
   {
-    "id": 345384621,
-    "NameScore": 86,
-    "isAlias": false,
-    "surname": "SCOTT",
-    "givenName": "T",
-    "dateOfBirth": "1974-11-21T00:00:00Z",
-    "addresses": [
-      {
-        "addressType": "RESIDENTIAL",
-        "streetNumber": "5",
-        "streetName": "MATTHEW",
-        "streetType": "AVENUE",
-        "city": "BAIRNSDALE",
-        "state": "VICTORIA",
-        "postalCode": 3875,
-        "noFixedAddress": false,
-        "reportDate": "2014-09-11T00:00:00Z"
-      }
-    ],
-    "source": "LEAP",
-    "ethnicity": "CAUCASIAN",
-    "gender": 1,
-    "alertLevel": null,
-    "actionCount": 0
+  "id": 345384251,
+  "nameScore": 90,
+  "isAlias": true,
+  "surname": "SCOTT",
+  "givenName": "T",
+  "dateOfBirth": "1975-05-10T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "RESIDENTIAL",
+                "streetNumber": "4",
+                "streetName": "MURRAY",
+                "streetType": "ROAD",
+                "city": "LORNE",
+                "state": "VICTORIA",
+                "postCode": 2439,
+                "noFixedAddress": false,
+                "reportedDate": "2015-01-25T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": "CAUCASIAN",
+  "gender": 1,
+  "alertLevel": 0,
+  "actionCount": 0
   },
   {
-    "id": 345384584,
-    "NameScore": 84,
-    "isAlias": true,
-    "surname": "SCOTT",
-    "givenName": "T",
-    "dateOfBirth": "1975-02-17T00:00:00Z",
-    "addresses": [
-      {
-        "addressType": "RESIDENTIAL",
-        "streetNumber": "57",
-        "streetName": "BIRCH",
-        "streetType": "STREET",
-        "city": "BENALLA",
-        "state": "VICTORIA",
-        "postalCode": 3671,
-        "noFixedAddress": false,
-        "reportDate": "2014-11-17T00:00:00Z"
-      }
-    ],
-    "source": "LEAP",
-    "ethnicity": "CAUCASIAN",
-    "gender": 1,
-    "alertLevel": null,
-    "actionCount": 0
+  "id": 345384288,
+  "nameScore": 92,
+  "isAlias": false,
+  "surname": "SCOTT",
+  "givenName": "TONY",
+  "dateOfBirth": "1975-07-03T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "BUSINESS",
+                "streetNumber": "234",
+                "streetName": "SPRING",
+                "streetType": "STREET",
+                "city": "MORWELL",
+                "state": "VICTORIA",
+                "postCode": 3840,
+                "noFixedAddress": false,
+                "reportedDate": "2014-11-19T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": "CAUCASIAN",
+  "gender": 1,
+  "alertLevel": 3,
+  "actionCount": 2
   },
   {
-    "id": 345384584,
-    "NameScore": 84,
-    "isAlias": true,
-    "surname": "SCOTT",
-    "givenName": "T",
-    "dateOfBirth": "1975-02-17T00:00:00Z",
-    "addresses": [
-      {
-        "addressType": "RESIDENTIAL",
-        "streetNumber": "57",
-        "streetName": "BIRCH",
-        "streetType": "STREET",
-        "city": "BENALLA",
-        "state": "VICTORIA",
-        "postalCode": 3671,
-        "noFixedAddress": false,
-        "reportDate": "2014-11-17T00:00:00Z"
-      }
-    ],
-    "source": "LEAP",
-    "ethnicity": "CAUCASIAN",
-    "gender": 1,
-    "alertLevel": null,
-    "actionCount": 0
+  "id": 345384325,
+  "nameScore": 93,
+  "isAlias": true,
+  "surname": "SCOTT",
+  "givenName": "T",
+  "dateOfBirth": "1975-04-06T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "RESIDENTIAL",
+                "streetNumber": "45b",
+                "streetName": "MEADOW",
+                "streetType": "ROAD",
+                "city": "ROSEBUD",
+                "state": "VICTORIA",
+                "postCode": 3939,
+                "noFixedAddress": false,
+                "reportedDate": "2014-10-18T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": "MAORI",
+  "gender": 1,
+  "alertLevel": 0,
+  "actionCount": 0
   },
   {
-    "id": 345384695,
-    "NameScore": 82,
-    "isAlias": true,
-    "surname": "SCOTT",
-    "givenName": "T",
-    "dateOfBirth": "1974-10-18T00:00:00Z",
-    "addresses": [
-      {
-        "addressType": "RESIDENTIAL",
-        "streetNumber": "346a",
-        "streetName": "GORDON",
-        "streetType": "STREET",
-        "city": "BALLARAT",
-        "state": "VICTORIA",
-        "postalCode": 3350,
-        "noFixedAddress": false,
-        "reportDate": "2014-10-25T00:00:00Z"
-      }
-    ],
-    "source": "LEAP",
-    "ethnicity": "CAUCASIAN",
-    "gender": 1,
-    "alertLevel": null,
-    "actionCount": 0
+  "id": 345384362,
+  "nameScore": 88,
+  "isAlias": true,
+  "surname": "SCOTT",
+  "givenName": "TONY",
+  "dateOfBirth": "1975-05-30T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "RESIDENTIAL",
+                "streetNumber": "54",
+                "streetName": "TASMAN",
+                "streetType": "STREET",
+                "city": "DANDENONG",
+                "state": "VICTORIA",
+                "postCode": 3175,
+                "noFixedAddress": false,
+                "reportedDate": "2015-01-02T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": "CAUCASIAN",
+  "gender": 1,
+  "alertLevel": 0,
+  "actionCount": 0
   },
   {
-    "id": 345384695,
-    "NameScore": 82,
-    "isAlias": true,
-    "surname": "SCOTT",
-    "givenName": "T",
-    "dateOfBirth": "1974-10-18T00:00:00Z",
-    "addresses": [
-      {
-        "addressType": "RESIDENTIAL",
-        "streetNumber": "346a",
-        "streetName": "GORDON",
-        "streetType": "STREET",
-        "city": "BALLARAT",
-        "state": "VICTORIA",
-        "postalCode": 3350,
-        "noFixedAddress": false,
-        "reportDate": "2014-10-25T00:00:00Z"
-      }
-    ],
-    "source": "LEAP",
-    "ethnicity": "CAUCASIAN",
-    "gender": 1,
-    "alertLevel": null,
-    "actionCount": 0
+  "id": 345384399,
+  "nameScore": 90,
+  "isAlias": false,
+  "surname": "SCOTT",
+  "givenName": "TON",
+  "dateOfBirth": "1975-03-03T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "RESIDENTIAL",
+                "streetNumber": "4",
+                "streetName": "COLLINS",
+                "streetType": "STREET",
+                "city": "CARRUM DOWNS",
+                "state": "VICTORIA",
+                "postCode": 3201,
+                "noFixedAddress": false,
+                "reportedDate": "2014-10-27T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": 0,
+  "gender": 1,
+  "alertLevel": 1,
+  "actionCount": 1
   },
   {
-    "id": "25625aa4-3394-48e2-8dbc-2387498e16b0",
-    "givenName": "John",
-    "surname": "Citizen",
-    "middleNames": [
-      "Robert",
-      "Junior"
-    ],
-    "fullName": "Citizen, John R.",
-    "initials": "JC",
-    "race": "Caucasian",
-    "gender": 1,
-    "actionCount": 3,
-    "associatedAlertLevel": 2,
-    "alertLevel": 3,
-    "dateOfBirth": "1990-01-01T10:00:00Z",
-    "source": "LEAP",
-    "addresses": [
-      {
-        "streetName": "Swanston",
-        "suburb": "Melbourne",
-        "state": "VIC",
-        "streetNumber": "12",
-        "id": "25625aa4-3394-48e2-8dbc-2387498e41b0",
-        "postalCode": "3000",
-        "streetType": "St",
-        "country": "Australia",
-        "reportDate": "2014-08-26T02:34:48Z"
-      },
-      {
-        "streetName": "Wellington",
-        "suburb": "Collingwood",
-        "state": "VIC",
-        "streetNumber": "90",
-        "id": "25625aa4-3394-4124-8dbc-2387498e41b0",
-        "postalCode": "3066",
-        "streetType": "St",
-        "country": "Australia",
-        "reportDate": "2014-08-26T02:34:48Z"
-      }
-    ],
-    "aliases": [
-      {
-        "id": "25625aa4-3194-48e2-8dbc-2387498e16b0",
-        "firstName": "Johnny",
-        "lastName": "Citizen",
-        "sex": "M",
-        "dateOfBirth": "1990-01-01T10:00:00Z",
-        "type": "Alias"
-      }
-    ],
-    "bailOrders": [
-      {
-        "reportingToStation": "Melbourne West",
-        "hasOwnerUndertaking": true,
-        "informantMember": "Citizen",
-        "id": "5408958C-66D1-478A-95CA-020DFE9303D4",
-        "firstReportDate": "2010-08-31T02:34:48Z",
-        "informantStation": "Melbourne West",
-        "hearingDate": "2014-08-26T02:34:48Z",
-        "conditions": [
-          "Reporting daily.",
-          "Not allowed to go out after 9pm."
-        ],
-        "postedAt": "12 Swanston St, Melbourne, VIC 3000",
-        "postedDate": "2014-09-15T02:34:48Z",
-        "hearingLocation": "13 Swanston St, Melbourne, VIC 3000",
-        "reportingRequirements": [
-          "Required to show up daily.",
-          "Required to write report weekly."
-        ]
-      }
-    ],
-    "interventionOrders": [
-      {
-        "status": "Current",
-        "id": "41CE3794-A83D-4D0F-925C-DB1261125BDF",
-        "respondentDateOfBirth": "1988-12-15T04:30:20Z",
-        "respondentName": "Not John Citizen",
-        "orderAddress": "18 Swanston St, Melbourne, VIC 3000",
-        "orderType": "FV IVO Final",
-        "orderServed": "2014-09-15T02:34:48Z",
-        "complainants": null,
-        "conditions": null
-      }
-    ],
-    "alerts": [
-      {
-        "alertLevel": 2,
-        "details": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu.",
-        "title": "Organised Crime",
-        "level": "medium",
-        "id": "F8E3F7C7-DD32-449C-A99A-9648998D9CBD",
-        "effectiveDate": "2007-11-18T22:17:21Z"
-      },
-      {
-        "alertLevel": 3,
-        "details": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu.",
-        "title": "Weapons",
-        "level": "high",
-        "id": "F64DEF4B-4F8E-4B70-8D5B-301CFDF6B673",
-        "effectiveDate": "2017-05-21T18:17:21Z"
-      },
-      {
-        "alertLevel": 1,
-        "details": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu.",
-        "title": "Medical Condition",
-        "level": "medium",
-        "id": "F8E3F7C7-DD32-449C-A99A-9648998D9CBD",
-        "effectiveDate": "2007-11-18T22:17:21Z"
-      }
-    ],
-    "descriptions": [
-      {
-        "reportDate": "2017-05-21T03:56:47Z",
-        "complexion": "Caucasian",
-        "hairColour": "Brown",
-        "eyeColour": "Brown",
-        "id": "BAF7F813-0042-4F26-801A-D7609B27F585",
-        "height": 180,
-        "hairLength": "Short",
-        "build": "Muscular",
-        "facialHair": "Stubble"
-      }
-    ],
-    "missingPersonReports": [],
-    "knownAssociates": [
-      {
-        "id": "2AB83A7E-13AA-49CE-922A-44805FB3A93D",
-        "fullName": "Citizen, Jane",
-        "dateOfBirth": "1990-01-01T10:00:00Z",
-        "description": "Southbank VIC 3000"
-      }
-    ],
-    "cautions": [
-      {
-        "processedDate": "1983-09-08T10:51:51Z",
-        "id": "9EA85573-D675-4658-8321-16D54DA9E7C8",
-        "cautionType": "CAU",
-        "issuingOrganisationalUnit": "ERWUNI",
-        "description": "Gaming Oper-Possess Machine-No Label"
-      }
-    ],
-    "fieldContacts": [
-      {
-        "contactMember": {
-          "registeredId": "20C072BF-44EA-494C-83A9-427B35ED6C6B",
-          "memberRank": "SCONST",
-          "stationCode": "NCWUNI"
-        },
-        "contactDate": "1983-09-08T10:51:51Z",
-        "status": "ACT",
-        "locationResponseZone": "ACA",
-        "id": "50FAE3A3-4A25-41D8-98C4-9BDF8EE5D75E",
-        "areaType": "TBD",
-        "localGovernmentArea": "ACA",
-        "reportingStation": "NCWUNI",
-        "neighbourhoodWatchArea": "ERWUNI",
-        "contactLocation": "1\/3 High ST, Kew, VIC.  3101",
-        "secondaryContactMember": {
-          "id": "56601F19-54B3-4FAB-9DA0-CA66713484C7",
-          "rank": "MELST",
-          "stationCode": "NCWONI"
-        },
-        "remarks": "Test remarks"
-      }
-    ],
-    "warrants": [
-      {
-        "issueDate": "2051-02-09T11:51:51Z",
-        "id": "1FEE634A-D2C3-4A46-A9DB-88956EE8F6EB",
-        "description": "Theft of trail bike",
-        "type": "COMMIT\/7\/DW"
-      }
-    ],
-    "whereabouts": [
-      {
-        "reportDateTime": "2017-05-24T10:51:51Z",
-        "notifyMemberName": "Kol",
-        "id": "F62EEFEF-7BDF-41A3-A1AD-5874232D07E2",
-        "requestingMemberID": "30157",
-        "reasonRequired": "Offender",
-        "notifyMemberDescription": "30157 SCONST VEAL 3CG",
-        "remarks": [
-          {
-            "reportDate": "2017-05-24T10:51:51Z",
-            "remarkText": "Test Remark",
-            "action": "Detain & Question"
-          }
-        ]
-      }
-    ],
-    "familyIncidents": [
-      {
-        "startingPoint": "Starting Point",
-        "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu.",
-        "_NOTE": "Note the Occurrance below",
-        "occuranceDate": "2017-05-24T10:51:51Z",
-        "id": "11A457BA-61D1-4FDF-89D6-AC1EF9A664E0",
-        "futureRisks": "No risks",
-        "hasAssociatedReport": false,
-        "riskFactors": [
-          {
-            "type": "Risk factor type",
-            "description": "The description of risk factor"
-          }
-        ]
-      }
-    ],
-    "criminalHistory": [
-      {
-        "offenceDescription": "Breaking and Entering",
-        "offenceCount": 1,
-        "lastOccurredDate": "2017-01-01T12:00:00Z"
-      }
-    ]
+  "id": 345384436,
+  "nameScore": 91,
+  "isAlias": true,
+  "surname": "SCOTT",
+  "givenName": "T",
+  "dateOfBirth": "1975-04-26T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "RESIDENTIAL",
+                "streetNumber": "7",
+                "streetName": "RONALD",
+                "streetType": "STREET",
+                "city": "BROADMEADOWS",
+                "state": "VICTORIA",
+                "postCode": 3047,
+                "noFixedAddress": false,
+                "reportedDate": "2014-09-25T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": "CAUCASIAN",
+  "gender": 1,
+  "alertLevel": 0,
+  "actionCount": 0
+  },
+  {
+  "id": 345384473,
+  "nameScore": 86,
+  "isAlias": false,
+  "surname": "SCOTT",
+  "givenName": "T",
+  "dateOfBirth": "1975-01-28T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "RESIDENTIAL",
+                "streetNumber": "76",
+                "streetName": "GEORGE",
+                "streetType": "STREET",
+                "city": "CAMPBELLFIELD",
+                "state": "VICTORIA",
+                "postCode": 3061,
+                "noFixedAddress": false,
+                "reportedDate": "2014-12-10T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": "MAORI",
+  "gender": 1,
+  "alertLevel": 0,
+  "actionCount": 0
+  },
+  {
+  "id": 345384510,
+  "nameScore": 88,
+  "isAlias": true,
+  "surname": "SCOTT",
+  "givenName": "TONY",
+  "dateOfBirth": "1975-03-23T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "RESIDENTIAL",
+                "streetNumber": "675f",
+                "streetName": "BOYD",
+                "streetType": "CRESCENT",
+                "city": "GEELONG",
+                "state": "VICTORIA",
+                "postCode": 3220,
+                "noFixedAddress": false,
+                "reportedDate": "2014-10-04T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": "CAUCASIAN",
+  "gender": "UNKOWN",
+  "alertLevel": 0,
+  "actionCount": 0
+  },
+  {
+  "id": 345384547,
+  "nameScore": 89,
+  "isAlias": true,
+  "surname": "SCOTT",
+  "givenName": "TONY",
+  "dateOfBirth": "1974-12-25T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "RESIDENTIAL",
+                "streetNumber": "88",
+                "streetName": "BOOTH",
+                "streetType": "STREET",
+                "city": "ECHUCA",
+                "state": "VICTORIA",
+                "postCode": 3564,
+                "noFixedAddress": false,
+                "reportedDate": "2014-09-02T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": "BLACK",
+  "gender": 1,
+  "alertLevel": 0,
+  "actionCount": 0
+  },
+  {
+  "id": 345384584,
+  "nameScore": 84,
+  "isAlias": true,
+  "surname": "SCOTT",
+  "givenName": "T",
+  "dateOfBirth": "1975-02-17T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "RESIDENTIAL",
+                "streetNumber": "57",
+                "streetName": "BIRCH",
+                "streetType": "STREET",
+                "city": "BENALLA",
+                "state": "VICTORIA",
+                "postCode": 3671,
+                "noFixedAddress": false,
+                "reportedDate": "2014-11-17T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": "CAUCASIAN",
+  "gender": 1,
+  "alertLevel": 0,
+  "actionCount": 0
+  },
+  {
+  "id": 345384621,
+  "nameScore": 86,
+  "isAlias": false,
+  "surname": "SCOTT",
+  "givenName": "T",
+  "dateOfBirth": "1974-11-21T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "RESIDENTIAL",
+                "streetNumber": "5",
+                "streetName": "MATTHEW",
+                "streetType": "AVENUE",
+                "city": "BAIRNSDALE",
+                "state": "VICTORIA",
+                "postCode": 3875,
+                "noFixedAddress": false,
+                "reportedDate": "2014-09-11T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": "CAUCASIAN",
+  "gender": 1,
+  "alertLevel": 0,
+  "actionCount": 0
+  },
+  {
+  "id": 345384658,
+  "nameScore": 87,
+  "isAlias": false,
+  "surname": "SCOTT",
+  "givenName": "T",
+  "dateOfBirth": "1975-01-14T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "RESIDENTIAL",
+                "streetNumber": "975",
+                "streetName": "KENDALL",
+                "streetType": "STREET",
+                "city": "LANG LANG",
+                "state": "VICTORIA",
+                "postCode": 3984,
+                "noFixedAddress": false,
+                "reportedDate": "2014-08-10T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": "BLACK",
+  "gender": 1,
+  "alertLevel": 0,
+  "actionCount": 0
+  },
+  {
+  "id": 345384695,
+  "nameScore": 82,
+  "isAlias": true,
+  "surname": "SCOTT",
+  "givenName": "T",
+  "dateOfBirth": "1974-10-18T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "RESIDENTIAL",
+                "streetNumber": "346a",
+                "streetName": "GORDON",
+                "streetType": "STREET",
+                "city": "BALLARAT",
+                "state": "VICTORIA",
+                "postCode": 3350,
+                "noFixedAddress": false,
+                "reportedDate": "2014-10-25T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": "CAUCASIAN",
+  "gender": 1,
+  "alertLevel": 0,
+  "actionCount": 0
+  },
+  {
+  "id": 388919232,
+  "nameScore": 99,
+  "isAlias": false,
+  "surname": "JOHNSON",
+  "givenName": "KATIE",
+  "middleNames": "JANE",
+  "dateOfBirth": "1999-03-05T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "RESIDENTIAL",
+                "streetNumber": "2",
+                "streetName": "QUEEN",
+                "streetType": "STREET",
+                "city": "HORSHAM",
+                "state": "VICTORIA",
+                "postCode": 3400,
+                "noFixedAddress": false,
+                "reportedDate": "2014-08-19T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": "CAUCASIAN",
+  "gender": 0,
+  "alertLevel": 1,
+  "actionCount": 1
+  },
+  {
+  "id": 388919269,
+  "nameScore": 97,
+  "isAlias": false,
+  "surname": "JOHNSON",
+  "givenName": "KATIE",
+  "middleNames": "J",
+  "dateOfBirth": "1999-03-27T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "RESIDENTIAL",
+                "streetNumber": "54",
+                "streetName": "BRUCE",
+                "streetType": "STREET",
+                "city": "KERANG",
+                "state": "VICTORIA",
+                "postCode": 3579,
+                "noFixedAddress": false,
+                "reportedDate": "2014-07-18T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": 0,
+  "gender": 0,
+  "alertLevel": 0,
+  "actionCount": 0
+  },
+  {
+  "id": 388919306,
+  "nameScore": 92,
+  "isAlias": false,
+  "surname": "JOHNSON",
+  "givenName": "KATIE",
+  "middleNames": "J",
+  "dateOfBirth": "1999-01-31T00:00:00Z",
+  "addresses": [
+                {
+                "addressType": "RESIDENTIAL",
+                "streetNumber": "57",
+                "streetName": "TURNER",
+                "streetType": "STREET",
+                "city": "ORBOST",
+                "state": "VICTORIA",
+                "postCode": 3888,
+                "noFixedAddress": false,
+                "reportedDate": "2014-10-02T00:00:00Z"
+                }
+                ],
+  "source": "LEAP",
+  "ethnicity": "CAUCASIAN",
+  "gender": 0,
+  "alertLevel": 0,
+  "actionCount": 0
   }
-]
+  ]
