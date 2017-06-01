@@ -72,6 +72,11 @@ class SearchRequest: NSObject, NSSecureCoding, NSCopying {
         return type(of: self).localizedDisplayName
     }
     
+    override func isEqual(_ object: Any?) -> Bool {
+        guard let otherRequest = object as? SearchRequest else { return false }
+        
+        return type(of: otherRequest) == type(of: self).superclass() && searchText == otherRequest.searchText
+    }
     
 }
 

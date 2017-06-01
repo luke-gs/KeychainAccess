@@ -81,5 +81,8 @@ class VehicleSearchRequest: SearchRequest {
         return copy
     }
     
+    
+    // TODO: Equality checking
+    
 }
     

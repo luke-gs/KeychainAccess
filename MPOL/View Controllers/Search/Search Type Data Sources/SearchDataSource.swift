@@ -33,8 +33,6 @@ class SearchDataSource: NSObject {
         fatalError("SearchDataSource subclasses should override and reset their requests")
     }
     
-    
-    
     var localizedDisplayName: String {
         return NSLocalizedString("Any Entity", comment: "")
     }
