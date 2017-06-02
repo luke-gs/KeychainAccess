@@ -14,9 +14,12 @@ class TestCollectionViewController: FormCollectionViewController  {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        formLayout.pinsGlobalHeaderWhenBouncing = true
+        
         collectionView?.register(CollectionViewFormSubtitleCell.self)
         collectionView?.register(CollectionViewFormValueFieldCell.self)
         collectionView?.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
+        collectionView?.register(RecentEntitiesBackgroundView.self, forSupplementaryViewOfKind: collectionElementKindGlobalHeader)
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -31,14 +34,23 @@ class TestCollectionViewController: FormCollectionViewController  {
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
-        header.tintColor = Theme.current.colors[.SecondaryText]
-        header.showsExpandArrow = true
-        header.text = "1 ACTIVE ALERT"
-        header.tapHandler = { (header, ip) in
-            header.setExpanded(header.isExpanded == false, animated: true)
+        switch kind {
+        case collectionElementKindGlobalHeader:
+            return collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: RecentEntitiesBackgroundView.self, for: indexPath)
+        case UICollectionElementKindSectionHeader:
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
+            header.tintColor = Theme.current.colors[.SecondaryText]
+            header.showsExpandArrow = true
+            header.text = "1 ACTIVE ALERT"
+            header.tapHandler = { (header, ip) in
+                header.setExpanded(header.isExpanded == false, animated: true)
+            }
+            return header
+        default:
+            return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
         }
-        return header
+        
+        
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -75,7 +87,34 @@ class TestCollectionViewController: FormCollectionViewController  {
     }
     
     
+    func collectionView(_ collectionView: UICollectionView, heightForGlobalHeaderInLayout layout: CollectionViewFormLayout) -> CGFloat {
+        return 310.0
+    }
+    
 }
 
 extension UICollectionReusableView: DefaultReusable {
+}
+
+private class RecentEntitiesBackgroundView: UICollectionReusableView {
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        commonInit()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        commonInit()
+    }
+    
+    private func commonInit() {
+        let imageView = UIImageView(image: #imageLiteral(resourceName: "RecentContactsBanner"))
+        imageView.frame = bounds
+        imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        addSubview(imageView)
+    }
+    
 }
