@@ -367,7 +367,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         var currentYOffset: CGFloat = 0.0
         
         if let globalHeaderHeight = delegate.collectionView?(collectionView, heightForGlobalHeaderInLayout: self) , globalHeaderHeight > 0.0 {
-            let attribute = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: collectionElementKindGlobalHeader, with: IndexPath(index: 0))
+            let attribute = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: collectionElementKindGlobalHeader, with: IndexPath(item: 0, section: 0))
             let headerOriginY: CGFloat
             if pinsGlobalHeaderWhenBouncing {
                 headerOriginY = min(currentYOffset, collectionViewBounds.minY + collectionView.contentInset.top)
@@ -553,7 +553,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         }
         
         if let globalFooterHeight = delegate.collectionView?(collectionView, heightForGlobalFooterInLayout: self) , globalFooterHeight > 0.0 {
-            let attribute = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: collectionElementKindGlobalFooter, with: IndexPath(index: 0))
+            let attribute = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: collectionElementKindGlobalFooter, with: IndexPath(item: 0, section: 0))
             attribute.frame = CGRect(x: 0.0, y: currentYOffset, width: collectionViewBounds.width, height: ceil(globalFooterHeight))
             attribute.zIndex = 1
             globalFooterAttribute = attribute
