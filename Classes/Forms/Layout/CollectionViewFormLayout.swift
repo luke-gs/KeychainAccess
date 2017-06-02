@@ -149,8 +149,6 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     open override func prepare() {
         super.prepare()
         
-        print("Prepare layout")
-        
         guard let collectionView = self.collectionView,
             let delegate = collectionView.delegate as? CollectionViewDelegateFormLayout else { return }
         
