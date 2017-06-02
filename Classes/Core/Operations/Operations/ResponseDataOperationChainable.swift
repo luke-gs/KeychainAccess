@@ -10,18 +10,20 @@ import Alamofire
 
 public protocol HasDataResponse {
     
+    associatedtype DataResponseValue
+    
     /// The data response to be held and passed the data to next operation.
-    var response: DataResponse<Any>? { get }
+    var response: DataResponse<DataResponseValue>? { get }
 
 }
 
 public protocol DataResponseOperationChainable {
     
     associatedtype DataResponseResultType
+    associatedtype DataResponseProviderType
     
     /// The completion handler that returns DataResponse
     var completionHandler: ((DataResponse<DataResponseResultType>) -> Void)? { get }
     
-    init<T: Operation>(provider: T, completionHandler: ((DataResponse<DataResponseResultType>) -> Void)?) where T: HasDataResponse
-    
+    init(provider: DataResponseProviderType, completionHandler: ((DataResponse<DataResponseResultType>) -> Void)?)
 }
