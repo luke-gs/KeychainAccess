@@ -199,18 +199,16 @@ class SearchRecentsViewController: FormCollectionViewController {
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(of: EntityCollectionViewCell.self, for: indexPath)
-            let person = Person()
-            person.initials = "JC"
+            let person = recentlyViewed[indexPath.item]
             cell.style              = .detail
-            cell.titleLabel.text    = "Citizen, John R."
-            cell.subtitleLabel.text = "08/05/1987 (29 Male)"
-            cell.detailLabel.text   = "Southbank VIC 3006"
-            cell.thumbnailView.configure(for: person, size: .medium)
-            cell.thumbnailView.borderColor = (3 as Alert.Level).color
-            cell.alertColor         = (3 as Alert.Level).color
-            cell.badgeCount         = 9
             cell.highlightStyle     = .fade
-            cell.sourceLabel.text   = "DS1"
+            cell.titleLabel.text    = person.summary
+            cell.subtitleLabel.text = person.summaryDetail1
+            cell.detailLabel.text   = person.summaryDetail2
+            cell.thumbnailView.configure(for: person, size: .medium)
+            cell.sourceLabel.text   = person.source?.localizedBadgeTitle
+            cell.badgeCount         = person.actionCount
+            cell.alertColor         = person.alertLevel?.color
             return cell
         }
     }
