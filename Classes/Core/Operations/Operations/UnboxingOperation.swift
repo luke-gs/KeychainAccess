@@ -9,78 +9,130 @@
 import Unbox
 import Alamofire
 
-public enum UnboxingResult<T> {
-    case asObject(T)
-    case asArray([T])
-}
+open class DataResponseChainableOperation<Input: HasDataResponse, Output>: Operation, HasDataResponse, DataResponseOperationChainable where Input: Operation {
+    
+    public typealias DataResponseProviderType = Input
+    public typealias DataResponseResultType = Output
 
-public class UnboxingOperation <UnboxableType: Unboxable> : Operation, DataResponseOperationChainable {
+    open let completionHandler: ((DataResponse<Output>) -> Void)?
     
-    public var completionHandler: ((DataResponse<UnboxingResult<UnboxableType>>) -> Void)?
+    open let providerOperation: DataResponseProviderType
     
-    private let provider: HasDataResponse
+    open var response: DataResponse<Output>?
     
-    public required init<Provider: HasDataResponse>(provider: Provider, completionHandler: ((DataResponse<UnboxingResult<UnboxableType>>) -> Void)?) where Provider: Operation {
-        
-        self.provider = provider
-        
-        super.init()
-        self.addDependency(provider)
+    public required init(provider: DataResponseProviderType, completionHandler: ((DataResponse<Output>) -> Void)?) {
+        self.completionHandler = completionHandler
+        self.providerOperation = provider
     }
     
+    override open func execute() {
+        super.execute()
+    }
+}
+
+public class UnboxingOperation<UnboxableType: Unboxable>: DataResponseChainableOperation<URLJSONRequestOperation, UnboxableType> {
+    
+    public let keyPath: String?
+    
+    public init(provider: URLJSONRequestOperation, keyPath: String?, completionHandler: ((DataResponse<UnboxableType>) -> Void)?) {
+        self.keyPath = keyPath
+        super.init(provider: provider, completionHandler: completionHandler)
+    }
+    
+    public required convenience init(provider: URLJSONRequestOperation, completionHandler: ((DataResponse<UnboxableType>) -> Void)?) {
+        self.init(provider: provider, keyPath: nil, completionHandler: completionHandler)
+    }
+
     override public func execute() {
-        guard let providerData = provider.response else {
-            return
-        }
         
-        let toBeParsed: Any?
-        
-        if let data = providerData.value as? Data {
-            do {
-                let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
-                toBeParsed = json
-            } catch {
-                let response = DataResponse<UnboxingResult<UnboxableType>>(request: providerData.request, response: providerData.response, data: providerData.data, result: Result.failure(error), timeline: providerData.timeline)
-                completionHandler?(response)
-                
-                return
-            }
+        guard let providerData = providerOperation.response else {
             
-        } else {
-            toBeParsed = providerData.value
+            // Throw error here, maybe?
+            
+            return
         }
         
         do {
-            
-            if let json = toBeParsed as? UnboxableDictionary {
-                let unboxed: UnboxableType = try unbox(dictionary: json)
+            if let json = providerData.value as? UnboxableDictionary {
+
+                let unboxed: UnboxableType
+                if let keyPath = keyPath {
+                    unboxed = try unbox(dictionary: json, atKey: keyPath)
+                } else {
+                    unboxed = try unbox(dictionary: json)
+                }
+                let response = DataResponse<UnboxableType>(request: providerData.request, response: providerData.response, data: providerData.data, result: Result.success(unboxed), timeline: providerData.timeline)
                 
-                let value = DataResponse<UnboxingResult<UnboxableType>>(request: providerData.request, response: providerData.response, data: providerData.data, result: Result.success(.asObject(unboxed)), timeline: providerData.timeline)
+                self.response = response
                 
-                completionHandler?(value)
-                
-                return
-                
-            } else if let json = toBeParsed as? [UnboxableDictionary] {
-                let unboxed: [UnboxableType] = try unbox(dictionaries: json)
-                
-                let value = DataResponse<UnboxingResult<UnboxableType>>(request: providerData.request, response: providerData.response, data: providerData.data, result: Result.success(.asArray(unboxed)), timeline: providerData.timeline)
-                completionHandler?(value)
-                
-                return
+                completionHandler?(response)
+            } else {
+                // Throw error here, maybe?
             }
+        } catch {
+            let response = DataResponse<UnboxableType>(request: providerData.request, response: providerData.response, data: providerData.data, result: Result.failure(error), timeline: providerData.timeline)
             
-        } catch  {
+            self.response = response
             
-            let response = DataResponse<UnboxingResult<UnboxableType>>(request: providerData.request, response: providerData.response, data: providerData.data, result: Result.failure(error), timeline: providerData.timeline)
             completionHandler?(response)
+        }
+
+        let response = DataResponse<UnboxableType>(request: providerData.request, response: providerData.response, data: providerData.data, result: Result.failure(ParsingError.notParsable), timeline: providerData.timeline)
+        
+        self.response = response
+        
+        completionHandler?(response)
+    }
+}
+
+public class UnboxingArrayOperation<UnboxableType: Unboxable>: DataResponseChainableOperation<URLJSONRequestOperation, [UnboxableType]> {
+    
+    public let keyPath: String?
+    
+    public init(provider: URLJSONRequestOperation, keyPath: String?, completionHandler: ((DataResponse<[UnboxableType]>) -> Void)?) {
+        self.keyPath = keyPath
+        super.init(provider: provider, completionHandler: completionHandler)
+    }
+    
+    public required convenience init(provider: URLJSONRequestOperation, completionHandler: ((DataResponse<[UnboxableType]>) -> Void)?) {
+        self.init(provider: provider, keyPath: nil, completionHandler: completionHandler)
+    }
+    
+    override public func execute() {
+        
+        guard let providerData = providerOperation.response else {
             
+            // Throw error here, maybe?
             return
         }
         
-        let response = DataResponse<UnboxingResult<UnboxableType>>(request: providerData.request, response: providerData.response, data: providerData.data, result: Result.failure(ParsingError.notParsable), timeline: providerData.timeline)
-        completionHandler?(response)
+        do {
+            if let json = providerData.value as? UnboxableDictionary, let keyPath = keyPath {
+                
+                let unboxed: [UnboxableType] = try unbox(dictionary: json, atKey: keyPath)
+      
+                let response = DataResponse<[UnboxableType]>(request: providerData.request, response: providerData.response, data: providerData.data, result: Result.success(unboxed), timeline: providerData.timeline)
+                
+                self.response = response
+                
+                completionHandler?(response)
+            } else {
+                // Throw error here, maybe?
+            }
+        } catch {
+            let response = DataResponse<[UnboxableType]>(request: providerData.request, response: providerData.response, data: providerData.data, result: Result.failure(error), timeline: providerData.timeline)
+            
+            self.response = response
+            
+            completionHandler?(response)
+        }
         
+        let response = DataResponse<[UnboxableType]>(request: providerData.request, response: providerData.response, data: providerData.data, result: Result.failure(ParsingError.notParsable), timeline: providerData.timeline)
+        
+        self.response = response
+        
+        completionHandler?(response)
     }
-    
+
 }
+
