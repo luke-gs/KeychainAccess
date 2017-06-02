@@ -388,7 +388,24 @@ private class RecentEntitiesHeaderView: UICollectionReusableView, DefaultReusabl
         collectionView.frame = bounds
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         addSubview(collectionView)
+        
+        if #available(iOS 10, *) { return }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeCategoryDidChange), name: .UIContentSizeCategoryDidChange, object: nil)
     }
     
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        if #available(iOS 10, *) {
+            if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
+                preferredContentSizeCategoryDidChange()
+            }
+        }
+    }
+    
+    open func preferredContentSizeCategoryDidChange() {
+        formLayout.invalidateLayout()
+    }
 }
 
