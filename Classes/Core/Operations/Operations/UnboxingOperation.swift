@@ -9,6 +9,14 @@
 import Unbox
 import Alamofire
 
+public extension DataResponse {
+    
+    public init(inputResponse: DataResponse<Any>, result: Result<Value>) {
+        self.init(request: inputResponse.request, response: inputResponse.response, data: inputResponse.data, result: result, timeline: inputResponse.timeline)
+    }
+    
+}
+
 open class DataResponseChainableOperation<Input: HasDataResponse, Output>: Operation, HasDataResponse, DataResponseOperationChainable where Input: Operation {
     
     public typealias DataResponseProviderType = Input
@@ -46,42 +54,28 @@ public class UnboxingOperation<UnboxableType: Unboxable>: DataResponseChainableO
     override public func execute() {
         
         guard let providerData = providerOperation.response else {
-            
-            // Throw error here, maybe?
-            
             return
         }
         
         do {
-            if let json = providerData.value as? UnboxableDictionary {
-
-                let unboxed: UnboxableType
-                if let keyPath = keyPath {
-                    unboxed = try unbox(dictionary: json, atKey: keyPath)
-                } else {
-                    unboxed = try unbox(dictionary: json)
-                }
-                let response = DataResponse<UnboxableType>(request: providerData.request, response: providerData.response, data: providerData.data, result: Result.success(unboxed), timeline: providerData.timeline)
-                
-                self.response = response
-                
-                completionHandler?(response)
-            } else {
-                // Throw error here, maybe?
+            guard let json = providerData.value as? UnboxableDictionary else {
+                throw ParsingError.notParsable
             }
+            
+            let unboxed: UnboxableType
+            if let keyPath = keyPath {
+                unboxed = try unbox(dictionary: json, atKey: keyPath)
+            } else {
+                unboxed = try unbox(dictionary: json)
+            }
+            
+            response = DataResponse(inputResponse: providerData, result: Result.success(unboxed))
+            completionHandler?(response!)
+            
         } catch {
-            let response = DataResponse<UnboxableType>(request: providerData.request, response: providerData.response, data: providerData.data, result: Result.failure(error), timeline: providerData.timeline)
-            
-            self.response = response
-            
-            completionHandler?(response)
+            response = DataResponse(inputResponse: providerData, result: Result.failure(error))
+            completionHandler?(response!)
         }
-
-        let response = DataResponse<UnboxableType>(request: providerData.request, response: providerData.response, data: providerData.data, result: Result.failure(ParsingError.notParsable), timeline: providerData.timeline)
-        
-        self.response = response
-        
-        completionHandler?(response)
     }
 }
 
@@ -101,8 +95,6 @@ public class UnboxingArrayOperation<UnboxableType: Unboxable>: DataResponseChain
     override public func execute() {
         
         guard let providerData = providerOperation.response else {
-            
-            // Throw error here, maybe?
             return
         }
         
@@ -110,28 +102,24 @@ public class UnboxingArrayOperation<UnboxableType: Unboxable>: DataResponseChain
             if let json = providerData.value as? UnboxableDictionary, let keyPath = keyPath {
                 
                 let unboxed: [UnboxableType] = try unbox(dictionary: json, atKey: keyPath)
-      
-                let response = DataResponse<[UnboxableType]>(request: providerData.request, response: providerData.response, data: providerData.data, result: Result.success(unboxed), timeline: providerData.timeline)
+                response = DataResponse(inputResponse: providerData, result: Result.success(unboxed))
+                completionHandler?(response!)
                 
-                self.response = response
+            } else if let json = providerData.value as? [UnboxableDictionary] {
                 
-                completionHandler?(response)
+                let unboxed: [UnboxableType] = try unbox(dictionaries: json)
+                response = DataResponse(inputResponse: providerData, result: Result.success(unboxed))
+                completionHandler?(response!)
+                
             } else {
-                // Throw error here, maybe?
+                throw ParsingError.notParsable
             }
+            
         } catch {
-            let response = DataResponse<[UnboxableType]>(request: providerData.request, response: providerData.response, data: providerData.data, result: Result.failure(error), timeline: providerData.timeline)
-            
-            self.response = response
-            
-            completionHandler?(response)
+            response = DataResponse(inputResponse: providerData, result: Result.failure(error))
+            completionHandler?(response!)
         }
-        
-        let response = DataResponse<[UnboxableType]>(request: providerData.request, response: providerData.response, data: providerData.data, result: Result.failure(ParsingError.notParsable), timeline: providerData.timeline)
-        
-        self.response = response
-        
-        completionHandler?(response)
+
     }
 
 }
