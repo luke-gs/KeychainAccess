@@ -18,12 +18,16 @@ class SearchRecentsViewController: FormCollectionViewController {
     
     var recentlyViewed: [Entity] = [] {
         didSet {
-            if traitCollection.horizontalSizeClass != .compact || showsRecentSearchesWhenCompact == false {
-                collectionView?.reloadData()
+            if traitCollection.horizontalSizeClass == .compact {
+                if showsRecentSearchesWhenCompact == false {
+                    collectionView?.reloadData()
+                }
+            } else if let headerView = collectionView?.supplementaryView(forElementKind: collectionElementKindGlobalHeader, at: IndexPath(item: 0, section: 0)) as? RecentEntitiesHeaderView {
+                headerView.collectionView.reloadData()
             }
         }
     }
-
+    
     var recentlySearched: [SearchRequest] = [] {
         didSet {
             if traitCollection.horizontalSizeClass != .compact || showsRecentSearchesWhenCompact {
@@ -57,6 +61,7 @@ class SearchRecentsViewController: FormCollectionViewController {
     override init() {
         super.init()
         formLayout.wantsOptimizedResizeAnimation = false
+        formLayout.pinsGlobalHeaderWhenBouncing = true
     }
     
     
@@ -84,7 +89,7 @@ class SearchRecentsViewController: FormCollectionViewController {
             NSLayoutConstraint(item: navBarExtension, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leading),
             NSLayoutConstraint(item: navBarExtension, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailing),
             NSLayoutConstraint(item: navBarExtension, attribute: .top, relatedBy: .equal, toItem: topLayoutGuide, attribute: .bottom),
-        ])
+            ])
         
         compactSegmentedControl = segmentedControl
         compactNavBarExtension = navBarExtension
@@ -92,7 +97,7 @@ class SearchRecentsViewController: FormCollectionViewController {
         collectionView.register(EntityCollectionViewCell.self)
         collectionView.register(CollectionViewFormSubtitleCell.self)
         collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
-        collectionView.register(RecentEntitiesBackgroundView.self,          forSupplementaryViewOfKind: collectionElementKindSectionBackground)
+        collectionView.register(RecentEntitiesHeaderView.self, forSupplementaryViewOfKind: collectionElementKindGlobalHeader)
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -134,51 +139,43 @@ class SearchRecentsViewController: FormCollectionViewController {
     
     // MARK: - UICollectionViewDataSource methods
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return traitCollection.horizontalSizeClass == .compact ? 1 : 2
-    }
-    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        let isRecentSearches: Bool
         if traitCollection.horizontalSizeClass == .compact {
-            if showsRecentSearchesWhenCompact {
-                return recentlySearched.count
-            } else {
-                return recentlyViewed.count
-            }
+            isRecentSearches = showsRecentSearchesWhenCompact
         } else {
-            if section == 0 {
-                let screenSize = UIScreen.main.bounds.size
-                let maxScreenDimension = max(screenSize.width, screenSize.height)
-                // TODO: Adhoc rule to check if on iPad Pro 12". Need to refactor for more well rounded calculation of max appropriate counts.
-                let maxRecentCount: Int = maxScreenDimension > 1024.0001 ? 8 : 6
-                return min(recentlyViewed.count, maxRecentCount)
-            } else {
-                return recentlySearched.count
-            }
+            isRecentSearches = collectionView == self.collectionView
         }
+        
+        return isRecentSearches ? recentlySearched.count : recentlyViewed.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         switch kind {
         case UICollectionElementKindSectionHeader:
-            let isRecentlySearched: Bool
+            let isRecentSearches: Bool
             if traitCollection.horizontalSizeClass == .compact {
-                isRecentlySearched = self.showsRecentSearchesWhenCompact
+                isRecentSearches = self.showsRecentSearchesWhenCompact
             } else {
-                isRecentlySearched = indexPath.section != 0
+                isRecentSearches = collectionView == self.collectionView
             }
+            
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
-            if isRecentlySearched {
+            if isRecentSearches {
                 header.text = NSLocalizedString("RECENTLY SEARCHED", comment: "")
             } else {
                 header.text = NSLocalizedString("RECENTLY VIEWED", comment: "")
             }
             return header
-        case collectionElementKindSectionBackground:
-            return collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: RecentEntitiesBackgroundView.self, for: indexPath)
+        case collectionElementKindGlobalHeader:
+            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: RecentEntitiesHeaderView.self, for: indexPath)
+            headerView.collectionView.dataSource = self
+            headerView.collectionView.delegate = self
+            headerView.collectionView.reloadData()
+            return headerView
         default:
             return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
-        }        
+        }
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -187,7 +184,7 @@ class SearchRecentsViewController: FormCollectionViewController {
         if traitCollection.horizontalSizeClass == .compact {
             isRecentlySearched = self.showsRecentSearchesWhenCompact
         } else {
-            isRecentlySearched = indexPath.section != 0
+            isRecentlySearched = collectionView == self.collectionView
         }
         
         if isRecentlySearched {
@@ -225,7 +222,7 @@ class SearchRecentsViewController: FormCollectionViewController {
         super.collectionView(collectionView, willDisplaySupplementaryView: view, forElementKind: elementKind, at: indexPath)
         
         let theme = Theme.current
-        if indexPath.section == 0 && traitCollection.horizontalSizeClass != .compact && theme.isDark == false,
+        if traitCollection.horizontalSizeClass != .compact && theme.isDark == false && collectionView != self.collectionView,
             let header = view as? CollectionViewFormExpandingHeaderView {
             header.separatorColor = theme.colors[.AlternateSeparator]
         }
@@ -267,16 +264,32 @@ class SearchRecentsViewController: FormCollectionViewController {
     
     // MARK: - CollectionViewDelegateFormLayout methods
     
-    override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, heightForGlobalHeaderInLayout layout: CollectionViewFormLayout) -> CGFloat {
+        if collectionView != self.collectionView { return 0.0 }
+        
+        let traitCollection = self.traitCollection
         if traitCollection.horizontalSizeClass == .compact { return 0.0 }
         
+        let visibleRegion = collectionView.bounds.insetBy(collectionView.contentInset)
+        let itemsStackedVertically = visibleRegion.width >= visibleRegion.height ? 2 : 3
+        
+        let itemInsets = layout.itemLayoutMargins
+        let itemHeight = EntityCollectionViewCell.minimumContentHeight(forStyle: .detail, compatibleWith: traitCollection) + itemInsets.top + itemInsets.bottom
+        
+        let height = itemHeight * CGFloat(itemsStackedVertically) + CollectionViewFormExpandingHeaderView.minimumHeight + 20.0 // 20 is the insets you see below.
+        
+        return height
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
+        if traitCollection.horizontalSizeClass == .compact { return 0.0 }
         return CollectionViewFormExpandingHeaderView.minimumHeight
     }
     
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, insetForSection section: Int, givenSectionWidth width: CGFloat) -> UIEdgeInsets {
         var inset = super.collectionView(collectionView, layout: layout, insetForSection: section, givenSectionWidth: width)
         
-        if section == 0 && traitCollection.horizontalSizeClass != .compact {
+        if collectionView != self.collectionView {
             inset.top    = 10.0
             inset.bottom = 10.0
         }
@@ -285,12 +298,10 @@ class SearchRecentsViewController: FormCollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, givenSectionWidth sectionWidth: CGFloat, edgeInsets: UIEdgeInsets) -> CGFloat {
-        switch indexPath.section {
-        case 0 where traitCollection.horizontalSizeClass != .compact:
+        if collectionView != self.collectionView {
             return layout.columnContentWidth(forMinimumItemContentWidth: EntityCollectionViewCell.minimumContentWidth(forStyle: .detail), sectionWidth: sectionWidth, sectionEdgeInsets: edgeInsets)
-        default:
-            return sectionWidth
         }
+        return sectionWidth
     }
     
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
@@ -299,7 +310,7 @@ class SearchRecentsViewController: FormCollectionViewController {
         if traitCollection.horizontalSizeClass == .compact {
             isRecentlySearched = self.showsRecentSearchesWhenCompact
         } else {
-            isRecentlySearched = indexPath.section != 0
+            isRecentlySearched = collectionView == self.collectionView
         }
         
         if isRecentlySearched {
@@ -309,14 +320,6 @@ class SearchRecentsViewController: FormCollectionViewController {
         } else {
             return EntityCollectionViewCell.minimumContentHeight(forStyle: .detail, compatibleWith: traitCollection)
         }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, wantsBackgroundInSection section: Int) -> Bool {
-        return section == 0 && traitCollection.horizontalSizeClass != .compact
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumHeightForBackgroundInSection section: Int, givenSectionWidth sectionWidth: CGFloat) -> CGFloat {
-        return section == 0 && traitCollection.horizontalSizeClass != .compact ? 310.0 : 0.0
     }
     
     
@@ -353,14 +356,21 @@ protocol SearchRecentsViewControllerDelegate: class {
 }
 
 
-private class RecentEntitiesBackgroundView: UICollectionReusableView, DefaultReusable {
+private class RecentEntitiesHeaderView: UICollectionReusableView, DefaultReusable {
+    
+    let formLayout: CollectionViewFormLayout
+    let collectionView: UICollectionView
     
     override init(frame: CGRect) {
+        formLayout = CollectionViewFormLayout()
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: formLayout)
         super.init(frame: frame)
         commonInit()
     }
     
     required init?(coder aDecoder: NSCoder) {
+        formLayout = CollectionViewFormLayout()
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: formLayout)
         super.init(coder: aDecoder)
         commonInit()
     }
@@ -372,6 +382,14 @@ private class RecentEntitiesBackgroundView: UICollectionReusableView, DefaultReu
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         addSubview(imageView)
+
+        collectionView.register(EntityCollectionViewCell.self)
+        collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
+        collectionView.backgroundColor = .clear
+        collectionView.isScrollEnabled = false
+        collectionView.frame = bounds
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        addSubview(collectionView)
     }
     
 }
