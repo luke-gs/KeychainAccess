@@ -25,6 +25,8 @@ public class UnboxingArrayOperation<UnboxableType: Unboxable>: DataResponseChain
     override public func execute() {
         
         guard let providerData = providerOperation.response else {
+            // Finish with errors here
+            finish(with: NSError(code: .executionFailed))
             return
         }
         
@@ -33,12 +35,14 @@ public class UnboxingArrayOperation<UnboxableType: Unboxable>: DataResponseChain
                 
                 let unboxed: [UnboxableType] = try unbox(dictionary: json, atKey: keyPath)
                 response = DataResponse(inputResponse: providerData, result: Result.success(unboxed))
+                finish()
                 completionHandler?(response!)
                 
             } else if let json = providerData.value as? [UnboxableDictionary] {
                 
                 let unboxed: [UnboxableType] = try unbox(dictionaries: json)
                 response = DataResponse(inputResponse: providerData, result: Result.success(unboxed))
+                finish()
                 completionHandler?(response!)
                 
             } else {
@@ -47,6 +51,7 @@ public class UnboxingArrayOperation<UnboxableType: Unboxable>: DataResponseChain
             
         } catch {
             response = DataResponse(inputResponse: providerData, result: Result.failure(error))
+            finish(with: error as NSError)
             completionHandler?(response!)
         }
         

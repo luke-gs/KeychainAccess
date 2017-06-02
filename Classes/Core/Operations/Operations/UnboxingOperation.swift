@@ -25,6 +25,9 @@ public class UnboxingOperation<UnboxableType: Unboxable>: DataResponseChainableO
     override public func execute() {
         
         guard let providerData = providerOperation.response else {
+            
+            // Finish with errors here
+            finish(with: NSError(code: .executionFailed))
             return
         }
         
@@ -41,10 +44,11 @@ public class UnboxingOperation<UnboxableType: Unboxable>: DataResponseChainableO
             }
             
             response = DataResponse(inputResponse: providerData, result: Result.success(unboxed))
+            finish()
             completionHandler?(response!)
-            
         } catch {
             response = DataResponse(inputResponse: providerData, result: Result.failure(error))
+            finish(with: error as NSError)
             completionHandler?(response!)
         }
     }
