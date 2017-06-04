@@ -380,6 +380,8 @@ private class RecentEntitiesHeaderView: UICollectionReusableView, DefaultReusabl
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         addSubview(imageView)
+        
+        formLayout.wantsOptimizedResizeAnimation = false
 
         collectionView.register(EntityCollectionViewCell.self)
         collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)

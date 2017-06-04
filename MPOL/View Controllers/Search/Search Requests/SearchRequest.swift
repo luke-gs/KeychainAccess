@@ -75,7 +75,7 @@ class SearchRequest: NSObject, NSSecureCoding, NSCopying {
     override func isEqual(_ object: Any?) -> Bool {
         guard let otherRequest = object as? SearchRequest else { return false }
         
-        return type(of: otherRequest) == type(of: self).superclass() && searchText == otherRequest.searchText
+        return type(of: otherRequest) == type(of: self) && searchText == otherRequest.searchText
     }
     
 }
