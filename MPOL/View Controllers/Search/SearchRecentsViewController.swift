@@ -155,7 +155,7 @@ class SearchRecentsViewController: FormCollectionViewController {
         case UICollectionElementKindSectionHeader:
             let isRecentSearches: Bool
             if traitCollection.horizontalSizeClass == .compact {
-                isRecentSearches = self.showsRecentSearchesWhenCompact
+                isRecentSearches = showsRecentSearchesWhenCompact
             } else {
                 isRecentSearches = collectionView == self.collectionView
             }
@@ -182,7 +182,7 @@ class SearchRecentsViewController: FormCollectionViewController {
         
         let isRecentlySearched: Bool
         if traitCollection.horizontalSizeClass == .compact {
-            isRecentlySearched = self.showsRecentSearchesWhenCompact
+            isRecentlySearched = showsRecentSearchesWhenCompact
         } else {
             isRecentlySearched = collectionView == self.collectionView
         }
@@ -245,14 +245,14 @@ class SearchRecentsViewController: FormCollectionViewController {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         
-        let isRecentlySearched: Bool
+        let isRecentSearches: Bool
         if traitCollection.horizontalSizeClass == .compact {
-            isRecentlySearched = self.showsRecentSearchesWhenCompact
+            isRecentSearches = showsRecentSearchesWhenCompact
         } else {
-            isRecentlySearched = indexPath.section != 0
+            isRecentSearches = collectionView == self.collectionView
         }
         
-        if isRecentlySearched {
+        if isRecentSearches {
             delegate?.searchRecentsController(self, didSelectRecentSearch: recentlySearched[indexPath.item])
         } else {
             delegate?.searchRecentsController(self, didSelectRecentEntity: recentlyViewed[indexPath.item])
@@ -306,7 +306,7 @@ class SearchRecentsViewController: FormCollectionViewController {
         
         let isRecentlySearched: Bool
         if traitCollection.horizontalSizeClass == .compact {
-            isRecentlySearched = self.showsRecentSearchesWhenCompact
+            isRecentlySearched = showsRecentSearchesWhenCompact
         } else {
             isRecentlySearched = collectionView == self.collectionView
         }
