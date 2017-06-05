@@ -66,12 +66,27 @@ open class NavigationBarExtension: UIView {
     }
     
     
+    @objc open dynamic var barStyle: UIBarStyle = .default {
+        didSet {
+            if barStyle == oldValue { return }
+            
+            if shadowImageView.image == nil {
+                shadowImageView.backgroundColor = defaultShadowColor(for: barStyle)
+            }
+        }
+    }
+    
+    
     /// The background image for the bar extension. The default is `nil`.
     ///
     /// This property conforms to UIAppearance.
     @objc open dynamic var backgroundImage: UIImage? {
-        get { return backgroundImageView.image }
-        set { backgroundImageView.image = newValue }
+        get {
+            return backgroundImageView.image
+        }
+        set {
+            backgroundImageView.image = newValue
+        }
     }
     
     
@@ -80,8 +95,20 @@ open class NavigationBarExtension: UIView {
     ///
     /// This property conforms to UIAppearance.
     @objc open dynamic var shadowImage: UIImage? {
-        get { return shadowImageView.image }
-        set { shadowImageView.image = newValue }
+        get {
+            return shadowImageView.image
+        }
+        set {
+            if newValue == nil && shadowImageView.image != nil {
+                shadowHeightConstraint.isActive = true
+                shadowImageView.backgroundColor = defaultShadowColor(for: barStyle)
+            } else if newValue != nil && shadowImageView.image == nil {
+                shadowHeightConstraint.isActive = false
+                shadowImageView.backgroundColor = .clear
+            }
+            
+            shadowImageView.image = newValue
+        }
     }
     
     
@@ -91,17 +118,21 @@ open class NavigationBarExtension: UIView {
     
     private let shadowImageView = UIImageView(frame: .zero)
     
+    private let shadowHeightConstraint: NSLayoutConstraint
+    
     private var _contentView: UIView?
     
     
     // MARK: - Initializers
     
     public override init(frame: CGRect) {
+        shadowHeightConstraint = NSLayoutConstraint(item: shadowImageView, attribute: .height, relatedBy: .equal, toConstant: 1.0 / UIScreen.main.scale)
         super.init(frame: frame)
         commonInit()
     }
     
     public required init?(coder aDecoder: NSCoder) {
+        shadowHeightConstraint = NSLayoutConstraint(item: shadowImageView, attribute: .height, relatedBy: .equal, toConstant: 1.0 / UIScreen.main.scale)
         super.init(coder: aDecoder)
         commonInit()
     }
@@ -115,13 +146,14 @@ open class NavigationBarExtension: UIView {
         addSubview(backgroundImageView)
         
         shadowImageView.translatesAutoresizingMaskIntoConstraints = false
-        shadowImageView.image = UIImage(named: "UINavigationBarShadow", in: .mpolKit, compatibleWith: nil)
+        shadowImageView.backgroundColor = defaultShadowColor(for: barStyle)
         addSubview(shadowImageView)
         
         NSLayoutConstraint.activate([
             NSLayoutConstraint(item: shadowImageView, attribute: .leading,  relatedBy: .equal, toItem: self, attribute: .leading),
             NSLayoutConstraint(item: shadowImageView, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing),
-            NSLayoutConstraint(item: shadowImageView, attribute: .top,      relatedBy: .equal, toItem: self, attribute: .bottom)
+            NSLayoutConstraint(item: shadowImageView, attribute: .top,      relatedBy: .equal, toItem: self, attribute: .bottom),
+            shadowHeightConstraint
         ])
     }
     
@@ -130,6 +162,13 @@ open class NavigationBarExtension: UIView {
     
     open override var intrinsicContentSize: CGSize {
         return contentView?.intrinsicContentSize ?? super.intrinsicContentSize
+    }
+    
+    
+    // MARK: - Private
+    
+    private func defaultShadowColor(for barStyle: UIBarStyle) -> UIColor {
+        return barStyle == .default ? UIColor(white: 0.0, alpha: 0.3) : UIColor(white: 1.0, alpha: 0.15) // These are the system bar shadow background colors.
     }
     
 }

@@ -36,7 +36,7 @@ public final class NetworkMonitor: NSObject {
     
     /// A boolean value indicating whether the network is currently registered as active.
     public var isNetworkActive: Bool {
-        return activityCount > 1
+        return activityCount > 0
     }
     
     /// The count of network actions currently registered for the application.

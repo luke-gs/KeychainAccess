@@ -299,7 +299,7 @@ open class MapOverlayViewController: UIViewController, UITableViewDataSource, UI
         sourceBackground.gradientColors = isOverlayLight ? [#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1),#colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)] : [#colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.4031415053),#colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)]
         
         let sourceBar = SourceBar(frame: .zero)
-        sourceBar.items = [SourceItem(title: "TEST", state: .loaded(count: 3, color: AlertLevel.high.color))]
+        sourceBar.items = [SourceItem(title: "TEST", state: .loaded(count: 3, color: (3 as Alert.Level).color))]
         sourceBar.style = isOverlayLight ? .light : .dark
         sourceBar.backgroundView = sourceBackground
         sourceBar.translatesAutoresizingMaskIntoConstraints = false

@@ -9,6 +9,7 @@
 
 import UIKit
 import MPOLKit
+import Unbox
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelegate {
@@ -90,17 +91,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
             sidebarDetail2VC.sidebarItem.image = #imageLiteral(resourceName: "SidebarAlert")
             sidebarDetail2VC.sidebarItem.selectedImage = #imageLiteral(resourceName: "SidebarAlertFilled")
             
-            let item1 = SourceItem(title: "CRIMTRAC", state: .loaded(count: 8, color: AlertLevel.high.color))
-            let item2 = SourceItem(title: "DS2", state: .loaded(count: 2, color: AlertLevel.low.color))
-            let item3 = SourceItem(title: "DS3", state: .loaded(count: 1, color: AlertLevel.low.color))
+            let item1 = SourceItem(title: "CRIMTRAC", state: .loaded(count: 8, color: (3 as Alert.Level).color))
+            let item2 = SourceItem(title: "DS2", state: .loaded(count: 2, color: (1 as Alert.Level).color))
+            let item3 = SourceItem(title: "DS3", state: .loaded(count: 1, color: (2 as Alert.Level).color))
             
             let sidebarSplitViewController = SidebarSplitViewController(detailViewControllers: [sidebarDetail1VC, sidebarDetail2VC])
-            sidebarSplitViewController.sidebarViewController.sourceItems = [item1, item2, item3]
+                sidebarSplitViewController.sidebarViewController.sourceItems = [item1, item2, item3]
             sidebarSplitViewController.sidebarViewController.selectedSourceIndex = 1
             sidebarSplitViewController.title = "Sidebar SVC"
             
             let tabBarController = UITabBarController()
-            tabBarController.viewControllers = [pushableSVNavController, UINavigationController(rootViewController: sidebarSplitViewController), EntityDetailsSplitViewController(entity: NSObject())]
+            
+            let bundle = Bundle(for: Person.self)
+            let url = bundle.url(forResource: "Person_25625aa4-3394-48e2-8dbc-2387498e16b0", withExtension: "json", subdirectory: "Mock JSONs")!
+            let data = try! Data(contentsOf: url)
+            
+            let person: Person = try! unbox(data: data)
+
+            tabBarController.viewControllers = [pushableSVNavController, UINavigationController(rootViewController: sidebarSplitViewController), UINavigationController(rootViewController: EntityDetailsSplitViewController(entity: person))]
             self.window?.rootViewController = tabBarController
         }
         
@@ -108,7 +116,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
             UIView.transition(with: window, duration: 0.2, options: .transitionCrossDissolve, animations: nil, completion: nil)
         }
     }
-    
     
     // MARK: - Login view controller delegate
     
@@ -148,3 +155,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
     
 }
 
+    
+            
+    

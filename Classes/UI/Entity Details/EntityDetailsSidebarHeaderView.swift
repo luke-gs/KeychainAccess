@@ -8,15 +8,31 @@
 
 import UIKit
 
+
+/// A header view for displaying an entity summary in a sidebar.
 open class EntityDetailsSidebarHeaderView: UIView {
     
+    // MARK: Public properties
+    
+    /// The image view for a thumbnail or initials. This is round masked.
     public let thumbnailView: UIImageView = UIImageView(frame: .zero)
     
+    
+    /// The type label for displaying the entity's localized display type.
     public let typeLabel: UILabel = UILabel(frame: .zero)
     
-    public let titleLabel: UILabel = UILabel(frame: .zero)
     
+    /// The summary label. This is for displaying a one line summary description
+    /// of the entity.
+    public let summaryLabel: UILabel = UILabel(frame: .zero)
+    
+    
+    /// The last updated label. This should be used to show details of when the
+    /// entity was last updated in the database.
     public let lastUpdatedLabel: UILabel = UILabel(frame: .zero)
+    
+    
+    // MARK: - Private properties
     
     private let sectionSeparator: UIImageView = UIImageView(image: UIImage(named: "SectionSeparator", in: .mpolKit, compatibleWith: nil))
     
@@ -37,9 +53,13 @@ open class EntityDetailsSidebarHeaderView: UIView {
         preservesSuperviewLayoutMargins = true
         accessibilityTraits |= UIAccessibilityTraitHeader
         
+        let secondaryColor = #colorLiteral(red: 0.5561795831, green: 0.5791077614, blue: 0.6335693598, alpha: 1)
+        
         thumbnailView.translatesAutoresizingMaskIntoConstraints = false
-        thumbnailView.contentMode = .scaleAspectFill
+        thumbnailView.contentMode = .scaleAspectFit
+        thumbnailView.backgroundColor = #colorLiteral(red: 0.1642476916, green: 0.1795658767, blue: 0.2130921185, alpha: 1)
         thumbnailView.clipsToBounds = true
+        thumbnailView.tintColor = secondaryColor
         
         let thumbnailLayer = thumbnailView.layer
         thumbnailLayer.cornerRadius = 32.0
@@ -47,8 +67,6 @@ open class EntityDetailsSidebarHeaderView: UIView {
         thumbnailLayer.rasterizationScale = traitCollection.currentDisplayScale
         
         addSubview(thumbnailView)
-        
-        let secondaryColor = #colorLiteral(red: 0.5561795831, green: 0.5791077614, blue: 0.6335693598, alpha: 1)
         
         typeLabel.translatesAutoresizingMaskIntoConstraints = false
         typeLabel.adjustsFontSizeToFitWidth = true
@@ -60,13 +78,13 @@ open class EntityDetailsSidebarHeaderView: UIView {
         sectionSeparator.translatesAutoresizingMaskIntoConstraints = false
         addSubview(sectionSeparator)
         
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.adjustsFontSizeToFitWidth = true
-        titleLabel.numberOfLines = 0
-        titleLabel.font = .systemFont(ofSize: 28.0, weight: UIFontWeightBold)
-        titleLabel.textColor = .white
-        titleLabel.textAlignment = .center
-        addSubview(titleLabel)
+        summaryLabel.translatesAutoresizingMaskIntoConstraints = false
+        summaryLabel.adjustsFontSizeToFitWidth = true
+        summaryLabel.numberOfLines = 0
+        summaryLabel.font = .systemFont(ofSize: 28.0, weight: UIFontWeightBold)
+        summaryLabel.textColor = .white
+        summaryLabel.textAlignment = .center
+        addSubview(summaryLabel)
         
         lastUpdatedLabel.translatesAutoresizingMaskIntoConstraints = false
         lastUpdatedLabel.adjustsFontSizeToFitWidth = true
@@ -88,19 +106,19 @@ open class EntityDetailsSidebarHeaderView: UIView {
             NSLayoutConstraint(item: typeLabel, attribute: .leading,  relatedBy: .greaterThanOrEqual, toItem: self, attribute: .leadingMargin),
             NSLayoutConstraint(item: typeLabel, attribute: .trailing, relatedBy: .lessThanOrEqual,    toItem: self, attribute: .trailingMargin),
             
-            NSLayoutConstraint(item: titleLabel, attribute: .top,      relatedBy: .equal, toItem: typeLabel, attribute: .bottom, constant: 12.0),
-            NSLayoutConstraint(item: titleLabel, attribute: .centerX,  relatedBy: .equal, toItem: self, attribute: .centerX),
-            NSLayoutConstraint(item: titleLabel, attribute: .leading,  relatedBy: .greaterThanOrEqual, toItem: self, attribute: .leadingMargin),
-            NSLayoutConstraint(item: titleLabel, attribute: .trailing, relatedBy: .lessThanOrEqual,    toItem: self, attribute: .trailingMargin),
+            NSLayoutConstraint(item: summaryLabel, attribute: .top,      relatedBy: .equal, toItem: typeLabel, attribute: .bottom, constant: 12.0),
+            NSLayoutConstraint(item: summaryLabel, attribute: .centerX,  relatedBy: .equal, toItem: self, attribute: .centerX),
+            NSLayoutConstraint(item: summaryLabel, attribute: .leading,  relatedBy: .greaterThanOrEqual, toItem: self, attribute: .leadingMargin),
+            NSLayoutConstraint(item: summaryLabel, attribute: .trailing, relatedBy: .lessThanOrEqual,    toItem: self, attribute: .trailingMargin),
             
-            NSLayoutConstraint(item: lastUpdatedLabel, attribute: .top,      relatedBy: .equal, toItem: titleLabel, attribute: .bottom, constant: 8.0),
+            NSLayoutConstraint(item: lastUpdatedLabel, attribute: .top,      relatedBy: .equal, toItem: summaryLabel, attribute: .bottom, constant: 8.0),
             NSLayoutConstraint(item: lastUpdatedLabel, attribute: .centerX,  relatedBy: .equal, toItem: self, attribute: .centerX),
             NSLayoutConstraint(item: lastUpdatedLabel, attribute: .leading,  relatedBy: .greaterThanOrEqual, toItem: self, attribute: .leadingMargin),
             NSLayoutConstraint(item: lastUpdatedLabel, attribute: .trailing, relatedBy: .lessThanOrEqual,    toItem: self, attribute: .trailingMargin),
             
-            NSLayoutConstraint(item: sectionSeparator, attribute: .top, relatedBy: .equal, toItem: lastUpdatedLabel, attribute: .bottom, constant: 23.0),
+            NSLayoutConstraint(item: sectionSeparator, attribute: .top,     relatedBy: .equal, toItem: lastUpdatedLabel, attribute: .bottom, constant: 23.0),
             NSLayoutConstraint(item: sectionSeparator, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX),
-            NSLayoutConstraint(item: sectionSeparator, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, constant: -11.0, priority: UILayoutPriorityDefaultHigh)
+            NSLayoutConstraint(item: sectionSeparator, attribute: .bottom,  relatedBy: .equal, toItem: self, attribute: .bottom, constant: -11.0, priority: UILayoutPriorityDefaultHigh)
         ])
         
         if #available(iOS 10, *) { return }
