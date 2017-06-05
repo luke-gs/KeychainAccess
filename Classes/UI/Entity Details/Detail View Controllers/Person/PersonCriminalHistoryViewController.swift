@@ -46,6 +46,10 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
         let sidebarItem = self.sidebarItem
         sidebarItem.image         = UIImage(named: "iconFormFolder",       in: .mpolKit, compatibleWith: nil)
         sidebarItem.selectedImage = UIImage(named: "iconFormFolderFilled", in: .mpolKit, compatibleWith: nil)
+        
+        let filterIcon = UIBarButtonItem(image: UIImage(named: "iconFormFilter", in: .mpolKit, compatibleWith: nil), style: .plain, target: nil, action: nil)
+        filterIcon.isEnabled = false
+        navigationItem.rightBarButtonItem = filterIcon
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -65,6 +69,7 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
         
         collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         collectionView.register(CollectionViewFormSubtitleCell.self)
+        collectionView.register(CollectionViewFormValueFieldCell.self)
     }
     
     
@@ -80,7 +85,9 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
-        cell.emphasis = .title
+        cell.highlightStyle     = .fade
+        cell.selectionStyle     = .fade
+        cell.accessoryView = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
         
         let history = criminalHistory![indexPath.item]
         let text = cellText(for: history)
@@ -108,6 +115,10 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
     }
     
     
+    open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+    }
+    
     // MARK: - CollectionViewDelegateFormLayout
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
@@ -117,7 +128,7 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
         let history = criminalHistory![indexPath.item]
         let text = cellText(for: history)
-        return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: text.title, subtitle: text.subtitle, inWidth: itemWidth, compatibleWith: traitCollection, emphasis: .title)
+        return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: text.title, subtitle: text.subtitle, inWidth: itemWidth, compatibleWith: traitCollection)
     }
     
     

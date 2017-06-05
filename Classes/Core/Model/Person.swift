@@ -11,7 +11,7 @@ import Unbox
 @objc(MPLPerson)
 open class Person: Entity {
     
-    public enum Gender: Int, CustomStringConvertible, UnboxableEnum {
+    public enum Gender: Int, CustomStringConvertible, UnboxableEnum, Pickable {
         case female, male, other
         
         public var description: String {
@@ -24,6 +24,12 @@ open class Person: Entity {
                 return "Other"
             }
         }
+        
+        public var title: String? { return description }
+        
+        public var subtitle: String? { return nil }
+        
+        public static let allCases: [Gender] = [.female, .male, .other]
     }
     
     open override class var localizedDisplayName: String {
@@ -43,10 +49,14 @@ open class Person: Entity {
     open var formattedName: String? {
         var formattedName: String = ""
         
+        if isAlias ?? false {
+            formattedName += "@ "
+        }
+        
         let middleNames = self.middleNames?.filter { $0.isEmpty == false }
         
         if let surname = self.surname?.ifNotEmpty() {
-            formattedName = surname
+            formattedName += surname
             
             if givenName?.isEmpty ?? true == false || middleNames?.isEmpty ?? true == false {
                 formattedName += ", "
@@ -100,7 +110,9 @@ open class Person: Entity {
     
     open var criminalHistory: [CriminalHistory]?
     
-    open var thumbnail: UIImage? = #imageLiteral(resourceName: "Avatar 1")
+    open var isAlias: Bool?
+    
+    open var thumbnail: UIImage?
     private lazy var initialThumbnail: UIImage = { [unowned self] in
         if let initials = self.initials?.ifNotEmpty() {            
             return UIImage.thumbnail(withInitials: initials)
@@ -171,6 +183,8 @@ open class Person: Entity {
                 self.initials = initials
             }
         }
+        
+        isAlias = unboxer.unbox(key: "isAlias")
     }
     
     open override func encode(with aCoder: NSCoder) {

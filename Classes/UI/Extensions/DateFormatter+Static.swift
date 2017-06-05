@@ -29,8 +29,8 @@ extension DateFormatter {
     public static let longDateAndTime: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = .autoupdatingCurrent
-        formatter.setLocalizedDateFormatFromTemplate("ddMMMMyyyyhhmma")
-        DateFormatter.isListeningForLocaleChanges = true
+        formatter.dateStyle = .long
+        formatter.timeStyle = .short
         return formatter
     }()
     
@@ -47,7 +47,6 @@ extension DateFormatter {
     
     @objc private class func mpl_currentLocaleDidChange() {
         mediumNumericDate.setLocalizedDateFormatFromTemplate("ddMMyyyy")
-        longDateAndTime.setLocalizedDateFormatFromTemplate("ddMMMMyyyyhhmma")
     }
     
 }

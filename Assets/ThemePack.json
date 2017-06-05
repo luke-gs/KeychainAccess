@@ -5,6 +5,7 @@
         "statusBarStyle": 1,
         "navigationBar": "NavigationBarLight",
         "navigationBarExtension": "NavigationBarLightExtension",
+        "navigationBarShadow": "UINavigationBarShadow",
         "navigationBarStyle": 1,
         "tabBarStyle": 0,
         "colors": {
@@ -31,6 +32,7 @@
         "statusBarStyle": 1,
         "navigationBar": "NavigationBarDark",
         "navigationBarExtension": "NavigationBarDark",
+        "navigationBarShadow": "UINavigationBarShadow",
         "navigationBarStyle": 1,
         "tabBarStyle": 1,
         "colors": {

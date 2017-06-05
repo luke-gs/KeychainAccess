@@ -26,11 +26,9 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
         switch entity {
         case _ as Person:
             viewControllers.insert(PersonInfoViewController(), at: 0)
-            viewControllers += [
-                PersonOccurrencesViewController(),
-                PersonOrdersViewController(),
-                PersonCriminalHistoryViewController()
-            ]
+            viewControllers.insert(PersonActionsViewController(), at: 2)
+            viewControllers.append(PersonOccurrencesViewController())
+            viewControllers.append(PersonCriminalHistoryViewController())
         default:
             break
         }
@@ -183,6 +181,9 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
         } else {
             headerView.thumbnailView.image = nil
         }
+        // TEMP:
+        headerView.thumbnailView.image = #imageLiteral(resourceName: "Avatar 1")
+        
         headerView.summaryLabel.text = selectedRepresentation.summary
         
         let lastUpdatedString: String

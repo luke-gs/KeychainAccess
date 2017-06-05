@@ -83,6 +83,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
         collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         
         collectionView.register(CollectionViewFormSubtitleCell.self)
+        collectionView.register(CollectionViewFormValueFieldCell.self)
         collectionView.register(CollectionViewFormProgressCell.self)
     }
     
@@ -127,9 +128,8 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
         let section = sections[indexPath.section]
         
         let title: String
-        let detail: String?
+        let value: String?
         let image: UIImage?
-        let emphasis: CollectionViewFormSubtitleCell.Emphasis
         
         switch section.type {
         case .header:
@@ -139,6 +139,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
             }
             
             cell.thumbnailView.configure(for: person, size: .large)
+            cell.thumbnailView.imageView.image = #imageLiteral(resourceName: "Avatar 1")
 // TODO
 //            if cell.thumbnailView.allTargets.contains(self) == false {
 //                cell.thumbnailView.isEnabled = true
@@ -163,9 +164,8 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
         case .details:
             let item = section.items![indexPath.item] as! DetailItem
             title = item.localizedTitle
-            detail = item.value(for: person!)
+            value = item.value(for: person!)
             image = nil
-            emphasis = .subtitle
         case .addresses:
             let item = section.items![indexPath.item] as! Address
             
@@ -175,36 +175,34 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
                 title = NSLocalizedString("Recorded date unknown", bundle: .mpolKit, comment: "")
             }
             
-            detail = item.formatted()
+            value = item.formatted()
             image = UIImage(named: "iconGeneralLocation", in: .mpolKit, compatibleWith: nil)
-            emphasis = .subtitle
         case .contact:
             let item = section.items![indexPath.item] as! ContactDetailItem
             title = item.localizedTitle
-            detail = item.value(for: person!)
+            value = item.value(for: person!)
             image = nil
-            emphasis = .subtitle
         case .aliases:
+            let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
             let alias = section.items![indexPath.item] as! Alias
-            title = alias.formattedName ?? ""
-            detail = alias.formattedDOBAgeGender()
-            image = nil
-            emphasis = .title
+            cell.titleLabel.text = alias.formattedName
+            cell.subtitleLabel.text = alias.formattedDOBAgeGender()
+            cell.subtitleLabel.numberOfLines = 1
+            cell.imageView.image = nil
+            return cell
         case .licence(let licence):
             let item = section.items![indexPath.item] as! LicenceItem
             
             title  = item.localizedTitle
-            detail = item.value(for: licence)
+            value = item.value(for: licence)
             image  = nil
-            emphasis = .subtitle
             
             if item == .validity {
                 let progressCell = collectionView.dequeueReusableCell(of: CollectionViewFormProgressCell.self, for: indexPath)
                 progressCell.imageView.image = image
                 progressCell.titleLabel.text = title
-                progressCell.subtitleLabel.text = detail
-                progressCell.isEditableField = false
-                progressCell.emphasis = emphasis
+                progressCell.valueLabel.text = value
+                progressCell.isEditable = false
                 
                 if let startDate = licence.effectiveFromDate, let endDate = licence.effectiveToDate {
                     progressCell.progressView.isHidden = false
@@ -222,14 +220,12 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
             }
         }
         
-        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
-        cell.isEditableField = false
-        cell.subtitleLabel.numberOfLines = 0
+        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormValueFieldCell.self, for: indexPath)
+        cell.isEditable = false
         
-        cell.titleLabel.text    = title
-        cell.subtitleLabel.text = detail
-        cell.imageView.image    = image
-        cell.emphasis           = emphasis
+        cell.titleLabel.text  = title
+        cell.valueLabel.text = value
+        cell.imageView.image  = image
         
         return cell
     }
@@ -246,7 +242,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
             detailCell.descriptionLabel.textColor = detailCell.isDescriptionPlaceholder ? placeholderTextColor ?? .lightGray : secondaryTextColor ?? .darkGray
         }
         
-        if let subtitleCell = cell as? CollectionViewFormSubtitleCell, subtitleCell.emphasis == .title {
+        if let subtitleCell = cell as? CollectionViewFormSubtitleCell {
             subtitleCell.titleLabel.textColor = secondaryTextColor
         }
     }
@@ -276,23 +272,20 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
         
         let section = sections[indexPath.section]
         
-        let emphasis: CollectionViewFormSubtitleCell.Emphasis
-        let wantsSingleLineSubtitle: Bool
+        let wantsSingleLineValue: Bool
         let title: String
-        let detail: String?
+        let value: String?
         let image: UIImage?
         
         switch section.type {
         case .header:
             return EntityDetailCollectionViewCell.minimumContentHeight(withTitle: person?.summary ?? "", subtitle: person?.summaryDetail1, description: person?.descriptions?.first?.formatted(), descriptionPlaceholder: NSLocalizedString("No description", bundle: .mpolKit, comment: ""), additionalDetails: nil, source: person?.source?.localizedBadgeTitle, inWidth: itemWidth, compatibleWith: traitCollection) - layout.itemLayoutMargins.bottom
-            
         case .details:
             let item = section.items![indexPath.item] as! DetailItem
             title = item.localizedTitle
-            detail = item.value(for: person!)
+            value = item.value(for: person!)
             image = nil
-            emphasis = .subtitle
-            wantsSingleLineSubtitle = true
+            wantsSingleLineValue = true
         case .addresses:
             let item = section.items![indexPath.item] as! Address
             
@@ -302,35 +295,31 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
                 title = NSLocalizedString("Recorded date unknown", bundle: .mpolKit, comment: "")
             }
             
-            detail = item.formatted()
+            value = item.formatted()
             image = UIImage(named: "iconGeneralLocation", in: .mpolKit, compatibleWith: nil)
-            emphasis = .subtitle
-            wantsSingleLineSubtitle = false
+            wantsSingleLineValue = false
         case .contact:
             let item = section.items![indexPath.item] as! ContactDetailItem
             title = item.localizedTitle
-            detail = item.value(for: person!)
+            value = item.value(for: person!)
             image = nil
-            emphasis = .subtitle
-            wantsSingleLineSubtitle = true
+            wantsSingleLineValue = true
         case .aliases:
             let alias = section.items![indexPath.item] as! Alias
             title = alias.formattedName ?? ""
-            detail = alias.formattedDOBAgeGender()
+            value = alias.formattedDOBAgeGender()
             image = nil
-            emphasis = .title
-            wantsSingleLineSubtitle = true
+            return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: title, subtitle: value, inWidth: itemWidth, compatibleWith: traitCollection, image: image, singleLineSubtitle: true)
         case .licence(let licence):
             let item = section.items![indexPath.item] as! LicenceItem
             
             title  = item.localizedTitle
-            detail = item.value(for: licence)
+            value = item.value(for: licence)
             image  = nil
-            emphasis = .subtitle
-            wantsSingleLineSubtitle = true
+            wantsSingleLineValue = true
         }
         
-        return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: title, subtitle: detail, inWidth: itemWidth, compatibleWith: traitCollection, image: image, emphasis: emphasis, singleLineSubtitle: wantsSingleLineSubtitle)
+        return CollectionViewFormValueFieldCell.minimumContentHeight(withTitle: title, value: value, inWidth: itemWidth, compatibleWith: traitCollection, image: image, singleLineValue: wantsSingleLineValue)
     }
     
     

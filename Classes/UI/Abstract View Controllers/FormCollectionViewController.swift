@@ -163,10 +163,10 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
             }
             
             if let globalHeader = collectionView.visibleSupplementaryViews(ofKind: collectionElementKindGlobalHeader).first {
-                self.collectionView(collectionView, willDisplaySupplementaryView: globalHeader, forElementKind: collectionElementKindGlobalHeader, at: IndexPath(index: 0))
+                self.collectionView(collectionView, willDisplaySupplementaryView: globalHeader, forElementKind: collectionElementKindGlobalHeader, at: IndexPath(item: 0, section: 0))
             }
             if let globalFooter = collectionView.visibleSupplementaryViews(ofKind: collectionElementKindGlobalFooter).first {
-                self.collectionView(collectionView, willDisplaySupplementaryView: globalFooter, forElementKind: collectionElementKindGlobalFooter, at: IndexPath(index: 0))
+                self.collectionView(collectionView, willDisplaySupplementaryView: globalFooter, forElementKind: collectionElementKindGlobalFooter, at: IndexPath(item: 0, section: 0))
             }
             
             let sectionHeaderIndexPaths = collectionView.indexPathsForVisibleSupplementaryElements(ofKind: UICollectionElementKindSectionHeader)
@@ -220,28 +220,22 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
             formCell.detailLabel.textColor   = secondaryTextColor
         case let selectionCell as CollectionViewFormOptionCell:
             selectionCell.titleLabel.textColor = primaryTextColor
+        case let valueFieldCell as CollectionViewFormValueFieldCell:
+            valueFieldCell.valueLabel.textColor = valueFieldCell.isEditable ? primaryTextColor : secondaryTextColor
+            valueFieldCell.titleLabel.textColor = secondaryTextColor
+            valueFieldCell.placeholderLabel.textColor = placeholderTextColor
+            
+            guard let title = valueFieldCell.titleLabel.text as NSString? else { break }
+            
+            let rangeOfStar = title.range(of: "*")
+            if rangeOfStar.location == NSNotFound { break }
+            
+            let titleString = NSMutableAttributedString(string: title as String)
+            titleString.setAttributes([NSForegroundColorAttributeName: UIColor.red], range: rangeOfStar)
+            valueFieldCell.titleLabel.attributedText = titleString
         case let subtitleCell as CollectionViewFormSubtitleCell:
-            if subtitleCell.emphasis == .title {
-                subtitleCell.titleLabel.textColor    = primaryTextColor
-                subtitleCell.subtitleLabel.textColor = secondaryTextColor
-            } else {
-                subtitleCell.titleLabel.textColor    = secondaryTextColor
-                
-                if subtitleCell.isEditableField {
-                    subtitleCell.subtitleLabel.textColor = primaryTextColor
-                    
-                    guard let title = subtitleCell.titleLabel.text as NSString? else { return }
-                    
-                    let rangeOfStar = title.range(of: "*")
-                    if rangeOfStar.location == NSNotFound { return }
-                    
-                    let titleString = NSMutableAttributedString(string: title as String)
-                    titleString.setAttributes([NSForegroundColorAttributeName: UIColor.red], range: rangeOfStar)
-                    subtitleCell.titleLabel.attributedText = titleString
-                } else {
-                    subtitleCell.subtitleLabel.textColor = secondaryTextColor
-                }
-            }
+            subtitleCell.titleLabel.textColor    = primaryTextColor
+            subtitleCell.subtitleLabel.textColor = secondaryTextColor
         case let detailCell as CollectionViewFormDetailCell:
             detailCell.titleLabel.textColor    = primaryTextColor
             detailCell.subtitleLabel.textColor = secondaryTextColor
@@ -281,6 +275,7 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
         switch view {
         case let headerView as CollectionViewFormExpandingHeaderView:
             headerView.tintColor = secondaryTextColor
+            headerView.separatorColor = separatorColor
         default:
             break
         }

@@ -37,11 +37,17 @@ open class Address: NSObject, Serialisable {
     }
 
     public required init(unboxer: Unboxer) throws {
-        guard let id: String = unboxer.unbox(key: "id") else {
-            throw ParsingError.missingRequiredField
-        }
         
-        self.id = id
+        // Test data doesn't have id, temporarily removed this
+//        guard let id: String = unboxer.unbox(key: "id") else {
+//            throw ParsingError.missingRequiredField
+//        }
+//        
+        if let id: String = unboxer.unbox(key: "id") {
+            self.id = id
+        } else {
+            self.id = UUID().uuidString
+        }
         
         commonName = unboxer.unbox(key: "commonName")
         country = unboxer.unbox(key: "country")

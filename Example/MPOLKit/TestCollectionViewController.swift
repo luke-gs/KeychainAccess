@@ -14,8 +14,12 @@ class TestCollectionViewController: FormCollectionViewController  {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        collectionView?.register(CollectionViewFormTextFieldCell.self)
+        formLayout.pinsGlobalHeaderWhenBouncing = true
+        
+        collectionView?.register(CollectionViewFormSubtitleCell.self)
+        collectionView?.register(CollectionViewFormValueFieldCell.self)
         collectionView?.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
+        collectionView?.register(RecentEntitiesBackgroundView.self, forSupplementaryViewOfKind: collectionElementKindGlobalHeader)
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -30,21 +34,37 @@ class TestCollectionViewController: FormCollectionViewController  {
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
-        header.tintColor = Theme.current.colors[.SecondaryText]
-        header.showsExpandArrow = true
-        header.text = "1 ACTIVE ALERT"
-        header.tapHandler = { (header, ip) in
-            header.setExpanded(header.isExpanded == false, animated: true)
+        switch kind {
+        case collectionElementKindGlobalHeader:
+            return collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: RecentEntitiesBackgroundView.self, for: indexPath)
+        case UICollectionElementKindSectionHeader:
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
+            header.tintColor = Theme.current.colors[.SecondaryText]
+            header.showsExpandArrow = true
+            header.text = "1 ACTIVE ALERT"
+            header.tapHandler = { (header, ip) in
+                header.setExpanded(header.isExpanded == false, animated: true)
+            }
+            return header
+        default:
+            return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
         }
-        return header
+        
+        
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormTextFieldCell.self, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormValueFieldCell.self, for: indexPath)
         
         cell.titleLabel.text =  "Test Title \(indexPath.item + 1)"
-        cell.textField.placeholder = "Testing placeholder \(indexPath.item + 1)"
+        cell.placeholderLabel.text = "Testing placeholder \(indexPath.item + 1)"
+        
+        if indexPath.item % 2 == 0 {
+            cell.valueLabel.text = "Testing value \(indexPath.item + 1)"
+        } else {
+            cell.valueLabel.text = nil
+        }
+        
         cell.editActions = [CollectionViewFormEditAction(title: "DELETE", color: .destructive, handler: nil)]
         
         return cell
@@ -63,11 +83,38 @@ class TestCollectionViewController: FormCollectionViewController  {
     }
     
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
-        return CollectionViewFormTextFieldCell.minimumContentHeight(withTitle: "Kj", inWidth: itemWidth, compatibleWith: traitCollection)
+        return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: "Kj", subtitle: "Kj", inWidth: itemWidth, compatibleWith: traitCollection)
     }
     
+    
+    func collectionView(_ collectionView: UICollectionView, heightForGlobalHeaderInLayout layout: CollectionViewFormLayout) -> CGFloat {
+        return 310.0
+    }
     
 }
 
 extension UICollectionReusableView: DefaultReusable {
+}
+
+private class RecentEntitiesBackgroundView: UICollectionReusableView {
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        commonInit()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        commonInit()
+    }
+    
+    private func commonInit() {
+        let imageView = UIImageView(image: #imageLiteral(resourceName: "RecentContactsBanner"))
+        imageView.frame = bounds
+        imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        addSubview(imageView)
+    }
+    
 }

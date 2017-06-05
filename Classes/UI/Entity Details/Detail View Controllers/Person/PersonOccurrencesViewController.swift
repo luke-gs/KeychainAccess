@@ -121,13 +121,17 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController {
         
         switch events![indexPath.item] {
         case let fieldContact as FieldContact:
-            let fieldContactVC = FieldContactDetailsViewController()
-            fieldContactVC.fieldContact = fieldContact
+            let fieldContactVC = FieldContactDetailViewController()
+            fieldContactVC.event = fieldContact
             detailViewController = fieldContactVC
         case let bailOrder as BailOrder:
-            let bailOrderVC = BailOrderViewController()
-            bailOrderVC.bailOrder = bailOrder
+            let bailOrderVC = BailOrderDetailViewController()
+            bailOrderVC.event = bailOrder
             detailViewController = bailOrderVC
+        case let interventionOrder as InterventionOrder:
+            let interventionOrderVC = InterventionOrderDetailViewController()
+            interventionOrderVC.event = interventionOrder
+            detailViewController = interventionOrderVC
         default:
             detailViewController = nil
         }
