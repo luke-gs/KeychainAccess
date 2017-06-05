@@ -20,10 +20,10 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController {
     private var person: Person? {
         didSet {
             guard let person = self.person else {
-                self.events = nil
                 return
             }
             
+            /*
             // HELP: This should be standardised from the middleware
             var events = [[AnyObject]]()
             if let bailOrders = person.bailOrders {
@@ -50,12 +50,13 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController {
             if let familyIncidents = person.familyIncidents {
                 events.append(familyIncidents)
             }
-            self.events = events.flatMap{ $0 }
+ */
+            self.events = person.events
         }
     }
     
     // Help!!
-    private var events: [AnyObject]? {
+    private var events: [Event]? {
         didSet {
             let eventCount = events?.count ?? 0
             
@@ -175,11 +176,12 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController {
     // MARK: - Private
     // Seems like a common pattern, potential refactor point to have a standard formatter for these?
     
-    private func appropriateTexts(for event: AnyObject) -> (titleText: String?, subtitleText: String?, detailText: String?) {
-        let titleText: String?
-        let subtitleText: String?
-        let detailText: String?
+    private func appropriateTexts(for event: Event) -> (titleText: String?, subtitleText: String?, detailText: String?) {
+        let titleText: String? = event.eventType
+        let subtitleText: String? = formattedTitle(for: nil)
+        let detailText: String? = event.eventDescription
         
+        /*
         switch event {
         case let mpReport as MissingPersonReport:
             titleText = "Missing Person"
@@ -219,6 +221,7 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController {
             detailText = nil
             break
         }
+ */
         
         return (titleText: titleText, subtitleText: subtitleText, detailText: detailText)
     }

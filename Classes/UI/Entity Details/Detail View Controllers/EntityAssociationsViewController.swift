@@ -13,11 +13,11 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
     open override var entity: Entity? {
         didSet {
             updateNoContentSubtitle()
-            associations = (entity as? Person)?.knownAssociates ?? [] // TODO: Refactor for all associations.
+            associations = (entity as? Person)?.associatedPersons ?? [] // TODO: Refactor for all associations.
         }
     }
     
-    private var associations: [KnownAssociate] = [] {
+    private var associations: [Person] = [] {
         didSet {
             sidebarItem.count = UInt(associations.count)
             hasContent = associations.isEmpty == false
@@ -80,32 +80,8 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
         let cell = collectionView.dequeueReusableCell(of: EntityCollectionViewCell.self, for: indexPath)
         let associate = associations[indexPath.item]
         
-        // TEMPORARY: This is a massive hack.
-        
-        cell.style = .hero
-        cell.titleLabel.text = associate.fullName
-        
-        if let fullName = associate.fullName {
-            let initials = fullName.components(separatedBy: .whitespaces).prefix(2).flatMap { $0.characters.first }
-            if initials.isEmpty {
-                cell.thumbnailView.imageView.image = nil
-            } else {
-                cell.thumbnailView.imageView.image = UIImage.thumbnail(withInitials: String(initials.reversed()))
-                cell.thumbnailView.imageView.contentMode = .scaleAspectFill
-            }
-        } else {
-            cell.thumbnailView.imageView.image = nil
-        }
-        
-        cell.tintColor = UIColor(white: 0.2, alpha: 1.0)
-        
-        if let date = associate.dateOfBirth {
-            cell.subtitleLabel.text = DateFormatter.mediumNumericDate.string(from: date)
-        } else {
-            cell.subtitleLabel.text = nil
-        }
-        
-        cell.detailLabel.text = associate.knownAssociateDescription
+        cell.configure(for: associate, style: .hero)
+        cell.highlightStyle = .fade
         
         return cell
     }

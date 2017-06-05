@@ -58,7 +58,7 @@ open class Alert: NSObject, Serialisable {
         // temp properties
         
         title   = unboxer.unbox(key: "title")
-        details = unboxer.unbox(key: "details")
+        details = unboxer.unbox(key: "description")
         effectiveDate = unboxer.unbox(key: "effectiveDate", formatter: Alert.dateTransformer)
         
         super.init()
