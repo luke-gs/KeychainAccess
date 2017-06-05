@@ -163,10 +163,10 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
             }
             
             if let globalHeader = collectionView.visibleSupplementaryViews(ofKind: collectionElementKindGlobalHeader).first {
-                self.collectionView(collectionView, willDisplaySupplementaryView: globalHeader, forElementKind: collectionElementKindGlobalHeader, at: IndexPath(index: 0))
+                self.collectionView(collectionView, willDisplaySupplementaryView: globalHeader, forElementKind: collectionElementKindGlobalHeader, at: IndexPath(item: 0, section: 0))
             }
             if let globalFooter = collectionView.visibleSupplementaryViews(ofKind: collectionElementKindGlobalFooter).first {
-                self.collectionView(collectionView, willDisplaySupplementaryView: globalFooter, forElementKind: collectionElementKindGlobalFooter, at: IndexPath(index: 0))
+                self.collectionView(collectionView, willDisplaySupplementaryView: globalFooter, forElementKind: collectionElementKindGlobalFooter, at: IndexPath(item: 0, section: 0))
             }
             
             let sectionHeaderIndexPaths = collectionView.indexPathsForVisibleSupplementaryElements(ofKind: UICollectionElementKindSectionHeader)
@@ -275,6 +275,7 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
         switch view {
         case let headerView as CollectionViewFormExpandingHeaderView:
             headerView.tintColor = secondaryTextColor
+            headerView.separatorColor = separatorColor
         default:
             break
         }
