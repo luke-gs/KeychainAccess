@@ -150,15 +150,23 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
             cell.titleLabel.text = person?.summary
             cell.subtitleLabel.text = person?.summaryDetail1
             
-            if let description = person?.descriptions?.first {
-                cell.descriptionLabel.text = description.formatted()
+            if let descriptions = person?.descriptions, descriptions.count > 0 {
+                cell.descriptionLabel.text = descriptions.first!.formatted()
                 cell.isDescriptionPlaceholder = false
+                
+                if (descriptions.count > 1) {
+                    let moreDescriptionsCount = descriptions.count - 1
+                    let buttonTitle = "\(moreDescriptionsCount) MORE DESCRIPTION\(moreDescriptionsCount > 1 ? "S" : "")"
+                    cell.additionalDetailsButton.setTitle(buttonTitle, for: .normal)
+                } else {
+                    cell.additionalDetailsButton.setTitle(nil, for: .normal)
+                }
             } else {
                 cell.descriptionLabel.text = NSLocalizedString("No description", bundle: .mpolKit, comment: "")
                 cell.isDescriptionPlaceholder = true
+                
+                cell.additionalDetailsButton.setTitle(nil, for: .normal)
             }
-            
-            cell.additionalDetailsButton.setTitle(nil, for: .normal)
             
             return cell
         case .details:
@@ -279,7 +287,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
         
         switch section.type {
         case .header:
-            return EntityDetailCollectionViewCell.minimumContentHeight(withTitle: person?.summary ?? "", subtitle: person?.summaryDetail1, description: person?.descriptions?.first?.formatted(), descriptionPlaceholder: NSLocalizedString("No description", bundle: .mpolKit, comment: ""), additionalDetails: nil, source: person?.source?.localizedBadgeTitle, inWidth: itemWidth, compatibleWith: traitCollection) - layout.itemLayoutMargins.bottom
+            return EntityDetailCollectionViewCell.minimumContentHeight(withTitle: person?.summary ?? "", subtitle: person?.summaryDetail1, description: person?.descriptions?.first?.formatted(), descriptionPlaceholder: NSLocalizedString("No description", bundle: .mpolKit, comment: ""), additionalDetails: person?.descriptions != nil && person!.descriptions!.count > 1 ? "X MORE DESCRIPTIONS" : nil, source: person?.source?.localizedBadgeTitle, inWidth: itemWidth, compatibleWith: traitCollection) - layout.itemLayoutMargins.bottom
         case .details:
             let item = section.items![indexPath.item] as! DetailItem
             title = item.localizedTitle
@@ -452,6 +460,10 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
     
     
     @objc private func entityDetailCellDidSelectAdditionalDetails(_ cell: EntityDetailCollectionViewCell) {
+        guard let navController = pushableSplitViewController?.navigationController ?? navigationController else { return }
+        let moreDescriptionsVC = PersonDescriptionsViewController()
+        moreDescriptionsVC.descriptions = person!.descriptions
+        navController.pushViewController(moreDescriptionsVC, animated: true)
     }
     
     @objc private func entityThumbnailDidSelect(_ thumbnail: EntityThumbnailView) {
