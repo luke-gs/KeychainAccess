@@ -21,33 +21,37 @@ class PersonDescriptionsViewController: FormCollectionViewController {
         didSet {
             descriptions?.remove(at: 0)
             guard let descriptions = descriptions else {
-                self.groupedDescriptions = nil
+                self.sections = []
                 return
             }
             
-            var groupedDescriptions: [String:[PersonDescription]] = [:]
-            var years: Set<String> = []
+            var sectionsMap: [Int: [PersonDescription]] = [:]
             for description in descriptions {
-                let year = yearDateFormatter.string(from: description.reportDate!)
-                var yearsDescriptions = groupedDescriptions[year] ?? []
+                // mapping description to report date's year
+                let year = description.reportDate == nil ? 0 : Int(yearDateFormatter.string(from: description.reportDate!))!
+                var yearsDescriptions = sectionsMap[year] ?? []
                 yearsDescriptions.append(description)
-                years.insert(year)
-                groupedDescriptions[year] = yearsDescriptions
+                sectionsMap[year] = yearsDescriptions
             }
             
-            let orderedYears = Array(years).sorted(by: { Int($0)! > Int($1)! })
-            self.orderedYears = orderedYears
-            self.groupedDescriptions = groupedDescriptions
+            // add each years descriptions to sections array in order of year
+            var sections: [(String, [PersonDescription])] = []
+            for year in sectionsMap.keys.sorted(by: { $0 < $1 }) {
+                if year == 0 {
+                    sections.append(("Unknown Year", sectionsMap[year]!))
+                } else {
+                    sections.append((String(year), sectionsMap[year]!))
+                }
+            }
+            self.sections = sections
         }
     }
     
-    private var groupedDescriptions: [String: [PersonDescription]]? {
+    private var sections: [(year: String, descriptions: [PersonDescription])] = [] {
         didSet {
             collectionView?.reloadData()
         }
     }
-    
-    private var orderedYears: [String]?
     
     private var collapsedSections: Set<Int> = []
     
@@ -72,18 +76,17 @@ class PersonDescriptionsViewController: FormCollectionViewController {
     // MARK: - UICollectionViewDataSource
     
     open func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return orderedYears?.count ?? 0
+        return sections.count
     }
     
     open override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let year = orderedYears?[section] else { return 0 }
-        return collapsedSections.contains(section) ? 0 : (groupedDescriptions?[year]?.count ?? 0)
+        return collapsedSections.contains(section) ? 0 : sections[section].descriptions.count
     }
     
     open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionElementKindSectionHeader {
             let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
-            view.text = orderedYears?[indexPath.section]
+            view.text = sections[indexPath.section].year
             view.showsExpandArrow = true
             
             view.tapHandler = { [weak self] (headerView, indexPath) in
@@ -104,12 +107,17 @@ class PersonDescriptionsViewController: FormCollectionViewController {
     }
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let year = orderedYears![indexPath.section]
-        let description = groupedDescriptions![year]![indexPath.row]
         let cell = collectionView.dequeueReusableCell(of: CollectionViewFormValueFieldCell.self, for: indexPath)
-        cell.imageView.image = nil
-        cell.titleLabel.text = DateFormatter.shortDate.string(from: description.reportDate!).ifNotEmpty() ?? "Unknown Date"
+        
+        let description = sections[indexPath.section].descriptions[indexPath.row]
+        if let reportDate = description.reportDate {
+            cell.titleLabel.text = DateFormatter.shortDate.string(from: reportDate)
+        } else {
+            cell.titleLabel.text = nil
+        }
         cell.valueLabel.text = description.formatted()
+        cell.imageView.image = nil
+        
         return cell
     }
     
@@ -125,7 +133,7 @@ class PersonDescriptionsViewController: FormCollectionViewController {
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
         let description = descriptions![indexPath.row]
-        return CollectionViewFormValueFieldCell.minimumContentHeight(withTitle: DateFormatter.shortDate.string(from: description.reportDate!).ifNotEmpty() ?? "Unknown Date", value: description.formatted(), inWidth: itemWidth, compatibleWith: traitCollection, image: nil)
+        return CollectionViewFormValueFieldCell.minimumContentHeight(withTitle: description.reportDate == nil ? nil : "Unknown Date", value: description.formatted(), inWidth: itemWidth, compatibleWith: traitCollection, image: nil)
     }
 
 }
