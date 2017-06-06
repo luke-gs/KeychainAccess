@@ -40,7 +40,20 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
                 sections.append((.addresses, addresses)) // TODO: Sort by date
             }
             
-            // sections.append((.contact, ContactDetailItem.allCases))
+            var contactDetails: [ContactDetailItem] = []
+//            if let emails = person.emails {
+//                emails.forEach {
+//                    contactDetails.append(.email($0))
+//                }
+//            }
+            if let phones = person.phoneNumbers {
+                phones.forEach {
+                    contactDetails.append(.phone($0))
+                }
+            }
+            if contactDetails.count > 0 {
+                sections.append((.contact, contactDetails))
+            }
             
             self.sections = sections
         }
@@ -180,8 +193,8 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
         case .contact:
             let item = section.items![indexPath.item] as! ContactDetailItem
             title = item.localizedTitle
-            value = item.value(for: person!)
-            image = nil
+            value = item.value?.ifNotEmpty() ?? "N/A"
+            image = item.image
         case .aliases:
             let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
             let alias = section.items![indexPath.item] as! Alias
@@ -225,7 +238,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
         
         cell.titleLabel.text  = title
         cell.valueLabel.text = value
-        cell.imageView.image  = image
+        cell.imageView.image  = image?.withRenderingMode(.alwaysTemplate)
         
         return cell
     }
@@ -301,8 +314,8 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
         case .contact:
             let item = section.items![indexPath.item] as! ContactDetailItem
             title = item.localizedTitle
-            value = item.value(for: person!)
-            image = nil
+            value = item.value?.ifNotEmpty() ?? "N/A"
+            image = item.image
             wantsSingleLineValue = true
         case .aliases:
             let alias = section.items![indexPath.item] as! Alias
@@ -429,25 +442,29 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
     }
     
     private enum ContactDetailItem {
-        case email
-        case phone
-        
-        static let allCases: [ContactDetailItem] = [.email, .phone]
+        case email(Email)
+        case phone(PhoneNumber)
         
         var localizedTitle: String {
             switch self {
-            case .email: return NSLocalizedString("Email Address", bundle: .mpolKit, comment: "")
-            case .phone: return NSLocalizedString("Contact Number", bundle: .mpolKit, comment: "")
+            case .email(_): return NSLocalizedString("Email Address", bundle: .mpolKit, comment: "")
+            case .phone(let phone): return NSLocalizedString(phone.formattedType(), bundle: .mpolKit, comment: "")
             }
         }
         
-        func value(for person: Person) -> String? {
+        var value: String? {
             switch self {
-            case .email: return "john.citizen@gmail.com"
-            case .phone: return "N/A"
+            case .email(_): return "john.citizen@gmail.com"
+            case .phone(let phone): return phone.formattedNumber()
             }
         }
         
+        var image: UIImage? {
+            switch self {
+            case .email(_): return UIImage(named: "iconFormEmail", in: .mpolKit, compatibleWith: nil)
+            case .phone(_): return UIImage(named: "iconFormPhone", in: .mpolKit, compatibleWith: nil)
+            }
+        }
     }
     
     
