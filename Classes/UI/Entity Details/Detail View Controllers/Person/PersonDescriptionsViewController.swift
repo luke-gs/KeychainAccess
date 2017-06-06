@@ -36,7 +36,7 @@ class PersonDescriptionsViewController: FormCollectionViewController {
             
             // add each years descriptions to sections array in order of year
             var sections: [(String, [PersonDescription])] = []
-            for year in sectionsMap.keys.sorted(by: { $0 < $1 }) {
+            for year in sectionsMap.keys.sorted(by: { $0 > $1 }) {
                 if year == 0 {
                     sections.append(("Unknown Year", sectionsMap[year]!))
                 } else {
