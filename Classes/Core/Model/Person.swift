@@ -83,6 +83,7 @@ open class Person: Entity {
     open var gender: Gender?
     
     open var addresses: [Address]?
+    open var address: Address?
     
     open var licences: [Licence]?
     
@@ -175,6 +176,7 @@ open class Person: Entity {
         events = unboxer.unbox(key: "events")
         actions = unboxer.unbox(key: "actions")
         associatedPersons = unboxer.unbox(key: "persons")
+        address = unboxer.unbox(key: "address")
         
         if let initials: String = unboxer.unbox(key: "initials") {
             self.initials = initials
@@ -248,7 +250,10 @@ open class Person: Entity {
     }
     
     private func formattedSuburbStatePostcode() -> String? {
-        if let address = addresses?.first {
+        
+        let address = addresses?.first ?? self.address
+        
+        if let address = address {
             
             let components = [address.city, address.suburb, address.state, address.postcode].flatMap({$0})
             if components.isEmpty == false {

@@ -1353,7 +1353,7 @@
         "ethnicity": "NORTH/EUROPE",
         "gender": 1,
         "alertLevel": 2,
-        "actions": 3
+        "actionCount": 3
       },
       {
         "id" : "2",
@@ -1378,7 +1378,7 @@
         "ethnicity": "CAUCASIAN",
         "gender": 1,
         "alertLevel": 1,
-        "actions": 1
+        "actionCount": 1
       },
       {
         "id" : "3",
@@ -1403,7 +1403,7 @@
         "ethnicity": "BLACK",
         "gender": 1,
         "alertLevel": 0,
-        "actions": 6
+        "actionCount": 6
       },
       {
         "id" : "4",
@@ -1428,7 +1428,7 @@
         "ethnicity": "CAUCASIAN",
         "gender": 1,
         "alertLevel": 2,
-        "actions": 9
+        "actionCount": 9
       }
     ],
     "descriptions": [
