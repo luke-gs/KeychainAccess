@@ -23,10 +23,15 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
                 return
             }
             
+            alerts.sort {
+                ($0.effectiveDate ?? Date.distantPast) > ($1.effectiveDate ?? Date.distantPast)
+            }
+            
             sidebarItem.count = UInt(alerts.count)
             sidebarItem.alertColor = alerts.first?.level?.color
             
             var sections: [[Alert]] = []
+            
             while let firstAlertLevel = alerts.first?.level {
                 if let firstDifferentIndex = alerts.index(where: { $0.level != firstAlertLevel }) {
                     let alertLevelSlice = alerts.prefix(upTo: firstDifferentIndex)
@@ -37,6 +42,7 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
                     alerts.removeAll()
                 }
             }
+            
             self.sections = sections
         }
     }

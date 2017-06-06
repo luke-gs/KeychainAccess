@@ -19,7 +19,9 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
     
     private var person: Person? {
         didSet {
-            criminalHistory = person?.criminalHistory
+            criminalHistory = person?.criminalHistory?.sorted {
+                ($0.lastOccurred ?? Date.distantPast) > ($1.lastOccurred ?? Date.distantPast)
+            }
         }
     }
     
