@@ -401,7 +401,7 @@ open class EntityDetailCollectionViewCell: CollectionViewFormCell {
         
         if additionalDetails?.isEmpty ?? true == false {
             if hasDescription { detailsHeight += (displayAsCompact ? 8.0 : 16.0) }
-            detailsHeight += UIFont.systemFont(ofSize: 11, weight: UIFontWeightMedium).lineHeight.ceiled(toScale: displayScale) + 13.0
+            detailsHeight += UIFont.systemFont(ofSize: 11, weight: UIFontWeightMedium).lineHeight.ceiled(toScale: displayScale) + 26.0
         }
         
         var contentHeight: CGFloat
