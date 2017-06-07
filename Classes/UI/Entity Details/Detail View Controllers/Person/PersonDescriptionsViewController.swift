@@ -25,10 +25,10 @@ class PersonDescriptionsViewController: FormCollectionViewController {
                 return
             }
             
-            var sectionsMap: [Int: [PersonDescription]] = [:]
+            var sectionsMap: [String: [PersonDescription]] = [:]
             for description in descriptions {
                 // mapping description to report date's year
-                let year = description.reportDate == nil ? 0 : Int(yearDateFormatter.string(from: description.reportDate!))!
+                let year = description.reportDate == nil ? "" : yearDateFormatter.string(from: description.reportDate!)
                 var yearsDescriptions = sectionsMap[year] ?? []
                 yearsDescriptions.append(description)
                 sectionsMap[year] = yearsDescriptions
@@ -36,11 +36,12 @@ class PersonDescriptionsViewController: FormCollectionViewController {
             
             // add each years descriptions to sections array in order of year
             var sections: [(String, [PersonDescription])] = []
-            for year in sectionsMap.keys.sorted(by: { $0 > $1 }) {
-                if year == 0 {
+            let years = sectionsMap.keys.sorted(by: { $0.localizedCompare($1) == .orderedDescending })
+            for year in years {
+                if year.characters.count == 0 {
                     sections.append(("Unknown Year", sectionsMap[year]!))
                 } else {
-                    sections.append((String(year), sectionsMap[year]!))
+                    sections.append((year, sectionsMap[year]!))
                 }
             }
             self.sections = sections
