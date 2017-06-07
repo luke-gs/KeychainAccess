@@ -59,3 +59,36 @@ public class UnboxingArrayOperation<UnboxableType: Unboxable>: DataResponseChain
     
 }
 
+public class UnboxingArrayGroupOperation<UnboxableType: Unboxable>: GroupOperation, HasDataResponse {
+    
+    public let completionHandler: ((DataResponse<[UnboxableType]>) -> Void)?
+    
+    public var response: DataResponse<[UnboxableType]>? {
+        get {
+            return self.unboxer.response
+        }
+    }
+    
+    private let provider: URLJSONRequestOperation
+    private let unboxer: UnboxingArrayOperation<UnboxableType>
+    
+    public required init(provider: URLJSONRequestOperation, unboxer: UnboxingArrayOperation<UnboxableType>, completionHandler: ((DataResponse<[UnboxableType]>) -> Void)?) {
+        
+        self.completionHandler = completionHandler
+        self.provider = provider
+        self.unboxer = unboxer
+        
+        unboxer.addDependency(provider)
+        
+        super.init(operations: [provider, unboxer])
+        
+        let completionHandlerTriggerOperation = BlockOperation { [weak self] in
+            if let response = self?.response {
+                self?.completionHandler?(response)
+            }
+        }
+        
+        addOperation(operation: completionHandlerTriggerOperation)
+    }
+    
+}

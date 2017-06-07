@@ -13,21 +13,21 @@ public class UnboxingOperation<UnboxableType: Unboxable>: DataResponseChainableO
     
     public let keyPath: String?
     
-    public init(provider: URLJSONRequestOperation, keyPath: String?, completionHandler: ((DataResponse<UnboxableType>) -> Void)?) {
+    public init(provider: URLJSONRequestOperation, keyPath: String?, completionHandler: ((DataResponse<UnboxableType>) -> Void)? = nil) {
         self.keyPath = keyPath
         super.init(provider: provider, completionHandler: completionHandler)
     }
     
-    public required convenience init(provider: URLJSONRequestOperation, completionHandler: ((DataResponse<UnboxableType>) -> Void)?) {
+    public required convenience init(provider: URLJSONRequestOperation, completionHandler: ((DataResponse<UnboxableType>) -> Void)? = nil) {
         self.init(provider: provider, keyPath: nil, completionHandler: completionHandler)
     }
 
     override public func execute() {
         
         guard let providerData = providerOperation.response else {
-            
             // Finish with errors here
             finish(with: NSError(code: .executionFailed))
+            
             return
         }
         
@@ -52,4 +52,38 @@ public class UnboxingOperation<UnboxableType: Unboxable>: DataResponseChainableO
             completionHandler?(response!)
         }
     }
+}
+
+public class UnboxingGroupOperation<UnboxableType: Unboxable>: GroupOperation, HasDataResponse {
+    
+    public let completionHandler: ((DataResponse<UnboxableType>) -> Void)?
+    
+    public var response: DataResponse<UnboxableType>? {
+        get {
+            return self.unboxer.response
+        }
+    }
+    
+    private let provider: URLJSONRequestOperation
+    private let unboxer: UnboxingOperation<UnboxableType>
+    
+    public required init(provider: URLJSONRequestOperation, unboxer: UnboxingOperation<UnboxableType>, completionHandler: ((DataResponse<UnboxableType>) -> Void)? = nil) {
+        
+        self.completionHandler = completionHandler
+        self.provider = provider
+        self.unboxer = unboxer
+        
+        unboxer.addDependency(provider)
+        
+        super.init(operations: [provider, unboxer])
+        
+        let completionHandlerTriggerOperation = BlockOperation { [weak self] in
+            if let response = self?.response {
+                self?.completionHandler?(response)
+            }
+        }
+        
+        addOperation(operation: completionHandlerTriggerOperation)
+    }
+    
 }
