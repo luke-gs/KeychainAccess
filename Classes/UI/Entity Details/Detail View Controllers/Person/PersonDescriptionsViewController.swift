@@ -19,7 +19,6 @@ class PersonDescriptionsViewController: FormCollectionViewController {
     
     open var descriptions: [PersonDescription]? {
         didSet {
-            descriptions?.remove(at: 0)
             guard let descriptions = descriptions else {
                 self.sections = []
                 return
