@@ -85,6 +85,8 @@ open class Person: Entity {
     open var addresses: [Address]?
     open var address: Address?
     
+    open var phoneNumbers: [PhoneNumber]?
+    
     open var licences: [Licence]?
     
     open var contacts: [Contact]?
@@ -154,6 +156,7 @@ open class Person: Entity {
         gender = unboxer.unbox(key: "gender")
         
         addresses = unboxer.unbox(key: "addresses")
+        phoneNumbers = unboxer.unbox(key: "phoneNumbers")
         licences = unboxer.unbox(key: "licences")
         contacts = unboxer.unbox(key: "contacts")
         descriptions = unboxer.unbox(key: "descriptions")
