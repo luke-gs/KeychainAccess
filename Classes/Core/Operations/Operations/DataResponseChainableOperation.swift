@@ -9,7 +9,11 @@
 import Unbox
 import Alamofire
 
-open class DataResponseChainableOperation<Input: HasDataResponse, Output>: Operation, HasDataResponse, DataResponseOperationChainable where Input: Operation {
+open class DataResponseOperation<Output>: Operation, HasDataResponse {
+    open var response: DataResponse<Output>?
+}
+
+open class DataResponseChainableOperation<Input: HasDataResponse, Output>: Operation, HasDataResponse, DataResponseOperationChainable where Input: Foundation.Operation {
     
     public typealias DataResponseProviderType = Input
     public typealias DataResponseResultType = Output
