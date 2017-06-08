@@ -6,7 +6,7 @@
 //
 //
 
-public enum OAuthAuthorizationGrant {
+public enum OAuthAuthorizationGrant: Parameterisable {
     
     /// Request token using username and password
     ///
@@ -22,7 +22,7 @@ public enum OAuthAuthorizationGrant {
     case refreshToken(String)
         
     /// Returns the authorization grant's parameters.
-    public var parameters: [String: String] {
+    public var parameters: [String: Any] {
         switch self {
         case .credentials(let username, let password):
             return [

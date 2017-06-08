@@ -207,9 +207,14 @@
 		C6BABED91ED17B3600E423CB /* ScarMarkTattoo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BABED81ED17B3600E423CB /* ScarMarkTattoo.swift */; };
 		C6BABEDB1ED17B4200E423CB /* Warning.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BABEDA1ED17B4200E423CB /* Warning.swift */; };
 		C6BABEDD1ED1AE6500E423CB /* Alias.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BABEDC1ED1AE6500E423CB /* Alias.swift */; };
+		C6C943CD1EE7BD74000637C2 /* ParametersComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C943CB1EE7BD74000637C2 /* ParametersComposer.swift */; };
+		C6C943CE1EE7BD75000637C2 /* PersonSearchParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C943CC1EE7BD74000637C2 /* PersonSearchParameters.swift */; };
+		C6C943D01EE7BEF8000637C2 /* ServerAPIURLRequestProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C943CF1EE7BEF8000637C2 /* ServerAPIURLRequestProvider.swift */; };
+		C6C943D21EE8CCA8000637C2 /* EntitySource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C943D11EE8CCA8000637C2 /* EntitySource.swift */; };
+		C6C943D51EE928F5000637C2 /* VehicleSearchParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C943D41EE928F5000637C2 /* VehicleSearchParameters.swift */; };
 		C6F5DED21ECD5C62008E7BE2 /* AccessToken.json in Resources */ = {isa = PBXBuildFile; fileRef = C6F5DED11ECD5C62008E7BE2 /* AccessToken.json */; };
-		C6F5DED41ECD5CE0008E7BE2 /* LocalAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F5DED31ECD5CE0008E7BE2 /* LocalAPIManager.swift */; };
-		C6F5DED61ECD5CE6008E7BE2 /* WebAPIProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F5DED51ECD5CE6008E7BE2 /* WebAPIProtocol.swift */; };
+		C6F5DED41ECD5CE0008E7BE2 /* LocalAPIURLRequestProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F5DED31ECD5CE0008E7BE2 /* LocalAPIURLRequestProvider.swift */; };
+		C6F5DED61ECD5CE6008E7BE2 /* WebAPIURLRequestProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F5DED51ECD5CE6008E7BE2 /* WebAPIURLRequestProvider.swift */; };
 		C6F5E01A1ECD6496008E7BE2 /* UIContentSizeCategoryLegacyAdjusting.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F5E0191ECD6496008E7BE2 /* UIContentSizeCategoryLegacyAdjusting.swift */; };
 		C6F5E01C1ECD649E008E7BE2 /* UIFont+TextStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F5E01B1ECD649E008E7BE2 /* UIFont+TextStyle.swift */; };
 		C6F5E01E1ECD64EE008E7BE2 /* EntityThumbnailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F5E01D1ECD64EE008E7BE2 /* EntityThumbnailView.swift */; };
@@ -426,9 +431,14 @@
 		C6BABED81ED17B3600E423CB /* ScarMarkTattoo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScarMarkTattoo.swift; sourceTree = "<group>"; };
 		C6BABEDA1ED17B4200E423CB /* Warning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Warning.swift; sourceTree = "<group>"; };
 		C6BABEDC1ED1AE6500E423CB /* Alias.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alias.swift; sourceTree = "<group>"; };
+		C6C943CB1EE7BD74000637C2 /* ParametersComposer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParametersComposer.swift; sourceTree = "<group>"; };
+		C6C943CC1EE7BD74000637C2 /* PersonSearchParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonSearchParameters.swift; sourceTree = "<group>"; };
+		C6C943CF1EE7BEF8000637C2 /* ServerAPIURLRequestProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerAPIURLRequestProvider.swift; sourceTree = "<group>"; };
+		C6C943D11EE8CCA8000637C2 /* EntitySource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntitySource.swift; sourceTree = "<group>"; };
+		C6C943D41EE928F5000637C2 /* VehicleSearchParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleSearchParameters.swift; sourceTree = "<group>"; };
 		C6F5DED11ECD5C62008E7BE2 /* AccessToken.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AccessToken.json; sourceTree = "<group>"; };
-		C6F5DED31ECD5CE0008E7BE2 /* LocalAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalAPIManager.swift; sourceTree = "<group>"; };
-		C6F5DED51ECD5CE6008E7BE2 /* WebAPIProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebAPIProtocol.swift; sourceTree = "<group>"; };
+		C6F5DED31ECD5CE0008E7BE2 /* LocalAPIURLRequestProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalAPIURLRequestProvider.swift; sourceTree = "<group>"; };
+		C6F5DED51ECD5CE6008E7BE2 /* WebAPIURLRequestProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebAPIURLRequestProvider.swift; sourceTree = "<group>"; };
 		C6F5E0191ECD6496008E7BE2 /* UIContentSizeCategoryLegacyAdjusting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIContentSizeCategoryLegacyAdjusting.swift; sourceTree = "<group>"; };
 		C6F5E01B1ECD649E008E7BE2 /* UIFont+TextStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+TextStyle.swift"; sourceTree = "<group>"; };
 		C6F5E01D1ECD64EE008E7BE2 /* EntityThumbnailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityThumbnailView.swift; sourceTree = "<group>"; };
@@ -676,9 +686,11 @@
 			isa = PBXGroup;
 			children = (
 				C605F8C31ECCAD47001194DD /* APIManager.swift */,
-				C6F5DED31ECD5CE0008E7BE2 /* LocalAPIManager.swift */,
+				C6F5DED31ECD5CE0008E7BE2 /* LocalAPIURLRequestProvider.swift */,
 				C605F8C41ECCAD47001194DD /* OAuthAuthorizationGrant.swift */,
-				C6F5DED51ECD5CE6008E7BE2 /* WebAPIProtocol.swift */,
+				C6C943CA1EE7BD74000637C2 /* Parameters */,
+				C6C943CF1EE7BEF8000637C2 /* ServerAPIURLRequestProvider.swift */,
+				C6F5DED51ECD5CE6008E7BE2 /* WebAPIURLRequestProvider.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -742,6 +754,7 @@
 			isa = PBXGroup;
 			children = (
 				C605F8D91ECCAD47001194DD /* DefaultCustomStringConvertible.swift */,
+				C6C943D11EE8CCA8000637C2 /* EntitySource.swift */,
 				C605F8DA1ECCAD47001194DD /* ModelVersionable.swift */,
 				C69151731EE142D500ABA043 /* DataResponse+ConvenienceResultInit.swift */,
 				C69151711EE1424000ABA043 /* ResponseDataOperationChainable.swift */,
@@ -1046,6 +1059,16 @@
 			path = Incidents;
 			sourceTree = "<group>";
 		};
+		C6C943CA1EE7BD74000637C2 /* Parameters */ = {
+			isa = PBXGroup;
+			children = (
+				C6C943CB1EE7BD74000637C2 /* ParametersComposer.swift */,
+				C6C943CC1EE7BD74000637C2 /* PersonSearchParameters.swift */,
+				C6C943D41EE928F5000637C2 /* VehicleSearchParameters.swift */,
+			);
+			path = Parameters;
+			sourceTree = "<group>";
+		};
 		C6F5DED01ECD5C62008E7BE2 /* Mock JSONs */ = {
 			isa = PBXGroup;
 			children = (
@@ -1183,7 +1206,7 @@
 				C605F95D1ECCAD48001194DD /* OAuthAccessToken.swift in Sources */,
 				C605F9671ECCAD48001194DD /* Entity.swift in Sources */,
 				C605F96C1ECCAD48001194DD /* OAuthAuthorizationGrant.swift in Sources */,
-				C6F5DED61ECD5CE6008E7BE2 /* WebAPIProtocol.swift in Sources */,
+				C6F5DED61ECD5CE6008E7BE2 /* WebAPIURLRequestProvider.swift in Sources */,
 				C605F9871ECCAD48001194DD /* CollectionViewFormExpandingHeaderView.swift in Sources */,
 				C605F9D71ECCAD48001194DD /* SidebarTableViewCell.swift in Sources */,
 				C605F9961ECCAD48001194DD /* UITableViewCell+LayoutMargins.swift in Sources */,
@@ -1219,7 +1242,7 @@
 				C69151721EE1424000ABA043 /* ResponseDataOperationChainable.swift in Sources */,
 				C605F9C01ECCAD48001194DD /* Bundle+MPOLKit.swift in Sources */,
 				C605F9B21ECCAD48001194DD /* CollectionViewFormProgressCell.swift in Sources */,
-				C6F5DED41ECD5CE0008E7BE2 /* LocalAPIManager.swift in Sources */,
+				C6F5DED41ECD5CE0008E7BE2 /* LocalAPIURLRequestProvider.swift in Sources */,
 				C605F9A01ECCAD48001194DD /* TableViewFormExpandingHeaderCell.swift in Sources */,
 				C605F9CC1ECCAD48001194DD /* LoginViewController.swift in Sources */,
 				C605F97F1ECCAD48001194DD /* EpochDateTransformer+UnboxFormatter.swift in Sources */,
@@ -1232,6 +1255,7 @@
 				C6A56FD51ED1464D00B844AB /* Interest.swift in Sources */,
 				C605F9CE1ECCAD48001194DD /* CommonConditions.swift in Sources */,
 				C605F9E41ECCAD48001194DD /* NavigationBarExtension.swift in Sources */,
+				C6C943D51EE928F5000637C2 /* VehicleSearchParameters.swift in Sources */,
 				C605F9951ECCAD48001194DD /* UITableView+DefaultReuse.swift in Sources */,
 				C605F9971ECCAD48001194DD /* UITraitCollection+CurrentDisplayScale.swift in Sources */,
 				C605F98A1ECCAD48001194DD /* CollectionViewFormTextFieldCell.swift in Sources */,
@@ -1253,10 +1277,12 @@
 				C605F95C1ECCAD48001194DD /* AuthenticationHeaderAdapter.swift in Sources */,
 				C605F9731ECCAD48001194DD /* ExclusivityController.swift in Sources */,
 				C605F9A71ECCAD48001194DD /* RadioButton.swift in Sources */,
+				C6C943D21EE8CCA8000637C2 /* EntitySource.swift in Sources */,
 				C605F9901ECCAD48001194DD /* NSLayoutConstraint+Conveniences.swift in Sources */,
 				C605F9891ECCAD48001194DD /* CollectionViewFormSubtitleCell.swift in Sources */,
 				C6510A581EDBA880009E1E6D /* UIImage+Initials.swift in Sources */,
 				C605F9621ECCAD48001194DD /* ArchivedManifestEntry.swift in Sources */,
+				C6C943CD1EE7BD74000637C2 /* ParametersComposer.swift in Sources */,
 				C605F9CA1ECCAD48001194DD /* KeyboardNumberBar.swift in Sources */,
 				C605F9E31ECCAD48001194DD /* GradientView.swift in Sources */,
 				C605F9AC1ECCAD48001194DD /* FormCollectionViewController.swift in Sources */,
@@ -1321,6 +1347,7 @@
 				C605F99C1ECCAD48001194DD /* CollectionViewFormLayout.swift in Sources */,
 				C6BABED91ED17B3600E423CB /* ScarMarkTattoo.swift in Sources */,
 				C605F9821ECCAD48001194DD /* ISO8601DateTransformer.swift in Sources */,
+				C6C943D01EE7BEF8000637C2 /* ServerAPIURLRequestProvider.swift in Sources */,
 				C69DE3091EE4E83E0069F56D /* PersonActionsViewController.swift in Sources */,
 				BCFB7FE31ED66E6700567111 /* PersonCriminalHistoryViewController.swift in Sources */,
 				BC4F33841ED3F41F00198505 /* CriminalHistory.swift in Sources */,
@@ -1355,6 +1382,7 @@
 				BCFB7FDE1ED66E6700567111 /* EntityDetailCollectionViewCell.swift in Sources */,
 				C605F9B11ECCAD48001194DD /* AlertQueue.swift in Sources */,
 				C605F9991ECCAD48001194DD /* FormDefines.swift in Sources */,
+				C6C943CE1EE7BD75000637C2 /* PersonSearchParameters.swift in Sources */,
 				C605F9C21ECCAD48001194DD /* UIImage+EntityImages.swift in Sources */,
 				C605F9DB1ECCAD48001194DD /* SourceItem.swift in Sources */,
 				C605F9AE1ECCAD48001194DD /* FormTableViewController.swift in Sources */,
