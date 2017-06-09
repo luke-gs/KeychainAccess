@@ -131,10 +131,6 @@ class SearchResultsListViewController: FormCollectionViewController, SearchNavig
         switch kind {
         case UICollectionElementKindSectionHeader:
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
-            
-            // TODO: Localize
-            let count: Int
-            let sectionText: String
             let isExpanded: Bool
             
             var adjustedSection = indexPath.section
@@ -145,19 +141,16 @@ class SearchResultsListViewController: FormCollectionViewController, SearchNavig
             }
             
             if adjustedSection < 0 {
-                count = alertCount
-                sectionText = count == 1 ? " ALERT" : " ALERTS"
+                header.text = String.localizedStringWithFormat(NSLocalizedString("%d Alert(s)", comment: ""), alertCount).uppercased(with: .current)
                 isExpanded = alertExpanded
             } else {
                 let dataSourceResult = dataSourceResults[adjustedSection]
-                count = dataSourceResult.entities.count
-                sectionText = String(format: (count == 1 ? " RESULT FROM %@" : " RESULTS FROM %@"), dataSourceResult.name.uppercased())
+                header.text = String.localizedStringWithFormat(NSLocalizedString("%1$d Result(s) in %2$@", comment: ""), dataSourceResult.entities.count, dataSourceResult.name).uppercased(with: .current)
                 isExpanded = dataSourceResult.isExpanded
             }
             
             header.showsExpandArrow = true
             header.isExpanded = isExpanded
-            header.text = (count == 0 ? "NO" : String(describing: count)) + sectionText
             
             header.tapHandler = { [weak self] (headerView, indexPath) in
                 guard let `self` = self else { return }
@@ -327,7 +320,7 @@ private extension SearchNavigationField {
     
     func updateForSearchRequest(_ request: SearchRequest?, resultCount: Int?) {
         if let request = request {
-            typeLabel.text = type(of: request).localizedDisplayName.uppercased(with: nil)
+            typeLabel.text = type(of: request).localizedDisplayName.uppercased(with: .current)
             titleLabel.text = request.searchText
         } else {
             typeLabel.text = nil
@@ -335,7 +328,7 @@ private extension SearchNavigationField {
         }
         
         if let resultCount = resultCount, resultCount > 0 {
-            resultCountLabel.text = String(format: (resultCount == 1 ? NSLocalizedString("%d Result Found", comment: "") : NSLocalizedString("%d Results Found", comment: "")), resultCount)
+            resultCountLabel.text = String.localizedStringWithFormat(NSLocalizedString("%d Result(s) Found", comment: ""), resultCount)
         } else {
             resultCountLabel.text = nil
         }
