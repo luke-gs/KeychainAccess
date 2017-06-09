@@ -212,6 +212,7 @@
 		C6C943D01EE7BEF8000637C2 /* ServerAPIURLRequestProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C943CF1EE7BEF8000637C2 /* ServerAPIURLRequestProvider.swift */; };
 		C6C943D21EE8CCA8000637C2 /* EntitySource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C943D11EE8CCA8000637C2 /* EntitySource.swift */; };
 		C6C943D51EE928F5000637C2 /* VehicleSearchParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C943D41EE928F5000637C2 /* VehicleSearchParameters.swift */; };
+		C6D8082F1EEA5A9800024666 /* URLQueryBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6D8082E1EEA5A9800024666 /* URLQueryBuilder.swift */; };
 		C6F5DED21ECD5C62008E7BE2 /* AccessToken.json in Resources */ = {isa = PBXBuildFile; fileRef = C6F5DED11ECD5C62008E7BE2 /* AccessToken.json */; };
 		C6F5DED41ECD5CE0008E7BE2 /* LocalAPIURLRequestProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F5DED31ECD5CE0008E7BE2 /* LocalAPIURLRequestProvider.swift */; };
 		C6F5DED61ECD5CE6008E7BE2 /* WebAPIURLRequestProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F5DED51ECD5CE6008E7BE2 /* WebAPIURLRequestProvider.swift */; };
@@ -436,6 +437,7 @@
 		C6C943CF1EE7BEF8000637C2 /* ServerAPIURLRequestProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerAPIURLRequestProvider.swift; sourceTree = "<group>"; };
 		C6C943D11EE8CCA8000637C2 /* EntitySource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntitySource.swift; sourceTree = "<group>"; };
 		C6C943D41EE928F5000637C2 /* VehicleSearchParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleSearchParameters.swift; sourceTree = "<group>"; };
+		C6D8082E1EEA5A9800024666 /* URLQueryBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLQueryBuilder.swift; sourceTree = "<group>"; };
 		C6F5DED11ECD5C62008E7BE2 /* AccessToken.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AccessToken.json; sourceTree = "<group>"; };
 		C6F5DED31ECD5CE0008E7BE2 /* LocalAPIURLRequestProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalAPIURLRequestProvider.swift; sourceTree = "<group>"; };
 		C6F5DED51ECD5CE6008E7BE2 /* WebAPIURLRequestProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebAPIURLRequestProvider.swift; sourceTree = "<group>"; };
@@ -690,6 +692,7 @@
 				C605F8C41ECCAD47001194DD /* OAuthAuthorizationGrant.swift */,
 				C6C943CA1EE7BD74000637C2 /* Parameters */,
 				C6C943CF1EE7BEF8000637C2 /* ServerAPIURLRequestProvider.swift */,
+				C6D8082E1EEA5A9800024666 /* URLQueryBuilder.swift */,
 				C6F5DED51ECD5CE6008E7BE2 /* WebAPIURLRequestProvider.swift */,
 			);
 			path = Network;
@@ -1239,6 +1242,7 @@
 				C605F9DE1ECCAD48001194DD /* AlertIndicatorView.swift in Sources */,
 				C69DE30B1EE4E86A0069F56D /* String+EmptyFiltering.swift in Sources */,
 				C605F9C11ECCAD48001194DD /* UIColor+Hex.swift in Sources */,
+				C6D8082F1EEA5A9800024666 /* URLQueryBuilder.swift in Sources */,
 				C69151721EE1424000ABA043 /* ResponseDataOperationChainable.swift in Sources */,
 				C605F9C01ECCAD48001194DD /* Bundle+MPOLKit.swift in Sources */,
 				C605F9B21ECCAD48001194DD /* CollectionViewFormProgressCell.swift in Sources */,
