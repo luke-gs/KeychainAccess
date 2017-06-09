@@ -641,13 +641,11 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         
         // Don't perform an update if there is no width change, or if there is no content.
         
-        if currentContentWidth ==~ newWidth {
+        if currentContentWidth ==~ newWidth || sectionRects.last?.maxY.isZero ?? true  {
             // Width didn't change.
             updateGlobalHeaderAttributeIfNeeded(forBounds: newBounds)
             return false
         }
-        
-        if currentContentWidth ==~ newWidth || sectionRects.last?.maxY.isZero ?? true { return false }
         
         if wantsOptimizedResizeAnimation == false {
             return true
