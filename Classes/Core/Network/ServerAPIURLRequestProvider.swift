@@ -26,6 +26,7 @@ open class ServerAPIURLRequestProvider<T: APIURLRequestProviderConfigurable> : W
     public typealias Configuration = T
     
     open let baseURL: URL
+    private let urlQueryBuilder = URLQueryBuilder()
     
     public init(configuration: Configuration) {
         self.baseURL = try! configuration.baseURL.asURL()
@@ -83,7 +84,25 @@ open class ServerAPIURLRequestProvider<T: APIURLRequestProviderConfigurable> : W
     ///   - parameters: The search criteria.
     /// - Returns: A URLRequest to search the person.
     open func searchPerson(from source: Configuration.Source, with parameters: Configuration.PersonSearchParametersType) -> URLRequest {
+        let path = "{source}/entity/person/search"
+        let result = try! urlQueryBuilder.urlPathWith(template: path, parameters: parameters.parameters)
         
+        let requestPath = url(with: result.path)
+        
+        let request: URLRequest = try! URLRequest(url: requestPath, method: .get)
+        let encodedURLRequest = try! URLEncoding.default.encode(request, with: result.parameters)
+        
+        return encodedURLRequest
+    }
+    
+    
+    /// Create a fetch person details request.
+    ///
+    /// - Parameters:
+    ///   - source: The source to fetch the person details from.
+    ///   - id: The id of the person to be fetched.
+    /// - Returns: A URLRequest to fetch the person details.
+    open func fetchPersonDetails(from source: Configuration.Source, with id: String) -> URLRequest {
         let path = ""
         let requestPath = url(with: path)
         
@@ -101,6 +120,21 @@ open class ServerAPIURLRequestProvider<T: APIURLRequestProviderConfigurable> : W
     ///   - parameters: The search criteria.
     /// - Returns: A URLRequest to search the vehicle.
     open func searchVehicle(from source: Configuration.Source, with parameters: Configuration.VehicleSearchParametersType) -> URLRequest {
+        let path = ""
+        let requestPath = url(with: path)
+        
+        let request: URLRequest = try! URLRequest(url: requestPath, method: .get)
+        return request
+    }
+    
+    
+    /// Create a fetch vehicle details request.
+    ///
+    /// - Parameters:
+    ///   - source: The source to fetch the vehicle details from.
+    ///   - id: The id of the vehicle to be fetched.
+    /// - Returns: A URLRequest to fetch the vehicle details.
+    open func fetchVehicleDetails(from source: Configuration.Source, with id: String) -> URLRequest {
         let path = ""
         let requestPath = url(with: path)
         
