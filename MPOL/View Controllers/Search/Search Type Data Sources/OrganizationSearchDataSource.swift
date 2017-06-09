@@ -21,8 +21,8 @@ class OrganizationSearchDataSource: SearchDataSource {
             return organizationSearchRequest
         }
         set {
-            guard let newRequest = newValue as? OrganizationSearchRequest else {
-                fatalError("You must not set a request type which is inconsistent with the `requestType` class property")
+            guard let newRequest = newValue as? OrganizationSearchRequest, supports(newRequest) else {
+                fatalError("You must not set a request the data source doesn't support.")
             }
             organizationSearchRequest = newRequest
         }

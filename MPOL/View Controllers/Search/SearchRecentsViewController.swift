@@ -20,10 +20,10 @@ class SearchRecentsViewController: FormCollectionViewController {
         didSet {
             if traitCollection.horizontalSizeClass == .compact {
                 if showsRecentSearchesWhenCompact == false {
-                    collectionView?.reloadData()
+                    collectionView?.reloadSections(IndexSet(integer: 0))
                 }
             } else if let headerView = collectionView?.supplementaryView(forElementKind: collectionElementKindGlobalHeader, at: IndexPath(item: 0, section: 0)) as? RecentEntitiesHeaderView {
-                headerView.collectionView.reloadData()
+                headerView.collectionView.reloadSections(IndexSet(integer: 0))
             }
         }
     }
@@ -31,7 +31,7 @@ class SearchRecentsViewController: FormCollectionViewController {
     var recentlySearched: [SearchRequest] = [] {
         didSet {
             if traitCollection.horizontalSizeClass != .compact || showsRecentSearchesWhenCompact {
-                collectionView?.reloadData()
+                collectionView?.reloadSections(IndexSet(integer: 0))
             }
         }
     }
@@ -50,7 +50,7 @@ class SearchRecentsViewController: FormCollectionViewController {
     private var showsRecentSearchesWhenCompact: Bool = true {
         didSet {
             if showsRecentSearchesWhenCompact != oldValue && traitCollection.horizontalSizeClass == .compact {
-                collectionView?.reloadData()
+                collectionView?.reloadSections(IndexSet(integer: 0))
             }
         }
     }

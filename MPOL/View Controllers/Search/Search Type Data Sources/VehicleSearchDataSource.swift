@@ -22,8 +22,8 @@ class VehicleSearchDataSource: SearchDataSource {
             return vehicleSearchRequest
         }
         set {
-            guard let newRequest = newValue as? VehicleSearchRequest else {
-                fatalError("You must not set a request type which is inconsistent with the `requestType` class property")
+            guard let newRequest = newValue as? VehicleSearchRequest, supports(newRequest) else {
+                fatalError("You must not set a request the data source doesn't support.")
             }
             vehicleSearchRequest = newRequest
         }
