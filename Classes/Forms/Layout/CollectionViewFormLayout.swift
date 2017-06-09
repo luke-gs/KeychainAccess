@@ -167,10 +167,6 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         let screenScale = (collectionView.window?.screen ?? .main).scale
         let singlePixel: CGFloat = 1.0 / screenScale
         
-        var reusableSectionHeaderAttributes: [CollectionViewFormHeaderAttributes] = sectionHeaderAttributes.flatMap{$0}
-        var reusableSectionFooterAttributes: [UICollectionViewLayoutAttributes]   = sectionFooterAttributes.flatMap{$0}
-        var reusableItemAttributes:          [CollectionViewFormItemAttributes]   = itemAttributes.flatMap{$0}
-        
         sectionRects.removeAll(keepingCapacity: true)
         itemAttributes.removeAll(keepingCapacity: true)
         sectionHeaderAttributes.removeAll(keepingCapacity: true)
@@ -324,18 +320,10 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
                         minHeight += itemLayoutMargins.top + itemLayoutMargins.bottom
                         
                         for (index, item) in rowItems.enumerated() {
-                            let itemAttribute: CollectionViewFormItemAttributes
-                            let indexPath = item.0
-                            if let dequeuedAttributes = reusableItemAttributes.popLast() {
-                                dequeuedAttributes.indexPath = indexPath
-                                itemAttribute = dequeuedAttributes
-                            } else {
-                                itemAttribute = CollectionViewFormItemAttributes(forCellWith: indexPath)
-                                itemAttribute.zIndex = 1
-                            }
-                            
-                            itemAttribute.rowIndex         = index
-                            itemAttribute.rowItemCount     = rowItemCount
+                            let itemAttribute = CollectionViewFormItemAttributes(forCellWith: item.0)
+                            itemAttribute.zIndex = 1
+                            itemAttribute.rowIndex = index
+                            itemAttribute.rowItemCount = rowItemCount
                             
                             var frame = item.frame
                             itemAttribute.isAtTrailingEdge = fabs(frame.maxX - collectionViewBounds.width) < 0.5
@@ -453,14 +441,8 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
                     rect.origin.y = currentYOffset - height
                     
                     let sectionIndexPath = IndexPath(item: 0, section: headerRect.0)
-                    let headerAttribute: CollectionViewFormHeaderAttributes
-                    if let dequeuedAttributes = reusableSectionHeaderAttributes.popLast() {
-                        dequeuedAttributes.indexPath = sectionIndexPath
-                        headerAttribute = dequeuedAttributes
-                    } else {
-                        headerAttribute = CollectionViewFormHeaderAttributes(forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, with: sectionIndexPath)
-                        headerAttribute.zIndex = 1
-                    }
+                    let headerAttribute = CollectionViewFormHeaderAttributes(forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, with: sectionIndexPath)
+                    headerAttribute.zIndex = 1
                     
                     var sectionInset = headerRect.2.left
                     if sectionInset.isZero {
@@ -506,15 +488,8 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
                 if footerHeight.isZero {
                     sectionFooterAttributes.append(nil)
                 } else {
-                    let footerIndexPath = IndexPath(item: 0, section: section.0)
-                    let footerAttribute: UICollectionViewLayoutAttributes
-                    if let dequeuedAttributes = reusableSectionFooterAttributes.popLast() {
-                        dequeuedAttributes.indexPath = footerIndexPath
-                        footerAttribute = dequeuedAttributes
-                    } else {
-                        footerAttribute = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, with: footerIndexPath)
-                        footerAttribute.zIndex = 1
-                    }
+                    let footerAttribute = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, with: IndexPath(item: 0, section: section.0))
+                    footerAttribute.zIndex = 1
                     let footerFrame = CGRect(x: section.1.x, y: currentYOffset, width: section.1.width, height: footerHeight)
                     footerAttribute.frame = isRTL ? footerFrame.rtlFlipped(forWidth: collectionViewBounds.width) : footerFrame
                     sectionFooterAttributes.append(footerAttribute)
