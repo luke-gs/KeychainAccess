@@ -142,7 +142,7 @@ public final class ScrollViewInsetManager: NSObject {
         var indicatorInset = standardIndicatorInset
         
         if let keyboardFrameInScreen = keyboardFrameInScreen {
-            let keyboardFrame = scrollView.convert(keyboardFrameInScreen, from: nil)
+            let keyboardFrame = scrollView.convert(keyboardFrameInScreen, from: UIScreen.main.coordinateSpace)
             let bottomInset       = max((scrollView.bounds.maxY - keyboardFrame.minY), 0.0)
             indicatorInset.bottom = max(bottomInset, indicatorInset.bottom)
         }
