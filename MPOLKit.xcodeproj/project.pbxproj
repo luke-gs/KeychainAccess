@@ -175,6 +175,7 @@
 		C6510A581EDBA880009E1E6D /* UIImage+Initials.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6510A571EDBA880009E1E6D /* UIImage+Initials.swift */; };
 		C6510A601EDBA8E3009E1E6D /* MissingPersonReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6510A5F1EDBA8E3009E1E6D /* MissingPersonReport.swift */; };
 		C6510A6A1EDBA993009E1E6D /* UnboxingOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6510A691EDBA993009E1E6D /* UnboxingOperation.swift */; };
+		C688F6B91EEF210D00DFDB9B /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = C688F6B81EEF210D00DFDB9B /* SearchResult.swift */; };
 		C69151721EE1424000ABA043 /* ResponseDataOperationChainable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C69151711EE1424000ABA043 /* ResponseDataOperationChainable.swift */; };
 		C69151741EE142D500ABA043 /* DataResponse+ConvenienceResultInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C69151731EE142D500ABA043 /* DataResponse+ConvenienceResultInit.swift */; };
 		C69151761EE144EA00ABA043 /* DataResponseChainableOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C69151751EE144EA00ABA043 /* DataResponseChainableOperation.swift */; };
@@ -401,6 +402,7 @@
 		C6510A571EDBA880009E1E6D /* UIImage+Initials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Initials.swift"; sourceTree = "<group>"; };
 		C6510A5F1EDBA8E3009E1E6D /* MissingPersonReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MissingPersonReport.swift; sourceTree = "<group>"; };
 		C6510A691EDBA993009E1E6D /* UnboxingOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnboxingOperation.swift; sourceTree = "<group>"; };
+		C688F6B81EEF210D00DFDB9B /* SearchResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
 		C69151711EE1424000ABA043 /* ResponseDataOperationChainable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseDataOperationChainable.swift; sourceTree = "<group>"; };
 		C69151731EE142D500ABA043 /* DataResponse+ConvenienceResultInit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataResponse+ConvenienceResultInit.swift"; sourceTree = "<group>"; };
 		C69151751EE144EA00ABA043 /* DataResponseChainableOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataResponseChainableOperation.swift; sourceTree = "<group>"; };
@@ -677,6 +679,7 @@
 				C6A56FDE1ED1695C00B844AB /* ReportedPerson.swift */,
 				C6A56FE01ED1697200B844AB /* RiskFactor.swift */,
 				C6BABED81ED17B3600E423CB /* ScarMarkTattoo.swift */,
+				C688F6B81EEF210D00DFDB9B /* SearchResult.swift */,
 				BC9CD4031ED3994700D91786 /* Source.swift */,
 				C6A56FD81ED1518200B844AB /* TelephoneNumber.swift */,
 				C605F8C11ECCAD47001194DD /* Vehicle.swift */,
@@ -1337,6 +1340,7 @@
 				C605F9DD1ECCAD48001194DD /* ViewControllerAnimationOptionTransition.swift in Sources */,
 				C605F9C71ECCAD48001194DD /* UITextView+NotificationWorkaround.m in Sources */,
 				C605F9841ECCAD48001194DD /* CollectionViewFormCellActionView.swift in Sources */,
+				C688F6B91EEF210D00DFDB9B /* SearchResult.swift in Sources */,
 				C605F9DC1ECCAD48001194DD /* Theme.swift in Sources */,
 				C605F9A11ECCAD48001194DD /* TableViewFormSubtitleCell.swift in Sources */,
 				C605F9A51ECCAD48001194DD /* FormTextField.swift in Sources */,
