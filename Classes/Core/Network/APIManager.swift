@@ -53,10 +53,10 @@ open class APIManager<Provider: WebAPIURLRequestProvider> {
     
     // MARK: Persons
     
-    open func searchPersonOperation<P: Person>(from source: Configuration.Source, with parameters: Configuration.PersonSearchParametersType, completion: ((DataResponse<[P]>) -> Void)? = nil) -> UnboxingArrayGroupOperation<P> {
+    open func searchPersonOperation<P: Person>(from source: Configuration.Source, with parameters: Configuration.PersonSearchParametersType, completion: ((DataResponse<SearchResult<P>>) -> Void)? = nil) -> UnboxingGroupOperation<SearchResult<P>> {
         
         let request = urlProvider.searchPerson(from: source, with: parameters)
-        return unboxArrayOperation(with: request, completion: completion)
+        return unboxOperation(with: request, completion: completion)
     }
     
     open func fetchPersonDetailsOperation<P: Person>(from source: Configuration.Source, with id: String, completion: ((DataResponse<P>) -> Void)? = nil) -> UnboxingGroupOperation<P> {
@@ -67,10 +67,10 @@ open class APIManager<Provider: WebAPIURLRequestProvider> {
     
     // MARK: Vehicles
     
-    open func searchVehicleOperation<V: Vehicle>(from source: Configuration.Source, with parameters: Configuration.VehicleSearchParametersType, completion: ((DataResponse<[V]>) -> Void)? = nil) -> UnboxingArrayGroupOperation<V> {
+    open func searchVehicleOperation<V: Vehicle>(from source: Configuration.Source, with parameters: Configuration.VehicleSearchParametersType, completion: ((DataResponse<SearchResult<V>>) -> Void)? = nil) -> UnboxingGroupOperation<SearchResult<V>> {
         
         let request = urlProvider.searchVehicle(from: source, with: parameters)
-        return unboxArrayOperation(with: request, completion: completion)
+        return unboxOperation(with: request, completion: completion)
     }
     
     open func fetchVehicleDetailsOperation<V: Vehicle>(from source: Configuration.Source, with id: String, completion: ((DataResponse<V>) -> Void)? = nil) -> UnboxingGroupOperation<V> {
