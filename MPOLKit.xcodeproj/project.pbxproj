@@ -213,7 +213,6 @@
 		C6C943D21EE8CCA8000637C2 /* EntitySource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C943D11EE8CCA8000637C2 /* EntitySource.swift */; };
 		C6C943D51EE928F5000637C2 /* VehicleSearchParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C943D41EE928F5000637C2 /* VehicleSearchParameters.swift */; };
 		C6D8082F1EEA5A9800024666 /* URLQueryBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6D8082E1EEA5A9800024666 /* URLQueryBuilder.swift */; };
-		C6F0BC0C1EEF06830000B339 /* LocalAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F0BC0A1EEF06830000B339 /* LocalAPIManager.swift */; };
 		C6F0BC0D1EEF06830000B339 /* MPOLSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F0BC0B1EEF06830000B339 /* MPOLSource.swift */; };
 		C6F5DED21ECD5C62008E7BE2 /* AccessToken.json in Resources */ = {isa = PBXBuildFile; fileRef = C6F5DED11ECD5C62008E7BE2 /* AccessToken.json */; };
 		C6F5DED41ECD5CE0008E7BE2 /* LocalAPIURLRequestProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F5DED31ECD5CE0008E7BE2 /* LocalAPIURLRequestProvider.swift */; };
@@ -440,7 +439,6 @@
 		C6C943D11EE8CCA8000637C2 /* EntitySource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntitySource.swift; sourceTree = "<group>"; };
 		C6C943D41EE928F5000637C2 /* VehicleSearchParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleSearchParameters.swift; sourceTree = "<group>"; };
 		C6D8082E1EEA5A9800024666 /* URLQueryBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLQueryBuilder.swift; sourceTree = "<group>"; };
-		C6F0BC0A1EEF06830000B339 /* LocalAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalAPIManager.swift; sourceTree = "<group>"; };
 		C6F0BC0B1EEF06830000B339 /* MPOLSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPOLSource.swift; sourceTree = "<group>"; };
 		C6F5DED11ECD5C62008E7BE2 /* AccessToken.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AccessToken.json; sourceTree = "<group>"; };
 		C6F5DED31ECD5CE0008E7BE2 /* LocalAPIURLRequestProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalAPIURLRequestProvider.swift; sourceTree = "<group>"; };
@@ -692,7 +690,6 @@
 			isa = PBXGroup;
 			children = (
 				C605F8C31ECCAD47001194DD /* APIManager.swift */,
-				C6F0BC0A1EEF06830000B339 /* LocalAPIManager.swift */,
 				C6F5DED31ECD5CE0008E7BE2 /* LocalAPIURLRequestProvider.swift */,
 				C6F0BC0B1EEF06830000B339 /* MPOLSource.swift */,
 				C605F8C41ECCAD47001194DD /* OAuthAuthorizationGrant.swift */,
@@ -1274,7 +1271,6 @@
 				C605F9B01ECCAD48001194DD /* PushableSplitViewController.swift in Sources */,
 				C605F9791ECCAD48001194DD /* UnboxedURLRequestOperation.swift in Sources */,
 				C6A56FD21ED1464D00B844AB /* FamilyIncident.swift in Sources */,
-				C6F0BC0C1EEF06830000B339 /* LocalAPIManager.swift in Sources */,
 				C6A56FD11ED1464D00B844AB /* BailOrder.swift in Sources */,
 				BCFB7FE71ED66E6700567111 /* VehicleInfoViewController.swift in Sources */,
 				C6BABED31ED1788200E423CB /* Caution.swift in Sources */,
