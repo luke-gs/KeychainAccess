@@ -28,7 +28,7 @@ open class APIManager<Provider: WebAPIURLRequestProvider> {
         
         let configuration = URLSessionConfiguration.ephemeral
         configuration.httpAdditionalHeaders = SessionManager.defaultHTTPHeaders
-        sessionManager = Alamofire.SessionManager(configuration: configuration)
+        sessionManager = SessionManager(configuration: configuration)
     }
     
     // MARK: - Authentications
