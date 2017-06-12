@@ -50,7 +50,6 @@ open class ServerAPIURLRequestProvider<T: APIURLRequestProviderConfigurable> : W
     /// - Parameter grant: The grant type and required field for it.
     /// - Returns: A URLRequest to get access token.
     open func accessTokenRequest(for grant: OAuthAuthorizationGrant) -> URLRequest {
-        
         let path = "login"
         let requestPath = url(with: path)
         
@@ -71,12 +70,10 @@ open class ServerAPIURLRequestProvider<T: APIURLRequestProviderConfigurable> : W
     ///   - password: The password.
     /// - Returns: A URLRequest to check validity of the credentials.
     open func basicAuthLoginRequestFor(username: String, password: String) -> URLRequest {
-        
         let path = "login"
         let requestPath = url(with: path)
         
         var headers: HTTPHeaders = [:]
-        
         
         if let authorizationHeader = Request.authorizationHeader(user: username, password: password) {
             headers[authorizationHeader.key] = authorizationHeader.value
@@ -96,7 +93,10 @@ open class ServerAPIURLRequestProvider<T: APIURLRequestProviderConfigurable> : W
     /// - Returns: A URLRequest to search the person.
     open func searchPerson(from source: Configuration.Source, with parameters: Configuration.PersonSearchParametersType) -> URLRequest {
         let path = "{source}/entity/person/search"
-        let result = try! urlQueryBuilder.urlPathWith(template: path, parameters: parameters.parameters)
+        var parameters = parameters.parameters
+        parameters["source"] = source.serverSourceName
+        
+        let result = try! urlQueryBuilder.urlPathWith(template: path, parameters: parameters)
         
         let requestPath = url(with: result.path)
         
@@ -114,11 +114,17 @@ open class ServerAPIURLRequestProvider<T: APIURLRequestProviderConfigurable> : W
     ///   - id: The id of the person to be fetched.
     /// - Returns: A URLRequest to fetch the person details.
     open func fetchPersonDetails(from source: Configuration.Source, with id: String) -> URLRequest {
-        let path = ""
-        let requestPath = url(with: path)
+        let path = "{source}/entity/person/{id}"
+        let parameters = ["source" : source.serverSourceName, "id": id]
+        
+        let result = try! urlQueryBuilder.urlPathWith(template: path, parameters: parameters)
+
+        let requestPath = url(with: result.path)
         
         let request: URLRequest = try! URLRequest(url: requestPath, method: .get)
-        return request
+        let encodedURLRequest = try! URLEncoding.default.encode(request, with: result.parameters)
+        
+        return encodedURLRequest
     }
     
     
@@ -131,11 +137,18 @@ open class ServerAPIURLRequestProvider<T: APIURLRequestProviderConfigurable> : W
     ///   - parameters: The search criteria.
     /// - Returns: A URLRequest to search the vehicle.
     open func searchVehicle(from source: Configuration.Source, with parameters: Configuration.VehicleSearchParametersType) -> URLRequest {
-        let path = ""
-        let requestPath = url(with: path)
+        let path = "{source}/entity/vehicle/search"
+        var parameters = parameters.parameters
+        parameters["source"] = source.serverSourceName
+        
+        let result = try! urlQueryBuilder.urlPathWith(template: path, parameters: parameters)
+        
+        let requestPath = url(with: result.path)
         
         let request: URLRequest = try! URLRequest(url: requestPath, method: .get)
-        return request
+        let encodedURLRequest = try! URLEncoding.default.encode(request, with: result.parameters)
+        
+        return encodedURLRequest
     }
     
     
@@ -146,11 +159,17 @@ open class ServerAPIURLRequestProvider<T: APIURLRequestProviderConfigurable> : W
     ///   - id: The id of the vehicle to be fetched.
     /// - Returns: A URLRequest to fetch the vehicle details.
     open func fetchVehicleDetails(from source: Configuration.Source, with id: String) -> URLRequest {
-        let path = ""
-        let requestPath = url(with: path)
+        let path = "{source}/entity/vehicle/{id}"
+        let parameters = ["source" : source.serverSourceName, "id": id]
+        
+        let result = try! urlQueryBuilder.urlPathWith(template: path, parameters: parameters)
+        
+        let requestPath = url(with: result.path)
         
         let request: URLRequest = try! URLRequest(url: requestPath, method: .get)
-        return request
+        let encodedURLRequest = try! URLEncoding.default.encode(request, with: result.parameters)
+        
+        return encodedURLRequest
     }
     
     // MARK : - Internal Utilities
