@@ -36,4 +36,28 @@ public protocol WebAPIURLRequestProvider {
     /// - Returns: A URLRequest to search the person.
     func searchPerson(from source: Configuration.Source, with parameters: Configuration.PersonSearchParametersType) -> URLRequest
     
+    /// Create a fetch person details request.
+    ///
+    /// - Parameters:
+    ///   - source: The source to fetch the person details from.
+    ///   - id: The id of the person to be fetched.
+    /// - Returns: A URLRequest to fetch the person details.
+    func fetchPersonDetails(from source: Configuration.Source, with id: String) -> URLRequest
+    
+    /// Create a vehicle search request.
+    ///
+    /// - Parameters:
+    ///   - source: The source to search person from.
+    ///   - parameters: The search criteria.
+    /// - Returns: A URLRequest to search the vehicle.
+    func searchVehicle(from source: Configuration.Source, with parameters: Configuration.VehicleSearchParametersType) -> URLRequest
+    
+    /// Create a fetch vehicle details request.
+    ///
+    /// - Parameters:
+    ///   - source: The source to fetch the vehicle details from.
+    ///   - id: The id of the vehicle to be fetched.
+    /// - Returns: A URLRequest to fetch the vehicle details.
+    func fetchVehicleDetails(from source: Configuration.Source, with id: String) -> URLRequest
+    
 }
