@@ -6,11 +6,11 @@
 //
 //
 
-import UIKit
-
 public protocol WebAPIURLRequestProvider {
     
     associatedtype Configuration: APIURLRequestProviderConfigurable
+    
+    var baseURL: URL { get }
     
     // MARK: - Authentications
     

@@ -18,18 +18,18 @@ public protocol APIURLRequestProviderConfigurable {
     associatedtype PersonSearchParametersType: Parameterisable = PersonSearchParameters
     associatedtype VehicleSearchParametersType: Parameterisable = VehicleSearchParameters
     
-    var baseURL: URLConvertible { get }
+    var url: URLConvertible { get }
 }
 
 open class ServerAPIURLRequestProvider<T: APIURLRequestProviderConfigurable> : WebAPIURLRequestProvider {
     
     public typealias Configuration = T
     
-    open let baseURL: URL
+    open var baseURL: URL
     private let urlQueryBuilder = URLQueryBuilder()
     
     public init(configuration: Configuration) {
-        self.baseURL = try! configuration.baseURL.asURL()
+        self.baseURL = try! configuration.url.asURL()
     }
 
     // MARK: - Authentications

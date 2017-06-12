@@ -6,14 +6,19 @@
 //
 //
 
+import Alamofire
+
 open class LocalAPIURLRequestProvider<T: APIURLRequestProviderConfigurable>: WebAPIURLRequestProvider {
     
+    public let baseURL: URL
+
     public typealias Configuration = T
     
     open let localBundle: Bundle
     
     public init(configuration: T) {
         localBundle = Bundle(for: type(of: self))
+        baseURL = localBundle.bundleURL
     }
     
     /// Create a access token request.
