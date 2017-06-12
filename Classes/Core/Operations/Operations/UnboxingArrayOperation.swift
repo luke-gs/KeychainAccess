@@ -87,6 +87,7 @@ public class UnboxingArrayGroupOperation<UnboxableType: Unboxable>: GroupOperati
                 self?.completionHandler?(response)
             }
         }
+        completionHandlerTriggerOperation.addDependency(unboxer)
         
         addOperation(operation: completionHandlerTriggerOperation)
     }
