@@ -13,12 +13,12 @@ public class UnboxingArrayOperation<UnboxableType: Unboxable>: DataResponseChain
     
     public let keyPath: String?
     
-    public init(provider: URLJSONRequestOperation, keyPath: String?, completionHandler: ((DataResponse<[UnboxableType]>) -> Void)?) {
+    public init(provider: URLJSONRequestOperation, keyPath: String?, completionHandler: ((DataResponse<[UnboxableType]>) -> Void)? = nil) {
         self.keyPath = keyPath
         super.init(provider: provider, completionHandler: completionHandler)
     }
     
-    public required convenience init(provider: URLJSONRequestOperation, completionHandler: ((DataResponse<[UnboxableType]>) -> Void)?) {
+    public required convenience init(provider: URLJSONRequestOperation, completionHandler: ((DataResponse<[UnboxableType]>) -> Void)? = nil) {
         self.init(provider: provider, keyPath: nil, completionHandler: completionHandler)
     }
     
