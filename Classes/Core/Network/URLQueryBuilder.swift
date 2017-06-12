@@ -31,11 +31,12 @@ final public class URLQueryBuilder {
         
         // Swift 4 will have a nicer string API
         let templateString = template as NSString
+        let templateLength = template.characters.count
         var lastRange = NSMakeRange(0, 0)
         
         var error: URLQueryBuilderError?
         
-        matcher.enumerateMatches(in: template, options: [], range: NSMakeRange(0, template.characters.count)) { (result, flags, stop) in
+        matcher.enumerateMatches(in: template, options: [], range: NSMakeRange(0, templateLength)) { (result, flags, stop) in
             
             guard let result = result else {
                 return
@@ -63,6 +64,13 @@ final public class URLQueryBuilder {
             throw error
         }
         
+        let lastIndex = lastRange.location + lastRange.length;
+        if (lastIndex < templateLength) {
+            let remainder = templateString.substring(with: NSMakeRange(lastIndex, templateLength - lastIndex))
+            outputPath.append(remainder)
+        }
+        
         return (path: outputPath, parameters: outputParameters)
     }
+    
 }
