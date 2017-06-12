@@ -6,10 +6,10 @@
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
-
-class SearchRequest: NSObject, NSSecureCoding {
+@objc(MPLSearchRequest)
+class SearchRequest: NSObject, NSSecureCoding, NSCopying {
     
     static var supportsSecureCoding: Bool { return true }
     
@@ -32,7 +32,8 @@ class SearchRequest: NSObject, NSSecureCoding {
     
     private var cachedValidity = false
     
-    required override init() {
+    required init(searchText: String? = nil) {
+        self.searchText = searchText
         super.init()
     }
     
@@ -43,6 +44,10 @@ class SearchRequest: NSObject, NSSecureCoding {
     
     func encode(with aCoder: NSCoder) {
         aCoder.encode(searchText, forKey: #keyPath(searchText))
+    }
+    
+    func copy(with zone: NSZone? = nil) -> Any {
+        return type(of: self).init(searchText: self.searchText)
     }
     
     @objc dynamic var isValid: Bool {
@@ -57,6 +62,20 @@ class SearchRequest: NSObject, NSSecureCoding {
             didChangeValue(forKey: key)
             cachedValidity = isValid
         }
+    }
+    
+    var localizedTitle: String? {
+        return searchText
+    }
+    
+    var localizedDescription: String {
+        return type(of: self).localizedDisplayName
+    }
+    
+    override func isEqual(_ object: Any?) -> Bool {
+        guard let otherRequest = object as? SearchRequest else { return false }
+        
+        return type(of: otherRequest) == type(of: self) && searchText == otherRequest.searchText
     }
     
 }

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>%d Alert(s)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@alerts@</string>
+		<key>alerts</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>%d Alert</string>
+			<key>zero</key>
+			<string>No Alerts</string>
+			<key>other</key>
+			<string>%d Alerts</string>
+		</dict>
+	</dict>
+	<key>%d Result(s) Found</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@results@</string>
+		<key>results</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>%d Result Found</string>
+			<key>other</key>
+			<string>%d Results Found</string>
+		</dict>
+	</dict>
+	<key>%1$d Result(s) in %2$@</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@results@</string>
+		<key>results</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>%1$d Result in %2$@</string>
+			<key>other</key>
+			<string>%1$d Results in %2$@</string>
+		</dict>
+	</dict>
+</dict>
+</plist>

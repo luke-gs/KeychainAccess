@@ -11,7 +11,7 @@ import UserNotifications
 import MPOLKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, LoginViewControllerDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, LoginViewControllerDelegate, TermsConditionsViewControllerDelegate {
 
     var window: UIWindow?
     var tabBarController: UITabBarController?
@@ -80,17 +80,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     // MARK: - Login view controller delegate
     
     func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String) {
-        updateInterface(forLogin: false, animated: true)
+        let tsAndCsVC = TermsConditionsViewController()
+        tsAndCsVC.delegate = self
+        let navController = PopoverNavigationController(rootViewController: tsAndCsVC)
+        navController.modalPresentationStyle = .formSheet
+        controller.present(navController, animated: true)
+    }
+    
+    
+    // MARK: - Terms and conditions delegate
+    
+    func termsConditionsController(_ controller: TermsConditionsViewController, didFinishAcceptingConditions accept: Bool) {
+        controller.dismiss(animated: true) { 
+            if accept {
+                self.updateInterface(forLogin: false, animated: true)
+            }
+        }
     }
     
     
     // MARK: - Private methods
     
+    // TEMP
+    func logOut() {
+        updateInterface(forLogin: true, animated: true)
+    }
+    
+    
     private func updateInterface(forLogin login: Bool, animated: Bool) {
         if login {
             let headerLabel = UILabel(frame: .zero)
             headerLabel.translatesAutoresizingMaskIntoConstraints = false
-            headerLabel.text = "The MPOL Project"
+            headerLabel.text = "BlueConnect"
             headerLabel.font = .systemFont(ofSize: 28.0, weight: UIFontWeightSemibold)
             headerLabel.textColor = .white
             headerLabel.adjustsFontSizeToFitWidth = true
@@ -124,9 +145,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             searchViewController.recentsViewController.navigationItem.leftBarButtonItem = settingsBarButtonItem()
             
             let searchNavController = UINavigationController(rootViewController: searchViewController)
+            let actionListNavController = UINavigationController(rootViewController: ActionListViewController())
+            let eventListNavController = UINavigationController(rootViewController: EventsListViewController())
+            
+            let tasksProxyViewController = UIViewController()
+            tasksProxyViewController.tabBarItem.title = NSLocalizedString("Tasks", comment: "Tab Bar Item title")
+            tasksProxyViewController.tabBarItem.image = #imageLiteral(resourceName: "iconOtherTask")
+            tasksProxyViewController.tabBarItem.selectedImage = #imageLiteral(resourceName: "iconOtherTaskFilled")
+            tasksProxyViewController.tabBarItem.isEnabled = false
             
             let tabBarController = UITabBarController()
-            tabBarController.viewControllers = [searchNavController]
+            tabBarController.viewControllers = [searchNavController, actionListNavController, eventListNavController, tasksProxyViewController]
             
             self.tabBarController = tabBarController
             self.window?.rootViewController = tabBarController
@@ -173,10 +202,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         navBar.setBackgroundImage(theme.navigationBarBackgroundImage, for: .default)
         navBar.barStyle  = theme.navigationBarStyle
         navBar.tintColor = theme.colors[.NavigationBarTint]
+        navBar.shadowImage = theme.navigationBarShadowImage
         
         let navBarExtension = NavigationBarExtension.appearance()
+        navBarExtension.barStyle  = theme.navigationBarStyle
         navBarExtension.backgroundImage = theme.navigationBarBackgroundExtensionImage
         navBarExtension.tintColor = theme.colors[.NavigationBarTint]
+        navBarExtension.shadowImage = theme.navigationBarShadowImage
         
         UITabBar.appearance().barStyle = theme.tabBarStyle
         
@@ -184,5 +216,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         AlertQueue.shared.preferredStatusBarStyle = theme.statusBarStyle
     }
+    
+    
 }
 

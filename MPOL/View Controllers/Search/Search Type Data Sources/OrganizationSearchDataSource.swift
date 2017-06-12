@@ -9,12 +9,8 @@
 import UIKit
 
 class OrganizationSearchDataSource: SearchDataSource {
-
-    override class var requestType: SearchRequest.Type {
-        return OrganizationSearchRequest.self
-    }
     
-    private var organizationSearchRequest = OrganizationSearchRequest() {
+    @NSCopying private var organizationSearchRequest = OrganizationSearchRequest() {
         didSet {
             updatingDelegate?.searchDataSourceRequestDidChange(self)
         }
@@ -25,11 +21,19 @@ class OrganizationSearchDataSource: SearchDataSource {
             return organizationSearchRequest
         }
         set {
-            guard let newRequest = newValue as? OrganizationSearchRequest else {
-                fatalError("You must not set a request type which is inconsistent with the `requestType` class property")
+            guard let newRequest = newValue as? OrganizationSearchRequest, supports(newRequest) else {
+                fatalError("You must not set a request the data source doesn't support.")
             }
             organizationSearchRequest = newRequest
         }
+    }
+    
+    override func supports(_ request: SearchRequest) -> Bool {
+        return request is OrganizationSearchRequest
+    }
+    
+    override func reset(withSearchText searchText: String?) {
+        organizationSearchRequest = OrganizationSearchRequest(searchText: searchText)
     }
     
     override var localizedDisplayName: String {

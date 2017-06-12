@@ -10,11 +10,7 @@ import UIKit
 
 class LocationSearchDataSource: SearchDataSource {
     
-    override class var requestType: SearchRequest.Type {
-        return LocationSearchRequest.self
-    }
-    
-    private var locationSearchRequest = LocationSearchRequest() {
+    @NSCopying private var locationSearchRequest = LocationSearchRequest() {
         didSet {
             updatingDelegate?.searchDataSourceRequestDidChange(self)
         }
@@ -25,11 +21,19 @@ class LocationSearchDataSource: SearchDataSource {
             return locationSearchRequest
         }
         set {
-            guard let newRequest = newValue as? LocationSearchRequest else {
-                fatalError("You must not set a request type which is inconsistent with the `requestType` class property")
+            guard let newRequest = newValue as? LocationSearchRequest, supports(newRequest) else {
+                fatalError("You must not set a request the data source doesn't support.")
             }
             locationSearchRequest = newRequest
         }
+    }
+    
+    override func supports(_ request: SearchRequest) -> Bool {
+        return request is LocationSearchRequest
+    }
+    
+    override func reset(withSearchText searchText: String?) {
+        locationSearchRequest = LocationSearchRequest(searchText: searchText)
     }
     
     override var localizedDisplayName: String {

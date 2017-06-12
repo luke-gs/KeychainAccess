@@ -35,11 +35,7 @@ class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
         }
     }
     
-    override class var requestType: SearchRequest.Type {
-        return PersonSearchRequest.self
-    }
-
-    private var personSearchRequest: PersonSearchRequest = PersonSearchRequest() {
+    @NSCopying private var personSearchRequest: PersonSearchRequest = PersonSearchRequest() {
         didSet {
             updatingDelegate?.searchDataSourceRequestDidChange(self)
         }
@@ -50,12 +46,21 @@ class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
             return personSearchRequest
         }
         set {
-            guard let newRequest = newValue as? PersonSearchRequest else {
-                fatalError("You must not set a request type which is inconsistent with the `requestType` class property")
+            guard let newRequest = newValue as? PersonSearchRequest, supports(newRequest) else {
+                fatalError("You must not set a request the data source doesn't support.")
             }
             personSearchRequest = newRequest
         }
     }
+    
+    override func supports(_ request: SearchRequest) -> Bool {
+        return request is PersonSearchRequest
+    }
+    
+    override func reset(withSearchText searchText: String?) {
+        personSearchRequest = PersonSearchRequest(searchText: searchText)
+    }
+    
     
     override var localizedDisplayName: String {
         return NSLocalizedString("Person", comment: "")
@@ -65,7 +70,9 @@ class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
     // MARK: - Filters
     
     override var numberOfFilters: Int {
-        return FilterItem.count
+        // VicPol and QPS will not require these filters. Adjust this as
+        // necessary for each client.
+        return 0 // FilterItem.count
     }
     
     /// The title for the filter.
@@ -96,6 +103,8 @@ class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
                 return "\(ageRange.lowerBound) - \(ageRange.upperBound)"
             }
             return nil
+        case .gender:
+            return personSearchRequest.gender?.description
         default:
             return nil
         }
@@ -126,15 +135,18 @@ class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
             }
             viewController = picker
         case .gender:
-            let picker = PickerTableViewController(style: .plain, items: Manifest.shared.entries(for: .Genders) ?? [])
+            let picker = PickerTableViewController(style: .plain, items: Person.Gender.allCases)
             picker.title = NSLocalizedString("Gender/s", comment: "")
-            picker.selectedItems = Set(personSearchRequest.gender?.flatMap { $0.current() } ?? [])
+            picker.noItemTitle = NSLocalizedString("Any", comment: "")
+            if let gender = personSearchRequest.gender {
+                picker.selectedItems = [gender]
+            }
             
             picker.selectionUpdateHandler = { [weak self] (items) in
-                if let strongSelf = self {
-                    strongSelf.personSearchRequest.gender = items?.flatMap { ArchivedManifestEntry(entry: $0) }
-                    strongSelf.updatingDelegate?.searchDataSource(strongSelf, didUpdateFilterAt: index)
-                }
+                guard let `self` = self else { return }
+                
+                self.personSearchRequest.gender = items?.first
+                self.updatingDelegate?.searchDataSource(self, didUpdateFilterAt: index)
             }
             
             // TODO: Handle selection
@@ -145,10 +157,10 @@ class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
             picker.selectedItems = Set(personSearchRequest.states?.flatMap { $0.current() } ?? [])
             
             picker.selectionUpdateHandler = { [weak self] (items) in
-                if let strongSelf = self {
-                    strongSelf.personSearchRequest.states = items?.flatMap { ArchivedManifestEntry(entry: $0) }
-                    strongSelf.updatingDelegate?.searchDataSource(strongSelf, didUpdateFilterAt: index)
-                }
+                guard let `self` = self else { return }
+                
+                self.personSearchRequest.states = items?.flatMap { ArchivedManifestEntry(entry: $0) }
+                self.updatingDelegate?.searchDataSource(self, didUpdateFilterAt: index)
             }
             
             viewController = picker

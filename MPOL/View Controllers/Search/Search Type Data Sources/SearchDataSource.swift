@@ -10,15 +10,11 @@ import UIKit
 
 class SearchDataSource: NSObject {
     
-    dynamic class var requestType: SearchRequest.Type {
-        return SearchRequest.self
-    }
-    
     /// The request for this data source.
     ///
     /// - Important: This is a computed property. All subclasses should override and return a correct type.
-    ///              This must be of the class, or a subclass of, the request type specified
-    ///              by the class variable `SearchDataSource.requestType`.
+    ///              The stored value should always be copied (e.g. @NSCoping).
+    ///              When setting, this value must pass the `supports(_:)` test.
     var request: SearchRequest {
         get {
             fatalError("SearchDataSource subclasses should return a specific request")
@@ -26,6 +22,15 @@ class SearchDataSource: NSObject {
         set {
             fatalError("SearchDataSource subclasses should override and update specific request")
         }
+    }
+    
+    func supports(_ request: SearchRequest) -> Bool {
+        return false
+    }
+    
+    /// Resets the request to the default.
+    func reset(withSearchText searchText: String? = nil) {
+        fatalError("SearchDataSource subclasses should override and reset their requests")
     }
     
     var localizedDisplayName: String {

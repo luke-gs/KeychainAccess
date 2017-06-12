@@ -9,6 +9,12 @@
 import UIKit
 import MPOLKit
 
+private let searchTypeKey  = "searchType"
+private let statesKey      = "states"
+private let makesKey       = "makes"
+private let modelsKey      = "models"
+
+@objc(MPLVehicleSearchRequest)
 class VehicleSearchRequest: SearchRequest {
     
     enum SearchType: Int, Pickable {
@@ -42,20 +48,41 @@ class VehicleSearchRequest: SearchRequest {
     
     // MARK: - Initializers
     
-    required init() {
-        super.init()
+    required init(searchText: String? = nil) {
+        super.init(searchText: searchText)
     }
     
     required init?(coder aDecoder: NSCoder) {
-        states  = aDecoder.decodeObject(of: NSArray.self, forKey: #keyPath(states)) as? [ArchivedManifestEntry]
-        makes   = aDecoder.decodeObject(of: NSArray.self, forKey: #keyPath(makes)) as? [ArchivedManifestEntry]
-        models  = aDecoder.decodeObject(of: NSArray.self, forKey: #keyPath(models)) as? [ArchivedManifestEntry]
+        if aDecoder.containsValue(forKey: searchTypeKey),
+            let type = SearchType(rawValue: aDecoder.decodeInteger(forKey: searchTypeKey)) {
+            searchType = type
+        }
+        states  = aDecoder.decodeObject(of: NSArray.self, forKey: statesKey) as? [ArchivedManifestEntry]
+        makes   = aDecoder.decodeObject(of: NSArray.self, forKey: makesKey)  as? [ArchivedManifestEntry]
+        models  = aDecoder.decodeObject(of: NSArray.self, forKey: modelsKey) as? [ArchivedManifestEntry]
         super.init(coder: aDecoder)
     }
     
     override func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
+        
+        aCoder.encode(searchType.rawValue, forKey: searchTypeKey)
+        aCoder.encode(states, forKey: statesKey)
+        aCoder.encode(makes, forKey: makesKey)
+        aCoder.encode(models, forKey: modelsKey)
     }
 
+    override func copy(with zone: NSZone? = nil) -> Any {
+        let copy = super.copy(with: zone) as! VehicleSearchRequest
+        copy.searchType = searchType
+        copy.states = states
+        copy.makes = makes
+        copy.models = models
+        return copy
+    }
+    
+    
+    // TODO: Equality checking
+    
 }
     

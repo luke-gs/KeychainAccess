@@ -63,7 +63,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     
     // MARK: - Initializers
     
-    init(dataSources: [SearchDataSource] = [PersonSearchDataSource(), VehicleSearchDataSource(), OrganizationSearchDataSource(), LocationSearchDataSource()]) {
+    init(dataSources: [SearchDataSource] = [PersonSearchDataSource(), /*VehicleSearchDataSource(), OrganizationSearchDataSource(), LocationSearchDataSource()*/]) {
         guard let firstDataSource = dataSources.first else {
             fatalError("SearchOptionsViewController requires at least one available search type")
         }
@@ -85,6 +85,28 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     }
     
     
+    // MARK: - Updating search requests
+    
+    func resetSearchRequests() {
+        dataSources.forEach { $0.reset() }
+    }
+    
+    func setCurrentSearchRequest(_ request: SearchRequest) {
+        let dataSourceText = request.searchText
+        let correctDataSourceIndex = dataSources.index(where: { $0.supports(request) })
+        
+        selectedDataSourceIndex = correctDataSourceIndex ?? 0
+        
+        dataSources.enumerated().forEach { (offset, dataSource) in
+            if offset == correctDataSourceIndex {
+                dataSource.request = request
+            } else {
+                dataSource.reset(withSearchText: dataSourceText)
+            }
+        }
+    }
+    
+    
     // MARK - View Lifecycle
     
     override func viewDidLoad() {
@@ -93,7 +115,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         guard let view = self.view, let collectionView = self.collectionView else { return }
         
         collectionView.register(SearchFieldCollectionViewCell.self)
-        collectionView.register(CollectionViewFormSubtitleCell.self)
+        collectionView.register(CollectionViewFormValueFieldCell.self)
         collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         collectionView.alwaysBounceVertical = false
         
@@ -147,12 +169,6 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         scrollView.contentOffset = contentOffset
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        navigationController?.navigationBar.shadowImage = UIImage()
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -163,8 +179,6 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     
     override func viewWillDisappear(_ animated: Bool) {
         endEditingSearchField(changingState: false)
-        
-        navigationController?.navigationBar.shadowImage = nil
         super.viewWillDisappear(animated)
     }
     
@@ -279,6 +293,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         case .searchField:
             let cell = collectionView.dequeueReusableCell(of: SearchFieldCollectionViewCell.self, for: indexPath)
             let textField = cell.textField
+            textField.text = selectedDataSource.request.searchText
             
             textField.delegate = self
             if textField.allTargets.contains(self) == false {
@@ -287,10 +302,9 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
             
             return cell
         case .filters:
-            let filterCell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
-            filterCell.emphasis = .subtitle
-            filterCell.isEditableField = true
-            filterCell.subtitleLabel.numberOfLines = 1
+            let filterCell = collectionView.dequeueReusableCell(of: CollectionViewFormValueFieldCell.self, for: indexPath)
+            filterCell.isEditable = true
+            filterCell.valueLabel.numberOfLines = 1
             filterCell.selectionStyle = .underline
             filterCell.highlightStyle = .fade
             
@@ -298,13 +312,8 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
             let dataSource = self.selectedDataSource
             
             filterCell.titleLabel.text = dataSource.titleForFilter(at: filterIndex)
-            if let value = dataSource.valueForFilter(at: filterIndex) {
-                filterCell.subtitleLabel.text  = value
-                filterCell.subtitleLabel.alpha = 1.0
-            } else {
-                filterCell.subtitleLabel.text  = dataSource.defaultValueForFilter(at: filterIndex)
-                filterCell.subtitleLabel.alpha = 0.3
-            }
+            filterCell.valueLabel.text = dataSource.valueForFilter(at: filterIndex)
+            filterCell.placeholderLabel.text = dataSource.defaultValueForFilter(at: filterIndex)
             
             return filterCell
         }
@@ -366,6 +375,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+        delegate?.searchOptionsController(self, didFinishWith: selectedDataSource.request)
         return false
     }
     
@@ -428,7 +438,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
             let filterIndex = indexPath.item
             let title    = selectedDataSource.titleForFilter(at: filterIndex)
             let subtitle = selectedDataSource.valueForFilter(at: filterIndex) ?? selectedDataSource.defaultValueForFilter(at: filterIndex)
-            return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: title, subtitle: subtitle, inWidth: itemWidth, compatibleWith: traitCollection, emphasis: .subtitle, singleLineSubtitle: true)
+            return CollectionViewFormValueFieldCell.minimumContentHeight(withTitle: title, value: subtitle, inWidth: itemWidth, compatibleWith: traitCollection, singleLineValue: true)
         }
         
     }

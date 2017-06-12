@@ -10,13 +10,9 @@ import UIKit
 import MPOLKit
 
 class VehicleSearchDataSource: SearchDataSource {
-
-    override class var requestType: SearchRequest.Type {
-        return VehicleSearchRequest.self
-    }
     
-    private var vehicleSearchRequest = VehicleSearchRequest() {
-        didSet {
+    @NSCopying private var vehicleSearchRequest = VehicleSearchRequest() {
+        didSet {            
             updatingDelegate?.searchDataSourceRequestDidChange(self)
         }
     }
@@ -26,11 +22,19 @@ class VehicleSearchDataSource: SearchDataSource {
             return vehicleSearchRequest
         }
         set {
-            guard let newRequest = newValue as? VehicleSearchRequest else {
-                fatalError("You must not set a request type which is inconsistent with the `requestType` class property")
+            guard let newRequest = newValue as? VehicleSearchRequest, supports(newRequest) else {
+                fatalError("You must not set a request the data source doesn't support.")
             }
             vehicleSearchRequest = newRequest
         }
+    }
+    
+    override func supports(_ request: SearchRequest) -> Bool {
+        return request is VehicleSearchRequest
+    }
+    
+    override func reset(withSearchText searchText: String?) {
+        vehicleSearchRequest = VehicleSearchRequest(searchText: searchText)
     }
     
     override var localizedDisplayName: String {

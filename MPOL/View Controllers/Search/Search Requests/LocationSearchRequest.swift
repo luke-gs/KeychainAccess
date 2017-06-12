@@ -6,27 +6,13 @@
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
+@objc(MPLLocationSearchRequest)
 class LocationSearchRequest: SearchRequest  {
     
     override class var localizedDisplayName: String {
         return NSLocalizedString("Location", comment: "")
-    }
-    
-    
-    // MARK: - Initializers
-    
-    required init() {
-        super.init()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-    
-    override func encode(with aCoder: NSCoder) {
-        super.encode(with: aCoder)
     }
     
 }
