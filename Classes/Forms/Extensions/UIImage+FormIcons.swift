@@ -33,10 +33,10 @@ extension UIImage {
     public static let checkboxSelected = formImage(named: "CheckboxFilled", needsRtlFlipping: true)
     
     @nonobjc
-    public static let radioButton = formImage(named: "RadioFilled")
+    public static let radioButton = formImage(named: "Radio")
     
     @nonobjc
-    public static let radioButtonSelected = formImage(named: "RadioButtonFilled")
+    public static let radioButtonSelected = formImage(named: "RadioFilled")
     
     @nonobjc
     public static let formDisclosureIndicator = formImage(named: "FormDisclosureIndicator", needsRtlFlipping: true)
