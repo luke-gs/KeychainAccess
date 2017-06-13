@@ -20,7 +20,7 @@ public protocol WebAPIURLRequestProvider {
     /// - Returns: A URLRequest to request for access token.
     func accessTokenRequest(for grant: OAuthAuthorizationGrant) -> URLRequest
     
-    /// Create a credentials validation using basic authentatication request.
+    /// Create a credentials validation using basic authentication request.
     ///
     /// - Parameters:
     ///   - username: The username
