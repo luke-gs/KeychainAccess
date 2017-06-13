@@ -36,7 +36,7 @@ open class ServerAPIURLRequestProvider<T: APIURLRequestProviderConfigurable> : W
     
     public typealias Configuration = T
     
-    open var baseURL: URL
+    open let baseURL: URL
     private let urlQueryBuilder = URLQueryBuilder()
     
     public init(configuration: Configuration) {
