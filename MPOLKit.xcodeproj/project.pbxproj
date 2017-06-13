@@ -172,6 +172,7 @@
 		C60C891D1ECCBEC700785932 /* SimplePersonArrayNestedKeyPath.json in Resources */ = {isa = PBXBuildFile; fileRef = C60C89171ECCBEC700785932 /* SimplePersonArrayNestedKeyPath.json */; };
 		C60C891E1ECCBEC700785932 /* SimplePersonKeyPath.json in Resources */ = {isa = PBXBuildFile; fileRef = C60C89181ECCBEC700785932 /* SimplePersonKeyPath.json */; };
 		C60C891F1ECCBEC700785932 /* SimplePersonNestedKeyPath.json in Resources */ = {isa = PBXBuildFile; fileRef = C60C89191ECCBEC700785932 /* SimplePersonNestedKeyPath.json */; };
+		C61B12E31EEFB87F00DC66B0 /* MPOLAssert.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61B12E21EEFB87F00DC66B0 /* MPOLAssert.swift */; };
 		C6510A581EDBA880009E1E6D /* UIImage+Initials.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6510A571EDBA880009E1E6D /* UIImage+Initials.swift */; };
 		C6510A601EDBA8E3009E1E6D /* MissingPersonReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6510A5F1EDBA8E3009E1E6D /* MissingPersonReport.swift */; };
 		C6510A6A1EDBA993009E1E6D /* UnboxingOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6510A691EDBA993009E1E6D /* UnboxingOperation.swift */; };
@@ -399,6 +400,7 @@
 		C60C89181ECCBEC700785932 /* SimplePersonKeyPath.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SimplePersonKeyPath.json; sourceTree = "<group>"; };
 		C60C89191ECCBEC700785932 /* SimplePersonNestedKeyPath.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SimplePersonNestedKeyPath.json; sourceTree = "<group>"; };
 		C60C89261ECD420900785932 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
+		C61B12E21EEFB87F00DC66B0 /* MPOLAssert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPOLAssert.swift; sourceTree = "<group>"; };
 		C6510A571EDBA880009E1E6D /* UIImage+Initials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Initials.swift"; sourceTree = "<group>"; };
 		C6510A5F1EDBA8E3009E1E6D /* MissingPersonReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MissingPersonReport.swift; sourceTree = "<group>"; };
 		C6510A691EDBA993009E1E6D /* UnboxingOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnboxingOperation.swift; sourceTree = "<group>"; };
@@ -603,6 +605,7 @@
 			children = (
 				C605F8AD1ECCAD47001194DD /* Core */,
 				C605F8E21ECCAD47001194DD /* Forms */,
+				C61B12E21EEFB87F00DC66B0 /* MPOLAssert.swift */,
 				C605F9101ECCAD47001194DD /* MPOLKit.h */,
 				C605F9111ECCAD47001194DD /* MPOLKitInitialize.swift */,
 				C605F9121ECCAD47001194DD /* UI */,
@@ -1369,6 +1372,7 @@
 				BCC532D91EDAEF0400E2C994 /* CollectionViewFormValueFieldCell.swift in Sources */,
 				C605F9AB1ECCAD48001194DD /* MPOLKitInitialize.swift in Sources */,
 				C6A5F0001ECE76E900B0D915 /* Person.swift in Sources */,
+				C61B12E31EEFB87F00DC66B0 /* MPOLAssert.swift in Sources */,
 				C605F97E1ECCAD48001194DD /* Transformer.swift in Sources */,
 				C605F99A1ECCAD48001194DD /* CollectionViewFormHeaderAttributes.swift in Sources */,
 				C605F9C51ECCAD48001194DD /* UITableView+SectionHeaderFooterFetch.swift in Sources */,
