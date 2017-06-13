@@ -18,7 +18,7 @@ final public class URLQueryBuilder {
     private let trimCharacterSet = CharacterSet(charactersIn: "{}")
     
     private static let toBeEscaped = ":/?&=;+!@#$()',*" as CFString
-        
+    
     public func urlPathWith(template: String, parameters: [String: Any]) throws -> (path: String, parameters: [String: Any]) {
         
         var outputParameters = parameters

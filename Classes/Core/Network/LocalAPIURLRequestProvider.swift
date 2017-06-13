@@ -43,7 +43,7 @@ open class LocalAPIURLRequestProvider<T: APIURLRequestProviderConfigurable>: Web
     ///   - password: The password
     /// - Returns: A URLRequest to check validity of the credentials.
     open func basicAuthLoginRequestFor(username: String, password: String) -> URLRequest {
-        MPOLUnimplemented()
+        MPLUnimplemented()
     }
         
     /// Create a person search request.
