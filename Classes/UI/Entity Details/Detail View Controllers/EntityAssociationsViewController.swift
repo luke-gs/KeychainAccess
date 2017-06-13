@@ -35,6 +35,10 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
         
         formLayout.itemLayoutMargins = UIEdgeInsets(top: 16.5, left: 8.0, bottom: 14.5, right: 8.0)
         formLayout.distribution = .none
+        
+        let filterIcon = UIBarButtonItem(image: UIImage(named: "iconFormFilter", in: .mpolKit, compatibleWith: nil), style: .plain, target: nil, action: nil)
+        filterIcon.isEnabled = false
+        navigationItem.rightBarButtonItem = filterIcon
     }
     
     public required init?(coder aDecoder: NSCoder) {
