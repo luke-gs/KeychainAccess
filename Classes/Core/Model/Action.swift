@@ -10,17 +10,6 @@ import Unbox
 
 @objc(MPLAction)
 open class Action: NSObject, Serialisable {
-
-    /*
-     {
-     "id": 5173409,
-     "created": "",
-     "updated": "",
-     "actionType": "MISSING PERSON",
-     "status": "",
-     "description": ""
-     },
-  */
     
     open let id : String
     open var type: String?
