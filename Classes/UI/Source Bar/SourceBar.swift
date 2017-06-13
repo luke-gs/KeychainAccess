@@ -148,10 +148,8 @@ public class SourceBar: UIScrollView {
     
     private func commonInit() {
         isAccessibilityElement = false
-        accessibilityLabel = "Source Bar"
-        if #available(iOS 10, *) {
-            accessibilityTraits = UIAccessibilityTraitTabBar
-        }
+        accessibilityLabel = NSLocalizedString("Source Bar", bundle: .mpolKit, comment: "Localized Source Bar Component name")
+        accessibilityTraits = UIAccessibilityTraitTabBar
         
         setContentCompressionResistancePriority(UILayoutPriorityDefaultLow,  for: .vertical)
         setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .horizontal)

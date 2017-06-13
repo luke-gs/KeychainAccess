@@ -275,43 +275,22 @@ open class StatsOverviewCollectionViewCell: CollectionViewFormCell {
     
     // MARK: - Class font caching
     
-    @available(iOS 10, *)
     private static var fontCache: [UIContentSizeCategory: UIFont] = [:]
     
     private class func iconLabelFont(compatibleWith traitCollection: UITraitCollection) -> UIFont {
-        
-        func fontCompatibleWith(_ traitCollection: UITraitCollection) -> UIFont {
-            var fontDescriptor: UIFontDescriptor
-            if #available(iOS 10, *) {
-                fontDescriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: .footnote, compatibleWith: traitCollection)
-                if let newDescriptor = fontDescriptor.withSymbolicTraits(.traitBold) {
-                    fontDescriptor = newDescriptor
-                }
-            } else {
-                fontDescriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: .footnote)
-                if let newDescriptor = fontDescriptor.withSymbolicTraits(.traitBold) {
-                    fontDescriptor = newDescriptor
-                }
+        let category = traitCollection.preferredContentSizeCategory
+        if let font = StatsOverviewCollectionViewCell.fontCache[category] {
+                return font
+        } else {
+            var fontDescriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: .footnote, compatibleWith: traitCollection)
+            if let newDescriptor = fontDescriptor.withSymbolicTraits(.traitBold) {
+                fontDescriptor = newDescriptor
             }
+            let font = UIFont(descriptor: fontDescriptor, size: 0.0)
             
-            return UIFont(descriptor: fontDescriptor, size: 0.0)
+            StatsOverviewCollectionViewCell.fontCache[category] = font
+            return font
         }
-        
-        if #available(iOS 10, *) {
-            let category = traitCollection.preferredContentSizeCategory
-            
-            if category != .unspecified {
-                if let font = StatsOverviewCollectionViewCell.fontCache[category] {
-                    return font
-                } else {
-                    let font = fontCompatibleWith(traitCollection)
-                    StatsOverviewCollectionViewCell.fontCache[category] = font
-                    return font
-                }
-            }
-        }
-        
-        return fontCompatibleWith(traitCollection)
     }
     
 }

@@ -98,6 +98,11 @@ open class TableViewFormSubtitleCell: TableViewFormCell {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
         
+        titleLabel.adjustsFontForContentSizeCategory = true
+        subtitleLabel.adjustsFontForContentSizeCategory = true
+        
+        applyStandardFonts()
+        
         contentView.addSubview(subtitleLabel)
         contentView.addSubview(titleLabel)
         contentView.addSubview(imageView)
@@ -184,17 +189,10 @@ open class TableViewFormSubtitleCell: TableViewFormCell {
     }
     
     
-    internal override func applyStandardFonts() {
-        super.applyStandardFonts()
-        
-        if #available(iOS 10, *) {
-            let traitCollection = self.traitCollection
-            textLabel.font       = .preferredFont(forTextStyle: emphasis == .title ? .headline : .footnote, compatibleWith: traitCollection)
-            detailTextLabel.font = .preferredFont(forTextStyle: emphasis == .title ? .footnote : .headline, compatibleWith: traitCollection)
-        } else {
-            textLabel.font       = .preferredFont(forTextStyle: emphasis == .title ? .headline : .footnote)
-            detailTextLabel.font = .preferredFont(forTextStyle: emphasis == .title ? .footnote : .headline)
-        }
+    private func applyStandardFonts() {
+        let traitCollection = self.traitCollection
+        textLabel.font       = .preferredFont(forTextStyle: emphasis == .title ? .headline : .footnote, compatibleWith: traitCollection)
+        detailTextLabel.font = .preferredFont(forTextStyle: emphasis == .title ? .footnote : .headline, compatibleWith: traitCollection)
     }
     
 }

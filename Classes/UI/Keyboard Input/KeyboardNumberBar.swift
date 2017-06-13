@@ -51,7 +51,6 @@ public class KeyboardNumberBar: UIInputView, UIInputViewAudioFeedback {
     
     private static let buttonImageSize = CGSize(width: 9.0, height: 10.0)
     
-    @available(iOS 10, *)
     private static let buttonImageGenerator = UIGraphicsImageRenderer(size: buttonImageSize)
     
     
@@ -196,10 +195,8 @@ public class KeyboardNumberBar: UIInputView, UIInputViewAudioFeedback {
     }
     
     private class func newButtonImage(forDarkTheme dark: Bool, selected: Bool) -> UIImage {
-        // We don't use a more generic method because we want to add shadow, and we want a specific
-        // shadow without any blur. 
-        
-        func drawButtonImage(in context: CGContext) {
+        let image = buttonImageGenerator.image {
+            let context = $0.cgContext
             // These colors are to match the keyboard and are tested matches for standard system keys.
             // They're not really relevant for themes.
             let color: UIColor
@@ -217,19 +214,6 @@ public class KeyboardNumberBar: UIInputView, UIInputViewAudioFeedback {
             
             color.setFill()
             context.fillPath()
-        }
-        
-        let image: UIImage
-        
-        if #available(iOS 10, *) {
-            image = buttonImageGenerator.image { drawButtonImage(in: $0.cgContext) }
-        } else {
-            UIGraphicsBeginImageContextWithOptions(buttonImageSize, false, 0.0)
-            if let context = UIGraphicsGetCurrentContext() {
-                drawButtonImage(in: context)
-            }
-            image = UIGraphicsGetImageFromCurrentImageContext() ?? UIImage()
-            UIGraphicsEndImageContext()
         }
         
         return image.resizableImage(withCapInsets: UIEdgeInsets(top: 4.0, left: 4.0, bottom: 5.0, right: 4.0), resizingMode: .stretch)

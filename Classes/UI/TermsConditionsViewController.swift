@@ -47,9 +47,7 @@ open class TermsConditionsViewController: UIViewController {
         textView.alwaysBounceVertical = true
         textView.isEditable = false
         textView.isSelectable = false
-        if #available(iOS 10, *) {
-            textView.adjustsFontForContentSizeCategory = true
-        }
+        textView.adjustsFontForContentSizeCategory = true
         textView.font = .preferredFont(forTextStyle: .body)
         textView.attributedText = termsAndConditions
         self.textView = textView

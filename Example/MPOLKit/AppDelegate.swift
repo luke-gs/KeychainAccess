@@ -136,21 +136,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
     
     @objc private func networkActivityDidEnd() {
         delayedNetworkEndTimer?.invalidate()
-        
-        if #available(iOS 10, *) {
-            delayedNetworkEndTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { (_: Timer) in
-                UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                self.delayedNetworkEndTimer = nil
-            }
-        } else {
-            delayedNetworkEndTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(hideNetworkActivityIndicator(_:)), userInfo: nil, repeats: false)
+        delayedNetworkEndTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { (_: Timer) in
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            self.delayedNetworkEndTimer = nil
         }
-    }
-    
-    @available(iOS, introduced: 9.0, deprecated: 10.0, message: "Use block based timer APIs on iOS 10 and later.")
-    @objc private func hideNetworkActivityIndicator(_ timer: Timer) {
-        UIApplication.shared.isNetworkActivityIndicatorVisible = false
-        delayedNetworkEndTimer = nil
     }
     
 }

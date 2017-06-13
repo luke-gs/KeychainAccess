@@ -38,6 +38,14 @@ open class TableViewFormTextFieldCell: TableViewFormCell {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         textField.translatesAutoresizingMaskIntoConstraints = false
         
+        titleLabel.adjustsFontForContentSizeCategory = true
+        textLabel?.adjustsFontForContentSizeCategory = true
+        
+        let traitCollection       = self.traitCollection
+        titleLabel.font           = .preferredFont(forTextStyle: .footnote,    compatibleWith: traitCollection)
+        textField.font            = .preferredFont(forTextStyle: .headline,    compatibleWith: traitCollection)
+        textField.placeholderFont = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
+        
         let contentView = self.contentView
         contentView.addSubview(titleLabel)
         contentView.addSubview(textField)
@@ -85,21 +93,6 @@ open class TableViewFormTextFieldCell: TableViewFormCell {
         super.setSelected(selected, animated: animated)
         
         if selected { _ = textField.becomeFirstResponder() }
-    }
-    
-    internal override func applyStandardFonts() {
-        super.applyStandardFonts()
-        
-        if #available(iOS 10, *) {
-            let traitCollection       = self.traitCollection
-            titleLabel.font           = .preferredFont(forTextStyle: .footnote,    compatibleWith: traitCollection)
-            textField.font            = .preferredFont(forTextStyle: .headline,    compatibleWith: traitCollection)
-            textField.placeholderFont = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
-        } else {
-            titleLabel.font           = .preferredFont(forTextStyle: .footnote)
-            textField.font            = .preferredFont(forTextStyle: .headline)
-            textField.placeholderFont = .preferredFont(forTextStyle: .subheadline)
-        }
     }
     
     

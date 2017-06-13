@@ -77,55 +77,7 @@ open class TableViewFormCell: UITableViewCell, DefaultReusable {
             NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .top,      relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .topMargin),
             NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .bottom,   relatedBy: .lessThanOrEqual,    toItem: contentView, attribute: .bottomMargin, priority: 500),
             contentModeLayoutConstraint, minimumHeightConstraint
-            ])
-        
-        applyStandardFonts()
-        
-        if #available(iOS 10, *) { return }
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(contentSizeCategoryDidChange(_:)), name: .UIContentSizeCategoryDidChange, object: nil)
-    }
-    
-    
-    // MARK: - Overrides
-    
-    open override func prepareForReuse() {
-        super.prepareForReuse()
-        applyStandardFonts()
-        setNeedsLayout()
-    }
-    
-    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        
-        guard #available(iOS 10, *) else { return }
-        
-        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
-            applyStandardFonts()
-            setNeedsLayout()
-        }
-    }
-    
-    
-    // MARK: - Internal only
-    
-    /// Applies the standard fonts for the cell.
-    ///
-    /// This method is internal-only, and is expected to be called on reuse, and during
-    /// init methods.
-    ///
-    /// - Important: Subclasses must ensure that it is safe to call this method by
-    ///              `super.init()`, as it is called during the superclass's
-    ///              initializer.
-    internal func applyStandardFonts() {
-    }
-    
-    
-    // MARK: - Notifications
-    
-    @objc private func contentSizeCategoryDidChange(_ notification: Notification) {
-        applyStandardFonts()
-        setNeedsLayout()
+        ])
     }
     
 }

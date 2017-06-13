@@ -120,10 +120,6 @@ open class EntityDetailsSidebarHeaderView: UIView {
             NSLayoutConstraint(item: sectionSeparator, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX),
             NSLayoutConstraint(item: sectionSeparator, attribute: .bottom,  relatedBy: .equal, toItem: self, attribute: .bottom, constant: -11.0, priority: UILayoutPriorityDefaultHigh)
         ])
-        
-        if #available(iOS 10, *) { return }
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(updateFonts), name: .UIContentSizeCategoryDidChange, object: nil)
     }
     
     
@@ -134,18 +130,13 @@ open class EntityDetailsSidebarHeaderView: UIView {
         
         thumbnailView.layer.rasterizationScale = traitCollection.currentDisplayScale
         
-        if #available(iOS 10.0, *), previousTraitCollection?.preferredContentSizeCategory ?? .large != traitCollection.preferredContentSizeCategory {
+        if previousTraitCollection?.preferredContentSizeCategory ?? .large != traitCollection.preferredContentSizeCategory {
             updateFonts()
         }
     }
     
     @objc private func updateFonts() {
-        let headerSubtitleDescriptor: UIFontDescriptor
-        if #available(iOS 10, *) {
-            headerSubtitleDescriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: .subheadline, compatibleWith: traitCollection)
-        } else {
-            headerSubtitleDescriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: .subheadline)
-        }
+        let headerSubtitleDescriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: .subheadline, compatibleWith: traitCollection)
         lastUpdatedLabel.font = UIFont(descriptor: headerSubtitleDescriptor, size: headerSubtitleDescriptor.pointSize - 1.0)
     }
 }

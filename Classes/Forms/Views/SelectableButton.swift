@@ -12,11 +12,7 @@ import UIKit
 open class SelectableButton: UIButton {
     
     internal class func font(compatibleWith traitCollection: UITraitCollection) -> UIFont {
-        if #available(iOS 10, *) {
-            return .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
-        } else {
-            return .preferredFont(forTextStyle: .subheadline)
-        }
+        return .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
     }
     
     // MARK: - Properties

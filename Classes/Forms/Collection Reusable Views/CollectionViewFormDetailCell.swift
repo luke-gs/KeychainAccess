@@ -35,16 +35,9 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
     }
     
     private class func defaultFonts(compatibleWith traitCollection: UITraitCollection) -> (titleFont: UIFont, subtitleFont: UIFont, detailFont: UIFont) {
-        
-        if #available(iOS 10, *) {
-            return (.preferredFont(forTextStyle: .headline,    compatibleWith: traitCollection),
-                    .preferredFont(forTextStyle: .footnote,    compatibleWith: traitCollection),
-                    .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection))
-        } else {
-            return (.preferredFont(forTextStyle: .headline),
-                    .preferredFont(forTextStyle: .footnote),
-                    .preferredFont(forTextStyle: .subheadline))
-        }
+        return (.preferredFont(forTextStyle: .headline,    compatibleWith: traitCollection),
+                .preferredFont(forTextStyle: .footnote,    compatibleWith: traitCollection),
+                .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection))
     }
     
     
@@ -116,11 +109,9 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
         subtitleLabel.preferredMaxLayoutWidth = width
         detailLabel.preferredMaxLayoutWidth   = width
         
-        if #available(iOS 10, *) {
-            titleLabel.adjustsFontForContentSizeCategory    = true
-            subtitleLabel.adjustsFontForContentSizeCategory = true
-            detailLabel.adjustsFontForContentSizeCategory   = true
-        }
+        titleLabel.adjustsFontForContentSizeCategory    = true
+        subtitleLabel.adjustsFontForContentSizeCategory = true
+        detailLabel.adjustsFontForContentSizeCategory   = true
         
         let defaultFonts = CollectionViewFormDetailCell.defaultFonts(compatibleWith: traitCollection)
         titleLabel.font    = defaultFonts.titleFont
@@ -259,15 +250,8 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
         }
     }
     
-    open override func contentSizeCategoryDidChange(_ newCategory: UIContentSizeCategory) {
-        super.contentSizeCategoryDidChange(newCategory)
-        
-        if #available(iOS 10, *) { return }
-        
-        titleLabel.legacy_adjustFontForContentSizeCategoryChange()
-        subtitleLabel.legacy_adjustFontForContentSizeCategoryChange()
-        detailLabel.legacy_adjustFontForContentSizeCategoryChange()
-    }
+    
+    // MARK: - Private methods
     
     private func updatePreferredMaxWidths() {
         let layoutMargins = self.layoutMargins

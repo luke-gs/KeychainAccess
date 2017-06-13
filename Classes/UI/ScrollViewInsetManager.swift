@@ -119,7 +119,7 @@ public final class ScrollViewInsetManager: NSObject {
             contentInset.bottom   = max(bottomInset, contentInset.bottom)
         }
         
-        if #available(iOS 10, *), scrollView.refreshControl?.isRefreshing ?? false {
+        if scrollView.refreshControl?.isRefreshing ?? false {
             // when a refresh control is refreshing, it has adjusted the top content inset and
             // it is unsafe to alter this, unless we have a reference for what changed between
             // the last and the current standard insets

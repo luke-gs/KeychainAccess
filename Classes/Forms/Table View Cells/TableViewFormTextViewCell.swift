@@ -72,6 +72,14 @@ open class TableViewFormTextViewCell: TableViewFormCell {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         textView.translatesAutoresizingMaskIntoConstraints = false
         
+        titleLabel.adjustsFontForContentSizeCategory = true
+        textView.adjustsFontForContentSizeCategory = true
+        
+        let traitCollection = self.traitCollection
+        titleLabel.font     = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
+        textView.font       = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+        textView.placeholderLabel.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
+        
         textView.placeholderLabel.text = "-"
         
         let contentView = self.contentView
@@ -150,21 +158,6 @@ open class TableViewFormTextViewCell: TableViewFormCell {
             }
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-        }
-    }
-    
-    internal override func applyStandardFonts() {
-        super.applyStandardFonts()
-        
-        if #available(iOS 10, *) {
-            let traitCollection = self.traitCollection
-            titleLabel.font     = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
-            textView.font       = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
-            textView.placeholderLabel.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
-        } else {
-            titleLabel.font     = .preferredFont(forTextStyle: .footnote)
-            textView.font       = .preferredFont(forTextStyle: .headline)
-            textView.placeholderLabel.font = .preferredFont(forTextStyle: .subheadline)
         }
     }
     
@@ -250,16 +243,8 @@ open class TableViewFormTextViewCell: TableViewFormCell {
     }
     
     private func updateTextViewMinimumConstraint() {
-        let textViewFont: UIFont
-        let placeholderFont: UIFont
-        
-        if #available(iOS 10, *) {
-            textViewFont        = textView.font ?? .preferredFont(forTextStyle: .headline,    compatibleWith: traitCollection)
-            placeholderFont     = textView.placeholderLabel.font ?? .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
-        } else {
-            textViewFont        = textView.font ?? .preferredFont(forTextStyle: .headline)
-            placeholderFont     = textView.placeholderLabel.font ?? .preferredFont(forTextStyle: .subheadline)
-        }
+        let textViewFont        = textView.font ?? UIFont.preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+        let placeholderFont     = textView.placeholderLabel.font ?? UIFont.preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
         
         textViewMinimumHeightConstraint?.constant = ceil(max(textViewFont.lineHeight + textViewFont.leading, placeholderFont.lineHeight + placeholderFont.leading))
     }

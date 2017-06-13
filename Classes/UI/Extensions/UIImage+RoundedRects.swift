@@ -16,8 +16,7 @@ public extension UIImage {
         precondition(cornerRadius >=~ 0.0 && cornerRadius <=~ size.width / 2.0 && cornerRadius <=~ size.height / 2.0, "'cornerRadius` parameter must be a positive number or zero, and less than or equal to half both the width and height of the size.")
         
         let imageSize = CGSize(width: ceil(size.width), height: ceil(size.height))
-        
-        func drawImage() {
+        return UIGraphicsImageRenderer(size: imageSize).image { _ in
             let bezierPath = UIBezierPath(roundedRect: CGRect(origin: .zero, size: size).insetBy(dx: borderWidth / 2.0, dy: borderWidth / 2.0), cornerRadius: cornerRadius)
             bezierPath.lineWidth = borderWidth
             
@@ -29,16 +28,6 @@ public extension UIImage {
                 strokeColor.setStroke()
                 bezierPath.stroke()
             }
-        }
-        
-        if #available(iOS 10, *) {
-            return UIGraphicsImageRenderer(size: imageSize).image { (_: UIGraphicsImageRendererContext) in drawImage() }
-        } else {
-            UIGraphicsBeginImageContextWithOptions(imageSize, false, 0.0)
-            defer { UIGraphicsEndImageContext() }
-            
-            drawImage()
-            return UIGraphicsGetImageFromCurrentImageContext() ?? UIImage()
         }
     }
     
