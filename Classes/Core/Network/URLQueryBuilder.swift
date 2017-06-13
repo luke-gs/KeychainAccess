@@ -14,16 +14,11 @@ final public class URLQueryBuilder {
         case valueNotFound(key: String, parameters: [String: Any])
     }
     
-    private let matcher: NSRegularExpression
-    private let trimCharacterSet: CharacterSet
+    private let matcher = try! NSRegularExpression(pattern: "\\{.+?\\}")
+    private let trimCharacterSet = CharacterSet(charactersIn: "{}")
     
     private static let toBeEscaped = ":/?&=;+!@#$()',*" as CFString
-    
-    public init() {
-        matcher = try! NSRegularExpression(pattern: "\\{.+?\\}")
-        trimCharacterSet = CharacterSet(charactersIn: "{}")
-    }
-    
+        
     public func urlPathWith(template: String, parameters: [String: Any]) throws -> (path: String, parameters: [String: Any]) {
         
         var outputParameters = parameters
