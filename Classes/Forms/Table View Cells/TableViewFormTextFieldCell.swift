@@ -39,7 +39,7 @@ open class TableViewFormTextFieldCell: TableViewFormCell {
         textField.translatesAutoresizingMaskIntoConstraints = false
         
         titleLabel.adjustsFontForContentSizeCategory = true
-        textLabel?.adjustsFontForContentSizeCategory = true
+        textField.adjustsFontForContentSizeCategory = true
         
         let traitCollection       = self.traitCollection
         titleLabel.font           = .preferredFont(forTextStyle: .footnote,    compatibleWith: traitCollection)
