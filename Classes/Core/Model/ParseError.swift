@@ -7,5 +7,6 @@
 //
 
 enum ParsingError: Error {
+    case notParsable
     case missingRequiredField
 }
