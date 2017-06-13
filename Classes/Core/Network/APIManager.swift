@@ -7,108 +7,100 @@
 //
 
 import Alamofire
+import Unbox
 
-open class APIManager: WebAPIURLRequestProvider {
+open class APIManager<Provider: WebAPIURLRequestProvider> {
     
-    open let baseURL: URL
+    public typealias Configuration = Provider.Configuration
     
-    open let sessionManager: Alamofire.SessionManager
+    open var baseURL: URL {
+        get {
+            return urlProvider.baseURL
+        }
+    }
     
-    public init(baseURL: URLConvertible) {
-
-        self.baseURL = try! baseURL.asURL()
+    open let sessionManager: SessionManager
+    
+    open let urlProvider: Provider
+    
+    public init(urlProvider: Provider) {
+        self.urlProvider = urlProvider
         
         let configuration = URLSessionConfiguration.ephemeral
         configuration.httpAdditionalHeaders = SessionManager.defaultHTTPHeaders
-        sessionManager = Alamofire.SessionManager(configuration: configuration)
+        sessionManager = SessionManager(configuration: configuration)
     }
     
     // MARK: - Authentications
     
-    /// Create a access token request.
-    ///
-    /// - Parameter grant: The grant type and required field for it.
-    /// - Returns: A URLRequest to request for access token.
-    open func accessTokenRequest(grant: OAuthAuthorizationGrant) -> URLRequest {
+    open func accessTokenRequestOperation(for grant: OAuthAuthorizationGrant, completion: ((DataResponse<OAuthAccessToken>) -> Void)? = nil) -> UnboxingGroupOperation<OAuthAccessToken> {
         
-        let path = "login"
-        let requestPath = url(with: path)
+        let request = urlProvider.accessTokenRequest(for: grant)
         
-        let parameters = grant.parameters
-        
-        // Only known parameters are passed in, if this fail, might as well crash.
-        let request: URLRequest = try! URLRequest(url: requestPath, method: .post)
-        let encodedURLRequest = try! URLEncoding.default.encode(request, with: parameters)
-        
-        return encodedURLRequest
-    }
-    
-    
-    /// Create a credentials validation using basic authentatication request.
-    ///
-    /// - Parameters:
-    ///   - username: The username
-    ///   - password: The password
-    /// - Returns: A URLRequest to check validity of the credentials.
-    open func basicAuthenticationLogin(using username: String, password: String) -> URLRequest {
-        
-        let path = "login"
-        let requestPath = url(with: path)
-        
-        var headers: HTTPHeaders = [:]
-        
-        if let authorizationHeader = Request.authorizationHeader(user: username, password: password) {
-            headers[authorizationHeader.key] = authorizationHeader.value
+        let group = unboxOperation(with: request) { [weak self] (response: DataResponse<OAuthAccessToken>) in
+            switch response.result {
+            case .success(let token):
+                let adapter = AuthenticationHeaderAdapter(authenticationMode: .accessTokenAuthentication(token: token))
+                self?.sessionManager.adapter = adapter
+            case .failure: break
+            }
+            
+            completion?(response)
         }
         
-        let request: URLRequest = try! URLRequest(url: requestPath, method: .post, headers: headers)
-        return request
+        return group
     }
     
-    open func searchVehicle(with searchCriteria: String) -> URLRequest {
-        let path = "mpol/entity/vehicle/search"
-        let requestPath = url(with: path)
+    // MARK: Persons
+    
+    open func searchPersonOperation<P: Person>(from source: Configuration.Source, with parameters: Configuration.PersonSearchParametersType, completion: ((DataResponse<SearchResult<P>>) -> Void)? = nil) -> UnboxingGroupOperation<SearchResult<P>> {
         
-        let parameters = [ "criteria": searchCriteria ]
-        
-        let request: URLRequest = try! URLRequest(url: requestPath, method: .get)
-        let encodedURLRequest = try! URLEncoding.default.encode(request, with: parameters)
-        
-        return encodedURLRequest
-        
+        let request = urlProvider.searchPerson(from: source, with: parameters)
+        return unboxOperation(with: request, completion: completion)
     }
     
-    open func retrieveVehicleDetails(with vehicleID: String) -> URLRequest {
-        let path = "mpol/entity/vehicle/\(vehicleID)"
-        let requestPath = url(with: path)
+    open func fetchPersonDetailsOperation<P: Person>(from source: Configuration.Source, with id: String, completion: ((DataResponse<P>) -> Void)? = nil) -> UnboxingGroupOperation<P> {
         
-        let request: URLRequest = try! URLRequest(url: requestPath, method: .get)
-        return request
+        let request = urlProvider.fetchPersonDetails(from: source, with: id)
+        return unboxOperation(with: request, completion: completion)
     }
     
-    open func searchPerson(with searchCriteria: String) -> URLRequest {
-        let path = "mpol/entity/person/search"
-        let requestPath = url(with: path)
+    // MARK: Vehicles
+    
+    open func searchVehicleOperation<V: Vehicle>(from source: Configuration.Source, with parameters: Configuration.VehicleSearchParametersType, completion: ((DataResponse<SearchResult<V>>) -> Void)? = nil) -> UnboxingGroupOperation<SearchResult<V>> {
         
-        let parameters = [ "criteria": searchCriteria ]
-        
-        let request: URLRequest = try! URLRequest(url: requestPath, method: .get)
-        let encodedURLRequest = try! URLEncoding.default.encode(request, with: parameters)
-        
-        return encodedURLRequest
+        let request = urlProvider.searchVehicle(from: source, with: parameters)
+        return unboxOperation(with: request, completion: completion)
     }
     
-    open func retrievePersonDetails(with personID: String) -> URLRequest {
-        let path = "mpol/entity/person/\(personID)"
-        let requestPath = url(with: path)
+    open func fetchVehicleDetailsOperation<V: Vehicle>(from source: Configuration.Source, with id: String, completion: ((DataResponse<V>) -> Void)? = nil) -> UnboxingGroupOperation<V> {
         
-        let request: URLRequest = try! URLRequest(url: requestPath, method: .get)
-        return request
+        let request = urlProvider.fetchVehicleDetails(from: source, with: id)
+        return unboxOperation(with: request, completion: completion)
     }
 
     
     // MARK : - Internal Utilities
-    func url(with path: String) -> URL {
-        return baseURL.appendingPathComponent(path)
+    
+    private func unboxOperation<T: Unboxable>(with urlRequest: URLRequest, completion: ((DataResponse<T>) -> Void)?) -> UnboxingGroupOperation<T> {
+        let provider = URLJSONRequestOperation(urlRequest: urlRequest, sessionManager: sessionManager)
+        let unboxer = UnboxingOperation<T>(provider: provider)
+        
+        let group = UnboxingGroupOperation(provider: provider, unboxer: unboxer) { (response: DataResponse<T>) in
+            completion?(response)
+        }
+        
+        return group
+    }
+    
+    private func unboxArrayOperation<T: Unboxable>(with urlRequest: URLRequest, completion: ((DataResponse<[T]>) -> Void)?) -> UnboxingArrayGroupOperation<T> {
+        let provider = URLJSONRequestOperation(urlRequest: urlRequest, sessionManager: sessionManager)
+        let unboxer = UnboxingArrayOperation<T>(provider: provider)
+        
+        let group = UnboxingArrayGroupOperation(provider: provider, unboxer: unboxer) { (response: DataResponse<[T]>) in
+            completion?(response)
+        }
+        
+        return group
     }
 }

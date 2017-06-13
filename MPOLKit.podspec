@@ -26,7 +26,7 @@ s.source_files = 'Classes/**/*'
 s.resources = 'Assets/*'
 
 s.dependency 'Alamofire', '4.4.0'
-s.dependency 'Unbox', '2.4.0'
+s.dependency 'Unbox', '2.5.0'
 s.dependency 'Wrap', '2.1.0'
 
 end

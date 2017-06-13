@@ -13,7 +13,7 @@ import Alamofire
 ///
 /// `URLJSONRequestOperation` lazily loads its request during execution from
 /// the specified session manager.
-open class URLJSONRequestOperation: URLRequestOperation {
+open class URLJSONRequestOperation: URLRequestOperation, HasDataResponse {
     
     // MARK: - Properties
     
