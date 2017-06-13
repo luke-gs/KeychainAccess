@@ -18,7 +18,7 @@ extension UIImage {
     private static let thumbnailRenderer = UIGraphicsImageRenderer(size: initialThumbnailSize)
     
     public class func thumbnail(withInitials initials: String) -> UIImage {
-        return UIImage.thumbnailRenderer.image(actions: { _ in
+        return thumbnailRenderer.image { _ in
             if initials.isEmpty { return }
             
             let initialString = initials as NSString
@@ -26,11 +26,12 @@ extension UIImage {
             let screenScale = UIScreen.main.scale
             
             let textSize = initialString.size(attributes: attributes)
+            let originPoint = CGPoint(x: ((initialThumbnailSize.width - textSize.width) / 2.0).rounded(toScale: screenScale),
+                                      y: ((initialThumbnailSize.height - textSize.height) / 2.0).rounded(toScale: screenScale))
             
-            let originPoint = CGPoint(x: ((initialThumbnailSize.width - textSize.width) / 2.0).rounded(toScale: screenScale), y: ((initialThumbnailSize.height - textSize.height) / 2.0).rounded(toScale: screenScale))
-            
+            UIColor(white: 0.2, alpha: 1.0).set()
             initialString.draw(at: originPoint, withAttributes: attributes)
-        }).withRenderingMode(.alwaysTemplate)
+        }
     }
     
 }
