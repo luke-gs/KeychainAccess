@@ -51,9 +51,21 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
         guard let collectionView = self.collectionView else { return }
         
         collectionView.register(EntityCollectionViewCell.self)
+        collectionView.register(EntityListCollectionViewCell.self)
         collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
     }
     
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        let isCompact = traitCollection.horizontalSizeClass == .compact
+        if isCompact != (previousTraitCollection?.horizontalSizeClass == .compact) {
+            collectionView?.reloadData()
+        }
+    }
+    
+    
+    // MARK: - UICollectionViewDataSource methods
     
     open func numberOfSections(in collectionView: UICollectionView) -> Int {
         return associations.isEmpty ? 0 : 1
@@ -77,19 +89,52 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
     }
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(of: EntityCollectionViewCell.self, for: indexPath)
+        let isCompact = traitCollection.horizontalSizeClass == .compact
         let associate = associations[indexPath.item]
         
-        cell.configure(for: associate, style: .hero)
-        cell.highlightStyle = .fade
-        
-        return cell
+        if isCompact {
+            let cell = collectionView.dequeueReusableCell(of: EntityListCollectionViewCell.self, for: indexPath)
+            cell.titleLabel.text    = associate.summary
+            
+            let subtitleComponents = [associate.summaryDetail1, associate.summaryDetail2].flatMap({$0})
+            cell.subtitleLabel.text = subtitleComponents.isEmpty ? nil : subtitleComponents.joined(separator: " : ")
+            cell.thumbnailView.configure(for: entity, size: .small)
+            cell.alertColor       = associate.alertLevel?.color
+            cell.actionCount      = associate.actionCount
+            cell.highlightStyle   = .fade
+            cell.sourceLabel.text = associate.source?.localizedBadgeTitle
+            cell.accessoryView = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
+            
+            return cell
+        } else {
+            let cell = collectionView.dequeueReusableCell(of: EntityCollectionViewCell.self, for: indexPath)
+            
+            cell.configure(for: associate, style: .hero)
+            cell.highlightStyle = .fade
+            
+            return cell
+        }
     }
-    
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
         return CollectionViewFormExpandingHeaderView.minimumHeight
     }
+    
+    
+    // MARK: - UICollectionViewDelegate methods
+    
+    open override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if let listCell = cell as? EntityListCollectionViewCell {
+            listCell.titleLabel.textColor = primaryTextColor
+            listCell.subtitleLabel.textColor = secondaryTextColor
+            listCell.separatorColor = separatorColor
+        } else {
+            super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
+        }
+    }
+    
+    
+    // MARK: - CollectionViewDelegateFormLayout methods
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, insetForSection section: Int, givenSectionWidth width: CGFloat) -> UIEdgeInsets {
         var inset = super.collectionView(collectionView, layout: layout, insetForSection: section, givenSectionWidth: width)
@@ -99,11 +144,19 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, givenSectionWidth sectionWidth: CGFloat, edgeInsets: UIEdgeInsets) -> CGFloat {
-        return EntityCollectionViewCell.minimumContentWidth(forStyle: .hero)
+        if traitCollection.horizontalSizeClass != .compact {
+            return EntityCollectionViewCell.minimumContentWidth(forStyle: .hero)
+        } else {
+            return sectionWidth
+        }
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
-        return EntityCollectionViewCell.minimumContentHeight(forStyle: .hero, compatibleWith: traitCollection) - 12.0
+        if traitCollection.horizontalSizeClass != .compact {
+            return EntityCollectionViewCell.minimumContentHeight(forStyle: .hero, compatibleWith: traitCollection) - 12.0
+        } else {
+            return EntityListCollectionViewCell.minimumContentHeight(compatibleWith: traitCollection)
+        }
     }
     
     
