@@ -16,6 +16,8 @@ open class Event: NSObject, Serialisable {
     }
     
     open let id: String
+    open var eventType: String?
+    open var eventDescription: String?
     
     public required init(id: String) {
         self.id = id
@@ -24,10 +26,14 @@ open class Event: NSObject, Serialisable {
     }
     
     public required init(unboxer: Unboxer) throws {
-        guard let id: String = unboxer.unbox(key: "id") else {
-            throw ParsingError.missingRequiredField
-        }
-        self.id = id
+//        guard let id: String = unboxer.unbox(key: "id") else {
+//            throw ParsingError.missingRequiredField
+//        }
+//        self.id = id
+        
+        id = unboxer.unbox(key: "id") ?? UUID().uuidString
+        eventType = unboxer.unbox(key: "eventType")
+        eventDescription = unboxer.unbox(key: "description")
 
         super.init()
     }

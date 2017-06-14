@@ -20,10 +20,10 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController {
     private var person: Person? {
         didSet {
             guard let person = self.person else {
-                self.events = nil
                 return
             }
             
+            /*
             // HELP: This should be standardised from the middleware
             var events = [[AnyObject]]()
             if let bailOrders = person.bailOrders {
@@ -50,12 +50,13 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController {
             if let familyIncidents = person.familyIncidents {
                 events.append(familyIncidents)
             }
-            self.events = events.flatMap{ $0 }
+ */
+            self.events = person.events
         }
     }
     
     // Help!!
-    private var events: [AnyObject]? {
+    private var events: [Event]? {
         didSet {
             let eventCount = events?.count ?? 0
             
@@ -175,50 +176,10 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController {
     // MARK: - Private
     // Seems like a common pattern, potential refactor point to have a standard formatter for these?
     
-    private func appropriateTexts(for event: AnyObject) -> (titleText: String?, subtitleText: String?, detailText: String?) {
-        let titleText: String?
-        let subtitleText: String?
-        let detailText: String?
-        
-        switch event {
-        case let mpReport as MissingPersonReport:
-            titleText = "Missing Person"
-            subtitleText = formattedTitle(for: mpReport.reportedDate)
-            detailText = nil
-        case let bailOrder as BailOrder:
-            titleText = "Bail Order"
-            subtitleText = formattedTitle(for: bailOrder.firstReportDate)
-            detailText = bailOrder.reportingToStation != nil ? "Report to \(bailOrder.reportingToStation!)" : nil
-        case let caution as Caution:
-            titleText = "Caution"
-            subtitleText = formattedTitle(for: caution.processedDate)
-            detailText = caution.cautionDescription
-        case let interventionOrder as InterventionOrder:
-            titleText = "Intervention Order"
-            subtitleText = formattedTitle(for: interventionOrder.servedDate)
-            detailText = interventionOrder.type
-        case let whereabouts as Whereabouts:
-            titleText = "Whereabouts"
-            subtitleText = formattedTitle(for: whereabouts.reportDate)
-            detailText = whereabouts.notifyMemberDescription != nil ? "Notify \(whereabouts.notifyMemberDescription!)" : nil
-        case let warrant as Warrant:
-            titleText = "Warrant"
-            subtitleText = formattedTitle(for: warrant.issueDate)
-            detailText = warrant.warrantDescription
-        case let fieldContact as FieldContact:
-            titleText = "Field Contact"
-            subtitleText = formattedTitle(for: fieldContact.contactDate)
-            detailText = fieldContact.contactMember?.stationCode != nil ? "Contact \(fieldContact.contactMember!.stationCode!)" : nil
-        case let familyIncident as FamilyIncident:
-            titleText = "Family Incident"
-            subtitleText = formattedTitle(for: familyIncident.occurrenceDate)
-            detailText = familyIncident.incidentDescription
-        default:
-            titleText = "Unknown"
-            subtitleText = formattedTitle(for: nil)
-            detailText = nil
-            break
-        }
+    private func appropriateTexts(for event: Event) -> (titleText: String?, subtitleText: String?, detailText: String?) {
+        let titleText = event.eventType
+        let subtitleText = formattedTitle(for: nil)
+        let detailText = event.eventDescription
         
         return (titleText: titleText, subtitleText: subtitleText, detailText: detailText)
     }

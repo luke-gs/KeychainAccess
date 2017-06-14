@@ -18,9 +18,9 @@ open class CriminalHistory: NSObject, Serialisable {
     var lastOccurred: Date?
     
     public required init(unboxer: Unboxer) {
-        offenceDescription = unboxer.unbox(key: "offenceDescription")
+        offenceDescription = unboxer.unbox(key: "offence")
         offenceCount = unboxer.unbox(key: "offenceCount")
-        lastOccurred = unboxer.unbox(key: "lastOccurredDate", formatter: ISO8601DateTransformer.shared)
+        lastOccurred = unboxer.unbox(key: "offenceDate", formatter: ISO8601DateTransformer.shared)
     }
     
     public required init?(coder aDecoder: NSCoder) {

@@ -152,9 +152,11 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
     /// The badge color will match the alertColor, or gray.
     open var badgeCount: UInt = 0 {
         didSet {
+            
             if badgeCount == oldValue { return }
             
             badgeView.text = String(describing: badgeCount)
+            badgeView.isHidden = badgeCount == 0
             setNeedsLayout()
         }
     }

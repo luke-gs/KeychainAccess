@@ -21,6 +21,7 @@ open class Alias: NSObject, Serialisable {
     
     open var firstName: String?
     open var lastName: String?
+    open var middleNames: String?
     open var sex: String?
     open var dateOfBirth: Date?
     open var type: String?
@@ -37,11 +38,12 @@ open class Alias: NSObject, Serialisable {
             throw ParsingError.missingRequiredField
         }
         self.id = id
-        firstName = unboxer.unbox(key: "firstName")
-        lastName = unboxer.unbox(key: "lastName")
-        sex = unboxer.unbox(key: "sex")
+        firstName = unboxer.unbox(key: "givenName")
+        lastName = unboxer.unbox(key: "familyName")
+        middleNames = unboxer.unbox(key: "middleNames")
+        sex = unboxer.unbox(key: "gender")
         dateOfBirth = unboxer.unbox(key: "dateOfBirth", formatter: Alias.dateTransformer)
-        type = unboxer.unbox(key: "type")
+        type = unboxer.unbox(key: "aliasType")
         
         super.init()
     }
@@ -60,18 +62,27 @@ open class Alias: NSObject, Serialisable {
         var formattedName: String = ""
         
         if let lastName = self.lastName?.ifNotEmpty() {
-            formattedName = lastName
+            formattedName += lastName
             
-            if firstName?.isEmpty ?? true == false {
+            if firstName?.isEmpty ?? true == false || middleNames?.isEmpty ?? true == false {
                 formattedName += ", "
             }
         }
         if let givenName = self.firstName?.ifNotEmpty() {
             formattedName += givenName
             
+            if middleNames?.isEmpty ?? true == false {
+                formattedName += " "
+            }
+        }
+        
+        if let firstMiddleNameInitial = middleNames?.characters.first {
+            formattedName.append(firstMiddleNameInitial)
+            formattedName += "."
         }
         
         return formattedName
+
     }
     
 }
