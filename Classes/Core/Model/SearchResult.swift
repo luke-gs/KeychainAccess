@@ -24,9 +24,9 @@ public struct SearchResult<T>: Unboxable {
     }
     
     private enum CodingKeys: String {
-        case start = "itemStart"
-        case end = "itemEnd"
-        case count = "searchResultsCount"
+        case start = "firstItem"
+        case end = "lastItem"
+        case count = "searchResultsTotal"
         case results = "searchResults"
     }
     
