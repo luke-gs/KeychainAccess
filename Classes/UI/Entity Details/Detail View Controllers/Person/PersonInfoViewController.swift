@@ -167,7 +167,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
                 cell.descriptionLabel.text = firstDescription.formatted()
                 cell.isDescriptionPlaceholder = false
                 
-                if (descriptions.count > 1) {
+                if descriptions.count > 1 {
                     let moreDescriptionsCount = descriptions.count - 1
                     let buttonTitle = "\(moreDescriptionsCount) MORE DESCRIPTION\(moreDescriptionsCount > 1 ? "S" : "")"
                     cell.additionalDetailsButton.setTitle(buttonTitle, for: .normal)
