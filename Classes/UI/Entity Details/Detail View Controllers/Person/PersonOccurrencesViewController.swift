@@ -177,51 +177,9 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController {
     // Seems like a common pattern, potential refactor point to have a standard formatter for these?
     
     private func appropriateTexts(for event: Event) -> (titleText: String?, subtitleText: String?, detailText: String?) {
-        let titleText: String? = event.eventType
-        let subtitleText: String? = formattedTitle(for: nil)
-        let detailText: String? = event.eventDescription
-        
-        /*
-        switch event {
-        case let mpReport as MissingPersonReport:
-            titleText = "Missing Person"
-            subtitleText = formattedTitle(for: mpReport.reportedDate)
-            detailText = nil
-        case let bailOrder as BailOrder:
-            titleText = "Bail Order"
-            subtitleText = formattedTitle(for: bailOrder.firstReportDate)
-            detailText = bailOrder.reportingToStation != nil ? "Report to \(bailOrder.reportingToStation!)" : nil
-        case let caution as Caution:
-            titleText = "Caution"
-            subtitleText = formattedTitle(for: caution.processedDate)
-            detailText = caution.cautionDescription
-        case let interventionOrder as InterventionOrder:
-            titleText = "Intervention Order"
-            subtitleText = formattedTitle(for: interventionOrder.servedDate)
-            detailText = interventionOrder.type
-        case let whereabouts as Whereabouts:
-            titleText = "Whereabouts"
-            subtitleText = formattedTitle(for: whereabouts.reportDate)
-            detailText = whereabouts.notifyMemberDescription != nil ? "Notify \(whereabouts.notifyMemberDescription!)" : nil
-        case let warrant as Warrant:
-            titleText = "Warrant"
-            subtitleText = formattedTitle(for: warrant.issueDate)
-            detailText = warrant.warrantDescription
-        case let fieldContact as FieldContact:
-            titleText = "Field Contact"
-            subtitleText = formattedTitle(for: fieldContact.contactDate)
-            detailText = fieldContact.contactMember?.stationCode != nil ? "Contact \(fieldContact.contactMember!.stationCode!)" : nil
-        case let familyIncident as FamilyIncident:
-            titleText = "Family Incident"
-            subtitleText = formattedTitle(for: familyIncident.occurrenceDate)
-            detailText = familyIncident.incidentDescription
-        default:
-            titleText = "Unknown"
-            subtitleText = formattedTitle(for: nil)
-            detailText = nil
-            break
-        }
- */
+        let titleText = event.eventType
+        let subtitleText = formattedTitle(for: nil)
+        let detailText = event.eventDescription
         
         return (titleText: titleText, subtitleText: subtitleText, detailText: detailText)
     }
