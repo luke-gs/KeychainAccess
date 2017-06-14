@@ -163,8 +163,8 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
             cell.titleLabel.text = person?.summary
             cell.subtitleLabel.text = person?.summaryDetail1
             
-            if let descriptions = person?.descriptions, descriptions.count > 0 {
-                cell.descriptionLabel.text = descriptions.first!.formatted()
+            if let descriptions = person?.descriptions, let firstDescription = descriptions.first {
+                cell.descriptionLabel.text = firstDescription.formatted()
                 cell.isDescriptionPlaceholder = false
                 
                 if (descriptions.count > 1) {
