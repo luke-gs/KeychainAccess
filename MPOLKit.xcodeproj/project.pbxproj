@@ -173,6 +173,11 @@
 		C60C891E1ECCBEC700785932 /* SimplePersonKeyPath.json in Resources */ = {isa = PBXBuildFile; fileRef = C60C89181ECCBEC700785932 /* SimplePersonKeyPath.json */; };
 		C60C891F1ECCBEC700785932 /* SimplePersonNestedKeyPath.json in Resources */ = {isa = PBXBuildFile; fileRef = C60C89191ECCBEC700785932 /* SimplePersonNestedKeyPath.json */; };
 		C61B12E31EEFB87F00DC66B0 /* MPOLAssert.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61B12E21EEFB87F00DC66B0 /* MPOLAssert.swift */; };
+		C64DE4FA1EF15BFE008C40AF /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = C64DE4F71EF15BFE008C40AF /* Action.swift */; };
+		C64DE4FB1EF15BFE008C40AF /* Email.swift in Sources */ = {isa = PBXBuildFile; fileRef = C64DE4F81EF15BFE008C40AF /* Email.swift */; };
+		C64DE4FC1EF15BFE008C40AF /* PhoneNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = C64DE4F91EF15BFE008C40AF /* PhoneNumber.swift */; };
+		C64DE4FE1EF15CEA008C40AF /* PersonDescriptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C64DE4FD1EF15CEA008C40AF /* PersonDescriptionsViewController.swift */; };
+		C64DE5001EF15D31008C40AF /* EntityListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C64DE4FF1EF15D31008C40AF /* EntityListCollectionViewCell.swift */; };
 		C6510A581EDBA880009E1E6D /* UIImage+Initials.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6510A571EDBA880009E1E6D /* UIImage+Initials.swift */; };
 		C6510A601EDBA8E3009E1E6D /* MissingPersonReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6510A5F1EDBA8E3009E1E6D /* MissingPersonReport.swift */; };
 		C6510A6A1EDBA993009E1E6D /* UnboxingOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6510A691EDBA993009E1E6D /* UnboxingOperation.swift */; };
@@ -219,7 +224,6 @@
 		C6F5DED21ECD5C62008E7BE2 /* AccessToken.json in Resources */ = {isa = PBXBuildFile; fileRef = C6F5DED11ECD5C62008E7BE2 /* AccessToken.json */; };
 		C6F5DED41ECD5CE0008E7BE2 /* LocalAPIURLRequestProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F5DED31ECD5CE0008E7BE2 /* LocalAPIURLRequestProvider.swift */; };
 		C6F5DED61ECD5CE6008E7BE2 /* WebAPIURLRequestProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F5DED51ECD5CE6008E7BE2 /* WebAPIURLRequestProvider.swift */; };
-		C6F5E01A1ECD6496008E7BE2 /* UIContentSizeCategoryLegacyAdjusting.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F5E0191ECD6496008E7BE2 /* UIContentSizeCategoryLegacyAdjusting.swift */; };
 		C6F5E01C1ECD649E008E7BE2 /* UIFont+TextStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F5E01B1ECD649E008E7BE2 /* UIFont+TextStyle.swift */; };
 		C6F5E01E1ECD64EE008E7BE2 /* EntityThumbnailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F5E01D1ECD64EE008E7BE2 /* EntityThumbnailView.swift */; };
 /* End PBXBuildFile section */
@@ -401,6 +405,11 @@
 		C60C89191ECCBEC700785932 /* SimplePersonNestedKeyPath.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SimplePersonNestedKeyPath.json; sourceTree = "<group>"; };
 		C60C89261ECD420900785932 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
 		C61B12E21EEFB87F00DC66B0 /* MPOLAssert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPOLAssert.swift; sourceTree = "<group>"; };
+		C64DE4F71EF15BFE008C40AF /* Action.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
+		C64DE4F81EF15BFE008C40AF /* Email.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Email.swift; sourceTree = "<group>"; };
+		C64DE4F91EF15BFE008C40AF /* PhoneNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneNumber.swift; sourceTree = "<group>"; };
+		C64DE4FD1EF15CEA008C40AF /* PersonDescriptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonDescriptionsViewController.swift; sourceTree = "<group>"; };
+		C64DE4FF1EF15D31008C40AF /* EntityListCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityListCollectionViewCell.swift; sourceTree = "<group>"; };
 		C6510A571EDBA880009E1E6D /* UIImage+Initials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Initials.swift"; sourceTree = "<group>"; };
 		C6510A5F1EDBA8E3009E1E6D /* MissingPersonReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MissingPersonReport.swift; sourceTree = "<group>"; };
 		C6510A691EDBA993009E1E6D /* UnboxingOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnboxingOperation.swift; sourceTree = "<group>"; };
@@ -447,7 +456,6 @@
 		C6F5DED11ECD5C62008E7BE2 /* AccessToken.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AccessToken.json; sourceTree = "<group>"; };
 		C6F5DED31ECD5CE0008E7BE2 /* LocalAPIURLRequestProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalAPIURLRequestProvider.swift; sourceTree = "<group>"; };
 		C6F5DED51ECD5CE6008E7BE2 /* WebAPIURLRequestProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebAPIURLRequestProvider.swift; sourceTree = "<group>"; };
-		C6F5E0191ECD6496008E7BE2 /* UIContentSizeCategoryLegacyAdjusting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIContentSizeCategoryLegacyAdjusting.swift; sourceTree = "<group>"; };
 		C6F5E01B1ECD649E008E7BE2 /* UIFont+TextStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+TextStyle.swift"; sourceTree = "<group>"; };
 		C6F5E01D1ECD64EE008E7BE2 /* EntityThumbnailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityThumbnailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -529,6 +537,7 @@
 				C69DE3081EE4E83E0069F56D /* PersonActionsViewController.swift */,
 				BCFB7FD41ED66E6700567111 /* PersonCriminalHistoryViewController.swift */,
 				BCFB7FD51ED66E6700567111 /* PersonInfoViewController.swift */,
+				C64DE4FD1EF15CEA008C40AF /* PersonDescriptionsViewController.swift */,
 				BCFB7FD61ED66E6700567111 /* PersonOccurrencesViewController.swift */,
 			);
 			path = Person;
@@ -664,10 +673,12 @@
 		C605F8BD1ECCAD47001194DD /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				C64DE4F71EF15BFE008C40AF /* Action.swift */,
 				C6A5F0011ECE796B00B0D915 /* Address.swift */,
 				BCDDBBFB1ECEDB9600D66D45 /* Alert.swift */,
 				C6BABEDC1ED1AE6500E423CB /* Alias.swift */,
 				C6BABED21ED1788200E423CB /* Caution.swift */,
+				C64DE4F81EF15BFE008C40AF /* Email.swift */,
 				C6A5F0051ECE820D00B0D915 /* Contact.swift */,
 				BC4F33831ED3F41F00198505 /* CriminalHistory.swift */,
 				C605F8BE1ECCAD47001194DD /* Entity.swift */,
@@ -679,6 +690,7 @@
 				C605F8C01ECCAD47001194DD /* ParseError.swift */,
 				C6A5EFFF1ECE76E900B0D915 /* Person.swift */,
 				C6A56FE21ED16E9B00B844AB /* PersonDescription.swift */,
+				C64DE4F91EF15BFE008C40AF /* PhoneNumber.swift */,
 				C6A56FDE1ED1695C00B844AB /* ReportedPerson.swift */,
 				C6A56FE01ED1697200B844AB /* RiskFactor.swift */,
 				C6BABED81ED17B3600E423CB /* ScarMarkTattoo.swift */,
@@ -828,7 +840,6 @@
 				C605F8F21ECCAD47001194DD /* NSLayoutConstraint+Conveniences.swift */,
 				C605F8F31ECCAD47001194DD /* UICollectionView+DefaultReuse.swift */,
 				C605F8F41ECCAD47001194DD /* UIColor+ActionColors.swift */,
-				C6F5E0191ECD6496008E7BE2 /* UIContentSizeCategoryLegacyAdjusting.swift */,
 				C605F8F51ECCAD47001194DD /* UIEdgeInsets+Convenience.swift */,
 				C6F5E01B1ECD649E008E7BE2 /* UIFont+TextStyle.swift */,
 				C605F8F61ECCAD47001194DD /* UIImage+FormIcons.swift */,
@@ -925,6 +936,7 @@
 			children = (
 				C605F91B1ECCAD47001194DD /* CollectionViewFormProgressCell.swift */,
 				C605F91C1ECCAD47001194DD /* EntityCollectionViewCell.swift */,
+				C64DE4FF1EF15D31008C40AF /* EntityListCollectionViewCell.swift */,
 				C605F91D1ECCAD47001194DD /* GalleryCollectionViewCell.swift */,
 				C605F91E1ECCAD47001194DD /* StatsOverviewCollectionViewCell.swift */,
 			);
@@ -1226,7 +1238,6 @@
 				C605F9641ECCAD48001194DD /* ManifestCollection.swift in Sources */,
 				BCFB7FDF1ED66E6700567111 /* EntityDetailsCollectionViewController.swift in Sources */,
 				C605F9D31ECCAD48001194DD /* PopoverViewController.swift in Sources */,
-				C6F5E01A1ECD6496008E7BE2 /* UIContentSizeCategoryLegacyAdjusting.swift in Sources */,
 				C605F9CB1ECCAD48001194DD /* KeyboardAnimationDetails.swift in Sources */,
 				C605F9911ECCAD48001194DD /* UICollectionView+DefaultReuse.swift in Sources */,
 				C605F9861ECCAD48001194DD /* CollectionViewFormEditAction.swift in Sources */,
@@ -1237,6 +1248,7 @@
 				C69151761EE144EA00ABA043 /* DataResponseChainableOperation.swift in Sources */,
 				C605F96A1ECCAD48001194DD /* Vehicle.swift in Sources */,
 				BC1F93391ED95DFB00F7A50C /* FieldContactDetailViewController.swift in Sources */,
+				C64DE4FC1EF15BFE008C40AF /* PhoneNumber.swift in Sources */,
 				BCDDBBFC1ECEDB9600D66D45 /* Alert.swift in Sources */,
 				C6A56FDB1ED156DC00B844AB /* Whereabouts.swift in Sources */,
 				C605F9931ECCAD48001194DD /* UIEdgeInsets+Convenience.swift in Sources */,
@@ -1251,6 +1263,7 @@
 				C605F9DE1ECCAD48001194DD /* AlertIndicatorView.swift in Sources */,
 				C69DE30B1EE4E86A0069F56D /* String+EmptyFiltering.swift in Sources */,
 				C605F9C11ECCAD48001194DD /* UIColor+Hex.swift in Sources */,
+				C64DE4FE1EF15CEA008C40AF /* PersonDescriptionsViewController.swift in Sources */,
 				C6D8082F1EEA5A9800024666 /* URLQueryBuilder.swift in Sources */,
 				C69151721EE1424000ABA043 /* ResponseDataOperationChainable.swift in Sources */,
 				C605F9C01ECCAD48001194DD /* Bundle+MPOLKit.swift in Sources */,
@@ -1340,6 +1353,7 @@
 				C6A56FE11ED1697200B844AB /* RiskFactor.swift in Sources */,
 				C605F9601ECCAD48001194DD /* UnboxableResponseSerializer.swift in Sources */,
 				C6BABEDD1ED1AE6500E423CB /* Alias.swift in Sources */,
+				C64DE4FA1EF15BFE008C40AF /* Action.swift in Sources */,
 				C605F9DD1ECCAD48001194DD /* ViewControllerAnimationOptionTransition.swift in Sources */,
 				C605F9C71ECCAD48001194DD /* UITextView+NotificationWorkaround.m in Sources */,
 				C605F9841ECCAD48001194DD /* CollectionViewFormCellActionView.swift in Sources */,
@@ -1365,6 +1379,7 @@
 				C6C943D01EE7BEF8000637C2 /* ServerAPIURLRequestProvider.swift in Sources */,
 				C69DE3091EE4E83E0069F56D /* PersonActionsViewController.swift in Sources */,
 				BCFB7FE31ED66E6700567111 /* PersonCriminalHistoryViewController.swift in Sources */,
+				C64DE4FB1EF15BFE008C40AF /* Email.swift in Sources */,
 				BC4F33841ED3F41F00198505 /* CriminalHistory.swift in Sources */,
 				C605F9DF1ECCAD48001194DD /* BadgeView.swift in Sources */,
 				C605F98B1ECCAD48001194DD /* CollectionViewFormTextViewCell.swift in Sources */,
@@ -1393,6 +1408,7 @@
 				C69DE3071EE4E81E0069F56D /* CautionDetailsViewController.swift in Sources */,
 				C605F95E1ECCAD48001194DD /* FileManager+URL.swift in Sources */,
 				C605F9771ECCAD48001194DD /* OperationErrors.swift in Sources */,
+				C64DE5001EF15D31008C40AF /* EntityListCollectionViewCell.swift in Sources */,
 				C605F9D81ECCAD48001194DD /* SidebarViewController.swift in Sources */,
 				C605F9B41ECCAD48001194DD /* GalleryCollectionViewCell.swift in Sources */,
 				BCFB7FDE1ED66E6700567111 /* EntityDetailCollectionViewCell.swift in Sources */,
@@ -1546,7 +1562,7 @@
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = au.com.gridstone.MPOLKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1570,7 +1586,7 @@
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = au.com.gridstone.MPOLKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
