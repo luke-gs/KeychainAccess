@@ -54,10 +54,9 @@ extension UIView {
     
     /// Finds the subview which is currently the first responder, if any.
     ///
-    /// - Important: This method becomes exponentially more complex the deeper
-    ///              the view hierarchy is. You should generally avoid using this
-    ///              method on views such as the application's window, where the
-    ///              view hierarchy will be at its most complex.
+    /// - Important: This search is relatively expensive, and checks all
+    ///   nodes in the view heirarchy. You should avoid using this method
+    ///   except where necessary.
     public func firstResponderSubview() -> UIView? {
         if isFirstResponder { return self }
         for subview in subviews {

@@ -1,0 +1,43 @@
+{
+    "searchResults": [
+        {
+            "registration": "ARP06",
+            "model": "M140i",
+            "make": "BMW",
+            "bodyType": "Sedan",
+            "year": 2016,
+            "registrationState": "VIC",
+            "registrationExpiryDate": "2018-05-19T01:51:06+0000",
+            "id": "05cfc6cc-3e73-464f-a30e-190176bsbe54",
+            "alertLevel": 0,
+            "associatedAlertLevel": 2
+        },
+        {
+            "registration": "ARP06X",
+            "model": "Mustang",
+            "make": "Ford",
+            "bodyType": "Coupe",
+            "year": 2014,
+            "registrationState": "VIC",
+            "registrationExpiryDate": "2017-05-16T01:51:06+0000",
+            "id": "05c444cc-3e73-464f-a30e-190176bsbe54",
+            "alertLevel": 1,
+            "associatedAlertLevel": 1
+        },
+        {
+            "registration": "ARP067",
+            "model": "Model S P100D",
+            "make": "Tesla",
+            "bodyType": "Sedan",
+            "year": 2017,
+            "registrationState": "QLD",
+            "registrationExpiryDate": "2019-01-11T01:51:06+0000",
+            "id": "31052ffa-00cd-4953-a085-jghb96741234",
+            "alertLevel": 2,
+            "associatedAlertLevel": 0,
+        }
+    ],
+    "firstItem": 0,
+    "lastItem": 2,
+    "searchResultsTotal": 0
+}

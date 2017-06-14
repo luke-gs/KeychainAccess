@@ -81,11 +81,7 @@ open class FormTextField: UITextField {
     }
     
     private func commonInit() {
-        if #available(iOS 10, *) {
-            isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
-        } else {
-            isRightToLeft = UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft
-        }
+        isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
         addTarget(self, action: #selector(textDidChange), for: .editingChanged)
     }
     
@@ -139,15 +135,7 @@ open class FormTextField: UITextField {
     }
     
     open override var semanticContentAttribute: UISemanticContentAttribute {
-        didSet {
-            if semanticContentAttribute == oldValue { return }
-            
-            if #available(iOS 10, *) {
-                isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
-            } else {
-                isRightToLeft = UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft
-            }
-        }
+        didSet { isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft }
     }
     
     open override func becomeFirstResponder() -> Bool {
@@ -243,7 +231,7 @@ open class FormTextField: UITextField {
                     textRect = textRect.integral
                     
                     valueInset = bounds.width - textRect.minX + 2.0
-                } else if let text = self.text, text.isEmpty == false {
+                } else if let text = self.text?.ifNotEmpty() {
                     let textWidth = text.boundingRect(with: .max, attributes:  [NSFontAttributeName: self.font ?? .systemFont(ofSize: UIFont.systemFontSize)] , context: nil).width
                     let maxTextRect = textRect(forBounds: bounds)
                     valueInset = bounds.width - maxTextRect.maxX + ceil(min(textWidth, maxTextRect.width)) + 2.0
@@ -264,7 +252,7 @@ open class FormTextField: UITextField {
                     textRect = textRect.integral
                     
                     valueInset = textRect.maxX + 2.0
-                } else if let text = self.text, text.isEmpty == false {
+                } else if let text = self.text?.ifNotEmpty() {
                     let textWidth = text.boundingRect(with: .max, attributes:  [NSFontAttributeName: self.font ?? .systemFont(ofSize: UIFont.systemFontSize)] , context: nil).width
                     let maxTextRect = textRect(forBounds: bounds)
                     valueInset = maxTextRect.minX + ceil(min(textWidth, maxTextRect.width)) + 2.0
@@ -276,22 +264,11 @@ open class FormTextField: UITextField {
     }
     
     private func updatePlaceholder() {
-        if let placeholder = placeholderText, placeholder.isEmpty == false {
+        if let placeholder = placeholderText?.ifNotEmpty() {
             let attributes = [NSFontAttributeName: self.placeholderFont ?? UIFont.systemFont(ofSize: 15.0), NSForegroundColorAttributeName: self.placeholderTextColor ?? .lightGray]
             super.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: attributes)
         } else {
             super.attributedPlaceholder = nil
-        }
-    }
-    
-    
-    // MARK: - Legacy support
-    
-    @available(iOS, introduced: 7.0, deprecated: 10.0, obsoleted: 10.0, message: "Use the adjustsFontForContentSizeCategory property on iOS 10 and later.")
-    public override func legacy_adjustFontForContentSizeCategoryChange() {
-        super.legacy_adjustFontForContentSizeCategoryChange()
-        if let placeholderStyle = placeholderFont?.textStyle {
-            placeholderFont = .preferredFont(forTextStyle: placeholderStyle)
         }
     }
     

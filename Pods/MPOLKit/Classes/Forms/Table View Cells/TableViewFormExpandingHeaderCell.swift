@@ -117,11 +117,7 @@ public class TableViewFormExpandingHeaderCell: UITableViewCell {
     }
     
     private func commonInit() {
-        if #available(iOS 10, *) {
-            isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
-        } else {
-            isRightToLeft = UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft
-        }
+        isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
         
         isAccessibilityElement = true
         accessibilityTraits |= UIAccessibilityTraitHeader
@@ -187,9 +183,7 @@ public class TableViewFormExpandingHeaderCell: UITableViewCell {
         
         separatorHeightConstraint?.constant = 1.0 / traitCollection.currentDisplayScale
         
-        if #available(iOS 10, *) {
-            isRightToLeft = self.effectiveUserInterfaceLayoutDirection == .rightToLeft
-        }
+        isRightToLeft = self.effectiveUserInterfaceLayoutDirection == .rightToLeft
     }
     
     public override func tintColorDidChange() {
@@ -202,15 +196,7 @@ public class TableViewFormExpandingHeaderCell: UITableViewCell {
     }
     
     public override var semanticContentAttribute: UISemanticContentAttribute {
-        didSet {
-            if semanticContentAttribute == oldValue { return }
-            
-            if #available(iOS 10, *) {
-                isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
-            } else {
-                isRightToLeft = UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft
-            }
-        }
+        didSet { isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft }
     }
     
 }

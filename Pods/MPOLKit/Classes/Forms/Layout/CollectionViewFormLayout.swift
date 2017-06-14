@@ -60,9 +60,6 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     }
     
     
-    open var wantsOptimizedResizeAnimation: Bool = true
-    
-    
     // MARK: - Public properties
     
     /// The layout margins for items within the collection.
@@ -86,13 +83,30 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         }
     }
     
-    public var wantsInsetHeaders: Bool = true {
+    open var wantsInsetHeaders: Bool = true {
         didSet {
             if wantsInsetHeaders != oldValue {
                 invalidateLayout()
             }
         }
     }
+    
+    open var wantsOptimizedResizeAnimation: Bool = true
+    
+    
+    /// Pins the global header, if it exists, to the visible space when bounce
+    /// interactions occur.
+    ///
+    /// This avoids showing potentially undesirable empty content above the header.
+    open var pinsGlobalHeaderWhenBouncing: Bool = false {
+        didSet {
+            if pinsGlobalHeaderWhenBouncing != oldValue && globalHeaderAttribute != nil,
+                let collectionView = self.collectionView {
+                updateGlobalHeaderAttributeIfNeeded(forBounds: collectionView.bounds)
+            }
+        }
+    }
+    
     
     /// The distribution method to use for cell sizing. The default is `CollectionViewFormLayout.Distribution.fillEqually`.
     open var distribution: CollectionViewFormLayout.Distribution = .fillLastWithinColumnDistance {
@@ -140,23 +154,13 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         
         previousSectionItemCounts = itemAttributes.map { $0.count }
         
-        _lastLaidOutWidth = collectionView.bounds.width
+        let collectionViewBounds = collectionView.bounds
+        _lastLaidOutWidth = collectionViewBounds.width
         
-        let isRTL: Bool
-        if #available(iOS 10, *) {
-            isRTL = collectionView.effectiveUserInterfaceLayoutDirection == .rightToLeft
-        } else {
-            isRTL = UIView.userInterfaceLayoutDirection(for: collectionView.semanticContentAttribute) == .rightToLeft
-        }
-        
-        let collectionViewWidth = collectionView.bounds.width
+        let isRTL = collectionView.effectiveUserInterfaceLayoutDirection == .rightToLeft
         
         let screenScale = (collectionView.window?.screen ?? .main).scale
         let singlePixel: CGFloat = 1.0 / screenScale
-        
-        var reusableSectionHeaderAttributes: [CollectionViewFormHeaderAttributes] = sectionHeaderAttributes.flatMap{$0}
-        var reusableSectionFooterAttributes: [UICollectionViewLayoutAttributes]   = sectionFooterAttributes.flatMap{$0}
-        var reusableItemAttributes:          [CollectionViewFormItemAttributes]   = itemAttributes.flatMap{$0}
         
         sectionRects.removeAll(keepingCapacity: true)
         itemAttributes.removeAll(keepingCapacity: true)
@@ -278,7 +282,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
                                 var insets = UIEdgeInsets(top: itemLayoutMargins.top, left: sectionLeftInset.isZero ? itemLayoutMargins.left : sectionLeftInset, bottom: itemLayoutMargins.bottom, right: sectionRightInset.isZero ? itemLayoutMargins.right : sectionRightInset)
                                 
                                 let proposedEndOfContent = currentXValue + newContentWidth + insets.left
-                                let endOfMaxContent      = collectionViewWidth - (sectionRightInset.isZero ? itemLayoutMargins.right : sectionRightInset)
+                                let endOfMaxContent      = collectionViewBounds.width - (sectionRightInset.isZero ? itemLayoutMargins.right : sectionRightInset)
                                 if proposedEndOfContent > endOfMaxContent {
                                     let difference = proposedEndOfContent - endOfMaxContent
                                     insets.right -= difference
@@ -292,7 +296,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
                             } else if index == rowItemCount - 1 {
                                 var insets = UIEdgeInsets(top: itemLayoutMargins.top, left: itemLayoutMargins.left, bottom: itemLayoutMargins.bottom, right: sectionRightInset.isZero ? itemLayoutMargins.right : sectionRightInset)
                                 let proposedEndOfContent = currentXValue + newContentWidth + insets.left
-                                let endOfMaxContent      = collectionViewWidth - (sectionRightInset.isZero ? itemLayoutMargins.right : sectionRightInset)
+                                let endOfMaxContent      = collectionViewBounds.width - (sectionRightInset.isZero ? itemLayoutMargins.right : sectionRightInset)
                                 if proposedEndOfContent > endOfMaxContent {
                                     let difference = proposedEndOfContent - endOfMaxContent
                                     insets.right += difference
@@ -311,24 +315,16 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
                         minHeight += itemLayoutMargins.top + itemLayoutMargins.bottom
                         
                         for (index, item) in rowItems.enumerated() {
-                            let itemAttribute: CollectionViewFormItemAttributes
-                            let indexPath = item.0
-                            if let dequeuedAttributes = reusableItemAttributes.popLast() {
-                                dequeuedAttributes.indexPath = indexPath
-                                itemAttribute = dequeuedAttributes
-                            } else {
-                                itemAttribute = CollectionViewFormItemAttributes(forCellWith: indexPath)
-                                itemAttribute.zIndex = 1
-                            }
-                            
-                            itemAttribute.rowIndex         = index
-                            itemAttribute.rowItemCount     = rowItemCount
+                            let itemAttribute = CollectionViewFormItemAttributes(forCellWith: item.0)
+                            itemAttribute.zIndex = 1
+                            itemAttribute.rowIndex = index
+                            itemAttribute.rowItemCount = rowItemCount
                             
                             var frame = item.frame
-                            itemAttribute.isAtTrailingEdge = fabs(frame.maxX - collectionViewWidth) < 0.5
+                            itemAttribute.isAtTrailingEdge = fabs(frame.maxX - collectionViewBounds.width) < 0.5
                             
                             frame.size.height = minHeight
-                            itemAttribute.frame = isRTL ? frame.rtlFlipped(forWidth: collectionViewWidth) : frame
+                            itemAttribute.frame = isRTL ? frame.rtlFlipped(forWidth: collectionViewBounds.width) : frame
                             itemAttribute.layoutMargins = isRTL ? item.margins.horizontallyFlipped() : item.margins
                             
                             sectionItemAttributes.append(itemAttribute)
@@ -354,8 +350,15 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         var currentYOffset: CGFloat = 0.0
         
         if let globalHeaderHeight = delegate.collectionView?(collectionView, heightForGlobalHeaderInLayout: self) , globalHeaderHeight > 0.0 {
-            let attribute = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: collectionElementKindGlobalHeader, with: IndexPath(index: 0))
-            attribute.frame = CGRect(x: 0.0, y: currentYOffset, width: collectionViewWidth, height: ceil(globalHeaderHeight))
+            let attribute = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: collectionElementKindGlobalHeader, with: IndexPath(item: 0, section: 0))
+            let headerOriginY: CGFloat
+            if pinsGlobalHeaderWhenBouncing {
+                headerOriginY = min(currentYOffset, collectionViewBounds.minY + collectionView.contentInset.top)
+            } else {
+                headerOriginY = currentYOffset
+            }
+            
+            attribute.frame = CGRect(x: 0.0, y: headerOriginY, width: collectionViewBounds.width, height: ceil(globalHeaderHeight))
             attribute.zIndex = 1
             globalHeaderAttribute = attribute
             currentYOffset += ceil(globalHeaderHeight)
@@ -367,23 +370,23 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         let sectionGroups: [[(Int, (x: CGFloat, width: CGFloat))]]
         
         if delegate.responds(to: #selector(CollectionViewDelegateFormLayout.collectionView(_:layout:minimumWidthForSection:))) {
-            let widths = (0..<numberOfSections).map {($0, min(floor(delegate.collectionView!(collectionView, layout: self, minimumWidthForSection: $0)), collectionViewWidth)) }
+            let widths = (0..<numberOfSections).map {($0, min(floor(delegate.collectionView!(collectionView, layout: self, minimumWidthForSection: $0)), collectionViewBounds.width)) }
             var groups: [[(Int, (x: CGFloat, width: CGFloat))]] = []
             
             var sectionPreferredWidths = widths
             while sectionPreferredWidths.isEmpty == false {
                 var width: CGFloat = 0.0
                 var sectionItems: [Int] = []
-                while width < collectionViewWidth {
+                while width < collectionViewBounds.width {
                     guard let newProposedItem = sectionPreferredWidths.first else { break }
                     let newProposedWidth = width + newProposedItem.1
-                    if newProposedWidth > collectionViewWidth { break }
+                    if newProposedWidth > collectionViewBounds.width { break }
                     sectionItems.append(newProposedItem.0)
                     sectionPreferredWidths.removeFirst()
                     width = newProposedWidth
                 }
                 if sectionItems.isEmpty { break }
-                let leftOverPerItem = (collectionViewWidth - width) / CGFloat(sectionItems.count)
+                let leftOverPerItem = (collectionViewBounds.width - width) / CGFloat(sectionItems.count)
                 
                 var originX: CGFloat = 0.0
                 var items: [(Int, (x: CGFloat, width: CGFloat))] = []
@@ -397,7 +400,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
             sectionGroups = groups
         }
         else {
-            sectionGroups = (0..<numberOfSections).map{[($0, (x: 0.0, width: collectionViewWidth))]}
+            sectionGroups = (0..<numberOfSections).map{[($0, (x: 0.0, width: collectionViewBounds.width))]}
         }
         
         
@@ -433,14 +436,8 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
                     rect.origin.y = currentYOffset - height
                     
                     let sectionIndexPath = IndexPath(item: 0, section: headerRect.0)
-                    let headerAttribute: CollectionViewFormHeaderAttributes
-                    if let dequeuedAttributes = reusableSectionHeaderAttributes.popLast() {
-                        dequeuedAttributes.indexPath = sectionIndexPath
-                        headerAttribute = dequeuedAttributes
-                    } else {
-                        headerAttribute = CollectionViewFormHeaderAttributes(forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, with: sectionIndexPath)
-                        headerAttribute.zIndex = 1
-                    }
+                    let headerAttribute = CollectionViewFormHeaderAttributes(forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, with: sectionIndexPath)
+                    headerAttribute.zIndex = 1
                     
                     var sectionInset = headerRect.2.left
                     if sectionInset.isZero {
@@ -459,7 +456,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
                         rect.size.height += itemLayoutMargins.top
                         maxHeaderInsetAdded = max(maxHeaderInsetAdded, itemLayoutMargins.top)
                     }
-                    headerAttribute.frame = isRTL ? rect.rtlFlipped(forWidth: collectionViewWidth) : rect
+                    headerAttribute.frame = isRTL ? rect.rtlFlipped(forWidth: collectionViewBounds.width) : rect
                     sectionHeaderAttributes.append(headerAttribute)
                 }
             }
@@ -486,17 +483,10 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
                 if footerHeight.isZero {
                     sectionFooterAttributes.append(nil)
                 } else {
-                    let footerIndexPath = IndexPath(item: 0, section: section.0)
-                    let footerAttribute: UICollectionViewLayoutAttributes
-                    if let dequeuedAttributes = reusableSectionFooterAttributes.popLast() {
-                        dequeuedAttributes.indexPath = footerIndexPath
-                        footerAttribute = dequeuedAttributes
-                    } else {
-                        footerAttribute = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, with: footerIndexPath)
-                        footerAttribute.zIndex = 1
-                    }
+                    let footerAttribute = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, with: IndexPath(item: 0, section: section.0))
+                    footerAttribute.zIndex = 1
                     let footerFrame = CGRect(x: section.1.x, y: currentYOffset, width: section.1.width, height: footerHeight)
-                    footerAttribute.frame = isRTL ? footerFrame.rtlFlipped(forWidth: collectionViewWidth) : footerFrame
+                    footerAttribute.frame = isRTL ? footerFrame.rtlFlipped(forWidth: collectionViewBounds.width) : footerFrame
                     sectionFooterAttributes.append(footerAttribute)
                 }
                 
@@ -524,7 +514,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
                 if let background = background {
                     let attribute = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: collectionElementKindSectionBackground, with: IndexPath(item: 0, section: background.0))
                     let backgroundFrame = CGRect(x: background.1.x, y: startOfHeaders, width: background.1.width, height: currentYOffset - startOfHeaders)
-                    attribute.frame = isRTL ? backgroundFrame.rtlFlipped(forWidth: collectionViewWidth) : backgroundFrame
+                    attribute.frame = isRTL ? backgroundFrame.rtlFlipped(forWidth: collectionViewBounds.width) : backgroundFrame
                     sectionBackgroundAttributes.append(attribute)
                 } else {
                     sectionBackgroundAttributes.append(nil)
@@ -533,8 +523,8 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         }
         
         if let globalFooterHeight = delegate.collectionView?(collectionView, heightForGlobalFooterInLayout: self) , globalFooterHeight > 0.0 {
-            let attribute = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: collectionElementKindGlobalFooter, with: IndexPath(index: 0))
-            attribute.frame = CGRect(x: 0.0, y: currentYOffset, width: collectionViewWidth, height: ceil(globalFooterHeight))
+            let attribute = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: collectionElementKindGlobalFooter, with: IndexPath(item: 0, section: 0))
+            attribute.frame = CGRect(x: 0.0, y: currentYOffset, width: collectionViewBounds.width, height: ceil(globalFooterHeight))
             attribute.zIndex = 1
             globalFooterAttribute = attribute
             currentYOffset += ceil(globalFooterHeight)
@@ -542,7 +532,28 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
             globalFooterAttribute = nil
         }
         
-        contentSize = CGSize(width: collectionViewWidth, height: currentYOffset)
+        contentSize = CGSize(width: collectionViewBounds.width, height: currentYOffset)
+    }
+    
+    private func updateGlobalHeaderAttributeIfNeeded(forBounds bounds: CGRect) {
+        guard let globalHeaderAttribute = self.globalHeaderAttribute else { return }
+        
+        let correctYOrigin: CGFloat
+        if pinsGlobalHeaderWhenBouncing, let collectionView = self.collectionView {
+            correctYOrigin = min(0.0, bounds.minY + collectionView.contentInset.top)
+        } else {
+            correctYOrigin = 0.0
+        }
+        
+        var globalHeaderFrame = globalHeaderAttribute.frame
+        if globalHeaderFrame.minY ==~ correctYOrigin { return }
+        
+        globalHeaderFrame.origin.y = correctYOrigin
+        globalHeaderAttribute.frame = globalHeaderFrame
+            
+        let context = UICollectionViewLayoutInvalidationContext()
+        context.invalidateSupplementaryElements(ofKind: collectionElementKindGlobalHeader, at: [globalHeaderAttribute.indexPath])
+        invalidateLayout(with: context)
     }
     
     
@@ -624,7 +635,12 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         let newWidth = fabs(newBounds.width)
         
         // Don't perform an update if there is no width change, or if there is no content.
-        if currentContentWidth ==~ newWidth || sectionRects.last?.maxY.isZero ?? true { return false }
+        
+        if currentContentWidth ==~ newWidth || sectionRects.last?.maxY.isZero ?? true  {
+            // Width didn't change.
+            updateGlobalHeaderAttributeIfNeeded(forBounds: newBounds)
+            return false
+        }
         
         if wantsOptimizedResizeAnimation == false {
             return true

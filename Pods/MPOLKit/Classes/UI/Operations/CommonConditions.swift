@@ -10,12 +10,12 @@ import UIKit
 
 
 /// A type to describe alerts in general for use with `MutuallyExclusiveCondition<T>`.
-public enum Alert { }
+public enum AlertExclusion { }
 
 
 /// A condition describing that the targeted operation may present an alert,
 /// and cannot be used with other operations that present alerts.
-public typealias AlertExclusiveCondition = MutuallyExclusiveCondition<Alert>
+public typealias AlertExclusiveCondition = MutuallyExclusiveCondition<AlertExclusion>
 
 
 /// A condition describing that the targeted operation affects the view

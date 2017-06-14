@@ -24,6 +24,11 @@ fileprivate var kvoContext = 1
 /// do not require to specify a default height, and can allow the cell to indicate it's height dynamically.
 open class TableViewFormSubtitleCell: TableViewFormCell {
     
+    public enum Emphasis {
+        case title
+        case subtitle
+    }
+    
     /// The text label for the cell. This is guaranteed to be non-nil.
     open override var textLabel: UILabel {
         return titleLabel
@@ -39,7 +44,7 @@ open class TableViewFormSubtitleCell: TableViewFormCell {
     }
     
     /// The font emphasis for the cell. The default is `.title`.
-    open var emphasis: CollectionViewFormSubtitleCell.Emphasis = .title {
+    open var emphasis: Emphasis = .title {
         didSet { applyStandardFonts() }
     }
     
@@ -92,6 +97,11 @@ open class TableViewFormSubtitleCell: TableViewFormCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        titleLabel.adjustsFontForContentSizeCategory = true
+        subtitleLabel.adjustsFontForContentSizeCategory = true
+        
+        applyStandardFonts()
         
         contentView.addSubview(subtitleLabel)
         contentView.addSubview(titleLabel)
@@ -179,17 +189,10 @@ open class TableViewFormSubtitleCell: TableViewFormCell {
     }
     
     
-    internal override func applyStandardFonts() {
-        super.applyStandardFonts()
-        
-        if #available(iOS 10, *) {
-            let traitCollection = self.traitCollection
-            textLabel.font       = .preferredFont(forTextStyle: emphasis == .title ? .headline : .footnote, compatibleWith: traitCollection)
-            detailTextLabel.font = .preferredFont(forTextStyle: emphasis == .title ? .footnote : .headline, compatibleWith: traitCollection)
-        } else {
-            textLabel.font       = .preferredFont(forTextStyle: emphasis == .title ? .headline : .footnote)
-            detailTextLabel.font = .preferredFont(forTextStyle: emphasis == .title ? .footnote : .headline)
-        }
+    private func applyStandardFonts() {
+        let traitCollection = self.traitCollection
+        textLabel.font       = .preferredFont(forTextStyle: emphasis == .title ? .headline : .footnote, compatibleWith: traitCollection)
+        detailTextLabel.font = .preferredFont(forTextStyle: emphasis == .title ? .footnote : .headline, compatibleWith: traitCollection)
     }
     
 }

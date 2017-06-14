@@ -134,11 +134,7 @@ public class CollectionViewFormExpandingHeaderView: UICollectionReusableView, De
     }
     
     private func commonInit() {
-        if #available(iOS 10, *) {
-            isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
-        } else {
-            isRightToLeft = UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft
-        }
+        isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
         
         isAccessibilityElement = true
         
@@ -226,20 +222,12 @@ public class CollectionViewFormExpandingHeaderView: UICollectionReusableView, De
         
         separatorHeightConstraint.constant = 1.0 / traitCollection.currentDisplayScale
         
-        if #available(iOS 10, *) {
-            isRightToLeft = self.effectiveUserInterfaceLayoutDirection == .rightToLeft
-        }
+        isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
     }
     
     public override var semanticContentAttribute: UISemanticContentAttribute {
         didSet {
-            if semanticContentAttribute == oldValue { return }
-            
-            if #available(iOS 10, *) {
-                isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
-            } else {
-                isRightToLeft = UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft
-            }
+            isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
         }
     }
     

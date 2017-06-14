@@ -27,7 +27,7 @@ fileprivate var textContext = 1
 /// for transitions and for accessibility.
 ///
 /// TODO: Note alert levels & counts as part of the accessibility value.
-public class EntityCollectionViewCell: CollectionViewFormCell {
+open class EntityCollectionViewCell: CollectionViewFormCell {
     
     /// The style types for an `EntityCollectionViewCell`. These include
     /// `.hero` and `.detail`.
@@ -49,7 +49,7 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
     ///
     /// - Parameter style: The style for the cell.
     /// - Returns: The minimum content width for the cell
-    public class func minimumContentWidth(forStyle style: Style) -> CGFloat {
+    open class func minimumContentWidth(forStyle style: Style) -> CGFloat {
         switch style {
         case .hero:      return 182.0
         case .detail:    return 250.0
@@ -65,19 +65,11 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
     ///   - style:           The style of the cell.
     ///   - traitCollection: The trait collection sizing for.
     /// - Returns: The minimum content height for the entity cell with default settings.
-    public class func minimumContentHeight(forStyle style: Style, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
+    open class func minimumContentHeight(forStyle style: Style, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
         switch style {
         case .hero:
-            let titleFont: UIFont
-            let footnoteFont: UIFont
-            
-            if #available(iOS 10, *) {
-                titleFont    = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
-                footnoteFont = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
-            } else {
-                titleFont    = .preferredFont(forTextStyle: .headline)
-                footnoteFont = .preferredFont(forTextStyle: .footnote)
-            }
+            let titleFont    = UIFont.preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+            let footnoteFont = UIFont.preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
             
             return minimumContentHeight(forStyle: style, withTitleFont: titleFont, subtitleFont: footnoteFont, detailFont: footnoteFont)
         case .detail, .thumbnail:
@@ -97,7 +89,7 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
     ///   - subtitleFont: The font for the subtitle label.
     ///   - detailFont:   The font for the detail label.
     /// - Returns: The minimum content height for an entity cell with the specified fonts.
-    public class func minimumContentHeight(forStyle style: Style, withTitleFont titleFont: UIFont, subtitleFont: UIFont, detailFont: UIFont) -> CGFloat {
+    open class func minimumContentHeight(forStyle style: Style, withTitleFont titleFont: UIFont, subtitleFont: UIFont, detailFont: UIFont) -> CGFloat {
         switch style {
         case .hero:
             let scale = UIScreen.main.scale
@@ -112,7 +104,7 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
     // MARK: - Public properties
     
     /// The style for this cell. The default is `EntityCollectionViewCell.Style.hero`.
-    public var style: Style = .hero {
+    open var style: Style = .hero {
         didSet {
             if style == oldValue { return }
             
@@ -123,52 +115,54 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
             }
             
             let isThumbnail = style == .thumbnail
-            titleLabel.isHidden    = isThumbnail
-            subtitleLabel.isHidden = isThumbnail
-            detailLabel.isHidden   = isThumbnail
+            titleLabel.isHidden    = isThumbnail || (titleLabel.text?.isEmpty    ?? true)
+            subtitleLabel.isHidden = isThumbnail || (subtitleLabel.text?.isEmpty ?? true)
+            detailLabel.isHidden   = isThumbnail || (detailLabel.text?.isEmpty   ?? true)
         }
     }
     
     
     /// The thumbnail view for the cell.
-    public let thumbnailView = EntityThumbnailView(frame: .zero)
+    open let thumbnailView = EntityThumbnailView(frame: .zero)
     
     
     /// The title label. This should be used for details such as the driver's name,
     /// vehicle's registration, etc.
-    public let titleLabel = UILabel(frame: .zero)
+    open let titleLabel = UILabel(frame: .zero)
     
     
     /// The subtitle label. This should be used for ancillery entity details.
-    public let subtitleLabel = UILabel(frame: .zero)
+    open let subtitleLabel = UILabel(frame: .zero)
     
     
     /// The detail label. This should be any secondary details.
-    public let detailLabel = UILabel(frame: .zero)
+    open let detailLabel = UILabel(frame: .zero)
     
     
     /// The source label.
     ///
     /// This label is positioned over the image view's bottom left corner, and
     /// indicates the data source the entity was fetched from.
-    public let sourceLabel = RoundedRectLabel(frame: .zero)
+    open let sourceLabel = RoundedRectLabel(frame: .zero)
     
     
-    /// The alert count for the entity.
+    /// The badge count for the entity.
     ///
     /// This configures a badge in the top left corner.
     /// The badge color will match the alertColor, or gray.
-    public var alertCount: UInt = 0 {
+    open var badgeCount: UInt = 0 {
         didSet {
-            if alertCount == oldValue { return }
+            if badgeCount == oldValue { return }
             
-            badgeView.text = String(describing: alertCount)
+            badgeView.text = String(describing: badgeCount)
             setNeedsLayout()
         }
     }
     
-    public var alertColor: UIColor? {
+    open var alertColor: UIColor? {
         didSet {
+            if alertColor == oldValue { return }
+            
             badgeView.backgroundColor = alertColor ?? .gray
         }
     }
@@ -231,11 +225,9 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
         subtitleLabel.isHidden = true
         detailLabel.isHidden   = true
         
-        if #available(iOS 10, *) {
-            titleLabel.adjustsFontForContentSizeCategory    = true
-            subtitleLabel.adjustsFontForContentSizeCategory = true
-            detailLabel.adjustsFontForContentSizeCategory   = true
-        }
+        titleLabel.adjustsFontForContentSizeCategory    = true
+        subtitleLabel.adjustsFontForContentSizeCategory = true
+        detailLabel.adjustsFontForContentSizeCategory   = true
         
         let footnoteFont   = UIFont.preferredFont(forTextStyle: .footnote)
         titleLabel.font    = .preferredFont(forTextStyle: .headline)
@@ -281,10 +273,24 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
         detailLabel.removeObserver(self,   forKeyPath: textKey, context: &textContext)
     }
     
+    
+    // MARK: - Configuration
+    
+    open func configure(for entity: Entity?, style: Style) {
+        self.style = style
+        thumbnailView.configure(for: entity, size: style == .hero ? .large : .medium)
+        titleLabel.text    = entity?.summary
+        subtitleLabel.text = entity?.summaryDetail1
+        detailLabel.text   = entity?.summaryDetail2
+        alertColor         = entity?.alertLevel?.color
+        badgeCount         = entity?.actionCount ?? 0
+        sourceLabel.text   = entity?.source?.localizedBadgeTitle
+    }
+    
 
     // MARK: - Layout methods
     
-    public override func updateConstraints() {
+    open override func updateConstraints() {
         if self.styleConstraints?.isEmpty ?? true {
             let styleConstraints: [NSLayoutConstraint]
             
@@ -345,6 +351,10 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &textContext {
+            if style == .thumbnail {
+                return
+            }
+            
             let object = object as? NSObject
             
             if object == titleLabel {
@@ -364,20 +374,10 @@ public class EntityCollectionViewCell: CollectionViewFormCell {
         }
     }
     
-    public override func contentSizeCategoryDidChange(_ newCategory: UIContentSizeCategory) {
-        super.contentSizeCategoryDidChange(newCategory)
-        
-        if #available(iOS 10, *) { return }
-        
-        titleLabel.legacy_adjustFontForContentSizeCategoryChange()
-        subtitleLabel.legacy_adjustFontForContentSizeCategoryChange()
-        detailLabel.legacy_adjustFontForContentSizeCategoryChange()
-    }
-    
     
     // MARK: - Accessibility
     
-    public override var accessibilityLabel: String? {
+    open override var accessibilityLabel: String? {
         get {
             return super.accessibilityLabel ?? [sourceLabel.text, titleLabel.text, subtitleLabel.text, detailLabel.text].flatMap({$0}).joined(separator: ". ")
         }

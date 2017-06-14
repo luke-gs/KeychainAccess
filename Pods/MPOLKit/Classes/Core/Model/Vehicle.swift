@@ -8,7 +8,16 @@
 
 import Unbox
 
+@objc(MPLVehicle)
 open class Vehicle: Entity {
+    
+    open override class var localizedDisplayName: String {
+        return NSLocalizedString("Vehicle", comment: "")
+    }
+    
+    open override var summary: String {
+        return registration ?? NSLocalizedString("Registration Unknown", comment: "")
+    }
     
     open var bodyType: String?
     
@@ -97,6 +106,25 @@ open class Vehicle: Entity {
         axles = unboxer.unbox(key: "axles")
         
         vehicleDescription = unboxer.unbox(key: "vehicleDescription")
+    }
+    
+    // TEMPORARY
+    open override func thumbnailImage(ofSize size: EntityThumbnailView.ThumbnailSize) -> (UIImage, UIViewContentMode)? {
+        let imageName: String
+        switch size {
+        case .small:
+            imageName = "iconEntityAutomotiveFilled"
+        case .medium:
+            imageName = "iconEntityAutomotive48Filled"
+        case .large:
+            imageName = "iconEntityAutomotive96Filled"
+        }
+        
+        if let image = UIImage(named: imageName, in: .mpolKit, compatibleWith: nil) {
+            return (image, .center)
+        }
+        
+        return super.thumbnailImage(ofSize: size)
     }
     
 }

@@ -12,6 +12,12 @@ import UIKit
 /// A view for displaying entity thumbnails within an MPOL interface.
 public class EntityThumbnailView: UIControl {
     
+    public enum ThumbnailSize {
+        case small
+        case medium
+        case large
+    }
+    
     public let backgroundImageView = UIImageView(frame: .zero)
     
     public let imageView = UIImageView(frame: .zero)
@@ -74,6 +80,7 @@ public class EntityThumbnailView: UIControl {
     }
     
     private func commonInit() {
+        backgroundImageView.image = UIImage(named: "EntityThumbnailBackground", in: .mpolKit, compatibleWith: nil)
         backgroundImageView.frame = bounds
         backgroundImageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         backgroundImageView.contentMode = .scaleAspectFill
@@ -98,10 +105,15 @@ public class EntityThumbnailView: UIControl {
     
     // MARK: - Configuration
     
-    public func configure(for entity: Any) {
-        // TODO: Configure for real entities
-        backgroundImageView.image = #imageLiteral(resourceName: "Avatar 1")
-        borderColor = AlertLevel.high.color
+    public func configure(for entity: Entity?, size: ThumbnailSize) {
+        if let thumbnail = entity?.thumbnailImage(ofSize: .large) {
+            imageView.contentMode = thumbnail.mode
+            imageView.image = thumbnail.image
+        } else {
+            imageView.image = nil
+        }
+        
+        borderColor = entity is Person ? entity?.alertLevel?.color : entity?.associatedAlertLevel?.color
     }
     
     

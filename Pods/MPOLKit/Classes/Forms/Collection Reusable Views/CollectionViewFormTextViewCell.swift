@@ -61,11 +61,8 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         textView.translatesAutoresizingMaskIntoConstraints = false
         
-        if #available(iOS 10, *) {
-            titleLabel.adjustsFontForContentSizeCategory = true
-            textView.adjustsFontForContentSizeCategory = true
-            textView.placeholderLabel.adjustsFontForContentSizeCategory = true
-        }
+        titleLabel.adjustsFontForContentSizeCategory = true
+        textView.adjustsFontForContentSizeCategory = true
         
         titleLabel.font = .preferredFont(forTextStyle: .footnote)
         textView.font   = .preferredFont(forTextStyle: .headline)
@@ -170,16 +167,6 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
         }
     }
     
-    open override func contentSizeCategoryDidChange(_ newCategory: UIContentSizeCategory) {
-        super.contentSizeCategoryDidChange(newCategory)
-        
-        if #available(iOS 10, *) { return }
-        
-        titleLabel.legacy_adjustFontForContentSizeCategoryChange()
-        textView.legacy_adjustFontForContentSizeCategoryChange()
-        textView.placeholderLabel.legacy_adjustFontForContentSizeCategoryChange()
-    }
-    
     
     // MARK: - Accessibility
 
@@ -243,16 +230,8 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
     }
     
     private func updateTextViewMinimumConstraint() {
-        let textViewFont: UIFont
-        let placeholderFont: UIFont
-        
-        if #available(iOS 10, *) {
-            textViewFont        = textView.font ?? .preferredFont(forTextStyle: .headline,    compatibleWith: traitCollection)
-            placeholderFont     = textView.placeholderLabel.font ?? .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
-        } else {
-            textViewFont        = textView.font ?? .preferredFont(forTextStyle: .headline)
-            placeholderFont     = textView.placeholderLabel.font ?? .preferredFont(forTextStyle: .subheadline)
-        }
+        let textViewFont: UIFont = textView.font ?? .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+        let placeholderFont: UIFont = textView.placeholderLabel.font ?? .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
         
         textViewMinimumHeightConstraint?.constant = ceil(max(textViewFont.lineHeight + textViewFont.leading, placeholderFont.lineHeight + placeholderFont.leading))
     }
@@ -293,23 +272,13 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
         var height: CGFloat = 0.0
         let screenScale = UIScreen.main.scale
         if let title = title {
-            let titleTextFont: UIFont
-            if #available(iOS 10, *) {
-                titleTextFont = titleFont ?? .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
-            } else {
-                titleTextFont = titleFont ?? .preferredFont(forTextStyle: .footnote)
-            }
+            let titleTextFont = titleFont ?? UIFont.preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
             
             height += (title as NSString).boundingRect(with: CGSize(width: width - 0.5, height: .greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: titleTextFont], context: nil).height.ceiled(toScale: screenScale)
             height += CellTitleSubtitleSeparation
         }
         
-        let textFont: UIFont
-        if #available(iOS 10, *) {
-            textFont = textViewFont ?? .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
-        } else {
-            textFont = textViewFont ?? .preferredFont(forTextStyle: .headline)
-        }
+        let textFont = textViewFont ?? UIFont.preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
         
         height += max((enteredText as NSString?)?.boundingRect(with: CGSize(width: width - 0.5, height: .greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: textFont], context: nil).height ?? 0.0, textFont.lineHeight).ceiled(toScale: screenScale)
         return height

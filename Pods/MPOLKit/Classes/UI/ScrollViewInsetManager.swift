@@ -41,7 +41,7 @@ public final class ScrollViewInsetManager: NSObject {
     public var standardContentInset: UIEdgeInsets {
         didSet {
             if delayResetUntilComplete == false {
-                updateInsets()
+                updateContentInset(oldInset: oldValue)
             }
         }
     }
@@ -57,7 +57,7 @@ public final class ScrollViewInsetManager: NSObject {
     public var standardIndicatorInset: UIEdgeInsets {
         didSet {
             if delayResetUntilComplete == false {
-                updateInsets()
+                updateIndicatorInset()
             }
         }
     }
@@ -102,40 +102,54 @@ public final class ScrollViewInsetManager: NSObject {
     /// moved while the keyboard is onscreen. This updates the insets to account for the
     /// keyboard's position in relation to the scroll view's current position.
     public func updateInsets() {
+        updateContentInset(oldInset: nil)
+        updateIndicatorInset()
+    }
+    
+    private func updateContentInset(oldInset: UIEdgeInsets?) {
+        /// adjust insets if required to account for keyboard location.
+        var contentInset = standardContentInset
+        
         if let keyboardFrameInScreen = keyboardFrameInScreen {
             // Keyboard exists.
             let keyboardFrame = scrollView.convert(keyboardFrameInScreen, from: nil)
             
-            /// adjust insets if required to account for keyboard location.
-            var contentInset    = standardContentInset
-            var indicatorInset = standardIndicatorInset
-            
-            // Get scroll view's frame, and keyboard frame in the same coordinate space
-            let scrollViewBounds = scrollView.bounds
-            
             // Work out how far inset the is (if there is one), and try to inset. Don't inset less than the initial insets.
-            let bottomInset       = max((scrollViewBounds.maxY - keyboardFrame.minY), 0.0)
+            let bottomInset       = max((scrollView.bounds.maxY - keyboardFrame.minY), 0.0)
             contentInset.bottom   = max(bottomInset, contentInset.bottom)
-            indicatorInset.bottom = max(bottomInset, indicatorInset.bottom)
-            
-            // Apply
-            let insetChange = scrollView.contentInset.top - contentInset.top
-            if insetChange !=~ 0.0 {
-                scrollView.contentOffset.y += insetChange
-            }
-            
-            scrollView.contentInset          = contentInset
-            scrollView.scrollIndicatorInsets = indicatorInset
-        } else {
-            let insetChange = scrollView.contentInset.top - standardContentInset.top
-            if insetChange !=~ 0.0 {
-                scrollView.contentOffset.y += insetChange
-            }
-            
-            scrollView.contentInset          = standardContentInset
-            scrollView.scrollIndicatorInsets = standardIndicatorInset
         }
+        
+        if scrollView.refreshControl?.isRefreshing ?? false {
+            // when a refresh control is refreshing, it has adjusted the top content inset and
+            // it is unsafe to alter this, unless we have a reference for what changed between
+            // the last and the current standard insets
+            
+            contentInset.top = scrollView.contentInset.top
+            if let oldInset = oldInset {
+                contentInset.top += standardContentInset.top - oldInset.top
+            }
+        }
+        
+        let insetChange = scrollView.contentInset.top - contentInset.top
+        if insetChange !=~ 0.0 {
+            scrollView.contentOffset.y += insetChange
+        }
+        
+        scrollView.contentInset = contentInset
     }
+    
+    private func updateIndicatorInset() {
+        var indicatorInset = standardIndicatorInset
+        
+        if let keyboardFrameInScreen = keyboardFrameInScreen {
+            let keyboardFrame = scrollView.convert(keyboardFrameInScreen, from: UIScreen.main.coordinateSpace)
+            let bottomInset       = max((scrollView.bounds.maxY - keyboardFrame.minY), 0.0)
+            indicatorInset.bottom = max(bottomInset, indicatorInset.bottom)
+        }
+        
+        scrollView.scrollIndicatorInsets = indicatorInset
+    }
+    
     
     
     // MARK: - Notifications
