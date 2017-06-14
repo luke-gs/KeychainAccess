@@ -282,15 +282,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
             contentModeLayoutVerticalConstraint
         ])
         
-        if #available(iOS 10, *) {
-            isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
-        } else {
-            isRightToLeft = UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft
-        }
-        
-        if #available(iOS 10, *) { return }
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(contentSizeCategoryDidChangeNotification(_:)), name: .UIContentSizeCategoryDidChange, object: nil)
+        isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
     }
     
     deinit {
@@ -299,13 +291,6 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     
     
     // MARK: - Content size updates
-    
-    @available(iOS, introduced: 7.0, deprecated: 10.0, obsoleted: 10.0)
-    @objc private func contentSizeCategoryDidChangeNotification(_ notification: Notification) {
-        guard let newCategoryString = notification.userInfo?[UIContentSizeCategoryNewValueKey] as? String else { return }
-        
-        self.contentSizeCategoryDidChange(UIContentSizeCategory(rawValue: newCategoryString))
-    }
     
     /// Informs the cell that the content size category did change. Subclasses should
     /// override this method to adjust the fonts of content where appropriate.
@@ -372,13 +357,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     
     open override var semanticContentAttribute: UISemanticContentAttribute {
         didSet {
-            if semanticContentAttribute == oldValue { return }
-            
-            if #available(iOS 10, *) {
-                isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
-            } else {
-                isRightToLeft = UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft
-            }
+            isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
         }
     }
     

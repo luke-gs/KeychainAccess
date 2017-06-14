@@ -38,11 +38,7 @@ open class FormTextView: UITextView {
     private func commonInit() {
         super.textContainerInset = .zero
         
-        if #available(iOS 10, *) {
-            isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
-        } else {
-            isRightToLeft = UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft
-        }
+        isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
         
         backgroundColor = .clear
         
@@ -77,15 +73,11 @@ open class FormTextView: UITextView {
     }
     
     open override var semanticContentAttribute: UISemanticContentAttribute {
-        didSet {
-            if semanticContentAttribute == oldValue { return }
-            
-            if #available(iOS 10, *) {
-                isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
-            } else {
-                isRightToLeft = UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft
-            }
-        }
+        didSet { isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft }
+    }
+    
+    open override var adjustsFontForContentSizeCategory: Bool {
+        didSet { placeholderLabel.adjustsFontForContentSizeCategory = adjustsFontForContentSizeCategory }
     }
     
     open override func layoutSubviews() {
@@ -120,10 +112,7 @@ open class FormTextView: UITextView {
     
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        
-        if #available(iOS 10, *) {
-            isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
-        }
+        isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
     }
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {

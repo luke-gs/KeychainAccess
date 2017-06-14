@@ -108,6 +108,7 @@ internal class CollectionViewFormCellActionView: UIScrollView, UIScrollViewDeleg
     private var isRightToLeft: Bool = false {
         didSet {
             if isRightToLeft == oldValue { return }
+            
             setNeedsButtonLayout()
             setNeedsMaskGradientUpdate()
         }
@@ -156,11 +157,7 @@ internal class CollectionViewFormCellActionView: UIScrollView, UIScrollViewDeleg
         showsVerticalScrollIndicator   = false
         showsHorizontalScrollIndicator = false
         
-        if #available(iOS 10, *) {
-            isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
-        } else {
-            isRightToLeft = UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft
-        }
+        isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
     }
     
     
@@ -406,10 +403,7 @@ internal class CollectionViewFormCellActionView: UIScrollView, UIScrollViewDeleg
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         
-        if #available(iOS 10, *) {
-            // Trait changes only trigger RLT changes in iOS 10+
-            isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
-        }
+        isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
         
         if traitCollection.currentDisplayScale != previousTraitCollection?.currentDisplayScale {
             setNeedsLayout()

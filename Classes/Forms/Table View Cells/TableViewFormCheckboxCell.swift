@@ -44,6 +44,8 @@ open class TableViewFormCheckboxCell: TableViewFormCell {
         let contentModeLayoutGuide = self.contentModeLayoutGuide
         
         checkbox.translatesAutoresizingMaskIntoConstraints = false
+        checkbox.titleLabel?.adjustsFontForContentSizeCategory = true
+        checkbox.titleLabel?.font = SelectableButton.font(compatibleWith: traitCollection)
         contentView.addSubview(checkbox)
         
         NSLayoutConstraint.activate([
@@ -52,11 +54,6 @@ open class TableViewFormCheckboxCell: TableViewFormCell {
             NSLayoutConstraint(item: checkbox, attribute: .centerY,   relatedBy: .equal,              toItem: contentModeLayoutGuide, attribute: .centerY),
             NSLayoutConstraint(item: checkbox, attribute: .top,       relatedBy: .greaterThanOrEqual, toItem: contentModeLayoutGuide, attribute: .top)
         ])
-    }
-    
-    internal override func applyStandardFonts() {
-        super.applyStandardFonts()
-        checkbox.titleLabel?.font = SelectableButton.font(compatibleWith: traitCollection)
     }
     
 }

@@ -144,10 +144,6 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
         preferredContentSize.width = 320.0
         
         NotificationCenter.default.addObserver(self, selector: #selector(applyCurrentTheme), name: .ThemeDidChange, object: nil)
-        
-        if #available(iOS 10, *) { return }
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeCategoryDidChange), name: .UIContentSizeCategoryDidChange, object: nil)
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -157,10 +153,6 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
         preferredContentSize.width = 320.0
         
         NotificationCenter.default.addObserver(self, selector: #selector(applyCurrentTheme), name: .ThemeDidChange, object: nil)
-        
-        if #available(iOS 10, *) { return }
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeCategoryDidChange), name: .UIContentSizeCategoryDidChange, object: nil)
     }
     
     deinit {
@@ -238,15 +230,15 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         
-        if #available(iOS 10, *) {
-            if previousTraitCollection?.preferredContentSizeCategory ?? .unspecified != traitCollection.preferredContentSizeCategory {
-                preferredContentSizeCategoryDidChange()
-            }
+        if previousTraitCollection?.preferredContentSizeCategory ?? .unspecified != traitCollection.preferredContentSizeCategory {
+            preferredContentSizeCategoryDidChange()
         }
     }
     
     open func preferredContentSizeCategoryDidChange() {
-        tableView?.reloadData()
+        if isViewLoaded {
+            tableView?.reloadData()
+        }
     }
     
     // MARK: - Themes

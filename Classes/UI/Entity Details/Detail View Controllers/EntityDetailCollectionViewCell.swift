@@ -38,11 +38,7 @@ open class EntityDetailCollectionViewCell: CollectionViewFormCell {
     open var isDescriptionPlaceholder: Bool = false {
         didSet {
             let textStyle: UIFontTextStyle = isDescriptionPlaceholder ? .subheadline : .headline
-            if #available(iOS 10, *) {
-                descriptionLabel.font = .preferredFont(forTextStyle: textStyle, compatibleWith: traitCollection)
-            } else {
-                descriptionLabel.font = .preferredFont(forTextStyle: textStyle)
-            }
+            descriptionLabel.font = .preferredFont(forTextStyle: textStyle, compatibleWith: traitCollection)
         }
     }
     
@@ -136,13 +132,11 @@ open class EntityDetailCollectionViewCell: CollectionViewFormCell {
         additionalDetailsButton.translatesAutoresizingMaskIntoConstraints = false
         additionalDetailsButton.titleLabel?.font = .systemFont(ofSize: 11, weight: UIFontWeightMedium)
         
-        if #available(iOS 10, *) {
-            sourceLabel.adjustsFontForContentSizeCategory = true
-            titleLabel.adjustsFontForContentSizeCategory = true
-            subtitleLabel.adjustsFontForContentSizeCategory = true
-            descriptionLabel.adjustsFontForContentSizeCategory = true
-            additionalDetailsButton.titleLabel?.adjustsFontForContentSizeCategory = true
-        }
+        sourceLabel.adjustsFontForContentSizeCategory = true
+        titleLabel.adjustsFontForContentSizeCategory = true
+        subtitleLabel.adjustsFontForContentSizeCategory = true
+        descriptionLabel.adjustsFontForContentSizeCategory = true
+        additionalDetailsButton.titleLabel?.adjustsFontForContentSizeCategory = true
         
         thumbnailView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -321,18 +315,6 @@ open class EntityDetailCollectionViewCell: CollectionViewFormCell {
         }
     }
     
-    open override func contentSizeCategoryDidChange(_ newCategory: UIContentSizeCategory) {
-        super.contentSizeCategoryDidChange(newCategory)
-        
-        if #available(iOS 10, *) { return }        
-        
-        sourceLabel.legacy_adjustFontForContentSizeCategoryChange()
-        titleLabel.legacy_adjustFontForContentSizeCategoryChange()
-        subtitleLabel.legacy_adjustFontForContentSizeCategoryChange()
-        descriptionLabel.legacy_adjustFontForContentSizeCategoryChange()
-        additionalDetailsButton.titleLabel?.legacy_adjustFontForContentSizeCategoryChange()
-    }
-    
     
     // MARK: - Sizing
     
@@ -354,15 +336,8 @@ open class EntityDetailCollectionViewCell: CollectionViewFormCell {
         
         let sourceFont: UIFont = .systemFont(ofSize: displayAsCompact ? 10.0 : 11.0, weight: UIFontWeightBold)
         
-        let titleFont: UIFont
-        let subtitleFont: UIFont
-        if #available(iOS 10, *) {
-            titleFont = displayAsCompact ? .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection) : .systemFont(ofSize: 28.0, weight: UIFontWeightBold)
-            subtitleFont = .preferredFont(forTextStyle: displayAsCompact ? .footnote : .subheadline, compatibleWith: traitCollection)
-        } else {
-            titleFont = displayAsCompact ? .preferredFont(forTextStyle: .headline) : .systemFont(ofSize: 28.0, weight: UIFontWeightBold)
-            subtitleFont = .preferredFont(forTextStyle: displayAsCompact ? .footnote : .subheadline)
-        }
+        let titleFont: UIFont = displayAsCompact ? .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection) : .systemFont(ofSize: 28.0, weight: UIFontWeightBold)
+        let subtitleFont: UIFont = .preferredFont(forTextStyle: displayAsCompact ? .footnote : .subheadline, compatibleWith: traitCollection)
     
         if let title = title as NSString?, title.length > 0 {
             mainTextHeight = title.boundingRect(with: maxMainTextSize, options: [.usesLineFragmentOrigin], attributes: [NSFontAttributeName: titleFont], context: nil).height.ceiled(toScale: displayScale)
@@ -385,12 +360,8 @@ open class EntityDetailCollectionViewCell: CollectionViewFormCell {
         let detailsSize = CGSize(width: displayAsCompact ? width : maxMainTextSize.width, height: CGFloat.greatestFiniteMagnitude)
         if let descriptionText = (description ?? descriptionPlaceholder) as NSString?, descriptionText.length > 0 {
             let textStyle: UIFontTextStyle = description == nil ? .subheadline : .headline
-            let descriptionFont: UIFont
-            if #available(iOS 10, *) {
-                descriptionFont = .preferredFont(forTextStyle: textStyle, compatibleWith: traitCollection)
-            } else {
-                descriptionFont = .preferredFont(forTextStyle: textStyle)
-            }
+            let descriptionFont: UIFont = .preferredFont(forTextStyle: textStyle, compatibleWith: traitCollection)
+            
             hasDescription = true
             
             detailsHeight = descriptionText.boundingRect(with: detailsSize, options: [.usesLineFragmentOrigin], attributes: [NSFontAttributeName: descriptionFont], context: nil).height.ceiled(toScale: displayScale)

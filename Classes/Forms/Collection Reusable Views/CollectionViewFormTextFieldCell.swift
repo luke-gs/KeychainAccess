@@ -56,10 +56,8 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         textField.translatesAutoresizingMaskIntoConstraints  = false
         
-        if #available(iOS 10, *) {
-            titleLabel.adjustsFontForContentSizeCategory = true
-            textField.adjustsFontForContentSizeCategory = true
-        }
+        titleLabel.adjustsFontForContentSizeCategory = true
+        textField.adjustsFontForContentSizeCategory = true
         
         titleLabel.font           = .preferredFont(forTextStyle: .footnote)
         textField.font            = .preferredFont(forTextStyle: .headline)
@@ -112,15 +110,6 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
                 titleLabel.preferredMaxLayoutWidth = width
             }
         }
-    }
-    
-    open override func contentSizeCategoryDidChange(_ newCategory: UIContentSizeCategory) {
-        super.contentSizeCategoryDidChange(newCategory)
-        
-        if #available(iOS 10, *) { return }
-        
-        titleLabel.legacy_adjustFontForContentSizeCategoryChange()
-        textField.legacy_adjustFontForContentSizeCategoryChange()
     }
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -203,19 +192,9 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
     // MARK: - Class sizing methods
     
     public class func minimumContentWidth(withTitle title: String?, enteredText: String?, placeholder: String?, compatibleWith traitCollection: UITraitCollection, titleFont: UIFont? = nil, textFieldFont: UIFont? = nil, placeholderFont: UIFont? = nil, singleLineTitle: Bool = true, accessoryViewWidth: CGFloat = 0.0) -> CGFloat {
-        let titleTextFont:       UIFont
-        let enteredTextFont:     UIFont
-        let placeholderTextFont: UIFont
-        
-        if #available(iOS 10, *) {
-            titleTextFont       = titleFont       ?? .preferredFont(forTextStyle: .footnote,    compatibleWith: traitCollection)
-            enteredTextFont     = textFieldFont   ?? .preferredFont(forTextStyle: .headline,    compatibleWith: traitCollection)
-            placeholderTextFont = placeholderFont ?? .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
-        } else {
-            titleTextFont       = titleFont       ?? .preferredFont(forTextStyle: .footnote)
-            enteredTextFont     = textFieldFont   ?? .preferredFont(forTextStyle: .headline)
-            placeholderTextFont = placeholderFont ?? .preferredFont(forTextStyle: .subheadline)
-        }
+        let titleTextFont:       UIFont = titleFont       ?? .preferredFont(forTextStyle: .footnote,    compatibleWith: traitCollection)
+        let enteredTextFont:     UIFont = textFieldFont   ?? .preferredFont(forTextStyle: .headline,    compatibleWith: traitCollection)
+        let placeholderTextFont: UIFont = placeholderFont ?? .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
         
         let displayScale = traitCollection.currentDisplayScale
         
@@ -237,26 +216,13 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
         if title?.isEmpty ?? true {
             titleHeight = 0.0
         } else {
-            let titleTextFont: UIFont
-            if #available(iOS 10, *) {
-                titleTextFont = titleFont ?? .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
-            } else {
-                titleTextFont = titleFont ?? .preferredFont(forTextStyle: .footnote)
-            }
+            let titleTextFont: UIFont = titleFont ?? .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
             titleHeight = singleLineTitle ? titleTextFont.lineHeight.ceiled(toScale: displayScale) : (title as NSString?)?.boundingRect(with: CGSize(width: width, height: .greatestFiniteMagnitude), attributes: [NSFontAttributeName: titleTextFont], context: nil).width.ceiled(toScale: displayScale) ?? 0.0
             titleHeight += CellTitleSubtitleSeparation
         }
         
-        let enteredTextFont: UIFont
-        let placeholderTextFont: UIFont
-        if #available(iOS 10, *) {
-            enteredTextFont     = textFieldFont   ?? .preferredFont(forTextStyle: .headline,    compatibleWith: traitCollection)
-            placeholderTextFont = placeholderFont ?? .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
-        } else {
-            enteredTextFont     = textFieldFont   ?? .preferredFont(forTextStyle: .headline)
-            placeholderTextFont = placeholderFont ?? .preferredFont(forTextStyle: .subheadline)
-        }
-        
+        let enteredTextFont:     UIFont = textFieldFont   ?? .preferredFont(forTextStyle: .headline,    compatibleWith: traitCollection)
+        let placeholderTextFont: UIFont = placeholderFont ?? .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)        
         return titleHeight + max(enteredTextFont.lineHeight, placeholderTextFont.lineHeight).ceiled(toScale: displayScale)
     }
     

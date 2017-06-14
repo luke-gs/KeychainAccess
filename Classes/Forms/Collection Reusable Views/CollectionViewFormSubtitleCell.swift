@@ -13,12 +13,10 @@ fileprivate var kvoContext = 1
 open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
     
     private class func standardFonts(compatibleWith traitCollection: UITraitCollection) -> (titleFont: UIFont, subtitleFont: UIFont) {
-        if #available(iOS 10, *) {
-            return (UIFont.preferredFont(forTextStyle: .headline, compatibleWith: traitCollection), UIFont.preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection))
-        } else {
-            return (UIFont.preferredFont(forTextStyle: .headline), UIFont.preferredFont(forTextStyle: .footnote))
-        }
+         return (.preferredFont(forTextStyle: .headline, compatibleWith: traitCollection),
+                 .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection))
     }
+    
     
     // MARK: - Public properties
     
@@ -87,10 +85,8 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
         titleLabel.isHidden    = true
         subtitleLabel.isHidden = true
         
-        if #available(iOS 10, *) {
-            titleLabel.adjustsFontForContentSizeCategory = true
-            subtitleLabel.adjustsFontForContentSizeCategory = true
-        }
+        titleLabel.adjustsFontForContentSizeCategory = true
+        subtitleLabel.adjustsFontForContentSizeCategory = true
         
         let fonts = type(of: self).standardFonts(compatibleWith: traitCollection)
         titleLabel.font = fonts.titleFont
@@ -212,15 +208,6 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
         set {
             super.accessibilityLabel = newValue
         }
-    }
-    
-    open override func contentSizeCategoryDidChange(_ newCategory: UIContentSizeCategory) {
-        super.contentSizeCategoryDidChange(newCategory)
-        
-        if #available(iOS 10, *) { return }
-        
-        titleLabel.legacy_adjustFontForContentSizeCategoryChange()
-        subtitleLabel.legacy_adjustFontForContentSizeCategoryChange()
     }
     
     

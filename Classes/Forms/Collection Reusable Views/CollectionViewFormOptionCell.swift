@@ -77,9 +77,7 @@ open class CollectionViewFormOptionCell: CollectionViewFormCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        if #available(iOS 10, *) {
-            titleLabel.adjustsFontForContentSizeCategory = true
-        }
+        titleLabel.adjustsFontForContentSizeCategory = true
         
         titleLabel.font = SelectableButton.font(compatibleWith: traitCollection)
         titleLabel.minimumScaleFactor = 0.9
@@ -117,14 +115,6 @@ open class CollectionViewFormOptionCell: CollectionViewFormCell {
     
     open override var isHighlighted: Bool {
         didSet { updateImageView() }
-    }
-    
-    open override func contentSizeCategoryDidChange(_ newCategory: UIContentSizeCategory) {
-        super.contentSizeCategoryDidChange(newCategory)
-        
-        if #available(iOS 10, *) { return }
-        
-        titleLabel.legacy_adjustFontForContentSizeCategoryChange()
     }
     
     

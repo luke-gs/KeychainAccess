@@ -68,16 +68,8 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
     open class func minimumContentHeight(forStyle style: Style, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
         switch style {
         case .hero:
-            let titleFont: UIFont
-            let footnoteFont: UIFont
-            
-            if #available(iOS 10, *) {
-                titleFont    = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
-                footnoteFont = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
-            } else {
-                titleFont    = .preferredFont(forTextStyle: .headline)
-                footnoteFont = .preferredFont(forTextStyle: .footnote)
-            }
+            let titleFont    = UIFont.preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+            let footnoteFont = UIFont.preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
             
             return minimumContentHeight(forStyle: style, withTitleFont: titleFont, subtitleFont: footnoteFont, detailFont: footnoteFont)
         case .detail, .thumbnail:
@@ -235,11 +227,9 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
         subtitleLabel.isHidden = true
         detailLabel.isHidden   = true
         
-        if #available(iOS 10, *) {
-            titleLabel.adjustsFontForContentSizeCategory    = true
-            subtitleLabel.adjustsFontForContentSizeCategory = true
-            detailLabel.adjustsFontForContentSizeCategory   = true
-        }
+        titleLabel.adjustsFontForContentSizeCategory    = true
+        subtitleLabel.adjustsFontForContentSizeCategory = true
+        detailLabel.adjustsFontForContentSizeCategory   = true
         
         let footnoteFont   = UIFont.preferredFont(forTextStyle: .footnote)
         titleLabel.font    = .preferredFont(forTextStyle: .headline)
@@ -384,16 +374,6 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
-    }
-    
-    public override func contentSizeCategoryDidChange(_ newCategory: UIContentSizeCategory) {
-        super.contentSizeCategoryDidChange(newCategory)
-        
-        if #available(iOS 10, *) { return }
-        
-        titleLabel.legacy_adjustFontForContentSizeCategoryChange()
-        subtitleLabel.legacy_adjustFontForContentSizeCategoryChange()
-        detailLabel.legacy_adjustFontForContentSizeCategoryChange()
     }
     
     

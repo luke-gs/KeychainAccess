@@ -274,14 +274,11 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
             isSelected = selectedItems.isEmpty
         }
         
-        if #available(iOS 10, *) {
-            cell.textLabel?.adjustsFontForContentSizeCategory = true
-            cell.textLabel?.font = UIFont.preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
-        } else {
-            cell.textLabel?.font = UIFont.preferredFont(forTextStyle: .headline)
+        if let textLabel = cell.textLabel {
+            textLabel.adjustsFontForContentSizeCategory = true
+            textLabel.font = UIFont.preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+            textLabel.numberOfLines = 0
         }
-        
-        cell.textLabel?.numberOfLines = 0
     
         cell.accessoryType = isSelected ? .checkmark : .none
         

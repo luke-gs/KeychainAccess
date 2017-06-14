@@ -56,10 +56,6 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
         automaticallyAdjustsScrollViewInsets = false // we manage this ourselves.
         
         NotificationCenter.default.addObserver(self, selector: #selector(applyCurrentTheme), name: .ThemeDidChange, object: nil)
-        
-        if #available(iOS 10, *) { return }
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeCategoryDidChange), name: .UIContentSizeCategoryDidChange, object: nil)
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -124,10 +120,8 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         
-        if #available(iOS 10, *) {
-            if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
-                preferredContentSizeCategoryDidChange()
-            }
+        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
+            preferredContentSizeCategoryDidChange()
         }
     }
     

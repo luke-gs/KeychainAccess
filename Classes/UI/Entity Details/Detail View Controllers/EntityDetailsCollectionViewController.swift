@@ -72,10 +72,8 @@ open class EntityDetailCollectionViewController: FormCollectionViewController {
         noContentSubtitleLabel.textAlignment = .center
         noContentSubtitleLabel.numberOfLines = 0
         
-        if #available(iOS 10, *) {
-            noContentTitleLabel.adjustsFontForContentSizeCategory = true
-            noContentSubtitleLabel.adjustsFontForContentSizeCategory = true
-        }
+        noContentTitleLabel.adjustsFontForContentSizeCategory = true
+        noContentSubtitleLabel.adjustsFontForContentSizeCategory = true
         
         let stackView = UIStackView(arrangedSubviews: [noContentTitleLabel, noContentSubtitleLabel])
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -126,13 +124,7 @@ open class EntityDetailCollectionViewController: FormCollectionViewController {
     // MARK: - Private methods
     
     private func updateNoContentTitleLabelFont() {
-        var fontDescriptor: UIFontDescriptor
-        if #available(iOS 10, *) {
-            fontDescriptor = .preferredFontDescriptor(withTextStyle: .title3, compatibleWith: traitCollection)
-        } else {
-            fontDescriptor = .preferredFontDescriptor(withTextStyle: .title3)
-        }
-        
+        var fontDescriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: .title3, compatibleWith: traitCollection)
         if let adjusted = fontDescriptor.withSymbolicTraits(.traitBold) {
             fontDescriptor = adjusted
         }

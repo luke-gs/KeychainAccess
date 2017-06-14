@@ -9,36 +9,20 @@
 import UIKit
 
 extension UIImage {
-    
-    private class func formImage(named name: String, needsRtlFlipping: Bool = false) -> UIImage {
-        let image = UIImage(named: name, in: .mpolKit, compatibleWith: nil)!
-        
-        if #available(iOS 10, *) {
-            // RTL flipping is handled by the image asset in iOS 10.
-            // The needsRltFlipping value is only required for iOS 9 support.
-            return image
-        }
-        
-        if needsRtlFlipping == false || image.flipsForRightToLeftLayoutDirection {
-            return image
-        } else {
-            return image.imageFlippedForRightToLeftLayoutDirection()
-        }
-    }
    
     @nonobjc
-    public static let checkbox = formImage(named: "Checkbox")
+    public static let checkbox = UIImage(named: "Checkbox", in: .mpolKit, compatibleWith: nil)!
     
     @nonobjc
-    public static let checkboxSelected = formImage(named: "CheckboxFilled", needsRtlFlipping: true)
+    public static let checkboxSelected = UIImage(named: "CheckboxFilled", in: .mpolKit, compatibleWith: nil)!
     
     @nonobjc
-    public static let radioButton = formImage(named: "Radio")
+    public static let radioButton = UIImage(named: "Radio", in: .mpolKit, compatibleWith: nil)!
     
     @nonobjc
-    public static let radioButtonSelected = formImage(named: "RadioFilled")
+    public static let radioButtonSelected = UIImage(named: "RadioFilled", in: .mpolKit, compatibleWith: nil)!
     
     @nonobjc
-    public static let formDisclosureIndicator = formImage(named: "FormDisclosureIndicator", needsRtlFlipping: true)
+    public static let formDisclosureIndicator = UIImage(named: "FormDisclosureIndicator", in: .mpolKit, compatibleWith: nil)!
     
 }
