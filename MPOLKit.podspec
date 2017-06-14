@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
 s.name             = 'MPOLKit'
-s.version          = '0.2.0'
+s.version          = '0.3.0'
 s.summary          = 'MPOLKit is to be used for all projects that require the MPOL framework.'
 
 s.description      = <<-DESC
