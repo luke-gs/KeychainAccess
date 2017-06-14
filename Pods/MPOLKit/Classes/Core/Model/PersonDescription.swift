@@ -34,10 +34,12 @@ open class PersonDescription: NSObject, Serialisable {
     open static var supportsSecureCoding: Bool { return true }
     
     public required init(unboxer: Unboxer) throws {
-        guard let id: String = unboxer.unbox(key: "id") else {
-            throw ParsingError.missingRequiredField
-        }
-        self.id = id
+//        guard let id: String = unboxer.unbox(key: "id") else {
+//            throw ParsingError.missingRequiredField
+//        }
+//        self.id = id
+        
+        id = unboxer.unbox(key: "id") ?? UUID().uuidString
         
         religion = unboxer.unbox(key: "religion")
         indigenousAustralianStatus = unboxer.unbox(key: "indigenousAustralianStatus")
@@ -83,7 +85,7 @@ open class PersonDescription: NSObject, Serialisable {
             initialString += " "
         }
         if let weight = weight?.ifNotEmpty() {
-            initialString += "\(weight)"
+            initialString += "\(weight) kg "
         }
         if let complexion = complexion?.ifNotEmpty() {
             initialString += complexion.localizedLowercase

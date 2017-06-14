@@ -1,6 +1,6 @@
 PODS:
   - Alamofire (4.4.0)
-  - MPOLKit (0.3.0):
+  - MPOLKit (0.3.2):
     - Alamofire (= 4.4.0)
     - Unbox (= 2.5.0)
     - Wrap (= 2.1.0)
@@ -16,12 +16,12 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   MPOLKit:
-    :commit: aeb24066f14ec6935776799fc085d3776fb6b9e3
+    :commit: aa75c895407b87510b9fbb98dce20a61d183391d
     :git: https://github.com/Gridstone/mPolKit-iOS
 
 SPEC CHECKSUMS:
   Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
-  MPOLKit: dc3158ccccd2fefba7f0c61d21a400941e2f2143
+  MPOLKit: ddcf4f0bbe348583036ac71bf5ba134ba50955e4
   Unbox: 30e437e6151a6de16139375fd4e8dd9a664cfbf7
   Wrap: 731fe4fe3c2429c913a8252a17dbe8bb191e69e1
 

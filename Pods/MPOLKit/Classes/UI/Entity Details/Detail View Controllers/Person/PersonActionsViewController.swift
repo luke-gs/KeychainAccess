@@ -17,11 +17,11 @@ open class PersonActionsViewController: EntityDetailCollectionViewController {
     
     private var person: Person? {
         didSet {
-            actions = person?.interventionOrders
+            actions = person?.actions
         }
     }
     
-    private var actions: [InterventionOrder]? {
+    private var actions: [Action]? {
         didSet {
             let orderCount = actions?.count ?? 0
             sidebarItem.count = UInt(orderCount)
@@ -78,21 +78,16 @@ open class PersonActionsViewController: EntityDetailCollectionViewController {
         cell.selectionStyle     = .fade
         cell.accessoryView = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
         
-        let order = actions![indexPath.item]
+        let action = actions![indexPath.item]
         
-        if let type = order.type {
-            cell.titleLabel.text = String(format: NSLocalizedString("%@ Order", bundle: .mpolKit, comment: "Order Title"), type.localizedCapitalized)
+        if let type = action.type {
+            cell.titleLabel.text = String(format: NSLocalizedString("%@", bundle: .mpolKit, comment: "Action Title"), type.localizedCapitalized)
         } else {
-            cell.titleLabel.text = NSLocalizedString("Order (Unknown Type)", bundle: .mpolKit, comment: "")
+            cell.titleLabel.text = NSLocalizedString("Action (Unknown Type)", bundle: .mpolKit, comment: "")
         }
+        cell.subtitleLabel.text = NSLocalizedString("Date unknown", bundle: .mpolKit, comment: "")
+        cell.detailLabel.text = nil
         
-        if let servedDate = order.servedDate {
-            cell.subtitleLabel.text = String(format: NSLocalizedString("Date served: %@", bundle: .mpolKit, comment: ""), DateFormatter.mediumNumericDate.string(from: servedDate))
-        } else {
-            cell.subtitleLabel.text = NSLocalizedString("Date served unknown", bundle: .mpolKit, comment: "")
-        }
-        
-        cell.detailLabel.text = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu."
         
         return cell
     }

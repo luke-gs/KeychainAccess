@@ -31,6 +31,9 @@ open class Address: NSObject, Serialisable {
     
     open var reportDate: Date?
     
+    open var type: String?
+    open var city: String?
+    
     public required init(id: String = UUID().uuidString) {
         self.id = id
         super.init()
@@ -52,15 +55,18 @@ open class Address: NSObject, Serialisable {
         commonName = unboxer.unbox(key: "commonName")
         country = unboxer.unbox(key: "country")
         floor = unboxer.unbox(key: "floor")
-        postcode = unboxer.unbox(key: "postalCode")
+        postcode = unboxer.unbox(key: "postCode")
         state = unboxer.unbox(key: "state")
         streetDirectional = unboxer.unbox(key: "streetDirectional")
         streetName = unboxer.unbox(key: "streetName")
         streetType = unboxer.unbox(key: "streetType")
         suburb = unboxer.unbox(key: "suburb")
         unitNumber = unboxer.unbox(key: "unitNumber")
+        streetNumber = unboxer.unbox(key: "streetNumber")
         
-        reportDate = unboxer.unbox(key: "reportDate", formatter: ISO8601DateTransformer.shared)
+        reportDate = unboxer.unbox(key: "reportedDate", formatter: ISO8601DateTransformer.shared)
+        type = unboxer.unbox(key: "addressType")
+        city = unboxer.unbox(key: "city")
         
         super.init()
     }
@@ -111,6 +117,7 @@ open class Address: NSObject, Serialisable {
         }
         
         if let suburb = self.suburb?.ifNotEmpty() { line.append(suburb) }
+        if let city = self.city?.ifNotEmpty() { line.append(city) }
         if let state  = self.state?.ifNotEmpty() { line.append(state)  }
         if let postCode = self.postcode?.ifNotEmpty() { line.append(postCode) }
         

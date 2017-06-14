@@ -24,7 +24,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
             }
             hasContent = true
             
-            var sections: [(SectionType, [Any]?)] = [(.header, nil), (.details, [DetailItem.mni])]
+            var sections: [(SectionType, [Any]?)] = [(.header, nil), (.details, [DetailItem.mni, DetailItem.ethnicity])]
             
             if let licences = person.licences {
                 licences.forEach {
@@ -40,7 +40,20 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
                 sections.append((.addresses, addresses)) // TODO: Sort by date
             }
             
-            sections.append((.contact, ContactDetailItem.allCases))
+            var contactDetails: [ContactDetailItem] = []
+//            if let emails = person.emails {
+//                emails.forEach {
+//                    contactDetails.append(.email($0))
+//                }
+//            }
+            if let phones = person.phoneNumbers {
+                phones.forEach {
+                    contactDetails.append(.phone($0))
+                }
+            }
+            if contactDetails.count > 0 {
+                sections.append((.contact, contactDetails))
+            }
             
             self.sections = sections
         }
@@ -150,15 +163,23 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
             cell.titleLabel.text = person?.summary
             cell.subtitleLabel.text = person?.summaryDetail1
             
-            if let description = person?.descriptions?.first {
-                cell.descriptionLabel.text = description.formatted()
+            if let descriptions = person?.descriptions, let firstDescription = descriptions.first {
+                cell.descriptionLabel.text = firstDescription.formatted()
                 cell.isDescriptionPlaceholder = false
+                
+                if descriptions.count > 1 {
+                    let moreDescriptionsCount = descriptions.count - 1
+                    let buttonTitle = "\(moreDescriptionsCount) MORE DESCRIPTION\(moreDescriptionsCount > 1 ? "S" : "")"
+                    cell.additionalDetailsButton.setTitle(buttonTitle, for: .normal)
+                } else {
+                    cell.additionalDetailsButton.setTitle(nil, for: .normal)
+                }
             } else {
                 cell.descriptionLabel.text = NSLocalizedString("No description", bundle: .mpolKit, comment: "")
                 cell.isDescriptionPlaceholder = true
+                
+                cell.additionalDetailsButton.setTitle(nil, for: .normal)
             }
-            
-            cell.additionalDetailsButton.setTitle(nil, for: .normal)
             
             return cell
         case .details:
@@ -170,9 +191,9 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
             let item = section.items![indexPath.item] as! Address
             
             if let date = item.reportDate {
-                title = String(format: NSLocalizedString("Recorded as at %@", bundle: .mpolKit, comment: ""), DateFormatter.mediumNumericDate.string(from: date))
+                title = String(format: NSLocalizedString("%@ - Recorded as at %@", bundle: .mpolKit, comment: ""), item.type ?? "Unknown", DateFormatter.mediumNumericDate.string(from: date))
             } else {
-                title = NSLocalizedString("Recorded date unknown", bundle: .mpolKit, comment: "")
+                title = String(format:NSLocalizedString("%@ - Recorded date unknown", bundle: .mpolKit, comment: ""),  item.type ?? "Unknown")
             }
             
             value = item.formatted()
@@ -180,8 +201,8 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
         case .contact:
             let item = section.items![indexPath.item] as! ContactDetailItem
             title = item.localizedTitle
-            value = item.value(for: person!)
-            image = nil
+            value = item.value?.ifNotEmpty() ?? "N/A"
+            image = item.image
         case .aliases:
             let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
             let alias = section.items![indexPath.item] as! Alias
@@ -225,7 +246,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
         
         cell.titleLabel.text  = title
         cell.valueLabel.text = value
-        cell.imageView.image  = image
+        cell.imageView.image  = image?.withRenderingMode(.alwaysTemplate)
         
         return cell
     }
@@ -279,20 +300,20 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
         
         switch section.type {
         case .header:
-            return EntityDetailCollectionViewCell.minimumContentHeight(withTitle: person?.summary ?? "", subtitle: person?.summaryDetail1, description: person?.descriptions?.first?.formatted(), descriptionPlaceholder: NSLocalizedString("No description", bundle: .mpolKit, comment: ""), additionalDetails: nil, source: person?.source?.localizedBadgeTitle, inWidth: itemWidth, compatibleWith: traitCollection) - layout.itemLayoutMargins.bottom
+            return EntityDetailCollectionViewCell.minimumContentHeight(withTitle: person?.summary ?? "", subtitle: person?.summaryDetail1, description: person?.descriptions?.first?.formatted(), descriptionPlaceholder: NSLocalizedString("No description", bundle: .mpolKit, comment: ""), additionalDetails: person?.descriptions != nil && person!.descriptions!.count > 1 ? "X MORE DESCRIPTIONS" : nil, source: person?.source?.localizedBadgeTitle, inWidth: itemWidth, compatibleWith: traitCollection) - layout.itemLayoutMargins.bottom
         case .details:
             let item = section.items![indexPath.item] as! DetailItem
             title = item.localizedTitle
             value = item.value(for: person!)
             image = nil
-            wantsSingleLineValue = true
+            wantsSingleLineValue = false
         case .addresses:
             let item = section.items![indexPath.item] as! Address
             
             if let date = item.reportDate {
-                title = String(format: NSLocalizedString("Recorded as at %@", bundle: .mpolKit, comment: ""), DateFormatter.mediumNumericDate.string(from: date))
+                title = String(format: NSLocalizedString("%@ Recorded as at %@", bundle: .mpolKit, comment: ""), item.type ?? "Unknown", DateFormatter.mediumNumericDate.string(from: date))
             } else {
-                title = NSLocalizedString("Recorded date unknown", bundle: .mpolKit, comment: "")
+                title = String(format: NSLocalizedString("%@ Recorded date unknown", bundle: .mpolKit, comment: ""), item.type ?? "Unknown")
             }
             
             value = item.formatted()
@@ -301,8 +322,8 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
         case .contact:
             let item = section.items![indexPath.item] as! ContactDetailItem
             title = item.localizedTitle
-            value = item.value(for: person!)
-            image = nil
+            value = item.value?.ifNotEmpty() ?? "N/A"
+            image = item.image
             wantsSingleLineValue = true
         case .aliases:
             let alias = section.items![indexPath.item] as! Alias
@@ -365,13 +386,24 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
     
     private enum DetailItem {
         case mni
+        case ethnicity
         
         var localizedTitle: String {
-            return NSLocalizedString("MNI Number", bundle: .mpolKit, comment: "")
+            switch self {
+            case .mni:
+                return NSLocalizedString("MNI Number", bundle: .mpolKit, comment: "")
+            case .ethnicity:
+                return NSLocalizedString("Ethnicity", bundle: .mpolKit, comment: "")
+            }
         }
         
         func value(for person: Person) -> String? {
-            return "N/A" // TODO
+            switch self {
+            case .mni:
+                return person.id
+            case .ethnicity:
+                return person.ethnicity ?? "N/A"
+            }
         }
     }
     
@@ -418,29 +450,37 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
     }
     
     private enum ContactDetailItem {
-        case email
-        case phone
-        
-        static let allCases: [ContactDetailItem] = [.email, .phone]
+        case email(Email)
+        case phone(PhoneNumber)
         
         var localizedTitle: String {
             switch self {
-            case .email: return NSLocalizedString("Email Address", bundle: .mpolKit, comment: "")
-            case .phone: return NSLocalizedString("Contact Number", bundle: .mpolKit, comment: "")
+            case .email(_): return NSLocalizedString("Email Address", bundle: .mpolKit, comment: "")
+            case .phone(let phone): return NSLocalizedString(phone.formattedType(), bundle: .mpolKit, comment: "")
             }
         }
         
-        func value(for person: Person) -> String? {
+        var value: String? {
             switch self {
-            case .email: return "john.citizen@gmail.com"
-            case .phone: return "N/A"
+            case .email(_): return "john.citizen@gmail.com"
+            case .phone(let phone): return phone.formattedNumber()
             }
         }
         
+        var image: UIImage? {
+            switch self {
+            case .email(_): return UIImage(named: "iconFormEmail", in: .mpolKit, compatibleWith: nil)
+            case .phone(_): return UIImage(named: "iconFormPhone", in: .mpolKit, compatibleWith: nil)
+            }
+        }
     }
     
     
     @objc private func entityDetailCellDidSelectAdditionalDetails(_ cell: EntityDetailCollectionViewCell) {
+        guard let navController = pushableSplitViewController?.navigationController ?? navigationController else { return }
+        let moreDescriptionsVC = PersonDescriptionsViewController()
+        moreDescriptionsVC.descriptions = person!.descriptions
+        navController.pushViewController(moreDescriptionsVC, animated: true)
     }
     
     @objc private func entityThumbnailDidSelect(_ thumbnail: EntityThumbnailView) {
