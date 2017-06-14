@@ -81,11 +81,7 @@ open class FormTextField: UITextField {
     }
     
     private func commonInit() {
-        if #available(iOS 10, *) {
-            isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
-        } else {
-            isRightToLeft = UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft
-        }
+        isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
         addTarget(self, action: #selector(textDidChange), for: .editingChanged)
     }
     
@@ -139,15 +135,7 @@ open class FormTextField: UITextField {
     }
     
     open override var semanticContentAttribute: UISemanticContentAttribute {
-        didSet {
-            if semanticContentAttribute == oldValue { return }
-            
-            if #available(iOS 10, *) {
-                isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
-            } else {
-                isRightToLeft = UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft
-            }
-        }
+        didSet { isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft }
     }
     
     open override func becomeFirstResponder() -> Bool {
@@ -281,17 +269,6 @@ open class FormTextField: UITextField {
             super.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: attributes)
         } else {
             super.attributedPlaceholder = nil
-        }
-    }
-    
-    
-    // MARK: - Legacy support
-    
-    @available(iOS, introduced: 7.0, deprecated: 10.0, obsoleted: 10.0, message: "Use the adjustsFontForContentSizeCategory property on iOS 10 and later.")
-    public override func legacy_adjustFontForContentSizeCategoryChange() {
-        super.legacy_adjustFontForContentSizeCategoryChange()
-        if let placeholderStyle = placeholderFont?.textStyle {
-            placeholderFont = .preferredFont(forTextStyle: placeholderStyle)
         }
     }
     

@@ -197,9 +197,7 @@ open class TabStripView: UIView, UICollectionViewDataSource, UICollectionViewDel
     }
     
     private func commonInit() {
-        if #available(iOS 10.0, *) {
-            accessibilityTraits |= UIAccessibilityTraitTabBar
-        } 
+        accessibilityTraits |= UIAccessibilityTraitTabBar
         
         collectionView.frame = bounds
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]

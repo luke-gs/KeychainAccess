@@ -103,11 +103,7 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshControlDidActivate(_:)), for: .primaryActionTriggered)
         sidebarViewController.loadViewIfNeeded()
-        if #available(iOS 10, *) {
-            sidebarViewController.sidebarTableView?.refreshControl = refreshControl
-        } else {
-            sidebarViewController.sidebarTableView?.addSubview(refreshControl)
-        }
+        sidebarViewController.sidebarTableView?.refreshControl = refreshControl
     }
     
     public required init?(coder aDecoder: NSCoder) {

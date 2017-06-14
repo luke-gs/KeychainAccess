@@ -392,12 +392,7 @@ open class MapOverlayViewController: UIViewController, UITableViewDataSource, UI
         
         guard let view = self.view, let overlayView = self.overlayView, let mapView = self.mapView else { return }
         
-        let isRightToLeft: Bool
-        if #available(iOS 10, *) {
-            isRightToLeft = view.effectiveUserInterfaceLayoutDirection == .rightToLeft
-        } else {
-            isRightToLeft = UIView.userInterfaceLayoutDirection(for: view.semanticContentAttribute) == .rightToLeft
-        }
+        let isRightToLeft = view.effectiveUserInterfaceLayoutDirection == .rightToLeft
         
         let isRegular = traitCollection.horizontalSizeClass != .compact
         let overlayInset = _showsOverlay && (_showsOverlayInCompactWidth || isRegular) ? overlayView.frame.width : 0.0

@@ -107,19 +107,13 @@ public class EntityThumbnailView: UIControl {
     
     public func configure(for entity: Entity?, size: ThumbnailSize) {
         if let thumbnail = entity?.thumbnailImage(ofSize: .large) {
-            imageView.image = thumbnail.image
             imageView.contentMode = thumbnail.mode
+            imageView.image = thumbnail.image
         } else {
             imageView.image = nil
         }
         
-        if entity is Person {
-            tintColor = UIColor(white: 0.2, alpha: 1.0)
-            borderColor = entity?.alertLevel?.color
-        } else {
-            tintColor = entity?.alertLevel?.color ?? UIColor(white: 0.2, alpha: 1.0)
-            borderColor = entity?.associatedAlertLevel?.color
-        }
+        borderColor = entity is Person ? entity?.alertLevel?.color : entity?.associatedAlertLevel?.color
     }
     
     

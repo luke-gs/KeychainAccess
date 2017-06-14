@@ -157,12 +157,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         let collectionViewBounds = collectionView.bounds
         _lastLaidOutWidth = collectionViewBounds.width
         
-        let isRTL: Bool
-        if #available(iOS 10, *) {
-            isRTL = collectionView.effectiveUserInterfaceLayoutDirection == .rightToLeft
-        } else {
-            isRTL = UIView.userInterfaceLayoutDirection(for: collectionView.semanticContentAttribute) == .rightToLeft
-        }
+        let isRTL = collectionView.effectiveUserInterfaceLayoutDirection == .rightToLeft
         
         let screenScale = (collectionView.window?.screen ?? .main).scale
         let singlePixel: CGFloat = 1.0 / screenScale

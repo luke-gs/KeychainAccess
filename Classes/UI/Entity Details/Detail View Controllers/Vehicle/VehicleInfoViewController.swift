@@ -144,22 +144,10 @@ open class VehicleInfoViewController: EntityDetailCollectionViewController {
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, givenSectionWidth sectionWidth: CGFloat, edgeInsets: UIEdgeInsets) -> CGFloat {
         
-        let preferredContentSizeCategory: UIContentSizeCategory
-        if #available(iOS 10, *) {
-            let category = traitCollection.preferredContentSizeCategory
-            preferredContentSizeCategory = category == UIContentSizeCategory.unspecified ? .large : category
-        } else {
-            // references to the shared application are banned in extensions but this actually still works
-            // in apps and gets us the preferred content size. This is part of why they moved preferred
-            // content size category into trait collections as it couldn't be accessed on UIApplication
-            // in extensions (and MPOLKit is restrcted to extension-only API)
-            preferredContentSizeCategory = (UIApplication.value(forKey: "sharedApplication") as! UIApplication).preferredContentSizeCategory
-        }
-        
         let extraLargeText: Bool
         
-        switch preferredContentSizeCategory {
-        case UIContentSizeCategory.extraSmall, UIContentSizeCategory.small, UIContentSizeCategory.medium, UIContentSizeCategory.large:
+        switch traitCollection.preferredContentSizeCategory {
+        case UIContentSizeCategory.extraSmall, UIContentSizeCategory.small, UIContentSizeCategory.medium, UIContentSizeCategory.large, UIContentSizeCategory.unspecified:
             extraLargeText = false
         default:
             extraLargeText = true

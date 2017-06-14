@@ -14,11 +14,8 @@ fileprivate var kvoContext = 1
 open class CollectionViewFormValueFieldCell: CollectionViewFormCell {
     
     private class func standardFonts(compatibleWith traitCollection: UITraitCollection) -> (titleFont: UIFont, valueFont: UIFont) {
-        if #available(iOS 10, *) {
-            return (UIFont.preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection), UIFont.preferredFont(forTextStyle: .headline, compatibleWith: traitCollection))
-        } else {
-            return (UIFont.preferredFont(forTextStyle: .footnote), UIFont.preferredFont(forTextStyle: .headline))
-        }
+        return (.preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection),
+                .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection))
     }
     
     // MARK: - Public properties
@@ -107,11 +104,9 @@ open class CollectionViewFormValueFieldCell: CollectionViewFormCell {
         valueLabel.isHidden = true
         placeholderLabel.isHidden = true
         
-        if #available(iOS 10, *) {
-            titleLabel.adjustsFontForContentSizeCategory = true
-            valueLabel.adjustsFontForContentSizeCategory = true
-            placeholderLabel.adjustsFontForContentSizeCategory = true
-        }
+        titleLabel.adjustsFontForContentSizeCategory = true
+        valueLabel.adjustsFontForContentSizeCategory = true
+        placeholderLabel.adjustsFontForContentSizeCategory = true
         
         let fonts = type(of: self).standardFonts(compatibleWith: traitCollection)
         titleLabel.font = fonts.titleFont
@@ -258,7 +253,7 @@ open class CollectionViewFormValueFieldCell: CollectionViewFormCell {
         super.traitCollectionDidChange(previousTraitCollection)
         
         if previousTraitCollection?.currentDisplayScale ?? UIScreen.main.scale != traitCollection.currentDisplayScale {
-            if #available(iOS 10, *), previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory, valueLabel.adjustsFontForContentSizeCategory {
+            if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory, valueLabel.adjustsFontForContentSizeCategory {
                 // This will get handled by that content side category change.
                 return
             }
@@ -270,17 +265,10 @@ open class CollectionViewFormValueFieldCell: CollectionViewFormCell {
     open override func contentSizeCategoryDidChange(_ newCategory: UIContentSizeCategory) {
         super.contentSizeCategoryDidChange(newCategory)
         
-        if #available(iOS 10, *) {
-            if valueLabel.adjustsFontForContentSizeCategory {
-                // adjustsFontForContentSizeCategory doesn't fire KVO. We need to call the update ourselves.
-                updateValueHeightConstraint()
-            }
-            return
+        if valueLabel.adjustsFontForContentSizeCategory {
+            // adjustsFontForContentSizeCategory doesn't fire KVO. We need to call the update ourselves.
+            updateValueHeightConstraint()
         }
-        
-        titleLabel.legacy_adjustFontForContentSizeCategoryChange()
-        valueLabel.legacy_adjustFontForContentSizeCategoryChange()
-        placeholderLabel.legacy_adjustFontForContentSizeCategoryChange()
     }
     
     
