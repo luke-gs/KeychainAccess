@@ -174,7 +174,9 @@ class SearchResultsListViewController: FormCollectionViewController, SearchNavig
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let entity = self.entity(at: indexPath)
         
-        if indexPath.section != 0 && (wantsThumbnails == false || traitCollection.horizontalSizeClass == .compact) {
+        let adjustedSection = adjustedSectionIndex(forDataSourceSectionIndex: indexPath.section)
+        
+        if adjustedSection >= 0 && (wantsThumbnails == false || traitCollection.horizontalSizeClass == .compact) {
             let cell = collectionView.dequeueReusableCell(of: SearchEntityListCell.self, for: indexPath)
             cell.titleLabel.text    = entity.summary
             
@@ -193,8 +195,6 @@ class SearchResultsListViewController: FormCollectionViewController, SearchNavig
         let cell: EntityCollectionViewCell
         let style: EntityCollectionViewCell.Style
         
-        let adjustedSection = adjustedSectionIndex(forDataSourceSectionIndex: indexPath.section)
-
         if adjustedSection < 0 {
             cell = collectionView.dequeueReusableCell(withReuseIdentifier: alertCellID, for: indexPath) as! EntityCollectionViewCell
             style = .thumbnail
