@@ -53,7 +53,7 @@ class SearchResultsListViewController: FormCollectionViewController, SearchNavig
         let person1: Person = try! unbox(data: data)
         
         alertEntities = [person1]
-        dataSourceResults = [DataSourceResult(name: "LEAP", isExpanded: true, entities: alertEntities)]
+        dataSourceResults = [DataSourceResult(name: "LEAP", isExpanded: true, entities: [person1])]
 
         formLayout.itemLayoutMargins = UIEdgeInsets(top: 16.5, left: 8.0, bottom: 14.5, right: 8.0)
         formLayout.distribution = .none
@@ -112,15 +112,12 @@ class SearchResultsListViewController: FormCollectionViewController, SearchNavig
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        var adjustedSection = section
+    
+        let adjustedSection = adjustedSectionIndex(forDataSourceSectionIndex: section)
         
+        if adjustedSection < 0 {
         let alertCount = alertEntities.count
-        if alertCount > 0 {
-            if section == 0 {
-                return alertExpanded ? alertCount : 0
-            } else {
-                adjustedSection -= 1
-            }
+            return alertExpanded ? alertCount : 0
         }
         
         let dataSource = dataSourceResults[adjustedSection]
@@ -133,14 +130,10 @@ class SearchResultsListViewController: FormCollectionViewController, SearchNavig
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
             let isExpanded: Bool
             
-            var adjustedSection = indexPath.section
-            let alertCount = alertEntities.count
-            
-            if alertCount > 0 {
-                adjustedSection -= 1
-            }
+            let adjustedSection = adjustedSectionIndex(forDataSourceSectionIndex: indexPath.section)
             
             if adjustedSection < 0 {
+                let alertCount = alertEntities.count
                 header.text = String.localizedStringWithFormat(NSLocalizedString("%d Alert(s)", comment: ""), alertCount).uppercased(with: .current)
                 isExpanded = alertExpanded
             } else {
@@ -199,7 +192,10 @@ class SearchResultsListViewController: FormCollectionViewController, SearchNavig
         
         let cell: EntityCollectionViewCell
         let style: EntityCollectionViewCell.Style
-        if indexPath.section == 0 {
+        
+        let adjustedSection = adjustedSectionIndex(forDataSourceSectionIndex: indexPath.section)
+
+        if adjustedSection < 0 {
             cell = collectionView.dequeueReusableCell(withReuseIdentifier: alertCellID, for: indexPath) as! EntityCollectionViewCell
             style = .thumbnail
         } else {
@@ -245,7 +241,10 @@ class SearchResultsListViewController: FormCollectionViewController, SearchNavig
     }
     
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, givenSectionWidth sectionWidth: CGFloat, edgeInsets: UIEdgeInsets) -> CGFloat {
-        if indexPath.section == 0 {
+        
+        let adjustedSection = adjustedSectionIndex(forDataSourceSectionIndex: indexPath.section)
+        
+        if adjustedSection < 0 {
             return EntityCollectionViewCell.minimumContentWidth(forStyle: .thumbnail)
         }
         
@@ -257,7 +256,10 @@ class SearchResultsListViewController: FormCollectionViewController, SearchNavig
     }
     
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
-        if indexPath.section == 0 {
+        
+        let adjustedSection = adjustedSectionIndex(forDataSourceSectionIndex: indexPath.section)
+
+        if adjustedSection < 0 {
             return EntityCollectionViewCell.minimumContentHeight(forStyle: .thumbnail, compatibleWith: traitCollection) - 12.0
         }
         
@@ -287,15 +289,25 @@ class SearchResultsListViewController: FormCollectionViewController, SearchNavig
     }
     
     @objc private func entity(at indexPath: IndexPath) -> Entity {
-        var adjustedSection = indexPath.section
-        if alertEntities.isEmpty == false {
-            if adjustedSection == 0 {
-                return alertEntities[indexPath.item]
-            } else {
-                adjustedSection -= 1
-            }
+        
+        let adjustedSection = adjustedSectionIndex(forDataSourceSectionIndex: indexPath.section)
+        
+        if adjustedSection < 0 {
+            return alertEntities[indexPath.item]
         }
+        
         return dataSourceResults[adjustedSection].entities[indexPath.item]
+    }
+    
+    private func adjustedSectionIndex(forDataSourceSectionIndex: Int) -> Int {
+        var adjustedSection = forDataSourceSectionIndex
+        let alertCount = alertEntities.count
+        
+        if alertCount > 0 {
+            adjustedSection -= 1
+        }
+        
+        return adjustedSection
     }
     
 }
