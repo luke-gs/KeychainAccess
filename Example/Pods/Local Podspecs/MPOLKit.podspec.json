@@ -1,6 +1,6 @@
 {
   "name": "MPOLKit",
-  "version": "0.2.0",
+  "version": "0.3.2",
   "summary": "MPOLKit is to be used for all projects that require the MPOL framework.",
   "description": "TODO: Add long description of the pod here.",
   "homepage": "https://github.com/Gridstone/mPolKit-iOS",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/Gridstone/mPolKit-iOS.git",
-    "tag": "0.2.0"
+    "tag": "0.3.2"
   },
   "platforms": {
     "ios": "10.0"
