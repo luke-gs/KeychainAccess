@@ -397,7 +397,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         super.apply(layoutAttributes)
         
         let newLayoutMargins: UIEdgeInsets
-        if let formAttribute = layoutAttributes as? CollectionViewFormItemAttributes {
+        if let formAttribute = layoutAttributes as? CollectionViewFormLayoutAttributes {
             isFirstInRow     = formAttribute.rowIndex == 0
             isAtTrailingEdge = formAttribute.isAtTrailingEdge
             newLayoutMargins = formAttribute.layoutMargins

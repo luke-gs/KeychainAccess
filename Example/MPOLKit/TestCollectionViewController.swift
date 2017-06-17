@@ -11,6 +11,8 @@ import MPOLKit
 
 class TestCollectionViewController: FormCollectionViewController  {
     
+    var inserted = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -20,6 +22,11 @@ class TestCollectionViewController: FormCollectionViewController  {
         collectionView?.register(CollectionViewFormValueFieldCell.self)
         collectionView?.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         collectionView?.register(RecentEntitiesBackgroundView.self, forSupplementaryViewOfKind: collectionElementKindGlobalHeader)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+            self.inserted = true
+            self.collectionView?.insertItems(at: [IndexPath(item: 0, section: 0), IndexPath(item: 0, section: 1), IndexPath(item: 0, section: 2), IndexPath(item: 0, section: 3), IndexPath(item: 0, section: 4)])
+        }
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -27,9 +34,14 @@ class TestCollectionViewController: FormCollectionViewController  {
         collectionView?.collectionViewLayout.invalidateLayout()
     }
     
+    func numberOfSections(in collection: UICollectionView) -> Int {
+        return 5
+    }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 100
+        
+        
+        return 100 + (inserted ? 1 : 0)
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
