@@ -10,6 +10,7 @@ import UIKit
 
 public let collectionElementKindGlobalHeader = "collectionElementKindGlobalHeader"
 public let collectionElementKindGlobalFooter = "collectionElementKindGlobalFooter"
+public let collectionElementKindValidationAccessory = "collectionElementKindValidationAccessory"
 
 
 /// The `CollectionViewFormLayout` class is a concrete layout object that organizes items into a
@@ -63,7 +64,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         var layoutMargins: UIEdgeInsets
     }
     
-    fileprivate struct ItemPosition {
+    private struct ItemPosition {
         var frame: CGRect
         var zIndex: Int
         var layoutMargins: UIEdgeInsets
@@ -71,8 +72,6 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         var rowItemCount: Int
         var isAtTrailingEdge: Bool
     }
-    
-    
     
     
     // MARK: - Public properties
@@ -153,6 +152,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     private var sectionFooterPositions: [ElementPosition?] = []
     
     private var itemPositions: [[ItemPosition]] = []
+    private var itemValidationPositions: [[ItemPosition?]] = []
     
     
     // MARK: - Layout preparation
@@ -174,16 +174,20 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         let screenScale = (collectionView.window?.screen ?? .main).scale
         let singlePixel: CGFloat = 1.0 / screenScale
         
+        let delegateWantsValidation = delegate.responds(to: #selector(CollectionViewDelegateFormLayout.collectionView(_:layout:contentHeightForValidationAccessoryAt:givenContentWidth:)))
+        
         sectionRects.removeAll(keepingCapacity: true)
-        itemPositions.removeAll(keepingCapacity: true)
         sectionHeaderPositions.removeAll(keepingCapacity: true)
         sectionFooterPositions.removeAll(keepingCapacity: true)
+        itemPositions.removeAll(keepingCapacity: true)
+        itemValidationPositions.removeAll(keepingCapacity: true)
         
         let sectionCount = collectionView.numberOfSections
         sectionRects.reserveCapacity(sectionCount)
-        itemPositions.reserveCapacity(sectionCount)
         sectionHeaderPositions.reserveCapacity(sectionCount)
         sectionFooterPositions.reserveCapacity(sectionCount)
+        itemPositions.reserveCapacity(sectionCount)
+        itemValidationPositions.reserveCapacity(sectionCount)
         
         let itemLayoutMargins = self.itemLayoutMargins
         
@@ -219,7 +223,9 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
             let sectionItemCount = itemMinWidths.count
             
             var sectionItemPositions: [ItemPosition] = []
+            var sectionValidationPositions: [ItemPosition?] = []
             sectionItemPositions.reserveCapacity(sectionItemCount)
+            sectionValidationPositions.reserveCapacity(sectionItemCount)
             
             let sectionItemStartY = currentYOrigin
             if sectionItemCount > 0 {
@@ -324,6 +330,9 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
                         
                         minHeight += itemLayoutMargins.top + itemLayoutMargins.bottom
                         
+                        
+                        var validityIndicatorHeight: CGFloat = 0.0
+                        
                         for (index, item) in rowItems.enumerated() {
                             var frame = item.frame
                             frame.size.height = minHeight
@@ -335,9 +344,30 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
                             let itemPosition = ItemPosition(frame: frame, zIndex: 1,  layoutMargins: layoutMargins, rowIndex: index, rowItemCount: rowItemCount, isAtTrailingEdge: fabs(frame.maxX - collectionViewBounds.width) < 0.5)
                             
                             sectionItemPositions.append(itemPosition)
+                            
+                            if delegateWantsValidation,
+                                let height = delegate.collectionView?(collectionView, layout: self, contentHeightForValidationAccessoryAt: item.ip, givenContentWidth: item.frame.insetBy(item.margins).width),
+                                height >~ 0.0 {
+                                validityIndicatorHeight = max(validityIndicatorHeight, height)
+                                
+                                var validationInsets = layoutMargins
+                                validationInsets.bottom = 0.0
+                                
+                                var validationFrame = frame
+                                validationFrame.origin.y = validationFrame.maxY
+                                validationFrame.size.height = height + layoutMargins.top
+                                
+                                sectionValidationPositions.append(ItemPosition(frame: validationFrame, zIndex: 1,  layoutMargins: validationInsets, rowIndex: index, rowItemCount: rowItemCount, isAtTrailingEdge: fabs(frame.maxX - collectionViewBounds.width) < 0.5))
+                            } else {
+                                sectionValidationPositions.append(nil)
+                            }
                         }
                         
-                        currentYOrigin += minHeight
+                        if validityIndicatorHeight >~ 0.0 {
+                            validityIndicatorHeight += itemLayoutMargins.top
+                        }
+                        
+                        currentYOrigin += minHeight + validityIndicatorHeight
                     }
                     
                     rowCount += 1
@@ -350,6 +380,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
             }
             
             itemPositions.append(sectionItemPositions)
+            itemValidationPositions.append(sectionValidationPositions)
             
             return currentYOrigin + max(0.0, round(sectionInsets.bottom)) - point.y
         }
@@ -456,7 +487,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
                         maxHeaderInsetAdded = max(maxHeaderInsetAdded, itemLayoutMargins.top)
                     }
                     let frame = isRTL ? rect.rtlFlipped(forWidth: collectionViewBounds.width) : rect
-                    sectionHeaderPositions.append(ElementPosition(frame: frame, zIndex: 1, layoutMargins: layoutMargins))
+                    sectionHeaderPositions.append(ElementPosition(frame: frame, zIndex: 10, layoutMargins: layoutMargins))
                 }
             }
             
@@ -549,6 +580,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
                 let attribute = layoutAttributesForSupplementaryView(ofKind: UICollectionElementKindSectionHeader, at: IndexPath(item: 0, section: sectionIndex)) {
                 attributes.append(attribute)
             }
+            
             for (index, item) in itemPositions[sectionIndex].enumerated() {
                 if item.frame.minY > rect.maxY { break }
                 if item.frame.intersects(rect),
@@ -556,6 +588,17 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
                     attributes.append(attribute)
                 }
             }
+            
+            for (index, item) in itemValidationPositions[sectionIndex].enumerated() {
+                guard let validation = item else { continue }
+                if validation.frame.minY > rect.maxY { break }
+                
+                if validation.frame.intersects(rect),
+                    let attribute = layoutAttributesForSupplementaryView(ofKind: collectionElementKindValidationAccessory, at: IndexPath(item: index, section: sectionIndex)) {
+                    attributes.append(attribute)
+                }
+            }
+            
             if sectionFooterPositions[sectionIndex]?.frame.intersects(rect) ?? false,
                 let attribute = layoutAttributesForSupplementaryView(ofKind: UICollectionElementKindSectionFooter, at: IndexPath(item: 0, section: sectionIndex)) {
                 attributes.append(attribute)
@@ -599,6 +642,19 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
             if indexPath.item == 0 && indexPath.section == 0 {
                 position = globalFooterPosition
             }
+        case collectionElementKindValidationAccessory:
+            if let item = itemValidationPositions[ifExists: indexPath.section]?[ifExists: indexPath.item],
+                let position = item {
+                let attribute = CollectionViewFormLayoutAttributes(forSupplementaryViewOfKind: elementKind, with: indexPath)
+                attribute.frame         = position.frame
+                attribute.zIndex        = position.zIndex
+                attribute.layoutMargins = position.layoutMargins
+                attribute.rowIndex      = position.rowIndex
+                attribute.rowItemCount  = position.rowItemCount
+                attribute.isAtTrailingEdge = position.isAtTrailingEdge
+                return attribute
+            }
+            return nil
         default:
             break
         }
@@ -664,6 +720,10 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         }
         
         return false
+    }
+    
+    open override func indexPathsToInsertForSupplementaryView(ofKind elementKind: String) -> [IndexPath] {
+        return super.indexPathsToInsertForSupplementaryView(ofKind: elementKind)
     }
     
     
@@ -888,5 +948,26 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat
     
     
+    /// Asks the delegate if the layout should inset the section header into the section over the
+    /// first row's top layout margin. If you don't implement this method, the layout defaults to
+    /// the value of the `wantsInsetHeaders` property.
+    ///
+    /// - Parameters:
+    ///   - collectionView: The collection view displaying the form layout.
+    ///   - layout:         The layout object requesting the information.
+    ///   - section:        The index of the section header to optionally inset.
+    /// - Returns:          `true` if the header should inset over the content, otherwise `false`.
     @objc optional func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, shouldInsetHeaderInSection section: Int) -> Bool
+    
+    
+    /// Asks the delegate the content height for the validation accessory under the item. If you
+    /// don't implement this method, or return `0.0`, no accessory will be provided.
+    ///
+    /// - Parameters:
+    ///   - collectionView: The collection view displaying the form layout.
+    ///   - layout:         The layout object requesting the information.
+    ///   - indexPath:      The indexPath for the item.
+    ///   - contentWidth:   The content width for the item.
+    /// - Returns:          The content height for the validation item. If you return `0.0`, no item is shown.
+    @objc optional func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, contentHeightForValidationAccessoryAt indexPath: IndexPath, givenContentWidth contentWidth: CGFloat) -> CGFloat
 }

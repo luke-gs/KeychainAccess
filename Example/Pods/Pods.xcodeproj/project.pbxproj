@@ -207,6 +207,7 @@
 		B8B89B68DDB7D4CF90B8459EBC9F6889 /* Dictionary+Unbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262BF2E3B236767F997B1901F0E050DD /* Dictionary+Unbox.swift */; };
 		B9CDE1EDBD3E1D0C93DFF0DB280B9D09 /* GalleryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFC79670DA0CE3CD94CD521C742DBD4 /* GalleryCollectionViewCell.swift */; };
 		BBEFE2F9CEB73DC7BD97FFA66A0D9D4F /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A74A013BB103A4EC30DDE2EAD0C0261 /* Validation.swift */; };
+		BC02BD761EF6396000125ED8 /* CollectionViewFormValidationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC02BD751EF6396000125ED8 /* CollectionViewFormValidationView.swift */; };
 		BC3EBED31EF4EBF100A39495 /* CollectionViewFormLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3EBED11EF4EB4900A39495 /* CollectionViewFormLayout.swift */; };
 		BCB81AB02E1816AA044E636B515D34A9 /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = C923D90DB800392A9733A7A87EC2D2CD /* Member.swift */; };
 		BCFE48B4DF3C832FBD0E8187C33AC259 /* BailOrderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A65C3DA09DAF75E5608A2C72FA245F /* BailOrderDetailViewController.swift */; };
@@ -577,6 +578,7 @@
 		B89B966B94719924F5CE6CDF6CBB5A3D /* CautionDetailsViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CautionDetailsViewController.swift; sourceTree = "<group>"; };
 		B983309B0834C646C00BD05E4585CA4F /* Serialisable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Serialisable.swift; sourceTree = "<group>"; };
 		BAE0974CA2DFE824FC857D53BB12E6F7 /* UIColor+Hex.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
+		BC02BD751EF6396000125ED8 /* CollectionViewFormValidationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewFormValidationView.swift; sourceTree = "<group>"; };
 		BC3EBED11EF4EB4900A39495 /* CollectionViewFormLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormLayout.swift; sourceTree = "<group>"; };
 		BCBC849803657F671ECD40FB67C30B93 /* DefaultReusable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DefaultReusable.swift; sourceTree = "<group>"; };
 		BD4437CE2D54D37B6B4F6B09CACDC073 /* Alamofire.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Alamofire.xcconfig; sourceTree = "<group>"; };
@@ -861,6 +863,7 @@
 				A4D7A564D598F12DD93122864D647F57 /* CollectionViewFormTextFieldCell.swift */,
 				AF9E32C8199ACC1AF2D737B9A39CEE3B /* CollectionViewFormTextViewCell.swift */,
 				77D8039FB970F08784B191CFB02328FF /* CollectionViewFormValueFieldCell.swift */,
+				BC02BD751EF6396000125ED8 /* CollectionViewFormValidationView.swift */,
 			);
 			path = "Collection Reusable Views";
 			sourceTree = "<group>";
@@ -1890,6 +1893,7 @@
 				6AD05B188F2D5E31B4A48CE7E6F64F71 /* EntityDetailsSplitViewController.swift in Sources */,
 				DAEDDC61ACBF421D5148FC8C6F2C67FD /* EntityOccurrencesViewController.swift in Sources */,
 				33DED6D4B886D098E37D671C35B2EFB0 /* EntitySource.swift in Sources */,
+				BC02BD761EF6396000125ED8 /* CollectionViewFormValidationView.swift in Sources */,
 				B1212F3A2474BAB4B81EB19538983545 /* EntityThumbnailView.swift in Sources */,
 				3D3F5707ED265C9ECD0DD429710F2BDF /* EpochDateTransformer+UnboxFormatter.swift in Sources */,
 				BDD6A15577362FB4F67F997DE393F003 /* EpochDateTransformer.swift in Sources */,

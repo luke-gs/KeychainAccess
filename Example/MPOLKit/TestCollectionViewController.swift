@@ -103,6 +103,13 @@ class TestCollectionViewController: FormCollectionViewController  {
         return 310.0
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, contentHeightForValidationAccessoryAt indexPath: IndexPath, givenContentWidth contentWidth: CGFloat) -> CGFloat {
+        if indexPath.item == 0 && indexPath.section == 0 {
+            return 40.0
+        }
+        return 0.0
+    }
+    
 }
 
 extension UICollectionReusableView: DefaultReusable {
