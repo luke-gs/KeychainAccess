@@ -206,7 +206,7 @@ public class CollectionViewFormExpandingHeaderView: UICollectionReusableView, De
         titleLabel.textColor = tintColor
     }
     
-    public override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
+    public final override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
         return layoutAttributes
     }
     
