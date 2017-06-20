@@ -250,21 +250,21 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
     
     // MARK: - CollectionViewDelegateFormLayout
     
-    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
+    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
         return CollectionViewFormExpandingHeaderView.minimumHeight
     }
     
-    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, givenSectionWidth sectionWidth: CGFloat, edgeInsets: UIEdgeInsets) -> CGFloat {
+    open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
         switch sections[indexPath.section].type {
         case .contact:
-            return layout.columnContentWidth(forMinimumItemContentWidth: 250.0, maximumColumnCount: 2, sectionWidth: sectionWidth, sectionEdgeInsets: edgeInsets).floored(toScale: traitCollection.currentDisplayScale)
+            return layout.columnContentWidth(forMinimumItemContentWidth: 250.0, maximumColumnCount: 2, sectionEdgeInsets: sectionEdgeInsets).floored(toScale: traitCollection.currentDisplayScale)
         case .licence(_):
             let item = sections[indexPath.section].items![indexPath.item] as! LicenceItem
             
-            let columnCount = max(min(layout.columnCountForSection(withMinimumItemContentWidth: 180.0, sectionWidth: sectionWidth, sectionEdgeInsets: edgeInsets), 3), 1)
-            return layout.itemContentWidth(fillingColumns: item == .validity ? 2 : 1, inSectionWithColumns: columnCount, sectionWidth: sectionWidth, sectionEdgeInsets: edgeInsets)
+            let columnCount = max(min(layout.columnCountForSection(withMinimumItemContentWidth: 180.0, sectionEdgeInsets: sectionEdgeInsets), 3), 1)
+            return layout.itemContentWidth(fillingColumns: item == .validity ? 2 : 1, inSectionWithColumns: columnCount, sectionEdgeInsets: sectionEdgeInsets)
         default:
-            return sectionWidth
+            return collectionView.bounds.width
         }
     }
     

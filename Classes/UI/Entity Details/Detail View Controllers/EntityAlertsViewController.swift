@@ -188,7 +188,7 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
         collectionView.deselectItem(at: indexPath, animated: true)
     }
     
-    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
+    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
         return CollectionViewFormExpandingHeaderView.minimumHeight
     }
     

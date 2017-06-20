@@ -138,11 +138,11 @@ open class VehicleInfoViewController: EntityDetailCollectionViewController {
     
     // MARK: - CollectionViewDelegateFormLayout
     
-    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
+    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
         return CollectionViewFormExpandingHeaderView.minimumHeight
     }
     
-    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, givenSectionWidth sectionWidth: CGFloat, edgeInsets: UIEdgeInsets) -> CGFloat {
+    open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
         
         let preferredContentSizeCategory: UIContentSizeCategory
         if #available(iOS 10, *) {
@@ -170,7 +170,7 @@ open class VehicleInfoViewController: EntityDetailCollectionViewController {
         
         switch Section(rawValue: indexPath.section)! {
         case .header:
-            return sectionWidth
+            return collectionView.bounds.width
         case .registration:
             switch RegistrationItem(rawValue: indexPath.item)! {
             case .make, .model, .vin:
@@ -183,14 +183,14 @@ open class VehicleInfoViewController: EntityDetailCollectionViewController {
         case .owner:
             switch OwnerItem(rawValue: indexPath.item)! {
             case .address:
-                return sectionWidth
+                return collectionView.bounds.width
             default:
                 minimumWidth = extraLargeText ? 250.0 : 180.0
                 maxColumnCount = 3
             }
         }
         
-        return layout.columnContentWidth(forMinimumItemContentWidth: minimumWidth, maximumColumnCount: maxColumnCount, sectionWidth: sectionWidth, sectionEdgeInsets: edgeInsets).floored(toScale: traitCollection.currentDisplayScale)
+        return layout.columnContentWidth(forMinimumItemContentWidth: minimumWidth, maximumColumnCount: maxColumnCount, sectionEdgeInsets: sectionEdgeInsets).floored(toScale: traitCollection.currentDisplayScale)
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
