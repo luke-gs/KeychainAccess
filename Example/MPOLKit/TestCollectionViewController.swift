@@ -22,17 +22,6 @@ class TestCollectionViewController: FormCollectionViewController  {
         collectionView?.register(CollectionViewFormValueFieldCell.self)
         collectionView?.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         collectionView?.register(RecentEntitiesBackgroundView.self, forSupplementaryViewOfKind: collectionElementKindGlobalHeader)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
-            let formLayout = self.formLayout
-            let start = CFAbsoluteTimeGetCurrent()
-            
-            for _ in 1...100 {
-                formLayout.prepare()
-            }
-            
-            print(CFAbsoluteTimeGetCurrent() - start)
-        }
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -45,8 +34,6 @@ class TestCollectionViewController: FormCollectionViewController  {
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        
         return 100 + (inserted ? 1 : 0)
     }
     
@@ -99,13 +86,6 @@ class TestCollectionViewController: FormCollectionViewController  {
     func collectionView(_ collectionView: UICollectionView, heightForGlobalHeaderInLayout layout: CollectionViewFormLayout) -> CGFloat {
         return 310.0
     }
-    
-//    func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, contentHeightForValidationAccessoryAt indexPath: IndexPath, givenContentWidth contentWidth: CGFloat) -> CGFloat {
-//        if indexPath.item == 0 && indexPath.section == 0 {
-//            return 40.0
-//        }
-//        return 0.0
-//    }
     
 }
 
