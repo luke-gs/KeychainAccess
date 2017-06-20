@@ -10,7 +10,6 @@ import UIKit
 
 public let collectionElementKindGlobalHeader = "collectionElementKindGlobalHeader"
 public let collectionElementKindGlobalFooter = "collectionElementKindGlobalFooter"
-public let collectionElementKindValidationAccessory = "collectionElementKindValidationAccessory"
 
 
 /// The `CollectionViewFormLayout` class is a concrete layout object that organizes items into a
@@ -152,7 +151,6 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     private var sectionFooterPositions: [ElementPosition?] = []
     
     private var itemPositions: [[ItemPosition]] = []
-    private var itemValidationPositions: [[ItemPosition?]] = []
     
     
     // MARK: - Layout preparation
@@ -180,14 +178,12 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         sectionHeaderPositions.removeAll(keepingCapacity: true)
         sectionFooterPositions.removeAll(keepingCapacity: true)
         itemPositions.removeAll(keepingCapacity: true)
-        itemValidationPositions.removeAll(keepingCapacity: true)
         
         let sectionCount = collectionView.numberOfSections
         sectionRects.reserveCapacity(sectionCount)
         sectionHeaderPositions.reserveCapacity(sectionCount)
         sectionFooterPositions.reserveCapacity(sectionCount)
         itemPositions.reserveCapacity(sectionCount)
-        itemValidationPositions.reserveCapacity(sectionCount)
         
         let itemLayoutMargins = self.itemLayoutMargins
         
@@ -213,19 +209,17 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
             
             let maximumAllowedWidth: CGFloat = sectionWidth - firstItemLeftWidthInset - lastItemRightWidthInset
             
-            var itemMinWidths: [(IndexPath, CGFloat)] = (0..<collectionView.numberOfItems(inSection: section)).map {
+            let sectionItemCount = collectionView.numberOfItems(inSection: section)
+            
+            var itemMinWidths: [(IndexPath, CGFloat)] = (0..<sectionItemCount).map {
                 // Create a tuple representing the index path for this item in the section. Provide the minimum width, at maximum of either zero, or the minimum of width and the section width. This ensures an item width that can fit and will never be below zero.
                 let indexPath = IndexPath(item: $0, section: section)
                 let width: CGFloat = max(min((delegate.collectionView(collectionView, layout: self, minimumContentWidthForItemAt: indexPath, givenSectionWidth: width, edgeInsets: sectionInsets)).floored(toScale: screenScale), maximumAllowedWidth), 0.0)
                 return (indexPath, width)
             }
             
-            let sectionItemCount = itemMinWidths.count
-            
             var sectionItemPositions: [ItemPosition] = []
-            var sectionValidationPositions: [ItemPosition?] = []
             sectionItemPositions.reserveCapacity(sectionItemCount)
-            sectionValidationPositions.reserveCapacity(sectionItemCount)
             
             let sectionItemStartY = currentYOrigin
             if sectionItemCount > 0 {
@@ -349,17 +343,6 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
                                 let height = delegate.collectionView?(collectionView, layout: self, contentHeightForValidationAccessoryAt: item.ip, givenContentWidth: item.frame.insetBy(item.margins).width),
                                 height >~ 0.0 {
                                 validityIndicatorHeight = max(validityIndicatorHeight, height)
-                                
-                                var validationInsets = layoutMargins
-                                validationInsets.bottom = 0.0
-                                
-                                var validationFrame = frame
-                                validationFrame.origin.y = validationFrame.maxY
-                                validationFrame.size.height = height + layoutMargins.top
-                                
-                                sectionValidationPositions.append(ItemPosition(frame: validationFrame, zIndex: 1,  layoutMargins: validationInsets, rowIndex: index, rowItemCount: rowItemCount, isAtTrailingEdge: fabs(frame.maxX - collectionViewBounds.width) < 0.5))
-                            } else {
-                                sectionValidationPositions.append(nil)
                             }
                         }
                         
@@ -380,7 +363,6 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
             }
             
             itemPositions.append(sectionItemPositions)
-            itemValidationPositions.append(sectionValidationPositions)
             
             return currentYOrigin + max(0.0, round(sectionInsets.bottom)) - point.y
         }
@@ -589,16 +571,6 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
                 }
             }
             
-            for (index, item) in itemValidationPositions[sectionIndex].enumerated() {
-                guard let validation = item else { continue }
-                if validation.frame.minY > rect.maxY { break }
-                
-                if validation.frame.intersects(rect),
-                    let attribute = layoutAttributesForSupplementaryView(ofKind: collectionElementKindValidationAccessory, at: IndexPath(item: index, section: sectionIndex)) {
-                    attributes.append(attribute)
-                }
-            }
-            
             if sectionFooterPositions[sectionIndex]?.frame.intersects(rect) ?? false,
                 let attribute = layoutAttributesForSupplementaryView(ofKind: UICollectionElementKindSectionFooter, at: IndexPath(item: 0, section: sectionIndex)) {
                 attributes.append(attribute)
@@ -642,19 +614,6 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
             if indexPath.item == 0 && indexPath.section == 0 {
                 position = globalFooterPosition
             }
-        case collectionElementKindValidationAccessory:
-            if let item = itemValidationPositions[ifExists: indexPath.section]?[ifExists: indexPath.item],
-                let position = item {
-                let attribute = CollectionViewFormLayoutAttributes(forSupplementaryViewOfKind: elementKind, with: indexPath)
-                attribute.frame         = position.frame
-                attribute.zIndex        = position.zIndex
-                attribute.layoutMargins = position.layoutMargins
-                attribute.rowIndex      = position.rowIndex
-                attribute.rowItemCount  = position.rowItemCount
-                attribute.isAtTrailingEdge = position.isAtTrailingEdge
-                return attribute
-            }
-            return nil
         default:
             break
         }

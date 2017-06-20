@@ -82,7 +82,6 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
         collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: collectionElementKindGlobalFooter,    withReuseIdentifier: tempID)
         collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: tempID)
         collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: tempID)
-        collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: collectionElementKindValidationAccessory, withReuseIdentifier: tempID)
         
         let backgroundView = UIView(frame: backgroundBounds)
         backgroundView.backgroundColor = wantsTransparentBackground ? .clear : backgroundColor
