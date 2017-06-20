@@ -24,8 +24,14 @@ class TestCollectionViewController: FormCollectionViewController  {
         collectionView?.register(RecentEntitiesBackgroundView.self, forSupplementaryViewOfKind: collectionElementKindGlobalHeader)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
-            self.inserted = true
-            self.collectionView?.insertItems(at: [IndexPath(item: 0, section: 0), IndexPath(item: 0, section: 1), IndexPath(item: 0, section: 2), IndexPath(item: 0, section: 3), IndexPath(item: 0, section: 4)])
+            let formLayout = self.formLayout
+            let start = CFAbsoluteTimeGetCurrent()
+            
+            for _ in 1...100 {
+                formLayout.prepare()
+            }
+            
+            print(CFAbsoluteTimeGetCurrent() - start)
         }
     }
     
@@ -35,7 +41,7 @@ class TestCollectionViewController: FormCollectionViewController  {
     }
     
     func numberOfSections(in collection: UICollectionView) -> Int {
-        return 5
+        return 1
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -82,33 +88,24 @@ class TestCollectionViewController: FormCollectionViewController  {
         return cell
     }
     
-    override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
         return CollectionViewFormExpandingHeaderView.minimumHeight
     }
     
-    override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForFooterInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
-        return 0.0
+    override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
+        return 50
     }
-    
-    override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, givenSectionWidth sectionWidth: CGFloat, edgeInsets: UIEdgeInsets) -> CGFloat {
-        return sectionWidth
-    }
-    
-    override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
-        return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: "Kj", subtitle: "Kj", inWidth: itemWidth, compatibleWith: traitCollection)
-    }
-    
     
     func collectionView(_ collectionView: UICollectionView, heightForGlobalHeaderInLayout layout: CollectionViewFormLayout) -> CGFloat {
         return 310.0
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, contentHeightForValidationAccessoryAt indexPath: IndexPath, givenContentWidth contentWidth: CGFloat) -> CGFloat {
-        if indexPath.item == 0 && indexPath.section == 0 {
-            return 40.0
-        }
-        return 0.0
-    }
+//    func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, contentHeightForValidationAccessoryAt indexPath: IndexPath, givenContentWidth contentWidth: CGFloat) -> CGFloat {
+//        if indexPath.item == 0 && indexPath.section == 0 {
+//            return 40.0
+//        }
+//        return 0.0
+//    }
     
 }
 
@@ -137,3 +134,4 @@ private class RecentEntitiesBackgroundView: UICollectionReusableView {
     }
     
 }
+

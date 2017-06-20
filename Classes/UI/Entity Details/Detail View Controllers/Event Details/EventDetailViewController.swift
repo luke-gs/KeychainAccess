@@ -154,7 +154,7 @@ open class EventDetailViewController: FormCollectionViewController {
     
     // MARK: - CollectionViewDelegateFormLayout
     
-    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
+    open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
         let section = sections[section]
         if section.title?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ?? true {
             return 0.0
@@ -173,7 +173,7 @@ open class EventDetailViewController: FormCollectionViewController {
         return layout.columnContentWidth(forColumnCount: columnCount, sectionEdgeInsets: sectionEdgeInsets)
     }
     
-    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
+    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
         let item = sections[indexPath.section].items[indexPath.item]
         
         

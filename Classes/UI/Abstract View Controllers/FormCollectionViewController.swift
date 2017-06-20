@@ -284,19 +284,11 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     
     // MARK: - CollectionViewDelegateMPOLLayout methods
     
-    open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
-        return 0.0
-    }
-    
-    open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForFooterInSection section: Int) -> CGFloat {
-        return 0.0
-    }
-    
     open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, insetForSection section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0.0, left: 24.0, bottom: 0.0, right: 16.0)
     }
     
-    open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
+    open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
         return 39.0
     }
     
