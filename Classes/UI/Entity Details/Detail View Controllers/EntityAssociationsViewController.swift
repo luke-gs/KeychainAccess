@@ -120,7 +120,7 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
         }
     }
     
-    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
+    open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
         return CollectionViewFormExpandingHeaderView.minimumHeight
     }
     
@@ -140,22 +140,21 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
     
     // MARK: - CollectionViewDelegateFormLayout methods
     
-    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, insetForSection section: Int, givenSectionWidth width: CGFloat) -> UIEdgeInsets {
-        var inset = super.collectionView(collectionView, layout: layout, insetForSection: section, givenSectionWidth: width)
+    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, insetForSection section: Int) -> UIEdgeInsets {
+        var inset = super.collectionView(collectionView, layout: layout, insetForSection: section)
         inset.top    = 4.0
         inset.bottom = 0
         return inset
     }
     
-    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, givenSectionWidth sectionWidth: CGFloat, edgeInsets: UIEdgeInsets) -> CGFloat {
+    open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
         if traitCollection.horizontalSizeClass != .compact {
             return EntityCollectionViewCell.minimumContentWidth(forStyle: .hero)
-        } else {
-            return sectionWidth
         }
+        return collectionView.bounds.width
     }
     
-    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
+    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
         if traitCollection.horizontalSizeClass != .compact {
             return EntityCollectionViewCell.minimumContentHeight(forStyle: .hero, compatibleWith: traitCollection) - 12.0
         } else {

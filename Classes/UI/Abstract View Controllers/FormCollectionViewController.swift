@@ -78,7 +78,6 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
         collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: collectionElementKindGlobalFooter,    withReuseIdentifier: tempID)
         collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: tempID)
         collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: tempID)
-        collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: collectionElementKindValidationAccessory, withReuseIdentifier: tempID)
         
         let backgroundView = UIView(frame: backgroundBounds)
         backgroundView.backgroundColor = wantsTransparentBackground ? .clear : backgroundColor
@@ -279,23 +278,11 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     
     // MARK: - CollectionViewDelegateMPOLLayout methods
     
-    open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
-        return 0.0
-    }
-    
-    open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForFooterInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
-        return 0.0
-    }
-    
-    open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, insetForSection section: Int, givenSectionWidth width: CGFloat) -> UIEdgeInsets {
+    open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, insetForSection section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0.0, left: 24.0, bottom: 0.0, right: 16.0)
     }
     
-    open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, givenSectionWidth sectionWidth: CGFloat, edgeInsets: UIEdgeInsets) -> CGFloat {
-        return sectionWidth
-    }
-    
-    open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
+    open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
         return 39.0
     }
     
