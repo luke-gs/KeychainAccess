@@ -190,8 +190,19 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     }
     
     
+    /// Sets the validation text details for the cell, with an optional animation.
+    ///
+    /// - Important: When setting the validation with animation, the cell invalidates
+    ///              the layout to ensure the room expands and allows the delagate to
+    ///              specify the appropriate size. When setting without an animation,
+    ///              it is the setter's responsibility to invalidate the layout.
+    ///
+    /// - Parameters:
+    ///   - text:      The new validation text.
+    ///   - textColor: The text color for the text
+    ///   - animated:  A boolean value indicating whether the update will be animated.
     open func setValidationText(_ text: String?, textColor: UIColor?, animated: Bool) {
-        let hasText = text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ?? true == false
+        let hasText = text?.isEmpty ?? true == false
         if hasText == false && validationAccessoryLabel?.text?.isEmpty ?? true || text == validationAccessoryLabel?.text {
             return // No further action needed
         }
@@ -227,7 +238,6 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
                 validationAccessoryLabel?.removeFromSuperview()
                 validationAccessoryLabel = nil
             }
-            collectionView?.collectionViewLayout.invalidateLayout()
             return
         }
         
