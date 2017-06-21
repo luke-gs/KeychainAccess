@@ -614,10 +614,6 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         return false
     }
     
-    open override func indexPathsToInsertForSupplementaryView(ofKind elementKind: String) -> [IndexPath] {
-        return super.indexPathsToInsertForSupplementaryView(ofKind: elementKind)
-    }
-    
     
     // MARK: - Column Conveniences
     
