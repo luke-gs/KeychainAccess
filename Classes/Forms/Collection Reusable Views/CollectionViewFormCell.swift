@@ -28,13 +28,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     public class func heightForValidationAccessory(withText text: String, contentWidth: CGFloat, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
         if text.isEmpty { return 0.0 }
         
-        let font: UIFont
-        if #available(iOS 10, *) {
-            font = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
-        } else {
-            font = .preferredFont(forTextStyle: .footnote)
-        }
-        
+        let font = UIFont.preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
         let textBounds = (text as NSString).boundingRect(with: CGSize(width: contentWidth, height: .greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
         return textBounds.height.ceiled(toScale: traitCollection.currentDisplayScale) + 12.0
     }
@@ -208,9 +202,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
             let label = UILabel(frame: .zero)
             label.translatesAutoresizingMaskIntoConstraints = false
             label.numberOfLines = 0
-            if #available(iOS 10, *) {
-                label.adjustsFontForContentSizeCategory = true
-            }
+            label.adjustsFontForContentSizeCategory = true
             label.font = .preferredFont(forTextStyle: .footnote)
             contentView.addSubview(label)
             
