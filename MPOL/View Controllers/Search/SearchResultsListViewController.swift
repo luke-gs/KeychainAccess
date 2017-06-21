@@ -39,7 +39,7 @@ class SearchResultsListViewController: FormCollectionViewController, SearchNavig
     private let searchField = SearchNavigationField()
     
     private var alertEntities: [Entity] = []
-    private var alertExpanded = true
+    private var alertExpanded = false
     
     private var dataSourceResults: [DataSourceResult] = []
     
