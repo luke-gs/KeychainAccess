@@ -740,21 +740,21 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
             }
         }
         
-        self.insertedSections      = insertedSections
-        self.deletedSections       = deletedSections
-        self.insertedItems         = insertedItems
-        self.deletedItems          = deletedItems
+        self.insertedSections = insertedSections
+        self.deletedSections  = deletedSections
+        self.insertedItems    = insertedItems
+        self.deletedItems     = deletedItems
     }
     
     open override func finalizeCollectionViewUpdates() {
-        insertedItems          = nil
-        deletedItems           = nil
-        insertedSections       = nil
-        deletedSections        = nil
+        insertedItems    = nil
+        deletedItems     = nil
+        insertedSections = nil
+        deletedSections  = nil
     }
     
     open override func initialLayoutAttributesForAppearingItem(at itemIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        let attributes = super.initialLayoutAttributesForAppearingItem(at: itemIndexPath)
+        let attributes = super.initialLayoutAttributesForAppearingItem(at: itemIndexPath)?.copy() as? UICollectionViewLayoutAttributes
         if insertedSections?.contains(itemIndexPath.section) ?? false || insertedItems?.contains(itemIndexPath) ?? false {
             attributes?.alpha = 0.0
         }
@@ -762,7 +762,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     }
     
     open override func finalLayoutAttributesForDisappearingItem(at itemIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        let attributes = super.finalLayoutAttributesForDisappearingItem(at: itemIndexPath)
+        let attributes = super.finalLayoutAttributesForDisappearingItem(at: itemIndexPath)?.copy() as? UICollectionViewLayoutAttributes
         if deletedItems?.contains(itemIndexPath) ?? false || deletedSections?.contains(itemIndexPath.section) ?? false {
             attributes?.alpha = 0.0
         }
@@ -770,7 +770,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     }
     
     open override func initialLayoutAttributesForAppearingSupplementaryElement(ofKind elementKind: String, at elementIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        let attributes = super.initialLayoutAttributesForAppearingDecorationElement(ofKind: elementKind, at: elementIndexPath)
+        let attributes = super.initialLayoutAttributesForAppearingSupplementaryElement(ofKind: elementKind, at: elementIndexPath)?.copy() as? UICollectionViewLayoutAttributes
         if insertedSections?.contains(elementIndexPath.section) ?? false {
             attributes?.alpha = 0.0
         }
@@ -778,7 +778,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     }
     
     open override func finalLayoutAttributesForDisappearingSupplementaryElement(ofKind elementKind: String, at elementIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        let attributes = super.finalLayoutAttributesForDisappearingSupplementaryElement(ofKind: elementKind, at: elementIndexPath)
+        let attributes = super.finalLayoutAttributesForDisappearingSupplementaryElement(ofKind: elementKind, at: elementIndexPath)?.copy() as? UICollectionViewLayoutAttributes
         if deletedSections?.contains(elementIndexPath.section) ?? false {
             attributes?.alpha = 0.0
         }
