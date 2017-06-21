@@ -22,7 +22,7 @@ open class VehicleInfoViewController: EntityDetailCollectionViewController {
     }
     
     public required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError("VehicleInfoViewController does not support NSCoding.")
     }
     
     

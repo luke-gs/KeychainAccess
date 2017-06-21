@@ -187,7 +187,7 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     }
     
     open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        fatalError("Subclasses must override this method, and must not call super.")
+        MPLRequiresConcreteImplementation()
     }
     
     open func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {

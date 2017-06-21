@@ -72,7 +72,7 @@ open class Address: NSObject, Serialisable {
     }
     
     public required init?(coder aDecoder: NSCoder) {
-        fatalError("Not implemented yet")
+        MPLUnimplemented()
     }
     
     open func encode(with aCoder: NSCoder) {

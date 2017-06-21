@@ -38,7 +38,7 @@ open class Whereabouts: Event {
     }
     
     public required init?(coder aDecoder: NSCoder) {
-        fatalError("Not implemented yet")
+        MPLUnimplemented()
     }
     
     public required init(id: String) {
@@ -47,7 +47,7 @@ open class Whereabouts: Event {
     
     open override func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
-        fatalError("Not implemented yet")
+        MPLUnimplemented()
     }
 }
 
@@ -68,11 +68,11 @@ open class WhereaboutsRemark: NSObject, Serialisable {
     }
     
     public required init?(coder aDecoder: NSCoder) {
-        fatalError("Not implemented yet")
+        MPLUnimplemented()
     }
     
     open func encode(with aCoder: NSCoder) {
-        
+        MPLUnimplemented()
     }
     
     open static var supportsSecureCoding: Bool {

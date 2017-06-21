@@ -54,7 +54,7 @@ open class CircleIconView: UIView {
     }
     
     public required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError("CircleIconView does not support NSCoding.")
     }
     
     

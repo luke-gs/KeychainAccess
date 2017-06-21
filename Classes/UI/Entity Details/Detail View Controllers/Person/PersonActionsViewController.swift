@@ -48,7 +48,7 @@ open class PersonActionsViewController: EntityDetailCollectionViewController {
     }
     
     public required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError("PersonActionsViewController does not support NSCoding.")
     }
     
     
