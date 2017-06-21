@@ -36,7 +36,7 @@ class SettingsViewController: FormTableViewController {
     
     // MARK: - View lifecycle
     
-//    override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         
         guard let tableView = self.tableView else { return }
