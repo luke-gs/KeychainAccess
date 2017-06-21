@@ -23,6 +23,23 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     
     internal static let standardSeparatorColor = #colorLiteral(red: 0.7843137255, green: 0.7803921569, blue: 0.8, alpha: 1)
     
+    // MARK: - Class methods
+    
+    public class func heightForValidationAccessory(withText text: String, contentWidth: CGFloat, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
+        if text.isEmpty { return 0.0 }
+        
+        let font: UIFont
+        if #available(iOS 10, *) {
+            font = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
+        } else {
+            font = .preferredFont(forTextStyle: .footnote)
+        }
+        
+        let textBounds = (text as NSString).boundingRect(with: CGSize(width: contentWidth, height: .greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
+        return textBounds.height.ceiled(toScale: traitCollection.currentDisplayScale) + 12.0
+    }
+    
+    // MARK: - Associated types
     
     @objc(CollectionViewFormSeparatorStyle) public enum SeparatorStyle: Int {
         case none
@@ -76,6 +93,14 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         }
     }
     
+    @NSCopying open var separatorTintColor: UIColor? = nil {
+        didSet {
+            separatorView.tintColor = separatorTintColor
+            if selectionStyle == .underline && isSelected {
+                separatorView.backgroundColor = separatorTintColor
+            }
+        }
+    }
     
     open override var isHighlighted: Bool {
         didSet {
@@ -155,7 +180,9 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         get {
             return actionView.isShowingActions
         }
-        set { setShowingEditActions(isShowingEditActions, animated: false) }
+        set {
+            setShowingEditActions(isShowingEditActions, animated: false)
+        }
     }
     
     
@@ -166,6 +193,73 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     ///   - animated:       A boolean flag indicating whether the update should be animated.
     open func setShowingEditActions(_ showingActions: Bool, animated: Bool) {
         actionView.setShowingActions(showingActions, animated: animated)
+    }
+    
+    
+    open func setValidationText(_ text: String?, textColor: UIColor?, animated: Bool) {
+        let hasText = text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ?? true == false
+        if hasText == false && validationAccessoryLabel?.text?.isEmpty ?? true || text == validationAccessoryLabel?.text {
+            return // No further action needed
+        }
+        
+        let collectionView = superview(of: UICollectionView.self)
+        
+        func newValidationLabel() -> UILabel {
+            let label = UILabel(frame: .zero)
+            label.translatesAutoresizingMaskIntoConstraints = false
+            label.numberOfLines = 0
+            if #available(iOS 10, *) {
+                label.adjustsFontForContentSizeCategory = true
+            }
+            label.font = .preferredFont(forTextStyle: .footnote)
+            contentView.addSubview(label)
+            
+            var constraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|-[l]-|", options: [], metrics: nil, views: ["l": label])
+            constraints.append(label.topAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 8.0))
+            NSLayoutConstraint.activate(constraints)
+            return label
+        }
+        
+        if animated == false {
+            if hasText {
+                let validationLabel: UILabel
+                if let currentLabel = validationAccessoryLabel {
+                    validationLabel = currentLabel
+                } else {
+                    validationLabel = newValidationLabel()
+                    validationAccessoryLabel = validationLabel
+                }
+                validationLabel.text = text
+                validationLabel.textColor = textColor
+            } else {
+                validationAccessoryLabel?.removeFromSuperview()
+                validationAccessoryLabel = nil
+            }
+            collectionView?.collectionViewLayout.invalidateLayout()
+            return
+        }
+        
+        let oldLabel = self.validationAccessoryLabel
+        if hasText {
+            validationAccessoryLabel = newValidationLabel()
+        } else {
+            validationAccessoryLabel = nil
+        }
+        let newLabel = validationAccessoryLabel
+        newLabel?.text = text
+        newLabel?.textColor = textColor
+        newLabel?.alpha = 0.0
+        contentView.layoutIfNeeded()
+        
+        UIView.animate(withDuration: 0.3, animations: {
+            newLabel?.alpha = 1.0
+            oldLabel?.alpha = 0.0
+            collectionView?.performBatchUpdates({
+                collectionView?.collectionViewLayout.invalidateLayout()
+            })
+        }, completion: { finished in
+            oldLabel?.removeFromSuperview()
+        })
     }
     
     
@@ -207,11 +301,22 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     open let contentModeLayoutGuide: UILayoutGuide = UILayoutGuide()
     
     
+    /// The gesture recognizer for the edit action drag.
+    ///
+    /// Subclasses that require complex interaction with the edit action gesture can access this property
+    /// and observe state, add failure logic etc.
+    open var editActionGestureRecognizer: UIPanGestureRecognizer {
+        return actionView.panGestureRecognizer
+    }
+    
+    
     // MARK: - Private properties
     
     private let separatorView = UIView(frame: .zero)
     
-    internal let actionView = CollectionViewFormCellActionView(frame: .zero)
+    private let actionView = CollectionViewFormCellActionView(frame: .zero)
+    
+    private var validationAccessoryLabel: UILabel?
     
     /// The content mode guide. This guide is private and will update to enforce the current content
     /// mode on the `contentModeLayoutGuide`.
@@ -222,6 +327,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     private var touchTrigger: TouchRecognizer?
     
     private var isFirstInRow: Bool = false
+    
     private var isAtTrailingEdge: Bool = false {
         didSet {
             actionView.wantsGradientMask = isAtTrailingEdge == false
@@ -535,7 +641,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         
         let wantsUnderline = isSelected && selectionStyle == .underline
         
-        separatorView.backgroundColor = wantsUnderline ? separatorView.tintColor : separatorColor
+        separatorView.backgroundColor = separatorTintColor ?? (wantsUnderline ? separatorView.tintColor : separatorColor)
         if (separatorView.frame.height > 1.0) != wantsUnderline {
             setNeedsLayout()
         }

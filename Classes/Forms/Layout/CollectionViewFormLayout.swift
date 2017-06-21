@@ -187,7 +187,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         let itemLayoutMargins = self.itemLayoutMargins
         
         let widthForItem = delegate.collectionView(_:layout:minimumContentWidthForItemAt:sectionEdgeInsets:)
-        let heightForValidation = delegate.collectionView(_:layout:contentHeightForValidationAccessoryAt:givenContentWidth:)
+        let heightForValidation = delegate.collectionView(_:layout:heightForValidationAccessoryAt:givenContentWidth:)
         let insetForSection = delegate.collectionView(_:layout:insetForSection:)
         let heightForHeader = delegate.collectionView(_:layout:heightForHeaderInSection:)
         let heightForFooter = delegate.collectionView(_:layout:heightForFooterInSection:)
@@ -360,10 +360,6 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
                                 height >~ 0.0 {
                                 validityIndicatorHeight = max(validityIndicatorHeight, height)
                             }
-                        }
-                        
-                        if validityIndicatorHeight >~ 0.0 {
-                            validityIndicatorHeight += itemLayoutMargins.top
                         }
                         
                         currentYOrigin += minHeight + validityIndicatorHeight
@@ -843,8 +839,8 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     @objc optional func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, shouldInsetHeaderInSection section: Int) -> Bool
     
     
-    /// Asks the delegate the content height for the validation accessory under the item. If you
-    /// don't implement this method, or return `0.0`, no accessory will be provided.
+    /// Asks the delegate the height for the validation accessory under the item. If you don't
+    /// implement this method, or return `0.0`, no accessory will be provided.
     ///
     /// - Parameters:
     ///   - collectionView: The collection view displaying the form layout.
@@ -852,5 +848,5 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     ///   - indexPath:      The indexPath for the item.
     ///   - contentWidth:   The content width for the item.
     /// - Returns:          The content height for the validation item. If you return `0.0`, no item is shown.
-    @objc optional func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, contentHeightForValidationAccessoryAt indexPath: IndexPath, givenContentWidth contentWidth: CGFloat) -> CGFloat
+    @objc optional func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForValidationAccessoryAt indexPath: IndexPath, givenContentWidth contentWidth: CGFloat) -> CGFloat
 }

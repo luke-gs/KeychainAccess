@@ -427,7 +427,15 @@ internal class CollectionViewFormCellActionView: UIScrollView, UIScrollViewDeleg
             
             if let cells = superview(of: UICollectionView.self)?.visibleCells {
                 let isDraggingActionView = { (cell: UICollectionViewCell) -> Bool in
-                    return (cell as? CollectionViewFormCell)?.actionView.isDragging ?? false
+                    if let cell = cell as? CollectionViewFormCell {
+                        switch cell.editActionGestureRecognizer.state {
+                        case .began, .changed:
+                            return true
+                        default:
+                            return false
+                        }
+                    }
+                    return false
                 }
                 
                 if cells.contains(where: isDraggingActionView) {
