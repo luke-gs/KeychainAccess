@@ -62,6 +62,8 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     }
     
     
+    // MARK: - Public properties
+    
     
     open var separatorStyle: SeparatorStyle = .indented {
         didSet {
@@ -79,8 +81,13 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         }
     }
     
+    
+    
     @NSCopying open var separatorColor: UIColor? = CollectionViewFormCell.standardSeparatorColor {
         didSet {
+            if requiresValidation && validationColor != nil {
+                return
+            }
             if selectionStyle != .underline || isSelected == false {
                 separatorView.backgroundColor = separatorColor
             }
@@ -90,11 +97,16 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     @NSCopying open var separatorTintColor: UIColor? = nil {
         didSet {
             separatorView.tintColor = separatorTintColor
+            
+            if requiresValidation && validationColor != nil {
+                return
+            }
+            
             if selectionStyle == .underline && isSelected {
-                separatorView.backgroundColor = separatorTintColor
+                separatorView.backgroundColor = separatorView.tintColor // fetch off the separator view, in case its nil, to get the default tint.
             }
         }
-    }
+    }    
     
     open override var isHighlighted: Bool {
         didSet {
@@ -149,9 +161,6 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         }
     }
     
-    
-    // MARK: - Public properties
-    
     /// The edit actions for the cell.
     ///
     /// Setting this property will close edit actions if there are no more edit actions.
@@ -190,24 +199,42 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     }
     
     
-    /// Sets the validation text details for the cell, with an optional animation.
+    // MARK: - Validation
+    
+    
+    /// The validation color for the cell.
+    /// 
+    /// This will be used for the separator color when the cell requires validation,
+    /// as well as for the validation accessory label.
+    @NSCopying open var validationColor: UIColor? = .red {
+        didSet {
+            if requiresValidation == false { return }
+            
+            separatorView.backgroundColor = validationColor ?? separatorColor
+            validationAccessoryLabel?.textColor = validationColor ?? .gray
+        }
+    }
+    
+    
+    /// Sets the cell into a validating or non-validating state.
     ///
-    /// - Important: When setting the validation with animation, the cell invalidates
-    ///              the layout to ensure the room expands and allows the delagate to
-    ///              specify the appropriate size. When setting without an animation,
-    ///              it is the setter's responsibility to invalidate the layout.
+    /// - Important: When setting the validation with animation and updating label state,
+    ///              the cell invalidates the layout to ensure the room expands and allows
+    ///              the delagate to specify the appropriate size as part of the animation.
+    ///              When setting without an animation, it is the setter's responsibility
+    ///              to invalidate the layout (thus this method can be used during reuse).
     ///
     /// - Parameters:
-    ///   - text:      The new validation text.
-    ///   - textColor: The text color for the text
-    ///   - animated:  A boolean value indicating whether the update will be animated.
-    open func setValidationText(_ text: String?, textColor: UIColor?, animated: Bool) {
-        let hasText = text?.isEmpty ?? true == false
-        if hasText == false && validationAccessoryLabel?.text?.isEmpty ?? true || text == validationAccessoryLabel?.text {
-            return // No further action needed
+    ///   - requiresValidation: A boolean value indicating whether there the cell requires validation.
+    ///   - validationText:     The text to show as a validation accessory. If `requiresValidation` is false
+    ///                         this text is ignored.
+    ///   - animated:           A boolean value indicating whether the update should be animated.
+    open func setRequiresValidation(_ requiresValidation: Bool, validationText: String?, animated: Bool) {
+        if requiresValidation == self.requiresValidation && (requiresValidation == false || validationText == validationAccessoryLabel?.text) {
+            return // Current state already.
         }
         
-        let collectionView = superview(of: UICollectionView.self)
+        let wantsValidationText = requiresValidation && (validationText?.isEmpty ?? true == false)
         
         func newValidationLabel() -> UILabel {
             let label = UILabel(frame: .zero)
@@ -224,7 +251,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         }
         
         if animated == false {
-            if hasText {
+            if wantsValidationText {
                 let validationLabel: UILabel
                 if let currentLabel = validationAccessoryLabel {
                     validationLabel = currentLabel
@@ -232,33 +259,40 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
                     validationLabel = newValidationLabel()
                     validationAccessoryLabel = validationLabel
                 }
-                validationLabel.text = text
-                validationLabel.textColor = textColor
+                validationLabel.text = validationText
             } else {
                 validationAccessoryLabel?.removeFromSuperview()
                 validationAccessoryLabel = nil
             }
+            self.requiresValidation = requiresValidation
             return
         }
         
         let oldLabel = self.validationAccessoryLabel
-        if hasText {
+        if wantsValidationText {
             validationAccessoryLabel = newValidationLabel()
         } else {
             validationAccessoryLabel = nil
         }
         let newLabel = validationAccessoryLabel
-        newLabel?.text = text
-        newLabel?.textColor = textColor
+        newLabel?.text = validationText
         newLabel?.alpha = 0.0
         contentView.layoutIfNeeded()
         
         UIView.animate(withDuration: 0.3, animations: {
-            newLabel?.alpha = 1.0
-            oldLabel?.alpha = 0.0
-            collectionView?.performBatchUpdates({
-                collectionView?.collectionViewLayout.invalidateLayout()
-            })
+            if newLabel != nil || oldLabel != nil {
+                // labels are changing.
+                newLabel?.alpha = 1.0
+                oldLabel?.alpha = 0.0
+                
+                let collectionView = self.superview(of: UICollectionView.self)
+                collectionView?.performBatchUpdates({
+                    collectionView?.collectionViewLayout.invalidateLayout()
+                })
+            }
+            
+            self.requiresValidation = requiresValidation
+            self.layoutIfNeeded()
         }, completion: { finished in
             oldLabel?.removeFromSuperview()
         })
@@ -317,6 +351,16 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     private let separatorView = UIView(frame: .zero)
     
     private let actionView = CollectionViewFormCellActionView(frame: .zero)
+    
+    private var requiresValidation: Bool = false {
+        didSet {
+            if requiresValidation == oldValue { return }
+            
+            let validationColor: UIColor? = requiresValidation ? self.validationColor : nil
+            separatorView.backgroundColor = validationColor ?? (isSelected && selectionStyle == .underline ? separatorView.tintColor : separatorColor)
+            setNeedsLayout()
+        }
+    }
     
     private var validationAccessoryLabel: UILabel?
     
@@ -525,7 +569,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
             separatorInset = .zero
         }
         
-        let separatorHeight = 1.0 / traitCollection.currentDisplayScale + (isSelected && selectionStyle == .underline ? 1.0 : 0.0)
+        let separatorHeight = 1.0 / traitCollection.currentDisplayScale + ((isSelected && selectionStyle == .underline) || requiresValidation ? 1.0 : 0.0)
         separatorView.frame = CGRect(x: separatorInset.left, y: bounds.height - separatorHeight, width: bounds.width - separatorInset.left - separatorInset.right, height: separatorHeight)
         separatorView.isHidden = separatorStyle == .none
         
