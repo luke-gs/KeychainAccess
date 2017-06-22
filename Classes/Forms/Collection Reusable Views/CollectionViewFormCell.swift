@@ -241,6 +241,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
             label.translatesAutoresizingMaskIntoConstraints = false
             label.numberOfLines = 0
             label.adjustsFontForContentSizeCategory = true
+            label.textColor = validationColor ?? .gray
             label.font = .preferredFont(forTextStyle: .footnote)
             contentView.addSubview(label)
             
