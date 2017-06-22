@@ -235,6 +235,7 @@ public struct ThemeColorType: RawRepresentable, Equatable, Hashable {
     // System
     public static let Background          = ThemeColorType(rawValue: "background")
     public static let Separator           = ThemeColorType(rawValue: "separator")
+    public static let ValidationError     = ThemeColorType(rawValue: "validationError")
     public static let CellSelection       = ThemeColorType(rawValue: "cellSelection")
     public static let DisclosureIndicator = ThemeColorType(rawValue: "disclosureIndicator")
     public static let PopoverBackground   = ThemeColorType(rawValue: "popoverBackground")

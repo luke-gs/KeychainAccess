@@ -16,12 +16,14 @@ class TestCollectionViewController: FormCollectionViewController  {
     var text: String? {
         didSet {
             if let cell = self.collectionView?.cellForItem(at: IndexPath(item: 0 , section: 0)) as? CollectionViewFormCell {
-                cell.setValidationText(text, textColor: .red, animated: true)
-                cell.separatorColor = text?.isEmpty ?? true ? Theme.current.colors[.Separator] : .red
+                cell.setRequiresValidation(text != nil, validationText: text, animated: true)
+            } else {
+                collectionView?.performBatchUpdates({
+                    self.formLayout.invalidateLayout()
+                })
             }
         }
     }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,10 +35,10 @@ class TestCollectionViewController: FormCollectionViewController  {
         collectionView?.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         collectionView?.register(RecentEntitiesBackgroundView.self, forSupplementaryViewOfKind: collectionElementKindGlobalHeader)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
             self.text = "Test"
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 12) {
             self.text = nil
         }
     }
@@ -89,6 +91,12 @@ class TestCollectionViewController: FormCollectionViewController  {
         
         cell.editActions = [CollectionViewFormEditAction(title: "DELETE", color: .destructive, handler: nil)]
         
+        if indexPath.item == 0 && indexPath.section == 0 {
+            cell.setRequiresValidation(text != nil, validationText: text, animated: false)
+        } else {
+            cell.setRequiresValidation(false, validationText: nil, animated: false)
+        }
+        
         return cell
     }
     
@@ -109,16 +117,11 @@ class TestCollectionViewController: FormCollectionViewController  {
             return CollectionViewFormCell.heightForValidationAccessory(withText: text, contentWidth: contentWidth, compatibleWith: traitCollection)
         }
         return 0.0
-        
-        
     }
     
 }
 
-extension UICollectionReusableView: DefaultReusable {
-}
-
-private class RecentEntitiesBackgroundView: UICollectionReusableView {
+private class RecentEntitiesBackgroundView: UICollectionReusableView, DefaultReusable {
     
     override init(frame: CGRect) {
         super.init(frame: frame)

@@ -46,6 +46,8 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     
     @NSCopying open var separatorColor:       UIColor?
     
+    @NSCopying open var validationErrorColor: UIColor?
+    
     
     // MARK: - Initializers
     
@@ -148,6 +150,7 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
         primaryTextColor     = colors[.PrimaryText]
         secondaryTextColor   = colors[.SecondaryText]
         placeholderTextColor = colors[.PlaceholderText]
+        validationErrorColor = colors[.ValidationError]
         
         setNeedsStatusBarAppearanceUpdate()
         
@@ -207,7 +210,10 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     
     open func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         
-        (cell as? CollectionViewFormCell)?.separatorColor = separatorColor
+        if let formCell = cell as? CollectionViewFormCell {
+            formCell.separatorColor = separatorColor
+            formCell.validationColor = validationErrorColor
+        }
         
         let primaryTextColor     = self.primaryTextColor     ?? .black
         let secondaryTextColor   = self.secondaryTextColor   ?? .darkGray
