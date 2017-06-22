@@ -229,19 +229,18 @@ class SearchResultsListViewController: FormCollectionViewController, SearchNavig
     
     // MARK: - CollectionViewDelegateFormLayout methods
     
-    override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
         return CollectionViewFormExpandingHeaderView.minimumHeight
     }
     
-    override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, insetForSection section: Int, givenSectionWidth width: CGFloat) -> UIEdgeInsets {
-        var inset = super.collectionView(collectionView, layout: layout, insetForSection: section, givenSectionWidth: width)
+    override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, insetForSection section: Int) -> UIEdgeInsets {
+        var inset = super.collectionView(collectionView, layout: layout, insetForSection: section)
         inset.top    = 4.0
         inset.bottom = 0
         return inset
     }
     
-    override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, givenSectionWidth sectionWidth: CGFloat, edgeInsets: UIEdgeInsets) -> CGFloat {
-        
+    func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
         let adjustedSection = adjustedSectionIndex(forDataSourceSectionIndex: indexPath.section)
         
         if adjustedSection < 0 {
@@ -252,11 +251,10 @@ class SearchResultsListViewController: FormCollectionViewController, SearchNavig
             return EntityCollectionViewCell.minimumContentWidth(forStyle: .hero)
         }
         
-        return sectionWidth
+        return collectionView.bounds.width
     }
     
-    override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
-        
+    override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
         let adjustedSection = adjustedSectionIndex(forDataSourceSectionIndex: indexPath.section)
 
         if adjustedSection < 0 {

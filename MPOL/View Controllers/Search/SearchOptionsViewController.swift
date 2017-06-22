@@ -404,14 +404,14 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         return 32.0
     }
     
-    override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
         return Section(rawValue: section) == .searchField ? 0.0 : CollectionViewFormExpandingHeaderView.minimumHeight
     }
     
-    override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, givenSectionWidth sectionWidth: CGFloat, edgeInsets: UIEdgeInsets) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
         
         if Section(rawValue: indexPath.section) == .searchField  {
-            return sectionWidth
+            return collectionView.bounds.width
         }
         
         let extraLargeText: Bool
@@ -425,10 +425,10 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         let minimumWidth: CGFloat = extraLargeText ? 250.0 : 140.0
         let maxColumnCount = 4
         
-        return layout.columnContentWidth(forMinimumItemContentWidth: minimumWidth, maximumColumnCount: maxColumnCount, sectionWidth: sectionWidth, sectionEdgeInsets: edgeInsets).floored(toScale: UIScreen.main.scale)
+        return layout.columnContentWidth(forMinimumItemContentWidth: minimumWidth, maximumColumnCount: maxColumnCount, sectionEdgeInsets: sectionEdgeInsets).floored(toScale: UIScreen.main.scale)
     }
     
-    override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
+    override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
         
         switch Section(rawValue: indexPath.section)! {
         case .searchField:
