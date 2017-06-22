@@ -48,12 +48,12 @@ class SearchResultsListViewController: FormCollectionViewController, SearchNavig
         super.init()
         
         let bundle = Bundle(for: Person.self)
-        let url = bundle.url(forResource: "Person_25625aa4-3394-48e2-8dbc-2387498e16b0", withExtension: "json", subdirectory: "Mock JSONs")!
+        let url = bundle.url(forResource: "PersonSearch", withExtension: "json", subdirectory: "Mock JSONs")!
         let data = try! Data(contentsOf: url)
-        let person1: Person = try! unbox(data: data)
+        let person1: [Person] = try! unbox(data: data)
         
-        alertEntities = [person1]
-        dataSourceResults = [DataSourceResult(name: "LEAP", isExpanded: true, entities: [person1])]
+        alertEntities = person1
+        dataSourceResults = [DataSourceResult(name: "LEAP", isExpanded: true, entities: person1)]
 
         formLayout.itemLayoutMargins = UIEdgeInsets(top: 16.5, left: 8.0, bottom: 14.5, right: 8.0)
         formLayout.distribution = .none
