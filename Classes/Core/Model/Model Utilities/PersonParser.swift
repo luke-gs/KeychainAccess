@@ -9,6 +9,8 @@ import UIKit
 
 public class PersonParser: QueryParserType {
     
+    // MARK: - Query Parser Type
+    
     required public init() { }
     
     public var delimiter: String = ","
@@ -32,12 +34,7 @@ public class PersonParser: QueryParserType {
         return [
             QueryTokenDefinition(key: "surname",
                                  required: true,
-                                 typeCheck: { (token) in
-                                    guard !token.isEmpty else { return false }
-                                    let allowedCharacters = CharacterSet.letters.union(.whitespaces)
-                                    let leftover = token.trimmingCharacters(in: allowedCharacters)
-                                    return leftover.characters.count == 0
-                                 },
+                                 typeCheck: nameTypeCheck,
                                  validate: { (token, index, map) in
                                     return index == SurnameIndex
                                         && token.characters.count > MinimumSurnameLength
@@ -45,35 +42,22 @@ public class PersonParser: QueryParserType {
                                  }),
             QueryTokenDefinition(key: "givenName",
                                  required: false,
-                                 typeCheck: { (token) in
-                                    guard !token.isEmpty else { return false }
-                                    let allowedCharacters = CharacterSet.letters.union(.whitespaces)
-                                    let leftover = token.trimmingCharacters(in: allowedCharacters)
-                                    return leftover.characters.count == 0
-                                 },
+                                 typeCheck: nameTypeCheck,
                                  validate: { (token, index, map) in
                                     return token.characters.count > MinimumGivenNameLength
                                         && token.characters.count < MaximumGivenNameLength
                                  }),
             QueryTokenDefinition(key: "middleNames",
                                  required: false,
-                                 typeCheck: { (token) in
-                                    guard !token.isEmpty else { return false }
-                                    let allowedCharacters = CharacterSet.letters.union(.whitespaces)
-                                    let leftover = token.trimmingCharacters(in: allowedCharacters)
-                                    return leftover.characters.count == 0
-                                 },
+                                 typeCheck: nameTypeCheck,
                                  validate: { (token, index, map) in
-                                    let isGender: Bool = (token == "M" || token == "F" || token == "U") && map["gender"] == nil
-                                    return !isGender
-                                        && token.characters.count > MinimumMiddleNamesLength
+                                    if self.genderTypeCheck(token) && map["gender"] == nil { return false }
+                                    return token.characters.count > MinimumMiddleNamesLength
                                         && token.characters.count < MaximumMiddleNamesLength
                                  }),
             QueryTokenDefinition(key: "gender",
                                  required: false,
-                                 typeCheck: { (token) in
-                                    return token == "M" || token == "F" || token == "U"
-                                 }),
+                                 typeCheck: genderTypeCheck),
             QueryTokenDefinition(key: "dateOfBirth",
                                  required: false,
                                  typeCheck: { (token) in
@@ -95,7 +79,7 @@ public class PersonParser: QueryParserType {
                                     let month = Int(token.substring(with: monthRange)) ?? 1
                                     let year = Int(token.substring(with: yearRange))!
                                     
-                                    guard self.validate(day: day, month: month, year: year) else { return false }
+                                    guard self.validateDate(day: day, month: month, year: year) else { return false }
                                     
                                     let components = DateComponents(year: year, month: month, day: day)
                                     guard let date = Calendar.current.date(from: components) else { return false }
@@ -128,8 +112,24 @@ public class PersonParser: QueryParserType {
         ]
     }
     
-    func validate(day: Int, month: Int, year: Int) -> Bool {
-        
+    
+    // MARK: - Common Checks
+    
+    private let nameTypeCheck: (_ string: String) -> Bool = { (token) in
+        guard !token.isEmpty else { return false }
+        let allowedCharacters = CharacterSet.letters.union(.whitespaces)
+        let leftover = token.trimmingCharacters(in: allowedCharacters)
+        return leftover.characters.count == 0
+    }
+    
+    private let genderTypeCheck: (_ string: String) -> Bool = { (token) in
+        return token == "M" || token == "F" || token == "U"
+    }
+    
+    
+    // MARK: - Helper Methods
+    
+    func validateDate(day: Int, month: Int, year: Int) -> Bool {
         // validate year
         let maxYear = Calendar.current.component(.year, from: Date())
         let minYear = maxYear - 150
@@ -151,6 +151,7 @@ public class PersonParser: QueryParserType {
         case 1, 3, 5, 7, 8, 10, 12:
             return day <= 31
         default:
+            // if month is not 1 - 12, default case will execute
             return false
         }
     }

@@ -13,8 +13,8 @@ import UIKit
 /// token, when parsing a string.
 public class QueryTokenDefinition {
     
-    typealias TypeCheckClosure = (_ string: String) -> Bool
-    typealias ValidationClosure = (_ string: String, _ index: Int,  _ map: [String:String]) -> Bool
+    public typealias TypeCheckClosure = (_ string: String) -> Bool
+    public typealias ValidationClosure = (_ string: String, _ index: Int,  _ map: [String:String]) -> Bool
     
     /// The name of the token (result will be mapped to this name).
     var key: String
