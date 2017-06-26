@@ -7,17 +7,29 @@
 
 import UIKit
 
-public class PersonParser: QueryParserType {
+public enum PersonParserError: Error {
+    case surnameIsNotFirst(surname: String)
+    case surnameLengthOutOfBounds(surname: String)
+    case givenNameLengthOutOfBounds(givenName: String)
+    case nameMatchesGenderType(gender: String)
+    case middleNamesLengthOutOfBounds(middleNames: String)
+    case ageGapOutOfRange(ageGap: String)
+    case ageGapWrongOrder(ageGap: String)
+    case dobInvalidValues(dob: String)
+    case dobDateOutOfBounds(dob: String)
+}
+
+open class PersonParser: QueryParserType {
     
     // MARK: - Query Parser Type
     
-    required public init() { }
+    public init() { }
     
     public var delimiter: String = ","
     
     public var definitions: [QueryTokenDefinition] {
         
-        // Constants (don't know the convention for where/how to declare constants in swift)
+        // Constants
         let SurnameIndex = 0
         let MinimumSurnameLength = 2
         let MaximumSurnameLength = 16
@@ -28,32 +40,37 @@ public class PersonParser: QueryParserType {
         let MinimumAgeRange = 0
         let MaximumAgeRange = 150
         
-        let ageGapRegex = try? NSRegularExpression(pattern: RegexPattern.ageGap.rawValue)
-        let dateOfBirthRegex = try? NSRegularExpression(pattern: RegexPattern.dateOfBirth.rawValue)
+        let ageGapRegex = try! NSRegularExpression(pattern: RegexPattern.ageGap.rawValue)
+        let dateOfBirthRegex = try! NSRegularExpression(pattern: RegexPattern.dateOfBirth.rawValue)
         
         return [
             QueryTokenDefinition(key: "surname",
                                  required: true,
                                  typeCheck: nameTypeCheck,
                                  validate: { (token, index, map) in
-                                    return index == SurnameIndex
-                                        && token.characters.count > MinimumSurnameLength
-                                        && token.characters.count < MaximumSurnameLength
+                                    if index != SurnameIndex {
+                                        throw PersonParserError.surnameIsNotFirst(surname: token)
+                                    }
+                                    if token.characters.count < MinimumSurnameLength || token.characters.count > MaximumSurnameLength {
+                                        throw PersonParserError.surnameLengthOutOfBounds(surname: token)
+                                    }
                                  }),
             QueryTokenDefinition(key: "givenName",
                                  required: false,
                                  typeCheck: nameTypeCheck,
                                  validate: { (token, index, map) in
-                                    return token.characters.count > MinimumGivenNameLength
-                                        && token.characters.count < MaximumGivenNameLength
+                                    if token.characters.count < MinimumGivenNameLength || token.characters.count > MaximumGivenNameLength {
+                                        throw PersonParserError.givenNameLengthOutOfBounds(givenName: token)
+                                    }
                                  }),
             QueryTokenDefinition(key: "middleNames",
                                  required: false,
                                  typeCheck: nameTypeCheck,
                                  validate: { (token, index, map) in
-                                    if self.genderTypeCheck(token) && map["gender"] == nil { return false }
-                                    return token.characters.count > MinimumMiddleNamesLength
-                                        && token.characters.count < MaximumMiddleNamesLength
+                                    if self.genderTypeCheck(token) && map["gender"] == nil { throw PersonParserError.nameMatchesGenderType(gender: token) }
+                                    if token.characters.count < MinimumMiddleNamesLength || token.characters.count > MaximumMiddleNamesLength {
+                                        throw PersonParserError.middleNamesLengthOutOfBounds(middleNames: token)
+                                    }
                                  }),
             QueryTokenDefinition(key: "gender",
                                  required: false,
@@ -62,52 +79,55 @@ public class PersonParser: QueryParserType {
                                  required: false,
                                  typeCheck: { (token) in
                                     let token = token.replacingOccurrences(of: "-", with: "—")
-                                    return dateOfBirthRegex!.numberOfMatches(in: token, range: NSRange(location: 0, length: token.characters.count)) == 1
+                                    return dateOfBirthRegex.numberOfMatches(in: token, range: NSRange(location: 0, length: token.characters.count)) == 1
                                  },
                                  validate: { (token, index, map) in
                                     // We already know that there is only one match for the token because typeCheck returned true by this point
                                     let token = token.replacingOccurrences(of: "-", with: "—")
-                                    let match = dateOfBirthRegex!.matches(in: token, range: NSRange(location: 0, length: token.characters.count)).first!
+                                    let match = dateOfBirthRegex.matches(in: token, range: NSRange(location: 0, length: token.characters.count)).first!
                                     
                                     // Get date components ranges
-                                    let dayRange = Range(match.rangeAt(1), in: token)!
-                                    let monthRange = Range(match.rangeAt(2), in: token)!
-                                    let yearRange = Range(match.rangeAt(3), in: token)!
+                                    let dayRange = match.rangeAt(1)
+                                    let monthRange = match.rangeAt(2)
+                                    let yearRange = match.rangeAt(3)
                                     
                                     // Get date components
-                                    let day = Int(token.substring(with: dayRange)) ?? 1
-                                    let month = Int(token.substring(with: monthRange)) ?? 1
-                                    let year = Int(token.substring(with: yearRange))!
+                                    let day = Int((token as NSString).substring(with: dayRange)) ?? 1
+                                    let month = Int((token as NSString).substring(with: monthRange)) ?? 1
+                                    let year = Int((token as NSString).substring(with: yearRange))!
                                     
-                                    guard self.validateDate(day: day, month: month, year: year) else { return false }
+                                    guard self.validateDate(day: day, month: month, year: year) else { throw PersonParserError.dobInvalidValues(dob: token) }
                                     
                                     let components = DateComponents(year: year, month: month, day: day)
-                                    guard let date = Calendar.current.date(from: components) else { return false }
+                                    let date = Calendar.current.date(from: components)!
                                     
                                     // Should there be a minimum age for DOB search?
-                                    return date < Date()
+                                    if date > Date() { throw PersonParserError.dobDateOutOfBounds(dob: token) }
                                  }),
             QueryTokenDefinition(key: "ageGap",
                                  required: false,
                                  typeCheck: { (token) in
-                                    return ageGapRegex!.numberOfMatches(in: token, range: NSRange(location: 0, length: token.characters.count)) == 1
+                                    return ageGapRegex.numberOfMatches(in: token, range: NSRange(location: 0, length: token.characters.count)) == 1
                                  },
                                  validate: { (token, index, map) in
                                     // We already know that there is only one match for the token because typeCheck returned true by this point
-                                    let match = ageGapRegex!.matches(in: token, range: NSRange(location: 0, length: token.characters.count)).first!
+                                    let match = ageGapRegex.matches(in: token, range: NSRange(location: 0, length: token.characters.count)).first!
                                     
                                     // Get ranges of lower and upper age
-                                    let lowerRange = Range(match.rangeAt(1), in: token)!
-                                    let upperRange = Range(match.rangeAt(2), in: token)!
+                                    let lowerRange = match.rangeAt(1)
+                                    let upperRange = match.rangeAt(2)
                                     
                                     // Get lower and upper age
-                                    let lower = Int(token.substring(with: lowerRange))!
-                                    let upper = Int(token.substring(with: upperRange))!
+                                    let lower = Int((token as NSString).substring(with: lowerRange))!
+                                    let upper = Int((token as NSString).substring(with: upperRange))!
                                     
-                                    // Check conditions of age gap
-                                    return lower > MinimumAgeRange  && lower < MaximumAgeRange
-                                        && upper > MinimumAgeRange && upper < MaximumAgeRange
-                                        && lower < upper
+                                    if lower < MinimumAgeRange || lower > MaximumAgeRange || upper < MinimumAgeRange || upper > MaximumAgeRange {
+                                        throw PersonParserError.ageGapOutOfRange(ageGap: token)
+                                    }
+                                    
+                                    if lower > upper {
+                                        throw PersonParserError.ageGapWrongOrder(ageGap: token)
+                                    }
                                  })
         ]
     }

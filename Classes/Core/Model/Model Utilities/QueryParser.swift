@@ -14,7 +14,7 @@ import UIKit
 public class QueryTokenDefinition {
     
     public typealias TypeCheckClosure = (_ string: String) -> Bool
-    public typealias ValidationClosure = (_ string: String, _ index: Int,  _ map: [String:String]) -> Bool
+    public typealias ValidationClosure = (_ string: String, _ index: Int,  _ map: [String:String]) throws -> Void
     
     /// The name of the token (result will be mapped to this name).
     var key: String
@@ -40,10 +40,6 @@ public class QueryTokenDefinition {
 /// `QueryParserProtocol` is an object that defines the type and validation for a search
 /// token, when parsing a string.
 public protocol QueryParserType {
-    
-    /// The conforming class/struct must provide an init, even if empty, to allow the
-    /// 'QueryParser' class to create an instance of it.
-    init()
     
     /// The character to split up the query string by (e.g. ",").
     var delimiter: String { get }
@@ -76,8 +72,8 @@ open class QueryParser<ParserType: QueryParserType> {
     /// Parser object that defines how to parse the string (conforms to 'QueryParserType').
     let parser: ParserType
     
-    public init() {
-        self.parser = ParserType()
+    public init(parser: ParserType) {
+        self.parser = parser
     }
     
     /// Function takes a query string and parses it based on definitions found in 'parser'
@@ -95,17 +91,20 @@ open class QueryParser<ParserType: QueryParserType> {
         
         // Logic after match is found
         func mapStringToKey(string: String, key: String, index: Int) {
-            print("\"\(string)\" mapped to \"\(key)\"")
             map[key] = string
             definitions.remove(at: index)
         }
         
-        // Logic to garantee token is a match for a type in definnitions array
+        // Logic to guarantee token is a match for a type in definitions array
         func tokenMatchesAnyDefinition(_ token: String, atIndex index: Int) -> Bool {
             for definition in definitions {
                 if definition.typeCheck(token) {
-                    guard let validate = definition.validate else   { return true } // if validate closure is nil, token matches type
-                    if validate(token, index, map)                  { return true } // if validate returns true, token matches type
+                    guard let validate = definition.validate else { return true }
+                    do {
+                        try validate(token, index, map); return true
+                    } catch {
+                        continue
+                    }
                 }
             }
             return false
@@ -122,15 +121,17 @@ open class QueryParser<ParserType: QueryParserType> {
                 
                 if definition.typeCheck(token) {
                     if let validate = definition.validate {
-                        if validate(token, index, map) {
+                        do {
+                            try validate(token, index, map)
                             mapStringToKey(string: token, key: key, index: definitionIndex)
                             found = true
                             break
-                        } else if tokenMatchesAnyDefinition(token, atIndex: index) {
-                            print("\"\(token)\" found invalid for \"\(key)\" but will match for a later definition")
-                            continue
-                        } else {
-                            throw QueryParserError.invalidToken(token: token, key: key)
+                        } catch (let error) {
+                            if (tokenMatchesAnyDefinition(token, atIndex: index)) {
+                                continue
+                            } else {
+                                throw error
+                            }
                         }
                     } else {
                         mapStringToKey(string: token, key: key, index: definitionIndex)
