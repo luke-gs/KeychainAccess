@@ -108,8 +108,6 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         }
     }
     
-    open var wantsOptimizedResizeAnimation: Bool = true
-    
     
     /// Pins the global header, if it exists, to the visible space when bounce
     /// interactions occur.
@@ -564,59 +562,19 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     // MARK: - Invalidation
     
     open override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
-        let currentContentWidth = contentSize.width
-        let newWidth = fabs(newBounds.width)
         
         // Don't perform an update if there is no width change, or if there is no content.
-        
-        if currentContentWidth ==~ newWidth || sectionRects.last?.maxY.isZero ?? true  {
+        if contentSize.width ==~ newBounds.width || sectionRects.last?.maxY.isZero ?? true  {
             // Width didn't change.
             updateGlobalHeaderAttributeIfNeeded(forBounds: newBounds)
             return false
         }
         
-        if wantsOptimizedResizeAnimation == false {
-            return true
-        }
-        
-        // We're going to do the animation direct - it's much faster.
-        
-        let animationDuration = UIView.inheritedAnimationDuration
-        if animationDuration <=~ 0.0 || UIView.areAnimationsEnabled == false { return true }
-        
-        let collectionView = self.collectionView!
-        
-        DispatchQueue.main.async {
-            var firstCellIndexPath: IndexPath? = nil
-            
-            if let attributes = self.layoutAttributesForElements(in: collectionView.bounds) {
-                for attribute in attributes {
-                    if attribute.representedElementCategory != .cell { continue }
-                    firstCellIndexPath = attribute.indexPath
-                    break
-                }
-            }
-            
-            self.invalidateLayout()
-            
-            if let firstIP = firstCellIndexPath {
-                collectionView.scrollToItem(at: firstIP, at: [], animated: false)
-            }
-            
-            collectionView.layoutIfNeeded()
-            
-            let transition = CATransition()
-            transition.duration = animationDuration
-            transition.timingFunction = CAMediaTimingFunction(name: newWidth > currentContentWidth ? kCAMediaTimingFunctionEaseOut : kCAMediaTimingFunctionEaseIn)
-            collectionView.layer.add(transition, forKey: nil)
-        }
-        
-        return false
+        return true
     }
     
     
     // MARK: - Column Conveniences
-    
     
     /// Calculates the item content width per item in a column style section, optionally filling multiple items by
     /// merging columns together horizontally.
