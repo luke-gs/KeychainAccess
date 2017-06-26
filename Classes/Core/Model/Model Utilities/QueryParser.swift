@@ -41,8 +41,8 @@ public class QueryTokenDefinition {
 /// token, when parsing a string.
 public protocol QueryParserType {
     
-    /// The character to split up the query string by (e.g. ",").
-    var delimiter: String { get }
+    /// Function responsible for breaking up the query string into components based on specific delimiter requirements.
+    func tokensFrom(query: String) -> [String]
     
     /// An array of objects that define each token's type and validation.
     var definitions: [QueryTokenDefinition] { get }
@@ -84,14 +84,14 @@ open class QueryParser<ParserType: QueryParserType> {
     public func parseString(query: String) throws -> [String:String] {
         
         // Split up query string using parser's delimiter
-        let tokens = query.components(separatedBy: parser.delimiter)
+        let tokens = parser.tokensFrom(query: query)
         
-        var map = [String: String]()
+        var results = [String: String]()
         var definitions = parser.definitions
         
         // Logic after match is found
         func mapStringToKey(string: String, key: String, index: Int) {
-            map[key] = string
+            results[key] = string
             definitions.remove(at: index)
         }
         
@@ -101,7 +101,7 @@ open class QueryParser<ParserType: QueryParserType> {
                 if definition.typeCheck(token) {
                     guard let validate = definition.validate else { return true }
                     do {
-                        try validate(token, index, map); return true
+                        try validate(token, index, results); return true
                     } catch {
                         continue
                     }
@@ -117,12 +117,12 @@ open class QueryParser<ParserType: QueryParserType> {
             var found = false
             for (definitionIndex, definition) in definitions.enumerated() {
                 let key = definition.key
-                guard map[key] == nil else { throw QueryParserError.multipleTokenDefinitions(key: key) }
+                guard results[key] == nil else { throw QueryParserError.multipleTokenDefinitions(key: key) }
                 
                 if definition.typeCheck(token) {
                     if let validate = definition.validate {
                         do {
-                            try validate(token, index, map)
+                            try validate(token, index, results)
                             mapStringToKey(string: token, key: key, index: definitionIndex)
                             found = true
                             break
@@ -147,9 +147,9 @@ open class QueryParser<ParserType: QueryParserType> {
         // Check all required tokens have been found
         let requiredKeys: [String] = parser.definitions.flatMap { $0.required ? $0.key : nil }
         for key in requiredKeys {
-            guard let _ = map[key] else { throw QueryParserError.requiredValueNotFound(key: key) }
+            guard let _ = results[key] else { throw QueryParserError.requiredValueNotFound(key: key) }
         }
         
-        return map
+        return results
     }
 }
