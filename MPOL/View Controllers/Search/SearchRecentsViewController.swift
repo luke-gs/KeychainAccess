@@ -60,7 +60,6 @@ class SearchRecentsViewController: FormCollectionViewController {
     
     override init() {
         super.init()
-        formLayout.wantsOptimizedResizeAnimation = false
         formLayout.pinsGlobalHeaderWhenBouncing = true
     }
     
@@ -381,8 +380,6 @@ private class RecentEntitiesHeaderView: UICollectionReusableView, DefaultReusabl
         imageView.clipsToBounds = true
         addSubview(imageView)
         
-        formLayout.wantsOptimizedResizeAnimation = false
-
         collectionView.register(EntityCollectionViewCell.self)
         collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         collectionView.backgroundColor = .clear
