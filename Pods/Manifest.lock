@@ -8,16 +8,11 @@ PODS:
   - Wrap (2.1.0)
 
 DEPENDENCIES:
-  - MPOLKit (from `https://github.com/Gridstone/mPolKit-iOS`)
+  - MPOLKit (from `../mPolKit-iOS`)
 
 EXTERNAL SOURCES:
   MPOLKit:
-    :git: https://github.com/Gridstone/mPolKit-iOS
-
-CHECKOUT OPTIONS:
-  MPOLKit:
-    :commit: aa75c895407b87510b9fbb98dce20a61d183391d
-    :git: https://github.com/Gridstone/mPolKit-iOS
+    :path: "../mPolKit-iOS"
 
 SPEC CHECKSUMS:
   Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
@@ -25,6 +20,6 @@ SPEC CHECKSUMS:
   Unbox: 30e437e6151a6de16139375fd4e8dd9a664cfbf7
   Wrap: 731fe4fe3c2429c913a8252a17dbe8bb191e69e1
 
-PODFILE CHECKSUM: 04d20eb9f0e0190ac157c27afd3febcbf9eb8ec1
+PODFILE CHECKSUM: d6f1f9e0275bc88d55e6452e25b8de27fbc6558a
 
 COCOAPODS: 1.2.1
