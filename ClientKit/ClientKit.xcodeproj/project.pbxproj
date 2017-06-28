@@ -11,6 +11,8 @@
 		BC12DC961F023EF0001A5BB7 /* ClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC12DC8C1F023EF0001A5BB7 /* ClientKit.framework */; };
 		BC12DC9B1F023EF0001A5BB7 /* ClientKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC12DC9A1F023EF0001A5BB7 /* ClientKitTests.swift */; };
 		BC12DC9D1F023EF0001A5BB7 /* ClientKit.h in Headers */ = {isa = PBXBuildFile; fileRef = BC12DC8F1F023EF0001A5BB7 /* ClientKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BCA1793C1F03542900AD1F5F /* PersonParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA1793A1F03542900AD1F5F /* PersonParserDefinition.swift */; };
+		BCA1793D1F03542900AD1F5F /* QueryParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA1793B1F03542900AD1F5F /* QueryParser.swift */; };
 		BCAEFE911F03150800C97F9C /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE541F03150800C97F9C /* Action.swift */; };
 		BCAEFE921F03150800C97F9C /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE551F03150800C97F9C /* Address.swift */; };
 		BCAEFE931F03150800C97F9C /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE561F03150800C97F9C /* Alert.swift */; };
@@ -90,6 +92,8 @@
 		BC12DC951F023EF0001A5BB7 /* ClientKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClientKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC12DC9A1F023EF0001A5BB7 /* ClientKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientKitTests.swift; sourceTree = "<group>"; };
 		BC12DC9C1F023EF0001A5BB7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BCA1793A1F03542900AD1F5F /* PersonParserDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonParserDefinition.swift; sourceTree = "<group>"; };
+		BCA1793B1F03542900AD1F5F /* QueryParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QueryParser.swift; sourceTree = "<group>"; };
 		BCAEFE541F03150800C97F9C /* Action.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		BCAEFE551F03150800C97F9C /* Address.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
 		BCAEFE561F03150800C97F9C /* Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
@@ -215,10 +219,20 @@
 			path = ClientKitTests;
 			sourceTree = "<group>";
 		};
+		BCA179391F03542900AD1F5F /* Parsing */ = {
+			isa = PBXGroup;
+			children = (
+				BCA1793A1F03542900AD1F5F /* PersonParserDefinition.swift */,
+				BCA1793B1F03542900AD1F5F /* QueryParser.swift */,
+			);
+			path = Parsing;
+			sourceTree = "<group>";
+		};
 		BCAEFE531F03150800C97F9C /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				BCAEFE541F03150800C97F9C /* Action.swift */,
+				BCA179391F03542900AD1F5F /* Parsing */,
 				BCAEFE551F03150800C97F9C /* Address.swift */,
 				BCAEFE561F03150800C97F9C /* Alert.swift */,
 				BCAEFE571F03150800C97F9C /* Alias.swift */,
@@ -558,6 +572,7 @@
 				BCAEFEA11F03150800C97F9C /* Whereabouts.swift in Sources */,
 				BCAEFE9A1F03150800C97F9C /* Event.swift in Sources */,
 				BCAEFEA71F03150800C97F9C /* PersonDescription.swift in Sources */,
+				BCA1793D1F03542900AD1F5F /* QueryParser.swift in Sources */,
 				BCAEFEB61F03150800C97F9C /* EntityOccurrencesViewController.swift in Sources */,
 				BCAEFED11F03160800C97F9C /* APIManager.swift in Sources */,
 				BCAEFEC11F03150800C97F9C /* PersonOccurrencesViewController.swift in Sources */,
@@ -574,6 +589,7 @@
 				BCAEFE911F03150800C97F9C /* Action.swift in Sources */,
 				BCAEFEBB1F03150800C97F9C /* OrganizationInfoViewController.swift in Sources */,
 				BCAEFEB11F03150800C97F9C /* Warrant.swift in Sources */,
+				BCA1793C1F03542900AD1F5F /* PersonParserDefinition.swift in Sources */,
 				BCAEFED51F03160800C97F9C /* ServerAPIURLRequestProvider.swift in Sources */,
 				BCAEFEB51F03150800C97F9C /* EntityDetailsCollectionViewController.swift in Sources */,
 				BCAEFE9F1F03150800C97F9C /* InterventionOrder.swift in Sources */,
