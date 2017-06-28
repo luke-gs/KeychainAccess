@@ -13,3 +13,7 @@ public func MPLUnimplemented(_ function: String = #function, file: StaticString 
 public func MPLRequiresConcreteImplementation(_ function: String = #function, file: StaticString = #file, line: UInt = #line) -> Never {
     fatalError("\(function) must be overriden in subclass implementations", file: file, line: line)
 }
+
+public func MPLCodingNotSupported(_ file: StaticString = #file, line: UInt = #line) -> Never {
+    fatalError("NSCoding is not supported on this class", file: file, line: line)
+}

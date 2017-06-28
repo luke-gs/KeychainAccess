@@ -220,7 +220,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     ///
     /// - Important: When setting the validation with animation and updating label state,
     ///              the cell invalidates the layout to ensure the room expands and allows
-    ///              the delagate to specify the appropriate size as part of the animation.
+    ///              the delegate to specify the appropriate size as part of the animation.
     ///              When setting without an animation, it is the setter's responsibility
     ///              to invalidate the layout (thus this method can be used during reuse).
     ///
@@ -251,52 +251,49 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
             return label
         }
         
-        if animated == false {
+        if animated {
+            let oldLabel = self.validationAccessoryLabel
             if wantsValidationText {
-                let validationLabel: UILabel
-                if let currentLabel = validationAccessoryLabel {
-                    validationLabel = currentLabel
-                } else {
-                    validationLabel = newValidationLabel()
-                    validationAccessoryLabel = validationLabel
+                validationAccessoryLabel = newValidationLabel()
+            } else {
+                validationAccessoryLabel = nil
+            }
+            let newLabel = validationAccessoryLabel
+            newLabel?.text = validationText
+            newLabel?.alpha = 0.0
+            contentView.layoutIfNeeded()
+            
+            UIView.animate(withDuration: 0.3, animations: {
+                if newLabel != nil || oldLabel != nil {
+                    // labels are changing.
+                    newLabel?.alpha = 1.0
+                    oldLabel?.alpha = 0.0
+                    
+                    let collectionView = self.superview(of: UICollectionView.self)
+                    collectionView?.performBatchUpdates({
+                        collectionView?.collectionViewLayout.invalidateLayout()
+                    })
                 }
-                validationLabel.text = validationText
+                
+                self.requiresValidation = requiresValidation
+                self.layoutIfNeeded()
+            }, completion: { finished in
+                oldLabel?.removeFromSuperview()
+            })
+        } else {
+            if wantsValidationText {
+                if let currentLabel = validationAccessoryLabel {
+                    currentLabel.text = validationText
+                } else {
+                    validationAccessoryLabel = newValidationLabel()
+                    validationAccessoryLabel?.text = validationText
+                }
             } else {
                 validationAccessoryLabel?.removeFromSuperview()
                 validationAccessoryLabel = nil
             }
             self.requiresValidation = requiresValidation
-            return
         }
-        
-        let oldLabel = self.validationAccessoryLabel
-        if wantsValidationText {
-            validationAccessoryLabel = newValidationLabel()
-        } else {
-            validationAccessoryLabel = nil
-        }
-        let newLabel = validationAccessoryLabel
-        newLabel?.text = validationText
-        newLabel?.alpha = 0.0
-        contentView.layoutIfNeeded()
-        
-        UIView.animate(withDuration: 0.3, animations: {
-            if newLabel != nil || oldLabel != nil {
-                // labels are changing.
-                newLabel?.alpha = 1.0
-                oldLabel?.alpha = 0.0
-                
-                let collectionView = self.superview(of: UICollectionView.self)
-                collectionView?.performBatchUpdates({
-                    collectionView?.collectionViewLayout.invalidateLayout()
-                })
-            }
-            
-            self.requiresValidation = requiresValidation
-            self.layoutIfNeeded()
-        }, completion: { finished in
-            oldLabel?.removeFromSuperview()
-        })
     }
     
     
