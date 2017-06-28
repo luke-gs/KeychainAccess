@@ -35,7 +35,7 @@ open class TermsConditionsViewController: UIViewController {
     }
     
     public required init?(coder aDecoder: NSCoder) {
-        fatalError("TermsConditionsViewController does not support NSCoding.")
+        MPLCodingNotSupported()
     }
     
     

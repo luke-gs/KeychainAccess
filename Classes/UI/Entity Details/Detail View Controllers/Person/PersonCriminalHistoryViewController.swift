@@ -55,7 +55,7 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
     }
     
     public required init?(coder aDecoder: NSCoder) {
-        fatalError("PersonCriminalHistoryViewController does not support NSCoding.")
+        MPLCodingNotSupported()
     }
     
     

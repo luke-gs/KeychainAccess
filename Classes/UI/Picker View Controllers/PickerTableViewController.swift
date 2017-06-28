@@ -208,7 +208,7 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
     }
 
     public required init?(coder aDecoder: NSCoder) {
-        fatalError("PickerTableViewController does not support NSCoding.")
+        MPLCodingNotSupported()
     }
     
     

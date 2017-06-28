@@ -89,7 +89,7 @@ public class KeyboardNumberBar: UIInputView, UIInputViewAudioFeedback {
     
     /// `KeyboardNumberBar` does not support NSCoding.
     public required convenience init?(coder aDecoder: NSCoder) {
-        fatalError("KeyboardNumberBar does not support NSCoding.")
+        MPLCodingNotSupported()
     }
     
     
