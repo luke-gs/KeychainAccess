@@ -436,7 +436,7 @@ open class MapOverlayViewController: UIViewController, UITableViewDataSource, UI
     }
     
     open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        fatalError("Subclasses must implement tableView(_:cellForItemAt:) and return a valid cell.")
+        MPLRequiresConcreteImplementation()
     }
     
     

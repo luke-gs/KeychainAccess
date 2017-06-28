@@ -202,7 +202,7 @@ open class Person: Entity {
     }
     
     open override func encode(with aCoder: NSCoder) {
-        fatalError("Not implemented yet")
+        MPLUnimplemented()
     }
     
     // MARK: - Model Versionable

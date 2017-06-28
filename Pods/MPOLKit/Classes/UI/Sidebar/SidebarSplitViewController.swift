@@ -95,7 +95,7 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
     
     /// `SidebarSplitViewController` does not support NSCoding.
     public required init?(coder aDecoder: NSCoder) {
-        fatalError("SidebarSplitViewController does not support NSCoding.")
+        MPLCodingNotSupported()
     }
     
     /// A callback indicating the collapsed state of the split changed.

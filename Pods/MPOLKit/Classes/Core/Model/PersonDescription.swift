@@ -68,11 +68,11 @@ open class PersonDescription: NSObject, Serialisable {
     }
     
     public required init?(coder aDecoder: NSCoder) {
-        fatalError("Not implemented yet")
+        MPLUnimplemented()
     }
     
     public func encode(with aCoder: NSCoder) {
-        fatalError("Not implemented yet")
+        MPLUnimplemented()
     }
     
     public func formatted() -> String? {

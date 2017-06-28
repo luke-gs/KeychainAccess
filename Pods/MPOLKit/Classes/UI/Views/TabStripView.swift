@@ -345,7 +345,7 @@ open class TabStripView: UIView, UICollectionViewDataSource, UICollectionViewDel
 fileprivate class TabStripViewCell: UICollectionViewCell, DefaultReusable {
     
     var itemView: UIView {
-        fatalError("Subclasses must override and return a valid itemView.")
+        MPLRequiresConcreteImplementation()
     }
     
     var unselectedItemTintColor: UIColor? {

@@ -36,7 +36,7 @@ open class InterventionOrder: Event {
     }
     
     public required init?(coder aDecoder: NSCoder) {
-        fatalError("Not implemented yet")
+        MPLUnimplemented()
     }
     
     public required init(id: String) {
@@ -45,6 +45,6 @@ open class InterventionOrder: Event {
     
     open override func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
-        fatalError("Not implemented yet")
+        MPLUnimplemented()
     }
 }

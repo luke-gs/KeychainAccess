@@ -154,7 +154,7 @@ open class EventDetailViewController: FormCollectionViewController {
     
     // MARK: - CollectionViewDelegateFormLayout
     
-    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
+    open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
         let section = sections[section]
         if section.title?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ?? true {
             return 0.0
@@ -162,18 +162,18 @@ open class EventDetailViewController: FormCollectionViewController {
         return CollectionViewFormExpandingHeaderView.minimumHeight
     }
     
-    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, givenSectionWidth sectionWidth: CGFloat, edgeInsets: UIEdgeInsets) -> CGFloat {
+    open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
         let item = sections[indexPath.section].items[indexPath.item]
         
         var columnCount = item.preferredColumnCount
         if columnCount > 1 {
-            columnCount = min(layout.columnCountForSection(withMinimumItemContentWidth: item.minimumContentWidth, sectionWidth: sectionWidth, sectionEdgeInsets: edgeInsets), columnCount)
+            columnCount = min(layout.columnCountForSection(withMinimumItemContentWidth: item.minimumContentWidth, sectionEdgeInsets: sectionEdgeInsets), columnCount)
         }
         
-        return layout.columnContentWidth(forColumnCount: columnCount, inSectionWidth: sectionWidth, sectionEdgeInsets: edgeInsets)
+        return layout.columnContentWidth(forColumnCount: columnCount, sectionEdgeInsets: sectionEdgeInsets)
     }
     
-    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
+    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
         let item = sections[indexPath.section].items[indexPath.item]
         
         

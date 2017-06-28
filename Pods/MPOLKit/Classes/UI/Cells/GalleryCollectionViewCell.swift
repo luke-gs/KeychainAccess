@@ -81,7 +81,7 @@ open class GalleryCollectionViewCell: CollectionViewFormCell, UICollectionViewDa
         
         super.init(frame: frame)
         
-        actionView.panGestureRecognizer.require(toFail: galleryCollectionView.panGestureRecognizer)
+        editActionGestureRecognizer.require(toFail: galleryCollectionView.panGestureRecognizer)
         
         galleryCollectionView.dataSource = self
         galleryCollectionView.delegate   = self

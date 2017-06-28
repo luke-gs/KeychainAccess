@@ -190,14 +190,7 @@ public class CollectionViewFormExpandingHeaderView: UICollectionReusableView, De
         super.apply(layoutAttributes)
         
         indexPath = layoutAttributes.indexPath
-        
-        if let attributes = layoutAttributes as? CollectionViewFormHeaderAttributes {
-            let layoutMargins = UIEdgeInsets(top: 12.0, left: attributes.leadingMargin, bottom: attributes.frame.height - attributes.itemPosition, right: 10.0)
-            self.layoutMargins = isRightToLeft ? layoutMargins.horizontallyFlipped() : layoutMargins
-        } else {
-            let layoutMargins = UIEdgeInsets(top: 12.0, left: 10.0, bottom: 5.0, right: 10.0)
-            self.layoutMargins = isRightToLeft ? layoutMargins.horizontallyFlipped() : layoutMargins
-        }
+        layoutMargins = (layoutAttributes as? CollectionViewFormLayoutAttributes)?.layoutMargins ?? UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
     }
     
     public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -213,7 +206,7 @@ public class CollectionViewFormExpandingHeaderView: UICollectionReusableView, De
         titleLabel.textColor = tintColor
     }
     
-    public override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
+    public final override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
         return layoutAttributes
     }
     
