@@ -10,7 +10,6 @@ import UIKit
 
 public let collectionElementKindGlobalHeader = "collectionElementKindGlobalHeader"
 public let collectionElementKindGlobalFooter = "collectionElementKindGlobalFooter"
-public let collectionElementKindSectionBackground = "collectionElementKindSectionBackground"
 
 
 /// The `CollectionViewFormLayout` class is a concrete layout object that organizes items into a
@@ -37,8 +36,7 @@ public let collectionElementKindSectionBackground = "collectionElementKindSectio
 /// cells in the row are given the height of the largest item in the row.
 open class CollectionViewFormLayout: UICollectionViewLayout {
     
-    
-    // MARK: - Associated enums
+    // MARK: - Associated types
     
     @objc(CollectionViewFormLayoutDistribution) public enum Distribution: Int {
         /// The default for the collection view
@@ -59,8 +57,27 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         case none
     }
     
+    private struct ElementPosition {
+        var frame: CGRect
+        var zIndex: Int
+        var layoutMargins: UIEdgeInsets
+    }
+    
+    private struct ItemPosition {
+        var frame: CGRect
+        var zIndex: Int
+        var layoutMargins: UIEdgeInsets
+        var rowIndex: Int
+        var rowItemCount: Int
+        var isAtTrailingEdge: Bool
+    }
+    
     
     // MARK: - Public properties
+    
+    open override class var layoutAttributesClass: Swift.AnyClass {
+        return CollectionViewFormLayoutAttributes.self
+    }
     
     /// The layout margins for items within the collection.
     ///
@@ -70,9 +87,9 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     /// Cells should report minimum sizes based on sizes within their layout margins, and lay out their contents appropriately.
     ///
     /// Cells used with `CollectionViewFormLayout` should also override `applyLayoutMargins(_:)` to detect
-    /// instances of `CollectionViewFormLayoutItemAttributes` and apply the contained `layoutMargins` property.
+    /// instances of `CollectionViewFormAttributes` and apply the contained `layoutMargins` property.
     ///
-    /// - seealso: `CollectionViewFormItemAttributes.layoutMargins`
+    /// - seealso: `CollectionViewFormAttributes.layoutMargins`
     open var itemLayoutMargins: UIEdgeInsets = UIEdgeInsets(top: 16.0, left: 12.0, bottom: 15.0, right: 12.0) {
         didSet {
             let screenScale = (collectionView?.window?.screen ?? UIScreen.main).scale
@@ -91,8 +108,6 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         }
     }
     
-    open var wantsOptimizedResizeAnimation: Bool = true
-    
     
     /// Pins the global header, if it exists, to the visible space when bounce
     /// interactions occur.
@@ -100,7 +115,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     /// This avoids showing potentially undesirable empty content above the header.
     open var pinsGlobalHeaderWhenBouncing: Bool = false {
         didSet {
-            if pinsGlobalHeaderWhenBouncing != oldValue && globalHeaderAttribute != nil,
+            if pinsGlobalHeaderWhenBouncing != oldValue && globalHeaderPosition != nil,
                 let collectionView = self.collectionView {
                 updateGlobalHeaderAttributeIfNeeded(forBounds: collectionView.bounds)
             }
@@ -108,7 +123,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     }
     
     
-    /// The distribution method to use for cell sizing. The default is `CollectionViewFormLayout.Distribution.fillEqually`.
+    /// The distribution method to use for cell sizing. The default is `.fillLastWithinColumnDistance`.
     open var distribution: CollectionViewFormLayout.Distribution = .fillLastWithinColumnDistance {
         didSet {
             if distribution == .automatic {
@@ -122,26 +137,18 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     }
     
     
-    // MARK: - Protected properties
-    
-    public var contentSize: CGSize = .zero
-    public var sectionRects: [CGRect] = []
-    
-    public var globalHeaderAttribute: UICollectionViewLayoutAttributes?
-    public var globalFooterAttribute: UICollectionViewLayoutAttributes?
-    
-    public var sectionHeaderAttributes:     [CollectionViewFormHeaderAttributes?] = []
-    public var sectionFooterAttributes:     [UICollectionViewLayoutAttributes?]   = []
-    public var sectionBackgroundAttributes: [UICollectionViewLayoutAttributes?]   = []
-    
-    public var itemAttributes: [[CollectionViewFormItemAttributes]] = []
-    
-    
     // MARK: - Private properties
     
-    private var _lastLaidOutWidth: CGFloat?
+    private var contentSize: CGSize = .zero
+    private var sectionRects: [CGRect] = []
     
-    private var previousSectionItemCounts: [Int] = []
+    private var globalHeaderPosition: ElementPosition?
+    private var globalFooterPosition: ElementPosition?
+    
+    private var sectionHeaderPositions: [ElementPosition?] = []
+    private var sectionFooterPositions: [ElementPosition?] = []
+    
+    private var itemPositions: [[ItemPosition]] = []
     
     
     // MARK: - Layout preparation
@@ -152,33 +159,33 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         guard let collectionView = self.collectionView,
             let delegate = collectionView.delegate as? CollectionViewDelegateFormLayout else { return }
         
-        previousSectionItemCounts = itemAttributes.map { $0.count }
-        
         let collectionViewBounds = collectionView.bounds
-        _lastLaidOutWidth = collectionViewBounds.width
-        
+        self.contentSize = CGSize(width: collectionViewBounds.width, height: 0.0)
         let isRTL = collectionView.effectiveUserInterfaceLayoutDirection == .rightToLeft
-        
         let screenScale = (collectionView.window?.screen ?? .main).scale
         let singlePixel: CGFloat = 1.0 / screenScale
         
         sectionRects.removeAll(keepingCapacity: true)
-        itemAttributes.removeAll(keepingCapacity: true)
-        sectionHeaderAttributes.removeAll(keepingCapacity: true)
-        sectionFooterAttributes.removeAll(keepingCapacity: true)
-        sectionBackgroundAttributes.removeAll(keepingCapacity: true)
+        sectionHeaderPositions.removeAll(keepingCapacity: true)
+        sectionFooterPositions.removeAll(keepingCapacity: true)
+        itemPositions.removeAll(keepingCapacity: true)
         
-        let numberOfSections = collectionView.numberOfSections
-        sectionRects.reserveCapacity(numberOfSections)
-        itemAttributes.reserveCapacity(numberOfSections)
-        sectionHeaderAttributes.reserveCapacity(numberOfSections)
-        sectionFooterAttributes.reserveCapacity(numberOfSections)
-        sectionBackgroundAttributes.reserveCapacity(numberOfSections)
+        let sectionCount = collectionView.numberOfSections
+        sectionRects.reserveCapacity(sectionCount)
+        sectionHeaderPositions.reserveCapacity(sectionCount)
+        sectionFooterPositions.reserveCapacity(sectionCount)
+        itemPositions.reserveCapacity(sectionCount)
         
         let itemLayoutMargins = self.itemLayoutMargins
         
+        let widthForItem = delegate.collectionView(_:layout:minimumContentWidthForItemAt:sectionEdgeInsets:)
+        let heightForValidation = delegate.collectionView(_:layout:heightForValidationAccessoryAt:givenContentWidth:)
+        let insetForSection = delegate.collectionView(_:layout:insetForSection:)
+        let heightForHeader = delegate.collectionView(_:layout:heightForHeaderInSection:)
+        let heightForFooter = delegate.collectionView(_:layout:heightForFooterInSection:)
+        
         // function to process a section's items. ensure that insets are accounted for.
-        func processItemsInSection(_ section: Int, atPoint point: CGPoint, withWidth width: CGFloat, sectionInsets: UIEdgeInsets) -> CGFloat { // Returns height of section items
+        func processItemsInSection(_ section: Int, yOrigin: CGFloat, sectionInsets: UIEdgeInsets) -> CGFloat { // Returns height of section items
             
             let sectionDistribution: CollectionViewFormLayout.Distribution
             if let foundDistribution = delegate.collectionView?(collectionView, layout: self, distributionForSection: section) , foundDistribution != .automatic {
@@ -187,7 +194,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
                 sectionDistribution = self.distribution
             }
             
-            var currentYOrigin = point.y
+            var currentYOrigin = yOrigin
             
             let sectionLeftInset  = sectionInsets.left.rounded(toScale: screenScale)
             let sectionRightInset = sectionInsets.right.rounded(toScale: screenScale)
@@ -195,21 +202,25 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
             let firstItemLeftWidthInset = sectionLeftInset.isZero  ? itemLayoutMargins.left  : 0.0
             let lastItemRightWidthInset = sectionRightInset.isZero ? itemLayoutMargins.right : 0.0
             
-            let sectionWidth: CGFloat = width - sectionLeftInset - sectionRightInset
+            let sectionWidth: CGFloat = collectionViewBounds.width - sectionLeftInset - sectionRightInset
             
             let maximumAllowedWidth: CGFloat = sectionWidth - firstItemLeftWidthInset - lastItemRightWidthInset
             
-            var itemMinWidths: [(IndexPath, CGFloat)] = (0..<collectionView.numberOfItems(inSection: section)).map {
-                // Create a tuple representing the index path for this item in the section. Provide the minimum width, at maximum of either zero, or the minimum of width and the section width. This ensures an item width that can fit and will never be below zero.
-                let indexPath = IndexPath(item: $0, section: section)
-                let width: CGFloat = max(min((delegate.collectionView(collectionView, layout: self, minimumContentWidthForItemAt: indexPath, givenSectionWidth: width, edgeInsets: sectionInsets)).floored(toScale: screenScale), maximumAllowedWidth), 0.0)
-                return (indexPath, width)
+            let sectionItemCount = collectionView.numberOfItems(inSection: section)
+            
+            var itemMinWidths: [(IndexPath, CGFloat)]
+            if let widthForItem = widthForItem {
+                itemMinWidths = (0..<sectionItemCount).map {
+                    let indexPath = IndexPath(item: $0, section: section)
+                    let width = max(min(widthForItem(collectionView, self, indexPath, sectionInsets).floored(toScale: screenScale), maximumAllowedWidth), 0.0)
+                    return (indexPath, width)
+                }
+            } else {
+                itemMinWidths = (0..<sectionItemCount).map { (IndexPath(item: $0, section: section), maximumAllowedWidth) }
             }
             
-            let sectionItemCount = itemMinWidths.count
-            
-            var sectionItemAttributes: [CollectionViewFormItemAttributes] = []
-            sectionItemAttributes.reserveCapacity(sectionItemCount)
+            var sectionItemPositions: [ItemPosition] = []
+            sectionItemPositions.reserveCapacity(sectionItemCount)
             
             let sectionItemStartY = currentYOrigin
             if sectionItemCount > 0 {
@@ -219,29 +230,37 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
                 
                 var rowCount = 0
                 func processRow() {
-                    
-                    var items: [(IndexPath, CGFloat)] = []
-                    var minRowWidth: CGFloat = 0.0
-                    var minRowContentWidths: CGFloat = 0.0
+                    var items: [(IndexPath, CGFloat)]
                     var rowItemCount = 0
-                    
-                    while currentItemIndex < sectionItemCount {
-                        let item = itemMinWidths[currentItemIndex]
-                        
-                        let newMinRowWidth: CGFloat
-                        if rowItemCount == 0 {
-                            newMinRowWidth = item.1 + firstItemLeftWidthInset
-                        } else {
-                            newMinRowWidth = minRowWidth + itemLayoutMargins.left + itemLayoutMargins.right + item.1
-                        }
-                        if (newMinRowWidth + lastItemRightWidthInset) > ceil(sectionWidth) && items.isEmpty == false { break }
-                        
-                        items.append(item)
-                        minRowWidth = newMinRowWidth
-                        minRowContentWidths += item.1
-                        rowItemCount += 1
+                    var minRowContentWidths: CGFloat = 0.0
+                    if widthForItem == nil {
+                        items = [(itemMinWidths[currentItemIndex].0, maximumAllowedWidth)]
                         currentItemIndex += 1
+                        rowItemCount = 1
+                        minRowContentWidths = maximumAllowedWidth
+                    } else {
+                        items = []
+                        var minRowWidth: CGFloat = 0.0
+                        
+                        while currentItemIndex < sectionItemCount {
+                            let item = itemMinWidths[currentItemIndex]
+                            
+                            let newMinRowWidth: CGFloat
+                            if rowItemCount == 0 {
+                                newMinRowWidth = item.1 + firstItemLeftWidthInset
+                            } else {
+                                newMinRowWidth = minRowWidth + itemLayoutMargins.left + itemLayoutMargins.right + item.1
+                            }
+                            if (newMinRowWidth + lastItemRightWidthInset) > ceil(sectionWidth) && items.isEmpty == false { break }
+                            
+                            items.append(item)
+                            minRowWidth = newMinRowWidth
+                            minRowContentWidths += item.1
+                            rowItemCount += 1
+                            currentItemIndex += 1
+                        }
                     }
+                    
                     if rowItemCount > 0 {
                         // We've now got all items in the section. Work out how much extra space we have.
                         
@@ -252,8 +271,8 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
                         let extraSpacePerItem    = sectionDistribution == .fillEqually ? (leftOverSpace / rowItemCountFloat).floored(toScale: screenScale) : 0.0
                         var extraAllocationWidth = sectionDistribution == .fillEqually ? (leftOverSpace * screenScale).truncatingRemainder(dividingBy: rowItemCountFloat) / screenScale : 0.0
                         
-                        var minHeight:     CGFloat = 0.0
-                        var currentXValue: CGFloat = point.x
+                        var minHeight: CGFloat = 0.0
+                        var currentXValue: CGFloat = 0.0
                         
                         let rowItems: [(ip: IndexPath, frame: CGRect, margins: UIEdgeInsets)] = items.enumerated().map { (index: Int, element: (indexPath: IndexPath, contentWidth: CGFloat)) in
                             let indexPath = element.indexPath
@@ -275,7 +294,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
                                 }
                             }
                             
-                            let itemMinHeight = ceil(delegate.collectionView(collectionView, layout: self, minimumContentHeightForItemAt: indexPath, givenItemContentWidth: newContentWidth))
+                            let itemMinHeight = ceil(delegate.collectionView(collectionView, layout: self, minimumContentHeightForItemAt: indexPath, givenContentWidth: newContentWidth))
                             if minHeight < itemMinHeight { minHeight = itemMinHeight }
                             
                             if rowItemCount == 1 {
@@ -314,23 +333,28 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
                         
                         minHeight += itemLayoutMargins.top + itemLayoutMargins.bottom
                         
+                        
+                        var validityIndicatorHeight: CGFloat = 0.0
+                        
                         for (index, item) in rowItems.enumerated() {
-                            let itemAttribute = CollectionViewFormItemAttributes(forCellWith: item.0)
-                            itemAttribute.zIndex = 1
-                            itemAttribute.rowIndex = index
-                            itemAttribute.rowItemCount = rowItemCount
-                            
                             var frame = item.frame
-                            itemAttribute.isAtTrailingEdge = fabs(frame.maxX - collectionViewBounds.width) < 0.5
-                            
                             frame.size.height = minHeight
-                            itemAttribute.frame = isRTL ? frame.rtlFlipped(forWidth: collectionViewBounds.width) : frame
-                            itemAttribute.layoutMargins = isRTL ? item.margins.horizontallyFlipped() : item.margins
+                            if isRTL {
+                                frame = frame.rtlFlipped(forWidth: collectionViewBounds.width)
+                            }
+                            let layoutMargins = isRTL ? item.margins.horizontallyFlipped() : item.margins
                             
-                            sectionItemAttributes.append(itemAttribute)
+                            let itemPosition = ItemPosition(frame: frame, zIndex: 1,  layoutMargins: layoutMargins, rowIndex: index, rowItemCount: rowItemCount, isAtTrailingEdge: fabs(frame.maxX - collectionViewBounds.width) < 0.5)
+                            
+                            sectionItemPositions.append(itemPosition)
+                            
+                            if let height = heightForValidation?(collectionView, self, item.ip, item.frame.insetBy(item.margins).width),
+                                height >~ 0.0 {
+                                validityIndicatorHeight = max(validityIndicatorHeight, height)
+                            }
                         }
                         
-                        currentYOrigin += minHeight
+                        currentYOrigin += minHeight + validityIndicatorHeight
                     }
                     
                     rowCount += 1
@@ -342,15 +366,14 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
                 }
             }
             
-            itemAttributes.append(sectionItemAttributes)
+            itemPositions.append(sectionItemPositions)
             
-            return currentYOrigin + max(0.0, round(sectionInsets.bottom)) - point.y
+            return currentYOrigin + max(0.0, round(sectionInsets.bottom)) - yOrigin
         }
         
         var currentYOffset: CGFloat = 0.0
         
         if let globalHeaderHeight = delegate.collectionView?(collectionView, heightForGlobalHeaderInLayout: self) , globalHeaderHeight > 0.0 {
-            let attribute = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: collectionElementKindGlobalHeader, with: IndexPath(item: 0, section: 0))
             let headerOriginY: CGFloat
             if pinsGlobalHeaderWhenBouncing {
                 headerOriginY = min(currentYOffset, collectionViewBounds.minY + collectionView.contentInset.top)
@@ -358,185 +381,75 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
                 headerOriginY = currentYOffset
             }
             
-            attribute.frame = CGRect(x: 0.0, y: headerOriginY, width: collectionViewBounds.width, height: ceil(globalHeaderHeight))
-            attribute.zIndex = 1
-            globalHeaderAttribute = attribute
+            let frame = CGRect(x: 0.0, y: headerOriginY, width: collectionViewBounds.width, height: ceil(globalHeaderHeight))
+            globalHeaderPosition = ElementPosition(frame: frame, zIndex: 1, layoutMargins: UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0))
             currentYOffset += ceil(globalHeaderHeight)
         } else {
-            globalHeaderAttribute = nil
+            globalHeaderPosition = nil
         }
-        
-        // Each section is grouped with a group horizontally, to attempt to layout side-by-side.
-        let sectionGroups: [[(Int, (x: CGFloat, width: CGFloat))]]
-        
-        if delegate.responds(to: #selector(CollectionViewDelegateFormLayout.collectionView(_:layout:minimumWidthForSection:))) {
-            let widths = (0..<numberOfSections).map {($0, min(floor(delegate.collectionView!(collectionView, layout: self, minimumWidthForSection: $0)), collectionViewBounds.width)) }
-            var groups: [[(Int, (x: CGFloat, width: CGFloat))]] = []
-            
-            var sectionPreferredWidths = widths
-            while sectionPreferredWidths.isEmpty == false {
-                var width: CGFloat = 0.0
-                var sectionItems: [Int] = []
-                while width < collectionViewBounds.width {
-                    guard let newProposedItem = sectionPreferredWidths.first else { break }
-                    let newProposedWidth = width + newProposedItem.1
-                    if newProposedWidth > collectionViewBounds.width { break }
-                    sectionItems.append(newProposedItem.0)
-                    sectionPreferredWidths.removeFirst()
-                    width = newProposedWidth
-                }
-                if sectionItems.isEmpty { break }
-                let leftOverPerItem = (collectionViewBounds.width - width) / CGFloat(sectionItems.count)
-                
-                var originX: CGFloat = 0.0
-                var items: [(Int, (x: CGFloat, width: CGFloat))] = []
-                for section in sectionItems {
-                    let width = ceil(widths[section].1 + leftOverPerItem)
-                    items.append((section, (x: originX, width: width)))
-                    originX += width
-                }
-                groups.append(items)
-            }
-            sectionGroups = groups
-        }
-        else {
-            sectionGroups = (0..<numberOfSections).map{[($0, (x: 0.0, width: collectionViewBounds.width))]}
-        }
-        
         
         let defaultWantsSectionHeaderInsets = wantsInsetHeaders
         
-        for sectionGroup: [(Int, (x: CGFloat, width: CGFloat))] in sectionGroups {
+        for section in 0..<sectionCount {
+            let sectionInset = insetForSection?(collectionView, self, section) ?? .zero
+            currentYOffset += sectionInset.top
+            let startOfHeader = currentYOffset
+            var insetHeader = false
             
-            var sectionIndentAdded: Bool = false
-            
-            // process each section group
-            let startOfHeaders = currentYOffset
-            
-            // First get headers, work out the taller of them, and add them putting them to the bottom as much as possible
-            var largestHeight: CGFloat = 0.0
-            let headerRects: [(section: Int, headerRect: CGRect, sectionInsets: UIEdgeInsets)] = sectionGroup.map {
-                let width = $1.width
-                let height = max(ceil(delegate.collectionView(collectionView, layout: self, heightForHeaderInSection: $0, givenSectionWidth: width)), 0.0)
-                largestHeight = max(largestHeight, height)
-                let edgeInsets = delegate.collectionView(collectionView, layout: self, insetForSection: $0, givenSectionWidth: width)
-                return ($0, CGRect(x: $1.x, y: 0.0, width: width, height: height), edgeInsets)
-            }
-            currentYOffset += largestHeight
-            
-            var maxHeaderInsetAdded: CGFloat = 0.0
-            
-            for headerRect in headerRects {
-                var rect    = headerRect.1
-                let height = rect.size.height
+            if var headerHeight = heightForHeader?(collectionView, self, section),
+                headerHeight >~ 0.0 {
+                headerHeight = headerHeight.ceiled(toScale: screenScale)
+                var headerLayoutMargins = UIEdgeInsets(top: 0.0, left: isRTL ? sectionInset.right : sectionInset.left, bottom: 0.0, right: isRTL ? sectionInset.left : sectionInset.right)
+                var headerRect = CGRect(x: 0.0, y: currentYOffset, width: collectionViewBounds.width, height: headerHeight)
+                currentYOffset += headerHeight
                 
-                if height.isZero {
-                    sectionHeaderAttributes.append(nil)
-                } else {
-                    rect.origin.y = currentYOffset - height
-                    
-                    let sectionIndexPath = IndexPath(item: 0, section: headerRect.0)
-                    let headerAttribute = CollectionViewFormHeaderAttributes(forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, with: sectionIndexPath)
-                    headerAttribute.zIndex = 1
-                    
-                    var sectionInset = headerRect.2.left
-                    if sectionInset.isZero {
-                        sectionInset = itemLayoutMargins.left
-                    }
-                    
-                    headerAttribute.leadingMargin = sectionInset
-                    
-                    let wantsInsetSectionHeader = delegate.collectionView?(collectionView, layout: self, shouldInsetHeaderInSection: sectionIndexPath.section) ?? defaultWantsSectionHeaderInsets
-                    if wantsInsetSectionHeader {
-                        if sectionIndentAdded == false {
-                            sectionIndentAdded = true
-                        }
-                        
-                        headerAttribute.itemPosition = rect.size.height
-                        rect.size.height += itemLayoutMargins.top
-                        maxHeaderInsetAdded = max(maxHeaderInsetAdded, itemLayoutMargins.top)
-                    }
-                    headerAttribute.frame = isRTL ? rect.rtlFlipped(forWidth: collectionViewBounds.width) : rect
-                    sectionHeaderAttributes.append(headerAttribute)
+                insetHeader = delegate.collectionView?(collectionView, layout: self, shouldInsetHeaderInSection: section) ?? defaultWantsSectionHeaderInsets
+                if insetHeader {
+                    headerRect.size.height += itemLayoutMargins.top
+                    headerLayoutMargins.bottom = itemLayoutMargins.bottom
                 }
+                sectionHeaderPositions.append(ElementPosition(frame: headerRect, zIndex: 10, layoutMargins: headerLayoutMargins))
+            } else {
+                sectionHeaderPositions.append(nil)
             }
             
             let startOfItems = currentYOffset
             
-            // Put each of the section item columns in place.
-            var maxSectionHeight: CGFloat = 0.0
-            for (rowIndex, section) in sectionGroup.enumerated() {
-                maxSectionHeight = max(maxSectionHeight, processItemsInSection(section.0, atPoint: CGPoint(x: section.1.x, y: startOfItems), withWidth: section.1.width, sectionInsets: headerRects[rowIndex].2))
-            }
-            if maxSectionHeight == 0.0 && sectionIndentAdded {
-                maxSectionHeight += maxHeaderInsetAdded.ceiled(toScale: screenScale)
-            }
-            currentYOffset += maxSectionHeight
-            
-            // Place in the footer views
-            var largestFooter: CGFloat = 0.0
-            for section in sectionGroup {
-                let width = section.1.width
-                let footerHeight = max(ceil(delegate.collectionView(collectionView, layout: self, heightForFooterInSection: section.0, givenSectionWidth: width)), 0.0)
-                largestFooter = max(footerHeight, largestFooter)
-                
-                if footerHeight.isZero {
-                    sectionFooterAttributes.append(nil)
-                } else {
-                    let footerAttribute = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, with: IndexPath(item: 0, section: section.0))
-                    footerAttribute.zIndex = 1
-                    let footerFrame = CGRect(x: section.1.x, y: currentYOffset, width: section.1.width, height: footerHeight)
-                    footerAttribute.frame = isRTL ? footerFrame.rtlFlipped(forWidth: collectionViewBounds.width) : footerFrame
-                    sectionFooterAttributes.append(footerAttribute)
-                }
-                
-                sectionRects.append(CGRect(x: section.1.x, y: startOfHeaders, width: width, height: currentYOffset + footerHeight - startOfHeaders))
+            let sectionHeight = processItemsInSection(section, yOrigin: startOfItems, sectionInsets: sectionInset)
+            if sectionHeight < itemLayoutMargins.top {
+                currentYOffset += itemLayoutMargins.top
+            } else {
+                currentYOffset += sectionHeight
             }
             
-            currentYOffset += largestFooter
-            
-            var minBackgroundHeight: CGFloat = 0.0
-            let sectionBackgrounds: [(section: Int, (x: CGFloat, width: CGFloat))?] = sectionGroup.map {
-                if delegate.collectionView?(collectionView, layout: self, wantsBackgroundInSection: $0.0) ?? false {
-                    let height = max(delegate.collectionView?(collectionView, layout: self, minimumHeightForBackgroundInSection: $0.0, givenSectionWidth: $0.1.width) ?? 0.0, 0.0)
-                    minBackgroundHeight = max(height, minBackgroundHeight)
-                    return $0
-                } else {
-                    return nil
-                }
+            if var footerHeight = heightForFooter?(collectionView, self, section),
+                footerHeight >~ 0.0 {
+                footerHeight = footerHeight.ceiled(toScale: screenScale)
+                let footerFrame = CGRect(x: 0.0, y: currentYOffset, width: collectionViewBounds.width, height: footerHeight)
+                let footerLayoutMargins = UIEdgeInsets(top: 8.0, left: isRTL ? sectionInset.right : sectionInset.left, bottom: 8.0, right: isRTL ? sectionInset.left : sectionInset.right)
+                sectionFooterPositions.append(ElementPosition(frame: footerFrame, zIndex: 1, layoutMargins: footerLayoutMargins))
+                currentYOffset += footerHeight
+            } else {
+                sectionFooterPositions.append(nil)
             }
+            sectionRects.append(CGRect(x: 0.0, y: startOfHeader, width: collectionViewBounds.width, height: currentYOffset - startOfHeader))
             
-            if (currentYOffset - startOfHeaders) < minBackgroundHeight {
-                currentYOffset = (startOfHeaders + minBackgroundHeight).ceiled(toScale: screenScale)
-            }
-            
-            for background in sectionBackgrounds {
-                if let background = background {
-                    let attribute = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: collectionElementKindSectionBackground, with: IndexPath(item: 0, section: background.0))
-                    let backgroundFrame = CGRect(x: background.1.x, y: startOfHeaders, width: background.1.width, height: currentYOffset - startOfHeaders)
-                    attribute.frame = isRTL ? backgroundFrame.rtlFlipped(forWidth: collectionViewBounds.width) : backgroundFrame
-                    sectionBackgroundAttributes.append(attribute)
-                } else {
-                    sectionBackgroundAttributes.append(nil)
-                }
-            }
+            currentYOffset += sectionInset.bottom
         }
         
         if let globalFooterHeight = delegate.collectionView?(collectionView, heightForGlobalFooterInLayout: self) , globalFooterHeight > 0.0 {
-            let attribute = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: collectionElementKindGlobalFooter, with: IndexPath(item: 0, section: 0))
-            attribute.frame = CGRect(x: 0.0, y: currentYOffset, width: collectionViewBounds.width, height: ceil(globalFooterHeight))
-            attribute.zIndex = 1
-            globalFooterAttribute = attribute
+            let frame = CGRect(x: 0.0, y: currentYOffset, width: collectionViewBounds.width, height: ceil(globalFooterHeight))
+            globalFooterPosition = ElementPosition(frame: frame, zIndex: 1, layoutMargins: UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0))
             currentYOffset += ceil(globalFooterHeight)
         } else {
-            globalFooterAttribute = nil
+            globalFooterPosition = nil
         }
         
-        contentSize = CGSize(width: collectionViewBounds.width, height: currentYOffset)
+        contentSize.height = currentYOffset
     }
     
     private func updateGlobalHeaderAttributeIfNeeded(forBounds bounds: CGRect) {
-        guard let globalHeaderAttribute = self.globalHeaderAttribute else { return }
+        guard let globalHeaderFrame = globalHeaderPosition?.frame else { return }
         
         let correctYOrigin: CGFloat
         if pinsGlobalHeaderWhenBouncing, let collectionView = self.collectionView {
@@ -545,14 +458,11 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
             correctYOrigin = 0.0
         }
         
-        var globalHeaderFrame = globalHeaderAttribute.frame
         if globalHeaderFrame.minY ==~ correctYOrigin { return }
-        
-        globalHeaderFrame.origin.y = correctYOrigin
-        globalHeaderAttribute.frame = globalHeaderFrame
+        self.globalHeaderPosition?.frame.origin.y = correctYOrigin
             
         let context = UICollectionViewLayoutInvalidationContext()
-        context.invalidateSupplementaryElements(ofKind: collectionElementKindGlobalHeader, at: [globalHeaderAttribute.indexPath])
+        context.invalidateSupplementaryElements(ofKind: collectionElementKindGlobalHeader, at: [IndexPath(item: 0, section: 0)])
         invalidateLayout(with: context)
     }
     
@@ -566,228 +476,105 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     open override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         var attributes: [UICollectionViewLayoutAttributes] = []
         
-        if let globalHeaderAttribute = self.globalHeaderAttribute,
-            globalHeaderAttribute.frame.intersects(rect) {
-            attributes.append(globalHeaderAttribute)
+        if globalHeaderPosition?.frame.intersects(rect) ?? false,
+            let attribute = layoutAttributesForSupplementaryView(ofKind: collectionElementKindGlobalHeader, at: IndexPath(item: 0, section: 0)) {
+            attributes.append(attribute)
         }
-        if let globalFooterAttribute = self.globalFooterAttribute,
-            globalFooterAttribute.frame.intersects(rect) {
-            attributes.append(globalFooterAttribute)
+        if globalFooterPosition?.frame.intersects(rect) ?? false,
+            let attribute = layoutAttributesForSupplementaryView(ofKind: collectionElementKindGlobalFooter, at: IndexPath(item: 0, section: 0)) {
+            attributes.append(attribute)
         }
         
         for (sectionIndex, sectionRect) in sectionRects.enumerated() {
             if sectionRect.minY > rect.maxY { break }
             if sectionRect.intersects(rect) == false { continue }
             
-            if let backgroundAttribute = sectionBackgroundAttributes[sectionIndex],
-                backgroundAttribute.frame.intersects(rect) {
-                attributes.append(backgroundAttribute)
+            if sectionHeaderPositions[sectionIndex]?.frame.intersects(rect) ?? false,
+                let attribute = layoutAttributesForSupplementaryView(ofKind: UICollectionElementKindSectionHeader, at: IndexPath(item: 0, section: sectionIndex)) {
+                attributes.append(attribute)
             }
             
-            if let sectionHeaderItem = sectionHeaderAttributes[sectionIndex],
-                sectionHeaderItem.frame.intersects(rect) {
-                attributes.append(sectionHeaderItem)
-            }
-            
-            for item in itemAttributes[sectionIndex] {
-                let frame = item.frame
-                if frame.minY > rect.maxY { break }
-                if frame.intersects(rect) {
-                    attributes.append(item)
+            for (index, item) in itemPositions[sectionIndex].enumerated() {
+                if item.frame.minY > rect.maxY { break }
+                if item.frame.intersects(rect),
+                    let attribute = layoutAttributesForItem(at: IndexPath(item: index, section: sectionIndex)) {
+                    attributes.append(attribute)
                 }
             }
-            if let sectionFooterItem = sectionFooterAttributes[sectionIndex],
-                sectionFooterItem.frame.intersects(rect) {
-                attributes.append(sectionFooterItem)
+            
+            if sectionFooterPositions[sectionIndex]?.frame.intersects(rect) ?? false,
+                let attribute = layoutAttributesForSupplementaryView(ofKind: UICollectionElementKindSectionFooter, at: IndexPath(item: 0, section: sectionIndex)) {
+                attributes.append(attribute)
             }
         }
         return attributes
     }
     
     open override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        return itemAttributes[ifExists: indexPath.section]?[ifExists: indexPath.row]
+        if let position = itemPositions[ifExists: indexPath.section]?[ifExists: indexPath.item] {
+            let attribute = CollectionViewFormLayoutAttributes(forCellWith: indexPath)
+            attribute.frame         = position.frame
+            attribute.zIndex        = position.zIndex
+            attribute.layoutMargins = position.layoutMargins
+            attribute.rowIndex      = position.rowIndex
+            attribute.rowItemCount  = position.rowItemCount
+            attribute.isAtTrailingEdge = position.isAtTrailingEdge
+            return attribute
+        }
+        return nil
     }
     
     open override func layoutAttributesForSupplementaryView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+        var position: ElementPosition? = nil
         switch elementKind {
         case UICollectionElementKindSectionHeader:
-            if let item = sectionHeaderAttributes[ifExists: indexPath.section] { return item }
+            let section = indexPath.section
+            if sectionHeaderPositions.count > section, indexPath.item == 0 {
+                position = sectionHeaderPositions[section]
+            }
         case UICollectionElementKindSectionFooter:
-            if let item = sectionFooterAttributes[ifExists: indexPath.section] { return item }
+            let section = indexPath.section
+            if sectionFooterPositions.count > section, indexPath.item == 0 {
+                position = sectionFooterPositions[section]
+            }
         case collectionElementKindGlobalHeader:
-            if let header = globalHeaderAttribute, indexPath == header.indexPath { return header }
+            if indexPath.item == 0 && indexPath.section == 0 {
+                position = globalHeaderPosition
+            }
         case collectionElementKindGlobalFooter:
-            if let footer = globalFooterAttribute, indexPath == footer.indexPath { return footer }
-        case collectionElementKindSectionBackground:
-            if let background = sectionBackgroundAttributes[ifExists: indexPath.section] { return background }
+            if indexPath.item == 0 && indexPath.section == 0 {
+                position = globalFooterPosition
+            }
         default:
             break
         }
         
-        return nil
+        guard let foundPosition = position else { return nil }
+        
+        let attribute = CollectionViewFormLayoutAttributes(forSupplementaryViewOfKind: elementKind, with: indexPath)
+        attribute.frame = foundPosition.frame
+        attribute.zIndex = foundPosition.zIndex
+        attribute.layoutMargins = foundPosition.layoutMargins
+        return attribute
     }
     
     
     // MARK: - Invalidation
     
     open override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
-        let currentContentWidth = _lastLaidOutWidth ?? 0.0
-        let newWidth = fabs(newBounds.width)
         
         // Don't perform an update if there is no width change, or if there is no content.
-        
-        if currentContentWidth ==~ newWidth || sectionRects.last?.maxY.isZero ?? true  {
+        if contentSize.width ==~ newBounds.width || sectionRects.last?.maxY.isZero ?? true  {
             // Width didn't change.
             updateGlobalHeaderAttributeIfNeeded(forBounds: newBounds)
             return false
         }
         
-        if wantsOptimizedResizeAnimation == false {
-            return true
-        }
-        
-        // We're going to do the animation direct - it's much faster.
-        
-        let animationDuration = UIView.inheritedAnimationDuration
-        if animationDuration <=~ 0.0 || UIView.areAnimationsEnabled == false { return true }
-        
-        let collectionView = self.collectionView!
-        
-        DispatchQueue.main.async {
-            var firstCellIndexPath: IndexPath? = nil
-            
-            if let attributes = self.layoutAttributesForElements(in: collectionView.bounds) {
-                for attribute in attributes {
-                    if attribute.representedElementCategory != .cell { continue }
-                    firstCellIndexPath = attribute.indexPath
-                    break
-                }
-            }
-            
-            self.invalidateLayout()
-            
-            if let firstIP = firstCellIndexPath {
-                collectionView.scrollToItem(at: firstIP, at: [], animated: false)
-            }
-            
-            collectionView.layoutIfNeeded()
-            
-            let transition = CATransition()
-            transition.duration = animationDuration
-            transition.timingFunction = CAMediaTimingFunction(name: newWidth > currentContentWidth ? kCAMediaTimingFunctionEaseOut : kCAMediaTimingFunctionEaseIn)
-            collectionView.layer.add(transition, forKey: nil)
-        }
-        
-        return false
-    }
-    
-    
-    // MARK: - Updates
-    
-    private var insertedSections:      IndexSet?
-    private var deletedSections:       IndexSet?
-    private var insertedItems:         [IndexPath]?
-    private var deletedItems:          [IndexPath]?
-    
-    open override func prepare(forCollectionViewUpdates updateItems: [UICollectionViewUpdateItem]) {
-        guard let collectionView = self.collectionView else { return }
-        
-        var insertedSections = IndexSet()
-        var deletedSections  = IndexSet()
-        
-        var insertedItems: [IndexPath] = []
-        var deletedItems:  [IndexPath] = []
-        
-        for item in updateItems {
-            if (item.indexPathBeforeUpdate ?? item.indexPathAfterUpdate)?.row == NSIntegerMax {
-                // Section updates
-                switch item.updateAction {
-                case .insert:
-                    let section = item.indexPathAfterUpdate!.section
-                    insertedSections.insert(section)
-                    insertedItems += (0..<collectionView.numberOfItems(inSection: section)).map { IndexPath(item: $0, section: section) }
-                case .delete:
-                    let section = item.indexPathBeforeUpdate!.section
-                    deletedSections.insert(section)
-                    deletedItems += (0..<previousSectionItemCounts[section]).map { IndexPath(item: $0, section: section) }
-                case .reload:
-                    let section = item.indexPathBeforeUpdate!.section
-                    deletedItems += (0..<previousSectionItemCounts[section]).map { IndexPath(item: $0, section: section) }
-                    insertedItems += (0..<collectionView.numberOfItems(inSection: section)).map { IndexPath(item: $0, section: section) }
-                case .move:
-                    let oldSection = item.indexPathBeforeUpdate!.section
-                    deletedSections.insert(oldSection)
-                    deletedItems += (0..<previousSectionItemCounts[oldSection]).map { IndexPath(item: $0, section: oldSection) }
-                    let newSection = item.indexPathAfterUpdate!.section
-                    insertedSections.insert(newSection)
-                    insertedItems += (0..<collectionView.numberOfItems(inSection: newSection)).map { IndexPath(item: $0, section: newSection) }
-                case .none:
-                    break
-                }
-            } else {
-                // Item update
-                switch item.updateAction {
-                case .insert:
-                    insertedItems.append(item.indexPathAfterUpdate!)
-                case .delete:
-                    deletedItems.append(item.indexPathBeforeUpdate!)
-                case .move:
-                    deletedItems.append(item.indexPathBeforeUpdate!)
-                    insertedItems.append(item.indexPathAfterUpdate!)
-                default:
-                    break
-                }
-            }
-        }
-        
-        self.insertedSections      = insertedSections
-        self.deletedSections       = deletedSections
-        self.insertedItems         = insertedItems
-        self.deletedItems          = deletedItems
-    }
-    
-    open override func finalizeCollectionViewUpdates() {
-        insertedItems          = nil
-        deletedItems           = nil
-        insertedSections       = nil
-        deletedSections        = nil
-    }
-    
-    open override func initialLayoutAttributesForAppearingItem(at itemIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        let attributes = super.initialLayoutAttributesForAppearingItem(at: itemIndexPath)
-        if insertedSections?.contains(itemIndexPath.section) ?? false || insertedItems?.contains(itemIndexPath) ?? false {
-            attributes?.alpha = 0.0
-        }
-        return attributes
-    }
-    
-    open override func finalLayoutAttributesForDisappearingItem(at itemIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        let attributes = super.finalLayoutAttributesForDisappearingItem(at: itemIndexPath)
-        if deletedItems?.contains(itemIndexPath) ?? false || deletedSections?.contains(itemIndexPath.section) ?? false {
-            attributes?.alpha = 0.0
-        }
-        return attributes
-    }
-    
-    open override func initialLayoutAttributesForAppearingSupplementaryElement(ofKind elementKind: String, at elementIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        let attributes = super.initialLayoutAttributesForAppearingDecorationElement(ofKind: elementKind, at: elementIndexPath)
-        if insertedSections?.contains(elementIndexPath.section) ?? false {
-            attributes?.alpha = 0.0
-        }
-        return attributes
-    }
-    
-    open override func finalLayoutAttributesForDisappearingSupplementaryElement(ofKind elementKind: String, at elementIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        let attributes = super.finalLayoutAttributesForDisappearingSupplementaryElement(ofKind: elementKind, at: elementIndexPath)
-        if deletedSections?.contains(elementIndexPath.section) ?? false {
-            attributes?.alpha = 0.0
-        }
-        return attributes
+        return true
     }
     
     
     // MARK: - Column Conveniences
-    
     
     /// Calculates the item content width per item in a column style section, optionally filling multiple items by
     /// merging columns together horizontally.
@@ -795,11 +582,10 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     /// - Parameters:
     ///   - fillingColumns:    The amount of columns to fill with the item. The default is 1.
     ///   - sectionColumns:    The amount of columns in the section.
-    ///   - sectionWidth:      The width for the section.
     ///   - sectionEdgeInsets: The edge insets for the section.
     /// - Returns:             The content width for an item that fills the specified (or 1) column in the defined layout.
-    public func itemContentWidth(fillingColumns: Int = 1, inSectionWithColumns sectionColumns: Int, sectionWidth: CGFloat, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
-        let columnWidth = columnContentWidth(forColumnCount: sectionColumns, inSectionWidth: sectionWidth, sectionEdgeInsets: sectionEdgeInsets)
+    public func itemContentWidth(fillingColumns: Int = 1, inSectionWithColumns sectionColumns: Int, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
+        let columnWidth = columnContentWidth(forColumnCount: sectionColumns, sectionEdgeInsets: sectionEdgeInsets)
         if fillingColumns <= 1 {
             return columnWidth
         }
@@ -816,12 +602,11 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     /// - Parameters:
     ///   - minimumItemContentWidth: The minimum width the item's content should fill.
     ///   - sectionColumns:          The count of columns in the section.
-    ///   - sectionWidth:            The width for the section.
     ///   - sectionEdgeInsets:       The edge insets for the section.
     /// - Returns:                   The content width for an item that fills to the edges of the columns in the section.
     ///                              This value is subpixel accurate and should be rounded appropriately for screen.
-    public func itemContentWidth(fillingColumnsForMinimumItemContentWidth minimumItemContentWidth: CGFloat, inSectionWithColumns sectionColumns: Int, sectionWidth: CGFloat, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
-        let columnWidth = columnContentWidth(forColumnCount: sectionColumns, inSectionWidth: sectionWidth, sectionEdgeInsets: sectionEdgeInsets)
+    public func itemContentWidth(fillingColumnsForMinimumItemContentWidth minimumItemContentWidth: CGFloat, inSectionWithColumns sectionColumns: Int, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
+        let columnWidth = columnContentWidth(forColumnCount: sectionColumns, sectionEdgeInsets: sectionEdgeInsets)
         if minimumItemContentWidth <=~ 0.0 {
             return columnWidth
         }
@@ -840,12 +625,11 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     ///
     /// - Parameters:
     ///   - itemWidth:         The minimum content width per item in the section.
-    ///   - sectionWidth:      The width for the section.
     ///   - sectionEdgeInsets: The edge insets for the section.
     /// - Returns:             The count of columns that will fit with the specified minimum content width and section details.
-    public func columnCountForSection(withMinimumItemContentWidth itemWidth: CGFloat, sectionWidth: CGFloat, sectionEdgeInsets: UIEdgeInsets) -> Int {
+    public func columnCountForSection(withMinimumItemContentWidth itemWidth: CGFloat, sectionEdgeInsets: UIEdgeInsets) -> Int {
         precondition(itemWidth > 0.0, "itemWidth must be more than zero.")
-        let standardizedSectionWidth = sectionWidthWithStandardMargins(forSectionWidth: sectionWidth, sectionEdgeInsets: sectionEdgeInsets)
+        let standardizedSectionWidth = sectionWidthWithStandardMargins(sectionEdgeInsets: sectionEdgeInsets)
         let minimumTotalWidth = itemWidth + itemLayoutMargins.left + itemLayoutMargins.right
         return max(Int(standardizedSectionWidth / minimumTotalWidth), 1)
     }
@@ -855,12 +639,11 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     ///
     /// - Parameters:
     ///   - columnCount:       The column count for the section.
-    ///   - sectionWidth:      The total width for the section.
     ///   - sectionEdgeInsets: The edge insets for the section.
     /// - Returns:             The content width appropriate for a section with the specified column and width settings.
     ///                        This value is subpixel accurate and should be rounded appropriately for screen.
-    public func columnContentWidth(forColumnCount columnCount: Int, inSectionWidth sectionWidth: CGFloat, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
-        let standardizedSectionWidth = sectionWidthWithStandardMargins(forSectionWidth: sectionWidth, sectionEdgeInsets: sectionEdgeInsets)
+    public func columnContentWidth(forColumnCount columnCount: Int, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
+        let standardizedSectionWidth = sectionWidthWithStandardMargins(sectionEdgeInsets: sectionEdgeInsets)
         let totalColumnWidth = standardizedSectionWidth / CGFloat(columnCount)
         return totalColumnWidth - itemLayoutMargins.left - itemLayoutMargins.right
     }
@@ -871,12 +654,11 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     /// - Parameters:
     ///   - itemWidth:          The minimum content width per item in the section.
     ///   - maximumColumnCount: The maximum column count
-    ///   - sectionWidth:       The width for the section.
     ///   - sectionEdgeInsets:  The edge insets for the section.
     /// - Returns:              The content width appropriate for a section with the specified column and width settings.
     ///                         This value is subpixel accurate and should be rounded appropriately for screen.
-    public func columnContentWidth(forMinimumItemContentWidth itemWidth: CGFloat, maximumColumnCount: Int = .max, sectionWidth: CGFloat, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
-        let standardizedSectionWidth = sectionWidthWithStandardMargins(forSectionWidth: sectionWidth, sectionEdgeInsets: sectionEdgeInsets)
+    public func columnContentWidth(forMinimumItemContentWidth itemWidth: CGFloat, maximumColumnCount: Int = .max, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
+        let standardizedSectionWidth = sectionWidthWithStandardMargins(sectionEdgeInsets: sectionEdgeInsets)
         let itemLayoutMargins = self.itemLayoutMargins
         let minimumTotalWidth = itemWidth + itemLayoutMargins.left + itemLayoutMargins.right
         let columnCount = min(max(floor(standardizedSectionWidth / minimumTotalWidth), 1.0), CGFloat(maximumColumnCount))
@@ -889,11 +671,10 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     /// This is a private convenience to ease math for column calculation.
     ///
     /// - Parameters:
-    ///   - sectionWidth:      The total width for the section.
     ///   - sectionEdgeInsets: The edge insets for the section.
     /// - Returns:             The width of the section if it were to contain standard layout margins.
-    private func sectionWidthWithStandardMargins(forSectionWidth sectionWidth: CGFloat, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
-        var sectionWidthWithStandardMargins = sectionWidth
+    private func sectionWidthWithStandardMargins(sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
+        var sectionWidthWithStandardMargins = contentSize.width
         if sectionEdgeInsets.left.isZero == false {
             sectionWidthWithStandardMargins -= (sectionEdgeInsets.left - itemLayoutMargins.left)
         }
@@ -908,6 +689,17 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
 
 // MARK: - CollectionViewDelegateFormLayout
 @objc public protocol CollectionViewDelegateFormLayout: UICollectionViewDelegate {
+    
+    /// Asks the delegate for the minimum height for the item, given the width allocated to it.
+    ///
+    /// - Parameters:
+    ///   - collectionView: The collection view displaying the form layout.
+    ///   - layout:         The layout object requesting the information.
+    ///   - indexPath:      The indexPath for the item.
+    ///   - itemWidth:      The width for the item.
+    /// - Returns:          The minimum required height for the item.
+    func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat
+    
     
     /// Asks the delegate for the height of the global header view. If you do not implement this method,
     /// the layout defaults to having no global header view.
@@ -929,17 +721,6 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     @objc optional func collectionView(_ collectionView: UICollectionView, heightForGlobalFooterInLayout layout: CollectionViewFormLayout) -> CGFloat
     
     
-    /// Asks the delegate for the minimum width for the section. If you do not implement this method,
-    /// the section defaults to the collection view's full width.
-    ///
-    /// - Parameters:
-    ///   - collectionView: The collection view displaying the form layout.
-    ///   - layout:         The layout object requesting the information.
-    ///   - section:        The index of the section whose minimum width is being requested.
-    /// - Returns:          The minimum width for the section.
-    @objc optional func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumWidthForSection section: Int) -> CGFloat
-    
-    
     /// Asks the delegate for the distribution method for the section. If you do not implement this method,
     /// the layout defaults to the global `distribution` property.
     ///
@@ -959,7 +740,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     ///   - section:        The index of the section whose header size is being requested.
     ///   - width:          The width for the section.
     /// - Returns:          The height of the header. If you return a value of 0.0, no header is added.
-    func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat
+    @objc optional func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat
     
     
     /// Asks the delegate for the height of the specified section footer.
@@ -970,7 +751,7 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     ///   - section:        The index of the section whose footer size is being requested.
     ///   - width:          The width for the section.
     /// - Returns:          The height of the footer. If you return a value of 0.0, no footer is added.
-    func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForFooterInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat
+    @objc optional func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForFooterInSection section: Int) -> CGFloat
     
     
     /// Asks the delegate for the margins to apply to content in the specified section.
@@ -979,38 +760,41 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     ///   - collectionView: The collection view displaying the form layout.
     ///   - layout:         The layout object requesting the information.
     ///   - section:        The index of the section whose insets are being requested.
-    ///   - width:          The width for the section.
     /// - Returns:          The margins to apply to items in the section.
-    func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, insetForSection section: Int, givenSectionWidth width: CGFloat) -> UIEdgeInsets
+    @objc optional func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, insetForSection section: Int) -> UIEdgeInsets
     
     
     /// Asks the delegate for the minimum width for the item, given the maximum width of the section.
     ///
     /// - Parameters:
+    ///   - collectionView:    The collection view displaying the form layout.
+    ///   - layout:            The layout object requesting the information.
+    ///   - indexPath:         The indexPath for the item.
+    ///   - sectionEdgeInsets: The insets for the section.
+    /// - Returns:             The minimum required width for the item.
+    @objc optional func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, sectionEdgeInsets: UIEdgeInsets) -> CGFloat
+    
+    
+    /// Asks the delegate if the layout should inset the section header into the section over the
+    /// first row's top layout margin. If you don't implement this method, the layout defaults to
+    /// the value of the `wantsInsetHeaders` property.
+    ///
+    /// - Parameters:
     ///   - collectionView: The collection view displaying the form layout.
     ///   - layout:         The layout object requesting the information.
-    ///   - indexPath:      The indexPath for the item.
-    ///   - sectionWidth:   The width for the section.
-    ///   - edgeInsets:     The insets for the section.
-    /// - Returns:          The minimum required width for the item.
-    func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, givenSectionWidth sectionWidth: CGFloat, edgeInsets: UIEdgeInsets) -> CGFloat
+    ///   - section:        The index of the section header to optionally inset.
+    /// - Returns:          `true` if the header should inset over the content, otherwise `false`.
+    @objc optional func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, shouldInsetHeaderInSection section: Int) -> Bool
     
     
-    /// Asks the delegate for the minimum height for the item, given the width allocated to it.
+    /// Asks the delegate the height for the validation accessory under the item. If you don't
+    /// implement this method, or return `0.0`, no accessory will be provided.
     ///
     /// - Parameters:
     ///   - collectionView: The collection view displaying the form layout.
     ///   - layout:         The layout object requesting the information.
     ///   - indexPath:      The indexPath for the item.
-    ///   - itemWidth:      The width for the item.
-    /// - Returns:          The minimum required height for the item.
-    func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat
-    
-    
-    @objc optional func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, shouldInsetHeaderInSection section: Int) -> Bool
-    
-    
-    @objc optional func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, wantsBackgroundInSection section: Int) -> Bool
-    
-    @objc optional func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumHeightForBackgroundInSection section: Int, givenSectionWidth sectionWidth: CGFloat) -> CGFloat
+    ///   - contentWidth:   The content width for the item.
+    /// - Returns:          The content height for the validation item. If you return `0.0`, no item is shown.
+    @objc optional func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForValidationAccessoryAt indexPath: IndexPath, givenContentWidth contentWidth: CGFloat) -> CGFloat
 }

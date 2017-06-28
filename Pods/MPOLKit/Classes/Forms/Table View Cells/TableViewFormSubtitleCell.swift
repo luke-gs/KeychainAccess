@@ -79,7 +79,6 @@ open class TableViewFormSubtitleCell: TableViewFormCell {
         commonInit()
     }
     
-    /// TableViewFormSubtitleCell does not support NSCoding.
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         commonInit()

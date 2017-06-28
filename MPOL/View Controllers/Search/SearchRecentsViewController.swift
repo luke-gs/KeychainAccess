@@ -60,7 +60,6 @@ class SearchRecentsViewController: FormCollectionViewController {
     
     override init() {
         super.init()
-        formLayout.wantsOptimizedResizeAnimation = false
         formLayout.pinsGlobalHeaderWhenBouncing = true
     }
     
@@ -279,13 +278,13 @@ class SearchRecentsViewController: FormCollectionViewController {
         return height
     }
     
-    override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
         if traitCollection.horizontalSizeClass == .compact { return 0.0 }
         return CollectionViewFormExpandingHeaderView.minimumHeight
     }
     
-    override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, insetForSection section: Int, givenSectionWidth width: CGFloat) -> UIEdgeInsets {
-        var inset = super.collectionView(collectionView, layout: layout, insetForSection: section, givenSectionWidth: width)
+    override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, insetForSection section: Int) -> UIEdgeInsets {
+        var inset = super.collectionView(collectionView, layout: layout, insetForSection: section)
         
         if collectionView != self.collectionView {
             inset.top    = 10.0
@@ -295,14 +294,14 @@ class SearchRecentsViewController: FormCollectionViewController {
         return inset
     }
     
-    override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, givenSectionWidth sectionWidth: CGFloat, edgeInsets: UIEdgeInsets) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
         if collectionView != self.collectionView {
-            return layout.columnContentWidth(forMinimumItemContentWidth: EntityCollectionViewCell.minimumContentWidth(forStyle: .detail), sectionWidth: sectionWidth, sectionEdgeInsets: edgeInsets)
+            return layout.columnContentWidth(forMinimumItemContentWidth: EntityCollectionViewCell.minimumContentWidth(forStyle: .detail), sectionEdgeInsets: sectionEdgeInsets)
         }
-        return sectionWidth
+        return collectionView.bounds.width
     }
     
-    override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
+    override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
         
         let isRecentlySearched: Bool
         if traitCollection.horizontalSizeClass == .compact {
@@ -381,8 +380,6 @@ private class RecentEntitiesHeaderView: UICollectionReusableView, DefaultReusabl
         imageView.clipsToBounds = true
         addSubview(imageView)
         
-        formLayout.wantsOptimizedResizeAnimation = false
-
         collectionView.register(EntityCollectionViewCell.self)
         collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         collectionView.backgroundColor = .clear

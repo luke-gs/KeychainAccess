@@ -43,7 +43,7 @@ open class URLRequestOperation: Operation {
     // MARK: - Override points
     
     open func loadRequest() {
-        fatalError("Subclasses must override loadRequest() and set a valid request.")
+        MPLRequiresConcreteImplementation()
     }
     
     

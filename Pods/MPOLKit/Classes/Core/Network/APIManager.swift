@@ -82,7 +82,7 @@ open class APIManager<Provider: WebAPIURLRequestProvider> {
     
     // MARK : - Internal Utilities
     
-    private func unboxOperation<T: Unboxable>(with urlRequest: URLRequest, completion: ((DataResponse<T>) -> Void)?) -> UnboxingGroupOperation<T> {
+    private func unboxOperation<T>(with urlRequest: URLRequest, completion: ((DataResponse<T>) -> Void)?) -> UnboxingGroupOperation<T> {
         let provider = URLJSONRequestOperation(urlRequest: urlRequest, sessionManager: sessionManager)
         let unboxer = UnboxingOperation<T>(provider: provider)
         
@@ -93,7 +93,7 @@ open class APIManager<Provider: WebAPIURLRequestProvider> {
         return group
     }
     
-    private func unboxArrayOperation<T: Unboxable>(with urlRequest: URLRequest, completion: ((DataResponse<[T]>) -> Void)?) -> UnboxingArrayGroupOperation<T> {
+    private func unboxArrayOperation<T>(with urlRequest: URLRequest, completion: ((DataResponse<[T]>) -> Void)?) -> UnboxingArrayGroupOperation<T> {
         let provider = URLJSONRequestOperation(urlRequest: urlRequest, sessionManager: sessionManager)
         let unboxer = UnboxingArrayOperation<T>(provider: provider)
         
