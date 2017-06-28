@@ -19,7 +19,7 @@ public enum PersonParserError: Error {
     case dobDateOutOfBounds(dob: String)
 }
 
-open class PersonParser: QueryParserType {
+open class PersonParserDefinition: QueryParserDefinition {
     
     public init() { }
     
@@ -31,15 +31,14 @@ open class PersonParser: QueryParserType {
         return query.components(separatedBy: " ")
     }
     
-    public var definitions: [QueryTokenDefinition] {
-        
+    public var tokenDefinitions: [QueryTokenDefinition] {
         return [
-            PersonParser.surnameDefinition,
-            PersonParser.givenNameDefinition,
-            PersonParser.middleNamesDefinition,
-            PersonParser.genderDefinition,
-            PersonParser.dobDefinition,
-            PersonParser.ageGapDefinition
+            PersonParserDefinition.surnameDefinition,
+            PersonParserDefinition.givenNameDefinition,
+            PersonParserDefinition.middleNamesDefinition,
+            PersonParserDefinition.genderDefinition,
+            PersonParserDefinition.dobDefinition,
+            PersonParserDefinition.ageGapDefinition
         ]
     }
     
@@ -76,7 +75,7 @@ open class PersonParser: QueryParserType {
                              required: false,
                              typeCheck: nameTypeCheck,
                              validate: { (token, index, map) in
-                                if PersonParser.genderTypeCheck(token) && map["gender"] == nil { throw PersonParserError.nameMatchesGenderType(gender: token) }
+                                if PersonParserDefinition.genderTypeCheck(token) && map["gender"] == nil { throw PersonParserError.nameMatchesGenderType(gender: token) }
                                 if token.characters.count < MinimumMiddleNamesLength || token.characters.count > MaximumMiddleNamesLength {
                                     throw PersonParserError.middleNamesLengthOutOfBounds(middleNames: token)
                                 }

@@ -9,7 +9,7 @@
 import UIKit
 
 
-/// `SearchTokenDefinition` is an object that defines the type and validation for a search
+/// `QueryTokenDefinition` is an object that defines the type and validation for a search
 /// token, when parsing a string.
 public class QueryTokenDefinition {
     
@@ -19,13 +19,14 @@ public class QueryTokenDefinition {
     /// The name of the token (result will be mapped to this name).
     var key: String
     
-    /// Defines if the token is required in the map (will throw a parsing error if no match is found for definition).
+    /// Defines if the token is required in the results (will throw a parsing error if no match is found for definition).
     var required: Bool
     
     /// Checks the string for the token type, and returns true if it matches.
     var typeCheck: TypeCheckClosure
     
-    /// Checks the string is valid based on provided conditions (e.g. string length).
+    /// Checks the string is valid based on specific conditions, and throws errors for
+    /// an invalid token (e.g. string length).
     var validate: ValidationClosure?
     
     init(key: String, required: Bool, typeCheck: @escaping TypeCheckClosure, validate: ValidationClosure? = nil) {
@@ -37,15 +38,15 @@ public class QueryTokenDefinition {
 }
 
 
-/// `QueryParserProtocol` is an object that defines the type and validation for a search
+/// `QueryParserDefinition` is an object that defines the type and validation for a search
 /// token, when parsing a string.
-public protocol QueryParserType {
+public protocol QueryParserDefinition {
     
-    /// Function responsible for breaking up the query string into components based on specific delimiter requirements.
+    /// Method responsible for breaking up the query string into components based on specific delimiter requirements.
     func tokensFrom(query: String) -> [String]
     
     /// An array of objects that define each token's type and validation.
-    var definitions: [QueryTokenDefinition] { get }
+    var tokenDefinitions: [QueryTokenDefinition] { get }
 }
 
 
@@ -65,15 +66,15 @@ public enum QueryParserError: Error {
 }
 
 
-/// Handles parsing a search string based on a concrete parser class which provides
-/// definitions on how to break up the strings and what tokens to look for.
-open class QueryParser<ParserType: QueryParserType> {
+/// Handles parsing a search string based on a parser definition class which will
+/// define how to break up the strings and what tokens to look for.
+open class QueryParser<ParserDefinition: QueryParserDefinition> {
     
-    /// Parser object that defines how to parse the string (conforms to 'QueryParserType').
-    let parser: ParserType
+    /// Parser definition object that defines how to parse the string (conforms to 'QueryParserDefinition').
+    let parser: ParserDefinition
     
-    public init(parser: ParserType) {
-        self.parser = parser
+    public init(parserDefinition: ParserDefinition) {
+        self.parser = parserDefinition
     }
     
     /// Function takes a query string and parses it based on definitions found in 'parser'
@@ -87,7 +88,7 @@ open class QueryParser<ParserType: QueryParserType> {
         let tokens = parser.tokensFrom(query: query)
         
         var results = [String: String]()
-        var definitions = parser.definitions
+        var definitions = parser.tokenDefinitions
         
         // Logic after match is found
         func mapStringToKey(string: String, key: String, index: Int) {
@@ -145,7 +146,7 @@ open class QueryParser<ParserType: QueryParserType> {
         }
         
         // Check all required tokens have been found
-        let requiredKeys: [String] = parser.definitions.flatMap { $0.required ? $0.key : nil }
+        let requiredKeys: [String] = parser.tokenDefinitions.flatMap { $0.required ? $0.key : nil }
         for key in requiredKeys {
             guard let _ = results[key] else { throw QueryParserError.requiredValueNotFound(key: key) }
         }
