@@ -46,6 +46,8 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     
     @NSCopying open var separatorColor:       UIColor?
     
+    @NSCopying open var validationErrorColor: UIColor?
+    
     
     // MARK: - Initializers
     
@@ -142,6 +144,7 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
         primaryTextColor     = colors[.PrimaryText]
         secondaryTextColor   = colors[.SecondaryText]
         placeholderTextColor = colors[.PlaceholderText]
+        validationErrorColor = colors[.ValidationError]
         
         setNeedsStatusBarAppearanceUpdate()
         
@@ -187,7 +190,7 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     }
     
     open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        fatalError("Subclasses must override this method, and must not call super.")
+        MPLRequiresConcreteImplementation()
     }
     
     open func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -201,7 +204,10 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     
     open func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         
-        (cell as? CollectionViewFormCell)?.separatorColor = separatorColor
+        if let formCell = cell as? CollectionViewFormCell {
+            formCell.separatorColor = separatorColor
+            formCell.validationColor = validationErrorColor
+        }
         
         let primaryTextColor     = self.primaryTextColor     ?? .black
         let secondaryTextColor   = self.secondaryTextColor   ?? .darkGray
@@ -278,23 +284,11 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     
     // MARK: - CollectionViewDelegateMPOLLayout methods
     
-    open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
-        return 0.0
-    }
-    
-    open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForFooterInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
-        return 0.0
-    }
-    
-    open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, insetForSection section: Int, givenSectionWidth width: CGFloat) -> UIEdgeInsets {
+    open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, insetForSection section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0.0, left: 24.0, bottom: 0.0, right: 16.0)
     }
     
-    open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, givenSectionWidth sectionWidth: CGFloat, edgeInsets: UIEdgeInsets) -> CGFloat {
-        return sectionWidth
-    }
-    
-    open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
+    open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
         return 39.0
     }
     

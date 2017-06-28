@@ -23,7 +23,7 @@ open class OrganizationInfoViewController: EntityDetailCollectionViewController 
     }
     
     public required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError("OrganizationInfoViewController does not support NSCoding.")
     }
     
     
@@ -142,35 +142,35 @@ open class OrganizationInfoViewController: EntityDetailCollectionViewController 
     
     // MARK: - CollectionViewDelegateFormLayout
     
-    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
+    open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
         return CollectionViewFormExpandingHeaderView.minimumHeight
     }
     
-    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, givenSectionWidth sectionWidth: CGFloat, edgeInsets: UIEdgeInsets) -> CGFloat {
+    open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
         
         let displayScale = traitCollection.currentDisplayScale
         
         switch Section(rawValue: indexPath.section)! {
         case .header:
-            return sectionWidth
+            return collectionView.bounds.width
         case .details:
-            let columnCount = min(3, layout.columnCountForSection(withMinimumItemContentWidth: 180.0, sectionWidth: sectionWidth, sectionEdgeInsets: edgeInsets))
-            if columnCount <= 1 { return sectionWidth }
+            let columnCount = min(3, layout.columnCountForSection(withMinimumItemContentWidth: 180.0, sectionEdgeInsets: sectionEdgeInsets))
+            if columnCount <= 1 { return collectionView.bounds.width }
             
             switch DetailItem(rawValue: indexPath.item)! {
-            case .address, .remarks: return sectionWidth
+            case .address, .remarks: return collectionView.bounds.width
             case .type:
-                return layout.itemContentWidth(fillingColumns: columnCount - 1, inSectionWithColumns: columnCount, sectionWidth: sectionWidth, sectionEdgeInsets: edgeInsets).floored(toScale: displayScale)
+                return layout.itemContentWidth(fillingColumns: columnCount - 1, inSectionWithColumns: columnCount, sectionEdgeInsets: sectionEdgeInsets).floored(toScale: displayScale)
             case .effectiveFrom:
-                return layout.columnContentWidth(forColumnCount: columnCount, inSectionWidth: sectionWidth, sectionEdgeInsets: edgeInsets).floored(toScale: displayScale)
+                return layout.columnContentWidth(forColumnCount: columnCount, sectionEdgeInsets: sectionEdgeInsets).floored(toScale: displayScale)
             }
         case .aliases:
-            return sectionWidth
+            return collectionView.bounds.width
         }
         
     }
     
-    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
+    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
         let title: String
         let value: String
         

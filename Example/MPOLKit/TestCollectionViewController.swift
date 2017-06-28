@@ -11,6 +11,20 @@ import MPOLKit
 
 class TestCollectionViewController: FormCollectionViewController  {
     
+    var inserted = false
+    
+    var text: String? {
+        didSet {
+            if let cell = self.collectionView?.cellForItem(at: IndexPath(item: 0 , section: 0)) as? CollectionViewFormCell {
+                cell.setRequiresValidation(text != nil, validationText: text, animated: true)
+            } else {
+                collectionView?.performBatchUpdates({
+                    self.formLayout.invalidateLayout()
+                })
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -20,6 +34,13 @@ class TestCollectionViewController: FormCollectionViewController  {
         collectionView?.register(CollectionViewFormValueFieldCell.self)
         collectionView?.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         collectionView?.register(RecentEntitiesBackgroundView.self, forSupplementaryViewOfKind: collectionElementKindGlobalHeader)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
+            self.text = "Test"
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 12) {
+            self.text = nil
+        }
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -27,9 +48,12 @@ class TestCollectionViewController: FormCollectionViewController  {
         collectionView?.collectionViewLayout.invalidateLayout()
     }
     
+    func numberOfSections(in collection: UICollectionView) -> Int {
+        return 1
+    }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 100
+        return 100 + (inserted ? 1 : 0)
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -67,36 +91,37 @@ class TestCollectionViewController: FormCollectionViewController  {
         
         cell.editActions = [CollectionViewFormEditAction(title: "DELETE", color: .destructive, handler: nil)]
         
+        if indexPath.item == 0 && indexPath.section == 0 {
+            cell.setRequiresValidation(text != nil, validationText: text, animated: false)
+        } else {
+            cell.setRequiresValidation(false, validationText: nil, animated: false)
+        }
+        
         return cell
     }
     
-    override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
         return CollectionViewFormExpandingHeaderView.minimumHeight
     }
     
-    override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForFooterInSection section: Int, givenSectionWidth width: CGFloat) -> CGFloat {
-        return 0.0
-    }
-    
-    override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, givenSectionWidth sectionWidth: CGFloat, edgeInsets: UIEdgeInsets) -> CGFloat {
-        return sectionWidth
-    }
-    
-    override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenItemContentWidth itemWidth: CGFloat) -> CGFloat {
+    override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
         return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: "Kj", subtitle: "Kj", inWidth: itemWidth, compatibleWith: traitCollection)
     }
-    
     
     func collectionView(_ collectionView: UICollectionView, heightForGlobalHeaderInLayout layout: CollectionViewFormLayout) -> CGFloat {
         return 310.0
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForValidationAccessoryAt indexPath: IndexPath, givenContentWidth contentWidth: CGFloat) -> CGFloat {
+        if indexPath.section == 0 && indexPath.row == 0, let text = self.text {
+            return CollectionViewFormCell.heightForValidationAccessory(withText: text, contentWidth: contentWidth, compatibleWith: traitCollection)
+        }
+        return 0.0
+    }
+    
 }
 
-extension UICollectionReusableView: DefaultReusable {
-}
-
-private class RecentEntitiesBackgroundView: UICollectionReusableView {
+private class RecentEntitiesBackgroundView: UICollectionReusableView, DefaultReusable {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -118,3 +143,4 @@ private class RecentEntitiesBackgroundView: UICollectionReusableView {
     }
     
 }
+

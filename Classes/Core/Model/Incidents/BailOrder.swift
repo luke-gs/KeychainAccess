@@ -46,7 +46,7 @@ open class BailOrder: Event {
     }
     
     public required init?(coder aDecoder: NSCoder) {
-        fatalError("Not implemented yet")
+        MPLUnimplemented()
     }
     
     public required init(id: String) {
@@ -55,7 +55,7 @@ open class BailOrder: Event {
     
     open override func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
-        fatalError("Not implemented yet")
+        MPLUnimplemented()
     }
     
 }

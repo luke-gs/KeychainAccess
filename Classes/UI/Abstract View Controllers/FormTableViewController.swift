@@ -298,7 +298,7 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     }
     
     open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        fatalError("Subclasses must override this method, and must not call super.")
+        MPLRequiresConcreteImplementation()
     }
     
     

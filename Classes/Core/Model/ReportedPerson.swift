@@ -39,7 +39,7 @@ open class ReportedPerson: NSObject, Serialisable {
         }
         
         self.id = id
-        fatalError("Not implemented yet")
+        MPLUnimplemented()
     }
     
     open func encode(with aCoder: NSCoder) {

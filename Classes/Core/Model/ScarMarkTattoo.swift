@@ -36,11 +36,11 @@ open class ScarMarkTattoo: NSObject, Serialisable {
     }
     
     public required init?(coder aDecoder: NSCoder) {
-        fatalError("Not implemented yet")
+        MPLUnimplemented()
     }
     
     open func encode(with aCoder: NSCoder) {
-        
+        MPLUnimplemented()
     }
     
     open static var supportsSecureCoding: Bool {

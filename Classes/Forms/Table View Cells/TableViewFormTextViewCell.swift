@@ -58,7 +58,6 @@ open class TableViewFormTextViewCell: TableViewFormCell {
     }
     
     
-    /// TableViewFormTextViewCell does not support NSCoding.
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         commonInit()

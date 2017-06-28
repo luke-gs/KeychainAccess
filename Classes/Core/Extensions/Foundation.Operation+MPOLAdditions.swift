@@ -14,7 +14,7 @@ extension Foundation.Operation {
     /// state. This block will be called after all others that have previously been set.
     ///
     /// - Parameter block: A new block to execute on completion.
-    public func addCompletionBlock(_ block: @escaping (Void) -> Void) {
+    public func addCompletionBlock(_ block: @escaping () -> Void) {
         if let existing = completionBlock {
             /*
              If we already have a completion block, we construct a new one by

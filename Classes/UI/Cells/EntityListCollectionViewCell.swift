@@ -71,13 +71,19 @@ class EntityListCollectionViewCell: CollectionViewFormCell {
         let titleLabel        = self.titleLabel
         let subtitleLabel     = self.subtitleLabel
         
-        applyStandardFonts()
-        
         badgeView.translatesAutoresizingMaskIntoConstraints         = false
         borderedImageView.translatesAutoresizingMaskIntoConstraints = false
         sourceLabel.translatesAutoresizingMaskIntoConstraints       = false
         titleLabel.translatesAutoresizingMaskIntoConstraints        = false
         subtitleLabel.translatesAutoresizingMaskIntoConstraints     = false
+        
+        sourceLabel.adjustsFontForContentSizeCategory = true
+        titleLabel.adjustsFontForContentSizeCategory = true
+        subtitleLabel.adjustsFontForContentSizeCategory = true
+        
+        let traitCollection = self.traitCollection
+        titleLabel.font = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+        subtitleLabel.font = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
         
         contentView.addSubview(subtitleLabel)
         contentView.addSubview(titleLabel)
@@ -143,19 +149,6 @@ class EntityListCollectionViewCell: CollectionViewFormCell {
         }
     }
     
-    private func applyStandardFonts() {
-        //super.applyStandardFonts()
-        
-        if #available(iOS 10, *) {
-            let traitCollection = self.traitCollection
-            titleLabel.font    = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
-            subtitleLabel.font = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
-        } else {
-            titleLabel.font    = .preferredFont(forTextStyle: .headline)
-            subtitleLabel.font = .preferredFont(forTextStyle: .footnote)
-        }
-    }
-    
     
     // MARK: - Class sizing methods
     
@@ -168,16 +161,8 @@ class EntityListCollectionViewCell: CollectionViewFormCell {
     ///   - traitCollection:    The trait collection the cell will be displayed in.
     /// - Returns:      The minumum content height for the cell.
     open class func minimumContentHeight(compatibleWith traitCollection: UITraitCollection) -> CGFloat {
-        let titleFont:    UIFont
-        let subtitleFont: UIFont
-        
-        if #available(iOS 10, *) {
-            titleFont    = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
-            subtitleFont = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
-        } else {
-            titleFont    = .preferredFont(forTextStyle: .headline)
-            subtitleFont = .preferredFont(forTextStyle: .footnote)
-        }
+        let titleFont    = UIFont.preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+        let subtitleFont = UIFont.preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
         
         let displayScale = traitCollection.currentDisplayScale
         return max(titleFont.lineHeight.ceiled(toScale: displayScale) + subtitleFont.lineHeight.ceiled(toScale: displayScale), 48.0)
