@@ -203,9 +203,17 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     
     // MARK: - Editing
     
-    func beginEditingSearchField() {
+    func beginEditingSearchField(_ withTextFieldHighlighted: Bool = false) {
         collectionView?.selectItem(at: indexPathForSearchFieldCell, animated: false, scrollPosition: [])
-        searchFieldCell?.textField.becomeFirstResponder()
+        
+        if let textField = searchFieldCell?.textField {
+            textField.becomeFirstResponder()
+            if withTextFieldHighlighted {
+                textField.becomeFirstResponder()
+                textField.selectedTextRange = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
+            }
+        }
+        
         isEditingTextField = true
     }
     
