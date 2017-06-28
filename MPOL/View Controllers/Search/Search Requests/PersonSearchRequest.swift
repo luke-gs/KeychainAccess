@@ -8,6 +8,7 @@
 
 import Foundation
 import MPOLKit
+import ClientKit
 
 private let statesKey      = "states"
 private let genderKey      = "gender"

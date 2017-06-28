@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ClientKit
 import MPOLKit
 
 class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {

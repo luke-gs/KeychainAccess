@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ClientKit
 
 class SearchDataSource: NSObject {
     

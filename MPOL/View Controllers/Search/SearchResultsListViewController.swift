@@ -8,6 +8,7 @@
 
 import UIKit
 import MPOLKit
+import ClientKit
 import Unbox
 
 fileprivate let alertCellID = "alertCell"
@@ -47,8 +48,7 @@ class SearchResultsListViewController: FormCollectionViewController, SearchNavig
     override init() {
         super.init()
         
-        let bundle = Bundle(for: Person.self)
-        let url = bundle.url(forResource: "Person_25625aa4-3394-48e2-8dbc-2387498e16b0", withExtension: "json", subdirectory: "Mock JSONs")!
+        let url = Bundle.mpolKit.url(forResource: "Person_25625aa4-3394-48e2-8dbc-2387498e16b0", withExtension: "json", subdirectory: "Mock JSONs")!
         let data = try! Data(contentsOf: url)
         let person1: Person = try! unbox(data: data)
         

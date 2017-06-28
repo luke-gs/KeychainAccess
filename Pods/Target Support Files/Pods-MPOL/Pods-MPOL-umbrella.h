@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double Pods_ClientKit_MPOLVersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_ClientKit_MPOLVersionString[];
+FOUNDATION_EXPORT double Pods_MPOLVersionNumber;
+FOUNDATION_EXPORT const unsigned char Pods_MPOLVersionString[];
 
