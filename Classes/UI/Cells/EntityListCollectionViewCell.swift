@@ -8,20 +8,20 @@
 
 import UIKit
 
-class EntityListCollectionViewCell: CollectionViewFormCell {
+open class EntityListCollectionViewCell: CollectionViewFormCell {
     
     // MARK: - Public properties
     
-    var thumbnailView: EntityThumbnailView = EntityThumbnailView(frame: .zero)
+    public let thumbnailView: EntityThumbnailView = EntityThumbnailView(frame: .zero)
     
-    let sourceLabel: RoundedRectLabel = RoundedRectLabel(frame: .zero)
+    public let sourceLabel: RoundedRectLabel = RoundedRectLabel(frame: .zero)
     
-    let titleLabel: UILabel = UILabel(frame: .zero)
+    public let titleLabel: UILabel = UILabel(frame: .zero)
     
-    let subtitleLabel: UILabel = UILabel(frame: .zero)
+    public let subtitleLabel: UILabel = UILabel(frame: .zero)
     
     
-    var actionCount: UInt = 0 {
+    open var actionCount: UInt = 0 {
         didSet {
             
             if actionCount == oldValue { return }
@@ -33,7 +33,7 @@ class EntityListCollectionViewCell: CollectionViewFormCell {
     }
     
     
-    public var alertColor: UIColor? {
+    open var alertColor: UIColor? {
         didSet {
             if alertColor == oldValue { return }
             
