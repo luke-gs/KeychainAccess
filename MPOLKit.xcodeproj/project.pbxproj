@@ -11,6 +11,7 @@
 		BCA1793F1F03561100AD1F5F /* ParseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA1793E1F03561100AD1F5F /* ParseError.swift */; };
 		BCA179411F03561D00AD1F5F /* ParametersComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA179401F03561D00AD1F5F /* ParametersComposer.swift */; };
 		BCA179431F03563900AD1F5F /* CollectionViewFormLayoutAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA179421F03563900AD1F5F /* CollectionViewFormLayoutAttributes.swift */; };
+		BCAC384C1F04C849003797DC /* QueryParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAC384B1F04C849003797DC /* QueryParser.swift */; };
 		BCC532D91EDAEF0400E2C994 /* CollectionViewFormValueFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC532D81EDAEF0400E2C994 /* CollectionViewFormValueFieldCell.swift */; };
 		C605F8901ECCAB2C001194DD /* MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C605F8861ECCAB2B001194DD /* MPOLKit.framework */; };
 		C605F8951ECCAB2C001194DD /* MPOLKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F8941ECCAB2C001194DD /* MPOLKitTests.swift */; };
@@ -185,6 +186,7 @@
 		BCA1793E1F03561100AD1F5F /* ParseError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseError.swift; sourceTree = "<group>"; };
 		BCA179401F03561D00AD1F5F /* ParametersComposer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParametersComposer.swift; sourceTree = "<group>"; };
 		BCA179421F03563900AD1F5F /* CollectionViewFormLayoutAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormLayoutAttributes.swift; sourceTree = "<group>"; };
+		BCAC384B1F04C849003797DC /* QueryParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QueryParser.swift; sourceTree = "<group>"; };
 		BCC532D81EDAEF0400E2C994 /* CollectionViewFormValueFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormValueFieldCell.swift; sourceTree = "<group>"; };
 		C605F8861ECCAB2B001194DD /* MPOLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MPOLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C605F88F1ECCAB2C001194DD /* MPOLKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MPOLKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -482,6 +484,7 @@
 		C605F8C21ECCAD47001194DD /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				BCAC384B1F04C849003797DC /* QueryParser.swift */,
 				C6F0BC0B1EEF06830000B339 /* MPOLSource.swift */,
 				C605F8C41ECCAD47001194DD /* OAuthAuthorizationGrant.swift */,
 				BCA179401F03561D00AD1F5F /* ParametersComposer.swift */,
@@ -1066,6 +1069,7 @@
 				C605F9841ECCAD48001194DD /* CollectionViewFormCellActionView.swift in Sources */,
 				C605F9DC1ECCAD48001194DD /* Theme.swift in Sources */,
 				C605F9A11ECCAD48001194DD /* TableViewFormSubtitleCell.swift in Sources */,
+				BCAC384C1F04C849003797DC /* QueryParser.swift in Sources */,
 				C605F9A51ECCAD48001194DD /* FormTextField.swift in Sources */,
 				C605F9A21ECCAD48001194DD /* TableViewFormTextFieldCell.swift in Sources */,
 				C605F9701ECCAD48001194DD /* BlockObserver.swift in Sources */,
