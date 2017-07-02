@@ -11,10 +11,9 @@ import UIKit
 fileprivate let cellID = "CellID"
 
 
-/// Temp Workaround: A type-erased, non-pickable compliant version of the `PickerTableViewController`.
+/// Workaround: A type-erased, non-pickable compliant version of the `PickerTableViewController`.
 ///
-/// TODO: Create an alternative type "AnyPickable" which conforms to Pickable and Hashable, making
-/// this class obsolete.
+/// TODO: Check if we can avoid this with Swift 4.
 internal class FilterListPickerViewController: FormSearchTableViewController {
 
     // MARK: - Public properties
