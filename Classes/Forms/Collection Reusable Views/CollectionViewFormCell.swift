@@ -561,7 +561,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
             if isRightToLeft {
                 separatorInset = UIEdgeInsets(top: 0.0, left: isAtTrailingEdge ? 0.0 : layoutMargins.left, bottom: 0.0, right: layoutMargins.right)
             } else {
-                separatorInset = UIEdgeInsets(top: 0.0, left: layoutMargins.left, bottom: 0.0, right: isAtTrailingEdge ? 0.0 : layoutMargins.right)
+                separatorInset = UIEdgeInsets(top: 0.0, left: layoutMargins.left, bottom: 0.0, right: isAtTrailingEdge || separatorStyle == .indentedAtRowLeading ? 0.0 : layoutMargins.right)
             }
         } else {
             separatorInset = .zero

@@ -23,6 +23,9 @@ extension UIImage {
     public static let radioButtonSelected = UIImage(named: "RadioFilled", in: .mpolKit, compatibleWith: nil)!
     
     @nonobjc
-    public static let formDisclosureIndicator = UIImage(named: "FormDisclosureIndicator", in: .mpolKit, compatibleWith: nil)!
+    public static let formAccessoryDisclosureIndicator = UIImage(named: "FormAccessoryDisclosure", in: .mpolKit, compatibleWith: nil)!
+    
+    @nonobjc
+    public static let formAccessoryCheckmark = UIImage(named: "FormAccessoryCheckmark", in: .mpolKit, compatibleWith: nil)!
     
 }

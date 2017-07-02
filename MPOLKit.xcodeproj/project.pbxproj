@@ -247,6 +247,8 @@
 		BC9CD4031ED3994700D91786 /* Source.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Source.swift; sourceTree = "<group>"; };
 		BCC532D81EDAEF0400E2C994 /* CollectionViewFormValueFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormValueFieldCell.swift; sourceTree = "<group>"; };
 		BCDDBBFB1ECEDB9600D66D45 /* Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
+		BCF3E42D1F090DAF0068CA55 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
+		BCF3E42E1F090DAF0068CA55 /* FilterListPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterListPickerViewController.swift; sourceTree = "<group>"; };
 		BCFB7FCA1ED66E6700567111 /* EntityAlertsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityAlertsViewController.swift; sourceTree = "<group>"; };
 		BCFB7FCB1ED66E6700567111 /* EntityAssociationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityAssociationsViewController.swift; sourceTree = "<group>"; };
 		BCFB7FCC1ED66E6700567111 /* EntityDetailCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -585,7 +587,8 @@
 				C605F8A11ECCAD3B001194DD /* Assets */,
 				C60C89261ECD420900785932 /* Info.plist */,
 			);
-			path = MPOLKit;
+			name = MPOLKit;
+			path = Classes;
 			sourceTree = "<group>";
 		};
 		C605F8931ECCAB2C001194DD /* MPOLKitTests */ = {
@@ -983,6 +986,8 @@
 		C605F93D1ECCAD47001194DD /* Picker View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				BCF3E42E1F090DAF0068CA55 /* FilterListPickerViewController.swift */,
+				BCF3E42D1F090DAF0068CA55 /* FilterViewController.swift */,
 				C605F93E1ECCAD47001194DD /* PickerTableViewController.swift */,
 				C605F93F1ECCAD47001194DD /* PopoverDatePickerViewController.swift */,
 			);
