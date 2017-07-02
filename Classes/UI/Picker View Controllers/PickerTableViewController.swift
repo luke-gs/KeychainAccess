@@ -192,9 +192,10 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
     
     public override init(style: UITableViewStyle) {
         super.init(style: style)
-        
         preferredContentSize = CGSize(width: 320.0, height: 435.0)
         clearsSelectionOnViewWillAppear = false
+        
+        wantsCalculatedContentHeight = true
         
         NotificationCenter.default.addObserver(self, selector: #selector(applyCurrentTheme), name: .ThemeDidChange, object: nil)
         applyCurrentTheme()

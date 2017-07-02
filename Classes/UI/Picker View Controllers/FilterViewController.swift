@@ -41,9 +41,12 @@ open class FilterViewController: FormCollectionViewController {
         filterOptions = options
         
         super.init()
-        preferredContentSize = CGSize(width: 400.0, height: 500.0)
+        preferredContentSize.width = 400.0
         
         formLayout.distribution = .fillEqually
+        
+        minimumCalculatedContentHeight = 200.0
+        wantsCalculatedContentHeight = true
         
         isModalInPopover = true
         
@@ -275,7 +278,7 @@ open class FilterViewController: FormCollectionViewController {
             }
             
             if let title = dateRange.title?.ifNotEmpty() {
-                datePickerVC.title = title + " - " + titleAddendum
+                datePickerVC.title = title + ": " + titleAddendum
             } else {
                 datePickerVC.title = titleAddendum
             }
