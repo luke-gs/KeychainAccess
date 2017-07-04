@@ -14,7 +14,7 @@ extension EntityThumbnailView {
     // MARK: - Configuration
     
     public func configure(for entity: Entity?, size: ThumbnailSize) {
-        if let thumbnail = entity?.thumbnailImage(ofSize: .large) {
+        if let thumbnail = entity?.thumbnailImage(ofSize: size) {
             imageView.contentMode = thumbnail.mode
             imageView.image = thumbnail.image
         } else {
