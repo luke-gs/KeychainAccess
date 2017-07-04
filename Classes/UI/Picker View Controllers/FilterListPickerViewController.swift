@@ -1,9 +1,9 @@
 //
-//  PickerTableViewController.swift
-//  MPOLKit
+//  FilterListPickerViewController.swift
+//  MPOLKit_Example
 //
-//  Created by Rod Brown on 15/07/2016.
-//  Copyright © 2016 Gridstone. All rights reserved.
+//  Created by Rod Brown on 2/7/17.
+//  Copyright © 2017 CocoaPods. All rights reserved.
 //
 
 import UIKit
@@ -11,45 +11,15 @@ import UIKit
 fileprivate let cellID = "CellID"
 
 
-/// A type that can be picked from a list.
+/// Workaround: A type-erased, non-pickable compliant version of the `PickerTableViewController`.
 ///
-/// Types that conform to the `Pickable` protocol can be selected from a list,
-/// and should also conform to `Hashable`. This is not a protocol requirement,
-/// however, to avoid limiting the protocol to generic type constraints.
-public protocol Pickable {
-    
-    /// The title for presentation in a picking UI.
-    var title: String?    { get }
-    
-    /// An additional subtitle description.
-    var subtitle: String? { get }
-    
-}
+/// TODO: Check if we can avoid this with Swift 4.
+internal class FilterListPickerViewController: FormSearchTableViewController {
 
-
-/// A `Pickable` type that allows a custom searching.
-public protocol CustomSearchPickable: Pickable {
-    
-    func contains(_ searchText: String) -> Bool
-    
-}
-
-
-/// A table view for picking general items from a list.
-///
-/// `PickerTableViewController` presents items of a generic type that conforms
-/// to `Pickable` and `Hashable`, and can be configured for single and multiple
-/// selection modes.
-/// 
-/// When there are ten or more items in the list, the picker automatically
-/// presents a search bar to allow easy filtering through the list. This can be
-/// manually disabled if required.
-open class PickerTableViewController<T>: FormSearchTableViewController where T: Pickable, T: Hashable {
-    
     // MARK: - Public properties
     
     /// An array of items for selection in the picker.
-    open var items: [T] = [] {
+    open var items: [AnyHashable] = [] {
         didSet {
             setSearchBarHidden(items.count < 10, animated: false)
             updateFilter()
@@ -60,7 +30,7 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
     /// The current selected items from the list.
     ///
     /// The default is none.
-    open var selectedItems: Set<T> = [] {
+    open var selectedItems: Set<AnyHashable> = [] {
         didSet {
             guard manualSelectionUpdate == false, let tableView = self.tableView else { return }
             
@@ -73,7 +43,7 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
             // Find the paths to reload.
             // Note that we do this manually via one pass through the arrays to optimize, or this could
             // become an O(N^2) operation, and so for long lists (1000+) the penalty may be huge, especially
-            // if a fair amount of selected items are at the end of the list. 
+            // if a fair amount of selected items are at the end of the list.
             // We iterate once the correct array, and use the smaller change set for contains (O(1)) operation.
             var indexPathsToReload: [IndexPath] = []
             
@@ -101,7 +71,7 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
     
     
     /// A boolean value indicating whether multiple items can be selected in the list.
-    /// 
+    ///
     /// The default is false.
     open var allowsMultipleSelection: Bool = false {
         didSet {
@@ -119,12 +89,23 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
         }
     }
     
+    open var allowsNoSelection: Bool = true {
+        didSet {
+            if allowsNoSelection == false && noItemTitle != nil {
+                noItemTitle = nil
+            }
+        }
+    }
+    
     
     /// An update handler to fire when the selection changes.
     ///
     /// This closure is only called on user-interaction based changes, much like delegate
     /// callbacks.
-    open var selectionUpdateHandler: ((Set<T>?) -> Void)?
+    open var selectionUpdateHandler: ((Set<AnyHashable>) -> Void)?
+    
+    /// A completion handler to fire when closing.
+    open var finishUpdateHandler: ((Set<AnyHashable>) -> Void)?
     
     
     /// The title for an item representing no selection.
@@ -134,7 +115,7 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
         didSet {
             guard noItemTitle != oldValue,
                 let tableView = self.tableView else {
-                return
+                    return
             }
             
             if noItemTitle != nil && oldValue != nil {
@@ -170,7 +151,7 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
     
     // MARK: - Private properties
     
-    private var filteredItems: [T]? {
+    private var filteredItems: [AnyHashable]? {
         didSet {
             if let filteredItems = self.filteredItems {
                 if let oldValue = oldValue,
@@ -192,22 +173,21 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
     
     public override init(style: UITableViewStyle) {
         super.init(style: style)
-        preferredContentSize = CGSize(width: 320.0, height: 435.0)
-        clearsSelectionOnViewWillAppear = false
         
+        clearsSelectionOnViewWillAppear = false
         wantsCalculatedContentHeight = true
         
         NotificationCenter.default.addObserver(self, selector: #selector(applyCurrentTheme), name: .ThemeDidChange, object: nil)
         applyCurrentTheme()
     }
     
-    public convenience init(style: UITableViewStyle, items: [T]) {
+    public convenience init(style: UITableViewStyle, items: [AnyHashable]) {
         self.init(style: style)
         self.items = items
         setSearchBarHidden(items.count < 10, animated: false)
         updateFilter()
     }
-
+    
     public required init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
@@ -223,7 +203,7 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
     
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        
         // Scroll to the first selected index in the list.
         let selectedItems = self.selectedItems
         if selectedItems.isEmpty {
@@ -240,21 +220,28 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
         }
     }
     
+    open override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if isBeingDismissed || isMovingFromParentViewController {
+            finishUpdateHandler?(selectedItems)
+        }
+    }
+    
     
     // MARK: - UITableViewDataSource methods
     
-    @objc(numberOfSectionsInTableView:) // Workaround. See: http://stackoverflow.com/questions/39416385/swift-3-objc-optional-protocol-method-not-called-in-subclass
     open func numberOfSections(in tableView: UITableView) -> Int {
         return noItemTitle != nil && filteredItems == nil ? 2 : 1
     }
-
+    
     open override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let filteredItemCount = filteredItems?.count {
             return filteredItemCount
         }
         
         if section == 0 && noItemTitle != nil {
-             return 1
+            return 1
         }
         
         return items.count
@@ -266,8 +253,9 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
         let isSelected: Bool
         
         if let item = pickableItem(at: indexPath) {
-            cell.textLabel?.text       = item.title
-            cell.detailTextLabel?.text = item.subtitle
+            let pickableItem = item as! Pickable
+            cell.textLabel?.text       = pickableItem.title
+            cell.detailTextLabel?.text = pickableItem.subtitle
             isSelected = selectedItems.contains(item)
         } else {
             cell.textLabel?.text       = noItemTitle
@@ -280,7 +268,7 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
             textLabel.font = UIFont.preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
             textLabel.numberOfLines = 0
         }
-    
+        
         cell.accessoryType = isSelected ? .checkmark : .none
         
         return cell
@@ -303,7 +291,6 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
         cell.textLabel?.alpha = isSelected ? 1.0 : 0.5
     }
     
-    @objc(tableView:didSelectRowAtIndexPath:)
     open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         manualSelectionUpdate = true
         
@@ -322,10 +309,12 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
         
         if let item = pickableItem(at: indexPath) {
             if allowsMultipleSelection {
-                let isSelected = selectedItems.remove(item) == nil
-                if isSelected {
+                var isSelected = selectedItems.remove(item) == nil
+                if isSelected || (allowsNoSelection == false && selectedItems.isEmpty) {
+                    isSelected = true
                     selectedItems.insert(item)
                 }
+                
                 updateCurrentCell(checked: isSelected)
                 
                 if (selectedItems.isEmpty || (isSelected && selectedItems.count == 1)) && noSectionShowing {
@@ -346,10 +335,10 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
             
             if selectedItemCount > 0 {
                 let oldSelectedItems = selectedItems
-            
+                
                 selectedItems = []
                 updateCurrentCell(checked: true)
-            
+                
                 reloadIndexPaths.reserveCapacity(selectedItemCount)
                 
                 for (index, item) in items.enumerated() where oldSelectedItems.contains(item) {
@@ -367,7 +356,7 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
         tableView.deselectRow(at: indexPath, animated: true)
         selectionUpdateHandler?(selectedItems)
     }
-
+    
     
     // MARK: - Search bar delegate
     
@@ -377,8 +366,8 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
     
     
     // MARK: - Private methods
-
-    private func pickableItem(at indexPath: IndexPath) -> T? {
+    
+    private func pickableItem(at indexPath: IndexPath) -> AnyHashable? {
         if let filteredItems = filteredItems {
             if indexPath.section != 0 { return nil }
             
@@ -393,7 +382,7 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
         }
     }
     
-    private func indexPath(for pickableItem: T?) -> IndexPath? {
+    private func indexPath(for pickableItem: AnyHashable?) -> IndexPath? {
         if let filteredItems = self.filteredItems {
             if let item = pickableItem,
                 let index = filteredItems.index(of: item) {
@@ -421,13 +410,15 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
             let term = searchText.trimmingCharacters(in: .whitespaces)
             if term.isEmpty == false {
                 filteredItems = items.filter {
-                    if $0.title?.localizedCaseInsensitiveContains(term) ?? false {
+                    let pickable = $0 as! Pickable
+                    
+                    if pickable.title?.localizedCaseInsensitiveContains(term) ?? false {
                         return true
                     }
-                    if $0.subtitle?.localizedCaseInsensitiveContains(term) ?? false {
+                    if pickable.subtitle?.localizedCaseInsensitiveContains(term) ?? false {
                         return true
                     }
-                    if ($0 as? CustomSearchPickable)?.contains(term) ?? false {
+                    if (pickable as? CustomSearchPickable)?.contains(term) ?? false {
                         return true
                     }
                     return false

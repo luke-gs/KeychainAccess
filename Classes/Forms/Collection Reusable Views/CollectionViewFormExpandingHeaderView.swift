@@ -47,6 +47,7 @@ public class CollectionViewFormExpandingHeaderView: UICollectionReusableView, De
         didSet {
             if showsExpandArrow == oldValue { return }
             
+            isUserInteractionEnabled = showsExpandArrow
             arrowView.isHidden = !showsExpandArrow
             titleSeparatorConstraint.constant = showsExpandArrow ? 15.0 : 0.0
             
@@ -155,6 +156,7 @@ public class CollectionViewFormExpandingHeaderView: UICollectionReusableView, De
         addSubview(titleLabel)
         addSubview(arrowView)
         
+        isUserInteractionEnabled = showsExpandArrow
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognizerDidRecognize)))
         
         separatorHeightConstraint     = NSLayoutConstraint(item: separatorView, attribute: .height,  relatedBy: .equal, toConstant: 1.0 / UIScreen.main.scale)

@@ -9,7 +9,7 @@
 import UIKit
 import MPOLKit
 
-class TestCollectionViewController: FormCollectionViewController  {
+class TestCollectionViewController: FormCollectionViewController, FilterViewControllerDelegate  {
     
     var inserted = false
     
@@ -25,15 +25,17 @@ class TestCollectionViewController: FormCollectionViewController  {
         }
     }
     
+    override init() {
+        super.init()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "iconFormFilter", in: Bundle(for: CollectionViewFormLayout.self), compatibleWith: nil), style: .plain, target: self, action: #selector(filterItemDidSelect(_:)))
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        formLayout.pinsGlobalHeaderWhenBouncing = true
         
         collectionView?.register(CollectionViewFormSubtitleCell.self)
         collectionView?.register(CollectionViewFormValueFieldCell.self)
         collectionView?.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
-        collectionView?.register(RecentEntitiesBackgroundView.self, forSupplementaryViewOfKind: collectionElementKindGlobalHeader)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
             self.text = "Test"
@@ -59,8 +61,6 @@ class TestCollectionViewController: FormCollectionViewController  {
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         switch kind {
-        case collectionElementKindGlobalHeader:
-            return collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: RecentEntitiesBackgroundView.self, for: indexPath)
         case UICollectionElementKindSectionHeader:
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
             header.tintColor = Theme.current.colors[.SecondaryText]
@@ -73,7 +73,6 @@ class TestCollectionViewController: FormCollectionViewController  {
         default:
             return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
         }
-        
         
     }
     
@@ -108,10 +107,6 @@ class TestCollectionViewController: FormCollectionViewController  {
         return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: "Kj", subtitle: "Kj", inWidth: itemWidth, compatibleWith: traitCollection)
     }
     
-    func collectionView(_ collectionView: UICollectionView, heightForGlobalHeaderInLayout layout: CollectionViewFormLayout) -> CGFloat {
-        return 310.0
-    }
-    
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForValidationAccessoryAt indexPath: IndexPath, givenContentWidth contentWidth: CGFloat) -> CGFloat {
         if indexPath.section == 0 && indexPath.row == 0, let text = self.text {
             return CollectionViewFormCell.heightForValidationAccessory(withText: text, contentWidth: contentWidth, compatibleWith: traitCollection)
@@ -119,28 +114,39 @@ class TestCollectionViewController: FormCollectionViewController  {
         return 0.0
     }
     
+    
+    
+    @objc private func filterItemDidSelect(_ item: UIBarButtonItem) {
+        
+        let dateRange = FilterDateRange(title: "Date Range", startDate: nil, endDate: nil, requiresStartDate: false, requiresEndDate: false)
+        
+        let list = FilterList(title: "Checkbox", displayStyle: .checkbox, options: ["High", "Medium", "Low"], selectedOptions: [])
+        
+        let filterVC = FilterViewController(options: [dateRange, list])
+        filterVC.delegate = self
+        let navController = PopoverNavigationController(rootViewController: filterVC)
+        navController.modalPresentationStyle = .popover
+        if let popoverPresentationController = navController.popoverPresentationController {
+            popoverPresentationController.barButtonItem = item
+        }
+        
+        present(navController, animated: true)
+    }
+    
+    func filterViewControllerDidFinish(_ controller: FilterViewController, applyingChanges: Bool) {
+        controller.presentingViewController?.dismiss(animated: true)
+    }
+    
 }
 
-private class RecentEntitiesBackgroundView: UICollectionReusableView, DefaultReusable {
+extension String: Pickable {
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        commonInit()
+    public var title: String? {
+        return self
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        commonInit()
+    public var subtitle: String? {
+        return nil
     }
-    
-    private func commonInit() {
-        let imageView = UIImageView(image: #imageLiteral(resourceName: "RecentContactsBanner"))
-        imageView.frame = bounds
-        imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        addSubview(imageView)
-    }
-    
 }
 

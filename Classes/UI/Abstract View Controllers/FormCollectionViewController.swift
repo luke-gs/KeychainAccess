@@ -8,8 +8,9 @@
 
 import UIKit
 
+fileprivate var kvoContext = 1
 
-private let tempID = "temp"
+fileprivate let tempID = "temp"
 
 open class FormCollectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, CollectionViewDelegateFormLayout, PopoverViewController {
     
@@ -21,6 +22,47 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     open private(set) var collectionView: UICollectionView?
     
     open private(set) var collectionViewInsetManager: ScrollViewInsetManager?
+    
+    
+    /// A boolean value indicating whether the collection view should automatically calculate
+    /// its `preferreContentSize`'s height property from the collection view's content height.
+    ///
+    /// The default is `false`.
+    open var wantsCalculatedContentHeight = false {
+        didSet {
+            if wantsCalculatedContentHeight == oldValue { return }
+            
+            if wantsCalculatedContentHeight {
+                collectionView?.addObserver(self, forKeyPath: #keyPath(UICollectionView.contentSize), context: &kvoContext)
+                updateCalculatedContentHeight()
+            } else {
+                collectionView?.removeObserver(self, forKeyPath: #keyPath(UICollectionView.contentSize), context: &kvoContext)
+            }
+        }
+    }
+    
+    
+    /// The minimum allowed calculated content height. The default is `100.0`.
+    open var minimumCalculatedContentHeight: CGFloat = 100.0 {
+        didSet {
+            if isViewLoaded && minimumCalculatedContentHeight >~ preferredContentSize.height {
+                updateCalculatedContentHeight()
+            }
+        }
+    }
+    
+    
+    /// The maximum allowed calculated content height. The default is `.infinity`,
+    /// meaning there is no restriction on the content height.
+    open var maximumCalculatedContentHeight: CGFloat = .infinity {
+        didSet {
+            if isViewLoaded && maximumCalculatedContentHeight < preferredContentSize.height {
+                updateCalculatedContentHeight()
+            }
+        }
+    }
+    
+    // Appearance properties
     
     open var wantsTransparentBackground: Bool = false {
         didSet {
@@ -64,6 +106,12 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
         self.init()
     }
     
+    deinit {
+        if wantsCalculatedContentHeight {
+            collectionView?.removeObserver(self, forKeyPath: #keyPath(UICollectionView.contentSize), context: &kvoContext)
+        }
+    }
+    
     
     // MARK: - View lifecycle
     
@@ -80,6 +128,10 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
         collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: collectionElementKindGlobalFooter,    withReuseIdentifier: tempID)
         collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: tempID)
         collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: tempID)
+        
+        if wantsCalculatedContentHeight {
+            collectionView.addObserver(self, forKeyPath: #keyPath(UICollectionView.contentSize), context: &kvoContext)
+        }
         
         let backgroundView = UIView(frame: backgroundBounds)
         backgroundView.backgroundColor = wantsTransparentBackground ? .clear : backgroundColor
@@ -290,6 +342,57 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     
     open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
         return 39.0
+    }
+    
+    
+    
+    // MARK: - Overrides
+    
+    open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if context == &kvoContext {
+            if wantsCalculatedContentHeight {
+                updateCalculatedContentHeight()
+            }
+        } else {
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+        }
+    }
+    
+    
+    // MARK: - Content height methods
+    
+    
+    /// Updates the calculated content height of the collection view.
+    ///
+    /// Subclasses should not need to override this method, but
+    /// should call this method when their calculated content size changes.
+    open func updateCalculatedContentHeight() {
+        if wantsCalculatedContentHeight == false || isViewLoaded == false { return }
+        
+        let calculatedContentHeight = self.calculatedContentHeight()
+        
+        if preferredContentSize.height !=~ calculatedContentHeight {
+            preferredContentSize.height = calculatedContentHeight
+        }
+    }
+    
+    
+    /// Calculates the current preferred content size for the collection view.
+    ///
+    /// The default uses the current height of the collection view, clamped to the min
+    /// and max values set on the class, and updates when the collection view's content
+    /// height changes.
+    ///
+    /// Subclasses should override this method to adjust for any additional content
+    /// e.g. search bars and other adornments, but should observe the min and max
+    /// values set.
+    open func calculatedContentHeight() -> CGFloat {
+        let collectionContentHeight = (collectionView?.contentSize.height ?? 0.0)
+        
+        let minHeight = minimumCalculatedContentHeight
+        let maxHeight = maximumCalculatedContentHeight
+        
+        return max(min(collectionContentHeight, maxHeight), minHeight)
     }
     
     

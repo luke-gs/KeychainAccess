@@ -8,7 +8,7 @@
 
 import Foundation
 
-internal extension Array {
+public extension Array {
     
     /// Access the `index`th element, if it exists.
     ///
