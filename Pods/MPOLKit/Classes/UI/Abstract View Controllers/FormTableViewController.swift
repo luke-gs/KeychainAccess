@@ -84,11 +84,16 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     /// A boolean value indicating whether the table view should automatically calculate
     /// its `preferreContentSize`'s height property from the table view's content height.
     ///
-    /// The default is `true`.
-    open var wantsCalculatedContentHeight = true {
+    /// The default is `false`.
+    open var wantsCalculatedContentHeight = false {
         didSet {
-            if wantsCalculatedContentHeight && oldValue == false {
+            if wantsCalculatedContentHeight == oldValue { return }
+            
+            if wantsCalculatedContentHeight {
+                tableView?.addObserver(self, forKeyPath: #keyPath(UITableView.contentSize), context: &kvoContext)
                 updateCalculatedContentHeight()
+            } else {
+                tableView?.removeObserver(self, forKeyPath: #keyPath(UITableView.contentSize), context: &kvoContext)
             }
         }
     }
@@ -139,18 +144,17 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
         tableViewStyle = style
         wantsSeparatorWhenTransparent = style == .grouped
         super.init(nibName: nil, bundle: nil)
-        
-        automaticallyAdjustsScrollViewInsets = false
-        preferredContentSize.width = 320.0
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(applyCurrentTheme), name: .ThemeDidChange, object: nil)
     }
     
     public required init?(coder aDecoder: NSCoder) {
         tableViewStyle = .plain
         wantsSeparatorWhenTransparent = false
         super.init(coder: aDecoder)
-        preferredContentSize.width = 320.0
+        commonInit()
+    }
+    
+    private func commonInit() {
+        automaticallyAdjustsScrollViewInsets = false
         
         NotificationCenter.default.addObserver(self, selector: #selector(applyCurrentTheme), name: .ThemeDidChange, object: nil)
     }
@@ -172,7 +176,10 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
         tableView.cellLayoutMarginsFollowReadableWidth = false
         tableView.preservesSuperviewLayoutMargins = false
         tableView.layoutMargins = UIEdgeInsets(top: 0.0, left: 20.0, bottom: 0.0, right: 0.0)
-        tableView.addObserver(self, forKeyPath: #keyPath(UITableView.contentSize), context: &kvoContext)
+        
+        if wantsCalculatedContentHeight {
+            tableView.addObserver(self, forKeyPath: #keyPath(UITableView.contentSize), context: &kvoContext)
+        }
         
         updateTableBackgroundColor()
         

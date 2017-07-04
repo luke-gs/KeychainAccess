@@ -80,11 +80,11 @@ public func <~ (left: Float, right: Float) -> Bool {
     return !(left >=~ right)
 }
 
-func <~ (left: Double, right: Double) -> Bool {
+public func <~ (left: Double, right: Double) -> Bool {
     return !(left >=~ right)
 }
 
-func <~ (left: CGFloat, right: CGFloat) -> Bool {
+public func <~ (left: CGFloat, right: CGFloat) -> Bool {
     return !(left >=~ right)
 }
 
@@ -92,15 +92,15 @@ func <~ (left: CGFloat, right: CGFloat) -> Bool {
 
 infix operator >~: ComparisonPrecedence
 
-func >~ (left: Float, right: Float) -> Bool {
+public func >~ (left: Float, right: Float) -> Bool {
     return !(left <=~ right)
 }
 
-func >~ (left: Double, right: Double) -> Bool {
+public func >~ (left: Double, right: Double) -> Bool {
     return !(left <=~ right)
 }
 
-func >~ (left: CGFloat, right: CGFloat) -> Bool {
+public func >~ (left: CGFloat, right: CGFloat) -> Bool {
     return !(left <=~ right)
 }
 
