@@ -503,6 +503,16 @@ public struct FilterDateRange: FilterOption {
     public var isValid: Bool {
         return (requiresStartDate == false || startDate != nil) && (requiresEndDate == false || endDate != nil)
     }
+    
+    public func contains(_ date: Date) -> Bool {
+        if (startDate?.compare(date) ?? .orderedAscending) == .orderedDescending {
+            return false
+        }
+        if (endDate?.compare(date) ?? .orderedDescending) == .orderedAscending {
+            return false
+        }
+        return true
+    }
 }
 
 fileprivate class FilterCheckmarkCell: CollectionViewFormSubtitleCell {
