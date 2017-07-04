@@ -45,7 +45,7 @@ public final class NetworkMonitor: NSObject {
     internal private(set) var activityCount: Int = 0
     
     
-    /// The initializer is private. This manintains guaranteed signleton state.
+    /// The initializer is private. This manintains guaranteed singleton state.
     private override init() {
     }
     

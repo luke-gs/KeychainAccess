@@ -68,4 +68,7 @@ final public class URLQueryBuilder {
         return (path: outputPath, parameters: outputParameters)
     }
     
+    public init() {
+    }
+    
 }

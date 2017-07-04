@@ -10,7 +10,7 @@ import UIKit
 
 extension UIImage {
     
-    internal static let statusDotFrameSize = CGSize(width: 24.0, height: 24.0)
+    public static let statusDotFrameSize = CGSize(width: 24.0, height: 24.0) // TODO: This needs a refactor
     
     private static let statusDotGenerator = UIGraphicsImageRenderer(size: statusDotFrameSize)
     

@@ -91,9 +91,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
             sidebarDetail2VC.sidebarItem.image = #imageLiteral(resourceName: "SidebarAlert")
             sidebarDetail2VC.sidebarItem.selectedImage = #imageLiteral(resourceName: "SidebarAlertFilled")
             
-            let item1 = SourceItem(title: "CRIMTRAC", state: .loaded(count: 8, color: (3 as Alert.Level).color))
-            let item2 = SourceItem(title: "DS2", state: .loaded(count: 2, color: (1 as Alert.Level).color))
-            let item3 = SourceItem(title: "DS3", state: .loaded(count: 1, color: (2 as Alert.Level).color))
+            let item1 = SourceItem(title: "CRIMTRAC", state: .loaded(count: 8, color: .red))
+            let item2 = SourceItem(title: "DS2", state: .loaded(count: 2, color: .blue))
+            let item3 = SourceItem(title: "DS3", state: .loaded(count: 1, color: .yellow))
             
             let sidebarSplitViewController = SidebarSplitViewController(detailViewControllers: [sidebarDetail1VC, sidebarDetail2VC])
                 sidebarSplitViewController.sidebarViewController.sourceItems = [item1, item2, item3]
@@ -101,14 +101,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
             sidebarSplitViewController.title = "Sidebar SVC"
             
             let tabBarController = UITabBarController()
-            
-            let bundle = Bundle(for: Person.self)
-            let url = bundle.url(forResource: "Person_25625aa4-3394-48e2-8dbc-2387498e16b0", withExtension: "json", subdirectory: "Mock JSONs")!
-            let data = try! Data(contentsOf: url)
-            
-            let person: Person = try! unbox(data: data)
-
-            tabBarController.viewControllers = [pushableSVNavController, UINavigationController(rootViewController: sidebarSplitViewController), UINavigationController(rootViewController: EntityDetailsSplitViewController(entity: person))]
+            tabBarController.viewControllers = [pushableSVNavController, UINavigationController(rootViewController: sidebarSplitViewController)]
             self.window?.rootViewController = tabBarController
         }
         
