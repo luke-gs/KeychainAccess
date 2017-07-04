@@ -38,4 +38,18 @@ extension NSLayoutConstraint {
         }
     }
     
+    
+    /// Adjusts the priority of the constraint, and returns the constraint.
+    ///
+    /// - Important: The same caveats for adjusting the priority of live constraints
+    ///              apply to this method. That is, adjusting live constraints throws
+    ///              an exception within UIKit.
+    ///
+    /// - Parameter priority: The new priority for the constraint.
+    /// - Returns: The layout constraint.
+    public func withPriority(_ priority: UILayoutPriority) -> NSLayoutConstraint {
+        self.priority = priority
+        return self
+    }
+    
 }
