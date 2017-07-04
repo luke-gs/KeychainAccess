@@ -6,7 +6,7 @@
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 
-enum ParsingError: Error {
+public enum ParsingError: Error {
     case notParsable
     case missingRequiredField
 }
