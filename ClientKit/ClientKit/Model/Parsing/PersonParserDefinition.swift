@@ -5,7 +5,7 @@
 //  Created by Gridstone on 20/6/17.
 //
 
-import UIKit
+import MPOLKit
 
 public enum PersonParserError: Error {
     case surnameIsNotFirst(surname: String)
