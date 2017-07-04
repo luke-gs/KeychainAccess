@@ -247,9 +247,9 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
                             
                             let newMinRowWidth: CGFloat
                             if rowItemCount == 0 {
-                                newMinRowWidth = item.1 + firstItemLeftWidthInset
+                                newMinRowWidth = (item.1 + firstItemLeftWidthInset).floored(toScale: screenScale)
                             } else {
-                                newMinRowWidth = minRowWidth + itemLayoutMargins.left + itemLayoutMargins.right + item.1
+                                newMinRowWidth = (minRowWidth + itemLayoutMargins.left + itemLayoutMargins.right + item.1).floored(toScale: screenScale)
                             }
                             if (newMinRowWidth + lastItemRightWidthInset) > ceil(sectionWidth) && items.isEmpty == false { break }
                             
