@@ -24,7 +24,7 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
     ///
     /// - Parameter image: An optional size for an image to display at the leading edge of the titles.
     /// - Returns: The correct height for the cell.
-    class func minimumContentHeight(withImageSize imageSize: CGSize? = nil, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
+    public class func minimumContentHeight(withImageSize imageSize: CGSize? = nil, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
         let fonts = defaultFonts(compatibleWith: traitCollection)
         let displayScale = traitCollection.currentDisplayScale
         

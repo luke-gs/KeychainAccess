@@ -8,6 +8,7 @@
 
 import UIKit
 import MPOLKit
+import ClientKit
 import Unbox
 
 private let maxRecentViewedCount = 6

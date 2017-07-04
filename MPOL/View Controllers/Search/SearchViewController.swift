@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ClientKit
 import MPOLKit
 
 fileprivate let searchAnimationDuration: TimeInterval = 0.4
