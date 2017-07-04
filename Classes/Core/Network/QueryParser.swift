@@ -11,25 +11,25 @@ import UIKit
 
 /// `QueryTokenDefinition` is an object that defines the type and validation for a search
 /// token, when parsing a string.
-public class QueryTokenDefinition {
+open class QueryTokenDefinition {
     
     public typealias TypeCheckClosure = (_ string: String) -> Bool
     public typealias ValidationClosure = (_ string: String, _ index: Int,  _ map: [String:String]) throws -> Void
     
     /// The name of the token (result will be mapped to this name).
-    var key: String
+    open var key: String
     
     /// Defines if the token is required in the results (will throw a parsing error if no match is found for definition).
-    var required: Bool
+    open var required: Bool
     
     /// Checks the string for the token type, and returns true if it matches.
-    var typeCheck: TypeCheckClosure
+    open var typeCheck: TypeCheckClosure
     
     /// Checks the string is valid based on specific conditions, and throws errors for
     /// an invalid token (e.g. string length).
-    var validate: ValidationClosure?
+    open var validate: ValidationClosure?
     
-    init(key: String, required: Bool, typeCheck: @escaping TypeCheckClosure, validate: ValidationClosure? = nil) {
+    public init(key: String, required: Bool, typeCheck: @escaping TypeCheckClosure, validate: ValidationClosure? = nil) {
         self.key = key
         self.required = required
         self.typeCheck = typeCheck
@@ -82,7 +82,7 @@ open class QueryParser<ParserDefinition: QueryParserDefinition> {
     ///
     /// - Parameter query:  The search string to parse.
     /// - Returns:          The results of the parsing as a map.
-    public func parseString(query: String) throws -> [String:String] {
+    open func parseString(query: String) throws -> [String:String] {
         
         // Split up query string using parser's delimiter
         let tokens = parser.tokensFrom(query: query)
