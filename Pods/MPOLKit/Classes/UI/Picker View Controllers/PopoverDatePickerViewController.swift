@@ -34,6 +34,15 @@ open class PopoverDatePickerViewController: FormTableViewController, UIPopoverPr
     }()
     
     
+    open override var preferredContentSize: CGSize {
+        get {
+            return super.preferredContentSize
+        }
+        set {
+            super.preferredContentSize = newValue
+        }
+    }
+    
     /// The date update handler.
     /// 
     /// This closure is called every time the date picker's date changes.
@@ -70,10 +79,19 @@ open class PopoverDatePickerViewController: FormTableViewController, UIPopoverPr
         get { return isInPopover ? .clear : super.separatorColor }
     }
     
+    open override var wantsTransparentBackground: Bool {
+        get {
+            return isInPopover || super.wantsTransparentBackground
+        }
+        set {
+            super.wantsTransparentBackground = newValue
+        }
+    }
+    
     
     // MARK: - Private properties
     
-    private var isInPopover = true {
+    private var isInPopover = false {
         didSet {
             updateForPresentationStyle()
         }
@@ -150,11 +168,15 @@ open class PopoverDatePickerViewController: FormTableViewController, UIPopoverPr
     
     open override func didMove(toParentViewController parent: UIViewController?) {
         super.didMove(toParentViewController: parent)
-        isInPopover = parent != nil
+        isInPopover = parent == nil
     }
     
     
     // MARK - UIPopoverPresentationControllerDelegate methods
+    
+    public func prepareForPopoverPresentation(_ popoverPresentationController: UIPopoverPresentationController) {
+        isInPopover = self.parent == nil
+    }
     
     public func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
         if traitCollection.horizontalSizeClass == .compact { return .fullScreen }
@@ -184,8 +206,6 @@ open class PopoverDatePickerViewController: FormTableViewController, UIPopoverPr
     // MARK: - Private methods
     
     private func updateForPresentationStyle() {
-        wantsTransparentBackground = isInPopover
-        
         guard let tableView = self.tableView else { return }
         
         tableView.isScrollEnabled = isInPopover == false
@@ -208,7 +228,9 @@ open class PopoverDatePickerViewController: FormTableViewController, UIPopoverPr
                 preferredContentSize = correctContentSize
             }
         } else {
-            preferredContentSize = CGSize(width: 320.0, height: tableView.contentSize.height)
+            tableView.setNeedsLayout()
+            tableView.layoutIfNeeded()
+            preferredContentSize = CGSize(width: preferredContentSize.width, height: tableView.contentSize.height)
         }
         
         applyCurrentTheme()

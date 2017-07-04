@@ -592,8 +592,8 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         }
         if actionView.layoutMargins != newLayoutMargins {
             actionView.layoutMargins = newLayoutMargins
-        }
         if needsLayoutForAccessory && accessoryView != nil {
+        }
             setNeedsLayout()
         }
     }

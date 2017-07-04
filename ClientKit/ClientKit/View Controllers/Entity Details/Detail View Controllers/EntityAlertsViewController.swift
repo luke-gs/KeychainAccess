@@ -9,47 +9,32 @@
 import UIKit
 import MPOLKit
 
-open class EntityAlertsViewController: EntityDetailCollectionViewController {
+open class EntityAlertsViewController: EntityDetailCollectionViewController, FilterViewControllerDelegate {
+    
     
     // MARK: - Public Properties
     
     open override var entity: Entity? {
         didSet {
-            updateNoContentSubtitle()
             let sidebarItem = self.sidebarItem
+            sidebarItem.count = UInt(entity?.alerts?.count ?? 0)
+            sidebarItem.alertColor = entity?.alertLevel?.color
             
-            guard var alerts = entity?.alerts?.sorted(by: { ($0.level ?? 0) > ($1.level ?? 0) }), alerts.isEmpty == false else {
-                self.sections = []
-                sidebarItem.count = 0
-                return
-            }
-            
-            alerts.sort {
-                ($0.effectiveDate ?? Date.distantPast) > ($1.effectiveDate ?? Date.distantPast)
-            }
-            
-            sidebarItem.count = UInt(alerts.count)
-            sidebarItem.alertColor = alerts.first?.level?.color
-            
-            var sections: [[Alert]] = []
-            
-            while let firstAlertLevel = alerts.first?.level {
-                if let firstDifferentIndex = alerts.index(where: { $0.level != firstAlertLevel }) {
-                    let alertLevelSlice = alerts.prefix(upTo: firstDifferentIndex)
-                    alerts.removeFirst(firstDifferentIndex)
-                    sections.append(Array(alertLevelSlice))
-                } else {
-                    sections.append(alerts)
-                    alerts.removeAll()
-                }
-            }
-            
-            self.sections = sections
+            updateNoContentSubtitle()
+            reloadSections()
         }
     }
     
     
     // MARK: - Private properties
+    
+    private let filterBarButtonItem: UIBarButtonItem
+    
+    private var filteredAlertLevels: Set<Alert.Level> = Set(Alert.Level.allCases)
+    
+    private var filterDateRange: FilterDateRange?
+    
+    private var dateSorting: DateSorting = .newest
     
     private var sections: [[Alert]] = [[]] {
         didSet {
@@ -64,13 +49,16 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
     
     private var statusDotCache: [Alert.Level: UIImage] = [:]
     
-    lazy private var collapsedSections: [String: Set<Alert.Level>] = [:]
+    private var collapsedSections: [String: Set<Alert.Level>] = [:]
     
     
     
     // MARK: - Initializers
     
     public override init() {
+        let bundle = Bundle(for: EntityAlertsViewController.self)
+        filterBarButtonItem = UIBarButtonItem(image: UIImage(named: "iconFormFilter", in: bundle, compatibleWith: nil), style: .plain, target: nil, action: nil)
+        
         super.init()
         title = NSLocalizedString("Alerts", bundle: .mpolKit, comment: "")
         
@@ -78,9 +66,9 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
         sidebarItem.image         = UIImage(named: "iconGeneralAlert",       in: .mpolKit, compatibleWith: nil)
         sidebarItem.selectedImage = UIImage(named: "iconGeneralAlertFilled", in: .mpolKit, compatibleWith: nil)
         
-        let filterIcon = UIBarButtonItem(image: UIImage(named: "iconFormFilter", in: .mpolKit, compatibleWith: nil), style: .plain, target: nil, action: nil)
-        filterIcon.isEnabled = false
-        navigationItem.rightBarButtonItem = filterIcon
+        filterBarButtonItem.target = self
+        filterBarButtonItem.action = #selector(filterItemDidSelect(_:))
+        navigationItem.rightBarButtonItem = filterBarButtonItem
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -204,20 +192,137 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController {
     }
     
     
+    // MARK: - Filter view controller delegate
+    
+    open func filterViewControllerDidFinish(_ controller: FilterViewController, applyingChanges: Bool) {
+        controller.presentingViewController?.dismiss(animated: true)
+        
+        if applyingChanges == false {
+            return
+        }
+        
+        controller.filterOptions.forEach {
+            switch $0 {
+            case let filterList as FilterList where filterList.options.first?.base is Alert.Level:
+                self.filteredAlertLevels = Set(filterList.selectedOptions.flatMap( { $0.base as? Alert.Level }))
+            case let filterList as FilterList where filterList.options.first?.base is DateSorting:
+                self.dateSorting = filterList.selectedOptions.first?.base as? DateSorting ?? .newest
+            case let dateRange as FilterDateRange:
+                if dateRange.startDate == nil && dateRange.endDate == nil {
+                    self.filterDateRange = nil
+                } else {
+                    self.filterDateRange = dateRange
+                }
+            default:
+                break
+            }
+        }
+        reloadSections()
+        
+    }
+    
+    
     // MARK: - Private methods
+    
+    @objc private func filterItemDidSelect(_ item: UIBarButtonItem) {
+        let alertLevels: [Alert.Level] = [.high, .medium, .low]
+        
+        let filterLevels = FilterList(title: NSLocalizedString("Alert Types", comment: ""), displayStyle: .checkbox, options: alertLevels, selectedOptions: filteredAlertLevels)
+        let dateRange = filterDateRange ?? FilterDateRange(title: NSLocalizedString("Date Range", comment: ""), startDate: nil, endDate: nil, requiresStartDate: false, requiresEndDate: false)
+        let sorting = FilterList(title: "Sort By", displayStyle: .list, options: DateSorting.allCases, selectedOptions: [dateSorting])
+        
+        let filterVC = FilterViewController(options: [filterLevels, dateRange, sorting])
+        filterVC.title = NSLocalizedString("Filter Alerts", comment: "")
+        filterVC.delegate = self
+        let navController = PopoverNavigationController(rootViewController: filterVC)
+        navController.modalPresentationStyle = .popover
+        if let popoverPresentationController = navController.popoverPresentationController {
+            popoverPresentationController.barButtonItem = item
+        }
+        
+        present(navController, animated: true)
+    }
     
     private func updateNoContentSubtitle() {
         guard let label = noContentSubtitleLabel else { return }
         
-        let entityDisplayName: String
-        if let entity = entity {
-            entityDisplayName = type(of: entity).localizedDisplayName.localizedLowercase
+        if entity?.alerts?.isEmpty ?? true {
+            let entityDisplayName: String
+            if let entity = entity {
+                entityDisplayName = type(of: entity).localizedDisplayName.localizedLowercase
+            } else {
+                entityDisplayName = NSLocalizedString("entity", bundle: .mpolKit, comment: "")
+            }
+            
+            label.text = String(format: NSLocalizedString("This %@ has no alerts", bundle: .mpolKit, comment: ""), entityDisplayName)
         } else {
-            entityDisplayName = NSLocalizedString("entity", bundle: .mpolKit, comment: "")
+            label.text = NSLocalizedString("This filter has no matching alerts", comment: "")
         }
         
-        label.text = String(format: NSLocalizedString("This %@ has no alerts", bundle: .mpolKit, comment: ""), entityDisplayName)
+    }
+    
+    private func reloadSections() {
+        
+        var alerts = entity?.alerts ?? []
+        
+        let dateSorting = self.dateSorting
+        
+        func sortingRule(_ alert1: Alert, alert2: Alert) -> Bool {
+            let alert1Level = alert1.level?.rawValue ?? 0
+            let alert2Level = alert2.level?.rawValue ?? 0
+            
+            if alert1Level > alert2Level { return true }
+            if alert2Level > alert1Level { return false }
+            
+            return dateSorting.compare((alert1.effectiveDate ?? Date.distantPast), (alert2.effectiveDate ?? Date.distantPast))
+        }
+        
+        let selectAlertLevels = filteredAlertLevels != Set(Alert.Level.allCases)
+        let requiresFiltering: Bool = selectAlertLevels || filterDateRange != nil
+        
+        if requiresFiltering {
+            alerts = alerts.filter( { alert in
+                if selectAlertLevels {
+                    guard let alertLevel = alert.level, self.filteredAlertLevels.contains(alertLevel) else {
+                        return false
+                    }
+                }
+                if let filteredDateRange = self.filterDateRange {
+                    if let date = alert.effectiveDate {
+                        return filteredDateRange.contains(date)
+                    } else {
+                        return false
+                    }
+                }
+                return true
+            }).sorted(by: sortingRule)
+        } else {
+            alerts.sort(by: sortingRule)
+        }
+        
+        let bundle = Bundle(for: EntityAlertsViewController.self)
+        let filterName = requiresFiltering ? "iconFormFilterFilled" : "iconFormFilter"
+        filterBarButtonItem.image = UIImage(named: filterName, in: bundle, compatibleWith: nil)
+        
+        if alerts.isEmpty {
+            self.sections = []
+            return
+        }
+        
+        var sections: [[Alert]] = []
+        
+        while let firstAlertLevel = alerts.first?.level {
+            if let firstDifferentIndex = alerts.index(where: { $0.level != firstAlertLevel }) {
+                let alertLevelSlice = alerts.prefix(upTo: firstDifferentIndex)
+                alerts.removeFirst(firstDifferentIndex)
+                sections.append(Array(alertLevelSlice))
+            } else {
+                sections.append(alerts)
+                alerts.removeAll()
+            }
+        }
+        
+        self.sections = sections
     }
     
 }
-

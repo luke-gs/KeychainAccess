@@ -31,7 +31,7 @@ public class FormDisclosureView: UIImageView {
     // MARK: - Initializers
     
     public init() {
-        let image = UIImage.formDisclosureIndicator
+        let image = UIImage.formAccessoryDisclosureIndicator
         super.init(frame: CGRect(origin: .zero, size: image.size))
         super.tintColor = Theme.current.colors[.DisclosureIndicator] ?? FormDisclosureView.defaultTintColor
         super.image = image
