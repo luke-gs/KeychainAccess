@@ -18,8 +18,32 @@ private let tabBarStyleKeys: [String] = [
 ]
 
 
+/// A view controller for presenting a tabbed interface, with a hosted status view.
+///
+/// `StatusTabBarController` replaces a standard tab bar controller, and pushes the tab bar to
+/// the leading edge, allowing the status view to appear at the trailing edge. When in a
+/// horizontally compacy environment, the status view shifts to above the tab bar.
+///
+/// To adjust the appearance of the full tab bar, simply adjust the appearance of the `tabBar`
+/// property. These changes will auto-translate to the full bar.
+///
+/// Prior to iOS 11, custom container view controllers are not supported updating the
+/// `topLayoutGuide` and `bottomLayoutGuide` properties. On these platforms, it is recommended
+/// that your child view controllers observe the `UIViewController.statusTabBarInset` property.
+/// On iOS 11, `StatusTabBarController` should correctly update the `safeAreaInsets` applied
+/// to child view controllers.
+///
+/// Unlike `UITabBarController`, the status tab bar controller does not automatically shift
+/// shift additional view controllers into a more tab. Users should do this with custom behaviour
+/// if required.
 open class StatusTabBarController: UIViewController, UITabBarDelegate {
     
+    
+    /// An array of the root view controllers displayed by the tab bar interface.
+    ///
+    /// The default value of this property is an empty array. Setting this property
+    /// changes the `selectedViewController` iff the currently selected view
+    /// controller is not in the current array, to the first item in the array.
     open var viewControllers: [UIViewController] = [] {
         didSet {
             let viewControllers = self.viewControllers
@@ -47,8 +71,14 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
         }
     }
     
+    
+    /// The currently selected view controller. The default is `nil`.
     open var selectedViewController: UIViewController? {
         didSet {
+            if let selectedVC = selectedViewController {
+                assert(viewControllers.contains(selectedVC), "selectedViewController must be contained within the viewControllers property.")
+            }
+            
             tabBar.selectedItem = selectedViewController?.tabBarItem
             
             guard selectedViewController != oldValue,
@@ -68,6 +98,12 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
         }
     }
     
+    
+    /// The Status View.
+    ///
+    /// This view is sized with AutoLayout, and placed within the tab bar in a horizontally
+    /// regular environment. In a horizontally compact environment, it is placed above the
+    /// tab bar.
     open var statusView: UIView? {
         didSet {
             if statusView != oldValue || isViewLoaded == false { return }
@@ -81,6 +117,12 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
         }
     }
     
+    
+    /// The tab bar for the view.
+    ///
+    /// You should not size your views to avoid the tab bar itself. On iOS 11+,
+    /// you should correctly adhere to the safeAreaInsets. On iOS 10 and earlier,
+    /// use the `UIViewController.statusTabBarInset` property.
     open private(set) lazy var tabBar: UITabBar = { [unowned self] in
         let tabBar = UITabBar(frame: .zero)
         tabBar.backgroundImage = UIImage()
@@ -310,10 +352,16 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
 
 extension UIViewController {
     
+    /// The `StatusTabBarController` instance the view controller is contained in, if any.
     public var statusTabBarController: StatusTabBarController? {
         return parent(of: StatusTabBarController.self)
     }
     
+    /// The inset of any status tab bar over the current content. If there is no status tab bar,
+    /// returns `0.0`.
+    ///
+    /// This property is deprecated as of iOS 11. Use the `UIView.safeAreaInsets` instead.
+    @available(iOS, introduced: 10.0, deprecated: 11.0, message: "Use `UIView.safeAreaInsets` instead.")
     public var statusTabBarInset: CGFloat {
         guard let myView = self.view,
               let statusTabBarVCView = self.statusTabBarController?.viewIfLoaded,

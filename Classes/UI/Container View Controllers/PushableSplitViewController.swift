@@ -148,7 +148,7 @@ open class PushableSplitViewController: UIViewController, UISplitViewControllerD
 extension UIViewController {
     
     /// The `PushableSplitViewController` instance the view controller is contained in, if any.
-    open var pushableSplitViewController: PushableSplitViewController? {
+    public var pushableSplitViewController: PushableSplitViewController? {
         return parent(of: PushableSplitViewController.self)
     }
     
