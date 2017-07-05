@@ -71,6 +71,8 @@
 		BCAEFED61F03160800C97F9C /* WebAPIURLRequestProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFED01F03160800C97F9C /* WebAPIURLRequestProvider.swift */; };
 		BCAEFED91F03172A00C97F9C /* EntityCollectionViewCell+Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFED81F03172A00C97F9C /* EntityCollectionViewCell+Configuration.swift */; };
 		BCAEFEDD1F0317DB00C97F9C /* EntityThumbnailView+Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFEDC1F0317DB00C97F9C /* EntityThumbnailView+Configuration.swift */; };
+		BCC7AEDE1F0B61AD0091AAEA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCC7AEDD1F0B61AD0091AAEA /* Assets.xcassets */; };
+		BCC7AEE11F0BA9E70091AAEA /* DateSorting.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC7AEE01F0BA9E70091AAEA /* DateSorting.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -151,6 +153,8 @@
 		BCAEFED01F03160800C97F9C /* WebAPIURLRequestProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebAPIURLRequestProvider.swift; sourceTree = "<group>"; };
 		BCAEFED81F03172A00C97F9C /* EntityCollectionViewCell+Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EntityCollectionViewCell+Configuration.swift"; sourceTree = "<group>"; };
 		BCAEFEDC1F0317DB00C97F9C /* EntityThumbnailView+Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EntityThumbnailView+Configuration.swift"; sourceTree = "<group>"; };
+		BCC7AEDD1F0B61AD0091AAEA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BCC7AEE01F0BA9E70091AAEA /* DateSorting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateSorting.swift; sourceTree = "<group>"; };
 		D6779C04771873128EC55832 /* Pods-ClientKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKit.release.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKit/Pods-ClientKit.release.xcconfig"; sourceTree = "<group>"; };
 		D6FAB7E5ED55CBB22E20D7C9 /* Pods_ClientKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClientKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -202,8 +206,10 @@
 				BCAEFE531F03150800C97F9C /* Model */,
 				BCAEFEC91F03160800C97F9C /* Network */,
 				BCAEFED71F03170900C97F9C /* Extensions */,
+				BCC7AEDF1F0BA9D50091AAEA /* Utilities */,
 				BC12DC8F1F023EF0001A5BB7 /* ClientKit.h */,
 				BC12DC901F023EF0001A5BB7 /* Info.plist */,
+				BCC7AEDD1F0B61AD0091AAEA /* Assets.xcassets */,
 			);
 			path = ClientKit;
 			sourceTree = "<group>";
@@ -385,6 +391,14 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		BCC7AEDF1F0BA9D50091AAEA /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				BCC7AEE01F0BA9E70091AAEA /* DateSorting.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
 		D5A4C216230E4ABFB92B0127 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -499,6 +513,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCC7AEDE1F0B61AD0091AAEA /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -568,6 +583,7 @@
 				BCAEFE9E1F03150800C97F9C /* Interest.swift in Sources */,
 				BCAEFEA11F03150800C97F9C /* Whereabouts.swift in Sources */,
 				BCAEFE9A1F03150800C97F9C /* Event.swift in Sources */,
+				BCC7AEE11F0BA9E70091AAEA /* DateSorting.swift in Sources */,
 				BCAEFEA71F03150800C97F9C /* PersonDescription.swift in Sources */,
 				BCAEFEB61F03150800C97F9C /* EntityOccurrencesViewController.swift in Sources */,
 				BCAEFED11F03160800C97F9C /* APIManager.swift in Sources */,

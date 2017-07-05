@@ -14,7 +14,37 @@ open class Alert: NSObject, Serialisable {
     
     private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
     
-    public typealias Level = Int
+    public enum Level: Int, UnboxableEnum {
+        case low    = 1
+        case medium = 2
+        case high   = 3
+        
+        public static let allCases: [Level] = [.low, .medium, .high]
+        
+        public var color: UIColor? {
+            switch self {
+            case .high:   return #colorLiteral(red: 1, green: 0.231372549, blue: 0.1882352941, alpha: 1)
+            case .medium: return #colorLiteral(red: 1, green: 0.8, blue: 0, alpha: 1)
+            case .low:    return #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
+            }
+        }
+        
+        public func localizedDescription(plural: Bool) -> String? {
+            if plural {
+                switch self {
+                case .high:   return NSLocalizedString("Safety Warnings",     bundle: .mpolKit, comment: "Alert Level Title")
+                case .medium: return NSLocalizedString("Persons Of Interest", bundle: .mpolKit, comment: "Alert Level Title")
+                case .low:    return NSLocalizedString("Interest Flags",      bundle: .mpolKit, comment: "Alert Level Title")
+                }
+            } else {
+                switch self {
+                case .high:   return NSLocalizedString("Safety Warning",     bundle: .mpolKit, comment: "Alert Level Title")
+                case .medium: return NSLocalizedString("Person Of Interest", bundle: .mpolKit, comment: "Alert Level Title")
+                case .low:    return NSLocalizedString("Interest Flag",      bundle: .mpolKit, comment: "Alert Level Title")
+                }
+            }
+        }
+    }
     
     open var id: String
     open var level: Alert.Level?
@@ -78,8 +108,9 @@ open class Alert: NSObject, Serialisable {
         details = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.details.rawValue) as String?
         effectiveDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.effectiveDate.rawValue) as Date?
         
-        if aDecoder.containsValue(forKey: CodingKey.level.rawValue) {
-            level = aDecoder.decodeInteger(forKey: CodingKey.level.rawValue)
+        if aDecoder.containsValue(forKey: CodingKey.level.rawValue),
+            let level = Level(rawValue: aDecoder.decodeInteger(forKey: CodingKey.level.rawValue)) {
+            self.level = level
         } else {
             level = nil
         }
@@ -90,7 +121,9 @@ open class Alert: NSObject, Serialisable {
     open func encode(with aCoder: NSCoder) {
         aCoder.encode(modelVersion, forKey: CodingKey.version.rawValue)
         aCoder.encode(id, forKey: CodingKey.level.rawValue)
-        aCoder.encode(level, forKey: CodingKey.level.rawValue)
+        if let level = self.level?.rawValue {
+            aCoder.encode(level, forKey: CodingKey.level.rawValue)
+        }
     }
     
     public static var supportsSecureCoding: Bool {
@@ -103,6 +136,18 @@ open class Alert: NSObject, Serialisable {
     }
 }
 
+extension Alert.Level: Pickable {
+    
+    public var title: String? {
+        return self.localizedDescription(plural: true)
+    }
+    
+    public var subtitle: String? {
+        return nil
+    }
+    
+}
+
 private enum CodingKey: String {
     case version
     case id
@@ -112,34 +157,3 @@ private enum CodingKey: String {
     case effectiveDate
 }
 
-public extension Alert.Level {
-    
-    public var color: UIColor? {
-        if self == 2 {
-            return #colorLiteral(red: 1, green: 0.8, blue: 0, alpha: 1)
-        }
-        if self > 2 {
-            return #colorLiteral(red: 1, green: 0.231372549, blue: 0.1882352941, alpha: 1)
-        }
-        return #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
-    }
-        
-    public func localizedDescription(plural: Bool) -> String? {
-        if plural {
-            switch self {
-            case 3:  return NSLocalizedString("Safety Warnings",     bundle: .mpolKit, comment: "Alert Level Title")
-            case 2:  return NSLocalizedString("Persons Of Interest", bundle: .mpolKit, comment: "Alert Level Title")
-            case 1:  return NSLocalizedString("Interest Flags",      bundle: .mpolKit, comment: "Alert Level Title")
-            default: return nil
-            }
-        } else {
-            switch self {
-            case 3:  return NSLocalizedString("Safety Warning",     bundle: .mpolKit, comment: "Alert Level Title")
-            case 2:  return NSLocalizedString("Person Of Interest", bundle: .mpolKit, comment: "Alert Level Title")
-            case 1:  return NSLocalizedString("Interest Flag",      bundle: .mpolKit, comment: "Alert Level Title")
-            default: return nil
-            }
-        }
-    }
-    
-}
