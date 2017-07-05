@@ -160,7 +160,9 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     }
     
     deinit {
-        tableView?.removeObserver(self, forKeyPath: #keyPath(UITableView.contentSize), context: &kvoContext)
+        if wantsCalculatedContentHeight {
+            tableView?.removeObserver(self, forKeyPath: #keyPath(UITableView.contentSize), context: &kvoContext)
+        }
     }
     
     
