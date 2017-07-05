@@ -108,7 +108,7 @@ open class FormSearchTableViewController: FormTableViewController, UISearchBarDe
         
         var contentOffset = scrollView.contentOffset
         
-        let insets = UIEdgeInsets(top: searchBarFrame.maxY, left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)
+        let insets = UIEdgeInsets(top: searchBarFrame.maxY, left: 0.0, bottom: max(bottomLayoutGuide.length, statusTabBarInset), right: 0.0)
         let oldContentInset = insetManager.standardContentInset
         insetManager.standardContentInset   = insets
         insetManager.standardIndicatorInset = insets

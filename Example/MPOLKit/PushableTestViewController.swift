@@ -9,7 +9,7 @@
 import UIKit
 import MPOLKit
 
-class PushableTestViewController: UITableViewController {
+class PushableTestViewController: FormTableViewController {
     
     enum TestDisplayItem: Int, Pickable {
         case item1
@@ -32,6 +32,8 @@ class PushableTestViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let tableView = self.tableView!
         tableView.estimatedRowHeight = 50.0
         tableView.register(TableViewFormSubtitleCell.self)
         tableView.cellLayoutMargins = UIEdgeInsets(top: 16.0, left: 24.0, bottom: 16.0, right: 12.0)
@@ -50,7 +52,7 @@ class PushableTestViewController: UITableViewController {
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let displayItemVC = PickerTableViewController(style: .grouped, items: [TestDisplayItem.item1, TestDisplayItem.item2, TestDisplayItem.item3])
         displayItemVC.noItemTitle = "Any"

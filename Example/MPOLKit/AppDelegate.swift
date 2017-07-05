@@ -100,8 +100,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
             sidebarSplitViewController.sidebarViewController.selectedSourceIndex = 1
             sidebarSplitViewController.title = "Sidebar SVC"
             
-            let tabBarController = UITabBarController()
-            tabBarController.viewControllers = [pushableSVNavController, UINavigationController(rootViewController: sidebarSplitViewController)]
+            let mapVC = MapOverlayViewController()
+            mapVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
+            
+            let tabBarController = StatusTabBarController()
+            tabBarController.viewControllers = [pushableSVNavController, UINavigationController(rootViewController: sidebarSplitViewController), UINavigationController(rootViewController: mapVC)]
+            tabBarController.statusView = UISwitch()
             self.window?.rootViewController = tabBarController
         }
         
