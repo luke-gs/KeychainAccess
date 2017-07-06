@@ -114,10 +114,10 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
                     let size = newStatusView.frame.size
                     newStatusView.translatesAutoresizingMaskIntoConstraints = false
                     NSLayoutConstraint.activate([
-                        newStatusView.widthAnchor.constraint(equalToConstant: size.width).withPriority(UILayoutPriorityDefaultLow),
-                        newStatusView.heightAnchor.constraint(equalToConstant: size.height).withPriority(UILayoutPriorityDefaultLow)
+                        newStatusView.widthAnchor.constraint(equalToConstant: abs(size.width)).withPriority(UILayoutPriorityDefaultLow),
+                        newStatusView.heightAnchor.constraint(equalToConstant: abs(size.height)).withPriority(UILayoutPriorityDefaultLow)
                     ])
-                }
+                } 
                 tabBarContainerController.view.addSubview(newStatusView)
             }
             updateBarConstraints()
