@@ -105,7 +105,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
             
             let tabBarController = StatusTabBarController()
             tabBarController.viewControllers = [pushableSVNavController, UINavigationController(rootViewController: sidebarSplitViewController), UINavigationController(rootViewController: mapVC)]
-            tabBarController.statusView = UISwitch()
+            
+            let view = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 320.0, height: 50.0))
+            view.backgroundColor = .green
+            tabBarController.statusView = view
             self.window?.rootViewController = tabBarController
         }
         
