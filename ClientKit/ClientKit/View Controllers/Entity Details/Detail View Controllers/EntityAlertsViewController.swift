@@ -203,10 +203,14 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
         
         controller.filterOptions.forEach {
             switch $0 {
-            case let filterList as FilterList where filterList.options.first?.base is Alert.Level:
-                self.filteredAlertLevels = Set(filterList.selectedOptions.flatMap( { $0.base as? Alert.Level }))
-            case let filterList as FilterList where filterList.options.first?.base is DateSorting:
-                self.dateSorting = filterList.selectedOptions.first?.base as? DateSorting ?? .newest
+            case let filterList as FilterList where filterList.options.first is Alert.Level:
+                self.filteredAlertLevels = Set((filterList.options as! [Alert.Level])[filterList.selectedIndexes])
+            case let filterList as FilterList where filterList.options.first is DateSorting:
+                guard let selectedIndex = filterList.selectedIndexes.first else {
+                    self.dateSorting = .newest
+                    return
+                }
+                self.dateSorting = filterList.options[selectedIndex] as! DateSorting
             case let dateRange as FilterDateRange:
                 if dateRange.startDate == nil && dateRange.endDate == nil {
                     self.filterDateRange = nil
@@ -227,9 +231,9 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
     @objc private func filterItemDidSelect(_ item: UIBarButtonItem) {
         let alertLevels: [Alert.Level] = [.high, .medium, .low]
         
-        let filterLevels = FilterList(title: NSLocalizedString("Alert Types", comment: ""), displayStyle: .checkbox, options: alertLevels, selectedOptions: filteredAlertLevels)
+        let filterLevels = FilterList(title: NSLocalizedString("Alert Types", comment: ""), displayStyle: .checkbox, options: alertLevels, selectedIndexes: alertLevels.indexes(where: { filteredAlertLevels.contains($0) }))
         let dateRange = filterDateRange ?? FilterDateRange(title: NSLocalizedString("Date Range", comment: ""), startDate: nil, endDate: nil, requiresStartDate: false, requiresEndDate: false)
-        let sorting = FilterList(title: "Sort By", displayStyle: .list, options: DateSorting.allCases, selectedOptions: [dateSorting])
+        let sorting = FilterList(title: "Sort By", displayStyle: .list, options: DateSorting.allCases, selectedIndexes: [DateSorting.allCases.index(of: dateSorting) ?? 0])
         
         let filterVC = FilterViewController(options: [filterLevels, dateRange, sorting])
         filterVC.title = NSLocalizedString("Filter Alerts", comment: "")
@@ -323,6 +327,9 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
         }
         
         self.sections = sections
+        
+        
     }
     
 }
+

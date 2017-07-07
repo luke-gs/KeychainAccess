@@ -126,41 +126,43 @@ class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
         case .searchType:
             let values = PersonSearchRequest.SearchType.all
             let picker = PickerTableViewController(style: .plain, items: values)
-            picker.selectedItems = [personSearchRequest.searchType]
-            picker.selectionUpdateHandler = { [weak self] (selectedTypes: Set<PersonSearchRequest.SearchType>?) in
-                if let strongSelf = self,
-                    let item = selectedTypes?.first {
-                    strongSelf.personSearchRequest.searchType = item
-                    strongSelf.updatingDelegate?.searchDataSource(strongSelf, didUpdateFilterAt: index)
-                }
+            picker.selectedIndexes = values.indexes { $0 == personSearchRequest.searchType }
+            picker.selectionUpdateHandler = { [weak self] (_, selectedIndexes) in
+                guard let `self` = self, let selectedTypeIndex = selectedIndexes.first else { return }
+                
+                self.personSearchRequest.searchType = values[selectedTypeIndex]
+                self.updatingDelegate?.searchDataSource(self, didUpdateFilterAt: index)
             }
             viewController = picker
         case .gender:
-            let picker = PickerTableViewController(style: .plain, items: Person.Gender.allCases)
+            let genders = Person.Gender.allCases
+            let picker = PickerTableViewController(style: .plain, items: genders)
             picker.title = NSLocalizedString("Gender/s", comment: "")
             picker.noItemTitle = NSLocalizedString("Any", comment: "")
-            if let gender = personSearchRequest.gender {
-                picker.selectedItems = [gender]
-            }
+            picker.selectedIndexes = genders.indexes { $0 == personSearchRequest.gender }
             
-            picker.selectionUpdateHandler = { [weak self] (items) in
-                guard let `self` = self else { return }
+            picker.selectionUpdateHandler = { [weak self] (_, selectedIndexes) in
+                guard let `self` = self, let selectedGenderIndex = selectedIndexes.first else { return }
                 
-                self.personSearchRequest.gender = items?.first
+                self.personSearchRequest.gender = genders[selectedGenderIndex]
                 self.updatingDelegate?.searchDataSource(self, didUpdateFilterAt: index)
             }
             
             // TODO: Handle selection
             viewController = picker
         case .state:
-            let picker = PickerTableViewController(style: .plain, items: Manifest.shared.entries(for: .States) ?? [])
-            picker.noItemTitle   = NSLocalizedString("Any", comment: "")
-            picker.selectedItems = Set(personSearchRequest.states?.flatMap { $0.current() } ?? [])
+            let states = Manifest.shared.entries(for: .States) ?? []
             
-            picker.selectionUpdateHandler = { [weak self] (items) in
+            let picker = PickerTableViewController(style: .plain, items: states )
+            picker.noItemTitle   = NSLocalizedString("Any", comment: "")
+            
+            let currentStates = Set(personSearchRequest.states?.flatMap({ $0.current() }) ?? [])
+            picker.selectedIndexes = states.indexes { currentStates.contains($0) }
+            
+            picker.selectionUpdateHandler = { [weak self] (_, selectedIndexes) in
                 guard let `self` = self else { return }
                 
-                self.personSearchRequest.states = items?.flatMap { ArchivedManifestEntry(entry: $0) }
+                self.personSearchRequest.states = states[selectedIndexes].flatMap { ArchivedManifestEntry(entry: $0) }
                 self.updatingDelegate?.searchDataSource(self, didUpdateFilterAt: index)
             }
             
