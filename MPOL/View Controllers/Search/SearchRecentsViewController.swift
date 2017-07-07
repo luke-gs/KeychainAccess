@@ -19,6 +19,8 @@ class SearchRecentsViewController: FormCollectionViewController {
     
     var recentlyViewed: [Entity] = [] {
         didSet {
+            hasContent = recentlyViewed.isEmpty == false || recentlySearched.isEmpty == false
+            
             if traitCollection.horizontalSizeClass == .compact {
                 if showsRecentSearchesWhenCompact == false {
                     collectionView?.reloadSections(IndexSet(integer: 0))
@@ -31,6 +33,8 @@ class SearchRecentsViewController: FormCollectionViewController {
     
     var recentlySearched: [SearchRequest] = [] {
         didSet {
+            hasContent = recentlyViewed.isEmpty == false || recentlySearched.isEmpty == false
+            
             if traitCollection.horizontalSizeClass != .compact || showsRecentSearchesWhenCompact {
                 collectionView?.reloadSections(IndexSet(integer: 0))
             }
@@ -45,6 +49,16 @@ class SearchRecentsViewController: FormCollectionViewController {
         }
     }
     
+    
+    private var hasContent: Bool = false {
+        didSet {
+            if hasContent == oldValue { return }
+            
+            collectionView?.isHidden = hasContent == false
+            noContentScrollView?.isHidden = hasContent
+        }
+    }
+    
     private var compactNavBarExtension: NavigationBarExtension?
     private var compactSegmentedControl: UISegmentedControl?
     
@@ -55,6 +69,20 @@ class SearchRecentsViewController: FormCollectionViewController {
             }
         }
     }
+    
+    private var noContentScrollView: UIScrollView?
+    
+    private var noContentScrollViewInsetManager: ScrollViewInsetManager?
+    
+    private var noContentLabel: UILabel?
+    
+    private var noContentRegularWidthConstraint: NSLayoutConstraint?
+    
+    @available(*, deprecated: 11.0, message: "Use UIView.safeAreaLayoutGuide in iOS 11 and later.")
+    private var visibleAreaTopLayoutConstraint: NSLayoutConstraint?
+    
+    @available(*, deprecated: 11.0, message: "Use UIView.safeAreaLayoutGuide in iOS 11 and later.")
+    private var visibleAreaBottomLayoutConstraint: NSLayoutConstraint?
     
     
     // MARK: - Initializer
@@ -68,6 +96,9 @@ class SearchRecentsViewController: FormCollectionViewController {
     // MARK: - View lifecycle
     
     override func viewDidLoad() {
+        let noContentLabel = UILabel(frame: .zero)
+        self.noContentLabel = noContentLabel
+        
         super.viewDidLoad()
         
         guard let view = self.view, let collectionView = self.collectionView else { return }
@@ -82,15 +113,6 @@ class SearchRecentsViewController: FormCollectionViewController {
         navBarExtension.alpha = isShowingNavBarExtension ? 1.0 : 0.0
         view.addSubview(navBarExtension)
         
-        NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: segmentedControl, attribute: .width, relatedBy: .equal, toItem: navBarExtension, attribute: .width, constant: -32.0),
-            NSLayoutConstraint(item: segmentedControl, attribute: .top, relatedBy: .equal, toItem: navBarExtension, attribute: .top),
-            NSLayoutConstraint(item: segmentedControl, attribute: .bottom, relatedBy: .equal, toItem: navBarExtension, attribute: .bottom, constant: -17.0),
-            NSLayoutConstraint(item: navBarExtension, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leading),
-            NSLayoutConstraint(item: navBarExtension, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailing),
-            NSLayoutConstraint(item: navBarExtension, attribute: .top, relatedBy: .equal, toItem: topLayoutGuide, attribute: .bottom),
-            ])
-        
         compactSegmentedControl = segmentedControl
         compactNavBarExtension = navBarExtension
         
@@ -98,6 +120,92 @@ class SearchRecentsViewController: FormCollectionViewController {
         collectionView.register(CollectionViewFormSubtitleCell.self)
         collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         collectionView.register(RecentEntitiesHeaderView.self, forSupplementaryViewOfKind: collectionElementKindGlobalHeader)
+        
+        // Setup the no content view.
+        
+        let noContentScrollView = UIScrollView(frame: view.bounds)
+        noContentScrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        noContentScrollView.alwaysBounceVertical = true
+        view.insertSubview(noContentScrollView, belowSubview: collectionView)
+        
+        noContentScrollViewInsetManager = ScrollViewInsetManager(scrollView: noContentScrollView)
+        self.noContentScrollView = noContentScrollView
+        
+        // TODO: Replace with scrollView.contentLayoutGuide on iOS 11
+        let scrollContentView = UIView()
+        scrollContentView.isHidden = true
+        scrollContentView.translatesAutoresizingMaskIntoConstraints = false
+        noContentScrollView.addSubview(scrollContentView)
+        
+        let noContentImageView = UIImageView(image: nil) // TODO: Get artwork for no content button
+        
+        noContentLabel.text = NSLocalizedString("You don't have any recently viewed entities or recent searches right now.", comment: "")
+        noContentLabel.font = .preferredFont(forTextStyle: .headline)
+        noContentLabel.adjustsFontForContentSizeCategory = true
+        noContentLabel.numberOfLines = 0
+        noContentLabel.textAlignment = .center
+        
+        let newSearchButton = UIButton(type: .custom)
+        newSearchButton.titleLabel?.font = .systemFont(ofSize: 15.0, weight: UIFontWeightSemibold)
+        newSearchButton.setTitle(NSLocalizedString("New Search", comment: ""), for: .normal)
+        newSearchButton.setTitleColor(.white, for: .normal)
+        newSearchButton.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 16.0, bottom: 10.0, right: 16.0)
+        newSearchButton.setBackgroundImage(UIImage.resizableRoundedImage(cornerRadius: 4.0, borderWidth: 0.0, borderColor: nil, fillColor: .red).withRenderingMode(.alwaysTemplate), for: .normal)
+        newSearchButton.addTarget(self, action: #selector(newSearchButtonDidSelect(_:)), for: .primaryActionTriggered)
+        
+        let stackView = UIStackView(arrangedSubviews: [noContentImageView, noContentLabel, newSearchButton])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        stackView.spacing = 20.0
+        noContentScrollView.addSubview(stackView)
+        
+        let visibleAreaGuide = UILayoutGuide()
+        view.addLayoutGuide(visibleAreaGuide)
+        
+        visibleAreaTopLayoutConstraint = visibleAreaGuide.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor)
+        visibleAreaBottomLayoutConstraint = visibleAreaGuide.bottomAnchor.constraint(equalTo: bottomLayoutGuide.topAnchor)
+        noContentRegularWidthConstraint = stackView.widthAnchor.constraint(equalTo: scrollContentView.readableContentGuide.widthAnchor, multiplier: 0.6)
+        
+        NSLayoutConstraint.activate([
+            segmentedControl.widthAnchor.constraint(equalTo: navBarExtension.widthAnchor, constant: -32.0),
+            segmentedControl.topAnchor.constraint(equalTo: navBarExtension.topAnchor),
+            segmentedControl.bottomAnchor.constraint(equalTo: navBarExtension.bottomAnchor, constant: -17.0),
+            
+            navBarExtension.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            navBarExtension.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            navBarExtension.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor),
+            
+            visibleAreaTopLayoutConstraint!,
+            visibleAreaBottomLayoutConstraint!,
+            visibleAreaGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            visibleAreaGuide.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            scrollContentView.leadingAnchor.constraint(equalTo: noContentScrollView.leadingAnchor),
+            scrollContentView.trailingAnchor.constraint(equalTo: noContentScrollView.trailingAnchor),
+            scrollContentView.topAnchor.constraint(equalTo: noContentScrollView.topAnchor),
+            scrollContentView.bottomAnchor.constraint(equalTo: noContentScrollView.bottomAnchor),
+            scrollContentView.widthAnchor.constraint(equalTo: visibleAreaGuide.widthAnchor),
+            scrollContentView.heightAnchor.constraint(greaterThanOrEqualTo: visibleAreaGuide.heightAnchor),
+            
+            stackView.topAnchor.constraint(greaterThanOrEqualTo: scrollContentView.topAnchor, constant: 30.0),
+            stackView.centerYAnchor.constraint(equalTo: scrollContentView.centerYAnchor),
+            stackView.leadingAnchor.constraint(greaterThanOrEqualTo: scrollContentView.readableContentGuide.leadingAnchor),
+            stackView.trailingAnchor.constraint(lessThanOrEqualTo: scrollContentView.readableContentGuide.trailingAnchor),
+            stackView.centerXAnchor.constraint(equalTo: scrollContentView.centerXAnchor).withPriority(UILayoutPriorityDefaultHigh),
+        ])
+        
+        if traitCollection.horizontalSizeClass == .regular {
+            noContentRegularWidthConstraint?.isActive = true
+        }
+        
+        collectionView.isHidden = hasContent == false
+        noContentScrollView.isHidden = hasContent
+    }
+    
+    override func applyCurrentTheme() {
+        super.applyCurrentTheme()
+        noContentLabel?.textColor = secondaryTextColor
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -107,6 +215,7 @@ class SearchRecentsViewController: FormCollectionViewController {
         if horizontallyCompact != ((previousTraitCollection?.horizontalSizeClass ?? .unspecified) == .compact) {
             collectionView?.reloadData()
             isShowingNavBarExtension = horizontallyCompact
+            noContentRegularWidthConstraint?.isActive = horizontallyCompact == false
         }
     }
     
@@ -116,13 +225,22 @@ class SearchRecentsViewController: FormCollectionViewController {
         var contentOffset = scrollView.contentOffset
         
         var insets = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)
-        if traitCollection.horizontalSizeClass == .compact {
-            insets.top += (compactNavBarExtension?.frame.height ?? 0.0)
+        if isShowingNavBarExtension {
+            let extensionHeight = compactNavBarExtension?.frame.height ?? 0.0
+            insets.top += extensionHeight
+            visibleAreaTopLayoutConstraint?.constant = extensionHeight
+        } else {
+            visibleAreaTopLayoutConstraint?.constant = 0.0
         }
+        
+        // TODO: handle status tab bar inset when that PR is accepted.
         
         let oldContentInset = insetManager.standardContentInset
         insetManager.standardContentInset   = insets
         insetManager.standardIndicatorInset = insets
+        
+        noContentScrollViewInsetManager?.standardContentInset   = insets
+        noContentScrollViewInsetManager?.standardIndicatorInset = insets
         
         // If the scroll view currently doesn't have any user interaction, adjust its content
         // to keep the content onscreen.
@@ -342,6 +460,9 @@ class SearchRecentsViewController: FormCollectionViewController {
         }
     }
     
+    @objc private func newSearchButtonDidSelect(_ button: UIButton) {
+        delegate?.searchRecentsControllerDidSelectNewSearch(self)
+    }
 }
 
 
@@ -350,6 +471,8 @@ protocol SearchRecentsViewControllerDelegate: class {
     func searchRecentsController(_ controller: SearchRecentsViewController, didSelectRecentSearch recentSearch: SearchRequest)
     
     func searchRecentsController(_ controller: SearchRecentsViewController, didSelectRecentEntity recentEntity: Entity)
+    
+    func searchRecentsControllerDidSelectNewSearch(_ controller: SearchRecentsViewController)
     
 }
 

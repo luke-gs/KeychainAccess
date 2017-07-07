@@ -319,18 +319,24 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
         searchOptionsViewController.beginEditingSearchField(true)
     }
     
+    func searchRecentsControllerDidSelectNewSearch(_ controller: SearchRecentsViewController) {
+        displaySearchTriggered()
+    }
+    
     
     // MARK: - SearchOptionsViewControllerDelegate
     
     func searchOptionsController(_ controller: SearchOptionsViewController, didFinishWith searchRequest: SearchRequest) {
         resultsListViewController.searchRequest = searchRequest
         
-        if recentlySearched.isEmpty || searchRequest != recentlySearched.first {
-            recentlySearched.insert(searchRequest, at: 0)
-        }
-        
         setShowingSearchOptions(false, animated: true)
-        setCurrentResultsViewController(resultsListViewController, animated: true)
+        setCurrentResultsViewController(resultsListViewController, animated: true) { [weak self] (_) in
+            guard let `self` = self else { return }
+            
+            if self.recentlySearched.isEmpty || searchRequest != self.recentlySearched.first {
+                self.recentlySearched.insert(searchRequest, at: 0)
+            }
+        }
     }
     
     func searchOptionsControllerDidCancel(_ controller: SearchOptionsViewController) {
@@ -401,7 +407,7 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     @objc private func addEntityTriggered() {
     }
     
-    private func setCurrentResultsViewController(_ controller: UIViewController?, animated: Bool) {
+    private func setCurrentResultsViewController(_ controller: UIViewController?, animated: Bool, completion: ((Bool) -> Void)? = nil) {
         if controller == currentResultsViewController { return }
         
         // These will logically never be the same because of the above check.
@@ -423,6 +429,7 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
             } else if fromVC != self.recentsViewController {
                 fromVC.removeFromParentViewController()
             }
+            completion?(finished)
         }
         
         if isViewLoaded {
