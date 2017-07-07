@@ -44,7 +44,6 @@
 		BCAEFEAF1F03150800C97F9C /* Vehicle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE731F03150800C97F9C /* Vehicle.swift */; };
 		BCAEFEB01F03150800C97F9C /* Warning.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE741F03150800C97F9C /* Warning.swift */; };
 		BCAEFEB11F03150800C97F9C /* Warrant.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE751F03150800C97F9C /* Warrant.swift */; };
-		BCAEFEB21F03150800C97F9C /* EntityAlertsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE791F03150800C97F9C /* EntityAlertsViewController.swift */; };
 		BCAEFEB31F03150800C97F9C /* EntityAssociationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE7A1F03150800C97F9C /* EntityAssociationsViewController.swift */; };
 		BCAEFEB41F03150800C97F9C /* EntityDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE7B1F03150800C97F9C /* EntityDetailCollectionViewCell.swift */; };
 		BCAEFEB51F03150800C97F9C /* EntityDetailsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE7C1F03150800C97F9C /* EntityDetailsCollectionViewController.swift */; };
@@ -73,6 +72,8 @@
 		BCAEFEDD1F0317DB00C97F9C /* EntityThumbnailView+Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFEDC1F0317DB00C97F9C /* EntityThumbnailView+Configuration.swift */; };
 		BCC7AEDE1F0B61AD0091AAEA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCC7AEDD1F0B61AD0091AAEA /* Assets.xcassets */; };
 		BCC7AEE11F0BA9E70091AAEA /* DateSorting.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC7AEE01F0BA9E70091AAEA /* DateSorting.swift */; };
+		BCF31AC61F0F42C400207D82 /* EntityAlertsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF31AC51F0F42C400207D82 /* EntityAlertsViewController.swift */; };
+		BCF31AC81F0F42CD00207D82 /* Array+Searching.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF31AC71F0F42CD00207D82 /* Array+Searching.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -126,7 +127,6 @@
 		BCAEFE731F03150800C97F9C /* Vehicle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vehicle.swift; sourceTree = "<group>"; };
 		BCAEFE741F03150800C97F9C /* Warning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Warning.swift; sourceTree = "<group>"; };
 		BCAEFE751F03150800C97F9C /* Warrant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Warrant.swift; sourceTree = "<group>"; };
-		BCAEFE791F03150800C97F9C /* EntityAlertsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityAlertsViewController.swift; sourceTree = "<group>"; };
 		BCAEFE7A1F03150800C97F9C /* EntityAssociationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityAssociationsViewController.swift; sourceTree = "<group>"; };
 		BCAEFE7B1F03150800C97F9C /* EntityDetailCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		BCAEFE7C1F03150800C97F9C /* EntityDetailsCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailsCollectionViewController.swift; sourceTree = "<group>"; };
@@ -155,6 +155,8 @@
 		BCAEFEDC1F0317DB00C97F9C /* EntityThumbnailView+Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EntityThumbnailView+Configuration.swift"; sourceTree = "<group>"; };
 		BCC7AEDD1F0B61AD0091AAEA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BCC7AEE01F0BA9E70091AAEA /* DateSorting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateSorting.swift; sourceTree = "<group>"; };
+		BCF31AC51F0F42C400207D82 /* EntityAlertsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EntityAlertsViewController.swift; path = ../../../../../../../Desktop/EntityAlertsViewController.swift; sourceTree = "<group>"; };
+		BCF31AC71F0F42CD00207D82 /* Array+Searching.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array+Searching.swift"; path = "../../../../../Desktop/Array+Searching.swift"; sourceTree = "<group>"; };
 		D6779C04771873128EC55832 /* Pods-ClientKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKit.release.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKit/Pods-ClientKit.release.xcconfig"; sourceTree = "<group>"; };
 		D6FAB7E5ED55CBB22E20D7C9 /* Pods_ClientKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClientKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -300,7 +302,7 @@
 		BCAEFE781F03150800C97F9C /* Detail View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				BCAEFE791F03150800C97F9C /* EntityAlertsViewController.swift */,
+				BCF31AC51F0F42C400207D82 /* EntityAlertsViewController.swift */,
 				BCAEFE7A1F03150800C97F9C /* EntityAssociationsViewController.swift */,
 				BCAEFE7B1F03150800C97F9C /* EntityDetailCollectionViewCell.swift */,
 				BCAEFE7C1F03150800C97F9C /* EntityDetailsCollectionViewController.swift */,
@@ -385,6 +387,7 @@
 		BCAEFED71F03170900C97F9C /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				BCF31AC71F0F42CD00207D82 /* Array+Searching.swift */,
 				BCAEFED81F03172A00C97F9C /* EntityCollectionViewCell+Configuration.swift */,
 				BCAEFEDC1F0317DB00C97F9C /* EntityThumbnailView+Configuration.swift */,
 			);
@@ -586,6 +589,7 @@
 				BCC7AEE11F0BA9E70091AAEA /* DateSorting.swift in Sources */,
 				BCAEFEA71F03150800C97F9C /* PersonDescription.swift in Sources */,
 				BCAEFEB61F03150800C97F9C /* EntityOccurrencesViewController.swift in Sources */,
+				BCF31AC81F0F42CD00207D82 /* Array+Searching.swift in Sources */,
 				BCAEFED11F03160800C97F9C /* APIManager.swift in Sources */,
 				BCAEFEC11F03150800C97F9C /* PersonOccurrencesViewController.swift in Sources */,
 				BCAEFEAD1F03150800C97F9C /* Source.swift in Sources */,
@@ -597,13 +601,13 @@
 				BCAEFEB91F03150800C97F9C /* FieldContactDetailViewController.swift in Sources */,
 				BCAEFE991F03150800C97F9C /* Entity.swift in Sources */,
 				BCAEFEBD1F03150800C97F9C /* PersonActionsViewController.swift in Sources */,
-				BCAEFEB21F03150800C97F9C /* EntityAlertsViewController.swift in Sources */,
 				BCAEFE911F03150800C97F9C /* Action.swift in Sources */,
 				BCAEFEBB1F03150800C97F9C /* OrganizationInfoViewController.swift in Sources */,
 				BCAEFEB11F03150800C97F9C /* Warrant.swift in Sources */,
 				BCA1793C1F03542900AD1F5F /* PersonParserDefinition.swift in Sources */,
 				BCAEFED51F03160800C97F9C /* ServerAPIURLRequestProvider.swift in Sources */,
 				BCAEFEB51F03150800C97F9C /* EntityDetailsCollectionViewController.swift in Sources */,
+				BCF31AC61F0F42C400207D82 /* EntityAlertsViewController.swift in Sources */,
 				BCAEFE9F1F03150800C97F9C /* InterventionOrder.swift in Sources */,
 				BCAEFE981F03150800C97F9C /* Email.swift in Sources */,
 				BCAEFEC41F03150800C97F9C /* EntityDetailsSplitViewController.swift in Sources */,
