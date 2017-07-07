@@ -69,8 +69,8 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         didSet {
             if separatorStyle == oldValue { return }
             
-            separatorView.isHidden = separatorStyle == .none
-            updateSeparatorConstraints()
+            separatorLayer.isHidden = separatorStyle == .none
+            setNeedsLayout()
         }
     }
     
@@ -84,7 +84,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         didSet {
             if customSeparatorInsets == oldValue { return }
             
-            updateSeparatorConstraints()
+            setNeedsLayout()
         }
     }
     
@@ -95,21 +95,15 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
                 return
             }
             if selectionStyle != .underline || isSelected == false {
-                separatorView.backgroundColor = separatorColor
+                updateSeparatorColor()
             }
         }
     }
     
     @NSCopying open var separatorTintColor: UIColor? = nil {
         didSet {
-            separatorView.tintColor = separatorTintColor
-            
-            if requiresValidation && validationColor != nil {
-                return
-            }
-            
-            if selectionStyle == .underline && isSelected {
-                separatorView.backgroundColor = separatorView.tintColor // fetch off the separator view, in case its nil, to get the default tint.
+            if requiresValidation && validationColor != nil && selectionStyle == .underline && isSelected {
+                updateSeparatorColor()
             }
         }
     }    
@@ -157,13 +151,15 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
                 
                 let accessoryWidth = accessoryView.frame.width
                 if accessoryWidth > 0 {
-                    contentModeLayoutTrailingConstraint.constant = (accessoryWidth + 10.0) * -1.0
+                    contentModeLayoutTrailingConstraint?.constant = (accessoryWidth + 10.0) * -1.0
                 } else {
                     contentModeLayoutTrailingConstraint?.constant = 0.0
                 }
             } else {
                 contentModeLayoutTrailingConstraint?.constant = 0.0
             }
+            
+            setNeedsLayout()
         }
     }
     
@@ -216,7 +212,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         didSet {
             if requiresValidation == false { return }
             
-            separatorView.backgroundColor = validationColor ?? separatorColor
+            updateSeparatorColor()
             validationAccessoryLabel?.textColor = validationColor ?? .gray
         }
     }
@@ -245,21 +241,12 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         
         func newValidationLabel() -> UILabel {
             let label = UILabel(frame: .zero)
-            label.translatesAutoresizingMaskIntoConstraints = false
             label.numberOfLines = 0
             label.adjustsFontForContentSizeCategory = true
             label.textColor = validationColor ?? .gray
             label.textAlignment = alignment
             label.font = .preferredFont(forTextStyle: .footnote)
             contentView.addSubview(label)
-            
-            NSLayoutConstraint.activate([
-                label.topAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 8.0),
-                label.leadingAnchor.constraint(greaterThanOrEqualTo: separatorView.leadingAnchor),
-                label.trailingAnchor.constraint(lessThanOrEqualTo: separatorView.trailingAnchor),
-                label.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor).withPriority(900),
-                label.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor).withPriority(900)
-            ])
             
             return label
         }
@@ -268,13 +255,15 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
             let oldLabel = self.validationAccessoryLabel
             if wantsValidationText {
                 validationAccessoryLabel = newValidationLabel()
+                setNeedsLayout()
             } else {
                 validationAccessoryLabel = nil
             }
+            oldValidationAccessoryLabel = oldLabel
             let newLabel = validationAccessoryLabel
             newLabel?.text = validationText
             newLabel?.alpha = 0.0
-            contentView.layoutIfNeeded()
+            layoutIfNeeded()
             
             UIView.animate(withDuration: 0.3, animations: {
                 if newLabel != nil || oldLabel != nil {
@@ -290,7 +279,10 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
                 
                 self.requiresValidation = requiresValidation
                 self.layoutIfNeeded()
-            }, completion: { finished in
+            }, completion: { [weak self] finished in
+                if self?.oldValidationAccessoryLabel == oldLabel {
+                    self?.oldValidationAccessoryLabel = nil
+                }
                 oldLabel?.removeFromSuperview()
             })
         } else {
@@ -313,31 +305,31 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     }
     
     
-    /// CollectionViewFormCell overrides this UIView flag to adjust the constraints on the
-    /// `CollectionViewFormCell.contentModeLayoutGuide` to apply a top, bottom or center
-    /// position to the guide.
+    /// CollectionViewFormCell subclasses use this `UIView` property to adjust their contents.
+    /// Subclasses can implement this behavior themselves, or can use autolayout and constrain
+    /// against the `CollectionViewFormCell.contentModeLayoutGuide`.
     ///
     /// The default is `.center`.
     open override var contentMode: UIViewContentMode {
         didSet {
             if contentMode == oldValue { return }
             
-            let attribute: NSLayoutAttribute
-            switch contentMode {
-            case .top, .topLeft, .topRight:
-                attribute = .top
-            case .bottom, .bottomLeft, .bottomRight:
-                attribute = .bottom
-            default:
-                attribute = .centerY
+            if let contentModeConstraint = contentModeLayoutVerticalConstraint {
+                let attribute: NSLayoutAttribute
+                switch contentMode {
+                case .top, .topLeft, .topRight:
+                    attribute = .top
+                case .bottom, .bottomLeft, .bottomRight:
+                    attribute = .bottom
+                default:
+                    attribute = .centerY
+                }
+                contentModeConstraint.isActive = false
+                contentModeLayoutVerticalConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: attribute, relatedBy: .equal, toItem: contentView.layoutMarginsGuide, attribute: attribute, priority: UILayoutPriorityDefaultLow - 1)
+                contentModeLayoutVerticalConstraint!.isActive = true
             }
-            contentModeLayoutVerticalConstraint?.isActive = false
-            contentModeLayoutVerticalConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: attribute, relatedBy: .equal, toItem: contentView.layoutMarginsGuide, attribute: attribute, priority: UILayoutPriorityDefaultLow - 1)
-            contentModeLayoutVerticalConstraint.isActive = true
             
-            if accessoryView != nil {
-                setNeedsLayout()
-            }
+            setNeedsLayout()
         }
     }
     
@@ -346,9 +338,45 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     /// correct vertical position for the current `contentMode`. This layout guide is constrainted
     /// to the layout margins for the content view.
     ///
-    /// Subclasses should position their content with this layout guide, rather than the content
-    /// view's layout margins.
-    open let contentModeLayoutGuide: UILayoutGuide = UILayoutGuide()
+    /// Subclasses should either position their content manually, or constraint against this guide
+    /// rather than the content view's layout margins to get the correct behaviour for the content
+    /// mode.
+    ///
+    /// - Note: Subclasses that will be used frequently, with lots of cells being allocated in
+    ///         quick succession, may find their performance constrained by Auto Layout on slower
+    ///         devices e.g. iPad mini. You may need to  consider using manual layout instead.
+    open var contentModeLayoutGuide: UILayoutGuide {
+        if let existingGuide = _contentModeLayoutGuide { return existingGuide }
+        
+        let layoutGuide = UILayoutGuide()
+        let contentView = self.contentView
+        let contentLayoutGuide = contentView.layoutMarginsGuide
+        
+        contentView.addLayoutGuide(layoutGuide)
+        _contentModeLayoutGuide = layoutGuide
+        
+        let attribute: NSLayoutAttribute
+        switch contentMode {
+        case .top, .topLeft, .topRight:
+            attribute = .top
+        case .bottom, .bottomLeft, .bottomRight:
+            attribute = .bottom
+        default:
+            attribute = .centerY
+        }
+        contentModeLayoutVerticalConstraint = NSLayoutConstraint(item: layoutGuide, attribute: attribute, relatedBy: .equal, toItem: contentView.layoutMarginsGuide, attribute: attribute, priority: UILayoutPriorityDefaultLow - 1)
+        contentModeLayoutTrailingConstraint = layoutGuide.trailingAnchor.constraint(equalTo: contentLayoutGuide.trailingAnchor)
+        
+        NSLayoutConstraint.activate([
+            layoutGuide.topAnchor.constraint(greaterThanOrEqualTo: contentLayoutGuide.topAnchor),
+            layoutGuide.bottomAnchor.constraint(lessThanOrEqualTo: contentLayoutGuide.bottomAnchor).withPriority(500),
+            layoutGuide.leadingAnchor.constraint(equalTo: contentLayoutGuide.leadingAnchor),
+            contentModeLayoutTrailingConstraint!,
+            contentModeLayoutVerticalConstraint!,
+        ])
+        
+        return layoutGuide
+    }
     
     
     /// The gesture recognizer for the edit action drag.
@@ -361,8 +389,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     
     
     // MARK: - Private properties
-    
-    private let separatorView = UIView(frame: .zero)
+    private let separatorLayer = CALayer()
     
     private let actionView = CollectionViewFormCellActionView(frame: .zero)
     
@@ -370,30 +397,25 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         didSet {
             if requiresValidation == oldValue { return }
             
-            let validationColor: UIColor? = requiresValidation ? self.validationColor : nil
-            separatorView.backgroundColor = validationColor ?? (isSelected && selectionStyle == .underline ? separatorView.tintColor : separatorColor)
+            updateSeparatorColor()
             
             if isSelected == false || selectionStyle != .underline {
-                updateSeparatorConstraints()
+                setNeedsLayout()
             }
         }
     }
     
     private var validationAccessoryLabel: UILabel?
     
-    /// The content mode guide. This guide is private and will update to enforce the current content
-    /// mode on the `contentModeLayoutGuide`.
-    private var contentModeLayoutVerticalConstraint: NSLayoutConstraint!
+    private var oldValidationAccessoryLabel: UILabel?
     
-    private var contentModeLayoutTrailingConstraint: NSLayoutConstraint!
     
-    private var separatorLeadingConstraint: NSLayoutConstraint!
+    private var _contentModeLayoutGuide: UILayoutGuide?
     
-    private var separatorTrailingConstraint: NSLayoutConstraint!
+    private var contentModeLayoutVerticalConstraint: NSLayoutConstraint?
     
-    private var separatorBottomConstraint: NSLayoutConstraint!
+    private var contentModeLayoutTrailingConstraint: NSLayoutConstraint?
     
-    private var separatorHeightConstraint: NSLayoutConstraint!
     
     private var touchTrigger: TouchRecognizer?
     
@@ -406,7 +428,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
             actionView.wantsGradientMask = isAtTrailingEdge == false
             switch separatorStyle {
             case .indented, .none:
-                updateSeparatorConstraints()
+                setNeedsLayout()
             case .indentedAtRowLeading, .fullWidth:
                 break
             }
@@ -415,7 +437,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     
     
     private var isRightToLeft: Bool = false {
-        didSet { if isRightToLeft != oldValue && accessoryView != nil { setNeedsLayout() } }
+        didSet { if isRightToLeft != oldValue { setNeedsLayout() } }
     }
     
     private var cachedEditAccessiblityActions: [CollectionViewFormAccessibilityEditAction]?
@@ -435,12 +457,8 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     
     private func commonInit() {
         isAccessibilityElement = true
-        
-        separatorView.translatesAutoresizingMaskIntoConstraints = false
-        separatorView.backgroundColor = separatorColor
-        separatorView.tintAdjustmentMode = .normal
-        separatorView.isUserInteractionEnabled = false
-        addSubview(separatorView)
+        super.contentMode = .center
+        isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
         
         actionView.frame = bounds
         actionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -449,34 +467,8 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         addSubview(actionView)
         addGestureRecognizer(actionView.panGestureRecognizer)
         
-        super.contentMode = .center
-        
-        let contentView            = super.contentView
-        let contentModeLayoutGuide = self.contentModeLayoutGuide
-        
-        contentView.addLayoutGuide(contentModeLayoutGuide)
-        
-        contentModeLayoutVerticalConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerYWithinMargins, priority: UILayoutPriorityDefaultLow - 1)
-        contentModeLayoutTrailingConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .trailing, relatedBy: .equal, toItem: contentView, attribute: .trailingMargin)
-        
-        separatorLeadingConstraint = separatorView.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor)
-        separatorTrailingConstraint = separatorView.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor)
-        separatorBottomConstraint = separatorView.bottomAnchor.constraint(equalTo: bottomAnchor)
-        separatorHeightConstraint = separatorView.heightAnchor.constraint(equalToConstant: 1.0 / traitCollection.currentDisplayScale)
-        
-        NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .top,      relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .topMargin),
-            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .bottom,   relatedBy: .lessThanOrEqual,    toItem: contentView, attribute: .bottomMargin, priority: 500),
-            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .leading,  relatedBy: .equal, toItem: contentView, attribute: .leadingMargin),
-            contentModeLayoutTrailingConstraint,
-            contentModeLayoutVerticalConstraint,
-            separatorLeadingConstraint,
-            separatorTrailingConstraint,
-            separatorBottomConstraint,
-            separatorHeightConstraint
-        ])
-        
-        isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
+        separatorLayer.backgroundColor = separatorColor?.cgColor
+        layer.addSublayer(separatorLayer)
     }
     
     deinit {
@@ -592,8 +584,8 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         }
         if actionView.layoutMargins != newLayoutMargins {
             actionView.layoutMargins = newLayoutMargins
-        if needsLayoutForAccessory && accessoryView != nil {
         }
+        if needsLayoutForAccessory && accessoryView != nil {
             setNeedsLayout()
         }
     }
@@ -601,25 +593,82 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     open override func layoutSubviews() {
         super.layoutSubviews()
         
+        // Update accessory location
+        
         if let accessoryView = self.accessoryView {
-            let contentLayoutGuide = contentModeLayoutGuide.layoutFrame
-            
             var accessoryFrame = accessoryView.frame
-            accessoryFrame.origin.y = round(contentLayoutGuide.midY - (accessoryFrame.size.height * 0.5))
+            let contentRect = contentView.bounds.insetBy(contentView.layoutMargins)
+            
+            accessoryFrame.origin.y = round(contentRect.midY - (accessoryFrame.height * 0.5))
             if isRightToLeft {
-                accessoryFrame.origin.x = contentLayoutGuide.minX - 10.0 - accessoryFrame.width
+                accessoryFrame.origin.x = contentRect.minX
             } else {
-                accessoryFrame.origin.x = contentLayoutGuide.maxX + 10.0
+                accessoryFrame.origin.x = contentRect.maxX - accessoryFrame.width
             }
             accessoryView.frame = accessoryFrame
         }
         
-        let subviews     = self.subviews
-        let subviewCount = subviews.count
+        // Update separator position
         
-        if subviews.index(of: actionView) != subviewCount - 2 || subviews.index(of: separatorView) != subviewCount - 1 {
+        let bounds = self.bounds
+        let layoutMargins = self.layoutMargins
+        
+        let separatorInset: UIEdgeInsets
+        if let customSeparatorInsets = self.customSeparatorInsets {
+            if isRightToLeft {
+                separatorInset = customSeparatorInsets.horizontallyFlipped()
+            } else {
+                separatorInset = customSeparatorInsets
+            }
+        } else if separatorStyle != .fullWidth {
+            let indentLeading  = separatorStyle != .indentedAtRowLeading || isFirstInRow
+            let indentTrailing = separatorStyle != .indentedAtRowLeading && isAtTrailingEdge == false
+            
+            if isRightToLeft {
+                separatorInset = UIEdgeInsets(top: 0.0, left: indentTrailing ? layoutMargins.left : 0.0, bottom: 0.0, right: layoutMargins.right)
+            } else {
+                separatorInset = UIEdgeInsets(top: 0.0, left: indentLeading ? layoutMargins.left : 0.0, bottom: 0.0, right: indentTrailing ? layoutMargins.right : 0.0)
+            }
+        } else {
+            separatorInset = .zero
+        }
+        
+        let separatorHeight = 1.0 / traitCollection.currentDisplayScale + ((isSelected && selectionStyle == .underline) || requiresValidation ? 1.0 : 0.0)
+        separatorLayer.frame = CGRect(x: separatorInset.left, y: bounds.height - separatorHeight, width: bounds.width - separatorInset.left - separatorInset.right, height: separatorHeight)
+        separatorLayer.isHidden = separatorStyle == .none
+        
+        
+        // Validation layout
+        
+        func layoutValidationLabel(_ label: UILabel) {
+            let leftInset  = max(layoutMargins.left,  separatorInset.left, 0.0)
+            let rightInset = max(layoutMargins.right, separatorInset.right, 0.0)
+            
+            let horizontalSpace = (bounds.width - leftInset - rightInset).floored(toScale: traitCollection.currentDisplayScale)
+            
+            var labelPreferredSize = label.sizeThatFits(CGSize(width: horizontalSpace, height: .greatestFiniteMagnitude))
+            labelPreferredSize.width = min(labelPreferredSize.width, horizontalSpace)
+            
+            label.frame = CGRect(origin: CGPoint(x: leftInset + (isRightToLeft ? horizontalSpace - labelPreferredSize.width : 0.0), y: bounds.maxY + 8.0),
+                                 size: labelPreferredSize)
+        }
+        
+        if let label = validationAccessoryLabel {
+            layoutValidationLabel(label)
+        }
+        if let oldLabel = oldValidationAccessoryLabel {
+            layoutValidationLabel(oldLabel)
+        }
+        
+        
+        // Bring subviews to their correct positions if needed.
+        
+        if subviews.last != actionView {
             bringSubview(toFront: actionView)
-            bringSubview(toFront: separatorView)
+        }
+        
+        if layer.sublayers?.last != separatorLayer {
+            layer.addSublayer(separatorLayer)
         }
     }
     
@@ -658,6 +707,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         
         let newCategory = traitCollection.preferredContentSizeCategory
         if newCategory != previousTraitCollection?.preferredContentSizeCategory ?? .unspecified {
+            setNeedsLayout()
             contentSizeCategoryDidChange(newCategory)
         }
         
@@ -666,14 +716,14 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         }
         
         if traitCollection.currentDisplayScale != previousTraitCollection?.currentDisplayScale {
-            updateSeparatorConstraints()
+            setNeedsLayout()
         }
     }
     
     open override func tintColorDidChange() {
         super.tintColorDidChange()
         if isSelected && selectionStyle == .underline {
-            separatorView.backgroundColor = separatorView.tintColor
+            updateSeparatorColor()
         }
     }
     
@@ -691,54 +741,19 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
             contentView.alpha = correctAlpha
         }
         
-        let wantsUnderline = isSelected && selectionStyle == .underline
+        updateSeparatorColor()
         
-        separatorView.backgroundColor = separatorTintColor ?? (wantsUnderline ? separatorView.tintColor : separatorColor)
-        if (separatorHeightConstraint.constant > 1.0) != wantsUnderline {
-            updateSeparatorConstraints()
+        let wantsUnderline = isSelected && selectionStyle == .underline
+        if (separatorLayer.bounds.height >~ 1.0) != wantsUnderline {
+            setNeedsLayout()
         }
     }
     
-    private func updateSeparatorConstraints() {
-        var correctLeadingAnchor: NSLayoutAnchor = leadingAnchor
-        var correctTrailingAnchor: NSLayoutAnchor = trailingAnchor
-        var leadingInset: CGFloat = 0.0
-        var trailingInset: CGFloat = 0.0
-        var bottomInset: CGFloat = 0.0
-        
-        let separatorStyle = self.separatorStyle
-        
-        if let customSeparatorInsets = self.customSeparatorInsets {
-            leadingInset = customSeparatorInsets.left
-            trailingInset = customSeparatorInsets.right * -1.0
-            bottomInset = customSeparatorInsets.bottom * -1.0
-        } else if separatorStyle != .fullWidth {
-            if separatorStyle != .indentedAtRowLeading || isFirstInRow {
-                correctLeadingAnchor = layoutMarginsGuide.leadingAnchor
-            }
-            if separatorStyle != .indentedAtRowLeading && isAtTrailingEdge == false {
-                correctTrailingAnchor = layoutMarginsGuide.trailingAnchor
-            }
-        }
-        
-        if separatorLeadingConstraint.secondAnchor != correctLeadingAnchor {
-            separatorLeadingConstraint.isActive = false
-            separatorLeadingConstraint = separatorView.leadingAnchor.constraint(equalTo: correctLeadingAnchor, constant: leadingInset)
-            separatorLeadingConstraint.isActive = true
-        } else {
-            separatorLeadingConstraint.constant = leadingInset
-        }
-        
-        if separatorTrailingConstraint.secondAnchor != correctTrailingAnchor {
-            separatorTrailingConstraint.isActive = false
-            separatorTrailingConstraint = separatorView.trailingAnchor.constraint(equalTo: correctTrailingAnchor, constant: trailingInset)
-            separatorTrailingConstraint.isActive = true
-        } else {
-            separatorTrailingConstraint.constant = trailingInset
-        }
-        
-        separatorBottomConstraint.constant = bottomInset
-        separatorHeightConstraint.constant = 1.0 / traitCollection.currentDisplayScale + ((isSelected && selectionStyle == .underline) || requiresValidation ? 1.0 : 0.0)
+    private func updateSeparatorColor() {
+        let wantsUnderline = isSelected && selectionStyle == .underline
+        let validationColor: UIColor? = requiresValidation ? self.validationColor : nil
+        let finalColor = validationColor ?? (wantsUnderline ? (separatorTintColor ?? tintColor) : separatorColor)
+        separatorLayer.backgroundColor = finalColor?.cgColor
     }
     
     @objc private func touchTriggerDidActivate(_ trigger: TouchRecognizer) {
