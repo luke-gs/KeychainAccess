@@ -120,7 +120,7 @@ class TestCollectionViewController: FormCollectionViewController, FilterViewCont
         
         let dateRange = FilterDateRange(title: "Date Range", startDate: nil, endDate: nil, requiresStartDate: false, requiresEndDate: false)
         
-        let list = FilterList(title: "Checkbox", displayStyle: .checkbox, options: ["High", "Medium", "Low"], selectedOptions: [])
+        let list = FilterList(title: "Checkbox", displayStyle: .detailList, options: ["High", "Medium", "Low"], selectedIndexes: [], allowsNoSelection: true)
         
         let filterVC = FilterViewController(options: [dateRange, list])
         filterVC.delegate = self
