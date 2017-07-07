@@ -72,7 +72,7 @@
 		BCAEFEDD1F0317DB00C97F9C /* EntityThumbnailView+Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFEDC1F0317DB00C97F9C /* EntityThumbnailView+Configuration.swift */; };
 		BCC7AEDE1F0B61AD0091AAEA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCC7AEDD1F0B61AD0091AAEA /* Assets.xcassets */; };
 		BCC7AEE11F0BA9E70091AAEA /* DateSorting.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC7AEE01F0BA9E70091AAEA /* DateSorting.swift */; };
-		BCF31AC61F0F42C400207D82 /* EntityAlertsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF31AC51F0F42C400207D82 /* EntityAlertsViewController.swift */; };
+		BCDDADBB1F0F4C0A00B3F063 /* EntityAlertsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDDADBA1F0F4C0A00B3F063 /* EntityAlertsViewController.swift */; };
 		BCF31AC81F0F42CD00207D82 /* Array+Searching.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF31AC71F0F42CD00207D82 /* Array+Searching.swift */; };
 /* End PBXBuildFile section */
 
@@ -155,8 +155,8 @@
 		BCAEFEDC1F0317DB00C97F9C /* EntityThumbnailView+Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EntityThumbnailView+Configuration.swift"; sourceTree = "<group>"; };
 		BCC7AEDD1F0B61AD0091AAEA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BCC7AEE01F0BA9E70091AAEA /* DateSorting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateSorting.swift; sourceTree = "<group>"; };
-		BCF31AC51F0F42C400207D82 /* EntityAlertsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EntityAlertsViewController.swift; path = ../../../../../../../Desktop/EntityAlertsViewController.swift; sourceTree = "<group>"; };
-		BCF31AC71F0F42CD00207D82 /* Array+Searching.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array+Searching.swift"; path = "../../../../../Desktop/Array+Searching.swift"; sourceTree = "<group>"; };
+		BCDDADBA1F0F4C0A00B3F063 /* EntityAlertsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityAlertsViewController.swift; sourceTree = "<group>"; };
+		BCF31AC71F0F42CD00207D82 /* Array+Searching.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Searching.swift"; sourceTree = "<group>"; };
 		D6779C04771873128EC55832 /* Pods-ClientKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKit.release.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKit/Pods-ClientKit.release.xcconfig"; sourceTree = "<group>"; };
 		D6FAB7E5ED55CBB22E20D7C9 /* Pods_ClientKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClientKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -302,7 +302,7 @@
 		BCAEFE781F03150800C97F9C /* Detail View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				BCF31AC51F0F42C400207D82 /* EntityAlertsViewController.swift */,
+				BCDDADBA1F0F4C0A00B3F063 /* EntityAlertsViewController.swift */,
 				BCAEFE7A1F03150800C97F9C /* EntityAssociationsViewController.swift */,
 				BCAEFE7B1F03150800C97F9C /* EntityDetailCollectionViewCell.swift */,
 				BCAEFE7C1F03150800C97F9C /* EntityDetailsCollectionViewController.swift */,
@@ -573,6 +573,7 @@
 				BCAEFEA91F03150800C97F9C /* ReportedPerson.swift in Sources */,
 				BCAEFEA21F03150800C97F9C /* KnownAssociate.swift in Sources */,
 				BCAEFE961F03150800C97F9C /* Contact.swift in Sources */,
+				BCDDADBB1F0F4C0A00B3F063 /* EntityAlertsViewController.swift in Sources */,
 				BCAEFEBC1F03150800C97F9C /* CautionDetailsViewController.swift in Sources */,
 				BCAEFEAA1F03150800C97F9C /* RiskFactor.swift in Sources */,
 				BCAEFEB81F03150800C97F9C /* EventDetailViewController.swift in Sources */,
@@ -607,7 +608,6 @@
 				BCA1793C1F03542900AD1F5F /* PersonParserDefinition.swift in Sources */,
 				BCAEFED51F03160800C97F9C /* ServerAPIURLRequestProvider.swift in Sources */,
 				BCAEFEB51F03150800C97F9C /* EntityDetailsCollectionViewController.swift in Sources */,
-				BCF31AC61F0F42C400207D82 /* EntityAlertsViewController.swift in Sources */,
 				BCAEFE9F1F03150800C97F9C /* InterventionOrder.swift in Sources */,
 				BCAEFE981F03150800C97F9C /* Email.swift in Sources */,
 				BCAEFEC41F03150800C97F9C /* EntityDetailsSplitViewController.swift in Sources */,
