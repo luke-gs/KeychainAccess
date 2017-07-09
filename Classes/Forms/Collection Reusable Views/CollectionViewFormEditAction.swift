@@ -16,7 +16,7 @@ import UIKit
 /// whether the two structs are functionally equivalent (i.e. "substitutable")
 /// as required by the protocol definition.
 ///
-/// You should use the `isVisuallyEqual(to:)` function to determine whether
+/// You should use the `isVisuallyEqual(to:)` method to determine whether
 /// two actions have the same visual attributes.
 public struct CollectionViewFormEditAction {
     

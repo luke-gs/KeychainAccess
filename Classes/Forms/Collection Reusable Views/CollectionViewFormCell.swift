@@ -69,7 +69,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         didSet {
             if separatorStyle == oldValue { return }
             
-            separatorLayer.isHidden = separatorStyle == .none
+            separatorView.isHidden = separatorStyle == .none
             setNeedsLayout()
         }
     }
@@ -102,6 +102,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     
     @NSCopying open var separatorTintColor: UIColor? = nil {
         didSet {
+            separatorView.tintColor = separatorTintColor
             if requiresValidation && validationColor != nil && selectionStyle == .underline && isSelected {
                 updateSeparatorColor()
             }
@@ -168,10 +169,20 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     /// Setting this property will close edit actions if there are no more edit actions.
     open var editActions: [CollectionViewFormEditAction] {
         get {
-            return actionView.actions
+            return actionView?.actions ?? []
         }
         set {
-            actionView.actions = newValue
+            if editActions.isEmpty == false && actionView == nil {
+                let view = CollectionViewFormCellActionView(frame: self.bounds)
+                view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+                view.layoutMargins = self.layoutMargins
+                view.actionDelegate = self
+                self.insertSubview(view, belowSubview: self.separatorView)
+                addGestureRecognizer(view.panGestureRecognizer)
+                actionView = view
+            }
+            
+            actionView?.actions = newValue
             cachedEditAccessiblityActions = nil
         }
     }
@@ -183,7 +194,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     /// without an animation.
     open private(set) dynamic var isShowingEditActions: Bool {
         get {
-            return actionView.isShowingActions
+            return actionView?.isShowingActions ?? false
         }
         set {
             setShowingEditActions(isShowingEditActions, animated: false)
@@ -197,7 +208,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     ///   - showingActions: A boolean value indicating whether the cell should show edit actions.
     ///   - animated:       A boolean flag indicating whether the update should be animated.
     open func setShowingEditActions(_ showingActions: Bool, animated: Bool) {
-        actionView.setShowingActions(showingActions, animated: animated)
+        actionView?.setShowingActions(showingActions, animated: animated)
     }
     
     
@@ -379,19 +390,11 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     }
     
     
-    /// The gesture recognizer for the edit action drag.
-    ///
-    /// Subclasses that require complex interaction with the edit action gesture can access this property
-    /// and observe state, add failure logic etc.
-    open var editActionGestureRecognizer: UIPanGestureRecognizer {
-        return actionView.panGestureRecognizer
-    }
-    
-    
     // MARK: - Private properties
-    private let separatorLayer = CALayer()
     
-    private let actionView = CollectionViewFormCellActionView(frame: .zero)
+    internal var actionView: CollectionViewFormCellActionView?
+    
+    private let separatorView = UIView()
     
     private var requiresValidation: Bool = false {
         didSet {
@@ -424,17 +427,9 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     private var isAtTrailingEdge: Bool = false {
         didSet {
             if isAtTrailingEdge == oldValue { return }
-            
-            actionView.wantsGradientMask = isAtTrailingEdge == false
-            switch separatorStyle {
-            case .indented, .none:
-                setNeedsLayout()
-            case .indentedAtRowLeading, .fullWidth:
-                break
-            }
+            actionView?.wantsGradientMask = isAtTrailingEdge == false
         }
     }
-    
     
     private var isRightToLeft: Bool = false {
         didSet { if isRightToLeft != oldValue { setNeedsLayout() } }
@@ -460,15 +455,9 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         super.contentMode = .center
         isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
         
-        actionView.frame = bounds
-        actionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        actionView.layoutMargins = layoutMargins
-        actionView.actionDelegate = self
-        addSubview(actionView)
-        addGestureRecognizer(actionView.panGestureRecognizer)
-        
-        separatorLayer.backgroundColor = separatorColor?.cgColor
-        layer.addSublayer(separatorLayer)
+        separatorView.backgroundColor = separatorColor
+        separatorView.autoresizingMask = [.flexibleWidth, .flexibleTopMargin]
+        addSubview(separatorView)
     }
     
     deinit {
@@ -481,11 +470,11 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     /// Informs the cell that the content size category did change. Subclasses should
     /// override this method to adjust the fonts of content where appropriate.
     ///
-    /// - Important: From iOS 10 onwards, you should avoid setting the fonts for text labels
-    ///              directly, and instead use the `UIContentSizeAdjusting` protocol
+    /// The default implementation calls `setNeedsLayout`.
     ///
     /// - Parameter newCategory: The new content size category.
     public func contentSizeCategoryDidChange(_ newCategory: UIContentSizeCategory) {
+        setNeedsLayout()
     }
     
     
@@ -493,7 +482,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     
     open override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         if gestureRecognizer == touchTrigger {
-            if let hitTestedView = actionView.hitTest(gestureRecognizer.location(in: actionView), with: nil),
+            if let hitTestedView = actionView?.hitTest(gestureRecognizer.location(in: actionView), with: nil),
                 hitTestedView != actionView {
                 return false
             }
@@ -542,9 +531,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     }
     
     open override var semanticContentAttribute: UISemanticContentAttribute {
-        didSet {
-            isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
-        }
+        didSet { isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft }
     }
     
     open override func prepareForReuse() {
@@ -562,30 +549,37 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         super.apply(layoutAttributes)
         
         let newLayoutMargins: UIEdgeInsets
+        let newAtTrailingEdge: Bool
         if let formAttribute = layoutAttributes as? CollectionViewFormLayoutAttributes {
             isFirstInRow     = formAttribute.rowIndex == 0
-            isAtTrailingEdge = formAttribute.isAtTrailingEdge
+            newAtTrailingEdge = formAttribute.isAtTrailingEdge
             newLayoutMargins = formAttribute.layoutMargins
         } else {
             isFirstInRow     = false
-            isAtTrailingEdge = false
+            newAtTrailingEdge = false
             newLayoutMargins = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
         }
         
-        var needsLayoutForAccessory = false
+        var needsLayout = false
+        
+        if isAtTrailingEdge != newAtTrailingEdge {
+            self.isAtTrailingEdge = newAtTrailingEdge
+            needsLayout = true
+        }
         
         if layoutMargins != newLayoutMargins {
             layoutMargins = newLayoutMargins
-            needsLayoutForAccessory = true
+            needsLayout = true
         }
         if contentView.layoutMargins != newLayoutMargins {
             contentView.layoutMargins = newLayoutMargins
-            needsLayoutForAccessory = true
+            needsLayout = true
         }
-        if actionView.layoutMargins != newLayoutMargins {
+        if let actionView = self.actionView, actionView.layoutMargins != newLayoutMargins {
             actionView.layoutMargins = newLayoutMargins
         }
-        if needsLayoutForAccessory && accessoryView != nil {
+        
+        if needsLayout {
             setNeedsLayout()
         }
     }
@@ -634,8 +628,11 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         }
         
         let separatorHeight = 1.0 / traitCollection.currentDisplayScale + ((isSelected && selectionStyle == .underline) || requiresValidation ? 1.0 : 0.0)
-        separatorLayer.frame = CGRect(x: separatorInset.left, y: bounds.height - separatorHeight, width: bounds.width - separatorInset.left - separatorInset.right, height: separatorHeight)
-        separatorLayer.isHidden = separatorStyle == .none
+        let separatorFrame = CGRect(x: separatorInset.left, y: bounds.height - separatorHeight, width: bounds.width - separatorInset.left - separatorInset.right, height: separatorHeight)
+        if separatorView.frame != separatorFrame {
+            separatorView.frame = separatorFrame
+        }
+        separatorView.isHidden = separatorStyle == .none
         
         
         // Validation layout
@@ -660,16 +657,6 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
             layoutValidationLabel(oldLabel)
         }
         
-        
-        // Bring subviews to their correct positions if needed.
-        
-        if subviews.last != actionView {
-            bringSubview(toFront: actionView)
-        }
-        
-        if layer.sublayers?.last != separatorLayer {
-            layer.addSublayer(separatorLayer)
-        }
     }
     
     public final override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
@@ -722,7 +709,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     
     open override func tintColorDidChange() {
         super.tintColorDidChange()
-        if isSelected && selectionStyle == .underline {
+        if isSelected && selectionStyle == .underline && validationColor == nil {
             updateSeparatorColor()
         }
     }
@@ -744,7 +731,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         updateSeparatorColor()
         
         let wantsUnderline = isSelected && selectionStyle == .underline
-        if (separatorLayer.bounds.height >~ 1.0) != wantsUnderline {
+        if (separatorView.bounds.height >~ 1.0) != wantsUnderline {
             setNeedsLayout()
         }
     }
@@ -752,13 +739,13 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     private func updateSeparatorColor() {
         let wantsUnderline = isSelected && selectionStyle == .underline
         let validationColor: UIColor? = requiresValidation ? self.validationColor : nil
-        let finalColor = validationColor ?? (wantsUnderline ? (separatorTintColor ?? tintColor) : separatorColor)
-        separatorLayer.backgroundColor = finalColor?.cgColor
+        let finalColor = validationColor ?? (wantsUnderline ? separatorView.tintColor : separatorColor)
+        separatorView.backgroundColor = finalColor
     }
     
     @objc private func touchTriggerDidActivate(_ trigger: TouchRecognizer) {
         // Don't fire the trigger if it's within a view in the action view.
-        if let hitTestedView = actionView.hitTest(trigger.location(in: actionView), with: nil),
+        if let hitTestedView = actionView?.hitTest(trigger.location(in: actionView), with: nil),
             hitTestedView != actionView {
             return
         }

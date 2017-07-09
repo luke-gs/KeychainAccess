@@ -25,6 +25,7 @@ open class FormTextField: UITextField {
         unitLabel.addObserver(self, forKeyPath: #keyPath(UILabel.text),  context: &kvoContext)
         addSubview(unitLabel)
         
+        // TODO: Remove autolayout here.
         unitLabelOriginXConstraint = NSLayoutConstraint(item: unitLabel, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, constant: valueInset)
         NSLayoutConstraint.activate([
             NSLayoutConstraint(item: unitLabel, attribute: .firstBaseline, relatedBy: .equal, toItem: self, attribute: .firstBaseline),

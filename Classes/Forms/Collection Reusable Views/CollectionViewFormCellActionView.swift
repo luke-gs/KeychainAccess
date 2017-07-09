@@ -421,8 +421,8 @@ internal class CollectionViewFormCellActionView: UIScrollView, UIScrollViewDeleg
             
             if let cells = superview(of: UICollectionView.self)?.visibleCells {
                 let isDraggingActionView = { (cell: UICollectionViewCell) -> Bool in
-                    if let cell = cell as? CollectionViewFormCell {
-                        switch cell.editActionGestureRecognizer.state {
+                    if let cellActionView = (cell as? CollectionViewFormCell)?.actionView {
+                        switch cellActionView.panGestureRecognizer.state {
                         case .began, .changed:
                             return true
                         default:

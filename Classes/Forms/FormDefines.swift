@@ -8,3 +8,20 @@
 
 /// The standard separation value between title and detail labels.
 internal let CellTitleSubtitleSeparation: CGFloat = 3.5
+
+/// Key paths on UILabel that affect the intrinsic content size.
+internal let keyPathsAffectingLabelLayout = [
+    #keyPath(UILabel.text),
+    #keyPath(UILabel.attributedText),
+    #keyPath(UILabel.font),
+    #keyPath(UILabel.numberOfLines)
+]
+
+/// Key paths on UIImageView that affect the intrinsic content size.
+internal let keyPathsAffectingImageViewLayout = [
+    #keyPath(UIImageView.image),
+    #keyPath(UIImageView.animationImages),
+    #keyPath(UIImageView.highlightedImage),
+    #keyPath(UIImageView.isHighlighted),
+]
+

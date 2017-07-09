@@ -13,8 +13,8 @@ fileprivate var kvoContext = 1
 open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
     
     private class func standardFonts(compatibleWith traitCollection: UITraitCollection) -> (titleFont: UIFont, subtitleFont: UIFont) {
-         return (.preferredFont(forTextStyle: .headline, compatibleWith: traitCollection),
-                 .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection))
+        return (.preferredFont(forTextStyle: .headline, compatibleWith: traitCollection),
+                .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection))
     }
     
     
@@ -24,18 +24,29 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
     public let titleLabel: UILabel = UILabel(frame: .zero)
     
     
-    /// The subtitle text label for the cell.
+    /// The subtitle label for the cell.
     public let subtitleLabel: UILabel = UILabel(frame: .zero)
     
     
-    /// The image view for the cell.
-    public let imageView: UIImageView = UIImageView(frame: .zero)
+    /// The image view for the cell. This view is lazy loaded.
+    public var imageView: UIImageView {
+        if let existingImageView = _imageView { return existingImageView }
+        
+        let newImageView = UIImageView(frame: .zero)
+        newImageView.isHidden = true
+        contentView.addSubview(newImageView)
+        
+        _imageView = newImageView
+        setNeedsLayout()
+        
+        return newImageView
+    }
     
     
-    open var preferredLabelSeparation: CGFloat = CellTitleSubtitleSeparation {
+    open var labelSeparation: CGFloat = CellTitleSubtitleSeparation {
         didSet {
-            if (titleLabel.text?.isEmpty ?? true) == false && (subtitleLabel.text?.isEmpty ?? true) == false {
-                titleSubtitleConstraint.constant = preferredLabelSeparation
+            if labelSeparation !=~ oldValue {
+                setNeedsLayout()
             }
         }
     }
@@ -43,10 +54,12 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
     
     // MARK: - Private/internal properties
     
-    private var titleSubtitleConstraint: NSLayoutConstraint!
-    
-    private var textLeadingConstraint: NSLayoutConstraint!
-    
+    private var _imageView: UIImageView? {
+        didSet {
+            oldValue?.removeObserver(self, forKeyPath: #keyPath(UIImageView.image), context: &kvoContext)
+            _imageView?.addObserver(self, forKeyPath: #keyPath(UIImageView.image), context: &kvoContext)
+        }
+    }
     
     // MARK: - Initialization
     
@@ -63,25 +76,9 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
     private func commonInit() {
         accessibilityTraits |= UIAccessibilityTraitStaticText
         
-        let contentView   = self.contentView
         let titleLabel    = self.titleLabel
         let subtitleLabel = self.subtitleLabel
-        let imageView     = self.imageView
         
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        contentView.addSubview(subtitleLabel)
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(imageView)
-        
-        let contentModeLayoutGuide = self.contentModeLayoutGuide
-        
-        let textLayoutGuide = UILayoutGuide()
-        contentView.addLayoutGuide(textLayoutGuide)
-        
-        imageView.isHidden     = true
         titleLabel.isHidden    = true
         subtitleLabel.isHidden = true
         
@@ -92,137 +89,128 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
         titleLabel.font = fonts.titleFont
         subtitleLabel.font = fonts.subtitleFont
         
-        subtitleLabel.numberOfLines = 0
+        let contentView = self.contentView
+        contentView.addSubview(subtitleLabel)
+        contentView.addSubview(titleLabel)
         
-        imageView.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .vertical)
-        imageView.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .horizontal)
-        imageView.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh + 1, for: .vertical)
-        imageView.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh + 1, for: .horizontal)
-        
-        titleSubtitleConstraint  = NSLayoutConstraint(item: subtitleLabel,   attribute: .top,      relatedBy: .equal, toItem: titleLabel, attribute: .bottom)
-        textLeadingConstraint    = NSLayoutConstraint(item: textLayoutGuide, attribute: .leading,  relatedBy: .equal, toItem: imageView, attribute: .trailing)
-        
-        NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: imageView, attribute: .top,     relatedBy: .greaterThanOrEqual, toItem: contentModeLayoutGuide, attribute: .top),
-            NSLayoutConstraint(item: imageView, attribute: .centerY, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .centerY),
-            NSLayoutConstraint(item: imageView, attribute: .leading, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .leading),
-            
-            NSLayoutConstraint(item: titleLabel, attribute: .top,      relatedBy: .equal,           toItem: textLayoutGuide, attribute: .top),
-            NSLayoutConstraint(item: titleLabel, attribute: .leading,  relatedBy: .equal,           toItem: textLayoutGuide, attribute: .leading),
-            NSLayoutConstraint(item: titleLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: textLayoutGuide, attribute: .trailing),
-            
-            NSLayoutConstraint(item: subtitleLabel, attribute: .leading,  relatedBy: .equal,           toItem: textLayoutGuide, attribute: .leading),
-            NSLayoutConstraint(item: subtitleLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: textLayoutGuide, attribute: .trailing),
-            NSLayoutConstraint(item: subtitleLabel, attribute: .bottom,   relatedBy: .equal,           toItem: textLayoutGuide, attribute: .bottom),
-            
-            NSLayoutConstraint(item: textLayoutGuide, attribute: .top,     relatedBy: .greaterThanOrEqual, toItem: contentModeLayoutGuide, attribute: .top),
-            NSLayoutConstraint(item: textLayoutGuide, attribute: .centerY, relatedBy: .equal,              toItem: contentModeLayoutGuide, attribute: .centerY),
-            NSLayoutConstraint(item: textLayoutGuide, attribute: .trailing, relatedBy: .lessThanOrEqual,   toItem: contentModeLayoutGuide, attribute: .trailing),
-            NSLayoutConstraint(item: textLayoutGuide, attribute: .leading, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .leading, priority: UILayoutPriorityDefaultHigh),
-            textLeadingConstraint,
-            titleSubtitleConstraint,
-            
-            NSLayoutConstraint(item: imageView,       attribute: .top, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .top, priority: UILayoutPriorityDefaultLow),
-            NSLayoutConstraint(item: textLayoutGuide, attribute: .top, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .top, priority: UILayoutPriorityDefaultLow)
-        ])
-        
-        let textKeyPath     = #keyPath(UILabel.text)
-        let attrTextKeyPath = #keyPath(UILabel.attributedText)
-        titleLabel.addObserver(self,    forKeyPath: textKeyPath,     context: &kvoContext)
-        titleLabel.addObserver(self,    forKeyPath: attrTextKeyPath, context: &kvoContext)
-        subtitleLabel.addObserver(self, forKeyPath: textKeyPath,     context: &kvoContext)
-        subtitleLabel.addObserver(self, forKeyPath: attrTextKeyPath, context: &kvoContext)
-        imageView.addObserver(self, forKeyPath: #keyPath(UIImageView.image), context: &kvoContext)
+        keyPathsAffectingLabelLayout.forEach {
+            titleLabel.addObserver(self, forKeyPath: $0, context: &kvoContext)
+            subtitleLabel.addObserver(self, forKeyPath: $0, context: &kvoContext)
+        }
     }
    
     deinit {
-        let textKeyPath     = #keyPath(UILabel.text)
-        let attrTextKeyPath = #keyPath(UILabel.attributedText)
-        titleLabel.removeObserver(self,    forKeyPath: textKeyPath,     context: &kvoContext)
-        titleLabel.removeObserver(self,    forKeyPath: attrTextKeyPath, context: &kvoContext)
-        subtitleLabel.removeObserver(self, forKeyPath: textKeyPath,     context: &kvoContext)
-        subtitleLabel.removeObserver(self, forKeyPath: attrTextKeyPath, context: &kvoContext)
-        imageView.removeObserver(self, forKeyPath: #keyPath(UIImageView.image), context: &kvoContext)
+        keyPathsAffectingLabelLayout.forEach {
+            titleLabel.removeObserver(self, forKeyPath: $0, context: &kvoContext)
+            subtitleLabel.removeObserver(self, forKeyPath: $0, context: &kvoContext)
+        }
+        _imageView?.removeObserver(self, forKeyPath: #keyPath(UIImageView.image), context: &kvoContext)
     }
     
     
     // MARK: - Overrides
     
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        let contentView = self.contentView
+        let displayScale = traitCollection.currentDisplayScale
+        let isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
+        
+        var contentRect = contentView.bounds.insetBy(contentView.layoutMargins)
+        let contentLeadingEdge = isRightToLeft ? contentRect.maxX : contentRect.minX
+        let contentTrailingEdge = isRightToLeft ? contentRect.minX : contentRect.maxX
+        
+        var imageSize: CGSize
+        let accessorySize: CGSize
+        
+        if let size = self.accessoryView?.frame.size, size.isEmpty == false {
+            accessorySize = size
+            let inset = size.width + 10.0
+            contentRect.size.width -= inset
+            
+            if isRightToLeft {
+                contentRect.origin.x += inset
+            }
+        } else {
+            accessorySize = .zero
+        }
+        
+        if let imageViewSize = _imageView?.intrinsicContentSize, imageViewSize.isEmpty == false {
+            imageSize = imageView.intrinsicContentSize
+            
+            let inset = imageSize.width
+            contentRect.size.width -= inset
+            if isRightToLeft == false {
+                contentRect.origin.x += inset
+            }
+        } else {
+            imageSize = .zero
+        }
+        
+        // work out label sizes
+        var titleSize = titleLabel.sizeThatFits(CGSize(width: contentRect.width, height: .greatestFiniteMagnitude))
+        var subtitleSize = subtitleLabel.sizeThatFits(CGSize(width: contentRect.width, height: .greatestFiniteMagnitude))
+        
+        titleSize.width = min(contentRect.width, titleSize.width)
+        subtitleSize.width = min(contentRect.width, subtitleSize.width)
+        
+        // Work out major content positions
+        let labelSeparation = titleSize.isEmpty == false && subtitleSize.isEmpty == false ? self.labelSeparation : 0.0
+        let heightForLabelContent = titleSize.height + subtitleSize.height + labelSeparation
+        
+        let centerYOfContent: CGFloat
+        
+        let halfContent = max(heightForLabelContent, imageSize.height, accessorySize.height) / 2.0
+        let minimumContentCenterY = contentRect.minY + halfContent
+        switch contentMode {
+        case .bottom, .bottomLeft, .bottomRight:
+            centerYOfContent = max(minimumContentCenterY, contentRect.maxY - halfContent)
+        case .top, .topLeft, .topRight:
+            centerYOfContent = minimumContentCenterY
+        default:
+            centerYOfContent = max(minimumContentCenterY, contentRect.midY)
+        }
+        
+        // Position the side views
+        
+        _imageView?.frame = CGRect(origin: CGPoint(x: contentLeadingEdge - (isRightToLeft ? imageSize.width : 0.0),
+                                                   y: (centerYOfContent - (imageSize.height / 2.0)).rounded(toScale: displayScale)),
+                                   size: imageSize)
+        accessoryView?.frame = CGRect(origin: CGPoint(x: contentTrailingEdge - (isRightToLeft ? 0.0 : accessorySize.width),
+                                                      y: (centerYOfContent + (accessorySize.height / 2.0)).rounded(toScale: displayScale)),
+                                      size: accessorySize)
+        
+        // Position the labels
+        var currentYOffset = (centerYOfContent - (heightForLabelContent / 2.0)).rounded(toScale: displayScale)
+        
+        titleLabel.frame = CGRect(origin: CGPoint(x: isRightToLeft ? contentRect.maxX - titleSize.width : contentRect.minX, y: currentYOffset), size: titleSize)
+        currentYOffset += (titleSize.height + labelSeparation).rounded(toScale: displayScale)
+        
+        let valueLabelFrame = CGRect(origin: CGPoint(x: isRightToLeft ? contentRect.maxX - subtitleSize.width : contentRect.minX, y: currentYOffset), size: subtitleSize)
+        subtitleLabel.frame = valueLabelFrame
+    }
+    
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {
             switch object {
-            case let label as UILabel:
+            case let label as UILabel where keyPath == #keyPath(UILabel.text) || keyPath == #keyPath(UILabel.attributedText):
                 label.isHidden = label.text?.isEmpty ?? true
-                titleSubtitleConstraint.constant = (titleLabel.text?.isEmpty ?? true || subtitleLabel.text?.isEmpty ?? true) ? 0.0 : preferredLabelSeparation
             case let imageView as UIImageView:
-                let noImage = imageView.image?.size.isEmpty ?? true
-                imageView.isHidden = false
-                textLeadingConstraint.constant = noImage ? 0.0 : 16.0
-                updateLabelMaxSizes()
+                imageView.isHidden = imageView.intrinsicContentSize.isEmpty
             default:
                 break
             }
+            
+            setNeedsLayout()
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
     }
     
-    open override var bounds: CGRect {
-        didSet {
-            if bounds.width !=~ oldValue.width {
-                updateLabelMaxSizes()
-            }
-        }
-    }
-    
-    open override var frame: CGRect {
-        didSet {
-            if frame.width !=~ oldValue.width {
-                updateLabelMaxSizes()
-            }
-        }
-    }
-    
-    open override var layoutMargins: UIEdgeInsets {
-        didSet {
-            let layoutMargins = self.layoutMargins
-            if layoutMargins.left !=~ oldValue.left || layoutMargins.right !=~ oldValue.right {
-                updateLabelMaxSizes()
-            }
-        }
-    }
-    
-    open override var accessoryView: UIView? {
-        didSet {
-            updateLabelMaxSizes()
-        }
-    }
-    
     open override var accessibilityLabel: String? {
-        get {
-            if let setValue = super.accessibilityLabel {
-                return setValue
-            }
-            return [titleLabel, subtitleLabel].flatMap({ $0.text }).joined(separator: ", ")
-        }
-        set {
-            super.accessibilityLabel = newValue
-        }
-    }
-    
-    
-    // MARK: - Private methods
-    
-    private func updateLabelMaxSizes() {
-        let width         = frame.width
-        let layoutMargins = self.layoutMargins
-        let accessoryViewWidth = accessoryView?.bounds.width ?? 0.0
-        let imageViewWidth = imageView.image?.size.width ?? 0.0
-        
-        let allowedTextWidth = width - layoutMargins.left - layoutMargins.right - (accessoryViewWidth > 0.0 ? accessoryViewWidth + 10.0 : 0.0) - (imageViewWidth > 0.0 ? imageViewWidth + 16.0 : 0.0)
-        
-        titleLabel.preferredMaxLayoutWidth    = allowedTextWidth
-        subtitleLabel.preferredMaxLayoutWidth = allowedTextWidth
+        get { return super.accessibilityLabel?.ifNotEmpty() ?? [titleLabel, subtitleLabel].flatMap({ $0.text }).joined(separator: ", ") }
+        set { super.accessibilityLabel = newValue }
     }
     
     
@@ -283,7 +271,7 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
     /// - Returns:      The minumum content height for the cell.
     open class func minimumContentHeight(withTitle title: String?, subtitle: String?, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection,
                                          image: UIImage? = nil, titleFont: UIFont? = nil, subtitleFont: UIFont? = nil,
-                                         singleLineTitle: Bool = true, singleLineSubtitle: Bool = false) -> CGFloat {
+                                         singleLineTitle: Bool = true, singleLineSubtitle: Bool = false, labelSeparation: CGFloat = CellTitleSubtitleSeparation) -> CGFloat {
         let standardFonts = self.standardFonts(compatibleWith: traitCollection)
         
         let titleTextFont = titleFont ?? standardFonts.titleFont
@@ -305,7 +293,7 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
                                                                    context: nil).height.ceiled(toScale: displayScale) ?? 0.0
         var combinedHeight = titleHeight + subtitleHeight
         if titleHeight !=~ 0.0 && subtitleHeight !=~ 0.0 {
-            combinedHeight += CellTitleSubtitleSeparation
+            combinedHeight += labelSeparation
         }
         
         return max(combinedHeight, (imageSize?.height ?? 0.0))

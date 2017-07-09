@@ -136,9 +136,7 @@ public class CollectionViewFormExpandingHeaderView: UICollectionReusableView, De
     
     private func commonInit() {
         isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
-        
         isAccessibilityElement = true
-        
         preservesSuperviewLayoutMargins = false
         
         arrowView.translatesAutoresizingMaskIntoConstraints = false
@@ -221,9 +219,7 @@ public class CollectionViewFormExpandingHeaderView: UICollectionReusableView, De
     }
     
     public override var semanticContentAttribute: UISemanticContentAttribute {
-        didSet {
-            isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
-        }
+        didSet { isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft }
     }
     
     
