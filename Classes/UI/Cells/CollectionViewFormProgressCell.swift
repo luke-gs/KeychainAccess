@@ -30,6 +30,7 @@ open class CollectionViewFormProgressCell: CollectionViewFormValueFieldCell {
         progressView.layer.cornerRadius = 2.0
         contentView.addSubview(progressView)
         
+// TODO: Fix this
 //        NSLayoutConstraint.activate([
 //            NSLayoutConstraint(item: progressView, attribute: .centerY,  relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .centerY),
 //            NSLayoutConstraint(item: progressView, attribute: .height,   relatedBy: .equal, toConstant: 4.0),
