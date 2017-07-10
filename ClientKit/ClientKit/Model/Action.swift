@@ -12,9 +12,11 @@ import MPOLKit
 @objc(MPLAction)
 open class Action: NSObject, Serialisable {
     
+    private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
+    
     open let id : String
     open var type: String?
-    
+    open var date: Date?
     
     public required init(id: String = UUID().uuidString) {
         self.id = id
@@ -29,6 +31,7 @@ open class Action: NSObject, Serialisable {
         }
         self.id = id
         type = unboxer.unbox(key: "actionType")
+        date = unboxer.unbox(key: "date", formatter: Action.dateTransformer)
         super.init()
     }
     
@@ -37,7 +40,7 @@ open class Action: NSObject, Serialisable {
     }
     
     open func encode(with aCoder: NSCoder) {
-        
+        MPLUnimplemented()
     }
     
     open static var supportsSecureCoding: Bool {

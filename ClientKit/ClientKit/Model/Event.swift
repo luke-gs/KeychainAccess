@@ -12,6 +12,8 @@ import Unbox
 
 open class Event: NSObject, Serialisable {
     
+    private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
+    
     public class var supportsSecureCoding: Bool {
         return true
     }
@@ -19,6 +21,7 @@ open class Event: NSObject, Serialisable {
     open let id: String
     open var eventType: String?
     open var eventDescription: String?
+    open var date: Date?
     
     public required init(id: String) {
         self.id = id
@@ -35,6 +38,7 @@ open class Event: NSObject, Serialisable {
         id = unboxer.unbox(key: "id") ?? UUID().uuidString
         eventType = unboxer.unbox(key: "eventType")
         eventDescription = unboxer.unbox(key: "description")
+        date = unboxer.unbox(key: "date", formatter: Event.dateTransformer)
 
         super.init()
     }
