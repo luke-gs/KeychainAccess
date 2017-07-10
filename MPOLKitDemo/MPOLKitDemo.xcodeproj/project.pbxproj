@@ -11,7 +11,6 @@
 		BC9C7E7D1F0DF0E700DFFE83 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7E761F0DF0E700DFFE83 /* AppDelegate.swift */; };
 		BC9C7E7E1F0DF0E700DFFE83 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC9C7E771F0DF0E700DFFE83 /* Assets.xcassets */; };
 		BC9C7E7F1F0DF0E700DFFE83 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BC9C7E781F0DF0E700DFFE83 /* LaunchScreen.storyboard */; };
-		BC9C7E801F0DF0E700DFFE83 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BC9C7E7A1F0DF0E700DFFE83 /* Info.plist */; };
 		BC9C7E811F0DF0E700DFFE83 /* PushableTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7E7B1F0DF0E700DFFE83 /* PushableTestViewController.swift */; };
 		BC9C7E821F0DF0E700DFFE83 /* TestCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7E7C1F0DF0E700DFFE83 /* TestCollectionViewController.swift */; };
 		BC9C7E841F0DF16600DFFE83 /* MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC9C7E831F0DF16600DFFE83 /* MPOLKit.framework */; };
@@ -190,7 +189,6 @@
 			files = (
 				BC9C7E7E1F0DF0E700DFFE83 /* Assets.xcassets in Resources */,
 				BC9C7E7F1F0DF0E700DFFE83 /* LaunchScreen.storyboard in Resources */,
-				BC9C7E801F0DF0E700DFFE83 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
