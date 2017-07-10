@@ -159,9 +159,6 @@
 		C605F8A91ECCAD3B001194DD /* Manifest.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C605F8A41ECCAD3B001194DD /* Manifest.xcdatamodeld */; };
 		C605F8AA1ECCAD3B001194DD /* ThemePack.json in Resources */ = {isa = PBXBuildFile; fileRef = C605F8A61ECCAD3B001194DD /* ThemePack.json */; };
 		C60C890B1ECCB94F00785932 /* SimplePerson.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F9F31ECCB5E4001194DD /* SimplePerson.swift */; };
-		C60C890C1ECCB9A000785932 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C605F9E81ECCB449001194DD /* Alamofire.framework */; };
-		C60C890D1ECCB9A000785932 /* Unbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C605F9E91ECCB449001194DD /* Unbox.framework */; };
-		C60C890E1ECCB9A000785932 /* Wrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C605F9EA1ECCB449001194DD /* Wrap.framework */; };
 		C60C890F1ECCB9A800785932 /* UnboxableResponseSerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F9F11ECCB5C4001194DD /* UnboxableResponseSerializerTests.swift */; };
 		C60C891A1ECCBEC700785932 /* SimplePerson.json in Resources */ = {isa = PBXBuildFile; fileRef = C60C89141ECCBEC700785932 /* SimplePerson.json */; };
 		C60C891B1ECCBEC700785932 /* SimplePersonArray.json in Resources */ = {isa = PBXBuildFile; fileRef = C60C89151ECCBEC700785932 /* SimplePersonArray.json */; };
@@ -340,9 +337,6 @@
 		C605F8A31ECCAD3B001194DD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C605F8A51ECCAD3B001194DD /* Manifest.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Manifest.xcdatamodel; sourceTree = "<group>"; };
 		C605F8A61ECCAD3B001194DD /* ThemePack.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ThemePack.json; sourceTree = "<group>"; };
-		C605F9E81ECCB449001194DD /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
-		C605F9E91ECCB449001194DD /* Unbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Unbox.framework; path = Carthage/Build/iOS/Unbox.framework; sourceTree = "<group>"; };
-		C605F9EA1ECCB449001194DD /* Wrap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Wrap.framework; path = Carthage/Build/iOS/Wrap.framework; sourceTree = "<group>"; };
 		C605F9F11ECCB5C4001194DD /* UnboxableResponseSerializerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnboxableResponseSerializerTests.swift; sourceTree = "<group>"; };
 		C605F9F31ECCB5E4001194DD /* SimplePerson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimplePerson.swift; sourceTree = "<group>"; };
 		C60C89141ECCBEC700785932 /* SimplePerson.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SimplePerson.json; sourceTree = "<group>"; };
@@ -370,9 +364,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C60C890C1ECCB9A000785932 /* Alamofire.framework in Frameworks */,
-				C60C890D1ECCB9A000785932 /* Unbox.framework in Frameworks */,
-				C60C890E1ECCB9A000785932 /* Wrap.framework in Frameworks */,
 				C605F8901ECCAB2C001194DD /* MPOLKit.framework in Frameworks */,
 				8CDAFFA6E9DC54A4594C01FE /* Pods_MPOLKitTests.framework in Frameworks */,
 			);
@@ -838,9 +829,6 @@
 		C605F9E71ECCB423001194DD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C605F9E81ECCB449001194DD /* Alamofire.framework */,
-				C605F9E91ECCB449001194DD /* Unbox.framework */,
-				C605F9EA1ECCB449001194DD /* Wrap.framework */,
 				9215372B17F43A2FDEB28AD0 /* Pods_MPOLKit.framework */,
 				1FE1AAA01D6AE18F86693DF8 /* Pods_MPOLKitTests.framework */,
 			);
@@ -1364,10 +1352,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -1389,10 +1374,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
