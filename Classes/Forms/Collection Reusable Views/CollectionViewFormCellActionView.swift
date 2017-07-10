@@ -286,7 +286,7 @@ internal class CollectionViewFormCellActionView: UIScrollView, UIScrollViewDeleg
         if let maskLayer = self.maskLayer {
             // Move the mask layer to the current bounds. Note: we do this within a CATransaction to avoid implicit animations.
             CATransaction.begin()
-            CATransaction.setValue(true, forKey: kCATransactionDisableActions)
+            CATransaction.setDisableActions(true)
             maskLayer.frame = bounds
             CATransaction.commit()
         }

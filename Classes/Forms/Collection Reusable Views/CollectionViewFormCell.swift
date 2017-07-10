@@ -690,8 +690,6 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         
-        guard #available(iOS 10, *) else { return }
-        
         let newCategory = traitCollection.preferredContentSizeCategory
         if newCategory != previousTraitCollection?.preferredContentSizeCategory ?? .unspecified {
             setNeedsLayout()
