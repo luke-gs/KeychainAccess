@@ -13,9 +13,7 @@ fileprivate let cellID = "CellID"
 
 /// A type that can be picked from a list.
 ///
-/// Types that conform to the `Pickable` protocol can be selected from a list,
-/// and should also conform to `Hashable`. This is not a protocol requirement,
-/// however, to avoid limiting the protocol to generic type constraints.
+/// Types that conform to the `Pickable` protocol can be selected from a list.
 public protocol Pickable {
     
     /// The title for presentation in a picking UI.
@@ -37,14 +35,11 @@ public protocol CustomSearchPickable: Pickable {
 
 /// A table view for picking general items from a list.
 ///
-/// `PickerTableViewController` presents items of a generic type that conforms
-/// to `Pickable` and `Hashable`, and can be configured for single and multiple
-/// selection modes.
 /// 
 /// When there are ten or more items in the list, the picker automatically
 /// presents a search bar to allow easy filtering through the list. This can be
 /// manually disabled if required.
-open class PickerTableViewController<T>: FormSearchTableViewController where T: Pickable, T: Hashable {
+open class PickerTableViewController<T>: FormSearchTableViewController where T: Pickable {
     
     // MARK: - Public properties
     
@@ -57,39 +52,36 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
     }
     
     
-    /// The current selected items from the list.
+    /// The current selected item indexes from the list.
     ///
     /// The default is none.
-    open var selectedItems: Set<T> = [] {
+    open var selectedIndexes: IndexSet = IndexSet() {
         didSet {
             guard manualSelectionUpdate == false, let tableView = self.tableView else { return }
             
             // Form a symmetric difference - a set containing those being lost, or those being gained.
             // If there are none changing, that's cool, no updates.
-            let itemsChangingSelection = oldValue.symmetricDifference(selectedItems)
-            if itemsChangingSelection.isEmpty { return }
+            let indexesChangingSelection = oldValue.symmetricDifference(selectedIndexes)
+            if indexesChangingSelection.isEmpty { return }
             
             
             // Find the paths to reload.
-            // Note that we do this manually via one pass through the arrays to optimize, or this could
-            // become an O(N^2) operation, and so for long lists (1000+) the penalty may be huge, especially
-            // if a fair amount of selected items are at the end of the list. 
-            // We iterate once the correct array, and use the smaller change set for contains (O(1)) operation.
             var indexPathsToReload: [IndexPath] = []
             
-            if let filteredItems = self.filteredItems {
-                for (index, item) in filteredItems.enumerated() where itemsChangingSelection.contains(item) {
-                    indexPathsToReload.append(IndexPath(row: index, section: 0))
+            if let filteredItems = self.filteredIndexes {
+                for (row, index) in filteredItems.enumerated() where indexesChangingSelection.contains(index) {
+                    indexPathsToReload.append(IndexPath(row: row, section: 0))
                 }
             } else {
                 let hasNoSection = noItemTitle != nil
-                if hasNoSection && (oldValue.isEmpty || selectedItems.isEmpty) {
+                if hasNoSection && (oldValue.isEmpty || selectedIndexes.isEmpty) {
                     indexPathsToReload.append(IndexPath(row: 0, section: 0))
                 }
                 
                 let section = hasNoSection ? 1 : 0
-                for (index, item) in items.enumerated() where itemsChangingSelection.contains(item) {
-                    indexPathsToReload.append(IndexPath(row: index, section: section))
+                
+                for row in (0..<items.count) where indexesChangingSelection.contains(row) {
+                    indexPathsToReload.append(IndexPath(row: row, section: section))
                 }
             }
             
@@ -107,13 +99,13 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
         didSet {
             if allowsMultipleSelection == oldValue { return }
             
-            let selectedItems = self.selectedItems
+            let selectedItems = self.selectedIndexes
             if selectedItems.count > 1 && allowsMultipleSelection == false {
                 
-                if let firstSelectedItem = items.first(where: { selectedItems.contains($0) }) {
-                    self.selectedItems = [firstSelectedItem]
+                if let firstSelectedItem = self.selectedIndexes.first {
+                    self.selectedIndexes = [firstSelectedItem]
                 } else {
-                    self.selectedItems.removeAll()
+                    self.selectedIndexes.removeAll()
                 }
             }
         }
@@ -122,9 +114,18 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
     
     /// An update handler to fire when the selection changes.
     ///
+    /// The parameters are the table view controller, and the indexes selected.
+    ///
     /// This closure is only called on user-interaction based changes, much like delegate
     /// callbacks.
-    open var selectionUpdateHandler: ((Set<T>?) -> Void)?
+    open var selectionUpdateHandler: ((PickerTableViewController<T>, IndexSet) -> Void)?
+    
+    
+    /// An update handler to fire when the view controller dismisses or is popped from
+    /// a `UINavigationController` stack.
+    ///
+    /// The parameters are the table view controller, and the indexes selected.
+    open var finishUpdateHandler: ((PickerTableViewController<T>, IndexSet) -> Void)?
     
     
     /// The title for an item representing no selection.
@@ -170,9 +171,9 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
     
     // MARK: - Private properties
     
-    private var filteredItems: [T]? {
+    private var filteredIndexes: [Int]? {
         didSet {
-            if let filteredItems = self.filteredItems {
+            if let filteredItems = self.filteredIndexes {
                 if let oldValue = oldValue,
                     filteredItems == oldValue {
                     return
@@ -225,18 +226,34 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
         super.viewWillAppear(animated)
 
         // Scroll to the first selected index in the list.
-        let selectedItems = self.selectedItems
-        if selectedItems.isEmpty {
+        
+        guard let firstSelectedIndex = selectedIndexes.first else {
             if noItemTitle != nil {
                 tableView?.scrollToRow(at: IndexPath(row: 0, section: 0), at: .none, animated: false)
             }
             return
         }
         
-        if let firstIndex = (filteredItems ?? items).index(where: { selectedItems.contains($0) }) {
-            let section = filteredItems != nil || noItemTitle == nil ? 0 : 1
-            
-            tableView?.scrollToRow(at: IndexPath(row: firstIndex, section: section), at: .none, animated: false)
+        let firstSelectedRow: Int?
+        let section: Int
+        if let filteredIndexes = self.filteredIndexes {
+            firstSelectedRow = filteredIndexes.index(of: firstSelectedIndex)
+            section = 0
+        } else {
+            firstSelectedRow = firstSelectedIndex
+            section = noItemTitle == nil ? 0 : 1
+        }
+        
+        if let moveToRow = firstSelectedRow {
+            tableView?.scrollToRow(at: IndexPath(row: moveToRow, section: section), at: .none, animated: false)
+        }
+    }
+    
+    open override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if isBeingDismissed || isMovingFromParentViewController {
+            finishUpdateHandler?(self, selectedIndexes)
         }
     }
     
@@ -245,19 +262,11 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
     
     @objc(numberOfSectionsInTableView:) // Workaround. See: http://stackoverflow.com/questions/39416385/swift-3-objc-optional-protocol-method-not-called-in-subclass
     open func numberOfSections(in tableView: UITableView) -> Int {
-        return noItemTitle != nil && filteredItems == nil ? 2 : 1
+        return noItemTitle != nil && filteredIndexes == nil ? 2 : 1
     }
 
     open override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let filteredItemCount = filteredItems?.count {
-            return filteredItemCount
-        }
-        
-        if section == 0 && noItemTitle != nil {
-             return 1
-        }
-        
-        return items.count
+        return filteredIndexes?.count ?? (section == 0 && noItemTitle != nil ? 1 : items.count)
     }
     
     open override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -265,14 +274,16 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
         
         let isSelected: Bool
         
-        if let item = pickableItem(at: indexPath) {
+        
+        if let itemIndex = indexForItem(at: indexPath) {
+            let item = items[itemIndex]
             cell.textLabel?.text       = item.title
             cell.detailTextLabel?.text = item.subtitle
-            isSelected = selectedItems.contains(item)
+            isSelected = selectedIndexes.contains(itemIndex)
         } else {
             cell.textLabel?.text       = noItemTitle
             cell.detailTextLabel?.text = nil
-            isSelected = selectedItems.isEmpty
+            isSelected = selectedIndexes.isEmpty
         }
         
         if let textLabel = cell.textLabel {
@@ -294,10 +305,10 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
         
         let isSelected: Bool
         
-        if let item = pickableItem(at: indexPath) {
-            isSelected = selectedItems.contains(item)
+        if let itemIndex = indexForItem(at: indexPath) {
+            isSelected = selectedIndexes.contains(itemIndex)
         } else {
-            isSelected = selectedItems.isEmpty
+            isSelected = selectedIndexes.isEmpty
         }
         
         cell.textLabel?.alpha = isSelected ? 1.0 : 0.5
@@ -318,41 +329,41 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
         
         var reloadIndexPaths: [IndexPath] = []
         
-        let noSectionShowing = noItemTitle != nil && filteredItems == nil
+        let noSectionShowing = noItemTitle != nil && filteredIndexes == nil
         
-        if let item = pickableItem(at: indexPath) {
+        if let itemIndex = indexForItem(at: indexPath) {
             if allowsMultipleSelection {
-                let isSelected = selectedItems.remove(item) == nil
+                let isSelected = selectedIndexes.remove(itemIndex) == nil
                 if isSelected {
-                    selectedItems.insert(item)
+                    selectedIndexes.insert(itemIndex)
                 }
                 updateCurrentCell(checked: isSelected)
                 
-                if (selectedItems.isEmpty || (isSelected && selectedItems.count == 1)) && noSectionShowing {
+                if (selectedIndexes.isEmpty || (isSelected && selectedIndexes.count == 1)) && noSectionShowing {
                     reloadIndexPaths.append(IndexPath(row: 0, section: 0))
                 }
             } else {
-                if let oldIndexPath = self.indexPath(for: selectedItems.first), oldIndexPath != indexPath {
+                if let oldIndexPath = self.indexPathForItem(at: selectedIndexes.first), oldIndexPath != indexPath {
                     reloadIndexPaths.append(oldIndexPath)
                 }
-                selectedItems = [item]
+                selectedIndexes = IndexSet(integer: itemIndex)
                 
                 updateCurrentCell(checked: true)
             }
         } else if noSectionShowing {
             // "No" item selected. Filter not showing.
             
-            let selectedItemCount = selectedItems.count
+            let selectedItemCount = selectedIndexes.count
             
             if selectedItemCount > 0 {
-                let oldSelectedItems = selectedItems
+                let oldSelectedIndexes = selectedIndexes
             
-                selectedItems = []
+                selectedIndexes.removeAll()
                 updateCurrentCell(checked: true)
             
                 reloadIndexPaths.reserveCapacity(selectedItemCount)
                 
-                for (index, item) in items.enumerated() where oldSelectedItems.contains(item) {
+                for index in (0..<items.count) where oldSelectedIndexes.contains(index) {
                     reloadIndexPaths.append(IndexPath(row: index, section: 1))
                 }
             }
@@ -365,7 +376,7 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
         manualSelectionUpdate = false
         
         tableView.deselectRow(at: indexPath, animated: true)
-        selectionUpdateHandler?(selectedItems)
+        selectionUpdateHandler?(self, selectedIndexes)
     }
 
     
@@ -377,67 +388,58 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
     
     
     // MARK: - Private methods
-
-    private func pickableItem(at indexPath: IndexPath) -> T? {
-        if let filteredItems = filteredItems {
+    
+    private func indexForItem(at indexPath: IndexPath) -> Int? {
+        if let filteredItems = self.filteredIndexes {
             if indexPath.section != 0 { return nil }
-            
-            return filteredItems[ifExists: indexPath.row]
-        } else {
-            let hasNoItemTitle = noItemTitle != nil
-            
-            if (hasNoItemTitle && indexPath.section != 1) || (hasNoItemTitle == false && indexPath.section != 0) {
-                return nil
-            }
-            return items[ifExists: indexPath.row]
+            return filteredItems[indexPath.row]
         }
+        let hasNoItemTitle = noItemTitle != nil
+        
+        if (hasNoItemTitle && indexPath.section != 1) || (hasNoItemTitle == false && indexPath.section != 0) {
+            return nil
+        }
+        return indexPath.row
     }
     
-    private func indexPath(for pickableItem: T?) -> IndexPath? {
-        if let filteredItems = self.filteredItems {
-            if let item = pickableItem,
-                let index = filteredItems.index(of: item) {
-                return IndexPath(row: index, section: 0)
-            } else {
-                return nil
-            }
+    private func indexPathForItem(at index: Int?) -> IndexPath? {
+        if let filteredIndexes = self.filteredIndexes {
+            guard let index = index,
+                let row = filteredIndexes.index(of: index) else { return nil }
+            
+            return IndexPath(row: row, section: 0)
         } else {
-            if let displayItem = pickableItem {
-                if let index = items.index(of: displayItem) {
-                    return IndexPath(row: index, section: noItemTitle == nil ? 0 : 1)
-                } else {
-                    return nil
-                }
-            } else if noItemTitle != nil {
+            let hasNoItem = noItemTitle != nil
+            if let index = index {
+                return IndexPath(row: index, section: hasNoItem ? 1 : 0)
+            } else if hasNoItem {
                 return IndexPath(row: 0, section: 0)
-            } else {
-                return nil
             }
+            return nil
         }
     }
     
     private func updateFilter() {
-        if let searchText = self.searchTerm, searchText.isEmpty == false{
+        if let searchText = self.searchTerm, searchText.isEmpty == false {
             let term = searchText.trimmingCharacters(in: .whitespaces)
+            var indexes: [Int] = []
             if term.isEmpty == false {
-                filteredItems = items.filter {
-                    if $0.title?.localizedCaseInsensitiveContains(term) ?? false {
-                        return true
+                items.enumerated().forEach { (offset, item) in
+                    if item.title?.localizedCaseInsensitiveContains(term) ?? false ||
+                       item.subtitle?.localizedCaseInsensitiveContains(term) ?? false ||
+                        (item as? CustomSearchPickable)?.contains(term) ?? false {
+                        indexes.append(offset)
                     }
-                    if $0.subtitle?.localizedCaseInsensitiveContains(term) ?? false {
-                        return true
-                    }
-                    if ($0 as? CustomSearchPickable)?.contains(term) ?? false {
-                        return true
-                    }
-                    return false
-                    
                 }
-            } else {
-                filteredItems = items
             }
+            self.filteredIndexes = indexes
         } else {
-            filteredItems = nil
+            self.filteredIndexes = nil
         }
     }
+}
+
+
+private extension Array {
+    
 }
