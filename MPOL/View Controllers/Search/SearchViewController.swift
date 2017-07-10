@@ -92,17 +92,9 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     
     private var isHidingNavigationBarShadow = false {
         didSet {
-            if isHidingNavigationBarShadow == oldValue || isOnscreen == false { return }
+            if isHidingNavigationBarShadow == oldValue || navigationController?.topViewController != self { return }
             
             navigationController?.navigationBar.shadowImage = isHidingNavigationBarShadow ? UIImage() : Theme.current.navigationBarShadowImage
-        }
-    }
-    
-    private var isOnscreen: Bool = false {
-        didSet {
-            if isOnscreen == oldValue || isHidingNavigationBarShadow == false { return }
-            
-            navigationController?.navigationBar.shadowImage = isOnscreen ? UIImage() : Theme.current.navigationBarShadowImage
         }
     }
     
@@ -173,17 +165,14 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        isOnscreen = true
+        if isHidingNavigationBarShadow {
+            navigationController?.navigationBar.shadowImage = UIImage()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        isOnscreen = false
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        isOnscreen = false
+        navigationController?.navigationBar.shadowImage = Theme.current.navigationBarShadowImage
     }
     
     override func viewDidLayoutSubviews() {
