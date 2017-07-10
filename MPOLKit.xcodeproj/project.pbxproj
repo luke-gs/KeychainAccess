@@ -1408,7 +1408,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C16272D9586EB6222EB2DC33 /* Pods-MPOLKitTests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = FNW7L4X44S;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1426,7 +1425,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 70E8FDF2F522A8C05328E451 /* Pods-MPOLKitTests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = FNW7L4X44S;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
