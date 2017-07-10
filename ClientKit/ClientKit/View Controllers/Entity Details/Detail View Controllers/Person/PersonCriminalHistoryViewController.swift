@@ -12,6 +12,7 @@ import MPOLKit
 /// A view controller for presenting a person's criminal history.
 open class PersonCriminalHistoryViewController: EntityDetailCollectionViewController, FilterViewControllerDelegate {
     
+    // Probably refactor sorting and date sorting into a more general sorting?
     private enum Sorting: Pickable {
         case dateNewest
         case dateOldest
@@ -22,7 +23,7 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
             case .dateNewest:
                 return DateSorting.newest.compare(h1.lastOccurred ?? .distantPast, h2.lastOccurred ?? .distantPast)
             case .dateOldest:
-                return DateSorting.newest.compare(h1.lastOccurred ?? .distantPast, h2.lastOccurred ?? .distantPast)
+                return DateSorting.oldest.compare(h1.lastOccurred ?? .distantPast, h2.lastOccurred ?? .distantPast)
             case .title:
                 if let h2Title = h2.offenceDescription {
                     return h1.offenceDescription?.localizedStandardCompare(h2Title) == .orderedAscending
@@ -46,28 +47,33 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
         static let allCases: [Sorting] = [.dateNewest, .dateOldest, .title]
     }
     
+    
+    // MARK: - Public Properties
+    
     open override var entity: Entity? {
         get { return person }
         set { self.person = newValue as? Person }
     }
     
+    
+    // MARK: - Private properties
+    
+    private let filterBarButtonItem: UIBarButtonItem
+    
     private var person: Person? {
         didSet {
+            sidebarItem.count = UInt(person?.criminalHistory?.count ?? 0)
+            updateNoContentSubtitle()
             reloadSections()
         }
     }
     
-    private var criminalHistory: [CriminalHistory]? {
+    private var criminalHistory: [CriminalHistory] = [] {
         didSet {
-            let orderCount = criminalHistory?.count ?? 0
-            sidebarItem.count = UInt(orderCount)
-            
-            hasContent = orderCount > 0
+            hasContent = criminalHistory.isEmpty == false
             collectionView?.reloadData()
         }
     }
-    
-    private let filterBarButtonItem: UIBarButtonItem
     
     private var sorting: Sorting = .dateNewest
     
@@ -104,7 +110,7 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
         super.viewDidLoad()
         
         noContentTitleLabel?.text = NSLocalizedString("No Criminal History Found", bundle: .mpolKit, comment: "")
-        noContentSubtitleLabel?.text = NSLocalizedString("This person has no criminal history", bundle: .mpolKit, comment: "")
+        updateNoContentSubtitle()
         
         guard let collectionView = self.collectionView else { return }
         
@@ -117,11 +123,11 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
     // MARK: - UICollectionViewDataSource
     
     open func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return criminalHistory?.isEmpty ?? true ? 0 : 1
+        return criminalHistory.isEmpty ? 0 : 1
     }
     
     open override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return criminalHistory?.count ?? 0
+        return criminalHistory.count
     }
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -130,7 +136,7 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
         cell.selectionStyle     = .fade
         cell.accessoryView = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
         
-        let history = criminalHistory![indexPath.item]
+        let history = criminalHistory[indexPath.item]
         let text = cellText(for: history)
         
         cell.titleLabel.text = text.title
@@ -143,7 +149,7 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
         if kind == UICollectionElementKindSectionHeader {
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
             
-            let orderCount = criminalHistory?.count ?? 0
+            let orderCount = criminalHistory.count
             if orderCount > 0 {
                 let baseString = orderCount > 1 ? NSLocalizedString("%d ITEMS", bundle: .mpolKit, comment: "") : NSLocalizedString("%d ITEM", bundle: .mpolKit, comment: "")
                 header.text = String(format: baseString, orderCount)
@@ -167,7 +173,7 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
-        let history = criminalHistory![indexPath.item]
+        let history = criminalHistory[indexPath.item]
         let text = cellText(for: history)
         return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: text.title, subtitle: text.subtitle, inWidth: itemWidth, compatibleWith: traitCollection)
     }
@@ -232,7 +238,7 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
     private func reloadSections() {
         criminalHistory = person?.criminalHistory?.sorted(by: sorting.compare(_:_:)) ?? []
         
-        let bundle = Bundle(for: EntityAlertsViewController.self)
+        let bundle = Bundle(for: PersonCriminalHistoryViewController.self)
         let filterName = sorting != .dateNewest ? "iconFormFilterFilled" : "iconFormFilter"
         filterBarButtonItem.image = UIImage(named: filterName, in: bundle, compatibleWith: nil)
     }

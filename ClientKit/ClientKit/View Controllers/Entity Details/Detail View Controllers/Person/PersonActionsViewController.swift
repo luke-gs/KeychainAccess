@@ -13,8 +13,6 @@ import MPOLKit
 
 open class PersonActionsViewController: EntityDetailCollectionViewController, FilterViewControllerDelegate {
     
-    // TODO: Move onto action types in VicPol
-    
     
     open override var entity: Entity? {
         get { return person }
@@ -23,6 +21,7 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
     
     private var person: Person? {
         didSet {
+            sidebarItem.count = UInt(person?.actions?.count ?? 0)
             updateNoContentSubtitle()
             reloadSections()
         }
@@ -30,21 +29,14 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
     
     private var actions: [Action] = [] {
         didSet {
-            let actionCount = actions.count
-            sidebarItem.count = UInt(actionCount)
-            
-            if actionCount == 0 && actions.isEmpty == true {
-                return
-            }
-            
-            hasContent = actionCount > 0
+            hasContent = actions.isEmpty == false
             collectionView?.reloadData()
         }
     }
     
     private let filterBarButtonItem: UIBarButtonItem
     
-    private var filterTypes: Set<Action.ActionType> = Set(Action.ActionType.allCases)
+    private var filterTypes: Set<String>?
     
     private var filterDateRange: FilterDateRange?
     
@@ -116,6 +108,7 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
         if kind == UICollectionElementKindSectionHeader {
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
             
+            // TODO: Refactor for StringsDict pluralization
             let actionCount = actions.count
             if actionCount > 0 {
                 let baseString = actionCount > 1 ? NSLocalizedString("%d ACTIONS", bundle: .mpolKit, comment: "") : NSLocalizedString("%d ACTION", bundle: .mpolKit, comment: "")
@@ -157,8 +150,13 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
         
         controller.filterOptions.forEach {
             switch $0 {
-            case let filterList as FilterList where filterList.options.first is Action.ActionType:
-                self.filterTypes = Set((filterList.options as! [Action.ActionType])[filterList.selectedIndexes])
+            case let filterList as FilterList where filterList.options.first is String:
+                let selectedIndexes = filterList.selectedIndexes
+                if selectedIndexes.isEmpty == false {
+                    self.filterTypes = Set(filterList.options[selectedIndexes] as! [String])
+                } else {
+                    self.filterTypes = nil
+                }
             case let dateRange as FilterDateRange:
                 if dateRange.startDate == nil && dateRange.endDate == nil {
                     self.filterDateRange = nil
@@ -176,13 +174,30 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
     // MARK: - Private methods
     
     @objc private func filterItemDidSelect(_ item: UIBarButtonItem) {
-        let actionTypes = Action.ActionType.allCases
+        var allTypes = Set<String>()
+        person?.actions?.forEach {
+            if let type = $0.type {
+                allTypes.insert(type)
+            }
+        }
+        let allSortedTypes = allTypes.sorted { $0.localizedStandardCompare($1) == .orderedAscending }
         
-        let filterTypes = FilterList(title: NSLocalizedString("Action Types", comment: ""), displayStyle: .detailList, options: actionTypes, selectedIndexes: actionTypes.indexes(where: { self.filterTypes.contains($0) }), allowsNoSelection: true, allowsMultipleSelection: true)
+        var selectedIndexes: IndexSet
+        if let filterTypes = self.filterTypes {
+            if filterTypes.isEmpty == false {
+                selectedIndexes = allSortedTypes.indexes(where: { filterTypes.contains($0) })
+            } else {
+                selectedIndexes = IndexSet()
+            }
+        } else {
+            selectedIndexes = IndexSet(integersIn: 0..<allTypes.count)
+        }
+        
+        let filterList = FilterList(title: NSLocalizedString("Action Types", comment: ""), displayStyle: .detailList, options: allSortedTypes, selectedIndexes: selectedIndexes, allowsNoSelection: true, allowsMultipleSelection: true)
         
         let dateRange = filterDateRange ?? FilterDateRange(title: NSLocalizedString("Date Range", comment: ""), startDate: nil, endDate: nil, requiresStartDate: false, requiresEndDate: false)
         
-        let filterVC = FilterViewController(options: [filterTypes, dateRange])
+        let filterVC = FilterViewController(options: [filterList, dateRange])
         filterVC.title = NSLocalizedString("Filter Actions", comment: "")
         filterVC.delegate = self
         let navController = PopoverNavigationController(rootViewController: filterVC)
@@ -214,13 +229,13 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
     private func reloadSections() {
         var actions = person?.actions ?? []
         
-        let selectActionTypes = filterTypes != Set(Action.ActionType.allCases)
+        let selectActionTypes = self.filterTypes != nil
         let requiresFiltering: Bool = selectActionTypes || filterDateRange != nil
         
         if requiresFiltering {
             actions = actions.filter { action in
                 if selectActionTypes {
-                    guard let type = action.type, self.filterTypes.contains(type) else {
+                    guard let type = action.type, self.filterTypes!.contains(type) else {
                         return false
                     }
                 }

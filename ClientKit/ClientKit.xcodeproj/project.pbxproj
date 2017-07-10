@@ -11,6 +11,7 @@
 		BC12DC961F023EF0001A5BB7 /* ClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC12DC8C1F023EF0001A5BB7 /* ClientKit.framework */; };
 		BC12DC9B1F023EF0001A5BB7 /* ClientKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC12DC9A1F023EF0001A5BB7 /* ClientKitTests.swift */; };
 		BC12DC9D1F023EF0001A5BB7 /* ClientKit.h in Headers */ = {isa = PBXBuildFile; fileRef = BC12DC8F1F023EF0001A5BB7 /* ClientKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BC4FC2701F133D7500F1CAFB /* String+Pickable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4FC26F1F133D7500F1CAFB /* String+Pickable.swift */; };
 		BCA1793C1F03542900AD1F5F /* PersonParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA1793A1F03542900AD1F5F /* PersonParserDefinition.swift */; };
 		BCAEFE911F03150800C97F9C /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE541F03150800C97F9C /* Action.swift */; };
 		BCAEFE921F03150800C97F9C /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE551F03150800C97F9C /* Address.swift */; };
@@ -94,6 +95,7 @@
 		BC12DC951F023EF0001A5BB7 /* ClientKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClientKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC12DC9A1F023EF0001A5BB7 /* ClientKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientKitTests.swift; sourceTree = "<group>"; };
 		BC12DC9C1F023EF0001A5BB7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BC4FC26F1F133D7500F1CAFB /* String+Pickable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Pickable.swift"; sourceTree = "<group>"; };
 		BCA1793A1F03542900AD1F5F /* PersonParserDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonParserDefinition.swift; sourceTree = "<group>"; };
 		BCAEFE541F03150800C97F9C /* Action.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		BCAEFE551F03150800C97F9C /* Address.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
@@ -390,6 +392,7 @@
 				BCF31AC71F0F42CD00207D82 /* Array+Searching.swift */,
 				BCAEFED81F03172A00C97F9C /* EntityCollectionViewCell+Configuration.swift */,
 				BCAEFEDC1F0317DB00C97F9C /* EntityThumbnailView+Configuration.swift */,
+				BC4FC26F1F133D7500F1CAFB /* String+Pickable.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -622,6 +625,7 @@
 				BCAEFE951F03150800C97F9C /* Caution.swift in Sources */,
 				BCAEFE9D1F03150800C97F9C /* FieldContact.swift in Sources */,
 				BCAEFEA41F03150800C97F9C /* Member.swift in Sources */,
+				BC4FC2701F133D7500F1CAFB /* String+Pickable.swift in Sources */,
 				BCAEFEB31F03150800C97F9C /* EntityAssociationsViewController.swift in Sources */,
 				BCAEFEC01F03150800C97F9C /* PersonInfoViewController.swift in Sources */,
 				BCAEFEB01F03150800C97F9C /* Warning.swift in Sources */,

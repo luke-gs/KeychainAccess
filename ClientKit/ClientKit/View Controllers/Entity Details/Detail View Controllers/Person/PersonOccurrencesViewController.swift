@@ -11,61 +11,40 @@ import Foundation
 import MPOLKit
 
 // TEMP stuff
-open class PersonOccurrencesViewController: EntityOccurrencesViewController {
-
+open class PersonOccurrencesViewController: EntityOccurrencesViewController, FilterViewControllerDelegate {
+    
+    
+    // MARK: - Public properties
+    
     open override var entity: Entity? {
         get { return person }
         set { self.person = newValue as? Person }
     }
     
+    
+    // MARK: - Private properties
+    
+    private let filterBarButtonItem: UIBarButtonItem
+    
     private var person: Person? {
         didSet {
-            guard let person = self.person else {
-                return
-            }
+            let eventCount = person?.events?.count ?? 0
+            sidebarItem.count = UInt(eventCount)
             
-            /*
-            // HELP: This should be standardised from the middleware
-            var events = [[AnyObject]]()
-            if let bailOrders = person.bailOrders {
-                events.append(bailOrders)
-            }
-            if let cautions = person.cautions {
-                events.append(cautions)
-            }
-            if let interventionOrders = person.interventionOrders {
-                events.append(interventionOrders)
-            }
-            if let whereabouts = person.whereabouts {
-                events.append(whereabouts)
-            }
-            if let warrants = person.warrants {
-                events.append(warrants)
-            }
-            if let fieldContacts = person.fieldContacts {
-                events.append(fieldContacts)
-            }
-            if let missingPersonReports = person.missingPersonReports {
-                events.append(missingPersonReports)
-            }
-            if let familyIncidents = person.familyIncidents {
-                events.append(familyIncidents)
-            }
- */
-            self.events = person.events
+            updateNoContentSubtitle()
+            reloadSections()
         }
     }
     
-    // Help!!
-    private var events: [Event]? {
+    private var events: [Event] = [] {
         didSet {
-            let eventCount = events?.count ?? 0
-            
-            hasContent = eventCount > 0
-            sidebarItem.count = UInt(eventCount)
+            hasContent = events.isEmpty == false
             collectionView?.reloadData()
         }
     }
+    
+    private var filterTypes: Set<String>?
+    
     
     /*
     private var bailOrders: [BailOrder]?
@@ -77,6 +56,25 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController {
     private var missingPersons: [MissingPerson]?
     private var familyIncidents: [FamilyIncident]?
     */
+    
+    // MARK: - Initializers
+    
+    public override init() {
+        let bundle = Bundle(for: EntityAlertsViewController.self)
+        filterBarButtonItem = UIBarButtonItem(image: UIImage(named: "iconFormFilter", in: bundle, compatibleWith: nil), style: .plain, target: nil, action: nil)
+        
+        super.init()
+        
+        filterBarButtonItem.target = self
+        filterBarButtonItem.action = #selector(filterItemDidSelect(_:))
+        navigationItem.rightBarButtonItem = filterBarButtonItem
+    }
+    
+    public required init?(coder aDecoder: NSCoder) {
+        MPLCodingNotSupported()
+    }
+    
+    
     // MARK: - View lifecycle
     
     open override func viewDidLoad() {
@@ -89,12 +87,11 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController {
     }
     
     open func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return events?.isEmpty ?? true ? 0 : 1
+        return events.isEmpty ? 0 : 1
     }
     
     open override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let count =  events?.count ?? 0
-        return count
+        return events.count
     }
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -103,7 +100,7 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController {
         cell.selectionStyle = .fade
         cell.accessoryView = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
         
-        let event = events![indexPath.item]
+        let event = events[indexPath.item]
         let cellTexts = appropriateTexts(for: event)
         
         cell.titleLabel.text = cellTexts.titleText
@@ -121,7 +118,7 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController {
         
         let detailViewController: UIViewController?
         
-        switch events![indexPath.item] {
+        switch events[indexPath.item] {
         case let fieldContact as FieldContact:
             let fieldContactVC = FieldContactDetailViewController()
             fieldContactVC.event = fieldContact
@@ -152,8 +149,8 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController {
         if kind == UICollectionElementKindSectionHeader {
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
             
-            // Probably a refactor point as well.
-            let eventCount = events?.count ?? 0
+            // TODO: Refactor for StringsDict pluralization
+            let eventCount = events.count
             if eventCount > 0 {
                 let baseString = eventCount > 1 ? NSLocalizedString("%d ITEMS", bundle: .mpolKit, comment: "") : NSLocalizedString("%d ITEM", bundle: .mpolKit, comment: "")
                 header.text = String(format: baseString, eventCount)
@@ -173,13 +170,113 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController {
         return CollectionViewFormDetailCell.minimumContentHeight(compatibleWith: traitCollection)
     }
 
-
-    // MARK: - Private
-    // Seems like a common pattern, potential refactor point to have a standard formatter for these?
     
+    // MARK: - FilterViewControllerDelegate
+    
+    public func filterViewControllerDidFinish(_ controller: FilterViewController, applyingChanges: Bool) {
+        controller.presentingViewController?.dismiss(animated: true)
+        
+        if applyingChanges == false {
+            return
+        }
+        
+        controller.filterOptions.forEach {
+            switch $0 {
+            case let filterList as FilterList where filterList.options.first is String:
+                let selectedIndexes = filterList.selectedIndexes
+                if selectedIndexes.isEmpty == false {
+                    self.filterTypes = Set(filterList.options[selectedIndexes] as! [String])
+                } else {
+                    self.filterTypes = nil
+                }
+            default:
+                break
+            }
+        }
+        reloadSections()
+    }
+    
+    
+    // MARK: - Private methods
+    
+    @objc private func filterItemDidSelect(_ item: UIBarButtonItem) {
+        var allTypes = Set<String>()
+        person?.events?.forEach {
+            if let type = $0.eventType {
+                allTypes.insert(type)
+            }
+        }
+        let allSortedTypes = allTypes.sorted { $0.localizedStandardCompare($1) == .orderedAscending }
+        
+        var selectedIndexes: IndexSet
+        if let filterTypes = self.filterTypes {
+            if filterTypes.isEmpty == false {
+                selectedIndexes = allSortedTypes.indexes(where: { filterTypes.contains($0) })
+            } else {
+                selectedIndexes = IndexSet()
+            }
+        } else {
+            selectedIndexes = IndexSet(integersIn: 0..<allTypes.count)
+        }
+        
+        let filterList = FilterList(title: NSLocalizedString("Involvement Types", comment: ""), displayStyle: .detailList, options: allSortedTypes, selectedIndexes: selectedIndexes, allowsNoSelection: true, allowsMultipleSelection: true)
+        
+        let filterVC = FilterViewController(options: [filterList])
+        filterVC.title = NSLocalizedString("Filter Involvements", comment: "")
+        filterVC.delegate = self
+        let navController = PopoverNavigationController(rootViewController: filterVC)
+        navController.modalPresentationStyle = .popover
+        if let popoverPresentationController = navController.popoverPresentationController {
+            popoverPresentationController.barButtonItem = item
+        }
+        
+        present(navController, animated: true)
+    }
+    
+    private func updateNoContentSubtitle() {
+        guard let label = noContentSubtitleLabel else { return }
+        
+        if person?.actions?.isEmpty ?? true {
+            let entityDisplayName: String
+            if let entity = entity {
+                entityDisplayName = type(of: entity).localizedDisplayName.localizedLowercase
+            } else {
+                entityDisplayName = NSLocalizedString("entity", bundle: .mpolKit, comment: "")
+            }
+            
+            label.text = String(format: NSLocalizedString("This %@ has no involvements", bundle: .mpolKit, comment: ""), entityDisplayName)
+        } else {
+            label.text = NSLocalizedString("This filter has no matching involvements", comment: "")
+        }
+    }
+    
+    private func reloadSections() {
+        var events = person?.events ?? []
+        
+        let requiresFiltering = filterTypes != nil
+        
+        if let filterTypes = self.filterTypes {
+            events = events.filter { event in
+                guard let type = event.eventType, filterTypes.contains(type) else {
+                    return false
+                }
+                return true
+            }
+        }
+        
+        let bundle = Bundle(for: PersonOccurrencesViewController.self)
+        let filterName = requiresFiltering ? "iconFormFilterFilled" : "iconFormFilter"
+        filterBarButtonItem.image = UIImage(named: filterName, in: bundle, compatibleWith: nil)
+        
+        events.sort { ($0.date ?? .distantPast) > ($1.date ?? .distantPast) }
+        
+        self.events = events
+    }
+    
+    // Seems like a common pattern, potential refactor point to have a standard formatter for these?
     private func appropriateTexts(for event: Event) -> (titleText: String?, subtitleText: String?, detailText: String?) {
         let titleText = event.eventType
-        let subtitleText = formattedTitle(for: nil)
+        let subtitleText = formattedTitle(for: event.date)
         let detailText = event.eventDescription
         
         return (titleText: titleText, subtitleText: subtitleText, detailText: detailText)
@@ -194,15 +291,4 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController {
         }
         return "Occurred on \(text)"
     }
-}
-
-private enum SectionType {
-    case bailOrder
-    case caution
-    case fieldContact
-    case interventionOrder
-    case warrant
-    case whereabouts
-    case missingPerson
-    case familyIncident
 }
