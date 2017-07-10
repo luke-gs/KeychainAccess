@@ -92,17 +92,9 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     
     private var isHidingNavigationBarShadow = false {
         didSet {
-            if isHidingNavigationBarShadow == oldValue || isOnscreen == false { return }
+            if isHidingNavigationBarShadow == oldValue || navigationController?.topViewController != self { return }
             
             navigationController?.navigationBar.shadowImage = isHidingNavigationBarShadow ? UIImage() : Theme.current.navigationBarShadowImage
-        }
-    }
-    
-    private var isOnscreen: Bool = false {
-        didSet {
-            if isOnscreen == oldValue || isHidingNavigationBarShadow == false { return }
-            
-            navigationController?.navigationBar.shadowImage = isOnscreen ? UIImage() : Theme.current.navigationBarShadowImage
         }
     }
     
@@ -173,17 +165,14 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        isOnscreen = true
+        if isHidingNavigationBarShadow {
+            navigationController?.navigationBar.shadowImage = UIImage()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        isOnscreen = false
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        isOnscreen = false
+        navigationController?.navigationBar.shadowImage = Theme.current.navigationBarShadowImage
     }
     
     override func viewDidLayoutSubviews() {
@@ -319,18 +308,24 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
         searchOptionsViewController.beginEditingSearchField(true)
     }
     
+    func searchRecentsControllerDidSelectNewSearch(_ controller: SearchRecentsViewController) {
+        displaySearchTriggered()
+    }
+    
     
     // MARK: - SearchOptionsViewControllerDelegate
     
     func searchOptionsController(_ controller: SearchOptionsViewController, didFinishWith searchRequest: SearchRequest) {
         resultsListViewController.searchRequest = searchRequest
         
-        if recentlySearched.isEmpty || searchRequest != recentlySearched.first {
-            recentlySearched.insert(searchRequest, at: 0)
-        }
-        
         setShowingSearchOptions(false, animated: true)
-        setCurrentResultsViewController(resultsListViewController, animated: true)
+        setCurrentResultsViewController(resultsListViewController, animated: true) { [weak self] (_) in
+            guard let `self` = self else { return }
+            
+            if self.recentlySearched.isEmpty || searchRequest != self.recentlySearched.first {
+                self.recentlySearched.insert(searchRequest, at: 0)
+            }
+        }
     }
     
     func searchOptionsControllerDidCancel(_ controller: SearchOptionsViewController) {
@@ -401,7 +396,7 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     @objc private func addEntityTriggered() {
     }
     
-    private func setCurrentResultsViewController(_ controller: UIViewController?, animated: Bool) {
+    private func setCurrentResultsViewController(_ controller: UIViewController?, animated: Bool, completion: ((Bool) -> Void)? = nil) {
         if controller == currentResultsViewController { return }
         
         // These will logically never be the same because of the above check.
@@ -423,6 +418,7 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
             } else if fromVC != self.recentsViewController {
                 fromVC.removeFromParentViewController()
             }
+            completion?(finished)
         }
         
         if isViewLoaded {
