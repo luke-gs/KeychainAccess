@@ -8,6 +8,8 @@
 
 import UIKit
 
+// TODO: At a later time this will need to be refactored for a different style,
+// with the progress view below the content available.
 open class CollectionViewFormProgressCell: CollectionViewFormValueFieldCell {
 
     public let progressView: UIProgressView = UIProgressView(progressViewStyle: .default)
@@ -23,24 +25,45 @@ open class CollectionViewFormProgressCell: CollectionViewFormValueFieldCell {
     }
     
     private func commonInit() {
-        progressView.translatesAutoresizingMaskIntoConstraints = false
-        progressView.setContentHuggingPriority(UILayoutPriorityFittingSizeLevel, for: .horizontal)
         progressView.trackTintColor = #colorLiteral(red: 0.4980392157, green: 0.4980392157, blue: 0.4980392157, alpha: 0.25)
         progressView.clipsToBounds = true
         progressView.layer.cornerRadius = 2.0
         contentView.addSubview(progressView)
+    }
+    
+    open override func layoutSubviews() {
+        super.layoutSubviews()
         
-// TODO: Fix this
-//        NSLayoutConstraint.activate([
-//            NSLayoutConstraint(item: progressView, attribute: .centerY,  relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .centerY),
-//            NSLayoutConstraint(item: progressView, attribute: .height,   relatedBy: .equal, toConstant: 4.0),
-//            NSLayoutConstraint(item: progressView, attribute: .trailing, relatedBy: .equal, toItem: contentView, attribute: .trailingMargin),
-//            NSLayoutConstraint(item: progressView, attribute: .leading,  relatedBy: .equal, toItem: textLayoutGuide, attribute: .trailing, constant: 20.0),
-//            
-//            // I'd like the progress view to be as wide as it can be (where ambiguity may make it smaller) so I place in a constraint that cannot
-//            // be fulfilled mathematically, but I'd like it to be obeyed as much as possible (fill as much as possible)
-//            NSLayoutConstraint(item: progressView, attribute: .width, relatedBy: .equal, toItem: contentView, attribute: .width, priority: UILayoutPriorityFittingSizeLevel)
-//        ])
+        let titleFrame = titleLabel.frame
+        let valueFrame = valueLabel.frame
+        
+        let contentRect = contentView.bounds.insetBy(contentView.layoutMargins)
+        
+        var progressWidth = contentRect.width - (max(titleFrame.width, valueFrame.width) + 20.0)
+        progressView.isHidden = progressWidth < 20.0
+        progressWidth = max(20.0, progressWidth)
+        
+        let progressOriginX: CGFloat
+        if effectiveUserInterfaceLayoutDirection == .rightToLeft {
+            progressOriginX = min(titleFrame.minX, valueFrame.minX) - 20.0 - progressWidth
+        } else {
+            progressOriginX = max(titleFrame.maxX, valueFrame.maxX) + 20.0
+        }
+        let progressOriginY = ((valueFrame.maxY + titleFrame.minY) / 2.0).floored(toScale: traitCollection.currentDisplayScale) - 1.0
+        progressView.frame = CGRect(x: progressOriginX, y: progressOriginY, width: progressWidth, height: 2.0)
+        
+        // UIProgressView is annoying - it overrides setFrame: to deliberately block setting its height.
+        // to fix this, do the above math with its required height of 2, and then go underneath to the layer
+        // and adjust its size. Note: we do this within a CATransaction to avoid implicit animations from the
+        // falsely set 2.0. It should always be 4.0
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        progressView.layer.bounds.size.height = 4.0
+        CATransaction.commit()
+    }
+    
+    open override func setNeedsLayout() {
+        super.setNeedsLayout()
     }
     
 }
