@@ -10,7 +10,41 @@ import UIKit
 import MPOLKit
 
 /// A view controller for presenting a person's criminal history.
-open class PersonCriminalHistoryViewController: EntityDetailCollectionViewController {
+open class PersonCriminalHistoryViewController: EntityDetailCollectionViewController, FilterViewControllerDelegate {
+    
+    private enum Sorting: Pickable {
+        case dateNewest
+        case dateOldest
+        case title
+        
+        func compare(_ h1: CriminalHistory, _ h2: CriminalHistory) -> Bool {
+            switch self {
+            case .dateNewest:
+                return DateSorting.newest.compare(h1.lastOccurred ?? .distantPast, h2.lastOccurred ?? .distantPast)
+            case .dateOldest:
+                return DateSorting.newest.compare(h1.lastOccurred ?? .distantPast, h2.lastOccurred ?? .distantPast)
+            case .title:
+                if let h2Title = h2.offenceDescription {
+                    return h1.offenceDescription?.localizedStandardCompare(h2Title) == .orderedAscending
+                }
+                return h1.offenceDescription != nil
+            }
+        }
+        
+        var title: String? {
+            switch self {
+            case .dateNewest: return NSLocalizedString("Newest", comment: "")
+            case .dateOldest: return NSLocalizedString("Oldest", comment: "")
+            case .title:      return NSLocalizedString("Title", comment: "")
+            }
+        }
+        
+        var subtitle: String? {
+            return nil
+        }
+        
+        static let allCases: [Sorting] = [.dateNewest, .dateOldest, .title]
+    }
     
     open override var entity: Entity? {
         get { return person }
@@ -19,9 +53,7 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
     
     private var person: Person? {
         didSet {
-            criminalHistory = person?.criminalHistory?.sorted {
-                ($0.lastOccurred ?? Date.distantPast) > ($1.lastOccurred ?? Date.distantPast)
-            }
+            reloadSections()
         }
     }
     
@@ -35,10 +67,17 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
         }
     }
     
+    private let filterBarButtonItem: UIBarButtonItem
+    
+    private var sorting: Sorting = .dateNewest
+    
     
     // MARK: - Initializers
     
     public override init() {
+        let bundle = Bundle(for: EntityAlertsViewController.self)
+        filterBarButtonItem = UIBarButtonItem(image: UIImage(named: "iconFormFilter", in: bundle, compatibleWith: nil), style: .plain, target: nil, action: nil)
+        
         super.init()
         
         hasContent = false
@@ -49,9 +88,9 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
         sidebarItem.image         = UIImage(named: "iconFormFolder",       in: .mpolKit, compatibleWith: nil)
         sidebarItem.selectedImage = UIImage(named: "iconFormFolderFilled", in: .mpolKit, compatibleWith: nil)
         
-        let filterIcon = UIBarButtonItem(image: UIImage(named: "iconFormFilter", in: .mpolKit, compatibleWith: nil), style: .plain, target: nil, action: nil)
-        filterIcon.isEnabled = false
-        navigationItem.rightBarButtonItem = filterIcon
+        filterBarButtonItem.target = self
+        filterBarButtonItem.action = #selector(filterItemDidSelect(_:))
+        navigationItem.rightBarButtonItem = filterBarButtonItem
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -134,7 +173,69 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
     }
     
     
-    // MARK: - Private
+    // MARK: - FilterViewControllerDelegate
+    
+    public func filterViewControllerDidFinish(_ controller: FilterViewController, applyingChanges: Bool) {
+        controller.presentingViewController?.dismiss(animated: true)
+        
+        if applyingChanges == false {
+            return
+        }
+        
+        controller.filterOptions.forEach {
+            switch $0 {
+            case let filterList as FilterList where filterList.options.first is Sorting:
+                self.sorting = filterList.options[filterList.selectedIndexes].first as? Sorting ?? self.sorting
+            default:
+                break
+            }
+        }
+        reloadSections()
+    }
+    
+    
+    // MARK: - Private methods
+    
+    @objc private func filterItemDidSelect(_ item: UIBarButtonItem) {
+        let sortingOptions = Sorting.allCases
+        let filterTypes = FilterList(title: NSLocalizedString("Sort By", comment: ""), displayStyle: .list, options: sortingOptions, selectedIndexes: sortingOptions.indexes(where: { self.sorting == $0 }))
+        
+        let filterVC = FilterViewController(options: [filterTypes])
+        filterVC.title = NSLocalizedString("Filter Actions", comment: "")
+        filterVC.delegate = self
+        let navController = PopoverNavigationController(rootViewController: filterVC)
+        navController.modalPresentationStyle = .popover
+        if let popoverPresentationController = navController.popoverPresentationController {
+            popoverPresentationController.barButtonItem = item
+        }
+        
+        present(navController, animated: true)
+    }
+    
+    private func updateNoContentSubtitle() {
+        guard let label = noContentSubtitleLabel else { return }
+        
+        if person?.actions?.isEmpty ?? true {
+            let entityDisplayName: String
+            if let entity = entity {
+                entityDisplayName = type(of: entity).localizedDisplayName.localizedLowercase
+            } else {
+                entityDisplayName = NSLocalizedString("entity", bundle: .mpolKit, comment: "")
+            }
+            
+            label.text = String(format: NSLocalizedString("This %@ has no actions", bundle: .mpolKit, comment: ""), entityDisplayName)
+        } else {
+            label.text = NSLocalizedString("This filter has no matching actions", comment: "")
+        }
+    }
+    
+    private func reloadSections() {
+        criminalHistory = person?.criminalHistory?.sorted(by: sorting.compare(_:_:)) ?? []
+        
+        let bundle = Bundle(for: EntityAlertsViewController.self)
+        let filterName = sorting != .dateNewest ? "iconFormFilterFilled" : "iconFormFilter"
+        filterBarButtonItem.image = UIImage(named: filterName, in: bundle, compatibleWith: nil)
+    }
     
     private func cellText(for history: CriminalHistory) -> (title: String, subtitle: String) {
         var offenceCountText = ""
@@ -154,5 +255,6 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
         
         return (title, subtitle)
     }
+    
     
 }
