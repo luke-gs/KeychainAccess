@@ -292,9 +292,7 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
                     }
                 }
                 if let filteredDateRange = self.filterDateRange {
-                    if let date = alert.effectiveDate {
-                        return filteredDateRange.contains(date)
-                    } else {
+                    guard let date = alert.effectiveDate, filteredDateRange.contains(date) else {
                         return false
                     }
                 }
@@ -327,8 +325,6 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
         }
         
         self.sections = sections
-        
-        
     }
     
 }
