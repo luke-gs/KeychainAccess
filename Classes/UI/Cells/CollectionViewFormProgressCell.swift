@@ -62,8 +62,4 @@ open class CollectionViewFormProgressCell: CollectionViewFormValueFieldCell {
         CATransaction.commit()
     }
     
-    open override func setNeedsLayout() {
-        super.setNeedsLayout()
-    }
-    
 }

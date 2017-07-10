@@ -431,10 +431,6 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         }
     }
     
-    private var isRightToLeft: Bool = false {
-        didSet { if isRightToLeft != oldValue { setNeedsLayout() } }
-    }
-    
     private var cachedEditAccessiblityActions: [CollectionViewFormAccessibilityEditAction]?
     
     
@@ -453,7 +449,6 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     private func commonInit() {
         isAccessibilityElement = true
         super.contentMode = .center
-        isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
         
         separatorView.backgroundColor = separatorColor
         separatorView.autoresizingMask = [.flexibleWidth, .flexibleTopMargin]
@@ -530,10 +525,6 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         }
     }
     
-    open override var semanticContentAttribute: UISemanticContentAttribute {
-        didSet { isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft }
-    }
-    
     open override func prepareForReuse() {
         super.prepareForReuse()
         setShowingEditActions(false, animated: false)
@@ -587,6 +578,8 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     open override func layoutSubviews() {
         super.layoutSubviews()
         
+        let isRTL = effectiveUserInterfaceLayoutDirection == .rightToLeft
+        
         // Update accessory location
         
         if let accessoryView = self.accessoryView {
@@ -594,11 +587,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
             let contentRect = contentView.bounds.insetBy(contentView.layoutMargins)
             
             accessoryFrame.origin.y = round(contentRect.midY - (accessoryFrame.height * 0.5))
-            if isRightToLeft {
-                accessoryFrame.origin.x = contentRect.minX
-            } else {
-                accessoryFrame.origin.x = contentRect.maxX - accessoryFrame.width
-            }
+            accessoryFrame.origin.x = isRTL ? contentRect.minX : contentRect.maxX - accessoryFrame.width
             accessoryView.frame = accessoryFrame
         }
         
@@ -609,7 +598,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         
         let separatorInset: UIEdgeInsets
         if let customSeparatorInsets = self.customSeparatorInsets {
-            if isRightToLeft {
+            if isRTL {
                 separatorInset = customSeparatorInsets.horizontallyFlipped()
             } else {
                 separatorInset = customSeparatorInsets
@@ -618,7 +607,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
             let indentLeading  = separatorStyle != .indentedAtRowLeading || isFirstInRow
             let indentTrailing = separatorStyle != .indentedAtRowLeading && isAtTrailingEdge == false
             
-            if isRightToLeft {
+            if isRTL {
                 separatorInset = UIEdgeInsets(top: 0.0, left: indentTrailing ? layoutMargins.left : 0.0, bottom: 0.0, right: layoutMargins.right)
             } else {
                 separatorInset = UIEdgeInsets(top: 0.0, left: indentLeading ? layoutMargins.left : 0.0, bottom: 0.0, right: indentTrailing ? layoutMargins.right : 0.0)
@@ -646,7 +635,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
             var labelPreferredSize = label.sizeThatFits(CGSize(width: horizontalSpace, height: .greatestFiniteMagnitude))
             labelPreferredSize.width = min(labelPreferredSize.width, horizontalSpace)
             
-            label.frame = CGRect(origin: CGPoint(x: leftInset + (isRightToLeft ? horizontalSpace - labelPreferredSize.width : 0.0), y: bounds.maxY + 8.0),
+            label.frame = CGRect(origin: CGPoint(x: leftInset + (isRTL ? horizontalSpace - labelPreferredSize.width : 0.0), y: bounds.maxY + 8.0),
                                  size: labelPreferredSize)
         }
         
@@ -694,10 +683,6 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         if newCategory != previousTraitCollection?.preferredContentSizeCategory ?? .unspecified {
             setNeedsLayout()
             contentSizeCategoryDidChange(newCategory)
-        }
-        
-        if (traitCollection.layoutDirection == .rightToLeft) != (previousTraitCollection?.layoutDirection == .rightToLeft) {
-            isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
         }
         
         if traitCollection.currentDisplayScale != previousTraitCollection?.currentDisplayScale {

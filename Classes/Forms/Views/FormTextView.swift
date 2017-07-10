@@ -14,14 +14,6 @@ open class FormTextView: UITextView {
 
     open let placeholderLabel: UILabel = UILabel(frame: .zero)
     
-    private var isRightToLeft: Bool = false {
-        didSet {
-            if isRightToLeft != oldValue {
-                setNeedsLayout()
-            }
-        }
-    }
-    
     
     // MARK: - Initializers
     
@@ -37,8 +29,6 @@ open class FormTextView: UITextView {
     
     private func commonInit() {
         super.textContainerInset = .zero
-        
-        isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
         
         backgroundColor = .clear
         
@@ -77,10 +67,6 @@ open class FormTextView: UITextView {
         didSet { setNeedsLayout() }
     }
     
-    open override var semanticContentAttribute: UISemanticContentAttribute {
-        didSet { isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft }
-    }
-    
     open override var adjustsFontForContentSizeCategory: Bool {
         didSet { placeholderLabel.adjustsFontForContentSizeCategory = adjustsFontForContentSizeCategory }
     }
@@ -105,7 +91,7 @@ open class FormTextView: UITextView {
         
         var placeholderOrigin: CGPoint = CGPoint(x: 0.0, y: (firstBaselineY - placeholderBaselineY).rounded(toScale: displayScale))
             
-        if isRightToLeft {
+        if effectiveUserInterfaceLayoutDirection == .rightToLeft {
             placeholderOrigin.x = (bounds.width - textContainerInset.left - 5.0 - placeholderSize.width).rounded(toScale: displayScale)
         } else {
             placeholderOrigin.x = (textContainerInset.left + 5.0).rounded(toScale: displayScale)
@@ -115,7 +101,6 @@ open class FormTextView: UITextView {
     
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
         if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
             setNeedsLayout()
         }

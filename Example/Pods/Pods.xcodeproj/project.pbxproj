@@ -2065,7 +2065,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8208C737E35A3B7810E3E39D2627DC3C /* MPOLKit.xcconfig */;
 			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -2224,7 +2224,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8208C737E35A3B7810E3E39D2627DC3C /* MPOLKit.xcconfig */;
 			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";

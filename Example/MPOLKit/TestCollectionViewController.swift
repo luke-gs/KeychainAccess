@@ -19,7 +19,7 @@ class TestCollectionViewController: FormCollectionViewController, FilterViewCont
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        collectionView?.register(CollectionViewFormTextViewCell.self)
+        collectionView?.register(CollectionViewFormTextFieldCell.self)
         collectionView?.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         collectionView?.register(RecentEntitiesBackgroundView.self, forSupplementaryViewOfKind: collectionElementKindGlobalHeader)
     }
@@ -57,15 +57,15 @@ class TestCollectionViewController: FormCollectionViewController, FilterViewCont
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormTextViewCell.self, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormTextFieldCell.self, for: indexPath)
         
         cell.titleLabel.text =  "Test Title \(indexPath.item + 1)"
-        cell.textView.placeholderLabel.text = "Testing placeholder \(indexPath.item + 1)"
+        cell.textField.placeholder = "Testing placeholder \(indexPath.item + 1)"
         
         if indexPath.item % 2 == 0 {
-            cell.textView.text = "Testing value \(indexPath.item + 1)"
+            cell.textField.text = "Testing value \(indexPath.item + 1)"
         } else {
-            cell.textView.text = nil
+            cell.textField.text = nil
         }
         
         return cell

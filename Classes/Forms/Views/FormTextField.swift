@@ -26,7 +26,7 @@ open class FormTextField: UITextField {
     }
     
     @NSCopying public var placeholderFont: UIFont? {
-        didSet { if placeholderFont != oldValue { updatePlaceholder() } }
+        didSet { updatePlaceholder() }
     }
     
     @NSCopying public var placeholderTextColor: UIColor? {
@@ -57,14 +57,6 @@ open class FormTextField: UITextField {
     
     private var singleSpaceWidth: CGFloat = 0.0
     
-    private var isRightToLeft: Bool = false {
-        didSet {
-            if isRightToLeft != oldValue {
-                setNeedsLayout()
-            }
-        }
-    }
-    
     
     // MARK: - Initializers
     
@@ -79,7 +71,7 @@ open class FormTextField: UITextField {
     }
     
     private func commonInit() {
-        isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
+        
         
         if let font = self.font {
             singleSpaceWidth = (" " as NSString).boundingRect(with: .zero, attributes: [NSFontAttributeName: font], context: nil).width
@@ -126,14 +118,12 @@ open class FormTextField: UITextField {
         set { self.placeholderText = newValue?.string }
     }
     
-    open override var semanticContentAttribute: UISemanticContentAttribute {
-        didSet { isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft }
-    }
-    
     open override func layoutSubviews() {
         super.layoutSubviews()
         
         guard let unitLabel = _unitLabel else { return }
+        
+        let isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
         
         let hidden = unitLabel.text?.isEmpty ?? true || text?.isEmpty ?? true
         unitLabel.isHidden = hidden
@@ -191,12 +181,17 @@ open class FormTextField: UITextField {
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         
-        if adjustsFontForContentSizeCategory && traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory,
-            let placeholderFontType = placeholderFont?.fontDescriptor.fontAttributes["NSCTFontUIUsageAttribute"] as? String {
-            placeholderFont = .preferredFont(forTextStyle: UIFontTextStyle(rawValue: placeholderFontType), compatibleWith: traitCollection)
+        // The font autoupdate reverts fonts to the standard placeholder font (the same as the content).
+        // To retain the current one, we need to update the font. With the scaled if possible,
+        // or the old one if not.
+        if adjustsFontForContentSizeCategory && traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            if let placeholderFontType = placeholderFont?.fontDescriptor.fontAttributes["NSCTFontUIUsageAttribute"] as? String {
+                placeholderFont = .preferredFont(forTextStyle: UIFontTextStyle(rawValue: placeholderFontType), compatibleWith: traitCollection)
+            } else {
+                let currentFont = placeholderFont
+                self.placeholderFont = currentFont
+            }
         }
-        
-        isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
     }
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -224,7 +219,7 @@ open class FormTextField: UITextField {
         
         // Adjust the rect accordingly
         adjustedRect.size.width -= inset
-        if isRightToLeft {
+        if effectiveUserInterfaceLayoutDirection == .rightToLeft {
             adjustedRect.origin.x += inset
         }
         
