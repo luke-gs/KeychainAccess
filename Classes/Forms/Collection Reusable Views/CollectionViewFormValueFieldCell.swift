@@ -13,8 +13,8 @@ fileprivate var kvoContext = 1
 open class CollectionViewFormValueFieldCell: CollectionViewFormCell {
     
     private class func standardFonts(compatibleWith traitCollection: UITraitCollection) -> (titleFont: UIFont, valueFont: UIFont) {
-        return (.preferredFont(forTextStyle: .footnote),
-                .preferredFont(forTextStyle: .headline))
+        return (.preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection),
+                .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection))
     }
     
     // MARK: - Public properties
@@ -109,7 +109,7 @@ open class CollectionViewFormValueFieldCell: CollectionViewFormCell {
         let fonts = type(of: self).standardFonts(compatibleWith: traitCollection)
         titleLabel.font = fonts.titleFont
         valueLabel.font = fonts.valueFont
-        placeholderLabel.font = .preferredFont(forTextStyle: .subheadline)
+        placeholderLabel.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
         
         let contentView = self.contentView
         contentView.addSubview(placeholderLabel)

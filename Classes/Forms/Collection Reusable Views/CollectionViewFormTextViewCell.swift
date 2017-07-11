@@ -47,9 +47,9 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
         titleLabel.adjustsFontForContentSizeCategory = true
         textView.adjustsFontForContentSizeCategory = true
         
-        titleLabel.font = .preferredFont(forTextStyle: .footnote)
-        textView.font   = .preferredFont(forTextStyle: .headline)
-        textView.placeholderLabel.font = .preferredFont(forTextStyle: .subheadline)
+        titleLabel.font = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
+        textView.font   = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+        textView.placeholderLabel.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
         
         let contentView = self.contentView
         contentView.addSubview(titleLabel)
@@ -229,13 +229,13 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
         var height: CGFloat = 0.0
         let screenScale = UIScreen.main.scale
         if let title = title {
-            let titleTextFont = titleFont ?? UIFont.preferredFont(forTextStyle: .footnote)
+            let titleTextFont = titleFont ?? UIFont.preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
             
             height += (title as NSString).boundingRect(with: CGSize(width: width - 0.5, height: .greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: titleTextFont], context: nil).height.ceiled(toScale: screenScale)
             height += CellTitleSubtitleSeparation
         }
         
-        let textFont = textViewFont ?? UIFont.preferredFont(forTextStyle: .headline)
+        let textFont = textViewFont ?? UIFont.preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
         
         height += max((enteredText as NSString?)?.boundingRect(with: CGSize(width: width - 0.5, height: .greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: textFont], context: nil).height ?? 0.0, textFont.lineHeight).ceiled(toScale: screenScale)
         return height

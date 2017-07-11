@@ -48,9 +48,9 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
         titleLabel.adjustsFontForContentSizeCategory = true
         textField.adjustsFontForContentSizeCategory = true
         
-        titleLabel.font           = .preferredFont(forTextStyle: .footnote)
-        textField.font            = .preferredFont(forTextStyle: .headline)
-        textField.placeholderFont = .preferredFont(forTextStyle: .subheadline)
+        titleLabel.font           = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
+        textField.font            = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+        textField.placeholderFont = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
         
         let contentView = self.contentView
         contentView.addSubview(titleLabel)
@@ -198,9 +198,9 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
     // MARK: - Class sizing methods
     
     public class func minimumContentWidth(withTitle title: String?, enteredText: String?, placeholder: String?, compatibleWith traitCollection: UITraitCollection, titleFont: UIFont? = nil, textFieldFont: UIFont? = nil, placeholderFont: UIFont? = nil, singleLineTitle: Bool = true, accessoryViewWidth: CGFloat = 0.0) -> CGFloat {
-        let titleTextFont:       UIFont = titleFont       ?? .preferredFont(forTextStyle: .footnote)
-        let enteredTextFont:     UIFont = textFieldFont   ?? .preferredFont(forTextStyle: .headline)
-        let placeholderTextFont: UIFont = placeholderFont ?? .preferredFont(forTextStyle: .subheadline)
+        let titleTextFont:       UIFont = titleFont       ?? .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
+        let enteredTextFont:     UIFont = textFieldFont   ?? .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+        let placeholderTextFont: UIFont = placeholderFont ?? .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
         
         let displayScale = traitCollection.currentDisplayScale
         
@@ -227,8 +227,8 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
             titleHeight += CellTitleSubtitleSeparation
         }
         
-        let enteredTextFont:     UIFont = textFieldFont   ?? .preferredFont(forTextStyle: .headline)
-        let placeholderTextFont: UIFont = placeholderFont ?? .preferredFont(forTextStyle: .subheadline)        
+        let enteredTextFont:     UIFont = textFieldFont   ?? .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+        let placeholderTextFont: UIFont = placeholderFont ?? .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)        
         return titleHeight + max(enteredTextFont.lineHeight, placeholderTextFont.lineHeight).ceiled(toScale: displayScale)
     }
     

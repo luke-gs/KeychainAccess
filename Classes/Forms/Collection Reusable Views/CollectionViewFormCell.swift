@@ -254,7 +254,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
             label.adjustsFontForContentSizeCategory = true
             label.textColor = validationColor ?? .gray
             label.textAlignment = alignment
-            label.font = .preferredFont(forTextStyle: .footnote)
+            label.font = .preferredFont(forTextStyle: .footnote, compatibleWith: label.traitCollection)
             contentView.addSubview(label)
             
             return label
