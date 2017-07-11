@@ -124,7 +124,6 @@
 		BC9C7E381F0DED6600DFFE83 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DA11F0DED6600DFFE83 /* LoginViewController.swift */; };
 		BC9C7E391F0DED6600DFFE83 /* AlertOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DA31F0DED6600DFFE83 /* AlertOperation.swift */; };
 		BC9C7E3A1F0DED6600DFFE83 /* CommonConditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DA41F0DED6600DFFE83 /* CommonConditions.swift */; };
-		BC9C7E3B1F0DED6600DFFE83 /* FilterListPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DA61F0DED6600DFFE83 /* FilterListPickerViewController.swift */; };
 		BC9C7E3C1F0DED6600DFFE83 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DA71F0DED6600DFFE83 /* FilterViewController.swift */; };
 		BC9C7E3D1F0DED6600DFFE83 /* PickerTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DA81F0DED6600DFFE83 /* PickerTableViewController.swift */; };
 		BC9C7E3E1F0DED6600DFFE83 /* PopoverDatePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DA91F0DED6600DFFE83 /* PopoverDatePickerViewController.swift */; };
@@ -152,6 +151,7 @@
 		BC9C7E541F0DED6600DFFE83 /* NavigationBarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DC31F0DED6600DFFE83 /* NavigationBarExtension.swift */; };
 		BC9C7E551F0DED6600DFFE83 /* RoundedRectLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DC41F0DED6600DFFE83 /* RoundedRectLabel.swift */; };
 		BC9C7E561F0DED6600DFFE83 /* TabStripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DC51F0DED6600DFFE83 /* TabStripView.swift */; };
+		BCED8C761F1488EE004C3C71 /* CollectionViewFormHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FF2241F148818000B317A /* CollectionViewFormHeaderView.swift */; };
 		C605F8901ECCAB2C001194DD /* MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C605F8861ECCAB2B001194DD /* MPOLKit.framework */; };
 		C605F8951ECCAB2C001194DD /* MPOLKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F8941ECCAB2C001194DD /* MPOLKitTests.swift */; };
 		C605F8A81ECCAD3B001194DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C605F8A31ECCAD3B001194DD /* Assets.xcassets */; };
@@ -300,7 +300,6 @@
 		BC9C7DA11F0DED6600DFFE83 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		BC9C7DA31F0DED6600DFFE83 /* AlertOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertOperation.swift; sourceTree = "<group>"; };
 		BC9C7DA41F0DED6600DFFE83 /* CommonConditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonConditions.swift; sourceTree = "<group>"; };
-		BC9C7DA61F0DED6600DFFE83 /* FilterListPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterListPickerViewController.swift; sourceTree = "<group>"; };
 		BC9C7DA71F0DED6600DFFE83 /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		BC9C7DA81F0DED6600DFFE83 /* PickerTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerTableViewController.swift; sourceTree = "<group>"; };
 		BC9C7DA91F0DED6600DFFE83 /* PopoverDatePickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverDatePickerViewController.swift; sourceTree = "<group>"; };
@@ -717,7 +716,6 @@
 		BC9C7DA51F0DED6600DFFE83 /* Picker View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				BC9C7DA61F0DED6600DFFE83 /* FilterListPickerViewController.swift */,
 				BC9C7DA71F0DED6600DFFE83 /* FilterViewController.swift */,
 				BC9C7DA81F0DED6600DFFE83 /* PickerTableViewController.swift */,
 				BC9C7DA91F0DED6600DFFE83 /* PopoverDatePickerViewController.swift */,
@@ -930,7 +928,7 @@
 			attributes = {
 				CLASSPREFIX = "";
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = Gridstone;
 				TargetAttributes = {
 					C605F8851ECCAB2B001194DD = {
@@ -1079,7 +1077,6 @@
 				BC9C7DF61F0DED6600DFFE83 /* CollectionViewFormDetailCell.swift in Sources */,
 				BC9C7DF11F0DED6600DFFE83 /* EpochDateTransformer.swift in Sources */,
 				BC9C7DD31F0DED6600DFFE83 /* OAuthAuthorizationGrant.swift in Sources */,
-				BC9C7E3B1F0DED6600DFFE83 /* FilterListPickerViewController.swift in Sources */,
 				BC9C7E2B1F0DED6600DFFE83 /* String+EmptyFiltering.swift in Sources */,
 				BC9C7E501F0DED6600DFFE83 /* EntityThumbnailView.swift in Sources */,
 				BC9C7DE61F0DED6600DFFE83 /* UnboxingOperation.swift in Sources */,
@@ -1198,6 +1195,7 @@
 				BC9C7E241F0DED6600DFFE83 /* CollectionViewFormProgressCell.swift in Sources */,
 				BC9C7E471F0DED6600DFFE83 /* SourceBar.swift in Sources */,
 				BC9C7E0F1F0DED6600DFFE83 /* DefaultReusable.swift in Sources */,
+				BCED8C761F1488EE004C3C71 /* CollectionViewFormHeaderView.swift in Sources */,
 				BC9C7DE11F0DED6600DFFE83 /* GroupOperation.swift in Sources */,
 				BC9C7DDB1F0DED6600DFFE83 /* BlockObserver.swift in Sources */,
 				BC9C7DE31F0DED6600DFFE83 /* OperationErrors.swift in Sources */,
@@ -1249,7 +1247,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -1257,7 +1257,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -1303,7 +1307,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -1311,7 +1317,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
