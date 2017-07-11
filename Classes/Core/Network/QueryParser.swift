@@ -1,9 +1,9 @@
 //
 //  QueryParser.swift
-//  Pods
+//  MPOLKit
 //
 //  Created by Megan Efron on 18/6/17.
-//
+//  Copyright © 2017 Gridstone. All rights reserved.
 //
 
 import UIKit
