@@ -325,7 +325,7 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     
     open func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
         switch view {
-        case let headerView as CollectionViewFormExpandingHeaderView:
+        case let headerView as CollectionViewFormHeaderView:
             headerView.tintColor = secondaryTextColor
             headerView.separatorColor = separatorColor
         default:

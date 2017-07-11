@@ -21,8 +21,6 @@ import UIKit.UIGestureRecognizerSubclass
 /// `systemLayoutSizeFitting(_:)`. Users should note that `CollectionViewFormLayout` does not support self-sizing cells.
 open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, CollectionViewFormCellActionDelegate, UIGestureRecognizerDelegate {
     
-    internal static let standardSeparatorColor = #colorLiteral(red: 0.7843137255, green: 0.7803921569, blue: 0.8, alpha: 1)
-    
     // MARK: - Class methods
     
     public class func heightForValidationAccessory(withText text: String, contentWidth: CGFloat, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
@@ -89,7 +87,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     }
     
     
-    @NSCopying open var separatorColor: UIColor? = CollectionViewFormCell.standardSeparatorColor {
+    @NSCopying open var separatorColor: UIColor? = iOSStandardSeparatorColor {
         didSet {
             if requiresValidation && validationColor != nil {
                 return
@@ -673,6 +671,16 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         }
         set {
             super.accessibilityCustomActions = newValue
+        }
+    }
+    
+    /// `CollectionViewFormCell` overrides `layoutMargins` to force
+    /// a layout pass. For some reason, this isn't a trigger for layout.
+    open override var layoutMargins: UIEdgeInsets {
+        didSet {
+            if layoutMargins != oldValue {
+                setNeedsLayout()
+            }
         }
     }
     

@@ -1,5 +1,5 @@
 //
-//  CollectionViewFormExpandingHeaderView.swift
+//  CollectionViewFormHeaderView.swift
 //  MPOLKit
 //
 //  Created by Rod Brown on 22/2/17.
@@ -10,7 +10,10 @@ import UIKit
 
 fileprivate var textContext = 1
 
-public class CollectionViewFormExpandingHeaderView: UICollectionReusableView, DefaultReusable {
+@available(*, deprecated, renamed: "CollectionViewFormHeaderView", message: "This typealias will be removed at a later date.")
+public typealias CollectionViewFormExpandingHeaderView = CollectionViewFormHeaderView
+
+public class CollectionViewFormHeaderView: UICollectionReusableView, DefaultReusable {
     
     // MARK: - Sizing
     
@@ -47,15 +50,8 @@ public class CollectionViewFormExpandingHeaderView: UICollectionReusableView, De
         didSet {
             if showsExpandArrow == oldValue { return }
             
-            isUserInteractionEnabled = showsExpandArrow
             arrowView.isHidden = !showsExpandArrow
             titleSeparatorConstraint.constant = showsExpandArrow ? 15.0 : 0.0
-            
-            if showsExpandArrow {
-                accessibilityTraits |= UIAccessibilityTraitButton
-            } else {
-                accessibilityTraits &= ~UIAccessibilityTraitButton
-            }
         }
     }
     
@@ -92,16 +88,28 @@ public class CollectionViewFormExpandingHeaderView: UICollectionReusableView, De
     
     /// An optional tap handler closure, passing the header view itself, and the associated
     /// index path.
-    public var tapHandler: ((CollectionViewFormExpandingHeaderView, IndexPath) -> (Void))?
+    public var tapHandler: ((CollectionViewFormHeaderView, IndexPath) -> (Void))? {
+        didSet {
+            // Disable user interaction when no tap handler is set to avoid gesture interference.
+            let hasTapHandler = tapHandler != nil
+            isUserInteractionEnabled = hasTapHandler
+            
+            if hasTapHandler {
+                accessibilityTraits |= UIAccessibilityTraitButton
+            } else {
+                accessibilityTraits &= ~UIAccessibilityTraitButton
+            }
+        }
+    }
     
     
     // MARK: - Private properties
     
-    private let titleLabel    = UILabel(frame: .zero)
+    private let titleLabel = UILabel(frame: .zero)
     
     private let separatorView = UIView(frame: .zero)
     
-    private let arrowView     = UIImageView(image: UIImage(named: "DropDown", in: .mpolKit, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate))
+    private let arrowView = UIImageView(image: UIImage(named: "DropDown", in: .mpolKit, compatibleWith: nil))
     
     private var indexPath: IndexPath?
     
@@ -148,29 +156,31 @@ public class CollectionViewFormExpandingHeaderView: UICollectionReusableView, De
         titleLabel.font = .systemFont(ofSize: 11.0, weight: UIFontWeightSemibold)
         
         separatorView.translatesAutoresizingMaskIntoConstraints = false
-        separatorView.backgroundColor = Theme.current.colors[.Separator]
+        separatorView.backgroundColor = iOSStandardSeparatorColor
         
         addSubview(separatorView)
         addSubview(titleLabel)
         addSubview(arrowView)
         
         isUserInteractionEnabled = showsExpandArrow
-        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognizerDidRecognize)))
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(performTapAction)))
         
-        separatorHeightConstraint     = NSLayoutConstraint(item: separatorView, attribute: .height,  relatedBy: .equal, toConstant: 1.0 / UIScreen.main.scale)
-        titleSeparatorConstraint      = NSLayoutConstraint(item: titleLabel,    attribute: .leading, relatedBy: .equal, toItem: self,       attribute: .leadingMargin)
-        separatorSeparationConstraint = NSLayoutConstraint(item: separatorView, attribute: .leading, relatedBy: .equal, toItem: titleLabel, attribute: .trailing)
+        let layoutMarginsGuide = self.layoutMarginsGuide
+        
+        titleSeparatorConstraint      = titleLabel.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor)
+        separatorHeightConstraint     = separatorView.heightAnchor.constraint(equalToConstant: 1.0 / UIScreen.main.scale)
+        separatorSeparationConstraint = separatorView.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor)
         
         NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: arrowView, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .leadingMargin, constant: (arrowView.image?.size.width ?? 0.0) / 2.0),
-            NSLayoutConstraint(item: arrowView, attribute: .centerY, relatedBy: .equal, toItem: titleLabel, attribute: .centerY),
+            arrowView.centerXAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor, constant: (arrowView.image?.size.width ?? 0.0) / 2.0),
+            arrowView.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+            titleLabel.centerYAnchor.constraint(equalTo: separatorView.centerYAnchor),
+            
+            separatorView.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor),
+            separatorView.trailingAnchor.constraint(equalTo: self.trailingAnchor).withPriority(UILayoutPriorityRequired - 1),
             
             titleSeparatorConstraint,
-            
             separatorSeparationConstraint,
-            NSLayoutConstraint(item: separatorView, attribute: .top,      relatedBy: .equal, toItem: titleLabel, attribute: .centerY),
-            NSLayoutConstraint(item: separatorView, attribute: .top,      relatedBy: .equal, toItem: self, attribute: .bottomMargin),
-            NSLayoutConstraint(item: separatorView, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, priority: UILayoutPriorityRequired - 1),
             separatorHeightConstraint,
         ])
         
@@ -188,22 +198,8 @@ public class CollectionViewFormExpandingHeaderView: UICollectionReusableView, De
     
     public override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
         super.apply(layoutAttributes)
-        
         indexPath = layoutAttributes.indexPath
         layoutMargins = (layoutAttributes as? CollectionViewFormLayoutAttributes)?.layoutMargins ?? UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
-    }
-    
-    public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if context == &textContext {
-            separatorSeparationConstraint.constant = titleLabel.text?.isEmpty ?? true ? 0.0 : 8.0
-        } else {
-            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-        }
-    }
-    
-    public override func tintColorDidChange() {
-        super.tintColorDidChange()
-        titleLabel.textColor = tintColor
     }
     
     public final override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
@@ -222,16 +218,27 @@ public class CollectionViewFormExpandingHeaderView: UICollectionReusableView, De
         didSet { isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft }
     }
     
+    public override func tintColorDidChange() {
+        super.tintColorDidChange()
+        titleLabel.textColor = tintColor
+    }
+    
+    
+    // MARK: - KVO
+    
+    public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if context == &textContext {
+            separatorSeparationConstraint.constant = titleLabel.text?.isEmpty ?? true ? 0.0 : 8.0
+        } else {
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+        }
+    }
+    
     
     // MARK: - Accessibility
     
     open override var accessibilityLabel: String? {
-        get {
-            if let setValue = super.accessibilityLabel {
-                return setValue
-            }
-            return titleLabel.text
-        }
+        get { return super.accessibilityLabel?.ifNotEmpty() ?? titleLabel.text }
         set { super.accessibilityLabel = newValue }
     }
     
@@ -248,13 +255,20 @@ public class CollectionViewFormExpandingHeaderView: UICollectionReusableView, De
         set { super.accessibilityValue = newValue }
     }
     
+    open override func accessibilityActivate() -> Bool {
+        return performTapAction()
+    }
+    
     
     // MARK: - Private methods
     
-    @objc private func tapGestureRecognizerDidRecognize() {
-        if let indexPath = self.indexPath {
-            tapHandler?(self, indexPath)
+    @objc @discardableResult private func performTapAction() -> Bool {
+        if let indexPath = self.indexPath,
+            let tapHandler = self.tapHandler {
+            tapHandler(self, indexPath)
+            return true
         }
+        return false
     }
     
 }

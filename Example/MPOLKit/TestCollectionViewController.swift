@@ -13,6 +13,7 @@ class TestCollectionViewController: FormCollectionViewController, FilterViewCont
     
     override init() {
         super.init()
+        formLayout.pinsGlobalHeaderWhenBouncing = true
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "iconFormFilter", in: Bundle(for: CollectionViewFormLayout.self), compatibleWith: nil), style: .plain, target: self, action: #selector(filterItemDidSelect(_:)))
     }
     
@@ -20,7 +21,7 @@ class TestCollectionViewController: FormCollectionViewController, FilterViewCont
         super.viewDidLoad()
         
         collectionView?.register(CollectionViewFormTextFieldCell.self)
-        collectionView?.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
+        collectionView?.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         collectionView?.register(RecentEntitiesBackgroundView.self, forSupplementaryViewOfKind: collectionElementKindGlobalHeader)
     }
     
@@ -43,7 +44,7 @@ class TestCollectionViewController: FormCollectionViewController, FilterViewCont
         case collectionElementKindGlobalHeader:
             return collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: RecentEntitiesBackgroundView.self, for: indexPath)
         case UICollectionElementKindSectionHeader:
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, class: CollectionViewFormHeaderView.self, for: indexPath)
             header.tintColor = Theme.current.colors[.SecondaryText]
             header.showsExpandArrow = true
             header.text = "1 ACTIVE ALERT"
@@ -72,7 +73,7 @@ class TestCollectionViewController: FormCollectionViewController, FilterViewCont
     }
     
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
-        return CollectionViewFormExpandingHeaderView.minimumHeight
+        return CollectionViewFormHeaderView.minimumHeight
     }
     
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
@@ -106,7 +107,7 @@ class TestCollectionViewController: FormCollectionViewController, FilterViewCont
     }
     
     func collectionView(_ collectionView: UICollectionView, heightForGlobalHeaderInLayout layout: CollectionViewFormLayout) -> CGFloat {
-        return 600.0
+        return 200.0
     }
     
 }
