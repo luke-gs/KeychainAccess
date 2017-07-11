@@ -51,6 +51,12 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
         }
     }
     
+    @available(*, deprecated, renamed: "labelSeparation", message: "This property has been renamed, and will be removed at a later date.")
+    open var preferredLabelSeparation: CGFloat {
+        get { return labelSeparation }
+        set { labelSeparation = newValue }
+    }
+    
     
     // MARK: - Private/internal properties
     
