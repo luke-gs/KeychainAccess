@@ -194,7 +194,7 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
                                                    y: (contentYOrigin + (titleContentHeight - imageSize.height) / 2.0).rounded(toScale: displayScale)),
                                    size: imageSize)
         accessoryView?.frame = CGRect(origin: CGPoint(x: isRightToLeft ? contentRect.minX : (contentRect.maxX - accessorySize.width).floored(toScale: displayScale),
-                                                      y: (contentYOrigin + (totalContentHeight / 2.0)).rounded(toScale: displayScale)),
+                                                      y: (contentYOrigin - (totalContentHeight / 2.0)).rounded(toScale: displayScale)),
                                       size: accessorySize)
         
         

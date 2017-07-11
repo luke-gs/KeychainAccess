@@ -23,6 +23,8 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     
     // MARK: - Class methods
     
+    public static let accessoryContentInset: CGFloat = 12.0
+    
     public class func heightForValidationAccessory(withText text: String, contentWidth: CGFloat, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
         if text.isEmpty { return 0.0 }
         
@@ -150,7 +152,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
                 
                 let accessoryWidth = accessoryView.frame.width
                 if accessoryWidth > 0 {
-                    contentModeLayoutTrailingConstraint?.constant = (accessoryWidth + 10.0) * -1.0
+                    contentModeLayoutTrailingConstraint?.constant = (accessoryWidth + CollectionViewFormCell.accessoryContentInset) * -1.0
                 } else {
                     contentModeLayoutTrailingConstraint?.constant = 0.0
                 }
@@ -468,6 +470,21 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     /// - Parameter newCategory: The new content size category.
     public func contentSizeCategoryDidChange(_ newCategory: UIContentSizeCategory) {
         setNeedsLayout()
+    }
+    
+    /// The current content rectangle considering space for the layout margins and accessory view.
+    public func contentRect() -> CGRect {
+        var contentRect = contentView.bounds.insetBy(contentView.layoutMargins)
+        
+        if let accessorySize = accessoryView?.frame.size, accessorySize.isEmpty == false {
+            let inset = accessorySize.width + CollectionViewFormCell.accessoryContentInset
+            contentRect.size.width -= inset
+            if effectiveUserInterfaceLayoutDirection == .rightToLeft {
+                contentRect.origin.x += inset
+            }
+        }
+        
+        return contentRect
     }
     
     

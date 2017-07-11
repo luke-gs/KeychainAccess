@@ -96,7 +96,7 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
         let accessorySize: CGSize
         if let size = self.accessoryView?.frame.size, size.isEmpty == false {
             accessorySize = size
-            let inset = size.width + 10.0
+            let inset = size.width + CollectionViewFormCell.accessoryContentInset
             contentRect.size.width -= inset
             
             if isRightToLeft {
@@ -136,7 +136,7 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
             contentYOrigin = max(contentRect.minY, contentRect.midY - contentHeight / 2.0)
         }
         
-        accessoryView?.frame = CGRect(origin: CGPoint(x: isRightToLeft ? contentRect.minX : contentRect.maxX - accessorySize.width, y: (contentYOrigin + (contentHeight - accessorySize.height) / 2.0).rounded(toScale: displayScale)), size: accessorySize)
+        accessoryView?.frame = CGRect(origin: CGPoint(x: isRightToLeft ? contentRect.minX : contentRect.maxX - accessorySize.width, y: (contentYOrigin - (contentHeight - accessorySize.height) / 2.0).rounded(toScale: displayScale)), size: accessorySize)
         
         let titleFrame = CGRect(origin: CGPoint(x: isRightToLeft ? contentRect.maxX - labelSize.width : contentRect.minX, y: contentYOrigin), size: labelSize)
         titleLabel.frame = titleFrame
