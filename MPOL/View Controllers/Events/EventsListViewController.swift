@@ -17,6 +17,9 @@ class EventsListViewController: FormCollectionViewController {
         
         tabBarItem.image = #imageLiteral(resourceName: "iconFormOccurrence")
         tabBarItem.selectedImage = #imageLiteral(resourceName: "iconFormOccurrenceFilled")
+        //tabBarItem.isEnabled = false
+        
+        updateNewBarButtonItem()
     }
     
     
@@ -25,7 +28,17 @@ class EventsListViewController: FormCollectionViewController {
         
         let collectionView = self.collectionView!
         collectionView.register(EventListCell.self)
-        collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
+        collectionView.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        let isCompact = traitCollection.horizontalSizeClass == .compact
+        if isCompact != (previousTraitCollection?.horizontalSizeClass == .compact) {
+            collectionView?.reloadData() // we need to reload the cells because their action labels will show/hide
+            updateNewBarButtonItem()
+        }
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -36,12 +49,30 @@ class EventsListViewController: FormCollectionViewController {
         return 2
     }
     
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        switch kind {
+        case UICollectionElementKindSectionHeader:
+            let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
+            view.text = "2 " + (indexPath.section == 0 ? "DRAFTS" : "QUEUED")
+            return view
+        default:
+            return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
+        }
+    }
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(of: EventListCell.self, for: indexPath)
         cell.titleLabel.text = "Street Check"
-        cell.subtitleLabel.text = "4 - 12 Langridge St, Collingwood VIC 3066"
+        cell.subtitleLabel.text = "4-12 Langridge St, Collingwood VIC 3066"
         cell.actionLabel.text = "Open Event"
         cell.actionSubtitleLabel.text = "Saved at 8:45 AM"
+        cell.imageView.image = #imageLiteral(resourceName: "iconFormOccurrence")
+        cell.accessoryView = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
+        
+        let isCompact = traitCollection.horizontalSizeClass == .compact
+        cell.actionLabel.isHidden = isCompact
+        cell.actionSubtitleLabel.isHidden = isCompact
+        
         return cell
     }
     
@@ -57,11 +88,40 @@ class EventsListViewController: FormCollectionViewController {
         }
     }
     
+    
+    // MARK: - Collection view delegate form layout
+    
+    func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
+        return CollectionViewFormHeaderView.minimumHeight
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
+        return EventListCell.minimumContentHeight(withTitle: "Street Check", subtitle: "4-12 Langridge St, Collingwood VIC 3066", inWidth: itemWidth, compatibleWith: traitCollection, image: #imageLiteral(resourceName: "iconFormOccurrence"), accessoryViewSize: FormDisclosureView.standardSize)
+    }
+    
+    
+    // MARK: - Private methods
+    
+    private func updateNewBarButtonItem() {
+        if traitCollection.horizontalSizeClass == .compact {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil)
+        } else {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("New Event", comment: "Bar button title"), style: .plain, target: nil, action: nil)
+        }
+    }
+    
 }
 
 
 
-// This will move to the kit. Standby for a rename and shift.
+
+
+
+private var kvoContext = 1
+
+// This will refactored to the kit. Standby for a rename and shift.
+//
+// This solution currently doesn't support class sizing variations for multiple lines.
 private class EventListCell: CollectionViewFormSubtitleCell {
     
     let actionLabel = UILabel(frame: .zero)
@@ -83,12 +143,20 @@ private class EventListCell: CollectionViewFormSubtitleCell {
         contentView.addSubview(actionLabel)
         contentView.addSubview(actionSubtitleLabel)
         
-        accessoryView = FormDisclosureView()
+        actionLabel.addObserver(self, forKeyPath: #keyPath(UILabel.isHidden), context: &kvoContext)
+        actionSubtitleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.isHidden), context: &kvoContext)
     }
     
     required init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
+    
+    deinit {
+        actionLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.isHidden), context: &kvoContext)
+        actionSubtitleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.isHidden), context: &kvoContext)
+    }
+    
+   
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -107,7 +175,7 @@ private class EventListCell: CollectionViewFormSubtitleCell {
         
         let actionLabelSeparation = (actionSize.isEmpty || actionLabel.isHidden) || (actionSubtitleSize.isEmpty || actionSubtitleLabel.isHidden) ? 0.0 : labelSeparation.rounded(toScale: displayScale)
         let actionLabelContentSize = CGSize(width: max(actionSize.width, actionSize.height),
-                                            height: actionSize.height + actionSubtitleSize.height + actionLabelSeparation)
+                                            height: (actionLabel.isHidden ? 0.0 : actionSize.height) + (actionSubtitleLabel.isHidden ? 0.0 : actionSubtitleSize.height) + actionLabelSeparation)
         
         var actionFrame = CGRect(origin: CGPoint(x: 0.0, y: (contentRect.midY - (actionLabelContentSize.height / 2.0)).rounded(toScale: displayScale)), size: actionSize)
         var actionSubtitleFrame = CGRect(origin: CGPoint(x: 0.0, y: actionFrame.maxY + actionLabelSeparation), size: actionSubtitleSize)
@@ -159,6 +227,15 @@ private class EventListCell: CollectionViewFormSubtitleCell {
         
         titleLabel.frame = titleFrame
         subtitleLabel.frame = subtitleFrame
+    }
+    
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if context == &kvoContext {
+            setNeedsLayout()
+        } else {
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+        }
     }
     
 }

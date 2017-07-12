@@ -140,13 +140,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 return settingsItem
             }
             
-            let searchViewController = SearchViewController()
-            searchViewController.recentsViewController.title = "MPOL" // TODO: Should be client name
-            searchViewController.recentsViewController.navigationItem.leftBarButtonItem = settingsBarButtonItem()
+            let searchVC = SearchViewController()
+            searchVC.recentsViewController.title = "MPOL" // TODO: Should be client name
+            searchVC.recentsViewController.navigationItem.leftBarButtonItem = settingsBarButtonItem()
             
-            let searchNavController = UINavigationController(rootViewController: searchViewController)
+            let eventListVC = EventsListViewController()
+            eventListVC.navigationItem.leftBarButtonItem = settingsBarButtonItem()
+            
+            let searchNavController = UINavigationController(rootViewController: searchVC)
             let actionListNavController = UINavigationController(rootViewController: ActionListViewController())
-            let eventListNavController = UINavigationController(rootViewController: EventsListViewController())
+            let eventListNavController = UINavigationController(rootViewController: eventListVC)
             
             let tasksProxyViewController = UIViewController()
             tasksProxyViewController.tabBarItem.title = NSLocalizedString("Tasks", comment: "Tab Bar Item title")
