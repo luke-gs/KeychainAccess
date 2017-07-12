@@ -169,7 +169,7 @@ open class CollectionViewFormValueFieldCell: CollectionViewFormCell {
         if let imageViewSize = _imageView?.intrinsicContentSize, imageViewSize.isEmpty == false {
             imageSize = imageView.intrinsicContentSize
             
-            let inset = imageSize.width
+            let inset = imageSize.width + 10.0
             contentRect.size.width -= inset
             if isRightToLeft == false {
                 contentRect.origin.x += inset
