@@ -473,7 +473,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     }
     
     /// The current content rectangle considering space for the layout margins and accessory view.
-    public func contentRect() -> CGRect {
+    open func contentRect() -> CGRect {
         var contentRect = contentView.bounds.insetBy(contentView.layoutMargins)
         
         if let accessorySize = accessoryView?.frame.size, accessorySize.isEmpty == false {
