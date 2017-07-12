@@ -232,12 +232,12 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
     ///   - titleFont:          The title font. The default is `nil`, indicating the calculation should use the default.
     ///   - subtitleFont:       The subtitle font. The default is `nil`, indicating the calculation should use the default.
     ///   - singleLineTitle:    A boolean value indicating if the title text should be constrained to a single line. The default is `true`.
-    ///   - singleLineSubtitle: A boolean value indicating if the subtitle text should be constrained to a single line. The default is `false`.
+    ///   - singleLineSubtitle: A boolean value indicating if the subtitle text should be constrained to a single line. The default is `true`.
     ///   - accessoryViewWidth: The width for the accessory view.
     /// - Returns: The minumum content width for the cell.
     open class func minimumContentWidth(withTitle title: String?, subtitle: String?, compatibleWith traitCollection: UITraitCollection,
                                         image: UIImage? = nil, titleFont: UIFont? = nil, subtitleFont: UIFont? = nil,
-                                        singleLineTitle: Bool = true, singleLineSubtitle: Bool = false, accessoryViewWidth: CGFloat = 0.0) -> CGFloat {
+                                        singleLineTitle: Bool = true, singleLineSubtitle: Bool = true, accessoryViewWidth: CGFloat = 0.0) -> CGFloat {
         let standardFonts = self.standardFonts(compatibleWith: traitCollection)
         
         let titleTextFont = titleFont ?? standardFonts.titleFont
@@ -272,12 +272,14 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
     ///   - image:              The leading image for the cell. The default is `nil`.
     ///   - titleFont:          The title font. The default is `nil`, indicating the calculation should use the default.
     ///   - subtitleFont:       The subtitle font. The default is `nil`, indicating the calculation should use the default.
-    ///   - singleLineTitle:    A boolean value indicating if the title text should be constrained to a single line. The default is `false`.
-    ///   - singleLineSubtitle: A boolean value indicating if the subtitle text should be constrained to a single line. The default is `false`.
+    ///   - singleLineTitle:    A boolean value indicating if the title text should be constrained to a single line. The default is `true`.
+    ///   - singleLineSubtitle: A boolean value indicating if the subtitle text should be constrained to a single line. The default is `true`.
+    ///   - labelSeparation:    The label separation. The default is the default label separation.
+    ///   - accessoryViewSize:  The required size for the accessory, if any. The default is `nil`, meaning no accessory view.
     /// - Returns:      The minumum content height for the cell.
     open class func minimumContentHeight(withTitle title: String?, subtitle: String?, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection,
                                          image: UIImage? = nil, titleFont: UIFont? = nil, subtitleFont: UIFont? = nil,
-                                         singleLineTitle: Bool = true, singleLineSubtitle: Bool = false, labelSeparation: CGFloat = CellTitleSubtitleSeparation) -> CGFloat {
+                                         singleLineTitle: Bool = true, singleLineSubtitle: Bool = true, labelSeparation: CGFloat = CellTitleSubtitleSeparation, accessoryViewSize: CGSize? = nil) -> CGFloat {
         let standardFonts = self.standardFonts(compatibleWith: traitCollection)
         
         let titleTextFont = titleFont ?? standardFonts.titleFont
@@ -285,10 +287,16 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
         
         let imageSize = image?.size
         
+        let accessoryArea: CGSize
+        if let accessorySize = accessoryViewSize, accessorySize.isEmpty == false {
+            accessoryArea = CGSize(width: accessorySize.width + accessoryContentInset, height: accessorySize.height)
+        } else {
+            accessoryArea = .zero
+        }
         
         let displayScale = traitCollection.currentDisplayScale
         
-        let size = CGSize(width: imageSize == nil ? width : width - imageSize!.width - 16.0, height: CGFloat.greatestFiniteMagnitude)
+        let size = CGSize(width: imageSize == nil ? width : width - imageSize!.width - 16.0 - accessoryArea.width, height: CGFloat.greatestFiniteMagnitude)
         
         let titleHeight = (title as NSString?)?.boundingRect(with: size, options: singleLineTitle ? [] : .usesLineFragmentOrigin,
                                                              attributes: [NSFontAttributeName: titleTextFont],
@@ -302,7 +310,7 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
             combinedHeight += labelSeparation
         }
         
-        return max(combinedHeight, (imageSize?.height ?? 0.0))
+        return max(combinedHeight, (imageSize?.height ?? 0.0), accessoryArea.height)
     }
     
 }
