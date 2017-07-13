@@ -29,6 +29,7 @@ class EventsListViewController: FormCollectionViewController {
         let collectionView = self.collectionView!
         collectionView.register(EventListCell.self)
         collectionView.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
+        collectionView.register(EventListFooterView.self, forSupplementaryViewOfKind: collectionElementKindGlobalFooter)
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -54,6 +55,19 @@ class EventsListViewController: FormCollectionViewController {
         case UICollectionElementKindSectionHeader:
             let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
             view.text = "2 " + (indexPath.section == 0 ? "DRAFTS" : "QUEUED")
+            return view
+        case collectionElementKindGlobalFooter:
+            let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: EventListFooterView.self, for: indexPath)
+            view.captionLabel.text = NSLocalizedString("Last attempted to submit at 10:30 AM", comment: "") // TODO: Fix this temp value
+            view.button.setTitle(NSLocalizedString("TRY AGAIN NOW", comment: ""), for: .normal)
+            
+            // TODO: Use directionalEdgeInsets in iOS 11
+            if traitCollection.layoutDirection == .rightToLeft {
+                view.layoutMargins.right = 24.0
+            } else {
+                view.layoutMargins.left = 24.0
+            }
+            
             return view
         default:
             return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
@@ -88,11 +102,23 @@ class EventsListViewController: FormCollectionViewController {
         }
     }
     
+    override func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
+        super.collectionView(collectionView, willDisplaySupplementaryView: view, forElementKind: elementKind, at: indexPath)
+        
+        if let footer = view as? EventListFooterView {
+            footer.captionLabel.textColor = secondaryTextColor
+        }
+    }
+    
     
     // MARK: - Collection view delegate form layout
     
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
         return CollectionViewFormHeaderView.minimumHeight
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, heightForGlobalFooterInLayout layout: CollectionViewFormLayout) -> CGFloat {
+        return 36.0
     }
     
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
@@ -236,6 +262,67 @@ private class EventListCell: CollectionViewFormSubtitleCell {
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
+    }
+    
+}
+
+private class EventListFooterView: UICollectionReusableView, DefaultReusable {
+    
+    let captionLabel = UILabel(frame: .zero)
+    
+    let button = UIButton(type: .system)
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        captionLabel.translatesAutoresizingMaskIntoConstraints = false
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
+        captionLabel.adjustsFontForContentSizeCategory = true
+        button.titleLabel?.adjustsFontForContentSizeCategory = true
+        
+        let font = UIFont.preferredFont(forTextStyle: .caption1, compatibleWith: traitCollection)
+        captionLabel.font = font
+        
+        addSubview(captionLabel)
+        addSubview(button)
+        
+        let layoutMarginsGuide = self.layoutMarginsGuide
+        
+        var constraints = [
+            captionLabel.topAnchor.constraint(greaterThanOrEqualTo: layoutMarginsGuide.topAnchor),
+            captionLabel.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor).withPriority(UILayoutPriorityDefaultLow),
+            captionLabel.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
+            captionLabel.bottomAnchor.constraint(lessThanOrEqualTo: layoutMarginsGuide.bottomAnchor),
+            
+            button.topAnchor.constraint(greaterThanOrEqualTo: layoutMarginsGuide.topAnchor),
+            button.bottomAnchor.constraint(lessThanOrEqualTo: layoutMarginsGuide.bottomAnchor),
+            button.leadingAnchor.constraint(equalTo: captionLabel.trailingAnchor, constant: 8.0),
+            button.trailingAnchor.constraint(lessThanOrEqualTo: layoutMarginsGuide.trailingAnchor),
+            button.firstBaselineAnchor.constraint(equalTo: captionLabel.firstBaselineAnchor)
+        ]
+        
+        if let buttonLabel = button.titleLabel {
+            buttonLabel.font = font
+            constraints.append(captionLabel.firstBaselineAnchor.constraint(equalTo: buttonLabel.firstBaselineAnchor))
+        } else {
+            constraints.append(captionLabel.topAnchor.constraint(equalTo: button.topAnchor))
+        }
+        
+        NSLayoutConstraint.activate(constraints)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        MPLCodingNotSupported()
+    }
+    
+    public override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
+        super.apply(layoutAttributes)
+        layoutMargins = (layoutAttributes as? CollectionViewFormLayoutAttributes)?.layoutMargins ?? UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
+    }
+    
+    public final override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
+        return layoutAttributes
     }
     
 }
