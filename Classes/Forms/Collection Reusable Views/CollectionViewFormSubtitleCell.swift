@@ -62,8 +62,10 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
     
     private var _imageView: UIImageView? {
         didSet {
-            oldValue?.removeObserver(self, forKeyPath: #keyPath(UIImageView.image), context: &kvoContext)
-            _imageView?.addObserver(self, forKeyPath: #keyPath(UIImageView.image), context: &kvoContext)
+            keyPathsAffectingImageViewLayout.forEach {
+                oldValue?.removeObserver(self, forKeyPath: $0, context: &kvoContext)
+                _imageView?.addObserver(self, forKeyPath: $0, context: &kvoContext)
+            }
         }
     }
     
@@ -110,7 +112,11 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
             titleLabel.removeObserver(self, forKeyPath: $0, context: &kvoContext)
             subtitleLabel.removeObserver(self, forKeyPath: $0, context: &kvoContext)
         }
-        _imageView?.removeObserver(self, forKeyPath: #keyPath(UIImageView.image), context: &kvoContext)
+        if let imageView = _imageView {
+            keyPathsAffectingImageViewLayout.forEach {
+                imageView.removeObserver(self, forKeyPath: $0, context: &kvoContext)
+            }
+        }
     }
     
     
