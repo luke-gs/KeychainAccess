@@ -54,7 +54,6 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
         if let existingImageView = _imageView { return existingImageView }
         
         let newImageView = UIImageView(frame: .zero)
-        newImageView.isHidden = true
         contentView.addSubview(newImageView)
         
         _imageView = newImageView
@@ -92,10 +91,6 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
         let titleLabel    = self.titleLabel
         let subtitleLabel = self.subtitleLabel
         let detailLabel   = self.detailLabel
-        
-        titleLabel.isHidden    = true
-        subtitleLabel.isHidden = true
-        detailLabel.isHidden   = true
         
         titleLabel.adjustsFontForContentSizeCategory    = true
         subtitleLabel.adjustsFontForContentSizeCategory = true
@@ -163,20 +158,24 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
         }
         
         if let imageViewSize = _imageView?.intrinsicContentSize, imageViewSize.isEmpty == false {
-            imageSize = imageView.intrinsicContentSize
-            imageInset = imageSize.isEmpty ? 0.0 : imageSize.width + imageTextInset.ceiled(toScale: displayScale)
+            imageSize = imageViewSize
+            imageInset = imageViewSize.isEmpty || imageView.isHidden ? 0.0 : imageSize.width + imageTextInset.ceiled(toScale: displayScale)
         } else {
             imageSize = .zero
             imageInset = 0.0
         }
         
-        let titleSize = titleLabel.sizeThatFits(CGSize(width: contentRect.width - imageInset, height: .greatestFiniteMagnitude))
+        let titleSize    = titleLabel.sizeThatFits(CGSize(width: contentRect.width - imageInset, height: .greatestFiniteMagnitude))
         let subtitleSize = subtitleLabel.sizeThatFits(CGSize(width: contentRect.width - imageInset, height: .greatestFiniteMagnitude))
-        let detailSize = detailLabel.sizeThatFits(CGSize(width: contentRect.width, height: .greatestFiniteMagnitude))
+        let detailSize   = detailLabel.sizeThatFits(CGSize(width: contentRect.width, height: .greatestFiniteMagnitude))
         
-        let titleLabelContentHeight = titleSize.height + subtitleSize.height + (titleSize.isEmpty == false && subtitleSize.isEmpty == false ? CellTitleSubtitleSeparation.ceiled(toScale: displayScale) : 0.0)
-        let titleContentHeight = max(titleLabelContentHeight, imageSize.height)
-        let totalContentHeight = max(detailSize.height + titleContentHeight + (detailSize.height >~ 0.0 && titleContentHeight >~ 0.0 ? titleDetailSeparation : 0.0), accessorySize.height)
+        let showingTitle    = titleSize.isEmpty == false && titleLabel.isHidden == false
+        let showingSubtitle = subtitleSize.isEmpty == false && subtitleLabel.isHidden == false
+        let showingDetail   = detailSize.isEmpty == false && detailLabel.isHidden == false
+        
+        let titleLabelContentHeight = (showingTitle ? titleSize.height : 0.0) + (showingSubtitle ? subtitleSize.height : 0.0) + (showingTitle && showingDetail ? CellTitleSubtitleSeparation.ceiled(toScale: displayScale) : 0.0)
+        let titleContentHeight = max(titleLabelContentHeight, (imageInset ==~ 0.0 ? 0.0 : imageSize.height))
+        let totalContentHeight = max((showingDetail ? detailSize.height : 0.0) + titleContentHeight + (showingDetail && titleContentHeight >~ 0.0 ? titleDetailSeparation : 0.0), accessorySize.height)
         
         let contentYOrigin: CGFloat
         switch contentMode {
@@ -204,23 +203,16 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
                                 size: titleSize)
         titleLabel.frame = titleFrame
         subtitleLabel.frame = CGRect(origin: CGPoint(x: isRightToLeft ? contentRect.maxX - imageInset - subtitleSize.width : contentRect.minX + imageInset,
-                                                   y: titleFrame.maxY + CellTitleSubtitleSeparation.ceiled(toScale: displayScale)), size: subtitleSize)
+                                                     y: (showingTitle ? titleFrame.maxY + CellTitleSubtitleSeparation.ceiled(toScale: displayScale) : titleFrame.minY)),
+                                     size: subtitleSize)
         
         detailLabel.frame = CGRect(origin: CGPoint(x: isRightToLeft ? contentRect.maxX - detailSize.width : contentRect.minX,
-                                                   y: contentYOrigin + titleContentHeight + titleDetailSeparation.rounded(toScale: displayScale)),
+                                                   y: contentYOrigin + titleContentHeight + (titleContentHeight >~ 0.0 ? titleDetailSeparation.rounded(toScale: displayScale) : 0.0)),
                                    size: detailSize)
     }
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {
-            switch object {
-            case let label as UILabel:
-                label.isHidden = label.text?.isEmpty ?? true
-            case let imageView as UIImageView:
-                imageView.isHidden = imageView.intrinsicContentSize.isEmpty
-            default:
-                break
-            }
             setNeedsLayout()
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)

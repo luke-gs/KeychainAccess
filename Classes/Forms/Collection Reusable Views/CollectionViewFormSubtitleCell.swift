@@ -33,7 +33,6 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
         if let existingImageView = _imageView { return existingImageView }
         
         let newImageView = UIImageView(frame: .zero)
-        newImageView.isHidden = true
         contentView.addSubview(newImageView)
         
         _imageView = newImageView
@@ -58,7 +57,7 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
     }
     
     
-    // MARK: - Private/internal properties
+    // MARK: - Private properties
     
     private var _imageView: UIImageView? {
         didSet {
@@ -86,9 +85,6 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
         
         let titleLabel    = self.titleLabel
         let subtitleLabel = self.subtitleLabel
-        
-        titleLabel.isHidden    = true
-        subtitleLabel.isHidden = true
         
         titleLabel.adjustsFontForContentSizeCategory = true
         subtitleLabel.adjustsFontForContentSizeCategory = true
@@ -151,10 +147,12 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
         if let imageViewSize = _imageView?.intrinsicContentSize, imageViewSize.isEmpty == false {
             imageSize = imageView.intrinsicContentSize
             
-            let inset = imageSize.width + 10.0
-            contentRect.size.width -= inset
-            if isRightToLeft == false {
-                contentRect.origin.x += inset
+            if _imageView!.isHidden == false {
+                let inset = imageSize.width + 10.0
+                contentRect.size.width -= inset
+                if isRightToLeft == false {
+                    contentRect.origin.x += inset
+                }
             }
         } else {
             imageSize = .zero
@@ -167,9 +165,12 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
         titleSize.width = min(contentRect.width, titleSize.width)
         subtitleSize.width = min(contentRect.width, subtitleSize.width)
         
+        let titleVisible = titleSize.isEmpty == false && titleLabel.isHidden == false
+        let subtitleVisible = subtitleSize.isEmpty == false && titleLabel.isHidden == false
+        
         // Work out major content positions
-        let labelSeparation = titleSize.isEmpty == false && subtitleSize.isEmpty == false ? self.labelSeparation : 0.0
-        let heightForLabelContent = titleSize.height + subtitleSize.height + labelSeparation
+        let labelSeparation = titleVisible && subtitleVisible ? self.labelSeparation : 0.0
+        let heightForLabelContent = (titleVisible ? titleSize.height : 0.0) + (subtitleVisible ? subtitleSize.height : 0) + labelSeparation
         
         let centerYOfContent: CGFloat
         
@@ -197,7 +198,9 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
         var currentYOffset = (centerYOfContent - (heightForLabelContent / 2.0)).rounded(toScale: displayScale)
         
         titleLabel.frame = CGRect(origin: CGPoint(x: isRightToLeft ? contentRect.maxX - titleSize.width : contentRect.minX, y: currentYOffset), size: titleSize)
-        currentYOffset += (titleSize.height + labelSeparation).rounded(toScale: displayScale)
+        if titleVisible {
+            currentYOffset += (titleSize.height + labelSeparation).rounded(toScale: displayScale)
+        }
         
         let valueLabelFrame = CGRect(origin: CGPoint(x: isRightToLeft ? contentRect.maxX - subtitleSize.width : contentRect.minX, y: currentYOffset), size: subtitleSize)
         subtitleLabel.frame = valueLabelFrame
@@ -205,15 +208,6 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {
-            switch object {
-            case let label as UILabel where keyPath == #keyPath(UILabel.text) || keyPath == #keyPath(UILabel.attributedText):
-                label.isHidden = label.text?.isEmpty ?? true
-            case let imageView as UIImageView:
-                imageView.isHidden = imageView.intrinsicContentSize.isEmpty
-            default:
-                break
-            }
-            
             setNeedsLayout()
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)

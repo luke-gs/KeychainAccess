@@ -36,7 +36,6 @@ open class CollectionViewFormValueFieldCell: CollectionViewFormCell {
         if let existingImageView = _imageView { return existingImageView }
         
         let newImageView = UIImageView(frame: .zero)
-        newImageView.isHidden = true
         contentView.addSubview(newImageView)
         
         _imageView = newImageView
@@ -98,10 +97,6 @@ open class CollectionViewFormValueFieldCell: CollectionViewFormCell {
         let valueLabel       = self.valueLabel
         let placeholderLabel = self.placeholderLabel
         
-        titleLabel.isHidden = true
-        valueLabel.isHidden = true
-        placeholderLabel.isHidden = true
-        
         titleLabel.adjustsFontForContentSizeCategory = true
         valueLabel.adjustsFontForContentSizeCategory = true
         placeholderLabel.adjustsFontForContentSizeCategory = true
@@ -129,7 +124,6 @@ open class CollectionViewFormValueFieldCell: CollectionViewFormCell {
             valueLabel.removeObserver(self, forKeyPath: $0, context: &kvoContext)
             placeholderLabel.removeObserver(self, forKeyPath: $0, context: &kvoContext)
         }
-        
         if let imageView = _imageView {
             keyPathsAffectingImageViewLayout.forEach {
                 imageView.removeObserver(self, forKeyPath: $0, context: &kvoContext)
@@ -167,12 +161,14 @@ open class CollectionViewFormValueFieldCell: CollectionViewFormCell {
         }
         
         if let imageViewSize = _imageView?.intrinsicContentSize, imageViewSize.isEmpty == false {
-            imageSize = imageView.intrinsicContentSize
+            imageSize = imageViewSize
             
-            let inset = imageSize.width + 10.0
-            contentRect.size.width -= inset
-            if isRightToLeft == false {
-                contentRect.origin.x += inset
+            if _imageView!.isHidden == false {
+                let inset = imageSize.width + 10.0
+                contentRect.size.width -= inset
+                if isRightToLeft == false {
+                    contentRect.origin.x += inset
+                }
             }
         } else {
             imageSize = .zero
@@ -238,15 +234,14 @@ open class CollectionViewFormValueFieldCell: CollectionViewFormCell {
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {
-            switch object {
-            case let label as UILabel where keyPath == #keyPath(UILabel.text) || keyPath == #keyPath(UILabel.attributedText):
-                updateLabelHiddenState(label)
-            case let imageView as UIImageView:
-                imageView.isHidden = imageView.intrinsicContentSize.isEmpty
-            default:
-                break
+            if let label = object as? UILabel {
+                if keyPath == #keyPath(UILabel.isHidden) {
+                    return // We don't need to relayout when labels hide - we ignore that.
+                }
+                if label == valueLabel && (keyPath == #keyPath(UILabel.text) || keyPath == #keyPath(UILabel.attributedText)) {
+                    placeholderLabel.isHidden = (valueLabel.text?.isEmpty ?? true == false)
+                }
             }
-            
             setNeedsLayout()
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
@@ -256,20 +251,6 @@ open class CollectionViewFormValueFieldCell: CollectionViewFormCell {
     open override var accessibilityLabel: String? {
         get { return super.accessibilityLabel?.ifNotEmpty() ?? [titleLabel, valueLabel].flatMap({ $0.text }).joined(separator: ", ") }
         set { super.accessibilityLabel = newValue }
-    }
-    
-    
-    // MARK: - Private methods
-    
-    private func updateLabelHiddenState(_ label: UILabel) {
-        if label == titleLabel {
-            titleLabel.isHidden = titleLabel.text?.isEmpty ?? true
-            return
-        }
-        
-        let valueEmpty = valueLabel.text?.isEmpty ?? true
-        valueLabel.isHidden = valueEmpty
-        placeholderLabel.isHidden = placeholderLabel.text?.isEmpty ?? true || valueEmpty == false
     }
     
     

@@ -20,7 +20,7 @@ class TestCollectionViewController: FormCollectionViewController, FilterViewCont
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        collectionView?.register(CollectionViewFormTextFieldCell.self)
+        collectionView?.register(CollectionViewFormValueFieldCell.self)
         collectionView?.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         collectionView?.register(RecentEntitiesBackgroundView.self, forSupplementaryViewOfKind: collectionElementKindGlobalHeader)
     }
@@ -35,7 +35,7 @@ class TestCollectionViewController: FormCollectionViewController, FilterViewCont
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 100
+        return 10000
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -58,15 +58,15 @@ class TestCollectionViewController: FormCollectionViewController, FilterViewCont
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormTextFieldCell.self, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormValueFieldCell.self, for: indexPath)
         
         cell.titleLabel.text =  "Test Title \(indexPath.item + 1)"
-        cell.textField.placeholder = "Testing placeholder \(indexPath.item + 1)"
-        
+        cell.placeholderLabel.text = "Testing placeholder \(indexPath.item + 1)"
+
         if indexPath.item % 2 == 0 {
-            cell.textField.text = "Testing value \(indexPath.item + 1)"
+            cell.valueLabel.text = "Testing value \(indexPath.item + 1)"
         } else {
-            cell.textField.text = nil
+            cell.valueLabel.text = nil
         }
         
         return cell
@@ -77,11 +77,11 @@ class TestCollectionViewController: FormCollectionViewController, FilterViewCont
     }
     
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
-        return layout.columnContentWidth(forColumnCount: 2, sectionEdgeInsets: sectionEdgeInsets)
+        return layout.columnContentWidth(forColumnCount: 3, sectionEdgeInsets: sectionEdgeInsets)
     }
     
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
-        return CollectionViewFormTextViewCell.minimumContentHeight(withTitle: "Kj", enteredText: "Test", placeholder: "Test", inWidth: itemWidth, compatibleWith: traitCollection)
+        return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: "Kj", subtitle: "Test", inWidth: itemWidth, compatibleWith: traitCollection)
     }    
     
     
