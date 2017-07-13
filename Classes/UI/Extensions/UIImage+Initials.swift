@@ -1,9 +1,9 @@
 //
 //  UIImage+Initials.swift
-//  Pods
+//  MPOLKit
 //
 //  Created by Rod Brown on 25/5/17.
-//
+//  Copyright © 2017 Gridstone. All rights reserved.
 //
 
 import UIKit

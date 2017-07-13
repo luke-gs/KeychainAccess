@@ -3,7 +3,7 @@
 //  MPOLKit_Example
 //
 //  Created by Rod Brown on 2/7/17.
-//  Copyright © 2017 CocoaPods. All rights reserved.
+//  Copyright © 2017 Gridstone. All rights reserved.
 //
 
 import UIKit

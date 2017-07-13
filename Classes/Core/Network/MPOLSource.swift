@@ -1,9 +1,9 @@
 //
 //  MPOLSource.swift
-//  Pods
+//  MPOLKit
 //
 //  Created by Herli Halim on 13/6/17.
-//
+//  Copyright © 2017 Gridstone. All rights reserved.
 //
 
 import Foundation

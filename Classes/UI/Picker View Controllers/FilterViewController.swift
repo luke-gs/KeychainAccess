@@ -3,7 +3,7 @@
 //  MPOLKit_Example
 //
 //  Created by Rod Brown on 30/6/17.
-//  Copyright © 2017 CocoaPods. All rights reserved.
+//  Copyright © 2017 Gridstone. All rights reserved.
 //
 
 import UIKit
@@ -25,6 +25,12 @@ open class FilterViewController: FormCollectionViewController {
     /// - Note: Updating this array automatically updates validity.
     open var filterOptions: [FilterOption] {
         didSet {
+            filterOptions = filterOptions.map {
+                guard var list = $0 as? FilterList else { return $0 }
+                list.selectedIndexes.formIntersection(IndexSet(integersIn: 0..<list.options.count))
+                return list
+            }
+            
             updateValidity()
         }
     }
@@ -38,9 +44,15 @@ open class FilterViewController: FormCollectionViewController {
     // MARK: - Initializers
     
     public init(options: [FilterOption]) {
-        filterOptions = options
+        filterOptions = options.map {
+            guard var list = $0 as? FilterList else { return $0 }
+            list.selectedIndexes.formIntersection(IndexSet(integersIn: 0..<list.options.count))
+            return list
+        }
         
         super.init()
+        updateValidity()
+        
         preferredContentSize.width = 400.0
         
         formLayout.distribution = .fillEqually
@@ -78,23 +90,13 @@ open class FilterViewController: FormCollectionViewController {
         collectionView.register(CollectionViewFormOptionCell.self, forCellWithReuseIdentifier: radioCellID)
         collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         
-        var selectedIndexPaths: [IndexPath] = []
-        
         filterOptions.enumerated().forEach { (section, option) in
-            guard let list = option as? FilterList,
-                list.displayStyle != .detailList
-                else { return }
-            
-            let selectedOptions = list.selectedOptions
-            list.options.enumerated().forEach {
-                if selectedOptions.contains($1) {
-                    selectedIndexPaths.append(IndexPath(item: $0, section: section))
+            if let list = option as? FilterList,
+                list.displayStyle != .detailList {
+                list.selectedIndexes.forEach {
+                    collectionView.selectItem(at: IndexPath(item: $0, section: section), animated: true, scrollPosition: [])
                 }
             }
-        }
-        
-        selectedIndexPaths.forEach {
-            collectionView.selectItem(at: $0, animated: false, scrollPosition: [])
         }
     }
     
@@ -157,30 +159,29 @@ open class FilterViewController: FormCollectionViewController {
             case .checkbox:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: checkboxCellID, for: indexPath) as! CollectionViewFormOptionCell
                 cell.optionStyle = .checkbox
-                cell.titleLabel.text = (list.options[indexPath.item] as! Pickable).title
+                cell.titleLabel.text = list.options[indexPath.item].title
                 cell.separatorStyle = .indentedAtRowLeading
                 return cell
             case .radioControl:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: radioCellID, for: indexPath) as! CollectionViewFormOptionCell
                 cell.optionStyle = .radio
-                cell.titleLabel.text = (list.options[indexPath.item] as! Pickable).title
+                cell.titleLabel.text = list.options[indexPath.item].title
                 cell.separatorStyle = .indentedAtRowLeading
                 return cell
             case .list:
                 let cell = collectionView.dequeueReusableCell(of: FilterCheckmarkCell.self, for: indexPath)
-                cell.titleLabel.text = (list.options[indexPath.item] as! Pickable).title
+                cell.titleLabel.text = list.options[indexPath.item].title
                 return cell
             case .detailList:
                 let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
                 cell.accessoryView = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
-                let selectedItems = list.selectedOptions
-                let selectedItemCount = selectedItems.count
+                let selectedItemCount = list.selectedIndexes.count
                 switch selectedItemCount {
                 case 0:
                     cell.titleLabel.text = NSLocalizedString("Select", comment: "")
                     cell.setRequiresValidation(list.allowsNoSelection == false, validationText: nil, animated: false)
                 case 1:
-                    cell.titleLabel.text = (selectedItems.first as! Pickable).title
+                    cell.titleLabel.text = list.options[list.selectedIndexes.first!].title
                     cell.setRequiresValidation(false, validationText: nil, animated: false)
                 default:
                     cell.titleLabel.text = String(selectedItemCount) + NSLocalizedString(" items selected", comment: "")
@@ -213,43 +214,40 @@ open class FilterViewController: FormCollectionViewController {
         case var list as FilterList:
             switch list.displayStyle {
             case .checkbox, .radioControl, .list:
-                var selectedOptions = list.selectedOptions
-                let option = list.options[indexPath.item]
-                let options = list.options
-                if list.allowsMultipleSelection == false && selectedOptions.isEmpty == false {
+                let item = indexPath.item
+                var selectedIndexes = list.selectedIndexes
+                if list.allowsMultipleSelection == false && selectedIndexes.isEmpty == false {
                     var oldSelectedIndexPath = indexPath
-                    selectedOptions.forEach {
-                        if let index = options.index(of: $0), index != indexPath.item {
-                            oldSelectedIndexPath.item = index
+                    selectedIndexes.forEach {
+                        if $0 != item {
+                            oldSelectedIndexPath.item = $0
                             collectionView.deselectItem(at: oldSelectedIndexPath, animated: false)
                         }
                     }
-                    selectedOptions.removeAll(keepingCapacity: true)
+                    selectedIndexes.removeAll()
                 }
-                selectedOptions.insert(option)
-                list.selectedOptions = selectedOptions
+                selectedIndexes.insert(item)
+                list.selectedIndexes = selectedIndexes
                 filterOptions[indexPath.section] = list
             case .detailList:
                 collectionView.deselectItem(at: indexPath, animated: true)
-                
-                let detailVC = FilterListPickerViewController(style: .plain, items: list.options)
+                let detailVC = PickerTableViewController(style: .plain, items: list.options.map({ AnyPickable($0) }))
                 detailVC.title = list.title
-                detailVC.selectedItems = list.selectedOptions
+                detailVC.selectedIndexes = list.selectedIndexes
                 detailVC.preferredContentSize.width = preferredContentSize.width
                 detailVC.minimumCalculatedContentHeight = preferredContentSize.height
                 detailVC.allowsMultipleSelection = list.allowsMultipleSelection
-                detailVC.allowsNoSelection = list.allowsNoSelection
-                detailVC.finishUpdateHandler = { [weak self] selections in
+                detailVC.noItemTitle = list.allowsNoSelection ? (list.noSelectionTitle ?? NSLocalizedString("None", comment: "")) : nil
+                detailVC.finishUpdateHandler = { [weak self] (_, selections) in
                     guard let `self` = self else { return }
                     
-                    list.selectedOptions = selections
+                    list.selectedIndexes = selections
                     self.filterOptions[indexPath.section] = list
                     
                     UIView.performWithoutAnimation {
                         self.collectionView?.reloadItems(at: [indexPath])
                     }
                 }
-                
                 show(detailVC, sender: self)
             }
         case var dateRange as FilterDateRange:
@@ -311,10 +309,9 @@ open class FilterViewController: FormCollectionViewController {
             list.displayStyle == .checkbox || list.displayStyle == .radioControl || list.displayStyle == .list
             else { return }
         
-        let deselectedOption = list.options[indexPath.item]
-        var selectedOptions = list.selectedOptions
-        if let _ = selectedOptions.remove(deselectedOption) {
-            list.selectedOptions = selectedOptions
+        var selectedIndexes = list.selectedIndexes
+        if let _ = selectedIndexes.remove(indexPath.item) {
+            list.selectedIndexes = selectedIndexes
             filterOptions[indexPath.section] = list
         }
     }
@@ -322,7 +319,7 @@ open class FilterViewController: FormCollectionViewController {
     public func collectionView(_ collectionView: UICollectionView, shouldDeselectItemAt indexPath: IndexPath) -> Bool {
         guard let list = filterOptions[indexPath.section] as? FilterList,
             list.displayStyle == .checkbox || list.displayStyle == .radioControl || list.displayStyle == .list,
-            list.selectedOptions.count == 1 && list.selectedOptions.contains(list.options[indexPath.item])
+            list.selectedIndexes.count == 1 && list.selectedIndexes.contains(indexPath.item)
             else { return true }
         return list.allowsNoSelection
     }
@@ -345,7 +342,7 @@ open class FilterViewController: FormCollectionViewController {
                 return .greatestFiniteMagnitude
             case .checkbox:
                 let maxWidth: CGFloat = list.options.reduce(0.0) {
-                    guard let title = ($1 as? Pickable)?.title?.ifNotEmpty() else { return $0 }
+                    guard let title = $1.title?.ifNotEmpty() else { return $0 }
                     return max($0, CollectionViewFormOptionCell.minimumContentWidth(withStyle: .checkbox, title: title, compatibleWith: traitCollection))
                 }
                 if maxWidth <=~ 0.0 {
@@ -354,7 +351,7 @@ open class FilterViewController: FormCollectionViewController {
                 return layout.columnContentWidth(forMinimumItemContentWidth: maxWidth, sectionEdgeInsets: sectionEdgeInsets)
             case .radioControl:
                 let maxWidth: CGFloat = list.options.reduce(0.0) {
-                    guard let title = ($1 as? Pickable)?.title else { return $0 }
+                    guard let title = $1.title else { return $0 }
                     return max($0, CollectionViewFormOptionCell.minimumContentWidth(withStyle: .radio, title: title, compatibleWith: traitCollection))
                 }
                 if maxWidth <=~ 0.0 {
@@ -437,20 +434,26 @@ public struct FilterList: FilterOption {
     
     public let title: String?
     public let displayStyle: DisplayStyle
-    public let options: [AnyHashable] // TODO: Swift 4: All options must be pickable
-    public var selectedOptions: Set<AnyHashable> // TODO: Swift 4: All options must be pickable
+    public let options: [Pickable]
+    public var selectedIndexes: IndexSet
     public let allowsNoSelection: Bool
     public let allowsMultipleSelection: Bool
+    
+    /// An optional text to show in the `.detailList` type for "No selection". The default
+    /// is `nil`, meaning the user will be presented "None".
+    ///
+    /// This property is ignored in all other options.
+    public var noSelectionTitle: String?
     
     public var numberOfItems: Int {
         return displayStyle == .detailList ? 1 : options.count
     }
     
     public var isValid: Bool {
-        if allowsNoSelection == false, selectedOptions.isEmpty {
+        if allowsNoSelection == false, selectedIndexes.isEmpty {
             return false
         }
-        if allowsMultipleSelection == false, selectedOptions.count > 1 {
+        if allowsMultipleSelection == false, selectedIndexes.count > 1 {
             return false
         }
         return true
@@ -462,7 +465,7 @@ public struct FilterList: FilterOption {
     ///   - title: The title for the section, or `nil`.
     ///   - displayStyle: The display style for the list.
     ///   - options: All options available in the list. All options *must* conform to `Pickable`.
-    ///   - selectedOptions: All selected options, or `nil`. All options in this set must be
+    ///   - selectedIndexes: All selected options, or `nil`. All options in this set must be
     ///                      contained in `options`, and conform to `Pickable`.
     ///   - allowsNoSelection: A boolean value indicating whether no selection is avaialble.
     ///                        If `nil`, defaults to the standard for the display style - `true`
@@ -470,11 +473,11 @@ public struct FilterList: FilterOption {
     ///   - allowsMultipleSelection: A boolean value indicating whether multiple selection is avaialble.
     ///                        If `nil`, defaults to the standard for the display style - `true`
     ///                        for `.checkmark`, otherwise `false`. The default is `nil`.
-    public init(title: String?, displayStyle: DisplayStyle, options: [AnyHashable], selectedOptions: Set<AnyHashable>?, allowsNoSelection: Bool? = nil, allowsMultipleSelection: Bool? = nil) {
+    public init(title: String?, displayStyle: DisplayStyle, options: [Pickable], selectedIndexes: IndexSet?, allowsNoSelection: Bool? = nil, allowsMultipleSelection: Bool? = nil) {
         self.title = title
         self.displayStyle = displayStyle
         self.options = options
-        self.selectedOptions = selectedOptions ?? []
+        self.selectedIndexes = selectedIndexes ?? IndexSet()
         self.allowsNoSelection = allowsNoSelection ?? (displayStyle == .checkbox)
         self.allowsMultipleSelection = allowsMultipleSelection ?? (displayStyle == .checkbox)
     }
@@ -542,6 +545,31 @@ fileprivate extension Calendar {
         components.day = 1
         components.second = -1
         return self.date(byAdding: components, to: startOfDay(for: date))
+    }
+    
+}
+
+
+/// A type-erased Any that always conforms to Pickable
+
+fileprivate struct AnyPickable: Pickable, CustomSearchPickable {
+    
+    let base: Any
+    
+    init(_ base: Any) {
+        self.base = base
+    }
+    
+    var title: String? {
+        return (base as? Pickable)?.title
+    }
+    
+    var subtitle: String? {
+        return (base as? Pickable)?.subtitle
+    }
+    
+    func contains(_ searchText: String) -> Bool {
+        return (base as? CustomSearchPickable)?.contains(searchText) ?? false
     }
     
 }
