@@ -45,6 +45,10 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
     
     private var filterTypes: Set<String>?
     
+    private var filterDateRange: FilterDateRange?
+    
+    private var dateSorting: DateSorting = .newest
+    
     
     /*
     private var bailOrders: [BailOrder]?
@@ -189,6 +193,18 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
                 } else {
                     self.filterTypes = nil
                 }
+            case let dateRange as FilterDateRange:
+                if dateRange.startDate == nil && dateRange.endDate == nil {
+                    self.filterDateRange = nil
+                } else {
+                    self.filterDateRange = dateRange
+                }
+            case let filterList as FilterList where filterList.options.first is DateSorting:
+                guard let selectedIndex = filterList.selectedIndexes.first else {
+                    self.dateSorting = .newest
+                    return
+                }
+                self.dateSorting = filterList.options[selectedIndex] as! DateSorting
             default:
                 break
             }
@@ -221,7 +237,11 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
         
         let filterList = FilterList(title: NSLocalizedString("Involvement Types", comment: ""), displayStyle: .detailList, options: allSortedTypes, selectedIndexes: selectedIndexes, allowsNoSelection: true, allowsMultipleSelection: true)
         
-        let filterVC = FilterViewController(options: [filterList])
+        let dateRange = filterDateRange ?? FilterDateRange(title: NSLocalizedString("Date Range", comment: ""), startDate: nil, endDate: nil, requiresStartDate: false, requiresEndDate: false)
+        let sorting = FilterList(title: "Sort By", displayStyle: .list, options: DateSorting.allCases, selectedIndexes: [DateSorting.allCases.index(of: dateSorting) ?? 0])
+        
+        
+        let filterVC = FilterViewController(options: [filterList, dateRange, sorting])
         filterVC.title = NSLocalizedString("Filter Involvements", comment: "")
         filterVC.delegate = self
         let navController = PopoverNavigationController(rootViewController: filterVC)
@@ -253,24 +273,30 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
     private func reloadSections() {
         var events = person?.events ?? []
         
-        let requiresFiltering = filterTypes != nil
-        
-        if let filterTypes = self.filterTypes {
+        let requiresFiltering = filterTypes != nil || filterDateRange != nil
+        if requiresFiltering {
             events = events.filter { event in
-                guard let type = event.eventType, filterTypes.contains(type) else {
-                    return false
+                if let filterTypes = self.filterTypes {
+                    guard let type = event.eventType, filterTypes.contains(type) else {
+                        return false
+                    }
+                }
+                if let dateFilter = self.filterDateRange {
+                    guard let date = event.date, dateFilter.contains(date) else {
+                        return false
+                    }
                 }
                 return true
             }
         }
         
+        let dateSorting = self.dateSorting.compare(_:_:)
+        events.sort { dateSorting(($0.date ?? .distantPast), ($1.date ?? .distantPast)) }
+        self.events = events
+        
         let bundle = Bundle(for: PersonOccurrencesViewController.self)
         let filterName = requiresFiltering ? "iconFormFilterFilled" : "iconFormFilter"
         filterBarButtonItem.image = UIImage(named: filterName, in: bundle, compatibleWith: nil)
-        
-        events.sort { ($0.date ?? .distantPast) > ($1.date ?? .distantPast) }
-        
-        self.events = events
     }
     
     // Seems like a common pattern, potential refactor point to have a standard formatter for these?
