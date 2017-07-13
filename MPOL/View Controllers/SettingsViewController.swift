@@ -27,6 +27,7 @@ class SettingsViewController: FormTableViewController {
         
         super.init(style: .grouped)
         title = NSLocalizedString("Settings", comment: "SettingsTitle")
+        wantsCalculatedContentHeight = true
     }
     
     required init?(coder aDecoder: NSCoder) {
