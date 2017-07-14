@@ -70,17 +70,9 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
     
     // MARK: - Initialization
     
-    public override init(frame: CGRect) {
-        super.init(frame: frame)
-        commonInit()
-    }
-    
-    public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        commonInit()
-    }
-    
-    private func commonInit() {
+    override func commonInit() {
+        super.commonInit()
+        
         accessibilityTraits |= UIAccessibilityTraitStaticText
         
         let titleLabel    = self.titleLabel
@@ -159,11 +151,10 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
         }
         
         // work out label sizes
-        var titleSize = titleLabel.sizeThatFits(CGSize(width: contentRect.width, height: .greatestFiniteMagnitude))
-        var subtitleSize = subtitleLabel.sizeThatFits(CGSize(width: contentRect.width, height: .greatestFiniteMagnitude))
+        let maxTextSize = CGSize(width: contentRect.width, height: .greatestFiniteMagnitude)
         
-        titleSize.width = min(contentRect.width, titleSize.width)
-        subtitleSize.width = min(contentRect.width, subtitleSize.width)
+        let titleSize    = titleLabel.sizeThatFits(maxTextSize).constrained(to: maxTextSize)
+        let subtitleSize = subtitleLabel.sizeThatFits(maxTextSize).constrained(to: maxTextSize)
         
         let titleVisible = titleSize.isEmpty == false && titleLabel.isHidden == false
         let subtitleVisible = subtitleSize.isEmpty == false && titleLabel.isHidden == false
@@ -190,9 +181,11 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
         _imageView?.frame = CGRect(origin: CGPoint(x: contentLeadingEdge - (isRightToLeft ? imageSize.width : 0.0),
                                                    y: (centerYOfContent - (imageSize.height / 2.0)).rounded(toScale: displayScale)),
                                    size: imageSize)
-        accessoryView?.frame = CGRect(origin: CGPoint(x: contentTrailingEdge - (isRightToLeft ? 0.0 : accessorySize.width),
-                                                      y: (centerYOfContent - (accessorySize.height / 2.0)).rounded(toScale: displayScale)),
-                                      size: accessorySize)
+        let accessoryViewFrame = CGRect(origin: CGPoint(x: contentTrailingEdge - (isRightToLeft ? 0.0 : accessorySize.width),
+                                                        y: (centerYOfContent - (accessorySize.height / 2.0)).rounded(toScale: displayScale)),
+                                        size: accessorySize)
+        
+        accessoryView?.frame = accessoryViewFrame
         
         // Position the labels
         var currentYOffset = (centerYOfContent - (heightForLabelContent / 2.0)).rounded(toScale: displayScale)

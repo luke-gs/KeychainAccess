@@ -30,17 +30,9 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
     
     // MARK: - Initializers
     
-    public override init(frame: CGRect) {
-        super.init(frame: frame)
-        commonInit()
-    }
-    
-    public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        commonInit()
-    }
-    
-    private func commonInit() {
+    override func commonInit() {
+        super.commonInit()
+        
         selectionStyle = .underline
         
         textField.clearButtonMode = .whileEditing

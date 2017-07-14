@@ -442,7 +442,10 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         commonInit()
     }
     
-    private func commonInit() {
+    /// An internal common point for subclasses to override without having to override
+    /// initializers within MPOLKit. When overriding, you must call `super.commonInit()`
+    /// **first** as part of your implementation.
+    internal func commonInit() {
         isAccessibilityElement = true
         super.contentMode = .center
         
@@ -536,6 +539,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     open override func prepareForReuse() {
         super.prepareForReuse()
         setShowingEditActions(false, animated: false)
+        setNeedsLayout()
     }
     
     open override func willMove(toSuperview newSuperview: UIView?) {
@@ -594,8 +598,8 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
             
             let contentRect = contentView.bounds.insetBy(contentView.layoutMargins)
             
-            var accessoryFrame = CGRect(origin: .zero, size: accessoryView.sizeThatFits(contentRect.size))
-            accessoryFrame.origin.y = round(contentRect.midY - (accessoryFrame.height * 0.5))
+            var accessoryFrame = CGRect(origin: .zero, size: accessoryView.sizeThatFits(contentRect.size).constrained(to: contentRect.size))
+            accessoryFrame.origin.y = (contentRect.midY - (accessoryFrame.height * 0.5)).rounded(toScale: traitCollection.currentDisplayScale)
             accessoryFrame.origin.x = isRTL ? contentRect.minX : contentRect.maxX - accessoryFrame.width
             accessoryView.frame = accessoryFrame
             
@@ -706,13 +710,15 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         super.traitCollectionDidChange(previousTraitCollection)
         
         let newCategory = traitCollection.preferredContentSizeCategory
+        var needsLayout = false
         if newCategory != previousTraitCollection?.preferredContentSizeCategory ?? .unspecified {
-            setNeedsLayout()
             contentSizeCategoryDidChange(newCategory)
-            setNeedsLayout()
+            needsLayout = true
         }
-        
         if traitCollection.currentDisplayScale != previousTraitCollection?.currentDisplayScale {
+            needsLayout = true
+        }
+        if needsLayout {
             setNeedsLayout()
         }
     }

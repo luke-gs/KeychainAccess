@@ -80,17 +80,9 @@ open class CollectionViewFormValueFieldCell: CollectionViewFormCell {
     
     // MARK: - Initialization
     
-    public override init(frame: CGRect) {
-        super.init(frame: frame)
-        commonInit()
-    }
-    
-    public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        commonInit()
-    }
-    
-    private func commonInit() {
+    override func commonInit() {
+        super.commonInit()
+        
         accessibilityTraits |= UIAccessibilityTraitStaticText
         
         let titleLabel       = self.titleLabel
@@ -176,9 +168,11 @@ open class CollectionViewFormValueFieldCell: CollectionViewFormCell {
         
         // work out label sizes
         
-        var titleSize = titleLabel.sizeThatFits(CGSize(width: contentRect.width, height: .greatestFiniteMagnitude))
-        var valueSize = valueLabel.sizeThatFits(CGSize(width: contentRect.width, height: .greatestFiniteMagnitude))
-        var placeholderSize = placeholderLabel.sizeThatFits(CGSize(width: contentRect.width, height: .greatestFiniteMagnitude))
+        let maxContentSize = CGSize(width: contentRect.width, height: .greatestFiniteMagnitude)
+        
+        var titleSize = titleLabel.sizeThatFits(maxContentSize).constrained(to: maxContentSize)
+        var valueSize = valueLabel.sizeThatFits(maxContentSize).constrained(to: maxContentSize)
+        var placeholderSize = placeholderLabel.sizeThatFits(maxContentSize).constrained(to: maxContentSize)
         
         let valueFont = valueLabel.font!
         let placeholderFont = placeholderLabel.font!
@@ -186,10 +180,6 @@ open class CollectionViewFormValueFieldCell: CollectionViewFormCell {
         titleSize.height = max(titleSize.height, titleLabel.font.lineHeight.ceiled(toScale: displayScale))
         valueSize.height = max(valueSize.height, valueFont.lineHeight.ceiled(toScale: displayScale))
         placeholderSize.height = max(placeholderSize.height, placeholderFont.lineHeight.ceiled(toScale: displayScale))
-        
-        titleSize.width = min(contentRect.width, titleSize.width)
-        valueSize.width = min(contentRect.width, valueSize.width)
-        placeholderSize.width = min(contentRect.width, placeholderSize.width)
         
         // Work out major content positions
         let heightForLabelContent = titleSize.height + valueSize.height + labelSeparation

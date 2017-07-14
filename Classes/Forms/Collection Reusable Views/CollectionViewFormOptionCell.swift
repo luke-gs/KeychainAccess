@@ -74,17 +74,9 @@ open class CollectionViewFormOptionCell: CollectionViewFormSubtitleCell {
     
     // MARK: - Initializers
     
-    public override init(frame: CGRect) {
-        super.init(frame: frame)
-        commonInit()
-    }
-    
-    public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        commonInit()
-    }
-    
-    private func commonInit() {
+    override func commonInit() {
+        super.commonInit()
+        
         titleLabel.font = SelectableButton.font(compatibleWith: traitCollection)
         titleLabel.minimumScaleFactor = 0.9
         updateImageView()
