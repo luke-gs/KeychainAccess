@@ -60,6 +60,8 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
     
     private let filterBarButtonItem: UIBarButtonItem
     
+    private var filterDateRange: FilterDateRange?
+    
     private var person: Person? {
         didSet {
             sidebarItem.count = UInt(person?.criminalHistory?.count ?? 0)
@@ -192,6 +194,12 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
             switch $0 {
             case let filterList as FilterList where filterList.options.first is Sorting:
                 self.sorting = filterList.options[filterList.selectedIndexes].first as? Sorting ?? self.sorting
+            case let dateRange as FilterDateRange:
+                if dateRange.startDate == nil && dateRange.endDate == nil {
+                    self.filterDateRange = nil
+                } else {
+                    self.filterDateRange = dateRange
+                }
             default:
                 break
             }
@@ -204,9 +212,12 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
     
     @objc private func filterItemDidSelect(_ item: UIBarButtonItem) {
         let sortingOptions = Sorting.allCases
+        
+        let dateRange = filterDateRange ?? FilterDateRange(title: NSLocalizedString("Date Range", comment: ""), startDate: nil, endDate: nil, requiresStartDate: false, requiresEndDate: false)
+        
         let filterTypes = FilterList(title: NSLocalizedString("Sort By", comment: ""), displayStyle: .list, options: sortingOptions, selectedIndexes: sortingOptions.indexes(where: { self.sorting == $0 }))
         
-        let filterVC = FilterViewController(options: [filterTypes])
+        let filterVC = FilterViewController(options: [dateRange, filterTypes])
         filterVC.title = NSLocalizedString("Filter Actions", comment: "")
         filterVC.delegate = self
         let navController = PopoverNavigationController(rootViewController: filterVC)
@@ -221,7 +232,7 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
     private func updateNoContentSubtitle() {
         guard let label = noContentSubtitleLabel else { return }
         
-        if person?.actions?.isEmpty ?? true {
+        if person?.criminalHistory?.isEmpty ?? true {
             let entityDisplayName: String
             if let entity = entity {
                 entityDisplayName = type(of: entity).localizedDisplayName.localizedLowercase
@@ -229,17 +240,27 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
                 entityDisplayName = NSLocalizedString("entity", bundle: .mpolKit, comment: "")
             }
             
-            label.text = String(format: NSLocalizedString("This %@ has no actions", bundle: .mpolKit, comment: ""), entityDisplayName)
+            label.text = String(format: NSLocalizedString("This %@ has no criminal history", bundle: .mpolKit, comment: ""), entityDisplayName)
         } else {
-            label.text = NSLocalizedString("This filter has no matching actions", comment: "")
+            label.text = NSLocalizedString("This filter has no matching history", comment: "")
         }
     }
     
     private func reloadSections() {
-        criminalHistory = person?.criminalHistory?.sorted(by: sorting.compare(_:_:)) ?? []
+        var criminalHistory = person?.criminalHistory ?? []
+        if let dateRange = filterDateRange {
+            criminalHistory = criminalHistory.filter { history in
+                if let date = history.lastOccurred, dateRange.contains(date) {
+                    return true
+                }
+                return false
+            }
+        }
+        criminalHistory.sort(by: sorting.compare(_:_:))
+        self.criminalHistory = criminalHistory
         
         let bundle = Bundle(for: PersonCriminalHistoryViewController.self)
-        let filterName = sorting != .dateNewest ? "iconFormFilterFilled" : "iconFormFilter"
+        let filterName = sorting != .dateNewest || filterDateRange != nil ? "iconFormFilterFilled" : "iconFormFilter"
         filterBarButtonItem.image = UIImage(named: filterName, in: bundle, compatibleWith: nil)
     }
     
@@ -261,6 +282,5 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
         
         return (title, subtitle)
     }
-    
     
 }

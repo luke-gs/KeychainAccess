@@ -269,7 +269,7 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
         
         var alerts = entity?.alerts ?? []
         
-        let dateSorting = self.dateSorting
+        let dateSorting = self.dateSorting.compare(_:_:)
         
         func sortingRule(_ alert1: Alert, alert2: Alert) -> Bool {
             let alert1Level = alert1.level?.rawValue ?? 0
@@ -278,7 +278,7 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
             if alert1Level > alert2Level { return true }
             if alert2Level > alert1Level { return false }
             
-            return dateSorting.compare((alert1.effectiveDate ?? Date.distantPast), (alert2.effectiveDate ?? Date.distantPast))
+            return dateSorting((alert1.effectiveDate ?? Date.distantPast), (alert2.effectiveDate ?? Date.distantPast))
         }
         
         let selectAlertLevels = filteredAlertLevels != Set(Alert.Level.allCases)
