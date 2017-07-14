@@ -69,6 +69,8 @@ class TestCollectionViewController: FormCollectionViewController, FilterViewCont
             cell.valueLabel.text = nil
         }
         
+        cell.accessoryView = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
+        
         return cell
     }
     
