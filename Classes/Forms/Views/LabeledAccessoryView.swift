@@ -17,7 +17,16 @@ private var kvoContext = 1
 /// `CollectionViewFormCell`, and correctly sizes for `sizeThatFits(_:)`.
 open class LabeledAccessoryView: UIView {
     
+    // MARK: - Class properties / methods
+    
+    open override class var layerClass: AnyClass {
+        // We don't need to render the view. Just have a transform layer.
+        // This has more effect if/when they become stacked.
+        return CATransformLayer.self
+    }
+    
     // TODO: Sizing will be handled in a separate PR with the new sizing methods.
+    
     
     // MARK: - Public properties
     
