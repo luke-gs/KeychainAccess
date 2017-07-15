@@ -14,20 +14,39 @@ private var kvoContext = 1
 /// additional embedded view.
 ///
 /// `LabeledAccessoryView` is designed to be used as an accessory in a
-/// `CollectionViewFormCell`
+/// `CollectionViewFormCell`, and correctly sizes for `sizeThatFits(_:)`.
 open class LabeledAccessoryView: UIView {
     
+    // TODO: Sizing will be handled in a separate PR with the new sizing methods.
+    
+    // MARK: - Public properties
+    
+    /// The title label for the cell.
+    ///
+    /// The default font is dynamic font `.headline`.
     public let titleLabel = UILabel(frame: .zero)
     
+    /// The subtitle label for the cell.
+    ///
+    /// The subtitle font is dynamic font `.footnote`.
     public let subtitleLabel = UILabel(frame: .zero)
     
-    public var labelSeparation: CGFloat = CellTitleSubtitleSeparation {
+    
+    /// The separation between labels.
+    ///
+    /// The default is the standard MPOL title-subtitle separation. When either
+    /// label is hidden, the other centers itself inside the content.
+    open var labelSeparation: CGFloat = CellTitleSubtitleSeparation {
         didSet {
             setNeedsLayout()
         }
     }
     
-    public var accessoryView: UIView? {
+    /// The accessory view to be shown at the trailing edge of the view.
+    ///
+    /// This view is, like this view, sized to fit. This allows you to embed
+    /// accessory views within accessory views for a stacked effect.
+    open var accessoryView: UIView? {
         didSet {
             if oldValue != accessoryView {
                 oldValue?.removeFromSuperview()
@@ -96,7 +115,7 @@ open class LabeledAccessoryView: UIView {
         let accessorySize = accessoryView?.sizeThatFits(size).constrained(to: size) ?? .zero
         
         var availableTitleSize = size
-        let accessoryWidth = (accessorySize.isEmpty ? 0.0 : CollectionViewFormCell.accessoryContentInset + accessorySize.width).ceiled(toScale: displayScale)
+        let accessoryWidth = accessorySize.isEmpty ? 0.0 : (CollectionViewFormCell.accessoryContentInset + accessorySize.width).ceiled(toScale: displayScale)
         
         availableTitleSize.width = max(availableTitleSize.width - accessoryWidth, 0.0)
         
@@ -128,17 +147,27 @@ open class LabeledAccessoryView: UIView {
     }
     
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
+        let displayScale = traitCollection.currentDisplayScale
         let accessorySize = accessoryView?.isHidden ?? true ? .zero : accessoryView!.sizeThatFits(size).constrained(to: size)
         
         var availableTitleSize = size
-        let accessoryWidth = accessorySize.isEmpty ? 0.0 : (accessorySize.width + CollectionViewFormCell.accessoryContentInset).ceiled(toScale: traitCollection.currentDisplayScale)
+        var accessoryWidth = accessorySize.isEmpty ? 0.0 : (accessorySize.width + CollectionViewFormCell.accessoryContentInset).ceiled(toScale: displayScale)
         availableTitleSize.width = max(availableTitleSize.width - accessoryWidth, 0.0)
         
-        let titleSize    = titleLabel.isHidden    ? .zero : titleLabel.sizeThatFits(availableTitleSize).constrained(to: availableTitleSize)
-        let subtitleSize = subtitleLabel.isHidden ? .zero : subtitleLabel.sizeThatFits(availableTitleSize).constrained(to: availableTitleSize)
-        let titleSeparation = titleSize.isEmpty == false && subtitleSize.isEmpty == false ? labelSeparation : 0.0
+        let titleSize    = titleLabel.sizeThatFits(availableTitleSize).constrained(to: availableTitleSize)
+        let subtitleSize = subtitleLabel.sizeThatFits(availableTitleSize).constrained(to: availableTitleSize)
         
-        return CGSize(width: max(titleSize.width, subtitleSize.width) + accessoryWidth,
+        let titleVisible    = titleSize.isEmpty == false && titleLabel.isHidden == false
+        let subtitleVisible = subtitleSize.isEmpty == false && subtitleLabel.isHidden == false
+        
+        let titleSeparation = titleVisible && subtitleVisible ? labelSeparation : 0.0
+        let titlesWidth     = max(titleVisible ? titleSize.width : 0.0, subtitleVisible ? subtitleSize.width : 0.0)
+        
+        if titleVisible == false && subtitleVisible == false {
+            accessoryWidth = accessorySize.width
+        }
+        
+        return CGSize(width: titlesWidth + accessoryWidth,
                       height: max(titleSize.height + subtitleSize.height + titleSeparation, accessorySize.height)).constrained(to: size)
     }
     
@@ -148,10 +177,10 @@ open class LabeledAccessoryView: UIView {
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         
-        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory || traitCollection.currentDisplayScale != previousTraitCollection?.currentDisplayScale {
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory ||
+            traitCollection.currentDisplayScale != previousTraitCollection?.currentDisplayScale {
             setNeedsLayout()
         }
-        
     }
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
