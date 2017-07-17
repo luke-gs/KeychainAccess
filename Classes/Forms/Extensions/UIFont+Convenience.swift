@@ -1,5 +1,5 @@
 //
-//  UIFont+TextStyle.swift
+//  UIFont+Convenience.swift
 //  MPOLKit
 //
 //  Created by Rod Brown on 14/5/17.
@@ -28,6 +28,17 @@ extension UIFont {
             return nil // empty style string represents we previously tried to find a text style, and it didn't exist.
         }
         return UIFontTextStyle(rawValue: styleString as String)
+    }
+    
+    public func height(forNumberOfLines numberOfLines: Int) -> CGFloat {
+        // TODO: Swift 4 refactor with Switch using open ranges.
+        if numberOfLines <= 0 { return .greatestFiniteMagnitude }
+        
+        if numberOfLines == 1 {
+            return lineHeight
+        } else {
+            return (lineHeight + leading) * CGFloat(numberOfLines) - leading
+        }
     }
     
 }

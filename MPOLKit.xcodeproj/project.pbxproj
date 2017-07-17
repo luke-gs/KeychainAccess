@@ -72,7 +72,7 @@
 		BC9C7E031F0DED6600DFFE83 /* UICollectionView+DefaultReuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D631F0DED6600DFFE83 /* UICollectionView+DefaultReuse.swift */; };
 		BC9C7E041F0DED6600DFFE83 /* UIColor+ActionColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D641F0DED6600DFFE83 /* UIColor+ActionColors.swift */; };
 		BC9C7E051F0DED6600DFFE83 /* UIEdgeInsets+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D651F0DED6600DFFE83 /* UIEdgeInsets+Convenience.swift */; };
-		BC9C7E061F0DED6600DFFE83 /* UIFont+TextStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D661F0DED6600DFFE83 /* UIFont+TextStyle.swift */; };
+		BC9C7E061F0DED6600DFFE83 /* UIFont+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D661F0DED6600DFFE83 /* UIFont+Convenience.swift */; };
 		BC9C7E071F0DED6600DFFE83 /* UIImage+FormIcons.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D671F0DED6600DFFE83 /* UIImage+FormIcons.swift */; };
 		BC9C7E081F0DED6600DFFE83 /* UITableView+DefaultReuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D681F0DED6600DFFE83 /* UITableView+DefaultReuse.swift */; };
 		BC9C7E091F0DED6600DFFE83 /* UITableViewCell+LayoutMargins.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D691F0DED6600DFFE83 /* UITableViewCell+LayoutMargins.swift */; };
@@ -152,6 +152,7 @@
 		BC9C7E541F0DED6600DFFE83 /* NavigationBarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DC31F0DED6600DFFE83 /* NavigationBarExtension.swift */; };
 		BC9C7E551F0DED6600DFFE83 /* RoundedRectLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DC41F0DED6600DFFE83 /* RoundedRectLabel.swift */; };
 		BC9C7E561F0DED6600DFFE83 /* TabStripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DC51F0DED6600DFFE83 /* TabStripView.swift */; };
+		BCBA82141F19D7E8000BBF82 /* StringSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBA82131F19D7E8000BBF82 /* StringSizing.swift */; };
 		BCED8C761F1488EE004C3C71 /* CollectionViewFormHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FF2241F148818000B317A /* CollectionViewFormHeaderView.swift */; };
 		C605F8901ECCAB2C001194DD /* MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C605F8861ECCAB2B001194DD /* MPOLKit.framework */; };
 		C605F8951ECCAB2C001194DD /* MPOLKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F8941ECCAB2C001194DD /* MPOLKitTests.swift */; };
@@ -249,7 +250,7 @@
 		BC9C7D631F0DED6600DFFE83 /* UICollectionView+DefaultReuse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UICollectionView+DefaultReuse.swift"; sourceTree = "<group>"; };
 		BC9C7D641F0DED6600DFFE83 /* UIColor+ActionColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+ActionColors.swift"; sourceTree = "<group>"; };
 		BC9C7D651F0DED6600DFFE83 /* UIEdgeInsets+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIEdgeInsets+Convenience.swift"; sourceTree = "<group>"; };
-		BC9C7D661F0DED6600DFFE83 /* UIFont+TextStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+TextStyle.swift"; sourceTree = "<group>"; };
+		BC9C7D661F0DED6600DFFE83 /* UIFont+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+Convenience.swift"; sourceTree = "<group>"; };
 		BC9C7D671F0DED6600DFFE83 /* UIImage+FormIcons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+FormIcons.swift"; sourceTree = "<group>"; };
 		BC9C7D681F0DED6600DFFE83 /* UITableView+DefaultReuse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+DefaultReuse.swift"; sourceTree = "<group>"; };
 		BC9C7D691F0DED6600DFFE83 /* UITableViewCell+LayoutMargins.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+LayoutMargins.swift"; sourceTree = "<group>"; };
@@ -329,6 +330,7 @@
 		BC9C7DC31F0DED6600DFFE83 /* NavigationBarExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationBarExtension.swift; sourceTree = "<group>"; };
 		BC9C7DC41F0DED6600DFFE83 /* RoundedRectLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedRectLabel.swift; sourceTree = "<group>"; };
 		BC9C7DC51F0DED6600DFFE83 /* TabStripView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabStripView.swift; sourceTree = "<group>"; };
+		BCBA82131F19D7E8000BBF82 /* StringSizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringSizing.swift; sourceTree = "<group>"; };
 		C16272D9586EB6222EB2DC33 /* Pods-MPOLKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKitTests/Pods-MPOLKitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C605F8861ECCAB2B001194DD /* MPOLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MPOLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C605F88F1ECCAB2C001194DD /* MPOLKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MPOLKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -542,6 +544,7 @@
 				BC9C7D521F0DED6600DFFE83 /* Collection Reusable Views */,
 				BC9C7D5D1F0DED6600DFFE83 /* Extensions */,
 				BC9C7D6C1F0DED6600DFFE83 /* FormDefines.swift */,
+				BCBA82131F19D7E8000BBF82 /* StringSizing.swift */,
 				BC9C7D6D1F0DED6600DFFE83 /* Layout */,
 				BC9C7D701F0DED6600DFFE83 /* Protocols */,
 				BC9C7D721F0DED6600DFFE83 /* Table View Cells */,
@@ -578,7 +581,7 @@
 				BC9C7D631F0DED6600DFFE83 /* UICollectionView+DefaultReuse.swift */,
 				BC9C7D641F0DED6600DFFE83 /* UIColor+ActionColors.swift */,
 				BC9C7D651F0DED6600DFFE83 /* UIEdgeInsets+Convenience.swift */,
-				BC9C7D661F0DED6600DFFE83 /* UIFont+TextStyle.swift */,
+				BC9C7D661F0DED6600DFFE83 /* UIFont+Convenience.swift */,
 				BC9C7D671F0DED6600DFFE83 /* UIImage+FormIcons.swift */,
 				BC9C7D681F0DED6600DFFE83 /* UITableView+DefaultReuse.swift */,
 				BC9C7D691F0DED6600DFFE83 /* UITableViewCell+LayoutMargins.swift */,
@@ -937,11 +940,13 @@
 					C605F8851ECCAB2B001194DD = {
 						CreatedOnToolsVersion = 8.3.2;
 						DevelopmentTeam = FNW7L4X44S;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
 					C605F88E1ECCAB2C001194DD = {
 						CreatedOnToolsVersion = 8.3.2;
 						DevelopmentTeam = FNW7L4X44S;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -1110,7 +1115,7 @@
 				BC9C7DEE1F0DED6600DFFE83 /* Serialisable.swift in Sources */,
 				BC9C7DEB1F0DED6600DFFE83 /* EntitySource.swift in Sources */,
 				BC9C7DC91F0DED6600DFFE83 /* FileManager+URL.swift in Sources */,
-				BC9C7E061F0DED6600DFFE83 /* UIFont+TextStyle.swift in Sources */,
+				BC9C7E061F0DED6600DFFE83 /* UIFont+Convenience.swift in Sources */,
 				BC9C7DF21F0DED6600DFFE83 /* ISO8601DateTransformer+UnboxFormatter.swift in Sources */,
 				BC9C7DE01F0DED6600DFFE83 /* DataResponseChainableOperation.swift in Sources */,
 				BC9C7DCF1F0DED6600DFFE83 /* ManifestCollection.swift in Sources */,
@@ -1178,6 +1183,7 @@
 				BC9C7E4A1F0DED6600DFFE83 /* TermsConditionsViewController.swift in Sources */,
 				BC9C7E531F0DED6600DFFE83 /* GradientView.swift in Sources */,
 				BC9C7DCD1F0DED6600DFFE83 /* ArchivedManifestEntry.swift in Sources */,
+				BCBA82141F19D7E8000BBF82 /* StringSizing.swift in Sources */,
 				BC9C7E031F0DED6600DFFE83 /* UICollectionView+DefaultReuse.swift in Sources */,
 				BC9C7E451F0DED6600DFFE83 /* SidebarTableViewCell.swift in Sources */,
 				BC9C7E301F0DED6600DFFE83 /* UIImage+StatusDot.swift in Sources */,
@@ -1372,6 +1378,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = au.com.gridstone.MPOLKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;

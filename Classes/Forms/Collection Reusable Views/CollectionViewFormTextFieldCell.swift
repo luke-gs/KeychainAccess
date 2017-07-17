@@ -189,39 +189,88 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
     
     // MARK: - Class sizing methods
     
-    public class func minimumContentWidth(withTitle title: String?, enteredText: String?, placeholder: String?, compatibleWith traitCollection: UITraitCollection, titleFont: UIFont? = nil, textFieldFont: UIFont? = nil, placeholderFont: UIFont? = nil, singleLineTitle: Bool = true, accessoryViewWidth: CGFloat = 0.0) -> CGFloat {
-        let titleTextFont:       UIFont = titleFont       ?? .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
-        let enteredTextFont:     UIFont = textFieldFont   ?? .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
-        let placeholderTextFont: UIFont = placeholderFont ?? .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
-        
-        let displayScale = traitCollection.currentDisplayScale
-        
-        // title width can be shortcutted if we're doing multiple lines - we could break the text anywhere. Give decent minimal room.
-        let titleWidth = singleLineTitle ? (title as NSString?)?.boundingRect(with: .max, attributes: [NSFontAttributeName: titleTextFont], context: nil).width.ceiled(toScale: displayScale) ?? 0.0 : 20.0
-        
-        // Allow additional text rectangle for the clear icon.
-        let textWidth  = ((enteredText as NSString?)?.boundingRect(with: .max, attributes: [NSFontAttributeName: enteredTextFont], context: nil).width.ceiled(toScale: displayScale) ?? 0.0) + 10.0
-        let placeWidth = ((placeholder as NSString?)?.boundingRect(with: .max, attributes: [NSFontAttributeName: placeholderTextFont], context: nil).width.ceiled(toScale: displayScale) ?? 0.0) + 10.0
-        
-        return max(titleWidth, textWidth, placeWidth) + (accessoryViewWidth > 0.00001 ? accessoryViewWidth + 10.0 : 0.0)
-    }
-    
-    public class func minimumContentHeight(withTitle title: String?, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection, titleFont: UIFont? = nil, textFieldFont: UIFont? = nil, placeholderFont: UIFont? = nil, singleLineTitle: Bool = true) -> CGFloat {
-        
-        let displayScale = traitCollection.currentDisplayScale
-        
-        var titleHeight: CGFloat
-        if title?.isEmpty ?? true {
-            titleHeight = 0.0
-        } else {
-            let titleTextFont: UIFont = titleFont ?? .preferredFont(forTextStyle: .footnote)
-            titleHeight = singleLineTitle ? titleTextFont.lineHeight.ceiled(toScale: displayScale) : (title as NSString?)?.boundingRect(with: CGSize(width: width, height: .greatestFiniteMagnitude), attributes: [NSFontAttributeName: titleTextFont], context: nil).width.ceiled(toScale: displayScale) ?? 0.0
-            titleHeight += CellTitleSubtitleSeparation
+    /// Calculates the minimum content width for a cell, considering the content details.
+    ///
+    /// - Parameters:
+    ///   - title:             The title details for sizing.
+    ///   - enteredText:       The entered text value details for sizing.
+    ///   - placeholder:       The placeholder text details for sizing.
+    ///   - traitCollection:   The trait collection to calculate for.
+    ///   - accessoryViewSize: The size for the accessory view, or `.zero`. The default is `.zero`.
+    /// - Returns: The minumum content width for the cell.
+    open class func minimumContentWidth(withTitle title: StringSizable?, enteredText: StringSizable?, placeholder: StringSizable?,
+                                        compatibleWith traitCollection: UITraitCollection, accessoryViewSize: CGSize = .zero) -> CGFloat {
+        var titleSizing = title?.sizing() ?? StringSizing(string: "")
+        if titleSizing.font == nil {
+            titleSizing.font = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
+        }
+        if titleSizing.numberOfLines == nil {
+            titleSizing.numberOfLines = 1
         }
         
-        let enteredTextFont:     UIFont = textFieldFont   ?? .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
-        let placeholderTextFont: UIFont = placeholderFont ?? .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)        
-        return titleHeight + max(enteredTextFont.lineHeight, placeholderTextFont.lineHeight).ceiled(toScale: displayScale)
+        var enteredTextSizing = enteredText?.sizing() ?? StringSizing(string: "")
+        enteredTextSizing.numberOfLines = 1
+        if enteredTextSizing.font == nil {
+            enteredTextSizing.font = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+        }
+        
+        var placeholderSizing = enteredText?.sizing() ?? StringSizing(string: "")
+        placeholderSizing.numberOfLines = 1
+        if placeholderSizing.font == nil {
+            placeholderSizing.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
+        }
+        
+        let titleWidth = titleSizing.minimumWidth(compatibleWith: traitCollection)
+        let textWidth = enteredTextSizing.minimumWidth(compatibleWith: traitCollection)
+        let placeWidth = placeholderSizing.minimumWidth(compatibleWith: traitCollection)
+        
+        let accessorySpace = accessoryViewSize.isEmpty ? 0.0 : accessoryViewSize.width + CollectionViewFormCell.accessoryContentInset
+        
+        return max(titleWidth, textWidth, placeWidth) + accessorySpace
+    }
+    
+    
+    /// Calculates the minimum content height for a cell, considering the content details.
+    ///
+    /// - Parameters:
+    ///   - title:             The title details for sizing.
+    ///   - value:             The value details for sizing.
+    ///   - width:             The content width for the cell.
+    ///   - traitCollection:   The trait collection to calculate for.
+    ///   - imageSize:         The size for the image, to present, or `.zero`. The default is `.zero`.
+    ///   - accessoryViewSize: The size for the accessory view, or `.zero`. The default is `.zero`.
+    /// - Returns: The minumum content height for the cell.
+    open class func minimumContentHeight(withTitle title: StringSizable?, enteredText: StringSizable?, placeholder: StringSizable? = nil,
+                                         inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection, accessoryViewSize: CGSize = .zero) -> CGFloat {
+        var titleSizing = title?.sizing() ?? StringSizing(string: "")
+        if titleSizing.font == nil {
+            titleSizing.font = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
+        }
+        if titleSizing.numberOfLines == nil {
+            titleSizing.numberOfLines = 1
+        }
+        
+        var enteredTextSizing = enteredText?.sizing() ?? StringSizing(string: "")
+        enteredTextSizing.numberOfLines = 1
+        if enteredTextSizing.font == nil {
+            enteredTextSizing.font = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+        }
+        
+        var placeholderSizing = enteredText?.sizing() ?? StringSizing(string: "")
+        placeholderSizing.numberOfLines = 1
+        if placeholderSizing.font == nil {
+            placeholderSizing.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
+        }
+        
+        let isAccesssoryEmpty = accessoryViewSize.isEmpty
+        
+        let availableWidth = width - (isAccesssoryEmpty ? 0.0 : accessoryViewSize.width + CollectionViewFormCell.accessoryContentInset)
+        
+        let titleHeight = titleSizing.minimumHeight(inWidth: availableWidth, allowingZeroHeight: false, compatibleWith: traitCollection)
+        let textHeight = enteredTextSizing.minimumHeight(inWidth: availableWidth, allowingZeroHeight: false, compatibleWith: traitCollection)
+        let placeholderHeight = placeholderSizing.minimumHeight(inWidth: availableWidth, allowingZeroHeight: false, compatibleWith: traitCollection)
+        
+        return max(titleHeight + max(textHeight, placeholderHeight) + CellTitleSubtitleSeparation.ceiled(toScale: traitCollection.currentDisplayScale), accessoryViewSize.height)
     }
     
 }
