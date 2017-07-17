@@ -105,7 +105,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         button.setTitleColor(UIColor(white: 1.0, alpha: 0.5), for: .disabled)
         button.titleLabel?.font = .systemFont(ofSize: 11.0, weight: UIFontWeightRegular)
         button.titleLabel?.textAlignment = .left
-        button.isEnabled = false
+        button.addTarget(self, action: #selector(forgotPasswordButtonTriggered), for: .primaryActionTriggered)
         
         return button
         }()
@@ -512,6 +512,10 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         delegate?.loginViewController(self, didFinishWithUsername: username, password: password)
     }
     
+    @objc private func forgotPasswordButtonTriggered() {
+        delegate?.loginViewController(self, didTapForgotPasswordButton: forgotPasswordButton)
+    }
+    
     @objc private func textFieldTextDidChange(_ textField: UITextField) {
         if (isUsernameFieldLoaded && textField == usernameField) || (isPasswordFieldLoaded && textField == passwordField) {
             updateLoginButtonState()
@@ -543,6 +547,12 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
 public protocol LoginViewControllerDelegate: class {
     
     func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String)
+    func loginViewController(_ controller: LoginViewController, didTapForgotPasswordButton button: UIButton)
     
+}
+
+public extension LoginViewControllerDelegate {
+    
+    func loginViewController(_ controller: LoginViewController, didTapForgotPasswordButton button: UIButton) { }
 }
 
