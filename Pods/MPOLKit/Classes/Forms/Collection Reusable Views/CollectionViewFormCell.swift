@@ -164,6 +164,8 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
             } else {
                 contentModeLayoutTrailingConstraint?.constant = 0.0
             }
+            
+            setNeedsLayout()
         }
     }
     

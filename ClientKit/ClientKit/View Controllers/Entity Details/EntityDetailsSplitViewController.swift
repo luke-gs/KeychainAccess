@@ -77,7 +77,7 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
         }
     }
     
-    private let headerView = EntityDetailsSidebarHeaderView(frame: .zero)
+    private let headerView = SidebarHeaderView(frame: .zero)
     
     public init(entity: Entity) {
         // TODO: Refactor sources into the current MPOL Context
@@ -170,18 +170,18 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
     /// Updates the header view with the details for the latest selected representation.
     /// Call this methodwhen the selected representation changes.
     private func updateHeaderView() {
-        headerView.typeLabel.text = type(of: selectedRepresentation).localizedDisplayName.localizedUppercase
+        headerView.captionLabel.text = type(of: selectedRepresentation).localizedDisplayName.localizedUppercase
         
         if let headerIcon = selectedRepresentation.thumbnailImage(ofSize: .medium) {
-            headerView.thumbnailView.image = headerIcon.image
-            headerView.thumbnailView.contentMode = headerIcon.mode
+            headerView.iconView.image = headerIcon.image
+            headerView.iconView.contentMode = headerIcon.mode
         } else {
-            headerView.thumbnailView.image = nil
+            headerView.iconView.image = nil
         }
         // TEMP:
-        headerView.thumbnailView.image = #imageLiteral(resourceName: "Avatar 1")
+        headerView.iconView.image = #imageLiteral(resourceName: "Avatar 1")
         
-        headerView.summaryLabel.text = selectedRepresentation.summary
+        headerView.titleLabel.text = selectedRepresentation.summary
         
         let lastUpdatedString: String
         if let lastUpdated = selectedRepresentation.lastUpdated {
@@ -189,7 +189,7 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
         } else {
             lastUpdatedString = NSLocalizedString("Unknown", comment: "Unknown Date")
         }
-        headerView.lastUpdatedLabel.text = NSLocalizedString("Last Updated: ", comment: "") + lastUpdatedString
+        headerView.subtitleLabel.text = NSLocalizedString("Last Updated: ", comment: "") + lastUpdatedString
     }
     
     private func headerIconAndMode() -> (image: UIImage?, mode: UIViewContentMode) {
