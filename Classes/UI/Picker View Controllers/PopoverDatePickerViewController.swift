@@ -143,6 +143,16 @@ open class PopoverDatePickerViewController: FormTableViewController, UIPopoverPr
         }
     }
     
+    open override func applyCurrentTheme() {
+        super.applyCurrentTheme()
+        
+        // WORKAROUND: Cannot change the color of text, especially in dark mode.
+        // This is PRIVATE API and should be checked on each iOS version.
+        // Has been consistent since iOS 7.
+        datePicker.setValue(primaryTextColor ?? secondaryTextColor, forKey: "textColor")
+        datePicker.sendAction(Selector(("setHighlightsToday:")), to: nil, for: nil)
+    }
+    
     
     // MARK: - UITableViewDataSource methods
     
@@ -163,6 +173,7 @@ open class PopoverDatePickerViewController: FormTableViewController, UIPopoverPr
         
         return cell
     }
+    
     
     // MARK: - Containment changes
     
