@@ -144,6 +144,7 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
         tableViewStyle = style
         wantsSeparatorWhenTransparent = style == .grouped
         super.init(nibName: nil, bundle: nil)
+        commonInit()
     }
     
     public required init?(coder aDecoder: NSCoder) {
