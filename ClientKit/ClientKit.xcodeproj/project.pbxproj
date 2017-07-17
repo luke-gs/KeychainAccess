@@ -12,6 +12,23 @@
 		BC12DC9B1F023EF0001A5BB7 /* ClientKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC12DC9A1F023EF0001A5BB7 /* ClientKitTests.swift */; };
 		BC12DC9D1F023EF0001A5BB7 /* ClientKit.h in Headers */ = {isa = PBXBuildFile; fileRef = BC12DC8F1F023EF0001A5BB7 /* ClientKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BC4FC2701F133D7500F1CAFB /* String+Pickable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4FC26F1F133D7500F1CAFB /* String+Pickable.swift */; };
+		BC75A7AD1F1C3D48004D46F1 /* EntityAlertsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75A7AB1F1C3BF9004D46F1 /* EntityAlertsViewController.swift */; };
+		BC75A7AE1F1C3D48004D46F1 /* EntityAssociationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75A7A61F1C3BF9004D46F1 /* EntityAssociationsViewController.swift */; };
+		BC75A7AF1F1C3D48004D46F1 /* EntityDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75A7AC1F1C3BF9004D46F1 /* EntityDetailCollectionViewCell.swift */; };
+		BC75A7B01F1C3D48004D46F1 /* EntityDetailsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75A7A91F1C3BF9004D46F1 /* EntityDetailsCollectionViewController.swift */; };
+		BC75A7B11F1C3D48004D46F1 /* EntityOccurrencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75A7AA1F1C3BF9004D46F1 /* EntityOccurrencesViewController.swift */; };
+		BC75A7B21F1C3D50004D46F1 /* EventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75A7981F1C3BF9004D46F1 /* EventDetailViewController.swift */; };
+		BC75A7B31F1C3D50004D46F1 /* InterventionOrderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75A7991F1C3BF9004D46F1 /* InterventionOrderDetailViewController.swift */; };
+		BC75A7B41F1C3D50004D46F1 /* FieldContactDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75A79A1F1C3BF9004D46F1 /* FieldContactDetailViewController.swift */; };
+		BC75A7B51F1C3D50004D46F1 /* BailOrderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75A79B1F1C3BF9004D46F1 /* BailOrderDetailViewController.swift */; };
+		BC75A7B61F1C3D50004D46F1 /* OrganizationInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75A7A81F1C3BF9004D46F1 /* OrganizationInfoViewController.swift */; };
+		BC75A7B71F1C3D55004D46F1 /* PersonOccurrencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75A79F1F1C3BF9004D46F1 /* PersonOccurrencesViewController.swift */; };
+		BC75A7B81F1C3D55004D46F1 /* PersonActionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75A7A01F1C3BF9004D46F1 /* PersonActionsViewController.swift */; };
+		BC75A7B91F1C3D55004D46F1 /* PersonDescriptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75A7A11F1C3BF9004D46F1 /* PersonDescriptionsViewController.swift */; };
+		BC75A7BA1F1C3D58004D46F1 /* PersonInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75A7A41F1C3BF9004D46F1 /* PersonInfoViewController.swift */; };
+		BC75A7BB1F1C3D58004D46F1 /* PersonCriminalHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75A7A51F1C3BF9004D46F1 /* PersonCriminalHistoryViewController.swift */; };
+		BC75A7BC1F1C3D5B004D46F1 /* CautionDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75A7A31F1C3BF9004D46F1 /* CautionDetailsViewController.swift */; };
+		BC75A7BD1F1C3D5F004D46F1 /* VehicleInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75A79D1F1C3BF9004D46F1 /* VehicleInfoViewController.swift */; };
 		BCA1793C1F03542900AD1F5F /* PersonParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA1793A1F03542900AD1F5F /* PersonParserDefinition.swift */; };
 		BCAEFE911F03150800C97F9C /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE541F03150800C97F9C /* Action.swift */; };
 		BCAEFE921F03150800C97F9C /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE551F03150800C97F9C /* Address.swift */; };
@@ -543,36 +560,51 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCAEFE9B1F03150800C97F9C /* BailOrder.swift in Sources */,
+				BC75A7BD1F1C3D5F004D46F1 /* VehicleInfoViewController.swift in Sources */,
 				BCAEFEDD1F0317DB00C97F9C /* EntityThumbnailView+Configuration.swift in Sources */,
 				BCAEFEA01F03150800C97F9C /* MissingPersonReport.swift in Sources */,
 				BCAEFEA91F03150800C97F9C /* ReportedPerson.swift in Sources */,
 				BCAEFEA21F03150800C97F9C /* KnownAssociate.swift in Sources */,
+				BC75A7B31F1C3D50004D46F1 /* InterventionOrderDetailViewController.swift in Sources */,
 				BCAEFE961F03150800C97F9C /* Contact.swift in Sources */,
 				BCAEFEAA1F03150800C97F9C /* RiskFactor.swift in Sources */,
 				BCAEFEA61F03150800C97F9C /* Person.swift in Sources */,
 				BCAEFE941F03150800C97F9C /* Alias.swift in Sources */,
 				BCAEFE931F03150800C97F9C /* Alert.swift in Sources */,
 				BCAEFE971F03150800C97F9C /* CriminalHistory.swift in Sources */,
+				BC75A7B01F1C3D48004D46F1 /* EntityDetailsCollectionViewController.swift in Sources */,
+				BC75A7B61F1C3D50004D46F1 /* OrganizationInfoViewController.swift in Sources */,
 				BCAEFEA31F03150800C97F9C /* Licence.swift in Sources */,
 				BCAEFE9E1F03150800C97F9C /* Interest.swift in Sources */,
+				BC75A7AE1F1C3D48004D46F1 /* EntityAssociationsViewController.swift in Sources */,
+				BC75A7BA1F1C3D58004D46F1 /* PersonInfoViewController.swift in Sources */,
+				BC75A7B21F1C3D50004D46F1 /* EventDetailViewController.swift in Sources */,
 				BCAEFEA11F03150800C97F9C /* Whereabouts.swift in Sources */,
 				BCAEFE9A1F03150800C97F9C /* Event.swift in Sources */,
 				BCC7AEE11F0BA9E70091AAEA /* DateSorting.swift in Sources */,
+				BC75A7B51F1C3D50004D46F1 /* BailOrderDetailViewController.swift in Sources */,
 				BCAEFEA71F03150800C97F9C /* PersonDescription.swift in Sources */,
 				BCF31AC81F0F42CD00207D82 /* Array+Searching.swift in Sources */,
 				BCAEFED11F03160800C97F9C /* APIManager.swift in Sources */,
+				BC75A7B41F1C3D50004D46F1 /* FieldContactDetailViewController.swift in Sources */,
 				BCAEFEAD1F03150800C97F9C /* Source.swift in Sources */,
 				BCAEFED61F03160800C97F9C /* WebAPIURLRequestProvider.swift in Sources */,
+				BC75A7AF1F1C3D48004D46F1 /* EntityDetailCollectionViewCell.swift in Sources */,
 				BCAEFE921F03150800C97F9C /* Address.swift in Sources */,
 				BCAEFED31F03160800C97F9C /* PersonSearchParameters.swift in Sources */,
+				BC75A7B81F1C3D55004D46F1 /* PersonActionsViewController.swift in Sources */,
 				BCAEFED41F03160800C97F9C /* VehicleSearchParameters.swift in Sources */,
 				BCAEFE9C1F03150800C97F9C /* FamilyIncident.swift in Sources */,
+				BC75A7BC1F1C3D5B004D46F1 /* CautionDetailsViewController.swift in Sources */,
 				BCAEFE991F03150800C97F9C /* Entity.swift in Sources */,
+				BC75A7B71F1C3D55004D46F1 /* PersonOccurrencesViewController.swift in Sources */,
+				BC75A7AD1F1C3D48004D46F1 /* EntityAlertsViewController.swift in Sources */,
 				BCAEFE911F03150800C97F9C /* Action.swift in Sources */,
 				BCAEFEB11F03150800C97F9C /* Warrant.swift in Sources */,
 				BCA1793C1F03542900AD1F5F /* PersonParserDefinition.swift in Sources */,
 				BCAEFED51F03160800C97F9C /* ServerAPIURLRequestProvider.swift in Sources */,
 				BCAEFE9F1F03150800C97F9C /* InterventionOrder.swift in Sources */,
+				BC75A7B91F1C3D55004D46F1 /* PersonDescriptionsViewController.swift in Sources */,
 				BCAEFE981F03150800C97F9C /* Email.swift in Sources */,
 				BCAEFEC41F03150800C97F9C /* EntityDetailsSplitViewController.swift in Sources */,
 				BCAEFED21F03160800C97F9C /* LocalAPIURLRequestProvider.swift in Sources */,
@@ -580,6 +612,8 @@
 				BCAEFEAC1F03150800C97F9C /* SearchResult.swift in Sources */,
 				BCAEFEAB1F03150800C97F9C /* ScarMarkTattoo.swift in Sources */,
 				BCAEFEAE1F03150800C97F9C /* TelephoneNumber.swift in Sources */,
+				BC75A7BB1F1C3D58004D46F1 /* PersonCriminalHistoryViewController.swift in Sources */,
+				BC75A7B11F1C3D48004D46F1 /* EntityOccurrencesViewController.swift in Sources */,
 				BCAEFE951F03150800C97F9C /* Caution.swift in Sources */,
 				BCAEFE9D1F03150800C97F9C /* FieldContact.swift in Sources */,
 				BCAEFEA41F03150800C97F9C /* Member.swift in Sources */,
