@@ -176,6 +176,56 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     
+    
+    /// A boolean value indicating whether the content is currently loading.
+    ///
+    /// When loading, the login fields are hidden and an activity indicator is
+    /// displayed. Setting this property directly performs the update without
+    /// an animation.
+    open var isLoading: Bool = false {
+        didSet {
+            if isLoading == oldValue || isViewLoaded == false { return }
+            
+            if isLoading {
+                if activityIndicator?.window != nil {
+                    // Only start animating when you're on a window, otherwise you can get weird bugs.
+                    activityIndicator?.startAnimating()
+                }
+                scrollView?.isHidden = true
+                scrollView?.endEditing(true)
+            } else {
+                activityIndicator?.stopAnimating()
+                scrollView?.isHidden = false
+            }
+        }
+    }
+    
+    
+    /// Updates the view controller's `isLoading` state with an optional animation.
+    ///
+    /// - Parameters:
+    ///   - loading:  The new loading state
+    ///   - animated: A boolean value indicating whether the update should be animated.
+    open func setLoading(_ loading: Bool, animated: Bool) {
+        if loading == isLoading { return }
+        
+        self.isLoading = loading
+        
+        if animated, let scrollView = self.scrollView {
+            UIView.transition(with: scrollView, duration: 0.3, options: .transitionCrossDissolve, animations: nil, completion: nil)
+        }
+    }
+    
+    
+    /// The color for the activity indicator. The default is `nil`.
+    /// When `nil`, the indicator displays as white.
+    open var activityIndicatorColor: UIColor? {
+        didSet {
+            activityIndicator?.color = activityIndicatorColor
+        }
+    }
+    
+    
     /// The preferred status bar style for the view controller.
     ///
     /// The default is `.lightContent`.
@@ -220,6 +270,8 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     private var scrollView: UIScrollView?
     
     private var contentStackView: UIStackView?
+    
+    private var activityIndicator: UIActivityIndicatorView?
     
     private var preferredLayoutGuideBottomConstraint: NSLayoutConstraint?
     
@@ -290,6 +342,11 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         backgroundView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         backgroundView.contentMode = .scaleAspectFill
         backgroundView.isUserInteractionEnabled = true
+        
+        let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+        activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicatorView.color = activityIndicatorColor
+        backgroundView.addSubview(activityIndicatorView)
         
         let scrollView = UIScrollView(frame: backgroundView.bounds)
         scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -364,6 +421,9 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         let forgotPasswordSeparation = NSLayoutConstraint(item: forgotPasswordButton, attribute: .top, relatedBy: .equal, toItem: passwordSeparator, attribute: .bottom, constant: forgotPasswordButton.isHidden ? 0.0 : 14.0)
         
         var constraints = [
+            NSLayoutConstraint(item: activityIndicatorView, attribute: .centerX, relatedBy: .equal, toItem: backgroundView, attribute: .centerX),
+            NSLayoutConstraint(item: activityIndicatorView, attribute: .centerY, relatedBy: .equal, toItem: backgroundView, attribute: .centerY),
+            
             NSLayoutConstraint(item: contentGuide, attribute: .width, relatedBy: .equal, toItem: backgroundView, attribute: .width),
             preferredLayoutGuideBottomConstraint,
             
@@ -405,6 +465,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         self.separatorHeightConstraint            = separatorHeightConstraint
         self.showingHeaderConstraint              = showingHeaderConstraint
         self.forgotPasswordSeparation             = forgotPasswordSeparation
+        self.activityIndicator                    = activityIndicatorView
     }
     
     open override func viewDidLoad() {
@@ -441,6 +502,21 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         super.traitCollectionDidChange(previousTraitCollection)
         
         separatorHeightConstraint?.constant = 1.0 / traitCollection.currentDisplayScale
+    }
+    
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if isLoading {
+            activityIndicator?.startAnimating()
+            scrollView?.isHidden = true
+        }
+    }
+    
+    open override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        activityIndicator?.stopAnimating()
+        scrollView?.isHidden = false
     }
     
     
