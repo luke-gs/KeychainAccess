@@ -16,7 +16,15 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     /// The login delegate.
     ///
     /// This object receives callback notifications when the login button is triggered.
-    open weak var delegate: LoginViewControllerDelegate?
+    open weak var delegate: LoginViewControllerDelegate? {
+        didSet {
+            let wantsForgotPassword = delegate?.responds(to: #selector(LoginViewControllerDelegate.loginViewController(_:didTapForgotPasswordButton:))) ?? false
+            if isLoginButtonLoaded {
+                forgotPasswordButton.isHidden = wantsForgotPassword == false
+            }
+            forgotPasswordSeparation?.constant = wantsForgotPassword ? 14.0 : 0.0
+        }
+    }
     
     
     /// The image to present behind the login screen.
@@ -105,7 +113,8 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         button.setTitleColor(UIColor(white: 1.0, alpha: 0.5), for: .disabled)
         button.titleLabel?.font = .systemFont(ofSize: 11.0, weight: UIFontWeightRegular)
         button.titleLabel?.textAlignment = .left
-        button.isEnabled = false
+        button.addTarget(self, action: #selector(forgotPasswordButtonTriggered), for: .primaryActionTriggered)
+        button.isHidden = self.delegate?.responds(to: #selector(LoginViewControllerDelegate.loginViewController(_:didTapForgotPasswordButton:))) ?? false == false
         
         return button
         }()
@@ -219,6 +228,8 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     private var showingHeaderConstraint: NSLayoutConstraint?
     
     private var hidingHeaderConstraint: NSLayoutConstraint?
+    
+    private var forgotPasswordSeparation: NSLayoutConstraint?
     
     private var keyboardInset: CGFloat = 0.0 {
         didSet {
@@ -350,6 +361,8 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         
         let showingHeaderConstraint = NSLayoutConstraint(item: stackAlignmentGuide, attribute: .top, relatedBy: .equal, toItem: contentStackView, attribute: .top)
         
+        let forgotPasswordSeparation = NSLayoutConstraint(item: forgotPasswordButton, attribute: .top, relatedBy: .equal, toItem: passwordSeparator, attribute: .bottom, constant: forgotPasswordButton.isHidden ? 0.0 : 14.0)
+        
         var constraints = [
             NSLayoutConstraint(item: contentGuide, attribute: .width, relatedBy: .equal, toItem: backgroundView, attribute: .width),
             preferredLayoutGuideBottomConstraint,
@@ -374,12 +387,13 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
             NSLayoutConstraint(item: stackAlignmentGuide, attribute: .top, relatedBy: .equal, toItem: credentialsView, attribute: .top, priority: UILayoutPriorityDefaultLow),
             
             separatorHeightConstraint,
+            forgotPasswordSeparation,
             
             NSLayoutConstraint(item: loginButton, attribute: .width,  relatedBy: .greaterThanOrEqual, toConstant: 160.0),
             NSLayoutConstraint(item: loginButton, attribute: .height, relatedBy: .greaterThanOrEqual, toConstant: 48.0),
         ]
         
-        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[ul]-4-[uf]-11-[us]-18-[pl]-4-[pf]-11-[ps(==us)]-11-[fpb]|", options: [.alignAllLeading, .alignAllTrailing], metrics: nil, views: ["ul": usernameLabel, "uf": usernameField, "us": usernameSeparator, "pl": passwordLabel, "pf": passwordField, "ps": passwordSeparator, "fpb": forgotPasswordButton])
+        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[ul]-4-[uf]-11-[us]-18-[pl]-4-[pf]-11-[ps(==us)]->=0-[fpb]|", options: [.alignAllLeading, .alignAllTrailing], metrics: nil, views: ["ul": usernameLabel, "uf": usernameField, "us": usernameSeparator, "pl": passwordLabel, "pf": passwordField, "ps": passwordSeparator, "fpb": forgotPasswordButton])
         
         if isHeaderViewHidden == false {
             constraints.append(showingHeaderConstraint)
@@ -390,6 +404,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         self.preferredLayoutGuideBottomConstraint = preferredLayoutGuideBottomConstraint
         self.separatorHeightConstraint            = separatorHeightConstraint
         self.showingHeaderConstraint              = showingHeaderConstraint
+        self.forgotPasswordSeparation             = forgotPasswordSeparation
     }
     
     open override func viewDidLoad() {
@@ -512,6 +527,10 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         delegate?.loginViewController(self, didFinishWithUsername: username, password: password)
     }
     
+    @objc private func forgotPasswordButtonTriggered() {
+        delegate?.loginViewController?(self, didTapForgotPasswordButton: forgotPasswordButton)
+    }
+    
     @objc private func textFieldTextDidChange(_ textField: UITextField) {
         if (isUsernameFieldLoaded && textField == usernameField) || (isPasswordFieldLoaded && textField == passwordField) {
             updateLoginButtonState()
@@ -540,9 +559,11 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
 }
 
 
-public protocol LoginViewControllerDelegate: class {
+@objc public protocol LoginViewControllerDelegate: NSObjectProtocol {
     
     func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String)
+    
+    @objc optional func loginViewController(_ controller: LoginViewController, didTapForgotPasswordButton button: UIButton)
     
 }
 
