@@ -12,7 +12,12 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   MPOLKit:
-    :path: "../mPolKit-iOS"
+    :git: https://github.com/Gridstone/mPolKit-iOS
+
+CHECKOUT OPTIONS:
+  MPOLKit:
+    :commit: 06a5e4e9f1411136f2e421b779ca013fcf26da6e
+    :git: https://github.com/Gridstone/mPolKit-iOS
 
 SPEC CHECKSUMS:
   Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
