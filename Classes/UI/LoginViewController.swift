@@ -513,8 +513,8 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    open override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    open override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         activityIndicator?.stopAnimating()
         scrollView?.isHidden = false
     }
