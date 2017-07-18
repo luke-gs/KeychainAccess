@@ -18,25 +18,15 @@ open class FormTextField: UITextField {
         if let unitLabel = _unitLabel { return unitLabel }
         
         let unitLabel = UILabel(frame: .zero)
-        unitLabel.translatesAutoresizingMaskIntoConstraints = false
         unitLabel.textColor = textColor
         unitLabel.font      = font
         unitLabel.isHidden  = true
-        unitLabel.addObserver(self, forKeyPath: #keyPath(UILabel.text),  context: &kvoContext)
-        addSubview(unitLabel)
-        
-        unitLabelOriginXConstraint = NSLayoutConstraint(item: unitLabel, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, constant: valueInset)
-        NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: unitLabel, attribute: .firstBaseline, relatedBy: .equal, toItem: self, attribute: .firstBaseline),
-            unitLabelOriginXConstraint!
-        ])
-        
         _unitLabel = unitLabel
         return unitLabel
     }
     
     @NSCopying public var placeholderFont: UIFont? {
-        didSet { if placeholderFont != oldValue { updatePlaceholder() } }
+        didSet { updatePlaceholder() }
     }
     
     @NSCopying public var placeholderTextColor: UIColor? {
@@ -44,28 +34,28 @@ open class FormTextField: UITextField {
     }
     
     
-    // MARK: - Private methods
+    // MARK: - Private properties
     
     private var placeholderText: String? {
         didSet { if placeholderText != oldValue { updatePlaceholder() }}
     }
     
-    private var _unitLabel: UILabel?
-    
-    private var valueInset: CGFloat = 0.0 {
-        didSet { if valueInset != oldValue { unitLabelOriginXConstraint?.constant = valueInset } }
-    }
-    
-    private var unitLabelOriginXConstraint: NSLayoutConstraint?
-    
-    private var isRightToLeft: Bool = false {
+    private var _unitLabel: UILabel? {
         didSet {
-            if isRightToLeft != oldValue {
-                setNeedsLayout()
-                textDidChange()
+            oldValue?.removeFromSuperview()
+            if let newLabel = _unitLabel {
+                addSubview(newLabel)
             }
+            
+            keyPathsAffectingLabelLayout.forEach {
+                oldValue?.removeObserver(self, forKeyPath: $0, context: &kvoContext)
+                _unitLabel?.addObserver(self, forKeyPath: $0, context: &kvoContext)
+            }
+            setNeedsLayout()
         }
     }
+    
+    private var singleSpaceWidth: CGFloat = 0.0
     
     
     // MARK: - Initializers
@@ -81,27 +71,29 @@ open class FormTextField: UITextField {
     }
     
     private func commonInit() {
-        isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
-        addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        
+        
+        if let font = self.font {
+            singleSpaceWidth = (" " as NSString).boundingRect(with: .zero, attributes: [NSFontAttributeName: font], context: nil).width
+        }
     }
     
     deinit {
-        _unitLabel?.removeObserver(self, forKeyPath: #keyPath(UILabel.text), context: &kvoContext)
+        keyPathsAffectingLabelLayout.forEach {
+            _unitLabel?.removeObserver(self, forKeyPath: $0, context: &kvoContext)
+        }
     }
     
     
     // MARK: - Overrides
     
-    open override var text: String? {
-        didSet { textDidChange() }
-    }
-    
     open override var font: UIFont? {
-        willSet {
-            if newValue != _unitLabel?.font {
-                _unitLabel?.font = newValue
-                textDidChange()
-                setNeedsLayout()
+        didSet {
+            guard let font = self.font, let unitLabel = _unitLabel else { return }
+            
+            if font != unitLabel.font {
+                unitLabel.font = font
+                singleSpaceWidth = (" " as NSString).boundingRect(with: .zero, attributes: [NSFontAttributeName: font], context: nil).width
             }
         }
     }
@@ -126,141 +118,112 @@ open class FormTextField: UITextField {
         set { self.placeholderText = newValue?.string }
     }
     
-    open override var bounds: CGRect {
-        didSet { textDidChange() }
-    }
-    
-    open override var frame: CGRect {
-        didSet { textDidChange() }
-    }
-    
-    open override var semanticContentAttribute: UISemanticContentAttribute {
-        didSet { isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft }
-    }
-    
-    open override func becomeFirstResponder() -> Bool {
-        if super.becomeFirstResponder() {
-            textDidChange()
-            return true
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        guard let unitLabel = _unitLabel else { return }
+        
+        let isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
+        
+        let hidden = unitLabel.text?.isEmpty ?? true || text?.isEmpty ?? true
+        unitLabel.isHidden = hidden
+        
+        if hidden { return }
+            
+        let bounds = self.bounds
+        let displayScale = traitCollection.currentDisplayScale
+        let maxTextRect = self.textRect(forBounds: bounds)
+        
+        let valueInset: CGFloat
+        if isEditing, let textRange = self.textRange(from: beginningOfDocument, to: endOfDocument) {
+            // get the text rectangle and fix for the fact it's offset by the maxTextRect origin.
+            var textRect = firstRect(for: textRange)
+            textRect.origin.x += maxTextRect.origin.x
+            
+            // work out the intersection - only the text rect where its in the text max bounds
+            textRect = textRect.intersection(maxTextRect)
+            textRect = textRect.integral
+            
+            if isRightToLeft {
+                valueInset = (bounds.width - textRect.minX + singleSpaceWidth).floored(toScale: displayScale)
+            } else {
+                valueInset = (textRect.maxX + singleSpaceWidth).ceiled(toScale: displayScale)
+            }
+        } else if let text = self.text?.ifNotEmpty() {
+            let textWidth = text.boundingRect(with: .max, attributes:  [NSFontAttributeName: self.font ?? .systemFont(ofSize: UIFont.systemFontSize)] , context: nil).width
+            
+            if isRightToLeft {
+                valueInset = (bounds.width - maxTextRect.maxX + ceil(min(textWidth, maxTextRect.width)) + singleSpaceWidth).ceiled(toScale: displayScale)
+            } else {
+                valueInset = (maxTextRect.minX + ceil(min(textWidth, maxTextRect.width)) + singleSpaceWidth).floored(toScale: displayScale)
+            }
+        } else {
+            valueInset = singleSpaceWidth.ceiled(toScale: displayScale)
         }
-        return false
-    }
-    
-    open override func resignFirstResponder() -> Bool {
-        if super.resignFirstResponder() {
-            textDidChange()
-            return true
-        }
-        return false
+        
+        let availableTextWidth = bounds.width - valueInset
+        var unitLabelSize = unitLabel.sizeThatFits(CGSize(width: availableTextWidth, height: .greatestFiniteMagnitude))
+        unitLabelSize.width = min(unitLabelSize.width, availableTextWidth)
+        
+        unitLabel.frame = CGRect(origin: CGPoint(x: (isRightToLeft ? bounds.width - valueInset - unitLabelSize.width : valueInset).rounded(toScale: displayScale),
+                                                 y: (maxTextRect.minY + (font?.ascender ?? 0.0) - (unitLabel.font?.ascender ?? 0.0)).rounded(toScale: displayScale)),
+                                 size: unitLabelSize)
     }
     
     open override func textRect(forBounds bounds: CGRect) -> CGRect {
-        var textRect = super.textRect(forBounds: bounds)
-        
-        let inset = _unitLabel?.frame.width ?? 0.0 + ((clearButtonMode == .whileEditing || clearButtonMode == .whileEditing) ? 25.0 : 4.0)
-        let adjustment = min(textRect.width, inset)
-        
-        textRect.size.width -= adjustment
-        if isRightToLeft {
-            textRect.origin.x += adjustment
-        }
-        
-        return textRect
+        return adjustedTextRect(super.textRect(forBounds: bounds))
     }
     
     open override func editingRect(forBounds bounds: CGRect) -> CGRect {
-        var editingRect = super.editingRect(forBounds: bounds)
-        
-        let inset = _unitLabel?.frame.width ?? 0.0 + ((clearButtonMode == .whileEditing || clearButtonMode == .whileEditing) ? 25.0 : 4.0)
-        let adjustment = min(editingRect.width, inset)
-        
-        editingRect.size.width -= adjustment
-        if isRightToLeft {
-            editingRect.origin.x += adjustment
-        }
-        
-        return editingRect
-    }
-    
-    open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if context == &kvoContext {
-            if _unitLabel?.text?.isEmpty ?? true == false {
-                _unitLabel!.sizeToFit()
-                textDidChange()
-            }
-        } else {
-            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-        }
+        return adjustedTextRect(super.editingRect(forBounds: bounds))
     }
     
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         
-        guard #available(iOS 10, *) else { return }
-        
-        if adjustsFontForContentSizeCategory && traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory,
-            let placeholderFontType = placeholderFont?.fontDescriptor.fontAttributes["NSCTFontUIUsageAttribute"] as? String {
-            placeholderFont = .preferredFont(forTextStyle: UIFontTextStyle(rawValue: placeholderFontType), compatibleWith: traitCollection)
+        // The font autoupdate reverts fonts to the standard placeholder font (the same as the content).
+        // To retain the current one, we need to update the font. With the scaled if possible,
+        // or the old one if not.
+        if adjustsFontForContentSizeCategory && traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            if let placeholderFontType = placeholderFont?.fontDescriptor.fontAttributes["NSCTFontUIUsageAttribute"] as? String {
+                placeholderFont = .preferredFont(forTextStyle: UIFontTextStyle(rawValue: placeholderFontType), compatibleWith: traitCollection)
+            } else {
+                let currentFont = placeholderFont
+                self.placeholderFont = currentFont
+            }
         }
-        
-        isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
+    }
+    
+    open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if context == &kvoContext {
+            setNeedsLayout()
+        } else {
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+        }
     }
     
     
     // MARK: - Private methods
     
-    @objc private func textDidChange() {
-        let hidden = _unitLabel?.text?.isEmpty ?? true || text?.isEmpty ?? true
+    private func adjustedTextRect(_ rect: CGRect) -> CGRect {
+        if _unitLabel?.isHidden ?? true { return rect }
         
-        _unitLabel?.isHidden = hidden
+        var adjustedRect = rect
         
-        if hidden == false {
-            
-            if isRightToLeft {
-                
-                if isEditing, let textRange = textRange(from: beginningOfDocument, to: endOfDocument) {
-                    // Get the maximum text rectangle for the text
-                    let maxTextRect = self.textRect(forBounds: bounds)
-                    
-                    // get the text rectangle and fix for the fact it's offset by the maxTextRect origin.
-                    var textRect = firstRect(for: textRange)
-                    textRect.origin.x += maxTextRect.origin.x
-                    
-                    // work out the intersection - only the text rect where its in the text max bounds
-                    textRect = textRect.intersection(maxTextRect)
-                    textRect = textRect.integral
-                    
-                    valueInset = bounds.width - textRect.minX + 2.0
-                } else if let text = self.text?.ifNotEmpty() {
-                    let textWidth = text.boundingRect(with: .max, attributes:  [NSFontAttributeName: self.font ?? .systemFont(ofSize: UIFont.systemFontSize)] , context: nil).width
-                    let maxTextRect = textRect(forBounds: bounds)
-                    valueInset = bounds.width - maxTextRect.maxX + ceil(min(textWidth, maxTextRect.width)) + 2.0
-                } else {
-                    valueInset = 2.0
-                }
-            } else {
-                if isEditing, let textRange = self.textRange(from: beginningOfDocument, to: endOfDocument) {
-                    // Get the maximum text rectangle for the text
-                    let maxTextRect = self.textRect(forBounds: bounds)
-                    
-                    // get the text rectangle and fix for the fact it's offset by the maxTextRect origin.
-                    var textRect = firstRect(for: textRange)
-                    textRect.origin.x += maxTextRect.origin.x
-                    
-                    // work out the intersection - only the text rect where its in the text max bounds
-                    textRect = textRect.intersection(maxTextRect)
-                    textRect = textRect.integral
-                    
-                    valueInset = textRect.maxX + 2.0
-                } else if let text = self.text?.ifNotEmpty() {
-                    let textWidth = text.boundingRect(with: .max, attributes:  [NSFontAttributeName: self.font ?? .systemFont(ofSize: UIFont.systemFontSize)] , context: nil).width
-                    let maxTextRect = textRect(forBounds: bounds)
-                    valueInset = maxTextRect.minX + ceil(min(textWidth, maxTextRect.width)) + 2.0
-                } else {
-                    valueInset = 2.0
-                }
-            }
+        // Calculate the preferred area reserved for our unit label.
+        var inset = (_unitLabel?.frame.width ?? 0.0) + singleSpaceWidth.ceiled(toScale: traitCollection.currentDisplayScale)
+        
+        // Don't allow the adjustment to be any greater than 10 points from taking the
+        // whole space - we need *some* room to type!
+        inset = min(adjustedRect.width - 10.0, inset)
+        
+        // Adjust the rect accordingly
+        adjustedRect.size.width -= inset
+        if effectiveUserInterfaceLayoutDirection == .rightToLeft {
+            adjustedRect.origin.x += inset
         }
+        
+        return adjustedRect
     }
     
     private func updatePlaceholder() {

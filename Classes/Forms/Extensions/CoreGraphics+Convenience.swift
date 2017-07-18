@@ -15,7 +15,7 @@ extension CGSize {
     }
     
     public var isEmpty: Bool {
-        return width.isZero || height.isZero
+        return width <=~ 0.0 || height <=~ 0.0
     }
     
 }

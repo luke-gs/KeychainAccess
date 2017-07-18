@@ -231,8 +231,8 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
         subtitleLabel.adjustsFontForContentSizeCategory = true
         detailLabel.adjustsFontForContentSizeCategory   = true
         
-        let footnoteFont   = UIFont.preferredFont(forTextStyle: .footnote)
-        titleLabel.font    = .preferredFont(forTextStyle: .headline)
+        let footnoteFont   = UIFont.preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
+        titleLabel.font    = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
         subtitleLabel.font = footnoteFont
         detailLabel.font   = footnoteFont
     

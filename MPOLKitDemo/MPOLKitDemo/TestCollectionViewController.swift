@@ -11,38 +11,18 @@ import MPOLKit
 
 class TestCollectionViewController: FormCollectionViewController, FilterViewControllerDelegate  {
     
-    var inserted = false
-    
-    var text: String? {
-        didSet {
-            if let cell = self.collectionView?.cellForItem(at: IndexPath(item: 0 , section: 0)) as? CollectionViewFormCell {
-                cell.setRequiresValidation(text != nil, validationText: text, animated: true)
-            } else {
-                collectionView?.performBatchUpdates({
-                    self.formLayout.invalidateLayout()
-                })
-            }
-        }
-    }
-    
     override init() {
         super.init()
+        formLayout.pinsGlobalHeaderWhenBouncing = true
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "iconFormFilter", in: Bundle(for: CollectionViewFormLayout.self), compatibleWith: nil), style: .plain, target: self, action: #selector(filterItemDidSelect(_:)))
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        collectionView?.register(CollectionViewFormSubtitleCell.self)
         collectionView?.register(CollectionViewFormValueFieldCell.self)
-        collectionView?.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
-            self.text = "Test"
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 12) {
-            self.text = nil
-        }
+        collectionView?.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
+        collectionView?.register(RecentEntitiesBackgroundView.self, forSupplementaryViewOfKind: collectionElementKindGlobalHeader)
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -55,14 +35,16 @@ class TestCollectionViewController: FormCollectionViewController, FilterViewCont
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 100 + (inserted ? 1 : 0)
+        return 10000
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         switch kind {
+        case collectionElementKindGlobalHeader:
+            return collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: RecentEntitiesBackgroundView.self, for: indexPath)
         case UICollectionElementKindSectionHeader:
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, class: CollectionViewFormHeaderView.self, for: indexPath)
             header.tintColor = Theme.current.colors[.SecondaryText]
             header.showsExpandArrow = true
             header.text = "1 ACTIVE ALERT"
@@ -73,7 +55,6 @@ class TestCollectionViewController: FormCollectionViewController, FilterViewCont
         default:
             return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
         }
-        
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -81,39 +62,27 @@ class TestCollectionViewController: FormCollectionViewController, FilterViewCont
         
         cell.titleLabel.text =  "Test Title \(indexPath.item + 1)"
         cell.placeholderLabel.text = "Testing placeholder \(indexPath.item + 1)"
-        
+
         if indexPath.item % 2 == 0 {
             cell.valueLabel.text = "Testing value \(indexPath.item + 1)"
         } else {
             cell.valueLabel.text = nil
         }
         
-        cell.editActions = [CollectionViewFormEditAction(title: "DELETE", color: .destructive, handler: nil)]
-        
-        if indexPath.item == 0 && indexPath.section == 0 {
-            cell.setRequiresValidation(text != nil, validationText: text, animated: false)
-        } else {
-            cell.setRequiresValidation(false, validationText: nil, animated: false)
-        }
-        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
-        return CollectionViewFormExpandingHeaderView.minimumHeight
+        return CollectionViewFormHeaderView.minimumHeight
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
+        return layout.columnContentWidth(forColumnCount: 3, sectionEdgeInsets: sectionEdgeInsets)
     }
     
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
-        return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: "Kj", subtitle: "Kj", inWidth: itemWidth, compatibleWith: traitCollection)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForValidationAccessoryAt indexPath: IndexPath, givenContentWidth contentWidth: CGFloat) -> CGFloat {
-        if indexPath.section == 0 && indexPath.row == 0, let text = self.text {
-            return CollectionViewFormCell.heightForValidationAccessory(withText: text, contentWidth: contentWidth, compatibleWith: traitCollection)
-        }
-        return 0.0
-    }
-    
+        return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: "Kj", subtitle: "Test", inWidth: itemWidth, compatibleWith: traitCollection)
+    }    
     
     
     @objc private func filterItemDidSelect(_ item: UIBarButtonItem) {
@@ -137,6 +106,10 @@ class TestCollectionViewController: FormCollectionViewController, FilterViewCont
         controller.presentingViewController?.dismiss(animated: true)
     }
     
+    func collectionView(_ collectionView: UICollectionView, heightForGlobalHeaderInLayout layout: CollectionViewFormLayout) -> CGFloat {
+        return 200.0
+    }
+    
 }
 
 extension String: Pickable {
@@ -150,3 +123,26 @@ extension String: Pickable {
     }
 }
 
+
+private class RecentEntitiesBackgroundView: UICollectionReusableView, DefaultReusable {
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        commonInit()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        commonInit()
+    }
+    
+    private func commonInit() {
+        let imageView = UIImageView(image: #imageLiteral(resourceName: "RecentContactsBanner"))
+        imageView.frame = bounds
+        imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        addSubview(imageView)
+    }
+    
+}

@@ -88,7 +88,7 @@ open class FilterViewController: FormCollectionViewController {
         collectionView.register(FilterCheckmarkCell.self)
         collectionView.register(CollectionViewFormOptionCell.self, forCellWithReuseIdentifier: checkboxCellID)
         collectionView.register(CollectionViewFormOptionCell.self, forCellWithReuseIdentifier: radioCellID)
-        collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
+        collectionView.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         
         filterOptions.enumerated().forEach { (section, option) in
             if let list = option as? FilterList,
@@ -118,7 +118,7 @@ open class FilterViewController: FormCollectionViewController {
     
     open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionElementKindSectionHeader {
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
             header.showsExpandArrow = false
             header.text = filterOptions[indexPath.section].title?.ifNotEmpty()?.uppercased(with: .current)
             return header
@@ -328,7 +328,7 @@ open class FilterViewController: FormCollectionViewController {
     // MARK: - CollectionViewDelegateFormLayout methods
     
     public func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
-        return CollectionViewFormExpandingHeaderView.minimumHeight
+        return CollectionViewFormHeaderView.minimumHeight
     }
     
     open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout,

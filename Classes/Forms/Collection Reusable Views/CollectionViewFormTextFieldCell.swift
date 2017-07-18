@@ -28,11 +28,6 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
     }
     
     
-    // MARK: - Private properties
-    
-    private var titleDetailSeparationConstraint: NSLayoutConstraint!
-    
-    
     // MARK: - Initializers
     
     public override init(frame: CGRect) {
@@ -50,76 +45,94 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
         
         textField.clearButtonMode = .whileEditing
         
-        let contentView            = self.contentView
-        let contentModeLayoutGuide = self.contentModeLayoutGuide
-        
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        textField.translatesAutoresizingMaskIntoConstraints  = false
-        
         titleLabel.adjustsFontForContentSizeCategory = true
         textField.adjustsFontForContentSizeCategory = true
         
-        titleLabel.font           = .preferredFont(forTextStyle: .footnote)
-        textField.font            = .preferredFont(forTextStyle: .headline)
-        textField.placeholderFont = .preferredFont(forTextStyle: .subheadline)
+        titleLabel.font           = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
+        textField.font            = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+        textField.placeholderFont = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
         
+        let contentView = self.contentView
         contentView.addSubview(titleLabel)
         contentView.addSubview(textField)
         
-        titleDetailSeparationConstraint = NSLayoutConstraint(item: textField, attribute: .top, relatedBy: .equal, toItem: titleLabel, attribute: .bottom)
+        keyPathsAffectingLabelLayout.forEach {
+            titleLabel.addObserver(self, forKeyPath: $0, context: &kvoContext)
+        }
         
-        NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: titleLabel, attribute: .top,      relatedBy: .equal,           toItem: contentModeLayoutGuide, attribute: .top),
-            NSLayoutConstraint(item: titleLabel, attribute: .leading,  relatedBy: .equal,           toItem: contentModeLayoutGuide, attribute: .leading),
-            NSLayoutConstraint(item: titleLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentModeLayoutGuide, attribute: .trailing),
-            
-            NSLayoutConstraint(item: textField, attribute: .leading,  relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .leading),
-            NSLayoutConstraint(item: textField, attribute: .trailing, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .trailing),
-            NSLayoutConstraint(item: textField, attribute: .bottom,   relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .bottom, constant: 0.5),
-            titleDetailSeparationConstraint
-        ])
-        
-        titleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.text),           context: &kvoContext)
-        titleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &kvoContext)
+        textField.addObserver(self, forKeyPath: #keyPath(UITextField.font), context: &kvoContext)
         
         NotificationCenter.default.addObserver(self, selector: #selector(textFieldDidBeginEditing(_:)), name: .UITextFieldTextDidBeginEditing, object: textField)
         NotificationCenter.default.addObserver(self, selector: #selector(textFieldDidEndEditing(_:)),   name: .UITextFieldTextDidEndEditing,   object: textField)
     }
     
     deinit {
-        titleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.text),           context: &kvoContext)
-        titleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &kvoContext)
+        keyPathsAffectingLabelLayout.forEach {
+            titleLabel.removeObserver(self, forKeyPath: $0, context: &kvoContext)
+        }
+        textField.removeObserver(self, forKeyPath: #keyPath(UITextField.font), context: &kvoContext)
     }
     
     
     // MARK: - Overrides
     
-    open override var bounds: CGRect {
-        didSet {
-            let width = bounds.width
-            if width !=~ oldValue.width {
-                titleLabel.preferredMaxLayoutWidth = width
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        let contentView = self.contentView
+        let displayScale = traitCollection.currentDisplayScale
+        let isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
+        
+        var contentRect = contentView.bounds.insetBy(contentView.layoutMargins)
+        
+        let accessorySize: CGSize
+        if let size = self.accessoryView?.frame.size, size.isEmpty == false {
+            accessorySize = size
+            let inset = size.width + CollectionViewFormCell.accessoryContentInset
+            contentRect.size.width -= inset
+            
+            if isRightToLeft {
+                contentRect.origin.x += inset
             }
+        } else {
+            accessorySize = .zero
         }
-    }
-    
-    open override var frame: CGRect {
-        didSet {
-            let width = frame.width
-            if width !=~ oldValue.width {
-                titleLabel.preferredMaxLayoutWidth = width
-            }
+        
+        // Get content sizes
+        
+        let interItemSpace = CellTitleSubtitleSeparation.ceiled(toScale: displayScale)
+        
+        let labelSize = titleLabel.sizeThatFits(CGSize(width: contentRect.width, height: .greatestFiniteMagnitude))
+        var textFieldSize = CGSize(width: contentRect.width, height: textField.intrinsicContentSize.height)
+        if textFieldSize.height == UIViewNoIntrinsicMetric {
+            textFieldSize.height = textField.font?.lineHeight ?? 18.0 + 8.0
         }
+        let contentHeight = max(labelSize.height + textFieldSize.height + interItemSpace, accessorySize.height)
+        
+        // Get content positions
+        
+        let contentYOrigin: CGFloat
+        switch contentMode {
+        case .top, .topLeft, .topRight:
+            contentYOrigin = contentRect.minY
+        case .bottom, .bottomLeft, .bottomRight:
+            contentYOrigin = max(contentRect.minY, contentRect.maxY - contentHeight)
+        default:
+            contentYOrigin = max(contentRect.minY, contentRect.midY - contentHeight / 2.0)
+        }
+        
+        // Update frames
+        
+        accessoryView?.frame = CGRect(origin: CGPoint(x: isRightToLeft ? contentRect.minX : contentRect.maxX - accessorySize.width, y: (contentYOrigin - (contentHeight - accessorySize.height) / 2.0).rounded(toScale: displayScale)), size: accessorySize)
+        
+        let titleFrame = CGRect(origin: CGPoint(x: isRightToLeft ? contentRect.maxX - labelSize.width : contentRect.minX, y: contentYOrigin), size: labelSize)
+        titleLabel.frame = titleFrame
+        textField.frame = CGRect(origin: CGPoint(x: contentRect.minX, y: titleFrame.maxY + interItemSpace), size: textFieldSize)
     }
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {
-            
-            let titleDetailSpace = titleLabel.text?.isEmpty ?? true ? 0.0 : CellTitleSubtitleSeparation
-            
-            if titleDetailSeparationConstraint.constant !=~ titleDetailSpace {
-                titleDetailSeparationConstraint.constant = titleDetailSpace
-            }
+            setNeedsLayout()
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
@@ -129,15 +142,8 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
     // MARK: - Accessibility
     
     open override var accessibilityLabel: String? {
-        get {
-            if let setValue = super.accessibilityLabel {
-                return setValue
-            }
-            return titleLabel.text
-        }
-        set {
-            super.accessibilityLabel = newValue
-        }
+        get { return super.accessibilityLabel?.ifNotEmpty() ?? titleLabel.text }
+        set { super.accessibilityLabel = newValue }
     }
     
     open override var accessibilityValue: String? {
@@ -192,8 +198,8 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
     // MARK: - Class sizing methods
     
     public class func minimumContentWidth(withTitle title: String?, enteredText: String?, placeholder: String?, compatibleWith traitCollection: UITraitCollection, titleFont: UIFont? = nil, textFieldFont: UIFont? = nil, placeholderFont: UIFont? = nil, singleLineTitle: Bool = true, accessoryViewWidth: CGFloat = 0.0) -> CGFloat {
-        let titleTextFont:       UIFont = titleFont       ?? .preferredFont(forTextStyle: .footnote,    compatibleWith: traitCollection)
-        let enteredTextFont:     UIFont = textFieldFont   ?? .preferredFont(forTextStyle: .headline,    compatibleWith: traitCollection)
+        let titleTextFont:       UIFont = titleFont       ?? .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
+        let enteredTextFont:     UIFont = textFieldFont   ?? .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
         let placeholderTextFont: UIFont = placeholderFont ?? .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
         
         let displayScale = traitCollection.currentDisplayScale
@@ -216,12 +222,12 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
         if title?.isEmpty ?? true {
             titleHeight = 0.0
         } else {
-            let titleTextFont: UIFont = titleFont ?? .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
+            let titleTextFont: UIFont = titleFont ?? .preferredFont(forTextStyle: .footnote)
             titleHeight = singleLineTitle ? titleTextFont.lineHeight.ceiled(toScale: displayScale) : (title as NSString?)?.boundingRect(with: CGSize(width: width, height: .greatestFiniteMagnitude), attributes: [NSFontAttributeName: titleTextFont], context: nil).width.ceiled(toScale: displayScale) ?? 0.0
             titleHeight += CellTitleSubtitleSeparation
         }
         
-        let enteredTextFont:     UIFont = textFieldFont   ?? .preferredFont(forTextStyle: .headline,    compatibleWith: traitCollection)
+        let enteredTextFont:     UIFont = textFieldFont   ?? .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
         let placeholderTextFont: UIFont = placeholderFont ?? .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)        
         return titleHeight + max(enteredTextFont.lineHeight, placeholderTextFont.lineHeight).ceiled(toScale: displayScale)
     }

@@ -14,14 +14,6 @@ open class FormTextView: UITextView {
 
     open let placeholderLabel: UILabel = UILabel(frame: .zero)
     
-    private var isRightToLeft: Bool = false {
-        didSet {
-            if isRightToLeft != oldValue {
-                setNeedsLayout()
-            }
-        }
-    }
-    
     
     // MARK: - Initializers
     
@@ -38,15 +30,16 @@ open class FormTextView: UITextView {
     private func commonInit() {
         super.textContainerInset = .zero
         
-        isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
-        
         backgroundColor = .clear
         
         placeholderLabel.numberOfLines = 0
         placeholderLabel.textColor = .gray
         placeholderLabel.backgroundColor = .clear
-        placeholderLabel.addObserver(self, forKeyPath: #keyPath(UILabel.font), context: &kvoContext)
         addSubview(placeholderLabel)
+        
+        keyPathsAffectingLabelLayout.forEach {
+            placeholderLabel.addObserver(self, forKeyPath: $0, context: &kvoContext)
+        }
         
         alwaysBounceVertical = false
         
@@ -54,7 +47,9 @@ open class FormTextView: UITextView {
     }
     
     deinit {
-        placeholderLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.font), context: &kvoContext)
+        keyPathsAffectingLabelLayout.forEach {
+            placeholderLabel.removeObserver(self, forKeyPath: $0, context: &kvoContext)
+        }
     }
     
     
@@ -72,10 +67,6 @@ open class FormTextView: UITextView {
         didSet { setNeedsLayout() }
     }
     
-    open override var semanticContentAttribute: UISemanticContentAttribute {
-        didSet { isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft }
-    }
-    
     open override var adjustsFontForContentSizeCategory: Bool {
         didSet { placeholderLabel.adjustsFontForContentSizeCategory = adjustsFontForContentSizeCategory }
     }
@@ -83,11 +74,9 @@ open class FormTextView: UITextView {
     open override func layoutSubviews() {
         super.layoutSubviews()
         
-        // There are bugs in using auto layout on subviews on a UITextView, so we'll do the work here in layout subviews
-        
-        let displayScale = (window?.screen ?? .main).scale
-        
         guard let textFont = font ?? placeholderLabel.font, let placeholderFont = placeholderLabel.font ?? font else { return }
+        
+        let displayScale = traitCollection.currentDisplayScale
         
         // layout the placeholder
         bringSubview(toFront: placeholderLabel)
@@ -102,7 +91,7 @@ open class FormTextView: UITextView {
         
         var placeholderOrigin: CGPoint = CGPoint(x: 0.0, y: (firstBaselineY - placeholderBaselineY).rounded(toScale: displayScale))
             
-        if isRightToLeft {
+        if effectiveUserInterfaceLayoutDirection == .rightToLeft {
             placeholderOrigin.x = (bounds.width - textContainerInset.left - 5.0 - placeholderSize.width).rounded(toScale: displayScale)
         } else {
             placeholderOrigin.x = (textContainerInset.left + 5.0).rounded(toScale: displayScale)
@@ -112,7 +101,9 @@ open class FormTextView: UITextView {
     
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            setNeedsLayout()
+        }
     }
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
