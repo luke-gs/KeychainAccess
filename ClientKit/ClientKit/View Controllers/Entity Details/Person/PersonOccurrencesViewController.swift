@@ -188,8 +188,13 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
             switch $0 {
             case let filterList as FilterList where filterList.options.first is String:
                 let selectedIndexes = filterList.selectedIndexes
-                if selectedIndexes.isEmpty == false {
-                    self.filterTypes = Set(filterList.options[selectedIndexes] as! [String])
+                let indexCount = selectedIndexes.count
+                if indexCount != filterList.options.count {
+                    if indexCount == 0 {
+                        self.filterTypes = []
+                    } else {
+                        self.filterTypes = Set(filterList.options[selectedIndexes] as! [String])
+                    }
                 } else {
                     self.filterTypes = nil
                 }
