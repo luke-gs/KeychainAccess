@@ -1,6 +1,0 @@
-framework module MPOLKit {
-  umbrella header "MPOLKit-umbrella.h"
-
-  export *
-  module * { export * }
-}
