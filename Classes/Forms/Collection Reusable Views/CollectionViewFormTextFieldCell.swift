@@ -76,6 +76,7 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
         let isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
         
         var contentRect = contentView.bounds.insetBy(contentView.layoutMargins)
+        let contentTrailingEdge = isRightToLeft ? contentRect.minX : contentRect.maxX
         
         let accessorySize: CGSize
         if let size = self.accessoryView?.frame.size, size.isEmpty == false {
@@ -115,7 +116,9 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
         
         // Update frames
         
-        accessoryView?.frame = CGRect(origin: CGPoint(x: isRightToLeft ? contentRect.minX : contentRect.maxX - accessorySize.width, y: (contentYOrigin - (contentHeight - accessorySize.height) / 2.0).rounded(toScale: displayScale)), size: accessorySize)
+        accessoryView?.frame = CGRect(origin: CGPoint(x: contentTrailingEdge - (isRightToLeft ? 0.0 : accessorySize.width),
+                                                      y: (contentYOrigin + ((contentHeight - accessorySize.height) / 2.0)).rounded(toScale: displayScale)),
+                                      size: accessorySize)
         
         let titleFrame = CGRect(origin: CGPoint(x: isRightToLeft ? contentRect.maxX - labelSize.width : contentRect.minX, y: contentYOrigin), size: labelSize)
         titleLabel.frame = titleFrame
