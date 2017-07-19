@@ -140,24 +140,20 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     
     /// The accessory view for the cell.
     ///
-    /// This will be placed at the trailing edge of the cell.
+    /// This will be placed at the trailing edge of the cell, and is resized
+    /// via `UIView.sizeThatFits(_:)`. Labels, for example, can be set to
+    /// adjust their fonts for the content size category, and the cell will
+    /// automatically resize the view as the size category changes.
     open var accessoryView: UIView? {
         didSet {
-            if oldValue == accessoryView { return }
-            
-            oldValue?.removeFromSuperview()
-            
-            if let accessoryView = self.accessoryView {
-                contentView.addSubview(accessoryView)
+            if oldValue != accessoryView {
+                oldValue?.removeFromSuperview()
                 
-                let accessoryWidth = accessoryView.frame.width
-                if accessoryWidth > 0 {
-                    contentModeLayoutTrailingConstraint?.constant = (accessoryWidth + CollectionViewFormCell.accessoryContentInset) * -1.0
+                if let accessoryView = self.accessoryView {
+                    contentView.addSubview(accessoryView)
                 } else {
                     contentModeLayoutTrailingConstraint?.constant = 0.0
                 }
-            } else {
-                contentModeLayoutTrailingConstraint?.constant = 0.0
             }
             
             setNeedsLayout()
@@ -446,7 +442,10 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         commonInit()
     }
     
-    private func commonInit() {
+    /// An internal common point for subclasses to override without having to override
+    /// initializers within MPOLKit. When overriding, you must call `super.commonInit()`
+    /// **first** as part of your implementation.
+    internal func commonInit() {
         isAccessibilityElement = true
         super.contentMode = .center
         
@@ -465,11 +464,8 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     /// Informs the cell that the content size category did change. Subclasses should
     /// override this method to adjust the fonts of content where appropriate.
     ///
-    /// The default implementation calls `setNeedsLayout`.
-    ///
     /// - Parameter newCategory: The new content size category.
     public func contentSizeCategoryDidChange(_ newCategory: UIContentSizeCategory) {
-        setNeedsLayout()
     }
     
     /// The current content rectangle considering space for the layout margins and accessory view.
@@ -543,6 +539,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     open override func prepareForReuse() {
         super.prepareForReuse()
         setShowingEditActions(false, animated: false)
+        setNeedsLayout()
     }
     
     open override func willMove(toSuperview newSuperview: UIView?) {
@@ -598,12 +595,20 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         // Update accessory location
         
         if let accessoryView = self.accessoryView {
-            var accessoryFrame = accessoryView.frame
+            
             let contentRect = contentView.bounds.insetBy(contentView.layoutMargins)
             
-            accessoryFrame.origin.y = round(contentRect.midY - (accessoryFrame.height * 0.5))
+            var accessoryFrame = CGRect(origin: .zero, size: accessoryView.sizeThatFits(contentRect.size).constrained(to: contentRect.size))
+            accessoryFrame.origin.y = (contentRect.midY - (accessoryFrame.height * 0.5)).rounded(toScale: traitCollection.currentDisplayScale)
             accessoryFrame.origin.x = isRTL ? contentRect.minX : contentRect.maxX - accessoryFrame.width
             accessoryView.frame = accessoryFrame
+            
+            let accessoryWidth = accessoryView.frame.width
+            if accessoryWidth > 0 {
+                contentModeLayoutTrailingConstraint?.constant = (accessoryFrame.width + CollectionViewFormCell.accessoryContentInset) * -1.0
+            } else {
+                contentModeLayoutTrailingConstraint?.constant = 0.0
+            }
         }
         
         // Update separator position
@@ -705,12 +710,15 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         super.traitCollectionDidChange(previousTraitCollection)
         
         let newCategory = traitCollection.preferredContentSizeCategory
+        var needsLayout = false
         if newCategory != previousTraitCollection?.preferredContentSizeCategory ?? .unspecified {
-            setNeedsLayout()
             contentSizeCategoryDidChange(newCategory)
+            needsLayout = true
         }
-        
         if traitCollection.currentDisplayScale != previousTraitCollection?.currentDisplayScale {
+            needsLayout = true
+        }
+        if needsLayout {
             setNeedsLayout()
         }
     }

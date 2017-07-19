@@ -14,17 +14,9 @@ open class CollectionViewFormProgressCell: CollectionViewFormValueFieldCell {
 
     public let progressView: UIProgressView = UIProgressView(progressViewStyle: .default)
     
-    public override init(frame: CGRect) {
-        super.init(frame: frame)
-        commonInit()
-    }
-    
-    public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        commonInit()
-    }
-    
-    private func commonInit() {
+    override func commonInit() {
+        super.commonInit()
+        
         progressView.trackTintColor = #colorLiteral(red: 0.4980392157, green: 0.4980392157, blue: 0.4980392157, alpha: 0.25)
         progressView.clipsToBounds = true
         progressView.layer.cornerRadius = 2.0

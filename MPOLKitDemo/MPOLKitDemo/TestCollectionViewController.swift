@@ -20,7 +20,7 @@ class TestCollectionViewController: FormCollectionViewController, FilterViewCont
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        collectionView?.register(CollectionViewFormValueFieldCell.self)
+        collectionView?.register(CollectionViewFormSubtitleCell.self)
         collectionView?.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         collectionView?.register(RecentEntitiesBackgroundView.self, forSupplementaryViewOfKind: collectionElementKindGlobalHeader)
     }
@@ -35,7 +35,7 @@ class TestCollectionViewController: FormCollectionViewController, FilterViewCont
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10000
+        return 100
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -58,31 +58,41 @@ class TestCollectionViewController: FormCollectionViewController, FilterViewCont
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormValueFieldCell.self, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
         
         cell.titleLabel.text =  "Test Title \(indexPath.item + 1)"
-        cell.placeholderLabel.text = "Testing placeholder \(indexPath.item + 1)"
-
-        if indexPath.item % 2 == 0 {
-            cell.valueLabel.text = "Testing value \(indexPath.item + 1)"
+        cell.subtitleLabel.text = "Testing placeholder \(indexPath.item + 1)"
+        
+        if let accessory = cell.accessoryView as? LabeledAccessoryView {
+            cell.accessoryView = accessory
         } else {
-            cell.valueLabel.text = nil
+            let accessory = LabeledAccessoryView()
+            accessory.accessoryView = FormDisclosureView()
+            accessory.titleLabel.font = .preferredFont(forTextStyle: .subheadline)
+            accessory.titleLabel.text = "Select Action"
+            accessory.subtitleLabel.text = "Testing placeholder \(indexPath.item + 1)"
+            cell.accessoryView = accessory
         }
         
         return cell
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
+        
+        if let labeledAccessoryView = (cell as? CollectionViewFormCell)?.accessoryView as? LabeledAccessoryView {
+            labeledAccessoryView.titleLabel.textColor = tintColor
+            labeledAccessoryView.subtitleLabel.textColor = secondaryTextColor
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
         return CollectionViewFormHeaderView.minimumHeight
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
-        return layout.columnContentWidth(forColumnCount: 3, sectionEdgeInsets: sectionEdgeInsets)
-    }
-    
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
         return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: "Kj", subtitle: "Test", inWidth: itemWidth, compatibleWith: traitCollection)
-    }    
+    }
     
     
     @objc private func filterItemDidSelect(_ item: UIBarButtonItem) {

@@ -161,9 +161,8 @@ open class FormTextField: UITextField {
             valueInset = singleSpaceWidth.ceiled(toScale: displayScale)
         }
         
-        let availableTextWidth = bounds.width - valueInset
-        var unitLabelSize = unitLabel.sizeThatFits(CGSize(width: availableTextWidth, height: .greatestFiniteMagnitude))
-        unitLabelSize.width = min(unitLabelSize.width, availableTextWidth)
+        let availableTextSize = CGSize(width: bounds.width - valueInset, height: .greatestFiniteMagnitude)
+        let unitLabelSize = unitLabel.sizeThatFits(availableTextSize).constrained(to: availableTextSize)
         
         unitLabel.frame = CGRect(origin: CGPoint(x: (isRightToLeft ? bounds.width - valueInset - unitLabelSize.width : valueInset).rounded(toScale: displayScale),
                                                  y: (maxTextRect.minY + (font?.ascender ?? 0.0) - (unitLabel.font?.ascender ?? 0.0)).rounded(toScale: displayScale)),

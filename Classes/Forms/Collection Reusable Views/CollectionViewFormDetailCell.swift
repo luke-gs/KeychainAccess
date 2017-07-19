@@ -77,17 +77,9 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
     
     // MARK: - Initializers
     
-    public override init(frame: CGRect) {
-        super.init(frame: frame)
-        commonInit()
-    }
-    
-    public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        commonInit()
-    }
-    
-    private func commonInit() {
+    override func commonInit() {
+        super.commonInit()
+        
         let titleLabel    = self.titleLabel
         let subtitleLabel = self.subtitleLabel
         let detailLabel   = self.detailLabel
