@@ -139,7 +139,7 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
         
         if let size = self.accessoryView?.frame.size, size.isEmpty == false {
             accessorySize = size
-            let inset = size.width + 10.0
+            let inset = size.width + CollectionViewFormCell.accessoryContentInset
             contentRect.size.width -= inset
             
             if isRightToLeft {
@@ -184,8 +184,8 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
         _imageView?.frame = CGRect(origin: CGPoint(x: isRightToLeft ? (contentRect.maxX - imageSize.width).ceiled(toScale: displayScale): contentRect.minX,
                                                    y: (contentYOrigin + (titleContentHeight - imageSize.height) / 2.0).rounded(toScale: displayScale)),
                                    size: imageSize)
-        accessoryView?.frame = CGRect(origin: CGPoint(x: isRightToLeft ? contentRect.minX : (contentRect.maxX - accessorySize.width).floored(toScale: displayScale),
-                                                      y: (contentYOrigin - (totalContentHeight / 2.0)).rounded(toScale: displayScale)),
+        accessoryView?.frame = CGRect(origin: CGPoint(x: (isRightToLeft ? contentRect.minX - accessorySize.width - CollectionViewFormCell.accessoryContentInset : contentRect.maxX + CollectionViewFormCell.accessoryContentInset).floored(toScale: displayScale),
+                                                      y: (contentYOrigin + ((totalContentHeight - accessorySize.height) / 2.0)).rounded(toScale: displayScale)),
                                       size: accessorySize)
         
         
