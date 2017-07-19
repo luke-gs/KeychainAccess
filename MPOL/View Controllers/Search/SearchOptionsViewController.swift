@@ -116,7 +116,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         
         collectionView.register(SearchFieldCollectionViewCell.self)
         collectionView.register(CollectionViewFormValueFieldCell.self)
-        collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
+        collectionView.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         collectionView.alwaysBounceVertical = false
         
         collectionView.addObserver(self, forKeyPath: #keyPath(UICollectionView.contentSize), context: &kvoContext)
@@ -287,7 +287,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         switch kind {
         case UICollectionElementKindSectionHeader:
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
             header.showsExpandArrow = false
             header.text             = "FILTER SEARCH"
             return header
@@ -413,7 +413,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     }
     
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
-        return Section(rawValue: section) == .searchField ? 0.0 : CollectionViewFormExpandingHeaderView.minimumHeight
+        return Section(rawValue: section) == .searchField ? 0.0 : CollectionViewFormHeaderView.minimumHeight
     }
     
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {

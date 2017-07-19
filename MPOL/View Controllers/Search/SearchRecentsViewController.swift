@@ -118,7 +118,7 @@ class SearchRecentsViewController: FormCollectionViewController {
         
         collectionView.register(EntityCollectionViewCell.self)
         collectionView.register(CollectionViewFormSubtitleCell.self)
-        collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
+        collectionView.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         collectionView.register(RecentEntitiesHeaderView.self, forSupplementaryViewOfKind: collectionElementKindGlobalHeader)
         
         // Setup the no content view.
@@ -279,7 +279,7 @@ class SearchRecentsViewController: FormCollectionViewController {
                 isRecentSearches = collectionView == self.collectionView
             }
             
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
             if isRecentSearches {
                 header.text = NSLocalizedString("RECENTLY SEARCHED", comment: "")
             } else {
@@ -314,7 +314,7 @@ class SearchRecentsViewController: FormCollectionViewController {
             cell.accessoryView      = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
             cell.highlightStyle     = .fade
             cell.imageView.image    = summaryIcon(for: request)
-            cell.preferredLabelSeparation = 2.0
+            cell.labelSeparation = 2.0
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(of: EntityCollectionViewCell.self, for: indexPath)
@@ -340,7 +340,7 @@ class SearchRecentsViewController: FormCollectionViewController {
         
         let theme = Theme.current
         if traitCollection.horizontalSizeClass != .compact && theme.isDark == false && collectionView != self.collectionView,
-            let header = view as? CollectionViewFormExpandingHeaderView {
+            let header = view as? CollectionViewFormHeaderView {
             header.separatorColor = theme.colors[.AlternateSeparator]
         }
     }
@@ -393,14 +393,14 @@ class SearchRecentsViewController: FormCollectionViewController {
         let itemInsets = layout.itemLayoutMargins
         let itemHeight = EntityCollectionViewCell.minimumContentHeight(forStyle: .detail, compatibleWith: traitCollection) + itemInsets.top + itemInsets.bottom
         
-        let height = itemHeight * CGFloat(itemsStackedVertically) + CollectionViewFormExpandingHeaderView.minimumHeight + 20.0 // 20 is the insets you see below.
+        let height = itemHeight * CGFloat(itemsStackedVertically) + CollectionViewFormHeaderView.minimumHeight + 20.0 // 20 is the insets you see below.
         
         return height
     }
     
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
         if traitCollection.horizontalSizeClass == .compact { return 0.0 }
-        return CollectionViewFormExpandingHeaderView.minimumHeight
+        return CollectionViewFormHeaderView.minimumHeight
     }
     
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, insetForSection section: Int) -> UIEdgeInsets {
@@ -506,7 +506,7 @@ private class RecentEntitiesHeaderView: UICollectionReusableView, DefaultReusabl
         addSubview(imageView)
         
         collectionView.register(EntityCollectionViewCell.self)
-        collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
+        collectionView.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         collectionView.backgroundColor = .clear
         collectionView.isScrollEnabled = false
         collectionView.frame = bounds

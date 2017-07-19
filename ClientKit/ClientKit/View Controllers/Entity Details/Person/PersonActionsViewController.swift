@@ -73,7 +73,7 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
         
         guard let collectionView = self.collectionView else { return }
         
-        collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
+        collectionView.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         collectionView.register(CollectionViewFormDetailCell.self)
     }
     
@@ -106,7 +106,7 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
     
     open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionElementKindSectionHeader {
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
             
             // TODO: Refactor for StringsDict pluralization
             let actionCount = actions.count
@@ -129,7 +129,7 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
     }
     
     open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
-        return CollectionViewFormExpandingHeaderView.minimumHeight
+        return CollectionViewFormHeaderView.minimumHeight
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
