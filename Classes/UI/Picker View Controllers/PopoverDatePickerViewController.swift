@@ -150,7 +150,11 @@ open class PopoverDatePickerViewController: FormTableViewController, UIPopoverPr
         // This is PRIVATE API and should be checked on each iOS version.
         // Has been consistent since iOS 7.
         datePicker.setValue(primaryTextColor ?? secondaryTextColor, forKey: "textColor")
-        datePicker.sendAction(Selector(("setHighlightsToday:")), to: nil, for: nil)
+        
+        let selector = Selector(("setHighlightsToday:"))
+        if datePicker.responds(to: selector) {
+            datePicker.perform(selector, with: false)
+        }
     }
     
     
