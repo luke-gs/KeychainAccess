@@ -183,14 +183,6 @@ internal class CollectionViewFormCellActionView: UIScrollView, UIScrollViewDeleg
         }
     }
     
-    override var layoutMargins: UIEdgeInsets {
-        didSet {
-            if layoutMargins != oldValue && buttons?.count ?? 0 > 0 {
-                setNeedsButtonLayout()
-                setNeedsMaskGradientUpdate()
-            }
-        }
-    }
     
     override var delegate: UIScrollViewDelegate? {
         get { return self }
@@ -397,7 +389,15 @@ internal class CollectionViewFormCellActionView: UIScrollView, UIScrollViewDeleg
     }
     
     
-    // MARK: - Trait changes
+    // MARK: - Changes
+    
+    override func layoutMarginsDidChange() {
+        if buttons?.count ?? 0 > 0 {
+            setNeedsButtonLayout()
+            setNeedsMaskGradientUpdate()
+        }
+        super.layoutMarginsDidChange()
+    }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
