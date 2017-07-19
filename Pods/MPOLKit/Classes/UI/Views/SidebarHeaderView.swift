@@ -20,17 +20,15 @@ open class SidebarHeaderView: UIView {
     public let iconView: UIImageView = UIImageView(frame: .zero)
     
     
-    /// The type label for displaying the entity's localized display type.
+    /// The caption label below the icon.
     public let captionLabel: UILabel = UILabel(frame: .zero)
     
     
-    /// The summary label. This is for displaying a one line summary description
-    /// of the entity.
+    /// The title label.
     public let titleLabel: UILabel = UILabel(frame: .zero)
     
     
-    /// The last updated label. This should be used to show details of when the
-    /// entity was last updated in the database.
+    /// The subtitle label.
     public let subtitleLabel: UILabel = UILabel(frame: .zero)
     
     

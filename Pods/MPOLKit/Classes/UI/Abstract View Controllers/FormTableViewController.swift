@@ -50,8 +50,9 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     /// The default is `false`.
     open var wantsTransparentBackground: Bool = false {
         didSet {
-            tableView?.backgroundColor = wantsTransparentBackground ? .clear : backgroundColor
-            tableView?.separatorStyle  = wantsSeparatorWhenTransparent || (wantsTransparentBackground == false) ? .singleLine : .none
+            if isViewLoaded && wantsTransparentBackground != oldValue {
+                updateTableBackgroundColor()
+            }
         }
     }
     
@@ -183,8 +184,6 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
         if wantsCalculatedContentHeight {
             tableView.addObserver(self, forKeyPath: #keyPath(UITableView.contentSize), context: &kvoContext)
         }
-        
-        updateTableBackgroundColor()
         
         let backgroundView = UIView(frame: tableView.frame)
         backgroundView.addSubview(tableView)
@@ -451,13 +450,14 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
             if UIDevice.current.userInterfaceIdiom == .phone && Theme.current.isDark {
                 newColor = #colorLiteral(red: 0.09803921569, green: 0.09803921569, blue: 0.09803921569, alpha: 1)
             } else {
-                newColor = tableViewStyle == .grouped ? nil : (cellBackgroundColor ?? .white)
+                newColor = .clear
             }
         } else {
             newColor = tableViewStyle == .grouped ? backgroundColor : (cellBackgroundColor ?? .white)
         }
         
         tableView.backgroundColor = newColor
+        tableView.separatorStyle  = wantsSeparatorWhenTransparent || (wantsTransparentBackground == false) ? .singleLine : .none
     }
 
 }

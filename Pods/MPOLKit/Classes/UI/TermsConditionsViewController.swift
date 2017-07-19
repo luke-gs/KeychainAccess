@@ -48,7 +48,7 @@ open class TermsConditionsViewController: UIViewController {
         textView.isEditable = false
         textView.isSelectable = false
         textView.adjustsFontForContentSizeCategory = true
-        textView.font = .preferredFont(forTextStyle: .body)
+        textView.font = .preferredFont(forTextStyle: .body, compatibleWith: traitCollection)
         textView.attributedText = termsAndConditions
         self.textView = textView
         self.view = textView

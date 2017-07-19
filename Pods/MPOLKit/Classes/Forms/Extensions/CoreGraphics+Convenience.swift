@@ -15,7 +15,20 @@ extension CGSize {
     }
     
     public var isEmpty: Bool {
-        return width.isZero || height.isZero
+        return width <=~ 0.0 || height <=~ 0.0
+    }
+    
+    
+    /// Returns a CGSize limited in dimensions to the specified size. The size
+    /// returned for width and height will be the min of each of those respective
+    /// values from each size.
+    ///
+    /// - Parameter size: The maximum size for the CGSize
+    /// - Returns: The maximum size possible of the receiver, constrained to the
+    ///            specified size.
+    public func constrained(to size: CGSize) -> CGSize {        
+        return CGSize(width:  min(self.width,  size.width),
+                      height: min(self.height, size.height))
     }
     
 }
