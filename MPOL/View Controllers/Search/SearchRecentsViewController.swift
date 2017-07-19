@@ -433,7 +433,7 @@ class SearchRecentsViewController: FormCollectionViewController {
         if isRecentlySearched {
             let recentSearch = recentlySearched[indexPath.item]
             
-            return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: recentSearch.localizedTitle, subtitle: recentSearch.localizedDescription, inWidth: itemWidth, compatibleWith: traitCollection, image: summaryIcon(for: recentSearch))
+            return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: recentSearch.localizedTitle, subtitle: recentSearch.localizedDescription, inWidth: itemWidth, compatibleWith: traitCollection, imageSize: summaryIcon(for: recentSearch)?.size ?? .zero)
         } else {
             return EntityCollectionViewCell.minimumContentHeight(forStyle: .detail, compatibleWith: traitCollection)
         }

@@ -190,7 +190,9 @@ open class OrganizationInfoViewController: EntityDetailCollectionViewController 
             wantsMultiLineValue = false
         }
         
-        return CollectionViewFormValueFieldCell.minimumContentHeight(withTitle: title, value: value, inWidth: itemWidth, compatibleWith: traitCollection, singleLineValue: wantsMultiLineValue == false)
+        
+        let valueSizing = StringSizing(string: value, numberOfLines: wantsMultiLineValue ? 0 : 1)
+        return CollectionViewFormValueFieldCell.minimumContentHeight(withTitle: title, value: valueSizing, inWidth: itemWidth, compatibleWith: traitCollection)
     }
     
     

@@ -134,7 +134,7 @@ class PersonDescriptionsViewController: FormCollectionViewController {
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
         let description = descriptions![indexPath.row]
-        return CollectionViewFormValueFieldCell.minimumContentHeight(withTitle: description.reportDate == nil ? nil : "Unknown Date", value: description.formatted(), inWidth: itemWidth, compatibleWith: traitCollection, image: nil)
+        return CollectionViewFormValueFieldCell.minimumContentHeight(withTitle: description.reportDate == nil ? nil : "Unknown Date", value: description.formatted(), inWidth: itemWidth, compatibleWith: traitCollection)
     }
 
 }

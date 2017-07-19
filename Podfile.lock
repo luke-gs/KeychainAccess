@@ -16,7 +16,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   MPOLKit:
-    :commit: b54d94a820beb23b0c532532e96611066a5aea66
+    :commit: a71989189f470ad996c34e75e85534ca4237acce
     :git: https://github.com/Gridstone/mPolKit-iOS
 
 SPEC CHECKSUMS:
