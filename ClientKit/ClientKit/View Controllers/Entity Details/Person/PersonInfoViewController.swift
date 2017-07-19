@@ -331,7 +331,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
             title = alias.formattedName ?? ""
             value = alias.formattedDOBAgeGender()
             image = nil
-            return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: title, subtitle: value, inWidth: itemWidth, compatibleWith: traitCollection, image: image, singleLineSubtitle: true)
+            return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: title, subtitle: value, inWidth: itemWidth, compatibleWith: traitCollection, imageSize: image?.size ?? .zero)
         case .licence(let licence):
             let item = section.items![indexPath.item] as! LicenceItem
             
@@ -341,7 +341,8 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
             wantsSingleLineValue = true
         }
         
-        return CollectionViewFormValueFieldCell.minimumContentHeight(withTitle: title, value: value, inWidth: itemWidth, compatibleWith: traitCollection, image: image, singleLineValue: wantsSingleLineValue)
+        let valueSizing = StringSizing(string: value ?? "", numberOfLines: wantsSingleLineValue ? 1 : 0)
+        return CollectionViewFormValueFieldCell.minimumContentHeight(withTitle: title, value: valueSizing, inWidth: itemWidth, compatibleWith: traitCollection, imageSize: image?.size ?? .zero)
     }
     
     

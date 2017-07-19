@@ -446,7 +446,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
             let filterIndex = indexPath.item
             let title    = selectedDataSource.titleForFilter(at: filterIndex)
             let subtitle = selectedDataSource.valueForFilter(at: filterIndex) ?? selectedDataSource.defaultValueForFilter(at: filterIndex)
-            return CollectionViewFormValueFieldCell.minimumContentHeight(withTitle: title, value: subtitle, inWidth: itemWidth, compatibleWith: traitCollection, singleLineValue: true)
+            return CollectionViewFormValueFieldCell.minimumContentHeight(withTitle: title, value: subtitle, inWidth: itemWidth, compatibleWith: traitCollection)
         }
         
     }
