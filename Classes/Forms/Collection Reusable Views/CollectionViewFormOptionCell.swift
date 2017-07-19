@@ -103,37 +103,34 @@ open class CollectionViewFormOptionCell: CollectionViewFormSubtitleCell {
     
     // MARK: - Class sizing methods
     
-    /// Calculates the minimum content width for a cell, considering the text and font details, with a standard option image.
+    /// Calculates the minimum content width for a cell, considering the content details.
     ///
     /// - Parameters:
-    ///   - title:              The title text for the cell.
-    ///   - traitCollection:    The trait collection the cell will be displayed in.
-    ///   - titleFont:          The title font. The default is `nil`, indicating the calculation should use the default for the emphasis mode.
-    ///   - singleLineTitle:    A boolean value indicating if the title text should be constrained to a single line. The default is `true`.
-    ///   - accessoryViewWidth: The width for the accessory view.
-    /// - Returns:           The minumum content width for the cell.
-    open class func minimumContentWidth(withStyle style: OptionStyle, title: String?, subtitle: String? = nil, compatibleWith traitCollection: UITraitCollection,
-                                        titleFont: UIFont? = nil, subtitleFont: UIFont? = nil, singleLineTitle: Bool = true, singleLineSubtitle: Bool = true, accessoryViewWidth: CGFloat = 0.0) -> CGFloat {
-        let titleTextFont = titleFont ?? SelectableButton.font(compatibleWith: traitCollection)
-        return super.minimumContentWidth(withTitle: title, subtitle: subtitle, compatibleWith: traitCollection, image: style.image(selected: false, highlighted: true), titleFont: titleTextFont, subtitleFont: subtitleFont, singleLineTitle: singleLineTitle, singleLineSubtitle: singleLineSubtitle, accessoryViewWidth: accessoryViewWidth)
+    ///   - style:             The option style.
+    ///   - title:             The title details for sizing.
+    ///   - subtitle:          The subtitle details for sizing.
+    ///   - traitCollection:   The trait collection to calculate for.
+    ///   - accessoryViewSize: The size for the accessory view, or `.zero`. The default is `.zero`.
+    /// - Returns:             The minumum content width for the cell.
+    open class func minimumContentWidth(withStyle style: OptionStyle, title: StringSizable?, subtitle: StringSizable? = nil, compatibleWith traitCollection: UITraitCollection, accessoryViewSize: CGSize = .zero) -> CGFloat {
+        return super.minimumContentWidth(withTitle: title, subtitle: subtitle, compatibleWith: traitCollection, imageSize: style.image(selected: false, highlighted: false).size, accessoryViewSize: accessoryViewSize)
     }
     
     
-    /// Calculates the minimum content height for a cell, considering the text and font details, with a standard selection image.
+    /// Calculates the minimum content height for a cell, considering the content details.
     ///
     /// - Parameters:
-    ///   - style:           The cell selection style.
-    ///   - title:           The title text.
-    ///   - width:           The width constraint.
-    ///   - traitCollection: The trait collection the cell will be displayed in.
-    ///   - titleFont:       The title font.
-    ///   - singleLineTitle: The default is `nil`, indicating the calculation should use the default.
-    /// - Returns:           The minumum content height for the cell.
-    open class func minimumContentHeight(withStyle style: OptionStyle, title: String?, subtitle: String? = nil, inWidth width: CGFloat,
-                                         compatibleWith traitCollection: UITraitCollection, titleFont: UIFont? = nil, subtitleFont: UIFont? = nil,
-                                         singleLineTitle: Bool = true, singleLineSubtitle: Bool = true, labelSeparation: CGFloat = CellTitleSubtitleSeparation) -> CGFloat {
-        return super.minimumContentHeight(withTitle: title, subtitle: subtitle, inWidth: width, compatibleWith: traitCollection, image: style.image(selected: false, highlighted: true),
-                                          titleFont: titleFont ?? SelectableButton.font(compatibleWith: traitCollection), subtitleFont: subtitleFont, singleLineTitle: singleLineTitle, singleLineSubtitle: singleLineSubtitle, labelSeparation: labelSeparation)
+    ///   - style:             The option style.
+    ///   - title:             The title details for sizing.
+    ///   - subtitle:          The subtitle details for sizing.
+    ///   - width:             The content width for the cell.
+    ///   - traitCollection:   The trait collection to calculate for.
+    ///   - labelSeparation:   The label vertical separation. The default is the standard separation.
+    ///   - accessoryViewSize: The size for the accessory view, or `.zero`. The default is `.zero`.
+    /// - Returns: The minumum content height for the cell.
+    open class func minimumContentHeight(withStyle style: OptionStyle, title: StringSizable?, subtitle: StringSizable? = nil, inWidth width: CGFloat,
+                                         compatibleWith traitCollection: UITraitCollection, labelSeparation: CGFloat = CellTitleSubtitleSeparation, accessoryViewSize: CGSize = .zero) -> CGFloat {
+        return super.minimumContentHeight(withTitle: title, subtitle: subtitle, inWidth: width, compatibleWith: traitCollection, imageSize: style.image(selected: false, highlighted: false).size, labelSeparation: labelSeparation, accessoryViewSize: accessoryViewSize)
     }
     
 }

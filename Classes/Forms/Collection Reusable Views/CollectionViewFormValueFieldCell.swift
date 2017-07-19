@@ -12,11 +12,6 @@ fileprivate var kvoContext = 1
 
 open class CollectionViewFormValueFieldCell: CollectionViewFormCell {
     
-    private class func standardFonts(compatibleWith traitCollection: UITraitCollection) -> (titleFont: UIFont, valueFont: UIFont) {
-        return (.preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection),
-                .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection))
-    }
-    
     // MARK: - Public properties
     
     /// The text label for the cell.
@@ -83,25 +78,24 @@ open class CollectionViewFormValueFieldCell: CollectionViewFormCell {
     override func commonInit() {
         super.commonInit()
         
-        accessibilityTraits |= UIAccessibilityTraitStaticText
-        
-        let titleLabel       = self.titleLabel
-        let valueLabel       = self.valueLabel
+        let titleLabel = self.titleLabel
+        let valueLabel = self.valueLabel
         let placeholderLabel = self.placeholderLabel
         
         titleLabel.adjustsFontForContentSizeCategory = true
         valueLabel.adjustsFontForContentSizeCategory = true
         placeholderLabel.adjustsFontForContentSizeCategory = true
         
-        let fonts = type(of: self).standardFonts(compatibleWith: traitCollection)
-        titleLabel.font = fonts.titleFont
-        valueLabel.font = fonts.valueFont
+        titleLabel.font = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
+        valueLabel.font = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
         placeholderLabel.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
         
         let contentView = self.contentView
         contentView.addSubview(placeholderLabel)
         contentView.addSubview(valueLabel)
         contentView.addSubview(titleLabel)
+        
+        _ = CollectionViewFormValueFieldCell.minimumContentHeight(withTitle: "", value: "", inWidth: 300, compatibleWith: traitCollection)
         
         keyPathsAffectingLabelLayout.forEach {
             titleLabel.addObserver(self, forKeyPath: $0, context: &kvoContext)
@@ -246,82 +240,86 @@ open class CollectionViewFormValueFieldCell: CollectionViewFormCell {
     
     // MARK: - Class sizing methods
     
-    /// Calculates the minimum content width for a cell, considering the text and font details.
+    
+    /// Calculates the minimum content width for a cell, considering the content details.
     ///
     /// - Parameters:
-    ///   - title:              The title text for the cell.
-    ///   - value:              The value text for the cell.
-    ///   - traitCollection:    The trait collection the cell will be displayed in.
-    ///   - image:              The leading image for the cell. The default is `nil`.
-    ///   - titleFont:          The title font. The default is `nil`, indicating the calculation should use the default.
-    ///   - valueFont:          The value font. The default is `nil`, indicating the calculation should use the default.
-    ///   - singleLineTitle:    A boolean value indicating if the title text should be constrained to a single line. The default is `true`.
-    ///   - singleLineValue:    A boolean value indicating if the value text should be constrained to a single line. The default is `true`.
-    ///   - accessoryViewWidth: The width for the accessory view.
+    ///   - title:             The title details for sizing.
+    ///   - value:             The value details for sizing.
+    ///   - traitCollection:   The trait collection to calculate for.
+    ///   - imageSize:         The size for the image, to present, or `.zero`. The default is `.zero`.
+    ///   - accessoryViewSize: The size for the accessory view, or `.zero`. The default is `.zero`.
     /// - Returns: The minumum content width for the cell.
-    open class func minimumContentWidth(withTitle title: String?, value: String?, compatibleWith traitCollection: UITraitCollection,
-                                        image: UIImage? = nil, titleFont: UIFont? = nil, valueFont: UIFont? = nil,
-                                        singleLineTitle: Bool = true, singleLineValue: Bool = true, accessoryViewWidth: CGFloat = 0.0) -> CGFloat {
-        let standardFonts = self.standardFonts(compatibleWith: traitCollection)
-        
-        let titleTextFont = titleFont ?? standardFonts.titleFont
-        let valueTextFont = valueFont ?? standardFonts.valueFont
-        
-        var imageSpace = image?.size.width ?? 0.0
-        if imageSpace > 0.0 {
-            imageSpace = ceil(imageSpace) + 16.0
+    open class func minimumContentWidth(withTitle title: StringSizable?, value: StringSizable?, compatibleWith traitCollection: UITraitCollection,
+                                        imageSize: CGSize = .zero, accessoryViewSize: CGSize = .zero) -> CGFloat {
+        var titleSizing = title?.sizing() ?? StringSizing(string: "")
+        if titleSizing.font == nil {
+            titleSizing.font = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
+        }
+        if titleSizing.numberOfLines == nil {
+            titleSizing.numberOfLines = 1
         }
         
-        let displayScale = traitCollection.currentDisplayScale
+        var valueSizing = value?.sizing() ?? StringSizing(string: "")
+        if valueSizing.font == nil {
+            valueSizing.font = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+        }
+        if valueSizing.numberOfLines == nil {
+            valueSizing.numberOfLines = 1
+        }
         
-        let titleWidth = (title as NSString?)?.boundingRect(with: .max, options: singleLineTitle ? [] : .usesLineFragmentOrigin,
-                                                            attributes: [NSFontAttributeName: titleTextFont],
-                                                            context: nil).width.ceiled(toScale: displayScale) ?? 0.0
+        let titleWidth = titleSizing.minimumWidth(compatibleWith: traitCollection)
+        let valueWidth = valueSizing.minimumWidth(compatibleWith: traitCollection)
         
-        let valueWidth = (value as NSString?)?.boundingRect(with: .max, options: singleLineValue ? [] : .usesLineFragmentOrigin,
-                                                            attributes: [NSFontAttributeName: valueTextFont],
-                                                            context: nil).width.ceiled(toScale: displayScale) ?? 0.0
+        let imageSpace = imageSize.isEmpty ? 0.0 : imageSize.width + 16.0
+        let accessorySpace = accessoryViewSize.isEmpty ? 0.0 : accessoryViewSize.width + CollectionViewFormCell.accessoryContentInset
         
-        return max(titleWidth, valueWidth) + imageSpace + (accessoryViewWidth >~ 0.0 ? accessoryViewWidth + 10.0 : 0.0)
+        return max(titleWidth, valueWidth) + imageSpace + accessorySpace
     }
     
     
-    /// Calculates the minimum content height for a cell, considering the text and font details.
+    /// Calculates the minimum content height for a cell, considering the content details.
     ///
     /// - Parameters:
-    ///   - title:           The title text for the cell.
-    ///   - value:           The value text for the cell.
-    ///   - width:           The width constraint for the cell.
-    ///   - traitCollection: The trait collection the cell will be displayed in.
-    ///   - image:           The leading image for the cell. The default is `nil`.
-    ///   - titleFont:       The title font. The default is `nil`, indicating the calculation should use the default.
-    ///   - valueFont:       The value font. The default is `nil`, indicating the calculation should use the default.
-    ///   - singleLineTitle: A boolean value indicating if the title text should be constrained to a single line. The default is `true`.
-    ///   - singleLineValue: A boolean value indicating if the value text should be constrained to a single line. The default is `true`.
-    /// - Returns:      The minumum content height for the cell.
-    open class func minimumContentHeight(withTitle title: String?, value: String?, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection,
-                                         image: UIImage? = nil, titleFont: UIFont? = nil, valueFont: UIFont? = nil, singleLineTitle: Bool = true,
-                                         singleLineValue: Bool = true, labelSeparation: CGFloat = CellTitleSubtitleSeparation) -> CGFloat {
-        let standardFonts = self.standardFonts(compatibleWith: traitCollection)
+    ///   - title:             The title details for sizing.
+    ///   - value:             The value details for sizing.
+    ///   - width:             The content width for the cell.
+    ///   - traitCollection:   The trait collection to calculate for.
+    ///   - imageSize:         The size for the image, to present, or `.zero`. The default is `.zero`.
+    ///   - labelSeparation:   The label vertical separation. The default is the standard separation.
+    ///   - accessoryViewSize: The size for the accessory view, or `.zero`. The default is `.zero`.
+    /// - Returns: The minumum content height for the cell.
+    open class func minimumContentHeight(withTitle title: StringSizable?, value: StringSizable?, inWidth width: CGFloat,
+                                         compatibleWith traitCollection: UITraitCollection, imageSize: CGSize = .zero, labelSeparation: CGFloat = CellTitleSubtitleSeparation, accessoryViewSize: CGSize = .zero) -> CGFloat {
+        var titleSizing = title?.sizing() ?? StringSizing(string: "")
+        if titleSizing.font == nil {
+            titleSizing.font = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
+        }
+        if titleSizing.numberOfLines == nil {
+            titleSizing.numberOfLines = 1
+        }
         
-        let titleTextFont = titleFont ?? standardFonts.titleFont
-        let valueTextFont = valueFont ?? standardFonts.valueFont
+        var valueSizing = value?.sizing() ?? StringSizing(string: "")
+        if valueSizing.font == nil {
+            valueSizing.font = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+        }
+        if valueSizing.numberOfLines == nil {
+            valueSizing.numberOfLines = 1
+        }
         
-        let imageSize = image?.size
+        let isImageEmpty = imageSize.isEmpty
+        let imageWidth = isImageEmpty ? 0.0 : imageSize.width + 16.0
         
-        let displayScale = traitCollection.currentDisplayScale
+        let isAccesssoryEmpty = accessoryViewSize.isEmpty
         
-        let size = CGSize(width: imageSize == nil ? width : width - imageSize!.width - 16.0, height: CGFloat.greatestFiniteMagnitude)
+        let availableWidth = width - imageWidth - (isAccesssoryEmpty ? 0.0 : accessoryViewSize.width + CollectionViewFormCell.accessoryContentInset)
         
-        let titleHeight = (title as NSString?)?.boundingRect(with: size, options: singleLineTitle ? [] : .usesLineFragmentOrigin,
-                                                             attributes: [NSFontAttributeName: titleTextFont],
-                                                             context: nil).height.ceiled(toScale: displayScale) ?? 0.0
+        let titleHeight = titleSizing.minimumHeight(inWidth: availableWidth, allowingZeroHeight: false, compatibleWith: traitCollection)
+        let valueHeight = valueSizing.minimumHeight(inWidth: availableWidth, allowingZeroHeight: false, compatibleWith: traitCollection)
         
-        let valueHeight = (value as NSString?)?.boundingRect(with: size, options: singleLineValue ? [] : .usesLineFragmentOrigin,
-                                                             attributes: [NSFontAttributeName: valueTextFont],
-                                                             context: nil).height.ceiled(toScale: displayScale) ?? 0.0
-        let combinedHeight = titleHeight + valueHeight + labelSeparation
+        let combinedHeight = (titleHeight + valueHeight + labelSeparation).ceiled(toScale: traitCollection.currentDisplayScale)
         
-        return max(combinedHeight, (imageSize?.height ?? 0.0))
+        return max(combinedHeight, (isImageEmpty ? 0.0 : imageSize.height), (isAccesssoryEmpty ? 0.0 : accessoryViewSize.height))
     }
+    
 }
