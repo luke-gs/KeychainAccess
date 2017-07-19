@@ -160,17 +160,9 @@ open class StatsOverviewCollectionViewCell: CollectionViewFormCell {
     
     // MARK: - Initializers
     
-    public override init(frame: CGRect) {
-        super.init(frame: frame)
-        commonInit()
-    }
-    
-    public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        commonInit()
-    }
-    
-    private func commonInit() {
+    override func commonInit() {
+        super.commonInit()
+        
         let contentView = self.contentView
         scrollView.frame = contentView.bounds
         scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
