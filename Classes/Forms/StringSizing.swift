@@ -29,16 +29,16 @@ extension String: StringSizable {
 public struct StringSizing: StringSizable {
     
     /// The base string for sizing.
-    var string: String
+    public var string: String
     
     /// The font for sizing. If you specify `nil`, the API receiving
     /// the sizing is responsible for specifying its default font.
-    var font: UIFont?
+    public var font: UIFont?
     
     /// The number of lines for sizing. If you specify `nil`, the API
     /// receiving the sizing is responsible for specifying the default
     /// line count. When `0`, no line limit is provided.
-    var numberOfLines: Int?
+    public var numberOfLines: Int?
     
     
     /// Initializes a StringSizing struct.
@@ -58,10 +58,6 @@ public struct StringSizing: StringSizable {
     public func sizing() -> StringSizing {
         return self
     }
-    
-    
-    
-    private static let sizingLabel = UILabel(frame: .zero)
     
     /// Calculates the minimum width required to fit the string based on the font and
     /// number of lines allowed.
