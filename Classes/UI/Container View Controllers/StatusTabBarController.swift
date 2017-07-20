@@ -334,7 +334,7 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
                     statusView.widthAnchor.constraint(lessThanOrEqualTo: statusView.widthAnchor),
                     statusView.centerXAnchor.constraint(equalTo: statusViewBackground.centerXAnchor),
                     statusView.centerYAnchor.constraint(equalTo: statusViewBackground.centerYAnchor),
-                    statusView.topAnchor.constraint(equalTo: statusViewBackground.layoutMarginsGuide.topAnchor)
+                    statusView.topAnchor.constraint(equalTo: statusViewBackground.topAnchor)
                 ]
             } else {
                 newConstraints.append(statusViewBackground.heightAnchor.constraint(equalToConstant: 0.0))
@@ -350,7 +350,7 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
                     statusView.leadingAnchor.constraint(greaterThanOrEqualTo: tabBar.trailingAnchor),
                     statusView.widthAnchor.constraint(equalToConstant: 0.0).withPriority(1),
                     statusView.trailingAnchor.constraint(equalTo: tabBarBackground.layoutMarginsGuide.trailingAnchor),
-                    statusView.topAnchor.constraint(greaterThanOrEqualTo: tabBarBackground.layoutMarginsGuide.topAnchor),
+                    statusView.topAnchor.constraint(greaterThanOrEqualTo: tabBarBackground.topAnchor),
                     statusView.centerYAnchor.constraint(equalTo: tabBarBackground.centerYAnchor),
                 ]
             }
