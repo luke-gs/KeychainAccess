@@ -16,7 +16,15 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     /// The login delegate.
     ///
     /// This object receives callback notifications when the login button is triggered.
-    open weak var delegate: LoginViewControllerDelegate?
+    open weak var delegate: LoginViewControllerDelegate? {
+        didSet {
+            let wantsForgotPassword = delegate?.responds(to: #selector(LoginViewControllerDelegate.loginViewController(_:didTapForgotPasswordButton:))) ?? false
+            if isLoginButtonLoaded {
+                forgotPasswordButton.isHidden = wantsForgotPassword == false
+            }
+            forgotPasswordSeparation?.constant = wantsForgotPassword ? 14.0 : 0.0
+        }
+    }
     
     
     /// The image to present behind the login screen.
@@ -106,6 +114,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         button.titleLabel?.font = .systemFont(ofSize: 11.0, weight: UIFontWeightRegular)
         button.titleLabel?.textAlignment = .left
         button.addTarget(self, action: #selector(forgotPasswordButtonTriggered), for: .primaryActionTriggered)
+        button.isHidden = self.delegate?.responds(to: #selector(LoginViewControllerDelegate.loginViewController(_:didTapForgotPasswordButton:))) ?? false == false
         
         return button
         }()
@@ -167,6 +176,56 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     
+    
+    /// A boolean value indicating whether the content is currently loading.
+    ///
+    /// When loading, the login fields are hidden and an activity indicator is
+    /// displayed. Setting this property directly performs the update without
+    /// an animation.
+    open var isLoading: Bool = false {
+        didSet {
+            if isLoading == oldValue || isViewLoaded == false { return }
+            
+            if isLoading {
+                if activityIndicator?.window != nil {
+                    // Only start animating when you're on a window, otherwise you can get weird bugs.
+                    activityIndicator?.startAnimating()
+                }
+                scrollView?.isHidden = true
+                scrollView?.endEditing(true)
+            } else {
+                activityIndicator?.stopAnimating()
+                scrollView?.isHidden = false
+            }
+        }
+    }
+    
+    
+    /// Updates the view controller's `isLoading` state with an optional animation.
+    ///
+    /// - Parameters:
+    ///   - loading:  The new loading state
+    ///   - animated: A boolean value indicating whether the update should be animated.
+    open func setLoading(_ loading: Bool, animated: Bool) {
+        if loading == isLoading { return }
+        
+        self.isLoading = loading
+        
+        if animated, let scrollView = self.scrollView {
+            UIView.transition(with: scrollView, duration: 0.3, options: .transitionCrossDissolve, animations: nil, completion: nil)
+        }
+    }
+    
+    
+    /// The color for the activity indicator. The default is `nil`.
+    /// When `nil`, the indicator displays as white.
+    open var activityIndicatorColor: UIColor? {
+        didSet {
+            activityIndicator?.color = activityIndicatorColor
+        }
+    }
+    
+    
     /// The preferred status bar style for the view controller.
     ///
     /// The default is `.lightContent`.
@@ -212,6 +271,8 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     
     private var contentStackView: UIStackView?
     
+    private var activityIndicator: UIActivityIndicatorView?
+    
     private var preferredLayoutGuideBottomConstraint: NSLayoutConstraint?
     
     private var separatorHeightConstraint: NSLayoutConstraint?
@@ -219,6 +280,8 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     private var showingHeaderConstraint: NSLayoutConstraint?
     
     private var hidingHeaderConstraint: NSLayoutConstraint?
+    
+    private var forgotPasswordSeparation: NSLayoutConstraint?
     
     private var keyboardInset: CGFloat = 0.0 {
         didSet {
@@ -279,6 +342,11 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         backgroundView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         backgroundView.contentMode = .scaleAspectFill
         backgroundView.isUserInteractionEnabled = true
+        
+        let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+        activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicatorView.color = activityIndicatorColor
+        backgroundView.addSubview(activityIndicatorView)
         
         let scrollView = UIScrollView(frame: backgroundView.bounds)
         scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -350,7 +418,12 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         
         let showingHeaderConstraint = NSLayoutConstraint(item: stackAlignmentGuide, attribute: .top, relatedBy: .equal, toItem: contentStackView, attribute: .top)
         
+        let forgotPasswordSeparation = NSLayoutConstraint(item: forgotPasswordButton, attribute: .top, relatedBy: .equal, toItem: passwordSeparator, attribute: .bottom, constant: forgotPasswordButton.isHidden ? 0.0 : 14.0)
+        
         var constraints = [
+            NSLayoutConstraint(item: activityIndicatorView, attribute: .centerX, relatedBy: .equal, toItem: backgroundView, attribute: .centerX),
+            NSLayoutConstraint(item: activityIndicatorView, attribute: .centerY, relatedBy: .equal, toItem: backgroundView, attribute: .centerY),
+            
             NSLayoutConstraint(item: contentGuide, attribute: .width, relatedBy: .equal, toItem: backgroundView, attribute: .width),
             preferredLayoutGuideBottomConstraint,
             
@@ -374,12 +447,13 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
             NSLayoutConstraint(item: stackAlignmentGuide, attribute: .top, relatedBy: .equal, toItem: credentialsView, attribute: .top, priority: UILayoutPriorityDefaultLow),
             
             separatorHeightConstraint,
+            forgotPasswordSeparation,
             
             NSLayoutConstraint(item: loginButton, attribute: .width,  relatedBy: .greaterThanOrEqual, toConstant: 160.0),
             NSLayoutConstraint(item: loginButton, attribute: .height, relatedBy: .greaterThanOrEqual, toConstant: 48.0),
         ]
         
-        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[ul]-4-[uf]-11-[us]-18-[pl]-4-[pf]-11-[ps(==us)]-11-[fpb]|", options: [.alignAllLeading, .alignAllTrailing], metrics: nil, views: ["ul": usernameLabel, "uf": usernameField, "us": usernameSeparator, "pl": passwordLabel, "pf": passwordField, "ps": passwordSeparator, "fpb": forgotPasswordButton])
+        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[ul]-4-[uf]-11-[us]-18-[pl]-4-[pf]-11-[ps(==us)]->=0-[fpb]|", options: [.alignAllLeading, .alignAllTrailing], metrics: nil, views: ["ul": usernameLabel, "uf": usernameField, "us": usernameSeparator, "pl": passwordLabel, "pf": passwordField, "ps": passwordSeparator, "fpb": forgotPasswordButton])
         
         if isHeaderViewHidden == false {
             constraints.append(showingHeaderConstraint)
@@ -390,6 +464,8 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         self.preferredLayoutGuideBottomConstraint = preferredLayoutGuideBottomConstraint
         self.separatorHeightConstraint            = separatorHeightConstraint
         self.showingHeaderConstraint              = showingHeaderConstraint
+        self.forgotPasswordSeparation             = forgotPasswordSeparation
+        self.activityIndicator                    = activityIndicatorView
     }
     
     open override func viewDidLoad() {
@@ -426,6 +502,21 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         super.traitCollectionDidChange(previousTraitCollection)
         
         separatorHeightConstraint?.constant = 1.0 / traitCollection.currentDisplayScale
+    }
+    
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if isLoading {
+            activityIndicator?.startAnimating()
+            scrollView?.isHidden = true
+        }
+    }
+    
+    open override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        activityIndicator?.stopAnimating()
+        scrollView?.isHidden = false
     }
     
     
@@ -513,7 +604,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc private func forgotPasswordButtonTriggered() {
-        delegate?.loginViewController(self, didTapForgotPasswordButton: forgotPasswordButton)
+        delegate?.loginViewController?(self, didTapForgotPasswordButton: forgotPasswordButton)
     }
     
     @objc private func textFieldTextDidChange(_ textField: UITextField) {
@@ -544,15 +635,11 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
 }
 
 
-public protocol LoginViewControllerDelegate: class {
+@objc public protocol LoginViewControllerDelegate: NSObjectProtocol {
     
     func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String)
-    func loginViewController(_ controller: LoginViewController, didTapForgotPasswordButton button: UIButton)
     
-}
-
-public extension LoginViewControllerDelegate {
+    @objc optional func loginViewController(_ controller: LoginViewController, didTapForgotPasswordButton button: UIButton)
     
-    func loginViewController(_ controller: LoginViewController, didTapForgotPasswordButton button: UIButton) { }
 }
 

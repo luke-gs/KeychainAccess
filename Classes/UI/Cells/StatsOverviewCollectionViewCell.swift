@@ -160,17 +160,9 @@ open class StatsOverviewCollectionViewCell: CollectionViewFormCell {
     
     // MARK: - Initializers
     
-    public override init(frame: CGRect) {
-        super.init(frame: frame)
-        commonInit()
-    }
-    
-    public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        commonInit()
-    }
-    
-    private func commonInit() {
+    override func commonInit() {
+        super.commonInit()
+        
         let contentView = self.contentView
         scrollView.frame = contentView.bounds
         scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -193,17 +185,6 @@ open class StatsOverviewCollectionViewCell: CollectionViewFormCell {
     open override var frame: CGRect {
         didSet {
             if frame.size != oldValue.size {
-                setNeedsLayout()
-            }
-        }
-    }
-    
-    open override var layoutMargins: UIEdgeInsets {
-        didSet {
-            if layoutMargins != oldValue {
-                scrollView.contentInset = layoutMargins
-                scrollView.contentOffset.y = layoutMargins.top
-                scrollView.scrollIndicatorInsets = UIEdgeInsets(top: 0.0, left: layoutMargins.left, bottom: 0.0, right: layoutMargins.right)
                 setNeedsLayout()
             }
         }
@@ -253,6 +234,13 @@ open class StatsOverviewCollectionViewCell: CollectionViewFormCell {
             
             label.frame = CGRect(x: round(iconFrame.midX - (textSize.width / 2.0)), y: round(iconFrame.maxY + 10.0), width: textSize.width, height: textSize.height)
         }
+    }
+    
+    open override func layoutMarginsDidChange() {
+        super.layoutMarginsDidChange()
+        scrollView.contentInset = layoutMargins
+        scrollView.contentOffset.y = layoutMargins.top
+        scrollView.scrollIndicatorInsets = UIEdgeInsets(top: 0.0, left: layoutMargins.left, bottom: 0.0, right: layoutMargins.right)
     }
     
     open override func prepareForReuse() {

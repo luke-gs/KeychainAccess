@@ -75,7 +75,8 @@ internal class CollectionViewFormCellActionView: UIScrollView, UIScrollViewDeleg
         
         let contentOffset: CGPoint
         if showingActions {
-            contentOffset = CGPoint(x: isRightToLeft ? contentInset.left : -contentInset.right, y: 0.0)
+            let contentOffsetX = effectiveUserInterfaceLayoutDirection == .rightToLeft ? contentInset.left : -contentInset.right
+            contentOffset = CGPoint(x: contentOffsetX, y: 0.0)
         } else {
             contentOffset = .zero
         }
@@ -105,15 +106,6 @@ internal class CollectionViewFormCellActionView: UIScrollView, UIScrollViewDeleg
     
     // MARK: - Private properties
     
-    private var isRightToLeft: Bool = false {
-        didSet {
-            if isRightToLeft == oldValue { return }
-            
-            setNeedsButtonLayout()
-            setNeedsMaskGradientUpdate()
-        }
-    }
-    
     private var buttons: [UIButton]?
     
     private var maskLayer: CAGradientLayer? {
@@ -128,6 +120,8 @@ internal class CollectionViewFormCellActionView: UIScrollView, UIScrollViewDeleg
     private var needsButtonLayout: Bool = false
     
     private var needsMaskGradientUpdate: Bool = false
+    
+    private var wasLaidOutRTL: Bool = false
     
     
     
@@ -156,8 +150,6 @@ internal class CollectionViewFormCellActionView: UIScrollView, UIScrollViewDeleg
         alwaysBounceVertical           = false
         showsVerticalScrollIndicator   = false
         showsHorizontalScrollIndicator = false
-        
-        isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
     }
     
     
@@ -191,14 +183,6 @@ internal class CollectionViewFormCellActionView: UIScrollView, UIScrollViewDeleg
         }
     }
     
-    override var layoutMargins: UIEdgeInsets {
-        didSet {
-            if layoutMargins != oldValue && buttons?.count ?? 0 > 0 {
-                setNeedsButtonLayout()
-                setNeedsMaskGradientUpdate()
-            }
-        }
-    }
     
     override var delegate: UIScrollViewDelegate? {
         get { return self }
@@ -210,6 +194,13 @@ internal class CollectionViewFormCellActionView: UIScrollView, UIScrollViewDeleg
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        
+        let isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
+        if wasLaidOutRTL != isRightToLeft {
+            needsButtonLayout = true
+            needsMaskGradientUpdate = true
+        }
+        wasLaidOutRTL = isRightToLeft
         
         let bounds = self.bounds
         
@@ -286,7 +277,7 @@ internal class CollectionViewFormCellActionView: UIScrollView, UIScrollViewDeleg
         if let maskLayer = self.maskLayer {
             // Move the mask layer to the current bounds. Note: we do this within a CATransaction to avoid implicit animations.
             CATransaction.begin()
-            CATransaction.setValue(true, forKey: kCATransactionDisableActions)
+            CATransaction.setDisableActions(true)
             maskLayer.frame = bounds
             CATransaction.commit()
         }
@@ -398,12 +389,18 @@ internal class CollectionViewFormCellActionView: UIScrollView, UIScrollViewDeleg
     }
     
     
-    // MARK: - Trait changes
+    // MARK: - Changes
+    
+    override func layoutMarginsDidChange() {
+        if buttons?.count ?? 0 > 0 {
+            setNeedsButtonLayout()
+            setNeedsMaskGradientUpdate()
+        }
+        super.layoutMarginsDidChange()
+    }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        
-        isRightToLeft = effectiveUserInterfaceLayoutDirection == .rightToLeft
         
         if traitCollection.currentDisplayScale != previousTraitCollection?.currentDisplayScale {
             setNeedsLayout()
@@ -421,8 +418,8 @@ internal class CollectionViewFormCellActionView: UIScrollView, UIScrollViewDeleg
             
             if let cells = superview(of: UICollectionView.self)?.visibleCells {
                 let isDraggingActionView = { (cell: UICollectionViewCell) -> Bool in
-                    if let cell = cell as? CollectionViewFormCell {
-                        switch cell.editActionGestureRecognizer.state {
+                    if let cellActionView = (cell as? CollectionViewFormCell)?.actionView {
+                        switch cellActionView.panGestureRecognizer.state {
                         case .began, .changed:
                             return true
                         default:
@@ -461,7 +458,7 @@ internal class CollectionViewFormCellActionView: UIScrollView, UIScrollViewDeleg
     open func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         let xVelocity = velocity.x
         
-        if isRightToLeft {
+        if effectiveUserInterfaceLayoutDirection == .rightToLeft {
             if xVelocity > 0.25 {
                 targetContentOffset.pointee.x = 0.0
             } else if xVelocity < -1.0 {

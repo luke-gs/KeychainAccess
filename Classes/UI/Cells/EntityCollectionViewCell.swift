@@ -186,17 +186,9 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
     
     // MARK: - Initializers
     
-    public override init(frame: CGRect) {
-        super.init(frame: frame)
-        commonInit()
-    }
-    
-    public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        commonInit()
-    }
-    
-    private func commonInit() {
+    override func commonInit() {
+        super.commonInit()
+        
         separatorStyle = .none
         
         let contentView    = self.contentView
@@ -231,8 +223,8 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
         subtitleLabel.adjustsFontForContentSizeCategory = true
         detailLabel.adjustsFontForContentSizeCategory   = true
         
-        let footnoteFont   = UIFont.preferredFont(forTextStyle: .footnote)
-        titleLabel.font    = .preferredFont(forTextStyle: .headline)
+        let footnoteFont   = UIFont.preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
+        titleLabel.font    = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
         subtitleLabel.font = footnoteFont
         detailLabel.font   = footnoteFont
     

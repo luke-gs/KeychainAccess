@@ -34,14 +34,6 @@ open class GalleryCollectionViewCell: CollectionViewFormCell, UICollectionViewDa
         set { galleryCollectionView.indicatorStyle = newValue }
     }
     
-    open override var layoutMargins: UIEdgeInsets {
-        didSet {
-            if layoutMargins == oldValue { return }
-            flowLayout.sectionInset = layoutMargins
-            invalidateIntrinsicContentSize()
-        }
-    }
-    
     public var contentWidth: CGFloat {
         return galleryCollectionView.contentSize.width
     }
@@ -64,6 +56,12 @@ open class GalleryCollectionViewCell: CollectionViewFormCell, UICollectionViewDa
         delegate = nil // Set the delegate back to nil (ensuring a reload to zero, and preparation for any further reuse)
     }
     
+    internal override var actionView: CollectionViewFormCellActionView? {
+        didSet {
+            actionView?.panGestureRecognizer.require(toFail: galleryCollectionView.panGestureRecognizer)
+        }
+    }
+    
     private let flowLayout:     UICollectionViewFlowLayout
     fileprivate let galleryCollectionView: UICollectionView
     
@@ -80,8 +78,6 @@ open class GalleryCollectionViewCell: CollectionViewFormCell, UICollectionViewDa
         galleryCollectionView.backgroundColor  = .clear
         
         super.init(frame: frame)
-        
-        editActionGestureRecognizer.require(toFail: galleryCollectionView.panGestureRecognizer)
         
         galleryCollectionView.dataSource = self
         galleryCollectionView.delegate   = self
@@ -169,6 +165,14 @@ open class GalleryCollectionViewCell: CollectionViewFormCell, UICollectionViewDa
         if scrollView == galleryCollectionView {
             delegate?.galleryCellDidScroll?(self)
         }
+    }
+    
+    // MARK: - Overrides
+    
+    open override func layoutMarginsDidChange() {
+        super.layoutMarginsDidChange()
+        flowLayout.sectionInset = layoutMargins
+        invalidateIntrinsicContentSize()
     }
 }
 
