@@ -34,14 +34,6 @@ open class GalleryCollectionViewCell: CollectionViewFormCell, UICollectionViewDa
         set { galleryCollectionView.indicatorStyle = newValue }
     }
     
-    open override var layoutMargins: UIEdgeInsets {
-        didSet {
-            if layoutMargins == oldValue { return }
-            flowLayout.sectionInset = layoutMargins
-            invalidateIntrinsicContentSize()
-        }
-    }
-    
     public var contentWidth: CGFloat {
         return galleryCollectionView.contentSize.width
     }
@@ -173,6 +165,14 @@ open class GalleryCollectionViewCell: CollectionViewFormCell, UICollectionViewDa
         if scrollView == galleryCollectionView {
             delegate?.galleryCellDidScroll?(self)
         }
+    }
+    
+    // MARK: - Overrides
+    
+    open override func layoutMarginsDidChange() {
+        super.layoutMarginsDidChange()
+        flowLayout.sectionInset = layoutMargins
+        invalidateIntrinsicContentSize()
     }
 }
 

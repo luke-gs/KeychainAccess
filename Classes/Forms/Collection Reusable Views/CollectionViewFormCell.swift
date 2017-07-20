@@ -696,14 +696,10 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         }
     }
     
-    /// `CollectionViewFormCell` overrides `layoutMargins` to force
-    /// a layout pass. For some reason, this isn't a trigger for layout.
-    open override var layoutMargins: UIEdgeInsets {
-        didSet {
-            if layoutMargins != oldValue {
-                setNeedsLayout()
-            }
-        }
+    
+    open override func layoutMarginsDidChange() {
+        super.layoutMarginsDidChange()
+        setNeedsLayout()
     }
     
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

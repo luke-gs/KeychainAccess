@@ -190,17 +190,6 @@ open class StatsOverviewCollectionViewCell: CollectionViewFormCell {
         }
     }
     
-    open override var layoutMargins: UIEdgeInsets {
-        didSet {
-            if layoutMargins != oldValue {
-                scrollView.contentInset = layoutMargins
-                scrollView.contentOffset.y = layoutMargins.top
-                scrollView.scrollIndicatorInsets = UIEdgeInsets(top: 0.0, left: layoutMargins.left, bottom: 0.0, right: layoutMargins.right)
-                setNeedsLayout()
-            }
-        }
-    }
-    
     open override func layoutSubviews() {
         super.layoutSubviews()
         
@@ -245,6 +234,13 @@ open class StatsOverviewCollectionViewCell: CollectionViewFormCell {
             
             label.frame = CGRect(x: round(iconFrame.midX - (textSize.width / 2.0)), y: round(iconFrame.maxY + 10.0), width: textSize.width, height: textSize.height)
         }
+    }
+    
+    open override func layoutMarginsDidChange() {
+        super.layoutMarginsDidChange()
+        scrollView.contentInset = layoutMargins
+        scrollView.contentOffset.y = layoutMargins.top
+        scrollView.scrollIndicatorInsets = UIEdgeInsets(top: 0.0, left: layoutMargins.left, bottom: 0.0, right: layoutMargins.right)
     }
     
     open override func prepareForReuse() {
