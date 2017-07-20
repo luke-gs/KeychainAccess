@@ -45,6 +45,12 @@ open class AlertOperation: Operation {
         addCondition(ViewControllerExclusiveCondition())
     }
     
+    public convenience init(title: String?, message: String?) {
+        self.init()
+        self.title = title
+        self.message = message
+    }
+    
     
     // MARK: - Actions
     
