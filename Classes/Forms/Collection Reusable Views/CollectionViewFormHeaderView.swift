@@ -109,7 +109,7 @@ public class CollectionViewFormHeaderView: UICollectionReusableView, DefaultReus
     
     private let separatorView = UIView(frame: .zero)
     
-    private let arrowView = UIImageView(image: UIImage(named: "DropDown", in: .mpolKit, compatibleWith: nil))
+    private let arrowView = UIImageView(image: AssetManager.shared.image(for: .dropDown))
     
     private var indexPath: IndexPath?
     

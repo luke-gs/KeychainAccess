@@ -10,22 +10,22 @@ import UIKit
 
 extension UIImage {
    
-    @nonobjc
-    public static let checkbox = UIImage(named: "Checkbox", in: .mpolKit, compatibleWith: nil)!
+    @nonobjc @available(*, deprecated, message: "Use AssetManager.shared.image(for: .checkbox)")
+    public static let checkbox = AssetManager.shared.image(for: .checkbox)!
     
-    @nonobjc
-    public static let checkboxSelected = UIImage(named: "CheckboxFilled", in: .mpolKit, compatibleWith: nil)!
+    @nonobjc @available(*, deprecated, message: "Use AssetManager.shared.image(for: .checkboxSelected)")
+    public static let checkboxSelected = AssetManager.shared.image(for: .checkboxSelected)!
     
-    @nonobjc
-    public static let radioButton = UIImage(named: "Radio", in: .mpolKit, compatibleWith: nil)!
+    @nonobjc @available(*, deprecated, message: "Use AssetManager.shared.image(for: .radioButton)")
+    public static let radioButton = AssetManager.shared.image(for: .radioButton)!
     
-    @nonobjc
-    public static let radioButtonSelected = UIImage(named: "RadioFilled", in: .mpolKit, compatibleWith: nil)!
+    @nonobjc @available(*, deprecated, message: "Use AssetManager.shared.image(for: .radioButtonSelected)")
+    public static let radioButtonSelected = AssetManager.shared.image(for: .radioButtonSelected)!
     
-    @nonobjc
-    public static let formAccessoryDisclosureIndicator = UIImage(named: "FormAccessoryDisclosure", in: .mpolKit, compatibleWith: nil)!
+    @nonobjc @available(*, deprecated, message: "Use AssetManager.shared.image(for: .disclosure)")
+    public static let formAccessoryDisclosureIndicator = AssetManager.shared.image(for: .disclosure)!
     
-    @nonobjc
-    public static let formAccessoryCheckmark = UIImage(named: "FormAccessoryCheckmark", in: .mpolKit, compatibleWith: nil)!
+    @nonobjc  @available(*, deprecated, message: "Use AssetManager.shared.image(for: .formCheckmark)")
+    public static let formAccessoryCheckmark = AssetManager.shared.image(for: .formCheckmark)!
     
 }

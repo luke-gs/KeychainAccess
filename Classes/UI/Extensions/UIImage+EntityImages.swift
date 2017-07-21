@@ -10,13 +10,13 @@ import UIKit
 
 extension UIImage {
     
-    @nonobjc
-    public static let personOutline = UIImage(named: "iconEntityPerson", in: .mpolKit, compatibleWith: nil)!
+    @nonobjc @available(*, deprecated, message: "Use AssetManager.shared.image(for: .entityPerson)")
+    public static let personOutline = AssetManager.shared.image(for: .entityPerson)!
     
-    @nonobjc
-    public static let carOutline = UIImage(named: "iconEntityAutomotive", in: .mpolKit, compatibleWith: nil)!
+    @nonobjc @available(*, deprecated, message: "Use AssetManager.shared.image(for: .entityCar)")
+    public static let carOutline = AssetManager.shared.image(for: .entityCar)!
     
-    @nonobjc
-    public static let buildingOutline = UIImage(named: "iconEntityBuilding", in: .mpolKit, compatibleWith: nil)!
+    @nonobjc @available(*, deprecated, message: "Use AssetManager.image(for: .entityBuilding)")
+    public static let buildingOutline = AssetManager.shared.image(for: .entityBuilding)!
     
 }
