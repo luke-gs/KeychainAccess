@@ -83,7 +83,7 @@ class SearchResultsListViewController: FormCollectionViewController, SearchNavig
         if let collectionView = self.collectionView {
             collectionView.register(EntityCollectionViewCell.self)
             collectionView.register(EntityCollectionViewCell.self, forCellWithReuseIdentifier: alertCellID)
-            collectionView.register(SearchEntityListCell.self)
+            collectionView.register(EntityListCollectionViewCell.self)
             collectionView.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         }
     }
@@ -177,7 +177,7 @@ class SearchResultsListViewController: FormCollectionViewController, SearchNavig
         let adjustedSection = adjustedSectionIndex(forDataSourceSectionIndex: indexPath.section)
         
         if adjustedSection >= 0 && (wantsThumbnails == false || traitCollection.horizontalSizeClass == .compact) {
-            let cell = collectionView.dequeueReusableCell(of: SearchEntityListCell.self, for: indexPath)
+            let cell = collectionView.dequeueReusableCell(of: EntityListCollectionViewCell.self, for: indexPath)
             cell.titleLabel.text    = entity.summary
             
             let subtitleComponents = [entity.summaryDetail1, entity.summaryDetail2].flatMap({$0})
@@ -209,16 +209,6 @@ class SearchResultsListViewController: FormCollectionViewController, SearchNavig
     
     
     // MARK: - UICollectionViewDelegate methods
-    
-    override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if let listCell = cell as? SearchEntityListCell {
-            listCell.titleLabel.textColor = primaryTextColor
-            listCell.subtitleLabel.textColor = secondaryTextColor
-            listCell.separatorColor = separatorColor
-        } else {
-            super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
-        }
-    }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
@@ -265,7 +255,7 @@ class SearchResultsListViewController: FormCollectionViewController, SearchNavig
             return EntityCollectionViewCell.minimumContentHeight(forStyle: .hero, compatibleWith: traitCollection) - 12.0
         }
         
-        return SearchEntityListCell.minimumContentHeight(compatibleWith: traitCollection)
+        return EntityListCollectionViewCell.minimumContentHeight(compatibleWith: traitCollection)
     }
     
     
