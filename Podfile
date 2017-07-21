@@ -12,6 +12,7 @@ def mpol_kit_dependencies
     pod 'Alamofire', '4.4.0'
     pod 'Unbox', '2.5.0'
     pod 'Wrap', '2.1.0'
+    pod 'lottie-ios', '1.5.2'
 end
 
 target 'MPOLKit' do
