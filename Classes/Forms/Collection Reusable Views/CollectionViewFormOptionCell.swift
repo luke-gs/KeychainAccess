@@ -21,9 +21,9 @@ private let unselectedTintColor = #colorLiteral(red: 0.7490196078, green: 0.7490
 // state irresepective of system tint, so we can do a nice simple optimization
 // here. This really speeds up cell loading and reuse.
 
-private let optimizedCheckboxImage = preburnedImage(AssetManager.shared.image(for: .checkbox)!, with: unselectedTintColor)
+private let optimizedCheckboxImage = preburnedImage(AssetManager.shared.image(forKey: .checkbox)!, with: unselectedTintColor)
 
-private let optimizedRadioImage = preburnedImage(AssetManager.shared.image(for: .radioButton)!, with: unselectedTintColor)
+private let optimizedRadioImage = preburnedImage(AssetManager.shared.image(forKey: .radioButton)!, with: unselectedTintColor)
 
 private func preburnedImage(_ image: UIImage, with color: UIColor) -> UIImage {
     return UIGraphicsImageRenderer(size: image.size).image { _ in
@@ -49,12 +49,12 @@ open class CollectionViewFormOptionCell: CollectionViewFormSubtitleCell {
                 }
             }
             
-            let mpolImage: MPOLImage
+            let imageKey: AssetManager.ImageKey
             switch self {
-            case .checkbox: mpolImage = selected ? .checkboxSelected    : .checkbox
-            case .radio:    mpolImage = selected ? .radioButtonSelected : .radioButton
+            case .checkbox: imageKey = selected ? .checkboxSelected    : .checkbox
+            case .radio:    imageKey = selected ? .radioButtonSelected : .radioButton
             }
-            return AssetManager.shared.image(for: mpolImage)!
+            return AssetManager.shared.image(forKey: imageKey)!
         }
     }
     

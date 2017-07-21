@@ -24,7 +24,7 @@ public final class AssetManager {
     /// The shared asset manager singleton.
     public static let shared: AssetManager = AssetManager()
     
-    private var localImageMap: [MPOLImage: (name: String, bundle: Bundle)] = [:]
+    private var localImageMap: [ImageKey: (name: String, bundle: Bundle)] = [:]
     
     private init() {
     }
@@ -43,12 +43,12 @@ public final class AssetManager {
     /// - Parameters:
     ///   - name:   The asset catalogue or file name within the specified bundle.
     ///   - bundle: The bundle containing the asset catalogue or file.
-    ///   - image:  The MPOLImage to register for.
-    public func registerImage(named name: String?, in bundle: Bundle?, for image: MPOLImage) {
+    ///   - key:    The ImageKey to register for.
+    public func registerImage(named name: String?, in bundle: Bundle?, forKey key: ImageKey) {
         if let name = name, let bundle = bundle {
-            localImageMap[image] = (name, bundle)
+            localImageMap[key] = (name, bundle)
         } else {
-            localImageMap.removeValue(forKey: image)
+            localImageMap.removeValue(forKey: key)
         }
     }
     
@@ -56,17 +56,16 @@ public final class AssetManager {
     /// Fetches an image either registered, or from within MPOLKit bundle.
     ///
     /// - Parameters:
-    ///   - mpolImage:       The MPOL image to fetch.
+    ///   - key:             The MPOL image key to fetch.
     ///   - traitCollection: The trait collection to fetch the asset for. The default is `nil`.
     /// - Returns: A `UIImage` instance if one could be found matching the criteria, or `nil`.
-    public func image(for mpolImage: MPOLImage, compatibleWith traitCollection: UITraitCollection? = nil) -> UIImage? {
-        
-        if let fileLocation = localImageMap[mpolImage],
+    public func image(forKey key: ImageKey, compatibleWith traitCollection: UITraitCollection? = nil) -> UIImage? {
+        if let fileLocation = localImageMap[key],
             let asset = UIImage(named: fileLocation.name, in: fileLocation.bundle, compatibleWith: traitCollection) {
             return asset
         }
         
-        return UIImage(named: mpolImage.rawValue, in: .mpolKit, compatibleWith: traitCollection)
+        return UIImage(named: key.rawValue, in: .mpolKit, compatibleWith: traitCollection)
     }
     
 }
@@ -74,108 +73,106 @@ public final class AssetManager {
 
 
 
-/// A struct wrapping the concept of an MPOLImage.
-///
-/// You can define your own MPOLImages to register by using static constants and
-/// initializing with custom raw values. Be sure you don't clash with any of the
-/// system MPOL assets in your naming.
-///
-/// Below are a set of standard MPOL Image types.
-///
-/// Internal note: We use the actual asset names within MPOLKit's asset catalogues
-/// as the raw value to avoid having to create a constant map within this file.
-/// This also lets us avoid the issue where someone could delete the standard item.
-public struct MPOLImage: RawRepresentable {
+extension AssetManager {
     
-    public var rawValue: String
-    
-    public init(rawValue: String) {
-        self.rawValue = rawValue
+    /// A struct wrapping the concept of an ImageKey.
+    ///
+    /// You can define your own ImageKeys to register by using static constants and
+    /// initializing with custom raw values. Be sure you don't clash with any of the
+    /// system MPOL assets in your naming.
+    ///
+    /// Below are a set of standard MPOL Image types.
+    ///
+    /// Internal note: We currently use the actual asset names within MPOLKit's asset
+    /// catalogues as the raw value to avoid having to create a constant map within this
+    /// file. This also lets us avoid the issue where someone could delete the standard
+    /// item. This can change at a later time.
+    public struct ImageKey: RawRepresentable, Hashable {
+        
+        // Book-keeping
+        
+        public var rawValue: String
+        
+        public init(rawValue: String) {
+            self.rawValue = rawValue
+        }
+        
+        public init(_ rawValue: String) {
+            self.rawValue = rawValue
+        }
+        
+        public var hashValue: Int {
+            return rawValue.hashValue
+        }
+        
+        
+        // Tab Bar Icons
+        public static let tabBarActionList = ImageKey("iconTabBarActionList")
+        public static let tabBarEvents     = ImageKey("iconTabBarEvents")
+        public static let tabBarTasks      = ImageKey("iconTabBarTasks")
+        public static let tabBarResources  = ImageKey("iconTabBarResources")
+        public static let tabBarComms      = ImageKey("iconTabBarComms")
+        
+        // Nav Bar Icons
+        public static let back           = ImageKey("iconNavBarBack")
+        public static let filter         = ImageKey("iconNavBarFilter")
+        public static let pin            = ImageKey("iconNavBarPin")
+        public static let settings       = ImageKey("iconNavBarSettings")
+        
+        // System
+        public static let search         = ImageKey("iconTabSystemSearch")
+        public static let add            = ImageKey("iconSystemAdd")
+        public static let close          = ImageKey("iconSystemClose")
+        public static let checkmark      = ImageKey("iconSystemCheckmark")
+        public static let edit           = ImageKey("iconSystemEdit")
+        public static let info           = ImageKey("iconSystemInfo")
+        public static let time           = ImageKey("iconSystemTime")
+        public static let date           = ImageKey("iconSystemDate")
+        public static let location       = ImageKey("iconSystemLocation")
+        public static let list           = ImageKey("iconSystemList")
+        public static let thumbnail      = ImageKey("iconSystemThumbnail")
+        public static let dropDown       = ImageKey("iconSystemDropdown")
+        public static let disclosure     = ImageKey("iconSystemDisclosure")
+        
+        // General
+        public static let alert          = ImageKey("iconGeneralAlert")
+        public static let association    = ImageKey("iconGeneralAssociation")
+        public static let event          = ImageKey("iconGeneralEvent")
+        public static let document       = ImageKey("iconGeneralDocument")
+        public static let direction      = ImageKey("iconGeneralDirection")
+        public static let service        = ImageKey("iconGeneralService")
+        public static let attachment     = ImageKey("iconGeneralAttachment")
+        public static let finalise       = ImageKey("iconGeneralFinalise")
+        public static let tactical       = ImageKey("iconGeneralTactical")
+        public static let journey        = ImageKey("iconGeneralJourney")
+        public static let mass           = ImageKey("iconGeneralMass")
+        
+        // Entity
+        public static let entityOfficer  = ImageKey("iconEntityOfficer")
+        public static let entityPerson   = ImageKey("iconEntityPerson")
+        public static let entityBuilding = ImageKey("iconEntityBuilding")
+        public static let entityCar      = ImageKey("iconEntityVehicleCar")
+        public static let entityTruck    = ImageKey("iconEntityVehicleTruck")
+        
+        // Comms
+        public static let audioCall      = ImageKey("iconCommsCall")
+        public static let videoCall      = ImageKey("iconCommsVideo")
+        
+        // Forms
+        public static let checkbox             = ImageKey("iconCheckbox")
+        public static let checkboxSelected     = ImageKey("iconCheckboxSelected")
+        public static let radioButton          = ImageKey("iconRadio")
+        public static let radioButtonSelected  = ImageKey("iconRadioSelected")
+        public static let formCheckmark        = ImageKey("iconFormCheckmark")
+        
+        // Source bar
+        public static let sourceBarDownload    = ImageKey("SourceBarDownload")
+        public static let sourceBarNone        = ImageKey("SourceBarNone")
+        
     }
-    
-    public init(_ rawValue: String) {
-        self.rawValue = rawValue
-    }
-    
-    // Tab Bar Icons
-    public static let tabBarActionList = MPOLImage("iconTabBarActionList")
-    public static let tabBarEvents     = MPOLImage("iconTabBarEvents")
-    public static let tabBarTasks      = MPOLImage("iconTabBarTasks")
-    public static let tabBarResources  = MPOLImage("iconTabBarResources")
-    public static let tabBarComms      = MPOLImage("iconTabBarComms")
-    
-    // Nav Bar Icons
-    public static let back           = MPOLImage("iconNavBarBack")
-    public static let filter         = MPOLImage("iconNavBarFilter")
-    public static let pin            = MPOLImage("iconNavBarPin")
-    public static let settings       = MPOLImage("iconNavBarSettings")
-    
-    // System
-    public static let search         = MPOLImage("iconTabSystemSearch")
-    public static let add            = MPOLImage("iconSystemAdd")
-    public static let close          = MPOLImage("iconSystemClose")
-    public static let checkmark      = MPOLImage("iconSystemCheckmark")
-    public static let edit           = MPOLImage("iconSystemEdit")
-    public static let info           = MPOLImage("iconSystemInfo")
-    public static let time           = MPOLImage("iconSystemTime")
-    public static let date           = MPOLImage("iconSystemDate")
-    public static let location       = MPOLImage("iconSystemLocation")
-    public static let list           = MPOLImage("iconSystemList")
-    public static let thumbnail      = MPOLImage("iconSystemThumbnail")
-    public static let dropDown       = MPOLImage("iconSystemDropdown")
-    public static let disclosure     = MPOLImage("iconSystemDisclosure")
-    
-    // General
-    public static let alert          = MPOLImage("iconGeneralAlert")
-    public static let association    = MPOLImage("iconGeneralAssociation")
-    public static let event          = MPOLImage("iconGeneralEvent")
-    public static let document       = MPOLImage("iconGeneralDocument")
-    public static let direction      = MPOLImage("iconGeneralDirection")
-    public static let service        = MPOLImage("iconGeneralService")
-    public static let attachment     = MPOLImage("iconGeneralAttachment")
-    public static let finalise       = MPOLImage("iconGeneralFinalise")
-    public static let tactical       = MPOLImage("iconGeneralTactical")
-    public static let journey        = MPOLImage("iconGeneralJourney")
-    public static let mass           = MPOLImage("iconGeneralMass")
-    
-    // Entity
-    public static let entityOfficer  = MPOLImage("iconEntityOfficer")
-    public static let entityPerson   = MPOLImage("iconEntityPerson")
-    public static let entityBuilding = MPOLImage("iconEntityBuilding")
-    public static let entityCar      = MPOLImage("iconEntityVehicleCar")
-    public static let entityTruck    = MPOLImage("iconEntityVehicleTruck")
-    
-    // Comms
-    public static let audioCall      = MPOLImage("iconCommsCall")
-    public static let videoCall      = MPOLImage("iconCommsVideo")
-    
-    // Forms
-    public static let checkbox             = MPOLImage("iconCheckbox")
-    public static let checkboxSelected     = MPOLImage("iconCheckboxSelected")
-    public static let radioButton          = MPOLImage("iconRadio")
-    public static let radioButtonSelected  = MPOLImage("iconRadioSelected")
-    public static let formCheckmark        = MPOLImage("iconFormCheckmark")
-    
-    // Source bar
-    public static let sourceBarDownload    = MPOLImage("SourceBarDownload")
-    public static let sourceBarNone        = MPOLImage("SourceBarNone")
-    
 }
 
-
-// MARK: - Hashable
-
-extension MPOLImage: Hashable {
-    
-    public var hashValue: Int {
-        return self.rawValue.hashValue
-    }
-    
-}
-
-public func == (lhs: MPOLImage, rhs: MPOLImage) -> Bool {
+public func == (lhs: AssetManager.ImageKey, rhs: AssetManager.ImageKey) -> Bool {
     return lhs.rawValue == rhs.rawValue
 }
-
-
 

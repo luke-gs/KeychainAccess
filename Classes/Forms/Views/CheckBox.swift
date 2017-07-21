@@ -23,9 +23,9 @@ open class CheckBox: SelectableButton {
     private func commonInit() {
         let assetManager = AssetManager.shared
         
-        setImage(assetManager.image(for: .checkbox), for: .normal)
+        setImage(assetManager.image(forKey: .checkbox), for: .normal)
         
-        let selectedImage = assetManager.image(for: .checkboxSelected)
+        let selectedImage = assetManager.image(forKey: .checkboxSelected)
         setImage(selectedImage, for: .selected)
         setImage(selectedImage, for: [.selected, .disabled])
     }

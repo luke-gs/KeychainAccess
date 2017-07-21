@@ -14,7 +14,7 @@ class TestCollectionViewController: FormCollectionViewController, FilterViewCont
     override init() {
         super.init()
         formLayout.pinsGlobalHeaderWhenBouncing = true
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: AssetManager.shared.image(for: .filter), style: .plain, target: self, action: #selector(filterItemDidSelect(_:)))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .filter), style: .plain, target: self, action: #selector(filterItemDidSelect(_:)))
     }
     
     override func viewDidLoad() {

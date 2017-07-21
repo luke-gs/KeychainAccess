@@ -111,7 +111,7 @@ open class PushableSplitViewController: UIViewController, UISplitViewControllerD
                 return nil
             }
             
-            let arrowImage = AssetManager.shared.image(for: .back)
+            let arrowImage = AssetManager.shared.image(forKey: .back)
             // show back icon with pop action.
             let backItem = UIBarButtonItem(image: arrowImage, style: .plain, target: self, action: #selector(backButtonItemDidSelect))
             backItem.accessibilityLabel = NSLocalizedString("Back", comment: "Navigation bar button item accessibility")

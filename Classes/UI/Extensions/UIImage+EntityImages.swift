@@ -10,13 +10,13 @@ import UIKit
 
 extension UIImage {
     
-    @nonobjc @available(*, deprecated, message: "Use AssetManager.shared.image(for: .entityPerson)")
-    public static let personOutline = AssetManager.shared.image(for: .entityPerson)!
+    @nonobjc @available(*, deprecated, message: "Use AssetManager.shared.image(forKey: .entityPerson)")
+    public static let personOutline = AssetManager.shared.image(forKey: .entityPerson)!
     
     @nonobjc @available(*, deprecated, message: "Use AssetManager.shared.image(for: .entityCar)")
-    public static let carOutline = AssetManager.shared.image(for: .entityCar)!
+    public static let carOutline = AssetManager.shared.image(forKey: .entityCar)!
     
     @nonobjc @available(*, deprecated, message: "Use AssetManager.image(for: .entityBuilding)")
-    public static let buildingOutline = AssetManager.shared.image(for: .entityBuilding)!
+    public static let buildingOutline = AssetManager.shared.image(forKey: .entityBuilding)!
     
 }

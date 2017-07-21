@@ -85,7 +85,7 @@ public class TableViewFormExpandingHeaderCell: UITableViewCell {
     
     // MARK: - Private properties
     
-    private let arrowView = UIImageView(image: AssetManager.shared.image(for: .dropDown))
+    private let arrowView = UIImageView(image: AssetManager.shared.image(forKey: .dropDown))
     
     private var separatorHeightConstraint: NSLayoutConstraint!
     

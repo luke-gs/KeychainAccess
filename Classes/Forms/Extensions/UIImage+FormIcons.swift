@@ -10,22 +10,22 @@ import UIKit
 
 extension UIImage {
    
-    @nonobjc @available(*, deprecated, message: "Use AssetManager.shared.image(for: .checkbox)")
-    public static let checkbox = AssetManager.shared.image(for: .checkbox)!
+    @nonobjc @available(*, deprecated, message: "Use AssetManager.shared.image(forKey: .checkbox)")
+    public static let checkbox = AssetManager.shared.image(forKey: .checkbox)!
     
-    @nonobjc @available(*, deprecated, message: "Use AssetManager.shared.image(for: .checkboxSelected)")
-    public static let checkboxSelected = AssetManager.shared.image(for: .checkboxSelected)!
+    @nonobjc @available(*, deprecated, message: "Use AssetManager.shared.image(forKey: .checkboxSelected)")
+    public static let checkboxSelected = AssetManager.shared.image(forKey: .checkboxSelected)!
     
-    @nonobjc @available(*, deprecated, message: "Use AssetManager.shared.image(for: .radioButton)")
-    public static let radioButton = AssetManager.shared.image(for: .radioButton)!
+    @nonobjc @available(*, deprecated, message: "Use AssetManager.shared.image(forKey: .radioButton)")
+    public static let radioButton = AssetManager.shared.image(forKey: .radioButton)!
     
-    @nonobjc @available(*, deprecated, message: "Use AssetManager.shared.image(for: .radioButtonSelected)")
-    public static let radioButtonSelected = AssetManager.shared.image(for: .radioButtonSelected)!
+    @nonobjc @available(*, deprecated, message: "Use AssetManager.shared.image(forKey: .radioButtonSelected)")
+    public static let radioButtonSelected = AssetManager.shared.image(forKey: .radioButtonSelected)!
     
-    @nonobjc @available(*, deprecated, message: "Use AssetManager.shared.image(for: .disclosure)")
-    public static let formAccessoryDisclosureIndicator = AssetManager.shared.image(for: .disclosure)!
+    @nonobjc @available(*, deprecated, message: "Use AssetManager.shared.image(forKey: .disclosure)")
+    public static let formAccessoryDisclosureIndicator = AssetManager.shared.image(forKey: .disclosure)!
     
-    @nonobjc  @available(*, deprecated, message: "Use AssetManager.shared.image(for: .formCheckmark)")
-    public static let formAccessoryCheckmark = AssetManager.shared.image(for: .formCheckmark)!
+    @nonobjc  @available(*, deprecated, message: "Use AssetManager.shared.image(forKey: .formCheckmark)")
+    public static let formAccessoryCheckmark = AssetManager.shared.image(forKey: .formCheckmark)!
     
 }
