@@ -94,7 +94,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
         guard let collectionView = self.collectionView else { return }
         
         collectionView.register(EntityDetailCollectionViewCell.self)
-        collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
+        collectionView.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         
         collectionView.register(CollectionViewFormSubtitleCell.self)
         collectionView.register(CollectionViewFormValueFieldCell.self)
@@ -114,7 +114,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
     
     open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionElementKindSectionHeader {
-            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
+            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
             headerView.showsExpandArrow = false
             
             let section = sections[indexPath.section]
@@ -273,7 +273,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
     // MARK: - CollectionViewDelegateFormLayout
     
     open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
-        return CollectionViewFormExpandingHeaderView.minimumHeight
+        return CollectionViewFormHeaderView.minimumHeight
     }
     
     open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
@@ -331,7 +331,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
             title = alias.formattedName ?? ""
             value = alias.formattedDOBAgeGender()
             image = nil
-            return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: title, subtitle: value, inWidth: itemWidth, compatibleWith: traitCollection, image: image, singleLineSubtitle: true)
+            return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: title, subtitle: value, inWidth: itemWidth, compatibleWith: traitCollection, imageSize: image?.size ?? .zero)
         case .licence(let licence):
             let item = section.items![indexPath.item] as! LicenceItem
             
@@ -341,7 +341,8 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
             wantsSingleLineValue = true
         }
         
-        return CollectionViewFormValueFieldCell.minimumContentHeight(withTitle: title, value: value, inWidth: itemWidth, compatibleWith: traitCollection, image: image, singleLineValue: wantsSingleLineValue)
+        let valueSizing = StringSizing(string: value ?? "", numberOfLines: wantsSingleLineValue ? 1 : 0)
+        return CollectionViewFormValueFieldCell.minimumContentHeight(withTitle: title, value: valueSizing, inWidth: itemWidth, compatibleWith: traitCollection, imageSize: image?.size ?? .zero)
     }
     
     

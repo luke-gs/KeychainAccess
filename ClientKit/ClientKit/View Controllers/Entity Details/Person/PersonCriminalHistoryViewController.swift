@@ -116,7 +116,7 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
         
         guard let collectionView = self.collectionView else { return }
         
-        collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
+        collectionView.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         collectionView.register(CollectionViewFormSubtitleCell.self)
         collectionView.register(CollectionViewFormValueFieldCell.self)
     }
@@ -149,7 +149,7 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
     
     open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionElementKindSectionHeader {
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
             
             let orderCount = criminalHistory.count
             if orderCount > 0 {
@@ -171,7 +171,7 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
     // MARK: - CollectionViewDelegateFormLayout
     
     open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
-        return CollectionViewFormExpandingHeaderView.minimumHeight
+        return CollectionViewFormHeaderView.minimumHeight
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {

@@ -35,7 +35,7 @@ open class VehicleInfoViewController: EntityDetailCollectionViewController {
         guard let collectionView = self.collectionView else { return }
         
         collectionView.register(EntityDetailCollectionViewCell.self)
-        collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
+        collectionView.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         collectionView.register(CollectionViewFormSubtitleCell.self)
         collectionView.register(CollectionViewFormValueFieldCell.self)
     }
@@ -57,7 +57,7 @@ open class VehicleInfoViewController: EntityDetailCollectionViewController {
     
     open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionElementKindSectionHeader {
-            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
+            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
             headerView.showsExpandArrow = false
             
             let section = Section(rawValue: indexPath.section)!
@@ -140,7 +140,7 @@ open class VehicleInfoViewController: EntityDetailCollectionViewController {
     // MARK: - CollectionViewDelegateFormLayout
     
     open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
-        return CollectionViewFormExpandingHeaderView.minimumHeight
+        return CollectionViewFormHeaderView.minimumHeight
     }
     
     open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
@@ -202,7 +202,8 @@ open class VehicleInfoViewController: EntityDetailCollectionViewController {
             wantsMultiLineValue = ownerItem?.wantsMultiLineDetail ?? false
         }
         
-        return CollectionViewFormValueFieldCell.minimumContentHeight(withTitle: title, value: value, inWidth: itemWidth, compatibleWith: traitCollection, singleLineValue: wantsMultiLineValue == false)
+        let valueSizing = StringSizing(string: value, numberOfLines: wantsMultiLineValue ? 0 : 1)
+        return CollectionViewFormValueFieldCell.minimumContentHeight(withTitle: title, value: valueSizing, inWidth: itemWidth, compatibleWith: traitCollection)
     }
     
     

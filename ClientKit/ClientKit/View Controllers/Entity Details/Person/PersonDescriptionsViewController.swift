@@ -71,7 +71,7 @@ class PersonDescriptionsViewController: FormCollectionViewController {
         guard let collectionView = self.collectionView else { return }
         
         collectionView.register(CollectionViewFormValueFieldCell.self)
-        collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
+        collectionView.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
     }
     
     // MARK: - UICollectionViewDataSource
@@ -86,7 +86,7 @@ class PersonDescriptionsViewController: FormCollectionViewController {
     
     open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionElementKindSectionHeader {
-            let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
+            let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
             view.text = sections[indexPath.section].year
             view.showsExpandArrow = true
             
@@ -125,7 +125,7 @@ class PersonDescriptionsViewController: FormCollectionViewController {
     // MARK: - CollectionViewDelegateFormLayout
     
     open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
-        return CollectionViewFormExpandingHeaderView.minimumHeight
+        return CollectionViewFormHeaderView.minimumHeight
     }
     
     open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
@@ -134,7 +134,7 @@ class PersonDescriptionsViewController: FormCollectionViewController {
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
         let description = descriptions![indexPath.row]
-        return CollectionViewFormValueFieldCell.minimumContentHeight(withTitle: description.reportDate == nil ? nil : "Unknown Date", value: description.formatted(), inWidth: itemWidth, compatibleWith: traitCollection, image: nil)
+        return CollectionViewFormValueFieldCell.minimumContentHeight(withTitle: description.reportDate == nil ? nil : "Unknown Date", value: description.formatted(), inWidth: itemWidth, compatibleWith: traitCollection)
     }
 
 }

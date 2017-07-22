@@ -91,7 +91,7 @@ open class EventDetailViewController: FormCollectionViewController {
         
         collectionView.register(CollectionViewFormSubtitleCell.self)
         collectionView.register(CollectionViewFormValueFieldCell.self)
-        collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
+        collectionView.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
     }
     
     
@@ -107,7 +107,7 @@ open class EventDetailViewController: FormCollectionViewController {
     
     open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionElementKindSectionHeader {
-            let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
+            let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
             view.showsExpandArrow = false
             view.text = sections[indexPath.section].title
             
@@ -124,12 +124,14 @@ open class EventDetailViewController: FormCollectionViewController {
             let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
             cell.imageView.image = item.image
             cell.titleLabel.font = .systemFont(ofSize: 28.0, weight: UIFontWeightBold)
+            cell.titleLabel.numberOfLines = 0
             cell.titleLabel.text = item.title
             cell.subtitleLabel.text = item.detail
             return cell
         case .item:
             let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
             cell.imageView.image = item.image
+            cell.titleLabel.numberOfLines = 0
             cell.titleLabel.font = .preferredFont(forTextStyle: .headline)
             cell.titleLabel.text = item.title
             cell.subtitleLabel.text = item.detail
@@ -160,7 +162,7 @@ open class EventDetailViewController: FormCollectionViewController {
         if section.title?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ?? true {
             return 0.0
         }
-        return CollectionViewFormExpandingHeaderView.minimumHeight
+        return CollectionViewFormHeaderView.minimumHeight
     }
     
     open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
@@ -181,9 +183,10 @@ open class EventDetailViewController: FormCollectionViewController {
         switch item.style {
         case .header, .item:
             let titleFont: UIFont? = item.style == .header ? .systemFont(ofSize: 28.0, weight: UIFontWeightBold) : nil
-            return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: item.title, subtitle: item.detail?.ifNotEmpty(), inWidth: itemWidth, compatibleWith: traitCollection, image: item.image, titleFont: titleFont, singleLineTitle: false) + (item.style == .header ? 15.0 : 0.0)
+            let titleSizing = StringSizing(string: item.title ?? "", font: titleFont, numberOfLines: 0)
+            return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: titleSizing, subtitle: item.detail?.ifNotEmpty(), inWidth: itemWidth, compatibleWith: traitCollection, imageSize: item.image?.size ?? .zero) + (item.style == .header ? 15.0 : 0.0)
         case .valueField:
-            return CollectionViewFormValueFieldCell.minimumContentHeight(withTitle: item.title, value: item.detail ?? item.placeholder, inWidth: itemWidth, compatibleWith: traitCollection, image: item.image)
+            return CollectionViewFormValueFieldCell.minimumContentHeight(withTitle: item.title, value: item.detail ?? item.placeholder, inWidth: itemWidth, compatibleWith: traitCollection, imageSize: item.image?.size ?? .zero)
         }
     }
     

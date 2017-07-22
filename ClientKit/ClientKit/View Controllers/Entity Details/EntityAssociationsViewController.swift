@@ -57,7 +57,7 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
         
         collectionView.register(EntityCollectionViewCell.self)
         collectionView.register(EntityListCollectionViewCell.self)
-        collectionView.register(CollectionViewFormExpandingHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
+        collectionView.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
     }
     
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -83,7 +83,7 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
     open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         switch kind {
         case UICollectionElementKindSectionHeader:
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormExpandingHeaderView.self, for: indexPath)
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
             let count = associations.count
             header.text = String(format: (count == 1 ? "%d PERSON" : "%d PEOPLE"), count)
             header.showsExpandArrow = false
@@ -122,7 +122,7 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
     }
     
     open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
-        return CollectionViewFormExpandingHeaderView.minimumHeight
+        return CollectionViewFormHeaderView.minimumHeight
     }
     
     
