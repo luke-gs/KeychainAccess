@@ -50,16 +50,21 @@ open class SearchFieldButton: UIButton {
     }
     
     /// The background color for the field. The default is `white`.
-    open var fieldBackgroundColor: UIColor! = .white {
+    open var fieldColor: UIColor! = .white {
         didSet {
-            if fieldBackgroundColor == nil {
-                fieldBackgroundColor = .white
+            if fieldColor == nil {
+                fieldColor = .white
             }
             
-            if fieldBackgroundColor != oldValue {
+            if fieldColor != oldValue {
                 updateFieldImage()
             }
         }
+    }
+    
+    open var barColor: UIColor? {
+        get { return toolbar.barTintColor }
+        set { toolbar.barTintColor = newValue }
     }
     
     /// An accessory view to show trailing the content, in the field.
@@ -82,6 +87,8 @@ open class SearchFieldButton: UIButton {
     
     // MARK: - Private properties
     
+    private let toolbar = UIToolbar()
+    
     private var accessorySize: CGSize = .zero
 
     
@@ -98,7 +105,13 @@ open class SearchFieldButton: UIButton {
     }
     
     private func commonInit() {
-        backgroundColor = #colorLiteral(red: 0.9133402705, green: 0.9214604497, blue: 0.9297196269, alpha: 1)
+        toolbar.frame = bounds
+        toolbar.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        toolbar.setShadowImage(UIImage(), forToolbarPosition: .any)
+        toolbar.isUserInteractionEnabled = false
+        insertSubview(toolbar, at: 0)
+        toolbar.barTintColor = #colorLiteral(red: 0.9215686275, green: 0.9294117647, blue: 0.937254902, alpha: 1)
+        
         updateFieldImage()
         
         titleEdgeInsets = UIEdgeInsets(top: 0.0, left: 6.0, bottom: 0.0, right: 6.0)
@@ -123,8 +136,9 @@ open class SearchFieldButton: UIButton {
     
     open override var intrinsicContentSize: CGSize {
         var intrinsicSize = super.intrinsicContentSize
-        if intrinsicSize.height < 64.0 {
-            intrinsicSize.height = 64.0
+        let minimumHeight: CGFloat = traitCollection.horizontalSizeClass == .compact ? 44.0 : 64.0
+        if intrinsicSize.height < minimumHeight {
+            intrinsicSize.height = minimumHeight
         }
         return intrinsicSize
     }
@@ -134,6 +148,7 @@ open class SearchFieldButton: UIButton {
         accessorySize = accessoryView?.sizeThatFits(CGSize(width: max(bounds.width - 32.0, 32.0), height: max(bounds.height - 32.0, 32.0))) ?? .zero
         
         super.layoutSubviews()
+        sendSubview(toBack: toolbar)
         
         guard let accessoryView = self.accessoryView else { return }
 
@@ -151,14 +166,16 @@ open class SearchFieldButton: UIButton {
     
     /// Adjusting the background image on this button is not supported.
     ///
-    /// You can either adjust the `backgroundColor` to adjust the bar color,
+    /// You can either adjust the `barColor` to adjust the bar color,
     /// or the `fieldColor` to adjust the field's color.
     open override func setBackgroundImage(_ image: UIImage?, for state: UIControlState) {
         // No op.
     }
     
     open override func backgroundRect(forBounds bounds: CGRect) -> CGRect {
-        var backgroundRect: CGRect = bounds.insetBy(dx: 16.0, dy: 16.0)
+        let xInset: CGFloat = traitCollection.horizontalSizeClass == .compact ? 8.0 : 16.0
+        
+        var backgroundRect: CGRect = bounds.insetBy(dx: xInset, dy: 16.0)
         if backgroundRect.height < 32.0 {
             backgroundRect.size.height = 32.0
             backgroundRect.origin.y = max(((bounds.height - 32.0) / 2.0).rounded(toScale: traitCollection.currentDisplayScale), 0.0)
@@ -174,10 +191,12 @@ open class SearchFieldButton: UIButton {
     open override func contentRect(forBounds bounds: CGRect) -> CGRect {
         var rect = self.backgroundRect(forBounds: bounds)
         
-        rect.size.width = max(rect.width - 26.0 - (accessorySize.isEmpty ? 0.0 : accessorySize.width + 8.0), 0.0)
+        let leadingInset: CGFloat = traitCollection.horizontalSizeClass == .compact ? 9.0 : 18.0
+        
+        rect.size.width = max(rect.width - leadingInset - 8.0 - (accessorySize.isEmpty ? 0.0 : accessorySize.width + 8.0), 0.0)
         
         if effectiveUserInterfaceLayoutDirection == .leftToRight {
-            rect.origin.x += 18.0
+            rect.origin.x += leadingInset
         }
         
         return rect
@@ -186,6 +205,11 @@ open class SearchFieldButton: UIButton {
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         updateHorizontalAlignment()
+        
+        if previousTraitCollection?.horizontalSizeClass != traitCollection.horizontalSizeClass {
+            setNeedsLayout()
+            invalidateIntrinsicContentSize()
+        }
     }
     
     open override var semanticContentAttribute: UISemanticContentAttribute {
@@ -200,8 +224,8 @@ open class SearchFieldButton: UIButton {
             super.setBackgroundImage(.resizableRoundedImage(cornerRadius: 4.0, borderWidth: 0.0, borderColor: nil, fillColor: color), for: state)
         }
         
-        setFieldColor(fieldBackgroundColor, for: .normal)
-        setFieldColor(fieldBackgroundColor.adjustingBrightness(byFactor: 0.8), for: .highlighted)
+        setFieldColor(fieldColor, for: .normal)
+        setFieldColor(fieldColor.adjustingBrightness(byFactor: 0.8), for: .highlighted)
     }
     
     private func updateTextAndColor() {

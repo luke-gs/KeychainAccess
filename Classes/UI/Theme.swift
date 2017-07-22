@@ -239,6 +239,9 @@ public struct ThemeColorType: RawRepresentable, Equatable, Hashable {
     public static let CellSelection       = ThemeColorType(rawValue: "cellSelection")
     public static let DisclosureIndicator = ThemeColorType(rawValue: "disclosureIndicator")
     public static let PopoverBackground   = ThemeColorType(rawValue: "popoverBackground")
+    public static let SearchField         = ThemeColorType(rawValue: "searchField")
+    public static let SearchFieldBarColor = ThemeColorType(rawValue: "searchFieldBarColor")
+    
     
     // Alternate colors - Dark when light, light when dark.
     public static let AlternatePrimaryText   = ThemeColorType(rawValue: "alternatePrimaryText")

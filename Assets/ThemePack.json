@@ -24,7 +24,9 @@
             "alternateSeparator":     "#64696E",
             "groupedTableBackground": "#EFEFF4",
             "groupedTableCellBackground": "#FFFFFF",
-            "groupedTableSeparator":  "#E3E3E5"
+            "groupedTableSeparator":  "#E3E3E5",
+            "searchField":            "#FFFFFF",
+            "searchFieldBarColor":    "#E6E8EA7F"
         }
     },
     {
@@ -53,7 +55,9 @@
             "groupedTableBackground": "#232323",
             "groupedTableCellBackground": "#282829",
             "groupedTableSeparator":  "#333334",
-            "popoverBackground":      "#232323B3"
+            "popoverBackground":      "#232323B3",
+            "searchField":            "#232323",
+            "searchFieldBarColor":    "#0000007F"
         }
     }
 ]
