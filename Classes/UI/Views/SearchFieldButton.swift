@@ -118,7 +118,6 @@ open class SearchFieldButton: UIButton {
         contentVerticalAlignment = .center
         
         if let titleLabel = self.titleLabel {
-            titleLabel.adjustsFontForContentSizeCategory = true
             titleLabel.font = .systemFont(ofSize: 15.0, weight: UIFontWeightRegular)
             titleLabel.textAlignment = .natural
         }
