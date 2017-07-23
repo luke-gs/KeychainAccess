@@ -62,11 +62,6 @@ open class SearchFieldButton: UIButton {
         }
     }
     
-    open var barColor: UIColor? {
-        get { return toolbar.barTintColor }
-        set { toolbar.barTintColor = newValue }
-    }
-    
     /// An accessory view to show trailing the content, in the field.
     open var accessoryView: UIView? {
         didSet {
@@ -87,8 +82,6 @@ open class SearchFieldButton: UIButton {
     
     // MARK: - Private properties
     
-    private let toolbar = UIToolbar()
-    
     private var accessorySize: CGSize = .zero
 
     
@@ -105,13 +98,7 @@ open class SearchFieldButton: UIButton {
     }
     
     private func commonInit() {
-        toolbar.frame = bounds
-        toolbar.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        toolbar.setShadowImage(UIImage(), forToolbarPosition: .any)
-        toolbar.isUserInteractionEnabled = false
-        insertSubview(toolbar, at: 0)
-        toolbar.barTintColor = #colorLiteral(red: 0.9215686275, green: 0.9294117647, blue: 0.937254902, alpha: 1)
-        
+        backgroundColor = #colorLiteral(red: 0.9133402705, green: 0.9214604497, blue: 0.9297196269, alpha: 1)
         updateFieldImage()
         
         titleEdgeInsets = UIEdgeInsets(top: 0.0, left: 6.0, bottom: 0.0, right: 6.0)
@@ -147,7 +134,6 @@ open class SearchFieldButton: UIButton {
         accessorySize = accessoryView?.sizeThatFits(CGSize(width: max(bounds.width - 32.0, 32.0), height: max(bounds.height - 32.0, 32.0))) ?? .zero
         
         super.layoutSubviews()
-        sendSubview(toBack: toolbar)
         
         guard let accessoryView = self.accessoryView else { return }
 
@@ -165,7 +151,7 @@ open class SearchFieldButton: UIButton {
     
     /// Adjusting the background image on this button is not supported.
     ///
-    /// You can either adjust the `barColor` to adjust the bar color,
+    /// You can either adjust the `backgroundColor` to adjust the bar color,
     /// or the `fieldColor` to adjust the field's color.
     open override func setBackgroundImage(_ image: UIImage?, for state: UIControlState) {
         // No op.

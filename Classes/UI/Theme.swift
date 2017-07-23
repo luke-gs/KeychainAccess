@@ -233,14 +233,14 @@ public struct ThemeColorType: RawRepresentable, Equatable, Hashable {
     public static let PlaceholderText     = ThemeColorType(rawValue: "placeholderText")
     
     // System
-    public static let Background          = ThemeColorType(rawValue: "background")
-    public static let Separator           = ThemeColorType(rawValue: "separator")
-    public static let ValidationError     = ThemeColorType(rawValue: "validationError")
-    public static let CellSelection       = ThemeColorType(rawValue: "cellSelection")
-    public static let DisclosureIndicator = ThemeColorType(rawValue: "disclosureIndicator")
-    public static let PopoverBackground   = ThemeColorType(rawValue: "popoverBackground")
-    public static let SearchField         = ThemeColorType(rawValue: "searchField")
-    public static let SearchFieldBarColor = ThemeColorType(rawValue: "searchFieldBarColor")
+    public static let Background            = ThemeColorType(rawValue: "background")
+    public static let Separator             = ThemeColorType(rawValue: "separator")
+    public static let ValidationError       = ThemeColorType(rawValue: "validationError")
+    public static let CellSelection         = ThemeColorType(rawValue: "cellSelection")
+    public static let DisclosureIndicator   = ThemeColorType(rawValue: "disclosureIndicator")
+    public static let PopoverBackground     = ThemeColorType(rawValue: "popoverBackground")
+    public static let SearchField           = ThemeColorType(rawValue: "searchField")
+    public static let SearchFieldBackground = ThemeColorType(rawValue: "searchFieldBackground")
     
     
     // Alternate colors - Dark when light, light when dark.
