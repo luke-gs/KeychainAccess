@@ -10,22 +10,22 @@ import UIKit
 
 extension UIImage {
    
-    @nonobjc
-    public static let checkbox = UIImage(named: "Checkbox", in: .mpolKit, compatibleWith: nil)!
+    @nonobjc @available(*, deprecated, message: "Use AssetManager.shared.image(forKey: .checkbox)")
+    public static let checkbox = AssetManager.shared.image(forKey: .checkbox)!
     
-    @nonobjc
-    public static let checkboxSelected = UIImage(named: "CheckboxFilled", in: .mpolKit, compatibleWith: nil)!
+    @nonobjc @available(*, deprecated, message: "Use AssetManager.shared.image(forKey: .checkboxSelected)")
+    public static let checkboxSelected = AssetManager.shared.image(forKey: .checkboxSelected)!
     
-    @nonobjc
-    public static let radioButton = UIImage(named: "Radio", in: .mpolKit, compatibleWith: nil)!
+    @nonobjc @available(*, deprecated, message: "Use AssetManager.shared.image(forKey: .radioButton)")
+    public static let radioButton = AssetManager.shared.image(forKey: .radioButton)!
     
-    @nonobjc
-    public static let radioButtonSelected = UIImage(named: "RadioFilled", in: .mpolKit, compatibleWith: nil)!
+    @nonobjc @available(*, deprecated, message: "Use AssetManager.shared.image(forKey: .radioButtonSelected)")
+    public static let radioButtonSelected = AssetManager.shared.image(forKey: .radioButtonSelected)!
     
-    @nonobjc
-    public static let formAccessoryDisclosureIndicator = UIImage(named: "FormAccessoryDisclosure", in: .mpolKit, compatibleWith: nil)!
+    @nonobjc @available(*, deprecated, message: "Use AssetManager.shared.image(forKey: .disclosure)")
+    public static let formAccessoryDisclosureIndicator = AssetManager.shared.image(forKey: .disclosure)!
     
-    @nonobjc
-    public static let formAccessoryCheckmark = UIImage(named: "FormAccessoryCheckmark", in: .mpolKit, compatibleWith: nil)!
+    @nonobjc  @available(*, deprecated, message: "Use AssetManager.shared.image(forKey: .formCheckmark)")
+    public static let formAccessoryCheckmark = AssetManager.shared.image(forKey: .formCheckmark)!
     
 }

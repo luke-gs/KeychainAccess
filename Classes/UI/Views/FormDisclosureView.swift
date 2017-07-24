@@ -11,7 +11,7 @@ import UIKit
 public class FormDisclosureView: UIImageView {
     
     // The standard size of form disclosure views.
-    public static let standardSize: CGSize = UIImage.formAccessoryDisclosureIndicator.size
+    public static let standardSize: CGSize = AssetManager.shared.image(forKey: .disclosure)!.size
     
     private static let defaultTintColor = #colorLiteral(red: 0.7843137255, green: 0.7803921569, blue: 0.8, alpha: 1)
     
@@ -34,7 +34,7 @@ public class FormDisclosureView: UIImageView {
     // MARK: - Initializers
     
     public init() {
-        let image = UIImage.formAccessoryDisclosureIndicator
+        let image = AssetManager.shared.image(forKey: .disclosure)!
         super.init(frame: CGRect(origin: .zero, size: image.size))
         super.tintColor = Theme.current.colors[.DisclosureIndicator] ?? FormDisclosureView.defaultTintColor
         super.image = image

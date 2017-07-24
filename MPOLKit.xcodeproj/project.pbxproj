@@ -10,6 +10,7 @@
 		12413C281F1F23B0001B0B41 /* spinner.json in Resources */ = {isa = PBXBuildFile; fileRef = 12413C271F1F23B0001B0B41 /* spinner.json */; };
 		8CDAFFA6E9DC54A4594C01FE /* Pods_MPOLKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FE1AAA01D6AE18F86693DF8 /* Pods_MPOLKitTests.framework */; };
 		BA6FEAA4EFE7F66EBAE4C2DC /* Pods_MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9215372B17F43A2FDEB28AD0 /* Pods_MPOLKit.framework */; };
+		BC0448941F219A70005FB857 /* AssetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0448931F219A70005FB857 /* AssetManager.swift */; };
 		BC39A6831F18A6EC005CA8EE /* LabeledAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC39A6821F18A6EC005CA8EE /* LabeledAccessoryView.swift */; };
 		BC9C7DC71F0DED6600DFFE83 /* AuthenticationHeaderAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D1A1F0DED6600DFFE83 /* AuthenticationHeaderAdapter.swift */; };
 		BC9C7DC81F0DED6600DFFE83 /* OAuthAccessToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D1B1F0DED6600DFFE83 /* OAuthAccessToken.swift */; };
@@ -188,6 +189,7 @@
 		70E8FDF2F522A8C05328E451 /* Pods-MPOLKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKitTests/Pods-MPOLKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		792BA6D7922A9D3748B70A23 /* Pods-MPOLKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKit/Pods-MPOLKit.release.xcconfig"; sourceTree = "<group>"; };
 		9215372B17F43A2FDEB28AD0 /* Pods_MPOLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC0448931F219A70005FB857 /* AssetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetManager.swift; sourceTree = "<group>"; };
 		BC39A6821F18A6EC005CA8EE /* LabeledAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabeledAccessoryView.swift; sourceTree = "<group>"; };
 		BC3FF2241F148818000B317A /* CollectionViewFormHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewFormHeaderView.swift; sourceTree = "<group>"; };
 		BC6CB6D51F19C638001549F8 /* SidebarHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarHeaderView.swift; sourceTree = "<group>"; };
@@ -650,6 +652,7 @@
 			children = (
 				BC9C7D831F0DED6600DFFE83 /* Abstract View Controllers */,
 				BC9C7D891F0DED6600DFFE83 /* AlertQueue.swift */,
+				BC0448931F219A70005FB857 /* AssetManager.swift */,
 				BC9C7D8A1F0DED6600DFFE83 /* Cells */,
 				BC9C7D901F0DED6600DFFE83 /* Extensions */,
 				BC9C7D9D1F0DED6600DFFE83 /* Keyboard Input */,
@@ -1141,6 +1144,7 @@
 				BC9C7DCB1F0DED6600DFFE83 /* UnboxableResponseSerializer.swift in Sources */,
 				BC9C7DF51F0DED6600DFFE83 /* CollectionViewFormCellActionView.swift in Sources */,
 				BC9C7E401F0DED6600DFFE83 /* PopoverNavigationController.swift in Sources */,
+				BC0448941F219A70005FB857 /* AssetManager.swift in Sources */,
 				BC9C7E271F0DED6600DFFE83 /* GalleryCollectionViewCell.swift in Sources */,
 				C605F8A91ECCAD3B001194DD /* Manifest.xcdatamodeld in Sources */,
 				BC9C7E051F0DED6600DFFE83 /* UIEdgeInsets+Convenience.swift in Sources */,
