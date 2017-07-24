@@ -8,6 +8,8 @@
 
 import UIKit
 
+private var kvoContext = 1
+
 open class EntityListCollectionViewCell: CollectionViewFormCell {
     
     // MARK: - Public properties
@@ -45,6 +47,8 @@ open class EntityListCollectionViewCell: CollectionViewFormCell {
     // MARK: - Private/internal properties
     
     private let textLayoutGuide = UILayoutGuide()
+    
+    private var sourceTitleHorizontalConstraint: NSLayoutConstraint!
     
     private let badgeView = BadgeView(style: .system)
     
@@ -91,6 +95,8 @@ open class EntityListCollectionViewCell: CollectionViewFormCell {
         titleLabel.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .vertical)
         subtitleLabel.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .vertical)
         
+        sourceTitleHorizontalConstraint = NSLayoutConstraint(item: titleLabel, attribute: .leading,  relatedBy: .equal, toItem: sourceLabel, attribute: .trailing, constant: 8.0)
+        
         NSLayoutConstraint.activate([
             NSLayoutConstraint(item: borderedImageView, attribute: .top,     relatedBy: .greaterThanOrEqual, toItem: contentModeLayoutGuide, attribute: .top),
             NSLayoutConstraint(item: borderedImageView, attribute: .centerY, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .centerY),
@@ -105,15 +111,14 @@ open class EntityListCollectionViewCell: CollectionViewFormCell {
             NSLayoutConstraint(item: sourceLabel, attribute: .centerY, relatedBy: .equal, toItem: titleLabel,      attribute: .centerY),
             
             NSLayoutConstraint(item: titleLabel, attribute: .top,      relatedBy: .equal,           toItem: textLayoutGuide, attribute: .top),
-            NSLayoutConstraint(item: titleLabel, attribute: .leading,  relatedBy: .equal,           toItem: sourceLabel,     attribute: .trailing, constant: 8.0),
             NSLayoutConstraint(item: titleLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: textLayoutGuide, attribute: .trailing),
             
             NSLayoutConstraint(item: subtitleLabel, attribute: .leading,  relatedBy: .equal,           toItem: textLayoutGuide, attribute: .leading),
             NSLayoutConstraint(item: subtitleLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: textLayoutGuide, attribute: .trailing),
             NSLayoutConstraint(item: subtitleLabel, attribute: .bottom,   relatedBy: .equal,           toItem: textLayoutGuide, attribute: .bottom),
             
-            NSLayoutConstraint(item: subtitleLabel, attribute: .top, relatedBy: .greaterThanOrEqual, toItem: titleLabel, attribute: .bottom, constant: 2.0),
-            NSLayoutConstraint(item: subtitleLabel, attribute: .top, relatedBy: .greaterThanOrEqual, toItem: sourceLabel, attribute: .bottom, constant: 2.0),
+            NSLayoutConstraint(item: subtitleLabel, attribute: .top, relatedBy: .greaterThanOrEqual, toItem: titleLabel, attribute: .bottom, constant: CellTitleSubtitleSeparation),
+            NSLayoutConstraint(item: subtitleLabel, attribute: .top, relatedBy: .greaterThanOrEqual, toItem: sourceLabel, attribute: .bottom, constant: CellTitleSubtitleSeparation),
             NSLayoutConstraint(item: subtitleLabel, attribute: .top, relatedBy: .equal, toItem: textLayoutGuide, attribute: .top, priority: UILayoutPriorityDefaultLow),
             
             NSLayoutConstraint(item: textLayoutGuide, attribute: .top,     relatedBy: .greaterThanOrEqual, toItem: contentModeLayoutGuide, attribute: .top),
@@ -121,9 +126,19 @@ open class EntityListCollectionViewCell: CollectionViewFormCell {
             NSLayoutConstraint(item: textLayoutGuide, attribute: .trailing, relatedBy: .lessThanOrEqual,   toItem: contentModeLayoutGuide, attribute: .trailing),
             NSLayoutConstraint(item: textLayoutGuide, attribute: .leading, relatedBy: .equal, toItem: borderedImageView, attribute: .trailing, constant: 16.0),
             
-            NSLayoutConstraint(item: borderedImageView,       attribute: .top, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .top, priority: UILayoutPriorityDefaultLow),
-            NSLayoutConstraint(item: textLayoutGuide, attribute: .top, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .top, priority: UILayoutPriorityDefaultLow)
-            ])
+            NSLayoutConstraint(item: borderedImageView, attribute: .top, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .top, priority: UILayoutPriorityDefaultLow),
+            NSLayoutConstraint(item: textLayoutGuide, attribute: .top, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .top, priority: UILayoutPriorityDefaultLow),
+            
+            sourceTitleHorizontalConstraint
+        ])
+        
+        sourceLabel.addObserver(self, forKeyPath: #keyPath(UILabel.text), context: &kvoContext)
+        sourceLabel.addObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &kvoContext)
+    }
+    
+    deinit {
+        sourceLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.text), context: &kvoContext)
+        sourceLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &kvoContext)
     }
     
     
@@ -138,6 +153,15 @@ open class EntityListCollectionViewCell: CollectionViewFormCell {
         }
         set {
             super.accessibilityLabel = newValue
+        }
+    }
+    
+    open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if context == &kvoContext {
+            // Drop the source title separation if the source label has no text.
+            sourceTitleHorizontalConstraint.constant = sourceLabel.text?.isEmpty ?? true ? 0.0 : 8.0
+        } else {
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
     }
     

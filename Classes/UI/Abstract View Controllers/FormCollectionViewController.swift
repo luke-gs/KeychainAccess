@@ -270,6 +270,9 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
             formCell.titleLabel.textColor    = primaryTextColor
             formCell.subtitleLabel.textColor = secondaryTextColor
             formCell.detailLabel.textColor   = secondaryTextColor
+        case let listCell as EntityListCollectionViewCell:
+            listCell.titleLabel.textColor = primaryTextColor
+            listCell.subtitleLabel.textColor = secondaryTextColor
         case let selectionCell as CollectionViewFormOptionCell:
             selectionCell.titleLabel.textColor = primaryTextColor
         case let valueFieldCell as CollectionViewFormValueFieldCell:
