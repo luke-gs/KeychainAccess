@@ -105,8 +105,7 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
     }()
     
     
-    /// The no content view.
-    /// The "No Content" stack view.
+    /// The no content stack view.
     ///
     /// This stack view is lazily loaded as needed. By default, it contains
     /// the no content title and subtitle labels. You can adjust these
