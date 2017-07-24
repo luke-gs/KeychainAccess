@@ -93,7 +93,7 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
         switch style {
         case .hero:
             let scale = UIScreen.main.scale
-            let heightOfFonts =  titleFont.lineHeight.ceiled(toScale: scale) + subtitleFont.lineHeight.ceiled(toScale: scale) + detailFont.lineHeight.ceiled(toScale: scale)
+            let heightOfFonts =  titleFont.lineHeight.ceiled(toScale: scale) + subtitleFont.lineHeight.ceiled(toScale: scale) + detailFont.height(forNumberOfLines: 2).ceiled(toScale: scale)
             return 173.0 + heightOfFonts
         case .detail, .thumbnail:
             return 96.0
@@ -222,6 +222,8 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
         titleLabel.adjustsFontForContentSizeCategory    = true
         subtitleLabel.adjustsFontForContentSizeCategory = true
         detailLabel.adjustsFontForContentSizeCategory   = true
+        
+        detailLabel.numberOfLines = 2
         
         let footnoteFont   = UIFont.preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
         titleLabel.font    = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)

@@ -159,10 +159,10 @@ extension AssetManager {
         public static let videoCall      = ImageKey("iconCommsVideo")
         
         // Forms
-        public static let checkbox             = ImageKey("iconCheckbox")
-        public static let checkboxSelected     = ImageKey("iconCheckboxSelected")
-        public static let radioButton          = ImageKey("iconRadio")
-        public static let radioButtonSelected  = ImageKey("iconRadioSelected")
+        public static let checkbox             = ImageKey("iconFormCheckbox")
+        public static let checkboxSelected     = ImageKey("iconFormCheckboxSelected")
+        public static let radioButton          = ImageKey("iconFormRadio")
+        public static let radioButtonSelected  = ImageKey("iconFormRadioSelected")
         public static let formCheckmark        = ImageKey("iconFormCheckmark")
         
         // Source bar
