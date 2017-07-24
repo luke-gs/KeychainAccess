@@ -7,9 +7,9 @@
 
 import UIKit
 
-private var tabBarStyleContext = 1
+fileprivate var tabBarStyleContext = 1
 
-private let tabBarStyleKeys: [String] = [
+fileprivate let tabBarStyleKeys: [String] = [
     #keyPath(UITabBar.barStyle),
     #keyPath(UITabBar.backgroundImage),
     #keyPath(UITabBar.shadowImage),
@@ -22,16 +22,16 @@ private let tabBarStyleKeys: [String] = [
 ///
 /// `StatusTabBarController` replaces a standard tab bar controller, and pushes the tab bar to
 /// the leading edge, allowing the status view to appear at the trailing edge. When in a
-/// horizontally compacy environment, the status view shifts to above the tab bar.
+/// horizontally compacy environment, the status view is hidden.
 ///
 /// To adjust the appearance of the full tab bar, simply adjust the appearance of the `tabBar`
 /// property. These changes will auto-translate to the full bar.
 ///
 /// Prior to iOS 11, custom container view controllers are not supported updating the
 /// `topLayoutGuide` and `bottomLayoutGuide` properties. On these platforms, it is recommended
-/// that your child view controllers observe the `UIViewController.statusTabBarInset` property.
-/// On iOS 11, `StatusTabBarController` should correctly update the `safeAreaInsets` applied
-/// to child view controllers.
+/// that your child view controllers use the `UIViewController.statusTabBarInset` property.
+/// On iOS 11, `StatusTabBarController` correctly updates the `safeAreaInsets` applied to
+/// child view controllers.
 ///
 /// Unlike `UITabBarController`, the status tab bar controller does not automatically shift
 /// shift additional view controllers into a more tab. Users should do this with custom behaviour
@@ -101,9 +101,9 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
     
     /// The Status View.
     ///
-    /// This view is sized with AutoLayout, and placed within the tab bar in a horizontally
-    /// regular environment. In a horizontally compact environment, it is placed above the
-    /// tab bar.
+    /// This view is sized with AutoLayout, and placed within the tab bar in a
+    /// horizontally regular environment. The status view is hidden in a
+    /// horizontally compact environment.
     open var statusView: UIView? {
         didSet {
             if statusView != oldValue || isViewLoaded == false { return }
@@ -148,8 +148,6 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
     fileprivate let tabBarContainerController: UIViewController
     
     private lazy var tabBarBackground = UITabBar(frame: .zero)
-    
-    private var statusViewBackground: UIView?
     
     private var barConstraints: [NSLayoutConstraint]?
     
@@ -198,36 +196,28 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
         tabBarContainerView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tabBarContainerView)
         
-        let statusViewBackground = UIView(frame: .zero)
-        statusViewBackground.translatesAutoresizingMaskIntoConstraints = false
-        statusViewBackground.backgroundColor = UIColor(white: 0.8, alpha: 1.0)
-        tabBarContainerView.addSubview(statusViewBackground)
-        
         tabBarBackground.translatesAutoresizingMaskIntoConstraints = false
         tabBarContainerView.addSubview(tabBarBackground)
         
         tabBar.translatesAutoresizingMaskIntoConstraints = false
         tabBarContainerView.addSubview(tabBar)
         
+        var constraints: [NSLayoutConstraint] = []
+        
         if let statusView = self.statusView {
             if statusView.translatesAutoresizingMaskIntoConstraints {
                 let size = statusView.frame.size
                 statusView.translatesAutoresizingMaskIntoConstraints = false
-                NSLayoutConstraint.activate([
-                    statusView.widthAnchor.constraint(equalToConstant: size.width).withPriority(UILayoutPriorityDefaultLow),
-                    statusView.heightAnchor.constraint(equalToConstant: size.height).withPriority(UILayoutPriorityDefaultLow)
-                ])
+                constraints.append(statusView.widthAnchor.constraint(equalToConstant: size.width).withPriority(UILayoutPriorityDefaultLow))
+                constraints.append(statusView.heightAnchor.constraint(equalToConstant: size.height).withPriority(UILayoutPriorityDefaultLow))
             }
             tabBarContainerView.addSubview(statusView)
-        }
-        
-        self.statusViewBackground = statusViewBackground
+        } 
         self.view = view
         
-        NSLayoutConstraint.activate([
+        constraints += [
             tabBarContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tabBarContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tabBarContainerView.bottomAnchor.constraint(equalTo: bottomLayoutGuide.topAnchor),
             
             tabBar.leadingAnchor.constraint(equalTo: tabBarBackground.leadingAnchor),
             tabBar.centerYAnchor.constraint(equalTo: tabBarBackground.centerYAnchor),
@@ -235,19 +225,28 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
             
             tabBarBackground.leadingAnchor.constraint(equalTo: tabBarContainerView.leadingAnchor),
             tabBarBackground.trailingAnchor.constraint(equalTo: tabBarContainerView.trailingAnchor),
-            tabBarBackground.topAnchor.constraint(equalTo: statusViewBackground.bottomAnchor),
             tabBarBackground.bottomAnchor.constraint(equalTo: tabBarContainerView.bottomAnchor),
-            
-            statusViewBackground.topAnchor.constraint(equalTo: tabBarContainerView.topAnchor),
-            statusViewBackground.leadingAnchor.constraint(equalTo: tabBarContainerView.leadingAnchor),
-            statusViewBackground.trailingAnchor.constraint(equalTo: tabBarContainerView.trailingAnchor),
-        ])
+            tabBarBackground.topAnchor.constraint(equalTo: tabBarContainerView.topAnchor)
+        ]
+        
+        // TODO: Uncomment for iOS 11
+//        if #available(iOS 11, *) {
+//            constraints.append(tabBarContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor))
+//        } else {
+            constraints.append(tabBarContainerView.bottomAnchor.constraint(equalTo: bottomLayoutGuide.topAnchor))
+//        }
+        
+        NSLayoutConstraint.activate(constraints)
         
         updateBarConstraints()
     }
     
-    open override func viewDidLoad() {
-        super.viewDidLoad()
+    open override func viewDidLayoutSubviews() {
+        // TODO: Uncomment for iOS 11
+//        if #available(iOS 11, *) {
+//            additionalSafeAreaInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: tabBar.frame.height, right: 0.0)
+//        }
+        super.viewDidLayoutSubviews()
     }
     
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -320,7 +319,6 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
         }
         
         let tabBarBackground = self.tabBarBackground
-        let statusViewBackground = self.statusViewBackground!
         
         var newConstraints: [NSLayoutConstraint]
         
@@ -331,18 +329,13 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
             
             if let statusView = self.statusView {
                 newConstraints += [
-                    statusView.widthAnchor.constraint(lessThanOrEqualTo: statusView.widthAnchor),
-                    statusView.centerXAnchor.constraint(equalTo: statusViewBackground.centerXAnchor),
-                    statusView.centerYAnchor.constraint(equalTo: statusViewBackground.centerYAnchor),
-                    statusView.topAnchor.constraint(equalTo: statusViewBackground.topAnchor)
+                    statusView.leadingAnchor.constraint(equalTo: tabBarBackground.trailingAnchor),
+                    statusView.centerYAnchor.constraint(equalTo: tabBarBackground.centerYAnchor)
                 ]
-            } else {
-                newConstraints.append(statusViewBackground.heightAnchor.constraint(equalToConstant: 0.0))
             }
         } else {
             newConstraints = [
                 tabBar.widthAnchor.constraint(equalToConstant: CGFloat(tabBar.items?.count ?? 0) * 108.0).withPriority(800),
-                statusViewBackground.heightAnchor.constraint(equalToConstant: 0.0)
             ]
             
             if let statusView = self.statusView {
