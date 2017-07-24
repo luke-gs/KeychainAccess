@@ -45,6 +45,10 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     open private(set) var tableViewInsetManager: ScrollViewInsetManager?
     
     
+    /// The loading manager.
+    open private(set) lazy var loadingManager: LoadingStateManager = LoadingStateManager()
+    
+    
     /// A boolean value indicating whether the table background should be transparent.
     ///
     /// The default is `false`.
@@ -191,6 +195,9 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
         self.tableViewInsetManager = ScrollViewInsetManager(scrollView: tableView)
         self.tableView = tableView
         self.view = backgroundView
+        
+        loadingManager.baseView = backgroundView
+        loadingManager.contentView = tableView
     }
     
     open override func viewDidLoad() {
@@ -202,11 +209,13 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        let insets = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)
+        loadingManager.contentInsets = insets
+        
         guard let scrollView = self.tableView, let insetManager = self.tableViewInsetManager else { return }
         
         var contentOffset = scrollView.contentOffset
         
-        let insets = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)
         let oldContentInset = insetManager.standardContentInset
         insetManager.standardContentInset   = insets
         insetManager.standardIndicatorInset = insets

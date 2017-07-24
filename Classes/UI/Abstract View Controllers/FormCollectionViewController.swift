@@ -23,6 +23,8 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     
     open private(set) var collectionViewInsetManager: ScrollViewInsetManager?
     
+    open private(set) lazy var loadingManager: LoadingStateManager = LoadingStateManager()
+    
     
     /// A boolean value indicating whether the collection view should automatically calculate
     /// its `preferreContentSize`'s height property from the collection view's content height.
@@ -140,6 +142,9 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
         self.collectionViewInsetManager = ScrollViewInsetManager(scrollView: collectionView)
         self.collectionView = collectionView
         self.view = backgroundView
+        
+        loadingManager.baseView = backgroundView
+        loadingManager.contentView = collectionView
     }
     
     open override func viewDidLoad() {
@@ -150,11 +155,13 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        let insets = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)
+        loadingManager.contentInsets = insets
+        
         guard let scrollView = self.collectionView, let insetManager = self.collectionViewInsetManager else { return }
         
         var contentOffset = scrollView.contentOffset
         
-        let insets = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)
         let oldContentInset = insetManager.standardContentInset
         insetManager.standardContentInset   = insets
         insetManager.standardIndicatorInset = insets
