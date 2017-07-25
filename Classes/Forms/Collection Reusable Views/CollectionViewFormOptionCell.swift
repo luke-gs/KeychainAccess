@@ -119,10 +119,11 @@ open class CollectionViewFormOptionCell: CollectionViewFormSubtitleCell {
     ///   - title:             The title details for sizing.
     ///   - subtitle:          The subtitle details for sizing.
     ///   - traitCollection:   The trait collection to calculate for.
+    ///   - imageSeparation:   The image/label horizontal separation. The default is the standard separation.
     ///   - accessoryViewSize: The size for the accessory view, or `.zero`. The default is `.zero`.
     /// - Returns:             The minumum content width for the cell.
-    open class func minimumContentWidth(withStyle style: OptionStyle, title: StringSizable?, subtitle: StringSizable? = nil, compatibleWith traitCollection: UITraitCollection, accessoryViewSize: CGSize = .zero) -> CGFloat {
-        return super.minimumContentWidth(withTitle: title, subtitle: subtitle, compatibleWith: traitCollection, imageSize: style.image(selected: false, highlighted: false).size, accessoryViewSize: accessoryViewSize)
+    open class func minimumContentWidth(withStyle style: OptionStyle, title: StringSizable?, subtitle: StringSizable? = nil, compatibleWith traitCollection: UITraitCollection, imageSeparation: CGFloat = CellImageLabelSeparation, accessoryViewSize: CGSize = .zero) -> CGFloat {
+        return super.minimumContentWidth(withTitle: title, subtitle: subtitle, compatibleWith: traitCollection, imageSize: style.image(selected: false, highlighted: false).size, imageSeparation: imageSeparation, accessoryViewSize: accessoryViewSize)
     }
     
     
@@ -134,12 +135,14 @@ open class CollectionViewFormOptionCell: CollectionViewFormSubtitleCell {
     ///   - subtitle:          The subtitle details for sizing.
     ///   - width:             The content width for the cell.
     ///   - traitCollection:   The trait collection to calculate for.
+    ///   - imageSeparation:   The image/label horizontal separation. The default is the standard separation.
     ///   - labelSeparation:   The label vertical separation. The default is the standard separation.
     ///   - accessoryViewSize: The size for the accessory view, or `.zero`. The default is `.zero`.
     /// - Returns: The minumum content height for the cell.
     open class func minimumContentHeight(withStyle style: OptionStyle, title: StringSizable?, subtitle: StringSizable? = nil, inWidth width: CGFloat,
-                                         compatibleWith traitCollection: UITraitCollection, labelSeparation: CGFloat = CellTitleSubtitleSeparation, accessoryViewSize: CGSize = .zero) -> CGFloat {
-        return super.minimumContentHeight(withTitle: title, subtitle: subtitle, inWidth: width, compatibleWith: traitCollection, imageSize: style.image(selected: false, highlighted: false).size, labelSeparation: labelSeparation, accessoryViewSize: accessoryViewSize)
+                                         compatibleWith traitCollection: UITraitCollection, imageSeparation: CGFloat = CellImageLabelSeparation,
+                                         labelSeparation: CGFloat = CellTitleSubtitleSeparation, accessoryViewSize: CGSize = .zero) -> CGFloat {
+        return super.minimumContentHeight(withTitle: title, subtitle: subtitle, inWidth: width, compatibleWith: traitCollection, imageSize: style.image(selected: false, highlighted: false).size, imageSeparation: imageSeparation, labelSeparation: labelSeparation, accessoryViewSize: accessoryViewSize)
     }
     
 }
