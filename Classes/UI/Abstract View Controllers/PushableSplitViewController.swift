@@ -137,7 +137,7 @@ open class PushableSplitViewController: UIViewController, UISplitViewControllerD
     }
     
     @objc private func closeButtonItemDidSelect(_ item: UIBarButtonItem) {
-        presentingViewController?.dismiss(animated: true, completion: nil)
+        presentingViewController?.dismiss(animated: true)
     }
     
 }
