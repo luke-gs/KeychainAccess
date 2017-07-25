@@ -21,9 +21,11 @@ open class RadioButton: SelectableButton {
     }
     
     private func commonInit() {
-        setImage(.radioButton, for: .normal)
+        let assetManager = AssetManager.shared
         
-        let selectedImage = UIImage.radioButtonSelected
+        setImage(assetManager.image(forKey: .radioButton), for: .normal)
+        
+        let selectedImage = assetManager.image(forKey: .radioButtonSelected)
         setImage(selectedImage, for: .selected)
         setImage(selectedImage, for: [.selected, .disabled])
     }

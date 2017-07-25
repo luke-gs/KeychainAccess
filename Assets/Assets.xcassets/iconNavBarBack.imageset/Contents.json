@@ -1,0 +1,29 @@
+{
+  "images" : [
+    {
+      "idiom" : "universal",
+      "scale" : "1x",
+      "language-direction" : "left-to-right"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "iconNavBarBack@2x.png",
+      "language-direction" : "left-to-right",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "iconNavBarBack@3x.png",
+      "language-direction" : "left-to-right",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "version" : 1,
+    "author" : "xcode"
+  },
+  "properties" : {
+    "template-rendering-intent" : "template",
+    "preserves-vector-representation" : true
+  }
+}

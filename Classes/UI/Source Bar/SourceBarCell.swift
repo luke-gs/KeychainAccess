@@ -77,7 +77,7 @@ internal class SourceBarCell: UIControl {
             
             let imageView = self.imageView()
             imageView.isHidden = false
-            imageView.image = UIImage(named: "SourceBarDownload", in: .mpolKit, compatibleWith: traitCollection)
+            imageView.image = AssetManager.shared.image(forKey: .sourceBarDownload)
             
             tintColor = style == .dark ? .white: .black
             accessibilityValue  = nil
@@ -92,7 +92,7 @@ internal class SourceBarCell: UIControl {
             
             let imageView = self.imageView()
             imageView.isHidden = false
-            imageView.image = UIImage(named: "SourceBarNone", in: .mpolKit, compatibleWith: traitCollection)
+            imageView.image = AssetManager.shared.image(forKey: .sourceBarNone)
             
             tintColor = style == .dark ? SourceBarCell.darkDisabledColor : SourceBarCell.lightDisabledColor
             
