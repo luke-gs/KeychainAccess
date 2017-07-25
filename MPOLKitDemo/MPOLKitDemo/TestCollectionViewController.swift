@@ -20,6 +20,7 @@ class TestCollectionViewController: FormCollectionViewController, FilterViewCont
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        collectionView?.register(CollectionViewFormTextFieldCell.self)
         collectionView?.register(CollectionViewFormSubtitleCell.self)
         collectionView?.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         collectionView?.register(RecentEntitiesBackgroundView.self, forSupplementaryViewOfKind: collectionElementKindGlobalHeader)
@@ -58,21 +59,10 @@ class TestCollectionViewController: FormCollectionViewController, FilterViewCont
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormTextFieldCell.self, for: indexPath)
         
         cell.titleLabel.text =  "Test Title \(indexPath.item + 1)"
-        cell.subtitleLabel.text = "Testing placeholder \(indexPath.item + 1)"
-        
-        if let accessory = cell.accessoryView as? LabeledAccessoryView {
-            cell.accessoryView = accessory
-        } else {
-            let accessory = LabeledAccessoryView()
-            accessory.accessoryView = FormDisclosureView()
-            accessory.titleLabel.font = .preferredFont(forTextStyle: .subheadline)
-            accessory.titleLabel.text = "Select Action"
-            accessory.subtitleLabel.text = "Testing placeholder \(indexPath.item + 1)"
-            cell.accessoryView = accessory
-        }
+        cell.textField.placeholder = "Testing placeholder \(indexPath.item + 1)"
         
         return cell
     }
@@ -91,9 +81,8 @@ class TestCollectionViewController: FormCollectionViewController, FilterViewCont
     }
     
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
-        return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: "Kj", subtitle: "Test", inWidth: itemWidth, compatibleWith: traitCollection)
+        return CollectionViewFormTextFieldCell.minimumContentHeight(withTitle: "Kj", enteredText: "KJ", inWidth: itemWidth, compatibleWith: traitCollection)
     }
-    
     
     @objc private func filterItemDidSelect(_ item: UIBarButtonItem) {
         
