@@ -64,8 +64,7 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
     // MARK: - Initializers
     
     public override init() {
-        let bundle = Bundle(for: EntityAlertsViewController.self)
-        filterBarButtonItem = UIBarButtonItem(image: UIImage(named: "iconFormFilter", in: bundle, compatibleWith: nil), style: .plain, target: nil, action: nil)
+        filterBarButtonItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .filter), style: .plain, target: nil, action: nil)
         
         super.init()
         
@@ -299,9 +298,8 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
         events.sort { dateSorting(($0.date ?? .distantPast), ($1.date ?? .distantPast)) }
         self.events = events
         
-        let bundle = Bundle(for: PersonOccurrencesViewController.self)
-        let filterName = requiresFiltering ? "iconFormFilterFilled" : "iconFormFilter"
-        filterBarButtonItem.image = UIImage(named: filterName, in: bundle, compatibleWith: nil)
+        let filterKey: AssetManager.ImageKey = requiresFiltering ? .filterFilled : .filter
+        filterBarButtonItem.image = AssetManager.shared.image(forKey: filterKey)
     }
     
     // Seems like a common pattern, potential refactor point to have a standard formatter for these?

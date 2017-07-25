@@ -22,11 +22,9 @@ open class EntityOccurrencesViewController: EntityDetailCollectionViewController
         super.init()
         title = NSLocalizedString("Involvements", comment: "")
         
-        let sidebarItem = self.sidebarItem
-        sidebarItem.image         = UIImage(named: "iconFormOccurrence",       in: .mpolKit, compatibleWith: nil)
-        sidebarItem.selectedImage = UIImage(named: "iconFormOccurrenceFilled", in: .mpolKit, compatibleWith: nil)
+        sidebarItem.image = AssetManager.shared.image(forKey: .list)
         
-        let filterIcon = UIBarButtonItem(image: UIImage(named: "iconFormFilter", in: .mpolKit, compatibleWith: nil), style: .plain, target: nil, action: nil)
+        let filterIcon = UIBarButtonItem(image: AssetManager.shared.image(forKey: .filter), style: .plain, target: nil, action: nil)
         filterIcon.isEnabled = false
         navigationItem.rightBarButtonItem = filterIcon
     }

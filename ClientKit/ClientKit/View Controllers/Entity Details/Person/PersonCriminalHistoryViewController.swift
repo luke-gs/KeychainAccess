@@ -83,8 +83,7 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
     // MARK: - Initializers
     
     public override init() {
-        let bundle = Bundle(for: EntityAlertsViewController.self)
-        filterBarButtonItem = UIBarButtonItem(image: UIImage(named: "iconFormFilter", in: bundle, compatibleWith: nil), style: .plain, target: nil, action: nil)
+        filterBarButtonItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .filter), style: .plain, target: nil, action: nil)
         
         super.init()
         
@@ -92,9 +91,7 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
         
         title = NSLocalizedString("Criminal History", comment: "")
         
-        let sidebarItem = self.sidebarItem
-        sidebarItem.image         = UIImage(named: "iconFormFolder",       in: .mpolKit, compatibleWith: nil)
-        sidebarItem.selectedImage = UIImage(named: "iconFormFolderFilled", in: .mpolKit, compatibleWith: nil)
+        sidebarItem.image = AssetManager.shared.image(forKey: .list)
         
         filterBarButtonItem.target = self
         filterBarButtonItem.action = #selector(filterItemDidSelect(_:))
@@ -259,9 +256,8 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
         criminalHistory.sort(by: sorting.compare(_:_:))
         self.criminalHistory = criminalHistory
         
-        let bundle = Bundle(for: PersonCriminalHistoryViewController.self)
-        let filterName = sorting != .dateNewest || filterDateRange != nil ? "iconFormFilterFilled" : "iconFormFilter"
-        filterBarButtonItem.image = UIImage(named: filterName, in: bundle, compatibleWith: nil)
+        let filterKey: AssetManager.ImageKey = sorting != .dateNewest || filterDateRange != nil ? .filterFilled : .filter
+        filterBarButtonItem.image = AssetManager.shared.image(forKey: filterKey)
     }
     
     private func cellText(for history: CriminalHistory) -> (title: String, subtitle: String) {

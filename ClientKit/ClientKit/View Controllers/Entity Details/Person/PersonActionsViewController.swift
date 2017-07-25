@@ -42,8 +42,7 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
     
     
     public override init() {
-        let bundle = Bundle(for: EntityAlertsViewController.self)
-        filterBarButtonItem = UIBarButtonItem(image: UIImage(named: "iconFormFilter", in: bundle, compatibleWith: nil), style: .plain, target: nil, action: nil)
+        filterBarButtonItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .filter), style: .plain, target: nil, action: nil)
         
         super.init()
         
@@ -51,9 +50,7 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
         
         title = NSLocalizedString("Actions", comment: "")
         
-        let sidebarItem = self.sidebarItem
-        sidebarItem.image         = UIImage(named: "iconFormFolder",       in: .mpolKit, compatibleWith: nil)
-        sidebarItem.selectedImage = UIImage(named: "iconFormFolderFilled", in: .mpolKit, compatibleWith: nil)
+        sidebarItem.image = AssetManager.shared.image(forKey: .list)
         
         filterBarButtonItem.target = self
         filterBarButtonItem.action = #selector(filterItemDidSelect(_:))
@@ -254,11 +251,10 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
             }
         }
         
-        let bundle = Bundle(for: EntityAlertsViewController.self)
-        let filterName = requiresFiltering ? "iconFormFilterFilled" : "iconFormFilter"
-        filterBarButtonItem.image = UIImage(named: filterName, in: bundle, compatibleWith: nil)
-        
         self.actions = actions
+        
+        let filterKey: AssetManager.ImageKey = requiresFiltering ? .filterFilled : .filter
+        filterBarButtonItem.image = AssetManager.shared.image(forKey: filterKey)
     }
     
 }
