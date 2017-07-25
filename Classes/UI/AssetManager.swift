@@ -116,6 +116,7 @@ extension AssetManager {
         // Nav Bar Icons
         public static let back           = ImageKey("iconNavBarBack")
         public static let filter         = ImageKey("iconNavBarFilter")
+        public static let filterFilled   = ImageKey("iconNavBarFilterFilled")
         public static let pin            = ImageKey("iconNavBarPin")
         public static let settings       = ImageKey("iconNavBarSettings")
         
