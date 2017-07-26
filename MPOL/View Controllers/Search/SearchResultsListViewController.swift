@@ -64,9 +64,7 @@ class SearchResultsListViewController: FormCollectionViewController {
         listStateItem.action = #selector(toggleThumbnails)
         listStateItem.imageInsets = .zero
         
-        let backItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .back), style: .plain, target: self, action: #selector(backButtonItemDidSelect))
-        backItem.accessibilityLabel = NSLocalizedString("Back", comment: "Navigation bar button item accessibility")
-        navigationItem.leftBarButtonItem = backItem
+        navigationItem.leftBarButtonItem = UIBarButtonItem.backBarButtonItem(target: self, action: #selector(backButtonItemDidSelect))
         
         navigationItem.rightBarButtonItems = [listStateItem]
     }
