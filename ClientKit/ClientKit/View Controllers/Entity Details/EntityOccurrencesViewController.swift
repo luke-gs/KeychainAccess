@@ -24,9 +24,9 @@ open class EntityOccurrencesViewController: EntityDetailCollectionViewController
         
         sidebarItem.image = AssetManager.shared.image(forKey: .list)
         
-        let filterIcon = UIBarButtonItem(image: AssetManager.shared.image(forKey: .filter), style: .plain, target: nil, action: nil)
-        filterIcon.isEnabled = false
-        navigationItem.rightBarButtonItem = filterIcon
+        let filterBarItem = FilterBarButtonItem(target: nil, action: nil)
+        filterBarItem.isEnabled = false
+        navigationItem.rightBarButtonItem = filterBarItem
     }
     
     public required init?(coder aDecoder: NSCoder) {

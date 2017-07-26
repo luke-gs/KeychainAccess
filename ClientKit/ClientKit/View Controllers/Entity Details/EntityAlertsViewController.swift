@@ -28,7 +28,7 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
     
     // MARK: - Private properties
     
-    private let filterBarButtonItem: UIBarButtonItem
+    private let filterBarButtonItem: FilterBarButtonItem
     
     private var filteredAlertLevels: Set<Alert.Level> = Set(Alert.Level.allCases)
     
@@ -56,7 +56,7 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
     // MARK: - Initializers
     
     public override init() {
-        filterBarButtonItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .filter), style: .plain, target: nil, action: nil)
+        filterBarButtonItem = FilterBarButtonItem(target: nil, action: nil)
         
         super.init()
         title = NSLocalizedString("Alerts", bundle: .mpolKit, comment: "")
@@ -319,8 +319,7 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
         
         self.sections = sections
         
-        let filterKey: AssetManager.ImageKey = requiresFiltering ? .filterFilled : .filter
-        filterBarButtonItem.image = AssetManager.shared.image(forKey: filterKey)
+        filterBarButtonItem.isActive = requiresFiltering
     }
     
 }

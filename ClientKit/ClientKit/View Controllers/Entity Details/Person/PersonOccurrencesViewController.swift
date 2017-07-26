@@ -24,7 +24,7 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
     
     // MARK: - Private properties
     
-    private let filterBarButtonItem: UIBarButtonItem
+    private let filterBarButtonItem = FilterBarButtonItem(target: nil, action: nil)
     
     private var person: Person? {
         didSet {
@@ -64,8 +64,6 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
     // MARK: - Initializers
     
     public override init() {
-        filterBarButtonItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .filter), style: .plain, target: nil, action: nil)
-        
         super.init()
         
         filterBarButtonItem.target = self
@@ -298,8 +296,7 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
         events.sort { dateSorting(($0.date ?? .distantPast), ($1.date ?? .distantPast)) }
         self.events = events
         
-        let filterKey: AssetManager.ImageKey = requiresFiltering ? .filterFilled : .filter
-        filterBarButtonItem.image = AssetManager.shared.image(forKey: filterKey)
+        filterBarButtonItem.isActive = requiresFiltering
     }
     
     // Seems like a common pattern, potential refactor point to have a standard formatter for these?

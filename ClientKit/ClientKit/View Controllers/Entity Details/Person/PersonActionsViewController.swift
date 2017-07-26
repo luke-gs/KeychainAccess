@@ -34,7 +34,7 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
         }
     }
     
-    private let filterBarButtonItem: UIBarButtonItem
+    private let filterBarButtonItem = FilterBarButtonItem(target: nil, action: nil)
     
     private var filterTypes: Set<String>?
     
@@ -42,8 +42,6 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
     
     
     public override init() {
-        filterBarButtonItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .filter), style: .plain, target: nil, action: nil)
-        
         super.init()
         
         hasContent = false
@@ -253,8 +251,7 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
         
         self.actions = actions
         
-        let filterKey: AssetManager.ImageKey = requiresFiltering ? .filterFilled : .filter
-        filterBarButtonItem.image = AssetManager.shared.image(forKey: filterKey)
+        filterBarButtonItem.isActive = requiresFiltering
     }
     
 }

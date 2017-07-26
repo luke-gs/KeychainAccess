@@ -58,7 +58,7 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
     
     // MARK: - Private properties
     
-    private let filterBarButtonItem: UIBarButtonItem
+    private let filterBarButtonItem = FilterBarButtonItem(target: nil, action: nil)
     
     private var filterDateRange: FilterDateRange?
     
@@ -83,8 +83,6 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
     // MARK: - Initializers
     
     public override init() {
-        filterBarButtonItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .filter), style: .plain, target: nil, action: nil)
-        
         super.init()
         
         hasContent = false
@@ -256,8 +254,7 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
         criminalHistory.sort(by: sorting.compare(_:_:))
         self.criminalHistory = criminalHistory
         
-        let filterKey: AssetManager.ImageKey = sorting != .dateNewest || filterDateRange != nil ? .filterFilled : .filter
-        filterBarButtonItem.image = AssetManager.shared.image(forKey: filterKey)
+        filterBarButtonItem.isActive = sorting != .dateNewest || filterDateRange != nil
     }
     
     private func cellText(for history: CriminalHistory) -> (title: String, subtitle: String) {
