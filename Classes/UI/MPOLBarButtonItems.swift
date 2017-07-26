@@ -31,7 +31,7 @@ extension UIBarButtonItem {
 public class FilterBarButtonItem: UIBarButtonItem {
     
     /// A boolean value indicating whether the filter is active. The default is `false`.
-    var isActive: Bool = false {
+    public var isActive: Bool = false {
         didSet {
             if isActive == oldValue { return }
             
