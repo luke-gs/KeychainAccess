@@ -122,12 +122,14 @@ internal class SourceBarCell: UIControl {
         case .loaded(let count, let color):
             isEnabled = true
             
-            let badgeText: String
-            if count < 10 {
-                badgeText = String(describing: count)
-            } else {
-                badgeText = "9+"
-            }
+            let badgeText: String?
+            if let count = count {
+                if count < 10 {
+                    badgeText = String(describing: count)
+                } else {
+                    badgeText = "9+"
+                }
+            } else { badgeText = nil }
             
             let iconView = self.iconView()
             iconView.isHidden = false
@@ -142,7 +144,11 @@ internal class SourceBarCell: UIControl {
             _imageView?.isHidden = true
             _loadingIndicator?.stopAnimating()
             
-            accessibilityValue = count == 0 ? nil : "Count " + badgeText
+            if let count = count, count > 0 {
+                accessibilityValue = "Count " + badgeText!
+            } else {
+                accessibilityValue = nil
+            }
         }
         
         isAvailable = item.state != .notAvailable
