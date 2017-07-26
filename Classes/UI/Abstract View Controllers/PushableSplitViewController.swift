@@ -91,9 +91,10 @@ open class PushableSplitViewController: UIViewController, UISplitViewControllerD
         // We don't reset the nav bar back to its correct position when:
         // 1. We are being dismissed.
         //    This would create a weird appearance as part of the disappearance.
-        // 2. We are getting this as part of a presentation of a new view controller that hides us.
-        //    We detect this by checking if the presented view controller (if it exists) is being presented.
-        // 3. The new view controller in the transition is not a pushable view controller,
+        // 2. We are getting this as part of a presentation of a new view controller that
+        //    hides us. We detect this by checking if the presented view controller (if
+        //    it exists) is being presented.
+        // 3. The new view controller in the transition is a pushable view controller,
         //    which would make it disappear anyway.
         
         if isBeingDismissed || presentedViewController?.isBeingPresented ?? false || transitionCoordinator?.viewController(forKey: .to) is PushableSplitViewController { return }
@@ -111,11 +112,8 @@ open class PushableSplitViewController: UIViewController, UISplitViewControllerD
                 return nil
             }
             
-            let arrowImage = AssetManager.shared.image(forKey: .back)
             // show back icon with pop action.
-            let backItem = UIBarButtonItem(image: arrowImage, style: .plain, target: self, action: #selector(backButtonItemDidSelect))
-            backItem.accessibilityLabel = NSLocalizedString("Back", comment: "Navigation bar button item accessibility")
-            return backItem
+            return .backBarButtonItem(target: self, action: #selector(backButtonItemDidSelect))
         } else if presentingViewController != nil || isBeingPresented || isBeingDismissed {
             // show close icon with dismiss action
             let closeItem = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(closeButtonItemDidSelect))
@@ -139,7 +137,7 @@ open class PushableSplitViewController: UIViewController, UISplitViewControllerD
     }
     
     @objc private func closeButtonItemDidSelect(_ item: UIBarButtonItem) {
-        presentingViewController?.dismiss(animated: true, completion: nil)
+        presentingViewController?.dismiss(animated: true)
     }
     
 }

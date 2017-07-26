@@ -109,6 +109,7 @@ public final class ScrollViewInsetManager: NSObject {
     private func updateContentInset(oldInset: UIEdgeInsets?) {
         /// adjust insets if required to account for keyboard location.
         var contentInset = standardContentInset
+        var contentOffsetY = scrollView.contentOffset.y
         
         if let keyboardFrameInScreen = keyboardFrameInScreen {
             // Keyboard exists.
@@ -130,12 +131,38 @@ public final class ScrollViewInsetManager: NSObject {
             }
         }
         
-        let insetChange = scrollView.contentInset.top - contentInset.top
-        if insetChange !=~ 0.0 {
-            scrollView.contentOffset.y += insetChange
-        }
-        
+        // work out how far to shift the content down due to a content inset change
+        // before we update the insets.
+        let topInsetIncrease = contentInset.top - scrollView.contentInset.top
         scrollView.contentInset = contentInset
+        
+        // Don't adjust offsets when there is no change, the user is interacting 
+        // or deceleration is in progress.
+        if topInsetIncrease ==~ 0.0 || scrollView.isTracking || scrollView.isDecelerating { return }
+        
+        let fullInsets: UIEdgeInsets
+        // TODO: Uncomment for iOS 11.
+//        if #available(iOS 11, *) {
+//            fullInsets = scrollView.adjustedContentInset
+//        } else {
+            fullInsets = contentInset
+//        }
+        
+        // Find the minimum and maximum offsets allowed.
+        let minimumScrolledLocation = fullInsets.top * -1.0
+        let maximumScrolledLocation = max(minimumScrolledLocation, scrollView.contentSize.height + fullInsets.bottom - scrollView.bounds.height)
+        
+        // Shift the content inset our top inset change. Do it negative because we
+        // actually want to push the content down the screen (content offset goes down)
+        contentOffsetY -= topInsetIncrease
+        
+        if contentOffsetY < minimumScrolledLocation {
+            scrollView.contentOffset.y = minimumScrolledLocation
+        } else if contentOffsetY > maximumScrolledLocation {
+            scrollView.contentOffset.y = maximumScrolledLocation
+        } else {
+            scrollView.contentOffset.y = contentOffsetY
+        }
     }
     
     private func updateIndicatorInset() {
