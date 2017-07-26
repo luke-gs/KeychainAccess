@@ -73,7 +73,7 @@ public class FilterBarButtonItem: UIBarButtonItem {
     
     /// Setting the title is not supported.
     public override var title: String? {
-        get { return self.title }
+        get { return super.title }
         set { }
     }
     
