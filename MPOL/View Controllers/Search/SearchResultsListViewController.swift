@@ -141,7 +141,7 @@ class SearchResultsListViewController: FormCollectionViewController {
         
         let themeColors = Theme.current.colors
         
-        searchField.barColor   = themeColors[.SearchFieldBarColor]
+        searchField.backgroundColor = themeColors[.SearchFieldBackground]
         searchField.fieldColor = themeColors[.SearchField]
         searchField.textColor  = primaryTextColor
         searchField.placeholderTextColor = placeholderTextColor
