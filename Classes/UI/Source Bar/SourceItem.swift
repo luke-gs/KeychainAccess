@@ -17,7 +17,7 @@ public struct SourceItem: Equatable {
         
         case loading
         
-        case loaded(count: UInt, color: UIColor?)
+        case loaded(count: UInt?, color: UIColor?)
         
         case notAvailable
     }
