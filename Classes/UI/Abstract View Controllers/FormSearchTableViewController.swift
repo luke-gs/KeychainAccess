@@ -106,23 +106,9 @@ open class FormSearchTableViewController: FormTableViewController, UISearchBarDe
         searchBarFrame.size.width = scrollView.frame.width
         searchBar.frame = searchBarFrame
         
-        var contentOffset = scrollView.contentOffset
-        
         let insets = UIEdgeInsets(top: searchBarFrame.maxY, left: 0.0, bottom: max(bottomLayoutGuide.length, statusTabBarInset), right: 0.0)
-        let oldContentInset = insetManager.standardContentInset
         insetManager.standardContentInset   = insets
         insetManager.standardIndicatorInset = insets
-        
-        // If the scroll view currently doesn't have any user interaction, adjust its content
-        // to keep the content onscreen.
-        if scrollView.isTracking || scrollView.isDecelerating { return }
-        
-        contentOffset.y -= (insets.top - oldContentInset.top)
-        if contentOffset.y <~ insets.top * -1.0 {
-            contentOffset.y = insets.top * -1.0
-        }
-        
-        scrollView.contentOffset = contentOffset
     }
     
     open override func viewDidAppear(_ animated: Bool) {

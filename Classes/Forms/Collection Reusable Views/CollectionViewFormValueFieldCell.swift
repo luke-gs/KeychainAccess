@@ -27,7 +27,7 @@ open class CollectionViewFormValueFieldCell: CollectionViewFormCell {
     
     
     /// The image view for the cell. This view is lazy loaded.
-    public var imageView: UIImageView {
+    open var imageView: UIImageView {
         if let existingImageView = _imageView { return existingImageView }
         
         let newImageView = UIImageView(frame: .zero)
@@ -45,9 +45,19 @@ open class CollectionViewFormValueFieldCell: CollectionViewFormCell {
     ///
     /// This value informs MPOLKit view controllers and apps that the cell should be
     /// displayed with the standard MPOL editable colors and/or adornments.
-    public var isEditable: Bool = true
+    open var isEditable: Bool = true
     
     
+    /// The horizontal separation between the image and the labels.
+    ///
+    /// The default is the default MPOL image separation.
+    open var imageSeparation: CGFloat = CellImageLabelSeparation {
+        didSet {
+            if imageSeparation !=~ oldValue && _imageView != nil {
+                setNeedsLayout()
+            }
+        }
+    }
     
     /// The vertical separation between labels.
     ///
@@ -150,7 +160,7 @@ open class CollectionViewFormValueFieldCell: CollectionViewFormCell {
             imageSize = imageViewSize
             
             if _imageView!.isHidden == false {
-                let inset = imageSize.width + 10.0
+                let inset = imageSize.width + imageSeparation
                 contentRect.size.width -= inset
                 if isRightToLeft == false {
                     contentRect.origin.x += inset
@@ -248,10 +258,11 @@ open class CollectionViewFormValueFieldCell: CollectionViewFormCell {
     ///   - value:             The value details for sizing.
     ///   - traitCollection:   The trait collection to calculate for.
     ///   - imageSize:         The size for the image, to present, or `.zero`. The default is `.zero`.
+    ///   - imageSeparation:   The image/label horizontal separation. The default is the standard separation.
     ///   - accessoryViewSize: The size for the accessory view, or `.zero`. The default is `.zero`.
     /// - Returns: The minumum content width for the cell.
     open class func minimumContentWidth(withTitle title: StringSizable?, value: StringSizable?, compatibleWith traitCollection: UITraitCollection,
-                                        imageSize: CGSize = .zero, accessoryViewSize: CGSize = .zero) -> CGFloat {
+                                        imageSize: CGSize = .zero, imageSeparation: CGFloat = CellImageLabelSeparation, accessoryViewSize: CGSize = .zero) -> CGFloat {
         var titleSizing = title?.sizing() ?? StringSizing(string: "")
         if titleSizing.font == nil {
             titleSizing.font = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
@@ -271,7 +282,7 @@ open class CollectionViewFormValueFieldCell: CollectionViewFormCell {
         let titleWidth = titleSizing.minimumWidth(compatibleWith: traitCollection)
         let valueWidth = valueSizing.minimumWidth(compatibleWith: traitCollection)
         
-        let imageSpace = imageSize.isEmpty ? 0.0 : imageSize.width + 16.0
+        let imageSpace = imageSize.isEmpty ? 0.0 : imageSize.width + imageSeparation
         let accessorySpace = accessoryViewSize.isEmpty ? 0.0 : accessoryViewSize.width + CollectionViewFormCell.accessoryContentInset
         
         return max(titleWidth, valueWidth) + imageSpace + accessorySpace
@@ -286,11 +297,14 @@ open class CollectionViewFormValueFieldCell: CollectionViewFormCell {
     ///   - width:             The content width for the cell.
     ///   - traitCollection:   The trait collection to calculate for.
     ///   - imageSize:         The size for the image, to present, or `.zero`. The default is `.zero`.
+    ///   - imageSeparation:   The image/label horizontal separation. The default is the standard separation.
     ///   - labelSeparation:   The label vertical separation. The default is the standard separation.
     ///   - accessoryViewSize: The size for the accessory view, or `.zero`. The default is `.zero`.
     /// - Returns: The minumum content height for the cell.
     open class func minimumContentHeight(withTitle title: StringSizable?, value: StringSizable?, inWidth width: CGFloat,
-                                         compatibleWith traitCollection: UITraitCollection, imageSize: CGSize = .zero, labelSeparation: CGFloat = CellTitleSubtitleSeparation, accessoryViewSize: CGSize = .zero) -> CGFloat {
+                                         compatibleWith traitCollection: UITraitCollection, imageSize: CGSize = .zero,
+                                         imageSeparation: CGFloat = CellImageLabelSeparation, labelSeparation: CGFloat = CellTitleSubtitleSeparation,
+                                         accessoryViewSize: CGSize = .zero) -> CGFloat {
         var titleSizing = title?.sizing() ?? StringSizing(string: "")
         if titleSizing.font == nil {
             titleSizing.font = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
@@ -308,7 +322,7 @@ open class CollectionViewFormValueFieldCell: CollectionViewFormCell {
         }
         
         let isImageEmpty = imageSize.isEmpty
-        let imageWidth = isImageEmpty ? 0.0 : imageSize.width + 16.0
+        let imageWidth = isImageEmpty ? 0.0 : imageSize.width + imageSeparation
         
         let isAccesssoryEmpty = accessoryViewSize.isEmpty
         
