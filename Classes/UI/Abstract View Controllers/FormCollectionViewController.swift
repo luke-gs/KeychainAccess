@@ -157,25 +157,8 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
         
         let insets = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)
         loadingManager.contentInsets = insets
-        
-        guard let scrollView = self.collectionView, let insetManager = self.collectionViewInsetManager else { return }
-        
-        var contentOffset = scrollView.contentOffset
-        
-        let oldContentInset = insetManager.standardContentInset
-        insetManager.standardContentInset   = insets
-        insetManager.standardIndicatorInset = insets
-        
-        // If the scroll view currently doesn't have any user interaction, adjust its content
-        // to keep the content onscreen.
-        if scrollView.isTracking || scrollView.isDecelerating { return }
-        
-        contentOffset.y -= (insets.top - oldContentInset.top)
-        if contentOffset.y <~ insets.top * -1.0 {
-            contentOffset.y = insets.top * -1.0
-        }
-        
-        scrollView.contentOffset = contentOffset
+        collectionViewInsetManager?.standardContentInset   = insets
+        collectionViewInsetManager?.standardIndicatorInset = insets
     }
     
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

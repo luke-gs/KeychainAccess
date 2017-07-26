@@ -17,6 +17,8 @@ open class RoundedRectLabel : UILabel {
     open var cornerRadius: CGFloat = 2.0 {
         didSet {
             if cornerRadius ==~ oldValue { return }
+            
+            setNeedsDisplay()
         }
     }
     
