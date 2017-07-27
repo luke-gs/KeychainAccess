@@ -256,6 +256,8 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
         secondaryTextColor   = colors[.SecondaryText]
         placeholderTextColor = colors[.PlaceholderText]
         
+        loadingManager.noContentColor = secondaryTextColor ?? .gray
+        
         setNeedsStatusBarAppearanceUpdate()
         
         guard let tableView = self.tableView else { return }

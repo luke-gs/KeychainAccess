@@ -188,7 +188,10 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
         placeholderTextColor = colors[.PlaceholderText]
         validationErrorColor = colors[.ValidationError]
         
+        loadingManager.noContentColor = secondaryTextColor ?? .gray
+        
         setNeedsStatusBarAppearanceUpdate()
+        
         
         if isViewLoaded,
             let view = self.view,

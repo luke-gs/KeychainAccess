@@ -31,7 +31,7 @@ extension UIBarButtonItem {
 public class FilterBarButtonItem: UIBarButtonItem {
     
     /// A boolean value indicating whether the filter is active. The default is `false`.
-    var isActive: Bool = false {
+    public var isActive: Bool = false {
         didSet {
             if isActive == oldValue { return }
             
@@ -73,7 +73,7 @@ public class FilterBarButtonItem: UIBarButtonItem {
     
     /// Setting the title is not supported.
     public override var title: String? {
-        get { return self.title }
+        get { return super.title }
         set { }
     }
     

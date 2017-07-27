@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  MPOLKit-Example
+//  MPOLKitDemo
 //
 //  Created by Rod Brown on 15/2/17.
 //  Copyright © 2017 Gridstone. All rights reserved.
@@ -12,7 +12,7 @@ import MPOLKit
 import Unbox
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     
@@ -40,88 +40,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LoginViewControllerDelega
         window.tintColor = theme.colors[.Tint]
         self.window = window
         
-        updateInterface(forLogin: false, animated: false)
+        let pushableSplitViewController = PushableSplitViewController(viewControllers: [UINavigationController(rootViewController: CollectionDemoListViewController(style: .grouped)), UINavigationController()])
+        pushableSplitViewController.embeddedSplitViewController.maximumPrimaryColumnWidth = 320.0
+        pushableSplitViewController.title = "Collections"
+        let pushableSVNavController = UINavigationController(rootViewController: pushableSplitViewController)
+        
+        let sidebarDetail1VC = UIViewController()
+        sidebarDetail1VC.title = "Sidebars"
+        sidebarDetail1VC.sidebarItem.image = #imageLiteral(resourceName: "SidebarInfo")
+        sidebarDetail1VC.sidebarItem.selectedImage = #imageLiteral(resourceName: "SidebarInfoFilled")
+        
+        let sidebarDetail2VC = CollectionDemoListViewController(style: .plain)
+        sidebarDetail2VC.title = "Sidebar Test 2"
+        sidebarDetail2VC.sidebarItem.image = #imageLiteral(resourceName: "SidebarAlert")
+        sidebarDetail2VC.sidebarItem.selectedImage = #imageLiteral(resourceName: "SidebarAlertFilled")
+        
+        let item1 = SourceItem(title: "CRIMTRAC", state: .loaded(count: 8, color: .red))
+        let item2 = SourceItem(title: "DS2", state: .loaded(count: 2, color: .blue))
+        let item3 = SourceItem(title: "DS3", state: .loaded(count: 1, color: .yellow))
+        
+        let sidebarSplitViewController = SidebarSplitViewController(detailViewControllers: [sidebarDetail1VC, sidebarDetail2VC])
+        sidebarSplitViewController.sidebarViewController.sourceItems = [item1, item2, item3]
+        sidebarSplitViewController.sidebarViewController.selectedSourceIndex = 1
+        sidebarSplitViewController.title = "Sidebars"
+        
+        let tabBarController = UITabBarController()
+        tabBarController.viewControllers = [pushableSVNavController, UINavigationController(rootViewController: sidebarSplitViewController)]
+        self.window?.rootViewController = tabBarController
         
         window.makeKeyAndVisible()
         
         return true
-    }
-    
-    private func updateInterface(forLogin login: Bool, animated: Bool) {
-        if login {
-            let headerLabel = UILabel(frame: .zero)
-            headerLabel.translatesAutoresizingMaskIntoConstraints = false
-            headerLabel.text = "The MPOL Project"
-            headerLabel.font = .systemFont(ofSize: 28.0, weight: UIFontWeightSemibold)
-            headerLabel.textColor = .white
-            headerLabel.adjustsFontSizeToFitWidth = true
-            
-            let headerImage = UIImageView(image: #imageLiteral(resourceName: "MPOLIcon"))
-            headerImage.translatesAutoresizingMaskIntoConstraints = false
-            
-            let headerView = UIView(frame: .zero)
-            headerView.addSubview(headerImage)
-            headerView.addSubview(headerLabel)
-            
-            var constraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|[hi]-(==20@900)-[hl]|", options: [.alignAllCenterX], metrics: nil, views: ["hi": headerImage, "hl": headerLabel])
-            constraints.append(NSLayoutConstraint(item: headerImage, attribute: .centerX, relatedBy: .equal, toItem: headerView, attribute: .centerX))
-            NSLayoutConstraint.activate(constraints)
-            
-            let loginViewController = LoginViewController()
-            loginViewController.delegate = self
-            loginViewController.backgroundImage = #imageLiteral(resourceName: "Login")
-            loginViewController.headerView = headerView
-            self.window?.rootViewController = loginViewController
-        } else {
-            
-            let detailViewController = TestCollectionViewController()
-            let pushableSplitViewController = PushableSplitViewController(viewControllers: [UINavigationController(rootViewController: PushableTestViewController(style: .grouped)), UINavigationController(rootViewController: detailViewController)])
-            detailViewController.navigationItem.leftBarButtonItem = pushableSplitViewController.embeddedSplitViewController.displayModeButtonItem
-            detailViewController.navigationItem.leftItemsSupplementBackButton = true
-            pushableSplitViewController.title = "Pushable SVC"
-            let pushableSVNavController = UINavigationController(rootViewController: pushableSplitViewController)
-            
-            let sidebarDetail1VC = UIViewController()
-            sidebarDetail1VC.title = "Sidebar Test"
-            sidebarDetail1VC.sidebarItem.image = #imageLiteral(resourceName: "SidebarInfo")
-            sidebarDetail1VC.sidebarItem.selectedImage = #imageLiteral(resourceName: "SidebarInfoFilled")
-            
-            let sidebarDetail2VC = PushableTestViewController(style: .plain)
-            sidebarDetail2VC.title = "Sidebar Test 2"
-            sidebarDetail2VC.sidebarItem.image = #imageLiteral(resourceName: "SidebarAlert")
-            sidebarDetail2VC.sidebarItem.selectedImage = #imageLiteral(resourceName: "SidebarAlertFilled")
-            
-            let item1 = SourceItem(title: "CRIMTRAC", state: .loaded(count: 8, color: .red))
-            let item2 = SourceItem(title: "DS2", state: .loaded(count: 2, color: .blue))
-            let item3 = SourceItem(title: "DS3", state: .loaded(count: 1, color: .yellow))
-            
-            let sidebarSplitViewController = SidebarSplitViewController(detailViewControllers: [sidebarDetail1VC, sidebarDetail2VC])
-                sidebarSplitViewController.sidebarViewController.sourceItems = [item1, item2, item3]
-            sidebarSplitViewController.sidebarViewController.selectedSourceIndex = 1
-            sidebarSplitViewController.title = "Sidebar SVC"
-            
-            let mapVC = MapOverlayViewController()
-            mapVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
-            
-            let tabBarController = StatusTabBarController()
-            tabBarController.viewControllers = [pushableSVNavController, UINavigationController(rootViewController: sidebarSplitViewController), UINavigationController(rootViewController: mapVC)]
-            
-            let view = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 320.0, height: 50.0))
-            view.backgroundColor = .green
-            tabBarController.statusView = view
-            self.window?.rootViewController = tabBarController
-        }
-        
-        if animated, let window = self.window {
-            UIView.transition(with: window, duration: 0.2, options: .transitionCrossDissolve, animations: nil, completion: nil)
-        }
-    }
-    
-    // MARK: - Login view controller delegate
-    
-    func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String) {
-        controller.view.endEditing(true)
-        updateInterface(forLogin: false, animated: true)
     }
     
     
