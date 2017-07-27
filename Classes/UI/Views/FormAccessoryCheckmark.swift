@@ -19,7 +19,7 @@ public class FormAccessoryCheckmark: UIImageView {
     // MARK: - Initializers
     
     public init() {
-        let image = AssetManager.shared.image(forKey: .formCheckmark)!
+        let image = AssetManager.shared.image(forKey: .checkmark)!
         super.init(frame: CGRect(origin: .zero, size: image.size))
         super.image = image
     }
