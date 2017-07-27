@@ -138,7 +138,7 @@ class SearchRecentsViewController: FormCollectionViewController {
         noContentScrollView.addSubview(scrollContentView)
         
         let noContentImageView = UIImageView(image: #imageLiteral(resourceName: "RefreshMagnify"))
-        noContentImageView.tintColor = #colorLiteral(red: 0.6044161711, green: 0.6313971979, blue: 0.6581829122, alpha: 0.6420554578)
+        noContentImageView.tintColor = #colorLiteral(red: 0.4462051392, green: 0.5117796659, blue: 0.5576620698, alpha: 0.4)
         
         noContentLabel.text = NSLocalizedString("You don't have any recently viewed entities or recent searches right now.", comment: "")
         noContentLabel.font = .preferredFont(forTextStyle: .headline)
