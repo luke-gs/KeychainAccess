@@ -226,24 +226,29 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
     /// - Returns: The minumum content width for the cell.
     open class func minimumContentWidth(withTitle title: StringSizable?, subtitle: StringSizable?, compatibleWith traitCollection: UITraitCollection,
                                         imageSize: CGSize = .zero, imageSeparation: CGFloat = CellImageLabelSeparation, accessoryViewSize: CGSize = .zero) -> CGFloat {
-        var titleSizing = title?.sizing() ?? StringSizing(string: "")
-        if titleSizing.font == nil {
-            titleSizing.font = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
-        }
-        if titleSizing.numberOfLines == nil {
-            titleSizing.numberOfLines = 1
-        }
-        
-        var subtitleSizing = subtitle?.sizing() ?? StringSizing(string: "")
-        if subtitleSizing.font == nil {
-            subtitleSizing.font = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
-        }
-        if subtitleSizing.numberOfLines == nil {
-            subtitleSizing.numberOfLines = 1
+        var titleSizing = title?.sizing()
+        if titleSizing != nil {
+            if titleSizing!.font == nil {
+                titleSizing!.font = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+            }
+            if titleSizing!.numberOfLines == nil {
+                titleSizing!.numberOfLines = 1
+            }
         }
         
-        let titleWidth = titleSizing.minimumWidth(compatibleWith: traitCollection)
-        let valueWidth = subtitleSizing.minimumWidth(compatibleWith: traitCollection)
+        var subtitleSizing = subtitle?.sizing()
+        if subtitleSizing != nil {
+            if subtitleSizing!.font == nil {
+                subtitleSizing!.font = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
+            }
+            if subtitleSizing!.numberOfLines == nil {
+                subtitleSizing!.numberOfLines = 1
+            }
+        }
+        
+        
+        let titleWidth = titleSizing?.minimumWidth(compatibleWith: traitCollection) ?? 0.0
+        let valueWidth = subtitleSizing?.minimumWidth(compatibleWith: traitCollection) ?? 0.0
         
         let imageSpace = imageSize.isEmpty ? 0.0 : imageSize.width + imageSeparation
         let accessorySpace = accessoryViewSize.isEmpty ? 0.0 : accessoryViewSize.width + CollectionViewFormCell.accessoryContentInset
@@ -268,20 +273,24 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
                                          compatibleWith traitCollection: UITraitCollection, imageSize: CGSize = .zero,
                                          imageSeparation: CGFloat = CellImageLabelSeparation, labelSeparation: CGFloat = CellTitleSubtitleSeparation,
                                          accessoryViewSize: CGSize = .zero) -> CGFloat {
-        var titleSizing = title?.sizing() ?? StringSizing(string: "")
-        if titleSizing.font == nil {
-            titleSizing.font = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
-        }
-        if titleSizing.numberOfLines == nil {
-            titleSizing.numberOfLines = 1
+        var titleSizing = title?.sizing()
+        if titleSizing != nil {
+            if titleSizing!.font == nil {
+                titleSizing!.font = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+            }
+            if titleSizing!.numberOfLines == nil {
+                titleSizing!.numberOfLines = 1
+            }
         }
         
-        var subtitleSizing = subtitle?.sizing() ?? StringSizing(string: "")
-        if subtitleSizing.font == nil {
-            subtitleSizing.font = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
-        }
-        if subtitleSizing.numberOfLines == nil {
-            subtitleSizing.numberOfLines = 1
+        var subtitleSizing = subtitle?.sizing()
+        if subtitleSizing != nil {
+            if subtitleSizing!.font == nil {
+                subtitleSizing!.font = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
+            }
+            if subtitleSizing!.numberOfLines == nil {
+                subtitleSizing!.numberOfLines = 1
+            }
         }
         
         let isImageEmpty = imageSize.isEmpty
@@ -291,8 +300,8 @@ open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
         
         let availableWidth = width - imageWidth - (isAccesssoryEmpty ? 0.0 : accessoryViewSize.width + CollectionViewFormCell.accessoryContentInset)
         
-        let titleHeight = titleSizing.minimumHeight(inWidth: availableWidth, compatibleWith: traitCollection)
-        let valueHeight = subtitleSizing.minimumHeight(inWidth: availableWidth, compatibleWith: traitCollection)
+        let titleHeight = titleSizing?.minimumHeight(inWidth: availableWidth, compatibleWith: traitCollection) ?? 0.0
+        let valueHeight = subtitleSizing?.minimumHeight(inWidth: availableWidth, compatibleWith: traitCollection) ?? 0.0
         let separation = titleHeight >~ 0.0 && valueHeight >~ 0.0 ? labelSeparation : 0.0
         
         let combinedHeight = (titleHeight + valueHeight + separation).ceiled(toScale: traitCollection.currentDisplayScale)
