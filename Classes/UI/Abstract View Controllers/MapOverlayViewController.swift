@@ -257,9 +257,13 @@ open class MapOverlayViewController: UIViewController, UITableViewDataSource, UI
     
     private var overlaySeparatorWidthConstraint: NSLayoutConstraint?
     
+    private var overlayBottomInsetConstraint: NSLayoutConstraint?
+    
     private var transitionMapCenter: CLLocationCoordinate2D?
     
     private var transitionMapCenterAnimated: Bool = false
+    
+    private var tableViewInsetManager: ScrollViewInsetManager?
     
     
     // MARK: - Initializers
@@ -316,6 +320,8 @@ open class MapOverlayViewController: UIViewController, UITableViewDataSource, UI
         tableView.register(TableViewFormExpandingHeaderCell.self, forCellReuseIdentifier: "Header")
         backgroundView.addSubview(tableView)
         
+        tableViewInsetManager = ScrollViewInsetManager(scrollView: tableView)
+        
         let overlaySeparator = UIView(frame: .zero)
         overlaySeparator.translatesAutoresizingMaskIntoConstraints = false
         overlaySeparator.backgroundColor = #colorLiteral(red: 0.7843137255, green: 0.7803921569, blue: 0.8, alpha: 1)
@@ -336,10 +342,10 @@ open class MapOverlayViewController: UIViewController, UITableViewDataSource, UI
         preferredOverlayWidth.priority = UILayoutPriorityDefaultHigh
         
         overlaySeparatorWidthConstraint = NSLayoutConstraint(item: overlaySeparator, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 1.0 / UIScreen.main.scale)
+        overlayBottomInsetConstraint = overlayView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         
         NSLayoutConstraint.activate([
             NSLayoutConstraint(item: overlayView, attribute: .top,     relatedBy: .equal, toItem: topLayoutGuide,    attribute: .bottom),
-            NSLayoutConstraint(item: overlayView, attribute: .bottom,  relatedBy: .equal, toItem: bottomLayoutGuide, attribute: .top),
             preferredOverlayMinimumWidth,
             preferredOverlayWidth,
             
@@ -347,8 +353,8 @@ open class MapOverlayViewController: UIViewController, UITableViewDataSource, UI
             NSLayoutConstraint(item: sourceBar, attribute: .leading, relatedBy: .equal, toItem: overlayView, attribute: .leading),
             NSLayoutConstraint(item: sourceBar, attribute: .bottom,  relatedBy: .equal, toItem: overlayView, attribute: .bottom),
             
-            NSLayoutConstraint(item: tableView, attribute: .top,      relatedBy: .equal, toItem: overlayView, attribute: .top),
-            NSLayoutConstraint(item: tableView, attribute: .bottom,   relatedBy: .equal, toItem: overlayView, attribute: .bottom),
+            NSLayoutConstraint(item: tableView, attribute: .top,      relatedBy: .equal, toItem: view, attribute: .top),
+            NSLayoutConstraint(item: tableView, attribute: .bottom,   relatedBy: .equal, toItem: view, attribute: .bottom),
             NSLayoutConstraint(item: tableView, attribute: .leading,  relatedBy: .equal, toItem: sourceBar,   attribute: .trailing),
             NSLayoutConstraint(item: tableView, attribute: .trailing, relatedBy: .equal, toItem: overlayView, attribute: .trailing),
             
@@ -356,6 +362,7 @@ open class MapOverlayViewController: UIViewController, UITableViewDataSource, UI
             NSLayoutConstraint(item: overlaySeparator, attribute: .top,     relatedBy: .equal, toItem: overlayView, attribute: .top),
             NSLayoutConstraint(item: overlaySeparator, attribute: .bottom,  relatedBy: .equal, toItem: overlayView, attribute: .bottom),
             overlaySeparatorWidthConstraint!,
+            overlayBottomInsetConstraint!
         ])
         
         overlayCompactConstraint = NSLayoutConstraint(item: overlayView, attribute: .width, relatedBy: .equal, toItem: view, attribute: .width)
@@ -397,13 +404,18 @@ open class MapOverlayViewController: UIViewController, UITableViewDataSource, UI
         let isRegular = traitCollection.horizontalSizeClass != .compact
         let overlayInset = _showsOverlay && (_showsOverlayInCompactWidth || isRegular) ? overlayView.frame.width : 0.0
         
-        var mapViewInsets = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)
+        let bottomInset = max(bottomLayoutGuide.length, statusTabBarInset)
+        overlayBottomInsetConstraint?.constant = -bottomInset
+        
+        var insets = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: bottomInset, right: 0.0)
+        tableViewInsetManager?.standardContentInset = insets
+        tableViewInsetManager?.standardIndicatorInset = insets
         if isRightToLeft {
-            mapViewInsets.right = overlayInset
+            insets.right = overlayInset
         } else {
-            mapViewInsets.left = overlayInset
+            insets.left = overlayInset
         }
-        mapView.layoutMargins = mapViewInsets
+        mapView.layoutMargins = insets
         
         if let mapCenter = transitionMapCenter {
             if CLLocationCoordinate2DIsValid(mapCenter) {

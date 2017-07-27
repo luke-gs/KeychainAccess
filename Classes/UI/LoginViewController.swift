@@ -478,7 +478,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         termsAndConditionsLabel.preferredMaxLayoutWidth = view.bounds.width - 20.0
         
         let topLayoutInset    = topLayoutGuide.length
-        let bottomLayoutInset = max(bottomLayoutGuide.length, keyboardInset, 20.0)
+        let bottomLayoutInset = max(bottomLayoutGuide.length, statusTabBarInset, keyboardInset, 20.0)
         
         preferredLayoutGuideBottomConstraint?.constant = (bottomLayoutInset + topLayoutInset) * -1.0
         
@@ -493,7 +493,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLayoutSubviews()
         
         let topLayoutInset    = topLayoutGuide.length
-        let bottomLayoutInset = max(bottomLayoutGuide.length, keyboardInset, 20.0)
+        let bottomLayoutInset = max(bottomLayoutGuide.length, statusTabBarInset, keyboardInset, 20.0)
         
         isHeaderViewHidden = keyboardInset >~ 0.0 && (view.frame.height - topLayoutInset - bottomLayoutInset < (contentStackView?.frame.height ?? 0.0))
     }
