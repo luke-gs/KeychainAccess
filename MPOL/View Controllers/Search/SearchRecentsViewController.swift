@@ -445,11 +445,11 @@ class SearchRecentsViewController: FormCollectionViewController {
     private func summaryIcon(for searchRequest: SearchRequest) -> UIImage? {
         switch searchRequest {
         case _ as PersonSearchRequest:
-            return .personOutline
+            return AssetManager.shared.image(forKey: .entityPerson)
         case _ as VehicleSearchRequest:
-            return .carOutline
+            return AssetManager.shared.image(forKey: .entityCar)
         case _ as OrganizationSearchRequest:
-            return .buildingOutline
+            return AssetManager.shared.image(forKey: .entityBuilding)
         default:
             return nil
         }

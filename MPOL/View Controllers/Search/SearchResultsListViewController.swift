@@ -27,7 +27,7 @@ class SearchResultsListViewController: FormCollectionViewController, SearchNavig
         didSet {
             if wantsThumbnails == oldValue { return }
             
-            listStateItem.image = wantsThumbnails ? #imageLiteral(resourceName: "iconNavBarList") : #imageLiteral(resourceName: "iconNavBarThumbnails")
+            listStateItem.image = AssetManager.shared.image(forKey: wantsThumbnails ? .list : .thumbnail)
             
             if traitCollection.horizontalSizeClass != .compact {
                 collectionView?.reloadData()
@@ -35,7 +35,7 @@ class SearchResultsListViewController: FormCollectionViewController, SearchNavig
         }
     }
     
-    private let listStateItem = UIBarButtonItem(image: #imageLiteral(resourceName: "iconNavBarList"), style: .plain, target: nil, action: nil)
+    private let listStateItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .list), style: .plain, target: nil, action: nil)
     
     private let searchField = SearchNavigationField()
     

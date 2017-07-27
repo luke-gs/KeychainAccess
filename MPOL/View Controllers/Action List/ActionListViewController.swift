@@ -15,8 +15,7 @@ class ActionListViewController: FormCollectionViewController {
         super.init()
         title = NSLocalizedString("Action List", comment: "Title")
         
-        tabBarItem.image = #imageLiteral(resourceName: "iconOtherAction")
-        tabBarItem.selectedImage = #imageLiteral(resourceName: "iconOtherActionFilled")
+        tabBarItem.image = AssetManager.shared.image(forKey: .tabBarActionList)
         tabBarItem.isEnabled = false
     }
     

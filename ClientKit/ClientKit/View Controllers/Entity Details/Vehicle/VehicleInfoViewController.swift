@@ -17,9 +17,7 @@ open class VehicleInfoViewController: EntityDetailCollectionViewController {
         super.init()
         title = NSLocalizedString("Information", comment: "")
         
-        let sidebarItem = self.sidebarItem
-        sidebarItem.image         = UIImage(named: "iconGeneralInfo",       in: .mpolKit, compatibleWith: nil)
-        sidebarItem.selectedImage = UIImage(named: "iconGeneralInfoFilled", in: .mpolKit, compatibleWith: nil)
+        sidebarItem.image = AssetManager.shared.image(forKey: .info)
     }
     
     public required init?(coder aDecoder: NSCoder) {
