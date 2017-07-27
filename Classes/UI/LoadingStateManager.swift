@@ -9,7 +9,7 @@
 import UIKit
 
 // The preferred adjustment content is from the center Y when not displaying content.
-fileprivate let contentAdjustmentFromCenterY: CGFloat = -20.0
+fileprivate let contentAdjustmentFromCenterY: CGFloat = -16.0
 
 /// A manager for a loading view on a base view.
 open class LoadingStateManager: TraitCollectionTrackerDelegate {
@@ -105,70 +105,25 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
     }()
     
     
-    /// The no content stack view.
+    /// The no content view.
     ///
-    /// This stack view is lazily loaded as needed. By default, it contains
-    /// the no content title and subtitle labels. You can adjust these
-    /// for whatever effect you like, adding buttons and image views where
-    /// appropriate.
-    open private(set) lazy var noContentStackView: UIStackView = { [unowned self] in
-        let stackView = UIStackView(arrangedSubviews: [self.noContentTitleLabel, self.noContentSubtitleLabel])
-        stackView.axis = .vertical
-        stackView.alignment = .center
-        stackView.spacing = 8.0
-        return stackView
+    /// This stack view is lazily loaded as needed. You can adjust the internal
+    /// views for whatever effect you like, adding views etc where appropriate.
+    open private(set) lazy var noContentView: NoContentView = { [unowned self] in
+        self.noContentViewLoaded = true
+        return NoContentView(frame: .zero)
     }()
     
     
-    /// The no content title label.
-    ///
-    /// This is the default title in the No Content stack view.
-    open private(set) lazy var noContentTitleLabel: UILabel = { [unowned self] in
-        let label = UILabel()
-        label.adjustsFontSizeToFitWidth = true
-        label.adjustsFontForContentSizeCategory = true
-        label.textColor = self.noContentColor
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        
-        var fontDescriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: .title3)
-        if let adjusted = fontDescriptor.withSymbolicTraits(.traitBold) {
-            fontDescriptor = adjusted
-        }
-        label.font = UIFont(descriptor: fontDescriptor, size: 0.0)
-        
-        self.noContentTitleLoaded = true
-        return label
-    }()
-    
-    
-    /// The no content subtitle label.
-    ///
-    /// This is the default subtitle in the No Content stack view.
-    open private(set) lazy var noContentSubtitleLabel: UILabel = { [unowned self] in
-        let label = UILabel()
-        label.adjustsFontSizeToFitWidth = true
-        label.adjustsFontForContentSizeCategory = true
-        label.font = .preferredFont(forTextStyle: .subheadline)
-        label.textColor = self.noContentColor
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        self.noContentSubtitleLoaded = true
-        return label
-    }()
-    
-    
-    /// The color for the labels
+    /// The color for the labels.
     @NSCopying open var noContentColor: UIColor! = .gray {
         didSet {
             if noContentColor == nil {
                 noContentColor = .gray
             }
-            if noContentTitleLoaded {
-                noContentTitleLabel.textColor = noContentColor
-            }
-            if noContentSubtitleLoaded {
-                noContentSubtitleLabel.textColor = noContentColor
+            if noContentViewLoaded {
+                noContentView.titleLabel.textColor = noContentColor
+                noContentView.subtitleLabel.textColor = noContentColor
             }
             if loadingLabelLoaded {
                 loadingLabel.textColor = noContentColor
@@ -209,9 +164,7 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
     
     private var contentInsetBottomConstraint: NSLayoutConstraint?
     
-    private var noContentTitleLoaded: Bool = false
-    
-    private var noContentSubtitleLoaded: Bool = false
+    private var noContentViewLoaded: Bool = false
     
     private var loadingLabelLoaded: Bool = false
     
@@ -312,7 +265,7 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
                     contentGuide = contentSizingView
 //                }
                 
-                let noContentView = self.noContentStackView
+                let noContentView = self.noContentView
                 noContentView.translatesAutoresizingMaskIntoConstraints = false
                 scrollView.addSubview(noContentView)
                 
@@ -405,25 +358,8 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
         contentInsetTopConstraint?.constant = insets.top
         contentInsetBottomConstraint?.constant = -insets.bottom
         
-        guard let scrollView = self.noContentScrollView, let insetManager = noContentInsetManager else { return }
-        
-        var contentOffset = scrollView.contentOffset
-        let oldContentInset = insetManager.standardContentInset
-        insetManager.standardContentInset   = insets
-        insetManager.standardIndicatorInset = insets
-        
-        // TODO: This logic below should be pushed into the scroll manager.
-        
-        // If the scroll view currently doesn't have any user interaction, adjust its content
-        // to keep the content onscreen.
-        if scrollView.isTracking || scrollView.isDecelerating { return }
-        
-        contentOffset.y -= (insets.top - oldContentInset.top)
-        if contentOffset.y <~ insets.top * -1.0 {
-            contentOffset.y = insets.top * -1.0
-        }
-        
-        scrollView.contentOffset = contentOffset
+        noContentInsetManager?.standardContentInset = insets
+        noContentInsetManager?.standardIndicatorInset = insets
     }
     
     fileprivate func traitCollectionTracker(_ tracker: TraitCollectionTracker, traitCollectionDidChange previousTraitCollection: UITraitCollection?) {
