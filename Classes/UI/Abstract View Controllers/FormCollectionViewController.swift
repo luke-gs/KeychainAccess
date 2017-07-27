@@ -155,7 +155,7 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        let insets = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)
+        let insets = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: max(bottomLayoutGuide.length, statusTabBarInset), right: 0.0)
         loadingManager.contentInsets = insets
         collectionViewInsetManager?.standardContentInset   = insets
         collectionViewInsetManager?.standardIndicatorInset = insets
@@ -188,7 +188,10 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
         placeholderTextColor = colors[.PlaceholderText]
         validationErrorColor = colors[.ValidationError]
         
+        loadingManager.noContentColor = secondaryTextColor ?? .gray
+        
         setNeedsStatusBarAppearanceUpdate()
+        
         
         if isViewLoaded,
             let view = self.view,

@@ -14,7 +14,7 @@ extension UIView {
     ///
     /// - Parameter type: The type searched for.
     /// - Returns: The nearest superview of the specified type, if any.
-    public func superview<T>(of type: T.Type) -> T? {
+    public func superview<T>(of type: T.Type) -> T? where T: UIView {
         var superview = self.superview
         
         while let superView = superview {
