@@ -106,7 +106,7 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
     /// horizontally compact environment.
     open var statusView: UIView? {
         didSet {
-            if statusView != oldValue || isViewLoaded == false { return }
+            if statusView == oldValue || isViewLoaded == false { return }
             
             oldValue?.removeFromSuperview()
             if let newStatusView = self.statusView {
