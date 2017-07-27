@@ -28,7 +28,7 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
     
     // MARK: - Private properties
     
-    private let filterBarButtonItem: UIBarButtonItem
+    private let filterBarButtonItem: FilterBarButtonItem
     
     private var filteredAlertLevels: Set<Alert.Level> = Set(Alert.Level.allCases)
     
@@ -56,15 +56,12 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
     // MARK: - Initializers
     
     public override init() {
-        let bundle = Bundle(for: EntityAlertsViewController.self)
-        filterBarButtonItem = UIBarButtonItem(image: UIImage(named: "iconFormFilter", in: bundle, compatibleWith: nil), style: .plain, target: nil, action: nil)
+        filterBarButtonItem = FilterBarButtonItem(target: nil, action: nil)
         
         super.init()
         title = NSLocalizedString("Alerts", bundle: .mpolKit, comment: "")
         
-        let sidebarItem = self.sidebarItem
-        sidebarItem.image         = UIImage(named: "iconGeneralAlert",       in: .mpolKit, compatibleWith: nil)
-        sidebarItem.selectedImage = UIImage(named: "iconGeneralAlertFilled", in: .mpolKit, compatibleWith: nil)
+        sidebarItem.image = AssetManager.shared.image(forKey: .alert)
         
         filterBarButtonItem.target = self
         filterBarButtonItem.action = #selector(filterItemDidSelect(_:))
@@ -302,10 +299,6 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
             alerts.sort(by: sortingRule)
         }
         
-        let bundle = Bundle(for: EntityAlertsViewController.self)
-        let filterName = requiresFiltering ? "iconFormFilterFilled" : "iconFormFilter"
-        filterBarButtonItem.image = UIImage(named: filterName, in: bundle, compatibleWith: nil)
-        
         if alerts.isEmpty {
             self.sections = []
             return
@@ -325,6 +318,8 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
         }
         
         self.sections = sections
+        
+        filterBarButtonItem.isActive = requiresFiltering
     }
     
 }

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MPOLKit
 
 open class BailOrderDetailViewController: EventDetailViewController {
     
@@ -29,8 +30,8 @@ open class BailOrderDetailViewController: EventDetailViewController {
             return
         }
         
-        let locationImage = UIImage(named: "iconGeneralLocation", in: .mpolKit, compatibleWith: nil)
-        let calendarImage = UIImage(named: "iconFormCalendar", in: .mpolKit, compatibleWith: nil)
+        let locationImage = AssetManager.shared.image(forKey: .location)
+        let calendarImage = AssetManager.shared.image(forKey: .date)
         
         let header = EventDetailSection(title: NSLocalizedString("DESCRIPTION", bundle: .mpolKit, comment: "Section Title"), items: [
             EventDetailItem(style: .header, title: NSLocalizedString("Bail Order", bundle: .mpolKit, comment: "Detail Title"), detail: NSLocalizedString("Involvement #", bundle: .mpolKit, comment: "title") + bailOrder.id, preferredColumnCount: 1)
@@ -52,7 +53,7 @@ open class BailOrderDetailViewController: EventDetailViewController {
         // Informant Details
         let informant = EventDetailSection(title: NSLocalizedString("INFORMANT", bundle: .mpolKit, comment: "Section Title"), items: [
             EventDetailItem(title: NSLocalizedString("Informant Station", bundle: .mpolKit, comment: "Detail Title"), detail: bailOrder.informantStation, image: locationImage, preferredColumnCount: 2),
-            EventDetailItem(title: NSLocalizedString("Informant Member", bundle: .mpolKit, comment: "Detail Title"), detail: bailOrder.informantMember, image: UIImage(named: "iconEntityPerson", in: .mpolKit, compatibleWith: nil), preferredColumnCount: 2)
+            EventDetailItem(title: NSLocalizedString("Informant Member", bundle: .mpolKit, comment: "Detail Title"), detail: bailOrder.informantMember, image: AssetManager.shared.image(forKey: .entityPerson), preferredColumnCount: 2)
         ])
         
         // Posted Details

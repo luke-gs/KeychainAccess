@@ -22,13 +22,11 @@ open class EntityOccurrencesViewController: EntityDetailCollectionViewController
         super.init()
         title = NSLocalizedString("Involvements", comment: "")
         
-        let sidebarItem = self.sidebarItem
-        sidebarItem.image         = UIImage(named: "iconFormOccurrence",       in: .mpolKit, compatibleWith: nil)
-        sidebarItem.selectedImage = UIImage(named: "iconFormOccurrenceFilled", in: .mpolKit, compatibleWith: nil)
+        sidebarItem.image = AssetManager.shared.image(forKey: .list)
         
-        let filterIcon = UIBarButtonItem(image: UIImage(named: "iconFormFilter", in: .mpolKit, compatibleWith: nil), style: .plain, target: nil, action: nil)
-        filterIcon.isEnabled = false
-        navigationItem.rightBarButtonItem = filterIcon
+        let filterBarItem = FilterBarButtonItem(target: nil, action: nil)
+        filterBarItem.isEnabled = false
+        navigationItem.rightBarButtonItem = filterBarItem
     }
     
     public required init?(coder aDecoder: NSCoder) {
