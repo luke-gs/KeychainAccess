@@ -14,7 +14,7 @@ open class EntityOccurrencesViewController: EntityDetailCollectionViewController
     open override var entity: Entity? {
         didSet {
             updateNoContentSubtitle()
-            hasContent = false // temp
+            loadingManager.state = .noContent // Temp
         }
     }
     
@@ -39,14 +39,12 @@ open class EntityOccurrencesViewController: EntityDetailCollectionViewController
     open override func viewDidLoad() {
         super.viewDidLoad()
         
-        noContentTitleLabel?.text = NSLocalizedString("No Involvements Found", comment: "")
+        loadingManager.noContentView.titleLabel.text = NSLocalizedString("No Involvements Found", comment: "")
         updateNoContentSubtitle()
     }
     
     
     private func updateNoContentSubtitle() {
-        guard let label = noContentSubtitleLabel else { return }
-        
         let entityDisplayName: String
         if let entity = entity {
             entityDisplayName = type(of: entity).localizedDisplayName.localizedLowercase
@@ -54,7 +52,7 @@ open class EntityOccurrencesViewController: EntityDetailCollectionViewController
             entityDisplayName = NSLocalizedString("entity", bundle: .mpolKit, comment: "")
         }
         
-        label.text = String(format: NSLocalizedString("This %@ has no related involvements", bundle: .mpolKit, comment: ""), entityDisplayName)
+        loadingManager.noContentView.subtitleLabel.text = String(format: NSLocalizedString("This %@ has no related involvements", bundle: .mpolKit, comment: ""), entityDisplayName)
     }
     
 

@@ -29,7 +29,7 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
     
     private var actions: [Action] = [] {
         didSet {
-            hasContent = actions.isEmpty == false
+            loadingManager.state = actions.isEmpty ? .noContent : .loaded
             collectionView?.reloadData()
         }
     }
@@ -47,7 +47,7 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
         
         super.init()
         
-        hasContent = false
+        loadingManager.state = .noContent
         
         title = NSLocalizedString("Actions", comment: "")
         
@@ -68,7 +68,7 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
     open override func viewDidLoad() {
         super.viewDidLoad()
         
-        noContentTitleLabel?.text = NSLocalizedString("No Actions Found", bundle: .mpolKit, comment: "")
+        loadingManager.noContentView.titleLabel.text = NSLocalizedString("No Actions Found", bundle: .mpolKit, comment: "")
         updateNoContentSubtitle()
         
         guard let collectionView = self.collectionView else { return }
@@ -215,7 +215,7 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
     }
     
     private func updateNoContentSubtitle() {
-        guard let label = noContentSubtitleLabel else { return }
+        let label = loadingManager.noContentView.subtitleLabel
         
         if person?.actions?.isEmpty ?? true {
             let entityDisplayName: String
