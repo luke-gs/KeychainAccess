@@ -80,7 +80,6 @@
 		BC9C7E041F0DED6600DFFE83 /* UIColor+ActionColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D641F0DED6600DFFE83 /* UIColor+ActionColors.swift */; };
 		BC9C7E051F0DED6600DFFE83 /* UIEdgeInsets+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D651F0DED6600DFFE83 /* UIEdgeInsets+Convenience.swift */; };
 		BC9C7E061F0DED6600DFFE83 /* UIFont+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D661F0DED6600DFFE83 /* UIFont+Convenience.swift */; };
-		BC9C7E071F0DED6600DFFE83 /* UIImage+FormIcons.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D671F0DED6600DFFE83 /* UIImage+FormIcons.swift */; };
 		BC9C7E081F0DED6600DFFE83 /* UITableView+DefaultReuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D681F0DED6600DFFE83 /* UITableView+DefaultReuse.swift */; };
 		BC9C7E091F0DED6600DFFE83 /* UITableViewCell+LayoutMargins.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D691F0DED6600DFFE83 /* UITableViewCell+LayoutMargins.swift */; };
 		BC9C7E0A1F0DED6600DFFE83 /* UITraitCollection+CurrentDisplayScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D6A1F0DED6600DFFE83 /* UITraitCollection+CurrentDisplayScale.swift */; };
@@ -118,7 +117,6 @@
 		BC9C7E2A1F0DED6600DFFE83 /* DateFormatter+Static.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D921F0DED6600DFFE83 /* DateFormatter+Static.swift */; };
 		BC9C7E2B1F0DED6600DFFE83 /* String+EmptyFiltering.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D931F0DED6600DFFE83 /* String+EmptyFiltering.swift */; };
 		BC9C7E2C1F0DED6600DFFE83 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D941F0DED6600DFFE83 /* UIColor+Hex.swift */; };
-		BC9C7E2D1F0DED6600DFFE83 /* UIImage+EntityImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D951F0DED6600DFFE83 /* UIImage+EntityImages.swift */; };
 		BC9C7E2E1F0DED6600DFFE83 /* UIImage+Initials.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D961F0DED6600DFFE83 /* UIImage+Initials.swift */; };
 		BC9C7E2F1F0DED6600DFFE83 /* UIImage+RoundedRects.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D971F0DED6600DFFE83 /* UIImage+RoundedRects.swift */; };
 		BC9C7E301F0DED6600DFFE83 /* UIImage+StatusDot.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D981F0DED6600DFFE83 /* UIImage+StatusDot.swift */; };
@@ -268,7 +266,6 @@
 		BC9C7D641F0DED6600DFFE83 /* UIColor+ActionColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+ActionColors.swift"; sourceTree = "<group>"; };
 		BC9C7D651F0DED6600DFFE83 /* UIEdgeInsets+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIEdgeInsets+Convenience.swift"; sourceTree = "<group>"; };
 		BC9C7D661F0DED6600DFFE83 /* UIFont+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+Convenience.swift"; sourceTree = "<group>"; };
-		BC9C7D671F0DED6600DFFE83 /* UIImage+FormIcons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+FormIcons.swift"; sourceTree = "<group>"; };
 		BC9C7D681F0DED6600DFFE83 /* UITableView+DefaultReuse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+DefaultReuse.swift"; sourceTree = "<group>"; };
 		BC9C7D691F0DED6600DFFE83 /* UITableViewCell+LayoutMargins.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+LayoutMargins.swift"; sourceTree = "<group>"; };
 		BC9C7D6A1F0DED6600DFFE83 /* UITraitCollection+CurrentDisplayScale.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITraitCollection+CurrentDisplayScale.swift"; sourceTree = "<group>"; };
@@ -306,7 +303,6 @@
 		BC9C7D921F0DED6600DFFE83 /* DateFormatter+Static.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Static.swift"; sourceTree = "<group>"; };
 		BC9C7D931F0DED6600DFFE83 /* String+EmptyFiltering.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+EmptyFiltering.swift"; sourceTree = "<group>"; };
 		BC9C7D941F0DED6600DFFE83 /* UIColor+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
-		BC9C7D951F0DED6600DFFE83 /* UIImage+EntityImages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+EntityImages.swift"; sourceTree = "<group>"; };
 		BC9C7D961F0DED6600DFFE83 /* UIImage+Initials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Initials.swift"; sourceTree = "<group>"; };
 		BC9C7D971F0DED6600DFFE83 /* UIImage+RoundedRects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+RoundedRects.swift"; sourceTree = "<group>"; };
 		BC9C7D981F0DED6600DFFE83 /* UIImage+StatusDot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+StatusDot.swift"; sourceTree = "<group>"; };
@@ -609,7 +605,6 @@
 				BC9C7D641F0DED6600DFFE83 /* UIColor+ActionColors.swift */,
 				BC9C7D651F0DED6600DFFE83 /* UIEdgeInsets+Convenience.swift */,
 				BC9C7D661F0DED6600DFFE83 /* UIFont+Convenience.swift */,
-				BC9C7D671F0DED6600DFFE83 /* UIImage+FormIcons.swift */,
 				BC9C7D681F0DED6600DFFE83 /* UITableView+DefaultReuse.swift */,
 				BC9C7D691F0DED6600DFFE83 /* UITableViewCell+LayoutMargins.swift */,
 				BC9C7D6A1F0DED6600DFFE83 /* UITraitCollection+CurrentDisplayScale.swift */,
@@ -720,7 +715,6 @@
 				BC9C7D931F0DED6600DFFE83 /* String+EmptyFiltering.swift */,
 				BC9C7D941F0DED6600DFFE83 /* UIColor+Hex.swift */,
 				BC8A99601F22EBD700387AB6 /* UIColor+Brightness.swift */,
-				BC9C7D951F0DED6600DFFE83 /* UIImage+EntityImages.swift */,
 				BC9C7D961F0DED6600DFFE83 /* UIImage+Initials.swift */,
 				BC9C7D971F0DED6600DFFE83 /* UIImage+RoundedRects.swift */,
 				BC9C7D981F0DED6600DFFE83 /* UIImage+StatusDot.swift */,
@@ -1191,7 +1185,6 @@
 				BC9C7E3E1F0DED6600DFFE83 /* PopoverDatePickerViewController.swift in Sources */,
 				BC9C7E0C1F0DED6600DFFE83 /* FormDefines.swift in Sources */,
 				BC9C7E291F0DED6600DFFE83 /* Bundle+MPOLKit.swift in Sources */,
-				BC9C7E071F0DED6600DFFE83 /* UIImage+FormIcons.swift in Sources */,
 				BC9C7DD41F0DED6600DFFE83 /* ParametersComposer.swift in Sources */,
 				BC9C7E431F0DED6600DFFE83 /* SidebarItem.swift in Sources */,
 				BC9C7DD71F0DED6600DFFE83 /* URLQueryBuilder.swift in Sources */,
@@ -1264,7 +1257,6 @@
 				BC9C7E411F0DED6600DFFE83 /* PopoverViewController.swift in Sources */,
 				BC5C11EF1F2806890048CBBF /* NoContentView.swift in Sources */,
 				BC9C7E021F0DED6600DFFE83 /* NSLayoutConstraint+Conveniences.swift in Sources */,
-				BC9C7E2D1F0DED6600DFFE83 /* UIImage+EntityImages.swift in Sources */,
 				BC9C7DE91F0DED6600DFFE83 /* DataResponse+ConvenienceResultInit.swift in Sources */,
 				BC9C7E181F0DED6600DFFE83 /* FormTextView.swift in Sources */,
 				BC9C7E131F0DED6600DFFE83 /* TableViewFormSubtitleCell.swift in Sources */,
