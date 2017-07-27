@@ -121,10 +121,8 @@ extension AssetManager {
         public static let settings       = ImageKey("iconNavBarSettings")
         
         // System
-        public static let search         = ImageKey("iconTabSystemSearch")
         public static let add            = ImageKey("iconSystemAdd")
         public static let close          = ImageKey("iconSystemClose")
-        public static let checkmark      = ImageKey("iconSystemCheckmark")
         public static let edit           = ImageKey("iconSystemEdit")
         public static let info           = ImageKey("iconSystemInfo")
         public static let time           = ImageKey("iconSystemTime")
@@ -164,7 +162,7 @@ extension AssetManager {
         public static let checkboxSelected     = ImageKey("iconFormCheckboxSelected")
         public static let radioButton          = ImageKey("iconFormRadio")
         public static let radioButtonSelected  = ImageKey("iconFormRadioSelected")
-        public static let formCheckmark        = ImageKey("iconFormCheckmark")
+        public static let checkmark            = ImageKey("iconFormCheckmark")
         
         // Source bar
         public static let sourceBarDownload    = ImageKey("SourceBarDownload")
