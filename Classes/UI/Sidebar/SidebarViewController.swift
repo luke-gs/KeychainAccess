@@ -205,7 +205,7 @@ open class SidebarViewController: UIViewController, UITableViewDataSource, UITab
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        let contentInsets = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)
+        let contentInsets = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: max(bottomLayoutGuide.length, statusTabBarInset), right: 0.0)
         sourceInsetManager?.standardContentInset    = contentInsets
         sourceInsetManager?.standardIndicatorInset  = contentInsets
         sidebarInsetManager?.standardContentInset   = contentInsets
