@@ -10,8 +10,6 @@ import UIKit
 
 fileprivate var textContext = 1
 
-@available(*, deprecated, renamed: "CollectionViewFormHeaderView", message: "This typealias will be removed at a later date.")
-public typealias CollectionViewFormExpandingHeaderView = CollectionViewFormHeaderView
 
 public class CollectionViewFormHeaderView: UICollectionReusableView, DefaultReusable {
     
