@@ -30,16 +30,14 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
         super.init()
         title = "Associations"
         
-        let sidebarItem = self.sidebarItem
-        sidebarItem.image         = UIImage(named: "iconGeneralAssociation",       in: .mpolKit, compatibleWith: nil)
-        sidebarItem.selectedImage = UIImage(named: "iconGeneralAssociationFilled", in: .mpolKit, compatibleWith: nil)
+        sidebarItem.image = AssetManager.shared.image(forKey: .association)
         
         formLayout.itemLayoutMargins = UIEdgeInsets(top: 16.5, left: 8.0, bottom: 14.5, right: 8.0)
         formLayout.distribution = .none
         
-        let filterIcon = UIBarButtonItem(image: UIImage(named: "iconFormFilter", in: .mpolKit, compatibleWith: nil), style: .plain, target: nil, action: nil)
-        filterIcon.isEnabled = false
-        navigationItem.rightBarButtonItem = filterIcon
+        let filterBarItem = FilterBarButtonItem(target: nil, action: nil)
+        filterBarItem.isEnabled = false
+        navigationItem.rightBarButtonItem = filterBarItem
     }
     
     public required init?(coder aDecoder: NSCoder) {

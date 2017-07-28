@@ -73,9 +73,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
         super.init()
         title = NSLocalizedString("Information", bundle: .mpolKit, comment: "")
         
-        let sidebarItem = self.sidebarItem
-        sidebarItem.image         = UIImage(named: "iconGeneralInfo",       in: .mpolKit, compatibleWith: nil)
-        sidebarItem.selectedImage = UIImage(named: "iconGeneralInfoFilled", in: .mpolKit, compatibleWith: nil)
+        sidebarItem.image = AssetManager.shared.image(forKey: .info)
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -199,7 +197,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
             }
             
             value = item.formatted()
-            image = UIImage(named: "iconGeneralLocation", in: .mpolKit, compatibleWith: nil)
+            image = AssetManager.shared.image(forKey: .location)
         case .contact:
             let item = section.items![indexPath.item] as! ContactDetailItem
             title = item.localizedTitle
@@ -319,7 +317,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
             }
             
             value = item.formatted()
-            image = UIImage(named: "iconGeneralLocation", in: .mpolKit, compatibleWith: nil)
+            image = AssetManager.shared.image(forKey: .location)
             wantsSingleLineValue = false
         case .contact:
             let item = section.items![indexPath.item] as! ContactDetailItem
@@ -473,7 +471,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
         var image: UIImage? {
             switch self {
             case .email(_): return UIImage(named: "iconFormEmail", in: .mpolKit, compatibleWith: nil)
-            case .phone(_): return UIImage(named: "iconFormPhone", in: .mpolKit, compatibleWith: nil)
+            case .phone(_): return AssetManager.shared.image(forKey: .audioCall)
             }
         }
     }
