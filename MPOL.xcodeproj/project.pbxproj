@@ -18,7 +18,6 @@
 		BC45C4471EEB56D2001F5747 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */; };
 		BC4E81111EBEE38400188181 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4E81101EBEE38400188181 /* SettingsViewController.swift */; };
 		BC53108F1EA844C100E7DBE4 /* SearchEntityListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC53108E1EA844C100E7DBE4 /* SearchEntityListCell.swift */; };
-		BC5310911EA844FE00E7DBE4 /* SearchNavigationField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5310901EA844FE00E7DBE4 /* SearchNavigationField.swift */; };
 		BC8B26F31EDC07430022B0AD /* ActionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8B26F21EDC07430022B0AD /* ActionListViewController.swift */; };
 		BC8B26F61EDC08460022B0AD /* EventsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8B26F51EDC08460022B0AD /* EventsListViewController.swift */; };
 		BC9E485D1E9D9D2800767337 /* SearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9E485C1E9D9D2800767337 /* SearchRequest.swift */; };
@@ -66,7 +65,6 @@
 		BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
 		BC4E81101EBEE38400188181 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		BC53108E1EA844C100E7DBE4 /* SearchEntityListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchEntityListCell.swift; sourceTree = "<group>"; };
-		BC5310901EA844FE00E7DBE4 /* SearchNavigationField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchNavigationField.swift; sourceTree = "<group>"; };
 		BC8B26F21EDC07430022B0AD /* ActionListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionListViewController.swift; sourceTree = "<group>"; };
 		BC8B26F51EDC08460022B0AD /* EventsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsListViewController.swift; sourceTree = "<group>"; };
 		BC9E485C1E9D9D2800767337 /* SearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRequest.swift; sourceTree = "<group>"; };
@@ -183,7 +181,6 @@
 			children = (
 				BC53108E1EA844C100E7DBE4 /* SearchEntityListCell.swift */,
 				BC9E48691E9DE14D00767337 /* SearchFieldCollectionViewCell.swift */,
-				BC5310901EA844FE00E7DBE4 /* SearchNavigationField.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -373,7 +370,6 @@
 				BCF31ACC1F0F42F000207D82 /* VehicleSearchDataSource.swift in Sources */,
 				BC4E81111EBEE38400188181 /* SettingsViewController.swift in Sources */,
 				BC9E485D1E9D9D2800767337 /* SearchRequest.swift in Sources */,
-				BC5310911EA844FE00E7DBE4 /* SearchNavigationField.swift in Sources */,
 				BC0D8E8F1E94067800EDFC45 /* SearchViewController.swift in Sources */,
 				BCC5E94C1E9F155E00A9635E /* SearchDataSource.swift in Sources */,
 				BC0D8E8E1E94067800EDFC45 /* SearchResultsMapViewController.swift in Sources */,

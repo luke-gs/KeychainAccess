@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MPOLKit
 
 class InterventionOrderDetailViewController: EventDetailViewController {
     
@@ -29,8 +30,8 @@ class InterventionOrderDetailViewController: EventDetailViewController {
             return
         }
         
-        let locationImage = UIImage(named: "iconGeneralLocation", in: .mpolKit, compatibleWith: nil)
-        let calendarImage = UIImage(named: "iconFormCalendar", in: .mpolKit, compatibleWith: nil)
+        let locationImage = AssetManager.shared.image(forKey: .location)
+        let calendarImage = AssetManager.shared.image(forKey: .date)
         
         let header = EventDetailSection(title: NSLocalizedString("DESCRIPTION", bundle: .mpolKit, comment: "Section Title"), items: [
             EventDetailItem(style: .header, title: NSLocalizedString("Intervention Order", bundle: .mpolKit, comment: "Detail Title"), detail: NSLocalizedString("Involvement #", bundle: .mpolKit, comment: "title") + interventionOrder.id, preferredColumnCount: 1)

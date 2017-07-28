@@ -138,7 +138,7 @@ class SearchRecentsViewController: FormCollectionViewController {
         noContentScrollView.addSubview(scrollContentView)
         
         let noContentImageView = UIImageView(image: #imageLiteral(resourceName: "RefreshMagnify"))
-        noContentImageView.tintColor = #colorLiteral(red: 0.6044161711, green: 0.6313971979, blue: 0.6581829122, alpha: 0.6420554578)
+        noContentImageView.tintColor = #colorLiteral(red: 0.4462051392, green: 0.5117796659, blue: 0.5576620698, alpha: 0.4)
         
         noContentLabel.text = NSLocalizedString("You don't have any recently viewed entities or recent searches right now.", comment: "")
         noContentLabel.font = .preferredFont(forTextStyle: .headline)
@@ -221,10 +221,6 @@ class SearchRecentsViewController: FormCollectionViewController {
     }
     
     open override func viewDidLayoutSubviews() {
-        guard let scrollView = self.collectionView, let insetManager = self.collectionViewInsetManager else { return }
-        
-        var contentOffset = scrollView.contentOffset
-        
         var insets = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)
         if isShowingNavBarExtension {
             let extensionHeight = compactNavBarExtension?.frame.height ?? 0.0
@@ -234,25 +230,12 @@ class SearchRecentsViewController: FormCollectionViewController {
             visibleAreaTopLayoutConstraint?.constant = 0.0
         }
         
-        // TODO: handle status tab bar inset when that PR is accepted.
-        
-        let oldContentInset = insetManager.standardContentInset
-        insetManager.standardContentInset   = insets
-        insetManager.standardIndicatorInset = insets
+        loadingManager.contentInsets = insets
+        collectionViewInsetManager?.standardContentInset = insets
+        collectionViewInsetManager?.standardIndicatorInset = insets
         
         noContentScrollViewInsetManager?.standardContentInset   = insets
         noContentScrollViewInsetManager?.standardIndicatorInset = insets
-        
-        // If the scroll view currently doesn't have any user interaction, adjust its content
-        // to keep the content onscreen.
-        if scrollView.isTracking || scrollView.isDecelerating { return }
-        
-        contentOffset.y -= (insets.top - oldContentInset.top)
-        if contentOffset.y < insets.top * -1.0 {
-            contentOffset.y = insets.top * -1.0
-        }
-        
-        scrollView.contentOffset = contentOffset
     }
     
     
@@ -445,11 +428,11 @@ class SearchRecentsViewController: FormCollectionViewController {
     private func summaryIcon(for searchRequest: SearchRequest) -> UIImage? {
         switch searchRequest {
         case _ as PersonSearchRequest:
-            return .personOutline
+            return AssetManager.shared.image(forKey: .entityPerson)
         case _ as VehicleSearchRequest:
-            return .carOutline
+            return AssetManager.shared.image(forKey: .entityCar)
         case _ as OrganizationSearchRequest:
-            return .buildingOutline
+            return AssetManager.shared.image(forKey: .entityBuilding)
         default:
             return nil
         }

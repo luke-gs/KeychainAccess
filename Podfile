@@ -16,6 +16,10 @@ end
 target 'ClientKit' do
     project 'ClientKit/ClientKit.xcodeproj'
     mpol_kit
+    
+    target 'ClientKitTests' do
+        inherit! :search_paths
+    end
 end
 
 target 'MPOL' do

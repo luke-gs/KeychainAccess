@@ -467,13 +467,6 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
             prompt = nil
         } else if isShowingResults {
             let resultsNavItem = currentResultsViewController?.navigationItem
-            
-            if let searchNavigationField = resultsNavItem?.titleView as? SearchNavigationField {
-                let screenSize = UIScreen.main.bounds
-                let maxDimension = max(screenSize.width, screenSize.height)
-                searchNavigationField.frame.size.width = maxDimension
-            }
-            
             titleView = resultsNavItem?.titleView
             title = resultsNavItem?.title
             prompt = resultsNavItem?.prompt

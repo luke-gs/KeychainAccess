@@ -135,7 +135,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         } else {
             
             func settingsBarButtonItem() -> UIBarButtonItem {
-                let settingsItem = UIBarButtonItem(image: #imageLiteral(resourceName: "iconOtherSettings"), style: .plain, target: self, action: #selector(settingsButtonItemDidSelect(_:)))
+                let settingsItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .settings), style: .plain, target: self, action: #selector(settingsButtonItemDidSelect(_:)))
                 settingsItem.accessibilityLabel = NSLocalizedString("Settings", comment: "SettingsIconAccessibility")
                 return settingsItem
             }
@@ -153,8 +153,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             
             let tasksProxyViewController = UIViewController()
             tasksProxyViewController.tabBarItem.title = NSLocalizedString("Tasks", comment: "Tab Bar Item title")
-            tasksProxyViewController.tabBarItem.image = #imageLiteral(resourceName: "iconOtherTask")
-            tasksProxyViewController.tabBarItem.selectedImage = #imageLiteral(resourceName: "iconOtherTaskFilled")
+            tasksProxyViewController.tabBarItem.image = AssetManager.shared.image(forKey: .tabBarTasks)
             tasksProxyViewController.tabBarItem.isEnabled = false
             
             let tabBarController = UITabBarController()
