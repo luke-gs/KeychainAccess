@@ -11,11 +11,11 @@ import MPOLKit
 
 class EventsListViewController: FormCollectionViewController {
     
-    private static let formIcon = #imageLiteral(resourceName: "iconFormOccurrence")
+    private static let eventIcon = AssetManager.shared.image(forKey: .event)
     
     override init() {
         super.init()
-        title = NSLocalizedString("Involvements", comment: "Title")
+        title = NSLocalizedString("Events", comment: "Title")
         
         tabBarItem.image = AssetManager.shared.image(forKey: .tabBarEvents)
         //tabBarItem.isEnabled = false
@@ -48,7 +48,7 @@ class EventsListViewController: FormCollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 50
+        return 2
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -79,7 +79,7 @@ class EventsListViewController: FormCollectionViewController {
         let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
         cell.titleLabel.text = "Street Check"
         cell.subtitleLabel.text = "4-12 Langridge St, Collingwood VIC 3066"
-        cell.imageView.image = EventsListViewController.formIcon
+        cell.imageView.image = EventsListViewController.eventIcon
         
         let isCompact = traitCollection.horizontalSizeClass == .compact
         
@@ -131,7 +131,7 @@ class EventsListViewController: FormCollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
-        return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: "Street Check", subtitle: "4-12 Langridge St, Collingwood VIC 3066", inWidth: itemWidth, compatibleWith: traitCollection, imageSize: EventsListViewController.formIcon.size, accessoryViewSize: FormDisclosureView.standardSize)
+        return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: "Street Check", subtitle: "4-12 Langridge St, Collingwood VIC 3066", inWidth: itemWidth, compatibleWith: traitCollection, imageSize: EventsListViewController.eventIcon?.size ?? .zero, accessoryViewSize: FormDisclosureView.standardSize)
     }
     
     
