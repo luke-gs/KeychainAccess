@@ -22,6 +22,17 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
     open let textField = FormTextField(frame: .zero)
     
     
+    /// The vertical separation between the label and the text field.
+    ///
+    /// The default is the default MPOL Title-Subtitle separation.
+    open var labelSeparation: CGFloat = CellTitleSubtitleSeparation {
+        didSet {
+            if labelSeparation !=~ oldValue {
+                setNeedsLayout()
+            }
+        }
+    }
+    
     /// The selection state of the cell.
     open override var isSelected: Bool {
         didSet { if isSelected && oldValue == false && textField.isEnabled { _ = textField.becomeFirstResponder() } }
@@ -93,13 +104,16 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
         
         // Get content sizes
         
-        let interItemSpace = CellTitleSubtitleSeparation.ceiled(toScale: displayScale)
         
         let labelSize = titleLabel.sizeThatFits(CGSize(width: contentRect.width, height: .greatestFiniteMagnitude))
+        
+        let interItemSpace = labelSize.isEmpty ? 0.0 : labelSeparation.ceiled(toScale: displayScale)
+        
         var textFieldSize = CGSize(width: contentRect.width, height: textField.intrinsicContentSize.height)
         if textFieldSize.height == UIViewNoIntrinsicMetric {
-            textFieldSize.height = textField.font?.lineHeight ?? 18.0 + 8.0
+            textFieldSize.height = textField.font?.lineHeight.ceiled(toScale: displayScale) ?? 18.0 + 8.0
         }
+        
         let contentHeight = max(labelSize.height + textFieldSize.height + interItemSpace, accessorySize.height)
         
         // Get content positions
@@ -240,17 +254,21 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
     ///   - value:             The value details for sizing.
     ///   - width:             The content width for the cell.
     ///   - traitCollection:   The trait collection to calculate for.
+    ///   - labelSeparation:   The separation between the label and the text field. The default is the standard separation.
     ///   - imageSize:         The size for the image, to present, or `.zero`. The default is `.zero`.
     ///   - accessoryViewSize: The size for the accessory view, or `.zero`. The default is `.zero`.
     /// - Returns: The minumum content height for the cell.
     open class func minimumContentHeight(withTitle title: StringSizable?, enteredText: StringSizable?, placeholder: StringSizable? = nil,
-                                         inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection, accessoryViewSize: CGSize = .zero) -> CGFloat {
-        var titleSizing = title?.sizing() ?? StringSizing(string: "")
-        if titleSizing.font == nil {
-            titleSizing.font = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
-        }
-        if titleSizing.numberOfLines == nil {
-            titleSizing.numberOfLines = 1
+                                         inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection,
+                                         labelSeparation: CGFloat = CellTitleSubtitleSeparation, accessoryViewSize: CGSize = .zero) -> CGFloat {
+        var titleSizing = title?.sizing()
+        if titleSizing != nil {
+            if titleSizing!.font == nil {
+                titleSizing!.font = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
+            }
+            if titleSizing!.numberOfLines == nil {
+                titleSizing!.numberOfLines = 1
+            }
         }
         
         var enteredTextSizing = enteredText?.sizing() ?? StringSizing(string: "")
@@ -269,11 +287,12 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
         
         let availableWidth = width - (isAccesssoryEmpty ? 0.0 : accessoryViewSize.width + CollectionViewFormCell.accessoryContentInset)
         
-        let titleHeight = titleSizing.minimumHeight(inWidth: availableWidth, allowingZeroHeight: false, compatibleWith: traitCollection)
+        let titleHeight = titleSizing?.minimumHeight(inWidth: availableWidth, compatibleWith: traitCollection) ?? 0.0
         let textHeight = enteredTextSizing.minimumHeight(inWidth: availableWidth, allowingZeroHeight: false, compatibleWith: traitCollection)
         let placeholderHeight = placeholderSizing.minimumHeight(inWidth: availableWidth, allowingZeroHeight: false, compatibleWith: traitCollection)
+        let separator = titleHeight >~ 0.0 ? labelSeparation.ceiled(toScale: traitCollection.currentDisplayScale) : 0.0
         
-        return max(titleHeight + max(textHeight, placeholderHeight) + CellTitleSubtitleSeparation.ceiled(toScale: traitCollection.currentDisplayScale), accessoryViewSize.height)
+        return max(titleHeight + max(textHeight, placeholderHeight) + separator, accessoryViewSize.height)
     }
     
 }

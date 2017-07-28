@@ -14,13 +14,15 @@ class HeadersBasicFormCellsController: FormCollectionViewController {
     enum Section: Int {
         case subtitle
         case valueField
+        case textField
         
-        static let count: Int = 2
+        static let count: Int = 3
         
         var numberOfCells: Int {
             switch self {
             case .subtitle:   return 1
             case .valueField: return 2
+            case .textField:  return 2
             }
         }
         
@@ -28,6 +30,7 @@ class HeadersBasicFormCellsController: FormCollectionViewController {
             switch self {
             case .subtitle:   return "CollectionViewFormSubtitleCell"
             case .valueField: return "CollectionViewFormValueFieldCell"
+            case .textField:  return "CollectionViewFormTextFieldCell"
             }
         }
     }
@@ -47,6 +50,7 @@ class HeadersBasicFormCellsController: FormCollectionViewController {
         
         collectionView?.register(CollectionViewFormSubtitleCell.self)
         collectionView?.register(CollectionViewFormValueFieldCell.self)
+        collectionView?.register(CollectionViewFormTextFieldCell.self)
         collectionView?.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
     }
     
@@ -105,6 +109,20 @@ class HeadersBasicFormCellsController: FormCollectionViewController {
             cell.editActions = [CollectionViewFormEditAction(title: "DELETE", color: .destructive, handler: nil)]
             
             return cell
+            
+        case .textField:
+            let cell = collectionView.dequeueReusableCell(of: CollectionViewFormTextFieldCell.self, for: indexPath)
+            
+            cell.titleLabel.text = "Title"
+            cell.textField.placeholder = "Placeholder"
+            
+            if indexPath.item % 2 == 0 {
+                cell.textField.text = nil
+            } else {
+                cell.textField.text = nil
+            }
+            
+            return cell
         }
     }
     
@@ -120,7 +138,9 @@ class HeadersBasicFormCellsController: FormCollectionViewController {
         case .subtitle:
             return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: "Title", subtitle: "Subtitle", inWidth: itemWidth, compatibleWith: traitCollection)
         case .valueField:
-            return CollectionViewFormValueFieldCell.minimumContentHeight(withTitle: "Title", value: "Value", inWidth: itemWidth, compatibleWith: traitCollection)
+            return CollectionViewFormValueFieldCell.minimumContentHeight(withTitle: "Title", value: indexPath.item % 2 == 0 ? "Value" : nil, placeholder: "Placeholder", inWidth: itemWidth, compatibleWith: traitCollection)
+        case .textField:
+            return CollectionViewFormTextFieldCell.minimumContentHeight(withTitle: "Title", enteredText: indexPath.item % 2 == 0 ? "Value" : nil, placeholder: "Placeholder", inWidth: itemWidth, compatibleWith: traitCollection)
         }
     }
     

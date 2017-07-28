@@ -10,7 +10,33 @@ import UIKit
 
 fileprivate var kvoContext = 1
 
+
+/// A value field cell within an MPOL Collection View.
+///
+/// Value fields represent items within a form like a text field, but
+/// only present their data and allow interaction via popups and other
+/// non-text based content input.
+///
+/// Though they look visually similar to subtitle cells, there are key
+/// differences from subtitle cells.
+/// 
+/// From a content perspective, value field cells contain another label
+/// behind their value for a placeholder. This label is baseline aligned
+/// with the value label.
+///
+/// Value field cells also behave differently when their content updates.
+/// When no value has been set, the value label does not collapse to move
+/// the title label into the center. This allows the placeholder to stay
+/// in place, and to sit beside other similar cells, like text field cells.
+/// When the title label has no set text, however, the title label does
+/// hide and the value label does center. This gives consistency with the
+/// text field cell's behaviour, but it is recommended you should generally
+/// always use titles with these cells.
+///
+/// If you want always-collapsing labels, it is recommended you use
+/// subtitle cells.
 open class CollectionViewFormValueFieldCell: CollectionViewFormCell {
+    
     
     // MARK: - Public properties
     
@@ -174,16 +200,17 @@ open class CollectionViewFormValueFieldCell: CollectionViewFormCell {
         
         let maxContentSize = CGSize(width: contentRect.width, height: .greatestFiniteMagnitude)
         
-        var titleSize = titleLabel.sizeThatFits(maxContentSize).constrained(to: maxContentSize)
+        let titleSize = titleLabel.sizeThatFits(maxContentSize).constrained(to: maxContentSize)
         var valueSize = valueLabel.sizeThatFits(maxContentSize).constrained(to: maxContentSize)
         var placeholderSize = placeholderLabel.sizeThatFits(maxContentSize).constrained(to: maxContentSize)
         
         let valueFont = valueLabel.font!
         let placeholderFont = placeholderLabel.font!
         
-        titleSize.height = max(titleSize.height, titleLabel.font.lineHeight.ceiled(toScale: displayScale))
         valueSize.height = max(valueSize.height, valueFont.lineHeight.ceiled(toScale: displayScale))
         placeholderSize.height = max(placeholderSize.height, placeholderFont.lineHeight.ceiled(toScale: displayScale))
+        let labelSeparation = titleSize.isEmpty ? 0.0 : self.labelSeparation.ceiled(toScale: displayScale)
+        
         
         // Work out major content positions
         let heightForLabelContent = titleSize.height + valueSize.height + labelSeparation
@@ -256,36 +283,53 @@ open class CollectionViewFormValueFieldCell: CollectionViewFormCell {
     /// - Parameters:
     ///   - title:             The title details for sizing.
     ///   - value:             The value details for sizing.
+    ///   - placeholder:       The placeholder details for sizing.
     ///   - traitCollection:   The trait collection to calculate for.
     ///   - imageSize:         The size for the image, to present, or `.zero`. The default is `.zero`.
     ///   - imageSeparation:   The image/label horizontal separation. The default is the standard separation.
     ///   - accessoryViewSize: The size for the accessory view, or `.zero`. The default is `.zero`.
     /// - Returns: The minumum content width for the cell.
-    open class func minimumContentWidth(withTitle title: StringSizable?, value: StringSizable?, compatibleWith traitCollection: UITraitCollection,
-                                        imageSize: CGSize = .zero, imageSeparation: CGFloat = CellImageLabelSeparation, accessoryViewSize: CGSize = .zero) -> CGFloat {
-        var titleSizing = title?.sizing() ?? StringSizing(string: "")
-        if titleSizing.font == nil {
-            titleSizing.font = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
-        }
-        if titleSizing.numberOfLines == nil {
-            titleSizing.numberOfLines = 1
-        }
-        
-        var valueSizing = value?.sizing() ?? StringSizing(string: "")
-        if valueSizing.font == nil {
-            valueSizing.font = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
-        }
-        if valueSizing.numberOfLines == nil {
-            valueSizing.numberOfLines = 1
+    open class func minimumContentWidth(withTitle title: StringSizable?, value: StringSizable?, placeholder: StringSizable? = nil,
+                                        compatibleWith traitCollection: UITraitCollection, imageSize: CGSize = .zero,
+                                        imageSeparation: CGFloat = CellImageLabelSeparation, accessoryViewSize: CGSize = .zero) -> CGFloat {
+        var titleSizing = title?.sizing()
+        if titleSizing != nil {
+            if titleSizing!.font == nil {
+                titleSizing!.font = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
+            }
+            if titleSizing!.numberOfLines == nil {
+                titleSizing!.numberOfLines = 1
+            }
         }
         
-        let titleWidth = titleSizing.minimumWidth(compatibleWith: traitCollection)
-        let valueWidth = valueSizing.minimumWidth(compatibleWith: traitCollection)
+        var valueSizing = value?.sizing()
+        if valueSizing != nil {
+            if valueSizing!.font == nil {
+                valueSizing!.font = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+            }
+            if valueSizing!.numberOfLines == nil {
+                valueSizing!.numberOfLines = 1
+            }
+        }
+        
+        var placeholderSizing = placeholder?.sizing()
+        if placeholderSizing != nil {
+            if placeholderSizing!.font == nil {
+                placeholderSizing!.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
+            }
+            if placeholderSizing!.numberOfLines == nil {
+                placeholderSizing!.numberOfLines = 1
+            }
+        }
+        
+        let titleWidth = titleSizing?.minimumWidth(compatibleWith: traitCollection) ?? 0.0
+        let valueWidth = valueSizing?.minimumWidth(compatibleWith: traitCollection) ?? 0.0
+        let placeholderWidth = placeholderSizing?.minimumWidth(compatibleWith: traitCollection) ?? 0.0
         
         let imageSpace = imageSize.isEmpty ? 0.0 : imageSize.width + imageSeparation
         let accessorySpace = accessoryViewSize.isEmpty ? 0.0 : accessoryViewSize.width + CollectionViewFormCell.accessoryContentInset
         
-        return max(titleWidth, valueWidth) + imageSpace + accessorySpace
+        return max(titleWidth, valueWidth, placeholderWidth) + imageSpace + accessorySpace
     }
     
     
@@ -294,6 +338,7 @@ open class CollectionViewFormValueFieldCell: CollectionViewFormCell {
     /// - Parameters:
     ///   - title:             The title details for sizing.
     ///   - value:             The value details for sizing.
+    ///   - placeholder:       The placeholder details for sizing.
     ///   - width:             The content width for the cell.
     ///   - traitCollection:   The trait collection to calculate for.
     ///   - imageSize:         The size for the image, to present, or `.zero`. The default is `.zero`.
@@ -301,16 +346,18 @@ open class CollectionViewFormValueFieldCell: CollectionViewFormCell {
     ///   - labelSeparation:   The label vertical separation. The default is the standard separation.
     ///   - accessoryViewSize: The size for the accessory view, or `.zero`. The default is `.zero`.
     /// - Returns: The minumum content height for the cell.
-    open class func minimumContentHeight(withTitle title: StringSizable?, value: StringSizable?, inWidth width: CGFloat,
-                                         compatibleWith traitCollection: UITraitCollection, imageSize: CGSize = .zero,
+    open class func minimumContentHeight(withTitle title: StringSizable?, value: StringSizable?, placeholder: StringSizable? = nil,
+                                         inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection, imageSize: CGSize = .zero,
                                          imageSeparation: CGFloat = CellImageLabelSeparation, labelSeparation: CGFloat = CellTitleSubtitleSeparation,
                                          accessoryViewSize: CGSize = .zero) -> CGFloat {
-        var titleSizing = title?.sizing() ?? StringSizing(string: "")
-        if titleSizing.font == nil {
-            titleSizing.font = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
-        }
-        if titleSizing.numberOfLines == nil {
-            titleSizing.numberOfLines = 1
+        var titleSizing = title?.sizing()
+        if titleSizing != nil {
+            if titleSizing!.font == nil {
+                titleSizing!.font = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
+            }
+            if titleSizing!.numberOfLines == nil {
+                titleSizing!.numberOfLines = 1
+            }
         }
         
         var valueSizing = value?.sizing() ?? StringSizing(string: "")
@@ -319,6 +366,16 @@ open class CollectionViewFormValueFieldCell: CollectionViewFormCell {
         }
         if valueSizing.numberOfLines == nil {
             valueSizing.numberOfLines = 1
+        }
+        
+        var placeholderSizing = placeholder?.sizing()
+        if placeholderSizing != nil {
+            if placeholderSizing!.font == nil {
+                placeholderSizing!.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
+            }
+            if placeholderSizing!.numberOfLines == nil {
+                placeholderSizing!.numberOfLines = 1
+            }
         }
         
         let isImageEmpty = imageSize.isEmpty
@@ -328,10 +385,12 @@ open class CollectionViewFormValueFieldCell: CollectionViewFormCell {
         
         let availableWidth = width - imageWidth - (isAccesssoryEmpty ? 0.0 : accessoryViewSize.width + CollectionViewFormCell.accessoryContentInset)
         
-        let titleHeight = titleSizing.minimumHeight(inWidth: availableWidth, allowingZeroHeight: false, compatibleWith: traitCollection)
+        let titleHeight = titleSizing?.minimumHeight(inWidth: availableWidth, compatibleWith: traitCollection) ?? 0.0
         let valueHeight = valueSizing.minimumHeight(inWidth: availableWidth, allowingZeroHeight: false, compatibleWith: traitCollection)
+        let placeholderHeight = placeholderSizing?.minimumHeight(inWidth: availableWidth, compatibleWith: traitCollection) ?? 0.0
+        let separation = titleHeight >~ 0.0 ? labelSeparation : 0.0
         
-        let combinedHeight = (titleHeight + valueHeight + labelSeparation).ceiled(toScale: traitCollection.currentDisplayScale)
+        let combinedHeight = (titleHeight + max(valueHeight, placeholderHeight) + separation).ceiled(toScale: traitCollection.currentDisplayScale)
         
         return max(combinedHeight, (isImageEmpty ? 0.0 : imageSize.height), (isAccesssoryEmpty ? 0.0 : accessoryViewSize.height))
     }
