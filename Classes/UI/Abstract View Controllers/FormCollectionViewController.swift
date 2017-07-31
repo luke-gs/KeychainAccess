@@ -74,23 +74,23 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
         }
     }
     
-    @NSCopying open var tintColor:            UIColor?
+    @NSCopying open private(set) var tintColor:            UIColor?
     
-    @NSCopying open var backgroundColor:      UIColor?
+    @NSCopying open private(set) var backgroundColor:      UIColor?
     
-    @NSCopying open var selectionColor:       UIColor?
+    @NSCopying open private(set) var selectionColor:       UIColor?
     
-    @NSCopying open var sectionTitleColor:    UIColor?
+    @NSCopying open private(set) var sectionTitleColor:    UIColor?
     
-    @NSCopying open var primaryTextColor:     UIColor?
+    @NSCopying open private(set) var primaryTextColor:     UIColor?
     
-    @NSCopying open var secondaryTextColor:   UIColor?
+    @NSCopying open private(set) var secondaryTextColor:   UIColor?
     
-    @NSCopying open var placeholderTextColor: UIColor?
+    @NSCopying open private(set) var placeholderTextColor: UIColor?
     
-    @NSCopying open var separatorColor:       UIColor?
+    @NSCopying open private(set) var separatorColor:       UIColor?
     
-    @NSCopying open var validationErrorColor: UIColor?
+    @NSCopying open private(set) var validationErrorColor: UIColor?
     
     
     // MARK: - Initializers
