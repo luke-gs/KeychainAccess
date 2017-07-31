@@ -451,6 +451,9 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
             
             NSLayoutConstraint(item: loginButton, attribute: .width,  relatedBy: .greaterThanOrEqual, toConstant: 160.0),
             NSLayoutConstraint(item: loginButton, attribute: .height, relatedBy: .greaterThanOrEqual, toConstant: 48.0),
+            
+            loginStackView.leadingAnchor.constraint(greaterThanOrEqualTo: view.readableContentGuide.leadingAnchor),
+            loginStackView.trailingAnchor.constraint(lessThanOrEqualTo: view.readableContentGuide.trailingAnchor),
         ]
         
         constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[ul]-4-[uf]-11-[us]-18-[pl]-4-[pf]-11-[ps(==us)]->=0-[fpb]|", options: [.alignAllLeading, .alignAllTrailing], metrics: nil, views: ["ul": usernameLabel, "uf": usernameField, "us": usernameSeparator, "pl": passwordLabel, "pf": passwordField, "ps": passwordSeparator, "fpb": forgotPasswordButton])
@@ -475,8 +478,6 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     open override func viewWillLayoutSubviews() {
-        termsAndConditionsLabel.preferredMaxLayoutWidth = view.bounds.width - 20.0
-        
         let topLayoutInset    = topLayoutGuide.length
         let bottomLayoutInset = max(bottomLayoutGuide.length, statusTabBarInset, keyboardInset, 20.0)
         
