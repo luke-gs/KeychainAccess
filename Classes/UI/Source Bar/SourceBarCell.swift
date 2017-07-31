@@ -91,7 +91,12 @@ internal class SourceBarCell: UIControl {
             titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor),
         ]
         
-        NSLayoutConstraint.activate(verticalContraints)
+        switch axis {
+        case .vertical:
+            NSLayoutConstraint.activate(verticalContraints)
+        case .horizontal:
+            NSLayoutConstraint.activate(horizontalConstraints)
+        }
         
         updateSelection()
     }
