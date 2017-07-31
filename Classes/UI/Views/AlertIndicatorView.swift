@@ -174,29 +174,33 @@ private class AlertIndicatorIconView: UIView {
         
         let color: UIColor = self.tintColor ?? .gray
         
-        context.setLineWidth(1.0)
+        context.setLineWidth(1.5)
         color.set()
         
         let bounds = self.bounds
         let center = CGPoint(x: bounds.midX, y: bounds.midY)
         
         let textAttributes: [String: Any]
+        let textYOffset: CGFloat
         if isHighlighted {
-            context.fillEllipse(in: CGRect(x: center.x - 11.5, y: center.y - 11.5, width: 23.0, height: 23.0))
+            context.fillEllipse(in: CGRect(x: center.x - 10.0, y: center.y - 10.0, width: 20.0, height: 20.0))
             
-            color.withAlphaComponent(0.5).setStroke()
-            context.strokeEllipse(in: CGRect(x: center.x - 14.5, y: center.y - 14.5, width: 29.0, height: 29.0))
+            color.withAlphaComponent(0.4).setStroke()
             
-            textAttributes = [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 13.0), NSForegroundColorAttributeName: UIColor.white]
+             context.strokeEllipse(in: CGRect(x: center.x - 14.0, y: center.y - 14.0, width: 28.0, height: 28.0))
+            
+            textAttributes = [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 13), NSForegroundColorAttributeName: UIColor.white]
+            textYOffset = 0
         } else {
-            context.strokeEllipse(in: CGRect(x: center.x - 9.5, y: center.y - 9.5, width: 19.0, height: 19.0))
-            textAttributes = [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 11.5), NSForegroundColorAttributeName: color]
+            context.strokeEllipse(in: CGRect(x: center.x - 9, y: center.y - 9, width: 18.0, height: 18.0))
+            textAttributes = [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 10), NSForegroundColorAttributeName: color]
+            textYOffset = 0.5
         }
         
         guard let string = text as NSString? else { return }
         
         let textSize = string.boundingRect(with: .max, attributes: textAttributes, context: nil).size
-        let textRect =  CGRect(origin: CGPoint(x: center.x - textSize.width / 2.0, y: center.y - 0.5 - (textSize.height / 2.0)), size: textSize)
+        let textRect =  CGRect(origin: CGPoint(x: center.x - (textSize.width / 2.0), y: center.y - textYOffset - (textSize.height / 2.0)), size: textSize)
         
         if isHighlighted {
             // In highlighted mode, we punch out the text in alpha, rather than drawing it directly.
@@ -249,7 +253,7 @@ private class AlertIndicatorGlowView: UIView {
         
         let bounds = self.bounds
         let center = CGPoint(x: bounds.midX, y: bounds.midY)
-        context.drawRadialGradient(gradient, startCenter: center, startRadius: 11.5, endCenter: center, endRadius: 30.0, options: [])
+        context.drawRadialGradient(gradient, startCenter: center, startRadius: 10, endCenter: center, endRadius: 25.0, options: [])
     }
     
     

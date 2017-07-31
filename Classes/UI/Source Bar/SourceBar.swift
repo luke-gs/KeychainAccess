@@ -15,32 +15,21 @@ import UIKit
 /// to further elements.
 public class SourceBar: UIScrollView {
     
-    /// The style options available on source bars.
-    public enum Style {
-        /// A light style. This appearance is optimized for display over lighter backgrounds.
-        case light
-        /// A dark style. This appearance is optimized for display over darker backgrounds.
-        case dark
+    public enum Axis {
+        case vertical
+        case horizontal
     }
     
     
     // MARK: - Public properties
     
-    /// The currenty appearnace style. The default is `.dark`.
-    public var style: Style = .dark {
+    public var axis: Axis = .vertical {
         didSet {
-            if style == oldValue { return }
+            if axis == oldValue { return }
             
-            indicatorStyle = style == .dark ? .white : .black
-            
-            if _cells.count == items.count {
-                zip(items, _cells).forEach { (element: (item: SourceItem, cell: SourceBarCell)) in
-                    element.cell.update(for: element.item, withStyle: style)
-                }
-            } else {
-                _needsCellReload = true
-                setNeedsLayout()
-            }
+            updateContentSizePriorities()
+            needsCellReload = true
+            setNeedsLayout()
         }
     }
     
@@ -59,21 +48,10 @@ public class SourceBar: UIScrollView {
             if items == oldValue { return }
             
             if let index = selectedIndex, items.count < index {
-                _selectedIndex = nil
+                selectedIndex = nil
             }
             
-            let oldCount = oldValue.count
-            let newCount = items.count
-            
-            if oldCount != newCount {
-                contentSize = CGSize(width: 64.0, height: CGFloat(items.count) * 77.0 + 20.0)
-                
-                if (oldCount == 0) != (newCount == 0) {
-                    invalidateIntrinsicContentSize()
-                }
-            }
-            
-            _needsCellReload = true
+            needsCellReload = true
             setNeedsLayout()
         }
     }
@@ -81,15 +59,8 @@ public class SourceBar: UIScrollView {
     
     /// The selected index. The default is `nil`.
     public var selectedIndex: Int? {
-        get {
-            return _selectedIndex
-        }
-        set {
-            if _selectedIndex == newValue { return }
-            
-            _selectedIndex = newValue
-            
-            if _highlightedIndex == nil {
+        didSet {
+            if selectedIndex != oldValue && highlightedIndex == nil {
                 updateCellSelection()
             }
         }
@@ -121,17 +92,22 @@ public class SourceBar: UIScrollView {
     public weak var sourceBarDelegate: SourceBarDelegate?
     
     
+    public override var contentSize: CGSize {
+        didSet {
+            invalidateIntrinsicContentSize()
+        }
+    }
+    
+    
     // MARK: - Private properties
     
-    private var _selectedIndex: Int?
+    private var highlightedIndex: Int?
     
-    private var _highlightedIndex: Int?
+    private var dragCancelledHighlight: Bool = false
     
-    private var _dragCancelledHighlight: Bool = false
+    private var cells: [SourceBarCell] = []
     
-    private var _cells: [SourceBarCell] = []
-    
-    private var _needsCellReload: Bool = false
+    private var needsCellReload: Bool = false
     
     
     // MARK: - Initializers
@@ -151,14 +127,11 @@ public class SourceBar: UIScrollView {
         accessibilityLabel = NSLocalizedString("Source Bar", bundle: .mpolKit, comment: "Localized Source Bar Component name")
         accessibilityTraits = UIAccessibilityTraitTabBar
         
-        setContentCompressionResistancePriority(UILayoutPriorityDefaultLow,  for: .vertical)
-        setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .horizontal)
-        setContentHuggingPriority(UILayoutPriorityFittingSizeLevel, for: .vertical)
-        setContentHuggingPriority(UILayoutPriorityRequired - 1,     for: .horizontal)
+        updateContentSizePriorities()
         
-        indicatorStyle = style == .dark ? .white : .black
+        indicatorStyle = .white
         
-        contentSize = CGSize(width: 64.0, height: 20.0)
+        backgroundColor = #colorLiteral(red: 0.1055394784, green: 0.1170256063, blue: 0.1421703398, alpha: 1)
         
         panGestureRecognizer.addTarget(self, action: #selector(scrollViewPanRecognizeStateDidChange(_:)))
     }
@@ -172,37 +145,91 @@ public class SourceBar: UIScrollView {
         let bounds = self.bounds
         backgroundView?.frame = bounds
         
-        if _needsCellReload == false { return }
+        if needsCellReload == false { return }
         
-        var reusableCells = _cells
+        var reusableCells = cells
         
-        var frame = CGRect(x: 0.0, y: 10.0, width: 64.0, height: 77.0)
-        
-        _cells = items.enumerated().map {
+        cells = items.map {
             let cell: SourceBarCell
             if reusableCells.isEmpty == false {
                 cell = reusableCells.remove(at: 0)
-                cell.frame = frame
             } else {
-                cell = SourceBarCell(frame: frame)
+                cell = SourceBarCell(frame: .zero)
                 cell.addTarget(self, action: #selector(touchDown(in:)), for: .touchDown)
                 cell.addTarget(self, action: #selector(touchUp(in:)),   for: .touchUpInside)
                 cell.addTarget(self, action: #selector(touchCancelled(in:)), for: [.touchCancel, .touchUpOutside])
-                self.addSubview(cell)
+                addSubview(cell)
             }
-            
-            cell.update(for: $0.element, withStyle: self.style)
-            
-            frame.origin.y += 77.0
+            cell.axis = self.axis
+            cell.update(for: $0)
+            cell.sizeToFit()
             
             return cell
         }
         
         reusableCells.forEach { $0.removeFromSuperview() }
         
+        let cellCount = cells.count
+        if cellCount == 0 {
+            contentSize = .zero
+            accessibilityElements = nil
+            return
+        }
+        
         updateCellSelection()
         
-        accessibilityElements = _cells
+        
+        switch axis {
+        case .vertical:
+            var yOffset: CGFloat = 10.0
+            
+            cells.forEach {
+                var frame = $0.frame
+                frame.origin = CGPoint(x: 0.0, y: yOffset)
+                $0.frame = frame
+                yOffset = frame.maxY
+            }
+            
+            yOffset += 10.0
+            
+            contentSize = CGSize(width: 64.0, height: yOffset)
+        case .horizontal:
+            // TODO: Handle RTL at a later date - low priority for now.
+            
+            var minSpacingBetween: CGFloat = 15.0
+            
+            if cellCount == 1 {
+                minSpacingBetween = 20.0
+                
+                // We don't need to fuss over the size of the items for horizontal alignment.
+                cells.first!.frame.origin = CGPoint(x: minSpacingBetween, y: 0.0)
+            } else {
+                let allWidths: CGFloat = cells.reduce(0.0) { $0 + $1.frame.width } // TODO: Swift 4 - switch this to +=
+                let boundsWidth = bounds.width
+                
+                let spacingsCount = CGFloat(cellCount + 1)
+                
+                if boundsWidth > (allWidths + (spacingsCount * minSpacingBetween)) {
+                    // Work out enough for even distribution
+                    
+                    minSpacingBetween = ((boundsWidth - allWidths) / spacingsCount).floored(toScale: traitCollection.currentDisplayScale)
+                }
+                var origin = CGPoint(x: minSpacingBetween, y: 0.0)
+                
+                cells.forEach { cell in
+                    var frame = cell.frame
+                    frame.origin = origin
+                    origin.x = frame.maxX + minSpacingBetween
+                    cell.frame = frame
+                }
+            }
+            
+            contentSize = CGSize(width: cells.last!.frame.maxX + minSpacingBetween, height: 56.0)
+        }
+        
+        // TODO: Update content size
+        
+        accessibilityElements = cells
     }
     
     public override func touchesShouldCancel(in view: UIView) -> Bool {
@@ -210,7 +237,7 @@ public class SourceBar: UIScrollView {
             // we override this to mimic the cell selection rules on table view - that is,
             // dragging on highlight clears highlight but doesn't resume selection until touch up
             // we don't do this on the selected cell tho
-            _dragCancelledHighlight = _cells.index(of: cell) != _selectedIndex
+            dragCancelledHighlight = cells.index(of: cell) != selectedIndex
             return true
         }
         return super.touchesShouldCancel(in: view)
@@ -219,7 +246,12 @@ public class SourceBar: UIScrollView {
     public override var intrinsicContentSize: CGSize {
         var size = contentSize
         if items.isEmpty {
-            size.width = 0.0
+            switch axis {
+            case .vertical:
+                size.width = 0.0
+            case .horizontal:
+                size.height = 0.0
+            }
         }
         return size
     }
@@ -227,26 +259,36 @@ public class SourceBar: UIScrollView {
     
     // MARK: - Private methods
     
+    private func updateContentSizePriorities() {
+        let stretchyAxis: UILayoutConstraintAxis = axis == .vertical ? .vertical : .horizontal
+        let hardAxis: UILayoutConstraintAxis     = axis == .vertical ? .horizontal : .vertical
+        
+        setContentCompressionResistancePriority(UILayoutPriorityDefaultLow,  for: stretchyAxis)
+        setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: hardAxis)
+        setContentHuggingPriority(UILayoutPriorityFittingSizeLevel, for: stretchyAxis)
+        setContentHuggingPriority(UILayoutPriorityRequired - 1,     for: hardAxis)
+    }
+    
     private func updateCellSelection() {
-        _cells.enumerated().forEach {
-            $0.element.isHighlighted = _highlightedIndex == $0.offset
-            $0.element.isSelected    = _selectedIndex == $0.offset && _dragCancelledHighlight == false && (_highlightedIndex == nil || _highlightedIndex == $0.offset)
+        cells.enumerated().forEach {
+            $0.element.isHighlighted = highlightedIndex == $0.offset
+            $0.element.isSelected    = selectedIndex == $0.offset && dragCancelledHighlight == false && (highlightedIndex == nil || highlightedIndex == $0.offset)
         }
     }
     
     @objc private func touchDown(in cell: SourceBarCell) {
-        _highlightedIndex = _cells.index(of: cell)
+        highlightedIndex = cells.index(of: cell)
         updateCellSelection()
     }
     
     @objc private func touchUp(in cell: SourceBarCell) {
-        _highlightedIndex = nil
-        if let cellIndex = _cells.index(of: cell) {
+        highlightedIndex = nil
+        if let cellIndex = cells.index(of: cell) {
             switch items[cellIndex].state {
             case .notLoaded:
                 sourceBarDelegate?.sourceBar(self, didRequestToLoadItemAt: cellIndex)
             case .loaded:
-                _selectedIndex = selectedIndex
+                selectedIndex = cellIndex
                 sourceBarDelegate?.sourceBar(self, didSelectItemAt: cellIndex)
             default:
                 break
@@ -256,14 +298,14 @@ public class SourceBar: UIScrollView {
     }
     
     @objc private func touchCancelled(in cell: SourceBarCell) {
-        _highlightedIndex = nil
+        highlightedIndex = nil
         updateCellSelection()
     }
     
     @objc private func scrollViewPanRecognizeStateDidChange(_ recognizer: UIPanGestureRecognizer) {
-        if (recognizer.state == .ended || recognizer.state == .cancelled) && _dragCancelledHighlight {
+        if (recognizer.state == .ended || recognizer.state == .cancelled) && dragCancelledHighlight {
             // Handle where the pan ended, and we've got a "drag cancelled highlight" pause on highlights. Reset it to off and update selection.
-            _dragCancelledHighlight = false
+            dragCancelledHighlight = false
             updateCellSelection()
         }
     }

@@ -82,7 +82,7 @@ public struct StringSizing: StringSizable {
         let displayScale = traitCollection.currentDisplayScale
         let maximumHeight = font.height(forNumberOfLines: numberOfLines).ceiled(toScale: displayScale)
 
-        let size = (string as NSString).boundingRect(with: CGSize(width: maximumHeight, height: .greatestFiniteMagnitude),
+        let size = (string as NSString).boundingRect(with: CGSize(width: .greatestFiniteMagnitude, height: maximumHeight),
                                                      options: .usesLineFragmentOrigin,
                                                      attributes: [NSFontAttributeName: font],
                                                      context: nil)
