@@ -9,7 +9,7 @@
 import UIKit
 import Unbox
 
-public class OAuthAccessToken: Unboxable, Equatable {
+public class OAuthAccessToken: NSObject, Unboxable, NSSecureCoding {
 
     /// The acess token's type (e.g., Bearer).
     public let type: String
@@ -42,6 +42,10 @@ public class OAuthAccessToken: Unboxable, Equatable {
         self.refreshTokenExpiresAt = refreshTokenExpiresAt
     }
     
+    public static var supportsSecureCoding: Bool {
+        return true
+    }
+    
     // MARK: - Unboxable
     
     private static let dateTransformer: EpochDateTransformer = EpochDateTransformer.shared
@@ -60,6 +64,34 @@ public class OAuthAccessToken: Unboxable, Equatable {
         
         self.init(accessToken: accessToken, type: type, expiresAt: expiresAt, refreshToken: refreshToken, refreshTokenExpiresAt: refreshTokenExpiresAt)
     }
+    
+    // MARK: - NSCoding
+    
+    public required convenience init?(coder aDecoder: NSCoder) {
+        guard let type  = aDecoder.decodeObject(of: NSString.self, forKey: "type") as String!,
+            let accessToken = aDecoder.decodeObject(of: NSString.self, forKey: "accessToken") as String! else {
+                return nil
+        }
+        
+        let expiresAt = aDecoder.decodeObject(of: NSDate.self, forKey: "expiresAt") as Date?
+        let refreshToken = aDecoder.decodeObject(of: NSString.self, forKey: "refreshToken") as String?
+        let refreshTokenExpiresAt = aDecoder.decodeObject(of: NSDate.self, forKey: "refreshTokenExpiresAt") as Date?
+        
+        self.init(accessToken:              accessToken,
+                  type:                     type,
+                  expiresAt:                expiresAt,
+                  refreshToken:             refreshToken,
+                  refreshTokenExpiresAt:    refreshTokenExpiresAt)
+    }
+    
+    public func encode(with aCoder: NSCoder) {
+        aCoder.encode(type, forKey: "type")
+        aCoder.encode(accessToken, forKey: "accessToken")
+        if let expiresAt = expiresAt { aCoder.encode(expiresAt, forKey: "expiresAt") }
+        if let refreshToken = refreshToken { aCoder.encode(refreshToken, forKey: "refreshToken") }
+        if let refreshTokenExpiresAt = refreshTokenExpiresAt { aCoder.encode(refreshTokenExpiresAt, forKey: "refreshTokenExpiresAt") }
+    }
+
     
 }
 
