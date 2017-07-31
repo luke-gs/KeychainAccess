@@ -100,8 +100,13 @@ internal class SourceBarCell: UIControl {
     // MARK: - Updates
     
     func update(for item: SourceItem) {
-        titleLabel.text    = item.title
         accessibilityLabel = item.title
+        
+        if axis == .vertical {
+            titleLabel.text = item.shortTitle ?? item.title
+        } else {
+            titleLabel.text = item.title
+        }
         
         isEnabled = item.state != .notAvailable
         switch item.state {
