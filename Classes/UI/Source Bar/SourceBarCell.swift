@@ -11,8 +11,9 @@ import UIKit
 
 internal class SourceBarCell: UIControl {
     
-    private static let lightDisabledColor = #colorLiteral(red: 0.2352941176, green: 0.2352941176, blue: 0.2352941176, alpha: 0.2978102993)
-    private static let darkDisabledColor  = #colorLiteral(red: 0.2352941176, green: 0.2352941176, blue: 0.2352941176, alpha: 1)
+    private static let disabledColor = #colorLiteral(red: 0.2352941176, green: 0.2352941176, blue: 0.2352941176, alpha: 1)
+    private static let selectedFont  = UIFont.systemFont(ofSize: 11.5, weight: UIFontWeightBold)
+    private static let normalFont    = UIFont.systemFont(ofSize: 11.5, weight: UIFontWeightRegular)
     
     private let titleLabel = UILabel(frame: .zero)
     
@@ -20,9 +21,27 @@ internal class SourceBarCell: UIControl {
     private var _loadingIndicator: UIActivityIndicatorView?
     private var _imageView: UIImageView?
     
-    private var style: SourceBar.Style = .dark
-    
     private var isAvailable: Bool = true
+    
+    private let iconLayoutGuide = UILayoutGuide()
+    
+    private var horizontalConstraints: [NSLayoutConstraint] = []
+    private var verticalContraints: [NSLayoutConstraint] = []
+    
+    private var highlightedTintColor: UIColor?
+    private var normalTintColor: UIColor?
+    
+    var axis: SourceBar.Axis = .vertical {
+        didSet {
+            if axis == oldValue { return }
+            
+            let oldConstraints = axis == .vertical ? horizontalConstraints : verticalContraints
+            let newConstraints = axis == .vertical ? verticalContraints : horizontalConstraints
+            NSLayoutConstraint.deactivate(oldConstraints)
+            NSLayoutConstraint.activate(newConstraints)
+        }
+    }
+    
     
     // MARK: - Initializers
     
@@ -50,25 +69,49 @@ internal class SourceBarCell: UIControl {
         titleLabel.minimumScaleFactor = 0.7
         titleLabel.baselineAdjustment = .alignCenters
         titleLabel.lineBreakMode      = .byTruncatingTail
-        updateTextAttributes()
         
         addSubview(titleLabel)
+        addLayoutGuide(iconLayoutGuide)
         
-        NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: titleLabel, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX),
-            NSLayoutConstraint(item: titleLabel, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .top, constant: 59.0),
-            NSLayoutConstraint(item: titleLabel, attribute: .leading, relatedBy: .greaterThanOrEqual, toItem: self, attribute: .leading, constant: 5.0)
-        ])
+        verticalContraints = [
+            titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            titleLabel.centerYAnchor.constraint(equalTo: topAnchor, constant: 59.0),
+            titleLabel.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 5.0),
+            
+            iconLayoutGuide.centerXAnchor.constraint(equalTo: centerXAnchor),
+            iconLayoutGuide.centerYAnchor.constraint(equalTo: topAnchor, constant: 33.0),
+        ]
+        
+        horizontalConstraints = [
+            iconLayoutGuide.centerYAnchor.constraint(equalTo: centerYAnchor),
+            iconLayoutGuide.centerXAnchor.constraint(equalTo: leadingAnchor, constant: 12.0),
+            
+            titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: iconLayoutGuide.centerXAnchor, constant: 22.0),
+            titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor),
+        ]
+        
+        switch axis {
+        case .vertical:
+            NSLayoutConstraint.activate(verticalContraints)
+        case .horizontal:
+            NSLayoutConstraint.activate(horizontalConstraints)
+        }
+        
+        updateSelection()
     }
     
     
     // MARK: - Updates
     
-    func update(for item: SourceItem, withStyle style: SourceBar.Style) {
-        self.style = style
-        
-        titleLabel.text    = item.title
+    func update(for item: SourceItem) {
         accessibilityLabel = item.title
+        
+        if axis == .vertical {
+            titleLabel.text = item.shortTitle ?? item.title
+        } else {
+            titleLabel.text = item.title
+        }
         
         isEnabled = item.state != .notAvailable
         switch item.state {
@@ -79,7 +122,8 @@ internal class SourceBarCell: UIControl {
             imageView.isHidden = false
             imageView.image = AssetManager.shared.image(forKey: .sourceBarDownload)
             
-            tintColor = style == .dark ? .white: .black
+            highlightedTintColor = .white
+            normalTintColor = .lightGray
             accessibilityValue  = nil
             
             _loadingIndicator?.stopAnimating()
@@ -94,7 +138,8 @@ internal class SourceBarCell: UIControl {
             imageView.isHidden = false
             imageView.image = AssetManager.shared.image(forKey: .sourceBarNone)
             
-            tintColor = style == .dark ? SourceBarCell.darkDisabledColor : SourceBarCell.lightDisabledColor
+            highlightedTintColor = SourceBarCell.disabledColor
+            normalTintColor = SourceBarCell.disabledColor
             
             _loadingIndicator?.stopAnimating()
             _iconView?.isHidden = true
@@ -106,13 +151,9 @@ internal class SourceBarCell: UIControl {
             let loadingIndicator = self.loadingIndicator()
             loadingIndicator.startAnimating()
             
-            if style == .dark {
-                loadingIndicator.tintColor = .white
-                tintColor = .white
-            } else {
-                loadingIndicator.tintColor = .gray
-                tintColor = .black
-            }
+            loadingIndicator.tintColor = .white
+            highlightedTintColor = .white
+            normalTintColor = .lightGray
             
             _imageView?.isHidden = true
             _iconView?.isHidden  = true
@@ -134,12 +175,10 @@ internal class SourceBarCell: UIControl {
             let iconView = self.iconView()
             iconView.isHidden = false
             iconView.text     = badgeText
-            switch style {
-            case .light: iconView.glowAlpha = 0.1
-            case .dark:  iconView.glowAlpha = 0.3
-            }
+            iconView.glowAlpha = 0.25
             
-            tintColor = color ?? .white
+            highlightedTintColor = color ?? .white
+            normalTintColor = color ?? .lightGray
             
             _imageView?.isHidden = true
             _loadingIndicator?.stopAnimating()
@@ -153,20 +192,14 @@ internal class SourceBarCell: UIControl {
         
         isAvailable = item.state != .notAvailable
         
-        updateTextAttributes()
+        updateSelection()
     }
     
-    private func updateTextAttributes() {
+    private func updateSelection() {
         let highlight = isSelected || isHighlighted
-        
-        switch style {
-        case .light:
-            titleLabel.textColor = isAvailable ? (highlight ? .darkGray : .gray)   : SourceBarCell.lightDisabledColor
-        case .dark:
-            titleLabel.textColor = isAvailable ? (highlight ? .white : .lightGray) : SourceBarCell.darkDisabledColor
-        }
-        
-        titleLabel.font = highlight ? .systemFont(ofSize: 12.5, weight: UIFontWeightBold) : .systemFont(ofSize: 11.5, weight: UIFontWeightRegular)
+        tintColor = highlight ? highlightedTintColor : normalTintColor
+        titleLabel.textColor = isAvailable ? (highlight ? .white : .lightGray) : SourceBarCell.disabledColor
+        titleLabel.font = highlight ? SourceBarCell.selectedFont : SourceBarCell.normalFont
     }
     
     
@@ -185,7 +218,7 @@ internal class SourceBarCell: UIControl {
     override var isSelected: Bool {
         didSet {
             _iconView?.isHighlighted = isSelected || isHighlighted
-            updateTextAttributes()
+            updateSelection()
             
             if isSelected {
                 accessibilityTraits |= UIAccessibilityTraitSelected
@@ -198,7 +231,21 @@ internal class SourceBarCell: UIControl {
     override var isHighlighted: Bool {
         didSet {
             _iconView?.isHighlighted = isSelected || isHighlighted
-            updateTextAttributes()
+            updateSelection()
+        }
+    }
+    
+    
+    // MARK: - Layout
+    
+    override func sizeThatFits(_ size: CGSize) -> CGSize {
+        switch axis {
+        case .vertical:
+            return CGSize(width: 64.0, height: 77.0)
+        case .horizontal:
+            let titleSizing = StringSizing(string: titleLabel.text ?? "", font: SourceBarCell.selectedFont, numberOfLines: 1)
+            let titleWidth = titleSizing.minimumWidth(compatibleWith: traitCollection)
+            return CGSize(width: 34.0 + titleWidth, height: 56.0)
         }
     }
     
@@ -214,8 +261,8 @@ internal class SourceBarCell: UIControl {
         _imageView = imageView
         
         NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: imageView, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX),
-            NSLayoutConstraint(item: imageView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .top, constant: 33.0),
+            imageView.centerXAnchor.constraint(equalTo: iconLayoutGuide.centerXAnchor),
+            imageView.centerYAnchor.constraint(equalTo: iconLayoutGuide.centerYAnchor)
         ])
         return imageView
     }
@@ -230,8 +277,8 @@ internal class SourceBarCell: UIControl {
         _iconView = iconView
         
         NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: iconView, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX),
-            NSLayoutConstraint(item: iconView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .top, constant: 33.0),
+            iconView.centerXAnchor.constraint(equalTo: iconLayoutGuide.centerXAnchor),
+            iconView.centerYAnchor.constraint(equalTo: iconLayoutGuide.centerYAnchor)
         ])
         return iconView
     }
@@ -245,8 +292,8 @@ internal class SourceBarCell: UIControl {
         _loadingIndicator = loadingIndicator
         
         NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: loadingIndicator, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX),
-            NSLayoutConstraint(item: loadingIndicator, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .top, constant: 33.0),
+            loadingIndicator.centerXAnchor.constraint(equalTo: iconLayoutGuide.centerXAnchor),
+            loadingIndicator.centerYAnchor.constraint(equalTo: iconLayoutGuide.centerYAnchor)
         ])
         return loadingIndicator
     }
