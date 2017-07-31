@@ -68,14 +68,14 @@ public class OAuthAccessToken: NSObject, Unboxable, NSSecureCoding {
     // MARK: - NSCoding
     
     public required convenience init?(coder aDecoder: NSCoder) {
-        guard let type  = aDecoder.decodeObject(of: NSString.self, forKey: "type") as String!,
-            let accessToken = aDecoder.decodeObject(of: NSString.self, forKey: "accessToken") as String! else {
+        guard let type  = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.type.rawValue) as String!,
+            let accessToken = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.accessToken.rawValue) as String! else {
                 return nil
         }
         
-        let expiresAt = aDecoder.decodeObject(of: NSDate.self, forKey: "expiresAt") as Date?
-        let refreshToken = aDecoder.decodeObject(of: NSString.self, forKey: "refreshToken") as String?
-        let refreshTokenExpiresAt = aDecoder.decodeObject(of: NSDate.self, forKey: "refreshTokenExpiresAt") as Date?
+        let expiresAt = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKeys.expiresAt.rawValue) as Date?
+        let refreshToken = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.refreshToken.rawValue) as String?
+        let refreshTokenExpiresAt = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKeys.refreshTokenExpiresAt.rawValue) as Date?
         
         self.init(accessToken:              accessToken,
                   type:                     type,
@@ -85,13 +85,20 @@ public class OAuthAccessToken: NSObject, Unboxable, NSSecureCoding {
     }
     
     public func encode(with aCoder: NSCoder) {
-        aCoder.encode(type, forKey: "type")
-        aCoder.encode(accessToken, forKey: "accessToken")
-        if let expiresAt = expiresAt { aCoder.encode(expiresAt, forKey: "expiresAt") }
-        if let refreshToken = refreshToken { aCoder.encode(refreshToken, forKey: "refreshToken") }
-        if let refreshTokenExpiresAt = refreshTokenExpiresAt { aCoder.encode(refreshTokenExpiresAt, forKey: "refreshTokenExpiresAt") }
+        aCoder.encode(type, forKey: CodingKeys.type.rawValue)
+        aCoder.encode(accessToken, forKey: CodingKeys.accessToken.rawValue)
+        if let expiresAt = expiresAt { aCoder.encode(expiresAt, forKey: CodingKeys.expiresAt.rawValue) }
+        if let refreshToken = refreshToken { aCoder.encode(refreshToken, forKey: CodingKeys.refreshToken.rawValue) }
+        if let refreshTokenExpiresAt = refreshTokenExpiresAt { aCoder.encode(refreshTokenExpiresAt, forKey: CodingKeys.refreshTokenExpiresAt.rawValue) }
     }
 
+    private enum CodingKeys: String {
+        case type = "type"
+        case accessToken = "accessToken"
+        case expiresAt = "expiresAt"
+        case refreshToken = "refreshToken"
+        case refreshTokenExpiresAt = "refreshTokenExpiresAt"
+    }
     
 }
 
