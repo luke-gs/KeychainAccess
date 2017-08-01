@@ -42,7 +42,7 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
                 return
             }
             
-            hasContent = sections.isEmpty == false
+            loadingManager.state = sections.isEmpty ? .noContent: .loaded
             collectionView?.reloadData()
         }
     }
@@ -78,7 +78,7 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
     open override func viewDidLoad() {
         super.viewDidLoad()
         
-        noContentTitleLabel?.text = NSLocalizedString("No Alerts Found", bundle: .mpolKit, comment: "")
+        loadingManager.noContentView.titleLabel.text = NSLocalizedString("No Alerts Found", bundle: .mpolKit, comment: "")
         updateNoContentSubtitle()
         
         guard let collectionView = self.collectionView else { return }
@@ -245,7 +245,7 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
     }
     
     private func updateNoContentSubtitle() {
-        guard let label = noContentSubtitleLabel else { return }
+        let label = loadingManager.noContentView.subtitleLabel
         
         if entity?.alerts?.isEmpty ?? true {
             let entityDisplayName: String

@@ -19,11 +19,11 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
     private var person: Person? {
         didSet {
             guard let person = self.person else {
-                hasContent = false
+                loadingManager.state = .noContent
                 self.sections = []
                 return
             }
-            hasContent = true
+            loadingManager.state = .loaded
             
             var sections: [(SectionType, [Any]?)] = [(.header, nil), (.details, [DetailItem.mni, DetailItem.ethnicity])]
             
@@ -86,8 +86,9 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
         
-        noContentTitleLabel?.text = NSLocalizedString("No Person Found", bundle: .mpolKit, comment: "")
-        noContentSubtitleLabel?.text = NSLocalizedString("There are no details for this person", bundle: .mpolKit, comment: "")
+        let noContentView = loadingManager.noContentView
+        noContentView.titleLabel.text = NSLocalizedString("No Person Found", bundle: .mpolKit, comment: "")
+        noContentView.subtitleLabel.text = NSLocalizedString("There are no details for this person", bundle: .mpolKit, comment: "")
         
         guard let collectionView = self.collectionView else { return }
         

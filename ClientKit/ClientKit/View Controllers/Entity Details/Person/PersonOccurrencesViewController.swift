@@ -38,7 +38,7 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
     
     private var events: [Event] = [] {
         didSet {
-            hasContent = events.isEmpty == false
+            loadingManager.state = events.isEmpty ? .noContent: .loaded
             collectionView?.reloadData()
         }
     }
@@ -256,7 +256,7 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
     }
     
     private func updateNoContentSubtitle() {
-        guard let label = noContentSubtitleLabel else { return }
+        let label = loadingManager.noContentView.subtitleLabel
         
         if person?.actions?.isEmpty ?? true {
             let entityDisplayName: String

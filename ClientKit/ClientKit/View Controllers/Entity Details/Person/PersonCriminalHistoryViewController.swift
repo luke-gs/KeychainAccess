@@ -72,7 +72,7 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
     
     private var criminalHistory: [CriminalHistory] = [] {
         didSet {
-            hasContent = criminalHistory.isEmpty == false
+            loadingManager.state = criminalHistory.isEmpty ? .noContent: .loaded
             collectionView?.reloadData()
         }
     }
@@ -85,7 +85,7 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
     public override init() {
         super.init()
         
-        hasContent = false
+        loadingManager.state = .noContent
         
         title = NSLocalizedString("Criminal History", comment: "")
         
@@ -106,7 +106,7 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
     open override func viewDidLoad() {
         super.viewDidLoad()
         
-        noContentTitleLabel?.text = NSLocalizedString("No Criminal History Found", bundle: .mpolKit, comment: "")
+        loadingManager.noContentView.titleLabel.text = NSLocalizedString("No Criminal History Found", bundle: .mpolKit, comment: "")
         updateNoContentSubtitle()
         
         guard let collectionView = self.collectionView else { return }
@@ -225,7 +225,7 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
     }
     
     private func updateNoContentSubtitle() {
-        guard let label = noContentSubtitleLabel else { return }
+        let label = loadingManager.noContentView.subtitleLabel
         
         if person?.criminalHistory?.isEmpty ?? true {
             let entityDisplayName: String

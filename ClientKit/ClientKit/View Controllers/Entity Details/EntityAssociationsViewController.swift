@@ -21,7 +21,7 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
     private var associations: [Person] = [] {
         didSet {
             sidebarItem.count = UInt(associations.count)
-            hasContent = associations.isEmpty == false
+            loadingManager.state = associations.isEmpty ? .noContent: .loaded
         }
     }
     
@@ -48,7 +48,7 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
     open override func viewDidLoad() {
         super.viewDidLoad()
         
-        noContentTitleLabel?.text = NSLocalizedString("No Associations Found", comment: "")
+        loadingManager.noContentView.titleLabel.text = NSLocalizedString("No Associations Found", comment: "")
         updateNoContentSubtitle()
         
         guard let collectionView = self.collectionView else { return }
@@ -161,13 +161,7 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
         }
     }
     
-    
-    
-
-    
     private func updateNoContentSubtitle() {
-        guard let label = noContentSubtitleLabel else { return }
-        
         let entityDisplayName: String
         if let entity = entity {
             entityDisplayName = type(of: entity).localizedDisplayName.localizedLowercase
@@ -175,7 +169,7 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
             entityDisplayName = NSLocalizedString("entity", bundle: .mpolKit, comment: "")
         }
         
-        label.text = String(format: NSLocalizedString("This %@ has no associations", bundle: .mpolKit, comment: ""), entityDisplayName)
+        loadingManager.noContentView.subtitleLabel.text = String(format: NSLocalizedString("This %@ has no associations", bundle: .mpolKit, comment: ""), entityDisplayName)
     }
     
 }
