@@ -14,6 +14,16 @@ fileprivate let tempID = "temp"
 
 open class FormCollectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, CollectionViewDelegateFormLayout, PopoverViewController {
     
+    /// Allows subclasses to return a custom subclass of UICollectionView
+    /// to use as the collection view.
+    ///
+    /// - Returns: The `UICollectionView` class to use for the main collection view.
+    ///            The default returns `UICollectionView` itself.
+    open class func collectionViewClass() -> UICollectionView.Type {
+        return UICollectionView.self
+    }
+    
+    
     
     // MARK: - Public properties
     
@@ -120,7 +130,9 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     open override func loadView() {
         let backgroundBounds = UIScreen.main.bounds
         
-        let collectionView = UICollectionView(frame: backgroundBounds, collectionViewLayout: formLayout)
+        let collectionViewClass = type(of: self).collectionViewClass()
+        let collectionView = collectionViewClass.init(frame: backgroundBounds, collectionViewLayout: formLayout)
+        
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.dataSource = self
         collectionView.delegate   = self
