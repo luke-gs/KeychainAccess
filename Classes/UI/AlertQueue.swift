@@ -14,7 +14,7 @@ import UIKit
 /// a queue to avoid a "doubling up" presentations.
 ///
 /// This class should only be accessed from the main thread.
-public class AlertQueue: NSObject {
+public final class AlertQueue: NSObject {
     
     /// Singleton instance of the AlertQueue
     public static let shared = AlertQueue()

@@ -25,8 +25,8 @@ class NoContentCollectionController: FormCollectionViewController {
         super.viewDidLoad()
         
         
-        loadingManager.noContentTitleLabel.text = "No Content"
-        loadingManager.noContentSubtitleLabel.text = "This is an example of a form collection with no content."
+        loadingManager.noContentView.titleLabel.text = "No Content"
+        loadingManager.noContentView.subtitleLabel.text = "This is an example of a form collection with no content."
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
             self.loadingManager.state = .noContent

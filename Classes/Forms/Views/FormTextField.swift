@@ -71,11 +71,8 @@ open class FormTextField: UITextField {
     }
     
     private func commonInit() {
-        
-        
-        if let font = self.font {
-            singleSpaceWidth = (" " as NSString).boundingRect(with: .zero, attributes: [NSFontAttributeName: font], context: nil).width
-        }
+        let standardFont = self.font ?? .systemFont(ofSize: 17.0)
+        singleSpaceWidth = (" " as NSString).boundingRect(with: .zero, attributes: [NSFontAttributeName: standardFont], context: nil).width
     }
     
     deinit {
@@ -175,6 +172,15 @@ open class FormTextField: UITextField {
     
     open override func editingRect(forBounds bounds: CGRect) -> CGRect {
         return adjustedTextRect(super.editingRect(forBounds: bounds))
+    }
+    
+    open override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
+        var rect = super.placeholderRect(forBounds: bounds)
+        // Adjust the placeholder by the ascender differential to make it baseline aligned.
+        let font = self.font ?? .systemFont(ofSize: 17.0)
+        let placeholderFont = self.placeholderFont ?? .systemFont(ofSize: 15.0)
+        rect.origin.y += (font.ascender - placeholderFont.ascender).floored(toScale: traitCollection.currentDisplayScale)
+        return rect
     }
     
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

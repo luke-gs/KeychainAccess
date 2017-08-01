@@ -22,16 +22,24 @@ public struct SourceItem: Equatable {
         case notAvailable
     }
     
-    /// The title to show under the item.
+    /// The title to show with the item.
+    ///
+    /// This is the default used in a horizontal bar.
     public var title: String?
+    
+    /// The short title to show with the item.
+    ///
+    /// This is the default used in a vertical bar.
+    public var shortTitle: String?
     
     /// The state for the source item.
     public var state: State
     
     
     /// Initializes a SourceItem.
-    public init(title: String, state: State) {
+    public init(title: String, shortTitle: String? = nil, state: State) {
         self.title = title
+        self.shortTitle = shortTitle ?? title
         self.state = state
     }
     

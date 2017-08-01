@@ -91,7 +91,6 @@
 		BC9C7E1E1F0DED6600DFFE83 /* FormCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D841F0DED6600DFFE83 /* FormCollectionViewController.swift */; };
 		BC9C7E1F1F0DED6600DFFE83 /* FormSearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D851F0DED6600DFFE83 /* FormSearchTableViewController.swift */; };
 		BC9C7E201F0DED6600DFFE83 /* FormTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D861F0DED6600DFFE83 /* FormTableViewController.swift */; };
-		BC9C7E211F0DED6600DFFE83 /* MapOverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D871F0DED6600DFFE83 /* MapOverlayViewController.swift */; };
 		BC9C7E231F0DED6600DFFE83 /* AlertQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D891F0DED6600DFFE83 /* AlertQueue.swift */; };
 		BC9C7E241F0DED6600DFFE83 /* CollectionViewFormProgressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D8B1F0DED6600DFFE83 /* CollectionViewFormProgressCell.swift */; };
 		BC9C7E251F0DED6600DFFE83 /* EntityCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D8C1F0DED6600DFFE83 /* EntityCollectionViewCell.swift */; };
@@ -113,8 +112,6 @@
 		BC9C7E361F0DED6600DFFE83 /* KeyboardNumberBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D9F1F0DED6600DFFE83 /* KeyboardNumberBar.swift */; };
 		BC9C7E371F0DED6600DFFE83 /* KeyboardAnimationDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DA01F0DED6600DFFE83 /* KeyboardAnimationDetails.swift */; };
 		BC9C7E381F0DED6600DFFE83 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DA11F0DED6600DFFE83 /* LoginViewController.swift */; };
-		BC9C7E391F0DED6600DFFE83 /* AlertOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DA31F0DED6600DFFE83 /* AlertOperation.swift */; };
-		BC9C7E3A1F0DED6600DFFE83 /* CommonConditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DA41F0DED6600DFFE83 /* CommonConditions.swift */; };
 		BC9C7E3C1F0DED6600DFFE83 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DA71F0DED6600DFFE83 /* FilterViewController.swift */; };
 		BC9C7E3D1F0DED6600DFFE83 /* PickerTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DA81F0DED6600DFFE83 /* PickerTableViewController.swift */; };
 		BC9C7E3E1F0DED6600DFFE83 /* PopoverDatePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DA91F0DED6600DFFE83 /* PopoverDatePickerViewController.swift */; };
@@ -262,7 +259,6 @@
 		BC9C7D841F0DED6600DFFE83 /* FormCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormCollectionViewController.swift; sourceTree = "<group>"; };
 		BC9C7D851F0DED6600DFFE83 /* FormSearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormSearchTableViewController.swift; sourceTree = "<group>"; };
 		BC9C7D861F0DED6600DFFE83 /* FormTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormTableViewController.swift; sourceTree = "<group>"; };
-		BC9C7D871F0DED6600DFFE83 /* MapOverlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapOverlayViewController.swift; sourceTree = "<group>"; };
 		BC9C7D891F0DED6600DFFE83 /* AlertQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertQueue.swift; sourceTree = "<group>"; };
 		BC9C7D8B1F0DED6600DFFE83 /* CollectionViewFormProgressCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormProgressCell.swift; sourceTree = "<group>"; };
 		BC9C7D8C1F0DED6600DFFE83 /* EntityCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -284,8 +280,6 @@
 		BC9C7D9F1F0DED6600DFFE83 /* KeyboardNumberBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardNumberBar.swift; sourceTree = "<group>"; };
 		BC9C7DA01F0DED6600DFFE83 /* KeyboardAnimationDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardAnimationDetails.swift; sourceTree = "<group>"; };
 		BC9C7DA11F0DED6600DFFE83 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		BC9C7DA31F0DED6600DFFE83 /* AlertOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertOperation.swift; sourceTree = "<group>"; };
-		BC9C7DA41F0DED6600DFFE83 /* CommonConditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonConditions.swift; sourceTree = "<group>"; };
 		BC9C7DA71F0DED6600DFFE83 /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		BC9C7DA81F0DED6600DFFE83 /* PickerTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerTableViewController.swift; sourceTree = "<group>"; };
 		BC9C7DA91F0DED6600DFFE83 /* PopoverDatePickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverDatePickerViewController.swift; sourceTree = "<group>"; };
@@ -596,7 +590,6 @@
 				BC9C7D9D1F0DED6600DFFE83 /* Keyboard Input */,
 				BC9C7DA01F0DED6600DFFE83 /* KeyboardAnimationDetails.swift */,
 				BC9C7DA11F0DED6600DFFE83 /* LoginViewController.swift */,
-				BC9C7DA21F0DED6600DFFE83 /* Operations */,
 				BC9C7DA51F0DED6600DFFE83 /* Picker View Controllers */,
 				BC9C7DAA1F0DED6600DFFE83 /* Popover & Form Sheet */,
 				BC1B25B91F2707270090C0AA /* MPOLBarButtonItems.swift */,
@@ -618,7 +611,6 @@
 				BC9C7D841F0DED6600DFFE83 /* FormCollectionViewController.swift */,
 				BC9C7D851F0DED6600DFFE83 /* FormSearchTableViewController.swift */,
 				BC9C7D861F0DED6600DFFE83 /* FormTableViewController.swift */,
-				BC9C7D871F0DED6600DFFE83 /* MapOverlayViewController.swift */,
 			);
 			path = "Abstract View Controllers";
 			sourceTree = "<group>";
@@ -662,15 +654,6 @@
 				BC9C7D9F1F0DED6600DFFE83 /* KeyboardNumberBar.swift */,
 			);
 			path = "Keyboard Input";
-			sourceTree = "<group>";
-		};
-		BC9C7DA21F0DED6600DFFE83 /* Operations */ = {
-			isa = PBXGroup;
-			children = (
-				BC9C7DA31F0DED6600DFFE83 /* AlertOperation.swift */,
-				BC9C7DA41F0DED6600DFFE83 /* CommonConditions.swift */,
-			);
-			path = Operations;
 			sourceTree = "<group>";
 		};
 		BC9C7DA51F0DED6600DFFE83 /* Picker View Controllers */ = {
@@ -1113,7 +1096,6 @@
 				BC9C7E251F0DED6600DFFE83 /* EntityCollectionViewCell.swift in Sources */,
 				BC8A99611F22EBD700387AB6 /* UIColor+Brightness.swift in Sources */,
 				BC9C7DED1F0DED6600DFFE83 /* ResponseDataOperationChainable.swift in Sources */,
-				BC9C7E391F0DED6600DFFE83 /* AlertOperation.swift in Sources */,
 				BCF4B59C1F2849D00022132D /* SpacerView.swift in Sources */,
 				BC9C7E441F0DED6600DFFE83 /* SidebarSplitViewController.swift in Sources */,
 				BC9C7DFD1F0DED6600DFFE83 /* CollectionViewFormValueFieldCell.swift in Sources */,
@@ -1123,12 +1105,10 @@
 				BC9C7DFC1F0DED6600DFFE83 /* CollectionViewFormTextViewCell.swift in Sources */,
 				BC9C7E1D1F0DED6600DFFE83 /* MPOLKitInitialize.swift in Sources */,
 				BC9C7DEA1F0DED6600DFFE83 /* DefaultCustomStringConvertible.swift in Sources */,
-				BC9C7E211F0DED6600DFFE83 /* MapOverlayViewController.swift in Sources */,
 				BC9C7E231F0DED6600DFFE83 /* AlertQueue.swift in Sources */,
 				BC9C7DF71F0DED6600DFFE83 /* CollectionViewFormEditAction.swift in Sources */,
 				BC1B260E1F20BB3C009674B7 /* PushableSplitViewController.swift in Sources */,
 				BC9C7E2A1F0DED6600DFFE83 /* DateFormatter+Static.swift in Sources */,
-				BC9C7E3A1F0DED6600DFFE83 /* CommonConditions.swift in Sources */,
 				BC9C7DD11F0DED6600DFFE83 /* ManifestEntry.swift in Sources */,
 				BC9C7E141F0DED6600DFFE83 /* TableViewFormTextFieldCell.swift in Sources */,
 				BC9C7E001F0DED6600DFFE83 /* CoreGraphics+Rounding.swift in Sources */,
