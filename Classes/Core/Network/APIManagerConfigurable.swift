@@ -1,26 +1,13 @@
 //
-//  ServerAPIURLRequestProvider.swift
+//  APIManagerConfigurable.swift
 //  MPOLKit
 //
 //  Created by Herli Halim on 7/6/17.
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 
-import Foundation
 import Alamofire
-import MPOLKit
-import Wrap
 import Unbox
-
-public protocol EntitySearchRequestable: Parameterisable {
-    associatedtype ResultClass: Unboxable, MPOLKitEntityProtocol
-}
-
-// MARK: - Fetch details
-
-public protocol EntityFetchRequestable: Parameterisable {
-    associatedtype ResultClass: Unboxable, MPOLKitEntityProtocol
-}
 
 // MARK: API Configuration
 public protocol APIManagerConfigurable {
