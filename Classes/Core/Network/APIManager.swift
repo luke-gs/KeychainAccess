@@ -11,6 +11,36 @@ import Alamofire
 import Unbox
 import PromiseKit
 
+
+/// MPOL APIManager stack for MPOL applications.
+/// The APIManager doesn't assume anything in regards to source and model.
+/// Application will need to provide concrete types.
+///
+/// One way of using this is to create a subclass passing in some of the configuration to
+/// erase the generic requirements.
+///
+/// struct MyAPIURLRequestConfiguration: APIURLRequestProviderConfigurable {
+///    typealias Source = MySource
+///    public let url: URLConvertible
+///
+///    public init(url: URLConvertible) {
+///        self.url = url
+///    }
+/// }
+///
+/// class MyAPIManager: APIManager<MyAPIURLRequestConfiguration> {
+///
+///    typealias Source = MyAPIURLRequestConfiguration.Source
+///
+///    override init(configuration: MyAPIURLRequestConfiguration) {
+///        super.init(configuration: configuration)
+///    }
+///
+///    func searchPerson(`in` source: MySource, with surname: String) -> Promise<SearchResult<Person>> {
+///        // Call the `searchEntity(in:with)` internally with the correct parameters.
+///    }
+/// }
+
 open class APIManager<Configuration: APIURLRequestProviderConfigurable> {
     
     open let sessionManager: SessionManager
@@ -30,6 +60,10 @@ open class APIManager<Configuration: APIURLRequestProviderConfigurable> {
         sessionManager = SessionManager(configuration: configuration)
     }
     
+    /// Request for access token.
+    ///
+    /// - Parameter grant: The grant type and required field for it.
+    /// - Returns: A promise for access token.
     open func accessTokenRequest(for grant: OAuthAuthorizationGrant) -> Promise<OAuthAccessToken> {
         let path = "login"
         let requestPath = url(with: path)
@@ -55,6 +89,13 @@ open class APIManager<Configuration: APIURLRequestProviderConfigurable> {
         }
     }
     
+    
+    /// Search for entity using specified request.
+    ///
+    /// - Parameters:
+    ///   - source: The data source of the entity to be searched.
+    ///   - request: The request with the parameters to search the entity.
+    /// - Returns: A promise to return search result of specified entity.
     open func searchEntity<SearchRequest: EntitySearchRequestable>(`in` source: Configuration.Source, with request: SearchRequest) -> Promise<SearchResult<SearchRequest.ResultClass>> {
         
         let path = "{source}/entity/{entityType}/search"
@@ -83,6 +124,13 @@ open class APIManager<Configuration: APIURLRequestProviderConfigurable> {
         }
     }
     
+    
+    /// Fetch entity details using specified request.
+    ///
+    /// - Parameters:
+    ///   - source: The data source of entity to be fetched.
+    ///   - request: The request with the parameters to fetch the entity.
+    /// - Returns: A promise to return specified entity details.
     open func fetchEntityDetails<FetchRequest: EntityFetchRequestable>(`in` source: Configuration.Source, with request: FetchRequest) -> Promise<FetchRequest.ResultClass> {
         
         let path = "{source}/entity/{entityType}/{id}"
@@ -112,7 +160,7 @@ open class APIManager<Configuration: APIURLRequestProviderConfigurable> {
     }
 
     // MARK : - Internal Utilities
-    func url(with path: String) -> URL {
+    private func url(with path: String) -> URL {
         return baseURL.appendingPathComponent(path)
     }
 }
