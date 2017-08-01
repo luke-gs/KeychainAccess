@@ -19,7 +19,7 @@ import PromiseKit
 /// One way of using this is to create a subclass passing in some of the configuration to
 /// erase the generic requirements.
 ///
-/// struct MyAPIURLRequestConfiguration: APIURLRequestProviderConfigurable {
+/// struct MyAPIManagerConfiguration: APIManagerConfigurable {
 ///    typealias Source = MySource
 ///    public let url: URLConvertible
 ///
@@ -28,11 +28,11 @@ import PromiseKit
 ///    }
 /// }
 ///
-/// class MyAPIManager: APIManager<MyAPIURLRequestConfiguration> {
+/// class MyAPIManager: APIManager<MyAPIManagerConfiguration> {
 ///
-///    typealias Source = MyAPIURLRequestConfiguration.Source
+///    typealias Source = MyAPIManagerConfiguration.Source
 ///
-///    override init(configuration: MyAPIURLRequestConfiguration) {
+///    override init(configuration: MyAPIManagerConfiguration) {
 ///        super.init(configuration: configuration)
 ///    }
 ///
@@ -41,7 +41,7 @@ import PromiseKit
 ///    }
 /// }
 
-open class APIManager<Configuration: APIURLRequestProviderConfigurable> {
+open class APIManager<Configuration: APIManagerConfigurable> {
     
     open let sessionManager: SessionManager
     

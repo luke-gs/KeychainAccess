@@ -23,12 +23,12 @@ public protocol EntityFetchRequestable: Parameterisable {
 }
 
 // MARK: API Configuration
-public protocol APIURLRequestProviderConfigurable {
+public protocol APIManagerConfigurable {
     associatedtype Source: EntitySource
     var url: URLConvertible { get }
 }
 
-public struct ServerAPIURLRequestConfiguration<S: EntitySource>: APIURLRequestProviderConfigurable {
+public struct APIManagerDefaultConfiguration<S: EntitySource>: APIManagerConfigurable {
     public typealias Source = S
     public let url: URLConvertible
     
