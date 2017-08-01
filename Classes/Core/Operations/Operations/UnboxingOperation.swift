@@ -77,7 +77,7 @@ public class UnboxingGroupOperation<UnboxableType: Unboxable>: GroupOperation, H
         
         super.init(operations: [provider, unboxer])
         
-        let completionHandlerTriggerOperation = BlockOperation { [weak self] in
+        let completionHandlerTriggerOperation = Foundation.BlockOperation { [weak self] in
             if let response = self?.response {
                 self?.completionHandler?(response)
             }
