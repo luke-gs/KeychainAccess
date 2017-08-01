@@ -13,7 +13,6 @@
 		BC0D8E8B1E94067800EDFC45 /* SearchOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0D8E851E94067800EDFC45 /* SearchOptionsViewController.swift */; };
 		BC0D8E8C1E94067800EDFC45 /* SearchRecentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0D8E861E94067800EDFC45 /* SearchRecentsViewController.swift */; };
 		BC0D8E8D1E94067800EDFC45 /* SearchResultsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0D8E871E94067800EDFC45 /* SearchResultsListViewController.swift */; };
-		BC0D8E8E1E94067800EDFC45 /* SearchResultsMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0D8E881E94067800EDFC45 /* SearchResultsMapViewController.swift */; };
 		BC0D8E8F1E94067800EDFC45 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0D8E891E94067800EDFC45 /* SearchViewController.swift */; };
 		BC45C4471EEB56D2001F5747 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */; };
 		BC4E81111EBEE38400188181 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4E81101EBEE38400188181 /* SettingsViewController.swift */; };
@@ -60,7 +59,6 @@
 		BC0D8E851E94067800EDFC45 /* SearchOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchOptionsViewController.swift; sourceTree = "<group>"; };
 		BC0D8E861E94067800EDFC45 /* SearchRecentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRecentsViewController.swift; sourceTree = "<group>"; };
 		BC0D8E871E94067800EDFC45 /* SearchResultsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultsListViewController.swift; sourceTree = "<group>"; };
-		BC0D8E881E94067800EDFC45 /* SearchResultsMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultsMapViewController.swift; sourceTree = "<group>"; };
 		BC0D8E891E94067800EDFC45 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
 		BC4E81101EBEE38400188181 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -139,7 +137,6 @@
 				BC0D8E851E94067800EDFC45 /* SearchOptionsViewController.swift */,
 				BC0D8E861E94067800EDFC45 /* SearchRecentsViewController.swift */,
 				BC0D8E871E94067800EDFC45 /* SearchResultsListViewController.swift */,
-				BC0D8E881E94067800EDFC45 /* SearchResultsMapViewController.swift */,
 				996364DD1E9C9DDB00F86C35 /* NumberRangePickerViewController.swift */,
 				BC9E485B1E9D9D2800767337 /* Search Requests */,
 				BCC5E9481E9F155E00A9635E /* Search Type Data Sources */,
@@ -372,7 +369,6 @@
 				BC9E485D1E9D9D2800767337 /* SearchRequest.swift in Sources */,
 				BC0D8E8F1E94067800EDFC45 /* SearchViewController.swift in Sources */,
 				BCC5E94C1E9F155E00A9635E /* SearchDataSource.swift in Sources */,
-				BC0D8E8E1E94067800EDFC45 /* SearchResultsMapViewController.swift in Sources */,
 				BC8B26F31EDC07430022B0AD /* ActionListViewController.swift in Sources */,
 				BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */,
 				BCC5E9501E9F27BA00A9635E /* OrganizationSearchDataSource.swift in Sources */,
