@@ -86,12 +86,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let view = LOTAnimationView(filePath: Bundle.mpolKit.path(forResource: "spinner", ofType: "json", inDirectory: "Lottie"))
         
         controller.view.addSubview(view!)
+        controller.view.isUserInteractionEnabled = false
         
         let frame = controller.view.bounds
         
         view?.frame = CGRect(x: frame.midX - 22, y: frame.midY - 22, width: 44, height: 44)
         view?.loopAnimation = true
         view?.play()
+        
         
         MPOL.shared.manager.accessTokenRequest(for: .credentials(username: username, password: password)).then { [weak self] _ -> Void in
             guard let `self` = self else { return }
@@ -107,6 +109,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             alertController.addAction(UIAlertAction(title: "Okay", style: .default))
             AlertQueue.shared.add(alertController)
         }.always {
+            view?.superview?.isUserInteractionEnabled = true
             view?.pause()
             view?.removeFromSuperview()
         }
