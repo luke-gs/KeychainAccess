@@ -34,7 +34,7 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
             if wantsCalculatedContentHeight == oldValue { return }
             
             if wantsCalculatedContentHeight {
-                collectionView?.addObserver(self, forKeyPath: #keyPath(UICollectionView.contentSize), context: &kvoContext)
+                collectionView?.addObserver(self, forKeyPath: #keyPath(UICollectionView.contentSize), options: [.new, .old], context: &kvoContext)
                 updateCalculatedContentHeight()
             } else {
                 collectionView?.removeObserver(self, forKeyPath: #keyPath(UICollectionView.contentSize), context: &kvoContext)
@@ -136,7 +136,7 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
 //            // We do this instead of overriding because overriding accessors that not available
 //            // in your base deployment target currently throws an error in Swift.
 //            // https://bugs.swift.org/browse/SR-1486
-//            addObserver(self, forKeyPath: #keyPath(additionalSafeAreaInsets), context: &kvoContext)
+//            addObserver(self, forKeyPath: #keyPath(additionalSafeAreaInsets), options: [.old, new], context: &kvoContext)
 //        }
     }
     
@@ -172,7 +172,7 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
         collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: tempID)
         
         if wantsCalculatedContentHeight {
-            collectionView.addObserver(self, forKeyPath: #keyPath(UICollectionView.contentSize), context: &kvoContext)
+            collectionView.addObserver(self, forKeyPath: #keyPath(UICollectionView.contentSize), options: [.old, .new], context: &kvoContext)
         }
         
         let backgroundView = UIView(frame: backgroundBounds)
@@ -394,9 +394,22 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {
-            if wantsCalculatedContentHeight {
-                updateCalculatedContentHeight()
+            if wantsCalculatedContentHeight == false { return }
+            
+            if keyPath == #keyPath(UICollectionView.contentSize) {
+                if change?[.oldKey] as? CGSize == change?[.newKey] as? CGSize {
+                    return
+                }
             }
+            
+            // TODO: Uncomment in iOS 11
+//            else if keyPath == #keyPath(additionalSafeAreaInsets) {
+//                if change?[.oldKey] as? UIEdgeInsets == change?[.newKey] as? UIEdgeInsets {
+//                    return
+//                }
+//            }
+            
+            updateCalculatedContentHeight()
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
