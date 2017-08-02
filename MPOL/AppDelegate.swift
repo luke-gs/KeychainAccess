@@ -9,6 +9,8 @@
 import UIKit
 import UserNotifications
 import MPOLKit
+import PromiseKit
+import Lottie
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, LoginViewControllerDelegate, TermsConditionsViewControllerDelegate {
@@ -80,11 +82,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     // MARK: - Login view controller delegate
     
     func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String) {
-        let tsAndCsVC = TermsConditionsViewController()
-        tsAndCsVC.delegate = self
-        let navController = PopoverNavigationController(rootViewController: tsAndCsVC)
-        navController.modalPresentationStyle = .formSheet
-        controller.present(navController, animated: true)
+        
+        let view = LOTAnimationView(filePath: Bundle.mpolKit.path(forResource: "spinner", ofType: "json", inDirectory: "Lottie"))
+        
+        controller.view.addSubview(view!)
+        
+        let frame = controller.view.bounds
+        
+        view?.frame = CGRect(x: frame.midX - 22, y: frame.midY - 22, width: 44, height: 44)
+        view?.loopAnimation = true
+        view?.play()
+        
+        MPOL.shared.manager.accessTokenRequest(for: .credentials(username: username, password: password)).then { [weak self] _ -> Void in
+            guard let `self` = self else { return }
+            
+            let tsAndCsVC = TermsConditionsViewController()
+            tsAndCsVC.delegate = self
+            
+            let navController = PopoverNavigationController(rootViewController: tsAndCsVC)
+            navController.modalPresentationStyle = .formSheet
+            controller.present(navController, animated: true)
+        }.catch { error in
+            let alertController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "Okay", style: .default))
+            AlertQueue.shared.add(alertController)
+        }.always {
+            view?.pause()
+            view?.removeFromSuperview()
+        }
     }
     
     
