@@ -14,16 +14,6 @@ fileprivate let tempID = "temp"
 
 open class FormCollectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, CollectionViewDelegateFormLayout, PopoverViewController {
     
-    /// Allows subclasses to return a custom subclass of UICollectionView
-    /// to use as the collection view.
-    ///
-    /// - Returns: The `UICollectionView` class to use for the main collection view.
-    ///            The default returns `UICollectionView` itself.
-    open class func collectionViewClass() -> UICollectionView.Type {
-        return UICollectionView.self
-    }
-    
-    
     // MARK: - Public properties
     
     open let formLayout: CollectionViewFormLayout
@@ -89,7 +79,6 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
         }
     }
     
-    
     /// The minimum allowed calculated content height. The default is `100.0`.
     open var minimumCalculatedContentHeight: CGFloat = 100.0 {
         didSet {
@@ -98,7 +87,6 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
             }
         }
     }
-    
     
     /// The maximum allowed calculated content height. The default is `.infinity`,
     /// meaning there is no restriction on the content height.
@@ -137,6 +125,18 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     @NSCopying open private(set) var separatorColor:       UIColor?
     
     @NSCopying open private(set) var validationErrorColor: UIColor?
+    
+    
+    // MARK: - Subclass override points
+    
+    /// Allows subclasses to return a custom subclass of UICollectionView
+    /// to use as the collection view.
+    ///
+    /// - Returns: The `UICollectionView` class to use for the main collection view.
+    ///            The default returns `UICollectionView` itself.
+    open func collectionViewClass() -> UICollectionView.Type {
+        return UICollectionView.self
+    }
     
     
     // MARK: - Private properties
@@ -179,9 +179,7 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     open override func loadView() {
         let backgroundBounds = UIScreen.main.bounds
         
-        let collectionViewClass = type(of: self).collectionViewClass()
-        let collectionView = collectionViewClass.init(frame: backgroundBounds, collectionViewLayout: formLayout)
-        
+        let collectionView = collectionViewClass().init(frame: backgroundBounds, collectionViewLayout: formLayout)
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.dataSource = self
         collectionView.delegate   = self

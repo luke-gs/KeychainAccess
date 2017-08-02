@@ -14,7 +14,7 @@ class CollectionDemoListViewController: FormTableViewController {
     enum CollectionDemo: Int {
         case noContent
         case headersBasicFormCells
-        case mapCollectionView
+        case mapHeaderCollectionView
         
         static let count: Int = 3
         
@@ -24,8 +24,8 @@ class CollectionDemoListViewController: FormTableViewController {
                 return "Loading & No Content"
             case .headersBasicFormCells:
                 return "Headers and Basic Form Cells"
-            case .mapCollectionView:
-                return "Map Collection View"
+            case .mapHeaderCollectionView:
+                return "Map Header Collection View"
             }
         }
         
@@ -35,8 +35,8 @@ class CollectionDemoListViewController: FormTableViewController {
                 return NoContentCollectionController()
             case .headersBasicFormCells:
                 return HeadersBasicFormCellsController()
-            case .mapCollectionView:
-                return MapCollectionViewController()
+            case .mapHeaderCollectionView:
+                return MapHeaderCollectionViewController()
             }
         }
     }

@@ -182,6 +182,18 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     @NSCopying open private(set) var separatorColor:       UIColor?
     
     
+    // MARK: - Subclass override points
+    
+    /// Allows subclasses to return a custom subclass of `UITableView`
+    /// to use as the table view.
+    ///
+    /// - Returns: The `UITableView` class to use for the main table view.
+    ///            The default returns `UICollectionView` itself.
+    open func tableViewClass() -> UITableView.Type {
+        return UITableView.self
+    }
+    
+    
     // MARK: - Private properties
     
     @available(iOS, deprecated: 11.0, renamed: "additionalSafeAreaInsets", message: "Use additionalSafeAreaInsets in iOS 11.")
@@ -225,7 +237,7 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     // MARK: - View lifecycle
     
     open override func loadView() {
-        let tableView = UITableView(frame: CGRect(x: 0.0, y: 0.0, width: preferredContentSize.width, height: 400.0), style: tableViewStyle)
+        let tableView = tableViewClass().init(frame: CGRect(x: 0.0, y: 0.0, width: preferredContentSize.width, height: 400.0), style: tableViewStyle)
         tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         tableView.dataSource = self
         tableView.delegate   = self
