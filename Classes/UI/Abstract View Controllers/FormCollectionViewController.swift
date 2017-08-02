@@ -154,7 +154,7 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
         collectionView?.removeObserver(self, forKeyPath: #keyPath(UICollectionView.contentSize), context: &contentHeightContext)
         // TODO: Uncomment for iOS 11
 //        if #available(iOS 11, *) {
-//            removeObserver(self, forKeyPath: #keyPath(additionalSafeAreaInsets), context: &kvoContext)
+//            removeObserver(self, forKeyPath: #keyPath(additionalSafeAreaInsets), context: &contentHeightContext)
 //        }
     }
     
