@@ -140,7 +140,7 @@ public class Theme: NSObject {
     /// The colors for the theme.
     public let colors: [ThemeColorType: UIColor]
     
-    private init?(details: [String: Any]) {
+    internal init?(details: [String: Any]) {
         guard let name = details["name"] as? String else { return nil }
         
         self.name = name
