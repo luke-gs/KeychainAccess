@@ -8,7 +8,7 @@
 
 import UIKit
 
-fileprivate var kvoContext = 1
+fileprivate var contentHeightContext = 1
 
 /// An abstract view controller for presenting a table view based interface in
 /// MPOL apps.
@@ -95,10 +95,21 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
             if wantsCalculatedContentHeight == oldValue { return }
             
             if wantsCalculatedContentHeight {
-                tableView?.addObserver(self, forKeyPath: #keyPath(UITableView.contentSize), options: [.new, .old], context: &kvoContext)
+                tableView?.addObserver(self, forKeyPath: #keyPath(UITableView.contentSize), options: [.new, .old], context: &contentHeightContext)
+                // TODO: Uncomment for iOS 11
+//                if #available(iOS 11, *) {
+//                    // We do this instead of overriding because overriding accessors that not available
+//                    // in your base deployment target currently throws an error in Swift.
+//                    // https://bugs.swift.org/browse/SR-1486
+//                    addObserver(self, forKeyPath: #keyPath(additionalSafeAreaInsets), options: [.old, .new], context: &contentHeightContext)
+//                }
                 updateCalculatedContentHeight()
             } else {
-                tableView?.removeObserver(self, forKeyPath: #keyPath(UITableView.contentSize), context: &kvoContext)
+                tableView?.removeObserver(self, forKeyPath: #keyPath(UITableView.contentSize), context: &contentHeightContext)
+                // TODO: Uncomment for iOS 11
+//                if #available(iOS 11, *) {
+//                    removeObserver(self, forKeyPath: #keyPath(additionalSafeAreaInsets), context: &contentHeightContext)
+//                }
             }
         }
     }
@@ -194,20 +205,12 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
         automaticallyAdjustsScrollViewInsets = false
         
         NotificationCenter.default.addObserver(self, selector: #selector(applyCurrentTheme), name: .ThemeDidChange, object: nil)
-        
-        // TODO: Uncomment for iOS 11
-//        if #available(iOS 11, *) {
-//            // We do this instead of overriding because overriding accessors that not available
-//            // in your base deployment target currently throws an error in Swift.
-//            // https://bugs.swift.org/browse/SR-1486
-//            addObserver(self, forKeyPath: #keyPath(additionalSafeAreaInsets), options: [.old, .new], context: &kvoContext)
-//        }
     }
     
     deinit {
-        if wantsCalculatedContentHeight {
-            tableView?.removeObserver(self, forKeyPath: #keyPath(UITableView.contentSize), context: &kvoContext)
-        }
+        if wantsCalculatedContentHeight == false { return }
+        
+        tableView?.removeObserver(self, forKeyPath: #keyPath(UITableView.contentSize), context: &contentHeightContext)
         // TODO: Uncomment for iOS 11
 //        if #available(iOS 11, *) {
 //            removeObserver(self, forKeyPath: #keyPath(additionalSafeAreaInsets), context: &kvoContext)
@@ -229,7 +232,7 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
         tableView.layoutMargins = UIEdgeInsets(top: 0.0, left: 20.0, bottom: 0.0, right: 0.0)
         
         if wantsCalculatedContentHeight {
-            tableView.addObserver(self, forKeyPath: #keyPath(UITableView.contentSize), options: [.old, .new], context: &kvoContext)
+            tableView.addObserver(self, forKeyPath: #keyPath(UITableView.contentSize), options: [.old, .new], context: &contentHeightContext)
         }
         
         let backgroundView = UIView(frame: tableView.frame)
@@ -292,6 +295,7 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
             tableView?.reloadData()
         }
     }
+    
     
     // MARK: - Themes
     
@@ -439,24 +443,15 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     // MARK: - Overrides
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if context == &kvoContext {
+        if context == &contentHeightContext {
             if wantsCalculatedContentHeight == false { return }
             
-            if keyPath == #keyPath(UITableView.contentSize) {
-                if change?[.oldKey] as? CGSize == change?[.newKey] as? CGSize {
-                    return
-                }
+            let old = change?[.oldKey] as? NSObject
+            let new = change?[.newKey] as? NSObject
+            
+            if old != new {
+                updateCalculatedContentHeight()
             }
-            
-            // TODO: Uncomment in iOS 11
-//            else if keyPath == #keyPath(additionalSafeAreaInsets) {
-//                if change?[.oldKey] as? UIEdgeInsets == change?[.newKey] as? UIEdgeInsets {
-//                    return
-//                }
-//            }
-            
-            updateCalculatedContentHeight()
-            
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
