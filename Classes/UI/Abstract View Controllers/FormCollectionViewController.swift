@@ -25,43 +25,6 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     open private(set) lazy var loadingManager: LoadingStateManager = LoadingStateManager()
     
     
-    /// Additional content insets beyond the standard top and bottom layout guides.
-    ///
-    /// In iOS 11, this value maps directly to the `additionalSafeAreaInsets`, but
-    /// this property is backwards compatible down to iOS 10. You should use this
-    /// property regardless at this time, as we do some extra work.
-    ///
-    /// Internal note: When we drop iOS 10 support some time in the future, all
-    /// surrounding logic should transition to an override of
-    /// `additionalSafeAreaInsets` itself. Currently we can't do that because
-    /// limited-availability-overriding is blocked in Swift. This should then
-    /// be marked as deprecated, and simply call the getters and setters on that
-    /// property.
-    open var additionalContentInsets: UIEdgeInsets {
-        get {
-            // TODO: Uncomment in iOS 11
-            //            if #available(iOS 11, *) {
-            //                return additionalSafeAreaInsets
-            //            } else {
-                return _additionalContentInsets
-            //            }
-        }
-        set {
-            if newValue == additionalContentInsets { return }
-            
-            // TODO: Uncomment in iOS 11
-//            if #available(iOS 11, *) {
-//                additionalSafeAreaInsets = newValue
-//            } else {
-                _additionalContentInsets = newValue
-                viewIfLoaded?.setNeedsLayout()
-//            }
-            if isViewLoaded && wantsCalculatedContentHeight {
-                updateCalculatedContentHeight()
-            }
-        }
-    }
-    
     /// A boolean value indicating whether the collection view should automatically calculate
     /// its `preferreContentSize`'s height property from the collection view's content height.
     ///
@@ -139,6 +102,25 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     }
     
     
+    // MARK: - Legacy support
+    
+    /// Additional content insets beyond the standard top and bottom layout guides.
+    ///
+    /// In iOS 11, you should use `additionalSafeAreaInsets` instead.
+    @available(iOS, deprecated: 11.0, message: "Use `additionalSafeAreaInsets` instead.")
+    open var legacy_additionalSafeAreaInsets: UIEdgeInsets = .zero {
+        didSet {
+            if legacy_additionalSafeAreaInsets == oldValue || isViewLoaded == false { return }
+            
+            view.setNeedsLayout()
+            
+            if wantsCalculatedContentHeight {
+                updateCalculatedContentHeight()
+            }
+        }
+    }
+    
+    
     // MARK: - Private properties
     
     @available(iOS, deprecated: 11.0, renamed: "additionalSafeAreaInsets", message: "Use additionalSafeAreaInsets in iOS 11.")
@@ -161,6 +143,14 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
         automaticallyAdjustsScrollViewInsets = false // we manage this ourselves.
         
         NotificationCenter.default.addObserver(self, selector: #selector(applyCurrentTheme), name: .ThemeDidChange, object: nil)
+        
+        // TODO: Uncomment for iOS 11
+//        if #available(iOS 11, *) {
+//            // We do this instead of overriding because overriding accessors that not available
+//            // in your base deployment target currently throws an error in Swift.
+//            // https://bugs.swift.org/browse/SR-1486
+//            addObserver(self, forKeyPath: #keyPath(additionalSafeAreaInsets), context: &kvoContext)
+//        }
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -171,6 +161,10 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
         if wantsCalculatedContentHeight {
             collectionView?.removeObserver(self, forKeyPath: #keyPath(UICollectionView.contentSize), context: &kvoContext)
         }
+        // TODO: Uncomment for iOS 11
+//        if #available(iOS 11, *) {
+//            removeObserver(self, forKeyPath: #keyPath(additionalSafeAreaInsets), context: &kvoContext)
+//        }
     }
     
     
@@ -214,7 +208,12 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        var insets = _additionalContentInsets
+        // TODO: Uncomment in iOS 11
+//        if #available(iOS 11, *) {
+//            return
+//        }
+        
+        var insets = legacy_additionalSafeAreaInsets
         insets.top += topLayoutGuide.length
         insets.bottom += max(bottomLayoutGuide.length, statusTabBarInset)
         
@@ -441,12 +440,19 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     /// insets, clamped to the min and max values set on the class, and updates when the
     /// collection view's content height changes or the additional content insets change.
     open func calculatedContentHeight() -> CGFloat {
-        let collectionContentHeight = (collectionView?.contentSize.height ?? 0.0) + additionalContentInsets.top + additionalContentInsets.bottom
+        var contentHeight = collectionView?.contentSize.height ?? 0.0
+        
+        // TODO: Uncomment in iOS 11
+//        if #available(iOS 11, *) {
+//            contentHeight += additionalSafeAreaInsets.top + additionalSafeAreaInsets.bottom
+//        } else {
+            contentHeight += legacy_additionalSafeAreaInsets.top + legacy_additionalSafeAreaInsets.bottom
+//        }
         
         let minHeight = minimumCalculatedContentHeight
         let maxHeight = maximumCalculatedContentHeight
         
-        return max(min(collectionContentHeight, maxHeight), minHeight)
+        return max(min(contentHeight, maxHeight), minHeight)
     }
     
     

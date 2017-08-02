@@ -100,7 +100,13 @@ open class MapCollectionViewHeaderLayout: MapCollectionViewLayout {
         
         let topInset = controller.topLayoutGuide.length
         let bottomInset = max(controller.bottomLayoutGuide.length, controller.statusTabBarInset)
-        let additionalContentInsets = controller.additionalContentInsets
+        let additionalSafeAreaInsets: UIEdgeInsets
+        // TODO: Uncomment for iOS 11
+//        if #available(iOS 11, *) {
+//            additionalSafeAreaInsets = controller.additionalSafeAreaInsets
+//        } else {
+            additionalSafeAreaInsets = controller.legacy_additionalSafeAreaInsets
+//        }
         
         controller.loadingManager.contentInsets = UIEdgeInsets(top: topInset, left: 0.0, bottom: bottomInset, right: 0.0)
         
@@ -118,14 +124,14 @@ open class MapCollectionViewHeaderLayout: MapCollectionViewLayout {
         }
         
         if let insetManager = controller.collectionViewInsetManager {
-            let collectionContentInsets = UIEdgeInsets(top: topInset + currentMapHeight, left: 0.0, bottom: bottomInset + additionalContentInsets.bottom, right: 0.0)
+            let collectionContentInsets = UIEdgeInsets(top: topInset + currentMapHeight, left: 0.0, bottom: bottomInset + additionalSafeAreaInsets.bottom, right: 0.0)
             insetManager.standardContentInset   = collectionContentInsets
             insetManager.standardIndicatorInset = collectionContentInsets
         }
         
         if let mapView = controller.mapView {
             let centerCoordinate = mapView.centerCoordinate
-            let mapLayoutMargins = UIEdgeInsets(top: additionalContentInsets.top, left: 0.0, bottom: mapFrame.height - currentMapHeight, right: 0.0)
+            let mapLayoutMargins = UIEdgeInsets(top: additionalSafeAreaInsets.top, left: 0.0, bottom: mapFrame.height - currentMapHeight, right: 0.0)
             
             if mapView.frame != mapFrame || mapView.layoutMargins != mapLayoutMargins {
                 mapView.frame = mapFrame

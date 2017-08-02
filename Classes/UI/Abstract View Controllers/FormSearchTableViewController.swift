@@ -118,7 +118,15 @@ open class FormSearchTableViewController: FormTableViewController, UISearchBarDe
         searchBar.frame = searchBarFrame
         
         // Do this adjustment in willLayoutSubviews or we risk a layout loop.
-        additionalContentInsets.top = isSearchBarHidden ? searchBarFrame.height : 0.0
+        
+        let additionalSafeAreaTopInset = isSearchBarHidden ? searchBarFrame.height : 0.0
+        
+        // TODO: Uncomment for iOS 11
+//        if #available(iOS 11, *) {
+//            additionalSafeAreaInsets.top = additionalSafeAreaTopInset
+//        } else {
+            legacy_additionalSafeAreaInsets.top = additionalSafeAreaTopInset
+//        }
         
         super.viewWillLayoutSubviews()
     }
