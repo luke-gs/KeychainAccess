@@ -121,19 +121,6 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     }
     
     
-    // MARK: - Private properties
-    
-    @available(iOS, deprecated: 11.0, renamed: "additionalSafeAreaInsets", message: "Use additionalSafeAreaInsets in iOS 11.")
-    private var _additionalContentInsets: UIEdgeInsets = .zero {
-        didSet {
-            if _additionalContentInsets != oldValue {
-                viewIfLoaded?.setNeedsLayout()
-            }
-        }
-    }
-    
-    
-    
     // MARK: - Initializers
     
     public init() {
