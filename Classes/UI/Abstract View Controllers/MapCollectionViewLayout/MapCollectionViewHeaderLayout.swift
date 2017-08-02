@@ -15,7 +15,7 @@ import MapKit
 ///
 /// `MapCollectionViewHeaderLayout` has additional state for whether the map is
 /// expanded, and this can be interactively toggled by users.
-class MapCollectionViewHeaderLayout: MapCollectionViewLayout {
+open class MapCollectionViewHeaderLayout: MapCollectionViewLayout {
 
     // MARK: - Public properties
     
@@ -28,7 +28,6 @@ class MapCollectionViewHeaderLayout: MapCollectionViewLayout {
             controller?.viewIfLoaded?.setNeedsLayout()
         }
     }
-    
     
     /// A floating point value indicating the fraction of the view that should be
     /// taken up by the map at the top of the view, when not expanded.
@@ -57,7 +56,7 @@ class MapCollectionViewHeaderLayout: MapCollectionViewLayout {
     
     // MARK: - Type overrides
     
-    override func collectionViewClass() -> UICollectionView.Type {
+    open override func collectionViewClass() -> UICollectionView.Type {
         /// We use a custom class to ensure that touches can flow through to the map.
         return MapHeaderCollectionView.self
     }
@@ -65,7 +64,7 @@ class MapCollectionViewHeaderLayout: MapCollectionViewLayout {
     
     // MARK: - View lifecycle
     
-    override func viewDidLoad() {
+    open override func viewDidLoad() {
         isFirstMapLayout = true
         
         let controller = self.controller!
@@ -94,7 +93,7 @@ class MapCollectionViewHeaderLayout: MapCollectionViewLayout {
         controller.loadingManager.contentView = oldBackgroundView
     }
     
-    override func viewDidLayoutSubviews() -> Bool {
+    open override func viewDidLayoutSubviews() -> Bool {
         let controller = self.controller!
         
         isAdjustingInsets = true

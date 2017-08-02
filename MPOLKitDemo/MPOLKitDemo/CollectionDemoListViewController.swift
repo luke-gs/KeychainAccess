@@ -36,7 +36,7 @@ class CollectionDemoListViewController: FormTableViewController {
             case .headersBasicFormCells:
                 return HeadersBasicFormCellsController()
             case .mapHeaderCollectionView:
-                return MapHeaderCollectionViewController()
+                return MapCollectionViewController(layout: MapCollectionViewHeaderLayout())
             }
         }
     }
