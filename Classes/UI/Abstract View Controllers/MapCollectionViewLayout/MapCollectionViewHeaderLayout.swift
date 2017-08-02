@@ -9,8 +9,19 @@
 import UIKit
 import MapKit
 
+
+/// A concrete subclass of MapCollectionViewLayout for placing a map in a header
+/// above the collection.
+///
+/// `MapCollectionViewHeaderLayout` has additional state for whether the map is
+/// expanded, and this can be interactively toggled by users.
 class MapCollectionViewHeaderLayout: MapCollectionViewLayout {
 
+    // MARK: - Public properties
+    
+    /// A boolean value indicating whether the map is currently in an expanded state.
+    ///
+    /// The default is `false`.
     open var isMapExpanded: Bool = false {
         didSet {
             if isMapExpanded == oldValue { return }
@@ -18,6 +29,11 @@ class MapCollectionViewHeaderLayout: MapCollectionViewLayout {
         }
     }
     
+    
+    /// A floating point value indicating the fraction of the view that should be
+    /// taken up by the map at the top of the view, when not expanded.
+    ///
+    /// The default is `0.5`.
     open var mapRegionFraction: CGFloat = 0.5 {
         didSet {
             if mapRegionFraction ==~ oldValue { return }
@@ -42,6 +58,7 @@ class MapCollectionViewHeaderLayout: MapCollectionViewLayout {
     // MARK: - Type overrides
     
     override func collectionViewClass() -> UICollectionView.Type {
+        /// We use a custom class to ensure that touches can flow through to the map.
         return MapHeaderCollectionView.self
     }
     
