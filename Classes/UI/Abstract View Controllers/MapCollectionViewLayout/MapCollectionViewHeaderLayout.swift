@@ -234,14 +234,34 @@ open class MapCollectionViewHeaderLayout: MapCollectionViewLayout {
 /// add a background view that allows the top content to show through.
 private class MapHeaderCollectionView: UICollectionView {
     
+    override var frame: CGRect {
+        didSet {
+            if frame.size != oldValue.size {
+                updateBackgroundShadow()
+            }
+        }
+    }
+    
+    override var bounds: CGRect {
+        didSet {
+            if bounds.size != oldValue.size {
+                updateBackgroundShadow()
+            }
+        }
+    }
+    
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)
         
         let backgroundView = UIView(frame: .zero)
-        backgroundView.layer.shadowOpacity = 0.4
-        backgroundView.layer.shadowOffset = CGSize(width: 0.0, height: -2.0)
         backgroundView.backgroundColor = .white
         self.backgroundView = backgroundView
+        
+        let backgroundLayer = backgroundView.layer
+        backgroundLayer.shadowPath = CGPath(rect: CGRect(origin: .zero, size: frame.size), transform: nil)
+        backgroundLayer.shadowOpacity = 0.3
+        backgroundLayer.shadowRadius = 2.0
+        backgroundLayer.shadowOffset = CGSize(width: 0.0, height: -2.0)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -264,6 +284,10 @@ private class MapHeaderCollectionView: UICollectionView {
         }
         
         return super.point(inside: point, with: event)
+    }
+    
+    private func updateBackgroundShadow() {
+        backgroundView?.layer.shadowPath = CGPath(rect: CGRect(origin: .zero, size: bounds.size), transform: nil)
     }
     
 }

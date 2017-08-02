@@ -149,7 +149,7 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     /// to use as the table view.
     ///
     /// - Returns: The `UITableView` class to use for the main table view.
-    ///            The default returns `UICollectionView` itself.
+    ///            The default returns `UITableView` itself.
     open func tableViewClass() -> UITableView.Type {
         return UITableView.self
     }
