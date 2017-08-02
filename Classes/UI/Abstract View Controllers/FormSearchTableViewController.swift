@@ -51,6 +51,7 @@ open class FormSearchTableViewController: FormTableViewController, UISearchBarDe
         guard let view = self.view else { return }
         
         if hidden {
+            
             // Disable search.
             searchBar.endEditing(true)
         } else {
@@ -83,32 +84,43 @@ open class FormSearchTableViewController: FormTableViewController, UISearchBarDe
     
     // MARK: - View lifecycle
     
-    open override func viewDidLoad() {
-        super.viewDidLoad()
+    open override func loadView() {
+        super.loadView()
+        
+        // We're going to put the search bar on the background view. The
+        // problem here is that it doesn't count as the content view for the
+        // loading manager. So we'll create a new base view to hold the old
+        // base view, and then the old base view will become the content view.
+        
+        let oldBackgroundView = self.view!
+        oldBackgroundView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
         searchBar.isHidden = isSearchBarHidden
         searchBar.sizeToFit()
-        view.addSubview(searchBar)
+        oldBackgroundView.addSubview(searchBar)
         
-        applyCurrentTheme()
+        let newBackgroundView = UIView(frame: oldBackgroundView.bounds)
+        newBackgroundView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        newBackgroundView.addSubview(oldBackgroundView)
+        self.view = newBackgroundView
+        
+        // We switch to a new set of views for content views etc.
+        loadingManager.baseView = newBackgroundView
+        loadingManager.contentView = oldBackgroundView
     }
     
-    open override func viewDidLayoutSubviews() {
-        // We don't call super because this would adjust things incorrectly, which we would need to reset,
-        // and viewDidLayoutSubviews on UIViewController is a no-op.
-        
-        guard let scrollView = self.tableView, let insetManager = self.tableViewInsetManager else { return }
-        
+    open override func viewWillLayoutSubviews() {
         let topLayoutGuideInset = topLayoutGuide.length
         
         var searchBarFrame = searchBar.frame
         searchBarFrame.origin.y   = topLayoutGuideInset - (isSearchBarHidden ? searchBarFrame.height : 0.0)
-        searchBarFrame.size.width = scrollView.frame.width
+        searchBarFrame.size.width = tableView?.frame.width ?? 0.0
         searchBar.frame = searchBarFrame
         
-        let insets = UIEdgeInsets(top: searchBarFrame.maxY, left: 0.0, bottom: max(bottomLayoutGuide.length, statusTabBarInset), right: 0.0)
-        insetManager.standardContentInset   = insets
-        insetManager.standardIndicatorInset = insets
+        // Do this adjustment in willLayoutSubviews or we risk a layout loop.
+        additionalContentInsets.top = isSearchBarHidden ? searchBarFrame.height : 0.0
+        
+        super.viewWillLayoutSubviews()
     }
     
     open override func viewDidAppear(_ animated: Bool) {
@@ -134,10 +146,6 @@ open class FormSearchTableViewController: FormTableViewController, UISearchBarDe
         super.applyCurrentTheme()
         
         searchBar.barStyle = Theme.current.isDark ? .black : .default
-    }
-    
-    open override func calculatedContentHeight() -> CGFloat {
-        return super.calculatedContentHeight() + (isSearchBarHidden == false ? searchBar.frame.height : 0.0)
     }
     
 }

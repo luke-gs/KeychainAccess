@@ -54,7 +54,7 @@ open class MapCollectionViewController: FormCollectionViewController {
     
     private var interactiveMapHeight: CGFloat = 0.0
     
-    private var isFirstViewLayout: Bool = true
+    private var isFirstMapLayout: Bool = true
     
     private var isAdjustingInsets: Bool = false
     
@@ -75,27 +75,14 @@ open class MapCollectionViewController: FormCollectionViewController {
         let mapView = type(of: self).mapViewClass().init(frame: oldBackgroundView.bounds)
         mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         oldBackgroundView.insertSubview(mapView, at: 0)
+        isFirstMapLayout = true
         
         let newBackgroundView = UIView(frame: oldBackgroundView.bounds)
         newBackgroundView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         newBackgroundView.addSubview(oldBackgroundView)
         
-        let testView = UIView(frame: .zero)
-        testView.translatesAutoresizingMaskIntoConstraints = false
-        testView.backgroundColor = .black
-        testView.isHidden = true
-        mapView.addSubview(testView)
-        
         self.mapView = mapView
         self.view = newBackgroundView
-        
-        NSLayoutConstraint.activate([
-            testView.topAnchor.constraint(equalTo: mapView.layoutMarginsGuide.topAnchor),
-            testView.bottomAnchor.constraint(equalTo: mapView.layoutMarginsGuide.bottomAnchor),
-            testView.leadingAnchor.constraint(equalTo: mapView.layoutMarginsGuide.leadingAnchor),
-            testView.trailingAnchor.constraint(equalTo: mapView.layoutMarginsGuide.trailingAnchor),
-        ])
-        
         
         // We switch to a new set of views for content views etc.
         loadingManager.baseView = newBackgroundView
@@ -103,14 +90,13 @@ open class MapCollectionViewController: FormCollectionViewController {
     }
     
     open override func viewDidLayoutSubviews() {
-        
         isAdjustingInsets = true
         
         let topInset = topLayoutGuide.length
         let bottomInset = max(bottomLayoutGuide.length, statusTabBarInset)
+        let additionalContentInsets = self.additionalContentInsets
         
-        let insets = UIEdgeInsets(top: topInset, left: 0.0, bottom: bottomInset, right: 0.0)
-        loadingManager.contentInsets = insets
+        loadingManager.contentInsets = UIEdgeInsets(top: topInset, left: 0.0, bottom: bottomInset, right: 0.0)
         
         let viewSize = view.frame.size
         let mapFrame = CGRect(x: 0.0, y: topInset, width: viewSize.width, height: viewSize.height - topInset - bottomInset)
@@ -125,18 +111,28 @@ open class MapCollectionViewController: FormCollectionViewController {
             currentMapHeight = isMapExpanded ? maxMapHeight : minMapHeight
         }
         
-        collectionViewInsetManager?.standardContentInset   = UIEdgeInsets(top: topInset + currentMapHeight, left: 0.0, bottom: bottomInset, right: 0.0)
-        collectionViewInsetManager?.standardIndicatorInset = insets
+        let collectionContentInsets = UIEdgeInsets(top: topInset + currentMapHeight, left: 0.0, bottom: bottomInset + additionalContentInsets.bottom, right: 0.0)
+        collectionViewInsetManager?.standardContentInset   = collectionContentInsets
+        collectionViewInsetManager?.standardIndicatorInset = collectionContentInsets
         
-        let centerCoordinate = mapView?.centerCoordinate
+        if let mapView = self.mapView {
+            let centerCoordinate = mapView.centerCoordinate
+            let mapLayoutMargins = UIEdgeInsets(top: additionalContentInsets.top, left: 0.0, bottom: mapFrame.height - currentMapHeight, right: 0.0)
+            
+            if mapView.frame != mapFrame || mapView.layoutMargins != mapLayoutMargins {
+                mapView.frame = mapFrame
+                mapView.layoutMargins = mapLayoutMargins
+                
+                if isFirstMapLayout == false && CLLocationCoordinate2DIsValid(centerCoordinate) {
+                    mapView.centerCoordinate = centerCoordinate
+                }
+            }
+        }
         
-        mapView?.frame = mapFrame
-        mapView?.layoutMargins = UIEdgeInsets(top: 0.0, left: 0.0, bottom: mapFrame.height - currentMapHeight, right: 0.0)
-        
-        if isFirstViewLayout {
-            isFirstViewLayout = false
-        } else if let coordinate = centerCoordinate, CLLocationCoordinate2DIsValid(coordinate) {
-            mapView!.centerCoordinate = coordinate
+        // On first view appearance, the map won't have a valid center coordinate. This
+        // fixes that by bypassing the setting of the coordinate.
+        if isFirstMapLayout {
+            isFirstMapLayout = false
         }
         
         isAdjustingInsets = false
@@ -215,7 +211,6 @@ open class MapCollectionViewController: FormCollectionViewController {
     open func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         scrollView.decelerationRate = UIScrollViewDecelerationRateNormal
     }
-    
     
 }
 

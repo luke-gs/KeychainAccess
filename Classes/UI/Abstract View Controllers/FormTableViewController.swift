@@ -49,6 +49,45 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     open private(set) lazy var loadingManager: LoadingStateManager = LoadingStateManager()
     
     
+    /// Additional content insets beyond the standard top and bottom layout guides.
+    ///
+    /// In iOS 11, this value maps directly to the `additionalSafeAreaInsets`, but
+    /// this property is backwards compatible down to iOS 10. You should use this
+    /// property regardless at this time, as we do some extra work.
+    ///
+    /// Internal note: When we drop iOS 10 support some time in the future, all
+    /// surrounding logic should transition to an override of
+    /// `additionalSafeAreaInsets` itself. Currently we can't do that because
+    /// limited-availability-overriding is blocked in Swift. This should then
+    /// be marked as deprecated, and simply call the getters and setters on that
+    /// property.
+    open var additionalContentInsets: UIEdgeInsets {
+        get {
+            // TODO: Uncomment in iOS 11
+//            if #available(iOS 11, *) {
+//                return additionalSafeAreaInsets
+//            } else {
+                return _additionalContentInsets
+//            }
+        }
+        set {
+            if newValue == additionalContentInsets { return }
+            
+            // TODO: Uncomment in iOS 11
+//            if #available(iOS 11, *) {
+//                additionalSafeAreaInsets = newValue
+//            } else {
+                _additionalContentInsets = newValue
+                viewIfLoaded?.setNeedsLayout()
+//            }
+            if isViewLoaded && wantsCalculatedContentHeight {
+                updateCalculatedContentHeight()
+            }
+        }
+    }
+    
+    
+    
     /// A boolean value indicating whether the table background should be transparent.
     ///
     /// The default is `false`.
@@ -143,6 +182,17 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     @NSCopying open private(set) var separatorColor:       UIColor?
     
     
+    // MARK: - Private properties
+    
+    @available(iOS, deprecated: 11.0, renamed: "additionalSafeAreaInsets", message: "Use additionalSafeAreaInsets in iOS 11.")
+    private var _additionalContentInsets: UIEdgeInsets = .zero {
+        didSet {
+            if _additionalContentInsets != oldValue {
+                viewIfLoaded?.setNeedsLayout()
+            }
+        }
+    }
+    
     // MARK: - Initializers
     
     public init(style: UITableViewStyle) {
@@ -209,7 +259,10 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        let insets = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: max(bottomLayoutGuide.length, statusTabBarInset), right: 0.0)
+        var insets = _additionalContentInsets
+        insets.top += topLayoutGuide.length
+        insets.bottom += max(bottomLayoutGuide.length, statusTabBarInset)
+        
         loadingManager.contentInsets = insets
         tableViewInsetManager?.standardContentInset   = insets
         tableViewInsetManager?.standardIndicatorInset = insets
@@ -417,15 +470,11 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     
     /// Calculates the current preferred content size for the table view.
     ///
-    /// The default uses the current height of the table view, clamped to the min
-    /// and max values set on the class, and updates when the table view's content
-    /// height changes.
-    ///
-    /// Subclasses should override this method to adjust for any additional content
-    /// e.g. search bars and other adornments, but should observe the min and max
-    /// values set.
+    /// The default uses the current height of the table view and additional content
+    /// insets, clamped to the min and max values set on the class, and updates when the
+    /// table view's content height changes or the additional content insets change.
     open func calculatedContentHeight() -> CGFloat {
-        let tableContentHeight = tableView?.contentSize.height ?? 0.0
+        let tableContentHeight = (tableView?.contentSize.height ?? 0.0) + additionalContentInsets.top + additionalContentInsets.bottom
         
         let minHeight = minimumCalculatedContentHeight
         let maxHeight = maximumCalculatedContentHeight
@@ -455,3 +504,6 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     }
 
 }
+
+
+
