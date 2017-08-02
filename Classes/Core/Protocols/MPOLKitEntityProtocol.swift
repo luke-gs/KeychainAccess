@@ -8,7 +8,7 @@
 
 import Unbox
 
-public protocol MPOLKitEntityProtocol {
+public protocol MPOLKitEntityProtocol: Unboxable {
     var id: String { get }
     static var serverTypeRepresentation: String { get }
 }
