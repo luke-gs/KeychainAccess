@@ -18,6 +18,13 @@ open class User: NSObject, NSSecureCoding, ModelVersionable {
         self.username = username
     }
     
+    override open func isEqual(_ object: Any?) -> Bool {
+        guard let compared = object as? User else {
+            return false
+        }
+        return username == compared.username && termsAndConditionsVersionAccepted == compared.termsAndConditionsVersionAccepted
+    }
+    
     // MARK: - NSSecureCoding
     
     open static var supportsSecureCoding: Bool {
@@ -52,7 +59,9 @@ open class User: NSObject, NSSecureCoding, ModelVersionable {
     }
 }
 
+/*
 func ==(lhs: User, rhs: User) -> Bool {
     return lhs.username == rhs.username &&
         lhs.termsAndConditionsVersionAccepted == rhs.termsAndConditionsVersionAccepted
 }
+ */
