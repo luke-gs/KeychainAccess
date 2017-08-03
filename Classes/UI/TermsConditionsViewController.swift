@@ -23,6 +23,8 @@ open class TermsConditionsViewController: UIViewController {
     
     private var textView: UITextView?
     
+    private var textViewInsetManager: ScrollViewInsetManager?
+    
     
     // MARK: - Initializers
     
@@ -32,6 +34,8 @@ open class TermsConditionsViewController: UIViewController {
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonDidSelect(_:)))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Accept", bundle: .mpolKit, comment: "Bar Button"), style: .done, target: self, action: #selector(acceptButtonDidSelect(_:)))
+        
+        automaticallyAdjustsScrollViewInsets = false
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -51,7 +55,16 @@ open class TermsConditionsViewController: UIViewController {
         textView.font = .preferredFont(forTextStyle: .body, compatibleWith: traitCollection)
         textView.attributedText = termsAndConditions
         self.textView = textView
+        self.textViewInsetManager = ScrollViewInsetManager(scrollView: textView)
         self.view = textView
+    }
+    
+    open override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        let insets = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: max(bottomLayoutGuide.length, statusTabBarInset), right: 0.0)
+        textViewInsetManager?.standardContentInset   = insets
+        textViewInsetManager?.standardIndicatorInset = insets
     }
     
     
