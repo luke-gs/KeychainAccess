@@ -8,6 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		12413C281F1F23B0001B0B41 /* spinner.json in Resources */ = {isa = PBXBuildFile; fileRef = 12413C271F1F23B0001B0B41 /* spinner.json */; };
+		12ADD40C1F32A47D00CA8B4D /* NumberRangePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD3F81F32A47D00CA8B4D /* NumberRangePickerViewController.swift */; };
+		12ADD4171F32A47D00CA8B4D /* SearchOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4051F32A47D00CA8B4D /* SearchOptionsViewController.swift */; };
+		12ADD4181F32A47D00CA8B4D /* SearchRecentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4061F32A47D00CA8B4D /* SearchRecentsViewController.swift */; };
+		12ADD4191F32A47D00CA8B4D /* SearchResultsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4071F32A47D00CA8B4D /* SearchResultsListViewController.swift */; };
+		12ADD41A1F32A47D00CA8B4D /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4081F32A47D00CA8B4D /* SearchViewController.swift */; };
+		12ADD41B1F32A47D00CA8B4D /* SearchEntityListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD40A1F32A47D00CA8B4D /* SearchEntityListCell.swift */; };
+		12ADD41C1F32A47D00CA8B4D /* SearchFieldCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD40B1F32A47D00CA8B4D /* SearchFieldCollectionViewCell.swift */; };
+		12ADD41E1F32A4D100CA8B4D /* MPOLKitEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD41D1F32A4D100CA8B4D /* MPOLKitEntity.swift */; };
+		12ADD4201F32A4F900CA8B4D /* SearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD41F1F32A4F900CA8B4D /* SearchRequest.swift */; };
+		12ADD4221F32A50B00CA8B4D /* MPOLKitProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4211F32A50B00CA8B4D /* MPOLKitProtocols.swift */; };
+		12ADD4241F32A53400CA8B4D /* SearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4231F32A53400CA8B4D /* SearchDataSource.swift */; };
 		8CDAFFA6E9DC54A4594C01FE /* Pods_MPOLKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FE1AAA01D6AE18F86693DF8 /* Pods_MPOLKitTests.framework */; };
 		BA6FEAA4EFE7F66EBAE4C2DC /* Pods_MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9215372B17F43A2FDEB28AD0 /* Pods_MPOLKit.framework */; };
 		BC0448941F219A70005FB857 /* AssetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0448931F219A70005FB857 /* AssetManager.swift */; };
@@ -177,6 +188,17 @@
 
 /* Begin PBXFileReference section */
 		12413C271F1F23B0001B0B41 /* spinner.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = spinner.json; sourceTree = "<group>"; };
+		12ADD3F81F32A47D00CA8B4D /* NumberRangePickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberRangePickerViewController.swift; sourceTree = "<group>"; };
+		12ADD4051F32A47D00CA8B4D /* SearchOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchOptionsViewController.swift; sourceTree = "<group>"; };
+		12ADD4061F32A47D00CA8B4D /* SearchRecentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRecentsViewController.swift; sourceTree = "<group>"; };
+		12ADD4071F32A47D00CA8B4D /* SearchResultsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultsListViewController.swift; sourceTree = "<group>"; };
+		12ADD4081F32A47D00CA8B4D /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		12ADD40A1F32A47D00CA8B4D /* SearchEntityListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchEntityListCell.swift; sourceTree = "<group>"; };
+		12ADD40B1F32A47D00CA8B4D /* SearchFieldCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchFieldCollectionViewCell.swift; sourceTree = "<group>"; };
+		12ADD41D1F32A4D100CA8B4D /* MPOLKitEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPOLKitEntity.swift; sourceTree = "<group>"; };
+		12ADD41F1F32A4F900CA8B4D /* SearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRequest.swift; sourceTree = "<group>"; };
+		12ADD4211F32A50B00CA8B4D /* MPOLKitProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPOLKitProtocols.swift; sourceTree = "<group>"; };
+		12ADD4231F32A53400CA8B4D /* SearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchDataSource.swift; sourceTree = "<group>"; };
 		1FE1AAA01D6AE18F86693DF8 /* Pods_MPOLKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOLKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		70E8FDF2F522A8C05328E451 /* Pods-MPOLKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKitTests/Pods-MPOLKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		792BA6D7922A9D3748B70A23 /* Pods-MPOLKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKit/Pods-MPOLKit.release.xcconfig"; sourceTree = "<group>"; };
@@ -373,6 +395,28 @@
 			path = Lottie;
 			sourceTree = "<group>";
 		};
+		12ADD3F71F32A47D00CA8B4D /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				12ADD3F81F32A47D00CA8B4D /* NumberRangePickerViewController.swift */,
+				12ADD4051F32A47D00CA8B4D /* SearchOptionsViewController.swift */,
+				12ADD4061F32A47D00CA8B4D /* SearchRecentsViewController.swift */,
+				12ADD4071F32A47D00CA8B4D /* SearchResultsListViewController.swift */,
+				12ADD4081F32A47D00CA8B4D /* SearchViewController.swift */,
+				12ADD4091F32A47D00CA8B4D /* Views */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		12ADD4091F32A47D00CA8B4D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				12ADD40A1F32A47D00CA8B4D /* SearchEntityListCell.swift */,
+				12ADD40B1F32A47D00CA8B4D /* SearchFieldCollectionViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		AB742C85EFCBDE4BA2B497CE /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -409,6 +453,7 @@
 		BC9C7D181F0DED6600DFFE83 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				12ADD3F71F32A47D00CA8B4D /* Search */,
 				BC9C7D191F0DED6600DFFE83 /* Authentication */,
 				BC9C7D1C1F0DED6600DFFE83 /* Extensions */,
 				BC9C7D211F0DED6600DFFE83 /* Manifest */,
@@ -473,6 +518,8 @@
 		BC9C7D441F0DED6600DFFE83 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				12ADD4231F32A53400CA8B4D /* SearchDataSource.swift */,
+				12ADD4211F32A50B00CA8B4D /* MPOLKitProtocols.swift */,
 				BC9C7D451F0DED6600DFFE83 /* DataResponse+ConvenienceResultInit.swift */,
 				BC9C7D461F0DED6600DFFE83 /* DefaultCustomStringConvertible.swift */,
 				BC9C7D471F0DED6600DFFE83 /* EntitySource.swift */,
@@ -820,6 +867,8 @@
 		C63408571F30E59C000747B0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				12ADD41F1F32A4F900CA8B4D /* SearchRequest.swift */,
+				12ADD41D1F32A4D100CA8B4D /* MPOLKitEntity.swift */,
 				C63408581F30E59C000747B0 /* SearchResult.swift */,
 			);
 			path = Model;
@@ -1057,14 +1106,17 @@
 				BC9C7DC71F0DED6600DFFE83 /* AuthenticationHeaderAdapter.swift in Sources */,
 				C634085B1F30E5B5000747B0 /* EntityFetchRequestable.swift in Sources */,
 				BC9C7DFA1F0DED6600DFFE83 /* CollectionViewFormSubtitleCell.swift in Sources */,
+				12ADD4181F32A47D00CA8B4D /* SearchRecentsViewController.swift in Sources */,
 				BC9C7E081F0DED6600DFFE83 /* UITableView+DefaultReuse.swift in Sources */,
 				BC9C7DF31F0DED6600DFFE83 /* ISO8601DateTransformer.swift in Sources */,
+				12ADD4171F32A47D00CA8B4D /* SearchOptionsViewController.swift in Sources */,
 				BC9C7E281F0DED6600DFFE83 /* StatsOverviewCollectionViewCell.swift in Sources */,
 				BC9C7DEC1F0DED6600DFFE83 /* ModelVersionable.swift in Sources */,
 				BC9C7E101F0DED6600DFFE83 /* TableViewFormCell.swift in Sources */,
 				BC9C7E1E1F0DED6600DFFE83 /* FormCollectionViewController.swift in Sources */,
 				BC9C7DF41F0DED6600DFFE83 /* CollectionViewFormCell.swift in Sources */,
 				BC9C7E261F0DED6600DFFE83 /* EntityListCollectionViewCell.swift in Sources */,
+				12ADD41C1F32A47D00CA8B4D /* SearchFieldCollectionViewCell.swift in Sources */,
 				BC9C7E191F0DED6600DFFE83 /* RadioButton.swift in Sources */,
 				BC9C7E2C1F0DED6600DFFE83 /* UIColor+Hex.swift in Sources */,
 				BC9C7E0B1F0DED6600DFFE83 /* UIView+Convenience.swift in Sources */,
@@ -1084,6 +1136,7 @@
 				BC1B260D1F20BB3A009674B7 /* StatusTabBarController.swift in Sources */,
 				C63408591F30E5A0000747B0 /* SearchResult.swift in Sources */,
 				BC9C7DC81F0DED6600DFFE83 /* OAuthAccessToken.swift in Sources */,
+				12ADD41A1F32A47D00CA8B4D /* SearchViewController.swift in Sources */,
 				BC9C7DFF1F0DED6600DFFE83 /* CoreGraphics+Convenience.swift in Sources */,
 				BC9C7E311F0DED6600DFFE83 /* UITableView+SectionHeaderFooterFetch.swift in Sources */,
 				C6CD6A181F31663500771B8C /* EntitySearchRequest.swift in Sources */,
@@ -1139,6 +1192,8 @@
 				BC9C7E001F0DED6600DFFE83 /* CoreGraphics+Rounding.swift in Sources */,
 				BC9C7E4E1F0DED6600DFFE83 /* BadgeView.swift in Sources */,
 				BC9C7E121F0DED6600DFFE83 /* TableViewFormExpandingHeaderCell.swift in Sources */,
+				12ADD40C1F32A47D00CA8B4D /* NumberRangePickerViewController.swift in Sources */,
+				12ADD41E1F32A4D100CA8B4D /* MPOLKitEntity.swift in Sources */,
 				BC9C7E541F0DED6600DFFE83 /* NavigationBarExtension.swift in Sources */,
 				BC9C7DEF1F0DED6600DFFE83 /* Transformer.swift in Sources */,
 				BC9C7E4A1F0DED6600DFFE83 /* TermsConditionsViewController.swift in Sources */,
@@ -1151,6 +1206,7 @@
 				BC9C7DF91F0DED6600DFFE83 /* CollectionViewFormOptionCell.swift in Sources */,
 				BC9C7E0E1F0DED6600DFFE83 /* CollectionViewFormLayoutAttributes.swift in Sources */,
 				BC9C7DCA1F0DED6600DFFE83 /* Foundation.Operation+MPOLAdditions.swift in Sources */,
+				12ADD4201F32A4F900CA8B4D /* SearchRequest.swift in Sources */,
 				BC9C7E511F0DED6600DFFE83 /* FormAccessoryCheckmark.swift in Sources */,
 				BC9C7E151F0DED6600DFFE83 /* TableViewFormTextViewCell.swift in Sources */,
 				C63408551F30E541000747B0 /* EntitySearchRequestable.swift in Sources */,
@@ -1162,6 +1218,8 @@
 				BC9C7DD01F0DED6600DFFE83 /* ManifestEntry+Location.swift in Sources */,
 				BC9C7DCC1F0DED6600DFFE83 /* UserDefaults+MPOL.swift in Sources */,
 				BC9C7E341F0DED6600DFFE83 /* UIViewAnimationCurve+OptionConversion.swift in Sources */,
+				12ADD4241F32A53400CA8B4D /* SearchDataSource.swift in Sources */,
+				12ADD4221F32A50B00CA8B4D /* MPOLKitProtocols.swift in Sources */,
 				BC9C7E2E1F0DED6600DFFE83 /* UIImage+Initials.swift in Sources */,
 				BC9C7E551F0DED6600DFFE83 /* RoundedRectLabel.swift in Sources */,
 				BC9C7E241F0DED6600DFFE83 /* CollectionViewFormProgressCell.swift in Sources */,
@@ -1178,7 +1236,9 @@
 				BC5C11EF1F2806890048CBBF /* NoContentView.swift in Sources */,
 				BC9C7E021F0DED6600DFFE83 /* NSLayoutConstraint+Conveniences.swift in Sources */,
 				BC9C7DE91F0DED6600DFFE83 /* DataResponse+ConvenienceResultInit.swift in Sources */,
+				12ADD4191F32A47D00CA8B4D /* SearchResultsListViewController.swift in Sources */,
 				BC9C7E181F0DED6600DFFE83 /* FormTextView.swift in Sources */,
+				12ADD41B1F32A47D00CA8B4D /* SearchEntityListCell.swift in Sources */,
 				BC9C7E131F0DED6600DFFE83 /* TableViewFormSubtitleCell.swift in Sources */,
 				BC9C7E4D1F0DED6600DFFE83 /* AlertIndicatorView.swift in Sources */,
 			);
