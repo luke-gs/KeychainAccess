@@ -12,9 +12,9 @@ import MPOLKit
 @objc(MPLPerson)
 open class Person: Entity {
     
-//    override open class var serverTypeRepresentation: String {
-//        return "person"
-//    }
+    override open class var serverTypeRepresentation: String {
+        return "person"
+    }
 
     public enum Gender: Int, CustomStringConvertible, UnboxableEnum, Pickable {
         case female, male, other

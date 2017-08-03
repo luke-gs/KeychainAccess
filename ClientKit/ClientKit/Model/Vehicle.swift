@@ -12,7 +12,9 @@ import Unbox
 @objc(MPLVehicle)
 open class Vehicle: Entity {
 
-    var serverTypeRepresentation: String { get { return "vehicle" } }
+    var serverTypeRepresentation: String {
+        return "vehicle"
+    }
     
     open override class var localizedDisplayName: String {
         return NSLocalizedString("Vehicle", comment: "")
