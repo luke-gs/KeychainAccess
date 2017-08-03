@@ -76,6 +76,8 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         usernameField.addTarget(self, action: #selector(textFieldTextDidChange(_:)), for: .editingChanged)
         usernameField.addObserver(self, forKeyPath: #keyPath(UITextField.text), context: &kvoContext)
         usernameField.font = .systemFont(ofSize: 17.0, weight: UIFontWeightSemibold)
+        usernameField.autocapitalizationType = .none
+        usernameField.autocorrectionType = .no
         self.isUsernameFieldLoaded = true
         
         return usernameField
