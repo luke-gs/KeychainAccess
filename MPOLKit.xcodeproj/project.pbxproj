@@ -160,10 +160,10 @@
 		C63408561F30E574000747B0 /* MPOLKitEntityProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63408521F30D50F000747B0 /* MPOLKitEntityProtocol.swift */; };
 		C63408591F30E5A0000747B0 /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63408581F30E59C000747B0 /* SearchResult.swift */; };
 		C634085B1F30E5B5000747B0 /* EntityFetchRequestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C634085A1F30E5B5000747B0 /* EntityFetchRequestable.swift */; };
+		C65927741F33045300854C60 /* Lottie+MPOLAnimationStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65927731F33045300854C60 /* Lottie+MPOLAnimationStyle.swift */; };
 		C6A5F0081ECE89A300B0D915 /* VehicleSearch.json in Resources */ = {isa = PBXBuildFile; fileRef = C6A5F0071ECE89A300B0D915 /* VehicleSearch.json */; };
 		C6CD6A181F31663500771B8C /* EntitySearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6CD6A171F31663500771B8C /* EntitySearchRequest.swift */; };
 		C6F5DED21ECD5C62008E7BE2 /* AccessToken.json in Resources */ = {isa = PBXBuildFile; fileRef = C6F5DED11ECD5C62008E7BE2 /* AccessToken.json */; };
-		EA3C89031F32A6DD00F38461 /* Lottie+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA3C89021F32A6DD00F38461 /* Lottie+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -339,10 +339,10 @@
 		C63408541F30E541000747B0 /* EntitySearchRequestable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySearchRequestable.swift; sourceTree = "<group>"; };
 		C63408581F30E59C000747B0 /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
 		C634085A1F30E5B5000747B0 /* EntityFetchRequestable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityFetchRequestable.swift; sourceTree = "<group>"; };
+		C65927731F33045300854C60 /* Lottie+MPOLAnimationStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Lottie+MPOLAnimationStyle.swift"; sourceTree = "<group>"; };
 		C6A5F0071ECE89A300B0D915 /* VehicleSearch.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = VehicleSearch.json; sourceTree = "<group>"; };
 		C6CD6A171F31663500771B8C /* EntitySearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntitySearchRequest.swift; sourceTree = "<group>"; };
 		C6F5DED11ECD5C62008E7BE2 /* AccessToken.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AccessToken.json; sourceTree = "<group>"; };
-		EA3C89021F32A6DD00F38461 /* Lottie+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Lottie+Extension.swift"; sourceTree = "<group>"; };
 		F1F64D31F8EA4C917E4EDCA7 /* Pods-MPOLKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKit/Pods-MPOLKit.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -840,7 +840,7 @@
 		EA3C89011F32A6CB00F38461 /* Lottie */ = {
 			isa = PBXGroup;
 			children = (
-				EA3C89021F32A6DD00F38461 /* Lottie+Extension.swift */,
+				C65927731F33045300854C60 /* Lottie+MPOLAnimationStyle.swift */,
 			);
 			path = Lottie;
 			sourceTree = "<group>";
@@ -1074,6 +1074,7 @@
 				BC9C7DEC1F0DED6600DFFE83 /* ModelVersionable.swift in Sources */,
 				BC9C7E101F0DED6600DFFE83 /* TableViewFormCell.swift in Sources */,
 				BC9C7E1E1F0DED6600DFFE83 /* FormCollectionViewController.swift in Sources */,
+				C65927741F33045300854C60 /* Lottie+MPOLAnimationStyle.swift in Sources */,
 				BC9C7DF41F0DED6600DFFE83 /* CollectionViewFormCell.swift in Sources */,
 				BC9C7E261F0DED6600DFFE83 /* EntityListCollectionViewCell.swift in Sources */,
 				BC9C7E191F0DED6600DFFE83 /* RadioButton.swift in Sources */,
@@ -1099,7 +1100,6 @@
 				BC9C7E311F0DED6600DFFE83 /* UITableView+SectionHeaderFooterFetch.swift in Sources */,
 				C6CD6A181F31663500771B8C /* EntitySearchRequest.swift in Sources */,
 				BC9C7DD61F0DED6600DFFE83 /* QueryParser.swift in Sources */,
-				EA3C89031F32A6DD00F38461 /* Lottie+Extension.swift in Sources */,
 				BC9C7DCB1F0DED6600DFFE83 /* UnboxableResponseSerializer.swift in Sources */,
 				BC9C7DF51F0DED6600DFFE83 /* CollectionViewFormCellActionView.swift in Sources */,
 				BC9C7E401F0DED6600DFFE83 /* PopoverNavigationController.swift in Sources */,
