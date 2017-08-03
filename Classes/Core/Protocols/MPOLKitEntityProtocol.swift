@@ -14,7 +14,7 @@ open class MPOLKitEntity: NSObject, Serialisable, MPOLKitEntityProtocol {
         MPLRequiresConcreteImplementation()
     }
 
-    open var id: String
+    open let id: String
 
     public required init(unboxer: Unboxer) throws {
         guard let id: String = unboxer.unbox(key: "id") else {
