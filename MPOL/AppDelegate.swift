@@ -82,18 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     // MARK: - Login view controller delegate
     
     func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String) {
-        
-        let view = LOTAnimationView(filePath: Bundle.mpolKit.path(forResource: "spinner", ofType: "json", inDirectory: "Lottie"))
-        
-        controller.view.addSubview(view!)
-        controller.view.isUserInteractionEnabled = false
-        
-        let frame = controller.view.bounds
-        
-        view?.frame = CGRect(x: frame.midX - 22, y: frame.midY - 22, width: 44, height: 44)
-        view?.loopAnimation = true
-        view?.play()
-        
+        controller.setLoading(true, animated: true)
         
         MPOL.shared.manager.accessTokenRequest(for: .credentials(username: username, password: password)).then { [weak self] _ -> Void in
             guard let `self` = self else { return }
@@ -109,9 +98,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             alertController.addAction(UIAlertAction(title: "Okay", style: .default))
             AlertQueue.shared.add(alertController)
         }.always {
-            view?.superview?.isUserInteractionEnabled = true
-            view?.pause()
-            view?.removeFromSuperview()
+            controller.setLoading(false, animated: true)
         }
     }
     
@@ -124,6 +111,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 self.updateInterface(forLogin: false, animated: true)
             }
         }
+    }
+    
+    func loginViewController(_ controller: LoginViewController, didTapForgotPasswordButton button: UIButton) {
+        
     }
     
     
@@ -156,9 +147,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             NSLayoutConstraint.activate(constraints)
             
             let loginViewController = LoginViewController()
+            
+            loginViewController.minimumUsernameLength = 1
+            loginViewController.minimumPasswordLength = 1
+            
             loginViewController.delegate = self
             loginViewController.backgroundImage = #imageLiteral(resourceName: "Login")
             loginViewController.headerView = headerView
+            
+            #if DEBUG
+            loginViewController.usernameField.text = "mpol"
+            loginViewController.passwordField.text = "mock"
+            #endif
+            
             self.window?.rootViewController = loginViewController
         } else {
             
