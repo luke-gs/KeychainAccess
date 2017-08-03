@@ -13,7 +13,7 @@ class UserTests: XCTestCase {
     
     func testSupportsSecureCoding() {
         let supports = User.supportsSecureCoding
-        XCTAssert(supports == true)
+        XCTAssertTrue(supports)
     }
     
     func testBinarySerialization() {
@@ -21,7 +21,7 @@ class UserTests: XCTestCase {
         user.termsAndConditionsVersionAccepted = "1"
             
         let cloned = self.clone(object: user)
-        XCTAssert(user == cloned)
+        XCTAssertEqual(user, cloned)
     }
     
 }
