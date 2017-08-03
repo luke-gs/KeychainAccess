@@ -271,11 +271,12 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     
     
     // MARK: - UICollectionViewDataSource methods
-    
+
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return (selectedDataSource.numberOfFilters > 0) && (selectedDataSource.request.searchText?.isEmpty ?? true == false) ? 2 : 1
+        let numberOfSections = (selectedDataSource.filter.numberOfFilters > 0) ? 2 : 1
+        return numberOfSections
     }
-    
+
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // This we should force unwrap because if we get the wrong section count here,
         // it's a fatal error anyway and we've seriously ruined our logic.
@@ -283,7 +284,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         case .searchField:
             return 1
         case .filters:
-            return selectedDataSource.numberOfFilters
+            return selectedDataSource.filter.numberOfFilters
         }
     }
     
@@ -304,8 +305,8 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         case .searchField:
             let cell = collectionView.dequeueReusableCell(of: SearchFieldCollectionViewCell.self, for: indexPath)
             let textField = cell.textField
-            textField.text = selectedDataSource.request.searchText
-            
+            textField.text = currentSearchable?.searchText
+
             textField.delegate = self
             if textField.allTargets.contains(self) == false {
                 textField.addTarget(self, action: #selector(textFieldTextDidChange(_:)), for: .editingChanged)
@@ -321,11 +322,13 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
             
             let filterIndex = indexPath.item
             let dataSource = self.selectedDataSource
-            
-            filterCell.titleLabel.text = dataSource.titleForFilter(at: filterIndex)
-            filterCell.valueLabel.text = dataSource.valueForFilter(at: filterIndex)
-            filterCell.placeholderLabel.text = dataSource.defaultValueForFilter(at: filterIndex)
-            
+
+            filterCell.titleLabel.text = dataSource.filter.title(at: filterIndex)
+            filterCell.valueLabel.text = dataSource.filter.value(at: filterIndex)
+            filterCell.placeholderLabel.text = dataSource.filter.defaultValue(at: filterIndex)
+
+            self.filterOptions[filterIndex] = dataSource.filter.value(at: filterIndex)
+
             return filterCell
         }
     }
@@ -386,24 +389,23 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        delegate?.searchOptionsController(self, didFinishWith: selectedDataSource.request)
+        performSearch()
         return false
     }
     
     @objc private func textFieldTextDidChange(_ textField: UITextField) {
         let text = textField.text
-        dataSources.forEach { $0.request.searchText = text }
-        
+
+        currentSearchable?.searchText = text
         guard let collectionView = self.collectionView else { return }
-        
+
         let has2Sections   = collectionView.numberOfSections == 2
-        let wants2Sections = (selectedDataSource.numberOfFilters > 0) && (text?.isEmpty ?? true == false)
-        
+        let wants2Sections = (selectedDataSource.filter.numberOfFilters > 0) && (text?.isEmpty ?? true == false)
+
         if has2Sections != wants2Sections {
             reloadCollectionViewRetainingEditing()
         }
     }
-    
     
     // MARK: - CollectionViewDelegateFormLayout methods
     

@@ -12,99 +12,97 @@ import Unbox
 fileprivate let alertCellID = "alertCell"
 
 class SearchResultsListViewController: FormCollectionViewController {
-    
+
     weak var delegate: SearchResultsDelegate?
-    
-    @NSCopying var searchRequest: SearchRequest? {
-        didSet {
-            searchFieldButton?.text = searchRequest?.searchText
+
+    private(set) var dataSource: DataSourceable?
+    private(set) var searchable: Searchable?
+
+    public func set(dataSource: DataSourceable, with searchable: Searchable) throws {
+        do {
+            self.dataSource = dataSource
+            self.searchable = searchable
+            //            searchField.update(for: searchable, resultCount: 0)
+            try startSearching()
+        } catch (let error) {
+            throw error
         }
     }
-    
+
     private var wantsThumbnails: Bool = true {
         didSet {
             if wantsThumbnails == oldValue { return }
-            
+
             listStateItem.image = AssetManager.shared.image(forKey: wantsThumbnails ? .list : .thumbnail)
-            
+
             if traitCollection.horizontalSizeClass != .compact {
                 collectionView?.reloadData()
             }
         }
     }
-    
+
     private let listStateItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .list), style: .plain, target: nil, action: nil)
-    
+
     private var searchFieldButton: SearchFieldButton?
-    
-    private var alertEntities: [Entity] = []
+
+    private var alertEntities: [MPOLKitEntity] = []
     private var alertExpanded = false
-    
+
     private var dataSourceResults: [DataSourceResult] = []
-    
-    
+
     override init() {
         super.init()
-        
+
         title = NSLocalizedString("Search Results", comment: "Navigation Bar Title") // Temp
-        
-        let url = Bundle.mpolKit.url(forResource: "Person_25625aa4-3394-48e2-8dbc-2387498e16b0", withExtension: "json", subdirectory: "Mock JSONs")!
-        let data = try! Data(contentsOf: url)
-        let person1: [Person] = [try! unbox(data: data)]
-        
-        alertEntities = person1
-        dataSourceResults = [DataSourceResult(name: "LEAP", isExpanded: true, entities: person1)]
 
         formLayout.itemLayoutMargins = UIEdgeInsets(top: 16.5, left: 8.0, bottom: 14.5, right: 8.0)
         formLayout.distribution = .none
-        
+
         listStateItem.target = self
         listStateItem.action = #selector(toggleThumbnails)
         listStateItem.imageInsets = .zero
-        
+
         navigationItem.leftBarButtonItem = UIBarButtonItem.backBarButtonItem(target: self, action: #selector(backButtonItemDidSelect))
-        
         navigationItem.rightBarButtonItems = [listStateItem]
     }
-    
-    
+
+
     // MARK: - View lifecycle
-    
+
     override func viewDidLoad() {
         let searchFieldButton = SearchFieldButton(frame: .zero)
         searchFieldButton.translatesAutoresizingMaskIntoConstraints = false
-        searchFieldButton.text = searchRequest?.searchText
         searchFieldButton.addTarget(self, action: #selector(searchFieldButtonDidSelect), for: .primaryActionTriggered)
         view.addSubview(searchFieldButton)
         self.searchFieldButton = searchFieldButton
-        
+
         super.viewDidLoad()
-        
+
         guard let view = self.view, let collectionView = self.collectionView else { return }
-        
+
         collectionView.register(EntityCollectionViewCell.self)
         collectionView.register(EntityCollectionViewCell.self, forCellWithReuseIdentifier: alertCellID)
         collectionView.register(SearchEntityListCell.self)
         collectionView.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
-        
+
         NSLayoutConstraint.activate([
             searchFieldButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             searchFieldButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             searchFieldButton.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor),
-        ])
+            ])
     }
-    
+
     open override func viewDidLayoutSubviews() {
         let insets = UIEdgeInsets(top: topLayoutGuide.length + (searchFieldButton?.frame.height ?? 0.0), left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)
-        
+
         loadingManager.contentInsets = insets
         collectionViewInsetManager?.standardContentInset = insets
         collectionViewInsetManager?.standardIndicatorInset = insets
     }
-    
+
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        
+
         let isCompact = traitCollection.horizontalSizeClass == .compact
         if isCompact != (previousTraitCollection?.horizontalSizeClass == .compact) {
             if wantsThumbnails {
@@ -113,23 +111,23 @@ class SearchResultsListViewController: FormCollectionViewController {
             navigationItem.rightBarButtonItems = isCompact ? nil : [listStateItem]
         }
     }
-    
+
     override func applyCurrentTheme() {
         super.applyCurrentTheme()
-        
+
         guard let searchField = searchFieldButton else { return }
-        
+
         let themeColors = Theme.current.colors
-        
+
         searchField.backgroundColor = themeColors[.SearchFieldBackground]
         searchField.fieldColor = themeColors[.SearchField]
         searchField.textColor  = primaryTextColor
         searchField.placeholderTextColor = placeholderTextColor
     }
-    
-    
+
+
     // MARK: - UICollectionViewDataSource methods
-    
+
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         var sectionCount = dataSourceResults.count
         if alertEntities.isEmpty == false {
@@ -137,28 +135,28 @@ class SearchResultsListViewController: FormCollectionViewController {
         }
         return sectionCount
     }
-    
+
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    
+
         let adjustedSection = adjustedSectionIndex(forDataSourceSectionIndex: section)
-        
+
         if adjustedSection < 0 {
-        let alertCount = alertEntities.count
+            let alertCount = alertEntities.count
             return alertExpanded ? alertCount : 0
         }
-        
+
         let dataSource = dataSourceResults[adjustedSection]
         return dataSource.isExpanded ? dataSource.entities.count : 0
     }
-    
+
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         switch kind {
         case UICollectionElementKindSectionHeader:
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
             let isExpanded: Bool
-            
+
             let adjustedSection = adjustedSectionIndex(forDataSourceSectionIndex: indexPath.section)
-            
+
             if adjustedSection < 0 {
                 let alertCount = alertEntities.count
                 header.text = String.localizedStringWithFormat(NSLocalizedString("%d Alert(s)", comment: ""), alertCount).uppercased(with: .current)
@@ -168,22 +166,22 @@ class SearchResultsListViewController: FormCollectionViewController {
                 header.text = String.localizedStringWithFormat(NSLocalizedString("%1$d Result(s) in %2$@", comment: ""), dataSourceResult.entities.count, dataSourceResult.name).uppercased(with: .current)
                 isExpanded = dataSourceResult.isExpanded
             }
-            
+
             header.showsExpandArrow = true
             header.isExpanded = isExpanded
-            
+
             header.tapHandler = { [weak self] (headerView, indexPath) in
                 guard let `self` = self else { return }
-                
+
                 let shouldBeExpanded = headerView.isExpanded == false
-                
+
                 var adjustedSection = indexPath.section
                 let alertCount = self.alertEntities.count
-                
+
                 if alertCount > 0 {
                     adjustedSection -= 1
                 }
-                
+
                 if adjustedSection < 0 {
                     self.alertExpanded = shouldBeExpanded
                 } else {
@@ -191,52 +189,43 @@ class SearchResultsListViewController: FormCollectionViewController {
                 }
                 self.collectionView?.reloadData()
             }
-            
+
             return header
         default:
             return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
         }
     }
-    
+
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let entity = self.entity(at: indexPath)
-        
         let adjustedSection = adjustedSectionIndex(forDataSourceSectionIndex: indexPath.section)
-        
+
         if adjustedSection >= 0 && (wantsThumbnails == false || traitCollection.horizontalSizeClass == .compact) {
-            let cell = collectionView.dequeueReusableCell(of: SearchEntityListCell.self, for: indexPath)
-            cell.titleLabel.text    = entity.summary
-            
-            let subtitleComponents = [entity.summaryDetail1, entity.summaryDetail2].flatMap({$0})
-            cell.subtitleLabel.text = subtitleComponents.isEmpty ? nil : subtitleComponents.joined(separator: " : ")
-            cell.thumbnailView.configure(for: entity, size: .small)
-            cell.alertColor       = entity.alertLevel?.color
-            cell.actionCount      = entity.actionCount
-            cell.highlightStyle   = .fade
-            cell.sourceLabel.text = entity.source?.localizedBadgeTitle
-            cell.accessoryView = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
-            
+            let cell = collectionView.dequeueReusableCell(of: EntityListCollectionViewCell.self, for: indexPath)
+            dataSource?.decorateList(cell: cell, at: indexPath)
             return cell
         }
-        
+
         let cell: EntityCollectionViewCell
         let style: EntityCollectionViewCell.Style
-        
+
         if adjustedSection < 0 {
             cell = collectionView.dequeueReusableCell(withReuseIdentifier: alertCellID, for: indexPath) as! EntityCollectionViewCell
             style = .thumbnail
+            dataSource?.decorateAlert(cell: cell, at: indexPath, style: style)
         } else {
             cell = collectionView.dequeueReusableCell(of: EntityCollectionViewCell.self, for: indexPath)
             style = .hero
+            dataSource?.decorate(cell: cell, at: indexPath, style: style)
         }
-        cell.configure(for: entity, style: style)
+
         cell.highlightStyle   = .fade
+        cell.style = style
         return cell
     }
-    
-    
+
+
     // MARK: - UICollectionViewDelegate methods
-    
+
     override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if let listCell = cell as? SearchEntityListCell {
             listCell.titleLabel.textColor = primaryTextColor
@@ -246,107 +235,160 @@ class SearchResultsListViewController: FormCollectionViewController {
             super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
         }
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         delegate?.searchResultsController(self, didSelectEntity: entity(at: indexPath))
     }
-    
-    
-    
+
+
+
     // MARK: - CollectionViewDelegateFormLayout methods
-    
+
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
         return CollectionViewFormHeaderView.minimumHeight
     }
-    
+
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, insetForSection section: Int) -> UIEdgeInsets {
         var inset = super.collectionView(collectionView, layout: layout, insetForSection: section)
         inset.top    = 4.0
         inset.bottom = 0
         return inset
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
         let adjustedSection = adjustedSectionIndex(forDataSourceSectionIndex: indexPath.section)
-        
+
         if adjustedSection < 0 {
             return EntityCollectionViewCell.minimumContentWidth(forStyle: .thumbnail)
         }
-        
+
         if wantsThumbnails && traitCollection.horizontalSizeClass != .compact {
             return EntityCollectionViewCell.minimumContentWidth(forStyle: .hero)
         }
-        
+
         return collectionView.bounds.width
     }
-    
+
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
         let adjustedSection = adjustedSectionIndex(forDataSourceSectionIndex: indexPath.section)
 
         if adjustedSection < 0 {
             return EntityCollectionViewCell.minimumContentHeight(forStyle: .thumbnail, compatibleWith: traitCollection) - 12.0
         }
-        
+
         if wantsThumbnails && traitCollection.horizontalSizeClass != .compact {
             return EntityCollectionViewCell.minimumContentHeight(forStyle: .hero, compatibleWith: traitCollection) - 12.0
         }
-        
+
         return SearchEntityListCell.minimumContentHeight(compatibleWith: traitCollection)
     }
-    
-    
+
+
     // MARK: - Private methods
-    
+
     @objc private func searchFieldButtonDidSelect() {
-        delegate?.searchResultsController(self, didRequestToEdit: searchRequest)
+        delegate?.searchResultsController(self, didRequestToEdit: searchable)
     }
-    
+
     @objc private func backButtonItemDidSelect() {
         delegate?.searchResultsControllerDidCancel(self)
     }
-    
+
     @objc private func toggleThumbnails() {
         wantsThumbnails = !wantsThumbnails
     }
-    
-    @objc private func entity(at indexPath: IndexPath) -> Entity {
-        
+
+    @objc private func entity(at indexPath: IndexPath) -> MPOLKitEntity {
+
         let adjustedSection = adjustedSectionIndex(forDataSourceSectionIndex: indexPath.section)
-        
+
         if adjustedSection < 0 {
             return alertEntities[indexPath.item]
         }
-        
+
         return dataSourceResults[adjustedSection].entities[indexPath.item]
     }
-    
+
     private func adjustedSectionIndex(forDataSourceSectionIndex: Int) -> Int {
         var adjustedSection = forDataSourceSectionIndex
         let alertCount = alertEntities.count
-        
+
         if alertCount > 0 {
             adjustedSection -= 1
         }
-        
+
         return adjustedSection
     }
-    
+
+
+    // MARK: - Search
+    private func startSearching() throws {
+
+        //        let showHUDOp = BlockOperation { [unowned self] in
+        //            DispatchQueue.main.async {
+        //                APESuperHUD.showOrUpdateHUD(loadingIndicator: .standard, message: "Searching...", presentingView: self.view)
+        //            }
+        //        }
+        //
+        //        let dismissHUDOp = BlockOperation { [unowned self] in
+        //            DispatchQueue.main.async {
+        //                APESuperHUD.removeHUD(animated: true, presentingView: self.view, completion: nil)
+        //            }
+        //        }
+        //
+        guard let searchable = searchable, let dataSource = dataSource else { return }
+
+        do {
+            let operations = try dataSource.searchOperation(searchable: searchable, completion: { [weak self] (success, error) in
+                if success == true {
+                    guard let entities = dataSource.entities else { return }
+
+                    self?.hasContent = entities.count > 0
+                    self?.alertEntities = self?.dataSource?.filteredEntities ?? []
+
+                    if let sortedEntities = dataSource.sortedEntities {
+                        self?.dataSourceResults = [DataSourceResult(name: dataSource.localizedSourceBadgeTitle, isExpanded: true,
+                                                                    entities: sortedEntities)]
+
+                        OperationQueue.main.addOperation {
+                            self?.searchField.update(for: searchable, resultCount: sortedEntities.count)
+                            self?.collectionView?.reloadData()
+                        }
+                    }
+                } else  {
+                    self?.hasContent = false
+                    //                    DispatchQueue.main.async {
+                    //                        AlertQueue.shared.addErrorAlert(title: "System Error", message: nil)
+                    //                    }
+                }
+            })
+
+            if let dataOp = operations?.updateDataOperation, let searchOp = operations?.searchOperation {
+                dataOp.addDependency(searchOp)
+                //                dismissHUDOp.addDependency(searchOp)
+
+                //                operationQueue.addOperation(showHUDOp)
+                //                operationQueue.addOperation(dismissHUDOp)
+//                operationQueue.addOperation(searchOp)
+//                operationQueue.addOperation(dataOp)
+            }
+        } catch (let error) {
+            throw error
+        }
+    }
 }
 
 fileprivate struct DataSourceResult {
     var name: String
     var isExpanded: Bool
-    var entities: [Entity]
+    var entities: [MPOLKitEntity]
 }
 
 protocol SearchResultsDelegate: class {
-    
-    func searchResultsController(_ controller: UIViewController, didRequestToEdit searchRequest: SearchRequest?)
-    
-    func searchResultsController(_ controller: UIViewController, didSelectEntity entity: Entity)
-    
+    func searchResultsController(_ controller: UIViewController, didRequestToEdit searchable: Searchable?)
+    func searchResultsController(_ controller: UIViewController, didSelectEntity entity: MPOLKitEntity)
     func searchResultsControllerDidCancel(_ controller: UIViewController)
-    
 }
+
 

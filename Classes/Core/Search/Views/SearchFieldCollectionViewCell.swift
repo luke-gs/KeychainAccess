@@ -56,7 +56,9 @@ class SearchFieldCollectionViewCell: CollectionViewFormCell {
         commonInit()
     }
     
-    private func commonInit() {
+    internal override func commonInit() {
+        super.commonInit()
+        
         selectionStyle = .underline
         
         textField.translatesAutoresizingMaskIntoConstraints = false

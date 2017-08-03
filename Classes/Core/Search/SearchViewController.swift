@@ -25,7 +25,8 @@ fileprivate let navigationItemKeyPaths: [String] = [
 class SearchViewController: UIViewController, SearchRecentsViewControllerDelegate, SearchResultsDelegate, SearchOptionsViewControllerDelegate {
     
     let recentsViewController = SearchRecentsViewController()
-    
+    private var viewModel: SearchViewModel
+
     @objc dynamic private(set) var currentResultsViewController: UIViewController? {
         didSet {
             if currentResultsViewController != oldValue {
@@ -71,14 +72,14 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     
     
     // MARK: - Private properties
-    
-    private var recentlySearched: [SearchRequest] = [] {
+
+    private var recentlySearched: [Searchable] = [] {
         didSet {
             recentsViewController.recentlySearched = recentlySearched
         }
     }
-    
-    private var recentlyViewedEntities: [Entity] = [] {
+
+    private var recentlyViewedEntities: [MPOLKitEntity] = [] {
         didSet {
             recentsViewController.recentlyViewed = recentlyViewedEntities
         }
@@ -293,55 +294,72 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
         }
     }
     
-    
+
     // MARK: - SearchRecentsViewControllerDelegate
-    
-    func searchRecentsController(_ controller: SearchRecentsViewController, didSelectRecentEntity recentEntity: Entity) {
+
+    func searchRecentsController(_ controller: SearchRecentsViewController, didSelectRecentEntity recentEntity: MPOLKitEntity) {
         didSelectEntity(recentEntity)
     }
-    
-    func searchRecentsController(_ controller: SearchRecentsViewController, didSelectRecentSearch recentSearch: SearchRequest) {
-        searchOptionsViewController.setCurrentSearchRequest(recentSearch)
+
+    func searchRecentsController(_ controller: SearchRecentsViewController, didSelectRecentSearch recentSearch: Searchable) {
+        searchOptionsViewController.setCurrent(searchable: recentSearch)
         setShowingSearchOptions(true, animated: true)
         searchOptionsViewController.beginEditingSearchField(true)
     }
-    
+
     func searchRecentsControllerDidSelectNewSearch(_ controller: SearchRecentsViewController) {
         displaySearchTriggered()
     }
-    
+
     
     // MARK: - SearchOptionsViewControllerDelegate
-    
-    func searchOptionsController(_ controller: SearchOptionsViewController, didFinishWith searchRequest: SearchRequest) {
-        resultsListViewController.searchRequest = searchRequest
-        
-        setShowingSearchOptions(false, animated: true)
-        setCurrentResultsViewController(resultsListViewController, animated: true) { [weak self] (_) in
-            guard let `self` = self else { return }
-            
-            if self.recentlySearched.isEmpty || searchRequest != self.recentlySearched.first {
-                self.recentlySearched.insert(searchRequest, at: 0)
+
+    func searchOptionsController(_ controller: SearchOptionsViewController, didFinishWith searchable: Searchable) {
+        do {
+            let dataSource = self.viewModel.dataSources.filter{ $0.localizedDisplayName == searchable.type }.first
+
+            guard let datasource = dataSource else { return }
+
+            try resultsListViewController.set(dataSource: datasource, with: searchable)
+
+            let existingIndex = recentlySearched.index(of: searchable)
+            if let existingIndex = existingIndex {
+                //existing -> move to top
+                recentlySearched.insert(recentlySearched.remove(at: existingIndex), at: 0)
+            } else {
+                //create new at top
+                recentlySearched.insert(searchable, at: 0)
             }
+
+            setShowingSearchOptions(false, animated: true)
+            setCurrentResultsViewController(resultsListViewController, animated: true) { [weak self] (_) in
+                guard let `self` = self else { return }
+
+                if self.recentlySearched.isEmpty || searchable != self.recentlySearched.first {
+                    self.recentlySearched.insert(searchable, at: 0)
+                }
+            }
+        } catch (let error) {
+            //TODO: Handle error
         }
     }
-    
+
     func searchOptionsControllerDidCancel(_ controller: SearchOptionsViewController) {
         cancelSearchTriggered()
     }
     
-    
+
     // MARK: - SearchResultsDelegate
-    
-    func searchResultsController(_ controller: UIViewController, didRequestToEdit searchRequest: SearchRequest?) {
+
+    func searchResultsController(_ controller: UIViewController, didRequestToEdit searchable: Searchable?) {
         setShowingSearchOptions(true, animated: true)
     }
-    
+
     func searchResultsControllerDidCancel(_ controller: UIViewController) {
         setCurrentResultsViewController(nil, animated: true)
     }
-    
-    func searchResultsController(_ controller: UIViewController, didSelectEntity entity: Entity) {
+
+    func searchResultsController(_ controller: UIViewController, didSelectEntity entity: MPOLKitEntity) {
         didSelectEntity(entity)
     }
     
@@ -371,15 +389,14 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     
     
     // MARK: - Private methods
-    
+
     @objc private func displaySearchTriggered() {
         func showSearchDetails() {
             // Reset every data source prior to presenting.
-            searchOptionsViewController.resetSearchRequests()
             setShowingSearchOptions(true, animated: true)
-            searchOptionsViewController.beginEditingSearchField()
+            searchOptionsViewController.beginEditingSearchField(true)
         }
-        
+
         if presentedViewController != nil {
             dismiss(animated: true, completion: showSearchDetails)
         } else {
@@ -486,23 +503,25 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
         navigationItem.setLeftBarButtonItems(leftBarButtonItems,   animated: animated)
         navigationItem.setRightBarButtonItems(rightBarButtonItems, animated: animated)
     }
-    
-    private func didSelectEntity(_ entity: Entity) {
-        let entityViewController = EntityDetailsSplitViewController(entity: entity)
-        navigationController?.pushViewController(entityViewController, animated: true)
-        
-        // Do this after the push.
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-            var recents = self.recentlyViewedEntities
-            if recents.first == entity {
-                return
-            }
-            if let oldIndex = recents.index(of: entity) {
-                recents.remove(at: oldIndex)
-            }
-            recents.insert(entity, at: 0)
-            self.recentlyViewedEntities = recents
-        }
+
+    private func didSelectEntity(_ entity: MPOLKitEntity) {
+        navigationController?.pushViewController(UIViewController(), animated: true)
+
+//        let entityViewController = EntityDetailsSplitViewController(entity: entity)
+//        navigationController?.pushViewController(entityViewController, animated: true)
+//        
+//        // Do this after the push.
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+//            var recents = self.recentlyViewedEntities
+//            if recents.first == entity {
+//                return
+//            }
+//            if let oldIndex = recents.index(of: entity) {
+//                recents.remove(at: oldIndex)
+//            }
+//            recents.insert(entity, at: 0)
+//            self.recentlyViewedEntities = recents
+//        }
     }
     
 }
