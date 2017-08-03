@@ -63,7 +63,7 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
     }()
     
     private lazy var searchOptionsViewController: SearchOptionsViewController = { [unowned self] in
-        let optionsController = SearchOptionsViewController()
+        let optionsController = SearchOptionsViewController(dataSources: self.viewModel.dataSources)
         optionsController.delegate = self
         self.addChildViewController(optionsController)
         optionsController.didMove(toParentViewController: self)
