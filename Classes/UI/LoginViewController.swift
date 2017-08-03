@@ -412,7 +412,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         contentStackView.translatesAutoresizingMaskIntoConstraints = false
         contentStackView.axis = .vertical
         contentStackView.alignment = .center
-        contentStackView.spacing   = 50.0
+        contentStackView.spacing   = 43.0
         contentStackView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
         scrollView.addSubview(contentStackView)
         
@@ -482,7 +482,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         ]
         
         
-        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[ul]-4-[uf]-11-[us]-18-[pl]-4-[pf]-11-[ps(==us)]", options: [.alignAllLeading, .alignAllTrailing], metrics: nil, views: ["ul": usernameLabel, "uf": usernameField, "us": usernameSeparator, "pl": passwordLabel, "pf": passwordField, "ps": passwordSeparator, "fpb": forgotPasswordButton])
+        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[ul]-2-[uf]-12-[us]-18-[pl]-2-[pf]-12-[ps(==us)]", options: [.alignAllLeading, .alignAllTrailing], metrics: nil, views: ["ul": usernameLabel, "uf": usernameField, "us": usernameSeparator, "pl": passwordLabel, "pf": passwordField, "ps": passwordSeparator, "fpb": forgotPasswordButton])
         
         constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:[ps]->=0-[fpb]|", options: [.alignAllLeading], metrics: nil, views: ["ps": passwordSeparator, "fpb": forgotPasswordButton])
         
