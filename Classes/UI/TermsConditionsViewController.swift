@@ -8,52 +8,59 @@
 
 import UIKit
 
-open class TermsConditionsViewController: UIViewController {
+public class TermsConditionsViewController: UIViewController {
     
     // MARK: - Properties
     
-    open var termsAndConditions: NSAttributedString? = NSAttributedString(string: NSLocalizedString("Terms and Conditions", bundle: .mpolKit, comment: ""), attributes: [NSFontAttributeName: UIFont.preferredFont(forTextStyle: .body)] ) {
-        didSet {
-            textView?.attributedText = termsAndConditions
-        }
-    }
-    
-    open weak var delegate: TermsConditionsViewControllerDelegate?
-    
+    public weak var delegate: TermsConditionsViewControllerDelegate?
     
     private var textView: UITextView?
     
+    public let fileURL: URL
     
     // MARK: - Initializers
     
-    public init() {
+    public init(fileURL: URL,
+                acceptText: String? = NSLocalizedString("Accept", bundle: .mpolKit, comment: "T&C - Accept"),
+                cancelText: String? = NSLocalizedString("Cancel", bundle: .mpolKit, comment: "T&C - Cancel")) {
+        self.fileURL = fileURL
+        
         super.init(nibName: nil, bundle: nil)
+        
         title = NSLocalizedString("Terms and Conditions", bundle: .mpolKit, comment: "Title")
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonDidSelect(_:)))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Accept", bundle: .mpolKit, comment: "Bar Button"), style: .done, target: self, action: #selector(acceptButtonDidSelect(_:)))
+        navigationItem.leftBarButtonItem  = UIBarButtonItem(title: cancelText, style: .done, target: self, action: #selector(cancelButtonDidSelect(_:)))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: acceptText, style: .done, target: self, action: #selector(acceptButtonDidSelect(_:)))
     }
     
     public required init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
     
-    
     // MARK: - View lifecycle
     
-    open override func loadView() {
+    public override func loadView() {
         let textView = UITextView(frame: .zero, textContainer: nil)
         textView.textContainerInset = UIEdgeInsets(top: 12.0, left: 8.0, bottom: 8.0, right: 8.0)
         textView.alwaysBounceVertical = true
         textView.isEditable = false
         textView.isSelectable = false
         textView.adjustsFontForContentSizeCategory = true
-        textView.font = .preferredFont(forTextStyle: .body, compatibleWith: traitCollection)
-        textView.attributedText = termsAndConditions
+        
         self.textView = textView
         self.view = textView
     }
     
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        guard let text = try? NSAttributedString(url: self.fileURL, options: [:], documentAttributes: nil) else {
+            return
+        }
+        
+        textView!.attributedText = text
+        textView!.contentOffset = .zero
+    }
     
     // MARK: - Action methods
     
