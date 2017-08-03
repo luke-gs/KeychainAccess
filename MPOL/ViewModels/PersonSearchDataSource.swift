@@ -50,14 +50,14 @@ fileprivate enum SearchType: Int, Pickable {
     static var all: [SearchType] = [.name]
 }
 
-fileprivate class PersonSearchFilter: Filtering {
+fileprivate class PersonSearchOptions: SearchOptions {
 
     var searchType: SearchType = .name
     var states: [ArchivedManifestEntry]?
     var gender: Person.Gender?
     var ageRange: Range<Int>?
 
-    var numberOfFilters: Int {
+    var numberOfOptions: Int {
         // VicPol and QPS will not require these filters. Adjust this as
         // necessary for each client.
         return 0
@@ -95,9 +95,9 @@ fileprivate class PersonSearchFilter: Filtering {
     }
 }
 
-class PersonSearchDataSource: DataSourceable, NumberRangePickerDelegate {
+class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
 
-    var filter: Filtering = PersonSearchFilter()
+    var options: SearchOptions = PersonSearchOptions()
     let parser: QueryParser<PersonParserDefinition> = QueryParser(parserDefinition: PersonParserDefinition())
 
     static private var inputDateFormatter: DateFormatter = {
@@ -178,18 +178,18 @@ class PersonSearchDataSource: DataSourceable, NumberRangePickerDelegate {
     ///                    in a `UINavigationController`.
     func updateController(forFilterAt index: Int) -> UIViewController? {
         guard let item = FilterItem(rawValue: index) else { return nil }
-        guard let filter = filter as? PersonSearchFilter else { return nil }
+        guard let options = options as? PersonSearchOptions else { return nil }
         let viewController: UIViewController
 
         switch item {
         case .searchType:
             let values = SearchType.all
             let picker = PickerTableViewController(style: .plain, items: values)
-            picker.selectedIndexes = values.indexes { $0 == filter.searchType }
+            picker.selectedIndexes = values.indexes { $0 == options.searchType }
             picker.selectionUpdateHandler = { [weak self] (_, selectedIndexes) in
                 guard let `self` = self, let selectedTypeIndex = selectedIndexes.first else { return }
 
-                filter.searchType = values[selectedTypeIndex]
+                options.searchType = values[selectedTypeIndex]
                 self.updatingDelegate?.searchDataSource(self, didUpdateFilterAt: index)
             }
             viewController = picker
@@ -198,12 +198,12 @@ class PersonSearchDataSource: DataSourceable, NumberRangePickerDelegate {
             let picker = PickerTableViewController(style: .plain, items: genders)
             picker.title = NSLocalizedString("Gender/s", comment: "")
             picker.noItemTitle = NSLocalizedString("Any", comment: "")
-            picker.selectedIndexes = genders.indexes { $0 == filter.gender }
+            picker.selectedIndexes = genders.indexes { $0 == options.gender }
 
             picker.selectionUpdateHandler = { [weak self] (_, selectedIndexes) in
                 guard let `self` = self, let selectedGenderIndex = selectedIndexes.first else { return }
 
-                filter.gender = genders[selectedGenderIndex]
+                options.gender = genders[selectedGenderIndex]
                 self.updatingDelegate?.searchDataSource(self, didUpdateFilterAt: index)
             }
 
@@ -221,7 +221,7 @@ class PersonSearchDataSource: DataSourceable, NumberRangePickerDelegate {
             picker.selectionUpdateHandler = { [weak self] (_, selectedIndexes) in
                 guard let `self` = self else { return }
 
-                filter.states = states[selectedIndexes].flatMap { ArchivedManifestEntry(entry: $0) }
+                options.states = states[selectedIndexes].flatMap { ArchivedManifestEntry(entry: $0) }
                 self.updatingDelegate?.searchDataSource(self, didUpdateFilterAt: index)
             }
 
@@ -231,7 +231,7 @@ class PersonSearchDataSource: DataSourceable, NumberRangePickerDelegate {
             ageNumberPicker.delegate = self
             ageNumberPicker.noRangeTitle = NSLocalizedString("Any Age", comment: "")
 
-            if let ageRange = filter.ageRange {
+            if let ageRange = options.ageRange {
                 ageNumberPicker.currentMinValue = ageRange.lowerBound
                 ageNumberPicker.currentMaxValue = ageRange.upperBound
             } else {
@@ -239,7 +239,7 @@ class PersonSearchDataSource: DataSourceable, NumberRangePickerDelegate {
                 // Delay the update until the presentation UI is in place.
                 // Reloading during selection causes bugs in UICollectionView.
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                    filter.ageRange = Range<Int>(uncheckedBounds: (ageNumberPicker.currentMinValue, ageNumberPicker.currentMaxValue))
+                    options.ageRange = Range<Int>(uncheckedBounds: (ageNumberPicker.currentMinValue, ageNumberPicker.currentMaxValue))
                     self.updatingDelegate?.searchDataSource(self, didUpdateFilterAt: FilterItem.age.rawValue)
                 }
             }
@@ -325,20 +325,20 @@ class PersonSearchDataSource: DataSourceable, NumberRangePickerDelegate {
     // MARK: - Number range picker delegate
 
     func numberRangePicker(_ numberPicker: NumberRangePickerViewController, didUpdateMinValue minValue: Int, maxValue: Int) {
-        guard let filter = filter as? PersonSearchFilter else { return }
+        guard let options = options as? PersonSearchOptions else { return }
 
         let newRange = Range<Int>(uncheckedBounds: (minValue, maxValue))
-        if filter.ageRange != newRange {
-            filter.ageRange = newRange
+        if options.ageRange != newRange {
+            options.ageRange = newRange
             updatingDelegate?.searchDataSource(self, didUpdateFilterAt: FilterItem.age.rawValue)
         }
     }
     
     func numberRangePickerDidSelectNoRange(_ picker: NumberRangePickerViewController) {
-        guard let filter = filter as? PersonSearchFilter else { return }
+        guard let options = options as? PersonSearchOptions else { return }
 
-        if filter.ageRange != nil {
-            filter.ageRange = nil
+        if options.ageRange != nil {
+            options.ageRange = nil
             updatingDelegate?.searchDataSource(self, didUpdateFilterAt: FilterItem.age.rawValue)
         }
         

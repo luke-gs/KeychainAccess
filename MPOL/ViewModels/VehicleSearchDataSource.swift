@@ -41,7 +41,7 @@ fileprivate enum SearchType: Int, Pickable {
     static var all: [SearchType] = [.vehicleRegistration]
 }
 
-fileprivate class VehicleSearchFilter: Filtering {
+fileprivate class VehicleSearchOptions: SearchOptions {
 
     var searchType: SearchType = .vehicleRegistration
     var states:  [ArchivedManifestEntry]?
@@ -50,7 +50,7 @@ fileprivate class VehicleSearchFilter: Filtering {
 
     // MARK: - Filters
 
-    var numberOfFilters: Int {
+    var numberOfOptions: Int {
         // VicPol and QPS will not require these filters. Adjust this as
         // necessary for each client.
         return 0 // FilterItem.count
@@ -76,11 +76,11 @@ fileprivate class VehicleSearchFilter: Filtering {
     }
 }
 
-class VehicleSearchDataSource: DataSourceable {
+class VehicleSearchDataSource: SearchDataSource {
     private var internalEntities: [Vehicle]?
 
-    //MARK: DataSourceable
-    var filter: Filtering = VehicleSearchFilter()
+    //MARK: SearchDataSource
+    var options: SearchOptions = VehicleSearchOptions()
     var entities: [MPOLKitEntity]? {
         get {
             return internalEntities
@@ -127,7 +127,7 @@ class VehicleSearchDataSource: DataSourceable {
 
     func updateController(forFilterAt index: Int) -> UIViewController? {
         guard let item = FilterItem(rawValue: index) else { return nil }
-        guard let filter = filter as? VehicleSearchFilter else { return nil }
+        guard let options = options as? VehicleSearchOptions else { return nil }
         let viewController: UIViewController
 
         switch item {
@@ -135,11 +135,11 @@ class VehicleSearchDataSource: DataSourceable {
             let searchTypes = SearchType.all
 
             let picker = PickerTableViewController(style: .plain, items: searchTypes)
-            picker.selectedIndexes = searchTypes.indexes { $0 == filter.searchType }
+            picker.selectedIndexes = searchTypes.indexes { $0 == options.searchType }
             picker.selectionUpdateHandler = { [weak self] (_, selectedIndexes) in
                 guard let `self` = self, let selectedTypeIndex = selectedIndexes.first else { return }
 
-                filter.searchType = searchTypes[selectedTypeIndex]
+                options.searchType = searchTypes[selectedTypeIndex]
                 self.updatingDelegate?.searchDataSource(self, didUpdateFilterAt: index)
             }
             viewController = picker
@@ -155,7 +155,7 @@ class VehicleSearchDataSource: DataSourceable {
             picker.selectionUpdateHandler = { [weak self] (_, selectedIndexes) in
                 guard let `self` = self else { return }
 
-                filter.states = states[selectedIndexes].flatMap { ArchivedManifestEntry(entry: $0) }
+                options.states = states[selectedIndexes].flatMap { ArchivedManifestEntry(entry: $0) }
                 self.updatingDelegate?.searchDataSource(self, didUpdateFilterAt: index)
             }
 

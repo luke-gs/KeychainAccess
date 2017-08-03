@@ -12,7 +12,7 @@ import ClientKit
 
 class MPOLSearchViewModel: SearchViewModel {
     var recentViewModel: SearchRecentsViewModel = MPOLSearchRecentsViewModel()
-    var dataSources: [DataSourceable] = [PersonSearchDataSource(), VehicleSearchDataSource()]
+    var dataSources: [SearchDataSource] = [PersonSearchDataSource(), VehicleSearchDataSource()]
 }
 
 class MPOLSearchRecentsViewModel: SearchRecentsViewModel {
