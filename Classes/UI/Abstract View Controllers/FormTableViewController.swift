@@ -96,20 +96,9 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
             
             if wantsCalculatedContentHeight {
                 tableView?.addObserver(self, forKeyPath: #keyPath(UITableView.contentSize), options: [.new, .old], context: &contentHeightContext)
-                // TODO: Uncomment for iOS 11
-//                if #available(iOS 11, *) {
-//                    // We do this instead of overriding because overriding accessors that not available
-//                    // in your base deployment target currently throws an error in Swift.
-//                    // https://bugs.swift.org/browse/SR-1486
-//                    addObserver(self, forKeyPath: #keyPath(additionalSafeAreaInsets), options: [.old, .new], context: &contentHeightContext)
-//                }
                 updateCalculatedContentHeight()
             } else {
                 tableView?.removeObserver(self, forKeyPath: #keyPath(UITableView.contentSize), context: &contentHeightContext)
-                // TODO: Uncomment for iOS 11
-//                if #available(iOS 11, *) {
-//                    removeObserver(self, forKeyPath: #keyPath(additionalSafeAreaInsets), context: &contentHeightContext)
-//                }
             }
         }
     }
@@ -211,10 +200,6 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
         if wantsCalculatedContentHeight == false { return }
         
         tableView?.removeObserver(self, forKeyPath: #keyPath(UITableView.contentSize), context: &contentHeightContext)
-        // TODO: Uncomment for iOS 11
-//        if #available(iOS 11, *) {
-//            removeObserver(self, forKeyPath: #keyPath(additionalSafeAreaInsets), context: &contentHeightContext)
-//        }
     }
     
     
@@ -448,7 +433,6 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
             
             let old = change?[.oldKey] as? NSObject
             let new = change?[.newKey] as? NSObject
-            
             if old != new {
                 updateCalculatedContentHeight()
             }
@@ -520,4 +504,18 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
 }
 
 
+
+// TODO: Uncomment in iOS 11
+//@available(iOS, introduced: 11.0)
+//extension FormCollectionViewController {
+//
+//    open override var additionalSafeAreaInsets: UIEdgeInsets {
+//        didSet {
+//            if additionalSafeAreaInsets != oldValue && wantsCalculatedContentHeight {
+//                updateCalculatedContentHeight()
+//            }
+//        }
+//    }
+//
+//}
 

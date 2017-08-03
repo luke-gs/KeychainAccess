@@ -205,13 +205,12 @@ open class MapCollectionViewHeaderLayout: MapCollectionViewLayout {
             expandMap = true
         } else {
             let distanceFromExtendedHeight = contentOffset.y - maxHeightInset
-            let distanceFromMinHeight      = minHeightInset - contentOffset.y
             
             // Toggle if it's moved more than a 1/4 out of it's correct state.
             if isMapExpanded {
-                expandMap = distanceFromExtendedHeight < distanceFromMinHeight / 4.0
+                expandMap = distanceFromExtendedHeight < (maxMapHeight - minMapHeight) * 0.25
             } else {
-                expandMap = distanceFromExtendedHeight / 4.0 < distanceFromMinHeight
+                expandMap = distanceFromExtendedHeight < (maxMapHeight - minMapHeight) * 0.75
             }
         }
         
