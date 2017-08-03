@@ -41,5 +41,5 @@ public protocol SearchViewModel {
     var recentViewModel: SearchRecentsViewModel { get }
 
     /// The data sources to be used
-    var dataSources: [DataSourceable] { get }
+    var dataSources: [SearchDataSource] { get }
 }

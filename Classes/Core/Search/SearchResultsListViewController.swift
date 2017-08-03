@@ -15,10 +15,10 @@ class SearchResultsListViewController: FormCollectionViewController {
 
     weak var delegate: SearchResultsDelegate?
 
-    private(set) var dataSource: DataSourceable?
+    private(set) var dataSource: SearchDataSource?
     private(set) var searchable: Searchable?
 
-    public func set(dataSource: DataSourceable, with searchable: Searchable) throws {
+    public func set(dataSource: SearchDataSource, with searchable: Searchable) throws {
         do {
             self.dataSource = dataSource
             self.searchable = searchable

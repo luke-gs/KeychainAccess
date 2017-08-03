@@ -12,7 +12,7 @@ fileprivate var kvoContext = 1
 
 class SearchOptionsViewController: FormCollectionViewController, UITextFieldDelegate, SearchDataSourceUpdating, TabStripViewDelegate {
 
-    private var dataSources: [DataSourceable]?
+    private var dataSources: [SearchDataSource]?
     private var currentSearchable: Searchable?
     private var filterOptions: [Int: String] = [Int: String]()
 
@@ -48,7 +48,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     
     // MARK: - Private methods
     
-    private var selectedDataSource: DataSourceable {
+    private var selectedDataSource: SearchDataSource {
         didSet {
             reloadCollectionViewRetainingEditing()
         }
@@ -59,7 +59,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     
     // MARK: - Initializers
     
-    init(dataSources: [DataSourceable]? = nil) {
+    init(dataSources: [SearchDataSource]? = nil) {
         guard let firstDataSource = dataSources?.first else {
             fatalError("SearchOptionsViewController requires at least one available search type")
         }
@@ -273,7 +273,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     // MARK: - UICollectionViewDataSource methods
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        let numberOfSections = (selectedDataSource.filter.numberOfFilters > 0) ? 2 : 1
+        let numberOfSections = (selectedDataSource.options.numberOfOptions > 0) ? 2 : 1
         return numberOfSections
     }
 
@@ -284,7 +284,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         case .searchField:
             return 1
         case .filters:
-            return selectedDataSource.filter.numberOfFilters
+            return selectedDataSource.options.numberOfOptions
         }
     }
     
@@ -323,11 +323,11 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
             let filterIndex = indexPath.item
             let dataSource = self.selectedDataSource
 
-            filterCell.titleLabel.text = dataSource.filter.title(at: filterIndex)
-            filterCell.valueLabel.text = dataSource.filter.value(at: filterIndex)
-            filterCell.placeholderLabel.text = dataSource.filter.defaultValue(at: filterIndex)
+            filterCell.titleLabel.text = dataSource.options.title(at: filterIndex)
+            filterCell.valueLabel.text = dataSource.options.value(at: filterIndex)
+            filterCell.placeholderLabel.text = dataSource.options.defaultValue(at: filterIndex)
 
-            self.filterOptions[filterIndex] = dataSource.filter.value(at: filterIndex)
+            self.filterOptions[filterIndex] = dataSource.options.value(at: filterIndex)
 
             return filterCell
         }
@@ -400,7 +400,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         guard let collectionView = self.collectionView else { return }
 
         let has2Sections   = collectionView.numberOfSections == 2
-        let wants2Sections = (selectedDataSource.filter.numberOfFilters > 0) && (text?.isEmpty ?? true == false)
+        let wants2Sections = (selectedDataSource.options.numberOfOptions > 0) && (text?.isEmpty ?? true == false)
 
         if has2Sections != wants2Sections {
             reloadCollectionViewRetainingEditing()
@@ -449,8 +449,8 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         case .filters:
             
             let filterIndex = indexPath.item
-            let title    = selectedDataSource.filter.title(at: filterIndex)
-            let subtitle = selectedDataSource.filter.value(at: filterIndex) ?? selectedDataSource.filter.defaultValue(at: filterIndex)
+            let title    = selectedDataSource.options.title(at: filterIndex)
+            let subtitle = selectedDataSource.options.value(at: filterIndex) ?? selectedDataSource.options.defaultValue(at: filterIndex)
             return CollectionViewFormValueFieldCell.minimumContentHeight(withTitle: title, value: subtitle, inWidth: itemWidth, compatibleWith: traitCollection)
         }
         
@@ -458,11 +458,11 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
 
     // MARK: - SearchDataSourceUpdating
 
-    func searchDataSourceRequestDidChange(_ dataSource: DataSourceable) {
+    func searchDataSourceRequestDidChange(_ dataSource: SearchDataSource) {
         reloadCollectionViewRetainingEditing()
     }
 
-    func searchDataSource(_ dataSource: DataSourceable, didUpdateFilterAt index: Int) {
+    func searchDataSource(_ dataSource: SearchDataSource, didUpdateFilterAt index: Int) {
         // Can't currently update item in case of bugs. Perhaps when apple gets around to fixing this?? :S
         reloadCollectionViewRetainingEditing()
     }

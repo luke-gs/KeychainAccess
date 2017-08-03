@@ -29,10 +29,10 @@ public func ==(lhs: Searchable, rhs: Searchable) -> Bool {
         && lhs.type == rhs.type
 }
 
-public protocol Filtering {
+public protocol SearchOptions {
 
     /// The number of filters for this data source
-    var numberOfFilters: Int { get }
+    var numberOfOptions: Int { get }
 
     /// The title for the filter.
     ///
@@ -54,7 +54,7 @@ public protocol Filtering {
     func defaultValue(at index: Int) -> String
 }
 
-public protocol DataSourceable {
+public protocol SearchDataSource {
 
     /// The entities retrived from the request
     /// - note: override the getters and setters to return your type of Entity
@@ -69,7 +69,7 @@ public protocol DataSourceable {
     var filteredEntities: [MPOLKitEntity]? { get }
 
     /// The filter object used to declare all filtering rules
-    var filter: Filtering { get }
+    var options: SearchOptions { get }
 
     /// The localized Display name for the
     var localizedDisplayName: String { get }
@@ -127,6 +127,6 @@ public protocol DataSourceable {
 }
 
 public protocol SearchDataSourceUpdating: class {
-    func searchDataSourceRequestDidChange(_ dataSource: DataSourceable)
-    func searchDataSource(_ dataSource: DataSourceable, didUpdateFilterAt index: Int)
+    func searchDataSourceRequestDidChange(_ dataSource: SearchDataSource)
+    func searchDataSource(_ dataSource: SearchDataSource, didUpdateFilterAt index: Int)
 }
