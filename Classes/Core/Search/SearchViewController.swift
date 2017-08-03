@@ -22,7 +22,7 @@ fileprivate let navigationItemKeyPaths: [String] = [
     #keyPath(UINavigationItem.prompt)
 ]
 
-class SearchViewController: UIViewController, SearchRecentsViewControllerDelegate, SearchResultsDelegate, SearchOptionsViewControllerDelegate {
+public class SearchViewController: UIViewController, SearchRecentsViewControllerDelegate, SearchResultsDelegate, SearchOptionsViewControllerDelegate {
     
     private var recentsViewController: SearchRecentsViewController
     private var viewModel: SearchViewModel
@@ -124,7 +124,7 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
         updateNavigationItem(animated: false)
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("SearchViewController does not support NSCoding.")
     }
     
@@ -142,7 +142,7 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     
     // MARK: - View lifecycle
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         
         let currentVC = currentResultsViewController ?? recentsViewController
@@ -165,19 +165,19 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if isHidingNavigationBarShadow {
             navigationController?.navigationBar.shadowImage = UIImage()
         }
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
+    override public func viewWillDisappear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.shadowImage = Theme.current.navigationBarShadowImage
     }
     
-    override func viewDidLayoutSubviews() {
+    override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         if let searchOptionsView = searchOptionsViewController.viewIfLoaded, searchOptionsView.superview == self.view {
@@ -194,7 +194,7 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
         }
     }
     
-    override func preferredContentSizeDidChange(forChildContentContainer container: UIContentContainer) {
+    override public func preferredContentSizeDidChange(forChildContentContainer container: UIContentContainer) {
         super.preferredContentSizeDidChange(forChildContentContainer: container)
         
         guard let viewController = container as? UIViewController, viewController == searchOptionsViewController else { return }
@@ -207,9 +207,12 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
         view.layoutIfNeeded()
     }
     
-    
+    public func set(leftBarButtonItem button: UIBarButtonItem) {
+        self.recentsViewController.navigationItem.leftBarButtonItem = button
+    }
+
     // MARK: - Changing state
-    
+
     func setShowingSearchOptions(_ showingOptions: Bool, animated: Bool) {
         if isShowingSearchOptions == showingOptions { return }
         
@@ -369,7 +372,7 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     
     // MARK: - KVO
     
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    override public func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {
             guard let object = object as? NSObject else { return } // KVO on something that wasn't an NSObject? Weird.
             

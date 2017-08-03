@@ -15,7 +15,6 @@
 		12ADD41A1F32A47D00CA8B4D /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4081F32A47D00CA8B4D /* SearchViewController.swift */; };
 		12ADD41B1F32A47D00CA8B4D /* SearchEntityListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD40A1F32A47D00CA8B4D /* SearchEntityListCell.swift */; };
 		12ADD41C1F32A47D00CA8B4D /* SearchFieldCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD40B1F32A47D00CA8B4D /* SearchFieldCollectionViewCell.swift */; };
-		12ADD41E1F32A4D100CA8B4D /* MPOLKitEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD41D1F32A4D100CA8B4D /* MPOLKitEntity.swift */; };
 		12ADD4201F32A4F900CA8B4D /* SearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD41F1F32A4F900CA8B4D /* SearchRequest.swift */; };
 		12ADD4221F32A50B00CA8B4D /* MPOLKitProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4211F32A50B00CA8B4D /* MPOLKitProtocols.swift */; };
 		12ADD4241F32A53400CA8B4D /* SearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4231F32A53400CA8B4D /* SearchDataSource.swift */; };
@@ -195,7 +194,6 @@
 		12ADD4081F32A47D00CA8B4D /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		12ADD40A1F32A47D00CA8B4D /* SearchEntityListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchEntityListCell.swift; sourceTree = "<group>"; };
 		12ADD40B1F32A47D00CA8B4D /* SearchFieldCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchFieldCollectionViewCell.swift; sourceTree = "<group>"; };
-		12ADD41D1F32A4D100CA8B4D /* MPOLKitEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPOLKitEntity.swift; sourceTree = "<group>"; };
 		12ADD41F1F32A4F900CA8B4D /* SearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRequest.swift; sourceTree = "<group>"; };
 		12ADD4211F32A50B00CA8B4D /* MPOLKitProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPOLKitProtocols.swift; sourceTree = "<group>"; };
 		12ADD4231F32A53400CA8B4D /* SearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchDataSource.swift; sourceTree = "<group>"; };
@@ -868,7 +866,6 @@
 			isa = PBXGroup;
 			children = (
 				12ADD41F1F32A4F900CA8B4D /* SearchRequest.swift */,
-				12ADD41D1F32A4D100CA8B4D /* MPOLKitEntity.swift */,
 				C63408581F30E59C000747B0 /* SearchResult.swift */,
 			);
 			path = Model;
@@ -1193,7 +1190,6 @@
 				BC9C7E4E1F0DED6600DFFE83 /* BadgeView.swift in Sources */,
 				BC9C7E121F0DED6600DFFE83 /* TableViewFormExpandingHeaderCell.swift in Sources */,
 				12ADD40C1F32A47D00CA8B4D /* NumberRangePickerViewController.swift in Sources */,
-				12ADD41E1F32A4D100CA8B4D /* MPOLKitEntity.swift in Sources */,
 				BC9C7E541F0DED6600DFFE83 /* NavigationBarExtension.swift in Sources */,
 				BC9C7DEF1F0DED6600DFFE83 /* Transformer.swift in Sources */,
 				BC9C7E4A1F0DED6600DFFE83 /* TermsConditionsViewController.swift in Sources */,
