@@ -12,9 +12,9 @@ import MPOLKit
 @objc(MPLPerson)
 open class Person: Entity {
     
-    override open class var serverTypeRepresentation: String {
-        return "person"
-    }
+//    override open class var serverTypeRepresentation: String {
+//        return "person"
+//    }
 
     public enum Gender: Int, CustomStringConvertible, UnboxableEnum, Pickable {
         case female, male, other
@@ -139,8 +139,8 @@ open class Person: Entity {
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-    
-    public required init(id: String = UUID().uuidString) {
+
+    public required override init(id: String = UUID().uuidString) {
         super.init(id: id)
     }
     

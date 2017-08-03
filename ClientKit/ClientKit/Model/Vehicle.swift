@@ -11,10 +11,8 @@ import Unbox
 
 @objc(MPLVehicle)
 open class Vehicle: Entity {
-    
-    override open class var serverTypeRepresentation: String {
-        return "vehicle"
-    }
+
+    var serverTypeRepresentation: String { get { return "vehicle" } }
     
     open override class var localizedDisplayName: String {
         return NSLocalizedString("Vehicle", comment: "")
@@ -53,7 +51,7 @@ open class Vehicle: Entity {
     open var axles: Int?
     open var vehicleDescription: String?
     
-    public required init(id: String) {
+    public required override init(id: String) {
         super.init(id: id)
     }
     

@@ -168,14 +168,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 return settingsItem
             }
             
-            let searchVC = SearchViewController()
-            searchVC.recentsViewController.title = "MPOL" // TODO: Should be client name
-            searchVC.recentsViewController.navigationItem.leftBarButtonItem = settingsBarButtonItem()
-            
+            let searchViewController = SearchViewController(viewModel: MPOLSearchViewModel())
+            searchViewController.set(leftBarButtonItem: settingsBarButtonItem())
+
             let eventListVC = EventsListViewController()
             eventListVC.navigationItem.leftBarButtonItem = settingsBarButtonItem()
             
-            let searchNavController = UINavigationController(rootViewController: searchVC)
+            let searchNavController = UINavigationController(rootViewController: searchViewController)
             let actionListNavController = UINavigationController(rootViewController: ActionListViewController())
             let eventListNavController = UINavigationController(rootViewController: eventListVC)
             

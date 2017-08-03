@@ -10,18 +10,16 @@ import Unbox
 import MPOLKit
 
 @objc(MPLEntity)
-open class Entity: NSObject, Serialisable, MPOLKitEntityProtocol {
-    
-    open class var serverTypeRepresentation: String {
+open class Entity: MPOLKitEntity {
+
+    override open class var serverTypeRepresentation: String {
         MPLRequiresConcreteImplementation()
     }
-    
-    open class var localizedDisplayName: String {
+
+    class var localizedDisplayName: String {
         return NSLocalizedString("Entity", comment: "")
     }
-    
-    
-    open let id: String
+
     open var source: Source?
     open var alertLevel: Alert.Level?
     open var associatedAlertLevel: Alert.Level?
@@ -30,22 +28,15 @@ open class Entity: NSObject, Serialisable, MPOLKitEntityProtocol {
     
     open var alerts: [Alert]?
     
-    
     // MARK: - Temp properties
     open var lastUpdated: Date?
-    
-    public required init(id: String = UUID().uuidString) {
-        self.id = id
-        super.init()
+
+    override public init(id: String) {
+        super.init(id: id)
     }
-    
+
     // MARK: - Unboxable
     public required init(unboxer: Unboxer) throws {
-        guard let id: String = unboxer.unbox(key: "id") else {
-            throw ParsingError.missingRequiredField
-        }
-        
-        self.id = id
         self.source = unboxer.unbox(key: "source")
 
         self.alertLevel = unboxer.unbox(key: "alertLevel")
@@ -56,18 +47,13 @@ open class Entity: NSObject, Serialisable, MPOLKitEntityProtocol {
             self.actionCount = actionCount
         }
 
-        super.init()
+        try super.init(unboxer: unboxer)
     }
-    
+
     // MARK: - NSSecureCoding
     
     public required init?(coder aDecoder: NSCoder) {
-        guard let id = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.id.rawValue) as String? else {
-            return nil
-        }
-        
-        self.id = id
-        
+
         if aDecoder.containsValue(forKey: CodingKey.alertLevel.rawValue), let level = Alert.Level(rawValue: aDecoder.decodeInteger(forKey: CodingKey.alertLevel.rawValue)) {
             alertLevel = level
         }
@@ -75,14 +61,12 @@ open class Entity: NSObject, Serialisable, MPOLKitEntityProtocol {
             associatedAlertLevel = level
         }
         
-        super.init()
+        super.init(coder: aDecoder)
     }
-    
-    open func encode(with aCoder: NSCoder) {
+
+    open override func encode(with aCoder: NSCoder) {
         aCoder.encode(modelVersion, forKey: CodingKey.version.rawValue)
-        
-        aCoder.encode(id, forKey: CodingKey.id.rawValue)
-        
+
         if let alertLevel = alertLevel {
             aCoder.encode(alertLevel.rawValue, forKey: CodingKey.alertLevel.rawValue)
         }
@@ -90,10 +74,8 @@ open class Entity: NSObject, Serialisable, MPOLKitEntityProtocol {
         if let associatedAlertLevel = associatedAlertLevel {
             aCoder.encode(associatedAlertLevel.rawValue, forKey: CodingKey.associatedAlertLevel.rawValue)
         }
-    }
-    
-    public static var supportsSecureCoding: Bool {
-        return true
+
+        super.encode(with: aCoder)
     }
     
     
@@ -127,7 +109,6 @@ open class Entity: NSObject, Serialisable, MPOLKitEntityProtocol {
 
 private enum CodingKey: String {
     case version
-    case id
     case alertLevel
     case associatedAlertLevel
 }
