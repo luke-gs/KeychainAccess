@@ -8,6 +8,7 @@
 
 import UIKit
 
+@available(iOS, deprecated, message: "Use FormAccessoryView with a disclosure style.")
 public class FormDisclosureView: UIImageView {
     
     // The standard size of form disclosure views.

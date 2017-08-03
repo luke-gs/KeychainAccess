@@ -8,6 +8,14 @@
 
 import UIKit
 
+
+public extension NSNotification.Name {
+    
+    /// Posted when the current theme changes.
+    public static let InterfaceStyleDidChange = NSNotification.Name(rawValue: "MPOL.InterfaceStyleDidChange")
+}
+
+
 @objc public enum UserInterfaceStyle: Int {
     
     case current
