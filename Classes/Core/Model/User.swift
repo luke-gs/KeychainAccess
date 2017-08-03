@@ -35,10 +35,11 @@ open class User: NSObject, NSSecureCoding, ModelVersionable {
     open func encode(with aCoder: NSCoder) {
         aCoder.encode(username, forKey: CodingKeys.username.rawValue)
         aCoder.encode(termsAndConditionsVersionAccepted, forKey: CodingKeys.termsAndConditionsVersionAccepted.rawValue)
+        aCoder.encode(self.modelVersion, forKey: CodingKeys._modelVersion.rawValue)
     }
     
     // MARK: - ModelVersionable
-    public var modelVersion: Int {
+    open var modelVersion: Int {
         return 1
     }
     
@@ -46,6 +47,8 @@ open class User: NSObject, NSSecureCoding, ModelVersionable {
     private enum CodingKeys: String {
         case username = "username"
         case termsAndConditionsVersionAccepted = "termsAndConditionsVersionAccepted"
+        
+        case _modelVersion = "_modelVersion"
     }
 }
 
