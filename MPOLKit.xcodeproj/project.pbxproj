@@ -163,6 +163,7 @@
 		C6A5F0081ECE89A300B0D915 /* VehicleSearch.json in Resources */ = {isa = PBXBuildFile; fileRef = C6A5F0071ECE89A300B0D915 /* VehicleSearch.json */; };
 		C6CD6A181F31663500771B8C /* EntitySearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6CD6A171F31663500771B8C /* EntitySearchRequest.swift */; };
 		C6F5DED21ECD5C62008E7BE2 /* AccessToken.json in Resources */ = {isa = PBXBuildFile; fileRef = C6F5DED11ECD5C62008E7BE2 /* AccessToken.json */; };
+		EA3C89031F32A6DD00F38461 /* Lottie+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA3C89021F32A6DD00F38461 /* Lottie+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -341,6 +342,7 @@
 		C6A5F0071ECE89A300B0D915 /* VehicleSearch.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = VehicleSearch.json; sourceTree = "<group>"; };
 		C6CD6A171F31663500771B8C /* EntitySearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntitySearchRequest.swift; sourceTree = "<group>"; };
 		C6F5DED11ECD5C62008E7BE2 /* AccessToken.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AccessToken.json; sourceTree = "<group>"; };
+		EA3C89021F32A6DD00F38461 /* Lottie+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Lottie+Extension.swift"; sourceTree = "<group>"; };
 		F1F64D31F8EA4C917E4EDCA7 /* Pods-MPOLKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKit/Pods-MPOLKit.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -594,6 +596,7 @@
 		BC9C7D821F0DED6600DFFE83 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				EA3C89011F32A6CB00F38461 /* Lottie */,
 				BC9C7D831F0DED6600DFFE83 /* Abstract View Controllers */,
 				BC9C7D891F0DED6600DFFE83 /* AlertQueue.swift */,
 				BC0448931F219A70005FB857 /* AssetManager.swift */,
@@ -832,6 +835,14 @@
 				C6F5DED11ECD5C62008E7BE2 /* AccessToken.json */,
 			);
 			path = "Mock JSONs";
+			sourceTree = "<group>";
+		};
+		EA3C89011F32A6CB00F38461 /* Lottie */ = {
+			isa = PBXGroup;
+			children = (
+				EA3C89021F32A6DD00F38461 /* Lottie+Extension.swift */,
+			);
+			path = Lottie;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1088,6 +1099,7 @@
 				BC9C7E311F0DED6600DFFE83 /* UITableView+SectionHeaderFooterFetch.swift in Sources */,
 				C6CD6A181F31663500771B8C /* EntitySearchRequest.swift in Sources */,
 				BC9C7DD61F0DED6600DFFE83 /* QueryParser.swift in Sources */,
+				EA3C89031F32A6DD00F38461 /* Lottie+Extension.swift in Sources */,
 				BC9C7DCB1F0DED6600DFFE83 /* UnboxableResponseSerializer.swift in Sources */,
 				BC9C7DF51F0DED6600DFFE83 /* CollectionViewFormCellActionView.swift in Sources */,
 				BC9C7E401F0DED6600DFFE83 /* PopoverNavigationController.swift in Sources */,
