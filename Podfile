@@ -13,6 +13,7 @@ def mpol_kit_dependencies
     pod 'Unbox', '2.5.0'
     pod 'Wrap', '2.1.0'
     pod 'lottie-ios', '1.5.2'
+    pod 'PromiseKit', '4.3.1'    
 end
 
 target 'MPOLKit' do
