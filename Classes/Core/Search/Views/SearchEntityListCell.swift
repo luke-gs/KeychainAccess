@@ -62,7 +62,7 @@ class SearchEntityListCell: CollectionViewFormCell {
         commonInit()
     }
     
-    internal func commonInit() {
+    internal override func commonInit() {
         accessibilityTraits |= UIAccessibilityTraitStaticText
         
         let contentView       = self.contentView

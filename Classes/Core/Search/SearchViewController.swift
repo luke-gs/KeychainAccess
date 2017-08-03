@@ -24,7 +24,7 @@ fileprivate let navigationItemKeyPaths: [String] = [
 
 class SearchViewController: UIViewController, SearchRecentsViewControllerDelegate, SearchResultsDelegate, SearchOptionsViewControllerDelegate {
     
-    let recentsViewController = SearchRecentsViewController()
+    private var recentsViewController: SearchRecentsViewController
     private var viewModel: SearchViewModel
 
     @objc dynamic private(set) var currentResultsViewController: UIViewController? {
@@ -100,9 +100,12 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     
     // MARK: - Initializers
     
-    init() {
+    public init(viewModel: SearchViewModel) {
+        self.viewModel = viewModel
+        self.recentsViewController = SearchRecentsViewController(viewModel: viewModel.recentViewModel)
+
         super.init(nibName: nil, bundle: nil)
-        
+
         automaticallyAdjustsScrollViewInsets = false
         
         tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)

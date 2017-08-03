@@ -13,7 +13,6 @@ open class SearchRequest: NSObject {
     open func searchOperation(forSource source: EntitySource,
                               params: Parameterisable,
                               completion: ((_ entities: [MPOLKitEntity]?, _ error: Error?)->())?) throws
-        -> (searchOperation: GroupOperation, updateDataOperation: BlockOperation)?
     {
         MPLRequiresConcreteImplementation()
     }

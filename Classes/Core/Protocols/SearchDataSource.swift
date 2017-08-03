@@ -99,10 +99,8 @@ public protocol DataSourceable {
     /// - Parameters:
     ///   - searchable: the searchable object with the query information
     ///   - completion: the completion block `success`: if the datasource updated successfully with new data, `error`: the error
-    /// - Returns: a tuple of operations to be added to the operation queue
     /// - Throws: some error
     func searchOperation(searchable: Searchable, completion: ((_ success: Bool, _ error: Error?)->())?) throws
-        -> (searchOperation: GroupOperation, updateDataOperation: BlockOperation)?
 
     /// Decorate the generic cell
     ///

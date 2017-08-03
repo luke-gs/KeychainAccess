@@ -340,11 +340,10 @@ class SearchResultsListViewController: FormCollectionViewController {
         guard let searchable = searchable, let dataSource = dataSource else { return }
 
         do {
-            let operations = try dataSource.searchOperation(searchable: searchable, completion: { [weak self] (success, error) in
+            try dataSource.searchOperation(searchable: searchable, completion: { [weak self] (success, error) in
                 if success == true {
                     guard let entities = dataSource.entities else { return }
 
-                    self?.hasContent = entities.count > 0
                     self?.alertEntities = self?.dataSource?.filteredEntities ?? []
 
                     if let sortedEntities = dataSource.sortedEntities {
@@ -352,27 +351,27 @@ class SearchResultsListViewController: FormCollectionViewController {
                                                                     entities: sortedEntities)]
 
                         OperationQueue.main.addOperation {
-                            self?.searchField.update(for: searchable, resultCount: sortedEntities.count)
+                            self?.searchFieldButton?.update(for: searchable)
                             self?.collectionView?.reloadData()
                         }
                     }
                 } else  {
-                    self?.hasContent = false
+//                    self?.hasContent = false
                     //                    DispatchQueue.main.async {
                     //                        AlertQueue.shared.addErrorAlert(title: "System Error", message: nil)
                     //                    }
                 }
             })
 
-            if let dataOp = operations?.updateDataOperation, let searchOp = operations?.searchOperation {
-                dataOp.addDependency(searchOp)
+//            if let dataOp = operations?.updateDataOperation, let searchOp = operations?.searchOperation {
+//                dataOp.addDependency(searchOp)
                 //                dismissHUDOp.addDependency(searchOp)
 
                 //                operationQueue.addOperation(showHUDOp)
                 //                operationQueue.addOperation(dismissHUDOp)
 //                operationQueue.addOperation(searchOp)
 //                operationQueue.addOperation(dataOp)
-            }
+//            }
         } catch (let error) {
             throw error
         }
