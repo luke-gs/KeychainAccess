@@ -11,7 +11,7 @@ import Lottie
 /// MPOL supported animation style to used with LOTAnimationView.
 ///
 /// The resource files are guaranteed to be in the lottie directory.
-public enum MPOLAnimationStyle {
+public enum MPLAnimationStyle {
     case spinner
 }
 
@@ -25,7 +25,7 @@ public extension LOTAnimationView {
     /// - Parameters:
     ///   - style: The style of the animation.
     /// - Returns: A preconfigured LOTAnimationView
-    static func animation(style: MPOLAnimationStyle) -> LOTAnimationView {
+    static func animation(style: MPLAnimationStyle) -> LOTAnimationView {
         let bundle = Bundle.mpolKit
     
         let view: LOTAnimationView
