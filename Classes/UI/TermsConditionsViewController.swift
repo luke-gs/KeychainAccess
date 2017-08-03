@@ -16,6 +16,8 @@ public class TermsConditionsViewController: UIViewController {
     
     private var textView: UITextView?
     
+    private var textViewInsetManager: ScrollViewInsetManager?
+    
     public let fileURL: URL
     
     // MARK: - Initializers
@@ -31,6 +33,7 @@ public class TermsConditionsViewController: UIViewController {
         
         navigationItem.leftBarButtonItem  = UIBarButtonItem(title: cancelText, style: .done, target: self, action: #selector(cancelButtonDidSelect(_:)))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: acceptText, style: .done, target: self, action: #selector(acceptButtonDidSelect(_:)))
+        automaticallyAdjustsScrollViewInsets = false
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -48,6 +51,7 @@ public class TermsConditionsViewController: UIViewController {
         textView.adjustsFontForContentSizeCategory = true
         
         self.textView = textView
+        self.textViewInsetManager = ScrollViewInsetManager(scrollView: textView)
         self.view = textView
     }
     
@@ -59,9 +63,16 @@ public class TermsConditionsViewController: UIViewController {
         }
         
         textView!.attributedText = text
-        textView!.contentOffset = .zero
     }
     
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        let insets = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: max(bottomLayoutGuide.length, statusTabBarInset), right: 0.0)
+        textViewInsetManager?.standardContentInset   = insets
+        textViewInsetManager?.standardIndicatorInset = insets
+    }
+
     // MARK: - Action methods
     
     @objc private func cancelButtonDidSelect(_ item: UIBarButtonItem) {
