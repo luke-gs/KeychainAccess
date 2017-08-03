@@ -95,7 +95,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         view?.play()
         
         
-        MPOL.shared.manager.accessTokenRequest(for: .credentials(username: username, password: password)).then { [weak self] _ -> Void in
+        MPOLAPIManager.shared.accessTokenRequest(for: .credentials(username: username, password: password)).then { [weak self] _ -> Void in
             guard let `self` = self else { return }
             
             let tsAndCsVC = TermsConditionsViewController()

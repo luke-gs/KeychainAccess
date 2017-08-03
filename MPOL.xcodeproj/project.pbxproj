@@ -13,6 +13,7 @@
 		12ADD4391F32C0FA00CA8B4D /* PersonSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4331F32C0FA00CA8B4D /* PersonSearchRequest.swift */; };
 		12ADD43A1F32C0FA00CA8B4D /* VehicleSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */; };
 		12ADD43B1F32C0FA00CA8B4D /* VehicleSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4351F32C0FA00CA8B4D /* VehicleSearchRequest.swift */; };
+		12ADD43C1F32D9E700CA8B4D /* MPOLAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAEA065C1F3186B00071077C /* MPOLAPIManager.swift */; };
 		397B77011E52CEDA00696677 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 397B77001E52CEDA00696677 /* UserNotifications.framework */; };
 		39E77E99D3753364294F38A1 /* Pods_MPOL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EECB1EC3B3B30EAC4A62C130 /* Pods_MPOL.framework */; };
 		BC45C4471EEB56D2001F5747 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */; };
@@ -24,7 +25,7 @@
 		BCD4EA9F1E515ADE000B993D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCD4EA9E1E515ADE000B993D /* LaunchScreen.storyboard */; };
 		BCEEA5611F03205800C884A4 /* ClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCEEA5601F03205800C884A4 /* ClientKit.framework */; };
 		BCEEA5621F03205800C884A4 /* ClientKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BCEEA5601F03205800C884A4 /* ClientKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		EAEA065D1F3186B00071077C /* MPOL.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAEA065C1F3186B00071077C /* MPOL.swift */; };
+		BCF31ACB1F0F42F000207D82 /* (null) in Sources */ = {isa = PBXBuildFile; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -62,7 +63,7 @@
 		BCD4EA9E1E515ADE000B993D /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BCEEA5601F03205800C884A4 /* ClientKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ClientKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E87578436B7E33CD2885F860 /* Pods-MPOL.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOL.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOL/Pods-MPOL.release.xcconfig"; sourceTree = "<group>"; };
-		EAEA065C1F3186B00071077C /* MPOL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPOL.swift; sourceTree = "<group>"; };
+		EAEA065C1F3186B00071077C /* MPOLAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPOLAPIManager.swift; sourceTree = "<group>"; };
 		EECB1EC3B3B30EAC4A62C130 /* Pods_MPOL.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -175,7 +176,7 @@
 		EAEA065B1F3186830071077C /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
-				EAEA065C1F3186B00071077C /* MPOL.swift */,
+				EAEA065C1F3186B00071077C /* MPOLAPIManager.swift */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
@@ -320,11 +321,12 @@
 				BC4E81111EBEE38400188181 /* SettingsViewController.swift in Sources */,
 				12ADD4391F32C0FA00CA8B4D /* PersonSearchRequest.swift in Sources */,
 				BC8B26F31EDC07430022B0AD /* ActionListViewController.swift in Sources */,
+				12ADD43C1F32D9E700CA8B4D /* MPOLAPIManager.swift in Sources */,
 				12ADD4361F32C0FA00CA8B4D /* MPOLSearchViewModel.swift in Sources */,
 				BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */,
 				12ADD43A1F32C0FA00CA8B4D /* VehicleSearchDataSource.swift in Sources */,
-				EAEA065D1F3186B00071077C /* MPOL.swift in Sources */,
 				12ADD4371F32C0FA00CA8B4D /* NumberRangePickerViewController.swift in Sources */,
+				BCF31ACB1F0F42F000207D82 /* (null) in Sources */,
 				BC8B26F61EDC08460022B0AD /* EventsListViewController.swift in Sources */,
 				12ADD4381F32C0FA00CA8B4D /* PersonSearchDataSource.swift in Sources */,
 			);
