@@ -49,8 +49,6 @@ open class MapCollectionViewHeaderLayout: MapCollectionViewLayout {
     
     private var interactiveMapHeight: CGFloat = 0.0
     
-    private var isFirstMapLayout: Bool = true
-    
     private var isAdjustingInsets: Bool = false
     
     
@@ -65,8 +63,6 @@ open class MapCollectionViewHeaderLayout: MapCollectionViewLayout {
     // MARK: - View lifecycle
     
     open override func viewDidLoad() {
-        isFirstMapLayout = true
-        
         let controller = self.controller!
         let mapView = controller.mapView!
         
@@ -130,22 +126,11 @@ open class MapCollectionViewHeaderLayout: MapCollectionViewLayout {
         }
         
         if let mapView = controller.mapView {
-            let centerCoordinate = mapView.centerCoordinate
             let mapLayoutMargins = UIEdgeInsets(top: additionalSafeAreaInsets.top, left: 0.0, bottom: mapFrame.height - currentMapHeight, right: 0.0)
             
             if mapView.frame != mapFrame || mapView.layoutMargins != mapLayoutMargins {
                 mapView.frame = mapFrame
                 mapView.layoutMargins = mapLayoutMargins
-                
-                if isFirstMapLayout == false && CLLocationCoordinate2DIsValid(centerCoordinate) {
-                    mapView.centerCoordinate = centerCoordinate
-                }
-            }
-            
-            // On first view appearance, the map won't have a valid center coordinate. This
-            // fixes that by bypassing the setting of the coordinate.
-            if isFirstMapLayout {
-                isFirstMapLayout = false
             }
         }
         
@@ -172,11 +157,8 @@ open class MapCollectionViewHeaderLayout: MapCollectionViewLayout {
             interactiveMapHeight = mapFrame.height - bottomInset
         }
         
-        let center = mapView.centerCoordinate
-        
         if mapView.layoutMargins.bottom !=~ bottomInset {
             mapView.layoutMargins.bottom = bottomInset
-            mapView.centerCoordinate = center
         }
     }
     
