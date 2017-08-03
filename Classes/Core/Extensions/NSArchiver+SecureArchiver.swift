@@ -10,13 +10,13 @@ import Foundation
 
 public extension NSKeyedUnarchiver {
 
-    public func MPL_securelyUnarchiveObject<T>(with data: Data) -> T where T: NSSecureCoding, T: NSObject {
+    public class func MPL_securelyUnarchiveObject<T>(with data: Data) -> T where T: NSSecureCoding, T: NSObject {
         let unarchiver = NSKeyedUnarchiver(forReadingWith: data)
         unarchiver.requiresSecureCoding = true
         return unarchiver.decodeObject(of: T.self, forKey: NSKeyedArchiveRootObjectKey)!
     }
     
-    public func MPL_securelyUnarchiveObject<T>(withFile: String) -> T? where T: NSSecureCoding, T: NSObject {
+    public class func MPL_securelyUnarchiveObject<T>(withFile: String) -> T? where T: NSSecureCoding, T: NSObject {
         do {
             let data = try Data(contentsOf: URL(fileURLWithPath: withFile))
             return MPL_securelyUnarchiveObject(with: data)
@@ -28,7 +28,7 @@ public extension NSKeyedUnarchiver {
 
 public extension NSKeyedArchiver {
 
-    public func MPL_securelyArchivedData<T: NSSecureCoding>(withRootObject object: T) -> Data {
+    public class func MPL_securelyArchivedData<T: NSSecureCoding>(withRootObject object: T) -> Data {
         let data = NSMutableData()
         let archiver = NSKeyedArchiver(forWritingWith: data)
         
@@ -40,7 +40,7 @@ public extension NSKeyedArchiver {
         return data as Data
     }
     
-    public func MPL_securelyArchive<T: NSSecureCoding>(rootObject: T, toFile filePath: String) -> Bool {
+    public class func MPL_securelyArchive<T: NSSecureCoding>(rootObject: T, toFile filePath: String) -> Bool {
         let data = MPL_securelyArchivedData(withRootObject: rootObject)
         do {
             try data.write(to: URL(fileURLWithPath: filePath), options: .atomicWrite)
