@@ -87,7 +87,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         MPOLAPIManager.shared.accessTokenRequest(for: .credentials(username: username, password: password)).then { [weak self] _ -> Void in
             guard let `self` = self else { return }
             
-            let tsAndCsVC = TermsConditionsViewController()
+            let tsAndCsVC = TermsConditionsViewController(fileURL: Bundle.main.url(forResource: "termsandconditions", withExtension: "html")!)
             tsAndCsVC.delegate = self
             
             let navController = PopoverNavigationController(rootViewController: tsAndCsVC)
