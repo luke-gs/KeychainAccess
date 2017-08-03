@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class TermsConditionsViewController: UIViewController {
+public final class TermsConditionsViewController: UIViewController {
     
     // MARK: - Properties
     
