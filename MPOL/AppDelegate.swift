@@ -130,10 +130,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         if login {
             let headerLabel = UILabel(frame: .zero)
             headerLabel.translatesAutoresizingMaskIntoConstraints = false
-            headerLabel.text = "BlueConnect"
-            headerLabel.font = .systemFont(ofSize: 28.0, weight: UIFontWeightSemibold)
+            headerLabel.text = "mPol"
+            headerLabel.font = .systemFont(ofSize: 48.0, weight: UIFontWeightBold)
             headerLabel.textColor = .white
             headerLabel.adjustsFontSizeToFitWidth = true
+            
+            let subtitleLabel = UILabel(frame: .zero)
+            subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
+            subtitleLabel.text = "Mobile Policing Platform"
+            subtitleLabel.font = .systemFont(ofSize: 13.0, weight: UIFontWeightSemibold)
+            subtitleLabel.textColor = .white
+            subtitleLabel.adjustsFontSizeToFitWidth = true
             
             let headerImage = UIImageView(image: #imageLiteral(resourceName: "MPOLIcon"))
             headerImage.translatesAutoresizingMaskIntoConstraints = false
@@ -141,8 +148,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             let headerView = UIView(frame: .zero)
             headerView.addSubview(headerImage)
             headerView.addSubview(headerLabel)
+            headerView.addSubview(subtitleLabel)
             
-            var constraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|[hi]-(==20@900)-[hl]|", options: [.alignAllCenterX], metrics: nil, views: ["hi": headerImage, "hl": headerLabel])
+            var constraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|[hi]-(==16@900)-[hl][sl]|", options: [.alignAllCenterX], metrics: nil, views: ["hi": headerImage, "hl": headerLabel, "sl": subtitleLabel])
             constraints.append(NSLayoutConstraint(item: headerImage, attribute: .centerX, relatedBy: .equal, toItem: headerView, attribute: .centerX))
             NSLayoutConstraint.activate(constraints)
             
