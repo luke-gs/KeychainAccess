@@ -567,6 +567,15 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         return false
     }
     
+    open func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField == passwordField {
+            let text = textField.text as NSString?
+            let newText = text?.replacingCharacters(in: range, with: string)
+            textField.text = newText
+            return false
+        }
+        return true
+    }
     
     // MARK: - Overrides
     
