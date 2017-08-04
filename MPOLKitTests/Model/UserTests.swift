@@ -24,5 +24,39 @@ class UserTests: XCTestCase {
         XCTAssertEqual(user, cloned)
     }
     
+    func testThatItNotEqualToUser() {
+        let user1 = User(username: "Herli")
+        user1.termsAndConditionsVersionAccepted = "2"
+        
+        let user2 = User(username: "Not Herli")
+        user2.termsAndConditionsVersionAccepted = "1"
+        
+        XCTAssertNotEqual(user1, user2)
+    }
+    
+    func testThatItNotEqualToAPerson() {
+        let user1 = User(username: "Herli")
+        user1.termsAndConditionsVersionAccepted = "10"
+        
+        // James is just an object!
+        let james = NSObject()
+        
+        XCTAssertNotEqual(user1, james)
+    }
+
+    func testThatDecodingRandomStuffIsNotWorking() {
+        
+        let something = NSObject()
+    
+        let data = Data()
+        let user = User(coder: NSKeyedUnarchiver(forReadingWith: data))
+        
+        XCTAssertNotEqual(user, something)
+    }
+    
+    func testOk() {
+        let user = User(username: "")
+        user
+    }
 }
 
