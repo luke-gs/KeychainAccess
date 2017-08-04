@@ -20,10 +20,26 @@ import UIKit
 /// updates to be translucent, and observes theme changes to maintain correct appearance.
 open class PopoverNavigationController: UINavigationController, PopoverViewController, UINavigationControllerDelegate, UIPopoverPresentationControllerDelegate, UIViewControllerTransitioningDelegate {
     
+    
+    open var userInterfaceStyle: UserInterfaceStyle = .current {
+        didSet {
+            if userInterfaceStyle == oldValue { return }
+            
+            if userInterfaceStyle == .current {
+                NotificationCenter.default.addObserver(self, selector: #selector(applyTheme), name: .interfaceStyleDidChange, object: nil)
+            } else if oldValue == .current {
+                NotificationCenter.default.removeObserver(self, name: .interfaceStyleDidChange, object: nil)
+            }
+            
+            applyTheme()
+        }
+    }
+    
+    
     /// A boolean value indicating whether the navigation controller (and its children)
     /// should be displayed with a transparent background.
     open var wantsTransparentBackground: Bool = true {
-        didSet { applyCurrentTheme() }
+        didSet { applyTheme() }
     }
     
     
@@ -97,14 +113,18 @@ open class PopoverNavigationController: UINavigationController, PopoverViewContr
     
     public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        NotificationCenter.default.addObserver(self, selector: #selector(applyCurrentTheme), name: .ThemeDidChange, object: nil)
         super.delegate = self
+        if userInterfaceStyle == .current {
+            NotificationCenter.default.addObserver(self, selector: #selector(applyTheme), name: .interfaceStyleDidChange, object: nil)
+        }
     }
     
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        NotificationCenter.default.addObserver(self, selector: #selector(applyCurrentTheme), name: .ThemeDidChange, object: nil)
         super.delegate = self
+        if userInterfaceStyle == .current {
+            NotificationCenter.default.addObserver(self, selector: #selector(applyTheme), name: .interfaceStyleDidChange, object: nil)
+        }
     }
     
     
@@ -112,7 +132,7 @@ open class PopoverNavigationController: UINavigationController, PopoverViewContr
     
     open override func viewDidLoad() {
         super.viewDidLoad()
-        applyCurrentTheme()
+        applyTheme()
     }
     
     open override func pushViewController(_ viewController: UIViewController, animated: Bool) {
@@ -193,9 +213,10 @@ open class PopoverNavigationController: UINavigationController, PopoverViewContr
     
     // MARK: - Private methods
     
-    @objc private func applyCurrentTheme() {
-        let theme = Theme.current
-        popoverPresentationController?.backgroundColor = theme.colors[.PopoverBackground]
+    @objc private func applyTheme() {
+        let theme = ThemeManager.shared.theme(for: userInterfaceStyle)
+        
+        popoverPresentationController?.backgroundColor = theme.color(forKey: .popoverBackground)
         
         if isViewLoaded == false { return }
         
@@ -204,19 +225,19 @@ open class PopoverNavigationController: UINavigationController, PopoverViewContr
         
         if transparent {
             navigationBar.tintColor   = nil
-            navigationBar.barStyle    = theme.isDark ? .black : .default
+            navigationBar.barStyle    = userInterfaceStyle.isDark ? .black : .default
             navigationBar.setBackgroundImage(nil, for: .default)
             
             // Workaround
             if UIDevice.current.userInterfaceIdiom == .phone {
-                view.backgroundColor = theme.isDark ? #colorLiteral(red: 0.09803921569, green: 0.09803921569, blue: 0.09803921569, alpha: 1) : .clear
+                view.backgroundColor = userInterfaceStyle.isDark ? #colorLiteral(red: 0.09803921569, green: 0.09803921569, blue: 0.09803921569, alpha: 1) : .clear
             } else {
                 view.backgroundColor = .clear
             }
         } else {
             navigationBar.barStyle      = theme.navigationBarStyle
-            navigationBar.tintColor     = theme.colors[.NavigationBarTint]
-            navigationBar.setBackgroundImage(theme.navigationBarBackgroundImage, for: .default)
+            navigationBar.tintColor     = theme.color(forKey: .navigationBarTint)
+            navigationBar.setBackgroundImage(theme.image(forKey: .navigationBarBackground), for: .default)
             view.backgroundColor = .clear
         }
         

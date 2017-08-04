@@ -182,3 +182,36 @@ public func ==(lhs: Theme.ColorKey, rhs: Theme.ColorKey) -> Bool {
 public func ==(lhs: Theme.ImageKey, rhs: Theme.ImageKey) -> Bool {
     return lhs.rawValue == rhs.rawValue
 }
+
+
+// MARK: - Deprecated
+
+extension Theme {
+    
+    // The current theme.
+    @available(iOS, deprecated, message: "Use `ThemeManager.shared.theme(for: .current`")
+    public class var current: Theme {
+        return ThemeManager.shared.theme(for: .current)
+    }
+    
+    
+    /// The navigation bar background image.
+    @available(iOS, deprecated, message: "Use `image(forKey: .navigationBarBackground)`")
+    public var navigationBarBackgroundImage: UIImage? {
+        return image(forKey: .navigationBarBackground)
+    }
+    
+    /// The navigation bar shadow image. This should be shared between the actual navigation
+    /// bar, and any associated navigation bar background extensions
+    @available(iOS, deprecated, message: "Use `image(forKey: .navigationBarShadow)`")
+    public var navigationBarShadowImage: UIImage? {
+        return image(forKey: .navigationBarShadow)
+    }
+    
+    /// The background image for an extension of the navigation bar
+    @available(iOS, deprecated, message: "Use `image(forKey: .navigationBarExtension)`")
+    public var navigationBarBackgroundExtensionImage: UIImage? {
+        return image(forKey: .navigationBarExtension)
+    }
+    
+}

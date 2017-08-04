@@ -84,13 +84,11 @@ open class FormSearchTableViewController: FormTableViewController, UISearchBarDe
     // MARK: - View lifecycle
     
     open override func viewDidLoad() {
-        super.viewDidLoad()
-        
         searchBar.isHidden = isSearchBarHidden
         searchBar.sizeToFit()
         view.addSubview(searchBar)
         
-        applyCurrentTheme()
+        super.viewDidLoad()
     }
     
     open override func viewDidLayoutSubviews() {
@@ -130,10 +128,10 @@ open class FormSearchTableViewController: FormTableViewController, UISearchBarDe
     
     // MARK: - Overrides
     
-    open override func applyCurrentTheme() {
-        super.applyCurrentTheme()
+    open override func apply(_ theme: Theme) {
+        super.apply(theme)
         
-        searchBar.barStyle = Theme.current.isDark ? .black : .default
+        searchBar.barStyle = userInterfaceStyle.isDark ? .black : .default
     }
     
     open override func calculatedContentHeight() -> CGFloat {

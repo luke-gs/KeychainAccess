@@ -12,7 +12,7 @@ import UIKit
 public extension NSNotification.Name {
     
     /// Posted when the current theme changes.
-    public static let InterfaceStyleDidChange = NSNotification.Name(rawValue: "MPOL.InterfaceStyleDidChange")
+    public static let interfaceStyleDidChange = NSNotification.Name(rawValue: "MPOL.InterfaceStyleDidChange")
 }
 
 
@@ -23,6 +23,18 @@ public extension NSNotification.Name {
     case light
     
     case dark
+    
+    
+    /// Returns whether this user interface style is dark.
+    ///
+    /// When .current, this checks the current interface style on the theme manager.
+    public var isDark: Bool {
+        switch self {
+        case .dark:    return true
+        case .light:   return false
+        case .current: return ThemeManager.shared.currentInterfaceStyle == .dark
+        }
+    }
     
 }
 
@@ -36,7 +48,7 @@ public class ThemeManager {
     }
     
     
-    // MARK: - Public  properties
+    // MARK: - Public properties
     
     public var currentInterfaceStyle: UserInterfaceStyle = .light {
         didSet {
@@ -45,7 +57,7 @@ public class ThemeManager {
                 return
             }
             
-            // TODO: post notification
+            NotificationCenter.default.post(name: .interfaceStyleDidChange, object: self)
         }
     }
     
@@ -54,17 +66,19 @@ public class ThemeManager {
     
     private var registeredThemes = [UserInterfaceStyle: Theme]()
     
-    private lazy var mpolLightTheme = Theme(details: [:])!
+    private lazy var lightTheme = Theme(name: "LightTheme", in: .mpolKit)!
     
-    private lazy var mpolDarkTheme = Theme(details: [:])!
+    private lazy var darkTheme = Theme(name: "DarkTheme", in: .mpolKit)!
     
     
     // MARK: - Theme access and registration
     
-    public func register(_ theme: Theme?, for userInterfaceStyle: UserInterfaceStyle) {
-        if userInterfaceStyle == .current || registeredThemes[userInterfaceStyle] == theme { return }
-        
-        registeredThemes[userInterfaceStyle] = theme
+    public func register(_ theme: Theme, for userInterfaceStyle: UserInterfaceStyle) {
+        switch userInterfaceStyle {
+        case .light: lightTheme = theme
+        case .dark:  darkTheme = theme
+        case .current: break
+        }
     }
     
     public func theme(for userInterfaceStyle: UserInterfaceStyle) -> Theme {
@@ -72,14 +86,11 @@ public class ThemeManager {
         if style == .current {
             style = currentInterfaceStyle
         }
-        
         switch style {
-        case .light: return registeredThemes[userInterfaceStyle] ?? mpolLightTheme
-        case .dark:  return registeredThemes[userInterfaceStyle] ?? mpolDarkTheme
-        default: fatalError("We should be able to get to this state - current is filtered out.")
+        case .light: return lightTheme
+        case .dark:  return darkTheme
+        default: fatalError("We should not be able to get to this state - current is filtered out.")
         }
     }
     
 }
-
-

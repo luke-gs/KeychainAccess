@@ -58,7 +58,7 @@ open class FilterViewController: FormCollectionViewController {
         formLayout.distribution = .fillEqually
         
         minimumCalculatedContentHeight = 200.0
-        wantsCalculatedContentHeight = true
+        calculatesContentHeight = true
         
         isModalInPopover = true
         
