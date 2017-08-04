@@ -24,11 +24,11 @@ fileprivate var contentHeightContext = 1
 /// automatically adjust the insets. This works around multiple UIKit issues with
 /// insets being incorrectly applied, especially in tab bar controllers.
 ///
-/// - Third, it has default handling of MPOL theme-based changes. Where subclasses
-/// require to update for theme changes, they should override
-/// `tableView(_:willDisplay:for:)` and other analogous display preparation methods
-/// rathern than requiring reloads. Other view based changes can be completed with
-/// the open method `applyCurrentTheme()`.
+/// - Third, it has default handling of MPOL theme-based changes, and has its own
+/// `userInterfaceStyle` property. Where subclasses require to update for style
+/// changes, they should override `tableView(_:willDisplay:for:)` and other
+/// analogous display preparation methods rather than requiring reloads. Other view
+/// based changes can be completed with the open method `apply(_:)`.
 open class FormTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, PopoverViewController {
     
     // MARK: - Public properties
@@ -48,18 +48,6 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     /// The loading manager.
     open private(set) lazy var loadingManager: LoadingStateManager = LoadingStateManager()
     
-    
-    /// A boolean value indicating whether the table background should be transparent.
-    ///
-    /// The default is `false`.
-    open var wantsTransparentBackground: Bool = false {
-        didSet {
-            if isViewLoaded && wantsTransparentBackground != oldValue {
-                updateTableBackgroundColor()
-            }
-        }
-    }
-    
     /// A boolean value indicating if the controller clears the selection when the
     /// table appears.
     /// 
@@ -69,38 +57,29 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     open var clearsSelectionOnViewWillAppear: Bool = true
     
     
-    /// A boolean value indicating whether the table view should display with separators
-    /// when with a transparent background.
-    ///
-    /// Some MPOL views require separators to be hidden when appearing transparently,
-    /// for example in a popover.
-    ///
-    /// The default is `false` on plain style table views, and `true` in the grouped style.
-    open var wantsSeparatorWhenTransparent: Bool {
-        didSet {
-            guard wantsSeparatorWhenTransparent != oldValue, wantsTransparentBackground,
-                let tableView = self.tableView else { return }
-            
-            tableView.separatorStyle = wantsSeparatorWhenTransparent ? .singleLine : .none
-        }
-    }
-    
+    // Calculated content heights
     
     /// A boolean value indicating whether the table view should automatically calculate
     /// its `preferreContentSize`'s height property from the table view's content height.
     ///
     /// The default is `false`.
-    open var wantsCalculatedContentHeight = false {
+    open var calculatesContentHeight = false {
         didSet {
-            if wantsCalculatedContentHeight == oldValue { return }
+            if calculatesContentHeight == oldValue { return }
             
-            if wantsCalculatedContentHeight {
+            if calculatesContentHeight {
                 tableView?.addObserver(self, forKeyPath: #keyPath(UITableView.contentSize), options: [.new, .old], context: &contentHeightContext)
                 updateCalculatedContentHeight()
             } else {
                 tableView?.removeObserver(self, forKeyPath: #keyPath(UITableView.contentSize), context: &contentHeightContext)
             }
         }
+    }
+    
+    @available(iOS, deprecated, renamed: "calculatesContentHeight")
+    open var wantsCalculatedContentHeight: Bool {
+        get { return calculatesContentHeight }
+        set { calculatesContentHeight = newValue }
     }
     
     
@@ -123,6 +102,54 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
             }
         }
     }
+    
+    // Appearance
+    
+    /// The user interface style for the collection view.
+    ///
+    /// When set to `.current`, the theme autoupdates when the interface
+    /// style changes.
+    open var userInterfaceStyle: UserInterfaceStyle = .current {
+        didSet {
+            if userInterfaceStyle == oldValue { return }
+            
+            if userInterfaceStyle == .current {
+                NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleDidChange), name: .interfaceStyleDidChange, object: nil)
+            } else if oldValue == .current {
+                NotificationCenter.default.removeObserver(self, name: .interfaceStyleDidChange, object: nil)
+            }
+            
+            apply(ThemeManager.shared.theme(for: userInterfaceStyle))
+        }
+    }
+    
+    /// A boolean value indicating whether the table background should be transparent.
+    ///
+    /// The default is `false`.
+    open var wantsTransparentBackground: Bool = false {
+        didSet {
+            if isViewLoaded && wantsTransparentBackground != oldValue {
+                updateTableBackgroundColor()
+            }
+        }
+    }
+    
+    /// A boolean value indicating whether the table view should display with separators
+    /// when with a transparent background.
+    ///
+    /// Some MPOL views require separators to be hidden when appearing transparently,
+    /// for example in a popover.
+    ///
+    /// The default is `false` on plain style table views, and `true` in the grouped style.
+    open var wantsSeparatorWhenTransparent: Bool {
+        didSet {
+            guard wantsSeparatorWhenTransparent != oldValue, wantsTransparentBackground,
+                let tableView = self.tableView else { return }
+            
+            tableView.separatorStyle = wantsSeparatorWhenTransparent ? .singleLine : .none
+        }
+    }
+    
     
     @NSCopying open private(set) var tintColor:            UIColor?
     
@@ -155,6 +182,7 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     }
 
     
+    @NSCopying open private(set) var disclosureColor:      UIColor?
     // MARK: - Legacy support
     
     /// Additional content insets beyond the standard top and bottom layout guides.
@@ -167,7 +195,7 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
             
             view.setNeedsLayout()
             
-            if wantsCalculatedContentHeight {
+            if calculatesContentHeight {
                 updateCalculatedContentHeight()
             }
         }
@@ -193,11 +221,13 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     private func commonInit() {
         automaticallyAdjustsScrollViewInsets = false
         
-        NotificationCenter.default.addObserver(self, selector: #selector(applyCurrentTheme), name: .ThemeDidChange, object: nil)
+        if userInterfaceStyle == .current {
+            NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleDidChange), name: .interfaceStyleDidChange, object: nil)
+        }
     }
     
     deinit {
-        if wantsCalculatedContentHeight == false { return }
+        if calculatesContentHeight == false { return }
         
         tableView?.removeObserver(self, forKeyPath: #keyPath(UITableView.contentSize), context: &contentHeightContext)
     }
@@ -216,7 +246,7 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
         tableView.preservesSuperviewLayoutMargins = false
         tableView.layoutMargins = UIEdgeInsets(top: 0.0, left: 20.0, bottom: 0.0, right: 0.0)
         
-        if wantsCalculatedContentHeight {
+        if calculatesContentHeight {
             tableView.addObserver(self, forKeyPath: #keyPath(UITableView.contentSize), options: [.old, .new], context: &contentHeightContext)
         }
         
@@ -233,8 +263,7 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     
     open override func viewDidLoad() {
         super.viewDidLoad()
-        
-        applyCurrentTheme()
+        apply(ThemeManager.shared.theme(for: userInterfaceStyle))
     }
     
     open override func viewDidLayoutSubviews() {
@@ -244,8 +273,8 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
 //        if #available(iOS 11, *) {
 //            return
 //        }
-        
         var insets = legacy_additionalSafeAreaInsets
+        
         insets.top += topLayoutGuide.length
         insets.bottom += max(bottomLayoutGuide.length, statusTabBarInset)
         
@@ -284,17 +313,16 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     
     // MARK: - Themes
     
-    open func applyCurrentTheme() {
-        let colors = Theme.current.colors
-        
-        tintColor            = colors[.Tint]
-        separatorColor       = tableViewStyle == .grouped ? (colors[.GroupedTableSeparator]  ?? colors[.Separator])  : colors[.Separator]
-        backgroundColor      = tableViewStyle == .grouped ? (colors[.GroupedTableBackground] ?? colors[.Background]) : colors[.Background]
-        cellBackgroundColor  = tableViewStyle == .grouped ? colors[.GroupedTableCellBackground] : nil
-        selectionColor       = colors[.CellSelection]
-        primaryTextColor     = colors[.PrimaryText]
-        secondaryTextColor   = colors[.SecondaryText]
-        placeholderTextColor = colors[.PlaceholderText]
+    open func apply(_ theme: Theme) {
+        tintColor            = theme.color(forKey: .tint)
+        selectionColor       = theme.color(forKey: .cellSelection)
+        separatorColor       = theme.color(forKey: .separator)
+        backgroundColor      = theme.color(forKey: tableViewStyle == .grouped ? .groupedTableBackground: .background)
+        cellBackgroundColor  = tableViewStyle == .grouped ? theme.color(forKey: .groupedTableCellBackground) : nil
+        selectionColor       = theme.color(forKey: .cellSelection)
+        primaryTextColor     = theme.color(forKey: .primaryText)
+        secondaryTextColor   = theme.color(forKey: .secondaryText)
+        placeholderTextColor = theme.color(forKey: .placeholderText)
         
         loadingManager.noContentColor = secondaryTextColor ?? .gray
         
@@ -326,11 +354,12 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
         }
     }
     
-    
-    // MARK: - Status bar style
+    @available(iOS, deprecated, renamed: "FormCollectionViewContoller.apply(_:)")
+    open func applyCurrentTheme() {
+    }
     
     open override var preferredStatusBarStyle : UIStatusBarStyle {
-        return Theme.current.statusBarStyle
+        return ThemeManager.shared.theme(for: .current).statusBarStyle
     }
     
     
@@ -369,6 +398,17 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
         let secondaryTextColor   = self.secondaryTextColor   ?? .darkGray
         let placeholderTextColor = self.placeholderTextColor ?? .gray
         
+        if let accessoryView = cell.accessoryView as? FormAccessoryView {
+            switch accessoryView.style {
+            case .none, .some(.checkmark):
+                accessoryView.tintColor = nil
+            case .some(.disclosure):
+                accessoryView.tintColor = disclosureColor
+            case .some(.dropDown):
+                accessoryView.tintColor = primaryTextColor
+            }
+        }
+        
         switch cell {
         case let textViewCell as TableViewFormTextViewCell:
             textViewCell.titleLabel.textColor       = secondaryTextColor
@@ -387,36 +427,13 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
             textFieldCell.titleLabel.textColor = secondaryTextColor
             textFieldCell.textField.textColor  = primaryTextColor
             textFieldCell.textField.placeholderTextColor = placeholderTextColor
-            
-            guard let title = textFieldCell.titleLabel.text as NSString? else { return }
-            
-            let rangeOfStar = title.range(of: "*")
-            if rangeOfStar.location == NSNotFound { return }
-            
-            let titleString = NSMutableAttributedString(string: title as String)
-            titleString.setAttributes([NSForegroundColorAttributeName: UIColor.red], range: rangeOfStar)
-            textFieldCell.titleLabel.attributedText = titleString
         case let subtitleCell as TableViewFormSubtitleCell:
             if subtitleCell.emphasis == .title {
                 subtitleCell.textLabel.textColor    = primaryTextColor
                 subtitleCell.detailTextLabel.textColor = secondaryTextColor
             } else {
                 subtitleCell.textLabel.textColor    = secondaryTextColor
-                
-//                if subtitleCell.isEditableField {
-//                    subtitleCell.subtitleLabel.textColor = primaryTextColor
-//                    
-//                    guard let title = subtitleCell.titleLabel.text as NSString? else { return }
-//                    
-//                    let rangeOfStar = title.range(of: "*")
-//                    if rangeOfStar.location == NSNotFound { return }
-//                    
-//                    let titleString = NSMutableAttributedString(string: title as String)
-//                    titleString.setAttributes([NSForegroundColorAttributeName: UIColor.red], range: rangeOfStar)
-//                    subtitleCell.titleLabel.attributedText = titleString
-//                } else {
-                    subtitleCell.detailTextLabel.textColor = secondaryTextColor
-//                }
+                subtitleCell.detailTextLabel.textColor = secondaryTextColor
             }
         default:
             cell.textLabel?.textColor = primaryTextColor
@@ -429,7 +446,7 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &contentHeightContext {
-            if wantsCalculatedContentHeight == false { return }
+            if calculatesContentHeight == false { return }
             
             let old = change?[.oldKey] as? NSObject
             let new = change?[.newKey] as? NSObject
@@ -450,7 +467,7 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     /// Subclasses should not need to override this method, but
     /// should call this method when their calculated content size changes.
     open func updateCalculatedContentHeight() {
-        if wantsCalculatedContentHeight == false || isViewLoaded == false { return }
+        if calculatesContentHeight == false || isViewLoaded == false { return }
         
         let calculatedContentHeight = self.calculatedContentHeight()
         
@@ -483,12 +500,18 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     
     // MARK: - Private methods
     
+    @objc private func interfaceStyleDidChange() {
+        if userInterfaceStyle != .current { return }
+        
+        apply(ThemeManager.shared.theme(for: userInterfaceStyle))
+    }
+    
     private func updateTableBackgroundColor() {
         guard let tableView = self.tableView else { return }
         
         let newColor: UIColor?
         if wantsTransparentBackground {
-            if UIDevice.current.userInterfaceIdiom == .phone && Theme.current.isDark {
+            if userInterfaceStyle.isDark && UIDevice.current.userInterfaceIdiom == .phone {
                 newColor = #colorLiteral(red: 0.09803921569, green: 0.09803921569, blue: 0.09803921569, alpha: 1)
             } else {
                 newColor = .clear

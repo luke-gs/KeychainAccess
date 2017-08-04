@@ -293,7 +293,7 @@ open class SidebarViewController: UIViewController, UITableViewDataSource, UITab
     }
     
     open override var preferredStatusBarStyle: UIStatusBarStyle {
-        return Theme.current.statusBarStyle
+        return ThemeManager.shared.theme(for: .current).statusBarStyle
     }
     
     

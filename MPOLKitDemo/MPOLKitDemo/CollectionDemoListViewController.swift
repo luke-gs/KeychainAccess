@@ -63,7 +63,6 @@ class CollectionDemoListViewController: FormTableViewController {
         tableView.rowHeight = 44.0
         tableView.register(UITableViewCell.self)
         tableView.cellLayoutMargins = UIEdgeInsets(top: 16.0, left: 24.0, bottom: 16.0, right: 12.0)
-        tableView.separatorColor = Theme.current.colors[.Separator]
     }
 
     
@@ -91,7 +90,7 @@ class CollectionDemoListViewController: FormTableViewController {
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         super.tableView(tableView, willDisplay: cell, forRowAt: indexPath)
-        cell.selectedBackgroundView?.backgroundColor = Theme.current.isDark ? .darkGray : #colorLiteral(red: 0.2971355617, green: 0.6317164898, blue: 1, alpha: 1)
+        cell.selectedBackgroundView?.backgroundColor = userInterfaceStyle.isDark ? .darkGray : #colorLiteral(red: 0.2971355617, green: 0.6317164898, blue: 1, alpha: 1)
         cell.textLabel?.highlightedTextColor = .white
     }
     

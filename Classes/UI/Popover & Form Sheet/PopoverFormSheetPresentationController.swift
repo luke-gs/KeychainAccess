@@ -17,7 +17,6 @@ import UIKit
 /// and provides an implementation for a standard form sheet presentation, with a little added "bounce".
 public class PopoverFormSheetPresentationController: UIPresentationController, UIViewControllerAnimatedTransitioning {
     
-    
     public override var presentedView: UIView? {
         return presentationWrappingView
     }
@@ -28,6 +27,21 @@ public class PopoverFormSheetPresentationController: UIPresentationController, U
     
     private var keyboardInset: CGFloat = 0.0
     
+    public var userInterfaceStyle: UserInterfaceStyle = .current {
+        didSet {
+            if userInterfaceStyle == oldValue { return }
+            
+            if userInterfaceStyle == .current {
+                NotificationCenter.default.addObserver(self, selector: #selector(applyTheme), name: .interfaceStyleDidChange, object: nil)
+            } else if oldValue == .current {
+                NotificationCenter.default.removeObserver(self, name: .interfaceStyleDidChange, object: nil)
+            }
+            
+            applyTheme()
+        }
+    }
+    
+    
     
     // MARK: - Initializers
     
@@ -36,9 +50,12 @@ public class PopoverFormSheetPresentationController: UIPresentationController, U
         
         let notificationCenter = NotificationCenter.default
         
-        notificationCenter.addObserver(self, selector: #selector(applyCurrentTheme), name: .ThemeDidChange, object: nil)
         notificationCenter.addObserver(self, selector: #selector(keyboardWillShow(_:)),  name: .UIKeyboardWillShow, object: nil)
         notificationCenter.addObserver(self, selector: #selector(keyboardWillHide(_:)),  name: .UIKeyboardWillHide, object: nil)
+        
+        if userInterfaceStyle == .current {
+            NotificationCenter.default.addObserver(self, selector: #selector(applyTheme), name: .interfaceStyleDidChange, object: nil)
+        }
     }
     
     
@@ -47,7 +64,7 @@ public class PopoverFormSheetPresentationController: UIPresentationController, U
     public override func presentationTransitionWillBegin() {
         super.presentationTransitionWillBegin()
         
-        let presentationWrappingView = UIVisualEffectView(effect: UIBlurEffect(style: Theme.current.isDark ? .dark : .extraLight))
+        let presentationWrappingView = UIVisualEffectView(effect: UIBlurEffect(style: userInterfaceStyle.isDark ? .dark : .extraLight))
         presentationWrappingView.clipsToBounds = true
         presentationWrappingView.layer.cornerRadius = 10.0
         self.presentationWrappingView = presentationWrappingView
@@ -198,8 +215,8 @@ public class PopoverFormSheetPresentationController: UIPresentationController, U
     
     // MARK: - Private methods
     
-    @objc private func applyCurrentTheme() {
-        presentationWrappingView?.effect = UIBlurEffect(style: Theme.current.isDark ? .dark : .extraLight)
+    @objc private func applyTheme() {
+        presentationWrappingView?.effect = UIBlurEffect(style: userInterfaceStyle.isDark ? .dark : .extraLight)
     }
     
     @objc private func keyboardWillShow(_ notification: Notification) {

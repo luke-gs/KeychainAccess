@@ -106,7 +106,7 @@ open class PopoverDatePickerViewController: FormTableViewController, UIPopoverPr
         super.init(style: .grouped)
         super.modalPresentationStyle = .popover
         popoverPresentationController?.delegate = self
-        wantsCalculatedContentHeight = false
+        calculatesContentHeight = false
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -143,8 +143,7 @@ open class PopoverDatePickerViewController: FormTableViewController, UIPopoverPr
         }
     }
     
-    open override func applyCurrentTheme() {
-        super.applyCurrentTheme()
+    open override func apply(_ theme: Theme) {
         
         // WORKAROUND: Cannot change the color of text, especially in dark mode.
         // This is PRIVATE API and should be checked on each iOS version.
@@ -248,7 +247,7 @@ open class PopoverDatePickerViewController: FormTableViewController, UIPopoverPr
             preferredContentSize = CGSize(width: preferredContentSize.width, height: tableView.contentSize.height)
         }
         
-        applyCurrentTheme()
+        apply(ThemeManager.shared.theme(for: userInterfaceStyle))
     }
     
     @objc private func datePickerDateDidChange() {

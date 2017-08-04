@@ -196,10 +196,7 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
         preferredContentSize = CGSize(width: 320.0, height: 435.0)
         clearsSelectionOnViewWillAppear = false
         
-        wantsCalculatedContentHeight = true
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(applyCurrentTheme), name: .ThemeDidChange, object: nil)
-        applyCurrentTheme()
+        calculatesContentHeight = true
     }
     
     public convenience init(style: UITableViewStyle, items: [T]) {
@@ -437,9 +434,4 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
             self.filteredIndexes = nil
         }
     }
-}
-
-
-private extension Array {
-    
 }
