@@ -164,6 +164,8 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     
     @NSCopying open private(set) var placeholderTextColor: UIColor?
     
+    @NSCopying open private(set) var disclosureColor:      UIColor?
+    
     @NSCopying open private(set) var separatorColor:       UIColor?
     
     
@@ -272,7 +274,7 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     open func apply(_ theme: Theme) {
         tintColor            = theme.color(forKey: .tint)
         selectionColor       = theme.color(forKey: .cellSelection)
-        separatorColor       = theme.color(forKey: tableViewStyle == .grouped ? .groupedTableSeparator: .separator)
+        separatorColor       = theme.color(forKey: .separator)
         backgroundColor      = theme.color(forKey: tableViewStyle == .grouped ? .groupedTableBackground: .background)
         cellBackgroundColor  = tableViewStyle == .grouped ? theme.color(forKey: .groupedTableCellBackground) : nil
         selectionColor       = theme.color(forKey: .cellSelection)
@@ -353,6 +355,17 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
         let primaryTextColor     = self.primaryTextColor     ?? .black
         let secondaryTextColor   = self.secondaryTextColor   ?? .darkGray
         let placeholderTextColor = self.placeholderTextColor ?? .gray
+        
+        if let accessoryView = cell.accessoryView as? FormAccessoryView {
+            switch accessoryView.style {
+            case .none, .some(.checkmark):
+                accessoryView.tintColor = nil
+            case .some(.disclosure):
+                accessoryView.tintColor = disclosureColor
+            case .some(.dropDown):
+                accessoryView.tintColor = primaryTextColor
+            }
+        }
         
         switch cell {
         case let textViewCell as TableViewFormTextViewCell:

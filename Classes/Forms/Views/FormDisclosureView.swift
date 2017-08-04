@@ -37,7 +37,7 @@ public class FormDisclosureView: UIImageView {
     public init() {
         let image = AssetManager.shared.image(forKey: .disclosure)!
         super.init(frame: CGRect(origin: .zero, size: image.size))
-        super.tintColor = ThemeManager.shared.theme(for: .current).color(forKey: .disclosureIndicator) ?? FormDisclosureView.defaultTintColor
+        super.tintColor = ThemeManager.shared.theme(for: .current).color(forKey: .disclosure) ?? FormDisclosureView.defaultTintColor
         super.image = image
         NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleDidChange(_:)), name: .interfaceStyleDidChange, object: nil)
     }
@@ -73,7 +73,7 @@ public class FormDisclosureView: UIImageView {
     // MARK: - Private methods
     
     @objc private func interfaceStyleDidChange(_ notification: Notification) {
-        super.tintColor = ThemeManager.shared.theme(for: .current).color(forKey: .disclosureIndicator) ?? FormDisclosureView.defaultTintColor
+        super.tintColor = ThemeManager.shared.theme(for: .current).color(forKey: .disclosure) ?? FormDisclosureView.defaultTintColor
     }
 }
 

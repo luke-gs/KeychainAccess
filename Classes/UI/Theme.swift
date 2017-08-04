@@ -12,8 +12,8 @@ public class Theme: NSObject {
     
     // MARK: - Public properties
     
-    /// The bundle containing the theme. This bundle should contain all images named
-    /// in for the bars etc.
+    /// The bundle containing the theme. This bundle should contain all images for the
+    /// imageKeys in the theme.
     public let bundle: Bundle
     
     /// The status bar style appropriate for the assigned navigation bar style and color.
@@ -138,7 +138,7 @@ extension Theme {
         public static let separator             = ColorKey(rawValue: "separator")
         public static let validationError       = ColorKey(rawValue: "validationError")
         public static let cellSelection         = ColorKey(rawValue: "cellSelection")
-        public static let disclosureIndicator   = ColorKey(rawValue: "disclosureIndicator")
+        public static let disclosure            = ColorKey(rawValue: "disclosure")
         public static let popoverBackground     = ColorKey(rawValue: "popoverBackground")
         public static let searchField           = ColorKey(rawValue: "searchField")
         public static let searchFieldBackground = ColorKey(rawValue: "searchFieldBackground")
@@ -146,7 +146,6 @@ extension Theme {
         // Grouped Table specific
         public static let groupedTableBackground     = ColorKey(rawValue: "groupedTableBackground")
         public static let groupedTableCellBackground = ColorKey(rawValue: "groupedTableCellBackground")
-        public static let groupedTableSeparator      = ColorKey(rawValue: "groupedTableSeparator")
         
     }
     

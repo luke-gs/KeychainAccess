@@ -63,9 +63,7 @@ public class ThemeManager {
     
     
     // MARK: - Private properties
-    
-    private var registeredThemes = [UserInterfaceStyle: Theme]()
-    
+
     private lazy var lightTheme = Theme(name: "LightTheme", in: .mpolKit)!
     
     private lazy var darkTheme = Theme(name: "DarkTheme", in: .mpolKit)!

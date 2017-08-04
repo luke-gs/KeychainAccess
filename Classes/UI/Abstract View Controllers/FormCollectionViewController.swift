@@ -110,6 +110,8 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     
     @NSCopying open private(set) var placeholderTextColor: UIColor?
     
+    @NSCopying open private(set) var disclosureColor:      UIColor?
+    
     @NSCopying open private(set) var separatorColor:       UIColor?
     
     @NSCopying open private(set) var validationErrorColor: UIColor?
@@ -208,6 +210,7 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
         primaryTextColor     = theme.color(forKey: .primaryText)
         secondaryTextColor   = theme.color(forKey: .secondaryText)
         placeholderTextColor = theme.color(forKey: .placeholderText)
+        disclosureColor      = theme.color(forKey: .disclosure)
         validationErrorColor = theme.color(forKey: .validationError)
         
         loadingManager.noContentColor = secondaryTextColor ?? .gray
@@ -276,14 +279,25 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     
     open func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         
-        if let formCell = cell as? CollectionViewFormCell {
-            formCell.separatorColor = separatorColor
-            formCell.validationColor = validationErrorColor
-        }
-        
         let primaryTextColor     = self.primaryTextColor     ?? .black
         let secondaryTextColor   = self.secondaryTextColor   ?? .darkGray
         let placeholderTextColor = self.placeholderTextColor ?? .gray
+        
+        if let formCell = cell as? CollectionViewFormCell {
+            formCell.separatorColor = separatorColor
+            formCell.validationColor = validationErrorColor
+            
+            if let accessoryView = formCell.accessoryView as? FormAccessoryView {
+                switch accessoryView.style {
+                case .none, .some(.checkmark):
+                    accessoryView.tintColor = nil
+                case .some(.disclosure):
+                    accessoryView.tintColor = disclosureColor
+                case .some(.dropDown):
+                    accessoryView.tintColor = primaryTextColor
+                }
+            }
+        }
         
         switch cell {
         case let formCell as EntityCollectionViewCell:
