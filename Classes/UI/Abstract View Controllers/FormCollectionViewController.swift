@@ -8,7 +8,7 @@
 
 import UIKit
 
-fileprivate var kvoContext = 1
+fileprivate var contentHeightContext = 1
 
 fileprivate let tempID = "temp"
 
@@ -55,10 +55,10 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
             if calculatesContentHeight == oldValue { return }
             
             if calculatesContentHeight {
-                collectionView?.addObserver(self, forKeyPath: #keyPath(UICollectionView.contentSize), context: &kvoContext)
+                collectionView?.addObserver(self, forKeyPath: #keyPath(UICollectionView.contentSize), options: [.new, .old], context: &contentHeightContext)
                 updateCalculatedContentHeight()
             } else {
-                collectionView?.removeObserver(self, forKeyPath: #keyPath(UICollectionView.contentSize), context: &kvoContext)
+                collectionView?.removeObserver(self, forKeyPath: #keyPath(UICollectionView.contentSize), context: &contentHeightContext)
             }
         }
     }
@@ -78,7 +78,6 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
             }
         }
     }
-    
     
     /// The maximum allowed calculated content height. The default is `.infinity`,
     /// meaning there is no restriction on the content height.
@@ -139,6 +138,37 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     @NSCopying open private(set) var validationErrorColor: UIColor?
     
     
+    // MARK: - Subclass override points
+    
+    /// Allows subclasses to return a custom subclass of UICollectionView
+    /// to use as the collection view.
+    ///
+    /// - Returns: The `UICollectionView` class to use for the main collection view.
+    ///            The default returns `UICollectionView` itself.
+    open func collectionViewClass() -> UICollectionView.Type {
+        return UICollectionView.self
+    }
+    
+    
+    // MARK: - Legacy support
+    /// Additional content insets beyond the standard top and bottom layout guides.
+    
+    ///
+    /// In iOS 11, you should use `additionalSafeAreaInsets` instead.
+    @available(iOS, deprecated: 11.0, message: "Use `additionalSafeAreaInsets` instead.")
+    open var legacy_additionalSafeAreaInsets: UIEdgeInsets = .zero {
+        didSet {
+            if legacy_additionalSafeAreaInsets == oldValue || isViewLoaded == false { return }
+            
+            view.setNeedsLayout()
+            
+            if calculatesContentHeight {
+                updateCalculatedContentHeight()
+            }
+        }
+    }
+    
+    
     // MARK: - Initializers
     
     public init() {
@@ -157,9 +187,9 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     }
     
     deinit {
-        if calculatesContentHeight {
-            collectionView?.removeObserver(self, forKeyPath: #keyPath(UICollectionView.contentSize), context: &kvoContext)
-        }
+        if calculatesContentHeight == false { return }
+        
+        collectionView?.removeObserver(self, forKeyPath: #keyPath(UICollectionView.contentSize), context: &contentHeightContext)
     }
     
     
@@ -168,7 +198,7 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     open override func loadView() {
         let backgroundBounds = UIScreen.main.bounds
         
-        let collectionView = UICollectionView(frame: backgroundBounds, collectionViewLayout: formLayout)
+        let collectionView = collectionViewClass().init(frame: backgroundBounds, collectionViewLayout: formLayout)
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.dataSource = self
         collectionView.delegate   = self
@@ -180,7 +210,7 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
         collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: tempID)
         
         if calculatesContentHeight {
-            collectionView.addObserver(self, forKeyPath: #keyPath(UICollectionView.contentSize), context: &kvoContext)
+            collectionView.addObserver(self, forKeyPath: #keyPath(UICollectionView.contentSize), options: [.old, .new], context: &contentHeightContext)
         }
         
         let backgroundView = UIView(frame: backgroundBounds)
@@ -203,7 +233,15 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        let insets = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: max(bottomLayoutGuide.length, statusTabBarInset), right: 0.0)
+        // TODO: Uncomment in iOS 11
+//        if #available(iOS 11, *) {
+//            return
+//        }
+        
+        var insets = legacy_additionalSafeAreaInsets
+        insets.top += topLayoutGuide.length
+        insets.bottom += max(bottomLayoutGuide.length, statusTabBarInset)
+        
         loadingManager.contentInsets = insets
         collectionViewInsetManager?.standardContentInset   = insets
         collectionViewInsetManager?.standardIndicatorInset = insets
@@ -381,8 +419,13 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     // MARK: - Overrides
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if context == &kvoContext {
-            if calculatesContentHeight {
+        if context == &contentHeightContext {
+            if calculatesContentHeight == false { return }
+            
+            let old = change?[.oldKey] as? NSObject
+            let new = change?[.newKey] as? NSObject
+            
+            if old != new {
                 updateCalculatedContentHeight()
             }
         } else {
@@ -411,20 +454,23 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     
     /// Calculates the current preferred content size for the collection view.
     ///
-    /// The default uses the current height of the collection view, clamped to the min
-    /// and max values set on the class, and updates when the collection view's content
-    /// height changes.
-    ///
-    /// Subclasses should override this method to adjust for any additional content
-    /// e.g. search bars and other adornments, but should observe the min and max
-    /// values set.
+    /// The default uses the current height of the collection view and additional content
+    /// insets, clamped to the min and max values set on the class, and updates when the
+    /// collection view's content height changes or the additional content insets change.
     open func calculatedContentHeight() -> CGFloat {
-        let collectionContentHeight = (collectionView?.contentSize.height ?? 0.0)
+        var contentHeight = collectionView?.contentSize.height ?? 0.0
+        
+        // TODO: Uncomment in iOS 11
+//        if #available(iOS 11, *) {
+//            contentHeight += additionalSafeAreaInsets.top + additionalSafeAreaInsets.bottom
+//        } else {
+            contentHeight += legacy_additionalSafeAreaInsets.top + legacy_additionalSafeAreaInsets.bottom
+//        }
         
         let minHeight = minimumCalculatedContentHeight
         let maxHeight = maximumCalculatedContentHeight
         
-        return max(min(collectionContentHeight, maxHeight), minHeight)
+        return max(min(contentHeight, maxHeight), minHeight)
     }
     
     
@@ -437,3 +483,19 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     }
     
 }
+
+
+// TODO: Uncomment in iOS 11
+//@available(iOS, introduced: 11.0)
+//extension FormCollectionViewController {
+//    
+//    open override var additionalSafeAreaInsets: UIEdgeInsets {
+//        didSet {
+//            if additionalSafeAreaInsets != oldValue && calculatesContentHeight {
+//                updateCalculatedContentHeight()
+//            }
+//        }
+//    }
+//
+//}
+
