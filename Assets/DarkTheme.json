@@ -1,7 +1,7 @@
 {
     "statusBarStyle": 1,
     "navigationBarStyle": 1,
-    "tabBarStyle": 0,
+    "tabBarStyle": 1,
     "colors": {
         "tint":                   "#007AFF",
         "navigationBarTint":      "#FFFFFF",
