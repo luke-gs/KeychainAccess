@@ -141,8 +141,11 @@
 		BC9C7E561F0DED6600DFFE83 /* TabStripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DC51F0DED6600DFFE83 /* TabStripView.swift */; };
 		BCA6FD771F22E0AE00EE8F7A /* SearchFieldButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA6FD761F22E0AE00EE8F7A /* SearchFieldButton.swift */; };
 		BCBA82141F19D7E8000BBF82 /* StringSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBA82131F19D7E8000BBF82 /* StringSizing.swift */; };
+		BCC6F74E1F2FF91200F05F65 /* MapCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC6F74D1F2FF91200F05F65 /* MapCollectionViewController.swift */; };
 		BCED8C761F1488EE004C3C71 /* CollectionViewFormHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FF2241F148818000B317A /* CollectionViewFormHeaderView.swift */; };
 		BCF4B59C1F2849D00022132D /* SpacerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF4B59B1F2849D00022132D /* SpacerView.swift */; };
+		BCFA067E1F3176A3002FA1FF /* MapCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFA067D1F3176A3002FA1FF /* MapCollectionViewLayout.swift */; };
+		BCFA06811F317C29002FA1FF /* MapCollectionViewHeaderLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFA06801F317C29002FA1FF /* MapCollectionViewHeaderLayout.swift */; };
 		C605F8901ECCAB2C001194DD /* MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C605F8861ECCAB2B001194DD /* MPOLKit.framework */; };
 		C605F8951ECCAB2C001194DD /* MPOLKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F8941ECCAB2C001194DD /* MPOLKitTests.swift */; };
 		C605F8A81ECCAD3B001194DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C605F8A31ECCAD3B001194DD /* Assets.xcassets */; };
@@ -314,7 +317,10 @@
 		BC9C7DC51F0DED6600DFFE83 /* TabStripView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabStripView.swift; sourceTree = "<group>"; };
 		BCA6FD761F22E0AE00EE8F7A /* SearchFieldButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFieldButton.swift; sourceTree = "<group>"; };
 		BCBA82131F19D7E8000BBF82 /* StringSizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringSizing.swift; sourceTree = "<group>"; };
+		BCC6F74D1F2FF91200F05F65 /* MapCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapCollectionViewController.swift; sourceTree = "<group>"; };
 		BCF4B59B1F2849D00022132D /* SpacerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpacerView.swift; sourceTree = "<group>"; };
+		BCFA067D1F3176A3002FA1FF /* MapCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCollectionViewLayout.swift; sourceTree = "<group>"; };
+		BCFA06801F317C29002FA1FF /* MapCollectionViewHeaderLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCollectionViewHeaderLayout.swift; sourceTree = "<group>"; };
 		C16272D9586EB6222EB2DC33 /* Pods-MPOLKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKitTests/Pods-MPOLKitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C605F8861ECCAB2B001194DD /* MPOLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MPOLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C605F88F1ECCAB2C001194DD /* MPOLKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MPOLKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -624,6 +630,8 @@
 				BC9C7D841F0DED6600DFFE83 /* FormCollectionViewController.swift */,
 				BC9C7D851F0DED6600DFFE83 /* FormSearchTableViewController.swift */,
 				BC9C7D861F0DED6600DFFE83 /* FormTableViewController.swift */,
+				BCC6F74D1F2FF91200F05F65 /* MapCollectionViewController.swift */,
+				BCFA067F1F3176A8002FA1FF /* MapCollectionViewLayout */,
 			);
 			path = "Abstract View Controllers";
 			sourceTree = "<group>";
@@ -730,6 +738,15 @@
 				BC9C7DC51F0DED6600DFFE83 /* TabStripView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		BCFA067F1F3176A8002FA1FF /* MapCollectionViewLayout */ = {
+			isa = PBXGroup;
+			children = (
+				BCFA067D1F3176A3002FA1FF /* MapCollectionViewLayout.swift */,
+				BCFA06801F317C29002FA1FF /* MapCollectionViewHeaderLayout.swift */,
+			);
+			path = MapCollectionViewLayout;
 			sourceTree = "<group>";
 		};
 		C605F87C1ECCAB2B001194DD = {
@@ -1121,6 +1138,7 @@
 				BC9C7E251F0DED6600DFFE83 /* EntityCollectionViewCell.swift in Sources */,
 				BC8A99611F22EBD700387AB6 /* UIColor+Brightness.swift in Sources */,
 				BC9C7DED1F0DED6600DFFE83 /* ResponseDataOperationChainable.swift in Sources */,
+				BCFA06811F317C29002FA1FF /* MapCollectionViewHeaderLayout.swift in Sources */,
 				BCF4B59C1F2849D00022132D /* SpacerView.swift in Sources */,
 				BC9C7E441F0DED6600DFFE83 /* SidebarSplitViewController.swift in Sources */,
 				BC9C7DFD1F0DED6600DFFE83 /* CollectionViewFormValueFieldCell.swift in Sources */,
@@ -1144,6 +1162,7 @@
 				BC9C7E4A1F0DED6600DFFE83 /* TermsConditionsViewController.swift in Sources */,
 				BC9C7E531F0DED6600DFFE83 /* GradientView.swift in Sources */,
 				BC9C7DCD1F0DED6600DFFE83 /* ArchivedManifestEntry.swift in Sources */,
+				BCC6F74E1F2FF91200F05F65 /* MapCollectionViewController.swift in Sources */,
 				BCBA82141F19D7E8000BBF82 /* StringSizing.swift in Sources */,
 				BC9C7E031F0DED6600DFFE83 /* UICollectionView+DefaultReuse.swift in Sources */,
 				BC9C7E451F0DED6600DFFE83 /* SidebarTableViewCell.swift in Sources */,
@@ -1170,6 +1189,7 @@
 				BCED8C761F1488EE004C3C71 /* CollectionViewFormHeaderView.swift in Sources */,
 				BC9C7E0A1F0DED6600DFFE83 /* UITraitCollection+CurrentDisplayScale.swift in Sources */,
 				BC9C7E4F1F0DED6600DFFE83 /* CircleIconView.swift in Sources */,
+				BCFA067E1F3176A3002FA1FF /* MapCollectionViewLayout.swift in Sources */,
 				BC9C7E381F0DED6600DFFE83 /* LoginViewController.swift in Sources */,
 				BC9C7E461F0DED6600DFFE83 /* SidebarViewController.swift in Sources */,
 				BC9C7E3C1F0DED6600DFFE83 /* FilterViewController.swift in Sources */,

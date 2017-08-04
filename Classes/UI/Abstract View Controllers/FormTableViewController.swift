@@ -8,7 +8,7 @@
 
 import UIKit
 
-fileprivate var kvoContext = 1
+fileprivate var contentHeightContext = 1
 
 /// An abstract view controller for presenting a table view based interface in
 /// MPOL apps.
@@ -95,10 +95,10 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
             if wantsCalculatedContentHeight == oldValue { return }
             
             if wantsCalculatedContentHeight {
-                tableView?.addObserver(self, forKeyPath: #keyPath(UITableView.contentSize), context: &kvoContext)
+                tableView?.addObserver(self, forKeyPath: #keyPath(UITableView.contentSize), options: [.new, .old], context: &contentHeightContext)
                 updateCalculatedContentHeight()
             } else {
-                tableView?.removeObserver(self, forKeyPath: #keyPath(UITableView.contentSize), context: &kvoContext)
+                tableView?.removeObserver(self, forKeyPath: #keyPath(UITableView.contentSize), context: &contentHeightContext)
             }
         }
     }
@@ -143,6 +143,37 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     @NSCopying open private(set) var separatorColor:       UIColor?
     
     
+    // MARK: - Subclass override points
+    
+    /// Allows subclasses to return a custom subclass of `UITableView`
+    /// to use as the table view.
+    ///
+    /// - Returns: The `UITableView` class to use for the main table view.
+    ///            The default returns `UITableView` itself.
+    open func tableViewClass() -> UITableView.Type {
+        return UITableView.self
+    }
+
+    
+    // MARK: - Legacy support
+    
+    /// Additional content insets beyond the standard top and bottom layout guides.
+    ///
+    /// In iOS 11, you should use `additionalSafeAreaInsets` instead.
+    @available(iOS, deprecated: 11.0, message: "Use `additionalSafeAreaInsets` instead.")
+    open var legacy_additionalSafeAreaInsets: UIEdgeInsets = .zero {
+        didSet {
+            if legacy_additionalSafeAreaInsets == oldValue || isViewLoaded == false { return }
+            
+            view.setNeedsLayout()
+            
+            if wantsCalculatedContentHeight {
+                updateCalculatedContentHeight()
+            }
+        }
+    }
+    
+    
     // MARK: - Initializers
     
     public init(style: UITableViewStyle) {
@@ -166,16 +197,16 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     }
     
     deinit {
-        if wantsCalculatedContentHeight {
-            tableView?.removeObserver(self, forKeyPath: #keyPath(UITableView.contentSize), context: &kvoContext)
-        }
+        if wantsCalculatedContentHeight == false { return }
+        
+        tableView?.removeObserver(self, forKeyPath: #keyPath(UITableView.contentSize), context: &contentHeightContext)
     }
     
     
     // MARK: - View lifecycle
     
     open override func loadView() {
-        let tableView = UITableView(frame: CGRect(x: 0.0, y: 0.0, width: preferredContentSize.width, height: 400.0), style: tableViewStyle)
+        let tableView = tableViewClass().init(frame: CGRect(x: 0.0, y: 0.0, width: preferredContentSize.width, height: 400.0), style: tableViewStyle)
         tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         tableView.dataSource = self
         tableView.delegate   = self
@@ -186,7 +217,7 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
         tableView.layoutMargins = UIEdgeInsets(top: 0.0, left: 20.0, bottom: 0.0, right: 0.0)
         
         if wantsCalculatedContentHeight {
-            tableView.addObserver(self, forKeyPath: #keyPath(UITableView.contentSize), context: &kvoContext)
+            tableView.addObserver(self, forKeyPath: #keyPath(UITableView.contentSize), options: [.old, .new], context: &contentHeightContext)
         }
         
         let backgroundView = UIView(frame: tableView.frame)
@@ -209,7 +240,15 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        let insets = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: max(bottomLayoutGuide.length, statusTabBarInset), right: 0.0)
+        // TODO: Uncomment in iOS 11
+//        if #available(iOS 11, *) {
+//            return
+//        }
+        
+        var insets = legacy_additionalSafeAreaInsets
+        insets.top += topLayoutGuide.length
+        insets.bottom += max(bottomLayoutGuide.length, statusTabBarInset)
+        
         loadingManager.contentInsets = insets
         tableViewInsetManager?.standardContentInset   = insets
         tableViewInsetManager?.standardIndicatorInset = insets
@@ -241,6 +280,7 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
             tableView?.reloadData()
         }
     }
+    
     
     // MARK: - Themes
     
@@ -388,8 +428,12 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     // MARK: - Overrides
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if context == &kvoContext {
-            if wantsCalculatedContentHeight {
+        if context == &contentHeightContext {
+            if wantsCalculatedContentHeight == false { return }
+            
+            let old = change?[.oldKey] as? NSObject
+            let new = change?[.newKey] as? NSObject
+            if old != new {
                 updateCalculatedContentHeight()
             }
         } else {
@@ -417,20 +461,23 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     
     /// Calculates the current preferred content size for the table view.
     ///
-    /// The default uses the current height of the table view, clamped to the min
-    /// and max values set on the class, and updates when the table view's content
-    /// height changes.
-    ///
-    /// Subclasses should override this method to adjust for any additional content
-    /// e.g. search bars and other adornments, but should observe the min and max
-    /// values set.
+    /// The default uses the current height of the table view and additional content
+    /// insets, clamped to the min and max values set on the class, and updates when the
+    /// table view's content height changes or the additional content insets change.
     open func calculatedContentHeight() -> CGFloat {
-        let tableContentHeight = tableView?.contentSize.height ?? 0.0
+        var contentHeight = tableView?.contentSize.height ?? 0.0
+        
+        // TODO: Uncomment in iOS 11
+//        if #available(iOS 11, *) {
+//            contentHeight += additionalSafeAreaInsets.top + additionalSafeAreaInsets.bottom
+//        } else {
+            contentHeight += legacy_additionalSafeAreaInsets.top + legacy_additionalSafeAreaInsets.bottom
+//        }
         
         let minHeight = minimumCalculatedContentHeight
         let maxHeight = maximumCalculatedContentHeight
         
-        return max(min(tableContentHeight, maxHeight), minHeight)
+        return max(min(contentHeight, maxHeight), minHeight)
     }
     
     
@@ -455,3 +502,20 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     }
 
 }
+
+
+
+// TODO: Uncomment in iOS 11
+//@available(iOS, introduced: 11.0)
+//extension FormCollectionViewController {
+//
+//    open override var additionalSafeAreaInsets: UIEdgeInsets {
+//        didSet {
+//            if additionalSafeAreaInsets != oldValue && wantsCalculatedContentHeight {
+//                updateCalculatedContentHeight()
+//            }
+//        }
+//    }
+//
+//}
+
