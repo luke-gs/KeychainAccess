@@ -39,10 +39,10 @@ public final class FormAccessoryView: UIImageView {
     
     // MARK: - Public properties
     
-    public var style: Style? {
+    public var style: Style {
         didSet {
             if style != oldValue {
-                super.image = style?.image
+                super.image = style.image
             }
         }
     }
@@ -52,12 +52,13 @@ public final class FormAccessoryView: UIImageView {
     
     public init(style: Style) {
         let image = style.image
+        self.style = style
         super.init(frame: CGRect(origin: .zero, size: image?.size ?? .zero))
         super.image = image
     }
     
     public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        MPLCodingNotSupported()
     }
     
     

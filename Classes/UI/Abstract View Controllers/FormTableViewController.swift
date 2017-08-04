@@ -398,14 +398,30 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
         let secondaryTextColor   = self.secondaryTextColor   ?? .darkGray
         let placeholderTextColor = self.placeholderTextColor ?? .gray
         
-        if let accessoryView = cell.accessoryView as? FormAccessoryView {
-            switch accessoryView.style {
-            case .none, .some(.checkmark):
-                accessoryView.tintColor = nil
-            case .some(.disclosure):
-                accessoryView.tintColor = disclosureColor
-            case .some(.dropDown):
-                accessoryView.tintColor = primaryTextColor
+        if let accessory = cell.accessoryView {
+            func updateTintColor(for view: FormAccessoryView) {
+                switch view.style {
+                case .checkmark:
+                    view.tintColor = nil
+                case .disclosure:
+                    view.tintColor = disclosureColor
+                case .dropDown:
+                    view.tintColor = primaryTextColor
+                }
+            }
+            
+            switch accessory {
+            case let formAccessory as FormAccessoryView:
+                updateTintColor(for: formAccessory)
+            case let labeledAcccessory as LabeledAccessoryView:
+                labeledAcccessory.titleLabel.textColor = primaryTextColor
+                labeledAcccessory.subtitleLabel.textColor = secondaryTextColor
+                
+                if let formAccessory = labeledAcccessory.accessoryView as? FormAccessoryView {
+                    updateTintColor(for: formAccessory)
+                }
+            default:
+                break
             }
         }
         
