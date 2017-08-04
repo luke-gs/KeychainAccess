@@ -15,7 +15,7 @@ public enum MPLAnimationStyle {
     case spinner
 }
 
-private let LottieDirectory = "lottie"
+private let LottieDirectory = "Lottie"
 private let LottieType      = "json"
 
 public extension LOTAnimationView {
