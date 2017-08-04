@@ -36,4 +36,3 @@ public struct SearchResult<T>: Unboxable {
     }
     
 }
-}
