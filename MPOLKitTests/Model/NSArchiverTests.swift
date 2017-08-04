@@ -121,7 +121,7 @@ class NSSecureKeyedArchiverTests: XCTestCase {
         let testObject = SecureTestArchiverObject(testingProperty: "Hello")
         
         let path = NSTemporaryDirectory().appending("/hello.bin")
-        let success = NSKeyedArchiver.MPL_securelyArchive(rootObject: testObject, toFile: path)
+        let success = NSKeyedArchiver.MPL_securelyArchive(rootObject: testObject, to: path)
         let exists = FileManager.default.fileExists(atPath: path)
         XCTAssertTrue(success)
         XCTAssertTrue(exists)
@@ -148,9 +148,9 @@ class NSSecureKeyedUnarchiverTests: XCTestCase {
         let testObject = SecureTestArchiverObject(testingProperty: "Hello")
         
         let path = NSTemporaryDirectory().appending("/hello.bin")
-        _ = NSKeyedArchiver.MPL_securelyArchive(rootObject: testObject, toFile: path)
+        _ = NSKeyedArchiver.MPL_securelyArchive(rootObject: testObject, to: path)
         
-        let cloned: SecureTestArchiverObject? = NSKeyedUnarchiver.MPL_securelyUnarchiveObject(withFile: path)
+        let cloned: SecureTestArchiverObject? = NSKeyedUnarchiver.MPL_securelyUnarchiveObject(from: path)
         XCTAssertNotNil(cloned)
         XCTAssertEqual(testObject, cloned)
     }

@@ -16,9 +16,9 @@ public extension NSKeyedUnarchiver {
         return unarchiver.decodeObject(of: T.self, forKey: NSKeyedArchiveRootObjectKey)!
     }
     
-    public class func MPL_securelyUnarchiveObject<T>(withFile: String) -> T? where T: NSSecureCoding, T: NSObject {
+    public class func MPL_securelyUnarchiveObject<T>(from file: String) -> T? where T: NSSecureCoding, T: NSObject {
         do {
-            let data = try Data(contentsOf: URL(fileURLWithPath: withFile))
+            let data = try Data(contentsOf: URL(fileURLWithPath: file))
             return MPL_securelyUnarchiveObject(with: data)
         } catch {
             return nil
@@ -40,7 +40,7 @@ public extension NSKeyedArchiver {
         return data as Data
     }
     
-    public class func MPL_securelyArchive<T: NSSecureCoding>(rootObject: T, toFile filePath: String) -> Bool {
+    public class func MPL_securelyArchive<T: NSSecureCoding>(rootObject: T, to filePath: String) -> Bool {
         let data = MPL_securelyArchivedData(withRootObject: rootObject)
         do {
             try data.write(to: URL(fileURLWithPath: filePath), options: .atomicWrite)
