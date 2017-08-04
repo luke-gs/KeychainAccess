@@ -13,6 +13,11 @@ public struct SearchResult<T>: Unboxable {
     public let range: CountableRange<Int>
     public let results: [T]
     
+    public init(range: CountableRange<Int>, results: [T]) {
+        self.range = range
+        self.results = results
+    }
+    
     public init(unboxer: Unboxer) throws {
         
         let start: Int = try unboxer.unbox(key: CodingKeys.start.rawValue)

@@ -7,11 +7,12 @@
 //
 
 import UIKit
+import Lottie
 
 fileprivate var kvoContext = 1
 
+
 open class LoginViewController: UIViewController, UITextFieldDelegate {
-    
     
     /// The login delegate.
     ///
@@ -74,6 +75,9 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         usernameField.returnKeyType      = .next
         usernameField.addTarget(self, action: #selector(textFieldTextDidChange(_:)), for: .editingChanged)
         usernameField.addObserver(self, forKeyPath: #keyPath(UITextField.text), context: &kvoContext)
+        usernameField.font = .systemFont(ofSize: 17.0, weight: UIFontWeightSemibold)
+        usernameField.autocapitalizationType = .none
+        usernameField.autocorrectionType = .no
         self.isUsernameFieldLoaded = true
         
         return usernameField
@@ -99,6 +103,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         passwordField.clearsOnBeginEditing = true
         passwordField.addTarget(self, action: #selector(textFieldTextDidChange(_:)), for: .editingChanged)
         passwordField.addObserver(self, forKeyPath: #keyPath(UITextField.text), context: &kvoContext)
+        passwordField.font = .systemFont(ofSize: 17.0, weight: UIFontWeightSemibold)
         self.isPasswordFieldLoaded = true
         
         return passwordField
@@ -107,12 +112,9 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     
     open private(set) lazy var forgotPasswordButton: UIButton = { [unowned self] in
         let button = UIButton(type: UIButtonType.system)
-        button.titleLabel?.font = .systemFont(ofSize: 17.0, weight: UIFontWeightSemibold)
         button.setTitle("FORGOT YOUR PASSWORD?", for: .normal)
-        button.setTitleColor(.lightGray, for: .normal)
-        button.setTitleColor(UIColor(white: 1.0, alpha: 0.5), for: .disabled)
-        button.titleLabel?.font = .systemFont(ofSize: 11.0, weight: UIFontWeightRegular)
-        button.titleLabel?.textAlignment = .left
+        button.setTitleColor(UIColor(white: 1.0, alpha: 0.64), for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 11.0, weight: UIFontWeightMedium)
         button.addTarget(self, action: #selector(forgotPasswordButtonTriggered), for: .primaryActionTriggered)
         button.isHidden = self.delegate?.responds(to: #selector(LoginViewControllerDelegate.loginViewController(_:didTapForgotPasswordButton:))) ?? false == false
         
@@ -143,14 +145,30 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     /// The terms and conditions string to present at the bottom of login window.
     open private(set) lazy var termsAndConditionsLabel: UILabel = {
         let label = UILabel(frame: .zero)
-        label.text = "By continuing you indicate that you have read\nand agree to the Terms of Service"
-        label.font = .systemFont(ofSize: 14.0)
+        label.text = "By continuing you indicate that you have read and agree to the Terms of Service."
+        label.font = .systemFont(ofSize: 13.0)
         label.numberOfLines = 0
         label.textAlignment = .center
-        label.textColor = .lightGray
+        label.textColor = UIColor(white: 1.0, alpha: 0.4)
         return label
     }()
     
+    
+    /// The version number
+    open private(set) lazy var versionLabel: UILabel = {
+        let label = UILabel(frame: .zero)
+        label.font = .systemFont(ofSize: 13.0, weight: UIFontWeightBold)
+        label.textColor = UIColor(white: 1.0, alpha: 0.64)
+        
+        if let info = Bundle.main.infoDictionary {
+            let version = info["CFBundleShortVersionString"] as? String ?? ""
+            let build   = info["CFBundleVersion"] as? String ?? ""
+            
+            label.text = "Version \(version) #\(build)"
+        }
+        
+        return label
+    }()
     
     /// The minimum length of the username before the login button is enabled.
     ///
@@ -187,15 +205,18 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
             if isLoading == oldValue || isViewLoaded == false { return }
             
             if isLoading {
-                if activityIndicator?.window != nil {
-                    // Only start animating when you're on a window, otherwise you can get weird bugs.
-                    activityIndicator?.startAnimating()
-                }
-                scrollView?.isHidden = true
+                loadingIndicator?.isHidden = false
+                loadingIndicator?.play()
+                loginButton.isHidden = true
+                
                 scrollView?.endEditing(true)
+                
+                view.isUserInteractionEnabled = false
             } else {
-                activityIndicator?.stopAnimating()
-                scrollView?.isHidden = false
+                loadingIndicator?.isHidden = true
+                loadingIndicator?.pause()
+                loginButton.isHidden = false
+                view.isUserInteractionEnabled = true
             }
         }
     }
@@ -215,16 +236,6 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
             UIView.transition(with: scrollView, duration: 0.3, options: .transitionCrossDissolve, animations: nil, completion: nil)
         }
     }
-    
-    
-    /// The color for the activity indicator. The default is `nil`.
-    /// When `nil`, the indicator displays as white.
-    open var activityIndicatorColor: UIColor? {
-        didSet {
-            activityIndicator?.color = activityIndicatorColor
-        }
-    }
-    
     
     /// The preferred status bar style for the view controller.
     ///
@@ -271,7 +282,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     
     private var contentStackView: UIStackView?
     
-    private var activityIndicator: UIActivityIndicatorView?
+    private var loadingIndicator: LOTAnimationView?
     
     private var preferredLayoutGuideBottomConstraint: NSLayoutConstraint?
     
@@ -343,11 +354,6 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         backgroundView.contentMode = .scaleAspectFill
         backgroundView.isUserInteractionEnabled = true
         
-        let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
-        activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
-        activityIndicatorView.color = activityIndicatorColor
-        backgroundView.addSubview(activityIndicatorView)
-        
         let scrollView = UIScrollView(frame: backgroundView.bounds)
         scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         backgroundView.addSubview(scrollView)
@@ -365,6 +371,9 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         let passwordSeparator = UIView(frame: .zero)
         let credentialsView = UIView(frame: .zero)
         
+        let versionLabel = self.versionLabel
+        backgroundView.addSubview(versionLabel)
+        
         usernameSeparator.backgroundColor = #colorLiteral(red: 0.7630171865, green: 0.7580402272, blue: 0.7838609132, alpha: 0.8041923415)
         passwordSeparator.backgroundColor = #colorLiteral(red: 0.7630171865, green: 0.7580402272, blue: 0.7838609132, alpha: 0.8041923415)
         
@@ -377,6 +386,8 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         passwordSeparator.translatesAutoresizingMaskIntoConstraints = false
         credentialsView.translatesAutoresizingMaskIntoConstraints = false
         
+        versionLabel.translatesAutoresizingMaskIntoConstraints = false
+        
         credentialsView.addSubview(usernameSeparator)
         credentialsView.addSubview(passwordSeparator)
         credentialsView.addSubview(usernameLabel)
@@ -385,7 +396,11 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         credentialsView.addSubview(passwordField)
         credentialsView.addSubview(forgotPasswordButton)
         
-        let loginStackView = UIStackView(arrangedSubviews: [loginButton, termsAndConditionsLabel])
+        let loadingIndicator = LOTAnimationView.animation(style: .spinner)
+        loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
+        loadingIndicator.isHidden = true
+        
+        let loginStackView = UIStackView(arrangedSubviews: [loadingIndicator, loginButton, termsAndConditionsLabel])
         loginStackView.axis = .vertical
         loginStackView.alignment = .center
         loginStackView.spacing   = 20.0
@@ -399,7 +414,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         contentStackView.translatesAutoresizingMaskIntoConstraints = false
         contentStackView.axis = .vertical
         contentStackView.alignment = .center
-        contentStackView.spacing   = 50.0
+        contentStackView.spacing   = 43.0
         contentStackView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
         scrollView.addSubview(contentStackView)
         
@@ -420,9 +435,13 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         
         let forgotPasswordSeparation = NSLayoutConstraint(item: forgotPasswordButton, attribute: .top, relatedBy: .equal, toItem: passwordSeparator, attribute: .bottom, constant: forgotPasswordButton.isHidden ? 0.0 : 14.0)
         
+        let loginButtonIndicatorHeightConstraint = loginButton.heightAnchor.constraint(equalToConstant: 48.0)
+        loginButtonIndicatorHeightConstraint.priority = UILayoutPriorityDefaultHigh
+        
+        let loadingIndicatorHeightConstraint = loadingIndicator.heightAnchor.constraint(equalToConstant: 48.0)
+        loadingIndicatorHeightConstraint.priority = UILayoutPriorityDefaultHigh
+        
         var constraints = [
-            NSLayoutConstraint(item: activityIndicatorView, attribute: .centerX, relatedBy: .equal, toItem: backgroundView, attribute: .centerX),
-            NSLayoutConstraint(item: activityIndicatorView, attribute: .centerY, relatedBy: .equal, toItem: backgroundView, attribute: .centerY),
             
             NSLayoutConstraint(item: contentGuide, attribute: .width, relatedBy: .equal, toItem: backgroundView, attribute: .width),
             preferredLayoutGuideBottomConstraint,
@@ -449,14 +468,25 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
             separatorHeightConstraint,
             forgotPasswordSeparation,
             
-            NSLayoutConstraint(item: loginButton, attribute: .width,  relatedBy: .greaterThanOrEqual, toConstant: 160.0),
-            NSLayoutConstraint(item: loginButton, attribute: .height, relatedBy: .greaterThanOrEqual, toConstant: 48.0),
+            NSLayoutConstraint(item: termsAndConditionsLabel, attribute: .width, relatedBy: .equal, toConstant: 256.0),
             
+            loginButtonIndicatorHeightConstraint,
+            loginButton.widthAnchor.constraint(equalToConstant: 256.0),
+
             loginStackView.leadingAnchor.constraint(greaterThanOrEqualTo: view.readableContentGuide.leadingAnchor),
             loginStackView.trailingAnchor.constraint(lessThanOrEqualTo: view.readableContentGuide.trailingAnchor),
+            
+            versionLabel.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor, constant: -24.0),
+            versionLabel.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: -24.0),
+            
+            loadingIndicatorHeightConstraint,
+            loadingIndicator.widthAnchor.constraint(equalToConstant: 48.0)
         ]
         
-        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[ul]-4-[uf]-11-[us]-18-[pl]-4-[pf]-11-[ps(==us)]->=0-[fpb]|", options: [.alignAllLeading, .alignAllTrailing], metrics: nil, views: ["ul": usernameLabel, "uf": usernameField, "us": usernameSeparator, "pl": passwordLabel, "pf": passwordField, "ps": passwordSeparator, "fpb": forgotPasswordButton])
+        
+        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[ul]-2-[uf]-12-[us]-18-[pl]-2-[pf]-12-[ps(==us)]", options: [.alignAllLeading, .alignAllTrailing], metrics: nil, views: ["ul": usernameLabel, "uf": usernameField, "us": usernameSeparator, "pl": passwordLabel, "pf": passwordField, "ps": passwordSeparator, "fpb": forgotPasswordButton])
+        
+        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:[ps]->=0-[fpb]|", options: [.alignAllLeading], metrics: nil, views: ["ps": passwordSeparator, "fpb": forgotPasswordButton])
         
         if isHeaderViewHidden == false {
             constraints.append(showingHeaderConstraint)
@@ -468,7 +498,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         self.separatorHeightConstraint            = separatorHeightConstraint
         self.showingHeaderConstraint              = showingHeaderConstraint
         self.forgotPasswordSeparation             = forgotPasswordSeparation
-        self.activityIndicator                    = activityIndicatorView
+        self.loadingIndicator                     = loadingIndicator
     }
     
     open override func viewDidLoad() {
@@ -507,17 +537,10 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        if isLoading {
-            activityIndicator?.startAnimating()
-            scrollView?.isHidden = true
-        }
     }
     
     open override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        activityIndicator?.stopAnimating()
-        scrollView?.isHidden = false
     }
     
     
@@ -627,7 +650,6 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         let textField = UITextField(frame: .zero)
         textField.font                 = .systemFont(ofSize: 17.0, weight: UIFontWeightSemibold)
         textField.textColor            = .white
-        textField.attributedPlaceholder = NSAttributedString(string: "Required", attributes: [NSForegroundColorAttributeName: UIColor(white: 0.7, alpha: 0.5)])
         textField.clearButtonMode      = .whileEditing
         textField.autocorrectionType   = .no
         return textField
