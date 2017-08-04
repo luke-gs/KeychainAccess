@@ -546,7 +546,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: - Action
     
-    open func resetFields() -> () {
+    open func resetFields() {
         usernameField.text = nil
         passwordField.text = nil
     }
