@@ -145,6 +145,7 @@ extension AssetManager {
         public static let tactical       = ImageKey("iconGeneralTactical")
         public static let journey        = ImageKey("iconGeneralJourney")
         public static let mass           = ImageKey("iconGeneralMass")
+        public static let refresh        = ImageKey("iconGeneralRefreshMagnify")
         
         // Entity
         public static let entityOfficer  = ImageKey("iconEntityOfficer")

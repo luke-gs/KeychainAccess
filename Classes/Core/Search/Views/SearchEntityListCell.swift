@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import MPOLKit
 
 // TODO: This class will need to be merged into the kit after demo
 class SearchEntityListCell: CollectionViewFormCell {

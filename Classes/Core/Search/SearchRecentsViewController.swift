@@ -88,7 +88,7 @@ class SearchRecentsViewController: FormCollectionViewController {
         // Setup the no content view.
         
         let noContentView = loadingManager.noContentView
-        noContentView.imageView.image = #imageLiteral(resourceName: "RefreshMagnify")
+        noContentView.imageView.image = AssetManager.shared.image(forKey: .refresh)
         noContentView.imageView.tintColor = #colorLiteral(red: 0.6044161711, green: 0.6313971979, blue: 0.6581829122, alpha: 0.6420554578)
         
         noContentView.titleLabel.text = NSLocalizedString("You don't have any recently viewed entities or recent searches right now.", comment: "")

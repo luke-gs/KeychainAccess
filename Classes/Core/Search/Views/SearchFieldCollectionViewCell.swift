@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import MPOLKit
 
 
 class SearchFieldCollectionViewCell: CollectionViewFormCell {
