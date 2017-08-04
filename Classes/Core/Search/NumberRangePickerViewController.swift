@@ -10,16 +10,16 @@ import UIKit
 
 fileprivate let cellID = "cellID"
 
-class NumberRangePickerViewController: FormTableViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+public class NumberRangePickerViewController: FormTableViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
     // MARK: - Public properties
     
-    weak var delegate: NumberRangePickerDelegate?
+    public weak var delegate: NumberRangePickerDelegate?
     
     let minValue: Int
     let maxValue: Int
     
-    var currentMinValue: Int {
+    public var currentMinValue: Int {
         get { return _currentMinValue }
         set { setCurrentMinValue(newValue, animated: false) }
     }
@@ -38,7 +38,7 @@ class NumberRangePickerViewController: FormTableViewController, UIPickerViewDele
         }
     }
     
-    var currentMaxValue: Int {
+    public var currentMaxValue: Int {
         get { return _currentMaxValue }
         set { setCurrentMaxValue(newValue, animated: false) }
     }
@@ -54,7 +54,7 @@ class NumberRangePickerViewController: FormTableViewController, UIPickerViewDele
         }
     }
     
-    var noRangeTitle: String? {
+    public var noRangeTitle: String? {
         didSet {
             guard let tableView = self.tableView else { return }
             
@@ -120,14 +120,14 @@ class NumberRangePickerViewController: FormTableViewController, UIPickerViewDele
         self.init(min: min, max: max, currentMin: min, currentMax: max)
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     
     // MARK: - View lifecycle
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         let picker = UIPickerView(frame: .zero)
         picker.translatesAutoresizingMaskIntoConstraints = false
         picker.delegate   = self
@@ -180,7 +180,7 @@ class NumberRangePickerViewController: FormTableViewController, UIPickerViewDele
         super.viewDidLoad()
     }
     
-    override func applyCurrentTheme() {
+    override public func applyCurrentTheme() {
         super.applyCurrentTheme()
         
         let primaryTextColor = self.primaryTextColor ?? .darkText
@@ -198,11 +198,11 @@ class NumberRangePickerViewController: FormTableViewController, UIPickerViewDele
         return noRangeTitle?.isEmpty ?? true ? 1 : 2
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
         let contentView = cell.contentView
         
@@ -234,7 +234,7 @@ class NumberRangePickerViewController: FormTableViewController, UIPickerViewDele
     
     // MARK: - UITableViewDelegate methods
     
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    override public func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         super.tableView(tableView, willDisplay: cell, forRowAt: indexPath)
         
         if indexPath.section == 1 {
@@ -253,11 +253,11 @@ class NumberRangePickerViewController: FormTableViewController, UIPickerViewDele
     
     // MARK: - UIPickerViewDataSource methods
     
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+    public func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 2
     }
     
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         // Calculate the number of rows between the values, plus one to represent the other value.
         // eg in a picker with 0 and 1 as the valid values, this becomes 1 - 0 + 1 = 2 possible options.
         return maxValue - minValue + 1
@@ -266,15 +266,15 @@ class NumberRangePickerViewController: FormTableViewController, UIPickerViewDele
     
     // MARK: - UIPickerViewDelegate methods
     
-    func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
+    public func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
         return 60.0
     }
-    
-    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+
+    public func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
         return 30.0
     }
     
-    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+    public func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
         
         let rowNumber = row + minValue
         
@@ -288,7 +288,7 @@ class NumberRangePickerViewController: FormTableViewController, UIPickerViewDele
         return NSAttributedString(string: String(describing: rowNumber), attributes: [NSForegroundColorAttributeName: color])
     }
     
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         let rowValue = row + minValue
         if component == 0 {
             setCurrentMinValue(rowValue, animated: true)
@@ -304,7 +304,7 @@ class NumberRangePickerViewController: FormTableViewController, UIPickerViewDele
 
 // MARK - NumberRangePickerDelegate
 
-protocol NumberRangePickerDelegate: class {
+public protocol NumberRangePickerDelegate: class {
     
     func numberRangePicker(_ numberPicker: NumberRangePickerViewController, didUpdateMinValue minValue: Int, maxValue: Int)
     
