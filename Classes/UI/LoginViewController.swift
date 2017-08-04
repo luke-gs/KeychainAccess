@@ -499,6 +499,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         self.showingHeaderConstraint              = showingHeaderConstraint
         self.forgotPasswordSeparation             = forgotPasswordSeparation
         self.loadingIndicator                     = loadingIndicator
+        
     }
     
     open override func viewDidLoad() {
