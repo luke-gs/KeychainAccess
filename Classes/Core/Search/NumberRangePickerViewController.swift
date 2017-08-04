@@ -73,7 +73,6 @@ public class NumberRangePickerViewController: FormTableViewController, UIPickerV
                     tableView.reloadSections(IndexSet(integer: 1), with: .none)
                 }
             }
-            
         }
     }
     

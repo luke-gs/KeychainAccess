@@ -108,7 +108,7 @@ public protocol SearchDataSource {
     ///   - cell: the cell to decorate
     ///   - indexPath: the indexPath of the cell, (most likely correlating to the index of the entity to decorate with)
     ///   - style: the style of the cell
-    func decorate(cell: EntityCollectionViewCell, at indexPath: IndexPath, style: EntityCollectionViewCell.Style)
+    func decorate(_ cell: EntityCollectionViewCell, at indexPath: IndexPath, style: EntityCollectionViewCell.Style)
 
     /// Decorate the alert section cells
     ///
@@ -116,14 +116,14 @@ public protocol SearchDataSource {
     ///   - cell: the cell to decorate
     ///   - indexPath: the indexPath of the cell, (most likely correlating to the index of the entity to decorate with)
     ///   - style: the style of the cell
-    func decorateAlert(cell: EntityCollectionViewCell, at indexPath: IndexPath, style: EntityCollectionViewCell.Style)
+    func decorateAlert(_ cell: EntityCollectionViewCell, at indexPath: IndexPath, style: EntityCollectionViewCell.Style)
 
     /// Decorate the cells when the collection view is in list view mode
     ///
     /// - Parameters:
     ///   - cell: the cell to decorate
     ///   - indexPath: the indexPath of the cell, (most likely correlating to the index of the entity to decorate with)
-    func decorateList(cell: EntityListCollectionViewCell, at indexPath: IndexPath)
+    func decorateList(_ cell: EntityListCollectionViewCell, at indexPath: IndexPath)
 }
 
 public protocol SearchDataSourceUpdating: class {
