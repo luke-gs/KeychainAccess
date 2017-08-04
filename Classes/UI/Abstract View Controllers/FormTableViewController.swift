@@ -24,11 +24,11 @@ fileprivate var kvoContext = 1
 /// automatically adjust the insets. This works around multiple UIKit issues with
 /// insets being incorrectly applied, especially in tab bar controllers.
 ///
-/// - Third, it has default handling of MPOL theme-based changes. Where subclasses
-/// require to update for theme changes, they should override
-/// `tableView(_:willDisplay:for:)` and other analogous display preparation methods
-/// rathern than requiring reloads. Other view based changes can be completed with
-/// the open method `applyCurrentTheme()`.
+/// - Third, it has default handling of MPOL theme-based changes, and has its own
+/// `userInterfaceStyle` property. Where subclasses require to update for style
+/// changes, they should override `tableView(_:willDisplay:for:)` and other
+/// analogous display preparation methods rather than requiring reloads. Other view
+/// based changes can be completed with the open method `apply(_:)`.
 open class FormTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, PopoverViewController {
     
     // MARK: - Public properties
@@ -105,6 +105,10 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     
     // Appearance
     
+    /// The user interface style for the collection view.
+    ///
+    /// When set to `.current`, the theme autoupdates when the interface
+    /// style changes.
     open var userInterfaceStyle: UserInterfaceStyle = .current {
         didSet {
             if userInterfaceStyle == oldValue { return }
@@ -118,7 +122,6 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
             apply(ThemeManager.shared.theme(for: userInterfaceStyle))
         }
     }
-    
     
     /// A boolean value indicating whether the table background should be transparent.
     ///

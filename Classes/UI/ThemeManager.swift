@@ -38,18 +38,30 @@ public extension NSNotification.Name {
     
 }
 
-public class ThemeManager {
+
+
+/// The theme manager for MPOL apps.
+///
+/// The theme manager is a singleton and cannot be initialized directly,
+/// and manages the current interface style (.light or .dark) for MPOL apps.
+/// It also manages the currently set theme for each style. When not set,
+/// the default is used.
+public class ThemeManager: NSObject {
     
     // MARK: - Singleton
     
+    // The singleton `ThemeManager` instance
     public static let shared: ThemeManager = ThemeManager()
     
-    private init() {
+    private override init() {
     }
     
     
     // MARK: - Public properties
     
+    
+    /// The current interface style. Changing this property fires a notification
+    /// updating all observers that the interface style changed.
     public var currentInterfaceStyle: UserInterfaceStyle = .light {
         didSet {
             if currentInterfaceStyle == .current || currentInterfaceStyle == oldValue {
@@ -71,14 +83,26 @@ public class ThemeManager {
     
     // MARK: - Theme access and registration
     
-    public func register(_ theme: Theme, for userInterfaceStyle: UserInterfaceStyle) {
+    
+    /// Registers a theme with the manager.
+    ///
+    /// - Parameters:
+    ///   - theme: The theme to register. If nil, returns to MPOL default theme.
+    ///   - userInterfaceStyle: The interface style to register for. `.current` is ignored.
+    public func register(_ theme: Theme?, for userInterfaceStyle: UserInterfaceStyle) {
         switch userInterfaceStyle {
-        case .light: lightTheme = theme
-        case .dark:  darkTheme = theme
+        case .light: lightTheme = theme ?? Theme(name: "LightTheme", in: .mpolKit)!
+        case .dark:  darkTheme = theme ?? Theme(name: "DarkTheme", in: .mpolKit)!
         case .current: break
         }
     }
     
+    
+    /// Accesses the current theme for the specified interface style
+    ///
+    /// - Parameter userInterfaceStyle: The interface style to request a theme for.
+    ///             When specifying .current, the current style's theme is returned.
+    /// - Returns: The correct theme for the interface style.
     public func theme(for userInterfaceStyle: UserInterfaceStyle) -> Theme {
         var style = userInterfaceStyle
         if style == .current {

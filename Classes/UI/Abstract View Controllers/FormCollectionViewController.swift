@@ -12,8 +12,26 @@ fileprivate var kvoContext = 1
 
 fileprivate let tempID = "temp"
 
+/// An abstract view controller for presenting a collection view based interface in
+/// MPOL apps.
+///
+/// `FormCollectionViewController` differs from UITableViewController in several ways.
+///
+/// - First, the view of the view controller is a standard `UIView` instance, with a
+/// UICollectionView instance positioned covering it as a subview, rather than as the
+/// main view. This allows for subclasses to positon content visually around/above the
+/// collection without convoluted hacks.
+///
+/// - Second, it manages its insets separately rather than allowing UIKit to
+/// automatically adjust the insets. This works around multiple UIKit issues with
+/// insets being incorrectly applied, especially in tab bar controllers.
+///
+/// - Third, it has default handling of MPOL theme-based changes, and has its own
+/// `userInterfaceStyle` property. Where subclasses require to update for style
+/// changes, they should override `collectionView(_:willDisplay:for:)` and other
+/// analogous display preparation methods rather than requiring reloads. Other view
+/// based changes can be completed with the open method `apply(_:)`.
 open class FormCollectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, CollectionViewDelegateFormLayout, PopoverViewController {
-    
     
     // MARK: - Public properties
     
@@ -74,6 +92,10 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     
     // Appearance properties
     
+    /// The user interface style for the collection view.
+    ///
+    /// When set to `.current`, the theme autoupdates when the interface
+    /// style changes.
     open var userInterfaceStyle: UserInterfaceStyle = .current {
         didSet {
             if userInterfaceStyle == oldValue { return }

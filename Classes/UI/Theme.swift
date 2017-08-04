@@ -8,6 +8,11 @@
 
 import UIKit
 
+
+/// A theme object specifying display details for MPOL apps.
+///
+/// Themes can be initialized from JSON or directly, and require
+/// a reference to the correct bundle to load the image assets from.
 public class Theme: NSObject {
     
     // MARK: - Public properties
