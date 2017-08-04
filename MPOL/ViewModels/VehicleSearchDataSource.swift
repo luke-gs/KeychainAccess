@@ -176,7 +176,7 @@ class VehicleSearchDataSource: SearchDataSource {
         return PopoverNavigationController(rootViewController: viewController)
     }
 
-    func decorate(cell: EntityCollectionViewCell, at indexPath: IndexPath, style: EntityCollectionViewCell.Style) {
+    func decorate(_ cell: EntityCollectionViewCell, at indexPath: IndexPath, style: EntityCollectionViewCell.Style) {
         guard let entity = self.sortedEntities?[indexPath.item] as? Vehicle else { return }
 
         cell.titleLabel.text    = entity.summary
@@ -190,7 +190,7 @@ class VehicleSearchDataSource: SearchDataSource {
 
     }
 
-    func decorateAlert(cell: EntityCollectionViewCell, at indexPath: IndexPath, style: EntityCollectionViewCell.Style) {
+    func decorateAlert(_ cell: EntityCollectionViewCell, at indexPath: IndexPath, style: EntityCollectionViewCell.Style) {
         guard let entity = self.filteredEntities?[indexPath.item] as? Vehicle else { return }
 
         cell.titleLabel.text    = entity.summary
@@ -203,7 +203,7 @@ class VehicleSearchDataSource: SearchDataSource {
         cell.sourceLabel.text = entity.source?.localizedBadgeTitle
     }
 
-    func decorateList(cell: EntityListCollectionViewCell, at indexPath: IndexPath) {
+    func decorateList(_ cell: EntityListCollectionViewCell, at indexPath: IndexPath) {
         guard let entity = self.sortedEntities?[indexPath.item] as? Vehicle else { return }
 
         cell.titleLabel.text    = entity.summary

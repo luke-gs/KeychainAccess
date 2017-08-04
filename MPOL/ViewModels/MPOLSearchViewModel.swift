@@ -32,7 +32,7 @@ class MPOLSearchRecentsViewModel: SearchRecentsViewModel {
 
     private var internalRecentlyViewed: [Entity] = []
 
-    func decorate(cell: EntityCollectionViewCell, at indexPath: IndexPath) {
+    func decorate(_ cell: EntityCollectionViewCell, at indexPath: IndexPath) {
         let person = internalRecentlyViewed[indexPath.item]
 
         cell.style              = .detail

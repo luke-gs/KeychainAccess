@@ -251,7 +251,7 @@ class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
         return PopoverNavigationController(rootViewController: viewController)
     }
 
-    func decorate(cell: EntityCollectionViewCell, at indexPath: IndexPath, style: EntityCollectionViewCell.Style) {
+    func decorate(_ cell: EntityCollectionViewCell, at indexPath: IndexPath, style: EntityCollectionViewCell.Style) {
         guard let entity = self.sortedEntities?[indexPath.item] as? Person else { return }
 
         cell.titleLabel.text    = entity.summary
@@ -265,7 +265,7 @@ class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
 
     }
 
-    func decorateAlert(cell: EntityCollectionViewCell, at indexPath: IndexPath, style: EntityCollectionViewCell.Style) {
+    func decorateAlert(_ cell: EntityCollectionViewCell, at indexPath: IndexPath, style: EntityCollectionViewCell.Style) {
         guard let entity = self.filteredEntities?[indexPath.item] as? Person else { return }
 
         cell.titleLabel.text    = entity.summary
@@ -278,7 +278,7 @@ class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
         cell.sourceLabel.text = entity.source?.localizedBadgeTitle
     }
 
-    func decorateList(cell: EntityListCollectionViewCell, at indexPath: IndexPath) {
+    func decorateList(_ cell: EntityListCollectionViewCell, at indexPath: IndexPath) {
         guard let entity = self.sortedEntities?[indexPath.item] as? Person else { return }
 
         cell.titleLabel.text    = entity.summary
