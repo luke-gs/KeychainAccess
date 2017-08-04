@@ -22,7 +22,7 @@ public protocol SearchRecentsViewModel {
     /// - Parameters:
     ///   - cell: the cell to decorate
     ///   - indexPath: the indexPath of the cell (most likely will correlate to the recently viewed entities)
-    func decorate(cell: EntityCollectionViewCell, at indexPath: IndexPath)
+    func decorate(_ cell: EntityCollectionViewCell, at indexPath: IndexPath)
 
     /// Summary icon to be used in the recently viewed cells
     ///

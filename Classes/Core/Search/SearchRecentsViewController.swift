@@ -247,7 +247,7 @@ class SearchRecentsViewController: FormCollectionViewController {
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(of: EntityCollectionViewCell.self, for: indexPath)
-            viewModel.decorate(cell: cell, at: indexPath)
+            viewModel.decorate(cell, at: indexPath)
 
             return cell
         }

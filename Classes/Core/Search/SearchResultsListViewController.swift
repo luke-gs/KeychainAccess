@@ -201,7 +201,7 @@ class SearchResultsListViewController: FormCollectionViewController {
 
         if adjustedSection >= 0 && (wantsThumbnails == false || traitCollection.horizontalSizeClass == .compact) {
             let cell = collectionView.dequeueReusableCell(of: EntityListCollectionViewCell.self, for: indexPath)
-            dataSource?.decorateList(cell: cell, at: indexPath)
+            dataSource?.decorateList(cell, at: indexPath)
             return cell
         }
 
@@ -211,11 +211,11 @@ class SearchResultsListViewController: FormCollectionViewController {
         if adjustedSection < 0 {
             cell = collectionView.dequeueReusableCell(withReuseIdentifier: alertCellID, for: indexPath) as! EntityCollectionViewCell
             style = .thumbnail
-            dataSource?.decorateAlert(cell: cell, at: indexPath, style: style)
+            dataSource?.decorateAlert(cell, at: indexPath, style: style)
         } else {
             cell = collectionView.dequeueReusableCell(of: EntityCollectionViewCell.self, for: indexPath)
             style = .hero
-            dataSource?.decorate(cell: cell, at: indexPath, style: style)
+            dataSource?.decorate(cell, at: indexPath, style: style)
         }
 
         cell.highlightStyle   = .fade
