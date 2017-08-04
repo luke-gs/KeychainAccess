@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		12ADD4361F32C0FA00CA8B4D /* MPOLSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4301F32C0FA00CA8B4D /* MPOLSearchViewModel.swift */; };
-		12ADD4371F32C0FA00CA8B4D /* NumberRangePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4311F32C0FA00CA8B4D /* NumberRangePickerViewController.swift */; };
 		12ADD4381F32C0FA00CA8B4D /* PersonSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4321F32C0FA00CA8B4D /* PersonSearchDataSource.swift */; };
 		12ADD4391F32C0FA00CA8B4D /* PersonSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4331F32C0FA00CA8B4D /* PersonSearchRequest.swift */; };
 		12ADD43A1F32C0FA00CA8B4D /* VehicleSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */; };
@@ -44,7 +43,6 @@
 
 /* Begin PBXFileReference section */
 		12ADD4301F32C0FA00CA8B4D /* MPOLSearchViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPOLSearchViewModel.swift; sourceTree = "<group>"; };
-		12ADD4311F32C0FA00CA8B4D /* NumberRangePickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberRangePickerViewController.swift; sourceTree = "<group>"; };
 		12ADD4321F32C0FA00CA8B4D /* PersonSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonSearchDataSource.swift; sourceTree = "<group>"; };
 		12ADD4331F32C0FA00CA8B4D /* PersonSearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonSearchRequest.swift; sourceTree = "<group>"; };
 		12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleSearchDataSource.swift; sourceTree = "<group>"; };
@@ -85,7 +83,6 @@
 			isa = PBXGroup;
 			children = (
 				12ADD4301F32C0FA00CA8B4D /* MPOLSearchViewModel.swift */,
-				12ADD4311F32C0FA00CA8B4D /* NumberRangePickerViewController.swift */,
 				12ADD4321F32C0FA00CA8B4D /* PersonSearchDataSource.swift */,
 				12ADD4331F32C0FA00CA8B4D /* PersonSearchRequest.swift */,
 				12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */,
@@ -325,7 +322,6 @@
 				12ADD4361F32C0FA00CA8B4D /* MPOLSearchViewModel.swift in Sources */,
 				BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */,
 				12ADD43A1F32C0FA00CA8B4D /* VehicleSearchDataSource.swift in Sources */,
-				12ADD4371F32C0FA00CA8B4D /* NumberRangePickerViewController.swift in Sources */,
 				BCF31ACB1F0F42F000207D82 /* (null) in Sources */,
 				BC8B26F61EDC08460022B0AD /* EventsListViewController.swift in Sources */,
 				12ADD4381F32C0FA00CA8B4D /* PersonSearchDataSource.swift in Sources */,
