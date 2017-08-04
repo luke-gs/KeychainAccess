@@ -94,7 +94,7 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
         didSet {
             if isHidingNavigationBarShadow == oldValue || navigationController?.topViewController != self { return }
             
-            navigationController?.navigationBar.shadowImage = isHidingNavigationBarShadow ? UIImage() : Theme.current.navigationBarShadowImage
+            navigationController?.navigationBar.shadowImage = isHidingNavigationBarShadow ? UIImage() : ThemeManager.shared.theme(for: .current).image(forKey: .navigationBarShadow)
         }
     }
     
@@ -172,7 +172,7 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.navigationBar.shadowImage = Theme.current.navigationBarShadowImage
+        navigationController?.navigationBar.shadowImage = ThemeManager.shared.theme(for: .current).image(forKey: .navigationBarShadow)
     }
     
     override func viewDidLayoutSubviews() {

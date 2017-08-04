@@ -4,8 +4,20 @@ PODS:
   - MPOLKit (0.3.2):
     - Alamofire (= 4.4.0)
     - lottie-ios (= 1.5.2)
+    - PromiseKit (= 4.3.1)
     - Unbox (= 2.5.0)
     - Wrap (= 2.1.0)
+  - PromiseKit (4.3.1):
+    - PromiseKit/Foundation (= 4.3.1)
+    - PromiseKit/QuartzCore (= 4.3.1)
+    - PromiseKit/UIKit (= 4.3.1)
+  - PromiseKit/CorePromise (4.3.1)
+  - PromiseKit/Foundation (4.3.1):
+    - PromiseKit/CorePromise
+  - PromiseKit/QuartzCore (4.3.1):
+    - PromiseKit/CorePromise
+  - PromiseKit/UIKit (4.3.1):
+    - PromiseKit/CorePromise
   - Unbox (2.5.0)
   - Wrap (2.1.0)
 
@@ -18,13 +30,14 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   MPOLKit:
-    :commit: a2419736c14083d5754135b6bc02cd2940aa12ca
+    :commit: 82a55be6366a9a9d77cb11b0eb5094a0f7267b50
     :git: https://github.com/Gridstone/mPolKit-iOS
 
 SPEC CHECKSUMS:
   Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
   lottie-ios: 255a0e95973a5c4424e809d7a5c19f7384c73e84
-  MPOLKit: 0bbb1c49c848220a17e7113e6427d678a0fcba0a
+  MPOLKit: b49107a2a05fd5a704c62551cca1f2c3cacead5b
+  PromiseKit: 25a114b90b932ec8169b5736bd0881fe0efa93b5
   Unbox: 30e437e6151a6de16139375fd4e8dd9a664cfbf7
   Wrap: 731fe4fe3c2429c913a8252a17dbe8bb191e69e1
 

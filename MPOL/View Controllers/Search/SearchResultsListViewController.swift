@@ -116,15 +116,13 @@ class SearchResultsListViewController: FormCollectionViewController {
         }
     }
     
-    override func applyCurrentTheme() {
-        super.applyCurrentTheme()
+    override func apply(_ theme: Theme) {
+        super.apply(theme)
         
         guard let searchField = searchFieldButton else { return }
         
-        let themeColors = Theme.current.colors
-        
-        searchField.backgroundColor = themeColors[.SearchFieldBackground]
-        searchField.fieldColor = themeColors[.SearchField]
+        searchField.backgroundColor = theme.color(forKey: .searchFieldBackground)
+        searchField.fieldColor = theme.color(forKey: .searchField)
         searchField.textColor  = primaryTextColor
         searchField.placeholderTextColor = placeholderTextColor
     }
@@ -216,7 +214,7 @@ class SearchResultsListViewController: FormCollectionViewController {
             cell.actionCount      = entity.actionCount
             cell.highlightStyle   = .fade
             cell.sourceLabel.text = entity.source?.localizedBadgeTitle
-            cell.accessoryView = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
+            cell.accessoryView = cell.accessoryView as? FormAccessoryView ?? FormAccessoryView(style: .disclosure)
             
             return cell
         }

@@ -82,9 +82,9 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(of: CollectionViewFormDetailCell.self, for: indexPath)
-        cell.highlightStyle     = .fade
-        cell.selectionStyle     = .fade
-        cell.accessoryView = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
+        cell.highlightStyle = .fade
+        cell.selectionStyle = .fade
+        cell.accessoryView  = cell.accessoryView as? FormAccessoryView ?? FormAccessoryView(style: .disclosure)
         
         let action = actions[indexPath.item]
         cell.titleLabel.text = action.type?.title ?? NSLocalizedString("Action (Unknown Type)", bundle: .mpolKit, comment: "")

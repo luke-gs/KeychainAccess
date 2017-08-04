@@ -99,7 +99,7 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
         let cell = collectionView.dequeueReusableCell(of: CollectionViewFormDetailCell.self, for: indexPath)
         cell.highlightStyle = .fade
         cell.selectionStyle = .fade
-        cell.accessoryView = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
+        cell.accessoryView = cell.accessoryView as? FormAccessoryView ?? FormAccessoryView(style: .disclosure)
         
         let event = events[indexPath.item]
         let cellTexts = appropriateTexts(for: event)
