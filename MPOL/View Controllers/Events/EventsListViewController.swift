@@ -107,12 +107,6 @@ class EventsListViewController: FormCollectionViewController {
         
         if let accessory = (cell as? CollectionViewFormCell)?.accessoryView as? LabeledAccessoryView {
             accessory.titleLabel.textColor = collectionView.tintColor
-            accessory.subtitleLabel.textColor = secondaryTextColor
-            
-            // Temp workaround
-            if let accessoryView = accessory.accessoryView as? FormAccessoryView {
-                accessoryView.tintColor = disclosureColor
-            }
         }
     }
     
