@@ -10,12 +10,16 @@ project 'ClientKit/ClientKit.xcodeproj'
 
 def mpol_kit
     pod 'MPOLKit', :git=> 'https://github.com/Gridstone/mPolKit-iOS'
-    #pod 'MPOLKit', :path => '../mPolKit-iOS'
+#pod 'MPOLKit', :path => '../mPolKit-iOS'
 end
 
 target 'ClientKit' do
     project 'ClientKit/ClientKit.xcodeproj'
     mpol_kit
+    
+    target 'ClientKitTests' do
+        inherit! :search_paths
+    end
 end
 
 target 'MPOL' do

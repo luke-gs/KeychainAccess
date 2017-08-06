@@ -10,8 +10,11 @@ import Unbox
 import MPOLKit
 
 @objc(MPLEntity)
-open class Entity: NSObject, Serialisable {
+open class Entity: NSObject, Serialisable, MPOLKitEntityProtocol {
     
+    open class var serverTypeRepresentation: String {
+        MPLRequiresConcreteImplementation()
+    }
     
     open class var localizedDisplayName: String {
         return NSLocalizedString("Entity", comment: "")

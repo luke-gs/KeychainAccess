@@ -58,7 +58,7 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
     
     // MARK: - Private properties
     
-    private let filterBarButtonItem: UIBarButtonItem
+    private let filterBarButtonItem = FilterBarButtonItem(target: nil, action: nil)
     
     private var filterDateRange: FilterDateRange?
     
@@ -72,7 +72,7 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
     
     private var criminalHistory: [CriminalHistory] = [] {
         didSet {
-            hasContent = criminalHistory.isEmpty == false
+            loadingManager.state = criminalHistory.isEmpty ? .noContent: .loaded
             collectionView?.reloadData()
         }
     }
@@ -83,18 +83,13 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
     // MARK: - Initializers
     
     public override init() {
-        let bundle = Bundle(for: EntityAlertsViewController.self)
-        filterBarButtonItem = UIBarButtonItem(image: UIImage(named: "iconFormFilter", in: bundle, compatibleWith: nil), style: .plain, target: nil, action: nil)
-        
         super.init()
         
-        hasContent = false
+        loadingManager.state = .noContent
         
         title = NSLocalizedString("Criminal History", comment: "")
         
-        let sidebarItem = self.sidebarItem
-        sidebarItem.image         = UIImage(named: "iconFormFolder",       in: .mpolKit, compatibleWith: nil)
-        sidebarItem.selectedImage = UIImage(named: "iconFormFolderFilled", in: .mpolKit, compatibleWith: nil)
+        sidebarItem.image = AssetManager.shared.image(forKey: .list)
         
         filterBarButtonItem.target = self
         filterBarButtonItem.action = #selector(filterItemDidSelect(_:))
@@ -111,7 +106,7 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
     open override func viewDidLoad() {
         super.viewDidLoad()
         
-        noContentTitleLabel?.text = NSLocalizedString("No Criminal History Found", bundle: .mpolKit, comment: "")
+        loadingManager.noContentView.titleLabel.text = NSLocalizedString("No Criminal History Found", bundle: .mpolKit, comment: "")
         updateNoContentSubtitle()
         
         guard let collectionView = self.collectionView else { return }
@@ -230,7 +225,7 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
     }
     
     private func updateNoContentSubtitle() {
-        guard let label = noContentSubtitleLabel else { return }
+        let label = loadingManager.noContentView.subtitleLabel
         
         if person?.criminalHistory?.isEmpty ?? true {
             let entityDisplayName: String
@@ -259,9 +254,7 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
         criminalHistory.sort(by: sorting.compare(_:_:))
         self.criminalHistory = criminalHistory
         
-        let bundle = Bundle(for: PersonCriminalHistoryViewController.self)
-        let filterName = sorting != .dateNewest || filterDateRange != nil ? "iconFormFilterFilled" : "iconFormFilter"
-        filterBarButtonItem.image = UIImage(named: filterName, in: bundle, compatibleWith: nil)
+        filterBarButtonItem.isActive = sorting != .dateNewest || filterDateRange != nil
     }
     
     private func cellText(for history: CriminalHistory) -> (title: String, subtitle: String) {

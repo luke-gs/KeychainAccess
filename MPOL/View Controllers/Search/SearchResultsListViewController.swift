@@ -13,13 +13,13 @@ import Unbox
 
 fileprivate let alertCellID = "alertCell"
 
-class SearchResultsListViewController: FormCollectionViewController, SearchNavigationFieldDelegate {
+class SearchResultsListViewController: FormCollectionViewController {
     
     weak var delegate: SearchResultsDelegate?
     
     @NSCopying var searchRequest: SearchRequest? {
         didSet {
-            searchField.updateForSearchRequest(searchRequest, resultCount: 1)
+            searchFieldButton?.text = searchRequest?.searchText
         }
     }
     
@@ -27,7 +27,7 @@ class SearchResultsListViewController: FormCollectionViewController, SearchNavig
         didSet {
             if wantsThumbnails == oldValue { return }
             
-            listStateItem.image = wantsThumbnails ? #imageLiteral(resourceName: "iconNavBarList") : #imageLiteral(resourceName: "iconNavBarThumbnails")
+            listStateItem.image = AssetManager.shared.image(forKey: wantsThumbnails ? .list : .thumbnail)
             
             if traitCollection.horizontalSizeClass != .compact {
                 collectionView?.reloadData()
@@ -35,9 +35,9 @@ class SearchResultsListViewController: FormCollectionViewController, SearchNavig
         }
     }
     
-    private let listStateItem = UIBarButtonItem(image: #imageLiteral(resourceName: "iconNavBarList"), style: .plain, target: nil, action: nil)
+    private let listStateItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .list), style: .plain, target: nil, action: nil)
     
-    private let searchField = SearchNavigationField()
+    private var searchFieldButton: SearchFieldButton?
     
     private var alertEntities: [Entity] = []
     private var alertExpanded = false
@@ -47,6 +47,8 @@ class SearchResultsListViewController: FormCollectionViewController, SearchNavig
     
     override init() {
         super.init()
+        
+        title = NSLocalizedString("Search Results", comment: "Navigation Bar Title") // Temp
         
         let url = Bundle.mpolKit.url(forResource: "Person_25625aa4-3394-48e2-8dbc-2387498e16b0", withExtension: "json", subdirectory: "Mock JSONs")!
         let data = try! Data(contentsOf: url)
@@ -58,19 +60,12 @@ class SearchResultsListViewController: FormCollectionViewController, SearchNavig
         formLayout.itemLayoutMargins = UIEdgeInsets(top: 16.5, left: 8.0, bottom: 14.5, right: 8.0)
         formLayout.distribution = .none
         
-        let theme = Theme.current
-        let secondaryText = theme.colors[.SecondaryText]
-        
-        searchField.titleLabel.textColor = theme.colors[.PrimaryText]
-        searchField.resultCountLabel.textColor = secondaryText
-        searchField.clearButtonColor = secondaryText
-        searchField.delegate = self
-        
         listStateItem.target = self
         listStateItem.action = #selector(toggleThumbnails)
         listStateItem.imageInsets = .zero
         
-        navigationItem.titleView = searchField
+        navigationItem.leftBarButtonItem = UIBarButtonItem.backBarButtonItem(target: self, action: #selector(backButtonItemDidSelect))
+        
         navigationItem.rightBarButtonItems = [listStateItem]
     }
     
@@ -78,14 +73,35 @@ class SearchResultsListViewController: FormCollectionViewController, SearchNavig
     // MARK: - View lifecycle
     
     override func viewDidLoad() {
+        let searchFieldButton = SearchFieldButton(frame: .zero)
+        searchFieldButton.translatesAutoresizingMaskIntoConstraints = false
+        searchFieldButton.text = searchRequest?.searchText
+        searchFieldButton.addTarget(self, action: #selector(searchFieldButtonDidSelect), for: .primaryActionTriggered)
+        view.addSubview(searchFieldButton)
+        self.searchFieldButton = searchFieldButton
+        
         super.viewDidLoad()
         
-        if let collectionView = self.collectionView {
-            collectionView.register(EntityCollectionViewCell.self)
-            collectionView.register(EntityCollectionViewCell.self, forCellWithReuseIdentifier: alertCellID)
-            collectionView.register(EntityListCollectionViewCell.self)
-            collectionView.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
-        }
+        guard let view = self.view, let collectionView = self.collectionView else { return }
+        
+        collectionView.register(EntityCollectionViewCell.self)
+        collectionView.register(EntityCollectionViewCell.self, forCellWithReuseIdentifier: alertCellID)
+        collectionView.register(EntityListCollectionViewCell.self)
+        collectionView.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
+        
+        NSLayoutConstraint.activate([
+            searchFieldButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            searchFieldButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            searchFieldButton.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor),
+        ])
+    }
+    
+    open override func viewDidLayoutSubviews() {
+        let insets = UIEdgeInsets(top: topLayoutGuide.length + (searchFieldButton?.frame.height ?? 0.0), left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)
+        
+        loadingManager.contentInsets = insets
+        collectionViewInsetManager?.standardContentInset = insets
+        collectionViewInsetManager?.standardIndicatorInset = insets
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -100,6 +116,18 @@ class SearchResultsListViewController: FormCollectionViewController, SearchNavig
         }
     }
     
+    override func applyCurrentTheme() {
+        super.applyCurrentTheme()
+        
+        guard let searchField = searchFieldButton else { return }
+        
+        let themeColors = Theme.current.colors
+        
+        searchField.backgroundColor = themeColors[.SearchFieldBackground]
+        searchField.fieldColor = themeColors[.SearchField]
+        searchField.textColor  = primaryTextColor
+        searchField.placeholderTextColor = placeholderTextColor
+    }
     
     // MARK: - UICollectionViewDataSource methods
     
@@ -259,18 +287,15 @@ class SearchResultsListViewController: FormCollectionViewController, SearchNavig
     }
     
     
-    // MARK: - SearchNavigationFieldDelegate
+    // MARK: - Private methods
     
-    func searchNavigationFieldDidSelect(_ field: SearchNavigationField) {
+    @objc private func searchFieldButtonDidSelect() {
         delegate?.searchResultsController(self, didRequestToEdit: searchRequest)
     }
     
-    func searchNavigationFieldDidSelectClear(_ field: SearchNavigationField) {
+    @objc private func backButtonItemDidSelect() {
         delegate?.searchResultsControllerDidCancel(self)
     }
-    
-    
-    // MARK: - Private methods
     
     @objc private func toggleThumbnails() {
         wantsThumbnails = !wantsThumbnails
@@ -316,22 +341,3 @@ protocol SearchResultsDelegate: class {
     
 }
 
-private extension SearchNavigationField {
-    
-    func updateForSearchRequest(_ request: SearchRequest?, resultCount: Int?) {
-        if let request = request {
-            typeLabel.text = type(of: request).localizedDisplayName.uppercased(with: .current)
-            titleLabel.text = request.searchText
-        } else {
-            typeLabel.text = nil
-            titleLabel.text = nil
-        }
-        
-        if let resultCount = resultCount, resultCount > 0 {
-            resultCountLabel.text = String.localizedStringWithFormat(NSLocalizedString("%d Result(s) Found", comment: ""), resultCount)
-        } else {
-            resultCountLabel.text = nil
-        }
-    }
-    
-}

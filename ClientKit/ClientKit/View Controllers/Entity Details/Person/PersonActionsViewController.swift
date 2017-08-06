@@ -29,12 +29,12 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
     
     private var actions: [Action] = [] {
         didSet {
-            hasContent = actions.isEmpty == false
+            loadingManager.state = actions.isEmpty ? .noContent : .loaded
             collectionView?.reloadData()
         }
     }
     
-    private let filterBarButtonItem: UIBarButtonItem
+    private let filterBarButtonItem = FilterBarButtonItem(target: nil, action: nil)
     
     private var filterTypes: Set<String>?
     
@@ -42,18 +42,13 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
     
     
     public override init() {
-        let bundle = Bundle(for: EntityAlertsViewController.self)
-        filterBarButtonItem = UIBarButtonItem(image: UIImage(named: "iconFormFilter", in: bundle, compatibleWith: nil), style: .plain, target: nil, action: nil)
-        
         super.init()
         
-        hasContent = false
+        loadingManager.state = .noContent
         
         title = NSLocalizedString("Actions", comment: "")
         
-        let sidebarItem = self.sidebarItem
-        sidebarItem.image         = UIImage(named: "iconFormFolder",       in: .mpolKit, compatibleWith: nil)
-        sidebarItem.selectedImage = UIImage(named: "iconFormFolderFilled", in: .mpolKit, compatibleWith: nil)
+        sidebarItem.image = AssetManager.shared.image(forKey: .list)
         
         filterBarButtonItem.target = self
         filterBarButtonItem.action = #selector(filterItemDidSelect(_:))
@@ -68,7 +63,7 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
     open override func viewDidLoad() {
         super.viewDidLoad()
         
-        noContentTitleLabel?.text = NSLocalizedString("No Actions Found", bundle: .mpolKit, comment: "")
+        loadingManager.noContentView.titleLabel.text = NSLocalizedString("No Actions Found", bundle: .mpolKit, comment: "")
         updateNoContentSubtitle()
         
         guard let collectionView = self.collectionView else { return }
@@ -215,7 +210,7 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
     }
     
     private func updateNoContentSubtitle() {
-        guard let label = noContentSubtitleLabel else { return }
+        let label = loadingManager.noContentView.subtitleLabel
         
         if person?.actions?.isEmpty ?? true {
             let entityDisplayName: String
@@ -254,11 +249,9 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
             }
         }
         
-        let bundle = Bundle(for: EntityAlertsViewController.self)
-        let filterName = requiresFiltering ? "iconFormFilterFilled" : "iconFormFilter"
-        filterBarButtonItem.image = UIImage(named: filterName, in: bundle, compatibleWith: nil)
-        
         self.actions = actions
+        
+        filterBarButtonItem.isActive = requiresFiltering
     }
     
 }

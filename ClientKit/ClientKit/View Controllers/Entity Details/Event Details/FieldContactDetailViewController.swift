@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MPOLKit
 
 open class FieldContactDetailViewController: EventDetailViewController {
     
@@ -31,7 +32,7 @@ open class FieldContactDetailViewController: EventDetailViewController {
         
         let header = EventDetailSection(title: NSLocalizedString("DESCRIPTION", bundle: .mpolKit, comment: "Section Title"), items: [
             EventDetailItem(style: .header, title: NSLocalizedString("Field Contact", bundle: .mpolKit, comment: "Detail Title"), detail: NSLocalizedString("Involvement #", bundle: .mpolKit, comment: "title") + fieldContact.id, preferredColumnCount: 1),
-            EventDetailItem(title: NSLocalizedString("Occurred on", bundle: .mpolKit, comment: "Detail Title"), detail: displayString(for: fieldContact.contactDate), image: UIImage(named: "iconFormCalendar", in: .mpolKit, compatibleWith: nil)),
+            EventDetailItem(title: NSLocalizedString("Occurred on", bundle: .mpolKit, comment: "Detail Title"), detail: displayString(for: fieldContact.contactDate), image: AssetManager.shared.image(forKey: .date)),
             EventDetailItem(title: NSLocalizedString("Status", bundle: .mpolKit, comment: "Detail Title"), detail: fieldContact.status),
             EventDetailItem(title: NSLocalizedString("Contact Member Rank", bundle: .mpolKit, comment: "Detail Title"), detail: fieldContact.contactMember?.rank ?? NSLocalizedString("Unknown", comment: "Unknown Member")),
             EventDetailItem(title: NSLocalizedString("Secondary Contact Member Rank", bundle: .mpolKit, comment: "Detail Title"), detail: fieldContact.secondaryContactMember?.rank ?? NSLocalizedString("Unknown", bundle: .mpolKit, comment: "Unknown Member")),
@@ -39,7 +40,7 @@ open class FieldContactDetailViewController: EventDetailViewController {
         ])
         
         let place = EventDetailSection(title: NSLocalizedString("PLACE", bundle: .mpolKit, comment: "Section Title"), items: [
-            EventDetailItem(title: NSLocalizedString("Location", bundle: .mpolKit, comment: "Contact location"), detail: fieldContact.contactLocation, image:UIImage(named: "iconGeneralLocation", in: .mpolKit, compatibleWith: nil)),
+            EventDetailItem(title: NSLocalizedString("Location", bundle: .mpolKit, comment: "Contact location"), detail: fieldContact.contactLocation, image: AssetManager.shared.image(forKey: .location)),
             EventDetailItem(title: NSLocalizedString("Area Type", bundle: .mpolKit, comment: "Contact location"), detail: fieldContact.areaType),
             EventDetailItem(title: NSLocalizedString("Location Response Zone", bundle: .mpolKit, comment: "Contact location"), detail: fieldContact.locationResponseZone),
             EventDetailItem(title: NSLocalizedString("Neighbourhood Watch Area", bundle: .mpolKit, comment: "Contact location"), detail: fieldContact.neighbourhoodWatchArea),
