@@ -41,11 +41,10 @@ class SearchRecentsViewController: FormCollectionViewController {
         }
     }
     
-    // All this is work in progress.👇
-    
     @objc dynamic var isShowingNavBarExtension: Bool = false {
         didSet {
             compactNavBarExtension?.alpha = isShowingNavBarExtension ? 1.0 : 0.0
+            view.setNeedsLayout()
         }
     }
     
@@ -134,16 +133,17 @@ class SearchRecentsViewController: FormCollectionViewController {
         }
     }
     
-    open override func viewDidLayoutSubviews() {
-        var insets = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: max(bottomLayoutGuide.length, statusTabBarInset), right: 0.0)
-        if isShowingNavBarExtension {
-            insets.top += compactNavBarExtension?.frame.height ?? 0.0
-        }
+    override func viewWillLayoutSubviews() {
+        let navBarExtension = isShowingNavBarExtension ? compactNavBarExtension?.frame.height ?? 0.0 : 0.0
         
-        loadingManager.contentInsets = insets
+        // TODO: Uncomment for iOS 11
+//        if #available(iOS 11, *) {
+//            additionalSafeAreaInsets.top = navBarExtension
+//        } else {
+            legacy_additionalSafeAreaInsets.top = navBarExtension
+//        }
         
-        collectionViewInsetManager?.standardContentInset   = insets
-        collectionViewInsetManager?.standardIndicatorInset = insets
+        super.viewWillLayoutSubviews()
     }
     
     

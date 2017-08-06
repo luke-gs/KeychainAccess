@@ -89,19 +89,29 @@ class SearchResultsListViewController: FormCollectionViewController {
         collectionView.register(EntityListCollectionViewCell.self)
         collectionView.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         
+        let searchFieldVerticalConstraint: NSLayoutConstraint
+//        if #available(iOS 11, *) {
+//            searchFieldVerticalConstraint = searchFieldButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+//        } else {
+            searchFieldVerticalConstraint = searchFieldButton.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor)
+//        }
+        
         NSLayoutConstraint.activate([
             searchFieldButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             searchFieldButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            searchFieldButton.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor),
+            searchFieldVerticalConstraint,
         ])
     }
     
-    open override func viewDidLayoutSubviews() {
-        let insets = UIEdgeInsets(top: topLayoutGuide.length + (searchFieldButton?.frame.height ?? 0.0), left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)
+    override func viewWillLayoutSubviews() {
+        // TODO: Uncomment for iOS 11
+//        if #available(iOS 11, *) {
+//            additionalSafeAreaInsets.top = searchFieldButton?.frame.height ?? 0.0
+//        } else {
+            legacy_additionalSafeAreaInsets.top = searchFieldButton?.frame.height ?? 0.0
+//        }
         
-        loadingManager.contentInsets = insets
-        collectionViewInsetManager?.standardContentInset = insets
-        collectionViewInsetManager?.standardIndicatorInset = insets
+        super.viewWillLayoutSubviews()
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
