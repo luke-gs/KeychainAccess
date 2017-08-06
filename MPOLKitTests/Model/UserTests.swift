@@ -38,7 +38,6 @@ class UserTests: XCTestCase {
         let user1 = User(username: "Herli")
         user1.termsAndConditionsVersionAccepted = "10"
         
-        // James is just an object!
         let james = NSObject()
         
         XCTAssertNotEqual(user1, james)
@@ -52,11 +51,6 @@ class UserTests: XCTestCase {
         let user = User(coder: NSKeyedUnarchiver(forReadingWith: data))
         
         XCTAssertNotEqual(user, something)
-    }
-    
-    func testOk() {
-        let user = User(username: "")
-        user
     }
 }
 
