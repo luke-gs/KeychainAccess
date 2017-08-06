@@ -200,10 +200,14 @@ open class SearchFieldButton: UIButton {
     open override var semanticContentAttribute: UISemanticContentAttribute {
         didSet { updateHorizontalAlignment() }
     }
-    
+
+
+    public func update(for searchable: Searchable) {
+        self.text = searchable.searchText
+    }
     
     // MARK: - Private methods
-    
+
     private func updateFieldImage() {
         func setFieldColor(_ color: UIColor, for state: UIControlState) {
             super.setBackgroundImage(.resizableRoundedImage(cornerRadius: 4.0, borderWidth: 0.0, borderColor: nil, fillColor: color), for: state)

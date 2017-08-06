@@ -499,6 +499,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         self.showingHeaderConstraint              = showingHeaderConstraint
         self.forgotPasswordSeparation             = forgotPasswordSeparation
         self.loadingIndicator                     = loadingIndicator
+        
     }
     
     open override func viewDidLoad() {
@@ -544,6 +545,14 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     
+    // MARK: - Action
+    
+    open func resetFields() {
+        usernameField.text = nil
+        passwordField.text = nil
+    }
+    
+    
     // MARK: - Text field delegate
     
     open func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -559,6 +568,15 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         return false
     }
     
+    open func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField == passwordField {
+            let text = textField.text as NSString?
+            let newText = text?.replacingCharacters(in: range, with: string)
+            textField.text = newText
+            return false
+        }
+        return true
+    }
     
     // MARK: - Overrides
     
