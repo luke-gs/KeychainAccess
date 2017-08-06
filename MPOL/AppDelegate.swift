@@ -92,7 +92,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             
             let navController = PopoverNavigationController(rootViewController: tsAndCsVC)
             navController.modalPresentationStyle = .formSheet
-            controller.present(navController, animated: true)
+            controller.present(navController, animated: true, completion: { [unowned controller] in
+                controller.resetFields()
+            })
         }.catch { error in
             let alertController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: "Okay", style: .default))
