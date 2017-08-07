@@ -7,27 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		12ADD4361F32C0FA00CA8B4D /* MPOLSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4301F32C0FA00CA8B4D /* MPOLSearchViewModel.swift */; };
+		12ADD4381F32C0FA00CA8B4D /* PersonSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4321F32C0FA00CA8B4D /* PersonSearchDataSource.swift */; };
+		12ADD4391F32C0FA00CA8B4D /* PersonSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4331F32C0FA00CA8B4D /* PersonSearchRequest.swift */; };
+		12ADD43A1F32C0FA00CA8B4D /* VehicleSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */; };
+		12ADD43B1F32C0FA00CA8B4D /* VehicleSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4351F32C0FA00CA8B4D /* VehicleSearchRequest.swift */; };
+		12ADD43C1F32D9E700CA8B4D /* MPOLAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAEA065C1F3186B00071077C /* MPOLAPIManager.swift */; };
 		397B77011E52CEDA00696677 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 397B77001E52CEDA00696677 /* UserNotifications.framework */; };
 		39E77E99D3753364294F38A1 /* Pods_MPOL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EECB1EC3B3B30EAC4A62C130 /* Pods_MPOL.framework */; };
-		996364DE1E9C9DDB00F86C35 /* NumberRangePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996364DD1E9C9DDB00F86C35 /* NumberRangePickerViewController.swift */; };
-		BC0D8E8B1E94067800EDFC45 /* SearchOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0D8E851E94067800EDFC45 /* SearchOptionsViewController.swift */; };
-		BC0D8E8C1E94067800EDFC45 /* SearchRecentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0D8E861E94067800EDFC45 /* SearchRecentsViewController.swift */; };
-		BC0D8E8D1E94067800EDFC45 /* SearchResultsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0D8E871E94067800EDFC45 /* SearchResultsListViewController.swift */; };
-		BC0D8E8F1E94067800EDFC45 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0D8E891E94067800EDFC45 /* SearchViewController.swift */; };
 		BC45C4471EEB56D2001F5747 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */; };
 		BC4E81111EBEE38400188181 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4E81101EBEE38400188181 /* SettingsViewController.swift */; };
-		BC53108F1EA844C100E7DBE4 /* SearchEntityListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC53108E1EA844C100E7DBE4 /* SearchEntityListCell.swift */; };
 		BC8B26F31EDC07430022B0AD /* ActionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8B26F21EDC07430022B0AD /* ActionListViewController.swift */; };
 		BC8B26F61EDC08460022B0AD /* EventsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8B26F51EDC08460022B0AD /* EventsListViewController.swift */; };
-		BC9E485D1E9D9D2800767337 /* SearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9E485C1E9D9D2800767337 /* SearchRequest.swift */; };
-		BC9E485F1E9DA2A500767337 /* PersonSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9E485E1E9DA2A500767337 /* PersonSearchRequest.swift */; };
-		BC9E48631E9DDD3C00767337 /* VehicleSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9E48621E9DDD3C00767337 /* VehicleSearchRequest.swift */; };
-		BC9E48651E9DDE0A00767337 /* OrganizationSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9E48641E9DDE0A00767337 /* OrganizationSearchRequest.swift */; };
-		BC9E48671E9DDE8900767337 /* LocationSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9E48661E9DDE8900767337 /* LocationSearchRequest.swift */; };
-		BC9E486B1E9DE14D00767337 /* SearchFieldCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9E48691E9DE14D00767337 /* SearchFieldCollectionViewCell.swift */; };
-		BCC5E94C1E9F155E00A9635E /* SearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC5E94A1E9F155E00A9635E /* SearchDataSource.swift */; };
-		BCC5E9501E9F27BA00A9635E /* OrganizationSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC5E94F1E9F27BA00A9635E /* OrganizationSearchDataSource.swift */; };
-		BCC5E9521E9F286500A9635E /* LocationSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC5E9511E9F286500A9635E /* LocationSearchDataSource.swift */; };
 		BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */; };
 		BCD4EA941E515ACE000B993D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCD4EA931E515ACE000B993D /* Assets.xcassets */; };
 		BCD4EA9F1E515ADE000B993D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCD4EA9E1E515ADE000B993D /* LaunchScreen.storyboard */; };
@@ -35,6 +26,7 @@
 		BCEEA5621F03205800C884A4 /* ClientKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BCEEA5601F03205800C884A4 /* ClientKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BCF31ACB1F0F42F000207D82 /* PersonSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF31AC91F0F42F000207D82 /* PersonSearchDataSource.swift */; };
 		BCF31ACC1F0F42F000207D82 /* VehicleSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF31ACA1F0F42F000207D82 /* VehicleSearchDataSource.swift */; };
+		EA3C89061F32E34300F38461 /* termsandconditions.html in Resources */ = {isa = PBXBuildFile; fileRef = EA3C89051F32E34300F38461 /* termsandconditions.html */; };
 		EAEA065D1F3186B00071077C /* MPOLAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAEA065C1F3186B00071077C /* MPOLAPIManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -53,37 +45,26 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		12ADD4301F32C0FA00CA8B4D /* MPOLSearchViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPOLSearchViewModel.swift; sourceTree = "<group>"; };
+		12ADD4321F32C0FA00CA8B4D /* PersonSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonSearchDataSource.swift; sourceTree = "<group>"; };
+		12ADD4331F32C0FA00CA8B4D /* PersonSearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonSearchRequest.swift; sourceTree = "<group>"; };
+		12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleSearchDataSource.swift; sourceTree = "<group>"; };
+		12ADD4351F32C0FA00CA8B4D /* VehicleSearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleSearchRequest.swift; sourceTree = "<group>"; };
 		397B76FF1E52C23600696677 /* MPOL.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MPOL.entitlements; sourceTree = "<group>"; };
 		397B77001E52CEDA00696677 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
-		996364DD1E9C9DDB00F86C35 /* NumberRangePickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberRangePickerViewController.swift; sourceTree = "<group>"; };
 		AA45749D897B00C1832C33B2 /* Pods-MPOL.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOL.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MPOL/Pods-MPOL.debug.xcconfig"; sourceTree = "<group>"; };
-		BC0D8E851E94067800EDFC45 /* SearchOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchOptionsViewController.swift; sourceTree = "<group>"; };
-		BC0D8E861E94067800EDFC45 /* SearchRecentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRecentsViewController.swift; sourceTree = "<group>"; };
-		BC0D8E871E94067800EDFC45 /* SearchResultsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultsListViewController.swift; sourceTree = "<group>"; };
-		BC0D8E891E94067800EDFC45 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
 		BC4E81101EBEE38400188181 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		BC53108E1EA844C100E7DBE4 /* SearchEntityListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchEntityListCell.swift; sourceTree = "<group>"; };
 		BC8B26F21EDC07430022B0AD /* ActionListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionListViewController.swift; sourceTree = "<group>"; };
 		BC8B26F51EDC08460022B0AD /* EventsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsListViewController.swift; sourceTree = "<group>"; };
-		BC9E485C1E9D9D2800767337 /* SearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRequest.swift; sourceTree = "<group>"; };
-		BC9E485E1E9DA2A500767337 /* PersonSearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonSearchRequest.swift; sourceTree = "<group>"; };
-		BC9E48621E9DDD3C00767337 /* VehicleSearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleSearchRequest.swift; sourceTree = "<group>"; };
-		BC9E48641E9DDE0A00767337 /* OrganizationSearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizationSearchRequest.swift; sourceTree = "<group>"; };
-		BC9E48661E9DDE8900767337 /* LocationSearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSearchRequest.swift; sourceTree = "<group>"; };
-		BC9E48691E9DE14D00767337 /* SearchFieldCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchFieldCollectionViewCell.swift; sourceTree = "<group>"; };
-		BCC5E94A1E9F155E00A9635E /* SearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchDataSource.swift; sourceTree = "<group>"; };
-		BCC5E94F1E9F27BA00A9635E /* OrganizationSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizationSearchDataSource.swift; sourceTree = "<group>"; };
-		BCC5E9511E9F286500A9635E /* LocationSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSearchDataSource.swift; sourceTree = "<group>"; };
 		BCD4EA891E515ACE000B993D /* MPOL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MPOL.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BCD4EA931E515ACE000B993D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BCD4EA981E515ACE000B993D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BCD4EA9E1E515ADE000B993D /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BCEEA5601F03205800C884A4 /* ClientKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ClientKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		BCF31AC91F0F42F000207D82 /* PersonSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonSearchDataSource.swift; sourceTree = "<group>"; };
-		BCF31ACA1F0F42F000207D82 /* VehicleSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleSearchDataSource.swift; sourceTree = "<group>"; };
 		E87578436B7E33CD2885F860 /* Pods-MPOL.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOL.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOL/Pods-MPOL.release.xcconfig"; sourceTree = "<group>"; };
+		EA3C89051F32E34300F38461 /* termsandconditions.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = termsandconditions.html; sourceTree = "<group>"; };
 		EAEA065C1F3186B00071077C /* MPOLAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPOLAPIManager.swift; sourceTree = "<group>"; };
 		EECB1EC3B3B30EAC4A62C130 /* Pods_MPOL.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -102,6 +83,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		12ADD42F1F32C0FA00CA8B4D /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				12ADD4301F32C0FA00CA8B4D /* MPOLSearchViewModel.swift */,
+				12ADD4321F32C0FA00CA8B4D /* PersonSearchDataSource.swift */,
+				12ADD4331F32C0FA00CA8B4D /* PersonSearchRequest.swift */,
+				12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */,
+				12ADD4351F32C0FA00CA8B4D /* VehicleSearchRequest.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		4A9FC695755CC4A23505332B /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -124,27 +117,11 @@
 		BC0D8E821E94067800EDFC45 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				BC0D8E831E94067800EDFC45 /* Search */,
 				BC8B26F11EDC07360022B0AD /* Action List */,
 				BC8B26F41EDC083A0022B0AD /* Events */,
 				BC4E81101EBEE38400188181 /* SettingsViewController.swift */,
 			);
 			path = "View Controllers";
-			sourceTree = "<group>";
-		};
-		BC0D8E831E94067800EDFC45 /* Search */ = {
-			isa = PBXGroup;
-			children = (
-				BC0D8E891E94067800EDFC45 /* SearchViewController.swift */,
-				BC0D8E851E94067800EDFC45 /* SearchOptionsViewController.swift */,
-				BC0D8E861E94067800EDFC45 /* SearchRecentsViewController.swift */,
-				BC0D8E871E94067800EDFC45 /* SearchResultsListViewController.swift */,
-				996364DD1E9C9DDB00F86C35 /* NumberRangePickerViewController.swift */,
-				BC9E485B1E9D9D2800767337 /* Search Requests */,
-				BCC5E9481E9F155E00A9635E /* Search Type Data Sources */,
-				BC9E48681E9DE14D00767337 /* Views */,
-			);
-			path = Search;
 			sourceTree = "<group>";
 		};
 		BC8B26F11EDC07360022B0AD /* Action List */ = {
@@ -161,39 +138,6 @@
 				BC8B26F51EDC08460022B0AD /* EventsListViewController.swift */,
 			);
 			path = Events;
-			sourceTree = "<group>";
-		};
-		BC9E485B1E9D9D2800767337 /* Search Requests */ = {
-			isa = PBXGroup;
-			children = (
-				BC9E485C1E9D9D2800767337 /* SearchRequest.swift */,
-				BC9E485E1E9DA2A500767337 /* PersonSearchRequest.swift */,
-				BC9E48621E9DDD3C00767337 /* VehicleSearchRequest.swift */,
-				BC9E48641E9DDE0A00767337 /* OrganizationSearchRequest.swift */,
-				BC9E48661E9DDE8900767337 /* LocationSearchRequest.swift */,
-			);
-			path = "Search Requests";
-			sourceTree = "<group>";
-		};
-		BC9E48681E9DE14D00767337 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				BC53108E1EA844C100E7DBE4 /* SearchEntityListCell.swift */,
-				BC9E48691E9DE14D00767337 /* SearchFieldCollectionViewCell.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		BCC5E9481E9F155E00A9635E /* Search Type Data Sources */ = {
-			isa = PBXGroup;
-			children = (
-				BCC5E94A1E9F155E00A9635E /* SearchDataSource.swift */,
-				BCF31AC91F0F42F000207D82 /* PersonSearchDataSource.swift */,
-				BCF31ACA1F0F42F000207D82 /* VehicleSearchDataSource.swift */,
-				BCC5E94F1E9F27BA00A9635E /* OrganizationSearchDataSource.swift */,
-				BCC5E9511E9F286500A9635E /* LocationSearchDataSource.swift */,
-			);
-			path = "Search Type Data Sources";
 			sourceTree = "<group>";
 		};
 		BCD4EA801E515ACE000B993D = {
@@ -217,16 +161,26 @@
 		BCD4EA8B1E515ACE000B993D /* MPOL */ = {
 			isa = PBXGroup;
 			children = (
+				EA3C89041F32E31500F38461 /* Resources */,
 				EAEA065B1F3186830071077C /* Configuration */,
 				397B76FF1E52C23600696677 /* MPOL.entitlements */,
 				BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */,
 				BC0D8E821E94067800EDFC45 /* View Controllers */,
+				12ADD42F1F32C0FA00CA8B4D /* ViewModels */,
 				BCD4EA931E515ACE000B993D /* Assets.xcassets */,
 				BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */,
 				BCD4EA9E1E515ADE000B993D /* LaunchScreen.storyboard */,
 				BCD4EA981E515ACE000B993D /* Info.plist */,
 			);
 			path = MPOL;
+			sourceTree = "<group>";
+		};
+		EA3C89041F32E31500F38461 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				EA3C89051F32E34300F38461 /* termsandconditions.html */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		EAEA065B1F3186830071077C /* Configuration */ = {
@@ -314,6 +268,7 @@
 			files = (
 				BCD4EA9F1E515ADE000B993D /* LaunchScreen.storyboard in Resources */,
 				BCD4EA941E515ACE000B993D /* Assets.xcassets in Resources */,
+				EA3C89061F32E34300F38461 /* termsandconditions.html in Resources */,
 				BC45C4471EEB56D2001F5747 /* Localizable.stringsdict in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -373,28 +328,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BC0D8E8B1E94067800EDFC45 /* SearchOptionsViewController.swift in Sources */,
-				BC9E48651E9DDE0A00767337 /* OrganizationSearchRequest.swift in Sources */,
-				BCF31ACC1F0F42F000207D82 /* VehicleSearchDataSource.swift in Sources */,
+				12ADD43B1F32C0FA00CA8B4D /* VehicleSearchRequest.swift in Sources */,
 				BC4E81111EBEE38400188181 /* SettingsViewController.swift in Sources */,
-				BC9E485D1E9D9D2800767337 /* SearchRequest.swift in Sources */,
-				BC0D8E8F1E94067800EDFC45 /* SearchViewController.swift in Sources */,
-				BCC5E94C1E9F155E00A9635E /* SearchDataSource.swift in Sources */,
+				12ADD4391F32C0FA00CA8B4D /* PersonSearchRequest.swift in Sources */,
 				BC8B26F31EDC07430022B0AD /* ActionListViewController.swift in Sources */,
+				12ADD43C1F32D9E700CA8B4D /* MPOLAPIManager.swift in Sources */,
+				12ADD4361F32C0FA00CA8B4D /* MPOLSearchViewModel.swift in Sources */,
 				BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */,
-				BCC5E9501E9F27BA00A9635E /* OrganizationSearchDataSource.swift in Sources */,
-				996364DE1E9C9DDB00F86C35 /* NumberRangePickerViewController.swift in Sources */,
-				BC0D8E8D1E94067800EDFC45 /* SearchResultsListViewController.swift in Sources */,
-				BC9E486B1E9DE14D00767337 /* SearchFieldCollectionViewCell.swift in Sources */,
-				BC9E48631E9DDD3C00767337 /* VehicleSearchRequest.swift in Sources */,
-				BCC5E9521E9F286500A9635E /* LocationSearchDataSource.swift in Sources */,
-				BC0D8E8C1E94067800EDFC45 /* SearchRecentsViewController.swift in Sources */,
-				BC9E485F1E9DA2A500767337 /* PersonSearchRequest.swift in Sources */,
-				BC53108F1EA844C100E7DBE4 /* SearchEntityListCell.swift in Sources */,
-				BCF31ACB1F0F42F000207D82 /* PersonSearchDataSource.swift in Sources */,
-				EAEA065D1F3186B00071077C /* MPOLAPIManager.swift in Sources */,
-				BC9E48671E9DDE8900767337 /* LocationSearchRequest.swift in Sources */,
+				12ADD43A1F32C0FA00CA8B4D /* VehicleSearchDataSource.swift in Sources */,
+				BCF31ACB1F0F42F000207D82 /* (null) in Sources */,
 				BC8B26F61EDC08460022B0AD /* EventsListViewController.swift in Sources */,
+				12ADD4381F32C0FA00CA8B4D /* PersonSearchDataSource.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

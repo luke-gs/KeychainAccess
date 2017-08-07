@@ -11,7 +11,7 @@ import Unbox
 
 @objc(MPLVehicle)
 open class Vehicle: Entity {
-    
+
     override open class var serverTypeRepresentation: String {
         return "vehicle"
     }
@@ -53,7 +53,7 @@ open class Vehicle: Entity {
     open var axles: Int?
     open var vehicleDescription: String?
     
-    public required init(id: String) {
+    public required override init(id: String) {
         super.init(id: id)
     }
     

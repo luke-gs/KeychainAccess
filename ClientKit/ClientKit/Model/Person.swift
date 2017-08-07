@@ -139,8 +139,8 @@ open class Person: Entity {
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-    
-    public required init(id: String = UUID().uuidString) {
+
+    public required override init(id: String = UUID().uuidString) {
         super.init(id: id)
     }
     
