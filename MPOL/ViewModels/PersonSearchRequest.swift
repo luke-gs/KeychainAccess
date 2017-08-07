@@ -17,13 +17,13 @@ private let ageRangeMinKey = "ageRangeMin"
 private let ageRangeMaxKey = "ageRangeMax"
 
 
-@objc(MPLPersonSearchRequest)
-class PersonSearchRequest: SearchRequest {
-
-    override func searchOperation(forSource source: EntitySource,
-                                  params: Parameterisable,
-                                  completion: ((_ entities: [MPOLKitEntity]?, _ error: Error?)->())?) throws
-    {
-        //TODO: New network stuff
-    }
-}
+//@objc(MPLPersonSearchRequest)
+//class PersonSearchRequest: SearchRequest {
+//
+//    override func searchOperation(forSource source: EntitySource,
+//                                  params: Parameterisable,
+//                                  completion: ((_ entities: [MPOLKitEntity]?, _ error: Error?)->())?) throws
+//    {
+//        //TODO: New network stuff
+//    }
+//}

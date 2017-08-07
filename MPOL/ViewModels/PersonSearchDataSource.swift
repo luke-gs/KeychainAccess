@@ -291,34 +291,33 @@ class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
         cell.sourceLabel.text = entity.source?.localizedBadgeTitle
     }
 
-    func searchOperation(searchable: Searchable, completion: ((_ success: Bool, _ error: Error?)->())?) throws
-    {
-        guard let searchTerm = searchable.searchText else { return }
-        let request = PersonSearchRequest()
-
-        let parsingResults = try parser.parseString(query: searchTerm)
-        let dobSearch: String?
-
-        if let dateOfBirthString = parsingResults[PersonParserDefinition.DateOfBirthKey],
-            let dateOfBirth = PersonSearchDataSource.inputDateFormatter.date(from: dateOfBirthString) {
-            dobSearch =  PersonSearchDataSource.outputDateFormatter.string(from: dateOfBirth)
-        } else {
-            dobSearch = nil
+    func searchResultModel(for searchable: Searchable) -> SearchResultViewModelable? {
+        do {
+            guard let searchTerm = searchable.searchText else { return nil }
+            
+            let parsingResults = try parser.parseString(query: searchTerm)
+            let dobSearch: String?
+            
+            if let dateOfBirthString = parsingResults[PersonParserDefinition.DateOfBirthKey],
+                let dateOfBirth = PersonSearchDataSource.inputDateFormatter.date(from: dateOfBirthString) {
+                dobSearch =  PersonSearchDataSource.outputDateFormatter.string(from: dateOfBirth)
+            } else {
+                dobSearch = nil
+            }
+            
+            let searchParams = PersonSearchParameters(familyName:   parsingResults[PersonParserDefinition.SurnameKey]!,
+                                                      givenName:    parsingResults[PersonParserDefinition.GivenNameKey],
+                                                      middleNames:  parsingResults[PersonParserDefinition.MiddleNamesKey],
+                                                      gender:       parsingResults[PersonParserDefinition.GenderKey],
+                                                      dateOfBirth:  dobSearch)
+            
+            let request = PersonSearchRequest(source: .mpol, request: searchParams)
+            return EntitySummarySearchResultViewModel<Person>(title: searchTerm, aggregatedSearch: AggregatedSearch(requests: [request]))
+        } catch {
+            
         }
-
-//        let searchParams = PersonSearchParameters(surname:      parsingResults[PersonParserDefinition.SurnameKey]!,
-//                                                  givenName:    parsingResults[PersonParserDefinition.GivenNameKey],
-//                                                  middleNames:  parsingResults[PersonParserDefinition.MiddleNamesKey],
-//                                                  gender:       parsingResults[PersonParserDefinition.GenderKey],
-//                                                  dateOfBirth:  dobSearch,
-//                                                  ageGap:       parsingResults[PersonParserDefinition.AgeGapKey])
-//
-//
-//        return try request.searchOperation(forSource: LEAPSource.leap, params: searchParams) { [weak self] entities, error in
-//            self?.entities = entities
-//            completion?(entities != nil, error)
-//        }
-        //TODO: New network stuff
+        
+        return nil
     }
 
 

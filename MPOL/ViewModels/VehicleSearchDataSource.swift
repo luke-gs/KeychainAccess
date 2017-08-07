@@ -215,17 +215,13 @@ class VehicleSearchDataSource: SearchDataSource {
         cell.highlightStyle   = .fade
         cell.sourceLabel.text = entity.source?.localizedBadgeTitle
     }
+    
+    func searchResultModel(for searchable: Searchable) -> SearchResultViewModelable? {
+        guard let searchTerm = searchable.searchText else { return nil }
+        
+        let searchParams = VehicleSearchParameters(criteria: searchTerm)
 
-    func searchOperation(searchable: Searchable, completion: ((_ success: Bool, _ error: Error?)->())?) throws
-    {
-//        guard let searchTerm = searchable.searchText else { return nil }
-//        let request = VehicleSearchRequest()
-//        let params = SearchParameters(criteria: searchTerm)
-//        
-//        return try request.searchOperation(forSource: LEAPSource.leap, params: params) { [weak self] entities, error in
-//            self?.entities = entities
-//            completion?(entities != nil, error)
-//        }
-        //TODO: New network stuff
+        let request = VehicleSearchRequest(source: .mpol, request: searchParams)
+        return EntitySummarySearchResultViewModel<Vehicle>(title: searchTerm, aggregatedSearch: AggregatedSearch(requests: [request]))
     }
 }

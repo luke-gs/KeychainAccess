@@ -12,7 +12,6 @@
 		12ADD4391F32C0FA00CA8B4D /* PersonSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4331F32C0FA00CA8B4D /* PersonSearchRequest.swift */; };
 		12ADD43A1F32C0FA00CA8B4D /* VehicleSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */; };
 		12ADD43B1F32C0FA00CA8B4D /* VehicleSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4351F32C0FA00CA8B4D /* VehicleSearchRequest.swift */; };
-		12ADD43C1F32D9E700CA8B4D /* MPOLAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAEA065C1F3186B00071077C /* MPOLAPIManager.swift */; };
 		397B77011E52CEDA00696677 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 397B77001E52CEDA00696677 /* UserNotifications.framework */; };
 		39E77E99D3753364294F38A1 /* Pods_MPOL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EECB1EC3B3B30EAC4A62C130 /* Pods_MPOL.framework */; };
 		BC45C4471EEB56D2001F5747 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */; };
@@ -24,10 +23,8 @@
 		BCD4EA9F1E515ADE000B993D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCD4EA9E1E515ADE000B993D /* LaunchScreen.storyboard */; };
 		BCEEA5611F03205800C884A4 /* ClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCEEA5601F03205800C884A4 /* ClientKit.framework */; };
 		BCEEA5621F03205800C884A4 /* ClientKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BCEEA5601F03205800C884A4 /* ClientKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		BCF31ACB1F0F42F000207D82 /* PersonSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF31AC91F0F42F000207D82 /* PersonSearchDataSource.swift */; };
-		BCF31ACC1F0F42F000207D82 /* VehicleSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF31ACA1F0F42F000207D82 /* VehicleSearchDataSource.swift */; };
+		BCF31ACB1F0F42F000207D82 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		EA3C89061F32E34300F38461 /* termsandconditions.html in Resources */ = {isa = PBXBuildFile; fileRef = EA3C89051F32E34300F38461 /* termsandconditions.html */; };
-		EAEA065D1F3186B00071077C /* MPOLAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAEA065C1F3186B00071077C /* MPOLAPIManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -65,7 +62,6 @@
 		BCEEA5601F03205800C884A4 /* ClientKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ClientKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E87578436B7E33CD2885F860 /* Pods-MPOL.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOL.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOL/Pods-MPOL.release.xcconfig"; sourceTree = "<group>"; };
 		EA3C89051F32E34300F38461 /* termsandconditions.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = termsandconditions.html; sourceTree = "<group>"; };
-		EAEA065C1F3186B00071077C /* MPOLAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPOLAPIManager.swift; sourceTree = "<group>"; };
 		EECB1EC3B3B30EAC4A62C130 /* Pods_MPOL.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -162,7 +158,6 @@
 			isa = PBXGroup;
 			children = (
 				EA3C89041F32E31500F38461 /* Resources */,
-				EAEA065B1F3186830071077C /* Configuration */,
 				397B76FF1E52C23600696677 /* MPOL.entitlements */,
 				BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */,
 				BC0D8E821E94067800EDFC45 /* View Controllers */,
@@ -181,14 +176,6 @@
 				EA3C89051F32E34300F38461 /* termsandconditions.html */,
 			);
 			path = Resources;
-			sourceTree = "<group>";
-		};
-		EAEA065B1F3186830071077C /* Configuration */ = {
-			isa = PBXGroup;
-			children = (
-				EAEA065C1F3186B00071077C /* MPOLAPIManager.swift */,
-			);
-			path = Configuration;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -332,7 +319,6 @@
 				BC4E81111EBEE38400188181 /* SettingsViewController.swift in Sources */,
 				12ADD4391F32C0FA00CA8B4D /* PersonSearchRequest.swift in Sources */,
 				BC8B26F31EDC07430022B0AD /* ActionListViewController.swift in Sources */,
-				12ADD43C1F32D9E700CA8B4D /* MPOLAPIManager.swift in Sources */,
 				12ADD4361F32C0FA00CA8B4D /* MPOLSearchViewModel.swift in Sources */,
 				BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */,
 				12ADD43A1F32C0FA00CA8B4D /* VehicleSearchDataSource.swift in Sources */,
