@@ -30,12 +30,28 @@ open class MapCollectionViewController: FormCollectionViewController {
     /// The layout object, or `nil`.
     public let layout: MapCollectionViewLayout?
     
+    
     /// The map view.
     ///
     /// This view's class is determined by the `mapViewClass()` method, and is loaded
-    /// as the main view is created. The layout object or a subclass is responsible for
-    /// putting the map into the view heirarchy
-    open var mapView: MKMapView?
+    /// as the main view is created. As the position of this view could vary greatly
+    /// betweenn layouts, the layout object or your subclass is responsible for
+    /// placing the map into the view heirarchy.
+    open private(set) var mapView: MKMapView?
+    
+    
+    /// An optional accessory view for display with the collection and map.
+    ///
+    /// The position of this view is expected to be handled by the layout, or by a
+    /// subclass directly. Therefore, like the map, this view is not placed within
+    /// the view heirarchy. Instead, the layout receives a callback to inform it
+    /// that the accessory view did change.
+    open var accessoryView: UIView? {
+        didSet {
+            if accessoryView == oldValue { return }
+            layout?.accessoryViewDidChange(oldValue)
+        }
+    }
     
     
     // MARK: - Subclass override points
@@ -94,6 +110,16 @@ open class MapCollectionViewController: FormCollectionViewController {
         if layout?.viewDidLayoutSubviews() ?? true {
             super.viewDidLayoutSubviews()
         }
+    }
+    
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        layout?.traitCollectionDidChange(previousTraitCollection)
+    }
+    
+    open override func apply(_ theme: Theme) {
+        super.apply(theme)
+        layout?.apply(theme)
     }
     
     
