@@ -256,14 +256,14 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
                                },
                                completion: { [unowned self](finished: Bool) in
                                    optionsVC.endAppearanceTransition()
-                                    self.searchOptionsViewController.beginEditingSearchField(selectingTextRange: true)
+                                    self.searchOptionsViewController.beginEditingSearchField(selectingAllText: true)
                                })
             } else {
                 dimmingView.alpha = 1.0
                 view.setNeedsLayout()
                 view.layoutIfNeeded()
                 optionsVC.endAppearanceTransition()
-                searchOptionsViewController.beginEditingSearchField(selectingTextRange: true)
+                searchOptionsViewController.beginEditingSearchField(selectingAllText: true)
             }
         } else {
             let dimmingView = self.searchDimmingView
@@ -305,7 +305,7 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     func searchRecentsController(_ controller: SearchRecentsViewController, didSelectRecentSearch recentSearch: SearchRequest) {
         searchOptionsViewController.setCurrentSearchRequest(recentSearch)
         setShowingSearchOptions(true, animated: true)
-        searchOptionsViewController.beginEditingSearchField(selectingTextRange: true)
+        searchOptionsViewController.beginEditingSearchField(selectingAllText: true)
     }
     
     func searchRecentsControllerDidSelectNewSearch(_ controller: SearchRecentsViewController) {
