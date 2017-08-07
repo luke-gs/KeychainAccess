@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A2E8A701F37E3380062FEA5 /* PersonDescriptionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2E8A6F1F37E3380062FEA5 /* PersonDescriptionViewModel.swift */; };
+		1A2FF6FB1F32BD0800D63956 /* EntityDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2FF6F81F32BD0800D63956 /* EntityDetailsViewModel.swift */; };
+		1A2FF6FC1F32BD0800D63956 /* EntityDetailsViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2FF6F91F32BD0800D63956 /* EntityDetailsViewModelable.swift */; };
+		1A2FF6FF1F32BE5100D63956 /* PersonInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2FF6FE1F32BE5100D63956 /* PersonInfoViewModel.swift */; };
 		31E04B86B8693C856591D017 /* Pods_ClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6FAB7E5ED55CBB22E20D7C9 /* Pods_ClientKit.framework */; };
 		68A1298F030B1B4BB01632E6 /* Pods_ClientKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5919937B6BAC1FE012181DBE /* Pods_ClientKitTests.framework */; };
 		BC12DC961F023EF0001A5BB7 /* ClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC12DC8C1F023EF0001A5BB7 /* ClientKit.framework */; };
@@ -86,6 +90,10 @@
 
 /* Begin PBXFileReference section */
 		1542E603389AAEE96EC1C25A /* Pods-ClientKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKitTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKitTests/Pods-ClientKitTests.debug.xcconfig"; sourceTree = "<group>"; };
+		1A2E8A6F1F37E3380062FEA5 /* PersonDescriptionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonDescriptionViewModel.swift; sourceTree = "<group>"; };
+		1A2FF6F81F32BD0800D63956 /* EntityDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailsViewModel.swift; sourceTree = "<group>"; };
+		1A2FF6F91F32BD0800D63956 /* EntityDetailsViewModelable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailsViewModelable.swift; sourceTree = "<group>"; };
+		1A2FF6FE1F32BE5100D63956 /* PersonInfoViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonInfoViewModel.swift; sourceTree = "<group>"; };
 		5919937B6BAC1FE012181DBE /* Pods_ClientKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClientKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4196D7C4B207ED0E1DD5654 /* Pods-ClientKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKit.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKit/Pods-ClientKit.debug.xcconfig"; sourceTree = "<group>"; };
 		BC12DC8C1F023EF0001A5BB7 /* ClientKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ClientKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -180,6 +188,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1A2FF6F71F32BD0800D63956 /* Details View Models */ = {
+			isa = PBXGroup;
+			children = (
+				1A2FF6F81F32BD0800D63956 /* EntityDetailsViewModel.swift */,
+				1A2FF6F91F32BD0800D63956 /* EntityDetailsViewModelable.swift */,
+				1A2FF6FD1F32BE5100D63956 /* Person */,
+				1A2FF6FA1F32BD0800D63956 /* Occurrence Details */,
+			);
+			name = "Details View Models";
+			path = "Detail View Controllers/Details View Models";
+			sourceTree = "<group>";
+		};
+		1A2FF6FA1F32BD0800D63956 /* Occurrence Details */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Occurrence Details";
+			sourceTree = "<group>";
+		};
+		1A2FF6FD1F32BE5100D63956 /* Person */ = {
+			isa = PBXGroup;
+			children = (
+				1A2E8A6F1F37E3380062FEA5 /* PersonDescriptionViewModel.swift */,
+				1A2FF6FE1F32BE5100D63956 /* PersonInfoViewModel.swift */,
+			);
+			path = Person;
+			sourceTree = "<group>";
+		};
 		BC12DC821F023EF0001A5BB7 = {
 			isa = PBXGroup;
 			children = (
@@ -341,6 +377,7 @@
 		BCAEFE771F03150800C97F9C /* Entity Details */ = {
 			isa = PBXGroup;
 			children = (
+				1A2FF6F71F32BD0800D63956 /* Details View Models */,
 				BCAEFE901F03150800C97F9C /* EntityDetailsSplitViewController.swift */,
 				BC75A7AB1F1C3BF9004D46F1 /* EntityAlertsViewController.swift */,
 				BC75A7A61F1C3BF9004D46F1 /* EntityAssociationsViewController.swift */,
@@ -592,6 +629,7 @@
 			files = (
 				BCAEFE9B1F03150800C97F9C /* BailOrder.swift in Sources */,
 				BC75A7BD1F1C3D5F004D46F1 /* VehicleInfoViewController.swift in Sources */,
+				1A2FF6FB1F32BD0800D63956 /* EntityDetailsViewModel.swift in Sources */,
 				BCAEFEDD1F0317DB00C97F9C /* EntityThumbnailView+Configuration.swift in Sources */,
 				BCAEFEA01F03150800C97F9C /* MissingPersonReport.swift in Sources */,
 				BCAEFEA91F03150800C97F9C /* ReportedPerson.swift in Sources */,
@@ -636,16 +674,19 @@
 				BCAEFEAF1F03150800C97F9C /* Vehicle.swift in Sources */,
 				BCAEFEAB1F03150800C97F9C /* ScarMarkTattoo.swift in Sources */,
 				BCAEFEAE1F03150800C97F9C /* TelephoneNumber.swift in Sources */,
+				1A2FF6FF1F32BE5100D63956 /* PersonInfoViewModel.swift in Sources */,
 				BC75A7BB1F1C3D58004D46F1 /* PersonCriminalHistoryViewController.swift in Sources */,
 				BC75A7B11F1C3D48004D46F1 /* EntityOccurrencesViewController.swift in Sources */,
 				C63408531F30DA15000747B0 /* MPOLSource.swift in Sources */,
 				BCAEFE951F03150800C97F9C /* Caution.swift in Sources */,
+				1A2FF6FC1F32BD0800D63956 /* EntityDetailsViewModelable.swift in Sources */,
 				BCAEFE9D1F03150800C97F9C /* FieldContact.swift in Sources */,
 				C681A3851F21AEA800F4AC13 /* LicenceParserDefinition.swift in Sources */,
 				BCAEFEA41F03150800C97F9C /* Member.swift in Sources */,
 				BC4FC2701F133D7500F1CAFB /* String+Pickable.swift in Sources */,
 				BCAEFEB01F03150800C97F9C /* Warning.swift in Sources */,
 				BCAEFED91F03172A00C97F9C /* EntityCollectionViewCell+Configuration.swift in Sources */,
+				1A2E8A701F37E3380062FEA5 /* PersonDescriptionViewModel.swift in Sources */,
 				BCAEFEA81F03150800C97F9C /* PhoneNumber.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
