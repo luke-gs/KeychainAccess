@@ -178,6 +178,14 @@
 		C6E833AB1F334A4700A21F6D /* NSArchiverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E833AA1F334A4700A21F6D /* NSArchiverTests.swift */; };
 		C6F5DED21ECD5C62008E7BE2 /* AccessToken.json in Resources */ = {isa = PBXBuildFile; fileRef = C6F5DED11ECD5C62008E7BE2 /* AccessToken.json */; };
 		C6F640ED1F333D4F003D73B9 /* NSArchiver+SecureArchiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F640EC1F333D4F003D73B9 /* NSArchiver+SecureArchiver.swift */; };
+		EA8B66441F37FB4A00F09716 /* SearchResultViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8B66431F37FB4A00F09716 /* SearchResultViewModelable.swift */; };
+		EA8B66461F37FF5900F09716 /* EntitySummarySearchResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8B66451F37FF5900F09716 /* EntitySummarySearchResultViewModel.swift */; };
+		EA8B66481F38014000F09716 /* EntitySummaryDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8B66471F38014000F09716 /* EntitySummaryDisplayable.swift */; };
+		EA8B664A1F38021100F09716 /* EntitySummaryDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8B66491F38021100F09716 /* EntitySummaryDecorator.swift */; };
+		EA8B664D1F3803B800F09716 /* EntitySummaryErrorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8B664C1F3803B800F09716 /* EntitySummaryErrorCell.swift */; };
+		EA8B664F1F3805FF00F09716 /* EntitySummaryLoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8B664E1F3805FF00F09716 /* EntitySummaryLoadingCell.swift */; };
+		EABAB8021F3429D90071A401 /* AggregatedSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = EABAB8011F3429D90071A401 /* AggregatedSearch.swift */; };
+		EABAB8041F342E450071A401 /* AggregatedSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EABAB8031F342E450071A401 /* AggregatedSearchRequest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -371,6 +379,14 @@
 		C6E833AA1F334A4700A21F6D /* NSArchiverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSArchiverTests.swift; sourceTree = "<group>"; };
 		C6F5DED11ECD5C62008E7BE2 /* AccessToken.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AccessToken.json; sourceTree = "<group>"; };
 		C6F640EC1F333D4F003D73B9 /* NSArchiver+SecureArchiver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSArchiver+SecureArchiver.swift"; sourceTree = "<group>"; };
+		EA8B66431F37FB4A00F09716 /* SearchResultViewModelable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultViewModelable.swift; sourceTree = "<group>"; };
+		EA8B66451F37FF5900F09716 /* EntitySummarySearchResultViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntitySummarySearchResultViewModel.swift; sourceTree = "<group>"; };
+		EA8B66471F38014000F09716 /* EntitySummaryDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntitySummaryDisplayable.swift; sourceTree = "<group>"; };
+		EA8B66491F38021100F09716 /* EntitySummaryDecorator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntitySummaryDecorator.swift; sourceTree = "<group>"; };
+		EA8B664C1F3803B800F09716 /* EntitySummaryErrorCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntitySummaryErrorCell.swift; sourceTree = "<group>"; };
+		EA8B664E1F3805FF00F09716 /* EntitySummaryLoadingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntitySummaryLoadingCell.swift; sourceTree = "<group>"; };
+		EABAB8011F3429D90071A401 /* AggregatedSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AggregatedSearch.swift; sourceTree = "<group>"; };
+		EABAB8031F342E450071A401 /* AggregatedSearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AggregatedSearchRequest.swift; sourceTree = "<group>"; };
 		F1F64D31F8EA4C917E4EDCA7 /* Pods-MPOLKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKit/Pods-MPOLKit.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -470,6 +486,7 @@
 				BC9C7D2E1F0DED6600DFFE83 /* NetworkMonitor.swift */,
 				BC9C7D441F0DED6600DFFE83 /* Protocols */,
 				BC9C7D4C1F0DED6600DFFE83 /* Transformers */,
+				EABAB7FE1F3427570071A401 /* Aggregated Search */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -911,6 +928,29 @@
 			path = Lottie;
 			sourceTree = "<group>";
 		};
+		EA8B664B1F38026600F09716 /* Search Results Subspec */ = {
+			isa = PBXGroup;
+			children = (
+				EA8B66451F37FF5900F09716 /* EntitySummarySearchResultViewModel.swift */,
+				EA8B66471F38014000F09716 /* EntitySummaryDisplayable.swift */,
+				EA8B66491F38021100F09716 /* EntitySummaryDecorator.swift */,
+			);
+			name = "Search Results Subspec";
+			sourceTree = "<group>";
+		};
+		EABAB7FE1F3427570071A401 /* Aggregated Search */ = {
+			isa = PBXGroup;
+			children = (
+				EA8B664B1F38026600F09716 /* Search Results Subspec */,
+				EABAB8011F3429D90071A401 /* AggregatedSearch.swift */,
+				EABAB8031F342E450071A401 /* AggregatedSearchRequest.swift */,
+				EA8B66431F37FB4A00F09716 /* SearchResultViewModelable.swift */,
+				EA8B664C1F3803B800F09716 /* EntitySummaryErrorCell.swift */,
+				EA8B664E1F3805FF00F09716 /* EntitySummaryLoadingCell.swift */,
+			);
+			path = "Aggregated Search";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -1134,6 +1174,8 @@
 				BC9C7DC71F0DED6600DFFE83 /* AuthenticationHeaderAdapter.swift in Sources */,
 				C634085B1F30E5B5000747B0 /* EntityFetchRequestable.swift in Sources */,
 				BC9C7DFA1F0DED6600DFFE83 /* CollectionViewFormSubtitleCell.swift in Sources */,
+				EA8B664A1F38021100F09716 /* EntitySummaryDecorator.swift in Sources */,
+				EA8B66441F37FB4A00F09716 /* SearchResultViewModelable.swift in Sources */,
 				12ADD4181F32A47D00CA8B4D /* SearchRecentsViewController.swift in Sources */,
 				BC9C7E081F0DED6600DFFE83 /* UITableView+DefaultReuse.swift in Sources */,
 				BC9C7DF31F0DED6600DFFE83 /* ISO8601DateTransformer.swift in Sources */,
@@ -1155,10 +1197,12 @@
 				BC39A6831F18A6EC005CA8EE /* LabeledAccessoryView.swift in Sources */,
 				BC9C7E1F1F0DED6600DFFE83 /* FormSearchTableViewController.swift in Sources */,
 				BC9C7E351F0DED6600DFFE83 /* KeyboardInputManager.swift in Sources */,
+				EA8B664D1F3803B800F09716 /* EntitySummaryErrorCell.swift in Sources */,
 				BC9C7E111F0DED6600DFFE83 /* TableViewFormCheckboxCell.swift in Sources */,
 				BC9C7DEE1F0DED6600DFFE83 /* Serialisable.swift in Sources */,
 				BC9C7DEB1F0DED6600DFFE83 /* EntitySource.swift in Sources */,
 				BC9C7DC91F0DED6600DFFE83 /* FileManager+URL.swift in Sources */,
+				EABAB8021F3429D90071A401 /* AggregatedSearch.swift in Sources */,
 				BC9C7E061F0DED6600DFFE83 /* UIFont+Convenience.swift in Sources */,
 				BC9C7DF21F0DED6600DFFE83 /* ISO8601DateTransformer+UnboxFormatter.swift in Sources */,
 				BC9C7DCF1F0DED6600DFFE83 /* ManifestCollection.swift in Sources */,
@@ -1185,6 +1229,7 @@
 				BC9C7DFE1F0DED6600DFFE83 /* Array+IfExists.swift in Sources */,
 				BC9C7E011F0DED6600DFFE83 /* FloatingPoint+Comparison.swift in Sources */,
 				BC9C7E0D1F0DED6600DFFE83 /* CollectionViewFormLayout.swift in Sources */,
+				EA8B66481F38014000F09716 /* EntitySummaryDisplayable.swift in Sources */,
 				BC9C7DCE1F0DED6600DFFE83 /* Manifest.swift in Sources */,
 				BC5C11F31F2810BA0048CBBF /* RoundedRectButton.swift in Sources */,
 				BC9C7E3F1F0DED6600DFFE83 /* PopoverFormSheetPresentationController.swift in Sources */,
@@ -1227,6 +1272,7 @@
 				BC9C7DEF1F0DED6600DFFE83 /* Transformer.swift in Sources */,
 				BC9C7E4A1F0DED6600DFFE83 /* TermsConditionsViewController.swift in Sources */,
 				BC9C7E531F0DED6600DFFE83 /* GradientView.swift in Sources */,
+				EABAB8041F342E450071A401 /* AggregatedSearchRequest.swift in Sources */,
 				BC9C7DCD1F0DED6600DFFE83 /* ArchivedManifestEntry.swift in Sources */,
 				BCBA82141F19D7E8000BBF82 /* StringSizing.swift in Sources */,
 				BC9C7E031F0DED6600DFFE83 /* UICollectionView+DefaultReuse.swift in Sources */,
@@ -1249,6 +1295,7 @@
 				BC9C7E341F0DED6600DFFE83 /* UIViewAnimationCurve+OptionConversion.swift in Sources */,
 				12ADD4241F32A53400CA8B4D /* SearchDataSource.swift in Sources */,
 				12ADD4221F32A50B00CA8B4D /* MPOLKitProtocols.swift in Sources */,
+				EA8B66461F37FF5900F09716 /* EntitySummarySearchResultViewModel.swift in Sources */,
 				BC9C7E2E1F0DED6600DFFE83 /* UIImage+Initials.swift in Sources */,
 				BC9C7E551F0DED6600DFFE83 /* RoundedRectLabel.swift in Sources */,
 				BC9C7E241F0DED6600DFFE83 /* CollectionViewFormProgressCell.swift in Sources */,
@@ -1266,6 +1313,7 @@
 				BC5C11EF1F2806890048CBBF /* NoContentView.swift in Sources */,
 				BC9C7E021F0DED6600DFFE83 /* NSLayoutConstraint+Conveniences.swift in Sources */,
 				BC9C7DE91F0DED6600DFFE83 /* DataResponse+ConvenienceResultInit.swift in Sources */,
+				EA8B664F1F3805FF00F09716 /* EntitySummaryLoadingCell.swift in Sources */,
 				12ADD4191F32A47D00CA8B4D /* SearchResultsListViewController.swift in Sources */,
 				BC9C7E181F0DED6600DFFE83 /* FormTextView.swift in Sources */,
 				12ADD41B1F32A47D00CA8B4D /* SearchEntityListCell.swift in Sources */,
