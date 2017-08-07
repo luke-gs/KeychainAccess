@@ -86,22 +86,32 @@ class SearchResultsListViewController: FormCollectionViewController {
         
         collectionView.register(EntityCollectionViewCell.self)
         collectionView.register(EntityCollectionViewCell.self, forCellWithReuseIdentifier: alertCellID)
-        collectionView.register(SearchEntityListCell.self)
+        collectionView.register(EntityListCollectionViewCell.self)
         collectionView.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
+        
+        let searchFieldVerticalConstraint: NSLayoutConstraint
+//        if #available(iOS 11, *) {
+//            searchFieldVerticalConstraint = searchFieldButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+//        } else {
+            searchFieldVerticalConstraint = searchFieldButton.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor)
+//        }
         
         NSLayoutConstraint.activate([
             searchFieldButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             searchFieldButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            searchFieldButton.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor),
+            searchFieldVerticalConstraint,
         ])
     }
     
-    open override func viewDidLayoutSubviews() {
-        let insets = UIEdgeInsets(top: topLayoutGuide.length + (searchFieldButton?.frame.height ?? 0.0), left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)
+    override func viewWillLayoutSubviews() {
+        // TODO: Uncomment for iOS 11
+//        if #available(iOS 11, *) {
+//            additionalSafeAreaInsets.top = searchFieldButton?.frame.height ?? 0.0
+//        } else {
+            legacy_additionalSafeAreaInsets.top = searchFieldButton?.frame.height ?? 0.0
+//        }
         
-        loadingManager.contentInsets = insets
-        collectionViewInsetManager?.standardContentInset = insets
-        collectionViewInsetManager?.standardIndicatorInset = insets
+        super.viewWillLayoutSubviews()
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -116,19 +126,16 @@ class SearchResultsListViewController: FormCollectionViewController {
         }
     }
     
-    override func applyCurrentTheme() {
-        super.applyCurrentTheme()
+    override func apply(_ theme: Theme) {
+        super.apply(theme)
         
         guard let searchField = searchFieldButton else { return }
         
-        let themeColors = Theme.current.colors
-        
-        searchField.backgroundColor = themeColors[.SearchFieldBackground]
-        searchField.fieldColor = themeColors[.SearchField]
+        searchField.backgroundColor = theme.color(forKey: .searchFieldBackground)
+        searchField.fieldColor = theme.color(forKey: .searchField)
         searchField.textColor  = primaryTextColor
         searchField.placeholderTextColor = placeholderTextColor
     }
-    
     
     // MARK: - UICollectionViewDataSource methods
     
@@ -206,7 +213,7 @@ class SearchResultsListViewController: FormCollectionViewController {
         let adjustedSection = adjustedSectionIndex(forDataSourceSectionIndex: indexPath.section)
         
         if adjustedSection >= 0 && (wantsThumbnails == false || traitCollection.horizontalSizeClass == .compact) {
-            let cell = collectionView.dequeueReusableCell(of: SearchEntityListCell.self, for: indexPath)
+            let cell = collectionView.dequeueReusableCell(of: EntityListCollectionViewCell.self, for: indexPath)
             cell.titleLabel.text    = entity.summary
             
             let subtitleComponents = [entity.summaryDetail1, entity.summaryDetail2].flatMap({$0})
@@ -216,7 +223,7 @@ class SearchResultsListViewController: FormCollectionViewController {
             cell.actionCount      = entity.actionCount
             cell.highlightStyle   = .fade
             cell.sourceLabel.text = entity.source?.localizedBadgeTitle
-            cell.accessoryView = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
+            cell.accessoryView = cell.accessoryView as? FormAccessoryView ?? FormAccessoryView(style: .disclosure)
             
             return cell
         }
@@ -238,16 +245,6 @@ class SearchResultsListViewController: FormCollectionViewController {
     
     
     // MARK: - UICollectionViewDelegate methods
-    
-    override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if let listCell = cell as? SearchEntityListCell {
-            listCell.titleLabel.textColor = primaryTextColor
-            listCell.subtitleLabel.textColor = secondaryTextColor
-            listCell.separatorColor = separatorColor
-        } else {
-            super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
-        }
-    }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
@@ -294,7 +291,7 @@ class SearchResultsListViewController: FormCollectionViewController {
             return EntityCollectionViewCell.minimumContentHeight(forStyle: .hero, compatibleWith: traitCollection) - 12.0
         }
         
-        return SearchEntityListCell.minimumContentHeight(compatibleWith: traitCollection)
+        return EntityListCollectionViewCell.minimumContentHeight(compatibleWith: traitCollection)
     }
     
     

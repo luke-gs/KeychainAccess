@@ -106,7 +106,7 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
             cell.actionCount      = associate.actionCount
             cell.highlightStyle   = .fade
             cell.sourceLabel.text = associate.source?.localizedBadgeTitle
-            cell.accessoryView = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
+            cell.accessoryView = cell.accessoryView as? FormAccessoryView ?? FormAccessoryView(style: .disclosure)
             
             return cell
         } else {

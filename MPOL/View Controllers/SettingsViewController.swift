@@ -27,7 +27,7 @@ class SettingsViewController: FormTableViewController {
         
         super.init(style: .grouped)
         title = NSLocalizedString("Settings", comment: "SettingsTitle")
-        wantsCalculatedContentHeight = true
+        calculatesContentHeight = true
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -159,7 +159,7 @@ class SettingsViewController: FormTableViewController {
         var currentValue: Bool {
             get {
                 switch self {
-                case .darkMode:        return Theme.current.isDark
+                case .darkMode:        return ThemeManager.shared.currentInterfaceStyle == .dark
                 case .numericKeyboard: return KeyboardInputManager.shared.isNumberBarEnabled
                 case .logOut:          return false
                 }
@@ -168,7 +168,7 @@ class SettingsViewController: FormTableViewController {
                 switch self {
                 case .darkMode:
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                        _ = Theme.applyTheme(withName: newValue ? "Dark" : "Light")
+                        ThemeManager.shared.currentInterfaceStyle = newValue ? .dark : .light
                     }
                 case .numericKeyboard:
                     KeyboardInputManager.shared.isNumberBarEnabled = newValue

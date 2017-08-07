@@ -41,11 +41,10 @@ class SearchRecentsViewController: FormCollectionViewController {
         }
     }
     
-    // All this is work in progress.👇
-    
     @objc dynamic var isShowingNavBarExtension: Bool = false {
         didSet {
             compactNavBarExtension?.alpha = isShowingNavBarExtension ? 1.0 : 0.0
+            view.setNeedsLayout()
         }
     }
     
@@ -134,16 +133,17 @@ class SearchRecentsViewController: FormCollectionViewController {
         }
     }
     
-    open override func viewDidLayoutSubviews() {
-        var insets = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: max(bottomLayoutGuide.length, statusTabBarInset), right: 0.0)
-        if isShowingNavBarExtension {
-            insets.top += compactNavBarExtension?.frame.height ?? 0.0
-        }
+    override func viewWillLayoutSubviews() {
+        let navBarExtension = isShowingNavBarExtension ? compactNavBarExtension?.frame.height ?? 0.0 : 0.0
         
-        loadingManager.contentInsets = insets
+        // TODO: Uncomment for iOS 11
+//        if #available(iOS 11, *) {
+//            additionalSafeAreaInsets.top = navBarExtension
+//        } else {
+            legacy_additionalSafeAreaInsets.top = navBarExtension
+//        }
         
-        collectionViewInsetManager?.standardContentInset   = insets
-        collectionViewInsetManager?.standardIndicatorInset = insets
+        super.viewWillLayoutSubviews()
     }
     
     
@@ -202,7 +202,7 @@ class SearchRecentsViewController: FormCollectionViewController {
             let request = recentlySearched[indexPath.item]
             cell.titleLabel.text    = request.searchText?.ifNotEmpty() ?? NSLocalizedString("(No Search Term)", comment: "")
             cell.subtitleLabel.text = request.localizedDescription
-            cell.accessoryView      = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
+            cell.accessoryView      = cell.accessoryView as? FormAccessoryView ?? FormAccessoryView(style: .disclosure)
             cell.highlightStyle     = .fade
             cell.imageView.image    = summaryIcon(for: request)
             cell.labelSeparation = 2.0
@@ -229,10 +229,10 @@ class SearchRecentsViewController: FormCollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
         super.collectionView(collectionView, willDisplaySupplementaryView: view, forElementKind: elementKind, at: indexPath)
         
-        let theme = Theme.current
-        if traitCollection.horizontalSizeClass != .compact && theme.isDark == false && collectionView != self.collectionView,
+        
+        if traitCollection.horizontalSizeClass != .compact && userInterfaceStyle.isDark == false && collectionView != self.collectionView,
             let header = view as? CollectionViewFormHeaderView {
-            header.separatorColor = theme.colors[.AlternateSeparator]
+            header.separatorColor = ThemeManager.shared.theme(for: .dark).color(forKey: .separator)
         }
     }
     
@@ -240,14 +240,15 @@ class SearchRecentsViewController: FormCollectionViewController {
         super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
         
         if traitCollection.horizontalSizeClass != .compact, let entityCell = cell as? EntityCollectionViewCell {
-            let theme = Theme.current
-            if theme.isDark {
+            if userInterfaceStyle.isDark {
                 entityCell.subtitleLabel.textColor = primaryTextColor
             } else {
-                let primaryColor = theme.colors[.AlternatePrimaryText]
+                let darkTheme = ThemeManager.shared.theme(for: .dark)
+                
+                let primaryColor = darkTheme.color(forKey: .primaryText)
                 entityCell.titleLabel.textColor    = primaryColor
                 entityCell.subtitleLabel.textColor = primaryColor
-                entityCell.detailLabel.textColor   = theme.colors[.AlternateSecondaryText]
+                entityCell.detailLabel.textColor   = darkTheme.color(forKey: .secondaryText)
             }
         }
     }

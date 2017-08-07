@@ -182,8 +182,8 @@ class NumberRangePickerViewController: FormTableViewController, UIPickerViewDele
         super.viewDidLoad()
     }
     
-    override func applyCurrentTheme() {
-        super.applyCurrentTheme()
+    override func apply(_ theme: Theme) {
+        super.apply(theme)
         
         let primaryTextColor = self.primaryTextColor ?? .darkText
         
@@ -193,6 +193,7 @@ class NumberRangePickerViewController: FormTableViewController, UIPickerViewDele
         
         pickerView?.reloadAllComponents()
     }
+    
     
     // MARK: - UITableViewDataSource methods
     

@@ -89,7 +89,7 @@ class EventsListViewController: FormCollectionViewController {
         } else {
             labeledAccessory = LabeledAccessoryView(frame: .zero)
             labeledAccessory.titleLabel.font = .preferredFont(forTextStyle: .subheadline)
-            labeledAccessory.accessoryView = FormDisclosureView()
+            labeledAccessory.accessoryView = FormAccessoryView(style: .disclosure)
         }
         labeledAccessory.titleLabel.text = isCompact ? nil : "Open Event"
         labeledAccessory.subtitleLabel.text = isCompact ? nil : "Saved at 8:45 AM"
@@ -107,7 +107,6 @@ class EventsListViewController: FormCollectionViewController {
         
         if let accessory = (cell as? CollectionViewFormCell)?.accessoryView as? LabeledAccessoryView {
             accessory.titleLabel.textColor = collectionView.tintColor
-            accessory.subtitleLabel.textColor = secondaryTextColor
         }
     }
     
@@ -131,7 +130,7 @@ class EventsListViewController: FormCollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
-        return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: "Street Check", subtitle: "4-12 Langridge St, Collingwood VIC 3066", inWidth: itemWidth, compatibleWith: traitCollection, imageSize: EventsListViewController.eventIcon?.size ?? .zero, accessoryViewSize: FormDisclosureView.standardSize)
+        return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: "Street Check", subtitle: "4-12 Langridge St, Collingwood VIC 3066", inWidth: itemWidth, compatibleWith: traitCollection, imageSize: EventsListViewController.eventIcon?.size ?? .zero, accessoryViewSize: FormAccessoryView.size(with: .disclosure))
     }
     
     

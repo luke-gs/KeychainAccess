@@ -94,7 +94,7 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
         didSet {
             if isHidingNavigationBarShadow == oldValue || navigationController?.topViewController != self { return }
             
-            navigationController?.navigationBar.shadowImage = isHidingNavigationBarShadow ? UIImage() : Theme.current.navigationBarShadowImage
+            navigationController?.navigationBar.shadowImage = isHidingNavigationBarShadow ? UIImage() : ThemeManager.shared.theme(for: .current).image(forKey: .navigationBarShadow)
         }
     }
     
@@ -172,7 +172,7 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.navigationBar.shadowImage = Theme.current.navigationBarShadowImage
+        navigationController?.navigationBar.shadowImage = ThemeManager.shared.theme(for: .current).image(forKey: .navigationBarShadow)
     }
     
     override func viewDidLayoutSubviews() {
@@ -256,14 +256,14 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
                                },
                                completion: { [unowned self](finished: Bool) in
                                    optionsVC.endAppearanceTransition()
-                                    self.searchOptionsViewController.beginEditingSearchField(true)
+                                    self.searchOptionsViewController.beginEditingSearchField(selectingAllText: true)
                                })
             } else {
                 dimmingView.alpha = 1.0
                 view.setNeedsLayout()
                 view.layoutIfNeeded()
                 optionsVC.endAppearanceTransition()
-                searchOptionsViewController.beginEditingSearchField(true)
+                searchOptionsViewController.beginEditingSearchField(selectingAllText: true)
             }
         } else {
             let dimmingView = self.searchDimmingView
@@ -305,7 +305,7 @@ class SearchViewController: UIViewController, SearchRecentsViewControllerDelegat
     func searchRecentsController(_ controller: SearchRecentsViewController, didSelectRecentSearch recentSearch: SearchRequest) {
         searchOptionsViewController.setCurrentSearchRequest(recentSearch)
         setShowingSearchOptions(true, animated: true)
-        searchOptionsViewController.beginEditingSearchField(true)
+        searchOptionsViewController.beginEditingSearchField(selectingAllText: true)
     }
     
     func searchRecentsControllerDidSelectNewSearch(_ controller: SearchRecentsViewController) {
