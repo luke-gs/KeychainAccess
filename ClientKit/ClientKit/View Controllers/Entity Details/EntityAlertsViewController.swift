@@ -109,7 +109,7 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
         let cell = collectionView.dequeueReusableCell(of: CollectionViewFormDetailCell.self, for: indexPath)
         cell.highlightStyle     = .fade
         cell.selectionStyle     = .fade
-        cell.accessoryView = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
+        cell.accessoryView = cell.accessoryView as? FormAccessoryView ?? FormAccessoryView(style: .disclosure)
 
         let alert = sections[indexPath.section][indexPath.item]
         

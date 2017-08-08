@@ -131,7 +131,7 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
         let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
         cell.highlightStyle     = .fade
         cell.selectionStyle     = .fade
-        cell.accessoryView = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
+        cell.accessoryView = cell.accessoryView as? FormAccessoryView ?? FormAccessoryView(style: .disclosure)
         
         let history = criminalHistory[indexPath.item]
         let text = cellText(for: history)
