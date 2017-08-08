@@ -94,6 +94,9 @@ fileprivate class PersonSearchOptions: SearchOptions {
 
 class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
 
+    let searchPlaceholder: NSAttributedString? = NSAttributedString(string: NSLocalizedString("eg. Smith John K", comment: ""),
+                                                                attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 28.0, weight: UIFontWeightLight), NSForegroundColorAttributeName: UIColor.lightGray])
+    
     var options: SearchOptions = PersonSearchOptions()
     let parser: QueryParser<PersonParserDefinition> = QueryParser(parserDefinition: PersonParserDefinition())
 

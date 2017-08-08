@@ -78,6 +78,9 @@ fileprivate class VehicleSearchOptions: SearchOptions {
 
 class VehicleSearchDataSource: SearchDataSource {
     
+    let searchPlaceholder: NSAttributedString? = NSAttributedString(string: NSLocalizedString("eg. ABC123", comment: ""),
+                                                                attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 28.0, weight: UIFontWeightLight), NSForegroundColorAttributeName: UIColor.lightGray])
+    
     //MARK: SearchDataSource
     var options: SearchOptions = VehicleSearchOptions()
     
