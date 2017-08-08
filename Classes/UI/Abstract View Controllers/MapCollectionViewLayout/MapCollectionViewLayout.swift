@@ -59,6 +59,7 @@ open class MapCollectionViewLayout: NSObject {
         return true
     }
     
+    
     /// A callback that the view did layout subviews.
     ///
     /// This method will be called at the start of the collection performing the
@@ -70,6 +71,27 @@ open class MapCollectionViewLayout: NSObject {
     ///           default behaviour. The default is `true`.
     open func viewDidLayoutSubviews() -> Bool {
         return true
+    }
+    
+    
+    /// A callback that the trait collection did change.
+    ///
+    /// - Parameter previousTraitCollection: The previous trait collection prior to the change.
+    open func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+    }
+    
+    
+    /// A callback that the accessory view did change.
+    ///
+    /// - Parameter previousAccessoryView: The previous accessory view.
+    open func accessoryViewDidChange(_ previousAccessoryView: UIView?) {
+    }
+    
+    
+    /// A callback when the view controller is required to apply its theme.
+    ///
+    /// - Parameter theme: The theme to apply.
+    open func apply(_ theme: Theme?) {
     }
     
     
