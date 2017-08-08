@@ -213,7 +213,7 @@ class SearchRecentsViewController: FormCollectionViewController {
 
             cell.titleLabel.text    = request.searchText?.ifNotEmpty() ?? NSLocalizedString("(No Search Term)", comment: "")
             cell.subtitleLabel.text = request.type
-            cell.accessoryView      = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
+            cell.accessoryView      = cell.accessoryView as? FormAccessoryView ?? FormAccessoryView(style: .disclosure)
             cell.highlightStyle     = .fade
             cell.imageView.image    = summaryIcon(for: request)
             cell.labelSeparation = 2.0
