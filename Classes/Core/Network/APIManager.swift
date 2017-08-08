@@ -61,6 +61,7 @@ open class APIManager<Configuration: APIManagerConfigurable> {
     
     /// Request for access token.
     ///
+    /// Supports implicit `NSProgress` reporting.
     /// - Parameter grant: The grant type and required field for it.
     /// - Returns: A promise for access token.
     open func accessTokenRequest(for grant: OAuthAuthorizationGrant) -> Promise<OAuthAccessToken> {
@@ -73,24 +74,13 @@ open class APIManager<Configuration: APIManagerConfigurable> {
         let request: URLRequest = try! URLRequest(url: requestPath, method: .post)
         let encodedURLRequest = try! URLEncoding.default.encode(request, with: parameters)
         
-        let dataRequest = sessionManager.request(encodedURLRequest)
-        return Promise { [weak self] fulfill, reject in
-            dataRequest.responseObject(completionHandler: { (response: DataResponse<OAuthAccessToken>) in
-                switch response.result {
-                case .success(let token):
-                    let adapter = AuthenticationHeaderAdapter(authenticationMode: .accessTokenAuthentication(token: token))
-                    self?.sessionManager.adapter = adapter
-                    fulfill(token)
-                case .failure(let error):
-                    reject(error)
-                }
-            })
-        }
+        return dataRequestPromise(encodedURLRequest)
     }
     
     
     /// Search for entity using specified request.
     ///
+    /// Supports implicit `NSProgress` reporting.
     /// - Parameters:
     ///   - source: The data source of the entity to be searched.
     ///   - request: The request with the parameters to search the entity.
@@ -109,23 +99,12 @@ open class APIManager<Configuration: APIManagerConfigurable> {
         let request: URLRequest = try! URLRequest(url: requestPath, method: .get)
         let encodedURLRequest = try! URLEncoding.default.encode(request, with: result.parameters)
         
-        let dataRequest = sessionManager.request(encodedURLRequest)
-        
-        return Promise { fulfill, reject in
-            dataRequest.responseObject(completionHandler: { (response: DataResponse<SearchResult<SearchRequest.ResultClass>>) in
-                switch response.result {
-                case .success(let result):
-                    fulfill(result)
-                case .failure(let error):
-                    reject(error)
-                }
-            })
-        }
+        return dataRequestPromise(encodedURLRequest)
     }
-    
     
     /// Fetch entity details using specified request.
     ///
+    /// Supports implicit `NSProgress` reporting.
     /// - Parameters:
     ///   - source: The data source of entity to be fetched.
     ///   - request: The request with the parameters to fetch the entity.
@@ -144,22 +123,39 @@ open class APIManager<Configuration: APIManagerConfigurable> {
         let request: URLRequest = try! URLRequest(url: requestPath, method: .get)
         let encodedURLRequest = try! URLEncoding.default.encode(request, with: result.parameters)
         
-        let dataRequest = sessionManager.request(encodedURLRequest)
-        
-        return Promise { fulfill, reject in
-            dataRequest.responseObject(completionHandler: { (response: DataResponse<FetchRequest.ResultClass>) in
-                switch response.result {
-                case .success(let result):
-                    fulfill(result)
-                case .failure(let error):
-                    reject(error)
-                }
-            })
-        }
+        return dataRequestPromise(encodedURLRequest)
     }
 
     // MARK : - Internal Utilities
     private func url(with path: String) -> URL {
         return baseURL.appendingPathComponent(path)
     }
+    
+    private func dataRequestPromise<T: Unboxable>(_ urlRequest: URLRequest) -> Promise<T> {
+        
+        let dataRequest = sessionManager.request(urlRequest)
+        let progress = dataRequest.progress
+        progress.cancellationHandler = {
+            dataRequest.cancel()
+        }
+        progress.resumingHandler = {
+            dataRequest.resume()
+        }
+        progress.pausingHandler = {
+            dataRequest.suspend()
+        }
+        
+        return Promise { fulfill, reject in
+            dataRequest.validate().responseObject(completionHandler: { (response: DataResponse<T>) in
+                switch response.result {
+                case .success(let result):
+                    fulfill(result)
+                case .failure(let error):
+                    let wrappedError = APIManagerError(underlyingError: error, response: response.toDefaultDataResponse())
+                    reject(wrappedError)
+                }
+            })
+        }
+    }
+
 }
