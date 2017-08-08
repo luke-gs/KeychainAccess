@@ -24,6 +24,8 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
             viewModel?.delegate    = self
             
             if isViewLoaded {
+                searchFieldButton?.text = viewModel?.title
+            
                 if let collectionView = collectionView {
                     viewModel?.registerCells(for: collectionView)
                     
@@ -74,7 +76,9 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
 
     override func viewDidLoad() {
         let searchFieldButton = SearchFieldButton(frame: .zero)
+        searchFieldButton.text = viewModel?.title
         searchFieldButton.translatesAutoresizingMaskIntoConstraints = false
+        searchFieldButton.titleLabel?.font = .systemFont(ofSize: 15, weight: UIFontWeightRegular)
         searchFieldButton.addTarget(self, action: #selector(searchFieldButtonDidSelect), for: .primaryActionTriggered)
         view.addSubview(searchFieldButton)
         self.searchFieldButton = searchFieldButton
@@ -205,6 +209,7 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
         case .searching:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier.loading.rawValue, for: indexPath) as! SearchResultLoadingCell
             cell.titleLabel.text = NSLocalizedString("Retrieving results", comment: "[Search result screen] - Retrieving results")
+            cell.activityIndicator.startAnimating()
             cell.apply(theme: Theme.current)
             return cell
         default:
