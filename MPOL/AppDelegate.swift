@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         MPOLKitInitialize()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: .ThemeDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleDidChange), name: .interfaceStyleDidChange, object: nil)
         
         registerPushNotifications(application)
         
@@ -218,7 +218,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         tabBarController?.present(settingsNavController, animated: true)
     }
     
-    @objc private func themeDidChange() {
+    @objc private func interfaceStyleDidChange() {
         applyCurrentTheme()
         
         if let window = self.window {
@@ -237,23 +237,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     private func applyCurrentTheme() {
-        let theme = Theme.current
+        let theme = ThemeManager.shared.theme(for: .current)
+        let shadowImage = theme.image(forKey: .navigationBarShadow)
         
         let navBar = UINavigationBar.appearance()
-        navBar.setBackgroundImage(theme.navigationBarBackgroundImage, for: .default)
+        navBar.setBackgroundImage(theme.image(forKey: .navigationBarBackground), for: .default)
         navBar.barStyle  = theme.navigationBarStyle
-        navBar.tintColor = theme.colors[.NavigationBarTint]
-        navBar.shadowImage = theme.navigationBarShadowImage
+        navBar.tintColor = theme.color(forKey: .navigationBarTint)
+        navBar.shadowImage = shadowImage
         
         let navBarExtension = NavigationBarExtension.appearance()
         navBarExtension.barStyle  = theme.navigationBarStyle
-        navBarExtension.backgroundImage = theme.navigationBarBackgroundExtensionImage
-        navBarExtension.tintColor = theme.colors[.NavigationBarTint]
-        navBarExtension.shadowImage = theme.navigationBarShadowImage
+        navBarExtension.backgroundImage = theme.image(forKey: .navigationBarExtension)
+        navBarExtension.tintColor = theme.color(forKey: .navigationBarTint)
+        navBarExtension.shadowImage = shadowImage
         
         UITabBar.appearance().barStyle = theme.tabBarStyle
         
-        window?.tintColor = theme.colors[.Tint]
+        window?.tintColor = theme.color(forKey: .tint)
         
         AlertQueue.shared.preferredStatusBarStyle = theme.statusBarStyle
     }
