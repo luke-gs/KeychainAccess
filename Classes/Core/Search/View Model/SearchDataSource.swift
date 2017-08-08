@@ -56,27 +56,15 @@ public protocol SearchOptions {
 
 public protocol SearchDataSource {
 
-    /// The entities retrived from the request
-    /// - note: override the getters and setters to return your type of Entity
-    var entities: [MPOLKitEntity]? { get }
-
-    /// The sorted entities
-    /// - note: override the getter with your custom sorting logic
-    var sortedEntities: [MPOLKitEntity]? { get }
-
-    /// The filtered entities used in the "Alerts" part of the search VC
-    /// - note: override the getter with your custom filtering logic
-    var filteredEntities: [MPOLKitEntity]? { get }
-
     /// The filter object used to declare all filtering rules
     var options: SearchOptions { get }
 
     /// The localized Display name for the
     var localizedDisplayName: String { get }
 
-    /// The badge title
-    var localizedSourceBadgeTitle: String { get }
-
+    /// The search placeholder
+    var searchPlaceholder: NSAttributedString? { get }
+    
     /// The updating delegate. This lets the search view controllers know when you've updated any of the filters
     weak var updatingDelegate: SearchDataSourceUpdating? { get set }
 
@@ -94,36 +82,13 @@ public protocol SearchDataSource {
     ///                    in a `UINavigationController`.
     func updateController(forFilterAt index: Int) -> UIViewController?
 
-    /// You should create a request with the parameters provided and start
+    /// Creates a search result view model for the searchable to be used in 
+    /// the SearchResultListViewController.
     ///
     /// - Parameters:
-    ///   - searchable: the searchable object with the query information
-    ///   - completion: the completion block `success`: if the datasource updated successfully with new data, `error`: the error
-    /// - Throws: some error
-    func searchOperation(searchable: Searchable, completion: ((_ success: Bool, _ error: Error?)->())?) throws
-
-    /// Decorate the generic cell
-    ///
-    /// - Parameters:
-    ///   - cell: the cell to decorate
-    ///   - indexPath: the indexPath of the cell, (most likely correlating to the index of the entity to decorate with)
-    ///   - style: the style of the cell
-    func decorate(_ cell: EntityCollectionViewCell, at indexPath: IndexPath, style: EntityCollectionViewCell.Style)
-
-    /// Decorate the alert section cells
-    ///
-    /// - Parameters:
-    ///   - cell: the cell to decorate
-    ///   - indexPath: the indexPath of the cell, (most likely correlating to the index of the entity to decorate with)
-    ///   - style: the style of the cell
-    func decorateAlert(_ cell: EntityCollectionViewCell, at indexPath: IndexPath, style: EntityCollectionViewCell.Style)
-
-    /// Decorate the cells when the collection view is in list view mode
-    ///
-    /// - Parameters:
-    ///   - cell: the cell to decorate
-    ///   - indexPath: the indexPath of the cell, (most likely correlating to the index of the entity to decorate with)
-    func decorateList(_ cell: EntityListCollectionViewCell, at indexPath: IndexPath)
+    ///   - searchable: the searchable.
+    /// - Returns: the search result view model.
+    func searchResultModel(for searchable: Searchable) -> SearchResultViewModelable?
 }
 
 public protocol SearchDataSourceUpdating: class {

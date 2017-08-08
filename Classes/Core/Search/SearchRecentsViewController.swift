@@ -208,31 +208,6 @@ class SearchRecentsViewController: FormCollectionViewController {
             isRecentlySearched = collectionView == self.collectionView
         }
         
-//        if isRecentlySearched {
-//            let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
-//            let request = recentlySearched[indexPath.item]
-//            cell.titleLabel.text    = request.searchText?.ifNotEmpty() ?? NSLocalizedString("(No Search Term)", comment: "")
-//            cell.subtitleLabel.text = request.localizedDescription
-//            cell.accessoryView      = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
-//            cell.highlightStyle     = .fade
-//            cell.imageView.image    = summaryIcon(for: request)
-//            cell.labelSeparation = 2.0
-//            return cell
-//        } else {
-//            let cell = collectionView.dequeueReusableCell(of: EntityCollectionViewCell.self, for: indexPath)
-//            let person = recentlyViewed[indexPath.item]
-//            cell.style              = .detail
-//            cell.highlightStyle     = .fade
-//            cell.titleLabel.text    = person.summary
-//            cell.subtitleLabel.text = person.summaryDetail1
-//            cell.detailLabel.text   = person.summaryDetail2
-//            cell.thumbnailView.configure(for: person, size: .medium)
-//            cell.sourceLabel.text   = person.source?.localizedBadgeTitle
-//            cell.badgeCount         = person.actionCount
-//            cell.alertColor         = person.alertLevel?.color
-//            return cell
-//        }
-
         if isRecentlySearched {
             let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
             let request = recentlySearched[indexPath.item]

@@ -325,8 +325,10 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
             let dataSource = self.viewModel.dataSources.filter{ $0.localizedDisplayName == searchable.type }.first
 
             guard let datasource = dataSource else { return }
-
-            try resultsListViewController.set(dataSource: datasource, with: searchable)
+            
+            let viewModel = datasource.searchResultModel(for: searchable)
+            resultsListViewController.viewModel = viewModel
+            
 
             let existingIndex = recentlySearched.index(of: searchable)
             if let existingIndex = existingIndex {
@@ -357,7 +359,7 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
 
     // MARK: - SearchResultsDelegate
 
-    func searchResultsController(_ controller: UIViewController, didRequestToEdit searchable: Searchable?) {
+    func searchResultsControllerDidRequestToEdit(_ controller: UIViewController) {
         setShowingSearchOptions(true, animated: true)
     }
 
@@ -482,7 +484,7 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
         
         if isShowingSearchOptions {
             titleView = nil
-            title = NSLocalizedString("New Search", comment: "")
+            title = NSLocalizedString("New Search", comment: "Search - New Search title")
             leftBarButtonItems  = [searchOptionsViewController.cancelBarButtonItem]
             rightBarButtonItems = [searchOptionsViewController.searchBarButtonItem]
             prompt = nil
@@ -499,7 +501,11 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
             title = recentsNavItem.title
             prompt = recentsNavItem.prompt
             leftBarButtonItems = recentsNavItem.leftBarButtonItems
-            rightBarButtonItems = [UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(displaySearchTriggered))] + (recentsNavItem.rightBarButtonItems ?? [])
+            
+            rightBarButtonItems = [UIBarButtonItem(title: NSLocalizedString("New Search", comment: "Search - New Search Button"),
+                                                   style: .plain,
+                                                   target: self,
+                                                   action: #selector(displaySearchTriggered))] + (recentsNavItem.rightBarButtonItems ?? [])
         }
         
         let navigationItem = self.navigationItem
