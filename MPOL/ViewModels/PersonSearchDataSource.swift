@@ -58,10 +58,7 @@ fileprivate class PersonSearchOptions: SearchOptions {
     var ageRange: Range<Int>?
 
     var numberOfOptions: Int {
-        // VicPol and QPS will not require these filters. Adjust this as
-        // necessary for each client.
         return 0
-//            return FilterItem.count
     }
 
     func title(at index: Int) -> String {
@@ -97,6 +94,9 @@ fileprivate class PersonSearchOptions: SearchOptions {
 
 class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
 
+    let searchPlaceholder: NSAttributedString? = NSAttributedString(string: NSLocalizedString("eg. Smith John K", comment: ""),
+                                                                attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 28.0, weight: UIFontWeightLight), NSForegroundColorAttributeName: UIColor.lightGray])
+    
     var options: SearchOptions = PersonSearchOptions()
     let parser: QueryParser<PersonParserDefinition> = QueryParser(parserDefinition: PersonParserDefinition())
 
@@ -114,53 +114,10 @@ class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
         return dateFormatter
     }()
 
-    private var internalEntities: [Person]?
-
-    var entities: [MPOLKitEntity]? {
-        get {
-            return internalEntities
-        }
-        set {
-            guard let entities = newValue as? [Person] else { return }
-            internalEntities = entities
-        }
-    }
-
-    var sortedEntities: [MPOLKitEntity]? {
-        guard let entities = entities else { return nil }
-
-        let sortDescriptors = [NSSortDescriptor(key: "matchScore", ascending: false),
-                               NSSortDescriptor(key: "surname", ascending: true),
-                               NSSortDescriptor(key: "givenName", ascending: true)]
-
-        let sorted = (entities as NSArray).sortedArray(using: sortDescriptors) as! [Person]
-
-        return sorted
-    }
-
-    var filteredEntities: [MPOLKitEntity]? {
-        let filtered = internalEntities?.filter({ return ($0.alertLevel != nil && $0.alertLevel!.rawValue > 0) }).sorted(by: { (entity1, entity2) -> Bool in
-            let alertLevel1 = entity1.alertLevel?.rawValue ?? 0
-            let alertLevel2 = entity2.alertLevel?.rawValue ?? 0
-
-            return alertLevel1 > alertLevel2
-        })
-
-        return filtered
-    }
-
     weak var updatingDelegate: SearchDataSourceUpdating?
-
-    func supports(_ request: SearchRequest) -> Bool {
-        return request is PersonSearchRequest
-    }
 
     var localizedDisplayName: String {
         return NSLocalizedString("Person", comment: "")
-    }
-
-    var localizedSourceBadgeTitle: String {
-        return NSLocalizedString("LEAP", bundle: .mpolKit, comment: "")
     }
 
     static var keyboardType: UIKeyboardType {
@@ -251,77 +208,6 @@ class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
         return PopoverNavigationController(rootViewController: viewController)
     }
 
-    func decorate(_ cell: EntityCollectionViewCell, at indexPath: IndexPath, style: EntityCollectionViewCell.Style) {
-        guard let entity = self.sortedEntities?[indexPath.item] as? Person else { return }
-
-        cell.titleLabel.text    = entity.summary
-
-        let subtitleComponents = [entity.summaryDetail1, entity.summaryDetail2].flatMap({$0})
-        cell.subtitleLabel.text = subtitleComponents.isEmpty ? nil : subtitleComponents.joined(separator: " : ")
-        cell.thumbnailView.configure(for: entity, size: .small)
-        cell.alertColor       = entity.alertLevel?.color
-        cell.highlightStyle   = .fade
-        cell.sourceLabel.text = entity.source?.localizedBadgeTitle
-
-    }
-
-    func decorateAlert(_ cell: EntityCollectionViewCell, at indexPath: IndexPath, style: EntityCollectionViewCell.Style) {
-        guard let entity = self.filteredEntities?[indexPath.item] as? Person else { return }
-
-        cell.titleLabel.text    = entity.summary
-
-        let subtitleComponents = [entity.summaryDetail1, entity.summaryDetail2].flatMap({$0})
-        cell.subtitleLabel.text = subtitleComponents.isEmpty ? nil : subtitleComponents.joined(separator: " : ")
-        cell.thumbnailView.configure(for: entity, size: .small)
-        cell.alertColor       = entity.alertLevel?.color
-        cell.highlightStyle   = .fade
-        cell.sourceLabel.text = entity.source?.localizedBadgeTitle
-    }
-
-    func decorateList(_ cell: EntityListCollectionViewCell, at indexPath: IndexPath) {
-        guard let entity = self.sortedEntities?[indexPath.item] as? Person else { return }
-
-        cell.titleLabel.text    = entity.summary
-
-        let subtitleComponents = [entity.summaryDetail1, entity.summaryDetail2].flatMap({$0})
-        cell.subtitleLabel.text = subtitleComponents.isEmpty ? nil : subtitleComponents.joined(separator: " : ")
-        cell.thumbnailView.configure(for: entity, size: .small)
-        cell.alertColor       = entity.alertLevel?.color
-        cell.highlightStyle   = .fade
-        cell.sourceLabel.text = entity.source?.localizedBadgeTitle
-    }
-
-    func searchOperation(searchable: Searchable, completion: ((_ success: Bool, _ error: Error?)->())?) throws
-    {
-        guard let searchTerm = searchable.searchText else { return }
-        let request = PersonSearchRequest()
-
-        let parsingResults = try parser.parseString(query: searchTerm)
-        let dobSearch: String?
-
-        if let dateOfBirthString = parsingResults[PersonParserDefinition.DateOfBirthKey],
-            let dateOfBirth = PersonSearchDataSource.inputDateFormatter.date(from: dateOfBirthString) {
-            dobSearch =  PersonSearchDataSource.outputDateFormatter.string(from: dateOfBirth)
-        } else {
-            dobSearch = nil
-        }
-
-//        let searchParams = PersonSearchParameters(surname:      parsingResults[PersonParserDefinition.SurnameKey]!,
-//                                                  givenName:    parsingResults[PersonParserDefinition.GivenNameKey],
-//                                                  middleNames:  parsingResults[PersonParserDefinition.MiddleNamesKey],
-//                                                  gender:       parsingResults[PersonParserDefinition.GenderKey],
-//                                                  dateOfBirth:  dobSearch,
-//                                                  ageGap:       parsingResults[PersonParserDefinition.AgeGapKey])
-//
-//
-//        return try request.searchOperation(forSource: LEAPSource.leap, params: searchParams) { [weak self] entities, error in
-//            self?.entities = entities
-//            completion?(entities != nil, error)
-//        }
-        //TODO: New network stuff
-    }
-
-
     // MARK: - Number range picker delegate
 
     func numberRangePicker(_ numberPicker: NumberRangePickerViewController, didUpdateMinValue minValue: Int, maxValue: Int) {
@@ -345,4 +231,36 @@ class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
         picker.dismiss(animated: true, completion: nil)
     }
     
+    // MARK: - SearchResultViewModel
+    
+    func searchResultModel(for searchable: Searchable) -> SearchResultViewModelable? {
+        do {
+            guard let searchTerm = searchable.searchText else { return nil }
+            
+            let parsingResults = try parser.parseString(query: searchTerm)
+            let dobSearch: String?
+            
+            if let dateOfBirthString = parsingResults[PersonParserDefinition.DateOfBirthKey],
+                let dateOfBirth = PersonSearchDataSource.inputDateFormatter.date(from: dateOfBirthString) {
+                dobSearch =  PersonSearchDataSource.outputDateFormatter.string(from: dateOfBirth)
+            } else {
+                dobSearch = nil
+            }
+            
+            let searchParams = PersonSearchParameters(familyName:   parsingResults[PersonParserDefinition.SurnameKey]!,
+                                                      givenName:    parsingResults[PersonParserDefinition.GivenNameKey],
+                                                      middleNames:  parsingResults[PersonParserDefinition.MiddleNamesKey],
+                                                      gender:       parsingResults[PersonParserDefinition.GenderKey],
+                                                      dateOfBirth:  dobSearch)
+            
+            // Note: generate as many requests as required
+            let request = PersonSearchRequest(source: .mpol, request: searchParams)
+            
+            return EntitySummarySearchResultViewModel<Person>(title: searchTerm, aggregatedSearch: AggregatedSearch(requests: [request]))
+        } catch {
+            
+        }
+        
+        return nil
+    }
 }

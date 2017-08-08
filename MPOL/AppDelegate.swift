@@ -11,6 +11,7 @@ import UserNotifications
 import MPOLKit
 import PromiseKit
 import Lottie
+import ClientKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, LoginViewControllerDelegate, TermsConditionsViewControllerDelegate {
