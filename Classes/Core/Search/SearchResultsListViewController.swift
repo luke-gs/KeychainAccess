@@ -85,8 +85,8 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
 
         if let collectionView = self.collectionView {
             collectionView.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
-            collectionView.register(EntitySummaryErrorCell.self, forCellWithReuseIdentifier: CellIdentifier.empty.rawValue)
-            collectionView.register(EntitySummaryLoadingCell.self, forCellWithReuseIdentifier: CellIdentifier.loading.rawValue)
+            collectionView.register(SearchResultErrorCell.self, forCellWithReuseIdentifier: CellIdentifier.empty.rawValue)
+            collectionView.register(SearchResultLoadingCell.self, forCellWithReuseIdentifier: CellIdentifier.loading.rawValue)
             
             viewModel?.registerCells(for: collectionView)
         }
@@ -194,7 +194,7 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
         
         switch result.state {
         case .finished where result.error != nil:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier.empty.rawValue, for: indexPath) as! EntitySummaryErrorCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier.empty.rawValue, for: indexPath) as! SearchResultErrorCell
             let message = result.error!.localizedDescription
             cell.titleLabel.text = message.isEmpty == false ? message : NSLocalizedString("Unknown error has occurred.", comment: "[Search result screen] - Unknown error message when error doesn't contain localized description")
             cell.buttonHandler = { [weak self] (cell) in
@@ -203,7 +203,7 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
             cell.apply(theme: Theme.current)
             return cell
         case .searching:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier.loading.rawValue, for: indexPath) as! EntitySummaryLoadingCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier.loading.rawValue, for: indexPath) as! SearchResultLoadingCell
             cell.titleLabel.text = NSLocalizedString("Retrieving results", comment: "[Search result screen] - Retrieving results")
             cell.apply(theme: Theme.current)
             return cell

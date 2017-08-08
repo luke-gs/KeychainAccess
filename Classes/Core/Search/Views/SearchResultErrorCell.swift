@@ -12,7 +12,7 @@ public class SearchResultErrorCell: UICollectionViewCell, DefaultReusable {
     public let titleLabel = UILabel(frame: .zero)
     public let button = UIButton(type: .system)
     
-    public var buttonHandler: ((EntitySummaryErrorCell) -> ())?
+    public var buttonHandler: ((SearchResultErrorCell) -> ())?
     
     private let container = UIView(frame: .zero)
     
