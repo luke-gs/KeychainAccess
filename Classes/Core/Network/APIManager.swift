@@ -61,7 +61,7 @@ open class APIManager<Configuration: APIManagerConfigurable> {
     
     /// Request for access token.
     ///
-    /// Supports implicity `NSProgress` reporting.
+    /// Supports implicit `NSProgress` reporting.
     /// - Parameter grant: The grant type and required field for it.
     /// - Returns: A promise for access token.
     open func accessTokenRequest(for grant: OAuthAuthorizationGrant) -> Promise<OAuthAccessToken> {
@@ -80,7 +80,7 @@ open class APIManager<Configuration: APIManagerConfigurable> {
     
     /// Search for entity using specified request.
     ///
-    /// Supports implicity `NSProgress` reporting.
+    /// Supports implicit `NSProgress` reporting.
     /// - Parameters:
     ///   - source: The data source of the entity to be searched.
     ///   - request: The request with the parameters to search the entity.
@@ -104,7 +104,7 @@ open class APIManager<Configuration: APIManagerConfigurable> {
     
     /// Fetch entity details using specified request.
     ///
-    /// Supports implicity `NSProgress` reporting.
+    /// Supports implicit `NSProgress` reporting.
     /// - Parameters:
     ///   - source: The data source of entity to be fetched.
     ///   - request: The request with the parameters to fetch the entity.
