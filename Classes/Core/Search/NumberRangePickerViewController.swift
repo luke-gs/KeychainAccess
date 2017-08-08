@@ -180,7 +180,7 @@ public class NumberRangePickerViewController: FormTableViewController, UIPickerV
     }
     
     override public func applyCurrentTheme() {
-        super.applyCurrentTheme()
+        super.apply(ThemeManager.shared.theme(for: .current))
         
         let primaryTextColor = self.primaryTextColor ?? .darkText
         
