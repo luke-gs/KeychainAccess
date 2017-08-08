@@ -311,6 +311,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
             if textField.allTargets.contains(self) == false {
                 textField.addTarget(self, action: #selector(textFieldTextDidChange(_:)), for: .editingChanged)
             }
+            textField.attributedPlaceholder = selectedDataSource.searchPlaceholder
             
             return cell
         case .filters:

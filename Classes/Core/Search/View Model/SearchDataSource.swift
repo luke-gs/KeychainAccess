@@ -62,6 +62,9 @@ public protocol SearchDataSource {
     /// The localized Display name for the
     var localizedDisplayName: String { get }
 
+    /// The search placeholder
+    var searchPlaceholder: NSAttributedString? { get }
+    
     /// The updating delegate. This lets the search view controllers know when you've updated any of the filters
     weak var updatingDelegate: SearchDataSourceUpdating? { get set }
 
