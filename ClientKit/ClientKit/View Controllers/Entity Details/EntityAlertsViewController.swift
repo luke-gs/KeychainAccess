@@ -16,42 +16,28 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
     
     open override var entity: Entity? {
         didSet {
-            let sidebarItem = self.sidebarItem
-            sidebarItem.count = UInt(entity?.alerts?.count ?? 0)
-            sidebarItem.alertColor = entity?.alertLevel?.color
-            
-            updateNoContentSubtitle()
-            reloadSections()
+            viewModel.entity = entity
+            viewModel.reloadSections(with: filteredAlertLevels, filterDateRange: filterDateRange, sortedBy: dateSorting)
         }
     }
     
     
     // MARK: - Private properties
     
-    private let filterBarButtonItem: FilterBarButtonItem
-    
-    private var filteredAlertLevels: Set<Alert.Level> = Set(Alert.Level.allCases)
-    
-    private var filterDateRange: FilterDateRange?
-    
-    private var dateSorting: DateSorting = .newest
-    
-    private var sections: [[Alert]] = [[]] {
-        didSet {
-            if oldValue.isEmpty == true && sections.isEmpty == true {
-                return
-            }
-            
-            loadingManager.state = sections.isEmpty ? .noContent: .loaded
-            collectionView?.reloadData()
-        }
-    }
-    
-    private var statusDotCache: [Alert.Level: UIImage] = [:]
-    
-    private var collapsedSections: [String: Set<Alert.Level>] = [:]
+    private lazy var viewModel: EntityAlertsViewModel = {
+        var vm = EntityAlertsViewModel()
+        vm.delegate = self
+        return vm
+    }()
     
     
+    fileprivate let filterBarButtonItem: FilterBarButtonItem
+    
+    fileprivate var filteredAlertLevels: Set<Alert.Level> = Set(Alert.Level.allCases)
+    
+    fileprivate var filterDateRange: FilterDateRange?
+    
+    fileprivate var dateSorting: DateSorting = .newest
     
     // MARK: - Initializers
     
@@ -79,7 +65,7 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
         super.viewDidLoad()
         
         loadingManager.noContentView.titleLabel.text = NSLocalizedString("No Alerts Found", bundle: .mpolKit, comment: "")
-        updateNoContentSubtitle()
+        updateNoContentSubtitle(viewModel.noContentSubtitle())
         
         guard let collectionView = self.collectionView else { return }
         
@@ -91,18 +77,11 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
     // MARK: - UICollectionViewDataSource
     
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return sections.count
+        return viewModel.numberOfSections()
     }
     
     open override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let alerts = sections[section]
-        let level = alerts.first!.level!
-        if collapsedSections[entity!.id]?.contains(level) ?? false {
-            // Don't assume there is a collapsed sections here because we should load it lazily.
-            return 0
-        } else {
-            return alerts.count
-        }
+        return viewModel.numberOfItems(for: section)
     }
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -111,28 +90,12 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
         cell.selectionStyle     = .fade
         cell.accessoryView = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
 
-        let alert = sections[indexPath.section][indexPath.item]
+        let cellInfo = viewModel.cellInfo(for: indexPath)
         
-        if let alertLevel = alert.level {
-            if let cachedImage = statusDotCache[alertLevel] {
-                cell.imageView.image = cachedImage
-            } else {
-                let image = UIImage.statusDot(withColor: alertLevel.color!)
-                statusDotCache[alertLevel] = image
-                cell.imageView.image = image
-            }
-        } else  {
-            cell.imageView.image = nil
-        }
-        
-        cell.titleLabel.text  = alert.title
-        cell.detailLabel.text = alert.details
-        
-        if let date = alert.effectiveDate {
-            cell.subtitleLabel.text = NSLocalizedString("Effective from ", bundle: .mpolKit, comment: "") + DateFormatter.shortDate.string(from: date)
-        } else {
-            cell.subtitleLabel.text = NSLocalizedString("Effective date unknown", bundle: .mpolKit, comment: "")
-        }
+        cell.imageView.image    = cellInfo.image
+        cell.titleLabel.text    = cellInfo.title
+        cell.detailLabel.text   = cellInfo.detail
+        cell.subtitleLabel.text = cellInfo.subtitle
         
         return cell
     }
@@ -141,31 +104,18 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
         if kind == UICollectionElementKindSectionHeader {
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
             
-            let alerts = sections[indexPath.section]
-            let alertCount = alerts.count
-            let personId = self.entity!.id
-            let level = alerts.first!.level!
+            let alerts = viewModel.item(at: indexPath.section)!
+            header.text = viewModel.headerText(for: alerts)
             
-            if alertCount > 0, let levelDescription = level.localizedDescription(plural: alertCount > 1) {
-                header.text = "\(alertCount) \(levelDescription.localizedUppercase) "
+            if alerts.count > 0 {
                 header.showsExpandArrow = true
                 
                 header.tapHandler = { [weak self] (headerView, indexPath) in
                     guard let `self` = self else { return }
-                    
-                    var collapsedSections = self.collapsedSections[personId] ?? []
-                    if collapsedSections.remove(level) == nil {
-                        // This section wasn't in there and didn't remove
-                        collapsedSections.insert(level)
-                    }
-                    self.collapsedSections[personId] = collapsedSections
-                    
+                    self.viewModel.updateCollapsedSections(for: alerts)
                     self.collectionView?.reloadData()
                 }
-                
-                header.isExpanded = !(collapsedSections[personId]?.contains(level) ?? false)
-            } else {
-                header.text = nil
+                header.isExpanded = viewModel.isExpanded(for: alerts)
             }
             
             return header
@@ -218,7 +168,8 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
                 break
             }
         }
-        reloadSections()
+        
+        viewModel.reloadSections(with: filteredAlertLevels, filterDateRange: filterDateRange, sortedBy: dateSorting)
         
     }
     
@@ -243,84 +194,32 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
         
         present(navController, animated: true)
     }
-    
-    private func updateNoContentSubtitle() {
-        let label = loadingManager.noContentView.subtitleLabel
-        
-        if entity?.alerts?.isEmpty ?? true {
-            let entityDisplayName: String
-            if let entity = entity {
-                entityDisplayName = type(of: entity).localizedDisplayName.localizedLowercase
-            } else {
-                entityDisplayName = NSLocalizedString("entity", bundle: .mpolKit, comment: "")
-            }
-            
-            label.text = String(format: NSLocalizedString("This %@ has no alerts", bundle: .mpolKit, comment: ""), entityDisplayName)
-        } else {
-            label.text = NSLocalizedString("This filter has no matching alerts", comment: "")
-        }
-        
+}
+
+
+extension EntityAlertsViewController: EntityDetailsViewModelDelegate {
+    public func updateSidebarItemCount(_ count: UInt) {
+        sidebarItem.count = count
     }
     
-    private func reloadSections() {
-        
-        var alerts = entity?.alerts ?? []
-        
-        let dateSorting = self.dateSorting.compare(_:_:)
-        
-        func sortingRule(_ alert1: Alert, alert2: Alert) -> Bool {
-            let alert1Level = alert1.level?.rawValue ?? 0
-            let alert2Level = alert2.level?.rawValue ?? 0
-            
-            if alert1Level > alert2Level { return true }
-            if alert2Level > alert1Level { return false }
-            
-            return dateSorting((alert1.effectiveDate ?? Date.distantPast), (alert2.effectiveDate ?? Date.distantPast))
-        }
-        
+    public func updateSidebarAlertColor(_ color: UIColor?) {
+        sidebarItem.alertColor = color
+    }
+    
+    public func reloadData() {
+        collectionView?.reloadData()
+    }
+    
+    public func updateFilterBarButtonItemActivity() {
         let selectAlertLevels = filteredAlertLevels != Set(Alert.Level.allCases)
         let requiresFiltering: Bool = selectAlertLevels || filterDateRange != nil
-        
-        if requiresFiltering {
-            alerts = alerts.filter( { alert in
-                if selectAlertLevels {
-                    guard let alertLevel = alert.level, self.filteredAlertLevels.contains(alertLevel) else {
-                        return false
-                    }
-                }
-                if let filteredDateRange = self.filterDateRange {
-                    guard let date = alert.effectiveDate, filteredDateRange.contains(date) else {
-                        return false
-                    }
-                }
-                return true
-            }).sorted(by: sortingRule)
-        } else {
-            alerts.sort(by: sortingRule)
-        }
-        
-        if alerts.isEmpty {
-            self.sections = []
-            return
-        }
-        
-        var sections: [[Alert]] = []
-        
-        while let firstAlertLevel = alerts.first?.level {
-            if let firstDifferentIndex = alerts.index(where: { $0.level != firstAlertLevel }) {
-                let alertLevelSlice = alerts.prefix(upTo: firstDifferentIndex)
-                alerts.removeFirst(firstDifferentIndex)
-                sections.append(Array(alertLevelSlice))
-            } else {
-                sections.append(alerts)
-                alerts.removeAll()
-            }
-        }
-        
-        self.sections = sections
         
         filterBarButtonItem.isActive = requiresFiltering
     }
     
+    public func updateNoContentSubtitle(_ subtitle: String? = nil) {
+        let label = loadingManager.noContentView.subtitleLabel
+        label.text = subtitle
+    }
 }
 

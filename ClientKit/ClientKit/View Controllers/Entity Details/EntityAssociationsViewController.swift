@@ -13,18 +13,15 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
     
     open override var entity: Entity? {
         didSet {
-            updateNoContentSubtitle()
-            associations = (entity as? Person)?.associatedPersons ?? [] // TODO: Refactor for all associations.
+            viewModel.person = (entity as? Person)
         }
     }
     
-    private var associations: [Person] = [] {
-        didSet {
-            sidebarItem.count = UInt(associations.count)
-            loadingManager.state = associations.isEmpty ? .noContent: .loaded
-        }
-    }
-    
+    private lazy var viewModel: EntityAssociationsViewModel = {
+        var vm = EntityAssociationsViewModel()
+        vm.delegate = self
+        return vm
+    }()
     
     public override init() {
         super.init()
@@ -49,7 +46,7 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
         super.viewDidLoad()
         
         loadingManager.noContentView.titleLabel.text = NSLocalizedString("No Associations Found", comment: "")
-        updateNoContentSubtitle()
+        updateNoContentSubtitle(viewModel.noContentSubtitle())
         
         guard let collectionView = self.collectionView else { return }
         
@@ -71,19 +68,18 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
     // MARK: - UICollectionViewDataSource methods
     
     open func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return associations.isEmpty ? 0 : 1
+        return viewModel.numberOfSections()
     }
     
     open override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return associations.count
+        return viewModel.numberOfItems()
     }
     
     open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         switch kind {
         case UICollectionElementKindSectionHeader:
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
-            let count = associations.count
-            header.text = String(format: (count == 1 ? "%d PERSON" : "%d PEOPLE"), count)
+            header.text = viewModel.sectionHeader
             header.showsExpandArrow = false
             return header
         default:
@@ -93,23 +89,25 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let isCompact = traitCollection.horizontalSizeClass == .compact
-        let associate = associations[indexPath.item]
         
         if isCompact {
             let cell = collectionView.dequeueReusableCell(of: EntityListCollectionViewCell.self, for: indexPath)
-            cell.titleLabel.text    = associate.summary
             
-            let subtitleComponents = [associate.summaryDetail1, associate.summaryDetail2].flatMap({$0})
-            cell.subtitleLabel.text = subtitleComponents.isEmpty ? nil : subtitleComponents.joined(separator: " : ")
+            let cellInfo = viewModel.headerCellInfo(at: indexPath)
+            
+            cell.titleLabel.text    = cellInfo.title
+            cell.subtitleLabel.text = cellInfo.subtitle
+            cell.alertColor         = cellInfo.alertColor
+            cell.actionCount        = cellInfo.actionCount
+            cell.sourceLabel.text   = cellInfo.source
+            
+            cell.highlightStyle     = .fade
             cell.thumbnailView.configure(for: entity, size: .small)
-            cell.alertColor       = associate.alertLevel?.color
-            cell.actionCount      = associate.actionCount
-            cell.highlightStyle   = .fade
-            cell.sourceLabel.text = associate.source?.localizedBadgeTitle
             cell.accessoryView = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
             
             return cell
         } else {
+            let associate = viewModel.item(at: indexPath.item)
             let cell = collectionView.dequeueReusableCell(of: EntityCollectionViewCell.self, for: indexPath)
             
             cell.configure(for: associate, style: .hero)
@@ -160,16 +158,24 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
             return EntityListCollectionViewCell.minimumContentHeight(compatibleWith: traitCollection)
         }
     }
-    
-    private func updateNoContentSubtitle() {
-        let entityDisplayName: String
-        if let entity = entity {
-            entityDisplayName = type(of: entity).localizedDisplayName.localizedLowercase
-        } else {
-            entityDisplayName = NSLocalizedString("entity", bundle: .mpolKit, comment: "")
-        }
-        
-        loadingManager.noContentView.subtitleLabel.text = String(format: NSLocalizedString("This %@ has no associations", bundle: .mpolKit, comment: ""), entityDisplayName)
+}
+
+extension EntityAssociationsViewController: EntityDetailsViewModelDelegate {
+    public func updateSidebarItemCount(_ count: UInt) {
+        sidebarItem.count = count
     }
     
+    public func updateLoadingState(_ state: LoadingStateManager.State) {
+        loadingManager.state = state
+    }
+    
+    public func reloadData() {
+        collectionView?.reloadData()
+    }
+    
+    public func updateNoContentSubtitle(_ subtitle: String? = nil) {
+        let label = loadingManager.noContentView.subtitleLabel
+        label.text = subtitle
+    }
 }
+

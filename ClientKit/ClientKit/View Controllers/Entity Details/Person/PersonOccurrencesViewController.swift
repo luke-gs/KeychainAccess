@@ -17,37 +17,29 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
     // MARK: - Public properties
     
     open override var entity: Entity? {
-        get { return person }
-        set { self.person = newValue as? Person }
+        get { return viewModel.person }
+        set {
+            viewModel.person = newValue as? Person
+            viewModel.reloadSections(with: filterTypes, filterDateRange: filterDateRange, sortedBy: dateSorting)
+
+        }
     }
     
     
     // MARK: - Private properties
+    private lazy var viewModel: PersonOccurrencesViewModel = {
+        var vm = PersonOccurrencesViewModel()
+        vm.delegate = self
+        return vm
+    }()
     
-    private let filterBarButtonItem = FilterBarButtonItem(target: nil, action: nil)
+    fileprivate let filterBarButtonItem = FilterBarButtonItem(target: nil, action: nil)
     
-    private var person: Person? {
-        didSet {
-            let eventCount = person?.events?.count ?? 0
-            sidebarItem.count = UInt(eventCount)
-            
-            updateNoContentSubtitle()
-            reloadSections()
-        }
-    }
+    fileprivate var filterTypes: Set<String>?
     
-    private var events: [Event] = [] {
-        didSet {
-            loadingManager.state = events.isEmpty ? .noContent: .loaded
-            collectionView?.reloadData()
-        }
-    }
+    fileprivate var filterDateRange: FilterDateRange?
     
-    private var filterTypes: Set<String>?
-    
-    private var filterDateRange: FilterDateRange?
-    
-    private var dateSorting: DateSorting = .newest
+    fileprivate var dateSorting: DateSorting = .newest
     
     
     /*
@@ -81,6 +73,10 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
     open override func viewDidLoad() {
         super.viewDidLoad()
         
+        EventDetailsViewModelRouter.register(eventClass: BailOrder.self, viewModelClass: BailOrderDetailViewModel.self)
+        EventDetailsViewModelRouter.register(eventClass: FieldContact.self, viewModelClass: FieldContactDetailViewModel.self)
+        EventDetailsViewModelRouter.register(eventClass: InterventionOrder.self, viewModelClass: InterventionOrderViewModel.self)
+        
         guard let collectionView = self.collectionView else { return }
         
         collectionView.register(CollectionViewFormDetailCell.self)
@@ -88,11 +84,11 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
     }
     
     open func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return events.isEmpty ? 0 : 1
+        return viewModel.numberOfSections()
     }
     
     open override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return events.count
+        return viewModel.numberOfItems()
     }
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -101,12 +97,11 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
         cell.selectionStyle = .fade
         cell.accessoryView = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
         
-        let event = events[indexPath.item]
-        let cellTexts = appropriateTexts(for: event)
+        let cellInfo = viewModel.cellInfo(for: indexPath)
         
-        cell.titleLabel.text = cellTexts.titleText
-        cell.subtitleLabel.text = cellTexts.subtitleText
-        cell.detailLabel.text = cellTexts.detailText
+        cell.titleLabel.text    = cellInfo.title
+        cell.subtitleLabel.text = cellInfo.subtitle
+        cell.detailLabel.text   = cellInfo.detail
         
         return cell
     }
@@ -118,8 +113,9 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
         collectionView.deselectItem(at: indexPath, animated: true)
         
         let detailViewController: UIViewController?
+        let event = viewModel.item(at: indexPath.item)!
         
-        switch events[indexPath.item] {
+        switch event {
         case let fieldContact as FieldContact:
             let fieldContactVC = FieldContactDetailViewController()
             fieldContactVC.event = fieldContact
@@ -149,15 +145,8 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
     open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionElementKindSectionHeader {
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
-            
-            // TODO: Refactor for StringsDict pluralization
-            let eventCount = events.count
-            if eventCount > 0 {
-                let baseString = eventCount > 1 ? NSLocalizedString("%d ITEMS", bundle: .mpolKit, comment: "") : NSLocalizedString("%d ITEM", bundle: .mpolKit, comment: "")
-                header.text = String(format: baseString, eventCount)
-            } else {
-                header.text = nil
-            }
+    
+            header.text = viewModel.sectionHeader
             return header
         }
         return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
@@ -211,19 +200,16 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
                 break
             }
         }
-        reloadSections()
+
+        viewModel.reloadSections(with: filterTypes, filterDateRange: filterDateRange, sortedBy: dateSorting)
     }
     
     
     // MARK: - Private methods
     
     @objc private func filterItemDidSelect(_ item: UIBarButtonItem) {
-        var allTypes = Set<String>()
-        person?.events?.forEach {
-            if let type = $0.eventType {
-                allTypes.insert(type)
-            }
-        }
+        let allTypes = viewModel.allEventTypes
+
         let allSortedTypes = allTypes.sorted { $0.localizedStandardCompare($1) == .orderedAscending }
         
         var selectedIndexes: IndexSet
@@ -254,67 +240,26 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
         
         present(navController, animated: true)
     }
+}
+
+extension PersonOccurrencesViewController: EntityDetailsViewModelDelegate {
     
-    private func updateNoContentSubtitle() {
-        let label = loadingManager.noContentView.subtitleLabel
-        
-        if person?.actions?.isEmpty ?? true {
-            let entityDisplayName: String
-            if let entity = entity {
-                entityDisplayName = type(of: entity).localizedDisplayName.localizedLowercase
-            } else {
-                entityDisplayName = NSLocalizedString("entity", bundle: .mpolKit, comment: "")
-            }
-            
-            label.text = String(format: NSLocalizedString("This %@ has no involvements", bundle: .mpolKit, comment: ""), entityDisplayName)
-        } else {
-            label.text = NSLocalizedString("This filter has no matching involvements", comment: "")
-        }
+    public func updateSidebarItemCount(_ count: UInt) {
+        sidebarItem.count = count
     }
     
-    private func reloadSections() {
-        var events = person?.events ?? []
-        
+    public func updateNoContentSubtitle(_ subtitle: String? = nil) {
+        let label = loadingManager.noContentView.subtitleLabel
+        label.text = subtitle
+    }
+    
+    public func reloadData() {
+        collectionView?.reloadData()
+    }
+    
+    public func updateFilterBarButtonItemActivity() {
         let requiresFiltering = filterTypes != nil || filterDateRange != nil
-        if requiresFiltering {
-            events = events.filter { event in
-                if let filterTypes = self.filterTypes {
-                    guard let type = event.eventType, filterTypes.contains(type) else {
-                        return false
-                    }
-                }
-                if let dateFilter = self.filterDateRange {
-                    guard let date = event.date, dateFilter.contains(date) else {
-                        return false
-                    }
-                }
-                return true
-            }
-        }
-        
-        let dateSorting = self.dateSorting.compare(_:_:)
-        events.sort { dateSorting(($0.date ?? .distantPast), ($1.date ?? .distantPast)) }
-        self.events = events
-        
         filterBarButtonItem.isActive = requiresFiltering
     }
-    
-    // Seems like a common pattern, potential refactor point to have a standard formatter for these?
-    private func appropriateTexts(for event: Event) -> (titleText: String?, subtitleText: String?, detailText: String?) {
-        let titleText = event.eventType
-        let subtitleText = formattedTitle(for: event.date)
-        let detailText = event.eventDescription
-        
-        return (titleText: titleText, subtitleText: subtitleText, detailText: detailText)
-    }
-    
-    private func formattedTitle(for date: Date?) -> String {
-        let text: String
-        if let date = date {
-            text = DateFormatter.mediumNumericDate.string(from: date)
-        } else {
-            text = "unknown"
-        }
-        return "Occurred on \(text)"
-    }
 }
+

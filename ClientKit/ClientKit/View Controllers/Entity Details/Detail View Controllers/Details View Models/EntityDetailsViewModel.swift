@@ -20,14 +20,14 @@ public class EntityDetailsViewModel<T>: EntityDetailsViewModelable {
     
     public var person: Person? {
         didSet {
-  
+            MPLRequiresConcreteImplementation()
         }
     }
     
     public var sections: [DetailsType]? {
         didSet {
-            let orderCount = sections?.count ?? 0
-            delegate?.updateSidebarItemCount(UInt(orderCount))
+            let count = sections?.count ?? 0
+            delegate?.updateSidebarItemCount(UInt(count))
             
             let state: LoadingStateManager.State  = sections!.isEmpty ? .noContent : .loaded
             delegate?.updateLoadingState(state)

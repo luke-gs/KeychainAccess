@@ -11,6 +11,16 @@ import MPOLKit
 
 open class VehicleInfoViewController: EntityDetailCollectionViewController {
     
+    open override var entity: Entity? {
+        get { return viewModel.vehicle }
+        set { self.viewModel.vehicle = newValue as? Vehicle}
+    }
+    
+    private lazy var viewModel: VehicleInfoViewModel = {
+        var vm = VehicleInfoViewModel()
+        return vm
+    }()
+    
     // MARK: - Initializers
     
     public override init() {
@@ -42,15 +52,11 @@ open class VehicleInfoViewController: EntityDetailCollectionViewController {
     // MARK: - UICollectionViewDataSource
     
     open func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return Section.count
+        return viewModel.numberOfSections()
     }
     
     open override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        switch Section(rawValue: section)! {
-        case .header:       return 1
-        case .registration: return RegistrationItem.count
-        case .owner:        return OwnerItem.count
-        }
+        return viewModel.numberOfItemsInSection(section)
     }
     
     open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -58,19 +64,7 @@ open class VehicleInfoViewController: EntityDetailCollectionViewController {
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
             headerView.showsExpandArrow = false
             
-            let section = Section(rawValue: indexPath.section)!
-            
-            if section == .header {
-                let lastUpdatedString: String
-                if let lastUpdated = entity?.lastUpdated {
-                    lastUpdatedString = DateFormatter.shortDate.string(from: lastUpdated)
-                } else {
-                    lastUpdatedString = NSLocalizedString("UNKNOWN", bundle: .mpolKit, comment: "Unknown Date")
-                }
-                headerView.text = NSLocalizedString("LAST UPDATED: ", bundle: .mpolKit, comment: "") + lastUpdatedString
-            } else {
-                headerView.text = Section(rawValue: indexPath.section)?.localizedTitle
-            }
+            headerView.text = viewModel.headerText(for: indexPath.section)
             return headerView
         }
         
@@ -78,10 +72,10 @@ open class VehicleInfoViewController: EntityDetailCollectionViewController {
     }
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let section = Section(rawValue: indexPath.section)!
+        let section = viewModel.section(at: indexPath.section)!
         
-        let title: String
-        let subtitle: String
+        let title: String?
+        let subtitle: String?
         let multiLineSubtitle: Bool
         
         switch section {
@@ -99,16 +93,11 @@ open class VehicleInfoViewController: EntityDetailCollectionViewController {
             }
             
             return cell
-        case .registration:
-            let regoItem = RegistrationItem(rawValue: indexPath.item)!
-            title    = regoItem.localizedTitle
-            subtitle = regoItem.value(from: nil)
-            multiLineSubtitle = false
-        case .owner:
-            let ownerItem = OwnerItem(rawValue: indexPath.item)!
-            title    = ownerItem.localizedTitle
-            subtitle = ownerItem.value(for: nil)
-            multiLineSubtitle = ownerItem.wantsMultiLineDetail
+        case .registration, .owner:
+            let cellInfo = viewModel.cellInfo(for: section, at: indexPath)
+            title    = cellInfo.title
+            subtitle = cellInfo.subtitle
+            multiLineSubtitle = cellInfo.multiLineSubtitle
         }
         
         let cell = collectionView.dequeueReusableCell(of: CollectionViewFormValueFieldCell.self, for: indexPath)
@@ -155,11 +144,13 @@ open class VehicleInfoViewController: EntityDetailCollectionViewController {
         let minimumWidth: CGFloat
         let maxColumnCount: Int
         
-        switch Section(rawValue: indexPath.section)! {
+        let section = viewModel.section(at: indexPath.section)!
+
+        switch section {
         case .header:
             return collectionView.bounds.width
         case .registration:
-            switch RegistrationItem(rawValue: indexPath.item)! {
+            switch viewModel.registrationItem(at: indexPath.item)! {
             case .make, .model, .vin:
                 minimumWidth = extraLargeText ? 250.0 : 180.0
                 maxColumnCount = 3
@@ -168,7 +159,7 @@ open class VehicleInfoViewController: EntityDetailCollectionViewController {
                 maxColumnCount = 4
             }
         case .owner:
-            switch OwnerItem(rawValue: indexPath.item)! {
+            switch viewModel.owerItem(at: indexPath.item)! {
             case .address:
                 return collectionView.bounds.width
             default:
@@ -185,16 +176,18 @@ open class VehicleInfoViewController: EntityDetailCollectionViewController {
         let value: String
         
         let wantsMultiLineValue: Bool
-        switch Section(rawValue: indexPath.section)! {
+        let section = viewModel.section(at: indexPath.section)!
+
+        switch section {
         case .header:
             return EntityDetailCollectionViewCell.minimumContentHeight(withTitle: "Smith, Max R.", subtitle: "08/05/1987 (29 Male)", description: "196 cm proportionate european male with short brown hair and brown eyes", descriptionPlaceholder: nil, additionalDetails: "4 MORE DESCRIPTIONS", source: "DATA SOURCE 1", inWidth: itemWidth, compatibleWith: traitCollection) - layout.itemLayoutMargins.bottom
         case .registration:
-            let regoItem = RegistrationItem(rawValue: indexPath.item)
-            title    = regoItem?.localizedTitle ?? ""
+            let regoItem = viewModel.registrationItem(at: indexPath.item)
+            title = regoItem?.localizedTitle ?? ""
             value = regoItem?.value(from: nil) ?? ""
             wantsMultiLineValue = false
         case .owner:
-            let ownerItem = OwnerItem(rawValue: indexPath.item)
+            let ownerItem = viewModel.owerItem(at: indexPath.item)
             title    = ownerItem?.localizedTitle ?? ""
             value = ownerItem?.value(for: nil) ?? ""
             wantsMultiLineValue = ownerItem?.wantsMultiLineDetail ?? false
@@ -206,103 +199,6 @@ open class VehicleInfoViewController: EntityDetailCollectionViewController {
     
     
     // MARK: - Private
-    
-    private enum Section: Int {
-        case header
-        case registration
-        case owner
-        
-        static let count = 3
-        
-        var localizedTitle: String {
-            switch self {
-            case .header:       return NSLocalizedString("LAST UPDATED",         bundle: .mpolKit, comment: "")
-            case .registration: return NSLocalizedString("REGISTRATION DETAILS", bundle: .mpolKit, comment: "")
-            case .owner:        return NSLocalizedString("REGISTERED OWNER",     bundle: .mpolKit, comment: "")
-            }
-        }
-    }
-    
-    private enum RegistrationItem: Int {
-        case make
-        case model
-        case vin
-        case manufactured
-        case transmission
-        case color1
-        case color2
-        case engine
-        case seating
-        case weight
-        
-        static let count: Int = 10
-        
-        var localizedTitle: String {
-            switch self {
-            case .make:         return NSLocalizedString("Make",               bundle: .mpolKit, comment: "")
-            case .model:        return NSLocalizedString("Model",              bundle: .mpolKit, comment: "")
-            case .vin:          return NSLocalizedString("VIN/Chassis Number", bundle: .mpolKit, comment: "")
-            case .manufactured: return NSLocalizedString("Manufactured in",    bundle: .mpolKit, comment: "")
-            case .transmission: return NSLocalizedString("Transmission",       bundle: .mpolKit, comment: "")
-            case .color1:       return NSLocalizedString("Colour 1",           bundle: .mpolKit, comment: "")
-            case .color2:       return NSLocalizedString("Colour 2",           bundle: .mpolKit, comment: "")
-            case .engine:       return NSLocalizedString("Engine",             bundle: .mpolKit, comment: "")
-            case .seating:      return NSLocalizedString("Seating",            bundle: .mpolKit, comment: "")
-            case .weight:       return NSLocalizedString("Curb weight",        bundle: .mpolKit, comment: "")
-            }
-        }
-        
-        func value(from vehicle: Any?) -> String {
-            // TODO: Fill these details in
-            switch self {
-            case .make:         return "Tesla"
-            case .model:        return "Model S P100D"
-            case .vin:          return "1FUJA6CG47LY64774"
-            case .manufactured: return "2020"
-            case .transmission: return "Automatic"
-            case .color1:       return "Black"
-            case .color2:       return "Silver"
-            case .engine:       return "Electric"
-            case .seating:      return "2 + 3"
-            case .weight:       return "2,239 kg"
-            }
-        }
-    }
-    
-    private enum OwnerItem: Int {
-        case name
-        case dob
-        case gender
-        case address
-        
-        static let count: Int = 4
-        
-        var localizedTitle: String {
-            switch self {
-            case .name:    return NSLocalizedString("Name",          bundle: .mpolKit, comment: "")
-            case .dob:     return NSLocalizedString("Date of Birth", bundle: .mpolKit, comment: "")
-            case .gender:  return NSLocalizedString("Gender",        bundle: .mpolKit, comment: "")
-            case .address: return NSLocalizedString("Address",       bundle: .mpolKit, comment: "")
-            }
-        }
-        
-        func value(for vehicle: Any?) -> String {
-            // TODO: Fill these details in
-            switch self {
-            case .name:    return "Citizen, John R"
-            case .dob:     return "08/05/1987 (29)"
-            case .gender:  return "Male"
-            case .address: return "8 Catherine Street, Southbank VIC 3006"
-            }
-        }
-        
-        var wantsMultiLineDetail: Bool {
-            switch self {
-            case .address: return true
-            default:       return false
-            }
-        }
-    }
     
     
     @objc private func entityDetailCellDidSelectAdditionalDetails(_ cell: EntityDetailCollectionViewCell) {
