@@ -77,44 +77,17 @@ fileprivate class VehicleSearchOptions: SearchOptions {
 }
 
 class VehicleSearchDataSource: SearchDataSource {
-    private var internalEntities: [Vehicle]?
-
+    
+    let searchPlaceholder: NSAttributedString? = NSAttributedString(string: NSLocalizedString("eg. ABC123", comment: ""),
+                                                                attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 28.0, weight: UIFontWeightLight), NSForegroundColorAttributeName: UIColor.lightGray])
+    
     //MARK: SearchDataSource
     var options: SearchOptions = VehicleSearchOptions()
-    var entities: [MPOLKitEntity]? {
-        get {
-            return internalEntities
-        }
-        set {
-            guard let entities = newValue as? [Vehicle] else { return }
-            internalEntities = entities
-        }
-    }
-
-    var sortedEntities: [MPOLKitEntity]? {
-        guard let entities = entities else { return nil }
-
-        let sortDescriptors = [NSSortDescriptor(key: "matchScore", ascending: false),
-                               NSSortDescriptor(key: "surname", ascending: true),
-                               NSSortDescriptor(key: "givenName", ascending: true)]
-
-        let sorted = (entities as NSArray).sortedArray(using: sortDescriptors) as! [Vehicle]
-
-        return sorted
-    }
-
-    var filteredEntities: [MPOLKitEntity]? {
-        return nil
-    }
-
+    
     weak var updatingDelegate: SearchDataSourceUpdating?
 
     var localizedDisplayName: String {
         return NSLocalizedString("Vehicle", comment: "")
-    }
-
-    var localizedSourceBadgeTitle: String {
-        return NSLocalizedString("LEAP", bundle: .mpolKit, comment: "")
     }
 
     static var keyboardType: UIKeyboardType {
@@ -176,56 +149,16 @@ class VehicleSearchDataSource: SearchDataSource {
         return PopoverNavigationController(rootViewController: viewController)
     }
 
-    func decorate(_ cell: EntityCollectionViewCell, at indexPath: IndexPath, style: EntityCollectionViewCell.Style) {
-        guard let entity = self.sortedEntities?[indexPath.item] as? Vehicle else { return }
+    // MARK: - SearchResultViewModel
+    
+    func searchResultModel(for searchable: Searchable) -> SearchResultViewModelable? {
+        guard let searchTerm = searchable.searchText else { return nil }
+        
+        let searchParams = VehicleSearchParameters(criteria: searchTerm)
 
-        cell.titleLabel.text    = entity.summary
-
-        let subtitleComponents = [entity.summaryDetail1, entity.summaryDetail2].flatMap({$0})
-        cell.subtitleLabel.text = subtitleComponents.isEmpty ? nil : subtitleComponents.joined(separator: " : ")
-        cell.thumbnailView.configure(for: entity, size: .small)
-        cell.alertColor       = entity.alertLevel?.color
-        cell.highlightStyle   = .fade
-        cell.sourceLabel.text = entity.source?.localizedBadgeTitle
-
-    }
-
-    func decorateAlert(_ cell: EntityCollectionViewCell, at indexPath: IndexPath, style: EntityCollectionViewCell.Style) {
-        guard let entity = self.filteredEntities?[indexPath.item] as? Vehicle else { return }
-
-        cell.titleLabel.text    = entity.summary
-
-        let subtitleComponents = [entity.summaryDetail1, entity.summaryDetail2].flatMap({$0})
-        cell.subtitleLabel.text = subtitleComponents.isEmpty ? nil : subtitleComponents.joined(separator: " : ")
-        cell.thumbnailView.configure(for: entity, size: .small)
-        cell.alertColor       = entity.alertLevel?.color
-        cell.highlightStyle   = .fade
-        cell.sourceLabel.text = entity.source?.localizedBadgeTitle
-    }
-
-    func decorateList(_ cell: EntityListCollectionViewCell, at indexPath: IndexPath) {
-        guard let entity = self.sortedEntities?[indexPath.item] as? Vehicle else { return }
-
-        cell.titleLabel.text    = entity.summary
-
-        let subtitleComponents = [entity.summaryDetail1, entity.summaryDetail2].flatMap({$0})
-        cell.subtitleLabel.text = subtitleComponents.isEmpty ? nil : subtitleComponents.joined(separator: " : ")
-        cell.thumbnailView.configure(for: entity, size: .small)
-        cell.alertColor       = entity.alertLevel?.color
-        cell.highlightStyle   = .fade
-        cell.sourceLabel.text = entity.source?.localizedBadgeTitle
-    }
-
-    func searchOperation(searchable: Searchable, completion: ((_ success: Bool, _ error: Error?)->())?) throws
-    {
-//        guard let searchTerm = searchable.searchText else { return nil }
-//        let request = VehicleSearchRequest()
-//        let params = SearchParameters(criteria: searchTerm)
-//        
-//        return try request.searchOperation(forSource: LEAPSource.leap, params: params) { [weak self] entities, error in
-//            self?.entities = entities
-//            completion?(entities != nil, error)
-//        }
-        //TODO: New network stuff
+        // Note: generate as many requests as required
+        let request = VehicleSearchRequest(source: .mpol, request: searchParams)
+        
+        return EntitySummarySearchResultViewModel<Vehicle>(title: searchTerm, aggregatedSearch: AggregatedSearch(requests: [request]))
     }
 }

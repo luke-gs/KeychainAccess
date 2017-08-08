@@ -103,7 +103,7 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
             
             cell.highlightStyle     = .fade
             cell.thumbnailView.configure(for: entity, size: .small)
-            cell.accessoryView = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
+            cell.accessoryView = cell.accessoryView as? FormAccessoryView ?? FormAccessoryView(style: .disclosure)
             
             return cell
         } else {
