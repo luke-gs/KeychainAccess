@@ -74,11 +74,17 @@ open class APIManager<Configuration: APIManagerConfigurable> {
         let request: URLRequest = try! URLRequest(url: requestPath, method: .post)
         let encodedURLRequest = try! URLEncoding.default.encode(request, with: parameters)
         
-        return dataRequestPromise(encodedURLRequest)
+        let promise: Promise<OAuthAccessToken> = self.dataRequestPromise(encodedURLRequest)
+        
+        return promise.then { [weak self] token in
+            let adapter = AuthenticationHeaderAdapter(authenticationMode: .accessTokenAuthentication(token: token))
+            self?.sessionManager.adapter = adapter
+            return Promise(value: token)
+        }
     }
     
-    
     /// Search for entity using specified request.
+    
     ///
     /// Supports implicit `NSProgress` reporting.
     /// - Parameters:
