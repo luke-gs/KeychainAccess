@@ -43,7 +43,7 @@ extension EntityListCollectionViewCell: EntitySummaryDecoratable {
         sourceLabel.text   = entitySummary.category
         highlightStyle     = .fade
         
-        accessoryView      = accessoryView as? FormDisclosureView ?? FormDisclosureView()
+        accessoryView      = accessoryView as? FormAccessoryView ?? FormAccessoryView(style: .disclosure)
         
         if let thumbnailInfo = entitySummary.thumbnail(ofSize: .small) {
             thumbnailView.imageView.contentMode = thumbnailInfo.mode
