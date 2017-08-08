@@ -484,7 +484,7 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
         
         if isShowingSearchOptions {
             titleView = nil
-            title = NSLocalizedString("New Search", comment: "")
+            title = NSLocalizedString("New Search", comment: "Search - New Search title")
             leftBarButtonItems  = [searchOptionsViewController.cancelBarButtonItem]
             rightBarButtonItems = [searchOptionsViewController.searchBarButtonItem]
             prompt = nil
@@ -501,7 +501,11 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
             title = recentsNavItem.title
             prompt = recentsNavItem.prompt
             leftBarButtonItems = recentsNavItem.leftBarButtonItems
-            rightBarButtonItems = [UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(displaySearchTriggered))] + (recentsNavItem.rightBarButtonItems ?? [])
+            
+            rightBarButtonItems = [UIBarButtonItem(title: NSLocalizedString("New Search", comment: "Search - New Search Button"),
+                                                   style: .plain,
+                                                   target: self,
+                                                   action: #selector(displaySearchTriggered))] + (recentsNavItem.rightBarButtonItems ?? [])
         }
         
         let navigationItem = self.navigationItem
