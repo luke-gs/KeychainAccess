@@ -1,5 +1,5 @@
 //
-//  EntitySummaryErrorCell.swift
+//  SearchResultErrorCell.swift
 //  MPOLKit
 //
 //  Created by KGWH78 on 7/8/17.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class EntitySummaryErrorCell: UICollectionViewCell, DefaultReusable {
+public class SearchResultErrorCell: UICollectionViewCell, DefaultReusable {
     public let titleLabel = UILabel(frame: .zero)
     public let button = UIButton(type: .system)
     

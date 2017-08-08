@@ -99,6 +99,7 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
     }
 
     open override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         let insets = UIEdgeInsets(top: topLayoutGuide.length + (searchFieldButton?.frame.height ?? 0.0), left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)
 
         loadingManager.contentInsets = insets

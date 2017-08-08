@@ -1,5 +1,5 @@
 //
-//  EntitySummaryLoadingCell.swift
+//  SearchResultLoadingCell.swift
 //  MPOLKit
 //
 //  Created by KGWH78 on 7/8/17.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class EntitySummaryLoadingCell: UICollectionViewCell, DefaultReusable {
+public class SearchResultLoadingCell: UICollectionViewCell, DefaultReusable {
     public let titleLabel = UILabel(frame: .zero)
     public let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
     
