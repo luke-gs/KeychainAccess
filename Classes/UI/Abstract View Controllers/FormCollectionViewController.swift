@@ -8,12 +8,30 @@
 
 import UIKit
 
-fileprivate var kvoContext = 1
+fileprivate var contentHeightContext = 1
 
 fileprivate let tempID = "temp"
 
+/// An abstract view controller for presenting a collection view based interface in
+/// MPOL apps.
+///
+/// `FormCollectionViewController` differs from UITableViewController in several ways.
+///
+/// - First, the view of the view controller is a standard `UIView` instance, with a
+/// UICollectionView instance positioned covering it as a subview, rather than as the
+/// main view. This allows for subclasses to positon content visually around/above the
+/// collection without convoluted hacks.
+///
+/// - Second, it manages its insets separately rather than allowing UIKit to
+/// automatically adjust the insets. This works around multiple UIKit issues with
+/// insets being incorrectly applied, especially in tab bar controllers.
+///
+/// - Third, it has default handling of MPOL theme-based changes, and has its own
+/// `userInterfaceStyle` property. Where subclasses require to update for style
+/// changes, they should override `collectionView(_:willDisplay:for:)` and other
+/// analogous display preparation methods rather than requiring reloads. Other view
+/// based changes can be completed with the open method `apply(_:)`.
 open class FormCollectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, CollectionViewDelegateFormLayout, PopoverViewController {
-    
     
     // MARK: - Public properties
     
@@ -26,21 +44,29 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     open private(set) lazy var loadingManager: LoadingStateManager = LoadingStateManager()
     
     
+    // Calculated heights
+    
     /// A boolean value indicating whether the collection view should automatically calculate
     /// its `preferreContentSize`'s height property from the collection view's content height.
     ///
     /// The default is `false`.
-    open var wantsCalculatedContentHeight = false {
+    open var calculatesContentHeight = false {
         didSet {
-            if wantsCalculatedContentHeight == oldValue { return }
+            if calculatesContentHeight == oldValue { return }
             
-            if wantsCalculatedContentHeight {
-                collectionView?.addObserver(self, forKeyPath: #keyPath(UICollectionView.contentSize), context: &kvoContext)
+            if calculatesContentHeight {
+                collectionView?.addObserver(self, forKeyPath: #keyPath(UICollectionView.contentSize), options: [.new, .old], context: &contentHeightContext)
                 updateCalculatedContentHeight()
             } else {
-                collectionView?.removeObserver(self, forKeyPath: #keyPath(UICollectionView.contentSize), context: &kvoContext)
+                collectionView?.removeObserver(self, forKeyPath: #keyPath(UICollectionView.contentSize), context: &contentHeightContext)
             }
         }
+    }
+    
+    @available(iOS, deprecated, renamed: "calculatesContentHeight")
+    open var wantsCalculatedContentHeight: Bool {
+        get { return calculatesContentHeight }
+        set { calculatesContentHeight = newValue }
     }
     
     
@@ -53,7 +79,6 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
         }
     }
     
-    
     /// The maximum allowed calculated content height. The default is `.infinity`,
     /// meaning there is no restriction on the content height.
     open var maximumCalculatedContentHeight: CGFloat = .infinity {
@@ -65,6 +90,24 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     }
     
     // Appearance properties
+    
+    /// The user interface style for the collection view.
+    ///
+    /// When set to `.current`, the theme autoupdates when the interface
+    /// style changes.
+    open var userInterfaceStyle: UserInterfaceStyle = .current {
+        didSet {
+            if userInterfaceStyle == oldValue { return }
+            
+            if userInterfaceStyle == .current {
+                NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleDidChange), name: .interfaceStyleDidChange, object: nil)
+            } else if oldValue == .current {
+                NotificationCenter.default.removeObserver(self, name: .interfaceStyleDidChange, object: nil)
+            }
+            
+            apply(ThemeManager.shared.theme(for: userInterfaceStyle))
+        }
+    }
     
     open var wantsTransparentBackground: Bool = false {
         didSet {
@@ -88,9 +131,42 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     
     @NSCopying open private(set) var placeholderTextColor: UIColor?
     
+    @NSCopying open private(set) var disclosureColor:      UIColor?
+    
     @NSCopying open private(set) var separatorColor:       UIColor?
     
     @NSCopying open private(set) var validationErrorColor: UIColor?
+    
+    
+    // MARK: - Subclass override points
+    
+    /// Allows subclasses to return a custom subclass of UICollectionView
+    /// to use as the collection view.
+    ///
+    /// - Returns: The `UICollectionView` class to use for the main collection view.
+    ///            The default returns `UICollectionView` itself.
+    open func collectionViewClass() -> UICollectionView.Type {
+        return UICollectionView.self
+    }
+    
+    
+    // MARK: - Legacy support
+    /// Additional content insets beyond the standard top and bottom layout guides.
+    
+    ///
+    /// In iOS 11, you should use `additionalSafeAreaInsets` instead.
+    @available(iOS, deprecated: 11.0, message: "Use `additionalSafeAreaInsets` instead.")
+    open var legacy_additionalSafeAreaInsets: UIEdgeInsets = .zero {
+        didSet {
+            if legacy_additionalSafeAreaInsets == oldValue || isViewLoaded == false { return }
+            
+            view.setNeedsLayout()
+            
+            if calculatesContentHeight {
+                updateCalculatedContentHeight()
+            }
+        }
+    }
     
     
     // MARK: - Initializers
@@ -101,7 +177,9 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
         
         automaticallyAdjustsScrollViewInsets = false // we manage this ourselves.
         
-        NotificationCenter.default.addObserver(self, selector: #selector(applyCurrentTheme), name: .ThemeDidChange, object: nil)
+        if userInterfaceStyle == .current {
+            NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleDidChange), name: .interfaceStyleDidChange, object: nil)
+        }
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -109,9 +187,9 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     }
     
     deinit {
-        if wantsCalculatedContentHeight {
-            collectionView?.removeObserver(self, forKeyPath: #keyPath(UICollectionView.contentSize), context: &kvoContext)
-        }
+        if calculatesContentHeight == false { return }
+        
+        collectionView?.removeObserver(self, forKeyPath: #keyPath(UICollectionView.contentSize), context: &contentHeightContext)
     }
     
     
@@ -120,7 +198,7 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     open override func loadView() {
         let backgroundBounds = UIScreen.main.bounds
         
-        let collectionView = UICollectionView(frame: backgroundBounds, collectionViewLayout: formLayout)
+        let collectionView = collectionViewClass().init(frame: backgroundBounds, collectionViewLayout: formLayout)
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.dataSource = self
         collectionView.delegate   = self
@@ -131,8 +209,8 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
         collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: tempID)
         collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: tempID)
         
-        if wantsCalculatedContentHeight {
-            collectionView.addObserver(self, forKeyPath: #keyPath(UICollectionView.contentSize), context: &kvoContext)
+        if calculatesContentHeight {
+            collectionView.addObserver(self, forKeyPath: #keyPath(UICollectionView.contentSize), options: [.old, .new], context: &contentHeightContext)
         }
         
         let backgroundView = UIView(frame: backgroundBounds)
@@ -149,13 +227,21 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     
     open override func viewDidLoad() {
         super.viewDidLoad()
-        applyCurrentTheme()
+        apply(ThemeManager.shared.theme(for: userInterfaceStyle))
     }
     
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        let insets = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: max(bottomLayoutGuide.length, statusTabBarInset), right: 0.0)
+        // TODO: Uncomment in iOS 11
+//        if #available(iOS 11, *) {
+//            return
+//        }
+        
+        var insets = legacy_additionalSafeAreaInsets
+        insets.top += topLayoutGuide.length
+        insets.bottom += max(bottomLayoutGuide.length, statusTabBarInset)
+        
         loadingManager.contentInsets = insets
         collectionViewInsetManager?.standardContentInset   = insets
         collectionViewInsetManager?.standardIndicatorInset = insets
@@ -176,55 +262,59 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     
     // MARK: - Themes
     
-    open func applyCurrentTheme() {
-        let colors = Theme.current.colors
-        
-        tintColor            = colors[.Tint]
-        separatorColor       = colors[.Separator]
-        backgroundColor      = colors[.Background]
-        selectionColor       = colors[.CellSelection]
-        primaryTextColor     = colors[.PrimaryText]
-        secondaryTextColor   = colors[.SecondaryText]
-        placeholderTextColor = colors[.PlaceholderText]
-        validationErrorColor = colors[.ValidationError]
+    open func apply(_ theme: Theme) {
+        tintColor            = theme.color(forKey: .tint)
+        separatorColor       = theme.color(forKey: .separator)
+        backgroundColor      = theme.color(forKey: .background)
+        selectionColor       = theme.color(forKey: .cellSelection)
+        primaryTextColor     = theme.color(forKey: .primaryText)
+        secondaryTextColor   = theme.color(forKey: .secondaryText)
+        placeholderTextColor = theme.color(forKey: .placeholderText)
+        disclosureColor      = theme.color(forKey: .disclosure)
+        validationErrorColor = theme.color(forKey: .validationError)
         
         loadingManager.noContentColor = secondaryTextColor ?? .gray
         
         setNeedsStatusBarAppearanceUpdate()
         
+        guard let view = self.viewIfLoaded, let collectionView = self.collectionView else { return }
         
-        if isViewLoaded,
-            let view = self.view,
-            let collectionView = self.collectionView {
-            view.backgroundColor = wantsTransparentBackground ? .clear : backgroundColor
-            
-            for cell in collectionView.visibleCells {
-                if let indexPath = collectionView.indexPath(for: cell) {
-                    self.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
-                }
-            }
-            
-            if let globalHeader = collectionView.visibleSupplementaryViews(ofKind: collectionElementKindGlobalHeader).first {
-                self.collectionView(collectionView, willDisplaySupplementaryView: globalHeader, forElementKind: collectionElementKindGlobalHeader, at: IndexPath(item: 0, section: 0))
-            }
-            if let globalFooter = collectionView.visibleSupplementaryViews(ofKind: collectionElementKindGlobalFooter).first {
-                self.collectionView(collectionView, willDisplaySupplementaryView: globalFooter, forElementKind: collectionElementKindGlobalFooter, at: IndexPath(item: 0, section: 0))
-            }
-            
-            let sectionHeaderIndexPaths = collectionView.indexPathsForVisibleSupplementaryElements(ofKind: UICollectionElementKindSectionHeader)
-            for indexPath in sectionHeaderIndexPaths {
-                if let headerView = collectionView.supplementaryView(forElementKind: UICollectionElementKindSectionHeader, at: indexPath) {
-                    self.collectionView(collectionView, willDisplaySupplementaryView: headerView, forElementKind: UICollectionElementKindSectionHeader, at: indexPath)
-                }
-            }
-            
-            let sectionFooterIndexPaths = collectionView.indexPathsForVisibleSupplementaryElements(ofKind: UICollectionElementKindSectionFooter)
-            for indexPath in sectionFooterIndexPaths {
-                if let footerView = collectionView.supplementaryView(forElementKind: UICollectionElementKindSectionFooter, at: indexPath) {
-                    self.collectionView(collectionView, willDisplaySupplementaryView: footerView, forElementKind: UICollectionElementKindSectionFooter, at: indexPath)
-                }
+        view.backgroundColor = wantsTransparentBackground ? .clear : backgroundColor
+        
+        for cell in collectionView.visibleCells {
+            if let indexPath = collectionView.indexPath(for: cell) {
+                self.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
             }
         }
+        
+        if let globalHeader = collectionView.visibleSupplementaryViews(ofKind: collectionElementKindGlobalHeader).first {
+            self.collectionView(collectionView, willDisplaySupplementaryView: globalHeader, forElementKind: collectionElementKindGlobalHeader, at: IndexPath(item: 0, section: 0))
+        }
+        if let globalFooter = collectionView.visibleSupplementaryViews(ofKind: collectionElementKindGlobalFooter).first {
+            self.collectionView(collectionView, willDisplaySupplementaryView: globalFooter, forElementKind: collectionElementKindGlobalFooter, at: IndexPath(item: 0, section: 0))
+        }
+        
+        let sectionHeaderIndexPaths = collectionView.indexPathsForVisibleSupplementaryElements(ofKind: UICollectionElementKindSectionHeader)
+        for indexPath in sectionHeaderIndexPaths {
+            if let headerView = collectionView.supplementaryView(forElementKind: UICollectionElementKindSectionHeader, at: indexPath) {
+                self.collectionView(collectionView, willDisplaySupplementaryView: headerView, forElementKind: UICollectionElementKindSectionHeader, at: indexPath)
+            }
+        }
+        
+        let sectionFooterIndexPaths = collectionView.indexPathsForVisibleSupplementaryElements(ofKind: UICollectionElementKindSectionFooter)
+        for indexPath in sectionFooterIndexPaths {
+            if let footerView = collectionView.supplementaryView(forElementKind: UICollectionElementKindSectionFooter, at: indexPath) {
+                self.collectionView(collectionView, willDisplaySupplementaryView: footerView, forElementKind: UICollectionElementKindSectionFooter, at: indexPath)
+            }
+        }
+    }
+    
+    @available(iOS, deprecated, renamed: "FormCollectionViewContoller.apply(_:)")
+    open func applyCurrentTheme() {
+    }
+    
+    open override var preferredStatusBarStyle : UIStatusBarStyle {
+        return ThemeManager.shared.theme(for: .current).statusBarStyle
     }
     
     
@@ -249,14 +339,41 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     
     open func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         
-        if let formCell = cell as? CollectionViewFormCell {
-            formCell.separatorColor = separatorColor
-            formCell.validationColor = validationErrorColor
-        }
-        
         let primaryTextColor     = self.primaryTextColor     ?? .black
         let secondaryTextColor   = self.secondaryTextColor   ?? .darkGray
         let placeholderTextColor = self.placeholderTextColor ?? .gray
+        
+        if let formCell = cell as? CollectionViewFormCell {
+            formCell.separatorColor = separatorColor
+            formCell.validationColor = validationErrorColor
+            
+            if let accessory = formCell.accessoryView {
+                func updateTintColor(for view: FormAccessoryView) {
+                    switch view.style {
+                    case .checkmark:
+                        view.tintColor = nil
+                    case .disclosure:
+                        view.tintColor = disclosureColor
+                    case .dropDown:
+                        view.tintColor = primaryTextColor
+                    }
+                }
+                
+                switch accessory {
+                case let formAccessory as FormAccessoryView:
+                    updateTintColor(for: formAccessory)
+                case let labeledAcccessory as LabeledAccessoryView:
+                    labeledAcccessory.titleLabel.textColor = primaryTextColor
+                    labeledAcccessory.subtitleLabel.textColor = secondaryTextColor
+                    
+                    if let formAccessory = labeledAcccessory.accessoryView as? FormAccessoryView {
+                        updateTintColor(for: formAccessory)
+                    }
+                default:
+                    break
+                }
+            }
+        }
         
         switch cell {
         case let formCell as EntityCollectionViewCell:
@@ -272,15 +389,6 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
             valueFieldCell.valueLabel.textColor = valueFieldCell.isEditable ? primaryTextColor : secondaryTextColor
             valueFieldCell.titleLabel.textColor = secondaryTextColor
             valueFieldCell.placeholderLabel.textColor = placeholderTextColor
-            
-            guard let title = valueFieldCell.titleLabel.text as NSString? else { break }
-            
-            let rangeOfStar = title.range(of: "*")
-            if rangeOfStar.location == NSNotFound { break }
-            
-            let titleString = NSMutableAttributedString(string: title as String)
-            titleString.setAttributes([NSForegroundColorAttributeName: UIColor.red], range: rangeOfStar)
-            valueFieldCell.titleLabel.attributedText = titleString
         case let subtitleCell as CollectionViewFormSubtitleCell:
             subtitleCell.titleLabel.textColor    = primaryTextColor
             subtitleCell.subtitleLabel.textColor = secondaryTextColor
@@ -292,28 +400,10 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
             textFieldCell.titleLabel.textColor = secondaryTextColor
             textFieldCell.textField.textColor  = primaryTextColor
             textFieldCell.textField.placeholderTextColor = placeholderTextColor
-            
-            guard let title = textFieldCell.titleLabel.text as NSString? else { return }
-            
-            let rangeOfStar = title.range(of: "*")
-            if rangeOfStar.location == NSNotFound { return }
-            
-            let titleString = NSMutableAttributedString(string: title as String)
-            titleString.setAttributes([NSForegroundColorAttributeName: UIColor.red], range: rangeOfStar)
-            textFieldCell.titleLabel.attributedText = titleString
         case let textViewCell as CollectionViewFormTextViewCell:
             textViewCell.titleLabel.textColor       = secondaryTextColor
             textViewCell.textView.textColor         = primaryTextColor
             textViewCell.textView.placeholderLabel.textColor = placeholderTextColor
-            
-            guard let title = textViewCell.titleLabel.text as NSString? else { return }
-            
-            let rangeOfStar = title.range(of: "*")
-            if rangeOfStar.location == NSNotFound { return }
-            
-            let titleString = NSMutableAttributedString(string: title as String)
-            titleString.setAttributes([NSForegroundColorAttributeName: UIColor.red], range: rangeOfStar)
-            textViewCell.titleLabel.attributedText = titleString
         default:
             break
         }
@@ -345,8 +435,13 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     // MARK: - Overrides
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if context == &kvoContext {
-            if wantsCalculatedContentHeight {
+        if context == &contentHeightContext {
+            if calculatesContentHeight == false { return }
+            
+            let old = change?[.oldKey] as? NSObject
+            let new = change?[.newKey] as? NSObject
+            
+            if old != new {
                 updateCalculatedContentHeight()
             }
         } else {
@@ -363,7 +458,7 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     /// Subclasses should not need to override this method, but
     /// should call this method when their calculated content size changes.
     open func updateCalculatedContentHeight() {
-        if wantsCalculatedContentHeight == false || isViewLoaded == false { return }
+        if calculatesContentHeight == false || isViewLoaded == false { return }
         
         let calculatedContentHeight = self.calculatedContentHeight()
         
@@ -375,27 +470,48 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     
     /// Calculates the current preferred content size for the collection view.
     ///
-    /// The default uses the current height of the collection view, clamped to the min
-    /// and max values set on the class, and updates when the collection view's content
-    /// height changes.
-    ///
-    /// Subclasses should override this method to adjust for any additional content
-    /// e.g. search bars and other adornments, but should observe the min and max
-    /// values set.
+    /// The default uses the current height of the collection view and additional content
+    /// insets, clamped to the min and max values set on the class, and updates when the
+    /// collection view's content height changes or the additional content insets change.
     open func calculatedContentHeight() -> CGFloat {
-        let collectionContentHeight = (collectionView?.contentSize.height ?? 0.0)
+        var contentHeight = collectionView?.contentSize.height ?? 0.0
+        
+        // TODO: Uncomment in iOS 11
+//        if #available(iOS 11, *) {
+//            contentHeight += additionalSafeAreaInsets.top + additionalSafeAreaInsets.bottom
+//        } else {
+            contentHeight += legacy_additionalSafeAreaInsets.top + legacy_additionalSafeAreaInsets.bottom
+//        }
         
         let minHeight = minimumCalculatedContentHeight
         let maxHeight = maximumCalculatedContentHeight
         
-        return max(min(collectionContentHeight, maxHeight), minHeight)
+        return max(min(contentHeight, maxHeight), minHeight)
     }
     
     
-    // MARK: - Status bar overrides
+    // MARK: - Private methods
     
-    open override var preferredStatusBarStyle : UIStatusBarStyle {
-        return Theme.current.statusBarStyle
+    @objc private func interfaceStyleDidChange() {
+        if userInterfaceStyle != .current { return }
+        
+        apply(ThemeManager.shared.theme(for: userInterfaceStyle))
     }
     
 }
+
+
+// TODO: Uncomment in iOS 11
+//@available(iOS, introduced: 11.0)
+//extension FormCollectionViewController {
+//    
+//    open override var additionalSafeAreaInsets: UIEdgeInsets {
+//        didSet {
+//            if additionalSafeAreaInsets != oldValue && calculatesContentHeight {
+//                updateCalculatedContentHeight()
+//            }
+//        }
+//    }
+//
+//}
+

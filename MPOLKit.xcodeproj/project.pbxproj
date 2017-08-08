@@ -20,11 +20,13 @@
 		8CDAFFA6E9DC54A4594C01FE /* Pods_MPOLKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FE1AAA01D6AE18F86693DF8 /* Pods_MPOLKitTests.framework */; };
 		BA6FEAA4EFE7F66EBAE4C2DC /* Pods_MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9215372B17F43A2FDEB28AD0 /* Pods_MPOLKit.framework */; };
 		BC0448941F219A70005FB857 /* AssetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0448931F219A70005FB857 /* AssetManager.swift */; };
+		BC0EA3F41F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0EA3F31F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift */; };
 		BC1B25BA1F2707270090C0AA /* MPOLBarButtonItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1B25B91F2707270090C0AA /* MPOLBarButtonItems.swift */; };
 		BC1B260D1F20BB3A009674B7 /* StatusTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1B260C1F20BB32009674B7 /* StatusTabBarController.swift */; };
 		BC1B260E1F20BB3C009674B7 /* PushableSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1B260B1F20BB32009674B7 /* PushableSplitViewController.swift */; };
 		BC1B26111F20BBD7009674B7 /* UIViewController+ParentSearching.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1B26101F20BBA9009674B7 /* UIViewController+ParentSearching.swift */; };
 		BC1ECEBF1F24CC40002C2A68 /* LoadingStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1ECEBE1F24CC40002C2A68 /* LoadingStateManager.swift */; };
+		BC2C97481F31FEF7006A0727 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2C97471F31FEF7006A0727 /* ThemeManager.swift */; };
 		BC39A6831F18A6EC005CA8EE /* LabeledAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC39A6821F18A6EC005CA8EE /* LabeledAccessoryView.swift */; };
 		BC5C11EF1F2806890048CBBF /* NoContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5C11EE1F2806890048CBBF /* NoContentView.swift */; };
 		BC5C11F31F2810BA0048CBBF /* RoundedRectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5C11F21F2810BA0048CBBF /* RoundedRectButton.swift */; };
@@ -149,15 +151,20 @@
 		BC9C7E551F0DED6600DFFE83 /* RoundedRectLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DC41F0DED6600DFFE83 /* RoundedRectLabel.swift */; };
 		BC9C7E561F0DED6600DFFE83 /* TabStripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DC51F0DED6600DFFE83 /* TabStripView.swift */; };
 		BCA6FD771F22E0AE00EE8F7A /* SearchFieldButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA6FD761F22E0AE00EE8F7A /* SearchFieldButton.swift */; };
+		BCB4731C1F33F60500456491 /* LightTheme.json in Resources */ = {isa = PBXBuildFile; fileRef = BCB4731B1F33F60500456491 /* LightTheme.json */; };
+		BCB4731E1F33F63F00456491 /* DarkTheme.json in Resources */ = {isa = PBXBuildFile; fileRef = BCB4731D1F33F63F00456491 /* DarkTheme.json */; };
 		BCBA82141F19D7E8000BBF82 /* StringSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBA82131F19D7E8000BBF82 /* StringSizing.swift */; };
+		BCC5132F1F333B2000413961 /* FormAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC5132E1F333B2000413961 /* FormAccessoryView.swift */; };
+		BCC6F74E1F2FF91200F05F65 /* MapCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC6F74D1F2FF91200F05F65 /* MapCollectionViewController.swift */; };
 		BCED8C761F1488EE004C3C71 /* CollectionViewFormHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FF2241F148818000B317A /* CollectionViewFormHeaderView.swift */; };
 		BCF4B59C1F2849D00022132D /* SpacerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF4B59B1F2849D00022132D /* SpacerView.swift */; };
 		C6020FD11F394734001F1E71 /* APIManagerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6020FD01F394734001F1E71 /* APIManagerError.swift */; };
 		C6020FD31F394771001F1E71 /* DataResponse+MPLConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6020FD21F394771001F1E71 /* DataResponse+MPLConversion.swift */; };
+		BCFA067E1F3176A3002FA1FF /* MapCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFA067D1F3176A3002FA1FF /* MapCollectionViewLayout.swift */; };
+		BCFA06811F317C29002FA1FF /* MapCollectionViewHeaderLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFA06801F317C29002FA1FF /* MapCollectionViewHeaderLayout.swift */; };
 		C605F8901ECCAB2C001194DD /* MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C605F8861ECCAB2B001194DD /* MPOLKit.framework */; };
 		C605F8A81ECCAD3B001194DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C605F8A31ECCAD3B001194DD /* Assets.xcassets */; };
 		C605F8A91ECCAD3B001194DD /* Manifest.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C605F8A41ECCAD3B001194DD /* Manifest.xcdatamodeld */; };
-		C605F8AA1ECCAD3B001194DD /* ThemePack.json in Resources */ = {isa = PBXBuildFile; fileRef = C605F8A61ECCAD3B001194DD /* ThemePack.json */; };
 		C60C890B1ECCB94F00785932 /* SimplePerson.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F9F31ECCB5E4001194DD /* SimplePerson.swift */; };
 		C60C890F1ECCB9A800785932 /* UnboxableResponseSerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F9F11ECCB5C4001194DD /* UnboxableResponseSerializerTests.swift */; };
 		C60C891A1ECCBEC700785932 /* SimplePerson.json in Resources */ = {isa = PBXBuildFile; fileRef = C60C89141ECCBEC700785932 /* SimplePerson.json */; };
@@ -216,11 +223,13 @@
 		792BA6D7922A9D3748B70A23 /* Pods-MPOLKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKit/Pods-MPOLKit.release.xcconfig"; sourceTree = "<group>"; };
 		9215372B17F43A2FDEB28AD0 /* Pods_MPOLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC0448931F219A70005FB857 /* AssetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetManager.swift; sourceTree = "<group>"; };
+		BC0EA3F31F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCollectionViewSidebarLayout.swift; sourceTree = "<group>"; };
 		BC1B25B91F2707270090C0AA /* MPOLBarButtonItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPOLBarButtonItems.swift; sourceTree = "<group>"; };
 		BC1B260B1F20BB32009674B7 /* PushableSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushableSplitViewController.swift; sourceTree = "<group>"; };
 		BC1B260C1F20BB32009674B7 /* StatusTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusTabBarController.swift; sourceTree = "<group>"; };
 		BC1B26101F20BBA9009674B7 /* UIViewController+ParentSearching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+ParentSearching.swift"; sourceTree = "<group>"; };
 		BC1ECEBE1F24CC40002C2A68 /* LoadingStateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingStateManager.swift; sourceTree = "<group>"; };
+		BC2C97471F31FEF7006A0727 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		BC39A6821F18A6EC005CA8EE /* LabeledAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabeledAccessoryView.swift; sourceTree = "<group>"; };
 		BC3FF2241F148818000B317A /* CollectionViewFormHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewFormHeaderView.swift; sourceTree = "<group>"; };
 		BC5C11EE1F2806890048CBBF /* NoContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoContentView.swift; sourceTree = "<group>"; };
@@ -347,8 +356,14 @@
 		BC9C7DC41F0DED6600DFFE83 /* RoundedRectLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedRectLabel.swift; sourceTree = "<group>"; };
 		BC9C7DC51F0DED6600DFFE83 /* TabStripView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabStripView.swift; sourceTree = "<group>"; };
 		BCA6FD761F22E0AE00EE8F7A /* SearchFieldButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFieldButton.swift; sourceTree = "<group>"; };
+		BCB4731B1F33F60500456491 /* LightTheme.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = LightTheme.json; sourceTree = "<group>"; };
+		BCB4731D1F33F63F00456491 /* DarkTheme.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DarkTheme.json; sourceTree = "<group>"; };
 		BCBA82131F19D7E8000BBF82 /* StringSizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringSizing.swift; sourceTree = "<group>"; };
+		BCC5132E1F333B2000413961 /* FormAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormAccessoryView.swift; sourceTree = "<group>"; };
+		BCC6F74D1F2FF91200F05F65 /* MapCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapCollectionViewController.swift; sourceTree = "<group>"; };
 		BCF4B59B1F2849D00022132D /* SpacerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpacerView.swift; sourceTree = "<group>"; };
+		BCFA067D1F3176A3002FA1FF /* MapCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCollectionViewLayout.swift; sourceTree = "<group>"; };
+		BCFA06801F317C29002FA1FF /* MapCollectionViewHeaderLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCollectionViewHeaderLayout.swift; sourceTree = "<group>"; };
 		C16272D9586EB6222EB2DC33 /* Pods-MPOLKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKitTests/Pods-MPOLKitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C6020FD01F394734001F1E71 /* APIManagerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManagerError.swift; sourceTree = "<group>"; };
 		C6020FD21F394771001F1E71 /* DataResponse+MPLConversion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataResponse+MPLConversion.swift"; sourceTree = "<group>"; };
@@ -357,7 +372,6 @@
 		C605F8961ECCAB2C001194DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C605F8A31ECCAD3B001194DD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C605F8A51ECCAD3B001194DD /* Manifest.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Manifest.xcdatamodel; sourceTree = "<group>"; };
-		C605F8A61ECCAD3B001194DD /* ThemePack.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ThemePack.json; sourceTree = "<group>"; };
 		C605F9F11ECCB5C4001194DD /* UnboxableResponseSerializerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnboxableResponseSerializerTests.swift; sourceTree = "<group>"; };
 		C605F9F31ECCB5E4001194DD /* SimplePerson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimplePerson.swift; sourceTree = "<group>"; };
 		C60C89141ECCBEC700785932 /* SimplePerson.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SimplePerson.json; sourceTree = "<group>"; };
@@ -668,6 +682,9 @@
 				BC9C7D7C1F0DED6600DFFE83 /* FormTextView.swift */,
 				BC9C7D7D1F0DED6600DFFE83 /* RadioButton.swift */,
 				BC9C7D7E1F0DED6600DFFE83 /* SelectableButton.swift */,
+				BCC5132E1F333B2000413961 /* FormAccessoryView.swift */,
+				BC9C7DC01F0DED6600DFFE83 /* FormAccessoryCheckmark.swift */,
+				BC9C7DC11F0DED6600DFFE83 /* FormDisclosureView.swift */,
 				BC39A6821F18A6EC005CA8EE /* LabeledAccessoryView.swift */,
 			);
 			path = Views;
@@ -695,6 +712,7 @@
 				BC9C7DB41F0DED6600DFFE83 /* Source Bar */,
 				BC9C7DB81F0DED6600DFFE83 /* TermsConditionsViewController.swift */,
 				BC9C7DB91F0DED6600DFFE83 /* Theme.swift */,
+				BC2C97471F31FEF7006A0727 /* ThemeManager.swift */,
 				BC9C7DBA1F0DED6600DFFE83 /* ViewControllerAnimationOptionTransition.swift */,
 				BC9C7DBB1F0DED6600DFFE83 /* Views */,
 			);
@@ -707,6 +725,8 @@
 				BC9C7D841F0DED6600DFFE83 /* FormCollectionViewController.swift */,
 				BC9C7D851F0DED6600DFFE83 /* FormSearchTableViewController.swift */,
 				BC9C7D861F0DED6600DFFE83 /* FormTableViewController.swift */,
+				BCC6F74D1F2FF91200F05F65 /* MapCollectionViewController.swift */,
+				BCFA067F1F3176A8002FA1FF /* MapCollectionViewLayout */,
 			);
 			path = "Abstract View Controllers";
 			sourceTree = "<group>";
@@ -800,8 +820,6 @@
 				BC9C7DBD1F0DED6600DFFE83 /* BadgeView.swift */,
 				BC9C7DBE1F0DED6600DFFE83 /* CircleIconView.swift */,
 				BC9C7DBF1F0DED6600DFFE83 /* EntityThumbnailView.swift */,
-				BC9C7DC01F0DED6600DFFE83 /* FormAccessoryCheckmark.swift */,
-				BC9C7DC11F0DED6600DFFE83 /* FormDisclosureView.swift */,
 				BC9C7DC21F0DED6600DFFE83 /* GradientView.swift */,
 				BC9C7DC31F0DED6600DFFE83 /* NavigationBarExtension.swift */,
 				BC5C11EE1F2806890048CBBF /* NoContentView.swift */,
@@ -813,6 +831,16 @@
 				BC9C7DC51F0DED6600DFFE83 /* TabStripView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		BCFA067F1F3176A8002FA1FF /* MapCollectionViewLayout */ = {
+			isa = PBXGroup;
+			children = (
+				BCFA067D1F3176A3002FA1FF /* MapCollectionViewLayout.swift */,
+				BCFA06801F317C29002FA1FF /* MapCollectionViewHeaderLayout.swift */,
+				BC0EA3F31F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift */,
+			);
+			path = MapCollectionViewLayout;
 			sourceTree = "<group>";
 		};
 		C605F87C1ECCAB2B001194DD = {
@@ -863,7 +891,8 @@
 				12003B601F1F12FB00F5A3D3 /* Lottie */,
 				C605F8A31ECCAD3B001194DD /* Assets.xcassets */,
 				C605F8A41ECCAD3B001194DD /* Manifest.xcdatamodeld */,
-				C605F8A61ECCAD3B001194DD /* ThemePack.json */,
+				BCB4731B1F33F60500456491 /* LightTheme.json */,
+				BCB4731D1F33F63F00456491 /* DarkTheme.json */,
 				C6F5DED01ECD5C62008E7BE2 /* Mock JSONs */,
 			);
 			path = Assets;
@@ -1077,9 +1106,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCB4731C1F33F60500456491 /* LightTheme.json in Resources */,
+				BCB4731E1F33F63F00456491 /* DarkTheme.json in Resources */,
 				C6A5F0081ECE89A300B0D915 /* VehicleSearch.json in Resources */,
 				C6F5DED21ECD5C62008E7BE2 /* AccessToken.json in Resources */,
-				C605F8AA1ECCAD3B001194DD /* ThemePack.json in Resources */,
 				C605F8A81ECCAD3B001194DD /* Assets.xcassets in Resources */,
 				12413C281F1F23B0001B0B41 /* spinner.json in Resources */,
 			);
@@ -1107,13 +1137,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MPOLKit-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		50C7553215416F5E1552D760 /* [CP] Copy Pods Resources */ = {
@@ -1137,9 +1170,20 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-MPOLKitTests/Pods-MPOLKitTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
+				"${BUILT_PRODUCTS_DIR}/Unbox/Unbox.framework",
+				"${BUILT_PRODUCTS_DIR}/Wrap/Wrap.framework",
+				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Unbox.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Wrap.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1152,13 +1196,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MPOLKitTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F23069C463A0721880083817 /* [CP] Copy Pods Resources */ = {
@@ -1191,6 +1238,7 @@
 				BC9C7DD31F0DED6600DFFE83 /* OAuthAuthorizationGrant.swift in Sources */,
 				BC9C7E2B1F0DED6600DFFE83 /* String+EmptyFiltering.swift in Sources */,
 				BC9C7E501F0DED6600DFFE83 /* EntityThumbnailView.swift in Sources */,
+				BC0EA3F41F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift in Sources */,
 				BC9C7E481F0DED6600DFFE83 /* SourceBarCell.swift in Sources */,
 				BC9C7E3D1F0DED6600DFFE83 /* PickerTableViewController.swift in Sources */,
 				BC9C7DC71F0DED6600DFFE83 /* AuthenticationHeaderAdapter.swift in Sources */,
@@ -1211,6 +1259,7 @@
 				12ADD41C1F32A47D00CA8B4D /* SearchFieldCollectionViewCell.swift in Sources */,
 				BC9C7E191F0DED6600DFFE83 /* RadioButton.swift in Sources */,
 				BC9C7E2C1F0DED6600DFFE83 /* UIColor+Hex.swift in Sources */,
+				BC2C97481F31FEF7006A0727 /* ThemeManager.swift in Sources */,
 				BC9C7E0B1F0DED6600DFFE83 /* UIView+Convenience.swift in Sources */,
 				BC1B26111F20BBD7009674B7 /* UIViewController+ParentSearching.swift in Sources */,
 				BC9C7E491F0DED6600DFFE83 /* SourceItem.swift in Sources */,
@@ -1270,6 +1319,7 @@
 				BC9C7E251F0DED6600DFFE83 /* EntityCollectionViewCell.swift in Sources */,
 				BC8A99611F22EBD700387AB6 /* UIColor+Brightness.swift in Sources */,
 				BC9C7DED1F0DED6600DFFE83 /* ResponseDataOperationChainable.swift in Sources */,
+				BCFA06811F317C29002FA1FF /* MapCollectionViewHeaderLayout.swift in Sources */,
 				BCF4B59C1F2849D00022132D /* SpacerView.swift in Sources */,
 				EA8B666D1F393F2000F09716 /* SearchResultErrorCell.swift in Sources */,
 				BC9C7E441F0DED6600DFFE83 /* SidebarSplitViewController.swift in Sources */,
@@ -1297,6 +1347,7 @@
 				BC9C7E531F0DED6600DFFE83 /* GradientView.swift in Sources */,
 				EABAB8041F342E450071A401 /* AggregatedSearchRequest.swift in Sources */,
 				BC9C7DCD1F0DED6600DFFE83 /* ArchivedManifestEntry.swift in Sources */,
+				BCC6F74E1F2FF91200F05F65 /* MapCollectionViewController.swift in Sources */,
 				BCBA82141F19D7E8000BBF82 /* StringSizing.swift in Sources */,
 				BC9C7E031F0DED6600DFFE83 /* UICollectionView+DefaultReuse.swift in Sources */,
 				BC9C7E451F0DED6600DFFE83 /* SidebarTableViewCell.swift in Sources */,
@@ -1327,8 +1378,10 @@
 				BCED8C761F1488EE004C3C71 /* CollectionViewFormHeaderView.swift in Sources */,
 				BC9C7E0A1F0DED6600DFFE83 /* UITraitCollection+CurrentDisplayScale.swift in Sources */,
 				BC9C7E4F1F0DED6600DFFE83 /* CircleIconView.swift in Sources */,
+				BCFA067E1F3176A3002FA1FF /* MapCollectionViewLayout.swift in Sources */,
 				BC9C7E381F0DED6600DFFE83 /* LoginViewController.swift in Sources */,
 				BC9C7E461F0DED6600DFFE83 /* SidebarViewController.swift in Sources */,
+				BCC5132F1F333B2000413961 /* FormAccessoryView.swift in Sources */,
 				BC9C7E3C1F0DED6600DFFE83 /* FilterViewController.swift in Sources */,
 				C6020FD31F394771001F1E71 /* DataResponse+MPLConversion.swift in Sources */,
 				BC9C7E561F0DED6600DFFE83 /* TabStripView.swift in Sources */,

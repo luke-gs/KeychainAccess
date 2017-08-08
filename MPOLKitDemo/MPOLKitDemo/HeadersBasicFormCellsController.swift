@@ -70,7 +70,6 @@ class HeadersBasicFormCellsController: FormCollectionViewController {
         switch kind {
         case UICollectionElementKindSectionHeader:
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, class: CollectionViewFormHeaderView.self, for: indexPath)
-            header.tintColor = Theme.current.colors[.SecondaryText]
             header.showsExpandArrow = true
             header.text = "HEADER: " + Section(rawValue: indexPath.section)!.title
             header.tapHandler = { (header, ip) in

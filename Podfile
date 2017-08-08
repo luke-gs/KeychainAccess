@@ -13,7 +13,7 @@ def mpol_kit_dependencies
     pod 'Alamofire', '4.4.0'
     pod 'Unbox', '2.5.0'
     pod 'Wrap', '2.1.0'
-    pod 'lottie-ios', '1.5.2'
+    pod 'lottie-ios', '~> 2.0.2'
     pod 'PromiseKit', '4.3.1'    
 end
 
@@ -28,5 +28,5 @@ end
 
 target 'MPOLKitDemo' do
     project 'MPOLKitDemo/MPOLKitDemo.xcodeproj'
-    mpol_kit_dependencies
+    pod 'MPOLKit', :path => '../mPolKit-iOS'
 end

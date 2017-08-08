@@ -23,21 +23,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         NotificationCenter.default.addObserver(self, selector: #selector(networkActivityDidBegin), name: .NetworkActivityDidBegin, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(networkActivityDidEnd),   name: .NetworkActivityDidEnd,   object: nil)
+        
+        
     }
     
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         MPOLKitInitialize()
         
-        let theme = Theme.current
+        let theme = ThemeManager.shared.theme(for: .current)
         
         let navBar = UINavigationBar.appearance()
-        navBar.setBackgroundImage(theme.navigationBarBackgroundImage, for: .default)
+        navBar.setBackgroundImage(theme.image(forKey: .navigationBarBackground), for: .default)
+        navBar.shadowImage = theme.image(forKey: .navigationBarShadow)
         navBar.barStyle  = theme.navigationBarStyle
-        navBar.tintColor = theme.colors[.NavigationBarTint]
+        navBar.tintColor = theme.color(forKey: .navigationBarTint)
         
         let window = UIWindow()
-        window.tintColor = theme.colors[.Tint]
+        window.tintColor = theme.color(forKey: .tint)
         self.window = window
         
         let pushableSplitViewController = PushableSplitViewController(viewControllers: [UINavigationController(rootViewController: CollectionDemoListViewController(style: .grouped)), UINavigationController()])

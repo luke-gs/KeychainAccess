@@ -8,6 +8,7 @@
 
 import UIKit
 
+@available(iOS, deprecated, message: "Use FormAccessoryView with a disclosure style.")
 public class FormDisclosureView: UIImageView {
     
     // The standard size of form disclosure views.
@@ -21,7 +22,7 @@ public class FormDisclosureView: UIImageView {
         }
         set {
             if isThemeUpdatingEnabled {
-                NotificationCenter.default.removeObserver(self, name: .ThemeDidChange, object: nil)
+                NotificationCenter.default.removeObserver(self, name: .interfaceStyleDidChange, object: nil)
                 isThemeUpdatingEnabled = false
             }
             super.tintColor = newValue
@@ -36,9 +37,9 @@ public class FormDisclosureView: UIImageView {
     public init() {
         let image = AssetManager.shared.image(forKey: .disclosure)!
         super.init(frame: CGRect(origin: .zero, size: image.size))
-        super.tintColor = Theme.current.colors[.DisclosureIndicator] ?? FormDisclosureView.defaultTintColor
+        super.tintColor = ThemeManager.shared.theme(for: .current).color(forKey: .disclosure) ?? FormDisclosureView.defaultTintColor
         super.image = image
-        NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange(_:)), name: .ThemeDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleDidChange(_:)), name: .interfaceStyleDidChange, object: nil)
     }
     
     public required convenience init(coder aDecoder: NSCoder) {
@@ -71,8 +72,8 @@ public class FormDisclosureView: UIImageView {
     
     // MARK: - Private methods
     
-    @objc private func themeDidChange(_ notification: Notification) {
-        super.tintColor = Theme.current.colors[.DisclosureIndicator] ?? FormDisclosureView.defaultTintColor
+    @objc private func interfaceStyleDidChange(_ notification: Notification) {
+        super.tintColor = ThemeManager.shared.theme(for: .current).color(forKey: .disclosure) ?? FormDisclosureView.defaultTintColor
     }
 }
 

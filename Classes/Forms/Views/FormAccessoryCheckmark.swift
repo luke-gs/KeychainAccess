@@ -14,6 +14,7 @@ import UIKit
 /// ```
 /// cell.accessoryView = cell.accessoryView as? FormAccessoryCheckmark ?? FormAccessoryCheckmark()
 /// ```
+@available(iOS, deprecated, message: "Use FormAccessoryView with checkmark style.")
 public class FormAccessoryCheckmark: UIImageView {
 
     // MARK: - Initializers
@@ -50,6 +51,5 @@ public class FormAccessoryCheckmark: UIImageView {
         get { return nil }
         set { }
     }
-    
 
 }

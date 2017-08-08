@@ -58,7 +58,7 @@ open class FilterViewController: FormCollectionViewController {
         formLayout.distribution = .fillEqually
         
         minimumCalculatedContentHeight = 200.0
-        wantsCalculatedContentHeight = true
+        calculatesContentHeight = true
         
         isModalInPopover = true
         
@@ -174,7 +174,7 @@ open class FilterViewController: FormCollectionViewController {
                 return cell
             case .detailList:
                 let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
-                cell.accessoryView = cell.accessoryView as? FormDisclosureView ?? FormDisclosureView()
+                cell.accessoryView = cell.accessoryView as? FormAccessoryView ?? FormAccessoryView(style: .disclosure)
                 let selectedItemCount = list.selectedIndexes.count
                 switch selectedItemCount {
                 case 0:
@@ -527,7 +527,7 @@ fileprivate class FilterCheckmarkCell: CollectionViewFormSubtitleCell {
         didSet {
             if isSelected == oldValue { return }
             
-            accessoryView = isSelected ? FormAccessoryCheckmark() : nil
+            accessoryView = isSelected ? FormAccessoryView(style: .checkmark) : nil
             updateTextColor()
         }
     }
