@@ -84,7 +84,6 @@ open class APIManager<Configuration: APIManagerConfigurable> {
     }
     
     /// Search for entity using specified request.
-    
     ///
     /// Supports implicit `NSProgress` reporting.
     /// - Parameters:
