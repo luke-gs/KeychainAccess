@@ -45,7 +45,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         notificationCenter.requestAuthorization(options: [.badge,.sound, .alert]) { (granted, error) in
             if error == nil {
                 #if !arch(i386) && !arch(x86_64)
-                    application.registerForRemoteNotifications()
+                    DispatchQueue.main.async {
+                        // `completionHandler` might be executed in background thread according
+                        // to documentation.
+                        application.registerForRemoteNotifications()
+                    }
                 #endif
             }
         }
