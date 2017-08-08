@@ -153,6 +153,8 @@
 		BCBA82141F19D7E8000BBF82 /* StringSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBA82131F19D7E8000BBF82 /* StringSizing.swift */; };
 		BCED8C761F1488EE004C3C71 /* CollectionViewFormHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FF2241F148818000B317A /* CollectionViewFormHeaderView.swift */; };
 		BCF4B59C1F2849D00022132D /* SpacerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF4B59B1F2849D00022132D /* SpacerView.swift */; };
+		C6020FD11F394734001F1E71 /* APIManagerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6020FD01F394734001F1E71 /* APIManagerError.swift */; };
+		C6020FD31F394771001F1E71 /* DataResponse+MPLConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6020FD21F394771001F1E71 /* DataResponse+MPLConversion.swift */; };
 		C605F8901ECCAB2C001194DD /* MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C605F8861ECCAB2B001194DD /* MPOLKit.framework */; };
 		C605F8A81ECCAD3B001194DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C605F8A31ECCAD3B001194DD /* Assets.xcassets */; };
 		C605F8A91ECCAD3B001194DD /* Manifest.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C605F8A41ECCAD3B001194DD /* Manifest.xcdatamodeld */; };
@@ -341,6 +343,8 @@
 		BCBA82131F19D7E8000BBF82 /* StringSizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringSizing.swift; sourceTree = "<group>"; };
 		BCF4B59B1F2849D00022132D /* SpacerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpacerView.swift; sourceTree = "<group>"; };
 		C16272D9586EB6222EB2DC33 /* Pods-MPOLKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKitTests/Pods-MPOLKitTests.debug.xcconfig"; sourceTree = "<group>"; };
+		C6020FD01F394734001F1E71 /* APIManagerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManagerError.swift; sourceTree = "<group>"; };
+		C6020FD21F394771001F1E71 /* DataResponse+MPLConversion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataResponse+MPLConversion.swift"; sourceTree = "<group>"; };
 		C605F8861ECCAB2B001194DD /* MPOLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MPOLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C605F88F1ECCAB2C001194DD /* MPOLKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MPOLKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C605F8961ECCAB2C001194DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -512,6 +516,8 @@
 			children = (
 				C63408501F30D4CA000747B0 /* APIManager.swift */,
 				C63408511F30D4D4000747B0 /* APIManagerConfigurable.swift */,
+				C6020FD01F394734001F1E71 /* APIManagerError.swift */,
+				C6020FD21F394771001F1E71 /* DataResponse+MPLConversion.swift */,
 				C634085A1F30E5B5000747B0 /* EntityFetchRequestable.swift */,
 				C63408541F30E541000747B0 /* EntitySearchRequestable.swift */,
 				C6CD6A171F31663500771B8C /* EntitySearchRequest.swift */,
@@ -1197,6 +1203,7 @@
 				C63408561F30E574000747B0 /* MPOLKitEntityProtocol.swift in Sources */,
 				BC9C7E291F0DED6600DFFE83 /* Bundle+MPOLKit.swift in Sources */,
 				BC9C7DD41F0DED6600DFFE83 /* ParametersComposer.swift in Sources */,
+				C6020FD11F394734001F1E71 /* APIManagerError.swift in Sources */,
 				BC9C7E431F0DED6600DFFE83 /* SidebarItem.swift in Sources */,
 				BC9C7DD71F0DED6600DFFE83 /* URLQueryBuilder.swift in Sources */,
 				BC9C7E1A1F0DED6600DFFE83 /* SelectableButton.swift in Sources */,
@@ -1260,6 +1267,7 @@
 				BC9C7E381F0DED6600DFFE83 /* LoginViewController.swift in Sources */,
 				BC9C7E461F0DED6600DFFE83 /* SidebarViewController.swift in Sources */,
 				BC9C7E3C1F0DED6600DFFE83 /* FilterViewController.swift in Sources */,
+				C6020FD31F394771001F1E71 /* DataResponse+MPLConversion.swift in Sources */,
 				BC9C7E561F0DED6600DFFE83 /* TabStripView.swift in Sources */,
 				C6F640ED1F333D4F003D73B9 /* NSArchiver+SecureArchiver.swift in Sources */,
 				BC9C7E411F0DED6600DFFE83 /* PopoverViewController.swift in Sources */,
