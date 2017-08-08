@@ -33,17 +33,8 @@ class MPOLSearchRecentsViewModel: SearchRecentsViewModel {
     private var internalRecentlyViewed: [Entity] = []
 
     func decorate(_ cell: EntityCollectionViewCell, at indexPath: IndexPath) {
-        let person = internalRecentlyViewed[indexPath.item]
-
-        cell.style              = .detail
-        cell.highlightStyle     = .fade
-        cell.titleLabel.text    = person.summary
-        cell.subtitleLabel.text = person.summaryDetail1
-        cell.detailLabel.text   = person.summaryDetail2
-        cell.thumbnailView.configure(for: person, size: .medium)
-        cell.sourceLabel.text   = person.source?.localizedBadgeTitle
-        cell.badgeCount         = person.actionCount
-        cell.alertColor         = person.alertLevel?.color
+        let entity = internalRecentlyViewed[indexPath.item]
+        cell.configure(for: entity, style: .detail)
     }
 
     func summaryIcon(for searchable: Searchable) -> UIImage? {
