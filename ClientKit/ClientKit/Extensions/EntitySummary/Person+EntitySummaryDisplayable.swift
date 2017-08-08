@@ -97,7 +97,6 @@ extension Person: EntitySummaryDisplayable {
     }
     
     private func formattedSuburbStatePostcode() -> String? {
-        
         let address = addresses?.first ?? self.address
         
         if let address = address {

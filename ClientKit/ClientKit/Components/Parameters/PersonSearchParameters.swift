@@ -14,7 +14,6 @@ import Wrap
 public class PersonSearchParameters: EntitySearchRequest<Person> {
     
     public init(familyName: String, givenName: String? = nil, middleNames: String? = nil, gender: String? = nil, dateOfBirth: String? = nil) {
-        
         let parameterisable = SearchParameters(familyName: familyName, givenName: givenName, middleNames: middleNames, gender: gender, dateOfBirth: dateOfBirth)
         
         super.init(parameters: parameterisable.parameters)
