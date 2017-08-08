@@ -9,6 +9,6 @@ import Foundation
 import Alamofire
 
 public struct APIManagerError: Error {
-    let underlyingError: Error
-    let response: DefaultDataResponse
+    public let underlyingError: Error
+    public let response: DefaultDataResponse
 }
