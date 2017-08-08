@@ -58,6 +58,6 @@ public class SearchResultLoadingCell: UICollectionViewCell, DefaultReusable {
     }
     
     public func apply(theme: Theme) {
-        titleLabel.textColor = theme.colors[.SecondaryText]
+        titleLabel.textColor = theme.color(forKey: .secondaryText)
     }
 }

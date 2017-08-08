@@ -58,7 +58,7 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
     override init() {
         super.init()
 
-        title = NSLocalizedString("Search Results", comment: "Navigation Bar Title") // Temp
+        title = NSLocalizedString("Search Results", comment: "Search Results - Navigation Bar Title")
 
         formLayout.itemLayoutMargins = UIEdgeInsets(top: 16.5, left: 8.0, bottom: 14.5, right: 8.0)
         formLayout.distribution = .none
@@ -95,20 +95,29 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
             viewModel?.registerCells(for: collectionView)
         }
 
+        let searchFieldVerticalConstraint: NSLayoutConstraint
+        //        if #available(iOS 11, *) {
+        //            searchFieldVerticalConstraint = searchFieldButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+        //        } else {
+        searchFieldVerticalConstraint = searchFieldButton.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor)
+        //        }
+        
         NSLayoutConstraint.activate([
             searchFieldButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             searchFieldButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            searchFieldButton.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor),
+            searchFieldVerticalConstraint,
         ])
     }
 
-    open override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        let insets = UIEdgeInsets(top: topLayoutGuide.length + (searchFieldButton?.frame.height ?? 0.0), left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)
-
-        loadingManager.contentInsets = insets
-        collectionViewInsetManager?.standardContentInset = insets
-        collectionViewInsetManager?.standardIndicatorInset = insets
+    override func viewWillLayoutSubviews() {
+        // TODO: Uncomment for iOS 11
+        //        if #available(iOS 11, *) {
+        //            additionalSafeAreaInsets.top = searchFieldButton?.frame.height ?? 0.0
+        //        } else {
+        legacy_additionalSafeAreaInsets.top = searchFieldButton?.frame.height ?? 0.0
+        //        }
+        
+        super.viewWillLayoutSubviews()
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -123,19 +132,17 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
         }
     }
 
-    override func applyCurrentTheme() {
-        super.applyCurrentTheme()
-
+    override func apply(_ theme: Theme) {
+        super.apply(theme)
+        
         guard let searchField = searchFieldButton else { return }
-
-        let themeColors = Theme.current.colors
-
-        searchField.backgroundColor = themeColors[.SearchFieldBackground]
-        searchField.fieldColor = themeColors[.SearchField]
+        
+        searchField.backgroundColor = theme.color(forKey: .searchFieldBackground)
+        searchField.fieldColor = theme.color(forKey: .searchField)
         searchField.textColor  = primaryTextColor
         searchField.placeholderTextColor = placeholderTextColor
     }
-
+    
 
     // MARK: - UICollectionViewDataSource methods
 
@@ -204,13 +211,13 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
             cell.buttonHandler = { [weak self] (cell) in
                 self?.viewModel!.retry(section: indexPath.section)
             }
-            cell.apply(theme: Theme.current)
+            cell.apply(theme: ThemeManager.shared.theme(for: userInterfaceStyle))
             return cell
         case .searching:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier.loading.rawValue, for: indexPath) as! SearchResultLoadingCell
             cell.titleLabel.text = NSLocalizedString("Retrieving results", comment: "[Search result screen] - Retrieving results")
             cell.activityIndicator.startAnimating()
-            cell.apply(theme: Theme.current)
+            cell.apply(theme: ThemeManager.shared.theme(for: userInterfaceStyle))
             return cell
         default:
             return viewModel!.collectionView(collectionView, cellForItemAt: indexPath, for: traitCollection)

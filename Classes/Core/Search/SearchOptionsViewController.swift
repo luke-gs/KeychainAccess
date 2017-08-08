@@ -8,7 +8,6 @@
 
 import UIKit
 
-fileprivate var kvoContext = 1
 
 class SearchOptionsViewController: FormCollectionViewController, UITextFieldDelegate, SearchDataSourceUpdating, TabStripViewDelegate {
 
@@ -74,14 +73,12 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
                 self.dataSources?[i].updatingDelegate = self
             }
         }
+        
+        calculatesContentHeight = true
     }
 
     required convenience init(coder aDecoder: NSCoder) {
         self.init()
-    }
-    
-    deinit {
-        collectionView?.removeObserver(self, forKeyPath: #keyPath(UICollectionView.contentSize), context: &kvoContext)
     }
     
     
@@ -129,8 +126,6 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         collectionView.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         collectionView.alwaysBounceVertical = false
         
-        collectionView.addObserver(self, forKeyPath: #keyPath(UICollectionView.contentSize), context: &kvoContext)
-        
         let navBarExtension = NavigationBarExtension(frame: .zero)
         navBarExtension.translatesAutoresizingMaskIntoConstraints = false
         
@@ -147,26 +142,46 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         view.addSubview(navBarExtension)
         navigationBarExtension = navBarExtension
         self.tabStripView      = tabStripView
+
+        let extensionVerticalConstraint: NSLayoutConstraint
+        // TODO: Uncomment in iOS 11
+        //        if #available(iOS 11, *) {
+        //            extensionVerticalConstraint = navBarExtension.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+        //        } else {
+        extensionVerticalConstraint = navBarExtension.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor)
+        //        }
         
         NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: navBarExtension, attribute: .leading,  relatedBy: .equal, toItem: view, attribute: .leading),
-            NSLayoutConstraint(item: navBarExtension, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailing),
-            NSLayoutConstraint(item: navBarExtension, attribute: .top,      relatedBy: .equal, toItem: topLayoutGuide, attribute: .bottom),
+            navBarExtension.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            navBarExtension.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            extensionVerticalConstraint
         ])
+
         
         var contentSize = collectionView.contentSize
         contentSize.height += navigationBarExtension?.frame.height ?? 0.0
         preferredContentSize = contentSize
     }
     
-    open override func viewDidLayoutSubviews() {
-        updatePreferredContentSize()
+    override func viewWillLayoutSubviews() {
+        // TODO: Uncomment in iOS 11
+        //        if #available(iOS 11, *) {
+        //            additionalSafeAreaInsets.top = navigationBarExtension?.frame.height ?? 0.0
+        //        } else {
+        legacy_additionalSafeAreaInsets.top = navigationBarExtension?.frame.height ?? 0.0
+        //        }
         
-        let insets = UIEdgeInsets(top: topLayoutGuide.length + (navigationBarExtension?.frame.height ?? 0.0), left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)
-        loadingManager.contentInsets = insets
-        collectionViewInsetManager?.standardContentInset = insets
-        collectionViewInsetManager?.standardIndicatorInset = insets
+        super.viewWillLayoutSubviews()
     }
+    
+//    open override func viewDidLayoutSubviews() {
+//        updatePreferredContentSize()
+//        
+//        let insets = UIEdgeInsets(top: topLayoutGuide.length + (navigationBarExtension?.frame.height ?? 0.0), left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)
+//        loadingManager.contentInsets = insets
+//        collectionViewInsetManager?.standardContentInset = insets
+//        collectionViewInsetManager?.standardIndicatorInset = insets
+//    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -202,19 +217,19 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     
     // MARK: - Editing
     
-    func beginEditingSearchField(_ withTextFieldHighlighted: Bool = false) {
+    func beginEditingSearchField(selectingAllText: Bool = false) {
         collectionView?.selectItem(at: indexPathForSearchFieldCell, animated: false, scrollPosition: [])
         
         if let textField = searchFieldCell?.textField {
             textField.becomeFirstResponder()
-            if withTextFieldHighlighted {
-                textField.becomeFirstResponder()
+            if selectingAllText {
                 textField.selectedTextRange = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
             }
         }
         
         isEditingTextField = true
     }
+
     
     func endEditingSearchField() {        
         endEditingSearchField(changingState: true)
@@ -256,19 +271,6 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
 
         delegate?.searchOptionsController(self, didFinishWith: searchable)
     }
-    
-    // MARK: - KVO
-    
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if context == &kvoContext {
-            if let collectionView = object as? UICollectionView, collectionView === self.collectionView {
-                updatePreferredContentSize()
-            }
-        } else {
-            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-        }
-    }
-    
     
     // MARK: - UICollectionViewDataSource methods
 
@@ -468,29 +470,16 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         reloadCollectionViewRetainingEditing()
     }
     
-    
-
-    
     // MARK: - TabStripViewDelegate
-    
     
     func tabStripView(_ tabStripView: TabStripView, didSelectItemAt index: Int) {
         selectedDataSourceIndex = index
     }
     
-    
     // MARK: - Private
     
     private enum Section: Int {
         case searchField, filters
-    }
-    
-    private func updatePreferredContentSize() {
-        guard let collectionView = self.collectionView else { return }
-        
-        var contentSize = collectionView.contentSize
-        contentSize.height += navigationBarExtension?.frame.height ?? 0.0
-        preferredContentSize = contentSize
     }
     
 }

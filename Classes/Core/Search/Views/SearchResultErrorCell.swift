@@ -64,7 +64,7 @@ public class SearchResultErrorCell: UICollectionViewCell, DefaultReusable {
     }
     
     public func apply(theme: Theme) {
-        titleLabel.textColor = theme.colors[.SecondaryText]
+        titleLabel.textColor = theme.color(forKey: .secondaryText)
     }
     
     @objc private func buttonTapped() {
