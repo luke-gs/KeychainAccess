@@ -55,7 +55,7 @@ public struct SortDescriptor<T>: SortDescriptorType {
 }
 
 public extension Sequence {
-    public func sorted(descriptors: [SortDescriptor<Iterator.Element>]) -> [Iterator.Element] {
+    public func sorted(using descriptors: [SortDescriptor<Iterator.Element>]) -> [Iterator.Element] {
         return sorted { return SortDescriptor.compare($0, $1, sortDescriptors: descriptors) == .orderedAscending }
     }
 }

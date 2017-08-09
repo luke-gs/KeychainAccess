@@ -53,7 +53,8 @@ class SortDescriptorTests: XCTestCase {
     func testThatItSortsOnePropertyInAscendingOrder() {
         let sortDescriptor = SortDescriptor<Person>(ascending: true) { $0.surname }
         
-        let sorted = persons.sorted(descriptors: [sortDescriptor])
+        
+        let sorted = persons.sorted(using: [sortDescriptor])
         
         let expected = [p1, p5, p2, p3, p4]
     }
