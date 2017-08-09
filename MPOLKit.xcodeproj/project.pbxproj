@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1211E3691F3AD7620012E2E6 /* EpochDateTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1211E3681F3AD7620012E2E6 /* EpochDateTransformerTests.swift */; };
 		12413C281F1F23B0001B0B41 /* spinner.json in Resources */ = {isa = PBXBuildFile; fileRef = 12413C271F1F23B0001B0B41 /* spinner.json */; };
 		12ADD40C1F32A47D00CA8B4D /* NumberRangePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD3F81F32A47D00CA8B4D /* NumberRangePickerViewController.swift */; };
 		12ADD4171F32A47D00CA8B4D /* SearchOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4051F32A47D00CA8B4D /* SearchOptionsViewController.swift */; };
@@ -158,10 +159,10 @@
 		BCC6F74E1F2FF91200F05F65 /* MapCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC6F74D1F2FF91200F05F65 /* MapCollectionViewController.swift */; };
 		BCED8C761F1488EE004C3C71 /* CollectionViewFormHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FF2241F148818000B317A /* CollectionViewFormHeaderView.swift */; };
 		BCF4B59C1F2849D00022132D /* SpacerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF4B59B1F2849D00022132D /* SpacerView.swift */; };
-		C6020FD11F394734001F1E71 /* APIManagerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6020FD01F394734001F1E71 /* APIManagerError.swift */; };
-		C6020FD31F394771001F1E71 /* DataResponse+MPLConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6020FD21F394771001F1E71 /* DataResponse+MPLConversion.swift */; };
 		BCFA067E1F3176A3002FA1FF /* MapCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFA067D1F3176A3002FA1FF /* MapCollectionViewLayout.swift */; };
 		BCFA06811F317C29002FA1FF /* MapCollectionViewHeaderLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFA06801F317C29002FA1FF /* MapCollectionViewHeaderLayout.swift */; };
+		C6020FD11F394734001F1E71 /* APIManagerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6020FD01F394734001F1E71 /* APIManagerError.swift */; };
+		C6020FD31F394771001F1E71 /* DataResponse+MPLConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6020FD21F394771001F1E71 /* DataResponse+MPLConversion.swift */; };
 		C605F8901ECCAB2C001194DD /* MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C605F8861ECCAB2B001194DD /* MPOLKit.framework */; };
 		C605F8A81ECCAD3B001194DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C605F8A31ECCAD3B001194DD /* Assets.xcassets */; };
 		C605F8A91ECCAD3B001194DD /* Manifest.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C605F8A41ECCAD3B001194DD /* Manifest.xcdatamodeld */; };
@@ -208,6 +209,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1211E3681F3AD7620012E2E6 /* EpochDateTransformerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpochDateTransformerTests.swift; sourceTree = "<group>"; };
 		12413C271F1F23B0001B0B41 /* spinner.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = spinner.json; sourceTree = "<group>"; };
 		12ADD3F81F32A47D00CA8B4D /* NumberRangePickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberRangePickerViewController.swift; sourceTree = "<group>"; };
 		12ADD4051F32A47D00CA8B4D /* SearchOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchOptionsViewController.swift; sourceTree = "<group>"; };
@@ -881,6 +883,7 @@
 				C63F71731F3332CC004F5047 /* Model */,
 				C605F9F01ECCB5C4001194DD /* UnboxableResponseSerializerTests */,
 				C605F8961ECCAB2C001194DD /* Info.plist */,
+				1211E3681F3AD7620012E2E6 /* EpochDateTransformerTests.swift */,
 			);
 			path = MPOLKitTests;
 			sourceTree = "<group>";
@@ -1408,6 +1411,7 @@
 				C60C890B1ECCB94F00785932 /* SimplePerson.swift in Sources */,
 				C65927771F332F7300854C60 /* ModelCodingTestUtility.swift in Sources */,
 				C60C890F1ECCB9A800785932 /* UnboxableResponseSerializerTests.swift in Sources */,
+				1211E3691F3AD7620012E2E6 /* EpochDateTransformerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
