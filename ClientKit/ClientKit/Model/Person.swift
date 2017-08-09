@@ -67,7 +67,7 @@ open class Person: Entity {
     open var cautions: [Caution]?
     
     open var knownAssociates: [KnownAssociate]?
-    open var associatedPersons: [Person]?
+    //open var associatedPersons: [Person]?
     
     open var warrants: [Warrant]?
     open var warnings: [Warning]?
@@ -147,7 +147,7 @@ open class Person: Entity {
         
         events = unboxer.unbox(key: "events")
         actions = unboxer.unbox(key: "actions")
-        associatedPersons = unboxer.unbox(key: "persons")
+       // associatedPersons = unboxer.unbox(key: "persons")
         address = unboxer.unbox(key: "address")
         
         if let initials: String = unboxer.unbox(key: "initials") {

@@ -20,7 +20,7 @@ public class EntityDetailsViewModel<T>: EntityDetailsViewModelable {
     
     public var person: Person? {
         didSet {
-            MPLRequiresConcreteImplementation()
+
         }
     }
     

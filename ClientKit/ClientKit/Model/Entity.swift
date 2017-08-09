@@ -28,6 +28,9 @@ open class Entity: MPOLKitEntity {
     
     open var alerts: [Alert]?
     
+    open var associatedPersons: [Person]?
+    open var associatedVehicles: [Vehicle]?
+    
     // MARK: - Temp properties
     open var lastUpdated: Date?
 
@@ -46,7 +49,10 @@ open class Entity: MPOLKitEntity {
         if let actionCount: UInt = unboxer.unbox(key: "actionCount") {
             self.actionCount = actionCount
         }
-
+        
+        associatedPersons = unboxer.unbox(key: "persons")
+        associatedVehicles = unboxer.unbox(key: "vehicles")
+        
         try super.init(unboxer: unboxer)
     }
 

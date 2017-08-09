@@ -223,8 +223,17 @@ extension PersonCriminalHistoryViewController: EntityDetailsViewModelDelegate {
         collectionView?.reloadData()
     }
     
+    public func updateNoContentSubtitle(_ subtitle: String? = nil) {
+        let label = loadingManager.noContentView.subtitleLabel
+        label.text = subtitle
+    }
+    
     public func updateFilterBarButtonItemActivity() {
         filterBarButtonItem.isActive = sorting != .dateNewest || filterDateRange != nil
+    }
+    
+    public func updateLoadingState(_ state: LoadingStateManager.State) {
+        loadingManager.state = state
     }
 }
 

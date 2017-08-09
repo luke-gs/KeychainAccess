@@ -206,6 +206,10 @@ extension EntityAlertsViewController: EntityDetailsViewModelDelegate {
         sidebarItem.alertColor = color
     }
     
+    public func updateLoadingState(_ state: LoadingStateManager.State) {
+        loadingManager.state = state
+    }
+    
     public func reloadData() {
         collectionView?.reloadData()
     }

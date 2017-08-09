@@ -248,6 +248,10 @@ extension PersonOccurrencesViewController: EntityDetailsViewModelDelegate {
         sidebarItem.count = count
     }
     
+    public func updateLoadingState(_ state: LoadingStateManager.State) {
+        loadingManager.state = state
+    }
+    
     public func updateNoContentSubtitle(_ subtitle: String? = nil) {
         let label = loadingManager.noContentView.subtitleLabel
         label.text = subtitle
