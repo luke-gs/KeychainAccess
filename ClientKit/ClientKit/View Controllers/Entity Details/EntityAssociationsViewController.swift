@@ -13,7 +13,7 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
     
     open override var entity: Entity? {
         didSet {
-            viewModel.person = (entity as? Person)
+            viewModel.entity = entity
         }
     }
     
@@ -79,7 +79,8 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
         switch kind {
         case UICollectionElementKindSectionHeader:
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
-            header.text = viewModel.sectionHeader
+            let item = viewModel.item(at: indexPath.item)!
+            header.text = item.title
             header.showsExpandArrow = false
             return header
         default:
@@ -102,12 +103,12 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
             cell.sourceLabel.text   = cellInfo.source
             
             cell.highlightStyle     = .fade
-            cell.thumbnailView.configure(for: entity, size: .small)
+            cell.thumbnailView.configure(for: cellInfo.associate, size: .small)
             cell.accessoryView = cell.accessoryView as? FormAccessoryView ?? FormAccessoryView(style: .disclosure)
             
             return cell
         } else {
-            let associate = viewModel.item(at: indexPath.item)
+            let associate = viewModel.associate(at: indexPath)
             let cell = collectionView.dequeueReusableCell(of: EntityCollectionViewCell.self, for: indexPath)
             
             cell.configure(for: associate, style: .hero)
