@@ -6,6 +6,7 @@
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 
+import UIKit
 
 /// The recent searches view controller view model (pretty much just a container)
 public protocol SearchRecentsViewModel {
@@ -42,4 +43,11 @@ public protocol SearchViewModel {
 
     /// The data sources to be used
     var dataSources: [SearchDataSource] { get }
+    
+    /// Creates a controller for viewing entity information
+    ///
+    /// - Parameters:
+    ///   - entity: the entity
+    /// - Returns: the entity view controller
+    func detailViewController(for entity: MPOLKitEntity) -> UIViewController?
 }
