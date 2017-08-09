@@ -41,46 +41,10 @@ open class Person: Entity {
         return NSLocalizedString("Person", comment: "")
     }
     
-    open override var summary: String {
-        return fullName ?? formattedName ?? NSLocalizedString("Name Unknown", comment: "")
-    }
-    
     open var givenName: String?
     open var surname: String?
     open var middleNames: String?
     open var initials: String?
-    
-    // TEMP?
-    open var formattedName: String? {
-        var formattedName: String = ""
-        
-        if isAlias ?? false {
-            formattedName += "@ "
-        }
-        
-        if let surname = self.surname?.ifNotEmpty() {
-            formattedName += surname
-            
-            if givenName?.isEmpty ?? true == false || middleNames?.isEmpty ?? true == false {
-                formattedName += ", "
-            }
-        }
-        if let givenName = self.givenName?.ifNotEmpty() {
-            formattedName += givenName
-            
-            if middleNames?.isEmpty ?? true == false {
-                formattedName += " "
-            }
-        }
-        
-        if let firstMiddleNameInitial = middleNames?.characters.first {
-            formattedName.append(firstMiddleNameInitial)
-            formattedName += "."
-        }
-        
-        return formattedName
-    }
-    
     
     open var dateOfBirth: Date?
     open var dateOfDeath: Date?
@@ -123,7 +87,7 @@ open class Person: Entity {
     open var isAlias: Bool?
     
     open var thumbnail: UIImage?
-    private lazy var initialThumbnail: UIImage = { [unowned self] in
+    internal lazy var initialThumbnail: UIImage = { [unowned self] in
         if let initials = self.initials?.ifNotEmpty() {            
             return UIImage.thumbnail(withInitials: initials)
         }
@@ -139,8 +103,8 @@ open class Person: Entity {
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-    
-    public required init(id: String = UUID().uuidString) {
+
+    public required override init(id: String = UUID().uuidString) {
         super.init(id: id)
     }
     
@@ -213,63 +177,6 @@ open class Person: Entity {
     // MARK: - Model Versionable
     override open class var modelVersion: Int {
         return 0
-    }
-    
-    
-    
-    // MARK: - Display
-    
-    // TEMPORARY
-    open override func thumbnailImage(ofSize size: EntityThumbnailView.ThumbnailSize) -> (UIImage, UIViewContentMode)? {
-        if let thumbnail = self.thumbnail {
-            return (thumbnail, .scaleAspectFill)
-        }
-        if initials?.isEmpty ?? true == false {
-            return (initialThumbnail, .scaleAspectFill)
-        }
-        return nil
-    }
-    
-    open override var summaryDetail1: String? {
-        return formattedDOBAgeGender()
-    }
-    
-    open override var summaryDetail2: String? {
-        return formattedSuburbStatePostcode()
-    }
-    
-    private func formattedDOBAgeGender() -> String? {
-        if let dob = dateOfBirth {
-            let yearComponent = Calendar.current.dateComponents([.year], from: dob, to: Date())
-            
-            var dobString = DateFormatter.mediumNumericDate.string(from: dob) + " (\(yearComponent.year!)"
-            
-            if let gender = gender {
-                dobString += " \(gender.description))"
-            } else {
-                dobString += ")"
-            }
-            return dobString
-        } else if let gender = gender {
-            return gender.description + " (\(NSLocalizedString("DOB unknown", bundle: .mpolKit, comment: "")))"
-        } else {
-            return NSLocalizedString("DOB and gender unknown", bundle: .mpolKit, comment: "")
-        }
-    }
-    
-    private func formattedSuburbStatePostcode() -> String? {
-        
-        let address = addresses?.first ?? self.address
-        
-        if let address = address {
-            
-            let components = [address.city, address.suburb, address.state, address.postcode].flatMap({$0})
-            if components.isEmpty == false {
-                return components.joined(separator: ", ")
-            }
-        }
-        
-        return nil
     }
     
 }

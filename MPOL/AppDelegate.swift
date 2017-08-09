@@ -9,6 +9,9 @@
 import UIKit
 import UserNotifications
 import MPOLKit
+import PromiseKit
+import Lottie
+import ClientKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, LoginViewControllerDelegate, TermsConditionsViewControllerDelegate {
@@ -84,11 +87,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     // MARK: - Login view controller delegate
     
     func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String) {
-        let tsAndCsVC = TermsConditionsViewController()
-        tsAndCsVC.delegate = self
-        let navController = PopoverNavigationController(rootViewController: tsAndCsVC)
-        navController.modalPresentationStyle = .formSheet
-        controller.present(navController, animated: true)
+        controller.setLoading(true, animated: true)
+        
+        MPOLAPIManager.shared.accessTokenRequest(for: .credentials(username: username, password: password)).then { [weak self] _ -> Void in
+            guard let `self` = self else { return }
+            
+            let tsAndCsVC = TermsConditionsViewController(fileURL: Bundle.main.url(forResource: "termsandconditions", withExtension: "html")!)
+            tsAndCsVC.delegate = self
+            
+            let navController = PopoverNavigationController(rootViewController: tsAndCsVC)
+            navController.modalPresentationStyle = .formSheet
+            controller.present(navController, animated: true, completion: { [unowned controller] in
+                controller.resetFields()
+            })
+        }.catch { error in
+            let alertController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "Okay", style: .default))
+            AlertQueue.shared.add(alertController)
+        }.always {
+            controller.setLoading(false, animated: true)
+        }
     }
     
     
@@ -100,6 +118,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 self.updateInterface(forLogin: false, animated: true)
             }
         }
+    }
+    
+    func loginViewController(_ controller: LoginViewController, didTapForgotPasswordButton button: UIButton) {
+        
     }
     
     
@@ -115,10 +137,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         if login {
             let headerLabel = UILabel(frame: .zero)
             headerLabel.translatesAutoresizingMaskIntoConstraints = false
-            headerLabel.text = "BlueConnect"
-            headerLabel.font = .systemFont(ofSize: 28.0, weight: UIFontWeightSemibold)
+            headerLabel.text = "mPol"
+            headerLabel.font = .systemFont(ofSize: 48.0, weight: UIFontWeightBold)
             headerLabel.textColor = .white
             headerLabel.adjustsFontSizeToFitWidth = true
+            
+            let subtitleLabel = UILabel(frame: .zero)
+            subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
+            subtitleLabel.text = "Mobile Policing Platform"
+            subtitleLabel.font = .systemFont(ofSize: 13.0, weight: UIFontWeightSemibold)
+            subtitleLabel.textColor = .white
+            subtitleLabel.adjustsFontSizeToFitWidth = true
             
             let headerImage = UIImageView(image: #imageLiteral(resourceName: "MPOLIcon"))
             headerImage.translatesAutoresizingMaskIntoConstraints = false
@@ -126,15 +155,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             let headerView = UIView(frame: .zero)
             headerView.addSubview(headerImage)
             headerView.addSubview(headerLabel)
+            headerView.addSubview(subtitleLabel)
             
-            var constraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|[hi]-(==20@900)-[hl]|", options: [.alignAllCenterX], metrics: nil, views: ["hi": headerImage, "hl": headerLabel])
+            var constraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|[hi]-(==16@900)-[hl][sl]|", options: [.alignAllCenterX], metrics: nil, views: ["hi": headerImage, "hl": headerLabel, "sl": subtitleLabel])
             constraints.append(NSLayoutConstraint(item: headerImage, attribute: .centerX, relatedBy: .equal, toItem: headerView, attribute: .centerX))
             NSLayoutConstraint.activate(constraints)
             
             let loginViewController = LoginViewController()
+            
+            loginViewController.minimumUsernameLength = 1
+            loginViewController.minimumPasswordLength = 1
+            
             loginViewController.delegate = self
             loginViewController.backgroundImage = #imageLiteral(resourceName: "Login")
             loginViewController.headerView = headerView
+            
+            #if DEBUG
+            loginViewController.usernameField.text = "mpol"
+            loginViewController.passwordField.text = "mock"
+            #endif
+            
             self.window?.rootViewController = loginViewController
         } else {
             
@@ -144,14 +184,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 return settingsItem
             }
             
-            let searchVC = SearchViewController()
-            searchVC.recentsViewController.title = "MPOL" // TODO: Should be client name
-            searchVC.recentsViewController.navigationItem.leftBarButtonItem = settingsBarButtonItem()
-            
+            let searchViewController = SearchViewController(viewModel: MPOLSearchViewModel())
+            searchViewController.set(leftBarButtonItem: settingsBarButtonItem())
+
             let eventListVC = EventsListViewController()
             eventListVC.navigationItem.leftBarButtonItem = settingsBarButtonItem()
             
-            let searchNavController = UINavigationController(rootViewController: searchVC)
+            let searchNavController = UINavigationController(rootViewController: searchViewController)
             let actionListNavController = UINavigationController(rootViewController: ActionListViewController())
             let eventListNavController = UINavigationController(rootViewController: eventListVC)
             

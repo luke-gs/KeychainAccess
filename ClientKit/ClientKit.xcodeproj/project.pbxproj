@@ -72,6 +72,14 @@
 		C681A3851F21AEA800F4AC13 /* LicenceParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C681A3841F21AEA800F4AC13 /* LicenceParserDefinition.swift */; };
 		C6C44CAD1F21BDDF00A2AD50 /* LicenceParserDefinitionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C44CAC1F21BDDF00A2AD50 /* LicenceParserDefinitionsTests.swift */; };
 		C6E2EBC91F217B9E00F659F8 /* PersonParserDefinitionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E2EBC81F217B9E00F659F8 /* PersonParserDefinitionsTests.swift */; };
+		EA8B66531F381BC000F09716 /* PersonSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8B66521F381BC000F09716 /* PersonSearchRequest.swift */; };
+		EA8B66551F381CBA00F09716 /* VehicleSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8B66541F381CBA00F09716 /* VehicleSearchRequest.swift */; };
+		EA8B66581F381F8100F09716 /* MPOLAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8B66561F381F8100F09716 /* MPOLAPIManager.swift */; };
+		EA8B665E1F382D2B00F09716 /* PersonSearchParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8B665D1F382D2B00F09716 /* PersonSearchParameters.swift */; };
+		EA8B66601F38319700F09716 /* VehicleSearchParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8B665F1F38319700F09716 /* VehicleSearchParameters.swift */; };
+		EA8B66621F3831C900F09716 /* LicenceSearchParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8B66611F3831C900F09716 /* LicenceSearchParameters.swift */; };
+		EA8B66651F38471500F09716 /* Person+EntitySummaryDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8B66641F38471500F09716 /* Person+EntitySummaryDisplayable.swift */; };
+		EA8B66671F38473400F09716 /* Vehicle+EntitySummaryDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8B66661F38473400F09716 /* Vehicle+EntitySummaryDisplayable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -157,6 +165,14 @@
 		C7ECBB5ADFC8B8CF04DA87A7 /* Pods-ClientKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKitTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKitTests/Pods-ClientKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		D6779C04771873128EC55832 /* Pods-ClientKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKit.release.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKit/Pods-ClientKit.release.xcconfig"; sourceTree = "<group>"; };
 		D6FAB7E5ED55CBB22E20D7C9 /* Pods_ClientKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClientKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA8B66521F381BC000F09716 /* PersonSearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonSearchRequest.swift; sourceTree = "<group>"; };
+		EA8B66541F381CBA00F09716 /* VehicleSearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleSearchRequest.swift; sourceTree = "<group>"; };
+		EA8B66561F381F8100F09716 /* MPOLAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPOLAPIManager.swift; sourceTree = "<group>"; };
+		EA8B665D1F382D2B00F09716 /* PersonSearchParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonSearchParameters.swift; sourceTree = "<group>"; };
+		EA8B665F1F38319700F09716 /* VehicleSearchParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleSearchParameters.swift; sourceTree = "<group>"; };
+		EA8B66611F3831C900F09716 /* LicenceSearchParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LicenceSearchParameters.swift; sourceTree = "<group>"; };
+		EA8B66641F38471500F09716 /* Person+EntitySummaryDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Person+EntitySummaryDisplayable.swift"; sourceTree = "<group>"; };
+		EA8B66661F38473400F09716 /* Vehicle+EntitySummaryDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Vehicle+EntitySummaryDisplayable.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -203,10 +219,12 @@
 		BC12DC8E1F023EF0001A5BB7 /* ClientKit */ = {
 			isa = PBXGroup;
 			children = (
+				EA8B66571F381F8100F09716 /* Configuration */,
 				BCAEFE761F03150800C97F9C /* View Controllers */,
 				BCAEFE531F03150800C97F9C /* Model */,
 				BCAEFED71F03170900C97F9C /* Extensions */,
 				BCC7AEDF1F0BA9D50091AAEA /* Utilities */,
+				EA8B66501F381B8700F09716 /* Components */,
 				BC12DC8F1F023EF0001A5BB7 /* ClientKit.h */,
 				BC12DC901F023EF0001A5BB7 /* Info.plist */,
 				BCC7AEDD1F0B61AD0091AAEA /* Assets.xcassets */,
@@ -358,6 +376,7 @@
 		BCAEFED71F03170900C97F9C /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				EA8B66631F38470300F09716 /* EntitySummary */,
 				BCF31AC71F0F42CD00207D82 /* Array+Searching.swift */,
 				BCAEFED81F03172A00C97F9C /* EntityCollectionViewCell+Configuration.swift */,
 				BCAEFEDC1F0317DB00C97F9C /* EntityThumbnailView+Configuration.swift */,
@@ -381,6 +400,51 @@
 				5919937B6BAC1FE012181DBE /* Pods_ClientKitTests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EA8B66501F381B8700F09716 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				EA8B665C1F382CEE00F09716 /* Parameters */,
+				EA8B66511F381B8D00F09716 /* Requests */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		EA8B66511F381B8D00F09716 /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				EA8B66521F381BC000F09716 /* PersonSearchRequest.swift */,
+				EA8B66541F381CBA00F09716 /* VehicleSearchRequest.swift */,
+			);
+			path = Requests;
+			sourceTree = "<group>";
+		};
+		EA8B66571F381F8100F09716 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				EA8B66561F381F8100F09716 /* MPOLAPIManager.swift */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
+		EA8B665C1F382CEE00F09716 /* Parameters */ = {
+			isa = PBXGroup;
+			children = (
+				EA8B665D1F382D2B00F09716 /* PersonSearchParameters.swift */,
+				EA8B665F1F38319700F09716 /* VehicleSearchParameters.swift */,
+				EA8B66611F3831C900F09716 /* LicenceSearchParameters.swift */,
+			);
+			path = Parameters;
+			sourceTree = "<group>";
+		};
+		EA8B66631F38470300F09716 /* EntitySummary */ = {
+			isa = PBXGroup;
+			children = (
+				EA8B66641F38471500F09716 /* Person+EntitySummaryDisplayable.swift */,
+				EA8B66661F38473400F09716 /* Vehicle+EntitySummaryDisplayable.swift */,
+			);
+			path = EntitySummary;
 			sourceTree = "<group>";
 		};
 		FB4E17C2967B152090CB72FB /* Pods */ = {
@@ -523,7 +587,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		203FDF3407D06CB1BE70E670 /* [CP] Embed Pods Frameworks */ = {
@@ -584,7 +648,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		EB0678416CA62B74109431FB /* [CP] Copy Pods Resources */ = {
@@ -627,10 +691,12 @@
 				BCAEFEA31F03150800C97F9C /* Licence.swift in Sources */,
 				BCAEFE9E1F03150800C97F9C /* Interest.swift in Sources */,
 				BC75A7AE1F1C3D48004D46F1 /* EntityAssociationsViewController.swift in Sources */,
+				EA8B66621F3831C900F09716 /* LicenceSearchParameters.swift in Sources */,
 				BC75A7BA1F1C3D58004D46F1 /* PersonInfoViewController.swift in Sources */,
 				BC75A7B21F1C3D50004D46F1 /* EventDetailViewController.swift in Sources */,
 				BCAEFEA11F03150800C97F9C /* Whereabouts.swift in Sources */,
 				BCAEFE9A1F03150800C97F9C /* Event.swift in Sources */,
+				EA8B66651F38471500F09716 /* Person+EntitySummaryDisplayable.swift in Sources */,
 				BCC7AEE11F0BA9E70091AAEA /* DateSorting.swift in Sources */,
 				BC75A7B51F1C3D50004D46F1 /* BailOrderDetailViewController.swift in Sources */,
 				BCAEFEA71F03150800C97F9C /* PersonDescription.swift in Sources */,
@@ -641,13 +707,17 @@
 				BCAEFE921F03150800C97F9C /* Address.swift in Sources */,
 				BC75A7B81F1C3D55004D46F1 /* PersonActionsViewController.swift in Sources */,
 				BCAEFE9C1F03150800C97F9C /* FamilyIncident.swift in Sources */,
+				EA8B66601F38319700F09716 /* VehicleSearchParameters.swift in Sources */,
 				BC75A7BC1F1C3D5B004D46F1 /* CautionDetailsViewController.swift in Sources */,
 				BCAEFE991F03150800C97F9C /* Entity.swift in Sources */,
 				BC75A7B71F1C3D55004D46F1 /* PersonOccurrencesViewController.swift in Sources */,
 				BC75A7AD1F1C3D48004D46F1 /* EntityAlertsViewController.swift in Sources */,
+				EA8B66671F38473400F09716 /* Vehicle+EntitySummaryDisplayable.swift in Sources */,
+				EA8B66531F381BC000F09716 /* PersonSearchRequest.swift in Sources */,
 				BCAEFE911F03150800C97F9C /* Action.swift in Sources */,
 				BCAEFEB11F03150800C97F9C /* Warrant.swift in Sources */,
 				BCA1793C1F03542900AD1F5F /* PersonParserDefinition.swift in Sources */,
+				EA8B66581F381F8100F09716 /* MPOLAPIManager.swift in Sources */,
 				BCAEFE9F1F03150800C97F9C /* InterventionOrder.swift in Sources */,
 				BC75A7B91F1C3D55004D46F1 /* PersonDescriptionsViewController.swift in Sources */,
 				BCAEFE981F03150800C97F9C /* Email.swift in Sources */,
@@ -663,8 +733,10 @@
 				C681A3851F21AEA800F4AC13 /* LicenceParserDefinition.swift in Sources */,
 				BCAEFEA41F03150800C97F9C /* Member.swift in Sources */,
 				BC4FC2701F133D7500F1CAFB /* String+Pickable.swift in Sources */,
+				EA8B665E1F382D2B00F09716 /* PersonSearchParameters.swift in Sources */,
 				BCAEFEB01F03150800C97F9C /* Warning.swift in Sources */,
 				BCAEFED91F03172A00C97F9C /* EntityCollectionViewCell+Configuration.swift in Sources */,
+				EA8B66551F381CBA00F09716 /* VehicleSearchRequest.swift in Sources */,
 				BCAEFEA81F03150800C97F9C /* PhoneNumber.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
