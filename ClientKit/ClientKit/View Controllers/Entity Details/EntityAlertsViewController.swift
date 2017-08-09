@@ -222,8 +222,7 @@ extension EntityAlertsViewController: EntityDetailsViewModelDelegate {
     }
     
     public func updateNoContentSubtitle(_ subtitle: String? = nil) {
-        let label = loadingManager.noContentView.subtitleLabel
-        label.text = subtitle
+        loadingManager.noContentView.subtitleLabel.text = subtitle
     }
 }
 

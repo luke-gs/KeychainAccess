@@ -14,16 +14,13 @@ public class EntityAssociationsViewModel: EntityDetailsViewModelable {
     public typealias DetailsType  = Section
     
     // MARK: Initialize
-    private var associatedPersons: [Person] = []
+    private var associatedPersons : [Person]  = []
     private var associatedVehicles: [Vehicle] = []
     
     public weak var delegate: EntityDetailsViewModelDelegate?
 
     public var entity: Entity? {
         didSet {
-            let subtitle = self.noContentSubtitle()
-            delegate?.updateNoContentSubtitle(subtitle)
-
             associatedPersons = entity?.associatedPersons ?? []
             associatedVehicles = entity?.associatedVehicles ?? []
             
@@ -41,9 +38,9 @@ public class EntityAssociationsViewModel: EntityDetailsViewModelable {
         }
     }
     
-    public var sections: [DetailsType]? = [] {
+    public var sections: [DetailsType] = [] {
         didSet {
-            let state: LoadingStateManager.State = sections!.isEmpty ? .noContent : .loaded
+            let state: LoadingStateManager.State = sections.isEmpty ? .noContent : .loaded
             delegate?.updateLoadingState(state)
             delegate?.reloadData()
         }
@@ -52,22 +49,11 @@ public class EntityAssociationsViewModel: EntityDetailsViewModelable {
     // MARK: - Public methods
     
     public func numberOfSections() -> Int {
-        return sections!.count
+        return sections.count
     }
     
     public func numberOfItems(for section: Int) -> Int {
-        return sections![section].count
-    }
-    
-    public func noContentSubtitle() -> String? {
-        let entityDisplayName: String
-        if let entity = entity {
-            entityDisplayName = type(of: entity).localizedDisplayName.localizedLowercase
-        } else {
-            entityDisplayName = NSLocalizedString("entity", bundle: .mpolKit, comment: "")
-        }
-        
-        return String(format: NSLocalizedString("This %@ has no associations", bundle: .mpolKit, comment: ""), entityDisplayName)
+        return sections[section].count
     }
     
     public func associate(at indexPath: IndexPath) -> Entity {

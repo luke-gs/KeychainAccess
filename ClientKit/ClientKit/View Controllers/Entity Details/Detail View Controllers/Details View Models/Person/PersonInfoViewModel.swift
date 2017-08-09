@@ -13,7 +13,6 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
     
     /// Specify the concrete type for sections
     public typealias DetailsType = PersonInfo
-    public typealias SectionsType = DetailsType
     
     public weak var delegate: EntityDetailsViewModelDelegate?
     
@@ -22,13 +21,11 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
     public var person: Person? {
         didSet {
             guard let person = self.person else {
-                delegate?.updateLoadingState(.noContent)
                 self.sections = []
                 return
             }
-            delegate?.updateLoadingState(.loaded)
             
-            var sections: [SectionsType] = [
+            var sections: [DetailsType] = [
                 PersonInfo(type: .header, items: nil),
                 PersonInfo(type: .details, items: [
                     DetailItem.mni,
@@ -61,6 +58,7 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
                     contactDetails.append(.phone($0))
                 }
             }
+            
             if contactDetails.count > 0 {
                 sections.append(PersonInfo(type: .contact, items: contactDetails))
             }
@@ -69,7 +67,7 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
         }
     }
     
-    public var sections: [DetailsType]? = [PersonInfo(type: .header, items: nil)]{
+    public var sections: [DetailsType] = [PersonInfo(type: .header, items: nil)]{
         didSet {
             delegate?.reloadData()
         }
@@ -78,15 +76,15 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
     // MARK: - Public methods
     
     public func numberOfSections() -> Int {
-        return sections!.count
+        return sections.count
     }
     
     public func numberOfItems(for section: Int) -> Int {
-        return sections![section].items?.count ?? 1
+        return sections[section].items?.count ?? 1
     }
     
     public func detailItem(at indexPath: IndexPath) -> Any? {
-        return sections![ifExists: indexPath.section]?.items?[indexPath.item]
+        return sections[ifExists: indexPath.section]?.items?[indexPath.item]
     }
     
     /// Header section
@@ -124,7 +122,7 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
                                      isDescriptionPlaceholder: isPlaceholder)
     }
     
-    public func cellInfo(for section: SectionsType, at indexPath: IndexPath) -> SectionCellInfo {
+    public func cellInfo(for section: DetailsType, at indexPath: IndexPath) -> SectionCellInfo {
         var title   : String?
         var subtitle: String?
         var value   : String?

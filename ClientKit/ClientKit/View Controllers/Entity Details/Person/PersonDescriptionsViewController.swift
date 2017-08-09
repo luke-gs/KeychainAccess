@@ -12,7 +12,9 @@ import MPOLKit
 class PersonDescriptionsViewController: FormCollectionViewController {
     open var descriptions: [PersonDescription]? {
         didSet {
-            viewModel.sections = descriptions
+            if let descriptions = descriptions {
+                viewModel.sections = descriptions
+            }
         }
     }
     

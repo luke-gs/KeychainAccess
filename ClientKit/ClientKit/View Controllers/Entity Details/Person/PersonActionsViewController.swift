@@ -197,12 +197,12 @@ extension PersonActionsViewController: EntityDetailsViewModelDelegate {
         sidebarItem.count = count
     }
     
-    public func reloadData() {
-        collectionView?.reloadData()
+    public func updateNoContentSubtitle(_ subtitle: String? = nil) {
+        loadingManager.noContentView.subtitleLabel.text = subtitle
     }
     
-    public func updateLoadingState(_ state: LoadingStateManager.State) {
-        loadingManager.state = state
+    public func reloadData() {
+        collectionView?.reloadData()
     }
     
     public func updateFilterBarButtonItemActivity() {
@@ -212,10 +212,8 @@ extension PersonActionsViewController: EntityDetailsViewModelDelegate {
         filterBarButtonItem.isActive = requiresFiltering
     }
     
-    public func updateNoContentSubtitle(_ subtitle: String? = nil) {
-        let label = loadingManager.noContentView.subtitleLabel
-        label.text = subtitle
+    public func updateLoadingState(_ state: LoadingStateManager.State) {
+        loadingManager.state = state
     }
-
 }
 

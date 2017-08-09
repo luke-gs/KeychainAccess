@@ -13,7 +13,10 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
     
     open override var entity: Entity? {
         get { return self.viewModel.person }
-        set { self.viewModel.person = newValue as? Person }
+        set {
+            self.viewModel.person = newValue as? Person
+            updateLoadingManagerState()
+        }
     }
     
     private lazy var viewModel: PersonInfoViewModel = {
@@ -252,6 +255,9 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
     @objc private func entityThumbnailDidSelect(_ thumbnail: EntityThumbnailView) {
     }
     
+    private func updateLoadingManagerState() {
+        loadingManager.state = entity != nil ? .loaded : .noContent
+    }
 }
 
 extension PersonInfoViewController: EntityDetailsViewModelDelegate {

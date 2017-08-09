@@ -10,7 +10,7 @@ import Foundation
 import MPOLKit
 
 /// A base viewModel to provide generic implementation
-public class EntityDetailsViewModel<T>: EntityDetailsViewModelable {
+public class PersonDetailsViewModel<T>: EntityDetailsViewModelable {
     
     /// Generic section type
     public typealias DetailsType = T
@@ -20,16 +20,20 @@ public class EntityDetailsViewModel<T>: EntityDetailsViewModelable {
     
     public var person: Person? {
         didSet {
-
+            let count = itemsCount()
+            delegate?.updateSidebarItemCount(count)
+            
+            let subtitle = noContentSubtitle()
+            delegate?.updateNoContentSubtitle(subtitle)
         }
     }
     
-    public var sections: [DetailsType]? {
+    public var sections: [DetailsType] = [] {
         didSet {
-            let count = sections?.count ?? 0
+            let count = sections.count
             delegate?.updateSidebarItemCount(UInt(count))
             
-            let state: LoadingStateManager.State  = sections!.isEmpty ? .noContent : .loaded
+            let state: LoadingStateManager.State  = sections.isEmpty ? .noContent : .loaded
             delegate?.updateLoadingState(state)
             delegate?.reloadData()
         }
@@ -47,4 +51,11 @@ public class EntityDetailsViewModel<T>: EntityDetailsViewModelable {
         return nil
     }
     
+    public func itemsCount() -> UInt {
+        MPLRequiresConcreteImplementation()
+    }
+    
+    public func noContentSubtitle() -> String? {
+        MPLRequiresConcreteImplementation()
+    }
 }

@@ -9,17 +9,7 @@
 import Foundation
 import MPOLKit
 
-public class PersonActionsViewModel: EntityDetailsViewModel<Action> {
-
-    public override var person: Person? {
-        didSet {
-            let count = UInt(person?.actions?.count ?? 0)
-            delegate?.updateSidebarItemCount(count)
-            
-            let subtitle = self.noContentSubtitle()
-            delegate?.updateNoContentSubtitle(subtitle)
-        }
-    }
+public class PersonActionsViewModel: PersonDetailsViewModel<Action> {
     
     public var allActionTypes: Set<String> {
         var allTypes = Set<String>()
@@ -63,7 +53,11 @@ public class PersonActionsViewModel: EntityDetailsViewModel<Action> {
     
     // MARK: - Public methods
     
-    public func noContentSubtitle() -> String? {
+    public override func itemsCount() -> UInt {
+        return UInt(person?.actions?.count ?? 0)
+    }
+    
+    public override func noContentSubtitle() -> String? {
         var subtitle: String?
         
         if person?.actions?.isEmpty ?? true {
@@ -120,9 +114,9 @@ public class PersonActionsViewModel: EntityDetailsViewModel<Action> {
     // MARK: - CellText Model
     
     public struct CellInfo {
-        let title: String?
+        let title   : String?
         let subtitle: String?
-        let detail: String?
+        let detail  : String?
     }
     
 }

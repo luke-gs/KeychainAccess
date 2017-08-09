@@ -12,7 +12,6 @@ import MPOLKit
 public class EntityAlertsViewModel: EntityDetailsViewModelable {
     
     public typealias DetailsType  = [Alert]
-    public typealias SectionsType = DetailsType
     
     public weak var delegate: EntityDetailsViewModelDelegate?
 
@@ -30,13 +29,13 @@ public class EntityAlertsViewModel: EntityDetailsViewModelable {
     }
     
     
-    public var sections: [DetailsType]? = [[]] {
+    public var sections: [DetailsType] = [[]] {
         didSet {
-            if oldValue?.isEmpty == true && sections?.isEmpty == true {
+            if oldValue.isEmpty == true && sections.isEmpty == true {
                 return
             }
             
-            let state: LoadingStateManager.State = sections!.isEmpty ? .noContent : .loaded
+            let state: LoadingStateManager.State = sections.isEmpty ? .noContent : .loaded
             delegate?.updateLoadingState(state)
             delegate?.reloadData()
         }
@@ -108,7 +107,7 @@ public class EntityAlertsViewModel: EntityDetailsViewModelable {
     }
     
     public func numberOfSections() -> Int {
-        return sections?.count ?? 0
+        return sections.count
     }
     
     public func numberOfItems(for section: Int) -> Int {
@@ -124,11 +123,11 @@ public class EntityAlertsViewModel: EntityDetailsViewModelable {
     }
     
     public func numberOfAlerts(for section: Int) -> Int {
-        return sections?[ifExists: section]?.count ?? 0
+        return sections[ifExists: section]?.count ?? 0
     }
     
     public func alert(at indexPath: IndexPath) -> Alert? {
-        return sections?[indexPath.section][indexPath.item]
+        return sections[indexPath.section][indexPath.item]
     }
     
     public func alerts(for section: Int) -> [Alert]? {

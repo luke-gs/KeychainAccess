@@ -13,6 +13,7 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
     
     open override var entity: Entity? {
         didSet {
+            updateNoContentSubtitle()
             viewModel.entity = entity
         }
     }
@@ -46,7 +47,7 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
         super.viewDidLoad()
         
         loadingManager.noContentView.titleLabel.text = NSLocalizedString("No Associations Found", comment: "")
-        updateNoContentSubtitle(viewModel.noContentSubtitle())
+        updateNoContentSubtitle()
         
         guard let collectionView = self.collectionView else { return }
         
@@ -159,6 +160,18 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
             return EntityListCollectionViewCell.minimumContentHeight(compatibleWith: traitCollection)
         }
     }
+    
+    private func updateNoContentSubtitle() {
+        let entityDisplayName: String
+        if let entity = entity {
+            entityDisplayName = type(of: entity).localizedDisplayName.localizedLowercase
+        } else {
+            entityDisplayName = NSLocalizedString("entity", bundle: .mpolKit, comment: "")
+        }
+        
+        loadingManager.noContentView.subtitleLabel.text = String(format: NSLocalizedString("This %@ has no associations", bundle: .mpolKit, comment: ""), entityDisplayName)
+    }
+    
 }
 
 extension EntityAssociationsViewController: EntityDetailsViewModelDelegate {
@@ -172,11 +185,6 @@ extension EntityAssociationsViewController: EntityDetailsViewModelDelegate {
     
     public func reloadData() {
         collectionView?.reloadData()
-    }
-    
-    public func updateNoContentSubtitle(_ subtitle: String? = nil) {
-        let label = loadingManager.noContentView.subtitleLabel
-        label.text = subtitle
     }
 }
 

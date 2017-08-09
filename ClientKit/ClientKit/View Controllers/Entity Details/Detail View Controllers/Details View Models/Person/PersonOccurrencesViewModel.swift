@@ -9,17 +9,7 @@
 import Foundation
 import MPOLKit
 
-public class PersonOccurrencesViewModel: EntityDetailsViewModel<Event> {
-    
-    public override var person: Person? {
-        didSet {
-            let count = UInt(person?.events?.count ?? 0)
-            delegate?.updateSidebarItemCount(count)
-            
-            let subtitle = self.noContentSubtitle()
-            delegate?.updateNoContentSubtitle(subtitle)
-        }
-    }
+public class PersonOccurrencesViewModel: PersonDetailsViewModel<Event> {
     
     public var allEventTypes: Set<String> {
         var allTypes = Set<String>()
@@ -61,7 +51,11 @@ public class PersonOccurrencesViewModel: EntityDetailsViewModel<Event> {
         delegate?.updateFilterBarButtonItemActivity()
     }
     
-    public func noContentSubtitle() -> String? {
+    public override func itemsCount() -> UInt {
+        return UInt(person?.events?.count ?? 0)
+    }
+    
+    public override func noContentSubtitle() -> String? {
         var subtitle: String?
         
         if person?.actions?.isEmpty ?? true {

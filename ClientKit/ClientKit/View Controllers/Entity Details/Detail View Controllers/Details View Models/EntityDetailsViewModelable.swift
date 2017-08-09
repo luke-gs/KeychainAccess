@@ -46,7 +46,7 @@ public protocol EntityDetailsViewModelable {
 
     associatedtype DetailsType
     
-    var sections: [DetailsType]? { get }
+    var sections: [DetailsType] { get }
     
     weak var delegate: EntityDetailsViewModelDelegate? { get }
 
@@ -59,15 +59,15 @@ public protocol EntityDetailsViewModelable {
 extension EntityDetailsViewModelable {
     
     public func numberOfItems(for section: Int = 0) -> Int {
-        return sections?.count ?? 0
+        return sections.count
     }
     
     public func numberOfSections() -> Int {
-        return sections?.isEmpty ?? true ? 0 : 1
+        return sections.isEmpty ? 0 : 1
     }
     
     public func item(at index: Int) -> DetailsType? {
-        return sections?[ifExists: index]
+        return sections[ifExists: index]
     }
 }
 

@@ -12,7 +12,7 @@ import MPOLKit
 public class EventDetailsViewModel: EventDetailsViewModelable {
 
     public typealias SectionType = EventDetailSection
-    public typealias ItemType = EventDetailItem
+    public typealias ItemType    = EventDetailItem
     
     public var event: Event
     

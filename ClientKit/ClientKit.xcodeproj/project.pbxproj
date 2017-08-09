@@ -20,9 +20,9 @@
 		1A2E8A8A1F3990150062FEA5 /* BailOrderDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2E8A871F3990150062FEA5 /* BailOrderDetailViewModel.swift */; };
 		1A2E8A8B1F3990150062FEA5 /* FieldContactDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2E8A881F3990150062FEA5 /* FieldContactDetailViewModel.swift */; };
 		1A2E8A8C1F3990150062FEA5 /* InterventionOrderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2E8A891F3990150062FEA5 /* InterventionOrderViewModel.swift */; };
-		1A2FF6FB1F32BD0800D63956 /* EntityDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2FF6F81F32BD0800D63956 /* EntityDetailsViewModel.swift */; };
 		1A2FF6FC1F32BD0800D63956 /* EntityDetailsViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2FF6F91F32BD0800D63956 /* EntityDetailsViewModelable.swift */; };
 		1A2FF6FF1F32BE5100D63956 /* PersonInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2FF6FE1F32BE5100D63956 /* PersonInfoViewModel.swift */; };
+		1ABF4EAD1F3B446100C70E62 /* PersonDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABF4EAC1F3B446000C70E62 /* PersonDetailsViewModel.swift */; };
 		31E04B86B8693C856591D017 /* Pods_ClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6FAB7E5ED55CBB22E20D7C9 /* Pods_ClientKit.framework */; };
 		68A1298F030B1B4BB01632E6 /* Pods_ClientKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5919937B6BAC1FE012181DBE /* Pods_ClientKitTests.framework */; };
 		BC12DC961F023EF0001A5BB7 /* ClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC12DC8C1F023EF0001A5BB7 /* ClientKit.framework */; };
@@ -123,9 +123,9 @@
 		1A2E8A871F3990150062FEA5 /* BailOrderDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BailOrderDetailViewModel.swift; sourceTree = "<group>"; };
 		1A2E8A881F3990150062FEA5 /* FieldContactDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FieldContactDetailViewModel.swift; sourceTree = "<group>"; };
 		1A2E8A891F3990150062FEA5 /* InterventionOrderViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterventionOrderViewModel.swift; sourceTree = "<group>"; };
-		1A2FF6F81F32BD0800D63956 /* EntityDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailsViewModel.swift; sourceTree = "<group>"; };
 		1A2FF6F91F32BD0800D63956 /* EntityDetailsViewModelable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailsViewModelable.swift; sourceTree = "<group>"; };
 		1A2FF6FE1F32BE5100D63956 /* PersonInfoViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonInfoViewModel.swift; sourceTree = "<group>"; };
+		1ABF4EAC1F3B446000C70E62 /* PersonDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonDetailsViewModel.swift; sourceTree = "<group>"; };
 		5919937B6BAC1FE012181DBE /* Pods_ClientKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClientKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4196D7C4B207ED0E1DD5654 /* Pods-ClientKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKit.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKit/Pods-ClientKit.debug.xcconfig"; sourceTree = "<group>"; };
 		BC12DC8C1F023EF0001A5BB7 /* ClientKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ClientKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -266,7 +266,6 @@
 		1A2FF6F71F32BD0800D63956 /* Details View Models */ = {
 			isa = PBXGroup;
 			children = (
-				1A2FF6F81F32BD0800D63956 /* EntityDetailsViewModel.swift */,
 				1A2FF6F91F32BD0800D63956 /* EntityDetailsViewModelable.swift */,
 				1A2E8A771F3942FE0062FEA5 /* EntityAlertsViewModel.swift */,
 				1A2E8A791F39734E0062FEA5 /* EntityAssociationsViewModel.swift */,
@@ -288,6 +287,7 @@
 				1A2E8A711F38070A0062FEA5 /* PersonActionsViewModel.swift */,
 				1A2E8A6F1F37E3380062FEA5 /* PersonDescriptionViewModel.swift */,
 				1A2FF6FE1F32BE5100D63956 /* PersonInfoViewModel.swift */,
+				1ABF4EAC1F3B446000C70E62 /* PersonDetailsViewModel.swift */,
 			);
 			path = Person;
 			sourceTree = "<group>";
@@ -684,7 +684,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		203FDF3407D06CB1BE70E670 /* [CP] Embed Pods Frameworks */ = {
@@ -745,7 +745,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		EB0678416CA62B74109431FB /* [CP] Copy Pods Resources */ = {
@@ -773,7 +773,6 @@
 				BCAEFE9B1F03150800C97F9C /* BailOrder.swift in Sources */,
 				1A2E8A8B1F3990150062FEA5 /* FieldContactDetailViewModel.swift in Sources */,
 				BC75A7BD1F1C3D5F004D46F1 /* VehicleInfoViewController.swift in Sources */,
-				1A2FF6FB1F32BD0800D63956 /* EntityDetailsViewModel.swift in Sources */,
 				BCAEFEDD1F0317DB00C97F9C /* EntityThumbnailView+Configuration.swift in Sources */,
 				1A2E8A741F3835CB0062FEA5 /* PersonCriminalHistoryViewModel.swift in Sources */,
 				BCAEFEA01F03150800C97F9C /* MissingPersonReport.swift in Sources */,
@@ -804,6 +803,7 @@
 				1A2E8A8C1F3990150062FEA5 /* InterventionOrderViewModel.swift in Sources */,
 				BCAEFEA71F03150800C97F9C /* PersonDescription.swift in Sources */,
 				BCF31AC81F0F42CD00207D82 /* Array+Searching.swift in Sources */,
+				1ABF4EAD1F3B446100C70E62 /* PersonDetailsViewModel.swift in Sources */,
 				BC75A7B41F1C3D50004D46F1 /* FieldContactDetailViewController.swift in Sources */,
 				BCAEFEAD1F03150800C97F9C /* Source.swift in Sources */,
 				BC75A7AF1F1C3D48004D46F1 /* EntityDetailCollectionViewCell.swift in Sources */,

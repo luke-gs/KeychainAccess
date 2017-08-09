@@ -9,17 +9,7 @@
 import Foundation
 import MPOLKit
 
-public class PersonCriminalHistoryViewModel: EntityDetailsViewModel<CriminalHistory> {
-    
-    public override var person: Person? {
-        didSet {
-            let count = UInt(person?.criminalHistory?.count ?? 0)
-            delegate?.updateSidebarItemCount(count)
-            
-            let subtitle = self.noContentSubtitle()
-            delegate?.updateNoContentSubtitle(subtitle)
-        }
-    }
+public class PersonCriminalHistoryViewModel: PersonDetailsViewModel<CriminalHistory> {
     
     // MARK: - Public methods
     
@@ -43,7 +33,7 @@ public class PersonCriminalHistoryViewModel: EntityDetailsViewModel<CriminalHist
     public func cellInfo(for indexPath: IndexPath) -> CellInfo {
         let history = item(at: indexPath.item)!
         
-        let titleText = title(for: history)
+        let titleText    = title(for: history)
         let subtitleText = subtitle(for: history)
         
         return CellInfo(title: titleText, subtitle: subtitleText)
@@ -51,7 +41,11 @@ public class PersonCriminalHistoryViewModel: EntityDetailsViewModel<CriminalHist
     
     // MARK: - Private methods
     
-    public func noContentSubtitle() -> String? {
+    public override func itemsCount() -> UInt {
+        return UInt(person?.criminalHistory?.count ?? 0)
+    }
+    
+    public override func noContentSubtitle() -> String? {
         var subtitle: String?
         
         if person?.criminalHistory?.isEmpty ?? true {
@@ -93,7 +87,7 @@ public class PersonCriminalHistoryViewModel: EntityDetailsViewModel<CriminalHist
     /// MARK: - CellText Model
 
     public struct CellInfo {
-        let title: String?
+        let title   : String?
         let subtitle: String?
     }
 }

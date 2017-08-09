@@ -21,7 +21,6 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
         set {
             viewModel.person = newValue as? Person
             viewModel.reloadSections(with: filterTypes, filterDateRange: filterDateRange, sortedBy: dateSorting)
-
         }
     }
     
@@ -248,13 +247,8 @@ extension PersonOccurrencesViewController: EntityDetailsViewModelDelegate {
         sidebarItem.count = count
     }
     
-    public func updateLoadingState(_ state: LoadingStateManager.State) {
-        loadingManager.state = state
-    }
-    
     public func updateNoContentSubtitle(_ subtitle: String? = nil) {
-        let label = loadingManager.noContentView.subtitleLabel
-        label.text = subtitle
+        loadingManager.noContentView.subtitleLabel.text = subtitle
     }
     
     public func reloadData() {
@@ -265,5 +259,10 @@ extension PersonOccurrencesViewController: EntityDetailsViewModelDelegate {
         let requiresFiltering = filterTypes != nil || filterDateRange != nil
         filterBarButtonItem.isActive = requiresFiltering
     }
+    
+    public func updateLoadingState(_ state: LoadingStateManager.State) {
+        loadingManager.state = state
+    }
+
 }
 
