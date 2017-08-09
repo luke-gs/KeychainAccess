@@ -17,9 +17,12 @@ class AuthenticationHeaderAdapterTests: XCTestCase {
     var token: String { return username + password }
 
     let testRequest = URLRequest(url: URL(string: "http://www.google.com")!)
-    var authHeader: [String: String]? {
+    var authHeaderBasic: [String: String]? {
         let dict = Request.authorizationHeader(user: username, password: password).flatMap{[$0:$1]}
         return dict
+    }
+    var authHeaderToken: [String: String]? {
+        return ["Authorization": "\(token) \(token)"]
     }
 
     override func setUp() {
@@ -51,21 +54,39 @@ class AuthenticationHeaderAdapterTests: XCTestCase {
         XCTAssertNotEqual(mode1, mode2)
     }
 
-    func testAdaptNoNil() {
+    func testHTTPAuthenticationModeBasicTokenInEquality() {
+        let mode1: HTTPAuthenticationMode = .basicAuthentication(username: password, password: username)
+        let mode2: HTTPAuthenticationMode = .accessTokenAuthentication(token: OAuthAccessToken(accessToken: token, type: token))
+
+        XCTAssertNotEqual(mode1, mode2)
+    }
+
+    func testAdaptBasicNoNil() {
         let adapter1 = AuthenticationHeaderAdapter(authenticationMode: .basicAuthentication(username: username, password: password))
         let adaptedRequest = try! adapter1.adapt(testRequest)
 
         XCTAssertNil(testRequest.allHTTPHeaderFields)
         XCTAssertNotNil(adaptedRequest.allHTTPHeaderFields)
 
-        XCTAssertEqual(adaptedRequest.allHTTPHeaderFields!, authHeader!)
+        XCTAssertEqual(adaptedRequest.allHTTPHeaderFields!, authHeaderBasic!)
     }
 
-    func testAdaptCorrectHeader() {
-        let adapter1 = AuthenticationHeaderAdapter(authenticationMode: .basicAuthentication(username: username, password: password))
+
+    func testAdaptTokenNoNil() {
+        let adapter1 = AuthenticationHeaderAdapter(authenticationMode: .accessTokenAuthentication(token: OAuthAccessToken(accessToken: token, type: token)))
         let adaptedRequest = try! adapter1.adapt(testRequest)
 
-        XCTAssertEqual(adaptedRequest.allHTTPHeaderFields!, authHeader!)
+        XCTAssertNil(testRequest.allHTTPHeaderFields)
+        XCTAssertNotNil(adaptedRequest.allHTTPHeaderFields)
+
+        XCTAssertEqual(adaptedRequest.allHTTPHeaderFields!, authHeaderToken!)
+    }
+
+    func testAdaptCorrectTokenHeader() {
+        let adapter1 = AuthenticationHeaderAdapter(authenticationMode: .accessTokenAuthentication(token: OAuthAccessToken(accessToken: token, type: token)))
+        let adaptedRequest = try! adapter1.adapt(testRequest)
+
+        XCTAssertEqual(adaptedRequest.allHTTPHeaderFields!, authHeaderToken!)
     }
 }
 
