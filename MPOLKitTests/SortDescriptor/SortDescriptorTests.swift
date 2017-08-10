@@ -53,17 +53,100 @@ class SortDescriptorTests: XCTestCase {
     func testThatItSortsOnePropertyInAscendingOrder() {
         let sortDescriptor = SortDescriptor<Person>(ascending: true) { $0.surname }
         
-        
         let sorted = persons.sorted(using: [sortDescriptor])
+        let expected = ["Halim", "Halim", "Smith", "Smith", "Smith"]
         
-        let expected = [p1, p5, p2, p3, p4]
-    }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+        for (index, person) in sorted.enumerated() {
+            // Only check `surname` because we only sort by `surname`.
+            let current = person.surname
+            let expect = expected[index]
+            XCTAssertEqual(current, expect)
         }
     }
     
+    func testThatItSortsMultiplePropertInDescendingOrder() {
+        let sortDescriptor = SortDescriptor<Person>(ascending: false) { $0.surname }
+        
+        let sorted = persons.sorted(using: [sortDescriptor])
+        let expected = ["Smith", "Smith", "Smith", "Halim", "Halim"]
+        
+        for (index, person) in sorted.enumerated() {
+            // Only check `surname` because we only sort by `surname`.
+            let current = person.surname
+            let expect = expected[index]
+            XCTAssertEqual(current, expect)
+        }
+    }
+    
+    func testThatItSortsMultiplePropertiesInAscendingOrder() {
+        let surnameDescriptor = SortDescriptor<Person>(ascending: true) { $0.surname }
+        let firstNameDescriptor = SortDescriptor<Person>(ascending: true) { $0.firstName }
+        let sorted = persons.sorted(using: [surnameDescriptor, firstNameDescriptor])
+        
+        let expected = [(surname: "Halim", firstName: "Herli"),
+                        (surname: "Halim", firstName: "Herli"),
+                        (surname: "Smith", firstName: "Amber"),
+                        (surname: "Smith", firstName: "John"),
+                        (surname: "Smith", firstName: "Jones"),
+                        ]
+        
+        for (index, person) in sorted.enumerated() {
+            // Only check `surname` because we only sort by `surname`.
+            let expect = expected[index]
+            XCTAssertEqual(person.surname, expect.surname)
+            XCTAssertEqual(person.firstName, expect.firstName)
+        }
+    }
+    
+    func testThatItSortsMultiplePropertiesInDescendingOrder() {
+        let surnameDescriptor = SortDescriptor<Person>(ascending: false) { $0.surname }
+        let firstNameDescriptor = SortDescriptor<Person>(ascending: false) { $0.firstName }
+        let sorted = persons.sorted(using: [surnameDescriptor, firstNameDescriptor])
+        
+        let expected = [(surname: "Smith", firstName: "Jones"),
+                        (surname: "Smith", firstName: "John"),
+                        (surname: "Smith", firstName: "Amber"),
+                        (surname: "Halim", firstName: "Herli"),
+                        (surname: "Halim", firstName: "Herli"),
+                        ]
+        
+        for (index, person) in sorted.enumerated() {
+            // Only check `surname` because we only sort by `surname`.
+            let expect = expected[index]
+            XCTAssertEqual(person.surname, expect.surname)
+            XCTAssertEqual(person.firstName, expect.firstName)
+        }
+    }
+    
+    func testThatItSortsNilPropertyFirst() {
+        let surnameDescriptor = SortDescriptor<Person>(ascending: true) { $0.surname }
+        let firstNameDescriptor = SortDescriptor<Person>(ascending: true) { $0.firstName }
+        let middleNameDescriptor = SortDescriptor<Person>(ascending: true) { $0.middleName }
+        
+        let sorted = persons.sorted(using: [surnameDescriptor, firstNameDescriptor, middleNameDescriptor])
+        
+        let expected = [p1, p5, p2, p3, p4]
+        
+        for (index, person) in sorted.enumerated() {
+            // Only check `surname` because we only sort by `surname`.
+            let expect = expected[index]
+            XCTAssertEqual(person, expect)
+        }
+    }
+    
+    func testThatItSortsNilPropertyLast() {
+        let surnameDescriptor = SortDescriptor<Person>(ascending: true) { $0.surname }
+        let firstNameDescriptor = SortDescriptor<Person>(ascending: true) { $0.firstName }
+        let middleNameDescriptor = SortDescriptor<Person>(ascending: false) { $0.middleName }
+        
+        let sorted = persons.sorted(using: [surnameDescriptor, firstNameDescriptor, middleNameDescriptor])
+        
+        let expected = [p5, p1, p2, p3, p4]
+        
+        for (index, person) in sorted.enumerated() {
+            // Only check `surname` because we only sort by `surname`.
+            let expect = expected[index]
+            XCTAssertEqual(person, expect)
+        }
+    }
 }
