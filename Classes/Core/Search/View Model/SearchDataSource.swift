@@ -88,7 +88,14 @@ public protocol SearchDataSource {
     /// - Parameters:
     ///   - searchable: the searchable.
     /// - Returns: the search result view model.
-    func searchResultModel(for searchable: Searchable) -> SearchResultViewModelable?
+    func searchResultModel(for searchable: Searchable) throws -> SearchResultViewModelable?
+    
+    /// Used to parse an validation error
+    ///
+    /// - Parameters:
+    ///  -
+    /// - Returns: The error message to display
+    func format(error: Error) -> String?
 }
 
 public protocol SearchDataSourceUpdating: class {

@@ -221,6 +221,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         collectionView?.selectItem(at: indexPathForSearchFieldCell, animated: false, scrollPosition: [])
         
         if let textField = searchFieldCell?.textField {
+            removeErrorMessage()
             textField.becomeFirstResponder()
             if selectingAllText {
                 textField.selectedTextRange = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
@@ -236,6 +237,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     }
     
     private func endEditingSearchField(changingState: Bool) {
+        removeErrorMessage()
         collectionView?.deselectItem(at: indexPathForSearchFieldCell, animated: false)
         searchFieldCell?.textField.resignFirstResponder()
         if changingState {
@@ -252,6 +254,23 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         return IndexPath(item: 0, section: 0)
     }
     
+    // MARK: - Handling search parsing error
+    
+    var searchErrorMessage: String?
+    
+    func displayErrorMessage(_ message: String) {
+        if let cell = searchFieldCell {
+            searchErrorMessage = message
+            cell.setRequiresValidation(true, validationText: message, animated: true)
+        }
+    }
+    
+    private func removeErrorMessage() {
+        if let cell = searchFieldCell {
+            searchErrorMessage = nil
+            cell.setRequiresValidation(false, validationText: nil, animated: true)
+        }
+    }
     
     // MARK: - Action methods
     
