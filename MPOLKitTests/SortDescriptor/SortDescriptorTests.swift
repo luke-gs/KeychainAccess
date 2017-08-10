@@ -91,8 +91,9 @@ class SortDescriptorTests: XCTestCase {
                         ]
         
         for (index, person) in sorted.enumerated() {
-            // Only check `surname` because we only sort by `surname`.
+            
             let expect = expected[index]
+            // Only check `surname` and `firstName` because we only sort by `surname` then `firstName`.
             XCTAssertEqual(person.surname, expect.surname)
             XCTAssertEqual(person.firstName, expect.firstName)
         }
@@ -111,7 +112,7 @@ class SortDescriptorTests: XCTestCase {
                         ]
         
         for (index, person) in sorted.enumerated() {
-            // Only check `surname` because we only sort by `surname`.
+            // Only check `surname` and `firstName` because we only sort by `surname` then `firstName`.
             let expect = expected[index]
             XCTAssertEqual(person.surname, expect.surname)
             XCTAssertEqual(person.firstName, expect.firstName)
@@ -128,7 +129,6 @@ class SortDescriptorTests: XCTestCase {
         let expected = [p1, p5, p2, p3, p4]
         
         for (index, person) in sorted.enumerated() {
-            // Only check `surname` because we only sort by `surname`.
             let expect = expected[index]
             XCTAssertEqual(person, expect)
         }
@@ -144,7 +144,6 @@ class SortDescriptorTests: XCTestCase {
         let expected = [p5, p1, p2, p3, p4]
         
         for (index, person) in sorted.enumerated() {
-            // Only check `surname` because we only sort by `surname`.
             let expect = expected[index]
             XCTAssertEqual(person, expect)
         }
