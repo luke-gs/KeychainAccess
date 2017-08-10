@@ -326,7 +326,7 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
 
             guard let datasource = dataSource else { return }
             
-            let viewModel = try datasource.searchResultModel(for: searchable)
+            let viewModel = datasource.searchResultModel(for: searchable)
             resultsListViewController.viewModel = viewModel
             
 
@@ -347,13 +347,8 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
                     self.recentlySearched.insert(searchable, at: 0)
                 }
             }
-        } catch (let error) {
-            let dataSource = self.viewModel.dataSources.filter{ $0.localizedDisplayName == searchable.type }.first
-            
-            guard let datasource = dataSource else { return }
-            if let errorString = datasource.format(error: error) {
-                searchOptionsViewController.searchErrorMessage = errorString
-            }
+        } catch {
+            // TODO: Error handling
         }
     }
 

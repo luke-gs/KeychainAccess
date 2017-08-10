@@ -297,8 +297,12 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         searchable.searchText = searchFieldCell?.textField.text
         searchable.type = selectedDataSource.localizedDisplayName
         searchable.options = filterOptions
-
-        delegate?.searchOptionsController(self, didFinishWith: searchable)
+        
+        if let errorString = selectedDataSource.passValidation(for: searchable) {
+            searchErrorMessage = errorString
+        } else {
+            delegate?.searchOptionsController(self, didFinishWith: searchable)
+        }
     }
     
     // MARK: - UICollectionViewDataSource methods
