@@ -348,9 +348,6 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
                 }
             }
         } catch (let error) {
-            //TODO: Handle error
-            print (error)
-            
             let dataSource = self.viewModel.dataSources.filter{ $0.localizedDisplayName == searchable.type }.first
             
             guard let datasource = dataSource else { return }
