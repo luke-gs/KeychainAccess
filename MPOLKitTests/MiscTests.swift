@@ -22,14 +22,14 @@ class StringEmptyFilteringTests: XCTestCase {
 
 class ISO8601DateTransformerTests: XCTestCase {
 
-//    func testTransform() {
-//        //BULLSHIT test
-//        let testDate = Date()
-//        let string = ISO8601DateTransformer.shared.reverse(testDate)
-//        let date = ISO8601DateTransformer.shared.transform(string)
-//
-//        XCTAssertEqual(testDate, date)
-//    }
+    //    func testTransform() {
+    //        //BULLSHIT test
+    //        let testDate = Date()
+    //        let string = ISO8601DateTransformer.shared.reverse(testDate)
+    //        let date = ISO8601DateTransformer.shared.transform(string)
+    //
+    //        XCTAssertEqual(testDate, date)
+    //    }
 
     func testReverse() {
         let testDateString = "2017-08-09T03:44:15Z"
@@ -38,4 +38,13 @@ class ISO8601DateTransformerTests: XCTestCase {
 
         XCTAssertEqual(testDateString, string)
     }
+
+//    func testUnboxFormat() {
+//        //BULLSHIT test
+//        let testDate = Date()
+//        let string = ISO8601DateTransformer.shared.reverse(testDate)
+//        let date = ISO8601DateTransformer.shared.format(unboxedValue: string ?? "")
+//
+//        XCTAssertEqual(testDate, date)
+//    }
 }
