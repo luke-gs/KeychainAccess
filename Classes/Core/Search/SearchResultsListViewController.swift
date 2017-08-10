@@ -87,13 +87,11 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
 
         guard let view = self.view, let collectionView = self.collectionView else { return }
 
-        if let collectionView = self.collectionView {
-            collectionView.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
-            collectionView.register(SearchResultErrorCell.self, forCellWithReuseIdentifier: CellIdentifier.empty.rawValue)
-            collectionView.register(SearchResultLoadingCell.self, forCellWithReuseIdentifier: CellIdentifier.loading.rawValue)
-            
-            viewModel?.registerCells(for: collectionView)
-        }
+        collectionView.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
+        collectionView.register(SearchResultErrorCell.self, forCellWithReuseIdentifier: CellIdentifier.empty.rawValue)
+        collectionView.register(SearchResultLoadingCell.self, forCellWithReuseIdentifier: CellIdentifier.loading.rawValue)
+        
+        viewModel?.registerCells(for: collectionView)
 
         let searchFieldVerticalConstraint: NSLayoutConstraint
         //        if #available(iOS 11, *) {
