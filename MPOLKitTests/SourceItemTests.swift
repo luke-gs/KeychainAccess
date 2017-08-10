@@ -60,5 +60,12 @@ class SourceItemTests: XCTestCase {
 
         XCTAssertEqual(sourceItem, testSourceItem)
     }
+
+    func testMultipleStateInequality() {
+        let sourceItem = SourceItem(title: "title", shortTitle: "short", state: .notAvailable)
+        let testSourceItem = SourceItem(title: "title", shortTitle: "short", state: .loading)
+
+        XCTAssertNotEqual(sourceItem, testSourceItem)
+    }
 }
 
