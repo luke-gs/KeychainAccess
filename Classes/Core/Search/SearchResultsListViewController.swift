@@ -214,7 +214,7 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
         case .searching:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier.loading.rawValue, for: indexPath) as! SearchResultLoadingCell
             cell.titleLabel.text = NSLocalizedString("Retrieving results", comment: "[Search result screen] - Retrieving results")
-            cell.activityIndicator.startAnimating()
+            cell.activityIndicator.play()
             cell.apply(theme: ThemeManager.shared.theme(for: userInterfaceStyle))
             return cell
         default:
