@@ -42,25 +42,21 @@ public class OAuthAccessToken: NSObject, Unboxable, NSSecureCoding {
         self.refreshTokenExpiresAt = refreshTokenExpiresAt
     }
     
-    public static var supportsSecureCoding: Bool {
-        return true
-    }
-    
     // MARK: - Unboxable
     
     private static let dateTransformer: EpochDateTransformer = EpochDateTransformer.shared
     
     public required convenience init(unboxer: Unboxer) throws {
         
-        guard let accessToken: String = unboxer.unbox(key: "access_token"),
-              let type: String = unboxer.unbox(key: "token_type") else {
+        guard let accessToken: String = unboxer.unbox(key: CodingKeys.accessToken.rawValue),
+              let type: String = unboxer.unbox(key: CodingKeys.type.rawValue) else {
             throw ParsingError.missingRequiredField
         }
         
-        let refreshToken: String? = unboxer.unbox(key: "refresh_token")
+        let refreshToken: String? = unboxer.unbox(key: CodingKeys.refreshToken.rawValue)
 
-        let expiresAt: Date? = unboxer.unbox(key: "access_token_expiry_time", formatter: OAuthAccessToken.dateTransformer)
-        let refreshTokenExpiresAt: Date? = unboxer.unbox(key: "refresh_token_expiry_time", formatter: OAuthAccessToken.dateTransformer)
+        let expiresAt: Date? = unboxer.unbox(key: CodingKeys.expiresAt.rawValue, formatter: OAuthAccessToken.dateTransformer)
+        let refreshTokenExpiresAt: Date? = unboxer.unbox(key: CodingKeys.refreshTokenExpiresAt.rawValue, formatter: OAuthAccessToken.dateTransformer)
         
         self.init(accessToken: accessToken, type: type, expiresAt: expiresAt, refreshToken: refreshToken, refreshTokenExpiresAt: refreshTokenExpiresAt)
     }
@@ -77,31 +73,44 @@ public class OAuthAccessToken: NSObject, Unboxable, NSSecureCoding {
         let refreshToken = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.refreshToken.rawValue) as String?
         let refreshTokenExpiresAt = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKeys.refreshTokenExpiresAt.rawValue) as Date?
         
-        self.init(accessToken:              accessToken,
-                  type:                     type,
-                  expiresAt:                expiresAt,
-                  refreshToken:             refreshToken,
-                  refreshTokenExpiresAt:    refreshTokenExpiresAt)
+        self.init(accessToken: accessToken, type: type, expiresAt: expiresAt, refreshToken: refreshToken, refreshTokenExpiresAt: refreshTokenExpiresAt)
     }
     
     public func encode(with aCoder: NSCoder) {
         aCoder.encode(type, forKey: CodingKeys.type.rawValue)
         aCoder.encode(accessToken, forKey: CodingKeys.accessToken.rawValue)
-        if let expiresAt = expiresAt { aCoder.encode(expiresAt, forKey: CodingKeys.expiresAt.rawValue) }
-        if let refreshToken = refreshToken { aCoder.encode(refreshToken, forKey: CodingKeys.refreshToken.rawValue) }
-        if let refreshTokenExpiresAt = refreshTokenExpiresAt { aCoder.encode(refreshTokenExpiresAt, forKey: CodingKeys.refreshTokenExpiresAt.rawValue) }
-    }
-
-    private enum CodingKeys: String {
-        case type = "type"
-        case accessToken = "accessToken"
-        case expiresAt = "expiresAt"
-        case refreshToken = "refreshToken"
-        case refreshTokenExpiresAt = "refreshTokenExpiresAt"
+        aCoder.encode(expiresAt, forKey: CodingKeys.expiresAt.rawValue)
+        aCoder.encode(refreshToken, forKey: CodingKeys.refreshToken.rawValue)
+        aCoder.encode(refreshTokenExpiresAt, forKey: CodingKeys.refreshTokenExpiresAt.rawValue)
     }
     
+    public static var supportsSecureCoding: Bool {
+        return true
+    }
+    
+    private enum CodingKeys: String {
+        case type = "token_type"
+        case accessToken = "access_token"
+        case expiresAt = "access_token_expiry_time"
+        case refreshToken = "refresh_token"
+        case refreshTokenExpiresAt = "refresh_token_expiry_time"
+    }
+    
+    public override func isEqual(_ object: Any?) -> Bool {
+        let lhs = self
+        guard let rhs = object as? OAuthAccessToken else {
+            return false
+        }
+        
+        return lhs.accessToken == rhs.accessToken &&
+            lhs.type == rhs.type &&
+            lhs.expiresAt == rhs.expiresAt &&
+            lhs.refreshToken == rhs.refreshToken &&
+            lhs.refreshTokenExpiresAt == rhs.refreshTokenExpiresAt
+    }
 }
 
+/*
 // MARK: - Equatable
 
 public func == (lhs: OAuthAccessToken, rhs: OAuthAccessToken) -> Bool {
@@ -111,4 +120,5 @@ public func == (lhs: OAuthAccessToken, rhs: OAuthAccessToken) -> Bool {
         lhs.refreshToken == rhs.refreshToken &&
         lhs.refreshTokenExpiresAt == rhs.refreshTokenExpiresAt
 }
+ */
 
