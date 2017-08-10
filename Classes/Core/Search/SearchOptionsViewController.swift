@@ -256,18 +256,26 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     
     // MARK: - Handling search parsing error
     
-    var searchErrorMessage: String?
+    var searchErrorMessage: String? {
+        didSet {
+            if oldValue != searchErrorMessage {
+                if let errorMessage = searchErrorMessage {
+                    displayErrorMessage(errorMessage)
+                } else {
+                    removeErrorMessage()
+                }
+            }
+        }
+    }
     
-    func displayErrorMessage(_ message: String) {
+    private func displayErrorMessage(_ message: String) {
         if let cell = searchFieldCell {
-            searchErrorMessage = message
             cell.setRequiresValidation(true, validationText: message, animated: true)
         }
     }
     
     private func removeErrorMessage() {
         if let cell = searchFieldCell {
-            searchErrorMessage = nil
             cell.setRequiresValidation(false, validationText: nil, animated: true)
         }
     }
@@ -283,6 +291,8 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     }
 
     private func performSearch() {
+        searchErrorMessage = nil
+        
         var searchable = Searchable()
         searchable.searchText = searchFieldCell?.textField.text
         searchable.type = selectedDataSource.localizedDisplayName
@@ -333,6 +343,12 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
                 textField.addTarget(self, action: #selector(textFieldTextDidChange(_:)), for: .editingChanged)
             }
             textField.attributedPlaceholder = selectedDataSource.searchPlaceholder
+            
+            if let errorMessage = searchErrorMessage {
+                cell.setRequiresValidation(true, validationText: errorMessage, animated: true)
+            } else {
+                cell.setRequiresValidation(false, validationText: nil, animated: true)
+            }
             
             return cell
         case .filters:

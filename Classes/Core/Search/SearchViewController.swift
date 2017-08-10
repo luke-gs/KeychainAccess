@@ -352,7 +352,7 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
             
             guard let datasource = dataSource else { return }
             if let errorString = datasource.format(error: error) {
-                searchOptionsViewController.displayErrorMessage(errorString)
+                searchOptionsViewController.searchErrorMessage = errorString
             }
         }
     }
