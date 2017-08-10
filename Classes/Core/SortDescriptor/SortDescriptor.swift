@@ -122,7 +122,7 @@ fileprivate struct AnyComparable: Comparable {
 fileprivate class _AnyComparableBase {
     init() {
         guard type(of: self) != _AnyComparableBase.self else {
-            fatalError("_AnyPokemonBase instances can not be created. Create a subclass instance instead.")
+            fatalError("_AnyComparableBase instances can not be created. Create a subclass instance instead.")
         }
     }
     
