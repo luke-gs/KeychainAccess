@@ -25,7 +25,7 @@ fileprivate let navigationItemKeyPaths: [String] = [
 public class SearchViewController: UIViewController, SearchRecentsViewControllerDelegate, SearchResultsDelegate, SearchOptionsViewControllerDelegate {
     
     private var recentsViewController: SearchRecentsViewController
-    private var viewModel: SearchViewModel
+    public let viewModel: SearchViewModel
 
     @objc dynamic private(set) var currentResultsViewController: UIViewController? {
         didSet {
@@ -525,7 +525,9 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
     }
 
     private func didSelectEntity(_ entity: MPOLKitEntity) {
-        navigationController?.pushViewController(UIViewController(), animated: true)
+        if let detailViewController = viewModel.detailViewController(for: entity) {
+            navigationController?.pushViewController(detailViewController, animated: true)
+        }
 
 //        let entityViewController = EntityDetailsSplitViewController(entity: entity)
 //        navigationController?.pushViewController(entityViewController, animated: true)
