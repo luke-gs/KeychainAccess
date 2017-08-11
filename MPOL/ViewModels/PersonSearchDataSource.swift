@@ -287,9 +287,9 @@ class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
             case QueryParserError.typeNotFound(let token):
                 message = "Unidentified value '\(token)' found. Refer to search help."
             case PersonParserError.surnameIsNotFirst(let surname):
-                message = "Potential Surname '\(surname) found. Surname must be first. Refer to search help."
+                message = "Potential Surname '\(surname)' found. Surname must be first. Refer to search help."
             case PersonParserError.surnameExceedsMaxLength(let surname, let maxLength):
-                message = "Surname '\(surname) exceeds maximum length of \(maxLength) characters."
+                message = "Surname '\(surname)' exceeds maximum length of \(maxLength) characters."
             case PersonParserError.givenNameExceedsMaxLength(let givenName, let maxLength):
                 message = "Given name '\(givenName)' exceeds maximum length of \(maxLength) characters."
             case PersonParserError.middleNameExistsWithoutGivenName(let middleName):
@@ -299,9 +299,9 @@ class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
             case PersonParserError.ageGapWrongOrder(let ageGap):
                 message = "Age gap '\(ageGap)' in wrong order."
             case PersonParserError.nameMatchesGenderType(let gender):
-                message = "Gender '\(gender) is invalid"
+                message = "Gender '\(gender)' is invalid."
             case PersonParserError.dobInvalidValues(let dob):
-                message = "'\(dob)'is not a recognised DOB. Please ensure date is valid."
+                message = "'\(dob)' is not a recognised DOB. Please ensure date is valid."
             case PersonParserError.dobDateOutOfBounds(let dob):
                 message = "'\(dob)' must be a past date."
             default:
