@@ -158,13 +158,15 @@
 		BCC6F74E1F2FF91200F05F65 /* MapCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC6F74D1F2FF91200F05F65 /* MapCollectionViewController.swift */; };
 		BCED8C761F1488EE004C3C71 /* CollectionViewFormHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3FF2241F148818000B317A /* CollectionViewFormHeaderView.swift */; };
 		BCF4B59C1F2849D00022132D /* SpacerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF4B59B1F2849D00022132D /* SpacerView.swift */; };
-		C6020FD11F394734001F1E71 /* APIManagerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6020FD01F394734001F1E71 /* APIManagerError.swift */; };
-		C6020FD31F394771001F1E71 /* DataResponse+MPLConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6020FD21F394771001F1E71 /* DataResponse+MPLConversion.swift */; };
 		BCFA067E1F3176A3002FA1FF /* MapCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFA067D1F3176A3002FA1FF /* MapCollectionViewLayout.swift */; };
 		BCFA06811F317C29002FA1FF /* MapCollectionViewHeaderLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFA06801F317C29002FA1FF /* MapCollectionViewHeaderLayout.swift */; };
+		C6020FD11F394734001F1E71 /* APIManagerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6020FD01F394734001F1E71 /* APIManagerError.swift */; };
+		C6020FD31F394771001F1E71 /* DataResponse+MPLConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6020FD21F394771001F1E71 /* DataResponse+MPLConversion.swift */; };
 		C605F8901ECCAB2C001194DD /* MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C605F8861ECCAB2B001194DD /* MPOLKit.framework */; };
 		C605F8A81ECCAD3B001194DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C605F8A31ECCAD3B001194DD /* Assets.xcassets */; };
 		C605F8A91ECCAD3B001194DD /* Manifest.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C605F8A41ECCAD3B001194DD /* Manifest.xcdatamodeld */; };
+		C607E6B41F3BA5E1003D0C5B /* SortDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C607E6B31F3BA5E1003D0C5B /* SortDescriptor.swift */; };
+		C607E6B81F3BA95B003D0C5B /* SortDescriptorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C607E6B71F3BA95B003D0C5B /* SortDescriptorTests.swift */; };
 		C60C890B1ECCB94F00785932 /* SimplePerson.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F9F31ECCB5E4001194DD /* SimplePerson.swift */; };
 		C60C890F1ECCB9A800785932 /* UnboxableResponseSerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605F9F11ECCB5C4001194DD /* UnboxableResponseSerializerTests.swift */; };
 		C60C891A1ECCBEC700785932 /* SimplePerson.json in Resources */ = {isa = PBXBuildFile; fileRef = C60C89141ECCBEC700785932 /* SimplePerson.json */; };
@@ -374,6 +376,8 @@
 		C605F8A51ECCAD3B001194DD /* Manifest.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Manifest.xcdatamodel; sourceTree = "<group>"; };
 		C605F9F11ECCB5C4001194DD /* UnboxableResponseSerializerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnboxableResponseSerializerTests.swift; sourceTree = "<group>"; };
 		C605F9F31ECCB5E4001194DD /* SimplePerson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimplePerson.swift; sourceTree = "<group>"; };
+		C607E6B31F3BA5E1003D0C5B /* SortDescriptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortDescriptor.swift; sourceTree = "<group>"; };
+		C607E6B71F3BA95B003D0C5B /* SortDescriptorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortDescriptorTests.swift; sourceTree = "<group>"; };
 		C60C89141ECCBEC700785932 /* SimplePerson.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SimplePerson.json; sourceTree = "<group>"; };
 		C60C89151ECCBEC700785932 /* SimplePersonArray.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SimplePersonArray.json; sourceTree = "<group>"; };
 		C60C89161ECCBEC700785932 /* SimplePersonArrayKeyPath.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SimplePersonArrayKeyPath.json; sourceTree = "<group>"; };
@@ -507,6 +511,7 @@
 				BC9C7D271F0DED6600DFFE83 /* Network */,
 				BC9C7D2E1F0DED6600DFFE83 /* NetworkMonitor.swift */,
 				BC9C7D441F0DED6600DFFE83 /* Protocols */,
+				C6A4FA221F3B9EF100925585 /* SortDescriptor */,
 				BC9C7D4C1F0DED6600DFFE83 /* Transformers */,
 				EABAB7FE1F3427570071A401 /* Aggregated Search */,
 			);
@@ -879,6 +884,7 @@
 			children = (
 				C65927761F332F7300854C60 /* ModelCodingTestUtility.swift */,
 				C63F71731F3332CC004F5047 /* Model */,
+				C607E6B61F3BA93E003D0C5B /* SortDescriptor */,
 				C605F9F01ECCB5C4001194DD /* UnboxableResponseSerializerTests */,
 				C605F8961ECCAB2C001194DD /* Info.plist */,
 			);
@@ -930,6 +936,14 @@
 			path = JSON;
 			sourceTree = "<group>";
 		};
+		C607E6B61F3BA93E003D0C5B /* SortDescriptor */ = {
+			isa = PBXGroup;
+			children = (
+				C607E6B71F3BA95B003D0C5B /* SortDescriptorTests.swift */,
+			);
+			path = SortDescriptor;
+			sourceTree = "<group>";
+		};
 		C63408571F30E59C000747B0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -947,6 +961,14 @@
 				C63F71741F3332E7004F5047 /* UserTests.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		C6A4FA221F3B9EF100925585 /* SortDescriptor */ = {
+			isa = PBXGroup;
+			children = (
+				C607E6B31F3BA5E1003D0C5B /* SortDescriptor.swift */,
+			);
+			path = SortDescriptor;
 			sourceTree = "<group>";
 		};
 		C6F5DED01ECD5C62008E7BE2 /* Mock JSONs */ = {
@@ -1265,6 +1287,7 @@
 				BC9C7E491F0DED6600DFFE83 /* SourceItem.swift in Sources */,
 				BC9C7E1B1F0DED6600DFFE83 /* MPOLAssert.swift in Sources */,
 				BC39A6831F18A6EC005CA8EE /* LabeledAccessoryView.swift in Sources */,
+				C607E6B41F3BA5E1003D0C5B /* SortDescriptor.swift in Sources */,
 				BC9C7E1F1F0DED6600DFFE83 /* FormSearchTableViewController.swift in Sources */,
 				BC9C7E351F0DED6600DFFE83 /* KeyboardInputManager.swift in Sources */,
 				BC9C7E111F0DED6600DFFE83 /* TableViewFormCheckboxCell.swift in Sources */,
@@ -1405,6 +1428,7 @@
 			files = (
 				C6E833AB1F334A4700A21F6D /* NSArchiverTests.swift in Sources */,
 				C63F71751F3332E7004F5047 /* UserTests.swift in Sources */,
+				C607E6B81F3BA95B003D0C5B /* SortDescriptorTests.swift in Sources */,
 				C60C890B1ECCB94F00785932 /* SimplePerson.swift in Sources */,
 				C65927771F332F7300854C60 /* ModelCodingTestUtility.swift in Sources */,
 				C60C890F1ECCB9A800785932 /* UnboxableResponseSerializerTests.swift in Sources */,

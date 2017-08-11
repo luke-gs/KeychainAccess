@@ -87,13 +87,11 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
 
         guard let view = self.view, let collectionView = self.collectionView else { return }
 
-        if let collectionView = self.collectionView {
-            collectionView.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
-            collectionView.register(SearchResultErrorCell.self, forCellWithReuseIdentifier: CellIdentifier.empty.rawValue)
-            collectionView.register(SearchResultLoadingCell.self, forCellWithReuseIdentifier: CellIdentifier.loading.rawValue)
-            
-            viewModel?.registerCells(for: collectionView)
-        }
+        collectionView.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
+        collectionView.register(SearchResultErrorCell.self, forCellWithReuseIdentifier: CellIdentifier.empty.rawValue)
+        collectionView.register(SearchResultLoadingCell.self, forCellWithReuseIdentifier: CellIdentifier.loading.rawValue)
+        
+        viewModel?.registerCells(for: collectionView)
 
         let searchFieldVerticalConstraint: NSLayoutConstraint
         //        if #available(iOS 11, *) {
@@ -216,7 +214,7 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
         case .searching:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier.loading.rawValue, for: indexPath) as! SearchResultLoadingCell
             cell.titleLabel.text = NSLocalizedString("Retrieving results", comment: "[Search result screen] - Retrieving results")
-            cell.activityIndicator.startAnimating()
+            cell.activityIndicator.play()
             cell.apply(theme: ThemeManager.shared.theme(for: userInterfaceStyle))
             return cell
         default:
