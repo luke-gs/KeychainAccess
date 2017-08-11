@@ -263,4 +263,54 @@ class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
         
         return nil
     }
+    
+    // MARK: - Validation passing
+    
+    func passValidation(for searchable: Searchable) -> String? {
+        do {
+            if let searchTerm = searchable.searchText {
+                try parser.parseString(query: searchTerm)
+            }
+            
+        } catch (let error) {
+            let message: String
+            
+            switch error {
+            case QueryParserError.requiredValueNotFound(let key):
+                message = "Couldn't find value for required \(key). Refer to search help."
+            case QueryParserError.additionalTokenFound:
+                message = "Too many values have been entered. Refer to search help."
+            case QueryParserError.multipleTokenDefinitions:
+                // If this case is thrown it means the writer of the parser definition class
+                // has defines two token definitions with the same key
+                fatalError()
+            case QueryParserError.typeNotFound(let token):
+                message = "Unidentified value '\(token)' found. Refer to search help."
+            case PersonParserError.surnameIsNotFirst(let surname):
+                message = "Potential Surname '\(surname) found. Surname must be first. Refer to search help."
+            case PersonParserError.surnameExceedsMaxLength(let surname, let maxLength):
+                message = "Surname '\(surname) exceeds maximum length of \(maxLength) characters."
+            case PersonParserError.givenNameExceedsMaxLength(let givenName, let maxLength):
+                message = "Given name '\(givenName)' exceeds maximum length of \(maxLength) characters."
+            case PersonParserError.middleNameExistsWithoutGivenName(let middleName):
+                message = "Middle name '\(middleName)' exists without a given name."
+            case PersonParserError.middleNamesExceedsMaxLength(let middleName, let maxLength):
+                message = "Middle name '\(middleName)' exceeds maximum length of \(maxLength) characters."
+            case PersonParserError.ageGapWrongOrder(let ageGap):
+                message = "Age gap '\(ageGap)' in wrong order."
+            case PersonParserError.nameMatchesGenderType(let gender):
+                message = "Gender '\(gender) is invalid"
+            case PersonParserError.dobInvalidValues(let dob):
+                message = "'\(dob)'is not a recognised DOB. Please ensure date is valid."
+            case PersonParserError.dobDateOutOfBounds(let dob):
+                message = "'\(dob)' must be a past date."
+            default:
+                message = "Unexpected values have been entered. Refer to search help."
+            }
+            
+            return message
+        }
+        
+        return nil
+    }
 }
