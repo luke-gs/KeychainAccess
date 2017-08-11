@@ -347,8 +347,8 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
                     self.recentlySearched.insert(searchable, at: 0)
                 }
             }
-        } catch (let error) {
-            //TODO: Handle error
+        } catch {
+            // TODO: Error handling
         }
     }
 
