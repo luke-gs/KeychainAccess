@@ -10,7 +10,7 @@ import Unbox
 import MPOLKit
 
 public enum MPOLSource: String, EntitySource, UnboxableEnum {
-    case mpol = "MPOL"
+    case mpol = "mpol"
     
     public var serverSourceName: String {
         return self.rawValue

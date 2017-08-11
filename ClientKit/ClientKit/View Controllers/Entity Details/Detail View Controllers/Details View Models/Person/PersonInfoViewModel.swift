@@ -28,8 +28,8 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
             var sections: [DetailsType] = [
                 PersonInfo(type: .header, items: nil),
                 PersonInfo(type: .details, items: [
-                    DetailItem.mni,
-                    DetailItem.ethnicity
+                    DetailItem.status,
+                    DetailItem.idn
                     ])
             ]
             
@@ -53,11 +53,11 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
             //                    contactDetails.append(.email($0))
             //                }
             //            }
-            if let phones = person.phoneNumbers {
-                phones.forEach {
-                    contactDetails.append(.phone($0))
-                }
-            }
+//            if let phones = person.phoneNumbers {
+//                phones.forEach {
+//                    contactDetails.append(.phone($0))
+//                }
+//            }
             
             if contactDetails.count > 0 {
                 sections.append(PersonInfo(type: .contact, items: contactDetails))
@@ -171,7 +171,7 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
                 isProgressViewHidden = true
                 isEditable = false
                 
-                if let startDate = licence.effectiveFromDate, let endDate = licence.effectiveToDate {
+                if let startDate = licence.effectiveDate, let endDate = licence.expiryDate {
                     isProgressViewHidden = false
                     let timeIntervalBetween = endDate.timeIntervalSince(startDate)
                     let timeIntervalToNow   = startDate.timeIntervalSinceNow * -1.0
@@ -408,24 +408,24 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
     }
     
     public enum DetailItem {
-        case mni
-        case ethnicity
+        case status
+        case idn
         
         var localizedTitle: String {
             switch self {
-            case .mni:
-                return NSLocalizedString("MNI Number", bundle: .mpolKit, comment: "")
-            case .ethnicity:
-                return NSLocalizedString("Ethnicity", bundle: .mpolKit, comment: "")
+            case .status:
+                return NSLocalizedString("Last Known Status", bundle: .mpolKit, comment: "")
+            case .idn:
+                return NSLocalizedString("Identification Number", bundle: .mpolKit, comment: "")
             }
         }
         
         func value(for person: Person) -> String? {
             switch self {
-            case .mni:
+            case .idn:
                 return person.id
-            case .ethnicity:
-                return person.ethnicity ?? "N/A"
+            case .status:
+                return person.dateOfDeath == nil ? "N/A" : "Alive"
             }
         }
     }
@@ -463,7 +463,7 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
             case .status:
                 return licence.status
             case .validity:
-                if let effectiveDate = licence.effectiveToDate {
+                if let effectiveDate = licence.expiryDate {
                     return DateFormatter.mediumNumericDate.string(from: effectiveDate)
                 } else {
                     return NSLocalizedString("Expiry date unknown", bundle: .mpolKit, comment: "")
@@ -505,18 +505,18 @@ fileprivate extension Alias {
         if let dob = dateOfBirth {
             let yearComponent = Calendar.current.dateComponents([.year], from: dob, to: Date())
             
-            var dobString = DateFormatter.mediumNumericDate.string(from: dob) + " (\(yearComponent.year!)"
+            let dobString = DateFormatter.mediumNumericDate.string(from: dob) + " (\(yearComponent.year!)"
             
-            if let gender = sex?.localizedCapitalized {
-                dobString += " \(gender))"
-            } else {
-                dobString += ")"
-            }
+//            if let gender = sex?.localizedCapitalized {
+//                dobString += " \(gender))"
+//            } else {
+//                dobString += ")"
+//            }
             return dobString
-        } else if let gender = sex?.localizedCapitalized, gender.isEmpty == false {
-            return gender + " (\(NSLocalizedString("DOB unknown", bundle: .mpolKit, comment: "")))"
+//        } else if let gender = sex?.localizedCapitalized, gender.isEmpty == false {
+//            return gender + " (\(NSLocalizedString("DOB unknown", bundle: .mpolKit, comment: "")))"
         } else {
-            return NSLocalizedString("DOB and gender unknown", bundle: .mpolKit, comment: "")
+            return NSLocalizedString("DOB", bundle: .mpolKit, comment: "")
         }
     }
 }

@@ -27,25 +27,25 @@ public class PersonOccurrencesViewModel: PersonDetailsViewModel<Event> {
         
         var events = person?.events ?? []
         
-        let requiresFiltering = filterTypes != nil || filterDateRange != nil
-        if requiresFiltering {
-            events = events.filter { event in
-                if let filterTypes = filterTypes {
-                    guard let type = event.eventType, filterTypes.contains(type) else {
-                        return false
-                    }
-                }
-                if let dateFilter = filterDateRange {
-                    guard let date = event.date, dateFilter.contains(date) else {
-                        return false
-                    }
-                }
-                return true
-            }
-        }
-        
-        let dateSorting = sorting.compare(_:_:)
-        events.sort { dateSorting(($0.date ?? .distantPast), ($1.date ?? .distantPast)) }
+//        let requiresFiltering = filterTypes != nil || filterDateRange != nil
+//        if requiresFiltering {
+//            events = events.filter { event in
+//                if let filterTypes = filterTypes {
+//                    guard let type = event.eventType, filterTypes.contains(type) else {
+//                        return false
+//                    }
+//                }
+//                if let dateFilter = filterDateRange {
+//                    guard let date = event.date, dateFilter.contains(date) else {
+//                        return false
+//                    }
+//                }
+//                return true
+//            }
+//        }
+//        
+//        let dateSorting = sorting.compare(_:_:)
+//        events.sort { dateSorting(($0.date ?? .distantPast), ($1.date ?? .distantPast)) }
         
         sections = events
         delegate?.updateFilterBarButtonItemActivity()

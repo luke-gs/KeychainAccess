@@ -13,27 +13,33 @@ import MPOLKit
 open class PersonDescription: NSObject, Serialisable {
     
     open var id: String
-    open var reportDate: Date?
     
-    open var religion: String?
-    open var indigenousAustralianStatus: String?
-    open var occupation: String?
-    open var complexion: String?
-    open var nationality: String?
-    open var teeth: String?
-    open var facialHair: String?
-    open var build: String?
-    open var weight: String?
-    open var hairColour: String?
-    open var hairLength: String?
-    open var speech: String?
-    open var maritalStatus: String?
-    open var eyeColour: String?
+    open var dateCreated: Date?
+    open var dateUpdated: Date?
+    open var createdBy: String?
+    open var updatedBy: String?
+    open var effectiveDate: Date?
+    open var expiryDate: Date?
+    open var entityType: String?
+    open var isSummary: Bool?
+    open var source: MPOLSource?
+    
     open var height: Int?
-    open var glasses: String?
+    open var weight: String?
+    open var enthnicity: String?
+    open var hairColour: String?
+    open var eyeColour: String?
+    open var remarks: String?
+    
+    open var imageThumbnail: Media?
+    open var image: Media?
+    
+    open var reportDate: Date?
     
     open static var supportsSecureCoding: Bool { return true }
     
+    private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
+
     public required init(unboxer: Unboxer) throws {
 //        guard let id: String = unboxer.unbox(key: "id") else {
 //            throw ParsingError.missingRequiredField
@@ -42,22 +48,25 @@ open class PersonDescription: NSObject, Serialisable {
         
         id = unboxer.unbox(key: "id") ?? UUID().uuidString
         
-        religion = unboxer.unbox(key: "religion")
-        indigenousAustralianStatus = unboxer.unbox(key: "indigenousAustralianStatus")
-        occupation = unboxer.unbox(key: "occupation")
-        complexion = unboxer.unbox(key: "complexion")
-        nationality = unboxer.unbox(key: "nationality")
-        teeth = unboxer.unbox(key: "teeth")
-        facialHair = unboxer.unbox(key: "facialHair")
-        build = unboxer.unbox(key: "build")
-        weight = unboxer.unbox(key: "weight")
-        hairColour = unboxer.unbox(key: "hairColour")
-        hairLength = unboxer.unbox(key: "hairLength")
-        speech = unboxer.unbox(key: "speech")
-        maritalStatus = unboxer.unbox(key: "maritalStatus")
-        eyeColour = unboxer.unbox(key: "eyeColour")
+        dateCreated = unboxer.unbox(key: "dateCreated", formatter: PersonDescription.dateTransformer)
+        dateUpdated = unboxer.unbox(key: "dateLastUpdated", formatter: PersonDescription.dateTransformer)
+        createdBy = unboxer.unbox(key: "createdBy")
+        updatedBy = unboxer.unbox(key: "updatedBy")
+        effectiveDate = unboxer.unbox(key: "effectiveDate", formatter: PersonDescription.dateTransformer)
+        expiryDate = unboxer.unbox(key: "expiryDate", formatter: PersonDescription.dateTransformer)
+        entityType = unboxer.unbox(key: "entityType")
+        isSummary = unboxer.unbox(key: "isSummary")
+        source = unboxer.unbox(key: "source")
+        
         height = unboxer.unbox(key: "height")
-        glasses = unboxer.unbox(key: "glasses")
+        weight = unboxer.unbox(key: "weight")
+        enthnicity = unboxer.unbox(key: "enthnicity")
+        hairColour = unboxer.unbox(key: "hairColour")
+        eyeColour = unboxer.unbox(key: "eyeColour")
+        remarks = unboxer.unbox(key: "remarks")
+        imageThumbnail = unboxer.unbox(key: "imageThumbnail")
+        image = unboxer.unbox(key: "image")
+
         reportDate = unboxer.unbox(key: "reportDate", formatter: ISO8601DateTransformer.shared)
         
         super.init()
@@ -81,23 +90,9 @@ open class PersonDescription: NSObject, Serialisable {
         if let height = height {
             initialString = "\(height) cm "
         }
-        if let build = build?.ifNotEmpty() {
-            initialString += build.localizedLowercase
-            initialString += " "
-        }
+
         if let weight = weight?.ifNotEmpty() {
             initialString += "\(weight) kg "
-        }
-        if let complexion = complexion?.ifNotEmpty() {
-            initialString += complexion.localizedLowercase
-            initialString += " "
-        }
-        if let indigenousStatus = indigenousAustralianStatus?.ifNotEmpty() {
-            initialString += indigenousStatus.localizedLowercase
-            initialString += " "
-        } else if let nationality = nationality?.ifNotEmpty() {
-            initialString += nationality.localizedLowercase
-            initialString += " "
         }
         
         initialString = initialString.trimmingCharacters(in: .whitespaces)
@@ -109,10 +104,7 @@ open class PersonDescription: NSObject, Serialisable {
         }
         
         var hair = ""
-        if let hairLength = hairLength?.ifNotEmpty() {
-            hair += hairLength.localizedLowercase
-            hair += " "
-        }
+
         if let hairColour = hairColour?.ifNotEmpty() {
             hair += hairColour.localizedLowercase
             hair += " "
@@ -123,27 +115,6 @@ open class PersonDescription: NSObject, Serialisable {
         }
         if let eyeColour = eyeColour?.ifNotEmpty() {
             formattedComponents.append(eyeColour.localizedLowercase + " eyes")
-        }
-        if let glasses = glasses?.ifNotEmpty() {
-            formattedComponents.append(glasses.localizedLowercase + " glasses")
-        }
-        if let facialHair = facialHair?.ifNotEmpty() {
-            formattedComponents.append(facialHair.localizedLowercase + " facial hair")
-        }
-        if let teeth = teeth?.ifNotEmpty() {
-            formattedComponents.append(teeth.localizedLowercase + " teeth")
-        }
-        if let speech = speech?.ifNotEmpty() {
-            formattedComponents.append(speech.localizedLowercase + " speech")
-        }
-        if let occupation = occupation?.ifNotEmpty() {
-            formattedComponents.append(occupation.localizedLowercase)
-        }
-        if let maritalStatus = maritalStatus?.ifNotEmpty() {
-            formattedComponents.append(maritalStatus.localizedLowercase)
-        }
-        if let religion = religion?.ifNotEmpty() {
-            formattedComponents.append(religion.localizedLowercase)
         }
         
         if formattedComponents.isEmpty {

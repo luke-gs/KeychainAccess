@@ -16,7 +16,7 @@ extension Person: EntitySummaryDisplayable {
     }
     
     public var title: String? {
-        return fullName ?? formattedName ?? NSLocalizedString("Name Unknown", comment: "")
+        return formattedName ?? NSLocalizedString("Name Unknown", comment: "")
     }
     
     public var detail1: String? {
@@ -97,11 +97,11 @@ extension Person: EntitySummaryDisplayable {
     }
     
     private func formattedSuburbStatePostcode() -> String? {
-        let address = addresses?.first ?? self.address
+        let address = addresses?.first
         
         if let address = address {
             
-            let components = [address.city, address.suburb, address.state, address.postcode].flatMap({$0})
+            let components = [address.county, address.suburb, address.state, address.postcode].flatMap({$0})
             if components.isEmpty == false {
                 return components.joined(separator: ", ")
             }

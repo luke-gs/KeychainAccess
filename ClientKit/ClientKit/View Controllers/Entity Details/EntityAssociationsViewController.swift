@@ -73,7 +73,7 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
     }
     
     open override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.numberOfItems()
+        return viewModel.numberOfItems(for: section)
     }
     
     open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -136,6 +136,12 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
         }
     }
     
+//    open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        // Ultimate workaround...
+//        let associate = sections[indexPath.section].associate(at: indexPath.item)
+//        let userInfo: [String: Any] = ["selectedEntity": associate, "viewController" : self]
+//        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "AssociateDidTapEntity"), object: self, userInfo: userInfo)
+//    }
     
     // MARK: - CollectionViewDelegateFormLayout methods
     

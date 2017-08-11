@@ -29,7 +29,7 @@ public class EntityAlertsViewModel: EntityDetailsViewModelable {
     }
     
     
-    public var sections: [DetailsType] = [[]] {
+    public var sections: [DetailsType] = [] {
         didSet {
             if oldValue.isEmpty == true && sections.isEmpty == true {
                 return
@@ -103,6 +103,7 @@ public class EntityAlertsViewModel: EntityDetailsViewModelable {
         }
         
         self.sections = sections
+        
         delegate?.updateFilterBarButtonItemActivity()
     }
     
