@@ -222,14 +222,14 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
             selectedIndexes = IndexSet(integersIn: 0..<allTypes.count)
         }
         
-        let filterList = FilterList(title: NSLocalizedString("Involvement Types", comment: ""), displayStyle: .detailList, options: allSortedTypes, selectedIndexes: selectedIndexes, allowsNoSelection: true, allowsMultipleSelection: true)
+        let filterList = FilterList(title: NSLocalizedString("Events Types", comment: ""), displayStyle: .detailList, options: allSortedTypes, selectedIndexes: selectedIndexes, allowsNoSelection: true, allowsMultipleSelection: true)
         
         let dateRange = filterDateRange ?? FilterDateRange(title: NSLocalizedString("Date Range", comment: ""), startDate: nil, endDate: nil, requiresStartDate: false, requiresEndDate: false)
         let sorting = FilterList(title: "Sort By", displayStyle: .list, options: DateSorting.allCases, selectedIndexes: [DateSorting.allCases.index(of: dateSorting) ?? 0])
         
         
         let filterVC = FilterViewController(options: [filterList, dateRange, sorting])
-        filterVC.title = NSLocalizedString("Filter Involvements", comment: "")
+        filterVC.title = NSLocalizedString("Filter Events", comment: "")
         filterVC.delegate = self
         let navController = PopoverNavigationController(rootViewController: filterVC)
         navController.modalPresentationStyle = .popover

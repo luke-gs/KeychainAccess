@@ -20,7 +20,7 @@ open class EntityOccurrencesViewController: EntityDetailCollectionViewController
     
     public override init() {
         super.init()
-        title = NSLocalizedString("Involvements", comment: "")
+        title = NSLocalizedString("Events", comment: "")
         
         sidebarItem.image = AssetManager.shared.image(forKey: .list)
         
@@ -37,7 +37,7 @@ open class EntityOccurrencesViewController: EntityDetailCollectionViewController
     open override func viewDidLoad() {
         super.viewDidLoad()
         
-        loadingManager.noContentView.titleLabel.text = NSLocalizedString("No Involvements Found", comment: "")
+        loadingManager.noContentView.titleLabel.text = NSLocalizedString("No Events Found", comment: "")
         updateNoContentSubtitle()
     }
     
@@ -50,7 +50,7 @@ open class EntityOccurrencesViewController: EntityDetailCollectionViewController
             entityDisplayName = NSLocalizedString("entity", bundle: .mpolKit, comment: "")
         }
         
-        loadingManager.noContentView.subtitleLabel.text = String(format: NSLocalizedString("This %@ has no related involvements", bundle: .mpolKit, comment: ""), entityDisplayName)
+        loadingManager.noContentView.subtitleLabel.text = String(format: NSLocalizedString("This %@ has no related events", bundle: .mpolKit, comment: ""), entityDisplayName)
     }
     
 

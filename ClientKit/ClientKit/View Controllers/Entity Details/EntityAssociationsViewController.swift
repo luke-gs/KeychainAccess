@@ -24,6 +24,22 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
         return vm
     }()
     
+    private var wantsThumbnails: Bool = true {
+        didSet {
+            if wantsThumbnails == oldValue { return }
+            
+            listStateItem.image = AssetManager.shared.image(forKey: wantsThumbnails ? .list : .thumbnail)
+            
+            viewModel.style = wantsThumbnails ? .grid : .list
+            
+            if traitCollection.horizontalSizeClass != .compact {
+                collectionView?.reloadData()
+            }
+        }
+    }
+    
+    private let listStateItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .list), style: .plain, target: nil, action: nil)
+    
     public override init() {
         super.init()
         title = "Associations"
@@ -33,9 +49,13 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
         formLayout.itemLayoutMargins = UIEdgeInsets(top: 16.5, left: 8.0, bottom: 14.5, right: 8.0)
         formLayout.distribution = .none
         
+        listStateItem.target = self
+        listStateItem.action = #selector(toggleThumbnails)
+        listStateItem.imageInsets = .zero
+        
         let filterBarItem = FilterBarButtonItem(target: nil, action: nil)
         filterBarItem.isEnabled = false
-        navigationItem.rightBarButtonItem = filterBarItem
+        navigationItem.rightBarButtonItems = [filterBarItem, listStateItem]
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -61,7 +81,10 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
         
         let isCompact = traitCollection.horizontalSizeClass == .compact
         if isCompact != (previousTraitCollection?.horizontalSizeClass == .compact) {
-            collectionView?.reloadData()
+            if wantsThumbnails {
+                collectionView?.reloadData()
+            }
+            navigationItem.rightBarButtonItems = isCompact ? nil : [listStateItem]
         }
     }
     
@@ -91,28 +114,21 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let isCompact = traitCollection.horizontalSizeClass == .compact
+        let associate = viewModel.associate(at: indexPath)
+        let style = viewModel.style
         
-        if isCompact {
+        if style == .list || isCompact {
             let cell = collectionView.dequeueReusableCell(of: EntityListCollectionViewCell.self, for: indexPath)
-            
-            let cellInfo = viewModel.headerCellInfo(at: indexPath)
-            
-            cell.titleLabel.text    = cellInfo.title
-            cell.subtitleLabel.text = cellInfo.subtitle
-            cell.alertColor         = cellInfo.alertColor
-            cell.actionCount        = cellInfo.actionCount
-            cell.sourceLabel.text   = cellInfo.source
-            
-            cell.highlightStyle     = .fade
-            cell.thumbnailView.configure(for: cellInfo.associate, size: .small)
-            cell.accessoryView = cell.accessoryView as? FormAccessoryView ?? FormAccessoryView(style: .disclosure)
+            cell.decorate(with: associate as! EntitySummaryDisplayable)
             
             return cell
         } else {
-            let associate = viewModel.associate(at: indexPath)
             let cell = collectionView.dequeueReusableCell(of: EntityCollectionViewCell.self, for: indexPath)
             
-            cell.configure(for: associate, style: .hero)
+           /// cell.configure(for: associate, style: .hero)
+            cell.style = self.entityStyle(for: style)
+
+            cell.decorate(with: associate as! EntitySummaryDisplayable)
             cell.highlightStyle = .fade
             
             return cell
@@ -153,18 +169,25 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
     }
     
     open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
-        if traitCollection.horizontalSizeClass != .compact {
-            return EntityCollectionViewCell.minimumContentWidth(forStyle: .hero)
+        let style = viewModel.style
+        if style == .grid && traitCollection.horizontalSizeClass != .compact {
+            return EntityCollectionViewCell.minimumContentWidth(forStyle: self.entityStyle(for: style))
         }
         return collectionView.bounds.width
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
-        if traitCollection.horizontalSizeClass != .compact {
-            return EntityCollectionViewCell.minimumContentHeight(forStyle: .hero, compatibleWith: traitCollection) - 12.0
+        let style = viewModel.style
+
+        if style == .grid && traitCollection.horizontalSizeClass != .compact {
+            return EntityCollectionViewCell.minimumContentHeight(forStyle: self.entityStyle(for: style), compatibleWith: traitCollection) - 12.0
         } else {
             return EntityListCollectionViewCell.minimumContentHeight(compatibleWith: traitCollection)
         }
+    }
+    
+    private func entityStyle(for style: SearchResultStyle) -> EntityCollectionViewCell.Style {
+        return viewModel.style == .grid ? .hero : .detail
     }
     
     private func updateNoContentSubtitle() {
@@ -176,6 +199,10 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
         }
         
         loadingManager.noContentView.subtitleLabel.text = String(format: NSLocalizedString("This %@ has no associations", bundle: .mpolKit, comment: ""), entityDisplayName)
+    }
+    
+    @objc private func toggleThumbnails() {
+        wantsThumbnails = !wantsThumbnails
     }
     
 }

@@ -46,6 +46,8 @@ public class EntityAssociationsViewModel: EntityDetailsViewModelable {
         }
     }
     
+    public var style: SearchResultStyle = .grid
+
     // MARK: - Public methods
     
     public func numberOfSections() -> Int {
@@ -60,34 +62,34 @@ public class EntityAssociationsViewModel: EntityDetailsViewModelable {
         return item(at: indexPath.section)!.associate(at: indexPath.item)
     }
     
-    public func headerCellInfo(at indexPath: IndexPath) -> HeaderSectionCellInfo {
-        let associate = self.associate(at: indexPath)
-        
-        let title = associate.summary
-        let subtitleComponents = [associate.summaryDetail1, associate.summaryDetail2].flatMap({$0})
-        let subtitle    = subtitleComponents.isEmpty ? nil : subtitleComponents.joined(separator: " : ")
-        let alertColor  = associate.alertLevel?.color
-        let actionCount = associate.actionCount
-        let source      = associate.source?.localizedBadgeTitle
-
-        
-        return HeaderSectionCellInfo(associate: associate,
-                                     source: source,
-                                     title:title,
-                                     subtitle: subtitle,
-                                     alertColor: alertColor,
-                                     actionCount: actionCount)
-    }
-    
-    // MARK: Cell struct
-    public struct HeaderSectionCellInfo {
-        let associate   : Entity
-        let source      : String?
-        let title       : String?
-        let subtitle    : String?
-        let alertColor  : UIColor?
-        let actionCount : UInt
-    }
+//    public func headerCellInfo(at indexPath: IndexPath) -> HeaderSectionCellInfo {
+//        let associate = self.associate(at: indexPath)
+//        
+//        let title = associate.summary
+//        let subtitleComponents = [associate.summaryDetail1, associate.summaryDetail2].flatMap({$0})
+//        let subtitle    = subtitleComponents.isEmpty ? nil : subtitleComponents.joined(separator: " : ")
+//        let alertColor  = associate.alertLevel?.color
+//        let actionCount = associate.actionCount
+//        let source      = associate.source?.localizedBadgeTitle
+//
+//        
+//        return HeaderSectionCellInfo(associate: associate,
+//                                     source: source,
+//                                     title:title,
+//                                     subtitle: subtitle,
+//                                     alertColor: alertColor,
+//                                     actionCount: actionCount)
+//    }
+//    
+//    // MARK: Cell struct
+//    public struct HeaderSectionCellInfo {
+//        let associate   : Entity?
+//        let source      : String?
+//        let title       : String?
+//        let subtitle    : String?
+//        let alertColor  : UIColor?
+//        let actionCount : UInt
+//    }
     
     /// Section type 
     public enum Section {

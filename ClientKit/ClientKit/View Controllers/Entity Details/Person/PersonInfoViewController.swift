@@ -99,7 +99,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
             cell.thumbnailView.configure(for: headerCellInfo.person, size: .large)
             
             // TODO: - Needs to remove the mock, once real data is hooked up
-            cell.thumbnailView.imageView.image = #imageLiteral(resourceName: "Avatar 1")
+            ///cell.thumbnailView.imageView.image = #imageLiteral(resourceName: "Avatar 1")
             
 // TODO
 //            if cell.thumbnailView.allTargets.contains(self) == false {

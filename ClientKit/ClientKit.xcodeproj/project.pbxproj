@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A290C821F3D630700DD9ED5 /* PersonFetchParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A290C811F3D630700DD9ED5 /* PersonFetchParameter.swift */; };
+		1A290C841F3D649500DD9ED5 /* VehicleFetchParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A290C831F3D649500DD9ED5 /* VehicleFetchParameter.swift */; };
+		1A290C861F3F097E00DD9ED5 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A290C851F3F097E00DD9ED5 /* Media.swift */; };
 		1A2E8A701F37E3380062FEA5 /* PersonDescriptionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2E8A6F1F37E3380062FEA5 /* PersonDescriptionViewModel.swift */; };
 		1A2E8A721F38070A0062FEA5 /* PersonActionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2E8A711F38070A0062FEA5 /* PersonActionsViewModel.swift */; };
 		1A2E8A741F3835CB0062FEA5 /* PersonCriminalHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2E8A731F3835CB0062FEA5 /* PersonCriminalHistoryViewModel.swift */; };
@@ -110,6 +113,9 @@
 
 /* Begin PBXFileReference section */
 		1542E603389AAEE96EC1C25A /* Pods-ClientKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKitTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKitTests/Pods-ClientKitTests.debug.xcconfig"; sourceTree = "<group>"; };
+		1A290C811F3D630700DD9ED5 /* PersonFetchParameter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonFetchParameter.swift; sourceTree = "<group>"; };
+		1A290C831F3D649500DD9ED5 /* VehicleFetchParameter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleFetchParameter.swift; sourceTree = "<group>"; };
+		1A290C851F3F097E00DD9ED5 /* Media.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
 		1A2E8A6F1F37E3380062FEA5 /* PersonDescriptionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonDescriptionViewModel.swift; sourceTree = "<group>"; };
 		1A2E8A711F38070A0062FEA5 /* PersonActionsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonActionsViewModel.swift; sourceTree = "<group>"; };
 		1A2E8A731F3835CB0062FEA5 /* PersonCriminalHistoryViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonCriminalHistoryViewModel.swift; sourceTree = "<group>"; };
@@ -426,6 +432,7 @@
 				BCAEFE731F03150800C97F9C /* Vehicle.swift */,
 				BCAEFE741F03150800C97F9C /* Warning.swift */,
 				BCAEFE751F03150800C97F9C /* Warrant.swift */,
+				1A290C851F3F097E00DD9ED5 /* Media.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -521,6 +528,8 @@
 			isa = PBXGroup;
 			children = (
 				EA8B66561F381F8100F09716 /* MPOLAPIManager.swift */,
+				1A290C811F3D630700DD9ED5 /* PersonFetchParameter.swift */,
+				1A290C831F3D649500DD9ED5 /* VehicleFetchParameter.swift */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
@@ -772,6 +781,7 @@
 			files = (
 				BCAEFE9B1F03150800C97F9C /* BailOrder.swift in Sources */,
 				1A2E8A8B1F3990150062FEA5 /* FieldContactDetailViewModel.swift in Sources */,
+				1A290C861F3F097E00DD9ED5 /* Media.swift in Sources */,
 				BC75A7BD1F1C3D5F004D46F1 /* VehicleInfoViewController.swift in Sources */,
 				BCAEFEDD1F0317DB00C97F9C /* EntityThumbnailView+Configuration.swift in Sources */,
 				1A2E8A741F3835CB0062FEA5 /* PersonCriminalHistoryViewModel.swift in Sources */,
@@ -805,6 +815,7 @@
 				BCF31AC81F0F42CD00207D82 /* Array+Searching.swift in Sources */,
 				1ABF4EAD1F3B446100C70E62 /* PersonDetailsViewModel.swift in Sources */,
 				BC75A7B41F1C3D50004D46F1 /* FieldContactDetailViewController.swift in Sources */,
+				1A290C821F3D630700DD9ED5 /* PersonFetchParameter.swift in Sources */,
 				BCAEFEAD1F03150800C97F9C /* Source.swift in Sources */,
 				BC75A7AF1F1C3D48004D46F1 /* EntityDetailCollectionViewCell.swift in Sources */,
 				1A2E8A861F398EC60062FEA5 /* EventDetailsViewModelRouter.swift in Sources */,
@@ -849,6 +860,7 @@
 				BCAEFED91F03172A00C97F9C /* EntityCollectionViewCell+Configuration.swift in Sources */,
 				1A2E8A7A1F39734E0062FEA5 /* EntityAssociationsViewModel.swift in Sources */,
 				1A2E8A701F37E3380062FEA5 /* PersonDescriptionViewModel.swift in Sources */,
+				1A290C841F3D649500DD9ED5 /* VehicleFetchParameter.swift in Sources */,
 				EA8B66551F381CBA00F09716 /* VehicleSearchRequest.swift in Sources */,
 				BCAEFEA81F03150800C97F9C /* PhoneNumber.swift in Sources */,
 			);

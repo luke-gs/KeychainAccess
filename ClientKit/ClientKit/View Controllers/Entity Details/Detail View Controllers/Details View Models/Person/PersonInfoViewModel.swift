@@ -47,21 +47,21 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
                 sections.append(PersonInfo(type: .addresses, items: addresses)) // TODO: Sort by date
             }
             
-            var contactDetails: [ContactDetailItem] = []
-            //            if let emails = person.emails {
-            //                emails.forEach {
-            //                    contactDetails.append(.email($0))
-            //                }
-            //            }
+//            var contactDetails: [ContactDetailItem] = []
+//                        if let emails = person.emails {
+//                            emails.forEach {
+//                                contactDetails.append(.email($0))
+//                            }
+//                        }
 //            if let phones = person.phoneNumbers {
 //                phones.forEach {
 //                    contactDetails.append(.phone($0))
 //                }
 //            }
-            
-            if contactDetails.count > 0 {
-                sections.append(PersonInfo(type: .contact, items: contactDetails))
-            }
+//            
+//            if contactDetails.count > 0 {
+//                sections.append(PersonInfo(type: .contact, items: contactDetails))
+//            }
             
             self.sections = sections
         }
@@ -105,9 +105,9 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
     }
     
     public func headerCellInfo() -> HeaderSectionCellInfo {
-        let source        = person?.source?.localizedBadgeTitle
-        let title         = person?.summary
-        let subtitle      = person?.summaryDetail1
+        let source        = person?.category
+        let title         = person?.title
+        let subtitle      = person?.detail1
         let description   = headerCellDescription()
         let buttonTitle   = headerCellAdditionalButtonTitle()
         let isPlaceholder = headerCellIsDescriptionPlaceholder()
@@ -340,7 +340,6 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
         
         let additionalDetailsButtonTitle: String?
         let isDescriptionPlaceholder    : Bool
-        let thumbnailViewImage          : UIImage = #imageLiteral(resourceName: "Avatar 1")
     }
     
     public struct SectionCellInfo {
@@ -425,7 +424,7 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
             case .idn:
                 return person.id
             case .status:
-                return person.dateOfDeath == nil ? "N/A" : "Alive"
+                return person.dateOfDeath != nil ? "N/A" : "Alive"
             }
         }
     }

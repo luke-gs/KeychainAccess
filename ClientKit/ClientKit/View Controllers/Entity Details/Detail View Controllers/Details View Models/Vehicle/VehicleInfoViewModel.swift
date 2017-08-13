@@ -9,34 +9,68 @@
 import Foundation
 import MPOLKit
 
-public class VehicleInfoViewModel {
+public class VehicleInfoViewModel: EntityDetailsViewModelable {
+    
+    public typealias DetailsType = VehicleInfo
+    
+    public weak var delegate: EntityDetailsViewModelDelegate?
     
     // MARK - Entity
-    public var vehicle: Vehicle?
-    
-    // Public methods
-    public func numberOfItemsInSection(_ section: Int) -> Int {
-        switch Section(rawValue: section)! {
-        case .header:       return 1
-        case .registration: return RegistrationItem.count
-        case .owner:        return OwnerItem.count
+    public var vehicle: Vehicle? {
+        didSet {
+            guard let _ = self.vehicle else {
+                self.sections = []
+                return
+            }
+            
+            let sections: [DetailsType] = [
+                VehicleInfo(type: .header, items: nil),
+                VehicleInfo(type: .registration, items: [
+                    RegistrationItem.status,
+                    RegistrationItem.validity,
+                    RegistrationItem.manufactured,
+                    RegistrationItem.make,
+                    RegistrationItem.model,
+                    RegistrationItem.vin,
+                    RegistrationItem.engine,
+                    RegistrationItem.fuel,
+                    RegistrationItem.transmission,
+                    RegistrationItem.color1,
+                    RegistrationItem.color2,
+                    RegistrationItem.weight,
+                    RegistrationItem.tare,
+                    RegistrationItem.seating])
+            ]
+            
+            self.sections = sections
         }
     }
     
-    public func numberOfSections() -> Int{
-        return Section.count
+    public var sections: [DetailsType] = [VehicleInfo(type: .header, items: nil)]{
+        didSet {
+            delegate?.reloadData()
+        }
     }
     
-    public func section(at index: Int) -> Section? {
-        return Section(rawValue: index)
+    // MARK: - Public methods
+    
+    public func numberOfSections() -> Int {
+        return sections.count
     }
     
-    /// Custom header text for each section
-    public func headerText(for section: Int) -> String? {
-        
-        let type = Section(rawValue: section)!
-        
-        if type == .header {
+    public func numberOfItems(for section: Int) -> Int {
+        return sections[section].items?.count ?? 1
+    }
+    
+    public func detailItem(at indexPath: IndexPath) -> Any? {
+        return sections[ifExists: indexPath.section]?.items?[indexPath.item]
+    }
+    
+    /// Header section
+    public func header(for section: Int) -> String? {
+        let section = item(at: section)!
+        switch section.type {
+        case .header:
             let lastUpdatedString: String
             if let lastUpdated = vehicle?.lastUpdated {
                 lastUpdatedString = DateFormatter.shortDate.string(from: lastUpdated)
@@ -44,32 +78,74 @@ public class VehicleInfoViewModel {
                 lastUpdatedString = NSLocalizedString("UNKNOWN", bundle: .mpolKit, comment: "Unknown Date")
             }
             return NSLocalizedString("LAST UPDATED: ", bundle: .mpolKit, comment: "") + lastUpdatedString
+        default:
+            return section.type.localizedTitle
         }
-        return self.section(at: section)?.localizedTitle
     }
     
-    public func cellInfo(for section: Section, at indexPath: IndexPath) -> CellInfo {
-        var title             : String?
-        var subtitle          : String?
+    public func headerCellInfo() -> HeaderSectionCellInfo {
+        let source        = vehicle?.category
+        let title         = vehicle?.title
+        let subtitle      = vehicle?.detail1
+        let description   = vehicle?.vehicleDescription ?? "No Description"
+        
+        
+        return HeaderSectionCellInfo(vehicle: vehicle,
+                                     source: source,
+                                     title:title,
+                                     subtitle: subtitle,
+                                     description: description)
+    }
+    
+    public func cellInfo(for section: DetailsType, at indexPath: IndexPath) -> SectionCellInfo {
+        var title   : String?
+        var value   : String?
+        var isEditable          : Bool?
+        var isProgressCell      : Bool?
+        var progress            : Float?
+        var isProgressViewHidden: Bool?
         var multiLineSubtitle : Bool = false
         
-        switch section {
+        let item = section.items![indexPath.item]
+
+        switch section.type {
         case .registration:
-            let regoItem = RegistrationItem(rawValue: indexPath.item)!
-            title    = regoItem.localizedTitle
-            subtitle = regoItem.value(from: nil)
+            let item = item as! RegistrationItem
+            title    = item.localizedTitle
+            value = item.value(from: vehicle!)
+            isProgressCell = (item == .validity)
             multiLineSubtitle = false
-        case .owner:
-            let ownerItem = OwnerItem(rawValue: indexPath.item)!
-            title    = ownerItem.localizedTitle
-            subtitle = ownerItem.value(for: nil)
-            multiLineSubtitle = ownerItem.wantsMultiLineDetail
+            
+            if let _ = isProgressCell {
+                isProgressViewHidden = true
+                isEditable = false
+                
+                if let startDate = vehicle!.registrationEffectiveDate, let endDate = vehicle!.registrationExpiryDate {
+                    isProgressViewHidden = false
+                    let timeIntervalBetween = endDate.timeIntervalSince(startDate)
+                    let timeIntervalToNow   = startDate.timeIntervalSinceNow * -1.0
+                    progress = Float(timeIntervalToNow / timeIntervalBetween)
+                }
+            }
         default:
             break
         }
         
-        return CellInfo(title: title, subtitle: subtitle, multiLineSubtitle: multiLineSubtitle)
+        return SectionCellInfo(title: title,
+                               value: value,
+                               isEditable: isEditable,
+                               isProgressCell: isProgressCell,
+                               progress: progress,
+                               isProgressViewHidden: isProgressViewHidden,
+                               multiLineSubtitle: multiLineSubtitle)
     }
+    
+    /// Calculate the filling columns for Licence section
+    public func regoItemFillingColumns(at indexPath: IndexPath) -> Int {
+        let regoItem = detailItem(at: indexPath)! as! RegistrationItem
+        return (regoItem == .validity) ? 2 : 1
+    }
+    
     
     public func registrationItem(at index: Int) -> RegistrationItem? {
         return RegistrationItem(rawValue: index)
@@ -82,72 +158,135 @@ public class VehicleInfoViewModel {
     // MARK: Private methods
     
     // MARK: Section Cell
-    public struct CellInfo {
-        let title             : String?
-        let subtitle          : String?
-        let multiLineSubtitle : Bool
+    
+    public struct HeaderSectionCellInfo {
+        let vehicle     : Vehicle?
+        let source     : String?
+        let title      : String?
+        let subtitle   : String?
+        let description: String?
+    }
+    
+    public struct SectionCellInfo {
+        let title     : String?
+        var value   : String?
+        let isEditable: Bool?
+        
+        let isProgressCell      : Bool?
+        let progress            : Float?
+        let isProgressViewHidden: Bool?
+        let multiLineSubtitle   : Bool
+
+        var progressTintColor   : UIColor? {
+            guard let progress = progress else {
+                return nil
+            }
+            return progress > 1.0 ? #colorLiteral(red: 1, green: 0.231372549, blue: 0.1882352941, alpha: 1) : #colorLiteral(red: 0.2980392157, green: 0.6862745098, blue: 0.3137254902, alpha: 1)
+        }
     }
     
     // MARK: - Section & Item Enum
+        
+    public struct VehicleInfo {
+        var type: SectionType
+        var items: [Any]?
+    }
     
-    public enum Section: Int {
+    public enum SectionType {
         case header
         case registration
-        case owner
-        
-        static let count = 3
         
         var localizedTitle: String {
             switch self {
             case .header:       return NSLocalizedString("LAST UPDATED",         bundle: .mpolKit, comment: "")
             case .registration: return NSLocalizedString("REGISTRATION DETAILS", bundle: .mpolKit, comment: "")
-            case .owner:        return NSLocalizedString("REGISTERED OWNER",     bundle: .mpolKit, comment: "")
             }
         }
     }
     
     public enum RegistrationItem: Int {
+        case status
+        case validity
+        
+        case manufactured
         case make
         case model
+        
         case vin
-        case manufactured
+        case engine
+        case fuel
+        
         case transmission
         case color1
         case color2
-        case engine
-        case seating
-        case weight
         
-        static let count: Int = 10
+        case weight
+        case tare
+        case seating
+        
+        static func RegistrationItems() -> [RegistrationItem] {
+            return [.status,
+                    .validity,
+                    .manufactured,
+                    .make,
+                    .model,
+                    .vin,
+                    .engine,
+                    .fuel,
+                    .transmission,
+                    .color1,
+                    .color2,
+                    .weight,
+                    .tare,
+                    .seating]
+        }
         
         var localizedTitle: String {
             switch self {
+            case .status:       return NSLocalizedString("Status",             bundle: .mpolKit, comment: "")
+            case .validity:     return NSLocalizedString("Valid until",        bundle: .mpolKit, comment: "")
+            case .manufactured: return NSLocalizedString("Manufactured in",    bundle: .mpolKit, comment: "")
             case .make:         return NSLocalizedString("Make",               bundle: .mpolKit, comment: "")
             case .model:        return NSLocalizedString("Model",              bundle: .mpolKit, comment: "")
             case .vin:          return NSLocalizedString("VIN/Chassis Number", bundle: .mpolKit, comment: "")
-            case .manufactured: return NSLocalizedString("Manufactured in",    bundle: .mpolKit, comment: "")
+            case .engine:       return NSLocalizedString("Engine Number",      bundle: .mpolKit, comment: "")
+            case .fuel:         return NSLocalizedString("Fule Type",          bundle: .mpolKit, comment: "")
             case .transmission: return NSLocalizedString("Transmission",       bundle: .mpolKit, comment: "")
-            case .color1:       return NSLocalizedString("Colour 1",           bundle: .mpolKit, comment: "")
-            case .color2:       return NSLocalizedString("Colour 2",           bundle: .mpolKit, comment: "")
-            case .engine:       return NSLocalizedString("Engine",             bundle: .mpolKit, comment: "")
-            case .seating:      return NSLocalizedString("Seating",            bundle: .mpolKit, comment: "")
-            case .weight:       return NSLocalizedString("Curb weight",        bundle: .mpolKit, comment: "")
+            case .color1:       return NSLocalizedString("Primary Colour",     bundle: .mpolKit, comment: "")
+            case .color2:       return NSLocalizedString("Secondary Colour",   bundle: .mpolKit, comment: "")
+            case .weight:       return NSLocalizedString("Gross Vehicle Mass", bundle: .mpolKit, comment: "")
+            case .tare:         return NSLocalizedString("TARE",               bundle: .mpolKit, comment: "")
+            case .seating:      return NSLocalizedString("Seating Capacity",   bundle: .mpolKit, comment: "")
             }
         }
         
-        func value(from vehicle: Any?) -> String {
+        func value(from vehicle: Vehicle?) -> String? {
             // TODO: Fill these details in
             switch self {
-            case .make:         return "Tesla"
-            case .model:        return "Model S P100D"
-            case .vin:          return "1FUJA6CG47LY64774"
-            case .manufactured: return "2020"
-            case .transmission: return "Automatic"
-            case .color1:       return "Black"
-            case .color2:       return "Silver"
-            case .engine:       return "Electric"
-            case .seating:      return "2 + 3"
-            case .weight:       return "2,239 kg"
+            case .status:       return vehicle?.registrationStatus ?? "Unknown"
+            case .validity:
+                if let effectiveDate = vehicle?.registrationExpiryDate {
+                    return DateFormatter.mediumNumericDate.string(from: effectiveDate)
+                } else {
+                    return NSLocalizedString("Expiry date unknown", bundle: .mpolKit, comment: "")
+                }
+            case .manufactured: return vehicle?.year ?? "Unknown"
+            case .make:         return vehicle?.make ?? "Unknown"
+            case .model:        return vehicle?.model ?? "Unknown"
+            case .vin:          return vehicle?.vin ?? "Unknown"
+            case .engine:       return vehicle?.engineNumber ?? "Unknown"
+            case .fuel:         return "Unknown"
+            case .transmission: return vehicle?.transmission ?? "Unknown"
+            case .color1:       return vehicle?.primaryColor ?? "Unknown"
+            case .color2:       return vehicle?.secondaryColor ?? "Unknown"
+            case .weight:
+                guard let weight = vehicle?.weight, weight > 0 else { return "Unknown" }
+                return String(describing: weight) + " kg"
+            case .tare:         return "Unknown"
+            case .seating:
+                guard let seatCapacity = vehicle?.seatingCapacity, seatCapacity > 0 else { return "Unknown" }
+                return String(describing: seatCapacity)
+
             }
         }
     }
