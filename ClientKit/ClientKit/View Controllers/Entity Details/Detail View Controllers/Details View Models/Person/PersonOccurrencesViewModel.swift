@@ -77,7 +77,7 @@ public class PersonOccurrencesViewModel: PersonDetailsViewModel<Event> {
         let event = item(at: indexPath.item)!
         
         let title = event.eventType
-        let subtitle = formattedTitle(for: nil)
+        let subtitle = formattedTitle(for: event.occurredDate)
         let detail = event.eventDescription
         
         return CellInfo(title: title, subtitle: subtitle, detail: detail)
