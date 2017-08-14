@@ -92,12 +92,12 @@ public enum QueryParserError: QueryParsingError {
 
 /// Handles parsing a search string based on a parser definition class which will
 /// define how to break up the strings and what tokens to look for.
-open class QueryParser<ParserDefinition: QueryParserDefinition> {
+open class QueryParser {
     
     /// Parser definition object that defines how to parse the string (conforms to 'QueryParserDefinition').
-    let parser: ParserDefinition
+    public let parser: QueryParserDefinition
     
-    public init(parserDefinition: ParserDefinition) {
+    public init(parserDefinition: QueryParserDefinition) {
         self.parser = parserDefinition
     }
     
