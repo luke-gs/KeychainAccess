@@ -138,11 +138,11 @@ open class Entity: MPOLKitEntity {
     }
     
     open var summaryDetail1: String? {
-        return "MM"
+        return "-"
     }
     
     open var summaryDetail2: String? {
-        return "GG"
+        return "-"
     }
     
 }

@@ -15,6 +15,8 @@ open class VehicleInfoViewController: EntityDetailCollectionViewController {
         get { return viewModel.vehicle }
         set {
             self.viewModel.vehicle = newValue as? Vehicle
+            updateLoadingManagerState()
+
         }
     }
     
@@ -42,6 +44,8 @@ open class VehicleInfoViewController: EntityDetailCollectionViewController {
     
     open override func viewDidLoad() {
         super.viewDidLoad()
+        
+        loadingManager.state = .loading
         
         guard let collectionView = self.collectionView else { return }
         
@@ -230,6 +234,10 @@ open class VehicleInfoViewController: EntityDetailCollectionViewController {
     
     @objc private func entityThumbnailDidSelect(_ thumbnail: EntityThumbnailView) {
         
+    }
+    
+    private func updateLoadingManagerState() {
+        loadingManager.state = entity != nil ? .loaded : .noContent
     }
 }
 

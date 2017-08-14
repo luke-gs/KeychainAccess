@@ -30,7 +30,7 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
             viewControllers.insert(PersonInfoViewController(), at: 0)
             viewControllers += [
                 PersonOccurrencesViewController(),
-                PersonActionsViewController(),
+             //   PersonActionsViewController(),
                 PersonCriminalHistoryViewController()
             ]
         case _ as Vehicle:
@@ -46,22 +46,28 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
         switch entity {
         case _ as Person:
             let request = PersonFetchParameter(id: entity.id)
-            MPOLAPIManager.shared.fetchEntityDetails(in: .mpol, with: request).then { [weak self] person -> () in
-                if let detailVCs = self?.detailViewControllers as? [EntityDetailCollectionViewController] {
-                    detailVCs.forEach { $0.entity = person }
-                }
-            }.catch(execute: { (error) in
-                
-            })
+            firstly {
+                MPOLAPIManager.shared.fetchEntityDetails(in: .mpol, with: request)
+                }.then { [weak self] person -> () in
+                    if let detailVCs = self?.detailViewControllers as? [EntityDetailCollectionViewController] {
+                        detailVCs.forEach { $0.entity = person }
+                    }
+                    
+                }.catch(execute: { (error) in
+                    
+                })
         case _ as Vehicle:
             let request = VehicleFetchParameter(id: entity.id)
-            MPOLAPIManager.shared.fetchEntityDetails(in: .mpol, with: request).then { [weak self] vehicle -> () in
-                if let detailVCs = self?.detailViewControllers as? [EntityDetailCollectionViewController] {
-                    detailVCs.forEach { $0.entity = vehicle }
-                }
-            }.catch(execute: { (error) in
-                print("ERROR: \(error.localizedDescription)")
-            })
+            firstly {
+                MPOLAPIManager.shared.fetchEntityDetails(in: .mpol, with: request)
+                }.then { [weak self] vehicle -> () in
+                    if let detailVCs = self?.detailViewControllers as? [EntityDetailCollectionViewController] {
+                        detailVCs.forEach { $0.entity = vehicle }
+                    }
+                    
+                }.catch(execute: { (error) in
+                    print("ERROR: \(error.localizedDescription)")
+                })
         default:
             break
         }
@@ -132,7 +138,7 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
         
         sources = [.mpol]
         representations = [.mpol: .loaded(entity)]
-        
+
         selectedRepresentation = entity
         
         let detailVCs = type(of: self).detailViewControllers(for: entity)
@@ -222,11 +228,13 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
         } else {
             sidebarViewController.selectedSourceIndex = nil
         }
+
     }
     
     /// Updates the header view with the details for the latest selected representation.
     /// Call this methodwhen the selected representation changes.
     private func updateHeaderView() {
+        
         headerView.captionLabel.text = type(of: selectedRepresentation).localizedDisplayName.localizedUppercase
         /*
         if let headerIcon = selectedRepresentation.thumbnailImage(ofSize: .medium) {
@@ -237,9 +245,14 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
         }
         */
         // TEMP:
-        headerView.iconView.image = #imageLiteral(resourceName: "Avatar 1")
         
-        headerView.titleLabel.text = selectedRepresentation.summary
+        let entity = selectedRepresentation as! EntitySummaryDisplayable
+        if let (thumbnail, _) = entity.thumbnail(ofSize: .small) {
+            headerView.iconView.image = thumbnail
+        }
+       /// headerView.iconView.image = #imageLiteral(resourceName: "Avatar 1")
+        
+        headerView.titleLabel.text = entity.title
         
         let lastUpdatedString: String
         if let lastUpdated = selectedRepresentation.lastUpdated {
