@@ -49,6 +49,10 @@ public protocol QueryParserDefinition {
     var tokenDefinitions: [QueryTokenDefinition] { get }
 }
 
+/// Protocol for error handling
+public protocol QueryParsingError: Error {
+    var message: String { get }
+}
 
 /// Potential errors that can occur during query string parsing.
 ///
@@ -57,12 +61,32 @@ public protocol QueryParserDefinition {
 /// - invalidToken:             A token is found to be a correct type but invalid for that type.
 /// - typeNotFound:             A token didn't match any type in the definitions array.
 /// - requiredValueNotFound:    After parsing, a key that is declared required does not contain a value.
-public enum QueryParserError: Error {
+public enum QueryParserError: QueryParsingError {
     case multipleTokenDefinitions(key: String)
     case additionalTokenFound(token: String)
     case invalidToken(token: String, key: String)
     case typeNotFound(token: String)
     case requiredValueNotFound(key: String)
+    
+    public var message: String {
+        var message = ""
+        
+        switch self {
+        case QueryParserError.requiredValueNotFound(let key):
+            message = "Couldn't find value for required \(key). Refer to search help."
+        case QueryParserError.additionalTokenFound(let token):
+            message = "Additional token '\(token)' has been found, does not conform to query parser. Refer to search help."
+        case QueryParserError.multipleTokenDefinitions(let key):
+            message = "Key '\(key)' has multiple multiple token definitions."
+            fatalError()
+        case QueryParserError.typeNotFound(let token):
+            message = "Unidentified value '\(token)' found. Refer to search help."
+        case QueryParserError.invalidToken(let token, let key):
+            message = "Token '\(token)' is invalid for value '\(key)'."
+        }
+        
+        return message
+    }
 }
 
 
