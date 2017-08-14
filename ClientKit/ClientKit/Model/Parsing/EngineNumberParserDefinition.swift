@@ -21,12 +21,12 @@ public enum EngineNumberParserError: QueryParsingError {
 }
 
 public class EngineNumberParserDefinition: QueryParserDefinition {
-    public let engineKey = "engine"
+    public static let engineNumberKey = "engineNumber"
     
     public let tokenDefinitions: [QueryTokenDefinition]
     
     public init(range: CountableClosedRange<Int>) {
-        let definition = QueryTokenDefinition(key: engineKey, required: true, typeCheck: { token -> Bool in
+        let definition = QueryTokenDefinition(key: EngineNumberParserDefinition.engineNumberKey, required: true, typeCheck: { token -> Bool in
             let allowedCharacters = CharacterSet.alphanumerics
             let extra = token.trimmingCharacters(in: allowedCharacters)
             return extra.characters.count == 0

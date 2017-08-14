@@ -122,14 +122,30 @@ class VehicleSearchDataSource: SearchDataSource {
     // MARK: - SearchResultViewModel
     
     func searchResultModel(for searchable: Searchable) -> SearchResultViewModelable? {
-        guard let searchTerm = searchable.searchText else { return nil }
+        guard let searchTerm = searchable.searchText, let selectedType = searchable.options?[FilterItem.type.rawValue], let type = SearchType(rawValue: selectedType) else {
+            return nil
+        }
         
-        let searchParams = VehicleSearchParameters(criteria: searchTerm)
-
-        // Note: generate as many requests as required
-        let request = VehicleSearchRequest(source: .mpol, request: searchParams)
+        let queryParser = parser(forType: type)
+        let parserResults = try! queryParser.parseString(query: searchTerm)
         
-        return EntitySummarySearchResultViewModel<Vehicle>(title: searchTerm, aggregatedSearch: AggregatedSearch(requests: [request]))
+        var searchParameters: EntitySearchRequest<Vehicle>?
+        
+        if queryParser === registrationParser {
+            searchParameters = VehicleSearchParameters(registration: parserResults[RegistrationParserDefinition.registrationKey]!)
+        } else if queryParser === vinParser {
+            searchParameters = VehicleSearchParameters(vin: parserResults[VINParserDefinition.vinKey]!)
+        } else if queryParser === engineParser {
+            searchParameters = VehicleSearchParameters(engineNumber: parserResults[EngineNumberParserDefinition.engineNumberKey]!)
+        }
+        
+        if let searchParameters = searchParameters {
+            // Note: generate as many requests as required
+            let request = VehicleSearchRequest(source: .mpol, request: searchParameters)
+            return EntitySummarySearchResultViewModel<Vehicle>(title: searchTerm, aggregatedSearch: AggregatedSearch(requests: [request]))
+        }
+        
+        return nil
     }
     
     // MARK: - Validation passing
