@@ -72,6 +72,9 @@
 		C681A3851F21AEA800F4AC13 /* LicenceParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C681A3841F21AEA800F4AC13 /* LicenceParserDefinition.swift */; };
 		C6C44CAD1F21BDDF00A2AD50 /* LicenceParserDefinitionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C44CAC1F21BDDF00A2AD50 /* LicenceParserDefinitionsTests.swift */; };
 		C6E2EBC91F217B9E00F659F8 /* PersonParserDefinitionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E2EBC81F217B9E00F659F8 /* PersonParserDefinitionsTests.swift */; };
+		EA1CC2511F3D91E800FE8BAE /* RegistrationParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA1CC2501F3D91E800FE8BAE /* RegistrationParserDefinition.swift */; };
+		EA1CC2541F4132D200FE8BAE /* VINParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA1CC2531F4132D200FE8BAE /* VINParserDefinition.swift */; };
+		EA1CC2561F41347100FE8BAE /* EngineNumberParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA1CC2551F41347100FE8BAE /* EngineNumberParserDefinition.swift */; };
 		EA8B66531F381BC000F09716 /* PersonSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8B66521F381BC000F09716 /* PersonSearchRequest.swift */; };
 		EA8B66551F381CBA00F09716 /* VehicleSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8B66541F381CBA00F09716 /* VehicleSearchRequest.swift */; };
 		EA8B66581F381F8100F09716 /* MPOLAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8B66561F381F8100F09716 /* MPOLAPIManager.swift */; };
@@ -165,6 +168,9 @@
 		C7ECBB5ADFC8B8CF04DA87A7 /* Pods-ClientKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKitTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKitTests/Pods-ClientKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		D6779C04771873128EC55832 /* Pods-ClientKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKit.release.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKit/Pods-ClientKit.release.xcconfig"; sourceTree = "<group>"; };
 		D6FAB7E5ED55CBB22E20D7C9 /* Pods_ClientKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClientKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA1CC2501F3D91E800FE8BAE /* RegistrationParserDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationParserDefinition.swift; sourceTree = "<group>"; };
+		EA1CC2531F4132D200FE8BAE /* VINParserDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VINParserDefinition.swift; sourceTree = "<group>"; };
+		EA1CC2551F41347100FE8BAE /* EngineNumberParserDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EngineNumberParserDefinition.swift; sourceTree = "<group>"; };
 		EA8B66521F381BC000F09716 /* PersonSearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonSearchRequest.swift; sourceTree = "<group>"; };
 		EA8B66541F381CBA00F09716 /* VehicleSearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleSearchRequest.swift; sourceTree = "<group>"; };
 		EA8B66561F381F8100F09716 /* MPOLAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPOLAPIManager.swift; sourceTree = "<group>"; };
@@ -296,6 +302,9 @@
 			children = (
 				BCA1793A1F03542900AD1F5F /* PersonParserDefinition.swift */,
 				C681A3841F21AEA800F4AC13 /* LicenceParserDefinition.swift */,
+				EA1CC2501F3D91E800FE8BAE /* RegistrationParserDefinition.swift */,
+				EA1CC2531F4132D200FE8BAE /* VINParserDefinition.swift */,
+				EA1CC2551F41347100FE8BAE /* EngineNumberParserDefinition.swift */,
 			);
 			path = Parsing;
 			sourceTree = "<group>";
@@ -674,6 +683,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCAEFE9B1F03150800C97F9C /* BailOrder.swift in Sources */,
+				EA1CC2541F4132D200FE8BAE /* VINParserDefinition.swift in Sources */,
 				BC75A7BD1F1C3D5F004D46F1 /* VehicleInfoViewController.swift in Sources */,
 				BCAEFEDD1F0317DB00C97F9C /* EntityThumbnailView+Configuration.swift in Sources */,
 				BCAEFEA01F03150800C97F9C /* MissingPersonReport.swift in Sources */,
@@ -702,6 +712,7 @@
 				BCAEFEA71F03150800C97F9C /* PersonDescription.swift in Sources */,
 				BCF31AC81F0F42CD00207D82 /* Array+Searching.swift in Sources */,
 				BC75A7B41F1C3D50004D46F1 /* FieldContactDetailViewController.swift in Sources */,
+				EA1CC2561F41347100FE8BAE /* EngineNumberParserDefinition.swift in Sources */,
 				BCAEFEAD1F03150800C97F9C /* Source.swift in Sources */,
 				BC75A7AF1F1C3D48004D46F1 /* EntityDetailCollectionViewCell.swift in Sources */,
 				BCAEFE921F03150800C97F9C /* Address.swift in Sources */,
@@ -709,6 +720,7 @@
 				BCAEFE9C1F03150800C97F9C /* FamilyIncident.swift in Sources */,
 				EA8B66601F38319700F09716 /* VehicleSearchParameters.swift in Sources */,
 				BC75A7BC1F1C3D5B004D46F1 /* CautionDetailsViewController.swift in Sources */,
+				EA1CC2511F3D91E800FE8BAE /* RegistrationParserDefinition.swift in Sources */,
 				BCAEFE991F03150800C97F9C /* Entity.swift in Sources */,
 				BC75A7B71F1C3D55004D46F1 /* PersonOccurrencesViewController.swift in Sources */,
 				BC75A7AD1F1C3D48004D46F1 /* EntityAlertsViewController.swift in Sources */,

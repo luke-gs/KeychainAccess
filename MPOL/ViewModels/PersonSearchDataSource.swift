@@ -98,8 +98,23 @@ class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
                                                                 attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 28.0, weight: UIFontWeightLight), NSForegroundColorAttributeName: UIColor.lightGray])
     
     var options: SearchOptions = PersonSearchOptions()
-    let parser: QueryParser<PersonParserDefinition> = QueryParser(parserDefinition: PersonParserDefinition())
 
+    let definitionSelector: QueryParserDefinitionSelector = {
+        let definitionSelector = QueryParserDefinitionSelector()
+        
+        let formatter = NumberFormatter()
+        
+        definitionSelector.register(definition: LicenceParserDefinition(range: 2...10), withValidation: { query in
+            return query.isEmpty == false && formatter.number(from: query) != nil
+        })
+        
+        definitionSelector.register(definition: PersonParserDefinition(), withValidation: { query in
+            return query.isEmpty == false && formatter.number(from: query) == nil
+        })
+        
+        return definitionSelector
+    }()
+    
     static private var inputDateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd/MM/yyyy"
@@ -236,31 +251,42 @@ class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
     func searchResultModel(for searchable: Searchable) -> SearchResultViewModelable? {
         do {
             guard let searchTerm = searchable.searchText else { return nil }
-            
-            let parsingResults = try parser.parseString(query: searchTerm)
-            let dobSearch: String?
-            
-            if let dateOfBirthString = parsingResults[PersonParserDefinition.DateOfBirthKey],
-                let dateOfBirth = PersonSearchDataSource.inputDateFormatter.date(from: dateOfBirthString) {
-                dobSearch =  PersonSearchDataSource.outputDateFormatter.string(from: dateOfBirth)
-            } else {
-                dobSearch = nil
+
+            if let definition = self.definitionSelector.supportedDefinitions(for: searchTerm).first {
+                
+                let personParserResults = try QueryParser(parserDefinition: definition).parseString(query: searchTerm)
+                var searchParameters: EntitySearchRequest<Person>?
+                
+                if definition is PersonParserDefinition {
+                    var dobSearch: String?
+                    
+                    if let dateOfBirthString = personParserResults[PersonParserDefinition.DateOfBirthKey],
+                        let dateOfBirth = PersonSearchDataSource.inputDateFormatter.date(from: dateOfBirthString) {
+                        dobSearch =  PersonSearchDataSource.outputDateFormatter.string(from: dateOfBirth)
+                    }
+                    
+                    searchParameters = PersonSearchParameters(familyName:   personParserResults[PersonParserDefinition.SurnameKey]!,
+                                                              givenName:    personParserResults[PersonParserDefinition.GivenNameKey],
+                                                              middleNames:  personParserResults[PersonParserDefinition.MiddleNamesKey],
+                                                              gender:       personParserResults[PersonParserDefinition.GenderKey],
+                                                              dateOfBirth:  dobSearch)
+                } else if definition is LicenceParserDefinition {
+                    searchParameters = LicenceSearchParameters(licence: searchTerm)
+                }
+                
+                if let searchParameters = searchParameters {
+                    // Note: generate as many requests as required
+                    let request = PersonSearchRequest(source: .mpol, request: searchParameters)
+                    return EntitySummarySearchResultViewModel<Person>(title: searchTerm, aggregatedSearch: AggregatedSearch(requests: [request]))
+                }
             }
-            
-            let searchParams = PersonSearchParameters(familyName:   parsingResults[PersonParserDefinition.SurnameKey]!,
-                                                      givenName:    parsingResults[PersonParserDefinition.GivenNameKey],
-                                                      middleNames:  parsingResults[PersonParserDefinition.MiddleNamesKey],
-                                                      gender:       parsingResults[PersonParserDefinition.GenderKey],
-                                                      dateOfBirth:  dobSearch)
-            
-            // Note: generate as many requests as required
-            let request = PersonSearchRequest(source: .mpol, request: searchParams)
-            
-            return EntitySummarySearchResultViewModel<Person>(title: searchTerm, aggregatedSearch: AggregatedSearch(requests: [request]))
         } catch {
             
         }
         
         return nil
     }
+    
 }
+
+

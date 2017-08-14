@@ -84,6 +84,27 @@ class VehicleSearchDataSource: SearchDataSource {
     //MARK: SearchDataSource
     var options: SearchOptions = VehicleSearchOptions()
     
+    let definitionSelector: QueryParserDefinitionSelector = {
+        let definitionSelector = QueryParserDefinitionSelector()
+        
+        let registrationRange = 1...9
+        definitionSelector.register(definition: RegistrationParserDefinition(range: registrationRange), withValidation: { query -> Bool in
+            return registrationRange.contains(query.characters.count)
+        })
+        
+        let vinRange = 10...17
+        definitionSelector.register(definition: VINParserDefinition(range: vinRange), withValidation: { query -> Bool in
+            return vinRange.contains(query.characters.count)
+        })
+        
+        let engineRange = 10...20
+        definitionSelector.register(definition: EngineNumberParserDefinition(range: engineRange), withValidation: { query -> Bool in
+            return engineRange.contains(query.characters.count)
+        })
+        
+        return definitionSelector
+    }()
+    
     weak var updatingDelegate: SearchDataSourceUpdating?
 
     var localizedDisplayName: String {
@@ -102,7 +123,7 @@ class VehicleSearchDataSource: SearchDataSource {
         guard let item = FilterItem(rawValue: index) else { return nil }
         guard let options = options as? VehicleSearchOptions else { return nil }
         let viewController: UIViewController
-
+        
         switch item {
         case .searchType:
             let searchTypes = SearchType.all
