@@ -182,4 +182,11 @@ class VehicleSearchDataSource: SearchDataSource {
         
         return EntitySummarySearchResultViewModel<Vehicle>(title: searchTerm, aggregatedSearch: AggregatedSearch(requests: [request]))
     }
+    
+    // MARK: - Validation passing
+    
+    func passValidation(for searchable: Searchable) -> String? {
+
+        return nil
+    }
 }

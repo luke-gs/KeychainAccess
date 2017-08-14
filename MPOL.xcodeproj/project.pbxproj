@@ -208,7 +208,7 @@
 				TargetAttributes = {
 					BCD4EA881E515ACE000B993D = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = FNW7L4X44S;
+						DevelopmentTeam = QJQ4TBYRPA;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
@@ -434,12 +434,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MPOL/MPOL.entitlements;
-				DEVELOPMENT_TEAM = FNW7L4X44S;
+				DEVELOPMENT_TEAM = QJQ4TBYRPA;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = MPOL/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = gridstone.MPOL;
+				PRODUCT_BUNDLE_IDENTIFIER = com.naturallybeing.gpol;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -451,12 +452,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MPOL/MPOL.entitlements;
-				DEVELOPMENT_TEAM = FNW7L4X44S;
+				DEVELOPMENT_TEAM = QJQ4TBYRPA;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = MPOL/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = gridstone.MPOL;
+				PRODUCT_BUNDLE_IDENTIFIER = com.naturallybeing.gpol;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
