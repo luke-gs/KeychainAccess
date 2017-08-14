@@ -292,9 +292,13 @@ class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
     func passValidation(for searchable: Searchable) -> String? {
         do {
             if let searchTerm = searchable.searchText {
-                let _ = try parser.parseString(query: searchTerm)
+                let definitions = self.definitionSelector.supportedDefinitions(for: searchTerm)
+                if definitions.count == 1 {
+                    _ = try QueryParser(parserDefinition: definitions.first!).parseString(query: searchTerm)
+                } else {
+                    
+                }
             }
-            
         } catch (let error) {
             if let error = error as? QueryParsingError {
                 return error.message
@@ -305,6 +309,7 @@ class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
         
         return nil
     }
+    
 }
 
 

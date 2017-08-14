@@ -8,9 +8,18 @@
 
 import MPOLKit
 
-public enum LicenceParseError: Error {
-    case invalidLicenceNumber
+public enum LicenceParseError: QueryParsingError {
+    case invalidLicenceNumber(licenceNumber: String)
     case invalidLength(licenceNumber: String, requiredLengthRange: CountableClosedRange<Int>)
+    
+    public var message: String {
+        switch self {
+        case .invalidLicenceNumber(let licenceNumber):
+            return "\(licenceNumber) is not a valid licence number."
+        case .invalidLength(_, let range):
+            return "Licence number must be between \(range.lowerBound) and \(range.upperBound)."
+        }
+    }
 }
 
 public struct LicenceParserDefinition: QueryParserDefinition {
@@ -30,7 +39,7 @@ public struct LicenceParserDefinition: QueryParserDefinition {
         }) { (value, index, map) in
             
             guard LicenceParserDefinition.numberFormatter.number(from: value) != nil else {
-                throw LicenceParseError.invalidLicenceNumber
+                throw LicenceParseError.invalidLicenceNumber(licenceNumber: value)
             }
             
             let length = value.characters.count
