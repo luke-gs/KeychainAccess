@@ -263,4 +263,23 @@ class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
         
         return nil
     }
+    
+    // MARK: - Validation passing
+    
+    func passValidation(for searchable: Searchable) -> String? {
+        do {
+            if let searchTerm = searchable.searchText {
+                let _ = try parser.parseString(query: searchTerm)
+            }
+            
+        } catch (let error) {
+            if let error = error as? QueryParsingError {
+                return error.message
+            } else {
+               return "Unexpected values have been entered. Refer to search help."
+            }
+        }
+        
+        return nil
+    }
 }

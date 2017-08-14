@@ -7,7 +7,7 @@
 
 import MPOLKit
 
-public enum PersonParserError: Error {
+public enum PersonParserError: QueryParsingError {
     case surnameIsNotFirst(surname: String)
     case surnameExceedsMaxLength(surname: String, maxLength: Int)
     case givenNameExceedsMaxLength(givenName: String, maxLength: Int)
@@ -17,6 +17,33 @@ public enum PersonParserError: Error {
     case ageGapWrongOrder(ageGap: String)
     case dobInvalidValues(dob: String)
     case dobDateOutOfBounds(dob: String)
+    
+    public var message: String {
+        var message = ""
+        
+        switch self {
+        case PersonParserError.surnameIsNotFirst(let surname):
+            message = "Potential Surname '\(surname)' found. Surname must be first. Refer to search help."
+        case PersonParserError.surnameExceedsMaxLength(let surname, let maxLength):
+            message = "Surname '\(surname)' exceeds maximum length of \(maxLength) characters."
+        case PersonParserError.givenNameExceedsMaxLength(let givenName, let maxLength):
+            message = "Given name '\(givenName)' exceeds maximum length of \(maxLength) characters."
+        case PersonParserError.middleNameExistsWithoutGivenName(let middleName):
+            message = "Middle name '\(middleName)' exists without a given name."
+        case PersonParserError.middleNamesExceedsMaxLength(let middleName, let maxLength):
+            message = "Middle name '\(middleName)' exceeds maximum length of \(maxLength) characters."
+        case PersonParserError.ageGapWrongOrder(let ageGap):
+            message = "Age gap '\(ageGap)' in wrong order."
+        case PersonParserError.nameMatchesGenderType(let gender):
+            message = "Gender '\(gender)' is invalid."
+        case PersonParserError.dobInvalidValues(let dob):
+            message = "'\(dob)' is not a recognised DOB. Please ensure date is valid."
+        case PersonParserError.dobDateOutOfBounds(let dob):
+            message = "'\(dob)' must be a past date."
+        }
+
+        return message
+    }
 }
 
 public class PersonParserDefinition: QueryParserDefinition {
