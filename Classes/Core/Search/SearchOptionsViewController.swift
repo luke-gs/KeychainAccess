@@ -221,6 +221,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         collectionView?.selectItem(at: indexPathForSearchFieldCell, animated: false, scrollPosition: [])
         
         if let textField = searchFieldCell?.textField {
+            removeErrorMessage()
             textField.becomeFirstResponder()
             if selectingAllText {
                 textField.selectedTextRange = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
@@ -236,6 +237,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     }
     
     private func endEditingSearchField(changingState: Bool) {
+        removeErrorMessage()
         collectionView?.deselectItem(at: indexPathForSearchFieldCell, animated: false)
         searchFieldCell?.textField.resignFirstResponder()
         if changingState {
@@ -252,6 +254,31 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         return IndexPath(item: 0, section: 0)
     }
     
+    // MARK: - Handling search parsing error
+    
+    var searchErrorMessage: String? {
+        didSet {
+            if oldValue != searchErrorMessage {
+                if let errorMessage = searchErrorMessage {
+                    displayErrorMessage(errorMessage)
+                } else {
+                    removeErrorMessage()
+                }
+            }
+        }
+    }
+    
+    private func displayErrorMessage(_ message: String) {
+        if let cell = searchFieldCell {
+            cell.setRequiresValidation(true, validationText: message, animated: true)
+        }
+    }
+    
+    private func removeErrorMessage() {
+        if let cell = searchFieldCell {
+            cell.setRequiresValidation(false, validationText: nil, animated: true)
+        }
+    }
     
     // MARK: - Action methods
     
@@ -264,12 +291,18 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     }
 
     private func performSearch() {
+        searchErrorMessage = nil
+        
         var searchable = Searchable()
         searchable.searchText = searchFieldCell?.textField.text
         searchable.type = selectedDataSource.localizedDisplayName
         searchable.options = filterOptions
-
-        delegate?.searchOptionsController(self, didFinishWith: searchable)
+        
+        if let errorString = selectedDataSource.passValidation(for: searchable) {
+            searchErrorMessage = errorString
+        } else {
+            delegate?.searchOptionsController(self, didFinishWith: searchable)
+        }
     }
     
     // MARK: - UICollectionViewDataSource methods
@@ -314,6 +347,12 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
                 textField.addTarget(self, action: #selector(textFieldTextDidChange(_:)), for: .editingChanged)
             }
             textField.attributedPlaceholder = selectedDataSource.searchPlaceholder
+            
+            if let errorMessage = searchErrorMessage {
+                cell.setRequiresValidation(true, validationText: errorMessage, animated: true)
+            } else {
+                cell.setRequiresValidation(false, validationText: nil, animated: true)
+            }
             
             return cell
         case .filters:

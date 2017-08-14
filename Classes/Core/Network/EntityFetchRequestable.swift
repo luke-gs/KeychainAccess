@@ -9,5 +9,5 @@
 import Unbox
 
 public protocol EntityFetchRequestable: Parameterisable {
-    associatedtype ResultClass: Unboxable, MPOLKitEntityProtocol
+    associatedtype ResultClass: MPOLKitEntityProtocol
 }
