@@ -1,0 +1,9 @@
+{
+    "access_token": "wIIuYliD64S_F_61s2SlTeDNCCs2QRbMdJOeKpKzKsS9u6IXE_9_uMIwEF_gnNTpHfePtBjs0W8wBrtC4wFXpwfXG6Avnh-szCCiabz_rr1dxJgfd2vSudKhyG2pCRZijmw7pWYp7HnDYtM4vvnYJQXbEgXYQjGjWnuPHNK3uBN5hx0OhLbGjZf5AICI6K1XlUoRo_Tj2ip-m2TIrTxyPB-BekMfF-GhxIok2je8FrpN2E8fBfYQXyz_L94nCkfpbpAkm803LylJ5BpikfXM-0IUbZMkCbflHcjEKaP1irdMQ2s0jcxgRXA1AK4jKDcvHa0k6Ana7nBpO3GoD8hPtfXH2XfCJrPEOngpdcuVlX0K4plHzfwSeVm5d_PZ1edEhNg7-ETV60amo7hWGH2vwQ",
+    "token_type": "bearer",
+    "expires_in": 86399,
+    "refresh_token": "04ede95263cc446f80e52d4bfa49d567",
+    "refresh_token_expiry_time": "1502453835",
+    "access_token_expiry_time": "1502453835",
+    "user_id": "19c05eb7-78bb-4cde-be45-7bc905eab586"
+}

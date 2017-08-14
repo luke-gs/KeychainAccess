@@ -17,6 +17,8 @@
 		12ADD41C1F32A47D00CA8B4D /* SearchFieldCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD40B1F32A47D00CA8B4D /* SearchFieldCollectionViewCell.swift */; };
 		12ADD4201F32A4F900CA8B4D /* SearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD41F1F32A4F900CA8B4D /* SearchRequest.swift */; };
 		12ADD4221F32A50B00CA8B4D /* MPOLKitProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4211F32A50B00CA8B4D /* MPOLKitProtocols.swift */; };
+		19D96BBE1F3D3FEA00F69176 /* OAuthAccessToken.json in Resources */ = {isa = PBXBuildFile; fileRef = 19D96BBC1F3D3FEA00F69176 /* OAuthAccessToken.json */; };
+		19D96BBF1F3D3FEA00F69176 /* OAuthAccessTokenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19D96BBD1F3D3FEA00F69176 /* OAuthAccessTokenTests.swift */; };
 		8CDAFFA6E9DC54A4594C01FE /* Pods_MPOLKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FE1AAA01D6AE18F86693DF8 /* Pods_MPOLKitTests.framework */; };
 		BA6FEAA4EFE7F66EBAE4C2DC /* Pods_MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9215372B17F43A2FDEB28AD0 /* Pods_MPOLKit.framework */; };
 		BC0448941F219A70005FB857 /* AssetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0448931F219A70005FB857 /* AssetManager.swift */; };
@@ -220,6 +222,8 @@
 		12ADD40B1F32A47D00CA8B4D /* SearchFieldCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchFieldCollectionViewCell.swift; sourceTree = "<group>"; };
 		12ADD41F1F32A4F900CA8B4D /* SearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRequest.swift; sourceTree = "<group>"; };
 		12ADD4211F32A50B00CA8B4D /* MPOLKitProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPOLKitProtocols.swift; sourceTree = "<group>"; };
+		19D96BBC1F3D3FEA00F69176 /* OAuthAccessToken.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = OAuthAccessToken.json; sourceTree = "<group>"; };
+		19D96BBD1F3D3FEA00F69176 /* OAuthAccessTokenTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuthAccessTokenTests.swift; sourceTree = "<group>"; };
 		1FE1AAA01D6AE18F86693DF8 /* Pods_MPOLKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOLKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		70E8FDF2F522A8C05328E451 /* Pods-MPOLKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKitTests/Pods-MPOLKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		792BA6D7922A9D3748B70A23 /* Pods-MPOLKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKit/Pods-MPOLKit.release.xcconfig"; sourceTree = "<group>"; };
@@ -464,6 +468,15 @@
 				12ADD40B1F32A47D00CA8B4D /* SearchFieldCollectionViewCell.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		19D96BBB1F3D3FEA00F69176 /* OAuthAccessTokenTests */ = {
+			isa = PBXGroup;
+			children = (
+				19D96BBC1F3D3FEA00F69176 /* OAuthAccessToken.json */,
+				19D96BBD1F3D3FEA00F69176 /* OAuthAccessTokenTests.swift */,
+			);
+			path = OAuthAccessTokenTests;
 			sourceTree = "<group>";
 		};
 		AB742C85EFCBDE4BA2B497CE /* Pods */ = {
@@ -958,6 +971,7 @@
 			isa = PBXGroup;
 			children = (
 				C6E833AA1F334A4700A21F6D /* NSArchiverTests.swift */,
+				19D96BBB1F3D3FEA00F69176 /* OAuthAccessTokenTests */,
 				C63F71741F3332E7004F5047 /* UserTests.swift */,
 			);
 			path = Model;
@@ -1142,6 +1156,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C60C891D1ECCBEC700785932 /* SimplePersonArrayNestedKeyPath.json in Resources */,
+				19D96BBE1F3D3FEA00F69176 /* OAuthAccessToken.json in Resources */,
 				C60C891C1ECCBEC700785932 /* SimplePersonArrayKeyPath.json in Resources */,
 				C60C891F1ECCBEC700785932 /* SimplePersonNestedKeyPath.json in Resources */,
 				C60C891E1ECCBEC700785932 /* SimplePersonKeyPath.json in Resources */,
@@ -1427,6 +1442,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C6E833AB1F334A4700A21F6D /* NSArchiverTests.swift in Sources */,
+				19D96BBF1F3D3FEA00F69176 /* OAuthAccessTokenTests.swift in Sources */,
 				C63F71751F3332E7004F5047 /* UserTests.swift in Sources */,
 				C607E6B81F3BA95B003D0C5B /* SortDescriptorTests.swift in Sources */,
 				C60C890B1ECCB94F00785932 /* SimplePerson.swift in Sources */,
