@@ -10,7 +10,7 @@ import Foundation
 import MPOLKit
 
 
-public enum RegistrationParserError: Error {
+public enum RegistrationParserError: QueryParsingError {
     case invalidLength(query: String, requiredLengthRange: CountableClosedRange<Int>)
     
     public var message: String {

@@ -11,39 +11,36 @@ import MPOLKit
 import ClientKit
 
 fileprivate enum FilterItem: Int {
-    case searchType, state, make, model
+    case type
 
-    static let count = 4
+    static let count = 1
 
     var title: String {
         switch self {
-        case .searchType: return NSLocalizedString("Search Type", comment: "")
-        case .state:      return NSLocalizedString("State/s",  comment: "")
-        case .make:       return NSLocalizedString("Make",     comment: "")
-        case .model:      return NSLocalizedString("Model",    comment: "")
+        case .type: return NSLocalizedString("Search Type", comment: "")
         }
     }
 }
 
-fileprivate enum SearchType: Int, Pickable {
-    case vehicleRegistration
+fileprivate enum SearchType: String, Pickable {
+    case registration = "Registration"
+    case vin          = "VIN"
+    case engineNumber = "Engine number"
 
     var title: String? {
-        switch self {
-        case .vehicleRegistration: return NSLocalizedString("Vehicle Registration", comment: "")
-        }
+        return self.rawValue
     }
 
     var subtitle: String? {
         return nil
     }
 
-    static var all: [SearchType] = [.vehicleRegistration]
+    static var all: [SearchType] = [.registration, .vin, .engineNumber]
 }
 
 fileprivate class VehicleSearchOptions: SearchOptions {
 
-    var searchType: SearchType = .vehicleRegistration
+    var type:    SearchType = .registration
     var states:  [ArchivedManifestEntry]?
     var makes:   [ArchivedManifestEntry]?
     var models:  [ArchivedManifestEntry]?
@@ -51,9 +48,7 @@ fileprivate class VehicleSearchOptions: SearchOptions {
     // MARK: - Filters
 
     var numberOfOptions: Int {
-        // VicPol and QPS will not require these filters. Adjust this as
-        // necessary for each client.
-        return 0 // FilterItem.count
+        return FilterItem.count
     }
 
     func title(at index: Int) -> String {
@@ -64,10 +59,8 @@ fileprivate class VehicleSearchOptions: SearchOptions {
         guard let filterItem = FilterItem(rawValue: index) else { return nil }
 
         switch filterItem {
-        case .searchType:
-            return searchType.title
-        default:
-            return nil
+        case .type:
+            return type.title
         }
     }
 
@@ -84,26 +77,9 @@ class VehicleSearchDataSource: SearchDataSource {
     //MARK: SearchDataSource
     var options: SearchOptions = VehicleSearchOptions()
     
-    let definitionSelector: QueryParserDefinitionSelector = {
-        let definitionSelector = QueryParserDefinitionSelector()
-        
-        let registrationRange = 1...9
-        definitionSelector.register(definition: RegistrationParserDefinition(range: registrationRange), withValidation: { query -> Bool in
-            return registrationRange.contains(query.characters.count)
-        })
-        
-        let vinRange = 10...17
-        definitionSelector.register(definition: VINParserDefinition(range: vinRange), withValidation: { query -> Bool in
-            return vinRange.contains(query.characters.count)
-        })
-        
-        let engineRange = 10...20
-        definitionSelector.register(definition: EngineNumberParserDefinition(range: engineRange), withValidation: { query -> Bool in
-            return engineRange.contains(query.characters.count)
-        })
-        
-        return definitionSelector
-    }()
+    let registrationParser = QueryParser(parserDefinition: RegistrationParserDefinition(range: 1...9))
+    let vinParser          = QueryParser(parserDefinition: VINParserDefinition(range: 10...17))
+    let engineParser       = QueryParser(parserDefinition: EngineNumberParserDefinition(range: 10...20))
     
     weak var updatingDelegate: SearchDataSourceUpdating?
 
@@ -125,44 +101,17 @@ class VehicleSearchDataSource: SearchDataSource {
         let viewController: UIViewController
         
         switch item {
-        case .searchType:
+        case .type:
             let searchTypes = SearchType.all
 
             let picker = PickerTableViewController(style: .plain, items: searchTypes)
-            picker.selectedIndexes = searchTypes.indexes { $0 == options.searchType }
+            picker.selectedIndexes = searchTypes.indexes { $0 == options.type }
             picker.selectionUpdateHandler = { [weak self] (_, selectedIndexes) in
                 guard let `self` = self, let selectedTypeIndex = selectedIndexes.first else { return }
 
-                options.searchType = searchTypes[selectedTypeIndex]
+                options.type = searchTypes[selectedTypeIndex]
                 self.updatingDelegate?.searchDataSource(self, didUpdateFilterAt: index)
             }
-            viewController = picker
-        case .state:
-            let states = Manifest.shared.entries(for: .States) ?? []
-
-            let picker = PickerTableViewController(style: .plain, items: states )
-            picker.noItemTitle   = NSLocalizedString("Any", comment: "")
-
-            let currentStates = Set(states.flatMap({ ArchivedManifestEntry(entry: $0).current() }))
-            picker.selectedIndexes = states.indexes { currentStates.contains($0) }
-
-            picker.selectionUpdateHandler = { [weak self] (_, selectedIndexes) in
-                guard let `self` = self else { return }
-
-                options.states = states[selectedIndexes].flatMap { ArchivedManifestEntry(entry: $0) }
-                self.updatingDelegate?.searchDataSource(self, didUpdateFilterAt: index)
-            }
-
-            viewController = picker
-        case .make:
-            let picker = PickerTableViewController(style: .plain, items: [ManifestEntry]())
-            picker.noItemTitle = NSLocalizedString("Any", comment: "")
-            // TODO: Handle selection and preselecting
-            viewController = picker
-        case .model:
-            let picker = PickerTableViewController(style: .plain, items: [ManifestEntry]())
-            picker.noItemTitle = NSLocalizedString("Any", comment: "")
-            // TODO: Handle selection and preselecting
             viewController = picker
         }
         viewController.title = item.title
@@ -186,7 +135,31 @@ class VehicleSearchDataSource: SearchDataSource {
     // MARK: - Validation passing
     
     func passValidation(for searchable: Searchable) -> String? {
-
+        guard let searchTerm = searchable.searchText, let selectedType = searchable.options?[FilterItem.type.rawValue], let type = SearchType(rawValue: selectedType) else {
+            return "Unsupported query."
+        }
+        
+        do {
+            _ = try parser(forType: type).parseString(query: searchTerm)
+            print(parser(forType: type))
+        } catch (let error) {
+            if let error = error as? QueryParsingError {
+                return error.message
+            } else {
+                return "Unexpected values have been entered. Refer to search help."
+            }
+        }
+        
         return nil
+    }
+    
+    // MARK: - Private
+    
+    private func parser(forType type: SearchType) -> QueryParser {
+        switch type {
+        case .registration: return self.registrationParser
+        case .vin:          return self.vinParser
+        case .engineNumber: return self.engineParser
+        }
     }
 }

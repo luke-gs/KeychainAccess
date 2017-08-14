@@ -9,7 +9,7 @@
 import Foundation
 import MPOLKit
 
-public enum EngineNumberParserError: Error {
+public enum EngineNumberParserError: QueryParsingError {
     case invalidLength(query: String, requiredLengthRange: CountableClosedRange<Int>)
     
     public var message: String {

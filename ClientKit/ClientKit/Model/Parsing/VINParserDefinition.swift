@@ -10,7 +10,7 @@ import Foundation
 import MPOLKit
 
 
-public enum VINParserError: Error {
+public enum VINParserError: QueryParsingError {
     case invalidLength(query: String, requiredLengthRange: CountableClosedRange<Int>)
     
     public var message: String {
