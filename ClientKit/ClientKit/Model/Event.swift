@@ -52,6 +52,7 @@ open class Event: NSObject, Serialisable {
     open var title: String?
     open var eventDescription: String?
     open var status: String?
+    open var occurredDate: Date?
     
     public required init(id: String) {
         self.id = id
@@ -89,7 +90,7 @@ open class Event: NSObject, Serialisable {
         title = unboxer.unbox(key: "title")
         eventDescription = unboxer.unbox(key: "description")
         status = unboxer.unbox(key: "status")
-        
+        occurredDate = unboxer.unbox(key: "occurred", formatter: Event.dateTransformer)
         super.init()
     }
     
