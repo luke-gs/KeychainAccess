@@ -19,6 +19,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         didSet {
             guard let dataSources = dataSources else { return }
             selectedDataSource = dataSources[selectedDataSourceIndex]
+            searchErrorMessage = nil
         }
     }
     
@@ -220,8 +221,9 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     func beginEditingSearchField(selectingAllText: Bool = false) {
         collectionView?.selectItem(at: indexPathForSearchFieldCell, animated: false, scrollPosition: [])
         
+        searchErrorMessage = nil
+        
         if let textField = searchFieldCell?.textField {
-            removeErrorMessage()
             textField.becomeFirstResponder()
             if selectingAllText {
                 textField.selectedTextRange = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
@@ -237,7 +239,6 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     }
     
     private func endEditingSearchField(changingState: Bool) {
-        removeErrorMessage()
         collectionView?.deselectItem(at: indexPathForSearchFieldCell, animated: false)
         searchFieldCell?.textField.resignFirstResponder()
         if changingState {
@@ -260,23 +261,11 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         didSet {
             if oldValue != searchErrorMessage {
                 if let errorMessage = searchErrorMessage {
-                    displayErrorMessage(errorMessage)
+                    searchFieldCell?.setRequiresValidation(true, validationText: errorMessage, animated: true)
                 } else {
-                    removeErrorMessage()
+                    searchFieldCell?.setRequiresValidation(false, validationText: nil, animated: true)
                 }
             }
-        }
-    }
-    
-    private func displayErrorMessage(_ message: String) {
-        if let cell = searchFieldCell {
-            cell.setRequiresValidation(true, validationText: message, animated: true)
-        }
-    }
-    
-    private func removeErrorMessage() {
-        if let cell = searchFieldCell {
-            cell.setRequiresValidation(false, validationText: nil, animated: true)
         }
     }
     
