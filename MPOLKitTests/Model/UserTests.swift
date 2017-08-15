@@ -52,5 +52,19 @@ class UserTests: XCTestCase {
         
         XCTAssertNotEqual(user, something)
     }
+    
+    func testThatItCreatesUserSuccessfully() {
+        // Given
+        let username = "herli"
+        
+        // When
+        let user = User(username: username)
+        
+        // Then
+        let expectedResult = "herli"
+        let actualResult = user.username
+        XCTAssertEqual(actualResult, expectedResult)
+    }
+    
 }
 
