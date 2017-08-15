@@ -88,6 +88,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         MPOLAPIManager.shared.accessTokenRequest(for: .credentials(username: username, password: password)).then { [weak self] _ -> Void in
             guard let `self` = self else { return }
             
+            // FIXME: - At this point there should be a user
+            self.setCurrentUser(withUsername: username)
+            
+            let user = AppDelegate.currentUser
+            if user?.termsAndConditionsVersionAccepted == "1.0" {
+                self.updateInterface(forLogin: false, animated: true)
+                return
+            }
+            
+            // Show T&C if hasn't been accepted by user
             let tsAndCsVC = TermsConditionsViewController(fileURL: Bundle.main.url(forResource: "termsandconditions", withExtension: "html")!)
             tsAndCsVC.delegate = self
             
@@ -109,9 +119,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     // MARK: - Terms and conditions delegate
     
     func termsConditionsController(_ controller: TermsConditionsViewController, didFinishAcceptingConditions accept: Bool) {
-        controller.dismiss(animated: true) { 
+        controller.dismiss(animated: true) {  [weak self] in
             if accept {
-                self.updateInterface(forLogin: false, animated: true)
+                self?.updateInterface(forLogin: false, animated: true)
+
+                // FIXME: - Tech debt
+                let user = AppDelegate.currentUser
+                user!.termsAndConditionsVersionAccepted = "1.0"
+                self?.saveUser(user!)
             }
         }
     }
@@ -167,8 +182,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             loginViewController.headerView = headerView
             
             #if DEBUG
-            loginViewController.usernameField.text = "mpol"
-            loginViewController.passwordField.text = "mock"
+            loginViewController.usernameField.text = "matt"
+            loginViewController.passwordField.text = "vicroads"
             #endif
             
             self.window?.rootViewController = loginViewController
@@ -258,7 +273,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         AlertQueue.shared.preferredStatusBarStyle = theme.statusBarStyle
     }
+
+    // FIXEME: Tech debt
+    func setCurrentUser(withUsername username: String) {
+        var user: User?
+        
+        let data = UserDefaults.standard.object(forKey: "TemporaryUser") as? Data
+        if data != nil {
+            user = NSKeyedUnarchiver.unarchiveObject(with: data!) as? User
+        }
+        
+        if user == nil {
+            user = User(username: username)
+            self.saveUser(user!)
+        }
+        AppDelegate.currentUser = user
+    }
     
+    static var currentUser: User?
     
+    func saveUser(_ user: User) {
+        UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: user), forKey: "TemporaryUser")
+    }
 }
+
 
