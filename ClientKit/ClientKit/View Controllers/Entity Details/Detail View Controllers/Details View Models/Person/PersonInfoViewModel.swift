@@ -33,10 +33,18 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
                     ])
             ]
             
-            if let licences = person.licences {
-                licences.forEach {
-                    sections.append(PersonInfo(type: .licence($0), items: LicenceItem.licenceItems(for: $0)))
-                }
+            if let licences = person.licences, licences.count > 0 {
+                let newest = licences.sorted(by: { (lhs, rhs) -> Bool in
+                    guard let lhsDate = lhs.expiryDate else { return false }
+                    guard let rhsDate = rhs.expiryDate else { return true }
+                    return lhsDate > rhsDate
+                }).first!
+                
+                sections.append(PersonInfo(type: .licence(newest), items: LicenceItem.licenceItems(for: newest)))
+//                
+//                licences.forEach {
+//                    sections.append(PersonInfo(type: .licence($0), items: LicenceItem.licenceItems(for: $0)))
+//                }
             }
             
             if let aliases = person.aliases, aliases.isEmpty == false {
@@ -171,11 +179,17 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
                 isProgressViewHidden = true
                 isEditable = false
                 
-                if let startDate = licence.effectiveDate, let endDate = licence.expiryDate {
+//                if let startDate = licence.effectiveDate, let endDate = licence.expiryDate {
+//                    isProgressViewHidden = false
+//                    let timeIntervalBetween = endDate.timeIntervalSince(startDate)
+//                    let timeIntervalToNow   = startDate.timeIntervalSinceNow * -1.0
+//                    progress = Float(timeIntervalToNow / timeIntervalBetween)
+//                }
+                
+                if let expiryDate = licence.expiryDate {
                     isProgressViewHidden = false
-                    let timeIntervalBetween = endDate.timeIntervalSince(startDate)
-                    let timeIntervalToNow   = startDate.timeIntervalSinceNow * -1.0
-                    progress = Float(timeIntervalToNow / timeIntervalBetween)
+                    
+                    progress = Float((Date().timeIntervalSince1970 / expiryDate.timeIntervalSince1970))
                 }
             }
         default:
