@@ -117,6 +117,10 @@ open class PersonDescription: NSObject, Serialisable {
             formattedComponents.append(eyeColour.localizedLowercase + " eyes")
         }
         
+        if let remarks = remarks?.ifNotEmpty() {
+            formattedComponents.append(remarks.localizedLowercase + " remarks")
+        }
+        
         if formattedComponents.isEmpty {
             return nil
         }
