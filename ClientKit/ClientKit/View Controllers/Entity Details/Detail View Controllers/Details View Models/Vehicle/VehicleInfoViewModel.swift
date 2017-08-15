@@ -120,11 +120,16 @@ public class VehicleInfoViewModel: EntityDetailsViewModelable {
                 isProgressViewHidden = true
                 isEditable = false
                 
-                if let startDate = vehicle!.registrationEffectiveDate, let endDate = vehicle!.registrationExpiryDate {
+//                if let startDate = vehicle!.registrationEffectiveDate, let endDate = vehicle!.registrationExpiryDate {
+//                    isProgressViewHidden = false
+//                    let timeIntervalBetween = endDate.timeIntervalSince(startDate)
+//                    let timeIntervalToNow   = startDate.timeIntervalSinceNow * -1.0
+//                    progress = Float(timeIntervalToNow / timeIntervalBetween)
+//                }
+                
+                if let expiryDate = vehicle!.registrationExpiryDate {
                     isProgressViewHidden = false
-                    let timeIntervalBetween = endDate.timeIntervalSince(startDate)
-                    let timeIntervalToNow   = startDate.timeIntervalSinceNow * -1.0
-                    progress = Float(timeIntervalToNow / timeIntervalBetween)
+                    progress = Float((Date().timeIntervalSince1970 / expiryDate.timeIntervalSince1970))
                 }
             }
         default:
@@ -263,28 +268,27 @@ public class VehicleInfoViewModel: EntityDetailsViewModelable {
         func value(from vehicle: Vehicle?) -> String? {
             // TODO: Fill these details in
             switch self {
-            case .status:       return vehicle?.registrationStatus ?? "Unknown"
+            case .status:       return vehicle?.registrationStatus ?? "-"
             case .validity:
                 if let effectiveDate = vehicle?.registrationExpiryDate {
                     return DateFormatter.mediumNumericDate.string(from: effectiveDate)
-                } else {
-                    return NSLocalizedString("Expiry date unknown", bundle: .mpolKit, comment: "")
                 }
-            case .manufactured: return vehicle?.year ?? "Unknown"
-            case .make:         return vehicle?.make ?? "Unknown"
-            case .model:        return vehicle?.model ?? "Unknown"
-            case .vin:          return vehicle?.vin ?? "Unknown"
-            case .engine:       return vehicle?.engineNumber ?? "Unknown"
-            case .fuel:         return "Unknown"
-            case .transmission: return vehicle?.transmission ?? "Unknown"
-            case .color1:       return vehicle?.primaryColor ?? "Unknown"
-            case .color2:       return vehicle?.secondaryColor ?? "Unknown"
+                return "-"
+            case .manufactured: return vehicle?.year ?? "-"
+            case .make:         return vehicle?.make ?? "-"
+            case .model:        return vehicle?.model ?? "-"
+            case .vin:          return vehicle?.vin ?? "-"
+            case .engine:       return vehicle?.engineNumber ?? "-"
+            case .fuel:         return "-"
+            case .transmission: return vehicle?.transmission ?? "-"
+            case .color1:       return vehicle?.primaryColor ?? "-"
+            case .color2:       return vehicle?.secondaryColor ?? "-"
             case .weight:
-                guard let weight = vehicle?.weight, weight > 0 else { return "Unknown" }
+                guard let weight = vehicle?.weight, weight > 0 else { return "-" }
                 return String(describing: weight) + " kg"
-            case .tare:         return "Unknown"
+            case .tare:         return "-"
             case .seating:
-                guard let seatCapacity = vehicle?.seatingCapacity, seatCapacity > 0 else { return "Unknown" }
+                guard let seatCapacity = vehicle?.seatingCapacity, seatCapacity > 0 else { return "-" }
                 return String(describing: seatCapacity)
 
             }
