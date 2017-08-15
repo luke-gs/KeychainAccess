@@ -7,7 +7,6 @@ source 'https://github.com/Gridstone/SpecRepo-iOS.git'
 
 workspace 'MPOLKit'
 project 'MPOLKit.xcodeproj'
-project 'MPOLKitDemo/MPOLKitDemo.xcodeproj'
 
 def mpol_kit_dependencies
     pod 'Alamofire', '4.4.0'
@@ -26,7 +25,3 @@ target 'MPOLKit' do
     end
 end
 
-target 'MPOLKitDemo' do
-    project 'MPOLKitDemo/MPOLKitDemo.xcodeproj'
-    pod 'MPOLKit', :path => '../mPolKit-iOS'
-end
