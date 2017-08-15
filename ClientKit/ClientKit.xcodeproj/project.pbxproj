@@ -75,6 +75,9 @@
 		EA1CC2511F3D91E800FE8BAE /* RegistrationParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA1CC2501F3D91E800FE8BAE /* RegistrationParserDefinition.swift */; };
 		EA1CC2541F4132D200FE8BAE /* VINParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA1CC2531F4132D200FE8BAE /* VINParserDefinition.swift */; };
 		EA1CC2561F41347100FE8BAE /* EngineNumberParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA1CC2551F41347100FE8BAE /* EngineNumberParserDefinition.swift */; };
+		EA2352B61F427CE3001E2CAB /* PersonSearchParametersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2352B51F427CE3001E2CAB /* PersonSearchParametersTests.swift */; };
+		EA2352B81F427CF5001E2CAB /* VehicleSearchParametersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2352B71F427CF5001E2CAB /* VehicleSearchParametersTests.swift */; };
+		EA2352BA1F427D06001E2CAB /* LicenceSearchParametersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2352B91F427D06001E2CAB /* LicenceSearchParametersTests.swift */; };
 		EA8B66531F381BC000F09716 /* PersonSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8B66521F381BC000F09716 /* PersonSearchRequest.swift */; };
 		EA8B66551F381CBA00F09716 /* VehicleSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8B66541F381CBA00F09716 /* VehicleSearchRequest.swift */; };
 		EA8B66581F381F8100F09716 /* MPOLAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8B66561F381F8100F09716 /* MPOLAPIManager.swift */; };
@@ -174,6 +177,9 @@
 		EA1CC2501F3D91E800FE8BAE /* RegistrationParserDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationParserDefinition.swift; sourceTree = "<group>"; };
 		EA1CC2531F4132D200FE8BAE /* VINParserDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VINParserDefinition.swift; sourceTree = "<group>"; };
 		EA1CC2551F41347100FE8BAE /* EngineNumberParserDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EngineNumberParserDefinition.swift; sourceTree = "<group>"; };
+		EA2352B51F427CE3001E2CAB /* PersonSearchParametersTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonSearchParametersTests.swift; sourceTree = "<group>"; };
+		EA2352B71F427CF5001E2CAB /* VehicleSearchParametersTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleSearchParametersTests.swift; sourceTree = "<group>"; };
+		EA2352B91F427D06001E2CAB /* LicenceSearchParametersTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LicenceSearchParametersTests.swift; sourceTree = "<group>"; };
 		EA8B66521F381BC000F09716 /* PersonSearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonSearchRequest.swift; sourceTree = "<group>"; };
 		EA8B66541F381CBA00F09716 /* VehicleSearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleSearchRequest.swift; sourceTree = "<group>"; };
 		EA8B66561F381F8100F09716 /* MPOLAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPOLAPIManager.swift; sourceTree = "<group>"; };
@@ -254,6 +260,9 @@
 				EA9FB2671F417C4100F8015B /* RegistrationParserDefinitionsTests.swift */,
 				EA9FB2691F4186C000F8015B /* VINParserDefinitionsTests.swift */,
 				EA9FB26B1F41879C00F8015B /* EngineNumberParserDefinitionsTests.swift */,
+				EA2352B51F427CE3001E2CAB /* PersonSearchParametersTests.swift */,
+				EA2352B71F427CF5001E2CAB /* VehicleSearchParametersTests.swift */,
+				EA2352B91F427D06001E2CAB /* LicenceSearchParametersTests.swift */,
 			);
 			path = ClientKitTests;
 			sourceTree = "<group>";
@@ -767,6 +776,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				EA9FB26A1F4186C000F8015B /* VINParserDefinitionsTests.swift in Sources */,
+				EA2352B61F427CE3001E2CAB /* PersonSearchParametersTests.swift in Sources */,
+				EA2352BA1F427D06001E2CAB /* LicenceSearchParametersTests.swift in Sources */,
+				EA2352B81F427CF5001E2CAB /* VehicleSearchParametersTests.swift in Sources */,
 				C6E2EBC91F217B9E00F659F8 /* PersonParserDefinitionsTests.swift in Sources */,
 				EA9FB26C1F41879C00F8015B /* EngineNumberParserDefinitionsTests.swift in Sources */,
 				BC12DC9B1F023EF0001A5BB7 /* ClientKitTests.swift in Sources */,
