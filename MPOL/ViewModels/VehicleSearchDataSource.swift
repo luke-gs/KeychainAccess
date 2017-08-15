@@ -106,11 +106,12 @@ class VehicleSearchDataSource: SearchDataSource {
 
             let picker = PickerTableViewController(style: .plain, items: searchTypes)
             picker.selectedIndexes = searchTypes.indexes { $0 == options.type }
-            picker.selectionUpdateHandler = { [weak self] (_, selectedIndexes) in
+            picker.selectionUpdateHandler = { [weak self, weak picker] (_, selectedIndexes) in
                 guard let `self` = self, let selectedTypeIndex = selectedIndexes.first else { return }
 
                 options.type = searchTypes[selectedTypeIndex]
                 self.updatingDelegate?.searchDataSource(self, didUpdateFilterAt: index)
+                picker?.dismiss(animated: true, completion: nil)
             }
             viewController = picker
         }
