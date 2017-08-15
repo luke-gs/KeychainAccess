@@ -50,13 +50,14 @@ open class APIManager<Configuration: APIManagerConfigurable> {
     
     let configuration: Configuration
     
-    public init(configuration: Configuration) {
+    public init(configuration: Configuration, trustPolicyManager: ServerTrustPolicyManager? = nil) {
         self.configuration = configuration
         self.baseURL = try! configuration.url.asURL()
         
         let configuration = URLSessionConfiguration.ephemeral
         configuration.httpAdditionalHeaders = SessionManager.defaultHTTPHeaders
-        sessionManager = SessionManager(configuration: configuration)
+        sessionManager = SessionManager(configuration: configuration,
+                                        serverTrustPolicyManager: trustPolicyManager)
     }
     
     /// Request for access token.
