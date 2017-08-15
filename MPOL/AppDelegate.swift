@@ -109,9 +109,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     // MARK: - Terms and conditions delegate
     
     func termsConditionsController(_ controller: TermsConditionsViewController, didFinishAcceptingConditions accept: Bool) {
-        controller.dismiss(animated: true) { 
+        controller.dismiss(animated: true) {  [weak self] in
             if accept {
-                self.updateInterface(forLogin: false, animated: true)
+                self?.updateInterface(forLogin: false, animated: true)
             }
         }
     }
