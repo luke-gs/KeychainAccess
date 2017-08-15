@@ -23,9 +23,13 @@ public struct SearchResult<T>: Unboxable {
         let start: Int = try unboxer.unbox(key: CodingKeys.start.rawValue)
         let end: Int = try unboxer.unbox(key: CodingKeys.end.rawValue)
         
-        range = start..<end
-        results = try unboxer.unbox(key: CodingKeys.results.rawValue)
+        if start <= end {
+            range = start..<end
+        } else {
+            range = start..<start
+        }
         
+        results = try unboxer.unbox(key: CodingKeys.results.rawValue)
     }
     
     private enum CodingKeys: String {
