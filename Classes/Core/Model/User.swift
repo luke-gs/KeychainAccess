@@ -10,9 +10,9 @@ import Foundation
 
 open class User: NSObject, NSSecureCoding, ModelVersionable {
     
-    let username: String
+    public let username: String
     
-    var termsAndConditionsVersionAccepted: String? = nil
+    public var termsAndConditionsVersionAccepted: String? = nil
     
     public init(username: String) {
         self.username = username
