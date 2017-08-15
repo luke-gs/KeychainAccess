@@ -43,12 +43,17 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
     }
     
     private func fetchDetails(for entity: Entity) {
+
         switch entity {
         case _ as Person:
             let request = PersonFetchParameter(id: entity.id)
             firstly {
                 MPOLAPIManager.shared.fetchEntityDetails(in: .mpol, with: request)
                 }.then { [weak self] person -> () in
+                    /// unlock the sections and update header & sidebar
+                    self?.representations = [.mpol: .loaded(person)]
+                    self?.selectedRepresentation = person
+                    
                     if let detailVCs = self?.detailViewControllers as? [EntityDetailCollectionViewController] {
                         detailVCs.forEach { $0.entity = person }
                     }
@@ -61,6 +66,9 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
             firstly {
                 MPOLAPIManager.shared.fetchEntityDetails(in: .mpol, with: request)
                 }.then { [weak self] vehicle -> () in
+                    self?.representations = [.mpol: .loaded(vehicle)]
+                    self?.selectedRepresentation = vehicle
+
                     if let detailVCs = self?.detailViewControllers as? [EntityDetailCollectionViewController] {
                         detailVCs.forEach { $0.entity = vehicle }
                     }
