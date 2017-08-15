@@ -16,7 +16,7 @@ import MPOLKit
 // The app will have to perform its own logic when switching the `shared` manager.
 public struct MPOLAPIManager {
     private static var sharedAPIManager = MPOLAPIManager()
-    private var apiManager = APIManager(configuration: APIManagerDefaultConfiguration<MPOLSource>(url: "http://mock-api.mpol.solutions"))
+    private var apiManager = APIManager(configuration: APIManagerDefaultConfiguration<MPOLSource>(url: "https://api-dev.mpol.solutions"))
     
     public static var shared = MPOLAPIManager.sharedAPIManager.apiManager {
         didSet {
