@@ -13,18 +13,16 @@ import Wrap
 
 public class VehicleSearchParameters: EntitySearchRequest<Vehicle> {
     
-    public init(criteria: String) {
-        let parameterisable = SearchParameters(criteria: criteria)
-        super.init(parameters: parameterisable.parameters)
+    public init(registration: String) {
+        super.init(parameters: ["plateNumber": registration])
+    }
+    
+    public init(vin: String) {
+        super.init(parameters: ["vin": vin])
     }
 
-    private struct SearchParameters: Parameterisable {
-        public let criteria: String
-        
-        public var parameters: [String: Any] {
-            return try! wrap(self)
-        }
+    public init(engineNumber: String) {
+        super.init(parameters: ["engineNumber": engineNumber])
     }
-
 }
 
