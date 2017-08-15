@@ -109,10 +109,13 @@ class SettingsViewController: FormTableViewController {
         let setting = sections[indexPath.section].items[indexPath.row]
         
         if setting.style == .button {
-            sections[indexPath.section].items[indexPath.row].currentValue = true
             tableView.deselectRow(at: indexPath, animated: true)
             if setting == .logOut {
-                dismiss(animated: true)
+                dismiss(animated: true, completion: { [weak self] in
+                    self?.sections[indexPath.section].items[indexPath.row].currentValue = true
+                })
+            } else {
+                sections[indexPath.section].items[indexPath.row].currentValue = true
             }
             return
         }
@@ -172,9 +175,7 @@ class SettingsViewController: FormTableViewController {
                 case .numericKeyboard:
                     KeyboardInputManager.shared.isNumberBarEnabled = newValue
                 case .logOut:
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
-                        (UIApplication.shared.delegate as! AppDelegate).logOut()
-                    })
+                    (UIApplication.shared.delegate as! AppDelegate).logOut()
                 }
             }
         }

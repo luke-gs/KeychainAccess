@@ -119,14 +119,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     // MARK: - Terms and conditions delegate
     
     func termsConditionsController(_ controller: TermsConditionsViewController, didFinishAcceptingConditions accept: Bool) {
-        controller.dismiss(animated: true) { 
+        controller.dismiss(animated: true) {  [weak self] in
             if accept {
-                self.updateInterface(forLogin: false, animated: true)
+                self?.updateInterface(forLogin: false, animated: true)
 
                 // FIXME: - Tech debt
                 let user = AppDelegate.currentUser
-                user?.termsAndConditionsVersionAccepted = "1.0"
-                self.saveUser(user!)
+                user!.termsAndConditionsVersionAccepted = "1.0"
+                self?.saveUser(user!)
             }
         }
     }
@@ -182,8 +182,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             loginViewController.headerView = headerView
             
             #if DEBUG
-            loginViewController.usernameField.text = "mpol"
-            loginViewController.passwordField.text = "mock"
+            loginViewController.usernameField.text = "matt"
+            loginViewController.passwordField.text = "vicroads"
             #endif
             
             self.window?.rootViewController = loginViewController
