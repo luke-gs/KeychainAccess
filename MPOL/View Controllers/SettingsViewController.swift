@@ -43,7 +43,6 @@ class SettingsViewController: FormTableViewController {
         guard let tableView = self.tableView else { return }
         
         let bundle = Bundle.main
-        let appName       = bundle.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String ?? "MPOL"
         let bundleVersion = bundle.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "Unknown"
         let buildNumber   = bundle.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "Unknown"
         
@@ -52,7 +51,7 @@ class SettingsViewController: FormTableViewController {
         label.textColor = .gray
         label.textAlignment = .center
         label.numberOfLines = 0
-        label.text = appName + " Version: " + bundleVersion + " #" + buildNumber
+        label.text = "Version: " + bundleVersion + " #" + buildNumber
         tableView.tableFooterView = label
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: buttonCellID)
