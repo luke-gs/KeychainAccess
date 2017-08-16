@@ -15,7 +15,7 @@ class MPOLSearchViewModel: SearchViewModel {
     var dataSources: [SearchDataSource] = [PersonSearchDataSource(), VehicleSearchDataSource()]
     
     func detailViewController(for entity: MPOLKitEntity) -> UIViewController? {
-        let viewController = UIViewController()
+        let viewController = EntityDetailsSplitViewController(entity: entity as! Entity)
         
         // FIXME: - Sample code to handle different entity
         if entity is Person {

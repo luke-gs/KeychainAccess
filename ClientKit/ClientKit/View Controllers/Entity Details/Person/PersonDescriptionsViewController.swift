@@ -10,51 +10,19 @@ import UIKit
 import MPOLKit
 
 class PersonDescriptionsViewController: FormCollectionViewController {
-    
-    private var yearDateFormatter: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.locale = .autoupdatingCurrent
-        formatter.dateFormat = "YYYY"
-        return formatter
-    }
-    
     open var descriptions: [PersonDescription]? {
         didSet {
-            guard let descriptions = descriptions else {
-                self.sections = []
-                return
+            if let descriptions = descriptions {
+                viewModel.sections = descriptions
             }
-            
-            var sectionsMap: [String: [PersonDescription]] = [:]
-            for description in descriptions {
-                // mapping description to report date's year
-                let year = description.reportDate == nil ? "" : yearDateFormatter.string(from: description.reportDate!)
-                var yearsDescriptions = sectionsMap[year] ?? []
-                yearsDescriptions.append(description)
-                sectionsMap[year] = yearsDescriptions
-            }
-            
-            // add each years descriptions to sections array in order of year
-            var sections: [(String, [PersonDescription])] = []
-            let years = sectionsMap.keys.sorted(by: { $0.localizedCompare($1) == .orderedDescending })
-            for year in years {
-                if year.characters.count == 0 {
-                    sections.append(("Unknown Year", sectionsMap[year]!))
-                } else {
-                    sections.append((year, sectionsMap[year]!))
-                }
-            }
-            self.sections = sections
         }
     }
     
-    private var sections: [(year: String, descriptions: [PersonDescription])] = [] {
-        didSet {
-            collectionView?.reloadData()
-        }
-    }
-    
-    private var collapsedSections: Set<Int> = []
+    private lazy var viewModel: PersonDescriptionViewModel = {
+        var vm = PersonDescriptionViewModel()
+        vm.delegate = self
+        return vm
+    }()
     
     // MARK: - Initializers
     
@@ -77,30 +45,26 @@ class PersonDescriptionsViewController: FormCollectionViewController {
     // MARK: - UICollectionViewDataSource
     
     open func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return sections.count
+        return viewModel.numberOfSections()
     }
     
     open override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return collapsedSections.contains(section) ? 0 : sections[section].descriptions.count
+        return viewModel.numberOfItems(for: section)
     }
     
     open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionElementKindSectionHeader {
             let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
-            view.text = sections[indexPath.section].year
+            view.text = viewModel.year(for: indexPath.section)
             view.showsExpandArrow = true
-            
+        
             view.tapHandler = { [weak self] (headerView, indexPath) in
                 guard let `self` = self else { return }
-                
-                if self.collapsedSections.remove(indexPath.section) == nil {
-                    // This section wasn't in there and didn't remove
-                    self.collapsedSections.insert(indexPath.section)
-                }
+                self.viewModel.updateCollapsedSections(for: indexPath.section)
                 self.collectionView?.reloadData()
             }
 
-            view.isExpanded = !collapsedSections.contains(indexPath.section)
+            view.isExpanded = viewModel.isExpanded(for: indexPath.section)
             return view
         }
         
@@ -110,14 +74,10 @@ class PersonDescriptionsViewController: FormCollectionViewController {
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(of: CollectionViewFormValueFieldCell.self, for: indexPath)
         
-        let description = sections[indexPath.section].descriptions[indexPath.row]
-        if let reportDate = description.reportDate {
-            cell.titleLabel.text = DateFormatter.shortDate.string(from: reportDate)
-        } else {
-            cell.titleLabel.text = nil
-        }
-        cell.valueLabel.text = description.formatted()
-        cell.imageView.image = nil
+        let cellInfo = viewModel.cellInfo(for: indexPath)
+        cell.titleLabel.text = cellInfo.title
+        cell.valueLabel.text = cellInfo.value
+        cell.imageView.image = cellInfo.image
         
         return cell
     }
@@ -133,8 +93,15 @@ class PersonDescriptionsViewController: FormCollectionViewController {
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
-        let description = descriptions![indexPath.row]
-        return CollectionViewFormValueFieldCell.minimumContentHeight(withTitle: description.reportDate == nil ? nil : "Unknown Date", value: description.formatted(), inWidth: itemWidth, compatibleWith: traitCollection)
+        let (title, value) = viewModel.itemForCalculateContentHeight(at: indexPath)
+        
+        return CollectionViewFormValueFieldCell.minimumContentHeight(withTitle: title, value: value, inWidth: itemWidth, compatibleWith: traitCollection)
     }
 
+}
+
+extension PersonDescriptionsViewController: EntityDetailsViewModelDelegate {
+    public func reloadData() {
+        collectionView?.reloadData()
+    }
 }

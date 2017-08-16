@@ -11,76 +11,17 @@ import MPOLKit
 
 open class EventDetailViewController: FormCollectionViewController {
     
-    // MARK: - Related types
-    
-    
-    /// Represents a section within an `EventDetailViewController`.
-    public struct EventDetailSection {
-        public var title: String?
-        public var items: [EventDetailItem]
-    }
-    
-    
-    /// Represents an item within an `EventDetailViewController`.
-    public struct EventDetailItem {
-        public enum Style {
-            case header
-            case item
-            case valueField
-        }
-        
-        public var style: Style
-        public var title: String?
-        public var detail: String?
-        public var placeholder: String?
-        public var image: UIImage?
-        public var preferredColumnCount: Int
-        public var minimumContentWidth: CGFloat
-        
-        public init(style: Style = .valueField, title: String?, detail: String?, placeholder: String? = nil, image: UIImage? = nil, preferredColumnCount: Int = 3, minimumContentWidth: CGFloat = 180.0) {
-            self.style = style
-            self.title = title?.ifNotEmpty()
-            self.detail = detail?.ifNotEmpty()
-            self.placeholder = placeholder
-            self.image = image
-            self.preferredColumnCount = preferredColumnCount
-            self.minimumContentWidth = minimumContentWidth
-        }
-    }
-    
-    
     // MARK: - Public properties
     
     /// The event to display. The default is `nil`.
     open var event: Event? {
         didSet {
-            updateSections()
+        //    updateSections()
+            viewModel = EventDetailsViewModelRouter.getViewModel(for: event!)!
         }
     }
     
-    
-    /// The current sections for the collection to present.
-    ///
-    /// Subclasses should set this property to update the section on
-    /// display. Setting this property automatically updates the collection
-    /// view, if loaded.
-    open var sections: [EventDetailSection] = [] {
-        didSet {
-            collectionView?.reloadData()
-        }
-    }
-    
-    
-    // MARK: - Public methods
-    
-    /// Updates the sections propety for the current event.
-    ///
-    /// Subclasses should override this method to update the sections
-    /// property appropriately for their event type. This method is called
-    /// each time the event is set. The default is a nop.
-    open func updateSections() {
-    }
-    
+    open var viewModel: EventDetailsViewModel!
     
     // MARK: - View lifecycle
     
@@ -98,19 +39,19 @@ open class EventDetailViewController: FormCollectionViewController {
     // MARK: - UICollectionViewDataSource
     
     open func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return sections.count
+        return viewModel.numberOfSections()
     }
     
     open override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return sections[section].items.count
+        return viewModel.numberOfItems(for: section)
     }
     
     open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionElementKindSectionHeader {
             let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
             view.showsExpandArrow = false
-            view.text = sections[indexPath.section].title
             
+            view.text = viewModel.title(for: indexPath.section)
             return view
         }
         
@@ -118,28 +59,31 @@ open class EventDetailViewController: FormCollectionViewController {
     }
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let item = sections[indexPath.section].items[indexPath.item]
+        let item = viewModel.item(at: indexPath)!
+        
         switch item.style {
         case .header:
             let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
-            cell.imageView.image = item.image
+            cell.imageView.image    = item.image
+            cell.subtitleLabel.text = item.detail
+            cell.titleLabel.text    = item.title
             cell.titleLabel.font = .systemFont(ofSize: 28.0, weight: UIFontWeightBold)
             cell.titleLabel.numberOfLines = 0
-            cell.titleLabel.text = item.title
-            cell.subtitleLabel.text = item.detail
+
             return cell
         case .item:
             let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
-            cell.imageView.image = item.image
+            cell.imageView.image    = item.image
+            cell.subtitleLabel.text = item.detail
+            cell.titleLabel.text    = item.title
             cell.titleLabel.numberOfLines = 0
             cell.titleLabel.font = .preferredFont(forTextStyle: .headline)
-            cell.titleLabel.text = item.title
-            cell.subtitleLabel.text = item.detail
+
             return cell
         case .valueField:
             let cell = collectionView.dequeueReusableCell(of: CollectionViewFormValueFieldCell.self, for: indexPath)
             cell.imageView.image = item.image
-            cell.isEditable = false
+            cell.isEditable      = false
             cell.titleLabel.text = item.title
             cell.valueLabel.text = item.detail
             cell.placeholderLabel.text = item.placeholder
@@ -158,15 +102,16 @@ open class EventDetailViewController: FormCollectionViewController {
     // MARK: - CollectionViewDelegateFormLayout
     
     open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
-        let section = sections[section]
-        if section.title?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ?? true {
+        let title = viewModel.title(for: section)
+        
+        if title?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ?? true {
             return 0.0
         }
         return CollectionViewFormHeaderView.minimumHeight
     }
     
     open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
-        let item = sections[indexPath.section].items[indexPath.item]
+        let item = viewModel.item(at: indexPath)!
         
         var columnCount = item.preferredColumnCount
         if columnCount > 1 {
@@ -177,8 +122,7 @@ open class EventDetailViewController: FormCollectionViewController {
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
-        let item = sections[indexPath.section].items[indexPath.item]
-        
+        let item = viewModel.item(at: indexPath)!
         
         switch item.style {
         case .header, .item:
@@ -190,4 +134,10 @@ open class EventDetailViewController: FormCollectionViewController {
         }
     }
     
+}
+
+extension EventDetailViewController: EntityDetailsViewModelDelegate {
+    public func reloadData() {
+        collectionView?.reloadData()
+    }
 }
