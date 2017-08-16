@@ -55,7 +55,7 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
         
         let filterBarItem = FilterBarButtonItem(target: nil, action: nil)
         filterBarItem.isEnabled = false
-        navigationItem.rightBarButtonItems = [filterBarItem, listStateItem]
+        navigationItem.rightBarButtonItems = [filterBarItem]
     }
     
     public required init?(coder aDecoder: NSCoder) {
