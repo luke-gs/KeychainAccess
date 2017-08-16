@@ -164,9 +164,6 @@ extension AppDelegate: LoginViewControllerDelegate, TermsConditionsViewControlle
             self.setCurrentUser(withUsername: username)
 
             let user = AppDelegate.currentUser
-//            user?.whatsNewShown = ""
-//            self.saveUser(user!)
-
             if user?.termsAndConditionsVersionAccepted == "1.0" {
                 self.updateInterface(for: user?.whatsNewShown == "1.0" ? .landing : .whatsNew, animated: true)
                 return
