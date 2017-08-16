@@ -12,9 +12,13 @@ import UIKit
 class SearchOptionsViewController: FormCollectionViewController, UITextFieldDelegate, SearchDataSourceUpdating, TabStripViewDelegate {
 
     private var dataSources: [SearchDataSource]?
-    private var currentSearchable: Searchable?
-    private var filterOptions: [Int: String] = [Int: String]()
-
+    
+    private var searchText: String? {
+        didSet {
+            searchBarButtonItem.isEnabled = searchText?.isEmpty == false
+        }
+    }
+    
     private var selectedDataSourceIndex: Int = 0 {
         didSet {
             guard let dataSources = dataSources else { return }
@@ -26,7 +30,9 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     weak var delegate: SearchOptionsViewControllerDelegate?
     
     private(set) lazy var searchBarButtonItem: UIBarButtonItem = { [unowned self] in
-        return  UIBarButtonItem(title: NSLocalizedString("Search", comment: ""), style: .done, target: self, action: #selector(searchButtonItemDidSelect(_:)))
+        let item = UIBarButtonItem(title: NSLocalizedString("Search", comment: ""), style: .done, target: self, action: #selector(searchButtonItemDidSelect(_:)))
+        item.isEnabled = self.searchText?.isEmpty == false
+        return item
     }()
     
     private(set) lazy var cancelBarButtonItem: UIBarButtonItem = { [unowned self] in
@@ -84,28 +90,13 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     
     
     // MARK: - Updating search requests
-//    
-//    func resetSearchRequests() {
-//        dataSources.forEach { $0.reset() }
-//    }
-//
-//    func setCurrentSearchRequest(_ request: SearchRequest) {
-//        let dataSourceText = request.searchText
-//        let correctDataSourceIndex = dataSources.index(where: { $0.supports(request) })
-//        
-//        selectedDataSourceIndex = correctDataSourceIndex ?? 0
-//        
-//        dataSources.enumerated().forEach { (offset, dataSource) in
-//            if offset == correctDataSourceIndex {
-//                dataSource.request = request
-//            } else {
-//                dataSource.reset(withSearchText: dataSourceText)
-//            }
-//        }
-//    }
+    func resetSearch() {
+        searchText = nil
+        dataSources?.forEach { $0.setSelectedOptions(options: [:]) }
+        reloadCollectionViewRetainingEditing()
+    }
 
     func setCurrent(searchable: Searchable?) {
-        self.currentSearchable = searchable
         dataSources?.enumerated().forEach { (index, dataSource) in
             if dataSource.localizedDisplayName == searchable?.type {
                 selectedDataSource = dataSource
@@ -113,6 +104,9 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
                 return
             }
         }
+        
+        searchText = searchable?.searchText
+        selectedDataSource.setSelectedOptions(options: searchable?.options ?? [:])
     }
     
     // MARK - View Lifecycle
@@ -282,10 +276,18 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     private func performSearch() {
         searchErrorMessage = nil
         
+        var selectedOptions = [Int: String]()
+        
+        let availableOptions = selectedDataSource.options
+        for index in 0..<availableOptions.numberOfOptions {
+            selectedOptions[index] = availableOptions.value(at: index)
+        }
+        
         var searchable = Searchable()
+        
         searchable.searchText = searchFieldCell?.textField.text
-        searchable.type = selectedDataSource.localizedDisplayName
-        searchable.options = filterOptions
+        searchable.type       = selectedDataSource.localizedDisplayName
+        searchable.options    = selectedOptions
         
         if let errorString = selectedDataSource.passValidation(for: searchable) {
             searchErrorMessage = errorString
@@ -329,7 +331,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         case .searchField:
             let cell = collectionView.dequeueReusableCell(of: SearchFieldCollectionViewCell.self, for: indexPath)
             let textField = cell.textField
-            textField.text = currentSearchable?.searchText
+            textField.text = searchText
 
             textField.delegate = self
             if textField.allTargets.contains(self) == false {
@@ -357,8 +359,6 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
             filterCell.titleLabel.text = dataSource.options.title(at: filterIndex)
             filterCell.valueLabel.text = dataSource.options.value(at: filterIndex)
             filterCell.placeholderLabel.text = dataSource.options.defaultValue(at: filterIndex)
-
-            self.filterOptions[filterIndex] = dataSource.options.value(at: filterIndex)
 
             return filterCell
         }
@@ -427,7 +427,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     @objc private func textFieldTextDidChange(_ textField: UITextField) {
         let text = textField.text
 
-        currentSearchable?.searchText = text
+        searchText = text
         guard let collectionView = self.collectionView else { return }
 
         let has2Sections   = collectionView.numberOfSections == 2
