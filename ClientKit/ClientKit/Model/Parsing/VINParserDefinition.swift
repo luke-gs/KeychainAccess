@@ -10,10 +10,10 @@ import Foundation
 import MPOLKit
 
 
-public enum VINParserError: QueryParsingError {
+public enum VINParserError: LocalizedError {
     case invalidLength(query: String, requiredLengthRange: CountableClosedRange<Int>)
     
-    public var message: String {
+    public var errorDescription: String? {
         switch self {
         case .invalidLength(_, let range):
             return "VIN must be between \(range.lowerBound) and \(range.upperBound)."

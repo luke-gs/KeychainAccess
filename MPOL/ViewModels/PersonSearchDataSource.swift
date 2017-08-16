@@ -316,11 +316,7 @@ class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
                 }
             }
         } catch (let error) {
-            if let error = error as? QueryParsingError {
-                return error.message
-            } else {
-               return "Unexpected values have been entered. Refer to search help."
-            }
+            return error.localizedDescription
         }
         
         return nil

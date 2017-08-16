@@ -10,10 +10,10 @@ import Foundation
 import MPOLKit
 
 
-public enum RegistrationParserError: QueryParsingError {
+public enum RegistrationParserError: LocalizedError {
     case invalidLength(query: String, requiredLengthRange: CountableClosedRange<Int>)
     
-    public var message: String {
+    public var errorDescription: String? {
         switch self {
         case .invalidLength(_, let range):
             return "Registration must be between \(range.lowerBound) and \(range.upperBound)."

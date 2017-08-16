@@ -8,11 +8,11 @@
 
 import MPOLKit
 
-public enum LicenceParseError: QueryParsingError {
+public enum LicenceParseError: LocalizedError {
     case invalidLicenceNumber(licenceNumber: String)
     case invalidLength(licenceNumber: String, requiredLengthRange: CountableClosedRange<Int>)
     
-    public var message: String {
+    public var errorDescription: String? {
         switch self {
         case .invalidLicenceNumber(let licenceNumber):
             return "\(licenceNumber) is not a valid licence number."
