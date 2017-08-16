@@ -79,7 +79,11 @@ extension AppDelegate: LoginViewControllerDelegate, TermsConditionsViewControlle
 
         case .whatsNew:
 
-            let whatsNewVC = WhatsNewViewController(viewControllers: [UIViewController()])
+            let whatsNewFirstPage = WhatsNewDetailItem(image: #imageLiteral(resourceName: "WhatsNew"), title: "What's New", detail: "Swipe through and discover the new features and updates that have been included in this release. Refer to the release summary for full update notes.")
+            let whatsNewSecondPage = WhatsNewDetailItem(image: #imageLiteral(resourceName: "RefreshMagnify"), title: "Search", detail: "Search for persons. Search for vehicles.")
+            let whatsNewThirdPage = WhatsNewDetailItem(image: #imageLiteral(resourceName: "Avatar 1"), title: "Details", detail: "View details for person and vehicle entities.")
+
+            let whatsNewVC = WhatsNewViewController(items: [whatsNewFirstPage, whatsNewSecondPage, whatsNewThirdPage])
             whatsNewVC.delegate = self
             self.window?.rootViewController = whatsNewVC
 
@@ -160,6 +164,9 @@ extension AppDelegate: LoginViewControllerDelegate, TermsConditionsViewControlle
             self.setCurrentUser(withUsername: username)
 
             let user = AppDelegate.currentUser
+//            user?.whatsNewShown = ""
+//            self.saveUser(user!)
+
             if user?.termsAndConditionsVersionAccepted == "1.0" {
                 self.updateInterface(for: user?.whatsNewShown == "1.0" ? .landing : .whatsNew, animated: true)
                 return
@@ -175,4 +182,14 @@ extension AppDelegate: LoginViewControllerDelegate, TermsConditionsViewControlle
         }
     }
 
+    //MARK: Whats new delegate
+
+    func whatsNewViewControllerDidTapDoneButton(_ whatsNewViewController: WhatsNewViewController) {
+        self.updateInterface(for: .landing, animated: true)
+
+        // FIXME: - Tech debt
+        let user = AppDelegate.currentUser
+        user!.whatsNewShown = "1.0"
+        self.saveUser(user!)
+    }
 }

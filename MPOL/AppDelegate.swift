@@ -128,7 +128,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     // FIXEME: Tech debt
     func setCurrentUser(withUsername username: String) {
         var user: User?
-        
+
         let data = UserDefaults.standard.object(forKey: "TemporaryUser") as? Data
         if data != nil {
             user = NSKeyedUnarchiver.unarchiveObject(with: data!) as? User
@@ -145,15 +145,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func saveUser(_ user: User) {
         UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: user), forKey: "TemporaryUser")
-    }
-
-    func whatsNewViewControllerDidTapDoneButton(_ whatsNewViewController: WhatsNewViewController) {
-            self.updateInterface(for: .landing, animated: true)
-
-            // FIXME: - Tech debt
-            let user = AppDelegate.currentUser
-            user!.whatsNewShown = "1.0"
-            self.saveUser(user!)
     }
 }
 
