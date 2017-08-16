@@ -108,7 +108,7 @@ class SearchRecentsViewController: FormCollectionViewController {
         
         // Setup compact views.
         
-        let segmentedControl = UISegmentedControl(items: [NSLocalizedString("Recent Searches", comment: ""), NSLocalizedString("Recent Entities", comment: "")])
+        let segmentedControl = UISegmentedControl(items: [NSLocalizedString("Recently Searched", comment: ""), NSLocalizedString("Recently Viewed", comment: "")])
         segmentedControl.selectedSegmentIndex = showsRecentSearchesWhenCompact ? 0 : 1
         segmentedControl.addTarget(self, action: #selector(segmentedControlValueDidChange(_:)), for: .valueChanged)
         
