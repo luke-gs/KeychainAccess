@@ -27,6 +27,9 @@
 		1A2E8A8C1F3990150062FEA5 /* InterventionOrderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2E8A891F3990150062FEA5 /* InterventionOrderViewModel.swift */; };
 		1A2FF6FC1F32BD0800D63956 /* EntityDetailsViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2FF6F91F32BD0800D63956 /* EntityDetailsViewModelable.swift */; };
 		1A2FF6FF1F32BE5100D63956 /* PersonInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2FF6FE1F32BE5100D63956 /* PersonInfoViewModel.swift */; };
+		1A371C971F428F99006C722F /* EntityDetailsSplitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A371C961F428F99006C722F /* EntityDetailsSplitViewModel.swift */; };
+		1A371CA61F440408006C722F /* AssociatedPerson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A371CA51F440408006C722F /* AssociatedPerson.swift */; };
+		1A371CA81F440AA4006C722F /* AssociatedVehicle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A371CA71F440AA4006C722F /* AssociatedVehicle.swift */; };
 		1ABF4EAD1F3B446100C70E62 /* PersonDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABF4EAC1F3B446000C70E62 /* PersonDetailsViewModel.swift */; };
 		31E04B86B8693C856591D017 /* Pods_ClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6FAB7E5ED55CBB22E20D7C9 /* Pods_ClientKit.framework */; };
 		68A1298F030B1B4BB01632E6 /* Pods_ClientKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5919937B6BAC1FE012181DBE /* Pods_ClientKitTests.framework */; };
@@ -144,6 +147,9 @@
 		1A2E8A891F3990150062FEA5 /* InterventionOrderViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterventionOrderViewModel.swift; sourceTree = "<group>"; };
 		1A2FF6F91F32BD0800D63956 /* EntityDetailsViewModelable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailsViewModelable.swift; sourceTree = "<group>"; };
 		1A2FF6FE1F32BE5100D63956 /* PersonInfoViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonInfoViewModel.swift; sourceTree = "<group>"; };
+		1A371C961F428F99006C722F /* EntityDetailsSplitViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailsSplitViewModel.swift; sourceTree = "<group>"; };
+		1A371CA51F440408006C722F /* AssociatedPerson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssociatedPerson.swift; sourceTree = "<group>"; };
+		1A371CA71F440AA4006C722F /* AssociatedVehicle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssociatedVehicle.swift; sourceTree = "<group>"; };
 		1ABF4EAC1F3B446000C70E62 /* PersonDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonDetailsViewModel.swift; sourceTree = "<group>"; };
 		5919937B6BAC1FE012181DBE /* Pods_ClientKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClientKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4196D7C4B207ED0E1DD5654 /* Pods-ClientKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKit.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKit/Pods-ClientKit.debug.xcconfig"; sourceTree = "<group>"; };
@@ -294,6 +300,8 @@
 		1A2FF6F71F32BD0800D63956 /* Details View Models */ = {
 			isa = PBXGroup;
 			children = (
+				1A371CA21F4403B6006C722F /* Association */,
+				1A371C961F428F99006C722F /* EntityDetailsSplitViewModel.swift */,
 				1A290C891F411BA400DD9ED5 /* EntityDetailsSummaryDecorator.swift */,
 				1A290C871F4119BA00DD9ED5 /* EntityDetailsSummaryDisplayable.swift */,
 				1A2FF6F91F32BD0800D63956 /* EntityDetailsViewModelable.swift */,
@@ -320,6 +328,15 @@
 				1ABF4EAC1F3B446000C70E62 /* PersonDetailsViewModel.swift */,
 			);
 			path = Person;
+			sourceTree = "<group>";
+		};
+		1A371CA21F4403B6006C722F /* Association */ = {
+			isa = PBXGroup;
+			children = (
+				1A371CA51F440408006C722F /* AssociatedPerson.swift */,
+				1A371CA71F440AA4006C722F /* AssociatedVehicle.swift */,
+			);
+			path = Association;
 			sourceTree = "<group>";
 		};
 		BC12DC821F023EF0001A5BB7 = {
@@ -822,8 +839,10 @@
 				BCAEFEA01F03150800C97F9C /* MissingPersonReport.swift in Sources */,
 				BCAEFEA91F03150800C97F9C /* ReportedPerson.swift in Sources */,
 				BCAEFEA21F03150800C97F9C /* KnownAssociate.swift in Sources */,
+				1A371CA81F440AA4006C722F /* AssociatedVehicle.swift in Sources */,
 				BC75A7B31F1C3D50004D46F1 /* InterventionOrderDetailViewController.swift in Sources */,
 				BCAEFE961F03150800C97F9C /* Contact.swift in Sources */,
+				1A371CA61F440408006C722F /* AssociatedPerson.swift in Sources */,
 				BCAEFEAA1F03150800C97F9C /* RiskFactor.swift in Sources */,
 				BCAEFEA61F03150800C97F9C /* Person.swift in Sources */,
 				BCAEFE941F03150800C97F9C /* Alias.swift in Sources */,
@@ -887,6 +906,7 @@
 				C63408531F30DA15000747B0 /* MPOLSource.swift in Sources */,
 				BCAEFE951F03150800C97F9C /* Caution.swift in Sources */,
 				1A2E8A781F3942FE0062FEA5 /* EntityAlertsViewModel.swift in Sources */,
+				1A371C971F428F99006C722F /* EntityDetailsSplitViewModel.swift in Sources */,
 				1A2FF6FC1F32BD0800D63956 /* EntityDetailsViewModelable.swift in Sources */,
 				BCAEFE9D1F03150800C97F9C /* FieldContact.swift in Sources */,
 				C681A3851F21AEA800F4AC13 /* LicenceParserDefinition.swift in Sources */,
