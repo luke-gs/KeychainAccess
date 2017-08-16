@@ -93,9 +93,12 @@ fileprivate class PersonSearchOptions: SearchOptions {
 }
 
 class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
-
+    private weak var viewController: UIViewController?
+    
     let searchPlaceholder: NSAttributedString? = NSAttributedString(string: NSLocalizedString("eg. Smith John K", comment: ""),
                                                                 attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 28.0, weight: UIFontWeightLight), NSForegroundColorAttributeName: UIColor.lightGray])
+    
+    private(set) var additionalSearchFieldButtons: [UIButton]?
     
     var options: SearchOptions = PersonSearchOptions()
 
@@ -142,6 +145,14 @@ class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
     static var autoCapitalizationType: UITextAutocapitalizationType {
         return .words
     }
+    
+    init() {
+        let helpButton = UIButton(type: .system)
+        helpButton.addTarget(self, action: #selector(didTapHelpButton(_:)), for: .touchUpInside)
+        helpButton.setImage(AssetManager.shared.image(forKey: .info), for: .normal)
+        additionalSearchFieldButtons = [helpButton]
+    }
+    
     /// The update controller for updating the values in this filter.
     ///
     /// - Parameter index: The filter index.
@@ -288,6 +299,10 @@ class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
         return nil
     }
     
+    func didBecomeActive(inViewController viewController: UIViewController) {
+        self.viewController = viewController
+    }
+    
     // MARK: - Validation passing
     
     func passValidation(for searchable: Searchable) -> String? {
@@ -310,7 +325,16 @@ class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
         
         return nil
     }
+ 
+    // MARK: - Private
     
+    @objc private func didTapHelpButton(_ button: UIButton) {
+        // FIXME: - When the appropriate time comes please change it
+        let helpViewController = UIViewController()
+        helpViewController.title = "Person Search Help"
+        helpViewController.view.backgroundColor = .white
+        self.viewController?.show(helpViewController, sender: nil)
+    }
 }
 
 
