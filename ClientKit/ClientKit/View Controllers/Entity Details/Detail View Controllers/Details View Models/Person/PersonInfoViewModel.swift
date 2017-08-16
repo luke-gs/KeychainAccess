@@ -55,7 +55,12 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
                 sections.append(PersonInfo(type: .addresses, items: addresses)) // TODO: Sort by date
             }
             
-//            var contactDetails: [ContactDetailItem] = []
+            var contactDetails: [ContactDetailItem] = []
+            if let contacts = person.contacts {
+                contacts.forEach {
+                    contactDetails.append(.contact($0))
+                }
+            }
 //                        if let emails = person.emails {
 //                            emails.forEach {
 //                                contactDetails.append(.email($0))
@@ -488,11 +493,14 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
     public enum ContactDetailItem {
         case email(Email)
         case phone(PhoneNumber)
+        case contact(Contact)
         
-        var localizedTitle: String {
+        var localizedTitle: String? {
             switch self {
             case .email(_): return NSLocalizedString("Email Address", bundle: .mpolKit, comment: "")
             case .phone(let phone): return NSLocalizedString(phone.formattedType(), bundle: .mpolKit, comment: "")
+            case .contact(let contact): return formattedContactType(for: contact)
+                
             }
         }
         
@@ -500,6 +508,7 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
             switch self {
             case .email(_): return "john.citizen@gmail.com"
             case .phone(let phone): return phone.formattedNumber()
+            case .contact(let contact): return contact.value ?? "-"
             }
         }
         
@@ -507,7 +516,24 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
             switch self {
             case .email(_): return UIImage(named: "iconFormEmail", in: .mpolKit, compatibleWith: nil)
             case .phone(_): return AssetManager.shared.image(forKey: .audioCall)
+            case .contact(let contact):
+                if let type = contact.type {
+                    switch type {
+                    case .phone, .mobile: return UIImage(named: "iconCommsCall", in: .mpolKit, compatibleWith: nil)
+                    case .email: return UIImage(named: "iconFormEmail", in: .mpolKit, compatibleWith: nil)
+                    }
+                }
+                return nil
             }
+        }
+        
+        func formattedContactType(for contact: Contact) -> String? {
+
+            let components = [contact.type?.localizedDescription(), contact.subType].flatMap({$0})
+            if components.isEmpty == false {
+                return components.joined(separator: " - ")
+            }
+            return nil
         }
     }
 }

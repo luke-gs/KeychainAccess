@@ -12,6 +12,22 @@ import MPOLKit
 @objc(MPLContact)
 open class Contact: NSObject, Serialisable {
 
+    public enum contactType: Int, UnboxableEnum {
+        case phone  = 0
+        case mobile = 1
+        case email  = 2
+        
+        public static let allCases: [contactType] = [.phone, .mobile, .email]
+        
+        public func localizedDescription() -> String {
+            switch self {
+            case .phone:  return "Phone"
+            case .mobile: return "Mobile"
+            case .email:  return "Email"
+            }
+        }
+    }
+    
     open let id : String
     
     open var dateCreated: Date?
@@ -24,7 +40,7 @@ open class Contact: NSObject, Serialisable {
     open var isSummary: Bool?
     open var source: MPOLSource?
     
-    open var type: String?
+    open var type: Contact.contactType?
     open var subType: String?
     open var value: String?
     
@@ -70,5 +86,5 @@ open class Contact: NSObject, Serialisable {
     open static var supportsSecureCoding: Bool {
         return true
     }
-    
+ 
 }
