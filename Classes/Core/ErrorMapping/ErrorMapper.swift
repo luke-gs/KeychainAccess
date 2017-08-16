@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class ErrorMapper {
+public final class ErrorMapper {
     
     public let definitions: [ErrorMappable]
     
