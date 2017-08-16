@@ -47,6 +47,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         manager.start()
         manager.updateManager.updateSetting = .checkStartup
 
+        manager.crashManager.crashManagerStatus = .autoSend
+
         let authenticator = manager.authenticator
         authenticator.authenticationSecret = "5de18549749959214aa44495e09faad5"
         authenticator.identificationType = .hockeyAppEmail
