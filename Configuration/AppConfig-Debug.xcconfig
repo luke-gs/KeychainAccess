@@ -8,4 +8,3 @@
 
 #include "../Pods/Target Support Files/Pods-MPOL/Pods-MPOL.debug.xcconfig"
 
-OTHER_SWIFT_FLAGS = $(inherited) -DGS_TESTING
