@@ -1,17 +1,16 @@
 //
-//  PersonOccurrencesViewController.swift
-//  MPOLKit
+//  VehicleOccurrencesViewController.swift
+//  ClientKit
 //
-//  Created by Herli Halim on 21/5/17.
+//  Created by RUI WANG on 16/8/17.
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 
-import UIKit
 import Foundation
 import MPOLKit
 
 // TEMP stuff
-open class PersonOccurrencesViewController: EntityOccurrencesViewController, FilterViewControllerDelegate {
+open class VehicleOccurrencesViewController: EntityOccurrencesViewController, FilterViewControllerDelegate {
     
     
     // MARK: - Public properties
@@ -26,8 +25,8 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
     
     
     // MARK: - Private properties
-    private lazy var viewModel: PersonOccurrencesViewModel = {
-        var vm = PersonOccurrencesViewModel()
+    private lazy var viewModel: VehicleOccurrencesViewModel = {
+        var vm = VehicleOccurrencesViewModel()
         vm.delegate = self
         return vm
     }()
@@ -39,18 +38,7 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
     fileprivate var filterDateRange: FilterDateRange?
     
     fileprivate var dateSorting: DateSorting = .newest
-    
-    
-    /*
-    private var bailOrders: [BailOrder]?
-    private var cautions: [Caution]?
-    private var fieldContacts: [FieldContact]?
-    private var interventionOrders: [InterventionOrder]?
-    private var warrants: [Warrant]?
-    private var whereabouts: [Whereabouts]?
-    private var missingPersons: [MissingPerson]?
-    private var familyIncidents: [FamilyIncident]?
-    */
+
     
     // MARK: - Initializers
     
@@ -71,8 +59,7 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
     
     open override func viewDidLoad() {
         super.viewDidLoad()
-        
-        EventDetailsViewModelRouter.register(eventClass: BailOrder.self, viewModelClass: BailOrderDetailViewModel.self)
+
         EventDetailsViewModelRouter.register(eventClass: FieldContact.self, viewModelClass: FieldContactDetailViewModel.self)
         EventDetailsViewModelRouter.register(eventClass: InterventionOrder.self, viewModelClass: InterventionOrderViewModel.self)
         
@@ -119,10 +106,6 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
             let fieldContactVC = FieldContactDetailViewController()
             fieldContactVC.event = fieldContact
             detailViewController = fieldContactVC
-        case let bailOrder as BailOrder:
-            let bailOrderVC = BailOrderDetailViewController()
-            bailOrderVC.event = bailOrder
-            detailViewController = bailOrderVC
         case let interventionOrder as InterventionOrder:
             let interventionOrderVC = InterventionOrderDetailViewController()
             interventionOrderVC.event = interventionOrder
@@ -144,7 +127,7 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
     open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionElementKindSectionHeader {
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
-    
+            
             header.text = viewModel.sectionHeader
             return header
         }
@@ -158,7 +141,7 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
         return CollectionViewFormDetailCell.minimumContentHeight(compatibleWith: traitCollection)
     }
-
+    
     
     // MARK: - FilterViewControllerDelegate
     
@@ -199,7 +182,7 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
                 break
             }
         }
-
+        
         viewModel.reloadSections(with: filterTypes, filterDateRange: filterDateRange, sortedBy: dateSorting)
     }
     
@@ -208,7 +191,7 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
     
     @objc private func filterItemDidSelect(_ item: UIBarButtonItem) {
         let allTypes = viewModel.allEventTypes
-
+        
         let allSortedTypes = allTypes.sorted { $0.localizedStandardCompare($1) == .orderedAscending }
         
         var selectedIndexes: IndexSet
@@ -241,7 +224,7 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
     }
 }
 
-extension PersonOccurrencesViewController: EntityDetailsViewModelDelegate {
+extension VehicleOccurrencesViewController: EntityDetailsViewModelDelegate {
     
     public func updateSidebarItemCount(_ count: UInt) {
         sidebarItem.count = count
@@ -263,6 +246,6 @@ extension PersonOccurrencesViewController: EntityDetailsViewModelDelegate {
     public func updateLoadingState(_ state: LoadingStateManager.State) {
         loadingManager.state = state
     }
-
+    
 }
 

@@ -1,16 +1,17 @@
 //
-//  PersonOccurrencesViewModel.swift
-//  MPOLKit
+//  VehicleOccurrencesViewModel.swift
+//  ClientKit
 //
-//  Created by RUI WANG on 4/7/17.
+//  Created by RUI WANG on 16/8/17.
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
+
 
 import Foundation
 import MPOLKit
 
-public class PersonOccurrencesViewModel: EntityEventViewModel {
-
+public class VehicleOccurrencesViewModel: EntityEventViewModel {
+    
     // MARK: - Public methods
     
     public func reloadSections(with filterTypes: Set<String>?, filterDateRange: FilterDateRange?, sortedBy sorting: DateSorting) {

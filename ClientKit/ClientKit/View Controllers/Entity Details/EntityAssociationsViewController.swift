@@ -119,7 +119,7 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
         
         if style == .list || isCompact {
             let cell = collectionView.dequeueReusableCell(of: EntityListCollectionViewCell.self, for: indexPath)
-            cell.decorate(with: associate as! EntitySummaryDisplayable)
+            cell.decorate(with: associate)
             
             return cell
         } else {
@@ -128,7 +128,7 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
            /// cell.configure(for: associate, style: .hero)
             cell.style = self.entityStyle(for: style)
 
-            cell.decorate(with: associate as! EntitySummaryDisplayable)
+            cell.decorate(with: associate)
             cell.highlightStyle = .fade
             
             return cell

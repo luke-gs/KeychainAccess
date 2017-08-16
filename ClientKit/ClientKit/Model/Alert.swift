@@ -29,19 +29,11 @@ open class Alert: NSObject, Serialisable {
             }
         }
         
-        public func localizedDescription(plural: Bool) -> String? {
-            if plural {
-                switch self {
-                case .high:   return NSLocalizedString("Safety Warnings",     bundle: .mpolKit, comment: "Alert Level Title")
-                case .medium: return NSLocalizedString("Persons Of Interest", bundle: .mpolKit, comment: "Alert Level Title")
-                case .low:    return NSLocalizedString("Interest Flags",      bundle: .mpolKit, comment: "Alert Level Title")
-                }
-            } else {
-                switch self {
-                case .high:   return NSLocalizedString("Safety Warning",     bundle: .mpolKit, comment: "Alert Level Title")
-                case .medium: return NSLocalizedString("Person Of Interest", bundle: .mpolKit, comment: "Alert Level Title")
-                case .low:    return NSLocalizedString("Interest Flag",      bundle: .mpolKit, comment: "Alert Level Title")
-                }
+        public func localizedDescription() -> String? {
+            switch self {
+            case .high:   return NSLocalizedString("High",     bundle: .mpolKit, comment: "Alert Level Title")
+            case .medium: return NSLocalizedString("Medium", bundle: .mpolKit, comment: "Alert Level Title")
+            case .low:    return NSLocalizedString("Low",      bundle: .mpolKit, comment: "Alert Level Title")
             }
         }
     }
@@ -153,7 +145,7 @@ open class Alert: NSObject, Serialisable {
 extension Alert.Level: Pickable {
     
     public var title: String? {
-        return self.localizedDescription(plural: true)
+        return self.localizedDescription()
     }
     
     public var subtitle: String? {
