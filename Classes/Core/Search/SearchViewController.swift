@@ -520,21 +520,18 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
             navigationController?.pushViewController(detailViewController, animated: true)
         }
 
-//        let entityViewController = EntityDetailsSplitViewController(entity: entity)
-//        navigationController?.pushViewController(entityViewController, animated: true)
-//        
-//        // Do this after the push.
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-//            var recents = self.recentlyViewedEntities
-//            if recents.first == entity {
-//                return
-//            }
-//            if let oldIndex = recents.index(of: entity) {
-//                recents.remove(at: oldIndex)
-//            }
-//            recents.insert(entity, at: 0)
-//            self.recentlyViewedEntities = recents
-//        }
+        // Do this after the push.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+            var recents = self.recentlyViewedEntities
+            if recents.first == entity {
+                return
+            }
+            if let oldIndex = recents.index(of: entity) {
+                recents.remove(at: oldIndex)
+            }
+            recents.insert(entity, at: 0)
+            self.recentlyViewedEntities = recents
+        }
     }
     
 }

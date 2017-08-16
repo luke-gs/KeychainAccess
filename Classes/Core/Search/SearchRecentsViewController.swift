@@ -167,7 +167,7 @@ class SearchRecentsViewController: FormCollectionViewController {
             isRecentSearches = collectionView == self.collectionView
         }
         
-        return isRecentSearches ? recentlySearched.count : recentlyViewed.count
+        return isRecentSearches ? recentlySearched.count : min(recentlyViewed.count, 6)
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -312,7 +312,7 @@ class SearchRecentsViewController: FormCollectionViewController {
     
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
         if collectionView != self.collectionView {
-            return layout.columnContentWidth(forMinimumItemContentWidth: EntityCollectionViewCell.minimumContentWidth(forStyle: .detail), sectionEdgeInsets: sectionEdgeInsets)
+            return layout.columnContentWidth(forMinimumItemContentWidth: EntityCollectionViewCell.minimumContentWidth(forStyle: .detail), maximumColumnCount: 3, sectionEdgeInsets: sectionEdgeInsets)
         }
         return collectionView.bounds.width
     }
