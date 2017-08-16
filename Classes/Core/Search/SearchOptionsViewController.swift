@@ -56,6 +56,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     
     private var selectedDataSource: SearchDataSource {
         didSet {
+            selectedDataSource.didBecomeActive(inViewController: self)
             reloadCollectionViewRetainingEditing()
         }
     }
@@ -72,7 +73,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         
         self.dataSources        = dataSources
         self.selectedDataSource = firstDataSource
-
+        
         super.init()
 
         if let datasources = self.dataSources {
@@ -81,6 +82,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
             }
         }
         
+        self.selectedDataSource.didBecomeActive(inViewController: self)
         calculatesContentHeight = true
     }
 
@@ -344,6 +346,8 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
             } else {
                 cell.setRequiresValidation(false, validationText: nil, animated: true)
             }
+            
+            cell.additionalButtons = selectedDataSource.additionalSearchFieldButtons
             
             return cell
         case .filters:

@@ -42,6 +42,21 @@ class SearchFieldCollectionViewCell: CollectionViewFormCell {
         }
     }
     
+    public var additionalButtons: [UIButton]? {
+        didSet {
+            oldValue?.forEach({ (button) in
+                button.removeFromSuperview()
+            })
+            
+            additionalButtons?.forEach({ (button) in
+                button.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
+                button.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+                buttonStackView.addArrangedSubview(button)
+            })
+        }
+    }
+    
+    private let buttonStackView = UIStackView(frame: .zero)
     
     // MARK: - Initializers
     
@@ -71,14 +86,28 @@ class SearchFieldCollectionViewCell: CollectionViewFormCell {
         textField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("Search", comment: ""),
                                                              attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 28.0, weight: UIFontWeightLight), NSForegroundColorAttributeName: UIColor.lightGray])
        
+        buttonStackView.axis = .horizontal
+        buttonStackView.spacing = 10.0
+        buttonStackView.translatesAutoresizingMaskIntoConstraints = false
+        
         let contentView = self.contentView
         contentView.addSubview(textField)
+        contentView.addSubview(buttonStackView)
+        
+        let stackTrailingConstraint = NSLayoutConstraint(item: buttonStackView, attribute: .trailing, relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .centerX, constant: 480.0 / 2.0)
+        stackTrailingConstraint.priority = UILayoutPriorityDefaultHigh
         
         NSLayoutConstraint.activate([
             NSLayoutConstraint(item: textField, attribute: .centerX, relatedBy: .equal, toItem: contentView, attribute: .centerX),
             NSLayoutConstraint(item: textField, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, constant: 3.0),
-            NSLayoutConstraint(item: textField, attribute: .width,   relatedBy: .greaterThanOrEqual, toConstant: 480.0, priority: UILayoutPriorityDefaultHigh),
-            NSLayoutConstraint(item: textField, attribute: .leading, relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .leadingMargin)
+            NSLayoutConstraint(item: textField, attribute: .leading, relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .leadingMargin),
+            
+            NSLayoutConstraint(item: buttonStackView, attribute: .leading, relatedBy: .equal, toItem: textField, attribute: .trailing, constant: 5.0),
+            NSLayoutConstraint(item: buttonStackView, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentView, attribute: .trailingMargin),
+            NSLayoutConstraint(item: buttonStackView, attribute: .centerY, relatedBy: .equal, toItem: textField, attribute: .centerY),
+            NSLayoutConstraint(item: buttonStackView, attribute: .height, relatedBy: .equal, toConstant: 28),
+            
+            stackTrailingConstraint
         ])
         
         updateSeparatorInsets()
