@@ -10,8 +10,8 @@ project 'MPOL.xcodeproj'
 project 'ClientKit/ClientKit.xcodeproj'
 
 def mpol_kit
-    pod 'MPOLKit', :git=> 'https://github.com/Gridstone/mPolKit-iOS'
-#pod 'MPOLKit', :path => '../mPolKit-iOS'
+    #pod 'MPOLKit', :git=> 'https://github.com/Gridstone/mPolKit-iOS'
+    pod 'MPOLKit', :path => '../mPolKit-iOS'
 end
 
 target 'ClientKit' do

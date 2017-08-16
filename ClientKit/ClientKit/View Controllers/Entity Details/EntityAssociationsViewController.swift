@@ -14,17 +14,31 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
     open override var entity: Entity? {
         didSet {
             updateNoContentSubtitle()
-            associations = (entity as? Person)?.associatedPersons ?? [] // TODO: Refactor for all associations.
+            viewModel.entity = entity
         }
     }
     
-    private var associations: [Person] = [] {
+    private lazy var viewModel: EntityAssociationsViewModel = {
+        var vm = EntityAssociationsViewModel()
+        vm.delegate = self
+        return vm
+    }()
+    
+    private var wantsThumbnails: Bool = true {
         didSet {
-            sidebarItem.count = UInt(associations.count)
-            loadingManager.state = associations.isEmpty ? .noContent: .loaded
+            if wantsThumbnails == oldValue { return }
+            
+            listStateItem.image = AssetManager.shared.image(forKey: wantsThumbnails ? .list : .thumbnail)
+            
+            viewModel.style = wantsThumbnails ? .grid : .list
+            
+            if traitCollection.horizontalSizeClass != .compact {
+                collectionView?.reloadData()
+            }
         }
     }
     
+    private let listStateItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .list), style: .plain, target: nil, action: nil)
     
     public override init() {
         super.init()
@@ -35,9 +49,13 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
         formLayout.itemLayoutMargins = UIEdgeInsets(top: 16.5, left: 8.0, bottom: 14.5, right: 8.0)
         formLayout.distribution = .none
         
+        listStateItem.target = self
+        listStateItem.action = #selector(toggleThumbnails)
+        listStateItem.imageInsets = .zero
+        
         let filterBarItem = FilterBarButtonItem(target: nil, action: nil)
         filterBarItem.isEnabled = false
-        navigationItem.rightBarButtonItem = filterBarItem
+        navigationItem.rightBarButtonItems = [filterBarItem, listStateItem]
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -63,7 +81,10 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
         
         let isCompact = traitCollection.horizontalSizeClass == .compact
         if isCompact != (previousTraitCollection?.horizontalSizeClass == .compact) {
-            collectionView?.reloadData()
+            if wantsThumbnails {
+                collectionView?.reloadData()
+            }
+            navigationItem.rightBarButtonItems = isCompact ? nil : [listStateItem]
         }
     }
     
@@ -71,19 +92,19 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
     // MARK: - UICollectionViewDataSource methods
     
     open func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return associations.isEmpty ? 0 : 1
+        return viewModel.numberOfSections()
     }
     
     open override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return associations.count
+        return viewModel.numberOfItems(for: section)
     }
     
     open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         switch kind {
         case UICollectionElementKindSectionHeader:
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
-            let count = associations.count
-            header.text = String(format: (count == 1 ? "%d PERSON" : "%d PEOPLE"), count)
+            let item = viewModel.item(at: indexPath.item)!
+            header.text = item.title
             header.showsExpandArrow = false
             return header
         default:
@@ -93,26 +114,21 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let isCompact = traitCollection.horizontalSizeClass == .compact
-        let associate = associations[indexPath.item]
+        let associate = viewModel.associate(at: indexPath)
+        let style = viewModel.style
         
-        if isCompact {
+        if style == .list || isCompact {
             let cell = collectionView.dequeueReusableCell(of: EntityListCollectionViewCell.self, for: indexPath)
-            cell.titleLabel.text    = associate.summary
-            
-            let subtitleComponents = [associate.summaryDetail1, associate.summaryDetail2].flatMap({$0})
-            cell.subtitleLabel.text = subtitleComponents.isEmpty ? nil : subtitleComponents.joined(separator: " : ")
-            cell.thumbnailView.configure(for: entity, size: .small)
-            cell.alertColor       = associate.alertLevel?.color
-            cell.actionCount      = associate.actionCount
-            cell.highlightStyle   = .fade
-            cell.sourceLabel.text = associate.source?.localizedBadgeTitle
-            cell.accessoryView = cell.accessoryView as? FormAccessoryView ?? FormAccessoryView(style: .disclosure)
+            cell.decorate(with: associate as! EntitySummaryDisplayable)
             
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(of: EntityCollectionViewCell.self, for: indexPath)
             
-            cell.configure(for: associate, style: .hero)
+           /// cell.configure(for: associate, style: .hero)
+            cell.style = self.entityStyle(for: style)
+
+            cell.decorate(with: associate as! EntitySummaryDisplayable)
             cell.highlightStyle = .fade
             
             return cell
@@ -136,6 +152,12 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
         }
     }
     
+//    open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        // Ultimate workaround...
+//        let associate = sections[indexPath.section].associate(at: indexPath.item)
+//        let userInfo: [String: Any] = ["selectedEntity": associate, "viewController" : self]
+//        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "AssociateDidTapEntity"), object: self, userInfo: userInfo)
+//    }
     
     // MARK: - CollectionViewDelegateFormLayout methods
     
@@ -147,18 +169,25 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
     }
     
     open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
-        if traitCollection.horizontalSizeClass != .compact {
-            return EntityCollectionViewCell.minimumContentWidth(forStyle: .hero)
+        let style = viewModel.style
+        if style == .grid && traitCollection.horizontalSizeClass != .compact {
+            return EntityCollectionViewCell.minimumContentWidth(forStyle: self.entityStyle(for: style))
         }
         return collectionView.bounds.width
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
-        if traitCollection.horizontalSizeClass != .compact {
-            return EntityCollectionViewCell.minimumContentHeight(forStyle: .hero, compatibleWith: traitCollection) - 12.0
+        let style = viewModel.style
+
+        if style == .grid && traitCollection.horizontalSizeClass != .compact {
+            return EntityCollectionViewCell.minimumContentHeight(forStyle: self.entityStyle(for: style), compatibleWith: traitCollection) - 12.0
         } else {
             return EntityListCollectionViewCell.minimumContentHeight(compatibleWith: traitCollection)
         }
+    }
+    
+    private func entityStyle(for style: SearchResultStyle) -> EntityCollectionViewCell.Style {
+        return viewModel.style == .grid ? .hero : .detail
     }
     
     private func updateNoContentSubtitle() {
@@ -172,4 +201,23 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
         loadingManager.noContentView.subtitleLabel.text = String(format: NSLocalizedString("This %@ has no associations", bundle: .mpolKit, comment: ""), entityDisplayName)
     }
     
+    @objc private func toggleThumbnails() {
+        wantsThumbnails = !wantsThumbnails
+    }
+    
 }
+
+extension EntityAssociationsViewController: EntityDetailsViewModelDelegate {
+    public func updateSidebarItemCount(_ count: UInt) {
+        sidebarItem.count = count
+    }
+    
+    public func updateLoadingState(_ state: LoadingStateManager.State) {
+        loadingManager.state = state
+    }
+    
+    public func reloadData() {
+        collectionView?.reloadData()
+    }
+}
+

@@ -16,7 +16,6 @@ open class FieldContact: Event {
     open var contactMember: Member?
     open var secondaryContactMember: Member?
     open var contactDate: Date?
-    open var status: String?
     open var areaType: String?
     
     // MARK: - ????
@@ -38,7 +37,6 @@ open class FieldContact: Event {
         contactMember = unboxer.unbox(key: "contactMember")
         secondaryContactMember = unboxer.unbox(key: "secondaryContactMember")
         contactDate = unboxer.unbox(key: "contactDate", formatter: FieldContact.dateTransformer)
-        status = unboxer.unbox(key: "status")
         areaType = unboxer.unbox(key: "areaType")
         
         locationResponseZone = unboxer.unbox(key: "locationResponseZone")

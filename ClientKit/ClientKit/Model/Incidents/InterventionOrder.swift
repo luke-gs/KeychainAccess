@@ -17,7 +17,6 @@ open class InterventionOrder: Event {
     open var respondentName: String?
     open var complainants: [NSObject]?
     open var conditions: [NSObject]?
-    open var status: String?
     open var respondentDateOfBirth: Date?
     open var address: String?
     
@@ -31,7 +30,6 @@ open class InterventionOrder: Event {
         type = unboxer.unbox(key: "orderType")
         complainants = unboxer.unbox(key: "complainants")
         conditions = unboxer.unbox(key: "conditions")
-        status = unboxer.unbox(key: "status")
         respondentDateOfBirth = unboxer.unbox(key: "respondentDateOfBirth", formatter: InterventionOrder.dateTransformer)
         address = unboxer.unbox(key: "orderAddress")
     }
