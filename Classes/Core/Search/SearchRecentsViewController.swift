@@ -312,7 +312,7 @@ class SearchRecentsViewController: FormCollectionViewController {
     
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
         if collectionView != self.collectionView {
-            return layout.columnContentWidth(forMinimumItemContentWidth: EntityCollectionViewCell.minimumContentWidth(forStyle: .detail), sectionEdgeInsets: sectionEdgeInsets)
+            return layout.columnContentWidth(forMinimumItemContentWidth: EntityCollectionViewCell.minimumContentWidth(forStyle: .detail), maximumColumnCount: 3, sectionEdgeInsets: sectionEdgeInsets)
         }
         return collectionView.bounds.width
     }
