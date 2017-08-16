@@ -102,6 +102,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		07D0E87B096DFCBB1D40E248 /* Pods-ClientKitTests.gstest.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKitTests.gstest.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKitTests/Pods-ClientKitTests.gstest.xcconfig"; sourceTree = "<group>"; };
 		1542E603389AAEE96EC1C25A /* Pods-ClientKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKitTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKitTests/Pods-ClientKitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5919937B6BAC1FE012181DBE /* Pods_ClientKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClientKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4196D7C4B207ED0E1DD5654 /* Pods-ClientKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKit.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKit/Pods-ClientKit.debug.xcconfig"; sourceTree = "<group>"; };
@@ -191,6 +192,7 @@
 		EA9FB2671F417C4100F8015B /* RegistrationParserDefinitionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationParserDefinitionsTests.swift; sourceTree = "<group>"; };
 		EA9FB2691F4186C000F8015B /* VINParserDefinitionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VINParserDefinitionsTests.swift; sourceTree = "<group>"; };
 		EA9FB26B1F41879C00F8015B /* EngineNumberParserDefinitionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EngineNumberParserDefinitionsTests.swift; sourceTree = "<group>"; };
+		F93C11FCDDF0D24042C0AF06 /* Pods-ClientKit.gstest.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKit.gstest.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKit/Pods-ClientKit.gstest.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -481,6 +483,8 @@
 				D6779C04771873128EC55832 /* Pods-ClientKit.release.xcconfig */,
 				1542E603389AAEE96EC1C25A /* Pods-ClientKitTests.debug.xcconfig */,
 				C7ECBB5ADFC8B8CF04DA87A7 /* Pods-ClientKitTests.release.xcconfig */,
+				F93C11FCDDF0D24042C0AF06 /* Pods-ClientKit.gstest.xcconfig */,
+				07D0E87B096DFCBB1D40E248 /* Pods-ClientKitTests.gstest.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -983,6 +987,95 @@
 			};
 			name = Release;
 		};
+		DB88BCEC1F43E95B0056FD69 /* GSTest */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = GSTest;
+		};
+		DB88BCED1F43E95B0056FD69 /* GSTest */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F93C11FCDDF0D24042C0AF06 /* Pods-ClientKit.gstest.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = FNW7L4X44S;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = ClientKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = gridstone.ClientKit;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+			};
+			name = GSTest;
+		};
+		DB88BCEE1F43E95B0056FD69 /* GSTest */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 07D0E87B096DFCBB1D40E248 /* Pods-ClientKitTests.gstest.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				DEVELOPMENT_TEAM = FNW7L4X44S;
+				INFOPLIST_FILE = ClientKitTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = gridstone.ClientKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = GSTest;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -991,6 +1084,7 @@
 			buildConfigurations = (
 				BC12DC9E1F023EF0001A5BB7 /* Debug */,
 				BC12DC9F1F023EF0001A5BB7 /* Release */,
+				DB88BCEC1F43E95B0056FD69 /* GSTest */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1000,6 +1094,7 @@
 			buildConfigurations = (
 				BC12DCA11F023EF0001A5BB7 /* Debug */,
 				BC12DCA21F023EF0001A5BB7 /* Release */,
+				DB88BCED1F43E95B0056FD69 /* GSTest */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1009,6 +1104,7 @@
 			buildConfigurations = (
 				BC12DCA41F023EF0001A5BB7 /* Debug */,
 				BC12DCA51F023EF0001A5BB7 /* Release */,
+				DB88BCEE1F43E95B0056FD69 /* GSTest */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
