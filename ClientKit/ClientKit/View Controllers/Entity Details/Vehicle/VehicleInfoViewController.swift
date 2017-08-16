@@ -44,7 +44,7 @@ open class VehicleInfoViewController: EntityDetailCollectionViewController {
     
     open override func viewDidLoad() {
         super.viewDidLoad()
-                
+        
         guard let collectionView = self.collectionView else { return }
         
         collectionView.register(EntityDetailCollectionViewCell.self)

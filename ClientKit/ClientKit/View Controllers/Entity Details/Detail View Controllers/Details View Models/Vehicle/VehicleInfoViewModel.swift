@@ -86,7 +86,7 @@ public class VehicleInfoViewModel: EntityDetailsViewModelable {
     public func headerCellInfo() -> HeaderSectionCellInfo {
         let source        = vehicle?.category
         let title         = vehicle?.title
-        let subtitle      = vehicle?.detail1
+        let subtitle      = formattedSubtitle()
         let description   = vehicle?.vehicleDescription ?? "No Description"
         
         
@@ -95,6 +95,10 @@ public class VehicleInfoViewModel: EntityDetailsViewModelable {
                                      title:title,
                                      subtitle: subtitle,
                                      description: description)
+    }
+    
+    public func formattedSubtitle() -> String? {
+        return [vehicle?.detail1, vehicle?.variant].flatMap({$0}).joined(separator: " ")
     }
     
     public func cellInfo(for section: DetailsType, at indexPath: IndexPath) -> SectionCellInfo {
