@@ -71,8 +71,12 @@ fileprivate class VehicleSearchOptions: SearchOptions {
 
 class VehicleSearchDataSource: SearchDataSource {
     
+    private weak var viewController: UIViewController?
+    
     let searchPlaceholder: NSAttributedString? = NSAttributedString(string: NSLocalizedString("eg. ABC123", comment: ""),
                                                                 attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 28.0, weight: UIFontWeightLight), NSForegroundColorAttributeName: UIColor.lightGray])
+    
+    private(set) var additionalSearchFieldButtons: [UIButton]?
     
     //MARK: SearchDataSource
     var options: SearchOptions = VehicleSearchOptions()
@@ -93,6 +97,13 @@ class VehicleSearchDataSource: SearchDataSource {
 
     static var autoCapitalizationType: UITextAutocapitalizationType {
         return .words
+    }
+    
+    init() {
+        let helpButton = UIButton(type: .system)
+        helpButton.addTarget(self, action: #selector(didTapHelpButton(_:)), for: .touchUpInside)
+        helpButton.setImage(AssetManager.shared.image(forKey: .info), for: .normal)
+        additionalSearchFieldButtons = [helpButton]
     }
 
     func updateController(forFilterAt index: Int) -> UIViewController? {
@@ -170,6 +181,16 @@ class VehicleSearchDataSource: SearchDataSource {
         return nil
     }
     
+    func setSelectedOptions(options: [Int : String]) {
+        let vehicleOptions = self.options as! VehicleSearchOptions
+        
+        vehicleOptions.type = SearchType(rawValue: options[FilterItem.type.rawValue] ?? "") ?? .registration
+    }
+    
+    func didBecomeActive(inViewController viewController: UIViewController) {
+        self.viewController = viewController
+    }
+    
     // MARK: - Private
     
     private func parser(forType type: SearchType) -> QueryParser {
@@ -178,5 +199,13 @@ class VehicleSearchDataSource: SearchDataSource {
         case .vin:          return self.vinParser
         case .engineNumber: return self.engineParser
         }
+    }
+    
+    @objc private func didTapHelpButton(_ button: UIButton) {
+        // FIXME: - When the appropriate time comes please change it
+        let helpViewController = UIViewController()
+        helpViewController.title = "Vehicle Search Help"
+        helpViewController.view.backgroundColor = .white
+        self.viewController?.show(helpViewController, sender: nil)
     }
 }
