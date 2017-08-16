@@ -29,6 +29,16 @@
       language = ""
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "BC12DC941F023EF0001A5BB7"
+               BuildableName = "ClientKitTests.xctest"
+               BlueprintName = "ClientKitTests"
+               ReferencedContainer = "container:ClientKit/ClientKit.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
