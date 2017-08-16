@@ -11,7 +11,7 @@ import MPOLKit
 
 open class Interest: Event {
     
-    open var summary: String?
+//    open var summary: String?
     open var remarks: String?
     open var warningCategory: String?
     open var warningType: String?
@@ -19,7 +19,7 @@ open class Interest: Event {
     public required init(unboxer: Unboxer) throws {
         try super.init(unboxer: unboxer)
         
-        summary = unboxer.unbox(key: "summary")
+//        summary = unboxer.unbox(key: "summary")
         remarks = unboxer.unbox(key: "remarks")
         warningCategory = unboxer.unbox(key: "warningCategory")
         warningType = unboxer.unbox(key: "warningType")

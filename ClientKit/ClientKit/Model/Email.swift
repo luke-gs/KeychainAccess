@@ -8,6 +8,6 @@
 
 import UIKit
 
-class Email: NSObject {
+open class Email: NSObject {
 
 }

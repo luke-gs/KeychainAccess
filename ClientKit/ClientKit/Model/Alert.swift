@@ -15,9 +15,9 @@ open class Alert: NSObject, Serialisable {
     private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
     
     public enum Level: Int, UnboxableEnum {
-        case low    = 1
-        case medium = 2
-        case high   = 3
+        case low    = 0
+        case medium = 1
+        case high   = 2
         
         public static let allCases: [Level] = [.low, .medium, .high]
         
@@ -49,11 +49,18 @@ open class Alert: NSObject, Serialisable {
     open var id: String
     open var level: Alert.Level?
     
+    open var dateCreated: Date?
+    open var dateUpdated: Date?
+    open var createdBy: String?
+    open var updatedBy: String?
+    open var effectiveDate: Date?
+    open var expiryDate: Date?
+    open var entityType: String?
+    open var isSummary: Bool?
     
-    // MARK: - Temp properties
+    open var source: MPOLSource?
     open var title: String?
     open var details: String?
-    open var effectiveDate: Date?
     
     
     // MARK: - Equality
@@ -83,14 +90,21 @@ open class Alert: NSObject, Serialisable {
                 throw ParsingError.missingRequiredField
         }
         
-        self.id = id
-        self.level = unboxer.unbox(key: "alertLevel")
+        self.id       = id
+        self.level    = unboxer.unbox(key: "alertLevel")
         
-        // temp properties
-        
-        title   = unboxer.unbox(key: "title")
-        details = unboxer.unbox(key: "description")
+        dateCreated   = unboxer.unbox(key: "dateCreated", formatter: Alert.dateTransformer)
+        dateUpdated   = unboxer.unbox(key: "dateLastUpdated", formatter: Alert.dateTransformer)
+        createdBy     = unboxer.unbox(key: "createdBy")
+        updatedBy     = unboxer.unbox(key: "updatedBy")
         effectiveDate = unboxer.unbox(key: "effectiveDate", formatter: Alert.dateTransformer)
+        expiryDate    = unboxer.unbox(key: "expiryDate", formatter: Alert.dateTransformer)
+        entityType    = unboxer.unbox(key: "entityType")
+        isSummary     = unboxer.unbox(key: "isSummary")
+
+        source        = unboxer.unbox(key: "source")
+        title         = unboxer.unbox(key: "title")
+        details       = unboxer.unbox(key: "description")
         
         super.init()
     }

@@ -16,8 +16,10 @@ open class Person: Entity {
         return "person"
     }
 
-    public enum Gender: Int, CustomStringConvertible, UnboxableEnum, Pickable {
-        case female, male, other
+    public enum Gender: String, CustomStringConvertible, UnboxableEnum, Pickable {
+        case female = "F"
+        case male = "M"
+        case other
         
         public var description: String {
             switch self {
@@ -25,7 +27,7 @@ open class Person: Entity {
                 return "Female"
             case .male:
                 return "Male"
-            case .other:
+            default:
                 return "Unknown"
             }
         }
@@ -48,40 +50,22 @@ open class Person: Entity {
     
     open var dateOfBirth: Date?
     open var dateOfDeath: Date?
+    open var yearOnlyDateOfBirth: Bool?
     
     open var gender: Gender?
     
-    open var addresses: [Address]?
-    open var address: Address?
-    
-    open var phoneNumbers: [PhoneNumber]?
-    
-    open var licences: [Licence]?
-    
     open var contacts: [Contact]?
-    
+    open var licences: [Licence]?
     open var descriptions: [PersonDescription]?
-    
     open var aliases: [Alias]?
     
-    open var cautions: [Caution]?
-    
-    open var knownAssociates: [KnownAssociate]?
-    open var associatedPersons: [Person]?
-    
-    open var warrants: [Warrant]?
-    open var warnings: [Warning]?
-    open var scarMarksTattoos: [ScarMarkTattoo]?
-    
+    // TODO: TEMP
     open var actions: [Action]?
-    open var events: [Event]?
     open var interventionOrders: [InterventionOrder]?
     open var bailOrders: [BailOrder]?
     open var fieldContacts: [FieldContact]?
-    open var whereabouts: [Whereabouts]?
     open var missingPersonReports: [MissingPersonReport]?
     open var familyIncidents: [FamilyIncident]?
-    
     open var criminalHistory: [CriminalHistory]?
     
     open var isAlias: Bool?
@@ -96,9 +80,6 @@ open class Person: Entity {
     
     // MARK: - ?
     open var highestAlertLevel: Alert.Level?
-    open var fullName: String?
-    open var matchScore: Int = 0
-    open var ethnicity: String?
     
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -115,40 +96,31 @@ open class Person: Entity {
         try super.init(unboxer: unboxer)
 
         givenName = unboxer.unbox(key: "givenName")
-        surname = unboxer.unbox(key: "surname")
+        surname = unboxer.unbox(key: "familyName")
         middleNames = unboxer.unbox(key: "middleNames")
-        fullName    = unboxer.unbox(key: "fullName")
 
         dateOfBirth = unboxer.unbox(key: "dateOfBirth", formatter: Person.dateTransformer)
         dateOfDeath = unboxer.unbox(key: "dateOfDeath", formatter: Person.dateTransformer)
-     
+        yearOnlyDateOfBirth = unboxer.unbox(key: "yearOnlyDateOfBirth")
+        
         gender = unboxer.unbox(key: "gender")
         
-        addresses = unboxer.unbox(key: "addresses")
-        phoneNumbers = unboxer.unbox(key: "phoneNumbers")
         licences = unboxer.unbox(key: "licences")
-        contacts = unboxer.unbox(key: "contacts")
+        contacts = unboxer.unbox(key: "contactDetails")
         descriptions = unboxer.unbox(key: "descriptions")
         aliases = unboxer.unbox(key: "aliases")
-        cautions = unboxer.unbox(key: "cautions")
-        knownAssociates = unboxer.unbox(key: "knownAssociates")
-        warrants = unboxer.unbox(key: "warrants")
-        warnings = unboxer.unbox(key: "warnings")
-        scarMarksTattoos = unboxer.unbox(key: "scarsMarksTattoos")
         
+        // TODO: 
+        
+        // Temporary keep them
+        actions = unboxer.unbox(key: "actions")
         interventionOrders = unboxer.unbox(key: "interventionOrders")
         bailOrders = unboxer.unbox(key: "bailOrders")
         fieldContacts = unboxer.unbox(key: "fieldContacts")
-        whereabouts = unboxer.unbox(key: "whereabouts")
         missingPersonReports = unboxer.unbox(key: "missingPersonReports")
         familyIncidents = unboxer.unbox(key: "familyIncidents")
-        
         criminalHistory = unboxer.unbox(key: "criminalHistory")
-        
-        events = unboxer.unbox(key: "events")
-        actions = unboxer.unbox(key: "actions")
-        associatedPersons = unboxer.unbox(key: "persons")
-        address = unboxer.unbox(key: "address")
+
         
         if let initials: String = unboxer.unbox(key: "initials") {
             self.initials = initials
@@ -166,8 +138,6 @@ open class Person: Entity {
         }
         
         isAlias = unboxer.unbox(key: "isAlias")
-        ethnicity = unboxer.unbox(key: "ethnicity")
-        matchScore = unboxer.unbox(key: "nameScore") ?? 0
     }
     
     open override func encode(with aCoder: NSCoder) {

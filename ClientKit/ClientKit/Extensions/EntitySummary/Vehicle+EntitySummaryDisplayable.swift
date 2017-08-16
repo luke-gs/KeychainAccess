@@ -20,11 +20,11 @@ extension Vehicle: EntitySummaryDisplayable {
     }
     
     public var detail1: String? {
-        return nil
+        return formattedYOMMakeModel()
     }
     
     public var detail2: String? {
-        return nil
+        return bodyType
     }
     
     public var alertColor: UIColor? {
@@ -52,4 +52,16 @@ extension Vehicle: EntitySummaryDisplayable {
         
         return nil
     }
+    
+    private func formattedYOMMakeModel() -> String? {
+        
+        let components = [year, make, model].flatMap({$0})
+        if components.isEmpty == false {
+            return components.joined(separator: " ")
+        }
+        
+        return nil
+    }
+    
 }
+

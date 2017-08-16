@@ -15,31 +15,25 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
     
     
     open override var entity: Entity? {
-        get { return person }
-        set { self.person = newValue as? Person }
-    }
-    
-    private var person: Person? {
-        didSet {
-            sidebarItem.count = UInt(person?.actions?.count ?? 0)
-            updateNoContentSubtitle()
-            reloadSections()
+        get { return viewModel.person }
+        set {
+            viewModel.person = newValue as? Person
+            viewModel.reloadSections(with: filterTypes, filterDateRange: filterDateRange)
         }
     }
     
-    private var actions: [Action] = [] {
-        didSet {
-            loadingManager.state = actions.isEmpty ? .noContent : .loaded
-            collectionView?.reloadData()
-        }
-    }
+    fileprivate let filterBarButtonItem = FilterBarButtonItem(target: nil, action: nil)
     
-    private let filterBarButtonItem = FilterBarButtonItem(target: nil, action: nil)
+    fileprivate var filterTypes: Set<String>?
     
-    private var filterTypes: Set<String>?
+    fileprivate var filterDateRange: FilterDateRange?
     
-    private var filterDateRange: FilterDateRange?
     
+    private lazy var viewModel: PersonActionsViewModel = {
+        var vm = PersonActionsViewModel()
+        vm.delegate = self
+        return vm
+    }()
     
     public override init() {
         super.init()
@@ -64,7 +58,7 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
         super.viewDidLoad()
         
         loadingManager.noContentView.titleLabel.text = NSLocalizedString("No Actions Found", bundle: .mpolKit, comment: "")
-        updateNoContentSubtitle()
+        updateNoContentSubtitle(viewModel.noContentSubtitle())
         
         guard let collectionView = self.collectionView else { return }
         
@@ -73,11 +67,11 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
     }
     
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return actions.isEmpty ? 0 : 1
+        return viewModel.numberOfSections()
     }
     
     open override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return actions.count
+        return viewModel.numberOfItems()
     }
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -86,15 +80,11 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
         cell.selectionStyle = .fade
         cell.accessoryView  = cell.accessoryView as? FormAccessoryView ?? FormAccessoryView(style: .disclosure)
         
-        let action = actions[indexPath.item]
-        cell.titleLabel.text = action.type?.title ?? NSLocalizedString("Action (Unknown Type)", bundle: .mpolKit, comment: "")
-        if let date = action.date {
-            cell.subtitleLabel.text = DateFormatter.shortDate.string(from: date)
-        } else {
-            cell.subtitleLabel.text = NSLocalizedString("Date unknown", bundle: .mpolKit, comment: "") // TODO
-        }
+        let cellInfo = viewModel.cellInfo(for: indexPath)
         
-        cell.detailLabel.text = nil
+        cell.titleLabel.text    = cellInfo.title
+        cell.subtitleLabel.text = cellInfo.subtitle
+        cell.detailLabel.text   = cellInfo.detail
         
         return cell
     }
@@ -103,14 +93,7 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
         if kind == UICollectionElementKindSectionHeader {
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
             
-            // TODO: Refactor for StringsDict pluralization
-            let actionCount = actions.count
-            if actionCount > 0 {
-                let baseString = actionCount > 1 ? NSLocalizedString("%d ACTIONS", bundle: .mpolKit, comment: "") : NSLocalizedString("%d ACTION", bundle: .mpolKit, comment: "")
-                header.text = String(format: baseString, actionCount)
-            } else {
-                header.text = nil
-            }
+            header.text = viewModel.sectionHeader
             return header
         }
         return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
@@ -167,19 +150,16 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
                 break
             }
         }
-        reloadSections()
+        
+        viewModel.reloadSections(with: filterTypes, filterDateRange: filterDateRange)
     }
     
     
     // MARK: - Private methods
     
     @objc private func filterItemDidSelect(_ item: UIBarButtonItem) {
-        var allTypes = Set<String>()
-        person?.actions?.forEach {
-            if let type = $0.type {
-                allTypes.insert(type)
-            }
-        }
+        let allTypes = viewModel.allActionTypes
+
         let allSortedTypes = allTypes.sorted { $0.localizedStandardCompare($1) == .orderedAscending }
         
         var selectedIndexes: IndexSet
@@ -209,49 +189,31 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
         present(navController, animated: true)
     }
     
-    private func updateNoContentSubtitle() {
-        let label = loadingManager.noContentView.subtitleLabel
-        
-        if person?.actions?.isEmpty ?? true {
-            let entityDisplayName: String
-            if let entity = entity {
-                entityDisplayName = type(of: entity).localizedDisplayName.localizedLowercase
-            } else {
-                entityDisplayName = NSLocalizedString("entity", bundle: .mpolKit, comment: "")
-            }
-            
-            label.text = String(format: NSLocalizedString("This %@ has no actions", bundle: .mpolKit, comment: ""), entityDisplayName)
-        } else {
-            label.text = NSLocalizedString("This filter has no matching actions", comment: "")
-        }
+}
+
+extension PersonActionsViewController: EntityDetailsViewModelDelegate {
+    
+    public func updateSidebarItemCount(_ count: UInt) {
+        sidebarItem.count = count
     }
     
-    private func reloadSections() {
-        var actions = person?.actions ?? []
-        
+    public func updateNoContentSubtitle(_ subtitle: String? = nil) {
+        loadingManager.noContentView.subtitleLabel.text = subtitle
+    }
+    
+    public func reloadData() {
+        collectionView?.reloadData()
+    }
+    
+    public func updateFilterBarButtonItemActivity() {
         let selectActionTypes = self.filterTypes != nil
         let requiresFiltering: Bool = selectActionTypes || filterDateRange != nil
-        
-        if requiresFiltering {
-            actions = actions.filter { action in
-                if selectActionTypes {
-                    guard let type = action.type, self.filterTypes!.contains(type) else {
-                        return false
-                    }
-                }
-                if let filteredDateRange = self.filterDateRange {
-                    guard let date = action.date, filteredDateRange.contains(date) else {
-                        return false
-                    }
-                }
-                
-                return true
-            }
-        }
-        
-        self.actions = actions
         
         filterBarButtonItem.isActive = requiresFiltering
     }
     
+    public func updateLoadingState(_ state: LoadingStateManager.State) {
+        loadingManager.state = state
+    }
 }
+

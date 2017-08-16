@@ -20,12 +20,23 @@ open class Alias: NSObject, Serialisable {
     
     open var id: String
     
+    open var dateCreated: Date?
+    open var dateUpdated: Date?
+    open var createdBy: String?
+    open var updatedBy: String?
+    open var effectiveDate: Date?
+    open var expiryDate: Date?
+    open var entityType: String?
+    open var isSummary: Bool?
+    open var source: MPOLSource?
+    
+    open var type: String?
     open var firstName: String?
     open var lastName: String?
     open var middleNames: String?
-    open var sex: String?
     open var dateOfBirth: Date?
-    open var type: String?
+    open var ethnicity: String?
+    open var title: String?
     
     public required init(id: String = UUID().uuidString) {
         self.id = id
@@ -39,13 +50,24 @@ open class Alias: NSObject, Serialisable {
             throw ParsingError.missingRequiredField
         }
         self.id = id
-        firstName = unboxer.unbox(key: "givenName")
-        lastName = unboxer.unbox(key: "familyName")
-        middleNames = unboxer.unbox(key: "middleNames")
-        sex = unboxer.unbox(key: "gender")
-        dateOfBirth = unboxer.unbox(key: "dateOfBirth", formatter: Alias.dateTransformer)
-        type = unboxer.unbox(key: "aliasType")
         
+        dateCreated = unboxer.unbox(key: "dateCreated", formatter: Alias.dateTransformer)
+        dateUpdated = unboxer.unbox(key: "dateLastUpdated", formatter: Alias.dateTransformer)
+        createdBy = unboxer.unbox(key: "createdBy")
+        updatedBy = unboxer.unbox(key: "updatedBy")
+        effectiveDate = unboxer.unbox(key: "effectiveDate", formatter: Alias.dateTransformer)
+        expiryDate = unboxer.unbox(key: "expiryDate", formatter: Alias.dateTransformer)
+        entityType = unboxer.unbox(key: "entityType")
+        isSummary = unboxer.unbox(key: "isSummary")
+        source = unboxer.unbox(key: "source")
+
+        type = unboxer.unbox(key: "nameType")
+        firstName = unboxer.unbox(key: "givenName")
+        middleNames = unboxer.unbox(key: "middleNames")
+        lastName = unboxer.unbox(key: "familyName")
+        dateOfBirth = unboxer.unbox(key: "dateOfBirth", formatter: Alias.dateTransformer)
+        ethnicity = unboxer.unbox(key: "ethnicity")
+        title = unboxer.unbox(key: "title")
         super.init()
     }
     
