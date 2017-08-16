@@ -31,7 +31,7 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
             viewControllers += [
                 PersonOccurrencesViewController(),
              //   PersonActionsViewController(),
-                PersonCriminalHistoryViewController()
+             //   PersonCriminalHistoryViewController()
             ]
         case _ as Vehicle:
             viewControllers.insert(VehicleInfoViewController(), at: 0)
