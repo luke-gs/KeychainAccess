@@ -139,7 +139,7 @@ public class EntityAlertsViewModel: EntityDetailsViewModelable {
         let alertCount = alerts.count
         let level      = alerts.first!.level!
         
-        if alertCount > 0, let levelDescription = level.localizedDescription(plural: alertCount > 1) {
+        if alertCount > 0, let levelDescription = level.localizedDescription() {
             return "\(alertCount) \(levelDescription.localizedUppercase) "
         }
         return nil
@@ -189,7 +189,7 @@ public class EntityAlertsViewModel: EntityDetailsViewModelable {
         
         let alert  = self.alert(at: indexPath)!
         let title  = alert.title
-        let detail = alert.details
+        let detail = alert.details ?? "No Description"
         
         if let alertLevel = alert.level {
             if let cachedImage = statusDotCache[alertLevel] {
