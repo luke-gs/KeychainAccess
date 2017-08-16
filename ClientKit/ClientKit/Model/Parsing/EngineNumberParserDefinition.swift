@@ -9,10 +9,10 @@
 import Foundation
 import MPOLKit
 
-public enum EngineNumberParserError: QueryParsingError {
+public enum EngineNumberParserError: LocalizedError {
     case invalidLength(query: String, requiredLengthRange: CountableClosedRange<Int>)
     
-    public var message: String {
+    public var errorDescription: String? {
         switch self {
         case .invalidLength(_, let range):
             return "Engine number must be between \(range.lowerBound) and \(range.upperBound)."

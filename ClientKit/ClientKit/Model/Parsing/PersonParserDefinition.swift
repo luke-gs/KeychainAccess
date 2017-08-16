@@ -7,7 +7,7 @@
 
 import MPOLKit
 
-public enum PersonParserError: QueryParsingError {
+public enum PersonParserError: LocalizedError {
     case surnameIsNotFirst(surname: String)
     case surnameExceedsMaxLength(surname: String, maxLength: Int)
     case givenNameExceedsMaxLength(givenName: String, maxLength: Int)
@@ -18,7 +18,7 @@ public enum PersonParserError: QueryParsingError {
     case dobInvalidValues(dob: String)
     case dobDateOutOfBounds(dob: String)
     
-    public var message: String {
+    public var errorDescription: String? {
         var message = ""
         
         switch self {
