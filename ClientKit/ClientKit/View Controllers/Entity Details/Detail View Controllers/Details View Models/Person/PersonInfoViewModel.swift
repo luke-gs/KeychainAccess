@@ -27,10 +27,6 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
             
             var sections: [DetailsType] = [
                 PersonInfo(type: .header, items: nil),
-                PersonInfo(type: .details, items: [
-                    DetailItem.status,
-                    DetailItem.idn
-                    ])
             ]
             
             if let licences = person.licences, licences.count > 0 {
@@ -177,7 +173,7 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
         case .licence(let licence):
             let item = item as! LicenceItem
             title  = item.localizedTitle
-            value = item.value(for: licence)
+            value = item.value(for: licence) ?? "-"
             isProgressCell = (item == .validity)
             
             if let _ = isProgressCell {
