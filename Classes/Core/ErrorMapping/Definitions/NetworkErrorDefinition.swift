@@ -11,13 +11,13 @@ import Alamofire
 
 open class NetworkErrorDefinition: ErrorMappable {
     
+    typealias SupportedTypeError = APIManagerError
+    
     public var httpStatusCodesMessageMapping = [
         400 : "The credentials you have entered are invalid. Please try again, or contact the service desk.",
         404 : "The resource you tried to access couldn't be found. 😞",
         500 : "FISH does not like this. 😡🖕🏿",
     ]
-    
-    typealias SupportedTypeError = APIManagerError
     
     // MARK: - Error Mappable
     open func mappedError(from error: Error) -> MappedError? {
