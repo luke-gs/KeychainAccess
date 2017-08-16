@@ -43,7 +43,10 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
     }
     
     private func fetchDetails(for entity: Entity) {
-
+        let infoVC = self.detailViewControllers.first! as! EntityDetailCollectionViewController
+        
+        infoVC.loadingManager.state = .loading
+        
         switch entity {
         case _ as Person:
             let request = PersonFetchParameter(id: entity.id)
