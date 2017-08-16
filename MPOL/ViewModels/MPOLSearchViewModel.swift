@@ -32,22 +32,13 @@ class MPOLSearchRecentsViewModel: SearchRecentsViewModel {
 
     var title: String = "MPOL"
 
-    var recentlyViewed: [MPOLKitEntity] {
-        get {
-            return internalRecentlyViewed
-        }
-
-        set {
-            guard let entities = newValue as? [Entity] else { return }
-            internalRecentlyViewed = entities
-        }
-    }
-
-    private var internalRecentlyViewed: [Entity] = []
-
+    var recentlyViewed: [MPOLKitEntity] = []
+    
     func decorate(_ cell: EntityCollectionViewCell, at indexPath: IndexPath) {
-        let entity = internalRecentlyViewed[indexPath.item]
-        cell.configure(for: entity, style: .detail)
+        let entity = recentlyViewed[indexPath.item]
+        
+        cell.style = .detail
+        cell.decorate(with: entity as! EntitySummaryDisplayable)
     }
 
     func summaryIcon(for searchable: Searchable) -> UIImage? {
