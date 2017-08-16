@@ -13,6 +13,11 @@ import PromiseKit
 import Lottie
 import ClientKit
 
+#if GS_TESTING
+import HockeySDK
+#endif
+
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, LoginViewControllerDelegate, TermsConditionsViewControllerDelegate {
 
@@ -35,6 +40,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         updateInterface(forLogin: true, animated: false)
         
         window.makeKeyAndVisible()
+
+        #if GS_TESTING
+        let manager = BITHockeyManager.shared()
+        manager.configure(withIdentifier: "f9141bb9072344a5b316f83f2b2417a4")
+        manager.start()
+        manager.updateManager.updateSetting = .checkStartup
+
+        let authenticator = manager.authenticator
+        authenticator.authenticationSecret = "5de18549749959214aa44495e09faad5"
+        authenticator.identificationType = .hockeyAppEmail
+        authenticator.authenticateInstallation()
+        #endif
         
         return true
     }
