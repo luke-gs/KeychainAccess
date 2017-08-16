@@ -14,7 +14,7 @@ import Lottie
 import ClientKit
 
 #if GS_TESTING
-import HockeySDK
+    import HockeySDK
 #endif
 
 
@@ -45,8 +45,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             let manager = BITHockeyManager.shared()
             manager.configure(withIdentifier: "f9141bb9072344a5b316f83f2b2417a4")
             manager.start()
+
             manager.updateManager.updateSetting = .checkStartup
-            
             manager.crashManager.crashManagerStatus = .autoSend
             
             let authenticator = manager.authenticator
