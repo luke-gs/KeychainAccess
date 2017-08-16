@@ -238,6 +238,7 @@
 		12F057231F3BFCBC00CAD6F6 /* SearchResultsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsTests.swift; sourceTree = "<group>"; };
 		12F057271F3C0F5600CAD6F6 /* EntitySearchRequestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySearchRequestTests.swift; sourceTree = "<group>"; };
 		12F057291F3C106D00CAD6F6 /* QueryParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryParserTests.swift; sourceTree = "<group>"; };
+		191F77411F44F6C5008BBA44 /* MPOLKitPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MPOLKitPlayground.playground; sourceTree = SOURCE_ROOT; };
 		19975D8E1F4414AF00E51469 /* ErrorMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMapperTests.swift; sourceTree = "<group>"; };
 		19DE98CB1F42651C0063F394 /* SortDescriptorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortDescriptorTests.swift; sourceTree = "<group>"; };
 		19DE98CE1F4265540063F394 /* OAuthAccessToken.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = OAuthAccessToken.json; sourceTree = "<group>"; };
@@ -930,6 +931,7 @@
 				BC9C7D161F0DED6600DFFE83 /* Classes */,
 				C605F8A11ECCAD3B001194DD /* Assets */,
 				C60C89261ECD420900785932 /* Info.plist */,
+				191F77411F44F6C5008BBA44 /* MPOLKitPlayground.playground */,
 			);
 			name = MPOLKit;
 			path = Classes;
