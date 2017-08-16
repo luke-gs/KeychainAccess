@@ -167,7 +167,7 @@ class SearchRecentsViewController: FormCollectionViewController {
             isRecentSearches = collectionView == self.collectionView
         }
         
-        return isRecentSearches ? recentlySearched.count : (recentlyViewed.count <= 6  ? recentlyViewed.count : 6)
+        return isRecentSearches ? recentlySearched.count : min(recentlyViewed.count, 6)
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
