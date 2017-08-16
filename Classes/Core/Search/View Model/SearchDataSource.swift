@@ -65,6 +65,9 @@ public protocol SearchDataSource {
     /// The search placeholder
     var searchPlaceholder: NSAttributedString? { get }
     
+    /// The buttons to be one the right of the search field
+    var additionalSearchFieldButtons: [UIButton]? { get }
+    
     /// The updating delegate. This lets the search view controllers know when you've updated any of the filters
     weak var updatingDelegate: SearchDataSourceUpdating? { get set }
 
@@ -96,9 +99,27 @@ public protocol SearchDataSource {
     ///  - searchable: the searchable
     /// - Returns: if passes validation return nil, else returns an error string
     func passValidation(for searchable: Searchable) -> String?
+    
+    /// Handle selected options when searchable is selected.
+    ///
+    /// - Parameters:
+    ///   - options: the selected options.
+    func setSelectedOptions(options: [Int: String])
+    
+    /// Notified when becoming active
+    ///
+    /// - Parameters:
+    ///   - viewController: the view controller.
+    func didBecomeActive(inViewController viewController: UIViewController)
+    
+    
 }
 
 public protocol SearchDataSourceUpdating: class {
     func searchDataSourceRequestDidChange(_ dataSource: SearchDataSource)
     func searchDataSource(_ dataSource: SearchDataSource, didUpdateFilterAt index: Int)
+}
+
+public extension SearchDataSource {
+    func setSelectedOptions(options: [Int : String]) {}
 }

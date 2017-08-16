@@ -401,6 +401,8 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
     @objc private func displaySearchTriggered() {
         func showSearchDetails() {
             // Reset every data source prior to presenting.
+            searchOptionsViewController.resetSearch()
+            
             setShowingSearchOptions(true, animated: true)
             searchOptionsViewController.beginEditingSearchField()
         }
