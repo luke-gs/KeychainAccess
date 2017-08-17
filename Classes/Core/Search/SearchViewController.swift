@@ -321,7 +321,7 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
     // MARK: - SearchOptionsViewControllerDelegate
 
     func searchOptionsController(_ controller: SearchOptionsViewController, didFinishWith searchable: Searchable) {
-        do {
+    
             let dataSource = self.viewModel.dataSources.filter{ $0.localizedDisplayName == searchable.type }.first
 
             guard let datasource = dataSource else { return }
@@ -347,9 +347,6 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
                     self.recentlySearched.insert(searchable, at: 0)
                 }
             }
-        } catch {
-            // TODO: Error handling
-        }
     }
 
     func searchOptionsControllerDidCancel(_ controller: SearchOptionsViewController) {

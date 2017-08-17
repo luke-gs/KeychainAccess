@@ -57,9 +57,9 @@ public class SearchResultLoadingCell: UICollectionViewCell, DefaultReusable {
     public func apply(theme: Theme) {
         titleLabel.textColor = theme.color(forKey: .secondaryText)
         
-        let color = theme.color(forKey: .tint)
-        
-        activityIndicator.setValue(color, forKeypath: "Shape Layer 1.small_circle.Stroke 1.Color", atFrame: 0)
-        activityIndicator.setValue(color, forKeypath: "Shape Layer 1.big_circle.Stroke 1.Color", atFrame: 0)
+        if let color = theme.color(forKey: .tint) {
+            activityIndicator.setValue(color, forKeypath: "Shape Layer 1.small_circle.Stroke 1.Color", atFrame: 0)
+            activityIndicator.setValue(color, forKeypath: "Shape Layer 1.big_circle.Stroke 1.Color", atFrame: 0)
+        }
     }
 }
