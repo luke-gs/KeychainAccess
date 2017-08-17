@@ -257,7 +257,7 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
                     view.setNeedsLayout()
                     view.layoutIfNeeded()
                     dimmingView.alpha = 1.0
-                }, completion: { [unowned self](finished: Bool) in
+                }, completion: { _ in
                     optionsVC.endAppearanceTransition()
                 })
                 optionsVC.beginEditingSearchField(selectingAllText: true)
