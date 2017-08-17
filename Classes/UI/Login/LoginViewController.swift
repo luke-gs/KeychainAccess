@@ -282,7 +282,14 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     
     private var contentStackView: UIStackView?
     
-    private var loadingIndicator: LOTAnimationView?
+    private var loginStackView: UIStackView?
+    
+    private lazy var loadingIndicator: LOTAnimationView? = {
+        let spinner = MPOLSpinnerView(style: .regular)
+        spinner.isHidden = true
+        self.loginStackView?.insertArrangedSubview(spinner, at: 0)
+        return spinner
+    }()
     
     private var preferredLayoutGuideBottomConstraint: NSLayoutConstraint?
     
@@ -396,12 +403,8 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         credentialsView.addSubview(passwordField)
         credentialsView.addSubview(forgotPasswordButton)
         
-        let loadingIndicator = LOTAnimationView.animation(style: .spinner)
-        loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
-        loadingIndicator.isHidden = true
-        
-        let loginStackView = UIStackView(arrangedSubviews: [loadingIndicator, loginButton, termsAndConditionsLabel])
-        loginStackView.axis = .vertical
+        let loginStackView = UIStackView(arrangedSubviews: [loginButton, termsAndConditionsLabel])
+        loginStackView.axis      = .vertical
         loginStackView.alignment = .center
         loginStackView.spacing   = 20.0
         
@@ -424,6 +427,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         self.backgroundView   = backgroundView
         self.scrollView       = scrollView
         self.contentStackView = contentStackView
+        self.loginStackView   = loginStackView
         
         self.view = backgroundView
         
@@ -437,9 +441,6 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         
         let loginButtonIndicatorHeightConstraint = loginButton.heightAnchor.constraint(equalToConstant: 48.0)
         loginButtonIndicatorHeightConstraint.priority = UILayoutPriorityDefaultHigh
-        
-        let loadingIndicatorHeightConstraint = loadingIndicator.heightAnchor.constraint(equalToConstant: 48.0)
-        loadingIndicatorHeightConstraint.priority = UILayoutPriorityDefaultHigh
         
         var constraints = [
             
@@ -477,10 +478,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
             loginStackView.trailingAnchor.constraint(lessThanOrEqualTo: view.readableContentGuide.trailingAnchor),
             
             versionLabel.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor, constant: -24.0),
-            versionLabel.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: -24.0),
-            
-            loadingIndicatorHeightConstraint,
-            loadingIndicator.widthAnchor.constraint(equalToConstant: 48.0)
+            versionLabel.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: -24.0)
         ]
         
         
@@ -498,7 +496,6 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         self.separatorHeightConstraint            = separatorHeightConstraint
         self.showingHeaderConstraint              = showingHeaderConstraint
         self.forgotPasswordSeparation             = forgotPasswordSeparation
-        self.loadingIndicator                     = loadingIndicator
         
     }
     

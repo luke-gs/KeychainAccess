@@ -7,12 +7,11 @@
 //
 
 import Foundation
-import Lottie
 
 public class SearchResultLoadingCell: UICollectionViewCell, DefaultReusable {
     public let titleLabel = UILabel(frame: .zero)
     
-    public let activityIndicator = LOTAnimationView.animation(style: .spinner)
+    public let activityIndicator = MPOLSpinnerView(style: .regular)
     
     private let container = UIView(frame: .zero)
     
@@ -56,10 +55,6 @@ public class SearchResultLoadingCell: UICollectionViewCell, DefaultReusable {
     
     public func apply(theme: Theme) {
         titleLabel.textColor = theme.color(forKey: .secondaryText)
-        
-        if let color = theme.color(forKey: .tint) {
-            activityIndicator.setValue(color, forKeypath: "Shape Layer 1.small_circle.Stroke 1.Color", atFrame: 0)
-            activityIndicator.setValue(color, forKeypath: "Shape Layer 1.big_circle.Stroke 1.Color", atFrame: 0)
-        }
+        activityIndicator.color = theme.color(forKey: .tint)
     }
 }
