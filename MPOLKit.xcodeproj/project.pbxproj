@@ -26,6 +26,8 @@
 		19FEC9861F43F827005692A9 /* MappedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19FEC9811F43F6BA005692A9 /* MappedError.swift */; };
 		19FEC9891F440326005692A9 /* NetworkErrorDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19FEC9881F440326005692A9 /* NetworkErrorDefinition.swift */; };
 		19FEC98C1F440E2E005692A9 /* MappedErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19FEC98B1F440E2E005692A9 /* MappedErrorTests.swift */; };
+		469EB5811F452FAB0005CAF7 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469EB5801F452FAB0005CAF7 /* LoginViewController.swift */; };
+		469EB5831F45320A0005CAF7 /* LoginHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469EB5821F45320A0005CAF7 /* LoginHeaderView.swift */; };
 		8CDAFFA6E9DC54A4594C01FE /* Pods_MPOLKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FE1AAA01D6AE18F86693DF8 /* Pods_MPOLKitTests.framework */; };
 		BA6FEAA4EFE7F66EBAE4C2DC /* Pods_MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9215372B17F43A2FDEB28AD0 /* Pods_MPOLKit.framework */; };
 		BC0448941F219A70005FB857 /* AssetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0448931F219A70005FB857 /* AssetManager.swift */; };
@@ -131,7 +133,6 @@
 		BC9C7E351F0DED6600DFFE83 /* KeyboardInputManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D9E1F0DED6600DFFE83 /* KeyboardInputManager.swift */; };
 		BC9C7E361F0DED6600DFFE83 /* KeyboardNumberBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D9F1F0DED6600DFFE83 /* KeyboardNumberBar.swift */; };
 		BC9C7E371F0DED6600DFFE83 /* KeyboardAnimationDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DA01F0DED6600DFFE83 /* KeyboardAnimationDetails.swift */; };
-		BC9C7E381F0DED6600DFFE83 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DA11F0DED6600DFFE83 /* LoginViewController.swift */; };
 		BC9C7E3C1F0DED6600DFFE83 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DA71F0DED6600DFFE83 /* FilterViewController.swift */; };
 		BC9C7E3D1F0DED6600DFFE83 /* PickerTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DA81F0DED6600DFFE83 /* PickerTableViewController.swift */; };
 		BC9C7E3E1F0DED6600DFFE83 /* PopoverDatePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DA91F0DED6600DFFE83 /* PopoverDatePickerViewController.swift */; };
@@ -249,6 +250,8 @@
 		19FEC9881F440326005692A9 /* NetworkErrorDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrorDefinition.swift; sourceTree = "<group>"; };
 		19FEC98B1F440E2E005692A9 /* MappedErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MappedErrorTests.swift; sourceTree = "<group>"; };
 		1FE1AAA01D6AE18F86693DF8 /* Pods_MPOLKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOLKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		469EB5801F452FAB0005CAF7 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		469EB5821F45320A0005CAF7 /* LoginHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginHeaderView.swift; sourceTree = "<group>"; };
 		70E8FDF2F522A8C05328E451 /* Pods-MPOLKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKitTests/Pods-MPOLKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		792BA6D7922A9D3748B70A23 /* Pods-MPOLKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKit/Pods-MPOLKit.release.xcconfig"; sourceTree = "<group>"; };
 		9215372B17F43A2FDEB28AD0 /* Pods_MPOLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -357,7 +360,6 @@
 		BC9C7D9E1F0DED6600DFFE83 /* KeyboardInputManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardInputManager.swift; sourceTree = "<group>"; };
 		BC9C7D9F1F0DED6600DFFE83 /* KeyboardNumberBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardNumberBar.swift; sourceTree = "<group>"; };
 		BC9C7DA01F0DED6600DFFE83 /* KeyboardAnimationDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardAnimationDetails.swift; sourceTree = "<group>"; };
-		BC9C7DA11F0DED6600DFFE83 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		BC9C7DA71F0DED6600DFFE83 /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		BC9C7DA81F0DED6600DFFE83 /* PickerTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerTableViewController.swift; sourceTree = "<group>"; };
 		BC9C7DA91F0DED6600DFFE83 /* PopoverDatePickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverDatePickerViewController.swift; sourceTree = "<group>"; };
@@ -519,6 +521,15 @@
 				19FEC98B1F440E2E005692A9 /* MappedErrorTests.swift */,
 			);
 			path = ErrorMapping;
+			sourceTree = "<group>";
+		};
+		469EB57F1F452F950005CAF7 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				469EB5801F452FAB0005CAF7 /* LoginViewController.swift */,
+				469EB5821F45320A0005CAF7 /* LoginHeaderView.swift */,
+			);
+			path = Login;
 			sourceTree = "<group>";
 		};
 		AB742C85EFCBDE4BA2B497CE /* Pods */ = {
@@ -755,6 +766,7 @@
 		BC9C7D821F0DED6600DFFE83 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				469EB57F1F452F950005CAF7 /* Login */,
 				EA3C89011F32A6CB00F38461 /* Lottie */,
 				BC9C7D831F0DED6600DFFE83 /* Abstract View Controllers */,
 				BC9C7D891F0DED6600DFFE83 /* AlertQueue.swift */,
@@ -764,7 +776,6 @@
 				BC9C7D901F0DED6600DFFE83 /* Extensions */,
 				BC9C7D9D1F0DED6600DFFE83 /* Keyboard Input */,
 				BC9C7DA01F0DED6600DFFE83 /* KeyboardAnimationDetails.swift */,
-				BC9C7DA11F0DED6600DFFE83 /* LoginViewController.swift */,
 				BC9C7DA51F0DED6600DFFE83 /* Picker View Controllers */,
 				BC9C7DAA1F0DED6600DFFE83 /* Popover & Form Sheet */,
 				BC1B25B91F2707270090C0AA /* MPOLBarButtonItems.swift */,
@@ -1467,6 +1478,7 @@
 				BC9C7DEF1F0DED6600DFFE83 /* Transformer.swift in Sources */,
 				BC9C7E4A1F0DED6600DFFE83 /* TermsConditionsViewController.swift in Sources */,
 				BC9C7E531F0DED6600DFFE83 /* GradientView.swift in Sources */,
+				469EB5811F452FAB0005CAF7 /* LoginViewController.swift in Sources */,
 				EABAB8041F342E450071A401 /* AggregatedSearchRequest.swift in Sources */,
 				BC9C7DCD1F0DED6600DFFE83 /* ArchivedManifestEntry.swift in Sources */,
 				BCC6F74E1F2FF91200F05F65 /* MapCollectionViewController.swift in Sources */,
@@ -1485,6 +1497,7 @@
 				BC9C7E511F0DED6600DFFE83 /* FormAccessoryCheckmark.swift in Sources */,
 				BC9C7E151F0DED6600DFFE83 /* TableViewFormTextViewCell.swift in Sources */,
 				C63408551F30E541000747B0 /* EntitySearchRequestable.swift in Sources */,
+				469EB5831F45320A0005CAF7 /* LoginHeaderView.swift in Sources */,
 				DB88BCE51F42D01C0056FD69 /* SortDescriptor.swift in Sources */,
 				BC9C7DD81F0DED6600DFFE83 /* NetworkMonitor.swift in Sources */,
 				BC9C7DF01F0DED6600DFFE83 /* EpochDateTransformer+UnboxFormatter.swift in Sources */,
@@ -1505,7 +1518,6 @@
 				BC9C7E0A1F0DED6600DFFE83 /* UITraitCollection+CurrentDisplayScale.swift in Sources */,
 				BC9C7E4F1F0DED6600DFFE83 /* CircleIconView.swift in Sources */,
 				BCFA067E1F3176A3002FA1FF /* MapCollectionViewLayout.swift in Sources */,
-				BC9C7E381F0DED6600DFFE83 /* LoginViewController.swift in Sources */,
 				BC9C7E461F0DED6600DFFE83 /* SidebarViewController.swift in Sources */,
 				BCC5132F1F333B2000413961 /* FormAccessoryView.swift in Sources */,
 				BC9C7E3C1F0DED6600DFFE83 /* FilterViewController.swift in Sources */,
