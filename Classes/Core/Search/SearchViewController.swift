@@ -253,22 +253,20 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
                 
                 // re-enable and animate.
                 isShowingSearchOptions = true
-                UIView.animate(withDuration: searchAnimationDuration, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0,
-                               animations: {
-                                   view.setNeedsLayout()
-                                   view.layoutIfNeeded()
-                                   dimmingView.alpha = 1.0
-                               },
-                               completion: { [unowned self](finished: Bool) in
-                                   optionsVC.endAppearanceTransition()
-                                    self.searchOptionsViewController.beginEditingSearchField(selectingAllText: true)
-                               })
+                UIView.animate(withDuration: searchAnimationDuration, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0, animations: {
+                    view.setNeedsLayout()
+                    view.layoutIfNeeded()
+                    dimmingView.alpha = 1.0
+                }, completion: { _ in
+                    optionsVC.endAppearanceTransition()
+                })
+                optionsVC.beginEditingSearchField(selectingAllText: true)
             } else {
                 dimmingView.alpha = 1.0
                 view.setNeedsLayout()
                 view.layoutIfNeeded()
                 optionsVC.endAppearanceTransition()
-                searchOptionsViewController.beginEditingSearchField(selectingAllText: true)
+                optionsVC.beginEditingSearchField(selectingAllText: true)
             }
         } else {
             let dimmingView = self.searchDimmingView
@@ -310,7 +308,6 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
     func searchRecentsController(_ controller: SearchRecentsViewController, didSelectRecentSearch recentSearch: Searchable) {
         searchOptionsViewController.setCurrent(searchable: recentSearch)
         setShowingSearchOptions(true, animated: true)
-        searchOptionsViewController.beginEditingSearchField(selectingAllText: true)
     }
 
     func searchRecentsControllerDidSelectNewSearch(_ controller: SearchRecentsViewController) {
@@ -401,7 +398,6 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
             searchOptionsViewController.resetSearch()
             
             setShowingSearchOptions(true, animated: true)
-            searchOptionsViewController.beginEditingSearchField()
         }
 
         if presentedViewController != nil {
