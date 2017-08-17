@@ -14,7 +14,7 @@ public final class LoginHeaderView: UIView {
     public let subtitleLabel: UILabel = UILabel()
     public let imageView: UIImageView = UIImageView()
 
-    public convenience init(title: String, subtitle: String, image: UIImage) {
+    public convenience init(title: String?, subtitle: String?, image: UIImage?) {
         self.init(frame: .zero)
 
         titleLabel.text = title
@@ -24,7 +24,7 @@ public final class LoginHeaderView: UIView {
 
     public override init(frame: CGRect) {
 
-        super.init(frame: .zero)
+        super.init(frame: frame)
 
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.text = "mPol"
