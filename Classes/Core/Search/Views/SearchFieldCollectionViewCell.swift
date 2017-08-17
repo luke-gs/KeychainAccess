@@ -81,8 +81,6 @@ class SearchFieldCollectionViewCell: CollectionViewFormCell {
         textField.textAlignment = .center
         textField.returnKeyType = .search
         textField.enablesReturnKeyAutomatically = true
-        textField.adjustsFontSizeToFitWidth = true
-        textField.minimumFontSize = 12.0
         textField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("Search", comment: ""),
                                                              attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 28.0, weight: UIFontWeightLight), NSForegroundColorAttributeName: UIColor.lightGray])
        

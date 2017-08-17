@@ -29,7 +29,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         if text.isEmpty { return 0.0 }
         
         let font = UIFont.preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
-        let textBounds = (text as NSString).boundingRect(with: CGSize(width: contentWidth, height: .greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
+        let textBounds = (text as NSString).boundingRect(with: CGSize(width: contentWidth, height: .greatestFiniteMagnitude), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: [NSFontAttributeName: font], context: nil)
         return textBounds.height.ceiled(toScale: traitCollection.currentDisplayScale) + 12.0
     }
     
