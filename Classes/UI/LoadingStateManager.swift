@@ -331,6 +331,7 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
                 contentInsetRightConstraint = contentInsetGuide.rightAnchor.constraint(equalTo: newView.rightAnchor, constant: -contentInsets.right)
                 contentInsetTopConstraint = contentInsetGuide.topAnchor.constraint(equalTo: newView.topAnchor, constant: contentInsets.bottom)
                 contentInsetBottomConstraint = contentInsetGuide.bottomAnchor.constraint(equalTo: newView.bottomAnchor, constant: -contentInsets.bottom)
+                contentInsetBottomConstraint!.priority = UILayoutPriorityDefaultHigh
 //            }
             
             NSLayoutConstraint.activate([
