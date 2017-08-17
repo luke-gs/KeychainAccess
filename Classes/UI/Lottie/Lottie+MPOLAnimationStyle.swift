@@ -6,37 +6,35 @@
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 
+import Foundation
 import Lottie
 
-/// MPOL supported animation style to used with LOTAnimationView.
-///
-/// The resource files are guaranteed to be in the lottie directory.
-public enum MPLAnimationStyle {
-    case spinner
-}
 
-private let LottieDirectory = "Lottie"
-private let LottieType      = "json"
+protocol MPOLAnimatable {
+    static var fileURL: URL { get }
+}
 
 public extension LOTAnimationView {
     
-    /// Create an animation with specific style.
-    ///
-    /// - Parameters:
-    ///   - style: The style of the animation.
-    /// - Returns: A preconfigured LOTAnimationView
-    static func animation(style: MPLAnimationStyle) -> LOTAnimationView {
-        let bundle = Bundle.mpolKit
-    
-        let view: LOTAnimationView
+    /// Preload MPOL animations
+    static func preloadMPOLAnimations() {
+        let animations: [MPOLAnimatable.Type] = [MPOLSpinnerView.self]
         
-        switch style {
-        case .spinner:
-            view = LOTAnimationView(filePath: bundle.path(forResource: "spinner", ofType: LottieType, inDirectory: LottieDirectory)!)
-            view.loopAnimation = true
+        DispatchQueue.global().async {
+            animations.forEach { (animation) in
+                let url = animation.fileURL
+                
+                let data = try! Data(contentsOf: url)
+                if let json = try! JSONSerialization.jsonObject(with: data) as? [AnyHashable: Any] {
+                    let composition = LOTComposition(json: json, withAssetBundle: Bundle.mpolKit)
+                    
+                    DispatchQueue.main.async {
+                        LOTAnimationCache.shared().addAnimation(composition!, forKey: url.absoluteString)
+                    }
+                }
+            }
         }
-        
-        return view
     }
- 
+
 }
+

@@ -7,10 +7,14 @@
 //
 
 import Foundation
+import Lottie
 
 // Temporary: Performs default setup for MPOLKit applications
 public func MPOLKitInitialize() {
     
     // Access the keyboard input manager to start it managing all text entry.
     _ = KeyboardInputManager.shared
+    
+    // Preload MPOL animations
+    LOTAnimationView.preloadMPOLAnimations()
 }
