@@ -10,20 +10,14 @@ import Foundation
 import Lottie
 
 
-protocol MPOLAnimatable {
-    static var fileURL: URL { get }
-}
-
 public extension LOTAnimationView {
     
     /// Preload MPOL animations
     static func preloadMPOLAnimations() {
-        let animations: [MPOLAnimatable.Type] = [MPOLSpinnerView.self]
+        let urls: [URL] = [MPOLSpinnerView.fileURL]
         
         DispatchQueue.global().async {
-            animations.forEach { (animation) in
-                let url = animation.fileURL
-                
+            urls.forEach { (url) in
                 let data = try! Data(contentsOf: url)
                 if let json = try! JSONSerialization.jsonObject(with: data) as? [AnyHashable: Any] {
                     let composition = LOTComposition(json: json, withAssetBundle: Bundle.mpolKit)

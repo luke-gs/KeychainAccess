@@ -22,7 +22,7 @@ public enum MPOLSpinnerStyle {
 }
 
 
-public class MPOLSpinnerView: LOTAnimationView, MPOLAnimatable {
+public class MPOLSpinnerView: LOTAnimationView {
 
     static var fileURL: URL = Bundle.mpolKit.url(forResource: "spinner", withExtension: LottieType, subdirectory: LottieDirectory)!
 
