@@ -200,6 +200,8 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         
         let wasSearchFieldActive = self.searchFieldCell?.textField.isFirstResponder ?? false
         
+        let selectedTextRange = self.searchFieldCell?.textField.selectedTextRange
+        
         collectionView.reloadData()
         
         selectedIndexPaths.forEach {
@@ -207,26 +209,33 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         }
         
         if wasSearchFieldActive {
-            beginEditingSearchField()
+            beginEditingSearchField(selectedTextRange: selectedTextRange)
         }
     }
     
     
     // MARK: - Editing
     
-    func beginEditingSearchField(selectingAllText: Bool = false) {
+    func beginEditingSearchField(selectedTextRange: UITextRange?) {
         collectionView?.selectItem(at: indexPathForSearchFieldCell, animated: false, scrollPosition: [])
         
         searchErrorMessage = nil
         
         if let textField = searchFieldCell?.textField {
             textField.becomeFirstResponder()
-            if selectingAllText {
-                textField.selectedTextRange = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
-            }
+            textField.selectedTextRange = selectedTextRange
         }
         
         isEditingTextField = true
+    }
+
+    
+    func beginEditingSearchField(selectingAllText: Bool = false) {
+        var selectedTextRange: UITextRange?
+        if let textField = searchFieldCell?.textField {
+            selectedTextRange = searchFieldCell?.textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
+        }
+        beginEditingSearchField(selectedTextRange: selectedTextRange)
     }
 
     
