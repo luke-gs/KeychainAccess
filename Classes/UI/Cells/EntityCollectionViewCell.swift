@@ -284,7 +284,7 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
                 styleConstraints = [
                     NSLayoutConstraint(item: thumbnailView, attribute: .width,   relatedBy: .equal, toConstant: 184.0),
                     NSLayoutConstraint(item: thumbnailView, attribute: .height,  relatedBy: .equal, toConstant: 160.0),
-                    NSLayoutConstraint(item: thumbnailView, attribute: .top,     relatedBy: .equal, toItem: contentModeGuide, attribute: .top),
+                    NSLayoutConstraint(item: thumbnailView, attribute: .top,     relatedBy: .equal, toItem: contentView, attribute: .topMargin),
                     NSLayoutConstraint(item: thumbnailView, attribute: .leading, relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .leading),
                     NSLayoutConstraint(item: thumbnailView, attribute: .centerX, relatedBy: .equal, toItem: contentModeGuide, attribute: .centerX, priority: UILayoutPriorityRequired - 1),
                     
