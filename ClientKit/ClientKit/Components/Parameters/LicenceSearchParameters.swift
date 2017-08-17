@@ -13,17 +13,17 @@ import Wrap
 
 public class LicenceSearchParameters: EntitySearchRequest<Person> {
     
-    public init(licence: String) {
-        let parameterisable = SearchParameters(licence: licence)
+    public init(licenceNumber: String) {
+        let parameterisable = SearchParameters(licenceNumber: licenceNumber)
         
         super.init(parameters: parameterisable.parameters)
     }
     
     private struct SearchParameters: Parameterisable {
-        public let licence: String
+        public let licenceNumber: String
         
-        public init(licence: String) {
-            self.licence = licence
+        public init(licenceNumber: String) {
+            self.licenceNumber = licenceNumber
         }
         
         public var parameters: [String: Any] {
