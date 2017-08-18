@@ -43,21 +43,19 @@ import PromiseKit
 open class APIManager<Configuration: APIManagerConfigurable> {
     
     open let sessionManager: SessionManager
-    
     open let baseURL: URL
-    
+    open let errorMapper: ErrorMapper?
+    open let configuration: Configuration
+
     private let urlQueryBuilder = URLQueryBuilder()
-    
-    let configuration: Configuration
-    
-    public init(configuration: Configuration, trustPolicyManager: ServerTrustPolicyManager? = nil) {
+
+    public init(configuration: Configuration) {
         self.configuration = configuration
-        self.baseURL = try! configuration.url.asURL()
-        
-        let configuration = URLSessionConfiguration.ephemeral
-        configuration.httpAdditionalHeaders = SessionManager.defaultHTTPHeaders
-        sessionManager = SessionManager(configuration: configuration,
-                                        serverTrustPolicyManager: trustPolicyManager)
+        baseURL = try! configuration.url.asURL()
+        errorMapper = configuration.errorMapper
+
+        sessionManager = SessionManager(configuration: configuration.urlSessionConfiguration,
+                                        serverTrustPolicyManager: configuration.trustPolicyManager)
     }
     
     /// Request for access token.
@@ -150,7 +148,8 @@ open class APIManager<Configuration: APIManagerConfigurable> {
         progress.pausingHandler = {
             dataRequest.suspend()
         }
-        
+
+        let mapper = errorMapper
         return Promise { fulfill, reject in
             dataRequest.validate().responseObject(completionHandler: { (response: DataResponse<T>) in
                 switch response.result {
@@ -158,7 +157,11 @@ open class APIManager<Configuration: APIManagerConfigurable> {
                     fulfill(result)
                 case .failure(let error):
                     let wrappedError = APIManagerError(underlyingError: error, response: response.toDefaultDataResponse())
-                    reject(wrappedError)
+                    if let mapper = mapper {
+                        reject(mapper.mappedError(from: wrappedError))
+                    } else {
+                        reject(wrappedError)
+                    }
                 }
             })
         }
