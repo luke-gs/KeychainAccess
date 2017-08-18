@@ -12,20 +12,25 @@ import Alamofire
 open class NetworkErrorDefinition: ErrorMappable {
     
     typealias SupportedTypeError = APIManagerError
-    
-    public var httpStatusCodesMessageMapping = [
-        400 : "The credentials you have entered are invalid. Please try again, or contact the service desk.",
-        404 : "The resource you tried to access couldn't be found. 😞",
-        500 : "FISH does not like this. 😡🖕🏿",
+
+    static public let defaultHTTPStatusCodesMap = [
+        400 : (title: "Authentication Failed", message:"The username or password that you entered does not match our records."),
+        404 : (title: "Not Found", message: "The resource you tried to access couldn't be found. 😞"),
+        500 : (title: "Unknown Error", message: "A unknown error has occurred. 😡"),
     ]
-    
+
+    public let httpStatusCodesMap: [Int: (title: String, message: String)]
+
+    public init(httpStatusCodesMap: [Int: (title: String, message: String)] = NetworkErrorDefinition.defaultHTTPStatusCodesMap) {
+        self.httpStatusCodesMap = httpStatusCodesMap
+    }
+
     // MARK: - Error Mappable
     open func mappedError(from error: Error) -> MappedError? {
         if let error = error as? SupportedTypeError {
-            
             if let statusCode = error.response.response?.statusCode,
-               let errorDescription = httpStatusCodesMessageMapping[statusCode] {
-                return MappedError(errorDescription: errorDescription, underlyingError: error)
+               let map = httpStatusCodesMap[statusCode] {
+                return MappedError(errorDescription: map.message, failureReason:map.title, underlyingError: error)
             }
         }
         return nil
