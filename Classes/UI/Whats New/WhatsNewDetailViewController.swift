@@ -111,15 +111,13 @@ public class WhatsNewDetailViewController: UIViewController {
         
         if let titleLabel = titleLabel {
             NSLayoutConstraint.activate([
-                titleLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 256),
-                titleLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5).withPriority(UILayoutPriorityRequired - 1),
-                ])
+                titleLabel.widthAnchor.constraint(equalToConstant: 400).withPriority(UILayoutPriorityDefaultHigh)
+            ])
         }
         
         if let detailLabel = detailLabel {
             NSLayoutConstraint.activate([
-                detailLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 256),
-                detailLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5).withPriority(UILayoutPriorityRequired - 1),
+                detailLabel.widthAnchor.constraint(equalToConstant: 400).withPriority(UILayoutPriorityDefaultHigh)
             ])
         }
     }
