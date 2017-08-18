@@ -456,9 +456,13 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     func collectionView(_ collectionView: UICollectionView, heightForGlobalHeaderInLayout layout: CollectionViewFormLayout) -> CGFloat {
         return 12.0
     }
-    
-    func collectionView(_ collectionView: UICollectionView, heightForGlobalFooterInLayout layout: CollectionViewFormLayout) -> CGFloat {
-        return 32.0
+
+    func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForValidationAccessoryAt indexPath: IndexPath, givenContentWidth contentWidth: CGFloat) -> CGFloat {
+        if let errorMessage = searchErrorMessage {
+            return SearchFieldCollectionViewCell.heightForValidationAccessory(withText: errorMessage, contentWidth: contentWidth, compatibleWith: traitCollection) + layout.itemLayoutMargins.bottom
+        }
+        return layout.itemLayoutMargins.bottom
+
     }
     
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
