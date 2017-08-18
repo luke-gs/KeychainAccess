@@ -330,7 +330,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         case UICollectionElementKindSectionHeader:
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
             header.showsExpandArrow = false
-            header.text             = "FILTER SEARCH"
+            header.text             = NSLocalizedString("SEARCH FILTER", comment: "Search - Search Filter title")
             return header
         default:
             return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
