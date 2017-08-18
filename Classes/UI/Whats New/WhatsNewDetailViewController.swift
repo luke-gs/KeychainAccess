@@ -66,7 +66,7 @@ public class WhatsNewDetailViewController: UIViewController {
         // set up image view
         if let image = item.image {
             let imageView = UIImageView(image: image)
-            imageView.contentMode = .center
+            imageView.contentMode = .scaleAspectFit
             imageView.translatesAutoresizingMaskIntoConstraints = false
             stackView.addArrangedSubview(imageView)
             self.imageView = imageView
@@ -79,6 +79,7 @@ public class WhatsNewDetailViewController: UIViewController {
             label.translatesAutoresizingMaskIntoConstraints = false
             label.numberOfLines = 0
             label.textAlignment = .center
+            label.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
             stackView.addArrangedSubview(label)
             self.titleLabel = label
         }
@@ -91,6 +92,7 @@ public class WhatsNewDetailViewController: UIViewController {
             label.numberOfLines = 0
             label.textAlignment = .center
             label.adjustsFontSizeToFitWidth = true
+            label.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
             stackView.addArrangedSubview(label)
             self.detailLabel = label
         }
@@ -103,6 +105,8 @@ public class WhatsNewDetailViewController: UIViewController {
             stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor).withPriority(UILayoutPriorityRequired - 1),
             stackView.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor, constant: -128),
             stackView.topAnchor.constraint(greaterThanOrEqualTo: view.topAnchor, constant: 64),
+            stackView.leadingAnchor.constraint(greaterThanOrEqualTo: view.layoutMarginsGuide.leadingAnchor),
+            stackView.trailingAnchor.constraint(lessThanOrEqualTo: view.layoutMarginsGuide.trailingAnchor),
         ])
         
         if let titleLabel = titleLabel {
