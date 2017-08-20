@@ -19,8 +19,7 @@ private let host = "api-dev.mpol.solutions"
 
 public struct MPOLAPIManager {
     private static var sharedAPIManager = MPOLAPIManager()
-    private var apiManager = APIManager(configuration: APIManagerDefaultConfiguration<MPOLSource>(url: "https://\(host)",
-                                        trustPolicyManager: ServerTrustPolicyManager(policies: [host: .disableEvaluation])))
+    private var apiManager = APIManager(configuration: APIManagerDefaultConfiguration<MPOLSource>(url: "https://\(host)", trustPolicyManager: ServerTrustPolicyManager(policies: [host: .disableEvaluation])))
     
     public static var shared = MPOLAPIManager.sharedAPIManager.apiManager {
         didSet {

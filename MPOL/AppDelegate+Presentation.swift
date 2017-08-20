@@ -145,7 +145,10 @@ extension AppDelegate: LoginViewControllerDelegate, TermsConditionsViewControlle
                 self.updateInterface(for: .tc(controller: controller), animated: true)
             }
             }.catch { error in
-                let alertController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+
+                let nsError = error as NSError
+
+                let alertController = UIAlertController(title: nsError.localizedFailureReason ?? "Error", message: error.localizedDescription, preferredStyle: .alert)
                 alertController.addAction(UIAlertAction(title: "Okay", style: .default))
                 AlertQueue.shared.add(alertController)
             }.always {
