@@ -36,6 +36,14 @@ fileprivate enum SearchType: String, Pickable {
     }
 
     static var all: [SearchType] = [.registration, .vin, .engineNumber]
+    
+    var placeholderText: String {
+        switch self {
+        case .registration: return "eg. ABC123"
+        case .vin:          return "eg. 1C4RDJAG9CC193202"
+        case .engineNumber: return "eg. H22AM03737"
+        }
+    }
 }
 
 fileprivate class VehicleSearchOptions: SearchOptions {
@@ -73,8 +81,13 @@ class VehicleSearchDataSource: SearchDataSource {
     
     private weak var viewController: UIViewController?
     
-    let searchPlaceholder: NSAttributedString? = NSAttributedString(string: NSLocalizedString("eg. ABC123", comment: ""),
-                                                                attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 28.0, weight: UIFontWeightLight), NSForegroundColorAttributeName: UIColor.lightGray])
+    var searchPlaceholder: NSAttributedString? {
+        let text = (options as! VehicleSearchOptions).type.placeholderText
+        return NSAttributedString(string: text,
+                                  attributes: [
+                                    NSFontAttributeName: UIFont.systemFont(ofSize: 28.0, weight: UIFontWeightLight),
+                                    NSForegroundColorAttributeName: UIColor.lightGray])
+    }
     
     private(set) var additionalSearchFieldButtons: [UIButton]?
     
