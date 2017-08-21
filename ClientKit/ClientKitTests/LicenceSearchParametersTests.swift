@@ -16,11 +16,11 @@ class LicenceSearchParametersTests: XCTestCase {
         let licence = "099898778"
         
         // When
-        let search = LicenceSearchParameters(licence: licence)
+        let search = LicenceSearchParameters(licenceNumber: licence)
         
         // Then
         let expectedResult = "099898778"
-        let actualResult = search.parameters["licence"] as! String
+        let actualResult = search.parameters["licenceNumber"] as! String
         
         XCTAssertEqual(actualResult, expectedResult)
     }

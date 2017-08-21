@@ -283,7 +283,7 @@ class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
                                                               dateOfBirth:  dobSearch)
                 } else if definition is LicenceParserDefinition {
                     let personParserResults = try QueryParser(parserDefinition: definition).parseString(query: searchTerm)
-                    searchParameters = LicenceSearchParameters(licence: personParserResults[LicenceParserDefinition.licenceKey]!)
+                    searchParameters = LicenceSearchParameters(licenceNumber: personParserResults[LicenceParserDefinition.licenceKey]!)
                 }
                 
                 if let searchParameters = searchParameters {
