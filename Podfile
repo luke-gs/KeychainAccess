@@ -27,6 +27,7 @@ target 'MPOL' do
     project 'MPOL.xcodeproj'
     mpol_kit
     pod "HockeySDK", :configurations => ['GSTest']
+    pod 'AlamofireNetworkActivityLogger', '~> 2.0'
 end
 
 post_install do |installer|

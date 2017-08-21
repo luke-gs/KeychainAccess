@@ -12,102 +12,67 @@ import PromiseKit
 
 open class EntityDetailsSplitViewController: SidebarSplitViewController {
     
+    public var fetchResults: [MPOLSource: EntityFetchResult] = [:] {
+        didSet {
+//            if let state = fetchResult?.state {
+//                switch state {
+//                case .fetching:
+//                    representations = [.mpol: .loading]
+//                case .finished:
+//                    ///needs to check error or success
+//                    let entity = fetchResult!.result as! Entity
+//                    representations = [.mpol: .loaded(entity)]
+//                    selectedRepresentation = entity
+//                case .idle:
+//                    representations = [.mpol: .notLoaded]
+//                }
+//            }
+            
+         //   updateSourceItems()
+            updateSourceItemsA()
+            updateHeaderView()
+            updateDetailSectionsAvailability()
+        }
+    }
+    
+    public func updateSourceItemsA() {
+        fetchResults.map {
+            print("\($0) - \($1)")
+        }
+        
+        let sources = entityFetch.sources!
+        
+        sources.forEach {
+            print("source >\($0)")
+            if let result = fetchResults[$0] {
+                switch result.state {
+                case .fetching:
+                    representations[$0] = .loading
+                    sidebarViewController.sidebarTableView?.allowsSelection = false
+                    
+                case .finished:
+                    sidebarViewController.sidebarTableView?.allowsSelection = true
+
+                    if let _ = result.error {
+                        representations[$0] = .notAvailable
+                    } else {
+                        representations[$0] = .loaded(result.result as! Entity)
+                    }
+
+                case .idle:
+                    representations[$0] = .notLoaded
+                    sidebarViewController.sidebarTableView?.allowsSelection = true
+
+                }
+            }
+        }
+    }
+    
     public enum EntityLoad: Equatable {
         case loaded(Entity)
         case loading
         case notLoaded
         case notAvailable
-    }
-    
-    open class func detailViewControllers(for entity: Entity) -> [EntityDetailCollectionViewController] {
-        /// This is nasty.
-        var viewControllers = [
-            EntityAlertsViewController(),
-            EntityAssociationsViewController(),
-            ]
-        switch entity {
-        case _ as Person:
-            viewControllers.insert(PersonInfoViewController(), at: 0)
-            viewControllers += [
-                PersonOccurrencesViewController(),
-             //   PersonActionsViewController(),
-             //   PersonCriminalHistoryViewController()
-            ]
-        case _ as Vehicle:
-            viewControllers.insert(VehicleInfoViewController(), at: 0)
-            viewControllers.append(VehicleOccurrencesViewController())
-        default:
-            break
-        }
-        return viewControllers
-    }
-    
-    private func fetchDetails(for entity: Entity) {
-        let infoVC = self.detailViewControllers.first! as! EntityDetailCollectionViewController
-        
-        infoVC.loadingManager.state = .loading
-        
-        switch entity {
-        case _ as Person:
-            let request = PersonFetchParameter(id: entity.id)
-            firstly {
-                MPOLAPIManager.shared.fetchEntityDetails(in: .mpol, with: request)
-                }.then { [weak self] person -> () in
-                    /// unlock the sections and update header & sidebar
-                    self?.representations = [.mpol: .loaded(person)]
-                    self?.selectedRepresentation = person
-                    
-                    if let detailVCs = self?.detailViewControllers as? [EntityDetailCollectionViewController] {
-                        detailVCs.forEach { $0.entity = person }
-                    }
-                    
-                }.catch(execute: { (error) in
-                    
-                })
-        case _ as Vehicle:
-            let request = VehicleFetchParameter(id: entity.id)
-            firstly {
-                MPOLAPIManager.shared.fetchEntityDetails(in: .mpol, with: request)
-                }.then { [weak self] vehicle -> () in
-                    self?.representations = [.mpol: .loaded(vehicle)]
-                    self?.selectedRepresentation = vehicle
-
-                    if let detailVCs = self?.detailViewControllers as? [EntityDetailCollectionViewController] {
-                        detailVCs.forEach { $0.entity = vehicle }
-                    }
-                    
-                }.catch(execute: { (error) in
-                    print("ERROR: \(error.localizedDescription)")
-                })
-        default:
-            break
-        }
-        
-        
-        
-//        if let result = result {
-//            return Promise { fulfill, reject in
-//                firstly {
-//                    result
-//                    }.then { result -> Void in
-//                        fulfill(entity)
-//                    }.catch { error in
-//                        reject(error)
-//                }
-//            }
-//        } else {
-//            return nil
-//        }
-        
-    }
-    
-    
-    open var sources: [MPOLSource] {
-        didSet {
-            if sources != oldValue {
-                updateSourceItems()
-            }
-        }
     }
     
     open var selectedRepresentation: Entity {
@@ -123,7 +88,7 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
         }
     }
     
-    open var representations: [MPOLSource: EntityLoad] {
+    open var representations: [MPOLSource: EntityLoad] = [.mpol: .notLoaded] {
         didSet {
             if representations == oldValue { return }
             
@@ -143,44 +108,51 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
     }
     
     private let headerView = SidebarHeaderView(frame: .zero)
+    private let entityFetch: EntityDetailsSectionsViewModel
     
     public init(entity: Entity) {
-        // TODO: Refactor sources into the current MPOL Context
-        
-        sources = [.mpol]
-        representations = [.mpol: .loaded(entity)]
 
+        entityFetch = EntityDetailsSectionsViewModel(entity: entity)
+//        sources = [.mpol]
+//        representations = [.mpol: .loaded(entity)]
         selectedRepresentation = entity
         
-        let detailVCs = type(of: self).detailViewControllers(for: entity)
-        
-      ///  detailVCs.forEach { $0.entity = entity }
+        let detailVCs = entityFetch.detailsSectionsDataSource!.detailsViewControllers
         
         super.init(detailViewControllers: detailVCs)
         
-        fetchDetails(for: entity)
-//        if let fetch = fetchDetails(for: entity) {
-//            fetch.then { entity -> () in
-//                detailVCs.forEach { $0.entity = entity }
-//                }.catch { error in
-//                    
-//            }
-//        }
+        entityFetch.delegate = self
+//        entityFetch.performFetch()
         
         title = "Details"
         
-        updateSourceItems()
-        updateHeaderView()
+//        updateSourceItems()
+//        updateHeaderView()
         
         sidebarViewController.title = NSLocalizedString("Details", comment: "")
         sidebarViewController.headerView = headerView
         
-        let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(refreshControlDidActivate(_:)), for: .primaryActionTriggered)
-        sidebarViewController.loadViewIfNeeded()
-        sidebarViewController.sidebarTableView?.refreshControl = refreshControl
+//        let refreshControl = UIRefreshControl()
+//        refreshControl.addTarget(self, action: #selector(refreshControlDidActivate(_:)), for: .primaryActionTriggered)
+//        sidebarViewController.loadViewIfNeeded()
+//        sidebarViewController.sidebarTableView?.refreshControl = refreshControl
     }
     
+    open override func viewDidLoad() {
+        super.viewDidLoad()
+        entityFetch.performFetch()
+
+    }
+    
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+    }
+    
+    open override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+    }
     public required init?(coder aDecoder: NSCoder) {
         MPLUnimplemented()
     }
@@ -190,7 +162,7 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
     }
     
     open override func sidebarViewController(_ controller: SidebarViewController, didRequestToLoadSourceAt index: Int) {
-        let selectedSource = sources[index]
+        let selectedSource = entityFetch.dataSource(at: index)
         
         if let requestedSourceLoadState = representations[selectedSource], requestedSourceLoadState != .notLoaded {
             // Did not select an unloaded source. Update the source items just in case, and then return out.
@@ -213,6 +185,8 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
     /// Updates the source items and selection in the bar. Call this method when
     /// representations update.
     private func updateSourceItems() {
+        let sources = entityFetch.sources!
+        
         sidebarViewController.sourceItems = sources.map {
             let itemState: SourceItem.State
             
@@ -239,7 +213,7 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
         } else {
             sidebarViewController.selectedSourceIndex = nil
         }
-
+        
     }
     
     /// Updates the header view with the details for the latest selected representation.
@@ -247,21 +221,13 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
     private func updateHeaderView() {
         
         headerView.captionLabel.text = type(of: selectedRepresentation).localizedDisplayName.localizedUppercase
-        /*
-        if let headerIcon = selectedRepresentation.thumbnailImage(ofSize: .medium) {
-            headerView.iconView.image = headerIcon.image
-            headerView.iconView.contentMode = headerIcon.mode
-        } else {
-            headerView.iconView.image = nil
-        }
-        */
+
         // TEMP:
         
         let entity = selectedRepresentation as! EntitySummaryDisplayable
         if let (thumbnail, _) = entity.thumbnail(ofSize: .small) {
             headerView.iconView.image = thumbnail
         }
-       /// headerView.iconView.image = #imageLiteral(resourceName: "Avatar 1")
         
         headerView.titleLabel.text = entity.title
         
@@ -272,6 +238,11 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
             lastUpdatedString = NSLocalizedString("Unknown", comment: "Unknown Date")
         }
         headerView.subtitleLabel.text = NSLocalizedString("Last Updated: ", comment: "") + lastUpdatedString
+    }
+    
+    private func updateDetailSectionsAvailability(_ isAvailable: Bool) {
+        sidebarViewController.sidebarTableView?.allowsSelection = isAvailable
+        
     }
     
     private func headerIconAndMode() -> (image: UIImage?, mode: UIViewContentMode) {
@@ -285,6 +256,20 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
         }
     }
     
+//    open override func sidebarViewController(_ controller: SidebarViewController, didSelectItem item: SidebarItem) {
+////        selectedViewController = detailViewControllers.first(where: { $0.sidebarItem == item })
+//        selectedViewController = detailViewControllers.first!
+//        sidebarViewController.selectedItem = nil
+//    }
+    
+}
+
+
+extension EntityDetailsSplitViewController: EntityDetailsSectionsDelegate {
+    
+    public func entityDetailsSectionsDidUpdateResults(_ entityDetailsSectionsViewModel: EntityDetailsSectionsViewModel) {
+        self.fetchResults = entityDetailsSectionsViewModel.results
+    }
 }
 
 public func ==(lhs: EntityDetailsSplitViewController.EntityLoad, rhs: EntityDetailsSplitViewController.EntityLoad) -> Bool {

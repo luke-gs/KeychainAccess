@@ -31,10 +31,6 @@ public class EntityAlertsViewModel: EntityDetailsViewModelable {
     
     public var sections: [DetailsType] = [] {
         didSet {
-            if oldValue.isEmpty == true && sections.isEmpty == true {
-                return
-            }
-            
             let state: LoadingStateManager.State = sections.isEmpty ? .noContent : .loaded
             delegate?.updateLoadingState(state)
             delegate?.reloadData()
