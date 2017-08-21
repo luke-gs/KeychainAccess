@@ -23,32 +23,6 @@ extension AppDelegate: LoginViewControllerDelegate, TermsConditionsViewControlle
         switch state {
         case .login:
 
-            let headerLabel = UILabel(frame: .zero)
-            headerLabel.translatesAutoresizingMaskIntoConstraints = false
-            headerLabel.text = "mPol"
-            headerLabel.font = .systemFont(ofSize: 48.0, weight: UIFontWeightBold)
-            headerLabel.textColor = .white
-            headerLabel.adjustsFontSizeToFitWidth = true
-
-            let subtitleLabel = UILabel(frame: .zero)
-            subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
-            subtitleLabel.text = "Mobile Policing Platform"
-            subtitleLabel.font = .systemFont(ofSize: 13.0, weight: UIFontWeightSemibold)
-            subtitleLabel.textColor = .white
-            subtitleLabel.adjustsFontSizeToFitWidth = true
-
-            let headerImage = UIImageView(image: #imageLiteral(resourceName: "MPOLIcon"))
-            headerImage.translatesAutoresizingMaskIntoConstraints = false
-
-            let headerView = UIView(frame: .zero)
-            headerView.addSubview(headerImage)
-            headerView.addSubview(headerLabel)
-            headerView.addSubview(subtitleLabel)
-
-            var constraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|[hi]-(==16@900)-[hl][sl]|", options: [.alignAllCenterX], metrics: nil, views: ["hi": headerImage, "hl": headerLabel, "sl": subtitleLabel])
-            constraints.append(NSLayoutConstraint(item: headerImage, attribute: .centerX, relatedBy: .equal, toItem: headerView, attribute: .centerX))
-            NSLayoutConstraint.activate(constraints)
-
             let loginViewController = LoginViewController()
 
             loginViewController.minimumUsernameLength = 1
@@ -56,7 +30,7 @@ extension AppDelegate: LoginViewControllerDelegate, TermsConditionsViewControlle
 
             loginViewController.delegate = self
             loginViewController.backgroundImage = #imageLiteral(resourceName: "Login")
-            loginViewController.headerView = headerView
+            loginViewController.headerView = LoginHeaderView(title: "mPol", subtitle: "Mobile Policing Platform", image: #imageLiteral(resourceName: "MPOLIcon"))
 
             #if DEBUG
                 loginViewController.usernameField.text = "matt"
@@ -171,7 +145,10 @@ extension AppDelegate: LoginViewControllerDelegate, TermsConditionsViewControlle
                 self.updateInterface(for: .tc(controller: controller), animated: true)
             }
             }.catch { error in
-                let alertController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+
+                let nsError = error as NSError
+
+                let alertController = UIAlertController(title: nsError.localizedFailureReason ?? "Error", message: error.localizedDescription, preferredStyle: .alert)
                 alertController.addAction(UIAlertAction(title: "Okay", style: .default))
                 AlertQueue.shared.add(alertController)
             }.always {
