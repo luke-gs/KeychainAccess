@@ -14,56 +14,31 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
     
     public var fetchResults: [MPOLSource: EntityFetchResult] = [:] {
         didSet {
-//            if let state = fetchResult?.state {
-//                switch state {
-//                case .fetching:
-//                    representations = [.mpol: .loading]
-//                case .finished:
-//                    ///needs to check error or success
-//                    let entity = fetchResult!.result as! Entity
-//                    representations = [.mpol: .loaded(entity)]
-//                    selectedRepresentation = entity
-//                case .idle:
-//                    representations = [.mpol: .notLoaded]
-//                }
-//            }
-            
-         //   updateSourceItems()
-            updateSourceItemsA()
-            updateHeaderView()
-            updateDetailSectionsAvailability()
+            updateRepresentations()
         }
     }
     
-    public func updateSourceItemsA() {
-        fetchResults.map {
-            print("\($0) - \($1)")
-        }
-        
+    public func updateRepresentations() {
         let sources = entityFetch.sources!
         
-        sources.forEach {
-            print("source >\($0)")
+       sources.forEach {
             if let result = fetchResults[$0] {
+                var isContentAvailable = false
+
                 switch result.state {
                 case .fetching:
                     representations[$0] = .loading
-                    sidebarViewController.sidebarTableView?.allowsSelection = false
-                    
                 case .finished:
-                    sidebarViewController.sidebarTableView?.allowsSelection = true
-
+                    isContentAvailable = true
                     if let _ = result.error {
                         representations[$0] = .notAvailable
                     } else {
                         representations[$0] = .loaded(result.result as! Entity)
                     }
-
                 case .idle:
                     representations[$0] = .notLoaded
-                    sidebarViewController.sidebarTableView?.allowsSelection = true
-
                 }
+                updateDetailSectionsAvailability(isContentAvailable)
             }
         }
     }
@@ -81,14 +56,12 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
             
             assert(representations.values.contains(.loaded(selectedRepresentation)),
                    "selectedRepresentation must be a representation stored in the representations property.")
-            
             updateHeaderView()
-            
-            // TODO
         }
     }
     
     open var representations: [MPOLSource: EntityLoad] = [.mpol: .notLoaded] {
+
         didSet {
             if representations == oldValue { return }
             
@@ -108,51 +81,35 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
     }
     
     private let headerView = SidebarHeaderView(frame: .zero)
-    private let entityFetch: EntityDetailsSectionsViewModel
+    fileprivate let entityFetch: EntityDetailsSectionsViewModel
     
     public init(entity: Entity) {
 
         entityFetch = EntityDetailsSectionsViewModel(entity: entity)
-//        sources = [.mpol]
 //        representations = [.mpol: .loaded(entity)]
+        
         selectedRepresentation = entity
         
-        let detailVCs = entityFetch.detailsSectionsDataSource!.detailsViewControllers
+        let detailVCs = entityFetch.detailsSectionsViewControllers!
         
         super.init(detailViewControllers: detailVCs)
         
         entityFetch.delegate = self
-//        entityFetch.performFetch()
         
         title = "Details"
-        
-//        updateSourceItems()
-//        updateHeaderView()
+        updateSourceItems()
+        updateHeaderView()
         
         sidebarViewController.title = NSLocalizedString("Details", comment: "")
         sidebarViewController.headerView = headerView
-        
-//        let refreshControl = UIRefreshControl()
-//        refreshControl.addTarget(self, action: #selector(refreshControlDidActivate(_:)), for: .primaryActionTriggered)
-//        sidebarViewController.loadViewIfNeeded()
-//        sidebarViewController.sidebarTableView?.refreshControl = refreshControl
     }
     
-    open override func viewDidLoad() {
-        super.viewDidLoad()
-        entityFetch.performFetch()
-
-    }
-    
-    open override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-    }
     
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+        entityFetch.performFetch()
     }
+    
     public required init?(coder aDecoder: NSCoder) {
         MPLUnimplemented()
     }
@@ -222,15 +179,12 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
         
         headerView.captionLabel.text = type(of: selectedRepresentation).localizedDisplayName.localizedUppercase
 
-        // TEMP:
-        
         let entity = selectedRepresentation as! EntitySummaryDisplayable
         if let (thumbnail, _) = entity.thumbnail(ofSize: .small) {
             headerView.iconView.image = thumbnail
         }
         
         headerView.titleLabel.text = entity.title
-        
         let lastUpdatedString: String
         if let lastUpdated = selectedRepresentation.lastUpdated {
             lastUpdatedString = DateFormatter.shortDate.string(from: lastUpdated)
@@ -242,7 +196,6 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
     
     private func updateDetailSectionsAvailability(_ isAvailable: Bool) {
         sidebarViewController.sidebarTableView?.allowsSelection = isAvailable
-        
     }
     
     private func headerIconAndMode() -> (image: UIImage?, mode: UIViewContentMode) {
@@ -256,12 +209,6 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
         }
     }
     
-//    open override func sidebarViewController(_ controller: SidebarViewController, didSelectItem item: SidebarItem) {
-////        selectedViewController = detailViewControllers.first(where: { $0.sidebarItem == item })
-//        selectedViewController = detailViewControllers.first!
-//        sidebarViewController.selectedItem = nil
-//    }
-    
 }
 
 
@@ -269,6 +216,10 @@ extension EntityDetailsSplitViewController: EntityDetailsSectionsDelegate {
     
     public func entityDetailsSectionsDidUpdateResults(_ entityDetailsSectionsViewModel: EntityDetailsSectionsViewModel) {
         self.fetchResults = entityDetailsSectionsViewModel.results
+    }
+    
+    public func entityDetailsSectionDidSelectRetryDownload(_ entityDetailsSectionsViewModel: EntityDetailsSectionsViewModel) {
+        self.entityFetch.performFetch()
     }
 }
 

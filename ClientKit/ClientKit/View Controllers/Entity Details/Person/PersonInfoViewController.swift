@@ -48,7 +48,9 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
         let noContentView = loadingManager.noContentView
         noContentView.titleLabel.text = NSLocalizedString("No Person Found", bundle: .mpolKit, comment: "")
         noContentView.subtitleLabel.text = NSLocalizedString("There are no details for this person", bundle: .mpolKit, comment: "")
-                
+        
+        loadingManager.loadingLabel.text = "Retrieving records"
+        
         guard let collectionView = self.collectionView else { return }
         
         collectionView.register(EntityDetailCollectionViewCell.self)
