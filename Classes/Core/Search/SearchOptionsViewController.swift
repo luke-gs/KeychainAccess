@@ -459,7 +459,6 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
 
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForValidationAccessoryAt indexPath: IndexPath, givenContentWidth contentWidth: CGFloat) -> CGFloat {
         
-        
         if indexPath.section == 0 {
             if let errorMessage = searchErrorMessage {
                 let height = SearchFieldCollectionViewCell.heightForValidationAccessory(withText: errorMessage, contentWidth: contentWidth, compatibleWith: traitCollection)
