@@ -247,6 +247,10 @@ open class TabStripView: UIView, UICollectionViewDataSource, UICollectionViewDel
     
     // MARK: - UICollectionViewDelegate
     
+    public func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        return _selectedItemIndex != indexPath.item
+    }
+    
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         _selectedItemIndex = indexPath.item
         delegate?.tabStripView(self, didSelectItemAt: indexPath.item)
