@@ -13,7 +13,7 @@ import PromiseKit
 import Lottie
 import ClientKit
 
-#if GS_TESTING
+#if INTERNAL
     import HockeySDK
 #endif
 
@@ -41,7 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         window.makeKeyAndVisible()
         
-        #if GS_TESTING
+        #if INTERNAL
             let manager = BITHockeyManager.shared()
             manager.configure(withIdentifier: "f9141bb9072344a5b316f83f2b2417a4")
             manager.start()
