@@ -26,7 +26,7 @@ end
 target 'MPOL' do
     project 'MPOL.xcodeproj'
     mpol_kit
-    pod "HockeySDK", :configurations => ['Internal-Release']
+    pod "HockeySDK", :configurations => ['internal-release', 'internal-debug']
 end
 
 post_install do |installer|
