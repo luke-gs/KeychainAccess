@@ -26,7 +26,7 @@ class ErrorMapperTests: XCTestCase {
         let mapped = errorMapper.mappedError(from: error)
 
         // Then
-        XCTAssertEqual(mapped.localizedDescription, networkDefinition.httpStatusCodesMessageMapping[statusCode])
+        XCTAssertEqual(mapped.localizedDescription, NetworkErrorDefinition.defaultHTTPStatusCodesMap[statusCode]!.message)
     }
     
     func testThatItPassThroughNotSupportedStatusCode() {
@@ -43,7 +43,7 @@ class ErrorMapperTests: XCTestCase {
         
         // Then
         // Verify that this is not supported
-        XCTAssertNil(networkDefinition.httpStatusCodesMessageMapping[statusCode])
+        XCTAssertNil(NetworkErrorDefinition.defaultHTTPStatusCodesMap[statusCode])
         // It should not be mapped. APIManagerError is not equatable, so we check whether
         // the description is still the same after the mapping process.
         XCTAssertEqual(originalErrorDescription, mapped.localizedDescription)
