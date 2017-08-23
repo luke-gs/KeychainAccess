@@ -35,7 +35,7 @@ import PromiseKit
 ///        super.init(configuration: configuration)
 ///    }
 ///
-///    func searchPerson(`in` source: MySource, with surname: String) -> Promise<SearchResult<Person>> {
+///    func searchPerson(in source: MySource, with surname: String) -> Promise<SearchResult<Person>> {
 ///        // Call the `searchEntity(in:with)` internally with the correct parameters.
 ///    }
 /// }
@@ -89,7 +89,7 @@ open class APIManager<Configuration: APIManagerConfigurable> {
     ///   - source: The data source of the entity to be searched.
     ///   - request: The request with the parameters to search the entity.
     /// - Returns: A promise to return search result of specified entity.
-    open func searchEntity<SearchRequest: EntitySearchRequestable>(`in` source: Configuration.Source, with request: SearchRequest) -> Promise<SearchResult<SearchRequest.ResultClass>> {
+    open func searchEntity<SearchRequest: EntitySearchRequestable>(in source: Configuration.Source, with request: SearchRequest) -> Promise<SearchResult<SearchRequest.ResultClass>> {
         
         let path = "{source}/entity/{entityType}/search"
         
@@ -113,7 +113,7 @@ open class APIManager<Configuration: APIManagerConfigurable> {
     ///   - source: The data source of entity to be fetched.
     ///   - request: The request with the parameters to fetch the entity.
     /// - Returns: A promise to return specified entity details.
-    open func fetchEntityDetails<FetchRequest: EntityFetchRequestable>(`in` source: Configuration.Source, with request: FetchRequest) -> Promise<FetchRequest.ResultClass> {
+    open func fetchEntityDetails<FetchRequest: EntityFetchRequestable>(in source: Configuration.Source, with request: FetchRequest) -> Promise<FetchRequest.ResultClass> {
         
         let path = "{source}/entity/{entityType}/{id}"
         
@@ -130,13 +130,27 @@ open class APIManager<Configuration: APIManagerConfigurable> {
         return dataRequestPromise(encodedURLRequest)
     }
 
+    open func typeAheadSearchAddress(in source: Configuration.Source, with searchText: String) -> Promise<[LookupAddress]> {
+
+        let path = "{source}/entity/location/typeaheadsearch"
+
+        var parameters = ["source" : source, "searchString" : searchText] as [String : Any]
+
+        let result = try! urlQueryBuilder.urlPathWith(template: path, parameters: parameters)
+
+        let requestPath = url(with: result.path)
+        let request: URLRequest = try! URLRequest(url: requestPath, method: .get)
+        let encodedURLRequest = try! URLEncoding.default.encode(request, with: result.parameters)
+
+        return dataRequestPromise(encodedURLRequest)
+    }
+
     // MARK : - Internal Utilities
     private func url(with path: String) -> URL {
         return baseURL.appendingPathComponent(path)
     }
-    
-    private func dataRequestPromise<T: Unboxable>(_ urlRequest: URLRequest) -> Promise<T> {
-        
+
+    private func request(_ urlRequest: URLRequest) -> DataRequest {
         let dataRequest = sessionManager.request(urlRequest)
         let progress = dataRequest.progress
         progress.cancellationHandler = {
@@ -148,10 +162,40 @@ open class APIManager<Configuration: APIManagerConfigurable> {
         progress.pausingHandler = {
             dataRequest.suspend()
         }
+        return dataRequest
+    }
+
+    // Handling single object
+    private func dataRequestPromise<T: Unboxable>(_ urlRequest: URLRequest) -> Promise<T> {
+
+        let dataRequest = request(urlRequest)
 
         let mapper = errorMapper
         return Promise { fulfill, reject in
             dataRequest.validate().responseObject(completionHandler: { (response: DataResponse<T>) in
+                switch response.result {
+                case .success(let result):
+                    fulfill(result)
+                case .failure(let error):
+                    let wrappedError = APIManagerError(underlyingError: error, response: response.toDefaultDataResponse())
+                    if let mapper = mapper {
+                        reject(mapper.mappedError(from: wrappedError))
+                    } else {
+                        reject(wrappedError)
+                    }
+                }
+            })
+        }
+    }
+
+    // Handling array
+    private func dataRequestPromise<T: Unboxable>(_ urlRequest: URLRequest) -> Promise<[T]> {
+
+        let dataRequest = request(urlRequest)
+
+        let mapper = errorMapper
+        return Promise { fulfill, reject in
+            dataRequest.validate().responseArray(completionHandler: { (response: DataResponse<[T]>) in
                 switch response.result {
                 case .success(let result):
                     fulfill(result)
