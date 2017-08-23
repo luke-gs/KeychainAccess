@@ -38,7 +38,7 @@ open class MPOLKitEntity: NSObject, Serialisable, MPOLKitEntityProtocol {
         aCoder.encode(id, forKey: CodingKey.id.rawValue)
     }
 
-    public static var supportsSecureCoding: Bool {
+    open static var supportsSecureCoding: Bool {
         return true
     }
 }

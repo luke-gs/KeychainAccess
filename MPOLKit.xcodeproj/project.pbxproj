@@ -18,11 +18,14 @@
 		12F057241F3BFCBC00CAD6F6 /* SearchResultsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F057231F3BFCBC00CAD6F6 /* SearchResultsTests.swift */; };
 		12F057281F3C0F5600CAD6F6 /* EntitySearchRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F057271F3C0F5600CAD6F6 /* EntitySearchRequestTests.swift */; };
 		12F0572A1F3C106D00CAD6F6 /* QueryParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F057291F3C106D00CAD6F6 /* QueryParserTests.swift */; };
-		198151E71F4D2D8C001A5E18 /* LookupAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198151E61F4D2D8C001A5E18 /* LookupAddress.swift */; };
 		19975D8F1F4414AF00E51469 /* ErrorMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19975D8E1F4414AF00E51469 /* ErrorMapperTests.swift */; };
 		19DE98CC1F42651C0063F394 /* SortDescriptorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DE98CB1F42651C0063F394 /* SortDescriptorTests.swift */; };
 		19EFD2FA1F4D5C6300422F2A /* LookupAddressTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EFD2F91F4D5C6300422F2A /* LookupAddressTests.swift */; };
 		19EFD2FD1F4D5F8700422F2A /* LookupAddress.json in Resources */ = {isa = PBXBuildFile; fileRef = 19EFD2FC1F4D5D1000422F2A /* LookupAddress.json */; };
+		19F8DDB01F4D7C9600D84DA1 /* APIManager+LookupAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F8DDAF1F4D7C9600D84DA1 /* APIManager+LookupAddress.swift */; };
+		19F8DDB11F4D7CB800D84DA1 /* LookupAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F8DDAE1F4D7C7D00D84DA1 /* LookupAddress.swift */; };
+		19F8DDB21F4D7D2400D84DA1 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63408501F30D4CA000747B0 /* APIManager.swift */; };
+		19F8DDB31F4D7D2400D84DA1 /* APIManagerConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63408511F30D4D4000747B0 /* APIManagerConfigurable.swift */; };
 		19FEC9831F43F769005692A9 /* ErrorMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19FEC9821F43F769005692A9 /* ErrorMapper.swift */; };
 		19FEC9851F43F7AC005692A9 /* ErrorMapperDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19FEC9841F43F7AC005692A9 /* ErrorMapperDefinition.swift */; };
 		19FEC9861F43F827005692A9 /* MappedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19FEC9811F43F6BA005692A9 /* MappedError.swift */; };
@@ -242,13 +245,14 @@
 		12F057271F3C0F5600CAD6F6 /* EntitySearchRequestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySearchRequestTests.swift; sourceTree = "<group>"; };
 		12F057291F3C106D00CAD6F6 /* QueryParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryParserTests.swift; sourceTree = "<group>"; };
 		191F77411F44F6C5008BBA44 /* MPOLKitPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MPOLKitPlayground.playground; sourceTree = SOURCE_ROOT; };
-		198151E61F4D2D8C001A5E18 /* LookupAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupAddress.swift; sourceTree = "<group>"; };
 		19975D8E1F4414AF00E51469 /* ErrorMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMapperTests.swift; sourceTree = "<group>"; };
 		19DE98CB1F42651C0063F394 /* SortDescriptorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortDescriptorTests.swift; sourceTree = "<group>"; };
 		19DE98CE1F4265540063F394 /* OAuthAccessToken.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = OAuthAccessToken.json; sourceTree = "<group>"; };
 		19DE98CF1F4265540063F394 /* OAuthAccessTokenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthAccessTokenTests.swift; sourceTree = "<group>"; };
 		19EFD2F91F4D5C6300422F2A /* LookupAddressTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupAddressTests.swift; sourceTree = "<group>"; };
 		19EFD2FC1F4D5D1000422F2A /* LookupAddress.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = LookupAddress.json; sourceTree = "<group>"; };
+		19F8DDAE1F4D7C7D00D84DA1 /* LookupAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupAddress.swift; sourceTree = "<group>"; };
+		19F8DDAF1F4D7C9600D84DA1 /* APIManager+LookupAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIManager+LookupAddress.swift"; sourceTree = "<group>"; };
 		19FEC9811F43F6BA005692A9 /* MappedError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MappedError.swift; sourceTree = "<group>"; };
 		19FEC9821F43F769005692A9 /* ErrorMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMapper.swift; sourceTree = "<group>"; };
 		19FEC9841F43F7AC005692A9 /* ErrorMapperDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMapperDefinition.swift; sourceTree = "<group>"; };
@@ -508,6 +512,15 @@
 				19EFD2F91F4D5C6300422F2A /* LookupAddressTests.swift */,
 			);
 			path = LookupAddressTests;
+			sourceTree = "<group>";
+		};
+		19F8DDAD1F4D7C7D00D84DA1 /* TypeAheadSearch */ = {
+			isa = PBXGroup;
+			children = (
+				19F8DDAF1F4D7C9600D84DA1 /* APIManager+LookupAddress.swift */,
+				19F8DDAE1F4D7C7D00D84DA1 /* LookupAddress.swift */,
+			);
+			path = TypeAheadSearch;
 			sourceTree = "<group>";
 		};
 		19FEC9801F43F6BA005692A9 /* ErrorMapping */ = {
@@ -1033,7 +1046,6 @@
 		C63408571F30E59C000747B0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				198151E61F4D2D8C001A5E18 /* LookupAddress.swift */,
 				C63408581F30E59C000747B0 /* SearchResult.swift */,
 				C61AC9191F32FAF100F82FF6 /* User.swift */,
 			);
@@ -1124,6 +1136,7 @@
 			isa = PBXGroup;
 			children = (
 				EA8B666A1F393A2000F09716 /* EntitySearch */,
+				19F8DDAD1F4D7C7D00D84DA1 /* TypeAheadSearch */,
 			);
 			path = Subspec;
 			sourceTree = "<group>";
@@ -1424,6 +1437,7 @@
 				BC9C7DF21F0DED6600DFFE83 /* ISO8601DateTransformer+UnboxFormatter.swift in Sources */,
 				BC9C7DCF1F0DED6600DFFE83 /* ManifestCollection.swift in Sources */,
 				BC1B260D1F20BB3A009674B7 /* StatusTabBarController.swift in Sources */,
+				19F8DDB21F4D7D2400D84DA1 /* APIManager.swift in Sources */,
 				C63408591F30E5A0000747B0 /* SearchResult.swift in Sources */,
 				BC9C7DC81F0DED6600DFFE83 /* OAuthAccessToken.swift in Sources */,
 				BC9C7DFF1F0DED6600DFFE83 /* CoreGraphics+Convenience.swift in Sources */,
@@ -1500,7 +1514,7 @@
 				EABAB8041F342E450071A401 /* AggregatedSearchRequest.swift in Sources */,
 				BC9C7DCD1F0DED6600DFFE83 /* ArchivedManifestEntry.swift in Sources */,
 				BCC6F74E1F2FF91200F05F65 /* MapCollectionViewController.swift in Sources */,
-				198151E71F4D2D8C001A5E18 /* LookupAddress.swift in Sources */,
+				19F8DDB11F4D7CB800D84DA1 /* LookupAddress.swift in Sources */,
 				BCBA82141F19D7E8000BBF82 /* StringSizing.swift in Sources */,
 				BC9C7E031F0DED6600DFFE83 /* UICollectionView+DefaultReuse.swift in Sources */,
 				BC9C7E451F0DED6600DFFE83 /* SidebarTableViewCell.swift in Sources */,
@@ -1524,12 +1538,14 @@
 				BC9C7E041F0DED6600DFFE83 /* UIColor+ActionColors.swift in Sources */,
 				BC9C7DD01F0DED6600DFFE83 /* ManifestEntry+Location.swift in Sources */,
 				BC9C7DCC1F0DED6600DFFE83 /* UserDefaults+MPOL.swift in Sources */,
+				19F8DDB01F4D7C9600D84DA1 /* APIManager+LookupAddress.swift in Sources */,
 				BC9C7E341F0DED6600DFFE83 /* UIViewAnimationCurve+OptionConversion.swift in Sources */,
 				12ADD4221F32A50B00CA8B4D /* MPOLKitProtocols.swift in Sources */,
 				EA8B66461F37FF5900F09716 /* EntitySummarySearchResultViewModel.swift in Sources */,
 				BC9C7E2E1F0DED6600DFFE83 /* UIImage+Initials.swift in Sources */,
 				BC9C7E551F0DED6600DFFE83 /* RoundedRectLabel.swift in Sources */,
 				BC9C7E241F0DED6600DFFE83 /* CollectionViewFormProgressCell.swift in Sources */,
+				19F8DDB31F4D7D2400D84DA1 /* APIManagerConfigurable.swift in Sources */,
 				BC9C7E471F0DED6600DFFE83 /* SourceBar.swift in Sources */,
 				BC9C7E0F1F0DED6600DFFE83 /* DefaultReusable.swift in Sources */,
 				BCED8C761F1488EE004C3C71 /* CollectionViewFormHeaderView.swift in Sources */,

@@ -47,7 +47,7 @@ open class APIManager<Configuration: APIManagerConfigurable> {
     open let errorMapper: ErrorMapper?
     open let configuration: Configuration
 
-    private let urlQueryBuilder = URLQueryBuilder()
+    let urlQueryBuilder = URLQueryBuilder()
 
     public init(configuration: Configuration) {
         self.configuration = configuration
@@ -130,35 +130,12 @@ open class APIManager<Configuration: APIManagerConfigurable> {
         return dataRequestPromise(encodedURLRequest)
     }
 
-    /// Search for lookup address using the search text. This is intended for
-    /// to retrieve valid addresses suggestion.
-    ///
-    /// Supports implicit `NSProgress` reporting.
-    /// - Parameters:
-    ///   - source: The data source of the lookup addresses suggestion.
-    ///   - searchText: The search text to retrieve suggestion.
-    /// - Returns: A promise to return array of LookupAddress.
-    open func typeAheadSearchAddress(in source: Configuration.Source, with searchText: String) -> Promise<[LookupAddress]> {
-
-        let path = "{source}/entity/location/typeaheadsearch"
-
-        var parameters = ["source" : source, "searchString" : searchText] as [String : Any]
-
-        let result = try! urlQueryBuilder.urlPathWith(template: path, parameters: parameters)
-
-        let requestPath = url(with: result.path)
-        let request: URLRequest = try! URLRequest(url: requestPath, method: .get)
-        let encodedURLRequest = try! URLEncoding.default.encode(request, with: result.parameters)
-
-        return dataRequestPromise(encodedURLRequest)
-    }
-
     // MARK : - Internal Utilities
-    private func url(with path: String) -> URL {
+    func url(with path: String) -> URL {
         return baseURL.appendingPathComponent(path)
     }
 
-    private func request(_ urlRequest: URLRequest) -> DataRequest {
+    func request(_ urlRequest: URLRequest) -> DataRequest {
         let dataRequest = sessionManager.request(urlRequest)
         let progress = dataRequest.progress
         progress.cancellationHandler = {
@@ -174,7 +151,7 @@ open class APIManager<Configuration: APIManagerConfigurable> {
     }
 
     // Handling single object
-    private func dataRequestPromise<T: Unboxable>(_ urlRequest: URLRequest) -> Promise<T> {
+    func dataRequestPromise<T: Unboxable>(_ urlRequest: URLRequest) -> Promise<T> {
 
         let dataRequest = request(urlRequest)
 
@@ -197,7 +174,7 @@ open class APIManager<Configuration: APIManagerConfigurable> {
     }
 
     // Handling array
-    private func dataRequestPromise<T: Unboxable>(_ urlRequest: URLRequest) -> Promise<[T]> {
+    func dataRequestPromise<T: Unboxable>(_ urlRequest: URLRequest) -> Promise<[T]> {
 
         let dataRequest = request(urlRequest)
 
