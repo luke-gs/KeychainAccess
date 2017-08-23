@@ -195,7 +195,7 @@ class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
         case .state:
             let states = Manifest.shared.entries(for: .States) ?? []
 
-            let picker = PickerTableViewController(style: .plain, items: states )
+            let picker = PickerTableViewController(style: .plain, items: states)
             picker.noItemTitle = NSLocalizedString("Any", comment: "")
 
             let currentStates = Set(states.flatMap({ ArchivedManifestEntry(entry: $0).current() }))
@@ -210,7 +210,7 @@ class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
 
             viewController = picker
         case .age:
-            let ageNumberPicker = NumberRangePickerViewController(min:0, max: 100)
+            let ageNumberPicker = NumberRangePickerViewController(min: 0, max: 100)
             ageNumberPicker.delegate = self
             ageNumberPicker.noRangeTitle = NSLocalizedString("Any Age", comment: "")
 
@@ -315,7 +315,7 @@ class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
                     
                 }
             }
-        } catch (let error) {
+        } catch let error {
             return error.localizedDescription
         }
         

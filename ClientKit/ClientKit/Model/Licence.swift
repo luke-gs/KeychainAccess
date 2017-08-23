@@ -99,7 +99,7 @@ open class Licence: NSObject, Serialisable {
 extension Licence {
     public class LicenceClass: NSObject, Serialisable {
         
-        open let id : String
+        open let id: String
         
         open var dateCreated: Date?
         open var dateUpdated: Date?
@@ -161,7 +161,7 @@ extension Licence {
     /// Licence Condition
     public class Condition: NSObject, Serialisable {
         
-        open let id : String
+        open let id: String
         
         open var dateCreated: Date?
         open var dateUpdated: Date?
@@ -219,7 +219,7 @@ extension Licence {
     /// Licence Restriction
     public class Restriction: NSObject, Serialisable {
         
-        open let id : String
+        open let id: String
         
         open var dateCreated: Date?
         open var dateUpdated: Date?

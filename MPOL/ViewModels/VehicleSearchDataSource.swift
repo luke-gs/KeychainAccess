@@ -91,7 +91,7 @@ class VehicleSearchDataSource: SearchDataSource {
     
     private(set) var additionalSearchFieldButtons: [UIButton]?
     
-    //MARK: SearchDataSource
+    // MARK: SearchDataSource
     var options: SearchOptions = VehicleSearchOptions()
     
     let registrationParser = QueryParser(parserDefinition: RegistrationParserDefinition(range: 1...9))

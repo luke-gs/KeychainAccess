@@ -21,7 +21,7 @@ extension Array {
     }
     
     
-    public subscript (indexSet: IndexSet) -> [Element] {
+    public subscript(indexSet: IndexSet) -> [Element] {
         var elements: [Element] = []
         for index in indexSet {
             elements.append(self[index])

@@ -18,7 +18,7 @@ open class Address: NSObject, Serialisable {
         return "location"
     }
     
-    open let id : String
+    open let id: String
     
     open var dateCreated: Date?
     open var dateUpdated: Date?
@@ -57,10 +57,10 @@ open class Address: NSObject, Serialisable {
     open var postalContainer: String?
     open var floor: String?
     open var unit: String?
-    open var streetNumber : String?
-    open var streetName : String?
-    open var streetType : String?
-    open var streetDirectional : String?
+    open var streetNumber: String?
+    open var streetName: String?
+    open var streetType: String?
+    open var streetDirectional: String?
     open var county: String?
     open var suburb: String?
     open var state: String?
@@ -163,7 +163,7 @@ open class Address: NSObject, Serialisable {
         if includingName, let name = commonName, !name.isEmpty {
             lines.append([name])
         }
-// TODO       if let postalBox = postalBox {
+// TODO:       if let postalBox = postalBox {
 //            lines.append([postalBox])
 //        }
         
