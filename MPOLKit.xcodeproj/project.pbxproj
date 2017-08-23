@@ -21,6 +21,8 @@
 		198151E71F4D2D8C001A5E18 /* LookupAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198151E61F4D2D8C001A5E18 /* LookupAddress.swift */; };
 		19975D8F1F4414AF00E51469 /* ErrorMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19975D8E1F4414AF00E51469 /* ErrorMapperTests.swift */; };
 		19DE98CC1F42651C0063F394 /* SortDescriptorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DE98CB1F42651C0063F394 /* SortDescriptorTests.swift */; };
+		19EFD2FA1F4D5C6300422F2A /* LookupAddressTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EFD2F91F4D5C6300422F2A /* LookupAddressTests.swift */; };
+		19EFD2FD1F4D5F8700422F2A /* LookupAddress.json in Resources */ = {isa = PBXBuildFile; fileRef = 19EFD2FC1F4D5D1000422F2A /* LookupAddress.json */; };
 		19FEC9831F43F769005692A9 /* ErrorMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19FEC9821F43F769005692A9 /* ErrorMapper.swift */; };
 		19FEC9851F43F7AC005692A9 /* ErrorMapperDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19FEC9841F43F7AC005692A9 /* ErrorMapperDefinition.swift */; };
 		19FEC9861F43F827005692A9 /* MappedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19FEC9811F43F6BA005692A9 /* MappedError.swift */; };
@@ -245,6 +247,8 @@
 		19DE98CB1F42651C0063F394 /* SortDescriptorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortDescriptorTests.swift; sourceTree = "<group>"; };
 		19DE98CE1F4265540063F394 /* OAuthAccessToken.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = OAuthAccessToken.json; sourceTree = "<group>"; };
 		19DE98CF1F4265540063F394 /* OAuthAccessTokenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthAccessTokenTests.swift; sourceTree = "<group>"; };
+		19EFD2F91F4D5C6300422F2A /* LookupAddressTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupAddressTests.swift; sourceTree = "<group>"; };
+		19EFD2FC1F4D5D1000422F2A /* LookupAddress.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = LookupAddress.json; sourceTree = "<group>"; };
 		19FEC9811F43F6BA005692A9 /* MappedError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MappedError.swift; sourceTree = "<group>"; };
 		19FEC9821F43F769005692A9 /* ErrorMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMapper.swift; sourceTree = "<group>"; };
 		19FEC9841F43F7AC005692A9 /* ErrorMapperDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMapperDefinition.swift; sourceTree = "<group>"; };
@@ -495,6 +499,15 @@
 				19DE98CF1F4265540063F394 /* OAuthAccessTokenTests.swift */,
 			);
 			path = OAuthAccessTokenTests;
+			sourceTree = "<group>";
+		};
+		19EFD2FB1F4D5CDD00422F2A /* LookupAddressTests */ = {
+			isa = PBXGroup;
+			children = (
+				19EFD2FC1F4D5D1000422F2A /* LookupAddress.json */,
+				19EFD2F91F4D5C6300422F2A /* LookupAddressTests.swift */,
+			);
+			path = LookupAddressTests;
 			sourceTree = "<group>";
 		};
 		19FEC9801F43F6BA005692A9 /* ErrorMapping */ = {
@@ -1030,6 +1043,7 @@
 		C63F71731F3332CC004F5047 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				19EFD2FB1F4D5CDD00422F2A /* LookupAddressTests */,
 				C6E833AA1F334A4700A21F6D /* NSArchiverTests.swift */,
 				19DE98CD1F4265540063F394 /* OAuthAccessTokenTests */,
 				C63F71741F3332E7004F5047 /* UserTests.swift */,
@@ -1251,6 +1265,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C60C891D1ECCBEC700785932 /* SimplePersonArrayNestedKeyPath.json in Resources */,
+				19EFD2FD1F4D5F8700422F2A /* LookupAddress.json in Resources */,
 				C60C891C1ECCBEC700785932 /* SimplePersonArrayKeyPath.json in Resources */,
 				C60C891F1ECCBEC700785932 /* SimplePersonNestedKeyPath.json in Resources */,
 				C60C891E1ECCBEC700785932 /* SimplePersonKeyPath.json in Resources */,
@@ -1546,6 +1561,7 @@
 				1211E36D1F3AE0E50012E2E6 /* MiscTests.swift in Sources */,
 				C63F71751F3332E7004F5047 /* UserTests.swift in Sources */,
 				19975D8F1F4414AF00E51469 /* ErrorMapperTests.swift in Sources */,
+				19EFD2FA1F4D5C6300422F2A /* LookupAddressTests.swift in Sources */,
 				C60C890B1ECCB94F00785932 /* SimplePerson.swift in Sources */,
 				C65927771F332F7300854C60 /* ModelCodingTestUtility.swift in Sources */,
 				19FEC98C1F440E2E005692A9 /* MappedErrorTests.swift in Sources */,
