@@ -12,7 +12,7 @@ import MPOLKit
 @objc(MPLLicence)
 open class Licence: NSObject, Serialisable {
 
-    open let id : String
+    open let id: String
     
     open var dateCreated: Date?
     open var dateUpdated: Date?

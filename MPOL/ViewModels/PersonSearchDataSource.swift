@@ -198,7 +198,7 @@ class PersonSearchDataSource: SearchDataSource, NumberRangePickerDelegate {
             let picker = PickerTableViewController(style: .plain, items: states)
             picker.noItemTitle = NSLocalizedString("Any", comment: "")
 
-            let currentStates = Set(states.flatMap({ ArchivedManifestEntry(entry: $0).current() }))
+            let currentStates = Set(states.flatMap { ArchivedManifestEntry(entry: $0).current() })
             picker.selectedIndexes = states.indexes { currentStates.contains($0) }
 
             picker.selectionUpdateHandler = { [weak self] (_, selectedIndexes) in

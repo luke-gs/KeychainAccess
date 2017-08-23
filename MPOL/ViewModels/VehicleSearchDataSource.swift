@@ -183,7 +183,7 @@ class VehicleSearchDataSource: SearchDataSource {
         do {
             _ = try parser(forType: type).parseString(query: searchTerm)
             print(parser(forType: type))
-        } catch (let error) {
+        } catch let error {
             return error.localizedDescription
         }
         

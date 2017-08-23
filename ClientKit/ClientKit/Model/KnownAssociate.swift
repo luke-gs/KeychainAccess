@@ -12,7 +12,7 @@ import MPOLKit
 @objc(MPLKnownAssociate)
 open class KnownAssociate: NSObject, Serialisable {
 
-    open let id : String
+    open let id: String
     open var fullName: String?
     open var dateOfBirth: Date?
     open var knownAssociateDescription: String?
