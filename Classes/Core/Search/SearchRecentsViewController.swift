@@ -12,7 +12,7 @@ import Unbox
 private let maxRecentViewedCount = 6
 
 class SearchRecentsViewController: FormCollectionViewController {
-    
+
     weak var delegate: SearchRecentsViewControllerDelegate?
 
     var recentlyViewed: [MPOLKitEntity] {
@@ -183,7 +183,7 @@ class SearchRecentsViewController: FormCollectionViewController {
             return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
         }
     }
-    
+
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         if isRecentlySearched(for: collectionView) {
@@ -205,29 +205,29 @@ class SearchRecentsViewController: FormCollectionViewController {
             return cell
         }
     }
-    
-    
+
+
     // MARK: - UICollectionViewDelegate methods
-    
+
     override func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
         super.collectionView(collectionView, willDisplaySupplementaryView: view, forElementKind: elementKind, at: indexPath)
-        
-        
+
+
         if traitCollection.horizontalSizeClass != .compact && userInterfaceStyle.isDark == false && collectionView != self.collectionView,
             let header = view as? CollectionViewFormHeaderView {
             header.separatorColor = ThemeManager.shared.theme(for: .dark).color(forKey: .separator)
         }
     }
-    
+
     override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
-        
+
         if traitCollection.horizontalSizeClass != .compact, let entityCell = cell as? EntityCollectionViewCell {
             if userInterfaceStyle.isDark {
                 entityCell.subtitleLabel.textColor = primaryTextColor
             } else {
                 let darkTheme = ThemeManager.shared.theme(for: .dark)
-                
+
                 let primaryColor = darkTheme.color(forKey: .primaryText)
                 entityCell.titleLabel.textColor    = primaryColor
                 entityCell.subtitleLabel.textColor = primaryColor
@@ -235,7 +235,7 @@ class SearchRecentsViewController: FormCollectionViewController {
             }
         }
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         if isRecentlySearched(for: collectionView) {
@@ -244,19 +244,19 @@ class SearchRecentsViewController: FormCollectionViewController {
             delegate?.searchRecentsController(self, didSelectRecentEntity: recentlyViewed[indexPath.item])
         }
     }
-    
-    
+
+
     // MARK: - CollectionViewDelegateFormLayout methods
-    
+
     func collectionView(_ collectionView: UICollectionView, heightForGlobalHeaderInLayout layout: CollectionViewFormLayout) -> CGFloat {
         if collectionView != self.collectionView { return 0.0 }
         
         let traitCollection = self.traitCollection
         if traitCollection.horizontalSizeClass == .compact { return 0.0 }
-        
+
         let visibleRegion = collectionView.bounds.insetBy(collectionView.contentInset)
         let itemsStackedVertically = visibleRegion.width >= visibleRegion.height ? 2 : 3
-        
+
         let itemInsets = layout.itemLayoutMargins
         let itemHeight = EntityCollectionViewCell.minimumContentHeight(forStyle: .detail, compatibleWith: traitCollection) + itemInsets.top + itemInsets.bottom
         
@@ -264,30 +264,30 @@ class SearchRecentsViewController: FormCollectionViewController {
         
         return height
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
         if traitCollection.horizontalSizeClass == .compact { return 0.0 }
         return CollectionViewFormHeaderView.minimumHeight
     }
-    
+
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, insetForSection section: Int) -> UIEdgeInsets {
         var inset = super.collectionView(collectionView, layout: layout, insetForSection: section)
-        
+
         if collectionView != self.collectionView {
             inset.top    = 10.0
             inset.bottom = 10.0
         }
-        
+
         return inset
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
         if collectionView != self.collectionView {
             return layout.columnContentWidth(forMinimumItemContentWidth: EntityCollectionViewCell.minimumContentWidth(forStyle: .detail), maximumColumnCount: 3, sectionEdgeInsets: sectionEdgeInsets)
         }
         return collectionView.bounds.width
     }
-    
+
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
         if isRecentlySearched(for: collectionView) {
             let recentSearch = recentlySearched[indexPath.item]
@@ -297,24 +297,24 @@ class SearchRecentsViewController: FormCollectionViewController {
             return EntityCollectionViewCell.minimumContentHeight(forStyle: .detail, compatibleWith: traitCollection)
         }
     }
-    
-    
+
+
     // MARK: - Private methods
-    
+
     private func summaryIcon(for searchRequest: Searchable) -> UIImage? {
         return viewModel.summaryIcon(for: searchRequest)
     }
-    
+
     @objc private func segmentedControlValueDidChange(_ control: UISegmentedControl) {
         if control == compactSegmentedControl {
             showsRecentSearchesWhenCompact = control.selectedSegmentIndex == 0
         }
     }
-    
+
     @objc private func newSearchButtonDidSelect(_ button: UIButton) {
         delegate?.searchRecentsControllerDidSelectNewSearch(self)
     }
-    
+
     private func updateLoadingManagerState() {
         loadingManager.state = recentlyViewed.isEmpty == false || recentlySearched.isEmpty == false ? .loaded : .noContent
     }
@@ -336,24 +336,24 @@ protocol SearchRecentsViewControllerDelegate: class {
 }
 
 private class RecentEntitiesHeaderView: UICollectionReusableView, DefaultReusable {
-    
+
     let formLayout: CollectionViewFormLayout
     let collectionView: UICollectionView
-    
+
     override init(frame: CGRect) {
         formLayout = CollectionViewFormLayout()
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: formLayout)
         super.init(frame: frame)
         commonInit()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         formLayout = CollectionViewFormLayout()
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: formLayout)
         super.init(coder: aDecoder)
         commonInit()
     }
-    
+
     private func commonInit() {
         let imageView = UIImageView(image: #imageLiteral(resourceName: "RecentContactsBanner"))
         imageView.frame = bounds
@@ -361,7 +361,7 @@ private class RecentEntitiesHeaderView: UICollectionReusableView, DefaultReusabl
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         addSubview(imageView)
-        
+
         collectionView.register(EntityCollectionViewCell.self)
         collectionView.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         collectionView.backgroundColor = .clear
@@ -369,24 +369,24 @@ private class RecentEntitiesHeaderView: UICollectionReusableView, DefaultReusabl
         collectionView.frame = bounds
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         addSubview(collectionView)
-        
+
         if #available(iOS 10, *) { return }
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeCategoryDidChange), name: .UIContentSizeCategoryDidChange, object: nil)
     }
-    
+
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        
+
         if #available(iOS 10, *) {
             if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
                 preferredContentSizeCategoryDidChange()
             }
         }
     }
-    
+
     open func preferredContentSizeCategoryDidChange() {
         formLayout.invalidateLayout()
     }
-}
 
+}
