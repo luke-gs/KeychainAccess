@@ -12,7 +12,7 @@ import MPOLKit
 @objc(MPLCaution)
 open class Caution: NSObject, Serialisable {
 
-    open let id : String
+    open let id: String
     open var type: String?
     open var issuingOrganisationalUnit: String?
     open var processedDate: Date?

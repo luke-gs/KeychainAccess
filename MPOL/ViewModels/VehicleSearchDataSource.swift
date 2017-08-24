@@ -91,7 +91,7 @@ class VehicleSearchDataSource: SearchDataSource {
     
     private(set) var additionalSearchFieldButtons: [UIButton]?
     
-    //MARK: SearchDataSource
+    // MARK: SearchDataSource
     var options: SearchOptions = VehicleSearchOptions()
     
     let registrationParser = QueryParser(parserDefinition: RegistrationParserDefinition(range: 1...9))
@@ -183,7 +183,7 @@ class VehicleSearchDataSource: SearchDataSource {
         do {
             _ = try parser(forType: type).parseString(query: searchTerm)
             print(parser(forType: type))
-        } catch (let error) {
+        } catch let error {
             return error.localizedDescription
         }
         

@@ -55,7 +55,7 @@ extension Vehicle: EntitySummaryDisplayable {
     
     private func formattedYOMMakeModel() -> String? {
         
-        let components = [year, make, model].flatMap({$0})
+        let components = [year, make, model].flatMap { $0 }
         if components.isEmpty == false {
             return components.joined(separator: " ")
         }

@@ -12,7 +12,7 @@ import MPOLKit
 public class AssociatedVehicle: EntitySummaryDisplayable {
     let associate: Vehicle
     
-    public required init (associate: Vehicle) {
+    public required init(associate: Vehicle) {
         self.associate = associate
     }
     

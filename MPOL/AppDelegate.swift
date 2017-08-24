@@ -64,7 +64,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         let notificationCenter: UNUserNotificationCenter = UNUserNotificationCenter.current()
         notificationCenter.delegate = self
-        notificationCenter.requestAuthorization(options: [.badge,.sound, .alert]) { (granted, error) in
+        notificationCenter.requestAuthorization(options: [.badge, .sound, .alert]) { (granted, error) in
             if error == nil {
                 #if !arch(i386) && !arch(x86_64)
                     DispatchQueue.main.async {

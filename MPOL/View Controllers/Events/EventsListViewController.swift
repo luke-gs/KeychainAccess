@@ -18,7 +18,7 @@ class EventsListViewController: FormCollectionViewController {
         title = NSLocalizedString("Events", comment: "Title")
         
         tabBarItem.image = AssetManager.shared.image(forKey: .tabBarEvents)
-        //tabBarItem.isEnabled = false
+        // tabBarItem.isEnabled = false
         
         updateNewBarButtonItem()
     }

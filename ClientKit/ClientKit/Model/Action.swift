@@ -14,7 +14,7 @@ open class Action: NSObject, Serialisable {
     
     private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
     
-    open let id : String
+    open let id: String
     open var type: String?
     open var date: Date?
     

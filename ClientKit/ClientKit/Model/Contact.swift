@@ -28,7 +28,7 @@ open class Contact: NSObject, Serialisable {
         }
     }
     
-    open let id : String
+    open let id: String
     
     open var dateCreated: Date?
     open var dateUpdated: Date?

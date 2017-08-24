@@ -10,7 +10,7 @@ import Foundation
 
 public protocol EventDetailsViewModelable {
     
-    //MARK: Generic properties
+    // MARK: Generic properties
     
     /// Generic type for sections
     associatedtype SectionType
@@ -24,7 +24,7 @@ public protocol EventDetailsViewModelable {
     weak var delegate: EntityDetailsViewModelDelegate? { get }
     
     
-    //MARK: Generic methods
+    // MARK: Generic methods
     
     /// Returns the number of sections
     func numberOfSections() -> Int
@@ -44,7 +44,7 @@ public protocol EventDetailsViewModelable {
 /// Default Implementation
 public extension EventDetailsViewModelable {
     
-    //MARK: Default impletation for all generic methods
+    // MARK: Default impletation for all generic methods
     
     public func numberOfSections() -> Int {
         return sections.count
