@@ -92,7 +92,7 @@ open class RoundedRectLabel : UILabel {
         borderColor?.setStroke()
 
         context.addPath(path)
-        context.drawPath(using: .fillStroke)
+        context.drawPath(using: borderColor == nil ? .fill : .fillStroke)
 
         super.draw(rect)
     }
