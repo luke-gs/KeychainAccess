@@ -22,15 +22,15 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
         didSet {
             viewModel?.style       = wantsThumbnails ? .grid : .list
             viewModel?.delegate    = self
-            
+
             if isViewLoaded {
                 searchFieldButton?.text = viewModel?.title
 
                 if let collectionView = collectionView {
                     viewModel?.registerCells(for: collectionView)
-                    
                     collectionView.reloadData()
                 }
+                updateSearchText()
             }
         }
     }
