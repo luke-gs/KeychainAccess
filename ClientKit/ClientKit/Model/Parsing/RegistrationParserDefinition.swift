@@ -16,7 +16,7 @@ public enum RegistrationParserError: LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .invalidLength(_, let range):
-            return "Registration must be between \(range.lowerBound) and \(range.upperBound)."
+            return "Registration must be between \(range.lowerBound) and \(range.upperBound) characters long."
         }
     }
 }
