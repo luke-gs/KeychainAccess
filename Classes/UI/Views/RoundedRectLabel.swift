@@ -21,7 +21,7 @@ open class RoundedRectLabel : UILabel {
             setNeedsDisplay()
         }
     }
-    
+
     open override var backgroundColor: UIColor? {
         get { return _backgroundColor }
         set {
@@ -32,9 +32,21 @@ open class RoundedRectLabel : UILabel {
             self.setNeedsDisplay()
         }
     }
-    
+
+
+    open var borderColor: UIColor? {
+        get { return _borderColor }
+        set {
+            if _borderColor == newValue {
+                return
+            }
+            _borderColor = newValue
+            self.setNeedsDisplay()
+        }
+    }
+
     private var _backgroundColor: UIColor?
-    
+    private var _borderColor: UIColor?
     
     
     // MARK: - Initializer
@@ -68,22 +80,32 @@ open class RoundedRectLabel : UILabel {
     }
     
     open override func draw(_ rect: CGRect) {
-        
+
+        let path = CGPath(roundedRect: bounds,
+                          cornerWidth: cornerRadius,
+                          cornerHeight: cornerRadius,
+                          transform: nil)
+
         if let background = _backgroundColor {
             background.setFill()
             if cornerRadius > 0.0, let context = UIGraphicsGetCurrentContext() {
-                context.addPath(CGPath(roundedRect: bounds, cornerWidth: cornerRadius, cornerHeight: cornerRadius, transform: nil))
+                context.addPath(path)
                 context.fillPath()
-            } else {
-                UIRectFill(bounds)
+                context.closePath()
             }
+        }
+
+        if let border = _borderColor, let context = UIGraphicsGetCurrentContext()   {
+            border.setStroke()
+            context.addPath(path)
+            context.strokePath()
+            context.closePath()
         }
         
         super.draw(rect)
     }
-    
+
     open override func drawText(in rect: CGRect) {
         super.drawText(in: rect.insetBy(layoutMargins))
     }
-    
 }

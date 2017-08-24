@@ -52,7 +52,7 @@ public protocol SearchResultViewModelable {
     ///
     /// Used to indicate the progress of the current search status. This is shown
     /// on the right of the search bar.
-    var status: String? { get }
+    var status: SearchState? { get }
     
     /// The style of the results to be shown.
     ///

@@ -13,6 +13,33 @@ public enum SearchState {
     case idle
     case searching
     case finished
+    case failed
+
+    var searchText: String {
+        switch self {
+        case .finished:
+            return "COMPLETED"
+        case .idle:
+            return "IDLE"
+        case .searching:
+            return "SEARCH IN PROGRESS"
+        case .failed:
+            return "INCOMPLETE"
+        }
+    }
+
+    var colour: UIColor {
+        switch self {
+        case .finished:
+            return #colorLiteral(red: 0, green: 0.5694751143, blue: 1, alpha: 1)
+        case .idle:
+            return .green
+        case .searching:
+            return #colorLiteral(red: 0, green: 0.5694751143, blue: 1, alpha: 1)
+        case .failed:
+            return #colorLiteral(red: 1, green: 0.231372549, blue: 0.1882352941, alpha: 1)
+        }
+    }
 }
 
 
@@ -39,6 +66,9 @@ public class AggregatedSearch<T: MPOLKitEntity> {
     public private(set) var results: [AggregatedResult<T>] = []
     
     public var state: SearchState {
+        let errorCount = results.flatMap{$0.error}.count
+        guard errorCount == 0 else { return .failed }
+
         if results.count == 0 {
             return .idle
         } else if let _ = results.first(where: { $0.state == .searching }) {
@@ -127,7 +157,7 @@ public class AggregatedSearch<T: MPOLKitEntity> {
                                           entities: [],
                                           state: .finished,
                                           error: error)
-        
+
         delegate?.aggregatedSearch(self, didEndSearch: request)
     }
     
