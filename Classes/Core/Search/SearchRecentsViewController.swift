@@ -28,8 +28,8 @@ class SearchRecentsViewController: FormCollectionViewController {
                 if showsRecentSearchesWhenCompact == false {
                     collectionView?.reloadSections(IndexSet(integer: 0))
                 }
-            } else if let headerView = collectionView?.supplementaryView(forElementKind: collectionElementKindGlobalHeader, at: IndexPath(item: 0, section: 0)) as? RecentEntitiesHeaderView {
-                headerView.collectionView.reloadSections(IndexSet(integer: 0))
+            } else {
+                collectionView?.reloadSections(IndexSet(integer: 0))
             }
         }
     }
@@ -250,6 +250,7 @@ class SearchRecentsViewController: FormCollectionViewController {
 
     func collectionView(_ collectionView: UICollectionView, heightForGlobalHeaderInLayout layout: CollectionViewFormLayout) -> CGFloat {
         if collectionView != self.collectionView { return 0.0 }
+        if recentlyViewed.count == 0 { return 0.0 }
         
         let traitCollection = self.traitCollection
         if traitCollection.horizontalSizeClass == .compact { return 0.0 }
