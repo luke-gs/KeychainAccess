@@ -81,27 +81,19 @@ open class RoundedRectLabel : UILabel {
     
     open override func draw(_ rect: CGRect) {
 
-        let path = CGPath(roundedRect: bounds,
+        guard let context = UIGraphicsGetCurrentContext() else { return }
+
+        let path = CGPath(roundedRect: bounds.insetBy(dx: 1.0, dy: 1.0),
                           cornerWidth: cornerRadius,
                           cornerHeight: cornerRadius,
                           transform: nil)
 
-        if let background = _backgroundColor {
-            background.setFill()
-            if cornerRadius > 0.0, let context = UIGraphicsGetCurrentContext() {
-                context.addPath(path)
-                context.fillPath()
-                context.closePath()
-            }
-        }
+        backgroundColor?.setFill()
+        borderColor?.setStroke()
 
-        if let border = _borderColor, let context = UIGraphicsGetCurrentContext()   {
-            border.setStroke()
-            context.addPath(path)
-            context.strokePath()
-            context.closePath()
-        }
-        
+        context.addPath(path)
+        context.drawPath(using: .fillStroke)
+
         super.draw(rect)
     }
 
