@@ -131,7 +131,7 @@ extension AppDelegate: LoginViewControllerDelegate, TermsConditionsViewControlle
     func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String) {
         controller.setLoading(true, animated: true)
 
-        MPOLAPIManager.shared.accessTokenRequest(for: .credentials(username: username, password: password)).then { [weak self] _ -> Void in
+        APIManager.shared.accessTokenRequest(for: .credentials(username: username, password: password)).then { [weak self] _ -> Void in
             guard let `self` = self else { return }
 
             // FIXME: - At this point there should be a user

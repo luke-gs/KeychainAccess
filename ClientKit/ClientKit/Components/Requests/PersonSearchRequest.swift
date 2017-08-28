@@ -17,7 +17,7 @@ public class PersonSearchRequest: AggregatedSearchRequest<Person> {
     }
     
     public override func searchPromise() -> Promise<SearchResult<Person>> {
-        return MPOLAPIManager.shared.searchEntity(in: source as! MPOLSource, with: request)
+        return APIManager.shared.searchEntity(in: source as! MPOLSource, with: request)
     }
 }
 

@@ -12,11 +12,13 @@ import MPOLKit
 import PromiseKit
 import Lottie
 import ClientKit
+import Alamofire
 
 #if INTERNAL
     import HockeySDK
 #endif
 
+private let host = "api-dev.mpol.solutions"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
@@ -27,6 +29,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         MPOLKitInitialize()
+
+        APIManager.shared = APIManager(configuration: APIManagerDefaultConfiguration<MPOLSource>(url: "https://\(host)", trustPolicyManager: ServerTrustPolicyManager(policies: [host: .disableEvaluation])))
         
         NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleDidChange), name: .interfaceStyleDidChange, object: nil)
         
