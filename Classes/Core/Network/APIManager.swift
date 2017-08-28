@@ -89,7 +89,7 @@ open class APIManager<Configuration: APIManagerConfigurable> {
     ///   - source: The data source of the entity to be searched.
     ///   - request: The request with the parameters to search the entity.
     /// - Returns: A promise to return search result of specified entity.
-    open func searchEntity<SearchRequest: EntitySearchRequestable>(in source: Configuration.Source, with request: SearchRequest) -> Promise<SearchResult<SearchRequest.ResultClass>> {
+    open func searchEntity<SearchRequest: EntitySearchRequestable>(in source: EntitySource, with request: SearchRequest) -> Promise<SearchResult<SearchRequest.ResultClass>> {
         
         let path = "{source}/entity/{entityType}/search"
         
@@ -113,7 +113,7 @@ open class APIManager<Configuration: APIManagerConfigurable> {
     ///   - source: The data source of entity to be fetched.
     ///   - request: The request with the parameters to fetch the entity.
     /// - Returns: A promise to return specified entity details.
-    open func fetchEntityDetails<FetchRequest: EntityFetchRequestable>(in source: Configuration.Source, with request: FetchRequest) -> Promise<FetchRequest.ResultClass> {
+    open func fetchEntityDetails<FetchRequest: EntityFetchRequestable>(in source: EntitySource, with request: FetchRequest) -> Promise<FetchRequest.ResultClass> {
         
         let path = "{source}/entity/{entityType}/{id}"
         
