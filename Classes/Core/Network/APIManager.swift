@@ -40,16 +40,16 @@ import PromiseKit
 ///    }
 /// }
 
-open class APIManager<Configuration: APIManagerConfigurable> {
+open class APIManager {
     
     open let sessionManager: SessionManager
     open let baseURL: URL
     open let errorMapper: ErrorMapper?
-    open let configuration: Configuration
+    open let configuration: APIManagerConfigurable
 
     let urlQueryBuilder = URLQueryBuilder()
 
-    public init(configuration: Configuration) {
+    public init(configuration: APIManagerConfigurable) {
         self.configuration = configuration
         baseURL = try! configuration.url.asURL()
         errorMapper = configuration.errorMapper
@@ -89,7 +89,7 @@ open class APIManager<Configuration: APIManagerConfigurable> {
     ///   - source: The data source of the entity to be searched.
     ///   - request: The request with the parameters to search the entity.
     /// - Returns: A promise to return search result of specified entity.
-    open func searchEntity<SearchRequest: EntitySearchRequestable>(in source: Configuration.Source, with request: SearchRequest) -> Promise<SearchResult<SearchRequest.ResultClass>> {
+    open func searchEntity<SearchRequest: EntitySearchRequestable>(in source: EntitySource, with request: SearchRequest) -> Promise<SearchResult<SearchRequest.ResultClass>> {
         
         let path = "{source}/entity/{entityType}/search"
         
@@ -113,7 +113,7 @@ open class APIManager<Configuration: APIManagerConfigurable> {
     ///   - source: The data source of entity to be fetched.
     ///   - request: The request with the parameters to fetch the entity.
     /// - Returns: A promise to return specified entity details.
-    open func fetchEntityDetails<FetchRequest: EntityFetchRequestable>(in source: Configuration.Source, with request: FetchRequest) -> Promise<FetchRequest.ResultClass> {
+    open func fetchEntityDetails<FetchRequest: EntityFetchRequestable>(in source: EntitySource, with request: FetchRequest) -> Promise<FetchRequest.ResultClass> {
         
         let path = "{source}/entity/{entityType}/{id}"
         
@@ -195,5 +195,21 @@ open class APIManager<Configuration: APIManagerConfigurable> {
             })
         }
     }
+}
 
+public extension APIManager {
+
+    private static var _sharedManager: APIManager?
+
+    public static var shared: APIManager! {
+        get {
+            guard let manager = _sharedManager else {
+                fatalError("`APIManager.shared` needs to be assigned before use.")
+            }
+            return manager
+        }
+        set {
+            _sharedManager = shared
+        }
+    }
 }

@@ -11,7 +11,7 @@ import Unbox
 
 // MARK: API Configuration
 public protocol APIManagerConfigurable {
-    associatedtype Source: EntitySource
+
     var url: URLConvertible { get }
 
     var urlSessionConfiguration: URLSessionConfiguration { get }
@@ -20,7 +20,7 @@ public protocol APIManagerConfigurable {
 }
 
 public struct APIManagerDefaultConfiguration<S: EntitySource>: APIManagerConfigurable {
-    public typealias Source = S
+    
     public let url: URLConvertible
     public let urlSessionConfiguration: URLSessionConfiguration
     public let errorMapper: ErrorMapper?
