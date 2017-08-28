@@ -40,16 +40,16 @@ import PromiseKit
 ///    }
 /// }
 
-open class APIManager<Configuration: APIManagerConfigurable> {
+open class APIManager {
     
     open let sessionManager: SessionManager
     open let baseURL: URL
     open let errorMapper: ErrorMapper?
-    open let configuration: Configuration
+    open let configuration: APIManagerConfigurable
 
     let urlQueryBuilder = URLQueryBuilder()
 
-    public init(configuration: Configuration) {
+    public init(configuration: APIManagerConfigurable) {
         self.configuration = configuration
         baseURL = try! configuration.url.asURL()
         errorMapper = configuration.errorMapper
@@ -195,5 +195,21 @@ open class APIManager<Configuration: APIManagerConfigurable> {
             })
         }
     }
+}
 
+public extension APIManager {
+
+    private static var _sharedManager: APIManager?
+
+    public static var shared: APIManager! {
+        get {
+            guard let manager = _sharedManager else {
+                fatalError("`APIManager.shared` needs to be assigned before use.")
+            }
+            return manager
+        }
+        set {
+            _sharedManager = shared
+        }
+    }
 }
