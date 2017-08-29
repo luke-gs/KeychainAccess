@@ -51,3 +51,7 @@ public protocol MPOLKitEntityProtocol: Unboxable {
 private enum CodingKey: String {
     case id
 }
+
+func ==(lhs: MPOLKitEntity, rhs: MPOLKitEntity) -> Bool {
+    return lhs.id == rhs.id
+}
