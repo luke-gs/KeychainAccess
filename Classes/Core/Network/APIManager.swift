@@ -10,36 +10,8 @@ import Alamofire
 import Unbox
 import PromiseKit
 
-
 /// MPOL APIManager stack for MPOL applications.
-/// The APIManager doesn't assume anything in regards to source and model.
-/// Application will need to provide concrete types.
-///
-/// One way of using this is to create a subclass passing in some of the configuration to
-/// erase the generic requirements.
-///
-/// struct MyAPIManagerConfiguration: APIManagerConfigurable {
-///    typealias Source = MySource
-///    public let url: URLConvertible
-///
-///    public init(url: URLConvertible) {
-///        self.url = url
-///    }
-/// }
-///
-/// class MyAPIManager: APIManager<MyAPIManagerConfiguration> {
-///
-///    typealias Source = MyAPIManagerConfiguration.Source
-///
-///    override init(configuration: MyAPIManagerConfiguration) {
-///        super.init(configuration: configuration)
-///    }
-///
-///    func searchPerson(in source: MySource, with surname: String) -> Promise<SearchResult<Person>> {
-///        // Call the `searchEntity(in:with)` internally with the correct parameters.
-///    }
-/// }
-
+/// The APIManager doesn't assume anything in regards to model.
 open class APIManager {
     
     open let sessionManager: SessionManager
@@ -57,7 +29,44 @@ open class APIManager {
         sessionManager = SessionManager(configuration: configuration.urlSessionConfiguration,
                                         serverTrustPolicyManager: configuration.trustPolicyManager)
     }
-    
+
+
+    /// Perform specified network request.
+    ///
+    /// - Parameter networkRequest: The network request to be executed.
+    /// - Returns: A promise to return of specified type.
+    open func performRequest<T: Unboxable>(_ networkRequest: NetworkRequestType) throws -> Promise<T> {
+
+        let path = networkRequest.path
+        let requestPath = url(with: path)
+
+        let parameters = networkRequest.parameters
+
+        let request = try URLRequest(url: requestPath, method: networkRequest.method)
+        let encodedURLRequest = try networkRequest.parameterEncoding.encode(request, with: parameters)
+
+        return dataRequestPromise(encodedURLRequest)
+
+    }
+
+    /// Perform specified network request.
+    ///
+    /// - Parameter networkRequest: The network request to be executed.
+    /// - Returns: A promise to return array of specified type.
+    open func performRequest<T: Unboxable>(_ networkRequest: NetworkRequestType) throws -> Promise<[T]> {
+
+        let path = networkRequest.path
+        let requestPath = url(with: path)
+
+        let parameters = networkRequest.parameters
+
+        let request = try URLRequest(url: requestPath, method: networkRequest.method)
+        let encodedURLRequest = try networkRequest.parameterEncoding.encode(request, with: parameters)
+
+        return dataRequestPromise(encodedURLRequest)
+
+    }
+
     /// Request for access token.
     ///
     /// Supports implicit `NSProgress` reporting.
@@ -81,7 +90,7 @@ open class APIManager {
             return Promise(value: token)
         }
     }
-    
+
     /// Search for entity using specified request.
     ///
     /// Supports implicit `NSProgress` reporting.
@@ -104,6 +113,7 @@ open class APIManager {
         let encodedURLRequest = try! URLEncoding.default.encode(request, with: result.parameters)
         
         return dataRequestPromise(encodedURLRequest)
+
     }
     
     /// Fetch entity details using specified request.
