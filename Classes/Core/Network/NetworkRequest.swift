@@ -17,13 +17,14 @@ public struct NetworkRequest: NetworkRequestType {
     public let parameterEncoding: ParameterEncoding
     public let headers: [String : String]?
 
+    private static var queryBuilder = URLQueryBuilder()
+
     public init(pathTemplate: String, parameters: [String: Any], method: HTTPMethod = .get, parameterEncoding: ParameterEncoding = URLEncoding.default, headers: [String : String]? = nil) throws {
 
         self.method = method
         self.headers = headers
 
-        let queryBuilder = URLQueryBuilder()
-        let info = try queryBuilder.urlPathWith(template: pathTemplate, parameters: parameters)
+        let info = try NetworkRequest.queryBuilder.urlPathWith(template: pathTemplate, parameters: parameters)
 
         self.path = info.path
         self.parameters = info.parameters
