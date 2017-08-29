@@ -118,7 +118,7 @@ open class PersonDescription: NSObject, Serialisable {
         }
         
         if let remarks = remarks?.ifNotEmpty() {
-            formattedComponents.append(remarks.localizedLowercase + " remarks")
+            formattedComponents.append(remarks.localizedLowercase)
         }
         
         if formattedComponents.isEmpty {

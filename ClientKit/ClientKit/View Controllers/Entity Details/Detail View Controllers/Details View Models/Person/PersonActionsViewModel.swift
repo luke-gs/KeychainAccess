@@ -76,7 +76,7 @@ public class PersonActionsViewModel: PersonDetailsViewModel<Action> {
         return subtitle
     }
     
-    ///A custom section header for the actions
+    /// A custom section header for the actions
     public override var sectionHeader: String? {
         let count = numberOfItems()
         

@@ -17,6 +17,9 @@ public class VehicleSearchRequest: AggregatedSearchRequest<Vehicle> {
     }
 
     public override func searchPromise() -> Promise<SearchResult<Vehicle>> {
-        return MPOLAPIManager.shared.searchEntity(in: source as! MPOLSource, with: request)
+        // swiftlint:disable force_cast
+        return APIManager.shared.searchEntity(in: source as! MPOLSource, with: request)
+        // swiftlint:enable force_cast
     }
+
 }

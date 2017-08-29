@@ -15,7 +15,7 @@ public enum EngineNumberParserError: LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .invalidLength(_, let range):
-            return "Engine number must be between \(range.lowerBound) and \(range.upperBound)."
+            return "Engine number must be between \(range.lowerBound) and \(range.upperBound) characters long."
         }
     }
 }

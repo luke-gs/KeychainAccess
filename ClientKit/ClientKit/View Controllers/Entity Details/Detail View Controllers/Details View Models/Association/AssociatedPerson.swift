@@ -12,7 +12,7 @@ import MPOLKit
 public class AssociatedPerson: EntitySummaryDisplayable {
     let associate: Person
     
-    public required init (associate: Person) {
+    public required init(associate: Person) {
         self.associate = associate
     }
     

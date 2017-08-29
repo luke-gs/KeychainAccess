@@ -259,7 +259,7 @@ public class VehicleInfoViewModel: EntityDetailsViewModelable {
             case .model:        return NSLocalizedString("Model",              bundle: .mpolKit, comment: "")
             case .vin:          return NSLocalizedString("VIN/Chassis Number", bundle: .mpolKit, comment: "")
             case .engine:       return NSLocalizedString("Engine Number",      bundle: .mpolKit, comment: "")
-            case .fuel:         return NSLocalizedString("Fule Type",          bundle: .mpolKit, comment: "")
+            case .fuel:         return NSLocalizedString("Fuel Type",          bundle: .mpolKit, comment: "")
             case .transmission: return NSLocalizedString("Transmission",       bundle: .mpolKit, comment: "")
             case .color1:       return NSLocalizedString("Primary Colour",     bundle: .mpolKit, comment: "")
             case .color2:       return NSLocalizedString("Secondary Colour",   bundle: .mpolKit, comment: "")

@@ -101,7 +101,7 @@ extension Person: EntitySummaryDisplayable {
         
         if let address = address {
             
-            let components = [address.county, address.suburb, address.state, address.postcode].flatMap({$0})
+            let components = [address.county, address.suburb, address.state, address.postcode].flatMap { $0 }
             if components.isEmpty == false {
                 return components.joined(separator: ", ")
             }
