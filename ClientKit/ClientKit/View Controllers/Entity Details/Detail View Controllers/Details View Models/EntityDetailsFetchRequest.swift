@@ -40,4 +40,5 @@ public class EntityDetailsFetchRequest<T: MPOLKitEntity> {
     public func fetchPromise() -> Promise<T> {
         MPLRequiresConcreteImplementation()
     }
+
 }

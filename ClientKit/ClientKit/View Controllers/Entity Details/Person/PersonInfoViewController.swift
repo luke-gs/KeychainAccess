@@ -12,7 +12,9 @@ import MPOLKit
 open class PersonInfoViewController: EntityDetailCollectionViewController {
     
     open override var entity: Entity? {
-        get { return self.viewModel.person }
+        get {
+            return self.viewModel.person
+        }
         set {
             self.viewModel.person = newValue as? Person
             updateLoadingManagerState()
@@ -103,7 +105,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
             // TODO: - Needs to remove the mock, once real data is hooked up
             /// cell.thumbnailView.imageView.image = #imageLiteral(resourceName: "Avatar 1")
             
-// TODO
+            // TODO: ?
 //            if cell.thumbnailView.allTargets.contains(self) == false {
 //                cell.thumbnailView.isEnabled = true
 //                cell.thumbnailView.addTarget(self, action: #selector(entityThumbnailDidSelect(_:)), for: .primaryActionTriggered)
@@ -260,11 +262,13 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
     private func updateLoadingManagerState() {
         loadingManager.state = entity != nil ? .loaded : .noContent
     }
+
 }
 
 extension PersonInfoViewController: EntityDetailsViewModelDelegate {
+
    public func reloadData() {
         collectionView?.reloadData()
     }
-}
 
+}

@@ -8,8 +8,8 @@
 
 import Foundation
 
-public class VehicleDetailsSectionsDataSource: EntityDetailSectionsDataSource  {
-    
+public class VehicleDetailsSectionsDataSource: EntityDetailSectionsDataSource {
+
     public var localizedDisplayName: String {
         return NSLocalizedString("Vehicle", comment: "")
     }
@@ -18,11 +18,12 @@ public class VehicleDetailsSectionsDataSource: EntityDetailSectionsDataSource  {
                                                                                   EntityAlertsViewController(),
                                                                                   EntityAssociationsViewController(),
                                                                                   PersonCriminalHistoryViewController()]
-    
+
     public func fetchModel(for entity: Entity, sources: [MPOLSource]) -> Fetchable {
         let requests = sources.map {
             VehicleFetchRequest(source: $0, request: EntityFetchRequest<Vehicle>(id: entity.id))
         }
         return EntityDetailsFetch<Vehicle>(requests: requests)
     }
+
 }

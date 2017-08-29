@@ -15,6 +15,3 @@ public protocol EntityDetailSectionsDataSource {
     var detailsViewControllers: [EntityDetailCollectionViewController] { get }
     func fetchModel(for entity: Entity, sources: [MPOLSource]) -> Fetchable
 }
-
-
-
