@@ -17,6 +17,9 @@ public class EntityAlertsViewModel: EntityDetailsViewModelable {
 
     public var entity: Entity? {
         didSet {
+            let alerts = entity?.alerts?.filter{$0.level != nil}
+            entity?.alerts = alerts
+
             let count = entity?.alerts?.count ?? 0
             delegate?.updateSidebarItemCount(UInt(count))
             
@@ -49,60 +52,31 @@ public class EntityAlertsViewModel: EntityDetailsViewModelable {
     // MARK: - Public methods
     
     public func reloadSections(with filteredAlertLevels: Set<Alert.Level>, filterDateRange: FilterDateRange?, sortedBy sorting: DateSorting) {
-        var alerts = entity?.alerts ?? []
-        
-        let dateSorting = sorting.compare(_:_:)
-        
-        func sortingRule(_ alert1: Alert, alert2: Alert) -> Bool {
-            let alert1Level = alert1.level?.rawValue ?? 0
-            let alert2Level = alert2.level?.rawValue ?? 0
-            
-            if alert1Level > alert2Level { return true }
-            if alert2Level > alert1Level { return false }
-            
-            return dateSorting((alert1.effectiveDate ?? Date.distantPast), (alert2.effectiveDate ?? Date.distantPast))
+
+        let dateSort: ((Alert, Alert) -> Bool) = { alert, alert2 in
+            guard let date = alert.effectiveDate, let date2 = alert2.effectiveDate else { return false }
+            return date > date2
         }
-        
-        let selectAlertLevels = filteredAlertLevels != Set(Alert.Level.allCases)
-        let requiresFiltering: Bool = selectAlertLevels || filterDateRange != nil
-        
-        if requiresFiltering {
-            alerts = alerts.filter({ alert in
-                if selectAlertLevels {
-                    guard let alertLevel = alert.level, filteredAlertLevels.contains(alertLevel) else {
-                        return false
-                    }
-                }
-                if let filteredDateRange = filterDateRange {
-                    guard let date = alert.effectiveDate, filteredDateRange.contains(date) else {
-                        return false
-                    }
-                }
-                return true
-            }).sorted(by: sortingRule)
-        } else {
-            alerts.sort(by: sortingRule)
+
+        let sectionSort: (([Alert], [Alert]) -> Bool) = { alerts, alerts2 in
+            guard let level = alerts.first?.level, let level2 = alerts2.first?.level else { return false }
+            return level.rawValue > level2.rawValue
         }
-        
-        if alerts.isEmpty {
-            self.sections = []
-            return
-        }
-        
-        var sections: [[Alert]] = []
-        
-        while let firstAlertLevel = alerts.first?.level {
-            if let firstDifferentIndex = alerts.index(where: { $0.level != firstAlertLevel }) {
-                let alertLevelSlice = alerts.prefix(upTo: firstDifferentIndex)
-                alerts.removeFirst(firstDifferentIndex)
-                sections.append(Array(alertLevelSlice))
+
+        guard let alerts = self.entity?.alerts?.sorted(by: dateSort) else { return }
+
+        var sections: [Alert.Level: [Alert]] = [:]
+
+        alerts.forEach { alert in
+            guard let level = alert.level else { return }
+            if sections[level] != nil {
+                sections[level]!.append(alert)
             } else {
-                sections.append(alerts)
-                alerts.removeAll()
+                sections[level] = [alert]
             }
         }
-        
-        self.sections = sections
+
+        self.sections = Array(sections.values).sorted(by: sectionSort)
         
         delegate?.updateFilterBarButtonItemActivity()
     }
