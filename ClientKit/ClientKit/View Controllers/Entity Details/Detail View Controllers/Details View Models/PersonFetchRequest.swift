@@ -8,6 +8,7 @@
 
 import Foundation
 import PromiseKit
+import MPOLKit
 
 public class PersonFetchRequest: EntityDetailsFetchRequest<Person> {
     
@@ -16,6 +17,6 @@ public class PersonFetchRequest: EntityDetailsFetchRequest<Person> {
     }
     
     public override func fetchPromise() -> Promise<Person> {
-        return MPOLAPIManager.shared.fetchEntityDetails(in: source as! MPOLSource, with: request)
+        return APIManager.shared.fetchEntityDetails(in: source as! MPOLSource, with: request)
     }
 }
