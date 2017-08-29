@@ -16,11 +16,14 @@ import UIKit
 /// as required, or subclass as a point of abstraction between the sidebar and it's detail.
 open class SidebarSplitViewController: PushableSplitViewController, SidebarViewControllerDelegate {
     
-    
+    public var headerNavigationView: UIView?
+
     /// The sidebar view controller for the split view controller.
     public let sidebarViewController: SidebarViewController = SidebarViewController()
     
-    
+    public let masterNavController: UINavigationController
+    public let detailNavController: UINavigationController
+
     /// The detail controllers for the sidebar.
     public var detailViewControllers: [UIViewController] {
         didSet {
@@ -71,13 +74,22 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
     public init(detailViewControllers: [UIViewController]) {
         self.detailViewControllers = detailViewControllers
         selectedViewController = detailViewControllers.first { $0.sidebarItem.isEnabled }
-        
-        var viewControllers = [UINavigationController(rootViewController: sidebarViewController)]
+
+        masterNavController = UINavigationController(rootViewController: sidebarViewController)
+        detailNavController = UINavigationController()
+
         if let selectedViewController = self.selectedViewController {
-            viewControllers.append(navController(forDetail: selectedViewController))
+            detailNavController.viewControllers = [selectedViewController]
+
+            if true { //self.traitCollection.horizontalSizeClass == .compact {
+                // Force early detail vc collapse so animation looks good
+                masterNavController.viewControllers = [selectedViewController]
+                detailNavController.viewControllers = []
+            }
         }
-        super.init(viewControllers: viewControllers)
         
+        super.init(viewControllers: [masterNavController, detailNavController])
+
         sidebarViewController.delegate = self
         sidebarViewController.items = detailViewControllers.map { $0.sidebarItem }
         
@@ -85,19 +97,86 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
         embeddedSplitViewController.delegate = self
         embeddedSplitViewController.minimumPrimaryColumnWidth = 288.0
         embeddedSplitViewController.preferredPrimaryColumnWidthFraction = 320.0 / 1024.0
-        
+        embeddedSplitViewController.delegate = self
+
         var selectedItem: SidebarItem?
         if embeddedSplitViewController.isCollapsed == false {
             selectedItem = selectedViewController?.sidebarItem
         }
         sidebarViewController.selectedItem = selectedItem
     }
-    
+
     /// `SidebarSplitViewController` does not support NSCoding.
     public required init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
-    
+
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateHeaderNavigation()
+    }
+
+    open override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.willTransition(to: newCollection, with: coordinator)
+        coordinator.animate(alongsideTransition: { [weak self] (context) in
+            self?.updateHeaderNavigation()
+            self?.updateSplitViewControllerForTraits()
+            }, completion: nil)
+    }
+
+    func updateSplitViewControllerForTraits() {
+        if self.traitCollection.horizontalSizeClass == .compact {
+            // Split displayed as single view, with details collapsed on top of master
+            // Update the master nav view controller to actually contain the detail, to remove the sidebar
+            if masterNavController.viewControllers.contains(sidebarViewController) {
+                if let detailViewController = self.selectedViewController ?? self.detailViewControllers.first {
+                    masterNavController.viewControllers = [detailViewController]
+                }
+            }
+        } else {
+            // Split displayed as both views visible at same time
+            // Restore the master nav view controller if collapsing has removed the sidebar from it
+            if !masterNavController.viewControllers.contains(sidebarViewController) {
+                masterNavController.viewControllers = [sidebarViewController]
+            }
+        }
+    }
+
+    func updateHeaderNavigation() {
+        if self.traitCollection.horizontalSizeClass == .compact {
+            if #available(iOS 11.0, *) {
+                masterNavController.additionalSafeAreaInsets = UIEdgeInsetsMake(50, 0, 0, 0)
+            } else {
+                // TODO
+            }
+            headerNavigationView = createHeaderNavigationBar()
+        } else {
+            if #available(iOS 11.0, *) {
+                masterNavController.additionalSafeAreaInsets = .zero
+            } else {
+                // TODO
+            }
+            headerNavigationView?.removeFromSuperview()
+            headerNavigationView = nil
+        }
+    }
+
+    func createHeaderNavigationBar() -> UIView {
+        let topY = masterNavController.navigationBar.frame.maxY
+        let view = UIView(frame: CGRect(x: 0, y: topY, width: masterNavController.view.bounds.width, height: 50))
+        view.backgroundColor = UIColor.green
+        view.translatesAutoresizingMaskIntoConstraints = false
+        masterNavController.view.addSubview(view)
+
+        NSLayoutConstraint.activate([
+            view.topAnchor.constraint(equalTo: masterNavController.navigationBar.bottomAnchor),
+            view.leftAnchor.constraint(equalTo: masterNavController.navigationBar.leftAnchor),
+            view.rightAnchor.constraint(equalTo: masterNavController.navigationBar.rightAnchor),
+            view.heightAnchor.constraint(equalToConstant: 50)
+            ])
+        return view
+    }
+
     /// A callback indicating the collapsed state of the split changed.
     open func collapsedStateDidChange() {}
     
@@ -128,26 +207,33 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
     
     
     // MARK: - UISplitViewControllerDelegate methods
-    
+
     open func splitViewController(_ splitViewController: UISplitViewController, showDetail vc: UIViewController, sender: Any?) -> Bool {
+        // TODO: method renamed? point of this anyway?
         shouldCollapseToSidebar = false
         return false
     }
-    
+
     open func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
         sidebarViewController.selectedItem = nil
         sidebarViewController.clearsSelectionOnViewWillAppear = true
         perform(#selector(collapsedStateDidChange), with: nil, afterDelay: 0.0, inModes: [.commonModes])
-        return shouldCollapseToSidebar
+        let shouldCollapse = (self.traitCollection.horizontalSizeClass == .compact)
+        return shouldCollapse
     }
-    
+
     open func splitViewController(_ splitViewController: UISplitViewController, separateSecondaryFrom primaryViewController: UIViewController) -> UIViewController? {
         sidebarViewController.selectedItem = selectedViewController?.sidebarItem
         sidebarViewController.clearsSelectionOnViewWillAppear = false
         perform(#selector(collapsedStateDidChange), with: nil, afterDelay: 0.0, inModes: [.commonModes])
+
+        // Restore the detail nav view controller for split screen
+        if let detailViewController = self.selectedViewController ?? self.detailViewControllers.first {
+            detailNavController.viewControllers = [detailViewController]
+            return detailNavController
+        }
         return nil
     }
-    
 }
 
 
