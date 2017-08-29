@@ -209,7 +209,7 @@ public extension APIManager {
             return manager
         }
         set {
-            _sharedManager = shared
+            _sharedManager = newValue
         }
     }
 }
