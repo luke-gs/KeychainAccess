@@ -73,22 +73,19 @@ open class APIManager {
     /// - Parameter grant: The grant type and required field for it.
     /// - Returns: A promise for access token.
     open func accessTokenRequest(for grant: OAuthAuthorizationGrant) -> Promise<OAuthAccessToken> {
+
         let path = "login"
-        let requestPath = url(with: path)
-        
         let parameters = grant.parameters
-        
-        // Only known parameters are passed in, if this fail, might as well crash.
-        let request: URLRequest = try! URLRequest(url: requestPath, method: .post)
-        let encodedURLRequest = try! URLEncoding.default.encode(request, with: parameters)
-        
-        let promise: Promise<OAuthAccessToken> = self.dataRequestPromise(encodedURLRequest)
-        
+
+        let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters, method: .post)
+
+        let promise: Promise<OAuthAccessToken> = try! performRequest(networkRequest)
         return promise.then { [weak self] token in
             let adapter = AuthenticationHeaderAdapter(authenticationMode: .accessTokenAuthentication(token: token))
             self?.sessionManager.adapter = adapter
             return Promise(value: token)
         }
+
     }
 
     /// Search for entity using specified request.
@@ -99,20 +96,15 @@ open class APIManager {
     ///   - request: The request with the parameters to search the entity.
     /// - Returns: A promise to return search result of specified entity.
     open func searchEntity<SearchRequest: EntitySearchRequestable>(in source: EntitySource, with request: SearchRequest) -> Promise<SearchResult<SearchRequest.ResultClass>> {
-        
+
         let path = "{source}/entity/{entityType}/search"
-        
         var parameters = request.parameters
         parameters["source"] = source
         parameters["entityType"] = SearchRequest.ResultClass.serverTypeRepresentation
-        
-        let result = try! urlQueryBuilder.urlPathWith(template: path, parameters: parameters)
-        
-        let requestPath = url(with: result.path)
-        let request: URLRequest = try! URLRequest(url: requestPath, method: .get)
-        let encodedURLRequest = try! URLEncoding.default.encode(request, with: result.parameters)
-        
-        return dataRequestPromise(encodedURLRequest)
+
+        let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
+
+        return try! performRequest(networkRequest)
 
     }
     
@@ -130,14 +122,11 @@ open class APIManager {
         var parameters = request.parameters
         parameters["source"] = source
         parameters["entityType"] = FetchRequest.ResultClass.serverTypeRepresentation
+
+        let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
         
-        let result = try! urlQueryBuilder.urlPathWith(template: path, parameters: parameters)
-        
-        let requestPath = url(with: result.path)
-        let request: URLRequest = try! URLRequest(url: requestPath, method: .get)
-        let encodedURLRequest = try! URLEncoding.default.encode(request, with: result.parameters)
-        
-        return dataRequestPromise(encodedURLRequest)
+        return try! performRequest(networkRequest)
+
     }
 
     // MARK : - Internal Utilities
