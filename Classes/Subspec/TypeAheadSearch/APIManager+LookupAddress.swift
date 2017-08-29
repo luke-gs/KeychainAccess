@@ -19,7 +19,7 @@ extension APIManager {
     ///   - source: The data source of the lookup addresses suggestion.
     ///   - searchText: The search text to retrieve suggestion.
     /// - Returns: A promise to return array of LookupAddress.
-    open func typeAheadSearchAddress(in source: Configuration.Source, with searchText: String) -> Promise<[LookupAddress]> {
+    open func typeAheadSearchAddress(in source: EntitySource, with searchText: String) -> Promise<[LookupAddress]> {
 
         let path = "{source}/entity/location/typeaheadsearch"
 

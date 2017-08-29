@@ -146,6 +146,7 @@ extension AssetManager {
         public static let journey        = ImageKey("iconGeneralJourney")
         public static let mass           = ImageKey("iconGeneralMass")
         public static let refresh        = ImageKey("iconGeneralRefreshMagnify")
+        public static let email          = ImageKey("iconFormEmail")
         
         // Entity
         public static let entityOfficer  = ImageKey("iconEntityOfficer")
