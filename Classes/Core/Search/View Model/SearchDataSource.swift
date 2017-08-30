@@ -48,8 +48,10 @@ public func ==(lhs: Searchable, rhs: Searchable) -> Bool {
 }
 
 public enum SearchFieldStyle {
-    case search(configure: ((SearchFieldCollectionViewCell) -> ())?, message: String?)
-    case button(configure: ((SearchFieldAdvanceCell) -> ())?)
+    case search(configure: ((UITextField) -> [UIButton]?)?,
+                textHandler: ((_ text: String?, _ endEditing: Bool) -> ())?,
+                errorMessage: String?)
+    case button(configure: ((UIButton) -> ())?)
 }
 
 public enum SearchOptionType {
@@ -178,7 +180,7 @@ public protocol SearchDataSourceUpdating: class {
 /// Default implementations of the SearchDataSource
 public extension SearchDataSource {
     /// Default to search style.
-    var searchStyle: SearchFieldStyle { return .search(configure: nil, message: nil) }
+    var searchStyle: SearchFieldStyle { return .search(configure: nil, textHandler: nil, errorMessage: nil) }
     
     /// Default selection action is '.none'.
     func selectionAction(forFilterAt index: Int) -> SearchOptionAction { return .none }

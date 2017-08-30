@@ -38,8 +38,6 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         didSet {
             oldValue.updatingDelegate = nil
             
-            navigationItem.rightBarButtonItem = selectedDataSource.navigationButton
-            
             var textRange: UITextRange?
             if let cell = collectionView?.cellForItem(at: indexPathForSearchFieldCell) as? SearchFieldCollectionViewCell {
                 let text = cell.textField.text
@@ -49,6 +47,8 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
                 let search = Searchable(text: text, options: nil, type: nil)
                 selectedDataSource.prefill(withSearchable: search)
             }
+            
+            navigationItem.rightBarButtonItem = selectedDataSource.navigationButton
             
             selectedDataSource.updatingDelegate = self
             editingTextFieldIndexPath = (indexPathForSearchFieldCell, textRange)
@@ -263,7 +263,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         switch Section(rawValue: indexPath.section)! {
         case .searchField:
             switch dataSource.searchStyle {
-            case .search(let configure, let message):
+            case .search(let configure, _, let message):
                 let cell = collectionView.dequeueReusableCell(of: SearchFieldCollectionViewCell.self, for: indexPath)
                 
                 // It is important to reset the text field back to default state as this is reused by multiple datasources and some properties may not be configured by the data source.
@@ -278,11 +278,15 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
                 
                 textField.allTargets.forEach { textField.removeTarget($0, action: nil, for: .allEvents) }
                 
-                cell.additionalButtons = nil
-                
-                configure?(cell)
-                
+                cell.additionalButtons = configure?(textField)
                 cell.setRequiresValidation(message != nil, validationText: message, animated: false)
+                
+                if textField.allTargets.contains(self) == false {
+                    textField.addTarget(self, action: #selector(onTextDidChange(_:)), for: .editingChanged)
+                }
+                
+                textField.delegate = self
+                
                 return cell
             case .button(let configure):
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier.advance.rawValue, for: indexPath) as! SearchFieldAdvanceCell
@@ -292,7 +296,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
                 actionButton.setTitleColor(tintColor, for: .normal)
                 actionButton.allTargets.forEach { actionButton.removeTarget($0, action: nil, for: .allEvents) }
                 
-                configure?(cell)
+                configure?(actionButton)
                 return cell
             }
             
@@ -333,7 +337,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
                 textField.placeholder = placeholder
                 
                 if textField.allTargets.contains(self) == false {
-                    textField.addTarget(self, action: #selector(filterTextDidChange(_:)), for: .editingChanged)
+                    textField.addTarget(self, action: #selector(onTextDidChange(_:)), for: .editingChanged)
                 }
                 
                 textField.delegate = self
@@ -434,7 +438,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         
         if indexPath.section == 0 {
             switch selectedDataSource.searchStyle {
-            case .search(_, let message):
+            case .search(_, _, let message):
                 if let errorMessage = message {
                     let height = SearchFieldCollectionViewCell.heightForValidationAccessory(withText: errorMessage, contentWidth: contentWidth, compatibleWith: traitCollection)
                     
@@ -520,7 +524,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         switch component {
         case .searchStyleErrorMessage:
             switch selectedDataSource.searchStyle {
-            case .search(_, let message):
+            case .search(_, _, let message):
                 let cell = self.collectionView?.cellForItem(at: self.indexPathForSearchFieldCell) as? CollectionViewFormCell
                 cell?.setRequiresValidation(message != nil, validationText: message, animated: true)
                 return
@@ -557,24 +561,35 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         case searchField, filters
     }
     
-    @objc private func filterTextDidChange(_ textField: UITextField) {
-        guard let selectedIndexPath = collectionView?.indexPathsForSelectedItems?.first, selectedIndexPath.section > 0 else {
+    private func notifyTextChanged(textField: UITextField, didEndEditing: Bool) {
+        guard let selectedIndexPath = collectionView?.indexPathsForSelectedItems?.first else {
             return
         }
         
-        let item = selectedIndexPath.item
-        selectedDataSource.textChanged(forFilterAt: item, text: textField.text, didEndEditing: false)
+        switch Section(rawValue: selectedIndexPath.section)! {
+        case .searchField:
+            let item = selectedIndexPath.item
+            switch selectedDataSource.searchStyle {
+            case .search(_, let textHandler, _):
+                textHandler?(textField.text, didEndEditing)
+            default: break
+            }
+        case .filters:
+            let item = selectedIndexPath.item
+            selectedDataSource.textChanged(forFilterAt: item, text: textField.text, didEndEditing: didEndEditing)
+        }
+    }
+    
+    @objc private func onTextDidChange(_ textField: UITextField) {
+        notifyTextChanged(textField: textField, didEndEditing: false)
     }
     
     // MARK: - TextFieldDelegate
     
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        guard let selectedIndexPath = collectionView?.indexPathsForSelectedItems?.first, selectedIndexPath.section > 0 else {
-            return
-        }
-        
-        let item = selectedIndexPath.item
-        selectedDataSource.textChanged(forFilterAt: item, text: textField.text, didEndEditing: true)
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        notifyTextChanged(textField: textField, didEndEditing: true)
+        textField.resignFirstResponder()
+        return false
     }
     
 }
