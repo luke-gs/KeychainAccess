@@ -40,6 +40,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		091DA364102011581818FC3E /* Pods-MPOL.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOL.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOL/Pods-MPOL.release.xcconfig"; sourceTree = "<group>"; };
 		12ADD4301F32C0FA00CA8B4D /* MPOLSearchViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPOLSearchViewModel.swift; sourceTree = "<group>"; };
 		12ADD4321F32C0FA00CA8B4D /* PersonSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonSearchDataSource.swift; sourceTree = "<group>"; };
 		12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleSearchDataSource.swift; sourceTree = "<group>"; };
@@ -51,6 +52,7 @@
 		463D402A1F4BC7D4005F9A1C /* AppConfig-internal-debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-internal-debug.xcconfig"; sourceTree = "<group>"; };
 		463D402B1F4BC844005F9A1C /* AppConfig-external-debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-external-debug.xcconfig"; sourceTree = "<group>"; };
 		463D402C1F4BC84F005F9A1C /* AppConfig-external-release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-external-release.xcconfig"; sourceTree = "<group>"; };
+		5D632A17F686E6C3C391FB90 /* Pods-MPOL.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOL.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MPOL/Pods-MPOL.debug.xcconfig"; sourceTree = "<group>"; };
 		BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
 		BC4E81101EBEE38400188181 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		BC8B26F21EDC07430022B0AD /* ActionListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionListViewController.swift; sourceTree = "<group>"; };
@@ -61,8 +63,6 @@
 		BCD4EA981E515ACE000B993D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BCD4EA9E1E515ADE000B993D /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BCEEA5601F03205800C884A4 /* ClientKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ClientKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		DB88BCEA1F43D22A0056FD69 /* AppConfig-debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-debug.xcconfig"; sourceTree = "<group>"; };
-		DB88BCEB1F43D22A0056FD69 /* AppConfig-release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-release.xcconfig"; sourceTree = "<group>"; };
 		EA3C89051F32E34300F38461 /* termsandconditions.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = termsandconditions.html; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -103,6 +103,8 @@
 		94B397E37C630B0C23D02198 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
+				5D632A17F686E6C3C391FB90 /* Pods-MPOL.debug.xcconfig */,
+				091DA364102011581818FC3E /* Pods-MPOL.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -172,8 +174,6 @@
 		DB88BCE81F43CBC00056FD69 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
-				DB88BCEA1F43D22A0056FD69 /* AppConfig-debug.xcconfig */,
-				DB88BCEB1F43D22A0056FD69 /* AppConfig-release.xcconfig */,
 				463D40291F4BC784005F9A1C /* AppConfig-internal-release.xcconfig */,
 				463D402A1F4BC7D4005F9A1C /* AppConfig-internal-debug.xcconfig */,
 				463D402B1F4BC844005F9A1C /* AppConfig-external-debug.xcconfig */,
@@ -306,6 +306,7 @@
 				"${BUILT_PRODUCTS_DIR}/Unbox/Unbox.framework",
 				"${BUILT_PRODUCTS_DIR}/Wrap/Wrap.framework",
 				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
+				"${BUILT_PRODUCTS_DIR}/AlamofireNetworkActivityLogger/AlamofireNetworkActivityLogger.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -315,6 +316,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Unbox.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Wrap.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireNetworkActivityLogger.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -336,7 +338,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -362,6 +364,7 @@
 /* Begin XCBuildConfiguration section */
 		463D401F1F4BC64E005F9A1C /* Internal-Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 463D402A1F4BC7D4005F9A1C /* AppConfig-internal-debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -418,7 +421,7 @@
 		};
 		463D40201F4BC64E005F9A1C /* Internal-Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DB88BCEA1F43D22A0056FD69 /* AppConfig-debug.xcconfig */;
+			baseConfigurationReference = 463D402A1F4BC7D4005F9A1C /* AppConfig-internal-debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MPOL/MPOL.entitlements;
@@ -436,6 +439,7 @@
 		};
 		463D40211F4BC658005F9A1C /* External-Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 463D402C1F4BC84F005F9A1C /* AppConfig-external-release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -485,7 +489,7 @@
 		};
 		463D40221F4BC658005F9A1C /* External-Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DB88BCEB1F43D22A0056FD69 /* AppConfig-release.xcconfig */;
+			baseConfigurationReference = 463D402C1F4BC84F005F9A1C /* AppConfig-external-release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MPOL/MPOL.entitlements;
@@ -503,6 +507,7 @@
 		};
 		463D40231F4BC663005F9A1C /* External-Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 463D402B1F4BC844005F9A1C /* AppConfig-external-debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -559,7 +564,7 @@
 		};
 		463D40241F4BC663005F9A1C /* External-Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DB88BCEA1F43D22A0056FD69 /* AppConfig-debug.xcconfig */;
+			baseConfigurationReference = 463D402B1F4BC844005F9A1C /* AppConfig-external-debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MPOL/MPOL.entitlements;
@@ -577,6 +582,7 @@
 		};
 		463D40271F4BC682005F9A1C /* Internal-Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 463D40291F4BC784005F9A1C /* AppConfig-internal-release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -626,7 +632,7 @@
 		};
 		463D40281F4BC682005F9A1C /* Internal-Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DB88BCEB1F43D22A0056FD69 /* AppConfig-release.xcconfig */;
+			baseConfigurationReference = 463D40291F4BC784005F9A1C /* AppConfig-internal-release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MPOL/MPOL.entitlements;
@@ -750,7 +756,7 @@
 		};
 		BCD4EA9C1E515ACE000B993D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DB88BCEA1F43D22A0056FD69 /* AppConfig-debug.xcconfig */;
+			baseConfigurationReference = 5D632A17F686E6C3C391FB90 /* Pods-MPOL.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MPOL/MPOL.entitlements;
@@ -768,7 +774,7 @@
 		};
 		BCD4EA9D1E515ACE000B993D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DB88BCEB1F43D22A0056FD69 /* AppConfig-release.xcconfig */;
+			baseConfigurationReference = 091DA364102011581818FC3E /* Pods-MPOL.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MPOL/MPOL.entitlements;
