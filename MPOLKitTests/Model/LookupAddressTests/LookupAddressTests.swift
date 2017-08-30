@@ -28,6 +28,10 @@ class LookupAddressTests: XCTestCase {
         XCTAssertEqual(address.isAlias, json["isAlias"] as! Bool)
 
         let location: UnboxableDictionary = json["location"] as! UnboxableDictionary
+
+        XCTAssertEqual(address.coordinate.longitude, location["longitude"] as! CLLocationDegrees)
+        XCTAssertEqual(address.coordinate.latitude, location["latitude"] as! CLLocationDegrees)
+
         XCTAssertEqual(address.commonName, location["commonName"] as? String)
         XCTAssertEqual(address.country, location["country"] as? String)
         XCTAssertEqual(address.county, location["county"] as? String)
