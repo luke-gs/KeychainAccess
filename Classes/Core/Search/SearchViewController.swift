@@ -523,10 +523,11 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
 
             for (index, oldEntity) in recents.enumerated() {
                 if oldEntity == entity {
-                    recents.insert(recents.remove(at: index), at: 0)
+                    recents.remove(at: index)
                     break
                 }
             }
+            recents.insert(entity, at: 0)
             self.recentlyViewedEntities = recents
         }
     }
