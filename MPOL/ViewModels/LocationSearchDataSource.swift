@@ -138,14 +138,12 @@ class LocationSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate,
         return .none
     }
     
-    func textChanged(forFilterAt index: Int, text: String?) {
+    func textChanged(forFilterAt index: Int, text: String?, didEndEditing ended: Bool) {
         if let options = options as? LocationAdvanceSearchOptions {
             guard let item = LocationAdvanceItem(rawValue: index) else { return }
             
             switch item {
-            case .unit:
-                options.unit = text
-                updatingDelegate?.searchDataSource(self, didUpdateComponent: .filterErrorMessage(index: index))
+            case .unit: options.unit = text
             case .streetName: options.streetName = text
             case .streetNumberStart: options.streetNumberStart = text
             case .streetNumberEnd: options.streetNumberEnd = text
@@ -153,6 +151,8 @@ class LocationSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate,
             case .suburb: options.suburb = text
             default: break
             }
+            
+            updatingDelegate?.searchDataSource(self, didUpdateComponent: .filterErrorMessage(index: index))
         }
     }
     

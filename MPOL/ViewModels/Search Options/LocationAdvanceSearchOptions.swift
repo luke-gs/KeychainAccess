@@ -134,7 +134,8 @@ open class LocationAdvanceSearchOptions: SearchOptions {
         let item = LocationAdvanceItem(rawValue: index)!
         switch item {
         case .unit:
-            return unit?.isEmpty ?? true == false ? "This should be between 20 and 30 characters long." : nil
+            let count = unit?.characters.count ?? 0
+            return count > 5 ? "This should be less than 5 characters long." : nil
         default: break
         }
         return nil
