@@ -13,7 +13,6 @@ import PromiseKit
 import Lottie
 import ClientKit
 import Alamofire
-import AlamofireNetworkActivityLogger
 
 #if INTERNAL
     import HockeySDK
@@ -62,12 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         return true
     }
-    
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        NetworkActivityLogger.shared.level = .debug
-        NetworkActivityLogger.shared.startLogging()
-        return true
-    }
+
    // MARK: - APNS
     
     func registerPushNotifications(_ application: UIApplication) {
