@@ -11,34 +11,16 @@ import UIKit
 fileprivate var FontAssociatedTextStyleHandle: UInt8 = 0
 
 extension UIFont {
-    
-    /// The text style for the font. This is a cached computed property.
-    public var textStyle: UIFontTextStyle? {
-        let styleString: NSString
-        
-        if let textStyleString = objc_getAssociatedObject(self, &FontAssociatedTextStyleHandle) as? NSString {
-            styleString = textStyleString
-        } else {
-            let textStyleString = fontDescriptor.object(forKey: UIFontDescriptorTextStyleAttribute) as? NSString ?? NSString()
-            objc_setAssociatedObject(self, &FontAssociatedTextStyleHandle, textStyleString, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-            styleString = textStyleString
-        }
-        
-        if styleString.length == 0 {
-            return nil // empty style string represents we previously tried to find a text style, and it didn't exist.
-        }
-        return UIFontTextStyle(rawValue: styleString as String)
-    }
-    
+
     public func height(forNumberOfLines numberOfLines: Int) -> CGFloat {
         // TODO: Swift 4 refactor with Switch using open ranges.
         if numberOfLines <= 0 { return .greatestFiniteMagnitude }
         
         if numberOfLines == 1 {
             return lineHeight
-        } else {
-            return (lineHeight + leading) * CGFloat(numberOfLines) - leading
         }
+
+        return (lineHeight + leading) * CGFloat(numberOfLines) - leading
     }
     
 }

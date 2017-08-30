@@ -63,3 +63,23 @@ class FileManagerTests: XCTestCase {
         }
     }
 }
+
+class UIFontConvenience: XCTestCase {
+
+    let font = UIFont.systemFont(ofSize: 10)
+
+    func testInfiniteNumberOfLines() {
+        XCTAssertEqual(font.height(forNumberOfLines: 0), .greatestFiniteMagnitude)
+    }
+
+    func testSingleLine() {
+        XCTAssertEqual(font.height(forNumberOfLines: 1), font.lineHeight)
+    }
+
+    func testMultiLine() {
+        let numberofLines = 3
+        //Magic numbers time
+        let test = (font.lineHeight + font.leading) * CGFloat(numberofLines) - font.leading
+        XCTAssertEqual(font.height(forNumberOfLines: numberofLines), test)
+    }
+}
