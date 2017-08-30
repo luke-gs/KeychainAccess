@@ -150,7 +150,7 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
     
     private var noContentGuide: Any? // on iOS 11+, this is the contentLayoutGuide. on iOS 10, it is a UIView.
     
-    private var loadingIndicatorView: UIActivityIndicatorView?
+    private var loadingIndicatorView: MPOLSpinnerView?
     
     private var loadingStackView: UIStackView?
     
@@ -173,7 +173,7 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
     
     private func updateViewState() {
         if state != .loading {
-            loadingIndicatorView?.stopAnimating()
+            loadingIndicatorView?.stop()
             loadingStackView?.removeFromSuperview()
             loadingIndicatorView = nil
             loadingStackView = nil
@@ -199,10 +199,11 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
             if let currentStackView = self.loadingStackView {
                 loadingStackView = currentStackView
             } else {
-                let loadingIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
-                loadingIndicatorView.color = noContentColor
-                loadingIndicatorView.startAnimating()
-                
+                let manager = ThemeManager.shared
+                let color = manager.theme(for: manager.currentInterfaceStyle).color(forKey: .tint)
+                let loadingIndicatorView = MPOLSpinnerView(style: .regular, color: color)
+                loadingIndicatorView.play()
+
                 loadingStackView = UIStackView(arrangedSubviews: [loadingIndicatorView, loadingLabel])
                 loadingStackView.translatesAutoresizingMaskIntoConstraints = false
                 loadingStackView.axis = .vertical
