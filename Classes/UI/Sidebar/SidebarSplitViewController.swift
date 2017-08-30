@@ -64,7 +64,10 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
     
     /// A boolean value indicating whether the split view controller should collapse
     /// to the sidebar.
-    open var shouldCollapseToSidebar: Bool = true
+    public func shouldCollapseToSidebar() -> Bool {
+        // Collapse whenever compact size
+        return self.traitCollection.horizontalSizeClass == .compact
+    }
     
     
     /// Initializes the sidebar split view controller with the specified detail view controllers.
@@ -81,7 +84,8 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
         if let selectedViewController = self.selectedViewController {
             detailNavController.viewControllers = [selectedViewController]
 
-            if true { //self.traitCollection.horizontalSizeClass == .compact {
+            // Check the screen trait collection, as self is not initialised yet
+            if UIScreen.main.traitCollection.horizontalSizeClass == .compact {
                 // Force early detail vc collapse so animation looks good
                 masterNavController.viewControllers = [selectedViewController]
                 detailNavController.viewControllers = []
@@ -113,16 +117,24 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
 
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        // Create header bar if necessary
         updateHeaderNavigation()
     }
 
     open override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         super.willTransition(to: newCollection, with: coordinator)
         coordinator.animate(alongsideTransition: { [weak self] (context) in
+            // Update header bar and split view controller for new trait
             self?.updateHeaderNavigation()
             self?.updateSplitViewControllerForTraits()
             }, completion: nil)
     }
+
+    /// A callback indicating the collapsed state of the split changed.
+    open func collapsedStateDidChange() {}
+    
+    // MARK: - iPhone support
 
     func updateSplitViewControllerForTraits() {
         if self.traitCollection.horizontalSizeClass == .compact {
@@ -177,10 +189,6 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
         return view
     }
 
-    /// A callback indicating the collapsed state of the split changed.
-    open func collapsedStateDidChange() {}
-    
-    
     // MARK: - SidebarViewControllerDelegate methods
     
     /// Handles when the sidebar selects a new item.
@@ -208,18 +216,12 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
     
     // MARK: - UISplitViewControllerDelegate methods
 
-    open func splitViewController(_ splitViewController: UISplitViewController, showDetail vc: UIViewController, sender: Any?) -> Bool {
-        // TODO: method renamed? point of this anyway?
-        shouldCollapseToSidebar = false
-        return false
-    }
-
     open func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
         sidebarViewController.selectedItem = nil
         sidebarViewController.clearsSelectionOnViewWillAppear = true
         perform(#selector(collapsedStateDidChange), with: nil, afterDelay: 0.0, inModes: [.commonModes])
-        let shouldCollapse = (self.traitCollection.horizontalSizeClass == .compact)
-        return shouldCollapse
+
+        return self.shouldCollapseToSidebar()
     }
 
     open func splitViewController(_ splitViewController: UISplitViewController, separateSecondaryFrom primaryViewController: UIViewController) -> UIViewController? {
