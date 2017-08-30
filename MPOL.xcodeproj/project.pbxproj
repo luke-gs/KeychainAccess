@@ -15,9 +15,6 @@
 		397B77011E52CEDA00696677 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 397B77001E52CEDA00696677 /* UserNotifications.framework */; };
 		BC45C4471EEB56D2001F5747 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */; };
 		BC4E81111EBEE38400188181 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4E81101EBEE38400188181 /* SettingsViewController.swift */; };
-		BC79A25ACCEB8E25B3A2FD8D /* LocationAdvanceSearchOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC79A13392B6D6A778FCD937 /* LocationAdvanceSearchOptions.swift */; };
-		BC79A979D89924899742815E /* LocationSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC79A057ABB2BB87C423BA65 /* LocationSearchDataSource.swift */; };
-		BC79AFF1B478D13532DCF7A4 /* LocationBasicSearchOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC79A0AA6DBB156CAC756D12 /* LocationBasicSearchOptions.swift */; };
 		BC8B26F31EDC07430022B0AD /* ActionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8B26F21EDC07430022B0AD /* ActionListViewController.swift */; };
 		BC8B26F61EDC08460022B0AD /* EventsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8B26F51EDC08460022B0AD /* EventsListViewController.swift */; };
 		BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */; };
@@ -56,9 +53,6 @@
 		463D402C1F4BC84F005F9A1C /* AppConfig-external-release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-external-release.xcconfig"; sourceTree = "<group>"; };
 		BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
 		BC4E81101EBEE38400188181 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		BC79A057ABB2BB87C423BA65 /* LocationSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSearchDataSource.swift; sourceTree = "<group>"; };
-		BC79A0AA6DBB156CAC756D12 /* LocationBasicSearchOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationBasicSearchOptions.swift; sourceTree = "<group>"; };
-		BC79A13392B6D6A778FCD937 /* LocationAdvanceSearchOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationAdvanceSearchOptions.swift; sourceTree = "<group>"; };
 		BC8B26F21EDC07430022B0AD /* ActionListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionListViewController.swift; sourceTree = "<group>"; };
 		BC8B26F51EDC08460022B0AD /* EventsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsListViewController.swift; sourceTree = "<group>"; };
 		BCD4EA891E515ACE000B993D /* MPOL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MPOL.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -92,8 +86,6 @@
 				12ADD4301F32C0FA00CA8B4D /* MPOLSearchViewModel.swift */,
 				12ADD4321F32C0FA00CA8B4D /* PersonSearchDataSource.swift */,
 				12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */,
-				BC79A057ABB2BB87C423BA65 /* LocationSearchDataSource.swift */,
-				BC79A6A1680CCACA1465CD73 /* Search Options */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -123,15 +115,6 @@
 				BC4E81101EBEE38400188181 /* SettingsViewController.swift */,
 			);
 			path = "View Controllers";
-			sourceTree = "<group>";
-		};
-		BC79A6A1680CCACA1465CD73 /* Search Options */ = {
-			isa = PBXGroup;
-			children = (
-				BC79A13392B6D6A778FCD937 /* LocationAdvanceSearchOptions.swift */,
-				BC79A0AA6DBB156CAC756D12 /* LocationBasicSearchOptions.swift */,
-			);
-			path = "Search Options";
 			sourceTree = "<group>";
 		};
 		BC8B26F11EDC07360022B0AD /* Action List */ = {
@@ -371,9 +354,6 @@
 				12ADD43A1F32C0FA00CA8B4D /* VehicleSearchDataSource.swift in Sources */,
 				BC8B26F61EDC08460022B0AD /* EventsListViewController.swift in Sources */,
 				12ADD4381F32C0FA00CA8B4D /* PersonSearchDataSource.swift in Sources */,
-				BC79A979D89924899742815E /* LocationSearchDataSource.swift in Sources */,
-				BC79A25ACCEB8E25B3A2FD8D /* LocationAdvanceSearchOptions.swift in Sources */,
-				BC79AFF1B478D13532DCF7A4 /* LocationBasicSearchOptions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
