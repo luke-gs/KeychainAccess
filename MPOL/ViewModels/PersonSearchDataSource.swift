@@ -43,23 +43,17 @@ class PersonSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
     }
     
     var searchStyle: SearchFieldStyle {
-        return .search(configure: { [weak self] (searchView) in
-            guard let `self` = self else { return }
-            
-            let textField = searchView.textField
+        return .search(configure: { [weak self] (textField) in
+            guard let `self` = self else { return nil }
             
             textField.text                   = self.text
             textField.keyboardType           = .asciiCapable
             textField.autocapitalizationType = .words
             textField.autocorrectionType     = .no
             textField.attributedPlaceholder  = self.searchPlaceholder
-            textField.delegate               = self
-            searchView.additionalButtons     = self.additionalSearchButtons
-
-            if textField.allTargets.contains(self) == false {
-                textField.addTarget(self, action: #selector(self.textFieldTextDidChange(_:)), for: .editingChanged)
-            }
-        }, message: self.errorMessage)
+            
+            return self.additionalSearchButtons
+        }, textHandler: self.searchTextDidChange, errorMessage: self.errorMessage)
     }
 
     lazy var navigationButton: UIBarButtonItem? = UIBarButtonItem(title: NSLocalizedString("Search", comment: ""), style: .done, target: self, action: #selector(searchButtonItemTapped))
@@ -176,16 +170,14 @@ class PersonSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
         return false
     }
     
-    // MARK: - Text field delegate
+    // MARK: - Search text handling
     
-    @objc private func textFieldTextDidChange(_ textField: UITextField) {
-        text = textField.text
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        performSearch()
-        return false
+    private func searchTextDidChange(_ text: String?, _ endEditing: Bool) {
+        self.text = text
+        
+        if endEditing {
+            performSearch()
+        }
     }
     
     @objc private func searchButtonItemTapped() {

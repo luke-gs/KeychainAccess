@@ -10,11 +10,12 @@ import Foundation
 import MPOLKit
 import ClientKit
 import PromiseKit
+import Unbox
 
 
-extension Address: Pickable {
-    public var title: String? { return "\(arc4random_uniform(200) + 1)/28 Wellington St." }
-    public var subtitle: String? { return "\(arc4random_uniform(200) + 1) m" }
+extension LookupAddress: Pickable {
+    public var title: String? { return fullAddress }
+    public var subtitle: String? { return "\(arc4random_uniform(30)) m" }
 }
 
 class LocationSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate, LocationBasicSearchOptionsDelegate {
@@ -45,10 +46,8 @@ class LocationSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate,
 
     var searchStyle: SearchFieldStyle {
         if options is LocationBasicSearchOptions {
-            return .search(configure: { [weak self] (searchView: SearchFieldCollectionViewCell) in
-                guard let `self` = self else { return }
-                
-                let textField = searchView.textField
+            return .search(configure: { [weak self] (textField) in
+                guard let `self` = self else { return nil }
                 
                 textField.text                   = self.text
                 textField.keyboardType           = .asciiCapable
@@ -56,23 +55,17 @@ class LocationSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate,
                 textField.autocorrectionType     = .no
                 textField.returnKeyType          = .go
                 textField.attributedPlaceholder  = self.searchPlaceholder
-                textField.delegate               = self
                 
-                if textField.allTargets.contains(self) == false {
-                    textField.addTarget(self, action: #selector(self.textFieldTextDidChange(_:)), for: .editingChanged)
-                }
-                
-                searchView.additionalButtons     = self.additionalSearchButtons
-            }, message: self.errorMessage)
+                return self.additionalSearchButtons
+            }, textHandler: self.searchTextDidChange, errorMessage: self.errorMessage)
         } else {
-            return .button(configure: { [weak self] (searchView: SearchFieldAdvanceCell) in
+            return .button(configure: { [weak self] (button) in
                 guard let `self` = self else { return }
                 
-                let actionButton = searchView.actionButton
-                actionButton.setTitle(NSLocalizedString("GO BACK TO SIMPLE SEARCH", comment: "Location Search - Back to simple search"), for: .normal)
+                button.setTitle(NSLocalizedString("GO BACK TO SIMPLE SEARCH", comment: "Location Search - Back to simple search"), for: .normal)
                 
-                if actionButton.actions(forTarget: self, forControlEvent: .touchUpInside) == nil {
-                    actionButton.addTarget(self, action: #selector(self.didTapSimpleSearchButton), for: .touchUpInside)
+                if button.actions(forTarget: self, forControlEvent: .touchUpInside) == nil {
+                    button.addTarget(self, action: #selector(self.didTapSimpleSearchButton), for: .touchUpInside)
                 }
             })
         }
@@ -225,11 +218,18 @@ class LocationSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate,
     }
     
     @objc private func magic() {
-        var locations = [Address]()
+        var locations = [LookupAddress]()
         
         let max = Int(arc4random_uniform(10))
         for _ in 0..<max {
-            locations.append(Address())
+            let data: [String: Any] = [
+                "id": UUID().uuidString, "fullAddress":
+                "\(arc4random_uniform(200) + 1)/28 Wellington St, Collingwood, VIC 3066",
+                "latitude" : -37.807913,
+                "longitude": 144.986060,
+                "isAlias": false
+            ]
+            locations.append(try! LookupAddress(unboxer: Unboxer(dictionary: data)))
         }
         
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5, execute: {
@@ -238,17 +238,11 @@ class LocationSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate,
         })
     }
 
-    // MARK: - Text field delegate
+    // MARK: - Search text handling
     
-    @objc private func textFieldTextDidChange(_ textField: UITextField) {
-        text = textField.text
-        attemptSearch()
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        attemptSearch(delay: false)
-        return false
+    private func searchTextDidChange(_ text: String?, _ endEditing: Bool) {
+        self.text = text
+        attemptSearch(delay: !endEditing)
     }
 
     // MARK: - Handle address

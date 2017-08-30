@@ -114,10 +114,8 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
     }
     
     var searchStyle: SearchFieldStyle {
-        return .search(configure: { [weak self] (searchView) in
-            guard let `self` = self else { return }
-            
-            let textField = searchView.textField
+        return .search(configure: { [weak self] (textField) in
+            guard let `self` = self else { return nil }
             
             let text = (self.options as! VehicleSearchOptions).type.placeholderText
             let placeholder = NSAttributedString(string: text, attributes: [
@@ -130,13 +128,9 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
             textField.autocapitalizationType = .allCharacters
             textField.autocorrectionType     = .no
             textField.attributedPlaceholder  = placeholder
-            textField.delegate               = self
-            searchView.additionalButtons     = self.additionalSearchButtons
-
-            if textField.allTargets.contains(self) == false {
-                textField.addTarget(self, action: #selector(self.textFieldTextDidChange(_:)), for: .editingChanged)
-            }
-        }, message: self.errorMessage)
+            
+            return self.additionalSearchButtons
+            }, textHandler: self.searchTextDidChange, errorMessage: self.errorMessage)
     }
     
     lazy var navigationButton: UIBarButtonItem? = UIBarButtonItem(title: NSLocalizedString("Search", comment: ""), style: .done, target: self, action: #selector(searchButtonItemTapped))
@@ -255,15 +249,14 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
         performSearch()
     }
     
-    // MARK: - Text field delegate
+    // MARK: - Search text handling
     
-    @objc private func textFieldTextDidChange(_ textField: UITextField) {
-        text = textField.text
+    private func searchTextDidChange(_ text: String?, _ endEditing: Bool) {
+        self.text = text
+        
+        if endEditing {
+            performSearch()
+        }
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        performSearch()
-        return false
-    }
 }
