@@ -61,8 +61,6 @@
 		BCD4EA981E515ACE000B993D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BCD4EA9E1E515ADE000B993D /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BCEEA5601F03205800C884A4 /* ClientKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ClientKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		DB88BCEA1F43D22A0056FD69 /* AppConfig-debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-debug.xcconfig"; sourceTree = "<group>"; };
-		DB88BCEB1F43D22A0056FD69 /* AppConfig-release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-release.xcconfig"; sourceTree = "<group>"; };
 		EA3C89051F32E34300F38461 /* termsandconditions.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = termsandconditions.html; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -172,8 +170,6 @@
 		DB88BCE81F43CBC00056FD69 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
-				DB88BCEA1F43D22A0056FD69 /* AppConfig-debug.xcconfig */,
-				DB88BCEB1F43D22A0056FD69 /* AppConfig-release.xcconfig */,
 				463D40291F4BC784005F9A1C /* AppConfig-internal-release.xcconfig */,
 				463D402A1F4BC7D4005F9A1C /* AppConfig-internal-debug.xcconfig */,
 				463D402B1F4BC844005F9A1C /* AppConfig-external-debug.xcconfig */,
@@ -362,6 +358,7 @@
 /* Begin XCBuildConfiguration section */
 		463D401F1F4BC64E005F9A1C /* Internal-Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 463D402A1F4BC7D4005F9A1C /* AppConfig-internal-debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -418,7 +415,7 @@
 		};
 		463D40201F4BC64E005F9A1C /* Internal-Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DB88BCEA1F43D22A0056FD69 /* AppConfig-debug.xcconfig */;
+			baseConfigurationReference = 463D402A1F4BC7D4005F9A1C /* AppConfig-internal-debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MPOL/MPOL.entitlements;
@@ -436,6 +433,7 @@
 		};
 		463D40211F4BC658005F9A1C /* External-Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 463D402C1F4BC84F005F9A1C /* AppConfig-external-release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -485,7 +483,7 @@
 		};
 		463D40221F4BC658005F9A1C /* External-Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DB88BCEB1F43D22A0056FD69 /* AppConfig-release.xcconfig */;
+			baseConfigurationReference = 463D402C1F4BC84F005F9A1C /* AppConfig-external-release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MPOL/MPOL.entitlements;
@@ -503,6 +501,7 @@
 		};
 		463D40231F4BC663005F9A1C /* External-Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 463D402B1F4BC844005F9A1C /* AppConfig-external-debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -559,7 +558,7 @@
 		};
 		463D40241F4BC663005F9A1C /* External-Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DB88BCEA1F43D22A0056FD69 /* AppConfig-debug.xcconfig */;
+			baseConfigurationReference = 463D402B1F4BC844005F9A1C /* AppConfig-external-debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MPOL/MPOL.entitlements;
@@ -577,6 +576,7 @@
 		};
 		463D40271F4BC682005F9A1C /* Internal-Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 463D40291F4BC784005F9A1C /* AppConfig-internal-release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -626,7 +626,7 @@
 		};
 		463D40281F4BC682005F9A1C /* Internal-Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DB88BCEB1F43D22A0056FD69 /* AppConfig-release.xcconfig */;
+			baseConfigurationReference = 463D40291F4BC784005F9A1C /* AppConfig-internal-release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MPOL/MPOL.entitlements;
@@ -750,7 +750,6 @@
 		};
 		BCD4EA9C1E515ACE000B993D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DB88BCEA1F43D22A0056FD69 /* AppConfig-debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MPOL/MPOL.entitlements;
@@ -768,7 +767,6 @@
 		};
 		BCD4EA9D1E515ACE000B993D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DB88BCEB1F43D22A0056FD69 /* AppConfig-release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MPOL/MPOL.entitlements;
