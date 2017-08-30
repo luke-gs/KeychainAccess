@@ -40,7 +40,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
             
             navigationItem.rightBarButtonItem = selectedDataSource.navigationButton
             
-            var textRange: UITextRange? = UITextRange()
+            var textRange: UITextRange?
             if let cell = collectionView?.cellForItem(at: indexPathForSearchFieldCell) as? SearchFieldCollectionViewCell {
                 let text = cell.textField.text
                 textRange = cell.textField.selectedTextRange
@@ -516,14 +516,21 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     func searchDataSource(_ dataSource: SearchDataSource, didUpdateComponent component: SearchDataSourceComponent) {
         
         switch component {
-        case .errorMessage:
+        case .searchStyleErrorMessage:
             switch selectedDataSource.searchStyle {
             case .search(_, let message):
-                let cell = self.collectionView?.cellForItem(at: self.indexPathForSearchFieldCell) as? SearchFieldCollectionViewCell
+                let cell = self.collectionView?.cellForItem(at: self.indexPathForSearchFieldCell) as? CollectionViewFormCell
                 cell?.setRequiresValidation(message != nil, validationText: message, animated: true)
                 return
             default: break
             }
+        case .filterErrorMessage(let index):
+            let indexPath = IndexPath(item: index, section: Section.filters.rawValue)
+            if let cell = self.collectionView?.cellForItem(at: indexPath) as? CollectionViewFormCell {
+                let message = selectedDataSource.options?.errorMessage(at: index)
+                cell.setRequiresValidation(message != nil, validationText: message, animated: true)
+            }
+            return
         default: break
         }
         
@@ -532,7 +539,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     }
     
     func searchDataSource(_ dataSource: SearchDataSource, didFinishWith search: Searchable, andResultViewModel viewModel: SearchResultViewModelable?) {
-        // Pass it on the someone that cares
+        // Pass it on to someone that cares
         delegate?.searchOptionsController(self, didFinishWith: search, andResultViewModel: viewModel)
     }
     

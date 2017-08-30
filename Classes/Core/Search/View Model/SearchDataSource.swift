@@ -159,10 +159,13 @@ public enum SearchDataSourceComponent {
     case searchStyle
     
     /// The message of the SearchFieldStyle. Use this to avoid reloading issue.
-    case errorMessage
+    case searchStyleErrorMessage
     
     /// The filter at a specific index. Pass nil as index to indicate all filters.
     case filter(index: Int?)
+    
+    /// The error message of a filter at a specific index. Use this to avoid reloading issue.
+    case filterErrorMessage(index: Int)
 }
 
 public protocol SearchDataSourceUpdating: class {
