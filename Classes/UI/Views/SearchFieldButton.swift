@@ -203,7 +203,7 @@ open class SearchFieldButton: UIButton {
 
 
     public func update(for searchable: Searchable) {
-        self.text = searchable.searchText
+        self.text = searchable.text
     }
     
     // MARK: - Private methods

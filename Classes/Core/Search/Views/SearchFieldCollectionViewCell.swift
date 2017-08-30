@@ -9,16 +9,16 @@
 import UIKit
 
 
-class SearchFieldCollectionViewCell: CollectionViewFormCell {
+public class SearchFieldCollectionViewCell: CollectionViewFormCell {
     
-    static var cellContentHeight: CGFloat { return 23.0 }
+    public static var cellContentHeight: CGFloat { return 23.0 }
     
     
     // MARK: - Properties
     
-    let textField = UITextField(frame: .zero)
+    public let textField = UITextField(frame: .zero)
     
-    override var frame: CGRect {
+    public override var frame: CGRect {
         didSet {
             if frame.width != oldValue.width {
                 updateSeparatorInsets()
@@ -26,7 +26,7 @@ class SearchFieldCollectionViewCell: CollectionViewFormCell {
         }
     }
     
-    override var bounds: CGRect {
+    public override var bounds: CGRect {
         didSet {
             if bounds.width != oldValue.width {
                 updateSeparatorInsets()
@@ -36,8 +36,10 @@ class SearchFieldCollectionViewCell: CollectionViewFormCell {
     
     open override var isSelected: Bool {
         didSet {
-            if isSelected && textField.isEnabled {
-                textField.becomeFirstResponder()
+            if isSelected && oldValue == false && textField.isEnabled {
+                _ = textField.becomeFirstResponder()
+            } else if !isSelected && oldValue == true && textField.isFirstResponder {
+                _ = textField.resignFirstResponder()
             }
         }
     }
@@ -85,7 +87,7 @@ class SearchFieldCollectionViewCell: CollectionViewFormCell {
                                                              attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 28.0, weight: UIFontWeightLight), NSForegroundColorAttributeName: UIColor.lightGray])
        
         buttonStackView.axis = .horizontal
-        buttonStackView.spacing = 10.0
+        buttonStackView.spacing = 18.0
         buttonStackView.translatesAutoresizingMaskIntoConstraints = false
         
         let contentView = self.contentView
@@ -117,7 +119,7 @@ class SearchFieldCollectionViewCell: CollectionViewFormCell {
         accessibilityTraits |= UIAccessibilityTraitSearchField
     }
     
-    override var accessibilityValue: String? {
+    public override var accessibilityValue: String? {
         get { return textField.text }
         set { }
     }
