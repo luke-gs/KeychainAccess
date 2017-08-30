@@ -223,7 +223,7 @@ public class PersonParserDefinition: QueryParserDefinition {
     
     private static let nameTypeCheck: (_ string: String) -> Bool = { (token) in
         guard !token.isEmpty else { return false }
-        let allowedCharacters = CharacterSet.letters.union(.whitespaces)
+        let allowedCharacters = CharacterSet.letters.union(.whitespaces).union(CharacterSet(charactersIn: "’"))
         let leftover = token.trimmingCharacters(in: allowedCharacters)
         return leftover.characters.count == 0
     }
