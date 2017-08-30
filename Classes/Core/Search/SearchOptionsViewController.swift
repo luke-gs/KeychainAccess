@@ -568,7 +568,6 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         
         switch Section(rawValue: selectedIndexPath.section)! {
         case .searchField:
-            let item = selectedIndexPath.item
             switch selectedDataSource.searchStyle {
             case .search(_, let textHandler, _):
                 textHandler?(textField.text, didEndEditing)

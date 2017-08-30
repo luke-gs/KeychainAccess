@@ -142,7 +142,7 @@ public protocol SearchDataSource: class {
     /// - Parameters:
     ///   - searchable: The searchable.
     /// - Returns: True if searchable is accepted by the datasource. False otherwise.
-    func prefill(withSearchable searchable: Searchable) -> Bool
+    @discardableResult func prefill(withSearchable searchable: Searchable) -> Bool
 }
 
 /// This specifies the action that should occur when an option is selected.

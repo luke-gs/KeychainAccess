@@ -400,19 +400,19 @@ fileprivate extension CollectionViewFormSubtitleCell {
             imageSize = .zero
         }
         
+        let titleVisible = titleLabel.text?.isEmpty == false && titleLabel.isHidden == false
+        let subtitleVisible = subtitleLabel.text?.isEmpty == false && titleLabel.isHidden == false
+        let labelSeparation = titleVisible && subtitleVisible ? self.labelSeparation : 0.0
+        
         // work out label sizes
         let maxTextSize = CGSize(width: contentRect.width, height: .greatestFiniteMagnitude)
         
         let subtitleSize = subtitleLabel.sizeThatFits(maxTextSize).constrained(to: maxTextSize)
         
-        let maxTitleSize = CGSize(width: contentRect.width - subtitleSize.width - self.labelSeparation, height: .greatestFiniteMagnitude)
+        let maxTitleSize = CGSize(width: contentRect.width - subtitleSize.width - labelSeparation, height: .greatestFiniteMagnitude)
         let titleSize    = titleLabel.sizeThatFits(maxTitleSize).constrained(to: maxTitleSize)
         
-        let titleVisible = titleSize.isEmpty == false && titleLabel.isHidden == false
-        let subtitleVisible = subtitleSize.isEmpty == false && titleLabel.isHidden == false
-        
         // Work out major content positions
-        let labelSeparation = titleVisible && subtitleVisible ? self.labelSeparation : 0.0
         
         let centerYOfContent: CGFloat
         
@@ -472,7 +472,7 @@ fileprivate extension CollectionViewFormSubtitleCell {
         let imageSpace = imageSize.isEmpty ? 0.0 : imageSize.width + imageSeparation
         let accessorySpace = accessoryViewSize.isEmpty ? 0.0 : accessoryViewSize.width + CollectionViewFormCell.accessoryContentInset
         
-        return imageSpace + titleWidth + labelSeparation + accessorySpace
+        return imageSpace + titleWidth + labelSeparation + valueWidth + accessorySpace
     }
     
     class func minimumContentHeightForValueStyle(withTitle title: StringSizable?, subtitle: StringSizable?, inWidth width: CGFloat,

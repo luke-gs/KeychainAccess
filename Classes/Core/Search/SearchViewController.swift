@@ -373,7 +373,7 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
                 if isShowingSearchOptions == false && isShowingResults == false {
                     isHidingNavigationBarShadow = recentsViewController.isShowingNavBarExtension
                 }
-            } else if let navItem = object as? UINavigationItem {
+            } else if object is UINavigationItem {
                 updateNavigationItem(animated: true)
             }
         } else {
