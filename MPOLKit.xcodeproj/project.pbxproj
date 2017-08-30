@@ -215,6 +215,10 @@
 		DB88BCE31F42D0110056FD69 /* SearchResultLoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB88BCD81F42CEAA0056FD69 /* SearchResultLoadingCell.swift */; };
 		DB88BCE41F42D0150056FD69 /* QueryParserDefinitionSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB88BCC81F42CE970056FD69 /* QueryParserDefinitionSelector.swift */; };
 		DB88BCE51F42D01C0056FD69 /* SortDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB88BCCA1F42CEA40056FD69 /* SortDescriptor.swift */; };
+		EA4806AF1F56939100B42313 /* LocationAdvanceSearchOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4806AC1F56939100B42313 /* LocationAdvanceSearchOptions.swift */; };
+		EA4806B01F56939100B42313 /* LocationBasicSearchOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4806AD1F56939100B42313 /* LocationBasicSearchOptions.swift */; };
+		EA4806B11F56939100B42313 /* LocationSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4806AE1F56939100B42313 /* LocationSearchDataSource.swift */; };
+		EA4806B31F56961F00B42313 /* Array+Searching.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4806B21F56961F00B42313 /* Array+Searching.swift */; };
 		EA8B66461F37FF5900F09716 /* EntitySummarySearchResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8B66451F37FF5900F09716 /* EntitySummarySearchResultViewModel.swift */; };
 		EA8B66481F38014000F09716 /* EntitySummaryDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8B66471F38014000F09716 /* EntitySummaryDisplayable.swift */; };
 		EA8B664A1F38021100F09716 /* EntitySummaryDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8B66491F38021100F09716 /* EntitySummaryDecorator.swift */; };
@@ -452,6 +456,10 @@
 		DB88BCD61F42CEAA0056FD69 /* SearchFieldCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFieldCollectionViewCell.swift; sourceTree = "<group>"; };
 		DB88BCD71F42CEAA0056FD69 /* SearchResultErrorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultErrorCell.swift; sourceTree = "<group>"; };
 		DB88BCD81F42CEAA0056FD69 /* SearchResultLoadingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultLoadingCell.swift; sourceTree = "<group>"; };
+		EA4806AC1F56939100B42313 /* LocationAdvanceSearchOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationAdvanceSearchOptions.swift; sourceTree = "<group>"; };
+		EA4806AD1F56939100B42313 /* LocationBasicSearchOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationBasicSearchOptions.swift; sourceTree = "<group>"; };
+		EA4806AE1F56939100B42313 /* LocationSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSearchDataSource.swift; sourceTree = "<group>"; };
+		EA4806B21F56961F00B42313 /* Array+Searching.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Searching.swift"; sourceTree = "<group>"; };
 		EA8B66451F37FF5900F09716 /* EntitySummarySearchResultViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntitySummarySearchResultViewModel.swift; sourceTree = "<group>"; };
 		EA8B66471F38014000F09716 /* EntitySummaryDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntitySummaryDisplayable.swift; sourceTree = "<group>"; };
 		EA8B66491F38021100F09716 /* EntitySummaryDecorator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntitySummaryDecorator.swift; sourceTree = "<group>"; };
@@ -1077,6 +1085,7 @@
 		DB88BCC71F42CE970056FD69 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				EA4806B21F56961F00B42313 /* Array+Searching.swift */,
 				DB88BCC81F42CE970056FD69 /* QueryParserDefinitionSelector.swift */,
 			);
 			name = Utility;
@@ -1135,11 +1144,22 @@
 			path = Lottie;
 			sourceTree = "<group>";
 		};
+		EA4806AB1F56935000B42313 /* LocationSearch */ = {
+			isa = PBXGroup;
+			children = (
+				EA4806AC1F56939100B42313 /* LocationAdvanceSearchOptions.swift */,
+				EA4806AD1F56939100B42313 /* LocationBasicSearchOptions.swift */,
+				EA4806AE1F56939100B42313 /* LocationSearchDataSource.swift */,
+			);
+			path = LocationSearch;
+			sourceTree = "<group>";
+		};
 		EA8B66691F393A0000F09716 /* Subspec */ = {
 			isa = PBXGroup;
 			children = (
 				EA8B666A1F393A2000F09716 /* EntitySearch */,
 				19F8DDAD1F4D7C7D00D84DA1 /* TypeAheadSearch */,
+				EA4806AB1F56935000B42313 /* LocationSearch */,
 			);
 			path = Subspec;
 			sourceTree = "<group>";
@@ -1416,6 +1436,7 @@
 				BC9C7E1E1F0DED6600DFFE83 /* FormCollectionViewController.swift in Sources */,
 				C65927741F33045300854C60 /* Lottie+MPOLAnimationStyle.swift in Sources */,
 				BC9C7DF41F0DED6600DFFE83 /* CollectionViewFormCell.swift in Sources */,
+				EA4806B01F56939100B42313 /* LocationBasicSearchOptions.swift in Sources */,
 				BC9C7E261F0DED6600DFFE83 /* EntityListCollectionViewCell.swift in Sources */,
 				BC9C7E191F0DED6600DFFE83 /* RadioButton.swift in Sources */,
 				BC9C7E2C1F0DED6600DFFE83 /* UIColor+Hex.swift in Sources */,
@@ -1432,6 +1453,7 @@
 				BC9C7E351F0DED6600DFFE83 /* KeyboardInputManager.swift in Sources */,
 				DB88BCDE1F42D0080056FD69 /* SearchViewController.swift in Sources */,
 				BC9C7E111F0DED6600DFFE83 /* TableViewFormCheckboxCell.swift in Sources */,
+				EA4806AF1F56939100B42313 /* LocationAdvanceSearchOptions.swift in Sources */,
 				BC9C7DEE1F0DED6600DFFE83 /* Serialisable.swift in Sources */,
 				BC9C7DEB1F0DED6600DFFE83 /* EntitySource.swift in Sources */,
 				BC9C7DC91F0DED6600DFFE83 /* FileManager+URL.swift in Sources */,
@@ -1558,8 +1580,10 @@
 				BCFA067E1F3176A3002FA1FF /* MapCollectionViewLayout.swift in Sources */,
 				BC9C7E461F0DED6600DFFE83 /* SidebarViewController.swift in Sources */,
 				BCC5132F1F333B2000413961 /* FormAccessoryView.swift in Sources */,
+				EA4806B31F56961F00B42313 /* Array+Searching.swift in Sources */,
 				BC9C7E3C1F0DED6600DFFE83 /* FilterViewController.swift in Sources */,
 				C6020FD31F394771001F1E71 /* DataResponse+MPLConversion.swift in Sources */,
+				EA4806B11F56939100B42313 /* LocationSearchDataSource.swift in Sources */,
 				BC9C7E561F0DED6600DFFE83 /* TabStripView.swift in Sources */,
 				C6F640ED1F333D4F003D73B9 /* NSArchiver+SecureArchiver.swift in Sources */,
 				BC9C7E411F0DED6600DFFE83 /* PopoverViewController.swift in Sources */,
