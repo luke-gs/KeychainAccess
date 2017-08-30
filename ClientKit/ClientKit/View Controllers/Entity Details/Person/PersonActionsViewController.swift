@@ -15,7 +15,9 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
     
     
     open override var entity: Entity? {
-        get { return viewModel.person }
+        get {
+            return viewModel.person
+        }
         set {
             viewModel.person = newValue as? Person
             viewModel.reloadSections(with: filterTypes, filterDateRange: filterDateRange)

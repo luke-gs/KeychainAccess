@@ -44,7 +44,7 @@ class MPOLSearchRecentsViewModel: SearchRecentsViewModel {
     func summaryIcon(for searchable: Searchable) -> UIImage? {
         guard let type = searchable.type else { return nil }
 
-        //Could probably enum this out as well
+        // Could probably enum this out as well
         switch type {
         case "Person":
             return AssetManager.shared.image(forKey: .entityPerson)

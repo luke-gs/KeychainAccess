@@ -12,7 +12,9 @@ import MPOLKit
 open class PersonInfoViewController: EntityDetailCollectionViewController {
     
     open override var entity: Entity? {
-        get { return self.viewModel.person }
+        get {
+            return self.viewModel.person
+        }
         set {
             self.viewModel.person = newValue as? Person
             updateLoadingManagerState()

@@ -114,9 +114,9 @@ public class PersonActionsViewModel: PersonDetailsViewModel<Action> {
     // MARK: - CellText Model
     
     public struct CellInfo {
-        let title   : String?
+        let title: String?
         let subtitle: String?
-        let detail  : String?
+        let detail: String?
     }
     
 }
