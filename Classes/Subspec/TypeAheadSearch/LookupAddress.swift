@@ -10,7 +10,12 @@ import Foundation
 import CoreLocation
 import Unbox
 
-public struct LookupAddress: Unboxable {
+public struct LookupAddress: MPOLKitEntityProtocol, Unboxable {
+
+    public static var serverTypeRepresentation: String {
+        return "location"
+    }
+
     public let id: String
     public let fullAddress: String
 
