@@ -97,7 +97,14 @@ public class LocationSearchDataSource: NSObject, SearchDataSource, UITextFieldDe
         return NSLocalizedString("Location", comment: "")
     }
     
-    public override init() {
+    public let searchConfiguration: LocationSearchConfiguration
+    public let searchStrategy: LocationSearchStrategy
+    
+    public init(strategy: LocationSearchStrategy, configuration: LocationSearchConfiguration = LocationSearchConfiguration.default) {
+        
+        self.searchConfiguration = configuration
+        self.searchStrategy = strategy
+        
         super.init()
         
         basicOptions.delegate = self
@@ -219,29 +226,30 @@ public class LocationSearchDataSource: NSObject, SearchDataSource, UITextFieldDe
     
     private func attemptSearch(delay: Bool = true) {
         NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(magic), object: nil)
-        self.perform(#selector(magic), with: nil, afterDelay: delay ? 0.5 : 0.0)
+        self.perform(#selector(magic), with: nil, afterDelay: delay ? searchConfiguration.throttle : 0.0)
     }
     
     private var searchId: String?
     
     @objc private func magic() {
-        guard let text = self.text, text.characters.count > 3 else { return }
+        guard let text = self.text, text.characters.count > searchConfiguration.minimumCharacters else { return }
         
-        let generatedSearchId = UUID().uuidString
-        
-        self.searchId = generatedSearchId
-        
-//        APIManager.shared.typeAheadSearchAddress(in: MPOLSource.gnaf, with: text).then { [weak self] locations -> () in
-//            guard let `self` = self, self.searchId == generatedSearchId else { return }
-//            
-//            self.basicOptions.locations = locations
-//            self.updatingDelegate?.searchDataSource(self, didUpdateComponent: .filter(index: nil))
-//        }.catch { [weak self] in
-//            guard let `self` = self, self.searchId == generatedSearchId else { return }
-//            
-//            let error = $0 as? MappedError
-//            self.errorMessage = error?.localizedDescription
-//        }
+        if let promise = self.searchStrategy.lookupAddressPromise(text: text) {
+            let generatedSearchId = UUID().uuidString
+            
+            self.searchId = generatedSearchId
+            promise.then { [weak self] locations -> () in
+                guard let `self` = self, self.searchId == generatedSearchId else { return }
+                
+                self.basicOptions.locations = locations
+                self.updatingDelegate?.searchDataSource(self, didUpdateComponent: .filter(index: nil))
+            }.catch { [weak self] in
+                guard let `self` = self, self.searchId == generatedSearchId else { return }
+                    
+                let error = $0 as? MappedError
+                self.errorMessage = error?.localizedDescription
+            }
+        }
     }
 
     // MARK: - Search text handling
@@ -267,4 +275,5 @@ public class LocationSearchDataSource: NSObject, SearchDataSource, UITextFieldDe
         self.options = advanceOptions
     }
 }
+
 
