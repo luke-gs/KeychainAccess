@@ -12,7 +12,7 @@ import ClientKit
 
 class MPOLSearchViewModel: SearchViewModel {
     var recentViewModel: SearchRecentsViewModel = MPOLSearchRecentsViewModel()
-    var dataSources: [SearchDataSource] = [PersonSearchDataSource(), VehicleSearchDataSource()]
+    var dataSources: [SearchDataSource] = [PersonSearchDataSource(), VehicleSearchDataSource(), LocationSearchDataSource()]
     
     func detailViewController(for entity: MPOLKitEntity) -> UIViewController? {
         let viewController = EntityDetailsSplitViewController(entity: entity as! Entity)
@@ -44,14 +44,15 @@ class MPOLSearchRecentsViewModel: SearchRecentsViewModel {
     func summaryIcon(for searchable: Searchable) -> UIImage? {
         guard let type = searchable.type else { return nil }
 
-        //Could probably enum this out as well
         switch type {
-        case "Person":
+        case PersonSearchDataSource.searchableType:
             return AssetManager.shared.image(forKey: .entityPerson)
-        case "Vehicle":
+        case VehicleSearchDataSource.searchableType:
             return AssetManager.shared.image(forKey: .entityCar)
+        case LocationSearchDataSource.searchableType:
+            return AssetManager.shared.image(forKey: .location)
         default:
-            return AssetManager.shared.image(forKey: .entityPerson)
+            return AssetManager.shared.image(forKey: .info)
         }
     }
 }
