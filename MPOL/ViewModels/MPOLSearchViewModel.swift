@@ -12,7 +12,11 @@ import ClientKit
 
 class MPOLSearchViewModel: SearchViewModel {
     var recentViewModel: SearchRecentsViewModel = MPOLSearchRecentsViewModel()
-    var dataSources: [SearchDataSource] = [PersonSearchDataSource(), VehicleSearchDataSource(), LocationSearchDataSource()]
+    var dataSources: [SearchDataSource] = [
+        PersonSearchDataSource(),
+        VehicleSearchDataSource(),
+        LocationSearchDataSource(strategy: LookupAddressLocationSearchStrategy(source: MPOLSource.gnaf))
+    ]
     
     func detailViewController(for entity: MPOLKitEntity) -> UIViewController? {
         let viewController = EntityDetailsSplitViewController(entity: entity as! Entity)
