@@ -99,13 +99,13 @@ open class LocationAdvanceSearchOptions: SearchOptions {
 
     open func defaultValue(at index: Int) -> String {
         switch LocationAdvanceItem(rawValue: index)! {
-        case .unit:                 return "-"
-        case .streetNumberStart:    return "-"
-        case .streetNumberEnd:      return "-"
-        case .streetName:           return "-"
+        case .unit:                 return "eg. 317"
+        case .streetNumberStart:    return "eg. 188"
+        case .streetNumberEnd:      return "eg. 200"
+        case .streetName:           return "eg. Wellintong"
         case .streetType:           return "Select"
-        case .suburb:               return "-"
-        case .postcode:             return "-"
+        case .suburb:               return "eg. Collingwood"
+        case .postcode:             return "eg. 3066"
         case .state:                return "Select"
         }
     }
