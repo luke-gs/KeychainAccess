@@ -16,7 +16,7 @@ public enum VINParserError: LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .invalidLength(_, let range):
-            return "VIN must be between \(range.lowerBound) and \(range.upperBound)."
+            return "VIN must be between \(range.lowerBound) and \(range.upperBound) characters long."
         }
     }
 }

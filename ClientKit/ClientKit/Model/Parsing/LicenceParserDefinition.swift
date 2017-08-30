@@ -17,7 +17,7 @@ public enum LicenceParseError: LocalizedError {
         case .invalidLicenceNumber(let licenceNumber):
             return "\(licenceNumber) is not a valid licence number."
         case .invalidLength(_, let range):
-            return "Licence number must be between \(range.lowerBound) and \(range.upperBound)."
+            return "Licence number must be between \(range.lowerBound) and \(range.upperBound) characters long."
         }
     }
 }

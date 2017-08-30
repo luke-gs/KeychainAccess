@@ -12,11 +12,13 @@ import MPOLKit
 import PromiseKit
 import Lottie
 import ClientKit
+import Alamofire
 
-#if GS_TESTING
+#if INTERNAL
     import HockeySDK
 #endif
 
+private let host = "api-dev.mpol.solutions"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
@@ -27,6 +29,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         MPOLKitInitialize()
+
+        APIManager.shared = APIManager(configuration: APIManagerDefaultConfiguration<MPOLSource>(url: "https://\(host)", trustPolicyManager: ServerTrustPolicyManager(policies: [host: .disableEvaluation])))
         
         NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleDidChange), name: .interfaceStyleDidChange, object: nil)
         
@@ -41,7 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         window.makeKeyAndVisible()
         
-        #if GS_TESTING
+        #if INTERNAL
             let manager = BITHockeyManager.shared()
             manager.configure(withIdentifier: "f9141bb9072344a5b316f83f2b2417a4")
             manager.start()
@@ -64,7 +68,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         let notificationCenter: UNUserNotificationCenter = UNUserNotificationCenter.current()
         notificationCenter.delegate = self
-        notificationCenter.requestAuthorization(options: [.badge,.sound, .alert]) { (granted, error) in
+        notificationCenter.requestAuthorization(options: [.badge, .sound, .alert]) { (granted, error) in
             if error == nil {
                 #if !arch(i386) && !arch(x86_64)
                     DispatchQueue.main.async {
@@ -169,6 +173,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func saveUser(_ user: User) {
         UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: user), forKey: "TemporaryUser")
     }
+    
 }
-
-

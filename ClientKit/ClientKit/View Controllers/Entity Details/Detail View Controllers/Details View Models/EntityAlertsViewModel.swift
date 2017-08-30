@@ -67,7 +67,7 @@ public class EntityAlertsViewModel: EntityDetailsViewModelable {
         let requiresFiltering: Bool = selectAlertLevels || filterDateRange != nil
         
         if requiresFiltering {
-            alerts = alerts.filter( { alert in
+            alerts = alerts.filter({ alert in
                 if selectAlertLevels {
                     guard let alertLevel = alert.level, filteredAlertLevels.contains(alertLevel) else {
                         return false

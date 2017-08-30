@@ -25,7 +25,7 @@ public class FieldContactDetailViewModel: EventDetailsViewModel {
         
         
         let place = EventDetailSection(title: NSLocalizedString("PLACE", bundle: .mpolKit, comment: "Section Title"), items: [
-            EventDetailItem(title: NSLocalizedString("Location", bundle: .mpolKit, comment: "Contact location"), detail: fieldContact.contactLocation, image:UIImage(named: "iconGeneralLocation", in: .mpolKit, compatibleWith: nil)),
+            EventDetailItem(title: NSLocalizedString("Location", bundle: .mpolKit, comment: "Contact location"), detail: fieldContact.contactLocation, image: UIImage(named: "iconGeneralLocation", in: .mpolKit, compatibleWith: nil)),
             EventDetailItem(title: NSLocalizedString("Area Type", bundle: .mpolKit, comment: "Contact location"), detail: fieldContact.areaType),
             EventDetailItem(title: NSLocalizedString("Location Response Zone", bundle: .mpolKit, comment: "Contact location"), detail: fieldContact.locationResponseZone),
             EventDetailItem(title: NSLocalizedString("Neighbourhood Watch Area", bundle: .mpolKit, comment: "Contact location"), detail: fieldContact.neighbourhoodWatchArea),

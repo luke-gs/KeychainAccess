@@ -110,7 +110,7 @@ open class Person: Entity {
         descriptions = unboxer.unbox(key: "descriptions")
         aliases = unboxer.unbox(key: "aliases")
         
-        // TODO: 
+        // TODO: ?
         
         // Temporary keep them
         actions = unboxer.unbox(key: "actions")

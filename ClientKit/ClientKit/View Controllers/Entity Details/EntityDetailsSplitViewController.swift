@@ -51,7 +51,7 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
         case _ as Person:
             let request = PersonFetchParameter(id: entity.id)
             firstly {
-                MPOLAPIManager.shared.fetchEntityDetails(in: .mpol, with: request)
+                APIManager.shared.fetchEntityDetails(in: MPOLSource.mpol, with: request)
                 }.then { [weak self] person -> () in
                     /// unlock the sections and update header & sidebar
                     self?.representations = [.mpol: .loaded(person)]
@@ -67,7 +67,7 @@ open class EntityDetailsSplitViewController: SidebarSplitViewController {
         case _ as Vehicle:
             let request = VehicleFetchParameter(id: entity.id)
             firstly {
-                MPOLAPIManager.shared.fetchEntityDetails(in: .mpol, with: request)
+                APIManager.shared.fetchEntityDetails(in: MPOLSource.mpol, with: request)
                 }.then { [weak self] vehicle -> () in
                     self?.representations = [.mpol: .loaded(vehicle)]
                     self?.selectedRepresentation = vehicle

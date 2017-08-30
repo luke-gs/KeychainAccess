@@ -14,9 +14,9 @@ open class PhoneNumber: NSObject, Serialisable {
     
     open let id : String
     
-    open var type : String?
-    open var areaCode : String?
-    open var phoneNumber : String?
+    open var type: String?
+    open var areaCode: String?
+    open var phoneNumber: String?
     
     public required init(id: String = UUID().uuidString) {
         self.id = id
