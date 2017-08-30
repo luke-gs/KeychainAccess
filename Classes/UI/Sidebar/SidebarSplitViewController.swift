@@ -21,7 +21,7 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
     /// The sidebar view controller for the split view controller.
     public let sidebarViewController: SidebarViewController = SidebarViewController()
     
-    public let masterNavController: UINavigationController
+    public let masterNavController: NavigationControllerWithHeader
     public let detailNavController: UINavigationController
 
     /// The detail controllers for the sidebar.
@@ -78,8 +78,13 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
         self.detailViewControllers = detailViewControllers
         selectedViewController = detailViewControllers.first { $0.sidebarItem.isEnabled }
 
-        masterNavController = UINavigationController(rootViewController: sidebarViewController)
+        masterNavController = NavigationControllerWithHeader(rootViewController: sidebarViewController)
         detailNavController = UINavigationController()
+
+        // Create header view for horizontal navigation, visible only when compact
+        masterNavController.headerView = UIView(frame: CGRect(x: 0, y: 0, width: masterNavController.view.bounds.width, height: 50))
+        masterNavController.headerView?.backgroundColor = UIColor.green
+        sidebarViewController.edgesForExtendedLayout = []
 
         if let selectedViewController = self.selectedViewController {
             detailNavController.viewControllers = [selectedViewController]
@@ -115,26 +120,18 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
         MPLCodingNotSupported()
     }
 
-    open override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        // Create header bar if necessary
-        updateHeaderNavigation()
-    }
+    /// A callback indicating the collapsed state of the split changed.
+    open func collapsedStateDidChange() {}
+    
+    // MARK: - iPhone support
 
     open override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         super.willTransition(to: newCollection, with: coordinator)
         coordinator.animate(alongsideTransition: { [weak self] (context) in
             // Update header bar and split view controller for new trait
-            self?.updateHeaderNavigation()
             self?.updateSplitViewControllerForTraits()
             }, completion: nil)
     }
-
-    /// A callback indicating the collapsed state of the split changed.
-    open func collapsedStateDidChange() {}
-    
-    // MARK: - iPhone support
 
     func updateSplitViewControllerForTraits() {
         if self.traitCollection.horizontalSizeClass == .compact {
@@ -152,41 +149,6 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
                 masterNavController.viewControllers = [sidebarViewController]
             }
         }
-    }
-
-    func updateHeaderNavigation() {
-        if self.traitCollection.horizontalSizeClass == .compact {
-            if #available(iOS 11.0, *) {
-                masterNavController.additionalSafeAreaInsets = UIEdgeInsetsMake(50, 0, 0, 0)
-            } else {
-                // TODO
-            }
-            headerNavigationView = createHeaderNavigationBar()
-        } else {
-            if #available(iOS 11.0, *) {
-                masterNavController.additionalSafeAreaInsets = .zero
-            } else {
-                // TODO
-            }
-            headerNavigationView?.removeFromSuperview()
-            headerNavigationView = nil
-        }
-    }
-
-    func createHeaderNavigationBar() -> UIView {
-        let topY = masterNavController.navigationBar.frame.maxY
-        let view = UIView(frame: CGRect(x: 0, y: topY, width: masterNavController.view.bounds.width, height: 50))
-        view.backgroundColor = UIColor.green
-        view.translatesAutoresizingMaskIntoConstraints = false
-        masterNavController.view.addSubview(view)
-
-        NSLayoutConstraint.activate([
-            view.topAnchor.constraint(equalTo: masterNavController.navigationBar.bottomAnchor),
-            view.leftAnchor.constraint(equalTo: masterNavController.navigationBar.leftAnchor),
-            view.rightAnchor.constraint(equalTo: masterNavController.navigationBar.rightAnchor),
-            view.heightAnchor.constraint(equalToConstant: 50)
-            ])
-        return view
     }
 
     // MARK: - SidebarViewControllerDelegate methods
