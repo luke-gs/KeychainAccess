@@ -11,7 +11,7 @@ import Alamofire
 
 extension APIManager {
 
-    /// Search for lookup address using the search text. This is intended for
+    /// Search for lookup address using the search request. This is intended for
     /// to retrieve valid addresses suggestion.
     ///
     /// Supports implicit `NSProgress` reporting.
@@ -19,19 +19,16 @@ extension APIManager {
     ///   - source: The data source of the lookup addresses suggestion.
     ///   - searchText: The search text to retrieve suggestion.
     /// - Returns: A promise to return array of LookupAddress.
-    open func typeAheadSearchAddress(in source: EntitySource, with searchText: String) -> Promise<[LookupAddress]> {
+    open func typeAheadSearchAddress<T: EntitySearchRequestable>(in source: EntitySource, with request: T) -> Promise<[T.ResultClass]> {
 
-        let path = "{source}/entity/location/typeaheadsearch"
+        let path = "{source}/entity/location/search/typeahead"
+        var parameters = request.parameters
+        parameters["source"] = source
 
-        let parameters = ["source" : source, "searchString" : searchText] as [String : Any]
+        let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
 
-        let result = try! urlQueryBuilder.urlPathWith(template: path, parameters: parameters)
+        return try! performRequest(networkRequest)
 
-        let requestPath = url(with: result.path)
-        let request: URLRequest = try! URLRequest(url: requestPath, method: .get)
-        let encodedURLRequest = try! URLEncoding.default.encode(request, with: result.parameters)
-
-        return dataRequestPromise(encodedURLRequest)
     }
 
 }

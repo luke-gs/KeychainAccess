@@ -19,6 +19,9 @@
 		12F057281F3C0F5600CAD6F6 /* EntitySearchRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F057271F3C0F5600CAD6F6 /* EntitySearchRequestTests.swift */; };
 		12F0572A1F3C106D00CAD6F6 /* QueryParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F057291F3C106D00CAD6F6 /* QueryParserTests.swift */; };
 		19975D8F1F4414AF00E51469 /* ErrorMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19975D8E1F4414AF00E51469 /* ErrorMapperTests.swift */; };
+		19C625C01F550D2200504BD9 /* NetworkRequestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C625BF1F550D2200504BD9 /* NetworkRequestType.swift */; };
+		19C625C21F55143900504BD9 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C625C11F55143900504BD9 /* NetworkRequest.swift */; };
+		19C625C41F55186A00504BD9 /* URLQueryBuilder+Parameterisable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C625C31F55186A00504BD9 /* URLQueryBuilder+Parameterisable.swift */; };
 		19DE98CC1F42651C0063F394 /* SortDescriptorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DE98CB1F42651C0063F394 /* SortDescriptorTests.swift */; };
 		19EFD2FA1F4D5C6300422F2A /* LookupAddressTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EFD2F91F4D5C6300422F2A /* LookupAddressTests.swift */; };
 		19EFD2FD1F4D5F8700422F2A /* LookupAddress.json in Resources */ = {isa = PBXBuildFile; fileRef = 19EFD2FC1F4D5D1000422F2A /* LookupAddress.json */; };
@@ -26,6 +29,7 @@
 		19F8DDB11F4D7CB800D84DA1 /* LookupAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F8DDAE1F4D7C7D00D84DA1 /* LookupAddress.swift */; };
 		19F8DDB21F4D7D2400D84DA1 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63408501F30D4CA000747B0 /* APIManager.swift */; };
 		19F8DDB31F4D7D2400D84DA1 /* APIManagerConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63408511F30D4D4000747B0 /* APIManagerConfigurable.swift */; };
+		19FE28CD1F53BF3000D70DBD /* LookupAddressSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19FE28CC1F53BF3000D70DBD /* LookupAddressSearchRequest.swift */; };
 		19FEC9831F43F769005692A9 /* ErrorMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19FEC9821F43F769005692A9 /* ErrorMapper.swift */; };
 		19FEC9851F43F7AC005692A9 /* ErrorMapperDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19FEC9841F43F7AC005692A9 /* ErrorMapperDefinition.swift */; };
 		19FEC9861F43F827005692A9 /* MappedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19FEC9811F43F6BA005692A9 /* MappedError.swift */; };
@@ -246,6 +250,9 @@
 		12F057291F3C106D00CAD6F6 /* QueryParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryParserTests.swift; sourceTree = "<group>"; };
 		191F77411F44F6C5008BBA44 /* MPOLKitPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MPOLKitPlayground.playground; sourceTree = SOURCE_ROOT; };
 		19975D8E1F4414AF00E51469 /* ErrorMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMapperTests.swift; sourceTree = "<group>"; };
+		19C625BF1F550D2200504BD9 /* NetworkRequestType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequestType.swift; sourceTree = "<group>"; };
+		19C625C11F55143900504BD9 /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
+		19C625C31F55186A00504BD9 /* URLQueryBuilder+Parameterisable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLQueryBuilder+Parameterisable.swift"; sourceTree = "<group>"; };
 		19DE98CB1F42651C0063F394 /* SortDescriptorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortDescriptorTests.swift; sourceTree = "<group>"; };
 		19DE98CE1F4265540063F394 /* OAuthAccessToken.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = OAuthAccessToken.json; sourceTree = "<group>"; };
 		19DE98CF1F4265540063F394 /* OAuthAccessTokenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthAccessTokenTests.swift; sourceTree = "<group>"; };
@@ -253,6 +260,7 @@
 		19EFD2FC1F4D5D1000422F2A /* LookupAddress.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = LookupAddress.json; sourceTree = "<group>"; };
 		19F8DDAE1F4D7C7D00D84DA1 /* LookupAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupAddress.swift; sourceTree = "<group>"; };
 		19F8DDAF1F4D7C9600D84DA1 /* APIManager+LookupAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIManager+LookupAddress.swift"; sourceTree = "<group>"; };
+		19FE28CC1F53BF3000D70DBD /* LookupAddressSearchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupAddressSearchRequest.swift; sourceTree = "<group>"; };
 		19FEC9811F43F6BA005692A9 /* MappedError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MappedError.swift; sourceTree = "<group>"; };
 		19FEC9821F43F769005692A9 /* ErrorMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMapper.swift; sourceTree = "<group>"; };
 		19FEC9841F43F7AC005692A9 /* ErrorMapperDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMapperDefinition.swift; sourceTree = "<group>"; };
@@ -519,6 +527,7 @@
 			children = (
 				19F8DDAF1F4D7C9600D84DA1 /* APIManager+LookupAddress.swift */,
 				19F8DDAE1F4D7C7D00D84DA1 /* LookupAddress.swift */,
+				19FE28CC1F53BF3000D70DBD /* LookupAddressSearchRequest.swift */,
 			);
 			path = TypeAheadSearch;
 			sourceTree = "<group>";
@@ -657,11 +666,14 @@
 				C634085A1F30E5B5000747B0 /* EntityFetchRequestable.swift */,
 				C63408541F30E541000747B0 /* EntitySearchRequestable.swift */,
 				C6CD6A171F31663500771B8C /* EntitySearchRequest.swift */,
+				19C625C11F55143900504BD9 /* NetworkRequest.swift */,
+				19C625BF1F550D2200504BD9 /* NetworkRequestType.swift */,
 				BC9C7D291F0DED6600DFFE83 /* OAuthAuthorizationGrant.swift */,
 				BC9C7D2A1F0DED6600DFFE83 /* ParametersComposer.swift */,
 				BC9C7D2B1F0DED6600DFFE83 /* ParseError.swift */,
 				BC9C7D2C1F0DED6600DFFE83 /* QueryParser.swift */,
 				BC9C7D2D1F0DED6600DFFE83 /* URLQueryBuilder.swift */,
+				19C625C31F55186A00504BD9 /* URLQueryBuilder+Parameterisable.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -1441,7 +1453,9 @@
 				C63408591F30E5A0000747B0 /* SearchResult.swift in Sources */,
 				BC9C7DC81F0DED6600DFFE83 /* OAuthAccessToken.swift in Sources */,
 				BC9C7DFF1F0DED6600DFFE83 /* CoreGraphics+Convenience.swift in Sources */,
+				19FE28CD1F53BF3000D70DBD /* LookupAddressSearchRequest.swift in Sources */,
 				BC9C7E311F0DED6600DFFE83 /* UITableView+SectionHeaderFooterFetch.swift in Sources */,
+				19C625C21F55143900504BD9 /* NetworkRequest.swift in Sources */,
 				C6CD6A181F31663500771B8C /* EntitySearchRequest.swift in Sources */,
 				BC9C7DD61F0DED6600DFFE83 /* QueryParser.swift in Sources */,
 				BC9C7DCB1F0DED6600DFFE83 /* UnboxableResponseSerializer.swift in Sources */,
@@ -1491,6 +1505,7 @@
 				BC9C7E521F0DED6600DFFE83 /* FormDisclosureView.swift in Sources */,
 				BC9C7DFC1F0DED6600DFFE83 /* CollectionViewFormTextViewCell.swift in Sources */,
 				BC9C7E1D1F0DED6600DFFE83 /* MPOLKitInitialize.swift in Sources */,
+				19C625C01F550D2200504BD9 /* NetworkRequestType.swift in Sources */,
 				BC9C7DEA1F0DED6600DFFE83 /* DefaultCustomStringConvertible.swift in Sources */,
 				DB88BCE01F42D0110056FD69 /* SearchEntityListCell.swift in Sources */,
 				BC9C7E231F0DED6600DFFE83 /* AlertQueue.swift in Sources */,
@@ -1564,6 +1579,7 @@
 				BC9C7DE91F0DED6600DFFE83 /* DataResponse+ConvenienceResultInit.swift in Sources */,
 				BC9C7E181F0DED6600DFFE83 /* FormTextView.swift in Sources */,
 				BC9C7E131F0DED6600DFFE83 /* TableViewFormSubtitleCell.swift in Sources */,
+				19C625C41F55186A00504BD9 /* URLQueryBuilder+Parameterisable.swift in Sources */,
 				BC9C7E4D1F0DED6600DFFE83 /* AlertIndicatorView.swift in Sources */,
 				BC79ADAEABB2D9BDDC997334 /* MPOLSpinnerView.swift in Sources */,
 			);

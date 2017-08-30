@@ -120,7 +120,7 @@ extension SearchLookupAddressTableViewController: UISearchBarDelegate, UISearchC
 
     func updateSearchResults(for searchController: UISearchController) {
         if let text = searchController.searchBar.text {
-            _ = MPOLAPIManager.shared.typeAheadSearchAddress(in: .gnaf, with: text).then { [weak self] results -> Void in
+            _ = MPOLAPIManager.shared.typeAheadSearchAddress(in: MPOLSource.gnaf, with: LookupAddressSearchRequest(searchText: text)).then { [weak self] results -> Void in
                 self?.results = results
                 self?.tableView.reloadData()
             }
