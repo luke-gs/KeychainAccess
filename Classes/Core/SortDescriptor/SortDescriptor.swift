@@ -12,18 +12,33 @@ public protocol SortDescriptorType {
     associatedtype Base
 }
 
+// This is re-implemented due to some of the `Swift` value types are not visible by Objective-C runtime, causing KeyPath querying to fail.
 public struct SortDescriptor<T>: SortDescriptorType {
     public typealias Base = T
     
     public let isAscending: Bool
     
     private let keyMapper: (T) -> AnyComparable
-    
+
+    /// Returns a SortDescriptor object initialised with the sort order and a closure property that returns the value to be sorted by.
+    /// The value returned from closure must conform to `Comparable`.
+    ///
+    /// - Parameters:
+    ///   - ascending: `true` if the sorting in ascending order, otherwise `false`.
+    ///   - key: A Closure that returns value to be sorted by.
+    /// - Returns: SortDescriptor initialised with the sort order specified by ascending and the property to be sorted by specified using closure.
     public init<V: Comparable>(ascending: Bool = true, key: @escaping (T) -> V?) {
         self.isAscending = ascending
         self.keyMapper = { AnyComparable(key($0)) }
+
     }
-    
+
+    /// Returns a ComparisonResult value that indicates the ordering of the two given `T`.
+    ///
+    /// - Parameters:
+    ///   - lhs: The first `T` to compare with the second `T`.
+    ///   - rhs: The second `T` to compare with the first `T`.
+    /// - Returns: orderedAscending if lhs is less than rhs, orderedDescending if lhs is greater than rhs, or orderedSame if lhs is equal to rhs.
     public func compare(_ lhs: T, _ rhs: T) -> ComparisonResult {
         let result = keyMapper(lhs).compare(keyMapper(rhs))
         
@@ -37,9 +52,10 @@ public struct SortDescriptor<T>: SortDescriptorType {
         case (false, .orderedSame):
             return .orderedSame
         }
+
     }
-    
-    public static func compare(_ lhs: T, _ rhs: T, sortDescriptors: [SortDescriptor<T>]) -> ComparisonResult {
+
+    fileprivate static func compare(_ lhs: T, _ rhs: T, sortDescriptors: [SortDescriptor<T>]) -> ComparisonResult {
         for sortDescriptor in sortDescriptors {
             switch sortDescriptor.compare(lhs, rhs) {
             case .orderedAscending:
@@ -51,10 +67,15 @@ public struct SortDescriptor<T>: SortDescriptorType {
             }
         }
         return .orderedAscending
+
     }
 }
 
 public extension Sequence {
+    /// Return a element of sequence sorted by specified sortDescriptors. The additional descriptors are used to refine sorting when equivalent values are found.
+    ///
+    /// - Parameter descriptors: An array of SortDescriptors.
+    /// - Returns: The element of sequence sorted as specified by sortDescriptors.
     public func sorted(using descriptors: [SortDescriptor<Iterator.Element>]) -> [Iterator.Element] {
         return sorted { return SortDescriptor.compare($0, $1, sortDescriptors: descriptors) == .orderedAscending }
     }
