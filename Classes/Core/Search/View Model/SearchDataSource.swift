@@ -31,8 +31,20 @@ public struct Searchable: Equatable {
 }
 
 public func ==(lhs: Searchable, rhs: Searchable) -> Bool {
-    return lhs.text == rhs.text
-        && lhs.type == rhs.type
+    if lhs.text != rhs.text || lhs.type != rhs.type {
+        return false
+    }
+    
+    let lhsOptions = lhs.options
+    let rhsOptions = rhs.options
+    
+    if let lhsOptions = lhsOptions, let rhsOptions = rhsOptions {
+        return lhsOptions == rhsOptions
+    } else if lhsOptions != nil || rhsOptions != nil {
+        return false
+    }
+    
+    return true
 }
 
 public enum SearchFieldStyle {
