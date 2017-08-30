@@ -26,9 +26,28 @@ class LookupAddressTests: XCTestCase {
         XCTAssertEqual(address.id, json["id"] as! String)
         XCTAssertEqual(address.fullAddress, json["fullAddress"] as! String)
         XCTAssertEqual(address.isAlias, json["isAlias"] as! Bool)
-        XCTAssertEqual(address.coordinate.longitude, json["longitude"] as! CLLocationDegrees)
-        XCTAssertEqual(address.coordinate.longitude, json["latitude"] as! CLLocationDegrees)
+
+        let location: UnboxableDictionary = json["location"] as! UnboxableDictionary
+        XCTAssertEqual(address.commonName, location["commonName"] as? String)
+        XCTAssertEqual(address.country, location["country"] as? String)
+        XCTAssertEqual(address.county, location["county"] as? String)
+        XCTAssertEqual(address.floor, location["floor"] as? String)
+        XCTAssertEqual(address.lotNumber, location["lotNumber"] as? String)
+        XCTAssertEqual(address.postalCode, location["postalCode"] as? String)
+        XCTAssertEqual(address.state, location["state"] as? String)
+        XCTAssertEqual(address.streetDirectional, location["streetDirectional"] as? String)
+        XCTAssertEqual(address.streetName, location["streetName"] as? String)
+        XCTAssertEqual(address.streetNumberEnd, location["streetNumberEnd"] as? String)
+        XCTAssertEqual(address.streetNumberFirst, location["streetNumberFirst"] as? String)
+        XCTAssertEqual(address.streetNumberLast, location["streetNumberLast"] as? String)
+        XCTAssertEqual(address.streetNumberStart, location["streetNumberStart"] as? String)
+        XCTAssertEqual(address.streetSuffix, location["streetSuffix"] as? String)
+        XCTAssertEqual(address.streetType, location["streetType"] as? String)
+        XCTAssertEqual(address.suburb, location["suburb"] as? String)
+        XCTAssertEqual(address.unitNumber, location["unitNumber"] as? String)
+        XCTAssertEqual(address.unitType, location["unitType"] as? String)
     }
+
 
     func testThatItWillNotDeserialiseFromIncorrectJSON() {
         let bundle = Bundle(for: type(of: self))
