@@ -68,7 +68,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         sidebarSplitViewController.title = "Sidebars"
         
         let tabBarController = UITabBarController()
-        tabBarController.viewControllers = [pushableSVNavController, UINavigationController(rootViewController: sidebarSplitViewController)]
+        tabBarController.viewControllers = [pushableSVNavController, UINavigationController(rootViewController: sidebarSplitViewController), UINavigationController(rootViewController:SearchLookupAddressTableViewController(style: .plain))]
         self.window?.rootViewController = tabBarController
         
         window.makeKeyAndVisible()

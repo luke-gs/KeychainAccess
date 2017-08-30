@@ -131,21 +131,18 @@ open class SearchFieldButton: UIButton {
     
     open override func layoutSubviews() {
         let bounds = self.bounds
-        accessorySize = accessoryView?.sizeThatFits(CGSize(width: max(bounds.width - 32.0, 32.0), height: max(bounds.height - 32.0, 32.0))) ?? .zero
-        
+
         super.layoutSubviews()
         
         guard let accessoryView = self.accessoryView else { return }
-
         let contentRect = self.contentRect(forBounds: bounds)
-        
-        var accessoryFrame = CGRect(origin: CGPoint(x: 0.0, y: (contentRect.midY - (accessorySize.height / 2.0)).rounded(toScale: traitCollection.currentDisplayScale)),
+
+        accessorySize = accessoryView.frame.size
+
+        var accessoryFrame = CGRect(origin: CGPoint(x: contentRect.maxX - accessorySize.width,
+                                                    y: (contentRect.midY - (accessorySize.height / 2.0)).rounded(toScale: traitCollection.currentDisplayScale)),
                                     size: accessorySize)
-        if effectiveUserInterfaceLayoutDirection == .leftToRight {
-            accessoryFrame.origin.y = contentRect.maxX + 8.0
-        } else {
-            accessoryFrame.origin.y = contentRect.minY - 8.0
-        }
+        
         accessoryView.frame = accessoryFrame
     }
     
@@ -178,7 +175,7 @@ open class SearchFieldButton: UIButton {
         
         let leadingInset: CGFloat = traitCollection.horizontalSizeClass == .compact ? 9.0 : 18.0
         
-        rect.size.width = max(rect.width - leadingInset - 8.0 - (accessorySize.isEmpty ? 0.0 : accessorySize.width + 8.0), 0.0)
+        rect.size.width = max(rect.width - leadingInset - 8.0, 0.0)
         
         if effectiveUserInterfaceLayoutDirection == .leftToRight {
             rect.origin.x += leadingInset

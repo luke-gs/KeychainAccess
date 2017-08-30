@@ -22,15 +22,15 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
         didSet {
             viewModel?.style       = wantsThumbnails ? .grid : .list
             viewModel?.delegate    = self
-            
+
             if isViewLoaded {
                 searchFieldButton?.text = viewModel?.title
-            
+
                 if let collectionView = collectionView {
                     viewModel?.registerCells(for: collectionView)
-                    
                     collectionView.reloadData()
                 }
+                updateSearchText()
             }
         }
     }
@@ -105,6 +105,8 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
             searchFieldButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             searchFieldVerticalConstraint,
         ])
+
+        updateSearchText()
     }
 
     override func viewWillLayoutSubviews() {
@@ -295,7 +297,8 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
     
     func searchResultViewModelDidUpdateResults(_ viewModel: SearchResultViewModelable) {
 //        searchField.resultCountLabel.text = viewModel.status
-        
+
+        updateSearchText()
         collectionView?.reloadData()
     }
 
@@ -312,6 +315,18 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
 
     @objc private func toggleThumbnails() {
         wantsThumbnails = !wantsThumbnails
+    }
+
+    private func updateSearchText() {
+        let label = RoundedRectLabel(frame: CGRect(x: 10, y: 10, width: 120, height: 16))
+        label.backgroundColor = .clear
+        label.borderColor = viewModel?.status?.colour
+        label.textColor = viewModel?.status?.colour
+        label.text = viewModel?.status?.searchText
+        label.cornerRadius = 2.0
+        label.sizeToFit()
+
+        searchFieldButton?.accessoryView = label
     }
 }
 

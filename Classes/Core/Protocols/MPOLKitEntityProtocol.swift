@@ -38,7 +38,7 @@ open class MPOLKitEntity: NSObject, Serialisable, MPOLKitEntityProtocol {
         aCoder.encode(id, forKey: CodingKey.id.rawValue)
     }
 
-    public static var supportsSecureCoding: Bool {
+    open static var supportsSecureCoding: Bool {
         return true
     }
 }
@@ -50,4 +50,8 @@ public protocol MPOLKitEntityProtocol: Unboxable {
 
 private enum CodingKey: String {
     case id
+}
+
+func ==(lhs: MPOLKitEntity, rhs: MPOLKitEntity) -> Bool {
+    return lhs.id == rhs.id
 }

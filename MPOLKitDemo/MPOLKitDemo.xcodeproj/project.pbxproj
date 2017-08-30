@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		19EFD2F41F4D308600422F2A /* MPOLSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EFD2F31F4D308600422F2A /* MPOLSource.swift */; };
+		19EFD2F61F4D35AC00422F2A /* MPOLAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EFD2F51F4D35AC00422F2A /* MPOLAPIManager.swift */; };
+		19EFD2F81F4D35FD00422F2A /* SearchLookupAddressTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EFD2F71F4D35FD00422F2A /* SearchLookupAddressTableViewController.swift */; };
 		761ABC5D3D3F8181084EB823 /* Pods_MPOLKitDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BECA0FB8F0943957022C002E /* Pods_MPOLKitDemo.framework */; };
 		BC9C7E7E1F0DF0E700DFFE83 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC9C7E771F0DF0E700DFFE83 /* Assets.xcassets */; };
 		BC9C7E7F1F0DF0E700DFFE83 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BC9C7E781F0DF0E700DFFE83 /* LaunchScreen.storyboard */; };
@@ -17,6 +20,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		19EFD2F31F4D308600422F2A /* MPOLSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPOLSource.swift; sourceTree = "<group>"; };
+		19EFD2F51F4D35AC00422F2A /* MPOLAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPOLAPIManager.swift; sourceTree = "<group>"; };
+		19EFD2F71F4D35FD00422F2A /* SearchLookupAddressTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchLookupAddressTableViewController.swift; sourceTree = "<group>"; };
 		456B2831B11E426CBE3F4C4C /* Pods-MPOLKitDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKitDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKitDemo/Pods-MPOLKitDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		BC9C7E601F0DF0AA00DFFE83 /* MPOLKitDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MPOLKitDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC9C7E771F0DF0E700DFFE83 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -87,9 +93,12 @@
 			isa = PBXGroup;
 			children = (
 				BCFF7D0F1F262A4F00AB0A5A /* AppDelegate.swift */,
+				19EFD2F51F4D35AC00422F2A /* MPOLAPIManager.swift */,
+				19EFD2F31F4D308600422F2A /* MPOLSource.swift */,
 				BCFF7D101F262A4F00AB0A5A /* CollectionDemoListViewController.swift */,
 				BCFF7D0D1F262A4F00AB0A5A /* HeadersBasicFormCellsController.swift */,
 				BCFF7D0E1F262A4F00AB0A5A /* NoContentCollectionController.swift */,
+				19EFD2F71F4D35FD00422F2A /* SearchLookupAddressTableViewController.swift */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -186,13 +195,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MPOLKitDemo-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		942D8039B86A65A03912EAA1 /* [CP] Copy Pods Resources */ = {
@@ -216,9 +228,22 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-MPOLKitDemo/Pods-MPOLKitDemo-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/MPOLKit/MPOLKit.framework",
+				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
+				"${BUILT_PRODUCTS_DIR}/Unbox/Unbox.framework",
+				"${BUILT_PRODUCTS_DIR}/Wrap/Wrap.framework",
+				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MPOLKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Unbox.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Wrap.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -235,6 +260,9 @@
 				BCAD1EFE1F262B680033AD66 /* HeadersBasicFormCellsController.swift in Sources */,
 				BCAD1EFC1F262B680033AD66 /* AppDelegate.swift in Sources */,
 				BCAD1EFF1F262B680033AD66 /* NoContentCollectionController.swift in Sources */,
+				19EFD2F81F4D35FD00422F2A /* SearchLookupAddressTableViewController.swift in Sources */,
+				19EFD2F41F4D308600422F2A /* MPOLSource.swift in Sources */,
+				19EFD2F61F4D35AC00422F2A /* MPOLAPIManager.swift in Sources */,
 				BCAD1EFD1F262B680033AD66 /* CollectionDemoListViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

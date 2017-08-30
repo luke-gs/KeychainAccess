@@ -512,13 +512,14 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
         // Do this after the push.
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             var recents = self.recentlyViewedEntities
-            if recents.first == entity {
-                return
+            guard recents.first != entity else { return }
+
+            for (index, oldEntity) in recents.enumerated() {
+                if oldEntity == entity {
+                    recents.insert(recents.remove(at: index), at: 0)
+                    break
+                }
             }
-            if let oldIndex = recents.index(of: entity) {
-                recents.remove(at: oldIndex)
-            }
-            recents.insert(entity, at: 0)
             self.recentlyViewedEntities = recents
         }
     }
