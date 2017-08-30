@@ -48,3 +48,18 @@ class ISO8601DateTransformerTests: XCTestCase {
 //        XCTAssertEqual(testDate, date)
 //    }
 }
+
+class FileManagerTests: XCTestCase {
+
+    func testFileExists() {
+        if let url = Bundle(for: type(of: self)).url(forResource: "testTheme", withExtension: "json") {
+            XCTAssertTrue(FileManager.default.fileExists(at: url))
+        }
+    }
+    func testFileDoesntExist() {
+        if let url = Bundle(for: type(of: self)).url(forResource: "testTheme", withExtension: "json")?.appendingPathComponent("doesntExist") {
+            print(url.absoluteString)
+            XCTAssertFalse(FileManager.default.fileExists(at: url))
+        }
+    }
+}
