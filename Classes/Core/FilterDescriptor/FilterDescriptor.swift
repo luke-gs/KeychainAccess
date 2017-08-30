@@ -26,14 +26,12 @@ public struct FilterDescriptor<T>: FilterDescriptorType {
     
     fileprivate static func shouldInclude(value: T, descriptors: [FilterDescriptor<T>]) -> Bool {
         guard descriptors.count > 0 else { return true }
-        
-        var isIncluded = true
         for descriptor in descriptors {
             if let value = descriptor.keyMapper(value), !descriptor.values.contains(value) {
-                isIncluded = false
+                return false
             }
         }
-        return isIncluded
+        return true
     }
 }
 
