@@ -108,7 +108,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
     private var errorMessage: String? {
         didSet {
             if oldValue != errorMessage {
-                updatingDelegate?.searchDataSource(self, didUpdateComponent: .errorMessage)
+                updatingDelegate?.searchDataSource(self, didUpdateComponent: .searchStyleErrorMessage)
             }
         }
     }

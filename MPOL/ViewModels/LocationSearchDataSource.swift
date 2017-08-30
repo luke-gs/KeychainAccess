@@ -143,8 +143,9 @@ class LocationSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate,
             guard let item = LocationAdvanceItem(rawValue: index) else { return }
             
             switch item {
-            case .unit: options.unit = text
-                updatingDelegate?.searchDataSource(self, didUpdateComponent: .searchStyle)
+            case .unit:
+                options.unit = text
+                updatingDelegate?.searchDataSource(self, didUpdateComponent: .filterErrorMessage(index: index))
             case .streetName: options.streetName = text
             case .streetNumberStart: options.streetNumberStart = text
             case .streetNumberEnd: options.streetNumberEnd = text
