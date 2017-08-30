@@ -79,15 +79,11 @@ open class Entity: MPOLKitEntity {
         events = unboxer.unbox(key: "events")
         addresses = unboxer.unbox(key: "locations")
         media = unboxer.unbox(key: "media")
-        
-        
-        if let actionCount: UInt = unboxer.unbox(key: "actionCount") {
-            self.actionCount = actionCount
-        }
-        
 
-        
         try super.init(unboxer: unboxer)
+
+        alerts = alerts?.filter{$0.level != nil}
+        actionCount = unboxer.unbox(key: "actionCount") ?? UInt(alerts?.count ?? 0)
     }
 
     // MARK: - NSSecureCoding

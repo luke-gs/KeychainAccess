@@ -17,9 +17,6 @@ public class EntityAlertsViewModel: EntityDetailsViewModelable {
 
     public var entity: Entity? {
         didSet {
-            let alerts = entity?.alerts?.filter{$0.level != nil}
-            entity?.alerts = alerts
-
             let count = entity?.alerts?.count ?? 0
             delegate?.updateSidebarItemCount(UInt(count))
             
