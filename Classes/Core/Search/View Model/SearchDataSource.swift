@@ -129,8 +129,9 @@ public protocol SearchDataSource: class {
     ///
     /// - Parameters:
     ///   - index: The filter index.
-    ///   - text: The text entered
-    func textChanged(forFilterAt index: Int, text: String?)
+    ///   - text: The text entered.
+    ///   - ended: Indicates the end of editing.
+    func textChanged(forFilterAt index: Int, text: String?, didEndEditing ended: Bool)
     
     /// Prefills search with existing search. Datasource can choose to ignore the existing search
     /// if it doesn't satisfy the format requirement. Return true if the search is processed and 
@@ -183,7 +184,7 @@ public extension SearchDataSource {
     func selectionAction(forFilterAt index: Int) -> SearchOptionAction { return .none }
     
     /// Default text handling to do nothing.
-    func textChanged(forFilterAt index: Int, text: String?) { }
+    func textChanged(forFilterAt index: Int, text: String?, didEndEditing ended: Bool) { }
     
     /// Default to false
     func prefill(withSearchable searchable: Searchable) -> Bool { return false }

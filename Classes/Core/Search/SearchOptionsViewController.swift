@@ -336,6 +336,8 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
                     textField.addTarget(self, action: #selector(filterTextDidChange(_:)), for: .editingChanged)
                 }
                 
+                textField.delegate = self
+                
                 filterCell.titleLabel.text = title
                 filterCell.setRequiresValidation(message != nil, validationText: message, animated: false)
                 
@@ -561,8 +563,20 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         }
         
         let item = selectedIndexPath.item
-        selectedDataSource.textChanged(forFilterAt: item, text: textField.text)
+        selectedDataSource.textChanged(forFilterAt: item, text: textField.text, didEndEditing: false)
     }
+    
+    // MARK: - TextFieldDelegate
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let selectedIndexPath = collectionView?.indexPathsForSelectedItems?.first, selectedIndexPath.section > 0 else {
+            return
+        }
+        
+        let item = selectedIndexPath.item
+        selectedDataSource.textChanged(forFilterAt: item, text: textField.text, didEndEditing: true)
+    }
+    
 }
 
 protocol SearchOptionsViewControllerDelegate: class {
