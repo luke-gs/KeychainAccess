@@ -42,7 +42,13 @@ class LocationSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate,
         }
     }
     
-    private var errorMessage: String?
+    private var errorMessage: String? {
+        didSet {
+            if oldValue != errorMessage {
+                updatingDelegate?.searchDataSource(self, didUpdateComponent: .searchStyleErrorMessage)
+            }
+        }
+    }
 
     var searchStyle: SearchFieldStyle {
         if options is LocationBasicSearchOptions {
@@ -214,28 +220,29 @@ class LocationSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate,
     
     private func attemptSearch(delay: Bool = true) {
         NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(magic), object: nil)
-        self.perform(#selector(magic), with: nil, afterDelay: delay ? 0.4 : 0.0)
+        self.perform(#selector(magic), with: nil, afterDelay: delay ? 0.5 : 0.0)
     }
     
+    private var searchId: String?
+    
     @objc private func magic() {
-        var locations = [LookupAddress]()
+        guard let text = self.text, text.characters.count > 3 else { return }
         
-        let max = Int(arc4random_uniform(10))
-        for _ in 0..<max {
-            let data: [String: Any] = [
-                "id": UUID().uuidString, "fullAddress":
-                "\(arc4random_uniform(200) + 1)/28 Wellington St, Collingwood, VIC 3066",
-                "latitude" : -37.807913,
-                "longitude": 144.986060,
-                "isAlias": false
-            ]
-            locations.append(try! LookupAddress(unboxer: Unboxer(dictionary: data)))
-        }
+        let generatedSearchId = UUID().uuidString
         
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5, execute: {
+        self.searchId = generatedSearchId
+        
+        APIManager.shared.typeAheadSearchAddress(in: MPOLSource.gnaf, with: text).then { [weak self] locations -> () in
+            guard let `self` = self, self.searchId == generatedSearchId else { return }
+            
             self.basicOptions.locations = locations
             self.updatingDelegate?.searchDataSource(self, didUpdateComponent: .filter(index: nil))
-        })
+        }.catch { [weak self] in
+            guard let `self` = self, self.searchId == generatedSearchId else { return }
+            
+            let error = $0 as? MappedError
+            self.errorMessage = error?.localizedDescription
+        }
     }
 
     // MARK: - Search text handling
@@ -250,7 +257,6 @@ class LocationSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate,
     private func performSearchOnLocation(_ location: Pickable) {
         let searchable = Searchable(text: text, options: nil, type: LocationSearchDataSource.searchableType)
         updatingDelegate?.searchDataSource(self, didFinishWith: searchable, andResultViewModel: nil)
-        
         
         let mapViewController = UIViewController()
         mapViewController.title = "Location Search"
