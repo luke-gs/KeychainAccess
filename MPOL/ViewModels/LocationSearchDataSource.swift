@@ -53,7 +53,7 @@ class LocationSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate,
                 textField.keyboardType           = .asciiCapable
                 textField.autocapitalizationType = .words
                 textField.autocorrectionType     = .no
-                textField.returnKeyType          = .go
+                textField.returnKeyType          = .search
                 textField.attributedPlaceholder  = self.searchPlaceholder
                 
                 return self.additionalSearchButtons
