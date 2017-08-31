@@ -128,7 +128,7 @@ public class LocationSearchDataSource: NSObject, SearchDataSource, UITextFieldDe
     
     public func textChanged(forFilterAt index: Int, text: String?, didEndEditing ended: Bool) {
         if let options = options as? LocationAdvanceSearchOptions {
-            options.populate(with: [index: text ?? ""], reset: false)
+            options.populate(withOptions: [index: text ?? ""], reset: false)
             updatingDelegate?.searchDataSource(self, didUpdateComponent: .filterErrorMessage(index: index))
         }
     }
@@ -140,7 +140,7 @@ public class LocationSearchDataSource: NSObject, SearchDataSource, UITextFieldDe
             text = searchable.text
             
             basicOptions.reset()
-            advanceOptions.populate(with: nil, reset: true)
+            advanceOptions.populate(withOptions: nil, reset: true)
             
             options = basicOptions
             return true
@@ -148,11 +148,11 @@ public class LocationSearchDataSource: NSObject, SearchDataSource, UITextFieldDe
             let type = searchable.type
             if type == LocationSearchDataSource.searchableType {
                 basicOptions.reset()
-                advanceOptions.populate(with: nil, reset: true)
+                advanceOptions.populate(withOptions: nil, reset: true)
                 
                 if let lastOptions = searchable.options {
                     text = nil
-                    advanceOptions.populate(with: lastOptions, reset: true)
+                    advanceOptions.populate(withOptions: lastOptions, reset: true)
                     options = advanceOptions
                 } else {
                     text = searchable.text
@@ -205,7 +205,7 @@ public class LocationSearchDataSource: NSObject, SearchDataSource, UITextFieldDe
     private var lastSearchText: String?
     
     @objc private func lookupLocations() {
-        guard let text = text, text.characters.count > searchStrategy.configuration.minimumCharacters, text != lastSearchText else { return }
+        guard let text = text, text.characters.count > searchStrategy.configuration.minimumCharacters else { return }
         
         if let promise = self.searchStrategy.locationSearchPromise(text: text) {
             self.lastSearchText = text
@@ -249,6 +249,7 @@ public class LocationSearchDataSource: NSObject, SearchDataSource, UITextFieldDe
     }
     
     public func locationBasicSearchOptions(_ options: LocationBasicSearchOptions, didEditLocation location: Pickable) {
+        advanceOptions.populate(withLocation: location as! LookupAddress)
         self.options = advanceOptions
     }
 }

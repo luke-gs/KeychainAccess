@@ -28,7 +28,7 @@ public protocol LocationAdvanceOptions: SearchOptions {
     ///   - options: The options
     ///   - reset: If true, this should reset all values to default if not present in the options.
     ///            If false, only updates values specified in the options.
-    func populate(with options: [Int: String]?, reset: Bool)
+    func populate(withOptions options: [Int: String]?, reset: Bool)
     
     /// The textual presentation of the LocationAdvanceOptions. Used to create a searchable and therefore
     /// should be user friendly.
@@ -36,4 +36,9 @@ public protocol LocationAdvanceOptions: SearchOptions {
     /// - Returns: A user friendly text.
     func textRepresentation() -> String?
     
+    /// Update existing options with values from location.
+    ///
+    /// - Parameters:
+    ///   - location: The Location.
+    func populate(withLocation location: LookupAddress)
 }

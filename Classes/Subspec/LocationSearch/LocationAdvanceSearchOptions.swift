@@ -52,13 +52,20 @@ public enum StreetType: String, Pickable {
 }
 
 public enum StateType: String, Pickable {
-    case VIC, NSW, NT, AC, TAS, QLD, WA, SA
+    case VIC = "Victoria"
+    case NSW = "New South Wales"
+    case NT  = "Northern Territory"
+    case ACT = "Australian Capital Territory"
+    case TAS = "Tasmania"
+    case QLD = "Queensland"
+    case WA  = "Westhern Australia"
+    case SA  = "South Australia"
 
     public var title: String? { return self.rawValue }
     public var subtitle: String? { return "" }
 
     public static let all: [StateType] = [
-        .VIC, .NSW, .NT, .AC, .TAS, .QLD, .WA, SA
+        .VIC, .NSW, .NT, .ACT, .TAS, .QLD, .WA, SA
     ]
 }
 
@@ -180,7 +187,7 @@ open class LocationAdvanceSearchOptions: LocationAdvanceOptions {
         }
     }
     
-    open func populate(with options: [Int: String]?, reset: Bool) {
+    open func populate(withOptions options: [Int: String]?, reset: Bool) {
         if !reset {
             options?.forEach({ update(index: $0.key, withOption: $0.value) } )
         } else {
@@ -213,6 +220,16 @@ open class LocationAdvanceSearchOptions: LocationAdvanceOptions {
                 state = .VIC
             }
         }
+    }
+    
+    open func populate(withLocation location: LookupAddress) {
+        self.unit = location.unitNumber
+        self.streetNumberStart = location.streetNumberFirst
+        self.streetName = location.streetName
+        self.streetType = location.streetType != nil ? StreetType(rawValue: location.streetType!.capitalized) : nil
+        self.suburb = location.suburb
+        self.postcode = location.postalCode
+        self.state = location.state != nil ? StateType(rawValue: location.state!.capitalized) : nil
     }
     
     open func textRepresentation() -> String? {
