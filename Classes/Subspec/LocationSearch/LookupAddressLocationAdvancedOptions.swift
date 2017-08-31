@@ -56,7 +56,7 @@ public enum StateType: String, Pickable {
     case ACT = "Australian Capital Territory"
     case TAS = "Tasmania"
     case QLD = "Queensland"
-    case WA  = "Westhern Australia"
+    case WA  = "Western Australia"
     case SA  = "South Australia"
 
     public var title: String? { return self.rawValue }
