@@ -64,6 +64,8 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         }
     }
     
+    private var shouldSelectAllText = false
+    
     // MARK: - Initializers
     
     init(dataSources: [SearchDataSource]? = nil) {
@@ -182,6 +184,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        shouldSelectAllText = true
         editingTextFieldIndexPath = (indexPathForSearchFieldCell, nil)
     }
     
@@ -420,9 +423,19 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
             }
             
             selectedTextField?.becomeFirstResponder()
-            if let textRange = editingTextFieldIndexPath?.textRange {
-                selectedTextField?.selectedTextRange = textRange
+            
+            var textRange: UITextRange?
+            
+            if shouldSelectAllText {
+                if let textField = selectedTextField {
+                    textRange = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
+                }
+                shouldSelectAllText = false
+            } else {
+                textRange = editingTextFieldIndexPath?.textRange
             }
+            
+            selectedTextField?.selectedTextRange = textRange
             
             editingTextFieldIndexPath = nil
         }
