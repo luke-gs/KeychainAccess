@@ -138,7 +138,7 @@ open class APIManager {
     }
 
     private func adaptedRequest(_ urlRequest: URLRequest, using plugins: [PluginType]) -> URLRequest {
-        let adaptedRequest = self.plugins.reduce(urlRequest) { $1.adapt($0) }
+        let adaptedRequest = allPlugins.reduce(urlRequest) { $1.adapt($0) }
         return adaptedRequest
     }
 
