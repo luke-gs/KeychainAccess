@@ -8,24 +8,22 @@ import Foundation
 
 public enum LocationAdvanceItem: Int {
     case unit
-    case streetNumberStart
-    case streetNumberEnd
+    case streetNumber
     case streetName
     case streetType
     case suburb
     case postcode
     case state
 
-    public static let count = 8
+    public static let count = 7
     public static let titles: [LocationAdvanceItem: String] = [
-        .unit:              "Unit / House / Apt No.",
-        .streetNumberStart: "Street No. Start",
-        .streetNumberEnd:   "Street No. End",
-        .streetName:        "Street Name",
-        .streetType:        "Street Type",
-        .suburb:            "Suburb",
-        .postcode:          "Postcode",
-        .state:             "State"
+        .unit:         "Unit / House / Apt No.",
+        .streetNumber: "Street No. / Range",
+        .streetName:   "Street Name",
+        .streetType:   "Street Type",
+        .suburb:       "Suburb",
+        .postcode:     "Postcode",
+        .state:        "State"
     ]
 
     public var title: String { return LocationAdvanceItem.titles[self]! }
@@ -74,11 +72,12 @@ open class LocationAdvanceSearchOptions: LocationAdvanceOptions {
     
     public typealias Location = LookupAddress
     
+    public let title: String = NSLocalizedString("Advanced Search", comment: "")
+    
     public let cancelTitle: String = NSLocalizedString("GO BACK TO SIMPLE SEARCH", comment: "Location Search - Back to simple search")
     
     open var unit:               String?
-    open var streetNumberStart:  String?
-    open var streetNumberEnd:    String?
+    open var streetNumber:       String?
     open var streetName:         String?
     open var streetType:         StreetType? = .street
     open var suburb:             String?
@@ -100,8 +99,7 @@ open class LocationAdvanceSearchOptions: LocationAdvanceOptions {
     open func value(at index: Int) -> String? {
         switch LocationAdvanceItem(rawValue: index)! {
         case .unit:                 return unit
-        case .streetNumberStart:    return streetNumberStart
-        case .streetNumberEnd:      return streetNumberEnd
+        case .streetNumber:         return streetNumber
         case .streetName:           return streetName
         case .streetType:           return streetType?.rawValue
         case .suburb:               return suburb
@@ -113,9 +111,8 @@ open class LocationAdvanceSearchOptions: LocationAdvanceOptions {
     open func defaultValue(at index: Int) -> String {
         switch LocationAdvanceItem(rawValue: index)! {
         case .unit:                 return "eg. 317"
-        case .streetNumberStart:    return "eg. 188"
-        case .streetNumberEnd:      return "eg. 200"
-        case .streetName:           return "eg. Wellintong"
+        case .streetNumber:         return "eg. 188-200"
+        case .streetName:           return "eg. Wellinton"
         case .streetType:           return "Select"
         case .suburb:               return "eg. Collingwood"
         case .postcode:             return "eg. 3066"
@@ -126,7 +123,7 @@ open class LocationAdvanceSearchOptions: LocationAdvanceOptions {
     open func type(at index: Int) -> SearchOptionType {
         let item = LocationAdvanceItem(rawValue: index)!
         switch item {
-        case .unit, .streetNumberStart, .streetNumberEnd, .postcode:
+        case .unit, .streetNumber, .postcode:
             return .text(configure: {textField in
                 textField.keyboardType = .numbersAndPunctuation
                 textField.autocorrectionType = .no
@@ -207,8 +204,7 @@ open class LocationAdvanceSearchOptions: LocationAdvanceOptions {
         guard let item = LocationAdvanceItem(rawValue: index) else { return }
         switch item {
         case .unit: unit = option
-        case .streetNumberStart: streetNumberStart = option
-        case .streetNumberEnd: streetNumberEnd = option
+        case .streetNumber: streetNumber = option
         case .streetName: streetName = option
         case .streetType:
             if let option = option {
@@ -229,7 +225,11 @@ open class LocationAdvanceSearchOptions: LocationAdvanceOptions {
     
     open func populate(withLocation location: LookupAddress) {
         self.unit = location.unitNumber
-        self.streetNumberStart = location.streetNumberFirst
+        
+        let streetNumber = location.streetNumberFirst
+        
+        
+        self.streetNumber = streetNumber
         self.streetName = location.streetName
         self.streetType = location.streetType != nil ? StreetType(rawValue: location.streetType!.capitalized) : nil
         self.suburb = location.suburb
@@ -244,20 +244,9 @@ open class LocationAdvanceSearchOptions: LocationAdvanceOptions {
             components.append(value)
         }
         
-        var streetNumberComponents = [String]()
-        if let value = streetNumberStart {
-            streetNumberComponents.append(value)
-        }
-        
-        if let value = streetNumberEnd {
-            streetNumberComponents.append(value)
-        }
-        
         var streetComponents = [String]()
-        
-        let streetNumberText = streetNumberComponents.joined(separator: " - ")
-        if !streetNumberText.isEmpty {
-            streetComponents.append(streetNumberText)
+        if let value = streetNumber {
+            streetComponents.append(value)
         }
         
         if let value = streetName {
