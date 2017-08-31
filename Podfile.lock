@@ -1,5 +1,8 @@
 PODS:
   - Alamofire (4.4.0)
+  - HockeySDK (4.1.6):
+    - HockeySDK/DefaultLib (= 4.1.6)
+  - HockeySDK/DefaultLib (4.1.6)
   - lottie-ios (2.0.3)
   - MPOLKit (0.3.2):
     - Alamofire (= 4.4.0)
@@ -22,25 +25,22 @@ PODS:
   - Wrap (2.1.0)
 
 DEPENDENCIES:
-  - MPOLKit (from `https://github.com/Gridstone/mPolKit-iOS`)
+  - HockeySDK
+  - MPOLKit (from `../mPolKit-iOS`)
 
 EXTERNAL SOURCES:
   MPOLKit:
-    :git: https://github.com/Gridstone/mPolKit-iOS
-
-CHECKOUT OPTIONS:
-  MPOLKit:
-    :commit: f8f18b6901100b6ce54b5f4b6c12d7b78f0bb223
-    :git: https://github.com/Gridstone/mPolKit-iOS
+    :path: ../mPolKit-iOS
 
 SPEC CHECKSUMS:
   Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
+  HockeySDK: 95db557d54489a570dcdefae0d02f98eecc279a3
   lottie-ios: 445f77c7f661f95587e49095a1ac7de43f0da896
   MPOLKit: 4aa6ed76e6c7453cc5e962841d4a58ad2c55d800
   PromiseKit: 25a114b90b932ec8169b5736bd0881fe0efa93b5
   Unbox: 30e437e6151a6de16139375fd4e8dd9a664cfbf7
   Wrap: 731fe4fe3c2429c913a8252a17dbe8bb191e69e1
 
-PODFILE CHECKSUM: fc2a6c1f59a7a1573c5b5638d63a8468466b18dc
+PODFILE CHECKSUM: 5fcd70f5917c134f586c75c3764882e39284fceb
 
-COCOAPODS: 1.3.0
+COCOAPODS: 1.3.1
