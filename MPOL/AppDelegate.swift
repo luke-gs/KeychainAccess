@@ -167,11 +167,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         AppDelegate.currentUser = user
     }
-    
+
     static var currentUser: User?
-    
+
     func saveUser(_ user: User) {
         UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: user), forKey: "TemporaryUser")
     }
-    
+
 }
