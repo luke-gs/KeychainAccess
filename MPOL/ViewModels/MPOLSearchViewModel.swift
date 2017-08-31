@@ -15,7 +15,8 @@ class MPOLSearchViewModel: SearchViewModel {
     var dataSources: [SearchDataSource] = [
         PersonSearchDataSource(),
         VehicleSearchDataSource(),
-        LocationSearchDataSource(strategy: LookupAddressLocationSearchStrategy(source: MPOLSource.gnaf))
+        LocationSearchDataSource(strategy: LookupAddressLocationSearchStrategy(source: MPOLSource.gnaf),
+                                 advanceOptions: LocationAdvanceSearchOptions())
     ]
     
     func detailViewController(for entity: MPOLKitEntity) -> UIViewController? {
@@ -53,7 +54,7 @@ class MPOLSearchRecentsViewModel: SearchRecentsViewModel {
             return AssetManager.shared.image(forKey: .entityPerson)
         case VehicleSearchDataSource.searchableType:
             return AssetManager.shared.image(forKey: .entityCar)
-        case LocationSearchDataSource.searchableType:
+        case LocationSearchDataSourceSearchableType:
             return AssetManager.shared.image(forKey: .location)
         default:
             return AssetManager.shared.image(forKey: .info)
