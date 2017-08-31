@@ -244,16 +244,16 @@ open class LookupAddressLocationAdvancedOptions: LocationAdvanceOptions {
     open func textRepresentation() -> String? {
         var components = [String]()
         
-        if let value = unit {
+        if let value = unit, value.isEmpty == false {
             components.append(value)
         }
         
         var streetComponents = [String]()
-        if let value = streetNumber {
+        if let value = streetNumber, value.isEmpty == false {
             streetComponents.append(value)
         }
         
-        if let value = streetName {
+        if let value = streetName, value.isEmpty == false {
             streetComponents.append(value)
         }
         
@@ -267,7 +267,7 @@ open class LookupAddressLocationAdvancedOptions: LocationAdvanceOptions {
         }
         
         var regionComponents = [String]()
-        if let value = suburb {
+        if let value = suburb, value.isEmpty == false {
             regionComponents.append(value)
         }
         
@@ -275,7 +275,7 @@ open class LookupAddressLocationAdvancedOptions: LocationAdvanceOptions {
             regionComponents.append(value)
         }
         
-        if let value = postcode {
+        if let value = postcode, value.isEmpty == false {
             regionComponents.append(value)
         }
         
