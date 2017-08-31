@@ -13,7 +13,6 @@ public struct APIManagerError: Error {
     public let response: DefaultDataResponse
 }
 
-
 // MARK: CustomNSError Implementations
 public let MPLDataResponseKey = "MPLDataResponseKey"
 
@@ -25,9 +24,7 @@ extension APIManagerError: CustomNSError {
 
 // MARK: LocalizedError Implementations
 extension APIManagerError: LocalizedError {
-    
     public var errorDescription: String? {
         return underlyingError.localizedDescription
     }
-    
 }
