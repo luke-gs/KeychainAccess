@@ -13,40 +13,34 @@ import PromiseKit
 /// MPOL APIManager stack for MPOL applications.
 /// The APIManager doesn't assume anything in regards to model.
 open class APIManager {
-    
-    open let sessionManager: SessionManager
-    open let baseURL: URL
-    open let errorMapper: ErrorMapper?
+
     open let configuration: APIManagerConfigurable
 
-    let urlQueryBuilder = URLQueryBuilder()
+    private let baseURL: URL
+    private let errorMapper: ErrorMapper?
+    private let sessionManager: SessionManager
+
+    private let plugins: [PluginType]
+
+    open var authenticationPlugin: AuthenticationPlugin? = nil
 
     public init(configuration: APIManagerConfigurable) {
         self.configuration = configuration
         baseURL = try! configuration.url.asURL()
         errorMapper = configuration.errorMapper
 
+        plugins = configuration.plugins ?? []
+
         sessionManager = SessionManager(configuration: configuration.urlSessionConfiguration,
                                         serverTrustPolicyManager: configuration.trustPolicyManager)
     }
-
 
     /// Perform specified network request.
     ///
     /// - Parameter networkRequest: The network request to be executed.
     /// - Returns: A promise to return of specified type.
     open func performRequest<T: Unboxable>(_ networkRequest: NetworkRequestType) throws -> Promise<T> {
-
-        let path = networkRequest.path
-        let requestPath = url(with: path)
-
-        let parameters = networkRequest.parameters
-
-        let request = try URLRequest(url: requestPath, method: networkRequest.method)
-        let encodedURLRequest = try networkRequest.parameterEncoding.encode(request, with: parameters)
-
-        return dataRequestPromise(encodedURLRequest)
-
+        return dataRequestPromise(try urlRequest(from: networkRequest))
     }
 
     /// Perform specified network request.
@@ -54,17 +48,7 @@ open class APIManager {
     /// - Parameter networkRequest: The network request to be executed.
     /// - Returns: A promise to return array of specified type.
     open func performRequest<T: Unboxable>(_ networkRequest: NetworkRequestType) throws -> Promise<[T]> {
-
-        let path = networkRequest.path
-        let requestPath = url(with: path)
-
-        let parameters = networkRequest.parameters
-
-        let request = try URLRequest(url: requestPath, method: networkRequest.method)
-        let encodedURLRequest = try networkRequest.parameterEncoding.encode(request, with: parameters)
-
-        return dataRequestPromise(encodedURLRequest)
-
+        return dataRequestPromise(try urlRequest(from: networkRequest))
     }
 
     /// Request for access token.
@@ -79,12 +63,7 @@ open class APIManager {
 
         let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters, method: .post)
 
-        let promise: Promise<OAuthAccessToken> = try! performRequest(networkRequest)
-        return promise.then { [weak self] token in
-            let adapter = AuthenticationHeaderAdapter(authenticationMode: .accessTokenAuthentication(token: token))
-            self?.sessionManager.adapter = adapter
-            return Promise(value: token)
-        }
+        return try! performRequest(networkRequest)
 
     }
 
@@ -130,11 +109,40 @@ open class APIManager {
     }
 
     // MARK : - Internal Utilities
-    func url(with path: String) -> URL {
+
+    private func url(with path: String) -> URL {
         return baseURL.appendingPathComponent(path)
     }
 
-    func request(_ urlRequest: URLRequest) -> DataRequest {
+    private var allPlugins: [PluginType] {
+        guard let authenticationPlugin = authenticationPlugin else {
+            return plugins
+        }
+
+        var new = plugins
+        new.append(authenticationPlugin)
+
+        return new
+    }
+
+    private func urlRequest(from networkRequest: NetworkRequestType) throws -> URLRequest {
+        let path = networkRequest.path
+        let requestPath = url(with: path)
+
+        let parameters = networkRequest.parameters
+
+        let request = try URLRequest(url: requestPath, method: networkRequest.method)
+        let encodedURLRequest = try networkRequest.parameterEncoding.encode(request, with: parameters)
+
+        return adaptedRequest(encodedURLRequest, using: allPlugins)
+    }
+
+    private func adaptedRequest(_ urlRequest: URLRequest, using plugins: [PluginType]) -> URLRequest {
+        let adaptedRequest = self.plugins.reduce(urlRequest) { $1.adapt($0) }
+        return adaptedRequest
+    }
+
+    private func request(_ urlRequest: URLRequest) -> DataRequest {
         let dataRequest = sessionManager.request(urlRequest)
         let progress = dataRequest.progress
         progress.cancellationHandler = {
@@ -150,7 +158,7 @@ open class APIManager {
     }
 
     // Handling single object
-    func dataRequestPromise<T: Unboxable>(_ urlRequest: URLRequest) -> Promise<T> {
+    private func dataRequestPromise<T: Unboxable>(_ urlRequest: URLRequest) -> Promise<T> {
 
         let dataRequest = request(urlRequest)
 
@@ -173,7 +181,7 @@ open class APIManager {
     }
 
     // Handling array
-    func dataRequestPromise<T: Unboxable>(_ urlRequest: URLRequest) -> Promise<[T]> {
+    private func dataRequestPromise<T: Unboxable>(_ urlRequest: URLRequest) -> Promise<[T]> {
 
         let dataRequest = request(urlRequest)
 
