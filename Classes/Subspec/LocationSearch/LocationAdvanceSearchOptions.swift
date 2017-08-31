@@ -62,7 +62,10 @@ public enum StateType: String, Pickable {
     ]
 }
 
-open class LocationAdvanceSearchOptions: SearchOptions {
+
+open class LocationAdvanceSearchOptions: LocationAdvanceOptions {
+    public let cancelTitle: String = NSLocalizedString("GO BACK TO SIMPLE SEARCH", comment: "Location Search - Back to simple search")
+    
     open var unit:               String?
     open var streetNumberStart:  String?
     open var streetNumberEnd:    String?
@@ -139,49 +142,80 @@ open class LocationAdvanceSearchOptions: SearchOptions {
         return nil
     }
     
-    open func reset() {
-        unit = nil
-        streetNumberStart = nil
-        streetNumberEnd = nil
-        streetName = nil
-        streetType = .street
-        suburb = nil
-        postcode = nil
-        state = .VIC
+    open func pickerController(forFilterAt index: Int, updateHandler: @escaping () -> ()) -> UIViewController? {
+        guard let item = LocationAdvanceItem(rawValue: index) else { return nil }
+        
+        // Handle advance options
+        switch item {
+        case .streetType:
+            let types = StreetType.all
+            
+            let picker = PickerTableViewController(style: .plain, items: types)
+            picker.selectedIndexes = types.indexes { $0 == self.streetType }
+            picker.selectionUpdateHandler = { [weak self] (picker, selectedIndexes) in
+                guard let selectedTypeIndex = selectedIndexes.first else { return }
+                self?.streetType = types[selectedTypeIndex]
+                
+                updateHandler()
+                picker.dismiss(animated: true, completion: nil)
+            }
+            picker.title = item.title
+            return PopoverNavigationController(rootViewController: picker)
+        case .state:
+            let types = StateType.all
+            
+            let picker = PickerTableViewController(style: .plain, items: types)
+            picker.selectedIndexes = types.indexes { $0 == self.state }
+            picker.selectionUpdateHandler = { [weak self] (picker, selectedIndexes) in
+                guard let selectedTypeIndex = selectedIndexes.first else { return }
+                self?.state = types[selectedTypeIndex]
+                
+                updateHandler()
+                picker.dismiss(animated: true, completion: nil)
+            }
+            picker.title = item.title
+            return PopoverNavigationController(rootViewController: picker)
+        default:
+            return nil
+        }
     }
     
-    open func populate(with options: [Int: String]) {
-        for index in 0..<LocationAdvanceItem.count {
-            switch LocationAdvanceItem(rawValue: index)! {
-            case .unit:
-                unit = options[index]
-            case .streetNumberStart:
-                streetNumberStart = options[index]
-            case .streetNumberEnd:
-                streetNumberEnd = options[index]
-            case .streetName:
-                streetName = options[index]
-            case .streetType:
-                if let option = options[index] {
-                    streetType = StreetType(rawValue: option) ?? .street
-                } else {
-                    streetType = .street
-                }
-            case .suburb:
-                suburb = options[index]
-            case .postcode:
-                postcode = options[index]
-            case .state:
-                if let option = options[index] {
-                    state = StateType(rawValue: option) ?? .VIC
-                } else {
-                    state = .VIC
-                }
+    open func populate(with options: [Int: String]?, reset: Bool) {
+        if !reset {
+            options?.forEach({ update(index: $0.key, withOption: $0.value) } )
+        } else {
+            for index in 0..<LocationAdvanceItem.count {
+                let option = options?[index]
+                update(index: index, withOption: option)
             }
         }
     }
     
-    open var textRepresentation: String? {
+    private func update(index: Int, withOption option: String?) {
+        guard let item = LocationAdvanceItem(rawValue: index) else { return }
+        switch item {
+        case .unit: unit = option
+        case .streetNumberStart: streetNumberStart = option
+        case .streetNumberEnd: streetNumberEnd = option
+        case .streetName: streetName = option
+        case .streetType:
+            if let option = option {
+                streetType = StreetType(rawValue: option) ?? .street
+            } else {
+                streetType = .street
+            }
+        case .suburb: suburb = option
+        case .postcode: postcode = option
+        case .state:
+            if let option = option {
+                state = StateType(rawValue: option) ?? .VIC
+            } else {
+                state = .VIC
+            }
+        }
+    }
+    
+    open func textRepresentation() -> String? {
         var components = [String]()
         
         if let value = unit {
