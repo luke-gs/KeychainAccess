@@ -190,7 +190,7 @@ class SearchRecentsViewController: FormCollectionViewController {
             let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
             let request = recentlySearched[indexPath.item]
 
-            cell.titleLabel.text    = request.searchText?.ifNotEmpty() ?? NSLocalizedString("(No Search Term)", comment: "")
+            cell.titleLabel.text    = request.text?.ifNotEmpty() ?? NSLocalizedString("(No Search Term)", comment: "")
             cell.subtitleLabel.text = request.type
             cell.accessoryView      = cell.accessoryView as? FormAccessoryView ?? FormAccessoryView(style: .disclosure)
             cell.highlightStyle     = .fade

@@ -30,8 +30,8 @@ public class MPOLSpinnerView: LOTAnimationView {
 
     public var color: UIColor? {
         didSet {
-            setValue(color, forKeypath: "Shape Layer 1.small_circle.Stroke 1.Color", atFrame: 0)
-            setValue(color, forKeypath: "Shape Layer 1.big_circle.Stroke 1.Color", atFrame: 0)
+            setValue(color ?? .clear, forKeypath: "Shape Layer 1.small_circle.Stroke 1.Color", atFrame: 0)
+            setValue(color ?? .clear, forKeypath: "Shape Layer 1.big_circle.Stroke 1.Color", atFrame: 0)
         }
     }
 

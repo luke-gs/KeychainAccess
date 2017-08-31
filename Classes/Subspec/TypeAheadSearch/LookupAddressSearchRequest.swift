@@ -10,8 +10,8 @@ import UIKit
 
 public class LookupAddressSearchRequest: EntitySearchRequest<LookupAddress> {
 
-    let searchText: String
-    let maxResults: Int
+    public let searchText: String
+    public let maxResults: Int
 
     public init(searchText: String, maxResults: Int = 20) {
         self.searchText = searchText
