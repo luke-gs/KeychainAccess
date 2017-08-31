@@ -129,6 +129,7 @@ internal class CollectionViewFormCellActionView: UIScrollView, UIScrollViewDeleg
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        contentSize = frame.size
         commonInit()
     }
     

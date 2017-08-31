@@ -139,7 +139,7 @@ open class SearchFieldButton: UIButton {
 
         accessorySize = accessoryView.frame.size
 
-        var accessoryFrame = CGRect(origin: CGPoint(x: contentRect.maxX - accessorySize.width,
+        let accessoryFrame = CGRect(origin: CGPoint(x: contentRect.maxX - accessorySize.width,
                                                     y: (contentRect.midY - (accessorySize.height / 2.0)).rounded(toScale: traitCollection.currentDisplayScale)),
                                     size: accessorySize)
         
@@ -200,7 +200,7 @@ open class SearchFieldButton: UIButton {
 
 
     public func update(for searchable: Searchable) {
-        self.text = searchable.searchText
+        self.text = searchable.text
     }
     
     // MARK: - Private methods

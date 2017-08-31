@@ -226,11 +226,22 @@
 		DB88BCE31F42D0110056FD69 /* SearchResultLoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB88BCD81F42CEAA0056FD69 /* SearchResultLoadingCell.swift */; };
 		DB88BCE41F42D0150056FD69 /* QueryParserDefinitionSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB88BCC81F42CE970056FD69 /* QueryParserDefinitionSelector.swift */; };
 		DB88BCE51F42D01C0056FD69 /* SortDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB88BCCA1F42CEA40056FD69 /* SortDescriptor.swift */; };
+		EA4806B01F56939100B42313 /* LocationBasicSearchOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4806AD1F56939100B42313 /* LocationBasicSearchOptions.swift */; };
+		EA4806B11F56939100B42313 /* LocationSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4806AE1F56939100B42313 /* LocationSearchDataSource.swift */; };
+		EA4806B31F56961F00B42313 /* Array+Searching.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4806B21F56961F00B42313 /* Array+Searching.swift */; };
+		EA4806B51F56A00600B42313 /* LocationSearchConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4806B41F56A00600B42313 /* LocationSearchConfiguration.swift */; };
+		EA4806B71F56A0DC00B42313 /* LocationSearchStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4806B61F56A0DC00B42313 /* LocationSearchStrategy.swift */; };
+		EA76ECF11F578DCA00524830 /* LocationAdvanceOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA76ECF01F578DCA00524830 /* LocationAdvanceOptions.swift */; };
+		EA76ECF31F57D64E00524830 /* LookupAddressLocationSearchStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA76ECF21F57D64E00524830 /* LookupAddressLocationSearchStrategy.swift */; };
+		EA76ECF51F57D8AB00524830 /* LookupAddressLocationAdvancedOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA76ECF41F57D8AB00524830 /* LookupAddressLocationAdvancedOptions.swift */; };
+		EA76ECF91F57DB8E00524830 /* LookupAddressAdvancedParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA76ECF81F57DB8E00524830 /* LookupAddressAdvancedParameters.swift */; };
 		EA8B66461F37FF5900F09716 /* EntitySummarySearchResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8B66451F37FF5900F09716 /* EntitySummarySearchResultViewModel.swift */; };
 		EA8B66481F38014000F09716 /* EntitySummaryDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8B66471F38014000F09716 /* EntitySummaryDisplayable.swift */; };
 		EA8B664A1F38021100F09716 /* EntitySummaryDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8B66491F38021100F09716 /* EntitySummaryDecorator.swift */; };
 		EABAB8021F3429D90071A401 /* AggregatedSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = EABAB8011F3429D90071A401 /* AggregatedSearch.swift */; };
 		EABAB8041F342E450071A401 /* AggregatedSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EABAB8031F342E450071A401 /* AggregatedSearchRequest.swift */; };
+		EAFACCBC1F4BACE900B93CBA /* SearchFieldAdvanceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAFACCBB1F4BACE900B93CBA /* SearchFieldAdvanceCell.swift */; };
+		EAFBC8BC1F57DF8700F0004B /* LookupAddressValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAFBC8BB1F57DF8700F0004B /* LookupAddressValidator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -473,11 +484,22 @@
 		DB88BCD61F42CEAA0056FD69 /* SearchFieldCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFieldCollectionViewCell.swift; sourceTree = "<group>"; };
 		DB88BCD71F42CEAA0056FD69 /* SearchResultErrorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultErrorCell.swift; sourceTree = "<group>"; };
 		DB88BCD81F42CEAA0056FD69 /* SearchResultLoadingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultLoadingCell.swift; sourceTree = "<group>"; };
+		EA4806AD1F56939100B42313 /* LocationBasicSearchOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationBasicSearchOptions.swift; sourceTree = "<group>"; };
+		EA4806AE1F56939100B42313 /* LocationSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSearchDataSource.swift; sourceTree = "<group>"; };
+		EA4806B21F56961F00B42313 /* Array+Searching.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Searching.swift"; sourceTree = "<group>"; };
+		EA4806B41F56A00600B42313 /* LocationSearchConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSearchConfiguration.swift; sourceTree = "<group>"; };
+		EA4806B61F56A0DC00B42313 /* LocationSearchStrategy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSearchStrategy.swift; sourceTree = "<group>"; };
+		EA76ECF01F578DCA00524830 /* LocationAdvanceOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationAdvanceOptions.swift; sourceTree = "<group>"; };
+		EA76ECF21F57D64E00524830 /* LookupAddressLocationSearchStrategy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LookupAddressLocationSearchStrategy.swift; sourceTree = "<group>"; };
+		EA76ECF41F57D8AB00524830 /* LookupAddressLocationAdvancedOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LookupAddressLocationAdvancedOptions.swift; sourceTree = "<group>"; };
+		EA76ECF81F57DB8E00524830 /* LookupAddressAdvancedParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LookupAddressAdvancedParameters.swift; sourceTree = "<group>"; };
 		EA8B66451F37FF5900F09716 /* EntitySummarySearchResultViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntitySummarySearchResultViewModel.swift; sourceTree = "<group>"; };
 		EA8B66471F38014000F09716 /* EntitySummaryDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntitySummaryDisplayable.swift; sourceTree = "<group>"; };
 		EA8B66491F38021100F09716 /* EntitySummaryDecorator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntitySummaryDecorator.swift; sourceTree = "<group>"; };
 		EABAB8011F3429D90071A401 /* AggregatedSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AggregatedSearch.swift; sourceTree = "<group>"; };
 		EABAB8031F342E450071A401 /* AggregatedSearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AggregatedSearchRequest.swift; sourceTree = "<group>"; };
+		EAFACCBB1F4BACE900B93CBA /* SearchFieldAdvanceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchFieldAdvanceCell.swift; sourceTree = "<group>"; };
+		EAFBC8BB1F57DF8700F0004B /* LookupAddressValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LookupAddressValidator.swift; sourceTree = "<group>"; };
 		F1F64D31F8EA4C917E4EDCA7 /* Pods-MPOLKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKit/Pods-MPOLKit.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1124,6 +1146,7 @@
 		DB88BCC71F42CE970056FD69 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				EA4806B21F56961F00B42313 /* Array+Searching.swift */,
 				DB88BCC81F42CE970056FD69 /* QueryParserDefinitionSelector.swift */,
 			);
 			name = Utility;
@@ -1168,6 +1191,7 @@
 				DB88BCD61F42CEAA0056FD69 /* SearchFieldCollectionViewCell.swift */,
 				DB88BCD71F42CEAA0056FD69 /* SearchResultErrorCell.swift */,
 				DB88BCD81F42CEAA0056FD69 /* SearchResultLoadingCell.swift */,
+				EAFACCBB1F4BACE900B93CBA /* SearchFieldAdvanceCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1181,11 +1205,28 @@
 			path = Lottie;
 			sourceTree = "<group>";
 		};
+		EA4806AB1F56935000B42313 /* LocationSearch */ = {
+			isa = PBXGroup;
+			children = (
+				EA4806AD1F56939100B42313 /* LocationBasicSearchOptions.swift */,
+				EA4806AE1F56939100B42313 /* LocationSearchDataSource.swift */,
+				EA4806B41F56A00600B42313 /* LocationSearchConfiguration.swift */,
+				EA4806B61F56A0DC00B42313 /* LocationSearchStrategy.swift */,
+				EA76ECF01F578DCA00524830 /* LocationAdvanceOptions.swift */,
+				EA76ECF21F57D64E00524830 /* LookupAddressLocationSearchStrategy.swift */,
+				EA76ECF41F57D8AB00524830 /* LookupAddressLocationAdvancedOptions.swift */,
+				EA76ECF81F57DB8E00524830 /* LookupAddressAdvancedParameters.swift */,
+				EAFBC8BB1F57DF8700F0004B /* LookupAddressValidator.swift */,
+			);
+			path = LocationSearch;
+			sourceTree = "<group>";
+		};
 		EA8B66691F393A0000F09716 /* Subspec */ = {
 			isa = PBXGroup;
 			children = (
 				EA8B666A1F393A2000F09716 /* EntitySearch */,
 				19F8DDAD1F4D7C7D00D84DA1 /* TypeAheadSearch */,
+				EA4806AB1F56935000B42313 /* LocationSearch */,
 			);
 			path = Subspec;
 			sourceTree = "<group>";
@@ -1454,6 +1495,7 @@
 				BC9C7DC71F0DED6600DFFE83 /* HTTPAuthenticationMode.swift in Sources */,
 				C634085B1F30E5B5000747B0 /* EntityFetchRequestable.swift in Sources */,
 				BC9C7DFA1F0DED6600DFFE83 /* CollectionViewFormSubtitleCell.swift in Sources */,
+				EA76ECF31F57D64E00524830 /* LookupAddressLocationSearchStrategy.swift in Sources */,
 				EA8B664A1F38021100F09716 /* EntitySummaryDecorator.swift in Sources */,
 				BC9C7E081F0DED6600DFFE83 /* UITableView+DefaultReuse.swift in Sources */,
 				BC9C7DF31F0DED6600DFFE83 /* ISO8601DateTransformer.swift in Sources */,
@@ -1463,6 +1505,7 @@
 				BC9C7E1E1F0DED6600DFFE83 /* FormCollectionViewController.swift in Sources */,
 				C65927741F33045300854C60 /* Lottie+MPOLAnimationStyle.swift in Sources */,
 				BC9C7DF41F0DED6600DFFE83 /* CollectionViewFormCell.swift in Sources */,
+				EA4806B01F56939100B42313 /* LocationBasicSearchOptions.swift in Sources */,
 				BC9C7E261F0DED6600DFFE83 /* EntityListCollectionViewCell.swift in Sources */,
 				BC9C7E191F0DED6600DFFE83 /* RadioButton.swift in Sources */,
 				BC9C7E2C1F0DED6600DFFE83 /* UIColor+Hex.swift in Sources */,
@@ -1488,6 +1531,7 @@
 				BC9C7DCF1F0DED6600DFFE83 /* ManifestCollection.swift in Sources */,
 				BC1B260D1F20BB3A009674B7 /* StatusTabBarController.swift in Sources */,
 				19F8DDB21F4D7D2400D84DA1 /* APIManager.swift in Sources */,
+				EA76ECF91F57DB8E00524830 /* LookupAddressAdvancedParameters.swift in Sources */,
 				C63408591F30E5A0000747B0 /* SearchResult.swift in Sources */,
 				BC9C7DC81F0DED6600DFFE83 /* OAuthAccessToken.swift in Sources */,
 				BC9C7DFF1F0DED6600DFFE83 /* CoreGraphics+Convenience.swift in Sources */,
@@ -1503,6 +1547,7 @@
 				BC9C7E271F0DED6600DFFE83 /* GalleryCollectionViewCell.swift in Sources */,
 				C605F8A91ECCAD3B001194DD /* Manifest.xcdatamodeld in Sources */,
 				19FEC9831F43F769005692A9 /* ErrorMapper.swift in Sources */,
+				EAFBC8BC1F57DF8700F0004B /* LookupAddressValidator.swift in Sources */,
 				BC9C7E051F0DED6600DFFE83 /* UIEdgeInsets+Convenience.swift in Sources */,
 				BC1B25BA1F2707270090C0AA /* MPOLBarButtonItems.swift in Sources */,
 				BC9C7DFB1F0DED6600DFFE83 /* CollectionViewFormTextFieldCell.swift in Sources */,
@@ -1513,12 +1558,14 @@
 				BC9C7E011F0DED6600DFFE83 /* FloatingPoint+Comparison.swift in Sources */,
 				BC9C7E0D1F0DED6600DFFE83 /* CollectionViewFormLayout.swift in Sources */,
 				DB88BCDF1F42D00F0056FD69 /* SearchResultViewModelable.swift in Sources */,
+				EA76ECF11F578DCA00524830 /* LocationAdvanceOptions.swift in Sources */,
 				EA8B66481F38014000F09716 /* EntitySummaryDisplayable.swift in Sources */,
 				19FEC9891F440326005692A9 /* NetworkErrorDefinition.swift in Sources */,
 				BC9C7DCE1F0DED6600DFFE83 /* Manifest.swift in Sources */,
 				BC5C11F31F2810BA0048CBBF /* RoundedRectButton.swift in Sources */,
 				BC9C7E3F1F0DED6600DFFE83 /* PopoverFormSheetPresentationController.swift in Sources */,
 				BCA6FD771F22E0AE00EE8F7A /* SearchFieldButton.swift in Sources */,
+				EA4806B51F56A00600B42313 /* LocationSearchConfiguration.swift in Sources */,
 				BC9C7E161F0DED6600DFFE83 /* CheckBox.swift in Sources */,
 				BC9C7E4C1F0DED6600DFFE83 /* ViewControllerAnimationOptionTransition.swift in Sources */,
 				BC9C7E331F0DED6600DFFE83 /* UITextView+NotificationWorkaround.m in Sources */,
@@ -1559,6 +1606,7 @@
 				BC9C7E001F0DED6600DFFE83 /* CoreGraphics+Rounding.swift in Sources */,
 				BC9C7E4E1F0DED6600DFFE83 /* BadgeView.swift in Sources */,
 				BC9C7E121F0DED6600DFFE83 /* TableViewFormExpandingHeaderCell.swift in Sources */,
+				EA76ECF51F57D8AB00524830 /* LookupAddressLocationAdvancedOptions.swift in Sources */,
 				19FEC9851F43F7AC005692A9 /* ErrorMapperDefinition.swift in Sources */,
 				C61AC91A1F32FAF100F82FF6 /* User.swift in Sources */,
 				BC9C7E541F0DED6600DFFE83 /* NavigationBarExtension.swift in Sources */,
@@ -1603,18 +1651,22 @@
 				19F8DDB31F4D7D2400D84DA1 /* APIManagerConfigurable.swift in Sources */,
 				BC9C7E471F0DED6600DFFE83 /* SourceBar.swift in Sources */,
 				BC9C7E0F1F0DED6600DFFE83 /* DefaultReusable.swift in Sources */,
+				EAFACCBC1F4BACE900B93CBA /* SearchFieldAdvanceCell.swift in Sources */,
 				BCED8C761F1488EE004C3C71 /* CollectionViewFormHeaderView.swift in Sources */,
 				BC9C7E0A1F0DED6600DFFE83 /* UITraitCollection+CurrentDisplayScale.swift in Sources */,
 				BC9C7E4F1F0DED6600DFFE83 /* CircleIconView.swift in Sources */,
 				BCFA067E1F3176A3002FA1FF /* MapCollectionViewLayout.swift in Sources */,
 				BC9C7E461F0DED6600DFFE83 /* SidebarViewController.swift in Sources */,
 				BCC5132F1F333B2000413961 /* FormAccessoryView.swift in Sources */,
+				EA4806B31F56961F00B42313 /* Array+Searching.swift in Sources */,
 				BC9C7E3C1F0DED6600DFFE83 /* FilterViewController.swift in Sources */,
 				C6020FD31F394771001F1E71 /* DataResponse+MPLConversion.swift in Sources */,
+				EA4806B11F56939100B42313 /* LocationSearchDataSource.swift in Sources */,
 				BC9C7E561F0DED6600DFFE83 /* TabStripView.swift in Sources */,
 				C6F640ED1F333D4F003D73B9 /* NSArchiver+SecureArchiver.swift in Sources */,
 				BC9C7E411F0DED6600DFFE83 /* PopoverViewController.swift in Sources */,
 				BC5C11EF1F2806890048CBBF /* NoContentView.swift in Sources */,
+				EA4806B71F56A0DC00B42313 /* LocationSearchStrategy.swift in Sources */,
 				BC9C7E021F0DED6600DFFE83 /* NSLayoutConstraint+Conveniences.swift in Sources */,
 				BC9C7DE91F0DED6600DFFE83 /* DataResponse+ConvenienceResultInit.swift in Sources */,
 				BC9C7E181F0DED6600DFFE83 /* FormTextView.swift in Sources */,
