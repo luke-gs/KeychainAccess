@@ -40,7 +40,8 @@ open class APIManager {
     /// - Parameter networkRequest: The network request to be executed.
     /// - Returns: A promise to return of specified type.
     open func performRequest<T: Unboxable>(_ networkRequest: NetworkRequestType) throws -> Promise<T> {
-        return dataRequestPromise(try urlRequest(from: networkRequest))
+        let request = try urlRequest(from: networkRequest)
+        return dataRequestPromise(request)
     }
 
     /// Perform specified network request.
@@ -48,7 +49,8 @@ open class APIManager {
     /// - Parameter networkRequest: The network request to be executed.
     /// - Returns: A promise to return array of specified type.
     open func performRequest<T: Unboxable>(_ networkRequest: NetworkRequestType) throws -> Promise<[T]> {
-        return dataRequestPromise(try urlRequest(from: networkRequest))
+        let request = try urlRequest(from: networkRequest)
+        return dataRequestPromise(request)
     }
 
     /// Request for access token.
@@ -161,10 +163,17 @@ open class APIManager {
     private func dataRequestPromise<T: Unboxable>(_ urlRequest: URLRequest) -> Promise<T> {
 
         let dataRequest = request(urlRequest)
+        let allPlugins = self.allPlugins
+        allPlugins.forEach {
+            $0.willSend(dataRequest)
+        }
 
         let mapper = errorMapper
         return Promise { fulfill, reject in
             dataRequest.validate().responseObject(completionHandler: { (response: DataResponse<T>) in
+                allPlugins.forEach({
+                    $0.didReceiveResponse(response)
+                })
                 switch response.result {
                 case .success(let result):
                     fulfill(result)
@@ -184,10 +193,17 @@ open class APIManager {
     private func dataRequestPromise<T: Unboxable>(_ urlRequest: URLRequest) -> Promise<[T]> {
 
         let dataRequest = request(urlRequest)
+        let allPlugins = self.allPlugins
+        allPlugins.forEach {
+            $0.willSend(dataRequest)
+        }
 
         let mapper = errorMapper
         return Promise { fulfill, reject in
             dataRequest.validate().responseArray(completionHandler: { (response: DataResponse<[T]>) in
+                allPlugins.forEach {
+                    $0.willSend(dataRequest)
+                }
                 switch response.result {
                 case .success(let result):
                     fulfill(result)
