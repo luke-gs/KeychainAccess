@@ -105,7 +105,7 @@ public class AlertIndicatorView: UIView {
     
     private func commonInit() {
         isUserInteractionEnabled = false
-        
+        tintAdjustmentMode = .normal
         // We shouldn't get any smaller than the intrinsic content size, as it is the minimum for the badge view to appear correctly.
         setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
         setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
