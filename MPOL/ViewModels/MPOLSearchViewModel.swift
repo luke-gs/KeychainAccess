@@ -16,7 +16,7 @@ class MPOLSearchViewModel: SearchViewModel {
         PersonSearchDataSource(),
         VehicleSearchDataSource(),
         LocationSearchDataSource(strategy: LookupAddressLocationSearchStrategy(source: MPOLSource.gnaf),
-                                 advanceOptions: LocationAdvanceSearchOptions())
+                                 advanceOptions: LookupAddressLocationAdvancedOptions())
     ]
     
     func detailViewController(for entity: MPOLKitEntity) -> UIViewController? {
