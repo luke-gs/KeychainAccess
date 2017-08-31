@@ -24,17 +24,17 @@ open class NavigationControllerWithHeader: UINavigationController {
                 oldValue.removeFromSuperview()
             }
             if let headerView = headerView {
-                // Add header view and constrain to given height but variable width
+                // Add header view and force layout so we know height for insets
                 view.addSubview(headerView)
                 headerView.translatesAutoresizingMaskIntoConstraints = false
                 NSLayoutConstraint.activate([
                     headerView.topAnchor.constraint(equalTo: navigationBar.bottomAnchor),
                     headerView.leadingAnchor.constraint(equalTo: navigationBar.leadingAnchor),
                     headerView.trailingAnchor.constraint(equalTo: navigationBar.trailingAnchor),
-                    headerView.heightAnchor.constraint(equalToConstant: headerView.frame.height)
                 ])
+                headerView.setNeedsLayout()
+                headerView.layoutIfNeeded()
             }
-            view.setNeedsLayout()
         }
     }
 

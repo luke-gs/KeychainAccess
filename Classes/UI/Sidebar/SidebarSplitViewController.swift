@@ -8,7 +8,6 @@
 
 import UIKit
 
-
 /// The `SidebarSplitViewController` represents a standard split view controller
 /// with a standard MPOL sidebar configuration.
 ///
@@ -16,7 +15,8 @@ import UIKit
 /// as required, or subclass as a point of abstraction between the sidebar and it's detail.
 open class SidebarSplitViewController: PushableSplitViewController, SidebarViewControllerDelegate {
     
-    public var headerNavigationView: UIView?
+    /// The sidebar view controller when displayed horizontally in compact mode
+    public var horizontalSidebarViewController: HorizontalSidebarViewController = HorizontalSidebarViewController()
 
     /// The sidebar view controller for the split view controller.
     public let sidebarViewController: SidebarViewController = SidebarViewController()
@@ -81,11 +81,6 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
         masterNavController = NavigationControllerWithHeader(rootViewController: sidebarViewController)
         detailNavController = UINavigationController()
 
-        // Create header view for horizontal navigation, visible only when compact
-        masterNavController.headerView = UIView(frame: CGRect(x: 0, y: 0, width: masterNavController.view.bounds.width, height: 50))
-        masterNavController.headerView?.backgroundColor = UIColor.green
-        sidebarViewController.edgesForExtendedLayout = []
-
         if let selectedViewController = self.selectedViewController {
             detailNavController.viewControllers = [selectedViewController]
 
@@ -99,8 +94,17 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
         
         super.init(viewControllers: [masterNavController, detailNavController])
 
+        // Create header sidebar for horizontal navigation, visible only when compact
+        self.addChildViewController(horizontalSidebarViewController)
+        horizontalSidebarViewController.didMove(toParentViewController: self)
+        masterNavController.headerView = horizontalSidebarViewController.view
+        sidebarViewController.edgesForExtendedLayout = []
+
         sidebarViewController.delegate = self
         sidebarViewController.items = detailViewControllers.map { $0.sidebarItem }
+
+        horizontalSidebarViewController.delegate = self
+        horizontalSidebarViewController.items = detailViewControllers.map { $0.sidebarItem }
         
         let embeddedSplitViewController = self.embeddedSplitViewController
         embeddedSplitViewController.delegate = self
@@ -113,6 +117,7 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
             selectedItem = selectedViewController?.sidebarItem
         }
         sidebarViewController.selectedItem = selectedItem
+        horizontalSidebarViewController.selectedItem = selectedItem
     }
 
     /// `SidebarSplitViewController` does not support NSCoding.
