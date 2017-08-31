@@ -8,21 +8,11 @@
 
 import Foundation
 
-public protocol Using: class {
-    var username: String { get }
-    var termsAndConditionsVersionAccepted: String? { get }
-    var whatsNewShownVersion: String? { get }
-    var recentlyViewed: [MPOLKitEntity]? { get set }
-    var recentlySearched: [Searchable]? { get set }
-}
-
-open class User: NSObject, NSSecureCoding, ModelVersionable, Using {
+open class User: NSObject, NSSecureCoding, ModelVersionable {
 
     public var username: String
     public var termsAndConditionsVersionAccepted: String?
     public var whatsNewShownVersion: String?
-    public var recentlyViewed: [MPOLKitEntity]?
-    public var recentlySearched: [Searchable]?
 
     public init(username: String) {
         self.username = username
