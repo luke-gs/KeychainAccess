@@ -48,62 +48,65 @@ class FilterDescriptorTests: XCTestCase {
         super.tearDown()
     }
     
-    func testFilterBySurname() {
+    func testValueFilterBySurname() {
         let values: Set = ["Halim", "Smith", "Efron"]
-        let filterDescriptor = FilterDescriptor<Human>(key: { $0.surname }, values: values)
+        let filterDescriptor = FilterValueDescriptor<Human>(key: { $0.surname }, values: values)
         
         let filtered = persons.filter(using: [filterDescriptor])
+        let notExpected: Set = ["Scott", "Test"]
         
         for person in persons {
-            if values.contains(person.surname) {
-                XCTAssert(filtered.contains(person))
+            if filtered.contains(person){
+                XCTAssert(values.contains(person.surname))
             } else {
-                XCTAssert(!filtered.contains(person))
+                XCTAssert(notExpected.contains(person.surname))
             }
         }
     }
     
-    func testFilterByAge() {
-        let values: Set = [25, 50, 75]
-        let filterDescriptor = FilterDescriptor<Human>(key: { $0.age }, values: values)
+    func testRangeFilterByAge() {
+        let filterDescriptor = FilterRangeDescriptor<Human>(key: { $0.age }, start: 20, end: 60)
         
         let filtered = persons.filter(using: [filterDescriptor])
+        let expected: Set = ["Smith", "Scott", "Test"]
+        let notExpected: Set = ["Halim", "Efron"]
         
-        for person in filtered {
-            if values.contains(person.age){
-                XCTAssert(filtered.contains(person))
+        for person in persons {
+            if filtered.contains(person){
+                XCTAssert(expected.contains(person.surname))
             } else {
-                XCTAssert(!filtered.contains(person))
+                XCTAssert(notExpected.contains(person.surname))
             }
         }
     }
     
-    func testFilterByGender() {
+    func testValueFilterByGender() {
         let values: Set<Gender> = [.female, .male]
-        let filterDescriptor = FilterDescriptor<Human>(key: { $0.gender }, values: values)
+        let filterDescriptor = FilterValueDescriptor<Human>(key: { $0.gender }, values: values)
         
         let filtered = persons.filter(using: [filterDescriptor])
+        let expected: Set = ["Halim", "Scott", "Smith", "Efron"]
+        let notExpected: Set = ["Test"]
         
-        for person in filtered {
-            if values.contains(person.gender){
-                XCTAssert(filtered.contains(person))
+        for person in persons {
+            if filtered.contains(person){
+                XCTAssert(expected.contains(person.surname))
             } else {
-                XCTAssert(!filtered.contains(person))
+                XCTAssert(notExpected.contains(person.surname))
             }
         }
     }
     
     func testFilterBySurnameAndAge() {
         let surnames: Set = ["Halim", "Smith", "Scott", "Efron"]
-        let ages: Set = [12, 75]
         
-        let surnameDescriptor = FilterDescriptor<Human>(key: { $0.surname }, values: surnames)
-        let ageDescriptor = FilterDescriptor<Human>(key: { $0.age }, values: ages)
+        let surnameDescriptor = FilterValueDescriptor<Human>(key: { $0.surname }, values: surnames)
+        let ageDescriptor = FilterRangeDescriptor<Human>(key: { $0.age }, start: 20, end: 60)
         
         let filtered = persons.filter(using: [surnameDescriptor, ageDescriptor])
         
-        let expected = ["Halim", "Efron"]
-        let notExpected = ["Smith", "Scott", "Test"]
+        let expected = ["Smith", "Scott"]
+        let notExpected = ["Halim", "Efron", "Test"]
         
         for person in filtered {
             print(person)
@@ -120,17 +123,16 @@ class FilterDescriptorTests: XCTestCase {
     
     func testFilterBySurnameAndAgeAndGender() {
         let surnames: Set = ["Halim", "Smith", "Scott", "Efron"]
-        let ages: Set = [12, 75]
         let genders: Set<Gender> = [.female]
         
-        let surnameDescriptor = FilterDescriptor<Human>(key: { $0.surname }, values: surnames)
-        let ageDescriptor = FilterDescriptor<Human>(key: { $0.age }, values: ages)
-        let genderDescriptor = FilterDescriptor<Human>(key: { $0.gender }, values: genders)
+        let surnameDescriptor = FilterValueDescriptor<Human>(key: { $0.surname }, values: surnames)
+        let ageDescriptor = FilterRangeDescriptor<Human>(key: { $0.age }, start: 20, end: 60)
+        let genderDescriptor = FilterValueDescriptor<Human>(key: { $0.gender }, values: genders)
         
         let filtered = persons.filter(using: [surnameDescriptor, ageDescriptor, genderDescriptor])
         
-        let expected = ["Efron"]
-        let notExpected = ["Smith", "Scott", "Test", "Halim"]
+        let expected = ["Scott"]
+        let notExpected = ["Smith", "Efron", "Test", "Halim"]
         
         for person in persons {
             if filtered.contains(person) {
