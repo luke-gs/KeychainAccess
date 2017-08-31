@@ -32,6 +32,14 @@ public struct SearchResultSection {
     
     /// Search Error
     public var error:      Error?
+    
+    public init(title: String, entities: [MPOLKitEntity], isExpanded: Bool, state: SearchState, error: Error?) {
+        self.title = title
+        self.entities = entities
+        self.isExpanded = isExpanded
+        self.state = state
+        self.error = error
+    }
 }
 
 public protocol SearchResultViewModelDelegate: class {
