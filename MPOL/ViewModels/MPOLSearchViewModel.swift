@@ -18,19 +18,20 @@ class MPOLSearchViewModel: SearchViewModel {
         LocationSearchDataSource(strategy: LookupAddressLocationSearchStrategy(source: MPOLSource.gnaf),
                                  advanceOptions: LookupAddressLocationAdvancedOptions())
     ]
-    
+
     func detailViewController(for entity: MPOLKitEntity) -> UIViewController? {
         let viewController = EntityDetailsSplitViewController(entity: entity as! Entity)
-        
+
         // FIXME: - Sample code to handle different entity
         if entity is Person {
             viewController.view.backgroundColor = .red
         } else if entity is Vehicle {
             viewController.view.backgroundColor = .yellow
         }
-        
+
         return viewController
     }
+
 }
 
 class MPOLSearchRecentsViewModel: SearchRecentsViewModel {
@@ -38,10 +39,10 @@ class MPOLSearchRecentsViewModel: SearchRecentsViewModel {
     var title: String = "MPOL"
 
     var recentlyViewed: [MPOLKitEntity] = []
-    
+
     func decorate(_ cell: EntityCollectionViewCell, at indexPath: IndexPath) {
         let entity = recentlyViewed[indexPath.item]
-        
+
         cell.style = .detail
         cell.decorate(with: entity as! EntitySummaryDisplayable)
     }
@@ -60,4 +61,5 @@ class MPOLSearchRecentsViewModel: SearchRecentsViewModel {
             return AssetManager.shared.image(forKey: .info)
         }
     }
+
 }
