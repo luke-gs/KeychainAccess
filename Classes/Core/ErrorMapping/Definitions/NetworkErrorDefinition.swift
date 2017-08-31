@@ -25,7 +25,7 @@ open class NetworkErrorDefinition: ErrorMappable {
     /// Handle system error codes
     static public let defaultSystemDomainCodesMap = [
         NSURLErrorNotConnectedToInternet : (title: "No network connection", message:"You do not currently have a network connection"),
-        NSURLErrorTimedOut: (title: "Time out", message: "This request has timed out. Please confirm you have a network connection and try again")
+        NSURLErrorTimedOut : (title: "Time out", message: "This request has timed out. Please confirm you have a network connection and try again")
     ]
 
     public let systemErrorCodesMap: [Int: (title: String, message: String)]
@@ -44,7 +44,7 @@ open class NetworkErrorDefinition: ErrorMappable {
             if let statusCode = error.response.response?.statusCode,
                let map = httpStatusCodesMap[statusCode] {
                 return MappedError(errorDescription: map.message, failureReason:map.title, underlyingError: error)
-            } else if let systemError = error.response.error as? NSError,
+            } else if let systemError = error.response.error as NSError?,
                 let map = systemErrorCodesMap[systemError.code] {
                 return MappedError(errorDescription: map.message, failureReason: map.title, underlyingError: systemError)
             }
