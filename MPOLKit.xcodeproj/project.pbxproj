@@ -11,7 +11,11 @@
 		1211E36B1F3ADC300012E2E6 /* OAuthAuthorizationGrantTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1211E36A1F3ADC300012E2E6 /* OAuthAuthorizationGrantTests.swift */; };
 		1211E36D1F3AE0E50012E2E6 /* MiscTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1211E36C1F3AE0E50012E2E6 /* MiscTests.swift */; };
 		12413C281F1F23B0001B0B41 /* spinner.json in Resources */ = {isa = PBXBuildFile; fileRef = 12413C271F1F23B0001B0B41 /* spinner.json */; };
+		1262D4D41F56562B008DE9EE /* ModelVersionableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1262D4D31F56562B008DE9EE /* ModelVersionableTests.swift */; };
+		1262D4D61F565716008DE9EE /* ThemeManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1262D4D51F565716008DE9EE /* ThemeManagerTests.swift */; };
+		129FC9891F565DC800E4FDB9 /* KeyboardInputManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 129FC9881F565DC800E4FDB9 /* KeyboardInputManagerTests.swift */; };
 		12ADD4221F32A50B00CA8B4D /* MPOLKitProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4211F32A50B00CA8B4D /* MPOLKitProtocols.swift */; };
+		12B167B01F5659670016A1CB /* testTheme.json in Resources */ = {isa = PBXBuildFile; fileRef = 12B167AF1F5659670016A1CB /* testTheme.json */; };
 		12F0571E1F3AE5FC00CAD6F6 /* AuthenticationHeaderAdapterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F0571D1F3AE5FC00CAD6F6 /* AuthenticationHeaderAdapterTests.swift */; };
 		12F057201F3BF6CF00CAD6F6 /* SourceItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F0571F1F3BF6CF00CAD6F6 /* SourceItemTests.swift */; };
 		12F057221F3BFB2A00CAD6F6 /* ManifestCollectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F057211F3BFB2A00CAD6F6 /* ManifestCollectionTests.swift */; };
@@ -252,7 +256,11 @@
 		1211E36A1F3ADC300012E2E6 /* OAuthAuthorizationGrantTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthAuthorizationGrantTests.swift; sourceTree = "<group>"; };
 		1211E36C1F3AE0E50012E2E6 /* MiscTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiscTests.swift; sourceTree = "<group>"; };
 		12413C271F1F23B0001B0B41 /* spinner.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = spinner.json; sourceTree = "<group>"; };
+		1262D4D31F56562B008DE9EE /* ModelVersionableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelVersionableTests.swift; sourceTree = "<group>"; };
+		1262D4D51F565716008DE9EE /* ThemeManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManagerTests.swift; sourceTree = "<group>"; };
+		129FC9881F565DC800E4FDB9 /* KeyboardInputManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardInputManagerTests.swift; sourceTree = "<group>"; };
 		12ADD4211F32A50B00CA8B4D /* MPOLKitProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPOLKitProtocols.swift; sourceTree = "<group>"; };
+		12B167AF1F5659670016A1CB /* testTheme.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = testTheme.json; sourceTree = "<group>"; };
 		12F0571D1F3AE5FC00CAD6F6 /* AuthenticationHeaderAdapterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationHeaderAdapterTests.swift; sourceTree = "<group>"; };
 		12F0571F1F3BF6CF00CAD6F6 /* SourceItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceItemTests.swift; sourceTree = "<group>"; };
 		12F057211F3BFB2A00CAD6F6 /* ManifestCollectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManifestCollectionTests.swift; sourceTree = "<group>"; };
@@ -1028,6 +1036,10 @@
 				12F057231F3BFCBC00CAD6F6 /* SearchResultsTests.swift */,
 				12F057271F3C0F5600CAD6F6 /* EntitySearchRequestTests.swift */,
 				12F057291F3C106D00CAD6F6 /* QueryParserTests.swift */,
+				1262D4D31F56562B008DE9EE /* ModelVersionableTests.swift */,
+				1262D4D51F565716008DE9EE /* ThemeManagerTests.swift */,
+				12B167AF1F5659670016A1CB /* testTheme.json */,
+				129FC9881F565DC800E4FDB9 /* KeyboardInputManagerTests.swift */,
 			);
 			path = MPOLKitTests;
 			sourceTree = "<group>";
@@ -1331,6 +1343,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C60C891D1ECCBEC700785932 /* SimplePersonArrayNestedKeyPath.json in Resources */,
+				12B167B01F5659670016A1CB /* testTheme.json in Resources */,
 				19EFD2FD1F4D5F8700422F2A /* LookupAddress.json in Resources */,
 				C60C891C1ECCBEC700785932 /* SimplePersonArrayKeyPath.json in Resources */,
 				C60C891F1ECCBEC700785932 /* SimplePersonNestedKeyPath.json in Resources */,
@@ -1644,13 +1657,16 @@
 				C6E833AB1F334A4700A21F6D /* NSArchiverTests.swift in Sources */,
 				1211E36D1F3AE0E50012E2E6 /* MiscTests.swift in Sources */,
 				C63F71751F3332E7004F5047 /* UserTests.swift in Sources */,
+				1262D4D61F565716008DE9EE /* ThemeManagerTests.swift in Sources */,
 				19975D8F1F4414AF00E51469 /* ErrorMapperTests.swift in Sources */,
 				19EFD2FA1F4D5C6300422F2A /* LookupAddressTests.swift in Sources */,
 				C60C890B1ECCB94F00785932 /* SimplePerson.swift in Sources */,
 				C65927771F332F7300854C60 /* ModelCodingTestUtility.swift in Sources */,
+				1262D4D41F56562B008DE9EE /* ModelVersionableTests.swift in Sources */,
 				19FEC98C1F440E2E005692A9 /* MappedErrorTests.swift in Sources */,
 				C60C890F1ECCB9A800785932 /* UnboxableResponseSerializerTests.swift in Sources */,
 				1211E3691F3AD7620012E2E6 /* EpochDateTransformerTests.swift in Sources */,
+				129FC9891F565DC800E4FDB9 /* KeyboardInputManagerTests.swift in Sources */,
 				12F0572A1F3C106D00CAD6F6 /* QueryParserTests.swift in Sources */,
 				12F057201F3BF6CF00CAD6F6 /* SourceItemTests.swift in Sources */,
 				19DE98CC1F42651C0063F394 /* SortDescriptorTests.swift in Sources */,
