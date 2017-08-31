@@ -86,7 +86,11 @@ open class LookupAddressLocationAdvancedOptions: LocationAdvanceOptions {
 
     open let headerText: String? = NSLocalizedString("EDIT ADDRESS", comment: "Location Search - Edit address")
 
-    public init() {}
+    public let validator: LookupAddressValidator?
+    
+    public init(validator: LookupAddressValidator? = nil) {
+        self.validator = validator
+    }
     
     open var numberOfOptions: Int {
         return LocationAdvanceItem.count
@@ -112,7 +116,7 @@ open class LookupAddressLocationAdvancedOptions: LocationAdvanceOptions {
         switch LocationAdvanceItem(rawValue: index)! {
         case .unit:                 return "eg. 317"
         case .streetNumber:         return "eg. 188-200"
-        case .streetName:           return "eg. Wellinton"
+        case .streetName:           return "eg. Wellington"
         case .streetType:           return "Select"
         case .suburb:               return "eg. Collingwood"
         case .postcode:             return "eg. 3066"
@@ -142,13 +146,7 @@ open class LookupAddressLocationAdvancedOptions: LocationAdvanceOptions {
     
     open func errorMessage(at index: Int) -> String? {
         let item = LocationAdvanceItem(rawValue: index)!
-        switch item {
-        case .unit:
-            let count = unit?.characters.count ?? 0
-            return count > 5 ? "This should be less than 5 characters long." : nil
-        default: break
-        }
-        return nil
+        return self.validator?.validate(item: item, value: value(at: index))
     }
     
     open func pickerController(forFilterAt index: Int, updateHandler: @escaping () -> ()) -> UIViewController? {
@@ -224,12 +222,18 @@ open class LookupAddressLocationAdvancedOptions: LocationAdvanceOptions {
     }
     
     open func populate(withLocation location: LookupAddress) {
+        
+        var components = [String]()
+        if let streetNumberFirst = location.streetNumberFirst, streetNumberFirst.isEmpty == false {
+            components.append(streetNumberFirst)
+        }
+        
+        if let streetNumberEnd = location.streetNumberLast, streetNumberEnd.isEmpty == false {
+            components.append(streetNumberEnd)
+        }
+        
         self.unit = location.unitNumber
-        
-        let streetNumber = location.streetNumberFirst
-        
-        
-        self.streetNumber = streetNumber
+        self.streetNumber = components.joined(separator: "-")
         self.streetName = location.streetName
         self.streetType = location.streetType != nil ? StreetType(rawValue: location.streetType!.capitalized) : nil
         self.suburb = location.suburb
@@ -286,9 +290,20 @@ open class LookupAddressLocationAdvancedOptions: LocationAdvanceOptions {
     open func locationParameters() -> Parameterisable {
         var parameters = LookupAddressAdvanceParameters()
 
+        var streetNumberStart: String?
+        var streetNumberEnd: String?
+        
+        if var components = streetNumber?.components(separatedBy: "-"), components.count > 0 {
+            streetNumberStart = components.removeFirst()
+            
+            if components.count > 0 {
+                streetNumberEnd = components.removeFirst()
+            }
+        }
+        
         parameters.flatNumber = unit
-        parameters.streetNumberStart = streetNumber
-        parameters.streetNumberEnd = streetNumber
+        parameters.streetNumberStart = streetNumberStart
+        parameters.streetNumberEnd = streetNumberEnd
         parameters.streetName = streetName
         parameters.streetType = streetType?.rawValue
         parameters.suburb = suburb
