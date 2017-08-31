@@ -93,9 +93,6 @@ public extension Sequence {
 /// of this `AnyComparable` is more to allow storing `Comparable` inside collections.
 ///
 /// Supports wrapping optional by applying following comparison rule .none < .some(_) == true
-
-// Declared as `fileprivate` due to only being used by the SortDescriptor and
-// the fact that `Comparable` conformance generally is constrainted to the type.
 struct AnyComparable: Comparable {
     
     private let _box: _AnyComparableBase?
