@@ -47,7 +47,7 @@ fileprivate enum SearchType: String, Pickable {
 }
 
 fileprivate class VehicleSearchOptions: SearchOptions {
-    var type:    SearchType = .registration
+    var type: SearchType = .registration
 
     // MARK: - Filters
 
