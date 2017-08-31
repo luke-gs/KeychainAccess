@@ -14,11 +14,12 @@ class ErrorMapperTests: XCTestCase {
 
     let networkDefinition = NetworkErrorDefinition()
     let dummyError = NSError(domain: "ErrorDomain", code: 1, userInfo: nil)
-    
+    let systemError = NSError(domain: "ErrorDomain", code: NSURLErrorNotConnectedToInternet, userInfo: nil)
+
     func testThatItMapsErrorCorrectly() {
         // Given
         let statusCode = 400
-        let rsp = dataResponse(statusCode: statusCode)
+        let rsp = dataResponse(statusCode: statusCode, error: dummyError)
         let error = APIManagerError(underlyingError: dummyError, response: rsp)
         let errorMapper = ErrorMapper(definitions: [networkDefinition])
         
@@ -28,11 +29,25 @@ class ErrorMapperTests: XCTestCase {
         // Then
         XCTAssertEqual(mapped.localizedDescription, NetworkErrorDefinition.defaultHTTPStatusCodesMap[statusCode]!.message)
     }
-    
+
+    func testThatItMapsSystemErrorCorrectly() {
+        // Given
+        let statusCode = NSURLErrorNotConnectedToInternet
+        let rsp = dataResponse(statusCode: statusCode, error: systemError)
+        let error = APIManagerError(underlyingError: dummyError, response: rsp)
+        let errorMapper = ErrorMapper(definitions: [networkDefinition])
+
+        // When
+        let mapped = errorMapper.mappedError(from: error)
+
+        // Then
+        XCTAssertEqual(mapped.localizedDescription, NetworkErrorDefinition.defaultSystemDomainCodesMap[statusCode]!.message)
+    }
+
     func testThatItPassThroughNotSupportedStatusCode() {
         // Given
         let statusCode = 9001 // Over 9000
-        let rsp = dataResponse(statusCode: statusCode)
+        let rsp = dataResponse(statusCode: statusCode, error: dummyError)
         let error = APIManagerError(underlyingError: dummyError, response: rsp)
         let errorMapper = ErrorMapper(definitions: [networkDefinition])
         
@@ -65,10 +80,11 @@ class ErrorMapperTests: XCTestCase {
     
     // MARK: - DefaultDataResponse
     
-    func dataResponse(statusCode: Int) -> DefaultDataResponse {
+    func dataResponse(statusCode: Int, error: NSError) -> DefaultDataResponse {
         let url = URL(string: "https://www.apple.com")!
         let httpResponse = HTTPURLResponse(url: url, statusCode: statusCode, httpVersion: nil, headerFields: nil)
-        return DefaultDataResponse(request: nil, response: httpResponse, data: nil, error: dummyError)
+        return DefaultDataResponse(request: nil, response: httpResponse, data: nil, error: error)
+
     }
 }
 
