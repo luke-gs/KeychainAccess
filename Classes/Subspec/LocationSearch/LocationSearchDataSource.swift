@@ -91,7 +91,7 @@ public class LocationSearchDataSource<T: LocationAdvanceOptions, U: LocationSear
     }
     
     private lazy var searchButton: UIBarButtonItem? = UIBarButtonItem(title: NSLocalizedString("Search", comment: ""), style: .done, target: self, action: #selector(didTapSearchButton))
-    private lazy var advanceButton: UIBarButtonItem? = UIBarButtonItem(title: NSLocalizedString("Advance Search", comment: ""), style: .done, target: self, action: #selector(didTapAdvanceButton))
+    private lazy var advanceButton: UIBarButtonItem? = UIBarButtonItem(title: self.advanceOptions.title, style: .done, target: self, action: #selector(didTapAdvanceButton))
     
     public var navigationButton: UIBarButtonItem? {
         return options is LocationBasicSearchOptions ? advanceButton : searchButton

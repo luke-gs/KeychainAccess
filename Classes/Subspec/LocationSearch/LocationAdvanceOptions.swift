@@ -12,6 +12,9 @@ public protocol LocationAdvanceOptions: SearchOptions {
     
     associatedtype Location: Locatable
     
+    /// The title of this options
+    var title: String { get }
+    
     /// The title of the cancel button.
     var cancelTitle: String { get }
     
