@@ -12,6 +12,7 @@
 		1211E36D1F3AE0E50012E2E6 /* MiscTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1211E36C1F3AE0E50012E2E6 /* MiscTests.swift */; };
 		12413C281F1F23B0001B0B41 /* spinner.json in Resources */ = {isa = PBXBuildFile; fileRef = 12413C271F1F23B0001B0B41 /* spinner.json */; };
 		12ADD4221F32A50B00CA8B4D /* MPOLKitProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4211F32A50B00CA8B4D /* MPOLKitProtocols.swift */; };
+		12D566F61F5790BC001E74CA /* UserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D566F51F5790BC001E74CA /* UserSession.swift */; };
 		12F0571E1F3AE5FC00CAD6F6 /* AuthenticationHeaderAdapterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F0571D1F3AE5FC00CAD6F6 /* AuthenticationHeaderAdapterTests.swift */; };
 		12F057201F3BF6CF00CAD6F6 /* SourceItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F0571F1F3BF6CF00CAD6F6 /* SourceItemTests.swift */; };
 		12F057221F3BFB2A00CAD6F6 /* ManifestCollectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F057211F3BFB2A00CAD6F6 /* ManifestCollectionTests.swift */; };
@@ -242,6 +243,7 @@
 		1211E36C1F3AE0E50012E2E6 /* MiscTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiscTests.swift; sourceTree = "<group>"; };
 		12413C271F1F23B0001B0B41 /* spinner.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = spinner.json; sourceTree = "<group>"; };
 		12ADD4211F32A50B00CA8B4D /* MPOLKitProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPOLKitProtocols.swift; sourceTree = "<group>"; };
+		12D566F51F5790BC001E74CA /* UserSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSession.swift; sourceTree = "<group>"; };
 		12F0571D1F3AE5FC00CAD6F6 /* AuthenticationHeaderAdapterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationHeaderAdapterTests.swift; sourceTree = "<group>"; };
 		12F0571F1F3BF6CF00CAD6F6 /* SourceItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceItemTests.swift; sourceTree = "<group>"; };
 		12F057211F3BFB2A00CAD6F6 /* ManifestCollectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManifestCollectionTests.swift; sourceTree = "<group>"; };
@@ -1060,6 +1062,7 @@
 			children = (
 				C63408581F30E59C000747B0 /* SearchResult.swift */,
 				C61AC9191F32FAF100F82FF6 /* User.swift */,
+				12D566F51F5790BC001E74CA /* UserSession.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1516,6 +1519,7 @@
 				BC9C7E2A1F0DED6600DFFE83 /* DateFormatter+Static.swift in Sources */,
 				BC9C7DD11F0DED6600DFFE83 /* ManifestEntry.swift in Sources */,
 				BC9C7E141F0DED6600DFFE83 /* TableViewFormTextFieldCell.swift in Sources */,
+				12D566F61F5790BC001E74CA /* UserSession.swift in Sources */,
 				BC9C7E001F0DED6600DFFE83 /* CoreGraphics+Rounding.swift in Sources */,
 				BC9C7E4E1F0DED6600DFFE83 /* BadgeView.swift in Sources */,
 				BC9C7E121F0DED6600DFFE83 /* TableViewFormExpandingHeaderCell.swift in Sources */,
