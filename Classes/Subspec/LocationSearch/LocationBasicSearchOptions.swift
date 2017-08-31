@@ -6,6 +6,7 @@
 import Foundation
 
 
+/// Implementation of basic search options that allows results to be provided the client.
 open class LocationBasicSearchOptions: SearchOptions {
     open let headerText: String? = NSLocalizedString("SELECT AN ADDRESS TO CONTINUE", comment: "Location Search - type ahead results")
 

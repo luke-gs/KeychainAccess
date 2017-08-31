@@ -124,7 +124,7 @@ public class LocationSearchDataSource<T: LocationAdvanceOptions, U: LocationSear
     }
     
     public func selectionAction(forFilterAt index: Int) -> SearchOptionAction {
-        if let options = options as? LocationAdvanceSearchOptions {
+        if let options = options as? T {
             let updateHandler = { [weak self] in
                 guard let `self` = self else { return }
                 self.updatingDelegate?.searchDataSource(self, didUpdateComponent: .filter(index: index))
@@ -134,14 +134,14 @@ public class LocationSearchDataSource<T: LocationAdvanceOptions, U: LocationSear
                 return .options(controller: controller)
             }
         } else if let options = options as? LocationBasicSearchOptions {
-            performSearchOnLocation(options.results[index])
+            performSearchOnLocation(withResult: options.results[index])
         }
         
         return .none
     }
     
     public func textChanged(forFilterAt index: Int, text: String?, didEndEditing ended: Bool) {
-        if let options = options as? LocationAdvanceSearchOptions {
+        if let options = options as? T {
             options.populate(withOptions: [index: text ?? ""], reset: false)
             updatingDelegate?.searchDataSource(self, didUpdateComponent: .filterErrorMessage(index: index))
         }
@@ -196,15 +196,15 @@ public class LocationSearchDataSource<T: LocationAdvanceOptions, U: LocationSear
     }
     
     @objc private func didTapSearchButton() {
-        let search = Searchable(text: advanceOptions.textRepresentation(),
-                                options: advanceOptions.state(),
-                                type: LocationSearchDataSourceSearchableType)
-        updatingDelegate?.searchDataSource(self, didFinishWith: search, andResultViewModel: nil)
-
+        performSearchOnLocation(withParameters: advanceOptions.locationParameters())
     }
     
     @objc private func didTapMapButton() {
-        // TODO: Present map
+        // TODO: Implement a way to allow custom view controller defined by the app.
+        let mapViewController = UIViewController()
+        mapViewController.title = "Location Search"
+        mapViewController.view.backgroundColor = .white
+        (updatingDelegate as? UIViewController)?.show(mapViewController, sender: nil)
     }
     
     private func attemptSearch(delay: Bool = true) {
@@ -216,7 +216,7 @@ public class LocationSearchDataSource<T: LocationAdvanceOptions, U: LocationSear
     private var lastSearchText: String?
     
     @objc private func lookupLocations() {
-        guard let text = text, text.characters.count > searchStrategy.configuration.minimumCharacters else { return }
+        guard let text = text, text.characters.count >= searchStrategy.configuration.minimumCharacters else { return }
         
         if let promise = self.searchStrategy.locationTypeaheadPromise(text: text) {
             self.lastSearchText = text
@@ -252,10 +252,28 @@ public class LocationSearchDataSource<T: LocationAdvanceOptions, U: LocationSear
 
     // MARK: - Handle address
     
-    private func performSearchOnLocation(_ location: Pickable) {
-        let searchable = Searchable(text: text, options: nil, type: LocationSearchDataSourceSearchableType)
+    private func performSearchOnLocation(withResult result: LookupResult) {
+        let searchable = Searchable(text: text,
+                                    options: nil,
+                                    type: LocationSearchDataSourceSearchableType)
+        
         updatingDelegate?.searchDataSource(self, didFinishWith: searchable, andResultViewModel: nil)
         
+        // TODO: Implement a way to allow custom view controller defined by the app.
+        let mapViewController = UIViewController()
+        mapViewController.title = "Location Search"
+        mapViewController.view.backgroundColor = .white
+        (updatingDelegate as? UIViewController)?.show(mapViewController, sender: nil)
+    }
+    
+    private func performSearchOnLocation(withParameters parameters: Parameterisable) {
+        let search = Searchable(text: advanceOptions.textRepresentation(),
+                                options: advanceOptions.state(),
+                                type: LocationSearchDataSourceSearchableType)
+        
+        updatingDelegate?.searchDataSource(self, didFinishWith: search, andResultViewModel: nil)
+        
+        // TODO: Implement a way to allow custom view controller defined by the app.
         let mapViewController = UIViewController()
         mapViewController.title = "Location Search"
         mapViewController.view.backgroundColor = .white

@@ -8,10 +8,14 @@
 
 import Foundation
 
-
+/// Location search configuration defines how often the typeahead search should occur.
 public struct LocationSearchConfiguration {
-    public var throttle: TimeInterval
-    public var minimumCharacters: Int
+    
+    /// The delay after the user enters the last character before making the request.
+    public let throttle: TimeInterval
+    
+    /// The minimum characters required before making the request.
+    public let minimumCharacters: Int
     
     public init(throttle: TimeInterval, minimumCharacters: Int) {
         self.throttle = throttle

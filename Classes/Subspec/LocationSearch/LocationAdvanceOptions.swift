@@ -46,4 +46,10 @@ public protocol LocationAdvanceOptions: SearchOptions {
     /// - Parameters:
     ///   - location: The Location.
     func populate(withLocation location: Location)
+    
+    /// Generate parameters from this options to pass down to the map.
+    ///
+    /// - Returns: Parameterisable
+    func locationParameters() -> Parameterisable
+    
 }

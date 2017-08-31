@@ -68,7 +68,7 @@ public enum StateType: String, Pickable {
 }
 
 
-open class LocationAdvanceSearchOptions: LocationAdvanceOptions {
+open class LookupAddressLocationAdvancedOptions: LocationAdvanceOptions {
     
     public typealias Location = LookupAddress
     
@@ -282,4 +282,20 @@ open class LocationAdvanceSearchOptions: LocationAdvanceOptions {
         
         return components.joined(separator: ", ")
     }
+    
+    open func locationParameters() -> Parameterisable {
+        var parameters = LookupAddressAdvanceParameters()
+
+        parameters.flatNumber = unit
+        parameters.streetNumberStart = streetNumber
+        parameters.streetNumberEnd = streetNumber
+        parameters.streetName = streetName
+        parameters.streetType = streetType?.rawValue
+        parameters.suburb = suburb
+        parameters.state = state?.rawValue
+        parameters.postalCode = postcode
+        
+        return parameters
+    }
+    
 }
