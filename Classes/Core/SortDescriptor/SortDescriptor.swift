@@ -96,7 +96,7 @@ public extension Sequence {
 
 // Declared as `fileprivate` due to only being used by the SortDescriptor and
 // the fact that `Comparable` conformance generally is constrainted to the type.
-fileprivate struct AnyComparable: Comparable {
+struct AnyComparable: Comparable {
     
     private let _box: _AnyComparableBase?
     
