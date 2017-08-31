@@ -71,6 +71,9 @@ public enum StateType: String, Pickable {
 
 
 open class LocationAdvanceSearchOptions: LocationAdvanceOptions {
+    
+    public typealias Location = LookupAddress
+    
     public let cancelTitle: String = NSLocalizedString("GO BACK TO SIMPLE SEARCH", comment: "Location Search - Back to simple search")
     
     open var unit:               String?
@@ -84,6 +87,8 @@ open class LocationAdvanceSearchOptions: LocationAdvanceOptions {
 
     open let headerText: String? = NSLocalizedString("EDIT ADDRESS", comment: "Location Search - Edit address")
 
+    public init() {}
+    
     open var numberOfOptions: Int {
         return LocationAdvanceItem.count
     }

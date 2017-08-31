@@ -9,24 +9,24 @@ import Foundation
 open class LocationBasicSearchOptions: SearchOptions {
     open let headerText: String? = NSLocalizedString("SELECT AN ADDRESS TO CONTINUE", comment: "Location Search - type ahead results")
 
-    open var locations: [Pickable] = []
+    open var results: [LookupResult] = []
     
     open weak var delegate: LocationBasicSearchOptionsDelegate?
 
     open var numberOfOptions: Int {
-        return locations.count
+        return results.count
     }
 
     open func title(at index: Int) -> String {
-        return locations[index].title ?? NSLocalizedString("Unknown address", comment: "Location Search - when there is no address text")
+        return results[index].title ?? NSLocalizedString("Unknown address", comment: "Location Search - when there is no address text")
     }
 
     open func value(at index: Int) -> String? {
-        return locations[index].subtitle
+        return results[index].subtitle
     }
 
     open func defaultValue(at index: Int) -> String {
-        return "Unknown"
+        return ""
     }
     
     open func errorMessage(at index: Int) -> String? {
@@ -36,16 +36,16 @@ open class LocationBasicSearchOptions: SearchOptions {
     open func type(at index: Int) -> SearchOptionType {
         return .action(image: AssetManager.shared.image(forKey: .location), buttonTitle: "Edit Address", buttonHandler: { [weak self] in
             guard let `self` = self else { return }
-            let address = self.locations[index]
-            self.delegate?.locationBasicSearchOptions(self, didEditLocation: address)
+            let result = self.results[index]
+            self.delegate?.locationBasicSearchOptions(self, didEditResult: result)
         })
     }
     
     open func reset() {
-        locations = []
+        results = []
     }
 }
 
 public protocol LocationBasicSearchOptionsDelegate: class {
-    func locationBasicSearchOptions(_ options: LocationBasicSearchOptions, didEditLocation location: Pickable)
+    func locationBasicSearchOptions(_ options: LocationBasicSearchOptions, didEditResult result: LookupResult)
 }

@@ -12,6 +12,8 @@ import PromiseKit
 /// Defines a search strategy for location search data source.
 public protocol LocationSearchStrategy {
     
+    associatedtype Location: Locatable
+    
     /// The search configuration containing the frequency of typeahead search.
     var configuration: LocationSearchConfiguration { get }
     
@@ -20,12 +22,23 @@ public protocol LocationSearchStrategy {
     /// - Parameters:
     ///   - text: The text entered.
     /// - Returns: The promise object
-    func locationSearchPromise(text: String) -> Promise<[LookupAddress]>?
+    func locationTypeaheadPromise(text: String) -> Promise<[Location]>?
 }
 
 
+extension LookupAddress: Locatable {
+    
+    public var textRepresentation: String {
+        return fullAddress ?? "Unknown address"
+    }
+    
+}
+
 /// A default implementation of the search strategy that uses APIManager's type ahead search address.
 open class LookupAddressLocationSearchStrategy: LocationSearchStrategy {
+    
+    public typealias Location = LookupAddress
+    
     public let source: EntitySource
     public let configuration: LocationSearchConfiguration
     
@@ -34,7 +47,8 @@ open class LookupAddressLocationSearchStrategy: LocationSearchStrategy {
         self.configuration = configuration
     }
     
-    open func locationSearchPromise(text: String) -> Promise<[LookupAddress]>? {
+    open func locationTypeaheadPromise(text: String) -> Promise<[LookupAddress]>? {
         return APIManager.shared.typeAheadSearchAddress(in: source, with: LookupAddressSearchRequest(searchText: text))
     }
+    
 }

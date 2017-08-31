@@ -10,6 +10,8 @@ import Foundation
 
 public protocol LocationAdvanceOptions: SearchOptions {
     
+    associatedtype Location: Locatable
+    
     /// The title of the cancel button.
     var cancelTitle: String { get }
     
@@ -40,5 +42,5 @@ public protocol LocationAdvanceOptions: SearchOptions {
     ///
     /// - Parameters:
     ///   - location: The Location.
-    func populate(withLocation location: LookupAddress)
+    func populate(withLocation location: Location)
 }

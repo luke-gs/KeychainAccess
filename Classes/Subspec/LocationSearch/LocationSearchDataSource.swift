@@ -9,16 +9,31 @@
 import Foundation
 import PromiseKit
 import Unbox
+import MapKit
 
 
-extension LookupAddress: Pickable {
-    public var title: String? { return fullAddress }
-    public var subtitle: String? { return "0 m" }
+public protocol Locatable {
+    var textRepresentation: String { get }
+    var coordinate: CLLocationCoordinate2D { get }
 }
 
-public class LocationSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate, LocationBasicSearchOptionsDelegate {
+public struct LookupResult: Pickable {
     
-    public static let searchableType = "Location"
+    public let location: Locatable
+    public let title: String?
+    public let subtitle: String?
+    
+    public init(location: Locatable) {
+        self.location = location
+        
+        self.title    = location.textRepresentation
+        self.subtitle = nil
+    }
+}
+
+public let LocationSearchDataSourceSearchableType = "Location"
+
+public class LocationSearchDataSource<T: LocationAdvanceOptions, U: LocationSearchStrategy>: NSObject, SearchDataSource, UITextFieldDelegate, LocationBasicSearchOptionsDelegate where T.Location == U.Location {
     
     private let searchPlaceholder = NSAttributedString(string: NSLocalizedString("eg. 28 Wellington Street", comment: ""),
                                                        attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 28.0, weight: UIFontWeightLight), NSForegroundColorAttributeName: UIColor.lightGray])
@@ -88,8 +103,9 @@ public class LocationSearchDataSource: NSObject, SearchDataSource, UITextFieldDe
         }
     }
 
-    private let basicOptions  = LocationBasicSearchOptions()
-    public let advanceOptions: LocationAdvanceOptions
+    private let basicOptions = LocationBasicSearchOptions()
+    public let advanceOptions: T
+    public let searchStrategy: U
 
     public weak var updatingDelegate: SearchDataSourceUpdating?
     
@@ -97,9 +113,7 @@ public class LocationSearchDataSource: NSObject, SearchDataSource, UITextFieldDe
         return NSLocalizedString("Location", comment: "")
     }
     
-    public let searchStrategy: LocationSearchStrategy
-    
-    public init(strategy: LocationSearchStrategy, advanceOptions: LocationAdvanceOptions = LocationAdvanceSearchOptions()) {
+    public init(strategy: U, advanceOptions: T) {
         self.searchStrategy = strategy
         self.advanceOptions = advanceOptions
         
@@ -120,7 +134,7 @@ public class LocationSearchDataSource: NSObject, SearchDataSource, UITextFieldDe
                 return .options(controller: controller)
             }
         } else if let options = options as? LocationBasicSearchOptions {
-            performSearchOnLocation(options.locations[index])
+            performSearchOnLocation(options.results[index])
         }
         
         return .none
@@ -144,22 +158,19 @@ public class LocationSearchDataSource: NSObject, SearchDataSource, UITextFieldDe
             
             options = basicOptions
             return true
-        } else if type == LocationSearchDataSource.searchableType {
-            let type = searchable.type
-            if type == LocationSearchDataSource.searchableType {
-                basicOptions.reset()
-                advanceOptions.populate(withOptions: nil, reset: true)
-                
-                if let lastOptions = searchable.options {
-                    text = nil
-                    advanceOptions.populate(withOptions: lastOptions, reset: true)
-                    options = advanceOptions
-                } else {
-                    text = searchable.text
-                    options = basicOptions
-                }
-            }
+        } else if type == LocationSearchDataSourceSearchableType {
             
+            basicOptions.reset()
+            advanceOptions.populate(withOptions: nil, reset: true)
+            
+            if let lastOptions = searchable.options {
+                text = nil
+                advanceOptions.populate(withOptions: lastOptions, reset: true)
+                options = advanceOptions
+            } else {
+                text = searchable.text
+                options = basicOptions
+            }
             return true
         }
 
@@ -187,7 +198,7 @@ public class LocationSearchDataSource: NSObject, SearchDataSource, UITextFieldDe
     @objc private func didTapSearchButton() {
         let search = Searchable(text: advanceOptions.textRepresentation(),
                                 options: advanceOptions.state(),
-                                type: LocationSearchDataSource.searchableType)
+                                type: LocationSearchDataSourceSearchableType)
         updatingDelegate?.searchDataSource(self, didFinishWith: search, andResultViewModel: nil)
 
     }
@@ -207,7 +218,7 @@ public class LocationSearchDataSource: NSObject, SearchDataSource, UITextFieldDe
     @objc private func lookupLocations() {
         guard let text = text, text.characters.count > searchStrategy.configuration.minimumCharacters else { return }
         
-        if let promise = self.searchStrategy.locationSearchPromise(text: text) {
+        if let promise = self.searchStrategy.locationTypeaheadPromise(text: text) {
             self.lastSearchText = text
             self.errorMessage = nil
             
@@ -217,7 +228,10 @@ public class LocationSearchDataSource: NSObject, SearchDataSource, UITextFieldDe
                 if locations.isEmpty {
                     self.errorMessage = "No addresses found for '\(text)'."
                 } else {
-                    self.basicOptions.locations = locations
+                    
+                    let results = locations.map { LookupResult(location: $0) }
+                    
+                    self.basicOptions.results = results
                     self.updatingDelegate?.searchDataSource(self, didUpdateComponent: .filter(index: nil))
                 }
             }.catch { [weak self] in
@@ -239,7 +253,7 @@ public class LocationSearchDataSource: NSObject, SearchDataSource, UITextFieldDe
     // MARK: - Handle address
     
     private func performSearchOnLocation(_ location: Pickable) {
-        let searchable = Searchable(text: text, options: nil, type: LocationSearchDataSource.searchableType)
+        let searchable = Searchable(text: text, options: nil, type: LocationSearchDataSourceSearchableType)
         updatingDelegate?.searchDataSource(self, didFinishWith: searchable, andResultViewModel: nil)
         
         let mapViewController = UIViewController()
@@ -248,8 +262,8 @@ public class LocationSearchDataSource: NSObject, SearchDataSource, UITextFieldDe
         (updatingDelegate as? UIViewController)?.show(mapViewController, sender: nil)
     }
     
-    public func locationBasicSearchOptions(_ options: LocationBasicSearchOptions, didEditLocation location: Pickable) {
-        advanceOptions.populate(withLocation: location as! LookupAddress)
+    public func locationBasicSearchOptions(_ options: LocationBasicSearchOptions, didEditResult result: LookupResult) {
+        advanceOptions.populate(withLocation: result.location as! T.Location)
         self.options = advanceOptions
     }
 }
