@@ -123,11 +123,11 @@ class PersonSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
                             dobSearch =  PersonSearchDataSource.outputDateFormatter.string(from: dateOfBirth)
                         }
 
-                        searchParameters = PersonSearchParameters(familyName:   personParserResults[PersonParserDefinition.SurnameKey]!,
-                                                                  givenName:    personParserResults[PersonParserDefinition.GivenNameKey],
-                                                                  middleNames:  personParserResults[PersonParserDefinition.MiddleNamesKey],
-                                                                  gender:       personParserResults[PersonParserDefinition.GenderKey],
-                                                                  dateOfBirth:  dobSearch)
+                        searchParameters = PersonSearchParameters(familyName: personParserResults[PersonParserDefinition.SurnameKey]!,
+                                                                  givenName: personParserResults[PersonParserDefinition.GivenNameKey],
+                                                                  middleNames: personParserResults[PersonParserDefinition.MiddleNamesKey],
+                                                                  gender: personParserResults[PersonParserDefinition.GenderKey],
+                                                                  dateOfBirth: dobSearch)
                     } else if definition is LicenceParserDefinition {
                         let personParserResults = try QueryParser(parserDefinition: definition).parseString(query: searchTerm)
                         searchParameters = LicenceSearchParameters(licenceNumber: personParserResults[LicenceParserDefinition.licenceKey]!)
@@ -143,7 +143,7 @@ class PersonSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
                     throw NSError(domain: "MPOL.PersonSearchDataSource", code: 0, userInfo: [NSLocalizedDescriptionKey: "Unsupported query."])
                 }
             }
-        } catch (let error) {
+        } catch {
             completion(nil, error)
         }
     }

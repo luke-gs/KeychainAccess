@@ -40,7 +40,7 @@ fileprivate enum SearchType: String, Pickable {
     var placeholderText: String {
         switch self {
         case .registration: return "eg. ABC123"
-        case .vin:          return "eg. 1C4RDJAG9CC193202"
+        case .vin: return "eg. 1C4RDJAG9CC193202"
         case .engineNumber: return "eg. H22AM03737"
         }
     }
@@ -136,7 +136,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
     lazy var navigationButton: UIBarButtonItem? = UIBarButtonItem(title: NSLocalizedString("Search", comment: ""), style: .done, target: self, action: #selector(searchButtonItemTapped))
 
 
-    //MARK: SearchDataSource
+    // MARK: SearchDataSource
     var options: SearchOptions? = VehicleSearchOptions()
 
     let registrationParser = QueryParser(parserDefinition: RegistrationParserDefinition(range: 1...9))
@@ -161,7 +161,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
                                           selectedIndexes: searchTypes.indexes { $0 == options.type },
                                           onSelect: { (_, selectedIndexes) in
                                             guard let selectedTypeIndex = selectedIndexes.first else { return }
-                                            options.type = searchTypes[selectedTypeIndex];
+                                            options.type = searchTypes[selectedTypeIndex]
             })
 
             return .options(controller: picker)
@@ -173,7 +173,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
     private func parser(forType type: SearchType) -> QueryParser {
         switch type {
         case .registration: return self.registrationParser
-        case .vin:          return self.vinParser
+        case .vin: return self.vinParser
         case .engineNumber: return self.engineParser
         }
     }
@@ -212,7 +212,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
 
                 completion(resultModel, nil)
             }
-        } catch (let error) {
+        } catch {
             completion(nil, error)
         }
     }
@@ -258,5 +258,5 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
             performSearch()
         }
     }
-    
+
 }
