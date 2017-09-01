@@ -23,11 +23,6 @@ open class HorizontalSidebarViewController: UIViewController {
 
     // MARK: - Public properties
 
-    /// The current stackview cells for items
-    private var cells: [HorizontalSidebarCell] {
-        return sidebarStackView.arrangedSubviews as? [HorizontalSidebarCell] ?? []
-    }
-
     /// The current items available to display.
     public var items: [SidebarItem] = [] {
         didSet {
@@ -76,9 +71,6 @@ open class HorizontalSidebarViewController: UIViewController {
     /// The scroll view for containing the stack view.
     public private(set) var scrollView: UIScrollView!
 
-    /// The leading constraint for the stack view, to center first item
-    private var stackViewLeadingConstraint: NSLayoutConstraint!
-
     /// A Boolean value indicating whether the sidebar clears the selection when the view appears.
     ///
     /// The default value of this property is false. If true, the view controller clears the
@@ -88,9 +80,20 @@ open class HorizontalSidebarViewController: UIViewController {
     /// The delegate for the sidebar, we use the same protocol as the vertical sidebar view controller.
     open weak var delegate: SidebarViewControllerDelegate? = nil
 
-
     // MARK: - Private properties
 
+    private struct LayoutConstants {
+        static let scrollViewMargin: CGFloat = 10
+    }
+
+    /// The current stackview cells for items
+    private var cells: [HorizontalSidebarCell] {
+        return sidebarStackView.arrangedSubviews as? [HorizontalSidebarCell] ?? []
+    }
+
+    /// The leading constraint for the stack view, to center first item
+    private var stackViewLeadingConstraint: NSLayoutConstraint!
+    private var stackViewTrailingConstraint: NSLayoutConstraint!
 
     // MARK: - Initializer
 
@@ -113,6 +116,7 @@ open class HorizontalSidebarViewController: UIViewController {
         scrollView.alwaysBounceHorizontal = true
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.showsVerticalScrollIndicator = false
+        scrollView.isScrollEnabled = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(scrollView)
 
@@ -126,28 +130,31 @@ open class HorizontalSidebarViewController: UIViewController {
 
         stackViewLeadingConstraint = sidebarStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 0)
         stackViewLeadingConstraint.isActive = true
+        stackViewTrailingConstraint = sidebarStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: 0)
+        stackViewTrailingConstraint.isActive = true
 
         let inset = 10 as CGFloat
         NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: inset),
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: inset),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -inset),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -inset),
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: LayoutConstants.scrollViewMargin),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: LayoutConstants.scrollViewMargin),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -LayoutConstants.scrollViewMargin),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -LayoutConstants.scrollViewMargin),
             scrollView.heightAnchor.constraint(equalToConstant: 36),
 
             sidebarStackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            sidebarStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             sidebarStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             sidebarStackView.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor),
-            stackViewLeadingConstraint
+            stackViewLeadingConstraint,
+            stackViewTrailingConstraint
         ])
     }
 
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        if let firstCell = self.cells.first, firstCell.bounds.width > 0 {
-            self.stackViewLeadingConstraint.constant = (self.view.bounds.width - firstCell.bounds.width - 20) / 2
-        }
+
+        // Add plenty of padding left and right of stackview, to allow for scroll based centering
+        stackViewLeadingConstraint.constant = view.bounds.width
+        stackViewTrailingConstraint.constant = -view.bounds.width
     }
 
     open override func viewWillAppear(_ animated: Bool) {
@@ -198,12 +205,20 @@ open class HorizontalSidebarViewController: UIViewController {
 
         cell.update(for: item, selected: selected)
         cell.selectHandler =  { [unowned self] in
+            // If new selection, notify delegate
             if self.selectedItem == item { return }
             self.selectedItem = item
             self.delegate?.sidebarViewController(nil, didSelectItem: item)
         }
         if selected {
-            scrollView.setContentOffset(CGPoint(x: cell.frame.origin.x, y: 0), animated: true)
+            // Force layout of stack view as fonts have changed, and we need position of this item
+            sidebarStackView.setNeedsLayout()
+            sidebarStackView.layoutIfNeeded()
+
+            // Scroll so that the selected item is centered
+            let leftAligned = view.bounds.width + cell.frame.origin.x
+            let centerAligned = leftAligned - (view.bounds.width - cell.bounds.width) / 2 + LayoutConstants.scrollViewMargin
+            scrollView.setContentOffset(CGPoint(x: centerAligned, y: 0), animated: true)
         }
     }
 
