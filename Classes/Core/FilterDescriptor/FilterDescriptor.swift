@@ -42,13 +42,12 @@ public class FilterDescriptor<T>: FilterDescriptorType {
     /// - Returns: A boolean indicating whether the value should or shouldnt be included.
     fileprivate static func shouldInclude(value: T, descriptors: [FilterDescriptor<T>]) -> Bool {
         guard descriptors.count > 0 else { return true }
-        var shouldInclude = true
         for descriptor in descriptors {
             if !descriptor.shouldInclude(value: value) {
-                shouldInclude = false
+                return false
             }
         }
-        return shouldInclude
+        return true
     }
 }
 
