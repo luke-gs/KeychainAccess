@@ -50,7 +50,9 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
         let noContentView = loadingManager.noContentView
         noContentView.titleLabel.text = NSLocalizedString("No Person Found", bundle: .mpolKit, comment: "")
         noContentView.subtitleLabel.text = NSLocalizedString("There are no details for this person", bundle: .mpolKit, comment: "")
-                
+        
+        loadingManager.loadingLabel.text = "Retrieving records"
+        
         guard let collectionView = self.collectionView else { return }
         
         collectionView.register(EntityDetailCollectionViewCell.self)
@@ -103,7 +105,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
             // TODO: - Needs to remove the mock, once real data is hooked up
             /// cell.thumbnailView.imageView.image = #imageLiteral(resourceName: "Avatar 1")
             
-// TODO
+            // TODO: ?
 //            if cell.thumbnailView.allTargets.contains(self) == false {
 //                cell.thumbnailView.isEnabled = true
 //                cell.thumbnailView.addTarget(self, action: #selector(entityThumbnailDidSelect(_:)), for: .primaryActionTriggered)
@@ -260,11 +262,13 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
     private func updateLoadingManagerState() {
         loadingManager.state = entity != nil ? .loaded : .noContent
     }
+
 }
 
 extension PersonInfoViewController: EntityDetailsViewModelDelegate {
+
    public func reloadData() {
         collectionView?.reloadData()
     }
-}
 
+}
