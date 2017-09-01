@@ -155,6 +155,11 @@ open class HorizontalSidebarViewController: UIViewController {
         // Add plenty of padding left and right of stackview, to allow for scroll based centering
         stackViewLeadingConstraint.constant = view.bounds.width
         stackViewTrailingConstraint.constant = -view.bounds.width
+
+        // Update immediately when new layout
+        UIView.performWithoutAnimation {
+            self.updateCells()
+        }
     }
 
     open override func viewWillAppear(_ animated: Bool) {
