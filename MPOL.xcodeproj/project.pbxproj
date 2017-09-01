@@ -204,6 +204,7 @@
 				BCEEA5631F03205800C884A4 /* Embed Frameworks */,
 				D21DC578391C0CA63CBC80D8 /* [CP] Embed Pods Frameworks */,
 				C1D46AED3802785E61E14A0E /* [CP] Copy Pods Resources */,
+				DB3E2AE81F568C8D00E35300 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -338,6 +339,19 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		DB3E2AE81F568C8D00E35300 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ \"${CONFIGURATION}\" = \"Internal-Debug\" ]; then\n    if hash tailor 2>/dev/null; then\n        tailor\n    else\n        echo \"warning: Please install Tailor from https://tailor.sh\"\n    fi\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
