@@ -59,8 +59,8 @@ open class FilterDescriptor<T> {
 /// ````
 public class FilterValueDescriptor<T>: FilterDescriptor<T> {
     
-    fileprivate let keyMapper: (T) -> AnyHashable?
-    fileprivate let values: Set<AnyHashable>
+    public let keyMapper: (T) -> AnyHashable?
+    public let values: Set<AnyHashable>
     
     public init(key: @escaping (T) -> AnyHashable?, values: Set<AnyHashable>) {
         self.keyMapper = key
@@ -91,9 +91,9 @@ public class FilterValueDescriptor<T>: FilterDescriptor<T> {
 /// Current implementation will include `start` and `finish` during filtering.
 public class FilterRangeDescriptor<T>: FilterDescriptor<T> {
     
-    fileprivate let keyMapper: (T) -> AnyComparable?
-    fileprivate let start: AnyComparable?
-    fileprivate let end: AnyComparable?
+    public let keyMapper: (T) -> AnyComparable?
+    public let start: AnyComparable?
+    public let end: AnyComparable?
 
     public init<V: Comparable>(key: @escaping (T) -> V?, start: V?, end: V?) {
         self.keyMapper = { AnyComparable(key($0)) }
