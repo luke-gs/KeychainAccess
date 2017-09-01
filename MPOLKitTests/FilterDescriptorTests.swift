@@ -15,10 +15,10 @@ enum Gender {
 
 class Human: NSObject  {
     let surname: String
-    let age: Int
-    let gender: Gender
+    let age: Int?
+    let gender: Gender?
     
-    init(surname: String, age: Int, gender: Gender) {
+    init(surname: String, age: Int?, gender: Gender?) {
         self.surname = surname
         self.age = age
         self.gender = gender
@@ -28,8 +28,8 @@ class Human: NSObject  {
 // Sorry for the shitty tests
 class FilterDescriptorTests: XCTestCase {
     
-    let p1 = Human(surname: "Halim", age: 12, gender: .male)
-    let p2 = Human(surname: "Smith", age: 25, gender: .male)
+    let p1 = Human(surname: "Halim", age: 12, gender: nil)
+    let p2 = Human(surname: "Smith", age: nil, gender: .male)
     let p3 = Human(surname: "Scott", age: 28, gender: .female)
     let p4 = Human(surname: "Test", age: 50, gender: .unknown)
     let p5 = Human(surname: "Efron", age: 75, gender: .female)
@@ -68,8 +68,8 @@ class FilterDescriptorTests: XCTestCase {
         let filterDescriptor = FilterRangeDescriptor<Human, Int>(key: { $0.age }, start: 20, end: 60)
         
         let filtered = persons.filter(using: [filterDescriptor])
-        let expected: Set = ["Smith", "Scott", "Test"]
-        let notExpected: Set = ["Halim", "Efron"]
+        let expected: Set = ["Scott", "Test"]
+        let notExpected: Set = ["Halim", "Efron", "Smith"]
         
         for person in persons {
             if filtered.contains(person){
@@ -85,8 +85,8 @@ class FilterDescriptorTests: XCTestCase {
         let filterDescriptor = FilterValueDescriptor<Human, Gender>(key: { $0.gender }, values: values)
         
         let filtered = persons.filter(using: [filterDescriptor])
-        let expected: Set = ["Halim", "Scott", "Smith", "Efron"]
-        let notExpected: Set = ["Test"]
+        let expected: Set = ["Scott", "Smith", "Efron"]
+        let notExpected: Set = ["Test", "Halim"]
         
         for person in persons {
             if filtered.contains(person){
@@ -105,8 +105,8 @@ class FilterDescriptorTests: XCTestCase {
         
         let filtered = persons.filter(using: [surnameDescriptor, ageDescriptor])
         
-        let expected = ["Smith", "Scott"]
-        let notExpected = ["Halim", "Efron", "Test"]
+        let expected = ["Scott"]
+        let notExpected = ["Halim", "Efron", "Test", "Smith"]
         
         for person in filtered {
             print(person)

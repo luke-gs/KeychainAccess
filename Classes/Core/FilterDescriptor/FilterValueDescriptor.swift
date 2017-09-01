@@ -32,6 +32,6 @@ public class FilterValueDescriptor<T, U: Hashable>: FilterDescriptor<T> {
         if let value = keyMapper(value) {
             return values.contains(value)
         }
-        return true
+        return false
     }
 }

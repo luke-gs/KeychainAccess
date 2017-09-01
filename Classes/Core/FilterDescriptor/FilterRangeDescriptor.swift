@@ -40,7 +40,8 @@ public class FilterRangeDescriptor<T, U: Comparable>: FilterDescriptor<T> {
             if let end = end, value > end {
                 return false
             }
+            return true
         }
-        return true
+        return false
     }
 }
