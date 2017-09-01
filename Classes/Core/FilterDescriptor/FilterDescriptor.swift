@@ -15,7 +15,7 @@ import Foundation
 ///
 /// - Important: All subclasses must provide a concrete implementation of 
 ///              `filter(value: T)`.
-public class FilterDescriptor<T> {
+open class FilterDescriptor<T> {
     
     /// Abstract method that defines whether a value should be included in a collection
     /// based on certain conditions provided by the subclass.
@@ -60,7 +60,6 @@ public class FilterDescriptor<T> {
 public class FilterValueDescriptor<T>: FilterDescriptor<T> {
     
     fileprivate let keyMapper: (T) -> AnyHashable?
-    
     fileprivate let values: Set<AnyHashable>
     
     public init(key: @escaping (T) -> AnyHashable?, values: Set<AnyHashable>) {
@@ -93,7 +92,6 @@ public class FilterValueDescriptor<T>: FilterDescriptor<T> {
 public class FilterRangeDescriptor<T>: FilterDescriptor<T> {
     
     fileprivate let keyMapper: (T) -> AnyComparable?
-
     fileprivate let start: AnyComparable?
     fileprivate let end: AnyComparable?
 
