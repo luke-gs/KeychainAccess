@@ -11,8 +11,16 @@ import Foundation
 open class User: NSObject, NSSecureCoding, ModelVersionable {
 
     public var username: String
-    public var termsAndConditionsVersionAccepted: String?
-    public var whatsNewShownVersion: String?
+    public var termsAndConditionsVersionAccepted: String? {
+        didSet {
+            UserSession.current.updateUser()
+        }
+    }
+    public var whatsNewShownVersion: String? {
+        didSet {
+            UserSession.current.updateUser()
+        }
+    }
 
     public init(username: String) {
         self.username = username

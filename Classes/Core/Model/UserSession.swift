@@ -15,7 +15,11 @@ public enum SessionError: Error {
 public class UserSession: NSObject {
     public static let current = UserSession()
 
-    private(set) var basePath: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+    private(set) var basePath: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first! {
+        didSet {
+            document.basePath = basePath
+        }
+    }
 
     private(set) var token: OAuthAccessToken? {
         set {
@@ -29,8 +33,8 @@ public class UserSession: NSObject {
 
     private(set) public var user: User? {
         set {
+            save(user: newValue)
             self.document.user = newValue
-            saveSession()
         }
         get {
             return self.document.user
@@ -70,8 +74,13 @@ public class UserSession: NSObject {
 
         UserSession.current.createSession()
 
-        UserSession.current.user = user
+        UserSession.current.basePath = basePath
         UserSession.current.token = token
+        UserSession.current.user = user
+    }
+
+    public func updateUser() {
+        save(user: user)
     }
 
     public func endSession() {
@@ -99,6 +108,13 @@ public class UserSession: NSObject {
         }
     }
 
+    private func save(user: User?) {
+        guard let username = user?.username else { return }
+        let url = basePath.appendingPathComponent("user").appendingPathComponent(username).path
+        NSKeyedArchiver.archiveRootObject(user, toFile: url)
+        saveSession()
+    }
+
     //MARK: RESTORING
 
     private func restoreSession() {
@@ -108,7 +124,6 @@ public class UserSession: NSObject {
     }
 }
 
-
 fileprivate class UserSessionDocument: UIDocument {
 
     lazy var fileWrapper: FileWrapper = {
@@ -116,7 +131,9 @@ fileprivate class UserSessionDocument: UIDocument {
         wrapper.filename = UUID().uuidString
         return wrapper
     }()
-    
+
+    var basePath: URL?
+
     var token: OAuthAccessToken? {
         didSet {
             replaceWrapper(key: "token", object: token)
@@ -125,7 +142,14 @@ fileprivate class UserSessionDocument: UIDocument {
 
     var user: User? {
         didSet {
-            replaceWrapper(key: "user", object: user)
+            //Create symbolic link instead of direct wrapper
+            guard let username = user?.username else { return }
+            let url = basePath?.appendingPathComponent("user").appendingPathComponent(username)
+            let userWrapper = FileWrapper(symbolicLinkWithDestinationURL: url!)
+            userWrapper.preferredFilename = username
+
+            fileWrapper.removeFileWrapper(userWrapper)
+            fileWrapper.addFileWrapper(userWrapper)
         }
     }
 
@@ -158,6 +182,22 @@ fileprivate class UserSessionDocument: UIDocument {
     override func load(fromContents contents: Any, ofType typeName: String?) throws {
         guard let data = contents as? Data else { return }
         let wrapper = NSKeyedUnarchiver.unarchiveObject(with: data) as? FileWrapper
-        print(wrapper?.fileWrappers)
+
+        guard let wrappers = wrapper?.fileWrappers else { return }
+
+        let userWrapper = wrappers["user"]
+        let tokenWrapper = wrappers["token"]
+        let recentlyViewedWrapper = wrappers["recentlyViewed"]
+        let recentlySearchedWrapper = wrappers["recentlySearched"]
+
+        let user = NSKeyedUnarchiver.unarchiveObject(with: (userWrapper?.regularFileContents)!) as? User
+        let token = NSKeyedUnarchiver.unarchiveObject(with: (tokenWrapper?.regularFileContents)!) as? OAuthAccessToken
+        let recentlyViewed = NSKeyedUnarchiver.unarchiveObject(with: (recentlyViewedWrapper?.regularFileContents)!) as? [MPOLKitEntity]
+        let recentlySearched = NSKeyedUnarchiver.unarchiveObject(with: (recentlySearchedWrapper?.regularFileContents)!) as? [Searchable]
+
+        self.user = user
+        self.token = token
+        self.recentlyViewed = recentlyViewed
+        self.recentlySearched = recentlySearched
     }
 }
