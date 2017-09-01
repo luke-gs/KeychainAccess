@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class PersonDetailsSectionsDataSource: EntityDetailSectionsDataSource  {
+public class PersonDetailsSectionsDataSource: EntityDetailSectionsDataSource {
 
     public var localizedDisplayName: String {
         return NSLocalizedString("Person", comment: "")
