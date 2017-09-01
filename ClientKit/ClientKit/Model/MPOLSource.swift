@@ -11,21 +11,22 @@ import MPOLKit
 
 public enum MPOLSource: String, EntitySource, UnboxableEnum {
     case mpol = "mpol"
-    
+    case gnaf = "gnaf"
+
     public var serverSourceName: String {
         return self.rawValue
     }
-    
+
     public var localizedBadgeTitle: String {
         switch self {
-        case .mpol:
+        case .mpol, .gnaf:
             return NSLocalizedString("MPOL", bundle: .mpolKit, comment: "")
         }
     }
-    
+
     public var localizedBarTitle: String {
         switch self {
-        case .mpol:
+        case .mpol, .gnaf:
             return NSLocalizedString("MPOL", bundle: .mpolKit, comment: "")
         }
     }
