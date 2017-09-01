@@ -50,7 +50,7 @@ class FilterDescriptorTests: XCTestCase {
     
     func testValueFilterBySurname() {
         let values: Set = ["Halim", "Smith", "Efron"]
-        let filterDescriptor = FilterValueDescriptor<Human>(key: { $0.surname }, values: values)
+        let filterDescriptor = FilterValueDescriptor<Human, String>(key: { $0.surname }, values: values)
         
         let filtered = persons.filter(using: [filterDescriptor])
         let notExpected: Set = ["Scott", "Test"]
@@ -65,7 +65,7 @@ class FilterDescriptorTests: XCTestCase {
     }
     
     func testRangeFilterByAge() {
-        let filterDescriptor = FilterRangeDescriptor<Human>(key: { $0.age }, start: 20, end: 60)
+        let filterDescriptor = FilterRangeDescriptor<Human, Int>(key: { $0.age }, start: 20, end: 60)
         
         let filtered = persons.filter(using: [filterDescriptor])
         let expected: Set = ["Smith", "Scott", "Test"]
@@ -82,7 +82,7 @@ class FilterDescriptorTests: XCTestCase {
     
     func testValueFilterByGender() {
         let values: Set<Gender> = [.female, .male]
-        let filterDescriptor = FilterValueDescriptor<Human>(key: { $0.gender }, values: values)
+        let filterDescriptor = FilterValueDescriptor<Human, Gender>(key: { $0.gender }, values: values)
         
         let filtered = persons.filter(using: [filterDescriptor])
         let expected: Set = ["Halim", "Scott", "Smith", "Efron"]
@@ -100,8 +100,8 @@ class FilterDescriptorTests: XCTestCase {
     func testFilterBySurnameAndAge() {
         let surnames: Set = ["Halim", "Smith", "Scott", "Efron"]
         
-        let surnameDescriptor = FilterValueDescriptor<Human>(key: { $0.surname }, values: surnames)
-        let ageDescriptor = FilterRangeDescriptor<Human>(key: { $0.age }, start: 20, end: 60)
+        let surnameDescriptor = FilterValueDescriptor<Human, String>(key: { $0.surname }, values: surnames)
+        let ageDescriptor = FilterRangeDescriptor<Human, Int>(key: { $0.age }, start: 20, end: 60)
         
         let filtered = persons.filter(using: [surnameDescriptor, ageDescriptor])
         
@@ -125,9 +125,9 @@ class FilterDescriptorTests: XCTestCase {
         let surnames: Set = ["Halim", "Smith", "Scott", "Efron"]
         let genders: Set<Gender> = [.female]
         
-        let surnameDescriptor = FilterValueDescriptor<Human>(key: { $0.surname }, values: surnames)
-        let ageDescriptor = FilterRangeDescriptor<Human>(key: { $0.age }, start: 20, end: 60)
-        let genderDescriptor = FilterValueDescriptor<Human>(key: { $0.gender }, values: genders)
+        let surnameDescriptor = FilterValueDescriptor<Human, String>(key: { $0.surname }, values: surnames)
+        let ageDescriptor = FilterRangeDescriptor<Human, Int>(key: { $0.age }, start: 20, end: 60)
+        let genderDescriptor = FilterValueDescriptor<Human, Gender>(key: { $0.gender }, values: genders)
         
         let filtered = persons.filter(using: [surnameDescriptor, ageDescriptor, genderDescriptor])
         
