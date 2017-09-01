@@ -21,26 +21,10 @@ public class PersonActionsViewModel: PersonDetailsViewModel<Action> {
         return allTypes
     }
     
-    /// Filtered sections
-public func reloadSections(withFilterDescriptors filters: [FilterDescriptor<Action>]?, sortDescriptors: [SortDescriptor<Action>]?) {
-    var actions = person?.actions ?? []
-    
-    if let filters = filters {
-        actions = actions.filter(using: filters)
-    }
-    
-    if let sorts = sortDescriptors {
-        actions = actions.sorted(using: sorts)
-    }
-    
-    sections = actions
-    delegate?.updateFilterBarButtonItemActivity()
-}
-    
     // MARK: - Public methods
     
-    public override func itemsCount() -> UInt {
-        return UInt(person?.actions?.count ?? 0)
+    public override func items() -> [Action]? {
+        return person?.actions
     }
     
     public override func noContentSubtitle() -> String? {
