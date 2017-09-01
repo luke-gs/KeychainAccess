@@ -50,35 +50,38 @@ public class EntityAlertsViewModel: EntityDetailsViewModelable {
     
     
     // MARK: - Public methods
-    
-    public func reloadSections(with filteredAlertLevels: Set<Alert.Level>, filterDateRange: FilterDateRange?, sortedBy sorting: DateSorting) {
 
-        let dateSort: ((Alert, Alert) -> Bool) = { alert, alert2 in
-            guard let date = alert.effectiveDate, let date2 = alert2.effectiveDate else { return false }
-            return date > date2
+    public func reloadSections(withFilterDescriptors filters: [FilterDescriptor<Alert>]?, sortDescriptors: [SortDescriptor<Alert>]?) {
+        delegate?.updateFilterBarButtonItemActivity()
+        
+        guard var alerts = self.entity?.alerts else {
+            self.sections = []
+            return
         }
-
-        let sectionSort: (([Alert], [Alert]) -> Bool) = { alerts, alerts2 in
-            guard let level = alerts.first?.level, let level2 = alerts2.first?.level else { return false }
-            return level.rawValue > level2.rawValue
+        
+        // Filter
+        if let filters = filters {
+            alerts = alerts.filter(using: filters)
         }
-
-        guard let alerts = self.entity?.alerts?.sorted(by: dateSort) else { return }
-
-        var sections: [Alert.Level: [Alert]] = [:]
-
+        
+        // Sort
+        if let sorts = sortDescriptors {
+            alerts = alerts.sorted(using: sorts)
+        }
+        
+        // Group alerts by alert level
+        var map: [Alert.Level: [Alert]] = [:]
         alerts.forEach { alert in
             guard let level = alert.level else { return }
-            if sections[level] != nil {
-                sections[level]!.append(alert)
+            if map[level] != nil {
+                map[level]!.append(alert)
             } else {
-                sections[level] = [alert]
+                map[level] = [alert]
             }
         }
-
-        self.sections = Array(sections.values).sorted(by: sectionSort)
         
-        delegate?.updateFilterBarButtonItemActivity()
+        let sectionSort = SortDescriptor<Array<Alert>>(ascending: false) { $0.first?.level?.rawValue }
+        self.sections = Array(map.values).sorted(using: [sectionSort])
     }
     
     public func numberOfSections() -> Int {

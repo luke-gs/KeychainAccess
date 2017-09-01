@@ -53,6 +53,7 @@ public protocol EntityDetailsViewModelable {
     func numberOfItems(for section: Int) -> Int
     func numberOfSections() -> Int
     func item(at index: Int) -> DetailsType?
+    func reloadSections(withFilterDescriptors filters: [FilterDescriptor<DetailsType>]?, sortDescriptors: [SortDescriptor<DetailsType>]?)
 }
 
 /// Default implementation for accessing data model
@@ -68,6 +69,10 @@ extension EntityDetailsViewModelable {
     
     public func item(at index: Int) -> DetailsType? {
         return sections[ifExists: index]
+    }
+    
+    public func reloadSections(withFilterDescriptors filters: [FilterDescriptor<DetailsType>]?, sortDescriptors: [SortDescriptor<DetailsType>]?) {
+        delegate?.reloadData()
     }
 }
 

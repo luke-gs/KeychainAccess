@@ -30,6 +30,21 @@ public class PersonCriminalHistoryViewModel: PersonDetailsViewModel<CriminalHist
         delegate?.updateFilterBarButtonItemActivity()
     }
     
+    public func reloadSections(withFilterDescriptors filters: [FilterDescriptor<CriminalHistory>]?, sortDescriptors: [SortDescriptor<CriminalHistory>]?) {
+        var criminalHistory = person?.criminalHistory ?? []
+        
+        if let filters = filters {
+            criminalHistory = criminalHistory.filter(using: filters)
+        }
+        
+        if let sorts = sortDescriptors {
+            criminalHistory = criminalHistory.sorted(using: sorts)
+        }
+        
+        sections = criminalHistory
+        delegate?.updateFilterBarButtonItemActivity()
+    }
+    
     public func cellInfo(for indexPath: IndexPath) -> CellInfo {
         let history = item(at: indexPath.item)!
         
