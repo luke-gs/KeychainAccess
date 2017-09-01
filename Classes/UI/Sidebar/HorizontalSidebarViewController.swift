@@ -157,21 +157,6 @@ open class HorizontalSidebarViewController: UIViewController {
         }
     }
 
-    // MARK: - Table view delegate
-
-//    public func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-//        return items[indexPath.row].isEnabled
-//    }
-//
-//    open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let item = items[indexPath.row]
-//        if selectedItem == item { return }
-//
-//        selectedItem = item
-//        delegate?.sidebarViewController(self, didSelectItem: item)
-//    }
-
-
     // MARK: - Overrides
 
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -207,19 +192,18 @@ open class HorizontalSidebarViewController: UIViewController {
 
     private func updateCellAtIndex(_ index: Int) {
         guard isViewLoaded, let sidebarStackView = sidebarStackView else { return }
-
         let item = items[index]
         let cell = cells[index]
         let selected = item == self.selectedItem
-        if let title = item.title {
-            cell.text = item.count > 0 ? "\(item.count) \(title)" : title
-        }
-        cell.textColor = selected ? #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0) : #colorLiteral(red: 0.5450980392, green: 0.568627451, blue: 0.6235294118, alpha: 1)
-        cell.font = selected ? UIFont.systemFont(ofSize: 16) : UIFont.systemFont(ofSize: 14)
 
+        cell.update(for: item, selected: selected)
+        cell.selectHandler =  { [unowned self] in
+            if self.selectedItem == item { return }
+            self.selectedItem = item
+            self.delegate?.sidebarViewController(nil, didSelectItem: item)
+        }
         if selected {
-            let rect = cell.convert(cell.frame, to: sidebarStackView)
-            scrollView.scrollRectToVisible(rect, animated: true)
+            scrollView.setContentOffset(CGPoint(x: cell.frame.origin.x, y: 0), animated: true)
         }
     }
 

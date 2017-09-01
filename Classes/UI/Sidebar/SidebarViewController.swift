@@ -332,7 +332,7 @@ public protocol SidebarViewControllerDelegate : class {
     /// - Parameters:
     ///   - controller: The `SidebarViewController` that has a new selection.
     ///   - item:       The newly selected item.
-    func sidebarViewController(_ controller: SidebarViewController, didSelectItem item: SidebarItem)
+    func sidebarViewController(_ controller: SidebarViewController?, didSelectItem item: SidebarItem)
     
     
     func sidebarViewController(_ controller: SidebarViewController, didSelectSourceAt index: Int)

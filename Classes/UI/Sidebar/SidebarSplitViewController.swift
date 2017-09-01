@@ -50,12 +50,19 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
             if let selectedViewController = selectedViewController {
                 let selectedVCNavItem = (selectedViewController as? UINavigationController)?.viewControllers.first?.navigationItem ?? selectedViewController.navigationItem
                 selectedVCNavItem.leftItemsSupplementBackButton = true
-                embeddedSplitViewController.showDetailViewController(navController(forDetail: selectedViewController), sender: self)
-            } else {
-                var splitViewControllers = embeddedSplitViewController.viewControllers
-                if splitViewControllers.count == 2 {
-                    splitViewControllers.remove(at: 1)
-                    embeddedSplitViewController.viewControllers = splitViewControllers
+                if self.traitCollection.horizontalSizeClass == .compact {
+                    masterNavController.viewControllers = [selectedViewController]
+                } else {
+                    detailNavController.viewControllers = [selectedViewController]
+                    embeddedSplitViewController.showDetailViewController(detailNavController, sender: self)
+                }
+            } else if let selectedViewController = detailViewControllers.first {
+                // No selection, use first detail if compact (can't show nothing)
+                if self.traitCollection.horizontalSizeClass == .compact {
+                    masterNavController.viewControllers = [selectedViewController]
+                } else {
+                    detailNavController.viewControllers = []
+                    embeddedSplitViewController.showDetailViewController(detailNavController, sender: self)
                 }
             }
         }
@@ -164,7 +171,7 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
     /// - Parameters:
     ///   - controller: The `SidebarViewController` that has a new selection.
     ///   - item:       The newly selected item.
-    open func sidebarViewController(_ controller: SidebarViewController, didSelectItem item: SidebarItem) {
+    open func sidebarViewController(_ controller: SidebarViewController?, didSelectItem item: SidebarItem) {
         selectedViewController = detailViewControllers.first(where: { $0.sidebarItem == item })
     }
 
