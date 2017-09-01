@@ -40,6 +40,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		091DA364102011581818FC3E /* Pods-MPOL.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOL.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOL/Pods-MPOL.release.xcconfig"; sourceTree = "<group>"; };
 		12ADD4301F32C0FA00CA8B4D /* MPOLSearchViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPOLSearchViewModel.swift; sourceTree = "<group>"; };
 		12ADD4321F32C0FA00CA8B4D /* PersonSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonSearchDataSource.swift; sourceTree = "<group>"; };
 		12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleSearchDataSource.swift; sourceTree = "<group>"; };
@@ -53,6 +54,7 @@
 		463D402B1F4BC844005F9A1C /* AppConfig-external-debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-external-debug.xcconfig"; sourceTree = "<group>"; };
 		463D402C1F4BC84F005F9A1C /* AppConfig-external-release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-external-release.xcconfig"; sourceTree = "<group>"; };
 		59CEC38145149253B388125F /* Pods-MPOL.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOL.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOL/Pods-MPOL.release.xcconfig"; sourceTree = "<group>"; };
+		5D632A17F686E6C3C391FB90 /* Pods-MPOL.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOL.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MPOL/Pods-MPOL.debug.xcconfig"; sourceTree = "<group>"; };
 		BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
 		BC4E81101EBEE38400188181 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		BC8B26F21EDC07430022B0AD /* ActionListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionListViewController.swift; sourceTree = "<group>"; };

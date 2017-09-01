@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A159F0B1F4B1C5100075330 /* EntityDetailsFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A159F0A1F4B1C5100075330 /* EntityDetailsFetchRequest.swift */; };
+		1A159F0D1F4B1C7500075330 /* PersonFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A159F0C1F4B1C7500075330 /* PersonFetchRequest.swift */; };
+		1A159F0F1F4B1CA700075330 /* VehicleFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A159F0E1F4B1CA700075330 /* VehicleFetchRequest.swift */; };
+		1A159F111F4B1CD700075330 /* EntityDetailsFetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A159F101F4B1CD700075330 /* EntityDetailsFetch.swift */; };
+		1A159F131F4B1DBF00075330 /* EntityDetailSectionsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A159F121F4B1DBF00075330 /* EntityDetailSectionsDataSource.swift */; };
+		1A159F151F4B1DE200075330 /* VehicleDetailsSectionsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A159F141F4B1DE200075330 /* VehicleDetailsSectionsDataSource.swift */; };
+		1A159F171F4B1DFE00075330 /* PersonDetailsSectionsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A159F161F4B1DFE00075330 /* PersonDetailsSectionsDataSource.swift */; };
 		1A290C821F3D630700DD9ED5 /* PersonFetchParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A290C811F3D630700DD9ED5 /* PersonFetchParameter.swift */; };
 		1A290C841F3D649500DD9ED5 /* VehicleFetchParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A290C831F3D649500DD9ED5 /* VehicleFetchParameter.swift */; };
 		1A290C861F3F097E00DD9ED5 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A290C851F3F097E00DD9ED5 /* Media.swift */; };
@@ -132,6 +139,13 @@
 		088B889D2CA61C95A4F4B16D /* Pods-ClientKitTests.external-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKitTests.external-debug.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKitTests/Pods-ClientKitTests.external-debug.xcconfig"; sourceTree = "<group>"; };
 		0B8DEDC31FFACED2C6E00DBA /* Pods-ClientKit.internal-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKit.internal-debug.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKit/Pods-ClientKit.internal-debug.xcconfig"; sourceTree = "<group>"; };
 		1542E603389AAEE96EC1C25A /* Pods-ClientKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKitTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKitTests/Pods-ClientKitTests.debug.xcconfig"; sourceTree = "<group>"; };
+		1A159F0A1F4B1C5100075330 /* EntityDetailsFetchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailsFetchRequest.swift; sourceTree = "<group>"; };
+		1A159F0C1F4B1C7500075330 /* PersonFetchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonFetchRequest.swift; sourceTree = "<group>"; };
+		1A159F0E1F4B1CA700075330 /* VehicleFetchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleFetchRequest.swift; sourceTree = "<group>"; };
+		1A159F101F4B1CD700075330 /* EntityDetailsFetch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailsFetch.swift; sourceTree = "<group>"; };
+		1A159F121F4B1DBF00075330 /* EntityDetailSectionsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityDetailSectionsDataSource.swift; sourceTree = "<group>"; };
+		1A159F141F4B1DE200075330 /* VehicleDetailsSectionsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleDetailsSectionsDataSource.swift; sourceTree = "<group>"; };
+		1A159F161F4B1DFE00075330 /* PersonDetailsSectionsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonDetailsSectionsDataSource.swift; sourceTree = "<group>"; };
 		1A290C811F3D630700DD9ED5 /* PersonFetchParameter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonFetchParameter.swift; sourceTree = "<group>"; };
 		1A290C831F3D649500DD9ED5 /* VehicleFetchParameter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleFetchParameter.swift; sourceTree = "<group>"; };
 		1A290C851F3F097E00DD9ED5 /* Media.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
@@ -313,6 +327,13 @@
 		1A2FF6F71F32BD0800D63956 /* Details View Models */ = {
 			isa = PBXGroup;
 			children = (
+				1A159F121F4B1DBF00075330 /* EntityDetailSectionsDataSource.swift */,
+				1A159F141F4B1DE200075330 /* VehicleDetailsSectionsDataSource.swift */,
+				1A159F161F4B1DFE00075330 /* PersonDetailsSectionsDataSource.swift */,
+				1A159F101F4B1CD700075330 /* EntityDetailsFetch.swift */,
+				1A159F0A1F4B1C5100075330 /* EntityDetailsFetchRequest.swift */,
+				1A159F0C1F4B1C7500075330 /* PersonFetchRequest.swift */,
+				1A159F0E1F4B1CA700075330 /* VehicleFetchRequest.swift */,
 				1A5A4A841F4427A4000DF263 /* EntityEventViewModel.swift */,
 				1A371CA21F4403B6006C722F /* Association */,
 				1A371C961F428F99006C722F /* EntityDetailsSplitViewModel.swift */,
@@ -890,6 +911,8 @@
 				1A2E8A8C1F3990150062FEA5 /* InterventionOrderViewModel.swift in Sources */,
 				BCAEFEA71F03150800C97F9C /* PersonDescription.swift in Sources */,
 				1ABF4EAD1F3B446100C70E62 /* PersonDetailsViewModel.swift in Sources */,
+				1A159F171F4B1DFE00075330 /* PersonDetailsSectionsDataSource.swift in Sources */,
+				1A159F151F4B1DE200075330 /* VehicleDetailsSectionsDataSource.swift in Sources */,
 				BC75A7B41F1C3D50004D46F1 /* FieldContactDetailViewController.swift in Sources */,
 				1A290C821F3D630700DD9ED5 /* PersonFetchParameter.swift in Sources */,
 				EA1CC2561F41347100FE8BAE /* EngineNumberParserDefinition.swift in Sources */,
@@ -907,6 +930,7 @@
 				EA1CC2511F3D91E800FE8BAE /* RegistrationParserDefinition.swift in Sources */,
 				BCAEFE991F03150800C97F9C /* Entity.swift in Sources */,
 				BC75A7B71F1C3D55004D46F1 /* PersonOccurrencesViewController.swift in Sources */,
+				1A159F0D1F4B1C7500075330 /* PersonFetchRequest.swift in Sources */,
 				BC75A7AD1F1C3D48004D46F1 /* EntityAlertsViewController.swift in Sources */,
 				EA8B66671F38473400F09716 /* Vehicle+EntitySummaryDisplayable.swift in Sources */,
 				EA8B66531F381BC000F09716 /* PersonSearchRequest.swift in Sources */,
@@ -923,8 +947,10 @@
 				BCAEFEAF1F03150800C97F9C /* Vehicle.swift in Sources */,
 				BCAEFEAB1F03150800C97F9C /* ScarMarkTattoo.swift in Sources */,
 				BCAEFEAE1F03150800C97F9C /* TelephoneNumber.swift in Sources */,
+				1A159F111F4B1CD700075330 /* EntityDetailsFetch.swift in Sources */,
 				1A2FF6FF1F32BE5100D63956 /* PersonInfoViewModel.swift in Sources */,
 				BC75A7BB1F1C3D58004D46F1 /* PersonCriminalHistoryViewController.swift in Sources */,
+				1A159F0B1F4B1C5100075330 /* EntityDetailsFetchRequest.swift in Sources */,
 				BC75A7B11F1C3D48004D46F1 /* EntityOccurrencesViewController.swift in Sources */,
 				1A2E8A761F3932100062FEA5 /* PersonOccurrencesViewModel.swift in Sources */,
 				C63408531F30DA15000747B0 /* MPOLSource.swift in Sources */,
@@ -943,8 +969,10 @@
 				1A2E8A7A1F39734E0062FEA5 /* EntityAssociationsViewModel.swift in Sources */,
 				1A2E8A701F37E3380062FEA5 /* PersonDescriptionViewModel.swift in Sources */,
 				1A290C841F3D649500DD9ED5 /* VehicleFetchParameter.swift in Sources */,
+				1A159F131F4B1DBF00075330 /* EntityDetailSectionsDataSource.swift in Sources */,
 				EA8B66551F381CBA00F09716 /* VehicleSearchRequest.swift in Sources */,
 				BCAEFEA81F03150800C97F9C /* PhoneNumber.swift in Sources */,
+				1A159F0F1F4B1CA700075330 /* VehicleFetchRequest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
