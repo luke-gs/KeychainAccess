@@ -57,12 +57,12 @@ open class FilterDescriptor<T> {
 /// let surnameFilterDescriptor = FilterValueDescriptor<Person>(key: { $0.surname }, values: Set(["Halim", "Sammut", "Boryseiko"]))
 /// let filtered = iOSGuys.filter(using: [surnameFilterDescriptor])
 /// ````
-public class FilterValueDescriptor<T>: FilterDescriptor<T> {
+public class FilterValueDescriptor<T, U: Hashable>: FilterDescriptor<T> {
     
-    fileprivate let keyMapper: (T) -> AnyHashable?
-    fileprivate let values: Set<AnyHashable>
+    fileprivate let keyMapper: (T) -> U?
+    fileprivate let values: Set<U>
     
-    public init(key: @escaping (T) -> AnyHashable?, values: Set<AnyHashable>) {
+    public init(key: @escaping (T) -> U?, values: Set<U>) {
         self.keyMapper = key
         self.values = values
     }
@@ -89,16 +89,16 @@ public class FilterValueDescriptor<T>: FilterDescriptor<T> {
 /// ````
 ///
 /// Current implementation will include `start` and `finish` during filtering.
-public class FilterRangeDescriptor<T>: FilterDescriptor<T> {
+public class FilterRangeDescriptor<T, U: Comparable>: FilterDescriptor<T> {
     
-    fileprivate let keyMapper: (T) -> AnyComparable?
-    fileprivate let start: AnyComparable?
-    fileprivate let end: AnyComparable?
+    fileprivate let keyMapper: (T) -> U?
+    fileprivate let start: U?
+    fileprivate let end: U?
 
-    public init<V: Comparable>(key: @escaping (T) -> V?, start: V?, end: V?) {
-        self.keyMapper = { AnyComparable(key($0)) }
-        self.start = AnyComparable(start)
-        self.end = AnyComparable(end)
+    public init(key: @escaping (T) -> U?, start: U?, end: U?) {
+        self.keyMapper = { key($0) }
+        self.start = start
+        self.end = end
     }
     
     public override func filter(value: T) -> Bool {
