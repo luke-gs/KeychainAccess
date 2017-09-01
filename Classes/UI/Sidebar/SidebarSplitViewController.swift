@@ -24,6 +24,16 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
     public let masterNavController: NavigationControllerWithHeader
     public let detailNavController: UINavigationController
 
+    /// The title to use for main navigation controller when in regular size
+    open var regularTitle: String? {
+        return title
+    }
+
+    /// The title to use for main navigation controller when in compact size
+    open var compactTitle: String? {
+        return title
+    }
+
     /// The detail controllers for the sidebar.
     public var detailViewControllers: [UIViewController] {
         didSet {
@@ -37,46 +47,39 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
     
     
     /// The selected view controller.
-    ///
-    /// If this is a navigation controller, it is presented directly.
-    /// Otherwise, it is wrapped in a UINavigationController for presentation.
     public var selectedViewController: UIViewController? {
         didSet {
             if let newValue = selectedViewController {
                 precondition(detailViewControllers.contains(newValue), "`selectedViewController` must be a member of detailViewControllers.")
             }
-            
             sidebarViewController.selectedItem = selectedViewController?.sidebarItem
             if let selectedViewController = selectedViewController {
-                let selectedVCNavItem = (selectedViewController as? UINavigationController)?.viewControllers.first?.navigationItem ?? selectedViewController.navigationItem
-                selectedVCNavItem.leftItemsSupplementBackButton = true
-                if self.traitCollection.horizontalSizeClass == .compact {
+                if self.isCompact() {
                     masterNavController.viewControllers = [selectedViewController]
                 } else {
                     detailNavController.viewControllers = [selectedViewController]
                     embeddedSplitViewController.showDetailViewController(detailNavController, sender: self)
                 }
-            } else if let selectedViewController = detailViewControllers.first {
+            } else if let defaultViewController = detailViewControllers.first {
                 // No selection, use first detail if compact (can't show nothing)
-                if self.traitCollection.horizontalSizeClass == .compact {
-                    masterNavController.viewControllers = [selectedViewController]
+                if self.isCompact() {
+                    masterNavController.viewControllers = [defaultViewController]
                 } else {
                     detailNavController.viewControllers = []
                     embeddedSplitViewController.showDetailViewController(detailNavController, sender: self)
                 }
             }
+            updateNavigationBarForSelection()
         }
     }
     
-    
-    /// A boolean value indicating whether the split view controller should collapse
-    /// to the sidebar.
-    public func shouldCollapseToSidebar() -> Bool {
-        // Collapse whenever compact size
+
+    /// Is the split view controller being rendered in compact environment, hence collapsed
+    public func isCompact() -> Bool {
         return self.traitCollection.horizontalSizeClass == .compact
     }
-    
-    
+
+
     /// Initializes the sidebar split view controller with the specified detail view controllers.
     ///
     /// - Parameter detailViewControllers: The detail view controllers. The sidebar items for these
@@ -132,6 +135,11 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
         MPLCodingNotSupported()
     }
 
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateNavigationBarForTraits()
+    }
+
     /// A callback indicating the collapsed state of the split changed.
     open func collapsedStateDidChange() {}
     
@@ -142,11 +150,12 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
         coordinator.animate(alongsideTransition: { [weak self] (context) in
             // Update header bar and split view controller for new trait
             self?.updateSplitViewControllerForTraits()
+            self?.updateNavigationBarForTraits()
             }, completion: nil)
     }
 
     func updateSplitViewControllerForTraits() {
-        if self.traitCollection.horizontalSizeClass == .compact {
+        if self.isCompact() {
             // Split displayed as single view, with details collapsed on top of master
             // Update the master nav view controller to actually contain the detail, to remove the sidebar
             if masterNavController.viewControllers.contains(sidebarViewController) {
@@ -159,6 +168,32 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
             // Restore the master nav view controller if collapsing has removed the sidebar from it
             if !masterNavController.viewControllers.contains(sidebarViewController) {
                 masterNavController.viewControllers = [sidebarViewController]
+            }
+        }
+    }
+
+    func updateNavigationBarForSelection() {
+        // Make sure the current master view controller has the back button
+        // Note: this can move to detail view controller when switching between regular and compact
+        masterNavController.viewControllers.first?.navigationItem.leftBarButtonItems = nil
+        masterNavController.viewControllers.first?.navigationItem.leftBarButtonItem = backButtonItem()
+        detailNavController.viewControllers.first?.navigationItem.leftBarButtonItem = nil
+
+        // Update the navigation bar titles
+        masterNavController.viewControllers.first?.navigationItem.title = self.isCompact() ? compactTitle : regularTitle
+        detailNavController.viewControllers.first?.navigationItem.title = detailNavController.viewControllers.first?.title
+    }
+
+    func updateNavigationBarForTraits() {
+        updateNavigationBarForSelection()
+
+        // Workaround for nav bar issue where title and back button are not updated when switching from compact to regular
+        if !self.isCompact() {
+            if let selectedViewController = selectedViewController {
+                detailNavController.viewControllers = []
+                embeddedSplitViewController.showDetailViewController(detailNavController, sender: self)
+                detailNavController.viewControllers = [selectedViewController]
+                embeddedSplitViewController.showDetailViewController(detailNavController, sender: self)
             }
         }
     }
@@ -195,7 +230,7 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
         sidebarViewController.clearsSelectionOnViewWillAppear = true
         perform(#selector(collapsedStateDidChange), with: nil, afterDelay: 0.0, inModes: [.commonModes])
 
-        return self.shouldCollapseToSidebar()
+        return isCompact()
     }
 
     open func splitViewController(_ splitViewController: UISplitViewController, separateSecondaryFrom primaryViewController: UIViewController) -> UIViewController? {
