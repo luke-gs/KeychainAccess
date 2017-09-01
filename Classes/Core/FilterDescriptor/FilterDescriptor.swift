@@ -22,7 +22,7 @@ open class FilterDescriptor<T> {
     ///
     /// - Parameter value: The value being assessed for inclusion.
     /// - Returns: A boolean indicating whether the value should be included.
-    public func filter(value: T) -> Bool {
+    open func filter(value: T) -> Bool {
         MPLRequiresConcreteImplementation()
     }
 
