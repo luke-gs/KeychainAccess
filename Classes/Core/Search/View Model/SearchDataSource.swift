@@ -224,7 +224,7 @@ public extension SearchDataSource {
     ///   - selectedIndexes: The selected indexes.
     ///   - onSelect: The selection handler.
     /// - Returns: PopoverNavigationController
-    func pickerController<T: Pickable>(forFilterAt index: Int, items: [T], selectedIndexes: IndexSet, onSelect: ((PickerTableViewController<T>, IndexSet) -> ())?) -> PopoverNavigationController {
+    func pickerController<T>(forFilterAt index: Int, items: [T], selectedIndexes: IndexSet, onSelect: ((PickerTableViewController<T>, IndexSet) -> ())?) -> PopoverNavigationController {
         
         let picker = PickerTableViewController(style: .plain, items: items)
         picker.selectedIndexes = selectedIndexes
