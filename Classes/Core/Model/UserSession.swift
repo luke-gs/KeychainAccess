@@ -8,51 +8,58 @@
 
 import UIKit
 
-private let AuthTokenDirectoryKey = "AuthToken"
-private let RecentlySearchedDirectoryKey = "RecentlySearched"
-private let RecentlyViewedDirectoryKey = "RecentlyViewed"
-private let MostRecentUserDirectoryKey = "MostRecentUser"
-private let AuthTokenInfoKey = "AuthTokenInfo"
-
 public enum SessionError: Error {
     case alreadyBegun(String)
 }
 
-internal let archivingQueue = DispatchQueue(label: "MagicArchivingQueue")
-
 public class UserSession: NSObject {
+    public static let current = UserSession()
 
-    private(set) internal var basePath: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-    private(set) internal var token: OAuthAccessToken?
+    private(set) var basePath: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+
+    private(set) var token: OAuthAccessToken? {
+        set {
+            self.document.token = newValue
+            saveSession()
+        }
+        get {
+            return self.document.token
+        }
+    }
 
     private(set) public var user: User? {
-        didSet {
-            guard let user = user, oldValue !== user else { return }
-            restoreUser()
+        set {
+            self.document.user = newValue
+            saveSession()
         }
-    }
-
-    public var info: [String: String]? {
         get {
-            return restoreInfo()
+            return self.document.user
         }
     }
 
-    public var recentlyViewed: [MPOLKitEntity]? = [] {
-        didSet {
-            guard let oldValue = oldValue, let recentlyViewed = recentlyViewed, oldValue != recentlyViewed else { return }
-            saveViewed()
+    public var recentlyViewed: [MPOLKitEntity]? {
+        set {
+            self.document.recentlyViewed = newValue
+            saveSession()
+        }
+        get {
+            return self.document.recentlyViewed
         }
     }
 
-    public var recentlySearched: [Searchable]? = [] {
-        didSet {
-            guard let oldValue = oldValue, let recentlySearched = recentlySearched, oldValue != recentlySearched else { return }
-            saveSearched()
+    public var recentlySearched: [Searchable]? {
+        set {
+            self.document.recentlySearched = newValue
+            saveSession()
+        }
+        get {
+            return self.document.recentlySearched
         }
     }
 
-    public static let current = UserSession()
+    private lazy var document: UserSessionDocument = {
+        return UserSessionDocument(fileURL: self.basePath)
+    }()
 
     public static func startSession(user: User,
                                     token: OAuthAccessToken,
@@ -60,11 +67,11 @@ public class UserSession: NSObject {
     {
         guard UserSession.current.user == nil
             else { throw SessionError.alreadyBegun("Session in progress for user: \(UserSession.current.user!.username)") }
+
+        UserSession.current.createSession()
+
         UserSession.current.user = user
         UserSession.current.token = token
-
-        UserSession.current.saveUser()
-        UserSession.current.saveSession()
     }
 
     public func endSession() {
@@ -76,87 +83,81 @@ public class UserSession: NSObject {
 
     public func renewSession(with token: OAuthAccessToken) {
         self.token = token
-        self.recentlySearched = NSKeyedUnarchiver.unarchiveObject(withFile: path(for: RecentlySearchedDirectoryKey)) as! [Searchable]?
-        self.recentlyViewed = NSKeyedUnarchiver.unarchiveObject(withFile: path(for: RecentlyViewedDirectoryKey)) as! [MPOLKitEntity]?
-        saveSession()
     }
 
     //MARK: SAVING
 
-    private func saveUser() {
-        archivingQueue.async { [unowned self] in
-            self.user?.save(to: self.basePath)
+    private func createSession() {
+        document.save(to: document.fileURL, for: .forCreating) { success in
+            print("Create \(success)")
         }
     }
 
     private func saveSession() {
-        saveToken()
-        saveViewed()
-        saveSearched()
-    }
-
-    private func saveViewed() {
-        archivingQueue.async { [unowned self] in
-            NSKeyedArchiver.archiveRootObject(self.recentlyViewed ?? [], toFile: self.path(for: RecentlyViewedDirectoryKey))
-        }
-    }
-
-    private func saveSearched() {
-        archivingQueue.async { [unowned self] in
-            NSKeyedArchiver.archiveRootObject(self.recentlySearched ?? [], toFile: self.path(for: RecentlySearchedDirectoryKey))
-        }
-    }
-
-    private func saveToken() {
-        archivingQueue.async { [unowned self] in
-            //FIXME: Save to keychain
-            NSKeyedArchiver.archiveRootObject(self.token, toFile: self.path(for: AuthTokenDirectoryKey))
-        }
-    }
-
-    private func saveInfo() {
-        archivingQueue.async { [unowned self] in
-            let info = ["id": UUID().uuidString]
-            NSKeyedArchiver.archiveRootObject(info, toFile: self.path(for: AuthTokenInfoKey))
+        document.save(to: document.fileURL, for: .forOverwriting) { success in
+            print("Save \(success)")
         }
     }
 
     //MARK: RESTORING
 
     private func restoreSession() {
-        restoreToken()
-        restoreViewed()
-        restoreSearched()
+        document.open { success in
+            print(success)
+        }
+    }
+}
+
+
+fileprivate class UserSessionDocument: UIDocument {
+
+    lazy var fileWrapper: FileWrapper = {
+        let wrapper  = FileWrapper(directoryWithFileWrappers: [:])
+        wrapper.filename = UUID().uuidString
+        return wrapper
+    }()
+    
+    var token: OAuthAccessToken? {
+        didSet {
+            replaceWrapper(key: "token", object: token)
+        }
     }
 
-    private func restoreInfo() -> [String: String]? {
-        guard let info = NSKeyedUnarchiver.unarchiveObject(withFile: path(for: AuthTokenInfoKey)) as? [String: String] else { return nil }
-        return info
+    var user: User? {
+        didSet {
+            replaceWrapper(key: "user", object: user)
+        }
     }
 
-    private func restoreViewed() {
-
+    var recentlyViewed: [MPOLKitEntity]? = [] {
+        didSet {
+            replaceWrapper(key: "recentlyViewed", object: recentlyViewed)
+        }
     }
 
-    private func restoreSearched() {
-
+    var recentlySearched: [Searchable]? = [] {
+        didSet {
+            replaceWrapper(key: "recentlySearched", object: recentlySearched)
+        }
     }
 
-    private func restoreToken() {
-
-    }
-    private func restoreMostRecentUser() {
-
-    }
-
-    private func restoreUser() {
-        guard let username = user?.username else { return }
-        let path = basePath.appendingPathComponent("\(UserDirectoryKey)").appendingPathComponent("\(username)").path
-        guard let user = NSKeyedUnarchiver.unarchiveObject(withFile: path) as? User else { return }
-        self.user = user
+    private func replaceWrapper(key: String, object: Any) {
+        if let oldFileWrapper = fileWrapper.fileWrappers![key] {
+            fileWrapper.removeFileWrapper(oldFileWrapper)
+        }
+        fileWrapper.addRegularFile(withContents: NSKeyedArchiver.archivedData(withRootObject: object),
+                                   preferredFilename: key)
     }
 
-    private func path(for file: String) -> String {
-        return basePath.appendingPathComponent(file).path
+    //MARK: OVERRIDING
+
+    override func contents(forType typeName: String) throws -> Any {
+        return NSKeyedArchiver.archivedData(withRootObject: fileWrapper)
+    }
+
+    override func load(fromContents contents: Any, ofType typeName: String?) throws {
+        guard let data = contents as? Data else { return }
+        let wrapper = NSKeyedUnarchiver.unarchiveObject(with: data) as? FileWrapper
+        print(wrapper?.fileWrappers)
     }
 }

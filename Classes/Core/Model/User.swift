@@ -8,32 +8,14 @@
 
 import Foundation
 
-internal let UserDirectoryKey = "User"
-
 open class User: NSObject, NSSecureCoding, ModelVersionable {
 
     public var username: String
-    dynamic public var termsAndConditionsVersionAccepted: String? {
-        didSet {
-            save(to: UserSession.current.basePath)
-        }
-    }
-
-    dynamic public var whatsNewShownVersion: String? {
-        didSet {
-            save(to: UserSession.current.basePath)
-        }
-    }
+    public var termsAndConditionsVersionAccepted: String?
+    public var whatsNewShownVersion: String?
 
     public init(username: String) {
         self.username = username
-    }
-
-    internal func save(to basePath: URL) {
-        archivingQueue.async { [unowned self] in
-            let path = basePath.appendingPathComponent("\(UserDirectoryKey)").appendingPathComponent("\(self.username)").path
-            NSKeyedArchiver.archiveRootObject(self, toFile: path)
-        }
     }
 
     override open func isEqual(_ object: Any?) -> Bool {
