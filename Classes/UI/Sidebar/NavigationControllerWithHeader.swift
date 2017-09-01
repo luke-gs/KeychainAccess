@@ -39,7 +39,11 @@ open class NavigationControllerWithHeader: UINavigationController {
     }
 
     open func isHeaderViewVisible() -> Bool {
-        return !onlyVisibleWhenCompact || UIScreen.main.traitCollection.horizontalSizeClass == .compact
+        if let traitCollection = UIApplication.shared.keyWindow?.rootViewController?.traitCollection,
+            traitCollection.horizontalSizeClass == .compact {
+            return true
+        }
+        return !onlyVisibleWhenCompact
     }
 
     // iOS 11

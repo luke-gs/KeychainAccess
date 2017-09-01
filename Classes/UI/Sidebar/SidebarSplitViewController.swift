@@ -95,9 +95,9 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
         if let selectedViewController = self.selectedViewController {
             detailNavController.viewControllers = [selectedViewController]
 
-            // Check the screen trait collection, as self is not initialised yet
-            if UIScreen.main.traitCollection.horizontalSizeClass == .compact {
-                // Force early detail vc collapse so animation looks good
+            // Check the root view controller trait collection, as self is not initialised yet
+            if let traitCollection = UIApplication.shared.keyWindow?.rootViewController?.traitCollection, traitCollection.horizontalSizeClass == .compact {
+                // Force early detail vc collapse so presentation animation looks good
                 masterNavController.viewControllers = [selectedViewController]
                 detailNavController.viewControllers = []
             }
