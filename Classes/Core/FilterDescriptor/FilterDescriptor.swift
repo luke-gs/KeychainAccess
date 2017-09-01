@@ -15,27 +15,26 @@ public protocol FilterDescriptorType {
 
 /// Abstract `FilterDescriptor` is a class that defines how to filter a collection.
 /// You can use the new method 'filter(using: [FilterDescriptor<T>])' on any `Sequence`
-/// to filter it based on the concrete implementation of `shouldntInclude(value: T)`.
+/// to filter it based on the concrete implementation of `shouldInclude(value: T)`.
 ///
 /// - Important: All subclasses must provide a concrete implementation of 
-///              `shouldntInclude(value: T)`.
+///              `shouldInclude(value: T)`.
 public class FilterDescriptor<T>: FilterDescriptorType {
     public typealias Base = T
     
     
-    /// Abstract method that defines whether a value should or shouldn't be included in a collection
+    /// Abstract method that defines whether a value should be included in a collection
     /// based on certain conditions provided by the subclass.
     ///
     /// - Parameter value: The value being assessed for inclusion.
-    /// - Returns: A boolean indicating whether the value should or shouldnt be
-    ///            included (return true if it shouldn't).
-    public func shouldntInclude(value: T) -> Bool {
+    /// - Returns: A boolean indicating whether the value should be included.
+    public func shouldInclude(value: T) -> Bool {
         MPLRequiresConcreteImplementation()
     }
 
     
     /// A static method that evaluates whether a value should be included in a collection based on
-    /// a range of descriptors that define in their own implementations of 'shouldntInclude(value: T)'.
+    /// a range of descriptors that define in their own implementations of 'shouldInclude(value: T)'.
     ///
     /// - Parameters:
     ///   - value: The value being assessed for inclusion.
@@ -43,12 +42,13 @@ public class FilterDescriptor<T>: FilterDescriptorType {
     /// - Returns: A boolean indicating whether the value should or shouldnt be included.
     fileprivate static func shouldInclude(value: T, descriptors: [FilterDescriptor<T>]) -> Bool {
         guard descriptors.count > 0 else { return true }
+        var shouldInclude = true
         for descriptor in descriptors {
-            if descriptor.shouldntInclude(value: value) {
-                return false
+            if !descriptor.shouldInclude(value: value) {
+                shouldInclude = false
             }
         }
-        return true
+        return shouldInclude
     }
 }
 
@@ -76,11 +76,11 @@ public class FilterValueDescriptor<T>: FilterDescriptor<T> {
         self.values = values
     }
     
-    public override func shouldntInclude(value: T) -> Bool {
-        if let value = keyMapper(value), !values.contains(value) {
-            return true
+    public override func shouldInclude(value: T) -> Bool {
+        if let value = keyMapper(value) {
+            return values.contains(value)
         }
-        return false
+        return true
     }
 }
 
@@ -111,16 +111,16 @@ public class FilterRangeDescriptor<T>: FilterDescriptor<T> {
         self.end = AnyComparable(end)
     }
     
-    public override func shouldntInclude(value: T) -> Bool {
+    public override func shouldInclude(value: T) -> Bool {
         if let value = keyMapper(value) {
             if let start = start, value < start {
-                return true
+                return false
             }
             if let end = end, value > end {
-                return true
+                return false
             }
         }
-        return false
+        return true
     }
 }
 
