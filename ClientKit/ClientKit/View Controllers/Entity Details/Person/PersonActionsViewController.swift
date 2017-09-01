@@ -192,7 +192,9 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
     private func reloadSections() {
         var filters: [FilterDescriptor<Action>] = []
         
-        filters.append(FilterValueDescriptor<Action, String>(key: { $0.type }, values: self.filterTypes ?? []))
+        if let types = self.filterTypes {
+            filters.append(FilterValueDescriptor<Action, String>(key: { $0.type }, values: types))
+        }
         
         if let dateRange = self.filterDateRange {
             filters.append(FilterRangeDescriptor<Action, Date>(key: { $0.date }, start: dateRange.startDate, end: dateRange.endDate))

@@ -225,7 +225,10 @@ open class VehicleOccurrencesViewController: EntityOccurrencesViewController, Fi
     
     private func reloadSections() {
         var filters: [FilterDescriptor<Event>] = []
-        filters.append(FilterValueDescriptor<Event, String>(key: { $0.eventType }, values: self.filterTypes ?? []))
+        
+        if let types = self.filterTypes {
+            filters.append(FilterValueDescriptor<Event, String>(key: { $0.eventType }, values: types))
+        }
         
         if let dateRange = filterDateRange {
             filters.append(FilterRangeDescriptor<Event, Date>(key: { $0.occurredDate }, start: dateRange.startDate, end: dateRange.endDate))
