@@ -6,8 +6,6 @@
 //
 //
 
-import UIKit
-
 /// This concrete implementation of 'FilterDescriptor' will filter a `Sequence` if the value
 /// in question is contained within a range of values from `start` to `end`.
 ///
@@ -24,9 +22,9 @@ import UIKit
 /// Current implementation will include `start` and `finish` during filtering.
 public class FilterRangeDescriptor<T, U: Comparable>: FilterDescriptor<T> {
     
-    fileprivate let keyMapper: (T) -> U?
-    fileprivate let start: U?
-    fileprivate let end: U?
+    public let keyMapper: (T) -> U?
+    public let start: U?
+    public let end: U?
     
     public init(key: @escaping (T) -> U?, start: U?, end: U?) {
         self.keyMapper = { key($0) }

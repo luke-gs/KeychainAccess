@@ -6,8 +6,6 @@
 //
 //
 
-import UIKit
-
 /// This concrete implementation of 'FilterDescriptor' will filter a `Sequence` if the value
 /// in question is contained by a set of provided values.
 ///
@@ -22,8 +20,8 @@ import UIKit
 /// ````
 public class FilterValueDescriptor<T, U: Hashable>: FilterDescriptor<T> {
     
-    fileprivate let keyMapper: (T) -> U?
-    fileprivate let values: Set<U>
+    public let keyMapper: (T) -> U?
+    public let values: Set<U>
     
     public init(key: @escaping (T) -> U?, values: Set<U>) {
         self.keyMapper = key
