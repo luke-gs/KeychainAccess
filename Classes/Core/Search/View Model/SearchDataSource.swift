@@ -10,18 +10,34 @@ import UIKit
 
 /// A searchable object. 
 /// The datasource should know the options and types and what to do with them
-public struct Searchable: Equatable {
+public class Searchable: NSObject, NSSecureCoding {
 
     /// The search text
     public var searchText: String?
 
-    /// The filter options. 
+    /// The filter options.
     /// - Key: the index of the filter
     /// - Value: the value of the filter
     public var options: [Int: String]?
 
     /// The type of search
     public var type: String?
+
+    override init() { super.init() }
+
+    public required init?(coder aDecoder: NSCoder) {
+        searchText = aDecoder.decodeObject(of: NSString.self, forKey: "searchText") as String?
+        type = aDecoder.decodeObject(of: NSString.self, forKey: "type") as String?
+        options = aDecoder.decodeObject(of: NSDictionary.self, forKey: "options") as! [Int: String]?
+    }
+
+    public func encode(with aCoder: NSCoder) {
+        aCoder.encode(searchText, forKey: "searchText")
+        aCoder.encode(options, forKey: "options")
+        aCoder.encode(type, forKey: "type")
+    }
+
+    public static var supportsSecureCoding: Bool = true
 }
 
 public func ==(lhs: Searchable, rhs: Searchable) -> Bool {
@@ -111,8 +127,6 @@ public protocol SearchDataSource {
     /// - Parameters:
     ///   - viewController: the view controller.
     func didBecomeActive(inViewController viewController: UIViewController)
-    
-    
 }
 
 public protocol SearchDataSourceUpdating: class {
