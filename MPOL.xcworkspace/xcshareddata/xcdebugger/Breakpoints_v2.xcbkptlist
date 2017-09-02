@@ -21,7 +21,7 @@
                <BreakpointActionProxy
                   ActionExtensionID = "Xcode.BreakpointAction.DebuggerCommand">
                   <ActionContent
-                     consoleCommand = "po $arg1">
+                     consoleCommand = "">
                   </ActionContent>
                </BreakpointActionProxy>
             </Actions>
