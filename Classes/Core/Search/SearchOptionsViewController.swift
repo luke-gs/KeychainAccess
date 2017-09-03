@@ -31,7 +31,9 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     
     private var tabStripView: TabStripView?
     
-    private var searchContainer = UIView(frame: .zero)
+    private let searchContainer = UIView(frame: .zero)
+    
+    private let searchSeparator = UIView(frame: .zero)
     
     private let searchField = SearchFieldCollectionViewCell()
     
@@ -135,6 +137,12 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
 
         guard let view = self.view, let collectionView = self.collectionView else { return }
         
+        let pixel = 1.0 / traitCollection.currentDisplayScale
+        searchSeparator.frame = CGRect(x: 0.0, y: -pixel, width: searchContainer.bounds.width, height: pixel)
+        searchSeparator.autoresizingMask = [.flexibleWidth, .flexibleTopMargin]
+        searchSeparator.isHidden = true
+        
+        searchContainer.addSubview(searchSeparator)
         searchContainer.clipsToBounds = true
         
         searchField.layoutMargins = .zero
@@ -211,8 +219,14 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         //        } else {
         legacy_additionalSafeAreaInsets.top = (navigationBarExtension?.frame.height ?? 0.0) + searchContainer.frame.height
         //        }
-        
         super.viewWillLayoutSubviews()
+    }
+    
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        let pixel = 1.0 / traitCollection.currentDisplayScale
+        searchSeparator.frame = CGRect(x: 0.0, y: searchContainer.bounds.height - pixel, width: searchContainer.bounds.width, height:  pixel)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -315,6 +329,15 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
             }
         default: break
         }
+    }
+    
+    // MARK: - Theme
+    
+    override func apply(_ theme: Theme) {
+        super.apply(theme)
+        
+        searchContainer.backgroundColor = backgroundColor
+        searchSeparator.backgroundColor = separatorColor
     }
 
     // MARK: - Action methods
@@ -666,6 +689,45 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         notifyTextChanged(textField: textField, didEndEditing: true)
         textField.resignFirstResponder()
         return false
+    }
+    
+    
+    // MARK: - ScrollViewDelegate
+    
+    private enum SeparatorAnimation {
+        case none
+        case showing
+        case hiding
+    }
+    
+    private var separatorAnimation: SeparatorAnimation = .none
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let separatorHidden = (scrollView.contentOffset.y + scrollView.contentInset.top) <= 0.0
+     
+        if searchSeparator.isHidden != separatorHidden {
+            if separatorHidden && separatorAnimation != .hiding {
+                separatorAnimation = .hiding
+                
+                searchSeparator.alpha = 1.0
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.searchSeparator.alpha = 0.0
+                }, completion: { _ in
+                    self.searchSeparator.isHidden = true
+                    self.separatorAnimation = .none
+                })
+            } else if !separatorHidden && separatorAnimation != .showing {
+                separatorAnimation = .showing
+                
+                searchSeparator.alpha = 0.0
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.searchSeparator.alpha = 1.0
+                }, completion: { _ in
+                    self.searchSeparator.isHidden = false
+                    self.separatorAnimation = .none
+                })
+            }
+        }
     }
     
 }
