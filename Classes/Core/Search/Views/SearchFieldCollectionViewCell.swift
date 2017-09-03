@@ -126,8 +126,8 @@ internal class SearchFieldCollectionViewCell: CollectionViewFormCell {
     
     public override class func heightForValidationAccessory(withText text: String, contentWidth: CGFloat, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
         
-        let preferredContentWidth = contentWidth > SearchFieldCollectionViewCell.minimumForPreferredSeparatorWidth ? SearchFieldCollectionViewCell.preferredSeparatorWidth : contentWidth
-        return super.heightForValidationAccessory(withText: text, contentWidth: contentWidth, compatibleWith: traitCollection)
+        let preferredContentWidth = contentWidth < SearchFieldCollectionViewCell.minimumForPreferredSeparatorWidth ? contentWidth : SearchFieldCollectionViewCell.preferredSeparatorWidth
+        return super.heightForValidationAccessory(withText: text, contentWidth: preferredContentWidth, compatibleWith: traitCollection)
     }
     
     // MARK: - Private methods
