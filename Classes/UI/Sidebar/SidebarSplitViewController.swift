@@ -23,6 +23,8 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
     
     public let masterNavController: NavigationControllerWithHeader
     public let detailNavController: UINavigationController
+    public let pageViewController: UIPageViewController
+
 
     /// The title to use for main navigation controller when in regular size
     open var regularTitle: String? {
@@ -56,7 +58,8 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
             horizontalSidebarViewController.selectedItem = sidebarViewController.selectedItem
             if let selectedViewController = selectedViewController {
                 if self.isCompact() {
-                    masterNavController.viewControllers = [selectedViewController]
+                    pageViewController.setViewControllers([selectedViewController], direction: .forward, animated: false, completion: nil)
+                    masterNavController.viewControllers = [pageViewController]
                 } else {
                     detailNavController.viewControllers = [selectedViewController]
                     embeddedSplitViewController.showDetailViewController(detailNavController, sender: self)
@@ -64,7 +67,8 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
             } else if let defaultViewController = detailViewControllers.first {
                 // No selection, use first detail if compact (can't show nothing)
                 if self.isCompact() {
-                    masterNavController.viewControllers = [defaultViewController]
+                    pageViewController.setViewControllers([defaultViewController], direction: .forward, animated: false, completion: nil)
+                    masterNavController.viewControllers = [pageViewController]
                 } else {
                     detailNavController.viewControllers = []
                     embeddedSplitViewController.showDetailViewController(detailNavController, sender: self)
@@ -89,6 +93,9 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
         self.detailViewControllers = detailViewControllers
         selectedViewController = detailViewControllers.first { $0.sidebarItem.isEnabled }
 
+        // Set up the page controller
+        pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
+
         masterNavController = NavigationControllerWithHeader(rootViewController: sidebarViewController)
         detailNavController = UINavigationController()
 
@@ -98,12 +105,16 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
             // Check the root view controller trait collection, as self is not initialised yet
             if let traitCollection = UIApplication.shared.keyWindow?.rootViewController?.traitCollection, traitCollection.horizontalSizeClass == .compact {
                 // Force early detail vc collapse so presentation animation looks good
-                masterNavController.viewControllers = [selectedViewController]
+                pageViewController.setViewControllers([selectedViewController], direction: .forward, animated: false, completion: nil)
+                masterNavController.viewControllers = [pageViewController]
                 detailNavController.viewControllers = []
             }
         }
-        
+
         super.init(viewControllers: [masterNavController, detailNavController])
+
+        pageViewController.dataSource = self
+        pageViewController.delegate = self
 
         // Create header sidebar for horizontal navigation, visible only when compact
         self.addChildViewController(horizontalSidebarViewController)
@@ -161,13 +172,16 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
             // Update the master nav view controller to actually contain the detail, to remove the sidebar
             if masterNavController.viewControllers.contains(sidebarViewController) {
                 if let detailViewController = self.selectedViewController ?? self.detailViewControllers.first {
-                    masterNavController.viewControllers = [detailViewController]
+                    pageViewController.setViewControllers([detailViewController], direction: .forward, animated: false, completion: nil)
+                    detailNavController.viewControllers = []
+                    masterNavController.viewControllers = [pageViewController]
                 }
             }
         } else {
             // Split displayed as both views visible at same time
             // Restore the master nav view controller if collapsing has removed the sidebar from it
             if !masterNavController.viewControllers.contains(sidebarViewController) {
+                pageViewController.setViewControllers([UIViewController()], direction: .forward, animated: false, completion: nil)
                 masterNavController.viewControllers = [sidebarViewController]
             }
         }
@@ -275,3 +289,34 @@ fileprivate func navController(forDetail detail: UIViewController) -> UINavigati
     return detail as? UINavigationController ?? detail.navigationController ?? UINavigationController(rootViewController: detail)
 }
 
+// MARK: - Page controller data source
+extension SidebarSplitViewController: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
+
+    public func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+        guard let index = detailViewControllers.index(of: viewController) else {
+            return nil
+        }
+        if index + 1 < detailViewControllers.count {
+            return detailViewControllers[index+1]
+        }
+        return nil
+    }
+
+    public func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+        guard let index = detailViewControllers.index(of: viewController) else {
+            return nil
+        }
+        if index > 0 {
+            return detailViewControllers[index-1]
+        }
+        return nil
+    }
+
+    public func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        if let currentVC = pageViewController.viewControllers?.first {
+            DispatchQueue.main.async {
+                self.selectedViewController = currentVC
+            }
+        }
+    }
+}
