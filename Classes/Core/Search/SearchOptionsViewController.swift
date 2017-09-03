@@ -713,17 +713,17 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
                 UIView.animate(withDuration: 0.3, animations: {
                     self.searchSeparator.alpha = 0.0
                 }, completion: { _ in
-                    self.searchSeparator.isHidden = true
+                    self.searchSeparator.isHidden = separatorHidden
                     self.separatorAnimation = .none
                 })
             } else if !separatorHidden && separatorAnimation != .showing {
                 separatorAnimation = .showing
                 
+                searchSeparator.isHidden = false
                 searchSeparator.alpha = 0.0
                 UIView.animate(withDuration: 0.3, animations: {
                     self.searchSeparator.alpha = 1.0
                 }, completion: { _ in
-                    self.searchSeparator.isHidden = false
                     self.separatorAnimation = .none
                 })
             }
