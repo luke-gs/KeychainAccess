@@ -11,6 +11,9 @@ import UIKit
 
 public class SearchFieldCollectionViewCell: CollectionViewFormCell {
     
+    private static let preferredSeparatorWidth: CGFloat = 480.0
+    private static let minimumForPreferredSeparatorWidth: CGFloat = 500.0
+    
     public static var cellContentHeight: CGFloat { return 64.0 }
     
     
@@ -104,7 +107,7 @@ public class SearchFieldCollectionViewCell: CollectionViewFormCell {
             NSLayoutConstraint(item: buttonStackView, attribute: .centerY, relatedBy: .equal, toItem: textField, attribute: .centerY),
             NSLayoutConstraint(item: buttonStackView, attribute: .height, relatedBy: .equal, toConstant: 28),
             
-            NSLayoutConstraint(item: buttonStackView, attribute: .trailing, relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .centerX, constant: 480.0 / 2.0, priority: UILayoutPriorityDefaultHigh)
+            NSLayoutConstraint(item: buttonStackView, attribute: .trailing, relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .centerX, constant: SearchFieldCollectionViewCell.preferredSeparatorWidth / 2.0, priority: UILayoutPriorityDefaultHigh)
         ])
         
         updateSeparatorInsets()
@@ -121,6 +124,11 @@ public class SearchFieldCollectionViewCell: CollectionViewFormCell {
         set { }
     }
     
+    public override class func heightForValidationAccessory(withText text: String, contentWidth: CGFloat, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
+        
+        let preferredContentWidth = contentWidth > SearchFieldCollectionViewCell.minimumForPreferredSeparatorWidth ? SearchFieldCollectionViewCell.preferredSeparatorWidth : contentWidth
+        return super.heightForValidationAccessory(withText: text, contentWidth: contentWidth, compatibleWith: traitCollection)
+    }
     
     // MARK: - Private methods
     
@@ -138,10 +146,10 @@ public class SearchFieldCollectionViewCell: CollectionViewFormCell {
     
     private func updateSeparatorInsets() {
         let width = bounds.width
-        if width < 500.0 {
+        if width < SearchFieldCollectionViewCell.minimumForPreferredSeparatorWidth {
             customSeparatorInsets = nil
         } else {
-            let widthInset = ((width - 480.0) / 2.0)
+            let widthInset = ((width - SearchFieldCollectionViewCell.preferredSeparatorWidth) / 2.0)
             customSeparatorInsets = UIEdgeInsets(top: 0.0, left: widthInset, bottom: 0.0, right: widthInset)
         }
     }
