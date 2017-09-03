@@ -9,7 +9,7 @@
 import UIKit
 
 
-public class SearchFieldAdvanceCell: CollectionViewFormCell {
+internal class SearchFieldAdvanceCell: CollectionViewFormCell {
     public static var cellContentHeight: CGFloat { return 64.0 }
 
     public let actionButton = UIButton(type: .system)
