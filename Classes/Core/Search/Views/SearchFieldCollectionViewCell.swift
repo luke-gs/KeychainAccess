@@ -11,7 +11,7 @@ import UIKit
 
 public class SearchFieldCollectionViewCell: CollectionViewFormCell {
     
-    public static var cellContentHeight: CGFloat { return 23.0 }
+    public static var cellContentHeight: CGFloat { return 64.0 }
     
     
     // MARK: - Properties
@@ -94,20 +94,17 @@ public class SearchFieldCollectionViewCell: CollectionViewFormCell {
         contentView.addSubview(textField)
         contentView.addSubview(buttonStackView)
         
-        let stackTrailingConstraint = NSLayoutConstraint(item: buttonStackView, attribute: .trailing, relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .centerX, constant: 480.0 / 2.0)
-        stackTrailingConstraint.priority = UILayoutPriorityDefaultHigh
-        
         NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: textField, attribute: .centerX, relatedBy: .equal, toItem: contentView, attribute: .centerX),
+            NSLayoutConstraint(item: textField, attribute: .centerX, relatedBy: .equal, toItem: contentView, attribute: .centerX, priority: UILayoutPriorityDefaultHigh),
             NSLayoutConstraint(item: textField, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, constant: 3.0),
-            NSLayoutConstraint(item: textField, attribute: .leading, relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .leadingMargin),
+            NSLayoutConstraint(item: textField, attribute: .leading, relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .leadingMargin, priority: UILayoutPriorityDefaultHigh),
             
-            NSLayoutConstraint(item: buttonStackView, attribute: .leading, relatedBy: .equal, toItem: textField, attribute: .trailing, constant: 5.0),
+            NSLayoutConstraint(item: buttonStackView, attribute: .leading, relatedBy: .equal, toItem: textField, attribute: .trailing, constant: 5.0, priority: UILayoutPriorityDefaultHigh + 1),
             NSLayoutConstraint(item: buttonStackView, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentView, attribute: .trailingMargin),
             NSLayoutConstraint(item: buttonStackView, attribute: .centerY, relatedBy: .equal, toItem: textField, attribute: .centerY),
             NSLayoutConstraint(item: buttonStackView, attribute: .height, relatedBy: .equal, toConstant: 28),
             
-            stackTrailingConstraint
+            NSLayoutConstraint(item: buttonStackView, attribute: .trailing, relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .centerX, constant: 480.0 / 2.0, priority: UILayoutPriorityDefaultHigh)
         ])
         
         updateSeparatorInsets()
@@ -128,21 +125,15 @@ public class SearchFieldCollectionViewCell: CollectionViewFormCell {
     // MARK: - Private methods
     
     @objc private func textFieldDidBeginEditing(_ notification: NSNotification) {
-        guard isSelected == false,
-            let collectionView = superview(of: UICollectionView.self),
-            let indexPath = collectionView.indexPath(for: self) else { return }
+        guard isSelected == false else { return }
         
-        collectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
-        collectionView.delegate?.collectionView?(collectionView, didSelectItemAt: indexPath)
+        self.isSelected = true
     }
     
     @objc private func textFieldDidEndEditing(_ notification: NSNotification) {
-        guard isSelected,
-            let collectionView = superview(of: UICollectionView.self),
-            let indexPath = collectionView.indexPath(for: self) else { return }
+        guard isSelected else { return }
         
-        collectionView.deselectItem(at: indexPath, animated: false)
-        collectionView.delegate?.collectionView?(collectionView, didDeselectItemAt: indexPath)
+        self.isSelected = false
     }
     
     private func updateSeparatorInsets() {
@@ -157,9 +148,3 @@ public class SearchFieldCollectionViewCell: CollectionViewFormCell {
     
 }
 
-protocol SearchCollectionViewCellDelegate: class {
-    
-    func searchCollectionViewCell(_ cell: SearchFieldCollectionViewCell, didChangeText text: String?)
-    
-    func searchCollectionViewCell(_ cell: SearchFieldCollectionViewCell, didSelectSegmentAt index: Int)
-}

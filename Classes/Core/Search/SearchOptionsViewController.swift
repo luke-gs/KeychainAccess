@@ -31,30 +31,43 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     
     private var tabStripView: TabStripView?
     
+    private var searchContainer = UIView(frame: .zero)
+    
+    private let searchField = SearchFieldCollectionViewCell()
+    
+    private let buttonField = SearchFieldAdvanceCell()
     
     // MARK: - Private methods
     
     private var selectedDataSource: SearchDataSource {
         didSet {
             oldValue.updatingDelegate = nil
-            
-            var textRange: UITextRange?
-            if let cell = collectionView?.cellForItem(at: indexPathForSearchFieldCell) as? SearchFieldCollectionViewCell {
-                let text = cell.textField.text
-                textRange = cell.textField.selectedTextRange
-                
-                // Generate a generic search
-                let search = Searchable(text: text, options: nil, type: nil)
-                selectedDataSource.prefill(withSearchable: search)
+
+            if !shouldSelectAllText {
+                switch (oldValue.searchStyle, selectedDataSource.searchStyle) {
+                case (.search, .search):
+                    let textField = searchField.textField
+                    
+                    // Generate a generic search
+                    let search = Searchable(text: textField.text, options: nil, type: nil)
+                    selectedDataSource.prefill(withSearchable: search)
+                case (.search, .button) where searchField.isSelected:
+                    searchField.isSelected = false
+                case (.button, .search):
+                    searchField.isSelected = true
+                default: break
+                }
             }
-            
+
             navigationItem.rightBarButtonItem = selectedDataSource.navigationButton
+
+            reloadSearchStyle()
+            reloadCollectionViewRetainingEditing()
             
             selectedDataSource.updatingDelegate = self
-            editingTextFieldIndexPath = (indexPathForSearchFieldCell, textRange)
         }
     }
-    
+
     private var editingTextFieldIndexPath: (indexPath: IndexPath?, textRange: UITextRange?)? {
         didSet {
             if editingTextFieldIndexPath != nil {
@@ -65,7 +78,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     }
     
     private var shouldSelectAllText = false
-    
+
     // MARK: - Initializers
     
     init(dataSources: [SearchDataSource]? = nil) {
@@ -79,13 +92,14 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         super.init()
         
         firstDataSource.updatingDelegate = self
-
+        
         calculatesContentHeight = true
         
         title = NSLocalizedString("New Search", comment: "Search - New Search title")
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonItemDidSelect(_:)))
         navigationItem.rightBarButtonItem = firstDataSource.navigationButton
+        
     }
 
     required convenience init(coder aDecoder: NSCoder) {
@@ -97,14 +111,20 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     func resetSearch() {
         let blankSearch = Searchable()
         dataSources?.forEach { $0.prefill(withSearchable: blankSearch) }
-        reloadCollectionViewRetainingEditing()
+        
+        if isViewLoaded {
+            reloadSearchStyle()
+            reloadCollectionViewRetainingEditing()
+        }
     }
 
     func setCurrent(searchable: Searchable?) {
         guard let searchable = searchable else { return }
         
         if let index = dataSources?.index(where: { $0.prefill(withSearchable: searchable) }) {
+            shouldSelectAllText = true
             tabStripView?.selectedItemIndex = index
+            selectedDataSourceIndex = index
         }
     }
     
@@ -112,8 +132,22 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         guard let view = self.view, let collectionView = self.collectionView else { return }
+        
+        searchContainer.clipsToBounds = true
+        
+        searchField.layoutMargins = .zero
+        buttonField.layoutMargins = .zero
+        
+        buttonField.actionButton.setTitleColor(tintColor, for: .normal)
+        
+        searchField.translatesAutoresizingMaskIntoConstraints = false
+        buttonField.translatesAutoresizingMaskIntoConstraints = false
+        searchContainer.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(searchContainer)
+
+        formLayout.wantsInsetHeaders = false
         
         collectionView.register(SearchFieldCollectionViewCell.self)
         collectionView.register(CollectionViewFormValueFieldCell.self)
@@ -149,15 +183,24 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         extensionVerticalConstraint = navBarExtension.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor)
         //        }
         
+        
         NSLayoutConstraint.activate([
             navBarExtension.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             navBarExtension.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            extensionVerticalConstraint
+            extensionVerticalConstraint,
+
+            searchContainer.topAnchor.constraint(equalTo: navBarExtension.bottomAnchor),
+            searchContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            searchContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+
+            searchField.heightAnchor.constraint(equalToConstant: SearchFieldCollectionViewCell.cellContentHeight),
+            buttonField.heightAnchor.constraint(equalToConstant: SearchFieldAdvanceCell.cellContentHeight),
         ])
 
+        reloadSearchStyle()
         
         var contentSize = collectionView.contentSize
-        contentSize.height += navigationBarExtension?.frame.height ?? 0.0
+        contentSize.height += (navigationBarExtension?.frame.height ?? 0.0) + searchContainer.frame.height
         preferredContentSize = contentSize
     }
     
@@ -166,32 +209,29 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         //        if #available(iOS 11, *) {
         //            additionalSafeAreaInsets.top = navigationBarExtension?.frame.height ?? 0.0
         //        } else {
-        legacy_additionalSafeAreaInsets.top = navigationBarExtension?.frame.height ?? 0.0
+        legacy_additionalSafeAreaInsets.top = (navigationBarExtension?.frame.height ?? 0.0) + searchContainer.frame.height
         //        }
         
         super.viewWillLayoutSubviews()
     }
     
-//    open override func viewDidLayoutSubviews() {
-//        updatePreferredContentSize()
-//        
-//        let insets = UIEdgeInsets(top: topLayoutGuide.length + (navigationBarExtension?.frame.height ?? 0.0), left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)
-//        loadingManager.contentInsets = insets
-//        collectionViewInsetManager?.standardContentInset = insets
-//        collectionViewInsetManager?.standardIndicatorInset = insets
-//    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        shouldSelectAllText = true
-        editingTextFieldIndexPath = (indexPathForSearchFieldCell, nil)
+
+        switch selectedDataSource.searchStyle {
+        case .search:
+            shouldSelectAllText = true
+            searchField.isSelected = true
+        default: break
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        if let selectedItemIndexPath = collectionView?.indexPathsForSelectedItems?.first {
+        if searchField.isSelected {
+           searchField.isSelected = false
+        } else if let selectedItemIndexPath = collectionView?.indexPathsForSelectedItems?.first {
             collectionView?.deselectItem(at: selectedItemIndexPath, animated: false)
         }
     }
@@ -200,30 +240,83 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         guard let collectionView = self.collectionView else { return }
         
         if let selectedIndexPath = collectionView.indexPathsForSelectedItems?.first {
-            if let oldCell = collectionView.cellForItem(at: selectedIndexPath) {
-                var textField: UITextField?
-                if let cell = oldCell as? SearchFieldCollectionViewCell {
-                    textField = cell.textField
-                } else if let cell = oldCell as? CollectionViewFormTextFieldCell {
-                    textField = cell.textField
-                }
-                
-                if let textField = textField {
-                    let selectedTextRange = textField.selectedTextRange
-                    editingTextFieldIndexPath = (selectedIndexPath, selectedTextRange)
-                    return
-                }
+            if let cell = collectionView.cellForItem(at: selectedIndexPath) as? CollectionViewFormTextFieldCell {
+                let selectedTextRange = cell.textField.selectedTextRange
+                editingTextFieldIndexPath = (selectedIndexPath, selectedTextRange)
+                return
             }
         }
         
         collectionView.reloadData()
     }
     
-    
-    // MARK: - Editing
-    
-    private let indexPathForSearchFieldCell = IndexPath(item: 0, section: 0)
-    
+    private func reloadSearchStyle() {
+        let style = selectedDataSource.searchStyle
+        
+        switch style {
+        case .search(let configure, _, let message):
+            prepareSearchField()
+            
+            let textField = searchField.textField
+            
+            textField.keyboardType = .asciiCapable
+            textField.autocapitalizationType = .words
+            textField.autocorrectionType = .no
+            textField.returnKeyType = .search
+            textField.attributedPlaceholder = nil
+            
+            searchField.additionalButtons = configure?(textField)
+            
+            if textField.allTargets.contains(self) == false {
+                textField.addTarget(self, action: #selector(onTextDidChange(_:)), for: .editingChanged)
+            }
+            
+            textField.delegate = self
+            
+            reloadSearchErrorMessage()
+        case .button(let configure):
+            searchContainer.layoutMargins = style.preferredLayoutMargins
+            
+            prepareButtonField()
+            
+            let actionButton = buttonField.actionButton
+            actionButton.allTargets.forEach { actionButton.removeTarget($0, action: nil, for: .allEvents) }
+            
+            configure?(actionButton)
+        }
+    }
+
+    private func reloadSearchErrorMessage(animated: Bool = false) {
+        switch selectedDataSource.searchStyle {
+        case .search(_, _, let message):
+            searchField.setRequiresValidation(message != nil, validationText: message, animated: animated)
+            
+            var errorHeight: CGFloat?
+            
+            var preferred = selectedDataSource.searchStyle.preferredLayoutMargins
+            let current = searchContainer.layoutMargins
+            
+            if let message = message {
+                let to = max(preferred.bottom, SearchFieldCollectionViewCell.heightForValidationAccessory(withText: message ?? "", contentWidth: searchField.contentView.bounds.width, compatibleWith: traitCollection) + 2.0)
+                
+                if current.bottom != to {
+                    errorHeight = to
+                }
+            } else if current.bottom != preferred.bottom {
+                errorHeight = preferred.bottom
+            }
+            
+            if let height = errorHeight {
+                preferred.bottom = height
+                searchContainer.layoutMargins = preferred
+                
+                searchContainer.setNeedsLayout()
+                searchContainer.layoutIfNeeded()
+            }
+        default: break
+        }
+    }
+
     // MARK: - Action methods
     
     @objc private func cancelButtonItemDidSelect(_ item: UIBarButtonItem) {
@@ -233,16 +326,12 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     // MARK: - UICollectionViewDataSource methods
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        let numberOfSections = ((selectedDataSource.options?.numberOfOptions ?? 0) > 0) ? 2 : 1
-        return numberOfSections
+        return ((selectedDataSource.options?.numberOfOptions ?? 0) > 0) ? 1 : 0
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // This we should force unwrap because if we get the wrong section count here,
-        // it's a fatal error anyway and we've seriously ruined our logic.
+        
         switch Section(rawValue: section)! {
-        case .searchField:
-            return 1
         case .filters:
             return selectedDataSource.options?.numberOfOptions ?? 0
         }
@@ -253,7 +342,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         case UICollectionElementKindSectionHeader:
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
             header.showsExpandArrow = false
-            header.text             = selectedDataSource.options!.headerText
+            header.text = selectedDataSource.options!.headerText
             return header
         default:
             return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
@@ -264,45 +353,6 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         let dataSource = self.selectedDataSource
         
         switch Section(rawValue: indexPath.section)! {
-        case .searchField:
-            switch dataSource.searchStyle {
-            case .search(let configure, _, let message):
-                let cell = collectionView.dequeueReusableCell(of: SearchFieldCollectionViewCell.self, for: indexPath)
-                
-                // It is important to reset the text field back to default state as this is reused by multiple datasources and some properties may not be configured by the data source.
-                let textField = cell.textField
-                textField.text = nil
-                textField.delegate = nil
-                textField.keyboardType = .asciiCapable
-                textField.autocapitalizationType = .words
-                textField.autocorrectionType = .no
-                textField.returnKeyType = .search
-                textField.attributedPlaceholder = nil
-                
-                textField.allTargets.forEach { textField.removeTarget($0, action: nil, for: .allEvents) }
-                
-                cell.additionalButtons = configure?(textField)
-                cell.setRequiresValidation(message != nil, validationText: message, animated: false)
-                
-                if textField.allTargets.contains(self) == false {
-                    textField.addTarget(self, action: #selector(onTextDidChange(_:)), for: .editingChanged)
-                }
-                
-                textField.delegate = self
-                
-                return cell
-            case .button(let configure):
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier.advance.rawValue, for: indexPath) as! SearchFieldAdvanceCell
-                
-                // It is important to reset the button back to default state as this is reused by multiple datasources and some properties may not be configured by the data source.
-                let actionButton = cell.actionButton
-                actionButton.setTitleColor(tintColor, for: .normal)
-                actionButton.allTargets.forEach { actionButton.removeTarget($0, action: nil, for: .allEvents) }
-                
-                configure?(actionButton)
-                return cell
-            }
-            
         case .filters:
             let filterIndex = indexPath.item
             
@@ -351,13 +401,12 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
                 return filterCell
             case .action(let image, let buttonTitle, let buttonHandler):
                 let filterCell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
+                
                 filterCell.style = .value
                 filterCell.selectionStyle = .none
                 filterCell.highlightStyle = .fade
                 filterCell.accessoryView  = FormAccessoryView(style: .disclosure)
-                
                 filterCell.imageView.image = image
-                
                 filterCell.titleLabel.text = title
                 filterCell.subtitleLabel.text = value ?? placeholder
                 filterCell.setRequiresValidation(message != nil, validationText: message, animated: false)
@@ -378,8 +427,6 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch Section(rawValue: indexPath.section)! {
-        case .searchField:
-            break
         case .filters:
             switch selectedDataSource.selectionAction(forFilterAt: indexPath.item) {
             case .options(let controller):
@@ -415,27 +462,11 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
         
         if indexPath == editingTextFieldIndexPath?.indexPath {
-            var selectedTextField: UITextField?
-            if let textField = (cell as? SearchFieldCollectionViewCell)?.textField, !textField.isFirstResponder {
-                selectedTextField = textField
-            } else if let textField = (cell as? CollectionViewFormTextFieldCell)?.textField, !textField.isFirstResponder {
-                selectedTextField = textField
+            if let textField = (cell as? CollectionViewFormTextFieldCell)?.textField, !textField.isFirstResponder {
+                
+                textField.becomeFirstResponder()
+                textField.selectedTextRange = editingTextFieldIndexPath?.textRange
             }
-            
-            selectedTextField?.becomeFirstResponder()
-            
-            var textRange: UITextRange?
-            
-            if shouldSelectAllText {
-                if let textField = selectedTextField {
-                    textRange = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
-                }
-                shouldSelectAllText = false
-            } else {
-                textRange = editingTextFieldIndexPath?.textRange
-            }
-            
-            selectedTextField?.selectedTextRange = textRange
             
             editingTextFieldIndexPath = nil
         }
@@ -443,47 +474,29 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     
     // MARK: - CollectionViewDelegateFormLayout methods
     
-    func collectionView(_ collectionView: UICollectionView, heightForGlobalHeaderInLayout layout: CollectionViewFormLayout) -> CGFloat {
-        return 12.0
-    }
-
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForValidationAccessoryAt indexPath: IndexPath, givenContentWidth contentWidth: CGFloat) -> CGFloat {
-        
-        if indexPath.section == 0 {
-            switch selectedDataSource.searchStyle {
-            case .search(_, _, let message):
-                if let errorMessage = message {
-                    let height = SearchFieldCollectionViewCell.heightForValidationAccessory(withText: errorMessage, contentWidth: contentWidth, compatibleWith: traitCollection)
-                    
-                    return height + ((selectedDataSource.options?.numberOfOptions ?? 0 > 0) ? 0 : layout.itemLayoutMargins.bottom)
-                }
-                return layout.itemLayoutMargins.bottom
-            case .button:
-                break
-            }
-        } else {
+
+        switch Section(rawValue: indexPath.section)! {
+        case .filters:
             let message = selectedDataSource.options!.errorMessage(at: indexPath.item)
             if let errorMessage = message {
                 return CollectionViewFormCell.heightForValidationAccessory(withText: errorMessage, contentWidth: contentWidth, compatibleWith: traitCollection)
             }
         }
-        
-        return 0
+
+        return 0.0
     }
     
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForFooterInSection section: Int) -> CGFloat {
-        return section != 0 ? layout.itemLayoutMargins.bottom : 0
+        return layout.itemLayoutMargins.bottom
     }
     
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
-        return Section(rawValue: section) == .searchField ? 0.0 : CollectionViewFormHeaderView.minimumHeight
+        return 21.0
     }
     
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
-        if Section(rawValue: indexPath.section) == .searchField {
-            return collectionView.bounds.width
-        }
-        
+
         switch selectedDataSource.options!.type(at: indexPath.item) {
         case .action: return collectionView.bounds.width
         default: break
@@ -506,11 +519,6 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
         
         switch Section(rawValue: indexPath.section)! {
-        case .searchField:
-            switch selectedDataSource.searchStyle {
-            case .search: return SearchFieldCollectionViewCell.cellContentHeight
-            case .button: return SearchFieldAdvanceCell.cellContentHeight
-            }
         case .filters:
             let options = selectedDataSource.options
             
@@ -534,27 +542,25 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     
     func searchDataSource(_ dataSource: SearchDataSource, didUpdateComponent component: SearchDataSourceComponent) {
         
+        navigationItem.rightBarButtonItem = selectedDataSource.navigationButton
+        
         switch component {
+        case .all:
+            reloadSearchStyle()
+            reloadCollectionViewRetainingEditing()
+        case .searchStyle:
+            reloadSearchStyle()
         case .searchStyleErrorMessage:
-            switch selectedDataSource.searchStyle {
-            case .search(_, _, let message):
-                let cell = self.collectionView?.cellForItem(at: self.indexPathForSearchFieldCell) as? CollectionViewFormCell
-                cell?.setRequiresValidation(message != nil, validationText: message, animated: true)
-                return
-            default: break
-            }
+            reloadSearchErrorMessage(animated: true)
         case .filterErrorMessage(let index):
             let indexPath = IndexPath(item: index, section: Section.filters.rawValue)
             if let cell = self.collectionView?.cellForItem(at: indexPath) as? CollectionViewFormCell {
                 let message = selectedDataSource.options?.errorMessage(at: index)
                 cell.setRequiresValidation(message != nil, validationText: message, animated: true)
             }
-            return
-        default: break
+        case .filter(_):
+            reloadCollectionViewRetainingEditing()
         }
-        
-        navigationItem.rightBarButtonItem = selectedDataSource.navigationButton
-        reloadCollectionViewRetainingEditing()
     }
     
     func searchDataSource(_ dataSource: SearchDataSource, didFinishWith search: Searchable, andResultViewModel viewModel: SearchResultViewModelable?) {
@@ -571,21 +577,27 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     // MARK: - Private
     
     private enum Section: Int {
-        case searchField, filters
+        case filters
     }
     
     private func notifyTextChanged(textField: UITextField, didEndEditing: Bool) {
-        guard let selectedIndexPath = collectionView?.indexPathsForSelectedItems?.first else {
-            return
-        }
-        
-        switch Section(rawValue: selectedIndexPath.section)! {
-        case .searchField:
+
+        // Check the main search field
+        if searchField.textField == textField {
             switch selectedDataSource.searchStyle {
             case .search(_, let textHandler, _):
                 textHandler?(textField.text, didEndEditing)
             default: break
             }
+        }
+
+
+        // Checks collection view for active text field
+        guard let selectedIndexPath = collectionView?.indexPathsForSelectedItems?.first else {
+            return
+        }
+
+        switch Section(rawValue: selectedIndexPath.section)! {
         case .filters:
             let item = selectedIndexPath.item
             selectedDataSource.textChanged(forFilterAt: item, text: textField.text, didEndEditing: didEndEditing)
@@ -596,7 +608,59 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         notifyTextChanged(textField: textField, didEndEditing: false)
     }
     
+    private func prepareSearchField() {
+        if searchField.superview == nil {
+            searchContainer.addSubview(searchField)
+            buttonField.removeFromSuperview()
+            
+            NSLayoutConstraint.activate([
+                NSLayoutConstraint(item: searchField, attribute: .top, relatedBy: .equal, toItem: searchContainer, attribute: .topMargin, constant: 0.0),
+                NSLayoutConstraint(item: searchField, attribute: .leading, relatedBy: .equal, toItem: searchContainer, attribute: .leadingMargin, constant: 0.0),
+                NSLayoutConstraint(item: searchField, attribute: .trailing, relatedBy: .equal, toItem: searchContainer, attribute: .trailingMargin, constant: 0.0),
+                NSLayoutConstraint(item: searchField, attribute: .bottom, relatedBy: .equal, toItem: searchContainer, attribute: .bottomMargin, constant: 0.0),
+                ])
+        }
+        
+        let textField = searchField.textField
+        
+        textField.keyboardType = .asciiCapable
+        textField.autocapitalizationType = .words
+        textField.autocorrectionType = .no
+        textField.returnKeyType = .search
+        textField.attributedPlaceholder = nil
+    }
+    
+    private func prepareButtonField() {
+        if buttonField.superview == nil {
+            searchField.removeFromSuperview()
+            searchContainer.addSubview(buttonField)
+            
+            NSLayoutConstraint.activate([
+                buttonField.topAnchor.constraint(equalTo: searchContainer.layoutMarginsGuide.topAnchor),
+                buttonField.leadingAnchor.constraint(equalTo: searchContainer.layoutMarginsGuide.leadingAnchor),
+                buttonField.trailingAnchor.constraint(equalTo: searchContainer.layoutMarginsGuide.trailingAnchor),
+                buttonField.bottomAnchor.constraint(equalTo: searchContainer.layoutMarginsGuide.bottomAnchor),
+                
+                ])
+            
+            searchContainer.layoutIfNeeded()
+            legacy_additionalSafeAreaInsets.top = (navigationBarExtension?.frame.height ?? 0.0) + searchContainer.frame.height
+            updateCalculatedContentHeight()
+        }
+        
+        if searchField.isSelected {
+            searchField.isSelected = false
+        }
+    }
+    
     // MARK: - TextFieldDelegate
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if shouldSelectAllText {
+            textField.selectedTextRange = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
+            shouldSelectAllText = false
+        }
+    }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         notifyTextChanged(textField: textField, didEndEditing: true)
@@ -614,3 +678,13 @@ protocol SearchOptionsViewControllerDelegate: class {
 
 }
 
+private extension SearchFieldStyle {
+    
+    var preferredLayoutMargins: UIEdgeInsets {
+        switch self {
+        case .search: return UIEdgeInsets(top: 8.0, left: 24.0, bottom: 32.0, right: 16.0)
+        case .button: return UIEdgeInsets(top: 8.0, left: 24.0, bottom: 8.0, right: 16.0)
+        }
+    }
+    
+}
