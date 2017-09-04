@@ -9,7 +9,7 @@
 import UIKit
 
 
-internal class SearchFieldCollectionViewCell: CollectionViewFormCell {
+class SearchFieldCollectionViewCell: CollectionViewFormCell {
     
     private static let preferredSeparatorWidth: CGFloat = 480.0
     private static let minimumForPreferredSeparatorWidth: CGFloat = 500.0
