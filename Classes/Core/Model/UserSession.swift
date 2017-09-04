@@ -8,18 +8,18 @@
 
 import UIKit
 
+private let latestSessionKey = "LatestSessionKey"
+
 public enum SessionError: Error {
     case alreadyBegun(String)
 }
 
-public class UserSession: NSObject {
-    public static let current = UserSession()
+internal let archivingQueue = DispatchQueue(label: "MagicArchivingQueue")
 
-    private(set) var basePath: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first! {
-        didSet {
-            document.basePath = basePath
-        }
-    }
+public class UserSession: NSObject {
+
+    public static let current = UserSession()
+    public static var basePath: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
 
     private(set) var token: OAuthAccessToken? {
         set {
@@ -33,7 +33,6 @@ public class UserSession: NSObject {
 
     private(set) public var user: User? {
         set {
-            save(user: newValue)
             self.document.user = newValue
         }
         get {
@@ -61,26 +60,61 @@ public class UserSession: NSObject {
         }
     }
 
+    public var isActive: Bool {
+        guard let _ = UserDefaults.standard.string(forKey: latestSessionKey) else { return false }
+        return true
+    }
+
     private lazy var document: UserSessionDocument = {
-        return UserSessionDocument(fileURL: self.basePath)
+        let sessionID = UserDefaults.standard.string(forKey: latestSessionKey) ?? UUID().uuidString
+
+        let url = UserSession.basePath
+            .appendingPathComponent("sessions", isDirectory: true)
+            .appendingPathComponent(sessionID)
+
+        do {
+            try FileManager.default.createDirectory(at: url.deletingLastPathComponent(),
+                                                    withIntermediateDirectories: true,
+                                                    attributes: [:])
+        } catch {
+            print(error)
+        }
+
+        UserDefaults.standard.set(sessionID, forKey: latestSessionKey)
+
+        return UserSessionDocument(fileURL: url)
     }()
+
+
+    public override init() {
+        super.init()
+    }
+
+    public func restoreSession(completion: @escaping ((Bool)->())) {
+        document.open { success in
+            completion(self.user == nil)
+        }
+    }
 
     public static func startSession(user: User,
                                     token: OAuthAccessToken,
-                                    basePath: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!) throws
+                                    completion: @escaping (Bool)->())
     {
-        guard UserSession.current.user == nil
-            else { throw SessionError.alreadyBegun("Session in progress for user: \(UserSession.current.user!.username)") }
+        UserSession.current.createSession() { success in
+            UserSession.current.token = token
+            UserSession.current.user = user
+            UserSession.current.recentlyViewed = []
+            UserSession.current.recentlySearched = []
 
-        UserSession.current.createSession()
+            UserSession.current.loadUserFromCache()
+            UserSession.current.saveUserToCache()
 
-        UserSession.current.basePath = basePath
-        UserSession.current.token = token
-        UserSession.current.user = user
+            completion(true)
+        }
     }
 
     public func updateUser() {
-        save(user: user)
+        saveUserToCache()
     }
 
     public func endSession() {
@@ -88,6 +122,7 @@ public class UserSession: NSObject {
         token = nil
         recentlySearched = nil
         recentlyViewed = nil
+        UserDefaults.standard.set(nil, forKey: latestSessionKey)
     }
 
     public func renewSession(with token: OAuthAccessToken) {
@@ -96,30 +131,37 @@ public class UserSession: NSObject {
 
     //MARK: SAVING
 
-    private func createSession() {
+    private func createSession(completion: @escaping ((Bool)->())) {
         document.save(to: document.fileURL, for: .forCreating) { success in
-            print("Create \(success)")
+            completion(success)
         }
     }
 
     private func saveSession() {
-        document.save(to: document.fileURL, for: .forOverwriting) { success in
-            print("Save \(success)")
-        }
+        document.save(to: document.fileURL, for: .forOverwriting)
     }
 
-    private func save(user: User?) {
+    private func saveUserToCache() {
         guard let username = user?.username else { return }
-        let url = basePath.appendingPathComponent("user").appendingPathComponent(username).path
-        NSKeyedArchiver.archiveRootObject(user, toFile: url)
+        let userDir = UserSession.basePath.appendingPathComponent("user", isDirectory: true)
+        let fullUrl = userDir.appendingPathComponent(username)
+        try? FileManager.default.createDirectory(at: userDir, withIntermediateDirectories: true, attributes: [:])
+
+        print("Saved: \(NSKeyedArchiver.archiveRootObject(user, toFile: fullUrl.path))")
+
+        document.updateUserReference()
+
         saveSession()
     }
 
-    //MARK: RESTORING
+    private func loadUserFromCache() {
+        guard let username = user?.username else { return }
+        let url = UserSession.basePath.appendingPathComponent("user").appendingPathComponent(username).path
+        let someRandomData = NSKeyedUnarchiver.unarchiveObject(withFile: url)
 
-    private func restoreSession() {
-        document.open { success in
-            print(success)
+        if let validUser = someRandomData as? User {
+            self.user = validUser
+            saveUserToCache()
         }
     }
 }
@@ -128,28 +170,16 @@ fileprivate class UserSessionDocument: UIDocument {
 
     lazy var fileWrapper: FileWrapper = {
         let wrapper  = FileWrapper(directoryWithFileWrappers: [:])
-        wrapper.filename = UUID().uuidString
+        wrapper.filename = "session"
         return wrapper
     }()
 
     var basePath: URL?
+    var user: User?
 
     var token: OAuthAccessToken? {
         didSet {
             replaceWrapper(key: "token", object: token)
-        }
-    }
-
-    var user: User? {
-        didSet {
-            //Create symbolic link instead of direct wrapper
-            guard let username = user?.username else { return }
-            let url = basePath?.appendingPathComponent("user").appendingPathComponent(username)
-            let userWrapper = FileWrapper(symbolicLinkWithDestinationURL: url!)
-            userWrapper.preferredFilename = username
-
-            fileWrapper.removeFileWrapper(userWrapper)
-            fileWrapper.addFileWrapper(userWrapper)
         }
     }
 
@@ -165,12 +195,29 @@ fileprivate class UserSessionDocument: UIDocument {
         }
     }
 
+    private var previousUserWrapper: FileWrapper?
+
     private func replaceWrapper(key: String, object: Any) {
         if let oldFileWrapper = fileWrapper.fileWrappers![key] {
             fileWrapper.removeFileWrapper(oldFileWrapper)
         }
         fileWrapper.addRegularFile(withContents: NSKeyedArchiver.archivedData(withRootObject: object),
                                    preferredFilename: key)
+    }
+
+    func updateUserReference() {
+        //Create symbolic link instead of direct wrapper
+        guard let username = user?.username else { return }
+        let url = basePath?.appendingPathComponent("user").appendingPathComponent(username)
+        let userWrapper = FileWrapper(symbolicLinkWithDestinationURL: url!)
+        userWrapper.preferredFilename = "user"
+
+        if let oldUserWrapper = previousUserWrapper {
+            fileWrapper.removeFileWrapper(oldUserWrapper)
+            previousUserWrapper = userWrapper
+        }
+
+        fileWrapper.addFileWrapper(userWrapper)
     }
 
     //MARK: OVERRIDING
@@ -190,12 +237,13 @@ fileprivate class UserSessionDocument: UIDocument {
         let recentlyViewedWrapper = wrappers["recentlyViewed"]
         let recentlySearchedWrapper = wrappers["recentlySearched"]
 
-        let user = NSKeyedUnarchiver.unarchiveObject(with: (userWrapper?.regularFileContents)!) as? User
+        let asdasd = try! Data.init(contentsOf: (userWrapper?.symbolicLinkDestinationURL)!)
+        //        let user = String(data:  as! Data, encoding: .utf8)
         let token = NSKeyedUnarchiver.unarchiveObject(with: (tokenWrapper?.regularFileContents)!) as? OAuthAccessToken
         let recentlyViewed = NSKeyedUnarchiver.unarchiveObject(with: (recentlyViewedWrapper?.regularFileContents)!) as? [MPOLKitEntity]
         let recentlySearched = NSKeyedUnarchiver.unarchiveObject(with: (recentlySearchedWrapper?.regularFileContents)!) as? [Searchable]
-
-        self.user = user
+        
+        //        self.user = user
         self.token = token
         self.recentlyViewed = recentlyViewed
         self.recentlySearched = recentlySearched
