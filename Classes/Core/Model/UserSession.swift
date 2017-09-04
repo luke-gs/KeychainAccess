@@ -85,11 +85,6 @@ public class UserSession: NSObject {
         return UserSessionDocument(fileURL: url)
     }()
 
-
-    public override init() {
-        super.init()
-    }
-
     public func restoreSession(completion: @escaping ((Bool)->())) {
         document.open { success in
             completion(self.user == nil)
@@ -174,7 +169,6 @@ fileprivate class UserSessionDocument: UIDocument {
         return wrapper
     }()
 
-    var basePath: URL?
     var user: User?
 
     var token: OAuthAccessToken? {
@@ -208,8 +202,8 @@ fileprivate class UserSessionDocument: UIDocument {
     func updateUserReference() {
         //Create symbolic link instead of direct wrapper
         guard let username = user?.username else { return }
-        let url = basePath?.appendingPathComponent("user").appendingPathComponent(username)
-        let userWrapper = FileWrapper(symbolicLinkWithDestinationURL: url!)
+        let url = UserSession.basePath.appendingPathComponent("user").appendingPathComponent(username)
+        let userWrapper = FileWrapper(symbolicLinkWithDestinationURL: url)
         userWrapper.preferredFilename = "user"
 
         if let oldUserWrapper = previousUserWrapper {
@@ -237,13 +231,17 @@ fileprivate class UserSessionDocument: UIDocument {
         let recentlyViewedWrapper = wrappers["recentlyViewed"]
         let recentlySearchedWrapper = wrappers["recentlySearched"]
 
-        let asdasd = try! Data.init(contentsOf: (userWrapper?.symbolicLinkDestinationURL)!)
-        //        let user = String(data:  as! Data, encoding: .utf8)
+        let first = (userWrapper?.symbolicLinkDestinationURL?.deletingLastPathComponent().lastPathComponent)!
+        let second = (userWrapper?.symbolicLinkDestinationURL?.lastPathComponent)!
+
+        let userPath = UserSession.basePath.appendingPathComponent(first).appendingPathComponent(second)
+
+        let user = NSKeyedUnarchiver.unarchiveObject(withFile: userPath.path) as? User
         let token = NSKeyedUnarchiver.unarchiveObject(with: (tokenWrapper?.regularFileContents)!) as? OAuthAccessToken
         let recentlyViewed = NSKeyedUnarchiver.unarchiveObject(with: (recentlyViewedWrapper?.regularFileContents)!) as? [MPOLKitEntity]
         let recentlySearched = NSKeyedUnarchiver.unarchiveObject(with: (recentlySearchedWrapper?.regularFileContents)!) as? [Searchable]
         
-        //        self.user = user
+        self.user = user
         self.token = token
         self.recentlyViewed = recentlyViewed
         self.recentlySearched = recentlySearched
