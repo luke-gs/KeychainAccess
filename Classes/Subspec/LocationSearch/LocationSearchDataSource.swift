@@ -118,7 +118,7 @@ public class LocationSearchDataSource<T: LocationAdvanceOptions, U: LocationSear
         self.advanceOptions = advanceOptions
         
         super.init()
-        
+
         basicOptions.delegate = self
         options = basicOptions
     }
@@ -221,19 +221,19 @@ public class LocationSearchDataSource<T: LocationAdvanceOptions, U: LocationSear
         if let promise = self.searchStrategy.locationTypeaheadPromise(text: text) {
             self.lastSearchText = text
             self.errorMessage = nil
-            
+
             promise.then { [weak self] locations -> () in
                 guard let `self` = self, self.lastSearchText == text else { return }
                 
                 if locations.isEmpty {
-                    self.errorMessage = "No addresses found for '\(text)'."
+                    self.errorMessage = "No results found for '\(text)'."
+                    self.basicOptions.results = []
                 } else {
-                    
                     let results = locations.map { LookupResult(location: $0) }
-                    
                     self.basicOptions.results = results
-                    self.updatingDelegate?.searchDataSource(self, didUpdateComponent: .filter(index: nil))
                 }
+
+                self.updatingDelegate?.searchDataSource(self, didUpdateComponent: .filter(index: nil))
             }.catch { [weak self] in
                 guard let `self` = self, self.lastSearchText == text else { return }
                     
