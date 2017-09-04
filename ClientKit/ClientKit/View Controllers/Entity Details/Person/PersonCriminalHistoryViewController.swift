@@ -36,7 +36,7 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
             switch self {
             case .dateNewest: return NSLocalizedString("Newest", comment: "")
             case .dateOldest: return NSLocalizedString("Oldest", comment: "")
-            case .title:      return NSLocalizedString("Title", comment: "")
+            case .title: return NSLocalizedString("Title", comment: "")
             }
         }
         
@@ -51,7 +51,9 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
     // MARK: - Public Properties
     
     open override var entity: Entity? {
-        get { return viewModel.person }
+        get {
+            return viewModel.person
+        }
         set {
             viewModel.person = newValue as? Person
             viewModel.reloadSections(with: filterDateRange, sortedBy: sorting)

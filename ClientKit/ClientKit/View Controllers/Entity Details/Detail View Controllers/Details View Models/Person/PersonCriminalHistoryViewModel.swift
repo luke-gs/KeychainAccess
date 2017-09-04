@@ -87,7 +87,7 @@ public class PersonCriminalHistoryViewModel: PersonDetailsViewModel<CriminalHist
     /// MARK: - CellText Model
 
     public struct CellInfo {
-        let title   : String?
+        let title: String?
         let subtitle: String?
     }
 }

@@ -16,7 +16,9 @@ open class VehicleOccurrencesViewController: EntityOccurrencesViewController, Fi
     // MARK: - Public properties
     
     open override var entity: Entity? {
-        get { return viewModel.entity }
+        get {
+            return viewModel.entity
+        }
         set {
             viewModel.entity = newValue
             viewModel.reloadSections(with: filterTypes, filterDateRange: filterDateRange, sortedBy: dateSorting)

@@ -26,7 +26,9 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
     
     private var wantsThumbnails: Bool = true {
         didSet {
-            if wantsThumbnails == oldValue { return }
+            if wantsThumbnails == oldValue {
+                return
+            }
             
             listStateItem.image = AssetManager.shared.image(forKey: wantsThumbnails ? .list : .thumbnail)
             

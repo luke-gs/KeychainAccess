@@ -12,7 +12,9 @@ import MPOLKit
 open class VehicleInfoViewController: EntityDetailCollectionViewController {
     
     open override var entity: Entity? {
-        get { return viewModel.vehicle }
+        get {
+            return viewModel.vehicle
+        }
         set {
             self.viewModel.vehicle = newValue as? Vehicle
             updateLoadingManagerState()
