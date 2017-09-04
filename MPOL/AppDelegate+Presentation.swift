@@ -69,7 +69,10 @@ extension AppDelegate: LoginViewControllerDelegate, TermsConditionsViewControlle
                 return settingsItem
             }
 
-            let searchViewController = SearchViewController(viewModel: MPOLSearchViewModel())
+            let viewModel = MPOLSearchViewModel()
+            viewModel.recentViewModel.recentlyViewed = UserSession.current.recentlyViewed
+
+            let searchViewController = SearchViewController(viewModel: viewModel)
             searchViewController.set(leftBarButtonItem: settingsBarButtonItem())
 
             let eventListVC = EventsListViewController()
@@ -112,12 +115,9 @@ extension AppDelegate: LoginViewControllerDelegate, TermsConditionsViewControlle
     func termsConditionsController(_ controller: TermsConditionsViewController, didFinishAcceptingConditions accept: Bool) {
         controller.dismiss(animated: true) {  [weak self] in
             if accept {
-                let user = AppDelegate.currentUser
-                self?.updateInterface(for: user?.whatsNewShown == "1.0" ? .landing : .whatsNew, animated: true)
-
-                // FIXME: - Tech debt
+                let user = UserSession.current.user
+                self?.updateInterface(for: user?.whatsNewShownVersion == "1.0" ? .landing : .whatsNew, animated: true)
                 user!.termsAndConditionsVersionAccepted = "1.0"
-                self?.saveUser(user!)
             }
         }
     }
@@ -131,18 +131,18 @@ extension AppDelegate: LoginViewControllerDelegate, TermsConditionsViewControlle
     func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String) {
         controller.setLoading(true, animated: true)
 
-        APIManager.shared.accessTokenRequest(for: .credentials(username: username, password: password)).then { [weak self] _ -> Void in
+        APIManager.shared.accessTokenRequest(for: .credentials(username: username, password: password)).then { [weak self] token -> Void in
             guard let `self` = self else { return }
 
-            // FIXME: - At this point there should be a user
-            self.setCurrentUser(withUsername: username)
-
-            let user = AppDelegate.currentUser
-            if user?.termsAndConditionsVersionAccepted == "1.0" {
-                self.updateInterface(for: user?.whatsNewShown == "1.0" ? .landing : .whatsNew, animated: true)
-                return
-            } else {
-                self.updateInterface(for: .tc(controller: controller), animated: true)
+            UserSession.startSession(user: User(username: username),
+                                     token: token) { [weak self, controller] _ in
+                                        let user = UserSession.current.user
+                                        if user?.termsAndConditionsVersionAccepted == "1.0" {
+                                            self?.updateInterface(for: user?.whatsNewShownVersion == "1.0" ? .landing : .whatsNew, animated: true)
+                                        } else {
+                                            self?.updateInterface(for: .tc(controller: controller), animated: true)
+                                        }
+                                        controller.setLoading(false, animated: true)
             }
             }.catch { error in
 
@@ -151,7 +151,6 @@ extension AppDelegate: LoginViewControllerDelegate, TermsConditionsViewControlle
                 let alertController = UIAlertController(title: nsError.localizedFailureReason ?? "Error", message: error.localizedDescription, preferredStyle: .alert)
                 alertController.addAction(UIAlertAction(title: "Okay", style: .default))
                 AlertQueue.shared.add(alertController)
-            }.always {
                 controller.setLoading(false, animated: true)
         }
     }
@@ -160,10 +159,7 @@ extension AppDelegate: LoginViewControllerDelegate, TermsConditionsViewControlle
 
     func whatsNewViewControllerDidTapDoneButton(_ whatsNewViewController: WhatsNewViewController) {
         self.updateInterface(for: .landing, animated: true)
-
-        // FIXME: - Tech debt
-        let user = AppDelegate.currentUser
-        user!.whatsNewShown = "1.0"
-        self.saveUser(user!)
+        let user = UserSession.current.user
+        user!.whatsNewShownVersion = "1.0"
     }
 }

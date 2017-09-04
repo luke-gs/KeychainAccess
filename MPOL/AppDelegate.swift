@@ -38,11 +38,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         let window = UIWindow()
         self.window = window
+        window.rootViewController = UIViewController()
         
         applyCurrentTheme()
 
-        updateInterface(for: .login, animated: true)
-        
+        UserSession.basePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+
+        if UserSession.current.isActive == true {
+            UserSession.current.restoreSession { [unowned self] success in
+                if success == true {
+                    self.updateInterface(for: .landing, animated: true)
+                } else {
+                    self.updateInterface(for: .login, animated: true)
+                }
+            }
+        } else {
+            self.updateInterface(for: .login, animated: true)
+        }
+
         window.makeKeyAndVisible()
         
         #if INTERNAL
@@ -62,7 +75,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         return true
     }
     
-   // MARK: - APNS
+    // MARK: - APNS
     
     func registerPushNotifications(_ application: UIApplication) {
         
@@ -108,6 +121,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     // TEMP
     func logOut() {
+        UserSession.current.endSession()
         updateInterface(for: .login, animated: true)
     }
 
@@ -151,27 +165,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         AlertQueue.shared.preferredStatusBarStyle = theme.statusBarStyle
     }
-
-    // FIXEME: Tech debt
-    func setCurrentUser(withUsername username: String) {
-        var user: User?
-
-        let data = UserDefaults.standard.object(forKey: "TemporaryUser") as? Data
-        if data != nil {
-            user = NSKeyedUnarchiver.unarchiveObject(with: data!) as? User
-        }
-        
-        if user == nil {
-            user = User(username: username)
-            self.saveUser(user!)
-        }
-        AppDelegate.currentUser = user
-    }
-    
-    static var currentUser: User?
-    
-    func saveUser(_ user: User) {
-        UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: user), forKey: "TemporaryUser")
-    }
-    
 }
