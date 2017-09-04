@@ -268,7 +268,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         let style = selectedDataSource.searchStyle
         
         switch style {
-        case .search(let configure, _, let message):
+        case .search(let configure, _, _):
             prepareSearchField()
             
             let textField = searchField.textField
@@ -311,7 +311,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
             let current = searchContainer.layoutMargins
             
             if let message = message {
-                let to = max(preferred.bottom, SearchFieldCollectionViewCell.heightForValidationAccessory(withText: message ?? "", contentWidth: searchField.contentView.bounds.width, compatibleWith: traitCollection) + 2.0)
+                let to = max(preferred.bottom, SearchFieldCollectionViewCell.heightForValidationAccessory(withText: message, contentWidth: searchField.contentView.bounds.width, compatibleWith: traitCollection) + 2.0)
                 
                 if current.bottom != to {
                     errorHeight = to
