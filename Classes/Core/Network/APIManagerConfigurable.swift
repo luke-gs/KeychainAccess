@@ -39,8 +39,17 @@ public struct APIManagerDefaultConfiguration: APIManagerConfigurable {
         let mapper = ErrorMapper(definitions: [NetworkErrorDefinition()])
         return mapper
     }
-    
-    public init(url: URLConvertible, urlSessionConfiguration: URLSessionConfiguration = APIManagerDefaultConfiguration.defaultConfiguration(), plugins: [PluginType]? = nil, errorMapper: ErrorMapper? = APIManagerDefaultConfiguration.defaultErrorMapper(), trustPolicyManager: ServerTrustPolicyManager? = nil) {
+
+    static func defaultPlugins() -> [PluginType] {
+        return [NetworkLoggingPlugin()]
+    }
+
+    public init(url: URLConvertible,
+                urlSessionConfiguration: URLSessionConfiguration = APIManagerDefaultConfiguration.defaultConfiguration(),
+                plugins: [PluginType]? = APIManagerDefaultConfiguration.defaultPlugins(), 
+                errorMapper: ErrorMapper? = APIManagerDefaultConfiguration.defaultErrorMapper(),
+                trustPolicyManager: ServerTrustPolicyManager? = nil) {
+
         self.url = url
         self.urlSessionConfiguration = urlSessionConfiguration
         self.plugins = plugins
