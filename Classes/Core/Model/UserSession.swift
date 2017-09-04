@@ -139,10 +139,11 @@ public class UserSession: NSObject {
         let fullUrl = userDir.appendingPathComponent(username)
         try? FileManager.default.createDirectory(at: userDir, withIntermediateDirectories: true, attributes: [:])
 
-        NSKeyedArchiver.archiveRootObject(user, toFile: fullUrl.path)
+        archivingQueue.async { [weak self] in
+            NSKeyedArchiver.archiveRootObject(self?.user, toFile: fullUrl.path)
+        }
 
         document.updateUserReference()
-
         saveSession()
     }
 
@@ -214,14 +215,12 @@ fileprivate class UserSessionDocument: UIDocument {
     //MARK: OVERRIDING
 
     override func contents(forType typeName: String) throws -> Any {
-        return NSKeyedArchiver.archivedData(withRootObject: fileWrapper)
+        return fileWrapper
     }
 
     override func load(fromContents contents: Any, ofType typeName: String?) throws {
-        guard let data = contents as? Data else { return }
-        let wrapper = NSKeyedUnarchiver.unarchiveObject(with: data) as? FileWrapper
-
-        guard let wrappers = wrapper?.fileWrappers else { return }
+        guard let wrapper = contents as? FileWrapper else { return }
+        guard let wrappers = wrapper.fileWrappers else { return }
 
         let userWrapper = wrappers["user"]
         let tokenWrapper = wrappers["token"]
