@@ -86,32 +86,18 @@ open class PersonDescription: NSObject, Serialisable {
     }
     
     public func formatted() -> String? {
-        var initialString = ""
+        var formattedComponents: [String] = []
+
         if let height = height {
-            initialString = "\(height) cm "
+            formattedComponents.append("\(height) cm")
         }
 
         if let weight = weight?.ifNotEmpty() {
-            initialString += "\(weight) kg "
+            formattedComponents.append("\(weight) kg")
         }
-        
-        initialString = initialString.trimmingCharacters(in: .whitespaces)
-        
-        var formattedComponents: [String] = []
-        
-        if initialString.isEmpty == false {
-            formattedComponents.append(initialString)
-        }
-        
-        var hair = ""
 
-        if let hairColour = hairColour?.ifNotEmpty() {
-            hair += hairColour.localizedLowercase
-            hair += " "
-        }
-        if hair.isEmpty == false {
-            hair += "hair"
-            formattedComponents.append(hair)
+        if let hairColour = hairColour?.ifNotEmpty()?.localizedLowercase {
+            formattedComponents.append("\(hairColour) hair")
         }
         if let eyeColour = eyeColour?.ifNotEmpty() {
             formattedComponents.append(eyeColour.localizedLowercase + " eyes")
