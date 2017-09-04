@@ -150,7 +150,7 @@ extension AppDelegate: LoginViewControllerDelegate, TermsConditionsViewControlle
                 let nsError = error as NSError
 
                 let alertController = UIAlertController(title: nsError.localizedFailureReason ?? "Error", message: error.localizedDescription, preferredStyle: .alert)
-                alertController.addAction(UIAlertAction(title: "Okay", style: .default))
+                alertController.addAction(UIAlertAction(title: "OK", style: .default))
                 AlertQueue.shared.add(alertController)
             }.always {
                 controller.setLoading(false, animated: true)
