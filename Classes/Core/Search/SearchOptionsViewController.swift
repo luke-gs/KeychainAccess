@@ -190,8 +190,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         //        } else {
         extensionVerticalConstraint = navBarExtension.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor)
         //        }
-        
-        
+
         NSLayoutConstraint.activate([
             navBarExtension.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             navBarExtension.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -203,6 +202,8 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
 
             searchField.heightAnchor.constraint(equalToConstant: SearchFieldCollectionViewCell.cellContentHeight),
             buttonField.heightAnchor.constraint(equalToConstant: SearchFieldAdvanceCell.cellContentHeight),
+
+            NSLayoutConstraint(item: searchField, attribute: .width, relatedBy: .equal, toConstant: SearchFieldCollectionViewCell.preferredWidth, priority: UILayoutPriorityDefaultHigh)
         ])
 
         reloadSearchStyle()
@@ -638,10 +639,11 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
             
             NSLayoutConstraint.activate([
                 NSLayoutConstraint(item: searchField, attribute: .top, relatedBy: .equal, toItem: searchContainer, attribute: .topMargin, constant: 0.0),
-                NSLayoutConstraint(item: searchField, attribute: .leading, relatedBy: .equal, toItem: searchContainer, attribute: .leadingMargin, constant: 0.0),
-                NSLayoutConstraint(item: searchField, attribute: .trailing, relatedBy: .equal, toItem: searchContainer, attribute: .trailingMargin, constant: 0.0),
+                NSLayoutConstraint(item: searchField, attribute: .leading, relatedBy: .greaterThanOrEqual, toItem: searchContainer, attribute: .leadingMargin, constant: 0.0),
+                NSLayoutConstraint(item: searchField, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: searchContainer, attribute: .trailingMargin, constant: 0.0),
                 NSLayoutConstraint(item: searchField, attribute: .bottom, relatedBy: .equal, toItem: searchContainer, attribute: .bottomMargin, constant: 0.0),
-                ])
+                NSLayoutConstraint(item: searchField, attribute: .centerX, relatedBy: .equal, toItem: searchContainer, attribute: .centerX, constant: 0.0),
+            ])
         }
         
         let textField = searchField.textField
