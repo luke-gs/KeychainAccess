@@ -8,10 +8,10 @@
 import UIKit
 
 /// Subclass of UIPageViewController that observes changes to the content offset of the scroll view and notifies delegate
-public class ScrollAwarePageViewController: UIPageViewController {
+open class ScrollAwarePageViewController: UIPageViewController {
 
     /// The scroll delegate
-    public var scrollDelegate: UIScrollViewDelegate?
+    open weak var scrollDelegate: UIScrollViewDelegate?
 
     /// Context for KVO observing
     private var kvoContext = 0
@@ -19,7 +19,7 @@ public class ScrollAwarePageViewController: UIPageViewController {
     /// The page view controller's scrollview
     private var scrollView: UIScrollView?
 
-    public override func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
 
         // Find the child scrollview
@@ -35,7 +35,7 @@ public class ScrollAwarePageViewController: UIPageViewController {
         scrollView?.removeObserver(self, forKeyPath: #keyPath(UIScrollView.contentOffset), context: &kvoContext)
     }
 
-    public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {
             if let scrollView = scrollView, let scrollDelegate = scrollDelegate, keyPath == #keyPath(UIScrollView.contentOffset), isViewLoaded {
                 scrollDelegate.scrollViewDidScroll!(scrollView)

@@ -1,6 +1,6 @@
 //
 //  SidebarItem.swift
-//  Test
+//  MPOLKit
 //
 //  Created by Rod Brown on 10/2/17.
 //  Copyright © 2017 Gridstone. All rights reserved.
@@ -45,4 +45,26 @@ open class SidebarItem: NSObject {
     ///
     /// When nil, the icon is not displayed. The default is `nil`.
     @NSCopying open dynamic var alertColor: UIColor?
+}
+
+
+// MARK: - UIViewController extension
+
+/// Global var for unique address as the assoc object handle
+fileprivate var SidebarAssociatedObjectHandle: UInt8 = 0
+
+extension UIViewController {
+
+    /// The sidebar item for the view controller. Automatically created lazily upon request.
+    open var sidebarItem: SidebarItem {
+        if let sidebarItem = objc_getAssociatedObject(self, &SidebarAssociatedObjectHandle) as? SidebarItem {
+            return sidebarItem
+        }
+
+        let newItem = SidebarItem()
+        newItem.title = title
+        newItem.image = tabBarItem?.image
+        objc_setAssociatedObject(self, &SidebarAssociatedObjectHandle, newItem, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        return newItem
+    }
 }

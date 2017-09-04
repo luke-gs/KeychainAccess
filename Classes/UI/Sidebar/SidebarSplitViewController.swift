@@ -323,31 +323,3 @@ extension SidebarSplitViewController: UIScrollViewDelegate {
     }
 }
 
-// MARK: - UIViewController extension
-
-fileprivate var SidebarAssociatedObjectHandle: UInt8 = 0
-
-/// Sidebar Item - UIViewController support
-extension UIViewController {
-    
-    /// The sidebar item for the view controller. Automatically created lazily upon request.
-    open var sidebarItem: SidebarItem {
-        if let sidebarItem = objc_getAssociatedObject(self, &SidebarAssociatedObjectHandle) as? SidebarItem {
-            return sidebarItem
-        }
-        
-        let newItem = SidebarItem()
-        newItem.title = title
-        newItem.image = tabBarItem?.image
-        objc_setAssociatedObject(self, &SidebarAssociatedObjectHandle, newItem, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        return newItem
-    }
-    
-}
-
-/// Convenience method to get the navigation controller for the detail, or create one if necessary.
-fileprivate func navController(forDetail detail: UIViewController) -> UINavigationController {
-    return detail as? UINavigationController ?? detail.navigationController ?? UINavigationController(rootViewController: detail)
-}
-
-
