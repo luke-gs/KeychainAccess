@@ -52,10 +52,10 @@ class SearchFieldCollectionViewCell: CollectionViewFormCell {
         selectionStyle = .underline
         
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.font          = .systemFont(ofSize: 28.0, weight: UIFontWeightBold)
-        textField.textColor     = .darkGray
-        textField.textAlignment = .center
+        textField.font = .systemFont(ofSize: 28.0, weight: UIFontWeightBold)
+        textField.textColor = .darkGray
         textField.returnKeyType = .search
+        textField.clearButtonMode = .whileEditing
         textField.enablesReturnKeyAutomatically = true
         textField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("Search", comment: ""),
                                                              attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 28.0, weight: UIFontWeightLight), NSForegroundColorAttributeName: UIColor.lightGray])
