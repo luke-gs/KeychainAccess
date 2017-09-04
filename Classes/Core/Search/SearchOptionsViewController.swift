@@ -190,8 +190,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         //        } else {
         extensionVerticalConstraint = navBarExtension.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor)
         //        }
-        
-        
+
         NSLayoutConstraint.activate([
             navBarExtension.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             navBarExtension.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -203,6 +202,8 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
 
             searchField.heightAnchor.constraint(equalToConstant: SearchFieldCollectionViewCell.cellContentHeight),
             buttonField.heightAnchor.constraint(equalToConstant: SearchFieldAdvanceCell.cellContentHeight),
+
+            NSLayoutConstraint(item: searchField, attribute: .width, relatedBy: .equal, toConstant: SearchFieldCollectionViewCell.preferredWidth, priority: UILayoutPriorityDefaultHigh)
         ])
 
         reloadSearchStyle()
@@ -268,7 +269,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         let style = selectedDataSource.searchStyle
         
         switch style {
-        case .search(let configure, _, let message):
+        case .search(let configure, _, _):
             prepareSearchField()
             
             let textField = searchField.textField
@@ -311,7 +312,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
             let current = searchContainer.layoutMargins
             
             if let message = message {
-                let to = max(preferred.bottom, SearchFieldCollectionViewCell.heightForValidationAccessory(withText: message ?? "", contentWidth: searchField.contentView.bounds.width, compatibleWith: traitCollection) + 2.0)
+                let to = max(preferred.bottom, SearchFieldCollectionViewCell.heightForValidationAccessory(withText: message, contentWidth: searchField.contentView.bounds.width, compatibleWith: traitCollection) + 2.0)
                 
                 if current.bottom != to {
                     errorHeight = to
@@ -638,10 +639,11 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
             
             NSLayoutConstraint.activate([
                 NSLayoutConstraint(item: searchField, attribute: .top, relatedBy: .equal, toItem: searchContainer, attribute: .topMargin, constant: 0.0),
-                NSLayoutConstraint(item: searchField, attribute: .leading, relatedBy: .equal, toItem: searchContainer, attribute: .leadingMargin, constant: 0.0),
-                NSLayoutConstraint(item: searchField, attribute: .trailing, relatedBy: .equal, toItem: searchContainer, attribute: .trailingMargin, constant: 0.0),
+                NSLayoutConstraint(item: searchField, attribute: .leading, relatedBy: .greaterThanOrEqual, toItem: searchContainer, attribute: .leadingMargin, constant: 0.0),
+                NSLayoutConstraint(item: searchField, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: searchContainer, attribute: .trailingMargin, constant: 0.0),
                 NSLayoutConstraint(item: searchField, attribute: .bottom, relatedBy: .equal, toItem: searchContainer, attribute: .bottomMargin, constant: 0.0),
-                ])
+                NSLayoutConstraint(item: searchField, attribute: .centerX, relatedBy: .equal, toItem: searchContainer, attribute: .centerX, constant: 0.0),
+            ])
         }
         
         let textField = searchField.textField

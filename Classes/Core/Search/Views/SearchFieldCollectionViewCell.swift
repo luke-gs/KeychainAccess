@@ -11,8 +11,7 @@ import UIKit
 
 class SearchFieldCollectionViewCell: CollectionViewFormCell {
     
-    private static let preferredSeparatorWidth: CGFloat = 480.0
-    private static let minimumForPreferredSeparatorWidth: CGFloat = 500.0
+    public static let preferredWidth: CGFloat = 512.0
     
     public static var cellContentHeight: CGFloat { return 64.0 }
     
@@ -20,23 +19,7 @@ class SearchFieldCollectionViewCell: CollectionViewFormCell {
     // MARK: - Properties
     
     public let textField = UITextField(frame: .zero)
-    
-    public override var frame: CGRect {
-        didSet {
-            if frame.width != oldValue.width {
-                updateSeparatorInsets()
-            }
-        }
-    }
-    
-    public override var bounds: CGRect {
-        didSet {
-            if bounds.width != oldValue.width {
-                updateSeparatorInsets()
-            }
-        }
-    }
-    
+
     open override var isSelected: Bool {
         didSet {
             if isSelected && oldValue == false && textField.isEnabled {
@@ -62,19 +45,7 @@ class SearchFieldCollectionViewCell: CollectionViewFormCell {
     }
     
     private let buttonStackView = UIStackView(frame: .zero)
-    
-    // MARK: - Initializers
-    
-    public override init(frame: CGRect) {
-        super.init(frame: frame)
-        commonInit()
-    }
-    
-    public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        commonInit()
-    }
-    
+
     internal override func commonInit() {
         super.commonInit()
         
@@ -96,22 +67,18 @@ class SearchFieldCollectionViewCell: CollectionViewFormCell {
         let contentView = self.contentView
         contentView.addSubview(textField)
         contentView.addSubview(buttonStackView)
-        
+
         NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: textField, attribute: .centerX, relatedBy: .equal, toItem: contentView, attribute: .centerX, priority: UILayoutPriorityDefaultHigh),
             NSLayoutConstraint(item: textField, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, constant: 3.0),
-            NSLayoutConstraint(item: textField, attribute: .leading, relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .leadingMargin, priority: UILayoutPriorityDefaultHigh),
+            NSLayoutConstraint(item: textField, attribute: .leading, relatedBy: .equal, toItem: contentView, attribute: .leading),
             
             NSLayoutConstraint(item: buttonStackView, attribute: .leading, relatedBy: .equal, toItem: textField, attribute: .trailing, constant: 5.0, priority: UILayoutPriorityDefaultHigh + 1),
-            NSLayoutConstraint(item: buttonStackView, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentView, attribute: .trailingMargin),
+            NSLayoutConstraint(item: buttonStackView, attribute: .trailing, relatedBy: .equal, toItem: contentView, attribute: .trailing),
             NSLayoutConstraint(item: buttonStackView, attribute: .centerY, relatedBy: .equal, toItem: textField, attribute: .centerY),
             NSLayoutConstraint(item: buttonStackView, attribute: .height, relatedBy: .equal, toConstant: 28),
-            
-            NSLayoutConstraint(item: buttonStackView, attribute: .trailing, relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .centerX, constant: SearchFieldCollectionViewCell.preferredSeparatorWidth / 2.0, priority: UILayoutPriorityDefaultHigh)
+
         ])
-        
-        updateSeparatorInsets()
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(textFieldDidBeginEditing(_:)), name: .UITextFieldTextDidBeginEditing, object: textField)
         NotificationCenter.default.addObserver(self, selector: #selector(textFieldDidEndEditing(_:)),   name: .UITextFieldTextDidEndEditing,   object: textField)
         
@@ -123,13 +90,7 @@ class SearchFieldCollectionViewCell: CollectionViewFormCell {
         get { return textField.text }
         set { }
     }
-    
-    public override class func heightForValidationAccessory(withText text: String, contentWidth: CGFloat, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
-        
-        let preferredContentWidth = contentWidth < SearchFieldCollectionViewCell.minimumForPreferredSeparatorWidth ? contentWidth : SearchFieldCollectionViewCell.preferredSeparatorWidth
-        return super.heightForValidationAccessory(withText: text, contentWidth: preferredContentWidth, compatibleWith: traitCollection)
-    }
-    
+
     // MARK: - Private methods
     
     @objc private func textFieldDidBeginEditing(_ notification: NSNotification) {
@@ -143,16 +104,6 @@ class SearchFieldCollectionViewCell: CollectionViewFormCell {
         
         self.isSelected = false
     }
-    
-    private func updateSeparatorInsets() {
-        let width = bounds.width
-        if width < SearchFieldCollectionViewCell.minimumForPreferredSeparatorWidth {
-            customSeparatorInsets = nil
-        } else {
-            let widthInset = ((width - SearchFieldCollectionViewCell.preferredSeparatorWidth) / 2.0)
-            customSeparatorInsets = UIEdgeInsets(top: 0.0, left: widthInset, bottom: 0.0, right: widthInset)
-        }
-    }
-    
+
 }
 
