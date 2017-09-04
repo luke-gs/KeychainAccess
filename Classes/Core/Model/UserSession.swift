@@ -40,7 +40,7 @@ public class UserSession: NSObject {
         }
     }
 
-    public var recentlyViewed: [MPOLKitEntity]? {
+    public var recentlyViewed: [MPOLKitEntity] {
         set {
             self.document.recentlyViewed = newValue
             saveSession()
@@ -50,7 +50,7 @@ public class UserSession: NSObject {
         }
     }
 
-    public var recentlySearched: [Searchable]? {
+    public var recentlySearched: [Searchable] {
         set {
             self.document.recentlySearched = newValue
             saveSession()
@@ -72,13 +72,10 @@ public class UserSession: NSObject {
             .appendingPathComponent("sessions", isDirectory: true)
             .appendingPathComponent(sessionID)
 
-        do {
-            try FileManager.default.createDirectory(at: url.deletingLastPathComponent(),
-                                                    withIntermediateDirectories: true,
-                                                    attributes: [:])
-        } catch {
-            print(error)
-        }
+        try! FileManager.default.createDirectory(at: url.deletingLastPathComponent(),
+                                                 withIntermediateDirectories: true,
+                                                 attributes: [:])
+
 
         UserDefaults.standard.set(sessionID, forKey: latestSessionKey)
 
@@ -87,7 +84,7 @@ public class UserSession: NSObject {
 
     public func restoreSession(completion: @escaping ((Bool)->())) {
         document.open { success in
-            completion(self.user == nil)
+            completion(self.user != nil)
         }
     }
 
@@ -104,7 +101,7 @@ public class UserSession: NSObject {
             UserSession.current.loadUserFromCache()
             UserSession.current.saveUserToCache()
 
-            completion(true)
+            completion(success)
         }
     }
 
@@ -115,8 +112,8 @@ public class UserSession: NSObject {
     public func endSession() {
         user = nil
         token = nil
-        recentlySearched = nil
-        recentlyViewed = nil
+        recentlySearched = []
+        recentlyViewed = []
         UserDefaults.standard.set(nil, forKey: latestSessionKey)
     }
 
@@ -142,7 +139,7 @@ public class UserSession: NSObject {
         let fullUrl = userDir.appendingPathComponent(username)
         try? FileManager.default.createDirectory(at: userDir, withIntermediateDirectories: true, attributes: [:])
 
-        print("Saved: \(NSKeyedArchiver.archiveRootObject(user, toFile: fullUrl.path))")
+        NSKeyedArchiver.archiveRootObject(user, toFile: fullUrl.path)
 
         document.updateUserReference()
 
@@ -152,9 +149,9 @@ public class UserSession: NSObject {
     private func loadUserFromCache() {
         guard let username = user?.username else { return }
         let url = UserSession.basePath.appendingPathComponent("user").appendingPathComponent(username).path
-        let someRandomData = NSKeyedUnarchiver.unarchiveObject(withFile: url)
+        let possiblyActualUser = NSKeyedUnarchiver.unarchiveObject(withFile: url)
 
-        if let validUser = someRandomData as? User {
+        if let validUser = possiblyActualUser as? User {
             self.user = validUser
             saveUserToCache()
         }
@@ -177,13 +174,13 @@ fileprivate class UserSessionDocument: UIDocument {
         }
     }
 
-    var recentlyViewed: [MPOLKitEntity]? = [] {
+    var recentlyViewed: [MPOLKitEntity] = [] {
         didSet {
             replaceWrapper(key: "recentlyViewed", object: recentlyViewed)
         }
     }
 
-    var recentlySearched: [Searchable]? = [] {
+    var recentlySearched: [Searchable] = [] {
         didSet {
             replaceWrapper(key: "recentlySearched", object: recentlySearched)
         }
@@ -238,8 +235,8 @@ fileprivate class UserSessionDocument: UIDocument {
 
         let user = NSKeyedUnarchiver.unarchiveObject(withFile: userPath.path) as? User
         let token = NSKeyedUnarchiver.unarchiveObject(with: (tokenWrapper?.regularFileContents)!) as? OAuthAccessToken
-        let recentlyViewed = NSKeyedUnarchiver.unarchiveObject(with: (recentlyViewedWrapper?.regularFileContents)!) as? [MPOLKitEntity]
-        let recentlySearched = NSKeyedUnarchiver.unarchiveObject(with: (recentlySearchedWrapper?.regularFileContents)!) as? [Searchable]
+        let recentlyViewed = NSKeyedUnarchiver.unarchiveObject(with: (recentlyViewedWrapper?.regularFileContents)!) as! [MPOLKitEntity]
+        let recentlySearched = NSKeyedUnarchiver.unarchiveObject(with: (recentlySearchedWrapper?.regularFileContents)!) as! [Searchable]
         
         self.user = user
         self.token = token

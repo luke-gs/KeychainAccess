@@ -71,6 +71,8 @@ class SearchRecentsViewController: FormCollectionViewController {
         super.init()
         self.title = viewModel.title
         formLayout.pinsGlobalHeaderWhenBouncing = true
+
+        recentlySearched = UserSession.current.recentlySearched
     }
 
     public required convenience init?(coder aDecoder: NSCoder) {
