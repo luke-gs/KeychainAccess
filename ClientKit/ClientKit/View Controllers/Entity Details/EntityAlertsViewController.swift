@@ -197,7 +197,7 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
 }
 
 
-extension EntityAlertsViewController: EntityDetailsViewModelDelegate {
+extension EntityAlertsViewController: EntityDetailViewModelDelegate {
     public func updateSidebarItemCount(_ count: UInt) {
         sidebarItem.count = count
     }

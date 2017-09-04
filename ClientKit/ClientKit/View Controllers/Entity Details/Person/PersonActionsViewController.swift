@@ -191,7 +191,7 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
     
 }
 
-extension PersonActionsViewController: EntityDetailsViewModelDelegate {
+extension PersonActionsViewController: EntityDetailViewModelDelegate {
     
     public func updateSidebarItemCount(_ count: UInt) {
         sidebarItem.count = count

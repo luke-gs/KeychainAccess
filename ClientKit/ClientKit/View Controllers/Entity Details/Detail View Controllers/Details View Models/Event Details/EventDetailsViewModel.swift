@@ -16,7 +16,7 @@ public class EventDetailsViewModel: EventDetailsViewModelable {
     
     public var event: Event
     
-    public weak var delegate: EntityDetailsViewModelDelegate?
+    public weak var delegate: EntityDetailViewModelDelegate?
     
     public var sections: [SectionType] = [] {
         didSet {

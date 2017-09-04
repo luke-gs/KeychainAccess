@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import MPOLKit
 
 public class PersonDetailsSectionsDataSource: EntityDetailSectionsDataSource  {
 
@@ -14,17 +15,17 @@ public class PersonDetailsSectionsDataSource: EntityDetailSectionsDataSource  {
         return NSLocalizedString("Person", comment: "")
     }
 
-    public var detailsViewControllers: [EntityDetailCollectionViewController] = [ PersonInfoViewController(),
+    public var detailViewControllers: [EntityDetailSectionUpdatable] = [ PersonInfoViewController(),
                                                                                   EntityAlertsViewController(),
                                                                                   EntityAssociationsViewController(),
                                                                                   PersonOccurrencesViewController(),
                                                                                   PersonCriminalHistoryViewController()]
 
-    public func fetchModel(for entity: Entity, sources: [MPOLSource]) -> Fetchable {
+    public func fetchModel(for entity: MPOLKitEntity, sources: [EntitySource]) -> Fetchable {
         let requests = sources.map {
-            PersonFetchRequest(source: $0, request: EntityFetchRequest<Person>(id: entity.id))
+            PersonFetchRequest(source: $0 as! MPOLSource, request: EntityFetchRequest<Person>(id: entity.id))
         }
-        return EntityDetailsFetch<Person>(requests: requests)
+        return EntityDetailFetch<Person>(requests: requests)
     }
 
 }

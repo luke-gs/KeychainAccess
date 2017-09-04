@@ -9,12 +9,12 @@
 import Foundation
 import MPOLKit
 
-public class PersonInfoViewModel: EntityDetailsViewModelable {
+public class PersonInfoViewModel: EntityDetailViewModelable {
     
     /// Specify the concrete type for sections
     public typealias DetailsType = PersonInfo
     
-    public weak var delegate: EntityDetailsViewModelDelegate?
+    public weak var delegate: EntityDetailViewModelDelegate?
     
     // MARK: - Initialize
     

@@ -9,11 +9,11 @@
 import Foundation
 import MPOLKit
 
-public class VehicleInfoViewModel: EntityDetailsViewModelable {
+public class VehicleInfoViewModel: EntityDetailViewModelable {
     
     public typealias DetailsType = VehicleInfo
     
-    public weak var delegate: EntityDetailsViewModelDelegate?
+    public weak var delegate: EntityDetailViewModelDelegate?
     
     // MARK - Entity
     public var vehicle: Vehicle? {

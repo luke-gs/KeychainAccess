@@ -10,13 +10,13 @@ import Foundation
 import MPOLKit
 
 /// A base viewModel to provide generic implementation
-public class PersonDetailsViewModel<T>: EntityDetailsViewModelable {
+public class PersonDetailsViewModel<T>: EntityDetailViewModelable {
     
     /// Generic section type
     public typealias DetailsType = T
     
     /// A delegate for update UI
-    weak public var delegate: EntityDetailsViewModelDelegate?
+    weak public var delegate: EntityDetailViewModelDelegate?
     
     public var person: Person? {
         didSet {

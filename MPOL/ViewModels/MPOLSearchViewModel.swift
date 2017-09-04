@@ -20,7 +20,7 @@ class MPOLSearchViewModel: SearchViewModel {
     ]
 
     func detailViewController(for entity: MPOLKitEntity) -> UIViewController? {
-        let viewController = EntityDetailsSplitViewController(entity: entity as! Entity)
+        let viewController = EntityDetailSplitViewController(entity: entity as! Entity)
 
         // FIXME: - Sample code to handle different entity
         if entity is Person {

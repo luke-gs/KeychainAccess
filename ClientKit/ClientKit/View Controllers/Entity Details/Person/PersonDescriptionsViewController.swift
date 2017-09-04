@@ -100,7 +100,7 @@ class PersonDescriptionsViewController: FormCollectionViewController {
 
 }
 
-extension PersonDescriptionsViewController: EntityDetailsViewModelDelegate {
+extension PersonDescriptionsViewController: EntityDetailViewModelDelegate {
     public func reloadData() {
         collectionView?.reloadData()
     }

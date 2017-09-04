@@ -265,7 +265,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
 
 }
 
-extension PersonInfoViewController: EntityDetailsViewModelDelegate {
+extension PersonInfoViewController: EntityDetailViewModelDelegate {
 
    public func reloadData() {
         collectionView?.reloadData()

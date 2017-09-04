@@ -21,8 +21,8 @@ public protocol EventDetailsViewModelable {
     var event        : Event { get }
     /// List of sections
     var sections     : [SectionType] { get }
-    weak var delegate: EntityDetailsViewModelDelegate? { get }
-    
+//    weak var delegate: EntityDetailViewModelDelegate? { get }
+
     
     // MARK: Generic methods
     
