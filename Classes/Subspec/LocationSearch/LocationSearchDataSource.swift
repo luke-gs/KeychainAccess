@@ -219,12 +219,20 @@ public class LocationSearchDataSource<T: LocationAdvanceOptions, U: LocationSear
     
     @objc private func lookupLocations() {
         guard let text = text, text.characters.count >= searchStrategy.configuration.minimumCharacters else {
+            lastSearchText = nil
+            errorMessage = nil
+
+            if basicOptions.results.count != 0 {
+                basicOptions.results = []
+                updatingDelegate?.searchDataSource(self, didUpdateComponent: .filter(index: nil))
+            }
+
             return
         }
         
         if let promise = self.searchStrategy.locationTypeaheadPromise(text: text) {
-            self.lastSearchText = text
-            self.errorMessage = nil
+            lastSearchText = text
+            errorMessage = nil
 
             promise.then { [weak self] locations -> () in
                 guard let `self` = self, self.lastSearchText == text else { return }
@@ -251,14 +259,6 @@ public class LocationSearchDataSource<T: LocationAdvanceOptions, U: LocationSear
     
     private func searchTextDidChange(_ text: String?, _ endEditing: Bool) {
         self.text = text
-
-        self.lastSearchText = nil
-        self.errorMessage = nil
-
-        if basicOptions.results.count != 0 {
-            basicOptions.results = []
-            updatingDelegate?.searchDataSource(self, didUpdateComponent: .filter(index: nil))
-        }
 
         attemptSearch(delay: !endEditing)
     }
