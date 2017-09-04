@@ -194,6 +194,26 @@ open class HorizontalSidebarViewController: UIViewController {
         return ThemeManager.shared.theme(for: .current).statusBarStyle
     }
 
+    // MARK: - Public methods
+
+    public func setScrollOffsetPercent(_ percent: CGFloat) {
+        if let selectedItem = selectedItem, let itemIndex = items.index(of: selectedItem) {
+            let fromCell = cells[itemIndex]
+            var toCell: HorizontalSidebarCell?
+            if percent > 0 && itemIndex + 1 < cells.count {
+                toCell = cells[itemIndex+1]
+            } else if percent < 0 && itemIndex > 0 {
+                toCell = cells[itemIndex-1]
+            }
+
+            if let toCell = toCell {
+                // Scroll part way to next cell
+                let offset = fabs(fromCell.center.x - toCell.center.x) * percent
+                setScrollOffsetForItem(itemIndex, offset: offset, animated: false)
+            }
+        }
+    }
+
     // MARK: - Private methods
 
     private func updateCells() {
@@ -219,12 +239,15 @@ open class HorizontalSidebarViewController: UIViewController {
             // Force layout of stack view as fonts have changed, and we need position of this item
             sidebarStackView.setNeedsLayout()
             sidebarStackView.layoutIfNeeded()
-
-            // Scroll so that the selected item is centered
-            let leftAligned = view.bounds.width + cell.frame.origin.x
-            let centerAligned = leftAligned - (view.bounds.width - cell.bounds.width) / 2 + LayoutConstants.scrollViewMargin
-            scrollView.setContentOffset(CGPoint(x: centerAligned, y: 0), animated: true)
+            setScrollOffsetForItem(index, offset: 0, animated: true)
         }
+    }
+
+    private func setScrollOffsetForItem(_ itemIndex: Int, offset: CGFloat, animated: Bool) {
+        let cell = cells[itemIndex]
+        let leftAligned = view.bounds.width + cell.frame.origin.x
+        let centerAligned = leftAligned - (view.bounds.width - cell.bounds.width) / 2 + LayoutConstants.scrollViewMargin + offset
+        scrollView.setContentOffset(CGPoint(x: centerAligned, y: 0), animated: animated)
     }
 
 }

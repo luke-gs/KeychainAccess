@@ -37,6 +37,7 @@
 		960B1A771F566823004F2E29 /* NavigationControllerWithHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960B1A761F566823004F2E29 /* NavigationControllerWithHeader.swift */; };
 		960B1A791F577456004F2E29 /* HorizontalSidebarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960B1A781F577456004F2E29 /* HorizontalSidebarViewController.swift */; };
 		960B1A7B1F57750C004F2E29 /* HorizontalSidebarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960B1A7A1F57750C004F2E29 /* HorizontalSidebarCell.swift */; };
+		961FBF3E1F5CE67F00E42E19 /* ScrollAwarePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961FBF3D1F5CE67E00E42E19 /* ScrollAwarePageViewController.swift */; };
 		BA6FEAA4EFE7F66EBAE4C2DC /* Pods_MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9215372B17F43A2FDEB28AD0 /* Pods_MPOLKit.framework */; };
 		BC0448941F219A70005FB857 /* AssetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0448931F219A70005FB857 /* AssetManager.swift */; };
 		BC0EA3F41F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0EA3F31F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift */; };
@@ -270,6 +271,7 @@
 		960B1A761F566823004F2E29 /* NavigationControllerWithHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationControllerWithHeader.swift; sourceTree = "<group>"; };
 		960B1A781F577456004F2E29 /* HorizontalSidebarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalSidebarViewController.swift; sourceTree = "<group>"; };
 		960B1A7A1F57750C004F2E29 /* HorizontalSidebarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalSidebarCell.swift; sourceTree = "<group>"; };
+		961FBF3D1F5CE67E00E42E19 /* ScrollAwarePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollAwarePageViewController.swift; sourceTree = "<group>"; };
 		BC0448931F219A70005FB857 /* AssetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetManager.swift; sourceTree = "<group>"; };
 		BC0EA3F31F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCollectionViewSidebarLayout.swift; sourceTree = "<group>"; };
 		BC1B25B91F2707270090C0AA /* MPOLBarButtonItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPOLBarButtonItems.swift; sourceTree = "<group>"; };
@@ -902,13 +904,14 @@
 		BC9C7DAF1F0DED6600DFFE83 /* Sidebar */ = {
 			isa = PBXGroup;
 			children = (
+				960B1A7A1F57750C004F2E29 /* HorizontalSidebarCell.swift */,
+				960B1A781F577456004F2E29 /* HorizontalSidebarViewController.swift */,
+				960B1A761F566823004F2E29 /* NavigationControllerWithHeader.swift */,
+				961FBF3D1F5CE67E00E42E19 /* ScrollAwarePageViewController.swift */,
 				BC9C7DB01F0DED6600DFFE83 /* SidebarItem.swift */,
 				BC9C7DB11F0DED6600DFFE83 /* SidebarSplitViewController.swift */,
 				BC9C7DB21F0DED6600DFFE83 /* SidebarTableViewCell.swift */,
 				BC9C7DB31F0DED6600DFFE83 /* SidebarViewController.swift */,
-				960B1A761F566823004F2E29 /* NavigationControllerWithHeader.swift */,
-				960B1A781F577456004F2E29 /* HorizontalSidebarViewController.swift */,
-				960B1A7A1F57750C004F2E29 /* HorizontalSidebarCell.swift */,
 			);
 			path = Sidebar;
 			sourceTree = "<group>";
@@ -1401,6 +1404,7 @@
 				BC9C7E371F0DED6600DFFE83 /* KeyboardAnimationDetails.swift in Sources */,
 				BC9C7DD51F0DED6600DFFE83 /* ParseError.swift in Sources */,
 				BC9C7E201F0DED6600DFFE83 /* FormTableViewController.swift in Sources */,
+				961FBF3E1F5CE67F00E42E19 /* ScrollAwarePageViewController.swift in Sources */,
 				DB88BCDD1F42D0080056FD69 /* SearchResultsListViewController.swift in Sources */,
 				BC9C7DF61F0DED6600DFFE83 /* CollectionViewFormDetailCell.swift in Sources */,
 				BC9C7DF11F0DED6600DFFE83 /* EpochDateTransformer.swift in Sources */,

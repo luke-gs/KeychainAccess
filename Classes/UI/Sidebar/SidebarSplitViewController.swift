@@ -9,22 +9,26 @@
 import UIKit
 
 /// The `SidebarSplitViewController` represents a standard split view controller
-/// with a standard MPOL sidebar configuration.
+/// with a standard MPOL sidebar configuration in regular mode, and a horizontal menu when in compact.
 ///
 /// You can either initialize with detail view controllers, and configure the sidebar directly
 /// as required, or subclass as a point of abstraction between the sidebar and it's detail.
-open class SidebarSplitViewController: PushableSplitViewController, SidebarViewControllerDelegate {
+open class SidebarSplitViewController: PushableSplitViewController {
     
     /// The sidebar view controller when displayed horizontally in compact mode
     public var horizontalSidebarViewController: HorizontalSidebarViewController = HorizontalSidebarViewController()
 
     /// The sidebar view controller for the split view controller.
     public let sidebarViewController: SidebarViewController = SidebarViewController()
-    
-    public let masterNavController: NavigationControllerWithHeader
-    public let detailNavController: UINavigationController
-    public let pageViewController: UIPageViewController
 
+    // The navigation controller for the master side of split view
+    public let masterNavController: NavigationControllerWithHeader
+
+    // The navigation controller for the detail side of split view
+    public let detailNavController: UINavigationController
+
+    // The page view controller for handling compact mode paging behaviour
+    public let pageViewController: ScrollAwarePageViewController
 
     /// The title to use for main navigation controller when in regular size
     open var regularTitle: String? {
@@ -40,44 +44,23 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
     public var detailViewControllers: [UIViewController] {
         didSet {
             sidebarViewController.items = detailViewControllers.map { $0.sidebarItem }
-            
             if let oldSelected = selectedViewController, detailViewControllers.contains(oldSelected) == false {
                 selectedViewController = nil
             }
         }
     }
-    
-    
+
     /// The selected view controller.
     public var selectedViewController: UIViewController? {
         didSet {
             if let newValue = selectedViewController {
                 precondition(detailViewControllers.contains(newValue), "`selectedViewController` must be a member of detailViewControllers.")
             }
-            sidebarViewController.selectedItem = selectedViewController?.sidebarItem
-            horizontalSidebarViewController.selectedItem = sidebarViewController.selectedItem
-            if let selectedViewController = selectedViewController {
-                if self.isCompact() {
-                    pageViewController.setViewControllers([selectedViewController], direction: .forward, animated: false, completion: nil)
-                    masterNavController.viewControllers = [pageViewController]
-                } else {
-                    detailNavController.viewControllers = [selectedViewController]
-                    embeddedSplitViewController.showDetailViewController(detailNavController, sender: self)
-                }
-            } else if let defaultViewController = detailViewControllers.first {
-                // No selection, use first detail if compact (can't show nothing)
-                if self.isCompact() {
-                    pageViewController.setViewControllers([defaultViewController], direction: .forward, animated: false, completion: nil)
-                    masterNavController.viewControllers = [pageViewController]
-                } else {
-                    detailNavController.viewControllers = []
-                    embeddedSplitViewController.showDetailViewController(detailNavController, sender: self)
-                }
+            if selectedViewController != oldValue {
+                updateSplitViewControllerForSelection()
             }
-            updateNavigationBarForSelection()
         }
     }
-    
 
     /// Is the split view controller being rendered in compact environment, hence collapsed
     public func isCompact() -> Bool {
@@ -94,7 +77,7 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
         selectedViewController = detailViewControllers.first { $0.sidebarItem.isEnabled }
 
         // Set up the page controller
-        pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
+        pageViewController = ScrollAwarePageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
 
         masterNavController = NavigationControllerWithHeader(rootViewController: sidebarViewController)
         detailNavController = UINavigationController()
@@ -113,6 +96,7 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
 
         super.init(viewControllers: [masterNavController, detailNavController])
 
+        pageViewController.scrollDelegate = self
         pageViewController.dataSource = self
         pageViewController.delegate = self
 
@@ -155,6 +139,35 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
     /// A callback indicating the collapsed state of the split changed.
     open func collapsedStateDidChange() {}
     
+    // MARK: - Private methods
+
+    private func updateSplitViewControllerForSelection() {
+        // Update the highlighted menu item
+        sidebarViewController.selectedItem = selectedViewController?.sidebarItem
+        horizontalSidebarViewController.selectedItem = sidebarViewController.selectedItem
+
+        // Update the visible view controller
+        if let selectedViewController = selectedViewController {
+            if self.isCompact() {
+                pageViewController.setViewControllers([selectedViewController], direction: .forward, animated: false, completion: nil)
+                masterNavController.viewControllers = [pageViewController]
+            } else {
+                detailNavController.viewControllers = [selectedViewController]
+                embeddedSplitViewController.showDetailViewController(detailNavController, sender: self)
+            }
+        } else if let defaultViewController = detailViewControllers.first {
+            // No selection, use first detail if compact (can't show nothing)
+            if self.isCompact() {
+                pageViewController.setViewControllers([defaultViewController], direction: .forward, animated: false, completion: nil)
+                masterNavController.viewControllers = [pageViewController]
+            } else {
+                detailNavController.viewControllers = []
+                embeddedSplitViewController.showDetailViewController(detailNavController, sender: self)
+            }
+        }
+        updateNavigationBarForSelection()
+    }
+
     // MARK: - iPhone support
 
     open override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -166,7 +179,7 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
             }, completion: nil)
     }
 
-    func updateSplitViewControllerForTraits() {
+    private func updateSplitViewControllerForTraits() {
         if self.isCompact() {
             // Split displayed as single view, with details collapsed on top of master
             // Update the master nav view controller to actually contain the detail, to remove the sidebar
@@ -187,7 +200,7 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
         }
     }
 
-    func updateNavigationBarForSelection() {
+    private func updateNavigationBarForSelection() {
         // Make sure the current master view controller has the back button
         // Note: this can move to detail view controller when switching between regular and compact
         masterNavController.viewControllers.first?.navigationItem.leftBarButtonItems = nil
@@ -213,8 +226,11 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
         }
     }
 
-    // MARK: - SidebarViewControllerDelegate methods
-    
+}
+
+// MARK: - SidebarViewControllerDelegate methods
+extension SidebarSplitViewController: SidebarViewControllerDelegate {
+
     /// Handles when the sidebar selects a new item.
     /// By default, this selects the associated detail view controller.
     ///
@@ -236,10 +252,11 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
     open func sidebarViewController(_ controller: SidebarViewController, didRequestToLoadSourceAt index: Int) {
         
     }
-    
-    
-    // MARK: - UISplitViewControllerDelegate methods
+}
 
+// MARK: - UISplitViewControllerDelegate methods
+extension SidebarSplitViewController {
+    
     open func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
         sidebarViewController.selectedItem = nil
         sidebarViewController.clearsSelectionOnViewWillAppear = true
@@ -262,7 +279,51 @@ open class SidebarSplitViewController: PushableSplitViewController, SidebarViewC
     }
 }
 
+// MARK: - UIPageViewControllerDataSource methods
+extension SidebarSplitViewController: UIPageViewControllerDataSource {
 
+    public func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+        guard let index = detailViewControllers.index(of: viewController), index + 1 < detailViewControllers.count else {
+            return nil
+        }
+        return detailViewControllers[index+1]
+    }
+
+    public func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+        guard let index = detailViewControllers.index(of: viewController), index > 0 else {
+            return nil
+        }
+        return detailViewControllers[index-1]
+    }
+}
+
+// MARK: - UIPageViewControllerDelegate methods
+extension SidebarSplitViewController: UIPageViewControllerDelegate {
+    public func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        if let currentVC = pageViewController.viewControllers?.first {
+            // Dispath update to the selected view controller, so animation is complete
+            DispatchQueue.main.async {
+                if completed {
+                    self.selectedViewController = currentVC
+                }
+            }
+        }
+    }
+}
+
+// MARK: - UIScrollViewDelegate methods
+extension SidebarSplitViewController: UIScrollViewDelegate {
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if isCompact() {
+            // Update the horizontal scrollbar to match the page view
+            let pointX = scrollView.contentOffset.x - view.frame.size.width
+            let percentOffset = pointX / view.frame.size.width
+            horizontalSidebarViewController.setScrollOffsetPercent(percentOffset)
+        }
+    }
+}
+
+// MARK: - UIViewController extension
 
 fileprivate var SidebarAssociatedObjectHandle: UInt8 = 0
 
@@ -289,34 +350,4 @@ fileprivate func navController(forDetail detail: UIViewController) -> UINavigati
     return detail as? UINavigationController ?? detail.navigationController ?? UINavigationController(rootViewController: detail)
 }
 
-// MARK: - Page controller data source
-extension SidebarSplitViewController: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
 
-    public func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        guard let index = detailViewControllers.index(of: viewController) else {
-            return nil
-        }
-        if index + 1 < detailViewControllers.count {
-            return detailViewControllers[index+1]
-        }
-        return nil
-    }
-
-    public func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        guard let index = detailViewControllers.index(of: viewController) else {
-            return nil
-        }
-        if index > 0 {
-            return detailViewControllers[index-1]
-        }
-        return nil
-    }
-
-    public func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-        if let currentVC = pageViewController.viewControllers?.first {
-            DispatchQueue.main.async {
-                self.selectedViewController = currentVC
-            }
-        }
-    }
-}
