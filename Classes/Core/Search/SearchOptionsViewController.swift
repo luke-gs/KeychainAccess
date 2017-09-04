@@ -63,10 +63,29 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
 
             navigationItem.rightBarButtonItem = selectedDataSource.navigationButton
 
-            reloadSearchStyle()
             reloadCollectionViewRetainingEditing()
-            
+
+            if animateOnContentChanged {
+                collectionView?.layoutIfNeeded()
+            }
+
+            reloadSearchStyle(shouldLayout: animateOnContentChanged)
+
             selectedDataSource.updatingDelegate = self
+        }
+    }
+    
+    private var animateOnContentChanged: Bool = false
+    
+    override func updateCalculatedContentHeight() {
+        if calculatesContentHeight == false || isViewLoaded == false { return }
+
+        if animateOnContentChanged {
+            UIView.animate(withDuration: 0.3) {
+                super.updateCalculatedContentHeight()
+            }
+        } else {
+            super.updateCalculatedContentHeight()
         }
     }
 
@@ -240,6 +259,12 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         default: break
         }
     }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        animateOnContentChanged = true
+    }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -265,12 +290,16 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         collectionView.reloadData()
     }
     
-    private func reloadSearchStyle() {
+    private func reloadSearchStyle(shouldLayout force: Bool = false) {
         let style = selectedDataSource.searchStyle
+        
+        var force = force
         
         switch style {
         case .search(let configure, _, _):
-            prepareSearchField()
+            if force == false && buttonField.superview != nil {
+                force = true
+            }
             
             let textField = searchField.textField
             
@@ -289,15 +318,26 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
             textField.delegate = self
             
             reloadSearchErrorMessage()
-        case .button(let configure):
-            searchContainer.layoutMargins = style.preferredLayoutMargins
             
-            prepareButtonField()
+            prepareSearchField()
+        case .button(let configure):
+            if force == false && searchField.superview != nil {
+                force = true
+            }
+            
+            searchContainer.layoutMargins = style.preferredLayoutMargins
             
             let actionButton = buttonField.actionButton
             actionButton.allTargets.forEach { actionButton.removeTarget($0, action: nil, for: .allEvents) }
             
             configure?(actionButton)
+            
+            prepareButtonField()
+        }
+        
+        if force {
+            searchContainer.setNeedsLayout()
+            searchContainer.layoutIfNeeded()
         }
     }
 
@@ -642,20 +682,16 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
                 NSLayoutConstraint(item: searchField, attribute: .leading, relatedBy: .greaterThanOrEqual, toItem: searchContainer, attribute: .leadingMargin, constant: 0.0),
                 NSLayoutConstraint(item: searchField, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: searchContainer, attribute: .trailingMargin, constant: 0.0),
                 NSLayoutConstraint(item: searchField, attribute: .bottom, relatedBy: .equal, toItem: searchContainer, attribute: .bottomMargin, constant: 0.0),
-                NSLayoutConstraint(item: searchField, attribute: .centerX, relatedBy: .equal, toItem: searchContainer, attribute: .centerX, constant: 0.0),
+                NSLayoutConstraint(item: searchField, attribute: .centerX, relatedBy: .equal, toItem: searchContainer, attribute: .centerX, constant: 0.0)
             ])
         }
-        
-        let textField = searchField.textField
-        
-        textField.keyboardType = .asciiCapable
-        textField.autocapitalizationType = .words
-        textField.autocorrectionType = .no
-        textField.returnKeyType = .search
-        textField.attributedPlaceholder = nil
     }
     
     private func prepareButtonField() {
+        if searchField.isSelected {
+            searchField.isSelected = false
+        }
+        
         if buttonField.superview == nil {
             searchField.removeFromSuperview()
             searchContainer.addSubview(buttonField)
@@ -664,17 +700,8 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
                 buttonField.topAnchor.constraint(equalTo: searchContainer.layoutMarginsGuide.topAnchor),
                 buttonField.leadingAnchor.constraint(equalTo: searchContainer.layoutMarginsGuide.leadingAnchor),
                 buttonField.trailingAnchor.constraint(equalTo: searchContainer.layoutMarginsGuide.trailingAnchor),
-                buttonField.bottomAnchor.constraint(equalTo: searchContainer.layoutMarginsGuide.bottomAnchor),
-                
-                ])
-            
-            searchContainer.layoutIfNeeded()
-            legacy_additionalSafeAreaInsets.top = (navigationBarExtension?.frame.height ?? 0.0) + searchContainer.frame.height
-            updateCalculatedContentHeight()
-        }
-        
-        if searchField.isSelected {
-            searchField.isSelected = false
+                buttonField.bottomAnchor.constraint(equalTo: searchContainer.layoutMarginsGuide.bottomAnchor)
+            ])
         }
     }
     
@@ -747,7 +774,7 @@ private extension SearchFieldStyle {
     var preferredLayoutMargins: UIEdgeInsets {
         switch self {
         case .search: return UIEdgeInsets(top: 8.0, left: 24.0, bottom: 32.0, right: 16.0)
-        case .button: return UIEdgeInsets(top: 8.0, left: 24.0, bottom: 8.0, right: 16.0)
+        case .button: return UIEdgeInsets(top: 20.0, left: 24.0, bottom: 20.0, right: 16.0)
         }
     }
     
