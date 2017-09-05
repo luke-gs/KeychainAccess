@@ -40,13 +40,9 @@ public struct APIManagerDefaultConfiguration: APIManagerConfigurable {
         return mapper
     }
 
-    static func defaultPlugins() -> [PluginType] {
-        return [NetworkLoggingPlugin()]
-    }
-
     public init(url: URLConvertible,
                 urlSessionConfiguration: URLSessionConfiguration = APIManagerDefaultConfiguration.defaultConfiguration(),
-                plugins: [PluginType]? = APIManagerDefaultConfiguration.defaultPlugins(), 
+                plugins: [PluginType]? = nil,
                 errorMapper: ErrorMapper? = APIManagerDefaultConfiguration.defaultErrorMapper(),
                 trustPolicyManager: ServerTrustPolicyManager? = nil) {
 
