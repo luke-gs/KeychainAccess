@@ -336,6 +336,12 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         }
         
         if force {
+            // Must resign and become first responder for any changes to the textfield to appear if it is currently the first responder.
+            let textField = searchField.textField
+            if textField.isFirstResponder && textField.resignFirstResponder() {
+                textField.becomeFirstResponder()
+            }
+            
             searchContainer.setNeedsLayout()
             searchContainer.layoutIfNeeded()
         }
