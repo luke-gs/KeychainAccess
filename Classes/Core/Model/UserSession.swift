@@ -9,14 +9,58 @@
 import UIKit
 
 private let latestSessionKey = "LatestSessionKey"
-
-public enum SessionError: Error {
-    case alreadyBegun(String)
-}
-
 internal let archivingQueue = DispatchQueue(label: "MagicArchivingQueue")
 
-public class UserSession: NSObject {
+
+/// Generic user session completion closure
+public typealias UserSessionCompletion = ((_ success: Bool)->())
+
+
+/// Protocol for the user session. (Mainly for clean docs)
+public protocol UserSessionable {
+
+    /// The current user session
+    static var current: UserSession { get }
+
+    /// The base path to save everything to
+    static var basePath: URL { get set }
+
+    /// Static function to create a new session
+    ///
+    /// - Parameters:
+    ///   - user: the user object for the session
+    ///   - token: the OAuth token for the session
+    ///   - completion: completion when all necessary data has been written to disk, and session is created. True is successful
+    static func startSession(user: User, token: OAuthAccessToken, completion: @escaping UserSessionCompletion)
+
+    /// The user for the session
+    var user: User? { get }
+
+    /// The recently viewed entities for this session
+    var recentlyViewed: [MPOLKitEntity] { get set }
+
+    /// The recently searched entities for this session
+    var recentlySearched: [Searchable] { get set }
+
+    /// Whether the session is active
+    var isActive: Bool { get }
+
+    /// Attempt to restore a previous session
+    ///
+    /// - Parameter completion: completion: completion when all necessary data has read from disk and session was restored. True is successful
+    func restoreSession(completion: @escaping UserSessionCompletion)
+
+    /// Call this when any changes to the user had been made.
+    /// Currently only called when t&cs and whatsNew have been updated
+    func updateUser()
+
+    /// End the session - effectively signing the user out.
+    ///
+    /// **note:** calling this does not update the UI.
+    func endSession()
+}
+
+public class UserSession: UserSessionable {
 
     public static let current = UserSession()
     public static var basePath: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -65,24 +109,8 @@ public class UserSession: NSObject {
         return true
     }
 
-    private lazy var document: UserSessionDocument = {
-        let sessionID = UserDefaults.standard.string(forKey: latestSessionKey) ?? UUID().uuidString
 
-        let url = UserSession.basePath
-            .appendingPathComponent("sessions", isDirectory: true)
-            .appendingPathComponent(sessionID)
-
-        try! FileManager.default.createDirectory(at: url.deletingLastPathComponent(),
-                                                 withIntermediateDirectories: true,
-                                                 attributes: [:])
-
-
-        UserDefaults.standard.set(sessionID, forKey: latestSessionKey)
-
-        return UserSessionDocument(fileURL: url)
-    }()
-
-    public func restoreSession(completion: @escaping ((Bool)->())) {
+    public func restoreSession(completion: @escaping UserSessionCompletion) {
         document.open { success in
             completion(self.user != nil)
         }
@@ -90,7 +118,7 @@ public class UserSession: NSObject {
 
     public static func startSession(user: User,
                                     token: OAuthAccessToken,
-                                    completion: @escaping (Bool)->())
+                                    completion: @escaping UserSessionCompletion)
     {
         UserSession.current.createSession() { success in
             UserSession.current.token = token
@@ -117,9 +145,24 @@ public class UserSession: NSObject {
         UserDefaults.standard.set(nil, forKey: latestSessionKey)
     }
 
-    public func renewSession(with token: OAuthAccessToken) {
-        self.token = token
-    }
+    //MARK: PRIVATE
+
+    private lazy var document: UserSessionDocument = {
+        let sessionID = UserDefaults.standard.string(forKey: latestSessionKey) ?? UUID().uuidString
+
+        let url = UserSession.basePath
+            .appendingPathComponent("sessions", isDirectory: true)
+            .appendingPathComponent(sessionID)
+
+        try! FileManager.default.createDirectory(at: url.deletingLastPathComponent(),
+                                                 withIntermediateDirectories: true,
+                                                 attributes: [:])
+
+
+        UserDefaults.standard.set(sessionID, forKey: latestSessionKey)
+
+        return UserSessionDocument(fileURL: url)
+    }()
 
     //MARK: SAVING
 
@@ -146,6 +189,9 @@ public class UserSession: NSObject {
         document.updateUserReference()
         saveSession()
     }
+
+
+    //MARK: RESTORING
 
     private func loadUserFromCache() {
         guard let username = user?.username else { return }
@@ -204,6 +250,7 @@ fileprivate class UserSessionDocument: UIDocument {
         let userWrapper = FileWrapper(symbolicLinkWithDestinationURL: url)
         userWrapper.preferredFilename = "user"
 
+        //Remove previous user wrapper before adding the new user wrapper
         if let oldUserWrapper = previousUserWrapper {
             fileWrapper.removeFileWrapper(oldUserWrapper)
             previousUserWrapper = userWrapper
