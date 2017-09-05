@@ -16,10 +16,10 @@ import UIKit
 open class SidebarSplitViewController: PushableSplitViewController {
     
     /// The sidebar view controller when displayed horizontally in compact mode
-    public var horizontalSidebarViewController: HorizontalSidebarViewController = HorizontalSidebarViewController()
+    public var horizontalSidebarViewController: CompactSidebarViewController = CompactSidebarViewController()
 
     /// The sidebar view controller for the split view controller.
-    public let sidebarViewController: SidebarViewController = SidebarViewController()
+    public let sidebarViewController: RegularSidebarViewController = RegularSidebarViewController()
 
     // The navigation controller for the master side of split view
     public let masterNavController: NavigationControllerWithHeader
@@ -228,8 +228,8 @@ open class SidebarSplitViewController: PushableSplitViewController {
 
 }
 
-// MARK: - SidebarViewControllerDelegate methods
-extension SidebarSplitViewController: SidebarViewControllerDelegate {
+// MARK: - SidebarDelegate methods
+extension SidebarSplitViewController: SidebarDelegate {
 
     /// Handles when the sidebar selects a new item.
     /// By default, this selects the associated detail view controller.
@@ -237,7 +237,7 @@ extension SidebarSplitViewController: SidebarViewControllerDelegate {
     /// - Parameters:
     ///   - controller: The `SidebarViewController` that has a new selection.
     ///   - item:       The newly selected item.
-    open func sidebarViewController(_ controller: SidebarViewController?, didSelectItem item: SidebarItem) {
+    open func sidebarViewController(_ controller: UIViewController?, didSelectItem item: SidebarItem) {
         selectedViewController = detailViewControllers.first(where: { $0.sidebarItem == item })
     }
 
@@ -246,10 +246,10 @@ extension SidebarSplitViewController: SidebarViewControllerDelegate {
     /// - Parameters:
     ///   - controller: The `SidebarViewController` where the item changed.
     ///   - index:      The sidebar source index selected.
-    open func sidebarViewController(_ controller: SidebarViewController, didSelectSourceAt index: Int) {
+    open func sidebarViewController(_ controller: UIViewController, didSelectSourceAt index: Int) {
     }
     
-    open func sidebarViewController(_ controller: SidebarViewController, didRequestToLoadSourceAt index: Int) {
+    open func sidebarViewController(_ controller: UIViewController, didRequestToLoadSourceAt index: Int) {
         
     }
 }
@@ -302,8 +302,8 @@ extension SidebarSplitViewController: UIPageViewControllerDelegate {
     public func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if let currentVC = pageViewController.viewControllers?.first {
             // Dispath update to the selected view controller, so animation is complete
-            DispatchQueue.main.async {
-                if completed {
+            if completed {
+                DispatchQueue.main.async {
                     self.selectedViewController = currentVC
                 }
             }
@@ -311,8 +311,8 @@ extension SidebarSplitViewController: UIPageViewControllerDelegate {
     }
 }
 
-// MARK: - UIScrollViewDelegate methods
-extension SidebarSplitViewController: UIScrollViewDelegate {
+// MARK: - ScrollAwarePageViewControllerDelegate methods
+extension SidebarSplitViewController: ScrollAwarePageViewControllerDelegate {
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if isCompact() {
             // Update the horizontal scrollbar to match the page view

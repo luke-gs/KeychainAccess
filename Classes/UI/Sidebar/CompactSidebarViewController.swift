@@ -1,5 +1,5 @@
 //
-//  HorizontalSidebarViewController.swift
+//  CompactSidebarViewController.swift
 //  MPOLKit
 //
 //  Created by Trent Fitzgibbon on 31/8/17.
@@ -19,7 +19,9 @@ fileprivate let sidebarKeys = [#keyPath(SidebarItem.isEnabled),
                                #keyPath(SidebarItem.selectedColor)]
 
 
-open class HorizontalSidebarViewController: UIViewController {
+/// Compact size-class version of sidebar used for displaying navigation items in a split view controller.
+/// Items displayed in a horizontal strip
+open class CompactSidebarViewController: UIViewController {
 
     // MARK: - Public properties
 
@@ -42,7 +44,7 @@ open class HorizontalSidebarViewController: UIViewController {
 
             // Add each sidebar item as a cell in the stack view
             items.forEach({ (item) in
-                let label = HorizontalSidebarCell(frame: .zero)
+                let label = CompactSidebarItemView(frame: .zero)
                 label.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
                 label.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
                 sidebarStackView.addArrangedSubview(label)
@@ -78,7 +80,7 @@ open class HorizontalSidebarViewController: UIViewController {
     open var clearsSelectionOnViewWillAppear: Bool = false
 
     /// The delegate for the sidebar, we use the same protocol as the vertical sidebar view controller.
-    open weak var delegate: SidebarViewControllerDelegate? = nil
+    open weak var delegate: SidebarDelegate? = nil
 
     // MARK: - Private properties
 
@@ -87,8 +89,8 @@ open class HorizontalSidebarViewController: UIViewController {
     }
 
     /// The current stackview cells for items
-    private var cells: [HorizontalSidebarCell] {
-        return sidebarStackView.arrangedSubviews as? [HorizontalSidebarCell] ?? []
+    private var cells: [CompactSidebarItemView] {
+        return sidebarStackView.arrangedSubviews as? [CompactSidebarItemView] ?? []
     }
 
     /// The leading constraint for the stack view, to center first item
@@ -133,7 +135,6 @@ open class HorizontalSidebarViewController: UIViewController {
         stackViewTrailingConstraint = sidebarStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: 0)
         stackViewTrailingConstraint.isActive = true
 
-        let inset = 10 as CGFloat
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: LayoutConstants.scrollViewMargin),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: LayoutConstants.scrollViewMargin),
@@ -199,7 +200,7 @@ open class HorizontalSidebarViewController: UIViewController {
     public func setScrollOffsetPercent(_ percent: CGFloat) {
         if let selectedItem = selectedItem, let itemIndex = items.index(of: selectedItem) {
             let fromCell = cells[itemIndex]
-            var toCell: HorizontalSidebarCell?
+            var toCell: CompactSidebarItemView?
             if percent > 0 && itemIndex + 1 < cells.count {
                 toCell = cells[itemIndex+1]
             } else if percent < 0 && itemIndex > 0 {
@@ -233,7 +234,7 @@ open class HorizontalSidebarViewController: UIViewController {
             // If new selection, notify delegate
             if self.selectedItem == item { return }
             self.selectedItem = item
-            self.delegate?.sidebarViewController(nil, didSelectItem: item)
+            self.delegate?.sidebarViewController(self, didSelectItem: item)
         }
         if selected {
             // Force layout of stack view as fonts have changed, and we need position of this item

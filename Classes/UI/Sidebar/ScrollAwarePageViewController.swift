@@ -7,11 +7,19 @@
 
 import UIKit
 
-/// Subclass of UIPageViewController that observes changes to the content offset of the scroll view and notifies delegate
+/// Delegate for ScrollAwarePageViewController
+public protocol ScrollAwarePageViewControllerDelegate: NSObjectProtocol {
+
+    /// Called whenever the scoll view content offset changes
+    func scrollViewDidScroll(_ scrollView: UIScrollView)
+}
+
+/// Subclass of UIPageViewController that observes changes to the content offset of the scroll view and notifies delegate.
+/// We use KVO here rather than override the scoll view's delegate, in case stealing the delegate causes problems
 open class ScrollAwarePageViewController: UIPageViewController {
 
     /// The scroll delegate
-    open weak var scrollDelegate: UIScrollViewDelegate?
+    open weak var scrollDelegate: ScrollAwarePageViewControllerDelegate?
 
     /// Context for KVO observing
     private var kvoContext = 0
@@ -32,13 +40,14 @@ open class ScrollAwarePageViewController: UIPageViewController {
     }
 
     deinit {
+        // Cleanup
         scrollView?.removeObserver(self, forKeyPath: #keyPath(UIScrollView.contentOffset), context: &kvoContext)
     }
 
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {
-            if let scrollView = scrollView, let scrollDelegate = scrollDelegate, keyPath == #keyPath(UIScrollView.contentOffset), isViewLoaded {
-                scrollDelegate.scrollViewDidScroll!(scrollView)
+            if let scrollView = scrollView, let scrollDelegate = scrollDelegate, keyPath == #keyPath(UIScrollView.contentOffset) {
+                scrollDelegate.scrollViewDidScroll(scrollView)
             }
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)

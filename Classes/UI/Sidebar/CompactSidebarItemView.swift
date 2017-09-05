@@ -1,5 +1,5 @@
 //
-//  HorizontalSidebarCell.swift
+//  CompactSidebarItemView.swift
 //  MPOLKit
 //
 //  Created by Trent Fitzgibbon on 31/8/17.
@@ -8,7 +8,8 @@
 
 import UIKit
 
-open class HorizontalSidebarCell: UIView {
+/// Compact size-class version of a view displaying navigation items in a horizontal strip
+open class CompactSidebarItemView: UIView {
 
     /// The callback handler for selection
     public var selectHandler : (() -> Void)?
@@ -43,11 +44,11 @@ open class HorizontalSidebarCell: UIView {
     private var highlightedFont: UIFont!
 
     private var unselectedTextAttributes: [String: AnyObject] {
-        return [NSFontAttributeName: standardFont, NSForegroundColorAttributeName: SidebarTableViewCell.unselectedColor]
+        return [NSFontAttributeName: standardFont, NSForegroundColorAttributeName: RegularSidebarTableViewCell.unselectedColor]
     }
 
     private var selectedTextAttributes: [String: AnyObject] {
-        return [NSFontAttributeName: highlightedFont, NSForegroundColorAttributeName: SidebarTableViewCell.selectedColor]
+        return [NSFontAttributeName: highlightedFont, NSForegroundColorAttributeName: RegularSidebarTableViewCell.selectedColor]
     }
 
     // MARK: - Updates

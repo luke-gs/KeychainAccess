@@ -35,9 +35,10 @@
 		469EB5831F45320A0005CAF7 /* LoginHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469EB5821F45320A0005CAF7 /* LoginHeaderView.swift */; };
 		8CDAFFA6E9DC54A4594C01FE /* Pods_MPOLKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FE1AAA01D6AE18F86693DF8 /* Pods_MPOLKitTests.framework */; };
 		960B1A771F566823004F2E29 /* NavigationControllerWithHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960B1A761F566823004F2E29 /* NavigationControllerWithHeader.swift */; };
-		960B1A791F577456004F2E29 /* HorizontalSidebarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960B1A781F577456004F2E29 /* HorizontalSidebarViewController.swift */; };
-		960B1A7B1F57750C004F2E29 /* HorizontalSidebarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960B1A7A1F57750C004F2E29 /* HorizontalSidebarCell.swift */; };
+		960B1A791F577456004F2E29 /* CompactSidebarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960B1A781F577456004F2E29 /* CompactSidebarViewController.swift */; };
+		960B1A7B1F57750C004F2E29 /* CompactSidebarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960B1A7A1F57750C004F2E29 /* CompactSidebarItemView.swift */; };
 		961FBF3E1F5CE67F00E42E19 /* ScrollAwarePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961FBF3D1F5CE67E00E42E19 /* ScrollAwarePageViewController.swift */; };
+		9672D6801F5E2FD7007A547F /* SidebarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9672D67F1F5E2FD7007A547F /* SidebarDelegate.swift */; };
 		BA6FEAA4EFE7F66EBAE4C2DC /* Pods_MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9215372B17F43A2FDEB28AD0 /* Pods_MPOLKit.framework */; };
 		BC0448941F219A70005FB857 /* AssetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0448931F219A70005FB857 /* AssetManager.swift */; };
 		BC0EA3F41F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0EA3F31F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift */; };
@@ -152,8 +153,8 @@
 		BC9C7E421F0DED6600DFFE83 /* ScrollViewInsetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DAE1F0DED6600DFFE83 /* ScrollViewInsetManager.swift */; };
 		BC9C7E431F0DED6600DFFE83 /* SidebarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DB01F0DED6600DFFE83 /* SidebarItem.swift */; };
 		BC9C7E441F0DED6600DFFE83 /* SidebarSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DB11F0DED6600DFFE83 /* SidebarSplitViewController.swift */; };
-		BC9C7E451F0DED6600DFFE83 /* SidebarTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DB21F0DED6600DFFE83 /* SidebarTableViewCell.swift */; };
-		BC9C7E461F0DED6600DFFE83 /* SidebarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DB31F0DED6600DFFE83 /* SidebarViewController.swift */; };
+		BC9C7E451F0DED6600DFFE83 /* RegularSidebarTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DB21F0DED6600DFFE83 /* RegularSidebarTableViewCell.swift */; };
+		BC9C7E461F0DED6600DFFE83 /* RegularSidebarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DB31F0DED6600DFFE83 /* RegularSidebarViewController.swift */; };
 		BC9C7E471F0DED6600DFFE83 /* SourceBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DB51F0DED6600DFFE83 /* SourceBar.swift */; };
 		BC9C7E481F0DED6600DFFE83 /* SourceBarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DB61F0DED6600DFFE83 /* SourceBarCell.swift */; };
 		BC9C7E491F0DED6600DFFE83 /* SourceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7DB71F0DED6600DFFE83 /* SourceItem.swift */; };
@@ -269,9 +270,10 @@
 		792BA6D7922A9D3748B70A23 /* Pods-MPOLKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKit/Pods-MPOLKit.release.xcconfig"; sourceTree = "<group>"; };
 		9215372B17F43A2FDEB28AD0 /* Pods_MPOLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		960B1A761F566823004F2E29 /* NavigationControllerWithHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationControllerWithHeader.swift; sourceTree = "<group>"; };
-		960B1A781F577456004F2E29 /* HorizontalSidebarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalSidebarViewController.swift; sourceTree = "<group>"; };
-		960B1A7A1F57750C004F2E29 /* HorizontalSidebarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalSidebarCell.swift; sourceTree = "<group>"; };
+		960B1A781F577456004F2E29 /* CompactSidebarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactSidebarViewController.swift; sourceTree = "<group>"; };
+		960B1A7A1F57750C004F2E29 /* CompactSidebarItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactSidebarItemView.swift; sourceTree = "<group>"; };
 		961FBF3D1F5CE67E00E42E19 /* ScrollAwarePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollAwarePageViewController.swift; sourceTree = "<group>"; };
+		9672D67F1F5E2FD7007A547F /* SidebarDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarDelegate.swift; sourceTree = "<group>"; };
 		BC0448931F219A70005FB857 /* AssetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetManager.swift; sourceTree = "<group>"; };
 		BC0EA3F31F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCollectionViewSidebarLayout.swift; sourceTree = "<group>"; };
 		BC1B25B91F2707270090C0AA /* MPOLBarButtonItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPOLBarButtonItems.swift; sourceTree = "<group>"; };
@@ -387,8 +389,8 @@
 		BC9C7DAE1F0DED6600DFFE83 /* ScrollViewInsetManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollViewInsetManager.swift; sourceTree = "<group>"; };
 		BC9C7DB01F0DED6600DFFE83 /* SidebarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SidebarItem.swift; sourceTree = "<group>"; };
 		BC9C7DB11F0DED6600DFFE83 /* SidebarSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SidebarSplitViewController.swift; sourceTree = "<group>"; };
-		BC9C7DB21F0DED6600DFFE83 /* SidebarTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SidebarTableViewCell.swift; sourceTree = "<group>"; };
-		BC9C7DB31F0DED6600DFFE83 /* SidebarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SidebarViewController.swift; sourceTree = "<group>"; };
+		BC9C7DB21F0DED6600DFFE83 /* RegularSidebarTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegularSidebarTableViewCell.swift; sourceTree = "<group>"; };
+		BC9C7DB31F0DED6600DFFE83 /* RegularSidebarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegularSidebarViewController.swift; sourceTree = "<group>"; };
 		BC9C7DB51F0DED6600DFFE83 /* SourceBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceBar.swift; sourceTree = "<group>"; };
 		BC9C7DB61F0DED6600DFFE83 /* SourceBarCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceBarCell.swift; sourceTree = "<group>"; };
 		BC9C7DB71F0DED6600DFFE83 /* SourceItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceItem.swift; sourceTree = "<group>"; };
@@ -904,14 +906,15 @@
 		BC9C7DAF1F0DED6600DFFE83 /* Sidebar */ = {
 			isa = PBXGroup;
 			children = (
-				960B1A7A1F57750C004F2E29 /* HorizontalSidebarCell.swift */,
-				960B1A781F577456004F2E29 /* HorizontalSidebarViewController.swift */,
+				960B1A7A1F57750C004F2E29 /* CompactSidebarItemView.swift */,
+				960B1A781F577456004F2E29 /* CompactSidebarViewController.swift */,
 				960B1A761F566823004F2E29 /* NavigationControllerWithHeader.swift */,
+				BC9C7DB21F0DED6600DFFE83 /* RegularSidebarTableViewCell.swift */,
+				BC9C7DB31F0DED6600DFFE83 /* RegularSidebarViewController.swift */,
 				961FBF3D1F5CE67E00E42E19 /* ScrollAwarePageViewController.swift */,
+				9672D67F1F5E2FD7007A547F /* SidebarDelegate.swift */,
 				BC9C7DB01F0DED6600DFFE83 /* SidebarItem.swift */,
 				BC9C7DB11F0DED6600DFFE83 /* SidebarSplitViewController.swift */,
-				BC9C7DB21F0DED6600DFFE83 /* SidebarTableViewCell.swift */,
-				BC9C7DB31F0DED6600DFFE83 /* SidebarViewController.swift */,
 			);
 			path = Sidebar;
 			sourceTree = "<group>";
@@ -1420,7 +1423,7 @@
 				EA8B664A1F38021100F09716 /* EntitySummaryDecorator.swift in Sources */,
 				BC9C7E081F0DED6600DFFE83 /* UITableView+DefaultReuse.swift in Sources */,
 				BC9C7DF31F0DED6600DFFE83 /* ISO8601DateTransformer.swift in Sources */,
-				960B1A791F577456004F2E29 /* HorizontalSidebarViewController.swift in Sources */,
+				960B1A791F577456004F2E29 /* CompactSidebarViewController.swift in Sources */,
 				BC9C7E281F0DED6600DFFE83 /* StatsOverviewCollectionViewCell.swift in Sources */,
 				BC9C7DEC1F0DED6600DFFE83 /* ModelVersionable.swift in Sources */,
 				BC9C7E101F0DED6600DFFE83 /* TableViewFormCell.swift in Sources */,
@@ -1527,12 +1530,13 @@
 				BC9C7E531F0DED6600DFFE83 /* GradientView.swift in Sources */,
 				469EB5811F452FAB0005CAF7 /* LoginViewController.swift in Sources */,
 				EABAB8041F342E450071A401 /* AggregatedSearchRequest.swift in Sources */,
+				9672D6801F5E2FD7007A547F /* SidebarDelegate.swift in Sources */,
 				BC9C7DCD1F0DED6600DFFE83 /* ArchivedManifestEntry.swift in Sources */,
 				BCC6F74E1F2FF91200F05F65 /* MapCollectionViewController.swift in Sources */,
 				19F8DDB11F4D7CB800D84DA1 /* LookupAddress.swift in Sources */,
 				BCBA82141F19D7E8000BBF82 /* StringSizing.swift in Sources */,
 				BC9C7E031F0DED6600DFFE83 /* UICollectionView+DefaultReuse.swift in Sources */,
-				BC9C7E451F0DED6600DFFE83 /* SidebarTableViewCell.swift in Sources */,
+				BC9C7E451F0DED6600DFFE83 /* RegularSidebarTableViewCell.swift in Sources */,
 				DB88BCD91F42CFFC0056FD69 /* SearchDataSource.swift in Sources */,
 				BC9C7E301F0DED6600DFFE83 /* UIImage+StatusDot.swift in Sources */,
 				BC9C7DF91F0DED6600DFFE83 /* CollectionViewFormOptionCell.swift in Sources */,
@@ -1556,7 +1560,7 @@
 				19F8DDB01F4D7C9600D84DA1 /* APIManager+LookupAddress.swift in Sources */,
 				BC9C7E341F0DED6600DFFE83 /* UIViewAnimationCurve+OptionConversion.swift in Sources */,
 				12ADD4221F32A50B00CA8B4D /* MPOLKitProtocols.swift in Sources */,
-				960B1A7B1F57750C004F2E29 /* HorizontalSidebarCell.swift in Sources */,
+				960B1A7B1F57750C004F2E29 /* CompactSidebarItemView.swift in Sources */,
 				EA8B66461F37FF5900F09716 /* EntitySummarySearchResultViewModel.swift in Sources */,
 				BC9C7E2E1F0DED6600DFFE83 /* UIImage+Initials.swift in Sources */,
 				BC9C7E551F0DED6600DFFE83 /* RoundedRectLabel.swift in Sources */,
@@ -1568,7 +1572,7 @@
 				BC9C7E0A1F0DED6600DFFE83 /* UITraitCollection+CurrentDisplayScale.swift in Sources */,
 				BC9C7E4F1F0DED6600DFFE83 /* CircleIconView.swift in Sources */,
 				BCFA067E1F3176A3002FA1FF /* MapCollectionViewLayout.swift in Sources */,
-				BC9C7E461F0DED6600DFFE83 /* SidebarViewController.swift in Sources */,
+				BC9C7E461F0DED6600DFFE83 /* RegularSidebarViewController.swift in Sources */,
 				BCC5132F1F333B2000413961 /* FormAccessoryView.swift in Sources */,
 				BC9C7E3C1F0DED6600DFFE83 /* FilterViewController.swift in Sources */,
 				C6020FD31F394771001F1E71 /* DataResponse+MPLConversion.swift in Sources */,
