@@ -40,15 +40,27 @@ open class CompactSidebarItemView: UIView {
 
     // MARK: - Private properties
 
-    private var standardFont: UIFont!
-    private var highlightedFont: UIFont!
+    private var unselectedFont: UIFont!
+    private var selectedFont: UIFont!
 
-    private var unselectedTextAttributes: [String: AnyObject] {
-        return [NSFontAttributeName: standardFont, NSForegroundColorAttributeName: RegularSidebarTableViewCell.unselectedColor]
+    private var unselectedTitleAttributes: [String: AnyObject] {
+        return [NSFontAttributeName: unselectedFont, NSForegroundColorAttributeName: RegularSidebarTableViewCell.unselectedColor]
     }
 
-    private var selectedTextAttributes: [String: AnyObject] {
-        return [NSFontAttributeName: highlightedFont, NSForegroundColorAttributeName: RegularSidebarTableViewCell.selectedColor]
+    private var unselectedCountAttributes: [String: AnyObject] {
+        return [NSFontAttributeName: unselectedFont, NSForegroundColorAttributeName: UIColor.red]
+    }
+
+    private var selectedTitleAttributes: [String: AnyObject] {
+        return [NSFontAttributeName: selectedFont, NSForegroundColorAttributeName: RegularSidebarTableViewCell.selectedColor]
+    }
+
+    private var selectedCountAttributes: [String: AnyObject] {
+        return [NSFontAttributeName: selectedFont, NSForegroundColorAttributeName: UIColor.red]
+    }
+
+    private var highlightedAttributes: [String: AnyObject] {
+        return [NSFontAttributeName: unselectedFont, NSForegroundColorAttributeName: RegularSidebarTableViewCell.selectedColor]
     }
 
     // MARK: - Updates
@@ -65,19 +77,24 @@ open class CompactSidebarItemView: UIView {
         itemButton.alpha = itemButton.isEnabled ? 1 : 0.2
         itemButton.isSelected = selected
 
-        var text = ""
+        // Set custom colors/fonts by using attributed title on button states
+        var selectedText = NSMutableAttributedString()
+        var unselectedText = NSMutableAttributedString()
+        var highlightedText = NSMutableAttributedString()
+        if item.count > 0 {
+            selectedText.append(NSAttributedString(string: "\(item.count) ", attributes: selectedCountAttributes))
+            unselectedText.append(NSAttributedString(string: "\(item.count) ", attributes: unselectedCountAttributes))
+            highlightedText.append(NSAttributedString(string: "\(item.count) ", attributes: highlightedAttributes))
+        }
         if let title = item.title {
-            text = item.count > 0 ? "\(item.count) \(title)" : title
+            selectedText.append(NSAttributedString(string: title, attributes: selectedTitleAttributes))
+            unselectedText.append(NSAttributedString(string: title, attributes: unselectedTitleAttributes))
+            highlightedText.append(NSAttributedString(string: title, attributes: highlightedAttributes))
         }
 
-        // Set custom colors/fonts by using attributed title on button states
-        if selected {
-            itemButton.setAttributedTitle(NSAttributedString(string: text, attributes: selectedTextAttributes), for: .normal)
-        } else {
-            itemButton.setAttributedTitle(NSAttributedString(string: text, attributes: unselectedTextAttributes), for: .normal)
-        }
-        itemButton.setAttributedTitle(NSAttributedString(string: text, attributes: selectedTextAttributes), for: .selected)
-        itemButton.setAttributedTitle(NSAttributedString(string: text, attributes: selectedTextAttributes), for: .highlighted)
+        itemButton.setAttributedTitle(selected ? selectedText : unselectedText, for: .normal)
+        itemButton.setAttributedTitle(selectedText, for: .selected)
+        itemButton.setAttributedTitle(highlightedText, for: .highlighted)
     }
 
     // MARK: - Overrides
@@ -97,11 +114,11 @@ open class CompactSidebarItemView: UIView {
 
     private func reloadFonts() {
         let fontDescriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: .subheadline, compatibleWith: traitCollection)
-        standardFont = UIFont(descriptor: fontDescriptor, size: fontDescriptor.pointSize - 1)
+        unselectedFont = UIFont(descriptor: fontDescriptor, size: fontDescriptor.pointSize - 1)
         if let highlightedDescriptor = fontDescriptor.withSymbolicTraits(.traitBold) {
-            highlightedFont = UIFont(descriptor: highlightedDescriptor, size: fontDescriptor.pointSize)
+            selectedFont = UIFont(descriptor: highlightedDescriptor, size: fontDescriptor.pointSize)
         } else {
-            highlightedFont = standardFont
+            selectedFont = unselectedFont
         }
     }
 }
