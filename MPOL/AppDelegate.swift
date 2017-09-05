@@ -19,6 +19,8 @@ import Alamofire
 #endif
 
 private let host = "api-dev.mpol.solutions"
+let TermsAndConditionsVersion = "1.0"
+let WhatsNewVersion = "1.0"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
@@ -46,14 +48,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         if UserSession.current.isActive == true {
             UserSession.current.restoreSession { [unowned self] success in
-                if success == true {
-                    self.updateInterface(for: .landing, animated: true)
-                } else {
-                    self.updateInterface(for: .login, animated: true)
-                }
+                self.fiddleWithState()
             }
         } else {
-            self.updateInterface(for: .login, animated: true)
+            self.updateInterface(for: .login(sessionActive: false), animated: true)
         }
 
         window.makeKeyAndVisible()
@@ -73,6 +71,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         #endif
         
         return true
+    }
+
+    func fiddleWithState() {
+        guard UserSession.current.user?.termsAndConditionsVersionAccepted != TermsAndConditionsVersion else {
+            if UserSession.current.user?.whatsNewShownVersion != WhatsNewVersion {
+                self.updateInterface(for: .whatsNew, animated: true)
+            } else {
+                self.updateInterface(for: .landing, animated: true)
+            }
+            return
+        }
+        self.updateInterface(for: .login(sessionActive: true), animated: true)
     }
     
     // MARK: - APNS
@@ -122,7 +132,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     // TEMP
     func logOut() {
         UserSession.current.endSession()
-        updateInterface(for: .login, animated: true)
+        updateInterface(for: .login(sessionActive: false), animated: true)
     }
 
     @objc private func interfaceStyleDidChange() {

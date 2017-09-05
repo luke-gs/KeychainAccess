@@ -11,7 +11,7 @@ import MPOLKit
 import ClientKit
 
 internal enum ViewState {
-    case login
+    case login(sessionActive: Bool)
     case tc(controller: LoginViewController)
     case whatsNew
     case landing
@@ -21,9 +21,8 @@ extension AppDelegate: LoginViewControllerDelegate, TermsConditionsViewControlle
 
     internal func updateInterface(for state: ViewState, animated: Bool) {
         switch state {
-        case .login:
-
-            let loginViewController = LoginViewController()
+        case .login(let activeSession):
+            let loginViewController = activeSession == true ? LoginViewController(name: UserSession.current.user!.username) : LoginViewController()
 
             loginViewController.minimumUsernameLength = 1
             loginViewController.minimumPasswordLength = 1
@@ -116,17 +115,20 @@ extension AppDelegate: LoginViewControllerDelegate, TermsConditionsViewControlle
         controller.dismiss(animated: true) {  [weak self] in
             if accept {
                 let user = UserSession.current.user
-                self?.updateInterface(for: user?.whatsNewShownVersion == "1.0" ? .landing : .whatsNew, animated: true)
-                user!.termsAndConditionsVersionAccepted = "1.0"
+                self?.updateInterface(for: user?.whatsNewShownVersion == WhatsNewVersion ? .landing : .whatsNew, animated: true)
+                user!.termsAndConditionsVersionAccepted = TermsAndConditionsVersion
+            } else  {
+                UserSession.current.endSession()
             }
         }
     }
-
-    func loginViewController(_ controller: LoginViewController, didTapForgotPasswordButton button: UIButton) {
-
-    }
-
     // MARK: - Login view controller delegate
+
+    func loginViewControllerDidAppear(_ controller: LoginViewController) {
+        guard UserSession.current.isActive == true else { return }
+        self.updateInterface(for: .tc(controller: controller), animated: true)
+        controller.setLoading(false, animated: true)
+    }
 
     func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String) {
         controller.setLoading(true, animated: true)
@@ -137,8 +139,8 @@ extension AppDelegate: LoginViewControllerDelegate, TermsConditionsViewControlle
             UserSession.startSession(user: User(username: username),
                                      token: token) { [weak self, controller] _ in
                                         let user = UserSession.current.user
-                                        if user?.termsAndConditionsVersionAccepted == "1.0" {
-                                            self?.updateInterface(for: user?.whatsNewShownVersion == "1.0" ? .landing : .whatsNew, animated: true)
+                                        if user?.termsAndConditionsVersionAccepted == TermsAndConditionsVersion {
+                                            self?.updateInterface(for: user?.whatsNewShownVersion == WhatsNewVersion ? .landing : .whatsNew, animated: true)
                                         } else {
                                             self?.updateInterface(for: .tc(controller: controller), animated: true)
                                         }
@@ -155,11 +157,18 @@ extension AppDelegate: LoginViewControllerDelegate, TermsConditionsViewControlle
         }
     }
 
+    func loginViewController(_ controller: LoginViewController, didTapForgotPasswordButton button: UIButton) {
+
+    }
+
     //MARK: Whats new delegate
 
     func whatsNewViewControllerDidTapDoneButton(_ whatsNewViewController: WhatsNewViewController) {
         self.updateInterface(for: .landing, animated: true)
+    }
+
+    func whatsNewViewControllerDidAppear(_ whatsNewViewController: WhatsNewViewController) {
         let user = UserSession.current.user
-        user!.whatsNewShownVersion = "1.0"
+        user!.whatsNewShownVersion = WhatsNewVersion
     }
 }
