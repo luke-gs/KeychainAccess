@@ -44,6 +44,9 @@ public protocol UserSessionable {
     /// Whether the session is active
     var isActive: Bool { get }
 
+    /// The session unique ID
+    var sessionID: String { get }
+
     /// Attempt to restore a previous session
     ///
     /// - Parameter completion: completion: completion when all necessary data has read from disk and session was restored. True is successful
@@ -106,6 +109,10 @@ public class UserSession: UserSessionable {
     public var isActive: Bool {
         guard let _ = UserDefaults.standard.string(forKey: latestSessionKey) else { return false }
         return true
+    }
+
+    public var sessionID: String {
+        return document.fileURL.lastPathComponent
     }
 
     public static func startSession(user: User,
