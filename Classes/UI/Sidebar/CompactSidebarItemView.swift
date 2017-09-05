@@ -11,6 +11,11 @@ import UIKit
 /// Compact size-class version of a view displaying navigation items in a horizontal strip
 open class CompactSidebarItemView: UIView {
 
+    private struct ColorConstants {
+        public static let selectedColor   = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        public static let unselectedColor = #colorLiteral(red: 0.5450980392, green: 0.568627451, blue: 0.6235294118, alpha: 1)
+    }
+
     /// The callback handler for selection
     public var selectHandler : (() -> Void)?
 
@@ -43,26 +48,6 @@ open class CompactSidebarItemView: UIView {
     private var unselectedFont: UIFont!
     private var selectedFont: UIFont!
 
-    private var unselectedTitleAttributes: [String: AnyObject] {
-        return [NSFontAttributeName: unselectedFont, NSForegroundColorAttributeName: RegularSidebarTableViewCell.unselectedColor]
-    }
-
-    private var unselectedCountAttributes: [String: AnyObject] {
-        return [NSFontAttributeName: unselectedFont, NSForegroundColorAttributeName: UIColor.red]
-    }
-
-    private var selectedTitleAttributes: [String: AnyObject] {
-        return [NSFontAttributeName: selectedFont, NSForegroundColorAttributeName: RegularSidebarTableViewCell.selectedColor]
-    }
-
-    private var selectedCountAttributes: [String: AnyObject] {
-        return [NSFontAttributeName: selectedFont, NSForegroundColorAttributeName: UIColor.red]
-    }
-
-    private var highlightedAttributes: [String: AnyObject] {
-        return [NSFontAttributeName: unselectedFont, NSForegroundColorAttributeName: RegularSidebarTableViewCell.selectedColor]
-    }
-
     // MARK: - Updates
 
     /// Updates the cell with the content of the sidebar item.
@@ -82,14 +67,14 @@ open class CompactSidebarItemView: UIView {
         var unselectedText = NSMutableAttributedString()
         var highlightedText = NSMutableAttributedString()
         if item.count > 0 {
-            selectedText.append(NSAttributedString(string: "\(item.count) ", attributes: selectedCountAttributes))
-            unselectedText.append(NSAttributedString(string: "\(item.count) ", attributes: unselectedCountAttributes))
-            highlightedText.append(NSAttributedString(string: "\(item.count) ", attributes: highlightedAttributes))
+            selectedText.append("\(item.count) ", font: selectedFont, color: item.alertColor ?? ColorConstants.selectedColor)
+            unselectedText.append("\(item.count) ", font: unselectedFont, color: item.alertColor ?? ColorConstants.unselectedColor)
+            highlightedText.append("\(item.count) ", font: unselectedFont, color: ColorConstants.selectedColor)
         }
         if let title = item.title {
-            selectedText.append(NSAttributedString(string: title, attributes: selectedTitleAttributes))
-            unselectedText.append(NSAttributedString(string: title, attributes: unselectedTitleAttributes))
-            highlightedText.append(NSAttributedString(string: title, attributes: highlightedAttributes))
+            selectedText.append(title, font: selectedFont, color: ColorConstants.selectedColor)
+            unselectedText.append(title, font: unselectedFont, color: ColorConstants.unselectedColor)
+            highlightedText.append(title, font: unselectedFont, color: ColorConstants.selectedColor)
         }
 
         itemButton.setAttributedTitle(selected ? selectedText : unselectedText, for: .normal)
