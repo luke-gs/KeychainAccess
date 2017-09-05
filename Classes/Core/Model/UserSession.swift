@@ -49,7 +49,7 @@ public protocol UserSessionable {
 
     /// Attempt to restore a previous session
     ///
-    /// - Parameter completion: completion: completion when all necessary data has read from disk and session was restored. True is successful
+    /// - Parameter completion: completion when all necessary data has read from disk and session was restored. True is successful
     func restoreSession(completion: @escaping UserSessionCompletion)
 
     /// Call this when any changes to the user had been made.
