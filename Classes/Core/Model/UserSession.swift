@@ -227,6 +227,11 @@ fileprivate class UserSessionDocument: UIDocument {
         let recentlyViewedWrapper = wrappers["recentlyViewed"]
         let recentlySearchedWrapper = wrappers["recentlySearched"]
 
+        guard userWrapper != nil else {
+            UserSession.current.endSession()
+            return
+        }
+
         let first = (userWrapper?.symbolicLinkDestinationURL?.deletingLastPathComponent().lastPathComponent)!
         let second = (userWrapper?.symbolicLinkDestinationURL?.lastPathComponent)!
 

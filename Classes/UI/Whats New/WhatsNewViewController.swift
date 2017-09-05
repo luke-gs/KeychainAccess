@@ -119,7 +119,11 @@ open class WhatsNewViewController: UIViewController, UIPageViewControllerDataSou
         
         applyTheme()
     }
-    
+
+    open override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        delegate?.whatsNewViewControllerDidAppear?(self)
+    }
     
     // MARK: - UIPageViewControllerDataSource
     
@@ -165,7 +169,7 @@ open class WhatsNewViewController: UIViewController, UIPageViewControllerDataSou
     @objc private func doneButtonTapped(button: UIButton) {
         self.dismiss(animated: true, completion: nil)
         if let delegate = delegate {
-            delegate.whatsNewViewControllerDidTapDoneButton(self)
+            delegate.whatsNewViewControllerDidTapDoneButton?(self)
         }
     }
     
@@ -239,10 +243,8 @@ open class WhatsNewViewController: UIViewController, UIPageViewControllerDataSou
     
 }
 
-public protocol WhatsNewViewControllerDelegate: NSObjectProtocol {
-    func whatsNewViewControllerDidTapDoneButton(_ whatsNewViewController: WhatsNewViewController)
+@objc public protocol WhatsNewViewControllerDelegate: NSObjectProtocol {
+    @objc optional func whatsNewViewControllerDidTapDoneButton(_ whatsNewViewController: WhatsNewViewController)
+    @objc optional func whatsNewViewControllerDidAppear(_ whatsNewViewController: WhatsNewViewController)
 }
 
-public extension WhatsNewViewControllerDelegate {
-    func whatsNewViewControllerDidTapDoneButton(_ whatsNewViewController: WhatsNewViewController) { }
-}

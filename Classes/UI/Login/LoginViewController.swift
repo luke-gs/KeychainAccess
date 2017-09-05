@@ -327,7 +327,12 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     
     
     // MARK: - Initializers
-    
+
+    public convenience init(name: String) {
+        self.init()
+        usernameField.text = name
+    }
+
     public init() {
         super.init(nibName: nil, bundle: nil)
         
@@ -536,6 +541,11 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
+
+    open override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        delegate?.loginViewControllerDidAppear(self)
+    }
     
     open override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -676,7 +686,9 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
 @objc public protocol LoginViewControllerDelegate: NSObjectProtocol {
     
     func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String)
-    
+
+    func loginViewControllerDidAppear(_ controller: LoginViewController)
+
     @objc optional func loginViewController(_ controller: LoginViewController, didTapForgotPasswordButton button: UIButton)
     
 }
