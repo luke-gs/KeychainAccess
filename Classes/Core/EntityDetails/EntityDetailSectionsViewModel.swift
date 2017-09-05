@@ -21,7 +21,7 @@ public protocol EntityDetailSectionsDelegate: class {
 }
 
 public struct EntityFetchResult {
-    public var result: MPOLKitEntity?
+    public var entity: MPOLKitEntity?
     public var state: FetchState = .idle
     public var error: Error?
 }
@@ -79,7 +79,7 @@ extension EntityDetailSectionsViewModel: EntityDetailFetchDelegate {
 
         let source = request.source
 
-        results[source.serverSourceName] = EntityFetchResult(result: result.entity, state: result.state, error: result.error)
+        results[source.serverSourceName] = EntityFetchResult(entity: result.entity, state: result.state, error: result.error)
 
         self.delegate?.EntityDetailSectionsDidUpdateResults(self)
     }
@@ -92,7 +92,9 @@ extension EntityDetailSectionsViewModel: EntityDetailFetchDelegate {
 
         let source = request.source
 
-        results[source.serverSourceName] = EntityFetchResult(result: result.entity, state: result.state, error: result.error)
+        results[source.serverSourceName] = EntityFetchResult(entity: result.entity,
+                                                             state: result.state,
+                                                             error: result.error)
 
         if let error = result.error {
             detailSectionsViewControllers?.forEach {
