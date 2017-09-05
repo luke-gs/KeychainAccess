@@ -117,7 +117,7 @@ extension AppDelegate: LoginViewControllerDelegate, TermsConditionsViewControlle
                 let user = UserSession.current.user
                 self?.updateInterface(for: user?.whatsNewShownVersion == WhatsNewVersion ? .landing : .whatsNew, animated: true)
                 user!.termsAndConditionsVersionAccepted = TermsAndConditionsVersion
-            } else  {
+            } else {
                 UserSession.current.endSession()
             }
         }
