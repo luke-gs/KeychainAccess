@@ -20,13 +20,19 @@ class MPOLSearchViewModel: SearchViewModel {
     ]
 
     func detailViewController(for entity: MPOLKitEntity) -> UIViewController? {
-        let viewController = EntityDetailSplitViewController(entity: entity as! Entity)
+        var viewController: EntityDetailSplitViewController?
 
-        // FIXME: - Sample code to handle different entity
         if entity is Person {
-            viewController.view.backgroundColor = .red
+            viewController = EntityDetailSplitViewController(entity: entity,
+                                                             sources: [MPOLSource.mpol],
+                                                             dataSource: PersonDetailsSectionsDataSource())
+            viewController!.view.backgroundColor = .red
+
         } else if entity is Vehicle {
-            viewController.view.backgroundColor = .yellow
+            viewController = EntityDetailSplitViewController(entity: entity,
+                                                             sources: [MPOLSource.mpol],
+                                                             dataSource: VehicleDetailsSectionsDataSource())
+            viewController!.view.backgroundColor = .yellow
         }
 
         return viewController

@@ -27,4 +27,6 @@ public class VehicleDetailsSectionsDataSource: EntityDetailSectionsDataSource {
         return EntityDetailFetch<Vehicle>(requests: requests)
     }
 
+    public init() {}
+
 }

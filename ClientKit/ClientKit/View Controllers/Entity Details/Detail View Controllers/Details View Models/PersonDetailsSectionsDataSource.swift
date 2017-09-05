@@ -28,4 +28,6 @@ public class PersonDetailsSectionsDataSource: EntityDetailSectionsDataSource  {
         return EntityDetailFetch<Person>(requests: requests)
     }
 
+    public init() {}
+
 }
