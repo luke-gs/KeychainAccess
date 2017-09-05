@@ -16,18 +16,35 @@ public struct NetworkLoggerConfiguration {
         self.showMetrics = showMetrics
     }
 }
-
+/// -----------------------------------------------------------------------------------------------
+/// The Network Logging Plugin for MPOLKit 
+/// Contains an array of requests that it internally manages
+/// A reference to the Logger that handles the logging process
+/// Will format the request/response into readable format and then delegate the logging to the logger
+/// -----------------------------------------------------------------------------------------------
 open class NetworkLoggingPlugin: PluginType {
 
     private var requests: Set<URLRequest> = []
     private let logger: Logger
     private let configurations: NetworkLoggerConfiguration
 
+    /// -----------------------------------------------------------------------------------------------
+    /// Public initialiser for NetworkLoggingPlugin
+    ///
+    /// - Parameters:
+    ///   - logger: The Logger responsible for logging the formatted output
+    ///   - configurations: Certain confirgurations that can be applied to the formatted response 
+    /// -----------------------------------------------------------------------------------------------
     public init(logger: Logger = Logger(loggers: [FileLogger(), ConsoleLogger()]), configurations: NetworkLoggerConfiguration = NetworkLoggerConfiguration()) {
         self.logger = logger
         self.configurations = configurations
     }
 
+    /// -----------------------------------------------------------------------------------------------
+    /// Called when the App will send through a request
+    ///
+    /// - Parameter request: The request that was performed (Output based on this request)
+    /// -----------------------------------------------------------------------------------------------
     public func willSend(_ request: Request) {
 
         let log = formattedOutput(
@@ -42,6 +59,11 @@ open class NetworkLoggingPlugin: PluginType {
         }
     }
 
+    /// -----------------------------------------------------------------------------------------------
+    /// When the application receives a response from a request that was made
+    ///
+    /// - Parameter response: The response to be processed
+    /// -----------------------------------------------------------------------------------------------
     public func didReceiveResponse<T>(_ response: DataResponse<T>) {
         let log = formattedOutput(
             request: response.request,
@@ -58,6 +80,18 @@ open class NetworkLoggingPlugin: PluginType {
         }
     }
 
+    /// -----------------------------------------------------------------------------------------------
+    /// Private function to handle the formatting of each network request/reponse
+    ///
+    /// - Parameters:
+    ///   - request: The urlRequest of either the request or the response's orginal request
+    ///   - headers: The headers contained in the response/request
+    ///   - data: The body of the response/request
+    ///   - result: Whether the reponse was successful (Contains the code and the formatted text)
+    ///   - metrics: The internal metrics of the request or response
+    ///   - error: Any error that was returned by the request/response
+    /// - Returns: A string that has been formatted 
+    /// -----------------------------------------------------------------------------------------------
     private func formattedOutput(request: URLRequest?,
                              headers: [AnyHashable: Any]?,
                              data: Data?,
@@ -69,6 +103,7 @@ open class NetworkLoggingPlugin: PluginType {
 
         let printOptions: JSONSerialization.WritingOptions = (headers?["Content-Type"] as? String)?.contains("application/json") == true ? [.prettyPrinted] : []
 
+        // An array of [String: String] used to map titles and values
         var components: [StringComponents] = []
 
         // Result formatting
@@ -87,6 +122,7 @@ open class NetworkLoggingPlugin: PluginType {
         components.append(("Headers: ", headers?.prettyPrinted() ?? "{ }"))
         components.append(("Request: ", request?.description ?? "{ }"))
 
+        // Metrics may be nil or the configurations passed in may not require metrics
         if let metrics = metrics, configurations.showMetrics {
             components.append(("Metrics: ", metrics.prettyPrinted()))
         }
@@ -94,6 +130,9 @@ open class NetworkLoggingPlugin: PluginType {
         // Body formatting
         if let data = data {
             do {
+
+                // Serialise and de-seriablise into pretty printed strings if possible
+                // Otherwise just print out the string representation of the body
                 let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
                 let prettyPrinted = try JSONSerialization.data(withJSONObject: json, options: printOptions)
                 components.append(("Body: ", String(data: prettyPrinted, encoding: .utf8) ?? "{ }"))
@@ -108,7 +147,7 @@ open class NetworkLoggingPlugin: PluginType {
             components.append(("Localised error: ", error?.localizedDescription ?? "-"))
         }
 
-        var result: String = ""
+        var result = String()
         for component in components {
             result += component.key + component.value + "\n"
         }
@@ -137,6 +176,8 @@ private extension Collection {
     }
 }
 
+
+// MARK: - Formatting a date interval and its internal parameters
 private extension DateInterval {
     func formattedValues() -> [String: Any] {
 
@@ -153,6 +194,7 @@ private extension DateInterval {
     }
 }
 
+// MARK: - Formatting a ResourceFetchType into a string
 private extension URLSessionTaskMetrics.ResourceFetchType {
 
     var displayValue: String {
@@ -165,6 +207,8 @@ private extension URLSessionTaskMetrics.ResourceFetchType {
     }
 }
 
+// MARK: - Formatting the SessionTaskMetrics 
+/// Only format certain properties of the metrics as some are irrrelevant to the NetworkLog readability
 private extension URLSessionTaskMetrics {
     func prettyPrinted() -> String {
 
