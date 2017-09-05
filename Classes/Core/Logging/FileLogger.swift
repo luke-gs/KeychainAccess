@@ -89,9 +89,11 @@ public struct FileLogger: Loggable {
         let fileName: String = configurations.savePolicy.fileName()
 
         if let handle = FileHandle(forWritingAtPath: fileURL.appendingPathComponent(fileName).path) {
-            handle.seekToEndOfFile()
-            handle.write(text.data(using: .utf8)!)
-            handle.closeFile()
+            if let data = text.data(using: .utf8) {
+                handle.seekToEndOfFile()
+                handle.write(data)
+                handle.closeFile()
+            }
         } else {
             try? text.data(using: .utf8)?.write(to: fileURL.appendingPathComponent(fileName))
         }
