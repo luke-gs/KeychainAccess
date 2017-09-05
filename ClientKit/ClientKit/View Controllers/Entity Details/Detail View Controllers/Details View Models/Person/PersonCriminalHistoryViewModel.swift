@@ -13,23 +13,6 @@ public class PersonCriminalHistoryViewModel: PersonDetailsViewModel<CriminalHist
     
     // MARK: - Public methods
     
-    public func reloadSections(with filterDateRange: FilterDateRange?, sortedBy sorting: PersonCriminalHistoryViewController.Sorting) {
-        var criminalHistory = person?.criminalHistory ?? []
-        if let dateRange = filterDateRange {
-            criminalHistory = criminalHistory.filter { history in
-                if let date = history.lastOccurred, dateRange.contains(date) {
-                    return true
-                }
-                return false
-            }
-        }
-        
-        criminalHistory.sort(by: sorting.compare(_:_:))
-        sections = criminalHistory
-        
-        delegate?.updateFilterBarButtonItemActivity()
-    }
-    
     public func cellInfo(for indexPath: IndexPath) -> CellInfo {
         let history = item(at: indexPath.item)!
         
@@ -41,8 +24,8 @@ public class PersonCriminalHistoryViewModel: PersonDetailsViewModel<CriminalHist
     
     // MARK: - Private methods
     
-    public override func itemsCount() -> UInt {
-        return UInt(person?.criminalHistory?.count ?? 0)
+    public override func items() -> [CriminalHistory]? {
+        return person?.criminalHistory
     }
     
     public override func noContentSubtitle() -> String? {

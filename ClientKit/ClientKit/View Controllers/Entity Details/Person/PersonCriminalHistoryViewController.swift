@@ -56,7 +56,7 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
         }
         set {
             viewModel.person = newValue as? Person
-            viewModel.reloadSections(with: filterDateRange, sortedBy: sorting)
+            reloadSections()
         }
     }
     
@@ -188,7 +188,8 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
                 break
             }
         }
-        viewModel.reloadSections(with: filterDateRange, sortedBy: sorting)
+        
+        reloadSections()
     }
     
     
@@ -211,6 +212,23 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
         }
         
         present(navController, animated: true)
+    }
+    
+    private func reloadSections() {
+        var filters: [FilterDescriptor<CriminalHistory>] = []
+        if let dateRange = self.filterDateRange {
+            filters.append(FilterRangeDescriptor<CriminalHistory, Date>(key: { $0.lastOccurred }, start: dateRange.startDate, end: dateRange.endDate))
+        }
+        
+        let sort: SortDescriptor<CriminalHistory>
+        switch self.sorting {
+        case .dateNewest, .dateOldest:
+            sort = SortDescriptor<CriminalHistory>(ascending: self.sorting == .dateOldest) { $0.lastOccurred }
+        case .title:
+            sort = SortDescriptor<CriminalHistory>(ascending: true) { $0.offenceDescription }
+        }
+        
+        viewModel.reloadSections(withFilterDescriptors: filters, sortDescriptors: [sort])
     }
 }
 

@@ -21,40 +21,10 @@ public class PersonActionsViewModel: PersonDetailsViewModel<Action> {
         return allTypes
     }
     
-    /// Filtered sections
-    public func reloadSections(with filterTypes: Set<String>?, filterDateRange: FilterDateRange?) {
-        var actions = person?.actions ?? []
-        
-        let selectActionTypes = filterTypes != nil
-        let requiresFiltering: Bool = selectActionTypes || filterDateRange != nil
-        
-        if requiresFiltering {
-            actions = actions.filter { action in
-                if selectActionTypes {
-                    guard let type = action.type, filterTypes!.contains(type) else {
-                        return false
-                    }
-                }
-                
-                if let filteredDateRange = filterDateRange {
-                    guard let date = action.date, filteredDateRange.contains(date) else {
-                        return false
-                    }
-                }
-                
-                return true
-            }
-        }
-        
-        sections = actions
-        delegate?.updateFilterBarButtonItemActivity()
-    }
-
-    
     // MARK: - Public methods
     
-    public override func itemsCount() -> UInt {
-        return UInt(person?.actions?.count ?? 0)
+    public override func items() -> [Action]? {
+        return person?.actions
     }
     
     public override func noContentSubtitle() -> String? {
