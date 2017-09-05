@@ -11,10 +11,8 @@ import UIKit
 private let latestSessionKey = "LatestSessionKey"
 internal let archivingQueue = DispatchQueue(label: "MagicArchivingQueue")
 
-
 /// Generic user session completion closure
 public typealias UserSessionCompletion = ((_ success: Bool)->())
-
 
 /// Protocol for the user session. (Mainly for clean docs)
 public protocol UserSessionable {
@@ -109,13 +107,6 @@ public class UserSession: UserSessionable {
         return true
     }
 
-
-    public func restoreSession(completion: @escaping UserSessionCompletion) {
-        document.open { success in
-            completion(self.user != nil)
-        }
-    }
-
     public static func startSession(user: User,
                                     token: OAuthAccessToken,
                                     completion: @escaping UserSessionCompletion)
@@ -130,6 +121,12 @@ public class UserSession: UserSessionable {
             UserSession.current.saveUserToCache()
 
             completion(success)
+        }
+    }
+
+    public func restoreSession(completion: @escaping UserSessionCompletion) {
+        document.open { success in
+            completion(self.user != nil)
         }
     }
 
@@ -235,14 +232,6 @@ fileprivate class UserSessionDocument: UIDocument {
 
     private var previousUserWrapper: FileWrapper?
 
-    private func replaceWrapper(key: String, object: Any) {
-        if let oldFileWrapper = fileWrapper.fileWrappers![key] {
-            fileWrapper.removeFileWrapper(oldFileWrapper)
-        }
-        fileWrapper.addRegularFile(withContents: NSKeyedArchiver.archivedData(withRootObject: object),
-                                   preferredFilename: key)
-    }
-
     func updateUserReference() {
         //Create symbolic link instead of direct wrapper
         guard let username = user?.username else { return }
@@ -257,6 +246,16 @@ fileprivate class UserSessionDocument: UIDocument {
         }
 
         fileWrapper.addFileWrapper(userWrapper)
+    }
+
+    //MARK: PRIVATE
+
+    private func replaceWrapper(key: String, object: Any) {
+        if let oldFileWrapper = fileWrapper.fileWrappers![key] {
+            fileWrapper.removeFileWrapper(oldFileWrapper)
+        }
+        fileWrapper.addRegularFile(withContents: NSKeyedArchiver.archivedData(withRootObject: object),
+                                   preferredFilename: key)
     }
 
     //MARK: OVERRIDING
