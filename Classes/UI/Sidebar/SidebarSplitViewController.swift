@@ -2,24 +2,24 @@
 //  SidebarSplitViewController.swift
 //  MPOLKit
 //
-//  Created by Rod Brown on 10/2/17.
+//  Created by Rod Brown on 10/2/17, edited by Trent Fitzgibbon.
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 
 import UIKit
 
-/// The `SidebarSplitViewController` represents a standard split view controller
-/// with a standard MPOL sidebar configuration in regular mode, and a horizontal menu when in compact.
+/// The SidebarSplitViewController represents a standard split view controller that can be pushed on to
+/// a UINavigationController stack and includes a sidebar of navigation menu items that can be displayed
+/// in both regular and compact size environments.
 ///
-/// You can either initialize with detail view controllers, and configure the sidebar directly
-/// as required, or subclass as a point of abstraction between the sidebar and it's detail.
+/// The sidebar is a table master VC in regular mode, and a horizontal strip above a detail VC in compact mode
 open class SidebarSplitViewController: PushableSplitViewController {
     
     /// The sidebar view controller when displayed horizontally in compact mode
-    public var horizontalSidebarViewController: CompactSidebarViewController = CompactSidebarViewController()
+    public var compactSidebarViewController = CompactSidebarViewController()
 
     /// The sidebar view controller for the split view controller.
-    public let sidebarViewController: RegularSidebarViewController = RegularSidebarViewController()
+    public let regularSidebarViewController = RegularSidebarViewController()
 
     // The navigation controller for the master side of split view
     public let masterNavController: NavigationControllerWithHeader
@@ -43,7 +43,7 @@ open class SidebarSplitViewController: PushableSplitViewController {
     /// The detail controllers for the sidebar.
     public var detailViewControllers: [UIViewController] {
         didSet {
-            sidebarViewController.items = detailViewControllers.map { $0.sidebarItem }
+            regularSidebarViewController.items = detailViewControllers.map { $0.sidebarItem }
             if let oldSelected = selectedViewController, detailViewControllers.contains(oldSelected) == false {
                 selectedViewController = nil
             }
@@ -62,12 +62,6 @@ open class SidebarSplitViewController: PushableSplitViewController {
         }
     }
 
-    /// Is the split view controller being rendered in compact environment, hence collapsed
-    public func isCompact() -> Bool {
-        return self.traitCollection.horizontalSizeClass == .compact
-    }
-
-
     /// Initializes the sidebar split view controller with the specified detail view controllers.
     ///
     /// - Parameter detailViewControllers: The detail view controllers. The sidebar items for these
@@ -79,51 +73,52 @@ open class SidebarSplitViewController: PushableSplitViewController {
         // Set up the page controller
         pageViewController = ScrollAwarePageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
 
-        masterNavController = NavigationControllerWithHeader(rootViewController: sidebarViewController)
+        masterNavController = NavigationControllerWithHeader(rootViewController: regularSidebarViewController)
         detailNavController = UINavigationController()
 
         if let selectedViewController = self.selectedViewController {
-            detailNavController.viewControllers = [selectedViewController]
-
-            // Check the root view controller trait collection, as self is not initialised yet
-            if let traitCollection = UIApplication.shared.keyWindow?.rootViewController?.traitCollection, traitCollection.horizontalSizeClass == .compact {
-                // Force early detail vc collapse so presentation animation looks good
+            // Check whether the window is compact, as we can't check self yet
+            if SidebarSplitViewController.isWindowCompact() {
+                // Force early compact collapse so presentation animation looks good
                 pageViewController.setViewControllers([selectedViewController], direction: .forward, animated: false, completion: nil)
                 masterNavController.viewControllers = [pageViewController]
                 detailNavController.viewControllers = []
+            } else {
+                // Show selected VC in detail side of split
+                detailNavController.viewControllers = [selectedViewController]
             }
         }
 
         super.init(viewControllers: [masterNavController, detailNavController])
 
+        // Handle all page view delegates
         pageViewController.scrollDelegate = self
         pageViewController.dataSource = self
         pageViewController.delegate = self
 
         // Create header sidebar for horizontal navigation, visible only when compact
-        self.addChildViewController(horizontalSidebarViewController)
-        horizontalSidebarViewController.didMove(toParentViewController: self)
-        masterNavController.headerView = horizontalSidebarViewController.view
-        sidebarViewController.edgesForExtendedLayout = []
+        self.addChildViewController(compactSidebarViewController)
+        compactSidebarViewController.didMove(toParentViewController: self)
+        masterNavController.headerView = compactSidebarViewController.view
+        regularSidebarViewController.edgesForExtendedLayout = []
 
-        sidebarViewController.delegate = self
-        sidebarViewController.items = detailViewControllers.map { $0.sidebarItem }
+        // Initialise sidebar menu items
+        regularSidebarViewController.delegate = self
+        regularSidebarViewController.items = detailViewControllers.map { $0.sidebarItem }
 
-        horizontalSidebarViewController.delegate = self
-        horizontalSidebarViewController.items = detailViewControllers.map { $0.sidebarItem }
-        
+        compactSidebarViewController.delegate = self
+        compactSidebarViewController.items = detailViewControllers.map { $0.sidebarItem }
+
+        // Configure split view
         let embeddedSplitViewController = self.embeddedSplitViewController
         embeddedSplitViewController.delegate = self
         embeddedSplitViewController.minimumPrimaryColumnWidth = 288.0
         embeddedSplitViewController.preferredPrimaryColumnWidthFraction = 320.0 / 1024.0
         embeddedSplitViewController.delegate = self
 
-        var selectedItem: SidebarItem?
-        if embeddedSplitViewController.isCollapsed == false {
-            selectedItem = selectedViewController?.sidebarItem
-        }
-        sidebarViewController.selectedItem = selectedItem
-        horizontalSidebarViewController.selectedItem = selectedItem
+        let selectedItem = selectedViewController?.sidebarItem
+        regularSidebarViewController.selectedItem = selectedItem
+        compactSidebarViewController.selectedItem = selectedItem
     }
 
     /// `SidebarSplitViewController` does not support NSCoding.
@@ -136,21 +131,32 @@ open class SidebarSplitViewController: PushableSplitViewController {
         updateNavigationBarForTraits()
     }
 
-    /// A callback indicating the collapsed state of the split changed.
-    open func collapsedStateDidChange() {}
-    
+    /// Is the split view controller being rendered in compact environment, hence collapsed
+    public func isCompact() -> Bool {
+        return self.traitCollection.horizontalSizeClass == .compact
+    }
+
+    /// Is the key window being rendered in compact environment
+    public static func isWindowCompact() -> Bool {
+        if let traitCollection = UIApplication.shared.keyWindow?.rootViewController?.traitCollection,
+            traitCollection.horizontalSizeClass == .compact {
+            return true
+        }
+        return false
+    }
+
     // MARK: - Private methods
 
     private func updateSplitViewControllerForSelection() {
         // Update the highlighted menu item
-        sidebarViewController.selectedItem = selectedViewController?.sidebarItem
-        horizontalSidebarViewController.selectedItem = sidebarViewController.selectedItem
+        let selectedItem = selectedViewController?.sidebarItem
+        regularSidebarViewController.selectedItem = selectedItem
+        compactSidebarViewController.selectedItem = selectedItem
 
         // Update the visible view controller
         if let selectedViewController = selectedViewController {
             if self.isCompact() {
                 pageViewController.setViewControllers([selectedViewController], direction: .forward, animated: false, completion: nil)
-                masterNavController.viewControllers = [pageViewController]
             } else {
                 detailNavController.viewControllers = [selectedViewController]
                 embeddedSplitViewController.showDetailViewController(detailNavController, sender: self)
@@ -159,7 +165,6 @@ open class SidebarSplitViewController: PushableSplitViewController {
             // No selection, use first detail if compact (can't show nothing)
             if self.isCompact() {
                 pageViewController.setViewControllers([defaultViewController], direction: .forward, animated: false, completion: nil)
-                masterNavController.viewControllers = [pageViewController]
             } else {
                 detailNavController.viewControllers = []
                 embeddedSplitViewController.showDetailViewController(detailNavController, sender: self)
@@ -180,22 +185,26 @@ open class SidebarSplitViewController: PushableSplitViewController {
     }
 
     private func updateSplitViewControllerForTraits() {
+        guard let detailViewController = self.selectedViewController ?? self.detailViewControllers.first else { return }
         if self.isCompact() {
             // Split displayed as single view, with details collapsed on top of master
-            // Update the master nav view controller to actually contain the detail, to remove the sidebar
-            if masterNavController.viewControllers.contains(sidebarViewController) {
-                if let detailViewController = self.selectedViewController ?? self.detailViewControllers.first {
-                    pageViewController.setViewControllers([detailViewController], direction: .forward, animated: false, completion: nil)
-                    detailNavController.viewControllers = []
-                    masterNavController.viewControllers = [pageViewController]
-                }
+            if !masterNavController.viewControllers.contains(pageViewController) {
+                // Clear old state
+                detailNavController.viewControllers = []
+
+                // Use the paging view controller in the master nav controller
+                pageViewController.setViewControllers([detailViewController], direction: .forward, animated: false, completion: nil)
+                masterNavController.viewControllers = [pageViewController]
             }
         } else {
             // Split displayed as both views visible at same time
-            // Restore the master nav view controller if collapsing has removed the sidebar from it
-            if !masterNavController.viewControllers.contains(sidebarViewController) {
+            if !masterNavController.viewControllers.contains(regularSidebarViewController) {
+                // Clear old state
                 pageViewController.setViewControllers([UIViewController()], direction: .forward, animated: false, completion: nil)
-                masterNavController.viewControllers = [sidebarViewController]
+
+                // Use the regular sidebar view controller in the master nav controller
+                masterNavController.viewControllers = [regularSidebarViewController]
+                detailNavController.viewControllers = [detailViewController]
             }
         }
     }
@@ -207,7 +216,7 @@ open class SidebarSplitViewController: PushableSplitViewController {
         masterNavController.viewControllers.first?.navigationItem.leftBarButtonItem = backButtonItem()
         detailNavController.viewControllers.first?.navigationItem.leftBarButtonItem = nil
 
-        // Update the navigation bar titles
+        // Update the navigation bar titles, otherwise they can be shown on wrong side after transition
         masterNavController.viewControllers.first?.navigationItem.title = self.isCompact() ? compactTitle : regularTitle
         detailNavController.viewControllers.first?.navigationItem.title = detailNavController.viewControllers.first?.title
     }
@@ -215,7 +224,7 @@ open class SidebarSplitViewController: PushableSplitViewController {
     func updateNavigationBarForTraits() {
         updateNavigationBarForSelection()
 
-        // Workaround for nav bar issue where title and back button are not updated when switching from compact to regular
+        // Workaround for Apple bug where title and back button are not updated when switching from compact to regular
         if !self.isCompact() {
             if let selectedViewController = selectedViewController {
                 detailNavController.viewControllers = []
@@ -225,32 +234,19 @@ open class SidebarSplitViewController: PushableSplitViewController {
             }
         }
     }
-
 }
 
 // MARK: - SidebarDelegate methods
 extension SidebarSplitViewController: SidebarDelegate {
 
-    /// Handles when the sidebar selects a new item.
-    /// By default, this selects the associated detail view controller.
-    ///
-    /// - Parameters:
-    ///   - controller: The `SidebarViewController` that has a new selection.
-    ///   - item:       The newly selected item.
     open func sidebarViewController(_ controller: UIViewController?, didSelectItem item: SidebarItem) {
         selectedViewController = detailViewControllers.first(where: { $0.sidebarItem == item })
     }
 
-    /// Handles when the sidebar selects a new source. By default, this does noting.
-    ///
-    /// - Parameters:
-    ///   - controller: The `SidebarViewController` where the item changed.
-    ///   - index:      The sidebar source index selected.
     open func sidebarViewController(_ controller: UIViewController, didSelectSourceAt index: Int) {
     }
     
     open func sidebarViewController(_ controller: UIViewController, didRequestToLoadSourceAt index: Int) {
-        
     }
 }
 
@@ -258,17 +254,23 @@ extension SidebarSplitViewController: SidebarDelegate {
 extension SidebarSplitViewController {
     
     open func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
-        sidebarViewController.selectedItem = nil
-        sidebarViewController.clearsSelectionOnViewWillAppear = true
-        perform(#selector(collapsedStateDidChange), with: nil, afterDelay: 0.0, inModes: [.commonModes])
+
+        // Clear selected item if showing sidebar as entire view (Rod code, not used currently)
+        //
+        // regularSidebarViewController.selectedItem = nil
+        // regularSidebarViewController.clearsSelectionOnViewWillAppear = true
+        // perform(#selector(collapsedStateDidChange), with: nil, afterDelay: 0.0, inModes: [.commonModes])
 
         return isCompact()
     }
 
     open func splitViewController(_ splitViewController: UISplitViewController, separateSecondaryFrom primaryViewController: UIViewController) -> UIViewController? {
-        sidebarViewController.selectedItem = selectedViewController?.sidebarItem
-        sidebarViewController.clearsSelectionOnViewWillAppear = false
-        perform(#selector(collapsedStateDidChange), with: nil, afterDelay: 0.0, inModes: [.commonModes])
+
+        // Restore selected item if showing sidebar as master in split (Rod code, not used currently)
+        //
+        // regularSidebarViewController.selectedItem = selectedViewController?.sidebarItem
+        // regularSidebarViewController.clearsSelectionOnViewWillAppear = false
+        // perform(#selector(collapsedStateDidChange), with: nil, afterDelay: 0.0, inModes: [.commonModes])
 
         // Restore the detail nav view controller for split screen
         if let detailViewController = self.selectedViewController ?? self.detailViewControllers.first {
@@ -318,7 +320,7 @@ extension SidebarSplitViewController: ScrollAwarePageViewControllerDelegate {
             // Update the horizontal scrollbar to match the page view
             let pointX = scrollView.contentOffset.x - view.frame.size.width
             let percentOffset = pointX / view.frame.size.width
-            horizontalSidebarViewController.setScrollOffsetPercent(percentOffset)
+            compactSidebarViewController.setScrollOffsetPercent(percentOffset)
         }
     }
 }
