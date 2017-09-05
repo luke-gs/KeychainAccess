@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import KeychainSwift
 
 private let latestSessionKey = "LatestSessionKey"
 internal let archivingQueue = DispatchQueue(label: "MagicArchivingQueue")
@@ -23,7 +24,7 @@ public protocol UserSessionable {
     /// The base path to save everything to
     static var basePath: URL { get set }
 
-    /// Static function to create a new session
+    /// Create and start a new session
     ///
     /// - Parameters:
     ///   - user: the user object for the session
@@ -179,14 +180,13 @@ public class UserSession: UserSessionable {
         let fullUrl = userDir.appendingPathComponent(username)
         try? FileManager.default.createDirectory(at: userDir, withIntermediateDirectories: true, attributes: [:])
 
-        archivingQueue.async { [weak self] in
-            NSKeyedArchiver.archiveRootObject(self?.user, toFile: fullUrl.path)
+        archivingQueue.async { [unowned self] in
+            NSKeyedArchiver.archiveRootObject(self.user!, toFile: fullUrl.path)
         }
 
         document.updateUserReference()
         saveSession()
     }
-
 
     //MARK: RESTORING
 
@@ -214,7 +214,12 @@ fileprivate class UserSessionDocument: UIDocument {
 
     var token: OAuthAccessToken? {
         didSet {
-            replaceWrapper(key: "token", object: token)
+            guard let token = token else {
+                keychain.delete("token")
+                return
+            }
+            let data = NSKeyedArchiver.archivedData(withRootObject: token)
+            keychain.set(data, forKey: "token")
         }
     }
 
@@ -231,6 +236,7 @@ fileprivate class UserSessionDocument: UIDocument {
     }
 
     private var previousUserWrapper: FileWrapper?
+    private let keychain = KeychainSwift()
 
     func updateUserReference() {
         //Create symbolic link instead of direct wrapper
@@ -269,7 +275,6 @@ fileprivate class UserSessionDocument: UIDocument {
         guard let wrappers = wrapper.fileWrappers else { return }
 
         let userWrapper = wrappers["user"]
-        let tokenWrapper = wrappers["token"]
         let recentlyViewedWrapper = wrappers["recentlyViewed"]
         let recentlySearchedWrapper = wrappers["recentlySearched"]
 
@@ -284,7 +289,7 @@ fileprivate class UserSessionDocument: UIDocument {
         let userPath = UserSession.basePath.appendingPathComponent(first).appendingPathComponent(second)
 
         let user = NSKeyedUnarchiver.unarchiveObject(withFile: userPath.path) as? User
-        let token = NSKeyedUnarchiver.unarchiveObject(with: (tokenWrapper?.regularFileContents)!) as? OAuthAccessToken
+        let token = NSKeyedUnarchiver.unarchiveObject(with: keychain.getData("token")!) as? OAuthAccessToken
         let recentlyViewed = NSKeyedUnarchiver.unarchiveObject(with: (recentlyViewedWrapper?.regularFileContents)!) as! [MPOLKitEntity]
         let recentlySearched = NSKeyedUnarchiver.unarchiveObject(with: (recentlySearchedWrapper?.regularFileContents)!) as! [Searchable]
         
