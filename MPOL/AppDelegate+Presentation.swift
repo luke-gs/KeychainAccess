@@ -11,7 +11,7 @@ import MPOLKit
 import ClientKit
 
 internal enum ViewState {
-    case login(sessionActive: Bool)
+    case login
     case tc(controller: LoginViewController)
     case whatsNew
     case landing
@@ -21,8 +21,8 @@ extension AppDelegate: LoginViewControllerDelegate, TermsConditionsViewControlle
 
     internal func updateInterface(for state: ViewState, animated: Bool) {
         switch state {
-        case .login(let activeSession):
-            let loginViewController = activeSession == true ? LoginViewController(name: UserSession.current.user!.username) : LoginViewController()
+        case .login:
+            let loginViewController = LoginViewController()
 
             loginViewController.minimumUsernameLength = 1
             loginViewController.minimumPasswordLength = 1
@@ -138,13 +138,16 @@ extension AppDelegate: LoginViewControllerDelegate, TermsConditionsViewControlle
 
             UserSession.startSession(user: User(username: username),
                                      token: token) { [weak self, controller] _ in
-                                        let user = UserSession.current.user
-                                        if user?.termsAndConditionsVersionAccepted == TermsAndConditionsVersion {
-                                            self?.updateInterface(for: user?.whatsNewShownVersion == WhatsNewVersion ? .landing : .whatsNew, animated: true)
-                                        } else {
-                                            self?.updateInterface(for: .tc(controller: controller), animated: true)
+                                        DispatchQueue.main.async {
+                                            let user = UserSession.current.user
+                                            if user?.termsAndConditionsVersionAccepted == TermsAndConditionsVersion {
+                                                self?.updateInterface(for: user?.whatsNewShownVersion == WhatsNewVersion ? .landing : .whatsNew, animated: true)
+                                            } else {
+                                                self?.updateInterface(for: .tc(controller: controller), animated: true)
+                                            }
+                                            controller.setLoading(false, animated: true)
                                         }
-                                        controller.setLoading(false, animated: true)
+
             }
             }.catch { error in
 

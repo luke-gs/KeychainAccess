@@ -48,10 +48,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         if UserSession.current.isActive == true {
             UserSession.current.restoreSession { [unowned self] success in
-                self.fiddleWithState()
+                DispatchQueue.main.async {
+                    self.fiddleWithState()
+                }
             }
         } else {
-            self.updateInterface(for: .login(sessionActive: false), animated: true)
+            self.updateInterface(for: .login, animated: true)
         }
 
         window.makeKeyAndVisible()
@@ -82,7 +84,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
             return
         }
-        self.updateInterface(for: .login(sessionActive: true), animated: true)
+        self.updateInterface(for: .login, animated: true)
     }
     
     // MARK: - APNS
@@ -132,7 +134,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     // TEMP
     func logOut() {
         UserSession.current.endSession()
-        updateInterface(for: .login(sessionActive: false), animated: true)
+        updateInterface(for: .login, animated: true)
     }
 
     @objc private func interfaceStyleDidChange() {
