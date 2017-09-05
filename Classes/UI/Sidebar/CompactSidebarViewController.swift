@@ -28,39 +28,11 @@ open class CompactSidebarViewController: UIViewController {
     /// The current items available to display.
     public var items: [SidebarItem] = [] {
         didSet {
-            let items = self.items
-
-            for item in oldValue where items.contains(item) == false {
-                sidebarKeys.forEach { item.removeObserver(self, forKeyPath: $0, context: &sidebarItemContext) }
-            }
-
-            for item in items where oldValue.contains(item) == false {
-                sidebarKeys.forEach { item.addObserver(self, forKeyPath: $0, context: &sidebarItemContext) }
-            }
-
-            if let selectedItem = self.selectedItem, items.contains(selectedItem) == false {
-                self.selectedItem = nil
-            }
-
-            // Add each sidebar item as a cell in the stack view
-            items.forEach({ (item) in
-                let label = CompactSidebarItemView(frame: .zero)
-                label.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
-                label.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
-                sidebarStackView.addArrangedSubview(label)
-            })
-            updateCells()
-
-            // Force layout so that we can get the cell size in viewDidLayoutSubviews
-            sidebarStackView.setNeedsLayout()
-            sidebarStackView.layoutIfNeeded()
+            updateItems(oldValue: oldValue)
         }
     }
 
     /// The selected item.
-    ///
-    /// If `clearsSelectionOnViewWillAppear` is true, this property is set to nil
-    /// when it receives a viewWillAppear(_:) message.
     public var selectedItem: SidebarItem? {
         didSet {
             updateCells()
@@ -73,20 +45,10 @@ open class CompactSidebarViewController: UIViewController {
     /// The scroll view for containing the stack view.
     public private(set) var scrollView: UIScrollView!
 
-    /// A Boolean value indicating whether the sidebar clears the selection when the view appears.
-    ///
-    /// The default value of this property is false. If true, the view controller clears the
-    /// selectedItem when it receives a viewWillAppear(_:) message.
-    open var clearsSelectionOnViewWillAppear: Bool = false
-
     /// The delegate for the sidebar, we use the same protocol as the vertical sidebar view controller.
     open weak var delegate: SidebarDelegate? = nil
 
     // MARK: - Private properties
-
-    private struct LayoutConstants {
-        static let scrollViewMargin: CGFloat = 10
-    }
 
     /// The current stackview cells for items
     private var cells: [CompactSidebarItemView] {
@@ -96,6 +58,12 @@ open class CompactSidebarViewController: UIViewController {
     /// The leading constraint for the stack view, to center first item
     private var stackViewLeadingConstraint: NSLayoutConstraint!
     private var stackViewTrailingConstraint: NSLayoutConstraint!
+
+    /// Fade out affect for left side of scrollview
+    private var fadeOutLeft: GradientView!
+
+    /// Fade out affect for right side of scrollview
+    private var fadeOutRight: GradientView!
 
     // MARK: - Initializer
 
@@ -112,7 +80,8 @@ open class CompactSidebarViewController: UIViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = #colorLiteral(red: 0.1058823529, green: 0.1176470588, blue: 0.1411764706, alpha: 1)
+        let backgroundColor = #colorLiteral(red: 0.1058823529, green: 0.1176470588, blue: 0.1411764706, alpha: 1)
+        view.backgroundColor = backgroundColor
 
         scrollView = UIScrollView(frame: .zero)
         scrollView.alwaysBounceHorizontal = true
@@ -135,18 +104,40 @@ open class CompactSidebarViewController: UIViewController {
         stackViewTrailingConstraint = sidebarStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: 0)
         stackViewTrailingConstraint.isActive = true
 
+        fadeOutLeft = GradientView()
+        fadeOutLeft.translatesAutoresizingMaskIntoConstraints = false
+        fadeOutLeft.gradientColors = [backgroundColor, UIColor.clear]
+        fadeOutLeft.gradientDirection = .horizontal
+        view.addSubview(fadeOutLeft)
+
+        fadeOutRight = GradientView()
+        fadeOutRight.translatesAutoresizingMaskIntoConstraints = false
+        fadeOutRight.gradientColors = [UIColor.clear, backgroundColor]
+        fadeOutRight.gradientDirection = .horizontal
+        view.addSubview(fadeOutRight)
+
         NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: LayoutConstants.scrollViewMargin),
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: LayoutConstants.scrollViewMargin),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -LayoutConstants.scrollViewMargin),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -LayoutConstants.scrollViewMargin),
-            scrollView.heightAnchor.constraint(equalToConstant: 36),
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            scrollView.heightAnchor.constraint(equalToConstant: 56),
 
             sidebarStackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             sidebarStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             sidebarStackView.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor),
             stackViewLeadingConstraint,
-            stackViewTrailingConstraint
+            stackViewTrailingConstraint,
+
+            fadeOutLeft.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            fadeOutLeft.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            fadeOutLeft.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            fadeOutLeft.widthAnchor.constraint(equalToConstant: 40),
+
+            fadeOutRight.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            fadeOutRight.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            fadeOutRight.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            fadeOutRight.widthAnchor.constraint(equalToConstant: 40),
         ])
     }
 
@@ -163,10 +154,23 @@ open class CompactSidebarViewController: UIViewController {
         }
     }
 
-    open override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        if clearsSelectionOnViewWillAppear {
-            selectedItem = nil
+    // MARK: - Public methods
+
+    public func setScrollOffsetPercent(_ percent: CGFloat) {
+        if let selectedItem = selectedItem, let itemIndex = items.index(of: selectedItem) {
+            let fromCell = cells[itemIndex]
+            var toCell: CompactSidebarItemView?
+            if percent > 0 && itemIndex + 1 < cells.count {
+                toCell = cells[itemIndex+1]
+            } else if percent < 0 && itemIndex > 0 {
+                toCell = cells[itemIndex-1]
+            }
+
+            if let toCell = toCell {
+                // Scroll part way to next cell
+                let offset = fabs(fromCell.center.x - toCell.center.x) * percent
+                setScrollOffsetForItem(itemIndex, offset: offset, animated: false)
+            }
         }
     }
 
@@ -195,27 +199,36 @@ open class CompactSidebarViewController: UIViewController {
         return ThemeManager.shared.theme(for: .current).statusBarStyle
     }
 
-    // MARK: - Public methods
-
-    public func setScrollOffsetPercent(_ percent: CGFloat) {
-        if let selectedItem = selectedItem, let itemIndex = items.index(of: selectedItem) {
-            let fromCell = cells[itemIndex]
-            var toCell: CompactSidebarItemView?
-            if percent > 0 && itemIndex + 1 < cells.count {
-                toCell = cells[itemIndex+1]
-            } else if percent < 0 && itemIndex > 0 {
-                toCell = cells[itemIndex-1]
-            }
-
-            if let toCell = toCell {
-                // Scroll part way to next cell
-                let offset = fabs(fromCell.center.x - toCell.center.x) * percent
-                setScrollOffsetForItem(itemIndex, offset: offset, animated: false)
-            }
-        }
-    }
-
     // MARK: - Private methods
+
+    private func updateItems(oldValue: [SidebarItem]) {
+        let items = self.items
+
+        for item in oldValue where items.contains(item) == false {
+            sidebarKeys.forEach { item.removeObserver(self, forKeyPath: $0, context: &sidebarItemContext) }
+        }
+
+        for item in items where oldValue.contains(item) == false {
+            sidebarKeys.forEach { item.addObserver(self, forKeyPath: $0, context: &sidebarItemContext) }
+        }
+
+        if let selectedItem = self.selectedItem, items.contains(selectedItem) == false {
+            self.selectedItem = nil
+        }
+
+        // Add each sidebar item as a cell in the stack view
+        items.forEach({ (item) in
+            let label = CompactSidebarItemView(frame: .zero)
+            label.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
+            label.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+            sidebarStackView.addArrangedSubview(label)
+        })
+        updateCells()
+
+        // Force layout so that we can get the cell size in viewDidLayoutSubviews
+        sidebarStackView.setNeedsLayout()
+        sidebarStackView.layoutIfNeeded()
+    }
 
     private func updateCells() {
         for index in 0..<items.count {
@@ -247,7 +260,7 @@ open class CompactSidebarViewController: UIViewController {
     private func setScrollOffsetForItem(_ itemIndex: Int, offset: CGFloat, animated: Bool) {
         let cell = cells[itemIndex]
         let leftAligned = view.bounds.width + cell.frame.origin.x
-        let centerAligned = leftAligned - (view.bounds.width - cell.bounds.width) / 2 + LayoutConstants.scrollViewMargin + offset
+        let centerAligned = leftAligned - (view.bounds.width - cell.bounds.width) / 2 + offset
         scrollView.setContentOffset(CGPoint(x: centerAligned, y: 0), animated: animated)
     }
 
