@@ -42,10 +42,11 @@ public class EntityDetailSectionsViewModel {
 
     public var results: [String: EntityFetchResult] = [:]
 
-    public init(sources: [EntitySource]? = [], entity: MPOLKitEntity) {
+    public init(entity: MPOLKitEntity, sources: [EntitySource]? = [], dataSource: EntityDetailSectionsDataSource) {
 
         self.sources = sources
         self.entity = entity
+        self.detailSectionsDataSource = [dataSource] // WARNING: Fix this
 
         let dataSource = detailSectionsDataSource.first {
             $0.localizedDisplayName == String(describing: type(of: entity))
