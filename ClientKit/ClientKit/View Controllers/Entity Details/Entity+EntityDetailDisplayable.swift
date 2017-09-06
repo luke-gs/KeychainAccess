@@ -15,8 +15,12 @@ extension Entity: EntityDetailDisplayable {
         return type(of: self).localizedDisplayName
     }
 
-    public var alertCount: UInt {
+    public var alertBadgeCount: UInt {
         return actionCount
+    }
+
+    public var alertBadgeColor: UIColor? {
+        return alertLevel?.color
     }
 
     public var lastUpdatedString: String? {
@@ -24,5 +28,6 @@ extension Entity: EntityDetailDisplayable {
         let lastUpdatedString = DateFormatter.shortDate.string(from: lastUpdated)
         return lastUpdatedString
     }
+
 
 }
