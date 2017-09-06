@@ -15,10 +15,12 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
     
     
     open override var entity: Entity? {
-        get { return viewModel.person }
+        get {
+            return viewModel.person
+        }
         set {
             viewModel.person = newValue as? Person
-            viewModel.reloadSections(with: filterTypes, filterDateRange: filterDateRange)
+            reloadSections()
         }
     }
     
@@ -151,7 +153,7 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
             }
         }
         
-        viewModel.reloadSections(with: filterTypes, filterDateRange: filterDateRange)
+        reloadSections()
     }
     
     
@@ -187,6 +189,20 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
         }
         
         present(navController, animated: true)
+    }
+    
+    private func reloadSections() {
+        var filters: [FilterDescriptor<Action>] = []
+        
+        if let types = self.filterTypes {
+            filters.append(FilterValueDescriptor<Action, String>(key: { $0.type }, values: types))
+        }
+        
+        if let dateRange = self.filterDateRange {
+            filters.append(FilterRangeDescriptor<Action, Date>(key: { $0.date }, start: dateRange.startDate, end: dateRange.endDate))
+        }
+        
+        viewModel.reloadSections(withFilterDescriptors: filters, sortDescriptors: nil)
     }
     
 }

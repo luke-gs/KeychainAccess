@@ -76,7 +76,7 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
         }
     }
     
-    public var sections: [DetailsType] = [PersonInfo(type: .header, items: nil)]{
+    public var sections: [DetailsType] = []{
         didSet {
             delegate?.reloadData()
         }

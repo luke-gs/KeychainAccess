@@ -16,10 +16,12 @@ open class VehicleOccurrencesViewController: EntityOccurrencesViewController, Fi
     // MARK: - Public properties
     
     open override var entity: Entity? {
-        get { return viewModel.entity }
+        get {
+            return viewModel.entity
+        }
         set {
             viewModel.entity = newValue
-            viewModel.reloadSections(with: filterTypes, filterDateRange: filterDateRange, sortedBy: dateSorting)
+            reloadSections()
         }
     }
     
@@ -183,7 +185,7 @@ open class VehicleOccurrencesViewController: EntityOccurrencesViewController, Fi
             }
         }
         
-        viewModel.reloadSections(with: filterTypes, filterDateRange: filterDateRange, sortedBy: dateSorting)
+        reloadSections()
     }
     
     
@@ -221,6 +223,22 @@ open class VehicleOccurrencesViewController: EntityOccurrencesViewController, Fi
         }
         
         present(navController, animated: true)
+    }
+    
+    private func reloadSections() {
+        var filters: [FilterDescriptor<Event>] = []
+        
+        if let types = self.filterTypes {
+            filters.append(FilterValueDescriptor<Event, String>(key: { $0.eventType }, values: types))
+        }
+        
+        if let dateRange = filterDateRange {
+            filters.append(FilterRangeDescriptor<Event, Date>(key: { $0.occurredDate }, start: dateRange.startDate, end: dateRange.endDate))
+        }
+        
+        let dateSort = SortDescriptor<Event>(ascending: dateSorting == .oldest) { $0.occurredDate }
+        
+        viewModel.reloadSections(withFilterDescriptors: filters, sortDescriptors: [dateSort])
     }
 }
 

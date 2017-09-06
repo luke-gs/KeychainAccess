@@ -16,7 +16,11 @@ class InterventionOrderDetailViewController: EventDetailViewController {
     /// Setting this as any event that is not a intervention order sets the event
     /// to `nil`.
     open override var event: Event? {
-        get { return super.event }
-        set { super.event = newValue as? InterventionOrder }
+        get {
+            return super.event
+        }
+        set {
+            super.event = newValue as? InterventionOrder
+        }
     }
 }

@@ -46,7 +46,7 @@ public class VehicleInfoViewModel: EntityDetailsViewModelable {
         }
     }
     
-    public var sections: [DetailsType] = [VehicleInfo(type: .header, items: nil)]{
+    public var sections: [DetailsType] = []{
         didSet {
             delegate?.reloadData()
         }

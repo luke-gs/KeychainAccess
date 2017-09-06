@@ -1,0 +1,26 @@
+exclude:
+    - '**Tests.swift'   # Ignore Swift files that end in "Tests"
+    - Pods   			      # Ignore Swift files in Pods
+    - Configuration     # Ignore Configuration directory
+    - '**VehicleInfoViewModel.swift'
+    - '**PersonInfoViewModel.swift'
+    - '**EntityAlertsViewModel.swift'
+    - '**Address.swift'
+    - '**Alert.swift'
+    - '**Contact.swift'
+    - '**Vehicle.swift'
+    - '**PhoneNumber.swift'
+    - '**SettingsViewController.swift'
+    - '**EntityDetailCollectionViewCell.swift'
+    - '**EntityDetailsViewModelable.swift'
+    - '**VehicleSearchDataSource.swift'
+    - '**PersonSearchDataSource.swift'
+    - '**BailOrderDetailViewController.swift'
+    - '**OrganizationInfoViewController.swift'
+
+
+except:
+    - trailing-whitespace
+    - terminating-newline
+    - forced-type-cast
+    - function-whitespace

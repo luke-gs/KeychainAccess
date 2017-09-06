@@ -17,7 +17,7 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
     open override var entity: Entity? {
         didSet {
             viewModel.entity = entity
-            viewModel.reloadSections(with: filteredAlertLevels, filterDateRange: filterDateRange, sortedBy: dateSorting)
+            reloadSections()
         }
     }
     
@@ -169,8 +169,7 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
             }
         }
         
-        viewModel.reloadSections(with: filteredAlertLevels, filterDateRange: filterDateRange, sortedBy: dateSorting)
-        
+        reloadSections()
     }
     
     
@@ -193,6 +192,19 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
         }
         
         present(navController, animated: true)
+    }
+    
+    private func reloadSections() {
+        var filters: [FilterDescriptor<Alert>] = []
+        filters.append(FilterValueDescriptor<Alert, Alert.Level>(key: { $0.level }, values: self.filteredAlertLevels))
+        
+        if let dateRange = self.filterDateRange {
+            filters.append(FilterRangeDescriptor<Alert, Date>(key: { $0.effectiveDate }, start: dateRange.startDate, end: dateRange.endDate))
+        }
+        
+        let dateSort = SortDescriptor<Alert>(ascending: dateSorting == .oldest) { $0.effectiveDate }
+        
+        viewModel.reloadSections(withFilterDescriptors: filters, sortDescriptors: [dateSort])
     }
 }
 
