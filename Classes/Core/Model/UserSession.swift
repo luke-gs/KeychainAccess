@@ -68,12 +68,17 @@ public class UserSession: UserSessionable {
     public static var basePath: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
 
     private(set) var token: OAuthAccessToken? {
-        set {
-            self.document.token = newValue
-            saveSession()
-        }
         get {
-            return self.document.token
+            guard let data = keychain.getData("token") else { return nil }
+            return (NSKeyedUnarchiver.unarchiveObject(with: data) as! OAuthAccessToken)
+        }
+        set {
+            if let token = newValue {
+                let data = NSKeyedArchiver.archivedData(withRootObject: token)
+                keychain.set(data, forKey: "token")
+            } else {
+                keychain.delete("token")
+            }
         }
     }
 
@@ -151,7 +156,7 @@ public class UserSession: UserSessionable {
     }
 
     //MARK: PRIVATE
-
+    private let keychain = KeychainSwift()
     private lazy var document: UserSessionDocument = {
         let sessionID = UserDefaults.standard.string(forKey: latestSessionKey) ?? UUID().uuidString
 
@@ -219,17 +224,6 @@ fileprivate class UserSessionDocument: UIDocument {
 
     var user: User?
 
-    var token: OAuthAccessToken? {
-        didSet {
-            guard let token = token else {
-                keychain.delete("token")
-                return
-            }
-            let data = NSKeyedArchiver.archivedData(withRootObject: token)
-            keychain.set(data, forKey: "token")
-        }
-    }
-
     var recentlyViewed: [MPOLKitEntity] = [] {
         didSet {
             replaceWrapper(key: "recentlyViewed", object: recentlyViewed)
@@ -243,7 +237,6 @@ fileprivate class UserSessionDocument: UIDocument {
     }
 
     private var previousUserWrapper: FileWrapper?
-    private let keychain = KeychainSwift()
 
     func updateUserReference() {
         //Create symbolic link instead of direct wrapper
@@ -296,12 +289,10 @@ fileprivate class UserSessionDocument: UIDocument {
         let userPath = UserSession.basePath.appendingPathComponent(first).appendingPathComponent(second)
 
         let user = NSKeyedUnarchiver.unarchiveObject(withFile: userPath.path) as? User
-        let token = NSKeyedUnarchiver.unarchiveObject(with: keychain.getData("token")!) as? OAuthAccessToken
         let recentlyViewed = NSKeyedUnarchiver.unarchiveObject(with: (recentlyViewedWrapper?.regularFileContents)!) as! [MPOLKitEntity]
         let recentlySearched = NSKeyedUnarchiver.unarchiveObject(with: (recentlySearchedWrapper?.regularFileContents)!) as! [Searchable]
-        
+
         self.user = user
-        self.token = token
         self.recentlyViewed = recentlyViewed
         self.recentlySearched = recentlySearched
     }
