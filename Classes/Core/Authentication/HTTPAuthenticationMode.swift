@@ -23,10 +23,10 @@ public enum HTTPAuthenticationMode: Equatable {
     
     /// Returns the authentication encoded as `String` suitable for the HTTP
     /// `Authorization` header.
-    fileprivate var authorizationHeader: (key: String, value: String)? {
+    public var authorizationHeader: (key: String, value: String) {
         switch self {
         case .basicAuthentication(let username, let password):
-            return Request.authorizationHeader(user: username, password: password)
+            return Request.authorizationHeader(user: username, password: password)!
         case .accessTokenAuthentication(let accessToken):
             return (key: "Authorization", value: "\(accessToken.type) \(accessToken.accessToken)")
         }
@@ -44,27 +44,4 @@ public func == (lhs: HTTPAuthenticationMode, rhs: HTTPAuthenticationMode) -> Boo
     default:
         return false
     }
-}
-
-
-public class AuthenticationHeaderAdapter: RequestAdapter {
-    
-    let authenticationMode: HTTPAuthenticationMode
-    
-    public init(authenticationMode: HTTPAuthenticationMode) {
-        self.authenticationMode = authenticationMode
-    }
-    
-    public func adapt(_ urlRequest: URLRequest) throws -> URLRequest {
-        
-        guard let header = authenticationMode.authorizationHeader else {
-            return urlRequest
-        }
-        
-        var adaptedRequest = urlRequest
-        adaptedRequest.addValue(header.value, forHTTPHeaderField: header.key)
-        
-        return adaptedRequest
-    }
-    
 }

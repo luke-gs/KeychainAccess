@@ -15,14 +15,17 @@ public protocol APIManagerConfigurable {
     var url: URLConvertible { get }
 
     var urlSessionConfiguration: URLSessionConfiguration { get }
+    var plugins: [PluginType]? { get }
     var errorMapper: ErrorMapper? { get }
     var trustPolicyManager: ServerTrustPolicyManager? { get }
+
 }
 
-public struct APIManagerDefaultConfiguration<S: EntitySource>: APIManagerConfigurable {
+public struct APIManagerDefaultConfiguration: APIManagerConfigurable {
     
     public let url: URLConvertible
     public let urlSessionConfiguration: URLSessionConfiguration
+    public let plugins: [PluginType]?
     public let errorMapper: ErrorMapper?
     public let trustPolicyManager: ServerTrustPolicyManager?
 
@@ -36,10 +39,16 @@ public struct APIManagerDefaultConfiguration<S: EntitySource>: APIManagerConfigu
         let mapper = ErrorMapper(definitions: [NetworkErrorDefinition()])
         return mapper
     }
-    
-    public init(url: URLConvertible, urlSessionConfiguration: URLSessionConfiguration = APIManagerDefaultConfiguration.defaultConfiguration(), errorMapper: ErrorMapper? = APIManagerDefaultConfiguration.defaultErrorMapper(), trustPolicyManager: ServerTrustPolicyManager? = nil) {
+
+    public init(url: URLConvertible,
+                urlSessionConfiguration: URLSessionConfiguration = APIManagerDefaultConfiguration.defaultConfiguration(),
+                plugins: [PluginType]? = nil,
+                errorMapper: ErrorMapper? = APIManagerDefaultConfiguration.defaultErrorMapper(),
+                trustPolicyManager: ServerTrustPolicyManager? = nil) {
+
         self.url = url
         self.urlSessionConfiguration = urlSessionConfiguration
+        self.plugins = plugins
         self.errorMapper = errorMapper
         self.trustPolicyManager = trustPolicyManager
     }

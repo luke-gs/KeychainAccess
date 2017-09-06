@@ -168,7 +168,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
             return actionView?.actions ?? []
         }
         set {
-            if editActions.isEmpty == false && actionView == nil {
+            if newValue.isEmpty == false && actionView == nil {
                 let view = CollectionViewFormCellActionView(frame: self.bounds)
                 view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
                 view.layoutMargins = self.layoutMargins

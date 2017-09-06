@@ -10,7 +10,7 @@ import XCTest
 import Alamofire
 @testable import MPOLKit
 
-class AuthenticationHeaderAdapterTests: XCTestCase {
+class HTTPAuthenticationModeTests: XCTestCase {
 
     let username = "username"
     let password = "password"
@@ -59,34 +59,6 @@ class AuthenticationHeaderAdapterTests: XCTestCase {
         let mode2: HTTPAuthenticationMode = .accessTokenAuthentication(token: OAuthAccessToken(accessToken: token, type: token))
 
         XCTAssertNotEqual(mode1, mode2)
-    }
-
-    func testAdaptBasicNoNil() {
-        let adapter1 = AuthenticationHeaderAdapter(authenticationMode: .basicAuthentication(username: username, password: password))
-        let adaptedRequest = try! adapter1.adapt(testRequest)
-
-        XCTAssertNil(testRequest.allHTTPHeaderFields)
-        XCTAssertNotNil(adaptedRequest.allHTTPHeaderFields)
-
-        XCTAssertEqual(adaptedRequest.allHTTPHeaderFields!, authHeaderBasic!)
-    }
-
-
-    func testAdaptTokenNoNil() {
-        let adapter1 = AuthenticationHeaderAdapter(authenticationMode: .accessTokenAuthentication(token: OAuthAccessToken(accessToken: token, type: token)))
-        let adaptedRequest = try! adapter1.adapt(testRequest)
-
-        XCTAssertNil(testRequest.allHTTPHeaderFields)
-        XCTAssertNotNil(adaptedRequest.allHTTPHeaderFields)
-
-        XCTAssertEqual(adaptedRequest.allHTTPHeaderFields!, authHeaderToken!)
-    }
-
-    func testAdaptCorrectTokenHeader() {
-        let adapter1 = AuthenticationHeaderAdapter(authenticationMode: .accessTokenAuthentication(token: OAuthAccessToken(accessToken: token, type: token)))
-        let adaptedRequest = try! adapter1.adapt(testRequest)
-
-        XCTAssertEqual(adaptedRequest.allHTTPHeaderFields!, authHeaderToken!)
     }
 }
 

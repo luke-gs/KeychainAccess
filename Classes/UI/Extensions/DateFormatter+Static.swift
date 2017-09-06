@@ -25,7 +25,7 @@ extension DateFormatter {
         DateFormatter.isListeningForLocaleChanges = true
         return formatter
     }()
-    
+
     public static let longDateAndTime: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = .autoupdatingCurrent
@@ -33,7 +33,13 @@ extension DateFormatter {
         formatter.timeStyle = .short
         return formatter
     }()
-    
+
+    public static let accurateDate: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = .autoupdatingCurrent
+        formatter.setLocalizedDateFormatFromTemplate("MMM-d-H:mm:ss.SSSSSSSSS-a-yyyy")
+        return formatter
+    }()
     
     // MARK: - Locale changes
     

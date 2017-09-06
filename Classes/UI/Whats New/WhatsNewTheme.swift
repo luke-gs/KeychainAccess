@@ -26,7 +26,7 @@ open class WhatsNewTheme {
     open var buttonSkipTextColor: UIColor?          { return UIColor(hexString: "#75828D") }
     open var buttonSkipBackgroundColor: UIColor?    { return UIColor(hexString: "#FFFFFF") }
     open var buttonSkipBorderColor: UIColor?        { return UIColor(hexString: "#75828D") }
-    open var buttonSkipText: String                 { return "Skip and Continue" }
+    open var buttonSkipText: String                 { return "Skip" }
     open var buttonDoneTextColor: UIColor?          { return UIColor(hexString: "#FFFFFF") }
     open var buttonDoneBackgroundColor: UIColor?    { return UIColor(hexString: "#2B7DF6") }
     open var buttonDoneBorderColor: UIColor?        { return nil }
