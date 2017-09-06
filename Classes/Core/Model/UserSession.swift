@@ -70,15 +70,15 @@ public class UserSession: UserSessionable {
 
     public var recentlyViewed: [MPOLKitEntity] = [] {
         didSet {
-            guard recentlySearched == oldValue else { return }
+            guard recentlySearched != oldValue else { return }
             directoryManager.write(recentlyViewed, to: paths.recentlyViewed)
         }
     }
 
     public var recentlySearched: [Searchable] = [] {
         didSet {
-            guard recentlySearched == oldValue else { return }
-            directoryManager.write(recentlyViewed, to: paths.recentlySearched)
+            guard recentlySearched != oldValue else { return }
+            directoryManager.write(recentlySearched, to: paths.recentlySearched)
         }
     }
 
