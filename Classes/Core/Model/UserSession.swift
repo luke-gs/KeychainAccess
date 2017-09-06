@@ -9,8 +9,173 @@
 import UIKit
 import KeychainSwift
 
+private struct UserSessionPaths {
+
+    private let basePath: URL
+    private let sessionId: String
+
+
+    init(baseUrl: URL, sessionId: String) {
+        self.basePath = baseUrl
+        self.sessionId = sessionId
+    }
+
+    var session: String {
+        let array = ["session", "\(sessionId)"]
+        return array.joined(separator: "/")
+    }
+
+    var recentlyViewed: String {
+        let array = ["session", "\(sessionId)", "viewed"]
+        return array.joined(separator: "/")
+    }
+
+    var recentlySearched: String {
+        let array = ["session", "\(sessionId)", "searched"]
+        return array.joined(separator: "/")
+    }
+
+    var userWrapperPath: String {
+        let array = ["session", "\(sessionId)", "user"]
+        return array.joined(separator: "/")
+    }
+
+    func userPath(for name: String) -> String {
+        let array = ["user", "\(name)"]
+        return array.joined(separator: "/")
+    }
+}
+
+public class UserSession: UserSessionable {
+
+    public static let current = UserSession()
+    public static var basePath: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+
+    private(set) var token: OAuthAccessToken? {
+        get {
+            guard let data = keychain.getData("token") else { return nil }
+            return (NSKeyedUnarchiver.unarchiveObject(with: data) as! OAuthAccessToken)
+        }
+        set {
+            if let token = newValue {
+                let data = NSKeyedArchiver.archivedData(withRootObject: token)
+                keychain.set(data, forKey: "token")
+            } else {
+                keychain.delete("token")
+            }
+        }
+    }
+
+    private(set) public var user: User?
+
+    public var recentlyViewed: [MPOLKitEntity] = [] {
+        didSet {
+            guard recentlySearched == oldValue else { return }
+            directoryManager.write(recentlyViewed, to: paths.recentlyViewed)
+        }
+    }
+
+    public var recentlySearched: [Searchable] = [] {
+        didSet {
+            guard recentlySearched == oldValue else { return }
+            directoryManager.write(recentlyViewed, to: paths.recentlySearched)
+        }
+    }
+
+    public var isActive: Bool {
+        guard let _ = UserDefaults.standard.string(forKey: latestSessionKey) else { return false }
+        return true
+    }
+
+    public var sessionID: String {
+        let sessionID = UserDefaults.standard.string(forKey: latestSessionKey) ?? UUID().uuidString
+        UserDefaults.standard.set(sessionID, forKey: latestSessionKey)
+        return sessionID
+    }
+
+    public static func startSession(user: User,
+                                    token: OAuthAccessToken,
+                                    completion: @escaping UserSessionCompletion)
+    {
+        UserSession.current.token = token
+        UserSession.current.user = user
+        UserSession.current.recentlyViewed = []
+        UserSession.current.recentlySearched = []
+
+        UserSession.current.loadUserFromCache()
+        UserSession.current.saveUserToCache()
+
+        completion(true)
+    }
+
+    public func updateUser() {
+        saveUserToCache()
+    }
+
+    public func endSession() {
+        try! directoryManager.remove(at: paths.session)
+        UserDefaults.standard.set(nil, forKey: latestSessionKey)
+    }
+
+    public func restoreSession(completion: @escaping UserSessionCompletion) {
+        let userWrapper = directoryManager.read(from: paths.userWrapperPath) as? FileWrapper
+        let viewed = directoryManager.read(from: paths.recentlyViewed) as! [MPOLKitEntity]
+        let searched = directoryManager.read(from: paths.recentlySearched) as! [Searchable]
+
+        guard userWrapper != nil else {
+            UserSession.current.endSession()
+            return
+        }
+
+        let first = (userWrapper?.symbolicLinkDestinationURL?.deletingLastPathComponent().lastPathComponent)!
+        let second = (userWrapper?.symbolicLinkDestinationURL?.lastPathComponent)!
+        let userPath = UserSession.basePath.appendingPathComponent(first).appendingPathComponent(second)
+
+        self.user = NSKeyedUnarchiver.unarchiveObject(withFile: userPath.path) as? User
+        self.recentlyViewed = viewed
+        self.recentlySearched = searched
+
+        completion(true)
+    }
+
+    //MARK: PRIVATE
+    private let keychain = KeychainSwift()
+    private lazy var directoryManager = {
+        return DirectoryManager(baseURL: UserSession.basePath)
+    }()
+    private lazy var paths: UserSessionPaths = {
+        return UserSessionPaths(baseUrl: UserSession.basePath, sessionId: self.sessionID)
+    }()
+
+    //MARK: SAVING
+
+    private func saveUserToCache() {
+        //Archive user
+        guard let user = user else { return }
+        directoryManager.write(user, to: paths.userPath(for: user.username))
+
+        //Add symbolic link to session
+        guard let url = URL(string: paths.userPath(for: user.username)) else { return }
+        let userWrapper = FileWrapper(symbolicLinkWithDestinationURL: url)
+        userWrapper.preferredFilename = "user"
+        directoryManager.write(userWrapper, to: paths.userWrapperPath)
+    }
+
+    //MARK: RESTORING
+
+    private func loadUserFromCache() {
+        guard let username = user?.username else { return }
+        let possiblyActualUser = directoryManager.read(from: paths.userPath(for: username))
+
+        if let validUser = possiblyActualUser as? User {
+            user = validUser
+            saveUserToCache()
+        }
+    }
+}
+
 private let latestSessionKey = "LatestSessionKey"
-internal let archivingQueue = DispatchQueue(label: "MagicArchivingQueue")
+private let archivingQueue = DispatchQueue(label: "MagicArchivingQueue")
 
 /// Generic user session completion closure
 public typealias UserSessionCompletion = ((_ success: Bool)->())
@@ -62,238 +227,3 @@ public protocol UserSessionable {
     func endSession()
 }
 
-public class UserSession: UserSessionable {
-
-    public static let current = UserSession()
-    public static var basePath: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-
-    private(set) var token: OAuthAccessToken? {
-        get {
-            guard let data = keychain.getData("token") else { return nil }
-            return (NSKeyedUnarchiver.unarchiveObject(with: data) as! OAuthAccessToken)
-        }
-        set {
-            if let token = newValue {
-                let data = NSKeyedArchiver.archivedData(withRootObject: token)
-                keychain.set(data, forKey: "token")
-            } else {
-                keychain.delete("token")
-            }
-        }
-    }
-
-    private(set) public var user: User? {
-        set {
-            self.document.user = newValue
-        }
-        get {
-            return self.document.user
-        }
-    }
-
-    public var recentlyViewed: [MPOLKitEntity] {
-        set {
-            self.document.recentlyViewed = newValue
-            saveSession()
-        }
-        get {
-            return self.document.recentlyViewed
-        }
-    }
-
-    public var recentlySearched: [Searchable] {
-        set {
-            self.document.recentlySearched = newValue
-            saveSession()
-        }
-        get {
-            return self.document.recentlySearched
-        }
-    }
-
-    public var isActive: Bool {
-        guard let _ = UserDefaults.standard.string(forKey: latestSessionKey) else { return false }
-        return true
-    }
-
-    public var sessionID: String {
-        return document.fileURL.lastPathComponent
-    }
-
-    public static func startSession(user: User,
-                                    token: OAuthAccessToken,
-                                    completion: @escaping UserSessionCompletion)
-    {
-        UserSession.current.createSession() { success in
-            UserSession.current.token = token
-            UserSession.current.user = user
-            UserSession.current.recentlyViewed = []
-            UserSession.current.recentlySearched = []
-
-            UserSession.current.loadUserFromCache()
-            UserSession.current.saveUserToCache()
-
-            completion(success)
-        }
-    }
-
-    public func restoreSession(completion: @escaping UserSessionCompletion) {
-        document.open { success in
-            completion(self.user != nil)
-        }
-    }
-
-    public func updateUser() {
-        saveUserToCache()
-    }
-
-    public func endSession() {
-        user = nil
-        token = nil
-        recentlySearched = []
-        recentlyViewed = []
-        UserDefaults.standard.set(nil, forKey: latestSessionKey)
-    }
-
-    //MARK: PRIVATE
-    private let keychain = KeychainSwift()
-    private lazy var document: UserSessionDocument = {
-        let sessionID = UserDefaults.standard.string(forKey: latestSessionKey) ?? UUID().uuidString
-
-        let url = UserSession.basePath
-            .appendingPathComponent("sessions", isDirectory: true)
-            .appendingPathComponent(sessionID)
-
-        try! FileManager.default.createDirectory(at: url.deletingLastPathComponent(),
-                                                 withIntermediateDirectories: true,
-                                                 attributes: [:])
-
-
-        UserDefaults.standard.set(sessionID, forKey: latestSessionKey)
-
-        return UserSessionDocument(fileURL: url)
-    }()
-
-    //MARK: SAVING
-
-    private func createSession(completion: @escaping ((Bool)->())) {
-        document.save(to: document.fileURL, for: .forCreating) { success in
-            completion(success)
-        }
-    }
-
-    private func saveSession() {
-        document.save(to: document.fileURL, for: .forOverwriting)
-    }
-
-    private func saveUserToCache() {
-        guard let username = user?.username else { return }
-        let userDir = UserSession.basePath.appendingPathComponent("user", isDirectory: true)
-        let fullUrl = userDir.appendingPathComponent(username)
-        try? FileManager.default.createDirectory(at: userDir, withIntermediateDirectories: true, attributes: [:])
-
-        archivingQueue.async { [unowned self] in
-            NSKeyedArchiver.archiveRootObject(self.user!, toFile: fullUrl.path)
-        }
-
-        document.updateUserReference()
-        saveSession()
-    }
-
-    //MARK: RESTORING
-
-    private func loadUserFromCache() {
-        guard let username = user?.username else { return }
-        let url = UserSession.basePath.appendingPathComponent("user").appendingPathComponent(username).path
-        let possiblyActualUser = NSKeyedUnarchiver.unarchiveObject(withFile: url)
-
-        if let validUser = possiblyActualUser as? User {
-            self.user = validUser
-            saveUserToCache()
-        }
-    }
-}
-
-fileprivate class UserSessionDocument: UIDocument {
-
-    lazy var fileWrapper: FileWrapper = {
-        let wrapper  = FileWrapper(directoryWithFileWrappers: [:])
-        wrapper.filename = "session"
-        return wrapper
-    }()
-
-    var user: User?
-
-    var recentlyViewed: [MPOLKitEntity] = [] {
-        didSet {
-            replaceWrapper(key: "recentlyViewed", object: recentlyViewed)
-        }
-    }
-
-    var recentlySearched: [Searchable] = [] {
-        didSet {
-            replaceWrapper(key: "recentlySearched", object: recentlySearched)
-        }
-    }
-
-    private var previousUserWrapper: FileWrapper?
-
-    func updateUserReference() {
-        //Create symbolic link instead of direct wrapper
-        guard let username = user?.username else { return }
-        let url = UserSession.basePath.appendingPathComponent("user").appendingPathComponent(username)
-        let userWrapper = FileWrapper(symbolicLinkWithDestinationURL: url)
-        userWrapper.preferredFilename = "user"
-
-        //Remove previous user wrapper before adding the new user wrapper
-        if let oldUserWrapper = previousUserWrapper {
-            fileWrapper.removeFileWrapper(oldUserWrapper)
-            previousUserWrapper = userWrapper
-        }
-
-        fileWrapper.addFileWrapper(userWrapper)
-    }
-
-    //MARK: PRIVATE
-
-    private func replaceWrapper(key: String, object: Any) {
-        if let oldFileWrapper = fileWrapper.fileWrappers![key] {
-            fileWrapper.removeFileWrapper(oldFileWrapper)
-        }
-        fileWrapper.addRegularFile(withContents: NSKeyedArchiver.archivedData(withRootObject: object),
-                                   preferredFilename: key)
-    }
-
-    //MARK: OVERRIDING
-
-    override func contents(forType typeName: String) throws -> Any {
-        return fileWrapper
-    }
-
-    override func load(fromContents contents: Any, ofType typeName: String?) throws {
-        guard let wrapper = contents as? FileWrapper else { return }
-        guard let wrappers = wrapper.fileWrappers else { return }
-
-        let userWrapper = wrappers["user"]
-        let recentlyViewedWrapper = wrappers["recentlyViewed"]
-        let recentlySearchedWrapper = wrappers["recentlySearched"]
-
-        guard userWrapper != nil else {
-            UserSession.current.endSession()
-            return
-        }
-
-        let first = (userWrapper?.symbolicLinkDestinationURL?.deletingLastPathComponent().lastPathComponent)!
-        let second = (userWrapper?.symbolicLinkDestinationURL?.lastPathComponent)!
-
-        let userPath = UserSession.basePath.appendingPathComponent(first).appendingPathComponent(second)
-
-        let user = NSKeyedUnarchiver.unarchiveObject(withFile: userPath.path) as? User
-        let recentlyViewed = NSKeyedUnarchiver.unarchiveObject(with: (recentlyViewedWrapper?.regularFileContents)!) as! [MPOLKitEntity]
-        let recentlySearched = NSKeyedUnarchiver.unarchiveObject(with: (recentlySearchedWrapper?.regularFileContents)!) as! [Searchable]
-
-        self.user = user
-        self.recentlyViewed = recentlyViewed
-        self.recentlySearched = recentlySearched
-    }
-}
