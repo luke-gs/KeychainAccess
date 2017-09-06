@@ -12,7 +12,9 @@ public protocol EntityDetailDisplayable {
 
     var entityDisplayName: String? { get }
 
-    var alertCount: UInt { get }
+    var alertBadgeCount: UInt { get }
+
+    var alertBadgeColor: UIColor? { get }
 
     var lastUpdatedString: String? { get }
 }

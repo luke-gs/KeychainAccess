@@ -107,8 +107,9 @@ open class EntityDetailSplitViewController: SidebarSplitViewController {
                 case .fetching:
                     itemState = .loading
                 case .finished:
-                    if fetchResult.error == nil {
-                        itemState = .loaded(count: 1, color: #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1))
+                    if fetchResult.error == nil,
+                        let displayable = fetchResult.entity as? EntityDetailDisplayable {
+                        itemState = .loaded(count: displayable.alertBadgeCount, color: displayable.alertBadgeColor)
                     } else {
                         itemState = .notAvailable
                     }
