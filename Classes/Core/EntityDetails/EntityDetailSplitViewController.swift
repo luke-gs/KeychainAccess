@@ -100,12 +100,11 @@ open class EntityDetailSplitViewController: SidebarSplitViewController {
             if let fetchResult = detailViewModel.results[$0.serverSourceName] {
                 switch fetchResult.state {
                 case .idle:
-//                case .loaded(let entity):
-                    // WARNING: NYI
-//                    itemState = .loaded(count: entity.actionCount, color: entity.alertLevel?.color)
                     itemState = .notLoaded
+
                 case .fetching:
                     itemState = .loading
+
                 case .finished:
                     if fetchResult.error == nil,
                         let displayable = fetchResult.entity as? EntityDetailDisplayable {
