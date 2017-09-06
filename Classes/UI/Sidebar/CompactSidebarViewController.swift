@@ -95,6 +95,9 @@ open class CompactSidebarViewController: UIViewController {
     /// Fade out affect for right side of scrollview
     private var fadeOutRight: GradientView!
 
+    /// The selected item index when pan gesture started
+    private var panStartIndex = 0
+
     // MARK: - Initializer
 
     deinit {
@@ -119,6 +122,7 @@ open class CompactSidebarViewController: UIViewController {
         scrollView.showsVerticalScrollIndicator = false
         scrollView.isScrollEnabled = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(didPanScrollView(gestureRecognizer:))))
         view.addSubview(scrollView)
 
         sidebarStackView = UIStackView(frame: .zero)
@@ -285,11 +289,12 @@ open class CompactSidebarViewController: UIViewController {
     }
 
     private func updateCells() {
-        UIView.animate(withDuration: 0.3, animations: {
+        // Animate any changes to the selected cell
+        UIView.animate(withDuration: 0.3, delay: 0, options: .beginFromCurrentState, animations: {
             for index in 0..<self.items.count {
                 self.updateCellAtIndex(index)
             }
-        })
+        }, completion: nil)
     }
 
     private func updateCellAtIndex(_ index: Int) {
@@ -318,6 +323,30 @@ open class CompactSidebarViewController: UIViewController {
         let leftAligned = view.bounds.width + cell.frame.origin.x + scrollView.frame.origin.x
         let centerAligned = leftAligned - (view.bounds.width - cell.bounds.width) / 2 + offset
         scrollView.setContentOffset(CGPoint(x: centerAligned, y: 0), animated: animated)
+    }
+
+    @objc func didPanScrollView(gestureRecognizer: UIPanGestureRecognizer) {
+        let translation = gestureRecognizer.translation(in: gestureRecognizer.view)
+        switch gestureRecognizer.state {
+        case .began:
+            if let selectedItem = selectedItem, let itemIndex = items.index(of: selectedItem) {
+                panStartIndex = itemIndex
+            }
+        case .changed:
+            // Scroll to next or previous menu items based on translation from original index
+            let newIndex = panStartIndex - Int(translation.x / 40)
+            var newItem: SidebarItem? = nil
+            if newIndex >= 0 && newIndex < items.count {
+                newItem = items[newIndex]
+            }
+            if let newItem = newItem, newItem != selectedItem {
+                // Select new item and notify delegate
+                self.selectedItem = newItem
+                self.delegate?.sidebarViewController(self, didSelectItem: newItem)
+            }
+        default:
+            break
+        }
     }
 
 }

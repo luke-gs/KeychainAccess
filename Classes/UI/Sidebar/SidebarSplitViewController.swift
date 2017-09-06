@@ -306,7 +306,9 @@ extension SidebarSplitViewController: UIPageViewControllerDelegate {
             // Dispath update to the selected view controller, so animation is complete
             if completed {
                 DispatchQueue.main.async {
-                    self.selectedViewController = currentVC
+                    UIView.performWithoutAnimation {
+                        self.selectedViewController = currentVC
+                    }
                 }
             }
         }

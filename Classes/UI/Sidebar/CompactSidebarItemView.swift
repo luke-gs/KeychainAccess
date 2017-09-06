@@ -28,6 +28,7 @@ open class CompactSidebarItemView: UIView {
         itemButton = UIButton()
         itemButton.translatesAutoresizingMaskIntoConstraints = false
         itemButton.addTarget(self, action: #selector(buttonTapped(sender:)), for: .touchUpInside)
+        itemButton.contentEdgeInsets = UIEdgeInsetsMake(10, 0, 10, 0)
         self.addSubview(itemButton)
 
         NSLayoutConstraint.activate([
