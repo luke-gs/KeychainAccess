@@ -138,15 +138,13 @@ extension AppDelegate: LoginViewControllerDelegate, TermsConditionsViewControlle
 
             UserSession.startSession(user: User(username: username),
                                      token: token) { [weak self, controller] _ in
-                                        DispatchQueue.main.async {
-                                            let user = UserSession.current.user
-                                            if user?.termsAndConditionsVersionAccepted == TermsAndConditionsVersion {
-                                                self?.updateInterface(for: user?.whatsNewShownVersion == WhatsNewVersion ? .landing : .whatsNew, animated: true)
-                                            } else {
-                                                self?.updateInterface(for: .tc(controller: controller), animated: true)
-                                            }
-                                            controller.setLoading(false, animated: true)
+                                        let user = UserSession.current.user
+                                        if user?.termsAndConditionsVersionAccepted == TermsAndConditionsVersion {
+                                            self?.updateInterface(for: user?.whatsNewShownVersion == WhatsNewVersion ? .landing : .whatsNew, animated: true)
+                                        } else {
+                                            self?.updateInterface(for: .tc(controller: controller), animated: true)
                                         }
+                                        controller.setLoading(false, animated: true)
 
             }
             }.catch { error in
@@ -159,7 +157,7 @@ extension AppDelegate: LoginViewControllerDelegate, TermsConditionsViewControlle
                 controller.setLoading(false, animated: true)
         }
     }
-
+    
     func loginViewController(_ controller: LoginViewController, didTapForgotPasswordButton button: UIButton) {
 
     }

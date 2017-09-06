@@ -48,9 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         if UserSession.current.isActive == true {
             UserSession.current.restoreSession { [unowned self] success in
-                DispatchQueue.main.async {
-                    self.fiddleWithState()
-                }
+                self.fiddleWithState()
             }
         } else {
             self.updateInterface(for: .login, animated: true)
