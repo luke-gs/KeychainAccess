@@ -25,6 +25,9 @@ open class CompactSidebarViewController: UIViewController {
 
     // MARK: - Public properties
 
+    /// The delegate for the sidebar, we use the same protocol as the vertical sidebar view controller.
+    open weak var delegate: SidebarDelegate? = nil
+
     /// The current items available to display.
     public var items: [SidebarItem] = [] {
         didSet {
@@ -39,14 +42,41 @@ open class CompactSidebarViewController: UIViewController {
         }
     }
 
+    /// The current sources available to display
+    public var sourceItems: [SourceItem] = [] {
+        didSet {
+            if let selectedSourceIndex = selectedSourceIndex,
+                selectedSourceIndex >= sourceItems.count {
+                self.selectedSourceIndex = nil
+            } else {
+                let defaultIndex = sourceItems.count > 0 ? 0 : nil
+                self.selectedSourceIndex = selectedSourceIndex ?? defaultIndex
+            }
+        }
+    }
+
+    /// The selected source index
+    public var selectedSourceIndex: Int? = nil {
+        didSet {
+            if let selectedSourceIndex = selectedSourceIndex {
+                precondition(selectedSourceIndex < sourceItems.count)
+                sourceButton.setTitle(sourceItems[selectedSourceIndex].shortTitle, for: .normal)
+            } else {
+                sourceButton.setTitle(nil, for: .normal)
+            }
+        }
+    }
     /// The stack view for sidebar items.
     public private(set) var sidebarStackView: UIStackView!
 
     /// The scroll view for containing the stack view.
     public private(set) var scrollView: UIScrollView!
 
-    /// The delegate for the sidebar, we use the same protocol as the vertical sidebar view controller.
-    open weak var delegate: SidebarDelegate? = nil
+    /// Button for changing the source
+    public private(set) var sourceButton: UIButton!
+
+    /// Divider line for source button and stack view
+    public private(set) var sourceDivider: UIView!
 
     // MARK: - Private properties
 
@@ -104,6 +134,20 @@ open class CompactSidebarViewController: UIViewController {
         stackViewTrailingConstraint = sidebarStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: 0)
         stackViewTrailingConstraint.isActive = true
 
+        sourceButton = UIButton(type: .custom)
+        sourceButton.translatesAutoresizingMaskIntoConstraints = false
+        sourceButton.backgroundColor = #colorLiteral(red: 1, green: 0.231372549, blue: 0.1882352941, alpha: 1)
+        sourceButton.setTitleColor(UIColor.black, for: .normal)
+        sourceButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
+        sourceButton.contentEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5)
+        sourceButton.layer.cornerRadius = 3
+        view.addSubview(sourceButton)
+
+        sourceDivider = UIView(frame: .zero)
+        sourceDivider.translatesAutoresizingMaskIntoConstraints = false
+        sourceDivider.backgroundColor = UIColor.gray
+        view.addSubview(sourceDivider)
+
         fadeOutLeft = GradientView()
         fadeOutLeft.translatesAutoresizingMaskIntoConstraints = false
         fadeOutLeft.gradientColors = [backgroundColor, UIColor.clear]
@@ -117,8 +161,16 @@ open class CompactSidebarViewController: UIViewController {
         view.addSubview(fadeOutRight)
 
         NSLayoutConstraint.activate([
+            sourceButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            sourceButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+
+            sourceDivider.leadingAnchor.constraint(equalTo: sourceButton.trailingAnchor, constant: 20),
+            sourceDivider.topAnchor.constraint(equalTo: view.topAnchor),
+            sourceDivider.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            sourceDivider.widthAnchor.constraint(equalToConstant: 1),
+
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: sourceDivider.trailingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             scrollView.heightAnchor.constraint(equalToConstant: 56),
@@ -259,7 +311,7 @@ open class CompactSidebarViewController: UIViewController {
 
     private func setScrollOffsetForItem(_ itemIndex: Int, offset: CGFloat, animated: Bool) {
         let cell = cells[itemIndex]
-        let leftAligned = view.bounds.width + cell.frame.origin.x
+        let leftAligned = view.bounds.width + cell.frame.origin.x + scrollView.frame.origin.x
         let centerAligned = leftAligned - (view.bounds.width - cell.bounds.width) / 2 + offset
         scrollView.setContentOffset(CGPoint(x: centerAligned, y: 0), animated: animated)
     }
