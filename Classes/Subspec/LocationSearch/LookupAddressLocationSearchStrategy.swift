@@ -22,13 +22,17 @@ extension LookupAddress: Locatable {
 open class LookupAddressLocationSearchStrategy: LocationSearchStrategy {
     
     public typealias Location = LookupAddress
-    
+
+    public var resultModelType: MapResultViewModelable.Type
+
     public let source: EntitySource
+
     public let configuration: LocationSearchConfiguration
     
-    public init(source: EntitySource, configuration: LocationSearchConfiguration = LocationSearchConfiguration.default) {
+    public init<T: MapResultViewModelable>(source: EntitySource, resultModelType: T.Type, configuration: LocationSearchConfiguration = LocationSearchConfiguration.default) {
         self.source = source
         self.configuration = configuration
+        self.resultModelType = resultModelType
     }
     
     open func locationTypeaheadPromise(text: String) -> Promise<[LookupAddress]>? {
