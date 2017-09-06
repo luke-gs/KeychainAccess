@@ -10,6 +10,12 @@ import Foundation
 
 /// A basic console logger wthat will wirte a provided text to the console
 public struct ConsoleLogger: Loggable {
+
+    // Blank init
+    public init() {
+
+    }
+
     public func log(output log: String) {
         print(log)
     }
