@@ -95,6 +95,7 @@
 		C681A3851F21AEA800F4AC13 /* LicenceParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C681A3841F21AEA800F4AC13 /* LicenceParserDefinition.swift */; };
 		C6C44CAD1F21BDDF00A2AD50 /* LicenceParserDefinitionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C44CAC1F21BDDF00A2AD50 /* LicenceParserDefinitionsTests.swift */; };
 		C6E2EBC91F217B9E00F659F8 /* PersonParserDefinitionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E2EBC81F217B9E00F659F8 /* PersonParserDefinitionsTests.swift */; };
+		DB0C94AA1F5F9C7E00DE1C29 /* Entity+EntityDetailDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0C94A91F5F9C7E00DE1C29 /* Entity+EntityDetailDisplayable.swift */; };
 		DBC9286B1F5D2C1800B8AF7D /* EntityDetailCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC9286A1F5D2C1800B8AF7D /* EntityDetailCollectionViewController.swift */; };
 		EA1CC2511F3D91E800FE8BAE /* RegistrationParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA1CC2501F3D91E800FE8BAE /* RegistrationParserDefinition.swift */; };
 		EA1CC2541F4132D200FE8BAE /* VINParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA1CC2531F4132D200FE8BAE /* VINParserDefinition.swift */; };
@@ -229,6 +230,7 @@
 		D647D0CA4C2C7787D705910D /* Pods-ClientKit.external-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKit.external-debug.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKit/Pods-ClientKit.external-debug.xcconfig"; sourceTree = "<group>"; };
 		D6779C04771873128EC55832 /* Pods-ClientKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKit.release.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKit/Pods-ClientKit.release.xcconfig"; sourceTree = "<group>"; };
 		D6FAB7E5ED55CBB22E20D7C9 /* Pods_ClientKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClientKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DB0C94A91F5F9C7E00DE1C29 /* Entity+EntityDetailDisplayable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entity+EntityDetailDisplayable.swift"; sourceTree = "<group>"; };
 		DB9F9CB51F5D0E1400F3F250 /* OrganizationInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationInfoViewController.swift; sourceTree = "<group>"; };
 		DBC9286A1F5D2C1800B8AF7D /* EntityDetailCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityDetailCollectionViewController.swift; sourceTree = "<group>"; };
 		EA1CC2501F3D91E800FE8BAE /* RegistrationParserDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationParserDefinition.swift; sourceTree = "<group>"; };
@@ -517,6 +519,7 @@
 		BCAEFE771F03150800C97F9C /* Entity Details */ = {
 			isa = PBXGroup;
 			children = (
+				DB0C94A91F5F9C7E00DE1C29 /* Entity+EntityDetailDisplayable.swift */,
 				DBC9286A1F5D2C1800B8AF7D /* EntityDetailCollectionViewController.swift */,
 				1A2FF6F71F32BD0800D63956 /* Details View Models */,
 				BC75A7AB1F1C3BF9004D46F1 /* EntityAlertsViewController.swift */,
@@ -860,6 +863,7 @@
 				BCAEFEA91F03150800C97F9C /* ReportedPerson.swift in Sources */,
 				BCAEFEA21F03150800C97F9C /* KnownAssociate.swift in Sources */,
 				1A371CA81F440AA4006C722F /* AssociatedVehicle.swift in Sources */,
+				DB0C94AA1F5F9C7E00DE1C29 /* Entity+EntityDetailDisplayable.swift in Sources */,
 				BC75A7B31F1C3D50004D46F1 /* InterventionOrderDetailViewController.swift in Sources */,
 				BCAEFE961F03150800C97F9C /* Contact.swift in Sources */,
 				1A371CA61F440408006C722F /* AssociatedPerson.swift in Sources */,
