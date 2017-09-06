@@ -152,12 +152,14 @@ open class CompactSidebarViewController: UIViewController {
         fadeOutLeft.translatesAutoresizingMaskIntoConstraints = false
         fadeOutLeft.gradientColors = [backgroundColor, UIColor.clear]
         fadeOutLeft.gradientDirection = .horizontal
+        fadeOutLeft.isUserInteractionEnabled = false
         view.addSubview(fadeOutLeft)
 
         fadeOutRight = GradientView()
         fadeOutRight.translatesAutoresizingMaskIntoConstraints = false
         fadeOutRight.gradientColors = [UIColor.clear, backgroundColor]
         fadeOutRight.gradientDirection = .horizontal
+        fadeOutRight.isUserInteractionEnabled = false
         view.addSubview(fadeOutRight)
 
         NSLayoutConstraint.activate([
@@ -283,9 +285,11 @@ open class CompactSidebarViewController: UIViewController {
     }
 
     private func updateCells() {
-        for index in 0..<items.count {
-            updateCellAtIndex(index)
-        }
+        UIView.animate(withDuration: 0.3, animations: {
+            for index in 0..<self.items.count {
+                self.updateCellAtIndex(index)
+            }
+        })
     }
 
     private func updateCellAtIndex(_ index: Int) {
@@ -296,8 +300,8 @@ open class CompactSidebarViewController: UIViewController {
 
         cell.update(for: item, selected: selected)
         cell.selectHandler =  { [unowned self] in
-            // If new selection, notify delegate
             if self.selectedItem == item { return }
+            // If new selection, animate scroll and notify delegate
             self.selectedItem = item
             self.delegate?.sidebarViewController(self, didSelectItem: item)
         }
@@ -305,7 +309,7 @@ open class CompactSidebarViewController: UIViewController {
             // Force layout of stack view as fonts have changed, and we need position of this item
             sidebarStackView.setNeedsLayout()
             sidebarStackView.layoutIfNeeded()
-            setScrollOffsetForItem(index, offset: 0, animated: true)
+            self.setScrollOffsetForItem(index, offset: 0, animated: false)
         }
     }
 
