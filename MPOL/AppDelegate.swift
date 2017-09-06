@@ -30,9 +30,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         MPOLKitInitialize()
 
-        let plugins: [PluginType] = [
-            NetworkLoggingPlugin()
-        ]
+        let plugins: [PluginType]?
+        #if DEBUG
+            plugins = [
+                NetworkLoggingPlugin()
+            ]
+        #else
+            plugins = nil
+        #endif
 
         APIManager.shared = APIManager(configuration: APIManagerDefaultConfiguration(url: "https://\(host)", plugins: plugins, trustPolicyManager: ServerTrustPolicyManager(policies: [host: .disableEvaluation])))
 
