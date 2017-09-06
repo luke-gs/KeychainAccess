@@ -127,23 +127,31 @@ open class EntityDetailSplitViewController: SidebarSplitViewController {
     /// Updates the header view with the details for the latest selected representation.
     /// Call this methodwhen the selected representation changes.
     private func updateHeaderView() {
-
-//        headerView.captionLabel.text = type(of: selectedRepresentation).localizedDisplayName.localizedUppercase
+        var displayableEntity: EntityDetailDisplayable?
         let result = detailViewModel.results[selectedSource.serverSourceName]
-        guard let entity = result?.entity as? EntitySummaryDisplayable else { return }
 
-        if let (thumbnail, _) = entity.thumbnail(ofSize: .small) {
+        if result == nil {
+            displayableEntity = detailViewModel.entity as? EntityDetailDisplayable
+        } else {
+            displayableEntity = result?.entity as? EntityDetailDisplayable
+        }
+
+        guard let entity = displayableEntity else { return }
+        guard let summaryDisplayable = entity as? EntitySummaryDisplayable else { return }
+
+        headerView.captionLabel.text = entity.entityDisplayName?.localizedUppercase
+
+        if let (thumbnail, _) = summaryDisplayable.thumbnail(ofSize: .small) {
             headerView.iconView.image = thumbnail
         }
 
-        headerView.titleLabel.text = entity.title
-        let lastUpdatedString: String
-//        if let lastUpdated = selectedRepresentation.lastUpdated {
-//            lastUpdatedString = DateFormatter.shortDate.string(from: lastUpdated)
-//        } else {
-            lastUpdatedString = NSLocalizedString("Unknown", comment: "Unknown Date")
-//        }
-        headerView.subtitleLabel.text = NSLocalizedString("Last Updated: ", comment: "") + lastUpdatedString
+        headerView.titleLabel.text = summaryDisplayable.title
+
+        if let lastUpdated = entity.lastUpdatedString {
+            headerView.subtitleLabel.text = NSLocalizedString("Last Updated: ", comment: "") + lastUpdated
+        } else {
+            headerView.subtitleLabel.text = nil
+        }
     }
 
     private func updateDetailSectionsAvailability(_ isAvailable: Bool) {
