@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum LogFilePolicy {
+public enum LogFilePolicy {
     case multiple
     case single
 
@@ -20,10 +20,10 @@ enum LogFilePolicy {
     }
 }
 
-struct FileLoggerConfigurations {
-    var savePolicy: LogFilePolicy
+public struct FileLoggerConfigurations {
+    public let savePolicy: LogFilePolicy
 
-    init(savePolicy: LogFilePolicy = .single) {
+    public init(savePolicy: LogFilePolicy = .single) {
         self.savePolicy = savePolicy
     }
 }
@@ -42,7 +42,7 @@ public struct FileLogger: Loggable {
     /// - Parameter configs: The configurations of the file logger - Default 
     ///             provides single save for logs
     /// ---------------------------------------------------------------------------------------
-    init(fileURL: URL? = nil, configs: FileLoggerConfigurations = FileLoggerConfigurations()) {
+    public init(fileURL: URL? = nil, configs: FileLoggerConfigurations = FileLoggerConfigurations()) {
 
         self.configurations = configs
 
