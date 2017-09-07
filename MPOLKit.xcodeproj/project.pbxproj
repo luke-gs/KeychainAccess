@@ -964,6 +964,7 @@
 			children = (
 				BC9C7D8B1F0DED6600DFFE83 /* CollectionViewFormProgressCell.swift */,
 				BC9C7D8C1F0DED6600DFFE83 /* EntityCollectionViewCell.swift */,
+				DBE24C311F593AB30088D19B /* EntityDetailCollectionViewCell.swift */,
 				BC9C7D8D1F0DED6600DFFE83 /* EntityListCollectionViewCell.swift */,
 				BC9C7D8E1F0DED6600DFFE83 /* GalleryCollectionViewCell.swift */,
 				BC9C7D8F1F0DED6600DFFE83 /* StatsOverviewCollectionViewCell.swift */,
@@ -1259,7 +1260,6 @@
 		DBE24C301F593AB30088D19B /* EntityDetails */ = {
 			isa = PBXGroup;
 			children = (
-				DBE24C311F593AB30088D19B /* EntityDetailCollectionViewCell.swift */,
 				DBE24C331F593AB30088D19B /* EntityDetailSectionsDataSource.swift */,
 				DBE24C341F593AB30088D19B /* EntityDetailSplitViewController.swift */,
 				DBE24C351F593AB30088D19B /* EntityDetailSectionsViewModel.swift */,
