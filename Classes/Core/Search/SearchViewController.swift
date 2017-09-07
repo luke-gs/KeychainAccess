@@ -57,7 +57,7 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
     // MARK: - Private methods
 
     private lazy var mapResultsViewController: UIViewController = { [unowned self] in
-        // ToDo: Implement the correctly view controller
+        // ToDo: Implement the correct view controller
         let resultsController = UIViewController()
         resultsController.view.backgroundColor = .white
         resultsController.navigationItem.leftBarButtonItem = UIBarButtonItem.backBarButtonItem(target: self, action: #selector(backButtonItemDidSelect))
