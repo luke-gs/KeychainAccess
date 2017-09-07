@@ -105,7 +105,7 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
         switch kind {
         case UICollectionElementKindSectionHeader:
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
-            let item = viewModel.item(at: indexPath.item)!
+            let item = viewModel.item(at: indexPath.section)!
             header.text = item.title
             header.showsExpandArrow = false
             return header
