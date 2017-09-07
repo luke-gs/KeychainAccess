@@ -291,6 +291,8 @@ extension AppPresenter: TermsConditionsViewControllerDelegate {
 
                 let screen: AppScreen = user.whatsNewShownVersion == WhatsNewVersion ? .landing : .whatsNew
                 self.updateInterface(withScreen: screen, animated: true)
+            } else {
+                UserSession.current.endSession()
             }
         }
     }
