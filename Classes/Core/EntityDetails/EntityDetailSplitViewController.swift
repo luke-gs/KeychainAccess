@@ -57,10 +57,11 @@ open class EntityDetailSplitViewController: SidebarSplitViewController {
         sidebarViewController.headerView = headerView
     }
 
-
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        detailViewModel.performFetch()
+        if isMovingToParentViewController {
+            detailViewModel.performFetch()
+        }
     }
 
     public required init?(coder aDecoder: NSCoder) {
