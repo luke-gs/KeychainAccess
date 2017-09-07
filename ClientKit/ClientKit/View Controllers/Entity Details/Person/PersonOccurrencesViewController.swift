@@ -158,6 +158,7 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
                 header.setExpanded(self.viewModel.isSectionExpanded(section: section), animated: true)
                 collectionView.reloadSections(IndexSet(integer: section))
             }
+            header.isExpanded = self.viewModel.isSectionExpanded(section: indexPath.section)
 
             return header
         }
