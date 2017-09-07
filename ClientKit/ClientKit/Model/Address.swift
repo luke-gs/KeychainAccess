@@ -57,7 +57,8 @@ open class Address: NSObject, Serialisable {
     open var postalContainer: String?
     open var floor: String?
     open var unit: String?
-    open var streetNumber: String?
+    open var streetNumberFirst: String?
+    open var streetNumberLast: String?
     open var streetName: String?
     open var streetType: String?
     open var streetDirectional: String?
@@ -68,7 +69,7 @@ open class Address: NSObject, Serialisable {
     open var postcode: String?
     open var commonName: String?
     open var fullAddress: String?
-    
+
     open var reportDate: Date? {
         return dateUpdated ?? dateCreated ?? nil
     }
@@ -128,7 +129,8 @@ open class Address: NSObject, Serialisable {
         postalContainer = unboxer.unbox(key: "postalContainer")
         floor = unboxer.unbox(key: "floor")
         unit = unboxer.unbox(key: "unit")
-        streetNumber = unboxer.unbox(key: "streetNumber")
+        streetNumberFirst = unboxer.unbox(key: "streetNumberFirst")
+        streetNumberLast = unboxer.unbox(key: "streetNumberLast")
         streetName = unboxer.unbox(key: "streetName")
         streetType = unboxer.unbox(key: "streetType")
         streetDirectional = unboxer.unbox(key: "streetDirectional")
@@ -175,7 +177,15 @@ open class Address: NSObject, Serialisable {
             line.removeAll()
         }
         
-        if let streetNumber = self.streetNumber?.ifNotEmpty() { line.append(streetNumber) }
+        if let streetNumber = self.streetNumberFirst?.ifNotEmpty() {
+            line.append(streetNumber)
+
+            if let streetNumberLast = self.streetNumberLast?.ifNotEmpty() {
+                line.append("-")
+                line.append(streetNumberLast)
+            }
+        }
+
         if let streetName   = self.streetName?.ifNotEmpty() { line.append(streetName) }
         if let streetType   = self.streetType?.ifNotEmpty() { line.append(streetType) }
         if let streetDirectional = self.streetDirectional?.ifNotEmpty() { line.append(streetDirectional) }
