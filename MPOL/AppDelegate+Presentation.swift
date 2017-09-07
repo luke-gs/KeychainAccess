@@ -22,7 +22,6 @@ extension AppDelegate: LoginViewControllerDelegate, TermsConditionsViewControlle
     internal func updateInterface(for state: ViewState, animated: Bool) {
         switch state {
         case .login:
-
             let loginViewController = LoginViewController()
 
             loginViewController.minimumUsernameLength = 1
@@ -69,7 +68,10 @@ extension AppDelegate: LoginViewControllerDelegate, TermsConditionsViewControlle
                 return settingsItem
             }
 
-            let searchViewController = SearchViewController(viewModel: MPOLSearchViewModel())
+            let viewModel = MPOLSearchViewModel()
+            viewModel.recentViewModel.recentlyViewed = UserSession.current.recentlyViewed
+
+            let searchViewController = SearchViewController(viewModel: viewModel)
             searchViewController.set(leftBarButtonItem: settingsBarButtonItem())
 
             let eventListVC = EventsListViewController()
@@ -112,21 +114,21 @@ extension AppDelegate: LoginViewControllerDelegate, TermsConditionsViewControlle
     func termsConditionsController(_ controller: TermsConditionsViewController, didFinishAcceptingConditions accept: Bool) {
         controller.dismiss(animated: true) {  [weak self] in
             if accept {
-                let user = AppDelegate.currentUser
-                self?.updateInterface(for: user?.whatsNewShown == "1.0" ? .landing : .whatsNew, animated: true)
-
-                // FIXME: - Tech debt
-                user!.termsAndConditionsVersionAccepted = "1.0"
-                self?.saveUser(user!)
+                let user = UserSession.current.user
+                self?.updateInterface(for: user?.whatsNewShownVersion == WhatsNewVersion ? .landing : .whatsNew, animated: true)
+                user!.termsAndConditionsVersionAccepted = TermsAndConditionsVersion
+            } else {
+                UserSession.current.endSession()
             }
         }
     }
-
-    func loginViewController(_ controller: LoginViewController, didTapForgotPasswordButton button: UIButton) {
-
-    }
-
     // MARK: - Login view controller delegate
+
+    func loginViewControllerDidAppear(_ controller: LoginViewController) {
+        guard UserSession.current.isActive == true else { return }
+        self.updateInterface(for: .tc(controller: controller), animated: true)
+        controller.setLoading(false, animated: true)
+    }
 
     func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String) {
         controller.setLoading(true, animated: true)
@@ -135,16 +137,17 @@ extension AppDelegate: LoginViewControllerDelegate, TermsConditionsViewControlle
             guard let `self` = self else { return }
 
             APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
-            // FIXME: - At this point there should be a user
-            self.setCurrentUser(withUsername: username)
 
-            let user = AppDelegate.currentUser
-            if user?.termsAndConditionsVersionAccepted == "1.0" {
-                self.updateInterface(for: user?.whatsNewShown == "1.0" ? .landing : .whatsNew, animated: true)
-                return
+            UserSession.startSession(user: User(username: username), token: token)
+
+            let user = UserSession.current.user
+            if user?.termsAndConditionsVersionAccepted == TermsAndConditionsVersion {
+                self.updateInterface(for: user?.whatsNewShownVersion == WhatsNewVersion ? .landing : .whatsNew, animated: true)
             } else {
                 self.updateInterface(for: .tc(controller: controller), animated: true)
             }
+            controller.setLoading(false, animated: true)
+
             }.catch { error in
 
                 let nsError = error as NSError
@@ -152,19 +155,22 @@ extension AppDelegate: LoginViewControllerDelegate, TermsConditionsViewControlle
                 let alertController = UIAlertController(title: nsError.localizedFailureReason ?? "Error", message: error.localizedDescription, preferredStyle: .alert)
                 alertController.addAction(UIAlertAction(title: "OK", style: .default))
                 AlertQueue.shared.add(alertController)
-            }.always {
                 controller.setLoading(false, animated: true)
         }
+    }
+    
+    func loginViewController(_ controller: LoginViewController, didTapForgotPasswordButton button: UIButton) {
+
     }
 
     //MARK: Whats new delegate
 
     func whatsNewViewControllerDidTapDoneButton(_ whatsNewViewController: WhatsNewViewController) {
         self.updateInterface(for: .landing, animated: true)
+    }
 
-        // FIXME: - Tech debt
-        let user = AppDelegate.currentUser
-        user!.whatsNewShown = "1.0"
-        self.saveUser(user!)
+    func whatsNewViewControllerDidAppear(_ whatsNewViewController: WhatsNewViewController) {
+        let user = UserSession.current.user
+        user!.whatsNewShownVersion = WhatsNewVersion
     }
 }
