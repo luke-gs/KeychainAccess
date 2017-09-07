@@ -29,7 +29,7 @@ open class EntityDetailCollectionViewController: FormCollectionViewController, E
         }
 
         set {
-            entity = genericEntity as? Entity
+            entity = newValue as? Entity
         }
     }
 
