@@ -96,7 +96,7 @@ open class CompactSidebarViewController: UIViewController {
     private var fadeOutRight: GradientView!
 
     /// The selected item index when pan gesture started
-    private var panStartIndex = 0
+    fileprivate var panStartIndex = 0
 
     // MARK: - Initializer
 
@@ -120,9 +120,10 @@ open class CompactSidebarViewController: UIViewController {
         scrollView.alwaysBounceHorizontal = true
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.showsVerticalScrollIndicator = false
-        scrollView.isScrollEnabled = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(didPanScrollView(gestureRecognizer:))))
+        scrollView.delegate = self
+        // scrollView.isScrollEnabled = false
+        // scrollView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(didPanScrollView(gestureRecognizer:))))
         view.addSubview(scrollView)
 
         sidebarStackView = UIStackView(frame: .zero)
@@ -227,7 +228,7 @@ open class CompactSidebarViewController: UIViewController {
             if let toCell = toCell {
                 // Scroll part way to next cell
                 let offset = fabs(fromCell.center.x - toCell.center.x) * percent
-                setScrollOffsetForItem(itemIndex, offset: offset, animated: false)
+                setScrollOffsetForItem(itemIndex, additionalOffset: offset)
             }
         }
     }
@@ -314,17 +315,28 @@ open class CompactSidebarViewController: UIViewController {
             // Force layout of stack view as fonts have changed, and we need position of this item
             sidebarStackView.setNeedsLayout()
             sidebarStackView.layoutIfNeeded()
-            self.setScrollOffsetForItem(index, offset: 0, animated: false)
+            if !scrollView.isTracking && !scrollView.isDecelerating {
+                self.setScrollOffsetForItem(index)
+            }
         }
     }
 
-    private func setScrollOffsetForItem(_ itemIndex: Int, offset: CGFloat, animated: Bool) {
-        let cell = cells[itemIndex]
-        let leftAligned = view.bounds.width + cell.frame.origin.x + scrollView.frame.origin.x
-        let centerAligned = leftAligned - (view.bounds.width - cell.bounds.width) / 2 + offset
-        scrollView.setContentOffset(CGPoint(x: centerAligned, y: 0), animated: animated)
+    fileprivate func setScrollOffsetForItem(_ itemIndex: Int, additionalOffset: CGFloat = 0, animated: Bool = false) {
+        let itemOffset = scrollOffsetForItem(itemIndex) + additionalOffset
+        scrollView.setContentOffset(CGPoint(x: itemOffset, y: 0), animated: animated)
     }
 
+    fileprivate func scrollOffsetForItem(_ itemIndex: Int) -> CGFloat {
+        let cell = cells[itemIndex]
+        let leftAligned = view.bounds.width + cell.frame.origin.x + scrollView.frame.origin.x
+        let centerAligned = leftAligned - (view.bounds.width - cell.bounds.width) / 2
+        return centerAligned
+    }
+
+}
+
+// MARK: - UIPanGestureRecognizer
+extension CompactSidebarViewController {
     @objc func didPanScrollView(gestureRecognizer: UIPanGestureRecognizer) {
         let translation = gestureRecognizer.translation(in: gestureRecognizer.view)
         switch gestureRecognizer.state {
@@ -348,5 +360,60 @@ open class CompactSidebarViewController: UIViewController {
             break
         }
     }
-
 }
+
+// MARK: - UIScrollViewDelegate
+extension CompactSidebarViewController: UIScrollViewDelegate {
+
+    public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        // Set the scroll offset to the current item at end of scroll, if not decelerating
+        if let selectedItem = selectedItem, let itemIndex = items.index(of: selectedItem), !decelerate {
+            self.setScrollOffsetForItem(itemIndex, animated: true)
+            self.delegate?.sidebarViewController(self, didSelectItem: selectedItem)
+        }
+    }
+
+    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        // Set the scroll offset to the current item at end of deceleration
+        if let selectedItem = selectedItem, let itemIndex = items.index(of: selectedItem) {
+            self.setScrollOffsetForItem(itemIndex, animated: true)
+            self.delegate?.sidebarViewController(self, didSelectItem: selectedItem)
+        }
+    }
+
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if let selectedItem = selectedItem, items.count > 0 {
+            let itemOffsets = items.enumerated().map({ (index, item) -> CGFloat in
+                return scrollOffsetForItem(index)
+            })
+
+            if let minScroll = itemOffsets.first, let maxScroll = itemOffsets.last {
+                // Prevent scrolling outside of first and last items
+                let constainedX = min(maxScroll, max(minScroll, scrollView.contentOffset.x))
+                if scrollView.contentOffset.x != constainedX {
+                    scrollView.contentOffset.x = constainedX
+                    // End scroll movement early if hit edges
+                    if scrollView.isDecelerating {
+                        scrollViewDidEndDecelerating(scrollView)
+                    }
+                    return
+                }
+            }
+            // Highlight the nearest item if touching bar (giving preference to current item)
+            let currentIndex = items.index(of: selectedItem)
+            if scrollView.isTracking || scrollView.isDecelerating {
+                let distances = itemOffsets.enumerated().map({ (index, offset) -> CGFloat in
+                    let distance = abs(scrollView.contentOffset.x - offset)
+                    return index == currentIndex ? distance * 0.8 : distance
+                })
+                let closestItemIndex = distances.index(of: distances.min()!)!
+                let closestItem = items[closestItemIndex]
+                if closestItem != self.selectedItem {
+                    self.selectedItem = closestItem
+                    //self.delegate?.sidebarViewController(self, didSelectItem: closestItem)
+                }
+            }
+        }
+    }
+}
+

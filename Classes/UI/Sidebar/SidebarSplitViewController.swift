@@ -72,6 +72,7 @@ open class SidebarSplitViewController: PushableSplitViewController {
 
         // Set up the page controller
         pageViewController = ScrollAwarePageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
+        pageViewController.view.backgroundColor = UIColor.white
 
         masterNavController = NavigationControllerWithHeader(rootViewController: regularSidebarViewController)
         detailNavController = UINavigationController()
@@ -151,12 +152,21 @@ open class SidebarSplitViewController: PushableSplitViewController {
         // Update the highlighted menu item
         let selectedItem = selectedViewController?.sidebarItem
         regularSidebarViewController.selectedItem = selectedItem
-        compactSidebarViewController.selectedItem = selectedItem
+        UIView.performWithoutAnimation {
+            self.compactSidebarViewController.selectedItem = selectedItem
+        }
 
         // Update the visible view controller
         if let selectedViewController = selectedViewController {
             if self.isCompact() {
-                pageViewController.setViewControllers([selectedViewController], direction: .forward, animated: false, completion: nil)
+                if !selectedViewController.isViewLoaded {
+                    // Fade in view if not previously loaded
+                    selectedViewController.view.alpha = 0
+                }
+                UIView.transition(with: pageViewController.view, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                    selectedViewController.view.alpha = 1
+                    self.pageViewController.setViewControllers([selectedViewController], direction: .forward, animated: false, completion: nil)
+                }, completion: nil)
             } else {
                 detailNavController.viewControllers = [selectedViewController]
                 embeddedSplitViewController.showDetailViewController(detailNavController, sender: self)
@@ -306,9 +316,7 @@ extension SidebarSplitViewController: UIPageViewControllerDelegate {
             // Dispath update to the selected view controller, so animation is complete
             if completed {
                 DispatchQueue.main.async {
-                    UIView.performWithoutAnimation {
-                        self.selectedViewController = currentVC
-                    }
+                    self.selectedViewController = currentVC
                 }
             }
         }
