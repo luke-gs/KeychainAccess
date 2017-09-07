@@ -88,6 +88,21 @@ public class EntityEventViewModel: EntityDetailViewModelable {
         return CellInfo(title: title, subtitle: subtitle, detail: detail)
     }
     
+    public func reloadSections(withFilterDescriptors filters: [FilterDescriptor<Event>]?, sortDescriptors: [SortDescriptor<Event>]?) {
+        var events = entity?.events ?? []
+        
+        if let filters = filters {
+            events = events.filter(using: filters)
+        }
+        
+        if let sorts = sortDescriptors {
+            events = events.sorted(using: sorts)
+        }
+        
+        sections = events
+        delegate?.updateFilterBarButtonItemActivity()
+    }
+    
     // MARK: - Private methods
     
     private func formattedTitle(for date: Date?) -> String {

@@ -16,7 +16,13 @@ open class FieldContactDetailViewController: EventDetailViewController {
     /// Setting this as any event that is not a field contact sets the event
     /// to `nil`.
     open override var event: Event? {
-        get { return super.event }
-        set { super.event = newValue as? FieldContact }
+
+        get {
+            return super.event
+        }
+
+        set {
+            super.event = newValue as? FieldContact
+        }
     }
 }

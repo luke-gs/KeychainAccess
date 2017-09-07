@@ -51,11 +51,30 @@ public class PersonDetailsViewModel<T>: EntityDetailViewModelable {
         return nil
     }
     
-    public func itemsCount() -> UInt {
+    public func items() -> [T]? {
         MPLRequiresConcreteImplementation()
+    }
+    
+    public func itemsCount() -> UInt {
+        return UInt(items()?.count ?? 0)
     }
     
     public func noContentSubtitle() -> String? {
         MPLRequiresConcreteImplementation()
+    }
+    
+    public func reloadSections(withFilterDescriptors filters: [FilterDescriptor<T>]?, sortDescriptors: [SortDescriptor<T>]?) {
+        var actions = items() ?? []
+        
+        if let filters = filters {
+            actions = actions.filter(using: filters)
+        }
+        
+        if let sorts = sortDescriptors {
+            actions = actions.sorted(using: sorts)
+        }
+        
+        sections = actions
+        delegate?.updateFilterBarButtonItemActivity()
     }
 }

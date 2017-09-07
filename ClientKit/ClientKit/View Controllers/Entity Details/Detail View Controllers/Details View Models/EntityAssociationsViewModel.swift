@@ -14,7 +14,7 @@ public class EntityAssociationsViewModel: EntityDetailViewModelable {
     public typealias DetailsType  = Section
     
     // MARK: Initialize
-    private var associatedPersons : [Person]  = []
+    private var associatedPersons: [Person]  = []
     private var associatedVehicles: [Vehicle] = []
     
     public weak var delegate: EntityDetailViewModelDelegate?
