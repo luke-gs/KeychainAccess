@@ -334,6 +334,11 @@ open class CompactSidebarViewController: UIViewController {
 // MARK: - UIScrollViewDelegate
 extension CompactSidebarViewController: UIScrollViewDelegate {
 
+    struct LayoutConstants {
+        /// The amount of margin for bouncing off first and last items
+        static let bounceMargin = 25 as CGFloat
+    }
+
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         // Set the scroll offset to the current item at end of scroll, if not decelerating
         if let selectedItem = selectedItem, let itemIndex = items.index(of: selectedItem), !decelerate {
@@ -344,27 +349,39 @@ extension CompactSidebarViewController: UIScrollViewDelegate {
 
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         // Set the scroll offset to the current item at end of deceleration
+        // We only update delegate once the scroll is complete to prevent interrupting animation
         if let selectedItem = selectedItem, let itemIndex = items.index(of: selectedItem) {
-            self.setScrollOffsetForItem(itemIndex, animated: true)
-            self.delegate?.sidebarViewController(self, didSelectItem: selectedItem)
+            UIView.animate(withDuration: 0.3, animations: {
+                self.setScrollOffsetForItem(itemIndex, animated: false)
+            }, completion: { (completed) in
+                self.delegate?.sidebarViewController(self, didSelectItem: selectedItem)
+            })
         }
     }
 
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if let selectedItem = selectedItem, items.count > 0 {
+        if let selectedItem = selectedItem, let itemIndex = self.items.index(of: selectedItem) {
             let itemOffsets = items.enumerated().map({ (index, item) -> CGFloat in
                 return scrollOffsetForItem(index)
             })
 
             if let minScroll = itemOffsets.first, let maxScroll = itemOffsets.last {
-                // Prevent scrolling outside of first and last items
-                let constainedX = min(maxScroll, max(minScroll, scrollView.contentOffset.x))
+                // Prevent scrolling outside of first and last items (plus bounce margin)
+                let constainedX = min(maxScroll + LayoutConstants.bounceMargin, max(minScroll - LayoutConstants.bounceMargin, scrollView.contentOffset.x))
                 if scrollView.contentOffset.x != constainedX {
-                    scrollView.contentOffset.x = constainedX
-                    // End scroll movement early if hit edges
+                    // End scroll movement early if hit edges and still moving
                     if scrollView.isDecelerating {
-                        scrollViewDidEndDecelerating(scrollView)
+                        // Animate bounce back to item position (disabling delegate so we don't get callbacks during animation)
+                        scrollView.delegate = nil
+                        UIView.animate(withDuration: 0.3, animations: {
+                            self.setScrollOffsetForItem(itemIndex, animated: false)
+                        }, completion: { (completed) in
+                            self.delegate?.sidebarViewController(self, didSelectItem: selectedItem)
+                            scrollView.delegate = self
+                        })
+                        return
                     }
+                    scrollView.contentOffset.x = constainedX
                     return
                 }
             }
