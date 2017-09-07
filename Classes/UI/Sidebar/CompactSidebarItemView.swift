@@ -31,11 +31,13 @@ open class CompactSidebarItemView: UIView {
         itemButton.contentEdgeInsets = UIEdgeInsetsMake(10, 0, 10, 0)
         self.addSubview(itemButton)
 
+        widthConstraint = itemButton.widthAnchor.constraint(equalToConstant: 50)
         NSLayoutConstraint.activate([
             itemButton.topAnchor.constraint(equalTo: self.topAnchor),
             itemButton.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             itemButton.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            itemButton.trailingAnchor.constraint(equalTo: self.trailingAnchor)
+            itemButton.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            widthConstraint
         ])
         reloadFonts()
     }
@@ -46,8 +48,14 @@ open class CompactSidebarItemView: UIView {
 
     // MARK: - Private properties
 
+    /// The font to use for unselected items
     private var unselectedFont: UIFont!
+
+    /// The font to use for selected items
     private var selectedFont: UIFont!
+
+    /// Width constraint to override intrinsic content size
+    private var widthConstraint: NSLayoutConstraint!
 
     // MARK: - Updates
 
@@ -81,6 +89,12 @@ open class CompactSidebarItemView: UIView {
         itemButton.setAttributedTitle(selected ? selectedText : unselectedText, for: .normal)
         itemButton.setAttributedTitle(selectedText, for: .selected)
         itemButton.setAttributedTitle(highlightedText, for: .highlighted)
+
+        // Force the button width to always be the size needed for the selected state,
+        // to stop the containing stack view from changing size on selection changes
+        let infRect = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
+        let boundingBox = selectedText.boundingRect(with: infRect, options: .usesLineFragmentOrigin, context: nil)
+        widthConstraint.constant = ceil(boundingBox.width) + itemButton.contentEdgeInsets.left + itemButton.contentEdgeInsets.right
     }
 
     // MARK: - Overrides
