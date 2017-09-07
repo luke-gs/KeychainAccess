@@ -95,15 +95,8 @@ open class EntityDetailCollectionViewCell: CollectionViewFormCell {
 
     // MARK: - Initializers
 
-    public override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-
-    public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-
     internal override func commonInit() {
+        super.commonInit()
         separatorStyle = .none
 
         sourceLabel.font = .systemFont(ofSize: 11.0, weight: UIFontWeightBold)
