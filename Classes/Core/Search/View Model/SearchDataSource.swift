@@ -44,8 +44,31 @@ public class Searchable: NSObject, NSSecureCoding {
     }
 
     public static var supportsSecureCoding: Bool = true
+
+    public override func isEqual(_ object: Any?) -> Bool {
+        guard let rhs = object as? Searchable else {
+            return false
+        }
+        let lhs = self
+
+        if lhs.text != rhs.text || lhs.type != rhs.type {
+            return false
+        }
+
+        let lhsOptions = lhs.options
+        let rhsOptions = rhs.options
+
+        if let lhsOptions = lhsOptions, let rhsOptions = rhsOptions {
+            return lhsOptions == rhsOptions
+        } else if lhsOptions != nil || rhsOptions != nil {
+            return false
+        }
+
+        return true
+    }
 }
 
+/*
 public func ==(lhs: Searchable, rhs: Searchable) -> Bool {
     if lhs.text != rhs.text || lhs.type != rhs.type {
         return false
@@ -62,6 +85,7 @@ public func ==(lhs: Searchable, rhs: Searchable) -> Bool {
     
     return true
 }
+ */
 
 public enum SearchFieldStyle {
     case search(configure: ((UITextField) -> [UIButton]?)?,
