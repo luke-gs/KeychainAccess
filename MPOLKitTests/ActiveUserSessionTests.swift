@@ -29,14 +29,7 @@ class ActiveUserSessionTests: XCTestCase {
 
     override static func setUp() {
         UserSession.current.endSession()
-
-        UserSession.startSession(user: user, token: token) { success in
-            ActiveUserSessionTests.initialSetupComplete = true
-        }
-
-        while ActiveUserSessionTests.initialSetupComplete == false {
-            RunLoop.current.run(mode: .defaultRunLoopMode, before: Date().addingTimeInterval(10))
-        }
+        UserSession.startSession(user: user, token: token)
     }
 
     let testEntity = MPOLKitEntity(id: "1234123")
@@ -62,7 +55,7 @@ class ActiveUserSessionTests: XCTestCase {
         UserSession.current.recentlyViewed = [testEntity]
         UserSession.current.recentlySearched = [testSearchable]
 
-        UserSession.current.restoreSession { success in
+        UserSession.current.restoreSession { token in
             expectation.fulfill()
         }
 

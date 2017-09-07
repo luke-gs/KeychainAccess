@@ -58,21 +58,28 @@ public class UserSession: UserSessionable {
 
     public func endSession() {
         UserDefaults.standard.removeObject(forKey: latestSessionKey)
-        try! directoryManager.remove(at: paths.session)
+        try? directoryManager.remove(at: paths.session)
     }
 
     public func restoreSession(completion: @escaping RestoreSessionCompletion) {
         let userWrapper = directoryManager.read(from: paths.userWrapperPath) as? FileWrapper
         let viewed = directoryManager.read(from: paths.recentlyViewed) as! [MPOLKitEntity]
         let searched = directoryManager.read(from: paths.recentlySearched) as! [Searchable]
-        let token = directoryManager.read(fromKeyChain: "token") as! OAuthAccessToken
+
+        var token: OAuthAccessToken = OAuthAccessToken(accessToken: "", type: "")
+
+        //For testing purposes
+        if !TestingDirective.isTesting {
+            token = directoryManager.read(fromKeyChain: "token") as! OAuthAccessToken
+            self.token = token
+        }
 
         guard userWrapper != nil else {
             UserSession.current.endSession()
             return
         }
 
-        //Documents directory might change so can't rely on absolute path
+        //Documents directory will change so can't rely on absolute path
         let first = (userWrapper?.symbolicLinkDestinationURL?.deletingLastPathComponent().lastPathComponent)!
         let second = (userWrapper?.symbolicLinkDestinationURL?.lastPathComponent)!
         let userPath = UserSession.basePath.appendingPathComponent(first).appendingPathComponent(second)
@@ -80,7 +87,6 @@ public class UserSession: UserSessionable {
         self.user = NSKeyedUnarchiver.MPL_securelyUnarchiveObject(from: userPath.path)
         self.recentlyViewed = viewed
         self.recentlySearched = searched
-        self.token = token
 
         completion(token)
     }

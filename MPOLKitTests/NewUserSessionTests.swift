@@ -35,52 +35,27 @@ class NewUserSessionTests: XCTestCase {
     }
 
     func testSessionIsActive() {
-        let expectation = XCTestExpectation(description: "Session should be active")
-        UserSession.startSession(user: user, token: token) { success in
-            expectation.fulfill()
-        }
-
-        self.wait(for: [expectation], timeout: 5.0)
+        UserSession.startSession(user: user, token: token)
         XCTAssertTrue(UserSession.current.isActive)
     }
 
     func testSessionUser() {
-        let expectation = XCTestExpectation(description: "Users should be the same")
-        UserSession.startSession(user: user, token: token) { success in
-            expectation.fulfill()
-        }
-
-        self.wait(for: [expectation], timeout: 5.0)
+        UserSession.startSession(user: user, token: token)
         XCTAssertEqual(user.username, UserSession.current.user?.username)
     }
 
     func testSessionRecentlyViewedIsEmpty() {
-        let expectation = XCTestExpectation(description: "Recently Viewed should be added successfully")
-        UserSession.startSession(user: user, token: token) { success in
-            expectation.fulfill()
-        }
-
-        self.wait(for: [expectation], timeout: 5.0)
+        UserSession.startSession(user: user, token: token)
         XCTAssertEqual([], UserSession.current.recentlyViewed)
     }
 
     func testSessionRecentlySearchedIsEmpty() {
-        let expectation = XCTestExpectation(description: "Recently searched should be added successfully")
-        UserSession.startSession(user: user, token: token) { success in
-            expectation.fulfill()
-        }
-
-        self.wait(for: [expectation], timeout: 5.0)
+        UserSession.startSession(user: user, token: token)
         XCTAssertEqual([], UserSession.current.recentlySearched)
     }
 
     func testSessionIDExists() {
-        let expectation = XCTestExpectation(description: "Session ID should exist")
-        UserSession.startSession(user: user, token: token) { success in
-            expectation.fulfill()
-        }
-
-        self.wait(for: [expectation], timeout: 5.0)
+        UserSession.startSession(user: user, token: token)
         let testID = UserDefaults.standard.string(forKey: "LatestSessionKey")
         XCTAssertEqual(testID, UserSession.current.sessionID)
     }
