@@ -51,7 +51,7 @@ public class UserSession: UserSessionable {
     public static let current = UserSession()
     public static var basePath: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
 
-    private(set) var token: OAuthAccessToken? {
+    private(set) public var token: OAuthAccessToken? {
         get {
             guard let data = keychain.getData("token") else { return nil }
             return (NSKeyedUnarchiver.unarchiveObject(with: data) as! OAuthAccessToken)
