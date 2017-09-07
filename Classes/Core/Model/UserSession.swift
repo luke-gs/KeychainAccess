@@ -48,6 +48,7 @@ public class UserSession: UserSessionable {
         UserSession.current.recentlyViewed = []
         UserSession.current.recentlySearched = []
 
+        UserSession.current.saveTokenToKeychain()
         UserSession.current.loadUserFromCache()
         UserSession.current.saveUserToCache()
     }
@@ -113,6 +114,10 @@ public class UserSession: UserSessionable {
         let userWrapper = FileWrapper(symbolicLinkWithDestinationURL: url)
         userWrapper.preferredFilename = "user"
         directoryManager.write(userWrapper, to: paths.userWrapperPath)
+    }
+
+    private func saveTokenToKeychain() {
+        directoryManager.write(token, toKeyChain: "token")
     }
 
     //MARK: RESTORING
