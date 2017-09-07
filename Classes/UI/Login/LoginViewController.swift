@@ -287,6 +287,15 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     private lazy var loadingIndicator: LOTAnimationView? = {
         let spinner = MPOLSpinnerView(style: .regular)
         spinner.isHidden = true
+        
+        let heightConstraint = spinner.heightAnchor.constraint(equalToConstant: 48.0)
+        heightConstraint.priority = UILayoutPriorityDefaultHigh
+        
+        NSLayoutConstraint.activate([
+            heightConstraint,
+            spinner.widthAnchor.constraint(equalToConstant: 48.0)
+        ])
+        
         self.loginStackView?.insertArrangedSubview(spinner, at: 0)
         return spinner
     }()

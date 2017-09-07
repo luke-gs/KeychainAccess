@@ -39,14 +39,10 @@ public class LocationSearchDataSource<T: LocationAdvanceOptions, U: LocationSear
                                                        attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 28.0, weight: UIFontWeightLight), NSForegroundColorAttributeName: UIColor.lightGray])
     
     private var additionalSearchButtons: [UIButton] {
-        let mapButton = UIButton(type: .system)
-        mapButton.addTarget(self, action: #selector(didTapMapButton), for: .touchUpInside)
-        mapButton.setImage(AssetManager.shared.image(forKey: .location), for: .normal)
-        
         let helpButton = UIButton(type: .system)
         helpButton.addTarget(self, action: #selector(didTapHelpButton), for: .touchUpInside)
         helpButton.setImage(AssetManager.shared.image(forKey: .info), for: .normal)
-        return [mapButton, helpButton]
+        return [helpButton]
     }
     
     private var text: String? {
@@ -91,10 +87,9 @@ public class LocationSearchDataSource<T: LocationAdvanceOptions, U: LocationSear
     }
     
     private lazy var searchButton: UIBarButtonItem? = UIBarButtonItem(title: NSLocalizedString("Search", comment: ""), style: .done, target: self, action: #selector(didTapSearchButton))
-    private lazy var advanceButton: UIBarButtonItem? = UIBarButtonItem(title: self.advanceOptions.title, style: .done, target: self, action: #selector(didTapAdvanceButton))
-    
+
     public var navigationButton: UIBarButtonItem? {
-        return options is LocationBasicSearchOptions ? advanceButton : searchButton
+        return options is LocationBasicSearchOptions ? nil : searchButton
     }
     
     public var options: SearchOptions? {
@@ -118,7 +113,7 @@ public class LocationSearchDataSource<T: LocationAdvanceOptions, U: LocationSear
         self.advanceOptions = advanceOptions
         
         super.init()
-        
+
         basicOptions.delegate = self
         options = basicOptions
     }
@@ -134,7 +129,14 @@ public class LocationSearchDataSource<T: LocationAdvanceOptions, U: LocationSear
                 return .options(controller: controller)
             }
         } else if let options = options as? LocationBasicSearchOptions {
-            performSearchOnLocation(withResult: options.results[index])
+            switch options.resultType(at: index) {
+            case .lookup:
+                performSearchOnLocation(withResult: options.results[index])
+            case .advance:
+                didTapAdvanceButton()
+            case .map:
+                didTapMapButton()
+            }
         }
         
         return .none
@@ -216,24 +218,34 @@ public class LocationSearchDataSource<T: LocationAdvanceOptions, U: LocationSear
     private var lastSearchText: String?
     
     @objc private func lookupLocations() {
-        guard let text = text, text.characters.count >= searchStrategy.configuration.minimumCharacters else { return }
+        guard let text = text, text.characters.count >= searchStrategy.configuration.minimumCharacters else {
+            lastSearchText = nil
+            errorMessage = nil
+
+            if basicOptions.results.count != 0 {
+                basicOptions.results = []
+                updatingDelegate?.searchDataSource(self, didUpdateComponent: .filter(index: nil))
+            }
+
+            return
+        }
         
         if let promise = self.searchStrategy.locationTypeaheadPromise(text: text) {
-            self.lastSearchText = text
-            self.errorMessage = nil
-            
+            lastSearchText = text
+            errorMessage = nil
+
             promise.then { [weak self] locations -> () in
                 guard let `self` = self, self.lastSearchText == text else { return }
                 
                 if locations.isEmpty {
-                    self.errorMessage = "No addresses found for '\(text)'."
+                    self.errorMessage = "No results found for '\(text)'."
+                    self.basicOptions.results = []
                 } else {
-                    
                     let results = locations.map { LookupResult(location: $0) }
-                    
                     self.basicOptions.results = results
-                    self.updatingDelegate?.searchDataSource(self, didUpdateComponent: .filter(index: nil))
                 }
+
+                self.updatingDelegate?.searchDataSource(self, didUpdateComponent: .filter(index: nil))
             }.catch { [weak self] in
                 guard let `self` = self, self.lastSearchText == text else { return }
                     
@@ -247,6 +259,7 @@ public class LocationSearchDataSource<T: LocationAdvanceOptions, U: LocationSear
     
     private func searchTextDidChange(_ text: String?, _ endEditing: Bool) {
         self.text = text
+
         attemptSearch(delay: !endEditing)
     }
 
@@ -285,5 +298,4 @@ public class LocationSearchDataSource<T: LocationAdvanceOptions, U: LocationSear
         self.options = advanceOptions
     }
 }
-
 

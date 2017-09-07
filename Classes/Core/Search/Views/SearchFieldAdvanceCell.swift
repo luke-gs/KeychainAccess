@@ -9,8 +9,8 @@
 import UIKit
 
 
-public class SearchFieldAdvanceCell: CollectionViewFormCell {
-    public static var cellContentHeight: CGFloat { return 23.0 }
+class SearchFieldAdvanceCell: CollectionViewFormCell {
+    public static var cellContentHeight: CGFloat { return 64.0 }
 
     public let actionButton = UIButton(type: .system)
     
@@ -36,11 +36,12 @@ public class SearchFieldAdvanceCell: CollectionViewFormCell {
         contentView.addSubview(actionButton)
 
         NSLayoutConstraint.activate([
-            actionButton.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.layoutMarginsGuide.leadingAnchor),
-            actionButton.trailingAnchor.constraint(lessThanOrEqualTo: contentView.layoutMarginsGuide.trailingAnchor),
-            actionButton.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
-            actionButton.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor),
-            actionButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
+            NSLayoutConstraint(item: actionButton, attribute: .leading, relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .leadingMargin, multiplier: 1.0, priority: UILayoutPriorityDefaultHigh),
+            NSLayoutConstraint(item: actionButton, attribute: .top, relatedBy: .equal, toItem: contentView, attribute: .topMargin, multiplier: 1.0, priority: UILayoutPriorityDefaultHigh),
+            NSLayoutConstraint(item: actionButton, attribute: .bottom, relatedBy: .equal, toItem: contentView, attribute: .bottomMargin, multiplier: 1.0, priority: UILayoutPriorityDefaultHigh),
+            NSLayoutConstraint(item: actionButton, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentView, attribute: .trailingMargin, multiplier: 1.0, priority: UILayoutPriorityDefaultHigh),
+            actionButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            actionButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
     }
 

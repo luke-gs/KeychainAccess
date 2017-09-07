@@ -132,6 +132,7 @@ extension AssetManager {
         public static let thumbnail      = ImageKey("iconSystemThumbnail")
         public static let dropDown       = ImageKey("iconSystemDropdown")
         public static let disclosure     = ImageKey("iconSystemDisclosure")
+        public static let advancedSearch = ImageKey("iconSystemAdvancedSearch")
         
         // General
         public static let alert          = ImageKey("iconGeneralAlert")
@@ -147,6 +148,8 @@ extension AssetManager {
         public static let mass           = ImageKey("iconGeneralMass")
         public static let refresh        = ImageKey("iconGeneralRefreshMagnify")
         public static let email          = ImageKey("iconFormEmail")
+
+        public static let generalLocation = ImageKey("iconGeneralLocation")
         
         // Entity
         public static let entityOfficer  = ImageKey("iconEntityOfficer")
