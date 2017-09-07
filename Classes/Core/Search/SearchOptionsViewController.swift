@@ -633,7 +633,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         }
     }
     
-    func searchDataSource(_ dataSource: SearchDataSource, didFinishWith search: Searchable, andResultViewModel viewModel: SearchResultViewModelable?) {
+    func searchDataSource(_ dataSource: SearchDataSource, didFinishWith search: Searchable?, andResultViewModel viewModel: SearchResultModelable?) {
         // Pass it on to someone that cares
         delegate?.searchOptionsController(self, didFinishWith: search, andResultViewModel: viewModel)
     }
@@ -769,7 +769,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
 
 protocol SearchOptionsViewControllerDelegate: class {
 
-    func searchOptionsController(_ controller: SearchOptionsViewController, didFinishWith searchable: Searchable, andResultViewModel viewModel: SearchResultViewModelable?)
+    func searchOptionsController(_ controller: SearchOptionsViewController, didFinishWith searchable: Searchable?, andResultViewModel viewModel: SearchResultModelable?)
 
     func searchOptionsControllerDidCancel(_ controller: SearchOptionsViewController)
 
