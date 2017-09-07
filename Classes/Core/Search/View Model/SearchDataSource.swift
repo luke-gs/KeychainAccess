@@ -174,7 +174,7 @@ public enum SearchDataSourceComponent {
 public protocol SearchDataSourceUpdating: class {
     func searchDataSource(_ dataSource: SearchDataSource, didUpdateComponent component: SearchDataSourceComponent)
     
-    func searchDataSource(_ dataSource: SearchDataSource, didFinishWith search: Searchable, andResultViewModel viewModel: SearchResultViewModelable?)
+    func searchDataSource(_ dataSource: SearchDataSource, didFinishWith search: Searchable?, andResultViewModel viewModel: SearchResultModelable?)
 }
 
 /// Default implementations of the SearchDataSource

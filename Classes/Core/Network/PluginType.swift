@@ -11,7 +11,7 @@ import Alamofire
 
 // Plugin receives callbacks to perform side effects whenever a request is sent or received.
 // It could be used to inject extra headers to the request, network monitoring, etc.
-public protocol PluginType: class {
+public protocol PluginType {
 
     // Called to modify the request before it's sent.
     func adapt(_ urlRequest: URLRequest) -> URLRequest
