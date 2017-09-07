@@ -47,7 +47,7 @@ public protocol PresenterObserving: class {
 }
 
 
-/// A director is the person or thing that says whom or what should put on a good show for the fanboys to see.
+/// A director is the person or thing that says whom or what should put on a good show for the observers to see.
 public final class Director {
 
     /// The current presenter
@@ -65,7 +65,7 @@ public final class Director {
         self.presenter = presenter
     }
 
-    /// Navigate to the presentat
+    /// Navigate to the presentable
     ///
     /// - Parameters:
     ///   - presentable: The presentable
@@ -73,15 +73,12 @@ public final class Director {
     public func present(_ presentable: Presentable, fromViewController viewController: UIViewController) {
         let targetViewController = presenter.viewController(forPresentable: presentable)
 
-        // Fanboys become excited that the presenter is about to do something cool.
         observers.forEach {
             $0.willPresent(presentable, fromViewController: viewController, toViewController: targetViewController)
         }
 
-        // The Presenter puts on a good show for the fanboys around the globe.
         presenter.present(presentable, fromViewController: viewController, toViewController: targetViewController)
 
-        // Fanboys are so excited after the show presented by the presenter and can't wait to talk about it.
         observers.forEach {
             $0.didPresent(presentable, fromViewController: viewController, toViewController: targetViewController)
         }
