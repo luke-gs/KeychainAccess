@@ -190,26 +190,6 @@ public class AppPresenter: NSObject, Presenter {
         tabBarController?.present(AppScreen.settings(fromItem: item))
     }
 
-
-    // FIXEME: Tech debt
-
-    func setCurrentUser(withUsername username: String) {
-        var user: User?
-
-        let data = UserDefaults.standard.object(forKey: "TemporaryUser") as? Data
-        if data != nil {
-            user = NSKeyedUnarchiver.unarchiveObject(with: data!) as? User
-        }
-
-        if user == nil {
-            user = User(username: username)
-            self.saveUser(user!)
-        }
-        AppPresenter.currentUser = user
-    }
-
-    static var currentUser: User?
-
     fileprivate func updateInterface(withScreen screen: AppScreen, animated: Bool) {
         let presenter = Director.shared.presenter
 
@@ -217,11 +197,6 @@ public class AppPresenter: NSObject, Presenter {
             window.rootViewController = presenter.viewController(forPresentable: screen)
             UIView.transition(with: window, duration: 0.2, options: .transitionCrossDissolve, animations: nil, completion: nil)
         }
-    }
-
-    func saveUser(_ user: User) {
-        UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: user), forKey: "TemporaryUser")
-        UserDefaults.standard.synchronize()
     }
 
 }
