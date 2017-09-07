@@ -101,7 +101,7 @@ open class VehicleOccurrencesViewController: EntityOccurrencesViewController, Fi
         collectionView.deselectItem(at: indexPath, animated: true)
         
         let detailViewController: UIViewController?
-        let event = viewModel.item(at: indexPath.item)!
+        guard let event = viewModel.item(at: indexPath.section)?.events[indexPath.item] else { return }
         
         switch event {
         case let fieldContact as FieldContact:
@@ -130,7 +130,7 @@ open class VehicleOccurrencesViewController: EntityOccurrencesViewController, Fi
         if kind == UICollectionElementKindSectionHeader {
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
             
-            header.text = viewModel.sectionHeader
+            header.text = viewModel.header(for: indexPath.section)
             return header
         }
         return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)

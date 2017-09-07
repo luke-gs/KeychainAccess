@@ -56,6 +56,7 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
                 contacts.forEach {
                     contactDetails.append(.contact($0))
                 }
+                sections.append(PersonInfo(type: .contact, items: contactDetails))
             }
 //                        if let emails = person.emails {
 //                            emails.forEach {
@@ -81,19 +82,39 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
             delegate?.reloadData()
         }
     }
+
+    private lazy var collapsedSections: Set<Int> = []
     
-    // MARK: - Public methods
+    // MARK: - Public methodsx
     
     public func numberOfSections() -> Int {
+
         return sections.count
     }
     
     public func numberOfItems(for section: Int) -> Int {
+        if collapsedSections.contains(section) {
+            return 0
+        }
         return sections[section].items?.count ?? 1
     }
     
     public func detailItem(at indexPath: IndexPath) -> Any? {
         return sections[ifExists: indexPath.section]?.items?[indexPath.item]
+    }
+
+    public func updateCollapsedSections(for sections: [Int]) {
+        sections.forEach({
+            if collapsedSections.contains($0) {
+                collapsedSections.remove($0)
+            } else {
+                collapsedSections.insert($0)
+            }
+        })
+    }
+
+    public func isSectionExpanded(section: Int) -> Bool {
+        return collapsedSections.contains(section)
     }
     
     /// Header section
@@ -384,6 +405,7 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
     }
     
     public enum SectionType {
+
         case header
         case details
         case aliases

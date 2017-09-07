@@ -105,6 +105,7 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
             
             let alerts = viewModel.item(at: indexPath.section)!
+
             header.text = viewModel.headerText(for: alerts)
             
             if alerts.count > 0 {
@@ -113,7 +114,8 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
                 header.tapHandler = { [weak self] (headerView, indexPath) in
                     guard let `self` = self else { return }
                     self.viewModel.updateCollapsedSections(for: alerts)
-                    self.collectionView?.reloadData()
+                    
+                    self.collectionView?.reloadSections(IndexSet(integer: indexPath.section))
                 }
                 header.isExpanded = viewModel.isExpanded(for: alerts)
             }
@@ -225,7 +227,7 @@ extension EntityAlertsViewController: EntityDetailsViewModelDelegate {
     public func reloadData() {
         collectionView?.reloadData()
     }
-    
+
     public func updateFilterBarButtonItemActivity() {
         let selectAlertLevels = filteredAlertLevels != Set(Alert.Level.allCases)
         let requiresFiltering: Bool = selectAlertLevels || filterDateRange != nil
