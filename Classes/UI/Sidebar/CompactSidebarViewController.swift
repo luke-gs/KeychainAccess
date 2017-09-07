@@ -95,9 +95,6 @@ open class CompactSidebarViewController: UIViewController {
     /// Fade out affect for right side of scrollview
     private var fadeOutRight: GradientView!
 
-    /// The selected item index when pan gesture started
-    fileprivate var panStartIndex = 0
-
     // MARK: - Initializer
 
     deinit {
@@ -122,8 +119,6 @@ open class CompactSidebarViewController: UIViewController {
         scrollView.showsVerticalScrollIndicator = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.delegate = self
-        // scrollView.isScrollEnabled = false
-        // scrollView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(didPanScrollView(gestureRecognizer:))))
         view.addSubview(scrollView)
 
         sidebarStackView = UIStackView(frame: .zero)
@@ -335,33 +330,6 @@ open class CompactSidebarViewController: UIViewController {
 
 }
 
-// MARK: - UIPanGestureRecognizer
-extension CompactSidebarViewController {
-    @objc func didPanScrollView(gestureRecognizer: UIPanGestureRecognizer) {
-        let translation = gestureRecognizer.translation(in: gestureRecognizer.view)
-        switch gestureRecognizer.state {
-        case .began:
-            if let selectedItem = selectedItem, let itemIndex = items.index(of: selectedItem) {
-                panStartIndex = itemIndex
-            }
-        case .changed:
-            // Scroll to next or previous menu items based on translation from original index
-            let newIndex = panStartIndex - Int(translation.x / 40)
-            var newItem: SidebarItem? = nil
-            if newIndex >= 0 && newIndex < items.count {
-                newItem = items[newIndex]
-            }
-            if let newItem = newItem, newItem != selectedItem {
-                // Select new item and notify delegate
-                self.selectedItem = newItem
-                self.delegate?.sidebarViewController(self, didSelectItem: newItem)
-            }
-        default:
-            break
-        }
-    }
-}
-
 // MARK: - UIScrollViewDelegate
 extension CompactSidebarViewController: UIScrollViewDelegate {
 
@@ -410,7 +378,6 @@ extension CompactSidebarViewController: UIScrollViewDelegate {
                 let closestItem = items[closestItemIndex]
                 if closestItem != self.selectedItem {
                     self.selectedItem = closestItem
-                    //self.delegate?.sidebarViewController(self, didSelectItem: closestItem)
                 }
             }
         }
