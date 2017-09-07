@@ -11,6 +11,8 @@ import KeychainSwift
 
 public class UserSession: UserSessionable {
 
+    private let latestSessionKey = "LatestSessionKey"
+
     public static let current = UserSession()
     public static var basePath: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
 
@@ -55,8 +57,8 @@ public class UserSession: UserSessionable {
     }
 
     public func endSession() {
+        UserDefaults.standard.removeObject(forKey: latestSessionKey)
         try! directoryManager.remove(at: paths.session)
-        UserDefaults.standard.set(nil, forKey: latestSessionKey)
     }
 
     public func restoreSession(completion: @escaping RestoreSessionCompletion) {
@@ -118,9 +120,6 @@ public class UserSession: UserSessionable {
         }
     }
 }
-
-private let latestSessionKey = "LatestSessionKey"
-private let archivingQueue = DispatchQueue(label: "MagicArchivingQueue")
 
 /// Restoring user session closure, returns auth token when complete
 public typealias RestoreSessionCompletion = ((_ token: OAuthAccessToken)->())
