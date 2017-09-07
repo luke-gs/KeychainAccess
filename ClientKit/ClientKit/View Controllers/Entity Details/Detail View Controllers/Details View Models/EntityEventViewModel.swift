@@ -11,14 +11,14 @@ import MPOLKit
 
 public class EntityEventViewModel: EntityDetailsViewModelable {
     
-    public typealias DetailsType = Event
+    public typealias DetailsType = EventInfo
     
     weak public var delegate: EntityDetailsViewModelDelegate?
     
     public var entity: Entity? {
         didSet {
-            let count = itemsCount()
-            delegate?.updateSidebarItemCount(count)
+            let count = sections.first?.events.count ?? 0
+            delegate?.updateSidebarItemCount(UInt(count))
             
             let subtitle = noContentSubtitle()
             delegate?.updateNoContentSubtitle(subtitle)
@@ -27,13 +27,36 @@ public class EntityEventViewModel: EntityDetailsViewModelable {
     
     public var sections: [DetailsType] = [] {
         didSet {
-            let count = sections.count
+            let count = sections.first?.events.count ?? 0
             delegate?.updateSidebarItemCount(UInt(count))
             
             let state: LoadingStateManager.State  = sections.isEmpty ? .noContent : .loaded
             delegate?.updateLoadingState(state)
             delegate?.reloadData()
         }
+    }
+
+    private lazy var collapsedSections: Set<Int> = []
+
+    public func updateCollapsedSections(for sections: [Int]) {
+        sections.forEach {
+            if collapsedSections.contains($0) {
+                collapsedSections.remove($0)
+            } else {
+                collapsedSections.insert($0)
+            }
+        }
+    }
+
+    public func numberOfItems(for section: Int = 0) -> Int {
+        if collapsedSections.contains(section) {
+            return 0
+        }
+        return sections[section].events.count
+    }
+
+    public func isSectionExpanded(section: Int) -> Bool {
+        return collapsedSections.contains(section)
     }
     
     public var allEventTypes: Set<String> {
@@ -46,16 +69,26 @@ public class EntityEventViewModel: EntityDetailsViewModelable {
         return allTypes
     }
 
-    public var sectionHeader: String? {
-        let count = numberOfItems()
-        
+    public struct EventInfo {
+        var type: SectionType
+        var events: [Event]
+    }
+
+    public enum SectionType {
+        case event
+    }
+
+    public func header(for section: Int) -> String? {
+        let section = item(at: section)!
+        let count = section.events.count
+
         if count > 0 {
-            let baseString = count > 1 ? NSLocalizedString("%d ITEMS", bundle: .mpolKit, comment: "") : NSLocalizedString("%d ITEM", bundle: .mpolKit, comment: "")
+            let baseString = count > 1 ? NSLocalizedString("%d EVENTS", bundle: .mpolKit, comment: "") : NSLocalizedString("%d EVENT", bundle: .mpolKit, comment: "")
             return String(format: baseString, count)
         }
         return nil
     }
-    
+
     public func itemsCount() -> UInt {
         return UInt(entity?.events?.count ?? 0)
     }
@@ -79,11 +112,12 @@ public class EntityEventViewModel: EntityDetailsViewModelable {
     }
     
     public func cellInfo(for indexPath: IndexPath) -> CellInfo {
-        let event = item(at: indexPath.item)!
-        
-        let title = event.eventType
-        let subtitle = formattedTitle(for: event.occurredDate)
-        let detail = event.eventDescription
+        let event = item(at: indexPath.section)?.events[indexPath.item]
+
+
+        let title = event?.eventType
+        let subtitle = formattedTitle(for: event?.occurredDate)
+        let detail = event?.eventDescription
         
         return CellInfo(title: title, subtitle: subtitle, detail: detail)
     }
@@ -99,7 +133,7 @@ public class EntityEventViewModel: EntityDetailsViewModelable {
             events = events.sorted(using: sorts)
         }
         
-        sections = events
+        sections = [EventInfo(type: .event, events: events)]
         delegate?.updateFilterBarButtonItemActivity()
     }
     

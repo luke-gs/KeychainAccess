@@ -105,9 +105,18 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
         switch kind {
         case UICollectionElementKindSectionHeader:
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
-            let item = viewModel.item(at: indexPath.item)!
+            let item = viewModel.item(at: indexPath.section)!
             header.text = item.title
-            header.showsExpandArrow = false
+            header.showsExpandArrow = true
+            header.tapHandler = { [weak self] header, indexPath in
+                guard let `self` = self else { return }
+
+                let section = indexPath.section
+
+                self.viewModel.updateCollapsedSections(for: [section])
+                collectionView.reloadSections(IndexSet(integer: section))
+                header.setExpanded(self.viewModel.isSectionExpanded(section: section), animated: true)
+            }
             return header
         default:
             return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
