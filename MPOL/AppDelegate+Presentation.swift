@@ -136,17 +136,16 @@ extension AppDelegate: LoginViewControllerDelegate, TermsConditionsViewControlle
         APIManager.shared.accessTokenRequest(for: .credentials(username: username, password: password)).then { [weak self] token -> Void in
             guard let `self` = self else { return }
 
-            UserSession.startSession(user: User(username: username),
-                                     token: token) { [weak self, controller] _ in
-                                        let user = UserSession.current.user
-                                        if user?.termsAndConditionsVersionAccepted == TermsAndConditionsVersion {
-                                            self?.updateInterface(for: user?.whatsNewShownVersion == WhatsNewVersion ? .landing : .whatsNew, animated: true)
-                                        } else {
-                                            self?.updateInterface(for: .tc(controller: controller), animated: true)
-                                        }
-                                        controller.setLoading(false, animated: true)
+            UserSession.startSession(user: User(username: username), token: token)
 
+            let user = UserSession.current.user
+            if user?.termsAndConditionsVersionAccepted == TermsAndConditionsVersion {
+                self.updateInterface(for: user?.whatsNewShownVersion == WhatsNewVersion ? .landing : .whatsNew, animated: true)
+            } else {
+                self.updateInterface(for: .tc(controller: controller), animated: true)
             }
+            controller.setLoading(false, animated: true)
+
             }.catch { error in
 
                 let nsError = error as NSError
