@@ -50,7 +50,7 @@ public class EntityEventViewModel: EntityDetailsViewModelable {
         let count = numberOfItems()
         
         if count > 0 {
-            let baseString = count > 1 ? NSLocalizedString("%d ITEMS", bundle: .mpolKit, comment: "") : NSLocalizedString("%d ITEM", bundle: .mpolKit, comment: "")
+            let baseString = count > 1 ? NSLocalizedString("%d EVENTS", bundle: .mpolKit, comment: "") : NSLocalizedString("%d EVENT", bundle: .mpolKit, comment: "")
             return String(format: baseString, count)
         }
         return nil
