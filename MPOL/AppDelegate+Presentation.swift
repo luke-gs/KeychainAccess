@@ -136,6 +136,8 @@ extension AppDelegate: LoginViewControllerDelegate, TermsConditionsViewControlle
         APIManager.shared.accessTokenRequest(for: .credentials(username: username, password: password)).then { [weak self] token -> Void in
             guard let `self` = self else { return }
 
+            APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
+
             UserSession.startSession(user: User(username: username), token: token)
 
             let user = UserSession.current.user

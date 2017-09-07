@@ -47,7 +47,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         UserSession.basePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
 
         if UserSession.current.isActive == true {
-            UserSession.current.restoreSession { [unowned self] success in
+            UserSession.current.restoreSession { [unowned self] token in
+                APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
                 self.fiddleWithState()
             }
         } else {
