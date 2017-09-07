@@ -117,6 +117,7 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
                 collectionView.reloadSections(IndexSet(integer: section))
                 header.setExpanded(self.viewModel.isSectionExpanded(section: section), animated: true)
             }
+            header.isExpanded = self.viewModel.isSectionExpanded(section: indexPath.section)
             return header
         default:
             return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
