@@ -283,11 +283,7 @@ extension SidebarSplitViewController {
         // perform(#selector(collapsedStateDidChange), with: nil, afterDelay: 0.0, inModes: [.commonModes])
 
         // Restore the detail nav view controller for split screen
-        if let detailViewController = self.selectedViewController ?? self.detailViewControllers.first {
-            detailNavController.viewControllers = [detailViewController]
-            return detailNavController
-        }
-        return nil
+        return detailNavController
     }
 }
 
