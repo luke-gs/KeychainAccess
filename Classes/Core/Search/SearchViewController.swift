@@ -86,12 +86,14 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
     private var recentlySearched: [Searchable] = [] {
         didSet {
             recentsViewController.recentlySearched = recentlySearched
+            UserSession.current.recentlySearched = recentlySearched
         }
     }
 
     private var recentlyViewedEntities: [MPOLKitEntity] = [] {
         didSet {
             recentsViewController.recentlyViewed = recentlyViewedEntities
+            UserSession.current.recentlyViewed = recentlyViewedEntities
         }
     }
     
@@ -113,6 +115,8 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
     public init(viewModel: SearchViewModel) {
         self.viewModel = viewModel
         self.recentsViewController = SearchRecentsViewController(viewModel: viewModel.recentViewModel)
+
+        recentlySearched = UserSession.current.recentlySearched ?? []
 
         super.init(nibName: nil, bundle: nil)
 

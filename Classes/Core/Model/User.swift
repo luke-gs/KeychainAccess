@@ -9,23 +9,30 @@
 import Foundation
 
 open class User: NSObject, NSSecureCoding, ModelVersionable {
-    
-    public let username: String
-    
-    public var termsAndConditionsVersionAccepted: String? = nil
-    public var whatsNewShown: String? = nil
+
+    public var username: String
+    public var termsAndConditionsVersionAccepted: String? {
+        didSet {
+            UserSession.current.updateUser()
+        }
+    }
+    public var whatsNewShownVersion: String? {
+        didSet {
+            UserSession.current.updateUser()
+        }
+    }
 
     public init(username: String) {
         self.username = username
     }
-    
+
     override open func isEqual(_ object: Any?) -> Bool {
         guard let compared = object as? User else {
             return false
         }
         return username == compared.username
             && termsAndConditionsVersionAccepted == compared.termsAndConditionsVersionAccepted
-            && whatsNewShown == compared.whatsNewShown
+            && whatsNewShownVersion == compared.whatsNewShownVersion
     }
     
     // MARK: - NSSecureCoding
@@ -40,13 +47,13 @@ open class User: NSObject, NSSecureCoding, ModelVersionable {
         }
         self.username = username
         self.termsAndConditionsVersionAccepted = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.termsAndConditionsVersionAccepted.rawValue) as String?
-        self.whatsNewShown = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.whatsNewShown.rawValue) as String?
+        self.whatsNewShownVersion = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.whatsNewShown.rawValue) as String?
     }
     
     open func encode(with aCoder: NSCoder) {
         aCoder.encode(username, forKey: CodingKeys.username.rawValue)
         aCoder.encode(termsAndConditionsVersionAccepted, forKey: CodingKeys.termsAndConditionsVersionAccepted.rawValue)
-        aCoder.encode(whatsNewShown, forKey: CodingKeys.whatsNewShown.rawValue)
+        aCoder.encode(whatsNewShownVersion, forKey: CodingKeys.whatsNewShown.rawValue)
         aCoder.encode(self.modelVersion, forKey: CodingKeys._modelVersion.rawValue)
     }
     
@@ -64,10 +71,3 @@ open class User: NSObject, NSSecureCoding, ModelVersionable {
         case _modelVersion = "_modelVersion"
     }
 }
-
-/*
-func ==(lhs: User, rhs: User) -> Bool {
-    return lhs.username == rhs.username &&
-        lhs.termsAndConditionsVersionAccepted == rhs.termsAndConditionsVersionAccepted
-}
- */
