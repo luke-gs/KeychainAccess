@@ -83,20 +83,6 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
     
     // MARK: - Private properties
 
-    private var recentlySearched: [Searchable] = [] {
-        didSet {
-            recentsViewController.recentlySearched = recentlySearched
-            UserSession.current.recentlySearched = recentlySearched
-        }
-    }
-
-    private var recentlyViewedEntities: [MPOLKitEntity] = [] {
-        didSet {
-            recentsViewController.recentlyViewed = recentlyViewedEntities
-            UserSession.current.recentlyViewed = recentlyViewedEntities
-        }
-    }
-    
     private var searchDimmingView: UIControl?
     
     private var searchPreferredHeight: CGFloat = 0.0
@@ -115,8 +101,6 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
     public init(viewModel: SearchViewModel) {
         self.viewModel = viewModel
         self.recentsViewController = SearchRecentsViewController(viewModel: viewModel.recentViewModel)
-
-        recentlySearched = UserSession.current.recentlySearched ?? []
 
         super.init(nibName: nil, bundle: nil)
 
@@ -349,19 +333,24 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
             setCurrentResultsViewController(mapResultsViewController, animated: true)
         }
 
+
+
+
         if let searchable = searchable {
+            var viewModel = self.viewModel.recentViewModel
+
             // Add to recently searched list
-            let existingIndex = recentlySearched.index(of: searchable)
+            let existingIndex = viewModel.recentlySearched.index(of: searchable)
             if let existingIndex = existingIndex {
                 //existing -> move to top
-                recentlySearched.insert(recentlySearched.remove(at: existingIndex), at: 0)
+                viewModel.recentlySearched.insert(viewModel.recentlySearched.remove(at: existingIndex), at: 0)
             } else {
                 //create new at top
-                recentlySearched.insert(searchable, at: 0)
+                viewModel.recentlySearched.insert(searchable, at: 0)
             }
 
-            if self.recentlySearched.isEmpty || searchable != self.recentlySearched.first {
-                self.recentlySearched.insert(searchable, at: 0)
+            if viewModel.recentlySearched.isEmpty || searchable != viewModel.recentlySearched.first {
+                viewModel.recentlySearched.insert(searchable, at: 0)
             }
         }
     }
@@ -534,20 +523,20 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
         let presentable = viewModel.presentable(for: entity)
         present(presentable)
 
-        // Do this after the push.
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-            var recents = self.recentlyViewedEntities
-            guard recents.first != entity else { return }
+        var recentViewModel = viewModel.recentViewModel
 
-            for (index, oldEntity) in recents.enumerated() {
-                if oldEntity == entity {
-                    recents.remove(at: index)
-                    break
-                }
+        var recents = recentViewModel.recentlyViewed
+        guard recents.first != entity else { return }
+
+        for (index, oldEntity) in recents.enumerated() {
+            if oldEntity == entity {
+                recents.remove(at: index)
+                break
             }
-            recents.insert(entity, at: 0)
-            self.recentlyViewedEntities = recents
         }
+        recents.insert(entity, at: 0)
+
+        recentViewModel.recentlyViewed = recents
     }
-    
+
 }
