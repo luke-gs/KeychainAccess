@@ -181,8 +181,9 @@ open class Address: NSObject, Serialisable {
             line.append(streetNumber)
 
             if let streetNumberLast = self.streetNumberLast?.ifNotEmpty() {
-                line.append("-")
-                line.append(streetNumberLast)
+                // FIXME: - This weird address line formatting stuff.
+                line.removeAll()
+                line.append("\(streetNumber)-\(streetNumberLast)")
             }
         }
 
