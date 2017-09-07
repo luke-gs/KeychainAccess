@@ -44,10 +44,9 @@ public protocol SearchViewModel {
     /// The data sources to be used
     var dataSources: [SearchDataSource] { get }
     
-    /// Creates a controller for viewing entity information
+    /// Creates a presentable for entity
     ///
-    /// - Parameters:
-    ///   - entity: the entity
-    /// - Returns: the entity view controller
-    func detailViewController(for entity: MPOLKitEntity) -> UIViewController?
+    /// - Parameter entity: The entity
+    /// - Returns: The presentable
+    func presentable(for entity: MPOLKitEntity) -> Presentable
 }

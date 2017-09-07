@@ -505,9 +505,8 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
     }
 
     private func didSelectEntity(_ entity: MPOLKitEntity) {
-        if let detailViewController = viewModel.detailViewController(for: entity) {
-            navigationController?.pushViewController(detailViewController, animated: true)
-        }
+        let presentable = viewModel.presentable(for: entity)
+        present(presentable)
 
         // Do this after the push.
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
