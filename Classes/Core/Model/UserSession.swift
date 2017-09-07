@@ -72,6 +72,7 @@ public class UserSession: UserSessionable {
             return
         }
 
+        //Documents directory might change so can't rely on absolute path
         let first = (userWrapper?.symbolicLinkDestinationURL?.deletingLastPathComponent().lastPathComponent)!
         let second = (userWrapper?.symbolicLinkDestinationURL?.lastPathComponent)!
         let userPath = UserSession.basePath.appendingPathComponent(first).appendingPathComponent(second)
