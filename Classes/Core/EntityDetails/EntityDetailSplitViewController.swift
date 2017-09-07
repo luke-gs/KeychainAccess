@@ -69,11 +69,13 @@ open class EntityDetailSplitViewController: SidebarSplitViewController {
     }
 
     open override func sidebarViewController(_ controller: SidebarViewController, didSelectSourceAt index: Int) {
-        // TODO: Implement
+        let source = detailViewModel.sources[index]
+        let entity = detailViewModel.results[source.serverSourceName]?.entity
+        detailViewModel.setSelectedEntity(entity: entity)
     }
 
     open override func sidebarViewController(_ controller: SidebarViewController, didRequestToLoadSourceAt index: Int) {
-        let selectedSource = detailViewModel.dataSource(at: index)
+        let selectedSource = detailViewModel.sources[index]
 
         if let requestedSourceLoadState = detailViewModel.results[selectedSource.serverSourceName]?.state, requestedSourceLoadState != .idle {
             // Did not select an unloaded source. Update the source items just in case, and then return out.

@@ -32,7 +32,7 @@ public class EntityDetailSectionsViewModel {
 
     public var entityFetch: Fetchable?
 
-    public var detailSectionsDataSource: [EntityDetailSectionsDataSource] = []
+    public var detailSectionsDataSource: EntityDetailSectionsDataSource
 
     public var detailSectionsViewControllers: [EntityDetailSectionUpdatable]?
 
@@ -46,23 +46,21 @@ public class EntityDetailSectionsViewModel {
 
         self.sources = sources
         self.entity = entity
-        self.detailSectionsDataSource = [dataSource] // WARNING: Fix this
+        self.detailSectionsDataSource = dataSource
 
-        let dataSource = detailSectionsDataSource.first {
-            $0.localizedDisplayName == String(describing: type(of: entity))
-        }
-
-        entityFetch = dataSource?.fetchModel(for: entity, sources: self.sources)
+        entityFetch = dataSource.fetchModel(for: entity, sources: self.sources)
         entityFetch?.delegate = self
-        detailSectionsViewControllers = dataSource?.detailViewControllers
+        detailSectionsViewControllers = dataSource.detailViewControllers
     }
 
     public func performFetch() {
         entityFetch?.performFetch()
     }
 
-    public func dataSource(at index: Int) -> EntitySource {
-        return sources[index]
+    public func setSelectedEntity(entity: MPOLKitEntity?) {
+        detailSectionsViewControllers?.forEach {
+            $0.genericEntity = (entity)
+        }
     }
 
 }
@@ -95,7 +93,7 @@ extension EntityDetailSectionsViewModel: EntityDetailFetchDelegate {
         results[source.serverSourceName] = EntityFetchResult(entity: result.entity,
                                                              state: result.state,
                                                              error: result.error)
-
+        //TODO: Check if result is the current selecrted source or not...
         if let error = result.error {
             detailSectionsViewControllers?.forEach {
                 $0.genericEntity = nil
@@ -112,10 +110,9 @@ extension EntityDetailSectionsViewModel: EntityDetailFetchDelegate {
                 actionButton.addTarget(self, action: #selector(newSearchButtonDidSelect(_:)), for: .primaryActionTriggered)
             }
         } else {
-            detailSectionsViewControllers?.forEach {
-                $0.genericEntity = (result.entity)
-            }
+            setSelectedEntity(entity: result.entity)
         }
+
         self.delegate?.EntityDetailSectionsDidUpdateResults(self)
     }
 
