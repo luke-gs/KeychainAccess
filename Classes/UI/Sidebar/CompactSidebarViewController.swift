@@ -118,6 +118,7 @@ open class CompactSidebarViewController: UIViewController {
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.showsVerticalScrollIndicator = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.canCancelContentTouches = true
         scrollView.delegate = self
         view.addSubview(scrollView)
 
