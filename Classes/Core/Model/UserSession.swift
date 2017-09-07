@@ -54,11 +54,11 @@ public class UserSession: UserSessionable {
     private(set) public var token: OAuthAccessToken? {
         get {
             guard let data = keychain.getData("token") else { return nil }
-            return (NSKeyedUnarchiver.unarchiveObject(with: data) as! OAuthAccessToken)
+            return NSKeyedUnarchiver.MPL_securelyUnarchiveObject(with: data)
         }
         set {
             if let token = newValue {
-                let data = NSKeyedArchiver.archivedData(withRootObject: token)
+                let data = NSKeyedArchiver.MPL_securelyArchivedData(withRootObject: token)
                 keychain.set(data, forKey: "token")
             } else {
                 keychain.delete("token")
@@ -70,13 +70,13 @@ public class UserSession: UserSessionable {
 
     public var recentlyViewed: [MPOLKitEntity] = [] {
         didSet {
-            directoryManager.write(recentlyViewed, to: paths.recentlyViewed)
+            directoryManager.write(recentlyViewed as NSArray, to: paths.recentlyViewed)
         }
     }
 
     public var recentlySearched: [Searchable] = [] {
         didSet {
-            directoryManager.write(recentlySearched, to: paths.recentlySearched)
+            directoryManager.write(recentlySearched as NSArray, to: paths.recentlySearched)
         }
     }
 
@@ -129,7 +129,7 @@ public class UserSession: UserSessionable {
         let second = (userWrapper?.symbolicLinkDestinationURL?.lastPathComponent)!
         let userPath = UserSession.basePath.appendingPathComponent(first).appendingPathComponent(second)
 
-        self.user = NSKeyedUnarchiver.unarchiveObject(withFile: userPath.path) as? User
+        self.user = NSKeyedUnarchiver.MPL_securelyUnarchiveObject(from: userPath.path)
         self.recentlyViewed = viewed
         self.recentlySearched = searched
 
@@ -224,4 +224,3 @@ public protocol UserSessionable {
     /// **note:** calling this does not update the UI.
     func endSession()
 }
-
