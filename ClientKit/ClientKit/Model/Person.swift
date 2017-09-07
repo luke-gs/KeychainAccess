@@ -111,7 +111,7 @@ open class Person: Entity {
         initials = aDecoder.decodeObject(of: NSString.self, forKey: Coding.Initials.rawValue) as String?
         dateOfBirth = aDecoder.decodeObject(of: NSDate.self, forKey: Coding.DateOfBirth.rawValue) as Date?
         dateOfDeath = aDecoder.decodeObject(of: NSDate.self, forKey: Coding.DateOfDeath.rawValue) as Date?
-        yearOnlyDateOfBirth = aDecoder.decodeBool(forKey: Coding.YearOnlyDateOfBirth.rawValue)
+        yearOnlyDateOfBirth = aDecoder.decodeObject(forKey: Coding.YearOnlyDateOfBirth.rawValue) as! Bool?
 
         if let gender = aDecoder.decodeObject(of: NSString.self, forKey: Coding.Gender.rawValue) as String? {
             self.gender = Gender(rawValue: gender)
