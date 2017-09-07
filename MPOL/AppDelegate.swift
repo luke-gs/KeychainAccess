@@ -24,11 +24,18 @@ private let host = "api-dev.mpol.solutions"
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
-    var tabBarController: UITabBarController?
 
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
         MPOLKitInitialize()
+
+
+        let presenter = AppPresenter()
+
+        let director = Director(presenter: presenter)
+        director.addPresenterObserver(RecentlyViewedTracker())
+        
+        Director.shared = director
 
         APIManager.shared = APIManager(configuration: APIManagerDefaultConfiguration(url: "https://\(host)", trustPolicyManager: ServerTrustPolicyManager(policies: [host: .disableEvaluation])))
 
@@ -41,8 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         applyCurrentTheme()
 
-        updateInterface(for: .login, animated: true)
-
+        window.rootViewController = presenter.viewController(forPresentable: AppScreen.login)
         window.makeKeyAndVisible()
 
         #if INTERNAL
@@ -97,7 +103,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         for i in 0..<deviceToken.count {
             token = token + String(format: "%02.2hhx", arguments: [deviceToken[i]])
         }
-        print(token)
 
         // TODO: Upload token to server & register for PNS
     }
@@ -108,7 +113,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     // TEMP
     func logOut() {
-        updateInterface(for: .login, animated: true)
+        window?.rootViewController = Director.shared.presenter.viewController(forPresentable: AppScreen.login)
     }
 
     @objc private func interfaceStyleDidChange() {
@@ -152,26 +157,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         AlertQueue.shared.preferredStatusBarStyle = theme.statusBarStyle
     }
 
-    // FIXEME: Tech debt
-    func setCurrentUser(withUsername username: String) {
-        var user: User?
-
-        let data = UserDefaults.standard.object(forKey: "TemporaryUser") as? Data
-        if data != nil {
-            user = NSKeyedUnarchiver.unarchiveObject(with: data!) as? User
-        }
-
-        if user == nil {
-            user = User(username: username)
-            self.saveUser(user!)
-        }
-        AppDelegate.currentUser = user
-    }
-
-    static var currentUser: User?
-
-    func saveUser(_ user: User) {
-        UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: user), forKey: "TemporaryUser")
-    }
 
 }

@@ -11,7 +11,9 @@ import MPOLKit
 import ClientKit
 
 class MPOLSearchViewModel: SearchViewModel {
+
     var recentViewModel: SearchRecentsViewModel = MPOLSearchRecentsViewModel()
+
     var dataSources: [SearchDataSource] = [
         PersonSearchDataSource(),
         VehicleSearchDataSource(),
@@ -19,17 +21,8 @@ class MPOLSearchViewModel: SearchViewModel {
                                  advanceOptions: LookupAddressLocationAdvancedOptions())
     ]
 
-    func detailViewController(for entity: MPOLKitEntity) -> UIViewController? {
-        let viewController = EntityDetailsSplitViewController(entity: entity as! Entity)
-
-        // FIXME: - Sample code to handle different entity
-        if entity is Person {
-            viewController.view.backgroundColor = .red
-        } else if entity is Vehicle {
-            viewController.view.backgroundColor = .yellow
-        }
-
-        return viewController
+    func presentable(for entity: MPOLKitEntity) -> Presentable {
+        return AppScreen.entityDetails(entity: entity as! Entity)
     }
 
 }

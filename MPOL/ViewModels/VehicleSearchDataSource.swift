@@ -181,11 +181,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
     }
 
     @objc private func didTapHelpButton(_ button: UIButton) {
-        // FIXME: - When the appropriate time comes please change it
-        let helpViewController = UIViewController()
-        helpViewController.title = "Vehicle Search Help"
-        helpViewController.view.backgroundColor = .white
-        (self.updatingDelegate as? UIViewController)?.show(helpViewController, sender: nil)
+        (self.updatingDelegate as? UIViewController)?.present(AppScreen.help(type: .vehicle))
     }
 
     private func generateResultModel(_ text: String?, completion: ((SearchResultViewModelable?, Error?) -> ())) {
