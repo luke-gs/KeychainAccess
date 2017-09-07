@@ -229,6 +229,19 @@ public class AppPresenter: NSObject, Presenter {
 
 extension AppPresenter: LoginViewControllerDelegate {
 
+    public func loginViewControllerDidAppear(_ controller: LoginViewController) {
+        guard UserSession.current.isActive == true else { return }
+
+        let user = UserSession.current.user
+        if user?.termsAndConditionsVersionAccepted == TermsAndConditionsVersion {
+            let screen: AppScreen = user?.whatsNewShownVersion == WhatsNewVersion ? .landing : .whatsNew
+            self.updateInterface(withScreen: screen, animated: true)
+        } else {
+            controller.present(AppScreen.termsAndConditions)
+            controller.resetFields()
+        }
+    }
+
     public func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String) {
         controller.setLoading(true, animated: true)
 
@@ -236,14 +249,13 @@ extension AppPresenter: LoginViewControllerDelegate {
             guard let `self` = self else { return }
 
             APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
-            // FIXME: - At this point there should be a user
-            self.setCurrentUser(withUsername: username)
 
-            let user = AppPresenter.currentUser
-            if user?.termsAndConditionsVersionAccepted == "1.0" {
-                let screen: AppScreen = user?.whatsNewShown == "1.0" ? .landing : .whatsNew
+            UserSession.startSession(user: User(username: username), token: token)
+
+            let user = UserSession.current.user
+            if user?.termsAndConditionsVersionAccepted == TermsAndConditionsVersion {
+                let screen: AppScreen = user?.whatsNewShownVersion == WhatsNewVersion ? .landing : .whatsNew
                 self.updateInterface(withScreen: screen, animated: true)
-
             } else {
                 controller.present(AppScreen.termsAndConditions)
                 controller.resetFields()
@@ -273,15 +285,12 @@ extension AppPresenter: TermsConditionsViewControllerDelegate {
             guard let `self` = self else { return }
 
             if accept {
-                let user = AppPresenter.currentUser!
+                let user = UserSession.current.user!
 
-                let screen: AppScreen = user.whatsNewShown == "1.0" ? .landing : .whatsNew
+                user.termsAndConditionsVersionAccepted = TermsAndConditionsVersion
 
+                let screen: AppScreen = user.whatsNewShownVersion == WhatsNewVersion ? .landing : .whatsNew
                 self.updateInterface(withScreen: screen, animated: true)
-
-                // FIXME: - Tech debt
-                user.termsAndConditionsVersionAccepted = "1.0"
-                self.saveUser(user)
             }
         }
     }
@@ -292,11 +301,11 @@ extension AppPresenter: WhatsNewViewControllerDelegate {
 
     public func whatsNewViewControllerDidTapDoneButton(_ whatsNewViewController: WhatsNewViewController) {
         self.updateInterface(withScreen: AppScreen.landing, animated: true)
+    }
 
-        // FIXME: - Tech debt
-        let user = AppPresenter.currentUser
-        user!.whatsNewShown = "1.0"
-        self.saveUser(user!)
+    public func whatsNewViewControllerDidAppear(_ whatsNewViewController: WhatsNewViewController) {
+        let user = UserSession.current.user
+        user!.whatsNewShownVersion = WhatsNewVersion
     }
 
 }

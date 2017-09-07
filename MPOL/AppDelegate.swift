@@ -19,6 +19,8 @@ import Alamofire
 #endif
 
 private let host = "api-dev.mpol.solutions"
+let TermsAndConditionsVersion = "1.0"
+let WhatsNewVersion = "1.0"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
@@ -53,10 +55,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         let window = UIWindow()
         self.window = window
-
+        
         applyCurrentTheme()
 
-        window.rootViewController = presenter.viewController(forPresentable: AppScreen.login)
+        UserSession.basePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+
+        if UserSession.current.isActive == true {
+            UserSession.current.restoreSession { token in
+                APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
+            }
+        }
+
+        self.fiddleWithState()
+
         window.makeKeyAndVisible()
 
         #if INTERNAL
@@ -76,8 +87,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         return true
     }
 
-    // MARK: - APNS
+    func fiddleWithState() {
+        let screen: AppScreen
 
+        if let user = UserSession.current.user, user.termsAndConditionsVersionAccepted == TermsAndConditionsVersion {
+            if UserSession.current.user?.whatsNewShownVersion != WhatsNewVersion {
+                screen = .whatsNew
+            } else {
+                screen = .landing
+            }
+        } else {
+            screen = .login
+        }
+
+        window?.rootViewController = Director.shared.presenter.viewController(forPresentable: screen)
+    }
+
+    // MARK: - APNS
+    
     func registerPushNotifications(_ application: UIApplication) {
 
         let notificationCenter: UNUserNotificationCenter = UNUserNotificationCenter.current()
@@ -121,6 +148,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     // TEMP
     func logOut() {
+        UserSession.current.endSession()
         window?.rootViewController = Director.shared.presenter.viewController(forPresentable: AppScreen.login)
     }
 
@@ -164,6 +192,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         AlertQueue.shared.preferredStatusBarStyle = theme.statusBarStyle
     }
-
-
 }
