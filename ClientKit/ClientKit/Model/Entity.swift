@@ -9,6 +9,30 @@
 import Unbox
 import MPOLKit
 
+private enum Coding: String {
+    case dateCreated = "dateCreated"
+    case dateUpdated = "dateUpdated"
+    case createdBy = "createdBy"
+    case updatedBy = "updatedBy"
+    case effectiveDate = "effectiveDate"
+    case expiryDate = "expiryDate"
+    case entityType = "entityType"
+    case isSummary = "isSummary"
+    case arn = "arn"
+    case jurisdiction = "jurisdiction"
+    case source = "source"
+    case alertLevel = "alertLevel"
+    case associatedAlertLevel = "associatedAlertLevel"
+    case actionCount = "actionCount"
+    case alerts = "alerts"
+    case associatedPersons = "associatedPersons"
+    case associatedVehicles = "associatedVehicles"
+    case events = "events"
+    case addresses = "addresses"
+    case media = "media"
+    case modelVersion = "modelVersion"
+}
+
 @objc(MPLEntity)
 open class Entity: MPOLKitEntity {
 
@@ -87,31 +111,71 @@ open class Entity: MPOLKitEntity {
     }
 
     // MARK: - NSSecureCoding
-    
-    public required init?(coder aDecoder: NSCoder) {
 
-        if aDecoder.containsValue(forKey: CodingKey.alertLevel.rawValue), let level = Alert.Level(rawValue: aDecoder.decodeInteger(forKey: CodingKey.alertLevel.rawValue)) {
+    required public init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+
+        dateCreated = aDecoder.decodeObject(of: NSDate.self, forKey: Coding.dateCreated.rawValue) as Date?
+        dateUpdated = aDecoder.decodeObject(of: NSDate.self, forKey: Coding.dateUpdated.rawValue) as Date?
+        createdBy = aDecoder.decodeObject(of: NSString.self, forKey: Coding.createdBy.rawValue) as String?
+        updatedBy = aDecoder.decodeObject(of: NSString.self, forKey: Coding.updatedBy.rawValue) as String?
+        effectiveDate = aDecoder.decodeObject(of: NSDate.self, forKey: Coding.effectiveDate.rawValue) as Date?
+        expiryDate = aDecoder.decodeObject(of: NSDate.self, forKey: Coding.expiryDate.rawValue) as Date?
+        entityType = aDecoder.decodeObject(of: NSString.self, forKey: Coding.entityType.rawValue) as String?
+        isSummary = aDecoder.decodeObject(forKey: Coding.isSummary.rawValue) as! Bool?
+        arn = aDecoder.decodeObject(of: NSString.self, forKey: Coding.arn.rawValue) as String?
+        jurisdiction = aDecoder.decodeObject(of: NSString.self, forKey: Coding.jurisdiction.rawValue) as String?
+        actionCount = UInt(aDecoder.decodeObject(of: NSNumber.self, forKey: Coding.actionCount.rawValue)!)
+        alerts = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.alerts.rawValue) as? [Alert]
+        associatedPersons = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.associatedPersons.rawValue) as? [Person]
+        associatedVehicles = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.associatedVehicles.rawValue) as? [Vehicle]
+        events = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.events.rawValue) as? [Event]
+        addresses = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.addresses.rawValue) as? [Address]
+        media = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.media.rawValue) as? [Media]
+
+        if let source = aDecoder.decodeObject(of: NSString.self, forKey: Coding.source.rawValue) as String? {
+            self.source = MPOLSource(rawValue: source)
+        }
+
+        if aDecoder.containsValue(forKey: Coding.alertLevel.rawValue), let level = Alert.Level(rawValue: aDecoder.decodeInteger(forKey: Coding.alertLevel.rawValue)) {
             alertLevel = level
         }
-        if aDecoder.containsValue(forKey: CodingKey.associatedAlertLevel.rawValue), let level = Alert.Level(rawValue: aDecoder.decodeInteger(forKey: CodingKey.associatedAlertLevel.rawValue)) {
+
+        if aDecoder.containsValue(forKey: Coding.associatedAlertLevel.rawValue), let level = Alert.Level(rawValue: aDecoder.decodeInteger(forKey: Coding.associatedAlertLevel.rawValue)) {
             associatedAlertLevel = level
         }
-        
-        super.init(coder: aDecoder)
     }
 
     open override func encode(with aCoder: NSCoder) {
-        aCoder.encode(modelVersion, forKey: CodingKey.version.rawValue)
+        super.encode(with: aCoder)
+
+        aCoder.encode(dateCreated, forKey: Coding.dateCreated.rawValue)
+        aCoder.encode(dateUpdated, forKey: Coding.dateUpdated.rawValue)
+        aCoder.encode(createdBy, forKey: Coding.createdBy.rawValue)
+        aCoder.encode(updatedBy, forKey: Coding.updatedBy.rawValue)
+        aCoder.encode(effectiveDate, forKey: Coding.effectiveDate.rawValue)
+        aCoder.encode(expiryDate, forKey: Coding.expiryDate.rawValue)
+        aCoder.encode(entityType, forKey: Coding.entityType.rawValue)
+        aCoder.encode(isSummary, forKey: Coding.isSummary.rawValue)
+        aCoder.encode(arn, forKey: Coding.arn.rawValue)
+        aCoder.encode(jurisdiction, forKey: Coding.jurisdiction.rawValue)
+        aCoder.encode(source?.rawValue, forKey: Coding.source.rawValue)
+        aCoder.encode(actionCount, forKey: Coding.actionCount.rawValue)
+        aCoder.encode(alerts, forKey: Coding.alerts.rawValue)
+        aCoder.encode(associatedPersons, forKey: Coding.associatedPersons.rawValue)
+        aCoder.encode(associatedVehicles, forKey: Coding.associatedVehicles.rawValue)
+        aCoder.encode(events, forKey: Coding.events.rawValue)
+        aCoder.encode(addresses, forKey: Coding.addresses.rawValue)
+        aCoder.encode(media, forKey: Coding.media.rawValue)
+        aCoder.encode(modelVersion, forKey: Coding.modelVersion.rawValue)
 
         if let alertLevel = alertLevel {
-            aCoder.encode(alertLevel.rawValue, forKey: CodingKey.alertLevel.rawValue)
+            aCoder.encode(alertLevel.rawValue, forKey: Coding.alertLevel.rawValue)
         }
         
         if let associatedAlertLevel = associatedAlertLevel {
-            aCoder.encode(associatedAlertLevel.rawValue, forKey: CodingKey.associatedAlertLevel.rawValue)
+            aCoder.encode(associatedAlertLevel.rawValue, forKey: Coding.associatedAlertLevel.rawValue)
         }
-
-        super.encode(with: aCoder)
     }
     
     
@@ -141,10 +205,4 @@ open class Entity: MPOLKitEntity {
         return "-"
     }
     
-}
-
-private enum CodingKey: String {
-    case version
-    case alertLevel
-    case associatedAlertLevel
 }

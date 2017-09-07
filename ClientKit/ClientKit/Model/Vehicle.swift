@@ -10,40 +10,40 @@ import MPOLKit
 import Unbox
 
 private enum Coding: String {
-    case VehicleType = "VehicleType"
-    case Registration = "Registration"
-    case PlateType = "PlateType"
-    case Vin = "Vin"
-    case EngineNumber = "EngineNumber"
-    case ChassisNumber = "ChassisNumber"
-    case Year = "Year"
-    case Make = "Make"
-    case Model = "Model"
-    case Variant = "Variant"
-    case BodyType = "BodyType"
-    case PrimaryColor = "PrimaryColor"
-    case SecondaryColor = "SecondaryColor"
-    case Wheels = "Wheels"
-    case Axles = "Axles"
-    case EngineCapacity = "EngineCapacity"
-    case EnginePower = "EnginePower"
-    case Cylinders = "Cylinders"
-    case Transmission = "Transmission"
-    case RegistrationStatus = "RegistrationStatus"
-    case RegistrationCategory = "RegistrationCategory"
-    case RegistrationEffectiveDate = "RegistrationEffectiveDate"
-    case RegistrationExpiryDate = "RegistrationExpiryDate"
-    case RegistrationState = "RegistrationState"
-    case RegistrationPurposeOfUse = "RegistrationPurposeOfUse"
-    case IsStolen = "IsStolen"
-    case SeatingCapacity = "SeatingCapacity"
-    case Weight = "Weight"
-    case SpeedLimiter = "SpeedLimiter"
-    case SpeedLimiterSetting = "SpeedLimiterSetting"
-    case InterlockDevice = "InterlockDevice"
-    case VehicleDescription = "VehicleDescription"
-    case Remarks = "Remarks"
-    case IsPlate = "IsPlate"
+    case vehicleType = "vehicleType"
+    case registration = "registration"
+    case plateType = "plateType"
+    case vin = "vin"
+    case engineNumber = "engineNumber"
+    case chassisNumber = "chassisNumber"
+    case year = "year"
+    case make = "make"
+    case model = "model"
+    case variant = "variant"
+    case bodyType = "bodyType"
+    case primaryColor = "primaryColor"
+    case secondaryColor = "secondaryColor"
+    case wheels = "wheels"
+    case axles = "axles"
+    case engineCapacity = "engineCapacity"
+    case enginePower = "enginePower"
+    case cylinders = "cylinders"
+    case transmission = "transmission"
+    case registrationStatus = "registrationStatus"
+    case registrationCategory = "registrationCategory"
+    case registrationEffectiveDate = "registrationEffectiveDate"
+    case registrationExpiryDate = "registrationExpiryDate"
+    case registrationState = "registrationState"
+    case registrationPurposeOfUse = "registrationPurposeOfUse"
+    case isStolen = "isStolen"
+    case seatingCapacity = "seatingCapacity"
+    case weight = "weight"
+    case speedLimiter = "speedLimiter"
+    case speedLimiterSetting = "speedLimiterSetting"
+    case interlockDevice = "interlockDevice"
+    case vehicleDescription = "vehicleDescription"
+    case remarks = "remarks"
+    case isPlate = "isPlate"
 }
 
 @objc(MPLVehicle)
@@ -108,79 +108,79 @@ open class Vehicle: Entity {
     
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        vehicleType = aDecoder.decodeObject(of: NSString.self, forKey: Coding.VehicleType.rawValue) as String?
-        registration = aDecoder.decodeObject(of: NSString.self, forKey: Coding.Registration.rawValue) as String?
-        plateType = aDecoder.decodeObject(of: NSString.self, forKey: Coding.PlateType.rawValue) as String?
-        vin = aDecoder.decodeObject(of: NSString.self, forKey: Coding.Vin.rawValue) as String?
-        engineNumber = aDecoder.decodeObject(of: NSString.self, forKey: Coding.EngineNumber.rawValue) as String?
-        chassisNumber = aDecoder.decodeObject(of: NSString.self, forKey: Coding.ChassisNumber.rawValue) as String?
-        year = aDecoder.decodeObject(of: NSString.self, forKey: Coding.Year.rawValue) as String?
-        make = aDecoder.decodeObject(of: NSString.self, forKey: Coding.Make.rawValue) as String?
-        model = aDecoder.decodeObject(of: NSString.self, forKey: Coding.Model.rawValue) as String?
-        variant = aDecoder.decodeObject(of: NSString.self, forKey: Coding.Variant.rawValue) as String?
-        bodyType = aDecoder.decodeObject(of: NSString.self, forKey: Coding.BodyType.rawValue) as String?
-        primaryColor = aDecoder.decodeObject(of: NSString.self, forKey: Coding.PrimaryColor.rawValue) as String?
-        secondaryColor = aDecoder.decodeObject(of: NSString.self, forKey: Coding.SecondaryColor.rawValue) as String?
-        wheels = (aDecoder.decodeObject(of: NSNumber.self, forKey: Coding.Wheels.rawValue))?.intValue
-        axles = (aDecoder.decodeObject(of: NSNumber.self, forKey: Coding.Axles.rawValue))?.intValue
-        engineCapacity = aDecoder.decodeObject(of: NSString.self, forKey: Coding.EngineCapacity.rawValue) as String?
-        enginePower = aDecoder.decodeObject(of: NSString.self, forKey: Coding.EnginePower.rawValue) as String?
-        cylinders = (aDecoder.decodeObject(of: NSNumber.self, forKey: Coding.Cylinders.rawValue))?.intValue
-        transmission = aDecoder.decodeObject(of: NSString.self, forKey: Coding.Transmission.rawValue) as String?
-        registrationStatus = aDecoder.decodeObject(of: NSString.self, forKey: Coding.RegistrationStatus.rawValue) as String?
-        registrationCategory = aDecoder.decodeObject(of: NSString.self, forKey: Coding.RegistrationCategory.rawValue) as String?
-        registrationEffectiveDate = aDecoder.decodeObject(of: NSDate.self, forKey: Coding.RegistrationEffectiveDate.rawValue) as Date?
-        registrationExpiryDate = aDecoder.decodeObject(of: NSDate.self, forKey: Coding.RegistrationExpiryDate.rawValue) as Date?
-        registrationState = aDecoder.decodeObject(of: NSString.self, forKey: Coding.RegistrationState.rawValue) as String?
-        registrationPurposeOfUse = aDecoder.decodeObject(of: NSString.self, forKey: Coding.RegistrationPurposeOfUse.rawValue) as String?
-        isStolen = aDecoder.decodeObject(forKey: Coding.IsStolen.rawValue) as! Bool?
-        seatingCapacity = aDecoder.decodeObject(of: NSNumber.self, forKey: Coding.SeatingCapacity.rawValue)?.intValue
-        weight = aDecoder.decodeObject(of: NSNumber.self, forKey: Coding.Weight.rawValue)?.intValue
-        speedLimiter = aDecoder.decodeObject(forKey: Coding.SpeedLimiter.rawValue) as! Bool?
-        speedLimiterSetting = aDecoder.decodeObject(of: NSNumber.self, forKey: Coding.SpeedLimiterSetting.rawValue)?.intValue
-        interlockDevice = aDecoder.decodeObject(forKey: Coding.InterlockDevice.rawValue) as! Bool?
-        vehicleDescription = aDecoder.decodeObject(of: NSString.self, forKey: Coding.VehicleDescription.rawValue) as String?
-        remarks = aDecoder.decodeObject(of: NSString.self, forKey: Coding.Remarks.rawValue) as String?
-        isPlate = aDecoder.decodeObject(forKey: Coding.IsPlate.rawValue) as! Bool?
+        vehicleType = aDecoder.decodeObject(of: NSString.self, forKey: Coding.vehicleType.rawValue) as String?
+        registration = aDecoder.decodeObject(of: NSString.self, forKey: Coding.registration.rawValue) as String?
+        plateType = aDecoder.decodeObject(of: NSString.self, forKey: Coding.plateType.rawValue) as String?
+        vin = aDecoder.decodeObject(of: NSString.self, forKey: Coding.vin.rawValue) as String?
+        engineNumber = aDecoder.decodeObject(of: NSString.self, forKey: Coding.engineNumber.rawValue) as String?
+        chassisNumber = aDecoder.decodeObject(of: NSString.self, forKey: Coding.chassisNumber.rawValue) as String?
+        year = aDecoder.decodeObject(of: NSString.self, forKey: Coding.year.rawValue) as String?
+        make = aDecoder.decodeObject(of: NSString.self, forKey: Coding.make.rawValue) as String?
+        model = aDecoder.decodeObject(of: NSString.self, forKey: Coding.model.rawValue) as String?
+        variant = aDecoder.decodeObject(of: NSString.self, forKey: Coding.variant.rawValue) as String?
+        bodyType = aDecoder.decodeObject(of: NSString.self, forKey: Coding.bodyType.rawValue) as String?
+        primaryColor = aDecoder.decodeObject(of: NSString.self, forKey: Coding.primaryColor.rawValue) as String?
+        secondaryColor = aDecoder.decodeObject(of: NSString.self, forKey: Coding.secondaryColor.rawValue) as String?
+        wheels = (aDecoder.decodeObject(of: NSNumber.self, forKey: Coding.wheels.rawValue))?.intValue
+        axles = (aDecoder.decodeObject(of: NSNumber.self, forKey: Coding.axles.rawValue))?.intValue
+        engineCapacity = aDecoder.decodeObject(of: NSString.self, forKey: Coding.engineCapacity.rawValue) as String?
+        enginePower = aDecoder.decodeObject(of: NSString.self, forKey: Coding.enginePower.rawValue) as String?
+        cylinders = (aDecoder.decodeObject(of: NSNumber.self, forKey: Coding.cylinders.rawValue))?.intValue
+        transmission = aDecoder.decodeObject(of: NSString.self, forKey: Coding.transmission.rawValue) as String?
+        registrationStatus = aDecoder.decodeObject(of: NSString.self, forKey: Coding.registrationStatus.rawValue) as String?
+        registrationCategory = aDecoder.decodeObject(of: NSString.self, forKey: Coding.registrationCategory.rawValue) as String?
+        registrationEffectiveDate = aDecoder.decodeObject(of: NSDate.self, forKey: Coding.registrationEffectiveDate.rawValue) as Date?
+        registrationExpiryDate = aDecoder.decodeObject(of: NSDate.self, forKey: Coding.registrationExpiryDate.rawValue) as Date?
+        registrationState = aDecoder.decodeObject(of: NSString.self, forKey: Coding.registrationState.rawValue) as String?
+        registrationPurposeOfUse = aDecoder.decodeObject(of: NSString.self, forKey: Coding.registrationPurposeOfUse.rawValue) as String?
+        isStolen = aDecoder.decodeObject(forKey: Coding.isStolen.rawValue) as! Bool?
+        seatingCapacity = aDecoder.decodeObject(of: NSNumber.self, forKey: Coding.seatingCapacity.rawValue)?.intValue
+        weight = aDecoder.decodeObject(of: NSNumber.self, forKey: Coding.weight.rawValue)?.intValue
+        speedLimiter = aDecoder.decodeObject(forKey: Coding.speedLimiter.rawValue) as! Bool?
+        speedLimiterSetting = aDecoder.decodeObject(of: NSNumber.self, forKey: Coding.speedLimiterSetting.rawValue)?.intValue
+        interlockDevice = aDecoder.decodeObject(forKey: Coding.interlockDevice.rawValue) as! Bool?
+        vehicleDescription = aDecoder.decodeObject(of: NSString.self, forKey: Coding.vehicleDescription.rawValue) as String?
+        remarks = aDecoder.decodeObject(of: NSString.self, forKey: Coding.remarks.rawValue) as String?
+        isPlate = aDecoder.decodeObject(forKey: Coding.isPlate.rawValue) as! Bool?
     }
 
     override open func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
 
-        aCoder.encode(vehicleType, forKey: Coding.VehicleType.rawValue)
-        aCoder.encode(registration, forKey: Coding.Registration.rawValue)
-        aCoder.encode(plateType, forKey: Coding.PlateType.rawValue)
-        aCoder.encode(vin, forKey: Coding.Vin.rawValue)
-        aCoder.encode(engineNumber, forKey: Coding.EngineNumber.rawValue)
-        aCoder.encode(chassisNumber, forKey: Coding.ChassisNumber.rawValue)
-        aCoder.encode(year, forKey: Coding.Year.rawValue)
-        aCoder.encode(make, forKey: Coding.Make.rawValue)
-        aCoder.encode(model, forKey: Coding.Model.rawValue)
-        aCoder.encode(variant, forKey: Coding.Variant.rawValue)
-        aCoder.encode(bodyType, forKey: Coding.BodyType.rawValue)
-        aCoder.encode(primaryColor, forKey: Coding.PrimaryColor.rawValue)
-        aCoder.encode(secondaryColor, forKey: Coding.SecondaryColor.rawValue)
-        aCoder.encode(wheels, forKey: Coding.Wheels.rawValue)
-        aCoder.encode(axles, forKey: Coding.Axles.rawValue)
-        aCoder.encode(engineCapacity, forKey: Coding.EngineCapacity.rawValue)
-        aCoder.encode(enginePower, forKey: Coding.EnginePower.rawValue)
-        aCoder.encode(cylinders, forKey: Coding.Cylinders.rawValue)
-        aCoder.encode(transmission, forKey: Coding.Transmission.rawValue)
-        aCoder.encode(registrationStatus, forKey: Coding.RegistrationStatus.rawValue)
-        aCoder.encode(registrationCategory, forKey: Coding.RegistrationCategory.rawValue)
-        aCoder.encode(registrationEffectiveDate, forKey: Coding.RegistrationEffectiveDate.rawValue)
-        aCoder.encode(registrationExpiryDate, forKey: Coding.RegistrationExpiryDate.rawValue)
-        aCoder.encode(registrationState, forKey: Coding.RegistrationState.rawValue)
-        aCoder.encode(registrationPurposeOfUse, forKey: Coding.RegistrationPurposeOfUse.rawValue)
-        aCoder.encode(isStolen, forKey: Coding.IsStolen.rawValue)
-        aCoder.encode(seatingCapacity, forKey: Coding.SeatingCapacity.rawValue)
-        aCoder.encode(weight, forKey: Coding.Weight.rawValue)
-        aCoder.encode(speedLimiter, forKey: Coding.SpeedLimiter.rawValue)
-        aCoder.encode(speedLimiterSetting, forKey: Coding.SpeedLimiterSetting.rawValue)
-        aCoder.encode(interlockDevice, forKey: Coding.InterlockDevice.rawValue)
-        aCoder.encode(vehicleDescription, forKey: Coding.VehicleDescription.rawValue)
-        aCoder.encode(remarks, forKey: Coding.Remarks.rawValue)
-        aCoder.encode(isPlate, forKey: Coding.IsPlate.rawValue)
+        aCoder.encode(vehicleType, forKey: Coding.vehicleType.rawValue)
+        aCoder.encode(registration, forKey: Coding.registration.rawValue)
+        aCoder.encode(plateType, forKey: Coding.plateType.rawValue)
+        aCoder.encode(vin, forKey: Coding.vin.rawValue)
+        aCoder.encode(engineNumber, forKey: Coding.engineNumber.rawValue)
+        aCoder.encode(chassisNumber, forKey: Coding.chassisNumber.rawValue)
+        aCoder.encode(year, forKey: Coding.year.rawValue)
+        aCoder.encode(make, forKey: Coding.make.rawValue)
+        aCoder.encode(model, forKey: Coding.model.rawValue)
+        aCoder.encode(variant, forKey: Coding.variant.rawValue)
+        aCoder.encode(bodyType, forKey: Coding.bodyType.rawValue)
+        aCoder.encode(primaryColor, forKey: Coding.primaryColor.rawValue)
+        aCoder.encode(secondaryColor, forKey: Coding.secondaryColor.rawValue)
+        aCoder.encode(wheels, forKey: Coding.wheels.rawValue)
+        aCoder.encode(axles, forKey: Coding.axles.rawValue)
+        aCoder.encode(engineCapacity, forKey: Coding.engineCapacity.rawValue)
+        aCoder.encode(enginePower, forKey: Coding.enginePower.rawValue)
+        aCoder.encode(cylinders, forKey: Coding.cylinders.rawValue)
+        aCoder.encode(transmission, forKey: Coding.transmission.rawValue)
+        aCoder.encode(registrationStatus, forKey: Coding.registrationStatus.rawValue)
+        aCoder.encode(registrationCategory, forKey: Coding.registrationCategory.rawValue)
+        aCoder.encode(registrationEffectiveDate, forKey: Coding.registrationEffectiveDate.rawValue)
+        aCoder.encode(registrationExpiryDate, forKey: Coding.registrationExpiryDate.rawValue)
+        aCoder.encode(registrationState, forKey: Coding.registrationState.rawValue)
+        aCoder.encode(registrationPurposeOfUse, forKey: Coding.registrationPurposeOfUse.rawValue)
+        aCoder.encode(isStolen, forKey: Coding.isStolen.rawValue)
+        aCoder.encode(seatingCapacity, forKey: Coding.seatingCapacity.rawValue)
+        aCoder.encode(weight, forKey: Coding.weight.rawValue)
+        aCoder.encode(speedLimiter, forKey: Coding.speedLimiter.rawValue)
+        aCoder.encode(speedLimiterSetting, forKey: Coding.speedLimiterSetting.rawValue)
+        aCoder.encode(interlockDevice, forKey: Coding.interlockDevice.rawValue)
+        aCoder.encode(vehicleDescription, forKey: Coding.vehicleDescription.rawValue)
+        aCoder.encode(remarks, forKey: Coding.remarks.rawValue)
+        aCoder.encode(isPlate, forKey: Coding.isPlate.rawValue)
     }
 
     private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
