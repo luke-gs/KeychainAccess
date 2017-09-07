@@ -82,7 +82,7 @@ open class Entity: MPOLKitEntity {
 
         try super.init(unboxer: unboxer)
 
-        alerts = alerts?.filter{$0.level != nil}
+        alerts = alerts?.filter { $0.level != nil }
         actionCount = unboxer.unbox(key: "actionCount") ?? UInt(alerts?.count ?? 0)
     }
 

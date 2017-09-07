@@ -8,7 +8,7 @@
 
 import Foundation
 
-////// Entity Sections
+/// Entity Sections
 
 public protocol EntityDetailSectionsDataSource {
     var localizedDisplayName: String { get }

@@ -39,13 +39,13 @@ public class EntityEventViewModel: EntityDetailsViewModelable {
     private lazy var collapsedSections: Set<Int> = []
 
     public func updateCollapsedSections(for sections: [Int]) {
-        sections.forEach({
+        sections.forEach {
             if collapsedSections.contains($0) {
                 collapsedSections.remove($0)
             } else {
                 collapsedSections.insert($0)
             }
-        })
+        }
     }
 
     public func numberOfItems(for section: Int = 0) -> Int {

@@ -77,7 +77,7 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
         }
     }
     
-    public var sections: [DetailsType] = []{
+    public var sections: [DetailsType] = [] {
         didSet {
             delegate?.reloadData()
         }
@@ -104,13 +104,13 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
     }
 
     public func updateCollapsedSections(for sections: [Int]) {
-        sections.forEach({
+        sections.forEach {
             if collapsedSections.contains($0) {
                 collapsedSections.remove($0)
             } else {
                 collapsedSections.insert($0)
             }
-        })
+        }
     }
 
     public func isSectionExpanded(section: Int) -> Bool {
@@ -145,7 +145,7 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
         
         return HeaderSectionCellInfo(person: person,
                                      source: source,
-                                     title:title,
+                                     title: title,
                                      subtitle: subtitle,
                                      description: description,
                                      additionalDetailsButtonTitle: buttonTitle,
@@ -153,14 +153,14 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
     }
     
     public func cellInfo(for section: DetailsType, at indexPath: IndexPath) -> SectionCellInfo {
-        var title   : String?
+        var title: String?
         var subtitle: String?
-        var value   : String?
-        var image   : UIImage?
+        var value: String?
+        var image: UIImage?
         
-        var isEditable          : Bool?
-        var isProgressCell      : Bool?
-        var progress            : Float?
+        var isEditable: Bool?
+        var isProgressCell: Bool?
+        var progress: Float?
         var isProgressViewHidden: Bool?
         
         let item = section.items![indexPath.item]
@@ -177,7 +177,7 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
             if let date = item.reportDate {
                 title = String(format: NSLocalizedString("%@ - Recorded as at %@", bundle: .mpolKit, comment: ""), item.type ?? "Unknown", DateFormatter.mediumNumericDate.string(from: date))
             } else {
-                title = String(format:NSLocalizedString("%@ - Recorded date unknown", bundle: .mpolKit, comment: ""),  item.type ?? "Unknown")
+                title = String(format: NSLocalizedString("%@ - Recorded date unknown", bundle: .mpolKit, comment: ""), item.type ?? "Unknown")
             }
             
             value = item.formatted()
@@ -350,12 +350,12 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
     
     // MARK: Layout calculation models 
     public struct HeaderInfoForMinimumContentHeight {
-        let title            : String?
-        let subtitle         : String?
-        let description      : String?
-        let placeholder      : String?
+        let title: String?
+        let subtitle: String?
+        let description: String?
+        let placeholder: String?
         let additionalDetails: String?
-        let source           : String?
+        let source: String?
     }
     
     public struct ItemInforForMinimumContentHeight {
@@ -368,28 +368,28 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
     // MARK: - Cell Models
     
     public struct HeaderSectionCellInfo {
-        let person     : Person?
-        let source     : String?
-        let title      : String?
-        let subtitle   : String?
+        let person: Person?
+        let source: String?
+        let title: String?
+        let subtitle: String?
         let description: String?
         
         let additionalDetailsButtonTitle: String?
-        let isDescriptionPlaceholder    : Bool
+        let isDescriptionPlaceholder: Bool
     }
     
     public struct SectionCellInfo {
-        let title     : String?
-        let subtitle  : String?
-        let value     : String?
-        let image     : UIImage?
+        let title: String?
+        let subtitle: String?
+        let value: String?
+        let image: UIImage?
         let isEditable: Bool?
         
-        let isProgressCell      : Bool?
-        let progress            : Float?
+        let isProgressCell: Bool?
+        let progress: Float?
         let isProgressViewHidden: Bool?
         
-        var progressTintColor   : UIColor? {
+        var progressTintColor: UIColor? {
             guard let progress = progress else {
                 return nil
             }
@@ -479,11 +479,11 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
         
         var localizedTitle: String {
             switch self {
-            case .number:        return NSLocalizedString("Licence number", bundle: .mpolKit, comment: "")
-            case .state:         return NSLocalizedString("State",          bundle: .mpolKit, comment: "")
-            case .country:       return NSLocalizedString("Country",        bundle: .mpolKit, comment: "")
-            case .status:        return NSLocalizedString("Status",         bundle: .mpolKit, comment: "")
-            case .validity:      return NSLocalizedString("Valid until",    bundle: .mpolKit, comment: "")
+            case .number: return NSLocalizedString("Licence number", bundle: .mpolKit, comment: "")
+            case .state: return NSLocalizedString("State", bundle: .mpolKit, comment: "")
+            case .country: return NSLocalizedString("Country", bundle: .mpolKit, comment: "")
+            case .status: return NSLocalizedString("Status", bundle: .mpolKit, comment: "")
+            case .validity: return NSLocalizedString("Valid until", bundle: .mpolKit, comment: "")
             }
         }
         
@@ -547,7 +547,7 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
         
         func formattedContactType(for contact: Contact) -> String? {
 
-            let components = [contact.type?.localizedDescription(), contact.subType].flatMap({$0})
+            let components = [contact.type?.localizedDescription(), contact.subType].flatMap { $0 }
             if components.isEmpty == false {
                 return components.joined(separator: " - ")
             }
