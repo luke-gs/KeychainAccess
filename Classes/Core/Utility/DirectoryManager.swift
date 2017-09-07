@@ -7,22 +7,21 @@
 //
 
 import UIKit
-
-public protocol DirectoryManaging {
-    @discardableResult func write(_ object: Any, to path: String) -> Bool
-    func read(from path: String) -> Any?
-    func remove(at path: String) throws
-}
-
-private let archivingQueue = DispatchQueue(label: "DirectoryManagerQueue")
+import KeychainSwift
 
 public class DirectoryManager: DirectoryManaging {
 
     private var baseURL: URL
+    private let keychain = KeychainSwift()
+    private let operationQueue: OperationQueue
 
     required public init(baseURL: URL) {
         self.baseURL = baseURL
+        self.operationQueue = OperationQueue()
+        self.operationQueue.name = "DirectoryManagerOperationQueue"
     }
+
+    //MARK: Directory
 
     @discardableResult public func write(_ object: Any, to path: String) -> Bool {
         let url = baseURL.appendingPathComponent(path)
@@ -37,13 +36,73 @@ public class DirectoryManager: DirectoryManaging {
     }
     
     public func remove(at path: String) throws {
-        guard let url = URL(string: path) else { throw URLError(.cannotRemoveFile) }
+        let url = baseURL.appendingPathComponent(path)
         try FileManager.default.removeItem(at: url)
+    }
+
+    //MARK: Keychain
+
+    @discardableResult public func write(_ object: Any?, toKeyChain key: String) -> Bool {
+        guard let object = object else {
+            return keychain.delete(key)
+        }
+        let data = NSKeyedArchiver.archivedData(withRootObject: object)
+        return keychain.set(data, forKey: key)
+    }
+
+    public func read(fromKeyChain key: String) -> Any? {
+        guard let data = keychain.getData(key) else { return nil }
+        return NSKeyedUnarchiver.unarchiveObject(with: data)
     }
 }
 
-public extension FileManager {
+/// Protocol for the directory manager. (Mainly for clean docs)
+public protocol DirectoryManaging {
 
+    /// Initialise the directory manager with a base url
+    ///
+    ///All subsequent write/reads will be appending to the base url
+    /// - Parameter baseURL: the base url to use
+    init(baseURL: URL)
+
+    /// Write the object to a directory at sub path of the base url
+    ///
+    /// If the intermediate directories don't exist, it will create them for you
+    /// - Parameters:
+    ///   - object: the object to archive
+    ///   - path: the sub path to archive to
+    /// - Returns: true of the write was successful
+    @discardableResult func write(_ object: Any, to path: String) -> Bool
+
+    /// Read from the directory and unarchive an object
+    ///
+    /// - Parameter path: the path of the object
+    /// - Returns: the object unarchived from the path. nil if no object was found.
+    func read(from path: String) -> Any?
+
+    /// Removes the file at the given path
+    ///
+    /// - Parameter path: the path of the file
+    /// - Returns: returns true if removal was successful
+    /// - Throws: throws error if there was a problem removing the file
+    func remove(at path: String) throws
+
+    /// Write an object to the keychain
+    ///
+    /// - Parameters:
+    ///   - object: the object to write to keychain
+    ///   - key: the key to store it under
+    /// - Returns: true of the write was successful
+    @discardableResult func write(_ object: Any?, toKeyChain key: String) -> Bool
+
+    /// Read from the keychain
+    ///
+    /// - Parameter key: the key of the object in keychain
+    /// - Returns: the unarchived object
+    func read(fromKeyChain key: String) -> Any?
+}
+
+public extension FileManager {
 
     /// Creates a file with the specified content and attributes at the given location.
     /// If you specify nil for the attributes parameter, this method uses a default set of values for the owner, group, and permissions of any newly created directories in the path. Similarly, if you omit a specific attribute, the default value is used. The default values for newly created files are as follows:

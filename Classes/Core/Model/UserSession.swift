@@ -9,63 +9,12 @@
 import UIKit
 import KeychainSwift
 
-private struct UserSessionPaths {
-
-    private let basePath: URL
-    private let sessionId: String
-
-
-    init(baseUrl: URL, sessionId: String) {
-        self.basePath = baseUrl
-        self.sessionId = sessionId
-    }
-
-    var session: String {
-        let array = ["session", "\(sessionId)"]
-        return array.joined(separator: "/")
-    }
-
-    var recentlyViewed: String {
-        let array = ["session", "\(sessionId)", "viewed"]
-        return array.joined(separator: "/")
-    }
-
-    var recentlySearched: String {
-        let array = ["session", "\(sessionId)", "searched"]
-        return array.joined(separator: "/")
-    }
-
-    var userWrapperPath: String {
-        let array = ["session", "\(sessionId)", "user"]
-        return array.joined(separator: "/")
-    }
-
-    func userPath(for name: String) -> String {
-        let array = ["user", "\(name)"]
-        return array.joined(separator: "/")
-    }
-}
-
 public class UserSession: UserSessionable {
 
     public static let current = UserSession()
     public static var basePath: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
 
-    private(set) public var token: OAuthAccessToken? {
-        get {
-            guard let data = keychain.getData("token") else { return nil }
-            return NSKeyedUnarchiver.MPL_securelyUnarchiveObject(with: data)
-        }
-        set {
-            if let token = newValue {
-                let data = NSKeyedArchiver.MPL_securelyArchivedData(withRootObject: token)
-                keychain.set(data, forKey: "token")
-            } else {
-                keychain.delete("token")
-            }
-        }
-    }
-
+    private(set) var token: OAuthAccessToken?
     private(set) public var user: User?
 
     public var recentlyViewed: [MPOLKitEntity] = [] {
@@ -91,10 +40,7 @@ public class UserSession: UserSessionable {
         return sessionID
     }
 
-    public static func startSession(user: User,
-                                    token: OAuthAccessToken,
-                                    completion: @escaping UserSessionCompletion)
-    {
+    public static func startSession(user: User, token: OAuthAccessToken) {
         UserSession.current.token = token
         UserSession.current.user = user
         UserSession.current.recentlyViewed = []
@@ -102,8 +48,6 @@ public class UserSession: UserSessionable {
 
         UserSession.current.loadUserFromCache()
         UserSession.current.saveUserToCache()
-
-        completion(true)
     }
 
     public func updateUser() {
@@ -115,10 +59,11 @@ public class UserSession: UserSessionable {
         UserDefaults.standard.set(nil, forKey: latestSessionKey)
     }
 
-    public func restoreSession(completion: @escaping UserSessionCompletion) {
+    public func restoreSession(completion: @escaping RestoreSessionCompletion) {
         let userWrapper = directoryManager.read(from: paths.userWrapperPath) as? FileWrapper
         let viewed = directoryManager.read(from: paths.recentlyViewed) as! [MPOLKitEntity]
         let searched = directoryManager.read(from: paths.recentlySearched) as! [Searchable]
+        let token = directoryManager.read(fromKeyChain: "token") as! OAuthAccessToken
 
         guard userWrapper != nil else {
             UserSession.current.endSession()
@@ -132,11 +77,13 @@ public class UserSession: UserSessionable {
         self.user = NSKeyedUnarchiver.MPL_securelyUnarchiveObject(from: userPath.path)
         self.recentlyViewed = viewed
         self.recentlySearched = searched
+        self.token = token
 
-        completion(true)
+        completion(token)
     }
 
     //MARK: PRIVATE
+
     private let keychain = KeychainSwift()
     private lazy var directoryManager = {
         return DirectoryManager(baseURL: UserSession.basePath)
@@ -175,8 +122,45 @@ public class UserSession: UserSessionable {
 private let latestSessionKey = "LatestSessionKey"
 private let archivingQueue = DispatchQueue(label: "MagicArchivingQueue")
 
-/// Generic user session completion closure
-public typealias UserSessionCompletion = ((_ success: Bool)->())
+/// Restoring user session closure, returns auth token when complete
+public typealias RestoreSessionCompletion = ((_ token: OAuthAccessToken)->())
+
+private struct UserSessionPaths {
+
+    private let basePath: URL
+    private let sessionId: String
+
+
+    init(baseUrl: URL, sessionId: String) {
+        self.basePath = baseUrl
+        self.sessionId = sessionId
+    }
+
+    var session: String {
+        let array = ["session", "\(sessionId)"]
+        return array.joined(separator: "/")
+    }
+
+    var recentlyViewed: String {
+        let array = ["session", "\(sessionId)", "viewed"]
+        return array.joined(separator: "/")
+    }
+
+    var recentlySearched: String {
+        let array = ["session", "\(sessionId)", "searched"]
+        return array.joined(separator: "/")
+    }
+
+    var userWrapperPath: String {
+        let array = ["session", "\(sessionId)", "user"]
+        return array.joined(separator: "/")
+    }
+
+    func userPath(for name: String) -> String {
+        let array = ["user", "\(name)"]
+        return array.joined(separator: "/")
+    }
+}
 
 /// Protocol for the user session. (Mainly for clean docs)
 public protocol UserSessionable {
@@ -192,8 +176,7 @@ public protocol UserSessionable {
     /// - Parameters:
     ///   - user: the user object for the session
     ///   - token: the OAuth token for the session
-    ///   - completion: completion when all necessary data has been written to disk, and session is created. True is successful
-    static func startSession(user: User, token: OAuthAccessToken, completion: @escaping UserSessionCompletion)
+    static func startSession(user: User, token: OAuthAccessToken)
 
     /// The user for the session
     var user: User? { get }
@@ -212,8 +195,8 @@ public protocol UserSessionable {
 
     /// Attempt to restore a previous session
     ///
-    /// - Parameter completion: completion when all necessary data has read from disk and session was restored. True is successful
-    func restoreSession(completion: @escaping UserSessionCompletion)
+    /// - Parameter completion: completion when all necessary data has read from disk and session was restored. Returns the token.
+    func restoreSession(completion: @escaping RestoreSessionCompletion)
 
     /// Call this when any changes to the user had been made.
     /// Currently only called when t&cs and whatsNew have been updated
