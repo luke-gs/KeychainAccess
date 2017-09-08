@@ -11,17 +11,6 @@ import PromiseKit
 
 open class EntityDetailSplitViewController: SidebarSplitViewController {
 
-    public func updateRepresentations() {
-        let sources = detailViewModel.sources
-
-        sources.forEach {
-            let source = $0.serverSourceName
-            if let result = detailViewModel.results[source] {
-                updateDetailSectionsAvailability(result.state == .finished)
-            }
-        }
-    }
-
     private let headerView = SidebarHeaderView(frame: .zero)
     fileprivate let detailViewModel: EntityDetailSectionsViewModel
 
@@ -54,6 +43,8 @@ open class EntityDetailSplitViewController: SidebarSplitViewController {
         MPLUnimplemented()
     }
 
+    // MARK: - SideBar Delegate
+
     open override func sidebarViewController(_ controller: SidebarViewController, didSelectSourceAt index: Int) {
         let source = detailViewModel.sources[index]
         detailViewModel.selectedSource = source
@@ -77,9 +68,21 @@ open class EntityDetailSplitViewController: SidebarSplitViewController {
 
     // MARK: - Private methods
 
+    /// Enables/Disables sidebar items based on whether or not its source is updating.
+    fileprivate func updateRepresentations() {
+        let sources = detailViewModel.sources
+
+        sources.forEach {
+            let source = $0.serverSourceName
+            if let result = detailViewModel.results[source] {
+                updateDetailSectionsAvailability(result.state == .finished)
+            }
+        }
+    }
+
     /// Updates the source items and selection in the bar. Call this method when
     /// representations update.
-    private func updateSourceItems() {
+    fileprivate func updateSourceItems() {
 
         sidebarViewController.sourceItems = detailViewModel.sources.map {
             let itemState: SourceItem.State
@@ -139,6 +142,8 @@ open class EntityDetailSplitViewController: SidebarSplitViewController {
     }
 
 }
+
+// MARK: - DetailViewModel Delegate
 
 extension EntityDetailSplitViewController: EntityDetailSectionsDelegate {
 
