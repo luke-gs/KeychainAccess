@@ -24,7 +24,7 @@ class MPOLSearchViewModel: SearchViewModel {
 
         if entity is Person {
             viewController = EntityDetailSplitViewController(entity: entity,
-                                                             sources: [MPOLSource.mpol],
+                                                             sources: [MPOLSource.gnaf, MPOLSource.mpol, MPOLSource.fnc],
                                                              dataSource: PersonDetailsSectionsDataSource())
             viewController!.view.backgroundColor = .red
 
