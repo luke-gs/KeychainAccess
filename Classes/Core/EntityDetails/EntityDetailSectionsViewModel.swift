@@ -28,7 +28,9 @@ public struct EntityFetchResult {
 
 public class EntityDetailSectionsViewModel {
 
-    public var sources: [EntitySource]!
+    public var sources: [EntitySource]
+
+    public var selectedSource: EntitySource
 
     public var entityFetch: Fetchable?
 
@@ -42,9 +44,10 @@ public class EntityDetailSectionsViewModel {
 
     public var results: [String: EntityFetchResult] = [:]
 
-    public init(entity: MPOLKitEntity, sources: [EntitySource]? = [], dataSource: EntityDetailSectionsDataSource) {
+    public init(entity: MPOLKitEntity, sources: [EntitySource] = [], dataSource: EntityDetailSectionsDataSource) {
 
         self.sources = sources
+        selectedSource = sources.first! //TODO: Fixme
         self.entity = entity
         self.detailSectionsDataSource = dataSource
 
@@ -57,9 +60,27 @@ public class EntityDetailSectionsViewModel {
         entityFetch?.performFetch()
     }
 
-    public func setSelectedEntity(entity: MPOLKitEntity?) {
-        detailSectionsViewControllers?.forEach {
-            $0.genericEntity = (entity)
+    public func setSelectedResult(fetchResult: EntityFetchResult) {
+        if let error = fetchResult.error {
+            detailSectionsViewControllers?.forEach {
+                $0.genericEntity = nil
+
+                let noContentView = $0.loadingManager.noContentView
+                noContentView.imageView.image = AssetManager.shared.image(forKey: .refresh)
+                noContentView.imageView.tintColor = #colorLiteral(red: 0.6044161711, green: 0.6313971979, blue: 0.6581829122, alpha: 0.6420554578)
+
+                noContentView.titleLabel.text = NSLocalizedString(error.localizedDescription, comment: "")
+                let actionButton = noContentView.actionButton
+                actionButton.titleLabel?.font = .systemFont(ofSize: 15.0, weight: UIFontWeightSemibold)
+                actionButton.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 16.0, bottom: 10.0, right: 16.0)
+                actionButton.setTitle(NSLocalizedString("Retry Download", comment: ""), for: .normal)
+                actionButton.addTarget(self, action: #selector(newSearchButtonDidSelect(_:)), for: .primaryActionTriggered)
+            }
+
+        } else {
+            detailSectionsViewControllers?.forEach {
+                $0.genericEntity = (fetchResult.entity)
+            }
         }
     }
 
@@ -89,36 +110,22 @@ extension EntityDetailSectionsViewModel: EntityDetailFetchDelegate {
         }
 
         let source = request.source
+        let fetchResult = EntityFetchResult(entity: result.entity,
+                                            state: result.state,
+                                            error: result.error)
+        results[source.serverSourceName] = fetchResult
 
-        results[source.serverSourceName] = EntityFetchResult(entity: result.entity,
-                                                             state: result.state,
-                                                             error: result.error)
-        //TODO: Check if result is the current selecrted source or not...
-        if let error = result.error {
-            detailSectionsViewControllers?.forEach {
-                $0.genericEntity = nil
-
-                let noContentView = $0.loadingManager.noContentView
-                noContentView.imageView.image = AssetManager.shared.image(forKey: .refresh)
-                noContentView.imageView.tintColor = #colorLiteral(red: 0.6044161711, green: 0.6313971979, blue: 0.6581829122, alpha: 0.6420554578)
-
-                noContentView.titleLabel.text = NSLocalizedString(error.localizedDescription, comment: "")
-                let actionButton = noContentView.actionButton
-                actionButton.titleLabel?.font = .systemFont(ofSize: 15.0, weight: UIFontWeightSemibold)
-                actionButton.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 16.0, bottom: 10.0, right: 16.0)
-                actionButton.setTitle(NSLocalizedString("Retry Download", comment: ""), for: .normal)
-                actionButton.addTarget(self, action: #selector(newSearchButtonDidSelect(_:)), for: .primaryActionTriggered)
-            }
-        } else {
-            setSelectedEntity(entity: result.entity)
+        if source == selectedSource {
+            setSelectedResult(fetchResult: fetchResult)
         }
 
         self.delegate?.EntityDetailSectionsDidUpdateResults(self)
     }
 
     @objc
-    private func newSearchButtonDidSelect(_ button: UIButton) {
+    fileprivate func newSearchButtonDidSelect(_ button: UIButton) {
         delegate?.EntityDetailSectionDidSelectRetryDownload(self)
+        performFetch()
     }
 
 }

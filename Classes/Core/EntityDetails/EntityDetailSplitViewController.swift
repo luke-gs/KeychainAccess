@@ -12,7 +12,7 @@ import PromiseKit
 open class EntityDetailSplitViewController: SidebarSplitViewController {
 
     public func updateRepresentations() {
-        let sources = detailViewModel.sources!
+        let sources = detailViewModel.sources
 
         sources.forEach {
             let source = $0.serverSourceName
@@ -24,16 +24,6 @@ open class EntityDetailSplitViewController: SidebarSplitViewController {
         updateSourceItems()
     }
 
-    open var selectedSource: EntitySource {
-        didSet {
-            if selectedSource == oldValue {
-                return
-            }
-
-            updateHeaderView()
-        }
-    }
-
     private let headerView = SidebarHeaderView(frame: .zero)
     fileprivate let detailViewModel: EntityDetailSectionsViewModel
 
@@ -41,7 +31,7 @@ open class EntityDetailSplitViewController: SidebarSplitViewController {
 
         detailViewModel = EntityDetailSectionsViewModel(entity: entity, sources: sources, dataSource: dataSource)
 
-        selectedSource = sources.first! //TODO: Fixme
+
 
         let detailVCs = detailViewModel.detailSectionsViewControllers as? [UIViewController]
 
@@ -70,8 +60,13 @@ open class EntityDetailSplitViewController: SidebarSplitViewController {
 
     open override func sidebarViewController(_ controller: SidebarViewController, didSelectSourceAt index: Int) {
         let source = detailViewModel.sources[index]
-        let entity = detailViewModel.results[source.serverSourceName]?.entity
-        detailViewModel.setSelectedEntity(entity: entity)
+        detailViewModel.selectedSource = source
+
+        if let result = detailViewModel.results[source.serverSourceName] {
+            detailViewModel.setSelectedResult(fetchResult: result)
+        }
+
+        updateHeaderView()
     }
 
     open override func sidebarViewController(_ controller: SidebarViewController, didRequestToLoadSourceAt index: Int) {
@@ -97,7 +92,7 @@ open class EntityDetailSplitViewController: SidebarSplitViewController {
     /// representations update.
     private func updateSourceItems() {
 
-        sidebarViewController.sourceItems = detailViewModel.sources!.map {
+        sidebarViewController.sourceItems = detailViewModel.sources.map {
             let itemState: SourceItem.State
 
             if let fetchResult = detailViewModel.results[$0.serverSourceName] {
@@ -122,7 +117,7 @@ open class EntityDetailSplitViewController: SidebarSplitViewController {
 
             return SourceItem(title: $0.localizedBarTitle, state: itemState)
         }
-        let index = detailViewModel.sources.index(where: { $0 == selectedSource })
+        let index = detailViewModel.sources.index(where: { $0 == detailViewModel.selectedSource })
         sidebarViewController.selectedSourceIndex = index
 
     }
@@ -131,7 +126,7 @@ open class EntityDetailSplitViewController: SidebarSplitViewController {
     /// Call this methodwhen the selected representation changes.
     private func updateHeaderView() {
         var displayableEntity: EntityDetailDisplayable?
-        let result = detailViewModel.results[selectedSource.serverSourceName]
+        let result = detailViewModel.results[detailViewModel.selectedSource.serverSourceName]
 
         if result == nil {
             displayableEntity = detailViewModel.entity as? EntityDetailDisplayable
@@ -170,7 +165,7 @@ extension EntityDetailSplitViewController: EntityDetailSectionsDelegate {
     }
 
     public func EntityDetailSectionDidSelectRetryDownload(_ EntityDetailSectionsViewModel: EntityDetailSectionsViewModel) {
-        self.detailViewModel.performFetch()
+
     }
 
 }
