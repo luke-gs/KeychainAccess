@@ -18,7 +18,9 @@ public class VehicleDetailsSectionsDataSource: EntityDetailSectionsDataSource {
     public var detailViewControllers: [EntityDetailSectionUpdatable] = [ VehicleInfoViewController(),
                                                                                   EntityAlertsViewController(),
                                                                                   EntityAssociationsViewController(),
-                                                                                  PersonCriminalHistoryViewController()]
+                                                                                  PersonCriminalHistoryViewController(),
+                                                                                  VehicleOccurrencesViewController()
+                                                                                  ]
 
     public func fetchModel(for entity: MPOLKitEntity, sources: [EntitySource]) -> Fetchable {
         let requests = sources.map {

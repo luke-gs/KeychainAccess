@@ -28,7 +28,7 @@ public class PersonDescriptionViewModel: EntityDetailViewModelable {
             var sectionsMap: [String: [PersonDescription]] = [:]
             for description in sections {
                 // mapping description to report date's year
-                let year = description.reportDate == nil ? "" : yearDateFormatter.string(from: description.reportDate!)
+                let year = description.effectiveDate == nil ? "" : yearDateFormatter.string(from: description.effectiveDate!)
                 var yearsDescriptions = sectionsMap[year] ?? []
                 yearsDescriptions.append(description)
                 sectionsMap[year] = yearsDescriptions

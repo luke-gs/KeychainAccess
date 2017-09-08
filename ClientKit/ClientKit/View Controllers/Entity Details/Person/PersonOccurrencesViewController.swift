@@ -114,7 +114,7 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
         collectionView.deselectItem(at: indexPath, animated: true)
         
         let detailViewController: UIViewController?
-        let event = viewModel.item(at: indexPath.item)!
+        guard let event = viewModel.item(at: indexPath.section)?.events[indexPath.item] else { return }
         
         switch event {
         case let fieldContact as FieldContact:
@@ -147,7 +147,19 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
         if kind == UICollectionElementKindSectionHeader {
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
     
-            header.text = viewModel.sectionHeader
+            header.text = viewModel.header(for: indexPath.section)
+            header.showsExpandArrow = true
+            header.tapHandler = { [weak self] header, indexPath in
+                guard let `self` = self else { return }
+
+                let section = indexPath.section
+
+                self.viewModel.updateCollapsedSections(for: [section])
+                header.setExpanded(self.viewModel.isSectionExpanded(section: section), animated: true)
+                collectionView.reloadSections(IndexSet(integer: section))
+            }
+            header.isExpanded = self.viewModel.isSectionExpanded(section: indexPath.section)
+
             return header
         }
         return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)

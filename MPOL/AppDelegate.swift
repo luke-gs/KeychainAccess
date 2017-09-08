@@ -19,6 +19,8 @@ import Alamofire
 #endif
 
 private let host = "api-dev.mpol.solutions"
+let TermsAndConditionsVersion = "1.0"
+let WhatsNewVersion = "1.0"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
@@ -30,7 +32,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         MPOLKitInitialize()
 
-        APIManager.shared = APIManager(configuration: APIManagerDefaultConfiguration(url: "https://\(host)", trustPolicyManager: ServerTrustPolicyManager(policies: [host: .disableEvaluation])))
+        let plugins: [PluginType]?
+        #if DEBUG
+            plugins = [
+                NetworkLoggingPlugin()
+            ]
+        #else
+            plugins = nil
+        #endif
+
+        APIManager.shared = APIManager(configuration: APIManagerDefaultConfiguration(url: "https://\(host)", plugins: plugins, trustPolicyManager: ServerTrustPolicyManager(policies: [host: .disableEvaluation])))
 
         NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleDidChange), name: .interfaceStyleDidChange, object: nil)
 
@@ -38,10 +49,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         let window = UIWindow()
         self.window = window
-
+        window.rootViewController = UIViewController()
+        
         applyCurrentTheme()
 
-        updateInterface(for: .login, animated: true)
+        UserSession.basePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+
+        if UserSession.current.isActive == true {
+            UserSession.current.restoreSession { [unowned self] token in
+                APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
+                self.fiddleWithState()
+            }
+        } else {
+            self.updateInterface(for: .login, animated: true)
+        }
 
         window.makeKeyAndVisible()
 
@@ -62,8 +83,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         return true
     }
 
+    func fiddleWithState() {
+        guard UserSession.current.user?.termsAndConditionsVersionAccepted != TermsAndConditionsVersion else {
+            if UserSession.current.user?.whatsNewShownVersion != WhatsNewVersion {
+                self.updateInterface(for: .whatsNew, animated: true)
+            } else {
+                self.updateInterface(for: .landing, animated: true)
+            }
+            return
+        }
+        self.updateInterface(for: .login, animated: true)
+    }
+    
     // MARK: - APNS
-
+    
     func registerPushNotifications(_ application: UIApplication) {
 
         let notificationCenter: UNUserNotificationCenter = UNUserNotificationCenter.current()
@@ -108,6 +141,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     // TEMP
     func logOut() {
+        UserSession.current.endSession()
         updateInterface(for: .login, animated: true)
     }
 
@@ -151,27 +185,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         AlertQueue.shared.preferredStatusBarStyle = theme.statusBarStyle
     }
-
-    // FIXEME: Tech debt
-    func setCurrentUser(withUsername username: String) {
-        var user: User?
-
-        let data = UserDefaults.standard.object(forKey: "TemporaryUser") as? Data
-        if data != nil {
-            user = NSKeyedUnarchiver.unarchiveObject(with: data!) as? User
-        }
-
-        if user == nil {
-            user = User(username: username)
-            self.saveUser(user!)
-        }
-        AppDelegate.currentUser = user
-    }
-
-    static var currentUser: User?
-
-    func saveUser(_ user: User) {
-        UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: user), forKey: "TemporaryUser")
-    }
-
 }

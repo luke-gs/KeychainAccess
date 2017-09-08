@@ -96,7 +96,7 @@ open class Alert: NSObject, Serialisable {
 
         source        = unboxer.unbox(key: "source")
         title         = unboxer.unbox(key: "title")
-        details       = unboxer.unbox(key: "description")
+        details       = unboxer.unbox(key: "remarks")
         
         super.init()
     }
