@@ -13,25 +13,25 @@ import MPOLKit
 open class Person: Entity {
 
     private enum Coding: String {
-        case GivenName = "GivenName"
-        case Surname = "Surname"
-        case MiddleNames = "MiddleNames"
-        case Initials = "Initials"
-        case DateOfBirth = "DateOfBirth"
-        case DateOfDeath = "DateOfDeath"
-        case YearOnlyDateOfBirth = "YearOnlyDateOfBirth"
-        case Gender = "Gender"
-        case Contacts = "Contacts"
-        case Licences = "Licences"
-        case Descriptions = "Descriptions"
-        case Aliases = "Aliases"
-        case Actions = "Actions"
-        case InterventionOrders = "InterventionOrders"
-        case BailOrders = "BailOrders"
-        case FieldContacts = "FieldContacts"
-        case MissingPersonReports = "MissingPersonReports"
-        case FamilyIncidents = "FamilyIncidents"
-        case CriminalHistory = "CriminalHistory"
+        case givenName = "givenName"
+        case surname = "surname"
+        case middleNames = "middleNames"
+        case initials = "initials"
+        case dateOfBirth = "dateOfBirth"
+        case dateOfDeath = "dateOfDeath"
+        case yearOnlyDateOfBirth = "yearOnlyDateOfBirth"
+        case gender = "gender"
+        case contacts = "contacts"
+        case licences = "licences"
+        case descriptions = "descriptions"
+        case aliases = "aliases"
+        case actions = "actions"
+        case interventionOrders = "interventionOrders"
+        case bailOrders = "bailOrders"
+        case fieldContacts = "fieldContacts"
+        case missingPersonReports = "missingPersonReports"
+        case familyIncidents = "familyIncidents"
+        case criminalHistory = "criminalHistory"
     }
 
     override open class var serverTypeRepresentation: String {
@@ -89,10 +89,10 @@ open class Person: Entity {
     open var missingPersonReports: [MissingPersonReport]?
     open var familyIncidents: [FamilyIncident]?
     open var criminalHistory: [CriminalHistory]?
-    
+
     open var isAlias: Bool?
-    
     open var thumbnail: UIImage?
+
     internal lazy var initialThumbnail: UIImage = { [unowned self] in
         if let initials = self.initials?.ifNotEmpty() {            
             return UIImage.thumbnail(withInitials: initials)
@@ -105,29 +105,29 @@ open class Person: Entity {
     
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        givenName = aDecoder.decodeObject(of: NSString.self, forKey: Coding.GivenName.rawValue) as String?
-        surname = aDecoder.decodeObject(of: NSString.self, forKey: Coding.Surname.rawValue) as String?
-        middleNames = aDecoder.decodeObject(of: NSString.self, forKey: Coding.MiddleNames.rawValue) as String?
-        initials = aDecoder.decodeObject(of: NSString.self, forKey: Coding.Initials.rawValue) as String?
-        dateOfBirth = aDecoder.decodeObject(of: NSDate.self, forKey: Coding.DateOfBirth.rawValue) as Date?
-        dateOfDeath = aDecoder.decodeObject(of: NSDate.self, forKey: Coding.DateOfDeath.rawValue) as Date?
-        yearOnlyDateOfBirth = aDecoder.decodeObject(forKey: Coding.YearOnlyDateOfBirth.rawValue) as! Bool?
+        givenName = aDecoder.decodeObject(of: NSString.self, forKey: Coding.givenName.rawValue) as String?
+        surname = aDecoder.decodeObject(of: NSString.self, forKey: Coding.surname.rawValue) as String?
+        middleNames = aDecoder.decodeObject(of: NSString.self, forKey: Coding.middleNames.rawValue) as String?
+        initials = aDecoder.decodeObject(of: NSString.self, forKey: Coding.initials.rawValue) as String?
+        dateOfBirth = aDecoder.decodeObject(of: NSDate.self, forKey: Coding.dateOfBirth.rawValue) as Date?
+        dateOfDeath = aDecoder.decodeObject(of: NSDate.self, forKey: Coding.dateOfDeath.rawValue) as Date?
+        yearOnlyDateOfBirth = aDecoder.decodeObject(forKey: Coding.yearOnlyDateOfBirth.rawValue) as! Bool?
 
-        if let gender = aDecoder.decodeObject(of: NSString.self, forKey: Coding.Gender.rawValue) as String? {
+        if let gender = aDecoder.decodeObject(of: NSString.self, forKey: Coding.gender.rawValue) as String? {
             self.gender = Gender(rawValue: gender)
         }
 
-        contacts = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.Contacts.rawValue) as? [Contact]
-        licences = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.Licences.rawValue) as? [Licence]
-        descriptions = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.Descriptions.rawValue) as? [PersonDescription]
-        aliases = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.Aliases.rawValue) as? [Alias]
-        actions = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.Actions.rawValue) as? [Action]
-        interventionOrders = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.InterventionOrders.rawValue) as? [InterventionOrder]
-        bailOrders = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.BailOrders.rawValue) as? [BailOrder]
-        fieldContacts = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.FieldContacts.rawValue) as? [FieldContact]
-        missingPersonReports = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.MissingPersonReports.rawValue) as? [MissingPersonReport]
-        familyIncidents = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.FamilyIncidents.rawValue) as? [FamilyIncident]
-        criminalHistory = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.CriminalHistory.rawValue) as? [CriminalHistory]
+        contacts = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.contacts.rawValue) as? [Contact]
+        licences = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.licences.rawValue) as? [Licence]
+        descriptions = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.descriptions.rawValue) as? [PersonDescription]
+        aliases = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.aliases.rawValue) as? [Alias]
+        actions = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.actions.rawValue) as? [Action]
+        interventionOrders = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.interventionOrders.rawValue) as? [InterventionOrder]
+        bailOrders = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.bailOrders.rawValue) as? [BailOrder]
+        fieldContacts = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.fieldContacts.rawValue) as? [FieldContact]
+        missingPersonReports = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.missingPersonReports.rawValue) as? [MissingPersonReport]
+        familyIncidents = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.familyIncidents.rawValue) as? [FamilyIncident]
+        criminalHistory = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.criminalHistory.rawValue) as? [CriminalHistory]
     }
 
     public required override init(id: String = UUID().uuidString) {
@@ -187,25 +187,25 @@ open class Person: Entity {
     
     open override func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
-        aCoder.encode(givenName, forKey: Coding.GivenName.rawValue)
-        aCoder.encode(surname, forKey: Coding.Surname.rawValue)
-        aCoder.encode(middleNames, forKey: Coding.MiddleNames.rawValue)
-        aCoder.encode(initials, forKey: Coding.Initials.rawValue)
-        aCoder.encode(dateOfBirth, forKey: Coding.DateOfBirth.rawValue)
-        aCoder.encode(dateOfDeath, forKey: Coding.DateOfDeath.rawValue)
-        if yearOnlyDateOfBirth != nil { aCoder.encode(yearOnlyDateOfBirth!, forKey: Coding.YearOnlyDateOfBirth.rawValue) }
-        aCoder.encode(gender?.rawValue, forKey: Coding.Gender.rawValue)
-        aCoder.encode(contacts, forKey: Coding.Contacts.rawValue)
-        aCoder.encode(licences, forKey: Coding.Licences.rawValue)
-        aCoder.encode(descriptions, forKey: Coding.Descriptions.rawValue)
-        aCoder.encode(aliases, forKey: Coding.Aliases.rawValue)
-        aCoder.encode(actions, forKey: Coding.Actions.rawValue)
-        aCoder.encode(interventionOrders, forKey: Coding.InterventionOrders.rawValue)
-        aCoder.encode(bailOrders, forKey: Coding.BailOrders.rawValue)
-        aCoder.encode(fieldContacts, forKey: Coding.FieldContacts.rawValue)
-        aCoder.encode(missingPersonReports, forKey: Coding.MissingPersonReports.rawValue)
-        aCoder.encode(familyIncidents, forKey: Coding.FamilyIncidents.rawValue)
-        aCoder.encode(criminalHistory, forKey: Coding.CriminalHistory.rawValue)
+        aCoder.encode(givenName, forKey: Coding.givenName.rawValue)
+        aCoder.encode(surname, forKey: Coding.surname.rawValue)
+        aCoder.encode(middleNames, forKey: Coding.middleNames.rawValue)
+        aCoder.encode(initials, forKey: Coding.initials.rawValue)
+        aCoder.encode(dateOfBirth, forKey: Coding.dateOfBirth.rawValue)
+        aCoder.encode(dateOfDeath, forKey: Coding.dateOfDeath.rawValue)
+        if yearOnlyDateOfBirth != nil { aCoder.encode(yearOnlyDateOfBirth!, forKey: Coding.yearOnlyDateOfBirth.rawValue) }
+        aCoder.encode(gender?.rawValue, forKey: Coding.gender.rawValue)
+        aCoder.encode(contacts, forKey: Coding.contacts.rawValue)
+        aCoder.encode(licences, forKey: Coding.licences.rawValue)
+        aCoder.encode(descriptions, forKey: Coding.descriptions.rawValue)
+        aCoder.encode(aliases, forKey: Coding.aliases.rawValue)
+        aCoder.encode(actions, forKey: Coding.actions.rawValue)
+        aCoder.encode(interventionOrders, forKey: Coding.interventionOrders.rawValue)
+        aCoder.encode(bailOrders, forKey: Coding.bailOrders.rawValue)
+        aCoder.encode(fieldContacts, forKey: Coding.fieldContacts.rawValue)
+        aCoder.encode(missingPersonReports, forKey: Coding.missingPersonReports.rawValue)
+        aCoder.encode(familyIncidents, forKey: Coding.familyIncidents.rawValue)
+        aCoder.encode(criminalHistory, forKey: Coding.criminalHistory.rawValue)
     }
     
     // MARK: - Model Versionable
