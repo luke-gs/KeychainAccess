@@ -31,7 +31,7 @@ open class CompactSidebarViewController: UIViewController {
     /// The current items available to display.
     public var items: [SidebarItem] = [] {
         didSet {
-            updateItems(oldValue: oldValue)
+            updatedItems(oldValue: oldValue)
         }
     }
 
@@ -45,6 +45,8 @@ open class CompactSidebarViewController: UIViewController {
     /// The current sources available to display
     public var sourceItems: [SourceItem] = [] {
         didSet {
+            sourceViewController?.items = sourceItems
+
             if let selectedSourceIndex = selectedSourceIndex,
                 selectedSourceIndex >= sourceItems.count {
                 self.selectedSourceIndex = nil
@@ -58,6 +60,8 @@ open class CompactSidebarViewController: UIViewController {
     /// The selected source index
     public var selectedSourceIndex: Int? = nil {
         didSet {
+            sourceViewController?.selectedIndex = selectedSourceIndex
+
             if let selectedSourceIndex = selectedSourceIndex {
                 precondition(selectedSourceIndex < sourceItems.count)
                 sourceButton.setTitle(sourceItems[selectedSourceIndex].shortTitle, for: .normal)
@@ -84,6 +88,9 @@ open class CompactSidebarViewController: UIViewController {
     private var cells: [CompactSidebarItemView] {
         return sidebarStackView.arrangedSubviews as? [CompactSidebarItemView] ?? []
     }
+
+    /// The currently displayed source view controller, if any
+    fileprivate var sourceViewController: CompactSidebarSourceViewController? = nil
 
     /// The leading constraint for the stack view, to center first item
     private var stackViewLeadingConstraint: NSLayoutConstraint!
@@ -259,8 +266,9 @@ open class CompactSidebarViewController: UIViewController {
 
     @objc private func didTapSourceButton(_ item: UIBarButtonItem) {
         guard let selectedSourceIndex = selectedSourceIndex else { return }
-        let sourceVC = CompactSidebarSourceViewController(items: sourceItems, selectedIndex: selectedSourceIndex)
-        let navVC = UINavigationController(rootViewController: sourceVC)
+        let sourceViewController = CompactSidebarSourceViewController(items: sourceItems, selectedIndex: selectedSourceIndex)
+        let navVC = UINavigationController(rootViewController: sourceViewController)
+        self.sourceViewController = sourceViewController
 
         // Override nav bar appearance to match creative
         let theme = ThemeManager.shared.theme(for: .current)
@@ -283,7 +291,7 @@ open class CompactSidebarViewController: UIViewController {
         present(navVC, animated: true, completion: nil)
     }
 
-    private func updateItems(oldValue: [SidebarItem]) {
+    private func updatedItems(oldValue: [SidebarItem]) {
         let items = self.items
 
         for item in oldValue where items.contains(item) == false {
@@ -356,6 +364,21 @@ open class CompactSidebarViewController: UIViewController {
         return centerAligned
     }
 
+}
+
+// MARK: - CompactSidebarSourceViewControllerDelegate
+extension CompactSidebarViewController: CompactSidebarSourceViewControllerDelegate {
+    public func sourceViewControllerWillClose(_ viewController: CompactSidebarSourceViewController) {
+        sourceViewController = nil
+    }
+
+    public func sourceViewController(_ viewController: CompactSidebarSourceViewController, didSelectItemAt index: Int) {
+        delegate?.sidebarViewController(self, didSelectSourceAt: index)
+    }
+
+    public func sourceViewController(_ viewController: CompactSidebarSourceViewController, didRequestToLoadItemAt index: Int) {
+        delegate?.sidebarViewController(self, didRequestToLoadSourceAt: index)
+    }
 }
 
 // MARK: - UIScrollViewDelegate
@@ -451,3 +474,5 @@ extension CompactSidebarViewController: UIPopoverPresentationControllerDelegate 
         return false
     }
 }
+
+
