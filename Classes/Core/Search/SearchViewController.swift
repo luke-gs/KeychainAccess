@@ -55,7 +55,17 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
     }
     
     // MARK: - Private methods
-    
+
+    private lazy var mapResultsViewController: UIViewController = { [unowned self] in
+        // ToDo: Implement the correct view controller
+        let resultsController = UIViewController()
+        resultsController.view.backgroundColor = .white
+        resultsController.navigationItem.leftBarButtonItem = UIBarButtonItem.backBarButtonItem(target: self, action: #selector(backButtonItemDidSelect))
+        // End ToDo
+
+        return resultsController
+    }()
+
     private lazy var resultsListViewController: SearchResultsListViewController = { [unowned self] in
         let resultsController = SearchResultsListViewController()
         resultsController.delegate = self
@@ -69,19 +79,21 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
         optionsController.didMove(toParentViewController: self)
         return optionsController
     }()
-    
+
     
     // MARK: - Private properties
 
     private var recentlySearched: [Searchable] = [] {
         didSet {
             recentsViewController.recentlySearched = recentlySearched
+            UserSession.current.recentlySearched = recentlySearched
         }
     }
 
     private var recentlyViewedEntities: [MPOLKitEntity] = [] {
         didSet {
             recentsViewController.recentlyViewed = recentlyViewedEntities
+            UserSession.current.recentlyViewed = recentlyViewedEntities
         }
     }
     
@@ -103,6 +115,8 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
     public init(viewModel: SearchViewModel) {
         self.viewModel = viewModel
         self.recentsViewController = SearchRecentsViewController(viewModel: viewModel.recentViewModel)
+
+        recentlySearched = UserSession.current.recentlySearched ?? []
 
         super.init(nibName: nil, bundle: nil)
 
@@ -319,27 +333,36 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
     
     // MARK: - SearchOptionsViewControllerDelegate
 
-    func searchOptionsController(_ controller: SearchOptionsViewController, didFinishWith searchable: Searchable, andResultViewModel viewModel: SearchResultViewModelable?) {
+    func searchOptionsController(_ controller: SearchOptionsViewController, didFinishWith searchable: Searchable?, andResultViewModel viewModel: SearchResultModelable?) {
         // Present search results view if there is a view model
-        if let viewModel = viewModel {
+        if let viewModel = viewModel as? SearchResultViewModelable {
             resultsListViewController.viewModel = viewModel
             
             setShowingSearchOptions(false, animated: true)
             setCurrentResultsViewController(resultsListViewController, animated: true)
+        } else if let viewModel = viewModel as? MapResultViewModelable {
+            // ToDo: - Use the view model
+            print(viewModel)
+//            mapResultsViewController.viewModel = viewModel
+            // End ToDo:
+            setShowingSearchOptions(false, animated: true)
+            setCurrentResultsViewController(mapResultsViewController, animated: true)
         }
-        
-        // Add to recently searched list 
-        let existingIndex = recentlySearched.index(of: searchable)
-        if let existingIndex = existingIndex {
-            //existing -> move to top
-            recentlySearched.insert(recentlySearched.remove(at: existingIndex), at: 0)
-        } else {
-            //create new at top
-            recentlySearched.insert(searchable, at: 0)
-        }
-        
-        if self.recentlySearched.isEmpty || searchable != self.recentlySearched.first {
-            self.recentlySearched.insert(searchable, at: 0)
+
+        if let searchable = searchable {
+            // Add to recently searched list
+            let existingIndex = recentlySearched.index(of: searchable)
+            if let existingIndex = existingIndex {
+                //existing -> move to top
+                recentlySearched.insert(recentlySearched.remove(at: existingIndex), at: 0)
+            } else {
+                //create new at top
+                recentlySearched.insert(searchable, at: 0)
+            }
+
+            if self.recentlySearched.isEmpty || searchable != self.recentlySearched.first {
+                self.recentlySearched.insert(searchable, at: 0)
+            }
         }
     }
 
@@ -362,7 +385,6 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
         didSelectEntity(entity)
     }
     
-    
     // MARK: - KVO
     
     override public func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -383,6 +405,10 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
     
     
     // MARK: - Private methods
+
+    @objc private func backButtonItemDidSelect() {
+        setCurrentResultsViewController(nil, animated: true)
+    }
 
     @objc private func displaySearchTriggered() {
         func showSearchDetails() {
