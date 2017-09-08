@@ -241,7 +241,7 @@ open class VehicleInfoViewController: EntityDetailCollectionViewController {
     }
 }
 
-extension VehicleInfoViewController: EntityDetailsViewModelDelegate {
+extension VehicleInfoViewController: EntityDetailViewModelDelegate {
     public func reloadData() {
         collectionView?.reloadData()
     }

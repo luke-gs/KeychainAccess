@@ -10,7 +10,7 @@ import Foundation
 import PromiseKit
 import MPOLKit
 
-public class PersonFetchRequest: EntityDetailsFetchRequest<Person> {
+public class PersonFetchRequest: EntityDetailFetchRequest<Person> {
 
     public init(source: MPOLSource, request: EntityFetchRequest<Person>) {
         super.init(source: source, request: request)

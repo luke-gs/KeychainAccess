@@ -233,7 +233,7 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
 }
 
 
-extension PersonCriminalHistoryViewController: EntityDetailsViewModelDelegate {
+extension PersonCriminalHistoryViewController: EntityDetailViewModelDelegate {
     
     public func updateSidebarItemCount(_ count: UInt) {
         sidebarItem.count = count

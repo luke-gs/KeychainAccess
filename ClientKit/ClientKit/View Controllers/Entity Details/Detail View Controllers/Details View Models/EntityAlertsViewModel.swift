@@ -9,11 +9,11 @@
 import Foundation
 import MPOLKit
 
-public class EntityAlertsViewModel: EntityDetailsViewModelable {
+public class EntityAlertsViewModel: EntityDetailViewModelable {
 
     public typealias DetailsType  = [Alert]
 
-    public weak var delegate: EntityDetailsViewModelDelegate?
+    public weak var delegate: EntityDetailViewModelDelegate?
 
     public var entity: Entity? {
         didSet {

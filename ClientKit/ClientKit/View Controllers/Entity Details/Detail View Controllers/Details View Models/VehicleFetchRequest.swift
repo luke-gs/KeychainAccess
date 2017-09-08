@@ -10,7 +10,7 @@ import Foundation
 import PromiseKit
 import MPOLKit
 
-public class VehicleFetchRequest: EntityDetailsFetchRequest<Vehicle> {
+public class VehicleFetchRequest: EntityDetailFetchRequest<Vehicle> {
 
     public init(source: MPOLSource, request: EntityFetchRequest<Vehicle>) {
         super.init(source: source, request: request)

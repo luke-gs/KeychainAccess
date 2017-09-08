@@ -271,7 +271,7 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
     }
 }
 
-extension PersonOccurrencesViewController: EntityDetailsViewModelDelegate {
+extension PersonOccurrencesViewController: EntityDetailViewModelDelegate {
     
     public func updateSidebarItemCount(_ count: UInt) {
         sidebarItem.count = count

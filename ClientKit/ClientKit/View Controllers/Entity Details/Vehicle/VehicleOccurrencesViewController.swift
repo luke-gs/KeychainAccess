@@ -253,7 +253,7 @@ open class VehicleOccurrencesViewController: EntityOccurrencesViewController, Fi
     }
 }
 
-extension VehicleOccurrencesViewController: EntityDetailsViewModelDelegate {
+extension VehicleOccurrencesViewController: EntityDetailViewModelDelegate {
     
     public func updateSidebarItemCount(_ count: UInt) {
         sidebarItem.count = count

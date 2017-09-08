@@ -219,7 +219,7 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
     
 }
 
-extension EntityAssociationsViewController: EntityDetailsViewModelDelegate {
+extension EntityAssociationsViewController: EntityDetailViewModelDelegate {
     public func updateSidebarItemCount(_ count: UInt) {
         sidebarItem.count = count
     }

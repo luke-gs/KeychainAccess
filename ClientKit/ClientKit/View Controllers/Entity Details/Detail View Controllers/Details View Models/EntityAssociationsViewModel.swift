@@ -9,7 +9,7 @@
 import Foundation
 import MPOLKit
 
-public class EntityAssociationsViewModel: EntityDetailsViewModelable {
+public class EntityAssociationsViewModel: EntityDetailViewModelable {
     
     public typealias DetailsType  = Section
     
@@ -17,7 +17,7 @@ public class EntityAssociationsViewModel: EntityDetailsViewModelable {
     private var associatedPersons: [Person]  = []
     private var associatedVehicles: [Vehicle] = []
     
-    public weak var delegate: EntityDetailsViewModelDelegate?
+    public weak var delegate: EntityDetailViewModelDelegate?
 
     public var entity: Entity? {
         didSet {
