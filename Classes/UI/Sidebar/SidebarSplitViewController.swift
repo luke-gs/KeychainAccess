@@ -62,6 +62,18 @@ open class SidebarSplitViewController: PushableSplitViewController {
         }
     }
 
+    /// Whether a user should be allowed to change the selected detail view controller
+    public var allowDetailSelection: Bool = true {
+        didSet {
+            // Disable table selection if not available
+            regularSidebarViewController.sidebarTableView?.allowsSelection = allowDetailSelection
+
+            // Disable selection from compact sidebar, or scroll pagination if not available
+            compactSidebarViewController.view.isUserInteractionEnabled = allowDetailSelection
+            pageViewController.scrollView?.isScrollEnabled = allowDetailSelection
+        }
+    }
+
     /// Initializes the sidebar split view controller with the specified detail view controllers.
     ///
     /// - Parameter detailViewControllers: The detail view controllers. The sidebar items for these
