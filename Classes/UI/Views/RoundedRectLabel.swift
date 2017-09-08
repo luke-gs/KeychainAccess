@@ -21,7 +21,7 @@ open class RoundedRectLabel : UILabel {
             setNeedsDisplay()
         }
     }
-    
+
     open override var backgroundColor: UIColor? {
         get { return _backgroundColor }
         set {
@@ -32,9 +32,21 @@ open class RoundedRectLabel : UILabel {
             self.setNeedsDisplay()
         }
     }
-    
+
+
+    open var borderColor: UIColor? {
+        get { return _borderColor }
+        set {
+            if _borderColor == newValue {
+                return
+            }
+            _borderColor = newValue
+            self.setNeedsDisplay()
+        }
+    }
+
     private var _backgroundColor: UIColor?
-    
+    private var _borderColor: UIColor?
     
     
     // MARK: - Initializer
@@ -68,22 +80,28 @@ open class RoundedRectLabel : UILabel {
     }
     
     open override func draw(_ rect: CGRect) {
-        
-        if let background = _backgroundColor {
-            background.setFill()
-            if cornerRadius > 0.0, let context = UIGraphicsGetCurrentContext() {
-                context.addPath(CGPath(roundedRect: bounds, cornerWidth: cornerRadius, cornerHeight: cornerRadius, transform: nil))
-                context.fillPath()
-            } else {
-                UIRectFill(bounds)
-            }
-        }
-        
+
+        guard let context = UIGraphicsGetCurrentContext() else { return }
+
+        //Checks to see if the corner radius is equal to the height/width
+        //If it is - inset-ing by 1 could be catastrophic 💥
+        let rect = min(bounds.size.width, bounds.size.height) == cornerRadius * 2 ? bounds : bounds.insetBy(dx: 1, dy: 1)
+
+        let path = CGPath(roundedRect: rect,
+                          cornerWidth: cornerRadius,
+                          cornerHeight: cornerRadius,
+                          transform: nil)
+
+        backgroundColor?.setFill()
+        borderColor?.setStroke()
+
+        context.addPath(path)
+        context.drawPath(using: borderColor == nil ? .fill : .fillStroke)
+
         super.draw(rect)
     }
-    
+
     open override func drawText(in rect: CGRect) {
         super.drawText(in: rect.insetBy(layoutMargins))
     }
-    
 }

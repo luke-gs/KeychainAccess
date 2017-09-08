@@ -32,28 +32,22 @@ public struct SearchResultSection {
     
     /// Search Error
     public var error:      Error?
+    
+    public init(title: String, entities: [MPOLKitEntity], isExpanded: Bool, state: SearchState, error: Error?) {
+        self.title = title
+        self.entities = entities
+        self.isExpanded = isExpanded
+        self.state = state
+        self.error = error
+    }
 }
 
 public protocol SearchResultViewModelDelegate: class {
     func searchResultViewModelDidUpdateResults(_ viewModel: SearchResultViewModelable) -> ()
 }
 
-public protocol SearchResultViewModelable {
-    
-    /// The text that represents the search query.
-    ///
-    /// This is typically the text that the user enters when searching.
-    /// For example, "Smith Johnson" or "ABBC123"
-    ///
-    /// However, the subclass can provide a custom formatted text if required.
-    var title: String { get }
-    
-    /// The current status of the search.
-    ///
-    /// Used to indicate the progress of the current search status. This is shown
-    /// on the right of the search bar.
-    var status: String? { get }
-    
+public protocol SearchResultViewModelable: SearchResultModelable {
+
     /// The style of the results to be shown.
     ///
     /// The current supported styles are grid and list styles. There may be more styles

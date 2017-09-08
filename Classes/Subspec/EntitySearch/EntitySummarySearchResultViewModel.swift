@@ -19,16 +19,8 @@ public class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Sea
     
     public let title: String
     
-    public var status: String? {
-        switch aggregatedSearch.state {
-        case .searching:
-            return NSLocalizedString("Search in Progress", comment: "")
-        case .finished:
-            return String.localizedStringWithFormat(NSLocalizedString("%d Result(s) Found", comment: ""), aggregatedSearch.totalEntitiesFound)
-        default: break
-        }
-        
-        return nil
+    public var status: SearchState? {
+        return aggregatedSearch.state
     }
     
     public var style: SearchResultStyle = .grid
@@ -145,6 +137,8 @@ private extension AggregatedResult  {
         case .searching:
             return String.localizedStringWithFormat(NSLocalizedString("Searching %2$@", comment: ""), request.source.localizedBadgeTitle.uppercased(with: .current))
         case .finished where error != nil:
+            fallthrough
+        case .failed:
             return String.localizedStringWithFormat(NSLocalizedString("%2$@", comment: ""), request.source.localizedBadgeTitle.uppercased(with: .current))
         case .finished:
             return String.localizedStringWithFormat(NSLocalizedString("%1$d Result(s) in %2$@", comment: ""), entities.count, request.source.localizedBadgeTitle.uppercased(with: .current))

@@ -10,78 +10,65 @@ import Alamofire
 import Unbox
 import PromiseKit
 
-
 /// MPOL APIManager stack for MPOL applications.
-/// The APIManager doesn't assume anything in regards to source and model.
-/// Application will need to provide concrete types.
-///
-/// One way of using this is to create a subclass passing in some of the configuration to
-/// erase the generic requirements.
-///
-/// struct MyAPIManagerConfiguration: APIManagerConfigurable {
-///    typealias Source = MySource
-///    public let url: URLConvertible
-///
-///    public init(url: URLConvertible) {
-///        self.url = url
-///    }
-/// }
-///
-/// class MyAPIManager: APIManager<MyAPIManagerConfiguration> {
-///
-///    typealias Source = MyAPIManagerConfiguration.Source
-///
-///    override init(configuration: MyAPIManagerConfiguration) {
-///        super.init(configuration: configuration)
-///    }
-///
-///    func searchPerson(in source: MySource, with surname: String) -> Promise<SearchResult<Person>> {
-///        // Call the `searchEntity(in:with)` internally with the correct parameters.
-///    }
-/// }
-
+/// The APIManager doesn't assume anything in regards to model.
 open class APIManager {
-    
-    open let sessionManager: SessionManager
-    open let baseURL: URL
-    open let errorMapper: ErrorMapper?
+
     open let configuration: APIManagerConfigurable
 
-    let urlQueryBuilder = URLQueryBuilder()
+    private let baseURL: URL
+    private let errorMapper: ErrorMapper?
+    private let sessionManager: SessionManager
+
+    private let plugins: [PluginType]
+
+    open var authenticationPlugin: AuthenticationPlugin? = nil
 
     public init(configuration: APIManagerConfigurable) {
         self.configuration = configuration
         baseURL = try! configuration.url.asURL()
         errorMapper = configuration.errorMapper
 
+        plugins = configuration.plugins ?? []
+
         sessionManager = SessionManager(configuration: configuration.urlSessionConfiguration,
                                         serverTrustPolicyManager: configuration.trustPolicyManager)
     }
-    
+
+    /// Perform specified network request.
+    ///
+    /// - Parameter networkRequest: The network request to be executed.
+    /// - Returns: A promise to return of specified type.
+    open func performRequest<T: Unboxable>(_ networkRequest: NetworkRequestType) throws -> Promise<T> {
+        let request = try urlRequest(from: networkRequest)
+        return dataRequestPromise(request)
+    }
+
+    /// Perform specified network request.
+    ///
+    /// - Parameter networkRequest: The network request to be executed.
+    /// - Returns: A promise to return array of specified type.
+    open func performRequest<T: Unboxable>(_ networkRequest: NetworkRequestType) throws -> Promise<[T]> {
+        let request = try urlRequest(from: networkRequest)
+        return dataRequestPromise(request)
+    }
+
     /// Request for access token.
     ///
     /// Supports implicit `NSProgress` reporting.
     /// - Parameter grant: The grant type and required field for it.
     /// - Returns: A promise for access token.
     open func accessTokenRequest(for grant: OAuthAuthorizationGrant) -> Promise<OAuthAccessToken> {
+
         let path = "login"
-        let requestPath = url(with: path)
-        
         let parameters = grant.parameters
-        
-        // Only known parameters are passed in, if this fail, might as well crash.
-        let request: URLRequest = try! URLRequest(url: requestPath, method: .post)
-        let encodedURLRequest = try! URLEncoding.default.encode(request, with: parameters)
-        
-        let promise: Promise<OAuthAccessToken> = self.dataRequestPromise(encodedURLRequest)
-        
-        return promise.then { [weak self] token in
-            let adapter = AuthenticationHeaderAdapter(authenticationMode: .accessTokenAuthentication(token: token))
-            self?.sessionManager.adapter = adapter
-            return Promise(value: token)
-        }
+
+        let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters, method: .post)
+
+        return try! performRequest(networkRequest)
+
     }
-    
+
     /// Search for entity using specified request.
     ///
     /// Supports implicit `NSProgress` reporting.
@@ -90,20 +77,16 @@ open class APIManager {
     ///   - request: The request with the parameters to search the entity.
     /// - Returns: A promise to return search result of specified entity.
     open func searchEntity<SearchRequest: EntitySearchRequestable>(in source: EntitySource, with request: SearchRequest) -> Promise<SearchResult<SearchRequest.ResultClass>> {
-        
+
         let path = "{source}/entity/{entityType}/search"
-        
         var parameters = request.parameters
         parameters["source"] = source
         parameters["entityType"] = SearchRequest.ResultClass.serverTypeRepresentation
-        
-        let result = try! urlQueryBuilder.urlPathWith(template: path, parameters: parameters)
-        
-        let requestPath = url(with: result.path)
-        let request: URLRequest = try! URLRequest(url: requestPath, method: .get)
-        let encodedURLRequest = try! URLEncoding.default.encode(request, with: result.parameters)
-        
-        return dataRequestPromise(encodedURLRequest)
+
+        let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
+
+        return try! performRequest(networkRequest)
+
     }
     
     /// Fetch entity details using specified request.
@@ -120,22 +103,48 @@ open class APIManager {
         var parameters = request.parameters
         parameters["source"] = source
         parameters["entityType"] = FetchRequest.ResultClass.serverTypeRepresentation
+
+        let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
         
-        let result = try! urlQueryBuilder.urlPathWith(template: path, parameters: parameters)
-        
-        let requestPath = url(with: result.path)
-        let request: URLRequest = try! URLRequest(url: requestPath, method: .get)
-        let encodedURLRequest = try! URLEncoding.default.encode(request, with: result.parameters)
-        
-        return dataRequestPromise(encodedURLRequest)
+        return try! performRequest(networkRequest)
+
     }
 
     // MARK : - Internal Utilities
-    func url(with path: String) -> URL {
+
+    private func url(with path: String) -> URL {
         return baseURL.appendingPathComponent(path)
     }
 
-    func request(_ urlRequest: URLRequest) -> DataRequest {
+    private var allPlugins: [PluginType] {
+        guard let authenticationPlugin = authenticationPlugin else {
+            return plugins
+        }
+
+        var new = plugins
+        new.append(authenticationPlugin)
+
+        return new
+    }
+
+    private func urlRequest(from networkRequest: NetworkRequestType) throws -> URLRequest {
+        let path = networkRequest.path
+        let requestPath = url(with: path)
+
+        let parameters = networkRequest.parameters
+
+        let request = try URLRequest(url: requestPath, method: networkRequest.method)
+        let encodedURLRequest = try networkRequest.parameterEncoding.encode(request, with: parameters)
+
+        return adaptedRequest(encodedURLRequest, using: allPlugins)
+    }
+
+    private func adaptedRequest(_ urlRequest: URLRequest, using plugins: [PluginType]) -> URLRequest {
+        let adaptedRequest = allPlugins.reduce(urlRequest) { $1.adapt($0) }
+        return adaptedRequest
+    }
+
+    private func request(_ urlRequest: URLRequest) -> DataRequest {
         let dataRequest = sessionManager.request(urlRequest)
         let progress = dataRequest.progress
         progress.cancellationHandler = {
@@ -151,13 +160,20 @@ open class APIManager {
     }
 
     // Handling single object
-    func dataRequestPromise<T: Unboxable>(_ urlRequest: URLRequest) -> Promise<T> {
+    private func dataRequestPromise<T: Unboxable>(_ urlRequest: URLRequest) -> Promise<T> {
 
         let dataRequest = request(urlRequest)
+        let allPlugins = self.allPlugins
+        allPlugins.forEach {
+            $0.willSend(dataRequest)
+        }
 
         let mapper = errorMapper
         return Promise { fulfill, reject in
             dataRequest.validate().responseObject(completionHandler: { (response: DataResponse<T>) in
+                allPlugins.forEach({
+                    $0.didReceiveResponse(response)
+                })
                 switch response.result {
                 case .success(let result):
                     fulfill(result)
@@ -174,13 +190,20 @@ open class APIManager {
     }
 
     // Handling array
-    func dataRequestPromise<T: Unboxable>(_ urlRequest: URLRequest) -> Promise<[T]> {
+    private func dataRequestPromise<T: Unboxable>(_ urlRequest: URLRequest) -> Promise<[T]> {
 
         let dataRequest = request(urlRequest)
+        let allPlugins = self.allPlugins
+        allPlugins.forEach {
+            $0.willSend(dataRequest)
+        }
 
         let mapper = errorMapper
         return Promise { fulfill, reject in
             dataRequest.validate().responseArray(completionHandler: { (response: DataResponse<[T]>) in
+                allPlugins.forEach {
+                    $0.willSend(dataRequest)
+                }
                 switch response.result {
                 case .success(let result):
                     fulfill(result)
@@ -209,7 +232,7 @@ public extension APIManager {
             return manager
         }
         set {
-            _sharedManager = shared
+            _sharedManager = newValue
         }
     }
 }

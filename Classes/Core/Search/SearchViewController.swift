@@ -55,7 +55,17 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
     }
     
     // MARK: - Private methods
-    
+
+    private lazy var mapResultsViewController: UIViewController = { [unowned self] in
+        // ToDo: Implement the correct view controller
+        let resultsController = UIViewController()
+        resultsController.view.backgroundColor = .white
+        resultsController.navigationItem.leftBarButtonItem = UIBarButtonItem.backBarButtonItem(target: self, action: #selector(backButtonItemDidSelect))
+        // End ToDo
+
+        return resultsController
+    }()
+
     private lazy var resultsListViewController: SearchResultsListViewController = { [unowned self] in
         let resultsController = SearchResultsListViewController()
         resultsController.delegate = self
@@ -69,19 +79,21 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
         optionsController.didMove(toParentViewController: self)
         return optionsController
     }()
-    
+
     
     // MARK: - Private properties
 
     private var recentlySearched: [Searchable] = [] {
         didSet {
             recentsViewController.recentlySearched = recentlySearched
+            UserSession.current.recentlySearched = recentlySearched
         }
     }
 
     private var recentlyViewedEntities: [MPOLKitEntity] = [] {
         didSet {
             recentsViewController.recentlyViewed = recentlyViewedEntities
+            UserSession.current.recentlyViewed = recentlyViewedEntities
         }
     }
     
@@ -104,6 +116,8 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
         self.viewModel = viewModel
         self.recentsViewController = SearchRecentsViewController(viewModel: viewModel.recentViewModel)
 
+        recentlySearched = UserSession.current.recentlySearched ?? []
+
         super.init(nibName: nil, bundle: nil)
 
         automaticallyAdjustsScrollViewInsets = false
@@ -115,8 +129,10 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
         recentsViewController.didMove(toParentViewController: self)
         
         let recentsNavItem = recentsViewController.navigationItem
+        let optionsNavItem = searchOptionsViewController.navigationItem
         navigationItemKeyPaths.forEach {
             recentsNavItem.addObserver(self, forKeyPath: $0, context: &kvoContext)
+            optionsNavItem.addObserver(self, forKeyPath: $0, context: &kvoContext)
         }
         
         recentsViewController.addObserver(self, forKeyPath: #keyPath(SearchRecentsViewController.isShowingNavBarExtension), context: &kvoContext)
@@ -133,9 +149,11 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
         
         let recentsNavItem = recentsViewController.navigationItem
         let resultsNavItem = currentResultsViewController?.navigationItem
+        let optionsNavItem = searchOptionsViewController.navigationItem
         navigationItemKeyPaths.forEach {
             recentsNavItem.removeObserver(self, forKeyPath: $0, context: &kvoContext)
             resultsNavItem?.removeObserver(self, forKeyPath: $0, context: &kvoContext)
+            optionsNavItem.removeObserver(self, forKeyPath: $0, context: &kvoContext)
         }
     }
     
@@ -260,13 +278,11 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
                 }, completion: { _ in
                     optionsVC.endAppearanceTransition()
                 })
-                optionsVC.beginEditingSearchField(selectingAllText: true)
             } else {
                 dimmingView.alpha = 1.0
                 view.setNeedsLayout()
                 view.layoutIfNeeded()
                 optionsVC.endAppearanceTransition()
-                optionsVC.beginEditingSearchField(selectingAllText: true)
             }
         } else {
             let dimmingView = self.searchDimmingView
@@ -317,16 +333,24 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
     
     // MARK: - SearchOptionsViewControllerDelegate
 
-    func searchOptionsController(_ controller: SearchOptionsViewController, didFinishWith searchable: Searchable) {
-    
-            let dataSource = self.viewModel.dataSources.filter{ $0.localizedDisplayName == searchable.type }.first
-
-            guard let datasource = dataSource else { return }
-            
-            let viewModel = datasource.searchResultModel(for: searchable)
+    func searchOptionsController(_ controller: SearchOptionsViewController, didFinishWith searchable: Searchable?, andResultViewModel viewModel: SearchResultModelable?) {
+        // Present search results view if there is a view model
+        if let viewModel = viewModel as? SearchResultViewModelable {
             resultsListViewController.viewModel = viewModel
             
+            setShowingSearchOptions(false, animated: true)
+            setCurrentResultsViewController(resultsListViewController, animated: true)
+        } else if let viewModel = viewModel as? MapResultViewModelable {
+            // ToDo: - Use the view model
+            print(viewModel)
+//            mapResultsViewController.viewModel = viewModel
+            // End ToDo:
+            setShowingSearchOptions(false, animated: true)
+            setCurrentResultsViewController(mapResultsViewController, animated: true)
+        }
 
+        if let searchable = searchable {
+            // Add to recently searched list
             let existingIndex = recentlySearched.index(of: searchable)
             if let existingIndex = existingIndex {
                 //existing -> move to top
@@ -336,14 +360,10 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
                 recentlySearched.insert(searchable, at: 0)
             }
 
-            setShowingSearchOptions(false, animated: true)
-            setCurrentResultsViewController(resultsListViewController, animated: true) { [weak self] (_) in
-                guard let `self` = self else { return }
-
-                if self.recentlySearched.isEmpty || searchable != self.recentlySearched.first {
-                    self.recentlySearched.insert(searchable, at: 0)
-                }
+            if self.recentlySearched.isEmpty || searchable != self.recentlySearched.first {
+                self.recentlySearched.insert(searchable, at: 0)
             }
+        }
     }
 
     func searchOptionsControllerDidCancel(_ controller: SearchOptionsViewController) {
@@ -365,7 +385,6 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
         didSelectEntity(entity)
     }
     
-    
     // MARK: - KVO
     
     override public func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -376,13 +395,8 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
                 if isShowingSearchOptions == false && isShowingResults == false {
                     isHidingNavigationBarShadow = recentsViewController.isShowingNavBarExtension
                 }
-            } else if let navItem = object as? UINavigationItem {
-                if isShowingSearchOptions { return }
-                
-                if (navItem == currentResultsViewController?.navigationItem && isShowingResults) ||
-                    (navItem == recentsViewController.navigationItem && isShowingResults == false)  {
-                    updateNavigationItem(animated: true)
-                }
+            } else if object is UINavigationItem {
+                updateNavigationItem(animated: true)
             }
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
@@ -391,6 +405,10 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
     
     
     // MARK: - Private methods
+
+    @objc private func backButtonItemDidSelect() {
+        setCurrentResultsViewController(nil, animated: true)
+    }
 
     @objc private func displaySearchTriggered() {
         func showSearchDetails() {
@@ -478,29 +496,30 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
         let rightBarButtonItems: [UIBarButtonItem]?
         
         if isShowingSearchOptions {
-            titleView = nil
-            title = NSLocalizedString("New Search", comment: "Search - New Search title")
-            leftBarButtonItems  = [searchOptionsViewController.cancelBarButtonItem]
-            rightBarButtonItems = [searchOptionsViewController.searchBarButtonItem]
-            prompt = nil
+            let navigationItem = searchOptionsViewController.navigationItem
+            title = navigationItem.title
+            titleView = navigationItem.titleView
+            leftBarButtonItems = navigationItem.leftBarButtonItems
+            rightBarButtonItems = navigationItem.rightBarButtonItems
+            prompt = navigationItem.prompt
         } else if isShowingResults {
-            let resultsNavItem = currentResultsViewController?.navigationItem
-            titleView = resultsNavItem?.titleView
-            title = resultsNavItem?.title
-            prompt = resultsNavItem?.prompt
-            leftBarButtonItems = currentResultsViewController?.navigationItem.leftBarButtonItems
-            rightBarButtonItems = currentResultsViewController?.navigationItem.rightBarButtonItems
+            let navigationItem = currentResultsViewController?.navigationItem
+            titleView = navigationItem?.titleView
+            title = navigationItem?.title
+            prompt = navigationItem?.prompt
+            leftBarButtonItems = navigationItem?.leftBarButtonItems
+            rightBarButtonItems = navigationItem?.rightBarButtonItems
         } else {
-            let recentsNavItem = recentsViewController.navigationItem
-            titleView = recentsNavItem.titleView
-            title = recentsNavItem.title
-            prompt = recentsNavItem.prompt
-            leftBarButtonItems = recentsNavItem.leftBarButtonItems
+            let navigationItem = recentsViewController.navigationItem
+            titleView = navigationItem.titleView
+            title = navigationItem.title
+            prompt = navigationItem.prompt
+            leftBarButtonItems = navigationItem.leftBarButtonItems
             
             rightBarButtonItems = [UIBarButtonItem(title: NSLocalizedString("New Search", comment: "Search - New Search Button"),
                                                    style: .plain,
                                                    target: self,
-                                                   action: #selector(displaySearchTriggered))] + (recentsNavItem.rightBarButtonItems ?? [])
+                                                   action: #selector(displaySearchTriggered))] + (navigationItem.rightBarButtonItems ?? [])
         }
         
         let navigationItem = self.navigationItem
@@ -519,11 +538,13 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
         // Do this after the push.
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             var recents = self.recentlyViewedEntities
-            if recents.first == entity {
-                return
-            }
-            if let oldIndex = recents.index(of: entity) {
-                recents.remove(at: oldIndex)
+            guard recents.first != entity else { return }
+
+            for (index, oldEntity) in recents.enumerated() {
+                if oldEntity == entity {
+                    recents.remove(at: index)
+                    break
+                }
             }
             recents.insert(entity, at: 0)
             self.recentlyViewedEntities = recents

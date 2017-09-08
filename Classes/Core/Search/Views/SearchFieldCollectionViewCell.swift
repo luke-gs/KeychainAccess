@@ -11,33 +11,21 @@ import UIKit
 
 class SearchFieldCollectionViewCell: CollectionViewFormCell {
     
-    static var cellContentHeight: CGFloat { return 23.0 }
+    public static let preferredWidth: CGFloat = 512.0
+    
+    public static var cellContentHeight: CGFloat { return 64.0 }
     
     
     // MARK: - Properties
     
-    let textField = UITextField(frame: .zero)
-    
-    override var frame: CGRect {
-        didSet {
-            if frame.width != oldValue.width {
-                updateSeparatorInsets()
-            }
-        }
-    }
-    
-    override var bounds: CGRect {
-        didSet {
-            if bounds.width != oldValue.width {
-                updateSeparatorInsets()
-            }
-        }
-    }
-    
+    public let textField = UITextField(frame: .zero)
+
     open override var isSelected: Bool {
         didSet {
-            if isSelected && textField.isEnabled {
-                textField.becomeFirstResponder()
+            if isSelected && oldValue == false && textField.isEnabled {
+                _ = textField.becomeFirstResponder()
+            } else if !isSelected && oldValue == true && textField.isFirstResponder {
+                _ = textField.resignFirstResponder()
             }
         }
     }
@@ -57,59 +45,40 @@ class SearchFieldCollectionViewCell: CollectionViewFormCell {
     }
     
     private let buttonStackView = UIStackView(frame: .zero)
-    
-    // MARK: - Initializers
-    
-    public override init(frame: CGRect) {
-        super.init(frame: frame)
-        commonInit()
-    }
-    
-    public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        commonInit()
-    }
-    
+
     internal override func commonInit() {
         super.commonInit()
         
         selectionStyle = .underline
         
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.font          = .systemFont(ofSize: 28.0, weight: UIFontWeightBold)
-        textField.textColor     = .darkGray
-        textField.textAlignment = .center
+        textField.font = .systemFont(ofSize: 28.0, weight: UIFontWeightBold)
+        textField.textColor = .darkGray
         textField.returnKeyType = .search
+        textField.clearButtonMode = .whileEditing
         textField.enablesReturnKeyAutomatically = true
         textField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("Search", comment: ""),
                                                              attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 28.0, weight: UIFontWeightLight), NSForegroundColorAttributeName: UIColor.lightGray])
        
         buttonStackView.axis = .horizontal
-        buttonStackView.spacing = 10.0
+        buttonStackView.spacing = 18.0
         buttonStackView.translatesAutoresizingMaskIntoConstraints = false
         
         let contentView = self.contentView
         contentView.addSubview(textField)
         contentView.addSubview(buttonStackView)
-        
-        let stackTrailingConstraint = NSLayoutConstraint(item: buttonStackView, attribute: .trailing, relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .centerX, constant: 480.0 / 2.0)
-        stackTrailingConstraint.priority = UILayoutPriorityDefaultHigh
-        
+
         NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: textField, attribute: .centerX, relatedBy: .equal, toItem: contentView, attribute: .centerX),
             NSLayoutConstraint(item: textField, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, constant: 3.0),
-            NSLayoutConstraint(item: textField, attribute: .leading, relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .leadingMargin),
+            NSLayoutConstraint(item: textField, attribute: .leading, relatedBy: .equal, toItem: contentView, attribute: .leading),
             
-            NSLayoutConstraint(item: buttonStackView, attribute: .leading, relatedBy: .equal, toItem: textField, attribute: .trailing, constant: 5.0),
-            NSLayoutConstraint(item: buttonStackView, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentView, attribute: .trailingMargin),
+            NSLayoutConstraint(item: buttonStackView, attribute: .leading, relatedBy: .equal, toItem: textField, attribute: .trailing, constant: 5.0, priority: UILayoutPriorityDefaultHigh + 1),
+            NSLayoutConstraint(item: buttonStackView, attribute: .trailing, relatedBy: .equal, toItem: contentView, attribute: .trailing),
             NSLayoutConstraint(item: buttonStackView, attribute: .centerY, relatedBy: .equal, toItem: textField, attribute: .centerY),
             NSLayoutConstraint(item: buttonStackView, attribute: .height, relatedBy: .equal, toConstant: 28),
-            
-            stackTrailingConstraint
+
         ])
-        
-        updateSeparatorInsets()
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(textFieldDidBeginEditing(_:)), name: .UITextFieldTextDidBeginEditing, object: textField)
         NotificationCenter.default.addObserver(self, selector: #selector(textFieldDidEndEditing(_:)),   name: .UITextFieldTextDidEndEditing,   object: textField)
         
@@ -117,47 +86,24 @@ class SearchFieldCollectionViewCell: CollectionViewFormCell {
         accessibilityTraits |= UIAccessibilityTraitSearchField
     }
     
-    override var accessibilityValue: String? {
+    public override var accessibilityValue: String? {
         get { return textField.text }
         set { }
     }
-    
-    
+
     // MARK: - Private methods
     
     @objc private func textFieldDidBeginEditing(_ notification: NSNotification) {
-        guard isSelected == false,
-            let collectionView = superview(of: UICollectionView.self),
-            let indexPath = collectionView.indexPath(for: self) else { return }
+        guard isSelected == false else { return }
         
-        collectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
-        collectionView.delegate?.collectionView?(collectionView, didSelectItemAt: indexPath)
+        self.isSelected = true
     }
     
     @objc private func textFieldDidEndEditing(_ notification: NSNotification) {
-        guard isSelected,
-            let collectionView = superview(of: UICollectionView.self),
-            let indexPath = collectionView.indexPath(for: self) else { return }
+        guard isSelected else { return }
         
-        collectionView.deselectItem(at: indexPath, animated: false)
-        collectionView.delegate?.collectionView?(collectionView, didDeselectItemAt: indexPath)
+        self.isSelected = false
     }
-    
-    private func updateSeparatorInsets() {
-        let width = bounds.width
-        if width < 500.0 {
-            customSeparatorInsets = nil
-        } else {
-            let widthInset = ((width - 480.0) / 2.0)
-            customSeparatorInsets = UIEdgeInsets(top: 0.0, left: widthInset, bottom: 0.0, right: widthInset)
-        }
-    }
-    
+
 }
 
-protocol SearchCollectionViewCellDelegate: class {
-    
-    func searchCollectionViewCell(_ cell: SearchFieldCollectionViewCell, didChangeText text: String?)
-    
-    func searchCollectionViewCell(_ cell: SearchFieldCollectionViewCell, didSelectSegmentAt index: Int)
-}

@@ -11,9 +11,7 @@ import Foundation
 extension FileManager {
     
     open func fileExists(at url: URL, isDirectory: UnsafeMutablePointer<ObjCBool>? = nil) -> Bool {
-        
         guard url.isFileURL else { return false }
-        
         return fileExists(atPath: url.path, isDirectory: isDirectory)
     }
     

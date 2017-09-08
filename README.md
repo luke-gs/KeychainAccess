@@ -51,12 +51,50 @@ extension AssetManager {
   }
 ```
 
-## Overriding images from other apps
+### Overriding images from other apps
 ```
   AssetManager.shared.registerImage(named: "myAmazingNewImage", in: Bundle.main, forKey: .myVeryWellDefinedDescription)
 
 ```
 
+## Directory Manager
+
+The directory manager attempts to make it easier to archive/unarchive objects.
+Also has support for saving/reading form keychain.
+Documentation is found in `DirectoryManager.swift`
+
+### Usage:
+1. Initialize it with a base URL
+
+```
+let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+let manager = DirectoryManager(baseURL: url)
+```
+
+2. Directories
+
+```
+// To write:
+directoryManager.write(someObject, to: "someSubDirectory")
+
+//To write to complex directories (it will create any intermediate directories for you):
+directoryManager.write(someObject, to: "someSubDirectory/someChildDirectory/someSubChildDirectory")
+
+// To read (sadly still have to cast to your object at this stage):
+let someObject = directoryManager.read(from: "someSubDirectory") as? SomeObject
+```
+
+3. Keychain
+
+```
+
+//To write:
+directoryManager.write(token, toKeyChain: "token")
+
+//To read:
+let token = directoryManager.read(fromKeyChain: "token") as! OAuthAccessToken
+
+```
 
 ## Author
 
