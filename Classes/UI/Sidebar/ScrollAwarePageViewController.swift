@@ -21,11 +21,11 @@ open class ScrollAwarePageViewController: UIPageViewController {
     /// The scroll delegate
     open weak var scrollDelegate: ScrollAwarePageViewControllerDelegate?
 
+    /// The page view controller's scrollview
+    open private(set) var scrollView: UIScrollView?
+
     /// Context for KVO observing
     private var kvoContext = 0
-
-    /// The page view controller's scrollview
-    private var scrollView: UIScrollView?
 
     open override func viewDidLoad() {
         super.viewDidLoad()

@@ -109,7 +109,7 @@ extension CompactSidebarSourceViewController {
             // TODO: decide UI for source image/icon/loading
             cell.detailTextLabel?.text = nil
             break
-        case .loaded(let count, let color):
+        case .loaded(let count, _):
             cell.textLabel?.textColor = theme.color(forKey: .primaryText)
             cell.detailTextLabel?.textColor = theme.color(forKey: .secondaryText)
             cell.detailTextLabel?.text = String.localizedStringWithFormat(NSLocalizedString("%d Alert(s)", comment: ""), count ?? 0)

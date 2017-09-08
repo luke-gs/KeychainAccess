@@ -274,7 +274,9 @@ open class CompactSidebarViewController: UIViewController {
         let theme = ThemeManager.shared.theme(for: .current)
         navVC.navigationBar.barTintColor = theme.color(forKey: .background)
         navVC.navigationBar.tintColor = theme.color(forKey: .tint)
-        navVC.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: theme.color(forKey: .primaryText)]
+        if let primaryTextColor = theme.color(forKey: .primaryText) {
+            navVC.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: primaryTextColor]
+        }
         navVC.navigationBar.setBackgroundImage(nil, for: .default)
         navVC.navigationBar.isTranslucent = true
         navVC.view.backgroundColor = UIColor.clear

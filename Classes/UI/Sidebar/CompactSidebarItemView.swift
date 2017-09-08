@@ -72,9 +72,9 @@ open class CompactSidebarItemView: UIView {
         itemButton.isSelected = selected
 
         // Set custom colors/fonts by using attributed title on button states
-        var selectedText = NSMutableAttributedString()
-        var unselectedText = NSMutableAttributedString()
-        var highlightedText = NSMutableAttributedString()
+        let selectedText = NSMutableAttributedString()
+        let unselectedText = NSMutableAttributedString()
+        let highlightedText = NSMutableAttributedString()
         if item.count > 0 {
             selectedText.append("\(item.count) ", font: selectedFont, color: item.alertColor ?? ColorConstants.selectedColor)
             unselectedText.append("\(item.count) ", font: unselectedFont, color: item.alertColor ?? ColorConstants.unselectedColor)
