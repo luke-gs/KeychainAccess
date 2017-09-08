@@ -11,6 +11,14 @@ import MPOLKit
 
 public class PersonDetailsSectionsDataSource: EntityDetailSectionsDataSource {
 
+    public var initialSource: EntitySource
+
+    public var sources: [EntitySource] {
+        return [MPOLSource.mpol, MPOLSource.fnc]
+    }
+
+    public var baseEntity: MPOLKitEntity
+
     public var localizedDisplayName: String {
         return NSLocalizedString("Person", comment: "")
     }
@@ -28,6 +36,9 @@ public class PersonDetailsSectionsDataSource: EntityDetailSectionsDataSource {
         return EntityDetailFetch<Person>(requests: requests)
     }
 
-    public init() {}
+    public init(baseEntity: Entity) {
+        self.baseEntity = baseEntity
+        self.initialSource = baseEntity.source!
+    }
 
 }
