@@ -142,6 +142,7 @@ open class CompactSidebarViewController: UIViewController {
         sourceButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
         sourceButton.contentEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5)
         sourceButton.layer.cornerRadius = 3
+        sourceButton.addTarget(self, action: #selector(didTapSourceButton(_:)), for: .touchUpInside)
         view.addSubview(sourceButton)
 
         sourceDivider = UIView(frame: .zero)
@@ -255,6 +256,32 @@ open class CompactSidebarViewController: UIViewController {
     }
 
     // MARK: - Private methods
+
+    @objc private func didTapSourceButton(_ item: UIBarButtonItem) {
+        guard let selectedSourceIndex = selectedSourceIndex else { return }
+        let sourceVC = CompactSidebarSourceViewController(items: sourceItems, selectedIndex: selectedSourceIndex)
+        let navVC = UINavigationController(rootViewController: sourceVC)
+
+        // Override nav bar appearance to match creative
+        let theme = ThemeManager.shared.theme(for: .current)
+        navVC.navigationBar.barTintColor = theme.color(forKey: .background)
+        navVC.navigationBar.tintColor = theme.color(forKey: .tint)
+        navVC.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: theme.color(forKey: .primaryText)]
+        navVC.navigationBar.setBackgroundImage(nil, for: .default)
+        navVC.navigationBar.isTranslucent = true
+        navVC.view.backgroundColor = UIColor.clear
+
+        // Present the source selection as a centered popover, even on iPhone
+        if let navigationController = navigationController {
+            navVC.modalPresentationStyle = .popover
+            navVC.popoverPresentationController?.permittedArrowDirections = []
+            navVC.popoverPresentationController?.sourceView = navigationController.view
+            navVC.popoverPresentationController?.sourceRect = navigationController.view.bounds
+            navVC.popoverPresentationController?.delegate = self
+            navVC.presentationController?.delegate = self
+        }
+        present(navVC, animated: true, completion: nil)
+    }
 
     private func updateItems(oldValue: [SidebarItem]) {
         let items = self.items
@@ -402,3 +429,25 @@ extension CompactSidebarViewController: UIScrollViewDelegate {
     }
 }
 
+// MARK: - UIAdaptivePresentationControllerDelegate
+extension CompactSidebarViewController: UIAdaptivePresentationControllerDelegate {
+
+    /// Present view controllers using requested style, regardless of device
+    public func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
+    }
+
+    /// Present view controllers using requested style, regardless of device
+    public func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        return .none
+    }
+}
+
+// MARK: - UIPopoverPresentationControllerDelegate
+extension CompactSidebarViewController: UIPopoverPresentationControllerDelegate {
+    
+    /// Prevent closing of popover
+    public func popoverPresentationControllerShouldDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) -> Bool {
+        return false
+    }
+}

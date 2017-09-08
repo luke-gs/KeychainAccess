@@ -40,6 +40,8 @@
 		961FBF3E1F5CE67F00E42E19 /* ScrollAwarePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961FBF3D1F5CE67E00E42E19 /* ScrollAwarePageViewController.swift */; };
 		9672D6801F5E2FD7007A547F /* SidebarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9672D67F1F5E2FD7007A547F /* SidebarDelegate.swift */; };
 		9672D6821F5E5908007A547F /* NSMutableAttributedString+Append.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9672D6811F5E5908007A547F /* NSMutableAttributedString+Append.swift */; };
+		9672D6881F62090D007A547F /* CompactSidebarSourceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9672D6871F62090D007A547F /* CompactSidebarSourceViewController.swift */; };
+		9672D68A1F62302F007A547F /* CompactSidebarSourceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9672D6891F62302F007A547F /* CompactSidebarSourceCell.swift */; };
 		BA6FEAA4EFE7F66EBAE4C2DC /* Pods_MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9215372B17F43A2FDEB28AD0 /* Pods_MPOLKit.framework */; };
 		BC0448941F219A70005FB857 /* AssetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0448931F219A70005FB857 /* AssetManager.swift */; };
 		BC0EA3F41F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0EA3F31F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift */; };
@@ -276,6 +278,8 @@
 		961FBF3D1F5CE67E00E42E19 /* ScrollAwarePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollAwarePageViewController.swift; sourceTree = "<group>"; };
 		9672D67F1F5E2FD7007A547F /* SidebarDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarDelegate.swift; sourceTree = "<group>"; };
 		9672D6811F5E5908007A547F /* NSMutableAttributedString+Append.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Append.swift"; sourceTree = "<group>"; };
+		9672D6871F62090D007A547F /* CompactSidebarSourceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactSidebarSourceViewController.swift; sourceTree = "<group>"; };
+		9672D6891F62302F007A547F /* CompactSidebarSourceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactSidebarSourceCell.swift; sourceTree = "<group>"; };
 		BC0448931F219A70005FB857 /* AssetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetManager.swift; sourceTree = "<group>"; };
 		BC0EA3F31F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCollectionViewSidebarLayout.swift; sourceTree = "<group>"; };
 		BC1B25B91F2707270090C0AA /* MPOLBarButtonItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPOLBarButtonItems.swift; sourceTree = "<group>"; };
@@ -910,6 +914,8 @@
 			isa = PBXGroup;
 			children = (
 				960B1A7A1F57750C004F2E29 /* CompactSidebarItemView.swift */,
+				9672D6891F62302F007A547F /* CompactSidebarSourceCell.swift */,
+				9672D6871F62090D007A547F /* CompactSidebarSourceViewController.swift */,
 				960B1A781F577456004F2E29 /* CompactSidebarViewController.swift */,
 				960B1A761F566823004F2E29 /* NavigationControllerWithHeader.swift */,
 				BC9C7DB21F0DED6600DFFE83 /* RegularSidebarTableViewCell.swift */,
@@ -1448,6 +1454,7 @@
 				DB88BCE11F42D0110056FD69 /* SearchFieldCollectionViewCell.swift in Sources */,
 				BC9C7E351F0DED6600DFFE83 /* KeyboardInputManager.swift in Sources */,
 				DB88BCDE1F42D0080056FD69 /* SearchViewController.swift in Sources */,
+				9672D6881F62090D007A547F /* CompactSidebarSourceViewController.swift in Sources */,
 				BC9C7E111F0DED6600DFFE83 /* TableViewFormCheckboxCell.swift in Sources */,
 				BC9C7DEE1F0DED6600DFFE83 /* Serialisable.swift in Sources */,
 				BC9C7DEB1F0DED6600DFFE83 /* EntitySource.swift in Sources */,
@@ -1542,6 +1549,7 @@
 				BC9C7E451F0DED6600DFFE83 /* RegularSidebarTableViewCell.swift in Sources */,
 				DB88BCD91F42CFFC0056FD69 /* SearchDataSource.swift in Sources */,
 				BC9C7E301F0DED6600DFFE83 /* UIImage+StatusDot.swift in Sources */,
+				9672D68A1F62302F007A547F /* CompactSidebarSourceCell.swift in Sources */,
 				BC9C7DF91F0DED6600DFFE83 /* CollectionViewFormOptionCell.swift in Sources */,
 				DB88BCE31F42D0110056FD69 /* SearchResultLoadingCell.swift in Sources */,
 				BC9C7E0E1F0DED6600DFFE83 /* CollectionViewFormLayoutAttributes.swift in Sources */,
