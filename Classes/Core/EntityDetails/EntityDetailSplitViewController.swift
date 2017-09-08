@@ -20,18 +20,14 @@ open class EntityDetailSplitViewController: SidebarSplitViewController {
                 updateDetailSectionsAvailability(result.state == .finished)
             }
         }
-
-        updateSourceItems()
     }
 
     private let headerView = SidebarHeaderView(frame: .zero)
     fileprivate let detailViewModel: EntityDetailSectionsViewModel
 
-    public init(entity: MPOLKitEntity, sources: [EntitySource], dataSource: EntityDetailSectionsDataSource) {
+    public init(dataSource: EntityDetailSectionsDataSource) {
 
-        detailViewModel = EntityDetailSectionsViewModel(entity: entity, sources: sources, dataSource: dataSource)
-
-
+        detailViewModel = EntityDetailSectionsViewModel(dataSource: dataSource)
 
         let detailVCs = detailViewModel.detailSectionsViewControllers as? [UIViewController]
 
@@ -81,13 +77,6 @@ open class EntityDetailSplitViewController: SidebarSplitViewController {
 
     // MARK: - Private methods
 
-    @objc private func refreshControlDidActivate(_ control: UIRefreshControl) {
-        // TODO: Actually refresh
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            control.endRefreshing()
-        }
-    }
-
     /// Updates the source items and selection in the bar. Call this method when
     /// representations update.
     private func updateSourceItems() {
@@ -125,19 +114,12 @@ open class EntityDetailSplitViewController: SidebarSplitViewController {
     /// Updates the header view with the details for the latest selected representation.
     /// Call this methodwhen the selected representation changes.
     private func updateHeaderView() {
-        var displayableEntity: EntityDetailDisplayable?
-        let result = detailViewModel.results[detailViewModel.selectedSource.serverSourceName]
+        let entity = detailViewModel.currentEntity
 
-        if result == nil {
-            displayableEntity = detailViewModel.entity as? EntityDetailDisplayable
-        } else {
-            displayableEntity = result?.entity as? EntityDetailDisplayable
-        }
-
-        guard let entity = displayableEntity else { return }
+        guard let detailDisplayable = entity as? EntityDetailDisplayable else { return }
         guard let summaryDisplayable = entity as? EntitySummaryDisplayable else { return }
 
-        headerView.captionLabel.text = entity.entityDisplayName?.localizedUppercase
+        headerView.captionLabel.text = detailDisplayable.entityDisplayName?.localizedUppercase
 
         if let (thumbnail, _) = summaryDisplayable.thumbnail(ofSize: .small) {
             headerView.iconView.image = thumbnail
@@ -145,7 +127,7 @@ open class EntityDetailSplitViewController: SidebarSplitViewController {
 
         headerView.titleLabel.text = summaryDisplayable.title
 
-        if let lastUpdated = entity.lastUpdatedString {
+        if let lastUpdated = detailDisplayable.lastUpdatedString {
             headerView.subtitleLabel.text = NSLocalizedString("Last Updated: ", comment: "") + lastUpdated
         } else {
             headerView.subtitleLabel.text = nil
@@ -162,10 +144,12 @@ extension EntityDetailSplitViewController: EntityDetailSectionsDelegate {
 
     public func EntityDetailSectionsDidUpdateResults(_ EntityDetailSectionsViewModel: EntityDetailSectionsViewModel) {
         updateRepresentations()
+        updateSourceItems()
     }
 
     public func EntityDetailSectionDidSelectRetryDownload(_ EntityDetailSectionsViewModel: EntityDetailSectionsViewModel) {
-
+        updateRepresentations()
+        updateSourceItems()
     }
 
 }

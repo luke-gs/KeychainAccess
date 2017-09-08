@@ -28,11 +28,21 @@ public struct EntityFetchResult {
 
 public class EntityDetailSectionsViewModel {
 
-    public var sources: [EntitySource]
+    public var sources: [EntitySource] {
+        return detailSectionsDataSource.sources
+    }
+
+    public var currentEntity: MPOLKitEntity {
+        if let result = results[selectedSource.serverSourceName], let entity = result.entity {
+            return entity
+        } else {
+            return detailSectionsDataSource.baseEntity
+        }
+    }
 
     public var selectedSource: EntitySource
 
-    public var entityFetch: Fetchable?
+    private var entityFetch: Fetchable?
 
     public var detailSectionsDataSource: EntityDetailSectionsDataSource
 
@@ -40,18 +50,14 @@ public class EntityDetailSectionsViewModel {
 
     public weak var delegate: EntityDetailSectionsDelegate?
 
-    public var entity: MPOLKitEntity
-
     public var results: [String: EntityFetchResult] = [:]
 
-    public init(entity: MPOLKitEntity, sources: [EntitySource] = [], dataSource: EntityDetailSectionsDataSource) {
+    public init(dataSource: EntityDetailSectionsDataSource) {
 
-        self.sources = sources
-        selectedSource = sources.first! //TODO: Fixme
-        self.entity = entity
+        selectedSource = dataSource.initialSource
         self.detailSectionsDataSource = dataSource
 
-        entityFetch = dataSource.fetchModel(for: entity, sources: self.sources)
+        entityFetch = dataSource.fetchModel(for: dataSource.baseEntity, sources: self.sources)
         entityFetch?.delegate = self
         detailSectionsViewControllers = dataSource.detailViewControllers
     }
@@ -61,26 +67,26 @@ public class EntityDetailSectionsViewModel {
     }
 
     public func setSelectedResult(fetchResult: EntityFetchResult) {
-        if let error = fetchResult.error {
-            detailSectionsViewControllers?.forEach {
-                $0.genericEntity = nil
-
-                let noContentView = $0.loadingManager.noContentView
-                noContentView.imageView.image = AssetManager.shared.image(forKey: .refresh)
-                noContentView.imageView.tintColor = #colorLiteral(red: 0.6044161711, green: 0.6313971979, blue: 0.6581829122, alpha: 0.6420554578)
-
-                noContentView.titleLabel.text = NSLocalizedString(error.localizedDescription, comment: "")
-                let actionButton = noContentView.actionButton
-                actionButton.titleLabel?.font = .systemFont(ofSize: 15.0, weight: UIFontWeightSemibold)
-                actionButton.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 16.0, bottom: 10.0, right: 16.0)
-                actionButton.setTitle(NSLocalizedString("Retry Download", comment: ""), for: .normal)
-                actionButton.addTarget(self, action: #selector(newSearchButtonDidSelect(_:)), for: .primaryActionTriggered)
-            }
-
-        } else {
-            detailSectionsViewControllers?.forEach {
+        detailSectionsViewControllers?.forEach {
+            // If the error is nil, give the ViewControllers the retrieved entity
+            guard let error = fetchResult.error else {
                 $0.genericEntity = (fetchResult.entity)
+                return
             }
+
+            // ... Otherwise display the error
+            $0.genericEntity = nil
+
+            let noContentView = $0.loadingManager.noContentView
+            noContentView.imageView.image = AssetManager.shared.image(forKey: .refresh)
+            noContentView.imageView.tintColor = #colorLiteral(red: 0.6044161711, green: 0.6313971979, blue: 0.6581829122, alpha: 0.6420554578)
+
+            noContentView.titleLabel.text = NSLocalizedString(error.localizedDescription, comment: "")
+            let actionButton = noContentView.actionButton
+            actionButton.titleLabel?.font = .systemFont(ofSize: 15.0, weight: UIFontWeightSemibold)
+            actionButton.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 16.0, bottom: 10.0, right: 16.0)
+            actionButton.setTitle(NSLocalizedString("Retry Download", comment: ""), for: .normal)
+            actionButton.addTarget(self, action: #selector(newSearchButtonDidSelect(_:)), for: .primaryActionTriggered)
         }
     }
 
@@ -124,8 +130,8 @@ extension EntityDetailSectionsViewModel: EntityDetailFetchDelegate {
 
     @objc
     fileprivate func newSearchButtonDidSelect(_ button: UIButton) {
-        delegate?.EntityDetailSectionDidSelectRetryDownload(self)
         performFetch()
+        delegate?.EntityDetailSectionDidSelectRetryDownload(self)
     }
 
 }
