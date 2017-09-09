@@ -10,26 +10,65 @@ import UIKit
 
 /// A searchable object. 
 /// The datasource should know the options and types and what to do with them
-public struct Searchable: Equatable {
+public class Searchable: NSObject, NSSecureCoding {
 
     /// The search text
     public var text: String?
 
-    /// The filter options. 
+    /// The filter options.
     /// - Key: the index of the filter
     /// - Value: the value of the filter
     public var options: [Int: String]?
 
     /// The type of search
     public var type: String?
-    
+
+    override init() { super.init() }
+
     public init(text: String? = nil, options: [Int: String]? = nil, type: String? = nil) {
         self.text = text
         self.options = options
         self.type = type
     }
+
+    public required init?(coder aDecoder: NSCoder) {
+        text = aDecoder.decodeObject(of: NSString.self, forKey: "searchText") as String?
+        type = aDecoder.decodeObject(of: NSString.self, forKey: "type") as String?
+        options = aDecoder.decodeObject(of: NSDictionary.self, forKey: "options") as! [Int: String]?
+    }
+
+    public func encode(with aCoder: NSCoder) {
+        aCoder.encode(text, forKey: "searchText")
+        aCoder.encode(options, forKey: "options")
+        aCoder.encode(type, forKey: "type")
+    }
+
+    public static var supportsSecureCoding: Bool = true
+
+    public override func isEqual(_ object: Any?) -> Bool {
+        guard let rhs = object as? Searchable else {
+            return false
+        }
+        let lhs = self
+
+        if lhs.text != rhs.text || lhs.type != rhs.type {
+            return false
+        }
+
+        let lhsOptions = lhs.options
+        let rhsOptions = rhs.options
+
+        if let lhsOptions = lhsOptions, let rhsOptions = rhsOptions {
+            return lhsOptions == rhsOptions
+        } else if lhsOptions != nil || rhsOptions != nil {
+            return false
+        }
+
+        return true
+    }
 }
 
+/*
 public func ==(lhs: Searchable, rhs: Searchable) -> Bool {
     if lhs.text != rhs.text || lhs.type != rhs.type {
         return false
@@ -46,6 +85,7 @@ public func ==(lhs: Searchable, rhs: Searchable) -> Bool {
     
     return true
 }
+ */
 
 public enum SearchFieldStyle {
     case search(configure: ((UITextField) -> [UIButton]?)?,
@@ -174,7 +214,7 @@ public enum SearchDataSourceComponent {
 public protocol SearchDataSourceUpdating: class {
     func searchDataSource(_ dataSource: SearchDataSource, didUpdateComponent component: SearchDataSourceComponent)
     
-    func searchDataSource(_ dataSource: SearchDataSource, didFinishWith search: Searchable, andResultViewModel viewModel: SearchResultViewModelable?)
+    func searchDataSource(_ dataSource: SearchDataSource, didFinishWith search: Searchable?, andResultViewModel viewModel: SearchResultModelable?)
 }
 
 /// Default implementations of the SearchDataSource

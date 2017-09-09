@@ -30,5 +30,6 @@ s.dependency 'Unbox', '2.5.0'
 s.dependency 'Wrap', '2.1.0'
 s.dependency 'lottie-ios', '~> 2.0.2'
 s.dependency 'PromiseKit', '4.3.1'
+s.dependency 'KeychainSwift', '~> 8.0'
 
 end

@@ -13,7 +13,10 @@ import PromiseKit
 public protocol LocationSearchStrategy {
     
     associatedtype Location: Locatable
-    
+
+    /// The result model type that should be created.
+    var resultModelType: MapResultViewModelable.Type { get }
+
     /// The search configuration containing the frequency of typeahead search.
     var configuration: LocationSearchConfiguration { get }
     

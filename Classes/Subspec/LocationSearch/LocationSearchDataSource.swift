@@ -202,11 +202,8 @@ public class LocationSearchDataSource<T: LocationAdvanceOptions, U: LocationSear
     }
     
     @objc private func didTapMapButton() {
-        // TODO: Implement a way to allow custom view controller defined by the app.
-        let mapViewController = UIViewController()
-        mapViewController.title = "Location Search"
-        mapViewController.view.backgroundColor = .white
-        (updatingDelegate as? UIViewController)?.show(mapViewController, sender: nil)
+        let preferredViewModel = searchStrategy.resultModelType.init()
+        updatingDelegate?.searchDataSource(self, didFinishWith: nil, andResultViewModel: preferredViewModel)
     }
     
     private func attemptSearch(delay: Bool = true) {
@@ -269,28 +266,22 @@ public class LocationSearchDataSource<T: LocationAdvanceOptions, U: LocationSear
         let searchable = Searchable(text: text,
                                     options: nil,
                                     type: LocationSearchDataSourceSearchableType)
-        
-        updatingDelegate?.searchDataSource(self, didFinishWith: searchable, andResultViewModel: nil)
-        
-        // TODO: Implement a way to allow custom view controller defined by the app.
-        let mapViewController = UIViewController()
-        mapViewController.title = "Location Search"
-        mapViewController.view.backgroundColor = .white
-        (updatingDelegate as? UIViewController)?.show(mapViewController, sender: nil)
+
+        let preferredViewModel = searchStrategy.resultModelType.init()
+        preferredViewModel.fetchResults(withCoordinate: result.location.coordinate)
+
+        updatingDelegate?.searchDataSource(self, didFinishWith: searchable, andResultViewModel: preferredViewModel)
     }
     
     private func performSearchOnLocation(withParameters parameters: Parameterisable) {
         let search = Searchable(text: advanceOptions.textRepresentation(),
                                 options: advanceOptions.state(),
                                 type: LocationSearchDataSourceSearchableType)
-        
-        updatingDelegate?.searchDataSource(self, didFinishWith: search, andResultViewModel: nil)
-        
-        // TODO: Implement a way to allow custom view controller defined by the app.
-        let mapViewController = UIViewController()
-        mapViewController.title = "Location Search"
-        mapViewController.view.backgroundColor = .white
-        (updatingDelegate as? UIViewController)?.show(mapViewController, sender: nil)
+
+        let preferredViewModel = searchStrategy.resultModelType.init()
+        preferredViewModel.fetchResults(withParameters: parameters)
+
+        updatingDelegate?.searchDataSource(self, didFinishWith: search, andResultViewModel: preferredViewModel)
     }
     
     public func locationBasicSearchOptions(_ options: LocationBasicSearchOptions, didEditResult result: LookupResult) {
