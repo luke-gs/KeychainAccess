@@ -58,42 +58,52 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     open var leftAccessoryView: UIView? {
-        willSet {
-            guard let leftView = leftAccessoryView, leftView != newValue else { return }
-            leftView.removeFromSuperview()
-        }
         didSet {
-            guard let leftView = leftAccessoryView, leftView != oldValue, let accessoryView = accessoryView else { return }
+            if oldValue == leftAccessoryView { return }
             
-            leftView.translatesAutoresizingMaskIntoConstraints = false
-            accessoryView.addSubview(leftView)
+            // Remove previous leftView from superview
+            if let oldValue = oldValue {
+                oldValue.removeFromSuperview()
+            }
             
-            NSLayoutConstraint.activate([
-                leftView.leadingAnchor.constraint(equalTo: accessoryView.leadingAnchor),
-                leftView.bottomAnchor.constraint(equalTo: accessoryView.bottomAnchor),
-                leftView.topAnchor.constraint(greaterThanOrEqualTo: accessoryView.topAnchor),
-                leftView.trailingAnchor.constraint(lessThanOrEqualTo: accessoryView.centerXAnchor, constant: -5.0)
-                ])
+            if let leftView = leftAccessoryView, let accessoryView = accessoryView {
+                // Setup leftView for autolayout
+                leftView.translatesAutoresizingMaskIntoConstraints = false
+                accessoryView.addSubview(leftView)
+                
+                // Add constraints to pin to left in accessoryView
+                NSLayoutConstraint.activate([
+                    leftView.leadingAnchor.constraint(equalTo: accessoryView.leadingAnchor),
+                    leftView.bottomAnchor.constraint(equalTo: accessoryView.bottomAnchor),
+                    leftView.topAnchor.constraint(greaterThanOrEqualTo: accessoryView.topAnchor),
+                    leftView.trailingAnchor.constraint(lessThanOrEqualTo: accessoryView.centerXAnchor, constant: -5.0)
+                    ])
+            }
         }
     }
     
     open var rightAccessoryView: UIView? {
-        willSet {
-            guard let rightView = rightAccessoryView, rightView != newValue else { return }
-            rightView.removeFromSuperview()
-        }
         didSet {
-            guard let rightView = rightAccessoryView, rightView != oldValue, let accessoryView = accessoryView else { return }
+            if oldValue == rightAccessoryView { return }
             
-            rightView.translatesAutoresizingMaskIntoConstraints = false
-            accessoryView.addSubview(rightView)
+            // Remove previous rightView from superview
+            if let oldValue = oldValue {
+                oldValue.removeFromSuperview()
+            }
             
-            NSLayoutConstraint.activate([
-                rightView.leadingAnchor.constraint(greaterThanOrEqualTo: accessoryView.centerXAnchor, constant: 5.0),
-                rightView.bottomAnchor.constraint(equalTo: accessoryView.bottomAnchor),
-                rightView.topAnchor.constraint(greaterThanOrEqualTo: accessoryView.topAnchor),
-                rightView.trailingAnchor.constraint(equalTo: accessoryView.trailingAnchor)
-                ])
+            if let rightView = rightAccessoryView, let accessoryView = accessoryView {
+                // Setup rightView for autolayout
+                rightView.translatesAutoresizingMaskIntoConstraints = false
+                accessoryView.addSubview(rightView)
+                
+                // Add constraints to pin to right in accessoryView
+                NSLayoutConstraint.activate([
+                    rightView.leadingAnchor.constraint(greaterThanOrEqualTo: accessoryView.centerXAnchor, constant: 5.0),
+                    rightView.bottomAnchor.constraint(equalTo: accessoryView.bottomAnchor),
+                    rightView.topAnchor.constraint(greaterThanOrEqualTo: accessoryView.topAnchor),
+                    rightView.trailingAnchor.constraint(equalTo: accessoryView.trailingAnchor)
+                    ])
+            }
         }
     }
     
@@ -440,7 +450,11 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         loginStackView.alignment = .center
         loginStackView.spacing   = 20.0
         
-        let contentViews = [headerView, credentialsView, loginStackView].flatMap({$0})
+        var contentViews = [credentialsView, loginStackView]
+        if let headerView = headerView {
+            contentViews.insert(headerView, at: 0)
+        }
+        
         let contentStackView = UIStackView(arrangedSubviews: contentViews)
         contentStackView.translatesAutoresizingMaskIntoConstraints = false
         contentStackView.axis = .vertical
@@ -545,11 +559,42 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         credentialsView.addSubview(forgotPasswordButton)
         
         // Creating constraints
-        let separatorHeightConstraint = NSLayoutConstraint(item: usernameSeparator, attribute: .height, relatedBy: .equal, toConstant: 1.0 / traitCollection.currentDisplayScale)
-        let forgotPasswordSeparation = NSLayoutConstraint(item: forgotPasswordButton, attribute: .top, relatedBy: .equal, toItem: passwordSeparator, attribute: .bottom, constant: forgotPasswordButton.isHidden ? 0.0 : 14.0)
+        let separatorHeightConstraint = usernameSeparator.heightAnchor.constraint(equalToConstant: 1.0 / traitCollection.currentDisplayScale )
+        let forgotPasswordSeparation = forgotPasswordButton.topAnchor.constraint(equalTo: passwordSeparator.bottomAnchor, constant: forgotPasswordButton.isHidden ? 0.0 : 14.0)
         
-        var constraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|[ul]-4-[uf]-11-[us]-18-[pl]-4-[pf]-11-[ps(==us)]->=0-[fpb]|", options: [.alignAllLeading, .alignAllTrailing], metrics: nil, views: ["ul": usernameLabel, "uf": usernameField, "us": usernameSeparator, "pl": passwordLabel, "pf": passwordField, "ps": passwordSeparator, "fpb": forgotPasswordButton])
-        constraints += [separatorHeightConstraint, forgotPasswordSeparation]
+        let constraints = [
+            usernameLabel.topAnchor.constraint(equalTo: credentialsView.topAnchor),
+            usernameLabel.leadingAnchor.constraint(equalTo: credentialsView.leadingAnchor),
+            usernameLabel.trailingAnchor.constraint(equalTo: credentialsView.trailingAnchor),
+            
+            usernameField.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 4),
+            usernameField.leadingAnchor.constraint(equalTo: credentialsView.leadingAnchor),
+            usernameField.trailingAnchor.constraint(equalTo: credentialsView.trailingAnchor),
+            
+            usernameSeparator.topAnchor.constraint(equalTo: usernameField.bottomAnchor, constant: 11),
+            usernameSeparator.leadingAnchor.constraint(equalTo: credentialsView.leadingAnchor),
+            usernameSeparator.trailingAnchor.constraint(equalTo: credentialsView.trailingAnchor),
+            separatorHeightConstraint,
+            
+            passwordLabel.topAnchor.constraint(equalTo: usernameSeparator.bottomAnchor, constant: 18),
+            passwordLabel.leadingAnchor.constraint(equalTo: credentialsView.leadingAnchor),
+            passwordLabel.trailingAnchor.constraint(equalTo: credentialsView.trailingAnchor),
+            
+            passwordField.topAnchor.constraint(equalTo: passwordLabel.bottomAnchor, constant: 4),
+            passwordField.leadingAnchor.constraint(equalTo: credentialsView.leadingAnchor),
+            passwordField.trailingAnchor.constraint(equalTo: credentialsView.trailingAnchor),
+            
+            passwordSeparator.topAnchor.constraint(equalTo: passwordField.bottomAnchor, constant: 11),
+            passwordSeparator.leadingAnchor.constraint(equalTo: credentialsView.leadingAnchor),
+            passwordSeparator.trailingAnchor.constraint(equalTo: credentialsView.trailingAnchor),
+            passwordSeparator.heightAnchor.constraint(equalTo: usernameSeparator.heightAnchor),
+            
+            forgotPasswordButton.topAnchor.constraint(greaterThanOrEqualTo: passwordSeparator.bottomAnchor),
+            forgotPasswordButton.leadingAnchor.constraint(equalTo: credentialsView.leadingAnchor),
+            forgotPasswordButton.trailingAnchor.constraint(equalTo: credentialsView.trailingAnchor),
+            forgotPasswordButton.bottomAnchor.constraint(equalTo: credentialsView.bottomAnchor),
+            forgotPasswordSeparation
+        ]
         
         NSLayoutConstraint.activate(constraints)
         
