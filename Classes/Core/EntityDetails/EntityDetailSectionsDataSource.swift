@@ -20,6 +20,7 @@ public protocol EntityDetailSectionsDataSource {
     var sources: [EntitySource] { get }
 
     var baseEntity: MPOLKitEntity { get }
+    func titleSuitable(for traitCollection: UITraitCollection) -> String
 
     var localizedDisplayName: String { get }
     var detailViewControllers: [EntityDetailSectionUpdatable] { get }

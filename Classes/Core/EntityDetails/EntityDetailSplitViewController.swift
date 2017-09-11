@@ -74,10 +74,7 @@ open class EntityDetailSplitViewController: SidebarSplitViewController {
 
     /// The title to use for main navigation controller when in compact size
     open override var compactTitle: String? {
-//        if let entity = selectedRepresentation as? EntitySummaryDisplayable {
-//            return entity.title
-//        }
-        return regularTitle
+        return detailViewModel.detailSectionsDataSource.titleSuitable(for: traitCollection)
     }
 
     // MARK: - Private methods
