@@ -39,10 +39,7 @@ public class EntityAlertsViewModel: EntityDetailViewModelable {
 
     private var statusDotCache: [Alert.Level: UIImage] = [:]
 
-    public var collapsedSections: Set<Int> = []
-
-//    lazy private var collapsedSections: [String: Set<Alert.Level>] = [:]
-
+    public lazy var collapsedSections: Set<Int> = []
     
     // MARK: - Public methods
 

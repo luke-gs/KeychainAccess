@@ -39,7 +39,7 @@ public class PersonDetailsViewModel<T>: EntityDetailViewModelable {
         }
     }
 
-    public var collapsedSections: Set<Int> = []
+    public lazy var collapsedSections: Set<Int> = []
     
     /// A generic section header for collectionView
     /// Subclass needs override to provide custom title
