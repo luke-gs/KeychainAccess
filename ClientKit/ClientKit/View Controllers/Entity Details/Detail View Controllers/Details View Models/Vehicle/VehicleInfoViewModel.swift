@@ -326,7 +326,7 @@ public class VehicleInfoViewModel: EntityDetailViewModelable {
             switch self {
             case .name: return "Citizen, John R"
             case .dob: return "08/05/1987 (29)"
-            case .gender:  return "Male"
+            case .gender: return "Male"
             case .address: return "8 Catherine Street, Southbank VIC 3006"
             }
         }
