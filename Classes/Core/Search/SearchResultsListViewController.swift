@@ -331,7 +331,7 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
 }
 
 /// A delegate to notify that an entity was selected
-public protocol SearchResultsEntityDelegate: class {
+public protocol EntityDetailsDelegate: class {
 
     /// Notify the delegate that an entity was selected
     ///

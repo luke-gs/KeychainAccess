@@ -22,7 +22,7 @@ fileprivate let navigationItemKeyPaths: [String] = [
     #keyPath(UINavigationItem.prompt)
 ]
 
-public class SearchViewController: UIViewController, SearchRecentsViewControllerDelegate, SearchResultsDelegate, SearchOptionsViewControllerDelegate, SearchResultsEntityDelegate {
+public class SearchViewController: UIViewController, SearchRecentsViewControllerDelegate, SearchResultsDelegate, SearchOptionsViewControllerDelegate, EntityDetailsDelegate {
     
     private var recentsViewController: SearchRecentsViewController
     public var viewModel: SearchViewModel

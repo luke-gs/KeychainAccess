@@ -39,7 +39,7 @@ public protocol SearchRecentsViewModel {
 public protocol SearchViewModel {
 
     /// A delegate back to the search view controller
-    var entityDelegate: SearchResultsEntityDelegate? { get set }
+    var entityDelegate: EntityDetailsDelegate? { get set }
 
     /// The recent view model
     var recentViewModel: SearchRecentsViewModel { get }
