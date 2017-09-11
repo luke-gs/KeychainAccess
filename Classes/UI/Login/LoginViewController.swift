@@ -450,11 +450,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         loginStackView.alignment = .center
         loginStackView.spacing   = 20.0
         
-        var contentViews = [credentialsView, loginStackView]
-        if let headerView = headerView {
-            contentViews.insert(headerView, at: 0)
-        }
-        
+        let contentViews = [headerView, credentialsView, loginStackView].removeNils()
         let contentStackView = UIStackView(arrangedSubviews: contentViews)
         contentStackView.translatesAutoresizingMaskIntoConstraints = false
         contentStackView.axis = .vertical
