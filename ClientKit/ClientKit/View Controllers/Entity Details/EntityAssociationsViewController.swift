@@ -113,7 +113,7 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
 
                 let section = indexPath.section
 
-                self.viewModel.updateCollapsedSections(for: [section])
+                self.viewModel.updateCollapsed(for: [section])
                 collectionView.reloadSections(IndexSet(integer: section))
                 header.setExpanded(self.viewModel.isExpanded(at: section), animated: true)
             }

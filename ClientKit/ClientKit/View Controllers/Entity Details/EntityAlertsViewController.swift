@@ -113,7 +113,7 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
 
                 header.tapHandler = { [weak self] (headerView, indexPath) in
                     guard let `self` = self else { return }
-                    self.viewModel.updateCollapsedSections(for: [alertLevel])
+                    self.viewModel.updateCollapsed(for: [alertLevel])
                     self.collectionView?.reloadSections(IndexSet(integer: indexPath.section))
                     headerView.setExpanded(self.viewModel.isExpanded(at: alertLevel), animated: true)
                 }

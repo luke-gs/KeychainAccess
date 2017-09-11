@@ -78,7 +78,7 @@ open class VehicleInfoViewController: EntityDetailCollectionViewController {
 
                 let section = indexPath.section
 
-                self.viewModel.updateCollapsedSections(for: [section])
+                self.viewModel.updateCollapsed(for: [section])
                 headerView.setExpanded(self.viewModel.isExpanded(at: section), animated: true)
                 collectionView.reloadSections(IndexSet(integer: section))
             }
