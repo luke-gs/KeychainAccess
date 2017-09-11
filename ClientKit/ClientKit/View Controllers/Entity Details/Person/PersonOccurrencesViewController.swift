@@ -146,19 +146,18 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
     open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionElementKindSectionHeader {
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
-    
+
             header.text = viewModel.header(for: indexPath.section)
             header.showsExpandArrow = true
             header.tapHandler = { [weak self] header, indexPath in
                 guard let `self` = self else { return }
 
                 let section = indexPath.section
-
-                self.viewModel.updateCollapsedSections(for: [section])
-                header.setExpanded(self.viewModel.isSectionExpanded(section: section), animated: true)
+                self.viewModel.updateCollapsed(for: [section])
+                header.setExpanded(self.viewModel.isExpanded(at: section), animated: true)
                 collectionView.reloadSections(IndexSet(integer: section))
             }
-            header.isExpanded = self.viewModel.isSectionExpanded(section: indexPath.section)
+            header.isExpanded = self.viewModel.isExpanded(at: indexPath.section)
 
             return header
         }

@@ -11,7 +11,7 @@ import MPOLKit
 
 /// A base viewModel to provide generic implementation
 public class PersonDetailsViewModel<T>: EntityDetailViewModelable {
-    
+
     /// Generic section type
     public typealias DetailsType = T
     
@@ -38,6 +38,8 @@ public class PersonDetailsViewModel<T>: EntityDetailViewModelable {
             delegate?.reloadData()
         }
     }
+
+    public lazy var collapsedSections: Set<Int> = []
     
     /// A generic section header for collectionView
     /// Subclass needs override to provide custom title
