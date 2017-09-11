@@ -47,36 +47,20 @@ public class EntityPresenter: Presenter {
             return EntityDetailSplitViewController(dataSource: dataSource)
 
         case .help(let type):
-            let title: String
-            let items: [SearchHelpSection]
+            let details: SearchHelpDetails
 
             switch type {
             case .person:
-                title = "Searching for People"
-                items = [
-                    SearchHelpSection(title: "The default search order", detail: .tags(["Last Name", ",", "Given Name", "Middle Name/s", "DOB/Age Range"])),
-                    SearchHelpSection(title: "General conditions", detail: .text("Search is NOT case sensetive\nLast name is required\nYou can use partial names or initials for given and middle names\nNames can contain apostrophes or hyphens")),
-                    SearchHelpSection(title: "Optional", detail: .text("Given Name, Middle Name 1, Middle Name 2, DOB/Age Range")),
-                    SearchHelpSection(title: "Use a comma to separate Last Names that contain spaces or hyphens", detail: .text("de Jaager, Jesse\nLe-Gall, Léa")),
-                    SearchHelpSection(title: "Searching for Date of Birth, Age and Age Ranges", detail: .text("Parker Hunter 15/06/1985\nParker Hunter 06/1986\nParker Hunter 1985\nParker Hunter 32\nParker Hunter 30-35")),
-                    SearchHelpSection(title: "Searching for Aliases", detail: .text("@ Parker Hunter")),
-                    SearchHelpSection(title: "More Examples", detail: .text("Parker Hunter S\nParker Hunter S 32"))
-                ]
+                details = SearchHelpDetails(filename: "PersonSearchHelp", bundle: Bundle.main)
             case .vehicle:
-                title = NSLocalizedString("Searching for Vehicles", comment: "")
-                items = []
+                details = SearchHelpDetails(filename: "VehicleSearchHelp", bundle: Bundle.main)
             case .location:
-                title = NSLocalizedString("Searching for Locations", comment: "")
-                items = []
+                details = SearchHelpDetails(filename: "LocationSearchHelp", bundle: Bundle.main)
             case .organisation:
-                title = NSLocalizedString("Searching for Organisations", comment: "")
-                items = []
+                details = SearchHelpDetails(filename: "OrganisationSearchHelp", bundle: Bundle.main)
             }
-
-            let helpViewController = SearchHelpViewController(items: items)
-            helpViewController.title = title
-            helpViewController.view.backgroundColor = .white
-            return helpViewController
+            
+            return SearchHelpViewController(details: details)
 
         case .createEntity(let type):
             let title: String
