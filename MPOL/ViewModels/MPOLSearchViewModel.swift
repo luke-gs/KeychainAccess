@@ -11,6 +11,9 @@ import MPOLKit
 import ClientKit
 
 class MPOLSearchViewModel: SearchViewModel {
+
+    public var entityDelegate: SearchResultsEntityDelegate?
+
     var recentViewModel: SearchRecentsViewModel = MPOLSearchRecentsViewModel()
     var dataSources: [SearchDataSource] = [
         PersonSearchDataSource(),
@@ -24,10 +27,10 @@ class MPOLSearchViewModel: SearchViewModel {
         var dataSource: EntityDetailSectionsDataSource?
 
         if entity is Person {
-            dataSource = PersonDetailsSectionsDataSource(baseEntity: entity as! Entity)
+            dataSource = PersonDetailsSectionsDataSource(baseEntity: entity as! Entity, delegate: entityDelegate)
 
         } else if entity is Vehicle {
-            dataSource = VehicleDetailsSectionsDataSource(baseEntity: entity as! Entity)
+            dataSource = VehicleDetailsSectionsDataSource(baseEntity: entity as! Entity, delegate: entityDelegate)
 
         }
 
