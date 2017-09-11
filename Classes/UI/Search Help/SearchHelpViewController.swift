@@ -22,64 +22,26 @@ public struct SearchHelpSection {
         self.title = title
         self.detail = detail
     }
-    
-    /// The section's view contained in a stack view
-    public var view: UIStackView {
-        let titleLabel = UILabel()
-        titleLabel.numberOfLines = 0
-        titleLabel.textColor = .darkGray
-        titleLabel.font = .systemFont(ofSize: 16.0, weight: UIFontWeightSemibold)
-        titleLabel.text = title
-        
-        let detailView = detail.view
-        
-        let stackView = UIStackView(arrangedSubviews: [titleLabel, detailView])
-        stackView.axis = .vertical
-        stackView.spacing = 8
-        stackView.alignment = .fill
-        stackView.distribution = .fill
-        return stackView
-    }
 }
 
 
-/// The `SearchHelpSection` detail type
+/// The `SearchHelpSection` detail type that contains relevant content type
 ///
 /// - text: A standard string subtitle
 /// - tags: A subtitle that looks like an array of tag views
 public enum SearchHelpDetail {
     case text(String)
     case tags([String])
-    
-    /// The detail view for the type (containing the detail content)
-    public var view: UIView {
-        switch self {
-            
-        case .text(let detail):
-            let label = UILabel()
-            label.numberOfLines = 0
-            let paragraphStyle = NSMutableParagraphStyle()
-            paragraphStyle.lineSpacing = 4.0
-            let attributes = [
-                NSFontAttributeName : UIFont.systemFont(ofSize: 15.0, weight: UIFontWeightRegular),
-                NSForegroundColorAttributeName : UIColor.gray,
-                NSParagraphStyleAttributeName : paragraphStyle
-            ]
-            label.attributedText = NSAttributedString(string: detail, attributes: attributes)
-            return label
-            
-        case .tags(let detail):
-            return SearchHelpTagCollectionView(tags: detail)
-        }
-    }
 }
 
 open class SearchHelpViewController: UIViewController {
     
     
-    // MARK: - Public properties
+    // MARK: - Properties
     
     public let items: [SearchHelpSection]
+    
+    private var stackView: UIStackView?
     
     
     // MARK: - Lifecycle
@@ -89,6 +51,12 @@ open class SearchHelpViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         
         self.title = "Search Help"
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadSections), name: .interfaceStyleDidChange, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -115,10 +83,9 @@ open class SearchHelpViewController: UIViewController {
         stackView.alignment = .fill
         stackView.distribution = .fill
         contentView.addSubview(stackView)
+        self.stackView = stackView
         
-        for item in items {
-            stackView.addArrangedSubview(item.view)
-        }
+        loadSections()
         
         NSLayoutConstraint.activate([
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -138,5 +105,63 @@ open class SearchHelpViewController: UIViewController {
             stackView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.6).withPriority(UILayoutPriorityRequired - 1),
             stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -48.0)
             ])
+    }
+    
+    // MARK: - Theme
+    
+    private func loadSections() {
+        guard let stackView = stackView else { return }
+        
+        let theme = ThemeManager.shared.theme(for: .current)
+        
+        view.backgroundColor = theme.color(forKey: .background)!
+        
+        for item in items {
+            let titleLabel = UILabel()
+            titleLabel.numberOfLines = 0
+            titleLabel.textColor = theme.color(forKey: .primaryText)!
+            titleLabel.font = .systemFont(ofSize: 17.0, weight: UIFontWeightSemibold)
+            titleLabel.text = item.title
+            
+            let detailView: UIView
+            
+            switch item.detail {
+            case .text(let detail):
+                let label = UILabel()
+                label.numberOfLines = 0
+                let paragraphStyle = NSMutableParagraphStyle()
+                paragraphStyle.lineSpacing = 4.0
+                let attributes = [
+                    NSFontAttributeName : UIFont.systemFont(ofSize: 15.0, weight: UIFontWeightRegular),
+                    NSForegroundColorAttributeName : theme.color(forKey: .secondaryText)!,
+                    NSParagraphStyleAttributeName : paragraphStyle
+                ]
+                label.attributedText = NSAttributedString(string: detail, attributes: attributes)
+                detailView = label
+            case .tags(let detail):
+                // Applys theme from inside the implementation
+                detailView = SearchHelpTagCollectionView(tags: detail)
+            }
+            
+            let itemStackView = UIStackView(arrangedSubviews: [titleLabel, detailView])
+            itemStackView.axis = .vertical
+            itemStackView.spacing = 8
+            itemStackView.alignment = .fill
+            itemStackView.distribution = .fill
+            
+            stackView.addArrangedSubview(itemStackView)
+        }
+    }
+
+    // This only gets called if theme changes
+    @objc private func reloadSections() {
+        guard let stackView = stackView else { return }
+        
+        // Remove subviews and reload
+        for view in stackView.arrangedSubviews {
+            stackView.removeArrangedSubview(view)
+        }
+        
+        loadSections()
     }
 }

@@ -17,14 +17,11 @@ public class SearchHelpTagCollectionViewCell: UICollectionViewCell, DefaultReusa
     public override init(frame: CGRect) {
         super.init(frame: frame)
         
-        contentView.backgroundColor = .lightGray
         contentView.layer.cornerRadius = 4.0
-        contentView.layer.borderColor = UIColor.darkGray.cgColor
         contentView.layer.borderWidth = 1.0
         
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = SearchHelpTagCollectionViewCell.font
-        label.textColor = .darkGray
         label.textAlignment = .center
         contentView.addSubview(label)
         

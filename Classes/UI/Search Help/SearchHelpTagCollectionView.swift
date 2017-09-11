@@ -55,6 +55,13 @@ public class SearchHelpTagCollectionView: UICollectionView, UICollectionViewData
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(of: SearchHelpTagCollectionViewCell.self, for: indexPath)
         cell.label.text = tags[indexPath.row]
+        
+        let theme = ThemeManager.shared.theme(for: .current)
+        let color = theme.color(forKey: .tint)!
+        
+        cell.contentView.backgroundColor = color.withAlphaComponent(0.1)
+        cell.contentView.layer.borderColor = color.withAlphaComponent(0.3).cgColor
+        cell.label.textColor = color.withAlphaComponent(1.0)
         return cell
     }
     
