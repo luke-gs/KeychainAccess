@@ -47,7 +47,7 @@ open class NetworkLoggingPlugin: PluginType {
     /// -----------------------------------------------------------------------------------------------
     /// Public initialiser for NetworkLoggingPlugin
     ///
-    /// - Parameters:`
+    /// - Parameters:
     ///   - logger: The Logger responsible for logging the formatted output
     ///   - configurations: Certain confirgurations that can be applied to the formatted response 
     /// -----------------------------------------------------------------------------------------------
@@ -140,7 +140,7 @@ open class NetworkLoggingPlugin: PluginType {
         // Filter out any excluded header keys present in the configurations
         var filteredHeaders: [AnyHashable: Any] = [:]
         headers?.forEach {
-            filteredHeaders[$0.key] = $0.value
+            filteredHeaders[$0.key] = !configurations.excludedHeaders.contains("\($0.key)") ? $0.value : "Secure content"
         }
 
         components.append(("Headers: ", filteredHeaders.prettyPrinted() ))
@@ -154,7 +154,6 @@ open class NetworkLoggingPlugin: PluginType {
         // Body formatting
         if let data = data {
             do {
-
                 // Serialise and de-seriablise into pretty printed strings if possible
                 // Otherwise just print out the string representation of the body
                 let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String: Any]
@@ -162,19 +161,15 @@ open class NetworkLoggingPlugin: PluginType {
 
                 // Strip out keys that may be contained in the configurations excluded paths
                 var filteredJSON: [String: Any] = [:]
-                json.forEach({
-                    if !configurations.excludedPaths.contains($0.key) {
-                        filteredJSON[$0.key] = $0.value
-                    } else {
-                        filteredJSON[$0.key] = "Secure content"
-                    }
-                })
+                json.forEach {
+                    filteredJSON[$0.key] = !configurations.excludedPaths.contains($0.key) ?  $0.value : "Secure content"
+                }
 
                 let prettyPrinted = try JSONSerialization.data(withJSONObject: filteredJSON, options: printOptions)
                 components.append(("Body: ", String(data: prettyPrinted, encoding: .utf8) ?? "{ }"))
 
             } catch {
-                let value: String? = shouldLog(request: request) == true ? String(data: data, encoding: .utf8) : "Secure content"
+                let value: String? = shouldLog(request) == true ? String(data: data, encoding: .utf8) : "Secure content"
                 components.append(("Body: ", value ?? "{ }"))
             }
         }
@@ -193,7 +188,7 @@ open class NetworkLoggingPlugin: PluginType {
         return divider + result + divider
     }
 
-    private func shouldLog(request: URLRequest?) -> Bool {
+    private func shouldLog(_ request: URLRequest?) -> Bool {
         for path in configurations.excludedPaths {
             if request?.url?.pathComponents.contains( where: { $0.localizedCaseInsensitiveCompare(path) == .orderedSame  } ) == true {
                 return false
