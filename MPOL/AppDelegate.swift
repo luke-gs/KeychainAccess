@@ -26,7 +26,6 @@ let WhatsNewVersion = "1.0"
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
-    var tabBarController: UITabBarController?
 
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
@@ -41,7 +40,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             plugins = nil
         #endif
 
-        APIManager.shared = APIManager(configuration: APIManagerDefaultConfiguration(url: "https://\(host)", plugins: plugins, trustPolicyManager: ServerTrustPolicyManager(policies: [host: .disableEvaluation])))
+        let presenter = PresenterGroup(presenters: [SystemPresenter(), LandingPresenter(), EntityPresenter()])
+
+        let director = Director(presenter: presenter)
+        director.addPresenterObserver(RecentlyViewedTracker())
+        
+        Director.shared = director
+
+        APIManager.shared = APIManager(configuration: APIManagerDefaultConfiguration(url: "https://\(host)", trustPolicyManager: ServerTrustPolicyManager(policies: [host: .disableEvaluation])))
 
         NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleDidChange), name: .interfaceStyleDidChange, object: nil)
 
@@ -49,20 +55,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         let window = UIWindow()
         self.window = window
-        window.rootViewController = UIViewController()
         
         applyCurrentTheme()
 
         UserSession.basePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
 
         if UserSession.current.isActive == true {
-            UserSession.current.restoreSession { [unowned self] token in
+            UserSession.current.restoreSession { token in
                 APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
-                self.fiddleWithState()
             }
-        } else {
-            self.updateInterface(for: .login, animated: true)
         }
+
+        self.fiddleWithState()
 
         window.makeKeyAndVisible()
 
@@ -84,17 +88,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     func fiddleWithState() {
-        guard UserSession.current.user?.termsAndConditionsVersionAccepted != TermsAndConditionsVersion else {
+        let screen: LandingScreen
+
+        if let user = UserSession.current.user, user.termsAndConditionsVersionAccepted == TermsAndConditionsVersion {
             if UserSession.current.user?.whatsNewShownVersion != WhatsNewVersion {
-                self.updateInterface(for: .whatsNew, animated: true)
+                screen = .whatsNew
             } else {
-                self.updateInterface(for: .landing, animated: true)
+                screen = .landing
             }
-            return
+        } else {
+            screen = .login
         }
-        self.updateInterface(for: .login, animated: true)
+
+        window?.rootViewController = Director.shared.presenter.viewController(forPresentable: screen)
     }
-    
+
     // MARK: - APNS
     
     func registerPushNotifications(_ application: UIApplication) {
@@ -130,7 +138,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         for i in 0..<deviceToken.count {
             token = token + String(format: "%02.2hhx", arguments: [deviceToken[i]])
         }
-        print(token)
 
         // TODO: Upload token to server & register for PNS
     }
@@ -142,7 +149,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     // TEMP
     func logOut() {
         UserSession.current.endSession()
-        updateInterface(for: .login, animated: true)
+        window?.rootViewController = Director.shared.presenter.viewController(forPresentable: LandingScreen.login)
     }
 
     @objc private func interfaceStyleDidChange() {

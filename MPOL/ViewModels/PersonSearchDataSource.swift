@@ -99,17 +99,7 @@ class PersonSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
     // MARK: - Private
 
     @objc private func didTapHelpButton(_ button: UIButton) {
-        let helpViewController = SearchHelpViewController(items: [
-            SearchHelpSection(title: "The default search order", detail: .tags(["Last Name", ",", "Given Name", "Middle Name/s", "DOB/Age Range"])),
-            SearchHelpSection(title: "General conditions", detail: .text("Search is NOT case sensetive\nLast name is required\nYou can use partial names or initials for given and middle names\nNames can contain apostrophes or hyphens")),
-            SearchHelpSection(title: "Optional", detail: .text("Given Name, Middle Name 1, Middle Name 2, DOB/Age Range")),
-            SearchHelpSection(title: "Use a comma to separate Last Names that contain spaces or hyphens", detail: .text("de Jaager, Jesse\nLe-Gall, Léa")),
-            SearchHelpSection(title: "Searching for Date of Birth, Age and Age Ranges", detail: .text("Parker Hunter 15/06/1985\nParker Hunter 06/1986\nParker Hunter 1985\nParker Hunter 32\nParker Hunter 30-35")),
-            SearchHelpSection(title: "Searching for Aliases", detail: .text("@ Parker Hunter")),
-            SearchHelpSection(title: "More Examples", detail: .text("Parker Hunter S\nParker Hunter S 32"))
-            ])
-        helpViewController.title = "Searching for People"
-        (self.updatingDelegate as? UIViewController)?.show(helpViewController, sender: nil)
+        (self.updatingDelegate as? UIViewController)?.present(EntityScreen.help(type: .person))
     }
 
     private func generateResultModel(_ text: String?, completion: ((SearchResultViewModelable?, Error?) -> ())) {
