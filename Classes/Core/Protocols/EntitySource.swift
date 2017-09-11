@@ -20,3 +20,9 @@ public protocol EntitySource {
     var localizedBarTitle: String { get }
     
 }
+
+func ==(lhs: EntitySource, rhs: EntitySource) -> Bool {
+    return lhs.serverSourceName == rhs.serverSourceName &&
+    lhs.localizedBadgeTitle == rhs.localizedBadgeTitle &&
+    lhs.localizedBarTitle == rhs.localizedBarTitle
+}

@@ -242,7 +242,16 @@
 		DB88BCE51F42D01C0056FD69 /* SortDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB88BCCA1F42CEA40056FD69 /* SortDescriptor.swift */; };
 		EA2189ED1F5FAF110057048E /* SearchResultModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2189EC1F5FAF110057048E /* SearchResultModelable.swift */; };
 		EA2189EF1F5FB2280057048E /* MapResultViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2189EE1F5FB2280057048E /* MapResultViewModelable.swift */; };
+		DBE24C2E1F5939C90088D19B /* EntityDetailsFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBE24C2C1F5939C90088D19B /* EntityDetailsFetchRequest.swift */; };
+		DBE24C2F1F5939C90088D19B /* EntityDetailsFetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBE24C2D1F5939C90088D19B /* EntityDetailsFetch.swift */; };
+		DBE24C391F593BEF0088D19B /* EntityDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBE24C311F593AB30088D19B /* EntityDetailCollectionViewCell.swift */; };
+		DBE24C3B1F593BEF0088D19B /* EntityDetailSectionsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBE24C331F593AB30088D19B /* EntityDetailSectionsDataSource.swift */; };
+		DBE24C3C1F593BEF0088D19B /* EntityDetailSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBE24C341F593AB30088D19B /* EntityDetailSplitViewController.swift */; };
+		DBE24C3D1F593BEF0088D19B /* EntityDetailSectionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBE24C351F593AB30088D19B /* EntityDetailSectionsViewModel.swift */; };
+		DBE24C3F1F593BEF0088D19B /* EntityDetailDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBE24C371F593AB30088D19B /* EntityDetailDisplayable.swift */; };
+		DBE24C401F593BEF0088D19B /* EntityDetailViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBE24C381F593AB30088D19B /* EntityDetailViewModelable.swift */; };
 		EA2189F21F5FE8B50057048E /* Presenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2189F11F5FE8B50057048E /* Presenter.swift */; };
+		DBE24C411F5CF0FC0088D19B /* SidebarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6CB6D51F19C638001549F8 /* SidebarHeaderView.swift */; };
 		EA4806B01F56939100B42313 /* LocationBasicSearchOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4806AD1F56939100B42313 /* LocationBasicSearchOptions.swift */; };
 		EA4806B11F56939100B42313 /* LocationSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4806AE1F56939100B42313 /* LocationSearchDataSource.swift */; };
 		EA4806B31F56961F00B42313 /* Array+Searching.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4806B21F56961F00B42313 /* Array+Searching.swift */; };
@@ -514,9 +523,17 @@
 		DB88BCD61F42CEAA0056FD69 /* SearchFieldCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFieldCollectionViewCell.swift; sourceTree = "<group>"; };
 		DB88BCD71F42CEAA0056FD69 /* SearchResultErrorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultErrorCell.swift; sourceTree = "<group>"; };
 		DB88BCD81F42CEAA0056FD69 /* SearchResultLoadingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultLoadingCell.swift; sourceTree = "<group>"; };
+		DBE24C2C1F5939C90088D19B /* EntityDetailsFetchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityDetailsFetchRequest.swift; sourceTree = "<group>"; };
 		EA2189EC1F5FAF110057048E /* SearchResultModelable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultModelable.swift; sourceTree = "<group>"; };
+		DBE24C2D1F5939C90088D19B /* EntityDetailsFetch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityDetailsFetch.swift; sourceTree = "<group>"; };
+		DBE24C311F593AB30088D19B /* EntityDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityDetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		EA2189EE1F5FB2280057048E /* MapResultViewModelable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapResultViewModelable.swift; sourceTree = "<group>"; };
+		DBE24C331F593AB30088D19B /* EntityDetailSectionsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityDetailSectionsDataSource.swift; sourceTree = "<group>"; };
+		DBE24C341F593AB30088D19B /* EntityDetailSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityDetailSplitViewController.swift; sourceTree = "<group>"; };
+		DBE24C351F593AB30088D19B /* EntityDetailSectionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityDetailSectionsViewModel.swift; sourceTree = "<group>"; };
+		DBE24C371F593AB30088D19B /* EntityDetailDisplayable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityDetailDisplayable.swift; sourceTree = "<group>"; };
 		EA2189F11F5FE8B50057048E /* Presenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Presenter.swift; sourceTree = "<group>"; };
+		DBE24C381F593AB30088D19B /* EntityDetailViewModelable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityDetailViewModelable.swift; sourceTree = "<group>"; };
 		EA4806AD1F56939100B42313 /* LocationBasicSearchOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationBasicSearchOptions.swift; sourceTree = "<group>"; };
 		EA4806AE1F56939100B42313 /* LocationSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSearchDataSource.swift; sourceTree = "<group>"; };
 		EA4806B21F56961F00B42313 /* Array+Searching.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Searching.swift"; sourceTree = "<group>"; };
@@ -716,6 +733,7 @@
 			children = (
 				EABAB7FE1F3427570071A401 /* Aggregated Search */,
 				BC9C7D191F0DED6600DFFE83 /* Authentication */,
+				DBE24C301F593AB30088D19B /* EntityDetails */,
 				19FEC9801F43F6BA005692A9 /* ErrorMapping */,
 				BC9C7D1C1F0DED6600DFFE83 /* Extensions */,
 				44F3F14C1F56DDC000D68585 /* FilterDescriptor */,
@@ -778,6 +796,8 @@
 				C634085A1F30E5B5000747B0 /* EntityFetchRequestable.swift */,
 				C63408541F30E541000747B0 /* EntitySearchRequestable.swift */,
 				C6CD6A171F31663500771B8C /* EntitySearchRequest.swift */,
+				DBE24C2D1F5939C90088D19B /* EntityDetailsFetch.swift */,
+				DBE24C2C1F5939C90088D19B /* EntityDetailsFetchRequest.swift */,
 				19C625C11F55143900504BD9 /* NetworkRequest.swift */,
 				19C625BF1F550D2200504BD9 /* NetworkRequestType.swift */,
 				BC9C7D291F0DED6600DFFE83 /* OAuthAuthorizationGrant.swift */,
@@ -962,6 +982,7 @@
 			children = (
 				BC9C7D8B1F0DED6600DFFE83 /* CollectionViewFormProgressCell.swift */,
 				BC9C7D8C1F0DED6600DFFE83 /* EntityCollectionViewCell.swift */,
+				DBE24C311F593AB30088D19B /* EntityDetailCollectionViewCell.swift */,
 				BC9C7D8D1F0DED6600DFFE83 /* EntityListCollectionViewCell.swift */,
 				BC9C7D8E1F0DED6600DFFE83 /* GalleryCollectionViewCell.swift */,
 				BC9C7D8F1F0DED6600DFFE83 /* StatsOverviewCollectionViewCell.swift */,
@@ -1261,7 +1282,19 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		EA2189F01F5FE88E0057048E /* Presenter */ = {
+		DBE24C301F593AB30088D19B /* EntityDetails */ = {
+			isa = PBXGroup;
+			children = (
+				DBE24C331F593AB30088D19B /* EntityDetailSectionsDataSource.swift */,
+				DBE24C341F593AB30088D19B /* EntityDetailSplitViewController.swift */,
+				DBE24C351F593AB30088D19B /* EntityDetailSectionsViewModel.swift */,
+				DBE24C371F593AB30088D19B /* EntityDetailDisplayable.swift */,
+				DBE24C381F593AB30088D19B /* EntityDetailViewModelable.swift */,
+			);
+			path = EntityDetails;
+			sourceTree = "<group>";
+		};
+        EA2189F01F5FE88E0057048E /* Presenter */ = {
 			isa = PBXGroup;
 			children = (
 				EA2189F11F5FE8B50057048E /* Presenter.swift */,
@@ -1646,6 +1679,7 @@
 				BC9C7E3F1F0DED6600DFFE83 /* PopoverFormSheetPresentationController.swift in Sources */,
 				BCA6FD771F22E0AE00EE8F7A /* SearchFieldButton.swift in Sources */,
 				EA4806B51F56A00600B42313 /* LocationSearchConfiguration.swift in Sources */,
+				DBE24C401F593BEF0088D19B /* EntityDetailViewModelable.swift in Sources */,
 				BC9C7E161F0DED6600DFFE83 /* CheckBox.swift in Sources */,
 				BC9C7E4C1F0DED6600DFFE83 /* ViewControllerAnimationOptionTransition.swift in Sources */,
 				BC9C7E331F0DED6600DFFE83 /* UITextView+NotificationWorkaround.m in Sources */,
@@ -1660,6 +1694,7 @@
 				C6020FD11F394734001F1E71 /* APIManagerError.swift in Sources */,
 				BC9C7E431F0DED6600DFFE83 /* SidebarItem.swift in Sources */,
 				BC9C7DD71F0DED6600DFFE83 /* URLQueryBuilder.swift in Sources */,
+				DBE24C3D1F593BEF0088D19B /* EntityDetailSectionsViewModel.swift in Sources */,
 				BC9C7E1A1F0DED6600DFFE83 /* SelectableButton.swift in Sources */,
 				BC9C7E251F0DED6600DFFE83 /* EntityCollectionViewCell.swift in Sources */,
 				BC8A99611F22EBD700387AB6 /* UIColor+Brightness.swift in Sources */,
@@ -1678,6 +1713,7 @@
 				19C625C01F550D2200504BD9 /* NetworkRequestType.swift in Sources */,
 				BC9C7DEA1F0DED6600DFFE83 /* DefaultCustomStringConvertible.swift in Sources */,
 				DB88BCE01F42D0110056FD69 /* SearchEntityListCell.swift in Sources */,
+				DBE24C2E1F5939C90088D19B /* EntityDetailsFetchRequest.swift in Sources */,
 				BC9C7E231F0DED6600DFFE83 /* AlertQueue.swift in Sources */,
 				BC9C7DF71F0DED6600DFFE83 /* CollectionViewFormEditAction.swift in Sources */,
 				DB88BCDA1F42D0080056FD69 /* NumberRangePickerViewController.swift in Sources */,
@@ -1692,6 +1728,7 @@
 				BC9C7E121F0DED6600DFFE83 /* TableViewFormExpandingHeaderCell.swift in Sources */,
 				EA76ECF51F57D8AB00524830 /* LookupAddressLocationAdvancedOptions.swift in Sources */,
 				19FEC9851F43F7AC005692A9 /* ErrorMapperDefinition.swift in Sources */,
+				DBE24C411F5CF0FC0088D19B /* SidebarHeaderView.swift in Sources */,
 				C61AC91A1F32FAF100F82FF6 /* User.swift in Sources */,
 				BC9C7E541F0DED6600DFFE83 /* NavigationBarExtension.swift in Sources */,
 				BC9C7DEF1F0DED6600DFFE83 /* Transformer.swift in Sources */,
@@ -1706,13 +1743,16 @@
 				BC9C7E031F0DED6600DFFE83 /* UICollectionView+DefaultReuse.swift in Sources */,
 				BC9C7E451F0DED6600DFFE83 /* SidebarTableViewCell.swift in Sources */,
 				DB88BCD91F42CFFC0056FD69 /* SearchDataSource.swift in Sources */,
+				DBE24C3F1F593BEF0088D19B /* EntityDetailDisplayable.swift in Sources */,
 				BC9C7E301F0DED6600DFFE83 /* UIImage+StatusDot.swift in Sources */,
+				DBE24C2F1F5939C90088D19B /* EntityDetailsFetch.swift in Sources */,
 				BC9C7DF91F0DED6600DFFE83 /* CollectionViewFormOptionCell.swift in Sources */,
 				DB88BCE31F42D0110056FD69 /* SearchResultLoadingCell.swift in Sources */,
 				BC9C7E0E1F0DED6600DFFE83 /* CollectionViewFormLayoutAttributes.swift in Sources */,
 				DB88BCE41F42D0150056FD69 /* QueryParserDefinitionSelector.swift in Sources */,
 				44F3F14E1F56DDDC00D68585 /* FilterDescriptor.swift in Sources */,
 				BC9C7DCA1F0DED6600DFFE83 /* Foundation.Operation+MPOLAdditions.swift in Sources */,
+				DBE24C3C1F593BEF0088D19B /* EntityDetailSplitViewController.swift in Sources */,
 				DB88BCDC1F42D0080056FD69 /* SearchRecentsViewController.swift in Sources */,
 				BC9C7E511F0DED6600DFFE83 /* FormAccessoryCheckmark.swift in Sources */,
 				BC9C7E151F0DED6600DFFE83 /* TableViewFormTextViewCell.swift in Sources */,
@@ -1748,6 +1788,7 @@
 				EA4806B31F56961F00B42313 /* Array+Searching.swift in Sources */,
 				BC9C7E3C1F0DED6600DFFE83 /* FilterViewController.swift in Sources */,
 				C6020FD31F394771001F1E71 /* DataResponse+MPLConversion.swift in Sources */,
+				DBE24C391F593BEF0088D19B /* EntityDetailCollectionViewCell.swift in Sources */,
 				EA4806B11F56939100B42313 /* LocationSearchDataSource.swift in Sources */,
 				EA2189EF1F5FB2280057048E /* MapResultViewModelable.swift in Sources */,
 				BC9C7E561F0DED6600DFFE83 /* TabStripView.swift in Sources */,
@@ -1758,6 +1799,7 @@
 				BC9C7E021F0DED6600DFFE83 /* NSLayoutConstraint+Conveniences.swift in Sources */,
 				46B3FE7B1F5E3B0C0012476A /* FileLogger.swift in Sources */,
 				BC9C7DE91F0DED6600DFFE83 /* DataResponse+ConvenienceResultInit.swift in Sources */,
+				DBE24C3B1F593BEF0088D19B /* EntityDetailSectionsDataSource.swift in Sources */,
 				BC9C7E181F0DED6600DFFE83 /* FormTextView.swift in Sources */,
 				BC9C7E131F0DED6600DFFE83 /* TableViewFormSubtitleCell.swift in Sources */,
 				19C625C41F55186A00504BD9 /* URLQueryBuilder+Parameterisable.swift in Sources */,
