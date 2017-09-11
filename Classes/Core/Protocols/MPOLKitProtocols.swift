@@ -15,8 +15,10 @@ public protocol SearchRecentsViewModel {
     var title: String { get }
 
     /// Array of recently viewed entities
-    /// - note: override the getter and setter to return your type of entity
     var recentlyViewed: [MPOLKitEntity] { get set }
+
+    /// Array of recently searched
+    var recentlySearched: [Searchable] { get set }
 
     /// Decorate the recently viewed cell
     ///
@@ -30,6 +32,7 @@ public protocol SearchRecentsViewModel {
     /// - Parameter searchable: the searchable object which will most likely contain the type of entity
     /// - Returns: the image to use
     func summaryIcon(for searchable: Searchable) -> UIImage?
+
 }
 
 
@@ -44,10 +47,10 @@ public protocol SearchViewModel {
     /// The data sources to be used
     var dataSources: [SearchDataSource] { get }
     
-    /// Creates a controller for viewing entity information
+    /// Creates a presentable for entity
     ///
-    /// - Parameters:
-    ///   - entity: the entity
-    /// - Returns: the entity view controller
-    func detailViewController(for entity: MPOLKitEntity) -> UIViewController?
+    /// - Parameter entity: The entity
+    /// - Returns: The presentable
+    func presentable(for entity: MPOLKitEntity) -> Presentable
+
 }

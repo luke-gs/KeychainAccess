@@ -34,12 +34,18 @@ class SearchRecentsViewController: FormCollectionViewController {
         }
     }
 
-    var recentlySearched: [Searchable] = [] {
-        didSet {
+    var recentlySearched: [Searchable] {
+        get {
+            return self.viewModel.recentlySearched
+        }
+
+        set {
+            self.viewModel.recentlySearched = newValue
+
             updateLoadingManagerState()
 
             if traitCollection.horizontalSizeClass != .compact || showsRecentSearchesWhenCompact {
-                collectionView?.reloadSections(IndexSet(integer: 0))
+            collectionView?.reloadSections(IndexSet(integer: 0))
             }
         }
     }
@@ -71,8 +77,6 @@ class SearchRecentsViewController: FormCollectionViewController {
         super.init()
         self.title = viewModel.title
         formLayout.pinsGlobalHeaderWhenBouncing = true
-
-        recentlySearched = UserSession.current.recentlySearched
     }
 
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -158,6 +162,11 @@ class SearchRecentsViewController: FormCollectionViewController {
         super.viewWillLayoutSubviews()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        collectionView?.reloadData()
+    }
 
     // MARK: - UICollectionViewDataSource methods
 
