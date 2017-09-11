@@ -139,7 +139,7 @@ open class SearchHelpViewController: UIViewController {
                 label.attributedText = NSAttributedString(string: detail, attributes: attributes)
                 detailView = label
             case .tags(let detail):
-                // Applys theme from inside the implementation
+                // Applies theme from inside the implementation
                 detailView = SearchHelpTagCollectionView(tags: detail)
             }
             
