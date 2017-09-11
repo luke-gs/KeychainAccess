@@ -97,6 +97,10 @@ public final class Director {
     ///   - presentable: The presentable
     ///   - viewController: The view controller to present this from.
     public func present(_ presentable: Presentable, fromViewController viewController: UIViewController) {
+        guard presenter.supportPresentable(type(of: presentable)) == true else {
+            fatalError("This presented is not supported.")
+        }
+
         let targetViewController = presenter.viewController(forPresentable: presentable)
 
         observers.forEach {
