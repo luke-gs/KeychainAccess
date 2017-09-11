@@ -25,7 +25,6 @@ public protocol Presenter {
     /// - Returns: A view controller for this presentable
     func viewController(forPresentable presentable: Presentable) -> UIViewController
 
-
     /// Presents a view controller from view controller for the given presentable.
     ///
     /// - Parameters:
@@ -34,8 +33,35 @@ public protocol Presenter {
     ///   - to: The view controller to present
     func present(_ presentable: Presentable, fromViewController from: UIViewController, toViewController to: UIViewController)
 
+    /// Return true if this presentable is supported. False otherwise.
+    func supportPresentable(_ presentableType: Presentable.Type) -> Bool
+
 }
 
+/// A collection of presenters
+public final class PresenterGroup: Presenter {
+
+    public let presenters: [Presenter]
+
+    public init(presenters: [Presenter]) {
+        self.presenters = presenters
+    }
+
+    public func viewController(forPresentable presentable: Presentable) -> UIViewController {
+        let supportedPresenter = presenters.first(where: { $0.supportPresentable(type(of: presentable)) })!
+        return supportedPresenter.viewController(forPresentable: presentable)
+    }
+
+    public func present(_ presentable: Presentable, fromViewController from: UIViewController, toViewController to: UIViewController) {
+        let supportedPresenter = presenters.first(where: { $0.supportPresentable(type(of: presentable)) })!
+        supportedPresenter.present(presentable, fromViewController: from, toViewController: to)
+    }
+
+    public func supportPresentable(_ presentableType: Presentable.Type) -> Bool {
+        return presenters.first(where: { $0.supportPresentable(presentableType) }) != nil
+    }
+    
+}
 
 /// Implement this protocol to become the observer.
 public protocol PresenterObserving: class {
