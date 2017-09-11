@@ -124,7 +124,15 @@ public class AppPresenter: NSObject, Presenter {
             return settingsNavController
 
         case .entityDetails(let entity):
-            return EntityDetailsSplitViewController(entity: entity)
+            let dataSource: EntityDetailSectionsDataSource
+
+            if entity is Person {
+                dataSource = PersonDetailsSectionsDataSource(baseEntity: entity)
+            } else {
+                dataSource = VehicleDetailsSectionsDataSource(baseEntity: entity)
+            }
+
+            return EntityDetailSplitViewController(dataSource: dataSource)
 
         case .help(let type):
             let title: String
