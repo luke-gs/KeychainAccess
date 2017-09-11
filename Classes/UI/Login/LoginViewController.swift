@@ -43,7 +43,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         didSet {
             if headerView == oldValue { return }
             
-            headerView?.alpha = isHeaderViewHidden ? 0.0 : 1.0
+            headerView?.alpha = isHeaderAndAccessoryViewHidden ? 0.0 : 1.0
             
             guard let contentStackView = self.contentStackView else { return }
             
@@ -53,6 +53,56 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
             
             if let newHeader = headerView {
                 contentStackView.insertArrangedSubview(newHeader, at: 0)
+            }
+        }
+    }
+    
+    open var leftAccessoryView: UIView? {
+        didSet {
+            if oldValue == leftAccessoryView { return }
+            
+            // Remove previous leftView from superview
+            if let oldValue = oldValue {
+                oldValue.removeFromSuperview()
+            }
+            
+            if let leftView = leftAccessoryView, let accessoryView = accessoryView {
+                // Setup leftView for autolayout
+                leftView.translatesAutoresizingMaskIntoConstraints = false
+                accessoryView.addSubview(leftView)
+                
+                // Add constraints to pin to left in accessoryView
+                NSLayoutConstraint.activate([
+                    leftView.leadingAnchor.constraint(equalTo: accessoryView.leadingAnchor),
+                    leftView.bottomAnchor.constraint(equalTo: accessoryView.bottomAnchor),
+                    leftView.topAnchor.constraint(greaterThanOrEqualTo: accessoryView.topAnchor),
+                    leftView.trailingAnchor.constraint(lessThanOrEqualTo: accessoryView.centerXAnchor, constant: -5.0)
+                    ])
+            }
+        }
+    }
+    
+    open var rightAccessoryView: UIView? {
+        didSet {
+            if oldValue == rightAccessoryView { return }
+            
+            // Remove previous rightView from superview
+            if let oldValue = oldValue {
+                oldValue.removeFromSuperview()
+            }
+            
+            if let rightView = rightAccessoryView, let accessoryView = accessoryView {
+                // Setup rightView for autolayout
+                rightView.translatesAutoresizingMaskIntoConstraints = false
+                accessoryView.addSubview(rightView)
+                
+                // Add constraints to pin to right in accessoryView
+                NSLayoutConstraint.activate([
+                    rightView.leadingAnchor.constraint(greaterThanOrEqualTo: accessoryView.centerXAnchor, constant: 5.0),
+                    rightView.bottomAnchor.constraint(equalTo: accessoryView.bottomAnchor),
+                    rightView.topAnchor.constraint(greaterThanOrEqualTo: accessoryView.topAnchor),
+                    rightView.trailingAnchor.constraint(equalTo: accessoryView.trailingAnchor)
+                    ])
             }
         }
     }
@@ -280,9 +330,13 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     
     private var scrollView: UIScrollView?
     
+    private var contentView: UIView?
+    
     private var contentStackView: UIStackView?
     
     private var loginStackView: UIStackView?
+    
+    private var accessoryView: UIView?
     
     private lazy var loadingIndicator: LOTAnimationView? = {
         let spinner = MPOLSpinnerView(style: .regular)
@@ -302,11 +356,11 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     
     private var preferredLayoutGuideBottomConstraint: NSLayoutConstraint?
     
-    private var separatorHeightConstraint: NSLayoutConstraint?
-    
     private var showingHeaderConstraint: NSLayoutConstraint?
     
-    private var hidingHeaderConstraint: NSLayoutConstraint?
+    private var showingAccessoryConstraint: NSLayoutConstraint?
+    
+    private var separatorHeightConstraint: NSLayoutConstraint?
     
     private var forgotPasswordSeparation: NSLayoutConstraint?
     
@@ -324,12 +378,14 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     
     private var isLoginButtonLoaded: Bool = false
     
-    private var isHeaderViewHidden: Bool = false {
+    private var isHeaderAndAccessoryViewHidden: Bool = false {
         didSet {
-            if isHeaderViewHidden == oldValue { return }
+            if isHeaderAndAccessoryViewHidden == oldValue { return }
             
-            headerView?.alpha = isHeaderViewHidden ? 0.0 : 1.0
-            showingHeaderConstraint?.isActive = isHeaderViewHidden == false
+            headerView?.alpha = isHeaderAndAccessoryViewHidden ? 0.0 : 1.0
+            accessoryView?.alpha = isHeaderAndAccessoryViewHidden ? 0.0 : 1.0
+            showingHeaderConstraint?.isActive = isHeaderAndAccessoryViewHidden == false
+            showingAccessoryConstraint?.isActive = isHeaderAndAccessoryViewHidden == false
         }
     }
     
@@ -379,9 +435,96 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         backgroundView.addSubview(scrollView)
         
-        let contentGuide = UILayoutGuide()
-        scrollView.addLayoutGuide(contentGuide)
+        let contentView = UIView()
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.addSubview(contentView)
         
+        let credentialsView = createCredentialsView()
+        
+        let versionLabel = self.versionLabel
+        versionLabel.translatesAutoresizingMaskIntoConstraints = false
+        backgroundView.addSubview(versionLabel)
+        
+        let loginStackView = UIStackView(arrangedSubviews: [loginButton, termsAndConditionsLabel])
+        loginStackView.axis      = .vertical
+        loginStackView.alignment = .center
+        loginStackView.spacing   = 20.0
+        
+        let contentViews = [headerView, credentialsView, loginStackView].removeNils()
+        let contentStackView = UIStackView(arrangedSubviews: contentViews)
+        contentStackView.translatesAutoresizingMaskIntoConstraints = false
+        contentStackView.axis = .vertical
+        contentStackView.alignment = .center
+        contentStackView.spacing   = 43.0
+        contentStackView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
+        contentView.addSubview(contentStackView)
+        
+        let accessoryView = createAccessoryView()
+        contentView.addSubview(accessoryView)
+        
+        self.backgroundView    = backgroundView
+        self.scrollView        = scrollView
+        self.contentView       = contentView
+        self.contentStackView  = contentStackView
+        self.accessoryView     = accessoryView
+        self.loginStackView    = loginStackView
+        
+        self.view = backgroundView
+        self.rightAccessoryView = versionLabel
+        
+        let preferredLayoutGuideBottomConstraint = contentView.heightAnchor.constraint(equalTo: backgroundView.heightAnchor, constant: -20.0).withPriority(UILayoutPriorityDefaultHigh - 1)
+        
+        let showingHeaderConstraint = contentStackView.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor, constant: 20.0)
+        let showingAccessoryConstraint = accessoryView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24.0)
+        
+        NSLayoutConstraint.activate([
+            
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            preferredLayoutGuideBottomConstraint,
+            
+            credentialsView.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor, constant: 20.0),
+            credentialsView.widthAnchor.constraint(equalToConstant: 256.0),
+            usernameLabel.widthAnchor.constraint(equalTo: credentialsView.widthAnchor),
+            usernameLabel.leadingAnchor.constraint(equalTo: credentialsView.leadingAnchor),
+            
+            showingHeaderConstraint,
+            contentStackView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            contentStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).withPriority(UILayoutPriorityDefaultHigh - 2),
+            contentStackView.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, constant: -20.0),
+            contentStackView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -20.0),
+            
+            accessoryView.topAnchor.constraint(greaterThanOrEqualTo: contentStackView.bottomAnchor, constant: 15.0),
+            accessoryView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24.0),
+            accessoryView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24.0),
+            showingAccessoryConstraint,
+            
+            termsAndConditionsLabel.widthAnchor.constraint(equalToConstant: 256.0),
+            
+            loginButton.widthAnchor.constraint(equalToConstant: 256.0),
+            loginButton.heightAnchor.constraint(equalToConstant: 48.0).withPriority(UILayoutPriorityDefaultHigh),
+            
+            loginStackView.leadingAnchor.constraint(greaterThanOrEqualTo: view.readableContentGuide.leadingAnchor),
+            loginStackView.trailingAnchor.constraint(lessThanOrEqualTo: view.readableContentGuide.trailingAnchor),
+        ])
+        
+        self.preferredLayoutGuideBottomConstraint = preferredLayoutGuideBottomConstraint
+        self.showingHeaderConstraint              = showingHeaderConstraint
+        self.showingAccessoryConstraint           = showingAccessoryConstraint
+    }
+    
+    private func createCredentialsView() -> UIView {
+        let credentialsView = UIView(frame: .zero)
+        
+        // Creating views
         let usernameLabel = self.usernameLabel
         let passwordLabel = self.passwordLabel
         let usernameField = self.usernameField
@@ -390,10 +533,6 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         
         let usernameSeparator = UIView(frame: .zero)
         let passwordSeparator = UIView(frame: .zero)
-        let credentialsView = UIView(frame: .zero)
-        
-        let versionLabel = self.versionLabel
-        backgroundView.addSubview(versionLabel)
         
         usernameSeparator.backgroundColor = #colorLiteral(red: 0.7630171865, green: 0.7580402272, blue: 0.7838609132, alpha: 0.8041923415)
         passwordSeparator.backgroundColor = #colorLiteral(red: 0.7630171865, green: 0.7580402272, blue: 0.7838609132, alpha: 0.8041923415)
@@ -407,8 +546,6 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         passwordSeparator.translatesAutoresizingMaskIntoConstraints = false
         credentialsView.translatesAutoresizingMaskIntoConstraints = false
         
-        versionLabel.translatesAutoresizingMaskIntoConstraints = false
-        
         credentialsView.addSubview(usernameSeparator)
         credentialsView.addSubview(passwordSeparator)
         credentialsView.addSubview(usernameLabel)
@@ -417,100 +554,86 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         credentialsView.addSubview(passwordField)
         credentialsView.addSubview(forgotPasswordButton)
         
-        let loginStackView = UIStackView(arrangedSubviews: [loginButton, termsAndConditionsLabel])
-        loginStackView.axis      = .vertical
-        loginStackView.alignment = .center
-        loginStackView.spacing   = 20.0
+        // Creating constraints
+        let separatorHeightConstraint = usernameSeparator.heightAnchor.constraint(equalToConstant: 1.0 / traitCollection.currentDisplayScale )
+        let forgotPasswordSeparation = forgotPasswordButton.topAnchor.constraint(equalTo: passwordSeparator.bottomAnchor, constant: forgotPasswordButton.isHidden ? 0.0 : 14.0)
         
-        var contentViews: [UIView] = [credentialsView, loginStackView]
-        if let header = headerView {
-            contentViews.insert(header, at: 0)
-        }
-        
-        let contentStackView = UIStackView(arrangedSubviews: contentViews)
-        contentStackView.translatesAutoresizingMaskIntoConstraints = false
-        contentStackView.axis = .vertical
-        contentStackView.alignment = .center
-        contentStackView.spacing   = 43.0
-        contentStackView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
-        scrollView.addSubview(contentStackView)
-        
-        let stackAlignmentGuide = UILayoutGuide()
-        scrollView.addLayoutGuide(stackAlignmentGuide)
-        
-        self.backgroundView   = backgroundView
-        self.scrollView       = scrollView
-        self.contentStackView = contentStackView
-        self.loginStackView   = loginStackView
-        
-        self.view = backgroundView
-        
-        let preferredLayoutGuideBottomConstraint = NSLayoutConstraint(item: contentGuide, attribute: .height, relatedBy: .greaterThanOrEqual, toItem: backgroundView, attribute: .height, priority: UILayoutPriorityRequired - 1)
-        
-        let separatorHeightConstraint = NSLayoutConstraint(item: usernameSeparator, attribute: .height, relatedBy: .equal, toConstant: 1.0 / traitCollection.currentDisplayScale)
-        
-        let showingHeaderConstraint = NSLayoutConstraint(item: stackAlignmentGuide, attribute: .top, relatedBy: .equal, toItem: contentStackView, attribute: .top)
-        
-        let forgotPasswordSeparation = NSLayoutConstraint(item: forgotPasswordButton, attribute: .top, relatedBy: .equal, toItem: passwordSeparator, attribute: .bottom, constant: forgotPasswordButton.isHidden ? 0.0 : 14.0)
-        
-        let loginButtonIndicatorHeightConstraint = loginButton.heightAnchor.constraint(equalToConstant: 48.0)
-        loginButtonIndicatorHeightConstraint.priority = UILayoutPriorityDefaultHigh
-        
-        var constraints = [
+        let constraints = [
+            usernameLabel.topAnchor.constraint(equalTo: credentialsView.topAnchor),
+            usernameLabel.leadingAnchor.constraint(equalTo: credentialsView.leadingAnchor),
+            usernameLabel.trailingAnchor.constraint(equalTo: credentialsView.trailingAnchor),
             
-            NSLayoutConstraint(item: contentGuide, attribute: .width, relatedBy: .equal, toItem: backgroundView, attribute: .width),
-            preferredLayoutGuideBottomConstraint,
+            usernameField.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 4),
+            usernameField.leadingAnchor.constraint(equalTo: credentialsView.leadingAnchor),
+            usernameField.trailingAnchor.constraint(equalTo: credentialsView.trailingAnchor),
             
-            NSLayoutConstraint(item: scrollView, attribute: .leading,  relatedBy: .equal, toItem: contentGuide, attribute: .leading),
-            NSLayoutConstraint(item: scrollView, attribute: .trailing, relatedBy: .equal, toItem: contentGuide, attribute: .trailing),
-            NSLayoutConstraint(item: scrollView, attribute: .top,      relatedBy: .equal, toItem: contentGuide, attribute: .top),
-            NSLayoutConstraint(item: scrollView, attribute: .bottom,   relatedBy: .equal, toItem: contentStackView, attribute: .bottom, constant: 20.0),
-            
-            NSLayoutConstraint(item: credentialsView, attribute: .width, relatedBy: .equal, toConstant: 256.0),
-            NSLayoutConstraint(item: usernameLabel, attribute: .width,   relatedBy: .equal, toItem: credentialsView, attribute: .width),
-            NSLayoutConstraint(item: usernameLabel, attribute: .leading, relatedBy: .equal, toItem: credentialsView, attribute: .leading),
-            
-            NSLayoutConstraint(item: stackAlignmentGuide, attribute: .centerX, relatedBy: .equal, toItem: contentGuide, attribute: .centerX),
-            NSLayoutConstraint(item: stackAlignmentGuide, attribute: .centerY, relatedBy: .equal, toItem: contentGuide, attribute: .centerY),
-            NSLayoutConstraint(item: stackAlignmentGuide, attribute: .bottom,  relatedBy: .lessThanOrEqual, toItem: contentGuide, attribute: .bottom, constant: -20.0),
-            NSLayoutConstraint(item: stackAlignmentGuide, attribute: .width,   relatedBy: .lessThanOrEqual, toItem: contentGuide, attribute: .width, constant: -20.0),
-            
-            NSLayoutConstraint(item: stackAlignmentGuide, attribute: .leading, relatedBy: .equal, toItem: contentStackView, attribute: .leading),
-            NSLayoutConstraint(item: stackAlignmentGuide, attribute: .trailing, relatedBy: .equal, toItem: contentStackView, attribute: .trailing),
-            NSLayoutConstraint(item: stackAlignmentGuide, attribute: .bottom,  relatedBy: .equal, toItem: contentStackView, attribute: .bottom),
-            NSLayoutConstraint(item: stackAlignmentGuide, attribute: .top, relatedBy: .equal, toItem: credentialsView, attribute: .top, priority: UILayoutPriorityDefaultLow),
-            
+            usernameSeparator.topAnchor.constraint(equalTo: usernameField.bottomAnchor, constant: 11),
+            usernameSeparator.leadingAnchor.constraint(equalTo: credentialsView.leadingAnchor),
+            usernameSeparator.trailingAnchor.constraint(equalTo: credentialsView.trailingAnchor),
             separatorHeightConstraint,
-            forgotPasswordSeparation,
             
-            NSLayoutConstraint(item: termsAndConditionsLabel, attribute: .width, relatedBy: .equal, toConstant: 256.0),
+            passwordLabel.topAnchor.constraint(equalTo: usernameSeparator.bottomAnchor, constant: 18),
+            passwordLabel.leadingAnchor.constraint(equalTo: credentialsView.leadingAnchor),
+            passwordLabel.trailingAnchor.constraint(equalTo: credentialsView.trailingAnchor),
             
-            loginButtonIndicatorHeightConstraint,
-            loginButton.widthAnchor.constraint(equalToConstant: 256.0),
-
-            loginStackView.leadingAnchor.constraint(greaterThanOrEqualTo: view.readableContentGuide.leadingAnchor),
-            loginStackView.trailingAnchor.constraint(lessThanOrEqualTo: view.readableContentGuide.trailingAnchor),
+            passwordField.topAnchor.constraint(equalTo: passwordLabel.bottomAnchor, constant: 4),
+            passwordField.leadingAnchor.constraint(equalTo: credentialsView.leadingAnchor),
+            passwordField.trailingAnchor.constraint(equalTo: credentialsView.trailingAnchor),
             
-            versionLabel.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor, constant: -24.0),
-            versionLabel.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: -24.0)
+            passwordSeparator.topAnchor.constraint(equalTo: passwordField.bottomAnchor, constant: 11),
+            passwordSeparator.leadingAnchor.constraint(equalTo: credentialsView.leadingAnchor),
+            passwordSeparator.trailingAnchor.constraint(equalTo: credentialsView.trailingAnchor),
+            passwordSeparator.heightAnchor.constraint(equalTo: usernameSeparator.heightAnchor),
+            
+            forgotPasswordButton.topAnchor.constraint(greaterThanOrEqualTo: passwordSeparator.bottomAnchor),
+            forgotPasswordButton.leadingAnchor.constraint(equalTo: credentialsView.leadingAnchor),
+            forgotPasswordButton.trailingAnchor.constraint(equalTo: credentialsView.trailingAnchor),
+            forgotPasswordButton.bottomAnchor.constraint(equalTo: credentialsView.bottomAnchor),
+            forgotPasswordSeparation
         ]
         
+        NSLayoutConstraint.activate(constraints)
         
-        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[ul]-2-[uf]-12-[us]-18-[pl]-2-[pf]-12-[ps(==us)]", options: [.alignAllLeading, .alignAllTrailing], metrics: nil, views: ["ul": usernameLabel, "uf": usernameField, "us": usernameSeparator, "pl": passwordLabel, "pf": passwordField, "ps": passwordSeparator, "fpb": forgotPasswordButton])
+        self.separatorHeightConstraint = separatorHeightConstraint
+        self.forgotPasswordSeparation  = forgotPasswordSeparation
         
-        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:[ps]->=0-[fpb]|", options: [.alignAllLeading], metrics: nil, views: ["ps": passwordSeparator, "fpb": forgotPasswordButton])
+        return credentialsView
+    }
+    
+    private func createAccessoryView() -> UIView {
+        let accessoryView = UIView()
+        accessoryView.translatesAutoresizingMaskIntoConstraints = false
+        accessoryView.setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
         
-        if isHeaderViewHidden == false {
-            constraints.append(showingHeaderConstraint)
+        var constraints: [NSLayoutConstraint] = []
+        
+        if let leftView = leftAccessoryView {
+            leftView.translatesAutoresizingMaskIntoConstraints = false
+            accessoryView.addSubview(leftView)
+            
+            constraints += [
+                leftView.leadingAnchor.constraint(equalTo: accessoryView.leadingAnchor),
+                leftView.bottomAnchor.constraint(equalTo: accessoryView.bottomAnchor),
+                leftView.topAnchor.constraint(greaterThanOrEqualTo: accessoryView.topAnchor),
+                leftView.trailingAnchor.constraint(lessThanOrEqualTo: accessoryView.centerXAnchor, constant: -5.0)
+            ]
+        }
+        
+        if let rightView = rightAccessoryView {
+            rightView.translatesAutoresizingMaskIntoConstraints = false
+            accessoryView.addSubview(rightView)
+            
+            constraints += [
+                rightView.leadingAnchor.constraint(greaterThanOrEqualTo: accessoryView.centerXAnchor, constant: 5.0),
+                rightView.bottomAnchor.constraint(equalTo: accessoryView.bottomAnchor),
+                rightView.topAnchor.constraint(greaterThanOrEqualTo: accessoryView.topAnchor),
+                rightView.trailingAnchor.constraint(equalTo: accessoryView.trailingAnchor)
+            ]
         }
         
         NSLayoutConstraint.activate(constraints)
         
-        self.preferredLayoutGuideBottomConstraint = preferredLayoutGuideBottomConstraint
-        self.separatorHeightConstraint            = separatorHeightConstraint
-        self.showingHeaderConstraint              = showingHeaderConstraint
-        self.forgotPasswordSeparation             = forgotPasswordSeparation
-        
+        return accessoryView
     }
     
     open override func viewDidLoad() {
@@ -521,7 +644,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     
     open override func viewWillLayoutSubviews() {
         let topLayoutInset    = topLayoutGuide.length
-        let bottomLayoutInset = max(bottomLayoutGuide.length, statusTabBarInset, keyboardInset, 20.0)
+        let bottomLayoutInset = max(bottomLayoutGuide.length, statusTabBarInset, keyboardInset)
         
         preferredLayoutGuideBottomConstraint?.constant = (bottomLayoutInset + topLayoutInset) * -1.0
         
@@ -536,9 +659,9 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLayoutSubviews()
         
         let topLayoutInset    = topLayoutGuide.length
-        let bottomLayoutInset = max(bottomLayoutGuide.length, statusTabBarInset, keyboardInset, 20.0)
+        let bottomLayoutInset = max(bottomLayoutGuide.length, statusTabBarInset, keyboardInset)
         
-        isHeaderViewHidden = keyboardInset >~ 0.0 && (view.frame.height - topLayoutInset - bottomLayoutInset < (contentStackView?.frame.height ?? 0.0))
+        isHeaderAndAccessoryViewHidden = keyboardInset >~ 0.0 && (view.frame.height - topLayoutInset - bottomLayoutInset < (contentStackView?.frame.height ?? 0.0))
     }
     
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
