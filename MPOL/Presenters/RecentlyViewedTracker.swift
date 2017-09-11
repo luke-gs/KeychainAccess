@@ -10,6 +10,7 @@ import Foundation
 import MPOLKit
 import ClientKit
 
+
 public class RecentlyViewedTracker: PresenterObserving {
 
     public private(set) var entities: [Entity] = []
@@ -19,7 +20,7 @@ public class RecentlyViewedTracker: PresenterObserving {
     }
 
     public func didPresent(_ presentable: Presentable, fromViewController: UIViewController, toViewController to: UIViewController) {
-        let presentable = presentable as! AppScreen
+        let presentable = presentable as! EntityScreen
 
         switch presentable {
         case .entityDetails(let entity):

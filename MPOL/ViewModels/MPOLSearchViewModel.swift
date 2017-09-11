@@ -23,7 +23,7 @@ class MPOLSearchViewModel: SearchViewModel {
     ]
 
     func presentable(for entity: MPOLKitEntity) -> Presentable {
-        return AppScreen.entityDetails(entity: entity as! Entity)
+        return EntityScreen.entityDetails(entity: entity as! Entity)
     }
 
 }

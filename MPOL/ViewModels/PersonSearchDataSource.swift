@@ -99,7 +99,7 @@ class PersonSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
     // MARK: - Private
 
     @objc private func didTapHelpButton(_ button: UIButton) {
-        (self.updatingDelegate as? UIViewController)?.present(AppScreen.help(type: .person))
+        (self.updatingDelegate as? UIViewController)?.present(EntityScreen.help(type: .person))
     }
 
     private func generateResultModel(_ text: String?, completion: ((SearchResultViewModelable?, Error?) -> ())) {

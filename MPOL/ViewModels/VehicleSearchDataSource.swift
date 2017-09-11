@@ -181,7 +181,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
     }
 
     @objc private func didTapHelpButton(_ button: UIButton) {
-        (self.updatingDelegate as? UIViewController)?.present(AppScreen.help(type: .vehicle))
+        (self.updatingDelegate as? UIViewController)?.present(EntityScreen.help(type: .vehicle))
     }
 
     private func generateResultModel(_ text: String?, completion: ((SearchResultViewModelable?, Error?) -> ())) {

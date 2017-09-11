@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  LandingPresenter.swift
 //  ClientKit
 //
 //  Created by KGWH78 on 6/9/17.
@@ -11,7 +11,7 @@ import MPOLKit
 import ClientKit
 
 
-public enum AppScreen: Presentable {
+public enum LandingScreen: Presentable {
 
     case login
 
@@ -19,29 +19,15 @@ public enum AppScreen: Presentable {
 
     case whatsNew
 
-    case serverError(title: String, message: String)
-
     case landing
-
-    case entityDetails(entity: Entity)
-
-    case settings(fromItem: UIBarButtonItem)
-
-    case help(type: EntityType)
-
-    case createEntity(type: EntityType)
-
-    public enum EntityType {
-        case person, vehicle, organisation, location
-    }
 
 }
 
 
-public class AppPresenter: NSObject, Presenter {
+public class LandingPresenter: NSObject, Presenter {
 
     public func viewController(forPresentable presentable: Presentable) -> UIViewController {
-        let presentable = presentable as! AppScreen
+        let presentable = presentable as! LandingScreen
 
         switch presentable {
 
@@ -108,80 +94,14 @@ public class AppPresenter: NSObject, Presenter {
             self.tabBarController = tabBarController
 
             return tabBarController
-            
-        case .serverError(let title, let message):
-            let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            return alertController
-
-        case .settings(let item):
-            let settingsNavController = PopoverNavigationController(rootViewController: SettingsViewController())
-            settingsNavController.modalPresentationStyle = .popover
-
-            if let popoverController = settingsNavController.popoverPresentationController {
-                popoverController.barButtonItem = item
-            }
-            return settingsNavController
-
-        case .entityDetails(let entity):
-            let dataSource: EntityDetailSectionsDataSource
-
-            if entity is Person {
-                dataSource = PersonDetailsSectionsDataSource(baseEntity: entity)
-            } else {
-                dataSource = VehicleDetailsSectionsDataSource(baseEntity: entity)
-            }
-
-            return EntityDetailSplitViewController(dataSource: dataSource)
-
-        case .help(let type):
-            let title: String
-
-            switch type {
-            case .person:
-                title = NSLocalizedString("Person Search Help", comment: "")
-            case .vehicle:
-                title = NSLocalizedString("Vehicle Search Help", comment: "")
-            case .location:
-                title = NSLocalizedString("Location Search Help", comment: "")
-            case .organisation:
-                title = NSLocalizedString("Organisation Search Help", comment: "")
-            }
-
-            let helpViewController = UIViewController()
-            helpViewController.title = title
-            helpViewController.view.backgroundColor = .white
-            return helpViewController
-
-        case .createEntity(let type):
-            let title: String
-
-            switch type {
-            case .person:
-                title = NSLocalizedString("New Person", comment: "")
-            case .vehicle:
-                title = NSLocalizedString("New Vehicle", comment: "")
-            case .location:
-                title = NSLocalizedString("New Location", comment: "")
-            case .organisation:
-                title = NSLocalizedString("New Organisation", comment: "")
-            }
-
-            let viewController = UIViewController()
-            viewController.title = title
-            viewController.view.backgroundColor = .white
-            return viewController
-
         }
     }
 
     public func present(_ presentable: Presentable, fromViewController from: UIViewController, toViewController to: UIViewController) {
 
-        let presentable = presentable as! AppScreen
+        let presentable = presentable as! LandingScreen
 
         switch presentable {
-        case .serverError:
-            AlertQueue.shared.add(to as! UIAlertController)
         case .termsAndConditions:
             from.present(to, animated: true, completion: nil)
         default:
@@ -189,16 +109,26 @@ public class AppPresenter: NSObject, Presenter {
         }
     }
 
+    public func supportPresentable(_ presentableType: Presentable.Type) -> Bool {
+        return presentableType is LandingScreen.Type
+    }
 
     // MARK: - Private
 
     private weak var tabBarController: UIViewController?
 
     @objc private func settingsButtonItemDidSelect(_ item: UIBarButtonItem) {
-        tabBarController?.present(AppScreen.settings(fromItem: item))
+        let settingsNavController = PopoverNavigationController(rootViewController: SettingsViewController())
+        settingsNavController.modalPresentationStyle = .popover
+
+        if let popoverController = settingsNavController.popoverPresentationController {
+            popoverController.barButtonItem = item
+        }
+
+        tabBarController?.show(settingsNavController, sender: self)
     }
 
-    fileprivate func updateInterface(withScreen screen: AppScreen, animated: Bool) {
+    fileprivate func updateInterface(withScreen screen: LandingScreen, animated: Bool) {
         let presenter = Director.shared.presenter
 
         if animated, let window = (UIApplication.shared.delegate as? AppDelegate)?.window {
@@ -210,17 +140,17 @@ public class AppPresenter: NSObject, Presenter {
 }
 
 
-extension AppPresenter: LoginViewControllerDelegate {
+extension LandingPresenter: LoginViewControllerDelegate {
 
     public func loginViewControllerDidAppear(_ controller: LoginViewController) {
         guard UserSession.current.isActive == true else { return }
 
         let user = UserSession.current.user
         if user?.termsAndConditionsVersionAccepted == TermsAndConditionsVersion {
-            let screen: AppScreen = user?.whatsNewShownVersion == WhatsNewVersion ? .landing : .whatsNew
+            let screen: LandingScreen = user?.whatsNewShownVersion == WhatsNewVersion ? .landing : .whatsNew
             self.updateInterface(withScreen: screen, animated: true)
         } else {
-            controller.present(AppScreen.termsAndConditions)
+            controller.present(LandingScreen.termsAndConditions)
             controller.resetFields()
         }
     }
@@ -237,10 +167,10 @@ extension AppPresenter: LoginViewControllerDelegate {
 
             let user = UserSession.current.user
             if user?.termsAndConditionsVersionAccepted == TermsAndConditionsVersion {
-                let screen: AppScreen = user?.whatsNewShownVersion == WhatsNewVersion ? .landing : .whatsNew
+                let screen: LandingScreen = user?.whatsNewShownVersion == WhatsNewVersion ? .landing : .whatsNew
                 self.updateInterface(withScreen: screen, animated: true)
             } else {
-                controller.present(AppScreen.termsAndConditions)
+                controller.present(LandingScreen.termsAndConditions)
                 controller.resetFields()
             }
         }.catch { error in
@@ -249,7 +179,7 @@ extension AppPresenter: LoginViewControllerDelegate {
             let title = error.localizedFailureReason ?? "Error"
             let message = error.localizedDescription
 
-            controller.present(AppScreen.serverError(title: title, message: message))
+            controller.present(SystemScreen.serverError(title: title, message: message))
         }.always {
             controller.setLoading(false, animated: true)
         }
@@ -261,7 +191,7 @@ extension AppPresenter: LoginViewControllerDelegate {
 
 }
 
-extension AppPresenter: TermsConditionsViewControllerDelegate {
+extension LandingPresenter: TermsConditionsViewControllerDelegate {
 
     public func termsConditionsController(_ controller: TermsConditionsViewController, didFinishAcceptingConditions accept: Bool) {
         controller.dismiss(animated: true) {  [weak self] in
@@ -272,7 +202,7 @@ extension AppPresenter: TermsConditionsViewControllerDelegate {
 
                 user.termsAndConditionsVersionAccepted = TermsAndConditionsVersion
 
-                let screen: AppScreen = user.whatsNewShownVersion == WhatsNewVersion ? .landing : .whatsNew
+                let screen: LandingScreen = user.whatsNewShownVersion == WhatsNewVersion ? .landing : .whatsNew
                 self.updateInterface(withScreen: screen, animated: true)
             } else {
                 UserSession.current.endSession()
@@ -282,10 +212,10 @@ extension AppPresenter: TermsConditionsViewControllerDelegate {
 
 }
 
-extension AppPresenter: WhatsNewViewControllerDelegate {
+extension LandingPresenter: WhatsNewViewControllerDelegate {
 
     public func whatsNewViewControllerDidTapDoneButton(_ whatsNewViewController: WhatsNewViewController) {
-        self.updateInterface(withScreen: AppScreen.landing, animated: true)
+        self.updateInterface(withScreen: LandingScreen.landing, animated: true)
     }
 
     public func whatsNewViewControllerDidAppear(_ whatsNewViewController: WhatsNewViewController) {

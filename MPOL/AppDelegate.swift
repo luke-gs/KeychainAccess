@@ -40,7 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             plugins = nil
         #endif
 
-        let presenter = AppPresenter()
+        let presenter = PresenterGroup(presenters: [SystemPresenter(), LandingPresenter(), EntityPresenter()])
 
         let director = Director(presenter: presenter)
         director.addPresenterObserver(RecentlyViewedTracker())
@@ -88,7 +88,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     func fiddleWithState() {
-        let screen: AppScreen
+        let screen: LandingScreen
 
         if let user = UserSession.current.user, user.termsAndConditionsVersionAccepted == TermsAndConditionsVersion {
             if UserSession.current.user?.whatsNewShownVersion != WhatsNewVersion {
@@ -149,7 +149,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     // TEMP
     func logOut() {
         UserSession.current.endSession()
-        window?.rootViewController = Director.shared.presenter.viewController(forPresentable: AppScreen.login)
+        window?.rootViewController = Director.shared.presenter.viewController(forPresentable: LandingScreen.login)
     }
 
     @objc private func interfaceStyleDidChange() {
