@@ -9,48 +9,23 @@
 import UIKit
 
 
-/// Item describes content for section in `SearchHelpViewController`
-public struct SearchHelpSection {
-    
-    /// The title of the section
-    public let title: String
-    
-    /// The detail of the section (standard subtitle or array of strings displayed like tags)
-    public let detail: SearchHelpDetail
-    
-    public init(title: String, detail: SearchHelpDetail) {
-        self.title = title
-        self.detail = detail
-    }
-}
-
-
-/// The `SearchHelpSection` detail type that contains relevant content type
-///
-/// - text: A standard string subtitle
-/// - tags: A subtitle that looks like an array of tag views
-public enum SearchHelpDetail {
-    case text(String)
-    case tags([String])
-}
-
 open class SearchHelpViewController: UIViewController {
     
     
     // MARK: - Properties
     
-    public let items: [SearchHelpSection]
+    public let details: SearchHelpDetails
     
     private var stackView: UIStackView?
     
     
     // MARK: - Lifecycle
     
-    public init(items: [SearchHelpSection]) {
-        self.items = items
+    public required init(details: SearchHelpDetails) {
+        self.details = details
         super.init(nibName: nil, bundle: nil)
         
-        self.title = "Search Help"
+        self.title = details.title
         
         NotificationCenter.default.addObserver(self, selector: #selector(reloadSections), name: .interfaceStyleDidChange, object: nil)
     }
@@ -115,16 +90,16 @@ open class SearchHelpViewController: UIViewController {
         
         view.backgroundColor = theme.color(forKey: .background)!
         
-        for item in items {
+        for section in details.sections {
             let titleLabel = UILabel()
             titleLabel.numberOfLines = 0
             titleLabel.textColor = theme.color(forKey: .primaryText)!
             titleLabel.font = .systemFont(ofSize: 17.0, weight: UIFontWeightSemibold)
-            titleLabel.text = item.title
+            titleLabel.text = section.title
             
             let detailView: UIView
             
-            switch item.detail {
+            switch section.detail {
             case .text(let detail):
                 let label = UILabel()
                 label.numberOfLines = 0
@@ -158,7 +133,7 @@ open class SearchHelpViewController: UIViewController {
         
         // Remove subviews and reload
         for view in stackView.arrangedSubviews {
-            stackView.removeArrangedSubview(view)
+            view.removeFromSuperview()
         }
         
         loadSections()
