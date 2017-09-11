@@ -101,7 +101,7 @@ open class SearchHelpViewController: UIViewController {
             
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 48.0),
             stackView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            stackView.widthAnchor.constraint(greaterThanOrEqualToConstant: 256.0),
+            stackView.widthAnchor.constraint(greaterThanOrEqualToConstant: 300.0),
             stackView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.6).withPriority(UILayoutPriorityRequired - 1),
             stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -48.0)
             ])
