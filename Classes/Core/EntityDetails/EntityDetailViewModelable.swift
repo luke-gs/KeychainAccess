@@ -46,8 +46,12 @@ public protocol EntityDetailViewModelable {
     associatedtype DetailsType
 
     var sections: [DetailsType] { get }
+    var collapsedSections: Set<Int> { get set }
 
     weak var delegate: EntityDetailViewModelDelegate? { get }
+
+    mutating func updateCollapsedSections(for sections: [Int])
+    func isExpanded(at section: Int) -> Bool
 
     func numberOfItems(for section: Int) -> Int
     func numberOfSections() -> Int
@@ -67,5 +71,19 @@ extension EntityDetailViewModelable {
 
     public func item(at index: Int) -> DetailsType? {
         return sections[ifExists: index]
+    }
+
+    public mutating func updateCollapsedSections(for sections: [Int]) {
+        sections.forEach {
+            if collapsedSections.contains($0) {
+                collapsedSections.remove($0)
+            } else {
+                collapsedSections.insert($0)
+            }
+        }
+    }
+
+    public func isExpanded(at section: Int) -> Bool {
+        return !collapsedSections.contains(section)
     }
 }
