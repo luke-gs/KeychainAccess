@@ -32,7 +32,7 @@ public class VehicleDetailsSectionsDataSource: EntityDetailSectionsDataSource {
         return EntityDetailFetch<Vehicle>(requests: requests)
     }
 
-    public init(baseEntity: Entity, delegate: SearchResultsEntityDelegate?) {
+    public init(baseEntity: Entity, delegate: EntityDetailsDelegate?) {
         self.baseEntity = baseEntity
         self.initialSource = baseEntity.source!
 

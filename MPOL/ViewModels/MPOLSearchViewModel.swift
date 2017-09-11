@@ -12,7 +12,7 @@ import ClientKit
 
 class MPOLSearchViewModel: SearchViewModel {
 
-    public var entityDelegate: SearchResultsEntityDelegate?
+    public var entityDelegate: EntityDetailsDelegate?
 
     var recentViewModel: SearchRecentsViewModel = MPOLSearchRecentsViewModel()
     var dataSources: [SearchDataSource] = [

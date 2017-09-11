@@ -32,7 +32,7 @@ public class PersonDetailsSectionsDataSource: EntityDetailSectionsDataSource {
         return EntityDetailFetch<Person>(requests: requests)
     }
 
-    public init(baseEntity: Entity, delegate: SearchResultsEntityDelegate?) {
+    public init(baseEntity: Entity, delegate: EntityDetailsDelegate?) {
         self.baseEntity = baseEntity
         self.initialSource = baseEntity.source!
 

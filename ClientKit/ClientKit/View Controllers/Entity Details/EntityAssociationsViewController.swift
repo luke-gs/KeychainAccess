@@ -41,9 +41,9 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
     }
     
     private let listStateItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .list), style: .plain, target: nil, action: nil)
-    private var delegate: SearchResultsEntityDelegate?
+    private var delegate: EntityDetailsDelegate?
 
-    public init(delegate: SearchResultsEntityDelegate?) {
+    public init(delegate: EntityDetailsDelegate?) {
         self.delegate = delegate
         super.init()
         title = "Associations"
