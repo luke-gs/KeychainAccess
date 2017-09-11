@@ -10,7 +10,7 @@ import Foundation
 import MPOLKit
 
 public class VehicleInfoViewModel: EntityDetailViewModelable {
-    
+
     public typealias DetailsType = VehicleInfo
     
     public weak var delegate: EntityDetailViewModelDelegate?
@@ -51,6 +51,8 @@ public class VehicleInfoViewModel: EntityDetailViewModelable {
             delegate?.reloadData()
         }
     }
+
+    public lazy var collapsedSections: Set<Int> = []
     
     // MARK: - Public methods
     
@@ -59,6 +61,9 @@ public class VehicleInfoViewModel: EntityDetailViewModelable {
     }
     
     public func numberOfItems(for section: Int) -> Int {
+        if collapsedSections.contains(section) {
+            return 0
+        }
         return sections[section].items?.count ?? 1
     }
     

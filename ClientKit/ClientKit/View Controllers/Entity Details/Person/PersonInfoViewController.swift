@@ -78,21 +78,17 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
         if kind == UICollectionElementKindSectionHeader {
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
 
-            let showExpandArrow = indexPath.section > 0
-            headerView.showsExpandArrow = showExpandArrow
-            if showExpandArrow {
-                headerView.tapHandler = { [weak self] header, indexPath in
-                    guard let `self` = self else { return }
+            headerView.showsExpandArrow = true
+            headerView.tapHandler = { [weak self] header, indexPath in
+                guard let `self` = self else { return }
 
-                    let section = indexPath.section
+                let section = indexPath.section
 
-                    self.viewModel.updateCollapsedSections(for: [section])
-                    headerView.setExpanded(self.viewModel.isSectionExpanded(section: section), animated: true)
-                    collectionView.reloadSections(IndexSet(integer: section))
-                }
-                headerView.isExpanded = self.viewModel.isSectionExpanded(section: indexPath.section)
+                self.viewModel.updateCollapsedSections(for: [section])
+                headerView.setExpanded(self.viewModel.isExpanded(at: section), animated: true)
+                collectionView.reloadSections(IndexSet(integer: section))
             }
-
+            headerView.isExpanded = self.viewModel.isExpanded(at: indexPath.section)
             headerView.text = viewModel.header(for: indexPath.section)
             return headerView
         }

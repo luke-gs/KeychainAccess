@@ -39,7 +39,9 @@ public class EntityAlertsViewModel: EntityDetailViewModelable {
 
     private var statusDotCache: [Alert.Level: UIImage] = [:]
 
-    lazy private var collapsedSections: [String: Set<Alert.Level>] = [:]
+    public var collapsedSections: Set<Int> = []
+
+//    lazy private var collapsedSections: [String: Set<Alert.Level>] = [:]
 
     
     // MARK: - Public methods
@@ -85,12 +87,12 @@ public class EntityAlertsViewModel: EntityDetailViewModelable {
         guard let alerts = item(at: section) else { return 0 }
 
         let level = alerts.first!.level!
-        if collapsedSections[entity!.id]?.contains(level) ?? false {
-            // Don't assume there is a collapsed sections here because we should load it lazily.
+
+        if collapsedSections.contains(level.rawValue) {
             return 0
-        } else {
-            return alerts.count
         }
+
+        return alerts.count
     }
 
     public func numberOfAlerts(for section: Int) -> Int {
@@ -113,25 +115,6 @@ public class EntityAlertsViewModel: EntityDetailViewModelable {
             return "\(alertCount) \(levelDescription.localizedUppercase) "
         }
         return nil
-    }
-
-    public func updateCollapsedSections(for alerts: [Alert]) {
-        let personId = self.entity!.id
-        let level    = alerts.first!.level!
-
-        var collapsedSections = self.collapsedSections[personId] ?? []
-        if collapsedSections.remove(level) == nil {
-            // This section wasn't in there and didn't remove
-            collapsedSections.insert(level)
-        }
-        self.collapsedSections[personId] = collapsedSections
-    }
-
-    public func isExpanded(for alerts: [Alert]) -> Bool {
-        let level    = alerts.first!.level!
-        let personId = self.entity!.id
-
-        return !(collapsedSections[personId]?.contains(level) ?? false)
     }
 
     public func noContentSubtitle() -> String? {
