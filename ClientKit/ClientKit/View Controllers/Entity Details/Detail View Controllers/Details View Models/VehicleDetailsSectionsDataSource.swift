@@ -7,25 +7,39 @@
 //
 
 import Foundation
+import MPOLKit
 
 public class VehicleDetailsSectionsDataSource: EntityDetailSectionsDataSource {
+
+    public var initialSource: EntitySource
+
+    public var sources: [EntitySource] {
+        return [MPOLSource.mpol, MPOLSource.fnc]
+    }
+
+    public var baseEntity: MPOLKitEntity
 
     public var localizedDisplayName: String {
         return NSLocalizedString("Vehicle", comment: "")
     }
     
-    public var detailsViewControllers: [EntityDetailCollectionViewController] = [ VehicleInfoViewController(),
+    public var detailViewControllers: [EntityDetailSectionUpdatable] = [ VehicleInfoViewController(),
                                                                                   EntityAlertsViewController(),
                                                                                   EntityAssociationsViewController(),
                                                                                   PersonCriminalHistoryViewController(),
                                                                                   VehicleOccurrencesViewController()
                                                                                   ]
 
-    public func fetchModel(for entity: Entity, sources: [MPOLSource]) -> Fetchable {
+    public func fetchModel(for entity: MPOLKitEntity, sources: [EntitySource]) -> Fetchable {
         let requests = sources.map {
-            VehicleFetchRequest(source: $0, request: EntityFetchRequest<Vehicle>(id: entity.id))
+            VehicleFetchRequest(source: $0 as! MPOLSource, request: EntityFetchRequest<Vehicle>(id: entity.id))
         }
-        return EntityDetailsFetch<Vehicle>(requests: requests)
+        return EntityDetailFetch<Vehicle>(requests: requests)
+    }
+
+    public init(baseEntity: Entity) {
+        self.baseEntity = baseEntity
+        self.initialSource = baseEntity.source!
     }
 
 }

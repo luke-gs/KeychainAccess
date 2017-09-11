@@ -26,9 +26,12 @@ open class PersonDescription: NSObject, Serialisable {
     
     open var height: Int?
     open var weight: String?
-    open var enthnicity: String?
+    open var ethnicity: String?
+    open var race: String?
+    open var build: String?
     open var hairColour: String?
     open var eyeColour: String?
+    open var marks: [String]?
     open var remarks: String?
     
     open var imageThumbnail: Media?
@@ -60,9 +63,12 @@ open class PersonDescription: NSObject, Serialisable {
         
         height = unboxer.unbox(key: "height")
         weight = unboxer.unbox(key: "weight")
-        enthnicity = unboxer.unbox(key: "enthnicity")
+        ethnicity = unboxer.unbox(key: "ethnicity")
+        race = unboxer.unbox(key: "race")
+        build = unboxer.unbox(key: "build")
         hairColour = unboxer.unbox(key: "hairColour")
         eyeColour = unboxer.unbox(key: "eyeColour")
+        marks = unboxer.unbox(key: "identifyingMarks")
         remarks = unboxer.unbox(key: "remarks")
         imageThumbnail = unboxer.unbox(key: "imageThumbnail")
         image = unboxer.unbox(key: "image")
@@ -96,13 +102,30 @@ open class PersonDescription: NSObject, Serialisable {
             formattedComponents.append("\(weight) kg")
         }
 
+        if let ethnicity = ethnicity?.ifNotEmpty() {
+            formattedComponents.append("\(ethnicity)")
+        }
+
+        if let race = race?.ifNotEmpty() {
+            formattedComponents.append("\(race)")
+        }
+
+        if let build = build?.ifNotEmpty() {
+            formattedComponents.append("\(build)" + "build")
+        }
+
         if let hairColour = hairColour?.ifNotEmpty()?.localizedLowercase {
             formattedComponents.append("\(hairColour) hair")
         }
+
         if let eyeColour = eyeColour?.ifNotEmpty() {
             formattedComponents.append(eyeColour.localizedLowercase + " eyes")
         }
-        
+
+        if let marks = marks {
+            formattedComponents.append(marks.joined(separator: ", "))
+        }
+
         if let remarks = remarks?.ifNotEmpty() {
             formattedComponents.append(remarks.localizedLowercase)
         }
@@ -110,6 +133,7 @@ open class PersonDescription: NSObject, Serialisable {
         if formattedComponents.isEmpty {
             return nil
         }
+
         return formattedComponents.joined(separator: ", ")
     }
     

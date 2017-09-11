@@ -136,7 +136,7 @@ open class EventDetailViewController: FormCollectionViewController {
     
 }
 
-extension EventDetailViewController: EntityDetailsViewModelDelegate {
+extension EventDetailViewController: EntityDetailViewModelDelegate {
     public func reloadData() {
         collectionView?.reloadData()
     }
