@@ -738,7 +738,6 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     ///   - collectionView: The collection view displaying the form layout.
     ///   - layout:         The layout object requesting the information.
     ///   - section:        The index of the section whose header size is being requested.
-    ///   - width:          The width for the section.
     /// - Returns:          The height of the header. If you return a value of 0.0, no header is added.
     @objc optional func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat
     
@@ -749,7 +748,6 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     ///   - collectionView: The collection view displaying the form layout.
     ///   - layout:         The layout object requesting the information.
     ///   - section:        The index of the section whose footer size is being requested.
-    ///   - width:          The width for the section.
     /// - Returns:          The height of the footer. If you return a value of 0.0, no footer is added.
     @objc optional func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForFooterInSection section: Int) -> CGFloat
     
