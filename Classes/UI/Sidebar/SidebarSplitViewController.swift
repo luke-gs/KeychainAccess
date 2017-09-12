@@ -227,15 +227,22 @@ open class SidebarSplitViewController: PushableSplitViewController {
     }
 
     private func updateNavigationBarForSelection() {
+        let masterNavItem = masterNavController.viewControllers.first?.navigationItem
+        let detailNavItem = detailNavController.viewControllers.first?.navigationItem
+
         // Make sure the current master view controller has the back button
         // Note: this can move to detail view controller when switching between regular and compact
-        masterNavController.viewControllers.first?.navigationItem.leftBarButtonItems = nil
-        masterNavController.viewControllers.first?.navigationItem.leftBarButtonItem = backButtonItem()
-        detailNavController.viewControllers.first?.navigationItem.leftBarButtonItem = nil
+        masterNavItem?.leftBarButtonItems = [backButtonItem()].removeNils()
+        detailNavItem?.leftBarButtonItem = nil
+
+        // Move the right bar items to the master VC if compact
+        if self.isCompact() {
+            masterNavItem?.rightBarButtonItems = selectedViewController?.navigationItem.rightBarButtonItems
+        }
 
         // Update the navigation bar titles, otherwise they can be shown on wrong side after transition
-        masterNavController.viewControllers.first?.navigationItem.title = masterNavTitleSuitable(for: traitCollection)
-        detailNavController.viewControllers.first?.navigationItem.title = detailNavController.viewControllers.first?.title
+        masterNavItem?.title = masterNavTitleSuitable(for: traitCollection)
+        detailNavItem?.title = detailNavController.viewControllers.first?.title
     }
 
     func updateNavigationBarForTraits() {
