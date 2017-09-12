@@ -47,20 +47,20 @@ public class EntityPresenter: Presenter {
             return EntityDetailSplitViewController(dataSource: dataSource)
 
         case .help(let type):
-            let details: SearchHelpDetails
+            let content: HelpContent
 
             switch type {
             case .person:
-                details = SearchHelpDetails(filename: "PersonSearchHelp", bundle: Bundle.main)
+                content = HelpContent(filename: "PersonSearchHelp", bundle: Bundle.main)
             case .vehicle:
-                details = SearchHelpDetails(filename: "VehicleSearchHelp", bundle: Bundle.main)
+                content = HelpContent(filename: "VehicleSearchHelp", bundle: Bundle.main)
             case .location:
-                details = SearchHelpDetails(filename: "LocationSearchHelp", bundle: Bundle.main)
+                content = HelpContent(filename: "LocationSearchHelp", bundle: Bundle.main)
             case .organisation:
-                details = SearchHelpDetails(filename: "OrganisationSearchHelp", bundle: Bundle.main)
+                content = HelpContent(filename: "OrganisationSearchHelp", bundle: Bundle.main)
             }
             
-            return SearchHelpViewController(details: details)
+            return HelpViewController(content: content)
 
         case .createEntity(let type):
             let title: String
