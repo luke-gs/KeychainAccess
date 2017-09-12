@@ -63,7 +63,7 @@ public enum StateType: String, Pickable {
     public var subtitle: String? { return "" }
 
     public static let all: [StateType] = [
-        .VIC, .NSW, .NT, .ACT, .TAS, .QLD, .WA, SA
+        .ACT, .NSW, .NT, .QLD, SA, .TAS, .VIC, .WA
     ]
 }
 
