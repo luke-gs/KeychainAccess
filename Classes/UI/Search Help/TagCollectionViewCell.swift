@@ -1,6 +1,6 @@
 //
-//  SearchHelpTagCollectionViewCell.swift
-//  Pods
+//  TagCollectionViewCell.swift
+//  MPOLKit
 //
 //  Created by Megan Efron on 9/9/17.
 //
@@ -8,11 +8,11 @@
 
 import UIKit
 
-public class SearchHelpTagCollectionViewCell: UICollectionViewCell, DefaultReusable {
+open class TagCollectionViewCell: UICollectionViewCell, DefaultReusable {
     
-    public let label = UILabel()
+    open let label = UILabel()
     
-    public static let font: UIFont = .systemFont(ofSize: 15.0, weight: UIFontWeightSemibold)
+    open static let font: UIFont = .systemFont(ofSize: 15.0, weight: UIFontWeightSemibold)
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -21,7 +21,7 @@ public class SearchHelpTagCollectionViewCell: UICollectionViewCell, DefaultReusa
         contentView.layer.borderWidth = 1.0
         
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = SearchHelpTagCollectionViewCell.font
+        label.font = TagCollectionViewCell.font
         label.textAlignment = .center
         contentView.addSubview(label)
         
