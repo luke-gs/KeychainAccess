@@ -21,9 +21,19 @@ public protocol EntityDetailSectionsDataSource {
     var sources: [EntitySource] { get }
 
     var baseEntity: MPOLKitEntity { get }
-    func titleSuitable(for traitCollection: UITraitCollection) -> String
+    func navTitleSuitable(for traitCollection: UITraitCollection) -> String
 
     var localizedDisplayName: String { get }
     var detailViewControllers: [EntityDetailSectionUpdatable] { get }
     func fetchModel(for entity: MPOLKitEntity, sources: [EntitySource]) -> Fetchable
+}
+
+public extension EntityDetailSectionsDataSource {
+    func navTitleSuitable(for traitCollection: UITraitCollection) -> String {
+        // Default implementation is return the entity name, otherwise the entity type
+        if let entity = baseEntity as? EntitySummaryDisplayable, let title = entity.title {
+            return title
+        }
+        return localizedDisplayName
+    }
 }
