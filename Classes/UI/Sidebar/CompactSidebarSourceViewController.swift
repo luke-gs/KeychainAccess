@@ -65,6 +65,8 @@ open class CompactSidebarSourceViewController: UITableViewController {
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(didTapDoneButton(_:)))
 
+        let theme = ThemeManager.shared.theme(for: .current)
+        tableView.backgroundColor = theme.color(forKey: .background)
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 50
         tableView.register(CompactSidebarSourceCell.self, forCellReuseIdentifier: reuseIdentifier)
@@ -109,8 +111,7 @@ extension CompactSidebarSourceViewController {
         // Set colors according to theme
         let theme = ThemeManager.shared.theme(for: .current)
         cell.sourceTitle.textColor = theme.color(forKey: .primaryText)
-        cell.backgroundColor = theme.color(forKey: .background)
-        tableView.backgroundColor = cell.backgroundColor
+        cell.backgroundColor = UIColor.clear
         return cell
     }
 }

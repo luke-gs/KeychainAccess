@@ -266,31 +266,8 @@ open class CompactSidebarViewController: UIViewController {
 
     @objc private func didTapSourceButton(_ item: UIBarButtonItem) {
         guard let selectedSourceIndex = selectedSourceIndex else { return }
-        let sourceViewController = CompactSidebarSourceViewController(items: sourceItems, selectedIndex: selectedSourceIndex)
-        let navVC = PopoverNavigationController(rootViewController: sourceViewController)
-        navVC.modalPresentationStyle = .formSheet
-        self.sourceViewController = sourceViewController
-
-        // Override nav bar appearance to match creative
-//        let theme = ThemeManager.shared.theme(for: .current)
-//        navVC.navigationBar.barTintColor = theme.color(forKey: .background)
-//        navVC.navigationBar.tintColor = theme.color(forKey: .tint)
-//        if let primaryTextColor = theme.color(forKey: .primaryText) {
-//            navVC.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: primaryTextColor]
-//        }
-//        navVC.navigationBar.setBackgroundImage(nil, for: .default)
-//        navVC.navigationBar.isTranslucent = true
-//        navVC.view.backgroundColor = UIColor.clear
-//
-//        // Present the source selection as a centered popover, even on iPhone
-//        if let navigationController = navigationController {
-//            navVC.modalPresentationStyle = .popover
-//            navVC.popoverPresentationController?.permittedArrowDirections = []
-//            navVC.popoverPresentationController?.sourceView = navigationController.view
-//            navVC.popoverPresentationController?.sourceRect = navigationController.view.bounds
-//            navVC.popoverPresentationController?.delegate = self
-//            navVC.presentationController?.delegate = self
-//        }
+        sourceViewController = CompactSidebarSourceViewController(items: sourceItems, selectedIndex: selectedSourceIndex)
+        let navVC = CompactFormSheetNavigationController(rootViewController: sourceViewController!, parent: navigationController!)
         present(navVC, animated: true, completion: nil)
     }
 
@@ -454,28 +431,3 @@ extension CompactSidebarViewController: UIScrollViewDelegate {
         }
     }
 }
-
-// MARK: - UIAdaptivePresentationControllerDelegate
-extension CompactSidebarViewController: UIAdaptivePresentationControllerDelegate {
-
-    /// Present view controllers using requested style, regardless of device
-    public func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
-        return .none
-    }
-
-    /// Present view controllers using requested style, regardless of device
-    public func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
-        return .none
-    }
-}
-
-// MARK: - UIPopoverPresentationControllerDelegate
-extension CompactSidebarViewController: UIPopoverPresentationControllerDelegate {
-    
-    /// Prevent closing of popover
-    public func popoverPresentationControllerShouldDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) -> Bool {
-        return false
-    }
-}
-
-

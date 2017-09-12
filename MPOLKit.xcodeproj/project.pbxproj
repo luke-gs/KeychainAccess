@@ -63,6 +63,7 @@
 		960B1A791F577456004F2E29 /* CompactSidebarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960B1A781F577456004F2E29 /* CompactSidebarViewController.swift */; };
 		960B1A7B1F57750C004F2E29 /* CompactSidebarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960B1A7A1F57750C004F2E29 /* CompactSidebarItemView.swift */; };
 		961FBF3E1F5CE67F00E42E19 /* ScrollAwarePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961FBF3D1F5CE67E00E42E19 /* ScrollAwarePageViewController.swift */; };
+		9644B1D01F67622400D031F2 /* CompactFormSheetNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9644B1CF1F67622400D031F2 /* CompactFormSheetNavigationController.swift */; };
 		9672D6801F5E2FD7007A547F /* SidebarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9672D67F1F5E2FD7007A547F /* SidebarDelegate.swift */; };
 		9672D6821F5E5908007A547F /* NSMutableAttributedString+Append.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9672D6811F5E5908007A547F /* NSMutableAttributedString+Append.swift */; };
 		9672D6881F62090D007A547F /* CompactSidebarSourceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9672D6871F62090D007A547F /* CompactSidebarSourceViewController.swift */; };
@@ -338,6 +339,7 @@
 		960B1A781F577456004F2E29 /* CompactSidebarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactSidebarViewController.swift; sourceTree = "<group>"; };
 		960B1A7A1F57750C004F2E29 /* CompactSidebarItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactSidebarItemView.swift; sourceTree = "<group>"; };
 		961FBF3D1F5CE67E00E42E19 /* ScrollAwarePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollAwarePageViewController.swift; sourceTree = "<group>"; };
+		9644B1CF1F67622400D031F2 /* CompactFormSheetNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactFormSheetNavigationController.swift; sourceTree = "<group>"; };
 		9672D67F1F5E2FD7007A547F /* SidebarDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarDelegate.swift; sourceTree = "<group>"; };
 		9672D6811F5E5908007A547F /* NSMutableAttributedString+Append.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Append.swift"; sourceTree = "<group>"; };
 		9672D6871F62090D007A547F /* CompactSidebarSourceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactSidebarSourceViewController.swift; sourceTree = "<group>"; };
@@ -1028,6 +1030,7 @@
 				BC9C7DAB1F0DED6600DFFE83 /* PopoverFormSheetPresentationController.swift */,
 				BC9C7DAC1F0DED6600DFFE83 /* PopoverNavigationController.swift */,
 				BC9C7DAD1F0DED6600DFFE83 /* PopoverViewController.swift */,
+				9644B1CF1F67622400D031F2 /* CompactFormSheetNavigationController.swift */,
 			);
 			path = "Popover & Form Sheet";
 			sourceTree = "<group>";
@@ -1768,6 +1771,7 @@
 				EA4806B31F56961F00B42313 /* Array+Searching.swift in Sources */,
 				BC9C7E3C1F0DED6600DFFE83 /* FilterViewController.swift in Sources */,
 				C6020FD31F394771001F1E71 /* DataResponse+MPLConversion.swift in Sources */,
+				9644B1D01F67622400D031F2 /* CompactFormSheetNavigationController.swift in Sources */,
 				EA4806B11F56939100B42313 /* LocationSearchDataSource.swift in Sources */,
 				EA2189EF1F5FB2280057048E /* MapResultViewModelable.swift in Sources */,
 				BC9C7E561F0DED6600DFFE83 /* TabStripView.swift in Sources */,
