@@ -170,11 +170,7 @@ open class EntityListCollectionViewCell: CollectionViewFormCell {
     
     /// Calculates the minimum content height for a cell, considering the text details.
     ///
-    /// - Parameters:
-    ///   - title:              The title text for the cell.
-    ///   - subtitle:           The subtitle text for the cell.
-    ///   - width:              The width constraint for the cell.
-    ///   - traitCollection:    The trait collection the cell will be displayed in.
+    /// - Parameters: - traitCollection:    The trait collection the cell will be displayed in.
     /// - Returns:      The minumum content height for the cell.
     open class func minimumContentHeight(compatibleWith traitCollection: UITraitCollection) -> CGFloat {
         let titleFont    = UIFont.preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
