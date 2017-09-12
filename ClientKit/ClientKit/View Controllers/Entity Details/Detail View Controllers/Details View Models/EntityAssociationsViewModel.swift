@@ -46,7 +46,7 @@ public class EntityAssociationsViewModel: EntityDetailViewModelable {
         }
     }
 
-    private lazy var collapsedSections: Set<Int> = []
+    public lazy var collapsedSections: Set<Int> = []
     
     public var style: SearchResultStyle = .grid
 
@@ -73,21 +73,6 @@ public class EntityAssociationsViewModel: EntityDetailViewModelable {
             return AssociatedVehicle(associate: vehicles[indexPath.item])
         }
     }
-
-    public func updateCollapsedSections(for sections: [Int]) {
-        sections.forEach {
-            if collapsedSections.contains($0) {
-                collapsedSections.remove($0)
-            } else {
-                collapsedSections.insert($0)
-            }
-        }
-    }
-
-    public func isSectionExpanded(section: Int) -> Bool {
-        return collapsedSections.contains(section)
-    }
-
     
     /// Section type 
     public enum Section {

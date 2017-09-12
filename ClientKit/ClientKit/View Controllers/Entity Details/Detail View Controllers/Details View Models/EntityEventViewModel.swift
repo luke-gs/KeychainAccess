@@ -36,17 +36,7 @@ public class EntityEventViewModel: EntityDetailViewModelable {
         }
     }
 
-    private lazy var collapsedSections: Set<Int> = []
-
-    public func updateCollapsedSections(for sections: [Int]) {
-        sections.forEach {
-            if collapsedSections.contains($0) {
-                collapsedSections.remove($0)
-            } else {
-                collapsedSections.insert($0)
-            }
-        }
-    }
+    public lazy var collapsedSections: Set<Int> = []
 
     public func numberOfItems(for section: Int = 0) -> Int {
         if collapsedSections.contains(section) {
@@ -55,9 +45,6 @@ public class EntityEventViewModel: EntityDetailViewModelable {
         return sections[section].events.count
     }
 
-    public func isSectionExpanded(section: Int) -> Bool {
-        return collapsedSections.contains(section)
-    }
     
     public var allEventTypes: Set<String> {
         var allTypes = Set<String>()

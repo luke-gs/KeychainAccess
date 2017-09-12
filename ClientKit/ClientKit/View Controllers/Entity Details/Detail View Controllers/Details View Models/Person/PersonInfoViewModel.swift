@@ -83,7 +83,7 @@ public class PersonInfoViewModel: EntityDetailViewModelable {
         }
     }
 
-    private lazy var collapsedSections: Set<Int> = []
+    public lazy var collapsedSections: Set<Int> = []
     
     // MARK: - Public methodsx
     
@@ -101,20 +101,6 @@ public class PersonInfoViewModel: EntityDetailViewModelable {
     
     public func detailItem(at indexPath: IndexPath) -> Any? {
         return sections[ifExists: indexPath.section]?.items?[indexPath.item]
-    }
-
-    public func updateCollapsedSections(for sections: [Int]) {
-        sections.forEach {
-            if collapsedSections.contains($0) {
-                collapsedSections.remove($0)
-            } else {
-                collapsedSections.insert($0)
-            }
-        }
-    }
-
-    public func isSectionExpanded(section: Int) -> Bool {
-        return collapsedSections.contains(section)
     }
     
     /// Header section

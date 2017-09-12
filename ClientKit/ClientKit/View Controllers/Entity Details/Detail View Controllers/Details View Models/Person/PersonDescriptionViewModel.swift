@@ -50,7 +50,7 @@ public class PersonDescriptionViewModel: EntityDetailViewModelable {
     
     // MARK: - Private property
     
-    private var collapsedSections: Set<Int> = []
+    public var collapsedSections: Set<Int> = []
     
     private var orderedSections: [SectionType] = [] {
         didSet {
@@ -95,17 +95,6 @@ public class PersonDescriptionViewModel: EntityDetailViewModelable {
     /// Section header
     public func year(for section: Int) -> String? {
         return orderedSections[ifExists: section]?.year
-    }
-    
-    public func updateCollapsedSections(for section: Int) {
-        if collapsedSections.remove(section) == nil {
-            // This section wasn't in there and didn't remove
-            collapsedSections.insert(section)
-        }
-    }
-    
-    public func isExpanded(for section: Int) -> Bool {
-        return !collapsedSections.contains(section)
     }
     
     /// Provide info to cal the minimum content height for collectionView

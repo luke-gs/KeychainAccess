@@ -15,6 +15,7 @@ class MPOLSearchViewModel: SearchViewModel {
     public var entityDelegate: EntityDetailsDelegate?
 
     var recentViewModel: SearchRecentsViewModel = MPOLSearchRecentsViewModel()
+
     var dataSources: [SearchDataSource] = [
         PersonSearchDataSource(),
         VehicleSearchDataSource(),
@@ -23,20 +24,8 @@ class MPOLSearchViewModel: SearchViewModel {
                                                                                advanceOptions: LookupAddressLocationAdvancedOptions())
     ]
 
-    func detailViewController(for entity: MPOLKitEntity) -> UIViewController? {
-        var dataSource: EntityDetailSectionsDataSource?
-
-        if entity is Person {
-            dataSource = PersonDetailsSectionsDataSource(baseEntity: entity as! Entity, delegate: entityDelegate)
-
-        } else if entity is Vehicle {
-            dataSource = VehicleDetailsSectionsDataSource(baseEntity: entity as! Entity, delegate: entityDelegate)
-
-        }
-
-        guard dataSource != nil else { return nil }
-        return EntityDetailSplitViewController(dataSource: dataSource!)
-
+    func presentable(for entity: MPOLKitEntity) -> Presentable {
+        return EntityScreen.entityDetails(entity: entity as! Entity, delegate: entityDelegate)
     }
 
 }
@@ -45,7 +34,25 @@ class MPOLSearchRecentsViewModel: SearchRecentsViewModel {
 
     var title: String = "MPOL"
 
-    var recentlyViewed: [MPOLKitEntity] = []
+    var recentlyViewed: [MPOLKitEntity] {
+        get {
+            return UserSession.current.recentlyViewed
+        }
+
+        set {
+            UserSession.current.recentlyViewed = newValue
+        }
+    }
+
+    var recentlySearched: [Searchable] {
+        get {
+            return UserSession.current.recentlySearched
+        }
+
+        set {
+            UserSession.current.recentlySearched = newValue
+        }
+    }
 
     func decorate(_ cell: EntityCollectionViewCell, at indexPath: IndexPath) {
         let entity = recentlyViewed[indexPath.item]
