@@ -65,6 +65,14 @@ open class CompactSidebarViewController: UIViewController {
             if let selectedSourceIndex = selectedSourceIndex {
                 precondition(selectedSourceIndex < sourceItems.count)
                 sourceButton.setTitle(sourceItems[selectedSourceIndex].shortTitle, for: .normal)
+
+                // Update color to match source status
+                switch sourceItems[selectedSourceIndex].state {
+                case .loaded(_, let color):
+                    sourceButton.backgroundColor = color
+                default:
+                    sourceButton.backgroundColor = .lightGray
+                }
             } else {
                 sourceButton.setTitle(nil, for: .normal)
             }
@@ -144,7 +152,7 @@ open class CompactSidebarViewController: UIViewController {
 
         sourceButton = UIButton(type: .custom)
         sourceButton.translatesAutoresizingMaskIntoConstraints = false
-        sourceButton.backgroundColor = #colorLiteral(red: 1, green: 0.231372549, blue: 0.1882352941, alpha: 1)
+        sourceButton.backgroundColor = .lightGray
         sourceButton.setTitleColor(UIColor.black, for: .normal)
         sourceButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
         sourceButton.contentEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5)
