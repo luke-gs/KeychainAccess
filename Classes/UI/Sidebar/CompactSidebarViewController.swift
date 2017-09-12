@@ -275,6 +275,12 @@ open class CompactSidebarViewController: UIViewController {
     @objc private func didTapSourceButton(_ item: UIBarButtonItem) {
         guard let selectedSourceIndex = selectedSourceIndex else { return }
         sourceViewController = CompactSidebarSourceViewController(items: sourceItems, selectedIndex: selectedSourceIndex)
+
+        // Use modal style presentation, but with form sheet style nav styling
+        // let navVC = PopoverNavigationController(rootViewController: sourceViewController!)
+        // navVC.modalPresentationStyle = .formSheet
+
+        // Use form sheet style presentation, even on phone
         let navVC = CompactFormSheetNavigationController(rootViewController: sourceViewController!, parent: navigationController!)
         present(navVC, animated: true, completion: nil)
     }
