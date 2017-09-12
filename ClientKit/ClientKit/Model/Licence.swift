@@ -214,6 +214,20 @@ extension Licence {
             
             super.init()
         }
+
+        func displayValue() -> String? {
+            var value = ""
+
+            if let condition = self.condition {
+                value += condition
+            }
+
+            if let fromDate = dateUpdated, let toDate = expiryDate {
+                value += " - valid from: \(fromDate.wrap(dateFormatter: DateFormatter.shortDate)) to \(toDate.wrap(dateFormatter: DateFormatter.shortDate))"
+            }
+
+            return value
+        }
     }
     
     /// Licence Restriction
