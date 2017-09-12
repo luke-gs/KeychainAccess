@@ -20,12 +20,12 @@ public class RecentlyViewedTracker: PresenterObserving {
     }
 
     public func didPresent(_ presentable: Presentable, fromViewController: UIViewController, toViewController to: UIViewController) {
-        let presentable = presentable as! EntityScreen
-
-        switch presentable {
-        case .entityDetails(let entity):
-            entities.append(entity)
-        default: break
+        if let presentable = presentable as? EntityScreen {
+            switch presentable {
+            case .entityDetails(let entity, _):
+                entities.append(entity)
+            default: break
+            }
         }
     }
 

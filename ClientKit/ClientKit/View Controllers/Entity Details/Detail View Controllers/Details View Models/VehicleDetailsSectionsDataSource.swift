@@ -23,12 +23,7 @@ public class VehicleDetailsSectionsDataSource: EntityDetailSectionsDataSource {
         return NSLocalizedString("Vehicle", comment: "")
     }
     
-    public var detailViewControllers: [EntityDetailSectionUpdatable] = [ VehicleInfoViewController(),
-                                                                                  EntityAlertsViewController(),
-                                                                                  EntityAssociationsViewController(),
-                                                                                  VehicleOccurrencesViewController(),
-                                                                                  PersonCriminalHistoryViewController()
-                                                                                  ]
+    public var detailViewControllers: [EntityDetailSectionUpdatable]
 
     public func fetchModel(for entity: MPOLKitEntity, sources: [EntitySource]) -> Fetchable {
         let requests = sources.map {
@@ -37,9 +32,15 @@ public class VehicleDetailsSectionsDataSource: EntityDetailSectionsDataSource {
         return EntityDetailFetch<Vehicle>(requests: requests)
     }
 
-    public init(baseEntity: Entity) {
+    public init(baseEntity: Entity, delegate: EntityDetailsDelegate?) {
         self.baseEntity = baseEntity
         self.initialSource = baseEntity.source!
+
+        self.detailViewControllers =  [ VehicleInfoViewController(),
+                                        EntityAlertsViewController(),
+                                        EntityAssociationsViewController(delegate: delegate),
+                                        PersonCriminalHistoryViewController(),
+                                        VehicleOccurrencesViewController()]
     }
 
 }
