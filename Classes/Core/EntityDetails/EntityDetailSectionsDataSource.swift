@@ -30,10 +30,13 @@ public protocol EntityDetailSectionsDataSource {
 
 public extension EntityDetailSectionsDataSource {
     func navTitleSuitable(for traitCollection: UITraitCollection) -> String {
-        // Default implementation is return the entity name, otherwise the entity type
-        if let entity = baseEntity as? EntitySummaryDisplayable, let title = entity.title {
-            return title
+        if traitCollection.horizontalSizeClass == .compact {
+            // Use the title of the entity, as we are not showing a sidebar in compact mode
+            if let entity = baseEntity as? EntitySummaryDisplayable, let title = entity.title {
+                return title
+            }
         }
-        return localizedDisplayName
+        // Use a generic sidebar title
+        return NSLocalizedString("Details", comment: "Title for for entity details")
     }
 }

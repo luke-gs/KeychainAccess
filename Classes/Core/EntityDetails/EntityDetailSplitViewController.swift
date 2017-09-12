@@ -68,13 +68,8 @@ open class EntityDetailSplitViewController: SidebarSplitViewController {
 
     // MARK: - Override methods
 
-    open override func regularTitle() -> String? {
-        // Use the sidebar title
-        return NSLocalizedString("Details", comment: "")
-    }
-
-    open override func compactTitle() -> String? {
-        // Use the title of the entity, as not showing sidebar with details in compact mode
+    open override func masterNavTitleSuitable(for traitCollection: UITraitCollection) -> String {
+        // Ask the data source for an appropriate title
         return detailViewModel.detailSectionsDataSource.navTitleSuitable(for: traitCollection)
     }
 

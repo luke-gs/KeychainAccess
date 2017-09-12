@@ -30,14 +30,9 @@ open class SidebarSplitViewController: PushableSplitViewController {
     // The page view controller for handling compact mode paging behaviour
     public let pageViewController: ScrollAwarePageViewController
 
-    /// The title to use for main navigation controller when in regular size
-    open func regularTitle() -> String? {
-        return title
-    }
-
-    /// The title to use for main navigation controller when in compact size
-    open func compactTitle() -> String? {
-        return title
+    /// The title to use for the master navigation controller for the given traits
+    open func masterNavTitleSuitable(for traitCollection: UITraitCollection) -> String {
+        MPLRequiresConcreteImplementation()
     }
 
     /// The detail controllers for the sidebar.
@@ -239,7 +234,7 @@ open class SidebarSplitViewController: PushableSplitViewController {
         detailNavController.viewControllers.first?.navigationItem.leftBarButtonItem = nil
 
         // Update the navigation bar titles, otherwise they can be shown on wrong side after transition
-        masterNavController.viewControllers.first?.navigationItem.title = self.isCompact() ? compactTitle() : regularTitle()
+        masterNavController.viewControllers.first?.navigationItem.title = masterNavTitleSuitable(for: traitCollection)
         detailNavController.viewControllers.first?.navigationItem.title = detailNavController.viewControllers.first?.title
     }
 
