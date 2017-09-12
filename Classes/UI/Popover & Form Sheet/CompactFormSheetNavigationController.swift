@@ -42,8 +42,15 @@ open class CompactFormSheetNavigationController: UINavigationController {
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        // Make background color clear to show glass affect
-        view.backgroundColor = UIColor.clear
+        if ThemeManager.shared.currentInterfaceStyle.isDark {
+            // Use dark background for dark theme, as glass effect does not work
+            // We brighten the theme background color, to provide contrast to view below
+            let theme = ThemeManager.shared.theme(for: .current)
+            view.backgroundColor = theme.color(forKey: .background)?.adjustingBrightness(byFactor: 1.2)
+        } else {
+            // Make background "glassy"
+            view.backgroundColor = .clear
+        }
         viewControllers.first?.view.backgroundColor = UIColor.clear
     }
 
