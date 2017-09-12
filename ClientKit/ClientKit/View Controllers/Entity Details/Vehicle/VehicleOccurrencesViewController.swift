@@ -137,11 +137,11 @@ open class VehicleOccurrencesViewController: EntityOccurrencesViewController, Fi
 
                 let section = indexPath.section
 
-                self.viewModel.updateCollapsedSections(for: [section])
-                header.setExpanded(self.viewModel.isSectionExpanded(section: section), animated: true)
+                self.viewModel.updateCollapsed(for: [section])
+                header.setExpanded(self.viewModel.isExpanded(at: section), animated: true)
                 collectionView.reloadSections(IndexSet(integer: section))
             }
-            header.isExpanded = self.viewModel.isSectionExpanded(section: indexPath.section)
+                
             return header
         }
         return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
