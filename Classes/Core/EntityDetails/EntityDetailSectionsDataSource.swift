@@ -21,8 +21,22 @@ public protocol EntityDetailSectionsDataSource {
     var sources: [EntitySource] { get }
 
     var baseEntity: MPOLKitEntity { get }
+    func navTitleSuitable(for traitCollection: UITraitCollection) -> String
 
     var localizedDisplayName: String { get }
     var detailViewControllers: [EntityDetailSectionUpdatable] { get }
     func fetchModel(for entity: MPOLKitEntity, sources: [EntitySource]) -> Fetchable
+}
+
+public extension EntityDetailSectionsDataSource {
+    func navTitleSuitable(for traitCollection: UITraitCollection) -> String {
+        if traitCollection.horizontalSizeClass == .compact {
+            // Use the title of the entity, as we are not showing a sidebar in compact mode
+            if let entity = baseEntity as? EntitySummaryDisplayable, let title = entity.title {
+                return title
+            }
+        }
+        // Use a generic sidebar title
+        return NSLocalizedString("Details", comment: "Title for for entity details")
+    }
 }

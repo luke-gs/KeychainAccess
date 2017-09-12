@@ -28,8 +28,8 @@ open class EntityDetailSplitViewController: SidebarSplitViewController {
         updateSourceItems()
         updateHeaderView()
 
-        sidebarViewController.title = NSLocalizedString("Details", comment: "")
-        sidebarViewController.headerView = headerView
+        regularSidebarViewController.title = NSLocalizedString("Details", comment: "")
+        regularSidebarViewController.headerView = headerView
     }
 
     open override func viewDidAppear(_ animated: Bool) {
@@ -45,7 +45,7 @@ open class EntityDetailSplitViewController: SidebarSplitViewController {
 
     // MARK: - SideBar Delegate
 
-    open override func sidebarViewController(_ controller: SidebarViewController, didSelectSourceAt index: Int) {
+    open override func sidebarViewController(_ controller: UIViewController, didSelectSourceAt index: Int) {
         let source = detailViewModel.sources[index]
         detailViewModel.selectedSource = source
 
@@ -56,7 +56,7 @@ open class EntityDetailSplitViewController: SidebarSplitViewController {
         updateHeaderView()
     }
 
-    open override func sidebarViewController(_ controller: SidebarViewController, didRequestToLoadSourceAt index: Int) {
+    open override func sidebarViewController(_ controller: UIViewController, didRequestToLoadSourceAt index: Int) {
         let selectedSource = detailViewModel.sources[index]
 
         if let requestedSourceLoadState = detailViewModel.results[selectedSource.serverSourceName]?.state, requestedSourceLoadState != .idle {
@@ -64,6 +64,13 @@ open class EntityDetailSplitViewController: SidebarSplitViewController {
             updateSourceItems()
             return
         }
+    }
+
+    // MARK: - Override methods
+
+    open override func masterNavTitleSuitable(for traitCollection: UITraitCollection) -> String {
+        // Ask the data source for an appropriate title
+        return detailViewModel.detailSectionsDataSource.navTitleSuitable(for: traitCollection)
     }
 
     // MARK: - Private methods
@@ -84,7 +91,7 @@ open class EntityDetailSplitViewController: SidebarSplitViewController {
     /// representations update.
     fileprivate func updateSourceItems() {
 
-        sidebarViewController.sourceItems = detailViewModel.sources.map {
+        regularSidebarViewController.sourceItems = detailViewModel.sources.map {
             let itemState: SourceItem.State
 
             if let fetchResult = detailViewModel.results[$0.serverSourceName] {
@@ -110,7 +117,11 @@ open class EntityDetailSplitViewController: SidebarSplitViewController {
             return SourceItem(title: $0.localizedBarTitle, state: itemState)
         }
         let index = detailViewModel.sources.index(where: { $0 == detailViewModel.selectedSource })
-        sidebarViewController.selectedSourceIndex = index
+        regularSidebarViewController.selectedSourceIndex = index
+
+        // Apply same source items to compact sidebar
+        compactSidebarViewController.sourceItems = regularSidebarViewController.sourceItems
+        compactSidebarViewController.selectedSourceIndex = regularSidebarViewController.selectedSourceIndex
 
     }
 
@@ -138,7 +149,7 @@ open class EntityDetailSplitViewController: SidebarSplitViewController {
     }
 
     private func updateDetailSectionsAvailability(_ isAvailable: Bool) {
-        sidebarViewController.sidebarTableView?.allowsSelection = isAvailable
+        super.allowDetailSelection = isAvailable
     }
 
 }
