@@ -16,6 +16,7 @@ public protocol EntityDetailSectionUpdatable: class {
 }
 
 public protocol EntityDetailSectionsDataSource {
+
     var initialSource: EntitySource { get set }
     var sources: [EntitySource] { get }
 

@@ -22,10 +22,10 @@ fileprivate let navigationItemKeyPaths: [String] = [
     #keyPath(UINavigationItem.prompt)
 ]
 
-public class SearchViewController: UIViewController, SearchRecentsViewControllerDelegate, SearchResultsDelegate, SearchOptionsViewControllerDelegate {
+public class SearchViewController: UIViewController, SearchRecentsViewControllerDelegate, SearchResultsDelegate, SearchOptionsViewControllerDelegate, EntityDetailsDelegate {
     
     private var recentsViewController: SearchRecentsViewController
-    public let viewModel: SearchViewModel
+    public var viewModel: SearchViewModel
 
     @objc dynamic private(set) var currentResultsViewController: UIViewController? {
         didSet {
@@ -103,6 +103,8 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
         self.recentsViewController = SearchRecentsViewController(viewModel: viewModel.recentViewModel)
 
         super.init(nibName: nil, bundle: nil)
+
+        self.viewModel.entityDelegate = self
 
         automaticallyAdjustsScrollViewInsets = false
         
@@ -358,7 +360,12 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
     func searchOptionsControllerDidCancel(_ controller: SearchOptionsViewController) {
         cancelSearchTriggered()
     }
-    
+
+
+    // MARK: Entity Delegate
+    public func controller(_ controller: UIViewController, didSelectEntity entity: MPOLKitEntity) {
+        didSelectEntity(entity)
+    }
 
     // MARK: - SearchResultsDelegate
 
@@ -391,7 +398,6 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
     }
-    
     
     // MARK: - Private methods
 

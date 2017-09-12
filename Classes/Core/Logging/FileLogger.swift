@@ -32,8 +32,10 @@ public struct FileLoggerConfigurations {
 public struct FileLogger: Loggable {
 
     private let divider = "-----------------------------------------------------------------------------------"
-    private let fileURL: URL
+    public let fileURL: URL
     internal let configurations: FileLoggerConfigurations
+
+    private static let defaultURL: URL = try! FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("Logs/Network")
 
     /// ---------------------------------------------------------------------------------------
     /// Designated Init
@@ -42,25 +44,21 @@ public struct FileLogger: Loggable {
     /// - Parameter configs: The configurations of the file logger - Default 
     ///             provides single save for logs
     /// ---------------------------------------------------------------------------------------
-    public init(fileURL: URL? = nil, configs: FileLoggerConfigurations = FileLoggerConfigurations()) {
+    public init(fileURL: URL = FileLogger.defaultURL, configs: FileLoggerConfigurations = FileLoggerConfigurations()) {
 
         self.configurations = configs
+        self.fileURL = fileURL
 
-        if let url = fileURL {
-            self.fileURL = url
-        } else {
-            let fileManager = FileManager.default
+        let fileManager = FileManager.default
 
-            let logURL = try! fileManager.url(for: FileManager.SearchPathDirectory.documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("Logs/Network")
-            if !fileManager.fileExists(atPath: logURL.path) {
-                do {
-                    try fileManager.createDirectory(atPath: logURL.path, withIntermediateDirectories: true, attributes: nil)
-                } catch {
-                    print("Error creating directory.\nCause: \(error)")
-                }
+        if !fileManager.fileExists(atPath: fileURL.path) {
+            do {
+                try fileManager.createDirectory(atPath: fileURL.path, withIntermediateDirectories: true, attributes: nil)
+            } catch {
+                print("Error creating directory.\nCause: \(error)")
             }
-            self.fileURL = logURL
         }
+
 
         // Prints out the location of the simulator file for easy debugging
         print(divider + "\n" + "Logging to: \(self.fileURL.path)" + "\n" + divider)
