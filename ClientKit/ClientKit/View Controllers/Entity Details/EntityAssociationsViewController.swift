@@ -41,8 +41,10 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
     }
     
     private let listStateItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .list), style: .plain, target: nil, action: nil)
-    
-    public override init() {
+    private var delegate: EntityDetailsDelegate?
+
+    public init(delegate: EntityDetailsDelegate?) {
+        self.delegate = delegate
         super.init()
         title = "Associations"
         
@@ -164,13 +166,11 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
         }
     }
     
-//    open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        // Ultimate workaround...
-//        let associate = sections[indexPath.section].associate(at: indexPath.item)
-//        let userInfo: [String: Any] = ["selectedEntity": associate, "viewController" : self]
-//        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "AssociateDidTapEntity"), object: self, userInfo: userInfo)
-//    }
-    
+    open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let associate = viewModel.sections[indexPath.section].associate(at: indexPath.item)
+        delegate?.controller(self, didSelectEntity: associate)
+    }
+
     // MARK: - CollectionViewDelegateFormLayout methods
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, insetForSection section: Int) -> UIEdgeInsets {

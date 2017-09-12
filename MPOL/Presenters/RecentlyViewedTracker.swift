@@ -23,7 +23,7 @@ public class RecentlyViewedTracker: PresenterObserving {
         let presentable = presentable as! EntityScreen
 
         switch presentable {
-        case .entityDetails(let entity):
+        case .entityDetails(let entity, _):
             entities.append(entity)
         default: break
         }

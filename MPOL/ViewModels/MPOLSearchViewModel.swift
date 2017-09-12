@@ -12,6 +12,8 @@ import ClientKit
 
 class MPOLSearchViewModel: SearchViewModel {
 
+    public var entityDelegate: EntityDetailsDelegate?
+
     var recentViewModel: SearchRecentsViewModel = MPOLSearchRecentsViewModel()
 
     var dataSources: [SearchDataSource] = [
@@ -23,7 +25,7 @@ class MPOLSearchViewModel: SearchViewModel {
     ]
 
     func presentable(for entity: MPOLKitEntity) -> Presentable {
-        return EntityScreen.entityDetails(entity: entity as! Entity)
+        return EntityScreen.entityDetails(entity: entity as! Entity, delegate: entityDelegate)
     }
 
 }

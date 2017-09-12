@@ -17,7 +17,7 @@ public enum EntityScreen: Presentable {
 
     case createEntity(type: EntityType)
 
-    case entityDetails(entity: Entity)
+    case entityDetails(entity: Entity, delegate: EntityDetailsDelegate?)
 
     public enum EntityType {
         case person, vehicle, organisation, location
@@ -35,13 +35,13 @@ public class EntityPresenter: Presenter {
 
         switch presentable {
 
-        case .entityDetails(let entity):
+        case .entityDetails(let entity, let delegate):
             let dataSource: EntityDetailSectionsDataSource
 
             if entity is Person {
-                dataSource = PersonDetailsSectionsDataSource(baseEntity: entity)
+                dataSource = PersonDetailsSectionsDataSource(baseEntity: entity, delegate: delegate)
             } else {
-                dataSource = VehicleDetailsSectionsDataSource(baseEntity: entity)
+                dataSource = VehicleDetailsSectionsDataSource(baseEntity: entity, delegate: delegate)
             }
 
             return EntityDetailSplitViewController(dataSource: dataSource)
