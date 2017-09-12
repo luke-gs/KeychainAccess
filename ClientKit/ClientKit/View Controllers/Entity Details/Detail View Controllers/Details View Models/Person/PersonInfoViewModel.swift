@@ -283,7 +283,7 @@ public class PersonInfoViewModel: EntityDetailViewModelable {
             title  = item.localizedTitle
             value = item.value(for: licence)
             image  = nil
-            wantsSingleLineValue = true
+            wantsSingleLineValue = false
         default:
             break
         }
@@ -299,7 +299,7 @@ public class PersonInfoViewModel: EntityDetailViewModelable {
     /// Calculate the filling columns for Licence section
     public func licenceItemFillingColumns(at indexPath: IndexPath) -> Int {
         let licenceItem = detailItem(at: indexPath)! as! LicenceItem
-        return (licenceItem == .validity) ? 2 : 1
+        return (licenceItem == .validity || licenceItem == .condition) ? 2 : 1
     }
     
     // MARK: Private methods
@@ -457,10 +457,11 @@ public class PersonInfoViewModel: EntityDetailViewModelable {
         case state
         case country
         case status
+        case condition
         case validity
         
         static func licenceItems(for licence: Licence) -> [LicenceItem] {
-            return [.number, .state, .country, .status, .validity]
+            return [.number, .state, .country, .status, .validity, .condition]
         }
         
         var localizedTitle: String {
@@ -469,6 +470,7 @@ public class PersonInfoViewModel: EntityDetailViewModelable {
             case .state: return NSLocalizedString("State", bundle: .mpolKit, comment: "")
             case .country: return NSLocalizedString("Country", bundle: .mpolKit, comment: "")
             case .status: return NSLocalizedString("Status", bundle: .mpolKit, comment: "")
+            case .condition: return NSLocalizedString("Conditions", bundle: .mpolKit, comment: "")
             case .validity: return NSLocalizedString("Valid until", bundle: .mpolKit, comment: "")
             }
         }
@@ -484,6 +486,14 @@ public class PersonInfoViewModel: EntityDetailViewModelable {
                 return licence.country
             case .status:
                 return licence.status
+            case .condition:
+                if let conditions = licence.conditions {
+
+                    // ToDo: - Do properly
+                    let values = conditions.flatMap { $0.displayValue() }
+                    return values.joined(separator: "\n")
+                }
+                return nil
             case .validity:
                 if let effectiveDate = licence.expiryDate {
                     return DateFormatter.mediumNumericDate.string(from: effectiveDate)
