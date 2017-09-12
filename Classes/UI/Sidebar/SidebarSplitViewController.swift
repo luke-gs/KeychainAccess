@@ -31,12 +31,12 @@ open class SidebarSplitViewController: PushableSplitViewController {
     public let pageViewController: ScrollAwarePageViewController
 
     /// The title to use for main navigation controller when in regular size
-    open var regularTitle: String? {
+    open func regularTitle() -> String? {
         return title
     }
 
     /// The title to use for main navigation controller when in compact size
-    open var compactTitle: String? {
+    open func compactTitle() -> String? {
         return title
     }
 
@@ -239,7 +239,7 @@ open class SidebarSplitViewController: PushableSplitViewController {
         detailNavController.viewControllers.first?.navigationItem.leftBarButtonItem = nil
 
         // Update the navigation bar titles, otherwise they can be shown on wrong side after transition
-        masterNavController.viewControllers.first?.navigationItem.title = self.isCompact() ? compactTitle : regularTitle
+        masterNavController.viewControllers.first?.navigationItem.title = self.isCompact() ? compactTitle() : regularTitle()
         detailNavController.viewControllers.first?.navigationItem.title = detailNavController.viewControllers.first?.title
     }
 
