@@ -12,6 +12,10 @@
 		12ADD43A1F32C0FA00CA8B4D /* VehicleSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */; };
 		3597F18ADBC8910958FB8CED /* Pods_MPOL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17144B68BB155A127F8ED5B8 /* Pods_MPOL.framework */; };
 		397B77011E52CEDA00696677 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 397B77001E52CEDA00696677 /* UserNotifications.framework */; };
+		445A8A381F667A56005ABEB8 /* PersonSearchHelp.json in Resources */ = {isa = PBXBuildFile; fileRef = 445A8A371F667A56005ABEB8 /* PersonSearchHelp.json */; };
+		445A8A3C1F673C8B005ABEB8 /* LocationSearchHelp.json in Resources */ = {isa = PBXBuildFile; fileRef = 445A8A391F673C8B005ABEB8 /* LocationSearchHelp.json */; };
+		445A8A3D1F673C8B005ABEB8 /* OrganisationSearchHelp.json in Resources */ = {isa = PBXBuildFile; fileRef = 445A8A3A1F673C8B005ABEB8 /* OrganisationSearchHelp.json */; };
+		445A8A3E1F673C8B005ABEB8 /* VehicleSearchHelp.json in Resources */ = {isa = PBXBuildFile; fileRef = 445A8A3B1F673C8B005ABEB8 /* VehicleSearchHelp.json */; };
 		BC45C4471EEB56D2001F5747 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */; };
 		BC4E81111EBEE38400188181 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4E81101EBEE38400188181 /* SettingsViewController.swift */; };
 		BC8B26F31EDC07430022B0AD /* ActionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8B26F21EDC07430022B0AD /* ActionListViewController.swift */; };
@@ -49,6 +53,10 @@
 		1D27A2F65F8C83373197EBC3 /* Pods-MPOL.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOL.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MPOL/Pods-MPOL.debug.xcconfig"; sourceTree = "<group>"; };
 		397B76FF1E52C23600696677 /* MPOL.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MPOL.entitlements; sourceTree = "<group>"; };
 		397B77001E52CEDA00696677 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		445A8A371F667A56005ABEB8 /* PersonSearchHelp.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PersonSearchHelp.json; sourceTree = "<group>"; };
+		445A8A391F673C8B005ABEB8 /* LocationSearchHelp.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = LocationSearchHelp.json; sourceTree = "<group>"; };
+		445A8A3A1F673C8B005ABEB8 /* OrganisationSearchHelp.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = OrganisationSearchHelp.json; sourceTree = "<group>"; };
+		445A8A3B1F673C8B005ABEB8 /* VehicleSearchHelp.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = VehicleSearchHelp.json; sourceTree = "<group>"; };
 		463D40291F4BC784005F9A1C /* AppConfig-internal-release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-internal-release.xcconfig"; sourceTree = "<group>"; };
 		463D402A1F4BC7D4005F9A1C /* AppConfig-internal-debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-internal-debug.xcconfig"; sourceTree = "<group>"; };
 		463D402B1F4BC844005F9A1C /* AppConfig-external-debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-external-debug.xcconfig"; sourceTree = "<group>"; };
@@ -190,6 +198,10 @@
 			isa = PBXGroup;
 			children = (
 				EA3C89051F32E34300F38461 /* termsandconditions.html */,
+				445A8A371F667A56005ABEB8 /* PersonSearchHelp.json */,
+				445A8A391F673C8B005ABEB8 /* LocationSearchHelp.json */,
+				445A8A3A1F673C8B005ABEB8 /* OrganisationSearchHelp.json */,
+				445A8A3B1F673C8B005ABEB8 /* VehicleSearchHelp.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -284,7 +296,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCD4EA9F1E515ADE000B993D /* LaunchScreen.storyboard in Resources */,
+				445A8A381F667A56005ABEB8 /* PersonSearchHelp.json in Resources */,
+				445A8A3D1F673C8B005ABEB8 /* OrganisationSearchHelp.json in Resources */,
 				BCD4EA941E515ACE000B993D /* Assets.xcassets in Resources */,
+				445A8A3C1F673C8B005ABEB8 /* LocationSearchHelp.json in Resources */,
+				445A8A3E1F673C8B005ABEB8 /* VehicleSearchHelp.json in Resources */,
 				EA3C89061F32E34300F38461 /* termsandconditions.html in Resources */,
 				BC45C4471EEB56D2001F5747 /* Localizable.stringsdict in Resources */,
 			);
