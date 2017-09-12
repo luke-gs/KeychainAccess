@@ -267,29 +267,30 @@ open class CompactSidebarViewController: UIViewController {
     @objc private func didTapSourceButton(_ item: UIBarButtonItem) {
         guard let selectedSourceIndex = selectedSourceIndex else { return }
         let sourceViewController = CompactSidebarSourceViewController(items: sourceItems, selectedIndex: selectedSourceIndex)
-        let navVC = UINavigationController(rootViewController: sourceViewController)
+        let navVC = PopoverNavigationController(rootViewController: sourceViewController)
+        navVC.modalPresentationStyle = .formSheet
         self.sourceViewController = sourceViewController
 
         // Override nav bar appearance to match creative
-        let theme = ThemeManager.shared.theme(for: .current)
-        navVC.navigationBar.barTintColor = theme.color(forKey: .background)
-        navVC.navigationBar.tintColor = theme.color(forKey: .tint)
-        if let primaryTextColor = theme.color(forKey: .primaryText) {
-            navVC.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: primaryTextColor]
-        }
-        navVC.navigationBar.setBackgroundImage(nil, for: .default)
-        navVC.navigationBar.isTranslucent = true
-        navVC.view.backgroundColor = UIColor.clear
-
-        // Present the source selection as a centered popover, even on iPhone
-        if let navigationController = navigationController {
-            navVC.modalPresentationStyle = .popover
-            navVC.popoverPresentationController?.permittedArrowDirections = []
-            navVC.popoverPresentationController?.sourceView = navigationController.view
-            navVC.popoverPresentationController?.sourceRect = navigationController.view.bounds
-            navVC.popoverPresentationController?.delegate = self
-            navVC.presentationController?.delegate = self
-        }
+//        let theme = ThemeManager.shared.theme(for: .current)
+//        navVC.navigationBar.barTintColor = theme.color(forKey: .background)
+//        navVC.navigationBar.tintColor = theme.color(forKey: .tint)
+//        if let primaryTextColor = theme.color(forKey: .primaryText) {
+//            navVC.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: primaryTextColor]
+//        }
+//        navVC.navigationBar.setBackgroundImage(nil, for: .default)
+//        navVC.navigationBar.isTranslucent = true
+//        navVC.view.backgroundColor = UIColor.clear
+//
+//        // Present the source selection as a centered popover, even on iPhone
+//        if let navigationController = navigationController {
+//            navVC.modalPresentationStyle = .popover
+//            navVC.popoverPresentationController?.permittedArrowDirections = []
+//            navVC.popoverPresentationController?.sourceView = navigationController.view
+//            navVC.popoverPresentationController?.sourceRect = navigationController.view.bounds
+//            navVC.popoverPresentationController?.delegate = self
+//            navVC.presentationController?.delegate = self
+//        }
         present(navVC, animated: true, completion: nil)
     }
 

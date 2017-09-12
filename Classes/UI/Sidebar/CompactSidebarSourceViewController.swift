@@ -54,18 +54,19 @@ open class CompactSidebarSourceViewController: UITableViewController {
     }
 
     required public init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        MPLUnimplemented()
     }
 
     override open func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = UIColor.clear
+        view.backgroundColor = UIColor.white
         title = NSLocalizedString("Other Data Sources", comment: "")
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(didTapDoneButton(_:)))
 
-        tableView.rowHeight = 60
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 50
         tableView.register(CompactSidebarSourceCell.self, forCellReuseIdentifier: reuseIdentifier)
         tableView.tableFooterView = UIView()
     }
@@ -97,26 +98,19 @@ extension CompactSidebarSourceViewController {
     }
 
     override open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let theme = ThemeManager.shared.theme(for: .current)
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as? CompactSidebarSourceCell else { fatalError() }
         let source = items[indexPath.row]
-        cell.textLabel?.text = source.title
 
-        switch source.state {
-        case .notLoaded: fallthrough
-        case .loading: fallthrough
-        case .notAvailable:
-            // TODO: decide UI for source image/icon/loading
-            cell.detailTextLabel?.text = nil
-            break
-        case .loaded(let count, _):
-            cell.textLabel?.textColor = theme.color(forKey: .primaryText)
-            cell.detailTextLabel?.textColor = theme.color(forKey: .secondaryText)
-            cell.detailTextLabel?.text = String.localizedStringWithFormat(NSLocalizedString("%d Alert(s)", comment: ""), count ?? 0)
-        }
+        cell.sourceTitle.text = source.title
+        cell.sourceBarCell.update(for: source)
+        cell.sourceBarCell.isSelected = (indexPath.row == selectedIndex)
+        // cell.detailTextLabel?.text = String.localizedStringWithFormat(NSLocalizedString("%d Alert(s)", comment: ""), count ?? 0)
 
-        cell.accessoryType = indexPath.row == selectedIndex ? .checkmark : .none
-        cell.backgroundColor = UIColor.clear
+        // Set colors according to theme
+        let theme = ThemeManager.shared.theme(for: .current)
+        cell.sourceTitle.textColor = theme.color(forKey: .primaryText)
+        cell.backgroundColor = theme.color(forKey: .background)
+        tableView.backgroundColor = cell.backgroundColor
         return cell
     }
 }
