@@ -41,6 +41,9 @@ public protocol SearchRecentsViewModel {
 /// Only reason this really exists is that once we pass this in to MPOLKit's main SearchViewController we don't have control over this object's properties
 public protocol SearchViewModel {
 
+    /// A delegate back to the search view controller
+    var entityDelegate: EntityDetailsDelegate? { get set }
+
     /// The recent view model
     var recentViewModel: SearchRecentsViewModel { get }
 
