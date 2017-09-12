@@ -9,6 +9,12 @@
 import UIKit
 import Unbox
 
+
+// The type options for a section's detail (see example below: sections -> type)
+fileprivate let TextType = "text"
+fileprivate let TagsType = "tags"
+
+
 /*
  SAMPLE JSON FOR HELP CONTENT
  --------------------------------------------------------
@@ -102,12 +108,16 @@ open class HelpSection: Unboxable {
         
         // Custom unboxing for different detail types
         let type: String = try unboxer.unbox(key: "type")
-        if type == "text" {
+
+        switch type {
+        case TextType:
             let text: String = try unboxer.unbox(key: "detail")
             detail = .text(text)
-        } else {
+        case TagsType:
             let tags: [String] = try unboxer.unbox(key: "detail")
             detail = .tags(tags)
+        default:
+            fatalError()
         }
     }
 }
