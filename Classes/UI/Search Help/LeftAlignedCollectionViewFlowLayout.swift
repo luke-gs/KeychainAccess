@@ -1,6 +1,6 @@
 //
 //  LeftAlignedCollectionViewFlowLayout.swift
-//  Pods
+//  MPOLKit
 //
 //  Created by Megan Efron on 11/9/17.
 //

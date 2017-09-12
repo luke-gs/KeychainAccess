@@ -1,6 +1,6 @@
 //
-//  SearchHelpViewController.swift
-//  Pods
+//  HelpViewController.swift
+//  MPOLKit
 //
 //  Created by Megan Efron on 9/9/17.
 //
@@ -9,23 +9,23 @@
 import UIKit
 
 
-open class SearchHelpViewController: UIViewController {
+open class HelpViewController: UIViewController {
     
     
     // MARK: - Properties
     
-    public let details: SearchHelpDetails
+    open let content: HelpContent
     
     private var stackView: UIStackView?
     
     
     // MARK: - Lifecycle
     
-    public required init(details: SearchHelpDetails) {
-        self.details = details
+    public required init(content: HelpContent) {
+        self.content = content
         super.init(nibName: nil, bundle: nil)
         
-        self.title = details.title
+        self.title = content.title
         
         NotificationCenter.default.addObserver(self, selector: #selector(reloadSections), name: .interfaceStyleDidChange, object: nil)
     }
@@ -90,7 +90,7 @@ open class SearchHelpViewController: UIViewController {
         
         view.backgroundColor = theme.color(forKey: .background)!
         
-        for section in details.sections {
+        for section in content.sections {
             let titleLabel = UILabel()
             titleLabel.numberOfLines = 0
             titleLabel.textColor = theme.color(forKey: .primaryText)!
@@ -114,7 +114,7 @@ open class SearchHelpViewController: UIViewController {
                 detailView = label
             case .tags(let detail):
                 // Applies theme from inside the implementation
-                detailView = SearchHelpTagCollectionView(tags: detail)
+                detailView = TagCollectionView(tags: detail)
             }
             
             let itemStackView = UIStackView(arrangedSubviews: [titleLabel, detailView])

@@ -1,5 +1,5 @@
 //
-//  SearchHelpDetails.swift
+//  HelpContent.swift
 //  MPOLKit
 //
 //  Created by Megan Efron on 11/9/17.
@@ -10,7 +10,7 @@ import UIKit
 import Unbox
 
 /*
- SAMPLE JSON FOR SEARCH HELP DETAILS
+ SAMPLE JSON FOR HELP CONTENT
  --------------------------------------------------------
  {
 	"title": "Searching for People",
@@ -41,8 +41,8 @@ import Unbox
  */
 
 
-/// Item describes content for 'SearchHelpViewController'
-open class SearchHelpDetails: Unboxable {
+/// Item describes content for 'HelpViewController'
+open class HelpContent: Unboxable {
     
     
     // MARK: - Properties
@@ -50,20 +50,20 @@ open class SearchHelpDetails: Unboxable {
     /// The title of the screen
     open var title: String
     
-    /// The 'SearchHelpSection' items for the help screen
-    open var sections: [SearchHelpSection]
+    /// The 'HelpSection' items for the help screen
+    open var sections: [HelpSection]
     
     
     // MARK: - Lifecycle
     
     public required init(filename: String, bundle: Bundle) {
         let url = bundle.url(forResource: filename, withExtension: "json")!
-        let definition: SearchHelpDetails = try! unbox(data: Data(contentsOf: url))
-        self.title = definition.title
-        self.sections = definition.sections
+        let content: HelpContent = try! unbox(data: Data(contentsOf: url))
+        self.title = content.title
+        self.sections = content.sections
     }
     
-    public required init(title: String, sections: [SearchHelpSection]) {
+    public required init(title: String, sections: [HelpSection]) {
         self.title = title
         self.sections = sections
     }
@@ -75,8 +75,8 @@ open class SearchHelpDetails: Unboxable {
 }
 
 
-/// Item describes content for section in `SearchHelpViewController`
-open class SearchHelpSection: Unboxable {
+/// Item describes content for section in `HelpViewController`
+open class HelpSection: Unboxable {
     
     
     // MARK: - Properties
@@ -85,12 +85,12 @@ open class SearchHelpSection: Unboxable {
     open let title: String
     
     /// The detail of the section (standard subtitle or array of strings displayed like tags)
-    open let detail: SearchHelpDetail
+    open let detail: HelpDetail
     
     
     // MARK: - Lifecycle
     
-    public required init(title: String, detail: SearchHelpDetail) {
+    public required init(title: String, detail: HelpDetail) {
         self.title = title
         self.detail = detail
     }
@@ -113,11 +113,11 @@ open class SearchHelpSection: Unboxable {
 }
 
 
-/// The `SearchHelpSection` detail type that contains relevant content
+/// The `HelpSection` detail type that contains relevant content
 ///
 /// - text: A standard string subtitle
-/// - tags: A subtitle that looks like an array of tag views
-public enum SearchHelpDetail {
+/// - tags: An array of tag strings
+public enum HelpDetail {
     case text(String)
     case tags([String])
 }
