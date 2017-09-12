@@ -1,6 +1,6 @@
 //
-//  SearchHelpTagCollectionView.swift
-//  Pods
+//  TagCollectionView.swift
+//  MPOLKit
 //
 //  Created by Megan Efron on 9/9/17.
 //
@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class SearchHelpTagCollectionView: UICollectionView, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+open class TagCollectionView: UICollectionView, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     
     // MARK: - Properties
@@ -34,7 +34,7 @@ public class SearchHelpTagCollectionView: UICollectionView, UICollectionViewData
         dataSource = self
         delegate = self
         backgroundColor = .clear
-        register(SearchHelpTagCollectionViewCell.self)
+        register(TagCollectionViewCell.self)
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -44,16 +44,16 @@ public class SearchHelpTagCollectionView: UICollectionView, UICollectionViewData
     
     // MARK: - UICollectionViewDataSource
     
-    public func numberOfSections(in collectionView: UICollectionView) -> Int {
+    open func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
-    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return tags.count
     }
     
-    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(of: SearchHelpTagCollectionViewCell.self, for: indexPath)
+    open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(of: TagCollectionViewCell.self, for: indexPath)
         cell.label.text = tags[indexPath.row]
         
         let theme = ThemeManager.shared.theme(for: .current)
@@ -68,9 +68,9 @@ public class SearchHelpTagCollectionView: UICollectionView, UICollectionViewData
     
     // MARK: - UICollectionViewDelegateFlowLayout
     
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let string = tags[indexPath.row]
-        let font = SearchHelpTagCollectionViewCell.font
+        let font = TagCollectionViewCell.font
         
         let height = font.lineHeight + (heightInset * 2)
         let size = (string as NSString).boundingRect(with: CGSize(width: .greatestFiniteMagnitude, height: height),
@@ -84,17 +84,17 @@ public class SearchHelpTagCollectionView: UICollectionView, UICollectionViewData
     
     // MARK: - Autolayout
     
-    public override var intrinsicContentSize: CGSize {
+    open override var intrinsicContentSize: CGSize {
         return contentSize
     }
     
-    public override var contentSize: CGSize {
+    open override var contentSize: CGSize {
         didSet {
             invalidateIntrinsicContentSize()
         }
     }
     
-    public override func reloadData() {
+    open override func reloadData() {
         super.reloadData()
         invalidateIntrinsicContentSize()
     }

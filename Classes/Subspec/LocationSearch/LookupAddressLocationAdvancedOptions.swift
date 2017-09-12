@@ -22,8 +22,8 @@ public enum LocationAdvanceItem: Int {
         .streetName:   "Street Name",
         .streetType:   "Street Type",
         .suburb:       "Suburb",
-        .postcode:     "Postcode",
-        .state:        "State"
+        .state:        "State",
+        .postcode:     "Postcode"
     ]
 
     public var title: String { return LocationAdvanceItem.titles[self]! }
@@ -63,7 +63,7 @@ public enum StateType: String, Pickable {
     public var subtitle: String? { return "" }
 
     public static let all: [StateType] = [
-        .VIC, .NSW, .NT, .ACT, .TAS, .QLD, .WA, SA
+        .ACT, .NSW, .NT, .QLD, SA, .TAS, .VIC, .WA
     ]
 }
 
@@ -74,7 +74,7 @@ open class LookupAddressLocationAdvancedOptions: LocationAdvanceOptions {
     
     public let title: String = NSLocalizedString("Advanced Search", comment: "")
     
-    public let cancelTitle: String = NSLocalizedString("GO BACK TO SIMPLE SEARCH", comment: "Location Search - Back to simple search")
+    public let cancelTitle: String = NSLocalizedString("BACK TO SIMPLE SEARCH", comment: "Location Search - Back to simple search")
     
     open var unit:               String?
     open var streetNumber:       String?

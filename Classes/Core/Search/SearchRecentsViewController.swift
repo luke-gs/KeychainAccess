@@ -165,6 +165,7 @@ class SearchRecentsViewController: FormCollectionViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        updateLoadingManagerState()
         collectionView?.reloadData()
     }
 
