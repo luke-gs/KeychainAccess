@@ -9,7 +9,7 @@
 import UIKit
 import PromiseKit
 
-open class EntityDetailSplitViewController: SidebarSplitViewController {
+open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Summary: EntitySummaryDisplayable>: SidebarSplitViewController {
 
     private let headerView = SidebarHeaderView(frame: .zero)
     fileprivate let detailViewModel: EntityDetailSectionsViewModel
@@ -70,7 +70,14 @@ open class EntityDetailSplitViewController: SidebarSplitViewController {
 
     open override func masterNavTitleSuitable(for traitCollection: UITraitCollection) -> String {
         // Ask the data source for an appropriate title
-        return detailViewModel.detailSectionsDataSource.navTitleSuitable(for: traitCollection)
+        if traitCollection.horizontalSizeClass == .compact {
+            let entity = detailViewModel.currentEntity
+            if let title =  Summary(entity).title {
+                return title
+            }
+        }
+        // Use a generic sidebar title
+        return NSLocalizedString("Details", comment: "Title for for entity details")
     }
 
     // MARK: - Private methods
@@ -104,7 +111,8 @@ open class EntityDetailSplitViewController: SidebarSplitViewController {
 
                 case .finished:
                     if fetchResult.error == nil,
-                        let displayable = fetchResult.entity as? EntityDetailDisplayable {
+                        let entity = fetchResult.entity {
+                        let displayable = Details(entity)
                         itemState = .loaded(count: displayable.alertBadgeCount, color: displayable.alertBadgeColor)
                     } else {
                         itemState = .notAvailable
@@ -130,8 +138,8 @@ open class EntityDetailSplitViewController: SidebarSplitViewController {
     private func updateHeaderView() {
         let entity = detailViewModel.currentEntity
 
-        guard let detailDisplayable = entity as? EntityDetailDisplayable else { return }
-        guard let summaryDisplayable = entity as? EntitySummaryDisplayable else { return }
+        let detailDisplayable = Details(entity)
+        let summaryDisplayable = Summary(entity)
 
         headerView.captionLabel.text = detailDisplayable.entityDisplayName?.localizedUppercase
 
