@@ -53,6 +53,10 @@ class SearchRecentsViewController: FormCollectionViewController {
     @objc dynamic var isShowingNavBarExtension: Bool = false {
         didSet {
             compactNavBarExtension?.alpha = isShowingNavBarExtension ? 1.0 : 0.0
+
+            // Force layout of nav bar extension first, then layout view to account for it
+            compactNavBarExtension?.setNeedsLayout()
+            compactNavBarExtension?.layoutIfNeeded()
             view.setNeedsLayout()
         }
     }
@@ -127,20 +131,22 @@ class SearchRecentsViewController: FormCollectionViewController {
         compactSegmentedControl = segmentedControl
         compactNavBarExtension = navBarExtension
 
+        let extensionVerticalConstraint: NSLayoutConstraint
+        if #available(iOS 11, *) {
+            extensionVerticalConstraint = navBarExtension.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+        } else {
+            extensionVerticalConstraint = navBarExtension.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor)
+        }
+
         NSLayoutConstraint.activate([
             segmentedControl.widthAnchor.constraint(equalTo: navBarExtension.widthAnchor, constant: -32.0),
             segmentedControl.topAnchor.constraint(equalTo: navBarExtension.topAnchor),
             segmentedControl.bottomAnchor.constraint(equalTo: navBarExtension.bottomAnchor, constant: -17.0),
 
             navBarExtension.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            navBarExtension.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            navBarExtension.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            extensionVerticalConstraint
         ])
-
-        if #available(iOS 11, *) {
-            navBarExtension.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        } else {
-            navBarExtension.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
-        }
     }
 
 
