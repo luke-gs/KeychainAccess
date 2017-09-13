@@ -23,7 +23,7 @@ public class SearchResultErrorCell: UICollectionViewCell, DefaultReusable {
         button.setTitle(NSLocalizedString("Try Again", comment: "Search result - Try again"), for: .normal)
         button.setTitleColor(.black, for: .normal)
         
-        titleLabel.numberOfLines = 2
+        titleLabel.numberOfLines = 0
         titleLabel.textAlignment = .center
         titleLabel.font = .preferredFont(forTextStyle: .headline)
         
@@ -47,7 +47,7 @@ public class SearchResultErrorCell: UICollectionViewCell, DefaultReusable {
         var constraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|[title]-24-[button]|", options: [.alignAllCenterX], metrics: nil, views: views)
         constraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|[title]|", options: [], metrics: nil, views: views)
         constraints += [
-            container.widthAnchor.constraint(lessThanOrEqualToConstant: 320.0),
+            container.widthAnchor.constraint(lessThanOrEqualToConstant: 400.0),
             container.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.layoutMarginsGuide.leadingAnchor),
             container.trailingAnchor.constraint(lessThanOrEqualTo: contentView.layoutMarginsGuide.trailingAnchor),
             container.topAnchor.constraint(greaterThanOrEqualTo: contentView.layoutMarginsGuide.topAnchor),
