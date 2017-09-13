@@ -63,7 +63,7 @@ class MPOLSearchRecentsViewModel: SearchRecentsViewModel {
         case entity as Person:
             cell.decorate(with: PersonSummaryDisplayable(entity))
         case entity as Vehicle:
-            cell.decorate(with: PersonSummaryDisplayable(entity))
+            cell.decorate(with: VehicleSummaryDisplayable(entity))
         default:
             break
         }
