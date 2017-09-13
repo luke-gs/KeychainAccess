@@ -144,7 +144,7 @@ open class EventDetailViewController: FormCollectionViewController {
 
         loadingManager.state = .loading
 
-        APIManager.shared.fetchEntityDetails(in: source, with: EntityFetchRequest<Event>(id: "93838383838")).then { [weak self] event -> () in
+        APIManager.shared.fetchEntityDetails(in: source, with: EntityFetchRequest<Event>(id: eventId)).then { [weak self] event -> () in
             if let `self` = self {
                 self.event = event
                 self.loadingManager.state = .loaded
