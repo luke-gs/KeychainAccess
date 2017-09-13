@@ -8,6 +8,12 @@
 
 import UIKit
 
+/// KVO context for navigation items
+fileprivate var navItemsContext = 0
+
+/// Keypath for rightBarButtonItems
+fileprivate let keypathRightBarButtonItems = #keyPath(UINavigationItem.rightBarButtonItems)
+
 /// The SidebarSplitViewController represents a standard split view controller that can be pushed on to
 /// a UINavigationController stack and includes a sidebar of navigation menu items that can be displayed
 /// in both regular and compact size environments.
@@ -39,6 +45,7 @@ open class SidebarSplitViewController: PushableSplitViewController {
     public var detailViewControllers: [UIViewController] {
         didSet {
             regularSidebarViewController.items = detailViewControllers.map { $0.sidebarItem }
+            compactSidebarViewController.items = detailViewControllers.map { $0.sidebarItem }
             if let oldSelected = selectedViewController, detailViewControllers.contains(oldSelected) == false {
                 selectedViewController = nil
             }
@@ -48,10 +55,17 @@ open class SidebarSplitViewController: PushableSplitViewController {
     /// The selected view controller.
     public var selectedViewController: UIViewController? {
         didSet {
-            if let newValue = selectedViewController {
-                precondition(detailViewControllers.contains(newValue), "`selectedViewController` must be a member of detailViewControllers.")
-            }
             if selectedViewController != oldValue {
+
+                // Observer changes to navigations items
+                if let oldValue = oldValue {
+                    oldValue.navigationItem.removeObserver(self, forKeyPath: keypathRightBarButtonItems, context: &navItemsContext)
+                }
+                if let newValue = selectedViewController {
+                    precondition(detailViewControllers.contains(newValue), "`selectedViewController` must be a member of detailViewControllers.")
+                    newValue.navigationItem.addObserver(self, forKeyPath: keypathRightBarButtonItems, context: &navItemsContext)
+                }
+                // Update the split view content
                 updateSplitViewControllerForSelection()
             }
         }
@@ -127,11 +141,19 @@ open class SidebarSplitViewController: PushableSplitViewController {
         let selectedItem = selectedViewController?.sidebarItem
         regularSidebarViewController.selectedItem = selectedItem
         compactSidebarViewController.selectedItem = selectedItem
+
+        // Add kvo observer, as didSet not called in init
+        selectedViewController?.navigationItem.addObserver(self, forKeyPath: keypathRightBarButtonItems, context: &navItemsContext)
     }
 
     /// `SidebarSplitViewController` does not support NSCoding.
     public required init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
+    }
+
+    deinit {
+        // Remove kvo observer
+        selectedViewController?.navigationItem.removeObserver(self, forKeyPath: keypathRightBarButtonItems, context: &navItemsContext)
     }
 
     open override func viewWillAppear(_ animated: Bool) {
@@ -256,6 +278,16 @@ open class SidebarSplitViewController: PushableSplitViewController {
                 detailNavController.viewControllers = [selectedViewController]
                 embeddedSplitViewController.showDetailViewController(detailNavController, sender: self)
             }
+        }
+    }
+
+    // MARK: - KVO
+
+    open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if context == &navItemsContext {
+            updateNavigationBarForSelection()
+        } else {
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
     }
 }
