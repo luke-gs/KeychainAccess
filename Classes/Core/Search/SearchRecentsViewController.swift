@@ -133,9 +133,14 @@ class SearchRecentsViewController: FormCollectionViewController {
             segmentedControl.bottomAnchor.constraint(equalTo: navBarExtension.bottomAnchor, constant: -17.0),
 
             navBarExtension.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            navBarExtension.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            navBarExtension.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor),
-            ])
+            navBarExtension.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+
+        if #available(iOS 11, *) {
+            navBarExtension.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        } else {
+            navBarExtension.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
+        }
     }
 
 
