@@ -229,23 +229,21 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
             tabBarBackground.topAnchor.constraint(equalTo: tabBarContainerView.topAnchor)
         ]
         
-        // TODO: Uncomment for iOS 11
-//        if #available(iOS 11, *) {
-//            constraints.append(tabBarContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor))
-//        } else {
+        if #available(iOS 11, *) {
+            constraints.append(tabBarContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor))
+        } else {
             constraints.append(tabBarContainerView.bottomAnchor.constraint(equalTo: bottomLayoutGuide.topAnchor))
-//        }
-        
+        }
+
         NSLayoutConstraint.activate(constraints)
         
         updateBarConstraints()
     }
     
     open override func viewDidLayoutSubviews() {
-        // TODO: Uncomment for iOS 11
-//        if #available(iOS 11, *) {
-//            additionalSafeAreaInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: tabBar.frame.height, right: 0.0)
-//        }
+        if #available(iOS 11, *) {
+            additionalSafeAreaInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: tabBar.frame.height, right: 0.0)
+        }
         super.viewDidLayoutSubviews()
     }
     

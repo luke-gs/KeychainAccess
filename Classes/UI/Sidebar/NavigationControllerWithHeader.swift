@@ -46,8 +46,6 @@ open class NavigationControllerWithHeader: UINavigationController {
         return !onlyVisibleWhenCompact
     }
 
-    // iOS 11
-    /*
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
@@ -61,17 +59,13 @@ open class NavigationControllerWithHeader: UINavigationController {
             }
         }
     }
-    */
 
-    // iOS 10
     override open func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        /*
         if #available(iOS 11.0, *) {
             return
         }
-        */
 
         if let headerView = headerView, isHeaderViewVisible() {
             headerView.isHidden = false

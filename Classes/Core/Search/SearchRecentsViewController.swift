@@ -152,13 +152,11 @@ class SearchRecentsViewController: FormCollectionViewController {
     override func viewWillLayoutSubviews() {
         let navBarExtension = isShowingNavBarExtension ? compactNavBarExtension?.frame.height ?? 0.0 : 0.0
 
-        // TODO: Uncomment for iOS 11
-        //        if #available(iOS 11, *) {
-        //            additionalSafeAreaInsets.top = navBarExtension
-        //        } else {
-        legacy_additionalSafeAreaInsets.top = navBarExtension
-        //        }
-
+        if #available(iOS 11, *) {
+            additionalSafeAreaInsets.top = navBarExtension
+        } else {
+            legacy_additionalSafeAreaInsets.top = navBarExtension
+        }
         super.viewWillLayoutSubviews()
     }
 
