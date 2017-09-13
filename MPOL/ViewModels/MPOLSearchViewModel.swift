@@ -58,7 +58,15 @@ class MPOLSearchRecentsViewModel: SearchRecentsViewModel {
         let entity = recentlyViewed[indexPath.item]
 
         cell.style = .detail
-        cell.decorate(with: entity as! EntitySummaryDisplayable)
+
+        switch entity {
+        case entity as Person:
+            cell.decorate(with: PersonSummaryDisplayable(entity))
+        case entity as Vehicle:
+            cell.decorate(with: PersonSummaryDisplayable(entity))
+        default:
+            break
+        }
     }
 
     func summaryIcon(for searchable: Searchable) -> UIImage? {
