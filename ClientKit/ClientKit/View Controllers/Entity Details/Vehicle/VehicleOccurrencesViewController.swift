@@ -103,19 +103,6 @@ open class VehicleOccurrencesViewController: EntityOccurrencesViewController, Fi
         let detailViewController: UIViewController?
         guard let event = viewModel.item(at: indexPath.section)?.events[indexPath.item] else { return }
         
-//        switch event {
-//        case let fieldContact as FieldContact:
-//            let fieldContactVC = FieldContactDetailViewController()
-//            fieldContactVC.event = fieldContact
-//            detailViewController = fieldContactVC
-//        case let interventionOrder as InterventionOrder:
-//            let interventionOrderVC = InterventionOrderDetailViewController()
-//            interventionOrderVC.event = interventionOrder
-//            detailViewController = interventionOrderVC
-//        default:
-//            detailViewController = nil
-//        }
-
         if let source = event.source {
             detailViewController = EventDetailViewController(source: source, eventId: event.id)
 
