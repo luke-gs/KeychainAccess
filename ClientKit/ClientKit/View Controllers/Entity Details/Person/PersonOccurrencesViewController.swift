@@ -64,7 +64,7 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
     open override func viewDidLoad() {
         super.viewDidLoad()
 
-        loadingManager.noContentView.titleLabel.text = NSLocalizedString("No E Found", bundle: .mpolKit, comment: "")
+        loadingManager.noContentView.titleLabel.text = NSLocalizedString("No Events Found", bundle: .mpolKit, comment: "")
         updateNoContentSubtitle(viewModel.noContentSubtitle())
 
         EventDetailsViewModelRouter.register(eventClass: BailOrder.self, viewModelClass: BailOrderDetailViewModel.self)
@@ -126,12 +126,14 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
 //            detailViewController = nil
 //        }
 
-        detailViewController = EventDetailViewController(eventId: event.id)
+        if let source = event.source {
+            detailViewController = EventDetailViewController(source: source, eventId: event.id)
 
-        guard let detailVC = detailViewController,
-            let navController = pushableSplitViewController?.navigationController ?? navigationController else { return }
-        
-        navController.pushViewController(detailVC, animated: true)
+            guard let detailVC = detailViewController,
+                let navController = pushableSplitViewController?.navigationController ?? navigationController else { return }
+
+            navController.pushViewController(detailVC, animated: true)
+        }
     }
     
     

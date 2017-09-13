@@ -27,6 +27,7 @@ open class EventDetailViewController: FormCollectionViewController {
             case header
             case item
             case valueField
+            case entity(EntitySummaryDisplayable)
         }
 
         public var style: Style
@@ -38,7 +39,7 @@ open class EventDetailViewController: FormCollectionViewController {
         public var minimumContentWidth: CGFloat
         public var numberOfLines: Int
 
-        public init(style: Style = .valueField, title: String?, detail: String?, placeholder: String? = nil, image: UIImage? = nil, preferredColumnCount: Int = 3, minimumContentWidth: CGFloat = 180.0, numberOfLines: Int = 0) {
+        public init(style: Style = .valueField, title: String? = nil, detail: String? = nil, placeholder: String? = nil, image: UIImage? = nil, preferredColumnCount: Int = 3, minimumContentWidth: CGFloat = 180.0, numberOfLines: Int = 0) {
             self.numberOfLines = numberOfLines
             self.style = style
             self.title = title?.ifNotEmpty()
@@ -61,11 +62,6 @@ open class EventDetailViewController: FormCollectionViewController {
     }
 
 
-    /// The current sections for the collection to present.
-    ///
-    /// Subclasses should set this property to update the section on
-    /// display. Setting this property automatically updates the collection
-    /// view, if loaded.
     open var sections: [EventDetailSection] = [] {
         didSet {
             collectionView?.reloadData()
@@ -75,31 +71,92 @@ open class EventDetailViewController: FormCollectionViewController {
 
     // MARK: - Public methods
 
-    /// Updates the sections propety for the current event.
-    ///
-    /// Subclasses should override this method to update the sections
-    /// property appropriately for their event type. This method is called
-    /// each time the event is set. The default is a nop.
     open func updateSections() {
+        guard let event = event else {
+            self.sections = []
+            return
+        }
+
+        var sections = [EventDetailSection]()
+
+        let header = EventDetailSection(title: "DETAILS", items: [
+            EventDetailItem(style: .header, title: event.eventType ?? "Event", detail: "#" + event.id, preferredColumnCount: 1),
+            EventDetailItem(title: "Status", detail: event.status ?? "-", preferredColumnCount: 2),
+            EventDetailItem(title: "Occurred On", detail: dateTimeDisplayString(for: event.effectiveDate), preferredColumnCount: 2),
+            EventDetailItem(title: "Created On", detail: dateTimeDisplayString(for: event.dateCreated), preferredColumnCount: 2),
+            EventDetailItem(title: "Created By", detail: event.createdBy ?? "-", preferredColumnCount: 2),
+            EventDetailItem(title: "Description", detail: displayString(for: event.eventDescription), preferredColumnCount: 1)
+        ])
+        sections.append(header)
+
+        if let addresses = event.addresses, addresses.count > 0 {
+            let numberOfAddresses = addresses.count
+            let addressItems = addresses.map { item -> EventDetailItem in
+                let title: String
+                if let date = item.reportDate {
+                    title = String(format: NSLocalizedString("%@ - Recorded as at %@", bundle: .mpolKit, comment: ""), item.type ?? "Unknown", DateFormatter.mediumNumericDate.string(from: date))
+                } else {
+                    title = String(format: NSLocalizedString("%@ - Recorded date unknown", bundle: .mpolKit, comment: ""), item.type ?? "Unknown")
+                }
+
+                return EventDetailItem(title: title, detail: item.formatted(), image: AssetManager.shared.image(forKey: .location), preferredColumnCount: 1)
+            }
+
+            let addressSection = EventDetailSection(title: "\(numberOfAddresses == 0 ? "NO" : String(numberOfAddresses)) \(numberOfAddresses == 1 ? "ADDRESS" : "ADDRESSES")", items: addressItems)
+
+            sections.append(addressSection)
+        }
+
+        if let associatedPersons = event.associatedPersons, associatedPersons.count > 0 {
+            let numberOfPersons = associatedPersons.count
+            let personItems = associatedPersons.map { EventDetailItem(style: .entity($0)) }
+            let personSection = EventDetailSection(title: "\(numberOfPersons == 0 ? "NO" : String(numberOfPersons)) \(numberOfPersons == 1 ? "PERSON" : "PEOPLE")", items: personItems)
+
+            sections.append(personSection)
+        }
+
+        if let associatedVehicles = event.associatedVehicles, associatedVehicles.count > 0 {
+            let numberOfVehicles = associatedVehicles.count
+            let vehicleItems = associatedVehicles.map { EventDetailItem(style: .entity($0)) }
+            let vehicleSection = EventDetailSection(title: "\(numberOfVehicles == 0 ? "NO" : String(numberOfVehicles)) \(numberOfVehicles == 1 ? "VEHICLE" : "VEHICLES")", items: vehicleItems)
+
+            sections.append(vehicleSection)
+        }
+
+        self.sections = sections
     }
 
-
-    let type: String
-
+    public let source: MPOLSource
     public let eventId: String
 
-    required public init(eventId: String) {
-        self.type = "Event"
+    required public init(source: MPOLSource, eventId: String) {
+        self.source = source
         self.eventId = eventId
+
         super.init()
 
+        self.title = "Event"
 
+        let noContentView = loadingManager.noContentView
+        noContentView.titleLabel.text = NSLocalizedString("No Event Found", bundle: .mpolKit, comment: "")
+        noContentView.subtitleLabel.text = NSLocalizedString("There are no details for this event", bundle: .mpolKit, comment: "")
+        loadingManager.loadingLabel.text = "Retrieving event"
+
+        loadingManager.state = .loading
+
+        APIManager.shared.fetchEntityDetails(in: source, with: EntityFetchRequest<Event>(id: "93838383838")).then { [weak self] event -> () in
+            if let `self` = self {
+                self.event = event
+                self.loadingManager.state = .loaded
+            }
+        }.catch { [weak self] error in
+            self?.loadingManager.state = .noContent
+        }
     }
 
     required convenience public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
 
     // MARK: - View lifecycle
 
@@ -110,9 +167,19 @@ open class EventDetailViewController: FormCollectionViewController {
 
         collectionView.register(CollectionViewFormSubtitleCell.self)
         collectionView.register(CollectionViewFormValueFieldCell.self)
+        collectionView.register(EntityCollectionViewCell.self)
+        collectionView.register(EntityListCollectionViewCell.self)
         collectionView.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
     }
 
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        let isCompact = traitCollection.horizontalSizeClass == .compact
+        if isCompact != (previousTraitCollection?.horizontalSizeClass == .compact) {
+            collectionView?.reloadData()
+        }
+    }
 
     // MARK: - UICollectionViewDataSource
 
@@ -162,6 +229,16 @@ open class EventDetailViewController: FormCollectionViewController {
             cell.placeholderLabel.text = item.placeholder
             cell.valueLabel.numberOfLines = item.numberOfLines
             return cell
+        case .entity(let entity):
+            if traitCollection.horizontalSizeClass != .compact {
+                let cell = collectionView.dequeueReusableCell(of: EntityCollectionViewCell.self, for: indexPath)
+                cell.decorate(with: entity)
+                return cell
+            } else {
+                let cell = collectionView.dequeueReusableCell(of: EntityListCollectionViewCell.self, for: indexPath)
+                cell.decorate(with: entity)
+                return cell
+            }
         }
     }
 
@@ -186,6 +263,15 @@ open class EventDetailViewController: FormCollectionViewController {
     open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
         let item = sections[indexPath.section].items[indexPath.item]
 
+        switch item.style {
+        case .entity:
+            if traitCollection.horizontalSizeClass != .compact {
+                return EntityCollectionViewCell.minimumContentWidth(forStyle: .hero)
+            }
+            return collectionView.bounds.width
+        default: break
+        }
+
         var columnCount = item.preferredColumnCount
         if columnCount > 1 {
             columnCount = min(layout.columnCountForSection(withMinimumItemContentWidth: item.minimumContentWidth, sectionEdgeInsets: sectionEdgeInsets), columnCount)
@@ -198,13 +284,20 @@ open class EventDetailViewController: FormCollectionViewController {
         let item = sections[indexPath.section].items[indexPath.item]
 
         switch item.style {
-        case .header, .item:
-            let titleFont: UIFont? = item.style == .header ? .systemFont(ofSize: 28.0, weight: UIFontWeightBold) : nil
+        case .header:
+            let titleFont: UIFont? = .systemFont(ofSize: 28.0, weight: UIFontWeightBold)
             let titleSizing = StringSizing(string: item.title ?? "", font: titleFont, numberOfLines: 0)
-            return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: titleSizing, subtitle: item.detail?.ifNotEmpty(), inWidth: itemWidth, compatibleWith: traitCollection, imageSize: item.image?.size ?? .zero) + (item.style == .header ? 15.0 : 0.0)
+            return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: titleSizing, subtitle: item.detail?.ifNotEmpty(), inWidth: itemWidth, compatibleWith: traitCollection, imageSize: item.image?.size ?? .zero) + 15.0
+        case .item:
+            return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: item.title, subtitle: item.detail?.ifNotEmpty(), inWidth: itemWidth, compatibleWith: traitCollection, imageSize: item.image?.size ?? .zero)
         case .valueField:
             let valueSizing = StringSizing(string: item.detail ?? (item.placeholder ?? ""), font: nil, numberOfLines: item.numberOfLines)
             return CollectionViewFormValueFieldCell.minimumContentHeight(withTitle: item.title, value: valueSizing, inWidth: itemWidth, compatibleWith: traitCollection, imageSize: item.image?.size ?? .zero)
+        case .entity:
+            if traitCollection.horizontalSizeClass != .compact {
+                return EntityCollectionViewCell.minimumContentHeight(forStyle: .hero, compatibleWith: traitCollection)
+            }
+            return EntityListCollectionViewCell.minimumContentHeight(compatibleWith: traitCollection)
         }
     }
 

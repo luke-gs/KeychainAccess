@@ -116,12 +116,14 @@ open class VehicleOccurrencesViewController: EntityOccurrencesViewController, Fi
 //            detailViewController = nil
 //        }
 
-        detailViewController = EventDetailViewController(eventId: event.id)
+        if let source = event.source {
+            detailViewController = EventDetailViewController(source: source, eventId: event.id)
 
-        guard let detailVC = detailViewController,
-            let navController = pushableSplitViewController?.navigationController ?? navigationController else { return }
-        
-        navController.pushViewController(detailVC, animated: true)
+            guard let detailVC = detailViewController,
+                let navController = pushableSplitViewController?.navigationController ?? navigationController else { return }
+
+            navController.pushViewController(detailVC, animated: true)
+        }
     }
     
     
