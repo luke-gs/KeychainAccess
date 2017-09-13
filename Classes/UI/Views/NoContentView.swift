@@ -111,14 +111,13 @@ open class NoContentView: UIStackView {
         subtitleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &contentContext)
         actionButton.addObserver(self, forKeyPath: #keyPath(RoundedRectButton.titleLabel.text), context: &contentContext)
         actionButton.addObserver(self, forKeyPath: #keyPath(RoundedRectButton.titleLabel.attributedText), context: &contentContext)
-        
-        // TODO: Uncomment in iOS 11.0
-        //if #available(iOS 11, *) {
-        //    setCustomSpacing(8, after: imageView)
-        //    setCustomSpacing(8, after: subtitleLabel)
-        //    return
-        //}
-    
+
+        if #available(iOS 11, *) {
+            setCustomSpacing(8, after: imageView)
+            setCustomSpacing(8, after: subtitleLabel)
+            return
+        }
+
         imageSpacer.isHidden = true
         buttonSpacer.isHidden = true
         
@@ -137,10 +136,11 @@ open class NoContentView: UIStackView {
         subtitleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &contentContext)
         actionButton.removeObserver(self, forKeyPath: #keyPath(RoundedRectButton.titleLabel.text), context: &contentContext)
         actionButton.removeObserver(self, forKeyPath: #keyPath(RoundedRectButton.titleLabel.attributedText), context: &contentContext)
-        
-        // TODO: Uncomment in iOS 11.0
-        //if #available(iOS 11, *) { return }
-        
+
+        if #available(iOS 11, *) {
+            return
+        }
+
         imageView.removeObserver(self, forKeyPath: #keyPath(UIImageView.isHidden), context: &hiddenContext)
         actionButton.removeObserver(self, forKeyPath: #keyPath(UIButton.isHidden), context: &hiddenContext)
     }

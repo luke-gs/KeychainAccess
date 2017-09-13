@@ -203,12 +203,12 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         self.tabStripView      = tabStripView
 
         let extensionVerticalConstraint: NSLayoutConstraint
-        // TODO: Uncomment in iOS 11
-        //        if #available(iOS 11, *) {
-        //            extensionVerticalConstraint = navBarExtension.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
-        //        } else {
-        extensionVerticalConstraint = navBarExtension.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor)
-        //        }
+
+        if #available(iOS 11, *) {
+            extensionVerticalConstraint = navBarExtension.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+        } else {
+            extensionVerticalConstraint = navBarExtension.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor)
+        }
 
         NSLayoutConstraint.activate([
             navBarExtension.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -233,12 +233,11 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     }
     
     override func viewWillLayoutSubviews() {
-        // TODO: Uncomment in iOS 11
-        //        if #available(iOS 11, *) {
-        //            additionalSafeAreaInsets.top = navigationBarExtension?.frame.height ?? 0.0
-        //        } else {
-        legacy_additionalSafeAreaInsets.top = (navigationBarExtension?.frame.height ?? 0.0) + searchContainer.frame.height
-        //        }
+        if #available(iOS 11, *) {
+            additionalSafeAreaInsets.top = navigationBarExtension?.frame.height ?? 0.0
+        } else {
+            legacy_additionalSafeAreaInsets.top = (navigationBarExtension?.frame.height ?? 0.0) + searchContainer.frame.height
+        }
         super.viewWillLayoutSubviews()
     }
     

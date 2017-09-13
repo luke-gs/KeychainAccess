@@ -268,11 +268,10 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
-        // TODO: Uncomment in iOS 11
-//        if #available(iOS 11, *) {
-//            return
-//        }
+
+        if #available(iOS 11, *) {
+            return
+        }
         var insets = legacy_additionalSafeAreaInsets
         
         insets.top += topLayoutGuide.length
@@ -499,14 +498,13 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     /// table view's content height changes or the additional content insets change.
     open func calculatedContentHeight() -> CGFloat {
         var contentHeight = tableView?.contentSize.height ?? 0.0
-        
-        // TODO: Uncomment in iOS 11
-//        if #available(iOS 11, *) {
-//            contentHeight += additionalSafeAreaInsets.top + additionalSafeAreaInsets.bottom
-//        } else {
+
+        if #available(iOS 11, *) {
+            contentHeight += additionalSafeAreaInsets.top + additionalSafeAreaInsets.bottom
+        } else {
             contentHeight += legacy_additionalSafeAreaInsets.top + legacy_additionalSafeAreaInsets.bottom
-//        }
-        
+        }
+
         let minHeight = minimumCalculatedContentHeight
         let maxHeight = maximumCalculatedContentHeight
         
@@ -542,19 +540,16 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
 
 }
 
+@available(iOS, introduced: 11.0)
+extension FormTableViewController {
 
+    open override var additionalSafeAreaInsets: UIEdgeInsets {
+        didSet {
+            if additionalSafeAreaInsets != oldValue && wantsCalculatedContentHeight {
+                updateCalculatedContentHeight()
+            }
+        }
+    }
 
-// TODO: Uncomment in iOS 11
-//@available(iOS, introduced: 11.0)
-//extension FormCollectionViewController {
-//
-//    open override var additionalSafeAreaInsets: UIEdgeInsets {
-//        didSet {
-//            if additionalSafeAreaInsets != oldValue && wantsCalculatedContentHeight {
-//                updateCalculatedContentHeight()
-//            }
-//        }
-//    }
-//
-//}
+}
 
