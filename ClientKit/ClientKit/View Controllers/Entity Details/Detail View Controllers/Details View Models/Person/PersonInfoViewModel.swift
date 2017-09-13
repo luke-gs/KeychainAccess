@@ -121,18 +121,12 @@ public class PersonInfoViewModel: EntityDetailViewModelable {
     }
     
     public func headerCellInfo() -> HeaderSectionCellInfo {
-        let source        = person?.category
-        let title         = person?.title
-        let subtitle      = person?.detail1
         let description   = headerCellDescription()
         let buttonTitle   = headerCellAdditionalButtonTitle()
         let isPlaceholder = headerCellIsDescriptionPlaceholder()
         
         
-        return HeaderSectionCellInfo(person: person,
-                                     source: source,
-                                     title: title,
-                                     subtitle: subtitle,
+        return HeaderSectionCellInfo(person: PersonSummaryDisplayable(person!),
                                      description: description,
                                      additionalDetailsButtonTitle: buttonTitle,
                                      isDescriptionPlaceholder: isPlaceholder)
@@ -354,10 +348,7 @@ public class PersonInfoViewModel: EntityDetailViewModelable {
     // MARK: - Cell Models
     
     public struct HeaderSectionCellInfo {
-        let person: Person?
-        let source: String?
-        let title: String?
-        let subtitle: String?
+        let person: EntitySummaryDisplayable?
         let description: String?
         
         let additionalDetailsButtonTitle: String?

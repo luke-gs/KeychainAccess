@@ -122,9 +122,9 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
 //                cell.thumbnailView.addTarget(self, action: #selector(entityThumbnailDidSelect(_:)), for: .primaryActionTriggered)
 //            }
             
-            cell.sourceLabel.text          = headerCellInfo.source
-            cell.titleLabel.text           = headerCellInfo.title
-            cell.subtitleLabel.text        = headerCellInfo.subtitle
+            cell.sourceLabel.text          = headerCellInfo.person?.category
+            cell.titleLabel.text           = headerCellInfo.person?.title
+            cell.subtitleLabel.text        = headerCellInfo.person?.detail1
             cell.descriptionLabel.text     = headerCellInfo.description
             cell.isDescriptionPlaceholder  = headerCellInfo.isDescriptionPlaceholder
             cell.additionalDetailsButton.setTitle(headerCellInfo.additionalDetailsButtonTitle, for: .normal)

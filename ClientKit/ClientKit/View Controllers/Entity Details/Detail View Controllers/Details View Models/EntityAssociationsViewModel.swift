@@ -68,9 +68,9 @@ public class EntityAssociationsViewModel: EntityDetailViewModelable {
         
         switch itemSection {
         case .people(let persons):
-            return AssociatedPerson(associate: persons[indexPath.item])
+            return PersonSummaryDisplayable(persons[indexPath.item])
         case .vehicles(let vehicles):
-            return AssociatedVehicle(associate: vehicles[indexPath.item])
+            return VehicleSummaryDisplayable(vehicles[indexPath.item])
         }
     }
     
