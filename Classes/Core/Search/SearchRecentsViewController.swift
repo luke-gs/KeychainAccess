@@ -54,9 +54,11 @@ class SearchRecentsViewController: FormCollectionViewController {
         didSet {
             compactNavBarExtension?.alpha = isShowingNavBarExtension ? 1.0 : 0.0
 
-            // Force layout of nav bar extension first, then layout view to account for it
-            compactNavBarExtension?.setNeedsLayout()
-            compactNavBarExtension?.layoutIfNeeded()
+            // Force layout of nav bar extension first if showing, then layout view to account for it
+            if isShowingNavBarExtension {
+                compactNavBarExtension?.setNeedsLayout()
+                compactNavBarExtension?.layoutIfNeeded()
+            }
             view.setNeedsLayout()
         }
     }
