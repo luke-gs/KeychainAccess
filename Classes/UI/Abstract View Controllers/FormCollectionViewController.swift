@@ -199,7 +199,6 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
         let backgroundBounds = UIScreen.main.bounds
         
         let collectionView = collectionViewClass().init(frame: backgroundBounds, collectionViewLayout: formLayout)
-        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.dataSource = self
         collectionView.delegate   = self
         collectionView.alwaysBounceVertical = true
@@ -223,6 +222,19 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
         
         loadingManager.baseView = backgroundView
         loadingManager.contentView = collectionView
+
+        // Layout collection view, using safe area layout guide on iOS 11
+        if #available(iOS 11, *) {
+            collectionView.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+                collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+                collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+                collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+                ])
+        } else {
+            collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        }
     }
     
     open override func viewDidLoad() {
