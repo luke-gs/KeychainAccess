@@ -195,11 +195,8 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
                 topOffset = topLayoutGuide.length
             }
 
-            var viewFrame = CGRect(x: 0, y: 0, width: viewBounds.width, height: min(searchPreferredHeight + topOffset, viewBounds.height))
-            if isShowingSearchOptions == false {
-                viewFrame.origin.y = -viewFrame.height
-            }
-            
+            let viewFrame = CGRect(x: 0, y: 0, width: viewBounds.width, height: min(searchPreferredHeight + topOffset, viewBounds.height))
+
             searchOptionsView.frame = viewFrame
             searchOptionsView.layoutIfNeeded()
         }
@@ -257,16 +254,11 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
             if animated {
                 dimmingView.alpha = 0.0
                 
-                // temporarily disable the showing of options to allow the item to sit above the screen prior to layout.
-                isShowingSearchOptions = false
-                view.setNeedsLayout()
-                view.layoutIfNeeded()
-                
-                // re-enable and animate.
-                isShowingSearchOptions = true
+                // Use transform to move search option off screen and animate down
+                // We don't use a frame offset as it causes AutoLayout constraint errors related to safe area insets
+                searchOptionsViewController.viewIfLoaded?.transform = CGAffineTransform(translationX: 0, y: -200)
                 UIView.animate(withDuration: searchAnimationDuration, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0, animations: {
-                    view.setNeedsLayout()
-                    view.layoutIfNeeded()
+                    self.searchOptionsViewController.viewIfLoaded?.transform = .identity
                     dimmingView.alpha = 1.0
                 }, completion: { _ in
                     optionsVC.endAppearanceTransition()
