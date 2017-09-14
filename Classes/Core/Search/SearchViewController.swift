@@ -188,7 +188,14 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
             searchOptionsView.setNeedsLayout()
             
             let viewBounds = view.bounds
-            var viewFrame = CGRect(x: 0, y: 0, width: viewBounds.width, height: min(searchPreferredHeight + topLayoutGuide.length, viewBounds.height))
+            let topOffset: CGFloat
+            if #available(iOS 11, *) {
+                topOffset = view.safeAreaInsets.top
+            } else {
+                topOffset = topLayoutGuide.length
+            }
+
+            var viewFrame = CGRect(x: 0, y: 0, width: viewBounds.width, height: min(searchPreferredHeight + topOffset, viewBounds.height))
             if isShowingSearchOptions == false {
                 viewFrame.origin.y = -viewFrame.height
             }

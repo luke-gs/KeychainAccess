@@ -99,6 +99,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     }
     
     private var shouldSelectAllText = false
+    private var navBarExtensionTopConstraint: NSLayoutConstraint!
 
     // MARK: - Initializers
     
@@ -202,18 +203,22 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         navigationBarExtension = navBarExtension
         self.tabStripView      = tabStripView
 
-        let extensionVerticalConstraint: NSLayoutConstraint
-
         if #available(iOS 11, *) {
-            extensionVerticalConstraint = navBarExtension.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+            // We don't want the safe area to apply to search container, even though it uses layout margins
+            searchContainer.insetsLayoutMarginsFromSafeArea = false
+
+            // Manually apply a top offset for the nav bar extension, as safe area includes space for the bar itself
+            navBarExtensionTopConstraint = navBarExtension.topAnchor.constraint(equalTo: view.topAnchor, constant: 0)
         } else {
-            extensionVerticalConstraint = navBarExtension.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor)
+            // Simple, use layout guide which doesn't include legacy_additionalSafeAreaInsets
+            navBarExtensionTopConstraint = navBarExtension.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor)
         }
 
+        searchContainer.setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
         NSLayoutConstraint.activate([
             navBarExtension.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             navBarExtension.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            extensionVerticalConstraint,
+            navBarExtensionTopConstraint,
 
             searchContainer.topAnchor.constraint(equalTo: navBarExtension.bottomAnchor),
             searchContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -234,7 +239,11 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     
     override func viewWillLayoutSubviews() {
         if #available(iOS 11, *) {
-            additionalSafeAreaInsets.top = navigationBarExtension?.frame.height ?? 0.0
+            // Move the collection view down below the nav bar extension and search container, using additionalSafeAreaInsets
+            additionalSafeAreaInsets.top = (navigationBarExtension?.frame.height ?? 0.0) + searchContainer.frame.height
+
+            // Move the nav bar extension to below the standard safeAreaInsets (ie not including our own)
+            navBarExtensionTopConstraint.constant = view.safeAreaInsets.top - additionalSafeAreaInsets.top
         } else {
             legacy_additionalSafeAreaInsets.top = (navigationBarExtension?.frame.height ?? 0.0) + searchContainer.frame.height
         }
