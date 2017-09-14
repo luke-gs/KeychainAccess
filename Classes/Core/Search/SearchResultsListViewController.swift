@@ -185,13 +185,13 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
             header.showsExpandArrow = true
             header.isExpanded = sectionResult.isExpanded
             
-            header.tapHandler = { [weak self] (headerView, indexPath) in
+            header.tapHandler = { [weak self] headerView, indexPath in
                 guard let `self` = self else { return }
                 
                 let shouldBeExpanded = headerView.isExpanded == false
                 
                 self.viewModel!.results[indexPath.section].isExpanded = shouldBeExpanded
-                self.collectionView?.reloadData()
+                self.collectionView?.reloadSections(IndexSet(integer: indexPath.section))
             }
             
             return header

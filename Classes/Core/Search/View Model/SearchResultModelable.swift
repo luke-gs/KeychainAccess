@@ -9,7 +9,7 @@
 import Foundation
 
 
-public protocol SearchResultModelable {
+public protocol SearchResultModelable: class {
 
     /// The text that represents the search query.
     ///
