@@ -188,14 +188,18 @@ open class SidebarSplitViewController: PushableSplitViewController {
         // Update the visible view controller
         if let selectedViewController = selectedViewController {
             if self.isCompact() {
-                if !selectedViewController.isViewLoaded {
+                // Only set the VC if it's not the current one, in case page scroll has already made it visible
+                // This improves the animations when flicking pages fast
+                if pageViewController.viewControllers?.first != selectedViewController {
                     // Fade in view if not previously loaded
-                    selectedViewController.view.alpha = 0
+                    if !selectedViewController.isViewLoaded {
+                        selectedViewController.view.alpha = 0
+                    }
+                    UIView.transition(with: pageViewController.view, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                        selectedViewController.view.alpha = 1
+                        self.pageViewController.setViewControllers([selectedViewController], direction: .forward, animated: false, completion: nil)
+                    }, completion: nil)
                 }
-                UIView.transition(with: pageViewController.view, duration: 0.2, options: .transitionCrossDissolve, animations: {
-                    selectedViewController.view.alpha = 1
-                    self.pageViewController.setViewControllers([selectedViewController], direction: .forward, animated: false, completion: nil)
-                }, completion: nil)
             } else {
                 detailNavController.viewControllers = [selectedViewController]
                 embeddedSplitViewController.showDetailViewController(detailNavController, sender: self)
@@ -357,8 +361,10 @@ extension SidebarSplitViewController: UIPageViewControllerDelegate {
         if let currentVC = pageViewController.viewControllers?.first {
             // Dispath update to the selected view controller, so animation is complete
             if completed {
+                self.pageViewController.scrollDelegate = nil
                 DispatchQueue.main.async {
                     self.selectedViewController = currentVC
+                    self.pageViewController.scrollDelegate = self
                 }
             }
         }
@@ -367,11 +373,17 @@ extension SidebarSplitViewController: UIPageViewControllerDelegate {
 
 // MARK: - ScrollAwarePageViewControllerDelegate methods
 extension SidebarSplitViewController: ScrollAwarePageViewControllerDelegate {
+    public func pageViewScrollOffset() -> CGFloat {
+        if let scrollView = pageViewController.scrollView {
+            return scrollView.contentOffset.x - view.frame.size.width
+        }
+        return 0
+    }
+
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if isCompact() {
             // Update the horizontal scrollbar to match the page view
-            let pointX = scrollView.contentOffset.x - view.frame.size.width
-            let percentOffset = pointX / view.frame.size.width
+            let percentOffset = pageViewScrollOffset() / view.frame.size.width
             compactSidebarViewController.setScrollOffsetPercent(percentOffset)
         }
     }
