@@ -149,7 +149,8 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
-        return CollectionViewFormDetailCell.minimumContentHeight(compatibleWith: traitCollection)
+        let cellInfo = viewModel.cellInfo(for: indexPath)
+        return CollectionViewFormDetailCell.minimumContentHeight(withDetail: cellInfo.detail, imageSize: UIImage.statusDotFrameSize, inWidth: itemWidth, compatibleWith: traitCollection)
     }
 
     

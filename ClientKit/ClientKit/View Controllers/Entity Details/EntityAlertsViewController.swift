@@ -86,16 +86,17 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(of: CollectionViewFormDetailCell.self, for: indexPath)
-        cell.highlightStyle     = .fade
-        cell.selectionStyle     = .fade
+        cell.highlightStyle = .fade
+        cell.selectionStyle = .fade
 
         let cellInfo = viewModel.cellInfo(for: indexPath)
         
-        cell.imageView.image    = cellInfo.image
-        cell.titleLabel.text    = cellInfo.title
-        cell.detailLabel.text   = cellInfo.detail
+        cell.imageView.image = cellInfo.image
+        cell.titleLabel.text = cellInfo.title
+        cell.detailLabel.text = cellInfo.detail
         cell.subtitleLabel.text = cellInfo.subtitle
-        
+        cell.detailLabel.numberOfLines = cellInfo.expanded ? 0 : 2
+
         return cell
     }
     
@@ -129,6 +130,8 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
     
     open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
+        viewModel.updateExpandedForItem(at: indexPath)
+        collectionView.reloadItems(at: [indexPath])
     }
     
     open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
@@ -136,7 +139,14 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
-        return CollectionViewFormDetailCell.minimumContentHeight(withImageSize: UIImage.statusDotFrameSize, compatibleWith: traitCollection)
+        let cellInfo = viewModel.cellInfo(for: indexPath)
+
+        var detail = cellInfo.detail?.sizing()
+        if cellInfo.expanded {
+            detail?.numberOfLines = 0
+        }
+
+        return CollectionViewFormDetailCell.minimumContentHeight(withDetail: detail, imageSize: UIImage.statusDotFrameSize, inWidth: itemWidth, compatibleWith: traitCollection)
     }
     
     
