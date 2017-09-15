@@ -276,7 +276,7 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
             let completionHandler = { [weak self] (finished: Bool) in
                 if self?.isShowingSearchOptions ?? true { return }
                 
-                optionsVC.viewIfLoaded?.transform = .identity
+                optionsVC.view.alpha = 1.0
                 optionsVC.viewIfLoaded?.removeFromSuperview()
                 optionsVC.endAppearanceTransition()
                 
@@ -285,13 +285,10 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
             }
             
             if animated {
-                let view = self.view!
-
-                // Use transform to move search option off screen and animate up
+                // Fade out options when dismissing as it combines better with other animations, and looks good on all devices
                 UIView.animate(withDuration: searchAnimationDuration, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0,
                                animations: {
-                                optionsVC.viewIfLoaded?.transform = CGAffineTransform(translationX: 0, y: -optionsVC.view.frame.height)
-                                view.layoutIfNeeded()
+                                optionsVC.view.alpha = 0.0
                                 dimmingView?.alpha = 0.0
                 }, completion : completionHandler)
             } else {
