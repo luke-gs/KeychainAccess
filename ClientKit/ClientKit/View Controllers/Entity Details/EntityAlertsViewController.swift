@@ -142,8 +142,8 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
         let cellInfo = viewModel.cellInfo(for: indexPath)
 
         var detail = cellInfo.detail?.sizing()
-        if detail != nil && cellInfo.expanded {
-            detail!.numberOfLines = 0
+        if cellInfo.expanded {
+            detail?.numberOfLines = 0
         }
 
         return CollectionViewFormDetailCell.minimumContentHeight(withDetail: detail, imageSize: UIImage.statusDotFrameSize, inWidth: itemWidth, compatibleWith: traitCollection)
