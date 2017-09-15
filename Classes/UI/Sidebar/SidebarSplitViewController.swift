@@ -188,15 +188,18 @@ open class SidebarSplitViewController: PushableSplitViewController {
         // Update the visible view controller
         if let selectedViewController = selectedViewController {
             if self.isCompact() {
-                if !selectedViewController.isViewLoaded {
+                // Only set the VC if it's not the current one, in case page scroll has already made it visible
+                // This improves the animations when flicking pages fast
+                if pageViewController.viewControllers?.first != selectedViewController {
                     // Fade in view if not previously loaded
-                    selectedViewController.view.alpha = 0
+                    if !selectedViewController.isViewLoaded {
+                        selectedViewController.view.alpha = 0
+                    }
+                    UIView.transition(with: pageViewController.view, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                        selectedViewController.view.alpha = 1
+                        self.pageViewController.setViewControllers([selectedViewController], direction: .forward, animated: false, completion: nil)
+                    }, completion: nil)
                 }
-                let fadeDuration = pageViewScrollOffset() != 0 ? 0 : 0.2
-                UIView.transition(with: pageViewController.view, duration: fadeDuration, options: .transitionCrossDissolve, animations: {
-                    selectedViewController.view.alpha = 1
-                    self.pageViewController.setViewControllers([selectedViewController], direction: .forward, animated: false, completion: nil)
-                }, completion: nil)
             } else {
                 detailNavController.viewControllers = [selectedViewController]
                 embeddedSplitViewController.showDetailViewController(detailNavController, sender: self)
