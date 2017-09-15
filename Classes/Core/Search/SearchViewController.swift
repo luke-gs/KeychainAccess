@@ -256,9 +256,9 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
                 
                 // Use transform to move search option off screen and animate down
                 // We don't use a frame offset as it causes AutoLayout constraint errors related to safe area insets
-                searchOptionsViewController.viewIfLoaded?.transform = CGAffineTransform(translationX: 0, y: -200)
+                optionsVC.viewIfLoaded?.transform = CGAffineTransform(translationX: 0, y: -optionsVC.view.frame.height)
                 UIView.animate(withDuration: searchAnimationDuration, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0, animations: {
-                    self.searchOptionsViewController.viewIfLoaded?.transform = .identity
+                    optionsVC.viewIfLoaded?.transform = .identity
                     dimmingView.alpha = 1.0
                 }, completion: { _ in
                     optionsVC.endAppearanceTransition()
@@ -276,6 +276,7 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
             let completionHandler = { [weak self] (finished: Bool) in
                 if self?.isShowingSearchOptions ?? true { return }
                 
+                optionsVC.viewIfLoaded?.transform = .identity
                 optionsVC.viewIfLoaded?.removeFromSuperview()
                 optionsVC.endAppearanceTransition()
                 
@@ -285,14 +286,14 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
             
             if animated {
                 let view = self.view!
-                view.setNeedsLayout()
-                
+
+                // Use transform to move search option off screen and animate up
                 UIView.animate(withDuration: searchAnimationDuration, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0,
                                animations: {
-                                  view.layoutIfNeeded()
-                                  dimmingView?.alpha = 0.0
-                               },
-                               completion : completionHandler)
+                                optionsVC.viewIfLoaded?.transform = CGAffineTransform(translationX: 0, y: -optionsVC.view.frame.height)
+                                view.layoutIfNeeded()
+                                dimmingView?.alpha = 0.0
+                }, completion : completionHandler)
             } else {
                 completionHandler(true)
             }
