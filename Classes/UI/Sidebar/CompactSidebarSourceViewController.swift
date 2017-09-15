@@ -41,10 +41,6 @@ open class CompactSidebarSourceViewController: UITableViewController {
         }
     }
 
-    // MARK: - Private properties
-
-    fileprivate let reuseIdentifier = "reuseIdentifier"
-
     // MARK: - View lifecycle
     
     init(items: [SourceItem], selectedIndex: Int) {
@@ -69,7 +65,7 @@ open class CompactSidebarSourceViewController: UITableViewController {
         tableView.backgroundColor = theme.color(forKey: .background)
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 50
-        tableView.register(CompactSidebarSourceCell.self, forCellReuseIdentifier: reuseIdentifier)
+        tableView.register(CompactSidebarSourceCell.self)
         tableView.tableFooterView = UIView()
     }
 
@@ -100,13 +96,12 @@ extension CompactSidebarSourceViewController {
     }
 
     override open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as? CompactSidebarSourceCell else { fatalError() }
+        let cell = tableView.dequeueReusableCell(of: CompactSidebarSourceCell.self, for: indexPath)
         let source = items[indexPath.row]
 
         cell.sourceTitle.text = source.title
         cell.sourceBarCell.update(for: source)
         cell.sourceBarCell.isSelected = (indexPath.row == selectedIndex)
-        // cell.detailTextLabel?.text = String.localizedStringWithFormat(NSLocalizedString("%d Alert(s)", comment: ""), count ?? 0)
 
         // Set colors according to theme
         let theme = ThemeManager.shared.theme(for: .current)
