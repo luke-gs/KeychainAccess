@@ -36,17 +36,15 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
         let titleFontHeight = fonts.titleFont.lineHeight.ceiled(toScale: displayScale) + fonts.subtitleFont.lineHeight.ceiled(toScale: displayScale) + CellTitleSubtitleSeparation.ceiled(toScale: displayScale)
         let titleImageHeight = max(titleFontHeight, imageSize?.height ?? 0.0)
 
-        var detailSizing = detail?.sizing()
-
         var detailHeight: CGFloat = fonts.detailFont.lineHeight * 2.0
 
-        if detailSizing != nil {
-            if detailSizing!.font == nil {
-                detailSizing!.font = fonts.detailFont
+        if var detailSizing = detail?.sizing() {
+            if detailSizing.font == nil {
+                detailSizing.font = fonts.detailFont
             }
 
-            if detailSizing!.numberOfLines != nil {
-                detailHeight = max(detailSizing!.minimumHeight(inWidth: width, compatibleWith: traitCollection), detailHeight)
+            if detailSizing.numberOfLines != nil {
+                detailHeight = max(detailSizing.minimumHeight(inWidth: width, compatibleWith: traitCollection), detailHeight)
             }
         }
 
