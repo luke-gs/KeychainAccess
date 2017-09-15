@@ -527,13 +527,14 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
         
         let newColor: UIColor?
         if wantsTransparentBackground {
+
             if userInterfaceStyle.isDark && UIDevice.current.userInterfaceIdiom == .phone {
                 newColor = #colorLiteral(red: 0.09803921569, green: 0.09803921569, blue: 0.09803921569, alpha: 1)
             } else {
                 newColor = .clear
             }
         } else {
-            newColor = tableViewStyle == .grouped ? backgroundColor : (cellBackgroundColor ?? .white)
+            newColor = tableViewStyle == .grouped ? backgroundColor : (cellBackgroundColor ?? backgroundColor)
         }
         
         tableView.backgroundColor = newColor
