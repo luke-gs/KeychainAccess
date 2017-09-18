@@ -22,7 +22,7 @@ fileprivate let navigationItemKeyPaths: [String] = [
     #keyPath(UINavigationItem.prompt)
 ]
 
-public class SearchViewController: UIViewController, SearchRecentsViewControllerDelegate, SearchResultsDelegate, SearchOptionsViewControllerDelegate {
+public class SearchViewController: UIViewController, SearchRecentsViewControllerDelegate, SearchResultsDelegate, SearchOptionsViewControllerDelegate, LocationMapSearchDelegate {
     
     private var recentsViewController: SearchRecentsViewController
     public let viewModel: SearchViewModel
@@ -56,9 +56,10 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
     
     // MARK: - Private methods
 
-    private lazy var mapResultsViewController: UIViewController = { [unowned self] in
+    private lazy var mapResultsViewController: SearchResultMapViewController = { [unowned self] in
         // ToDo: Implement the correctly view controller
-        let resultsController = UIViewController()
+        let resultsController = SearchResultMapViewController()
+        resultsController.delegate = self
         resultsController.view.backgroundColor = .white
         resultsController.navigationItem.leftBarButtonItem = UIBarButtonItem.backBarButtonItem(target: self, action: #selector(backButtonItemDidSelect))
         // End ToDo
@@ -339,7 +340,7 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
         } else if let viewModel = viewModel as? MapResultViewModelable {
             // ToDo: - Use the view model
             print(viewModel)
-//            mapResultsViewController.viewModel = viewModel
+            mapResultsViewController.viewModel = viewModel
             // End ToDo:
             setShowingSearchOptions(false, animated: true)
             setCurrentResultsViewController(mapResultsViewController, animated: true)
@@ -379,6 +380,14 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
 
     func searchResultsController(_ controller: UIViewController, didSelectEntity entity: MPOLKitEntity) {
         didSelectEntity(entity)
+    }
+    
+    // MARK: LocationMapSearchDelegate
+    
+    func locationMapViewController(_ controller: UIViewController, didRequestToEdit search: Searchable?) {
+        setCurrentResultsViewController(nil, animated: true)
+        searchOptionsViewController.setCurrent(searchable: search)
+        setShowingSearchOptions(true, animated: true)
     }
     
     // MARK: - KVO

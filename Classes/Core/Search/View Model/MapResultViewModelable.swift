@@ -9,6 +9,22 @@
 import Foundation
 import MapKit
 
+public enum LocationMapSearchType {
+    case radiusSearch(coordinate: CLLocationCoordinate2D, radius: Double)
+    //    case boundingSearch(MKPolygon)
+    //    case parametersSearch(Searchable)
+    
+    public enum Builder {
+        public static func radiusSearch(coordinate: CLLocationCoordinate2D, radius: Double = 300) -> LocationMapSearchType {
+            return LocationMapSearchType.radiusSearch(coordinate: coordinate, radius: radius)
+        }
+    }
+    
+    public static var make: LocationMapSearchType.Builder.Type {
+        return LocationMapSearchType.Builder.self
+    }
+}
+
 public protocol MapResultViewModelDelegate: class {
 
     /// Implement to receive notification when there are changes to the results.
@@ -20,6 +36,20 @@ public protocol MapResultViewModelDelegate: class {
 
 public protocol MapResultViewModelable: SearchResultModelable {
 
+    /// Plugin for ETA calucation
+    var travelEstimationPlugin: TravelEstimationPlugable { get set }
+    
+    /// Contains all the results for each section
+    var results: [SearchResultSection] { get set }
+    
+    /// Search enum, to identifiy the seach type and parameters
+    var searchType: LocationMapSearchType! { get set }
+    
+    /// Lookup the first entity matches the coordinate
+    ///
+    /// - Parameter coordinate: The coordinate of target location
+    func entity(for coordinate: CLLocationCoordinate2D) -> EntityMapSummaryDisplayable?
+    
     init()
 
     /// A delegate that will be notified when there are changes to the results.
@@ -35,25 +65,29 @@ public protocol MapResultViewModelable: SearchResultModelable {
     /// - Parameter coordinate: Look up coordinate.
     func fetchResults(withCoordinate coordinate: CLLocationCoordinate2D)
 
+    /// Fetch results with the searchType.
+    ///
+    /// - Parameter searchType: SearchType with associate value.
+    func fetchResults(with searchType: LocationMapSearchType)
 }
 
 /// TODO: - A default map summary search result view model.
-public final class MapSummarySearchResultViewModel: MapResultViewModelable {
-
-    public var title: String = "Temporary Title"
-
-    public var status: SearchState? = .idle
-
-    public weak var delegate: MapResultViewModelDelegate?
-
-    public init() { }
-
-    public func fetchResults(withParameters parameters: Parameterisable) {
-        // TODO - Implement fetch and notify the delegate
-    }
-
-    public func fetchResults(withCoordinate coordinate: CLLocationCoordinate2D) {
-        // TODO - Implement fetch and notify the delegate
-    }
-
-}
+//public final class MapSummarySearchResultViewModel: MapResultViewModelable {
+//
+//    public var title: String = "Temporary Title"
+//
+//    public var status: SearchState? = .idle
+//
+//    public weak var delegate: MapResultViewModelDelegate?
+//
+//    public init() { }
+//
+//    public func fetchResults(withParameters parameters: Parameterisable) {
+//        // TODO - Implement fetch and notify the delegate
+//    }
+//
+//    public func fetchResults(withCoordinate coordinate: CLLocationCoordinate2D) {
+//        // TODO - Implement fetch and notify the delegate
+//    }
+//
+//}

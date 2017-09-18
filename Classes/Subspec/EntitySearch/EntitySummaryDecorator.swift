@@ -55,3 +55,26 @@ extension EntityListCollectionViewCell: EntitySummaryDecoratable {
         thumbnailView.borderColor = entitySummary.alertColor
     }
 }
+
+extension EntityListCollectionViewCell: EntityMapSummaryDecoratable {
+    public func decorate(with entitySummary: EntityMapSummaryDisplayable) {
+        titleLabel.text    = entitySummary.title
+        subtitleLabel.text = entitySummary.detail1
+        alertColor         = entitySummary.alertColor
+        actionCount        = entitySummary.badge
+        sourceLabel.text   = entitySummary.category
+        highlightStyle     = .fade
+        separatorStyle     = .none
+
+        accessoryView      = accessoryView as? FormAccessoryView ?? FormAccessoryView(style: .disclosure)
+        
+        if let thumbnailInfo = entitySummary.thumbnail(ofSize: .small) {
+            thumbnailView.imageView.contentMode = thumbnailInfo.mode
+            thumbnailView.imageView.image = thumbnailInfo.image
+        } else {
+            thumbnailView.imageView.image = nil
+        }
+        
+        thumbnailView.borderColor = entitySummary.alertColor
+    }
+}
