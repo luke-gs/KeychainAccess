@@ -15,7 +15,8 @@ class MPOLSearchViewModel: SearchViewModel {
     var dataSources: [SearchDataSource] = [
         PersonSearchDataSource(),
         VehicleSearchDataSource(),
-        LocationSearchDataSource(strategy: LookupAddressLocationSearchStrategy(source: MPOLSource.gnaf),
+        LocationSearchDataSource(strategy: LookupAddressLocationSearchStrategy(source: MPOLSource.gnaf,
+                                                                               resultModelType: LocationMapSummarySearchResultViewModel.self),
                                  advanceOptions: LookupAddressLocationAdvancedOptions())
     ]
 

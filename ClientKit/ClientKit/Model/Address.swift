@@ -10,37 +10,11 @@ import Unbox
 import MPOLKit
 
 @objc(MPLAddress)
-open class Address: NSObject, Serialisable {
-    
-    private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
+open class Address: Entity {
 
-    open class var serverTypeRepresentation: String {
-        return "location"
+    override open class var serverTypeRepresentation: String {
+        return "Location"
     }
-    
-    open let id: String
-    
-    open var dateCreated: Date?
-    open var dateUpdated: Date?
-    open var createdBy: String?
-    open var updatedBy: String?
-    open var effectiveDate: Date?
-    open var expiryDate: Date?
-    open var entityType: String?
-    open var isSummary: Bool?
-    open var arn: String?
-    open var jurisdiction: String?
-
-    open var source: MPOLSource?
-    open var alertLevel: Alert.Level?
-    open var associatedAlertLevel: Alert.Level?
-
-    open var alerts: [Alert]?
-    open var associatedPersons: [Person]?
-    open var associatedVehicles: [Vehicle]?
-    open var events: [Event]?
-    open var addresses: [Address]?
-    open var media: [Media]?
     
     open var type: String?
     open var latitude: Double?
@@ -73,45 +47,13 @@ open class Address: NSObject, Serialisable {
         return dateUpdated ?? dateCreated ?? nil
     }
 
-    public required init(id: String = UUID().uuidString) {
-        self.id = id
-        super.init()
+    public required override init(id: String = UUID().uuidString) {
+        super.init(id: id)
     }
 
     public required init(unboxer: Unboxer) throws {
         
-        // Test data doesn't have id, temporarily removed this
-        //        guard let id: String = unboxer.unbox(key: "id") else {
-        //            throw ParsingError.missingRequiredField
-        //        }
-        //
-        if let id: String = unboxer.unbox(key: "id") {
-            self.id = id
-        } else {
-            self.id = UUID().uuidString
-        }
-        
-        dateCreated = unboxer.unbox(key: "dateCreated", formatter: Address.dateTransformer)
-        dateUpdated = unboxer.unbox(key: "dateLastUpdated", formatter: Address.dateTransformer)
-        createdBy = unboxer.unbox(key: "createdBy")
-        updatedBy = unboxer.unbox(key: "updatedBy")
-        effectiveDate = unboxer.unbox(key: "effectiveDate", formatter: Address.dateTransformer)
-        expiryDate = unboxer.unbox(key: "expiryDate", formatter: Address.dateTransformer)
-        entityType = unboxer.unbox(key: "entityType")
-        isSummary = unboxer.unbox(key: "isSummary")
-        arn = unboxer.unbox(key: "arn")
-        jurisdiction = unboxer.unbox(key: "jurisdiction")
-        
-        source = unboxer.unbox(key: "source")
-        alertLevel = unboxer.unbox(key: "alertLevel")
-        associatedAlertLevel = unboxer.unbox(key: "associatedAlertLevel")
-        
-        alerts = unboxer.unbox(key: "alerts")
-        associatedPersons = unboxer.unbox(key: "persons")
-        associatedVehicles = unboxer.unbox(key: "vehicles")
-        events = unboxer.unbox(key: "events")
-        addresses = unboxer.unbox(key: "locations")
-        media = unboxer.unbox(key: "media")
+        try super.init(unboxer: unboxer)
         
         type = unboxer.unbox(key: "locationType")
         latitude = unboxer.unbox(key: "latitude")
@@ -140,19 +82,14 @@ open class Address: NSObject, Serialisable {
 
         commonName = unboxer.unbox(key: "commonName")
         fullAddress = unboxer.unbox(key: "fullAddress")
-        super.init()
     }
     
     public required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    open override func encode(with aCoder: NSCoder) {
         MPLUnimplemented()
-    }
-    
-    open func encode(with aCoder: NSCoder) {
-        
-    }
-    
-    open static var supportsSecureCoding: Bool {
-        return true
     }
         
     // MARK: - Temp Formatters

@@ -11,6 +11,7 @@
 		12ADD4381F32C0FA00CA8B4D /* PersonSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4321F32C0FA00CA8B4D /* PersonSearchDataSource.swift */; };
 		12ADD43A1F32C0FA00CA8B4D /* VehicleSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */; };
 		12CA4F091F4401ED0057F3F9 /* AppDelegate+Presentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12CA4F081F4401ED0057F3F9 /* AppDelegate+Presentation.swift */; };
+		1A27C6871F70747A00A58635 /* LocationMapSummarySearchResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A27C6861F70747A00A58635 /* LocationMapSummarySearchResultViewModel.swift */; };
 		3597F18ADBC8910958FB8CED /* Pods_MPOL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17144B68BB155A127F8ED5B8 /* Pods_MPOL.framework */; };
 		397B77011E52CEDA00696677 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 397B77001E52CEDA00696677 /* UserNotifications.framework */; };
 		BC45C4471EEB56D2001F5747 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */; };
@@ -45,6 +46,7 @@
 		12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleSearchDataSource.swift; sourceTree = "<group>"; };
 		12CA4F081F4401ED0057F3F9 /* AppDelegate+Presentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Presentation.swift"; sourceTree = "<group>"; };
 		17144B68BB155A127F8ED5B8 /* Pods_MPOL.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1A27C6861F70747A00A58635 /* LocationMapSummarySearchResultViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationMapSummarySearchResultViewModel.swift; sourceTree = "<group>"; };
 		1D27A2F65F8C83373197EBC3 /* Pods-MPOL.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOL.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MPOL/Pods-MPOL.debug.xcconfig"; sourceTree = "<group>"; };
 		397B76FF1E52C23600696677 /* MPOL.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MPOL.entitlements; sourceTree = "<group>"; };
 		397B77001E52CEDA00696677 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
@@ -83,6 +85,7 @@
 		12ADD42F1F32C0FA00CA8B4D /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				1A27C6861F70747A00A58635 /* LocationMapSummarySearchResultViewModel.swift */,
 				12ADD4301F32C0FA00CA8B4D /* MPOLSearchViewModel.swift */,
 				12ADD4321F32C0FA00CA8B4D /* PersonSearchDataSource.swift */,
 				12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */,
@@ -282,7 +285,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-MPOL/Pods-MPOL-resources.sh",
-				"$PODS_CONFIGURATION_BUILD_DIR/HockeySDK/HockeySDKResources.bundle",
+				$PODS_CONFIGURATION_BUILD_DIR/HockeySDK/HockeySDKResources.bundle,
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -306,6 +309,7 @@
 				"${BUILT_PRODUCTS_DIR}/Unbox/Unbox.framework",
 				"${BUILT_PRODUCTS_DIR}/Wrap/Wrap.framework",
 				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
+				"${BUILT_PRODUCTS_DIR}/AlamofireNetworkActivityLogger/AlamofireNetworkActivityLogger.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -315,6 +319,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Unbox.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Wrap.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireNetworkActivityLogger.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -347,6 +352,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC4E81111EBEE38400188181 /* SettingsViewController.swift in Sources */,
+				1A27C6871F70747A00A58635 /* LocationMapSummarySearchResultViewModel.swift in Sources */,
 				BC8B26F31EDC07430022B0AD /* ActionListViewController.swift in Sources */,
 				12ADD4361F32C0FA00CA8B4D /* MPOLSearchViewModel.swift in Sources */,
 				12CA4F091F4401ED0057F3F9 /* AppDelegate+Presentation.swift in Sources */,
