@@ -8,6 +8,8 @@
 
 #include "../Pods/Target Support Files/Pods-MPOL/Pods-MPOL.external-release.xcconfig"
 
+PRODUCT_NAME=PSCore
+
 OTHER_SWIFT_FLAGS = $(inherited) -DEXTERNAL
 
 // Placeholder file for external releases in the future of MPOL
