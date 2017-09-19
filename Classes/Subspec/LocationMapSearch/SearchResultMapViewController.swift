@@ -165,32 +165,32 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
     }
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let entity = viewModel!.entity(for: selectedLocation!.coordinate)
+        let entity = viewModel!.entity(for: selectedLocation!.coordinate)!
         
         if indexPath.item == LocationOverview.detail.rawValue {
             let cell = collectionView.dequeueReusableCell(of: EntityListCollectionViewCell.self, for: indexPath)
-            cell.decorate(with: entity as! EntityMapSummaryDisplayable)
+            cell.decorate(with: entity )
             return cell
         }
         
         let cell = collectionView.dequeueReusableCell(of: LocationMapDirectionCollectionViewCell.self, for: indexPath)
-        cell.decorate(with: entity as! EntityMapSummaryDisplayable)
+        cell.decorate(with: entity )
         
         // TODO: Wrap it into VM without expose plugin?
         if let destination = selectedLocation, let currentLocation = mapView?.userLocation.location {
-            viewModel?.travelEstimationPlugin.calculateDistance(from: currentLocation, to: destination, completionHandler: { [weak self] (distance) in
+            viewModel?.travelEstimationPlugin.calculateDistance(from: currentLocation, to: destination, completionHandler: { (distance) in
                 DispatchQueue.main.async {
                     cell.distanceLabel.text = distance
                 }
             })
             
-            viewModel?.travelEstimationPlugin.calculateETA(from: currentLocation, to: destination, transportType: .walking, completionHandler: { [weak self] (estimateTime) in
+            viewModel?.travelEstimationPlugin.calculateETA(from: currentLocation, to: destination, transportType: .walking, completionHandler: { (estimateTime) in
                 DispatchQueue.main.async {
                     cell.walkingEstButton.bottomLabel.text = estimateTime
                 }
             })
             
-            viewModel?.travelEstimationPlugin.calculateETA(from: currentLocation, to: destination, transportType: .automobile, completionHandler: { [weak self] (estimateTime) in
+            viewModel?.travelEstimationPlugin.calculateETA(from: currentLocation, to: destination, transportType: .automobile, completionHandler: { (estimateTime) in
                 DispatchQueue.main.async {
                     cell.automobileEstButton.bottomLabel.text = estimateTime
                 }
