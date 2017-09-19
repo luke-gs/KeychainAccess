@@ -15,7 +15,7 @@ internal class SourceBarCell: UIControl {
     private static let selectedFont  = UIFont.systemFont(ofSize: 11.5, weight: UIFontWeightBold)
     private static let normalFont    = UIFont.systemFont(ofSize: 11.5, weight: UIFontWeightRegular)
     
-    private let titleLabel = UILabel(frame: .zero)
+    internal let titleLabel = UILabel(frame: .zero)
     
     private var _iconView: AlertIndicatorView?
     private var _loadingIndicator: UIActivityIndicatorView?
@@ -237,7 +237,13 @@ internal class SourceBarCell: UIControl {
     
     
     // MARK: - Layout
-    
+
+    override var intrinsicContentSize: CGSize {
+        get {
+            return sizeThatFits(.zero)
+        }
+    }
+
     override func sizeThatFits(_ size: CGSize) -> CGSize {
         switch axis {
         case .vertical:

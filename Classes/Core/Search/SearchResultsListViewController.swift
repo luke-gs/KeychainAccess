@@ -104,7 +104,7 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
             searchFieldButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             searchFieldButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             searchFieldVerticalConstraint,
-        ])
+            ])
 
         updateSearchText()
     }
@@ -185,13 +185,13 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
             header.showsExpandArrow = true
             header.isExpanded = sectionResult.isExpanded
             
-            header.tapHandler = { [weak self] (headerView, indexPath) in
+            header.tapHandler = { [weak self] headerView, indexPath in
                 guard let `self` = self else { return }
                 
                 let shouldBeExpanded = headerView.isExpanded == false
                 
                 self.viewModel!.results[indexPath.section].isExpanded = shouldBeExpanded
-                self.collectionView?.reloadData()
+                self.collectionView?.reloadSections(IndexSet(integer: indexPath.section))
             }
             
             return header
@@ -245,7 +245,7 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-    
+
         // Note: If this ever crashes, Bryan and Luke get to slap James.
         let entity = viewModel!.results[indexPath.section].entities[indexPath.item]
         delegate?.searchResultsController(self, didSelectEntity: entity)
@@ -296,7 +296,7 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
     // MARK: - SearchResultRendererDelegate
     
     func searchResultViewModelDidUpdateResults(_ viewModel: SearchResultViewModelable) {
-//        searchField.resultCountLabel.text = viewModel.status
+        //        searchField.resultCountLabel.text = viewModel.status
 
         updateSearchText()
         collectionView?.reloadData()
@@ -328,6 +328,17 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
 
         searchFieldButton?.accessoryView = label
     }
+}
+
+/// A delegate to notify that an entity was selected
+public protocol EntityDetailsDelegate: class {
+
+    /// Notify the delegate that an entity was selected
+    ///
+    /// - Parameters:
+    ///   - controller: the controller that the entity was selected on
+    ///   - entity: the entity that was selected
+    func controller(_ controller: UIViewController, didSelectEntity entity: MPOLKitEntity)
 }
 
 protocol SearchResultsDelegate: class {

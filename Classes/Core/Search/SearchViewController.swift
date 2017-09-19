@@ -22,10 +22,10 @@ fileprivate let navigationItemKeyPaths: [String] = [
     #keyPath(UINavigationItem.prompt)
 ]
 
-public class SearchViewController: UIViewController, SearchRecentsViewControllerDelegate, SearchResultsDelegate, SearchOptionsViewControllerDelegate, LocationMapSearchDelegate {
-    
+public class SearchViewController: UIViewController, SearchRecentsViewControllerDelegate, SearchResultsDelegate, SearchOptionsViewControllerDelegate, EntityDetailsDelegate, LocationMapSearchDelegate {
+
     private var recentsViewController: SearchRecentsViewController
-    public let viewModel: SearchViewModel
+    public var viewModel: SearchViewModel
 
     @objc dynamic private(set) var currentResultsViewController: UIViewController? {
         didSet {
@@ -57,13 +57,9 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
     // MARK: - Private methods
 
     private lazy var mapResultsViewController: SearchResultMapViewController = { [unowned self] in
-        // ToDo: Implement the correctly view controller
         let resultsController = SearchResultMapViewController()
         resultsController.delegate = self
-        resultsController.view.backgroundColor = .white
         resultsController.navigationItem.leftBarButtonItem = UIBarButtonItem.backBarButtonItem(target: self, action: #selector(backButtonItemDidSelect))
-        // End ToDo
-
         return resultsController
     }()
 
@@ -84,18 +80,6 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
     
     // MARK: - Private properties
 
-    private var recentlySearched: [Searchable] = [] {
-        didSet {
-            recentsViewController.recentlySearched = recentlySearched
-        }
-    }
-
-    private var recentlyViewedEntities: [MPOLKitEntity] = [] {
-        didSet {
-            recentsViewController.recentlyViewed = recentlyViewedEntities
-        }
-    }
-    
     private var searchDimmingView: UIControl?
     
     private var searchPreferredHeight: CGFloat = 0.0
@@ -116,6 +100,8 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
         self.recentsViewController = SearchRecentsViewController(viewModel: viewModel.recentViewModel)
 
         super.init(nibName: nil, bundle: nil)
+
+        self.viewModel.entityDelegate = self
 
         automaticallyAdjustsScrollViewInsets = false
         
@@ -346,19 +332,24 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
             setCurrentResultsViewController(mapResultsViewController, animated: true)
         }
 
+
+
+
         if let searchable = searchable {
+            var viewModel = self.viewModel.recentViewModel
+
             // Add to recently searched list
-            let existingIndex = recentlySearched.index(of: searchable)
+            let existingIndex = viewModel.recentlySearched.index(of: searchable)
             if let existingIndex = existingIndex {
                 //existing -> move to top
-                recentlySearched.insert(recentlySearched.remove(at: existingIndex), at: 0)
+                viewModel.recentlySearched.insert(viewModel.recentlySearched.remove(at: existingIndex), at: 0)
             } else {
                 //create new at top
-                recentlySearched.insert(searchable, at: 0)
+                viewModel.recentlySearched.insert(searchable, at: 0)
             }
 
-            if self.recentlySearched.isEmpty || searchable != self.recentlySearched.first {
-                self.recentlySearched.insert(searchable, at: 0)
+            if viewModel.recentlySearched.isEmpty || searchable != viewModel.recentlySearched.first {
+                viewModel.recentlySearched.insert(searchable, at: 0)
             }
         }
     }
@@ -366,7 +357,12 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
     func searchOptionsControllerDidCancel(_ controller: SearchOptionsViewController) {
         cancelSearchTriggered()
     }
-    
+
+
+    // MARK: Entity Delegate
+    public func controller(_ controller: UIViewController, didSelectEntity entity: MPOLKitEntity) {
+        didSelectEntity(entity)
+    }
 
     // MARK: - SearchResultsDelegate
 
@@ -407,7 +403,6 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
     }
-    
     
     // MARK: - Private methods
 
@@ -536,24 +531,23 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
     }
 
     private func didSelectEntity(_ entity: MPOLKitEntity) {
-        if let detailViewController = viewModel.detailViewController(for: entity) {
-            navigationController?.pushViewController(detailViewController, animated: true)
-        }
+        let presentable = viewModel.presentable(for: entity)
+        present(presentable)
 
-        // Do this after the push.
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-            var recents = self.recentlyViewedEntities
-            guard recents.first != entity else { return }
+        var recentViewModel = viewModel.recentViewModel
 
-            for (index, oldEntity) in recents.enumerated() {
-                if oldEntity == entity {
-                    recents.remove(at: index)
-                    break
-                }
+        var recents = recentViewModel.recentlyViewed
+        guard recents.first != entity else { return }
+
+        for (index, oldEntity) in recents.enumerated() {
+            if oldEntity == entity {
+                recents.remove(at: index)
+                break
             }
-            recents.insert(entity, at: 0)
-            self.recentlyViewedEntities = recents
         }
+        recents.insert(entity, at: 0)
+
+        recentViewModel.recentlyViewed = recents
     }
-    
+
 }
