@@ -32,7 +32,7 @@ public class LocationMapRadiusSearchParameters: EntitySearchRequest<Address> {
             self.maxResults = maxResults
         }
         
-        public var parameters: [String : Any] {
+        public var parameters: [String: Any] {
             return try! wrap(self)
         }
     }
@@ -63,7 +63,7 @@ public class LocationMapBoundingBoxSearchParameters: EntitySearchRequest<Address
             self.maxResults = maxResults
         }
         
-        public var parameters: [String : Any] {
+        public var parameters: [String: Any] {
             return try! wrap(self)
         }
     }

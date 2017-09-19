@@ -193,7 +193,9 @@ open class Person: Entity {
         aCoder.encode(initials, forKey: Coding.initials.rawValue)
         aCoder.encode(dateOfBirth, forKey: Coding.dateOfBirth.rawValue)
         aCoder.encode(dateOfDeath, forKey: Coding.dateOfDeath.rawValue)
-        if yearOnlyDateOfBirth != nil { aCoder.encode(yearOnlyDateOfBirth!, forKey: Coding.yearOnlyDateOfBirth.rawValue) }
+        if yearOnlyDateOfBirth != nil {
+            aCoder.encode(yearOnlyDateOfBirth!, forKey: Coding.yearOnlyDateOfBirth.rawValue)
+        }
         aCoder.encode(gender?.rawValue, forKey: Coding.gender.rawValue)
         aCoder.encode(contacts, forKey: Coding.contacts.rawValue)
         aCoder.encode(licences, forKey: Coding.licences.rawValue)

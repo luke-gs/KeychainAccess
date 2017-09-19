@@ -37,8 +37,8 @@ extension Address: EntityMapSummaryDisplayable {
     }
     
     public func mapAnnotationThumbnail() -> UIImage? {
-        ///Check alertLevel
         
+        // TODO: Check alertLevel to assign different image
         if let image = AssetManager.shared.image(forKey: .location) {
             return image
         }
@@ -66,16 +66,31 @@ extension Address: EntityMapSummaryDisplayable {
         var lines: [[String]] = []
         var line: [String] = []
         
-        if let unitNumber = self.unit?.ifNotEmpty() { line.append("Unit \(unitNumber)") }
-        if let floor = self.floor?.ifNotEmpty() { line.append("Floor \(floor)")}
+        if let unitNumber = self.unit?.ifNotEmpty() {
+            line.append("Unit \(unitNumber)")
+        }
+        
+        if let floor = self.floor?.ifNotEmpty() {
+            line.append("Floor \(floor)")
+        }
+        
         if line.isEmpty == false {
             lines.append(line)
             line.removeAll()
         }
         
-        if let streetNumber = self.streetNumberFirst?.ifNotEmpty() { line.append(streetNumber) }
-        if let streetName = self.streetName?.ifNotEmpty() { line.append(streetName) }
-        if let streetType = self.streetType?.ifNotEmpty() { line.append(streetType) }
+        if let streetNumber = self.streetNumberFirst?.ifNotEmpty() {
+            line.append(streetNumber)
+        }
+        
+        if let streetName = self.streetName?.ifNotEmpty() {
+            line.append(streetName)
+        }
+        
+        if let streetType = self.streetType?.ifNotEmpty() {
+            line.append(streetType)
+        }
+        
         if let streetDirectional = self.streetDirectional?.ifNotEmpty() {
             line.append(streetDirectional)
         }
@@ -88,6 +103,6 @@ extension Address: EntityMapSummaryDisplayable {
             line.removeAll()
         }
         
-        return lines.flatMap({ $0.isEmpty == false ? $0.joined(separator: " ") : nil }).joined(separator: " ")
+        return lines.flatMap { $0.isEmpty == false ? $0.joined(separator: " ") : nil }.joined(separator: " ")
     }
 }
