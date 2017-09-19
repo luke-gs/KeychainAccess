@@ -10,13 +10,13 @@ import Foundation
 import MPOLKit
 
 /// A base viewModel to provide generic implementation
-public class PersonDetailsViewModel<T>: EntityDetailsViewModelable {
-    
+public class PersonDetailsViewModel<T>: EntityDetailViewModelable {
+
     /// Generic section type
     public typealias DetailsType = T
     
     /// A delegate for update UI
-    weak public var delegate: EntityDetailsViewModelDelegate?
+    weak public var delegate: EntityDetailViewModelDelegate?
     
     public var person: Person? {
         didSet {
@@ -38,6 +38,8 @@ public class PersonDetailsViewModel<T>: EntityDetailsViewModelable {
             delegate?.reloadData()
         }
     }
+
+    public lazy var collapsedSections: Set<Int> = []
     
     /// A generic section header for collectionView
     /// Subclass needs override to provide custom title
@@ -51,11 +53,30 @@ public class PersonDetailsViewModel<T>: EntityDetailsViewModelable {
         return nil
     }
     
-    public func itemsCount() -> UInt {
+    public func items() -> [T]? {
         MPLRequiresConcreteImplementation()
+    }
+    
+    public func itemsCount() -> UInt {
+        return UInt(items()?.count ?? 0)
     }
     
     public func noContentSubtitle() -> String? {
         MPLRequiresConcreteImplementation()
+    }
+    
+    public func reloadSections(withFilterDescriptors filters: [FilterDescriptor<T>]?, sortDescriptors: [SortDescriptor<T>]?) {
+        var actions = items() ?? []
+        
+        if let filters = filters {
+            actions = actions.filter(using: filters)
+        }
+        
+        if let sorts = sortDescriptors {
+            actions = actions.sorted(using: sorts)
+        }
+        
+        sections = actions
+        delegate?.updateFilterBarButtonItemActivity()
     }
 }

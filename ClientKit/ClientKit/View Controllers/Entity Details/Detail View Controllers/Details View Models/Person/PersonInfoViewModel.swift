@@ -9,12 +9,12 @@
 import Foundation
 import MPOLKit
 
-public class PersonInfoViewModel: EntityDetailsViewModelable {
+public class PersonInfoViewModel: EntityDetailViewModelable {
     
     /// Specify the concrete type for sections
     public typealias DetailsType = PersonInfo
     
-    public weak var delegate: EntityDetailsViewModelDelegate?
+    public weak var delegate: EntityDetailViewModelDelegate?
     
     // MARK: - Initialize
     
@@ -56,6 +56,7 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
                 contacts.forEach {
                     contactDetails.append(.contact($0))
                 }
+                sections.append(PersonInfo(type: .contact, items: contactDetails))
             }
 //                        if let emails = person.emails {
 //                            emails.forEach {
@@ -76,19 +77,25 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
         }
     }
     
-    public var sections: [DetailsType] = [PersonInfo(type: .header, items: nil)]{
+    public var sections: [DetailsType] = [] {
         didSet {
             delegate?.reloadData()
         }
     }
+
+    public lazy var collapsedSections: Set<Int> = []
     
-    // MARK: - Public methods
+    // MARK: - Public methodsx
     
     public func numberOfSections() -> Int {
+
         return sections.count
     }
     
     public func numberOfItems(for section: Int) -> Int {
+        if collapsedSections.contains(section) {
+            return 0
+        }
         return sections[section].items?.count ?? 1
     }
     
@@ -124,7 +131,7 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
         
         return HeaderSectionCellInfo(person: person,
                                      source: source,
-                                     title:title,
+                                     title: title,
                                      subtitle: subtitle,
                                      description: description,
                                      additionalDetailsButtonTitle: buttonTitle,
@@ -132,14 +139,14 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
     }
     
     public func cellInfo(for section: DetailsType, at indexPath: IndexPath) -> SectionCellInfo {
-        var title   : String?
+        var title: String?
         var subtitle: String?
-        var value   : String?
-        var image   : UIImage?
+        var value: String?
+        var image: UIImage?
         
-        var isEditable          : Bool?
-        var isProgressCell      : Bool?
-        var progress            : Float?
+        var isEditable: Bool?
+        var isProgressCell: Bool?
+        var progress: Float?
         var isProgressViewHidden: Bool?
         
         let item = section.items![indexPath.item]
@@ -156,7 +163,7 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
             if let date = item.reportDate {
                 title = String(format: NSLocalizedString("%@ - Recorded as at %@", bundle: .mpolKit, comment: ""), item.type ?? "Unknown", DateFormatter.mediumNumericDate.string(from: date))
             } else {
-                title = String(format:NSLocalizedString("%@ - Recorded date unknown", bundle: .mpolKit, comment: ""),  item.type ?? "Unknown")
+                title = String(format: NSLocalizedString("%@ - Recorded date unknown", bundle: .mpolKit, comment: ""), item.type ?? "Unknown")
             }
             
             value = item.formatted()
@@ -276,7 +283,7 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
             title  = item.localizedTitle
             value = item.value(for: licence)
             image  = nil
-            wantsSingleLineValue = true
+            wantsSingleLineValue = false
         default:
             break
         }
@@ -292,7 +299,7 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
     /// Calculate the filling columns for Licence section
     public func licenceItemFillingColumns(at indexPath: IndexPath) -> Int {
         let licenceItem = detailItem(at: indexPath)! as! LicenceItem
-        return (licenceItem == .validity) ? 2 : 1
+        return (licenceItem == .validity || licenceItem == .condition) ? 2 : 1
     }
     
     // MARK: Private methods
@@ -329,12 +336,12 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
     
     // MARK: Layout calculation models 
     public struct HeaderInfoForMinimumContentHeight {
-        let title            : String?
-        let subtitle         : String?
-        let description      : String?
-        let placeholder      : String?
+        let title: String?
+        let subtitle: String?
+        let description: String?
+        let placeholder: String?
         let additionalDetails: String?
-        let source           : String?
+        let source: String?
     }
     
     public struct ItemInforForMinimumContentHeight {
@@ -347,28 +354,28 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
     // MARK: - Cell Models
     
     public struct HeaderSectionCellInfo {
-        let person     : Person?
-        let source     : String?
-        let title      : String?
-        let subtitle   : String?
+        let person: Person?
+        let source: String?
+        let title: String?
+        let subtitle: String?
         let description: String?
         
         let additionalDetailsButtonTitle: String?
-        let isDescriptionPlaceholder    : Bool
+        let isDescriptionPlaceholder: Bool
     }
     
     public struct SectionCellInfo {
-        let title     : String?
-        let subtitle  : String?
-        let value     : String?
-        let image     : UIImage?
+        let title: String?
+        let subtitle: String?
+        let value: String?
+        let image: UIImage?
         let isEditable: Bool?
         
-        let isProgressCell      : Bool?
-        let progress            : Float?
+        let isProgressCell: Bool?
+        let progress: Float?
         let isProgressViewHidden: Bool?
         
-        var progressTintColor   : UIColor? {
+        var progressTintColor: UIColor? {
             guard let progress = progress else {
                 return nil
             }
@@ -384,6 +391,7 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
     }
     
     public enum SectionType {
+
         case header
         case details
         case aliases
@@ -449,19 +457,21 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
         case state
         case country
         case status
+        case condition
         case validity
         
         static func licenceItems(for licence: Licence) -> [LicenceItem] {
-            return [.number, .state, .country, .status, .validity]
+            return [.number, .state, .country, .status, .validity, .condition]
         }
         
         var localizedTitle: String {
             switch self {
-            case .number:        return NSLocalizedString("Licence number", bundle: .mpolKit, comment: "")
-            case .state:         return NSLocalizedString("State",          bundle: .mpolKit, comment: "")
-            case .country:       return NSLocalizedString("Country",        bundle: .mpolKit, comment: "")
-            case .status:        return NSLocalizedString("Status",         bundle: .mpolKit, comment: "")
-            case .validity:      return NSLocalizedString("Valid until",    bundle: .mpolKit, comment: "")
+            case .number: return NSLocalizedString("Licence number", bundle: .mpolKit, comment: "")
+            case .state: return NSLocalizedString("State", bundle: .mpolKit, comment: "")
+            case .country: return NSLocalizedString("Country", bundle: .mpolKit, comment: "")
+            case .status: return NSLocalizedString("Status", bundle: .mpolKit, comment: "")
+            case .condition: return NSLocalizedString("Conditions", bundle: .mpolKit, comment: "")
+            case .validity: return NSLocalizedString("Valid until", bundle: .mpolKit, comment: "")
             }
         }
         
@@ -476,6 +486,14 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
                 return licence.country
             case .status:
                 return licence.status
+            case .condition:
+                if let conditions = licence.conditions {
+
+                    // ToDo: - Do properly
+                    let values = conditions.flatMap { $0.displayValue() }
+                    return values.joined(separator: "\n")
+                }
+                return nil
             case .validity:
                 if let effectiveDate = licence.expiryDate {
                     return DateFormatter.mediumNumericDate.string(from: effectiveDate)
@@ -525,7 +543,7 @@ public class PersonInfoViewModel: EntityDetailsViewModelable {
         
         func formattedContactType(for contact: Contact) -> String? {
 
-            let components = [contact.type?.localizedDescription(), contact.subType].flatMap({$0})
+            let components = [contact.type?.localizedDescription(), contact.subType].flatMap { $0 }
             if components.isEmpty == false {
                 return components.joined(separator: " - ")
             }

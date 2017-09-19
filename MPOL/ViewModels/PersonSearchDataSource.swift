@@ -99,11 +99,7 @@ class PersonSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
     // MARK: - Private
 
     @objc private func didTapHelpButton(_ button: UIButton) {
-        // FIXME: - When the appropriate time comes please change it
-        let helpViewController = UIViewController()
-        helpViewController.title = "Person Search Help"
-        helpViewController.view.backgroundColor = .white
-        (self.updatingDelegate as? UIViewController)?.show(helpViewController, sender: nil)
+        (self.updatingDelegate as? UIViewController)?.present(EntityScreen.help(type: .person))
     }
 
     private func generateResultModel(_ text: String?, completion: ((SearchResultViewModelable?, Error?) -> ())) {
@@ -136,7 +132,8 @@ class PersonSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
                     if let searchParameters = searchParameters {
                         // Note: generate as many requests as required
                         let request = PersonSearchRequest(source: .mpol, request: searchParameters)
-                        let resultModel = EntitySummarySearchResultViewModel<Person>(title: searchTerm, aggregatedSearch: AggregatedSearch(requests: [request]))
+                        let fncRequest = PersonSearchRequest(source: .fnc, request: searchParameters)
+                        let resultModel = EntitySummarySearchResultViewModel<Person>(title: searchTerm, aggregatedSearch: AggregatedSearch(requests: [request, fncRequest]))
                         completion(resultModel, nil)
                     }
                 } else {

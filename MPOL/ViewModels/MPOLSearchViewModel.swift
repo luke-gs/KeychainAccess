@@ -11,7 +11,11 @@ import MPOLKit
 import ClientKit
 
 class MPOLSearchViewModel: SearchViewModel {
+
+    public var entityDelegate: EntityDetailsDelegate?
+
     var recentViewModel: SearchRecentsViewModel = MPOLSearchRecentsViewModel()
+
     var dataSources: [SearchDataSource] = [
         PersonSearchDataSource(),
         VehicleSearchDataSource(),
@@ -20,17 +24,8 @@ class MPOLSearchViewModel: SearchViewModel {
                                  advanceOptions: LookupAddressLocationAdvancedOptions())
     ]
 
-    func detailViewController(for entity: MPOLKitEntity) -> UIViewController? {
-        let viewController = EntityDetailsSplitViewController(entity: entity as! Entity)
-
-        // FIXME: - Sample code to handle different entity
-        if entity is Person {
-            viewController.view.backgroundColor = .red
-        } else if entity is Vehicle {
-            viewController.view.backgroundColor = .yellow
-        }
-
-        return viewController
+    func presentable(for entity: MPOLKitEntity) -> Presentable {
+        return EntityScreen.entityDetails(entity: entity as! Entity, delegate: entityDelegate)
     }
 
 }
@@ -39,7 +34,25 @@ class MPOLSearchRecentsViewModel: SearchRecentsViewModel {
 
     var title: String = "MPOL"
 
-    var recentlyViewed: [MPOLKitEntity] = []
+    var recentlyViewed: [MPOLKitEntity] {
+        get {
+            return UserSession.current.recentlyViewed
+        }
+
+        set {
+            UserSession.current.recentlyViewed = newValue
+        }
+    }
+
+    var recentlySearched: [Searchable] {
+        get {
+            return UserSession.current.recentlySearched
+        }
+
+        set {
+            UserSession.current.recentlySearched = newValue
+        }
+    }
 
     func decorate(_ cell: EntityCollectionViewCell, at indexPath: IndexPath) {
         let entity = recentlyViewed[indexPath.item]

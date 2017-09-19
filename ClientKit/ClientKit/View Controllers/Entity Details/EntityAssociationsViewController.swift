@@ -26,7 +26,9 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
     
     private var wantsThumbnails: Bool = true {
         didSet {
-            if wantsThumbnails == oldValue { return }
+            if wantsThumbnails == oldValue {
+                return
+            }
             
             listStateItem.image = AssetManager.shared.image(forKey: wantsThumbnails ? .list : .thumbnail)
             
@@ -39,8 +41,10 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
     }
     
     private let listStateItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .list), style: .plain, target: nil, action: nil)
-    
-    public override init() {
+    private var delegate: EntityDetailsDelegate?
+
+    public init(delegate: EntityDetailsDelegate?) {
+        self.delegate = delegate
         super.init()
         title = "Associations"
         
@@ -55,7 +59,7 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
         
         let filterBarItem = FilterBarButtonItem(target: nil, action: nil)
         filterBarItem.isEnabled = false
-        navigationItem.rightBarButtonItems = [filterBarItem]
+        navigationItem.rightBarButtonItems = [filterBarItem, listStateItem]
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -103,9 +107,19 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
         switch kind {
         case UICollectionElementKindSectionHeader:
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
-            let item = viewModel.item(at: indexPath.item)!
+            let item = viewModel.item(at: indexPath.section)!
             header.text = item.title
-            header.showsExpandArrow = false
+            header.showsExpandArrow = true
+            header.tapHandler = { [weak self] header, indexPath in
+                guard let `self` = self else { return }
+
+                let section = indexPath.section
+
+                self.viewModel.updateCollapsed(for: [section])
+                collectionView.reloadSections(IndexSet(integer: section))
+                header.setExpanded(self.viewModel.isExpanded(at: section), animated: true)
+            }
+            header.isExpanded = self.viewModel.isExpanded(at: indexPath.section)
             return header
         default:
             return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
@@ -152,13 +166,11 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
         }
     }
     
-//    open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        // Ultimate workaround...
-//        let associate = sections[indexPath.section].associate(at: indexPath.item)
-//        let userInfo: [String: Any] = ["selectedEntity": associate, "viewController" : self]
-//        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "AssociateDidTapEntity"), object: self, userInfo: userInfo)
-//    }
-    
+    open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let associate = viewModel.sections[indexPath.section].associate(at: indexPath.item)
+        delegate?.controller(self, didSelectEntity: associate)
+    }
+
     // MARK: - CollectionViewDelegateFormLayout methods
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, insetForSection section: Int) -> UIEdgeInsets {
@@ -207,7 +219,7 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
     
 }
 
-extension EntityAssociationsViewController: EntityDetailsViewModelDelegate {
+extension EntityAssociationsViewController: EntityDetailViewModelDelegate {
     public func updateSidebarItemCount(_ count: UInt) {
         sidebarItem.count = count
     }

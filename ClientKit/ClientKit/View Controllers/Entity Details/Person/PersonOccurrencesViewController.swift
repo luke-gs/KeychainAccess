@@ -17,10 +17,12 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
     // MARK: - Public properties
     
     open override var entity: Entity? {
-        get { return viewModel.entity }
+        get {
+            return viewModel.entity
+        }
         set {
             viewModel.entity = newValue
-            viewModel.reloadSections(with: filterTypes, filterDateRange: filterDateRange, sortedBy: dateSorting)
+            reloadSections()
         }
     }
     
@@ -39,24 +41,14 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
     fileprivate var filterDateRange: FilterDateRange?
     
     fileprivate var dateSorting: DateSorting = .newest
-    
-    
-    /*
-    private var bailOrders: [BailOrder]?
-    private var cautions: [Caution]?
-    private var fieldContacts: [FieldContact]?
-    private var interventionOrders: [InterventionOrder]?
-    private var warrants: [Warrant]?
-    private var whereabouts: [Whereabouts]?
-    private var missingPersons: [MissingPerson]?
-    private var familyIncidents: [FamilyIncident]?
-    */
-    
+
     // MARK: - Initializers
     
     public override init() {
         super.init()
-        
+
+        loadingManager.state = .noContent
+
         filterBarButtonItem.target = self
         filterBarButtonItem.action = #selector(filterItemDidSelect(_:))
         navigationItem.rightBarButtonItem = filterBarButtonItem
@@ -71,7 +63,10 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
     
     open override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        loadingManager.noContentView.titleLabel.text = NSLocalizedString("No Events Found", bundle: .mpolKit, comment: "")
+        updateNoContentSubtitle(viewModel.noContentSubtitle())
+
         EventDetailsViewModelRouter.register(eventClass: BailOrder.self, viewModelClass: BailOrderDetailViewModel.self)
         EventDetailsViewModelRouter.register(eventClass: FieldContact.self, viewModelClass: FieldContactDetailViewModel.self)
         EventDetailsViewModelRouter.register(eventClass: InterventionOrder.self, viewModelClass: InterventionOrderViewModel.self)
@@ -112,29 +107,16 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
         collectionView.deselectItem(at: indexPath, animated: true)
         
         let detailViewController: UIViewController?
-        let event = viewModel.item(at: indexPath.item)!
-        
-        switch event {
-        case let fieldContact as FieldContact:
-            let fieldContactVC = FieldContactDetailViewController()
-            fieldContactVC.event = fieldContact
-            detailViewController = fieldContactVC
-        case let bailOrder as BailOrder:
-            let bailOrderVC = BailOrderDetailViewController()
-            bailOrderVC.event = bailOrder
-            detailViewController = bailOrderVC
-        case let interventionOrder as InterventionOrder:
-            let interventionOrderVC = InterventionOrderDetailViewController()
-            interventionOrderVC.event = interventionOrder
-            detailViewController = interventionOrderVC
-        default:
-            detailViewController = nil
+        guard let event = viewModel.item(at: indexPath.section)?.events[indexPath.item] else { return }
+
+        if let source = event.source {
+            detailViewController = EventDetailViewController(source: source, eventId: event.id)
+
+            guard let detailVC = detailViewController,
+                let navController = pushableSplitViewController?.navigationController ?? navigationController else { return }
+
+            navController.pushViewController(detailVC, animated: true)
         }
-        
-        guard let detailVC = detailViewController,
-            let navController = pushableSplitViewController?.navigationController ?? navigationController else { return }
-        
-        navController.pushViewController(detailVC, animated: true)
     }
     
     
@@ -144,8 +126,19 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
     open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionElementKindSectionHeader {
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
-    
-            header.text = viewModel.sectionHeader
+
+            header.text = viewModel.header(for: indexPath.section)
+            header.showsExpandArrow = true
+            header.tapHandler = { [weak self] header, indexPath in
+                guard let `self` = self else { return }
+
+                let section = indexPath.section
+                self.viewModel.updateCollapsed(for: [section])
+                header.setExpanded(self.viewModel.isExpanded(at: section), animated: true)
+                collectionView.reloadSections(IndexSet(integer: section))
+            }
+            header.isExpanded = self.viewModel.isExpanded(at: indexPath.section)
+
             return header
         }
         return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
@@ -156,7 +149,8 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
-        return CollectionViewFormDetailCell.minimumContentHeight(compatibleWith: traitCollection)
+        let cellInfo = viewModel.cellInfo(for: indexPath)
+        return CollectionViewFormDetailCell.minimumContentHeight(withDetail: cellInfo.detail, imageSize: UIImage.statusDotFrameSize, inWidth: itemWidth, compatibleWith: traitCollection)
     }
 
     
@@ -200,7 +194,7 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
             }
         }
 
-        viewModel.reloadSections(with: filterTypes, filterDateRange: filterDateRange, sortedBy: dateSorting)
+        reloadSections()
     }
     
     
@@ -239,9 +233,25 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
         
         present(navController, animated: true)
     }
+    
+    private func reloadSections() {
+        var filters: [FilterDescriptor<Event>] = []
+        
+        if let types = self.filterTypes {
+            filters.append(FilterValueDescriptor<Event, String>(key: { $0.eventType }, values: types))
+        }
+        
+        if let dateRange = filterDateRange {
+            filters.append(FilterRangeDescriptor<Event, Date>(key: { $0.occurredDate }, start: dateRange.startDate, end: dateRange.endDate))
+        }
+        
+        let dateSort = SortDescriptor<Event>(ascending: dateSorting == .oldest) { $0.occurredDate }
+        
+        viewModel.reloadSections(withFilterDescriptors: filters, sortDescriptors: [dateSort])
+    }
 }
 
-extension PersonOccurrencesViewController: EntityDetailsViewModelDelegate {
+extension PersonOccurrencesViewController: EntityDetailViewModelDelegate {
     
     public func updateSidebarItemCount(_ count: UInt) {
         sidebarItem.count = count
@@ -262,6 +272,7 @@ extension PersonOccurrencesViewController: EntityDetailsViewModelDelegate {
     
     public func updateLoadingState(_ state: LoadingStateManager.State) {
         loadingManager.state = state
+        filterBarButtonItem.isEnabled = loadingManager.state != .noContent
     }
 
 }

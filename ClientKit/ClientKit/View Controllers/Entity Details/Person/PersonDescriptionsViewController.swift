@@ -57,14 +57,17 @@ class PersonDescriptionsViewController: FormCollectionViewController {
             let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
             view.text = viewModel.year(for: indexPath.section)
             view.showsExpandArrow = true
-        
+
             view.tapHandler = { [weak self] (headerView, indexPath) in
                 guard let `self` = self else { return }
-                self.viewModel.updateCollapsedSections(for: indexPath.section)
-                self.collectionView?.reloadData()
+                let section = indexPath.section
+
+                self.viewModel.updateCollapsed(for: [section])
+                view.setExpanded(self.viewModel.isExpanded(at: section), animated: true)
+                collectionView.reloadSections(IndexSet(integer: section))
             }
 
-            view.isExpanded = viewModel.isExpanded(for: indexPath.section)
+            view.isExpanded = viewModel.isExpanded(at: indexPath.section)
             return view
         }
         
@@ -100,7 +103,7 @@ class PersonDescriptionsViewController: FormCollectionViewController {
 
 }
 
-extension PersonDescriptionsViewController: EntityDetailsViewModelDelegate {
+extension PersonDescriptionsViewController: EntityDetailViewModelDelegate {
     public func reloadData() {
         collectionView?.reloadData()
     }

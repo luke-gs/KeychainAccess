@@ -26,15 +26,16 @@ open class PersonDescription: NSObject, Serialisable {
     
     open var height: Int?
     open var weight: String?
-    open var enthnicity: String?
+    open var ethnicity: String?
+    open var race: String?
+    open var build: String?
     open var hairColour: String?
     open var eyeColour: String?
+    open var marks: [String]?
     open var remarks: String?
     
     open var imageThumbnail: Media?
     open var image: Media?
-    
-    open var reportDate: Date?
     
     open static var supportsSecureCoding: Bool { return true }
     
@@ -60,14 +61,15 @@ open class PersonDescription: NSObject, Serialisable {
         
         height = unboxer.unbox(key: "height")
         weight = unboxer.unbox(key: "weight")
-        enthnicity = unboxer.unbox(key: "enthnicity")
+        ethnicity = unboxer.unbox(key: "ethnicity")
+        race = unboxer.unbox(key: "race")
+        build = unboxer.unbox(key: "build")
         hairColour = unboxer.unbox(key: "hairColour")
         eyeColour = unboxer.unbox(key: "eyeColour")
+        marks = unboxer.unbox(key: "identifyingMarks")
         remarks = unboxer.unbox(key: "remarks")
         imageThumbnail = unboxer.unbox(key: "imageThumbnail")
         image = unboxer.unbox(key: "image")
-
-        reportDate = unboxer.unbox(key: "reportDate", formatter: ISO8601DateTransformer.shared)
         
         super.init()
     }
@@ -86,37 +88,40 @@ open class PersonDescription: NSObject, Serialisable {
     }
     
     public func formatted() -> String? {
-        var initialString = ""
+        var formattedComponents: [String] = []
+
         if let height = height {
-            initialString = "\(height) cm "
+            formattedComponents.append("\(height) cm")
         }
 
         if let weight = weight?.ifNotEmpty() {
-            initialString += "\(weight) kg "
+            formattedComponents.append("\(weight) kg")
         }
-        
-        initialString = initialString.trimmingCharacters(in: .whitespaces)
-        
-        var formattedComponents: [String] = []
-        
-        if initialString.isEmpty == false {
-            formattedComponents.append(initialString)
-        }
-        
-        var hair = ""
 
-        if let hairColour = hairColour?.ifNotEmpty() {
-            hair += hairColour.localizedLowercase
-            hair += " "
+        if let ethnicity = ethnicity?.ifNotEmpty() {
+            formattedComponents.append("\(ethnicity)")
         }
-        if hair.isEmpty == false {
-            hair += "hair"
-            formattedComponents.append(hair)
+
+        if let race = race?.ifNotEmpty() {
+            formattedComponents.append("\(race)")
         }
+
+        if let build = build?.ifNotEmpty() {
+            formattedComponents.append("\(build)" + "build")
+        }
+
+        if let hairColour = hairColour?.ifNotEmpty()?.localizedLowercase {
+            formattedComponents.append("\(hairColour) hair")
+        }
+
         if let eyeColour = eyeColour?.ifNotEmpty() {
             formattedComponents.append(eyeColour.localizedLowercase + " eyes")
         }
-        
+
+        if let marks = marks {
+            formattedComponents.append(marks.joined(separator: ", "))
+        }
+
         if let remarks = remarks?.ifNotEmpty() {
             formattedComponents.append(remarks.localizedLowercase)
         }
@@ -124,6 +129,7 @@ open class PersonDescription: NSObject, Serialisable {
         if formattedComponents.isEmpty {
             return nil
         }
+
         return formattedComponents.joined(separator: ", ")
     }
     

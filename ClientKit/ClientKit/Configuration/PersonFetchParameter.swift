@@ -13,7 +13,7 @@ public struct PersonFetchParameter: EntityFetchRequestable {
     public typealias ResultClass = Person
     
     public let id: String
-    public var parameters: [String : Any] {
+    public var parameters: [String: Any] {
         return ["id": id]
     }
 }

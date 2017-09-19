@@ -1,0 +1,46 @@
+{
+	"title": "Searching for People",
+	"sections": [
+		{
+			"title": "The default search order",
+			"type": "tags",
+			"detail": [
+				"Last Name", 
+				",", 
+				"Given Name", 
+				"Middle Name/s", 
+				"DOB/Age Range"
+			]
+		},
+		{
+			"title": "General conditions",
+			"type": "text",
+			"detail": "Search is NOT case sensetive\nLast name is required\nYou can use partial names or initials for given and middle names\nNames can contain apostrophes or hyphens"
+		},
+		{
+			"title": "Optional",
+			"type": "text",
+			"detail": "Given Name, Middle Name 1, Middle Name 2, DOB/Age Range"
+		},
+		{
+			"title": "Use a comma to separate Last Names that contain spaces or hyphens",
+			"type": "text",
+			"detail": "de Jaager, Jesse\nLe-Gall, Léa"
+		},
+		{
+			"title": "Searching for Date of Birth, Age and Age Ranges",
+			"type": "text",
+			"detail": "Parker Hunter 15/06/1985\nParker Hunter 06/1986\nParker Hunter 1985\nParker Hunter 32\nParker Hunter 30-35"
+		},
+		{
+			"title": "Searching for Aliases",
+			"type": "text",
+			"detail": "@ Parker Hunter"
+		},
+		{
+			"title": "More Examples",
+			"type": "text",
+			"detail": "Parker Hunter S\nParker Hunter S 32"
+		}
+	]
+}

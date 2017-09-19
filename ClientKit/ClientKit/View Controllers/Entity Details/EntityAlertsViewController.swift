@@ -17,7 +17,7 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
     open override var entity: Entity? {
         didSet {
             viewModel.entity = entity
-            viewModel.reloadSections(with: filteredAlertLevels, filterDateRange: filterDateRange, sortedBy: dateSorting)
+            reloadSections()
         }
     }
     
@@ -86,17 +86,17 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(of: CollectionViewFormDetailCell.self, for: indexPath)
-        cell.highlightStyle     = .fade
-        cell.selectionStyle     = .fade
-        cell.accessoryView = cell.accessoryView as? FormAccessoryView ?? FormAccessoryView(style: .disclosure)
+        cell.highlightStyle = .fade
+        cell.selectionStyle = .fade
 
         let cellInfo = viewModel.cellInfo(for: indexPath)
         
-        cell.imageView.image    = cellInfo.image
-        cell.titleLabel.text    = cellInfo.title
-        cell.detailLabel.text   = cellInfo.detail
+        cell.imageView.image = cellInfo.image
+        cell.titleLabel.text = cellInfo.title
+        cell.detailLabel.text = cellInfo.detail
         cell.subtitleLabel.text = cellInfo.subtitle
-        
+        cell.detailLabel.numberOfLines = cellInfo.expanded ? 0 : 2
+
         return cell
     }
     
@@ -105,17 +105,19 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
             
             let alerts = viewModel.item(at: indexPath.section)!
+
             header.text = viewModel.headerText(for: alerts)
-            
-            if alerts.count > 0 {
+            if alerts.count > 0, let alertLevel = alerts.flatMap({ $0.level?.rawValue }).first {
+
                 header.showsExpandArrow = true
-                
-                header.tapHandler = { [weak self] (headerView, indexPath) in
+
+                header.tapHandler = { [weak self] headerView, indexPath in
                     guard let `self` = self else { return }
-                    self.viewModel.updateCollapsedSections(for: alerts)
-                    self.collectionView?.reloadData()
+                    self.viewModel.updateCollapsed(for: [alertLevel])
+                    self.collectionView?.reloadSections(IndexSet(integer: indexPath.section))
+                    headerView.setExpanded(self.viewModel.isExpanded(at: alertLevel), animated: true)
                 }
-                header.isExpanded = viewModel.isExpanded(for: alerts)
+                header.isExpanded = viewModel.isExpanded(at: alertLevel)
             }
             
             return header
@@ -128,6 +130,8 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
     
     open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
+        viewModel.updateExpandedForItem(at: indexPath)
+        collectionView.reloadItems(at: [indexPath])
     }
     
     open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
@@ -135,7 +139,14 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
-        return CollectionViewFormDetailCell.minimumContentHeight(withImageSize: UIImage.statusDotFrameSize, compatibleWith: traitCollection)
+        let cellInfo = viewModel.cellInfo(for: indexPath)
+
+        var detail = cellInfo.detail?.sizing()
+        if cellInfo.expanded {
+            detail?.numberOfLines = 0
+        }
+
+        return CollectionViewFormDetailCell.minimumContentHeight(withDetail: detail, imageSize: UIImage.statusDotFrameSize, inWidth: itemWidth, compatibleWith: traitCollection)
     }
     
     
@@ -169,8 +180,7 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
             }
         }
         
-        viewModel.reloadSections(with: filteredAlertLevels, filterDateRange: filterDateRange, sortedBy: dateSorting)
-        
+        reloadSections()
     }
     
     
@@ -194,10 +204,23 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
         
         present(navController, animated: true)
     }
+    
+    private func reloadSections() {
+        var filters: [FilterDescriptor<Alert>] = []
+        filters.append(FilterValueDescriptor<Alert, Alert.Level>(key: { $0.level }, values: self.filteredAlertLevels))
+        
+        if let dateRange = self.filterDateRange {
+            filters.append(FilterRangeDescriptor<Alert, Date>(key: { $0.effectiveDate }, start: dateRange.startDate, end: dateRange.endDate))
+        }
+        
+        let dateSort = SortDescriptor<Alert>(ascending: dateSorting == .oldest) { $0.effectiveDate }
+        
+        viewModel.reloadSections(withFilterDescriptors: filters, sortDescriptors: [dateSort])
+    }
 }
 
 
-extension EntityAlertsViewController: EntityDetailsViewModelDelegate {
+extension EntityAlertsViewController: EntityDetailViewModelDelegate {
     public func updateSidebarItemCount(_ count: UInt) {
         sidebarItem.count = count
     }
@@ -213,7 +236,7 @@ extension EntityAlertsViewController: EntityDetailsViewModelDelegate {
     public func reloadData() {
         collectionView?.reloadData()
     }
-    
+
     public func updateFilterBarButtonItemActivity() {
         let selectAlertLevels = filteredAlertLevels != Set(Alert.Level.allCases)
         let requiresFiltering: Bool = selectAlertLevels || filterDateRange != nil

@@ -34,9 +34,9 @@ public class FieldContactDetailViewModel: EventDetailsViewModel {
         
         if let descriptions = fieldContact.contactDescriptions?.flatMap({$0.ifNotEmpty()}), descriptions.isEmpty == false {
             let descriptionSection = EventDetailSection(title: NSLocalizedString("CONTACT DESCRIPTIONS", bundle: .mpolKit, comment: "Section Title"),
-                                                        items: descriptions.enumerated().map({
+                                                        items: descriptions.enumerated().map {
                                                             return EventDetailItem(title: String(format: NSLocalizedString("Contact Description %d", comment: ""), $0.offset + 1), detail: $0.element, preferredColumnCount: 1)
-                                                        }))
+                                                        })
             sections = [header, place, descriptionSection]
         } else {
             sections = [header, place]

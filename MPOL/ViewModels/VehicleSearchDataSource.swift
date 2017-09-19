@@ -159,9 +159,11 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
             let picker = pickerController(forFilterAt: index,
                                           items: searchTypes,
                                           selectedIndexes: searchTypes.indexes { $0 == options.type },
-                                          onSelect: { (_, selectedIndexes) in
-                                            guard let selectedTypeIndex = selectedIndexes.first else { return }
+                                          onSelect: { [weak self] (_, selectedIndexes) in
+                                            guard let `self` = self, let selectedTypeIndex = selectedIndexes.first else { return }
                                             options.type = searchTypes[selectedTypeIndex]
+                                            
+                                            self.updatingDelegate?.searchDataSource(self, didUpdateComponent: .searchStyle)
             })
 
             return .options(controller: picker)
@@ -179,11 +181,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
     }
 
     @objc private func didTapHelpButton(_ button: UIButton) {
-        // FIXME: - When the appropriate time comes please change it
-        let helpViewController = UIViewController()
-        helpViewController.title = "Vehicle Search Help"
-        helpViewController.view.backgroundColor = .white
-        (self.updatingDelegate as? UIViewController)?.show(helpViewController, sender: nil)
+        (self.updatingDelegate as? UIViewController)?.present(EntityScreen.help(type: .vehicle))
     }
 
     private func generateResultModel(_ text: String?, completion: ((SearchResultViewModelable?, Error?) -> ())) {

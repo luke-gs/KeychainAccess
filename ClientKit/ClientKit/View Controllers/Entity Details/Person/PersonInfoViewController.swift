@@ -12,7 +12,9 @@ import MPOLKit
 open class PersonInfoViewController: EntityDetailCollectionViewController {
     
     open override var entity: Entity? {
-        get { return self.viewModel.person }
+        get {
+            return self.viewModel.person
+        }
         set {
             self.viewModel.person = newValue as? Person
             updateLoadingManagerState()
@@ -48,7 +50,9 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
         let noContentView = loadingManager.noContentView
         noContentView.titleLabel.text = NSLocalizedString("No Person Found", bundle: .mpolKit, comment: "")
         noContentView.subtitleLabel.text = NSLocalizedString("There are no details for this person", bundle: .mpolKit, comment: "")
-                
+        
+        loadingManager.loadingLabel.text = "Retrieving records"
+        
         guard let collectionView = self.collectionView else { return }
         
         collectionView.register(EntityDetailCollectionViewCell.self)
@@ -73,7 +77,18 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
     open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionElementKindSectionHeader {
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
-            headerView.showsExpandArrow = false
+
+            headerView.showsExpandArrow = true
+            headerView.tapHandler = { [weak self] header, indexPath in
+                guard let `self` = self else { return }
+
+                let section = indexPath.section
+
+                self.viewModel.updateCollapsed(for: [section])
+                headerView.setExpanded(self.viewModel.isExpanded(at: section), animated: true)
+                collectionView.reloadSections(IndexSet(integer: section))
+            }
+            headerView.isExpanded = self.viewModel.isExpanded(at: indexPath.section)
             headerView.text = viewModel.header(for: indexPath.section)
             return headerView
         }
@@ -101,7 +116,7 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
             // TODO: - Needs to remove the mock, once real data is hooked up
             /// cell.thumbnailView.imageView.image = #imageLiteral(resourceName: "Avatar 1")
             
-// TODO
+            // TODO: ?
 //            if cell.thumbnailView.allTargets.contains(self) == false {
 //                cell.thumbnailView.isEnabled = true
 //                cell.thumbnailView.addTarget(self, action: #selector(entityThumbnailDidSelect(_:)), for: .primaryActionTriggered)
@@ -154,7 +169,8 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
         
         let cell = collectionView.dequeueReusableCell(of: CollectionViewFormValueFieldCell.self, for: indexPath)
         cell.isEditable = false
-        
+
+        cell.valueLabel.numberOfLines = 0
         cell.titleLabel.text = title
         cell.valueLabel.text = value
         cell.imageView.image = image?.withRenderingMode(.alwaysTemplate)
@@ -258,11 +274,13 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
     private func updateLoadingManagerState() {
         loadingManager.state = entity != nil ? .loaded : .noContent
     }
+
 }
 
-extension PersonInfoViewController: EntityDetailsViewModelDelegate {
+extension PersonInfoViewController: EntityDetailViewModelDelegate {
+
    public func reloadData() {
         collectionView?.reloadData()
     }
-}
 
+}

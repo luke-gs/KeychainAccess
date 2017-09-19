@@ -12,6 +12,7 @@ import MPOLKit
 public enum MPOLSource: String, EntitySource, UnboxableEnum {
     case mpol = "mpol"
     case gnaf = "gnaf"
+    case fnc = "fnc"
 
     public var serverSourceName: String {
         return self.rawValue
@@ -21,6 +22,8 @@ public enum MPOLSource: String, EntitySource, UnboxableEnum {
         switch self {
         case .mpol, .gnaf:
             return NSLocalizedString("MPOL", bundle: .mpolKit, comment: "")
+        case .fnc:
+            return NSLocalizedString("FNC", bundle: .mpolKit, comment: "")
         }
     }
 
@@ -28,6 +31,8 @@ public enum MPOLSource: String, EntitySource, UnboxableEnum {
         switch self {
         case .mpol, .gnaf:
             return NSLocalizedString("MPOL", bundle: .mpolKit, comment: "")
+        case .fnc:
+            return NSLocalizedString("FNC", bundle: .mpolKit, comment: "")
         }
     }
 }

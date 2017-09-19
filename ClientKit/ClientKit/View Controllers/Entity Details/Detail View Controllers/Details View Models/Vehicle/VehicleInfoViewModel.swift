@@ -9,11 +9,11 @@
 import Foundation
 import MPOLKit
 
-public class VehicleInfoViewModel: EntityDetailsViewModelable {
-    
+public class VehicleInfoViewModel: EntityDetailViewModelable {
+
     public typealias DetailsType = VehicleInfo
     
-    public weak var delegate: EntityDetailsViewModelDelegate?
+    public weak var delegate: EntityDetailViewModelDelegate?
     
     // MARK - Entity
     public var vehicle: Vehicle? {
@@ -46,11 +46,13 @@ public class VehicleInfoViewModel: EntityDetailsViewModelable {
         }
     }
     
-    public var sections: [DetailsType] = [VehicleInfo(type: .header, items: nil)]{
+    public var sections: [DetailsType] = [] {
         didSet {
             delegate?.reloadData()
         }
     }
+
+    public lazy var collapsedSections: Set<Int> = []
     
     // MARK: - Public methods
     
@@ -59,6 +61,9 @@ public class VehicleInfoViewModel: EntityDetailsViewModelable {
     }
     
     public func numberOfItems(for section: Int) -> Int {
+        if collapsedSections.contains(section) {
+            return 0
+        }
         return sections[section].items?.count ?? 1
     }
     
@@ -92,23 +97,23 @@ public class VehicleInfoViewModel: EntityDetailsViewModelable {
         
         return HeaderSectionCellInfo(vehicle: vehicle,
                                      source: source,
-                                     title:title,
+                                     title: title,
                                      subtitle: subtitle,
                                      description: description)
     }
     
     public func formattedSubtitle() -> String? {
-        return [vehicle?.detail1, vehicle?.variant].flatMap({$0}).joined(separator: " ")
+        return [vehicle?.detail1, vehicle?.variant].flatMap {$0}.joined(separator: " ")
     }
     
     public func cellInfo(for section: DetailsType, at indexPath: IndexPath) -> SectionCellInfo {
-        var title   : String?
-        var value   : String?
-        var isEditable          : Bool?
-        var isProgressCell      : Bool?
-        var progress            : Float?
+        var title: String?
+        var value: String?
+        var isEditable: Bool?
+        var isProgressCell: Bool?
+        var progress: Float?
         var isProgressViewHidden: Bool?
-        var multiLineSubtitle : Bool = false
+        var multiLineSubtitle: Bool = false
         
         let item = section.items![indexPath.item]
 
@@ -169,24 +174,24 @@ public class VehicleInfoViewModel: EntityDetailsViewModelable {
     // MARK: Section Cell
     
     public struct HeaderSectionCellInfo {
-        let vehicle     : Vehicle?
-        let source     : String?
-        let title      : String?
-        let subtitle   : String?
+        let vehicle: Vehicle?
+        let source: String?
+        let title: String?
+        let subtitle: String?
         let description: String?
     }
     
     public struct SectionCellInfo {
-        let title     : String?
-        var value   : String?
+        let title: String?
+        var value: String?
         let isEditable: Bool?
         
-        let isProgressCell      : Bool?
-        let progress            : Float?
+        let isProgressCell: Bool?
+        let progress: Float?
         let isProgressViewHidden: Bool?
-        let multiLineSubtitle   : Bool
+        let multiLineSubtitle: Bool
 
-        var progressTintColor   : UIColor? {
+        var progressTintColor: UIColor? {
             guard let progress = progress else {
                 return nil
             }
@@ -207,7 +212,7 @@ public class VehicleInfoViewModel: EntityDetailsViewModelable {
         
         var localizedTitle: String {
             switch self {
-            case .header:       return NSLocalizedString("LAST UPDATED",         bundle: .mpolKit, comment: "")
+            case .header: return NSLocalizedString("LAST UPDATED", bundle: .mpolKit, comment: "")
             case .registration: return NSLocalizedString("REGISTRATION DETAILS", bundle: .mpolKit, comment: "")
             }
         }
@@ -233,7 +238,7 @@ public class VehicleInfoViewModel: EntityDetailsViewModelable {
         case tare
         case seating
         
-        static func RegistrationItems() -> [RegistrationItem] {
+        static func registrationItems() -> [RegistrationItem] {
             return [.status,
                     .validity,
                     .manufactured,
@@ -252,45 +257,45 @@ public class VehicleInfoViewModel: EntityDetailsViewModelable {
         
         var localizedTitle: String {
             switch self {
-            case .status:       return NSLocalizedString("Status",             bundle: .mpolKit, comment: "")
-            case .validity:     return NSLocalizedString("Valid until",        bundle: .mpolKit, comment: "")
-            case .manufactured: return NSLocalizedString("Manufactured in",    bundle: .mpolKit, comment: "")
-            case .make:         return NSLocalizedString("Make",               bundle: .mpolKit, comment: "")
-            case .model:        return NSLocalizedString("Model",              bundle: .mpolKit, comment: "")
-            case .vin:          return NSLocalizedString("VIN/Chassis Number", bundle: .mpolKit, comment: "")
-            case .engine:       return NSLocalizedString("Engine Number",      bundle: .mpolKit, comment: "")
-            case .fuel:         return NSLocalizedString("Fuel Type",          bundle: .mpolKit, comment: "")
-            case .transmission: return NSLocalizedString("Transmission",       bundle: .mpolKit, comment: "")
-            case .color1:       return NSLocalizedString("Primary Colour",     bundle: .mpolKit, comment: "")
-            case .color2:       return NSLocalizedString("Secondary Colour",   bundle: .mpolKit, comment: "")
-            case .weight:       return NSLocalizedString("Gross Vehicle Mass", bundle: .mpolKit, comment: "")
-            case .tare:         return NSLocalizedString("TARE",               bundle: .mpolKit, comment: "")
-            case .seating:      return NSLocalizedString("Seating Capacity",   bundle: .mpolKit, comment: "")
+            case .status: return NSLocalizedString("Status", bundle: .mpolKit, comment: "")
+            case .validity: return NSLocalizedString("Valid until", bundle: .mpolKit, comment: "")
+            case .manufactured: return NSLocalizedString("Manufactured in", bundle: .mpolKit, comment: "")
+            case .make: return NSLocalizedString("Make", bundle: .mpolKit, comment: "")
+            case .model: return NSLocalizedString("Model", bundle: .mpolKit, comment: "")
+            case .vin: return NSLocalizedString("VIN/Chassis Number", bundle: .mpolKit, comment: "")
+            case .engine: return NSLocalizedString("Engine Number", bundle: .mpolKit, comment: "")
+            case .fuel: return NSLocalizedString("Fuel Type", bundle: .mpolKit, comment: "")
+            case .transmission: return NSLocalizedString("Transmission", bundle: .mpolKit, comment: "")
+            case .color1: return NSLocalizedString("Primary Colour", bundle: .mpolKit, comment: "")
+            case .color2: return NSLocalizedString("Secondary Colour", bundle: .mpolKit, comment: "")
+            case .weight: return NSLocalizedString("Gross Vehicle Mass", bundle: .mpolKit, comment: "")
+            case .tare: return NSLocalizedString("TARE", bundle: .mpolKit, comment: "")
+            case .seating: return NSLocalizedString("Seating Capacity", bundle: .mpolKit, comment: "")
             }
         }
         
         func value(from vehicle: Vehicle?) -> String? {
             // TODO: Fill these details in
             switch self {
-            case .status:       return vehicle?.registrationStatus ?? "-"
+            case .status: return vehicle?.registrationStatus ?? "-"
             case .validity:
                 if let effectiveDate = vehicle?.registrationExpiryDate {
                     return DateFormatter.mediumNumericDate.string(from: effectiveDate)
                 }
                 return "-"
             case .manufactured: return vehicle?.year ?? "-"
-            case .make:         return vehicle?.make ?? "-"
-            case .model:        return vehicle?.model ?? "-"
-            case .vin:          return vehicle?.vin ?? "-"
-            case .engine:       return vehicle?.engineNumber ?? "-"
-            case .fuel:         return "-"
+            case .make: return vehicle?.make ?? "-"
+            case .model: return vehicle?.model ?? "-"
+            case .vin: return vehicle?.vin ?? "-"
+            case .engine: return vehicle?.engineNumber ?? "-"
+            case .fuel: return "-"
             case .transmission: return vehicle?.transmission ?? "-"
-            case .color1:       return vehicle?.primaryColor ?? "-"
-            case .color2:       return vehicle?.secondaryColor ?? "-"
+            case .color1: return vehicle?.primaryColor ?? "-"
+            case .color2: return vehicle?.secondaryColor ?? "-"
             case .weight:
                 guard let weight = vehicle?.weight, weight > 0 else { return "-" }
                 return String(describing: weight) + " kg"
-            case .tare:         return "-"
+            case .tare: return "-"
             case .seating:
                 guard let seatCapacity = vehicle?.seatingCapacity, seatCapacity > 0 else { return "-" }
                 return String(describing: seatCapacity)
@@ -309,19 +314,19 @@ public class VehicleInfoViewModel: EntityDetailsViewModelable {
         
         var localizedTitle: String {
             switch self {
-            case .name:    return NSLocalizedString("Name",          bundle: .mpolKit, comment: "")
-            case .dob:     return NSLocalizedString("Date of Birth", bundle: .mpolKit, comment: "")
-            case .gender:  return NSLocalizedString("Gender",        bundle: .mpolKit, comment: "")
-            case .address: return NSLocalizedString("Address",       bundle: .mpolKit, comment: "")
+            case .name: return NSLocalizedString("Name", bundle: .mpolKit, comment: "")
+            case .dob: return NSLocalizedString("Date of Birth", bundle: .mpolKit, comment: "")
+            case .gender: return NSLocalizedString("Gender", bundle: .mpolKit, comment: "")
+            case .address: return NSLocalizedString("Address", bundle: .mpolKit, comment: "")
             }
         }
         
         func value(for vehicle: Any?) -> String {
             // TODO: Fill these details in
             switch self {
-            case .name:    return "Citizen, John R"
-            case .dob:     return "08/05/1987 (29)"
-            case .gender:  return "Male"
+            case .name: return "Citizen, John R"
+            case .dob: return "08/05/1987 (29)"
+            case .gender: return "Male"
             case .address: return "8 Catherine Street, Southbank VIC 3006"
             }
         }
@@ -329,7 +334,7 @@ public class VehicleInfoViewModel: EntityDetailsViewModelable {
         var wantsMultiLineDetail: Bool {
             switch self {
             case .address: return true
-            default:       return false
+            default: return false
             }
         }
     }

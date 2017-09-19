@@ -9,12 +9,12 @@
 import Foundation
 import MPOLKit
 
-public class PersonDescriptionViewModel: EntityDetailsViewModelable {
+public class PersonDescriptionViewModel: EntityDetailViewModelable {
     // Specify the concrete type
     public typealias DetailsType = PersonDescription
     public typealias SectionType = (year: String, descriptions: [PersonDescription])
     
-    public weak var delegate: EntityDetailsViewModelDelegate?
+    public weak var delegate: EntityDetailViewModelDelegate?
     
     // MARK: - Initialize
 
@@ -28,7 +28,7 @@ public class PersonDescriptionViewModel: EntityDetailsViewModelable {
             var sectionsMap: [String: [PersonDescription]] = [:]
             for description in sections {
                 // mapping description to report date's year
-                let year = description.reportDate == nil ? "" : yearDateFormatter.string(from: description.reportDate!)
+                let year = description.effectiveDate == nil ? "" : yearDateFormatter.string(from: description.effectiveDate!)
                 var yearsDescriptions = sectionsMap[year] ?? []
                 yearsDescriptions.append(description)
                 sectionsMap[year] = yearsDescriptions
@@ -50,7 +50,7 @@ public class PersonDescriptionViewModel: EntityDetailsViewModelable {
     
     // MARK: - Private property
     
-    private var collapsedSections: Set<Int> = []
+    public var collapsedSections: Set<Int> = []
     
     private var orderedSections: [SectionType] = [] {
         didSet {
@@ -97,17 +97,6 @@ public class PersonDescriptionViewModel: EntityDetailsViewModelable {
         return orderedSections[ifExists: section]?.year
     }
     
-    public func updateCollapsedSections(for section: Int) {
-        if collapsedSections.remove(section) == nil {
-            // This section wasn't in there and didn't remove
-            collapsedSections.insert(section)
-        }
-    }
-    
-    public func isExpanded(for section: Int) -> Bool {
-        return !collapsedSections.contains(section)
-    }
-    
     /// Provide info to cal the minimum content height for collectionView
     public func itemForCalculateContentHeight(at indexPath: IndexPath) -> (title: String?, value: String?) {
         let description = item(at: indexPath.row)!
@@ -124,9 +113,9 @@ public class PersonDescriptionViewModel: EntityDetailsViewModelable {
     private func title(for description: PersonDescription?) -> String? {
         
         guard let description = description,
-            let reportDate = description.reportDate else { return nil }
+            let effectiveDate = description.effectiveDate else { return nil }
         
-        return DateFormatter.shortDate.string(from: reportDate)
+        return DateFormatter.shortDate.string(from: effectiveDate)
     }
     
     /// Provides custom formated description
@@ -135,11 +124,11 @@ public class PersonDescriptionViewModel: EntityDetailsViewModelable {
     }
     
     private func titleForCalculateContentHeight(with description: PersonDescription) -> String? {
-        return description.reportDate == nil ? nil : "Unknown Date"
+        return title(for: description)
     }
     
     private func valueForCalculateContentHeight(with description: PersonDescription) -> String? {
-        return description.formatted()
+        return formatedDescription(for: description)
     }
     
     

@@ -18,11 +18,11 @@ public protocol EventDetailsViewModelable {
     /// Generic type for subitems
     associatedtype ItemType
 
-    var event        : Event { get }
+    var event: Event { get }
     /// List of sections
-    var sections     : [SectionType] { get }
-    weak var delegate: EntityDetailsViewModelDelegate? { get }
-    
+    var sections: [SectionType] { get }
+//    weak var delegate: EntityDetailViewModelDelegate? { get }
+
     
     // MARK: Generic methods
     

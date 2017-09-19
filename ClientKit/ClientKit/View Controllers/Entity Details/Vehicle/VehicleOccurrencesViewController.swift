@@ -16,10 +16,12 @@ open class VehicleOccurrencesViewController: EntityOccurrencesViewController, Fi
     // MARK: - Public properties
     
     open override var entity: Entity? {
-        get { return viewModel.entity }
+        get {
+            return viewModel.entity
+        }
         set {
             viewModel.entity = newValue
-            viewModel.reloadSections(with: filterTypes, filterDateRange: filterDateRange, sortedBy: dateSorting)
+            reloadSections()
         }
     }
     
@@ -99,25 +101,16 @@ open class VehicleOccurrencesViewController: EntityOccurrencesViewController, Fi
         collectionView.deselectItem(at: indexPath, animated: true)
         
         let detailViewController: UIViewController?
-        let event = viewModel.item(at: indexPath.item)!
+        guard let event = viewModel.item(at: indexPath.section)?.events[indexPath.item] else { return }
         
-        switch event {
-        case let fieldContact as FieldContact:
-            let fieldContactVC = FieldContactDetailViewController()
-            fieldContactVC.event = fieldContact
-            detailViewController = fieldContactVC
-        case let interventionOrder as InterventionOrder:
-            let interventionOrderVC = InterventionOrderDetailViewController()
-            interventionOrderVC.event = interventionOrder
-            detailViewController = interventionOrderVC
-        default:
-            detailViewController = nil
+        if let source = event.source {
+            detailViewController = EventDetailViewController(source: source, eventId: event.id)
+
+            guard let detailVC = detailViewController,
+                let navController = pushableSplitViewController?.navigationController ?? navigationController else { return }
+
+            navController.pushViewController(detailVC, animated: true)
         }
-        
-        guard let detailVC = detailViewController,
-            let navController = pushableSplitViewController?.navigationController ?? navigationController else { return }
-        
-        navController.pushViewController(detailVC, animated: true)
     }
     
     
@@ -128,7 +121,18 @@ open class VehicleOccurrencesViewController: EntityOccurrencesViewController, Fi
         if kind == UICollectionElementKindSectionHeader {
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
             
-            header.text = viewModel.sectionHeader
+            header.text = viewModel.header(for: indexPath.section)
+            header.showsExpandArrow = true
+            header.tapHandler = { [weak self] header, indexPath in
+                guard let `self` = self else { return }
+
+                let section = indexPath.section
+
+                self.viewModel.updateCollapsed(for: [section])
+                header.setExpanded(self.viewModel.isExpanded(at: section), animated: true)
+                collectionView.reloadSections(IndexSet(integer: section))
+            }
+                
             return header
         }
         return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
@@ -137,9 +141,10 @@ open class VehicleOccurrencesViewController: EntityOccurrencesViewController, Fi
     open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
         return CollectionViewFormHeaderView.minimumHeight
     }
-    
+
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
-        return CollectionViewFormDetailCell.minimumContentHeight(compatibleWith: traitCollection)
+        let cellInfo = viewModel.cellInfo(for: indexPath)
+        return CollectionViewFormDetailCell.minimumContentHeight(withDetail: cellInfo.detail, imageSize: UIImage.statusDotFrameSize, inWidth: itemWidth, compatibleWith: traitCollection)
     }
     
     
@@ -183,7 +188,7 @@ open class VehicleOccurrencesViewController: EntityOccurrencesViewController, Fi
             }
         }
         
-        viewModel.reloadSections(with: filterTypes, filterDateRange: filterDateRange, sortedBy: dateSorting)
+        reloadSections()
     }
     
     
@@ -222,9 +227,25 @@ open class VehicleOccurrencesViewController: EntityOccurrencesViewController, Fi
         
         present(navController, animated: true)
     }
+    
+    private func reloadSections() {
+        var filters: [FilterDescriptor<Event>] = []
+        
+        if let types = self.filterTypes {
+            filters.append(FilterValueDescriptor<Event, String>(key: { $0.eventType }, values: types))
+        }
+        
+        if let dateRange = filterDateRange {
+            filters.append(FilterRangeDescriptor<Event, Date>(key: { $0.occurredDate }, start: dateRange.startDate, end: dateRange.endDate))
+        }
+        
+        let dateSort = SortDescriptor<Event>(ascending: dateSorting == .oldest) { $0.occurredDate }
+        
+        viewModel.reloadSections(withFilterDescriptors: filters, sortDescriptors: [dateSort])
+    }
 }
 
-extension VehicleOccurrencesViewController: EntityDetailsViewModelDelegate {
+extension VehicleOccurrencesViewController: EntityDetailViewModelDelegate {
     
     public func updateSidebarItemCount(_ count: UInt) {
         sidebarItem.count = count
@@ -245,6 +266,7 @@ extension VehicleOccurrencesViewController: EntityDetailsViewModelDelegate {
     
     public func updateLoadingState(_ state: LoadingStateManager.State) {
         loadingManager.state = state
+        filterBarButtonItem.isEnabled = loadingManager.state != .noContent
     }
     
 }

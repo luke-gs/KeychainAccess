@@ -19,18 +19,35 @@ import Alamofire
 #endif
 
 private let host = "api-dev.mpol.solutions"
+let TermsAndConditionsVersion = "1.0"
+let WhatsNewVersion = "1.0"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
-    var tabBarController: UITabBarController?
 
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
         MPOLKitInitialize()
 
-        APIManager.shared = APIManager(configuration: APIManagerDefaultConfiguration(url: "https://\(host)", trustPolicyManager: ServerTrustPolicyManager(policies: [host: .disableEvaluation])))
+        let plugins: [PluginType]?
+        #if DEBUG
+            plugins = [
+                NetworkLoggingPlugin()
+            ]
+        #else
+            plugins = nil
+        #endif
+
+        let presenter = PresenterGroup(presenters: [SystemPresenter(), LandingPresenter(), EntityPresenter()])
+
+        let director = Director(presenter: presenter)
+        director.addPresenterObserver(RecentlyViewedTracker())
+        
+        Director.shared = director
+
+        APIManager.shared = APIManager(configuration: APIManagerDefaultConfiguration(url: "https://\(host)", plugins: plugins, trustPolicyManager: ServerTrustPolicyManager(policies: [host: .disableEvaluation])))
 
         NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleDidChange), name: .interfaceStyleDidChange, object: nil)
 
@@ -38,10 +55,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         let window = UIWindow()
         self.window = window
-
+        
         applyCurrentTheme()
 
-        updateInterface(for: .login, animated: true)
+        UserSession.basePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+
+        if UserSession.current.isActive == true {
+            UserSession.current.restoreSession { token in
+                APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
+            }
+        }
+
+        self.fiddleWithState()
 
         window.makeKeyAndVisible()
 
@@ -62,8 +87,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         return true
     }
 
-    // MARK: - APNS
+    func fiddleWithState() {
+        let screen: LandingScreen
 
+        if let user = UserSession.current.user, user.termsAndConditionsVersionAccepted == TermsAndConditionsVersion {
+            if UserSession.current.user?.whatsNewShownVersion != WhatsNewVersion {
+                screen = .whatsNew
+            } else {
+                screen = .landing
+            }
+        } else {
+            screen = .login
+        }
+
+        window?.rootViewController = Director.shared.presenter.viewController(forPresentable: screen)
+    }
+
+    // MARK: - APNS
+    
     func registerPushNotifications(_ application: UIApplication) {
 
         let notificationCenter: UNUserNotificationCenter = UNUserNotificationCenter.current()
@@ -97,7 +138,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         for i in 0..<deviceToken.count {
             token = token + String(format: "%02.2hhx", arguments: [deviceToken[i]])
         }
-        print(token)
 
         // TODO: Upload token to server & register for PNS
     }
@@ -108,7 +148,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     // TEMP
     func logOut() {
-        updateInterface(for: .login, animated: true)
+        UserSession.current.endSession()
+        window?.rootViewController = Director.shared.presenter.viewController(forPresentable: LandingScreen.login)
     }
 
     @objc private func interfaceStyleDidChange() {
@@ -151,27 +192,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         AlertQueue.shared.preferredStatusBarStyle = theme.statusBarStyle
     }
-
-    // FIXEME: Tech debt
-    func setCurrentUser(withUsername username: String) {
-        var user: User?
-
-        let data = UserDefaults.standard.object(forKey: "TemporaryUser") as? Data
-        if data != nil {
-            user = NSKeyedUnarchiver.unarchiveObject(with: data!) as? User
-        }
-
-        if user == nil {
-            user = User(username: username)
-            self.saveUser(user!)
-        }
-        AppDelegate.currentUser = user
-    }
-
-    static var currentUser: User?
-
-    func saveUser(_ user: User) {
-        UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: user), forKey: "TemporaryUser")
-    }
-
 }

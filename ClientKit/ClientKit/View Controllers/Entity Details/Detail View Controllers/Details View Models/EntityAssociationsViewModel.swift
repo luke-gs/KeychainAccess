@@ -9,15 +9,15 @@
 import Foundation
 import MPOLKit
 
-public class EntityAssociationsViewModel: EntityDetailsViewModelable {
+public class EntityAssociationsViewModel: EntityDetailViewModelable {
     
     public typealias DetailsType  = Section
     
     // MARK: Initialize
-    private var associatedPersons : [Person]  = []
+    private var associatedPersons: [Person]  = []
     private var associatedVehicles: [Vehicle] = []
     
-    public weak var delegate: EntityDetailsViewModelDelegate?
+    public weak var delegate: EntityDetailViewModelDelegate?
 
     public var entity: Entity? {
         didSet {
@@ -45,6 +45,8 @@ public class EntityAssociationsViewModel: EntityDetailsViewModelable {
             delegate?.reloadData()
         }
     }
+
+    public lazy var collapsedSections: Set<Int> = []
     
     public var style: SearchResultStyle = .grid
 
@@ -55,6 +57,9 @@ public class EntityAssociationsViewModel: EntityDetailsViewModelable {
     }
     
     public func numberOfItems(for section: Int) -> Int {
+        if collapsedSections.contains(section) {
+            return 0
+        }
         return sections[section].count
     }
     

@@ -15,10 +15,12 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
     
     
     open override var entity: Entity? {
-        get { return viewModel.person }
+        get {
+            return viewModel.person
+        }
         set {
             viewModel.person = newValue as? Person
-            viewModel.reloadSections(with: filterTypes, filterDateRange: filterDateRange)
+            reloadSections()
         }
     }
     
@@ -111,9 +113,8 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
-        let height = CollectionViewFormDetailCell.minimumContentHeight(withImageSize: UIImage.statusDotFrameSize, compatibleWith: traitCollection)
-        
-        return height
+        let cellInfo = viewModel.cellInfo(for: indexPath)
+        return CollectionViewFormDetailCell.minimumContentHeight(withDetail: cellInfo.detail, imageSize: UIImage.statusDotFrameSize, inWidth: itemWidth, compatibleWith: traitCollection)
     }
     
     
@@ -151,7 +152,7 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
             }
         }
         
-        viewModel.reloadSections(with: filterTypes, filterDateRange: filterDateRange)
+        reloadSections()
     }
     
     
@@ -189,9 +190,23 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
         present(navController, animated: true)
     }
     
+    private func reloadSections() {
+        var filters: [FilterDescriptor<Action>] = []
+        
+        if let types = self.filterTypes {
+            filters.append(FilterValueDescriptor<Action, String>(key: { $0.type }, values: types))
+        }
+        
+        if let dateRange = self.filterDateRange {
+            filters.append(FilterRangeDescriptor<Action, Date>(key: { $0.date }, start: dateRange.startDate, end: dateRange.endDate))
+        }
+        
+        viewModel.reloadSections(withFilterDescriptors: filters, sortDescriptors: nil)
+    }
+    
 }
 
-extension PersonActionsViewController: EntityDetailsViewModelDelegate {
+extension PersonActionsViewController: EntityDetailViewModelDelegate {
     
     public func updateSidebarItemCount(_ count: UInt) {
         sidebarItem.count = count
