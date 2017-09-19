@@ -73,7 +73,7 @@ extension Address: EntityMapSummaryDisplayable {
             line.removeAll()
         }
         
-        if let streetNumber = self.streetNumber?.ifNotEmpty() { line.append(streetNumber) }
+        if let streetNumber = self.streetNumberFirst?.ifNotEmpty() { line.append(streetNumber) }
         if let streetName = self.streetName?.ifNotEmpty() { line.append(streetName) }
         if let streetType = self.streetType?.ifNotEmpty() { line.append(streetType) }
         if let streetDirectional = self.streetDirectional?.ifNotEmpty() {
