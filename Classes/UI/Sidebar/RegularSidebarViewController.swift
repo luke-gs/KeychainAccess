@@ -84,7 +84,15 @@ open class RegularSidebarViewController: UIViewController, UITableViewDataSource
         }
     }
     
-    
+    /// Whether source bar should be hidden
+    public var hideSourceBar: Bool = false {
+        didSet {
+            // Make table view full width and hide source bar
+            tableViewFullWidth?.isActive = hideSourceBar
+            sourceBar?.isHidden = hideSourceBar
+        }
+    }
+
     /// The table view for sidebar items.
     /// 
     /// This table view fills the sidebar, trailing the source bar if it appears.
@@ -126,7 +134,9 @@ open class RegularSidebarViewController: UIViewController, UITableViewDataSource
     private var sourceInsetManager: ScrollViewInsetManager?
     
     private var sidebarInsetManager: ScrollViewInsetManager?
-    
+
+    /// Constraint for making table full width, hiding source bar
+    private var tableViewFullWidth: NSLayoutConstraint?
     
     // MARK: - Initializer
     
@@ -183,10 +193,14 @@ open class RegularSidebarViewController: UIViewController, UITableViewDataSource
             
             NSLayoutConstraint(item: sidebarTableView, attribute: .top,      relatedBy: .equal, toItem: view,       attribute: .top),
             NSLayoutConstraint(item: sidebarTableView, attribute: .bottom,   relatedBy: .equal, toItem: view,       attribute: .bottom),
-            NSLayoutConstraint(item: sidebarTableView, attribute: .leading,  relatedBy: .equal, toItem: sourceBar, attribute: .trailing),
+            NSLayoutConstraint(item: sidebarTableView, attribute: .leading,  relatedBy: .equal, toItem: sourceBar, attribute: .trailing).withPriority(UILayoutPriorityRequired - 1),
             NSLayoutConstraint(item: sidebarTableView, attribute: .trailing, relatedBy: .equal, toItem: view,       attribute: .trailing)
         ])
         
+        // Override constraint for hiding source bar
+        tableViewFullWidth = sidebarTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
+        tableViewFullWidth?.isActive = hideSourceBar
+
         sourceInsetManager  = ScrollViewInsetManager(scrollView: sourceBar)
         sidebarInsetManager = ScrollViewInsetManager(scrollView: sidebarTableView)
         

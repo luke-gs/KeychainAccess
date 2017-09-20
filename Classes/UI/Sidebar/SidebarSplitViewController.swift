@@ -83,6 +83,14 @@ open class SidebarSplitViewController: PushableSplitViewController {
         }
     }
 
+    /// Whether sources should be hidden, in both compact and regular sidebars
+    public var hideSources: Bool = false {
+        didSet {
+            regularSidebarViewController.hideSourceBar = hideSources
+            compactSidebarViewController.hideSourceButton = hideSources
+        }
+    }
+
     /// Initializes the sidebar split view controller with the specified detail view controllers.
     ///
     /// - Parameter detailViewControllers: The detail view controllers. The sidebar items for these
