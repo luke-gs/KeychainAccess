@@ -9,7 +9,11 @@
 #include "../Pods/Target Support Files/Pods-MPOL/Pods-MPOL.external-release.xcconfig"
 
 PRODUCT_NAME=PSCore
+CONFIG_HOST_URL=dev-api-2.mpol.solutions
+
+
+
+
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) CONFIG_HOST_URL="@\"$(CONFIG_HOST_URL)\""
 
 OTHER_SWIFT_FLAGS = $(inherited) -DEXTERNAL
-
-// Placeholder file for external releases in the future of MPOL
