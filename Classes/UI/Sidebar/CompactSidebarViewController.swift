@@ -78,6 +78,17 @@ open class CompactSidebarViewController: UIViewController {
             }
         }
     }
+
+    /// Whether source button should be hidden
+    public var hideSourceButton: Bool = false {
+        didSet {
+            // Make scroll view full width and hide button if sources not visible
+            scrollViewFullWidth?.isActive = hideSourceButton
+            sourceButton.isHidden = hideSourceButton
+            sourceDivider.isHidden = hideSourceButton
+        }
+    }
+
     /// The stack view for sidebar items.
     public private(set) var sidebarStackView: UIStackView!
 
@@ -109,6 +120,9 @@ open class CompactSidebarViewController: UIViewController {
 
     /// Fade out affect for right side of scrollview
     private var fadeOutRight: GradientView!
+
+    /// Constraint for making scrollview full width
+    private var scrollViewFullWidth: NSLayoutConstraint?
 
     // MARK: - Initializer
 
@@ -189,7 +203,7 @@ open class CompactSidebarViewController: UIViewController {
             sourceDivider.widthAnchor.constraint(equalToConstant: 1),
 
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: sourceDivider.trailingAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: sourceDivider.trailingAnchor).withPriority(UILayoutPriorityRequired - 1),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             scrollView.heightAnchor.constraint(equalToConstant: 56),
@@ -210,6 +224,10 @@ open class CompactSidebarViewController: UIViewController {
             fadeOutRight.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             fadeOutRight.widthAnchor.constraint(equalToConstant: 40),
         ])
+
+        // Override constraint for hiding source button
+        scrollViewFullWidth = scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
+        scrollViewFullWidth?.isActive = hideSourceButton
     }
 
     open override func viewDidLayoutSubviews() {
