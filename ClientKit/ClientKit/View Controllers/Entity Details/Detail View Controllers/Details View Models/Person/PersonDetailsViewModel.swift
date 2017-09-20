@@ -60,11 +60,11 @@ public class PersonDetailsViewModel<T>: EntityDetailViewModelable {
     }
     
     public func noContentTitle() -> String? {
-        MPLRequiresConcreteImplementation()
+        return "No details to display"
     }
     
     public func noContentSubtitle() -> String? {
-        MPLRequiresConcreteImplementation()
+        return nil
     }
     
     public func reloadSections(withFilterDescriptors filters: [FilterDescriptor<T>]?, sortDescriptors: [SortDescriptor<T>]?) {
