@@ -8,7 +8,7 @@
 
 #include "../Pods/Target Support Files/Pods-MPOL/Pods-MPOL.internal-release.xcconfig"
 
-PRODUCT_NAME=FISH
+PRODUCT_NAME=Fish
 CONFIG_HOST_URL=api-dev.mpol.solutions
 
 
