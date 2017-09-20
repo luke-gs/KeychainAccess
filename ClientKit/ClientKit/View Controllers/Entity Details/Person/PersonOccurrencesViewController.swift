@@ -64,7 +64,6 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
     open override func viewDidLoad() {
         super.viewDidLoad()
 
-        loadingManager.noContentView.titleLabel.text = NSLocalizedString("No Events Found", bundle: .mpolKit, comment: "")
         updateNoContentDetails(title: viewModel.noContentTitle(), subtitle: viewModel.noContentSubtitle())
 
         EventDetailsViewModelRouter.register(eventClass: BailOrder.self, viewModelClass: BailOrderDetailViewModel.self)

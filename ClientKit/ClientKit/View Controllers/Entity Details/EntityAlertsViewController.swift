@@ -64,7 +64,6 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
     open override func viewDidLoad() {
         super.viewDidLoad()
         
-        loadingManager.noContentView.titleLabel.text = NSLocalizedString("No Alerts Found", bundle: .mpolKit, comment: "")
         updateNoContentDetails(title: viewModel.noContentTitle(), subtitle: viewModel.noContentSubtitle())
         
         guard let collectionView = self.collectionView else { return }

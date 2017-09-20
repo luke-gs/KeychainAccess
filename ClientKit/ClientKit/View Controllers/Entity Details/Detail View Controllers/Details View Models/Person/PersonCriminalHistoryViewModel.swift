@@ -29,7 +29,7 @@ public class PersonCriminalHistoryViewModel: PersonDetailsViewModel<CriminalHist
     }
     
     public override func noContentTitle() -> String? {
-        return NSLocalizedString("No Criminal History Found", comment: "")
+        return NSLocalizedString("No Criminal History Found", bundle: .mpolKit, comment: "")
     }
     
     public override func noContentSubtitle() -> String? {

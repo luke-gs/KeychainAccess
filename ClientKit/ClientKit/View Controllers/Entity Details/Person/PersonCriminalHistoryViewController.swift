@@ -102,7 +102,6 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
     open override func viewDidLoad() {
         super.viewDidLoad()
         
-        loadingManager.noContentView.titleLabel.text = NSLocalizedString("No Criminal History Found", bundle: .mpolKit, comment: "")
         updateNoContentDetails(title: viewModel.noContentTitle(), subtitle: viewModel.noContentSubtitle())
         
         guard let collectionView = self.collectionView else { return }

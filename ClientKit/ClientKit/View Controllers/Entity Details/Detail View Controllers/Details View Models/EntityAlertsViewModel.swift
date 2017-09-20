@@ -116,7 +116,7 @@ public class EntityAlertsViewModel: EntityDetailViewModelable {
     }
     
     public func noContentTitle() -> String? {
-        return "No Warnings Found"
+        return NSLocalizedString("No Alerts Found", bundle: .mpolKit, comment: "")
     }
 
     public func noContentSubtitle() -> String? {

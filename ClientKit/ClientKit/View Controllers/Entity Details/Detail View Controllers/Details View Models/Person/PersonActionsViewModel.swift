@@ -28,7 +28,7 @@ public class PersonActionsViewModel: PersonDetailsViewModel<Action> {
     }
     
     public override func noContentTitle() -> String? {
-        return NSLocalizedString("No Actions Found", comment: "")
+        return NSLocalizedString("No Actions Found", bundle: .mpolKit, comment: "")
     }
     
     public override func noContentSubtitle() -> String? {

@@ -59,7 +59,6 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
     open override func viewDidLoad() {
         super.viewDidLoad()
         
-        loadingManager.noContentView.titleLabel.text = NSLocalizedString("No Actions Found", bundle: .mpolKit, comment: "")
         updateNoContentDetails(title: viewModel.noContentTitle(), subtitle: viewModel.noContentSubtitle())
         
         guard let collectionView = self.collectionView else { return }
