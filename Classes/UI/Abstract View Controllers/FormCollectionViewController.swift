@@ -199,7 +199,6 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
         let backgroundBounds = UIScreen.main.bounds
         
         let collectionView = collectionViewClass().init(frame: backgroundBounds, collectionViewLayout: formLayout)
-        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.dataSource = self
         collectionView.delegate   = self
         collectionView.alwaysBounceVertical = true
@@ -223,6 +222,19 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
         
         loadingManager.baseView = backgroundView
         loadingManager.contentView = collectionView
+
+        // Layout collection view, using safe area layout guide on iOS 11
+        if #available(iOS 11, *) {
+            collectionView.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+                collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+                collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+                collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).withPriority(UILayoutPriorityRequired-1),
+                ])
+        } else {
+            collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        }
     }
     
     open override func viewDidLoad() {
@@ -232,12 +244,11 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
-        // TODO: Uncomment in iOS 11
-//        if #available(iOS 11, *) {
-//            return
-//        }
-        
+
+        if #available(iOS 11, *) {
+            return
+        }
+
         var insets = legacy_additionalSafeAreaInsets
         insets.top += topLayoutGuide.length
         insets.bottom += max(bottomLayoutGuide.length, statusTabBarInset)
@@ -475,14 +486,13 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     /// collection view's content height changes or the additional content insets change.
     open func calculatedContentHeight() -> CGFloat {
         var contentHeight = collectionView?.contentSize.height ?? 0.0
-        
-        // TODO: Uncomment in iOS 11
-//        if #available(iOS 11, *) {
-//            contentHeight += additionalSafeAreaInsets.top + additionalSafeAreaInsets.bottom
-//        } else {
+
+        if #available(iOS 11, *) {
+            contentHeight += additionalSafeAreaInsets.top + additionalSafeAreaInsets.bottom
+        } else {
             contentHeight += legacy_additionalSafeAreaInsets.top + legacy_additionalSafeAreaInsets.bottom
-//        }
-        
+        }
+
         let minHeight = minimumCalculatedContentHeight
         let maxHeight = maximumCalculatedContentHeight
         
@@ -500,18 +510,15 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     
 }
 
+@available(iOS, introduced: 11.0)
+extension FormCollectionViewController {
 
-// TODO: Uncomment in iOS 11
-//@available(iOS, introduced: 11.0)
-//extension FormCollectionViewController {
-//    
-//    open override var additionalSafeAreaInsets: UIEdgeInsets {
-//        didSet {
-//            if additionalSafeAreaInsets != oldValue && calculatesContentHeight {
-//                updateCalculatedContentHeight()
-//            }
-//        }
-//    }
-//
-//}
-
+    open override var additionalSafeAreaInsets: UIEdgeInsets {
+        didSet {
+            if additionalSafeAreaInsets != oldValue && calculatesContentHeight {
+                updateCalculatedContentHeight()
+            }
+        }
+    }
+    
+}

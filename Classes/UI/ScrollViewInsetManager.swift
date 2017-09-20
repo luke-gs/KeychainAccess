@@ -141,12 +141,11 @@ public final class ScrollViewInsetManager: NSObject {
         if topInsetIncrease ==~ 0.0 || scrollView.isTracking || scrollView.isDecelerating { return }
         
         let fullInsets: UIEdgeInsets
-        // TODO: Uncomment for iOS 11.
-//        if #available(iOS 11, *) {
-//            fullInsets = scrollView.adjustedContentInset
-//        } else {
+        if #available(iOS 11, *) {
+            fullInsets = scrollView.adjustedContentInset
+        } else {
             fullInsets = contentInset
-//        }
+        }
         
         // Find the minimum and maximum offsets allowed.
         let minimumScrolledLocation = fullInsets.top * -1.0
