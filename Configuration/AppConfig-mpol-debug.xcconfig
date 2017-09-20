@@ -6,14 +6,14 @@
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 
-#include "../Pods/Target Support Files/Pods-MPOL/Pods-MPOL.internal-release.xcconfig"
+#include "../Pods/Target Support Files/Pods-MPOL/Pods-MPOL.debug.xcconfig"
 
 PRODUCT_NAME=Fish
-CONFIG_HOST_URL=dev-api-2.mpol.solutions // Needs to be dev-test-api.mpol.solutions in future
+CONFIG_HOST_URL=dev-api-2.mpol.solutions
 
 
 
 
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) CONFIG_HOST_URL="@\"$(CONFIG_HOST_URL)\""
 
-OTHER_SWIFT_FLAGS = $(inherited) -DINTERNAL
+OTHER_SWIFT_FLAGS = $(inherited)
