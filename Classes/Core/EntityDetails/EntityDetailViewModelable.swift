@@ -23,8 +23,8 @@ public protocol EntityDetailViewModelDelegate: class {
     /// update sidebar alert color 
     func updateSidebarAlertColor(_ color: UIColor?)
 
-    /// update no-content subtitle
-    func updateNoContentSubtitle(_ subtitle: String?)
+    /// update no-content details, the title and subtitle
+    func updateNoContentDetails(title: String?, subtitle: String?)
 
     /// update filter bar button item activity
     func updateFilterBarButtonItemActivity()
