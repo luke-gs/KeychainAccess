@@ -36,7 +36,7 @@ extension EntityDetailViewModelDelegate {
     public func updateLoadingState(_ state: LoadingStateManager.State) { }
     public func reloadData() { }
     public func updateSidebarAlertColor(_ color: UIColor?) { }
-    public func updateNoContentSubtitle(_ subtitle: String? = nil) { }
+    public func updateNoContentDetails(title: String? = nil, subtitle: String? = nil) { }
     public func updateFilterBarButtonItemActivity() { }
 }
 
