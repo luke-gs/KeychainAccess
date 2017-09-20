@@ -103,7 +103,7 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
         super.viewDidLoad()
         
         loadingManager.noContentView.titleLabel.text = NSLocalizedString("No Criminal History Found", bundle: .mpolKit, comment: "")
-        updateNoContentSubtitle(viewModel.noContentSubtitle())
+        updateNoContentDetails(title: viewModel.noContentTitle(), subtitle: viewModel.noContentSubtitle())
         
         guard let collectionView = self.collectionView else { return }
         
@@ -239,7 +239,8 @@ extension PersonCriminalHistoryViewController: EntityDetailViewModelDelegate {
         sidebarItem.count = count
     }
     
-    public func updateNoContentSubtitle(_ subtitle: String? = nil) {
+    public func updateNoContentDetails(title: String?, subtitle: String? = nil) {
+        loadingManager.noContentView.titleLabel.text = title
         loadingManager.noContentView.subtitleLabel.text = subtitle
     }
     

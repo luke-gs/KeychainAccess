@@ -15,7 +15,7 @@ extension Entity: EntityDetailDisplayable {
         return type(of: self).localizedDisplayName
     }
 
-    public var alertBadgeCount: UInt {
+    public var alertBadgeCount: UInt? {
         return actionCount
     }
 

@@ -22,9 +22,7 @@ public class EntityAlertsViewModel: EntityDetailViewModelable {
             
             let color = entity?.alertLevel?.color
             delegate?.updateSidebarAlertColor(color)
-
-            let subtitle = self.noContentSubtitle()
-            delegate?.updateNoContentSubtitle(subtitle)
+            delegate?.updateNoContentDetails(title: noContentTitle(), subtitle: noContentSubtitle())
         }
     }
     
@@ -47,6 +45,7 @@ public class EntityAlertsViewModel: EntityDetailViewModelable {
 
     public func reloadSections(withFilterDescriptors filters: [FilterDescriptor<Alert>]?, sortDescriptors: [SortDescriptor<Alert>]?) {
         delegate?.updateFilterBarButtonItemActivity()
+        delegate?.updateNoContentDetails(title: noContentTitle(), subtitle: noContentSubtitle())
         
         guard var alerts = self.entity?.alerts else {
             self.sections = []
@@ -114,6 +113,10 @@ public class EntityAlertsViewModel: EntityDetailViewModelable {
             return "\(alertCount) \(levelDescription.localizedUppercase) "
         }
         return nil
+    }
+    
+    public func noContentTitle() -> String? {
+        return "No Warnings Found"
     }
 
     public func noContentSubtitle() -> String? {

@@ -251,7 +251,8 @@ extension VehicleOccurrencesViewController: EntityDetailViewModelDelegate {
         sidebarItem.count = count
     }
     
-    public func updateNoContentSubtitle(_ subtitle: String? = nil) {
+    public func updateNoContentDetails(title: String?, subtitle: String? = nil) {
+        loadingManager.noContentView.titleLabel.text = title
         loadingManager.noContentView.subtitleLabel.text = subtitle
     }
     

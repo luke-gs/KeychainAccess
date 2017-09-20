@@ -28,6 +28,10 @@ public class PersonCriminalHistoryViewModel: PersonDetailsViewModel<CriminalHist
         return person?.criminalHistory
     }
     
+    public override func noContentTitle() -> String? {
+        return NSLocalizedString("No Criminal History Found", comment: "")
+    }
+    
     public override func noContentSubtitle() -> String? {
         var subtitle: String?
         
