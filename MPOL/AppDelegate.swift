@@ -18,7 +18,7 @@ import Alamofire
     import HockeySDK
 #endif
 
-private let host = "api-dev.mpol.solutions"
+private let host = APP_HOST_URL
 let TermsAndConditionsVersion = "1.0"
 let WhatsNewVersion = "1.0"
 
