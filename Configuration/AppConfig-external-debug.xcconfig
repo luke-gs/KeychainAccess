@@ -8,7 +8,7 @@
 
 #include "../Pods/Target Support Files/Pods-MPOL/Pods-MPOL.external-debug.xcconfig"
 
-
+PRODUCT_NAME=PSCore
 CONFIG_HOST_URL=dev-api-2.mpol.solutions
 
 
