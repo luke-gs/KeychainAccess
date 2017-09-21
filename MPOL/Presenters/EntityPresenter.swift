@@ -10,7 +10,6 @@ import Foundation
 import MPOLKit
 import ClientKit
 
-
 public enum EntityScreen: Presentable {
 
     case help(type: EntityType)
@@ -40,11 +39,12 @@ public class EntityPresenter: Presenter {
 
             if entity is Person {
                 dataSource = PersonDetailsSectionsDataSource(baseEntity: entity, delegate: delegate)
+                return EntityDetailSplitViewController<EntityDetailsDisplayable, PersonSummaryDisplayable>(dataSource: dataSource)
             } else {
                 dataSource = VehicleDetailsSectionsDataSource(baseEntity: entity, delegate: delegate)
+                return EntityDetailSplitViewController<EntityDetailsDisplayable, PersonSummaryDisplayable>(dataSource: dataSource)
             }
 
-            return EntityDetailSplitViewController(dataSource: dataSource)
 
         case .help(let type):
             let content: HelpContent

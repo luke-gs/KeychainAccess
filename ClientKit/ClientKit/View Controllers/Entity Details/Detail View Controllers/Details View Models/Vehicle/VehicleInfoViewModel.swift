@@ -89,23 +89,12 @@ public class VehicleInfoViewModel: EntityDetailViewModelable {
     }
     
     public func headerCellInfo() -> HeaderSectionCellInfo {
-        let source        = vehicle?.category
-        let title         = vehicle?.title
-        let subtitle      = formattedSubtitle()
         let description   = vehicle?.vehicleDescription ?? "No Description"
         
-        
-        return HeaderSectionCellInfo(vehicle: vehicle,
-                                     source: source,
-                                     title: title,
-                                     subtitle: subtitle,
+        return HeaderSectionCellInfo(vehicle: VehicleSummaryDisplayable(vehicle!),
                                      description: description)
     }
-    
-    public func formattedSubtitle() -> String? {
-        return [vehicle?.detail1, vehicle?.variant].flatMap {$0}.joined(separator: " ")
-    }
-    
+
     public func cellInfo(for section: DetailsType, at indexPath: IndexPath) -> SectionCellInfo {
         var title: String?
         var value: String?
@@ -174,10 +163,7 @@ public class VehicleInfoViewModel: EntityDetailViewModelable {
     // MARK: Section Cell
     
     public struct HeaderSectionCellInfo {
-        let vehicle: Vehicle?
-        let source: String?
-        let title: String?
-        let subtitle: String?
+        let vehicle: EntitySummaryDisplayable?
         let description: String?
     }
     

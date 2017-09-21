@@ -206,7 +206,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
             if let searchParameters = searchParameters {
                 // Note: generate as many requests as required
                 let request = VehicleSearchRequest(source: .mpol, request: searchParameters)
-                let resultModel = EntitySummarySearchResultViewModel<Vehicle>(title: searchTerm, aggregatedSearch: AggregatedSearch(requests: [request]))
+                let resultModel = EntitySummarySearchResultViewModel<Vehicle, VehicleSummaryDisplayable>(title: searchTerm, aggregatedSearch: AggregatedSearch(requests: [request]))
 
                 completion(resultModel, nil)
             }

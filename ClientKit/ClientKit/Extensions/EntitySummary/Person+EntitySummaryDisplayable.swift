@@ -9,10 +9,16 @@
 import Foundation
 import MPOLKit
 
-extension Person: EntitySummaryDisplayable {
-    
+public struct PersonSummaryDisplayable: EntitySummaryDisplayable {
+
+    private var person: Person
+
+    public init(_ entity: MPOLKitEntity) {
+        person = entity as! Person
+    }
+
     public var category: String? {
-        return source?.localizedBadgeTitle
+        return person.source?.localizedBadgeTitle
     }
     
     public var title: String? {
@@ -28,19 +34,19 @@ extension Person: EntitySummaryDisplayable {
     }
     
     public var alertColor: UIColor? {
-        return alertLevel?.color
+        return person.alertLevel?.color
     }
     
     public var badge: UInt {
-        return actionCount
+        return person.actionCount
     }
     
     public func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> (image: UIImage, mode: UIViewContentMode)? {
-        if let thumbnail = self.thumbnail {
+        if let thumbnail = person.thumbnail {
             return (thumbnail, .scaleAspectFill)
         }
-        if initials?.isEmpty ?? true == false {
-            return (initialThumbnail, .scaleAspectFill)
+        if person.initials?.isEmpty ?? true == false {
+            return (person.initialThumbnail, .scaleAspectFill)
         }
         return nil
     }
@@ -50,26 +56,26 @@ extension Person: EntitySummaryDisplayable {
     private var formattedName: String? {
         var formattedName: String = ""
         
-        if isAlias ?? false {
+        if person.isAlias ?? false {
             formattedName += "@ "
         }
         
-        if let surname = self.surname?.ifNotEmpty() {
+        if let surname = person.surname?.ifNotEmpty() {
             formattedName += surname
             
-            if givenName?.isEmpty ?? true == false || middleNames?.isEmpty ?? true == false {
+            if person.givenName?.isEmpty ?? true == false || person.middleNames?.isEmpty ?? true == false {
                 formattedName += ", "
             }
         }
-        if let givenName = self.givenName?.ifNotEmpty() {
+        if let givenName = person.givenName?.ifNotEmpty() {
             formattedName += givenName
             
-            if middleNames?.isEmpty ?? true == false {
+            if person.middleNames?.isEmpty ?? true == false {
                 formattedName += " "
             }
         }
         
-        if let firstMiddleNameInitial = middleNames?.characters.first {
+        if let firstMiddleNameInitial = person.middleNames?.characters.first {
             formattedName.append(firstMiddleNameInitial)
             formattedName += "."
         }
@@ -78,18 +84,18 @@ extension Person: EntitySummaryDisplayable {
     }
     
     private func formattedDOBAgeGender() -> String? {
-        if let dob = dateOfBirth {
+        if let dob = person.dateOfBirth {
             let yearComponent = Calendar.current.dateComponents([.year], from: dob, to: Date())
             
             var dobString = DateFormatter.mediumNumericDate.string(from: dob) + " (\(yearComponent.year!)"
             
-            if let gender = gender {
+            if let gender = person.gender {
                 dobString += " \(gender.description))"
             } else {
                 dobString += ")"
             }
             return dobString
-        } else if let gender = gender {
+        } else if let gender = person.gender {
             return gender.description + " (\(NSLocalizedString("DOB unknown", bundle: .mpolKit, comment: "")))"
         } else {
             return NSLocalizedString("DOB and gender unknown", bundle: .mpolKit, comment: "")
@@ -97,7 +103,7 @@ extension Person: EntitySummaryDisplayable {
     }
     
     private func formattedSuburbStatePostcode() -> String? {
-        let address = addresses?.first
+        let address = person.addresses?.first
         
         if let address = address {
             
