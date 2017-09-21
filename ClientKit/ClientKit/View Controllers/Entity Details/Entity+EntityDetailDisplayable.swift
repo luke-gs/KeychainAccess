@@ -22,7 +22,7 @@ public struct EntityDetailsDisplayable: EntityDetailDisplayable {
     }
 
     public var alertBadgeCount: UInt? {
-        return actionCount
+        return entity.actionCount
     }
 
     public var alertBadgeColor: UIColor? {
