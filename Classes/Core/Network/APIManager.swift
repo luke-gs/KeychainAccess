@@ -202,7 +202,7 @@ open class APIManager {
         return Promise { fulfill, reject in
             dataRequest.validate().responseArray(completionHandler: { (response: DataResponse<[T]>) in
                 allPlugins.forEach {
-                    $0.willSend(dataRequest)
+                    $0.didReceiveResponse(response)
                 }
                 switch response.result {
                 case .success(let result):
