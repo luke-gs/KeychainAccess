@@ -332,9 +332,6 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
             setCurrentResultsViewController(mapResultsViewController, animated: true)
         }
 
-
-
-
         if let searchable = searchable {
             var viewModel = self.viewModel.recentViewModel
 
@@ -358,10 +355,15 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
         cancelSearchTriggered()
     }
 
-
     // MARK: Entity Delegate
     public func controller(_ controller: UIViewController, didSelectEntity entity: MPOLKitEntity) {
         didSelectEntity(entity)
+    }
+
+    public func controller(_ controller: UIViewController, didPerformSearch search: Searchable) {
+        navigationController?.popToRootViewController(animated: true)
+        searchOptionsViewController.setCurrent(searchable: search)
+        setShowingSearchOptions(true, animated: true)
     }
 
     // MARK: - SearchResultsDelegate
