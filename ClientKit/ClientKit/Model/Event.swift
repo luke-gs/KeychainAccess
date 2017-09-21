@@ -10,20 +10,14 @@ import Foundation
 import MPOLKit
 import Unbox
 
-open class Event: NSObject, Serialisable {
+open class Event: MPOLKitEntity {
 
     private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
     
-    open class var serverTypeRepresentation: String {
+    override open class var serverTypeRepresentation: String {
         return "event"
     }
-    
-    public class var supportsSecureCoding: Bool {
-        return true
-    }
-        
-    open let id: String
-    
+
     open var dateCreated: Date?
     open var dateUpdated: Date?
     open var createdBy: String?
@@ -54,14 +48,9 @@ open class Event: NSObject, Serialisable {
     open var status: String?
     open var occurredDate: Date?
     
-    public required init(id: String) {
-        self.id = id
-        
-        super.init()
-    }
-    
+
     public required init(unboxer: Unboxer) throws {
-        id = unboxer.unbox(key: "id") ?? UUID().uuidString
+        try super.init(unboxer: unboxer)
         
         dateCreated = unboxer.unbox(key: "dateCreated", formatter: Event.dateTransformer)
         dateUpdated = unboxer.unbox(key: "dateLastUpdated", formatter: Event.dateTransformer)
@@ -91,21 +80,10 @@ open class Event: NSObject, Serialisable {
         eventDescription = unboxer.unbox(key: "description")
         status = unboxer.unbox(key: "status")
         occurredDate = unboxer.unbox(key: "occurred", formatter: Event.dateTransformer)
-        super.init()
     }
-    
+
     public required init?(coder aDecoder: NSCoder) {
-        guard let id = aDecoder.decodeObject(of: NSString.self, forKey: "id") as String? else {
-            return nil
-        }
-        
-        self.id = id
-        
-        super.init()
+        fatalError("init(coder:) has not been implemented")
     }
-    
-    public func encode(with aCoder: NSCoder) {
-        aCoder.encode(id, forKey: "id")
-    }
-    
+
 }

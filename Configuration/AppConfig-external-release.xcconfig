@@ -8,6 +8,12 @@
 
 #include "../Pods/Target Support Files/Pods-MPOL/Pods-MPOL.external-release.xcconfig"
 
-OTHER_SWIFT_FLAGS = $(inherited) -DEXTERNAL
+PRODUCT_NAME=PSCore
+CONFIG_HOST_URL=client-demo-api.mpol.solutions
 
-// Placeholder file for external releases in the future of MPOL
+
+
+
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) CONFIG_HOST_URL="@\"$(CONFIG_HOST_URL)\""
+
+OTHER_SWIFT_FLAGS = $(inherited) -DEXTERNAL

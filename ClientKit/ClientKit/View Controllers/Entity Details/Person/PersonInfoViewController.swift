@@ -169,7 +169,8 @@ open class PersonInfoViewController: EntityDetailCollectionViewController {
         
         let cell = collectionView.dequeueReusableCell(of: CollectionViewFormValueFieldCell.self, for: indexPath)
         cell.isEditable = false
-        
+
+        cell.valueLabel.numberOfLines = 0
         cell.titleLabel.text = title
         cell.valueLabel.text = value
         cell.imageView.image = image?.withRenderingMode(.alwaysTemplate)

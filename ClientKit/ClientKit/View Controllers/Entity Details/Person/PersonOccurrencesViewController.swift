@@ -41,24 +41,14 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
     fileprivate var filterDateRange: FilterDateRange?
     
     fileprivate var dateSorting: DateSorting = .newest
-    
-    
-    /*
-    private var bailOrders: [BailOrder]?
-    private var cautions: [Caution]?
-    private var fieldContacts: [FieldContact]?
-    private var interventionOrders: [InterventionOrder]?
-    private var warrants: [Warrant]?
-    private var whereabouts: [Whereabouts]?
-    private var missingPersons: [MissingPerson]?
-    private var familyIncidents: [FamilyIncident]?
-    */
-    
+
     // MARK: - Initializers
     
     public override init() {
         super.init()
-        
+
+        loadingManager.state = .noContent
+
         filterBarButtonItem.target = self
         filterBarButtonItem.action = #selector(filterItemDidSelect(_:))
         navigationItem.rightBarButtonItem = filterBarButtonItem
@@ -73,7 +63,10 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
     
     open override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        loadingManager.noContentView.titleLabel.text = NSLocalizedString("No Events Found", bundle: .mpolKit, comment: "")
+        updateNoContentSubtitle(viewModel.noContentSubtitle())
+
         EventDetailsViewModelRouter.register(eventClass: BailOrder.self, viewModelClass: BailOrderDetailViewModel.self)
         EventDetailsViewModelRouter.register(eventClass: FieldContact.self, viewModelClass: FieldContactDetailViewModel.self)
         EventDetailsViewModelRouter.register(eventClass: InterventionOrder.self, viewModelClass: InterventionOrderViewModel.self)
@@ -115,28 +108,15 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
         
         let detailViewController: UIViewController?
         guard let event = viewModel.item(at: indexPath.section)?.events[indexPath.item] else { return }
-        
-        switch event {
-        case let fieldContact as FieldContact:
-            let fieldContactVC = FieldContactDetailViewController()
-            fieldContactVC.event = fieldContact
-            detailViewController = fieldContactVC
-        case let bailOrder as BailOrder:
-            let bailOrderVC = BailOrderDetailViewController()
-            bailOrderVC.event = bailOrder
-            detailViewController = bailOrderVC
-        case let interventionOrder as InterventionOrder:
-            let interventionOrderVC = InterventionOrderDetailViewController()
-            interventionOrderVC.event = interventionOrder
-            detailViewController = interventionOrderVC
-        default:
-            detailViewController = nil
+
+        if let source = event.source {
+            detailViewController = EventDetailViewController(source: source, eventId: event.id)
+
+            guard let detailVC = detailViewController,
+                let navController = pushableSplitViewController?.navigationController ?? navigationController else { return }
+
+            navController.pushViewController(detailVC, animated: true)
         }
-        
-        guard let detailVC = detailViewController,
-            let navController = pushableSplitViewController?.navigationController ?? navigationController else { return }
-        
-        navController.pushViewController(detailVC, animated: true)
     }
     
     
@@ -169,7 +149,8 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
-        return CollectionViewFormDetailCell.minimumContentHeight(compatibleWith: traitCollection)
+        let cellInfo = viewModel.cellInfo(for: indexPath)
+        return CollectionViewFormDetailCell.minimumContentHeight(withDetail: cellInfo.detail, imageSize: UIImage.statusDotFrameSize, inWidth: itemWidth, compatibleWith: traitCollection)
     }
 
     
@@ -291,6 +272,7 @@ extension PersonOccurrencesViewController: EntityDetailViewModelDelegate {
     
     public func updateLoadingState(_ state: LoadingStateManager.State) {
         loadingManager.state = state
+        filterBarButtonItem.isEnabled = loadingManager.state != .noContent
     }
 
 }

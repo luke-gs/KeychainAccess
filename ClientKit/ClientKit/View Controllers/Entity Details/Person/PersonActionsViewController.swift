@@ -113,9 +113,8 @@ open class PersonActionsViewController: EntityDetailCollectionViewController, Fi
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
-        let height = CollectionViewFormDetailCell.minimumContentHeight(withImageSize: UIImage.statusDotFrameSize, compatibleWith: traitCollection)
-        
-        return height
+        let cellInfo = viewModel.cellInfo(for: indexPath)
+        return CollectionViewFormDetailCell.minimumContentHeight(withDetail: cellInfo.detail, imageSize: UIImage.statusDotFrameSize, inWidth: itemWidth, compatibleWith: traitCollection)
     }
     
     

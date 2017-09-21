@@ -41,11 +41,7 @@ open class Whereabouts: Event {
     public required init?(coder aDecoder: NSCoder) {
         MPLUnimplemented()
     }
-    
-    public required init(id: String) {
-        super.init(id: id)
-    }
-    
+
     open override func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
         MPLUnimplemented()

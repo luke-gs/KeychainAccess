@@ -113,9 +113,9 @@ public class PersonDescriptionViewModel: EntityDetailViewModelable {
     private func title(for description: PersonDescription?) -> String? {
         
         guard let description = description,
-            let reportDate = description.reportDate else { return nil }
+            let effectiveDate = description.effectiveDate else { return nil }
         
-        return DateFormatter.shortDate.string(from: reportDate)
+        return DateFormatter.shortDate.string(from: effectiveDate)
     }
     
     /// Provides custom formated description
@@ -124,11 +124,11 @@ public class PersonDescriptionViewModel: EntityDetailViewModelable {
     }
     
     private func titleForCalculateContentHeight(with description: PersonDescription) -> String? {
-        return description.reportDate == nil ? nil : "Unknown Date"
+        return title(for: description)
     }
     
     private func valueForCalculateContentHeight(with description: PersonDescription) -> String? {
-        return description.formatted()
+        return formatedDescription(for: description)
     }
     
     

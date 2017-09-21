@@ -110,18 +110,20 @@ public class EntityEventViewModel: EntityDetailViewModelable {
     }
     
     public func reloadSections(withFilterDescriptors filters: [FilterDescriptor<Event>]?, sortDescriptors: [SortDescriptor<Event>]?) {
-        var events = entity?.events ?? []
-        
-        if let filters = filters {
-            events = events.filter(using: filters)
+        if var events = entity?.events, !events.isEmpty {
+            if let filters = filters {
+                events = events.filter(using: filters)
+            }
+
+            if let sorts = sortDescriptors {
+                events = events.sorted(using: sorts)
+            }
+
+            sections = [EventInfo(type: .event, events: events)]
+            delegate?.updateFilterBarButtonItemActivity()
+        } else {
+            sections = []
         }
-        
-        if let sorts = sortDescriptors {
-            events = events.sorted(using: sorts)
-        }
-        
-        sections = [EventInfo(type: .event, events: events)]
-        delegate?.updateFilterBarButtonItemActivity()
     }
     
     // MARK: - Private methods

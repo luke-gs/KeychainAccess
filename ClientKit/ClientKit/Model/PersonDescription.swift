@@ -37,8 +37,6 @@ open class PersonDescription: NSObject, Serialisable {
     open var imageThumbnail: Media?
     open var image: Media?
     
-    open var reportDate: Date?
-    
     open static var supportsSecureCoding: Bool { return true }
     
     private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
@@ -72,8 +70,6 @@ open class PersonDescription: NSObject, Serialisable {
         remarks = unboxer.unbox(key: "remarks")
         imageThumbnail = unboxer.unbox(key: "imageThumbnail")
         image = unboxer.unbox(key: "image")
-
-        reportDate = unboxer.unbox(key: "reportDate", formatter: ISO8601DateTransformer.shared)
         
         super.init()
     }

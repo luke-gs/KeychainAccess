@@ -40,6 +40,8 @@ public class EntityAlertsViewModel: EntityDetailViewModelable {
     private var statusDotCache: [Alert.Level: UIImage] = [:]
 
     public lazy var collapsedSections: Set<Int> = []
+
+    private var expandedItems: Set<IndexPath> = []
     
     // MARK: - Public methods
 
@@ -133,6 +135,14 @@ public class EntityAlertsViewModel: EntityDetailViewModelable {
         return subtitle
     }
 
+    public func updateExpandedForItem(at indexPath: IndexPath) {
+        if let itemIndex = expandedItems.index(of: indexPath) {
+            expandedItems.remove(at: itemIndex)
+        } else {
+            expandedItems.insert(indexPath)
+        }
+    }
+
     public func cellInfo(for indexPath: IndexPath) -> CellInfo {
         let cellImage: UIImage?
         let subtitle: String?
@@ -159,7 +169,7 @@ public class EntityAlertsViewModel: EntityDetailViewModelable {
             subtitle = NSLocalizedString("Effective date unknown", bundle: .mpolKit, comment: "")
         }
 
-        return CellInfo(image: cellImage, title: title, subtitle: subtitle, detail: detail)
+        return CellInfo(image: cellImage, title: title, subtitle: subtitle, detail: detail, expanded: expandedItems.contains(indexPath))
     }
 
     // MARK - Cell Info Struct
@@ -169,6 +179,7 @@ public class EntityAlertsViewModel: EntityDetailViewModelable {
         let title: String?
         let subtitle: String?
         let detail: String?
+        let expanded: Bool
     }
 
 }

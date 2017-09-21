@@ -47,23 +47,20 @@ public class EntityPresenter: Presenter {
             return EntityDetailSplitViewController(dataSource: dataSource)
 
         case .help(let type):
-            let title: String
+            let content: HelpContent
 
             switch type {
             case .person:
-                title = NSLocalizedString("Person Search Help", comment: "")
+                content = HelpContent(filename: "PersonSearchHelp", bundle: Bundle.main)
             case .vehicle:
-                title = NSLocalizedString("Vehicle Search Help", comment: "")
+                content = HelpContent(filename: "VehicleSearchHelp", bundle: Bundle.main)
             case .location:
-                title = NSLocalizedString("Location Search Help", comment: "")
+                content = HelpContent(filename: "LocationSearchHelp", bundle: Bundle.main)
             case .organisation:
-                title = NSLocalizedString("Organisation Search Help", comment: "")
+                content = HelpContent(filename: "OrganisationSearchHelp", bundle: Bundle.main)
             }
-
-            let helpViewController = UIViewController()
-            helpViewController.title = title
-            helpViewController.view.backgroundColor = .white
-            return helpViewController
+            
+            return HelpViewController(content: content)
 
         case .createEntity(let type):
             let title: String

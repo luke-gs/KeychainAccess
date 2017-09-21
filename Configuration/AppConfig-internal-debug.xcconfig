@@ -8,6 +8,14 @@
 
 #include "../Pods/Target Support Files/Pods-MPOL/Pods-MPOL.internal-debug.xcconfig"
 
-PRODUCT_NAME=FISH
+PRODUCT_NAME=Fish
+CONFIG_HOST_URL=dev-api-2.mpol.solutions // Needs to be dev-test-api.mpol.solutions in future
+
+
+
+
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) CONFIG_HOST_URL="@\"$(CONFIG_HOST_URL)\""
 
 OTHER_SWIFT_FLAGS = $(inherited) -DINTERNAL
+
+

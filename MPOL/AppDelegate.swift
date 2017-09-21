@@ -18,7 +18,7 @@ import Alamofire
     import HockeySDK
 #endif
 
-private let host = "api-dev.mpol.solutions"
+private let host = APP_HOST_URL
 let TermsAndConditionsVersion = "1.0"
 let WhatsNewVersion = "1.0"
 
@@ -47,7 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         Director.shared = director
 
-        APIManager.shared = APIManager(configuration: APIManagerDefaultConfiguration(url: "https://\(host)", trustPolicyManager: ServerTrustPolicyManager(policies: [host: .disableEvaluation])))
+        APIManager.shared = APIManager(configuration: APIManagerDefaultConfiguration(url: "https://\(host)", plugins: plugins, trustPolicyManager: ServerTrustPolicyManager(policies: [host: .disableEvaluation])))
 
         NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleDidChange), name: .interfaceStyleDidChange, object: nil)
 

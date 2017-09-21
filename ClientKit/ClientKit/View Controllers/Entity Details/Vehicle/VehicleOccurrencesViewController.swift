@@ -103,23 +103,14 @@ open class VehicleOccurrencesViewController: EntityOccurrencesViewController, Fi
         let detailViewController: UIViewController?
         guard let event = viewModel.item(at: indexPath.section)?.events[indexPath.item] else { return }
         
-        switch event {
-        case let fieldContact as FieldContact:
-            let fieldContactVC = FieldContactDetailViewController()
-            fieldContactVC.event = fieldContact
-            detailViewController = fieldContactVC
-        case let interventionOrder as InterventionOrder:
-            let interventionOrderVC = InterventionOrderDetailViewController()
-            interventionOrderVC.event = interventionOrder
-            detailViewController = interventionOrderVC
-        default:
-            detailViewController = nil
+        if let source = event.source {
+            detailViewController = EventDetailViewController(source: source, eventId: event.id)
+
+            guard let detailVC = detailViewController,
+                let navController = pushableSplitViewController?.navigationController ?? navigationController else { return }
+
+            navController.pushViewController(detailVC, animated: true)
         }
-        
-        guard let detailVC = detailViewController,
-            let navController = pushableSplitViewController?.navigationController ?? navigationController else { return }
-        
-        navController.pushViewController(detailVC, animated: true)
     }
     
     
@@ -152,7 +143,8 @@ open class VehicleOccurrencesViewController: EntityOccurrencesViewController, Fi
     }
 
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
-        return CollectionViewFormDetailCell.minimumContentHeight(compatibleWith: traitCollection)
+        let cellInfo = viewModel.cellInfo(for: indexPath)
+        return CollectionViewFormDetailCell.minimumContentHeight(withDetail: cellInfo.detail, imageSize: UIImage.statusDotFrameSize, inWidth: itemWidth, compatibleWith: traitCollection)
     }
     
     
@@ -274,6 +266,7 @@ extension VehicleOccurrencesViewController: EntityDetailViewModelDelegate {
     
     public func updateLoadingState(_ state: LoadingStateManager.State) {
         loadingManager.state = state
+        filterBarButtonItem.isEnabled = loadingManager.state != .noContent
     }
     
 }
