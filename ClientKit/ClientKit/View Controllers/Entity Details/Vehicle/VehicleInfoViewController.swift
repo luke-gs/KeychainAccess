@@ -109,15 +109,15 @@ open class VehicleInfoViewController: EntityDetailCollectionViewController {
             
             /// Temp updates
             cell.thumbnailView.configure(for: headerCellInfo.vehicle, size: .large)
-            
+
             if cell.thumbnailView.allTargets.contains(self) == false {
                 cell.thumbnailView.isEnabled = true
                 cell.thumbnailView.addTarget(self, action: #selector(entityThumbnailDidSelect(_:)), for: .primaryActionTriggered)
             }
             
-            cell.sourceLabel.text          = headerCellInfo.source
-            cell.titleLabel.text           = headerCellInfo.title
-            cell.subtitleLabel.text        = headerCellInfo.subtitle
+            cell.sourceLabel.text          = headerCellInfo.vehicle?.category
+            cell.titleLabel.text           = headerCellInfo.vehicle?.title
+            cell.subtitleLabel.text        = headerCellInfo.vehicle?.detail1
             cell.descriptionLabel.text     = headerCellInfo.description
             
             return cell
