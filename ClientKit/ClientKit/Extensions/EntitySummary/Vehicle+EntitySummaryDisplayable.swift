@@ -9,14 +9,20 @@
 import Foundation
 import MPOLKit
 
-extension Vehicle: EntitySummaryDisplayable {
-    
+public struct VehicleSummaryDisplayable: EntitySummaryDisplayable {
+
+    private var vehicle: Vehicle
+
+    public init(_ entity: MPOLKitEntity) {
+        vehicle = entity as! Vehicle
+    }
+
     public var category: String? {
-        return source?.localizedBadgeTitle
+        return vehicle.source?.localizedBadgeTitle
     }
     
     public var title: String? {
-        return registration ?? NSLocalizedString("Registration Unknown", comment: "")
+        return vehicle.registration ?? NSLocalizedString("Registration Unknown", comment: "")
     }
     
     public var detail1: String? {
@@ -24,15 +30,15 @@ extension Vehicle: EntitySummaryDisplayable {
     }
     
     public var detail2: String? {
-        return bodyType
+        return vehicle.bodyType
     }
     
     public var alertColor: UIColor? {
-        return alertLevel?.color
+        return vehicle.alertLevel?.color
     }
     
     public var badge: UInt {
-        return actionCount
+        return vehicle.actionCount
     }
     
     public func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> (image: UIImage, mode: UIViewContentMode)? {
@@ -55,7 +61,7 @@ extension Vehicle: EntitySummaryDisplayable {
     
     private func formattedYOMMakeModel() -> String? {
         
-        let components = [year, make, model].flatMap { $0 }
+        let components = [vehicle.year, vehicle.make, vehicle.model].flatMap { $0 }
         if components.isEmpty == false {
             return components.joined(separator: " ")
         }

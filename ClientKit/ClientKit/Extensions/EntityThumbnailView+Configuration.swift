@@ -13,16 +13,16 @@ extension EntityThumbnailView {
     
     // MARK: - Configuration
     
-    public func configure(for entity: Entity?, size: ThumbnailSize) {
+    public func configure(for entity: EntitySummaryDisplayable?, size: ThumbnailSize) {
 
-        if let entity = entity, let thumbnail = (entity as! EntitySummaryDisplayable).thumbnail(ofSize: size) {
+        if let entity = entity, let thumbnail = entity.thumbnail(ofSize: size) {
             imageView.contentMode = thumbnail.mode
             imageView.image = thumbnail.image
         } else {
             imageView.image = nil
         }
         
-        borderColor = entity is Person ? entity?.alertLevel?.color : entity?.associatedAlertLevel?.color
+        borderColor = entity?.alertColor
     }
     
 }
