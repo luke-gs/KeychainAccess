@@ -18,6 +18,8 @@ open class LocationBasicSearchOptions: SearchOptions {
         return results.count > 0 ? NSLocalizedString("SELECT AN ADDRESS TO CONTINUE", comment: "Location Search - type ahead results") : NSLocalizedString("OTHER", comment: "Location Search - others")
     }
 
+    public init() {}
+
     open var results: [LookupResult] = []
     open var others: [LocationBasicSearchResultType] = [.advance, .map]
     

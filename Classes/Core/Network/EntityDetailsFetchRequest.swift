@@ -34,7 +34,7 @@ open class EntityDetailFetchRequest<T: MPOLKitEntity> {
         self.request = request
     }
     
-    public func fetch() -> Promise<T> {
+    open func fetch() -> Promise<T> {
         return fetchPromise().then { result in
             return result
         }

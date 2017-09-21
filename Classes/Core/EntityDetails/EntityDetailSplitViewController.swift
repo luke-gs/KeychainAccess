@@ -14,6 +14,26 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
     private let headerView = SidebarHeaderView(frame: .zero)
     fileprivate let detailViewModel: EntityDetailSectionsViewModel
 
+    // Appearance properties
+
+    /// The user interface style for the collection view.
+    ///
+    /// When set to `.current`, the theme autoupdates when the interface
+    /// style changes.
+    open var userInterfaceStyle: UserInterfaceStyle = .current {
+        didSet {
+            if userInterfaceStyle == oldValue { return }
+
+            if userInterfaceStyle == .current {
+                NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleDidChange), name: .interfaceStyleDidChange, object: nil)
+            } else if oldValue == .current {
+                NotificationCenter.default.removeObserver(self, name: .interfaceStyleDidChange, object: nil)
+            }
+
+            apply(ThemeManager.shared.theme(for: userInterfaceStyle))
+        }
+    }
+
     public init(dataSource: EntityDetailSectionsDataSource) {
 
         detailViewModel = EntityDetailSectionsViewModel(dataSource: dataSource)
@@ -30,6 +50,15 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
 
         regularSidebarViewController.title = NSLocalizedString("Details", comment: "")
         regularSidebarViewController.headerView = headerView
+
+        if userInterfaceStyle == .current {
+            NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleDidChange), name: .interfaceStyleDidChange, object: nil)
+        }
+    }
+
+    open override func viewDidLoad() {
+        super.viewDidLoad()
+        apply(ThemeManager.shared.theme(for: userInterfaceStyle))
     }
 
     open override func viewDidAppear(_ animated: Bool) {
@@ -158,6 +187,19 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
 
     private func updateDetailSectionsAvailability(_ isAvailable: Bool) {
         super.allowDetailSelection = isAvailable
+    }
+
+    // MARK: - Theme
+
+    open func apply(_ theme: Theme) {
+        pageViewController.view.backgroundColor = theme.color(forKey: .background)
+    }
+
+    // MARK: - Private methods
+    @objc private func interfaceStyleDidChange() {
+        if userInterfaceStyle != .current { return }
+
+        apply(ThemeManager.shared.theme(for: userInterfaceStyle))
     }
 
 }

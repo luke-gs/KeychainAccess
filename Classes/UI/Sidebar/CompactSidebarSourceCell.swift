@@ -9,7 +9,7 @@
 import UIKit
 
 /// Table view cell representing a single source in the CompactSidebarSourceViewController
-open class CompactSidebarSourceCell: UITableViewCell {
+open class CompactSidebarSourceCell: UITableViewCell, DefaultReusable {
 
     /// The source bar cell icon showing source state
     var sourceBarCell: SourceBarCell!

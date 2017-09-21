@@ -53,6 +53,12 @@ class SearchRecentsViewController: FormCollectionViewController {
     @objc dynamic var isShowingNavBarExtension: Bool = false {
         didSet {
             compactNavBarExtension?.alpha = isShowingNavBarExtension ? 1.0 : 0.0
+
+            // Force layout of nav bar extension first if showing, then layout view to account for it
+            if isShowingNavBarExtension {
+                compactNavBarExtension?.setNeedsLayout()
+                compactNavBarExtension?.layoutIfNeeded()
+            }
             view.setNeedsLayout()
         }
     }
@@ -127,6 +133,13 @@ class SearchRecentsViewController: FormCollectionViewController {
         compactSegmentedControl = segmentedControl
         compactNavBarExtension = navBarExtension
 
+        let extensionVerticalConstraint: NSLayoutConstraint
+        if #available(iOS 11, *) {
+            extensionVerticalConstraint = navBarExtension.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+        } else {
+            extensionVerticalConstraint = navBarExtension.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor)
+        }
+
         NSLayoutConstraint.activate([
             segmentedControl.widthAnchor.constraint(equalTo: navBarExtension.widthAnchor, constant: -32.0),
             segmentedControl.topAnchor.constraint(equalTo: navBarExtension.topAnchor),
@@ -134,8 +147,8 @@ class SearchRecentsViewController: FormCollectionViewController {
 
             navBarExtension.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             navBarExtension.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            navBarExtension.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor),
-            ])
+            extensionVerticalConstraint
+        ])
     }
 
 
@@ -152,13 +165,11 @@ class SearchRecentsViewController: FormCollectionViewController {
     override func viewWillLayoutSubviews() {
         let navBarExtension = isShowingNavBarExtension ? compactNavBarExtension?.frame.height ?? 0.0 : 0.0
 
-        // TODO: Uncomment for iOS 11
-        //        if #available(iOS 11, *) {
-        //            additionalSafeAreaInsets.top = navBarExtension
-        //        } else {
-        legacy_additionalSafeAreaInsets.top = navBarExtension
-        //        }
-
+        if #available(iOS 11, *) {
+            additionalSafeAreaInsets.top = navBarExtension
+        } else {
+            legacy_additionalSafeAreaInsets.top = navBarExtension
+        }
         super.viewWillLayoutSubviews()
     }
 

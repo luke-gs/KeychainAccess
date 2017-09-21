@@ -408,12 +408,20 @@ fileprivate class TabStripViewCell: UICollectionViewCell, DefaultReusable {
         itemView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(itemView)
         
+        let centerYConstraint: NSLayoutConstraint
+        if #available(iOS 11, *) {
+            // centerYWithinMargins does not work properly in iOS 11 GM, causes item to not be visible :(
+            centerYConstraint = NSLayoutConstraint(item: itemView, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, constant: -selectionBarHeight/2)
+        } else {
+            centerYConstraint = NSLayoutConstraint(item: itemView, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerYWithinMargins)
+        }
+
         NSLayoutConstraint.activate([
+            centerYConstraint,
             NSLayoutConstraint(item: itemView, attribute: .centerX, relatedBy: .equal, toItem: contentView, attribute: .centerXWithinMargins),
-            NSLayoutConstraint(item: itemView, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerYWithinMargins),
             NSLayoutConstraint(item: itemView, attribute: .leading, relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .leadingMargin),
-            NSLayoutConstraint(item: itemView, attribute: .top,     relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .topMargin),
-            
+            NSLayoutConstraint(item: itemView, attribute: .top,     relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .top),
+
             NSLayoutConstraint(item: selectionBar, attribute: .leading,  relatedBy: .equal, toItem: contentView, attribute: .leading),
             NSLayoutConstraint(item: selectionBar, attribute: .trailing, relatedBy: .equal, toItem: contentView, attribute: .trailing),
             NSLayoutConstraint(item: selectionBar, attribute: .bottom,   relatedBy: .equal, toItem: contentView, attribute: .bottom),
