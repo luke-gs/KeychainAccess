@@ -10,6 +10,8 @@
 		12ADD4361F32C0FA00CA8B4D /* MPOLSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4301F32C0FA00CA8B4D /* MPOLSearchViewModel.swift */; };
 		12ADD4381F32C0FA00CA8B4D /* PersonSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4321F32C0FA00CA8B4D /* PersonSearchDataSource.swift */; };
 		12ADD43A1F32C0FA00CA8B4D /* VehicleSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */; };
+		12FF22C21F73AC4E00E979B0 /* EndpointManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 123D29E31F73A35800113221 /* EndpointManager.framework */; };
+		12FF22C31F73AC4E00E979B0 /* EndpointManager.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 123D29E31F73A35800113221 /* EndpointManager.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3597F18ADBC8910958FB8CED /* Pods_MPOL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17144B68BB155A127F8ED5B8 /* Pods_MPOL.framework */; };
 		397B77011E52CEDA00696677 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 397B77001E52CEDA00696677 /* UserNotifications.framework */; };
 		445A8A381F667A56005ABEB8 /* PersonSearchHelp.json in Resources */ = {isa = PBXBuildFile; fileRef = 445A8A371F667A56005ABEB8 /* PersonSearchHelp.json */; };
@@ -41,6 +43,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				BCEEA5621F03205800C884A4 /* ClientKit.framework in Embed Frameworks */,
+				12FF22C31F73AC4E00E979B0 /* EndpointManager.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -48,6 +51,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		123D29E31F73A35800113221 /* EndpointManager.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = EndpointManager.framework; sourceTree = "<group>"; };
 		12ADD4301F32C0FA00CA8B4D /* MPOLSearchViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPOLSearchViewModel.swift; sourceTree = "<group>"; };
 		12ADD4321F32C0FA00CA8B4D /* PersonSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonSearchDataSource.swift; sourceTree = "<group>"; };
 		12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleSearchDataSource.swift; sourceTree = "<group>"; };
@@ -90,6 +94,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCEEA5611F03205800C884A4 /* ClientKit.framework in Frameworks */,
+				12FF22C21F73AC4E00E979B0 /* EndpointManager.framework in Frameworks */,
 				397B77011E52CEDA00696677 /* UserNotifications.framework in Frameworks */,
 				3597F18ADBC8910958FB8CED /* Pods_MPOL.framework in Frameworks */,
 			);
@@ -111,6 +116,7 @@
 		81566B659C78AD148E9B8520 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				123D29E31F73A35800113221 /* EndpointManager.framework */,
 				BCEEA5601F03205800C884A4 /* ClientKit.framework */,
 				397B77001E52CEDA00696677 /* UserNotifications.framework */,
 				17144B68BB155A127F8ED5B8 /* Pods_MPOL.framework */,
