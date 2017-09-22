@@ -42,7 +42,7 @@ public class EntityPresenter: Presenter {
                 return EntityDetailSplitViewController<EntityDetailsDisplayable, PersonSummaryDisplayable>(dataSource: dataSource)
             } else {
                 dataSource = VehicleDetailsSectionsDataSource(baseEntity: entity, delegate: delegate)
-                return EntityDetailSplitViewController<EntityDetailsDisplayable, PersonSummaryDisplayable>(dataSource: dataSource)
+                return EntityDetailSplitViewController<EntityDetailsDisplayable, VehicleSummaryDisplayable>(dataSource: dataSource)
             }
 
 
