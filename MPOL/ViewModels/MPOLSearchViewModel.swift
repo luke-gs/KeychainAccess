@@ -16,12 +16,10 @@ class MPOLSearchViewModel: SearchViewModel {
 
     var recentViewModel: SearchRecentsViewModel = MPOLSearchRecentsViewModel()
 
-    var dataSources: [SearchDataSource] = [
+    let dataSources: [SearchDataSource] = [
         PersonSearchDataSource(),
         VehicleSearchDataSource(),
-        LocationSearchDataSource(strategy: LookupAddressLocationSearchStrategy(source: MPOLSource.gnaf,
-                                                                               resultModelType: MapSummarySearchResultViewModel.self),
-                                                                               advanceOptions: LookupAddressLocationAdvancedOptions())
+        LocationSearchDataSource(strategy: LookupAddressLocationSearchStrategy(source: MPOLSource.gnaf, helpPresentable: EntityScreen.help(type: .location)), advanceOptions: LookupAddressLocationAdvancedOptions())
     ]
 
     func presentable(for entity: MPOLKitEntity) -> Presentable {
