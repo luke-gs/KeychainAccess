@@ -9,7 +9,10 @@
 import Foundation
 import MPOLKit
 import ClientKit
+
+#if !EXTERNAL
 import EndpointManager
+#endif
 
 public enum LandingScreen: Presentable {
 
@@ -148,7 +151,9 @@ public class LandingPresenter: NSObject, Presenter {
     }
 
     @objc private func showEndpointManager() {
+        #if !EXTERNAL
         EndpointManager.presentEndpointManagerFrom(UIApplication.shared.keyWindow!)
+        #endif
     }
 
 }

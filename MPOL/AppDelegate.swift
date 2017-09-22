@@ -13,7 +13,10 @@ import PromiseKit
 import Lottie
 import ClientKit
 import Alamofire
-import EndpointManager
+
+#if !EXTERNAL
+    import EndpointManager
+#endif
 
 #if INTERNAL
     import HockeySDK
@@ -210,6 +213,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     //MARK: Endpoints
     @objc private func endpointChanged() {
+
+        #if !EXTERNAL
         guard let endpoint = EndpointManager.selectedEndpoint?.url?.absoluteString else { return }
 
         let plugins: [PluginType]?
@@ -227,5 +232,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // To re-create the presenter and update the left accessory view of the login view controller with the new endpoint
         // No state is actually fiddled with
         fiddleWithState()
+        #endif
     }
 }
