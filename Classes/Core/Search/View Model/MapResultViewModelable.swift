@@ -20,8 +20,6 @@ public protocol MapResultViewModelDelegate: class {
 
 public protocol MapResultViewModelable: SearchResultModelable {
 
-    init()
-
     /// A delegate that will be notified when there are changes to the results.
     weak var delegate: MapResultViewModelDelegate? { get set }
 
@@ -45,8 +43,6 @@ public final class MapSummarySearchResultViewModel: MapResultViewModelable {
     public var status: SearchState? = .idle
 
     public weak var delegate: MapResultViewModelDelegate?
-
-    public init() { }
 
     public func fetchResults(withParameters parameters: Parameterisable) {
         // TODO - Implement fetch and notify the delegate

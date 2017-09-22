@@ -75,9 +75,9 @@ public class LocationSearchDataSource<T: LocationAdvanceOptions, U: LocationSear
             }, textHandler: self.searchTextDidChange, errorMessage: self.errorMessage)
         } else {
             return .button(configure: { [weak self] (button) in
-                guard let `self` = self else { return }
+                guard let `self` = self, let advanceOptions = self.advanceOptions else { return }
                 
-                button.setTitle(self.advanceOptions.cancelTitle, for: .normal)
+                button.setTitle(advanceOptions.cancelTitle, for: .normal)
                 
                 if button.actions(forTarget: self, forControlEvent: .touchUpInside) == nil {
                     button.addTarget(self, action: #selector(self.didTapSimpleSearchButton), for: .touchUpInside)
@@ -99,7 +99,7 @@ public class LocationSearchDataSource<T: LocationAdvanceOptions, U: LocationSear
     }
 
     private let basicOptions = LocationBasicSearchOptions()
-    public let advanceOptions: T
+    public let advanceOptions: T?
     public let searchStrategy: U
 
     public weak var updatingDelegate: SearchDataSourceUpdating?
@@ -113,6 +113,10 @@ public class LocationSearchDataSource<T: LocationAdvanceOptions, U: LocationSear
         self.advanceOptions = advanceOptions
         
         super.init()
+
+        if searchStrategy.resultModelForMap() == nil {
+            basicOptions.others = [.advance]
+        }
 
         basicOptions.delegate = self
         options = basicOptions
@@ -156,18 +160,18 @@ public class LocationSearchDataSource<T: LocationAdvanceOptions, U: LocationSear
             text = searchable.text
             
             basicOptions.reset()
-            advanceOptions.populate(withOptions: nil, reset: true)
+            advanceOptions?.populate(withOptions: nil, reset: true)
             
             options = basicOptions
             return true
         } else if type == LocationSearchDataSourceSearchableType {
             
             basicOptions.reset()
-            advanceOptions.populate(withOptions: nil, reset: true)
+            advanceOptions?.populate(withOptions: nil, reset: true)
             
             if let lastOptions = searchable.options {
                 text = nil
-                advanceOptions.populate(withOptions: lastOptions, reset: true)
+                advanceOptions?.populate(withOptions: lastOptions, reset: true)
                 options = advanceOptions
             } else {
                 text = searchable.text
@@ -182,11 +186,7 @@ public class LocationSearchDataSource<T: LocationAdvanceOptions, U: LocationSear
     // MARK: - Private
     
     @objc private func didTapHelpButton() {
-        // FIXME: - When the appropriate time comes please change it
-        let helpViewController = UIViewController()
-        helpViewController.title = "Location Search Help"
-        helpViewController.view.backgroundColor = .white
-        (self.updatingDelegate as? UIViewController)?.show(helpViewController, sender: nil)
+        (self.updatingDelegate as? UIViewController)?.present(searchStrategy.helpPresentable)
     }
     
     @objc private func didTapSimpleSearchButton() {
@@ -198,11 +198,12 @@ public class LocationSearchDataSource<T: LocationAdvanceOptions, U: LocationSear
     }
     
     @objc private func didTapSearchButton() {
+        guard let advanceOptions = advanceOptions else { return }
         performSearchOnLocation(withParameters: advanceOptions.locationParameters())
     }
     
     @objc private func didTapMapButton() {
-        let preferredViewModel = searchStrategy.resultModelType.init()
+        let preferredViewModel = searchStrategy.resultModelForMap()
         updatingDelegate?.searchDataSource(self, didFinishWith: nil, andResultViewModel: preferredViewModel)
     }
     
@@ -267,24 +268,24 @@ public class LocationSearchDataSource<T: LocationAdvanceOptions, U: LocationSear
                                     options: nil,
                                     type: LocationSearchDataSourceSearchableType)
 
-        let preferredViewModel = searchStrategy.resultModelType.init()
-        preferredViewModel.fetchResults(withCoordinate: result.location.coordinate)
-
+        let preferredViewModel = searchStrategy.resultModelForSearchOnLocation(withResult: result)
         updatingDelegate?.searchDataSource(self, didFinishWith: searchable, andResultViewModel: preferredViewModel)
     }
     
     private func performSearchOnLocation(withParameters parameters: Parameterisable) {
+        guard let advanceOptions = advanceOptions else { return }
+
         let search = Searchable(text: advanceOptions.textRepresentation(),
                                 options: advanceOptions.state(),
                                 type: LocationSearchDataSourceSearchableType)
 
-        let preferredViewModel = searchStrategy.resultModelType.init()
-        preferredViewModel.fetchResults(withParameters: parameters)
-
+        let preferredViewModel = searchStrategy.resultModelForSearchOnLocation(withParameters: parameters)
         updatingDelegate?.searchDataSource(self, didFinishWith: search, andResultViewModel: preferredViewModel)
     }
     
     public func locationBasicSearchOptions(_ options: LocationBasicSearchOptions, didEditResult result: LookupResult) {
+        guard let advanceOptions = advanceOptions else { return }
+
         advanceOptions.populate(withLocation: result.location as! T.Location)
         self.options = advanceOptions
     }
