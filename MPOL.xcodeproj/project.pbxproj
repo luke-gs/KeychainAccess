@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		127F45E11F74C7A9008F8E12 /* EndpointManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 123D29E31F73A35800113221 /* EndpointManager.framework */; };
+		127F45E21F74C7A9008F8E12 /* EndpointManager.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 123D29E31F73A35800113221 /* EndpointManager.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		12ADD4361F32C0FA00CA8B4D /* MPOLSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4301F32C0FA00CA8B4D /* MPOLSearchViewModel.swift */; };
 		12ADD4381F32C0FA00CA8B4D /* PersonSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4321F32C0FA00CA8B4D /* PersonSearchDataSource.swift */; };
 		12ADD43A1F32C0FA00CA8B4D /* VehicleSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */; };
-		12FF22C21F73AC4E00E979B0 /* EndpointManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 123D29E31F73A35800113221 /* EndpointManager.framework */; };
-		12FF22C31F73AC4E00E979B0 /* EndpointManager.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 123D29E31F73A35800113221 /* EndpointManager.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3597F18ADBC8910958FB8CED /* Pods_MPOL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17144B68BB155A127F8ED5B8 /* Pods_MPOL.framework */; };
 		397B77011E52CEDA00696677 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 397B77001E52CEDA00696677 /* UserNotifications.framework */; };
 		445A8A381F667A56005ABEB8 /* PersonSearchHelp.json in Resources */ = {isa = PBXBuildFile; fileRef = 445A8A371F667A56005ABEB8 /* PersonSearchHelp.json */; };
@@ -43,7 +43,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				BCEEA5621F03205800C884A4 /* ClientKit.framework in Embed Frameworks */,
-				12FF22C31F73AC4E00E979B0 /* EndpointManager.framework in Embed Frameworks */,
+				127F45E21F74C7A9008F8E12 /* EndpointManager.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -94,7 +94,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCEEA5611F03205800C884A4 /* ClientKit.framework in Frameworks */,
-				12FF22C21F73AC4E00E979B0 /* EndpointManager.framework in Frameworks */,
+				127F45E11F74C7A9008F8E12 /* EndpointManager.framework in Frameworks */,
 				397B77011E52CEDA00696677 /* UserNotifications.framework in Frameworks */,
 				3597F18ADBC8910958FB8CED /* Pods_MPOL.framework in Frameworks */,
 			);
@@ -495,7 +495,10 @@
 				CODE_SIGN_ENTITLEMENTS = MPOL/MPOL.entitlements;
 				DEVELOPMENT_TEAM = QJQ4TBYRPA;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = MPOL/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -565,7 +568,10 @@
 				DEVELOPMENT_TEAM = QJQ4TBYRPA;
 				ENABLE_BITCODE = NO;
 				EXCLUDED_SOURCE_FILE_NAMES = EndpointManager.framework;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = MPOL/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -642,7 +648,10 @@
 				DEVELOPMENT_TEAM = QJQ4TBYRPA;
 				ENABLE_BITCODE = NO;
 				EXCLUDED_SOURCE_FILE_NAMES = EndpointManager.framework;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = MPOL/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -711,7 +720,10 @@
 				CODE_SIGN_ENTITLEMENTS = MPOL/MPOL.entitlements;
 				DEVELOPMENT_TEAM = QJQ4TBYRPA;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = MPOL/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -837,7 +849,10 @@
 				CODE_SIGN_ENTITLEMENTS = MPOL/MPOL.entitlements;
 				DEVELOPMENT_TEAM = QJQ4TBYRPA;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = MPOL/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -855,7 +870,10 @@
 				CODE_SIGN_ENTITLEMENTS = MPOL/MPOL.entitlements;
 				DEVELOPMENT_TEAM = QJQ4TBYRPA;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = MPOL/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
