@@ -63,7 +63,7 @@ extension UIView {
         }
     }
 
-    @available(iOS, deprecated: 11.0, message: "Use `safeAreaOrFallbackLeadingAnchor` instead.")
+    @available(iOS, deprecated: 11.0, message: "Use `safeAreaOrFallbackTrailingAnchor` instead.")
     var safeAreaOrFallbackRightAnchor: NSLayoutXAxisAnchor {
         if #available(iOS 11.0, *) {
             return safeAreaLayoutGuide.rightAnchor
