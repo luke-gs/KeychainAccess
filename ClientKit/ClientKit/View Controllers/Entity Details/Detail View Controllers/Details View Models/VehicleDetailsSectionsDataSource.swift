@@ -19,12 +19,10 @@ public class VehicleMPOLDetailsSectionsDataSource: EntityDetailSectionsDataSourc
         return NSLocalizedString("Vehicle", comment: "")
     }
 
-    //    public func fetchModel(for entity: MPOLKitEntity, sources: [EntitySource]) -> Fetchable {
-    //        let requests = sources.map {
-    //            VehicleFetchRequest(source: $0 as! MPOLSource, request: EntityFetchRequest<Vehicle>(id: entity.id))
-    //        }
-    //        return EntityDetailFetch<Vehicle>(requests: requests)
-    //    }
+    public func fetchModel() -> Fetchable {
+        let request = VehicleFetchRequest(source: source, request: EntityFetchRequest<Vehicle>(id: entity.id))
+        return EntityDetailFetch<Vehicle>(request: request)
+    }
 
     public init(baseEntity: Entity, delegate: EntityDetailsDelegate?) {
         self.entity = baseEntity
@@ -47,12 +45,10 @@ public class VehicleFNCDetailsSectionsDataSource: EntityDetailSectionsDataSource
         return NSLocalizedString("Vehicle", comment: "")
     }
 
-    //    public func fetchModel(for entity: MPOLKitEntity, sources: [EntitySource]) -> Fetchable {
-    //        let requests = sources.map {
-    //            VehicleFetchRequest(source: $0 as! MPOLSource, request: EntityFetchRequest<Vehicle>(id: entity.id))
-    //        }
-    //        return EntityDetailFetch<Vehicle>(requests: requests)
-    //    }
+    public func fetchModel() -> Fetchable {
+        let request = VehicleFetchRequest(source: source, request: EntityFetchRequest<Vehicle>(id: entity.id))
+        return EntityDetailFetch<Vehicle>(request: request)
+    }
 
     public init(baseEntity: Entity, delegate: EntityDetailsDelegate?) {
         self.entity = baseEntity

@@ -19,12 +19,10 @@ public class PersonMPOLDetailsSectionsDataSource: EntityDetailSectionsDataSource
         return NSLocalizedString("Person", comment: "")
     }
 
-//    public func fetchModel(for entity: MPOLKitEntity, sources: [EntitySource]) -> Fetchable {
-//        let requests = sources.map {
-//            PersonFetchRequest(source: $0 as! MPOLSource, request: EntityFetchRequest<Person>(id: entity.id))
-//        }
-//        return EntityDetailFetch<Person>(requests: requests)
-//    }
+    public func fetchModel() -> Fetchable {
+        let request = PersonFetchRequest(source: source, request: EntityFetchRequest<Person>(id: entity.id))
+        return EntityDetailFetch<Person>(request: request)
+    }
 
     public init(baseEntity: Entity, delegate: EntityDetailsDelegate?) {
         self.entity = baseEntity
@@ -46,11 +44,10 @@ public class PersonFNCDetailsSectionsDataSource: EntityDetailSectionsDataSource 
         return NSLocalizedString("FNC PERSON", comment: "")
     }
 
-    //        public func fetchModel(entity: MPOLKitEntity) -> Fetchable {
-    //        // Rules are defined here as needed
-    //        let request = PersonFetchRequest(source: source, request: EntityFetchRequest<Person>(id: entity.id))
-    //        return EntityDetailFetch<Person>(request: request)
-    //        }
+    public func fetchModel() -> Fetchable {
+        let request = PersonFetchRequest(source: source, request: EntityFetchRequest<Person>(id: entity.id))
+        return EntityDetailFetch<Person>(request: request)
+    }
 
     public init(baseEntity: Entity, delegate: EntityDetailsDelegate?) {
         self.entity = baseEntity

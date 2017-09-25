@@ -45,7 +45,7 @@ struct MPOLToFNCPersonMatch: FetchMatch {
     func match(_ entity: MPOLKitEntity) -> Fetchable {
         let entity = entity as! Person
 
-        let request = PersonFetchRequest(source: resultSource, request: EntityFetchRequest<Person>(id: entity.givenName!))
+        let request = PersonFetchRequest(source: resultSource, request: EntityFetchRequest<Person>(id: "745687"))
         return EntityDetailFetch<Person>(request: request)
     }
 }
@@ -57,7 +57,7 @@ struct FNCToMPOLPersonMatch: FetchMatch {
     func match(_ entity: MPOLKitEntity) -> Fetchable  {
         let entity = entity as! Person
 
-        let request = PersonFetchRequest(source: resultSource, request: EntityFetchRequest<Person>(id: entity.id))
+        let request = PersonFetchRequest(source: resultSource, request: EntityFetchRequest<Person>(id: "554ca38e-ab00-4c5c-8e58-1c87ef09b958"))
         return EntityDetailFetch<Person>(request: request)
     }
 
