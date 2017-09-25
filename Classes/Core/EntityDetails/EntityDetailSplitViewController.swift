@@ -14,6 +14,8 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
     private let headerView = SidebarHeaderView(frame: .zero)
     fileprivate let detailViewModel: EntityDetailSectionsViewModel
 
+    private let matchMaker: MatchMaker
+
     // Appearance properties
 
     /// The user interface style for the collection view.
@@ -34,9 +36,10 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
         }
     }
 
-    public init(dataSource: EntityDetailSectionsDataSource) {
+    public init(dataSources: [EntityDetailSectionsDataSource], and matchMaker: MatchMaker) {
 
-        detailViewModel = EntityDetailSectionsViewModel(dataSource: dataSource)
+        detailViewModel = EntityDetailSectionsViewModel(dataSources: dataSources)
+        self.matchMaker = matchMaker
 
         let detailVCs = detailViewModel.detailSectionsViewControllers as? [UIViewController]
 

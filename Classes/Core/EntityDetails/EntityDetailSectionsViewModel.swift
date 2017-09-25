@@ -29,14 +29,14 @@ public struct EntityFetchResult {
 public class EntityDetailSectionsViewModel {
 
     public var sources: [EntitySource] {
-        return detailSectionsDataSource.sources
+        return [detailSectionsDataSource.source]
     }
 
     public var currentEntity: MPOLKitEntity {
         if let result = results[selectedSource.serverSourceName], let entity = result.entity {
             return entity
         } else {
-            return detailSectionsDataSource.baseEntity
+            return detailSectionsDataSource.entity
         }
     }
 
@@ -52,14 +52,14 @@ public class EntityDetailSectionsViewModel {
 
     public var results: [String: EntityFetchResult] = [:]
 
-    public init(dataSource: EntityDetailSectionsDataSource) {
+    public init(dataSources: [EntityDetailSectionsDataSource]) {
 
-        selectedSource = dataSource.initialSource
-        self.detailSectionsDataSource = dataSource
+        selectedSource = (dataSources.first?.source)!
+        self.detailSectionsDataSource = dataSources.first!
 
-        entityFetch = dataSource.fetchModel(for: dataSource.baseEntity, sources: self.sources)
+//        entityFetch = dataSource.fetchModel(for: dataSource.baseEntity, sources: self.sources)
         entityFetch?.delegate = self
-        detailSectionsViewControllers = dataSource.detailViewControllers
+        detailSectionsViewControllers = dataSources.first?.detailViewControllers
     }
 
     public func performFetch() {

@@ -16,13 +16,10 @@ public protocol EntityDetailSectionUpdatable: class {
 }
 
 public protocol EntityDetailSectionsDataSource {
-
-    var initialSource: EntitySource { get set }
-    var sources: [EntitySource] { get }
-
-    var baseEntity: MPOLKitEntity { get }
+    var source: EntitySource { get }
+    var entity: MPOLKitEntity { get }
 
     var localizedDisplayName: String { get }
     var detailViewControllers: [EntityDetailSectionUpdatable] { get }
-    func fetchModel(for entity: MPOLKitEntity, sources: [EntitySource]) -> Fetchable
+//    func fetchModel(for entity: MPOLKitEntity, sources: [EntitySource]) -> Fetchable
 }
