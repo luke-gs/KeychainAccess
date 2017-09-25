@@ -107,7 +107,7 @@ open class PersonDescription: NSObject, Serialisable {
         }
 
         if let build = build?.ifNotEmpty() {
-            formattedComponents.append("\(build)" + "build")
+            formattedComponents.append("\(build)" + " build")
         }
 
         if let hairColour = hairColour?.ifNotEmpty()?.localizedLowercase {
