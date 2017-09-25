@@ -211,10 +211,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         AlertQueue.shared.preferredStatusBarStyle = theme.statusBarStyle
     }
 
+    #if !EXTERNAL
+
     //MARK: Endpoints
     @objc private func endpointChanged() {
 
-        #if !EXTERNAL
         guard let endpoint = EndpointManager.selectedEndpoint?.url?.absoluteString else { return }
 
         let plugins: [PluginType]?
@@ -232,6 +233,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // To re-create the presenter and update the left accessory view of the login view controller with the new endpoint
         // No state is actually fiddled with
         fiddleWithState()
-        #endif
     }
+    #endif
 }
