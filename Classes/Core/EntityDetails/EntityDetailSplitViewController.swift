@@ -120,7 +120,7 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
         detailViewModel.selectedSource = source
 
         detailViewControllers = detailViewModel.detailSectionsViewControllers as! [UIViewController]
-        selectedViewController = detailViewControllers.last
+        selectedViewController = detailViewControllers.first
 
         updateRepresentations()
         updateHeaderView()
