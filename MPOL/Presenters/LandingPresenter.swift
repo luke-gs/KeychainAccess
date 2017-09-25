@@ -10,6 +10,9 @@ import Foundation
 import MPOLKit
 import ClientKit
 
+#if !EXTERNAL
+import EndpointManager
+#endif
 
 public enum LandingScreen: Presentable {
 
@@ -41,9 +44,19 @@ public class LandingPresenter: NSObject, Presenter {
             loginViewController.headerView = LoginHeaderView(title: "mPol", subtitle: "Mobile Policing Platform", image: #imageLiteral(resourceName: "MPOLIcon"))
 
             loginViewController.delegate = self
+
             #if DEBUG
                 loginViewController.usernameField.text = "matt"
                 loginViewController.passwordField.text = "vicroads"
+            #endif
+
+            #if !EXTERNAL
+                let configButton = UIButton(type: .system)
+                configButton.setImage(#imageLiteral(resourceName: "endpoint"), for: .normal)
+                configButton.setTitle(EndpointManager.selectedEndpoint?.name, for: .normal)
+                configButton.addTarget(self, action: #selector(showEndpointManager), for: .touchUpInside)
+
+                loginViewController.leftAccessoryView = configButton
             #endif
 
             return loginViewController
@@ -137,6 +150,12 @@ public class LandingPresenter: NSObject, Presenter {
         }
     }
 
+    @objc private func showEndpointManager() {
+        #if !EXTERNAL
+        EndpointManager.presentEndpointManagerFrom(UIApplication.shared.keyWindow!)
+        #endif
+    }
+
 }
 
 
@@ -173,15 +192,15 @@ extension LandingPresenter: LoginViewControllerDelegate {
                 controller.present(LandingScreen.termsAndConditions)
                 controller.resetFields()
             }
-        }.catch { error in
-            let error = error as NSError
+            }.catch { error in
+                let error = error as NSError
 
-            let title = error.localizedFailureReason ?? "Error"
-            let message = error.localizedDescription
+                let title = error.localizedFailureReason ?? "Error"
+                let message = error.localizedDescription
 
-            controller.present(SystemScreen.serverError(title: title, message: message))
-        }.always {
-            controller.setLoading(false, animated: true)
+                controller.present(SystemScreen.serverError(title: title, message: message))
+            }.always {
+                controller.setLoading(false, animated: true)
         }
     }
 

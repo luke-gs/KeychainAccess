@@ -14,6 +14,10 @@ import Lottie
 import ClientKit
 import Alamofire
 
+#if !EXTERNAL
+    import EndpointManager
+#endif
+
 #if INTERNAL
     import HockeySDK
 #endif
@@ -46,6 +50,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         director.addPresenterObserver(RecentlyViewedTracker())
         
         Director.shared = director
+
+        #if !EXTERNAL
+            let endpoint1 = Endpoint(name: "Dev-Latest", url: URL(string: "dev-api-2.mpol.solutions"))
+            let endpoint2 = Endpoint(name: "Formal-Test", url: URL(string: "dev-test-api.mpol.solutions"))
+            let endpoint3 = Endpoint(name: "Master-Latest", url: URL(string: "master-api.mpol.solutions"))
+            let endpoint4 = Endpoint(name: "Client-Demo", url: URL(string: "client-demo-api.mpol.solutions"))
+            let endpoint5 = Endpoint(name: "Moto-Demo", url: URL(string: "moto-demo-api.mpol.solutions"))
+
+            EndpointManager.populate([endpoint1, endpoint2, endpoint3, endpoint4, endpoint5])
+            EndpointManager.selectedEndpoint = endpoint1
+
+            NotificationCenter.default.addObserver(self, selector: #selector(endpointChanged), name: NSNotification.Name(rawValue: EndpointManager.EndpointChangedNotification), object: nil)
+
+        #endif
 
         APIManager.shared = APIManager(configuration: APIManagerDefaultConfiguration(url: "https://\(host)", plugins: plugins, trustPolicyManager: ServerTrustPolicyManager(policies: [host: .disableEvaluation])))
 
@@ -192,4 +210,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         AlertQueue.shared.preferredStatusBarStyle = theme.statusBarStyle
     }
+
+    #if !EXTERNAL
+
+    //MARK: Endpoints
+    @objc private func endpointChanged() {
+
+        guard let endpoint = EndpointManager.selectedEndpoint?.url?.absoluteString else { return }
+
+        let plugins: [PluginType]?
+
+        #if DEBUG
+            plugins = [
+                NetworkLoggingPlugin()
+            ]
+        #else
+            plugins = nil
+        #endif
+
+        APIManager.shared = APIManager(configuration: APIManagerDefaultConfiguration(url: "https://\(endpoint)", plugins: plugins, trustPolicyManager: ServerTrustPolicyManager(policies: [host: .disableEvaluation])))
+
+        // To re-create the presenter and update the left accessory view of the login view controller with the new endpoint
+        // No state is actually fiddled with
+        fiddleWithState()
+    }
+    #endif
 }
