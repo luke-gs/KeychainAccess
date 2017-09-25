@@ -19,9 +19,7 @@ public class EntityEventViewModel: EntityDetailViewModelable {
         didSet {
             let count = sections.first?.events.count ?? 0
             delegate?.updateSidebarItemCount(UInt(count))
-            
-            let subtitle = noContentSubtitle()
-            delegate?.updateNoContentSubtitle(subtitle)
+            delegate?.updateNoContentDetails(title: noContentTitle(), subtitle: noContentSubtitle())
         }
     }
     
@@ -80,6 +78,10 @@ public class EntityEventViewModel: EntityDetailViewModelable {
         return UInt(entity?.events?.count ?? 0)
     }
     
+    func noContentTitle() -> String {
+        return NSLocalizedString("No Events Found", bundle: .mpolKit, comment: "")
+    }
+    
     public func noContentSubtitle() -> String? {
         var subtitle: String?
         
@@ -124,6 +126,7 @@ public class EntityEventViewModel: EntityDetailViewModelable {
         } else {
             sections = []
         }
+        delegate?.updateNoContentDetails(title: noContentTitle(), subtitle: noContentSubtitle())
     }
     
     // MARK: - Private methods
