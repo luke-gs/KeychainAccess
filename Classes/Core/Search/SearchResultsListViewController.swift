@@ -339,7 +339,7 @@ public protocol EntityDetailsDelegate: class {
     ///   - entity: the entity that was selected
     func controller(_ controller: UIViewController, didSelectEntity entity: MPOLKitEntity)
 
-    func controller(_ controller: UIViewController, didPerformSearch search: Searchable)
+    func controller(_ controller: UIViewController, searchFor searchable: Searchable)
 }
 
 protocol SearchResultsDelegate: class {

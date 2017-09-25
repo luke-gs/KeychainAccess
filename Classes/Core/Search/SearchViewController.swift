@@ -360,9 +360,9 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
         didSelectEntity(entity)
     }
 
-    public func controller(_ controller: UIViewController, didPerformSearch search: Searchable) {
+    public func controller(_ controller: UIViewController, searchFor searchable: Searchable) {
         navigationController?.popToRootViewController(animated: true)
-        searchOptionsViewController.setCurrent(searchable: search)
+        searchOptionsViewController.setCurrent(searchable: searchable)
         setShowingSearchOptions(true, animated: true)
     }
 
