@@ -64,8 +64,7 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
     open override func viewDidLoad() {
         super.viewDidLoad()
         
-        loadingManager.noContentView.titleLabel.text = NSLocalizedString("No Alerts Found", bundle: .mpolKit, comment: "")
-        updateNoContentSubtitle(viewModel.noContentSubtitle())
+        updateNoContentDetails(title: viewModel.noContentTitle(), subtitle: viewModel.noContentSubtitle())
         
         guard let collectionView = self.collectionView else { return }
         
@@ -244,7 +243,8 @@ extension EntityAlertsViewController: EntityDetailViewModelDelegate {
         filterBarButtonItem.isActive = requiresFiltering
     }
     
-    public func updateNoContentSubtitle(_ subtitle: String? = nil) {
+    public func updateNoContentDetails(title: String?, subtitle: String? = nil) {
+        loadingManager.noContentView.titleLabel.text = title
         loadingManager.noContentView.subtitleLabel.text = subtitle
     }
 }
