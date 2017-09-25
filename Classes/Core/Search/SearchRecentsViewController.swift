@@ -133,13 +133,6 @@ class SearchRecentsViewController: FormCollectionViewController {
         compactSegmentedControl = segmentedControl
         compactNavBarExtension = navBarExtension
 
-        let extensionVerticalConstraint: NSLayoutConstraint
-        if #available(iOS 11, *) {
-            extensionVerticalConstraint = navBarExtension.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
-        } else {
-            extensionVerticalConstraint = navBarExtension.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor)
-        }
-
         NSLayoutConstraint.activate([
             segmentedControl.widthAnchor.constraint(equalTo: navBarExtension.widthAnchor, constant: -32.0),
             segmentedControl.topAnchor.constraint(equalTo: navBarExtension.topAnchor),
@@ -147,7 +140,10 @@ class SearchRecentsViewController: FormCollectionViewController {
 
             navBarExtension.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             navBarExtension.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            extensionVerticalConstraint
+
+            // Due to use of additional safe area insets, we cannot position the top of the
+            // nav extension within the safe area in iOS 11, it needs to go above
+            constraintAboveSafeAreaOrBelowTopLayout(navBarExtension)
         ])
     }
 
