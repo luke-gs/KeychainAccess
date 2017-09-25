@@ -20,7 +20,7 @@ open class MatchMaker {
         return []
     }
 
-    public func findMatch(for entity: MPOLKitEntity, with initialSource: EntitySource, and destinationSource: EntitySource) -> Fetchable? {
+    public func findMatch(for entity: MPOLKitEntity, withInitialSource initialSource: EntitySource, andDestinationSource destinationSource: EntitySource) -> Fetchable? {
         let fetchable = matches?.filter {
             $0.initialSource.serverSourceName == initialSource.serverSourceName
                 && destinationSource.serverSourceName == destinationSource.serverSourceName}.first?.match(entity)

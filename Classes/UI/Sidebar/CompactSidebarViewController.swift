@@ -223,7 +223,7 @@ open class CompactSidebarViewController: UIViewController {
             fadeOutRight.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             fadeOutRight.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             fadeOutRight.widthAnchor.constraint(equalToConstant: 40),
-        ])
+            ])
 
         // Override constraint for hiding source button
         scrollViewFullWidth = scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
@@ -314,10 +314,6 @@ open class CompactSidebarViewController: UIViewController {
             sidebarKeys.forEach { item.addObserver(self, forKeyPath: $0, context: &sidebarItemContext) }
         }
 
-        if let selectedItem = self.selectedItem, items.contains(selectedItem) == false {
-            self.selectedItem = nil
-        }
-
         // Add each sidebar item as a cell in the stack view
         items.forEach({ (item) in
             let label = CompactSidebarItemView(frame: .zero)
@@ -326,6 +322,10 @@ open class CompactSidebarViewController: UIViewController {
             sidebarStackView.addArrangedSubview(label)
         })
         updateCells()
+
+        if let selectedItem = self.selectedItem, items.contains(selectedItem) == false {
+            self.selectedItem = nil
+        }
 
         // Force layout so that we can get the cell size in viewDidLayoutSubviews
         sidebarStackView.setNeedsLayout()

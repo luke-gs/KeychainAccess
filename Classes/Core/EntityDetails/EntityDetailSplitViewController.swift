@@ -14,8 +14,6 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
     private let headerView = SidebarHeaderView(frame: .zero)
     fileprivate let detailViewModel: EntityDetailSectionsViewModel
 
-    private let matchMaker: MatchMaker
-
     // Appearance properties
 
     /// The user interface style for the collection view.
@@ -36,10 +34,9 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
         }
     }
 
-    public init(dataSources: [EntityDetailSectionsDataSource], and matchMaker: MatchMaker) {
+    public init(initialSource: EntitySource, dataSources: [EntityDetailSectionsDataSource], withMatchMaker matchMaker: MatchMaker) {
 
-        detailViewModel = EntityDetailSectionsViewModel(dataSources: dataSources)
-        self.matchMaker = matchMaker
+        detailViewModel = EntityDetailSectionsViewModel(initialSource: initialSource, dataSources: dataSources, andMatchMaker: matchMaker)
 
         let detailVCs = detailViewModel.detailSectionsViewControllers as? [UIViewController]
 
@@ -79,23 +76,28 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
 
     open override func sidebarViewController(_ controller: UIViewController, didSelectSourceAt index: Int) {
         let source = detailViewModel.sources[index]
-        detailViewModel.selectedSource = source
+
+        guard source.serverSourceName != detailViewModel.selectedSource.serverSourceName else { return }
+
+        updateEverything(for: source)
+
+        if let result = detailViewModel.results[source.serverSourceName] {
+            detailViewModel.setSelectedResult(fetchResult: result)
+        }
+    }
+
+    open override func sidebarViewController(_ controller: UIViewController, didRequestToLoadSourceAt index: Int) {
+        let source = detailViewModel.sources[index]
+
+        guard source.serverSourceName != detailViewModel.selectedSource.serverSourceName else { return }
+
+        detailViewModel.performSubsequentFetch(for: source)
 
         if let result = detailViewModel.results[source.serverSourceName] {
             detailViewModel.setSelectedResult(fetchResult: result)
         }
 
-        updateHeaderView()
-    }
-
-    open override func sidebarViewController(_ controller: UIViewController, didRequestToLoadSourceAt index: Int) {
-        let selectedSource = detailViewModel.sources[index]
-
-        if let requestedSourceLoadState = detailViewModel.results[selectedSource.serverSourceName]?.state, requestedSourceLoadState != .idle {
-            // Did not select an unloaded source. Update the source items just in case, and then return out.
-            updateSourceItems()
-            return
-        }
+        updateEverything(for: source)
     }
 
     // MARK: - Override methods
@@ -113,6 +115,17 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
     }
 
     // MARK: - Private methods
+
+    fileprivate func updateEverything(for source: EntitySource) {
+        detailViewModel.selectedSource = source
+
+        detailViewControllers = detailViewModel.detailSectionsViewControllers as! [UIViewController]
+        selectedViewController = detailViewControllers.last
+
+        updateRepresentations()
+        updateHeaderView()
+        updateSourceItems()
+    }
 
     /// Enables/Disables sidebar items based on whether or not its source is updating.
     fileprivate func updateRepresentations() {
@@ -167,7 +180,7 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
 
     /// Updates the header view with the details for the latest selected representation.
     /// Call this methodwhen the selected representation changes.
-    private func updateHeaderView() {
+    fileprivate func updateHeaderView() {
         let entity = detailViewModel.currentEntity
 
         let detailDisplayable = Details(entity)
@@ -214,11 +227,13 @@ extension EntityDetailSplitViewController: EntityDetailSectionsDelegate {
     public func EntityDetailSectionsDidUpdateResults(_ EntityDetailSectionsViewModel: EntityDetailSectionsViewModel) {
         updateRepresentations()
         updateSourceItems()
+        updateHeaderView()
     }
 
     public func EntityDetailSectionDidSelectRetryDownload(_ EntityDetailSectionsViewModel: EntityDetailSectionsViewModel) {
         updateRepresentations()
         updateSourceItems()
+        updateHeaderView()
     }
 
 }

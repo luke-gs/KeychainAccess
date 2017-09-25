@@ -21,5 +21,5 @@ public protocol EntityDetailSectionsDataSource {
 
     var localizedDisplayName: String { get }
     var detailViewControllers: [EntityDetailSectionUpdatable] { get }
-//    func fetchModel(for entity: MPOLKitEntity, sources: [EntitySource]) -> Fetchable
+    func fetchModel() -> Fetchable
 }

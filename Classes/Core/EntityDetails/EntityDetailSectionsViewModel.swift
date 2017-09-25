@@ -28,41 +28,45 @@ public struct EntityFetchResult {
 
 public class EntityDetailSectionsViewModel {
 
+    public var results: [String: EntityFetchResult] = [:]
+    public weak var delegate: EntityDetailSectionsDelegate?
+    public var selectedSource: EntitySource
+
+    public var detailSectionsViewControllers: [EntityDetailSectionUpdatable]? {
+        return detailSectionsDataSources.filter{$0.source == selectedSource}.first?.detailViewControllers
+    }
+
     public var sources: [EntitySource] {
-        return [detailSectionsDataSource.source]
+        return detailSectionsDataSources.map{$0.source}
     }
 
     public var currentEntity: MPOLKitEntity {
         if let result = results[selectedSource.serverSourceName], let entity = result.entity {
             return entity
         } else {
-            return detailSectionsDataSource.entity
+            return (detailSectionsDataSources.filter{$0.source == selectedSource}.first?.entity)!
         }
     }
 
-    public var selectedSource: EntitySource
-
+    private var matchMaker: MatchMaker
+    private var detailSectionsDataSources: [EntityDetailSectionsDataSource]
     private var entityFetch: Fetchable?
 
-    public var detailSectionsDataSource: EntityDetailSectionsDataSource
-
-    public var detailSectionsViewControllers: [EntityDetailSectionUpdatable]?
-
-    public weak var delegate: EntityDetailSectionsDelegate?
-
-    public var results: [String: EntityFetchResult] = [:]
-
-    public init(dataSources: [EntityDetailSectionsDataSource]) {
-
-        selectedSource = (dataSources.first?.source)!
-        self.detailSectionsDataSource = dataSources.first!
-
-//        entityFetch = dataSource.fetchModel(for: dataSource.baseEntity, sources: self.sources)
-        entityFetch?.delegate = self
-        detailSectionsViewControllers = dataSources.first?.detailViewControllers
+    public init(initialSource: EntitySource, dataSources: [EntityDetailSectionsDataSource], andMatchMaker matchMaker: MatchMaker) {
+        self.selectedSource = initialSource
+        self.detailSectionsDataSources = dataSources
+        self.matchMaker = matchMaker
     }
 
     public func performFetch() {
+        entityFetch = detailSectionsDataSources.filter{$0.source == selectedSource}.first?.fetchModel()
+        entityFetch?.delegate = self
+        entityFetch?.performFetch()
+    }
+
+    public func performSubsequentFetch(for source: EntitySource) {
+        entityFetch = matchMaker.findMatch(for: currentEntity, withInitialSource: selectedSource, andDestinationSource: source)
+        entityFetch?.delegate = self
         entityFetch?.performFetch()
     }
 
