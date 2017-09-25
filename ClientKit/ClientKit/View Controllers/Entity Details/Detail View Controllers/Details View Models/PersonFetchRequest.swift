@@ -12,12 +12,12 @@ import MPOLKit
 
 public class PersonFetchRequest: EntityDetailFetchRequest<Person> {
 
-    public init(source: MPOLSource, request: EntityFetchRequest<Person>) {
-        super.init(source: source, request: request)
-    }
+//    public override init(source: EntitySource, request: EntityFetchRequest<Person>) {
+//        super.init(source: source, request: request)
+//    }
 
     public override func fetchPromise() -> Promise<Person> {
-        return APIManager.shared.fetchEntityDetails(in: source as! MPOLSource, with: request)
+        return APIManager.shared.fetchEntityDetails(in: source, with: request)
     }
 
 }
