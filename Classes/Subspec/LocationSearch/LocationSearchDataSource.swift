@@ -264,12 +264,12 @@ public class LocationSearchDataSource<T: LocationAdvanceOptions, U: LocationSear
     // MARK: - Handle address
     
     private func performSearchOnLocation(withResult result: LookupResult) {
-        let searchable = Searchable(text: text,
+        let search = Searchable(text: text,
                                     options: nil,
                                     type: LocationSearchDataSourceSearchableType)
 
-        let preferredViewModel = searchStrategy.resultModelForSearchOnLocation(withResult: result)
-        updatingDelegate?.searchDataSource(self, didFinishWith: searchable, andResultViewModel: preferredViewModel)
+        let preferredViewModel = searchStrategy.resultModelForSearchOnLocation(withResult: result, andSearchable: search)
+        updatingDelegate?.searchDataSource(self, didFinishWith: search, andResultViewModel: preferredViewModel)
     }
     
     private func performSearchOnLocation(withParameters parameters: Parameterisable) {
@@ -279,7 +279,7 @@ public class LocationSearchDataSource<T: LocationAdvanceOptions, U: LocationSear
                                 options: advanceOptions.state(),
                                 type: LocationSearchDataSourceSearchableType)
 
-        let preferredViewModel = searchStrategy.resultModelForSearchOnLocation(withParameters: parameters)
+        let preferredViewModel = searchStrategy.resultModelForSearchOnLocation(withParameters: parameters, andSearchable: search)
         updatingDelegate?.searchDataSource(self, didFinishWith: search, andResultViewModel: preferredViewModel)
     }
     

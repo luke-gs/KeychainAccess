@@ -36,13 +36,15 @@ public protocol LocationSearchStrategy {
     /// The view model for selecting a look up result
     ///
     /// - Parameter result: The lookup result
+    ///             searchable: The searchable
     /// - Returns: The view model
-    func resultModelForSearchOnLocation(withResult result: LookupResult) -> SearchResultModelable?
+    func resultModelForSearchOnLocation(withResult result: LookupResult, andSearchable searchable: Searchable) -> SearchResultModelable?
 
     /// The map result view model for a set of parameters
     ///
     /// - Parameter parameters: The parameters from advanced search
+    ///             searchable: The searchable
     /// - Returns: The view model
-    func resultModelForSearchOnLocation(withParameters parameters: Parameterisable) -> SearchResultModelable?
+    func resultModelForSearchOnLocation(withParameters parameters: Parameterisable, andSearchable searchable: Searchable) -> SearchResultModelable?
 
 }

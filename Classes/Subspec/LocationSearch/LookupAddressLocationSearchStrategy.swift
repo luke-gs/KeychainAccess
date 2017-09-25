@@ -33,15 +33,15 @@ open class LookupAddressLocationSearchStrategy: LocationSearchStrategy {
         return MapSummarySearchResultViewModel()
     }
 
-    public var onResultModelForResult: ((LookupResult) -> SearchResultModelable)? = {
+    public var onResultModelForResult: ((LookupResult, Searchable) -> SearchResultModelable)? = {
         let preferredViewModel = MapSummarySearchResultViewModel()
-        preferredViewModel.fetchResults(withCoordinate: $0.location.coordinate)
+        preferredViewModel.fetchResults(withCoordinate: $0.0.location.coordinate)
         return preferredViewModel
     }
 
-    public var onResultModelForParameters: ((Parameterisable) -> SearchResultModelable)? = {
+    public var onResultModelForParameters: ((Parameterisable, Searchable) -> SearchResultModelable)? = {
         let preferredViewModel = MapSummarySearchResultViewModel()
-        preferredViewModel.fetchResults(withParameters: $0)
+        preferredViewModel.fetchResults(withParameters: $0.0)
         return preferredViewModel
     }
 
@@ -59,12 +59,12 @@ open class LookupAddressLocationSearchStrategy: LocationSearchStrategy {
         return onResultModelForMap?()
     }
 
-    open func resultModelForSearchOnLocation(withResult result: LookupResult) -> SearchResultModelable? {
-        return onResultModelForResult?(result)
+    open func resultModelForSearchOnLocation(withResult result: LookupResult, andSearchable searchable: Searchable) -> SearchResultModelable? {
+        return onResultModelForResult?(result, searchable)
     }
 
-    open func resultModelForSearchOnLocation(withParameters parameters: Parameterisable) -> SearchResultModelable? {
-        return onResultModelForParameters?(parameters)
+    open func resultModelForSearchOnLocation(withParameters parameters: Parameterisable, andSearchable searchable: Searchable) -> SearchResultModelable? {
+        return onResultModelForParameters?(parameters, searchable)
     }
 
 
