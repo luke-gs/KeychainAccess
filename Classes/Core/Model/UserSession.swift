@@ -59,7 +59,13 @@ public class UserSession: UserSessionable {
 
     public func endSession() {
         UserDefaults.standard.removeObject(forKey: latestSessionKey)
-        try? directoryManager.remove(at: paths.session)
+
+        user = nil
+        token = nil
+        recentlyViewed = []
+        recentlySearched = []
+
+        try! directoryManager.remove(at: paths.session)
     }
 
     public func restoreSession(completion: @escaping RestoreSessionCompletion) {

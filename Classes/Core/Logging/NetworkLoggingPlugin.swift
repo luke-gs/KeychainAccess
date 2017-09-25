@@ -153,25 +153,23 @@ open class NetworkLoggingPlugin: PluginType {
 
         // Body formatting
         if let data = data {
+
+            let toBePrinted: String?
+
             do {
                 // Serialise and de-seriablise into pretty printed strings if possible
                 // Otherwise just print out the string representation of the body
-                let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String: Any]
+                let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                let filteredJSONBlob = filteredJSON(json)
 
-
-                // Strip out keys that may be contained in the configurations excluded paths
-                var filteredJSON: [String: Any] = [:]
-                json.forEach {
-                    filteredJSON[$0.key] = !configurations.excludedPaths.contains($0.key) ?  $0.value : "Secure content"
-                }
-
-                let prettyPrinted = try JSONSerialization.data(withJSONObject: filteredJSON, options: printOptions)
-                components.append(("Body: ", String(data: prettyPrinted, encoding: .utf8) ?? "{ }"))
+                let toBePrintedData = try JSONSerialization.data(withJSONObject: filteredJSONBlob, options: printOptions)
+                toBePrinted = String(data: toBePrintedData, encoding: .utf8)
 
             } catch {
-                let value: String? = shouldLog(request) == true ? String(data: data, encoding: .utf8) : "Secure content"
-                components.append(("Body: ", value ?? "{ }"))
+                toBePrinted = shouldLog(request) == true ? String(data: data, encoding: .utf8) : "Secure content"
             }
+
+            components.append(("Body: ", toBePrinted ?? "Empty body"))
         }
 
         if let error = error {
@@ -196,6 +194,28 @@ open class NetworkLoggingPlugin: PluginType {
         }
 
         return true
+    }
+
+    // Recursively go to the json and take things out of it.
+    private func filteredJSON(_ json: Any) -> Any {
+
+        if let json = json as? [String: Any] {
+
+            var filteredJSON: [String: Any] = [:]
+            json.forEach {
+                filteredJSON[$0.key] = !configurations.excludedPaths.contains($0.key) ? $0.value : "Secure content"
+            }
+            return filteredJSON
+
+        } else if let json = json as? [[String: Any]] {
+            var filtered: [Any?] = []
+            json.forEach {
+                filtered.append(filteredJSON($0))
+            }
+            return filtered
+        }
+
+        return json
     }
 }
 
