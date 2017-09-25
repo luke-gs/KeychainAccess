@@ -159,7 +159,7 @@ open class NetworkLoggingPlugin: PluginType {
             do {
                 // Serialise and de-seriablise into pretty printed strings if possible
                 // Otherwise just print out the string representation of the body
-                let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                let json = try JSONSerialization.jsonObject(with: data, options: [])
                 let filteredJSONBlob = filteredJSON(json)
 
                 let toBePrintedData = try JSONSerialization.data(withJSONObject: filteredJSONBlob, options: printOptions)
