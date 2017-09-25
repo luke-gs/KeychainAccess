@@ -80,7 +80,7 @@ open class APIManager {
 
         let path = "{source}/entity/{entityType}/search"
         var parameters = request.parameters
-        parameters["source"] = source
+        parameters["source"] = source.serverSourceName
         parameters["entityType"] = SearchRequest.ResultClass.serverTypeRepresentation
 
         let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
@@ -101,7 +101,7 @@ open class APIManager {
         let path = "{source}/entity/{entityType}/{id}"
         
         var parameters = request.parameters
-        parameters["source"] = source
+        parameters["source"] = source.serverSourceName
         parameters["entityType"] = FetchRequest.ResultClass.serverTypeRepresentation
 
         let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
@@ -262,7 +262,7 @@ open class APIManager {
         return Promise { fulfill, reject in
             dataRequest.validate().responseArray(completionHandler: { (response: DataResponse<[T]>) in
                 allPlugins.forEach {
-                    $0.willSend(dataRequest)
+                    $0.didReceiveResponse(response)
                 }
                 switch response.result {
                 case .success(let result):

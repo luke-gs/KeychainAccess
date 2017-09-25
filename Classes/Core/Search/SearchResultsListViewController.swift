@@ -94,12 +94,12 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
         viewModel?.registerCells(for: collectionView)
 
         let searchFieldVerticalConstraint: NSLayoutConstraint
-        //        if #available(iOS 11, *) {
-        //            searchFieldVerticalConstraint = searchFieldButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
-        //        } else {
-        searchFieldVerticalConstraint = searchFieldButton.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor)
-        //        }
-        
+        if #available(iOS 11, *) {
+            searchFieldVerticalConstraint = searchFieldButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+        } else {
+            searchFieldVerticalConstraint = searchFieldButton.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor)
+        }
+
         NSLayoutConstraint.activate([
             searchFieldButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             searchFieldButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -110,13 +110,12 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
     }
 
     override func viewWillLayoutSubviews() {
-        // TODO: Uncomment for iOS 11
-        //        if #available(iOS 11, *) {
-        //            additionalSafeAreaInsets.top = searchFieldButton?.frame.height ?? 0.0
-        //        } else {
-        legacy_additionalSafeAreaInsets.top = searchFieldButton?.frame.height ?? 0.0
-        //        }
-        
+        if #available(iOS 11, *) {
+            additionalSafeAreaInsets.top = searchFieldButton?.frame.height ?? 0.0
+        } else {
+            legacy_additionalSafeAreaInsets.top = searchFieldButton?.frame.height ?? 0.0
+        }
+
         super.viewWillLayoutSubviews()
     }
 
