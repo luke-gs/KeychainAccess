@@ -22,6 +22,8 @@ public protocol PluginType {
     // Called after a response has been received, but before the completion callback is triggered.
     func didReceiveResponse(_ response: Alamofire.DataResponse<Data>)
 
+    func processResponse(_ response: Alamofire.DataResponse<Data>) -> Alamofire.DataResponse<Data>
+
 }
 
 // Default implementation for PluginType, plugin might necessary only care about particular event.
@@ -39,4 +41,7 @@ public extension PluginType {
 
     }
 
+    func processResponse(_ response: Alamofire.DataResponse<Data>) -> Alamofire.DataResponse<Data> {
+        return response
+    }
 }
