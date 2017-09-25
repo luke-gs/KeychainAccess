@@ -24,70 +24,6 @@ public enum EntityScreen: Presentable {
 
 }
 
-public class VehicleMatchMaker: MatchMaker {
-
-    struct MPolToFNCPersonMatch: FetchMatch {
-        var initialSource: EntitySource = MPOLSource.mpol
-        var resultSource: EntitySource = MPOLSource.fnc
-
-        func match(_ entity: MPOLKitEntity) -> Fetchable {
-            let entity = entity as! Vehicle
-
-            let request = VehicleFetchRequest(source: resultSource, request: EntityFetchRequest<Vehicle>(id: entity.engineNumber!))
-            return EntityDetailFetch<Vehicle>(request: request)
-        }
-    }
-
-    struct FNCToMPOLPersonMatch: FetchMatch {
-        var initialSource: EntitySource = MPOLSource.fnc
-        var resultSource: EntitySource = MPOLSource.mpol
-
-        func match(_ entity: MPOLKitEntity) -> Fetchable  {
-            let entity = entity as! Vehicle
-
-            let request = VehicleFetchRequest(source: resultSource, request: EntityFetchRequest<Vehicle>(id: entity.id))
-            return EntityDetailFetch<Vehicle>(request: request)
-        }
-
-    }
-
-    override public var matches: [FetchMatch]? {
-        return []
-    }
-}
-
-public class PersonMatchMaker: MatchMaker {
-
-    struct MPolToFNCPersonMatch: FetchMatch {
-        var initialSource: EntitySource = MPOLSource.mpol
-        var resultSource: EntitySource = MPOLSource.fnc
-
-        func match(_ entity: MPOLKitEntity) -> Fetchable {
-            let entity = entity as! Person
-
-            let request = PersonFetchRequest(source: resultSource, request: EntityFetchRequest<Person>(id: entity.givenName!))
-            return EntityDetailFetch<Person>(request: request)
-        }
-    }
-
-    struct FNCToMPOLPersonMatch: FetchMatch {
-        var initialSource: EntitySource = MPOLSource.fnc
-        var resultSource: EntitySource = MPOLSource.mpol
-
-        func match(_ entity: MPOLKitEntity) -> Fetchable  {
-            let entity = entity as! Person
-
-            let request = PersonFetchRequest(source: resultSource, request: EntityFetchRequest<Person>(id: entity.id))
-            return EntityDetailFetch<Person>(request: request)
-        }
-
-    }
-
-    override public var matches: [FetchMatch]? {
-        return []
-    }
-}
-
 public class EntityPresenter: Presenter {
 
     public init() {}
@@ -116,7 +52,6 @@ public class EntityPresenter: Presenter {
                 return EntityDetailSplitViewController<EntityDetailsDisplayable, VehicleSummaryDisplayable>(dataSources: dataSources,
                                                                                                             and: VehicleMatchMaker())
             }
-
 
         case .help(let type):
             let content: HelpContent

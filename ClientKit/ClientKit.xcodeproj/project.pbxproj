@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		12048FCB1F788EC20014748E /* MatchMakers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12048FCA1F788EC20014748E /* MatchMakers.swift */; };
+		12048FCD1F788ECA0014748E /* Matches.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12048FCC1F788ECA0014748E /* Matches.swift */; };
 		1A159F0D1F4B1C7500075330 /* PersonFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A159F0C1F4B1C7500075330 /* PersonFetchRequest.swift */; };
 		1A159F0F1F4B1CA700075330 /* VehicleFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A159F0E1F4B1CA700075330 /* VehicleFetchRequest.swift */; };
 		1A159F151F4B1DE200075330 /* VehicleDetailsSectionsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A159F141F4B1DE200075330 /* VehicleDetailsSectionsDataSource.swift */; };
@@ -124,6 +126,8 @@
 		07D0E87B096DFCBB1D40E248 /* Pods-ClientKitTests.gstest.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKitTests.gstest.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKitTests/Pods-ClientKitTests.gstest.xcconfig"; sourceTree = "<group>"; };
 		088B889D2CA61C95A4F4B16D /* Pods-ClientKitTests.external-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKitTests.external-debug.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKitTests/Pods-ClientKitTests.external-debug.xcconfig"; sourceTree = "<group>"; };
 		0B8DEDC31FFACED2C6E00DBA /* Pods-ClientKit.internal-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKit.internal-debug.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKit/Pods-ClientKit.internal-debug.xcconfig"; sourceTree = "<group>"; };
+		12048FCA1F788EC20014748E /* MatchMakers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchMakers.swift; sourceTree = "<group>"; };
+		12048FCC1F788ECA0014748E /* Matches.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matches.swift; sourceTree = "<group>"; };
 		1542E603389AAEE96EC1C25A /* Pods-ClientKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKitTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKitTests/Pods-ClientKitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		1A159F0C1F4B1C7500075330 /* PersonFetchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonFetchRequest.swift; sourceTree = "<group>"; };
 		1A159F0E1F4B1CA700075330 /* VehicleFetchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleFetchRequest.swift; sourceTree = "<group>"; };
@@ -261,6 +265,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		12048FC91F788EB70014748E /* Matches */ = {
+			isa = PBXGroup;
+			children = (
+				12048FCA1F788EC20014748E /* MatchMakers.swift */,
+				12048FCC1F788ECA0014748E /* Matches.swift */,
+			);
+			path = Matches;
+			sourceTree = "<group>";
+		};
 		1A2E8A7B1F397DE00062FEA5 /* Event Details */ = {
 			isa = PBXGroup;
 			children = (
@@ -547,6 +560,7 @@
 		EA8B66501F381B8700F09716 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				12048FC91F788EB70014748E /* Matches */,
 				EA8B665C1F382CEE00F09716 /* Parameters */,
 				EA8B66511F381B8D00F09716 /* Requests */,
 			);
@@ -841,6 +855,7 @@
 				DB0C94AA1F5F9C7E00DE1C29 /* Entity+EntityDetailDisplayable.swift in Sources */,
 				BCAEFE961F03150800C97F9C /* Contact.swift in Sources */,
 				BCAEFEAA1F03150800C97F9C /* RiskFactor.swift in Sources */,
+				12048FCD1F788ECA0014748E /* Matches.swift in Sources */,
 				BCAEFEA61F03150800C97F9C /* Person.swift in Sources */,
 				BCAEFE941F03150800C97F9C /* Alias.swift in Sources */,
 				BCAEFE931F03150800C97F9C /* Alert.swift in Sources */,
@@ -902,6 +917,7 @@
 				C63408531F30DA15000747B0 /* MPOLSource.swift in Sources */,
 				BCAEFE951F03150800C97F9C /* Caution.swift in Sources */,
 				1A2E8A781F3942FE0062FEA5 /* EntityAlertsViewModel.swift in Sources */,
+				12048FCB1F788EC20014748E /* MatchMakers.swift in Sources */,
 				BCAEFE9D1F03150800C97F9C /* FieldContact.swift in Sources */,
 				C681A3851F21AEA800F4AC13 /* LicenceParserDefinition.swift in Sources */,
 				BCAEFEA41F03150800C97F9C /* Member.swift in Sources */,
