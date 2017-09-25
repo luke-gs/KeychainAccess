@@ -81,7 +81,7 @@ open class NetworkLoggingPlugin: PluginType {
     ///
     /// - Parameter response: The response to be processed
     /// -----------------------------------------------------------------------------------------------
-    public func didReceiveResponse<T>(_ response: DataResponse<T>) {
+    public func didReceiveResponse(_ response: DataResponse<Data>) {
         let log = formattedOutput(
             request: response.request,
             headers: response.response?.allHeaderFields,
