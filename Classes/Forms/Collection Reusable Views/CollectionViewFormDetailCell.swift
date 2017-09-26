@@ -215,7 +215,7 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
                                                      y: (showingTitle ? titleFrame.maxY + CellTitleSubtitleSeparation.ceiled(toScale: displayScale) : titleFrame.minY)),
                                      size: subtitleSize)
         
-        detailLabel.frame = CGRect(origin: CGPoint(x: isRightToLeft ? contentRect.maxX - detailSize.width : contentRect.minX,
+        detailLabel.frame = CGRect(origin: CGPoint(x: isRightToLeft ? contentRect.maxX - imageInset - detailSize.width : contentRect.minX + imageInset,
                                                    y: contentYOrigin + titleContentHeight + (titleContentHeight >~ 0.0 ? titleDetailSeparation.rounded(toScale: displayScale) : 0.0)),
                                    size: detailSize)
     }
