@@ -1,5 +1,5 @@
 //
-//  SidebarTableViewCell.swift
+//  RegularSidebarTableViewCell.swift
 //  MPOLKit
 //
 //  Created by Rod Brown on 11/2/17.
@@ -9,13 +9,14 @@
 import UIKit
 
 
-/// A UITableViewCell subclass for displaying items in a sidebar.
-open class SidebarTableViewCell: UITableViewCell, DefaultReusable {
+/// Regular size-class version of table view cell displaying navigation items in a vertical sidebar
+open class RegularSidebarTableViewCell: UITableViewCell, DefaultReusable {
     
+    public static let selectedColor        = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+    public static let unselectedColor      = #colorLiteral(red: 0.5450980392, green: 0.568627451, blue: 0.6235294118, alpha: 1)
+    public static let badgeBackgroundColor = #colorLiteral(red: 0.1647058824, green: 0.1803921569, blue: 0.2117647059, alpha: 1)
+
     // MARK: - Private properties
-    
-    private static let unselectedColor      = #colorLiteral(red: 0.5450980392, green: 0.568627451, blue: 0.6235294118, alpha: 1)
-    private static let badgeBackgroundColor = #colorLiteral(red: 0.1647058824, green: 0.1803921569, blue: 0.2117647059, alpha: 1)
     
     private var standardFont: UIFont?
     private var highlightedFont: UIFont?
@@ -30,7 +31,7 @@ open class SidebarTableViewCell: UITableViewCell, DefaultReusable {
     private var badgeView: BadgeView?
     
     private var currentTextColor: UIColor {
-        let color: UIColor = isSelected || isHighlighted ? .white : SidebarTableViewCell.unselectedColor
+        let color: UIColor = isSelected || isHighlighted ? RegularSidebarTableViewCell.selectedColor : RegularSidebarTableViewCell.unselectedColor
         return isEnabled ? color : color.withAlphaComponent(0.2)
     }
     
@@ -39,7 +40,7 @@ open class SidebarTableViewCell: UITableViewCell, DefaultReusable {
         if isSelected || isHighlighted {
             color = imageHighlightedTintColor ?? imageTintColor ?? .white
         } else {
-            color = imageTintColor ?? SidebarTableViewCell.unselectedColor
+            color = imageTintColor ?? RegularSidebarTableViewCell.unselectedColor
         }
         
         return isEnabled ? color : color.withAlphaComponent(0.2)
@@ -98,7 +99,7 @@ open class SidebarTableViewCell: UITableViewCell, DefaultReusable {
                 badgeView = badge
             } else {
                 let badge = BadgeView(style: .pill)
-                badge.textColor = SidebarTableViewCell.unselectedColor
+                badge.textColor = RegularSidebarTableViewCell.unselectedColor
                 self.badgeView = badge
                 badgeView = badge
             }
@@ -197,7 +198,7 @@ open class SidebarTableViewCell: UITableViewCell, DefaultReusable {
     private func updateColors() {
         imageView?.tintColor = currentImageColor
         textLabel?.textColor = currentTextColor
-        badgeView?.backgroundColor = SidebarTableViewCell.badgeBackgroundColor
+        badgeView?.backgroundColor = RegularSidebarTableViewCell.badgeBackgroundColor
     }
     
 }

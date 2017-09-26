@@ -218,23 +218,17 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
         constraints += [
             tabBarContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tabBarContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            
+            tabBarContainerView.topAnchor.constraint(equalTo: safeAreaOrLayoutGuideBottomAnchor),
+
             tabBar.leadingAnchor.constraint(equalTo: tabBarBackground.leadingAnchor),
             tabBar.centerYAnchor.constraint(equalTo: tabBarBackground.centerYAnchor),
             tabBar.topAnchor.constraint(equalTo: tabBarBackground.topAnchor),
-            
+
             tabBarBackground.leadingAnchor.constraint(equalTo: tabBarContainerView.leadingAnchor),
             tabBarBackground.trailingAnchor.constraint(equalTo: tabBarContainerView.trailingAnchor),
             tabBarBackground.bottomAnchor.constraint(equalTo: tabBarContainerView.bottomAnchor),
             tabBarBackground.topAnchor.constraint(equalTo: tabBarContainerView.topAnchor)
         ]
-        
-        // TODO: Uncomment for iOS 11
-//        if #available(iOS 11, *) {
-//            constraints.append(tabBarContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor))
-//        } else {
-            constraints.append(tabBarContainerView.bottomAnchor.constraint(equalTo: bottomLayoutGuide.topAnchor))
-//        }
         
         NSLayoutConstraint.activate(constraints)
         
@@ -242,10 +236,9 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
     }
     
     open override func viewDidLayoutSubviews() {
-        // TODO: Uncomment for iOS 11
-//        if #available(iOS 11, *) {
-//            additionalSafeAreaInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: tabBar.frame.height, right: 0.0)
-//        }
+        if #available(iOS 11, *) {
+            additionalSafeAreaInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: tabBar.frame.height, right: 0.0)
+        }
         super.viewDidLayoutSubviews()
     }
     

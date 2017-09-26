@@ -1,6 +1,6 @@
 //
-//  SidebarViewController.swift
-//  Test
+//  RegularSidebarViewController.swift
+//  MPOLKit
 //
 //  Created by Rod Brown on 11/2/17.
 //  Copyright © 2017 Gridstone. All rights reserved.
@@ -19,7 +19,9 @@ fileprivate let sidebarKeys = [#keyPath(SidebarItem.isEnabled),
                                #keyPath(SidebarItem.selectedColor)]
 
 
-open class SidebarViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SourceBarDelegate {
+/// Regular size-class version of sidebar used for displaying navigation items in a split view controller
+/// Items displayed in a vertical table
+open class RegularSidebarViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SourceBarDelegate {
     
     // MARK: - Public properties
     
@@ -82,7 +84,15 @@ open class SidebarViewController: UIViewController, UITableViewDataSource, UITab
         }
     }
     
-    
+    /// Whether source bar should be hidden
+    public var hideSourceBar: Bool = false {
+        didSet {
+            // Make table view full width and hide source bar
+            tableViewFullWidth?.isActive = hideSourceBar
+            sourceBar?.isHidden = hideSourceBar
+        }
+    }
+
     /// The table view for sidebar items.
     /// 
     /// This table view fills the sidebar, trailing the source bar if it appears.
@@ -114,7 +124,7 @@ open class SidebarViewController: UIViewController, UITableViewDataSource, UITab
     
     
     /// The delegate for the sidebar.
-    open weak var delegate: SidebarViewControllerDelegate? = nil
+    open weak var delegate: SidebarDelegate? = nil
     
     
     // MARK: - Private properties
@@ -124,7 +134,9 @@ open class SidebarViewController: UIViewController, UITableViewDataSource, UITab
     private var sourceInsetManager: ScrollViewInsetManager?
     
     private var sidebarInsetManager: ScrollViewInsetManager?
-    
+
+    /// Constraint for making table full width, hiding source bar
+    private var tableViewFullWidth: NSLayoutConstraint?
     
     // MARK: - Initializer
     
@@ -165,7 +177,7 @@ open class SidebarViewController: UIViewController, UITableViewDataSource, UITab
         sidebarTableView.estimatedRowHeight = 50.0
         sidebarTableView.indicatorStyle     = .white
         sidebarTableView.tableHeaderView    = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 320.0, height: 10.0))
-        sidebarTableView.register(SidebarTableViewCell.self)
+        sidebarTableView.register(RegularSidebarTableViewCell.self)
         sidebarTableView.sectionHeaderHeight = UITableViewAutomaticDimension
         sidebarTableView.estimatedSectionHeaderHeight = headerView == nil ? 0.0 : 30.0
         view.addSubview(sidebarTableView)
@@ -181,10 +193,14 @@ open class SidebarViewController: UIViewController, UITableViewDataSource, UITab
             
             NSLayoutConstraint(item: sidebarTableView, attribute: .top,      relatedBy: .equal, toItem: view,       attribute: .top),
             NSLayoutConstraint(item: sidebarTableView, attribute: .bottom,   relatedBy: .equal, toItem: view,       attribute: .bottom),
-            NSLayoutConstraint(item: sidebarTableView, attribute: .leading,  relatedBy: .equal, toItem: sourceBar, attribute: .trailing),
+            NSLayoutConstraint(item: sidebarTableView, attribute: .leading,  relatedBy: .equal, toItem: sourceBar, attribute: .trailing).withPriority(UILayoutPriorityRequired - 1),
             NSLayoutConstraint(item: sidebarTableView, attribute: .trailing, relatedBy: .equal, toItem: view,       attribute: .trailing)
         ])
         
+        // Override constraint for hiding source bar
+        tableViewFullWidth = sidebarTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
+        tableViewFullWidth?.isActive = hideSourceBar
+
         sourceInsetManager  = ScrollViewInsetManager(scrollView: sourceBar)
         sidebarInsetManager = ScrollViewInsetManager(scrollView: sidebarTableView)
         
@@ -237,7 +253,7 @@ open class SidebarViewController: UIViewController, UITableViewDataSource, UITab
     }
     
     open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(of: SidebarTableViewCell.self, for: indexPath)
+        let cell = tableView.dequeueReusableCell(of: RegularSidebarTableViewCell.self, for: indexPath)
         cell.update(for: items[indexPath.row])
         return cell
     }
@@ -284,7 +300,7 @@ open class SidebarViewController: UIViewController, UITableViewDataSource, UITab
                 selectedItem = nil
             }
             
-            if let sidebarCell = sidebarTableView?.cellForRow(at: IndexPath(row: itemIndex, section: 0)) as? SidebarTableViewCell {
+            if let sidebarCell = sidebarTableView?.cellForRow(at: IndexPath(row: itemIndex, section: 0)) as? RegularSidebarTableViewCell {
                 sidebarCell.update(for: item)
             }
         } else {
@@ -313,30 +329,5 @@ open class SidebarViewController: UIViewController, UITableViewDataSource, UITab
             tableView.deselectRow(at: selectedIndexPath, animated: false)
         }
     }
-    
-}
-
-
-// MARK: -
-// MARK: - SidebarViewControllerDelegate
-
-
-/// The SidebarViewController's delegate protocol
-///
-/// Implement this protocol when you want to observe selection actions within
-/// a sidebar.
-public protocol SidebarViewControllerDelegate : class {
-    
-    /// Indicates the sidebar has selected a new SidebarItem.
-    ///
-    /// - Parameters:
-    ///   - controller: The `SidebarViewController` that has a new selection.
-    ///   - item:       The newly selected item.
-    func sidebarViewController(_ controller: SidebarViewController, didSelectItem item: SidebarItem)
-    
-    
-    func sidebarViewController(_ controller: SidebarViewController, didSelectSourceAt index: Int)
-    
-    func sidebarViewController(_ controller: SidebarViewController, didRequestToLoadSourceAt index: Int)
     
 }

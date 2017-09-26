@@ -11,9 +11,25 @@ import Alamofire
 
 public struct NetworkLoggerConfiguration {
     var showMetrics: Bool
+    var excludedHeaders: Set<String>
+    var excludedPaths: Set<String>
 
-    public init(showMetrics: Bool = true) {
+    /// -----------------------------------------------------------------------------------------------
+    /// Initialise a file logging configuration
+    /// If the paths or keys are found, the values represented are replaced with a simple string
+    /// "Secure content" - Allowing the request/response to still be useful in debuggging/logging
+    ///
+    /// - Parameters:
+    ///   - showMetrics: Whether the logs should display the metrics of the request/response
+    ///   - excludedHeaders: A set containing keys to be removed from the headers
+    ///   - excludedPaths: The keys to match the urlRequests path components. Will be removed if found
+    /// -----------------------------------------------------------------------------------------------
+    public init(showMetrics: Bool = true,
+                excludedHeaders: Set<String> = ["authorization"],
+                excludedPaths: Set<String> = ["login", "access_token", "refresh_token"]) {
         self.showMetrics = showMetrics
+        self.excludedHeaders = excludedHeaders
+        self.excludedPaths = excludedPaths
     }
 }
 /// -----------------------------------------------------------------------------------------------
@@ -52,6 +68,7 @@ open class NetworkLoggingPlugin: PluginType {
             headers: request.request?.allHTTPHeaderFields,
             data: request.request?.httpBody,
             result: (request.response?.statusCode, ""))
+
         logger.log(text: log)
 
         if let urlRequest = request.request {
@@ -64,7 +81,7 @@ open class NetworkLoggingPlugin: PluginType {
     ///
     /// - Parameter response: The response to be processed
     /// -----------------------------------------------------------------------------------------------
-    public func didReceiveResponse<T>(_ response: DataResponse<T>) {
+    public func didReceiveResponse(_ response: DataResponse<Data>) {
         let log = formattedOutput(
             request: response.request,
             headers: response.response?.allHeaderFields,
@@ -119,7 +136,14 @@ open class NetworkLoggingPlugin: PluginType {
         }
         
         components.append(("Method: ", request?.httpMethod ?? "{ }"))
-        components.append(("Headers: ", headers?.prettyPrinted() ?? "{ }"))
+
+        // Filter out any excluded header keys present in the configurations
+        var filteredHeaders: [AnyHashable: Any] = [:]
+        headers?.forEach {
+            filteredHeaders[$0.key] = !configurations.excludedHeaders.contains("\($0.key)") ? $0.value : "Secure content"
+        }
+
+        components.append(("Headers: ", filteredHeaders.prettyPrinted() ))
         components.append(("Request: ", request?.description ?? "{ }"))
 
         // Metrics may be nil or the configurations passed in may not require metrics
@@ -129,17 +153,23 @@ open class NetworkLoggingPlugin: PluginType {
 
         // Body formatting
         if let data = data {
-            do {
 
+            let toBePrinted: String?
+
+            do {
                 // Serialise and de-seriablise into pretty printed strings if possible
                 // Otherwise just print out the string representation of the body
-                let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
-                let prettyPrinted = try JSONSerialization.data(withJSONObject: json, options: printOptions)
-                components.append(("Body: ", String(data: prettyPrinted, encoding: .utf8) ?? "{ }"))
+                let json = try JSONSerialization.jsonObject(with: data, options: [])
+                let filteredJSONBlob = filteredJSON(json)
+
+                let toBePrintedData = try JSONSerialization.data(withJSONObject: filteredJSONBlob, options: printOptions)
+                toBePrinted = String(data: toBePrintedData, encoding: .utf8)
 
             } catch {
-                components.append(("Body: ", String(data: data, encoding: .utf8) ?? "{ }"))
+                toBePrinted = shouldLog(request) == true ? String(data: data, encoding: .utf8) : "Secure content"
             }
+
+            components.append(("Body: ", toBePrinted ?? "Empty body"))
         }
 
         if let error = error {
@@ -154,6 +184,38 @@ open class NetworkLoggingPlugin: PluginType {
 
         let divider = "-----------------------------------------------------------------------------------\n"
         return divider + result + divider
+    }
+
+    private func shouldLog(_ request: URLRequest?) -> Bool {
+        for path in configurations.excludedPaths {
+            if request?.url?.pathComponents.contains( where: { $0.localizedCaseInsensitiveCompare(path) == .orderedSame  } ) == true {
+                return false
+            }
+        }
+
+        return true
+    }
+
+    // Recursively go to the json and take things out of it.
+    private func filteredJSON(_ json: Any) -> Any {
+
+        if let json = json as? [String: Any] {
+
+            var filteredJSON: [String: Any] = [:]
+            json.forEach {
+                filteredJSON[$0.key] = !configurations.excludedPaths.contains($0.key) ? $0.value : "Secure content"
+            }
+            return filteredJSON
+
+        } else if let json = json as? [[String: Any]] {
+            var filtered: [Any?] = []
+            json.forEach {
+                filtered.append(filteredJSON($0))
+            }
+            return filtered
+        }
+
+        return json
     }
 }
 
@@ -175,7 +237,6 @@ private extension Collection {
         }
     }
 }
-
 
 // MARK: - Formatting a date interval and its internal parameters
 private extension DateInterval {

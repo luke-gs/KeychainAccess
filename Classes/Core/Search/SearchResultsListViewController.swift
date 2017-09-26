@@ -93,30 +93,25 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
         
         viewModel?.registerCells(for: collectionView)
 
-        let searchFieldVerticalConstraint: NSLayoutConstraint
-        //        if #available(iOS 11, *) {
-        //            searchFieldVerticalConstraint = searchFieldButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
-        //        } else {
-        searchFieldVerticalConstraint = searchFieldButton.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor)
-        //        }
-        
         NSLayoutConstraint.activate([
             searchFieldButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             searchFieldButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            searchFieldVerticalConstraint,
+
+            // Due to use of additional safe area insets, we cannot position the top of the
+            // searchFieldButton within the safe area in iOS 11, it needs to go above
+            constraintAboveSafeAreaOrBelowTopLayout(searchFieldButton)
         ])
 
         updateSearchText()
     }
 
     override func viewWillLayoutSubviews() {
-        // TODO: Uncomment for iOS 11
-        //        if #available(iOS 11, *) {
-        //            additionalSafeAreaInsets.top = searchFieldButton?.frame.height ?? 0.0
-        //        } else {
-        legacy_additionalSafeAreaInsets.top = searchFieldButton?.frame.height ?? 0.0
-        //        }
-        
+        if #available(iOS 11, *) {
+            additionalSafeAreaInsets.top = searchFieldButton?.frame.height ?? 0.0
+        } else {
+            legacy_additionalSafeAreaInsets.top = searchFieldButton?.frame.height ?? 0.0
+        }
+
         super.viewWillLayoutSubviews()
     }
 
@@ -185,13 +180,13 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
             header.showsExpandArrow = true
             header.isExpanded = sectionResult.isExpanded
             
-            header.tapHandler = { [weak self] (headerView, indexPath) in
+            header.tapHandler = { [weak self] headerView, indexPath in
                 guard let `self` = self else { return }
                 
                 let shouldBeExpanded = headerView.isExpanded == false
                 
                 self.viewModel!.results[indexPath.section].isExpanded = shouldBeExpanded
-                self.collectionView?.reloadData()
+                self.collectionView?.reloadSections(IndexSet(integer: indexPath.section))
             }
             
             return header
@@ -245,7 +240,7 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-    
+
         // Note: If this ever crashes, Bryan and Luke get to slap James.
         let entity = viewModel!.results[indexPath.section].entities[indexPath.item]
         delegate?.searchResultsController(self, didSelectEntity: entity)
@@ -296,7 +291,7 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
     // MARK: - SearchResultRendererDelegate
     
     func searchResultViewModelDidUpdateResults(_ viewModel: SearchResultViewModelable) {
-//        searchField.resultCountLabel.text = viewModel.status
+        //        searchField.resultCountLabel.text = viewModel.status
 
         updateSearchText()
         collectionView?.reloadData()
@@ -328,6 +323,19 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
 
         searchFieldButton?.accessoryView = label
     }
+}
+
+/// A delegate to notify that an entity was selected
+public protocol EntityDetailsDelegate: class {
+
+    /// Notify the delegate that an entity was selected
+    ///
+    /// - Parameters:
+    ///   - controller: the controller that the entity was selected on
+    ///   - entity: the entity that was selected
+    func controller(_ controller: UIViewController, didSelectEntity entity: MPOLKitEntity)
+
+    func controller(_ controller: UIViewController, searchFor searchable: Searchable)
 }
 
 protocol SearchResultsDelegate: class {

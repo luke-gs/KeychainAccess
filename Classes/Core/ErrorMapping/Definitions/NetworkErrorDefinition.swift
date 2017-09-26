@@ -14,8 +14,8 @@ open class NetworkErrorDefinition: ErrorMappable {
     typealias SupportedTypeError = APIManagerError
 
     static public let defaultHTTPStatusCodesMap = [
-        
-        400 : (title: "Bad credentials", message:"The username and password entered are not valid. Please check your details and enter again."),
+        400 : (title: "Bad credentials", message: "The username and password entered are not valid. Please check your details and enter again."),
+        401 : (title: "Unauthorised", message: "The credential has expired. Please try to login again."),
         404 : (title: "The thing you try to get to doesn’t exist", message: "This link is not currently working. Please try again or contact your Help Desk for support."),
         504 : (title: "Network timed out", message: "This request has timed out. Please confirm you have a network connection and try again."),
         500 : (title: "Unknown Error", message: "The server has experienced an error. Please try again or contact your Help Desk for support."),
@@ -42,7 +42,7 @@ open class NetworkErrorDefinition: ErrorMappable {
     open func mappedError(from error: Error) -> MappedError? {
         if let error = error as? SupportedTypeError {
             if let statusCode = error.response.response?.statusCode,
-               let map = httpStatusCodesMap[statusCode] {
+                let map = httpStatusCodesMap[statusCode] {
                 return MappedError(errorDescription: map.message, failureReason:map.title, underlyingError: error)
             } else if let systemError = error.response.error as NSError?,
                 let map = systemErrorCodesMap[systemError.code] {
@@ -51,7 +51,7 @@ open class NetworkErrorDefinition: ErrorMappable {
         }
         return nil
     }
-        
+
     open static var supportedType: Error.Type {
         return SupportedTypeError.self
     }
