@@ -42,19 +42,23 @@ public class EntityPresenter: Presenter {
                     PersonFNCDetailsSectionsDataSource(baseEntity: entity, delegate: delegate)
                 ]
 
-                return EntityDetailSplitViewController<EntityDetailsDisplayable, PersonSummaryDisplayable>(
-                    initialSource: entity.source!,
-                    dataSources: dataSources,
-                    withMatchMaker: PersonMatchMaker())
+                let viewModel = EntityDetailSectionsViewModel(initialSource: entity.source!,
+                                                              dataSources: dataSources,
+                                                              andMatchMaker: PersonMatchMaker())
+
+                return EntityDetailSplitViewController<EntityDetailsDisplayable, PersonSummaryDisplayable>(viewModel: viewModel)
+
             } else {
                 dataSources = [
                     VehicleMPOLDetailsSectionsDataSource(baseEntity: entity, delegate: delegate),
                     VehicleFNCDetailsSectionsDataSource(baseEntity: entity, delegate: delegate)
                 ]
-                return EntityDetailSplitViewController<EntityDetailsDisplayable, VehicleSummaryDisplayable>(
-                    initialSource: entity.source!,
-                    dataSources: dataSources,
-                    withMatchMaker: VehicleMatchMaker())
+
+                let viewModel = EntityDetailSectionsViewModel(initialSource: entity.source!,
+                                                              dataSources: dataSources,
+                                                              andMatchMaker: VehicleMatchMaker())
+
+                return EntityDetailSplitViewController<EntityDetailsDisplayable, VehicleSummaryDisplayable>(viewModel: viewModel)
             }
 
         case .help(let type):

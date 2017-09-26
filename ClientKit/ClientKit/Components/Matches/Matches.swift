@@ -60,5 +60,4 @@ struct FNCToMPOLPersonMatch: FetchMatch {
         let request = PersonFetchRequest(source: resultSource, request: EntityFetchRequest<Person>(id: "554ca38e-ab00-4c5c-8e58-1c87ef09b958"))
         return EntityDetailFetch<Person>(request: request)
     }
-
 }
