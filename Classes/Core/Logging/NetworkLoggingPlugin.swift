@@ -81,7 +81,7 @@ open class NetworkLoggingPlugin: PluginType {
     ///
     /// - Parameter response: The response to be processed
     /// -----------------------------------------------------------------------------------------------
-    public func didReceiveResponse<T>(_ response: DataResponse<T>) {
+    public func didReceiveResponse(_ response: DataResponse<Data>) {
         let log = formattedOutput(
             request: response.request,
             headers: response.response?.allHeaderFields,
@@ -159,7 +159,7 @@ open class NetworkLoggingPlugin: PluginType {
             do {
                 // Serialise and de-seriablise into pretty printed strings if possible
                 // Otherwise just print out the string representation of the body
-                let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                let json = try JSONSerialization.jsonObject(with: data, options: [])
                 let filteredJSONBlob = filteredJSON(json)
 
                 let toBePrintedData = try JSONSerialization.data(withJSONObject: filteredJSONBlob, options: printOptions)
