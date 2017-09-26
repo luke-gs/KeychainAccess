@@ -218,7 +218,7 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
         constraints += [
             tabBarContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tabBarContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tabBarContainerView.topAnchor.constraint(equalTo: safeAreaOrLayoutGuideBottomAnchor),
+            constraintBelowSafeAreaOrAboveBottomLayout(tabBarContainerView),
 
             tabBar.leadingAnchor.constraint(equalTo: tabBarBackground.leadingAnchor),
             tabBar.centerYAnchor.constraint(equalTo: tabBarBackground.centerYAnchor),
