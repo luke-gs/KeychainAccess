@@ -40,6 +40,8 @@ public final class Manifest: NSObject {
     private let managedObjectModel:         NSManagedObjectModel
     private let persistentStoreCoordinator: NSPersistentStoreCoordinator
     
+    public private(set) var isUpdating:Bool = false
+    
     /// The view context for the manifest. This should only be accessed from the main thread.
     public let viewContext: NSManagedObjectContext
     
@@ -175,69 +177,74 @@ public final class Manifest: NSObject {
     }
     
     public func saveManifest(with manifestItems:[[String : Any]], at checkedAtDate:Date, completion: ((Error?) -> Void)?) {
-        do {
-            let managedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-            managedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator
-            managedObjectContext.perform { [weak managedObjectContext] in
-                guard manifestItems.isEmpty ==  false, let context = managedObjectContext else { return }
-                
-                for entryDict in manifestItems {
-                    guard let id = entryDict["id"] as? String else { continue }
+        if isUpdating == false {
+            do {
+                self.isUpdating = true
+                let managedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+                managedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator
+                managedObjectContext.perform { [weak managedObjectContext] in
+                    guard manifestItems.isEmpty ==  false, let context = managedObjectContext else { return }
                     
-                    autoreleasepool {
-                        let entry: ManifestEntry
+                    for entryDict in manifestItems {
+                        guard let id = entryDict["id"] as? String else { continue }
                         
-                        if let foundEntry = (try? context.fetch(self.fetchRequest(forEntryWithID: id)))?.first {
-                            entry = foundEntry
-                        } else {
-                            entry = ManifestEntry(context: context)
-                            entry.id = id
-                        }
-                        
-                        entry.active        = entryDict["active"]     as? Bool ?? false
-                        entry.collection    = entryDict["category"]   as? String
-                        entry.title         = entryDict["title"]      as? String
-                        entry.subtitle      = entryDict["subtitle"]   as? String
-                        entry.shortTitle    = entryDict["shortTitle"] as? String
-                        entry.rawValue      = entryDict["value"]      as? String
-                        entry.sortOrder     = entryDict["sortOrder"]  as? Double ?? 0
-                        
-                        if let effectiveTI = entryDict["effectiveDate"] as? TimeInterval {
-                            entry.effectiveDate = NSDate(timeIntervalSince1970: effectiveTI)
-                        }
-                        if let expiryTI = entryDict["expiryDate"] as? TimeInterval {
-                            entry.expiryDate = NSDate(timeIntervalSince1970: expiryTI)
-                        }
-                        if let lastUpdateTI = entryDict["dateLastUpdated"] as? TimeInterval {
-                            entry.lastUpdated = NSDate(timeIntervalSince1970: lastUpdateTI)
-                        }
-                        
-                        if var additionalData = entryDict["additionalData"] as? [String: Any] {
+                        autoreleasepool {
+                            let entry: ManifestEntry
                             
-                            if let latitude = additionalData["latitude"] as? NSNumber {
-                                entry.latitude = latitude
-                                additionalData.removeValue(forKey: "latitude")
-                            }
-                            if let longitude = additionalData["longitude"] as? NSNumber {
-                                entry.longitude = longitude
-                                additionalData.removeValue(forKey: "longitude")
+                            if let foundEntry = (try? context.fetch(self.fetchRequest(forEntryWithID: id)))?.first {
+                                entry = foundEntry
+                            } else {
+                                entry = ManifestEntry(context: context)
+                                entry.id = id
                             }
                             
-                            entry.additionalDetails = additionalData
+                            entry.active        = entryDict["active"]     as? Bool ?? false
+                            entry.collection    = entryDict["category"]   as? String
+                            entry.title         = entryDict["title"]      as? String
+                            entry.subtitle      = entryDict["subtitle"]   as? String
+                            entry.shortTitle    = entryDict["shortTitle"] as? String
+                            entry.rawValue      = entryDict["value"]      as? String
+                            entry.sortOrder     = entryDict["sortOrder"]  as? Double ?? 0
+                            
+                            if let effectiveTI = entryDict["effectiveDate"] as? TimeInterval {
+                                entry.effectiveDate = NSDate(timeIntervalSince1970: effectiveTI)
+                            }
+                            if let expiryTI = entryDict["expiryDate"] as? TimeInterval {
+                                entry.expiryDate = NSDate(timeIntervalSince1970: expiryTI)
+                            }
+                            if let lastUpdateTI = entryDict["dateLastUpdated"] as? TimeInterval {
+                                entry.lastUpdated = NSDate(timeIntervalSince1970: lastUpdateTI)
+                            }
+                            
+                            if var additionalData = entryDict["additionalData"] as? [String: Any] {
+                                
+                                if let latitude = additionalData["latitude"] as? NSNumber {
+                                    entry.latitude = latitude
+                                    additionalData.removeValue(forKey: "latitude")
+                                }
+                                if let longitude = additionalData["longitude"] as? NSNumber {
+                                    entry.longitude = longitude
+                                    additionalData.removeValue(forKey: "longitude")
+                                }
+                                
+                                entry.additionalDetails = additionalData
+                            }
                         }
                     }
-                }
-                
-                do {
-                    try context.save()
                     
-                    DispatchQueue.main.async {
-                        self.lastUpdateDate = checkedAtDate
-                        completion?(nil)
-                    }
-                } catch let error {
-                    DispatchQueue.main.async {
-                        completion?(error)
+                    do {
+                        try context.save()
+                        
+                        DispatchQueue.main.async {
+                            self.isUpdating = false
+                            self.lastUpdateDate = checkedAtDate
+                            completion?(nil)
+                        }
+                    } catch let error {
+                        self.isUpdating = false
+                        DispatchQueue.main.async {
+                            completion?(error)
+                        }
                     }
                 }
             }
@@ -250,24 +257,30 @@ public final class Manifest: NSObject {
     ///
     /// - Parameter completion: returns an error if any
     public func update(completion: ((Error?) -> Void)?) {
-        let checkedAtDate = Date()
-        
-        /// Remove 60 seconds from any last date to ensure we get an overlap.
-        /// It's better to catch more items and update them again than to miss any.
-        APIManager.shared.fetchManifest(for: lastUpdateDate?.addingTimeInterval(-60.0)).then { [weak self] result -> Void in
-            guard let `self` = self else { return }
-            guard result.isEmpty == false else {
-                DispatchQueue.main.async {
-                    self.lastUpdateDate = checkedAtDate
-                    completion?(nil)
-                }
-                return
-            }
-        
-            self.saveManifest(with: result, at:checkedAtDate, completion: completion)
+        if isUpdating == false {
+            let checkedAtDate = Date()
+            isUpdating = true
             
-            }.catch { error in
-                completion?(error)
+            /// Remove 60 seconds from any last date to ensure we get an overlap.
+            /// It's better to catch more items and update them again than to miss any.
+            APIManager.shared.fetchManifest(for: lastUpdateDate?.addingTimeInterval(-60.0)).then { [weak self] result -> Void in
+                guard let `self` = self else { return }
+                guard result.isEmpty == false else {
+                    DispatchQueue.main.async {
+                        self.isUpdating = false
+                        self.lastUpdateDate = checkedAtDate
+                        completion?(nil)
+                    }
+                    return
+                }
+                
+                self.isUpdating = false
+                self.saveManifest(with: result, at:checkedAtDate, completion: completion)
+                
+                }.catch { error in
+                    self.isUpdating = false
+                    completion?(error)
+            }
         }
     }
     
