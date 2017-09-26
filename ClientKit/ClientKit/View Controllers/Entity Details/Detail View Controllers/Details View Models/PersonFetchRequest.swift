@@ -11,11 +11,7 @@ import PromiseKit
 import MPOLKit
 
 public class PersonFetchRequest: EntityDetailFetchRequest<Person> {
-
-//    public override init(source: EntitySource, request: EntityFetchRequest<Person>) {
-//        super.init(source: source, request: request)
-//    }
-
+    
     public override func fetchPromise() -> Promise<Person> {
         return APIManager.shared.fetchEntityDetails(in: source, with: request)
     }
