@@ -39,4 +39,15 @@ extension UIViewController {
             return viewToPosition.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor)
         }
     }
+
+    /// Convenience method for positioning a UI control below the safe area if additional safe area insets are used
+    /// that take into account the control. Eg. StatusTabBarController
+    func constraintBelowSafeAreaOrAboveBottomLayout(_ viewToPosition: UIView) -> NSLayoutConstraint {
+        if #available(iOS 11, *) {
+            return viewToPosition.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        } else {
+            return viewToPosition.bottomAnchor.constraint(equalTo: bottomLayoutGuide.topAnchor)
+        }
+    }
+
 }
