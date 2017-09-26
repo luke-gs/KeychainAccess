@@ -93,18 +93,14 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
         
         viewModel?.registerCells(for: collectionView)
 
-        let searchFieldVerticalConstraint: NSLayoutConstraint
-        if #available(iOS 11, *) {
-            searchFieldVerticalConstraint = searchFieldButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
-        } else {
-            searchFieldVerticalConstraint = searchFieldButton.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor)
-        }
-
         NSLayoutConstraint.activate([
             searchFieldButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             searchFieldButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            searchFieldVerticalConstraint,
-            ])
+
+            // Due to use of additional safe area insets, we cannot position the top of the
+            // searchFieldButton within the safe area in iOS 11, it needs to go above
+            constraintAboveSafeAreaOrBelowTopLayout(searchFieldButton)
+        ])
 
         updateSearchText()
     }

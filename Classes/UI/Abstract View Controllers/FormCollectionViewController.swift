@@ -224,17 +224,13 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
         loadingManager.contentView = collectionView
 
         // Layout collection view, using safe area layout guide on iOS 11
-        if #available(iOS 11, *) {
-            collectionView.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-                collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-                collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-                collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).withPriority(UILayoutPriorityRequired-1),
-                ])
-        } else {
-            collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        }
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor).withPriority(UILayoutPriorityRequired-1),
+        ])
     }
     
     open override func viewDidLoad() {
