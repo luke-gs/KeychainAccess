@@ -112,8 +112,7 @@ internal class SourceBarCell: UIControl {
         } else {
             titleLabel.text = item.title
         }
-        
-        isEnabled = item.state != .notAvailable
+
         switch item.state {
         case .notLoaded:
             isEnabled = true
@@ -132,7 +131,7 @@ internal class SourceBarCell: UIControl {
             accessibilityTraits &= ~UIAccessibilityTraitNotEnabled
             accessibilityValue = "Not yet loaded."
         case .notAvailable:
-            isEnabled = false
+            isEnabled = true
             
             let imageView = self.imageView()
             imageView.isHidden = false
@@ -154,7 +153,7 @@ internal class SourceBarCell: UIControl {
             loadingIndicator.tintColor = .white
             highlightedTintColor = .white
             normalTintColor = .lightGray
-            
+
             _imageView?.isHidden = true
             _iconView?.isHidden  = true
             
@@ -189,9 +188,7 @@ internal class SourceBarCell: UIControl {
                 accessibilityValue = nil
             }
         }
-        
-        isAvailable = item.state != .notAvailable
-        
+
         updateSelection()
     }
     

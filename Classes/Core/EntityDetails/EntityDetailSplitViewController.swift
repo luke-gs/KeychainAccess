@@ -224,13 +224,13 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
 
 extension EntityDetailSplitViewController: EntityDetailSectionsDelegate {
 
-    public func EntityDetailSectionsDidUpdateResults(_ EntityDetailSectionsViewModel: EntityDetailSectionsViewModel) {
+    public func entityDetailSectionsDidUpdateResults(_ EntityDetailSectionsViewModel: EntityDetailSectionsViewModel) {
         updateRepresentations()
         updateSourceItems()
         updateHeaderView()
     }
 
-    public func EntityDetailSectionDidSelectRetryDownload(_ EntityDetailSectionsViewModel: EntityDetailSectionsViewModel) {
+    public func entityDetailSectionDidSelectRetryDownload(_ EntityDetailSectionsViewModel: EntityDetailSectionsViewModel) {
         updateRepresentations()
         updateSourceItems()
         updateHeaderView()
