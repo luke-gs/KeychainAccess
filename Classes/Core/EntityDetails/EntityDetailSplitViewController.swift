@@ -34,9 +34,9 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
         }
     }
 
-    public init(initialSource: EntitySource, dataSources: [EntityDetailSectionsDataSource], withMatchMaker matchMaker: MatchMaker) {
+    public init(viewModel: EntityDetailSectionsViewModel) {
 
-        detailViewModel = EntityDetailSectionsViewModel(initialSource: initialSource, dataSources: dataSources, andMatchMaker: matchMaker)
+        detailViewModel = viewModel
 
         let detailVCs = detailViewModel.detailSectionsViewControllers as? [UIViewController]
 
