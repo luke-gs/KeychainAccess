@@ -29,8 +29,7 @@ public class VehicleMPOLDetailsSectionsDataSource: EntityDetailSectionsDataSourc
         self.detailViewControllers =  [ VehicleInfoViewController(),
                                         EntityAlertsViewController(),
                                         EntityAssociationsViewController(delegate: delegate),
-                                        VehicleOccurrencesViewController(),
-                                        PersonCriminalHistoryViewController()
+                                        VehicleOccurrencesViewController()
         ]
     }
 

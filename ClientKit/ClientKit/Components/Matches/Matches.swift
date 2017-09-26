@@ -17,7 +17,7 @@ struct MPOLToFNCVehicleMatch: FetchMatch {
     func match(_ entity: MPOLKitEntity) -> Fetchable {
         let entity = entity as! Vehicle
 
-        let request = VehicleFetchRequest(source: resultSource, request: EntityFetchRequest<Vehicle>(id: entity.engineNumber!))
+        let request = VehicleFetchRequest(source: resultSource, request: EntityFetchRequest<Vehicle>(id: entity.id))
         return EntityDetailFetch<Vehicle>(request: request)
     }
 }
