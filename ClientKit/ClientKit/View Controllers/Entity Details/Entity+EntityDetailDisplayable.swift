@@ -21,7 +21,7 @@ public struct EntityDetailsDisplayable: EntityDetailDisplayable {
         return type(of: entity).localizedDisplayName
     }
 
-    public var alertBadgeCount: UInt {
+    public var alertBadgeCount: UInt? {
         return entity.actionCount
     }
 

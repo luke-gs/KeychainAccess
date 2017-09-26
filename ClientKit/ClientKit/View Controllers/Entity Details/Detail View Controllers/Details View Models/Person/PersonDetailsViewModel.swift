@@ -22,9 +22,7 @@ public class PersonDetailsViewModel<T>: EntityDetailViewModelable {
         didSet {
             let count = itemsCount()
             delegate?.updateSidebarItemCount(count)
-            
-            let subtitle = noContentSubtitle()
-            delegate?.updateNoContentSubtitle(subtitle)
+            delegate?.updateNoContentDetails(title: noContentTitle(), subtitle: noContentSubtitle())
         }
     }
     
@@ -61,8 +59,12 @@ public class PersonDetailsViewModel<T>: EntityDetailViewModelable {
         return UInt(items()?.count ?? 0)
     }
     
+    public func noContentTitle() -> String? {
+        return "No details to display"
+    }
+    
     public func noContentSubtitle() -> String? {
-        MPLRequiresConcreteImplementation()
+        return nil
     }
     
     public func reloadSections(withFilterDescriptors filters: [FilterDescriptor<T>]?, sortDescriptors: [SortDescriptor<T>]?) {

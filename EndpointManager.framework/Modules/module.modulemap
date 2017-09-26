@@ -1,0 +1,11 @@
+framework module EndpointManager {
+  umbrella header "EndpointManager.h"
+
+  export *
+  module * { export * }
+}
+
+module EndpointManager.Swift {
+    header "EndpointManager-Swift.h"
+    requires objc
+}
