@@ -47,8 +47,8 @@ open class NavigationBarExtension: UIView {
             NSLayoutConstraint.activate([
                 NSLayoutConstraint(item: newView, attribute: .leading, relatedBy: .greaterThanOrEqual, toItem: self, attribute: .leading),
                 NSLayoutConstraint(item: newView, attribute: .top,     relatedBy: .greaterThanOrEqual, toItem: self, attribute: .top),
-                NSLayoutConstraint(item: newView, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, priority: UILayoutPriority(rawValue: UILayoutPriority.RawValue(Int(UILayoutPriority.required.rawValue) - 1))),
-                NSLayoutConstraint(item: newView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, priority: UILayoutPriority(rawValue: UILayoutPriority.RawValue(Int(UILayoutPriority.required.rawValue) - 1))),
+                NSLayoutConstraint(item: newView, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, priority: .almostRequired),
+                NSLayoutConstraint(item: newView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, priority: .almostRequired),
             ])
             
             newView.alpha = 0.0

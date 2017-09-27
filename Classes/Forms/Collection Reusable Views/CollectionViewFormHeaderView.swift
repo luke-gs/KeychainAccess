@@ -175,7 +175,7 @@ public class CollectionViewFormHeaderView: UICollectionReusableView, DefaultReus
             titleLabel.centerYAnchor.constraint(equalTo: separatorView.centerYAnchor),
             
             separatorView.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor),
-            separatorView.trailingAnchor.constraint(equalTo: self.trailingAnchor).withPriority(UILayoutPriority(rawValue: UILayoutPriority.RawValue(Int(UILayoutPriority.required.rawValue) - 1))),
+            separatorView.trailingAnchor.constraint(equalTo: self.trailingAnchor).withPriority(.almostRequired),
             
             titleSeparatorConstraint,
             separatorSeparationConstraint,

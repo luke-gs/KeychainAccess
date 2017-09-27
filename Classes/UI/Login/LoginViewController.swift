@@ -472,7 +472,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         self.view = backgroundView
         self.rightAccessoryView = versionLabel
         
-        let preferredLayoutGuideBottomConstraint = contentView.heightAnchor.constraint(equalTo: backgroundView.heightAnchor, constant: -20.0).withPriority(UILayoutPriority(rawValue: UILayoutPriority.RawValue(Int(UILayoutPriority.defaultHigh.rawValue) - 1)))
+        let preferredLayoutGuideBottomConstraint = contentView.heightAnchor.constraint(equalTo: backgroundView.heightAnchor, constant: -20.0).withPriority(.defaultHigh - 1)
         
         let showingHeaderConstraint = contentStackView.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor, constant: 20.0)
         let showingAccessoryConstraint = accessoryView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24.0)
@@ -498,7 +498,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
             
             showingHeaderConstraint,
             contentStackView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            contentStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).withPriority(UILayoutPriority(rawValue: UILayoutPriority.RawValue(Int(UILayoutPriority.defaultHigh.rawValue) - 2))),
+            contentStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).withPriority(.defaultHigh - 2),
             contentStackView.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, constant: -20.0),
             contentStackView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -20.0),
             

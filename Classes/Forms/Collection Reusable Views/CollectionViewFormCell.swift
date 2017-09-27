@@ -332,7 +332,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
                     attribute = .centerY
                 }
                 contentModeConstraint.isActive = false
-                contentModeLayoutVerticalConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: attribute, relatedBy: .equal, toItem: contentView.layoutMarginsGuide, attribute: attribute, priority: UILayoutPriority(rawValue: UILayoutPriority.RawValue(Int(UILayoutPriority.defaultLow.rawValue) - 1)))
+                contentModeLayoutVerticalConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: attribute, relatedBy: .equal, toItem: contentView.layoutMarginsGuide, attribute: attribute, priority: .defaultLow - 1)
                 contentModeLayoutVerticalConstraint!.isActive = true
             }
             
@@ -371,7 +371,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         default:
             attribute = .centerY
         }
-        contentModeLayoutVerticalConstraint = NSLayoutConstraint(item: layoutGuide, attribute: attribute, relatedBy: .equal, toItem: contentView.layoutMarginsGuide, attribute: attribute, priority: UILayoutPriority(rawValue: UILayoutPriority.RawValue(Int(UILayoutPriority.defaultLow.rawValue) - 1)))
+        contentModeLayoutVerticalConstraint = NSLayoutConstraint(item: layoutGuide, attribute: attribute, relatedBy: .equal, toItem: contentView.layoutMarginsGuide, attribute: attribute, priority: .defaultLow - 1)
         contentModeLayoutTrailingConstraint = layoutGuide.trailingAnchor.constraint(equalTo: contentLayoutGuide.trailingAnchor)
         
         NSLayoutConstraint.activate([

@@ -102,7 +102,7 @@ public class WhatsNewDetailViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor).withPriority(UILayoutPriority(rawValue: UILayoutPriority.RawValue(Int(UILayoutPriority.required.rawValue) - 1))),
+            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor).withPriority(.almostRequired),
             stackView.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor, constant: -128),
             stackView.topAnchor.constraint(greaterThanOrEqualTo: view.topAnchor, constant: 64),
             stackView.leadingAnchor.constraint(greaterThanOrEqualTo: view.layoutMarginsGuide.leadingAnchor),

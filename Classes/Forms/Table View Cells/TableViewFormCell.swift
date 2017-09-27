@@ -69,7 +69,7 @@ open class TableViewFormCell: UITableViewCell, DefaultReusable {
         /// A minimum content height of 23.0 is the standard for a table view cell.
         minimumHeightConstraint = NSLayoutConstraint(item: contentView, attribute: .bottomMargin, relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .topMargin, constant: 23.0, priority: UILayoutPriority.defaultHigh)
         
-        contentModeLayoutConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerYWithinMargins, priority: UILayoutPriority(rawValue: UILayoutPriority.RawValue(Int(UILayoutPriority.defaultLow.rawValue) - 1)))
+        contentModeLayoutConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerYWithinMargins, priority: .defaultLow - 1)
         
         NSLayoutConstraint.activate([
             NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .leading,  relatedBy: .equal, toItem: contentView, attribute: .leadingMargin),

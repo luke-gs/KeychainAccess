@@ -193,7 +193,7 @@ open class RegularSidebarViewController: UIViewController, UITableViewDataSource
             
             NSLayoutConstraint(item: sidebarTableView, attribute: .top,      relatedBy: .equal, toItem: view,       attribute: .top),
             NSLayoutConstraint(item: sidebarTableView, attribute: .bottom,   relatedBy: .equal, toItem: view,       attribute: .bottom),
-            NSLayoutConstraint(item: sidebarTableView, attribute: .leading,  relatedBy: .equal, toItem: sourceBar, attribute: .trailing).withPriority(UILayoutPriority(rawValue: UILayoutPriority.RawValue(Int(UILayoutPriority.required.rawValue) - 1))),
+            NSLayoutConstraint(item: sidebarTableView, attribute: .leading,  relatedBy: .equal, toItem: sourceBar, attribute: .trailing).withPriority(.almostRequired),
             NSLayoutConstraint(item: sidebarTableView, attribute: .trailing, relatedBy: .equal, toItem: view,       attribute: .trailing)
         ])
         

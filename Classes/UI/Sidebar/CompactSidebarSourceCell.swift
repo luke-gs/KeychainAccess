@@ -43,7 +43,7 @@ open class CompactSidebarSourceCell: UITableViewCell, DefaultReusable {
             sourceBarCell.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             sourceBarCell.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             sourceBarCell.widthAnchor.constraint(equalToConstant: 56),
-            sourceBarCell.heightAnchor.constraint(equalToConstant: 56).withPriority(UILayoutPriority(rawValue: UILayoutPriority.RawValue(Int(UILayoutPriority.required.rawValue)-1))),
+            sourceBarCell.heightAnchor.constraint(equalToConstant: 56).withPriority(.almostRequired),
 
             sourceTitle.leadingAnchor.constraint(equalTo: sourceBarCell.trailingAnchor),
             sourceTitle.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),

@@ -165,7 +165,7 @@ public class NumberRangePickerViewController: FormTableViewController, UIPickerV
             NSLayoutConstraint(item: dashLabel, attribute: .centerX, relatedBy: .equal, toItem: picker, attribute: .centerX, constant: 5.0),
             NSLayoutConstraint(item: dashLabel, attribute: .centerY, relatedBy: .equal, toItem: picker, attribute: .centerY),
             
-            NSLayoutConstraint(item: picker, attribute: .height, relatedBy: .equal, toConstant: picker.intrinsicContentSize.height, priority: UILayoutPriority(rawValue: UILayoutPriority.RawValue(Int(UILayoutPriority.required.rawValue) - 1)))
+            NSLayoutConstraint(item: picker, attribute: .height, relatedBy: .equal, toConstant: picker.intrinsicContentSize.height, priority: .almostRequired)
         ])
         
         self.pickerView = picker
