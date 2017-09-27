@@ -13,7 +13,7 @@ extension UIFont {
     public func height(forNumberOfLines numberOfLines: Int) -> CGFloat {
 
         switch numberOfLines {
-        case ..<0:
+        case ...0:
             return .greatestFiniteMagnitude
         case 1:
             return lineHeight
