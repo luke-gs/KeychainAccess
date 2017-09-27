@@ -94,7 +94,7 @@ open class HelpViewController: UIViewController {
             let titleLabel = UILabel()
             titleLabel.numberOfLines = 0
             titleLabel.textColor = theme.color(forKey: .primaryText)!
-            titleLabel.font = .systemFont(ofSize: 17.0, weight: UIFontWeightSemibold)
+            titleLabel.font = .systemFont(ofSize: 17.0, weight: UIFont.Weight.semibold)
             titleLabel.text = section.title
             
             let detailView: UIView
@@ -106,9 +106,9 @@ open class HelpViewController: UIViewController {
                 let paragraphStyle = NSMutableParagraphStyle()
                 paragraphStyle.lineSpacing = 4.0
                 let attributes = [
-                    NSFontAttributeName : UIFont.systemFont(ofSize: 15.0, weight: UIFontWeightRegular),
-                    NSForegroundColorAttributeName : theme.color(forKey: .secondaryText)!,
-                    NSParagraphStyleAttributeName : paragraphStyle
+                    NSAttributedStringKey.font : UIFont.systemFont(ofSize: 15.0, weight: UIFont.Weight.regular),
+                    NSAttributedStringKey.foregroundColor : theme.color(forKey: .secondaryText)!,
+                    NSAttributedStringKey.paragraphStyle : paragraphStyle
                 ]
                 label.attributedText = NSAttributedString(string: detail, attributes: attributes)
                 detailView = label
