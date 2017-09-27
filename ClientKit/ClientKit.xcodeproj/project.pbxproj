@@ -34,6 +34,10 @@
 		1ABF4EAD1F3B446100C70E62 /* PersonDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABF4EAC1F3B446000C70E62 /* PersonDetailsViewModel.swift */; };
 		31E04B86B8693C856591D017 /* Pods_ClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6FAB7E5ED55CBB22E20D7C9 /* Pods_ClientKit.framework */; };
 		68A1298F030B1B4BB01632E6 /* Pods_ClientKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5919937B6BAC1FE012181DBE /* Pods_ClientKitTests.framework */; };
+		9624A42F1F7C6D7400CAE056 /* ActivityLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A42E1F7C6D7400CAE056 /* ActivityLogViewController.swift */; };
+		9624A4311F7C6D9300CAE056 /* ActivityLogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A4301F7C6D9300CAE056 /* ActivityLogViewModel.swift */; };
+		9624A4331F7C6DB000CAE056 /* ActivityLogItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A4321F7C6DAF00CAE056 /* ActivityLogItemCell.swift */; };
+		9624A4351F7C6DE000CAE056 /* ActivityLogItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A4341F7C6DE000CAE056 /* ActivityLogItemViewModel.swift */; };
 		BC12DC961F023EF0001A5BB7 /* ClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC12DC8C1F023EF0001A5BB7 /* ClientKit.framework */; };
 		BC12DC9B1F023EF0001A5BB7 /* ClientKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC12DC9A1F023EF0001A5BB7 /* ClientKitTests.swift */; };
 		BC12DC9D1F023EF0001A5BB7 /* ClientKit.h in Headers */ = {isa = PBXBuildFile; fileRef = BC12DC8F1F023EF0001A5BB7 /* ClientKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -153,6 +157,10 @@
 		1ABF4EAC1F3B446000C70E62 /* PersonDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonDetailsViewModel.swift; sourceTree = "<group>"; };
 		5919937B6BAC1FE012181DBE /* Pods_ClientKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClientKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BAD23AD53A7E9B377446DB8 /* Pods-ClientKitTests.internal-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKitTests.internal-release.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKitTests/Pods-ClientKitTests.internal-release.xcconfig"; sourceTree = "<group>"; };
+		9624A42E1F7C6D7400CAE056 /* ActivityLogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityLogViewController.swift; sourceTree = "<group>"; };
+		9624A4301F7C6D9300CAE056 /* ActivityLogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityLogViewModel.swift; sourceTree = "<group>"; };
+		9624A4321F7C6DAF00CAE056 /* ActivityLogItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityLogItemCell.swift; sourceTree = "<group>"; };
+		9624A4341F7C6DE000CAE056 /* ActivityLogItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityLogItemViewModel.swift; sourceTree = "<group>"; };
 		A1A86AE5D56580A64BDFA431 /* Pods-ClientKit.external-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKit.external-release.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKit/Pods-ClientKit.external-release.xcconfig"; sourceTree = "<group>"; };
 		A2C88F71035790BEDD97B610 /* Pods-ClientKitTests.internal-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKitTests.internal-debug.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKitTests/Pods-ClientKitTests.internal-debug.xcconfig"; sourceTree = "<group>"; };
 		B4196D7C4B207ED0E1DD5654 /* Pods-ClientKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKit.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKit/Pods-ClientKit.debug.xcconfig"; sourceTree = "<group>"; };
@@ -323,6 +331,25 @@
 			path = Person;
 			sourceTree = "<group>";
 		};
+		9624A42C1F7C6D0700CAE056 /* CAD */ = {
+			isa = PBXGroup;
+			children = (
+				9624A42D1F7C6D3B00CAE056 /* ActivityLog */,
+			);
+			path = CAD;
+			sourceTree = "<group>";
+		};
+		9624A42D1F7C6D3B00CAE056 /* ActivityLog */ = {
+			isa = PBXGroup;
+			children = (
+				9624A4321F7C6DAF00CAE056 /* ActivityLogItemCell.swift */,
+				9624A4341F7C6DE000CAE056 /* ActivityLogItemViewModel.swift */,
+				9624A42E1F7C6D7400CAE056 /* ActivityLogViewController.swift */,
+				9624A4301F7C6D9300CAE056 /* ActivityLogViewModel.swift */,
+			);
+			path = ActivityLog;
+			sourceTree = "<group>";
+		};
 		BC12DC821F023EF0001A5BB7 = {
 			isa = PBXGroup;
 			children = (
@@ -486,6 +513,7 @@
 		BCAEFE761F03150800C97F9C /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				9624A42C1F7C6D0700CAE056 /* CAD */,
 				BCAEFE771F03150800C97F9C /* Entity Details */,
 			);
 			path = "View Controllers";
@@ -828,11 +856,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9624A4311F7C6D9300CAE056 /* ActivityLogViewModel.swift in Sources */,
 				BCAEFE9B1F03150800C97F9C /* BailOrder.swift in Sources */,
 				1A2E8A8B1F3990150062FEA5 /* FieldContactDetailViewModel.swift in Sources */,
 				1A290C861F3F097E00DD9ED5 /* Media.swift in Sources */,
 				EA1CC2541F4132D200FE8BAE /* VINParserDefinition.swift in Sources */,
 				BC75A7BD1F1C3D5F004D46F1 /* VehicleInfoViewController.swift in Sources */,
+				9624A4331F7C6DB000CAE056 /* ActivityLogItemCell.swift in Sources */,
 				BCAEFEDD1F0317DB00C97F9C /* EntityThumbnailView+Configuration.swift in Sources */,
 				1A2E8A741F3835CB0062FEA5 /* PersonCriminalHistoryViewModel.swift in Sources */,
 				BCAEFEA01F03150800C97F9C /* MissingPersonReport.swift in Sources */,
@@ -863,6 +893,7 @@
 				1ABF4EAD1F3B446100C70E62 /* PersonDetailsViewModel.swift in Sources */,
 				1A159F171F4B1DFE00075330 /* PersonDetailsSectionsDataSource.swift in Sources */,
 				1A159F151F4B1DE200075330 /* VehicleDetailsSectionsDataSource.swift in Sources */,
+				9624A4351F7C6DE000CAE056 /* ActivityLogItemViewModel.swift in Sources */,
 				1A290C821F3D630700DD9ED5 /* PersonFetchParameter.swift in Sources */,
 				EA1CC2561F41347100FE8BAE /* EngineNumberParserDefinition.swift in Sources */,
 				BCAEFEAD1F03150800C97F9C /* Source.swift in Sources */,
@@ -894,6 +925,7 @@
 				BCAEFE981F03150800C97F9C /* Email.swift in Sources */,
 				BCAEFEAF1F03150800C97F9C /* Vehicle.swift in Sources */,
 				BCAEFEAB1F03150800C97F9C /* ScarMarkTattoo.swift in Sources */,
+				9624A42F1F7C6D7400CAE056 /* ActivityLogViewController.swift in Sources */,
 				BCAEFEAE1F03150800C97F9C /* TelephoneNumber.swift in Sources */,
 				1A2FF6FF1F32BE5100D63956 /* PersonInfoViewModel.swift in Sources */,
 				BC75A7BB1F1C3D58004D46F1 /* PersonCriminalHistoryViewController.swift in Sources */,
