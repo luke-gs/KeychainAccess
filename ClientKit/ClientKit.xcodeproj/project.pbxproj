@@ -15,7 +15,6 @@
 		1A290C841F3D649500DD9ED5 /* VehicleFetchParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A290C831F3D649500DD9ED5 /* VehicleFetchParameter.swift */; };
 		1A290C861F3F097E00DD9ED5 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A290C851F3F097E00DD9ED5 /* Media.swift */; };
 		1A2E8A701F37E3380062FEA5 /* PersonDescriptionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2E8A6F1F37E3380062FEA5 /* PersonDescriptionViewModel.swift */; };
-		1A2E8A721F38070A0062FEA5 /* PersonActionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2E8A711F38070A0062FEA5 /* PersonActionsViewModel.swift */; };
 		1A2E8A741F3835CB0062FEA5 /* PersonCriminalHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2E8A731F3835CB0062FEA5 /* PersonCriminalHistoryViewModel.swift */; };
 		1A2E8A761F3932100062FEA5 /* PersonOccurrencesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2E8A751F3932100062FEA5 /* PersonOccurrencesViewModel.swift */; };
 		1A2E8A781F3942FE0062FEA5 /* EntityAlertsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2E8A771F3942FE0062FEA5 /* EntityAlertsViewModel.swift */; };
@@ -24,9 +23,6 @@
 		1A2E8A831F398E7A0062FEA5 /* EventDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2E8A811F398E7A0062FEA5 /* EventDetailsViewModel.swift */; };
 		1A2E8A841F398E7A0062FEA5 /* EventDetailsViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2E8A821F398E7A0062FEA5 /* EventDetailsViewModelable.swift */; };
 		1A2E8A861F398EC60062FEA5 /* EventDetailsViewModelRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2E8A851F398EC60062FEA5 /* EventDetailsViewModelRouter.swift */; };
-		1A2E8A8A1F3990150062FEA5 /* BailOrderDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2E8A871F3990150062FEA5 /* BailOrderDetailViewModel.swift */; };
-		1A2E8A8B1F3990150062FEA5 /* FieldContactDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2E8A881F3990150062FEA5 /* FieldContactDetailViewModel.swift */; };
-		1A2E8A8C1F3990150062FEA5 /* InterventionOrderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2E8A891F3990150062FEA5 /* InterventionOrderViewModel.swift */; };
 		1A2FF6FF1F32BE5100D63956 /* PersonInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2FF6FE1F32BE5100D63956 /* PersonInfoViewModel.swift */; };
 		1A5A4A851F4427A4000DF263 /* EntityEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5A4A841F4427A4000DF263 /* EntityEventViewModel.swift */; };
 		1A5A4A871F442993000DF263 /* VehicleOccurrencesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5A4A861F442993000DF263 /* VehicleOccurrencesViewModel.swift */; };
@@ -44,28 +40,20 @@
 		BC75A7B21F1C3D50004D46F1 /* EventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75A7981F1C3BF9004D46F1 /* EventDetailViewController.swift */; };
 		BC75A7B61F1C3D50004D46F1 /* OrganizationInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75A7A81F1C3BF9004D46F1 /* OrganizationInfoViewController.swift */; };
 		BC75A7B71F1C3D55004D46F1 /* PersonOccurrencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75A79F1F1C3BF9004D46F1 /* PersonOccurrencesViewController.swift */; };
-		BC75A7B81F1C3D55004D46F1 /* PersonActionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75A7A01F1C3BF9004D46F1 /* PersonActionsViewController.swift */; };
 		BC75A7B91F1C3D55004D46F1 /* PersonDescriptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75A7A11F1C3BF9004D46F1 /* PersonDescriptionsViewController.swift */; };
 		BC75A7BA1F1C3D58004D46F1 /* PersonInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75A7A41F1C3BF9004D46F1 /* PersonInfoViewController.swift */; };
 		BC75A7BB1F1C3D58004D46F1 /* PersonCriminalHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75A7A51F1C3BF9004D46F1 /* PersonCriminalHistoryViewController.swift */; };
-		BC75A7BC1F1C3D5B004D46F1 /* CautionDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75A7A31F1C3BF9004D46F1 /* CautionDetailsViewController.swift */; };
 		BC75A7BD1F1C3D5F004D46F1 /* VehicleInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75A79D1F1C3BF9004D46F1 /* VehicleInfoViewController.swift */; };
 		BCA1793C1F03542900AD1F5F /* PersonParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA1793A1F03542900AD1F5F /* PersonParserDefinition.swift */; };
-		BCAEFE911F03150800C97F9C /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE541F03150800C97F9C /* Action.swift */; };
 		BCAEFE921F03150800C97F9C /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE551F03150800C97F9C /* Address.swift */; };
 		BCAEFE931F03150800C97F9C /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE561F03150800C97F9C /* Alert.swift */; };
 		BCAEFE941F03150800C97F9C /* Alias.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE571F03150800C97F9C /* Alias.swift */; };
-		BCAEFE951F03150800C97F9C /* Caution.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE581F03150800C97F9C /* Caution.swift */; };
 		BCAEFE961F03150800C97F9C /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE591F03150800C97F9C /* Contact.swift */; };
 		BCAEFE971F03150800C97F9C /* CriminalHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE5A1F03150800C97F9C /* CriminalHistory.swift */; };
 		BCAEFE981F03150800C97F9C /* Email.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE5B1F03150800C97F9C /* Email.swift */; };
 		BCAEFE991F03150800C97F9C /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE5C1F03150800C97F9C /* Entity.swift */; };
 		BCAEFE9A1F03150800C97F9C /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE5D1F03150800C97F9C /* Event.swift */; };
-		BCAEFE9B1F03150800C97F9C /* BailOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE5F1F03150800C97F9C /* BailOrder.swift */; };
-		BCAEFE9C1F03150800C97F9C /* FamilyIncident.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE601F03150800C97F9C /* FamilyIncident.swift */; };
-		BCAEFE9D1F03150800C97F9C /* FieldContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE611F03150800C97F9C /* FieldContact.swift */; };
 		BCAEFE9E1F03150800C97F9C /* Interest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE621F03150800C97F9C /* Interest.swift */; };
-		BCAEFE9F1F03150800C97F9C /* InterventionOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE631F03150800C97F9C /* InterventionOrder.swift */; };
 		BCAEFEA01F03150800C97F9C /* MissingPersonReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE641F03150800C97F9C /* MissingPersonReport.swift */; };
 		BCAEFEA11F03150800C97F9C /* Whereabouts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE651F03150800C97F9C /* Whereabouts.swift */; };
 		BCAEFEA21F03150800C97F9C /* KnownAssociate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE661F03150800C97F9C /* KnownAssociate.swift */; };
@@ -74,14 +62,12 @@
 		BCAEFEA61F03150800C97F9C /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE6A1F03150800C97F9C /* Person.swift */; };
 		BCAEFEA71F03150800C97F9C /* PersonDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE6B1F03150800C97F9C /* PersonDescription.swift */; };
 		BCAEFEA81F03150800C97F9C /* PhoneNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE6C1F03150800C97F9C /* PhoneNumber.swift */; };
-		BCAEFEA91F03150800C97F9C /* ReportedPerson.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE6D1F03150800C97F9C /* ReportedPerson.swift */; };
 		BCAEFEAA1F03150800C97F9C /* RiskFactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE6E1F03150800C97F9C /* RiskFactor.swift */; };
 		BCAEFEAB1F03150800C97F9C /* ScarMarkTattoo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE6F1F03150800C97F9C /* ScarMarkTattoo.swift */; };
 		BCAEFEAD1F03150800C97F9C /* Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE711F03150800C97F9C /* Source.swift */; };
 		BCAEFEAE1F03150800C97F9C /* TelephoneNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE721F03150800C97F9C /* TelephoneNumber.swift */; };
 		BCAEFEAF1F03150800C97F9C /* Vehicle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE731F03150800C97F9C /* Vehicle.swift */; };
 		BCAEFEB01F03150800C97F9C /* Warning.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE741F03150800C97F9C /* Warning.swift */; };
-		BCAEFEB11F03150800C97F9C /* Warrant.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE751F03150800C97F9C /* Warrant.swift */; };
 		BCAEFEDD1F0317DB00C97F9C /* EntityThumbnailView+Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFEDC1F0317DB00C97F9C /* EntityThumbnailView+Configuration.swift */; };
 		BCC7AEDE1F0B61AD0091AAEA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCC7AEDD1F0B61AD0091AAEA /* Assets.xcassets */; };
 		BCC7AEE11F0BA9E70091AAEA /* DateSorting.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC7AEE01F0BA9E70091AAEA /* DateSorting.swift */; };
@@ -133,7 +119,6 @@
 		1A290C831F3D649500DD9ED5 /* VehicleFetchParameter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleFetchParameter.swift; sourceTree = "<group>"; };
 		1A290C851F3F097E00DD9ED5 /* Media.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
 		1A2E8A6F1F37E3380062FEA5 /* PersonDescriptionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonDescriptionViewModel.swift; sourceTree = "<group>"; };
-		1A2E8A711F38070A0062FEA5 /* PersonActionsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonActionsViewModel.swift; sourceTree = "<group>"; };
 		1A2E8A731F3835CB0062FEA5 /* PersonCriminalHistoryViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonCriminalHistoryViewModel.swift; sourceTree = "<group>"; };
 		1A2E8A751F3932100062FEA5 /* PersonOccurrencesViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonOccurrencesViewModel.swift; sourceTree = "<group>"; };
 		1A2E8A771F3942FE0062FEA5 /* EntityAlertsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityAlertsViewModel.swift; sourceTree = "<group>"; };
@@ -142,9 +127,6 @@
 		1A2E8A811F398E7A0062FEA5 /* EventDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailsViewModel.swift; sourceTree = "<group>"; };
 		1A2E8A821F398E7A0062FEA5 /* EventDetailsViewModelable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailsViewModelable.swift; sourceTree = "<group>"; };
 		1A2E8A851F398EC60062FEA5 /* EventDetailsViewModelRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailsViewModelRouter.swift; sourceTree = "<group>"; };
-		1A2E8A871F3990150062FEA5 /* BailOrderDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BailOrderDetailViewModel.swift; sourceTree = "<group>"; };
-		1A2E8A881F3990150062FEA5 /* FieldContactDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FieldContactDetailViewModel.swift; sourceTree = "<group>"; };
-		1A2E8A891F3990150062FEA5 /* InterventionOrderViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterventionOrderViewModel.swift; sourceTree = "<group>"; };
 		1A2F0757A22098856F4E5B68 /* Pods-ClientKit.internal-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKit.internal-release.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKit/Pods-ClientKit.internal-release.xcconfig"; sourceTree = "<group>"; };
 		1A2FF6FE1F32BE5100D63956 /* PersonInfoViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonInfoViewModel.swift; sourceTree = "<group>"; };
 		1A5A4A841F4427A4000DF263 /* EntityEventViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityEventViewModel.swift; sourceTree = "<group>"; };
@@ -166,9 +148,7 @@
 		BC75A7981F1C3BF9004D46F1 /* EventDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailViewController.swift; sourceTree = "<group>"; };
 		BC75A79D1F1C3BF9004D46F1 /* VehicleInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleInfoViewController.swift; sourceTree = "<group>"; };
 		BC75A79F1F1C3BF9004D46F1 /* PersonOccurrencesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonOccurrencesViewController.swift; sourceTree = "<group>"; };
-		BC75A7A01F1C3BF9004D46F1 /* PersonActionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonActionsViewController.swift; sourceTree = "<group>"; };
 		BC75A7A11F1C3BF9004D46F1 /* PersonDescriptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonDescriptionsViewController.swift; sourceTree = "<group>"; };
-		BC75A7A31F1C3BF9004D46F1 /* CautionDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CautionDetailsViewController.swift; sourceTree = "<group>"; };
 		BC75A7A41F1C3BF9004D46F1 /* PersonInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonInfoViewController.swift; sourceTree = "<group>"; };
 		BC75A7A51F1C3BF9004D46F1 /* PersonCriminalHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonCriminalHistoryViewController.swift; sourceTree = "<group>"; };
 		BC75A7A61F1C3BF9004D46F1 /* EntityAssociationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityAssociationsViewController.swift; sourceTree = "<group>"; };
@@ -176,21 +156,15 @@
 		BC75A7AA1F1C3BF9004D46F1 /* EntityOccurrencesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityOccurrencesViewController.swift; sourceTree = "<group>"; };
 		BC75A7AB1F1C3BF9004D46F1 /* EntityAlertsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityAlertsViewController.swift; sourceTree = "<group>"; };
 		BCA1793A1F03542900AD1F5F /* PersonParserDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonParserDefinition.swift; sourceTree = "<group>"; };
-		BCAEFE541F03150800C97F9C /* Action.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		BCAEFE551F03150800C97F9C /* Address.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
 		BCAEFE561F03150800C97F9C /* Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		BCAEFE571F03150800C97F9C /* Alias.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alias.swift; sourceTree = "<group>"; };
-		BCAEFE581F03150800C97F9C /* Caution.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Caution.swift; sourceTree = "<group>"; };
 		BCAEFE591F03150800C97F9C /* Contact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 		BCAEFE5A1F03150800C97F9C /* CriminalHistory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CriminalHistory.swift; sourceTree = "<group>"; };
 		BCAEFE5B1F03150800C97F9C /* Email.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Email.swift; sourceTree = "<group>"; };
 		BCAEFE5C1F03150800C97F9C /* Entity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
 		BCAEFE5D1F03150800C97F9C /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
-		BCAEFE5F1F03150800C97F9C /* BailOrder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BailOrder.swift; sourceTree = "<group>"; };
-		BCAEFE601F03150800C97F9C /* FamilyIncident.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FamilyIncident.swift; sourceTree = "<group>"; };
-		BCAEFE611F03150800C97F9C /* FieldContact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FieldContact.swift; sourceTree = "<group>"; };
 		BCAEFE621F03150800C97F9C /* Interest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Interest.swift; sourceTree = "<group>"; };
-		BCAEFE631F03150800C97F9C /* InterventionOrder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterventionOrder.swift; sourceTree = "<group>"; };
 		BCAEFE641F03150800C97F9C /* MissingPersonReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MissingPersonReport.swift; sourceTree = "<group>"; };
 		BCAEFE651F03150800C97F9C /* Whereabouts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Whereabouts.swift; sourceTree = "<group>"; };
 		BCAEFE661F03150800C97F9C /* KnownAssociate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KnownAssociate.swift; sourceTree = "<group>"; };
@@ -199,14 +173,12 @@
 		BCAEFE6A1F03150800C97F9C /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		BCAEFE6B1F03150800C97F9C /* PersonDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonDescription.swift; sourceTree = "<group>"; };
 		BCAEFE6C1F03150800C97F9C /* PhoneNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneNumber.swift; sourceTree = "<group>"; };
-		BCAEFE6D1F03150800C97F9C /* ReportedPerson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportedPerson.swift; sourceTree = "<group>"; };
 		BCAEFE6E1F03150800C97F9C /* RiskFactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RiskFactor.swift; sourceTree = "<group>"; };
 		BCAEFE6F1F03150800C97F9C /* ScarMarkTattoo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScarMarkTattoo.swift; sourceTree = "<group>"; };
 		BCAEFE711F03150800C97F9C /* Source.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Source.swift; sourceTree = "<group>"; };
 		BCAEFE721F03150800C97F9C /* TelephoneNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TelephoneNumber.swift; sourceTree = "<group>"; };
 		BCAEFE731F03150800C97F9C /* Vehicle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vehicle.swift; sourceTree = "<group>"; };
 		BCAEFE741F03150800C97F9C /* Warning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Warning.swift; sourceTree = "<group>"; };
-		BCAEFE751F03150800C97F9C /* Warrant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Warrant.swift; sourceTree = "<group>"; };
 		BCAEFEDC1F0317DB00C97F9C /* EntityThumbnailView+Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EntityThumbnailView+Configuration.swift"; sourceTree = "<group>"; };
 		BCC7AEDD1F0B61AD0091AAEA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BCC7AEE01F0BA9E70091AAEA /* DateSorting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateSorting.swift; sourceTree = "<group>"; };
@@ -267,9 +239,6 @@
 				1A2E8A851F398EC60062FEA5 /* EventDetailsViewModelRouter.swift */,
 				1A2E8A811F398E7A0062FEA5 /* EventDetailsViewModel.swift */,
 				1A2E8A821F398E7A0062FEA5 /* EventDetailsViewModelable.swift */,
-				1A2E8A871F3990150062FEA5 /* BailOrderDetailViewModel.swift */,
-				1A2E8A881F3990150062FEA5 /* FieldContactDetailViewModel.swift */,
-				1A2E8A891F3990150062FEA5 /* InterventionOrderViewModel.swift */,
 			);
 			path = "Event Details";
 			sourceTree = "<group>";
@@ -281,13 +250,6 @@
 				1A5A4A861F442993000DF263 /* VehicleOccurrencesViewModel.swift */,
 			);
 			path = Vehicle;
-			sourceTree = "<group>";
-		};
-		1A2E8A7E1F397E0E0062FEA5 /* Occurrence Details */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Occurrence Details";
 			sourceTree = "<group>";
 		};
 		1A2FF6F71F32BD0800D63956 /* Details View Models */ = {
@@ -312,10 +274,8 @@
 		1A2FF6FD1F32BE5100D63956 /* Person */ = {
 			isa = PBXGroup;
 			children = (
-				1A2E8A7E1F397E0E0062FEA5 /* Occurrence Details */,
 				1A2E8A751F3932100062FEA5 /* PersonOccurrencesViewModel.swift */,
 				1A2E8A731F3835CB0062FEA5 /* PersonCriminalHistoryViewModel.swift */,
-				1A2E8A711F38070A0062FEA5 /* PersonActionsViewModel.swift */,
 				1A2E8A6F1F37E3380062FEA5 /* PersonDescriptionViewModel.swift */,
 				1A2FF6FE1F32BE5100D63956 /* PersonInfoViewModel.swift */,
 				1ABF4EAC1F3B446000C70E62 /* PersonDetailsViewModel.swift */,
@@ -397,7 +357,6 @@
 			isa = PBXGroup;
 			children = (
 				BC75A79F1F1C3BF9004D46F1 /* PersonOccurrencesViewController.swift */,
-				BC75A7A01F1C3BF9004D46F1 /* PersonActionsViewController.swift */,
 				BC75A7A11F1C3BF9004D46F1 /* PersonDescriptionsViewController.swift */,
 				BC75A7A21F1C3BF9004D46F1 /* Occurrence Details */,
 				BC75A7A41F1C3BF9004D46F1 /* PersonInfoViewController.swift */,
@@ -409,7 +368,6 @@
 		BC75A7A21F1C3BF9004D46F1 /* Occurrence Details */ = {
 			isa = PBXGroup;
 			children = (
-				BC75A7A31F1C3BF9004D46F1 /* CautionDetailsViewController.swift */,
 			);
 			path = "Occurrence Details";
 			sourceTree = "<group>";
@@ -437,12 +395,10 @@
 		BCAEFE531F03150800C97F9C /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				BCAEFE541F03150800C97F9C /* Action.swift */,
 				BCA179391F03542900AD1F5F /* Parsing */,
 				BCAEFE551F03150800C97F9C /* Address.swift */,
 				BCAEFE561F03150800C97F9C /* Alert.swift */,
 				BCAEFE571F03150800C97F9C /* Alias.swift */,
-				BCAEFE581F03150800C97F9C /* Caution.swift */,
 				BCAEFE591F03150800C97F9C /* Contact.swift */,
 				BCAEFE5A1F03150800C97F9C /* CriminalHistory.swift */,
 				BCAEFE5B1F03150800C97F9C /* Email.swift */,
@@ -456,14 +412,12 @@
 				BCAEFE6A1F03150800C97F9C /* Person.swift */,
 				BCAEFE6B1F03150800C97F9C /* PersonDescription.swift */,
 				BCAEFE6C1F03150800C97F9C /* PhoneNumber.swift */,
-				BCAEFE6D1F03150800C97F9C /* ReportedPerson.swift */,
 				BCAEFE6E1F03150800C97F9C /* RiskFactor.swift */,
 				BCAEFE6F1F03150800C97F9C /* ScarMarkTattoo.swift */,
 				BCAEFE711F03150800C97F9C /* Source.swift */,
 				BCAEFE721F03150800C97F9C /* TelephoneNumber.swift */,
 				BCAEFE731F03150800C97F9C /* Vehicle.swift */,
 				BCAEFE741F03150800C97F9C /* Warning.swift */,
-				BCAEFE751F03150800C97F9C /* Warrant.swift */,
 				1A290C851F3F097E00DD9ED5 /* Media.swift */,
 			);
 			path = Model;
@@ -472,11 +426,7 @@
 		BCAEFE5E1F03150800C97F9C /* Incidents */ = {
 			isa = PBXGroup;
 			children = (
-				BCAEFE5F1F03150800C97F9C /* BailOrder.swift */,
-				BCAEFE601F03150800C97F9C /* FamilyIncident.swift */,
-				BCAEFE611F03150800C97F9C /* FieldContact.swift */,
 				BCAEFE621F03150800C97F9C /* Interest.swift */,
-				BCAEFE631F03150800C97F9C /* InterventionOrder.swift */,
 				BCAEFE641F03150800C97F9C /* MissingPersonReport.swift */,
 				BCAEFE651F03150800C97F9C /* Whereabouts.swift */,
 			);
@@ -828,15 +778,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BCAEFE9B1F03150800C97F9C /* BailOrder.swift in Sources */,
-				1A2E8A8B1F3990150062FEA5 /* FieldContactDetailViewModel.swift in Sources */,
 				1A290C861F3F097E00DD9ED5 /* Media.swift in Sources */,
 				EA1CC2541F4132D200FE8BAE /* VINParserDefinition.swift in Sources */,
 				BC75A7BD1F1C3D5F004D46F1 /* VehicleInfoViewController.swift in Sources */,
 				BCAEFEDD1F0317DB00C97F9C /* EntityThumbnailView+Configuration.swift in Sources */,
 				1A2E8A741F3835CB0062FEA5 /* PersonCriminalHistoryViewModel.swift in Sources */,
 				BCAEFEA01F03150800C97F9C /* MissingPersonReport.swift in Sources */,
-				BCAEFEA91F03150800C97F9C /* ReportedPerson.swift in Sources */,
 				BCAEFEA21F03150800C97F9C /* KnownAssociate.swift in Sources */,
 				DB0C94AA1F5F9C7E00DE1C29 /* Entity+EntityDetailDisplayable.swift in Sources */,
 				BCAEFE961F03150800C97F9C /* Contact.swift in Sources */,
@@ -845,7 +792,6 @@
 				BCAEFE941F03150800C97F9C /* Alias.swift in Sources */,
 				BCAEFE931F03150800C97F9C /* Alert.swift in Sources */,
 				BCAEFE971F03150800C97F9C /* CriminalHistory.swift in Sources */,
-				1A2E8A721F38070A0062FEA5 /* PersonActionsViewModel.swift in Sources */,
 				BC75A7B61F1C3D50004D46F1 /* OrganizationInfoViewController.swift in Sources */,
 				BCAEFEA31F03150800C97F9C /* Licence.swift in Sources */,
 				BCAEFE9E1F03150800C97F9C /* Interest.swift in Sources */,
@@ -858,7 +804,6 @@
 				1A2E8A841F398E7A0062FEA5 /* EventDetailsViewModelable.swift in Sources */,
 				EA8B66651F38471500F09716 /* Person+EntitySummaryDisplayable.swift in Sources */,
 				BCC7AEE11F0BA9E70091AAEA /* DateSorting.swift in Sources */,
-				1A2E8A8C1F3990150062FEA5 /* InterventionOrderViewModel.swift in Sources */,
 				BCAEFEA71F03150800C97F9C /* PersonDescription.swift in Sources */,
 				1ABF4EAD1F3B446100C70E62 /* PersonDetailsViewModel.swift in Sources */,
 				1A159F171F4B1DFE00075330 /* PersonDetailsSectionsDataSource.swift in Sources */,
@@ -868,13 +813,9 @@
 				BCAEFEAD1F03150800C97F9C /* Source.swift in Sources */,
 				1A2E8A861F398EC60062FEA5 /* EventDetailsViewModelRouter.swift in Sources */,
 				BCAEFE921F03150800C97F9C /* Address.swift in Sources */,
-				BC75A7B81F1C3D55004D46F1 /* PersonActionsViewController.swift in Sources */,
 				1A2E8A831F398E7A0062FEA5 /* EventDetailsViewModel.swift in Sources */,
-				1A2E8A8A1F3990150062FEA5 /* BailOrderDetailViewModel.swift in Sources */,
 				1A5A4A851F4427A4000DF263 /* EntityEventViewModel.swift in Sources */,
-				BCAEFE9C1F03150800C97F9C /* FamilyIncident.swift in Sources */,
 				EA8B66601F38319700F09716 /* VehicleSearchParameters.swift in Sources */,
-				BC75A7BC1F1C3D5B004D46F1 /* CautionDetailsViewController.swift in Sources */,
 				EA1CC2511F3D91E800FE8BAE /* RegistrationParserDefinition.swift in Sources */,
 				BCAEFE991F03150800C97F9C /* Entity.swift in Sources */,
 				BC75A7B71F1C3D55004D46F1 /* PersonOccurrencesViewController.swift in Sources */,
@@ -883,11 +824,8 @@
 				BC75A7AD1F1C3D48004D46F1 /* EntityAlertsViewController.swift in Sources */,
 				EA8B66671F38473400F09716 /* Vehicle+EntitySummaryDisplayable.swift in Sources */,
 				EA8B66531F381BC000F09716 /* PersonSearchRequest.swift in Sources */,
-				BCAEFE911F03150800C97F9C /* Action.swift in Sources */,
 				1A2E8A801F397E2B0062FEA5 /* VehicleInfoViewModel.swift in Sources */,
-				BCAEFEB11F03150800C97F9C /* Warrant.swift in Sources */,
 				BCA1793C1F03542900AD1F5F /* PersonParserDefinition.swift in Sources */,
-				BCAEFE9F1F03150800C97F9C /* InterventionOrder.swift in Sources */,
 				BC75A7B91F1C3D55004D46F1 /* PersonDescriptionsViewController.swift in Sources */,
 				1A5A4A871F442993000DF263 /* VehicleOccurrencesViewModel.swift in Sources */,
 				1A5A4A891F442A1E000DF263 /* VehicleOccurrencesViewController.swift in Sources */,
@@ -900,9 +838,7 @@
 				BC75A7B11F1C3D48004D46F1 /* EntityOccurrencesViewController.swift in Sources */,
 				1A2E8A761F3932100062FEA5 /* PersonOccurrencesViewModel.swift in Sources */,
 				C63408531F30DA15000747B0 /* MPOLSource.swift in Sources */,
-				BCAEFE951F03150800C97F9C /* Caution.swift in Sources */,
 				1A2E8A781F3942FE0062FEA5 /* EntityAlertsViewModel.swift in Sources */,
-				BCAEFE9D1F03150800C97F9C /* FieldContact.swift in Sources */,
 				C681A3851F21AEA800F4AC13 /* LicenceParserDefinition.swift in Sources */,
 				BCAEFEA41F03150800C97F9C /* Member.swift in Sources */,
 				BC4FC2701F133D7500F1CAFB /* String+Pickable.swift in Sources */,
@@ -1022,7 +958,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = gridstone.ClientKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = "Internal-Debug";
 		};
@@ -1118,7 +1054,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = gridstone.ClientKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = "External-Debug";
 		};
@@ -1207,7 +1143,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = gridstone.ClientKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = "External-Release";
 		};
@@ -1296,7 +1232,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = gridstone.ClientKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = "Internal-Release";
 		};
@@ -1445,7 +1381,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = gridstone.ClientKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -1467,7 +1403,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = gridstone.ClientKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
