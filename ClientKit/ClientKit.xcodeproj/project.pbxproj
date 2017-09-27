@@ -107,7 +107,6 @@
 
 /* Begin PBXFileReference section */
 		06D483A3486289EC1F9A2090 /* Pods-ClientKitTests.external-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKitTests.external-release.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKitTests/Pods-ClientKitTests.external-release.xcconfig"; sourceTree = "<group>"; };
-		07D0E87B096DFCBB1D40E248 /* Pods-ClientKitTests.gstest.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKitTests.gstest.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKitTests/Pods-ClientKitTests.gstest.xcconfig"; sourceTree = "<group>"; };
 		088B889D2CA61C95A4F4B16D /* Pods-ClientKitTests.external-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKitTests.external-debug.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKitTests/Pods-ClientKitTests.external-debug.xcconfig"; sourceTree = "<group>"; };
 		0B8DEDC31FFACED2C6E00DBA /* Pods-ClientKit.internal-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKit.internal-debug.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKit/Pods-ClientKit.internal-debug.xcconfig"; sourceTree = "<group>"; };
 		1542E603389AAEE96EC1C25A /* Pods-ClientKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKitTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKitTests/Pods-ClientKitTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -209,7 +208,6 @@
 		EA9FB2671F417C4100F8015B /* RegistrationParserDefinitionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationParserDefinitionsTests.swift; sourceTree = "<group>"; };
 		EA9FB2691F4186C000F8015B /* VINParserDefinitionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VINParserDefinitionsTests.swift; sourceTree = "<group>"; };
 		EA9FB26B1F41879C00F8015B /* EngineNumberParserDefinitionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EngineNumberParserDefinitionsTests.swift; sourceTree = "<group>"; };
-		F93C11FCDDF0D24042C0AF06 /* Pods-ClientKit.gstest.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKit.gstest.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKit/Pods-ClientKit.gstest.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -547,8 +545,6 @@
 				D6779C04771873128EC55832 /* Pods-ClientKit.release.xcconfig */,
 				1542E603389AAEE96EC1C25A /* Pods-ClientKitTests.debug.xcconfig */,
 				C7ECBB5ADFC8B8CF04DA87A7 /* Pods-ClientKitTests.release.xcconfig */,
-				F93C11FCDDF0D24042C0AF06 /* Pods-ClientKit.gstest.xcconfig */,
-				07D0E87B096DFCBB1D40E248 /* Pods-ClientKitTests.gstest.xcconfig */,
 				D647D0CA4C2C7787D705910D /* Pods-ClientKit.external-debug.xcconfig */,
 				0B8DEDC31FFACED2C6E00DBA /* Pods-ClientKit.internal-debug.xcconfig */,
 				1A2F0757A22098856F4E5B68 /* Pods-ClientKit.internal-release.xcconfig */,
