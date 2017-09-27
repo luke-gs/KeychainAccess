@@ -9,11 +9,11 @@ workspace 'MPOLKit'
 project 'MPOLKit.xcodeproj'
 
 def mpol_kit_dependencies
-    pod 'Alamofire', '4.4.0'
+    pod 'Alamofire', '4.5.1'
     pod 'Unbox', '2.5.0'
-    pod 'Wrap', '2.1.0'
-    pod 'lottie-ios', '~> 2.0.2'
-    pod 'PromiseKit'
+    pod 'Wrap', '2.1.1'
+    pod 'lottie-ios', '~> 2.1.3'
+    pod 'PromiseKit', '~> 4.4.0'
 	pod 'KeychainSwift', '~> 8.0'
 end
 
