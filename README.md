@@ -61,14 +61,14 @@ extension AssetManager {
 
 When viewing an entity's details, there will be rules around how the data is matched between the data sources. There is a convenience object that is used in the `EntityDetailSectionsViewModel` to allow for data matching which should be passed in, in the `init`.
 
-The rules that are defined in the `FetchMatch` structs will be used when fetching the entity details for a data source that isn't the initial selected data source from the Search Results screen.
+The rules that are defined in the `DataMatchable` structs will be used when fetching the entity details for a data source that isn't the initial selected data source from the Search Results screen.
 
 More info on the the data matcher can be found in `MatchMaker.swift`.
 
-1. Create a bunch of `FetchMatch` structs defining your matching behaviour. **Note:** you might need to create custom fetch requests depending on how the entity details are fetched.
+1. Create a bunch of `DataMatchable` structs defining your matching behaviour. **Note:** you might need to create custom fetch requests depending on how the entity details are fetched.
 
 ```
-struct MPOLToFNCPersonMatch: FetchMatch {
+struct MPOLToFNCPersonMatch: DataMatchable {
     var initialSource: EntitySource = MPOLSource.mpol
     var resultSource: EntitySource = MPOLSource.fnc
 
@@ -80,7 +80,7 @@ struct MPOLToFNCPersonMatch: FetchMatch {
     }
 }
 
-struct FNCToMPOLPersonMatch: FetchMatch {
+struct FNCToMPOLPersonMatch: DataMatchable {
     var initialSource: EntitySource = MPOLSource.fnc
     var resultSource: EntitySource = MPOLSource.mpol
 
@@ -97,7 +97,7 @@ struct FNCToMPOLPersonMatch: FetchMatch {
 
 ```
 public class PersonMatchMaker: MatchMaker {
-    override public var matches: [FetchMatch]? {
+    override public var matches: [DataMatchable]? {
         return [
             MPOLToFNCPersonMatch(),
             FNCToMPOLPersonMatch()
