@@ -546,7 +546,7 @@ extension FormTableViewController {
 
     open override var additionalSafeAreaInsets: UIEdgeInsets {
         didSet {
-            if additionalSafeAreaInsets != oldValue && wantsCalculatedContentHeight {
+            if additionalSafeAreaInsets != oldValue && calculatesContentHeight {
                 updateCalculatedContentHeight()
             }
         }
