@@ -74,7 +74,7 @@ import XCTest
 // Make sure the `test object` is tested
 class SecureArchiverObjectTests: XCTestCase {
     func testSupportsSecureCoding() {
-        let supports = MPMusicPlayerPlayParameters.supportsSecureCoding
+        let supports = SecureTestArchiverObject.supportsSecureCoding
         XCTAssertTrue(supports)
     }
     
@@ -89,7 +89,7 @@ class SecureArchiverObjectTests: XCTestCase {
 class ArchiverObjectTests: XCTestCase {
 
     func testSupportsSecureCoding() {
-        let supports = MPMusicPlayerPlayParameters.supportsSecureCoding
+        let supports = TestArchiverObject.supportsSecureCoding
         XCTAssertFalse(supports)
     }
     
