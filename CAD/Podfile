@@ -7,26 +7,17 @@ source 'https://github.com/Gridstone/SpecRepo-iOS.git'
 
 workspace 'CAD'
 project 'CAD.xcodeproj'
-project '../ClientKit/ClientKit.xcodeproj'
 
 def mpol_kit
     #pod 'MPOLKit', :git=> 'https://github.com/Gridstone/mPolKit-iOS'
     pod 'MPOLKit', :path => '../../mPolKit-iOS', :inhibit_warnings => false
-end
-
-target 'ClientKit' do
-    project '../ClientKit/ClientKit.xcodeproj'
-    mpol_kit
-    
-    target 'ClientKitTests' do
-        inherit! :search_paths
-    end
+    pod 'ClientKit', :path => '../ClientKit', :inhibit_warnings => false
 end
 
 target 'CAD' do
     project 'CAD.xcodeproj'
     mpol_kit
-    pod "HockeySDK", :configurations => ['internal-release', 'internal-debug']
+    pod "HockeySDK" #, :configurations => ['internal-release', 'internal-debug']
 end
 
 post_install do |installer|
