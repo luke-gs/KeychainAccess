@@ -125,7 +125,7 @@ open class Entity: MPOLKitEntity {
         isSummary = aDecoder.decodeObject(forKey: Coding.isSummary.rawValue) as! Bool?
         arn = aDecoder.decodeObject(of: NSString.self, forKey: Coding.arn.rawValue) as String?
         jurisdiction = aDecoder.decodeObject(of: NSString.self, forKey: Coding.jurisdiction.rawValue) as String?
-        actionCount = UInt(aDecoder.decodeObject(of: NSNumber.self, forKey: Coding.actionCount.rawValue)!)
+        actionCount = UInt(truncating: aDecoder.decodeObject(of: NSNumber.self, forKey: Coding.actionCount.rawValue)!)
         alerts = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.alerts.rawValue) as? [Alert]
         associatedPersons = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.associatedPersons.rawValue) as? [Person]
         associatedVehicles = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.associatedVehicles.rawValue) as? [Vehicle]

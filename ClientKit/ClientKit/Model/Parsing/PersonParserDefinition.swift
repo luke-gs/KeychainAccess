@@ -59,11 +59,10 @@ public class PersonParserDefinition: QueryParserDefinition {
 
         let tokens: [String]
         if let range = query.range(of: ",") {
-            let surname = query.substring(to: range.lowerBound)
+            let surname = String(query[..<range.lowerBound])
             var results = [surname]
-            let remaining = query.substring(from: range.upperBound)
-            results.append(contentsOf: remaining.components(separatedBy: PersonParserDefinition.componentsSeparatorSet))
-            
+            let remaining = String(query[range.upperBound...])
+            results.append(contentsOf: remaining.components(separatedBy: PersonParserDefinition.componentsSeparatorSet))            
             tokens = results
         } else {
             tokens = query.components(separatedBy: PersonParserDefinition.componentsSeparatorSet)
