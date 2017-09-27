@@ -8,8 +8,6 @@
 
 import UIKit
 
-fileprivate var FontAssociatedTextStyleHandle: UInt8 = 0
-
 extension UIFont {
 
     public func height(forNumberOfLines numberOfLines: Int) -> CGFloat {
