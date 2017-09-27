@@ -19,14 +19,14 @@ extension NSMutableAttributedString {
     /// Appends string with custom font and colour to existing attributed string
     @discardableResult
     func append(_ text: String, font: UIFont? = nil, color: UIColor? = nil) -> NSMutableAttributedString {
-        var attributes: [String: Any] = [:]
+        var attributes: [NSAttributedStringKey: Any] = [:]
         
         if let font = font {
-            attributes[NSFontAttributeName] = font
+            attributes[NSAttributedStringKey.font] = font
         }
         
         if let color = color {
-            attributes[NSForegroundColorAttributeName] = color
+            attributes[NSAttributedStringKey.foregroundColor] = color
         }
         
         let attributedString = NSMutableAttributedString(string: text, attributes: attributes)

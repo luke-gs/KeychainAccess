@@ -11,7 +11,7 @@ import XCTest
 
 @objc(MPLSecureTestArchiverObject) private class SecureTestArchiverObject: NSObject, NSSecureCoding {
     
-    let testingProperty: String
+    @objc let testingProperty: String
     
     init(testingProperty: String) {
         self.testingProperty = testingProperty
@@ -42,7 +42,7 @@ import XCTest
 
 @objc(MPLTestArchiverObject) private class TestArchiverObject: NSObject, NSSecureCoding {
     
-    let testingProperty: String
+    @objc let testingProperty: String
     
     init(testingProperty: String) {
         self.testingProperty = testingProperty
@@ -74,7 +74,7 @@ import XCTest
 // Make sure the `test object` is tested
 class SecureArchiverObjectTests: XCTestCase {
     func testSupportsSecureCoding() {
-        let supports = SecureTestArchiverObject.supportsSecureCoding
+        let supports = MPMusicPlayerPlayParameters.supportsSecureCoding
         XCTAssertTrue(supports)
     }
     
@@ -89,7 +89,7 @@ class SecureArchiverObjectTests: XCTestCase {
 class ArchiverObjectTests: XCTestCase {
 
     func testSupportsSecureCoding() {
-        let supports = TestArchiverObject.supportsSecureCoding
+        let supports = MPMusicPlayerPlayParameters.supportsSecureCoding
         XCTAssertFalse(supports)
     }
     

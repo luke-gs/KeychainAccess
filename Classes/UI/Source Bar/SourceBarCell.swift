@@ -12,8 +12,8 @@ import UIKit
 internal class SourceBarCell: UIControl {
     
     private static let disabledColor = #colorLiteral(red: 0.2352941176, green: 0.2352941176, blue: 0.2352941176, alpha: 1)
-    private static let selectedFont  = UIFont.systemFont(ofSize: 11.5, weight: UIFontWeightBold)
-    private static let normalFont    = UIFont.systemFont(ofSize: 11.5, weight: UIFontWeightRegular)
+    private static let selectedFont  = UIFont.systemFont(ofSize: 11.5, weight: UIFont.Weight.bold)
+    private static let normalFont    = UIFont.systemFont(ofSize: 11.5, weight: UIFont.Weight.regular)
     
     internal let titleLabel = UILabel(frame: .zero)
     

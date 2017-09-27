@@ -7,10 +7,10 @@
 //
 
 /// The standard vertical separation value between title and detail labels.
-internal let CellTitleSubtitleSeparation: CGFloat = 3.5
+public let CellTitleSubtitleSeparation: CGFloat = 3.5
 
 /// The standard horizontal separation between images and labels.
-internal let CellImageLabelSeparation: CGFloat = 10.0
+public let CellImageLabelSeparation: CGFloat = 10.0
 
 internal let iOSStandardSeparatorColor = #colorLiteral(red: 0.7843137255, green: 0.7803921569, blue: 0.8, alpha: 1)
 

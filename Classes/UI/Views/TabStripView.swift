@@ -96,7 +96,7 @@ open class TabStripView: UIView, UICollectionViewDataSource, UICollectionViewDel
     
     
     /// The font appearance for text items in the bar.
-    public var textFont: UIFont = .systemFont(ofSize: 14.0, weight: UIFontWeightSemibold) {
+    public var textFont: UIFont = .systemFont(ofSize: 14.0, weight: UIFont.Weight.semibold) {
         didSet {
             if textFont == oldValue { return }
             
@@ -286,7 +286,7 @@ open class TabStripView: UIView, UICollectionViewDataSource, UICollectionViewDel
             return
         }
         
-        let fontAttribute = [NSFontAttributeName: textFont]
+        let fontAttribute = [NSAttributedStringKey.font: textFont]
         let scale = traitCollection.currentDisplayScale
         
         var maxIndividualWidth: CGFloat = 0.0
@@ -297,7 +297,7 @@ open class TabStripView: UIView, UICollectionViewDataSource, UICollectionViewDel
             
             switch $0 {
             case let image as UIImage: width = image.size.width + minItemPadding
-            case let text as NSString: width = text.size(attributes: fontAttribute).width.ceiled(toScale: scale) + minItemPadding
+            case let text as NSString: width = text.size(withAttributes: fontAttribute).width.ceiled(toScale: scale) + minItemPadding
             default: fatalError("TabStripView only supports Strings and Images.")
             }
             

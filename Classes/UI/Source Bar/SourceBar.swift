@@ -263,10 +263,10 @@ public class SourceBar: UIScrollView {
         let stretchyAxis: UILayoutConstraintAxis = axis == .vertical ? .vertical : .horizontal
         let hardAxis: UILayoutConstraintAxis     = axis == .vertical ? .horizontal : .vertical
         
-        setContentCompressionResistancePriority(UILayoutPriorityDefaultLow,  for: stretchyAxis)
-        setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: hardAxis)
-        setContentHuggingPriority(UILayoutPriorityFittingSizeLevel, for: stretchyAxis)
-        setContentHuggingPriority(UILayoutPriorityRequired - 1,     for: hardAxis)
+        setContentCompressionResistancePriority(UILayoutPriority.defaultLow,  for: stretchyAxis)
+        setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: hardAxis)
+        setContentHuggingPriority(UILayoutPriority.fittingSizeLevel, for: stretchyAxis)
+        setContentHuggingPriority(UILayoutPriority(rawValue: UILayoutPriority.RawValue(Int(UILayoutPriority.required.rawValue) - 1)),     for: hardAxis)
     }
     
     private func updateCellSelection() {

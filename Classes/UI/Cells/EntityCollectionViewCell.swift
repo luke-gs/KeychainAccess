@@ -286,7 +286,7 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
                     NSLayoutConstraint(item: thumbnailView, attribute: .height,  relatedBy: .equal, toConstant: 160.0),
                     NSLayoutConstraint(item: thumbnailView, attribute: .top,     relatedBy: .equal, toItem: contentView, attribute: .topMargin),
                     NSLayoutConstraint(item: thumbnailView, attribute: .leading, relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .leading),
-                    NSLayoutConstraint(item: thumbnailView, attribute: .centerX, relatedBy: .equal, toItem: contentModeGuide, attribute: .centerX, priority: UILayoutPriorityRequired - 1),
+                    NSLayoutConstraint(item: thumbnailView, attribute: .centerX, relatedBy: .equal, toItem: contentModeGuide, attribute: .centerX, priority: UILayoutPriority(rawValue: UILayoutPriority.RawValue(Int(UILayoutPriority.required.rawValue) - 1))),
                     
                     NSLayoutConstraint(item: textLabelGuide, attribute: .leading,  relatedBy: .equal, toItem: thumbnailView, attribute: .leading),
                     NSLayoutConstraint(item: textLabelGuide, attribute: .top,      relatedBy: .equal, toItem: thumbnailView, attribute: .bottom, constant: 9.0),
@@ -298,7 +298,7 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
                     NSLayoutConstraint(item: thumbnailView, attribute: .width,   relatedBy: .equal, toConstant: 96.0),
                     NSLayoutConstraint(item: thumbnailView, attribute: .height,  relatedBy: .equal, toConstant: 96.0),
                     NSLayoutConstraint(item: thumbnailView, attribute: .leading, relatedBy: .equal, toItem: contentModeGuide, attribute: .leading),
-                    NSLayoutConstraint(item: thumbnailView, attribute: .centerY, relatedBy: .equal, toItem: contentModeGuide, attribute: .centerY, priority: UILayoutPriorityRequired - 1),
+                    NSLayoutConstraint(item: thumbnailView, attribute: .centerY, relatedBy: .equal, toItem: contentModeGuide, attribute: .centerY, priority: UILayoutPriority(rawValue: UILayoutPriority.RawValue(Int(UILayoutPriority.required.rawValue) - 1))),
                     NSLayoutConstraint(item: thumbnailView, attribute: .top,     relatedBy: .greaterThanOrEqual, toItem: contentModeGuide, attribute: .top),
                     
                     NSLayoutConstraint(item: textLabelGuide, attribute: .leading,  relatedBy: .equal, toItem: thumbnailView, attribute: .trailing, constant: 10.0),
@@ -313,7 +313,7 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
                     NSLayoutConstraint(item: thumbnailView, attribute: .top,     relatedBy: .equal, toItem: contentModeGuide, attribute: .top),
                     NSLayoutConstraint(item: thumbnailView, attribute: .centerY, relatedBy: .equal, toItem: contentModeGuide, attribute: .centerY),
                     NSLayoutConstraint(item: thumbnailView, attribute: .leading, relatedBy: .greaterThanOrEqual, toItem: contentModeGuide, attribute: .leading),
-                    NSLayoutConstraint(item: thumbnailView, attribute: .centerX, relatedBy: .equal, toItem: contentModeGuide, attribute: .centerX, priority: UILayoutPriorityRequired - 1),
+                    NSLayoutConstraint(item: thumbnailView, attribute: .centerX, relatedBy: .equal, toItem: contentModeGuide, attribute: .centerX, priority: UILayoutPriority(rawValue: UILayoutPriority.RawValue(Int(UILayoutPriority.required.rawValue) - 1))),
                     
                     NSLayoutConstraint(item: textLabelGuide, attribute: .leading,  relatedBy: .equal, toItem: thumbnailView, attribute: .trailing, constant: 10.0),
                     NSLayoutConstraint(item: textLabelGuide, attribute: .centerY,  relatedBy: .equal, toItem: thumbnailView, attribute: .centerY),

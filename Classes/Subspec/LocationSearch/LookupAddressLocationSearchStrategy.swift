@@ -33,15 +33,15 @@ open class LookupAddressLocationSearchStrategy: LocationSearchStrategy {
         return MapSummarySearchResultViewModel()
     }
 
-    public var onResultModelForResult: ((LookupResult, Searchable) -> SearchResultModelable)? = {
+    public var onResultModelForResult: ((LookupResult, Searchable) -> SearchResultModelable)? = { (result, searchable) in
         let preferredViewModel = MapSummarySearchResultViewModel()
-        preferredViewModel.fetchResults(withCoordinate: $0.0.location.coordinate)
+        preferredViewModel.fetchResults(withCoordinate: result.location.coordinate)
         return preferredViewModel
     }
 
-    public var onResultModelForParameters: ((Parameterisable, Searchable) -> SearchResultModelable)? = {
+    public var onResultModelForParameters: ((Parameterisable, Searchable) -> SearchResultModelable)? = { (parameterisable, searchable) in
         let preferredViewModel = MapSummarySearchResultViewModel()
-        preferredViewModel.fetchResults(withParameters: $0.0)
+        preferredViewModel.fetchResults(withParameters: parameterisable)
         return preferredViewModel
     }
 

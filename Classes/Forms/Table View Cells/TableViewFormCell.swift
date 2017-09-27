@@ -67,15 +67,15 @@ open class TableViewFormCell: UITableViewCell, DefaultReusable {
         contentView.addLayoutGuide(contentModeLayoutGuide)
         
         /// A minimum content height of 23.0 is the standard for a table view cell.
-        minimumHeightConstraint = NSLayoutConstraint(item: contentView, attribute: .bottomMargin, relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .topMargin, constant: 23.0, priority: UILayoutPriorityDefaultHigh)
+        minimumHeightConstraint = NSLayoutConstraint(item: contentView, attribute: .bottomMargin, relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .topMargin, constant: 23.0, priority: UILayoutPriority.defaultHigh)
         
-        contentModeLayoutConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerYWithinMargins, priority: UILayoutPriorityDefaultLow - 1)
+        contentModeLayoutConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerYWithinMargins, priority: UILayoutPriority(rawValue: UILayoutPriority.RawValue(Int(UILayoutPriority.defaultLow.rawValue) - 1)))
         
         NSLayoutConstraint.activate([
             NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .leading,  relatedBy: .equal, toItem: contentView, attribute: .leadingMargin),
             NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .trailing, relatedBy: .equal, toItem: contentView, attribute: .trailingMargin),
             NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .top,      relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .topMargin),
-            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .bottom,   relatedBy: .lessThanOrEqual,    toItem: contentView, attribute: .bottomMargin, priority: 500),
+            NSLayoutConstraint(item: contentModeLayoutGuide, attribute: .bottom,   relatedBy: .lessThanOrEqual,    toItem: contentView, attribute: .bottomMargin, priority: UILayoutPriority(rawValue: 500)),
             contentModeLayoutConstraint, minimumHeightConstraint
         ])
     }

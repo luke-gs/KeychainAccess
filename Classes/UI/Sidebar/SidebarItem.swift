@@ -17,34 +17,34 @@ import UIKit
 open class SidebarItem: NSObject {
     
     /// Indicates whether the item is enabled. The default is `true`.
-    open dynamic var isEnabled: Bool = true
+    @objc open dynamic var isEnabled: Bool = true
     
     /// The image to display representing the item.
     ///
     /// Using a template image applies the `SidebarItem.color` property as a tint.
-    open dynamic var image: UIImage?
+    @objc open dynamic var image: UIImage?
     
     /// The image to display representing the item when selected.
     ///
     /// Using a template image applies the `SidebarItem.selectedColor` property as a tint.
-    open dynamic var selectedImage: UIImage?
+    @objc open dynamic var selectedImage: UIImage?
     
     /// The localized title of the item.
-    open dynamic var title: String?
+    @objc open dynamic var title: String?
     
     /// A count indicating an additional numerical number for the item.
-    open dynamic var count: UInt = 0
+    @objc open dynamic var count: UInt = 0
     
     /// The color to tint the image.
-    @NSCopying open dynamic var color: UIColor?
+    @objc @NSCopying open dynamic var color: UIColor?
     
     /// The color to tint the image (or selected image) when selected.
-    @NSCopying open dynamic var selectedColor: UIColor?
+    @objc @NSCopying open dynamic var selectedColor: UIColor?
     
     /// The color to apply to the alert icon over the image.
     ///
     /// When nil, the icon is not displayed. The default is `nil`.
-    @NSCopying open dynamic var alertColor: UIColor?
+    @objc @NSCopying open dynamic var alertColor: UIColor?
 }
 
 

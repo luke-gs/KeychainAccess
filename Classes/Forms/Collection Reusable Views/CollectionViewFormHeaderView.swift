@@ -151,7 +151,7 @@ public class CollectionViewFormHeaderView: UICollectionReusableView, DefaultReus
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.textColor = tintColor
-        titleLabel.font = .systemFont(ofSize: 11.0, weight: UIFontWeightSemibold)
+        titleLabel.font = .systemFont(ofSize: 11.0, weight: UIFont.Weight.semibold)
         
         separatorView.translatesAutoresizingMaskIntoConstraints = false
         separatorView.backgroundColor = iOSStandardSeparatorColor
@@ -175,7 +175,7 @@ public class CollectionViewFormHeaderView: UICollectionReusableView, DefaultReus
             titleLabel.centerYAnchor.constraint(equalTo: separatorView.centerYAnchor),
             
             separatorView.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor),
-            separatorView.trailingAnchor.constraint(equalTo: self.trailingAnchor).withPriority(UILayoutPriorityRequired - 1),
+            separatorView.trailingAnchor.constraint(equalTo: self.trailingAnchor).withPriority(UILayoutPriority(rawValue: UILayoutPriority.RawValue(Int(UILayoutPriority.required.rawValue) - 1))),
             
             titleSeparatorConstraint,
             separatorSeparationConstraint,

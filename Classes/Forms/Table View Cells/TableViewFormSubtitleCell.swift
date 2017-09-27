@@ -116,10 +116,10 @@ open class TableViewFormSubtitleCell: TableViewFormCell {
         
         subtitleLabel.numberOfLines = 0
         
-        imageView.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .vertical)
-        imageView.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .horizontal)
-        imageView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
-        imageView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+        imageView.setContentHuggingPriority(UILayoutPriority.defaultHigh, for: .vertical)
+        imageView.setContentHuggingPriority(UILayoutPriority.defaultHigh, for: .horizontal)
+        imageView.setContentCompressionResistancePriority(UILayoutPriority.required, for: .vertical)
+        imageView.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
         
         titleSubtitleConstraint = NSLayoutConstraint(item: subtitleLabel,   attribute: .top,      relatedBy: .equal, toItem: titleLabel, attribute: .bottom)
         textLeadingConstraint   = NSLayoutConstraint(item: textLayoutGuide, attribute: .leading,  relatedBy: .equal, toItem: imageView,  attribute: .trailing)
@@ -143,8 +143,8 @@ open class TableViewFormSubtitleCell: TableViewFormCell {
             textLeadingConstraint,
             titleSubtitleConstraint,
             
-            NSLayoutConstraint(item: imageView,       attribute: .top, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .top, priority: UILayoutPriorityDefaultLow),
-            NSLayoutConstraint(item: textLayoutGuide, attribute: .top, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .top, priority: UILayoutPriorityDefaultLow)
+            NSLayoutConstraint(item: imageView,       attribute: .top, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .top, priority: UILayoutPriority.defaultLow),
+            NSLayoutConstraint(item: textLayoutGuide, attribute: .top, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .top, priority: UILayoutPriority.defaultLow)
             ])
 
         let textKeyPath     = #keyPath(UILabel.text)

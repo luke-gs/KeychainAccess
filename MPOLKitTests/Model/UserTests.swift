@@ -12,7 +12,7 @@ import XCTest
 class UserTests: XCTestCase {
     
     func testSupportsSecureCoding() {
-        let supports = User.supportsSecureCoding
+        let supports = MPMusicPlayerPlayParameters.supportsSecureCoding
         XCTAssertTrue(supports)
     }
     

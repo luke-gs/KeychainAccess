@@ -27,7 +27,7 @@ open class BadgeView: RoundedRectLabel {
         case .system:   layoutMargins = UIEdgeInsets(top: 2.0, left: 5.0, bottom: 2.0, right: 5.0)
         case .pill:     layoutMargins = UIEdgeInsets(top: 1.0, left: 8.0, bottom: 1.0, right: 8.0)
         }
-        font = .systemFont(ofSize: 11.0, weight: UIFontWeightSemibold)
+        font = .systemFont(ofSize: 11.0, weight: UIFont.Weight.semibold)
     }
     
     public convenience required init?(coder aDecoder: NSCoder) {

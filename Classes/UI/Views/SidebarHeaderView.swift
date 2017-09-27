@@ -71,7 +71,7 @@ open class SidebarHeaderView: UIView {
         captionLabel.translatesAutoresizingMaskIntoConstraints = false
         captionLabel.adjustsFontSizeToFitWidth = true
         captionLabel.adjustsFontForContentSizeCategory = true
-        captionLabel.font = .systemFont(ofSize: 10.0, weight: UIFontWeightBold)
+        captionLabel.font = .systemFont(ofSize: 10.0, weight: UIFont.Weight.bold)
         captionLabel.textColor = secondaryColor
         captionLabel.textAlignment = .center
         addSubview(captionLabel)
@@ -83,7 +83,7 @@ open class SidebarHeaderView: UIView {
         titleLabel.adjustsFontSizeToFitWidth = true
         titleLabel.adjustsFontForContentSizeCategory = true
         titleLabel.numberOfLines = 0
-        titleLabel.font = .systemFont(ofSize: 28.0, weight: UIFontWeightBold)
+        titleLabel.font = .systemFont(ofSize: 28.0, weight: UIFont.Weight.bold)
         titleLabel.textColor = .white
         titleLabel.textAlignment = .center
         addSubview(titleLabel)
@@ -99,8 +99,8 @@ open class SidebarHeaderView: UIView {
         updateSubtitleFont()
         
         NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: iconView, attribute: .width,  relatedBy: .equal, toConstant: 64.0).withPriority(UILayoutPriorityDefaultHigh),
-            NSLayoutConstraint(item: iconView, attribute: .height, relatedBy: .equal, toConstant: 64.0).withPriority(UILayoutPriorityDefaultHigh),
+            NSLayoutConstraint(item: iconView, attribute: .width,  relatedBy: .equal, toConstant: 64.0).withPriority(UILayoutPriority.defaultHigh),
+            NSLayoutConstraint(item: iconView, attribute: .height, relatedBy: .equal, toConstant: 64.0).withPriority(UILayoutPriority.defaultHigh),
             NSLayoutConstraint(item: iconView, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX),
             NSLayoutConstraint(item: iconView, attribute: .top,     relatedBy: .equal, toItem: self, attribute: .top, constant: 22.0),
             
@@ -121,7 +121,7 @@ open class SidebarHeaderView: UIView {
             
             NSLayoutConstraint(item: sectionSeparator, attribute: .top,     relatedBy: .equal, toItem: subtitleLabel, attribute: .bottom, constant: 23.0),
             NSLayoutConstraint(item: sectionSeparator, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX),
-            NSLayoutConstraint(item: sectionSeparator, attribute: .bottom,  relatedBy: .equal, toItem: self, attribute: .bottom, constant: -11.0).withPriority(UILayoutPriorityDefaultHigh)
+            NSLayoutConstraint(item: sectionSeparator, attribute: .bottom,  relatedBy: .equal, toItem: self, attribute: .bottom, constant: -11.0).withPriority(UILayoutPriority.defaultHigh)
         ])
     }
     

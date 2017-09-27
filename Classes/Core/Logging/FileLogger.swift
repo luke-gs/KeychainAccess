@@ -35,7 +35,7 @@ public struct FileLogger: Loggable {
     public let fileURL: URL
     internal let configurations: FileLoggerConfigurations
 
-    private static let defaultURL: URL = try! FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("Logs/Network")
+    public static let defaultURL: URL = try! FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("Logs/Network")
 
     /// ---------------------------------------------------------------------------------------
     /// Designated Init
