@@ -225,7 +225,7 @@ open class WhatsNewViewController: UIViewController, UIPageViewControllerDataSou
     }
     
     private var currentIndex: Int {
-        return viewControllers.index(of: currentViewController)
+        return viewControllers.index(of: currentViewController!)
     }
     
     private var lastIndex: Int {
@@ -234,9 +234,9 @@ open class WhatsNewViewController: UIViewController, UIPageViewControllerDataSou
     
     private func viewController(at index: Int) -> UIViewController? {
         guard index >= 0, index < viewControllers.count else { return nil }
-        return viewControllers[index] as! UIViewController
+        return viewControllers[index] as? UIViewController
     }
-    
+
     private func index(of viewController: UIViewController) -> Int {
         return viewControllers.index(of: viewController)
     }
