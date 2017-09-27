@@ -5,8 +5,8 @@
 
 import Foundation
 
-
 public enum LocationAdvanceItem: Int {
+
     case unit
     case streetNumber
     case streetName
@@ -27,6 +27,10 @@ public enum LocationAdvanceItem: Int {
     ]
 
     public var title: String { return LocationAdvanceItem.titles[self]! }
+
+    public static let all: [LocationAdvanceItem] = [
+        .unit, .streetNumber, .streetName, .streetType, .suburb, .state, .postcode
+    ]
 }
 
 public enum StreetType: String, Pickable {
@@ -67,11 +71,12 @@ public enum StateType: String, Pickable {
     ]
 }
 
-
 open class LookupAddressLocationAdvancedOptions: LocationAdvanceOptions {
+
+    public var delegate: LocationAdvancedOptionDelegate?
     
     public typealias Location = LookupAddress
-    
+
     public let title: String = NSLocalizedString("Advanced Search", comment: "")
     
     public let cancelTitle: String = NSLocalizedString("BACK TO SIMPLE SEARCH", comment: "Location Search - Back to simple search")
@@ -83,6 +88,8 @@ open class LookupAddressLocationAdvancedOptions: LocationAdvanceOptions {
     open var suburb:             String?
     open var postcode:           String?
     open var state:              StateType?  = .VIC
+
+    public var requiredFields: [LocationAdvanceItem] = []
 
     open let headerText: String? = NSLocalizedString("EDIT ADDRESS", comment: "Location Search - Edit address")
 
@@ -98,6 +105,10 @@ open class LookupAddressLocationAdvancedOptions: LocationAdvanceOptions {
 
     open func title(at index: Int) -> String {
         return LocationAdvanceItem(rawValue: index)!.title
+    }
+
+    public func isRequired(at index: Int) -> Bool {
+        return requiredFields.contains(LocationAdvanceItem(rawValue: index)!)
     }
 
     open func value(at index: Int) -> String? {
@@ -219,6 +230,7 @@ open class LookupAddressLocationAdvancedOptions: LocationAdvanceOptions {
                 state = .VIC
             }
         }
+        delegate?.locationAdvancedOptionsDidUpdate()
     }
     
     open func populate(withLocation location: LookupAddress) {

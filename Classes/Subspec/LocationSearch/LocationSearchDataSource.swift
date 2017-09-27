@@ -33,8 +33,8 @@ public struct LookupResult: Pickable {
 
 public let LocationSearchDataSourceSearchableType = "Location"
 
-public class LocationSearchDataSource<T: LocationAdvanceOptions, U: LocationSearchStrategy>: NSObject, SearchDataSource, UITextFieldDelegate, LocationBasicSearchOptionsDelegate where T.Location == U.Location {
-    
+public class LocationSearchDataSource<T: LocationAdvanceOptions, U: LocationSearchStrategy>: NSObject, SearchDataSource, UITextFieldDelegate, LocationBasicSearchOptionsDelegate, LocationAdvancedOptionDelegate where T.Location == U.Location {
+
     private let searchPlaceholder = NSAttributedString(string: NSLocalizedString("eg. 28 Wellington Street", comment: ""),
                                                        attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 28.0, weight: UIFontWeightLight), NSForegroundColorAttributeName: UIColor.lightGray])
     
@@ -118,6 +118,7 @@ public class LocationSearchDataSource<T: LocationAdvanceOptions, U: LocationSear
             basicOptions.others = [.advance]
         }
 
+        self.advanceOptions?.delegate = self
         basicOptions.delegate = self
         options = basicOptions
     }
@@ -250,6 +251,15 @@ public class LocationSearchDataSource<T: LocationAdvanceOptions, U: LocationSear
                 let error = $0 as? MappedError
                 self.errorMessage = error?.localizedDescription
             }
+        }
+    }
+
+    // MARK: - Advanced Search Delegate
+
+    public func locationAdvancedOptionsDidUpdate() {
+        if let advancedOptions = advanceOptions {
+            let canPerformSearch = advancedOptions.canPeformSearch()
+            searchButton?.isEnabled = canPerformSearch
         }
     }
 
