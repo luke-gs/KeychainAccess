@@ -10,7 +10,7 @@ import MPOLKit
 
 // VEHICLE
 
-struct MPOLToFNCVehicleMatch: FetchMatch {
+struct MPOLToFNCVehicleMatch: DataMatchable {
     var initialSource: EntitySource = MPOLSource.mpol
     var resultSource: EntitySource = MPOLSource.fnc
 
@@ -22,7 +22,7 @@ struct MPOLToFNCVehicleMatch: FetchMatch {
     }
 }
 
-struct FNCToMPOLVehicleMatch: FetchMatch {
+struct FNCToMPOLVehicleMatch: DataMatchable {
     var initialSource: EntitySource = MPOLSource.fnc
     var resultSource: EntitySource = MPOLSource.mpol
 
@@ -38,7 +38,7 @@ struct FNCToMPOLVehicleMatch: FetchMatch {
 
 // PERSON
 
-struct MPOLToFNCPersonMatch: FetchMatch {
+struct MPOLToFNCPersonMatch: DataMatchable {
     var initialSource: EntitySource = MPOLSource.mpol
     var resultSource: EntitySource = MPOLSource.fnc
 
@@ -50,7 +50,7 @@ struct MPOLToFNCPersonMatch: FetchMatch {
     }
 }
 
-struct FNCToMPOLPersonMatch: FetchMatch {
+struct FNCToMPOLPersonMatch: DataMatchable {
     var initialSource: EntitySource = MPOLSource.fnc
     var resultSource: EntitySource = MPOLSource.mpol
 

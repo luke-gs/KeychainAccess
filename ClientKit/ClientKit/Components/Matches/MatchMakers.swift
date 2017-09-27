@@ -9,7 +9,7 @@
 import MPOLKit
 
 public class VehicleMatchMaker: MatchMaker {
-    override public var matches: [FetchMatch]? {
+    override public var matches: [DataMatchable]? {
         return [
             MPOLToFNCVehicleMatch(),
             FNCToMPOLVehicleMatch()
@@ -18,7 +18,7 @@ public class VehicleMatchMaker: MatchMaker {
 }
 
 public class PersonMatchMaker: MatchMaker {
-    override public var matches: [FetchMatch]? {
+    override public var matches: [DataMatchable]? {
         return [
             MPOLToFNCPersonMatch(),
             FNCToMPOLPersonMatch()
