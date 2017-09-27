@@ -7,7 +7,7 @@
 //
 
 /// Defines the rules of how two datasources should be matched together
-public protocol FetchMatch {
+public protocol DataMatchable {
 
     /// The initial data source
     var initialSource: EntitySource { get }
@@ -31,7 +31,7 @@ open class MatchMaker {
     public init() { }
 
     /// An array of `FetchMatch`es to be implemented in the subclass
-    open var matches: [FetchMatch]? {
+    open var matches: [DataMatchable]? {
         MPLUnimplemented()
     }
 
