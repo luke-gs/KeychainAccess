@@ -13,14 +13,16 @@ fileprivate var FontAssociatedTextStyleHandle: UInt8 = 0
 extension UIFont {
 
     public func height(forNumberOfLines numberOfLines: Int) -> CGFloat {
-        // TODO: Swift 4 refactor with Switch using open ranges.
-        if numberOfLines <= 0 { return .greatestFiniteMagnitude }
-        
-        if numberOfLines == 1 {
+
+        switch numberOfLines {
+        case ..<0:
+            return .greatestFiniteMagnitude
+        case 1:
             return lineHeight
+        default:
+            return (lineHeight + leading) * CGFloat(numberOfLines) - leading
         }
 
-        return (lineHeight + leading) * CGFloat(numberOfLines) - leading
     }
     
 }
