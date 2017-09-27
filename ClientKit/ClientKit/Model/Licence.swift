@@ -97,6 +97,7 @@ open class Licence: NSObject, Serialisable {
 
 /// Licence Class
 extension Licence {
+    @objc(MPLLicenceClass)
     public class LicenceClass: NSObject, Serialisable {
         
         open let id: String
@@ -159,6 +160,7 @@ extension Licence {
     }
     
     /// Licence Condition
+    @objc(MPLCondition)
     public class Condition: NSObject, Serialisable {
         
         open let id: String
@@ -231,6 +233,7 @@ extension Licence {
     }
     
     /// Licence Restriction
+    @objc(MPLRestriction)
     public class Restriction: NSObject, Serialisable {
         
         open let id: String

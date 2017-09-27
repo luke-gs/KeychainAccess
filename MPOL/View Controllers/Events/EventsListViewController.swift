@@ -172,7 +172,7 @@ private class EventListFooterView: UICollectionReusableView, DefaultReusable {
         
         var constraints = [
             captionLabel.topAnchor.constraint(greaterThanOrEqualTo: layoutMarginsGuide.topAnchor),
-            captionLabel.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor).withPriority(UILayoutPriorityDefaultLow),
+            captionLabel.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor).withPriority(UILayoutPriority.defaultLow),
             captionLabel.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
             captionLabel.bottomAnchor.constraint(lessThanOrEqualTo: layoutMarginsGuide.bottomAnchor),
             

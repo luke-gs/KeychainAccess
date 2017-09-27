@@ -209,7 +209,7 @@ open class EventDetailViewController: FormCollectionViewController {
         case .header:
             let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
             cell.imageView.image = item.image
-            cell.titleLabel.font = .systemFont(ofSize: 28.0, weight: UIFontWeightBold)
+            cell.titleLabel.font = .systemFont(ofSize: 28.0, weight: UIFont.Weight.bold)
             cell.titleLabel.text = item.title
             cell.subtitleLabel.text = item.detail
             return cell
@@ -285,7 +285,7 @@ open class EventDetailViewController: FormCollectionViewController {
 
         switch item.style {
         case .header:
-            let titleFont: UIFont? = .systemFont(ofSize: 28.0, weight: UIFontWeightBold)
+            let titleFont: UIFont? = .systemFont(ofSize: 28.0, weight: UIFont.Weight.bold)
             let titleSizing = StringSizing(string: item.title ?? "", font: titleFont, numberOfLines: 0)
             return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: titleSizing, subtitle: item.detail?.ifNotEmpty(), inWidth: itemWidth, compatibleWith: traitCollection, imageSize: item.image?.size ?? .zero) + 15.0
         case .item:

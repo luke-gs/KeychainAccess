@@ -161,9 +161,9 @@ public class PersonParserDefinition: QueryParserDefinition {
                                 let match = dateOfBirthRegex.matches(in: token, range: NSRange(location: 0, length: token.characters.count)).first!
                                 
                                 // Get date components ranges
-                                let dayRange = match.rangeAt(1)
-                                let monthRange = match.rangeAt(2)
-                                let yearRange = match.rangeAt(3)
+                                let dayRange = match.range(at: 1)
+                                let monthRange = match.range(at: 2)
+                                let yearRange = match.range(at: 3)
                                 
                                 // Get date components
                                 let day = Int((token as NSString).substring(with: dayRange)) ?? 1
@@ -194,8 +194,8 @@ public class PersonParserDefinition: QueryParserDefinition {
                                 // 3 capture groups in the regex. Value in 1 & 3 is the interesting bit.
                                 
                                 // Get ranges of lower and upper age
-                                let lowerRange = match.rangeAt(1)
-                                let upperRange = match.rangeAt(3)
+                                let lowerRange = match.range(at: 1)
+                                let upperRange = match.range(at: 3)
                                 
                                 if upperRange.location != NSNotFound {
                                     // Get lower and upper age
