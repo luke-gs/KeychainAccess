@@ -43,6 +43,8 @@ public class UserSession: UserSessionable {
     }
 
     public static func startSession(user: User, token: OAuthAccessToken) {
+        UserSession.current.paths = UserSessionPaths(baseUrl: UserSession.basePath, sessionId: UserSession.current.sessionID)
+        
         UserSession.current.token = token
         UserSession.current.user = user
         UserSession.current.recentlyViewed = []
