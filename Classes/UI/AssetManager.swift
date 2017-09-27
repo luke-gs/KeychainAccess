@@ -174,6 +174,9 @@ extension AssetManager {
         public static let sourceBarDownload    = ImageKey("SourceBarDownload")
         public static let sourceBarNone        = ImageKey("SourceBarNone")
         
+        // Map
+        public static let mapUserTracking = ImageKey("iconUserTracking")
+        
     }
 }
 
