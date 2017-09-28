@@ -14,37 +14,38 @@ import UIKit
 /// A sidebar operates strictly in radio mode, where one item is selected at a time —
 /// tapping a sidebar button toggles the view selected. You can also specify a count
 /// value indicating a count value on the trailing edge of the sidebar button.
+@objcMembers
 open class SidebarItem: NSObject {
     
     /// Indicates whether the item is enabled. The default is `true`.
-    @objc open dynamic var isEnabled: Bool = true
+    open dynamic var isEnabled: Bool = true
     
     /// The image to display representing the item.
     ///
     /// Using a template image applies the `SidebarItem.color` property as a tint.
-    @objc open dynamic var image: UIImage?
+    open dynamic var image: UIImage?
     
     /// The image to display representing the item when selected.
     ///
     /// Using a template image applies the `SidebarItem.selectedColor` property as a tint.
-    @objc open dynamic var selectedImage: UIImage?
+    open dynamic var selectedImage: UIImage?
     
     /// The localized title of the item.
-    @objc open dynamic var title: String?
+    open dynamic var title: String?
     
     /// A count indicating an additional numerical number for the item.
-    @objc open dynamic var count: UInt = 0
+    open dynamic var count: UInt = 0
     
     /// The color to tint the image.
-    @objc @NSCopying open dynamic var color: UIColor?
+    @NSCopying open dynamic var color: UIColor?
     
     /// The color to tint the image (or selected image) when selected.
-    @objc @NSCopying open dynamic var selectedColor: UIColor?
+    @NSCopying open dynamic var selectedColor: UIColor?
     
     /// The color to apply to the alert icon over the image.
     ///
     /// When nil, the icon is not displayed. The default is `nil`.
-    @objc @NSCopying open dynamic var alertColor: UIColor?
+    @NSCopying open dynamic var alertColor: UIColor?
 }
 
 
