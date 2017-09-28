@@ -7,3 +7,8 @@
 //
 
 import Foundation
+
+public struct ActivityLogItemViewModel {
+    public let title: String
+    public let subtitle: String
+}
