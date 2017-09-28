@@ -21,7 +21,7 @@ class UILayoutPriorityMathExtensionTests: XCTestCase {
         super.tearDown()
     }
 
-    func testThatItAdditionIsCorrect() {
+    func testThatAdditionIsCorrect() {
 
         // Given
         let lowPriority = UILayoutPriority.defaultLow
@@ -34,7 +34,7 @@ class UILayoutPriorityMathExtensionTests: XCTestCase {
 
     }
 
-    func testThatItSubstractionIsCorrect() {
+    func testThatSubstractionIsCorrect() {
 
         // Given
         let requiredPriority = UILayoutPriority.required
@@ -47,7 +47,7 @@ class UILayoutPriorityMathExtensionTests: XCTestCase {
 
     }
 
-    func testThatAdditionAssignmentOperatorionIsCorrect() {
+    func testThatAdditionAssignmentOperationIsCorrect() {
 
         // Given
         var lowPriority = UILayoutPriority.defaultLow
@@ -60,7 +60,7 @@ class UILayoutPriorityMathExtensionTests: XCTestCase {
 
     }
 
-    func testThatSubtractionAssignmentOperatorionIsCorrect() {
+    func testThatSubtractionAssignmentOperationIsCorrect() {
 
         // Given
         var requiredPriority = UILayoutPriority.required
