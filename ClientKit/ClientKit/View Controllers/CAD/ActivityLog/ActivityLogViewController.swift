@@ -9,6 +9,7 @@
 import UIKit
 import MPOLKit
 
+/// Activity Log view controller
 public class ActivityLogViewController: FormCollectionViewController {
 
     private lazy var viewModel: ActivityLogViewModel = {
@@ -54,20 +55,15 @@ public class ActivityLogViewController: FormCollectionViewController {
 
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(of: CollectionViewFormDetailCell.self, for: indexPath)
-        cell.highlightStyle = .fade
-        cell.selectionStyle = .fade
-        cell.separatorStyle = .none
-
         if let item = viewModel.item(at: indexPath) {
-            cell.titleLabel.text = item.title
-            cell.subtitleLabel.text = item.subtitle
-//            cell.imageView.image = cellInfo.image
+            cell.decorate(with: item)
         }
         return cell
     }
 
     open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionElementKindSectionHeader {
+            // Create collapsible section header
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
             header.text = viewModel.headerText(at: indexPath.section)
             header.showsExpandArrow = true
@@ -83,7 +79,6 @@ public class ActivityLogViewController: FormCollectionViewController {
         return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
     }
 
-
     // MARK: - UICollectionViewDelegate
 
     open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -96,6 +91,21 @@ public class ActivityLogViewController: FormCollectionViewController {
     }
 
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
-        return 32
+        // Fixed for log entries?
+        return 36
+    }
+}
+
+/// Extension of form detail cell that supports configuring using our view model
+extension CollectionViewFormDetailCell {
+    public func decorate(with viewModel: ActivityLogItemViewModel) {
+        highlightStyle = .fade
+        selectionStyle = .fade
+        separatorStyle = .none
+        accessoryView = FormAccessoryView(style: .disclosure)
+
+        titleLabel.text = viewModel.title
+        subtitleLabel.text = viewModel.subtitle
+        imageView.image = viewModel.dotImage()
     }
 }
