@@ -32,6 +32,11 @@
 		1A5A4A871F442993000DF263 /* VehicleOccurrencesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5A4A861F442993000DF263 /* VehicleOccurrencesViewModel.swift */; };
 		1A5A4A891F442A1E000DF263 /* VehicleOccurrencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5A4A881F442A1E000DF263 /* VehicleOccurrencesViewController.swift */; };
 		1ABF4EAD1F3B446100C70E62 /* PersonDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABF4EAC1F3B446000C70E62 /* PersonDetailsViewModel.swift */; };
+		271AB3061F7C752900AF93A4 /* TasksMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271AB3051F7C752900AF93A4 /* TasksMapViewModel.swift */; };
+		271AB30D1F7C87BC00AF93A4 /* TaskAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271AB30C1F7C87BC00AF93A4 /* TaskAnnotation.swift */; };
+		276BB42F1F7C74B100F3C83D /* TasksMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276BB42E1F7C74B100F3C83D /* TasksMapViewController.swift */; };
+		278CA1001F7C88950073DFBA /* IncidentAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278CA0FF1F7C88950073DFBA /* IncidentAnnotation.swift */; };
+		278CA1021F7C8B0A0073DFBA /* ResourceAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278CA1011F7C8B0A0073DFBA /* ResourceAnnotation.swift */; };
 		31E04B86B8693C856591D017 /* Pods_ClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6FAB7E5ED55CBB22E20D7C9 /* Pods_ClientKit.framework */; };
 		68A1298F030B1B4BB01632E6 /* Pods_ClientKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5919937B6BAC1FE012181DBE /* Pods_ClientKitTests.framework */; };
 		BC12DC961F023EF0001A5BB7 /* ClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC12DC8C1F023EF0001A5BB7 /* ClientKit.framework */; };
@@ -151,6 +156,11 @@
 		1A5A4A861F442993000DF263 /* VehicleOccurrencesViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleOccurrencesViewModel.swift; sourceTree = "<group>"; };
 		1A5A4A881F442A1E000DF263 /* VehicleOccurrencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleOccurrencesViewController.swift; sourceTree = "<group>"; };
 		1ABF4EAC1F3B446000C70E62 /* PersonDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonDetailsViewModel.swift; sourceTree = "<group>"; };
+		271AB3051F7C752900AF93A4 /* TasksMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksMapViewModel.swift; sourceTree = "<group>"; };
+		271AB30C1F7C87BC00AF93A4 /* TaskAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskAnnotation.swift; sourceTree = "<group>"; };
+		276BB42E1F7C74B100F3C83D /* TasksMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksMapViewController.swift; sourceTree = "<group>"; };
+		278CA0FF1F7C88950073DFBA /* IncidentAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentAnnotation.swift; sourceTree = "<group>"; };
+		278CA1011F7C8B0A0073DFBA /* ResourceAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceAnnotation.swift; sourceTree = "<group>"; };
 		5919937B6BAC1FE012181DBE /* Pods_ClientKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClientKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BAD23AD53A7E9B377446DB8 /* Pods-ClientKitTests.internal-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKitTests.internal-release.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKitTests/Pods-ClientKitTests.internal-release.xcconfig"; sourceTree = "<group>"; };
 		A1A86AE5D56580A64BDFA431 /* Pods-ClientKit.external-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKit.external-release.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKit/Pods-ClientKit.external-release.xcconfig"; sourceTree = "<group>"; };
@@ -323,6 +333,34 @@
 			path = Person;
 			sourceTree = "<group>";
 		};
+		271AB30B1F7C877100AF93A4 /* Annotations */ = {
+			isa = PBXGroup;
+			children = (
+				271AB30C1F7C87BC00AF93A4 /* TaskAnnotation.swift */,
+				278CA0FF1F7C88950073DFBA /* IncidentAnnotation.swift */,
+				278CA1011F7C8B0A0073DFBA /* ResourceAnnotation.swift */,
+			);
+			path = Annotations;
+			sourceTree = "<group>";
+		};
+		2745A8F71F7C63D6003D008F /* CAD */ = {
+			isa = PBXGroup;
+			children = (
+				2745A8F81F7C63F7003D008F /* Tasks */,
+			);
+			path = CAD;
+			sourceTree = "<group>";
+		};
+		2745A8F81F7C63F7003D008F /* Tasks */ = {
+			isa = PBXGroup;
+			children = (
+				271AB30B1F7C877100AF93A4 /* Annotations */,
+				276BB42E1F7C74B100F3C83D /* TasksMapViewController.swift */,
+				271AB3051F7C752900AF93A4 /* TasksMapViewModel.swift */,
+			);
+			path = Tasks;
+			sourceTree = "<group>";
+		};
 		BC12DC821F023EF0001A5BB7 = {
 			isa = PBXGroup;
 			children = (
@@ -486,6 +524,7 @@
 		BCAEFE761F03150800C97F9C /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				2745A8F71F7C63D6003D008F /* CAD */,
 				BCAEFE771F03150800C97F9C /* Entity Details */,
 			);
 			path = "View Controllers";
@@ -842,10 +881,12 @@
 				BCAEFE961F03150800C97F9C /* Contact.swift in Sources */,
 				BCAEFEAA1F03150800C97F9C /* RiskFactor.swift in Sources */,
 				BCAEFEA61F03150800C97F9C /* Person.swift in Sources */,
+				271AB30D1F7C87BC00AF93A4 /* TaskAnnotation.swift in Sources */,
 				BCAEFE941F03150800C97F9C /* Alias.swift in Sources */,
 				BCAEFE931F03150800C97F9C /* Alert.swift in Sources */,
 				BCAEFE971F03150800C97F9C /* CriminalHistory.swift in Sources */,
 				1A2E8A721F38070A0062FEA5 /* PersonActionsViewModel.swift in Sources */,
+				271AB3061F7C752900AF93A4 /* TasksMapViewModel.swift in Sources */,
 				BC75A7B61F1C3D50004D46F1 /* OrganizationInfoViewController.swift in Sources */,
 				BCAEFEA31F03150800C97F9C /* Licence.swift in Sources */,
 				BCAEFE9E1F03150800C97F9C /* Interest.swift in Sources */,
@@ -874,6 +915,7 @@
 				1A5A4A851F4427A4000DF263 /* EntityEventViewModel.swift in Sources */,
 				BCAEFE9C1F03150800C97F9C /* FamilyIncident.swift in Sources */,
 				EA8B66601F38319700F09716 /* VehicleSearchParameters.swift in Sources */,
+				276BB42F1F7C74B100F3C83D /* TasksMapViewController.swift in Sources */,
 				BC75A7BC1F1C3D5B004D46F1 /* CautionDetailsViewController.swift in Sources */,
 				EA1CC2511F3D91E800FE8BAE /* RegistrationParserDefinition.swift in Sources */,
 				BCAEFE991F03150800C97F9C /* Entity.swift in Sources */,
@@ -898,6 +940,7 @@
 				1A2FF6FF1F32BE5100D63956 /* PersonInfoViewModel.swift in Sources */,
 				BC75A7BB1F1C3D58004D46F1 /* PersonCriminalHistoryViewController.swift in Sources */,
 				BC75A7B11F1C3D48004D46F1 /* EntityOccurrencesViewController.swift in Sources */,
+				278CA1021F7C8B0A0073DFBA /* ResourceAnnotation.swift in Sources */,
 				1A2E8A761F3932100062FEA5 /* PersonOccurrencesViewModel.swift in Sources */,
 				C63408531F30DA15000747B0 /* MPOLSource.swift in Sources */,
 				BCAEFE951F03150800C97F9C /* Caution.swift in Sources */,
@@ -914,6 +957,7 @@
 				EA8B66551F381CBA00F09716 /* VehicleSearchRequest.swift in Sources */,
 				BCAEFEA81F03150800C97F9C /* PhoneNumber.swift in Sources */,
 				1A159F0F1F4B1CA700075330 /* VehicleFetchRequest.swift in Sources */,
+				278CA1001F7C88950073DFBA /* IncidentAnnotation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

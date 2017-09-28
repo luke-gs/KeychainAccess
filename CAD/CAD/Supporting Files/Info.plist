@@ -39,5 +39,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>please</string>
+	<key>NSLocationUsageDescription</key>
+	<string>cad</string>
 </dict>
 </plist>
