@@ -490,7 +490,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
                 filterCell.setRequiresValidation(message != nil, validationText: message, animated: false)
              
                 if let title = buttonTitle, let handler = buttonHandler {
-                    filterCell.editActions = [CollectionViewFormEditAction(title: title, color: .gray, handler: { (_, _) in
+                    filterCell.editActions = [CollectionViewFormEditAction(title: title, color: tintColor, handler: { (_, _) in
                         handler()
                     })]
                 } else {
