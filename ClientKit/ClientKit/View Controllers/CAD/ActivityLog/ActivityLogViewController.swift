@@ -10,7 +10,7 @@ import UIKit
 import MPOLKit
 
 /// Activity Log view controller
-public class ActivityLogViewController: FormCollectionViewController {
+public class ActivityLogViewController: TimelineFormCollectionViewController {
 
     private lazy var viewModel: ActivityLogViewModel = {
         let vm = ActivityLogViewModel()
