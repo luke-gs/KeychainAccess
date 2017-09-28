@@ -72,6 +72,7 @@
 		46B3FE7B1F5E3B0C0012476A /* FileLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B3FE7A1F5E3B0C0012476A /* FileLogger.swift */; };
 		46B3FE7F1F5E496B0012476A /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B3FE7E1F5E496B0012476A /* Logger.swift */; };
 		46B3FE811F5E49FB0012476A /* ConsoleLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B3FE801F5E49FB0012476A /* ConsoleLogger.swift */; };
+		46DDAB451F78CF1300ED72DC /* FormAccessoryImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46DDAB441F78CF1300ED72DC /* FormAccessoryImageView.swift */; };
 		8CDAFFA6E9DC54A4594C01FE /* Pods_MPOLKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FE1AAA01D6AE18F86693DF8 /* Pods_MPOLKitTests.framework */; };
 		9644B1D21F6785E200D031F2 /* CompactFormSheetNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9644B1D11F6785E100D031F2 /* CompactFormSheetNavigationController.swift */; };
 		9686FC941F78AAED00C4AB4D /* UIView+SafeArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9686FC931F78AAED00C4AB4D /* UIView+SafeArea.swift */; };
@@ -368,6 +369,7 @@
 		46B3FE7A1F5E3B0C0012476A /* FileLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileLogger.swift; sourceTree = "<group>"; };
 		46B3FE7E1F5E496B0012476A /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		46B3FE801F5E49FB0012476A /* ConsoleLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConsoleLogger.swift; sourceTree = "<group>"; };
+		46DDAB441F78CF1300ED72DC /* FormAccessoryImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormAccessoryImageView.swift; sourceTree = "<group>"; };
 		70E8FDF2F522A8C05328E451 /* Pods-MPOLKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKitTests/Pods-MPOLKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		792BA6D7922A9D3748B70A23 /* Pods-MPOLKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKit/Pods-MPOLKit.release.xcconfig"; sourceTree = "<group>"; };
 		9215372B17F43A2FDEB28AD0 /* Pods_MPOLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -993,6 +995,7 @@
 				BC9C7DC01F0DED6600DFFE83 /* FormAccessoryCheckmark.swift */,
 				BC9C7DC11F0DED6600DFFE83 /* FormDisclosureView.swift */,
 				BC39A6821F18A6EC005CA8EE /* LabeledAccessoryView.swift */,
+				46DDAB441F78CF1300ED72DC /* FormAccessoryImageView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1904,6 +1907,7 @@
 				BC5C11EF1F2806890048CBBF /* NoContentView.swift in Sources */,
 				EA4806B71F56A0DC00B42313 /* LocationSearchStrategy.swift in Sources */,
 				BC9C7E021F0DED6600DFFE83 /* NSLayoutConstraint+Conveniences.swift in Sources */,
+				46DDAB451F78CF1300ED72DC /* FormAccessoryImageView.swift in Sources */,
 				19B49BC71F665F5A00502F51 /* WhatsNewTheme.swift in Sources */,
 				46B3FE7B1F5E3B0C0012476A /* FileLogger.swift in Sources */,
 				DBE24C3B1F593BEF0088D19B /* EntityDetailSectionsDataSource.swift in Sources */,
