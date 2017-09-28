@@ -27,7 +27,8 @@ public class TimelineCollectionViewFormLayout : CollectionViewFormLayout {
     public override func prepare() {
         super.prepare()
 
-        guard let collectionView = self.collectionView else { return }
+        guard let collectionView = self.collectionView,
+            let delegate = collectionView.delegate as? CollectionViewDelegateFormLayout else { return }
 
         // Prepare layout rects for timelines
         timelineRects.removeAll()
@@ -38,9 +39,17 @@ public class TimelineCollectionViewFormLayout : CollectionViewFormLayout {
                 let lastItem = super.layoutAttributesForItem(at: IndexPath(item: sectionItemCount - 1, section: section))
                 if let firstItem = firstItem, let lastItem = lastItem {
                     // Draw a line from center of first item to center of last item
+                    var offsetX = UIImage.statusDotFrameSize.width / 2
+                    if let inset = delegate.collectionView?(collectionView, layout: self, insetForSection: section) {
+                        offsetX += inset.left
+                    }
                     let startY = firstItem.frame.origin.y + firstItem.frame.height / 2
                     let endY = lastItem.frame.origin.y + firstItem.frame.height / 2
-                    timelineRects.append(CGRect(x: firstItem.frame.origin.x+35.5, y: startY, width: 1, height: endY - startY))
+                    let timelineRect = CGRect(x: firstItem.frame.origin.x + offsetX - 0.5,
+                                              y: startY,
+                                              width: 1,
+                                              height: endY - startY)
+                    timelineRects.append(timelineRect)
                 }
             }
         }

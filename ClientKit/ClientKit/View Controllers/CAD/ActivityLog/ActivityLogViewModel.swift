@@ -33,6 +33,12 @@ public class ActivityLogViewModel {
             ActivityLogSectionViewModel(title: "09:16 - 10:14: Traffic Crash - AS4197",
                                         items: [ActivityLogItemViewModel(title: "Incident: Finalise [Traffic Crash - AS4197]",
                                                                          subtitle: "Jason Chieng, Herli Halim @ 28 Wellington Street, Collingwood VIC 3066",
+                                                                         dotColor: #colorLiteral(red: 0.1647058824, green: 0.4823529412, blue: 0.9647058824, alpha: 1)),
+                                                ActivityLogItemViewModel(title: "Event: Submit Event [Incident Report - EV105-160717]",
+                                                                         subtitle: "Jason Chieng, Herli Halim @ 28 Wellington Street, Collingwood VIC 3066",
+                                                                         dotColor: #colorLiteral(red: 0.1647058824, green: 0.4823529412, blue: 0.9647058824, alpha: 1)),
+                                                ActivityLogItemViewModel(title: "Event: Create Event [Incident Report - EV105-160717]",
+                                                                         subtitle: "Jason Chieng, Herli Halim @ 28 Wellington Street, Collingwood VIC 3066",
                                                                          dotColor: #colorLiteral(red: 0.1647058824, green: 0.4823529412, blue: 0.9647058824, alpha: 1))])
         ]
     }
