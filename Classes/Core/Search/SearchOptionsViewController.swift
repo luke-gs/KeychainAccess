@@ -632,9 +632,12 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
             reloadSearchErrorMessage(animated: true)
         case .filterErrorMessage(let index):
             let indexPath = IndexPath(item: index, section: Section.filters.rawValue)
+
+
             if let cell = self.collectionView?.cellForItem(at: indexPath) as? CollectionViewFormCell {
                 let message = selectedDataSource.options?.errorMessage(at: index)
-                cell.setRequiresValidation(message != nil, validationText: message, animated: true)
+                let isRequired = selectedDataSource.options?.isRequired(at: index)
+                cell.setRequiresValidation(message != nil || isRequired == true, validationText: message, animated: true)
             }
         case .filter(_):
             reloadCollectionViewRetainingEditing()
@@ -650,6 +653,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     
     func tabStripView(_ tabStripView: TabStripView, didSelectItemAt index: Int) {
         selectedDataSourceIndex = index
+        collectionView?.endEditing(true)
     }
     
     // MARK: - Private
