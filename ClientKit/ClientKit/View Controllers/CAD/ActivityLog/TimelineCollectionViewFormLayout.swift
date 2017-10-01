@@ -51,6 +51,8 @@ public class TimelineCollectionViewFormLayout : CollectionViewFormLayout {
                                               height: endY - startY)
                     timelineRects.append(timelineRect)
                 }
+            } else {
+                timelineRects.append(.zero)
             }
         }
     }
@@ -71,7 +73,7 @@ public class TimelineCollectionViewFormLayout : CollectionViewFormLayout {
         // Append any timeline decorations that are within the rect being drawed
         for section in 0..<timelineRects.count {
             if let decorationAtts = self.layoutAttributesForDecorationView(ofKind:self.timelineKind, at: IndexPath(item: 0, section: section)) {
-                if rect.contains(decorationAtts.frame) {
+                if !decorationAtts.frame.isEmpty && rect.contains(decorationAtts.frame) {
                     attrs?.append(decorationAtts)
                 }
             }
