@@ -62,6 +62,25 @@ open class ArchivedManifestEntry: NSObject, NSSecureCoding {
         super.init()
     }
     
+    public init(rawValue: String) {
+        isActive      = true
+        additionalDetails = nil
+        code          = nil
+        collection    = nil
+        effectiveDate = nil
+        expiryDate    = nil
+        id            = nil
+        lastUpdated   = nil
+        location      = kCLLocationCoordinate2DInvalid
+        self.rawValue = rawValue
+        shortTitle    = nil
+        sortOrder     = 0.0
+        subtitle      = nil
+        title         = nil
+        
+        super.init()
+    }
+    
     public required init?(coder aDecoder: NSCoder) {
         isActive        = aDecoder.decodeBool(forKey: #keyPath(isActive))
         additionalDetails = aDecoder.decodeObject(of: NSDictionary.self, forKey: #keyPath(additionalDetails)) as? [String: Any]
