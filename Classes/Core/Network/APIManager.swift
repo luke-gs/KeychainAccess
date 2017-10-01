@@ -121,7 +121,7 @@ open class APIManager {
         var parameters:[String: String] = [:]
         
         if let date = date{
-            let interval = date.timeIntervalSince1970
+            let interval = Int(date.timeIntervalSince1970)
             path.append("/{interval}")
             parameters["interval"] = String(interval)
         }
