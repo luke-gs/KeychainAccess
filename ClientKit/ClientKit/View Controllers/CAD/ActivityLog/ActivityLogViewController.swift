@@ -40,7 +40,7 @@ public class ActivityLogViewController: TimelineFormCollectionViewController {
         guard let collectionView = self.collectionView else { return }
 
         collectionView.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
-        collectionView.register(CollectionViewFormDetailCell.self)
+        collectionView.register(CollectionViewFormSubtitleCell.self)
     }
 
     // MARK: - UICollectionViewDataSource
@@ -54,7 +54,7 @@ public class ActivityLogViewController: TimelineFormCollectionViewController {
     }
 
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormDetailCell.self, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
         if let item = viewModel.item(at: indexPath) {
             cell.decorate(with: item)
         }
@@ -91,13 +91,15 @@ public class ActivityLogViewController: TimelineFormCollectionViewController {
     }
 
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
-        // Fixed for log entries?
-        return 36
+        if let item = viewModel.item(at: indexPath) {
+            return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: item.title, subtitle: item.subtitle, inWidth: itemWidth, compatibleWith: traitCollection)
+        }
+        return 0
     }
 }
 
-/// Extension of form detail cell that supports configuring using our view model
-extension CollectionViewFormDetailCell {
+/// Extension of form detail cell that supports decorating using our view model
+extension CollectionViewFormSubtitleCell {
     public func decorate(with viewModel: ActivityLogItemViewModel) {
         highlightStyle = .fade
         selectionStyle = .fade
