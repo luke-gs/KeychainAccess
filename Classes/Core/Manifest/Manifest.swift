@@ -12,10 +12,9 @@ import PromiseKit
 
 fileprivate let manifestLastUpdateKey = "Manifest_LastUpdate"
 
-extension NSNotification.Name {
+public extension NSNotification.Name {
     
     static let ManifestDidUpdate = NSNotification.Name(rawValue: "ManifestDidUpdate")
-    
 }
 
 public final class Manifest: NSObject {
@@ -41,7 +40,7 @@ public final class Manifest: NSObject {
     private let persistentStoreCoordinator: NSPersistentStoreCoordinator
     
     public private(set) var isUpdating:Bool = false
-    
+        
     /// The view context for the manifest. This should only be accessed from the main thread.
     public let viewContext: NSManagedObjectContext
     
@@ -176,6 +175,8 @@ public final class Manifest: NSObject {
         }
     }
     
+    private static let dateFormatter:ISO8601DateFormatter = ISO8601DateFormatter()
+    
     public func saveManifest(with manifestItems:[[String : Any]], at checkedAtDate:Date, completion: ((Error?) -> Void)?) {
         if isUpdating == false {
             do {
@@ -206,14 +207,22 @@ public final class Manifest: NSObject {
                             entry.rawValue      = entryDict["value"]      as? String
                             entry.sortOrder     = entryDict["sortOrder"]  as? Double ?? 0
                             
-                            if let effectiveTI = entryDict["effectiveDate"] as? TimeInterval {
-                                entry.effectiveDate = NSDate(timeIntervalSince1970: effectiveTI)
+                            if let effectiveDateString = entryDict["effectiveDate"] as? String {
+                                if let date = Manifest.dateFormatter.date(from: effectiveDateString) as NSDate? {
+                                    entry.effectiveDate = date
+                                }
                             }
-                            if let expiryTI = entryDict["expiryDate"] as? TimeInterval {
-                                entry.expiryDate = NSDate(timeIntervalSince1970: expiryTI)
+                            
+                            if let expiryDateString = entryDict["expiryDate"] as? String {
+                                if let date = Manifest.dateFormatter.date(from: expiryDateString) as NSDate? {
+                                    entry.expiryDate = date
+                                }
                             }
-                            if let lastUpdateTI = entryDict["dateLastUpdated"] as? TimeInterval {
-                                entry.lastUpdated = NSDate(timeIntervalSince1970: lastUpdateTI)
+                            
+                            if let dateLastUpdated = entryDict["dateLastUpdated"] as? String {
+                                if let date = Manifest.dateFormatter.date(from: dateLastUpdated) as NSDate? {
+                                    entry.lastUpdated = date
+                                }
                             }
                             
                             if var additionalData = entryDict["additionalData"] as? [String: Any] {
@@ -233,15 +242,14 @@ public final class Manifest: NSObject {
                     }
                     
                     do {
+                        self.isUpdating = false
                         try context.save()
                         
                         DispatchQueue.main.async {
-                            self.isUpdating = false
                             self.lastUpdateDate = checkedAtDate
                             completion?(nil)
                         }
                     } catch let error {
-                        self.isUpdating = false
                         DispatchQueue.main.async {
                             completion?(error)
                         }
