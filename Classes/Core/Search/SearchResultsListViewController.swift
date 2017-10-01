@@ -152,7 +152,7 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
             }
             
             switch result.state {
-            case .finished where result.error != nil:
+            case .finished where result.error != nil || result.entities.count  == 0:
                 return 1
             case .finished:
                 return result.entities.count
@@ -197,15 +197,23 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let result = viewModel!.results[indexPath.section]
-        
         switch result.state {
-        case .finished where result.error != nil:
+        case .finished where result.error != nil || result.entities.count == 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier.empty.rawValue, for: indexPath) as! SearchResultErrorCell
-            let message = result.error!.localizedDescription
+            let message = result.error != nil ? result.error!.localizedDescription : "No records matching your search description have been returned"
+            let hasError = result.error != nil
+
             cell.titleLabel.text = message.isEmpty == false ? message : NSLocalizedString("Unknown error has occurred.", comment: "[Search result screen] - Unknown error message when error doesn't contain localized description")
+            cell.button.setTitle(hasError ? "Try Again" : "New Search", for: .normal)
             cell.buttonHandler = { [weak self] (cell) in
-                self?.viewModel!.retry(section: indexPath.section)
+                guard let `self` = self else {  return }
+                if hasError {
+                    self.viewModel!.retry(section: indexPath.section)
+                } else {
+                    self.delegate?.searchResultsControllerDidRequestToEdit(self)
+                }
             }
+
             cell.apply(theme: ThemeManager.shared.theme(for: userInterfaceStyle))
             return cell
         case .searching:
@@ -263,7 +271,7 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
         let result = viewModel!.results[indexPath.section]
         switch result.state {
-        case .finished where result.error != nil:
+        case .finished where result.error != nil || result.entities.count == 0:
             return collectionView.bounds.width
         case .searching:
             return collectionView.bounds.width
