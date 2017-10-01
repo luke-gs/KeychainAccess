@@ -175,7 +175,7 @@ public final class Manifest: NSObject {
         }
     }
     
-    private static let dateFormatter:ISO8601DateFormatter = ISO8601DateFormatter()
+    public static let dateFormatter:ISO8601DateFormatter = ISO8601DateFormatter()
     
     public func saveManifest(with manifestItems:[[String : Any]], at checkedAtDate:Date, completion: ((Error?) -> Void)?) {
         if isUpdating == false {
