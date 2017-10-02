@@ -40,8 +40,6 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>please</string>
-	<key>NSLocationUsageDescription</key>
-	<string>cad</string>
+	<string>Your location is required in order to use tasking.</string>
 </dict>
 </plist>
