@@ -20,7 +20,17 @@ public protocol PluginType {
     func willSend(_ request: Alamofire.Request)
 
     // Called after a response has been received, but before the completion callback is triggered.
-    func didReceiveResponse<T>(_ response: Alamofire.DataResponse<T>)
+    func didReceiveResponse(_ response: Alamofire.DataResponse<Data>)
+
+    /// Called after `didReceiveResponse:` but before the completion callback is triggered.
+    /// This will give the chance for plugin to modify the response if necessary before the completion.
+    /// The modified response should update the response.data.
+    /// - Parameter response: The response returned from the network call.
+    /// - Returns: A new DataResponse<Data> that has been modified.
+    /// - Remarks: DataResponse<Data> was used instead of DefaultDataResponse to help inspecting whether the
+    ///            the network call is successful or not.
+    //             Ensure response.data and result.success(data) are consistent when modified.
+    func processResponse(_ response: Alamofire.DataResponse<Data>) -> Alamofire.DataResponse<Data>
 
 }
 
@@ -35,8 +45,11 @@ public extension PluginType {
 
     }
 
-    func didReceiveResponse<T>(_ response: Alamofire.DataResponse<T>) {
+    func didReceiveResponse(_ response: Alamofire.DataResponse<Data>) {
 
     }
 
+    func processResponse(_ response: Alamofire.DataResponse<Data>) -> Alamofire.DataResponse<Data> {
+        return response
+    }
 }

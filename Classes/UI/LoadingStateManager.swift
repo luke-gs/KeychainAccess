@@ -320,19 +320,10 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
             self.contentInsetGuide = contentInsetGuide
             newView.addLayoutGuide(contentInsetGuide)
             
-            if #available(iOS 11, *) {
-                let newSafeAreaGuide = newView.safeAreaLayoutGuide
-                contentInsetLeftConstraint = contentInsetGuide.leftAnchor.constraint(equalTo: newSafeAreaGuide.leftAnchor, constant: contentInsets.left)
-                contentInsetRightConstraint = contentInsetGuide.rightAnchor.constraint(equalTo: newSafeAreaGuide.rightAnchor, constant: -contentInsets.right)
-                contentInsetTopConstraint = contentInsetGuide.topAnchor.constraint(equalTo: newSafeAreaGuide.topAnchor, constant: contentInsets.bottom)
-                contentInsetBottomConstraint = contentInsetGuide.bottomAnchor.constraint(equalTo: newSafeAreaGuide.bottomAnchor, constant: -contentInsets.bottom)
-            } else {
-                contentInsetLeftConstraint = contentInsetGuide.leftAnchor.constraint(equalTo: newView.leftAnchor, constant: contentInsets.left)
-                contentInsetRightConstraint = contentInsetGuide.rightAnchor.constraint(equalTo: newView.rightAnchor, constant: -contentInsets.right)
-                contentInsetTopConstraint = contentInsetGuide.topAnchor.constraint(equalTo: newView.topAnchor, constant: contentInsets.bottom)
-                contentInsetBottomConstraint = contentInsetGuide.bottomAnchor.constraint(equalTo: newView.bottomAnchor, constant: -contentInsets.bottom)
-                contentInsetBottomConstraint!.priority = UILayoutPriorityDefaultHigh
-            }
+            contentInsetLeftConstraint = contentInsetGuide.leftAnchor.constraint(equalTo: newView.safeAreaOrFallbackLeftAnchor, constant: contentInsets.left)
+            contentInsetRightConstraint = contentInsetGuide.rightAnchor.constraint(equalTo: newView.safeAreaOrFallbackRightAnchor, constant: -contentInsets.right)
+            contentInsetTopConstraint = contentInsetGuide.topAnchor.constraint(equalTo: newView.safeAreaOrFallbackTopAnchor, constant: contentInsets.bottom)
+            contentInsetBottomConstraint = contentInsetGuide.bottomAnchor.constraint(equalTo: newView.safeAreaOrFallbackBottomAnchor, constant: -contentInsets.bottom).withPriority(UILayoutPriorityDefaultHigh)
 
             NSLayoutConstraint.activate([
                 contentInsetLeftConstraint!,
