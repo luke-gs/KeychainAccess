@@ -38,6 +38,9 @@
 		27206B3F1F81ECCF005303A8 /* ResourceMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27206B3E1F81ECCF005303A8 /* ResourceMapViewModel.swift */; };
 		27206B411F81ECE3005303A8 /* BroadcastMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27206B401F81ECE3005303A8 /* BroadcastMapViewModel.swift */; };
 		27206B431F81ECEF005303A8 /* PatrolMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27206B421F81ECEF005303A8 /* PatrolMapViewModel.swift */; };
+		27206B471F82E084005303A8 /* CADStatusTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27206B461F82E084005303A8 /* CADStatusTabBarController.swift */; };
+		27206B491F82E0AB005303A8 /* CallsignStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27206B481F82E0AA005303A8 /* CallsignStatusView.swift */; };
+		27206B4C1F82E1F0005303A8 /* CallsignStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27206B4B1F82E1F0005303A8 /* CallsignStatusViewModel.swift */; };
 		276BB42F1F7C74B100F3C83D /* TasksMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276BB42E1F7C74B100F3C83D /* TasksMapViewController.swift */; };
 		278CA1001F7C88950073DFBA /* IncidentAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278CA0FF1F7C88950073DFBA /* IncidentAnnotation.swift */; };
 		278CA1021F7C8B0A0073DFBA /* ResourceAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278CA1011F7C8B0A0073DFBA /* ResourceAnnotation.swift */; };
@@ -166,6 +169,9 @@
 		27206B3E1F81ECCF005303A8 /* ResourceMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceMapViewModel.swift; sourceTree = "<group>"; };
 		27206B401F81ECE3005303A8 /* BroadcastMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastMapViewModel.swift; sourceTree = "<group>"; };
 		27206B421F81ECEF005303A8 /* PatrolMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatrolMapViewModel.swift; sourceTree = "<group>"; };
+		27206B461F82E084005303A8 /* CADStatusTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADStatusTabBarController.swift; sourceTree = "<group>"; };
+		27206B481F82E0AA005303A8 /* CallsignStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallsignStatusView.swift; sourceTree = "<group>"; };
+		27206B4B1F82E1F0005303A8 /* CallsignStatusViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallsignStatusViewModel.swift; sourceTree = "<group>"; };
 		276BB42E1F7C74B100F3C83D /* TasksMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksMapViewController.swift; sourceTree = "<group>"; };
 		278CA0FF1F7C88950073DFBA /* IncidentAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentAnnotation.swift; sourceTree = "<group>"; };
 		278CA1011F7C8B0A0073DFBA /* ResourceAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceAnnotation.swift; sourceTree = "<group>"; };
@@ -362,9 +368,20 @@
 			path = "View Models";
 			sourceTree = "<group>";
 		};
+		27206B4A1F82E1CB005303A8 /* Status Tab Bar */ = {
+			isa = PBXGroup;
+			children = (
+				27206B461F82E084005303A8 /* CADStatusTabBarController.swift */,
+				27206B481F82E0AA005303A8 /* CallsignStatusView.swift */,
+				27206B4B1F82E1F0005303A8 /* CallsignStatusViewModel.swift */,
+			);
+			path = "Status Tab Bar";
+			sourceTree = "<group>";
+		};
 		2745A8F71F7C63D6003D008F /* CAD */ = {
 			isa = PBXGroup;
 			children = (
+				27206B4A1F82E1CB005303A8 /* Status Tab Bar */,
 				2745A8F81F7C63F7003D008F /* Tasks */,
 			);
 			path = CAD;
@@ -909,6 +926,7 @@
 				271AB3061F7C752900AF93A4 /* TasksMapViewModel.swift in Sources */,
 				BC75A7B61F1C3D50004D46F1 /* OrganizationInfoViewController.swift in Sources */,
 				BCAEFEA31F03150800C97F9C /* Licence.swift in Sources */,
+				27206B471F82E084005303A8 /* CADStatusTabBarController.swift in Sources */,
 				BCAEFE9E1F03150800C97F9C /* Interest.swift in Sources */,
 				BC75A7AE1F1C3D48004D46F1 /* EntityAssociationsViewController.swift in Sources */,
 				EA8B66621F3831C900F09716 /* LicenceSearchParameters.swift in Sources */,
@@ -960,6 +978,7 @@
 				BCAEFE981F03150800C97F9C /* Email.swift in Sources */,
 				BCAEFEAF1F03150800C97F9C /* Vehicle.swift in Sources */,
 				BCAEFEAB1F03150800C97F9C /* ScarMarkTattoo.swift in Sources */,
+				27206B491F82E0AB005303A8 /* CallsignStatusView.swift in Sources */,
 				BCAEFEAE1F03150800C97F9C /* TelephoneNumber.swift in Sources */,
 				1A2FF6FF1F32BE5100D63956 /* PersonInfoViewModel.swift in Sources */,
 				BC75A7BB1F1C3D58004D46F1 /* PersonCriminalHistoryViewController.swift in Sources */,
@@ -972,6 +991,7 @@
 				BCAEFE9D1F03150800C97F9C /* FieldContact.swift in Sources */,
 				C681A3851F21AEA800F4AC13 /* LicenceParserDefinition.swift in Sources */,
 				BCAEFEA41F03150800C97F9C /* Member.swift in Sources */,
+				27206B4C1F82E1F0005303A8 /* CallsignStatusViewModel.swift in Sources */,
 				BC4FC2701F133D7500F1CAFB /* String+Pickable.swift in Sources */,
 				EA8B665E1F382D2B00F09716 /* PersonSearchParameters.swift in Sources */,
 				BCAEFEB01F03150800C97F9C /* Warning.swift in Sources */,
