@@ -5,7 +5,7 @@
 
 import Foundation
 
-public enum LocationAdvanceItem: Int {
+public enum LocationAdvancedItem: Int {
 
     case unit
     case streetNumber
@@ -16,7 +16,7 @@ public enum LocationAdvanceItem: Int {
     case state
 
     public static let count = 7
-    public static let titles: [LocationAdvanceItem: String] = [
+    public static let titles: [LocationAdvancedItem: String] = [
         .unit:         "Unit / House / Apt No.",
         .streetNumber: "Street No. / Range",
         .streetName:   "Street Name",
@@ -26,9 +26,9 @@ public enum LocationAdvanceItem: Int {
         .postcode:     "Postcode"
     ]
 
-    public var title: String { return LocationAdvanceItem.titles[self]! }
+    public var title: String { return LocationAdvancedItem.titles[self]! }
 
-    public static let all: [LocationAdvanceItem] = [
+    public static let all: [LocationAdvancedItem] = [
         .unit, .streetNumber, .streetName, .streetType, .suburb, .state, .postcode
     ]
 }
@@ -71,7 +71,7 @@ public enum StateType: String, Pickable {
     ]
 }
 
-open class LookupAddressLocationAdvancedOptions: LocationAdvanceOptions {
+open class LookupAddressLocationAdvancedOptions: LocationAdvancedOptions {
 
     public var delegate: LocationAdvancedOptionDelegate?
     
@@ -89,7 +89,7 @@ open class LookupAddressLocationAdvancedOptions: LocationAdvanceOptions {
     open var postcode:           String?
     open var state:              StateType?  = .VIC
 
-    public var requiredFields: [LocationAdvanceItem] = []
+    public var requiredFields: [LocationAdvancedItem] = []
 
     open let headerText: String? = NSLocalizedString("EDIT ADDRESS", comment: "Location Search - Edit address")
 
@@ -100,19 +100,19 @@ open class LookupAddressLocationAdvancedOptions: LocationAdvanceOptions {
     }
     
     open var numberOfOptions: Int {
-        return LocationAdvanceItem.count
+        return LocationAdvancedItem.count
     }
 
     open func title(at index: Int) -> String {
-        return LocationAdvanceItem(rawValue: index)!.title
+        return LocationAdvancedItem(rawValue: index)!.title
     }
 
     public func isRequired(at index: Int) -> Bool {
-        return requiredFields.contains(LocationAdvanceItem(rawValue: index)!)
+        return requiredFields.contains(LocationAdvancedItem(rawValue: index)!)
     }
 
     open func value(at index: Int) -> String? {
-        switch LocationAdvanceItem(rawValue: index)! {
+        switch LocationAdvancedItem(rawValue: index)! {
         case .unit:                 return unit
         case .streetNumber:         return streetNumber
         case .streetName:           return streetName
@@ -124,7 +124,7 @@ open class LookupAddressLocationAdvancedOptions: LocationAdvanceOptions {
     }
 
     open func defaultValue(at index: Int) -> String {
-        switch LocationAdvanceItem(rawValue: index)! {
+        switch LocationAdvancedItem(rawValue: index)! {
         case .unit:                 return "eg. 317"
         case .streetNumber:         return "eg. 188-200"
         case .streetName:           return "eg. Wellington"
@@ -136,7 +136,7 @@ open class LookupAddressLocationAdvancedOptions: LocationAdvanceOptions {
     }
 
     open func type(at index: Int) -> SearchOptionType {
-        let item = LocationAdvanceItem(rawValue: index)!
+        let item = LocationAdvancedItem(rawValue: index)!
         switch item {
         case .unit, .streetNumber, .postcode:
             return .text(configure: {textField in
@@ -156,12 +156,12 @@ open class LookupAddressLocationAdvancedOptions: LocationAdvanceOptions {
     }
     
     open func errorMessage(at index: Int) -> String? {
-        let item = LocationAdvanceItem(rawValue: index)!
+        let item = LocationAdvancedItem(rawValue: index)!
         return self.validator?.validate(item: item, value: value(at: index))
     }
     
     open func pickerController(forFilterAt index: Int, updateHandler: @escaping () -> ()) -> UIViewController? {
-        guard let item = LocationAdvanceItem(rawValue: index) else { return nil }
+        guard let item = LocationAdvancedItem(rawValue: index) else { return nil }
         
         // Handle advance options
         switch item {
@@ -202,7 +202,7 @@ open class LookupAddressLocationAdvancedOptions: LocationAdvanceOptions {
         if !reset {
             options?.forEach({ update(index: $0.key, withOption: $0.value) } )
         } else {
-            for index in 0..<LocationAdvanceItem.count {
+            for index in 0..<LocationAdvancedItem.count {
                 let option = options?[index]
                 update(index: index, withOption: option)
             }
@@ -210,7 +210,7 @@ open class LookupAddressLocationAdvancedOptions: LocationAdvanceOptions {
     }
     
     private func update(index: Int, withOption option: String?) {
-        guard let item = LocationAdvanceItem(rawValue: index) else { return }
+        guard let item = LocationAdvancedItem(rawValue: index) else { return }
         switch item {
         case .unit: unit = option
         case .streetNumber: streetNumber = option

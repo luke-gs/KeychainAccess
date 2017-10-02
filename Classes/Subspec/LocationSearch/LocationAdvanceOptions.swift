@@ -1,5 +1,5 @@
 //
-//  LocationAdvanceOptions.swift
+//  LocationAdvancedOptions.swift
 //  MPOLKit
 //
 //  Created by KGWH78 on 31/8/17.
@@ -12,7 +12,7 @@ public protocol LocationAdvancedOptionDelegate: class {
     func locationAdvancedOptionsDidUpdate()
 }
 
-public protocol LocationAdvanceOptions: SearchOptions {
+public protocol LocationAdvancedOptions: SearchOptions {
     
     associatedtype Location: Locatable
 
@@ -47,7 +47,7 @@ public protocol LocationAdvanceOptions: SearchOptions {
     ///            If false, only updates values specified in the options.
     func populate(withOptions options: [Int: String]?, reset: Bool)
     
-    /// The textual presentation of the LocationAdvanceOptions. Used to create a searchable and therefore
+    /// The textual presentation of the LocationAdvancdeOptions. Used to create a searchable and therefore
     /// should be user friendly.
     ///
     /// - Returns: A user friendly text.
@@ -65,7 +65,7 @@ public protocol LocationAdvanceOptions: SearchOptions {
     func locationParameters() -> Parameterisable
 }
 
-extension LocationAdvanceOptions {
+extension LocationAdvancedOptions {
     public func canPeformSearch() -> Bool {
         return true
     }
