@@ -113,7 +113,7 @@ public class ActivityLogViewModel {
 
     public func headerText(at section: Int) -> String? {
         if let sectionViewModel = sections[ifExists: section] {
-            return sectionViewModel.title
+            return sectionViewModel.title.uppercased()
         }
         return nil
     }
