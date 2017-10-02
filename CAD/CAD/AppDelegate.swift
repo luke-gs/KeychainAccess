@@ -8,26 +8,71 @@
 
 import UIKit
 import MPOLKit
+import ClientKit
+import CoreLocation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
-
+    
+    let statusTabBarController = StatusTabBarController()
+    
+    // FIXME: Temporary
+    let locationManager = CLLocationManager()
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        MPOLKitInitialize()
+        let window = UIWindow()
+        self.window = window
+        
+        applyCurrentTheme()
+        window.makeKeyAndVisible()
+        
+        let searchProxyViewController = UIViewController() // TODO: Take me back to the search app
+        searchProxyViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
+        searchProxyViewController.tabBarItem.isEnabled = false
 
+        let tasksNavController = UINavigationController(rootViewController: TasksMapViewController())
+        tasksNavController.tabBarItem.image = AssetManager.shared.image(forKey: .tabBarTasks)
+        tasksNavController.tabBarItem.title = NSLocalizedString("Tasks", comment: "Tasks Tab Bar Item")
+
+        statusTabBarController.viewControllers = [searchProxyViewController, tasksNavController]
+        statusTabBarController.selectedViewController = tasksNavController
+
+        self.window?.rootViewController = statusTabBarController
+        // self.window?.rootViewController = ViewController()
+
+        // TODO: Put this somewhere else I guess. Just need it now for the map.
+        if CLLocationManager.authorizationStatus() == .notDetermined {
+            locationManager.requestWhenInUseAuthorization()
+        }
+        
+        return true
+    }
+    
+    private func applyCurrentTheme() {
         let theme = ThemeManager.shared.theme(for: .current)
         let shadowImage = theme.image(forKey: .navigationBarShadow)
-
+        
         let navBar = UINavigationBar.appearance()
         navBar.setBackgroundImage(theme.image(forKey: .navigationBarBackground), for: .default)
         navBar.barStyle  = theme.navigationBarStyle
         navBar.tintColor = theme.color(forKey: .navigationBarTint)
         navBar.shadowImage = shadowImage
-
-        return true
+        
+        let navBarExtension = NavigationBarExtension.appearance()
+        navBarExtension.barStyle  = theme.navigationBarStyle
+        navBarExtension.backgroundImage = theme.image(forKey: .navigationBarExtension)
+        navBarExtension.tintColor = theme.color(forKey: .navigationBarTint)
+        navBarExtension.shadowImage = shadowImage
+        
+        UITabBar.appearance().barStyle = theme.tabBarStyle
+        
+        window?.tintColor = theme.color(forKey: .tint)
+        
+        AlertQueue.shared.preferredStatusBarStyle = theme.statusBarStyle
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
