@@ -176,8 +176,12 @@ public final class Manifest: NSObject {
     }
     
     public static let dateFormatter:ISO8601DateFormatter = ISO8601DateFormatter()
+    private var updateCompletionArray:[(Error?) -> Void] = []
     
     public func saveManifest(with manifestItems:[[String : Any]], at checkedAtDate:Date, completion: ((Error?) -> Void)?) {
+        if let completion = completion {
+            updateCompletionArray.append(completion)
+        }
         if isUpdating == false {
             do {
                 self.isUpdating = true
@@ -247,11 +251,17 @@ public final class Manifest: NSObject {
                         
                         DispatchQueue.main.async {
                             self.lastUpdateDate = checkedAtDate
-                            completion?(nil)
+                            for completionBlock in self.updateCompletionArray {
+                                completionBlock(nil)
+                            }
+                            self.updateCompletionArray.removeAll()
                         }
                     } catch let error {
                         DispatchQueue.main.async {
-                            completion?(error)
+                            for completionBlock in self.updateCompletionArray {
+                                completionBlock(error)
+                            }
+                            self.updateCompletionArray.removeAll()
                         }
                     }
                 }
@@ -278,6 +288,10 @@ public final class Manifest: NSObject {
                         self.isUpdating = false
                         self.lastUpdateDate = checkedAtDate
                         completion?(nil)
+                        for completionBlock in self.updateCompletionArray {
+                            completionBlock(nil)
+                        }
+                        self.updateCompletionArray.removeAll()
                     }
                     return
                 }
@@ -288,6 +302,14 @@ public final class Manifest: NSObject {
                 }.catch { error in
                     self.isUpdating = false
                     completion?(error)
+                    for completionBlock in self.updateCompletionArray {
+                        completionBlock(error)
+                    }
+                    self.updateCompletionArray.removeAll()
+            }
+        } else {
+            if let completion = completion {
+                updateCompletionArray.append(completion)
             }
         }
     }
