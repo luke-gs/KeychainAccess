@@ -10,140 +10,14 @@ import UIKit
 import MPOLKit
 import CoreLocation
 
-// MARK: - Dummy models
-
-// TODO: Remove these
-
-struct IncidentDummyMapModel {
-    var identifier: String
-    var title: String
-    var subtitle: String
-    var coordinate: CLLocationCoordinate2D
-    var priority: Priority
-    var assigned: Bool
-    
-    var usesDarkBackground: Bool {
-        return !assigned
-    }
-    
-    enum Priority: CustomStringConvertible {
-        case p1
-        case p2
-        case p3
-        case p4
-        
-        var description: String {
-            switch self {
-            case .p1: return "P1"
-            case .p2: return "P2"
-            case .p3: return "P3"
-            case .p4: return "P4"
-            }
-        }
-        
-        var color: UIColor {
-            switch self {
-            case .p1:
-                return UIColor(red: 255.0 / 255.0, green: 59.0 / 255.0, blue: 48.0 / 255.0, alpha: 1.0)
-            case .p2:
-                return UIColor(red: 255.0 / 255.0, green: 204.0 / 255.0, blue: 0.0, alpha: 1.0)
-            case .p3:
-                return UIColor(red: 0.0, green: 122.0 / 255.0, blue: 255.0 / 255.0, alpha: 1.0)
-            case .p4:
-                return UIColor(red: 0.0, green: 122.0 / 255.0, blue: 255.0 / 255.0, alpha: 1.0)
-            }
-        }
-        
-        var showsFilledColor: Bool {
-            switch self {
-            case .p1, .p2:
-                return true
-            case .p3, .p4:
-                return false
-            }
-        }
-    }
-}
-
-struct PatrolDummyMapModel {
-    var identifier: String
-    var title: String
-    var subtitle: String
-    var coordinate: CLLocationCoordinate2D
-}
-
-struct BroadcastDummyMapModel {
-    var identifier: String
-    var title: String
-    var subtitle: String
-    var coordinate: CLLocationCoordinate2D
-}
-
-struct ResourceDummyMapModel {
-    var identifier: String
-    var title: String
-    var subtitle: String
-    var coordinate: CLLocationCoordinate2D
-    var resource: Resource
-    var state: State
-    
-    enum Resource {
-        case copper
-        case car
-        case plane
-        case boat
-        case bike
-        case segway
-        case doggo
-        
-        var image: UIImage? {
-            switch self {
-            case .copper:
-                return AssetManager.shared.image(forKey: .entityOfficer)
-            case .car:
-                return AssetManager.shared.image(forKey: .resourceCar)
-            case .plane:
-                return AssetManager.shared.image(forKey: .resourceAir)
-            case .boat:
-                return AssetManager.shared.image(forKey: .resourceWater)
-            case .bike:
-                return AssetManager.shared.image(forKey: .resourceBicycle)
-            case .segway:
-                return AssetManager.shared.image(forKey: .resourceSegway)
-            case .doggo:
-                return AssetManager.shared.image(forKey: .resourceDog)
-                
-            }
-        }
-    }
-    
-    enum State {
-        case unassigned
-        case assigned
-        case tasked
-        case duress
-        
-        var color: UIColor {
-            switch self {
-            case .unassigned:
-                return UIColor(red: 76.0 / 255.0, green: 175.0 / 255.0, blue: 80.0 / 255.0, alpha: 1.0)
-            case .assigned, .tasked:
-                return #colorLiteral(red: 0.8431372549, green: 0.8431372549, blue: 0.8509803922, alpha: 1)
-            case .duress:
-                return UIColor(red: 255.0 / 255.0, green: 59.0 / 255.0, blue: 48.0 / 255.0, alpha: 1.0)
-            }
-        }
-    }
-}
-
 class TasksMapViewModel {
 
     // MARK: - Data Source
     
-    private var incidents: [IncidentDummyMapModel] = []
-    private var patrol: [PatrolDummyMapModel] = []
-    private var broadcast: [BroadcastDummyMapModel] = []
-    private var resources: [ResourceDummyMapModel] = []
+    private var incidents: [IncidentMapViewModel] = []
+    private var patrol: [PatrolMapViewModel] = []
+    private var broadcast: [BroadcastMapViewModel] = []
+    private var resources: [ResourceMapViewModel] = []
     
     // MARK: - Filter
     
@@ -169,9 +43,9 @@ class TasksMapViewModel {
                                       coordinate: model.coordinate,
                                       title: model.title,
                                       subtitle: model.subtitle,
-                                      iconText: String(describing: model.priority),
-                                      iconColor: model.priority.color,
-                                      iconFilled: model.priority.showsFilledColor,
+                                      iconText: model.iconText,
+                                      iconColor: model.iconColor,
+                                      iconFilled: model.iconFilled,
                                       usesDarkBackground: model.usesDarkBackground)
         }
         
@@ -197,9 +71,9 @@ class TasksMapViewModel {
                                           coordinate: model.coordinate,
                                           title: model.title,
                                           subtitle: model.subtitle,
-                                          icon: model.resource.image,
-                                          iconBackgroundColor: model.state.color,
-                                          blinking: model.state == .duress)
+                                          icon: model.iconImage,
+                                          iconBackgroundColor: model.iconColor,
+                                          pulsing: model.pulsing)
         }
         
         var annotations: [TaskAnnotation] = []
@@ -227,10 +101,41 @@ class TasksMapViewModel {
     
     func loadDummyData() {
         incidents = [
-            IncidentDummyMapModel(identifier: "i1", title: "Assult", subtitle: "Resourced (2)", coordinate: CLLocationCoordinate2D(latitude: -37.803258, longitude: 144.983707), priority: .p1, assigned: true),
-            IncidentDummyMapModel(identifier: "i2", title: "Domestic Violence", subtitle: "Assigned", coordinate: CLLocationCoordinate2D(latitude: -37.808173, longitude: 144.978827), priority: .p2, assigned: true),
-            IncidentDummyMapModel(identifier: "i3", title: "Trespassing", subtitle: "Assigned", coordinate: CLLocationCoordinate2D(latitude: -37.797528, longitude: 144.985450), priority: .p3, assigned: true),
-            IncidentDummyMapModel(identifier: "i4", title: "Vandalism", subtitle: "Unassigned", coordinate: CLLocationCoordinate2D(latitude: -37.802048, longitude: 144.987646), priority: .p4, assigned: false),
+            IncidentMapViewModel(identifier: "i1",
+                               title: "Assult",
+                               subtitle: "Resourced (2)",
+                               coordinate: CLLocationCoordinate2D(latitude: -37.803258, longitude: 144.983707),
+                               iconText: "P1",
+                               iconColor: #colorLiteral(red: 1, green: 0.231372549, blue: 0.1882352941, alpha: 1),
+                               iconFilled: true,
+                               usesDarkBackground: false),
+
+            IncidentMapViewModel(identifier: "i2",
+                               title: "Domestic Violence",
+                               subtitle: "Assigned",
+                               coordinate: CLLocationCoordinate2D(latitude: -37.808173, longitude: 144.978827),
+                               iconText: "P2",
+                               iconColor: #colorLiteral(red: 1, green: 0.8, blue: 0, alpha: 1),
+                               iconFilled: true,
+                               usesDarkBackground: false),
+
+            IncidentMapViewModel(identifier: "i3",
+                               title: "Trespassing",
+                               subtitle: "Assigned",
+                               coordinate: CLLocationCoordinate2D(latitude: -37.797528, longitude: 144.985450),
+                               iconText: "P3",
+                               iconColor: #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1),
+                               iconFilled: false,
+                               usesDarkBackground: false),
+
+            IncidentMapViewModel(identifier: "i4",
+                               title: "Unassigned",
+                               subtitle: "Resourced (2)",
+                               coordinate: CLLocationCoordinate2D(latitude: -37.802048, longitude: 144.987646),
+                               iconText: "P4",
+                               iconColor: #colorLiteral(red: 0, green: 0.4793452024, blue: 0.9990863204, alpha: 1),
+                               iconFilled: false,
+                               usesDarkBackground: true),
         ]
         
         patrol = [
@@ -240,9 +145,30 @@ class TasksMapViewModel {
         ]
         
         resources = [
-            ResourceDummyMapModel(identifier: "r1", title: "P03", subtitle: "(3)", coordinate: CLLocationCoordinate2D(latitude: -37.807014, longitude: 144.973212), resource: .car, state: .duress),
-            ResourceDummyMapModel(identifier: "r2", title: "P07", subtitle: "(2)", coordinate: CLLocationCoordinate2D(latitude: -37.802314, longitude: 144.975459), resource: .car, state: .unassigned),
-            ResourceDummyMapModel(identifier: "r3", title: "P07", subtitle: "(2)", coordinate: CLLocationCoordinate2D(latitude: -37.799788, longitude: 144.992054), resource: .doggo, state: .assigned),
+            
+            ResourceMapViewModel(identifier: "r1",
+                                 title: "P03",
+                                 subtitle: "(3)",
+                                 coordinate: CLLocationCoordinate2D(latitude: -37.807014, longitude: 144.973212),
+                                 iconImage: AssetManager.shared.image(forKey: .resourceCar),
+                                 iconColor: #colorLiteral(red: 0.9455295139, green: 0, blue: 0, alpha: 1),
+                                 pulsing: true),
+            
+            ResourceMapViewModel(identifier: "r2",
+                                 title: "P07",
+                                 subtitle: "(2)",
+                                 coordinate: CLLocationCoordinate2D(latitude: -37.802314, longitude: 144.975459),
+                                 iconImage: AssetManager.shared.image(forKey: .resourceCar),
+                                 iconColor: #colorLiteral(red: 0.8431372549, green: 0.8431372549, blue: 0.8509803922, alpha: 1),
+                                 pulsing: false),
+            
+            ResourceMapViewModel(identifier: "r3",
+                                 title: "P07",
+                                 subtitle: "(2)",
+                                 coordinate: CLLocationCoordinate2D(latitude: -37.799788, longitude: 144.992054),
+                                 iconImage: AssetManager.shared.image(forKey: .resourceDog),
+                                 iconColor: #colorLiteral(red: 0.2980392157, green: 0.6862745098, blue: 0.3137254902, alpha: 1),
+                                 pulsing: false),
         ]
     }
 }

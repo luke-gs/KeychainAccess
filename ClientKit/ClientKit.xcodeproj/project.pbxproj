@@ -34,6 +34,10 @@
 		1ABF4EAD1F3B446100C70E62 /* PersonDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABF4EAC1F3B446000C70E62 /* PersonDetailsViewModel.swift */; };
 		271AB3061F7C752900AF93A4 /* TasksMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271AB3051F7C752900AF93A4 /* TasksMapViewModel.swift */; };
 		271AB30D1F7C87BC00AF93A4 /* TaskAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271AB30C1F7C87BC00AF93A4 /* TaskAnnotation.swift */; };
+		27206B3D1F81ECC5005303A8 /* IncidentMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27206B3C1F81ECC5005303A8 /* IncidentMapViewModel.swift */; };
+		27206B3F1F81ECCF005303A8 /* ResourceMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27206B3E1F81ECCF005303A8 /* ResourceMapViewModel.swift */; };
+		27206B411F81ECE3005303A8 /* BroadcastMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27206B401F81ECE3005303A8 /* BroadcastMapViewModel.swift */; };
+		27206B431F81ECEF005303A8 /* PatrolMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27206B421F81ECEF005303A8 /* PatrolMapViewModel.swift */; };
 		276BB42F1F7C74B100F3C83D /* TasksMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276BB42E1F7C74B100F3C83D /* TasksMapViewController.swift */; };
 		278CA1001F7C88950073DFBA /* IncidentAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278CA0FF1F7C88950073DFBA /* IncidentAnnotation.swift */; };
 		278CA1021F7C8B0A0073DFBA /* ResourceAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278CA1011F7C8B0A0073DFBA /* ResourceAnnotation.swift */; };
@@ -158,6 +162,10 @@
 		1ABF4EAC1F3B446000C70E62 /* PersonDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonDetailsViewModel.swift; sourceTree = "<group>"; };
 		271AB3051F7C752900AF93A4 /* TasksMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksMapViewModel.swift; sourceTree = "<group>"; };
 		271AB30C1F7C87BC00AF93A4 /* TaskAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskAnnotation.swift; sourceTree = "<group>"; };
+		27206B3C1F81ECC5005303A8 /* IncidentMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentMapViewModel.swift; sourceTree = "<group>"; };
+		27206B3E1F81ECCF005303A8 /* ResourceMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceMapViewModel.swift; sourceTree = "<group>"; };
+		27206B401F81ECE3005303A8 /* BroadcastMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastMapViewModel.swift; sourceTree = "<group>"; };
+		27206B421F81ECEF005303A8 /* PatrolMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatrolMapViewModel.swift; sourceTree = "<group>"; };
 		276BB42E1F7C74B100F3C83D /* TasksMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksMapViewController.swift; sourceTree = "<group>"; };
 		278CA0FF1F7C88950073DFBA /* IncidentAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentAnnotation.swift; sourceTree = "<group>"; };
 		278CA1011F7C8B0A0073DFBA /* ResourceAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceAnnotation.swift; sourceTree = "<group>"; };
@@ -343,6 +351,17 @@
 			path = Annotations;
 			sourceTree = "<group>";
 		};
+		27206B3B1F81EC95005303A8 /* View Models */ = {
+			isa = PBXGroup;
+			children = (
+				27206B3C1F81ECC5005303A8 /* IncidentMapViewModel.swift */,
+				27206B3E1F81ECCF005303A8 /* ResourceMapViewModel.swift */,
+				27206B401F81ECE3005303A8 /* BroadcastMapViewModel.swift */,
+				27206B421F81ECEF005303A8 /* PatrolMapViewModel.swift */,
+			);
+			path = "View Models";
+			sourceTree = "<group>";
+		};
 		2745A8F71F7C63D6003D008F /* CAD */ = {
 			isa = PBXGroup;
 			children = (
@@ -354,6 +373,7 @@
 		2745A8F81F7C63F7003D008F /* Tasks */ = {
 			isa = PBXGroup;
 			children = (
+				27206B3B1F81EC95005303A8 /* View Models */,
 				271AB30B1F7C877100AF93A4 /* Annotations */,
 				276BB42E1F7C74B100F3C83D /* TasksMapViewController.swift */,
 				271AB3051F7C752900AF93A4 /* TasksMapViewModel.swift */,
@@ -894,6 +914,7 @@
 				EA8B66621F3831C900F09716 /* LicenceSearchParameters.swift in Sources */,
 				BC75A7BA1F1C3D58004D46F1 /* PersonInfoViewController.swift in Sources */,
 				BC75A7B21F1C3D50004D46F1 /* EventDetailViewController.swift in Sources */,
+				27206B3F1F81ECCF005303A8 /* ResourceMapViewModel.swift in Sources */,
 				BCAEFEA11F03150800C97F9C /* Whereabouts.swift in Sources */,
 				BCAEFE9A1F03150800C97F9C /* Event.swift in Sources */,
 				1A2E8A841F398E7A0062FEA5 /* EventDetailsViewModelable.swift in Sources */,
@@ -904,6 +925,7 @@
 				1ABF4EAD1F3B446100C70E62 /* PersonDetailsViewModel.swift in Sources */,
 				1A159F171F4B1DFE00075330 /* PersonDetailsSectionsDataSource.swift in Sources */,
 				1A159F151F4B1DE200075330 /* VehicleDetailsSectionsDataSource.swift in Sources */,
+				27206B3D1F81ECC5005303A8 /* IncidentMapViewModel.swift in Sources */,
 				1A290C821F3D630700DD9ED5 /* PersonFetchParameter.swift in Sources */,
 				EA1CC2561F41347100FE8BAE /* EngineNumberParserDefinition.swift in Sources */,
 				BCAEFEAD1F03150800C97F9C /* Source.swift in Sources */,
@@ -930,7 +952,9 @@
 				BCAEFEB11F03150800C97F9C /* Warrant.swift in Sources */,
 				BCA1793C1F03542900AD1F5F /* PersonParserDefinition.swift in Sources */,
 				BCAEFE9F1F03150800C97F9C /* InterventionOrder.swift in Sources */,
+				27206B411F81ECE3005303A8 /* BroadcastMapViewModel.swift in Sources */,
 				BC75A7B91F1C3D55004D46F1 /* PersonDescriptionsViewController.swift in Sources */,
+				27206B431F81ECEF005303A8 /* PatrolMapViewModel.swift in Sources */,
 				1A5A4A871F442993000DF263 /* VehicleOccurrencesViewModel.swift in Sources */,
 				1A5A4A891F442A1E000DF263 /* VehicleOccurrencesViewController.swift in Sources */,
 				BCAEFE981F03150800C97F9C /* Email.swift in Sources */,
