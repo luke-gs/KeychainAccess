@@ -142,7 +142,7 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
                     if fetchResult.error == nil,
                         let entity = fetchResult.entity {
                         let displayable = Details(entity)
-                        itemState = .loaded(count: displayable.alertBadgeCount, color: displayable.alertBadgeColor)
+                        itemState = .loaded(count: displayable.alertBadgeCount, color: displayable.alertBadgeColor ?? .lightGray)
                     } else {
                         itemState = .notAvailable
                     }
