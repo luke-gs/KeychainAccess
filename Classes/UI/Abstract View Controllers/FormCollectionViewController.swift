@@ -35,7 +35,7 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     
     // MARK: - Public properties
     
-    open let formLayout: CollectionViewFormLayout
+    open var formLayout: CollectionViewFormLayout!
     
     open private(set) var collectionView: UICollectionView?
     
@@ -149,7 +149,11 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
         return UICollectionView.self
     }
     
-    
+    /// Allows subclasses to return a custom subclass of CollectionViewFormLayout
+    open func collectionViewLayoutClass() -> CollectionViewFormLayout.Type {
+        return CollectionViewFormLayout.self
+    }
+
     // MARK: - Legacy support
     /// Additional content insets beyond the standard top and bottom layout guides.
     
@@ -172,7 +176,6 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     // MARK: - Initializers
     
     public init() {
-        formLayout = CollectionViewFormLayout()
         super.init(nibName: nil, bundle: nil)
         
         automaticallyAdjustsScrollViewInsets = false // we manage this ourselves.
@@ -198,6 +201,7 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     open override func loadView() {
         let backgroundBounds = UIScreen.main.bounds
         
+        formLayout = collectionViewLayoutClass().init()
         let collectionView = collectionViewClass().init(frame: backgroundBounds, collectionViewLayout: formLayout)
         collectionView.dataSource = self
         collectionView.delegate   = self
