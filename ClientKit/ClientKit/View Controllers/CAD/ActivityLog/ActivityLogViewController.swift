@@ -40,7 +40,7 @@ public class ActivityLogViewController: TimelineFormCollectionViewController {
         guard let collectionView = self.collectionView else { return }
 
         collectionView.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
-        collectionView.register(CollectionViewFormSubtitleCell.self)
+        collectionView.register(ActivityLogItemCell.self)
     }
 
     // MARK: - UICollectionViewDataSource
@@ -54,7 +54,7 @@ public class ActivityLogViewController: TimelineFormCollectionViewController {
     }
 
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(of: ActivityLogItemCell.self, for: indexPath)
         if let item = viewModel.item(at: indexPath) {
             cell.decorate(with: item)
         }
@@ -92,20 +92,21 @@ public class ActivityLogViewController: TimelineFormCollectionViewController {
 
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
         if let item = viewModel.item(at: indexPath) {
-            return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: item.title, subtitle: item.subtitle, inWidth: itemWidth, compatibleWith: traitCollection)
+            return ActivityLogItemCell.minimumContentHeight(withTitle: item.title, subtitle: item.subtitle, inWidth: itemWidth, compatibleWith: traitCollection)
         }
         return 0
     }
 }
 
 /// Extension of form detail cell that supports decorating using our view model
-extension CollectionViewFormSubtitleCell {
+extension ActivityLogItemCell {
     public func decorate(with viewModel: ActivityLogItemViewModel) {
         highlightStyle = .fade
         selectionStyle = .fade
         separatorStyle = .none
         accessoryView = FormAccessoryView(style: .disclosure)
 
+        timeLabel.text = viewModel.timestamp
         titleLabel.text = viewModel.title
         subtitleLabel.text = viewModel.subtitle
         imageView.image = viewModel.dotImage()
