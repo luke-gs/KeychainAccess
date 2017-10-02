@@ -10,7 +10,7 @@ import UIKit
 import MPOLKit
 
 /// Custom form collection view layout that adds timeline decorators
-public class TimelineCollectionViewFormLayout : CollectionViewFormLayout {
+public class TimelineCollectionViewFormLayout: CollectionViewFormLayout {
 
     private let timelineKind = "timeline"
     private var timelineRects: [CGRect] = []
@@ -60,7 +60,7 @@ public class TimelineCollectionViewFormLayout : CollectionViewFormLayout {
     public override func layoutAttributesForDecorationView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         if elementKind == timelineKind {
             // Return frame created during prepare
-            let atts = UICollectionViewLayoutAttributes(forDecorationViewOfKind:timelineKind, with:indexPath)
+            let atts = UICollectionViewLayoutAttributes(forDecorationViewOfKind: timelineKind, with: indexPath)
             atts.frame = timelineRects[indexPath.section]
             return atts
         }
@@ -72,7 +72,7 @@ public class TimelineCollectionViewFormLayout : CollectionViewFormLayout {
 
         // Append any timeline decorations that are within the rect being drawed
         for section in 0..<timelineRects.count {
-            if let decorationAtts = self.layoutAttributesForDecorationView(ofKind:self.timelineKind, at: IndexPath(item: 0, section: section)) {
+            if let decorationAtts = self.layoutAttributesForDecorationView(ofKind: self.timelineKind, at: IndexPath(item: 0, section: section)) {
                 if !decorationAtts.frame.isEmpty && rect.contains(decorationAtts.frame) {
                     attrs?.append(decorationAtts)
                 }

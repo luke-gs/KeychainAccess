@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MPOLKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,6 +17,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+
+        let theme = ThemeManager.shared.theme(for: .current)
+        let shadowImage = theme.image(forKey: .navigationBarShadow)
+
+        let navBar = UINavigationBar.appearance()
+        navBar.setBackgroundImage(theme.image(forKey: .navigationBarBackground), for: .default)
+        navBar.barStyle  = theme.navigationBarStyle
+        navBar.tintColor = theme.color(forKey: .navigationBarTint)
+        navBar.shadowImage = shadowImage
+
         return true
     }
 
