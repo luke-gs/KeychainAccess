@@ -15,7 +15,7 @@ public class ResourceAnnotation: TaskAnnotation {
     public var iconBackgroundColor: UIColor
     public var blinking: Bool
     
-    public init(identifier: String, coordinate: CLLocationCoordinate2D, title: String?, subtitle: String?, icon: UIImage?, iconBackgroundColor: UIColor, blinking: Bool)  {
+    public init(identifier: String, coordinate: CLLocationCoordinate2D, title: String?, subtitle: String?, icon: UIImage?, iconBackgroundColor: UIColor, blinking: Bool) {
         self.icon = icon
         self.iconBackgroundColor = iconBackgroundColor
         self.blinking = blinking

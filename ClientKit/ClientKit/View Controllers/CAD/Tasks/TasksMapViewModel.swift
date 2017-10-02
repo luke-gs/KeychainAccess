@@ -243,7 +243,6 @@ class TasksMapViewModel {
             ResourceDummyMapModel(identifier: "r1", title: "P03", subtitle: "(3)", coordinate: CLLocationCoordinate2D(latitude: -37.807014, longitude: 144.973212), resource: .car, state: .duress),
             ResourceDummyMapModel(identifier: "r2", title: "P07", subtitle: "(2)", coordinate: CLLocationCoordinate2D(latitude: -37.802314, longitude: 144.975459), resource: .car, state: .unassigned),
             ResourceDummyMapModel(identifier: "r3", title: "P07", subtitle: "(2)", coordinate: CLLocationCoordinate2D(latitude: -37.799788, longitude: 144.992054), resource: .doggo, state: .assigned),
-            //-37.809426, 144.990656
         ]
     }
 }
