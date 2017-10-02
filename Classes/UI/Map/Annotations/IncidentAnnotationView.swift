@@ -151,7 +151,7 @@ open class IncidentAnnotationView: MKAnnotationView {
             
             bottomArrow.topAnchor.constraint(equalTo: bubbleView.bottomAnchor),
             bottomArrow.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            bottomArrow.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -LayoutConstants.arrowHeight),
+            bottomArrow.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -LayoutConstants.arrowWidth),
             bottomArrow.widthAnchor.constraint(equalToConstant: LayoutConstants.arrowWidth),
             bottomArrow.heightAnchor.constraint(equalToConstant: LayoutConstants.arrowHeight),
         ])
@@ -182,6 +182,11 @@ open class IncidentAnnotationView: MKAnnotationView {
         } else {
             titleLabel.textColor = #colorLiteral(red: 0.337254902, green: 0.3450980392, blue: 0.3803921569, alpha: 1)
         }
+    }
+    
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+        centerOffset = CGPoint(x: -((frame.width / 2) - LayoutConstants.arrowWidth - (LayoutConstants.arrowWidth / 2)), y: -(frame.height / 2))
     }
 }
 
