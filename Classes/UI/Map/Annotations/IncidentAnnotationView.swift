@@ -36,6 +36,9 @@ open class IncidentAnnotationView: MKAnnotationView {
     private var bubbleColor: UIColor {
         return usesDarkBackground ? #colorLiteral(red: 0.2549019608, green: 0.2509803922, blue: 0.262745098, alpha: 1) : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
     }
+    private var titleColor: UIColor {
+        return usesDarkBackground ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) : #colorLiteral(red: 0.2549019608, green: 0.2509803922, blue: 0.262745098, alpha: 1)
+    }
     
     // MARK: - Views
     
@@ -161,6 +164,7 @@ open class IncidentAnnotationView: MKAnnotationView {
     func configureViews() {
         bubbleView.backgroundColor = bubbleColor
         bottomArrow.backgroundColor = bubbleColor
+        titleLabel.textColor = titleColor
 
         titleLabel.text = annotation?.title ?? ""
         subtitleLabel.text = annotation?.subtitle ?? ""
@@ -176,16 +180,11 @@ open class IncidentAnnotationView: MKAnnotationView {
             priorityBackground.layer.borderColor = priorityColor.cgColor
             priorityLabel.textColor = priorityColor
         }
-        
-        if usesDarkBackground {
-            titleLabel.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        } else {
-            titleLabel.textColor = #colorLiteral(red: 0.337254902, green: 0.3450980392, blue: 0.3803921569, alpha: 1)
-        }
     }
     
     open override func layoutSubviews() {
         super.layoutSubviews()
+        // Change the center to be the arrow point by moving left by half the width minus the middle of the arrow, then up by half the height
         centerOffset = CGPoint(x: -((frame.width / 2) - LayoutConstants.arrowWidth - (LayoutConstants.arrowWidth / 2)), y: -(frame.height / 2))
     }
 }
