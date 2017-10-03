@@ -84,6 +84,8 @@
 		9644B1D21F6785E200D031F2 /* CompactFormSheetNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9644B1D11F6785E100D031F2 /* CompactFormSheetNavigationController.swift */; };
 		9686FC941F78AAED00C4AB4D /* UIView+SafeArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9686FC931F78AAED00C4AB4D /* UIView+SafeArea.swift */; };
 		9686FC961F78AC7600C4AB4D /* UIViewController+SafeArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9686FC951F78AC7600C4AB4D /* UIViewController+SafeArea.swift */; };
+		995D52591F734A1100701992 /* ManifestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995D52581F734A1100701992 /* ManifestTests.swift */; };
+		995D525A1F7368B100701992 /* manifestItems.json in Resources */ = {isa = PBXBuildFile; fileRef = 995D52571F7344FA00701992 /* manifestItems.json */; };
 		BA6FEAA4EFE7F66EBAE4C2DC /* Pods_MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9215372B17F43A2FDEB28AD0 /* Pods_MPOLKit.framework */; };
 		BC0448941F219A70005FB857 /* AssetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0448931F219A70005FB857 /* AssetManager.swift */; };
 		BC0EA3F41F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0EA3F31F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift */; };
@@ -385,6 +387,8 @@
 		9644B1D11F6785E100D031F2 /* CompactFormSheetNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactFormSheetNavigationController.swift; sourceTree = "<group>"; };
 		9686FC931F78AAED00C4AB4D /* UIView+SafeArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+SafeArea.swift"; sourceTree = "<group>"; };
 		9686FC951F78AC7600C4AB4D /* UIViewController+SafeArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+SafeArea.swift"; sourceTree = "<group>"; };
+		995D52571F7344FA00701992 /* manifestItems.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = manifestItems.json; sourceTree = "<group>"; };
+		995D52581F734A1100701992 /* ManifestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManifestTests.swift; sourceTree = "<group>"; };
 		BC0448931F219A70005FB857 /* AssetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetManager.swift; sourceTree = "<group>"; };
 		BC0EA3F31F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCollectionViewSidebarLayout.swift; sourceTree = "<group>"; };
 		BC1B25B91F2707270090C0AA /* MPOLBarButtonItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPOLBarButtonItems.swift; sourceTree = "<group>"; };
@@ -762,6 +766,16 @@
 				469EB5821F45320A0005CAF7 /* LoginHeaderView.swift */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		995D52561F73429000701992 /* Manifest */ = {
+			isa = PBXGroup;
+			children = (
+				995D52571F7344FA00701992 /* manifestItems.json */,
+				12F057211F3BFB2A00CAD6F6 /* ManifestCollectionTests.swift */,
+				995D52581F734A1100701992 /* ManifestTests.swift */,
+			);
+			path = Manifest;
 			sourceTree = "<group>";
 		};
 		AB742C85EFCBDE4BA2B497CE /* Pods */ = {
@@ -1220,7 +1234,6 @@
 				12F057271F3C0F5600CAD6F6 /* EntitySearchRequestTests.swift */,
 				1211E3681F3AD7620012E2E6 /* EpochDateTransformerTests.swift */,
 				1908EF891F57D79A00382B1C /* KeyboardInputManagerTests.swift */,
-				12F057211F3BFB2A00CAD6F6 /* ManifestCollectionTests.swift */,
 				1211E36C1F3AE0E50012E2E6 /* MiscTests.swift */,
 				1908EF8A1F57D79A00382B1C /* ModelVersionableTests.swift */,
 				1211E36A1F3ADC300012E2E6 /* OAuthAuthorizationGrantTests.swift */,
@@ -1229,6 +1242,7 @@
 				12F057291F3C106D00CAD6F6 /* QueryParserTests.swift */,
 				12F869EB1F5FD2350006EC5C /* ActiveUserSessionTests.swift */,
 				12F869EA1F5FD2340006EC5C /* NewUserSessionTests.swift */,
+				995D52561F73429000701992 /* Manifest */,
 				196ED03B1F7C0619005F3F7C /* UILayoutPriorityMathExtensionTests.swift */,
 				1908EF8F1F57D7D000382B1C /* Theme */,
 			);
@@ -1581,6 +1595,7 @@
 				C60C891D1ECCBEC700785932 /* SimplePersonArrayNestedKeyPath.json in Resources */,
 				12F869EE1F5FD24B0006EC5C /* OAuthAccessToken.json in Resources */,
 				1908EF8C1F57D79A00382B1C /* testTheme.json in Resources */,
+				995D525A1F7368B100701992 /* manifestItems.json in Resources */,
 				19EFD2FD1F4D5F8700422F2A /* LookupAddress.json in Resources */,
 				C60C891C1ECCBEC700785932 /* SimplePersonArrayKeyPath.json in Resources */,
 				C60C891F1ECCBEC700785932 /* SimplePersonNestedKeyPath.json in Resources */,
@@ -1941,6 +1956,7 @@
 			files = (
 				1908EF8E1F57D79A00382B1C /* ModelVersionableTests.swift in Sources */,
 				C6E833AB1F334A4700A21F6D /* NSArchiverTests.swift in Sources */,
+				995D52591F734A1100701992 /* ManifestTests.swift in Sources */,
 				1211E36D1F3AE0E50012E2E6 /* MiscTests.swift in Sources */,
 				C63F71751F3332E7004F5047 /* UserTests.swift in Sources */,
 				1908EF8B1F57D79A00382B1C /* ThemeManagerTests.swift in Sources */,

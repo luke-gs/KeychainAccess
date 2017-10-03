@@ -8,13 +8,13 @@
 
 import Foundation
 import CoreData
+import PromiseKit
 
 fileprivate let manifestLastUpdateKey = "Manifest_LastUpdate"
 
-extension NSNotification.Name {
+public extension NSNotification.Name {
     
     static let ManifestDidUpdate = NSNotification.Name(rawValue: "ManifestDidUpdate")
-    
 }
 
 public final class Manifest: NSObject {
@@ -39,6 +39,8 @@ public final class Manifest: NSObject {
     private let managedObjectModel:         NSManagedObjectModel
     private let persistentStoreCoordinator: NSPersistentStoreCoordinator
     
+    public private(set) var isUpdating:Bool = false
+        
     /// The view context for the manifest. This should only be accessed from the main thread.
     public let viewContext: NSManagedObjectContext
     
@@ -173,113 +175,144 @@ public final class Manifest: NSObject {
         }
     }
     
+    public static let dateFormatter:ISO8601DateFormatter = ISO8601DateFormatter()
+    private var updateCompletionArray:[(Error?) -> Void] = []
+    
+    public func saveManifest(with manifestItems:[[String : Any]], at checkedAtDate:Date, completion: ((Error?) -> Void)?) {
+        if let completion = completion {
+            updateCompletionArray.append(completion)
+        }
+        if isUpdating == false {
+            do {
+                self.isUpdating = true
+                let managedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+                managedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator
+                managedObjectContext.perform { [weak managedObjectContext] in
+                    guard manifestItems.isEmpty ==  false, let context = managedObjectContext else { return }
+                    
+                    for entryDict in manifestItems {
+                        guard let id = entryDict["id"] as? String else { continue }
+                        
+                        autoreleasepool {
+                            let entry: ManifestEntry
+                            
+                            if let foundEntry = (try? context.fetch(self.fetchRequest(forEntryWithID: id)))?.first {
+                                entry = foundEntry
+                            } else {
+                                entry = ManifestEntry(context: context)
+                                entry.id = id
+                            }
+                            
+                            entry.active        = entryDict["active"]     as? Bool ?? false
+                            entry.collection    = entryDict["category"]   as? String
+                            entry.title         = entryDict["title"]      as? String
+                            entry.subtitle      = entryDict["subtitle"]   as? String
+                            entry.shortTitle    = entryDict["shortTitle"] as? String
+                            entry.rawValue      = entryDict["value"]      as? String
+                            entry.sortOrder     = entryDict["sortOrder"]  as? Double ?? 0
+                            
+                            if let effectiveDateString = entryDict["effectiveDate"] as? String {
+                                if let date = Manifest.dateFormatter.date(from: effectiveDateString) as NSDate? {
+                                    entry.effectiveDate = date
+                                }
+                            }
+                            
+                            if let expiryDateString = entryDict["expiryDate"] as? String {
+                                if let date = Manifest.dateFormatter.date(from: expiryDateString) as NSDate? {
+                                    entry.expiryDate = date
+                                }
+                            }
+                            
+                            if let dateLastUpdated = entryDict["dateLastUpdated"] as? String {
+                                if let date = Manifest.dateFormatter.date(from: dateLastUpdated) as NSDate? {
+                                    entry.lastUpdated = date
+                                }
+                            }
+                            
+                            if var additionalData = entryDict["additionalData"] as? [String: Any] {
+                                
+                                if let latitude = additionalData["latitude"] as? NSNumber {
+                                    entry.latitude = latitude
+                                    additionalData.removeValue(forKey: "latitude")
+                                }
+                                if let longitude = additionalData["longitude"] as? NSNumber {
+                                    entry.longitude = longitude
+                                    additionalData.removeValue(forKey: "longitude")
+                                }
+                                
+                                entry.additionalDetails = additionalData
+                            }
+                        }
+                    }
+                    
+                    do {
+                        self.isUpdating = false
+                        try context.save()
+                        
+                        DispatchQueue.main.async {
+                            self.lastUpdateDate = checkedAtDate
+                            for completionBlock in self.updateCompletionArray {
+                                completionBlock(nil)
+                            }
+                            self.updateCompletionArray.removeAll()
+                        }
+                    } catch let error {
+                        DispatchQueue.main.async {
+                            for completionBlock in self.updateCompletionArray {
+                                completionBlock(error)
+                            }
+                            self.updateCompletionArray.removeAll()
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    // MARK: - Update manifest
+    
+    /// Uses the APIManager to connect and retrive the latest manifest, using the lastUpdateDate as a Delta
+    ///
+    /// - Parameter completion: returns an error if any
+    public func update(completion: ((Error?) -> Void)?) {
+        if isUpdating == false {
+            let checkedAtDate = Date()
+            isUpdating = true
+            
+            /// Remove 60 seconds from any last date to ensure we get an overlap.
+            /// It's better to catch more items and update them again than to miss any.
+            APIManager.shared.fetchManifest(for: lastUpdateDate?.addingTimeInterval(-60.0)).then { [weak self] result -> Void in
+                guard let `self` = self else { return }
+                guard result.isEmpty == false else {
+                    DispatchQueue.main.async {
+                        self.isUpdating = false
+                        self.lastUpdateDate = checkedAtDate
+                        completion?(nil)
+                        for completionBlock in self.updateCompletionArray {
+                            completionBlock(nil)
+                        }
+                        self.updateCompletionArray.removeAll()
+                    }
+                    return
+                }
+                
+                self.isUpdating = false
+                self.saveManifest(with: result, at:checkedAtDate, completion: completion)
+                
+                }.catch { error in
+                    self.isUpdating = false
+                    completion?(error)
+                    for completionBlock in self.updateCompletionArray {
+                        completionBlock(error)
+                    }
+                    self.updateCompletionArray.removeAll()
+            }
+        } else {
+            if let completion = completion {
+                updateCompletionArray.append(completion)
+            }
+        }
+    }
+    
 }
-
-//
-//public extension Manifest {
-//    
-//    public func update(completion: ((NetworkError?) -> Void)?) {
-//        let checkedAtDate = Date()
-//        
-//        /// Remove 60 seconds from any last date to ensure we get an overlap.
-//        /// It's better to catch more items and update them again than to miss any.
-//        APIManager.shared.downloadManifestUpdates(since: lastUpdateDate?.addingTimeInterval(-60.0)) { (result: Result<[[String : Any]]>) in
-//            do {
-//                let updates = try result.resolve()
-//                
-//                guard updates.isEmpty == false else {
-//                    DispatchQueue.main.async {
-//                        self.lastUpdateDate = checkedAtDate
-//                        completion?(nil);
-//                    }
-//                    return
-//                }
-//                
-//                let managedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-//                managedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator
-//                managedObjectContext.perform { [weak managedObjectContext] in
-//                    guard updates.isEmpty == false, let context = managedObjectContext else { return }
-//                    
-//                    for entryDict in updates {
-//                        guard let id = entryDict["id"] as? String else { continue }
-//                        
-//                        autoreleasepool {
-//                            let entry: ManifestEntry
-//                            
-//                            if let foundEntry = (try? context.fetch(self.fetchRequest(forEntryWithID: id)))?.first {
-//                                entry = foundEntry
-//                            } else {
-//                                entry = ManifestEntry(context: context)
-//                                entry.id = id
-//                            }
-//                            
-//                            entry.active        = entryDict["active"]     as? Bool ?? false
-//                            entry.collection    = entryDict["collection"] as? String
-//                            entry.title         = entryDict["title"]      as? String
-//                            entry.subtitle      = entryDict["subtitle"]   as? String
-//                            entry.shortTitle    = entryDict["shortTitle"] as? String
-//                            entry.rawValue      = entryDict["value"]      as? String
-//                            entry.sortOrder     = entryDict["sortOrder"]  as? Double ?? 0
-//
-//                            if let effectiveTI = entryDict["effectiveDate"] as? TimeInterval {
-//                                entry.effectiveDate = NSDate(timeIntervalSince1970: effectiveTI)
-//                            }
-//                            if let expiryTI = entryDict["expiryDate"] as? TimeInterval {
-//                                entry.expiryDate = NSDate(timeIntervalSince1970: expiryTI)
-//                            }
-//                            if let lastUpdateTI = entryDict["lastUpdated"] as? TimeInterval {
-//                                entry.lastUpdated = NSDate(timeIntervalSince1970: lastUpdateTI)
-//                            }
-//                            
-//                            if var additionalData = entryDict["additionalData"] as? [String: Any] {
-//                                
-//                                if let latitude = additionalData["latitude"] as? NSNumber {
-//                                    entry.latitude = latitude
-//                                    additionalData.removeValue(forKey: "latitude")
-//                                }
-//                                if let longitude = additionalData["longitude"] as? NSNumber {
-//                                    entry.longitude = longitude
-//                                    additionalData.removeValue(forKey: "longitude")
-//                                }
-//                                
-//                                entry.additionalDetails = additionalData
-//                            }
-//                            
-//                        }
-//                    }
-//                    
-//                    do {
-//                        try context.save()
-//
-//                        DispatchQueue.main.async {
-//                            self.lastUpdateDate = checkedAtDate
-//                            completion?(nil)
-//                        }
-//                    } catch {
-//                        DispatchQueue.main.async {
-//                            switch error {
-//                            case let networkError as NetworkError:
-//                                NSLog("Error saving manifest updates. Update count: \(updates.count). \(networkError.localizedDescription).")
-//                                completion?(networkError)
-//                            case let nsError as NSError:
-//                                NSLog("Error saving manifest updates. Update count: \(updates.count). Error: \(nsError.localizedDescription)")
-//                                completion?(.unknown)
-//                            default:
-//                                NSLog("Error saving manifest updates. Update count: \(updates.count). Error: \(error.localizedDescription)")
-//                                completion?(.unknown)
-//                            }
-//                        }
-//                    }
-//                }
-//            } catch let error as NetworkError {
-//                NSLog("Error updating manifest. \(error.localizedDescription)")
-//                completion?(error)
-//            } catch {
-//                NSLog("Error updating manifest. Unknown error")
-//                completion?(.unknown)
-//            }
-//        }
-//    }
-//    
-//}
 
