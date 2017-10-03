@@ -11,7 +11,7 @@ import MapKit
 
 open class ResourceAnnotationView: MKAnnotationView {
 
-    public static let reuseIdentifier = "ResourceAnnotationView"
+    public static let defaultReuseIdentifier = "ResourceAnnotationView"
     
     // MARK: - Constants
     
@@ -50,9 +50,11 @@ open class ResourceAnnotationView: MKAnnotationView {
         setupConstraints()
     }
     
-    public func configure(circleBorderColor: UIColor = .white, circleBackgroundColor: UIColor, resourceImage: UIImage?) {
-        detailsTitleLabel.text = annotation?.title ?? ""
-        detailsSubtitleLabel.text = annotation?.subtitle ?? ""
+    public func configure(withAnnotation annotation: MKAnnotation, circleBorderColor: UIColor = .white, circleBackgroundColor: UIColor, resourceImage: UIImage?) {
+        self.annotation = annotation
+        
+        detailsTitleLabel.text = annotation.title ?? ""
+        detailsSubtitleLabel.text = annotation.subtitle ?? ""
         imageView.image = resourceImage
         circleView.backgroundColor = circleBackgroundColor
         circleView.layer.borderColor = circleBorderColor.cgColor
@@ -98,11 +100,14 @@ open class ResourceAnnotationView: MKAnnotationView {
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         circleView.addSubview(imageView)
+        
+        centerOffset = CGPoint(x: 0, y: -16)
     }
     
     /// Activates view constraints
     private func setupConstraints() {
         NSLayoutConstraint.activate([
+            heightAnchor.constraint(equalToConstant: 64),
             widthAnchor.constraint(equalToConstant: 50),
             
             detailsView.topAnchor.constraint(greaterThanOrEqualTo: self.topAnchor),

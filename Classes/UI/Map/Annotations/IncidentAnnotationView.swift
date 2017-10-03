@@ -11,7 +11,7 @@ import MapKit
 
 open class IncidentAnnotationView: MKAnnotationView {
 
-    public static let reuseIdentifier = "IncidentAnnotationView"
+    public static let defaultReuseIdentifier = "IncidentAnnotationView"
     
     // MARK: - Constants
     
@@ -57,7 +57,9 @@ open class IncidentAnnotationView: MKAnnotationView {
         setupConstraints()
     }
     
-    public func configure(priorityColor: UIColor, priorityText: String, priorityFilled: Bool, usesDarkBackground: Bool) {
+    public func configure(withAnnotation annotation: MKAnnotation, priorityColor: UIColor, priorityText: String, priorityFilled: Bool, usesDarkBackground: Bool) {
+        self.annotation = annotation
+        
         let bubbleColor = usesDarkBackground ? #colorLiteral(red: 0.2549019608, green: 0.2509803922, blue: 0.262745098, alpha: 1) : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         let titleColor = usesDarkBackground ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) : #colorLiteral(red: 0.2549019608, green: 0.2509803922, blue: 0.262745098, alpha: 1)
         
@@ -65,8 +67,8 @@ open class IncidentAnnotationView: MKAnnotationView {
         bottomArrow.color = bubbleColor
         titleLabel.textColor = titleColor
         
-        titleLabel.text = annotation?.title ?? ""
-        subtitleLabel.text = annotation?.subtitle ?? ""
+        titleLabel.text = annotation.title ?? ""
+        subtitleLabel.text = annotation.subtitle ?? ""
         priorityLabel.text = priorityText
         
         // If we want a filled in priority icon
