@@ -75,7 +75,7 @@ open class IncidentAnnotationView: MKAnnotationView {
     }
     
     required public init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        MPLCodingNotSupported()
     }
     
     /// Creates and styles views
