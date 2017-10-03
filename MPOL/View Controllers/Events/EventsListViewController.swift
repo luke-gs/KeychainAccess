@@ -130,7 +130,7 @@ class EventsListViewController: FormCollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
-        return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: "Street Check", subtitle: "4-12 Langridge St, Collingwood VIC 3066", inWidth: itemWidth, compatibleWith: traitCollection, imageSize: EventsListViewController.eventIcon?.size ?? .zero, accessoryViewSize: FormAccessoryView.size(with: .disclosure))
+        return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: "Street Check", subtitle: "4-12 Langridge St, Collingwood VIC 3066", inWidth: itemWidth, compatibleWith: traitCollection, imageSize: EventsListViewController.eventIcon?.size ?? .zero, accessoryViewSize: FormAccessoryImageView.size(with: .disclosure))
     }
     
     
@@ -172,7 +172,7 @@ private class EventListFooterView: UICollectionReusableView, DefaultReusable {
         
         var constraints = [
             captionLabel.topAnchor.constraint(greaterThanOrEqualTo: layoutMarginsGuide.topAnchor),
-            captionLabel.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor).withPriority(UILayoutPriorityDefaultLow),
+            captionLabel.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor).withPriority(UILayoutPriority.defaultLow),
             captionLabel.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
             captionLabel.bottomAnchor.constraint(lessThanOrEqualTo: layoutMarginsGuide.bottomAnchor),
             

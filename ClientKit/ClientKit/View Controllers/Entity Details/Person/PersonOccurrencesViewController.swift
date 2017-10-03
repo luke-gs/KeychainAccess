@@ -65,10 +65,6 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
         super.viewDidLoad()
 
         updateNoContentDetails(title: viewModel.noContentTitle(), subtitle: viewModel.noContentSubtitle())
-
-        EventDetailsViewModelRouter.register(eventClass: BailOrder.self, viewModelClass: BailOrderDetailViewModel.self)
-        EventDetailsViewModelRouter.register(eventClass: FieldContact.self, viewModelClass: FieldContactDetailViewModel.self)
-        EventDetailsViewModelRouter.register(eventClass: InterventionOrder.self, viewModelClass: InterventionOrderViewModel.self)
         
         guard let collectionView = self.collectionView else { return }
         

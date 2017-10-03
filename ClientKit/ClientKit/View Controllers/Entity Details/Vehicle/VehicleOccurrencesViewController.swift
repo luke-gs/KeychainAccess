@@ -61,9 +61,6 @@ open class VehicleOccurrencesViewController: EntityOccurrencesViewController, Fi
     
     open override func viewDidLoad() {
         super.viewDidLoad()
-
-        EventDetailsViewModelRouter.register(eventClass: FieldContact.self, viewModelClass: FieldContactDetailViewModel.self)
-        EventDetailsViewModelRouter.register(eventClass: InterventionOrder.self, viewModelClass: InterventionOrderViewModel.self)
         
         guard let collectionView = self.collectionView else { return }
         
