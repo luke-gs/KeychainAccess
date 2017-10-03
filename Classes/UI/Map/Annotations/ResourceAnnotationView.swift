@@ -11,6 +11,8 @@ import MapKit
 
 open class ResourceAnnotationView: MKAnnotationView {
 
+    public static let defaultReuseIdentifier = "ResourceAnnotationView"
+    
     // MARK: - Constants
     
     private struct LayoutConstants {
@@ -23,12 +25,6 @@ open class ResourceAnnotationView: MKAnnotationView {
         
         static let borderSize: CGFloat = 4
     }
-    
-    // MARK: - View properties
-    
-    private var circleBorderColor: UIColor
-    private var circleBackgroundColor: UIColor
-    private var resourceImage: UIImage?
     
     // MARK: - Views
     
@@ -48,17 +44,20 @@ open class ResourceAnnotationView: MKAnnotationView {
     private var imageView: UIImageView!
     
     // MARK: - Setup
-    
-    public init(annotation: MKAnnotation?, reuseIdentifier: String?, circleBorderColor: UIColor = .white, circleBackgroundColor: UIColor, resourceImage: UIImage?) {
-        self.circleBorderColor = circleBorderColor
-        self.circleBackgroundColor = circleBackgroundColor
-        self.resourceImage = resourceImage
-
+    public override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
-        
         setupViews()
         setupConstraints()
-        configureViews()
+    }
+    
+    public func configure(withAnnotation annotation: MKAnnotation, circleBorderColor: UIColor = .white, circleBackgroundColor: UIColor, resourceImage: UIImage?) {
+        self.annotation = annotation
+        
+        detailsTitleLabel.text = annotation.title ?? ""
+        detailsSubtitleLabel.text = annotation.subtitle ?? ""
+        imageView.image = resourceImage
+        circleView.backgroundColor = circleBackgroundColor
+        circleView.layer.borderColor = circleBorderColor.cgColor
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -101,11 +100,14 @@ open class ResourceAnnotationView: MKAnnotationView {
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         circleView.addSubview(imageView)
+        
+        centerOffset = CGPoint(x: 0, y: -16)
     }
     
     /// Activates view constraints
     private func setupConstraints() {
         NSLayoutConstraint.activate([
+            heightAnchor.constraint(equalToConstant: 64),
             widthAnchor.constraint(equalToConstant: 50),
             
             detailsView.topAnchor.constraint(greaterThanOrEqualTo: self.topAnchor),
@@ -132,14 +134,4 @@ open class ResourceAnnotationView: MKAnnotationView {
             imageView.centerYAnchor.constraint(equalTo: circleView.centerYAnchor, constant: -2),
         ])
     }
-
-    /// Sets the data on the views from the annotation
-    func configureViews() {
-        detailsTitleLabel.text = annotation?.title ?? ""
-        detailsSubtitleLabel.text = annotation?.subtitle ?? ""
-        imageView.image = resourceImage
-        circleView.backgroundColor = circleBackgroundColor
-        circleView.layer.borderColor = circleBorderColor.cgColor
-    }
-
 }

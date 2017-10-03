@@ -38,6 +38,10 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     open var isMapTypeButtonHidden: Bool = true {
         didSet {
             mapTypeButton.isHidden = isMapTypeButtonHidden
+
+            // Use layout margin to position legal text above map type button
+            let bottomMargin = isMapTypeButtonHidden ? buttonMargin : buttonMargin + userLocationButton.frame.height
+            mapView.layoutMargins = UIEdgeInsets(top: 0, left: buttonMargin, bottom: bottomMargin, right: 0)
         }
     }
     
@@ -45,6 +49,9 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     
     open override func viewDidLoad() {
         super.viewDidLoad()
+
+        // Use background color for when non safe area is visible
+        view.backgroundColor = .white
 
         mapView = MKMapView()
         mapView.delegate = self
@@ -72,23 +79,28 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     /// Activates the constraints for the views
     private func setupConstraints() {
 
-        let tabBarHeight = statusTabBarController?.tabBar.frame.height ?? tabBarController?.tabBar.frame.height ?? 0
+        // Remove once iOS 11+
+        let bottomOffset: CGFloat
+        if #available(iOS 11, *) {
+            bottomOffset = 0.0
+        } else {
+            // The status tab bar controller cannot set the bottom layout guide on iOS 10, so make allowance for it
+            bottomOffset = statusTabBarController?.tabBar.frame.height ?? statusTabBarController?.tabBar.frame.height ?? 0
+        }
 
         NSLayoutConstraint.activate([
-            mapTypeButton.bottomAnchor.constraint(equalTo: mapView.bottomAnchor, constant: -tabBarHeight - buttonMargin),
-            mapTypeButton.leadingAnchor.constraint(equalTo: mapView.leadingAnchor, constant: buttonMargin),
-            mapTypeButton.heightAnchor.constraint(equalToConstant: userLocationButton.frame.height),
-            mapTypeButton.widthAnchor.constraint(equalToConstant: userLocationButton.frame.width),
-            
-            userLocationButton.bottomAnchor.constraint(equalTo: mapView.bottomAnchor, constant: -tabBarHeight - buttonMargin),
-            userLocationButton.trailingAnchor.constraint(equalTo: mapView.trailingAnchor, constant: -buttonMargin),
-            userLocationButton.heightAnchor.constraint(equalToConstant: mapTypeButton.frame.height),
-            userLocationButton.widthAnchor.constraint(equalToConstant: mapTypeButton.frame.width),
-            
-            mapView.topAnchor.constraint(equalTo: self.view.topAnchor),
-            mapView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            mapView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            mapView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+            // Make sure buttons are within safe area
+            mapTypeButton.bottomAnchor.constraint(equalTo: mapView.safeAreaOrFallbackBottomAnchor, constant: -buttonMargin),
+            mapTypeButton.leadingAnchor.constraint(equalTo: mapView.safeAreaOrFallbackLeadingAnchor, constant: buttonMargin),
+
+            userLocationButton.bottomAnchor.constraint(equalTo: mapView.safeAreaOrFallbackBottomAnchor, constant: -buttonMargin),
+            userLocationButton.trailingAnchor.constraint(equalTo: mapView.safeAreaOrFallbackTrailingAnchor, constant: -buttonMargin),
+
+            // Make map view fill the view on leading and trailing, even outside safe area so it looks good on iPhone X
+            mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            mapView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
+            mapView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor, constant: -bottomOffset)
         ])
     }
 

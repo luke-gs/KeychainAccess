@@ -11,6 +11,8 @@ import MapKit
 
 open class IncidentAnnotationView: MKAnnotationView {
 
+    public static let defaultReuseIdentifier = "IncidentAnnotationView"
+    
     // MARK: - Constants
     
     private struct LayoutConstants {
@@ -25,19 +27,6 @@ open class IncidentAnnotationView: MKAnnotationView {
 
         static let arrowWidth: CGFloat = 24
         static let arrowHeight: CGFloat = 16
-    }
-    
-    // MARK: - View Properties
-    
-    private var priorityText: String
-    private var priorityColor: UIColor
-    private var priorityBackgroundFilled: Bool
-    private var usesDarkBackground: Bool
-    private var bubbleColor: UIColor {
-        return usesDarkBackground ? #colorLiteral(red: 0.2549019608, green: 0.2509803922, blue: 0.262745098, alpha: 1) : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-    }
-    private var titleColor: UIColor {
-        return usesDarkBackground ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) : #colorLiteral(red: 0.2549019608, green: 0.2509803922, blue: 0.262745098, alpha: 1)
     }
     
     // MARK: - Views
@@ -62,20 +51,40 @@ open class IncidentAnnotationView: MKAnnotationView {
 
     // MARK: - Setup
     
-    public init(annotation: MKAnnotation?, reuseIdentifier: String?, priorityColor: UIColor, priorityText: String, priorityFilled: Bool, usesDarkBackground: Bool) {
-        self.usesDarkBackground = usesDarkBackground
-        self.priorityText = priorityText
-        self.priorityColor = priorityColor
-        self.priorityBackgroundFilled = priorityFilled
+    public override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
-        
         setupViews()
         setupConstraints()
-        configureViews()
+    }
+    
+    public func configure(withAnnotation annotation: MKAnnotation, priorityColor: UIColor, priorityText: String, priorityFilled: Bool, usesDarkBackground: Bool) {
+        self.annotation = annotation
+        
+        let bubbleColor = usesDarkBackground ? #colorLiteral(red: 0.2549019608, green: 0.2509803922, blue: 0.262745098, alpha: 1) : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        let titleColor = usesDarkBackground ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) : #colorLiteral(red: 0.2549019608, green: 0.2509803922, blue: 0.262745098, alpha: 1)
+        
+        bubbleView.backgroundColor = bubbleColor
+        bottomArrow.color = bubbleColor
+        titleLabel.textColor = titleColor
+        
+        titleLabel.text = annotation.title ?? ""
+        subtitleLabel.text = annotation.subtitle ?? ""
+        priorityLabel.text = priorityText
+        
+        // If we want a filled in priority icon
+        if priorityFilled {
+            priorityBackground.backgroundColor = priorityColor
+            priorityBackground.layer.borderColor = UIColor.clear.cgColor
+            priorityLabel.textColor = .black
+        } else {
+            priorityBackground.backgroundColor = .clear
+            priorityBackground.layer.borderColor = priorityColor.cgColor
+            priorityLabel.textColor = priorityColor
+        }
     }
     
     required public init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        MPLCodingNotSupported()
     }
     
     /// Creates and styles views
@@ -92,7 +101,7 @@ open class IncidentAnnotationView: MKAnnotationView {
         bubbleView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(bubbleView)
         
-        bottomArrow = CalloutArrow(color: bubbleColor)
+        bottomArrow = CalloutArrow(color: .white)
         bottomArrow.translatesAutoresizingMaskIntoConstraints = false
         addSubview(bottomArrow)
         
@@ -160,28 +169,6 @@ open class IncidentAnnotationView: MKAnnotationView {
         ])
     }
     
-    /// Sets the data on the views from the annotation
-    func configureViews() {
-        bubbleView.backgroundColor = bubbleColor
-        bottomArrow.backgroundColor = bubbleColor
-        titleLabel.textColor = titleColor
-
-        titleLabel.text = annotation?.title ?? ""
-        subtitleLabel.text = annotation?.subtitle ?? ""
-        priorityLabel.text = priorityText
-
-        // If we want a filled in priority icon
-        if priorityBackgroundFilled {
-            priorityBackground.backgroundColor = priorityColor
-            priorityBackground.layer.borderColor = UIColor.clear.cgColor
-            priorityLabel.textColor = .black
-        } else {
-            priorityBackground.backgroundColor = .clear
-            priorityBackground.layer.borderColor = priorityColor.cgColor
-            priorityLabel.textColor = priorityColor
-        }
-    }
-    
     open override func layoutSubviews() {
         super.layoutSubviews()
         // Change the center to be the arrow point by moving left by half the width minus the middle of the arrow, then up by half the height
@@ -191,7 +178,11 @@ open class IncidentAnnotationView: MKAnnotationView {
 
 /// An upside down triangle view which replicates the bottom of a MKMapView callout bubble
 private class CalloutArrow: UIView {
-    var color: UIColor
+    var color: UIColor {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
     
     init(frame: CGRect = .zero, color: UIColor) {
         self.color = color
