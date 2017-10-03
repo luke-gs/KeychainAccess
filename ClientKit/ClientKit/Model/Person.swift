@@ -150,10 +150,10 @@ open class Person: Entity {
         } else {
             var initials = ""
             if let givenName = givenName?.ifNotEmpty() {
-                initials += givenName[..<givenName.startIndex]
+                initials += givenName[...givenName.startIndex]
             }
             if let surname = surname?.ifNotEmpty() {
-                initials += surname[..<surname.startIndex]
+                initials += surname[...surname.startIndex]
             }
             if initials.isEmpty == false {
                 self.initials = initials
