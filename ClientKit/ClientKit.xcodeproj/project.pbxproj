@@ -272,18 +272,6 @@
 			path = Person;
 			sourceTree = "<group>";
 		};
-		9624A4401F83040100CAE056 /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-				9624A4301F7C6D9300CAE056 /* ActivityLogViewModel.swift */,
-				9624A4321F7C6DAF00CAE056 /* ActivityLogItemCell.swift */,
-				9624A42E1F7C6D7400CAE056 /* ActivityLogViewController.swift */,
-				9624A43C1F7CC05600CAE056 /* TimelineFormCollectionViewController.swift */,
-				9624A43A1F7CC03000CAE056 /* TimelineCollectionViewFormLayout.swift */,
-			);
-			name = "Recovered References";
-			sourceTree = "<group>";
-		};
 		BC12DC821F023EF0001A5BB7 = {
 			isa = PBXGroup;
 			children = (
@@ -292,7 +280,6 @@
 				BC12DC8D1F023EF0001A5BB7 /* Products */,
 				FB4E17C2967B152090CB72FB /* Pods */,
 				D5A4C216230E4ABFB92B0127 /* Frameworks */,
-				9624A4401F83040100CAE056 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
