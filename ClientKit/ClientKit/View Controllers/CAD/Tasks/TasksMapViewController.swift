@@ -33,7 +33,9 @@ open class TasksMapViewController: MapViewController {
                 annotationView = ResourceAnnotationView(annotation: annotation, reuseIdentifier: "ResourceAnnotationView")
             }
             
-            annotationView?.configure(circleBackgroundColor: annotation.iconBackgroundColor, resourceImage: annotation.icon)
+            annotationView?.configure(withAnnotation: annotation,
+                                      circleBackgroundColor: annotation.iconBackgroundColor,
+                                      resourceImage: annotation.icon)
             
             return annotationView
         } else if let annotation = annotation as? IncidentAnnotation {
@@ -43,7 +45,8 @@ open class TasksMapViewController: MapViewController {
                 annotationView = IncidentAnnotationView(annotation: annotation, reuseIdentifier: IncidentAnnotationView.reuseIdentifier)
             }
             
-            annotationView?.configure(priorityColor: annotation.iconColor,
+            annotationView?.configure(withAnnotation: annotation,
+                                      priorityColor: annotation.iconColor,
                                       priorityText: annotation.iconText,
                                       priorityFilled: annotation.iconFilled,
                                       usesDarkBackground: annotation.usesDarkBackground)
