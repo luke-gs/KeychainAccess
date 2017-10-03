@@ -11,6 +11,7 @@ import MPOLKit
 import MapKit
 
 open class TasksMapViewController: MapViewController {
+    
     let viewModel = TasksMapViewModel()
     
     open override func viewDidLoad() {

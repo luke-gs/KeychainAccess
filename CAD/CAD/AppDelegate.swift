@@ -16,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
-    let statusTabBarController = StatusTabBarController()
+    let statusTabBarController = CADStatusTabBarController()
     
     // FIXME: Temporary
     let locationManager = CLLocationManager()
