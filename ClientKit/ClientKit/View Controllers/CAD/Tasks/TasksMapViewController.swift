@@ -30,7 +30,7 @@ open class TasksMapViewController: MapViewController {
             var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: ResourceAnnotationView.defaultReuseIdentifier) as? ResourceAnnotationView
             
             if annotationView == nil {
-                annotationView = ResourceAnnotationView(annotation: annotation, reuseIdentifier: "ResourceAnnotationView")
+                annotationView = ResourceAnnotationView(annotation: annotation, reuseIdentifier: ResourceAnnotationView.defaultReuseIdentifier)
             }
             
             annotationView?.configure(withAnnotation: annotation,
