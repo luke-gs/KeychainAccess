@@ -16,8 +16,8 @@ class PersonSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
 
     private let searchPlaceholder = NSAttributedString(string: NSLocalizedString("eg. Smith John K", comment: ""),
                                                        attributes: [
-                                                        NSFontAttributeName: UIFont.systemFont(ofSize: 28.0, weight: UIFontWeightLight),
-                                                        NSForegroundColorAttributeName: UIColor.lightGray
+                                                        NSAttributedStringKey.font: UIFont.systemFont(ofSize: 28.0, weight: UIFont.Weight.light),
+                                                        NSAttributedStringKey.foregroundColor: UIColor.lightGray
         ])
 
     private var additionalSearchButtons: [UIButton] {
