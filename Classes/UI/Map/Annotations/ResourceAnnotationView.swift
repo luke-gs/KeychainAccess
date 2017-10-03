@@ -11,7 +11,7 @@ import MapKit
 
 open class ResourceAnnotationView: MKAnnotationView {
 
-    public static let reuseIdentifier = "ResourceAnnotationView"
+    public static let defaultReuseIdentifier = "ResourceAnnotationView"
     
     // MARK: - Constants
     

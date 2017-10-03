@@ -11,7 +11,7 @@ import MapKit
 
 open class IncidentAnnotationView: MKAnnotationView {
 
-    public static let reuseIdentifier = "IncidentAnnotationView"
+    public static let defaultReuseIdentifier = "IncidentAnnotationView"
     
     // MARK: - Constants
     
