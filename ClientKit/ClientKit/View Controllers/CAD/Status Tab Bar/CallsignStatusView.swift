@@ -51,13 +51,13 @@ open class CallsignStatusView: UIView {
         iconView.addSubview(iconImageView)
         
         titleLabel = UILabel()
-        titleLabel.font = UIFont.systemFont(ofSize: 13, weight: UIFontWeightSemibold)
+        titleLabel.font = UIFont.systemFont(ofSize: 13, weight: UIFont.Weight.semibold)
         titleLabel.textColor = ThemeManager.shared.theme(for: .current).color(forKey: .primaryText)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(titleLabel)
         
         subtitleLabel = UILabel()
-        subtitleLabel.font = UIFont.systemFont(ofSize: 11, weight: UIFontWeightRegular)
+        subtitleLabel.font = UIFont.systemFont(ofSize: 11, weight: UIFont.Weight.regular)
         subtitleLabel.textColor = ThemeManager.shared.theme(for: .current).color(forKey: .secondaryText)
         subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(subtitleLabel)
