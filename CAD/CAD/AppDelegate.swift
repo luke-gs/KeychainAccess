@@ -42,7 +42,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         statusTabBarController.selectedViewController = tasksNavController
 
         self.window?.rootViewController = statusTabBarController
-        
+        // self.window?.rootViewController = ViewController()
+
         // TODO: Put this somewhere else I guess. Just need it now for the map.
         if CLLocationManager.authorizationStatus() == .notDetermined {
             locationManager.requestWhenInUseAuthorization()
