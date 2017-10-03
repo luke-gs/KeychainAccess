@@ -29,8 +29,6 @@ open class IncidentAnnotationView: MKAnnotationView {
         static let arrowHeight: CGFloat = 16
     }
     
-    // MARK: - View Properties
-
     // MARK: - Views
     
     /// Rounded rect for the content
