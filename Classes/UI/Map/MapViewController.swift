@@ -50,6 +50,9 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     open override func viewDidLoad() {
         super.viewDidLoad()
 
+        // Use background color for when non safe area is visible
+        view.backgroundColor = .white
+
         mapView = MKMapView()
         mapView.delegate = self
         mapView.userTrackingMode = .follow
@@ -86,20 +89,18 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
         }
 
         NSLayoutConstraint.activate([
-            mapTypeButton.bottomAnchor.constraint(equalTo: mapView.bottomAnchor, constant: -buttonMargin),
-            mapTypeButton.leadingAnchor.constraint(equalTo: mapView.leadingAnchor, constant: buttonMargin),
-            mapTypeButton.heightAnchor.constraint(equalToConstant: userLocationButton.frame.height),
-            mapTypeButton.widthAnchor.constraint(equalToConstant: userLocationButton.frame.width),
-            
-            userLocationButton.bottomAnchor.constraint(equalTo: mapView.bottomAnchor, constant: -buttonMargin),
-            userLocationButton.trailingAnchor.constraint(equalTo: mapView.trailingAnchor, constant: -buttonMargin),
-            userLocationButton.heightAnchor.constraint(equalToConstant: mapTypeButton.frame.height),
-            userLocationButton.widthAnchor.constraint(equalToConstant: mapTypeButton.frame.width),
-            
+            // Make sure buttons are within safe area
+            mapTypeButton.bottomAnchor.constraint(equalTo: mapView.safeAreaOrFallbackBottomAnchor, constant: -buttonMargin),
+            mapTypeButton.leadingAnchor.constraint(equalTo: mapView.safeAreaOrFallbackLeadingAnchor, constant: buttonMargin),
+
+            userLocationButton.bottomAnchor.constraint(equalTo: mapView.safeAreaOrFallbackBottomAnchor, constant: -buttonMargin),
+            userLocationButton.trailingAnchor.constraint(equalTo: mapView.safeAreaOrFallbackTrailingAnchor, constant: -buttonMargin),
+
+            // Make map view fill the view on leading and trailing, even outside safe area so it looks good on iPhone X
+            mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             mapView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
-            mapView.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor),
-            mapView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor),
-            mapView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor, constant: -bottomOffset),
+            mapView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor, constant: -bottomOffset)
         ])
     }
 
