@@ -11,7 +11,7 @@ import Alamofire
 
 open class NetworkErrorDefinition: ErrorMappable {
     
-    typealias SupportedTypeError = APIManagerError
+    public typealias SupportedTypeError = APIManagerError
 
     static public let defaultHTTPStatusCodesMap = [
         400 : (title: "Bad credentials", message: "The username and password entered are not valid. Please check your details and enter again."),
