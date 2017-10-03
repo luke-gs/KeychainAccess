@@ -77,13 +77,13 @@ open class ResourceAnnotationView: MKAnnotationView {
         
         detailsTitleLabel = UILabel()
         detailsTitleLabel.textColor = .white
-        detailsTitleLabel.font = UIFont.systemFont(ofSize: 11, weight: UIFontWeightBold)
+        detailsTitleLabel.font = UIFont.systemFont(ofSize: 11, weight: UIFont.Weight.bold)
         detailsTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         detailsView.addSubview(detailsTitleLabel)
 
         detailsSubtitleLabel = UILabel()
         detailsSubtitleLabel.textColor = .white
-        detailsSubtitleLabel.font = UIFont.systemFont(ofSize: 11, weight: UIFontWeightRegular)
+        detailsSubtitleLabel.font = UIFont.systemFont(ofSize: 11, weight: UIFont.Weight.regular)
         detailsSubtitleLabel.translatesAutoresizingMaskIntoConstraints = false
         detailsView.addSubview(detailsSubtitleLabel)
 

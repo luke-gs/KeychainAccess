@@ -97,7 +97,7 @@ open class IncidentAnnotationView: MKAnnotationView {
         addSubview(bottomArrow)
         
         titleLabel = UILabel()
-        titleLabel.font = UIFont.systemFont(ofSize: 17, weight: UIFontWeightSemibold)
+        titleLabel.font = UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.semibold)
         titleLabel.textColor = #colorLiteral(red: 0.337254902, green: 0.3450980392, blue: 0.3803921569, alpha: 1)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         bubbleView.addSubview(titleLabel)
@@ -110,7 +110,7 @@ open class IncidentAnnotationView: MKAnnotationView {
         bubbleView.addSubview(priorityBackground)
         
         priorityLabel = UILabel()
-        priorityLabel.font = UIFont.systemFont(ofSize: 10, weight: UIFontWeightBold)
+        priorityLabel.font = UIFont.systemFont(ofSize: 10, weight: UIFont.Weight.bold)
         priorityLabel.textAlignment = .center
         priorityLabel.translatesAutoresizingMaskIntoConstraints = false
         priorityBackground.addSubview(priorityLabel)

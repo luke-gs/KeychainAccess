@@ -98,7 +98,7 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     /// Centers and zooms the map to the user's location
-    public func zoomAndCenterToUserLocation() {
+    @objc public func zoomAndCenterToUserLocation() {
         centerToUserLocation()
         
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(mapView.userLocation.coordinate, defaultZoomDistance, defaultZoomDistance)
