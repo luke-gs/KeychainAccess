@@ -72,23 +72,30 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     /// Activates the constraints for the views
     private func setupConstraints() {
 
-        let tabBarHeight = statusTabBarController?.tabBar.frame.height ?? tabBarController?.tabBar.frame.height ?? 0
+        // Remove once iOS 11+
+        let bottomOffset: CGFloat
+        if #available(iOS 11, *) {
+            bottomOffset = 0.0
+        } else {
+            // The status tab bar controller cannot set the bottom layout guide on iOS 10, so make allowance for it
+            bottomOffset = statusTabBarController?.tabBar.frame.height ?? statusTabBarController?.tabBar.frame.height ?? 0
+        }
 
         NSLayoutConstraint.activate([
-            mapTypeButton.bottomAnchor.constraint(equalTo: mapView.bottomAnchor, constant: -tabBarHeight - buttonMargin),
+            mapTypeButton.bottomAnchor.constraint(equalTo: mapView.bottomAnchor, constant: -buttonMargin),
             mapTypeButton.leadingAnchor.constraint(equalTo: mapView.leadingAnchor, constant: buttonMargin),
             mapTypeButton.heightAnchor.constraint(equalToConstant: userLocationButton.frame.height),
             mapTypeButton.widthAnchor.constraint(equalToConstant: userLocationButton.frame.width),
             
-            userLocationButton.bottomAnchor.constraint(equalTo: mapView.bottomAnchor, constant: -tabBarHeight - buttonMargin),
+            userLocationButton.bottomAnchor.constraint(equalTo: mapView.bottomAnchor, constant: -buttonMargin),
             userLocationButton.trailingAnchor.constraint(equalTo: mapView.trailingAnchor, constant: -buttonMargin),
             userLocationButton.heightAnchor.constraint(equalToConstant: mapTypeButton.frame.height),
             userLocationButton.widthAnchor.constraint(equalToConstant: mapTypeButton.frame.width),
             
-            mapView.topAnchor.constraint(equalTo: self.view.topAnchor),
-            mapView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            mapView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            mapView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+            mapView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
+            mapView.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor),
+            mapView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor),
+            mapView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor, constant: -bottomOffset),
         ])
     }
 
