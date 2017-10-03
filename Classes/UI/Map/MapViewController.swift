@@ -38,6 +38,10 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     open var isMapTypeButtonHidden: Bool = true {
         didSet {
             mapTypeButton.isHidden = isMapTypeButtonHidden
+
+            // Use layout margin to position legal text above map type button
+            let bottomMargin = isMapTypeButtonHidden ? buttonMargin : buttonMargin + userLocationButton.frame.height
+            mapView.layoutMargins = UIEdgeInsets(top: 0, left: buttonMargin, bottom: bottomMargin, right: 0)
         }
     }
     
