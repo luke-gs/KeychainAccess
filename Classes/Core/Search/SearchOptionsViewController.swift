@@ -121,7 +121,6 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonItemDidSelect(_:)))
         navigationItem.rightBarButtonItem = firstDataSource.navigationButton
-        
     }
 
     required convenience init(coder aDecoder: NSCoder) {
@@ -435,7 +434,8 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
             let filterIndex = indexPath.item
             
             let options = dataSource.options
-            
+
+            let isRequired = options!.isRequired(at: filterIndex)
             let title = options!.title(at: filterIndex)
             let value = options!.value(at: filterIndex)
             let placeholder = options!.defaultValue(at: filterIndex)
@@ -474,7 +474,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
                 textField.delegate = self
                 
                 filterCell.titleLabel.text = title
-                filterCell.setRequiresValidation(message != nil, validationText: message, animated: false)
+                filterCell.setRequiresValidation(message != nil || isRequired, validationText: message, animated: false)
                 
                 return filterCell
             case .action(let image, let buttonTitle, let buttonHandler):
@@ -487,7 +487,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
                 filterCell.imageView.image = image
                 filterCell.titleLabel.text = title
                 filterCell.subtitleLabel.text = value ?? placeholder
-                filterCell.setRequiresValidation(message != nil, validationText: message, animated: false)
+                filterCell.setRequiresValidation(message != nil || isRequired, validationText: message, animated: false)
              
                 if let title = buttonTitle, let handler = buttonHandler {
                     filterCell.editActions = [CollectionViewFormEditAction(title: title, color: .gray, handler: { (_, _) in
@@ -632,9 +632,12 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
             reloadSearchErrorMessage(animated: true)
         case .filterErrorMessage(let index):
             let indexPath = IndexPath(item: index, section: Section.filters.rawValue)
+
+
             if let cell = self.collectionView?.cellForItem(at: indexPath) as? CollectionViewFormCell {
                 let message = selectedDataSource.options?.errorMessage(at: index)
-                cell.setRequiresValidation(message != nil, validationText: message, animated: true)
+                let isRequired = selectedDataSource.options?.isRequired(at: index)
+                cell.setRequiresValidation(message != nil || isRequired == true, validationText: message, animated: true)
             }
         case .filter(_):
             reloadCollectionViewRetainingEditing()
@@ -650,6 +653,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     
     func tabStripView(_ tabStripView: TabStripView, didSelectItemAt index: Int) {
         selectedDataSourceIndex = index
+        collectionView?.endEditing(true)
     }
     
     // MARK: - Private
