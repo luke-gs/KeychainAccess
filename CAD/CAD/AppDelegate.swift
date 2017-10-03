@@ -39,14 +39,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         tasksNavController.tabBarItem.title = NSLocalizedString("Tasks", comment: "Tasks Tab Bar Item")
 
         let activityNavController = UINavigationController(rootViewController: ActivityLogViewController())
-        activityNavController.tabBarItem.image = AssetManager.shared.image(forKey: .entityPerson)
+        activityNavController.tabBarItem.image = AssetManager.shared.image(forKey: .tabBarActivity)
         activityNavController.tabBarItem.title = NSLocalizedString("Activity Log", comment: "Activity Log Tab Bar Item")
 
         statusTabBarController.viewControllers = [searchProxyViewController, tasksNavController, activityNavController]
         statusTabBarController.selectedViewController = tasksNavController
 
         self.window?.rootViewController = statusTabBarController
-        // self.window?.rootViewController = ViewController()
 
         // TODO: Put this somewhere else I guess. Just need it now for the map.
         if CLLocationManager.authorizationStatus() == .notDetermined {
