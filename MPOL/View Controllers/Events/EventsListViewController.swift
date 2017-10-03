@@ -130,7 +130,7 @@ class EventsListViewController: FormCollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
-        return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: "Street Check", subtitle: "4-12 Langridge St, Collingwood VIC 3066", inWidth: itemWidth, compatibleWith: traitCollection, imageSize: EventsListViewController.eventIcon?.size ?? .zero, accessoryViewSize: FormAccessoryView.size(with: .disclosure))
+        return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: "Street Check", subtitle: "4-12 Langridge St, Collingwood VIC 3066", inWidth: itemWidth, compatibleWith: traitCollection, imageSize: EventsListViewController.eventIcon?.size ?? .zero, accessoryViewSize: FormAccessoryImageView.size(with: .disclosure))
     }
     
     
