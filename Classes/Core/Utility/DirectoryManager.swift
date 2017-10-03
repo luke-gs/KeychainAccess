@@ -121,7 +121,7 @@ public extension FileManager {
     func createFile(atPath path: String,
                     contents data: Data?,
                     withIntermediateDirectories createIntermediates: Bool,
-                    attributes attr: [String : Any]? = nil) throws -> Bool
+                    attributes attr: [FileAttributeKey : Any]? = nil) throws -> Bool
     {
         guard let url = URL(string: path) else { return false }
         try FileManager.default.createDirectory(atPath: url.deletingLastPathComponent().path,

@@ -23,7 +23,7 @@ public extension LOTAnimationView {
                     let composition = LOTComposition(json: json, withAssetBundle: Bundle.mpolKit)
                     
                     DispatchQueue.main.async {
-                        LOTAnimationCache.shared().addAnimation(composition!, forKey: url.absoluteString)
+                        LOTAnimationCache.shared().addAnimation(composition, forKey: url.absoluteString)
                     }
                 }
             }

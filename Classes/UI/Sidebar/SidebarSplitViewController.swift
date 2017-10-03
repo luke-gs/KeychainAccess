@@ -19,7 +19,7 @@ fileprivate let keypathRightBarButtonItems = #keyPath(UINavigationItem.rightBarB
 /// in both regular and compact size environments.
 ///
 /// The sidebar is a table master VC in regular mode, and a horizontal strip above a detail VC in compact mode
-open class SidebarSplitViewController: PushableSplitViewController {
+open class SidebarSplitViewController: PushableSplitViewController, SidebarDelegate {
     
     /// The sidebar view controller when displayed horizontally in compact mode
     public var compactSidebarViewController = CompactSidebarViewController()
@@ -293,19 +293,7 @@ open class SidebarSplitViewController: PushableSplitViewController {
         }
     }
 
-    // MARK: - KVO
-
-    open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if context == &navItemsContext {
-            updateNavigationBarForSelection()
-        } else {
-            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-        }
-    }
-}
-
-// MARK: - SidebarDelegate methods
-extension SidebarSplitViewController: SidebarDelegate {
+    // MARK: - SidebarDelegate methods
 
     open func sidebarViewController(_ controller: UIViewController?, didSelectItem item: SidebarItem) {
         selectedViewController = detailViewControllers.first(where: { $0.sidebarItem == item })
@@ -313,14 +301,13 @@ extension SidebarSplitViewController: SidebarDelegate {
 
     open func sidebarViewController(_ controller: UIViewController, didSelectSourceAt index: Int) {
     }
-    
-    open func sidebarViewController(_ controller: UIViewController, didRequestToLoadSourceAt index: Int) {
-    }
-}
 
-// MARK: - UISplitViewControllerDelegate methods
-extension SidebarSplitViewController {
-    
+    open func sidebarViewController(_ controller: UIViewController, didRequestToLoadSourceAt index: Int) {
+
+    }
+
+    // MARK: - UISplitViewControllerDelegate methods
+
     open func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
 
         // Clear selected item if showing sidebar as entire view (Rod code, not used currently)
@@ -342,6 +329,16 @@ extension SidebarSplitViewController {
 
         // Restore the detail nav view controller for split screen
         return detailNavController
+    }
+
+    // MARK: - KVO
+
+    open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if context == &navItemsContext {
+            updateNavigationBarForSelection()
+        } else {
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+        }
     }
 }
 

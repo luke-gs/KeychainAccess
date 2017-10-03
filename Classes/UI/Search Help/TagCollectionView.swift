@@ -75,7 +75,7 @@ open class TagCollectionView: UICollectionView, UICollectionViewDataSource, UICo
         let height = font.lineHeight + (heightInset * 2)
         let size = (string as NSString).boundingRect(with: CGSize(width: .greatestFiniteMagnitude, height: height),
                                                      options: .usesLineFragmentOrigin,
-                                                     attributes: [NSFontAttributeName: font],
+                                                     attributes: [NSAttributedStringKey.font: font],
                                                      context: nil)
         let width = size.width + (widthInset * 2)
         return CGSize(width: width, height: height)

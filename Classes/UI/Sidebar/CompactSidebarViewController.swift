@@ -203,7 +203,7 @@ open class CompactSidebarViewController: UIViewController {
             sourceDivider.widthAnchor.constraint(equalToConstant: 1),
 
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: sourceDivider.trailingAnchor).withPriority(UILayoutPriorityRequired - 1),
+            scrollView.leadingAnchor.constraint(equalTo: sourceDivider.trailingAnchor).withPriority(.almostRequired),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             scrollView.heightAnchor.constraint(equalToConstant: 56),
@@ -321,8 +321,8 @@ open class CompactSidebarViewController: UIViewController {
         // Add each sidebar item as a cell in the stack view
         items.forEach({ (item) in
             let label = CompactSidebarItemView(frame: .zero)
-            label.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
-            label.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+            label.setContentHuggingPriority(UILayoutPriority.required, for: .horizontal)
+            label.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
             sidebarStackView.addArrangedSubview(label)
         })
         updateCells()

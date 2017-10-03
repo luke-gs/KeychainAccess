@@ -22,7 +22,7 @@ open class WhatsNewTheme {
     // backgroundColor will be ignored if backgroundImage is not nil
     open var backgroundImage: UIImage?              { return nil }
     
-    open var buttonFont: UIFont                     { return .systemFont(ofSize: 13.0, weight: UIFontWeightSemibold) }
+    open var buttonFont: UIFont                     { return .systemFont(ofSize: 13.0, weight: UIFont.Weight.semibold) }
     open var buttonSkipTextColor: UIColor?          { return UIColor(hexString: "#75828D") }
     open var buttonSkipBackgroundColor: UIColor?    { return UIColor(hexString: "#FFFFFF") }
     open var buttonSkipBorderColor: UIColor?        { return UIColor(hexString: "#75828D") }
@@ -36,8 +36,8 @@ open class WhatsNewTheme {
     open var pageControlTintColor: UIColor?         { return UIColor(hexString: "#EEEEEE") }
     
     open var titleTextColor: UIColor                { return UIColor(hexString: "#565861")! }
-    open var titleFont: UIFont                      { return .systemFont(ofSize: 28.0, weight: UIFontWeightBold) }
+    open var titleFont: UIFont                      { return .systemFont(ofSize: 28.0, weight: UIFont.Weight.bold) }
     
     open var detailTextColor: UIColor               { return UIColor(hexString: "#77828B")! }
-    open var detailFont: UIFont                     { return .systemFont(ofSize: 17.0, weight: UIFontWeightRegular) }
+    open var detailFont: UIFont                     { return .systemFont(ofSize: 17.0, weight: UIFont.Weight.regular) }
 }

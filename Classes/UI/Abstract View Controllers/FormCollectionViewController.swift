@@ -233,7 +233,7 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
             collectionView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor).withPriority(UILayoutPriorityRequired-1),
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor).withPriority(.almostRequired),
         ])
     }
     

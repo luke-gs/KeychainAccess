@@ -11,7 +11,7 @@ import XCTest
 
 @objc(MPLSecureTestArchiverObject) private class SecureTestArchiverObject: NSObject, NSSecureCoding {
     
-    let testingProperty: String
+    @objc let testingProperty: String
     
     init(testingProperty: String) {
         self.testingProperty = testingProperty
@@ -42,7 +42,7 @@ import XCTest
 
 @objc(MPLTestArchiverObject) private class TestArchiverObject: NSObject, NSSecureCoding {
     
-    let testingProperty: String
+    @objc let testingProperty: String
     
     init(testingProperty: String) {
         self.testingProperty = testingProperty

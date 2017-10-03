@@ -27,7 +27,7 @@ open class RoundedRectButton: UIButton {
     }
     
     private func commonInit() {
-        titleLabel?.font = .systemFont(ofSize: 13.0, weight: UIFontWeightBold)
+        titleLabel?.font = .systemFont(ofSize: 13.0, weight: UIFont.Weight.bold)
         setTitleColor(.white, for: .normal)
         setTitleColor(UIColor(white: 1.0, alpha: 0.5), for: .disabled)
         backgroundColor = tintColor

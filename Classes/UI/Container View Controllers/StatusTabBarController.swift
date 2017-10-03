@@ -114,8 +114,8 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
                     let size = newStatusView.frame.size
                     newStatusView.translatesAutoresizingMaskIntoConstraints = false
                     NSLayoutConstraint.activate([
-                        newStatusView.widthAnchor.constraint(equalToConstant: abs(size.width)).withPriority(UILayoutPriorityDefaultLow),
-                        newStatusView.heightAnchor.constraint(equalToConstant: abs(size.height)).withPriority(UILayoutPriorityDefaultLow)
+                        newStatusView.widthAnchor.constraint(equalToConstant: abs(size.width)).withPriority(UILayoutPriority.defaultLow),
+                        newStatusView.heightAnchor.constraint(equalToConstant: abs(size.height)).withPriority(UILayoutPriority.defaultLow)
                     ])
                 } 
                 tabBarContainerController.view.addSubview(newStatusView)
@@ -208,8 +208,8 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
             if statusView.translatesAutoresizingMaskIntoConstraints {
                 let size = statusView.frame.size
                 statusView.translatesAutoresizingMaskIntoConstraints = false
-                constraints.append(statusView.widthAnchor.constraint(equalToConstant: size.width).withPriority(UILayoutPriorityDefaultLow))
-                constraints.append(statusView.heightAnchor.constraint(equalToConstant: size.height).withPriority(UILayoutPriorityDefaultLow))
+                constraints.append(statusView.widthAnchor.constraint(equalToConstant: size.width).withPriority(UILayoutPriority.defaultLow))
+                constraints.append(statusView.heightAnchor.constraint(equalToConstant: size.height).withPriority(UILayoutPriority.defaultLow))
             }
             tabBarContainerView.addSubview(statusView)
         } 
@@ -328,13 +328,13 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
             }
         } else {
             newConstraints = [
-                tabBar.widthAnchor.constraint(equalToConstant: CGFloat(tabBar.items?.count ?? 0) * 108.0).withPriority(800),
+                tabBar.widthAnchor.constraint(equalToConstant: CGFloat(tabBar.items?.count ?? 0) * 108.0).withPriority(UILayoutPriority(rawValue: 800)),
             ]
             
             if let statusView = self.statusView {
                 newConstraints += [
                     statusView.leadingAnchor.constraint(greaterThanOrEqualTo: tabBar.trailingAnchor),
-                    statusView.widthAnchor.constraint(equalToConstant: 0.0).withPriority(1),
+                    statusView.widthAnchor.constraint(equalToConstant: 0.0).withPriority(UILayoutPriority(rawValue: 1)),
                     statusView.trailingAnchor.constraint(equalTo: tabBarBackground.layoutMarginsGuide.trailingAnchor),
                     statusView.topAnchor.constraint(greaterThanOrEqualTo: tabBarBackground.topAnchor),
                     statusView.centerYAnchor.constraint(equalTo: tabBarBackground.centerYAnchor),
