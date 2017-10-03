@@ -72,7 +72,7 @@ open class FormTextField: UITextField {
     
     private func commonInit() {
         let standardFont = self.font ?? .systemFont(ofSize: 17.0)
-        singleSpaceWidth = (" " as NSString).boundingRect(with: .zero, attributes: [NSFontAttributeName: standardFont], context: nil).width
+        singleSpaceWidth = (" " as NSString).boundingRect(with: .zero, attributes: [NSAttributedStringKey.font: standardFont], context: nil).width
     }
     
     deinit {
@@ -90,7 +90,7 @@ open class FormTextField: UITextField {
             
             if font != unitLabel.font {
                 unitLabel.font = font
-                singleSpaceWidth = (" " as NSString).boundingRect(with: .zero, attributes: [NSFontAttributeName: font], context: nil).width
+                singleSpaceWidth = (" " as NSString).boundingRect(with: .zero, attributes: [NSAttributedStringKey.font: font], context: nil).width
             }
         }
     }
@@ -147,7 +147,7 @@ open class FormTextField: UITextField {
                 valueInset = (textRect.maxX + singleSpaceWidth).ceiled(toScale: displayScale)
             }
         } else if let text = self.text?.ifNotEmpty() {
-            let textWidth = text.boundingRect(with: .max, attributes:  [NSFontAttributeName: self.font ?? .systemFont(ofSize: UIFont.systemFontSize)] , context: nil).width
+            let textWidth = text.boundingRect(with: .max, attributes:  [NSAttributedStringKey.font: self.font ?? .systemFont(ofSize: UIFont.systemFontSize)] , context: nil).width
             
             if isRightToLeft {
                 valueInset = (bounds.width - maxTextRect.maxX + ceil(min(textWidth, maxTextRect.width)) + singleSpaceWidth).ceiled(toScale: displayScale)
@@ -190,7 +190,8 @@ open class FormTextField: UITextField {
         // To retain the current one, we need to update the font. With the scaled if possible,
         // or the old one if not.
         if adjustsFontForContentSizeCategory && traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
-            if let placeholderFontType = placeholderFont?.fontDescriptor.fontAttributes["NSCTFontUIUsageAttribute"] as? String {
+            if let placeholderFontType =
+                placeholderFont?.fontDescriptor.fontAttributes[UIFontDescriptor.AttributeName(rawValue: "NSCTFontUIUsageAttribute")] as? String {
                 placeholderFont = .preferredFont(forTextStyle: UIFontTextStyle(rawValue: placeholderFontType), compatibleWith: traitCollection)
             } else {
                 let currentFont = placeholderFont
@@ -233,7 +234,7 @@ open class FormTextField: UITextField {
     
     private func updatePlaceholder() {
         if let placeholder = placeholderText?.ifNotEmpty() {
-            let attributes = [NSFontAttributeName: self.placeholderFont ?? UIFont.systemFont(ofSize: 15.0), NSForegroundColorAttributeName: self.placeholderTextColor ?? .lightGray]
+            let attributes = [NSAttributedStringKey.font: self.placeholderFont ?? UIFont.systemFont(ofSize: 15.0), NSAttributedStringKey.foregroundColor: self.placeholderTextColor ?? .lightGray]
             super.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: attributes)
         } else {
             super.attributedPlaceholder = nil

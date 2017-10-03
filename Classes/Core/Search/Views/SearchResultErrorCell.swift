@@ -27,7 +27,7 @@ public class SearchResultErrorCell: UICollectionViewCell, DefaultReusable {
         titleLabel.textAlignment = .center
         titleLabel.font = .preferredFont(forTextStyle: .headline)
         
-        button.titleLabel?.font = .systemFont(ofSize: 15.0, weight: UIFontWeightSemibold)
+        button.titleLabel?.font = .systemFont(ofSize: 15.0, weight: UIFont.Weight.semibold)
         button.setTitleColor(.white, for: .normal)
         button.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 16.0, bottom: 10.0, right: 16.0)
         button.setBackgroundImage(UIImage.resizableRoundedImage(cornerRadius: 4.0, borderWidth: 0.0, borderColor: nil, fillColor: .black).withRenderingMode(.alwaysTemplate), for: .normal)

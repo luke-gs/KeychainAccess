@@ -21,20 +21,20 @@ open class ArchivedManifestEntry: NSObject, NSSecureCoding {
     
     // MARK: - Public properties
     
-    public let isActive: Bool
-    public let additionalDetails: [String: Any]?
-    public let code: String?
-    public let collection: String?
-    public let effectiveDate: Date?
-    public let expiryDate: Date?
-    public let id: String?
-    public let lastUpdated: Date?
+    @objc public let isActive: Bool
+    @objc public let additionalDetails: [String: Any]?
+    @objc public let code: String?
+    @objc public let collection: String?
+    @objc public let effectiveDate: Date?
+    @objc public let expiryDate: Date?
+    @objc public let id: String?
+    @objc public let lastUpdated: Date?
     public let location: CLLocationCoordinate2D
-    public let rawValue: String?
-    public let shortTitle: String?
-    public let sortOrder: Double
-    public let subtitle: String?
-    public let title: String?
+    @objc public let rawValue: String?
+    @objc public let shortTitle: String?
+    @objc public let sortOrder: Double
+    @objc public let subtitle: String?
+    @objc public let title: String?
     
     
     // MARK: - Initializers

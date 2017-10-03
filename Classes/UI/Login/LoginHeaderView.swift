@@ -28,14 +28,14 @@ public final class LoginHeaderView: UIView {
 
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.text = "mPol"
-        titleLabel.font = .systemFont(ofSize: 48.0, weight: UIFontWeightBold)
+        titleLabel.font = .systemFont(ofSize: 48.0, weight: UIFont.Weight.bold)
         titleLabel.textColor = .white
         titleLabel.adjustsFontSizeToFitWidth = true
 
 
         subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
         subtitleLabel.text = "Mobile Policing Platform"
-        subtitleLabel.font = .systemFont(ofSize: 13.0, weight: UIFontWeightSemibold)
+        subtitleLabel.font = .systemFont(ofSize: 13.0, weight: UIFont.Weight.semibold)
         subtitleLabel.textColor = .white
         subtitleLabel.adjustsFontSizeToFitWidth = true
 

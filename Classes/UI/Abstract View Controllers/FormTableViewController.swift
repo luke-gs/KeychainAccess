@@ -377,14 +377,14 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     
     open func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         if let headerLabel = (view as? UITableViewHeaderFooterView)?.textLabel {
-            headerLabel.font = .systemFont(ofSize: 13.0, weight: UIFontWeightSemibold)
+            headerLabel.font = .systemFont(ofSize: 13.0, weight: UIFont.Weight.semibold)
             headerLabel.textColor = .gray
         }
     }
     
     open func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
         if let headerLabel = (view as? UITableViewHeaderFooterView)?.textLabel {
-            headerLabel.font = .systemFont(ofSize: 13.0, weight: UIFontWeightSemibold)
+            headerLabel.font = .systemFont(ofSize: 13.0, weight: UIFont.Weight.semibold)
             headerLabel.textColor = .gray
         }
     }
@@ -436,7 +436,7 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
             if rangeOfStar.location == NSNotFound { return }
             
             let titleString = NSMutableAttributedString(string: title as String)
-            titleString.setAttributes([NSForegroundColorAttributeName: UIColor.red], range: rangeOfStar)
+            titleString.setAttributes([NSAttributedStringKey.foregroundColor: UIColor.red], range: rangeOfStar)
             textViewCell.titleLabel.attributedText = titleString
         case let textFieldCell as TableViewFormTextFieldCell:
             textFieldCell.titleLabel.textColor = secondaryTextColor
@@ -546,7 +546,7 @@ extension FormTableViewController {
 
     open override var additionalSafeAreaInsets: UIEdgeInsets {
         didSet {
-            if additionalSafeAreaInsets != oldValue && wantsCalculatedContentHeight {
+            if additionalSafeAreaInsets != oldValue && calculatesContentHeight {
                 updateCalculatedContentHeight()
             }
         }

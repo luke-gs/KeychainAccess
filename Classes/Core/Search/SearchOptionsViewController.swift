@@ -213,7 +213,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
             navBarExtensionTopConstraint = navBarExtension.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor)
         }
 
-        searchContainer.setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
+        searchContainer.setContentHuggingPriority(UILayoutPriority.required, for: .vertical)
         NSLayoutConstraint.activate([
             navBarExtension.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             navBarExtension.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -226,7 +226,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
             searchField.heightAnchor.constraint(equalToConstant: SearchFieldCollectionViewCell.cellContentHeight),
             buttonField.heightAnchor.constraint(equalToConstant: SearchFieldAdvanceCell.cellContentHeight),
 
-            NSLayoutConstraint(item: searchField, attribute: .width, relatedBy: .equal, toConstant: SearchFieldCollectionViewCell.preferredWidth, priority: UILayoutPriorityDefaultHigh)
+            NSLayoutConstraint(item: searchField, attribute: .width, relatedBy: .equal, toConstant: SearchFieldCollectionViewCell.preferredWidth, priority: UILayoutPriority.defaultHigh)
         ])
 
         reloadSearchStyle()

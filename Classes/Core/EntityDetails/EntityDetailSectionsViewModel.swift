@@ -83,7 +83,7 @@ public class EntityDetailSectionsViewModel {
 
             noContentView.titleLabel.text = NSLocalizedString(error.localizedDescription, comment: "")
             let actionButton = noContentView.actionButton
-            actionButton.titleLabel?.font = .systemFont(ofSize: 15.0, weight: UIFontWeightSemibold)
+            actionButton.titleLabel?.font = .systemFont(ofSize: 15.0, weight: UIFont.Weight.semibold)
             actionButton.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 16.0, bottom: 10.0, right: 16.0)
             actionButton.setTitle(NSLocalizedString("Retry Download", comment: ""), for: .normal)
             actionButton.addTarget(self, action: #selector(newSearchButtonDidSelect(_:)), for: .primaryActionTriggered)

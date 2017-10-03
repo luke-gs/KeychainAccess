@@ -22,10 +22,10 @@ extension UIImage {
             if initials.isEmpty { return }
             
             let initialString = initials as NSString
-            let attributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 90.0, weight: UIFontWeightLight)]
+            let attributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 90.0, weight: UIFont.Weight.light)]
             let screenScale = UIScreen.main.scale
             
-            let textSize = initialString.size(attributes: attributes)
+            let textSize = initialString.size(withAttributes: attributes)
             let originPoint = CGPoint(x: ((initialThumbnailSize.width - textSize.width) / 2.0).rounded(toScale: screenScale),
                                       y: ((initialThumbnailSize.height - textSize.height) / 2.0).rounded(toScale: screenScale))
             

@@ -129,7 +129,7 @@ open class MapCollectionViewSidebarLayout: MapCollectionViewLayout {
         view.addLayoutGuide(sidebarLayoutGuide)
         
         sidebarMinumumWidthConstraint = sidebarLayoutGuide.widthAnchor.constraint(greaterThanOrEqualToConstant: minimumSidebarWidth)
-        sidebarPreferredWidthConstraint = sidebarLayoutGuide.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: preferredSidebarWidthFraction).withPriority(UILayoutPriorityDefaultHigh)
+        sidebarPreferredWidthConstraint = sidebarLayoutGuide.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: preferredSidebarWidthFraction).withPriority(UILayoutPriority.defaultHigh)
         
         if controller.traitCollection.horizontalSizeClass == .compact || hidesMapInRegularEnvironment {
             sidebarTrailingConstraint = sidebarBackground.trailingAnchor.constraint(equalTo: view.trailingAnchor)

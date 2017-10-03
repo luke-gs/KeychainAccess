@@ -165,7 +165,7 @@ public class NumberRangePickerViewController: FormTableViewController, UIPickerV
             NSLayoutConstraint(item: dashLabel, attribute: .centerX, relatedBy: .equal, toItem: picker, attribute: .centerX, constant: 5.0),
             NSLayoutConstraint(item: dashLabel, attribute: .centerY, relatedBy: .equal, toItem: picker, attribute: .centerY),
             
-            NSLayoutConstraint(item: picker, attribute: .height, relatedBy: .equal, toConstant: picker.intrinsicContentSize.height, priority: UILayoutPriorityRequired - 1)
+            NSLayoutConstraint(item: picker, attribute: .height, relatedBy: .equal, toConstant: picker.intrinsicContentSize.height, priority: .almostRequired)
         ])
         
         self.pickerView = picker
@@ -284,7 +284,7 @@ public class NumberRangePickerViewController: FormTableViewController, UIPickerV
             color = primaryTextColor ?? .darkText
         }
         
-        return NSAttributedString(string: String(describing: rowNumber), attributes: [NSForegroundColorAttributeName: color])
+        return NSAttributedString(string: String(describing: rowNumber), attributes: [NSAttributedStringKey.foregroundColor: color])
     }
     
     public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {

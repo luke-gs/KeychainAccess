@@ -107,8 +107,8 @@ public class AlertIndicatorView: UIView {
         isUserInteractionEnabled = false
         tintAdjustmentMode = .normal
         // We shouldn't get any smaller than the intrinsic content size, as it is the minimum for the badge view to appear correctly.
-        setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
-        setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
+        setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
+        setContentCompressionResistancePriority(UILayoutPriority.required, for: .vertical)
         
         glowView.translatesAutoresizingMaskIntoConstraints = false
         glowView.isHidden = !_isHighlighted
@@ -180,7 +180,7 @@ private class AlertIndicatorIconView: UIView {
         let bounds = self.bounds
         let center = CGPoint(x: bounds.midX, y: bounds.midY)
         
-        let textAttributes: [String: Any]
+        let textAttributes: [NSAttributedStringKey: Any]
         let textYOffset: CGFloat
         if isHighlighted {
             context.fillEllipse(in: CGRect(x: center.x - 10.0, y: center.y - 10.0, width: 20.0, height: 20.0))
@@ -189,11 +189,11 @@ private class AlertIndicatorIconView: UIView {
             
              context.strokeEllipse(in: CGRect(x: center.x - 14.0, y: center.y - 14.0, width: 28.0, height: 28.0))
             
-            textAttributes = [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 13), NSForegroundColorAttributeName: UIColor.white]
+            textAttributes = [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 13), NSAttributedStringKey.foregroundColor: UIColor.white]
             textYOffset = 0
         } else {
             context.strokeEllipse(in: CGRect(x: center.x - 9, y: center.y - 9, width: 18.0, height: 18.0))
-            textAttributes = [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 10), NSForegroundColorAttributeName: color]
+            textAttributes = [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 10), NSAttributedStringKey.foregroundColor: color]
             textYOffset = 0.5
         }
         

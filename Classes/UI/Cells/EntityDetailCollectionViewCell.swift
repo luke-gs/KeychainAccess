@@ -76,15 +76,15 @@ open class EntityDetailCollectionViewCell: CollectionViewFormCell {
             if displayAsCompact == oldValue { return }
 
             if displayAsCompact {
-                sourceLabel.font   = .systemFont(ofSize: 10.0, weight: UIFontWeightBold)
+                sourceLabel.font   = .systemFont(ofSize: 10.0, weight: UIFont.Weight.bold)
                 titleLabel.font    = .preferredFont(forTextStyle: .headline)
                 subtitleLabel.font = .preferredFont(forTextStyle: .footnote)
 
                 NSLayoutConstraint.deactivate(regularWidthConstraints)
                 NSLayoutConstraint.activate(compactWidthConstraints)
             } else {
-                sourceLabel.font   = .systemFont(ofSize: 11.0, weight: UIFontWeightBold)
-                titleLabel.font    = .systemFont(ofSize: 28.0, weight: UIFontWeightBold)
+                sourceLabel.font   = .systemFont(ofSize: 11.0, weight: UIFont.Weight.bold)
+                titleLabel.font    = .systemFont(ofSize: 28.0, weight: UIFont.Weight.bold)
                 subtitleLabel.font = .preferredFont(forTextStyle: .subheadline)
 
                 NSLayoutConstraint.deactivate(compactWidthConstraints)
@@ -99,11 +99,11 @@ open class EntityDetailCollectionViewCell: CollectionViewFormCell {
         super.commonInit()
         separatorStyle = .none
 
-        sourceLabel.font = .systemFont(ofSize: 11.0, weight: UIFontWeightBold)
+        sourceLabel.font = .systemFont(ofSize: 11.0, weight: UIFont.Weight.bold)
         sourceLabel.translatesAutoresizingMaskIntoConstraints = false
         sourceLabel.isHidden = true
 
-        titleLabel.font  = .systemFont(ofSize: 28.0, weight: UIFontWeightBold)
+        titleLabel.font  = .systemFont(ofSize: 28.0, weight: UIFont.Weight.bold)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.numberOfLines = 0
         titleLabel.isHidden = true
@@ -119,7 +119,7 @@ open class EntityDetailCollectionViewCell: CollectionViewFormCell {
         descriptionLabel.isHidden = true
 
         additionalDetailsButton.translatesAutoresizingMaskIntoConstraints = false
-        additionalDetailsButton.titleLabel?.font = .systemFont(ofSize: 11, weight: UIFontWeightMedium)
+        additionalDetailsButton.titleLabel?.font = .systemFont(ofSize: 11, weight: UIFont.Weight.medium)
 
         sourceLabel.adjustsFontForContentSizeCategory = true
         titleLabel.adjustsFontForContentSizeCategory = true
@@ -323,13 +323,13 @@ open class EntityDetailCollectionViewCell: CollectionViewFormCell {
 
         let maxMainTextSize = CGSize(width: (width - (displayAsCompact ? 112.0 : 218.0)).floored(toScale: displayScale), height: CGFloat.greatestFiniteMagnitude)
 
-        let sourceFont: UIFont = .systemFont(ofSize: displayAsCompact ? 10.0 : 11.0, weight: UIFontWeightBold)
+        let sourceFont: UIFont = .systemFont(ofSize: displayAsCompact ? 10.0 : 11.0, weight: UIFont.Weight.bold)
 
-        let titleFont: UIFont = displayAsCompact ? .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection) : .systemFont(ofSize: 28.0, weight: UIFontWeightBold)
+        let titleFont: UIFont = displayAsCompact ? .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection) : .systemFont(ofSize: 28.0, weight: UIFont.Weight.bold)
         let subtitleFont: UIFont = .preferredFont(forTextStyle: displayAsCompact ? .footnote : .subheadline, compatibleWith: traitCollection)
 
         if let title = title as NSString?, title.length > 0 {
-            mainTextHeight = title.boundingRect(with: maxMainTextSize, options: [.usesLineFragmentOrigin], attributes: [NSFontAttributeName: titleFont], context: nil).height.ceiled(toScale: displayScale)
+            mainTextHeight = title.boundingRect(with: maxMainTextSize, options: [.usesLineFragmentOrigin], attributes: [NSAttributedStringKey.font: titleFont], context: nil).height.ceiled(toScale: displayScale)
             hasTitle = true
         } else {
             mainTextHeight = 0.0
@@ -353,7 +353,7 @@ open class EntityDetailCollectionViewCell: CollectionViewFormCell {
 
             hasDescription = true
 
-            detailsHeight = descriptionText.boundingRect(with: detailsSize, options: [.usesLineFragmentOrigin], attributes: [NSFontAttributeName: descriptionFont], context: nil).height.ceiled(toScale: displayScale)
+            detailsHeight = descriptionText.boundingRect(with: detailsSize, options: [.usesLineFragmentOrigin], attributes: [NSAttributedStringKey.font: descriptionFont], context: nil).height.ceiled(toScale: displayScale)
         } else {
             detailsHeight = 0.0
             hasDescription = false
@@ -361,7 +361,7 @@ open class EntityDetailCollectionViewCell: CollectionViewFormCell {
 
         if additionalDetails?.isEmpty ?? true == false {
             if hasDescription { detailsHeight += (displayAsCompact ? 8.0 : 16.0) }
-            detailsHeight += UIFont.systemFont(ofSize: 11, weight: UIFontWeightMedium).lineHeight.ceiled(toScale: displayScale) + 26.0
+            detailsHeight += UIFont.systemFont(ofSize: 11, weight: UIFont.Weight.medium).lineHeight.ceiled(toScale: displayScale) + 26.0
         }
 
         var contentHeight: CGFloat
