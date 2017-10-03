@@ -27,8 +27,7 @@ open class TasksMapViewController: MapViewController {
     
     public func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if let annotation = annotation as? ResourceAnnotation {
-            var annotationView: ResourceAnnotationView?
-            annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: ResourceAnnotationView.reuseIdentifier) as? ResourceAnnotationView
+            var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: ResourceAnnotationView.reuseIdentifier) as? ResourceAnnotationView
             
             if annotationView == nil {
                 annotationView = ResourceAnnotationView(annotation: annotation, reuseIdentifier: "ResourceAnnotationView")
@@ -38,8 +37,7 @@ open class TasksMapViewController: MapViewController {
             
             return annotationView
         } else if let annotation = annotation as? IncidentAnnotation {
-            var annotationView: IncidentAnnotationView?
-            annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: IncidentAnnotationView.reuseIdentifier) as? IncidentAnnotationView
+            var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: IncidentAnnotationView.reuseIdentifier) as? IncidentAnnotationView
             
             if annotationView == nil {
                 annotationView = IncidentAnnotationView(annotation: annotation, reuseIdentifier: IncidentAnnotationView.reuseIdentifier)
