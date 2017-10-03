@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		8C8D6CC41B08BE3F8BD4323A /* Pods_CAD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFE5675329056751C51108DA /* Pods_CAD.framework */; };
 		9624A4161F7C550B00CAE056 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A4151F7C550B00CAE056 /* AppDelegate.swift */; };
-		9624A4181F7C550B00CAE056 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A4171F7C550B00CAE056 /* ViewController.swift */; };
 		9624A41D1F7C550B00CAE056 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9624A41C1F7C550B00CAE056 /* Assets.xcassets */; };
 		9624A4201F7C550B00CAE056 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9624A41E1F7C550B00CAE056 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -19,7 +18,6 @@
 		938AAB0D0D7D4DF633FAD2DB /* Pods-CAD.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CAD.release.xcconfig"; path = "Pods/Target Support Files/Pods-CAD/Pods-CAD.release.xcconfig"; sourceTree = "<group>"; };
 		9624A4121F7C550B00CAE056 /* CAD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CAD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9624A4151F7C550B00CAE056 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		9624A4171F7C550B00CAE056 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		9624A41C1F7C550B00CAE056 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9624A41F1F7C550B00CAE056 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9624A4211F7C550B00CAE056 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -79,17 +77,8 @@
 				9624A4151F7C550B00CAE056 /* AppDelegate.swift */,
 				9624A4281F7C583D00CAE056 /* Resources */,
 				9624A4291F7C585A00CAE056 /* Supporting Files */,
-				9624A4271F7C559500CAE056 /* View Controllers */,
 			);
 			path = CAD;
-			sourceTree = "<group>";
-		};
-		9624A4271F7C559500CAE056 /* View Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				9624A4171F7C550B00CAE056 /* ViewController.swift */,
-			);
-			path = "View Controllers";
 			sourceTree = "<group>";
 		};
 		9624A4281F7C583D00CAE056 /* Resources */ = {
@@ -254,7 +243,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9624A4181F7C550B00CAE056 /* ViewController.swift in Sources */,
 				9624A4161F7C550B00CAE056 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

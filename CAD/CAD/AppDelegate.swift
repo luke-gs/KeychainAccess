@@ -38,7 +38,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         tasksNavController.tabBarItem.image = AssetManager.shared.image(forKey: .tabBarTasks)
         tasksNavController.tabBarItem.title = NSLocalizedString("Tasks", comment: "Tasks Tab Bar Item")
 
-        statusTabBarController.viewControllers = [searchProxyViewController, tasksNavController]
+        let activityNavController = UINavigationController(rootViewController: ActivityLogViewController())
+        activityNavController.tabBarItem.image = AssetManager.shared.image(forKey: .entityPerson)
+        activityNavController.tabBarItem.title = NSLocalizedString("Activity Log", comment: "Activity Log Tab Bar Item")
+
+        statusTabBarController.viewControllers = [searchProxyViewController, tasksNavController, activityNavController]
         statusTabBarController.selectedViewController = tasksNavController
 
         self.window?.rootViewController = statusTabBarController
