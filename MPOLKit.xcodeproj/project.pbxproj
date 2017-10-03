@@ -392,6 +392,25 @@
 		792BA6D7922A9D3748B70A23 /* Pods-MPOLKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKit/Pods-MPOLKit.release.xcconfig"; sourceTree = "<group>"; };
 		9215372B17F43A2FDEB28AD0 /* Pods_MPOLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9624A43E1F81BBEB00CAE056 /* UIFont+Digits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Digits.swift"; sourceTree = "<group>"; };
+		9624A45A1F83555A00CAE056 /* ActivityLogItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityLogItemCell.swift; sourceTree = "<group>"; };
+		9624A45B1F83555A00CAE056 /* ActivityLogItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityLogItemViewModel.swift; sourceTree = "<group>"; };
+		9624A45C1F83555A00CAE056 /* ActivityLogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityLogViewController.swift; sourceTree = "<group>"; };
+		9624A45D1F83555A00CAE056 /* ActivityLogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityLogViewModel.swift; sourceTree = "<group>"; };
+		9624A45E1F83555A00CAE056 /* TimelineCollectionViewFormLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineCollectionViewFormLayout.swift; sourceTree = "<group>"; };
+		9624A45F1F83555A00CAE056 /* TimelineFormCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineFormCollectionViewController.swift; sourceTree = "<group>"; };
+		9624A4601F83555A00CAE056 /* TimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineView.swift; sourceTree = "<group>"; };
+		9624A4621F83555A00CAE056 /* CADStatusTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADStatusTabBarController.swift; sourceTree = "<group>"; };
+		9624A4631F83555A00CAE056 /* CallsignStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallsignStatusView.swift; sourceTree = "<group>"; };
+		9624A4641F83555A00CAE056 /* CallsignStatusViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallsignStatusViewModel.swift; sourceTree = "<group>"; };
+		9624A4671F83555A00CAE056 /* IncidentAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentAnnotation.swift; sourceTree = "<group>"; };
+		9624A4681F83555A00CAE056 /* ResourceAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceAnnotation.swift; sourceTree = "<group>"; };
+		9624A4691F83555A00CAE056 /* TaskAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskAnnotation.swift; sourceTree = "<group>"; };
+		9624A46A1F83555A00CAE056 /* TasksMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksMapViewController.swift; sourceTree = "<group>"; };
+		9624A46B1F83555A00CAE056 /* TasksMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksMapViewModel.swift; sourceTree = "<group>"; };
+		9624A46D1F83555A00CAE056 /* BroadcastMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastMapViewModel.swift; sourceTree = "<group>"; };
+		9624A46E1F83555A00CAE056 /* IncidentMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentMapViewModel.swift; sourceTree = "<group>"; };
+		9624A46F1F83555A00CAE056 /* PatrolMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatrolMapViewModel.swift; sourceTree = "<group>"; };
+		9624A4701F83555A00CAE056 /* ResourceMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceMapViewModel.swift; sourceTree = "<group>"; };
 		9644B1D11F6785E100D031F2 /* CompactFormSheetNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactFormSheetNavigationController.swift; sourceTree = "<group>"; };
 		9686FC931F78AAED00C4AB4D /* UIView+SafeArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+SafeArea.swift"; sourceTree = "<group>"; };
 		9686FC951F78AC7600C4AB4D /* UIViewController+SafeArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+SafeArea.swift"; sourceTree = "<group>"; };
@@ -791,6 +810,80 @@
 				469EB5821F45320A0005CAF7 /* LoginHeaderView.swift */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		9624A4581F83555A00CAE056 /* CAD */ = {
+			isa = PBXGroup;
+			children = (
+				9624A4591F83555A00CAE056 /* ActivityLog */,
+				9624A4611F83555A00CAE056 /* Status Tab Bar */,
+				9624A4651F83555A00CAE056 /* Map */,
+				9624A4721F83567800CAE056 /* Timeline */,
+			);
+			path = CAD;
+			sourceTree = "<group>";
+		};
+		9624A4591F83555A00CAE056 /* ActivityLog */ = {
+			isa = PBXGroup;
+			children = (
+				9624A45A1F83555A00CAE056 /* ActivityLogItemCell.swift */,
+				9624A45B1F83555A00CAE056 /* ActivityLogItemViewModel.swift */,
+				9624A45C1F83555A00CAE056 /* ActivityLogViewController.swift */,
+				9624A45D1F83555A00CAE056 /* ActivityLogViewModel.swift */,
+			);
+			path = ActivityLog;
+			sourceTree = "<group>";
+		};
+		9624A4611F83555A00CAE056 /* Status Tab Bar */ = {
+			isa = PBXGroup;
+			children = (
+				9624A4621F83555A00CAE056 /* CADStatusTabBarController.swift */,
+				9624A4631F83555A00CAE056 /* CallsignStatusView.swift */,
+				9624A4641F83555A00CAE056 /* CallsignStatusViewModel.swift */,
+			);
+			path = "Status Tab Bar";
+			sourceTree = "<group>";
+		};
+		9624A4651F83555A00CAE056 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				9624A4661F83555A00CAE056 /* Annotations */,
+				9624A46C1F83555A00CAE056 /* View Models */,
+				9624A46A1F83555A00CAE056 /* TasksMapViewController.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
+		9624A4661F83555A00CAE056 /* Annotations */ = {
+			isa = PBXGroup;
+			children = (
+				9624A4671F83555A00CAE056 /* IncidentAnnotation.swift */,
+				9624A4681F83555A00CAE056 /* ResourceAnnotation.swift */,
+				9624A4691F83555A00CAE056 /* TaskAnnotation.swift */,
+			);
+			path = Annotations;
+			sourceTree = "<group>";
+		};
+		9624A46C1F83555A00CAE056 /* View Models */ = {
+			isa = PBXGroup;
+			children = (
+				9624A46D1F83555A00CAE056 /* BroadcastMapViewModel.swift */,
+				9624A46E1F83555A00CAE056 /* IncidentMapViewModel.swift */,
+				9624A46F1F83555A00CAE056 /* PatrolMapViewModel.swift */,
+				9624A4701F83555A00CAE056 /* ResourceMapViewModel.swift */,
+				9624A46B1F83555A00CAE056 /* TasksMapViewModel.swift */,
+			);
+			path = "View Models";
+			sourceTree = "<group>";
+		};
+		9624A4721F83567800CAE056 /* Timeline */ = {
+			isa = PBXGroup;
+			children = (
+				9624A45E1F83555A00CAE056 /* TimelineCollectionViewFormLayout.swift */,
+				9624A45F1F83555A00CAE056 /* TimelineFormCollectionViewController.swift */,
+				9624A4601F83555A00CAE056 /* TimelineView.swift */,
+			);
+			path = Timeline;
 			sourceTree = "<group>";
 		};
 		AB742C85EFCBDE4BA2B497CE /* Pods */ = {
@@ -1455,6 +1548,7 @@
 		EA8B66691F393A0000F09716 /* Subspec */ = {
 			isa = PBXGroup;
 			children = (
+				9624A4581F83555A00CAE056 /* CAD */,
 				EA85BFE81F678945002EEB49 /* ThemeGesture */,
 				EAAEB3461F6617E0002D6C65 /* Presenter */,
 				EA8B666A1F393A2000F09716 /* EntitySearch */,
