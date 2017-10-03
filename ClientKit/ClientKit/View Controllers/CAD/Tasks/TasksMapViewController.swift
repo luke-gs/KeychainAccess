@@ -27,20 +27,35 @@ open class TasksMapViewController: MapViewController {
     
     public func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if let annotation = annotation as? ResourceAnnotation {
-            return ResourceAnnotationView(annotation: annotation,
-                                          reuseIdentifier: "ResourceAnnotationView",
-                                          circleBackgroundColor: annotation.iconBackgroundColor,
-                                          resourceImage: annotation.icon)
+            var annotationView: ResourceAnnotationView?
+            annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: ResourceAnnotationView.reuseIdentifier) as? ResourceAnnotationView
+            
+            if annotationView == nil {
+                annotationView = ResourceAnnotationView(annotation: annotation, reuseIdentifier: "ResourceAnnotationView")
+            }
+            
+            annotationView?.configure(circleBackgroundColor: annotation.iconBackgroundColor, resourceImage: annotation.icon)
+            
+            return annotationView
         } else if let annotation = annotation as? IncidentAnnotation {
-            return IncidentAnnotationView.init(annotation: annotation,
-                                               reuseIdentifier: "IncidentAnnotationView",
-                                               priorityColor: annotation.iconColor,
-                                               priorityText: annotation.iconText,
-                                               priorityFilled: annotation.iconFilled,
-                                               usesDarkBackground: annotation.usesDarkBackground)
-        }
-        else {
+            var annotationView: IncidentAnnotationView?
+            annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: IncidentAnnotationView.reuseIdentifier) as? IncidentAnnotationView
+            
+            if annotationView == nil {
+                annotationView = IncidentAnnotationView(annotation: annotation, reuseIdentifier: IncidentAnnotationView.reuseIdentifier)
+            }
+            
+            annotationView?.configure(priorityColor: annotation.iconColor,
+                                      priorityText: annotation.iconText,
+                                      priorityFilled: annotation.iconFilled,
+                                      usesDarkBackground: annotation.usesDarkBackground)
+            
+            return annotationView
+            
+        } else {
             return nil
         }
     }
 }
+
+
