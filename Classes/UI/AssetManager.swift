@@ -112,7 +112,8 @@ extension AssetManager {
         public static let tabBarTasks      = ImageKey("iconTabBarTasks")
         public static let tabBarResources  = ImageKey("iconTabBarResources")
         public static let tabBarComms      = ImageKey("iconTabBarComms")
-        
+        public static let tabBarActivity   = ImageKey("iconTabBarActivityLog")
+
         // Nav Bar Icons
         public static let back           = ImageKey("iconNavBarBack")
         public static let filter         = ImageKey("iconNavBarFilter")
