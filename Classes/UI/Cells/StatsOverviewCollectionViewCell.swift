@@ -55,7 +55,7 @@ open class StatsOverviewCollectionViewCell: CollectionViewFormCell {
                         let label = UILabel(frame: .zero)
                         label.text = text
                         label.textColor = itemColor
-                        label.font = .systemFont(ofSize: 29.0, weight: UIFontWeightMedium)
+                        label.font = .systemFont(ofSize: 29.0, weight: UIFont.Weight.medium)
                         label.adjustsFontSizeToFitWidth = true
                         circle.iconView = label
                     }

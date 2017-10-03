@@ -276,7 +276,7 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
                     NSLayoutConstraint(item: noContentView, attribute: .top, relatedBy: .greaterThanOrEqual, toItem: contentGuide, attribute: .top, constant: 40.0),
                 ]
                 
-                noContentRegularConstraint = noContentView.widthAnchor.constraint(lessThanOrEqualTo: scrollView.readableContentGuide.widthAnchor, multiplier: 0.7).withPriority(UILayoutPriorityDefaultHigh)
+                noContentRegularConstraint = noContentView.widthAnchor.constraint(lessThanOrEqualTo: scrollView.readableContentGuide.widthAnchor, multiplier: 0.7).withPriority(UILayoutPriority.defaultHigh)
                 
                 if baseView.traitCollection.horizontalSizeClass != .compact {
                     constraints.append(noContentRegularConstraint!)
@@ -323,7 +323,7 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
             contentInsetLeftConstraint = contentInsetGuide.leftAnchor.constraint(equalTo: newView.safeAreaOrFallbackLeftAnchor, constant: contentInsets.left)
             contentInsetRightConstraint = contentInsetGuide.rightAnchor.constraint(equalTo: newView.safeAreaOrFallbackRightAnchor, constant: -contentInsets.right)
             contentInsetTopConstraint = contentInsetGuide.topAnchor.constraint(equalTo: newView.safeAreaOrFallbackTopAnchor, constant: contentInsets.bottom)
-            contentInsetBottomConstraint = contentInsetGuide.bottomAnchor.constraint(equalTo: newView.safeAreaOrFallbackBottomAnchor, constant: -contentInsets.bottom).withPriority(UILayoutPriorityDefaultHigh)
+            contentInsetBottomConstraint = contentInsetGuide.bottomAnchor.constraint(equalTo: newView.safeAreaOrFallbackBottomAnchor, constant: -contentInsets.bottom).withPriority(UILayoutPriority.defaultHigh)
 
             NSLayoutConstraint.activate([
                 contentInsetLeftConstraint!,

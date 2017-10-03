@@ -333,11 +333,11 @@ internal class CollectionViewFormCellActionView: UIScrollView, UIScrollViewDeleg
                 // The y position and height of the buttonFrame should be consistent. Adjust x and width as appropriate.
                 var buttonFrame = CGRect(x: bounds.width, y: contentRect.midY - 16.0, width: 0.0, height: 32.0)
                 
-                let attributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 11.0)]
+                let attributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 11.0)]
                 let scale = traitCollection.currentDisplayScale
                 
                 let reversedButtons = buttons.reversed()
-                let reversedButtonWidths = actions.reversed().map { $0.title.size(attributes: attributes).width.ceiled(toScale: scale) }
+                let reversedButtonWidths = actions.reversed().map { $0.title.size(withAttributes: attributes).width.ceiled(toScale: scale) }
                 
                 if isRightToLeft {
                     buttonFrame.origin.x = 0.0

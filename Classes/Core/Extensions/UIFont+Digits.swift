@@ -13,10 +13,10 @@ extension UIFont {
     /// Create a new font based on the current font but with monospaced digits when displaying numbers
     public func monospacedDigitFont() -> UIFont {
         let featureSettings = [
-            UIFontFeatureTypeIdentifierKey: kNumberSpacingType as NSNumber,
-            UIFontFeatureSelectorIdentifierKey: kMonospacedNumbersSelector as NSNumber
+            UIFontDescriptor.FeatureKey.featureIdentifier: kNumberSpacingType as NSNumber,
+            UIFontDescriptor.FeatureKey.typeIdentifier: kMonospacedNumbersSelector as NSNumber
         ]
-        let fontDescriptorAttributes = [UIFontDescriptorFeatureSettingsAttribute : [featureSettings]]
+        let fontDescriptorAttributes = [UIFontDescriptor.AttributeName.featureSettings : [featureSettings]]
         let newFontDescriptor = fontDescriptor.addingAttributes(fontDescriptorAttributes)
         return UIFont(descriptor: newFontDescriptor, size: pointSize)
     }

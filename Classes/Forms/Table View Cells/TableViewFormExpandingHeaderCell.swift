@@ -127,7 +127,7 @@ public class TableViewFormExpandingHeaderCell: UITableViewCell {
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.textColor = tintColor
-        titleLabel.font = .systemFont(ofSize: 11.0, weight: UIFontWeightBold)
+        titleLabel.font = .systemFont(ofSize: 11.0, weight: UIFont.Weight.bold)
         
         separatorView.translatesAutoresizingMaskIntoConstraints = false
         separatorView.backgroundColor = #colorLiteral(red: 0.7843137255, green: 0.7803921569, blue: 0.8, alpha: 1)

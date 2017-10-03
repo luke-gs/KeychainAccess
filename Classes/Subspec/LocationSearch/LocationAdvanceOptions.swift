@@ -1,5 +1,5 @@
 //
-//  LocationAdvanceOptions.swift
+//  LocationAdvancedOptions.swift
 //  MPOLKit
 //
 //  Created by KGWH78 on 31/8/17.
@@ -8,9 +8,15 @@
 
 import Foundation
 
-public protocol LocationAdvanceOptions: SearchOptions {
+public protocol LocationAdvancedOptionDelegate: class {
+    func locationAdvancedOptionsDidUpdate()
+}
+
+public protocol LocationAdvancedOptions: SearchOptions {
     
     associatedtype Location: Locatable
+
+    weak var delegate: LocationAdvancedOptionDelegate? { get set }
     
     /// The title of this options
     var title: String { get }
@@ -26,6 +32,12 @@ public protocol LocationAdvanceOptions: SearchOptions {
     ///   - updateHandler: The update handler. Call updateHandler to notify that the value has changed.
     /// - Returns: The controller to be presented.
     func pickerController(forFilterAt index: Int, updateHandler: @escaping () -> ()) -> UIViewController?
+
+
+    /// Checks whether the options are valid to perform a search for a location
+    ///
+    /// - Returns: Return true if all criteria are met
+    func canPeformSearch() -> Bool
     
     /// Update existing options with new values. 
     ///
@@ -35,7 +47,7 @@ public protocol LocationAdvanceOptions: SearchOptions {
     ///            If false, only updates values specified in the options.
     func populate(withOptions options: [Int: String]?, reset: Bool)
     
-    /// The textual presentation of the LocationAdvanceOptions. Used to create a searchable and therefore
+    /// The textual presentation of the LocationAdvancdeOptions. Used to create a searchable and therefore
     /// should be user friendly.
     ///
     /// - Returns: A user friendly text.
@@ -51,5 +63,10 @@ public protocol LocationAdvanceOptions: SearchOptions {
     ///
     /// - Returns: Parameterisable
     func locationParameters() -> Parameterisable
-    
+}
+
+extension LocationAdvancedOptions {
+    public func canPeformSearch() -> Bool {
+        return true
+    }
 }

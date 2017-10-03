@@ -11,6 +11,6 @@ import Foundation
 
 public protocol LookupAddressValidator {
     
-    func validate(item: LocationAdvanceItem, value: String?) -> String?
+    func validate(item: LocationAdvancedItem, value: String?) -> String?
     
 }
