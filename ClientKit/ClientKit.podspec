@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
 s.name             = 'ClientKit'
 s.version          = '1.0'
-s.summary          = 'ClientKit is to be used for all projects that require the MPOL framework.'
+s.summary          = 'ClientKit contains functionality specific to a single client, and sits on top of the MPOL framework.'
 
 s.description      = <<-DESC
 TODO: Add long description of the pod here.
