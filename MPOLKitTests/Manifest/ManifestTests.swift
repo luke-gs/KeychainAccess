@@ -72,19 +72,19 @@ class ManifestTests: XCTestCase {
                             }
                             
                             if let effectiveTI = item["effectiveDate"] as? String {
-                                XCTAssertEqual(fetchedItem.effectiveDate, Manifest.dateFormatter.date(from: effectiveTI) as NSDate?)
+                                XCTAssertEqual(fetchedItem.effectiveDate, Manifest.dateFormatter.date(from: effectiveTI) as Date?)
                             } else {
                                 XCTAssertEqual(fetchedItem.effectiveDate, nil)
                             }
                             
                             if let expiryTI = item["expiryDate"] as? String {
-                                XCTAssertEqual(fetchedItem.expiryDate, Manifest.dateFormatter.date(from: expiryTI) as NSDate?)
+                                XCTAssertEqual(fetchedItem.expiryDate, Manifest.dateFormatter.date(from: expiryTI) as Date?)
                             } else {
                                 XCTAssertEqual(fetchedItem.expiryDate, nil)
                             }
                             
                             if let lastUpdatedTI = item["dateLastUpdated"] as? String {
-                                XCTAssertEqual(fetchedItem.lastUpdated, Manifest.dateFormatter.date(from: lastUpdatedTI) as NSDate?)
+                                XCTAssertEqual(fetchedItem.lastUpdated, Manifest.dateFormatter.date(from: lastUpdatedTI) as Date?)
                             } else {
                                 XCTAssertEqual(fetchedItem.lastUpdated, nil)
                             }
