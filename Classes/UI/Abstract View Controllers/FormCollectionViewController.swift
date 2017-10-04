@@ -177,7 +177,10 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     
     public init() {
         super.init(nibName: nil, bundle: nil)
-        
+
+        // Create form layout in init, as used before view is loaded
+        formLayout = collectionViewLayoutClass().init()
+
         automaticallyAdjustsScrollViewInsets = false // we manage this ourselves.
         
         if userInterfaceStyle == .current {
@@ -201,7 +204,6 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     open override func loadView() {
         let backgroundBounds = UIScreen.main.bounds
         
-        formLayout = collectionViewLayoutClass().init()
         let collectionView = collectionViewClass().init(frame: backgroundBounds, collectionViewLayout: formLayout)
         collectionView.dataSource = self
         collectionView.delegate   = self
