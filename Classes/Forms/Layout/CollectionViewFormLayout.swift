@@ -149,8 +149,16 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
     private var sectionFooterPositions: [ElementPosition?] = []
     
     private var itemPositions: [[ItemPosition]] = []
-    
-    
+
+    /// Define a required default init, for use by collection view
+    required public override init() {
+        super.init()
+    }
+
+    required public init?(coder aDecoder: NSCoder) {
+        MPLCodingNotSupported()
+    }
+
     // MARK: - Layout preparation
     
     open override func prepare() {
