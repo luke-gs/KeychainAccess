@@ -212,19 +212,19 @@ public final class Manifest: NSObject {
                             entry.sortOrder     = entryDict["sortOrder"]  as? Double ?? 0
                             
                             if let effectiveDateString = entryDict["effectiveDate"] as? String {
-                                if let date = Manifest.dateFormatter.date(from: effectiveDateString) as NSDate? {
+                                if let date = Manifest.dateFormatter.date(from: effectiveDateString) as Date? {
                                     entry.effectiveDate = date
                                 }
                             }
                             
                             if let expiryDateString = entryDict["expiryDate"] as? String {
-                                if let date = Manifest.dateFormatter.date(from: expiryDateString) as NSDate? {
+                                if let date = Manifest.dateFormatter.date(from: expiryDateString) as Date? {
                                     entry.expiryDate = date
                                 }
                             }
                             
                             if let dateLastUpdated = entryDict["dateLastUpdated"] as? String {
-                                if let date = Manifest.dateFormatter.date(from: dateLastUpdated) as NSDate? {
+                                if let date = Manifest.dateFormatter.date(from: dateLastUpdated) as Date? {
                                     entry.lastUpdated = date
                                 }
                             }
