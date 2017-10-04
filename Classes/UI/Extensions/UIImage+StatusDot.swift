@@ -14,12 +14,20 @@ extension UIImage {
     
     private static let statusDotGenerator = UIGraphicsImageRenderer(size: statusDotFrameSize)
     
-    public class func statusDot(withColor color: UIColor) -> UIImage {
+    public class func statusDot(withColor color: UIColor, strokeColor: UIColor = .clear) -> UIImage {
         return statusDotGenerator.image {
             let context = $0.cgContext
-            context.setFillColor(color.cgColor)
             context.addEllipse(in: CGRect(x: 3.0, y: 3.0, width: statusDotFrameSize.width - 6.0, height: statusDotFrameSize.height - 6.0))
-            context.fillPath()
+            context.setFillColor(color.cgColor)
+            if strokeColor != .clear {
+                // Stroke and fill
+                context.setStrokeColor(strokeColor.cgColor)
+                context.setLineWidth(2)
+                context.drawPath(using: .fillStroke)
+            } else {
+                // Just fill
+                context.fillPath()
+            }
         }
     }
     
