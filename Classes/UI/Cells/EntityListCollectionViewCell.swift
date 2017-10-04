@@ -91,6 +91,7 @@ open class EntityListCollectionViewCell: CollectionViewFormCell {
         let contentModeLayoutGuide = self.contentModeLayoutGuide
         contentView.addLayoutGuide(textLayoutGuide)
         
+        sourceLabel.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
         sourceLabel.setContentHuggingPriority(UILayoutPriority.defaultHigh, for: .vertical)
         titleLabel.setContentHuggingPriority(UILayoutPriority.defaultHigh, for: .vertical)
         subtitleLabel.setContentHuggingPriority(UILayoutPriority.defaultHigh, for: .vertical)
