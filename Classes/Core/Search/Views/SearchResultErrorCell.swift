@@ -26,12 +26,14 @@ public class SearchResultErrorCell: UICollectionViewCell, DefaultReusable {
         titleLabel.numberOfLines = 0
         titleLabel.textAlignment = .center
         titleLabel.font = .preferredFont(forTextStyle: .headline)
+        titleLabel.setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: UILayoutConstraintAxis.vertical)
         
         button.titleLabel?.font = .systemFont(ofSize: 15.0, weight: UIFont.Weight.semibold)
         button.setTitleColor(.white, for: .normal)
         button.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 16.0, bottom: 10.0, right: 16.0)
         button.setBackgroundImage(UIImage.resizableRoundedImage(cornerRadius: 4.0, borderWidth: 0.0, borderColor: nil, fillColor: .black).withRenderingMode(.alwaysTemplate), for: .normal)
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        button.setContentCompressionResistancePriority(UILayoutPriority.required, for: UILayoutConstraintAxis.vertical)
         
         container.addSubview(titleLabel)
         container.addSubview(button)
