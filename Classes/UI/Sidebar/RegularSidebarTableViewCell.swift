@@ -83,7 +83,7 @@ open class RegularSidebarTableViewCell: UITableViewCell, DefaultReusable {
             imageView.highlightedImage = item.selectedImage ?? item.image
         }
         
-        textLabel?.text = item.title
+        textLabel?.text = item.regularTitle
         
         if let detailLabel = detailTextLabel {
             let count = item.count
