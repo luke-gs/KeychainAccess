@@ -12,16 +12,31 @@ import MapKit
 open class TasksMapViewController: MapViewController {
     
     let viewModel = TasksMapViewModel()
-    
+    var mapLayerFilterButton: UIBarButtonItem!
+
     open override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel.delegate = self
         
-        self.navigationItem.title = "Activities"
-        self.isUserLocationButtonHidden = false
+        navigationItem.title = "Activities"
+        isUserLocationButtonHidden = false
         isMapTypeButtonHidden = false
+        
+        mapLayerFilterButton = UIBarButtonItem.init(image: AssetManager.shared.image(forKey: .filter), style: .plain, target: self, action: #selector(showMapLayerFilter))
+        navigationItem.rightBarButtonItem = mapLayerFilterButton
         
         viewModel.loadDummyData()
         mapView.addAnnotations(viewModel.filteredAnnotations)
+    }
+    
+    /// Shows the layer filter popover
+    @objc private func showMapLayerFilter() {
+        let filterViewController = MapFilterViewController(with: viewModel.filterViewModel)
+        let filterNav = PopoverNavigationController(rootViewController: filterViewController)
+        filterNav.modalPresentationStyle = .popover
+        filterNav.popoverPresentationController?.barButtonItem = mapLayerFilterButton
+        
+        present(filterNav, animated: true, completion: nil)
     }
     
     public func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -43,7 +58,7 @@ open class TasksMapViewController: MapViewController {
             if annotationView == nil {
                 annotationView = IncidentAnnotationView(annotation: annotation, reuseIdentifier: IncidentAnnotationView.defaultReuseIdentifier)
             }
-            
+
             annotationView?.configure(withAnnotation: annotation,
                                       priorityColor: annotation.iconColor,
                                       priorityText: annotation.iconText,
@@ -56,6 +71,37 @@ open class TasksMapViewController: MapViewController {
             return nil
         }
     }
+    
+    public func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
+        // Bring resource annotations to the top
+        for view in views {
+            if view.annotation is ResourceAnnotation {
+                view.superview?.bringSubview(toFront: view)
+            } else {
+                view.superview?.sendSubview(toBack: view)
+            }
+        }
+    }
+    
+    public func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        // Bring resource annotations to the top
+        for annotation in mapView.annotations {
+            guard let annotationView = mapView.view(for: annotation) else { continue }
+            if annotationView is ResourceAnnotationView {
+                view.superview?.bringSubview(toFront: view)
+            } else {
+                view.superview?.sendSubview(toBack: view)
+            }
+        }
+    }
+    
 }
 
-
+extension TasksMapViewController: TasksMapViewModelDelegate {
+    func viewModelStateChanged() {
+        DispatchQueue.main.async {
+            self.mapView.removeAnnotations(self.mapView.annotations)
+            self.mapView.addAnnotations(self.viewModel.filteredAnnotations)
+        }
+    }
+}
