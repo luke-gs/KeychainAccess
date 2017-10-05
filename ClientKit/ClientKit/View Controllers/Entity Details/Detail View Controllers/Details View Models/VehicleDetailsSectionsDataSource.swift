@@ -9,39 +9,52 @@
 import Foundation
 import MPOLKit
 
-public class VehicleDetailsSectionsDataSource: EntityDetailSectionsDataSource {
+public class VehicleMPOLDetailsSectionsDataSource: EntityDetailSectionsDataSource {
 
-    public var initialSource: EntitySource
-
-    public var sources: [EntitySource] {
-        return [MPOLSource.mpol, MPOLSource.fnc]
-    }
-
-    public var baseEntity: MPOLKitEntity
+    public var source: EntitySource = MPOLSource.mpol
+    public var entity: MPOLKitEntity
+    public var detailViewControllers: [EntityDetailSectionUpdatable]
 
     public var localizedDisplayName: String {
         return NSLocalizedString("Vehicle", comment: "")
     }
-    
-    public var detailViewControllers: [EntityDetailSectionUpdatable]
 
-    public func fetchModel(for entity: MPOLKitEntity, sources: [EntitySource]) -> Fetchable {
-        let requests = sources.map {
-            VehicleFetchRequest(source: $0 as! MPOLSource, request: EntityFetchRequest<Vehicle>(id: entity.id))
-        }
-        return EntityDetailFetch<Vehicle>(requests: requests)
+    public func fetchModel() -> Fetchable {
+        let request = VehicleFetchRequest(source: source, request: EntityFetchRequest<Vehicle>(id: entity.id))
+        return EntityDetailFetch<Vehicle>(request: request)
     }
 
     public init(baseEntity: Entity, delegate: EntityDetailsDelegate?) {
-        self.baseEntity = baseEntity
-        self.initialSource = baseEntity.source!
-
+        self.entity = baseEntity
         self.detailViewControllers =  [ VehicleInfoViewController(),
                                         EntityAlertsViewController(),
                                         EntityAssociationsViewController(delegate: delegate),
+                                        VehicleOccurrencesViewController()
+        ]
+    }
+
+}
+public class VehicleFNCDetailsSectionsDataSource: EntityDetailSectionsDataSource {
+
+    public var source: EntitySource = MPOLSource.fnc
+    public var entity: MPOLKitEntity
+    public var detailViewControllers: [EntityDetailSectionUpdatable]
+
+    public var localizedDisplayName: String {
+        return NSLocalizedString("Vehicle", comment: "")
+    }
+
+    public func fetchModel() -> Fetchable {
+        let request = VehicleFetchRequest(source: source, request: EntityFetchRequest<Vehicle>(id: entity.id))
+        return EntityDetailFetch<Vehicle>(request: request)
+    }
+
+    public init(baseEntity: Entity, delegate: EntityDetailsDelegate?) {
+        self.entity = baseEntity
+        self.detailViewControllers =  [ VehicleInfoViewController(),
+                                        EntityAssociationsViewController(delegate: delegate),
                                         VehicleOccurrencesViewController(),
-                                        PersonCriminalHistoryViewController()
-                                        ]
+        ]
     }
 
 }

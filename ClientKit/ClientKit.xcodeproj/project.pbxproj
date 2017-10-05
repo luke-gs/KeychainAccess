@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		19FA22AF1F8603F000BE0E03 /* MatchMakers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12048FCA1F788EC20014748E /* MatchMakers.swift */; };
+		19FA22B01F86041800BE0E03 /* Matches.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12048FCC1F788ECA0014748E /* Matches.swift */; };
 		1A159F0D1F4B1C7500075330 /* PersonFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A159F0C1F4B1C7500075330 /* PersonFetchRequest.swift */; };
 		1A159F0F1F4B1CA700075330 /* VehicleFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A159F0E1F4B1CA700075330 /* VehicleFetchRequest.swift */; };
 		1A159F151F4B1DE200075330 /* VehicleDetailsSectionsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A159F141F4B1DE200075330 /* VehicleDetailsSectionsDataSource.swift */; };
@@ -102,6 +104,8 @@
 		06D483A3486289EC1F9A2090 /* Pods-ClientKitTests.external-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKitTests.external-release.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKitTests/Pods-ClientKitTests.external-release.xcconfig"; sourceTree = "<group>"; };
 		088B889D2CA61C95A4F4B16D /* Pods-ClientKitTests.external-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKitTests.external-debug.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKitTests/Pods-ClientKitTests.external-debug.xcconfig"; sourceTree = "<group>"; };
 		0B8DEDC31FFACED2C6E00DBA /* Pods-ClientKit.internal-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKit.internal-debug.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKit/Pods-ClientKit.internal-debug.xcconfig"; sourceTree = "<group>"; };
+		12048FCA1F788EC20014748E /* MatchMakers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchMakers.swift; sourceTree = "<group>"; };
+		12048FCC1F788ECA0014748E /* Matches.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matches.swift; sourceTree = "<group>"; };
 		1542E603389AAEE96EC1C25A /* Pods-ClientKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKitTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKitTests/Pods-ClientKitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		1A159F0C1F4B1C7500075330 /* PersonFetchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonFetchRequest.swift; sourceTree = "<group>"; };
 		1A159F0E1F4B1CA700075330 /* VehicleFetchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleFetchRequest.swift; sourceTree = "<group>"; };
@@ -222,6 +226,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		12048FC91F788EB70014748E /* Matches */ = {
+			isa = PBXGroup;
+			children = (
+				12048FCA1F788EC20014748E /* MatchMakers.swift */,
+				12048FCC1F788ECA0014748E /* Matches.swift */,
+			);
+			path = Matches;
+			sourceTree = "<group>";
+		};
 		1A2E8A7B1F397DE00062FEA5 /* Event Details */ = {
 			isa = PBXGroup;
 			children = (
@@ -479,6 +492,7 @@
 		EA8B66501F381B8700F09716 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				12048FC91F788EB70014748E /* Matches */,
 				EA8B665C1F382CEE00F09716 /* Parameters */,
 				EA8B66511F381B8D00F09716 /* Requests */,
 			);
@@ -759,6 +773,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A290C861F3F097E00DD9ED5 /* Media.swift in Sources */,
+				19FA22B01F86041800BE0E03 /* Matches.swift in Sources */,
 				EA1CC2541F4132D200FE8BAE /* VINParserDefinition.swift in Sources */,
 				BC75A7BD1F1C3D5F004D46F1 /* VehicleInfoViewController.swift in Sources */,
 				BCAEFEDD1F0317DB00C97F9C /* EntityThumbnailView+Configuration.swift in Sources */,
@@ -772,6 +787,7 @@
 				BCAEFE971F03150800C97F9C /* CriminalHistory.swift in Sources */,
 				BC75A7B61F1C3D50004D46F1 /* OrganizationInfoViewController.swift in Sources */,
 				BCAEFEA31F03150800C97F9C /* Licence.swift in Sources */,
+				19FA22AF1F8603F000BE0E03 /* MatchMakers.swift in Sources */,
 				BC75A7AE1F1C3D48004D46F1 /* EntityAssociationsViewController.swift in Sources */,
 				EA8B66621F3831C900F09716 /* LicenceSearchParameters.swift in Sources */,
 				BC75A7BA1F1C3D58004D46F1 /* PersonInfoViewController.swift in Sources */,
