@@ -104,12 +104,14 @@ fileprivate extension UILabel {
     
     var isTruncated: Bool {
         guard let text = text else { return false }
+        
+        let size = CGSize(width: frame.size.width, height: .greatestFiniteMagnitude)
         let textSize = (text as NSString).boundingRect(
-            with: CGSize(width: frame.size.width, height: .greatestFiniteMagnitude),
+            with: size,
             options: .usesLineFragmentOrigin,
             attributes: [NSAttributedStringKey.font: font],
             context: nil).size
         
-        return textSize.height > bounds.size.height
+        return floor(textSize.height) > bounds.size.height
     }
 }
