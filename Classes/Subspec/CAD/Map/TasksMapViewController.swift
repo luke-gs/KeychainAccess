@@ -80,7 +80,9 @@ open class TasksMapViewController: MapViewController {
             for annotationView in views {
                 if annotationView.annotation is ResourceAnnotation {
                     zPositionObservers.append(annotationView.layer.observe(\.zPosition) { (layer, change) in
-                        layer.zPosition = 1000
+                        if layer.zPosition < 1000 {
+                            layer.zPosition += 1000
+                        }
                     })
                 }
             }
