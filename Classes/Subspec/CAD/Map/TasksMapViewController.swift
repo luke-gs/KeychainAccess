@@ -74,11 +74,11 @@ open class TasksMapViewController: MapViewController {
     
     public func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
         // Bring resource annotations to the top
-        for view in views {
-            if view.annotation is ResourceAnnotation {
-                view.superview?.bringSubview(toFront: view)
+        for annotationView in views {
+            if annotationView.annotation is ResourceAnnotation {
+                annotationView.superview?.bringSubview(toFront: annotationView)
             } else {
-                view.superview?.sendSubview(toBack: view)
+                annotationView.superview?.sendSubview(toBack: annotationView)
             }
         }
     }
@@ -88,9 +88,9 @@ open class TasksMapViewController: MapViewController {
         for annotation in mapView.annotations {
             guard let annotationView = mapView.view(for: annotation) else { continue }
             if annotationView is ResourceAnnotationView {
-                view.superview?.bringSubview(toFront: view)
+                annotationView.superview?.bringSubview(toFront: annotationView)
             } else {
-                view.superview?.sendSubview(toBack: view)
+                annotationView.superview?.sendSubview(toBack: annotationView)
             }
         }
     }
