@@ -12,7 +12,7 @@ fileprivate var sidebarItemContext = 0
 fileprivate let sidebarKeys = [#keyPath(SidebarItem.isEnabled),
                                #keyPath(SidebarItem.image),
                                #keyPath(SidebarItem.selectedImage),
-                               #keyPath(SidebarItem.title),
+                               #keyPath(SidebarItem.compactTitle),
                                #keyPath(SidebarItem.count),
                                #keyPath(SidebarItem.alertColor),
                                #keyPath(SidebarItem.color),
