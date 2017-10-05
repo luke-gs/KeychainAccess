@@ -78,7 +78,7 @@ open class TasksMapViewController: MapViewController {
         // This is needed for iOS 11
         if #available(iOS 11.0, *) {
             for annotationView in views {
-                if annotationView.annotation is ResourceAnnotation {
+                if viewModel.isAnnotationViewDisplayedOnTop(annotationView) {
                     zPositionObservers.append(annotationView.layer.observe(\.zPosition) { (layer, change) in
                         if layer.zPosition < 1000 {
                             layer.zPosition += 1000
@@ -95,7 +95,7 @@ open class TasksMapViewController: MapViewController {
         if #available(iOS 11.0, *) { return }
         for annotation in mapView.annotations {
             guard let annotationView = mapView.view(for: annotation) else { continue }
-            if annotationView is ResourceAnnotationView {
+            if viewModel.isAnnotationViewDisplayedOnTop(annotationView) {
                 annotationView.superview?.bringSubview(toFront: annotationView)
             }
         }

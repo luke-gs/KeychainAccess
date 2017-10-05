@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreLocation
+import MapKit
 
 class TasksMapViewModel {
 
@@ -27,6 +28,9 @@ class TasksMapViewModel {
         return filterViewModel.currentFilter
     }
 
+    // TODO: Set from split view table
+    var priorityAnnotationType = ResourceAnnotationView.self
+    
     // MARK: - Init
     
     init() {
@@ -170,6 +174,10 @@ class TasksMapViewModel {
                                  iconColor: #colorLiteral(red: 0.2980392157, green: 0.6862745098, blue: 0.3137254902, alpha: 1),
                                  pulsing: false),
         ]
+    }
+    
+    func isAnnotationViewDisplayedOnTop(_ annotationView: MKAnnotationView) -> Bool {
+        return type(of: annotationView) == priorityAnnotationType
     }
 }
 
