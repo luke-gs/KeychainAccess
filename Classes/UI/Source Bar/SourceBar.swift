@@ -287,7 +287,7 @@ public class SourceBar: UIScrollView {
             switch items[cellIndex].state {
             case .notLoaded:
                 sourceBarDelegate?.sourceBar(self, didRequestToLoadItemAt: cellIndex)
-            case .loaded:
+            case .loaded, .notAvailable:
                 selectedIndex = cellIndex
                 sourceBarDelegate?.sourceBar(self, didSelectItemAt: cellIndex)
             default:

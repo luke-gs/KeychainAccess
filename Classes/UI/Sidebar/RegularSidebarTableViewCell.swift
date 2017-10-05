@@ -129,6 +129,7 @@ open class RegularSidebarTableViewCell: UITableViewCell, DefaultReusable {
                 setNeedsLayout()
             }
             alertIcon.color = alertColor
+            alertIcon.setNeedsDisplay()
         } else {
             alertIcon?.isHidden = true
         }
