@@ -13,6 +13,7 @@ open class TasksMapViewController: MapViewController {
     
     let viewModel = TasksMapViewModel()
     var mapLayerFilterButton: UIBarButtonItem!
+    var zPositionObservers: [NSKeyValueObservation] = []
 
     open override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,33 +74,37 @@ open class TasksMapViewController: MapViewController {
     }
     
     public func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
-        // Bring resource annotations to the top
-        for annotationView in views {
-            if annotationView.annotation is ResourceAnnotation {
-                annotationView.superview?.bringSubview(toFront: annotationView)
-            } else {
-                annotationView.superview?.sendSubview(toBack: annotationView)
+        // Keep resource annotations on top by observing changes to the layer's zPosition
+        // This is needed for iOS 11
+        if #available(iOS 11.0, *) {
+            for annotationView in views {
+                if annotationView.annotation is ResourceAnnotation {
+                    zPositionObservers.append(annotationView.layer.observe(\.zPosition) { (foo, change) in
+                        annotationView.layer.zPosition = 1000
+                    })
+                }
             }
         }
     }
     
     public func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        // Bring resource annotations to the top
+        // Keep resource annotations on top by bringing subview to front
+        // This is needed for iOS 10
+        if #available(iOS 11.0, *) { return }
         for annotation in mapView.annotations {
             guard let annotationView = mapView.view(for: annotation) else { continue }
             if annotationView is ResourceAnnotationView {
                 annotationView.superview?.bringSubview(toFront: annotationView)
-            } else {
-                annotationView.superview?.sendSubview(toBack: annotationView)
             }
         }
     }
-    
+
 }
 
 extension TasksMapViewController: TasksMapViewModelDelegate {
     func viewModelStateChanged() {
         DispatchQueue.main.async {
+            self.zPositionObservers.removeAll()
             self.mapView.removeAnnotations(self.mapView.annotations)
             self.mapView.addAnnotations(self.viewModel.filteredAnnotations)
         }
