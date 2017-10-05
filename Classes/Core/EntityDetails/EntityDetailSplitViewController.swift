@@ -172,8 +172,9 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
 
         headerView.captionLabel.text = detailDisplayable.entityDisplayName?.localizedUppercase
 
-        if let (thumbnail, _) = summaryDisplayable.thumbnail(ofSize: .small) {
+        if let (thumbnail, mode) = summaryDisplayable.thumbnail(ofSize: .small) {
             headerView.iconView.image = thumbnail
+            headerView.iconView.contentMode = mode
         }
 
         headerView.titleLabel.text = summaryDisplayable.title
