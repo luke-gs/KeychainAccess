@@ -79,8 +79,8 @@ open class TasksMapViewController: MapViewController {
         if #available(iOS 11.0, *) {
             for annotationView in views {
                 if annotationView.annotation is ResourceAnnotation {
-                    zPositionObservers.append(annotationView.layer.observe(\.zPosition) { (foo, change) in
-                        annotationView.layer.zPosition = 1000
+                    zPositionObservers.append(annotationView.layer.observe(\.zPosition) { (layer, change) in
+                        layer.zPosition = 1000
                     })
                 }
             }
