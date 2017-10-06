@@ -13,6 +13,7 @@ import MapKit
 /// contains a `MKMapView` constrained to the view edges.
 open class MapViewController: UIViewController, MKMapViewDelegate {
 
+    private var locationManager: CLLocationManager?
     private var settingsViewModel = MapSettingsViewModel()
     
     // MARK: - Constants
@@ -49,6 +50,15 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     
     // MARK: - Setup
     
+    public init(withLocationManager locationManager: CLLocationManager?) {
+        self.locationManager = locationManager
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    public required init?(coder aDecoder: NSCoder) {
+        MPLCodingNotSupported()
+    }
+    
     open override func viewDidLoad() {
         super.viewDidLoad()
         settingsViewModel.delegate = self
@@ -58,15 +68,15 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
 
         mapView = MKMapView()
         mapView.delegate = self
-        mapView.userTrackingMode = .follow
+        mapView.userTrackingMode = .none
         mapView.showsUserLocation = true
         mapView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(mapView)
 
-        userLocationButton = MapImageButton(frame: CGRect(origin: .zero, size: buttonSize), image: AssetManager.shared.image(forKey: .mapUserTracking))
+        userLocationButton = MapImageButton(frame: CGRect(origin: .zero, size: buttonSize), image: AssetManager.shared.image(forKey: .mapUserLocation))
         userLocationButton.isHidden = isUserLocationButtonHidden
         userLocationButton.translatesAutoresizingMaskIntoConstraints = false
-        userLocationButton.addTarget(self, action: #selector(zoomAndCenterToUserLocation), for: .touchUpInside)
+        userLocationButton.addTarget(self, action: #selector(didSelectUserTrackingButton), for: .touchUpInside)
         mapView.addSubview(userLocationButton)
         
         mapTypeButton = MapImageButton(frame: CGRect(origin: .zero, size: buttonSize), image: AssetManager.shared.image(forKey: .info))
@@ -77,6 +87,10 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
         mapView.addSubview(mapTypeButton)
         
         setupConstraints()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.zoomAndCenterToUserLocation()
+        }
     }
     
     /// Activates the constraints for the views
@@ -107,6 +121,37 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
         ])
     }
     
+    public func mapView(_ mapView: MKMapView, didChange mode: MKUserTrackingMode, animated: Bool) {
+        guard userLocationButton != nil else { return }
+
+        let image: UIImage?
+        
+        switch mode {
+        case .none:
+            image = AssetManager.shared.image(forKey: .mapUserLocation)
+        case .follow:
+            image = AssetManager.shared.image(forKey: .mapUserTracking)
+        case .followWithHeading:
+            image = AssetManager.shared.image(forKey: .mapUserTrackingWithHeading)
+        }
+        
+        UIView.transition(with: userLocationButton, duration: 0.15, options: .transitionCrossDissolve, animations: {
+            self.userLocationButton.image = image
+        }, completion: nil)
+    }
+
+    @objc private func didSelectUserTrackingButton() {
+        // Cycle through the user tracking mode enum
+        switch mapView.userTrackingMode {
+        case .none:
+            mapView.setUserTrackingMode(.follow, animated: true)
+        case .follow:
+            mapView.setUserTrackingMode(.followWithHeading, animated: true)
+        case .followWithHeading:
+            mapView.setUserTrackingMode(.none, animated: true)
+        }
+    }
+    
     @objc func showMapTypePopup() {
         let mapSettingsViewController = MapSettingsViewController(viewModel: settingsViewModel)
         let mapSettingsNavController = PopoverNavigationController(rootViewController: mapSettingsViewController)
@@ -117,15 +162,18 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
 
     /// Centers the map to the user's location. Note: this method does not zoom.
     public func centerToUserLocation() {
-        mapView.setCenter(mapView.userLocation.coordinate, animated: true)
+        if let coordinate = locationManager?.location?.coordinate {
+            mapView.setCenter(coordinate, animated: true)
+        }
     }
     
     /// Centers and zooms the map to the user's location
     @objc public func zoomAndCenterToUserLocation() {
         centerToUserLocation()
-        
-        let coordinateRegion = MKCoordinateRegionMakeWithDistance(mapView.userLocation.coordinate, defaultZoomDistance, defaultZoomDistance)
-        mapView.setRegion(coordinateRegion, animated: true)
+        if let coordinate = locationManager?.location?.coordinate {
+            let coordinateRegion = MKCoordinateRegionMakeWithDistance(coordinate, defaultZoomDistance, defaultZoomDistance)
+            mapView.setRegion(coordinateRegion, animated: true)
+        }
     }
 }
 

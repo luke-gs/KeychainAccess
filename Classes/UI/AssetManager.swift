@@ -184,7 +184,9 @@ extension AssetManager {
         public static let sourceBarNone        = ImageKey("SourceBarNone")
         
         // Map
-        public static let mapUserTracking = ImageKey("iconUserTracking")
+        public static let mapUserLocation            = ImageKey("iconUserLocation")
+        public static let mapUserTracking            = ImageKey("iconUserTracking")
+        public static let mapUserTrackingWithHeading = ImageKey("iconUserTrackingWithHeading")
         
     }
 }
