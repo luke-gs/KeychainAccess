@@ -272,8 +272,7 @@ open class RegularSidebarViewController: UIViewController, UITableViewDataSource
         selectedItem = item
         delegate?.sidebarViewController(self, didSelectItem: item)
     }
-    
-    
+
     // MARK: - Source bar delegate
     
     public func sourceBar(_ bar: SourceBar, didSelectItemAt index: Int) {

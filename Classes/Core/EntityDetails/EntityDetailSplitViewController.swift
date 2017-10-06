@@ -34,9 +34,9 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
         }
     }
 
-    public init(dataSource: EntityDetailSectionsDataSource) {
+    public init(viewModel: EntityDetailSectionsViewModel) {
 
-        detailViewModel = EntityDetailSectionsViewModel(dataSource: dataSource)
+        detailViewModel = viewModel
 
         let detailVCs = detailViewModel.detailSectionsViewControllers as? [UIViewController]
 
@@ -76,23 +76,28 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
 
     open override func sidebarViewController(_ controller: UIViewController, didSelectSourceAt index: Int) {
         let source = detailViewModel.sources[index]
-        detailViewModel.selectedSource = source
+
+        guard source.serverSourceName != detailViewModel.selectedSource.serverSourceName else { return }
+
+        updateEverything(for: source)
+
+        if let result = detailViewModel.results[source.serverSourceName] {
+            detailViewModel.setSelectedResult(fetchResult: result)
+        }
+    }
+
+    open override func sidebarViewController(_ controller: UIViewController, didRequestToLoadSourceAt index: Int) {
+        let source = detailViewModel.sources[index]
+
+        guard source.serverSourceName != detailViewModel.selectedSource.serverSourceName else { return }
+
+        detailViewModel.performSubsequentFetch(for: source)
 
         if let result = detailViewModel.results[source.serverSourceName] {
             detailViewModel.setSelectedResult(fetchResult: result)
         }
 
-        updateHeaderView()
-    }
-
-    open override func sidebarViewController(_ controller: UIViewController, didRequestToLoadSourceAt index: Int) {
-        let selectedSource = detailViewModel.sources[index]
-
-        if let requestedSourceLoadState = detailViewModel.results[selectedSource.serverSourceName]?.state, requestedSourceLoadState != .idle {
-            // Did not select an unloaded source. Update the source items just in case, and then return out.
-            updateSourceItems()
-            return
-        }
+        updateEverything(for: source)
     }
 
     // MARK: - Override methods
@@ -110,6 +115,17 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
     }
 
     // MARK: - Private methods
+
+    fileprivate func updateEverything(for source: EntitySource) {
+        detailViewModel.selectedSource = source
+
+        detailViewControllers = detailViewModel.detailSectionsViewControllers as! [UIViewController]
+        selectedViewController = detailViewControllers.first
+
+        updateRepresentations()
+        updateHeaderView()
+        updateSourceItems()
+    }
 
     /// Enables/Disables sidebar items based on whether or not its source is updating.
     fileprivate func updateRepresentations() {
@@ -164,7 +180,7 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
 
     /// Updates the header view with the details for the latest selected representation.
     /// Call this methodwhen the selected representation changes.
-    private func updateHeaderView() {
+    fileprivate func updateHeaderView() {
         let entity = detailViewModel.currentEntity
 
         let detailDisplayable = Details(entity)
@@ -209,14 +225,16 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
 
 extension EntityDetailSplitViewController: EntityDetailSectionsDelegate {
 
-    public func EntityDetailSectionsDidUpdateResults(_ EntityDetailSectionsViewModel: EntityDetailSectionsViewModel) {
+    public func entityDetailSectionsDidUpdateResults(_ EntityDetailSectionsViewModel: EntityDetailSectionsViewModel) {
         updateRepresentations()
         updateSourceItems()
+        updateHeaderView()
     }
 
-    public func EntityDetailSectionDidSelectRetryDownload(_ EntityDetailSectionsViewModel: EntityDetailSectionsViewModel) {
+    public func entityDetailSectionDidSelectRetryDownload(_ EntityDetailSectionsViewModel: EntityDetailSectionsViewModel) {
         updateRepresentations()
         updateSourceItems()
+        updateHeaderView()
     }
 
 }
