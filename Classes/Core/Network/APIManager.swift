@@ -141,8 +141,6 @@ open class APIManager {
                 allPlugins.forEach {
                     $0.willSend(dataRequest)
                 }
-                print(response)
-                print("\n\n\n*******")
                 
                 do {
                     if let responseData = response.data{
