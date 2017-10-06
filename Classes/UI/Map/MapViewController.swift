@@ -51,9 +51,8 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     
     open override func viewDidLoad() {
         super.viewDidLoad()
-
         settingsViewModel.delegate = self
-        
+
         // Use background color for when non safe area is visible
         view.backgroundColor = .white
 

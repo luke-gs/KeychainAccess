@@ -50,11 +50,19 @@ open class MapSettingsViewModel {
     
     /// Whether to show traffic as enabled
     public func isTrafficEnabled() -> Bool {
-        return showTraffic
+        return isTrafficSupported(for: mode) && showTraffic
     }
     
-    /// Whether the selected mode supports traffic
-    public func modeSupportsTraffic() -> Bool {
+    /// Whether the mode at the index supports traffic
+    public func isTrafficSupported(at index: Int) -> Bool {
+        guard index < availableModes.count else { return false }
+        
+        let indexMode = availableModes[index]
+        return isTrafficSupported(for: indexMode)
+    }
+    
+    /// Whether the specified mode supports traffic
+    private func isTrafficSupported(for mode: MKMapType) -> Bool {
         switch mode {
         case .standard, .hybrid:
             return true

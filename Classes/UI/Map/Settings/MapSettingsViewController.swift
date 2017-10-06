@@ -107,6 +107,8 @@ open class MapSettingsViewController: UIViewController, PopoverViewController {
     
     @objc private func segmentedControlDidChange() {
         viewModel.setMode(at: modeSegmentedControl.selectedSegmentIndex)
+        trafficSwitch.isEnabled = viewModel.isTrafficSupported(at: modeSegmentedControl.selectedSegmentIndex)
+        trafficSwitch.isOn = viewModel.isTrafficEnabled()
     }
     
     @objc private func trafficSwitchDidChange() {
