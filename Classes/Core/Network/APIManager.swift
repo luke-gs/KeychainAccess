@@ -151,7 +151,7 @@ open class APIManager {
                         if let manifestArray = responseArray as? [[String : Any]] {
                             fulfill(manifestArray)
                         } else {
-                            
+                            fulfill([])
                         }
                     } else {
                         if let error = response.error {
