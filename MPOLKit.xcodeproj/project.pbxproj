@@ -72,6 +72,9 @@
 		2742CD2B1F8492C900D08DCF /* TasksMapFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2742CD2A1F8492C900D08DCF /* TasksMapFilterViewModel.swift */; };
 		2742CD2D1F84973F00D08DCF /* MapFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2742CD2C1F84973F00D08DCF /* MapFilterViewController.swift */; };
 		2742CD2F1F849BE900D08DCF /* IntrinsicHeightCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2742CD2E1F849BE900D08DCF /* IntrinsicHeightCollectionView.swift */; };
+		2768C0461F85EB2A008532ED /* MapSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2768C0451F85EB2A008532ED /* MapSettingsViewModel.swift */; };
+		2768C0481F86D60A008532ED /* MapSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2768C0471F86D60A008532ED /* MapSettingsViewController.swift */; };
+		2768C0491F86E78A008532ED /* TasksMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A46A1F83555A00CAE056 /* TasksMapViewController.swift */; };
 		276C21061F60C2100003B860 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276C21051F60C2100003B860 /* MapViewController.swift */; };
 		276C21081F60C44B0003B860 /* MapOverlayImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276C21071F60C44B0003B860 /* MapOverlayImageButton.swift */; };
 		278CA1051F7CA4A00073DFBA /* ResourceAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278CA1041F7CA4A00073DFBA /* ResourceAnnotationView.swift */; };
@@ -379,6 +382,8 @@
 		2742CD2A1F8492C900D08DCF /* TasksMapFilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksMapFilterViewModel.swift; sourceTree = "<group>"; };
 		2742CD2C1F84973F00D08DCF /* MapFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapFilterViewController.swift; sourceTree = "<group>"; };
 		2742CD2E1F849BE900D08DCF /* IntrinsicHeightCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = IntrinsicHeightCollectionView.swift; path = Classes/UI/IntrinsicHeightCollectionView.swift; sourceTree = SOURCE_ROOT; };
+		2768C0451F85EB2A008532ED /* MapSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSettingsViewModel.swift; sourceTree = "<group>"; };
+		2768C0471F86D60A008532ED /* MapSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSettingsViewController.swift; sourceTree = "<group>"; };
 		276C21051F60C2100003B860 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		276C21071F60C44B0003B860 /* MapOverlayImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOverlayImageButton.swift; sourceTree = "<group>"; };
 		278CA1041F7CA4A00073DFBA /* ResourceAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceAnnotationView.swift; sourceTree = "<group>"; };
@@ -769,9 +774,19 @@
 			path = ErrorMapping;
 			sourceTree = "<group>";
 		};
+		2768C04A1F86E7A1008532ED /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				2768C0451F85EB2A008532ED /* MapSettingsViewModel.swift */,
+				2768C0471F86D60A008532ED /* MapSettingsViewController.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		276C21041F60C1F50003B860 /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				2768C04A1F86E7A1008532ED /* Settings */,
 				278CA1031F7CA4500073DFBA /* Annotations */,
 				276C21051F60C2100003B860 /* MapViewController.swift */,
 				276C21071F60C44B0003B860 /* MapOverlayImageButton.swift */,
@@ -855,8 +870,8 @@
 			children = (
 				9624A4661F83555A00CAE056 /* Annotations */,
 				9624A46C1F83555A00CAE056 /* View Models */,
-				9624A46A1F83555A00CAE056 /* TasksMapViewController.swift */,
 				2742CD2C1F84973F00D08DCF /* MapFilterViewController.swift */,
+				9624A46A1F83555A00CAE056 /* TasksMapViewController.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -1861,6 +1876,7 @@
 				BC9C7E261F0DED6600DFFE83 /* EntityListCollectionViewCell.swift in Sources */,
 				19B49BBA1F665F2A00502F51 /* SidebarDelegate.swift in Sources */,
 				BC9C7E191F0DED6600DFFE83 /* RadioButton.swift in Sources */,
+				2768C0461F85EB2A008532ED /* MapSettingsViewModel.swift in Sources */,
 				BC9C7E2C1F0DED6600DFFE83 /* UIColor+Hex.swift in Sources */,
 				BC2C97481F31FEF7006A0727 /* ThemeManager.swift in Sources */,
 				BC9C7E0B1F0DED6600DFFE83 /* UIView+Convenience.swift in Sources */,
@@ -1995,6 +2011,7 @@
 				EABAB8041F342E450071A401 /* AggregatedSearchRequest.swift in Sources */,
 				19B49BBD1F665F2A00502F51 /* NavigationControllerWithHeader.swift in Sources */,
 				BC9C7DCD1F0DED6600DFFE83 /* ArchivedManifestEntry.swift in Sources */,
+				2768C0481F86D60A008532ED /* MapSettingsViewController.swift in Sources */,
 				BCC6F74E1F2FF91200F05F65 /* MapCollectionViewController.swift in Sources */,
 				19F8DDB11F4D7CB800D84DA1 /* LookupAddress.swift in Sources */,
 				BCBA82141F19D7E8000BBF82 /* StringSizing.swift in Sources */,
@@ -2025,6 +2042,7 @@
 				1212B54D1F60F2ED00F90CA0 /* TestingDirective.swift in Sources */,
 				BC9C7DD81F0DED6600DFFE83 /* NetworkMonitor.swift in Sources */,
 				BC9C7DF01F0DED6600DFFE83 /* EpochDateTransformer+UnboxFormatter.swift in Sources */,
+				2768C0491F86E78A008532ED /* TasksMapViewController.swift in Sources */,
 				BC1ECEBF1F24CC40002C2A68 /* LoadingStateManager.swift in Sources */,
 				19B49BC11F665F2A00502F51 /* CompactSidebarSourceViewController.swift in Sources */,
 				BC9C7E171F0DED6600DFFE83 /* FormTextField.swift in Sources */,

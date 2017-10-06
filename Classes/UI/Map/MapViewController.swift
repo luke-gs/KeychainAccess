@@ -13,6 +13,8 @@ import MapKit
 /// contains a `MKMapView` constrained to the view edges.
 open class MapViewController: UIViewController, MKMapViewDelegate {
 
+    private var settingsViewModel = MapSettingsViewModel()
+    
     // MARK: - Constants
     
     private let buttonSize = CGSize(width: 48, height: 48)
@@ -50,6 +52,8 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     open override func viewDidLoad() {
         super.viewDidLoad()
 
+        settingsViewModel.delegate = self
+        
         // Use background color for when non safe area is visible
         view.backgroundColor = .white
 
@@ -70,7 +74,7 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
         mapTypeButton.tintColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
         mapTypeButton.isHidden = isMapTypeButtonHidden
         mapTypeButton.translatesAutoresizingMaskIntoConstraints = false
-        // TODO: Add target
+        mapTypeButton.addTarget(self, action: #selector(showMapTypePopup), for: .touchUpInside)
         mapView.addSubview(mapTypeButton)
         
         setupConstraints()
@@ -103,6 +107,14 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
             mapView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor, constant: -bottomOffset)
         ])
     }
+    
+    @objc func showMapTypePopup() {
+        let mapSettingsViewController = MapSettingsViewController(viewModel: settingsViewModel)
+        let mapSettingsNavController = PopoverNavigationController(rootViewController: mapSettingsViewController)
+        mapSettingsNavController.modalPresentationStyle = .formSheet
+        
+        present(mapSettingsNavController, animated: true, completion: nil)
+    }
 
     /// Centers the map to the user's location. Note: this method does not zoom.
     public func centerToUserLocation() {
@@ -115,5 +127,12 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
         
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(mapView.userLocation.coordinate, defaultZoomDistance, defaultZoomDistance)
         mapView.setRegion(coordinateRegion, animated: true)
+    }
+}
+
+extension MapViewController: MapSettingsViewModelDelegate {
+    public func modeDidChange() {
+        mapView.mapType = settingsViewModel.mode
+        mapView.showsTraffic = settingsViewModel.isTrafficEnabled()
     }
 }
