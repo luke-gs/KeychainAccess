@@ -89,6 +89,7 @@
 		9624A43F1F81BBEB00CAE056 /* UIFont+Digits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A43E1F81BBEB00CAE056 /* UIFont+Digits.swift */; };
 		9644B1D21F6785E200D031F2 /* CompactFormSheetNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9644B1D11F6785E100D031F2 /* CompactFormSheetNavigationController.swift */; };
 		9663D0061F86DCDA006DB672 /* MPOLSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9663D0051F86DCDA006DB672 /* MPOLSplitViewController.swift */; };
+		9663D0081F8AD78D006DB672 /* ContainerWithHeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9663D0071F8AD78D006DB672 /* ContainerWithHeaderViewController.swift */; };
 		9686FC941F78AAED00C4AB4D /* UIView+SafeArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9686FC931F78AAED00C4AB4D /* UIView+SafeArea.swift */; };
 		9686FC961F78AC7600C4AB4D /* UIViewController+SafeArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9686FC951F78AC7600C4AB4D /* UIViewController+SafeArea.swift */; };
 		BA6FEAA4EFE7F66EBAE4C2DC /* Pods_MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9215372B17F43A2FDEB28AD0 /* Pods_MPOLKit.framework */; };
@@ -416,6 +417,7 @@
 		9624A4701F83555A00CAE056 /* ResourceMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceMapViewModel.swift; sourceTree = "<group>"; };
 		9644B1D11F6785E100D031F2 /* CompactFormSheetNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactFormSheetNavigationController.swift; sourceTree = "<group>"; };
 		9663D0051F86DCDA006DB672 /* MPOLSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPOLSplitViewController.swift; sourceTree = "<group>"; };
+		9663D0071F8AD78D006DB672 /* ContainerWithHeaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerWithHeaderViewController.swift; sourceTree = "<group>"; };
 		9686FC931F78AAED00C4AB4D /* UIView+SafeArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+SafeArea.swift"; sourceTree = "<group>"; };
 		9686FC951F78AC7600C4AB4D /* UIViewController+SafeArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+SafeArea.swift"; sourceTree = "<group>"; };
 		BC0448931F219A70005FB857 /* AssetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetManager.swift; sourceTree = "<group>"; };
@@ -894,6 +896,7 @@
 			isa = PBXGroup;
 			children = (
 				9663D0051F86DCDA006DB672 /* MPOLSplitViewController.swift */,
+				9663D0071F8AD78D006DB672 /* ContainerWithHeaderViewController.swift */,
 			);
 			path = SplitView;
 			sourceTree = "<group>";
@@ -2008,6 +2011,7 @@
 				DB88BCD91F42CFFC0056FD69 /* SearchDataSource.swift in Sources */,
 				DBE24C3F1F593BEF0088D19B /* EntityDetailDisplayable.swift in Sources */,
 				BC9C7E301F0DED6600DFFE83 /* UIImage+StatusDot.swift in Sources */,
+				9663D0081F8AD78D006DB672 /* ContainerWithHeaderViewController.swift in Sources */,
 				DBE24C2F1F5939C90088D19B /* EntityDetailsFetch.swift in Sources */,
 				BC9C7DF91F0DED6600DFFE83 /* CollectionViewFormOptionCell.swift in Sources */,
 				DB88BCE31F42D0110056FD69 /* SearchResultLoadingCell.swift in Sources */,

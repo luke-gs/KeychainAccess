@@ -21,7 +21,7 @@ open class MPOLSplitViewController: PushableSplitViewController {
     // MARK: - Properties
 
     // The navigation controller for the master side of split view
-    public let masterNavController: NavigationControllerWithHeader
+    public let masterNavController: UINavigationController
 
     // The navigation controller for the detail side of split view
     public let detailNavController: UINavigationController
@@ -29,26 +29,38 @@ open class MPOLSplitViewController: PushableSplitViewController {
     // The page view controller for handling compact mode paging behaviour
     public let pageViewController: ScrollAwarePageViewController
 
+    /// The container view controller for showing the master view controller, along with an optional header
+    public let containerMasterViewController: ContainerWithHeaderViewController
+
     /// The master view controller for the split
-    public var masterViewController: UIViewController
+    public let masterViewController: UIViewController
 
     /// The detail view controllers for the split
     public var detailViewControllers: [UIViewController]
 
-    /// The master view controller header when displayed in regular mode
-    public var masterViewControllerHeaderRegular: UIViewController? {
+    /// The current master view controller header
+    public private(set) var masterViewControllerHeader: UIViewController? {
         didSet {
-            if masterViewControllerHeaderRegular != oldValue && !isCompact() {
-                switchHeaderViewController(new: masterViewControllerHeaderRegular)
+            if masterViewControllerHeader != oldValue {
+                masterViewControllerHeaderDidChange(oldValue: oldValue)
             }
         }
     }
 
-    /// The master view controller header when displayed in compact mode
+    /// The master view controller header when displayed in regular mode, set by subclass
+    public var masterViewControllerHeaderRegular: UIViewController? {
+        didSet {
+            if masterViewControllerHeaderRegular != oldValue {
+                updateHeaderViewController()
+            }
+        }
+    }
+
+    /// The master view controller header when displayed in compact mode, set by subclass
     public var masterViewControllerHeaderCompact: UIViewController? {
         didSet {
-            if masterViewControllerHeaderCompact != oldValue && isCompact() {
-                switchHeaderViewController(new: masterViewControllerHeaderCompact)
+            if masterViewControllerHeaderCompact != oldValue {
+                updateHeaderViewController()
             }
         }
     }
@@ -67,17 +79,17 @@ open class MPOLSplitViewController: PushableSplitViewController {
 
     // MARK: - Subclass
 
-    /// The title to use for the master navigation controller for the given traits
+    /// Return the title to use for the master navigation controller for the given traits
     open func masterNavTitleSuitable(for traitCollection: UITraitCollection) -> String {
         MPLRequiresConcreteImplementation()
     }
 
+    /// Notification that paging scroll view has updated
     open func updatedPagingScrollView(percentOffset: CGFloat) {
         // For subclasses
     }
 
-
-    /// Return the default selected view controller. Override point
+    /// Return the default selected view controller
     open func defaultSelectedViewController() -> UIViewController? {
         return detailViewControllers.first
     }
@@ -87,21 +99,16 @@ open class MPOLSplitViewController: PushableSplitViewController {
     public init(masterViewController: UIViewController, detailViewControllers: [UIViewController]) {
         self.masterViewController = masterViewController
         self.detailViewControllers = detailViewControllers
+        self.containerMasterViewController = ContainerWithHeaderViewController()
 
         // Set up the page controller
         pageViewController = ScrollAwarePageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
         pageViewController.view.backgroundColor = UIColor.white
 
-        masterNavController = NavigationControllerWithHeader(rootViewController: masterViewController)
+        masterNavController = UINavigationController(rootViewController: containerMasterViewController)
         detailNavController = UINavigationController()
 
         super.init(viewControllers: [masterNavController, detailNavController])
-
-        selectedViewController = defaultSelectedViewController()
-
-        // Force early compact collapse so presentation animation looks good
-        // We check whether the window is compact here, as self does not have a trait collection yet
-        self.updateSplitViewControllerForTraitChange(isCompact: MPOLSplitViewController.isWindowCompact())
 
         // Handle all page view delegates
         pageViewController.scrollDelegate = self
@@ -115,11 +122,14 @@ open class MPOLSplitViewController: PushableSplitViewController {
         embeddedSplitViewController.preferredPrimaryColumnWidthFraction = 320.0 / 1024.0
         embeddedSplitViewController.delegate = self
 
-        // Trigger selection change, as didSet is not called in init
+        // Force early application of trait collection so presentation animation looks good
+        updateSplitViewControllerForTraitChange()
+
+        // Get the default selected view controller from the subclass and apply the selection
+        selectedViewController = defaultSelectedViewController()
         selectedViewControllerDidChange(oldValue: nil)
     }
 
-    /// `SidebarSplitViewController` does not support NSCoding.
     public required init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
@@ -133,7 +143,8 @@ open class MPOLSplitViewController: PushableSplitViewController {
 
     /// Is the split view controller being rendered in compact environment, hence collapsed
     public func isCompact() -> Bool {
-        return self.traitCollection.horizontalSizeClass == .compact
+        // Return the view controller's size class if the view is loaded, otherwise the window
+        return isViewLoaded ? (self.traitCollection.horizontalSizeClass == .compact) : MPOLSplitViewController.isWindowCompact()
     }
 
     /// Is the key window being rendered in compact environment
@@ -170,43 +181,39 @@ open class MPOLSplitViewController: PushableSplitViewController {
         super.willTransition(to: newCollection, with: coordinator)
         coordinator.animate(alongsideTransition: { [unowned self] (context) in
             // Update header bar and split view controller for new trait
-            self.updateSplitViewControllerForTraitChange(isCompact: self.isCompact())
+            self.updateSplitViewControllerForTraitChange()
             self.updateNavigationBarForTraitChange()
             }, completion: nil)
     }
 
-    private func updateSplitViewControllerForTraitChange(isCompact: Bool) {
+    open func updateSplitViewControllerForTraitChange() {
         guard let detailViewController = self.selectedViewController ?? self.detailViewControllers.first else { return }
-        if isCompact {
+        if isCompact() {
             // Split displayed as single view, with details collapsed on top of master
-            if !masterNavController.viewControllers.contains(pageViewController) {
+            if containerMasterViewController.contentViewController != pageViewController {
                 // Clear old state
                 detailNavController.viewControllers = []
 
                 // Use the paging view controller in the master nav controller
                 pageViewController.setViewControllers([detailViewController], direction: .forward, animated: false, completion: nil)
-                masterNavController.viewControllers = [pageViewController]
-
-                // Switch header
-                switchHeaderViewController(new: masterViewControllerHeaderCompact)
+                containerMasterViewController.contentViewController = pageViewController
             }
         } else {
             // Split displayed as both views visible at same time
-            if !masterNavController.viewControllers.contains(masterViewController) {
+            if containerMasterViewController.contentViewController != masterViewController {
                 // Clear old state
                 pageViewController.setViewControllers([UIViewController()], direction: .forward, animated: false, completion: nil)
 
                 // Use the regular sidebar view controller in the master nav controller
-                masterNavController.viewControllers = [masterViewController]
+                containerMasterViewController.contentViewController = masterViewController
                 detailNavController.viewControllers = [detailViewController]
-
-                // Switch header
-                switchHeaderViewController(new: masterViewControllerHeaderCompact)
             }
         }
+        // Switch header if necessary
+        updateHeaderViewController()
     }
 
-    private func updateSplitViewControllerForSelection() {
+    open func updateSplitViewControllerForSelection() {
         // Update the visible view controller
         if let selectedViewController = selectedViewController {
             if self.isCompact() {
@@ -238,7 +245,7 @@ open class MPOLSplitViewController: PushableSplitViewController {
         updateNavigationBarForSelection()
     }
 
-    private func updateNavigationBarForSelection() {
+    open func updateNavigationBarForSelection() {
         let masterNavItem = masterNavController.viewControllers.first?.navigationItem
         let detailNavItem = detailNavController.viewControllers.first?.navigationItem
 
@@ -257,7 +264,7 @@ open class MPOLSplitViewController: PushableSplitViewController {
         detailNavItem?.title = detailNavController.viewControllers.first?.title
     }
 
-    func updateNavigationBarForTraitChange() {
+    open func updateNavigationBarForTraitChange() {
         updateNavigationBarForSelection()
 
         // Workaround for Apple bug where title and back button are not updated when switching from compact to regular
@@ -270,21 +277,26 @@ open class MPOLSplitViewController: PushableSplitViewController {
             }
         }
     }
+    
+    open func updateHeaderViewController() {
+        // Update the current header based on the size class
+        // We use window here as can be called before view is initialised
+        masterViewControllerHeader = MPOLSplitViewController.isWindowCompact() ? masterViewControllerHeaderCompact : masterViewControllerHeaderRegular
+    }
 
-    private func switchHeaderViewController(new newHeaderViewController: UIViewController?) {
+    open func masterViewControllerHeaderDidChange(oldValue: UIViewController?) {
         // Remove old header
-        let oldHeaderViewController = (newHeaderViewController == masterViewControllerHeaderRegular) ? masterViewControllerHeaderCompact : masterViewControllerHeaderRegular
-        if let oldHeaderViewController = oldHeaderViewController {
+        if let oldHeaderViewController = oldValue {
             oldHeaderViewController.view.removeFromSuperview()
             oldHeaderViewController.removeFromParentViewController()
-            masterNavController.headerView = nil
+            containerMasterViewController.headerView = nil
         }
 
         // Add new header
-        if let newHeaderViewController = newHeaderViewController {
-            masterNavController.addChildViewController(newHeaderViewController)
-            newHeaderViewController.didMove(toParentViewController: masterNavController)
-            masterNavController.headerView = newHeaderViewController.view
+        if let newHeaderViewController = masterViewControllerHeader {
+            containerMasterViewController.addChildViewController(newHeaderViewController)
+            containerMasterViewController.headerView = newHeaderViewController.view
+            newHeaderViewController.didMove(toParentViewController: containerMasterViewController)
         }
     }
 
