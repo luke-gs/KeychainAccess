@@ -44,7 +44,6 @@
 		19B49BBA1F665F2A00502F51 /* SidebarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B49BB11F665F2800502F51 /* SidebarDelegate.swift */; };
 		19B49BBB1F665F2A00502F51 /* CompactSidebarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B49BB21F665F2800502F51 /* CompactSidebarItemView.swift */; };
 		19B49BBC1F665F2A00502F51 /* CompactSidebarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B49BB31F665F2800502F51 /* CompactSidebarViewController.swift */; };
-		19B49BBD1F665F2A00502F51 /* NavigationControllerWithHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B49BB41F665F2800502F51 /* NavigationControllerWithHeader.swift */; };
 		19B49BBE1F665F2A00502F51 /* ScrollAwarePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B49BB51F665F2800502F51 /* ScrollAwarePageViewController.swift */; };
 		19B49BBF1F665F2A00502F51 /* RegularSidebarTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B49BB61F665F2900502F51 /* RegularSidebarTableViewCell.swift */; };
 		19B49BC01F665F2A00502F51 /* RegularSidebarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B49BB71F665F2900502F51 /* RegularSidebarViewController.swift */; };
@@ -350,7 +349,6 @@
 		19B49BB11F665F2800502F51 /* SidebarDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SidebarDelegate.swift; sourceTree = "<group>"; };
 		19B49BB21F665F2800502F51 /* CompactSidebarItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompactSidebarItemView.swift; sourceTree = "<group>"; };
 		19B49BB31F665F2800502F51 /* CompactSidebarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompactSidebarViewController.swift; sourceTree = "<group>"; };
-		19B49BB41F665F2800502F51 /* NavigationControllerWithHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationControllerWithHeader.swift; sourceTree = "<group>"; };
 		19B49BB51F665F2800502F51 /* ScrollAwarePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollAwarePageViewController.swift; sourceTree = "<group>"; };
 		19B49BB61F665F2900502F51 /* RegularSidebarTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegularSidebarTableViewCell.swift; sourceTree = "<group>"; };
 		19B49BB71F665F2900502F51 /* RegularSidebarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegularSidebarViewController.swift; sourceTree = "<group>"; };
@@ -1263,7 +1261,6 @@
 				19B49BB01F665F2800502F51 /* CompactSidebarSourceCell.swift */,
 				19B49BB81F665F2900502F51 /* CompactSidebarSourceViewController.swift */,
 				19B49BB31F665F2800502F51 /* CompactSidebarViewController.swift */,
-				19B49BB41F665F2800502F51 /* NavigationControllerWithHeader.swift */,
 				19B49BB61F665F2900502F51 /* RegularSidebarTableViewCell.swift */,
 				19B49BB71F665F2900502F51 /* RegularSidebarViewController.swift */,
 				19B49BB51F665F2800502F51 /* ScrollAwarePageViewController.swift */,
@@ -2001,7 +1998,6 @@
 				BC9C7E531F0DED6600DFFE83 /* GradientView.swift in Sources */,
 				469EB5811F452FAB0005CAF7 /* LoginViewController.swift in Sources */,
 				EABAB8041F342E450071A401 /* AggregatedSearchRequest.swift in Sources */,
-				19B49BBD1F665F2A00502F51 /* NavigationControllerWithHeader.swift in Sources */,
 				BC9C7DCD1F0DED6600DFFE83 /* ArchivedManifestEntry.swift in Sources */,
 				BCC6F74E1F2FF91200F05F65 /* MapCollectionViewController.swift in Sources */,
 				19F8DDB11F4D7CB800D84DA1 /* LookupAddress.swift in Sources */,
