@@ -42,7 +42,7 @@ open class MPOLSplitViewController: PushableSplitViewController {
     public private(set) var masterViewControllerHeader: UIViewController? {
         didSet {
             if masterViewControllerHeader != oldValue {
-                masterViewControllerHeaderDidChange(oldValue: oldValue)
+                containerMasterViewController.headerViewController = masterViewControllerHeader
             }
         }
     }
@@ -282,22 +282,6 @@ open class MPOLSplitViewController: PushableSplitViewController {
         // Update the current header based on the size class
         // We use window here as can be called before view is initialised
         masterViewControllerHeader = MPOLSplitViewController.isWindowCompact() ? masterViewControllerHeaderCompact : masterViewControllerHeaderRegular
-    }
-
-    open func masterViewControllerHeaderDidChange(oldValue: UIViewController?) {
-        // Remove old header
-        if let oldHeaderViewController = oldValue {
-            oldHeaderViewController.view.removeFromSuperview()
-            oldHeaderViewController.removeFromParentViewController()
-            containerMasterViewController.headerView = nil
-        }
-
-        // Add new header
-        if let newHeaderViewController = masterViewControllerHeader {
-            containerMasterViewController.addChildViewController(newHeaderViewController)
-            containerMasterViewController.headerView = newHeaderViewController.view
-            newHeaderViewController.didMove(toParentViewController: containerMasterViewController)
-        }
     }
 
     // MARK: - UISplitViewControllerDelegate methods

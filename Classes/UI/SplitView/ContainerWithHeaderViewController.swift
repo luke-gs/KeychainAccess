@@ -17,44 +17,58 @@ import UIKit
 open class ContainerWithHeaderViewController: UIViewController {
 
     /// Whether the header is only visible in compact size environment
-    open var onlyVisibleWhenCompact: Bool = true
+    open var onlyVisibleWhenCompact: Bool = true {
+        didSet {
+            updateHeaderVisibility()
+        }
+    }
 
     /// The top layout constraint of the content view
-    open var contentTopConstraint: NSLayoutConstraint?
+    private var contentTopConstraint: NSLayoutConstraint?
 
-    // The header view to display below the navigation bar
-    open var headerView: UIView? {
+    /// The header view to display below the navigation bar
+    open var headerViewController: UIViewController? {
         didSet {
+            guard oldValue != headerViewController else { return }
+
+            // Cleanup old value
             if let oldValue = oldValue {
-                oldValue.removeFromSuperview()
+                oldValue.removeFromParentViewController()
+                oldValue.view.removeFromSuperview()
             }
-            if let headerView = headerView {
-                // Add header view, using top layout guide to position below navigation bar
-                view.addSubview(headerView)
+
+            // Add the new header view controller as a child
+            if let headerViewController = headerViewController {
+                addChildViewController(headerViewController)
+                view.addSubview(headerViewController.view)
+                headerViewController.didMove(toParentViewController: self)
+
+                // Constrain header to top
+                let headerView = headerViewController.view!
                 headerView.translatesAutoresizingMaskIntoConstraints = false
                 NSLayoutConstraint.activate([
                     headerView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
                     headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                     headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                 ])
-                updateHeaderVisibility()
             }
+            updateHeaderVisibility()
         }
     }
 
+    /// The content view to display below the header
     open var contentViewController: UIViewController? {
         didSet {
-            if oldValue == contentViewController {
-                return
-            }
+            guard oldValue != contentViewController else { return }
+
             // Cleanup
             if let oldValue = oldValue {
                 oldValue.removeFromParentViewController()
                 oldValue.view.removeFromSuperview()
             }
 
-            if let contentViewController = contentViewController {
-                // Add the content view controller as a child
+            // Add the new content view controller as a child
+           if let contentViewController = contentViewController {
                 addChildViewController(contentViewController)
                 view.addSubview(contentViewController.view)
                 contentViewController.didMove(toParentViewController: self)
@@ -70,6 +84,7 @@ open class ContainerWithHeaderViewController: UIViewController {
                     contentView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor)
                 ])
             }
+            updateHeaderVisibility()
         }
     }
 
@@ -88,15 +103,15 @@ open class ContainerWithHeaderViewController: UIViewController {
     }
 
     open func updateHeaderVisibility() {
-        // Inset the content view the size of the header if visible
-        if let headerView = headerView, shouldShowHeaderView() {
+        // Inset the content view the size of the header if visible, otherwise hide
+        if let headerView = headerViewController?.view, shouldShowHeaderView() {
             // Force layout of header for sizing
             headerView.isHidden = false
             headerView.setNeedsLayout()
             headerView.layoutIfNeeded()
             contentTopConstraint?.constant = headerView.bounds.height
         } else {
-            headerView?.isHidden = true
+            headerViewController?.view?.isHidden = true
             contentTopConstraint?.constant = 0
         }
     }
