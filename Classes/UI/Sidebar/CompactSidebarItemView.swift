@@ -80,7 +80,7 @@ open class CompactSidebarItemView: UIView {
             unselectedText.append("\(item.count) ", font: unselectedFont, color: item.alertColor ?? ColorConstants.unselectedColor)
             highlightedText.append("\(item.count) ", font: unselectedFont, color: ColorConstants.selectedColor)
         }
-        if let title = item.title {
+        if let title = item.compactTitle {
             selectedText.append(title, font: selectedFont, color: ColorConstants.selectedColor)
             unselectedText.append(title, font: unselectedFont, color: ColorConstants.unselectedColor)
             highlightedText.append(title, font: unselectedFont, color: ColorConstants.selectedColor)
