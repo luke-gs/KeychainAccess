@@ -178,8 +178,10 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
 }
 
 extension MapViewController: MapSettingsViewModelDelegate {
-    public func modeDidChange() {
-        mapView.mapType = settingsViewModel.mode
-        mapView.showsTraffic = settingsViewModel.isTrafficEnabled()
+    public func modeDidChange(to mode: MKMapType, showsTraffic: Bool) {
+        mapView.mapType = mode
+        // Toggle to fix stupid bug where traffic sometimes does not show. Thanks Apple.
+        mapView.showsTraffic = false
+        mapView.showsTraffic = showsTraffic
     }
 }

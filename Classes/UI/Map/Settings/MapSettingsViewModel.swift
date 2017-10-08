@@ -17,7 +17,7 @@ open class MapSettingsViewModel {
     private var showTraffic: Bool = false {
         didSet {
             guard showTraffic != oldValue else { return }
-            delegate?.modeDidChange()
+            delegate?.modeDidChange(to: mode, showsTraffic: showTraffic)
         }
     }
     
@@ -25,7 +25,7 @@ open class MapSettingsViewModel {
     public private(set) var mode: MKMapType = .standard {
         didSet {
             guard mode != oldValue else { return }
-            delegate?.modeDidChange()
+            delegate?.modeDidChange(to: mode, showsTraffic: showTraffic)
         }
     }
     
@@ -94,5 +94,5 @@ open class MapSettingsViewModel {
 
 public protocol MapSettingsViewModelDelegate: class {
     /// Called when the mode or traffic setting changed
-    func modeDidChange()
+    func modeDidChange(to mode: MKMapType, showsTraffic: Bool)
 }
