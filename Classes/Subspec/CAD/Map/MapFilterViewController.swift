@@ -31,11 +31,6 @@ open class MapFilterViewController: FormCollectionViewController {
         collectionView?.register(CollectionViewFormSubtitleCell.self)
     }
     
-    open override func collectionViewClass() -> UICollectionView.Type {
-        // Use collection view with intrinsic height so we can auto sizes
-        return IntrinsicHeightCollectionView.self
-    }
-    
     // MARK: - UICollectionViewDataSource
     
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
