@@ -96,7 +96,7 @@ public class SearchResultErrorCell: UICollectionViewCell, DefaultReusable {
     
     public override func layoutSubviews() {
         super.layoutSubviews()
-        readMoreButton.isHidden = titleLabel.isTruncated == false
+        readMoreButton.isHidden = titleLabel.bounds.height == 0 || titleLabel.isTruncated == false
     }
 }
 
@@ -112,6 +112,6 @@ fileprivate extension UILabel {
             attributes: [NSAttributedStringKey.font: font],
             context: nil).size
         
-        return floor(textSize.height) > bounds.size.height
+        return floor(textSize.height) > floor(bounds.size.height)
     }
 }
