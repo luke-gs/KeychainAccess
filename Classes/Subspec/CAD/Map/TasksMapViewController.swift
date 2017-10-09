@@ -74,7 +74,13 @@ open class TasksMapViewController: MapViewController {
     }
     
     public func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        let vm = TaskItemViewModel(iconImage: UIImage(named: "iconEntityAutomotiveFilled", in: .mpolKit, compatibleWith: nil), statusText: "hello moto", itemName: "P25", lastUpdated: "2 mins ago", color: #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1), detailViewControllers: [ResourceOverviewDetailViewController(), ResourceActivityLogDetailViewController()])
+        let officerVm = ResourceOfficerListViewModel()
+        officerVm.loadDummyData()
+        
+        let vm = TaskItemViewModel(iconImage: UIImage(named: "iconEntityAutomotiveFilled", in: .mpolKit, compatibleWith: nil), statusText: "hello moto", itemName: "P25", lastUpdated: "2 mins ago", color: #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1), detailViewControllers: [
+            ResourceOverviewDetailViewController(),
+            ResourceOfficerListViewController(viewModel: officerVm),
+            ResourceActivityLogDetailViewController()])
         let vc = TasksItemSidebarViewController.init(viewModel: vm)
         navigationController?.pushViewController(vc, animated: true)
     }
