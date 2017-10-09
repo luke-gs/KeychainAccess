@@ -233,6 +233,15 @@ open class CompactSidebarViewController: UIViewController {
         updateSourceButton()
     }
 
+    open override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        // Make sure selected item is centered
+        if let selectedItem = selectedItem, let itemIndex = items.index(of: selectedItem) {
+            self.setScrollOffsetForItem(itemIndex)
+        }
+    }
+
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
