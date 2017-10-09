@@ -174,7 +174,6 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     
     /// Centers and zooms the map to the user's location
     @objc public func zoomAndCenterToUserLocation() {
-        centerToUserLocation()
         if let location = locationManager?.location {
             zoomAndCenter(to: location)
         }
