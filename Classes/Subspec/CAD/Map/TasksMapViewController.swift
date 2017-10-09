@@ -73,6 +73,13 @@ open class TasksMapViewController: MapViewController {
         }
     }
     
+    public func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        let vm = TaskItemViewModel(iconImage: UIImage(named: "iconEntityAutomotiveFilled", in: .mpolKit, compatibleWith: nil), statusText: "hello moto", itemName: "P25", lastUpdated: "2 mins ago", detailViewControllers: [ResourceOverviewDetailViewController(), ResourceActivityLogDetailViewController()])
+        let vc = TasksItemSidebarViewController.init(viewModel: vm)
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    
     public func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
         // Keep resource annotations on top by observing changes to the layer's zPosition
         // This is needed for iOS 11

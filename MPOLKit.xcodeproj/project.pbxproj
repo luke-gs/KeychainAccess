@@ -79,6 +79,9 @@
 		276C21061F60C2100003B860 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276C21051F60C2100003B860 /* MapViewController.swift */; };
 		276C21081F60C44B0003B860 /* MapOverlayImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276C21071F60C44B0003B860 /* MapOverlayImageButton.swift */; };
 		278CA1051F7CA4A00073DFBA /* ResourceAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278CA1041F7CA4A00073DFBA /* ResourceAnnotationView.swift */; };
+		27CBC7461F8AF51000E387C3 /* ResourceOverviewDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CBC7451F8AF51000E387C3 /* ResourceOverviewDetailViewController.swift */; };
+		27CBC7481F8AF78700E387C3 /* ResourceActivityLogDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CBC7471F8AF78700E387C3 /* ResourceActivityLogDetailViewController.swift */; };
+		27CBC74B1F8B00AB00E387C3 /* UIViewController+ChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CBC74A1F8B00AB00E387C3 /* UIViewController+ChildViewController.swift */; };
 		4420D2801F66428D00E20304 /* Sequence+Nils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4420D27F1F66428D00E20304 /* Sequence+Nils.swift */; };
 		44621FF61F59239C007C3150 /* FilterRangeDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44621FF41F59239C007C3150 /* FilterRangeDescriptor.swift */; };
 		44621FF71F59239C007C3150 /* FilterValueDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44621FF51F59239C007C3150 /* FilterValueDescriptor.swift */; };
@@ -389,6 +392,11 @@
 		276C21051F60C2100003B860 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		276C21071F60C44B0003B860 /* MapOverlayImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOverlayImageButton.swift; sourceTree = "<group>"; };
 		278CA1041F7CA4A00073DFBA /* ResourceAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceAnnotationView.swift; sourceTree = "<group>"; };
+		27CBC7451F8AF51000E387C3 /* ResourceOverviewDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceOverviewDetailViewController.swift; sourceTree = "<group>"; };
+		27CBC7471F8AF78700E387C3 /* ResourceActivityLogDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceActivityLogDetailViewController.swift; sourceTree = "<group>"; };
+		27CBC74A1F8B00AB00E387C3 /* UIViewController+ChildViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+ChildViewController.swift"; sourceTree = "<group>"; };
+		27E01CDE1F8AEE65008B67F1 /* TaskItemsSidebarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskItemsSidebarViewController.swift; sourceTree = "<group>"; };
+		27E01CDF1F8AEE65008B67F1 /* TaskItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskItemViewModel.swift; sourceTree = "<group>"; };
 		4420D27F1F66428D00E20304 /* Sequence+Nils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Sequence+Nils.swift"; sourceTree = "<group>"; };
 		44621FF41F59239C007C3150 /* FilterRangeDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterRangeDescriptor.swift; sourceTree = "<group>"; };
 		44621FF51F59239C007C3150 /* FilterValueDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterValueDescriptor.swift; sourceTree = "<group>"; };
@@ -805,6 +813,25 @@
 			path = Annotations;
 			sourceTree = "<group>";
 		};
+		27CBC7491F8AF78A00E387C3 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				27CBC7451F8AF51000E387C3 /* ResourceOverviewDetailViewController.swift */,
+				27CBC7471F8AF78700E387C3 /* ResourceActivityLogDetailViewController.swift */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		27E01CDD1F8AEE65008B67F1 /* Tasks Details */ = {
+			isa = PBXGroup;
+			children = (
+				27E01CDE1F8AEE65008B67F1 /* TaskItemsSidebarViewController.swift */,
+				27E01CDF1F8AEE65008B67F1 /* TaskItemViewModel.swift */,
+				27CBC7491F8AF78A00E387C3 /* Resources */,
+			);
+			path = "Tasks Details";
+			sourceTree = "<group>";
+		};
 		44F3F14C1F56DDC000D68585 /* FilterDescriptor */ = {
 			isa = PBXGroup;
 			children = (
@@ -840,6 +867,7 @@
 			children = (
 				9624A4591F83555A00CAE056 /* ActivityLog */,
 				9624A4611F83555A00CAE056 /* Status Tab Bar */,
+				27E01CDD1F8AEE65008B67F1 /* Tasks Details */,
 				9624A4651F83555A00CAE056 /* Map */,
 				9624A4721F83567800CAE056 /* Timeline */,
 			);
@@ -991,6 +1019,7 @@
 				9686FC931F78AAED00C4AB4D /* UIView+SafeArea.swift */,
 				9686FC951F78AC7600C4AB4D /* UIViewController+SafeArea.swift */,
 				9624A43E1F81BBEB00CAE056 /* UIFont+Digits.swift */,
+				27CBC74A1F8B00AB00E387C3 /* UIViewController+ChildViewController.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1847,6 +1876,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC9C7E371F0DED6600DFFE83 /* KeyboardAnimationDetails.swift in Sources */,
+				27CBC7461F8AF51000E387C3 /* ResourceOverviewDetailViewController.swift in Sources */,
 				BC9C7DD51F0DED6600DFFE83 /* ParseError.swift in Sources */,
 				19B49BC01F665F2A00502F51 /* RegularSidebarViewController.swift in Sources */,
 				BC9C7E201F0DED6600DFFE83 /* FormTableViewController.swift in Sources */,
@@ -1878,6 +1908,7 @@
 				EA4806B01F56939100B42313 /* LocationBasicSearchOptions.swift in Sources */,
 				BC9C7E261F0DED6600DFFE83 /* EntityListCollectionViewCell.swift in Sources */,
 				19B49BBA1F665F2A00502F51 /* SidebarDelegate.swift in Sources */,
+				27CBC7481F8AF78700E387C3 /* ResourceActivityLogDetailViewController.swift in Sources */,
 				BC9C7E191F0DED6600DFFE83 /* RadioButton.swift in Sources */,
 				2768C0461F85EB2A008532ED /* MapSettingsViewModel.swift in Sources */,
 				BC9C7E2C1F0DED6600DFFE83 /* UIColor+Hex.swift in Sources */,
@@ -1974,6 +2005,7 @@
 				BCF4B59C1F2849D00022132D /* SpacerView.swift in Sources */,
 				BC9C7E441F0DED6600DFFE83 /* SidebarSplitViewController.swift in Sources */,
 				BC9C7DFD1F0DED6600DFFE83 /* CollectionViewFormValueFieldCell.swift in Sources */,
+				27CBC74B1F8B00AB00E387C3 /* UIViewController+ChildViewController.swift in Sources */,
 				BC9C7E4B1F0DED6600DFFE83 /* Theme.swift in Sources */,
 				BC9C7E091F0DED6600DFFE83 /* UITableViewCell+LayoutMargins.swift in Sources */,
 				BC9C7E521F0DED6600DFFE83 /* FormDisclosureView.swift in Sources */,
