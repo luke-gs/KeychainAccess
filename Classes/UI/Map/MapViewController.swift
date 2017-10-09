@@ -14,6 +14,7 @@ import MapKit
 open class MapViewController: UIViewController, MKMapViewDelegate {
 
     private var locationManager: CLLocationManager?
+    private var zoomsToUserLocationOnLoad: Bool
     private var settingsViewModel = MapSettingsViewModel()
     
     // MARK: - Constants
@@ -50,8 +51,9 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     
     // MARK: - Setup
     
-    public init(withLocationManager locationManager: CLLocationManager?) {
+    public init(withLocationManager locationManager: CLLocationManager? = nil, zoomsToUserLocationOnLoad: Bool = true) {
         self.locationManager = locationManager
+        self.zoomsToUserLocationOnLoad = zoomsToUserLocationOnLoad
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -88,8 +90,10 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
         
         setupConstraints()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.zoomAndCenterToUserLocation()
+        if zoomsToUserLocationOnLoad {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.zoomAndCenterToUserLocation()
+            }
         }
     }
     
@@ -170,10 +174,15 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     /// Centers and zooms the map to the user's location
     @objc public func zoomAndCenterToUserLocation() {
         centerToUserLocation()
-        if let coordinate = locationManager?.location?.coordinate {
-            let coordinateRegion = MKCoordinateRegionMakeWithDistance(coordinate, defaultZoomDistance, defaultZoomDistance)
-            mapView.setRegion(coordinateRegion, animated: true)
+        if let location = locationManager?.location {
+            zoomAndCenter(to: location)
         }
+    }
+    
+    /// Centers and zooms the map to a location
+    public func zoomAndCenter(to location: CLLocation) {
+        let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, defaultZoomDistance, defaultZoomDistance)
+        mapView.setRegion(coordinateRegion, animated: true)
     }
 }
 
