@@ -82,11 +82,13 @@ open class CompactSidebarViewController: UIViewController {
     /// Whether source button should be hidden
     public var hideSourceButton: Bool = false {
         didSet {
-            // Make scroll view full width and hide button if sources not visible
-            scrollViewFullWidth?.isActive = hideSourceButton
-            sourceButton.isHidden = hideSourceButton
-            sourceDivider.isHidden = hideSourceButton
+            updateSourceButton()
         }
+    }
+
+    /// Whether source button should be hidden
+    public var shouldHideSourceButton: Bool {
+        return sourceItems.isEmpty || hideSourceButton
     }
 
     /// The stack view for sidebar items.
@@ -227,7 +229,7 @@ open class CompactSidebarViewController: UIViewController {
 
         // Override constraint for hiding source button
         scrollViewFullWidth = scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
-        scrollViewFullWidth?.isActive = hideSourceButton
+        updateSourceButton()
     }
 
     open override func viewDidLayoutSubviews() {
@@ -289,6 +291,13 @@ open class CompactSidebarViewController: UIViewController {
     }
 
     // MARK: - Private methods
+
+    private func updateSourceButton() {
+        // Make scroll view full width and hide button if sources not visible
+        scrollViewFullWidth?.isActive = shouldHideSourceButton
+        sourceButton.isHidden = shouldHideSourceButton
+        sourceDivider.isHidden = shouldHideSourceButton
+    }
 
     @objc private func didTapSourceButton(_ item: UIBarButtonItem) {
         guard let selectedSourceIndex = selectedSourceIndex else { return }

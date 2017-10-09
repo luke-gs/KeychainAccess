@@ -46,7 +46,7 @@ open class ContainerWithHeaderViewController: UIViewController {
                 let headerView = headerViewController.view!
                 headerView.translatesAutoresizingMaskIntoConstraints = false
                 NSLayoutConstraint.activate([
-                    headerView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
+                    headerView.topAnchor.constraint(equalTo: safeAreaOrLayoutGuideTopAnchor),
                     headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                     headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                 ])
@@ -75,7 +75,7 @@ open class ContainerWithHeaderViewController: UIViewController {
                 // Constrain content to safe area
                 let contentView = contentViewController.view!
                 contentView.translatesAutoresizingMaskIntoConstraints = false
-                contentTopConstraint = contentView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor, constant: 0)
+                contentTopConstraint = contentView.topAnchor.constraint(equalTo: safeAreaOrLayoutGuideTopAnchor, constant: 0)
                 NSLayoutConstraint.activate([
                     contentTopConstraint!,
                     contentView.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor),
