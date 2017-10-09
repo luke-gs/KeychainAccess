@@ -54,6 +54,7 @@ open class CompactSidebarViewController: UIViewController {
                 let defaultIndex = sourceItems.count > 0 ? 0 : nil
                 self.selectedSourceIndex = selectedSourceIndex ?? defaultIndex
             }
+            updateSourceButton()
         }
     }
 
