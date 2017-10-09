@@ -249,21 +249,24 @@ open class MPOLSplitViewController: PushableSplitViewController {
     }
 
     open func updateNavigationBarForSelection() {
-        let masterNavItem = masterNavController.viewControllers.first?.navigationItem
+        let masterNavItem = containerMasterViewController.navigationItem
         let detailNavItem = detailNavController.viewControllers.first?.navigationItem
 
         // Make sure the current master view controller has the back button
         // Note: this can move to detail view controller when switching between regular and compact
-        masterNavItem?.leftBarButtonItems = [backButtonItem()].removeNils()
+        masterNavItem.leftBarButtonItems = [backButtonItem()].removeNils()
         detailNavItem?.leftBarButtonItem = nil
 
-        // Move the right bar items to the master VC if compact
         if self.isCompact() {
-            masterNavItem?.rightBarButtonItems = selectedViewController?.navigationItem.rightBarButtonItems
+            // Use the selected detail right button items if compact
+            masterNavItem.rightBarButtonItems = selectedViewController?.navigationItem.rightBarButtonItems
+        } else {
+            // Otherwise use the content of the master view controller
+            masterNavItem.rightBarButtonItems = containerMasterViewController.contentViewController?.navigationItem.rightBarButtonItems
         }
 
         // Update the navigation bar titles, otherwise they can be shown on wrong side after transition
-        masterNavItem?.title = masterNavTitleSuitable(for: traitCollection)
+        masterNavItem.title = masterNavTitleSuitable(for: traitCollection)
         detailNavItem?.title = detailNavController.viewControllers.first?.title
     }
 
