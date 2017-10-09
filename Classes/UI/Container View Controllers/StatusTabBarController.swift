@@ -259,7 +259,7 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
     
     open func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         if let newSelectedVC = viewControllers.first(where: { $0.tabBarItem == item }) {
-            guard statusTabBarDelegate?.controller(self, shouldSelect: newSelectedVC) == true else {
+            if statusTabBarDelegate?.controller(self, shouldSelect: newSelectedVC) == false {
                 tabBar.selectedItem = selectedViewController?.tabBarItem
                 return
             }
