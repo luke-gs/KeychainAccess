@@ -11,6 +11,8 @@ import MapKit
 
 open class MapSettingsViewModel {
     
+    public init() {}
+    
     public weak var delegate: MapSettingsViewModelDelegate?
     
     /// Whether to show traffic on the map
@@ -89,6 +91,16 @@ open class MapSettingsViewModel {
     /// Updates the traffic setting to match the switch
     public func setTrafficEnabled(_ enabled: Bool) {
         showTraffic = enabled
+    }
+    
+    /// Title for navigation bar
+    public func navTitle() -> String {
+        return NSLocalizedString("Map Settings", comment: "")
+    }
+    
+    /// The view controller to present when pressing settings button
+    public func settingsViewController() -> UIViewController {
+        return MapSettingsViewController(viewModel: self)
     }
 }
 

@@ -15,7 +15,7 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
 
     private var locationManager: CLLocationManager?
     private var zoomsToUserLocationOnLoad: Bool
-    private var settingsViewModel = MapSettingsViewModel()
+    private var settingsViewModel: MapSettingsViewModel
     
     // MARK: - Constants
     
@@ -51,9 +51,10 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     
     // MARK: - Setup
     
-    public init(withLocationManager locationManager: CLLocationManager? = nil, zoomsToUserLocationOnLoad: Bool = true) {
+    public init(withLocationManager locationManager: CLLocationManager? = nil, zoomsToUserLocationOnLoad: Bool = true, settingsViewModel: MapSettingsViewModel = MapSettingsViewModel()) {
         self.locationManager = locationManager
         self.zoomsToUserLocationOnLoad = zoomsToUserLocationOnLoad
+        self.settingsViewModel = settingsViewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -157,7 +158,7 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     @objc func showMapTypePopup() {
-        let mapSettingsViewController = MapSettingsViewController(viewModel: settingsViewModel)
+        let mapSettingsViewController = settingsViewModel.settingsViewController()
         let mapSettingsNavController = PopoverNavigationController(rootViewController: mapSettingsViewController)
         mapSettingsNavController.modalPresentationStyle = .formSheet
         
