@@ -17,6 +17,10 @@ fileprivate let tabBarStyleKeys: [String] = [
     #keyPath(UITabBar.isTranslucent)
 ]
 
+public protocol StatusTabBarDelegate {
+    func controller(_ controller: StatusTabBarController, shouldSelect viewController: UIViewController) -> Bool
+}
+
 
 /// A view controller for presenting a tabbed interface, with a hosted status view.
 ///
@@ -37,7 +41,8 @@ fileprivate let tabBarStyleKeys: [String] = [
 /// shift additional view controllers into a more tab. Users should do this with custom behaviour
 /// if required.
 open class StatusTabBarController: UIViewController, UITabBarDelegate {
-    
+
+    open var statusTabBarDelegate: StatusTabBarDelegate?
     
     /// An array of the root view controllers displayed by the tab bar interface.
     ///
@@ -250,11 +255,14 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
         }
     }
     
-    
     // MARK: - Tab bar delegate
     
     open func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         if let newSelectedVC = viewControllers.first(where: { $0.tabBarItem == item }) {
+            guard statusTabBarDelegate?.controller(self, shouldSelect: newSelectedVC) == true else {
+                tabBar.selectedItem = selectedViewController?.tabBarItem
+                return
+            }
             selectedViewController = newSelectedVC
         }
     }
