@@ -8,8 +8,11 @@
 
 import UIKit
 import CoreLocation
+import MapKit
 
 class TasksMapViewModel {
+
+    public weak var delegate: TasksMapViewModelDelegate?
 
     // MARK: - Data Source
     
@@ -19,19 +22,21 @@ class TasksMapViewModel {
     private var resources: [ResourceMapViewModel] = []
     
     // MARK: - Filter
+
+    public private(set) var filterViewModel = TasksMapFilterViewModel()
+    private var filter: TasksMapFilterViewModel.Filter {
+        return filterViewModel.currentFilter
+    }
+
+    // TODO: Set from split view table
+    var priorityAnnotationType = ResourceAnnotationView.self
     
-    /// Filters for annotations data source
-    struct Filter: OptionSet {
-        let rawValue: Int
-        
-        static let incidents = Filter(rawValue: 1 << 0)
-        static let patrol    = Filter(rawValue: 1 << 1)
-        static let broadcast = Filter(rawValue: 1 << 2)
-        static let resources = Filter(rawValue: 1 << 3)
+    // MARK: - Init
+    
+    init() {
+        filterViewModel.delegate = self
     }
     
-    var filter: Filter = [.incidents, .patrol, .broadcast, .resources]
-
     // MARK: - Annotations
 
     /// Annotations matching the current filter
@@ -162,12 +167,27 @@ class TasksMapViewModel {
                                  pulsing: false),
             
             ResourceMapViewModel(identifier: "r3",
-                                 title: "P07",
-                                 subtitle: "(2)",
+                                 title: "K12",
+                                 subtitle: "(1)",
                                  coordinate: CLLocationCoordinate2D(latitude: -37.799788, longitude: 144.992054),
                                  iconImage: AssetManager.shared.image(forKey: .resourceDog),
                                  iconColor: #colorLiteral(red: 0.2980392157, green: 0.6862745098, blue: 0.3137254902, alpha: 1),
                                  pulsing: false),
         ]
     }
+    
+    func isAnnotationViewDisplayedOnTop(_ annotationView: MKAnnotationView) -> Bool {
+        return type(of: annotationView) == priorityAnnotationType
+    }
+}
+
+extension TasksMapViewModel: TasksMapFilterViewModelDelegate {
+    func filterDidChange(to filter: TasksMapFilterViewModel.Filter) {
+        delegate?.viewModelStateChanged()
+    }
+}
+
+protocol TasksMapViewModelDelegate: class {
+    /// Called when some data or state has changed
+    func viewModelStateChanged()
 }
