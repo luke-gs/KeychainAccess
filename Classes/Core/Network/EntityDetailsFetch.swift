@@ -46,11 +46,15 @@ public class EntityDetailFetch<T: MPOLKitEntity>: Fetchable {
             return .finished
         }
     }
-    
+
     public init(requests: [EntityDetailFetchRequest<T>]) {
         self.requests = requests
     }
-    
+
+    public init(request: EntityDetailFetchRequest<T>) {
+        self.requests = [request]
+    }
+
     public func performFetch() {
         guard state != .fetching else { return }
         
