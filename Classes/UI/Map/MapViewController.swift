@@ -13,6 +13,8 @@ import MapKit
 /// contains a `MKMapView` constrained to the view edges.
 open class MapViewController: UIViewController, MKMapViewDelegate {
 
+    private var isInitialViewLoad: Bool = true
+    
     private var locationManager: CLLocationManager?
     private var zoomsToUserLocationOnLoad: Bool
     private var settingsViewModel: MapSettingsViewModel
@@ -91,8 +93,14 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
         
         setupConstraints()
         
-        if zoomsToUserLocationOnLoad {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+    }
+    
+    open override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if isInitialViewLoad {
+            isInitialViewLoad = false
+            if zoomsToUserLocationOnLoad {
                 self.zoomAndCenterToUserLocation()
             }
         }
