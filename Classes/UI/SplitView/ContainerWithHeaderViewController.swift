@@ -11,8 +11,7 @@ import UIKit
 ///
 /// Container view controller for showing a content view controller with an optional header.
 ///
-/// Notes:
-/// * Navigation items of content view controller are forwarded so this can be used in a UINavigationController.
+/// Both the content and header can be changed at any time.
 ///
 open class ContainerWithHeaderViewController: UIViewController {
 

@@ -65,6 +65,9 @@ open class MPOLSplitViewController: PushableSplitViewController {
         }
     }
 
+    /// Whether the master view controller is hidden when displaying in compact size
+    public var shouldHideMasterWhenCompact: Bool = true
+
     /// The KVO observer for right bar button items of the selected view controller
     private var rightBarButtonItemsObservation: NSKeyValueObservation?
 
@@ -188,7 +191,7 @@ open class MPOLSplitViewController: PushableSplitViewController {
 
     open func updateSplitViewControllerForTraitChange() {
         guard let detailViewController = self.selectedViewController ?? self.detailViewControllers.first else { return }
-        if isCompact() {
+        if isCompact() && shouldHideMasterWhenCompact {
             // Split displayed as single view, with details collapsed on top of master
             if containerMasterViewController.contentViewController != pageViewController {
                 // Clear old state
@@ -216,7 +219,7 @@ open class MPOLSplitViewController: PushableSplitViewController {
     open func updateSplitViewControllerForSelection() {
         // Update the visible view controller
         if let selectedViewController = selectedViewController {
-            if self.isCompact() {
+            if self.isCompact() && shouldHideMasterWhenCompact {
                 // Only set the VC if it's not the current one, in case page scroll has already made it visible
                 // This improves the animations when flicking pages fast
                 if pageViewController.viewControllers?.first != selectedViewController {
