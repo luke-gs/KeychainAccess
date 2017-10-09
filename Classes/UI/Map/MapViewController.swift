@@ -15,9 +15,9 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
 
     private var isInitialViewLoad: Bool = true
     
-    private var locationManager: CLLocationManager?
-    private var zoomsToUserLocationOnLoad: Bool
-    private var settingsViewModel: MapSettingsViewModel
+    private let locationManager: CLLocationManager?
+    private let zoomsToUserLocationOnLoad: Bool
+    private let settingsViewModel: MapSettingsViewModel
     
     // MARK: - Constants
     
