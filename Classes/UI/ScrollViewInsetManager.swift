@@ -116,8 +116,9 @@ public final class ScrollViewInsetManager: NSObject {
             let keyboardFrame = scrollView.convert(keyboardFrameInScreen, from: nil)
             
             // Work out how far inset the is (if there is one), and try to inset. Don't inset less than the initial insets.
-            let bottomInset       = max((scrollView.bounds.maxY - keyboardFrame.minY), 0.0)
-            contentInset.bottom   = max(bottomInset, contentInset.bottom)
+            let verticalSpacing: CGFloat = 20.0
+            let bottomInset              = max((scrollView.bounds.maxY + verticalSpacing - keyboardFrame.minY), 0.0)
+            contentInset.bottom          = max(bottomInset, contentInset.bottom)
         }
         
         if scrollView.refreshControl?.isRefreshing ?? false {
