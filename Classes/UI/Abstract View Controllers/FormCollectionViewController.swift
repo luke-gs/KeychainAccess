@@ -333,6 +333,10 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     
     // MARK: - UICollectionViewDataSource methods
     
+    open func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+
     open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 0
     }

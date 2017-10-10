@@ -14,6 +14,8 @@ import UIKit
 ///
 open class TasksListViewController: CADFormCollectionViewController<TasksListItemViewModel> {
 
+    // MARK: - Override
+
     override open func cellType() -> CollectionViewFormCell.Type {
         return TasksListItemCell.self
     }
