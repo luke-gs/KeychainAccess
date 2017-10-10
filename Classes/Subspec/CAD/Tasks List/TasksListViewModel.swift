@@ -15,17 +15,27 @@ import UIKit
 /// * Broadcast
 public class TasksListViewModel: CADFormCollectionViewModel<TasksListItemViewModel> {
 
-    override open func sections() -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
-        return [
-            CADFormCollectionSectionViewModel(title: "Responding to",
-                                              items: [TasksListItemViewModel(title: "Assault (2)",
-                                                                     subtitle: "188 Smith St",
-                                                                     caption: "AS4205 : MP0001529",
-                                                                     boxText: "P1",
-                                                                     boxColor: .red,
-                                                                     boxFilled: true)])
-        ]
+    /// Create the view controller for this view model
+    public func createViewController() -> TasksListViewController {
+        return TasksListViewController(viewModel: self)
+    }
 
+    /// Lazy var for creating view model content
+    private lazy var data: [CADFormCollectionSectionViewModel<TasksListItemViewModel>] = {
+        return [CADFormCollectionSectionViewModel(title: "Responding to",
+                                                  items: [TasksListItemViewModel(title: "Assault (2)",
+                                                                                 subtitle: "188 Smith St",
+                                                                                 caption: "AS4205 : MP0001529",
+                                                                                 boxText: "P1",
+                                                                                 boxColor: .red,
+                                                                                 boxFilled: true)])
+        ]
+    }()
+
+    // MARK: - Override
+
+    override open func sections() -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
+        return data
     }
 
     /// The title to use in the navigation bar
@@ -40,9 +50,5 @@ public class TasksListViewModel: CADFormCollectionViewModel<TasksListItemViewMod
 
     override open func noContentSubtitle() -> String? {
         return nil
-    }
-
-    public func createViewController() -> TasksListViewController {
-        return TasksListViewController(viewModel: self)
     }
 }

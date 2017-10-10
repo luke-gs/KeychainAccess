@@ -43,5 +43,9 @@ open class TasksListViewController: CADFormCollectionViewController<TasksListIte
         }
         return 0
     }
+
+    override open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
+        return super.collectionView(collectionView, layout: layout, heightForHeaderInSection: section)
+    }
 }
 
