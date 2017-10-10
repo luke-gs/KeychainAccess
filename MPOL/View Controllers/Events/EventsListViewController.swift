@@ -43,7 +43,7 @@ class EventsListViewController: FormCollectionViewController {
         }
     }
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 2
     }
     
