@@ -10,7 +10,7 @@ import UIKit
 
 open class CallsignStatusView: UIView {
     
-    let viewModel = CallsignStatusViewModel()
+    public let viewModel: CallsignStatusViewModel
     
     // MARK: - Constants
     
@@ -24,8 +24,18 @@ open class CallsignStatusView: UIView {
     private var subtitleLabel: UILabel!
     
     // MARK: - Setup
+
+    public init(viewModel: CallsignStatusViewModel) {
+        self.viewModel = viewModel
+        super.init(frame: .zero)
+
+        setupViews()
+        setupConstraints()
+        updateViews()
+    }
     
     public override init(frame: CGRect) {
+        viewModel = CallsignStatusViewModel()
         super.init(frame: frame)
         setupViews()
         setupConstraints()
@@ -86,7 +96,7 @@ open class CallsignStatusView: UIView {
         ])
     }
     
-    func updateViews() {
+    public func updateViews() {
         titleLabel.text = viewModel.titleText
         subtitleLabel.text = viewModel.subtitleText
         iconImageView.image = viewModel.iconImage
