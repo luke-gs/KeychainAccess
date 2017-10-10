@@ -117,6 +117,12 @@
 		9663D00D1F8AF6F5006DB672 /* TasksSplitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9663D00C1F8AF6F5006DB672 /* TasksSplitViewModel.swift */; };
 		9686FC941F78AAED00C4AB4D /* UIView+SafeArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9686FC931F78AAED00C4AB4D /* UIView+SafeArea.swift */; };
 		9686FC961F78AC7600C4AB4D /* UIViewController+SafeArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9686FC951F78AC7600C4AB4D /* UIViewController+SafeArea.swift */; };
+		96CF32211F8C337900140AF8 /* TasksListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CF32201F8C337900140AF8 /* TasksListViewController.swift */; };
+		96CF32231F8C349700140AF8 /* TasksListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CF32221F8C349700140AF8 /* TasksListViewModel.swift */; };
+		96CF32251F8C34C700140AF8 /* TasksListItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CF32241F8C34C700140AF8 /* TasksListItemCell.swift */; };
+		96CF32271F8C34F800140AF8 /* TasksListItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CF32261F8C34F800140AF8 /* TasksListItemViewModel.swift */; };
+		96CF322C1F8C428600140AF8 /* CADFormCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CF322B1F8C428600140AF8 /* CADFormCollectionViewModel.swift */; };
+		96CF322E1F8C429D00140AF8 /* CADFormCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CF322D1F8C429D00140AF8 /* CADFormCollectionViewController.swift */; };
 		BA6FEAA4EFE7F66EBAE4C2DC /* Pods_MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9215372B17F43A2FDEB28AD0 /* Pods_MPOLKit.framework */; };
 		BC0448941F219A70005FB857 /* AssetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0448931F219A70005FB857 /* AssetManager.swift */; };
 		BC0EA3F41F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0EA3F31F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift */; };
@@ -451,6 +457,12 @@
 		9663D00C1F8AF6F5006DB672 /* TasksSplitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksSplitViewModel.swift; sourceTree = "<group>"; };
 		9686FC931F78AAED00C4AB4D /* UIView+SafeArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+SafeArea.swift"; sourceTree = "<group>"; };
 		9686FC951F78AC7600C4AB4D /* UIViewController+SafeArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+SafeArea.swift"; sourceTree = "<group>"; };
+		96CF32201F8C337900140AF8 /* TasksListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListViewController.swift; sourceTree = "<group>"; };
+		96CF32221F8C349700140AF8 /* TasksListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListViewModel.swift; sourceTree = "<group>"; };
+		96CF32241F8C34C700140AF8 /* TasksListItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListItemCell.swift; sourceTree = "<group>"; };
+		96CF32261F8C34F800140AF8 /* TasksListItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListItemViewModel.swift; sourceTree = "<group>"; };
+		96CF322B1F8C428600140AF8 /* CADFormCollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADFormCollectionViewModel.swift; sourceTree = "<group>"; };
+		96CF322D1F8C429D00140AF8 /* CADFormCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADFormCollectionViewController.swift; sourceTree = "<group>"; };
 		BC0448931F219A70005FB857 /* AssetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetManager.swift; sourceTree = "<group>"; };
 		BC0EA3F31F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCollectionViewSidebarLayout.swift; sourceTree = "<group>"; };
 		BC1B25B91F2707270090C0AA /* MPOLBarButtonItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPOLBarButtonItems.swift; sourceTree = "<group>"; };
@@ -862,6 +874,8 @@
 		9624A4581F83555A00CAE056 /* CAD */ = {
 			isa = PBXGroup;
 			children = (
+				96CF322A1F8C426F00140AF8 /* Shared */,
+				96CF32281F8C352000140AF8 /* Tasks List */,
 				9663D0091F8AF5C1006DB672 /* Tasks Split */,
 				9624A4591F83555A00CAE056 /* ActivityLog */,
 				9624A4611F83555A00CAE056 /* Status Tab Bar */,
@@ -952,6 +966,26 @@
 				9663D00C1F8AF6F5006DB672 /* TasksSplitViewModel.swift */,
 			);
 			path = "Tasks Split";
+			sourceTree = "<group>";
+		};
+		96CF32281F8C352000140AF8 /* Tasks List */ = {
+			isa = PBXGroup;
+			children = (
+				96CF32201F8C337900140AF8 /* TasksListViewController.swift */,
+				96CF32221F8C349700140AF8 /* TasksListViewModel.swift */,
+				96CF32241F8C34C700140AF8 /* TasksListItemCell.swift */,
+				96CF32261F8C34F800140AF8 /* TasksListItemViewModel.swift */,
+			);
+			path = "Tasks List";
+			sourceTree = "<group>";
+		};
+		96CF322A1F8C426F00140AF8 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				96CF322B1F8C428600140AF8 /* CADFormCollectionViewModel.swift */,
+				96CF322D1F8C429D00140AF8 /* CADFormCollectionViewController.swift */,
+			);
+			path = Shared;
 			sourceTree = "<group>";
 		};
 		AB742C85EFCBDE4BA2B497CE /* Pods */ = {
@@ -1894,6 +1928,7 @@
 				19B49BC01F665F2A00502F51 /* RegularSidebarViewController.swift in Sources */,
 				BC9C7E201F0DED6600DFFE83 /* FormTableViewController.swift in Sources */,
 				DB88BCDD1F42D0080056FD69 /* SearchResultsListViewController.swift in Sources */,
+				96CF32231F8C349700140AF8 /* TasksListViewModel.swift in Sources */,
 				4657CAD11F5D0DA9000295F6 /* NetworkLoggingPlugin.swift in Sources */,
 				44621FF61F59239C007C3150 /* FilterRangeDescriptor.swift in Sources */,
 				BC9C7DF61F0DED6600DFFE83 /* CollectionViewFormDetailCell.swift in Sources */,
@@ -1943,6 +1978,7 @@
 				BC9C7DEB1F0DED6600DFFE83 /* EntitySource.swift in Sources */,
 				BC9C7DC91F0DED6600DFFE83 /* FileManager+URL.swift in Sources */,
 				EABAB8021F3429D90071A401 /* AggregatedSearch.swift in Sources */,
+				96CF32271F8C34F800140AF8 /* TasksListItemViewModel.swift in Sources */,
 				BC9C7E061F0DED6600DFFE83 /* UIFont+Convenience.swift in Sources */,
 				27206B361F8198CD005303A8 /* IncidentAnnotationView.swift in Sources */,
 				BC9C7DF21F0DED6600DFFE83 /* ISO8601DateTransformer+UnboxFormatter.swift in Sources */,
@@ -1978,6 +2014,7 @@
 				191BC4D31F7C203B00C8C218 /* HelpContent.swift in Sources */,
 				BC9C7E2F1F0DED6600DFFE83 /* UIImage+RoundedRects.swift in Sources */,
 				BC9C7DFE1F0DED6600DFFE83 /* Array+IfExists.swift in Sources */,
+				96CF32211F8C337900140AF8 /* TasksListViewController.swift in Sources */,
 				BC9C7E011F0DED6600DFFE83 /* FloatingPoint+Comparison.swift in Sources */,
 				BC9C7E0D1F0DED6600DFFE83 /* CollectionViewFormLayout.swift in Sources */,
 				27CBC7621F8B27CC00E387C3 /* IncidentAnnotation.swift in Sources */,
@@ -2003,6 +2040,7 @@
 				1908EF831F57CAFC00382B1C /* AuthenticationPlugin.swift in Sources */,
 				EAAEB3481F661806002D6C65 /* SystemPresenter.swift in Sources */,
 				27CBC75F1F8B27C700E387C3 /* PatrolMapViewModel.swift in Sources */,
+				96CF322C1F8C428600140AF8 /* CADFormCollectionViewModel.swift in Sources */,
 				BC9C7E3E1F0DED6600DFFE83 /* PopoverDatePickerViewController.swift in Sources */,
 				BC9C7E0C1F0DED6600DFFE83 /* FormDefines.swift in Sources */,
 				C63408561F30E574000747B0 /* MPOLKitEntityProtocol.swift in Sources */,
@@ -2108,6 +2146,8 @@
 				2768C0491F86E78A008532ED /* TasksMapViewController.swift in Sources */,
 				BC1ECEBF1F24CC40002C2A68 /* LoadingStateManager.swift in Sources */,
 				19B49BC11F665F2A00502F51 /* CompactSidebarSourceViewController.swift in Sources */,
+				96CF322E1F8C429D00140AF8 /* CADFormCollectionViewController.swift in Sources */,
+				96CF32251F8C34C700140AF8 /* TasksListItemCell.swift in Sources */,
 				27CBC7671F8B27D500E387C3 /* CallsignStatusViewModel.swift in Sources */,
 				BC9C7E171F0DED6600DFFE83 /* FormTextField.swift in Sources */,
 				BC9C7E041F0DED6600DFFE83 /* UIColor+ActionColors.swift in Sources */,

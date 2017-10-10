@@ -10,16 +10,23 @@ import UIKit
 
 open class TasksSplitViewModel {
 
-    public var taskListViewController: UIViewController
-    public var mapViewController: UIViewController
+    private let tasksListViewModel: TasksListViewModel
 
     public init() {
-        taskListViewController = UIViewController()
-        taskListViewController.view.backgroundColor = #colorLiteral(red: 0.1058823529, green: 0.1176470588, blue: 0.1411764706, alpha: 1)
-
-        mapViewController = TasksMapViewController()
+        tasksListViewModel = TasksListViewModel()
     }
-    
+
+    public func createTasksListViewController() -> UIViewController {
+        let tasksListViewController = tasksListViewModel.createViewController()
+        tasksListViewController.userInterfaceStyle = .dark
+        return tasksListViewController
+    }
+
+    public func createMapViewController() -> UIViewController {
+        let mapViewController = TasksMapViewController()
+        return mapViewController
+    }
+
     /// The title to use in the navigation bar
     public func navTitle() -> String {
         return NSLocalizedString("Tasks", comment: "Tasks navigation title")

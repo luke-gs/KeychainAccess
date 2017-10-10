@@ -17,8 +17,8 @@ open class TasksSplitViewController: MPOLSplitViewController {
 
         self.viewModel = viewModel
 
-        let masterVC = viewModel.taskListViewController
-        let detailVC = viewModel.mapViewController
+        let masterVC = viewModel.createTasksListViewController()
+        let detailVC = viewModel.createMapViewController()
 
         super.init(masterViewController: masterVC, detailViewControllers: [detailVC])
 
