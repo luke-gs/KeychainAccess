@@ -123,6 +123,7 @@
 		96CF32271F8C34F800140AF8 /* TasksListItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CF32261F8C34F800140AF8 /* TasksListItemViewModel.swift */; };
 		96CF322C1F8C428600140AF8 /* CADFormCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CF322B1F8C428600140AF8 /* CADFormCollectionViewModel.swift */; };
 		96CF322E1F8C429D00140AF8 /* CADFormCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CF322D1F8C429D00140AF8 /* CADFormCollectionViewController.swift */; };
+		96CF32301F8C4AD300140AF8 /* CADFormCollectionSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CF322F1F8C4AD300140AF8 /* CADFormCollectionSectionViewModel.swift */; };
 		BA6FEAA4EFE7F66EBAE4C2DC /* Pods_MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9215372B17F43A2FDEB28AD0 /* Pods_MPOLKit.framework */; };
 		BC0448941F219A70005FB857 /* AssetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0448931F219A70005FB857 /* AssetManager.swift */; };
 		BC0EA3F41F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0EA3F31F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift */; };
@@ -463,6 +464,7 @@
 		96CF32261F8C34F800140AF8 /* TasksListItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListItemViewModel.swift; sourceTree = "<group>"; };
 		96CF322B1F8C428600140AF8 /* CADFormCollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADFormCollectionViewModel.swift; sourceTree = "<group>"; };
 		96CF322D1F8C429D00140AF8 /* CADFormCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADFormCollectionViewController.swift; sourceTree = "<group>"; };
+		96CF322F1F8C4AD300140AF8 /* CADFormCollectionSectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADFormCollectionSectionViewModel.swift; sourceTree = "<group>"; };
 		BC0448931F219A70005FB857 /* AssetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetManager.swift; sourceTree = "<group>"; };
 		BC0EA3F31F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCollectionViewSidebarLayout.swift; sourceTree = "<group>"; };
 		BC1B25B91F2707270090C0AA /* MPOLBarButtonItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPOLBarButtonItems.swift; sourceTree = "<group>"; };
@@ -984,6 +986,7 @@
 			children = (
 				96CF322B1F8C428600140AF8 /* CADFormCollectionViewModel.swift */,
 				96CF322D1F8C429D00140AF8 /* CADFormCollectionViewController.swift */,
+				96CF322F1F8C4AD300140AF8 /* CADFormCollectionSectionViewModel.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -2166,6 +2169,7 @@
 				BC9C7E471F0DED6600DFFE83 /* SourceBar.swift in Sources */,
 				BC9C7E0F1F0DED6600DFFE83 /* DefaultReusable.swift in Sources */,
 				EAFACCBC1F4BACE900B93CBA /* SearchFieldAdvanceCell.swift in Sources */,
+				96CF32301F8C4AD300140AF8 /* CADFormCollectionSectionViewModel.swift in Sources */,
 				BCED8C761F1488EE004C3C71 /* CollectionViewFormHeaderView.swift in Sources */,
 				BC9C7E0A1F0DED6600DFFE83 /* UITraitCollection+CurrentDisplayScale.swift in Sources */,
 				BC9C7E4F1F0DED6600DFFE83 /* CircleIconView.swift in Sources */,
