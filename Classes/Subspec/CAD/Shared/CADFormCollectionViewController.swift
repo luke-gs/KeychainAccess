@@ -87,7 +87,9 @@ open class CADFormCollectionViewController<ItemType>: FormCollectionViewControll
 
     // MARK: - UICollectionViewDelegate
 
-    open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
+    /// Provide default header height
+    /// Use @objc here as otherwise this is not called if not overridden in subclass!
+    @objc open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
         return CollectionViewFormHeaderView.minimumHeight
     }
 }
