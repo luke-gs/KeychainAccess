@@ -60,7 +60,7 @@ open class CADFormCollectionViewController<ItemType>: FormCollectionViewControll
     }
 
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(of: ActivityLogItemCell.self, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(of: cellType(), for: indexPath)
         if let item = viewModel.item(at: indexPath) {
             decorate(cell: cell, with: item)
         }
@@ -86,11 +86,6 @@ open class CADFormCollectionViewController<ItemType>: FormCollectionViewControll
     }
 
     // MARK: - UICollectionViewDelegate
-
-    open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: true)
-        // TODO: present details?
-    }
 
     open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
         return CollectionViewFormHeaderView.minimumHeight
