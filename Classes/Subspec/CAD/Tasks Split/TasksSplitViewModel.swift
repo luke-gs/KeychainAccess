@@ -16,6 +16,11 @@ open class TasksSplitViewModel {
         tasksListViewModel = TasksListViewModel()
     }
 
+    /// Create the view controller for this view model
+    public func createViewController() -> TasksSplitViewController {
+        return TasksSplitViewController(viewModel: self)
+    }
+
     public func createTasksListViewController() -> UIViewController {
         let tasksListViewController = tasksListViewModel.createViewController()
         tasksListViewController.userInterfaceStyle = .dark

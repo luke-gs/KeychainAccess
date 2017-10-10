@@ -23,15 +23,25 @@ open class TasksListViewController: CADFormCollectionViewController<TasksListIte
     override open func decorate(cell: CollectionViewFormCell, with viewModel: TasksListItemViewModel) {
         cell.highlightStyle = .fade
         cell.selectionStyle = .fade
-        cell.separatorStyle = .none
+        cell.contentMode = .top
         cell.accessoryView = FormAccessoryView(style: .disclosure)
 
         if let cell = cell as? TasksListItemCell {
             cell.titleLabel.text = viewModel.title
             cell.subtitleLabel.text = viewModel.subtitle
+            cell.captionLabel.text = viewModel.caption
+            cell.configurePriority(color: viewModel.boxColor, priorityText: viewModel.boxText, priorityFilled: viewModel.boxFilled)
         }
     }
 
+    open override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
+
+        if let cell = cell as? TasksListItemCell {
+            cell.subtitleLabel.textColor = primaryTextColor
+            cell.captionLabel.textColor = secondaryTextColor
+        }
+    }
     // MARK: - UICollectionViewDelegate
 
     open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -41,7 +51,7 @@ open class TasksListViewController: CADFormCollectionViewController<TasksListIte
 
     override open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
         if let item = viewModel.item(at: indexPath) {
-            return TasksListItemCell.minimumContentHeight(withTitle: item.title, subtitle: item.subtitle, inWidth: itemWidth, compatibleWith: traitCollection)
+            return TasksListItemCell.minimumContentHeight(withTitle: item.title, subtitle: item.subtitle, inWidth: itemWidth, compatibleWith: traitCollection) + 26
         }
         return 0
     }
