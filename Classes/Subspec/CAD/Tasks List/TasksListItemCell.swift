@@ -39,7 +39,7 @@ public class TasksListItemCell: CollectionViewFormSubtitleCell {
         priorityBackground.layer.borderWidth = 1
         priorityBackground.backgroundColor = .green
         priorityBackground.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(priorityBackground)
+        addSubview(priorityBackground)
 
         priorityLabel.font = UIFont.systemFont(ofSize: 10, weight: UIFont.Weight.bold)
         priorityLabel.textAlignment = .center
@@ -48,7 +48,7 @@ public class TasksListItemCell: CollectionViewFormSubtitleCell {
 
         captionLabel.font = UIFont.systemFont(ofSize: 11, weight: UIFont.Weight.regular)
         captionLabel.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(captionLabel)
+        addSubview(captionLabel)
 
         NSLayoutConstraint.activate([
             priorityBackground.widthAnchor.constraint(equalToConstant: PriorityConstants.width),
@@ -64,8 +64,7 @@ public class TasksListItemCell: CollectionViewFormSubtitleCell {
     public override func layoutSubviews() {
         super.layoutSubviews()
 
-        // Manual framing hacks due to CollectionViewFormSubtitleCell, yuck!
-        // Layout the priority icon and caption below the subtitle
+        // We need to manually frame here due to how CollectionViewFormSubtitleCell works, eek!
         let priorityFrame = CGRect(x: titleLabel.frame.origin.x,
                                    y: subtitleLabel.frame.maxY + PriorityConstants.spacingY,
                                    width: PriorityConstants.width,
@@ -77,19 +76,13 @@ public class TasksListItemCell: CollectionViewFormSubtitleCell {
                                   width: contentView.frame.width - captionX,
                                   height: PriorityConstants.height)
 
-        if priorityBackground.frame != priorityFrame {
-            // Apply customisations whenever frame needs changing
-            priorityBackground.frame = priorityFrame
-            captionLabel.frame = captionFrame
+        priorityBackground.frame = priorityFrame
+        captionLabel.frame = captionFrame
 
-            // For some reason we need an extra round of layout after our changes for this to work
-            setNeedsLayout()
-        } else {
-            // Update accessory view to keep centered
-            if let accessoryView = accessoryView {
-                let offsetY = (priorityFrame.height + PriorityConstants.spacingY) / 2
-                accessoryView.frame = accessoryView.frame.offsetBy(dx: 0, dy: offsetY)
-            }
+        // Update accessory view to keep centered
+        if let accessoryView = accessoryView {
+            let offsetY = (priorityFrame.height + PriorityConstants.spacingY) / 2
+            accessoryView.frame = accessoryView.frame.offsetBy(dx: 0, dy: offsetY)
         }
     }
 
