@@ -51,7 +51,7 @@ open class CADFormCollectionViewController<ItemType>: FormCollectionViewControll
 
     // MARK: - UICollectionViewDataSource
 
-    open func numberOfSections(in collectionView: UICollectionView) -> Int {
+    open override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return viewModel.numberOfSections()
     }
 
@@ -72,14 +72,16 @@ open class CADFormCollectionViewController<ItemType>: FormCollectionViewControll
             // Create collapsible section header
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
             header.text = viewModel.headerText(at: indexPath.section)
-            header.showsExpandArrow = true
-            header.tapHandler = { [weak self] headerView, indexPath in
-                guard let `self` = self else { return }
-                self.viewModel.toggleHeaderExpanded(at: indexPath.section)
-                self.collectionView?.reloadSections(IndexSet(integer: indexPath.section))
-                headerView.setExpanded(self.viewModel.isHeaderExpanded(at: indexPath.section), animated: true)
+            if viewModel.shouldShowExpandArrow() {
+                header.showsExpandArrow = true
+                header.tapHandler = { [weak self] headerView, indexPath in
+                    guard let `self` = self else { return }
+                    self.viewModel.toggleHeaderExpanded(at: indexPath.section)
+                    self.collectionView?.reloadSections(IndexSet(integer: indexPath.section))
+                    headerView.setExpanded(self.viewModel.isHeaderExpanded(at: indexPath.section), animated: true)
+                }
+                header.isExpanded = viewModel.isHeaderExpanded(at: indexPath.section)
             }
-            header.isExpanded = viewModel.isHeaderExpanded(at: indexPath.section)
             return header
         }
         return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)

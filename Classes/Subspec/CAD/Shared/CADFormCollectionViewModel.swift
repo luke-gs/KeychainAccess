@@ -58,6 +58,10 @@ open class CADFormCollectionViewModel<ItemType> {
 
     // MARK: - Group Headers
 
+    open func shouldShowExpandArrow() -> Bool {
+        return true
+    }
+
     open func isHeaderExpanded(at section: Int) -> Bool {
         return !collapsedSections.contains(section)
     }
