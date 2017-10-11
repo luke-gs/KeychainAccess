@@ -108,7 +108,7 @@ open class FilterViewController: FormCollectionViewController {
     
     // MARK: - UICollectionViewDataSource methods
     
-    open func numberOfSections(in collectionView: UICollectionView) -> Int {
+    open override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return filterOptions.count
     }
     

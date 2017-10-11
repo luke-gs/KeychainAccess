@@ -9,7 +9,7 @@
 import UIKit
 
 /// Custom form collection view that overrides the form layout class
-public class TimelineFormCollectionViewController: FormCollectionViewController {
+public class TimelineFormCollectionViewController<ItemType>: CADFormCollectionViewController<ItemType> {
     open override func collectionViewLayoutClass() -> CollectionViewFormLayout.Type {
         return TimelineCollectionViewFormLayout.self
     }
