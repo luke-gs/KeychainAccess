@@ -16,8 +16,10 @@ open class CADFormCollectionViewModel<ItemType> {
 
     // MARK: - Abstract
 
-    open func sections() -> [CADFormCollectionSectionViewModel<ItemType>] {
-        MPLRequiresConcreteImplementation()
+    open var sections: [CADFormCollectionSectionViewModel<ItemType>] = [] {
+        didSet {
+            // TODO: Notify delegate?
+        }
     }
 
     /// The title to use in the navigation bar
@@ -39,18 +41,18 @@ open class CADFormCollectionViewModel<ItemType> {
     private var collapsedSections: Set<Int> = []
 
     open func numberOfSections() -> Int {
-        return sections().count
+        return sections.count
     }
 
     open func numberOfItems(for section: Int) -> Int {
-        if let sectionViewModel = sections()[ifExists: section], !collapsedSections.contains(section) {
+        if let sectionViewModel = sections[ifExists: section], !collapsedSections.contains(section) {
             return sectionViewModel.items.count
         }
         return 0
     }
 
     open func item(at indexPath: IndexPath) -> ItemType? {
-        if let sectionViewModel = sections()[ifExists: indexPath.section] {
+        if let sectionViewModel = sections[ifExists: indexPath.section] {
             return sectionViewModel.items[ifExists: indexPath.row]
         }
         return nil
@@ -75,7 +77,7 @@ open class CADFormCollectionViewModel<ItemType> {
     }
 
     open func headerText(at section: Int) -> String? {
-        if let sectionViewModel = sections()[ifExists: section] {
+        if let sectionViewModel = sections[ifExists: section] {
             return sectionViewModel.title.uppercased()
         }
         return nil

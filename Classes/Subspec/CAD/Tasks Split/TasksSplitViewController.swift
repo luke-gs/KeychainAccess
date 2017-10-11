@@ -17,8 +17,8 @@ open class TasksSplitViewController: MPOLSplitViewController {
 
         self.viewModel = viewModel
 
-        let masterVC = viewModel.createTasksListViewController()
-        let detailVC = viewModel.createMapViewController()
+        let masterVC = viewModel.createMasterViewController()
+        let detailVC = viewModel.createDetailViewController()
 
         super.init(masterViewController: masterVC, detailViewControllers: [detailVC])
 
@@ -27,8 +27,8 @@ open class TasksSplitViewController: MPOLSplitViewController {
         containerMasterViewController.onlyVisibleWhenCompact = false
 
         // Create header views for different size classes
-        masterViewControllerHeaderRegular = viewModel.createMasterViewControllerHeaderRegular()
-        masterViewControllerHeaderCompact = viewModel.createMasterViewControllerHeaderCompact()
+//        masterViewControllerHeaderRegular = viewModel.createMasterViewControllerHeaderRegular()
+//        masterViewControllerHeaderCompact = viewModel.createMasterViewControllerHeaderCompact()
     }
 
     public required init?(coder aDecoder: NSCoder) {
