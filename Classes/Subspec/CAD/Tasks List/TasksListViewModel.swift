@@ -16,7 +16,7 @@ import UIKit
 public class TasksListViewModel: CADFormCollectionViewModel<TasksListItemViewModel> {
 
     /// Create the view controller for this view model
-    public func createViewController() -> TasksListViewController {
+    public func createViewController() -> FormCollectionViewController {
         return TasksListViewController(viewModel: self)
     }
 

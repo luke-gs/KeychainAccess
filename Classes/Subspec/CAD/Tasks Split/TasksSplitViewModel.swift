@@ -20,7 +20,7 @@ open class TasksSplitViewModel {
     }
 
     /// Create the view controller for this view model
-    public func createViewController() -> TasksSplitViewController {
+    public func createViewController() -> UIViewController {
         return TasksSplitViewController(viewModel: self)
     }
 

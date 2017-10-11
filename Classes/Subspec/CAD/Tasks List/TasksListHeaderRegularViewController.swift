@@ -48,6 +48,7 @@ open class TasksListHeaderRegularViewController: UIViewController {
         buttonStackView.axis = .horizontal
         buttonStackView.distribution = .equalSpacing
         buttonStackView.alignment = .center
+        buttonStackView.spacing = 16
         view.addSubview(buttonStackView)
 
         for barButtonItem in viewModel.barButtonItems {
@@ -79,14 +80,13 @@ open class TasksListHeaderRegularViewController: UIViewController {
 
         // Do any additional setup after loading the view.
     }
-
 }
 
+/// Add support for presenting modal dialogs from our non standard bar button items
 extension TasksListHeaderRegularViewController: TasksListHeaderViewModelDelegate {
-    public func presentPopover(_ viewController: UIViewController, barButton: UIBarButtonItem?, animated: Bool) {
-        let nav = PopoverNavigationController(rootViewController: viewController)
-        nav.popoverPresentationController?.barButtonItem = barButton
-        nav.modalPresentationStyle = .popover
-        present(nav, animated: true, completion: nil)
+    public func presentPopover(_ viewController: UIViewController, barButtonIndex: Int, animated: Bool) {
+        if let buttonView = buttonStackView.arrangedSubviews[ifExists: barButtonIndex] {
+            presentPopover(viewController, sourceView: buttonView, sourceRect: buttonView.bounds, animated: animated)
+        }
     }
 }

@@ -110,6 +110,7 @@
 		46DDAB451F78CF1300ED72DC /* FormAccessoryImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46DDAB441F78CF1300ED72DC /* FormAccessoryImageView.swift */; };
 		8CDAFFA6E9DC54A4594C01FE /* Pods_MPOLKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FE1AAA01D6AE18F86693DF8 /* Pods_MPOLKitTests.framework */; };
 		9624A43F1F81BBEB00CAE056 /* UIFont+Digits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A43E1F81BBEB00CAE056 /* UIFont+Digits.swift */; };
+		962AA8191F8DD37D0087D534 /* PopoverPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 962AA8181F8DD37D0087D534 /* PopoverPresenter.swift */; };
 		9644B1D21F6785E200D031F2 /* CompactFormSheetNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9644B1D11F6785E100D031F2 /* CompactFormSheetNavigationController.swift */; };
 		9663D0061F86DCDA006DB672 /* MPOLSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9663D0051F86DCDA006DB672 /* MPOLSplitViewController.swift */; };
 		9663D0081F8AD78D006DB672 /* ContainerWithHeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9663D0071F8AD78D006DB672 /* ContainerWithHeaderViewController.swift */; };
@@ -453,6 +454,7 @@
 		9624A46E1F83555A00CAE056 /* IncidentMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentMapViewModel.swift; sourceTree = "<group>"; };
 		9624A46F1F83555A00CAE056 /* PatrolMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatrolMapViewModel.swift; sourceTree = "<group>"; };
 		9624A4701F83555A00CAE056 /* ResourceMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceMapViewModel.swift; sourceTree = "<group>"; };
+		962AA8181F8DD37D0087D534 /* PopoverPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverPresenter.swift; sourceTree = "<group>"; };
 		9644B1D11F6785E100D031F2 /* CompactFormSheetNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactFormSheetNavigationController.swift; sourceTree = "<group>"; };
 		9663D0051F86DCDA006DB672 /* MPOLSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPOLSplitViewController.swift; sourceTree = "<group>"; };
 		9663D0071F8AD78D006DB672 /* ContainerWithHeaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerWithHeaderViewController.swift; sourceTree = "<group>"; };
@@ -977,12 +979,12 @@
 		96CF32281F8C352000140AF8 /* Tasks List */ = {
 			isa = PBXGroup;
 			children = (
-				96CF32201F8C337900140AF8 /* TasksListViewController.swift */,
-				96CF32221F8C349700140AF8 /* TasksListViewModel.swift */,
-				96CF32241F8C34C700140AF8 /* TasksListItemCell.swift */,
-				96CF32261F8C34F800140AF8 /* TasksListItemViewModel.swift */,
 				96CF32311F8D7C3400140AF8 /* TasksListHeaderRegularViewController.swift */,
 				96CF32331F8D7C7700140AF8 /* TasksListHeaderViewModel.swift */,
+				96CF32241F8C34C700140AF8 /* TasksListItemCell.swift */,
+				96CF32261F8C34F800140AF8 /* TasksListItemViewModel.swift */,
+				96CF32201F8C337900140AF8 /* TasksListViewController.swift */,
+				96CF32221F8C349700140AF8 /* TasksListViewModel.swift */,
 			);
 			path = "Tasks List";
 			sourceTree = "<group>";
@@ -993,6 +995,7 @@
 				96CF322B1F8C428600140AF8 /* CADFormCollectionViewModel.swift */,
 				96CF322D1F8C429D00140AF8 /* CADFormCollectionViewController.swift */,
 				96CF322F1F8C4AD300140AF8 /* CADFormCollectionSectionViewModel.swift */,
+				962AA8181F8DD37D0087D534 /* PopoverPresenter.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -2154,6 +2157,7 @@
 				27CBC7601F8B27C700E387C3 /* ResourceMapViewModel.swift in Sources */,
 				BC9C7DD81F0DED6600DFFE83 /* NetworkMonitor.swift in Sources */,
 				BC9C7DF01F0DED6600DFFE83 /* EpochDateTransformer+UnboxFormatter.swift in Sources */,
+				962AA8191F8DD37D0087D534 /* PopoverPresenter.swift in Sources */,
 				2768C0491F86E78A008532ED /* TasksMapViewController.swift in Sources */,
 				BC1ECEBF1F24CC40002C2A68 /* LoadingStateManager.swift in Sources */,
 				19B49BC11F665F2A00502F51 /* CompactSidebarSourceViewController.swift in Sources */,
