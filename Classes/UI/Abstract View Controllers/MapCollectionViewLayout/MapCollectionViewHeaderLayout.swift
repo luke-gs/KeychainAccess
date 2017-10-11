@@ -97,13 +97,13 @@ open class MapCollectionViewHeaderLayout: MapCollectionViewLayout {
         let topInset = controller.topLayoutGuide.length
         let bottomInset = max(controller.bottomLayoutGuide.length, controller.statusTabBarInset)
         let additionalSafeAreaInsets: UIEdgeInsets
-        // TODO: Uncomment for iOS 11
-//        if #available(iOS 11, *) {
-//            additionalSafeAreaInsets = controller.additionalSafeAreaInsets
-//        } else {
+
+        if #available(iOS 11, *) {
+            additionalSafeAreaInsets = controller.additionalSafeAreaInsets
+        } else {
             additionalSafeAreaInsets = controller.legacy_additionalSafeAreaInsets
-//        }
-        
+        }
+
         controller.loadingManager.contentInsets = UIEdgeInsets(top: topInset, left: 0.0, bottom: bottomInset, right: 0.0)
         
         let viewSize = controller.view.frame.size

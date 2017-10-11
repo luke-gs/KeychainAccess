@@ -68,6 +68,10 @@ public final class TermsConditionsViewController: UIViewController {
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        if #available(iOS 11, *) {
+            return
+        }
+
         let insets = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: max(bottomLayoutGuide.length, statusTabBarInset), right: 0.0)
         textViewInsetManager?.standardContentInset   = insets
         textViewInsetManager?.standardIndicatorInset = insets

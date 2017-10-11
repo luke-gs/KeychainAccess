@@ -15,26 +15,42 @@ public enum CollectionViewFormSubtitleStyle {
     case value
 }
 
+public enum CollectionViewFormSubtitleImageAlignment {
+    case center
+    case title
+}
+
 open class CollectionViewFormSubtitleCell: CollectionViewFormCell {
     
     // MARK: - Public properties
-    
+
     /// The text label for the cell.
     public let titleLabel: UILabel = UILabel(frame: .zero)
-    
-    
+
     /// The subtitle label for the cell.
     public let subtitleLabel: UILabel = UILabel(frame: .zero)
     
     /// The style.
     public var style: CollectionViewFormSubtitleStyle = .default {
         didSet {
-            if style != style {
+            if style != oldValue {
                 setNeedsLayout()
             }
         }
     }
-    
+
+    /// The image alignment
+    public var imageAlignment: CollectionViewFormSubtitleImageAlignment = .center {
+        didSet {
+            if imageAlignment != oldValue {
+                setNeedsLayout()
+            }
+        }
+    }
+
+    /// The inset for title content
+    public var titleContentInset: CGFloat = 0.0
+
     /// The image view for the cell. This view is lazy loaded.
     public var imageView: UIImageView {
         if let existingImageView = _imageView { return existingImageView }
@@ -209,7 +225,14 @@ fileprivate extension CollectionViewFormSubtitleCell {
         
         var imageSize: CGSize
         let accessorySize: CGSize
-        
+
+        if titleContentInset > 0 {
+            contentRect.size.width -= titleContentInset
+            if !isRightToLeft {
+                contentRect.origin.x += titleContentInset
+            }
+        }
+
         if let size = self.accessoryView?.frame.size, size.isEmpty == false {
             accessorySize = size
             let inset = size.width + CollectionViewFormCell.accessoryContentInset
@@ -262,11 +285,21 @@ fileprivate extension CollectionViewFormSubtitleCell {
             centerYOfContent = max(minimumContentCenterY, contentRect.midY)
         }
         
-        // Position the side views
-        
+        var currentYOffset = (centerYOfContent - (heightForLabelContent / 2.0)).rounded(toScale: displayScale)
+
+        // Position the image
+        let imageViewY: CGFloat
+        switch imageAlignment {
+        case .center:
+            imageViewY = centerYOfContent - (imageSize.height / 2.0)
+        case .title:
+            imageViewY = currentYOffset + (titleSize.height - imageSize.height) / 2
+        }
         _imageView?.frame = CGRect(origin: CGPoint(x: contentLeadingEdge - (isRightToLeft ? imageSize.width : 0.0),
-                                                   y: (centerYOfContent - (imageSize.height / 2.0)).rounded(toScale: displayScale)),
+                                                   y: imageViewY.rounded(toScale: displayScale)),
                                    size: imageSize)
+
+        // Position the accessory view
         let accessoryViewFrame = CGRect(origin: CGPoint(x: contentTrailingEdge - (isRightToLeft ? 0.0 : accessorySize.width),
                                                         y: (centerYOfContent - (accessorySize.height / 2.0)).rounded(toScale: displayScale)),
                                         size: accessorySize)
@@ -274,8 +307,6 @@ fileprivate extension CollectionViewFormSubtitleCell {
         accessoryView?.frame = accessoryViewFrame
         
         // Position the labels
-        var currentYOffset = (centerYOfContent - (heightForLabelContent / 2.0)).rounded(toScale: displayScale)
-        
         titleLabel.frame = CGRect(origin: CGPoint(x: isRightToLeft ? contentRect.maxX - titleSize.width : contentRect.minX, y: currentYOffset), size: titleSize)
         if titleVisible {
             currentYOffset += (titleSize.height + labelSeparation).rounded(toScale: displayScale)
@@ -283,6 +314,7 @@ fileprivate extension CollectionViewFormSubtitleCell {
         
         let valueLabelFrame = CGRect(origin: CGPoint(x: isRightToLeft ? contentRect.maxX - subtitleSize.width : contentRect.minX, y: currentYOffset), size: subtitleSize)
         subtitleLabel.frame = valueLabelFrame
+
     }
     
     class func minimumContentWidthForDefaultStyle(withTitle title: StringSizable?, subtitle: StringSizable?, compatibleWith traitCollection: UITraitCollection,

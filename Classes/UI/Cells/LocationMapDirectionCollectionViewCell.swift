@@ -74,9 +74,9 @@ open class LocationMapDirectionCollectionViewCell: CollectionViewFormCell {
         
         let contentModeLayoutGuide = self.contentModeLayoutGuide
         
-        descriptionLabel.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .horizontal)
-        distanceLabel.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .horizontal)
-        distanceLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+        descriptionLabel.setContentHuggingPriority(UILayoutPriority.defaultHigh, for: .horizontal)
+        distanceLabel.setContentHuggingPriority(UILayoutPriority.defaultHigh, for: .horizontal)
+        distanceLabel.setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: .horizontal)
 
         let buttonLayoutGuide = UILayoutGuide()
         buttonLayoutGuide.heightAnchor.constraint(equalToConstant: 50)

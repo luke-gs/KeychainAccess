@@ -105,8 +105,9 @@ open class SearchFieldButton: UIButton {
         contentVerticalAlignment = .center
         
         if let titleLabel = self.titleLabel {
-            titleLabel.font = .systemFont(ofSize: 15.0, weight: UIFontWeightRegular)
+            titleLabel.font = .systemFont(ofSize: 15.0, weight: UIFont.Weight.regular)
             titleLabel.textAlignment = .natural
+            titleLabel.lineBreakMode = .byTruncatingTail
         }
         
         setImage(UIImage(named: "iconSystemSearchField", in: .mpolKit, compatibleWith: nil), for: .normal)
@@ -144,6 +145,8 @@ open class SearchFieldButton: UIButton {
                                     size: accessorySize)
         
         accessoryView.frame = accessoryFrame
+        
+        titleEdgeInsets = UIEdgeInsetsMake(0, 6.0, 0, accessoryFrame.width + 6.0)
     }
     
     /// Adjusting the background image on this button is not supported.

@@ -43,6 +43,8 @@ public class UserSession: UserSessionable {
     }
 
     public static func startSession(user: User, token: OAuthAccessToken) {
+        UserSession.current.paths = UserSessionPaths(baseUrl: UserSession.basePath, sessionId: UserSession.current.sessionID)
+        
         UserSession.current.token = token
         UserSession.current.user = user
         UserSession.current.recentlyViewed = []
@@ -59,7 +61,13 @@ public class UserSession: UserSessionable {
 
     public func endSession() {
         UserDefaults.standard.removeObject(forKey: latestSessionKey)
-        try? directoryManager.remove(at: paths.session)
+
+        user = nil
+        token = nil
+        recentlyViewed = []
+        recentlySearched = []
+
+        try! directoryManager.remove(at: paths.session)
     }
 
     public func restoreSession(completion: @escaping RestoreSessionCompletion) {

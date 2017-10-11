@@ -70,24 +70,3 @@ public protocol MapResultViewModelable: SearchResultModelable {
     /// - Parameter searchType: SearchType with associate value.
     func fetchResults(with searchType: LocationMapSearchType)
 }
-
-/// TODO: - A default map summary search result view model.
-//public final class MapSummarySearchResultViewModel: MapResultViewModelable {
-//
-//    public var title: String = "Temporary Title"
-//
-//    public var status: SearchState? = .idle
-//
-//    public weak var delegate: MapResultViewModelDelegate?
-//
-//    public init() { }
-//
-//    public func fetchResults(withParameters parameters: Parameterisable) {
-//        // TODO - Implement fetch and notify the delegate
-//    }
-//
-//    public func fetchResults(withCoordinate coordinate: CLLocationCoordinate2D) {
-//        // TODO - Implement fetch and notify the delegate
-//    }
-//
-//}

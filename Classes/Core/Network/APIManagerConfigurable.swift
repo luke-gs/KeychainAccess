@@ -47,7 +47,7 @@ public struct APIManagerDefaultConfiguration: APIManagerConfigurable {
 extension APIManagerDefaultConfiguration {
 
     public static func defaultConfiguration() -> URLSessionConfiguration {
-        let config = URLSessionConfiguration.default
+        let config = URLSessionConfiguration.ephemeral
         config.httpAdditionalHeaders = SessionManager.defaultHTTPHeaders
         return config
     }

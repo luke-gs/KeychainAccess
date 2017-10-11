@@ -12,7 +12,7 @@ fileprivate var sidebarItemContext = 0
 fileprivate let sidebarKeys = [#keyPath(SidebarItem.isEnabled),
                                #keyPath(SidebarItem.image),
                                #keyPath(SidebarItem.selectedImage),
-                               #keyPath(SidebarItem.title),
+                               #keyPath(SidebarItem.regularTitle),
                                #keyPath(SidebarItem.count),
                                #keyPath(SidebarItem.alertColor),
                                #keyPath(SidebarItem.color),
@@ -84,7 +84,15 @@ open class RegularSidebarViewController: UIViewController, UITableViewDataSource
         }
     }
     
-    
+    /// Whether source bar should be hidden
+    public var hideSourceBar: Bool = false {
+        didSet {
+            // Make table view full width and hide source bar
+            tableViewFullWidth?.isActive = hideSourceBar
+            sourceBar?.isHidden = hideSourceBar
+        }
+    }
+
     /// The table view for sidebar items.
     /// 
     /// This table view fills the sidebar, trailing the source bar if it appears.
@@ -103,7 +111,7 @@ open class RegularSidebarViewController: UIViewController, UITableViewDataSource
             guard let sidebarTableView = sidebarTableView else { return }
             
             sidebarTableView.estimatedSectionHeaderHeight = headerView == nil ? 0.0 : 30.0
-            sidebarTableView.reloadSections(IndexSet(integer: 1), with: .none)
+            sidebarTableView.reloadSections(IndexSet(integer: 0), with: .none)
         }
     }
     
@@ -126,7 +134,9 @@ open class RegularSidebarViewController: UIViewController, UITableViewDataSource
     private var sourceInsetManager: ScrollViewInsetManager?
     
     private var sidebarInsetManager: ScrollViewInsetManager?
-    
+
+    /// Constraint for making table full width, hiding source bar
+    private var tableViewFullWidth: NSLayoutConstraint?
     
     // MARK: - Initializer
     
@@ -183,10 +193,14 @@ open class RegularSidebarViewController: UIViewController, UITableViewDataSource
             
             NSLayoutConstraint(item: sidebarTableView, attribute: .top,      relatedBy: .equal, toItem: view,       attribute: .top),
             NSLayoutConstraint(item: sidebarTableView, attribute: .bottom,   relatedBy: .equal, toItem: view,       attribute: .bottom),
-            NSLayoutConstraint(item: sidebarTableView, attribute: .leading,  relatedBy: .equal, toItem: sourceBar, attribute: .trailing),
+            NSLayoutConstraint(item: sidebarTableView, attribute: .leading,  relatedBy: .equal, toItem: sourceBar, attribute: .trailing).withPriority(.almostRequired),
             NSLayoutConstraint(item: sidebarTableView, attribute: .trailing, relatedBy: .equal, toItem: view,       attribute: .trailing)
         ])
         
+        // Override constraint for hiding source bar
+        tableViewFullWidth = sidebarTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
+        tableViewFullWidth?.isActive = hideSourceBar
+
         sourceInsetManager  = ScrollViewInsetManager(scrollView: sourceBar)
         sidebarInsetManager = ScrollViewInsetManager(scrollView: sidebarTableView)
         
@@ -258,8 +272,7 @@ open class RegularSidebarViewController: UIViewController, UITableViewDataSource
         selectedItem = item
         delegate?.sidebarViewController(self, didSelectItem: item)
     }
-    
-    
+
     // MARK: - Source bar delegate
     
     public func sourceBar(_ bar: SourceBar, didSelectItemAt index: Int) {

@@ -185,11 +185,15 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
             searchOptionsView.setNeedsLayout()
             
             let viewBounds = view.bounds
-            var viewFrame = CGRect(x: 0, y: 0, width: viewBounds.width, height: min(searchPreferredHeight + topLayoutGuide.length, viewBounds.height))
-            if isShowingSearchOptions == false {
-                viewFrame.origin.y = -viewFrame.height
+            let topOffset: CGFloat
+            if #available(iOS 11, *) {
+                topOffset = view.safeAreaInsets.top
+            } else {
+                topOffset = topLayoutGuide.length
             }
-            
+
+            let viewFrame = CGRect(x: 0, y: 0, width: viewBounds.width, height: min(searchPreferredHeight + topOffset, viewBounds.height))
+
             searchOptionsView.frame = viewFrame
             searchOptionsView.layoutIfNeeded()
         }
@@ -247,16 +251,11 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
             if animated {
                 dimmingView.alpha = 0.0
                 
-                // temporarily disable the showing of options to allow the item to sit above the screen prior to layout.
-                isShowingSearchOptions = false
-                view.setNeedsLayout()
-                view.layoutIfNeeded()
-                
-                // re-enable and animate.
-                isShowingSearchOptions = true
+                // Use transform to move search option off screen and animate down
+                // We don't use a frame offset as it causes AutoLayout constraint errors related to safe area insets
+                optionsVC.viewIfLoaded?.transform = CGAffineTransform(translationX: 0, y: -optionsVC.view.frame.height)
                 UIView.animate(withDuration: searchAnimationDuration, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0, animations: {
-                    view.setNeedsLayout()
-                    view.layoutIfNeeded()
+                    optionsVC.viewIfLoaded?.transform = .identity
                     dimmingView.alpha = 1.0
                 }, completion: { _ in
                     optionsVC.endAppearanceTransition()
@@ -274,6 +273,7 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
             let completionHandler = { [weak self] (finished: Bool) in
                 if self?.isShowingSearchOptions ?? true { return }
                 
+                optionsVC.view.alpha = 1.0
                 optionsVC.viewIfLoaded?.removeFromSuperview()
                 optionsVC.endAppearanceTransition()
                 
@@ -282,15 +282,12 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
             }
             
             if animated {
-                let view = self.view!
-                view.setNeedsLayout()
-                
+                // Fade out options when dismissing as it combines better with other animations, and looks good on all devices
                 UIView.animate(withDuration: searchAnimationDuration, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0,
                                animations: {
-                                  view.layoutIfNeeded()
-                                  dimmingView?.alpha = 0.0
-                               },
-                               completion : completionHandler)
+                                optionsVC.view.alpha = 0.0
+                                dimmingView?.alpha = 0.0
+                }, completion : completionHandler)
             } else {
                 completionHandler(true)
             }
@@ -332,9 +329,6 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
             setCurrentResultsViewController(mapResultsViewController, animated: true)
         }
 
-
-
-
         if let searchable = searchable {
             var viewModel = self.viewModel.recentViewModel
 
@@ -358,10 +352,15 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
         cancelSearchTriggered()
     }
 
-
     // MARK: Entity Delegate
     public func controller(_ controller: UIViewController, didSelectEntity entity: MPOLKitEntity) {
         didSelectEntity(entity)
+    }
+
+    public func controller(_ controller: UIViewController, searchFor searchable: Searchable) {
+        navigationController?.popToRootViewController(animated: true)
+        searchOptionsViewController.setCurrent(searchable: searchable)
+        setShowingSearchOptions(true, animated: true)
     }
 
     // MARK: - SearchResultsDelegate

@@ -91,10 +91,10 @@ open class EntityListCollectionViewCell: CollectionViewFormCell {
         let contentModeLayoutGuide = self.contentModeLayoutGuide
         contentView.addLayoutGuide(textLayoutGuide)
         
-        sourceLabel.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .vertical)
-        sourceLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
-        titleLabel.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .vertical)
-        subtitleLabel.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .vertical)
+        sourceLabel.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
+        sourceLabel.setContentHuggingPriority(UILayoutPriority.defaultHigh, for: .vertical)
+        titleLabel.setContentHuggingPriority(UILayoutPriority.defaultHigh, for: .vertical)
+        subtitleLabel.setContentHuggingPriority(UILayoutPriority.defaultHigh, for: .vertical)
         
         sourceTitleHorizontalConstraint = NSLayoutConstraint(item: titleLabel, attribute: .leading,  relatedBy: .equal, toItem: sourceLabel, attribute: .trailing, constant: 8.0)
         
@@ -120,15 +120,15 @@ open class EntityListCollectionViewCell: CollectionViewFormCell {
             
             NSLayoutConstraint(item: subtitleLabel, attribute: .top, relatedBy: .greaterThanOrEqual, toItem: titleLabel, attribute: .bottom, constant: CellTitleSubtitleSeparation),
             NSLayoutConstraint(item: subtitleLabel, attribute: .top, relatedBy: .greaterThanOrEqual, toItem: sourceLabel, attribute: .bottom, constant: CellTitleSubtitleSeparation),
-            NSLayoutConstraint(item: subtitleLabel, attribute: .top, relatedBy: .equal, toItem: textLayoutGuide, attribute: .top, priority: UILayoutPriorityDefaultLow),
+            NSLayoutConstraint(item: subtitleLabel, attribute: .top, relatedBy: .equal, toItem: textLayoutGuide, attribute: .top, priority: UILayoutPriority.defaultLow),
             
             NSLayoutConstraint(item: textLayoutGuide, attribute: .top,     relatedBy: .greaterThanOrEqual, toItem: contentModeLayoutGuide, attribute: .top),
             NSLayoutConstraint(item: textLayoutGuide, attribute: .centerY, relatedBy: .equal,              toItem: contentModeLayoutGuide, attribute: .centerY),
             NSLayoutConstraint(item: textLayoutGuide, attribute: .trailing, relatedBy: .lessThanOrEqual,   toItem: contentModeLayoutGuide, attribute: .trailing),
             NSLayoutConstraint(item: textLayoutGuide, attribute: .leading, relatedBy: .equal, toItem: borderedImageView, attribute: .trailing, constant: 16.0),
             
-            NSLayoutConstraint(item: borderedImageView, attribute: .top, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .top, priority: UILayoutPriorityDefaultLow),
-            NSLayoutConstraint(item: textLayoutGuide, attribute: .top, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .top, priority: UILayoutPriorityDefaultLow),
+            NSLayoutConstraint(item: borderedImageView, attribute: .top, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .top, priority: UILayoutPriority.defaultLow),
+            NSLayoutConstraint(item: textLayoutGuide, attribute: .top, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .top, priority: UILayoutPriority.defaultLow),
             
             sourceTitleHorizontalConstraint
         ])

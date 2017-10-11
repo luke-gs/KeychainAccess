@@ -268,11 +268,10 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
-        // TODO: Uncomment in iOS 11
-//        if #available(iOS 11, *) {
-//            return
-//        }
+
+        if #available(iOS 11, *) {
+            return
+        }
         var insets = legacy_additionalSafeAreaInsets
         
         insets.top += topLayoutGuide.length
@@ -378,14 +377,14 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     
     open func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         if let headerLabel = (view as? UITableViewHeaderFooterView)?.textLabel {
-            headerLabel.font = .systemFont(ofSize: 13.0, weight: UIFontWeightSemibold)
+            headerLabel.font = .systemFont(ofSize: 13.0, weight: UIFont.Weight.semibold)
             headerLabel.textColor = .gray
         }
     }
     
     open func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
         if let headerLabel = (view as? UITableViewHeaderFooterView)?.textLabel {
-            headerLabel.font = .systemFont(ofSize: 13.0, weight: UIFontWeightSemibold)
+            headerLabel.font = .systemFont(ofSize: 13.0, weight: UIFont.Weight.semibold)
             headerLabel.textColor = .gray
         }
     }
@@ -437,7 +436,7 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
             if rangeOfStar.location == NSNotFound { return }
             
             let titleString = NSMutableAttributedString(string: title as String)
-            titleString.setAttributes([NSForegroundColorAttributeName: UIColor.red], range: rangeOfStar)
+            titleString.setAttributes([NSAttributedStringKey.foregroundColor: UIColor.red], range: rangeOfStar)
             textViewCell.titleLabel.attributedText = titleString
         case let textFieldCell as TableViewFormTextFieldCell:
             textFieldCell.titleLabel.textColor = secondaryTextColor
@@ -499,14 +498,13 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     /// table view's content height changes or the additional content insets change.
     open func calculatedContentHeight() -> CGFloat {
         var contentHeight = tableView?.contentSize.height ?? 0.0
-        
-        // TODO: Uncomment in iOS 11
-//        if #available(iOS 11, *) {
-//            contentHeight += additionalSafeAreaInsets.top + additionalSafeAreaInsets.bottom
-//        } else {
+
+        if #available(iOS 11, *) {
+            contentHeight += additionalSafeAreaInsets.top + additionalSafeAreaInsets.bottom
+        } else {
             contentHeight += legacy_additionalSafeAreaInsets.top + legacy_additionalSafeAreaInsets.bottom
-//        }
-        
+        }
+
         let minHeight = minimumCalculatedContentHeight
         let maxHeight = maximumCalculatedContentHeight
         
@@ -543,19 +541,16 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
 
 }
 
+@available(iOS, introduced: 11.0)
+extension FormTableViewController {
 
+    open override var additionalSafeAreaInsets: UIEdgeInsets {
+        didSet {
+            if additionalSafeAreaInsets != oldValue && calculatesContentHeight {
+                updateCalculatedContentHeight()
+            }
+        }
+    }
 
-// TODO: Uncomment in iOS 11
-//@available(iOS, introduced: 11.0)
-//extension FormCollectionViewController {
-//
-//    open override var additionalSafeAreaInsets: UIEdgeInsets {
-//        didSet {
-//            if additionalSafeAreaInsets != oldValue && wantsCalculatedContentHeight {
-//                updateCalculatedContentHeight()
-//            }
-//        }
-//    }
-//
-//}
+}
 

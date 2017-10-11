@@ -263,10 +263,10 @@ public class SourceBar: UIScrollView {
         let stretchyAxis: UILayoutConstraintAxis = axis == .vertical ? .vertical : .horizontal
         let hardAxis: UILayoutConstraintAxis     = axis == .vertical ? .horizontal : .vertical
         
-        setContentCompressionResistancePriority(UILayoutPriorityDefaultLow,  for: stretchyAxis)
-        setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: hardAxis)
-        setContentHuggingPriority(UILayoutPriorityFittingSizeLevel, for: stretchyAxis)
-        setContentHuggingPriority(UILayoutPriorityRequired - 1,     for: hardAxis)
+        setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for: stretchyAxis)
+        setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: hardAxis)
+        setContentHuggingPriority(UILayoutPriority.fittingSizeLevel, for: stretchyAxis)
+        setContentHuggingPriority(.almostRequired, for: hardAxis)
     }
     
     private func updateCellSelection() {
@@ -287,7 +287,7 @@ public class SourceBar: UIScrollView {
             switch items[cellIndex].state {
             case .notLoaded:
                 sourceBarDelegate?.sourceBar(self, didRequestToLoadItemAt: cellIndex)
-            case .loaded:
+            case .loaded, .notAvailable:
                 selectedIndex = cellIndex
                 sourceBarDelegate?.sourceBar(self, didSelectItemAt: cellIndex)
             default:

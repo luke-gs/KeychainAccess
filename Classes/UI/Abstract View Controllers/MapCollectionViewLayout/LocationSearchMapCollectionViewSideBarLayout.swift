@@ -139,7 +139,7 @@ open class LocationSearchMapCollectionViewSideBarLayout: MapCollectionViewLayout
         view.addLayoutGuide(sidebarLayoutGuide)
         
         sidebarMinumumWidthConstraint = sidebarLayoutGuide.widthAnchor.constraint(greaterThanOrEqualToConstant: minimumSidebarWidth)
-        sidebarPreferredWidthConstraint = sidebarLayoutGuide.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: preferredSidebarWidthFraction).withPriority(UILayoutPriorityDefaultHigh)
+        sidebarPreferredWidthConstraint = sidebarLayoutGuide.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: preferredSidebarWidthFraction).withPriority(UILayoutPriority.defaultHigh)
         
         if controller.traitCollection.horizontalSizeClass == .compact || hidesMapInRegularEnvironment {
             sidebarLayoutGuideLeadingConstraint = sidebarLayoutGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor)

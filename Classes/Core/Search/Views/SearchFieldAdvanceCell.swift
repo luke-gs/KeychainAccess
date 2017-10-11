@@ -30,16 +30,16 @@ class SearchFieldAdvanceCell: CollectionViewFormCell {
         selectionStyle = .none
 
         actionButton.setTitleColor(.black, for: .normal)
-        actionButton.titleLabel?.font = .systemFont(ofSize: 11.0, weight: UIFontWeightSemibold)
+        actionButton.titleLabel?.font = .systemFont(ofSize: 11.0, weight: UIFont.Weight.semibold)
         actionButton.translatesAutoresizingMaskIntoConstraints = false
 
         contentView.addSubview(actionButton)
 
         NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: actionButton, attribute: .leading, relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .leadingMargin, multiplier: 1.0, priority: UILayoutPriorityDefaultHigh),
-            NSLayoutConstraint(item: actionButton, attribute: .top, relatedBy: .equal, toItem: contentView, attribute: .topMargin, multiplier: 1.0, priority: UILayoutPriorityDefaultHigh),
-            NSLayoutConstraint(item: actionButton, attribute: .bottom, relatedBy: .equal, toItem: contentView, attribute: .bottomMargin, multiplier: 1.0, priority: UILayoutPriorityDefaultHigh),
-            NSLayoutConstraint(item: actionButton, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentView, attribute: .trailingMargin, multiplier: 1.0, priority: UILayoutPriorityDefaultHigh),
+            NSLayoutConstraint(item: actionButton, attribute: .leading, relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .leadingMargin, multiplier: 1.0, priority: UILayoutPriority.defaultHigh),
+            NSLayoutConstraint(item: actionButton, attribute: .top, relatedBy: .equal, toItem: contentView, attribute: .topMargin, multiplier: 1.0, priority: UILayoutPriority.defaultHigh),
+            NSLayoutConstraint(item: actionButton, attribute: .bottom, relatedBy: .equal, toItem: contentView, attribute: .bottomMargin, multiplier: 1.0, priority: UILayoutPriority.defaultHigh),
+            NSLayoutConstraint(item: actionButton, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentView, attribute: .trailingMargin, multiplier: 1.0, priority: UILayoutPriority.defaultHigh),
             actionButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             actionButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])

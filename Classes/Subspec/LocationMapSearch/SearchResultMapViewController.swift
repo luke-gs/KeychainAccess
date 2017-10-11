@@ -76,7 +76,7 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
         let searchFieldButton = SearchFieldButton(frame: .zero)
         searchFieldButton.placeholder = searchFieldPlaceholder
         searchFieldButton.translatesAutoresizingMaskIntoConstraints = false
-        searchFieldButton.titleLabel?.font = .systemFont(ofSize: 15, weight: UIFontWeightRegular)
+        searchFieldButton.titleLabel?.font = .systemFont(ofSize: 15, weight: UIFont.Weight.regular)
         searchFieldButton.addTarget(self, action: #selector(searchFieldButtonDidSelect), for: .primaryActionTriggered)
         self.searchFieldButton = searchFieldButton
         
@@ -103,7 +103,7 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
     }
     
     override open func viewDidLayoutSubviews() {
-        var insets: UIEdgeInsets = .zero
+        let insets: UIEdgeInsets = .zero
         collectionViewInsetManager?.standardContentInset   = insets
         collectionViewInsetManager?.standardIndicatorInset = insets
     }
@@ -122,7 +122,7 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
     
     // MARK: - UICollectionViewDataSource methods
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
+    override open func numberOfSections(in collectionView: UICollectionView) -> Int {
         return (viewModel?.results.count ?? 0) > 0 ? 1 : 0
     }
     

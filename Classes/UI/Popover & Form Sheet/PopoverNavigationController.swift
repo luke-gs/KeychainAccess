@@ -252,6 +252,12 @@ open class PopoverNavigationController: UINavigationController, PopoverViewContr
 
     
     private func installDoneButton(on item: UINavigationItem) {
+        let leftDoneButton = item.leftBarButtonItems?.first { $0.style == .done }
+        let rightDoneButton = item.rightBarButtonItems?.first { $0.style == .done }
+        // Don't add a new done button if we already have one
+        guard rightDoneButton == nil, leftDoneButton == nil else {
+            return
+        }
         if item.rightBarButtonItems?.isEmpty ?? true {
             item.rightBarButtonItems = [doneButtonItem]
             doneButtonInstalledNavItem = item
