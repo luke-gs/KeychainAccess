@@ -37,11 +37,7 @@ open class TasksItemSidebarViewController: SidebarSplitViewController {
         
         detailViewModel = viewModel
         
-        let detailVCs = detailViewModel.detailViewControllers
-        
-        super.init(detailViewControllers: detailVCs ?? [])
-        
-//        detailViewModel.delegate = self
+        super.init(detailViewControllers: detailViewModel.detailViewControllers())
         
         title = "Details"
         updateHeaderView()
@@ -92,7 +88,7 @@ open class TasksItemSidebarViewController: SidebarSplitViewController {
         headerView.titleLabel.text = detailViewModel.itemName
         
         if let lastUpdated = detailViewModel.lastUpdated {
-            headerView.subtitleLabel.text = NSLocalizedString("Last Updated: ", comment: "") + lastUpdated
+            headerView.subtitleLabel.text = lastUpdated
         } else {
             headerView.subtitleLabel.text = nil
         }

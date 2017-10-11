@@ -1,5 +1,5 @@
 //
-//  ResourceActivityLogDetailViewController.swift
+//  ResourceActivityLogViewController.swift
 //  MPOLKit
 //
 //  Created by Kyle May on 9/10/17.
@@ -8,16 +8,13 @@
 
 import UIKit
 
-public class ResourceActivityLogDetailViewController: ActivityLogViewController {
+public class ResourceActivityLogViewController: ActivityLogViewController {
 
-    public override init() {
-        super.init()
-        title = NSLocalizedString("Activity Log", bundle: .mpolKit, comment: "")
+    public override init(viewModel: CADFormCollectionViewModel<ActivityLogItemViewModel>) {
+        super.init(viewModel: viewModel)
         
         // TODO: Get real item
         sidebarItem.image = AssetManager.shared.image(forKey: .list)
-        
-        view.backgroundColor = .white
     }
     
     public required init?(coder aDecoder: NSCoder) {

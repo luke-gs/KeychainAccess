@@ -73,16 +73,25 @@ open class TasksMapViewController: MapViewController {
         }
     }
     
-    public func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        let officerVm = ResourceOfficerListViewModel()
-        officerVm.loadDummyData()
+    public func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {        
+        let viewModel: TaskItemViewModel?
         
-        let vm = TaskItemViewModel(iconImage: UIImage(named: "iconEntityAutomotiveFilled", in: .mpolKit, compatibleWith: nil), statusText: "hello moto", itemName: "P25", lastUpdated: "2 mins ago", color: #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1), detailViewControllers: [
-            ResourceOverviewDetailViewController(),
-            ResourceOfficerListViewController(viewModel: officerVm),
-            ResourceActivityLogDetailViewController()])
-        let vc = TasksItemSidebarViewController.init(viewModel: vm)
-        navigationController?.pushViewController(vc, animated: true)
+        if let annotation = view.annotation as? ResourceAnnotation {
+            viewModel = ResourceTaskItemViewModel(iconImage: annotation.icon,
+                                                  iconTintColor: .white,
+                                                  color: annotation.iconBackgroundColor,
+                                                  statusText: "Status Text", // FIXME: Get real text
+                                                  itemName: "\(annotation.title ?? "") \(annotation.subtitle ?? "")",
+                                                  lastUpdated: "Updated 2 mins ago")  // FIXME: Get real text
+        } else {
+            viewModel = nil
+        }
+        
+        if let viewModel = viewModel {
+            let vc = TasksItemSidebarViewController.init(viewModel: viewModel)
+            splitViewController?.navigationController?.pushViewController(vc, animated: true)
+        }
+        
     }
     
     
