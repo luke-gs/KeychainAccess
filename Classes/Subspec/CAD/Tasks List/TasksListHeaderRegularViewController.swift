@@ -32,10 +32,10 @@ open class TasksListHeaderRegularViewController: UIViewController {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
 
-        view.backgroundColor = UIColor.black
-        view.translatesAutoresizingMaskIntoConstraints = false
-
         let theme = ThemeManager.shared.theme(for: .dark)
+
+        view.backgroundColor = theme.color(forKey: .background)!
+        view.translatesAutoresizingMaskIntoConstraints = false
 
         titleLabel.text = viewModel.titleText()
         titleLabel.textColor = theme.color(forKey: .primaryText)!
