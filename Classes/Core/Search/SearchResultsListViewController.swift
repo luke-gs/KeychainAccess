@@ -204,14 +204,21 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
             let hasError = result.error != nil
 
             cell.titleLabel.text = message.isEmpty == false ? message : NSLocalizedString("Unknown error has occurred.", comment: "[Search result screen] - Unknown error message when error doesn't contain localized description")
-            cell.button.setTitle(hasError ? "Try Again" : "New Search", for: .normal)
-            cell.buttonHandler = { [weak self] (cell) in
+            cell.actionButton.setTitle(hasError ? "Try Again" : "New Search", for: .normal)
+            cell.actionButtonHandler = { [weak self] (cell) in
                 guard let `self` = self else {  return }
                 if hasError {
                     self.viewModel!.retry(section: indexPath.section)
                 } else {
                     self.delegate?.searchResultsControllerDidRequestToEdit(self)
                 }
+            }
+            cell.readMoreButtonHandler = { [weak self] (cell) in
+                guard let `self` = self else {  return }
+                let messageVC = SearchResultMessageViewController(message: cell.titleLabel.text!)
+                let navController = PopoverNavigationController(rootViewController: messageVC)
+                navController.modalPresentationStyle = .formSheet
+                self.present(navController, animated: true, completion: nil)
             }
 
             cell.apply(theme: ThemeManager.shared.theme(for: userInterfaceStyle))
@@ -237,9 +244,9 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         let result = viewModel!.results[indexPath.section]
         switch result.state {
-        case .finished where result.error != nil:
-            return false
-        case .searching:
+        case .finished where result.error != nil,
+             .finished where result.entities.count == 0,
+             .searching:
             return false
         default:
             return true
@@ -271,9 +278,9 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
         let result = viewModel!.results[indexPath.section]
         switch result.state {
-        case .finished where result.error != nil || result.entities.count == 0:
-            return collectionView.bounds.width
-        case .searching:
+        case .finished where result.error != nil,
+             .finished where result.entities.count == 0,
+             .searching:
             return collectionView.bounds.width
         default:
             break
@@ -285,10 +292,10 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
         let result = viewModel!.results[indexPath.section]
         switch result.state {
-        case .finished where result.error != nil:
-            return 152
-        case .searching:
-            return 152
+        case .finished where result.error != nil,
+             .finished where result.entities.count == 0,
+             .searching:
+            return SearchResultErrorCell.contentHeight
         default:
             break
         }

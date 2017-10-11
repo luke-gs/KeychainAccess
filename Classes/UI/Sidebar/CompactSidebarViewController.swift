@@ -12,7 +12,7 @@ fileprivate var sidebarItemContext = 0
 fileprivate let sidebarKeys = [#keyPath(SidebarItem.isEnabled),
                                #keyPath(SidebarItem.image),
                                #keyPath(SidebarItem.selectedImage),
-                               #keyPath(SidebarItem.title),
+                               #keyPath(SidebarItem.compactTitle),
                                #keyPath(SidebarItem.count),
                                #keyPath(SidebarItem.alertColor),
                                #keyPath(SidebarItem.color),
@@ -54,6 +54,7 @@ open class CompactSidebarViewController: UIViewController {
                 let defaultIndex = sourceItems.count > 0 ? 0 : nil
                 self.selectedSourceIndex = selectedSourceIndex ?? defaultIndex
             }
+            updateSourceButton()
         }
     }
 
@@ -82,11 +83,13 @@ open class CompactSidebarViewController: UIViewController {
     /// Whether source button should be hidden
     public var hideSourceButton: Bool = false {
         didSet {
-            // Make scroll view full width and hide button if sources not visible
-            scrollViewFullWidth?.isActive = hideSourceButton
-            sourceButton.isHidden = hideSourceButton
-            sourceDivider.isHidden = hideSourceButton
+            updateSourceButton()
         }
+    }
+
+    /// Whether source button should be hidden
+    public var shouldHideSourceButton: Bool {
+        return sourceItems.isEmpty || hideSourceButton
     }
 
     /// The stack view for sidebar items.
@@ -223,11 +226,20 @@ open class CompactSidebarViewController: UIViewController {
             fadeOutRight.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             fadeOutRight.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             fadeOutRight.widthAnchor.constraint(equalToConstant: 40),
-        ])
+            ])
 
         // Override constraint for hiding source button
         scrollViewFullWidth = scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
-        scrollViewFullWidth?.isActive = hideSourceButton
+        updateSourceButton()
+    }
+
+    open override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        // Make sure selected item is centered
+        if let selectedItem = selectedItem, let itemIndex = items.index(of: selectedItem) {
+            self.setScrollOffsetForItem(itemIndex)
+        }
     }
 
     open override func viewDidLayoutSubviews() {
@@ -290,6 +302,13 @@ open class CompactSidebarViewController: UIViewController {
 
     // MARK: - Private methods
 
+    private func updateSourceButton() {
+        // Make scroll view full width and hide button if sources not visible
+        scrollViewFullWidth?.isActive = shouldHideSourceButton
+        sourceButton.isHidden = shouldHideSourceButton
+        sourceDivider.isHidden = shouldHideSourceButton
+    }
+
     @objc private func didTapSourceButton(_ item: UIBarButtonItem) {
         guard let selectedSourceIndex = selectedSourceIndex else { return }
         sourceViewController = CompactSidebarSourceViewController(items: sourceItems, selectedIndex: selectedSourceIndex)
@@ -314,10 +333,6 @@ open class CompactSidebarViewController: UIViewController {
             sidebarKeys.forEach { item.addObserver(self, forKeyPath: $0, context: &sidebarItemContext) }
         }
 
-        if let selectedItem = self.selectedItem, items.contains(selectedItem) == false {
-            self.selectedItem = nil
-        }
-
         // Add each sidebar item as a cell in the stack view
         items.forEach({ (item) in
             let label = CompactSidebarItemView(frame: .zero)
@@ -326,6 +341,10 @@ open class CompactSidebarViewController: UIViewController {
             sidebarStackView.addArrangedSubview(label)
         })
         updateCells()
+
+        if let selectedItem = self.selectedItem, items.contains(selectedItem) == false {
+            self.selectedItem = nil
+        }
 
         // Force layout so that we can get the cell size in viewDidLayoutSubviews
         sidebarStackView.setNeedsLayout()
