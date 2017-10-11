@@ -16,10 +16,10 @@ class MPOLSearchViewModel: SearchViewModel {
 
     var recentViewModel: SearchRecentsViewModel = MPOLSearchRecentsViewModel()
 
-    var dataSources: [SearchDataSource] = [
+    let dataSources: [SearchDataSource] = [
         PersonSearchDataSource(),
         VehicleSearchDataSource(),
-        LocationSearchDataSource(strategy: LookupAddressLocationSearchStrategy(source: MPOLSource.gnaf,
+        LocationSearchDataSource(strategy: LookupAddressLocationSearchStrategy(source: MPOLSource.gnaf, helpPresentable: EntityScreen.help(type: .location)), advanceOptions: LookupAddressLocationAdvancedOptions())
                                                                                resultModelType: LocationMapSummarySearchResultViewModel.self),
                                  advanceOptions: LookupAddressLocationAdvancedOptions())
     ]
@@ -58,7 +58,15 @@ class MPOLSearchRecentsViewModel: SearchRecentsViewModel {
         let entity = recentlyViewed[indexPath.item]
 
         cell.style = .detail
-        cell.decorate(with: entity as! EntitySummaryDisplayable)
+
+        switch entity {
+        case entity as Person:
+            cell.decorate(with: PersonSummaryDisplayable(entity))
+        case entity as Vehicle:
+            cell.decorate(with: VehicleSummaryDisplayable(entity))
+        default:
+            break
+        }
     }
 
     func summaryIcon(for searchable: Searchable) -> UIImage? {

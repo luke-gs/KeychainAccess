@@ -109,7 +109,7 @@ open class EventDetailViewController: FormCollectionViewController {
 
         if let associatedPersons = event.associatedPersons, associatedPersons.count > 0 {
             let numberOfPersons = associatedPersons.count
-            let personItems = associatedPersons.map { EventDetailItem(style: .entity($0)) }
+            let personItems = associatedPersons.map { EventDetailItem(style: .entity(PersonSummaryDisplayable($0))) }
             let personSection = EventDetailSection(title: "\(numberOfPersons == 0 ? "NO" : String(numberOfPersons)) \(numberOfPersons == 1 ? "PERSON" : "PEOPLE")", items: personItems)
 
             sections.append(personSection)
@@ -117,7 +117,7 @@ open class EventDetailViewController: FormCollectionViewController {
 
         if let associatedVehicles = event.associatedVehicles, associatedVehicles.count > 0 {
             let numberOfVehicles = associatedVehicles.count
-            let vehicleItems = associatedVehicles.map { EventDetailItem(style: .entity($0)) }
+            let vehicleItems = associatedVehicles.map { EventDetailItem(style: .entity(VehicleSummaryDisplayable($0))) }
             let vehicleSection = EventDetailSection(title: "\(numberOfVehicles == 0 ? "NO" : String(numberOfVehicles)) \(numberOfVehicles == 1 ? "VEHICLE" : "VEHICLES")", items: vehicleItems)
 
             sections.append(vehicleSection)
@@ -209,7 +209,7 @@ open class EventDetailViewController: FormCollectionViewController {
         case .header:
             let cell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
             cell.imageView.image = item.image
-            cell.titleLabel.font = .systemFont(ofSize: 28.0, weight: UIFontWeightBold)
+            cell.titleLabel.font = .systemFont(ofSize: 28.0, weight: UIFont.Weight.bold)
             cell.titleLabel.text = item.title
             cell.subtitleLabel.text = item.detail
             return cell
@@ -285,7 +285,7 @@ open class EventDetailViewController: FormCollectionViewController {
 
         switch item.style {
         case .header:
-            let titleFont: UIFont? = .systemFont(ofSize: 28.0, weight: UIFontWeightBold)
+            let titleFont: UIFont? = .systemFont(ofSize: 28.0, weight: UIFont.Weight.bold)
             let titleSizing = StringSizing(string: item.title ?? "", font: titleFont, numberOfLines: 0)
             return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: titleSizing, subtitle: item.detail?.ifNotEmpty(), inWidth: itemWidth, compatibleWith: traitCollection, imageSize: item.image?.size ?? .zero) + 15.0
         case .item:

@@ -119,8 +119,8 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
 
             let text = (self.options as! VehicleSearchOptions).type.placeholderText
             let placeholder = NSAttributedString(string: text, attributes: [
-                NSFontAttributeName: UIFont.systemFont(ofSize: 28.0, weight: UIFontWeightLight),
-                NSForegroundColorAttributeName: UIColor.lightGray
+                NSAttributedStringKey.font: UIFont.systemFont(ofSize: 28.0, weight: UIFont.Weight.light),
+                NSAttributedStringKey.foregroundColor: UIColor.lightGray
                 ])
 
             textField.text                   = self.text
@@ -206,7 +206,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
             if let searchParameters = searchParameters {
                 // Note: generate as many requests as required
                 let request = VehicleSearchRequest(source: .mpol, request: searchParameters)
-                let resultModel = EntitySummarySearchResultViewModel<Vehicle>(title: searchTerm, aggregatedSearch: AggregatedSearch(requests: [request]))
+                let resultModel = EntitySummarySearchResultViewModel<Vehicle, VehicleSummaryDisplayable>(title: searchTerm, aggregatedSearch: AggregatedSearch(requests: [request]))
 
                 completion(resultModel, nil)
             }

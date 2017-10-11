@@ -91,7 +91,9 @@ open class OrganizationInfoViewController: EntityDetailCollectionViewController 
             }
             
             /// Temp updates
-            cell.thumbnailView.configure(for: entity, size: .large)
+            // Disabled coz ORGANISATIONS haven't even been implemented?
+//            cell.thumbnailView.configure(for: entity, size: .large)
+
             if cell.thumbnailView.allTargets.contains(self) == false {
                 cell.thumbnailView.isEnabled = true
                 cell.thumbnailView.addTarget(self, action: #selector(entityThumbnailDidSelect(_:)), for: .primaryActionTriggered)

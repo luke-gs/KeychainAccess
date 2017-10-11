@@ -64,12 +64,7 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
     open override func viewDidLoad() {
         super.viewDidLoad()
 
-        loadingManager.noContentView.titleLabel.text = NSLocalizedString("No Events Found", bundle: .mpolKit, comment: "")
-        updateNoContentSubtitle(viewModel.noContentSubtitle())
-
-        EventDetailsViewModelRouter.register(eventClass: BailOrder.self, viewModelClass: BailOrderDetailViewModel.self)
-        EventDetailsViewModelRouter.register(eventClass: FieldContact.self, viewModelClass: FieldContactDetailViewModel.self)
-        EventDetailsViewModelRouter.register(eventClass: InterventionOrder.self, viewModelClass: InterventionOrderViewModel.self)
+        updateNoContentDetails(title: viewModel.noContentTitle(), subtitle: viewModel.noContentSubtitle())
         
         guard let collectionView = self.collectionView else { return }
         
@@ -257,7 +252,8 @@ extension PersonOccurrencesViewController: EntityDetailViewModelDelegate {
         sidebarItem.count = count
     }
     
-    public func updateNoContentSubtitle(_ subtitle: String? = nil) {
+    public func updateNoContentDetails(title: String?, subtitle: String? = nil) {
+        loadingManager.noContentView.titleLabel.text = title
         loadingManager.noContentView.subtitleLabel.text = subtitle
     }
     

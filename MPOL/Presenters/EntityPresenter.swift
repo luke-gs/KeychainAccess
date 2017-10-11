@@ -10,7 +10,6 @@ import Foundation
 import MPOLKit
 import ClientKit
 
-
 public enum EntityScreen: Presentable {
 
     case help(type: EntityType)
@@ -25,7 +24,6 @@ public enum EntityScreen: Presentable {
 
 }
 
-
 public class EntityPresenter: Presenter {
 
     public init() {}
@@ -36,15 +34,32 @@ public class EntityPresenter: Presenter {
         switch presentable {
 
         case .entityDetails(let entity, let delegate):
-            let dataSource: EntityDetailSectionsDataSource
+            let dataSources: [EntityDetailSectionsDataSource]
 
             if entity is Person {
-                dataSource = PersonDetailsSectionsDataSource(baseEntity: entity, delegate: delegate)
-            } else {
-                dataSource = VehicleDetailsSectionsDataSource(baseEntity: entity, delegate: delegate)
-            }
+                dataSources = [
+                    PersonMPOLDetailsSectionsDataSource(baseEntity: entity, delegate: delegate),
+                    PersonFNCDetailsSectionsDataSource(baseEntity: entity, delegate: delegate)
+                ]
 
-            return EntityDetailSplitViewController(dataSource: dataSource)
+                let viewModel = EntityDetailSectionsViewModel(initialSource: entity.source!,
+                                                              dataSources: dataSources,
+                                                              andMatchMaker: PersonMatchMaker())
+
+                return EntityDetailSplitViewController<EntityDetailsDisplayable, PersonSummaryDisplayable>(viewModel: viewModel)
+
+            } else {
+                dataSources = [
+                    VehicleMPOLDetailsSectionsDataSource(baseEntity: entity, delegate: delegate),
+                    VehicleFNCDetailsSectionsDataSource(baseEntity: entity, delegate: delegate)
+                ]
+
+                let viewModel = EntityDetailSectionsViewModel(initialSource: entity.source!,
+                                                              dataSources: dataSources,
+                                                              andMatchMaker: VehicleMatchMaker())
+
+                return EntityDetailSplitViewController<EntityDetailsDisplayable, VehicleSummaryDisplayable>(viewModel: viewModel)
+            }
 
         case .help(let type):
             let content: HelpContent

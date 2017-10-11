@@ -82,12 +82,6 @@ open class Person: Entity {
     open var aliases: [Alias]?
     
     // TODO: TEMP
-    open var actions: [Action]?
-    open var interventionOrders: [InterventionOrder]?
-    open var bailOrders: [BailOrder]?
-    open var fieldContacts: [FieldContact]?
-    open var missingPersonReports: [MissingPersonReport]?
-    open var familyIncidents: [FamilyIncident]?
     open var criminalHistory: [CriminalHistory]?
 
     open var isAlias: Bool?
@@ -121,13 +115,6 @@ open class Person: Entity {
         licences = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.licences.rawValue) as? [Licence]
         descriptions = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.descriptions.rawValue) as? [PersonDescription]
         aliases = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.aliases.rawValue) as? [Alias]
-        actions = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.actions.rawValue) as? [Action]
-        interventionOrders = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.interventionOrders.rawValue) as? [InterventionOrder]
-        bailOrders = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.bailOrders.rawValue) as? [BailOrder]
-        fieldContacts = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.fieldContacts.rawValue) as? [FieldContact]
-        missingPersonReports = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.missingPersonReports.rawValue) as? [MissingPersonReport]
-        familyIncidents = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.familyIncidents.rawValue) as? [FamilyIncident]
-        criminalHistory = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.criminalHistory.rawValue) as? [CriminalHistory]
     }
 
     public required override init(id: String = UUID().uuidString) {
@@ -154,16 +141,7 @@ open class Person: Entity {
         contacts = unboxer.unbox(key: "contactDetails")
         descriptions = unboxer.unbox(key: "descriptions")
         aliases = unboxer.unbox(key: "aliases")
-        
-        // TODO: ?
-        
-        // Temporary keep them
-        actions = unboxer.unbox(key: "actions")
-        interventionOrders = unboxer.unbox(key: "interventionOrders")
-        bailOrders = unboxer.unbox(key: "bailOrders")
-        fieldContacts = unboxer.unbox(key: "fieldContacts")
-        missingPersonReports = unboxer.unbox(key: "missingPersonReports")
-        familyIncidents = unboxer.unbox(key: "familyIncidents")
+
         criminalHistory = unboxer.unbox(key: "criminalHistory")
 
         
@@ -172,10 +150,10 @@ open class Person: Entity {
         } else {
             var initials = ""
             if let givenName = givenName?.ifNotEmpty() {
-                initials += givenName.substring(to: givenName.index(after: givenName.startIndex))
+                initials += givenName[...givenName.startIndex]
             }
             if let surname = surname?.ifNotEmpty() {
-                initials += surname.substring(to: surname.index(after: surname.startIndex))
+                initials += surname[...surname.startIndex]
             }
             if initials.isEmpty == false {
                 self.initials = initials
@@ -201,12 +179,6 @@ open class Person: Entity {
         aCoder.encode(licences, forKey: Coding.licences.rawValue)
         aCoder.encode(descriptions, forKey: Coding.descriptions.rawValue)
         aCoder.encode(aliases, forKey: Coding.aliases.rawValue)
-        aCoder.encode(actions, forKey: Coding.actions.rawValue)
-        aCoder.encode(interventionOrders, forKey: Coding.interventionOrders.rawValue)
-        aCoder.encode(bailOrders, forKey: Coding.bailOrders.rawValue)
-        aCoder.encode(fieldContacts, forKey: Coding.fieldContacts.rawValue)
-        aCoder.encode(missingPersonReports, forKey: Coding.missingPersonReports.rawValue)
-        aCoder.encode(familyIncidents, forKey: Coding.familyIncidents.rawValue)
         aCoder.encode(criminalHistory, forKey: Coding.criminalHistory.rawValue)
     }
     
