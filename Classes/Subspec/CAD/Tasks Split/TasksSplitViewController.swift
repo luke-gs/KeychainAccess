@@ -26,9 +26,9 @@ open class TasksSplitViewController: MPOLSplitViewController {
         shouldHideMasterWhenCompact = false
         containerMasterViewController.onlyVisibleWhenCompact = false
 
-        // TODO: create masterViewControllerHeaderRegular for selected source header
-
-        // TODO: create masterViewControllerHeaderCompact for selected source header
+        // Create header views for different size classes
+        masterViewControllerHeaderRegular = viewModel.createMasterViewControllerHeaderRegular()
+        masterViewControllerHeaderCompact = viewModel.createMasterViewControllerHeaderCompact()
     }
 
     public required init?(coder aDecoder: NSCoder) {

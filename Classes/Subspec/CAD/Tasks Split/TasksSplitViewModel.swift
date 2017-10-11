@@ -10,15 +10,26 @@ import UIKit
 
 open class TasksSplitViewModel {
 
+    // View models
     private let tasksListViewModel: TasksListViewModel
+    private let tasksListHeaderViewModel: TasksListHeaderViewModel
 
     public init() {
         tasksListViewModel = TasksListViewModel()
+        tasksListHeaderViewModel = TasksListHeaderViewModel()
     }
 
     /// Create the view controller for this view model
     public func createViewController() -> TasksSplitViewController {
         return TasksSplitViewController(viewModel: self)
+    }
+
+    public func createMasterViewControllerHeaderRegular() -> UIViewController {
+        return tasksListHeaderViewModel.createRegularViewController()
+    }
+
+    public func createMasterViewControllerHeaderCompact() -> UIViewController {
+        return tasksListHeaderViewModel.createCompactViewController()
     }
 
     public func createTasksListViewController() -> UIViewController {
