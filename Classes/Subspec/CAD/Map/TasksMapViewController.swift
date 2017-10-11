@@ -73,7 +73,8 @@ open class TasksMapViewController: MapViewController {
         }
     }
     
-    public func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {        
+    public func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        mapView.deselectAnnotation(view.annotation, animated: false)
         let viewModel: TaskItemViewModel?
         
         if let annotation = view.annotation as? ResourceAnnotation {
