@@ -11,7 +11,7 @@ import UIKit
 open class CallsignStatusViewModel {
     
     public enum CallsignState: CustomStringConvertible {
-        case unassigned
+        case unassigned(subtitle: String)
         case assigned(callsign: String, status: String)
         
         public var description: String {
@@ -25,8 +25,8 @@ open class CallsignStatusViewModel {
         
         public var actionText: String {
             switch self {
-            case .unassigned:
-                return "View all callsigns"
+            case .unassigned(let subtitle):
+                return subtitle
             case .assigned(_, let status):
                 return status
             }
@@ -38,11 +38,13 @@ open class CallsignStatusViewModel {
         }
     }
     
-    public var state: CallsignState = .unassigned {
+    public var state: CallsignState = .unassigned(subtitle: "View all callsigns") {
         didSet {
             // TODO: Post a notification or something?
         }
     }
+
+    public init() {}
     
     var titleText: String {
         return state.description
