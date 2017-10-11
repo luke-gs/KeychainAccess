@@ -34,11 +34,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         searchProxyViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
         searchProxyViewController.tabBarItem.isEnabled = false
 
-        let tasksNavController = UINavigationController(rootViewController: TasksMapViewController())
+        let tasksSplitViewModel = TasksSplitViewModel()
+        let tasksNavController = UINavigationController(rootViewController: tasksSplitViewModel.createViewController())
         tasksNavController.tabBarItem.image = AssetManager.shared.image(forKey: .tabBarTasks)
         tasksNavController.tabBarItem.title = NSLocalizedString("Tasks", comment: "Tasks Tab Bar Item")
 
-        let activityNavController = UINavigationController(rootViewController: ActivityLogViewController())
+        let activityLogViewModel = ActivityLogViewModel()
+        let activityNavController = UINavigationController(rootViewController: activityLogViewModel.createViewController())
         activityNavController.tabBarItem.image = AssetManager.shared.image(forKey: .tabBarActivity)
         activityNavController.tabBarItem.title = NSLocalizedString("Activity Log", comment: "Activity Log Tab Bar Item")
 

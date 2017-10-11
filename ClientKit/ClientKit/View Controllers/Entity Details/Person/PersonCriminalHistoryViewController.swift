@@ -114,7 +114,7 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
     
     // MARK: - UICollectionViewDataSource
     
-    open func numberOfSections(in collectionView: UICollectionView) -> Int {
+    open override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return viewModel.numberOfSections()
     }
     
