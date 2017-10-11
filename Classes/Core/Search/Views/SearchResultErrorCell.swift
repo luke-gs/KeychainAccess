@@ -9,6 +9,9 @@
 import Foundation
 
 public class SearchResultErrorCell: UICollectionViewCell, DefaultReusable {
+    
+    public static let contentHeight: CGFloat = 152.0
+    
     public let titleLabel = UILabel(frame: .zero)
     public let button = UIButton(type: .system)
     
@@ -26,7 +29,7 @@ public class SearchResultErrorCell: UICollectionViewCell, DefaultReusable {
         titleLabel.numberOfLines = 0
         titleLabel.textAlignment = .center
         titleLabel.font = .preferredFont(forTextStyle: .headline)
-        titleLabel.setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: UILayoutConstraintAxis.vertical)
+        titleLabel.setContentCompressionResistancePriority(UILayoutPriority.almostRequired, for: UILayoutConstraintAxis.vertical)
         
         button.titleLabel?.font = .systemFont(ofSize: 15.0, weight: UIFont.Weight.semibold)
         button.setTitleColor(.white, for: .normal)
