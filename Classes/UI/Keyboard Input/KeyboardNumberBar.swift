@@ -176,6 +176,17 @@ public class KeyboardNumberBar: UIInputView, UIInputViewAudioFeedback {
         if shouldReplace {
             view.replace(selectedTextRange, withText: newText)
         }
+
+        // WORKAROUND:
+        // "replace(_ range: UITextRange, withText text: String)" does not trigger enablesReturnKeyAutomatically.
+        //
+        // This meant that the return key wasn't enabled correctly when typing with KeyboardNumberBar.
+        // See: https://github.com/bryan-gs/EnablesReturnKeyAutomaticallyBug
+        // Reloading the input view causes a kind of logic check that makes the return key work. (magic).
+        // Note: this leaves the Shift key turned on, but typing a number on the regular keyboard would disable it. Pretty minor issue.
+        if view.enablesReturnKeyAutomatically == true, let responder = view as? UIResponder {
+            responder.reloadInputViews()
+        }
     }
     
     

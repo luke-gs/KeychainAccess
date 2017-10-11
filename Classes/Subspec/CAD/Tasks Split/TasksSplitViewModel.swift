@@ -13,15 +13,27 @@ open class TasksSplitViewModel {
     // FIXME: Temporary, remove later
     private let locationManager = CLLocationManager()
     
+
+    // View models
     private let tasksListViewModel: TasksListViewModel
+    private let tasksListHeaderViewModel: TasksListHeaderViewModel
 
     public init() {
         tasksListViewModel = TasksListViewModel()
+        tasksListHeaderViewModel = TasksListHeaderViewModel()
     }
 
     /// Create the view controller for this view model
-    public func createViewController() -> TasksSplitViewController {
+    public func createViewController() -> UIViewController {
         return TasksSplitViewController(viewModel: self)
+    }
+
+    public func createMasterViewControllerHeaderRegular() -> UIViewController {
+        return tasksListHeaderViewModel.createRegularViewController()
+    }
+
+    public func createMasterViewControllerHeaderCompact() -> UIViewController {
+        return tasksListHeaderViewModel.createCompactViewController()
     }
 
     public func createTasksListViewController() -> UIViewController {

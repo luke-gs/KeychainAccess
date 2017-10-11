@@ -12,7 +12,7 @@ import Foundation
 public class ActivityLogViewModel: CADFormCollectionViewModel<ActivityLogItemViewModel> {
 
     /// Create the view controller for this view model
-    public func createViewController() -> ActivityLogViewController {
+    public func createViewController() -> UIViewController {
         return ActivityLogViewController(viewModel: self)
     }
 
