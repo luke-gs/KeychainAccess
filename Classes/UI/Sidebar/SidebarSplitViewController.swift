@@ -24,15 +24,12 @@ open class SidebarSplitViewController: MPOLSplitViewController, SidebarDelegate 
     /// The detail controllers for the sidebar.
     override public var detailViewControllers: [UIViewController] {
         didSet {
-            // Update sidebar items
-            let sidebarItems = detailViewControllers.map { $0.sidebarItem }
-            regularSidebarViewController.items = sidebarItems
-            compactSidebarViewController.items = sidebarItems
-
             // Clear the selected detail VC if no longer available
             if let oldSelected = selectedViewController, detailViewControllers.contains(oldSelected) == false {
                 selectedViewController = nil
             }
+            // Update sidebar items
+            updateSidebarItems()
         }
     }
 
@@ -65,24 +62,32 @@ open class SidebarSplitViewController: MPOLSplitViewController, SidebarDelegate 
         masterViewControllerHeaderCompact = compactSidebarViewController
         updateHeaderViewController()
 
-        // Force potentially hidden compact sidebar view to load before setting items
+        // Force potentially hidden compact sidebar view to load as part of init
         _ = compactSidebarViewController.view
 
-        // Initialise sidebar menu items
-        let sidebarItems = detailViewControllers.map { $0.sidebarItem }
         regularSidebarViewController.delegate = self
-        regularSidebarViewController.items = sidebarItems
-
         compactSidebarViewController.delegate = self
+    }
+
+    public required init?(coder aDecoder: NSCoder) {
+        MPLCodingNotSupported()
+    }
+
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        // Initialise sidebar menu items here, as no selection if done in init
+        updateSidebarItems()
+    }
+
+    public func updateSidebarItems() {
+        let sidebarItems = detailViewControllers.map { $0.sidebarItem }
+        regularSidebarViewController.items = sidebarItems
         compactSidebarViewController.items = sidebarItems
 
         let selectedItem = selectedViewController?.sidebarItem
         regularSidebarViewController.selectedItem = selectedItem
         compactSidebarViewController.selectedItem = selectedItem
-    }
-
-    public required init?(coder aDecoder: NSCoder) {
-        MPLCodingNotSupported()
     }
 
     // MARK: - Subclass
