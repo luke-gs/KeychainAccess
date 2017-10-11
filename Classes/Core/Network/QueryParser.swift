@@ -62,6 +62,7 @@ public enum QueryParserError: LocalizedError {
     case invalidToken(token: String, key: String)
     case typeNotFound(token: String)
     case requiredValueNotFound(key: String)
+    case customErrorMessage(String)
     
     public var errorDescription: String? {
         var message: String
@@ -77,6 +78,8 @@ public enum QueryParserError: LocalizedError {
             message = "Unidentified value '\(token)' found. Refer to search help."
         case QueryParserError.invalidToken(let token, let key):
             message = "Token '\(token)' is invalid for value '\(key)'."
+        case QueryParserError.customErrorMessage(let errorMessage):
+            message = errorMessage
         }
         return message
     }
@@ -99,7 +102,7 @@ open class QueryParser {
     ///
     /// - Parameter query:  The search string to parse.
     /// - Returns:          The results of the parsing as a map.
-    open func parseString(query: String) throws -> [String:String] {
+    open func parseString(query: String, defaultErrorMessage: String? = nil) throws -> [String:String] {
         
         // Split up query string using parser's delimiter
         let tokens = parser.tokensFrom(query: query)
@@ -159,7 +162,9 @@ open class QueryParser {
                 }
             }
             
-            guard found else { throw QueryParserError.typeNotFound(token: token) }
+            guard found else {
+                throw defaultErrorMessage != nil ? QueryParserError.customErrorMessage(defaultErrorMessage!) : QueryParserError.typeNotFound(token: token)
+            }   
         }
         
         // Check all required tokens have been found
