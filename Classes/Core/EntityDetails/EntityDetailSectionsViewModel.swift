@@ -48,12 +48,12 @@ public class EntityDetailSectionsViewModel {
         }
     }
 
-    private var matchMaker: MatchMaker
+    private var matchMaker: MatchMaker?
     private var detailSectionsDataSources: [EntityDetailSectionsDataSource]
     private var entityFetch: Fetchable?
     fileprivate let initialSource: EntitySource
 
-    public init(initialSource: EntitySource, dataSources: [EntityDetailSectionsDataSource], andMatchMaker matchMaker: MatchMaker) {
+    public init(initialSource: EntitySource, dataSources: [EntityDetailSectionsDataSource], andMatchMaker matchMaker: MatchMaker?) {
         self.initialSource = initialSource
         self.selectedSource = initialSource
         self.detailSectionsDataSources = dataSources
@@ -67,7 +67,7 @@ public class EntityDetailSectionsViewModel {
     }
 
     public func performSubsequentFetch(for source: EntitySource) {
-        entityFetch = matchMaker.findMatch(for: currentEntity, withInitialSource: initialSource, andDestinationSource: selectedSource)
+        entityFetch = matchMaker?.findMatch(for: currentEntity, withInitialSource: initialSource, andDestinationSource: selectedSource)
         entityFetch?.delegate = self
         entityFetch?.performFetch()
     }
