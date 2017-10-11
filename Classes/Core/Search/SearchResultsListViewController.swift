@@ -237,9 +237,9 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         let result = viewModel!.results[indexPath.section]
         switch result.state {
-        case .finished where result.error != nil:
-            return false
-        case .searching:
+        case .finished where result.error != nil,
+             .finished where result.entities.count == 0,
+             .searching:
             return false
         default:
             return true
@@ -271,9 +271,9 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
         let result = viewModel!.results[indexPath.section]
         switch result.state {
-        case .finished where result.error != nil || result.entities.count == 0:
-            return collectionView.bounds.width
-        case .searching:
+        case .finished where result.error != nil,
+             .finished where result.entities.count == 0,
+             .searching:
             return collectionView.bounds.width
         default:
             break
@@ -285,10 +285,10 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
         let result = viewModel!.results[indexPath.section]
         switch result.state {
-        case .finished where result.error != nil:
-            return 152
-        case .searching:
-            return 152
+        case .finished where result.error != nil,
+             .finished where result.entities.count == 0,
+             .searching:
+            return SearchResultErrorCell.contentHeight
         default:
             break
         }

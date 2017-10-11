@@ -9,6 +9,9 @@
 import Foundation
 
 public class SearchResultErrorCell: UICollectionViewCell, DefaultReusable {
+    
+    public static let contentHeight: CGFloat = 152.0
+    
     public let titleLabel = UILabel(frame: .zero)
     public let button = UIButton(type: .system)
     
