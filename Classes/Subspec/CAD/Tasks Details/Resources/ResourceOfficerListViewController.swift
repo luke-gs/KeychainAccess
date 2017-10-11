@@ -96,6 +96,12 @@ extension OfficerCell {
         separatorStyle = .indented
         accessoryView = nil
         
+        let (messageEnabled, callEnabled, videoEnabled) = viewModel.commsEnabled
+        
+        messageButton.isEnabled = messageEnabled
+        callButton.isEnabled = callEnabled
+        videoButton.isEnabled = videoEnabled
+        
         titleLabel.text = viewModel.title
         subtitleLabel.text = viewModel.subtitle
         badgeLabel.text = viewModel.badgeText

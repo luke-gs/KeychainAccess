@@ -35,7 +35,7 @@ open class OfficerCell: CollectionViewFormSubtitleCell {
         addSubview(buttonsView)
         
         messageButton.setImage(AssetManager.shared.image(forKey: .email), for: .normal)
-        messageButton.tintColor = #colorLiteral(red: 0, green: 0.4802979827, blue: 0.9984222054, alpha: 1)
+        messageButton.tintColor = #colorLiteral(red: 0, green: 0.4802979827, blue: 0.9984222054, alpha: 1)  
         buttonsView.addSubview(messageButton)
         
         // TODO: Get real image

@@ -28,8 +28,8 @@ open class ResourceOfficerListViewModel {
 extension ResourceOfficerListViewModel {
     public func loadDummyData() {
         officers += [
-            ResourceOfficerViewModel(title: "Dean McCrae", subtitle: "Senior Constable  :  #820904  :  Gold License", badgeText: "DRIVER"),
-            ResourceOfficerViewModel(title: "Sarah Worrall", subtitle: "Constable  :  #800560  :  Silver License", badgeText: nil),
+            ResourceOfficerViewModel(title: "Dean McCrae", subtitle: "Senior Constable  :  #820904  :  Gold License", badgeText: "DRIVER", commsEnabled: (text: true, call: true, video: false)),
+            ResourceOfficerViewModel(title: "Sarah Worrall", subtitle: "Constable  :  #800560  :  Silver License", badgeText: nil, commsEnabled: (text: true, call: true, video: true)),
         ]
     }
 }
