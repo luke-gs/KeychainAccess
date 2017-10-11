@@ -29,6 +29,8 @@ public class EntitySummarySearchResultViewModel<T: MPOLKitEntity, Decorator: Ent
     
     public weak var delegate: SearchResultViewModelDelegate?
     
+    public var summarySearchResultsHandler: ((_ entities: [T]) -> [T]) = { return $0 }
+    
     public let aggregatedSearch: AggregatedSearch<T>
 
     public init(title: String, aggregatedSearch: AggregatedSearch<T>) {
@@ -118,8 +120,9 @@ public class EntitySummarySearchResultViewModel<T: MPOLKitEntity, Decorator: Ent
     private func processedResults(from rawResults: [AggregatedResult<T>]) -> [SearchResultSection] {
         
         let processedResults: [SearchResultSection] = rawResults.map { (rawResult) -> SearchResultSection in
+            let entities = summarySearchResultsHandler(rawResult.entities)
             return SearchResultSection(title: rawResult.titleForCurrentState(),
-                                       entities: rawResult.entities,
+                                       entities: entities,
                                        isExpanded: true,
                                        state: rawResult.state,
                                        error: rawResult.error)
