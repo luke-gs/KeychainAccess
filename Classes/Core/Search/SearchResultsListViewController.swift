@@ -141,7 +141,7 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
 
     // MARK: - UICollectionViewDataSource methods
 
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
+    open override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return viewModel?.results.count ?? 0
     }
     
