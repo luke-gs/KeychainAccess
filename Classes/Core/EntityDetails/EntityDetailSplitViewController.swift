@@ -9,10 +9,17 @@
 import UIKit
 import PromiseKit
 
+public protocol EntityDetailSplitViewControllerDelegate: class {
+    
+    func entityDetailSplitViewController<Details: EntityDetailDisplayable, Summary: EntitySummaryDisplayable>(_ entityDetailSplitViewController: EntityDetailSplitViewController<Details, Summary>, didPresentEntity entity: MPOLKitEntity)
+}
+
 open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Summary: EntitySummaryDisplayable>: SidebarSplitViewController {
 
     private let headerView = SidebarHeaderView(frame: .zero)
     fileprivate let detailViewModel: EntityDetailSectionsViewModel
+    
+    public weak var delegate: EntityDetailSplitViewControllerDelegate?
 
     // Appearance properties
 
@@ -135,6 +142,9 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
             let source = $0.serverSourceName
             if let result = detailViewModel.results[source] {
                 updateDetailSectionsAvailability(result.state == .finished)
+                if result.state == .finished, detailViewModel.selectedSource == $0, let entity = result.entity {
+                    delegate?.entityDetailSplitViewController(self, didPresentEntity: entity)
+                }
             }
         }
     }
