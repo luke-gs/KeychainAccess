@@ -20,12 +20,6 @@ public protocol EntityDetailSectionsDelegate: class {
     func entityDetailSectionDidSelectRetryDownload(_ EntityDetailSectionsViewModel: EntityDetailSectionsViewModel)
 }
 
-public extension EntityDetailSectionsDelegate {
-    
-    func entityDetailSectionsDidUpdateResults(_ EntityDetailSectionsViewModel: EntityDetailSectionsViewModel) { }
-    func entityDetailSectionDidSelectRetryDownload(_ EntityDetailSectionsViewModel: EntityDetailSectionsViewModel) { }
-}
-
 public struct EntityFetchResult {
     public var entity: MPOLKitEntity?
     public var state: FetchState = .idle
