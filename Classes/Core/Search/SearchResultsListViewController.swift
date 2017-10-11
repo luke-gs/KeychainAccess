@@ -204,14 +204,21 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
             let hasError = result.error != nil
 
             cell.titleLabel.text = message.isEmpty == false ? message : NSLocalizedString("Unknown error has occurred.", comment: "[Search result screen] - Unknown error message when error doesn't contain localized description")
-            cell.button.setTitle(hasError ? "Try Again" : "New Search", for: .normal)
-            cell.buttonHandler = { [weak self] (cell) in
+            cell.actionButton.setTitle(hasError ? "Try Again" : "New Search", for: .normal)
+            cell.actionButtonHandler = { [weak self] (cell) in
                 guard let `self` = self else {  return }
                 if hasError {
                     self.viewModel!.retry(section: indexPath.section)
                 } else {
                     self.delegate?.searchResultsControllerDidRequestToEdit(self)
                 }
+            }
+            cell.readMoreButtonHandler = { [weak self] (cell) in
+                guard let `self` = self else {  return }
+                let messageVC = SearchResultMessageViewController(message: cell.titleLabel.text!)
+                let navController = PopoverNavigationController(rootViewController: messageVC)
+                navController.modalPresentationStyle = .formSheet
+                self.present(navController, animated: true, completion: nil)
             }
 
             cell.apply(theme: ThemeManager.shared.theme(for: userInterfaceStyle))
