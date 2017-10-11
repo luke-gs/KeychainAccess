@@ -7,9 +7,12 @@
 //
 
 import UIKit
+import CoreLocation
 
 open class TasksSplitViewModel {
-
+    // FIXME: Temporary, remove later
+    private let locationManager = CLLocationManager()
+    
     private let tasksListViewModel: TasksListViewModel
 
     public init() {
@@ -28,7 +31,7 @@ open class TasksSplitViewModel {
     }
 
     public func createMapViewController() -> UIViewController {
-        let mapViewController = TasksMapViewController()
+        let mapViewController = TasksMapViewController(withLocationManager: locationManager)
         return mapViewController
     }
 
