@@ -111,7 +111,7 @@ open class RegularSidebarViewController: UIViewController, UITableViewDataSource
             guard let sidebarTableView = sidebarTableView else { return }
             
             sidebarTableView.estimatedSectionHeaderHeight = headerView == nil ? 0.0 : 30.0
-            sidebarTableView.reloadSections(IndexSet(integer: 1), with: .none)
+            sidebarTableView.reloadSections(IndexSet(integer: 0), with: .none)
         }
     }
     

@@ -402,7 +402,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
 
     // MARK: - UICollectionViewDataSource methods
 
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
+    open override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return ((selectedDataSource.options?.numberOfOptions ?? 0) > 0) ? 1 : 0
     }
 

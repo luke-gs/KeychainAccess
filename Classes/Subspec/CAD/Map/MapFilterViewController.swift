@@ -33,7 +33,7 @@ open class MapFilterViewController: FormCollectionViewController {
     
     // MARK: - UICollectionViewDataSource
     
-    public func numberOfSections(in collectionView: UICollectionView) -> Int {
+    open override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
