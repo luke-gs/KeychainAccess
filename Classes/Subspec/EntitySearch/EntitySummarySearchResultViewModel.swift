@@ -83,6 +83,11 @@ public class EntitySummarySearchResultViewModel<T: MPOLKitEntity, Decorator: Ent
     
     public func collectionView(_ collectionView: UICollectionView, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat, for traitCollection: UITraitCollection) -> CGFloat {
         
+        let items = results[indexPath.section].entities
+        if items.count == 0 {
+            return 152.0
+        }
+        
         if style == .grid && traitCollection.horizontalSizeClass != .compact {
             return EntityCollectionViewCell.minimumContentHeight(forStyle: entityStyle(for: style), compatibleWith: traitCollection) - 12.0
         }
