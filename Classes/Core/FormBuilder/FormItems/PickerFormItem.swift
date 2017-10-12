@@ -41,7 +41,7 @@ public class PickerFormItem<T>: BaseFormItem, SelectionActionable, DefaultReusab
         super.init(cellType: CollectionViewFormValueFieldCell.self, reuseIdentifier: PickerFormItem.defaultReuseIdentifier)
 
         selectionStyle = .underline
-        accessory = FormItemAccessory.dropDown
+        accessory = ItemAccessory.dropDown
         placeholder = "Select"
     }
 

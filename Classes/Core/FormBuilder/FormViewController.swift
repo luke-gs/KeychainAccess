@@ -398,7 +398,6 @@ open class FormViewController: UIViewController, UICollectionViewDataSource, UIC
 
         if let cell = cell as? CollectionViewFormCell {
             let theme = ThemeManager.shared.theme(for: .current)
-
             item.cell = cell
             item.decorate(cell, withTheme: theme)
 
@@ -406,34 +405,6 @@ open class FormViewController: UIViewController, UICollectionViewDataSource, UIC
                 item.accessory?.apply(theme: theme, toView: accessoryView)
             }
         }
-
-//        if let formCell = cell as? CollectionViewFormCell {
-//            if let accessory = formCell.accessoryView {
-//                func updateTintColor(for view: FormAccessoryView) {
-//                    switch view.style {
-//                    case .checkmark:
-//                        view.tintColor = nil
-//                    case .disclosure:
-//                        view.tintColor = self.disclosureColor
-//                    case .dropDown:
-//                        view.tintColor = self.primaryTextColor
-//                    }
-//                }
-//
-//                switch accessory {
-//                case let labeledAcccessory as LabeledAccessoryView:
-//                    labeledAcccessory.titleLabel.textColor = primaryTextColor ?? .black
-//                    labeledAcccessory.subtitleLabel.textColor = secondaryTextColor ?? .darkGray
-//
-//                    if let formAccessory = labeledAcccessory.accessoryView as? FormAccessoryView {
-//                        updateTintColor(for: formAccessory)
-//                    }
-//                default:
-//                    break
-//                }
-//            }
-//        }
-
     }
 
     public func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {

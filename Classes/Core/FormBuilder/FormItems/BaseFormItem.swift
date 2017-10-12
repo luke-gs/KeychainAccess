@@ -14,12 +14,11 @@ import UIKit
 /// BaseFormItem for a CollectionViewFormCell.
 open class BaseFormItem: NSObject, FormItem {
 
-
     /// Defines the width of the item to be displayed.
     ///
     /// - intrinsic: Uses item's intrinsic size
     /// - fixed: Uses a fixed points system. E.g. 250 points.
-    /// - column: Uses column system. E.g. '.column(3)' indicates that the item would occupy a 1/3 of content width.
+    /// - column: Uses column system. E.g. '.column(3)' indicates that the item would occupy 1/3 of the full content width.
     /// - dynamic->CGFloat: Use this to provide a custom width based on the info provided. Use this if the other styles are ineffective.
     public enum HorizontalDistribution {
         case intrinsic
@@ -81,7 +80,7 @@ open class BaseFormItem: NSObject, FormItem {
 
     public var reuseIdentifier: String
 
-    public var accessory: BaseFormItemAccessorisable?
+    public var accessory: ItemAccessorisable?
 
     public var editActions: [CollectionViewFormEditAction] = []
 
@@ -336,7 +335,7 @@ extension BaseFormItem {
     }
 
     @discardableResult
-    public func accessory(_ accessory: BaseFormItemAccessorisable?) -> Self {
+    public func accessory(_ accessory: ItemAccessorisable?) -> Self {
         self.accessory = accessory
         return self
     }

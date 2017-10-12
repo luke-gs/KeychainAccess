@@ -14,20 +14,26 @@ class AccessoryViewController: FormViewController {
     override func construct(builder: FormBuilder) {
 
         builder.title = "Accessories"
+        builder.forceLinearLayout = true
 
         builder += HeaderFormItem(text: "ACCESSORIES")
 
-        builder += SubtitleFormItem(title: "Disclosure", subtitle: "Disclosure", image: #imageLiteral(resourceName: "SidebarInfo"))
-            .accessory(FormItemAccessory.disclosure)
-            .width(.column(1))
+        builder += SubtitleFormItem(title: "ItemAccessory", subtitle: "Disclosure", image: #imageLiteral(resourceName: "SidebarInfo"))
+            .accessory(ItemAccessory.disclosure)
 
-        builder += SubtitleFormItem(title: "Checkmark", subtitle: "Checkmark", image: #imageLiteral(resourceName: "SidebarInfo"))
-            .accessory(FormItemAccessory.checkmark)
-            .width(.column(1))
+        builder += SubtitleFormItem(title: "ItemAccessory", subtitle: "Checkmark", image: #imageLiteral(resourceName: "SidebarInfo"))
+            .accessory(ItemAccessory.checkmark)
 
-        builder += SubtitleFormItem(title: "Dropdown", subtitle: "Dropdown", image: #imageLiteral(resourceName: "SidebarInfo"))
-            .accessory(FormItemAccessory.dropDown)
-            .width(.column(1))
+        builder += SubtitleFormItem(title: "ItemAccessory", subtitle: "Dropdown", image: #imageLiteral(resourceName: "SidebarInfo"))
+            .accessory(ItemAccessory.dropDown)
+
+        builder += SubtitleFormItem(title: "LabeledItemAccessory", subtitle: "DropDown", image: #imageLiteral(resourceName: "SidebarInfo"))
+            .accessory(LabeledItemAccessory(title: "Title", subtitle: "Subtitle", accessory: ItemAccessory.dropDown))
+
+        builder += SubtitleFormItem(title: "CustomItemAccessory", subtitle: "ImageView", image: #imageLiteral(resourceName: "SidebarInfo"))
+            .accessory(CustomItemAccessory(onCreate: { () -> UIView in
+                return UIImageView(image: AssetManager.shared.image(forKey: .info))
+            }, size: CGSize(width: 24.0, height: 24.0)))
 
     }
 

@@ -35,7 +35,7 @@ class PersonDetailViewController: FormViewController {
 
         for i in 1...100 {
             let item = SubtitleFormItem(title: "Manager \(i)", subtitle: "Subtitle \(i)")
-            item.accessory = FormItemAccessory.disclosure
+            item.accessory = ItemAccessory.disclosure
             item.width = .column(3)
             mangaItems.append(item)
         }
