@@ -84,6 +84,13 @@ open class TasksMapViewController: MapViewController {
                                                   statusText: "Status Text", // FIXME: Get real text
                                                   itemName: "\(annotation.title ?? "") \(annotation.subtitle ?? "")",
                                                   lastUpdated: "Updated 2 mins ago")  // FIXME: Get real text
+        } else if let annotation = view.annotation as? IncidentAnnotation {
+            viewModel = IncidentTaskItemViewModel(iconImage: AssetManager.shared.image(forKey: .resourceDog), // FIXME: Get real icon
+                                                  iconTintColor: .darkGray,
+                                                  color: .lightGray,
+                                                  statusText: annotation.subtitle, // FIXME: Get real text
+                itemName: annotation.title ?? "",
+                lastUpdated: "Updated 2 mins ago")  // FIXME: Get real text
         } else {
             viewModel = nil
         }

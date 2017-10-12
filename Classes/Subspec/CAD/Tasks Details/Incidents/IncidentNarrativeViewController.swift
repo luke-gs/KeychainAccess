@@ -1,14 +1,14 @@
 //
-//  ResourceActivityLogViewController.swift
+//  IncidentNarrativeViewController.swift
 //  MPOLKit
 //
-//  Created by Kyle May on 9/10/17.
+//  Created by Kyle May on 13/10/17.
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 
 import UIKit
 
-public class ResourceActivityLogViewController: ActivityLogViewController {
+public class IncidentNarrativeViewController: ActivityLogViewController {
 
     public override init(viewModel: CADFormCollectionViewModel<ActivityLogItemViewModel>) {
         super.init(viewModel: viewModel)

@@ -80,6 +80,13 @@
 		278987F61F8DBE0D006696DE /* ResourceActivityLogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278987F51F8DBE0D006696DE /* ResourceActivityLogViewModel.swift */; };
 		278987FE1F8DC78E006696DE /* ResourceTaskItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278987FD1F8DC78E006696DE /* ResourceTaskItemViewModel.swift */; };
 		278CA1051F7CA4A00073DFBA /* ResourceAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278CA1041F7CA4A00073DFBA /* ResourceAnnotationView.swift */; };
+		27C9C7491F8EE98400799855 /* IncidentAssociationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C9C7481F8EE98400799855 /* IncidentAssociationsViewController.swift */; };
+		27C9C74C1F8EE9B400799855 /* IncidentAssociationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C9C74B1F8EE9B400799855 /* IncidentAssociationsViewModel.swift */; };
+		27C9C74E1F901E7800799855 /* IncidentPersonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C9C74D1F901E7800799855 /* IncidentPersonViewModel.swift */; };
+		27C9C7501F90234C00799855 /* IncidentNarrativeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C9C74F1F90234C00799855 /* IncidentNarrativeViewController.swift */; };
+		27C9C7521F9023D500799855 /* IncidentNarrativeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C9C7511F9023D500799855 /* IncidentNarrativeViewModel.swift */; };
+		27C9C7541F90268E00799855 /* IncidentTaskItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C9C7531F90268E00799855 /* IncidentTaskItemViewModel.swift */; };
+		27C9C7561F902CB400799855 /* IncidentOverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C9C7551F902CB400799855 /* IncidentOverviewViewController.swift */; };
 		27CBC7561F8B277E00E387C3 /* TimelineCollectionViewFormLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A45E1F83555A00CAE056 /* TimelineCollectionViewFormLayout.swift */; };
 		27CBC7571F8B277E00E387C3 /* TimelineFormCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A45F1F83555A00CAE056 /* TimelineFormCollectionViewController.swift */; };
 		27CBC7581F8B277E00E387C3 /* TimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A4601F83555A00CAE056 /* TimelineView.swift */; };
@@ -433,6 +440,13 @@
 		278987F51F8DBE0D006696DE /* ResourceActivityLogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceActivityLogViewModel.swift; sourceTree = "<group>"; };
 		278987FD1F8DC78E006696DE /* ResourceTaskItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceTaskItemViewModel.swift; sourceTree = "<group>"; };
 		278CA1041F7CA4A00073DFBA /* ResourceAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceAnnotationView.swift; sourceTree = "<group>"; };
+		27C9C7481F8EE98400799855 /* IncidentAssociationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentAssociationsViewController.swift; sourceTree = "<group>"; };
+		27C9C74B1F8EE9B400799855 /* IncidentAssociationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentAssociationsViewModel.swift; sourceTree = "<group>"; };
+		27C9C74D1F901E7800799855 /* IncidentPersonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentPersonViewModel.swift; sourceTree = "<group>"; };
+		27C9C74F1F90234C00799855 /* IncidentNarrativeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentNarrativeViewController.swift; sourceTree = "<group>"; };
+		27C9C7511F9023D500799855 /* IncidentNarrativeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentNarrativeViewModel.swift; sourceTree = "<group>"; };
+		27C9C7531F90268E00799855 /* IncidentTaskItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentTaskItemViewModel.swift; sourceTree = "<group>"; };
+		27C9C7551F902CB400799855 /* IncidentOverviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentOverviewViewController.swift; sourceTree = "<group>"; };
 		27CBC74A1F8B00AB00E387C3 /* UIViewController+ChildViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+ChildViewController.swift"; sourceTree = "<group>"; };
 		27CBC7831F8B2AF000E387C3 /* TaskItemsSidebarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskItemsSidebarViewController.swift; sourceTree = "<group>"; };
 		27CBC7851F8B2AF000E387C3 /* ResourceOverviewDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceOverviewDetailViewController.swift; sourceTree = "<group>"; };
@@ -869,6 +883,7 @@
 			children = (
 				27CBC7871F8B2AF000E387C3 /* TaskItemViewModel.swift */,
 				278987FD1F8DC78E006696DE /* ResourceTaskItemViewModel.swift */,
+				27C9C7531F90268E00799855 /* IncidentTaskItemViewModel.swift */,
 			);
 			path = "View Model";
 			sourceTree = "<group>";
@@ -882,9 +897,31 @@
 			path = Annotations;
 			sourceTree = "<group>";
 		};
+		27C9C7471F8EE95600799855 /* Incidents */ = {
+			isa = PBXGroup;
+			children = (
+				27C9C74A1F8EE99100799855 /* View Models */,
+				27C9C7481F8EE98400799855 /* IncidentAssociationsViewController.swift */,
+				27C9C74F1F90234C00799855 /* IncidentNarrativeViewController.swift */,
+				27C9C7551F902CB400799855 /* IncidentOverviewViewController.swift */,
+			);
+			path = Incidents;
+			sourceTree = "<group>";
+		};
+		27C9C74A1F8EE99100799855 /* View Models */ = {
+			isa = PBXGroup;
+			children = (
+				27C9C74B1F8EE9B400799855 /* IncidentAssociationsViewModel.swift */,
+				27C9C74D1F901E7800799855 /* IncidentPersonViewModel.swift */,
+				27C9C7511F9023D500799855 /* IncidentNarrativeViewModel.swift */,
+			);
+			path = "View Models";
+			sourceTree = "<group>";
+		};
 		27CBC7821F8B2AF000E387C3 /* Tasks Details */ = {
 			isa = PBXGroup;
 			children = (
+				27C9C7471F8EE95600799855 /* Incidents */,
 				27CBC7831F8B2AF000E387C3 /* TaskItemsSidebarViewController.swift */,
 				278987FC1F8DC566006696DE /* View Model */,
 				27CBC7841F8B2AF000E387C3 /* Resources */,
@@ -2020,6 +2057,7 @@
 				BC0EA3F41F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift in Sources */,
 				BC9C7E481F0DED6600DFFE83 /* SourceBarCell.swift in Sources */,
 				96CF32341F8D7C7700140AF8 /* TasksListHeaderViewModel.swift in Sources */,
+				27C9C7541F90268E00799855 /* IncidentTaskItemViewModel.swift in Sources */,
 				BC9C7E3D1F0DED6600DFFE83 /* PickerTableViewController.swift in Sources */,
 				27CBC7891F8B2B2E00E387C3 /* ResourceActivityLogViewController.swift in Sources */,
 				BC9C7DC71F0DED6600DFFE83 /* HTTPAuthenticationMode.swift in Sources */,
@@ -2066,9 +2104,11 @@
 				27206B361F8198CD005303A8 /* IncidentAnnotationView.swift in Sources */,
 				BC9C7DF21F0DED6600DFFE83 /* ISO8601DateTransformer+UnboxFormatter.swift in Sources */,
 				BC9C7DCF1F0DED6600DFFE83 /* ManifestCollection.swift in Sources */,
+				27C9C7501F90234C00799855 /* IncidentNarrativeViewController.swift in Sources */,
 				46B3FE811F5E49FB0012476A /* ConsoleLogger.swift in Sources */,
 				BC1B260D1F20BB3A009674B7 /* StatusTabBarController.swift in Sources */,
 				19F8DDB21F4D7D2400D84DA1 /* APIManager.swift in Sources */,
+				27C9C74C1F8EE9B400799855 /* IncidentAssociationsViewModel.swift in Sources */,
 				EA76ECF91F57DB8E00524830 /* LookupAddressAdvancedParameters.swift in Sources */,
 				C63408591F30E5A0000747B0 /* SearchResult.swift in Sources */,
 				2742CD2D1F84973F00D08DCF /* MapFilterViewController.swift in Sources */,
@@ -2139,6 +2179,7 @@
 				BC9C7DD71F0DED6600DFFE83 /* URLQueryBuilder.swift in Sources */,
 				278987FE1F8DC78E006696DE /* ResourceTaskItemViewModel.swift in Sources */,
 				27CBC7611F8B27C700E387C3 /* TasksMapViewModel.swift in Sources */,
+				27C9C7491F8EE98400799855 /* IncidentAssociationsViewController.swift in Sources */,
 				DBE24C3D1F593BEF0088D19B /* EntityDetailSectionsViewModel.swift in Sources */,
 				BC9C7E1A1F0DED6600DFFE83 /* SelectableButton.swift in Sources */,
 				BC9C7E251F0DED6600DFFE83 /* EntityCollectionViewCell.swift in Sources */,
@@ -2150,6 +2191,7 @@
 				27CBC7641F8B27CC00E387C3 /* TaskAnnotation.swift in Sources */,
 				BC9C7E441F0DED6600DFFE83 /* SidebarSplitViewController.swift in Sources */,
 				BC9C7DFD1F0DED6600DFFE83 /* CollectionViewFormValueFieldCell.swift in Sources */,
+				27C9C7561F902CB400799855 /* IncidentOverviewViewController.swift in Sources */,
 				BC9C7E4B1F0DED6600DFFE83 /* Theme.swift in Sources */,
 				BC9C7E091F0DED6600DFFE83 /* UITableViewCell+LayoutMargins.swift in Sources */,
 				BC9C7E521F0DED6600DFFE83 /* FormDisclosureView.swift in Sources */,
@@ -2162,6 +2204,7 @@
 				12048FC81F7881C50014748E /* MatchMaker.swift in Sources */,
 				BC9C7DEA1F0DED6600DFFE83 /* DefaultCustomStringConvertible.swift in Sources */,
 				DB88BCE01F42D0110056FD69 /* SearchEntityListCell.swift in Sources */,
+				27C9C7521F9023D500799855 /* IncidentNarrativeViewModel.swift in Sources */,
 				DBE24C2E1F5939C90088D19B /* EntityDetailsFetchRequest.swift in Sources */,
 				BC9C7E231F0DED6600DFFE83 /* AlertQueue.swift in Sources */,
 				BC9C7DF71F0DED6600DFFE83 /* CollectionViewFormEditAction.swift in Sources */,
@@ -2242,6 +2285,7 @@
 				19B49BC11F665F2A00502F51 /* CompactSidebarSourceViewController.swift in Sources */,
 				96CF322E1F8C429D00140AF8 /* CADFormCollectionViewController.swift in Sources */,
 				96CF32251F8C34C700140AF8 /* TasksListItemCell.swift in Sources */,
+				27C9C74E1F901E7800799855 /* IncidentPersonViewModel.swift in Sources */,
 				27CBC7671F8B27D500E387C3 /* CallsignStatusViewModel.swift in Sources */,
 				BC9C7E171F0DED6600DFFE83 /* FormTextField.swift in Sources */,
 				BC9C7E041F0DED6600DFFE83 /* UIColor+ActionColors.swift in Sources */,
