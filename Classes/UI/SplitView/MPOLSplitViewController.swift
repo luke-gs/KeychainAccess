@@ -84,7 +84,7 @@ open class MPOLSplitViewController: PushableSplitViewController {
 
     /// Return the title to use for the master navigation controller for the given traits
     open func masterNavTitleSuitable(for traitCollection: UITraitCollection) -> String {
-        return ""
+        return self.title ?? ""
     }
 
     /// Notification that paging scroll view has updated
