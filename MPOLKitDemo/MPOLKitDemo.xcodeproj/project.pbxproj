@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		19EFD2F41F4D308600422F2A /* MPOLSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EFD2F31F4D308600422F2A /* MPOLSource.swift */; };
-		19EFD2F61F4D35AC00422F2A /* MPOLAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EFD2F51F4D35AC00422F2A /* MPOLAPIManager.swift */; };
 		19EFD2F81F4D35FD00422F2A /* SearchLookupAddressTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EFD2F71F4D35FD00422F2A /* SearchLookupAddressTableViewController.swift */; };
 		761ABC5D3D3F8181084EB823 /* Pods_MPOLKitDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BECA0FB8F0943957022C002E /* Pods_MPOLKitDemo.framework */; };
 		BC9C7E7E1F0DF0E700DFFE83 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC9C7E771F0DF0E700DFFE83 /* Assets.xcassets */; };
@@ -17,11 +16,20 @@
 		BCAD1EFD1F262B680033AD66 /* CollectionDemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFF7D101F262A4F00AB0A5A /* CollectionDemoListViewController.swift */; };
 		BCAD1EFE1F262B680033AD66 /* HeadersBasicFormCellsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFF7D0D1F262A4F00AB0A5A /* HeadersBasicFormCellsController.swift */; };
 		BCAD1EFF1F262B680033AD66 /* NoContentCollectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFF7D0E1F262A4F00AB0A5A /* NoContentCollectionController.swift */; };
+		EA11F0291F83566A00BF8BCA /* AccessoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA11F0281F83566A00BF8BCA /* AccessoryViewController.swift */; };
+		EA1B3C9D1F72538A00574A41 /* PersonDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA1B3C9C1F72538A00574A41 /* PersonDetailViewController.swift */; };
+		EA1B3C9F1F7257B100574A41 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA1B3C9E1F7257B100574A41 /* ListViewController.swift */; };
+		EA445D9E1F734B7700ABF70F /* HeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA445D9D1F734B7700ABF70F /* HeaderViewController.swift */; };
+		EA445DA01F73523700ABF70F /* BasicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA445D9F1F73523700ABF70F /* BasicViewController.swift */; };
+		EA445DA41F735D2B00ABF70F /* SignViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA445DA31F735D2B00ABF70F /* SignViewController.swift */; };
+		EA445DA81F737B6600ABF70F /* ResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA445DA71F737B6600ABF70F /* ResultsViewController.swift */; };
+		EA8C063D1F847C9400AE5161 /* DebugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8C063C1F847C9400AE5161 /* DebugViewController.swift */; };
+		EA950E441F86EEE600B5A349 /* SubscriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA950E431F86EEE600B5A349 /* SubscriptionViewController.swift */; };
+		EA950E481F8DAEC200B5A349 /* CustomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA950E471F8DAEC200B5A349 /* CustomViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		19EFD2F31F4D308600422F2A /* MPOLSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPOLSource.swift; sourceTree = "<group>"; };
-		19EFD2F51F4D35AC00422F2A /* MPOLAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPOLAPIManager.swift; sourceTree = "<group>"; };
 		19EFD2F71F4D35FD00422F2A /* SearchLookupAddressTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchLookupAddressTableViewController.swift; sourceTree = "<group>"; };
 		456B2831B11E426CBE3F4C4C /* Pods-MPOLKitDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKitDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKitDemo/Pods-MPOLKitDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		BC9C7E601F0DF0AA00DFFE83 /* MPOLKitDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MPOLKitDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -35,6 +43,16 @@
 		BCFF7D0F1F262A4F00AB0A5A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BCFF7D101F262A4F00AB0A5A /* CollectionDemoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionDemoListViewController.swift; sourceTree = "<group>"; };
 		BECA0FB8F0943957022C002E /* Pods_MPOLKitDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOLKitDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA11F0281F83566A00BF8BCA /* AccessoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessoryViewController.swift; sourceTree = "<group>"; };
+		EA1B3C9C1F72538A00574A41 /* PersonDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonDetailViewController.swift; sourceTree = "<group>"; };
+		EA1B3C9E1F7257B100574A41 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
+		EA445D9D1F734B7700ABF70F /* HeaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderViewController.swift; sourceTree = "<group>"; };
+		EA445D9F1F73523700ABF70F /* BasicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicViewController.swift; sourceTree = "<group>"; };
+		EA445DA31F735D2B00ABF70F /* SignViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignViewController.swift; sourceTree = "<group>"; };
+		EA445DA71F737B6600ABF70F /* ResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsViewController.swift; sourceTree = "<group>"; };
+		EA8C063C1F847C9400AE5161 /* DebugViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugViewController.swift; sourceTree = "<group>"; };
+		EA950E431F86EEE600B5A349 /* SubscriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionViewController.swift; sourceTree = "<group>"; };
+		EA950E471F8DAEC200B5A349 /* CustomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewController.swift; sourceTree = "<group>"; };
 		F8C6836D38694AC50A4F0D6E /* Pods-MPOLKitDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKitDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKitDemo/Pods-MPOLKitDemo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -93,12 +111,12 @@
 			isa = PBXGroup;
 			children = (
 				BCFF7D0F1F262A4F00AB0A5A /* AppDelegate.swift */,
-				19EFD2F51F4D35AC00422F2A /* MPOLAPIManager.swift */,
 				19EFD2F31F4D308600422F2A /* MPOLSource.swift */,
 				BCFF7D101F262A4F00AB0A5A /* CollectionDemoListViewController.swift */,
 				BCFF7D0D1F262A4F00AB0A5A /* HeadersBasicFormCellsController.swift */,
 				BCFF7D0E1F262A4F00AB0A5A /* NoContentCollectionController.swift */,
 				19EFD2F71F4D35FD00422F2A /* SearchLookupAddressTableViewController.swift */,
+				EA1B3C9B1F72538A00574A41 /* Form Examples */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -110,6 +128,31 @@
 				F8C6836D38694AC50A4F0D6E /* Pods-MPOLKitDemo.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		EA11F0271F83395500BF8BCA /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		EA1B3C9B1F72538A00574A41 /* Form Examples */ = {
+			isa = PBXGroup;
+			children = (
+				EA11F0271F83395500BF8BCA /* Helpers */,
+				EA1B3C9C1F72538A00574A41 /* PersonDetailViewController.swift */,
+				EA1B3C9E1F7257B100574A41 /* ListViewController.swift */,
+				EA445D9D1F734B7700ABF70F /* HeaderViewController.swift */,
+				EA445D9F1F73523700ABF70F /* BasicViewController.swift */,
+				EA445DA31F735D2B00ABF70F /* SignViewController.swift */,
+				EA445DA71F737B6600ABF70F /* ResultsViewController.swift */,
+				EA11F0281F83566A00BF8BCA /* AccessoryViewController.swift */,
+				EA8C063C1F847C9400AE5161 /* DebugViewController.swift */,
+				EA950E431F86EEE600B5A349 /* SubscriptionViewController.swift */,
+				EA950E471F8DAEC200B5A349 /* CustomViewController.swift */,
+			);
+			path = "Form Examples";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -230,6 +273,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-MPOLKitDemo/Pods-MPOLKitDemo-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/KeychainSwift/KeychainSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/MPOLKit/MPOLKit.framework",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Unbox/Unbox.framework",
@@ -239,6 +283,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MPOLKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Unbox.framework",
@@ -258,12 +303,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCAD1EFE1F262B680033AD66 /* HeadersBasicFormCellsController.swift in Sources */,
+				EA445DA81F737B6600ABF70F /* ResultsViewController.swift in Sources */,
+				EA445DA01F73523700ABF70F /* BasicViewController.swift in Sources */,
+				EA1B3C9F1F7257B100574A41 /* ListViewController.swift in Sources */,
+				EA445DA41F735D2B00ABF70F /* SignViewController.swift in Sources */,
+				EA1B3C9D1F72538A00574A41 /* PersonDetailViewController.swift in Sources */,
+				EA950E441F86EEE600B5A349 /* SubscriptionViewController.swift in Sources */,
 				BCAD1EFC1F262B680033AD66 /* AppDelegate.swift in Sources */,
 				BCAD1EFF1F262B680033AD66 /* NoContentCollectionController.swift in Sources */,
+				EA8C063D1F847C9400AE5161 /* DebugViewController.swift in Sources */,
+				EA11F0291F83566A00BF8BCA /* AccessoryViewController.swift in Sources */,
 				19EFD2F81F4D35FD00422F2A /* SearchLookupAddressTableViewController.swift in Sources */,
 				19EFD2F41F4D308600422F2A /* MPOLSource.swift in Sources */,
-				19EFD2F61F4D35AC00422F2A /* MPOLAPIManager.swift in Sources */,
 				BCAD1EFD1F262B680033AD66 /* CollectionDemoListViewController.swift in Sources */,
+				EA445D9E1F734B7700ABF70F /* HeaderViewController.swift in Sources */,
+				EA950E481F8DAEC200B5A349 /* CustomViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
