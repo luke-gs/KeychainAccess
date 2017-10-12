@@ -32,14 +32,6 @@ open class TasksSplitViewModel {
         return TasksSplitViewController(viewModel: self)
     }
 
-    public func createMasterViewControllerHeaderRegular() -> UIViewController {
-        return tasksListHeaderViewModel.createRegularViewController()
-    }
-
-    public func createMasterViewControllerHeaderCompact() -> UIViewController {
-        return tasksListHeaderViewModel.createCompactViewController()
-    }
-
     public func createMasterViewController() -> UIViewController {
         return TasksListContainerViewController(viewModel: self)
     }

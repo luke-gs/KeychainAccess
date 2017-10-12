@@ -8,7 +8,7 @@
 
 import UIKit
 
-/// Container view controller for showing task list, source bar and header
+/// Container view controller for showing task list, source bar and dynamic header
 class TasksListContainerViewController: UIViewController {
 
     /// The same view model as the split
@@ -18,16 +18,44 @@ class TasksListContainerViewController: UIViewController {
     private var tasksListViewController: UIViewController!
 
     /// The header for title and nav items
-    private var headerViewController: UIViewController!
+    private var headerViewController: UIViewController? {
+        didSet {
+            guard oldValue != headerViewController else { return }
+
+            // Cleanup old value
+            if let oldValue = oldValue {
+                oldValue.removeFromParentViewController()
+                oldValue.view.removeFromSuperview()
+            }
+
+            // Add the new header view controller as a child
+            if let headerViewController = headerViewController {
+                addChildViewController(headerViewController)
+                view.addSubview(headerViewController.view)
+                headerViewController.didMove(toParentViewController: self)
+
+                // Constrain header to top
+                let headerView = headerViewController.view!
+                headerView.translatesAutoresizingMaskIntoConstraints = false
+                NSLayoutConstraint.activate([
+                    headerView.topAnchor.constraint(equalTo: headerContainerView.topAnchor),
+                    headerView.leadingAnchor.constraint(equalTo: headerContainerView.leadingAnchor),
+                    headerView.trailingAnchor.constraint(equalTo: headerContainerView.trailingAnchor),
+                    headerView.bottomAnchor.constraint(equalTo: headerContainerView.bottomAnchor),
+                ])
+            }
+            view.setNeedsLayout()
+        }
+    }
+
+    /// A container view for the header, so layout can be applied relative to it
+    private var headerContainerView: UIView!
 
     /// The source bar used to choose task type
     private var sourceBar: SourceBar!
 
     /// The source bar inset manager
     private var sourceInsetManager: ScrollViewInsetManager?
-
-    /// Constraint for making header have no height
-    private var headerHiddenConstraint: NSLayoutConstraint?
 
     /// Constraint for making source bar have no height
     private var sourceBarHiddenConstraint: NSLayoutConstraint?
@@ -107,12 +135,11 @@ class TasksListContainerViewController: UIViewController {
         // Use inset manager to fix top margin
         sourceInsetManager = ScrollViewInsetManager(scrollView: sourceBar)
 
-        // Add child VCs
-        headerViewController = viewModel.tasksListHeaderViewModel.createRegularViewController()
-        addChildViewController(headerViewController)
-        view.addSubview(headerViewController.view)
-        headerViewController.didMove(toParentViewController: self)
+        // Add container for header
+        headerContainerView = UIView(frame: .zero)
+        view.addSubview(headerContainerView)
 
+        // Add task list
         tasksListViewController = viewModel.createTasksListViewController()
         addChildViewController(tasksListViewController)
         view.addSubview(tasksListViewController.view)
@@ -121,14 +148,12 @@ class TasksListContainerViewController: UIViewController {
 
     public func createConstraints() {
         // Layout sidebar on left, header on top right, list bottom right
-        let headerView = headerViewController.view!
         let listView = tasksListViewController.view!
 
         sourceBar.translatesAutoresizingMaskIntoConstraints = false
         listView.translatesAutoresizingMaskIntoConstraints = false
-        headerView.translatesAutoresizingMaskIntoConstraints = false
+        headerContainerView.translatesAutoresizingMaskIntoConstraints = false
 
-        headerHiddenConstraint = headerView.heightAnchor.constraint(equalToConstant: 0)
         sourceBarHiddenConstraint = sourceBar.widthAnchor.constraint(equalToConstant: 0)
 
         NSLayoutConstraint.activate([
@@ -136,11 +161,11 @@ class TasksListContainerViewController: UIViewController {
             sourceBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             sourceBar.bottomAnchor.constraint(equalTo: view.bottomAnchor),
 
-            headerView.topAnchor.constraint(equalTo: view.topAnchor),
-            headerView.leadingAnchor.constraint(equalTo: sourceBar.trailingAnchor),
-            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            headerContainerView.topAnchor.constraint(equalTo: safeAreaOrLayoutGuideTopAnchor),
+            headerContainerView.leadingAnchor.constraint(equalTo: sourceBar.trailingAnchor),
+            headerContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
 
-            listView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
+            listView.topAnchor.constraint(equalTo: headerContainerView.bottomAnchor),
             listView.leadingAnchor.constraint(equalTo: sourceBar.trailingAnchor),
             listView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             listView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -158,13 +183,17 @@ class TasksListContainerViewController: UIViewController {
     open func updateConstraintsForSizeChange() {
         if let traitCollection = splitViewController?.traitCollection {
             let compact = (traitCollection.horizontalSizeClass == .compact)
-            self.headerHiddenConstraint?.isActive = compact
+
+            // Hide source bar if compact
             self.sourceBarHiddenConstraint?.isActive = compact
 
             // Set user interface style based on whether compact
             if let tasksListViewController = tasksListViewController as? FormCollectionViewController {
                 tasksListViewController.userInterfaceStyle = compact ? .current : .dark
             }
+
+            // Replace header with one for size class
+            headerViewController = viewModel.tasksListHeaderViewModel.createViewController(compact: compact)
         }
     }
 
@@ -172,6 +201,8 @@ class TasksListContainerViewController: UIViewController {
 
     public func updateFromViewModel() {
         sourceItems = viewModel.sourceItems
+
+        // Select first source
         if !sourceItems.isEmpty {
             selectedSourceIndex = 0
         }

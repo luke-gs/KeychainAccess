@@ -23,21 +23,24 @@ open class TasksListHeaderViewModel {
     /// The bar button items to display in header
     public var barButtonItems: [UIBarButtonItem]!
 
+    public lazy var compactHeaderViewController: UIViewController = {
+        return TasksListHeaderCompactViewController(viewModel: self)
+    }()
+
+    public lazy var regularHeaderViewController: UIViewController = {
+        return TasksListHeaderRegularViewController(viewModel: self)
+    }()
+
     public init() {
         createBarButtonItems()
     }
 
     /// Create the view controller for this view model
-    public func createRegularViewController() -> UIViewController {
-        let vc = TasksListHeaderRegularViewController(viewModel: self)
-        self.delegate = vc
-        return vc
-    }
-
-    public func createCompactViewController() -> UIViewController {
-        // TODO what about when both controllers created?
-        let vc = TasksListHeaderCompactViewController(viewModel: self)
-        self.delegate = vc
+    public func createViewController(compact: Bool) -> UIViewController {
+        let vc: UIViewController = compact ? compactHeaderViewController : regularHeaderViewController
+        if let vc = vc as? TasksListHeaderViewModelDelegate {
+            self.delegate = vc
+        }
         return vc
     }
 

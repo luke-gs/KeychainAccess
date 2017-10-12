@@ -12,7 +12,7 @@ import UIKit
 /// when split view is in compact size mode
 ///
 /// Note: this header shown/hidden by the tasks split view controller
-class TasksListHeaderCompactViewController: UIViewController {
+open class TasksListHeaderCompactViewController: UIViewController {
 
     private struct Constants {
         static let headerHeight: CGFloat = 56
