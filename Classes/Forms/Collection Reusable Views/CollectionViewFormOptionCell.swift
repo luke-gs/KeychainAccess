@@ -64,8 +64,17 @@ open class CollectionViewFormOptionCell: CollectionViewFormSubtitleCell {
     open var optionStyle: OptionStyle = .checkbox {
         didSet { if optionStyle != oldValue { updateImageView() } }
     }
-    
-    
+
+    /// The current state of the options. Default to false
+    open var isChecked: Bool = false {
+        didSet { updateImageView() }
+    }
+
+
+    /// A value change handler closure, passing the current state.
+    open var valueChangedHandler: ((Bool) -> (Void))?
+
+
     /// The enabled appearance of the selection icon.
     /// When disabled, an alpha of 0.5 is applied to the cell content.
     open var isEnabled: Bool = true {
@@ -89,24 +98,26 @@ open class CollectionViewFormOptionCell: CollectionViewFormSubtitleCell {
         titleLabel.font = SelectableButton.font(compatibleWith: traitCollection)
         titleLabel.minimumScaleFactor = 0.9
         updateImageView()
+
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(performTapAction)))
     }
     
     
     // MARK: - Overrides
-    
-    open override var isSelected: Bool {
-        didSet { updateImageView() }
-    }
-    
+
     open override var isHighlighted: Bool {
         didSet { updateImageView() }
     }
-    
-    
+
     // MARK: - Private methods
     
     private func updateImageView() {
-        imageView.image = optionStyle.image(selected: isSelected, highlighted: isHighlighted)
+        imageView.image = optionStyle.image(selected: isChecked, highlighted: isHighlighted)
+    }
+
+    @objc private func performTapAction() {
+        isChecked = !isChecked
+        valueChangedHandler?(isChecked)
     }
     
     

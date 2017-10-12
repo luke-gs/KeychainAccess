@@ -103,9 +103,9 @@ public class NumberRangePickerViewController: FormTableViewController, UIPickerV
     public init(min: Int, max: Int, currentMin: Int, currentMax: Int) {
         precondition(min <= max, "min value must be less than or equal to the maximum value.")
         precondition(currentMin >= min, "currentMin must be greater than or equal to the minimum value.")
-        precondition(currentMax >= max, "currentMax must be less than or equal to the maximum value.")
+        precondition(currentMax <= max, "currentMax must be less than or equal to the maximum value.")
         precondition(currentMin <= currentMax, "currentMin must be less than or equal to the currentMax value.")
-        
+
         self.maxValue = max
         self.minValue = min
         

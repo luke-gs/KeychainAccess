@@ -38,7 +38,8 @@ open class SidebarSplitViewController: PushableSplitViewController {
 
     /// The title to use for the master navigation controller for the given traits
     open func masterNavTitleSuitable(for traitCollection: UITraitCollection) -> String {
-        MPLRequiresConcreteImplementation()
+//        MPLRequiresConcreteImplementation()
+        return self.title ?? ""
     }
 
     /// The detail controllers for the sidebar.
