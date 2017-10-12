@@ -10,7 +10,7 @@ import Foundation
 import MPOLKit
 
 
-class BasicViewController: FormViewController {
+class BasicViewController: FormBuilderViewController {
 
     override func construct(builder: FormBuilder) {
 

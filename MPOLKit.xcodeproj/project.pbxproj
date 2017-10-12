@@ -357,7 +357,7 @@
 		EA85BFF11F6797C1002EEB49 /* UINavigationController+Theme.h in Headers */ = {isa = PBXBuildFile; fileRef = EA85BFEF1F6797C1002EEB49 /* UINavigationController+Theme.h */; };
 		EA85BFF21F6797C1002EEB49 /* UINavigationController+Theme.m in Sources */ = {isa = PBXBuildFile; fileRef = EA85BFF01F6797C1002EEB49 /* UINavigationController+Theme.m */; };
 		EA85C0061F68BAAE002EEB49 /* FormBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA85C0051F68BAAE002EEB49 /* FormBuilder.swift */; };
-		EA8904B01F6A0C720050DB84 /* FormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8904AF1F6A0C720050DB84 /* FormViewController.swift */; };
+		EA8904B01F6A0C720050DB84 /* FormBuilderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8904AF1F6A0C720050DB84 /* FormBuilderViewController.swift */; };
 		EA8B66461F37FF5900F09716 /* EntitySummarySearchResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8B66451F37FF5900F09716 /* EntitySummarySearchResultViewModel.swift */; };
 		EA8B66481F38014000F09716 /* EntitySummaryDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8B66471F38014000F09716 /* EntitySummaryDisplayable.swift */; };
 		EA8B664A1F38021100F09716 /* EntitySummaryDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8B66491F38021100F09716 /* EntitySummaryDecorator.swift */; };
@@ -745,7 +745,7 @@
 		EA85BFEF1F6797C1002EEB49 /* UINavigationController+Theme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+Theme.h"; sourceTree = "<group>"; };
 		EA85BFF01F6797C1002EEB49 /* UINavigationController+Theme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+Theme.m"; sourceTree = "<group>"; };
 		EA85C0051F68BAAE002EEB49 /* FormBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormBuilder.swift; sourceTree = "<group>"; };
-		EA8904AF1F6A0C720050DB84 /* FormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormViewController.swift; sourceTree = "<group>"; };
+		EA8904AF1F6A0C720050DB84 /* FormBuilderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormBuilderViewController.swift; sourceTree = "<group>"; };
 		EA8B66451F37FF5900F09716 /* EntitySummarySearchResultViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntitySummarySearchResultViewModel.swift; sourceTree = "<group>"; };
 		EA8B66471F38014000F09716 /* EntitySummaryDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntitySummaryDisplayable.swift; sourceTree = "<group>"; };
 		EA8B66491F38021100F09716 /* EntitySummaryDecorator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntitySummaryDecorator.swift; sourceTree = "<group>"; };
@@ -1830,7 +1830,7 @@
 				EA11F01D1F830CE600BF8BCA /* Extensions */,
 				EA11F0201F830D8B00BF8BCA /* Protocols */,
 				EA85C0051F68BAAE002EEB49 /* FormBuilder.swift */,
-				EA8904AF1F6A0C720050DB84 /* FormViewController.swift */,
+				EA8904AF1F6A0C720050DB84 /* FormBuilderViewController.swift */,
 			);
 			path = FormBuilder;
 			sourceTree = "<group>";
@@ -2409,7 +2409,7 @@
 				BC9C7E0F1F0DED6600DFFE83 /* DefaultReusable.swift in Sources */,
 				EAFACCBC1F4BACE900B93CBA /* SearchFieldAdvanceCell.swift in Sources */,
 				96CF32301F8C4AD300140AF8 /* CADFormCollectionSectionViewModel.swift in Sources */,
-				EA8904B01F6A0C720050DB84 /* FormViewController.swift in Sources */,
+				EA8904B01F6A0C720050DB84 /* FormBuilderViewController.swift in Sources */,
 				BCED8C761F1488EE004C3C71 /* CollectionViewFormHeaderView.swift in Sources */,
 				BC9C7E0A1F0DED6600DFFE83 /* UITraitCollection+CurrentDisplayScale.swift in Sources */,
 				BC9C7E4F1F0DED6600DFFE83 /* CircleIconView.swift in Sources */,

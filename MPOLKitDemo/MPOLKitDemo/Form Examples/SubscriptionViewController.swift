@@ -10,7 +10,7 @@ import Foundation
 import MPOLKit
 
 
-class SubscriptionViewController: FormViewController {
+class SubscriptionViewController: FormBuilderViewController {
 
     override init() {
         super.init()

@@ -9,7 +9,7 @@
 import Foundation
 import MPOLKit
 
-class PersonDetailViewController: FormViewController {
+class PersonDetailViewController: FormBuilderViewController {
 
     override func construct(builder: FormBuilder) {
 

@@ -10,7 +10,7 @@ import Foundation
 import MPOLKit
 
 
-class ResultsViewController: FormViewController {
+class ResultsViewController: FormBuilderViewController {
 
     override init() {
         super.init()

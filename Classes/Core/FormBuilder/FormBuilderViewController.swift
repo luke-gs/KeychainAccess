@@ -1,5 +1,5 @@
 //
-//  FormViewController.swift
+//  FormBuilderViewController.swift
 //  MPOLKit
 //
 //  Created by KGWH78 on 14/9/17.
@@ -13,7 +13,7 @@ fileprivate var contentHeightContext = 1
 fileprivate let tempID = "temp"
 
 
-open class FormViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, CollectionViewDelegateFormLayout, PopoverViewController {
+open class FormBuilderViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, CollectionViewDelegateFormLayout, PopoverViewController {
 
     /// MARK: - Public properties
 
@@ -27,7 +27,7 @@ open class FormViewController: UIViewController, UICollectionViewDataSource, UIC
 
     /// MARK: - Form Builder
 
-    public let builder: FormBuilder
+    public let builder = FormBuilder()
 
     private var sections: [FormSection] = []
 
@@ -131,7 +131,6 @@ open class FormViewController: UIViewController, UICollectionViewDataSource, UIC
 
     public init() {
         formLayout = CollectionViewFormLayout()
-        builder = FormBuilder()
 
         super.init(nibName: nil, bundle: nil)
 
@@ -160,6 +159,13 @@ open class FormViewController: UIViewController, UICollectionViewDataSource, UIC
     }
 
     open func reloadForm() {
+        let items = builder.formItems
+        items.forEach({
+            if let item = $0 as? BaseFormItem {
+                item.cell = nil
+                item.collectionView = nil
+            }
+        })
         builder.removeAll()
 
         construct(builder: builder)
@@ -198,7 +204,7 @@ open class FormViewController: UIViewController, UICollectionViewDataSource, UIC
         collectionView?.reloadData()
     }
 
-    open func gotoItem(_ formItem: FormItem) {
+    open func scrollTo(_ formItem: FormItem) {
         for (sectionIndex, section) in sections.enumerated() {
             if let itemIndex = section.formItems.index(where: { $0 === formItem }) {
                 collectionView?.scrollToItem(at: IndexPath(item: itemIndex, section: sectionIndex), at: .centeredVertically, animated: true)
@@ -550,7 +556,7 @@ open class FormViewController: UIViewController, UICollectionViewDataSource, UIC
 }
 
 @available(iOS, introduced: 11.0)
-extension FormViewController {
+extension FormBuilderViewController {
 
     open override var additionalSafeAreaInsets: UIEdgeInsets {
         didSet {

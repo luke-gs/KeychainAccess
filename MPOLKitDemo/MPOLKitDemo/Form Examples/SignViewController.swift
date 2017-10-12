@@ -9,7 +9,7 @@
 import Foundation
 import MPOLKit
 
-class SignupViewController: FormViewController {
+class SignupViewController: FormBuilderViewController {
 
     var details = SignupDetails()
 
@@ -191,7 +191,7 @@ class SignupViewController: FormViewController {
                              animated: true, completion: nil)
             }))
             alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { _ in
-                self.gotoItem(item)
+                self.scrollTo(item)
             }))
             present(alertController, animated: true, completion: nil)
         case .valid:

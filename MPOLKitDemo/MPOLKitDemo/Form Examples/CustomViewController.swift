@@ -9,7 +9,7 @@
 import Foundation
 import MPOLKit
 
-class CustomViewController: FormViewController {
+class CustomViewController: FormBuilderViewController {
 
     override func construct(builder: FormBuilder) {
         builder += HeaderFormItem(text: "CUSTOM CELL EXAMPLE")
