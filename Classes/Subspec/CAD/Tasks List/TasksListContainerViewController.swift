@@ -23,10 +23,13 @@ class TasksListContainerViewController: UIViewController {
     /// The source bar used to choose task type
     private var sourceBar: SourceBar!
 
+    /// The source bar inset manager
     private var sourceInsetManager: ScrollViewInsetManager?
 
     /// Constraint for making header have no height
     private var headerHiddenConstraint: NSLayoutConstraint?
+
+    /// Constraint for making source bar have no height
     private var sourceBarHiddenConstraint: NSLayoutConstraint?
 
     /// The current sources available to display
@@ -168,7 +171,7 @@ class TasksListContainerViewController: UIViewController {
     // MARK: - Data model
 
     public func updateFromViewModel() {
-        sourceItems = viewModel.tasksListViewModel.sourceItems
+        sourceItems = viewModel.sourceItems
         if !sourceItems.isEmpty {
             selectedSourceIndex = 0
         }

@@ -10,12 +10,15 @@ import UIKit
 
 /// View controller for the header above tasks list showing source name and options to filter and add new tasks,
 /// when split view is in regular size mode
+///
+/// Note: this header shown/hidden by the tasks container view controller
 open class TasksListHeaderRegularViewController: UIViewController {
 
     private struct Constants {
         static let topMargin: CGFloat = 32
         static let leadingMargin: CGFloat = 24
         static let trailingMargin: CGFloat = 18
+        static let internalMargin: CGFloat = 10
     }
 
     public let viewModel: TasksListHeaderViewModel
@@ -66,7 +69,7 @@ open class TasksListHeaderRegularViewController: UIViewController {
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.topMargin),
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.leadingMargin),
-            titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: buttonStackView.leadingAnchor, constant: -10),
+            titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: buttonStackView.leadingAnchor, constant: -Constants.internalMargin),
             titleLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor).withPriority(.almostRequired),
 
             buttonStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.trailingMargin),

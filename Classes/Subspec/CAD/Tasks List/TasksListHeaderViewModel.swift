@@ -17,6 +17,9 @@ open class TasksListHeaderViewModel {
 
     public weak var delegate: TasksListHeaderViewModelDelegate?
 
+    /// The tasks source items, which are basically the different kinds of tasks (not backend sources)
+    public var sourceItems: [SourceItem] = []
+
     /// The bar button items to display in header
     public var barButtonItems: [UIBarButtonItem]!
 
@@ -32,8 +35,10 @@ open class TasksListHeaderViewModel {
     }
 
     public func createCompactViewController() -> UIViewController {
-        // TODO
-        return UIViewController()
+        // TODO what about when both controllers created?
+        let vc = TasksListHeaderCompactViewController(viewModel: self)
+        self.delegate = vc
+        return vc
     }
 
     /// Create the bar button items for header
