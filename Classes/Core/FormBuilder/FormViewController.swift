@@ -181,6 +181,7 @@ open class FormViewController: UIViewController, UICollectionViewDataSource, UIC
 
             return section.formItems.map { (item) -> (CollectionViewFormCell.Type, String) in
                 let item = item as! BaseFormItem
+                item.collectionView = collectionView
                 return (item.cellType, item.reuseIdentifier)
             }
         }

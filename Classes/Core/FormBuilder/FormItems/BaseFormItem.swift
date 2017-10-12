@@ -14,9 +14,7 @@ import UIKit
 /// BaseFormItem for a CollectionViewFormCell.
 open class BaseFormItem: NSObject, FormItem {
 
-    /// Defines the width of the item to be displayed. There is a minimum enforced width
-    /// of 140 points for UIContentSizeCategory.large and below, and 250.0 for anything
-    /// above. Any width less than the minimum enforced width will be ignored.
+    /// Defines the width of the item to be displayed.
     ///
     /// - intrinsic: Uses item's intrinsic size
     /// - fixed: Uses a fixed points system. E.g. 250 points.
@@ -47,8 +45,7 @@ open class BaseFormItem: NSObject, FormItem {
     }
 
 
-    /// Defines the height of the item to be displayed. There is a minimum enforced height of 40.0
-    /// points. Anything height less than the minimum enforced height will be ignored.
+    /// Defines the height of the item to be displayed.
     ///
     /// - intrinsic: Uses item's intrinsic size
     /// - fixed: Uses a fixed points system. E.g. 250 points.
@@ -174,39 +171,30 @@ open class BaseFormItem: NSObject, FormItem {
 
     func minimumContentHeight(in collectionView: UICollectionView, layout: CollectionViewFormLayout, givenContentWidth contentWidth: CGFloat, for traitCollection: UITraitCollection) -> CGFloat {
 
-        let preferredHeight: CGFloat
-
         switch height {
         case .intrinsic:
-            preferredHeight = intrinsicHeight(in: collectionView, layout: layout, givenContentWidth: contentWidth, for: traitCollection)
+            return intrinsicHeight(in: collectionView, layout: layout, givenContentWidth: contentWidth, for: traitCollection)
         case .fixed(let points):
-            preferredHeight = points
+            return points
         case .dynamic(let handler):
             let info = VerticalDistribution.Info(collectionView: collectionView, layout: layout, contentWidth: contentWidth, traitCollection: traitCollection)
-            preferredHeight = handler(info)
+            return handler(info)
         }
-
-        return max(preferredHeight, BaseFormItem.minimumEnforcedContentHeight)
     }
 
     func minimumContentWidth(in collectionView: UICollectionView, layout: CollectionViewFormLayout, sectionEdgeInsets: UIEdgeInsets, for traitCollection: UITraitCollection) -> CGFloat {
 
-        let minimumEnforcedWidth = BaseFormItem.minimumEnforcedContentWidth(for: traitCollection)
-        let preferredWidth: CGFloat
-
         switch width {
         case .intrinsic:
-            preferredWidth = intrinsicWidth(in: collectionView, layout: layout, sectionEdgeInsets: sectionEdgeInsets, for: traitCollection)
+            return intrinsicWidth(in: collectionView, layout: layout, sectionEdgeInsets: sectionEdgeInsets, for: traitCollection)
         case .column(let max):
-            preferredWidth = layout.columnContentWidth(forMinimumItemContentWidth: minimumEnforcedWidth, maximumColumnCount: max, sectionEdgeInsets: sectionEdgeInsets).floored(toScale: UIScreen.main.scale)
+            return layout.columnContentWidth(forMinimumItemContentWidth: BaseFormItem.minimumEnforcedContentWidth(for: traitCollection), maximumColumnCount: max, sectionEdgeInsets: sectionEdgeInsets).floored(toScale: UIScreen.main.scale)
         case .fixed(let points):
-            preferredWidth = points
+            return points
         case .dynamic(let handler):
             let info = HorizontalDistribution.Info(collectionView: collectionView, layout: layout, edgeInsets: sectionEdgeInsets, traitCollection: traitCollection)
-            preferredWidth = handler(info)
+            return handler(info)
         }
-
-        return max(preferredWidth, minimumEnforcedWidth)
     }
 
     func heightForValidationAccessory(givenContentWidth contentWidth: CGFloat, for traitCollection: UITraitCollection) -> CGFloat {
