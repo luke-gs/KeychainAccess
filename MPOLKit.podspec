@@ -25,11 +25,11 @@ s.ios.deployment_target = '10.0'
 s.source_files = 'Classes/**/*'
 s.resources = 'Assets/*'
 
-s.dependency 'Alamofire', '4.4.0'
+s.dependency 'Alamofire', '4.5.1'
 s.dependency 'Unbox', '2.5.0'
-s.dependency 'Wrap', '2.1.0'
-s.dependency 'lottie-ios', '~> 2.0.2'
-s.dependency 'PromiseKit', '4.3.1'
+s.dependency 'Wrap', '2.1.1'
+s.dependency 'lottie-ios', '~> 2.1.3'
+s.dependency 'PromiseKit', '~> 4.4.0'
 s.dependency 'KeychainSwift', '~> 8.0'
 
 end

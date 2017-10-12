@@ -46,6 +46,7 @@ public extension NSNotification.Name {
 /// and manages the current interface style (.light or .dark) for MPOL apps.
 /// It also manages the currently set theme for each style. When not set,
 /// the default is used.
+@objcMembers
 public class ThemeManager: NSObject {
     
     // MARK: - Singleton

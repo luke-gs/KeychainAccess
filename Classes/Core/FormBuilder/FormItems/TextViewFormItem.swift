@@ -152,7 +152,7 @@ public class TextViewFormItem: CollectionViewFormItem, FormValidatable {
 extension TextViewFormItem: UITextViewDelegate {
 
     public func textViewDidChange(_ textView: UITextView) {
-        var newText = textView.text
+        let newText = textView.text
         if var sizing = text as? StringSizing {
             sizing.string = newText ?? ""
             self.text = sizing
@@ -180,7 +180,7 @@ extension TextViewFormItem: UITextViewDelegate {
     }
 
     public func reloadLiveValidationState() {
-        validator.validate(candidate, checkHardRule: true, checkSoftRule: true, checkSubmitRule: false)
+        validator.validateAndUpdateErrorIfNeeded(candidate, shouldInstallTimer: false, checkSubmitRule: false, forItem: self)
     }
 
     public func validateValueForSubmission() -> ValidateResult {

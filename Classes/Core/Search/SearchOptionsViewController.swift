@@ -99,6 +99,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     }
     
     private var shouldSelectAllText = false
+    private var navBarExtensionTopConstraint: NSLayoutConstraint!
 
     // MARK: - Initializers
     
@@ -120,7 +121,6 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonItemDidSelect(_:)))
         navigationItem.rightBarButtonItem = firstDataSource.navigationButton
-        
     }
 
     required convenience init(coder aDecoder: NSCoder) {
@@ -202,18 +202,22 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         navigationBarExtension = navBarExtension
         self.tabStripView      = tabStripView
 
-        let extensionVerticalConstraint: NSLayoutConstraint
-        // TODO: Uncomment in iOS 11
-        //        if #available(iOS 11, *) {
-        //            extensionVerticalConstraint = navBarExtension.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
-        //        } else {
-        extensionVerticalConstraint = navBarExtension.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor)
-        //        }
+        if #available(iOS 11, *) {
+            // We don't want the safe area to apply to search container, even though it uses layout margins
+            searchContainer.insetsLayoutMarginsFromSafeArea = false
 
+            // Manually apply a top offset for the nav bar extension, as safe area includes space for the bar itself
+            navBarExtensionTopConstraint = navBarExtension.topAnchor.constraint(equalTo: view.topAnchor, constant: 0)
+        } else {
+            // Simple, use layout guide which doesn't include legacy_additionalSafeAreaInsets
+            navBarExtensionTopConstraint = navBarExtension.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor)
+        }
+
+        searchContainer.setContentHuggingPriority(UILayoutPriority.required, for: .vertical)
         NSLayoutConstraint.activate([
             navBarExtension.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             navBarExtension.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            extensionVerticalConstraint,
+            navBarExtensionTopConstraint,
 
             searchContainer.topAnchor.constraint(equalTo: navBarExtension.bottomAnchor),
             searchContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -222,7 +226,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
             searchField.heightAnchor.constraint(equalToConstant: SearchFieldCollectionViewCell.cellContentHeight),
             buttonField.heightAnchor.constraint(equalToConstant: SearchFieldAdvanceCell.cellContentHeight),
 
-            NSLayoutConstraint(item: searchField, attribute: .width, relatedBy: .equal, toConstant: SearchFieldCollectionViewCell.preferredWidth, priority: UILayoutPriorityDefaultHigh)
+            NSLayoutConstraint(item: searchField, attribute: .width, relatedBy: .equal, toConstant: SearchFieldCollectionViewCell.preferredWidth, priority: UILayoutPriority.defaultHigh)
         ])
 
         reloadSearchStyle()
@@ -233,12 +237,15 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     }
     
     override func viewWillLayoutSubviews() {
-        // TODO: Uncomment in iOS 11
-        //        if #available(iOS 11, *) {
-        //            additionalSafeAreaInsets.top = navigationBarExtension?.frame.height ?? 0.0
-        //        } else {
-        legacy_additionalSafeAreaInsets.top = (navigationBarExtension?.frame.height ?? 0.0) + searchContainer.frame.height
-        //        }
+        if #available(iOS 11, *) {
+            // Move the collection view down below the nav bar extension and search container, using additionalSafeAreaInsets
+            additionalSafeAreaInsets.top = (navigationBarExtension?.frame.height ?? 0.0) + searchContainer.frame.height
+
+            // Move the nav bar extension to below the standard safeAreaInsets (ie not including our own)
+            navBarExtensionTopConstraint.constant = view.safeAreaInsets.top - additionalSafeAreaInsets.top
+        } else {
+            legacy_additionalSafeAreaInsets.top = (navigationBarExtension?.frame.height ?? 0.0) + searchContainer.frame.height
+        }
         super.viewWillLayoutSubviews()
     }
     
@@ -395,7 +402,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
 
     // MARK: - UICollectionViewDataSource methods
 
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
+    open override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return ((selectedDataSource.options?.numberOfOptions ?? 0) > 0) ? 1 : 0
     }
 
@@ -427,7 +434,8 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
             let filterIndex = indexPath.item
             
             let options = dataSource.options
-            
+
+            let isRequired = options!.isRequired(at: filterIndex)
             let title = options!.title(at: filterIndex)
             let value = options!.value(at: filterIndex)
             let placeholder = options!.defaultValue(at: filterIndex)
@@ -466,7 +474,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
                 textField.delegate = self
                 
                 filterCell.titleLabel.text = title
-                filterCell.setRequiresValidation(message != nil, validationText: message, animated: false)
+                filterCell.setRequiresValidation(message != nil || isRequired, validationText: message, animated: false)
                 
                 return filterCell
             case .action(let image, let buttonTitle, let buttonHandler):
@@ -479,10 +487,10 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
                 filterCell.imageView.image = image
                 filterCell.titleLabel.text = title
                 filterCell.subtitleLabel.text = value ?? placeholder
-                filterCell.setRequiresValidation(message != nil, validationText: message, animated: false)
+                filterCell.setRequiresValidation(message != nil || isRequired, validationText: message, animated: false)
              
                 if let title = buttonTitle, let handler = buttonHandler {
-                    filterCell.editActions = [CollectionViewFormEditAction(title: title, color: .gray, handler: { (_, _) in
+                    filterCell.editActions = [CollectionViewFormEditAction(title: title, color: tintColor, handler: { (_, _) in
                         handler()
                     })]
                 } else {
@@ -624,9 +632,12 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
             reloadSearchErrorMessage(animated: true)
         case .filterErrorMessage(let index):
             let indexPath = IndexPath(item: index, section: Section.filters.rawValue)
+
+
             if let cell = self.collectionView?.cellForItem(at: indexPath) as? CollectionViewFormCell {
                 let message = selectedDataSource.options?.errorMessage(at: index)
-                cell.setRequiresValidation(message != nil, validationText: message, animated: true)
+                let isRequired = selectedDataSource.options?.isRequired(at: index)
+                cell.setRequiresValidation(message != nil || isRequired == true, validationText: message, animated: true)
             }
         case .filter(_):
             reloadCollectionViewRetainingEditing()
@@ -642,6 +653,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     
     func tabStripView(_ tabStripView: TabStripView, didSelectItemAt index: Int) {
         selectedDataSourceIndex = index
+        collectionView?.endEditing(true)
     }
     
     // MARK: - Private

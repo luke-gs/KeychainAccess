@@ -112,7 +112,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         let label = UILabel(frame: .zero)
         label.text = NSLocalizedString("Username", comment: "")
         label.isAccessibilityElement = false
-        label.font = .systemFont(ofSize: 14.0, weight: UIFontWeightRegular)
+        label.font = .systemFont(ofSize: 14.0, weight: UIFont.Weight.regular)
         label.textColor = .white
         return label
     }()
@@ -125,7 +125,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         usernameField.returnKeyType      = .next
         usernameField.addTarget(self, action: #selector(textFieldTextDidChange(_:)), for: .editingChanged)
         usernameField.addObserver(self, forKeyPath: #keyPath(UITextField.text), context: &kvoContext)
-        usernameField.font = .systemFont(ofSize: 17.0, weight: UIFontWeightSemibold)
+        usernameField.font = .systemFont(ofSize: 17.0, weight: UIFont.Weight.semibold)
         usernameField.autocapitalizationType = .none
         usernameField.autocorrectionType = .no
         self.isUsernameFieldLoaded = true
@@ -138,7 +138,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         let label = UILabel(frame: .zero)
         label.text = NSLocalizedString("Password", comment: "")
         label.isAccessibilityElement = false
-        label.font = .systemFont(ofSize: 14.0, weight: UIFontWeightRegular)
+        label.font = .systemFont(ofSize: 14.0, weight: UIFont.Weight.regular)
         label.textColor = .white
         return label
     }()
@@ -153,7 +153,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         passwordField.clearsOnBeginEditing = true
         passwordField.addTarget(self, action: #selector(textFieldTextDidChange(_:)), for: .editingChanged)
         passwordField.addObserver(self, forKeyPath: #keyPath(UITextField.text), context: &kvoContext)
-        passwordField.font = .systemFont(ofSize: 17.0, weight: UIFontWeightSemibold)
+        passwordField.font = .systemFont(ofSize: 17.0, weight: UIFont.Weight.semibold)
         self.isPasswordFieldLoaded = true
         
         return passwordField
@@ -164,7 +164,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         let button = UIButton(type: UIButtonType.system)
         button.setTitle("FORGOT YOUR PASSWORD?", for: .normal)
         button.setTitleColor(UIColor(white: 1.0, alpha: 0.64), for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 11.0, weight: UIFontWeightMedium)
+        button.titleLabel?.font = .systemFont(ofSize: 11.0, weight: UIFont.Weight.medium)
         button.addTarget(self, action: #selector(forgotPasswordButtonTriggered), for: .primaryActionTriggered)
         button.isHidden = self.delegate?.responds(to: #selector(LoginViewControllerDelegate.loginViewController(_:didTapForgotPasswordButton:))) ?? false == false
         
@@ -179,7 +179,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         let buttonBackground = UIImage.resizableRoundedImage(cornerRadius: 6.0, borderWidth: 0.0, borderColor: nil, fillColor: .white)
         
         let button = UIButton(type: .custom)
-        button.titleLabel?.font = .systemFont(ofSize: 17.0, weight: UIFontWeightSemibold)
+        button.titleLabel?.font = .systemFont(ofSize: 17.0, weight: UIFont.Weight.semibold)
         button.setBackgroundImage(buttonBackground.withRenderingMode(.alwaysTemplate), for: .normal)
         button.setTitle("Login Now", for: .normal)
         button.setTitleColor(.white, for: .normal)
@@ -207,7 +207,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     /// The version number
     open private(set) lazy var versionLabel: UILabel = {
         let label = UILabel(frame: .zero)
-        label.font = .systemFont(ofSize: 13.0, weight: UIFontWeightBold)
+        label.font = .systemFont(ofSize: 13.0, weight: UIFont.Weight.bold)
         label.textColor = UIColor(white: 1.0, alpha: 0.64)
         
         if let info = Bundle.main.infoDictionary {
@@ -343,7 +343,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         spinner.isHidden = true
         
         let heightConstraint = spinner.heightAnchor.constraint(equalToConstant: 48.0)
-        heightConstraint.priority = UILayoutPriorityDefaultHigh
+        heightConstraint.priority = UILayoutPriority.defaultHigh
         
         NSLayoutConstraint.activate([
             heightConstraint,
@@ -456,7 +456,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         contentStackView.axis = .vertical
         contentStackView.alignment = .center
         contentStackView.spacing   = 43.0
-        contentStackView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
+        contentStackView.setContentCompressionResistancePriority(UILayoutPriority.required, for: .vertical)
         contentView.addSubview(contentStackView)
         
         let accessoryView = createAccessoryView()
@@ -472,7 +472,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         self.view = backgroundView
         self.rightAccessoryView = versionLabel
         
-        let preferredLayoutGuideBottomConstraint = contentView.heightAnchor.constraint(equalTo: backgroundView.heightAnchor, constant: -20.0).withPriority(UILayoutPriorityDefaultHigh - 1)
+        let preferredLayoutGuideBottomConstraint = contentView.heightAnchor.constraint(equalTo: backgroundView.heightAnchor, constant: -20.0).withPriority(.defaultHigh - 1)
         
         let showingHeaderConstraint = contentStackView.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor, constant: 20.0)
         let showingAccessoryConstraint = accessoryView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24.0)
@@ -498,7 +498,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
             
             showingHeaderConstraint,
             contentStackView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            contentStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).withPriority(UILayoutPriorityDefaultHigh - 2),
+            contentStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).withPriority(.defaultHigh - 2),
             contentStackView.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, constant: -20.0),
             contentStackView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -20.0),
             
@@ -510,7 +510,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
             termsAndConditionsLabel.widthAnchor.constraint(equalToConstant: 256.0),
             
             loginButton.widthAnchor.constraint(equalToConstant: 256.0),
-            loginButton.heightAnchor.constraint(equalToConstant: 48.0).withPriority(UILayoutPriorityDefaultHigh),
+            loginButton.heightAnchor.constraint(equalToConstant: 48.0).withPriority(UILayoutPriority.defaultHigh),
             
             loginStackView.leadingAnchor.constraint(greaterThanOrEqualTo: view.readableContentGuide.leadingAnchor),
             loginStackView.trailingAnchor.constraint(lessThanOrEqualTo: view.readableContentGuide.trailingAnchor),
@@ -603,7 +603,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     private func createAccessoryView() -> UIView {
         let accessoryView = UIView()
         accessoryView.translatesAutoresizingMaskIntoConstraints = false
-        accessoryView.setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
+        accessoryView.setContentHuggingPriority(UILayoutPriority.required, for: .vertical)
         
         var constraints: [NSLayoutConstraint] = []
         
@@ -805,7 +805,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     
     private func newTextField() -> UITextField {
         let textField = UITextField(frame: .zero)
-        textField.font                 = .systemFont(ofSize: 17.0, weight: UIFontWeightSemibold)
+        textField.font                 = .systemFont(ofSize: 17.0, weight: UIFont.Weight.semibold)
         textField.textColor            = .white
         textField.clearButtonMode      = .whileEditing
         textField.autocorrectionType   = .no

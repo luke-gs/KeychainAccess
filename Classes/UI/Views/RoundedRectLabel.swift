@@ -62,7 +62,7 @@ open class RoundedRectLabel : UILabel {
     }
     
     private func commonInit() {
-        font            = .systemFont(ofSize: 10.0, weight: UIFontWeightBold)
+        font            = .systemFont(ofSize: 10.0, weight: UIFont.Weight.bold)
         textColor       = .white
         textAlignment   = .center
         isOpaque        = false
@@ -102,6 +102,11 @@ open class RoundedRectLabel : UILabel {
     }
 
     open override func drawText(in rect: CGRect) {
-        super.drawText(in: rect.insetBy(layoutMargins))
+        if #available(iOS 11, *) {
+            // What do you know, iOS 11 now applies layoutMargins automatically
+            super.drawText(in: rect)
+        } else {
+            super.drawText(in: rect.insetBy(layoutMargins))
+        }
     }
 }

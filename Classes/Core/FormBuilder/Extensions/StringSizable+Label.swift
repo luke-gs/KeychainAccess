@@ -41,8 +41,8 @@ extension UILabel {
 
     internal func makeRequired(with sizable: StringSizable?) {
         let text = sizable?.sizing().string ?? ""
-        let title = NSMutableAttributedString(string: text, attributes: [NSForegroundColorAttributeName: textColor])
-        title.append(NSAttributedString(string: requiredString, attributes: [NSForegroundColorAttributeName: requiredColor]))
+        let title = NSMutableAttributedString(string: text, attributes: [NSAttributedStringKey.foregroundColor: textColor])
+        title.append(NSAttributedString(string: requiredString, attributes: [NSAttributedStringKey.foregroundColor: requiredColor]))
         self.attributedText = title
     }
 

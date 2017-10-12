@@ -78,7 +78,7 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
         let searchFieldButton = SearchFieldButton(frame: .zero)
         searchFieldButton.text = viewModel?.title
         searchFieldButton.translatesAutoresizingMaskIntoConstraints = false
-        searchFieldButton.titleLabel?.font = .systemFont(ofSize: 15, weight: UIFontWeightRegular)
+        searchFieldButton.titleLabel?.font = .systemFont(ofSize: 15, weight: UIFont.Weight.regular)
         searchFieldButton.addTarget(self, action: #selector(searchFieldButtonDidSelect), for: .primaryActionTriggered)
         view.addSubview(searchFieldButton)
         self.searchFieldButton = searchFieldButton
@@ -93,30 +93,25 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
         
         viewModel?.registerCells(for: collectionView)
 
-        let searchFieldVerticalConstraint: NSLayoutConstraint
-        //        if #available(iOS 11, *) {
-        //            searchFieldVerticalConstraint = searchFieldButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
-        //        } else {
-        searchFieldVerticalConstraint = searchFieldButton.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor)
-        //        }
-        
         NSLayoutConstraint.activate([
             searchFieldButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             searchFieldButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            searchFieldVerticalConstraint,
-            ])
+
+            // Due to use of additional safe area insets, we cannot position the top of the
+            // searchFieldButton within the safe area in iOS 11, it needs to go above
+            constraintAboveSafeAreaOrBelowTopLayout(searchFieldButton)
+        ])
 
         updateSearchText()
     }
 
     override func viewWillLayoutSubviews() {
-        // TODO: Uncomment for iOS 11
-        //        if #available(iOS 11, *) {
-        //            additionalSafeAreaInsets.top = searchFieldButton?.frame.height ?? 0.0
-        //        } else {
-        legacy_additionalSafeAreaInsets.top = searchFieldButton?.frame.height ?? 0.0
-        //        }
-        
+        if #available(iOS 11, *) {
+            additionalSafeAreaInsets.top = searchFieldButton?.frame.height ?? 0.0
+        } else {
+            legacy_additionalSafeAreaInsets.top = searchFieldButton?.frame.height ?? 0.0
+        }
+
         super.viewWillLayoutSubviews()
     }
 
@@ -146,7 +141,7 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
 
     // MARK: - UICollectionViewDataSource methods
 
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
+    open override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return viewModel?.results.count ?? 0
     }
     
@@ -157,7 +152,7 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
             }
             
             switch result.state {
-            case .finished where result.error != nil:
+            case .finished where result.error != nil || result.entities.count  == 0:
                 return 1
             case .finished:
                 return result.entities.count
@@ -202,15 +197,30 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let result = viewModel!.results[indexPath.section]
-        
         switch result.state {
-        case .finished where result.error != nil:
+        case .finished where result.error != nil || result.entities.count == 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier.empty.rawValue, for: indexPath) as! SearchResultErrorCell
-            let message = result.error!.localizedDescription
+            let message = result.error != nil ? result.error!.localizedDescription : "No records matching your search description have been returned"
+            let hasError = result.error != nil
+
             cell.titleLabel.text = message.isEmpty == false ? message : NSLocalizedString("Unknown error has occurred.", comment: "[Search result screen] - Unknown error message when error doesn't contain localized description")
-            cell.buttonHandler = { [weak self] (cell) in
-                self?.viewModel!.retry(section: indexPath.section)
+            cell.actionButton.setTitle(hasError ? "Try Again" : "New Search", for: .normal)
+            cell.actionButtonHandler = { [weak self] (cell) in
+                guard let `self` = self else {  return }
+                if hasError {
+                    self.viewModel!.retry(section: indexPath.section)
+                } else {
+                    self.delegate?.searchResultsControllerDidRequestToEdit(self)
+                }
             }
+            cell.readMoreButtonHandler = { [weak self] (cell) in
+                guard let `self` = self else {  return }
+                let messageVC = SearchResultMessageViewController(message: cell.titleLabel.text!)
+                let navController = PopoverNavigationController(rootViewController: messageVC)
+                navController.modalPresentationStyle = .formSheet
+                self.present(navController, animated: true, completion: nil)
+            }
+
             cell.apply(theme: ThemeManager.shared.theme(for: userInterfaceStyle))
             return cell
         case .searching:
@@ -234,9 +244,9 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         let result = viewModel!.results[indexPath.section]
         switch result.state {
-        case .finished where result.error != nil:
-            return false
-        case .searching:
+        case .finished where result.error != nil,
+             .finished where result.entities.count == 0,
+             .searching:
             return false
         default:
             return true
@@ -268,9 +278,9 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
         let result = viewModel!.results[indexPath.section]
         switch result.state {
-        case .finished where result.error != nil:
-            return collectionView.bounds.width
-        case .searching:
+        case .finished where result.error != nil,
+             .finished where result.entities.count == 0,
+             .searching:
             return collectionView.bounds.width
         default:
             break
@@ -282,10 +292,10 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
     override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
         let result = viewModel!.results[indexPath.section]
         switch result.state {
-        case .finished where result.error != nil:
-            return 152
-        case .searching:
-            return 152
+        case .finished where result.error != nil,
+             .finished where result.entities.count == 0,
+             .searching:
+            return SearchResultErrorCell.contentHeight
         default:
             break
         }
@@ -339,6 +349,8 @@ public protocol EntityDetailsDelegate: class {
     ///   - controller: the controller that the entity was selected on
     ///   - entity: the entity that was selected
     func controller(_ controller: UIViewController, didSelectEntity entity: MPOLKitEntity)
+
+    func controller(_ controller: UIViewController, searchFor searchable: Searchable)
 }
 
 protocol SearchResultsDelegate: class {

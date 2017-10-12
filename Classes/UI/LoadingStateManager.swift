@@ -243,14 +243,13 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
                 scrollView = UIScrollView(frame: baseView.bounds)
                 scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
                 
-                // TODO: Uncomment for iOS 11
-//                if #available(iOS 11, *) {
-//                    scrollView.contentInsetAdjustmentBehavior = .always
-//
-//                    let contentLayoutGuide = scrollView.contentLayoutGuide
-//                    constraints = [ contentLayoutGuide.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor) ]
-//                    contentGuide = contentLayoutGuide
-//                } else {
+                if #available(iOS 11, *) {
+                    scrollView.contentInsetAdjustmentBehavior = .always
+
+                    let contentLayoutGuide = scrollView.contentLayoutGuide
+                    constraints = [ contentLayoutGuide.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor) ]
+                    contentGuide = contentLayoutGuide
+                } else {
                     let contentSizingView = UIView(frame: .zero)
                     contentSizingView.translatesAutoresizingMaskIntoConstraints = false
                     contentSizingView.isHidden = true
@@ -264,8 +263,8 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
                         contentSizingView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
                     ]
                     contentGuide = contentSizingView
-//                }
-                
+                }
+
                 let noContentView = self.noContentView
                 noContentView.translatesAutoresizingMaskIntoConstraints = false
                 scrollView.addSubview(noContentView)
@@ -277,7 +276,7 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
                     NSLayoutConstraint(item: noContentView, attribute: .top, relatedBy: .greaterThanOrEqual, toItem: contentGuide, attribute: .top, constant: 40.0),
                 ]
                 
-                noContentRegularConstraint = noContentView.widthAnchor.constraint(lessThanOrEqualTo: scrollView.readableContentGuide.widthAnchor, multiplier: 0.7).withPriority(UILayoutPriorityDefaultHigh)
+                noContentRegularConstraint = noContentView.widthAnchor.constraint(lessThanOrEqualTo: scrollView.readableContentGuide.widthAnchor, multiplier: 0.7).withPriority(UILayoutPriority.defaultHigh)
                 
                 if baseView.traitCollection.horizontalSizeClass != .compact {
                     constraints.append(noContentRegularConstraint!)
@@ -320,21 +319,12 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
             let contentInsetGuide = self.contentInsetGuide ?? UILayoutGuide()
             self.contentInsetGuide = contentInsetGuide
             newView.addLayoutGuide(contentInsetGuide)
-            // TODO: Uncomment for iOS 11
-//            if #available(iOS 11, *) {
-//                let newSafeAreaGuide = newView.safeAreaLayoutGuide
-//                contentInsetLeftConstraint = contentInsetGuide.leftAnchor.constraint(equalTo: newSafeAreaGuide.leftAnchor, constant: contentInsets.left)
-//                contentInsetRightConstraint = contentInsetGuide.rightAnchor.constraint(equalTo: newSafeAreaGuide.rightAnchor, constant: -contentInsets.right)
-//                contentInsetTopConstraint = contentInsetGuide.topAnchor.constraint(equalTo: newSafeAreaGuide.topAnchor, constant: contentInsets.bottom)
-//                contentInsetBottomConstraint = contentInsetGuide.bottomAnchor.constraint(equalTo: newSafeAreaGuide.bottomAnchor, constant: -contentInsets.bottom)
-//            } else {
-                contentInsetLeftConstraint = contentInsetGuide.leftAnchor.constraint(equalTo: newView.leftAnchor, constant: contentInsets.left)
-                contentInsetRightConstraint = contentInsetGuide.rightAnchor.constraint(equalTo: newView.rightAnchor, constant: -contentInsets.right)
-                contentInsetTopConstraint = contentInsetGuide.topAnchor.constraint(equalTo: newView.topAnchor, constant: contentInsets.bottom)
-                contentInsetBottomConstraint = contentInsetGuide.bottomAnchor.constraint(equalTo: newView.bottomAnchor, constant: -contentInsets.bottom)
-                contentInsetBottomConstraint!.priority = UILayoutPriorityDefaultHigh
-//            }
             
+            contentInsetLeftConstraint = contentInsetGuide.leftAnchor.constraint(equalTo: newView.safeAreaOrFallbackLeftAnchor, constant: contentInsets.left)
+            contentInsetRightConstraint = contentInsetGuide.rightAnchor.constraint(equalTo: newView.safeAreaOrFallbackRightAnchor, constant: -contentInsets.right)
+            contentInsetTopConstraint = contentInsetGuide.topAnchor.constraint(equalTo: newView.safeAreaOrFallbackTopAnchor, constant: contentInsets.bottom)
+            contentInsetBottomConstraint = contentInsetGuide.bottomAnchor.constraint(equalTo: newView.safeAreaOrFallbackBottomAnchor, constant: -contentInsets.bottom).withPriority(UILayoutPriority.defaultHigh)
+
             NSLayoutConstraint.activate([
                 contentInsetLeftConstraint!,
                 contentInsetRightConstraint!,

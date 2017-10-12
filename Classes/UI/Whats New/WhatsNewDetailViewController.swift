@@ -79,7 +79,7 @@ public class WhatsNewDetailViewController: UIViewController {
             label.translatesAutoresizingMaskIntoConstraints = false
             label.numberOfLines = 0
             label.textAlignment = .center
-            label.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
+            label.setContentCompressionResistancePriority(UILayoutPriority.required, for: .vertical)
             stackView.addArrangedSubview(label)
             self.titleLabel = label
         }
@@ -92,7 +92,7 @@ public class WhatsNewDetailViewController: UIViewController {
             label.numberOfLines = 0
             label.textAlignment = .center
             label.adjustsFontSizeToFitWidth = true
-            label.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
+            label.setContentCompressionResistancePriority(UILayoutPriority.required, for: .vertical)
             stackView.addArrangedSubview(label)
             self.detailLabel = label
         }
@@ -102,7 +102,7 @@ public class WhatsNewDetailViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor).withPriority(UILayoutPriorityRequired - 1),
+            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor).withPriority(.almostRequired),
             stackView.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor, constant: -128),
             stackView.topAnchor.constraint(greaterThanOrEqualTo: view.topAnchor, constant: 64),
             stackView.leadingAnchor.constraint(greaterThanOrEqualTo: view.layoutMarginsGuide.leadingAnchor),
@@ -111,13 +111,13 @@ public class WhatsNewDetailViewController: UIViewController {
         
         if let titleLabel = titleLabel {
             NSLayoutConstraint.activate([
-                titleLabel.widthAnchor.constraint(equalToConstant: 400).withPriority(UILayoutPriorityDefaultHigh)
+                titleLabel.widthAnchor.constraint(equalToConstant: 400).withPriority(UILayoutPriority.defaultHigh)
             ])
         }
         
         if let detailLabel = detailLabel {
             NSLayoutConstraint.activate([
-                detailLabel.widthAnchor.constraint(equalToConstant: 400).withPriority(UILayoutPriorityDefaultHigh)
+                detailLabel.widthAnchor.constraint(equalToConstant: 400).withPriority(UILayoutPriority.defaultHigh)
             ])
         }
     }

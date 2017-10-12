@@ -115,31 +115,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private lazy var examples: [UIViewController] = {
         let basic = BasicViewController()
-        basic.sidebarItem.title = "Basic"
+        basic.sidebarItem.regularTitle = "Basic"
 
         let list = ListViewController()
-        list.sidebarItem.title = "List"
+        list.sidebarItem.regularTitle = "List"
 
         let custom = CustomViewController()
-        custom.sidebarItem.title = "Custom Items"
+        custom.sidebarItem.regularTitle = "Custom Items"
 
         let accessory = AccessoryViewController()
-        accessory.sidebarItem.title = "Accessories"
+        accessory.sidebarItem.regularTitle = "Accessories"
 
         let header = HeaderViewController()
-        header.sidebarItem.title = "Header Styles"
+        header.sidebarItem.regularTitle = "Header Styles"
 
         let personDetail = PersonDetailViewController()
-        personDetail.sidebarItem.title = "Person Details"
+        personDetail.sidebarItem.regularTitle = "Person Details"
 
         let results = ResultsViewController()
-        results.sidebarItem.title = "Results"
+        results.sidebarItem.regularTitle = "Results"
 
         let signup = SignupViewController()
-        signup.sidebarItem.title = "Signup"
+        signup.sidebarItem.regularTitle = "Signup"
 
         let subscription = SubscriptionViewController()
-        subscription.sidebarItem.title = "Subscription"
+        subscription.sidebarItem.regularTitle = "Subscription"
 
         return [basic, list, custom, accessory, header, personDetail, results, signup, subscription]
     }()

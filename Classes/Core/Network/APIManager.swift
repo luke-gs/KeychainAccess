@@ -80,7 +80,7 @@ open class APIManager {
 
         let path = "{source}/entity/{entityType}/search"
         var parameters = request.parameters
-        parameters["source"] = source
+        parameters["source"] = source.serverSourceName
         parameters["entityType"] = SearchRequest.ResultClass.serverTypeRepresentation
 
         let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
@@ -101,7 +101,7 @@ open class APIManager {
         let path = "{source}/entity/{entityType}/{id}"
         
         var parameters = request.parameters
-        parameters["source"] = source
+        parameters["source"] = source.serverSourceName
         parameters["entityType"] = FetchRequest.ResultClass.serverTypeRepresentation
 
         let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
@@ -170,11 +170,17 @@ open class APIManager {
 
         let mapper = errorMapper
         return Promise { fulfill, reject in
-            dataRequest.validate().responseObject(completionHandler: { (response: DataResponse<T>) in
+
+            dataRequest.validate().responseData(completionHandler: { response in
+
                 allPlugins.forEach({
                     $0.didReceiveResponse(response)
                 })
-                switch response.result {
+
+                let processedResponse = allPlugins.reduce(response) { $1.processResponse($0) }
+                let result: Alamofire.Result<T> = DataRequest.serializeResponseUnboxable(keyPath: nil, response: processedResponse.response, data: processedResponse.data, error: processedResponse.error)
+
+                switch result {
                 case .success(let result):
                     fulfill(result)
                 case .failure(let error):
@@ -199,12 +205,19 @@ open class APIManager {
         }
 
         let mapper = errorMapper
+
         return Promise { fulfill, reject in
-            dataRequest.validate().responseArray(completionHandler: { (response: DataResponse<[T]>) in
-                allPlugins.forEach {
-                    $0.willSend(dataRequest)
-                }
-                switch response.result {
+
+            dataRequest.validate().responseData(completionHandler: { response in
+
+                allPlugins.forEach({
+                    $0.didReceiveResponse(response)
+                })
+
+                let processedResponse = allPlugins.reduce(response) { $1.processResponse($0) }
+                let result: Alamofire.Result<[T]> = DataRequest.serializeResponseUnboxableArray(keyPath: nil, response: processedResponse.response, data: processedResponse.data, error: processedResponse.error)
+
+                switch result {
                 case .success(let result):
                     fulfill(result)
                 case .failure(let error):

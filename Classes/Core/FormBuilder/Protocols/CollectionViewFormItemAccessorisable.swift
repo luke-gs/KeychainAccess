@@ -30,15 +30,15 @@ public struct FormItemAccessory: CollectionViewFormItemAccessorisable {
 
     /// MARK: - Properties
 
-    public let style: FormAccessoryView.Style
+    public let style: Style
 
     public let size: CGSize
 
     public let tintColor: UIColor?
 
-    public init(style: FormAccessoryView.Style, tintColor: UIColor? = nil) {
+    public init(style: Style, tintColor: UIColor? = nil) {
         self.style = style
-        self.size = FormAccessoryView.size(with: style)
+        self.size = FormAccessoryImageView.size(with: style)
         self.tintColor = tintColor
     }
 
@@ -47,7 +47,7 @@ public struct FormItemAccessory: CollectionViewFormItemAccessorisable {
     }
 
     public func apply(theme: Theme, toView view: UIView) {
-        guard let view = view as? FormAccessoryView else { return }
+        guard let view = view as? FormAccessoryImageView else { return }
 
         if let color = tintColor {
             view.tintColor = color

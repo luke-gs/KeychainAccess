@@ -86,7 +86,7 @@ open class TableViewFormTextViewCell: TableViewFormCell {
         contentView.addSubview(titleLabel)
         
         textViewMinimumHeightConstraint = NSLayoutConstraint(item: textView, attribute: .height, relatedBy: .greaterThanOrEqual, toConstant: textView.font?.lineHeight ?? 17.0 + 1.0)
-        textViewPreferredHeightConstraint = NSLayoutConstraint(item: textView, attribute: .height, relatedBy: .equal, toConstant: ceil(textView.font?.lineHeight ?? 17.0 + (textView.font?.leading ?? 1.0)), priority: UILayoutPriorityDefaultLow)
+        textViewPreferredHeightConstraint = NSLayoutConstraint(item: textView, attribute: .height, relatedBy: .equal, toConstant: ceil(textView.font?.lineHeight ?? 17.0 + (textView.font?.leading ?? 1.0)), priority: UILayoutPriority.defaultLow)
         titleDetailSeparationConstraint = NSLayoutConstraint(item: textView, attribute: .top, relatedBy: .equal, toItem: titleLabel, attribute: .bottom)
         
         let layoutGuide = contentModeLayoutGuide

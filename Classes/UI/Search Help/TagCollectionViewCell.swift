@@ -12,7 +12,7 @@ open class TagCollectionViewCell: UICollectionViewCell, DefaultReusable {
     
     open let label = UILabel()
     
-    open static let font: UIFont = .systemFont(ofSize: 15.0, weight: UIFontWeightSemibold)
+    open static let font: UIFont = .systemFont(ofSize: 15.0, weight: UIFont.Weight.semibold)
     
     public override init(frame: CGRect) {
         super.init(frame: frame)

@@ -12,8 +12,8 @@ import UIKit
 internal class SourceBarCell: UIControl {
     
     private static let disabledColor = #colorLiteral(red: 0.2352941176, green: 0.2352941176, blue: 0.2352941176, alpha: 1)
-    private static let selectedFont  = UIFont.systemFont(ofSize: 11.5, weight: UIFontWeightBold)
-    private static let normalFont    = UIFont.systemFont(ofSize: 11.5, weight: UIFontWeightRegular)
+    private static let selectedFont  = UIFont.systemFont(ofSize: 11.5, weight: UIFont.Weight.bold)
+    private static let normalFont    = UIFont.systemFont(ofSize: 11.5, weight: UIFont.Weight.regular)
     
     internal let titleLabel = UILabel(frame: .zero)
     
@@ -112,8 +112,7 @@ internal class SourceBarCell: UIControl {
         } else {
             titleLabel.text = item.title
         }
-        
-        isEnabled = item.state != .notAvailable
+
         switch item.state {
         case .notLoaded:
             isEnabled = true
@@ -132,7 +131,7 @@ internal class SourceBarCell: UIControl {
             accessibilityTraits &= ~UIAccessibilityTraitNotEnabled
             accessibilityValue = "Not yet loaded."
         case .notAvailable:
-            isEnabled = false
+            isEnabled = true
             
             let imageView = self.imageView()
             imageView.isHidden = false
@@ -154,7 +153,7 @@ internal class SourceBarCell: UIControl {
             loadingIndicator.tintColor = .white
             highlightedTintColor = .white
             normalTintColor = .lightGray
-            
+
             _imageView?.isHidden = true
             _iconView?.isHidden  = true
             
@@ -189,9 +188,7 @@ internal class SourceBarCell: UIControl {
                 accessibilityValue = nil
             }
         }
-        
-        isAvailable = item.state != .notAvailable
-        
+
         updateSelection()
     }
     

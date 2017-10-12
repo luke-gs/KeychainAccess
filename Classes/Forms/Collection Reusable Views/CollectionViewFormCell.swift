@@ -29,7 +29,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         if text.isEmpty { return 0.0 }
         
         let font = UIFont.preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
-        let textBounds = (text as NSString).boundingRect(with: CGSize(width: contentWidth, height: .greatestFiniteMagnitude), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: [NSFontAttributeName: font], context: nil)
+        let textBounds = (text as NSString).boundingRect(with: CGSize(width: contentWidth, height: .greatestFiniteMagnitude), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: [NSAttributedStringKey.font: font], context: nil)
         return textBounds.height.ceiled(toScale: traitCollection.currentDisplayScale) + 12.0
     }
     
@@ -188,7 +188,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     ///
     /// This property manages the display of edit actions. Setting this value calls `setShowingEditActions: animated:`
     /// without an animation.
-    open private(set) dynamic var isShowingEditActions: Bool {
+    @objc open private(set) dynamic var isShowingEditActions: Bool {
         get {
             return actionView?.isShowingActions ?? false
         }
@@ -332,7 +332,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
                     attribute = .centerY
                 }
                 contentModeConstraint.isActive = false
-                contentModeLayoutVerticalConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: attribute, relatedBy: .equal, toItem: contentView.layoutMarginsGuide, attribute: attribute, priority: UILayoutPriorityDefaultLow - 1)
+                contentModeLayoutVerticalConstraint = NSLayoutConstraint(item: contentModeLayoutGuide, attribute: attribute, relatedBy: .equal, toItem: contentView.layoutMarginsGuide, attribute: attribute, priority: .defaultLow - 1)
                 contentModeLayoutVerticalConstraint!.isActive = true
             }
             
@@ -371,12 +371,12 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         default:
             attribute = .centerY
         }
-        contentModeLayoutVerticalConstraint = NSLayoutConstraint(item: layoutGuide, attribute: attribute, relatedBy: .equal, toItem: contentView.layoutMarginsGuide, attribute: attribute, priority: UILayoutPriorityDefaultLow - 1)
+        contentModeLayoutVerticalConstraint = NSLayoutConstraint(item: layoutGuide, attribute: attribute, relatedBy: .equal, toItem: contentView.layoutMarginsGuide, attribute: attribute, priority: .defaultLow - 1)
         contentModeLayoutTrailingConstraint = layoutGuide.trailingAnchor.constraint(equalTo: contentLayoutGuide.trailingAnchor)
         
         NSLayoutConstraint.activate([
             layoutGuide.topAnchor.constraint(greaterThanOrEqualTo: contentLayoutGuide.topAnchor),
-            layoutGuide.bottomAnchor.constraint(lessThanOrEqualTo: contentLayoutGuide.bottomAnchor).withPriority(500),
+            layoutGuide.bottomAnchor.constraint(lessThanOrEqualTo: contentLayoutGuide.bottomAnchor).withPriority(UILayoutPriority(rawValue: 500)),
             layoutGuide.leadingAnchor.constraint(equalTo: contentLayoutGuide.leadingAnchor),
             contentModeLayoutTrailingConstraint!,
             contentModeLayoutVerticalConstraint!,

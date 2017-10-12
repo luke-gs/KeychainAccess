@@ -23,8 +23,8 @@ public protocol EntityDetailViewModelDelegate: class {
     /// update sidebar alert color 
     func updateSidebarAlertColor(_ color: UIColor?)
 
-    /// update no-content subtitle
-    func updateNoContentSubtitle(_ subtitle: String?)
+    /// update no-content details, the title and subtitle
+    func updateNoContentDetails(title: String?, subtitle: String?)
 
     /// update filter bar button item activity
     func updateFilterBarButtonItemActivity()
@@ -36,7 +36,7 @@ extension EntityDetailViewModelDelegate {
     public func updateLoadingState(_ state: LoadingStateManager.State) { }
     public func reloadData() { }
     public func updateSidebarAlertColor(_ color: UIColor?) { }
-    public func updateNoContentSubtitle(_ subtitle: String? = nil) { }
+    public func updateNoContentDetails(title: String? = nil, subtitle: String? = nil) { }
     public func updateFilterBarButtonItemActivity() { }
 }
 

@@ -62,7 +62,7 @@ public class CollectionViewFormFooterView: UICollectionReusableView, DefaultReus
 
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.textColor = tintColor
-        titleLabel.font = .systemFont(ofSize: 11.0, weight: UIFontWeightLight)
+        titleLabel.font = .systemFont(ofSize: 11.0, weight: UIFont.Weight.light)
 
         addSubview(titleLabel)
 

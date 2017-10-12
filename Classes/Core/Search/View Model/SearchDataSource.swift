@@ -113,6 +113,13 @@ public protocol SearchOptions {
     /// - Returns:         The title for the filter.
     func title(at index: Int) -> String
 
+
+    /// Whether each option in the choices are required for performing a search
+    ///
+    /// - Parameter index: The index of the search option
+    /// - Returns: Return true if the field is required otherwise return false
+    func isRequired(at index: Int) -> Bool
+
     /// The value specified for the filter, if any.
     ///
     /// - Parameter index: The filter index.
@@ -249,6 +256,11 @@ public extension SearchOptions {
         }
         
         return state.isEmpty ? nil : state
+    }
+
+    /// By default none of the options should be required
+    func isRequired(at index: Int) -> Bool {
+        return false
     }
     
 }

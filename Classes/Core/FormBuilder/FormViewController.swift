@@ -485,7 +485,7 @@ open class FormViewController: UIViewController, UICollectionViewDataSource, UIC
     open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let item = sections[indexPath] as! CollectionViewFormItem
 
-        if let item = item as? SelectionActionable, var action = item.selectionAction {
+        if let item = item as? SelectionActionable, let action = item.selectionAction {
             let viewController = action.viewController()
 
             if viewController.modalPresentationStyle == .popover {

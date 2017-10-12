@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-public class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, SearchResultViewModelable, AggregatedSearchDelegate where T: EntitySummaryDisplayable {
+public class EntitySummarySearchResultViewModel<T: MPOLKitEntity, Decorator: EntitySummaryDisplayable>: NSObject, SearchResultViewModelable, AggregatedSearchDelegate {
     
     private enum CellIdentifier: String {
         case alertCellIdentifier
@@ -29,12 +29,14 @@ public class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Sea
     
     public weak var delegate: SearchResultViewModelDelegate?
     
-    public let aggregatedSearch: AggregatedSearch<T>
+    public var summarySearchResultsHandler: ((_ entities: [T]) -> [T]) = { return $0 }
     
+    public let aggregatedSearch: AggregatedSearch<T>
+
     public init(title: String, aggregatedSearch: AggregatedSearch<T>) {
         self.title = title
         self.aggregatedSearch = aggregatedSearch
-        
+
         super.init()
         
         aggregatedSearch.delegate = self
@@ -57,15 +59,15 @@ public class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Sea
             
             if style == .list || traitCollection.horizontalSizeClass == .compact {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier.listCellIdentifier.rawValue, for: indexPath) as! EntityListCollectionViewCell
-                cell.decorate(with: entity as! EntitySummaryDisplayable)
+                cell.decorate(with: Decorator(entity))
                 
                 return cell
             } else {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier.gridCellIdentifier.rawValue, for: indexPath) as! EntityCollectionViewCell
                 
                 cell.style = self.entityStyle(for: style)
-                cell.decorate(with: entity as! EntitySummaryDisplayable)
-                
+                cell.decorate(with: Decorator(entity))
+
                 return cell
             }
     }
@@ -118,8 +120,9 @@ public class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Sea
     private func processedResults(from rawResults: [AggregatedResult<T>]) -> [SearchResultSection] {
         
         let processedResults: [SearchResultSection] = rawResults.map { (rawResult) -> SearchResultSection in
+            let entities = summarySearchResultsHandler(rawResult.entities)
             return SearchResultSection(title: rawResult.titleForCurrentState(),
-                                       entities: rawResult.entities,
+                                       entities: entities,
                                        isExpanded: true,
                                        state: rawResult.state,
                                        error: rawResult.error)

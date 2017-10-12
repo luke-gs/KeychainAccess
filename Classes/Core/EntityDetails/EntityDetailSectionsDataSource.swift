@@ -8,35 +8,36 @@
 
 import Foundation
 
-////// Entity Sections
-
+/// Defines an object that has an Entity and LoadingStateManager so it could be notified about the update status
+/// of the new data.
 public protocol EntityDetailSectionUpdatable: class {
+
+    /// A generic entity
     var genericEntity: MPOLKitEntity? { get set }
+
+    /// the loading manager
     var loadingManager: LoadingStateManager { get }
 }
 
+/// Data source defining the entity details
 public protocol EntityDetailSectionsDataSource {
 
-    var initialSource: EntitySource { get set }
-    var sources: [EntitySource] { get }
+    /// The source of the data
+    var source: EntitySource { get }
 
-    var baseEntity: MPOLKitEntity { get }
-    func navTitleSuitable(for traitCollection: UITraitCollection) -> String
+    /// The entity associated with the data source
+    var entity: MPOLKitEntity { get }
 
+    /// The localised display name
     var localizedDisplayName: String { get }
-    var detailViewControllers: [EntityDetailSectionUpdatable] { get }
-    func fetchModel(for entity: MPOLKitEntity, sources: [EntitySource]) -> Fetchable
-}
 
-public extension EntityDetailSectionsDataSource {
-    func navTitleSuitable(for traitCollection: UITraitCollection) -> String {
-        if traitCollection.horizontalSizeClass == .compact {
-            // Use the title of the entity, as we are not showing a sidebar in compact mode
-            if let entity = baseEntity as? EntitySummaryDisplayable, let title = entity.title {
-                return title
-            }
-        }
-        // Use a generic sidebar title
-        return NSLocalizedString("Details", comment: "Title for for entity details")
-    }
+    /// An array of view controllers that are shown as sections in the sidebar of the entity details screen
+    var detailViewControllers: [EntityDetailSectionUpdatable] { get }
+
+    /// Generates a fetchable objects for the initial fetch of data in the entity details screen
+    ///
+    /// Not used for data matching. Refer to `MatchMaker` for that.
+    ///
+    /// - Returns: a fetchable oject defining the request that needs to be made to get the details
+    func fetchModel() -> Fetchable
 }

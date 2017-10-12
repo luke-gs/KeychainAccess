@@ -53,6 +53,12 @@ class SearchRecentsViewController: FormCollectionViewController {
     @objc dynamic var isShowingNavBarExtension: Bool = false {
         didSet {
             compactNavBarExtension?.alpha = isShowingNavBarExtension ? 1.0 : 0.0
+
+            // Force layout of nav bar extension first if showing, then layout view to account for it
+            if isShowingNavBarExtension {
+                compactNavBarExtension?.setNeedsLayout()
+                compactNavBarExtension?.layoutIfNeeded()
+            }
             view.setNeedsLayout()
         }
     }
@@ -98,7 +104,7 @@ class SearchRecentsViewController: FormCollectionViewController {
         noContentView.titleLabel.text = NSLocalizedString("You don't have any recently viewed entities or recent searches right now.", comment: "")
 
         let actionButton = noContentView.actionButton
-        actionButton.titleLabel?.font = .systemFont(ofSize: 15.0, weight: UIFontWeightSemibold)
+        actionButton.titleLabel?.font = .systemFont(ofSize: 15.0, weight: UIFont.Weight.semibold)
         actionButton.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 16.0, bottom: 10.0, right: 16.0)
         actionButton.setTitle(NSLocalizedString("New Search", comment: ""), for: .normal)
         actionButton.addTarget(self, action: #selector(newSearchButtonDidSelect(_:)), for: .primaryActionTriggered)
@@ -134,8 +140,11 @@ class SearchRecentsViewController: FormCollectionViewController {
 
             navBarExtension.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             navBarExtension.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            navBarExtension.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor),
-            ])
+
+            // Due to use of additional safe area insets, we cannot position the top of the
+            // nav extension within the safe area in iOS 11, it needs to go above
+            constraintAboveSafeAreaOrBelowTopLayout(navBarExtension)
+        ])
     }
 
 
@@ -152,13 +161,11 @@ class SearchRecentsViewController: FormCollectionViewController {
     override func viewWillLayoutSubviews() {
         let navBarExtension = isShowingNavBarExtension ? compactNavBarExtension?.frame.height ?? 0.0 : 0.0
 
-        // TODO: Uncomment for iOS 11
-        //        if #available(iOS 11, *) {
-        //            additionalSafeAreaInsets.top = navBarExtension
-        //        } else {
-        legacy_additionalSafeAreaInsets.top = navBarExtension
-        //        }
-
+        if #available(iOS 11, *) {
+            additionalSafeAreaInsets.top = navBarExtension
+        } else {
+            legacy_additionalSafeAreaInsets.top = navBarExtension
+        }
         super.viewWillLayoutSubviews()
     }
 
@@ -398,7 +405,7 @@ private class RecentEntitiesHeaderView: UICollectionReusableView, DefaultReusabl
         }
     }
 
-    open func preferredContentSizeCategoryDidChange() {
+    @objc open func preferredContentSizeCategoryDidChange() {
         formLayout.invalidateLayout()
     }
 

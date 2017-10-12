@@ -116,8 +116,9 @@ public final class ScrollViewInsetManager: NSObject {
             let keyboardFrame = scrollView.convert(keyboardFrameInScreen, from: nil)
             
             // Work out how far inset the is (if there is one), and try to inset. Don't inset less than the initial insets.
-            let bottomInset       = max((scrollView.bounds.maxY - keyboardFrame.minY), 0.0)
-            contentInset.bottom   = max(bottomInset, contentInset.bottom)
+            let verticalSpacing: CGFloat = 20.0
+            let bottomInset              = max((scrollView.bounds.maxY + verticalSpacing - keyboardFrame.minY), 0.0)
+            contentInset.bottom          = max(bottomInset, contentInset.bottom)
         }
         
         if scrollView.refreshControl?.isRefreshing ?? false {
@@ -141,12 +142,11 @@ public final class ScrollViewInsetManager: NSObject {
         if topInsetIncrease ==~ 0.0 || scrollView.isTracking || scrollView.isDecelerating { return }
         
         let fullInsets: UIEdgeInsets
-        // TODO: Uncomment for iOS 11.
-//        if #available(iOS 11, *) {
-//            fullInsets = scrollView.adjustedContentInset
-//        } else {
+        if #available(iOS 11, *) {
+            fullInsets = scrollView.adjustedContentInset
+        } else {
             fullInsets = contentInset
-//        }
+        }
         
         // Find the minimum and maximum offsets allowed.
         let minimumScrolledLocation = fullInsets.top * -1.0

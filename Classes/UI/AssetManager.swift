@@ -112,7 +112,8 @@ extension AssetManager {
         public static let tabBarTasks      = ImageKey("iconTabBarTasks")
         public static let tabBarResources  = ImageKey("iconTabBarResources")
         public static let tabBarComms      = ImageKey("iconTabBarComms")
-        
+        public static let tabBarActivity   = ImageKey("iconTabBarActivityLog")
+
         // Nav Bar Icons
         public static let back           = ImageKey("iconNavBarBack")
         public static let filter         = ImageKey("iconNavBarFilter")
@@ -146,6 +147,7 @@ extension AssetManager {
         public static let tactical       = ImageKey("iconGeneralTactical")
         public static let journey        = ImageKey("iconGeneralJourney")
         public static let mass           = ImageKey("iconGeneralMass")
+        public static let folder         = ImageKey("iconFormFolder")
         public static let refresh        = ImageKey("iconGeneralRefreshMagnify")
         public static let email          = ImageKey("iconFormEmail")
 
@@ -157,6 +159,14 @@ extension AssetManager {
         public static let entityBuilding = ImageKey("iconEntityBuilding")
         public static let entityCar      = ImageKey("iconEntityVehicleCar")
         public static let entityTruck    = ImageKey("iconEntityVehicleTruck")
+        
+        // Resource
+        public static let resourceCar       = ImageKey("iconResourceCar")
+        public static let resourceWater     = ImageKey("iconResourceWater")
+        public static let resourceBicycle   = ImageKey("iconResourceBicycle")
+        public static let resourceAir       = ImageKey("iconResourceAir")
+        public static let resourceSegway    = ImageKey("iconResourceSegway")
+        public static let resourceDog       = ImageKey("iconResourceDog") // woof woof
         
         // Comms
         public static let audioCall      = ImageKey("iconCommsCall")
@@ -172,6 +182,11 @@ extension AssetManager {
         // Source bar
         public static let sourceBarDownload    = ImageKey("SourceBarDownload")
         public static let sourceBarNone        = ImageKey("SourceBarNone")
+        
+        // Map
+        public static let mapUserLocation            = ImageKey("iconUserLocation")
+        public static let mapUserTracking            = ImageKey("iconUserTracking")
+        public static let mapUserTrackingWithHeading = ImageKey("iconUserTrackingWithHeading")
         
     }
 }

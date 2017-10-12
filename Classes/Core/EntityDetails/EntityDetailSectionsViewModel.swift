@@ -16,8 +16,8 @@ public protocol Fetchable {
 
 public protocol EntityDetailSectionsDelegate: class {
 
-    func EntityDetailSectionsDidUpdateResults(_ EntityDetailSectionsViewModel: EntityDetailSectionsViewModel)
-    func EntityDetailSectionDidSelectRetryDownload(_ EntityDetailSectionsViewModel: EntityDetailSectionsViewModel)
+    func entityDetailSectionsDidUpdateResults(_ EntityDetailSectionsViewModel: EntityDetailSectionsViewModel)
+    func entityDetailSectionDidSelectRetryDownload(_ EntityDetailSectionsViewModel: EntityDetailSectionsViewModel)
 }
 
 public struct EntityFetchResult {
@@ -28,41 +28,47 @@ public struct EntityFetchResult {
 
 public class EntityDetailSectionsViewModel {
 
+    public var results: [String: EntityFetchResult] = [:]
+    public weak var delegate: EntityDetailSectionsDelegate?
+    public var selectedSource: EntitySource
+
+    public var detailSectionsViewControllers: [EntityDetailSectionUpdatable]? {
+        return detailSectionsDataSources.filter{$0.source == selectedSource}.first?.detailViewControllers
+    }
+
     public var sources: [EntitySource] {
-        return detailSectionsDataSource.sources
+        return detailSectionsDataSources.map{$0.source}
     }
 
     public var currentEntity: MPOLKitEntity {
         if let result = results[selectedSource.serverSourceName], let entity = result.entity {
             return entity
         } else {
-            return detailSectionsDataSource.baseEntity
+            return (detailSectionsDataSources.filter{$0.source == selectedSource}.first?.entity)!
         }
     }
 
-    public var selectedSource: EntitySource
-
+    private var matchMaker: MatchMaker?
+    private var detailSectionsDataSources: [EntityDetailSectionsDataSource]
     private var entityFetch: Fetchable?
+    fileprivate let initialSource: EntitySource
 
-    public var detailSectionsDataSource: EntityDetailSectionsDataSource
-
-    public var detailSectionsViewControllers: [EntityDetailSectionUpdatable]?
-
-    public weak var delegate: EntityDetailSectionsDelegate?
-
-    public var results: [String: EntityFetchResult] = [:]
-
-    public init(dataSource: EntityDetailSectionsDataSource) {
-
-        selectedSource = dataSource.initialSource
-        self.detailSectionsDataSource = dataSource
-
-        entityFetch = dataSource.fetchModel(for: dataSource.baseEntity, sources: self.sources)
-        entityFetch?.delegate = self
-        detailSectionsViewControllers = dataSource.detailViewControllers
+    public init(initialSource: EntitySource, dataSources: [EntityDetailSectionsDataSource], andMatchMaker matchMaker: MatchMaker?) {
+        self.initialSource = initialSource
+        self.selectedSource = initialSource
+        self.detailSectionsDataSources = dataSources
+        self.matchMaker = matchMaker
     }
 
     public func performFetch() {
+        entityFetch = detailSectionsDataSources.filter{$0.source == selectedSource}.first?.fetchModel()
+        entityFetch?.delegate = self
+        entityFetch?.performFetch()
+    }
+
+    public func performSubsequentFetch(for source: EntitySource) {
+        entityFetch = matchMaker?.findMatch(for: currentEntity, withInitialSource: initialSource, andDestinationSource: selectedSource)
+        entityFetch?.delegate = self
         entityFetch?.performFetch()
     }
 
@@ -83,7 +89,7 @@ public class EntityDetailSectionsViewModel {
 
             noContentView.titleLabel.text = NSLocalizedString(error.localizedDescription, comment: "")
             let actionButton = noContentView.actionButton
-            actionButton.titleLabel?.font = .systemFont(ofSize: 15.0, weight: UIFontWeightSemibold)
+            actionButton.titleLabel?.font = .systemFont(ofSize: 15.0, weight: UIFont.Weight.semibold)
             actionButton.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 16.0, bottom: 10.0, right: 16.0)
             actionButton.setTitle(NSLocalizedString("Retry Download", comment: ""), for: .normal)
             actionButton.addTarget(self, action: #selector(newSearchButtonDidSelect(_:)), for: .primaryActionTriggered)
@@ -106,7 +112,7 @@ extension EntityDetailSectionsViewModel: EntityDetailFetchDelegate {
 
         results[source.serverSourceName] = EntityFetchResult(entity: result.entity, state: result.state, error: result.error)
 
-        self.delegate?.EntityDetailSectionsDidUpdateResults(self)
+        self.delegate?.entityDetailSectionsDidUpdateResults(self)
     }
 
     public func EntityDetailFetch<T>(_ EntityDetailFetch: EntityDetailFetch<T>, didFinishFetch request: EntityDetailFetchRequest<T>) {
@@ -125,13 +131,13 @@ extension EntityDetailSectionsViewModel: EntityDetailFetchDelegate {
             setSelectedResult(fetchResult: fetchResult)
         }
 
-        self.delegate?.EntityDetailSectionsDidUpdateResults(self)
+        self.delegate?.entityDetailSectionsDidUpdateResults(self)
     }
 
     @objc
     fileprivate func newSearchButtonDidSelect(_ button: UIButton) {
-        performFetch()
-        delegate?.EntityDetailSectionDidSelectRetryDownload(self)
+        initialSource == selectedSource ? performFetch() : performSubsequentFetch(for: selectedSource)
+        delegate?.entityDetailSectionDidSelectRetryDownload(self)
     }
 
 }

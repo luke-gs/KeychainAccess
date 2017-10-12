@@ -9,10 +9,17 @@
 import UIKit
 import PromiseKit
 
-open class EntityDetailSplitViewController: SidebarSplitViewController {
+public protocol EntityDetailSplitViewControllerDelegate: class {
+    
+    func entityDetailSplitViewController<Details: EntityDetailDisplayable, Summary: EntitySummaryDisplayable>(_ entityDetailSplitViewController: EntityDetailSplitViewController<Details, Summary>, didPresentEntity entity: MPOLKitEntity)
+}
+
+open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Summary: EntitySummaryDisplayable>: SidebarSplitViewController {
 
     private let headerView = SidebarHeaderView(frame: .zero)
     fileprivate let detailViewModel: EntityDetailSectionsViewModel
+    
+    public weak var delegate: EntityDetailSplitViewControllerDelegate?
 
     // Appearance properties
 
@@ -34,9 +41,9 @@ open class EntityDetailSplitViewController: SidebarSplitViewController {
         }
     }
 
-    public init(dataSource: EntityDetailSectionsDataSource) {
+    public init(viewModel: EntityDetailSectionsViewModel) {
 
-        detailViewModel = EntityDetailSectionsViewModel(dataSource: dataSource)
+        detailViewModel = viewModel
 
         let detailVCs = detailViewModel.detailSectionsViewControllers as? [UIViewController]
 
@@ -76,33 +83,56 @@ open class EntityDetailSplitViewController: SidebarSplitViewController {
 
     open override func sidebarViewController(_ controller: UIViewController, didSelectSourceAt index: Int) {
         let source = detailViewModel.sources[index]
-        detailViewModel.selectedSource = source
+
+        guard source.serverSourceName != detailViewModel.selectedSource.serverSourceName else { return }
+
+        updateEverything(for: source)
+
+        if let result = detailViewModel.results[source.serverSourceName] {
+            detailViewModel.setSelectedResult(fetchResult: result)
+        }
+    }
+
+    open override func sidebarViewController(_ controller: UIViewController, didRequestToLoadSourceAt index: Int) {
+        let source = detailViewModel.sources[index]
+
+        guard source.serverSourceName != detailViewModel.selectedSource.serverSourceName else { return }
+
+        detailViewModel.performSubsequentFetch(for: source)
 
         if let result = detailViewModel.results[source.serverSourceName] {
             detailViewModel.setSelectedResult(fetchResult: result)
         }
 
-        updateHeaderView()
-    }
-
-    open override func sidebarViewController(_ controller: UIViewController, didRequestToLoadSourceAt index: Int) {
-        let selectedSource = detailViewModel.sources[index]
-
-        if let requestedSourceLoadState = detailViewModel.results[selectedSource.serverSourceName]?.state, requestedSourceLoadState != .idle {
-            // Did not select an unloaded source. Update the source items just in case, and then return out.
-            updateSourceItems()
-            return
-        }
+        updateEverything(for: source)
     }
 
     // MARK: - Override methods
 
     open override func masterNavTitleSuitable(for traitCollection: UITraitCollection) -> String {
         // Ask the data source for an appropriate title
-        return detailViewModel.detailSectionsDataSource.navTitleSuitable(for: traitCollection)
+        if traitCollection.horizontalSizeClass == .compact {
+            let entity = detailViewModel.currentEntity
+            if let title =  Summary(entity).title {
+                return title
+            }
+        }
+        // Use a generic sidebar title
+        return NSLocalizedString("Details", comment: "Title for for entity details")
     }
 
     // MARK: - Private methods
+
+    fileprivate func updateEverything(for source: EntitySource) {
+        detailViewModel.selectedSource = source
+
+        detailViewControllers = detailViewModel.detailSectionsViewControllers as! [UIViewController]
+        selectedViewController = detailViewControllers.first
+
+        updateRepresentations()
+        updateHeaderView()
+        updateSourceItems()
+    }
 
     /// Enables/Disables sidebar items based on whether or not its source is updating.
     fileprivate func updateRepresentations() {
@@ -112,6 +142,9 @@ open class EntityDetailSplitViewController: SidebarSplitViewController {
             let source = $0.serverSourceName
             if let result = detailViewModel.results[source] {
                 updateDetailSectionsAvailability(result.state == .finished)
+                if result.state == .finished, detailViewModel.selectedSource == $0, let entity = result.entity {
+                    delegate?.entityDetailSplitViewController(self, didPresentEntity: entity)
+                }
             }
         }
     }
@@ -133,8 +166,9 @@ open class EntityDetailSplitViewController: SidebarSplitViewController {
 
                 case .finished:
                     if fetchResult.error == nil,
-                        let displayable = fetchResult.entity as? EntityDetailDisplayable {
-                        itemState = .loaded(count: displayable.alertBadgeCount, color: displayable.alertBadgeColor)
+                        let entity = fetchResult.entity {
+                        let displayable = Details(entity)
+                        itemState = .loaded(count: displayable.alertBadgeCount, color: displayable.alertBadgeColor ?? .lightGray)
                     } else {
                         itemState = .notAvailable
                     }
@@ -156,11 +190,11 @@ open class EntityDetailSplitViewController: SidebarSplitViewController {
 
     /// Updates the header view with the details for the latest selected representation.
     /// Call this methodwhen the selected representation changes.
-    private func updateHeaderView() {
+    fileprivate func updateHeaderView() {
         let entity = detailViewModel.currentEntity
 
-        guard let detailDisplayable = entity as? EntityDetailDisplayable else { return }
-        guard let summaryDisplayable = entity as? EntitySummaryDisplayable else { return }
+        let detailDisplayable = Details(entity)
+        let summaryDisplayable = Summary(entity)
 
         headerView.captionLabel.text = detailDisplayable.entityDisplayName?.localizedUppercase
 
@@ -200,14 +234,16 @@ open class EntityDetailSplitViewController: SidebarSplitViewController {
 
 extension EntityDetailSplitViewController: EntityDetailSectionsDelegate {
 
-    public func EntityDetailSectionsDidUpdateResults(_ EntityDetailSectionsViewModel: EntityDetailSectionsViewModel) {
+    public func entityDetailSectionsDidUpdateResults(_ EntityDetailSectionsViewModel: EntityDetailSectionsViewModel) {
         updateRepresentations()
         updateSourceItems()
+        updateHeaderView()
     }
 
-    public func EntityDetailSectionDidSelectRetryDownload(_ EntityDetailSectionsViewModel: EntityDetailSectionsViewModel) {
+    public func entityDetailSectionDidSelectRetryDownload(_ EntityDetailSectionsViewModel: EntityDetailSectionsViewModel) {
         updateRepresentations()
         updateSourceItems()
+        updateHeaderView()
     }
 
 }

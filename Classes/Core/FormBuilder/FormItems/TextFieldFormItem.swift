@@ -162,7 +162,7 @@ public class TextFieldFormItem: CollectionViewFormItem, FormValidatable {
 extension TextFieldFormItem: UITextFieldDelegate {
 
     @objc fileprivate func textFieldTextDidChange(_ textField: UITextField) {
-        var newText = textField.text
+        let newText = textField.text
         if var sizing = text as? StringSizing {
             sizing.string = newText ?? ""
             text = sizing
