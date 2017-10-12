@@ -27,7 +27,7 @@ class SubscriptionViewController: FormViewController {
 
     override func construct(builder: FormBuilder) {
 
-        builder += HeaderFormItem(text: "WELCOME", style: .collapsible)
+        builder += HeaderFormItem(text: "WELCOME", style: .plain)
 
         builder += TextFieldFormItem()
             .title("Username")
