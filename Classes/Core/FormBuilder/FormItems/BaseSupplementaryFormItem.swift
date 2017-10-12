@@ -44,6 +44,8 @@ open class BaseSupplementaryFormItem: FormItem {
         visitor.visit(self)
     }
 
+    /// MARK: - Collection view related methods. These are called by the form system.
+
     func view(in collectionView: UICollectionView, for indexPath: IndexPath) -> UICollectionReusableView {
         let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: reuseIdentifier, for: indexPath)
         configure(view)
@@ -58,17 +60,38 @@ open class BaseSupplementaryFormItem: FormItem {
 
     /// MARK: - Requires Subclass Implementation
 
-    open func configure(_ view: UIView) {
+
+    /// Subclass to override.
+    ///
+    /// - Parameter view: The view with the defined type.
+    open func configure(_ view: UICollectionReusableView) {
         MPLRequiresConcreteImplementation()
     }
 
+
+    /// Subclass to override.
+    ///
+    /// - Parameters:
+    ///   - collectionView: The collection view.
+    ///   - layout: The form layout.
+    ///   - traitCollection: The trait collection.
+    /// - Returns: The instrinsic height of the item.
     open func intrinsicHeight(in collectionView: UICollectionView, layout: CollectionViewFormLayout, for traitCollection: UITraitCollection) -> CGFloat {
         MPLRequiresConcreteImplementation()
     }
 
+
+    /// Overide to apply theme to the view
+    ///
+    /// - Parameters:
+    ///   - theme: Current theme
+    ///   - view: Current view
     open func apply(theme: Theme, toView view: UICollectionReusableView) { }
 
 }
+
+
+/// MARK: - Chaining methods
 
 extension BaseSupplementaryFormItem {
 

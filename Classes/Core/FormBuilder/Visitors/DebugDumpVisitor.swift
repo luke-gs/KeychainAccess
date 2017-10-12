@@ -9,6 +9,7 @@
 import Foundation
 
 
+/// Dump the entire items as json. This is used for debugging purposes only.
 public class DebugDumpVisitor: FormVisitor {
 
     public var payload = [String: Any]()

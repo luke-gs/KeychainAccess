@@ -9,11 +9,9 @@
 import Foundation
 
 
-public final class CustomFormItem<T: CollectionViewFormCell>: BaseFormItem {
-
-    public init(cellType: T.Type, reuseIdentifier: String) {
-        super.init(cellType: cellType, reuseIdentifier: reuseIdentifier)
-    }
+/// Custom form item. Use this class to provide a single used cell. Specify the `onConfigured` handler to provide
+/// the custom configuration the cell.
+public final class CustomFormItem: BaseFormItem {
 
     public override func configure(_ cell: CollectionViewFormCell) { }
 

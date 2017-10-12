@@ -9,6 +9,8 @@
 import Foundation
 
 
+/// This visitor will silently validate the item that implements `FormValidatable`
+/// and return the validation result without updating the validation text.
 public class SubmissionValidationVisitor: FormVisitor {
 
     public var result: ValidateResult = .valid

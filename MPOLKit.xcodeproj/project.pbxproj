@@ -331,7 +331,6 @@
 		EA2189ED1F5FAF110057048E /* SearchResultModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2189EC1F5FAF110057048E /* SearchResultModelable.swift */; };
 		EA2189EF1F5FB2280057048E /* MapResultViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2189EE1F5FB2280057048E /* MapResultViewModelable.swift */; };
 		EA2189F21F5FE8B50057048E /* Presenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2189F11F5FE8B50057048E /* Presenter.swift */; };
-		EA3BA3881F79DD23000E4AD8 /* FormValidatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA3BA3871F79DD23000E4AD8 /* FormValidatable.swift */; };
 		EA3BA38A1F7A1555000E4AD8 /* ReloadValidationStateVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA3BA3891F7A1555000E4AD8 /* ReloadValidationStateVisitor.swift */; };
 		EA3BA38C1F7B2B5D000E4AD8 /* FooterFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA3BA38B1F7B2B5D000E4AD8 /* FooterFormItem.swift */; };
 		EA445DA21F73578500ABF70F /* TextFieldFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA445DA11F73578500ABF70F /* TextFieldFormItem.swift */; };
@@ -717,7 +716,6 @@
 		EA2189EC1F5FAF110057048E /* SearchResultModelable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultModelable.swift; sourceTree = "<group>"; };
 		EA2189EE1F5FB2280057048E /* MapResultViewModelable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapResultViewModelable.swift; sourceTree = "<group>"; };
 		EA2189F11F5FE8B50057048E /* Presenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Presenter.swift; sourceTree = "<group>"; };
-		EA3BA3871F79DD23000E4AD8 /* FormValidatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormValidatable.swift; sourceTree = "<group>"; };
 		EA3BA3891F7A1555000E4AD8 /* ReloadValidationStateVisitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReloadValidationStateVisitor.swift; sourceTree = "<group>"; };
 		EA3BA38B1F7B2B5D000E4AD8 /* FooterFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterFormItem.swift; sourceTree = "<group>"; };
 		EA445DA11F73578500ABF70F /* TextFieldFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldFormItem.swift; sourceTree = "<group>"; };
@@ -1722,6 +1720,7 @@
 		EA11F0201F830D8B00BF8BCA /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				EA09A0471F78B6D400BC3C0E /* Validator.swift */,
 				EA11F0211F830DD600BF8BCA /* BaseFormItemAccessorisable.swift */,
 				EA11F0231F830EEC00BF8BCA /* ImageLoadable.swift */,
 				EA11F0251F83357D00BF8BCA /* ImageSizing.swift */,
@@ -1740,21 +1739,11 @@
 		EA3BA3851F79DCD1000E4AD8 /* Visitors */ = {
 			isa = PBXGroup;
 			children = (
-				EA3BA3861F79DCE5000E4AD8 /* Validator */,
-			);
-			path = Visitors;
-			sourceTree = "<group>";
-		};
-		EA3BA3861F79DCE5000E4AD8 /* Validator */ = {
-			isa = PBXGroup;
-			children = (
-				EA09A0471F78B6D400BC3C0E /* Validator.swift */,
-				EA3BA3871F79DD23000E4AD8 /* FormValidatable.swift */,
 				EA3BA3891F7A1555000E4AD8 /* ReloadValidationStateVisitor.swift */,
 				EA950E491F8DBF2200B5A349 /* DebugDumpVisitor.swift */,
 				EA950E4B1F8DBF5700B5A349 /* SubmissionValidationVisitor.swift */,
 			);
-			path = Validator;
+			path = Visitors;
 			sourceTree = "<group>";
 		};
 		EA3C89011F32A6CB00F38461 /* Lottie */ = {
@@ -2183,7 +2172,6 @@
 				DB88BCE11F42D0110056FD69 /* SearchFieldCollectionViewCell.swift in Sources */,
 				BC9C7E351F0DED6600DFFE83 /* KeyboardInputManager.swift in Sources */,
 				DB88BCDE1F42D0080056FD69 /* SearchViewController.swift in Sources */,
-				EA3BA3881F79DD23000E4AD8 /* FormValidatable.swift in Sources */,
 				BC9C7E111F0DED6600DFFE83 /* TableViewFormCheckboxCell.swift in Sources */,
 				EA69F8291F7C8EAD0092380B /* PickerFormItem.swift in Sources */,
 				BC9C7DEE1F0DED6600DFFE83 /* Serialisable.swift in Sources */,

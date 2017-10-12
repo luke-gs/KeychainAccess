@@ -60,6 +60,7 @@ open class ValueSelectionAction<T>: SelectionAction {
 
 }
 
+
 public class PickableAction<T: Pickable>: ValueSelectionAction<[T]> {
 
     public let options: [T]
@@ -116,7 +117,8 @@ public class PickableAction<T: Pickable>: ValueSelectionAction<[T]> {
 
 }
 
-public class DatableAction: ValueSelectionAction<Date> {
+
+public class DateAction: ValueSelectionAction<Date> {
 
     public let mode: UIDatePickerMode
 
@@ -160,7 +162,7 @@ public class DatableAction: ValueSelectionAction<Date> {
 
 }
 
-public class NumberRangableAction: ValueSelectionAction<CountableClosedRange<Int>>, NumberRangePickerDelegate {
+public class NumberRangeAction: ValueSelectionAction<CountableClosedRange<Int>>, NumberRangePickerDelegate {
 
     public let range: CountableClosedRange<Int>
 

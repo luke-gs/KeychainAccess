@@ -11,8 +11,16 @@ import UIKit
 
 
 
+/// BaseFormItem for a CollectionViewFormCell.
 open class BaseFormItem: NSObject, FormItem {
 
+
+    /// Defines the width of the item to be displayed.
+    ///
+    /// - intrinsic: Uses item's intrinsic size
+    /// - fixed: Uses a fixed points system. E.g. 250 points.
+    /// - column: Uses column system. E.g. '.column(3)' indicates that the item would occupy a 1/3 of content width.
+    /// - dynamic->CGFloat: Use this to provide a custom width based on the info provided. Use this if the other styles are ineffective.
     public enum HorizontalDistribution {
         case intrinsic
         case fixed(CGFloat)
@@ -35,6 +43,11 @@ open class BaseFormItem: NSObject, FormItem {
     }
 
 
+    /// Defines the height of the item to be displayed.
+    ///
+    /// - intrinsic: Uses item's intrinsic size
+    /// - fixed: Uses a fixed points system. E.g. 250 points.
+    /// - dynamic->CGFloat: Use this to provide a custom height based on the info provided. Use this if the other styles are ineffective.
     public enum VerticalDistribution {
         case intrinsic
         case fixed(CGFloat)
@@ -72,6 +85,7 @@ open class BaseFormItem: NSObject, FormItem {
 
     public var editActions: [CollectionViewFormEditAction] = []
 
+    /// Text to display below the item.
     public var focusedText: String? {
         didSet {
             if focusedText != oldValue {
@@ -80,13 +94,16 @@ open class BaseFormItem: NSObject, FormItem {
         }
     }
 
+    /// Setting this property causes the item be in focused, which is shown with a red underline. Default to false.
     public var isFocused: Bool = false
 
 
     /// MARK: - Sizing
 
+    /// Preferred width. Default to `.intrinsic`
     public var width: HorizontalDistribution = .intrinsic
 
+    /// Preferred height. Default to `.intrinsic`
     public var height: VerticalDistribution = .intrinsic
 
 
@@ -103,19 +120,26 @@ open class BaseFormItem: NSObject, FormItem {
 
     /// MARK: - Colors
 
+    /// Defines the custom separator color. Setting this will take precedent over the theme.
     public var separatorColor: UIColor?
 
+    /// Defines the custom separatorTintColor. Setting this will take precedent over the theme.
     public var separatorTintColor: UIColor?
 
+    /// Defines the custom separator color. Setting this will take precedent over the theme.
     public var focusColor: UIColor?
 
 
     /// MARK: - Custom Handlers
 
+    /// A custom configuration handler. This is called after the cell has been configured. Use this when
+    /// a custom configuration is required.
     public var onConfigured: ((CollectionViewFormCell) -> ())?
 
+    /// A custom theme changed handler. Called after theme has been applied.
     public var onThemeChanged: ((CollectionViewFormCell, Theme) -> ())?
 
+    /// A custom selection handler. Called when the item is selected.
     public var onSelection: ((CollectionViewFormCell) -> ())?
 
 
@@ -134,7 +158,7 @@ open class BaseFormItem: NSObject, FormItem {
     }
 
 
-    /// MARK: - Collection View Related methods
+    /// MARK: - Collection View Related methods. These methods are called by the form system.
 
     func cell(forItemAt indexPath: IndexPath, inCollectionView collectionView: UICollectionView) -> CollectionViewFormCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! CollectionViewFormCell
@@ -182,7 +206,10 @@ open class BaseFormItem: NSObject, FormItem {
         cell.validationColor = focusColor
         cell.separatorTintColor = separatorTintColor
 
+        // Subclass to apply theme
         apply(theme: theme, toCell: cell)
+
+        // Custom theme configuration if any
         onThemeChanged?(cell, theme)
     }
 
@@ -200,13 +227,21 @@ open class BaseFormItem: NSObject, FormItem {
         cell.accessoryView = accessory?.view()
         cell.editActions = editActions
 
-        // Apply validations
+        // Apply focused text
         cell.setRequiresValidation(focusedText?.isEmpty == false || isFocused, validationText: focusedText, animated: false)
 
+        // Subclass cell configuration
         configure(cell)
+
+        // Custom configuration if any
         onConfigured?(cell)
     }
 
+
+    /// Minimum item width used in the column system.
+    ///
+    /// - Parameter traitCollection: Trait collection
+    /// - Returns: The width
     private final func minimumItemContentWidth(for traitCollection: UITraitCollection) -> CGFloat {
         let extraLargeText: Bool
         switch traitCollection.preferredContentSizeCategory {
@@ -221,28 +256,61 @@ open class BaseFormItem: NSObject, FormItem {
 
     /// MARK: - Requires Subclass Implementation
 
+
+    /// Subclass to override.
+    ///
+    /// - Parameter cell: The cell with the defined cell type
     open func configure(_ cell: CollectionViewFormCell) {
         MPLRequiresConcreteImplementation()
     }
 
+
+    /// Subclass to override.
+    ///
+    /// - Parameters:
+    ///   - collectionView: The collection view
+    ///   - layout: The form layout
+    ///   - sectionEdgeInsets: The edge insets
+    ///   - traitCollection: The trait collection
+    /// - Returns: The intrinsic width of the item
     open func intrinsicWidth(in collectionView: UICollectionView, layout: CollectionViewFormLayout, sectionEdgeInsets: UIEdgeInsets, for traitCollection: UITraitCollection) -> CGFloat {
         MPLRequiresConcreteImplementation()
     }
 
+
+    /// Subclass to override.
+    ///
+    /// - Parameters:
+    ///   - collectionView: The collection view
+    ///   - layout: THe form layout
+    ///   - contentWidth: The content width
+    ///   - traitCollection: The trait collection
+    /// - Returns: The intrinsic height of the item
     open func intrinsicHeight(in collectionView: UICollectionView, layout: CollectionViewFormLayout, givenContentWidth contentWidth: CGFloat, for traitCollection: UITraitCollection) -> CGFloat {
         MPLRequiresConcreteImplementation()
     }
 
+
+    /// Override to apply theme to the cell
+    ///
+    /// - Parameters:
+    ///   - theme: Current theme
+    ///   - cell: Current cell
     open func apply(theme: Theme, toCell cell: CollectionViewFormCell) { }
+
 
     /// MARK: - View updating
 
+    /// The active cell if it is currently displayed on the screen.
     public internal(set) weak var cell: CollectionViewFormCell?
 
-    public func updateFocusedText() {
+
+    /// Updates and animates focused text live
+    private func updateFocusedText() {
         cell?.setRequiresValidation(focusedText?.isEmpty == false || isFocused, validationText: focusedText, animated: true)
     }
 
+    /// Reloads item. This causes the cell to be configured again.
     public func reloadItem() {
         if let cell = cell {
             reload(cell)

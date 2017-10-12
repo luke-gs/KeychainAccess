@@ -240,19 +240,16 @@ open class FormViewController: UIViewController, UICollectionViewDataSource, UIC
 
     open override func viewDidLoad() {
         super.viewDidLoad()
-
         reloadForm()
-
         apply(ThemeManager.shared.theme(for: userInterfaceStyle))
     }
 
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        // TODO: Uncomment in iOS 11
-        //        if #available(iOS 11, *) {
-        //            return
-        //        }
+        if #available(iOS 11, *) {
+            return
+        }
 
         var insets = legacy_additionalSafeAreaInsets
         insets.top += topLayoutGuide.length
@@ -278,31 +275,11 @@ open class FormViewController: UIViewController, UICollectionViewDataSource, UIC
 
     // MARK: - Themes
 
-    @NSCopying open private(set) var backgroundColor:      UIColor?
-
-    @NSCopying open private(set) var primaryTextColor:     UIColor?
-
-    @NSCopying open private(set) var secondaryTextColor:   UIColor?
-
-    @NSCopying open private(set) var placeholderTextColor: UIColor?
-
-    @NSCopying open private(set) var disclosureColor:      UIColor?
-
-    @NSCopying open private(set) var separatorColor:       UIColor?
-
-    @NSCopying open private(set) var validationErrorColor: UIColor?
+    private var backgroundColor: UIColor?
 
     open func apply(_ theme: Theme) {
-//        tintColor            = theme.color(forKey: .tint)
-//        selectionColor       = theme.color(forKey: .cellSelection)
-
-        separatorColor       = theme.color(forKey: .separator)
-        backgroundColor      = theme.color(forKey: .background)
-        primaryTextColor     = theme.color(forKey: .primaryText)
-        secondaryTextColor   = theme.color(forKey: .secondaryText)
-        placeholderTextColor = theme.color(forKey: .placeholderText)
-        disclosureColor      = theme.color(forKey: .disclosure)
-        validationErrorColor = theme.color(forKey: .validationError)
+        backgroundColor = theme.color(forKey: .background)
+        let secondaryTextColor = theme.color(forKey: .secondaryText)
 
         loadingManager.noContentColor = secondaryTextColor ?? .gray
 
@@ -430,32 +407,32 @@ open class FormViewController: UIViewController, UICollectionViewDataSource, UIC
             }
         }
 
-        if let formCell = cell as? CollectionViewFormCell {
-            if let accessory = formCell.accessoryView {
-                func updateTintColor(for view: FormAccessoryView) {
-                    switch view.style {
-                    case .checkmark:
-                        view.tintColor = nil
-                    case .disclosure:
-                        view.tintColor = self.disclosureColor
-                    case .dropDown:
-                        view.tintColor = self.primaryTextColor
-                    }
-                }
-
-                switch accessory {
-                case let labeledAcccessory as LabeledAccessoryView:
-                    labeledAcccessory.titleLabel.textColor = primaryTextColor ?? .black
-                    labeledAcccessory.subtitleLabel.textColor = secondaryTextColor ?? .darkGray
-
-                    if let formAccessory = labeledAcccessory.accessoryView as? FormAccessoryView {
-                        updateTintColor(for: formAccessory)
-                    }
-                default:
-                    break
-                }
-            }
-        }
+//        if let formCell = cell as? CollectionViewFormCell {
+//            if let accessory = formCell.accessoryView {
+//                func updateTintColor(for view: FormAccessoryView) {
+//                    switch view.style {
+//                    case .checkmark:
+//                        view.tintColor = nil
+//                    case .disclosure:
+//                        view.tintColor = self.disclosureColor
+//                    case .dropDown:
+//                        view.tintColor = self.primaryTextColor
+//                    }
+//                }
+//
+//                switch accessory {
+//                case let labeledAcccessory as LabeledAccessoryView:
+//                    labeledAcccessory.titleLabel.textColor = primaryTextColor ?? .black
+//                    labeledAcccessory.subtitleLabel.textColor = secondaryTextColor ?? .darkGray
+//
+//                    if let formAccessory = labeledAcccessory.accessoryView as? FormAccessoryView {
+//                        updateTintColor(for: formAccessory)
+//                    }
+//                default:
+//                    break
+//                }
+//            }
+//        }
 
     }
 
@@ -577,12 +554,11 @@ open class FormViewController: UIViewController, UICollectionViewDataSource, UIC
     open func calculatedContentHeight() -> CGFloat {
         var contentHeight = collectionView?.contentSize.height ?? 0.0
 
-        // TODO: Uncomment in iOS 11
-        //        if #available(iOS 11, *) {
-        //            contentHeight += additionalSafeAreaInsets.top + additionalSafeAreaInsets.bottom
-        //        } else {
-        contentHeight += legacy_additionalSafeAreaInsets.top + legacy_additionalSafeAreaInsets.bottom
-        //        }
+        if #available(iOS 11, *) {
+            contentHeight += additionalSafeAreaInsets.top + additionalSafeAreaInsets.bottom
+        } else {
+            contentHeight += legacy_additionalSafeAreaInsets.top + legacy_additionalSafeAreaInsets.bottom
+        }
 
         let minHeight = minimumCalculatedContentHeight
         let maxHeight = maximumCalculatedContentHeight
@@ -597,6 +573,19 @@ open class FormViewController: UIViewController, UICollectionViewDataSource, UIC
         if userInterfaceStyle != .current { return }
 
         apply(ThemeManager.shared.theme(for: userInterfaceStyle))
+    }
+
+}
+
+@available(iOS, introduced: 11.0)
+extension FormViewController {
+
+    open override var additionalSafeAreaInsets: UIEdgeInsets {
+        didSet {
+            if additionalSafeAreaInsets != oldValue && calculatesContentHeight {
+                updateCalculatedContentHeight()
+            }
+        }
     }
 
 }
