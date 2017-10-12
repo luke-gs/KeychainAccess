@@ -310,10 +310,18 @@ open class BaseFormItem: NSObject, FormItem {
     /// The active cell if it is currently displayed on the screen.
     public internal(set) weak var cell: CollectionViewFormCell?
 
+    /// The active collectionView
+    public internal(set) weak var collectionView: UICollectionView?
 
     /// Updates and animates focused text live
     private func updateFocusedText() {
-        cell?.setRequiresValidation(focusedText?.isEmpty == false || isFocused, validationText: focusedText, animated: true)
+        if let cell = cell {
+            cell.setRequiresValidation(focusedText?.isEmpty == false || isFocused, validationText: focusedText, animated: true)
+        } else {
+            collectionView?.performBatchUpdates({
+                collectionView?.collectionViewLayout.invalidateLayout()
+            })
+        }
     }
 
     /// Reloads item. This causes the cell to be configured again.
