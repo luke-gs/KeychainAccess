@@ -15,7 +15,14 @@ class SubscriptionViewController: FormViewController {
     override init() {
         super.init()
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(done))
+        let fixerUpper = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+        fixerUpper.width = 20.0
+
+        navigationItem.rightBarButtonItems = [
+            UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(done)),
+            fixerUpper,
+            UIBarButtonItem(title: "Reset", style: .plain, target: self, action: #selector(reset))
+        ]
     }
 
     override func construct(builder: FormBuilder) {
@@ -56,6 +63,10 @@ class SubscriptionViewController: FormViewController {
             .keyboardType(.emailAddress)
             .softValidate(EmailSpecification(), message: "Invalid email")
 
+        builder += TextViewFormItem()
+            .title("Notes")
+            .height(.fixed(100.0))
+
         builder += OptionGroupFormItem(optionStyle: .checkbox, options: [
                 "I agreee to the terms and conditions",
                 "Subscribe to newsletters"
@@ -65,9 +76,12 @@ class SubscriptionViewController: FormViewController {
 
     }
 
-    @objc func done() {
+    @objc private func done() {
         builder.validateAndUpdateUI()
+    }
 
+    @objc private func reset() {
+        reloadForm()
     }
 
 }
