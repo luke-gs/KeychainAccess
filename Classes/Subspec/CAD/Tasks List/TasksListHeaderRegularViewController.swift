@@ -42,6 +42,7 @@ open class TasksListHeaderRegularViewController: UIViewController {
         titleLabel.font = UIFont.systemFont(ofSize: 28, weight: UIFont.Weight.bold)
         titleLabel.textAlignment = .left
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.adjustsFontSizeToFitWidth = true
         view.addSubview(titleLabel)
 
         buttonStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -58,11 +59,15 @@ open class TasksListHeaderRegularViewController: UIViewController {
             buttonStackView.addArrangedSubview(button)
         }
 
+        // Shrink label, not buttons if not enough space
+        buttonStackView.setContentCompressionResistancePriority(.required, for: .horizontal)
+        titleLabel.setContentCompressionResistancePriority(.fittingSizeLevel, for: .horizontal)
+
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.topMargin),
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.leadingMargin),
-            titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: buttonStackView.leadingAnchor),
-            titleLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: buttonStackView.leadingAnchor, constant: -10),
+            titleLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor).withPriority(.almostRequired),
 
             buttonStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.trailingMargin),
             buttonStackView.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),

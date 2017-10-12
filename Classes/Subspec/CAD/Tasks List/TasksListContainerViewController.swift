@@ -25,6 +25,10 @@ class TasksListContainerViewController: UIViewController {
 
     private var sourceInsetManager: ScrollViewInsetManager?
 
+    /// Constraint for making header have no height
+    private var headerHiddenConstraint: NSLayoutConstraint?
+    private var sourceBarHiddenConstraint: NSLayoutConstraint?
+
     /// The current sources available to display
     public var sourceItems: [SourceItem] = [] {
         didSet {
@@ -79,6 +83,11 @@ class TasksListContainerViewController: UIViewController {
         sourceInsetManager?.standardIndicatorInset  = .zero
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.updateConstraintsForSizeChange()
+    }
+
     public func createSubviews() {
         let sidebarColor = #colorLiteral(red: 0.1058823529, green: 0.1176470588, blue: 0.1411764706, alpha: 1)
         let sourceBackground = GradientView(frame: .zero)
@@ -116,6 +125,9 @@ class TasksListContainerViewController: UIViewController {
         listView.translatesAutoresizingMaskIntoConstraints = false
         headerView.translatesAutoresizingMaskIntoConstraints = false
 
+        headerHiddenConstraint = headerView.heightAnchor.constraint(equalToConstant: 0)
+        sourceBarHiddenConstraint = sourceBar.widthAnchor.constraint(equalToConstant: 0)
+
         NSLayoutConstraint.activate([
             sourceBar.topAnchor.constraint(equalTo: view.topAnchor),
             sourceBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -131,6 +143,29 @@ class TasksListContainerViewController: UIViewController {
             listView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
+
+    // We need to use viewWillTransition here, as master VC is not told about all trait collection changes
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        coordinator.animate(alongsideTransition: { [unowned self] (context) in
+            self.updateConstraintsForSizeChange()
+            }, completion: nil)
+    }
+
+    open func updateConstraintsForSizeChange() {
+        if let traitCollection = splitViewController?.traitCollection {
+            let compact = (traitCollection.horizontalSizeClass == .compact)
+            self.headerHiddenConstraint?.isActive = compact
+            self.sourceBarHiddenConstraint?.isActive = compact
+
+            // Set user interface style based on whether compact
+            if let tasksListViewController = tasksListViewController as? FormCollectionViewController {
+                tasksListViewController.userInterfaceStyle = compact ? .current : .dark
+            }
+        }
+    }
+
+    // MARK: - Data model
 
     public func updateFromViewModel() {
         sourceItems = viewModel.tasksListViewModel.sourceItems
