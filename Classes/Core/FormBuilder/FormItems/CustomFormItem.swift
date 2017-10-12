@@ -9,7 +9,7 @@
 import Foundation
 
 
-public final class CustomFormItem<T: CollectionViewFormCell>: CollectionViewFormItem {
+public final class CustomFormItem<T: CollectionViewFormCell>: BaseFormItem {
 
     public init(cellType: T.Type, reuseIdentifier: String) {
         super.init(cellType: cellType, reuseIdentifier: reuseIdentifier)

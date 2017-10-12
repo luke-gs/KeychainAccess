@@ -9,7 +9,7 @@
 import Foundation
 
 
-public class DetailFormItem: CollectionViewFormItem {
+public class DetailFormItem: BaseFormItem {
 
     public var title: String?
 

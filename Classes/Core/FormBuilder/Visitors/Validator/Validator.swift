@@ -38,7 +38,7 @@ public class Validator {
 
     public private(set) var rules: [ValidatorRule]
 
-    private var timer: (timer: Timer, item: CollectionViewFormItem)?
+    private var timer: (timer: Timer, item: BaseFormItem)?
 
     public init(rules: [ValidatorRule] = []) {
         self.rules = rules
@@ -90,7 +90,7 @@ public class Validator {
     // Validation
 
 
-    @discardableResult public func validateAndUpdateErrorIfNeeded(_ candidate: Any?, shouldInstallTimer: Bool, checkSubmitRule: Bool, forItem item: CollectionViewFormItem) -> Bool {
+    @discardableResult public func validateAndUpdateErrorIfNeeded(_ candidate: Any?, shouldInstallTimer: Bool, checkSubmitRule: Bool, forItem item: BaseFormItem) -> Bool {
         invalidateTimer()
 
         if candidate != nil || checkSubmitRule {
@@ -115,7 +115,7 @@ public class Validator {
         return true
     }
 
-    private func installTimer(forItem item: CollectionViewFormItem) {
+    private func installTimer(forItem item: BaseFormItem) {
         invalidateTimer()
         timer = (Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(endTimer), userInfo: nil, repeats: false), item)
     }

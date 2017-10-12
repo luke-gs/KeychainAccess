@@ -64,13 +64,13 @@ public class FormBuilder {
         var items: [FormItem] = []
 
         for item in formItems {
-            if item is CollectionViewFormItem {
+            if item is BaseFormItem {
                 if let item = item as? FormItemContainer {
                     items = items + item.items
                 } else {
                     items.append(item)
                 }
-            } else if let item = item as? CollectionViewFormSupplementary {
+            } else if let item = item as? BaseSupplementaryFormItem {
                 if item.kind == UICollectionElementKindSectionHeader {
                     if (header != nil || footer != nil || items.count > 0) {
                         sections.append(FormSection(formHeader: header, formItems: items, formFooter: footer))

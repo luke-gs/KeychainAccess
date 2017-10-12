@@ -9,7 +9,7 @@
 import Foundation
 
 
-public class SummaryThumbnailFormItem: CollectionViewFormItem {
+public class SummaryThumbnailFormItem: BaseFormItem {
 
     public var style: EntityCollectionViewCell.Style
 

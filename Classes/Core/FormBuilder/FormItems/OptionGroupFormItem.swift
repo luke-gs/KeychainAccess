@@ -10,11 +10,11 @@ import Foundation
 
 public protocol FormItemContainer {
 
-    var items: [CollectionViewFormItem] { get }
+    var items: [BaseFormItem] { get }
 
 }
 
-public class OptionGroupFormItem: CollectionViewFormItem, FormItemContainer, FormValidatable {
+public class OptionGroupFormItem: BaseFormItem, FormItemContainer, FormValidatable {
 
     public var title: StringSizable? {
         didSet {
@@ -37,8 +37,8 @@ public class OptionGroupFormItem: CollectionViewFormItem, FormItemContainer, For
 
     public var onValueChanged: ((IndexSet) -> ())?
 
-    public var items: [CollectionViewFormItem] {
-        var combined: [CollectionViewFormItem] = optionItems
+    public var items: [BaseFormItem] {
+        var combined: [BaseFormItem] = optionItems
         if let titleItem = titleItem {
             combined.insert(titleItem, at: 0)
         }
@@ -55,7 +55,7 @@ public class OptionGroupFormItem: CollectionViewFormItem, FormItemContainer, For
 
     // MARK: - Internal items
 
-    private var titleItem: CollectionViewFormItem?
+    private var titleItem: BaseFormItem?
     private var optionItems: [OptionFormItem] = []
 
 

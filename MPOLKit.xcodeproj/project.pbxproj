@@ -324,7 +324,7 @@
 		EA09A0581F78B9C200BC3C0E /* RegularExpressionSpecification.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA09A0551F78B9C200BC3C0E /* RegularExpressionSpecification.swift */; };
 		EA09A05C1F78E80900BC3C0E /* OptionFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA09A05B1F78E80900BC3C0E /* OptionFormItem.swift */; };
 		EA11F01F1F830D0E00BF8BCA /* StringSizable+Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA11F01E1F830D0E00BF8BCA /* StringSizable+Label.swift */; };
-		EA11F0221F830DD600BF8BCA /* CollectionViewFormItemAccessorisable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA11F0211F830DD600BF8BCA /* CollectionViewFormItemAccessorisable.swift */; };
+		EA11F0221F830DD600BF8BCA /* BaseFormItemAccessorisable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA11F0211F830DD600BF8BCA /* BaseFormItemAccessorisable.swift */; };
 		EA11F0241F830EEC00BF8BCA /* ImageLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA11F0231F830EEC00BF8BCA /* ImageLoadable.swift */; };
 		EA11F0261F83357D00BF8BCA /* ImageSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA11F0251F83357D00BF8BCA /* ImageSizing.swift */; };
 		EA1B3C9A1F721A5F00574A41 /* CustomFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA1B3C991F721A5F00574A41 /* CustomFormItem.swift */; };
@@ -343,7 +343,7 @@
 		EA4806B51F56A00600B42313 /* LocationSearchConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4806B41F56A00600B42313 /* LocationSearchConfiguration.swift */; };
 		EA4806B71F56A0DC00B42313 /* LocationSearchStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4806B61F56A0DC00B42313 /* LocationSearchStrategy.swift */; };
 		EA5649711F8EE4E100BEA144 /* SummaryDetailFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5649701F8EE4E100BEA144 /* SummaryDetailFormItem.swift */; };
-		EA5B875D1F6F5E67002BEC65 /* CollectionViewFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5B875C1F6F5E67002BEC65 /* CollectionViewFormItem.swift */; };
+		EA5B875D1F6F5E67002BEC65 /* BaseFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5B875C1F6F5E67002BEC65 /* BaseFormItem.swift */; };
 		EA69F8271F7C875D0092380B /* SelectionAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA69F8261F7C875D0092380B /* SelectionAction.swift */; };
 		EA69F8291F7C8EAD0092380B /* PickerFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA69F8281F7C8EAD0092380B /* PickerFormItem.swift */; };
 		EA6CF5421F7494C1002063D8 /* TextViewFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6CF5411F7494C1002063D8 /* TextViewFormItem.swift */; };
@@ -366,7 +366,7 @@
 		EAB38FFA1F70A73700341BAF /* DetailFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB38FF61F70A73700341BAF /* DetailFormItem.swift */; };
 		EAB38FFB1F70A73700341BAF /* ValueFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB38FF71F70A73700341BAF /* ValueFormItem.swift */; };
 		EAB38FFC1F70A73700341BAF /* HeaderFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB38FF81F70A73700341BAF /* HeaderFormItem.swift */; };
-		EAB38FFE1F71EA4E00341BAF /* CollectionViewFormSupplementary.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB38FFD1F71EA4E00341BAF /* CollectionViewFormSupplementary.swift */; };
+		EAB38FFE1F71EA4E00341BAF /* BaseSupplementaryFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB38FFD1F71EA4E00341BAF /* BaseSupplementaryFormItem.swift */; };
 		EABAB8021F3429D90071A401 /* AggregatedSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = EABAB8011F3429D90071A401 /* AggregatedSearch.swift */; };
 		EABAB8041F342E450071A401 /* AggregatedSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EABAB8031F342E450071A401 /* AggregatedSearchRequest.swift */; };
 		EADC4FF31F81E0810066AA2F /* OptionGroupFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EADC4FF21F81E0810066AA2F /* OptionGroupFormItem.swift */; };
@@ -710,7 +710,7 @@
 		EA09A0551F78B9C200BC3C0E /* RegularExpressionSpecification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegularExpressionSpecification.swift; sourceTree = "<group>"; };
 		EA09A05B1F78E80900BC3C0E /* OptionFormItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionFormItem.swift; sourceTree = "<group>"; };
 		EA11F01E1F830D0E00BF8BCA /* StringSizable+Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StringSizable+Label.swift"; sourceTree = "<group>"; };
-		EA11F0211F830DD600BF8BCA /* CollectionViewFormItemAccessorisable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewFormItemAccessorisable.swift; sourceTree = "<group>"; };
+		EA11F0211F830DD600BF8BCA /* BaseFormItemAccessorisable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseFormItemAccessorisable.swift; sourceTree = "<group>"; };
 		EA11F0231F830EEC00BF8BCA /* ImageLoadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoadable.swift; sourceTree = "<group>"; };
 		EA11F0251F83357D00BF8BCA /* ImageSizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSizing.swift; sourceTree = "<group>"; };
 		EA1B3C991F721A5F00574A41 /* CustomFormItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomFormItem.swift; sourceTree = "<group>"; };
@@ -729,7 +729,7 @@
 		EA4806B41F56A00600B42313 /* LocationSearchConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSearchConfiguration.swift; sourceTree = "<group>"; };
 		EA4806B61F56A0DC00B42313 /* LocationSearchStrategy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSearchStrategy.swift; sourceTree = "<group>"; };
 		EA5649701F8EE4E100BEA144 /* SummaryDetailFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryDetailFormItem.swift; sourceTree = "<group>"; };
-		EA5B875C1F6F5E67002BEC65 /* CollectionViewFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewFormItem.swift; sourceTree = "<group>"; };
+		EA5B875C1F6F5E67002BEC65 /* BaseFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseFormItem.swift; sourceTree = "<group>"; };
 		EA69F8261F7C875D0092380B /* SelectionAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionAction.swift; sourceTree = "<group>"; };
 		EA69F8281F7C8EAD0092380B /* PickerFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerFormItem.swift; sourceTree = "<group>"; };
 		EA6CF5411F7494C1002063D8 /* TextViewFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewFormItem.swift; sourceTree = "<group>"; };
@@ -752,7 +752,7 @@
 		EAB38FF61F70A73700341BAF /* DetailFormItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailFormItem.swift; sourceTree = "<group>"; };
 		EAB38FF71F70A73700341BAF /* ValueFormItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValueFormItem.swift; sourceTree = "<group>"; };
 		EAB38FF81F70A73700341BAF /* HeaderFormItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderFormItem.swift; sourceTree = "<group>"; };
-		EAB38FFD1F71EA4E00341BAF /* CollectionViewFormSupplementary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewFormSupplementary.swift; sourceTree = "<group>"; };
+		EAB38FFD1F71EA4E00341BAF /* BaseSupplementaryFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseSupplementaryFormItem.swift; sourceTree = "<group>"; };
 		EABAB8011F3429D90071A401 /* AggregatedSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AggregatedSearch.swift; sourceTree = "<group>"; };
 		EABAB8031F342E450071A401 /* AggregatedSearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AggregatedSearchRequest.swift; sourceTree = "<group>"; };
 		EADC4FF21F81E0810066AA2F /* OptionGroupFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionGroupFormItem.swift; sourceTree = "<group>"; };
@@ -1524,6 +1524,7 @@
 		C605F8931ECCAB2C001194DD /* MPOLKitTests */ = {
 			isa = PBXGroup;
 			children = (
+				EA5649721F8F061000BEA144 /* Core */,
 				C605F8961ECCAB2C001194DD /* Info.plist */,
 				C65927761F332F7300854C60 /* ModelCodingTestUtility.swift */,
 				1908EF841F57CDCB00382B1C /* Authentication */,
@@ -1721,7 +1722,7 @@
 		EA11F0201F830D8B00BF8BCA /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				EA11F0211F830DD600BF8BCA /* CollectionViewFormItemAccessorisable.swift */,
+				EA11F0211F830DD600BF8BCA /* BaseFormItemAccessorisable.swift */,
 				EA11F0231F830EEC00BF8BCA /* ImageLoadable.swift */,
 				EA11F0251F83357D00BF8BCA /* ImageSizing.swift */,
 			);
@@ -1781,6 +1782,21 @@
 			path = LocationSearch;
 			sourceTree = "<group>";
 		};
+		EA5649721F8F061000BEA144 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				EA5649731F8F061000BEA144 /* FormBuilder */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		EA5649731F8F061000BEA144 /* FormBuilder */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = FormBuilder;
+			sourceTree = "<group>";
+		};
 		EA69F8251F7C874D0092380B /* Actions */ = {
 			isa = PBXGroup;
 			children = (
@@ -1823,8 +1839,8 @@
 				EAB38FF81F70A73700341BAF /* HeaderFormItem.swift */,
 				EAB38FF51F70A73700341BAF /* SubtitleFormItem.swift */,
 				EAB38FF71F70A73700341BAF /* ValueFormItem.swift */,
-				EA5B875C1F6F5E67002BEC65 /* CollectionViewFormItem.swift */,
-				EAB38FFD1F71EA4E00341BAF /* CollectionViewFormSupplementary.swift */,
+				EA5B875C1F6F5E67002BEC65 /* BaseFormItem.swift */,
+				EAB38FFD1F71EA4E00341BAF /* BaseSupplementaryFormItem.swift */,
 				EA445DA11F73578500ABF70F /* TextFieldFormItem.swift */,
 				EA6CF5411F7494C1002063D8 /* TextViewFormItem.swift */,
 				EA445DA51F73734300ABF70F /* SummaryThumbnailFormItem.swift */,
@@ -2124,7 +2140,7 @@
 				9663D00D1F8AF6F5006DB672 /* TasksSplitViewModel.swift in Sources */,
 				BC9C7DF11F0DED6600DFFE83 /* EpochDateTransformer.swift in Sources */,
 				BC9C7DD31F0DED6600DFFE83 /* OAuthAuthorizationGrant.swift in Sources */,
-				EA11F0221F830DD600BF8BCA /* CollectionViewFormItemAccessorisable.swift in Sources */,
+				EA11F0221F830DD600BF8BCA /* BaseFormItemAccessorisable.swift in Sources */,
 				BC9C7E2B1F0DED6600DFFE83 /* String+EmptyFiltering.swift in Sources */,
 				BC9C7E501F0DED6600DFFE83 /* EntityThumbnailView.swift in Sources */,
 				BC0EA3F41F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift in Sources */,
@@ -2293,7 +2309,7 @@
 				BC9C7E2A1F0DED6600DFFE83 /* DateFormatter+Static.swift in Sources */,
 				9663D0061F86DCDA006DB672 /* MPOLSplitViewController.swift in Sources */,
 				BC9C7DD11F0DED6600DFFE83 /* ManifestEntry.swift in Sources */,
-				EA5B875D1F6F5E67002BEC65 /* CollectionViewFormItem.swift in Sources */,
+				EA5B875D1F6F5E67002BEC65 /* BaseFormItem.swift in Sources */,
 				BC9C7E141F0DED6600DFFE83 /* TableViewFormTextFieldCell.swift in Sources */,
 				191BC4D71F7C203B00C8C218 /* TagCollectionViewCell.swift in Sources */,
 				27CBC7651F8B27D500E387C3 /* CADStatusTabBarController.swift in Sources */,
@@ -2341,7 +2357,6 @@
 				9644B1D21F6785E200D031F2 /* CompactFormSheetNavigationController.swift in Sources */,
 				19B49BAA1F665ED100502F51 /* NSMutableAttributedString+Append.swift in Sources */,
 				44F3F14E1F56DDDC00D68585 /* FilterDescriptor.swift in Sources */,
-				BC9C7DCA1F0DED6600DFFE83 /* Foundation.Operation+MPOLAdditions.swift in Sources */,
 				EA445DA21F73578500ABF70F /* TextFieldFormItem.swift in Sources */,
 				DBE24C3C1F593BEF0088D19B /* EntityDetailSplitViewController.swift in Sources */,
 				19B49BBE1F665F2A00502F51 /* ScrollAwarePageViewController.swift in Sources */,
@@ -2403,7 +2418,7 @@
 				27CBC7631F8B27CC00E387C3 /* ResourceAnnotation.swift in Sources */,
 				DBE24C391F593BEF0088D19B /* EntityDetailCollectionViewCell.swift in Sources */,
 				9686FC961F78AC7600C4AB4D /* UIViewController+SafeArea.swift in Sources */,
-				EAB38FFE1F71EA4E00341BAF /* CollectionViewFormSupplementary.swift in Sources */,
+				EAB38FFE1F71EA4E00341BAF /* BaseSupplementaryFormItem.swift in Sources */,
 				EA4806B11F56939100B42313 /* LocationSearchDataSource.swift in Sources */,
 				EA2189EF1F5FB2280057048E /* MapResultViewModelable.swift in Sources */,
 				BC9C7E561F0DED6600DFFE83 /* TabStripView.swift in Sources */,

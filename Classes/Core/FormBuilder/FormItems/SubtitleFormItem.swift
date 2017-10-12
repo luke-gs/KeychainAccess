@@ -9,7 +9,7 @@
 import Foundation
 
 
-public class SubtitleFormItem: CollectionViewFormItem {
+public class SubtitleFormItem: BaseFormItem {
 
     public var title: StringSizable?
 

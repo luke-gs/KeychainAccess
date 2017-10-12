@@ -9,7 +9,7 @@
 import Foundation
 
 
-public class TextViewFormItem: CollectionViewFormItem, FormValidatable {
+public class TextViewFormItem: BaseFormItem, FormValidatable {
 
     public var title: StringSizable?
 

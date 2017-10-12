@@ -11,7 +11,7 @@ import Foundation
 import Foundation
 
 
-public class PickerFormItem<T>: CollectionViewFormItem, SelectionActionable, DefaultReusable, FormValidatable {
+public class PickerFormItem<T>: BaseFormItem, SelectionActionable, DefaultReusable, FormValidatable {
 
     public var title: StringSizable?
 

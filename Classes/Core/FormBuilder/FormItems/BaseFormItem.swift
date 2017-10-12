@@ -1,5 +1,5 @@
 //
-//  CollectionViewFormItem.swift
+//  BaseFormItem.swift
 //  MPOLKit
 //
 //  Created by KGWH78 on 18/9/17.
@@ -10,61 +10,51 @@ import Foundation
 import UIKit
 
 
-public struct HorizontalDistributionInfo {
 
-    public let collectionView: UICollectionView
+open class BaseFormItem: NSObject, FormItem {
 
-    public let layout: CollectionViewFormLayout
+    public enum HorizontalDistribution {
+        case intrinsic
+        case fixed(CGFloat)
+        case column(Int)
+        case dynamic((Info) -> CGFloat)
 
-    public let edgeInsets: UIEdgeInsets
+        public struct Info {
+            public let collectionView: UICollectionView
+            public let layout: CollectionViewFormLayout
+            public let edgeInsets: UIEdgeInsets
+            public let traitCollection: UITraitCollection
 
-    public let traitCollection: UITraitCollection
-
-    public init(collectionView: UICollectionView, layout: CollectionViewFormLayout, edgeInsets: UIEdgeInsets, traitCollection: UITraitCollection) {
-        self.collectionView = collectionView
-        self.layout = layout
-        self.edgeInsets = edgeInsets
-        self.traitCollection = traitCollection
-    }
-}
-
-
-public struct VerticalDistributionInfo {
-
-    public let collectionView: UICollectionView
-
-    public let layout: CollectionViewFormLayout
-
-    public let contentWidth: CGFloat
-
-    public let traitCollection: UITraitCollection
-
-    public init(collectionView: UICollectionView, layout: CollectionViewFormLayout, contentWidth: CGFloat, traitCollection: UITraitCollection) {
-        self.collectionView = collectionView
-        self.layout = layout
-        self.contentWidth = contentWidth
-        self.traitCollection = traitCollection
+            public init(collectionView: UICollectionView, layout: CollectionViewFormLayout, edgeInsets: UIEdgeInsets, traitCollection: UITraitCollection) {
+                self.collectionView = collectionView
+                self.layout = layout
+                self.edgeInsets = edgeInsets
+                self.traitCollection = traitCollection
+            }
+        }
     }
 
-}
 
+    public enum VerticalDistribution {
+        case intrinsic
+        case fixed(CGFloat)
+        case dynamic((Info) -> CGFloat)
 
-public enum CollectionViewFormItemHorizontalDistribution {
-    case intrinsic
-    case fixed(CGFloat)
-    case column(Int)
-    case dynamic((HorizontalDistributionInfo) -> CGFloat)
-}
+        public struct Info {
+            public let collectionView: UICollectionView
+            public let layout: CollectionViewFormLayout
+            public let contentWidth: CGFloat
+            public let traitCollection: UITraitCollection
 
+            public init(collectionView: UICollectionView, layout: CollectionViewFormLayout, contentWidth: CGFloat, traitCollection: UITraitCollection) {
+                self.collectionView = collectionView
+                self.layout = layout
+                self.contentWidth = contentWidth
+                self.traitCollection = traitCollection
+            }
+        }
+    }
 
-public enum CollectionViewFormItemVerticalDistribution {
-    case intrinsic
-    case fixed(CGFloat)
-    case dynamic((VerticalDistributionInfo) -> CGFloat)
-}
-
-
-open class CollectionViewFormItem: NSObject, FormItem {
 
     /// MARK: - Identifiers
 
@@ -78,7 +68,7 @@ open class CollectionViewFormItem: NSObject, FormItem {
 
     public var reuseIdentifier: String
 
-    public var accessory: CollectionViewFormItemAccessorisable?
+    public var accessory: BaseFormItemAccessorisable?
 
     public var editActions: [CollectionViewFormEditAction] = []
 
@@ -95,9 +85,9 @@ open class CollectionViewFormItem: NSObject, FormItem {
 
     /// MARK: - Sizing
 
-    public var width: CollectionViewFormItemHorizontalDistribution = .intrinsic
+    public var width: HorizontalDistribution = .intrinsic
 
-    public var height: CollectionViewFormItemVerticalDistribution = .intrinsic
+    public var height: VerticalDistribution = .intrinsic
 
 
     /// MARK: - Styling
@@ -160,7 +150,7 @@ open class CollectionViewFormItem: NSObject, FormItem {
         case .fixed(let points):
             return points
         case .dynamic(let handler):
-            let info = VerticalDistributionInfo(collectionView: collectionView, layout: layout, contentWidth: contentWidth, traitCollection: traitCollection)
+            let info = VerticalDistribution.Info(collectionView: collectionView, layout: layout, contentWidth: contentWidth, traitCollection: traitCollection)
             return handler(info)
         }
     }
@@ -175,7 +165,7 @@ open class CollectionViewFormItem: NSObject, FormItem {
         case .fixed(let points):
             return points
         case .dynamic(let handler):
-            let info = HorizontalDistributionInfo(collectionView: collectionView, layout: layout, edgeInsets: sectionEdgeInsets, traitCollection: traitCollection)
+            let info = HorizontalDistribution.Info(collectionView: collectionView, layout: layout, edgeInsets: sectionEdgeInsets, traitCollection: traitCollection)
             return handler(info)
         }
     }
@@ -263,7 +253,7 @@ open class CollectionViewFormItem: NSObject, FormItem {
 
 /// MARK: - Chaning Methods
 
-extension CollectionViewFormItem {
+extension BaseFormItem {
 
     @discardableResult
     public func elementIdentifier(_ elementIdentifier: String?) -> Self {
@@ -278,7 +268,7 @@ extension CollectionViewFormItem {
     }
 
     @discardableResult
-    public func accessory(_ accessory: CollectionViewFormItemAccessorisable?) -> Self {
+    public func accessory(_ accessory: BaseFormItemAccessorisable?) -> Self {
         self.accessory = accessory
         return self
     }
@@ -302,13 +292,13 @@ extension CollectionViewFormItem {
     }
 
     @discardableResult
-    public func width(_ preferredWidth: CollectionViewFormItemHorizontalDistribution) -> Self {
+    public func width(_ preferredWidth: HorizontalDistribution) -> Self {
         self.width = preferredWidth
         return self
     }
 
     @discardableResult
-    public func height(_ preferredHeight: CollectionViewFormItemVerticalDistribution) -> Self {
+    public func height(_ preferredHeight: VerticalDistribution) -> Self {
         self.height = preferredHeight
         return self
     }

@@ -8,7 +8,7 @@
 import Foundation
 
 
-public class HeaderFormItem: CollectionViewFormSupplementary {
+public class HeaderFormItem: BaseSupplementaryFormItem {
 
     public enum HeaderFormItemStyle {
         case plain

@@ -1,5 +1,5 @@
 //
-//  CollectionViewFormSupplementary.swift
+//  BaseSupplementaryFormItem.swift
 //  MPOLKit
 //
 //  Created by KGWH78 on 20/9/17.
@@ -9,7 +9,7 @@
 import Foundation
 
 
-open class CollectionViewFormSupplementary: FormItem {
+open class BaseSupplementaryFormItem: FormItem {
 
     /// MARK: - Identifiers
 
@@ -70,7 +70,7 @@ open class CollectionViewFormSupplementary: FormItem {
 
 }
 
-extension CollectionViewFormSupplementary {
+extension BaseSupplementaryFormItem {
 
     @discardableResult
     public func elementIdentifier(_ elementIdentifier: String?) -> Self {

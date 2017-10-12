@@ -171,16 +171,16 @@ open class FormViewController: UIViewController, UICollectionViewDataSource, UIC
 
         let cellRegistrations = sections.flatMap { section -> [(CollectionViewFormCell.Type, String)] in
 
-            if let header = section.formHeader as? CollectionViewFormSupplementary {
+            if let header = section.formHeader as? BaseSupplementaryFormItem {
                 supplementaryRegistrations.append((header.viewType, header.kind, header.reuseIdentifier))
             }
 
-            if let footer = section.formFooter as? CollectionViewFormSupplementary {
+            if let footer = section.formFooter as? BaseSupplementaryFormItem {
                 supplementaryRegistrations.append((footer.viewType, footer.kind, footer.reuseIdentifier))
             }
 
             return section.formItems.map { (item) -> (CollectionViewFormCell.Type, String) in
-                let item = item as! CollectionViewFormItem
+                let item = item as! BaseFormItem
                 return (item.cellType, item.reuseIdentifier)
             }
         }
@@ -361,7 +361,7 @@ open class FormViewController: UIViewController, UICollectionViewDataSource, UIC
     }
 
     open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let item = sections[indexPath] as! CollectionViewFormItem
+        let item = sections[indexPath] as! BaseFormItem
         return item.cell(forItemAt: indexPath, inCollectionView: collectionView)
     }
 
@@ -370,7 +370,7 @@ open class FormViewController: UIViewController, UICollectionViewDataSource, UIC
 
         switch kind {
         case UICollectionElementKindSectionHeader:
-            if let item = section.formHeader as? CollectionViewFormSupplementary {
+            if let item = section.formHeader as? BaseSupplementaryFormItem {
                 let view = item.view(in: collectionView, for: indexPath)
 
                 if let item = item as? HeaderFormItem, let headerView = view as? CollectionViewFormHeaderView {
@@ -389,7 +389,7 @@ open class FormViewController: UIViewController, UICollectionViewDataSource, UIC
                 return view
             }
         case UICollectionElementKindSectionFooter:
-            if let item = section.formFooter as? CollectionViewFormSupplementary {
+            if let item = section.formFooter as? BaseSupplementaryFormItem {
                 let view = item.view(in: collectionView, for: indexPath)
                 return view
             }
@@ -401,14 +401,14 @@ open class FormViewController: UIViewController, UICollectionViewDataSource, UIC
     }
 
     public func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
-        if let item = sections[section].formHeader as? CollectionViewFormSupplementary {
+        if let item = sections[section].formHeader as? BaseSupplementaryFormItem {
             return item.intrinsicHeight(in: collectionView, layout: layout, for: traitCollection)
         }
         return 0.0
     }
 
     public func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForFooterInSection section: Int) -> CGFloat {
-        if let item = sections[section].formFooter as? CollectionViewFormSupplementary {
+        if let item = sections[section].formFooter as? BaseSupplementaryFormItem {
             return item.intrinsicHeight(in: collectionView, layout: layout, for: traitCollection)
         }
         return 0.0
@@ -417,7 +417,7 @@ open class FormViewController: UIViewController, UICollectionViewDataSource, UIC
     // MARK: - UICollectionViewDelegate methods
 
     open func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        let item = sections[indexPath] as! CollectionViewFormItem
+        let item = sections[indexPath] as! BaseFormItem
 
         if let cell = cell as? CollectionViewFormCell {
             let theme = ThemeManager.shared.theme(for: .current)
@@ -460,7 +460,7 @@ open class FormViewController: UIViewController, UICollectionViewDataSource, UIC
     }
 
     public func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        let item = sections[indexPath] as! CollectionViewFormItem
+        let item = sections[indexPath] as! BaseFormItem
         item.cell = nil
     }
 
@@ -470,11 +470,11 @@ open class FormViewController: UIViewController, UICollectionViewDataSource, UIC
 
         switch elementKind {
         case UICollectionElementKindSectionHeader:
-            if let item = section.formHeader as? CollectionViewFormSupplementary {
+            if let item = section.formHeader as? BaseSupplementaryFormItem {
                 item.apply(theme: ThemeManager.shared.theme(for: .current), toView: view)
             }
         case UICollectionElementKindSectionFooter:
-            if let item = section.formFooter as? CollectionViewFormSupplementary {
+            if let item = section.formFooter as? BaseSupplementaryFormItem {
                 item.apply(theme: ThemeManager.shared.theme(for: .current), toView: view)
             }
         default:
@@ -483,7 +483,7 @@ open class FormViewController: UIViewController, UICollectionViewDataSource, UIC
     }
 
     open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let item = sections[indexPath] as! CollectionViewFormItem
+        let item = sections[indexPath] as! BaseFormItem
 
         if let item = item as? SelectionActionable, let action = item.selectionAction {
             let viewController = action.viewController()
@@ -519,17 +519,17 @@ open class FormViewController: UIViewController, UICollectionViewDataSource, UIC
             return collectionView.bounds.width
         }
 
-        let item = sections[indexPath] as! CollectionViewFormItem
+        let item = sections[indexPath] as! BaseFormItem
         return item.minimumContentWidth(in: collectionView, layout: layout, sectionEdgeInsets: sectionEdgeInsets, for: traitCollection)
     }
 
     open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
-        let item = sections[indexPath] as! CollectionViewFormItem
+        let item = sections[indexPath] as! BaseFormItem
         return item.minimumContentHeight(in: collectionView, layout: layout, givenContentWidth: itemWidth, for: traitCollection)
     }
 
     open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForValidationAccessoryAt indexPath: IndexPath, givenContentWidth contentWidth: CGFloat) -> CGFloat {
-        let item = sections[indexPath] as! CollectionViewFormItem
+        let item = sections[indexPath] as! BaseFormItem
         return item.heightForValidationAccessory(givenContentWidth: contentWidth, for: traitCollection)
     }
 

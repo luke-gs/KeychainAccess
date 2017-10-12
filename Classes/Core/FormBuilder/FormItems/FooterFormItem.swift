@@ -9,7 +9,7 @@
 import Foundation
 
 
-public class FooterFormItem: CollectionViewFormSupplementary {
+public class FooterFormItem: BaseSupplementaryFormItem {
 
     public var text: String?
 

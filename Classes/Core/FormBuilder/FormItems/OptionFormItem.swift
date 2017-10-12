@@ -9,7 +9,7 @@
 import Foundation
 
 
-public class OptionFormItem: CollectionViewFormItem {
+public class OptionFormItem: BaseFormItem {
 
     public var optionStyle: CollectionViewFormOptionCell.OptionStyle = .checkbox
 

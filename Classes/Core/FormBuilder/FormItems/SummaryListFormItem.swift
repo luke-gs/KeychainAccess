@@ -9,7 +9,7 @@
 import Foundation
 
 
-public class SummaryListFormItem: CollectionViewFormItem {
+public class SummaryListFormItem: BaseFormItem {
 
     public var category: String?
 

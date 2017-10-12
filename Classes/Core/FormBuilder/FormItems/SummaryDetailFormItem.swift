@@ -9,7 +9,7 @@
 import Foundation
 
 
-public class SummaryDetailFormItem: CollectionViewFormItem {
+public class SummaryDetailFormItem: BaseFormItem {
 
     /// MARK: - Detail properties
 

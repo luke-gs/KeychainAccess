@@ -1,5 +1,5 @@
 //
-//  CollectionViewFormItemAccessorisable.swift
+//  BaseFormItemAccessorisable.swift
 //  MPOLKit
 //
 //  Created by KGWH78 on 3/10/17.
@@ -9,7 +9,7 @@
 import Foundation
 
 
-public protocol CollectionViewFormItemAccessorisable {
+public protocol BaseFormItemAccessorisable {
 
     var size: CGSize { get }
 
@@ -20,7 +20,7 @@ public protocol CollectionViewFormItemAccessorisable {
 }
 
 
-public struct FormItemAccessory: CollectionViewFormItemAccessorisable {
+public struct FormItemAccessory: BaseFormItemAccessorisable {
 
     /// MARK: - Static shorthand
 
@@ -63,7 +63,7 @@ public struct FormItemAccessory: CollectionViewFormItemAccessorisable {
 }
 
 
-public class CustomFormItemAccessory: CollectionViewFormItemAccessorisable {
+public class CustomFormItemAccessory: BaseFormItemAccessorisable {
 
     public let size: CGSize
 
