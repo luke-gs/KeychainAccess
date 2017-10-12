@@ -43,7 +43,7 @@ public struct FormItemAccessory: CollectionViewFormItemAccessorisable {
     }
 
     public func view() -> UIView {
-        return FormAccessoryView(style: style)
+        return FormAccessoryImageView(style: style)
     }
 
     public func apply(theme: Theme, toView view: UIView) {
