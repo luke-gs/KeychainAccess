@@ -61,7 +61,7 @@ open class ValueSelectionAction<T>: SelectionAction {
 }
 
 
-public class PickableAction<T: Pickable>: ValueSelectionAction<[T]> {
+public class PickerAction<T: Pickable>: ValueSelectionAction<[T]> {
 
     public let options: [T]
 

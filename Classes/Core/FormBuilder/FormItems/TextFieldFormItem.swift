@@ -112,7 +112,7 @@ public class TextFieldFormItem: BaseFormItem, FormValidatable {
     /// MARK: - Private
 
     private func defaultPlaceholderTextForCurrentState() -> String? {
-        return isRequired ? NSLocalizedString("Required", comment: "Form placeholder text - Required") : NSLocalizedString("Optional", comment: "Form placeholder text - Optional")
+        return FormRequired.default.placeholder(withRequired: isRequired)
     }
 
     /// MARK: - Form validatable
@@ -227,7 +227,7 @@ extension TextFieldFormItem {
     }
 
     @discardableResult
-    public func required(_ message: String = "This is required.") -> Self {
+    public func required(_ message: String = FormRequired.default.message) -> Self {
         self.requiredSpecification = ValidatorRule.submit(specification: CountSpecification.min(1), message: message)
         return self
     }

@@ -8,13 +8,31 @@
 
 import Foundation
 
-internal let requiredString = "*"
-internal let requiredColor = UIColor(red: 1.0, green: 59.0 / 255.0, blue: 48.0 / 255, alpha: 1.0)
+public struct FormRequired {
+
+    public static let `default` = FormRequired()
+
+    public let symbol = "*"
+
+    public let color = UIColor(red: 1.0, green: 59.0 / 255.0, blue: 48.0 / 255, alpha: 1.0)
+
+    public let message = NSLocalizedString("This is required.", comment: "The default required message.")
+
+    public let requiredPlaceholder = NSLocalizedString("Required", comment: "Form placeholder text - Required")
+
+    public let notRequiredPlaceholder = NSLocalizedString("Optional", comment: "Form placeholder text - Optional")
+
+    public func placeholder(withRequired required: Bool) -> String {
+        return required ? requiredPlaceholder : notRequiredPlaceholder
+    }
+
+}
 
 extension StringSizing {
 
-    internal mutating func makeRequired() {
-        self.string.append(requiredString)
+    /// Appends required string
+    public mutating func makeRequired() {
+        self.string.append(FormRequired.default.symbol)
     }
 
 }
@@ -39,10 +57,14 @@ extension UILabel {
         self.numberOfLines = numberOfLines ?? defaultNumberOfLines
     }
 
-    internal func makeRequired(with sizable: StringSizable?) {
+
+    /// Make this label become required by assigning it with an attributed text.
+    ///
+    /// - Parameter sizable: The `StringSizable`
+    public func makeRequired(with sizable: StringSizable?) {
         let text = sizable?.sizing().string ?? ""
         let title = NSMutableAttributedString(string: text, attributes: [NSAttributedStringKey.foregroundColor: textColor])
-        title.append(NSAttributedString(string: requiredString, attributes: [NSAttributedStringKey.foregroundColor: requiredColor]))
+        title.append(NSAttributedString(string: FormRequired.default.symbol, attributes: [NSAttributedStringKey.foregroundColor: FormRequired.default.color]))
         self.attributedText = title
     }
 

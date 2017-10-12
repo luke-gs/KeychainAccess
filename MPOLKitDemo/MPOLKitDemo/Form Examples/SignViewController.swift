@@ -59,14 +59,14 @@ class SignupViewController: FormViewController {
                 self.details.surname = $0
             }
 
-        builder += PickerFormItem(pickerAction: DatableAction(title: "Date of birth", mode: .date))
+        builder += PickerFormItem(pickerAction: DateAction(title: "Date of birth", mode: .date))
             .width(.column(2))
             .required()
             .onValueChanged { [unowned self] in
                 self.details.dateOfBirth = $0
             }
 
-        builder += PickerFormItem(pickerAction: PickableAction(title: "Gender", options: ["Male", "Female", "Unknown"]))
+        builder += PickerFormItem(pickerAction: PickerAction(title: "Gender", options: ["Male", "Female", "Unknown"]))
             .width(.column(2))
             .required()
             .onValueChanged { [unowned self] in
@@ -80,7 +80,7 @@ class SignupViewController: FormViewController {
                 self.details.email = $0
             }
 
-        builder += PickerFormItem(pickerAction: NumberRangableAction(title: "Age range", range: 1...30))
+        builder += PickerFormItem(pickerAction: NumberRangeAction(title: "Age range", range: 1...30))
             .width(.column(1))
             .onValueChanged { [unowned self] in
                 self.details.ageRange = $0
@@ -137,7 +137,7 @@ class SignupViewController: FormViewController {
                 self.details.motto = $0
             }
 
-        builder += PickerFormItem(pickerAction: PickableAction(title: "Interests", options: ["Games", "Sports", "Manga", "Anime", "People", "Travel"], selectedIndexes: nil, allowMultipleSelection: true))
+        builder += PickerFormItem(pickerAction: PickerAction(title: "Interests", options: ["Games", "Sports", "Manga", "Anime", "People", "Travel"], selectedIndexes: nil, allowMultipleSelection: true))
             .width(.column(1))
             .onValueChanged { [unowned self] in
                 self.details.interests = $0

@@ -191,7 +191,7 @@ extension PickerFormItem {
     }
 
     @discardableResult
-    public func required(_ message: String = "This is required.") -> Self {
+    public func required(_ message: String = FormRequired.default.message) -> Self {
         self.requiredSpecification = ValidatorRule.submit(specification: CountSpecification.min(1), message: message)
         return self
     }
