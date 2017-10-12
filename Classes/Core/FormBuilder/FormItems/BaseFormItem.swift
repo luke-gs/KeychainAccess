@@ -14,12 +14,17 @@ import UIKit
 /// BaseFormItem for a CollectionViewFormCell.
 open class BaseFormItem: NSObject, FormItem {
 
-    /// Defines the width of the item to be displayed.
+    /// Defines the width of the item to be displayed. There is a minimum enforced width
+    /// of 140 points for UIContentSizeCategory.large and below, and 250.0 for anything
+    /// above. Any width less than the minimum enforced width will be ignored.
     ///
     /// - intrinsic: Uses item's intrinsic size
     /// - fixed: Uses a fixed points system. E.g. 250 points.
-    /// - column: Uses column system. E.g. '.column(3)' indicates that the item would occupy 1/3 of the full content width.
-    /// - dynamic->CGFloat: Use this to provide a custom width based on the info provided. Use this if the other styles are ineffective.
+    /// - column: Uses column system. E.g. `column(3)` indicates that the item would
+    ///           occupy 1/3 of the full content width. `column(2)` would occupy half of
+    ///           the full content width, and `column(1)` indicates full content width.
+    /// - dynamic: Use this to provide a custom width based on the info provided. Use this
+    ///            if the other styles are ineffective.
     public enum HorizontalDistribution {
         case intrinsic
         case fixed(CGFloat)
@@ -42,11 +47,13 @@ open class BaseFormItem: NSObject, FormItem {
     }
 
 
-    /// Defines the height of the item to be displayed.
+    /// Defines the height of the item to be displayed. There is a minimum enforced height of 40.0
+    /// points. Anything height less than the minimum enforced height will be ignored.
     ///
     /// - intrinsic: Uses item's intrinsic size
     /// - fixed: Uses a fixed points system. E.g. 250 points.
-    /// - dynamic->CGFloat: Use this to provide a custom height based on the info provided. Use this if the other styles are ineffective.
+    /// - dynamic: Use this to provide a custom height based on the info provided. Use this
+    ///            if the other styles are ineffective.
     public enum VerticalDistribution {
         case intrinsic
         case fixed(CGFloat)
@@ -167,30 +174,39 @@ open class BaseFormItem: NSObject, FormItem {
 
     func minimumContentHeight(in collectionView: UICollectionView, layout: CollectionViewFormLayout, givenContentWidth contentWidth: CGFloat, for traitCollection: UITraitCollection) -> CGFloat {
 
+        let preferredHeight: CGFloat
+
         switch height {
         case .intrinsic:
-            return intrinsicHeight(in: collectionView, layout: layout, givenContentWidth: contentWidth, for: traitCollection)
+            preferredHeight = intrinsicHeight(in: collectionView, layout: layout, givenContentWidth: contentWidth, for: traitCollection)
         case .fixed(let points):
-            return points
+            preferredHeight = points
         case .dynamic(let handler):
             let info = VerticalDistribution.Info(collectionView: collectionView, layout: layout, contentWidth: contentWidth, traitCollection: traitCollection)
-            return handler(info)
+            preferredHeight = handler(info)
         }
+
+        return max(preferredHeight, BaseFormItem.minimumEnforcedContentHeight)
     }
 
     func minimumContentWidth(in collectionView: UICollectionView, layout: CollectionViewFormLayout, sectionEdgeInsets: UIEdgeInsets, for traitCollection: UITraitCollection) -> CGFloat {
 
+        let minimumEnforcedWidth = BaseFormItem.minimumEnforcedContentWidth(for: traitCollection)
+        let preferredWidth: CGFloat
+
         switch width {
         case .intrinsic:
-            return intrinsicWidth(in: collectionView, layout: layout, sectionEdgeInsets: sectionEdgeInsets, for: traitCollection)
+            preferredWidth = intrinsicWidth(in: collectionView, layout: layout, sectionEdgeInsets: sectionEdgeInsets, for: traitCollection)
         case .column(let max):
-            return layout.columnContentWidth(forMinimumItemContentWidth: minimumItemContentWidth(for: traitCollection), maximumColumnCount: max, sectionEdgeInsets: sectionEdgeInsets).floored(toScale: UIScreen.main.scale)
+            preferredWidth = layout.columnContentWidth(forMinimumItemContentWidth: minimumEnforcedWidth, maximumColumnCount: max, sectionEdgeInsets: sectionEdgeInsets).floored(toScale: UIScreen.main.scale)
         case .fixed(let points):
-            return points
+            preferredWidth = points
         case .dynamic(let handler):
             let info = HorizontalDistribution.Info(collectionView: collectionView, layout: layout, edgeInsets: sectionEdgeInsets, traitCollection: traitCollection)
-            return handler(info)
+            preferredWidth = handler(info)
         }
+
+        return max(preferredWidth, minimumEnforcedWidth)
     }
 
     func heightForValidationAccessory(givenContentWidth contentWidth: CGFloat, for traitCollection: UITraitCollection) -> CGFloat {
@@ -237,11 +253,11 @@ open class BaseFormItem: NSObject, FormItem {
     }
 
 
-    /// Minimum item width used in the column system.
+    /// Minimum item width.
     ///
     /// - Parameter traitCollection: Trait collection
     /// - Returns: The width
-    private final func minimumItemContentWidth(for traitCollection: UITraitCollection) -> CGFloat {
+    private final class func minimumEnforcedContentWidth(for traitCollection: UITraitCollection) -> CGFloat {
         let extraLargeText: Bool
         switch traitCollection.preferredContentSizeCategory {
         case UIContentSizeCategory.extraSmall, UIContentSizeCategory.small, UIContentSizeCategory.medium, UIContentSizeCategory.large:
@@ -252,6 +268,9 @@ open class BaseFormItem: NSObject, FormItem {
         return extraLargeText ? 250.0 : 140.0
     }
 
+
+    /// Minimum item height
+    private static let minimumEnforcedContentHeight: CGFloat = 40.0
 
     /// MARK: - Requires Subclass Implementation
 
