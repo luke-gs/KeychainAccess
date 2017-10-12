@@ -110,10 +110,22 @@ open class FormSearchTableViewController: FormTableViewController, UISearchBarDe
     }
     
     open override func viewWillLayoutSubviews() {
-        let topLayoutGuideInset = topLayoutGuide.length
+        let topLayoutGuideInset: CGFloat
+
+        if #available(iOS 11.0, *) {
+            topLayoutGuideInset = view.safeAreaInsets.top
+        } else {
+            topLayoutGuideInset = topLayoutGuide.length
+        }
+        print(topLayoutGuideInset)
         
         var searchBarFrame = searchBar.frame
-        searchBarFrame.origin.y   = topLayoutGuideInset - (isSearchBarHidden ? searchBarFrame.height : 0.0)
+        searchBarFrame.origin.y = topLayoutGuideInset - (isSearchBarHidden ? searchBarFrame.height : 0.0)
+
+        if #available(iOS 11.0, *) {
+            searchBarFrame.origin.y -= additionalSafeAreaInsets.top
+        }
+
         searchBarFrame.size.width = tableView?.frame.width ?? 0.0
         searchBar.frame = searchBarFrame
         
