@@ -10,7 +10,7 @@ import Foundation
 import MPOLKit
 import ClientKit
 
-public class LocationMapSummarySearchResultViewModel: MapSummarySearchResultViewModel<Address> {
+public class LocationMapSummarySearchResultViewModel: MapSummarySearchResultViewModel<Address, AddressSummaryDisplayable> {
     
     public override func fetchResults(with searchType: LocationMapSearchType) {
         self.searchType = searchType

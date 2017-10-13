@@ -10,10 +10,16 @@ import Foundation
 import MPOLKit
 import MapKit
 
-extension Address: EntityMapSummaryDisplayable {
+public struct AddressSummaryDisplayable: EntityMapSummaryDisplayable {
+    
+    public let address: Address
+    
+    public init(_ entity: MPOLKitEntity) {
+        address = entity as! Address
+    }
     
     public var category: String? {
-        return source?.localizedBadgeTitle
+        return address.source?.localizedBadgeTitle
     }
     
     public var title: String? {
@@ -21,15 +27,15 @@ extension Address: EntityMapSummaryDisplayable {
     }
     
     public var detail1: String? {
-        return type(of: self).serverTypeRepresentation
+        return type(of: address).serverTypeRepresentation
     }
     
     public var detail2: String? {
-        return formatted()
+        return address.formatted()
     }
     
     public var alertColor: UIColor? {
-        return alertLevel?.color
+        return address.alertLevel?.color
     }
     
     public var badge: UInt {
@@ -47,7 +53,7 @@ extension Address: EntityMapSummaryDisplayable {
     
     
     public var coordinate: CLLocationCoordinate2D? {
-        guard let latitude = latitude, let longitude = longitude else {
+        guard let latitude = address.latitude, let longitude = address.longitude else {
             return nil
         }
         return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
@@ -66,11 +72,11 @@ extension Address: EntityMapSummaryDisplayable {
         var lines: [[String]] = []
         var line: [String] = []
         
-        if let unitNumber = self.unit?.ifNotEmpty() {
+        if let unitNumber = address.unit?.ifNotEmpty() {
             line.append("Unit \(unitNumber)")
         }
         
-        if let floor = self.floor?.ifNotEmpty() {
+        if let floor = address.floor?.ifNotEmpty() {
             line.append("Floor \(floor)")
         }
         
@@ -79,24 +85,24 @@ extension Address: EntityMapSummaryDisplayable {
             line.removeAll()
         }
         
-        if let streetNumber = self.streetNumberFirst?.ifNotEmpty() {
+        if let streetNumber = address.streetNumberFirst?.ifNotEmpty() {
             line.append(streetNumber)
         }
         
-        if let streetName = self.streetName?.ifNotEmpty() {
+        if let streetName = address.streetName?.ifNotEmpty() {
             line.append(streetName)
         }
         
-        if let streetType = self.streetType?.ifNotEmpty() {
+        if let streetType = address.streetType?.ifNotEmpty() {
             line.append(streetType)
         }
         
-        if let streetDirectional = self.streetDirectional?.ifNotEmpty() {
+        if let streetDirectional = address.streetDirectional?.ifNotEmpty() {
             line.append(streetDirectional)
         }
         
         if line.isEmpty == false {
-            if lines.isEmpty == false && line.joined(separator: " ") == commonName {
+            if lines.isEmpty == false && line.joined(separator: " ") == address.commonName {
                 _ = lines.remove(at: 0)
             }
             lines.append(line)
