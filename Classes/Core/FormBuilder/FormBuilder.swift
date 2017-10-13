@@ -32,7 +32,7 @@ public class FormBuilder {
     /// The title for the form.
     public var title: String?
 
-    /// Force linear layout ignore items' width and forces each item to occupy the full row.
+    /// Force linear layout ignores items' width and forces each item to occupy the full row.
     public var forceLinearLayout: Bool = false
 
     public private(set) var formItems: [FormItem] = []
