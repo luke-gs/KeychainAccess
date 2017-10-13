@@ -257,9 +257,6 @@ open class BaseFormItem: NSObject, FormItem {
     }
 
 
-    /// Minimum item height
-    private static let minimumEnforcedContentHeight: CGFloat = 40.0
-
     /// MARK: - Requires Subclass Implementation
 
 
@@ -346,6 +343,48 @@ extension BaseFormItem {
     @discardableResult
     public func reuseIdentifier(_ reuseIdentifier: String) -> Self {
         self.reuseIdentifier = reuseIdentifier
+        return self
+    }
+
+    @discardableResult
+    public func contentMode(_ contentMode: UIViewContentMode) -> Self {
+        self.contentMode = contentMode
+        return self
+    }
+
+    @discardableResult
+    public func selectionStyle(_ selectionStyle: CollectionViewFormCell.SelectionStyle) -> Self {
+        self.selectionStyle = selectionStyle
+        return self
+    }
+
+    @discardableResult
+    public func highlightStyle(_ highlightStyle: CollectionViewFormCell.HighlightStyle) -> Self {
+        self.highlightStyle = highlightStyle
+        return self
+    }
+
+    @discardableResult
+    public func separatorStyle(_ separatorStyle: CollectionViewFormCell.SeparatorStyle) -> Self {
+        self.separatorStyle = separatorStyle
+        return self
+    }
+
+    @discardableResult
+    public func separatorColor(_ separatorColor: UIColor?) -> Self {
+        self.separatorColor = separatorColor
+        return self
+    }
+
+    @discardableResult
+    public func separatorTintColor(_ separatorTintColor: UIColor?) -> Self {
+        self.separatorTintColor = separatorTintColor
+        return self
+    }
+
+    @discardableResult
+    public func focusColor(_ focusColor: UIColor?) -> Self {
+        self.focusColor = focusColor
         return self
     }
 
