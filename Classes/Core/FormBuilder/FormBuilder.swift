@@ -91,6 +91,13 @@ public class FormBuilder {
 
         for item in formItems {
             if item is BaseFormItem {
+                if (footer != nil) {
+                    sections.append(FormSection(formHeader: header, formItems: items, formFooter: footer))
+                    header = nil
+                    footer = nil
+                    items = []
+                }
+
                 if let item = item as? FormItemContainer {
                     items = items + item.items
                 } else {
@@ -107,6 +114,13 @@ public class FormBuilder {
 
                     header = item
                 } else if item.kind == UICollectionElementKindSectionFooter {
+                    if (footer != nil) {
+                        sections.append(FormSection(formHeader: header, formItems: items, formFooter: footer))
+                        header = nil
+                        footer = nil
+                        items = []
+                    }
+                    
                     footer = item
                 }
             }
@@ -208,6 +222,14 @@ public struct FormSection {
         get { return formItems[index] }
     }
 
+}
+
+extension FormSection: Equatable {
+    public static func ==(lhs: FormSection, rhs: FormSection) -> Bool {
+        return lhs.formHeader === rhs.formHeader &&
+               lhs.formFooter === rhs.formFooter &&
+               lhs.formItems.elementsEqual(rhs.formItems, by: { $0 === $1 })
+    }
 }
 
 public extension Array where Element == FormSection {
