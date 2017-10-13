@@ -15,7 +15,7 @@ public enum TaskListType: Int {
     case broadcast
     case resource
 
-    func title() -> String {
+    var title: String {
         switch self {
         case .incident:
             return NSLocalizedString("Incidents", comment: "Incidents navigation title")
@@ -28,7 +28,7 @@ public enum TaskListType: Int {
         }
     }
 
-    func shortTitle() -> String {
+    var shortTitle: String {
         switch self {
         case .incident:
             return NSLocalizedString("INCI", comment: "Incidents short title")
@@ -114,7 +114,7 @@ open class TasksListContainerViewModel {
 public class SampleData {
 
     static func sourceItemForType(type: TaskListType, count: UInt, color: UIColor) -> SourceItem {
-        return SourceItem(title: type.title(), shortTitle: type.shortTitle(), state: .loaded(count: count, color: color))
+        return SourceItem(title: type.title, shortTitle: type.shortTitle, state: .loaded(count: count, color: color))
     }
 
     static func sourceItems() -> [SourceItem] {
