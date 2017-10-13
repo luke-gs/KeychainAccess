@@ -372,6 +372,15 @@
 		EABAB8021F3429D90071A401 /* AggregatedSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = EABAB8011F3429D90071A401 /* AggregatedSearch.swift */; };
 		EABAB8041F342E450071A401 /* AggregatedSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EABAB8031F342E450071A401 /* AggregatedSearchRequest.swift */; };
 		EADC4FF31F81E0810066AA2F /* OptionGroupFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EADC4FF21F81E0810066AA2F /* OptionGroupFormItem.swift */; };
+		EAF76C6D1F903E7B00405DC9 /* FormBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF76C6C1F903E7B00405DC9 /* FormBuilderTests.swift */; };
+		EAF76C6F1F90573C00405DC9 /* FormSectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF76C6E1F90573C00405DC9 /* FormSectionTests.swift */; };
+		EAF76C711F90640300405DC9 /* FromRequiredTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF76C701F90640300405DC9 /* FromRequiredTests.swift */; };
+		EAF76C731F906CE100405DC9 /* ValidatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF76C721F906CE100405DC9 /* ValidatorTests.swift */; };
+		EAF76C751F9080B000405DC9 /* ImageLoadableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF76C741F9080B000405DC9 /* ImageLoadableTests.swift */; };
+		EAF76C771F90839000405DC9 /* StringSizing+LabelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF76C761F90839000405DC9 /* StringSizing+LabelTests.swift */; };
+		EAF76C791F908DF500405DC9 /* ValidatorRuleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF76C781F908DF500405DC9 /* ValidatorRuleTests.swift */; };
+		EAF76C7B1F908F0000405DC9 /* ValidateResultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF76C7A1F908F0000405DC9 /* ValidateResultTests.swift */; };
+		EAF76C7D1F9099F400405DC9 /* BaseFormItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF76C7C1F9099F400405DC9 /* BaseFormItemTests.swift */; };
 		EAFACCBC1F4BACE900B93CBA /* SearchFieldAdvanceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAFACCBB1F4BACE900B93CBA /* SearchFieldAdvanceCell.swift */; };
 		EAFBC8BC1F57DF8700F0004B /* LookupAddressValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAFBC8BB1F57DF8700F0004B /* LookupAddressValidator.swift */; };
 /* End PBXBuildFile section */
@@ -760,6 +769,15 @@
 		EABAB8011F3429D90071A401 /* AggregatedSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AggregatedSearch.swift; sourceTree = "<group>"; };
 		EABAB8031F342E450071A401 /* AggregatedSearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AggregatedSearchRequest.swift; sourceTree = "<group>"; };
 		EADC4FF21F81E0810066AA2F /* OptionGroupFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionGroupFormItem.swift; sourceTree = "<group>"; };
+		EAF76C6C1F903E7B00405DC9 /* FormBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormBuilderTests.swift; sourceTree = "<group>"; };
+		EAF76C6E1F90573C00405DC9 /* FormSectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormSectionTests.swift; sourceTree = "<group>"; };
+		EAF76C701F90640300405DC9 /* FromRequiredTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FromRequiredTests.swift; sourceTree = "<group>"; };
+		EAF76C721F906CE100405DC9 /* ValidatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidatorTests.swift; sourceTree = "<group>"; };
+		EAF76C741F9080B000405DC9 /* ImageLoadableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoadableTests.swift; sourceTree = "<group>"; };
+		EAF76C761F90839000405DC9 /* StringSizing+LabelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StringSizing+LabelTests.swift"; sourceTree = "<group>"; };
+		EAF76C781F908DF500405DC9 /* ValidatorRuleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidatorRuleTests.swift; sourceTree = "<group>"; };
+		EAF76C7A1F908F0000405DC9 /* ValidateResultTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidateResultTests.swift; sourceTree = "<group>"; };
+		EAF76C7C1F9099F400405DC9 /* BaseFormItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseFormItemTests.swift; sourceTree = "<group>"; };
 		EAFACCBB1F4BACE900B93CBA /* SearchFieldAdvanceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchFieldAdvanceCell.swift; sourceTree = "<group>"; };
 		EAFBC8BB1F57DF8700F0004B /* LookupAddressValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LookupAddressValidator.swift; sourceTree = "<group>"; };
 		F1F64D31F8EA4C917E4EDCA7 /* Pods-MPOLKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKit/Pods-MPOLKit.debug.xcconfig"; sourceTree = "<group>"; };
@@ -1798,6 +1816,15 @@
 		EA5649731F8F061000BEA144 /* FormBuilder */ = {
 			isa = PBXGroup;
 			children = (
+				EAF76C6C1F903E7B00405DC9 /* FormBuilderTests.swift */,
+				EAF76C6E1F90573C00405DC9 /* FormSectionTests.swift */,
+				EAF76C701F90640300405DC9 /* FromRequiredTests.swift */,
+				EAF76C721F906CE100405DC9 /* ValidatorTests.swift */,
+				EAF76C741F9080B000405DC9 /* ImageLoadableTests.swift */,
+				EAF76C761F90839000405DC9 /* StringSizing+LabelTests.swift */,
+				EAF76C781F908DF500405DC9 /* ValidatorRuleTests.swift */,
+				EAF76C7A1F908F0000405DC9 /* ValidateResultTests.swift */,
+				EAF76C7C1F9099F400405DC9 /* BaseFormItemTests.swift */,
 			);
 			path = FormBuilder;
 			sourceTree = "<group>";
@@ -2459,16 +2486,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EAF76C7D1F9099F400405DC9 /* BaseFormItemTests.swift in Sources */,
+				EAF76C791F908DF500405DC9 /* ValidatorRuleTests.swift in Sources */,
 				1908EF8E1F57D79A00382B1C /* ModelVersionableTests.swift in Sources */,
 				C6E833AB1F334A4700A21F6D /* NSArchiverTests.swift in Sources */,
 				1211E36D1F3AE0E50012E2E6 /* MiscTests.swift in Sources */,
 				C63F71751F3332E7004F5047 /* UserTests.swift in Sources */,
 				1908EF8B1F57D79A00382B1C /* ThemeManagerTests.swift in Sources */,
 				1908EF861F57CDEB00382B1C /* AuthenticationPluginTests.swift in Sources */,
+				EAF76C731F906CE100405DC9 /* ValidatorTests.swift in Sources */,
 				19975D8F1F4414AF00E51469 /* ErrorMapperTests.swift in Sources */,
 				19EFD2FA1F4D5C6300422F2A /* LookupAddressTests.swift in Sources */,
 				C60C890B1ECCB94F00785932 /* SimplePerson.swift in Sources */,
+				EAF76C771F90839000405DC9 /* StringSizing+LabelTests.swift in Sources */,
 				C65927771F332F7300854C60 /* ModelCodingTestUtility.swift in Sources */,
+				EAF76C6D1F903E7B00405DC9 /* FormBuilderTests.swift in Sources */,
 				19FEC98C1F440E2E005692A9 /* MappedErrorTests.swift in Sources */,
 				C60C890F1ECCB9A800785932 /* UnboxableResponseSerializerTests.swift in Sources */,
 				1211E3691F3AD7620012E2E6 /* EpochDateTransformerTests.swift in Sources */,
@@ -2476,14 +2508,18 @@
 				1908EF8D1F57D79A00382B1C /* KeyboardInputManagerTests.swift in Sources */,
 				12F0572A1F3C106D00CAD6F6 /* QueryParserTests.swift in Sources */,
 				12F057201F3BF6CF00CAD6F6 /* SourceItemTests.swift in Sources */,
+				EAF76C711F90640300405DC9 /* FromRequiredTests.swift in Sources */,
 				19DE98CC1F42651C0063F394 /* SortDescriptorTests.swift in Sources */,
 				12F0571E1F3AE5FC00CAD6F6 /* HTTPAuthenticationModeTests.swift in Sources */,
 				12F057281F3C0F5600CAD6F6 /* EntitySearchRequestTests.swift in Sources */,
+				EAF76C6F1F90573C00405DC9 /* FormSectionTests.swift in Sources */,
 				44F3F14B1F56DBD300D68585 /* FilterDescriptorTests.swift in Sources */,
+				EAF76C751F9080B000405DC9 /* ImageLoadableTests.swift in Sources */,
 				1211E36B1F3ADC300012E2E6 /* OAuthAuthorizationGrantTests.swift in Sources */,
 				12F869EC1F5FD2350006EC5C /* NewUserSessionTests.swift in Sources */,
 				12F869ED1F5FD2350006EC5C /* ActiveUserSessionTests.swift in Sources */,
 				12F057241F3BFCBC00CAD6F6 /* SearchResultsTests.swift in Sources */,
+				EAF76C7B1F908F0000405DC9 /* ValidateResultTests.swift in Sources */,
 				12F057221F3BFB2A00CAD6F6 /* ManifestCollectionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
