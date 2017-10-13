@@ -23,6 +23,8 @@ public protocol TasksListHeaderViewModelDelegate: PopoverPresenter {
 /// View model for tasks list header view controller
 open class TasksListHeaderViewModel {
 
+    // MARK: - Properties
+
     /// Container view model used for keeping source items and selection in sync
     public var containerViewModel: TasksListContainerViewModel?
 
@@ -66,6 +68,8 @@ open class TasksListHeaderViewModel {
         return TasksListHeaderRegularViewController(viewModel: self)
     }()
 
+    // MARK: - Initialization
+
     public init() {
         createBarButtonItems()
     }
@@ -86,12 +90,16 @@ open class TasksListHeaderViewModel {
         barButtonItems = [addButton, filterButton]
     }
 
+    // MARK: - Public methods
+
     public func titleText() -> String? {
         if let sourceItem = sourceItems[ifExists: selectedSourceIndex] {
             return sourceItem.title
         }
         return nil
     }
+
+    // MARK: - Internal
 
     /// Shows the add new form sheet
     @objc private func showAdd() {

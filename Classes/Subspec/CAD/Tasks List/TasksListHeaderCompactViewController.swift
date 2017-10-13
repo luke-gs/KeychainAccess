@@ -167,11 +167,8 @@ open class TasksListHeaderCompactViewController: UIViewController {
             button.addTarget(barButtonItem.target, action: barButtonItem.action!, for: .touchUpInside)
             buttonStackView.addArrangedSubview(button)
         }
-
         sourceItems = viewModel.sourceItems
-        if !sourceItems.isEmpty {
-            selectedSourceIndex = 0
-        }
+        selectedSourceIndex = viewModel.selectedSourceIndex
     }
     
     @objc private func didTapSourceButton(_ item: UIBarButtonItem) {

@@ -10,6 +10,8 @@ import UIKit
 
 open class TasksListContainerViewModel {
 
+    // MARK: - Properties
+
     // Child view models
     public let headerViewModel: TasksListHeaderViewModel
     public let listViewModel: TasksListViewModel
@@ -32,6 +34,8 @@ open class TasksListContainerViewModel {
         }
     }
 
+    // MARK: - Initialization
+
     public init(headerViewModel: TasksListHeaderViewModel, listViewModel: TasksListViewModel) {
         self.headerViewModel = headerViewModel
         self.listViewModel = listViewModel
@@ -45,6 +49,8 @@ open class TasksListContainerViewModel {
     public func createViewController() -> UIViewController {
         return TasksListContainerViewController(viewModel: self)
     }
+
+    // MARK: - Public methods
 
     /// Update the source items status
     public func updateSourceItems() {
