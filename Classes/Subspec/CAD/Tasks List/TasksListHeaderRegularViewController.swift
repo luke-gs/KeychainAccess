@@ -11,7 +11,7 @@ import UIKit
 /// View controller for the header above tasks list showing source name and options to filter and add new tasks,
 /// when split view is in regular size mode
 ///
-/// Note: this header shown/hidden by the tasks container view controller
+/// Note: this header is shown/hidden by the tasks container view controller
 open class TasksListHeaderRegularViewController: UIViewController {
 
     private struct Constants {
