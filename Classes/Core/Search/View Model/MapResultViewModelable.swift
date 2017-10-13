@@ -36,6 +36,8 @@ public protocol MapResultViewModelDelegate: class {
 
 public protocol MapResultViewModelable: SearchResultModelable {
 
+    init()
+    
     /// Plugin for ETA calucation
     var travelEstimationPlugin: TravelEstimationPlugable { get set }
     
@@ -50,8 +52,8 @@ public protocol MapResultViewModelable: SearchResultModelable {
     /// - Parameter coordinate: The coordinate of target location
     func entity(for coordinate: CLLocationCoordinate2D) -> EntityMapSummaryDisplayable?
     
-    init()
-
+    func coordinate(for entity: MPOLKitEntity) -> CLLocationCoordinate2D
+    
     /// A delegate that will be notified when there are changes to the results.
     weak var delegate: MapResultViewModelDelegate? { get set }
 
@@ -69,4 +71,5 @@ public protocol MapResultViewModelable: SearchResultModelable {
     ///
     /// - Parameter searchType: SearchType with associate value.
     func fetchResults(with searchType: LocationMapSearchType)
+    
 }

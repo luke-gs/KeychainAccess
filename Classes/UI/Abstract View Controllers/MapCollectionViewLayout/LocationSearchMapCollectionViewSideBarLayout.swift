@@ -161,15 +161,15 @@ open class LocationSearchMapCollectionViewSideBarLayout: MapCollectionViewLayout
             sidebarMinumumWidthConstraint!,
             sidebarPreferredWidthConstraint!,
             sidebarTrailingConstraint!,
-            
-            sidebarBackground.topAnchor.constraint(equalTo: sidebarLayoutGuide.topAnchor),
-            sidebarBackground.bottomAnchor.constraint(equalTo: sidebarLayoutGuide.bottomAnchor),
-            sidebarBackground.leadingAnchor.constraint(equalTo: sidebarLayoutGuide.leadingAnchor),
-            
-            collectionView.topAnchor.constraint(equalTo: sidebarBackground.topAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: sidebarBackground.bottomAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: sidebarBackground.trailingAnchor),
-            
+//
+//            sidebarBackground.topAnchor.constraint(equalTo: sidebarLayoutGuide.topAnchor),
+//            sidebarBackground.bottomAnchor.constraint(equalTo: sidebarLayoutGuide.bottomAnchor),
+//            sidebarBackground.leadingAnchor.constraint(equalTo: sidebarLayoutGuide.leadingAnchor),
+//
+//            collectionView.topAnchor.constraint(equalTo: sidebarBackground.topAnchor),
+//            collectionView.bottomAnchor.constraint(equalTo: sidebarBackground.bottomAnchor),
+//            collectionView.trailingAnchor.constraint(equalTo: sidebarBackground.trailingAnchor),
+//            
             mapView.leadingAnchor.constraint(equalTo: sidebarLayoutGuide.trailingAnchor),
             mapView.topAnchor.constraint(equalTo: searchFieldButton.bottomAnchor),
             mapView.bottomAnchor.constraint(equalTo: view.bottomAnchor),

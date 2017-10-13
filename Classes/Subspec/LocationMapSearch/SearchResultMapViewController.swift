@@ -390,15 +390,20 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
         }
         
         let annotations = locationResult.entities.flatMap { rawLocation -> MKPointAnnotation? in
-            let location = rawLocation as! EntityMapSummaryDisplayable
-            guard let coordinate = location.coordinate, let title = location.title else {
-                return nil
+            let coordinate = viewModel?.coordinate(for: rawLocation)
+//            guard let coordinate = location.coordinate, let title = location.title else {
+//                return nil
+//            }
+            
+            if let coordinate = coordinate {
+                let annotation = MKPointAnnotation()
+                annotation.coordinate = coordinate
+                annotation.title = "title"
+                return annotation
             }
             
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = coordinate
-            annotation.title = title
-            return annotation
+            return nil
+
         }
         mapView?.addAnnotations(annotations)
     }

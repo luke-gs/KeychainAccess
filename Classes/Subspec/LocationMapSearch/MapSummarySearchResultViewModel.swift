@@ -10,7 +10,7 @@ import Foundation
 import MapKit
 
 open class MapSummarySearchResultViewModel<T: MPOLKitEntity, U : EntityMapSummaryDisplayable>: MapResultViewModelable, AggregatedSearchDelegate {
-    
+
     public var title: String = "OVERVIEW"
     
     public var status: SearchState? {
@@ -46,22 +46,16 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity, U : EntityMapSummar
         MPLRequiresConcreteImplementation()
     }
     
-    
     /// Lookup the first entity matches the coordinate
     ///
     /// - Parameter coordinate: The coordinate of target location
     /// - Returns: The first entity matches the same coordinate
     open func entity(for coordinate: CLLocationCoordinate2D) -> EntityMapSummaryDisplayable? {
-        guard let result = results.first else { return nil }
-
-        for rawEntity in result.entities {
-            let entity = rawEntity as! EntityMapSummaryDisplayable
-            if entity.coordinate == coordinate {
-                return entity
-            }
-        }
-        
-        return nil
+        MPLRequiresConcreteImplementation()
+    }
+    
+    open func coordinate(for entity: MPOLKitEntity) -> CLLocationCoordinate2D {
+        MPLRequiresConcreteImplementation()
     }
     
     // MARK: - AggregateSearchDelegate 
