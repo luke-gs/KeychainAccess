@@ -22,7 +22,9 @@ public class TasksListViewModel: CADFormCollectionViewModel<TasksListItemViewMod
 
     /// Create the view controller for this view model
     public func createViewController() -> FormCollectionViewController {
-        return TasksListViewController(viewModel: self)
+        let tasksListViewController = TasksListViewController(viewModel: self)
+        tasksListViewController.userInterfaceStyle = .dark
+        return tasksListViewController
     }
 
     /// Update the task list

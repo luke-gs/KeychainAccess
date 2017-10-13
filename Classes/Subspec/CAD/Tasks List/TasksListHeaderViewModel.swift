@@ -9,24 +9,59 @@
 import UIKit
 
 public protocol TasksListHeaderViewModelDelegate: PopoverPresenter {
+
+    /// The source items have changed
+    func sourceItemsChanged(_ sourceItems: [SourceItem])
+
+    /// The selected source item has changed
+    func selectedSourceItemChanged(_ selectedSourceIndex: Int)
+
+    /// Present a popover from the given bar button item index
     func presentPopover(_ viewController: UIViewController, barButtonIndex: Int, animated: Bool)
 }
 
 /// View model for tasks list header view controller
 open class TasksListHeaderViewModel {
 
+    /// Container view model used for keeping source items and selection in sync
+    public var containerViewModel: TasksListContainerViewModel?
+
+    /// Delegate for updating VC
     public weak var delegate: TasksListHeaderViewModelDelegate?
 
-    /// The tasks source items, which are basically the different kinds of tasks (not backend sources)
-    public var sourceItems: [SourceItem] = []
+    /// The tasks source items
+    public var sourceItems: [SourceItem] {
+        get {
+            return containerViewModel?.sourceItems ?? []
+        }
+        set {
+            // Update container model and delegate VC
+            containerViewModel?.sourceItems = newValue
+            delegate?.sourceItemsChanged(newValue)
+        }
+    }
+
+    /// The selected source item
+    public var selectedSourceIndex: Int {
+        get {
+            return containerViewModel?.selectedSourceIndex ?? 0
+        }
+        set {
+            // Update container model and delegate VC
+            containerViewModel?.selectedSourceIndex = newValue
+            delegate?.selectedSourceItemChanged(newValue)
+        }
+    }
 
     /// The bar button items to display in header
     public var barButtonItems: [UIBarButtonItem]!
 
+    /// Compact header, created if needed
     public lazy var compactHeaderViewController: UIViewController = {
         return TasksListHeaderCompactViewController(viewModel: self)
     }()
 
+    /// Regular header, created if needed
     public lazy var regularHeaderViewController: UIViewController = {
         return TasksListHeaderRegularViewController(viewModel: self)
     }()
@@ -51,8 +86,11 @@ open class TasksListHeaderViewModel {
         barButtonItems = [addButton, filterButton]
     }
 
-    public func titleText() -> String {
-        return NSLocalizedString("Incidents", comment: "Tasks list header title")
+    public func titleText() -> String? {
+        if let sourceItem = sourceItems[ifExists: selectedSourceIndex] {
+            return sourceItem.title
+        }
+        return nil
     }
 
     /// Shows the add new form sheet

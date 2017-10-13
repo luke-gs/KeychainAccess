@@ -71,6 +71,9 @@ open class TasksListHeaderCompactViewController: UIViewController {
             } else {
                 sourceButton.setTitle(nil, for: .normal)
             }
+
+            // Update title to match source
+            titleLabel.text = viewModel.titleText()
         }
     }
 
@@ -174,6 +177,7 @@ open class TasksListHeaderCompactViewController: UIViewController {
     @objc private func didTapSourceButton(_ item: UIBarButtonItem) {
         guard let selectedSourceIndex = selectedSourceIndex else { return }
         sourceViewController = CompactSidebarSourceViewController(items: sourceItems, selectedIndex: selectedSourceIndex)
+        sourceViewController?.delegate = self
 
         // Use form sheet style presentation, even on phone
         let navVC = CompactFormSheetNavigationController(rootViewController: sourceViewController!, parent: navigationController!)
@@ -182,8 +186,29 @@ open class TasksListHeaderCompactViewController: UIViewController {
 
 }
 
+extension TasksListHeaderCompactViewController: CompactSidebarSourceViewControllerDelegate {
+    public func sourceViewControllerWillClose(_ viewController: CompactSidebarSourceViewController) {
+    }
+
+    public func sourceViewController(_ viewController: CompactSidebarSourceViewController, didSelectItemAt index: Int) {
+        viewModel.selectedSourceIndex = index
+    }
+
+    public func sourceViewController(_ viewController: CompactSidebarSourceViewController, didRequestToLoadItemAt index: Int) {
+    }
+}
+
 /// Add support for presenting modal dialogs from our non standard bar button items
 extension TasksListHeaderCompactViewController: TasksListHeaderViewModelDelegate {
+
+    public func sourceItemsChanged(_ sourceItems: [SourceItem]) {
+        self.sourceItems = sourceItems
+    }
+
+    public func selectedSourceItemChanged(_ selectedSourceIndex: Int) {
+        self.selectedSourceIndex = selectedSourceIndex
+    }
+
     public func presentPopover(_ viewController: UIViewController, barButtonIndex: Int, animated: Bool) {
         if let buttonView = buttonStackView.arrangedSubviews[ifExists: barButtonIndex] {
             presentPopover(viewController, sourceView: buttonView, sourceRect: buttonView.bounds, animated: animated)

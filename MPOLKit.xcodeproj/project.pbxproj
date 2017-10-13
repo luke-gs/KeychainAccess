@@ -115,6 +115,7 @@
 		9644B1D21F6785E200D031F2 /* CompactFormSheetNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9644B1D11F6785E100D031F2 /* CompactFormSheetNavigationController.swift */; };
 		965CD8A81F8ECDBA007C3EEA /* TasksListContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965CD8A71F8ECDBA007C3EEA /* TasksListContainerViewController.swift */; };
 		965CD8AD1F8F14E5007C3EEA /* TasksListHeaderCompactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965CD8AC1F8F14E5007C3EEA /* TasksListHeaderCompactViewController.swift */; };
+		965CD8AF1F902872007C3EEA /* TasksListContainerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965CD8AE1F902872007C3EEA /* TasksListContainerViewModel.swift */; };
 		9663D0061F86DCDA006DB672 /* MPOLSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9663D0051F86DCDA006DB672 /* MPOLSplitViewController.swift */; };
 		9663D0081F8AD78D006DB672 /* ContainerWithHeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9663D0071F8AD78D006DB672 /* ContainerWithHeaderViewController.swift */; };
 		9663D00B1F8AF666006DB672 /* TasksSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9663D00A1F8AF666006DB672 /* TasksSplitViewController.swift */; };
@@ -462,6 +463,7 @@
 		9644B1D11F6785E100D031F2 /* CompactFormSheetNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactFormSheetNavigationController.swift; sourceTree = "<group>"; };
 		965CD8A71F8ECDBA007C3EEA /* TasksListContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListContainerViewController.swift; sourceTree = "<group>"; };
 		965CD8AC1F8F14E5007C3EEA /* TasksListHeaderCompactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListHeaderCompactViewController.swift; sourceTree = "<group>"; };
+		965CD8AE1F902872007C3EEA /* TasksListContainerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListContainerViewModel.swift; sourceTree = "<group>"; };
 		9663D0051F86DCDA006DB672 /* MPOLSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPOLSplitViewController.swift; sourceTree = "<group>"; };
 		9663D0071F8AD78D006DB672 /* ContainerWithHeaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerWithHeaderViewController.swift; sourceTree = "<group>"; };
 		9663D00A1F8AF666006DB672 /* TasksSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksSplitViewController.swift; sourceTree = "<group>"; };
@@ -985,14 +987,15 @@
 		96CF32281F8C352000140AF8 /* Tasks List */ = {
 			isa = PBXGroup;
 			children = (
+				965CD8A71F8ECDBA007C3EEA /* TasksListContainerViewController.swift */,
+				965CD8AE1F902872007C3EEA /* TasksListContainerViewModel.swift */,
+				965CD8AC1F8F14E5007C3EEA /* TasksListHeaderCompactViewController.swift */,
 				96CF32311F8D7C3400140AF8 /* TasksListHeaderRegularViewController.swift */,
 				96CF32331F8D7C7700140AF8 /* TasksListHeaderViewModel.swift */,
 				96CF32241F8C34C700140AF8 /* TasksListItemCell.swift */,
 				96CF32261F8C34F800140AF8 /* TasksListItemViewModel.swift */,
 				96CF32201F8C337900140AF8 /* TasksListViewController.swift */,
 				96CF32221F8C349700140AF8 /* TasksListViewModel.swift */,
-				965CD8A71F8ECDBA007C3EEA /* TasksListContainerViewController.swift */,
-				965CD8AC1F8F14E5007C3EEA /* TasksListHeaderCompactViewController.swift */,
 			);
 			path = "Tasks List";
 			sourceTree = "<group>";
@@ -2164,6 +2167,7 @@
 				2742CD2B1F8492C900D08DCF /* TasksMapFilterViewModel.swift in Sources */,
 				DB88BCE51F42D01C0056FD69 /* SortDescriptor.swift in Sources */,
 				44F72B2A1F85E5F000A6FE6B /* SearchResultMessageViewController.swift in Sources */,
+				965CD8AF1F902872007C3EEA /* TasksListContainerViewModel.swift in Sources */,
 				1212B54D1F60F2ED00F90CA0 /* TestingDirective.swift in Sources */,
 				27CBC7601F8B27C700E387C3 /* ResourceMapViewModel.swift in Sources */,
 				BC9C7DD81F0DED6600DFFE83 /* NetworkMonitor.swift in Sources */,

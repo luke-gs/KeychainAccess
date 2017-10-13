@@ -92,6 +92,14 @@ open class TasksListHeaderRegularViewController: UIViewController {
 
 /// Add support for presenting modal dialogs from our non standard bar button items
 extension TasksListHeaderRegularViewController: TasksListHeaderViewModelDelegate {
+
+    public func sourceItemsChanged(_ sourceItems: [SourceItem]) {
+    }
+
+    public func selectedSourceItemChanged(_ selectedSourceIndex: Int) {
+        titleLabel.text = viewModel.titleText()
+    }
+
     public func presentPopover(_ viewController: UIViewController, barButtonIndex: Int, animated: Bool) {
         if let buttonView = buttonStackView.arrangedSubviews[ifExists: barButtonIndex] {
             presentPopover(viewController, sourceView: buttonView, sourceRect: buttonView.bounds, animated: animated)

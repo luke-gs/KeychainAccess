@@ -11,8 +11,7 @@ import UIKit
 /// Container view controller for showing task list, source bar and dynamic header
 class TasksListContainerViewController: UIViewController {
 
-    /// The same view model as the split
-    public let viewModel: TasksSplitViewModel
+    public let viewModel: TasksListContainerViewModel
 
     /// The list of tasks
     private var tasksListViewController: UIViewController!
@@ -87,7 +86,7 @@ class TasksListContainerViewController: UIViewController {
 
     // MARK: - Initializers
 
-    public init(viewModel: TasksSplitViewModel) {
+    public init(viewModel: TasksListContainerViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -140,7 +139,7 @@ class TasksListContainerViewController: UIViewController {
         view.addSubview(headerContainerView)
 
         // Add task list
-        tasksListViewController = viewModel.createTasksListViewController()
+        tasksListViewController = viewModel.listViewModel.createViewController()
         addChildViewController(tasksListViewController)
         view.addSubview(tasksListViewController.view)
         tasksListViewController.didMove(toParentViewController: self)
@@ -193,7 +192,7 @@ class TasksListContainerViewController: UIViewController {
             }
 
             // Replace header with one for size class
-            headerViewController = viewModel.tasksListHeaderViewModel.createViewController(compact: compact)
+            headerViewController = viewModel.headerViewModel.createViewController(compact: compact)
         }
     }
 
@@ -201,11 +200,7 @@ class TasksListContainerViewController: UIViewController {
 
     public func updateFromViewModel() {
         sourceItems = viewModel.sourceItems
-
-        // Select first source
-        if !sourceItems.isEmpty {
-            selectedSourceIndex = 0
-        }
+        selectedSourceIndex = viewModel.selectedSourceIndex
     }
 }
 
@@ -214,7 +209,7 @@ extension TasksListContainerViewController: SourceBarDelegate {
 
     public func sourceBar(_ bar: SourceBar, didSelectItemAt index: Int) {
         selectedSourceIndex = index
-        // delegate?.sidebarViewController(self, didSelectSourceAt: index)
+        viewModel.selectedSourceIndex = index
     }
 
     public func sourceBar(_ bar: SourceBar, didRequestToLoadItemAt index: Int) {
