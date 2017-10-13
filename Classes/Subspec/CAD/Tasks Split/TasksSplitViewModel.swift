@@ -22,10 +22,12 @@ open class TasksSplitViewModel {
         return TasksSplitViewController(viewModel: self)
     }
 
+    /// Create the view controller for the master side of split view
     public func createMasterViewController() -> UIViewController {
         return containerViewModel.createViewController()
     }
 
+    /// Create the view controller for the detail side of the split view
     public func createDetailViewController() -> UIViewController {
         return TasksMapViewController()
     }

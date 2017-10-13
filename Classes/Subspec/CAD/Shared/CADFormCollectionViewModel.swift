@@ -8,8 +8,18 @@
 
 import UIKit
 
+/// Delegate for base CAD form collection view models
+public protocol CADFormCollectionViewModelDelegate: class {
+
+    // Notify form that sections were updated
+    func sectionsUpdated()
+}
+
 /// Abstract base class for CAD form collection view models
 open class CADFormCollectionViewModel<ItemType> {
+
+    /// Delegate to update form
+    public weak var delegate: CADFormCollectionViewModelDelegate?
 
     // Convenience, public init
     public init() {}
@@ -18,7 +28,7 @@ open class CADFormCollectionViewModel<ItemType> {
 
     open var sections: [CADFormCollectionSectionViewModel<ItemType>] = [] {
         didSet {
-            // TODO: Notify delegate?
+            delegate?.sectionsUpdated()
         }
     }
 
