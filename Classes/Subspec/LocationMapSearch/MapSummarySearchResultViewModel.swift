@@ -9,7 +9,7 @@
 import Foundation
 import MapKit
 
-open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModelable, AggregatedSearchDelegate where T: EntityMapSummaryDisplayable {
+open class MapSummarySearchResultViewModel<T: MPOLKitEntity, U : EntityMapSummaryDisplayable>: MapResultViewModelable, AggregatedSearchDelegate {
     
     public var title: String = "OVERVIEW"
     
