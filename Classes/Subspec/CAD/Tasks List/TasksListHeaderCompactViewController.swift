@@ -141,6 +141,7 @@ open class TasksListHeaderCompactViewController: UIViewController {
             view.heightAnchor.constraint(equalToConstant: Constants.headerHeight),
             sourceButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.buttonPadding),
             sourceButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            sourceButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 40),
 
             sourceDivider.leadingAnchor.constraint(equalTo: sourceButton.trailingAnchor, constant: Constants.buttonPadding),
             sourceDivider.topAnchor.constraint(equalTo: view.topAnchor),
