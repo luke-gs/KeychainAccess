@@ -42,6 +42,10 @@ public enum TaskListType: Int {
     }
 }
 
+/// View model for the task list container, which is the parent of the header and list view models
+///
+/// This view model owns the sources and current source selection, so changes can be applied to both the header and list
+///
 open class TasksListContainerViewModel {
 
     // MARK: - Properties

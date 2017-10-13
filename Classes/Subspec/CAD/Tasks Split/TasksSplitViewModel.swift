@@ -11,10 +11,12 @@ import UIKit
 open class TasksSplitViewModel {
 
     /// Container view model
-    public let containerViewModel: TasksListContainerViewModel
+    public let listContainerViewModel: TasksListContainerViewModel
+    public let mapViewModel: TasksMapViewModel
 
-    public init(containerViewModel: TasksListContainerViewModel) {
-        self.containerViewModel = containerViewModel
+    public init(listContainerViewModel: TasksListContainerViewModel, mapViewModel: TasksMapViewModel) {
+        self.listContainerViewModel = listContainerViewModel
+        self.mapViewModel = mapViewModel
     }
 
     /// Create the view controller for this view model
@@ -24,12 +26,12 @@ open class TasksSplitViewModel {
 
     /// Create the view controller for the master side of split view
     public func createMasterViewController() -> UIViewController {
-        return containerViewModel.createViewController()
+        return listContainerViewModel.createViewController()
     }
 
     /// Create the view controller for the detail side of the split view
     public func createDetailViewController() -> UIViewController {
-        return TasksMapViewController()
+        return mapViewModel.createViewController()
     }
 
     /// The title to use in the navigation bar
