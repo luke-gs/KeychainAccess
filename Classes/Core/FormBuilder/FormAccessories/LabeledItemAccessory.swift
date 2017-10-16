@@ -22,7 +22,7 @@ public class LabeledItemAccessory: ItemAccessorisable {
     public var subtitleColor: UIColor?
 
     public var size: CGSize {
-        return view().sizeThatFits(UILayoutFittingCompressedSize)
+        return view().sizeThatFits(UILayoutFittingExpandedSize)
     }
 
     public var onThemeChanged: ((Theme, LabeledAccessoryView) -> ())?
@@ -55,21 +55,25 @@ public class LabeledItemAccessory: ItemAccessorisable {
 
     /// MARK: - Chaining methods
 
+    @discardableResult
     public func accessory(_ accessory: ItemAccessorisable?) -> Self {
         self.accessory = accessory
         return self
     }
 
+    @discardableResult
     public func titleColor(_ titleColor: UIColor?) -> Self {
         self.titleColor = titleColor
         return self
     }
 
+    @discardableResult
     public func subtitleColor(_ subtitleColor: UIColor?) -> Self {
         self.subtitleColor = subtitleColor
         return self
     }
 
+    @discardableResult
     public func onThemeChanged(_ onThemeChanged: ((Theme, LabeledAccessoryView) -> ())?) -> Self {
         self.onThemeChanged = onThemeChanged
         return self
