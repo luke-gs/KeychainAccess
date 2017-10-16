@@ -87,6 +87,10 @@
 		27C9C7521F9023D500799855 /* IncidentNarrativeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C9C7511F9023D500799855 /* IncidentNarrativeViewModel.swift */; };
 		27C9C7541F90268E00799855 /* IncidentTaskItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C9C7531F90268E00799855 /* IncidentTaskItemViewModel.swift */; };
 		27C9C7561F902CB400799855 /* IncidentOverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C9C7551F902CB400799855 /* IncidentOverviewViewController.swift */; };
+		27C9C7581F9416B300799855 /* IncidentResourcesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C9C7571F9416B300799855 /* IncidentResourcesViewController.swift */; };
+		27C9C75A1F941C7A00799855 /* IncidentResourcesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C9C7591F941C7A00799855 /* IncidentResourcesViewModel.swift */; };
+		27C9C75C1F941FED00799855 /* CADGroupedFormCollectionSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C9C75B1F941FED00799855 /* CADGroupedFormCollectionSectionViewModel.swift */; };
+		27C9C75E1F94228500799855 /* IncidentCallsignViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C9C75D1F94228500799855 /* IncidentCallsignViewModel.swift */; };
 		27CBC7561F8B277E00E387C3 /* TimelineCollectionViewFormLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A45E1F83555A00CAE056 /* TimelineCollectionViewFormLayout.swift */; };
 		27CBC7571F8B277E00E387C3 /* TimelineFormCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A45F1F83555A00CAE056 /* TimelineFormCollectionViewController.swift */; };
 		27CBC7581F8B277E00E387C3 /* TimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A4601F83555A00CAE056 /* TimelineView.swift */; };
@@ -447,6 +451,10 @@
 		27C9C7511F9023D500799855 /* IncidentNarrativeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentNarrativeViewModel.swift; sourceTree = "<group>"; };
 		27C9C7531F90268E00799855 /* IncidentTaskItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentTaskItemViewModel.swift; sourceTree = "<group>"; };
 		27C9C7551F902CB400799855 /* IncidentOverviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentOverviewViewController.swift; sourceTree = "<group>"; };
+		27C9C7571F9416B300799855 /* IncidentResourcesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentResourcesViewController.swift; sourceTree = "<group>"; };
+		27C9C7591F941C7A00799855 /* IncidentResourcesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentResourcesViewModel.swift; sourceTree = "<group>"; };
+		27C9C75B1F941FED00799855 /* CADGroupedFormCollectionSectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADGroupedFormCollectionSectionViewModel.swift; sourceTree = "<group>"; };
+		27C9C75D1F94228500799855 /* IncidentCallsignViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentCallsignViewModel.swift; sourceTree = "<group>"; };
 		27CBC74A1F8B00AB00E387C3 /* UIViewController+ChildViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+ChildViewController.swift"; sourceTree = "<group>"; };
 		27CBC7831F8B2AF000E387C3 /* TaskItemsSidebarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskItemsSidebarViewController.swift; sourceTree = "<group>"; };
 		27CBC7851F8B2AF000E387C3 /* ResourceOverviewDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceOverviewDetailViewController.swift; sourceTree = "<group>"; };
@@ -904,6 +912,7 @@
 				27C9C7481F8EE98400799855 /* IncidentAssociationsViewController.swift */,
 				27C9C74F1F90234C00799855 /* IncidentNarrativeViewController.swift */,
 				27C9C7551F902CB400799855 /* IncidentOverviewViewController.swift */,
+				27C9C7571F9416B300799855 /* IncidentResourcesViewController.swift */,
 			);
 			path = Incidents;
 			sourceTree = "<group>";
@@ -914,6 +923,8 @@
 				27C9C74B1F8EE9B400799855 /* IncidentAssociationsViewModel.swift */,
 				27C9C74D1F901E7800799855 /* IncidentPersonViewModel.swift */,
 				27C9C7511F9023D500799855 /* IncidentNarrativeViewModel.swift */,
+				27C9C7591F941C7A00799855 /* IncidentResourcesViewModel.swift */,
+				27C9C75D1F94228500799855 /* IncidentCallsignViewModel.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -1098,6 +1109,7 @@
 				96CF322B1F8C428600140AF8 /* CADFormCollectionViewModel.swift */,
 				96CF322D1F8C429D00140AF8 /* CADFormCollectionViewController.swift */,
 				96CF322F1F8C4AD300140AF8 /* CADFormCollectionSectionViewModel.swift */,
+				27C9C75B1F941FED00799855 /* CADGroupedFormCollectionSectionViewModel.swift */,
 				962AA8181F8DD37D0087D534 /* PopoverPresenter.swift */,
 			);
 			path = Shared;
@@ -2089,6 +2101,7 @@
 				DB88BCDB1F42D0080056FD69 /* SearchOptionsViewController.swift in Sources */,
 				BC39A6831F18A6EC005CA8EE /* LabeledAccessoryView.swift in Sources */,
 				BC9C7E1F1F0DED6600DFFE83 /* FormSearchTableViewController.swift in Sources */,
+				27C9C75E1F94228500799855 /* IncidentCallsignViewModel.swift in Sources */,
 				27CBC78A1F8B2B3100E387C3 /* TaskItemsSidebarViewController.swift in Sources */,
 				DB88BCE21F42D0110056FD69 /* SearchResultErrorCell.swift in Sources */,
 				DB88BCE11F42D0110056FD69 /* SearchFieldCollectionViewCell.swift in Sources */,
@@ -2153,6 +2166,7 @@
 				BC9C7DCE1F0DED6600DFFE83 /* Manifest.swift in Sources */,
 				196ED03A1F7C0207005F3F7C /* UILayoutPriority+Math.swift in Sources */,
 				BC5C11F31F2810BA0048CBBF /* RoundedRectButton.swift in Sources */,
+				27C9C7581F9416B300799855 /* IncidentResourcesViewController.swift in Sources */,
 				276C21081F60C44B0003B860 /* MapOverlayImageButton.swift in Sources */,
 				BC9C7E3F1F0DED6600DFFE83 /* PopoverFormSheetPresentationController.swift in Sources */,
 				BCA6FD771F22E0AE00EE8F7A /* SearchFieldButton.swift in Sources */,
@@ -2163,6 +2177,7 @@
 				BC9C7E331F0DED6600DFFE83 /* UITextView+NotificationWorkaround.m in Sources */,
 				19B49BBF1F665F2A00502F51 /* RegularSidebarTableViewCell.swift in Sources */,
 				1908EF831F57CAFC00382B1C /* AuthenticationPlugin.swift in Sources */,
+				27C9C75C1F941FED00799855 /* CADGroupedFormCollectionSectionViewModel.swift in Sources */,
 				EAAEB3481F661806002D6C65 /* SystemPresenter.swift in Sources */,
 				27CBC75F1F8B27C700E387C3 /* PatrolMapViewModel.swift in Sources */,
 				96CF322C1F8C428600140AF8 /* CADFormCollectionViewModel.swift in Sources */,
@@ -2283,6 +2298,7 @@
 				2768C0491F86E78A008532ED /* TasksMapViewController.swift in Sources */,
 				BC1ECEBF1F24CC40002C2A68 /* LoadingStateManager.swift in Sources */,
 				19B49BC11F665F2A00502F51 /* CompactSidebarSourceViewController.swift in Sources */,
+				27C9C75A1F941C7A00799855 /* IncidentResourcesViewModel.swift in Sources */,
 				96CF322E1F8C429D00140AF8 /* CADFormCollectionViewController.swift in Sources */,
 				96CF32251F8C34C700140AF8 /* TasksListItemCell.swift in Sources */,
 				27C9C74E1F901E7800799855 /* IncidentPersonViewModel.swift in Sources */,
