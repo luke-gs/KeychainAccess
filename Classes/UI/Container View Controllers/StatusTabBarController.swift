@@ -76,6 +76,8 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
         }
     }
     
+    /// An array of view controllers to only be displayed in horizontal compact mode
+    open var compactViewControllers: [UIViewController]?
     
     /// The currently selected view controller. The default is `nil`.
     open var selectedViewController: UIViewController? {
@@ -252,6 +254,20 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
         
         if previousTraitCollection?.horizontalSizeClass != traitCollection.horizontalSizeClass {
             updateBarConstraints()
+        }
+        
+        if traitCollection.horizontalSizeClass == .compact {
+            // Add compact view controllers to the tab bar
+            if let compactViewControllers = compactViewControllers {
+                viewControllers += compactViewControllers
+            }
+        } else {
+            if let compactViewControllers = compactViewControllers {
+                // Remove the compact controllers from the tab bar
+                viewControllers = viewControllers.filter {
+                    !compactViewControllers.contains($0)
+                }
+            }
         }
     }
     
