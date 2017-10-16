@@ -30,6 +30,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         applyCurrentTheme()
         window.makeKeyAndVisible()
         
+        let tempCallsignController = UIViewController() // TODO: Add callsign view
+        tempCallsignController.tabBarItem = UITabBarItem(title: "Callsign", image: AssetManager.shared.image(forKey: .entityCar), selectedImage: nil)
+        
         let searchProxyViewController = UIViewController() // TODO: Take me back to the search app
         searchProxyViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
         searchProxyViewController.tabBarItem.isEnabled = false
@@ -45,6 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         activityNavController.tabBarItem.title = NSLocalizedString("Activity Log", comment: "Activity Log Tab Bar Item")
 
         statusTabBarController.viewControllers = [searchProxyViewController, tasksNavController, activityNavController]
+        statusTabBarController.compactViewControllers = [tempCallsignController]
         statusTabBarController.selectedViewController = tasksNavController
 
         self.window?.rootViewController = statusTabBarController
