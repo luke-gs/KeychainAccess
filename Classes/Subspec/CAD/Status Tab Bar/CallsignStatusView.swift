@@ -1,6 +1,6 @@
 //
 //  CallsignStatusView.swift
-//  ClientKit
+//  MPOLKit
 //
 //  Created by Kyle May on 7/9/17.
 //  Copyright © 2017 Gridstone. All rights reserved.
