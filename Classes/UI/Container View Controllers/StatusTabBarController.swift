@@ -76,8 +76,8 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
         }
     }
     
-    /// An array of view controllers to only be displayed in horizontal compact mode
-    open var compactViewControllers: [UIViewController]? {
+    /// An array of additional view controllers to only be displayed in horizontal compact mode
+    open var compactAdditionalViewControllers: [UIViewController]? {
         didSet {
             addCompactTabsIfCompact()
         }
@@ -364,18 +364,18 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
         forAllChildViewControllers { $0.viewIfLoaded?.setNeedsLayout() }
     }
     
-    /// Adds the `compactViewControllers` array to the `viewControllers` array if we are in horizontal compact size
+    /// Adds the `compactAdditionalViewControllers` array to the `viewControllers` array if we are in horizontal compact size
     private func addCompactTabsIfCompact() {
         if traitCollection.horizontalSizeClass == .compact {
             // Add compact view controllers to the tab bar
-            if let compactViewControllers = compactViewControllers {
-                viewControllers += compactViewControllers
+            if let compactAdditionalViewControllers = compactAdditionalViewControllers {
+                viewControllers += compactAdditionalViewControllers
             }
         } else {
-            if let compactViewControllers = compactViewControllers {
+            if let compactAdditionalViewControllers = compactAdditionalViewControllers {
                 // Remove the compact controllers from the tab bar
                 viewControllers = viewControllers.filter {
-                    !compactViewControllers.contains($0)
+                    !compactAdditionalViewControllers.contains($0)
                 }
             }
         }
