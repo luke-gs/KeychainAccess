@@ -77,7 +77,11 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
     }
     
     /// An array of view controllers to only be displayed in horizontal compact mode
-    open var compactViewControllers: [UIViewController]?
+    open var compactViewControllers: [UIViewController]? {
+        didSet {
+            addCompactTabsIfCompact()
+        }
+    }
     
     /// The currently selected view controller. The default is `nil`.
     open var selectedViewController: UIViewController? {
@@ -256,19 +260,7 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
             updateBarConstraints()
         }
         
-        if traitCollection.horizontalSizeClass == .compact {
-            // Add compact view controllers to the tab bar
-            if let compactViewControllers = compactViewControllers {
-                viewControllers += compactViewControllers
-            }
-        } else {
-            if let compactViewControllers = compactViewControllers {
-                // Remove the compact controllers from the tab bar
-                viewControllers = viewControllers.filter {
-                    !compactViewControllers.contains($0)
-                }
-            }
-        }
+        addCompactTabsIfCompact()
     }
     
     // MARK: - Tab bar delegate
@@ -372,6 +364,22 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
         forAllChildViewControllers { $0.viewIfLoaded?.setNeedsLayout() }
     }
     
+    /// Adds the `compactViewControllers` array to the `viewControllers` array if we are in horizontal compact size
+    private func addCompactTabsIfCompact() {
+        if traitCollection.horizontalSizeClass == .compact {
+            // Add compact view controllers to the tab bar
+            if let compactViewControllers = compactViewControllers {
+                viewControllers += compactViewControllers
+            }
+        } else {
+            if let compactViewControllers = compactViewControllers {
+                // Remove the compact controllers from the tab bar
+                viewControllers = viewControllers.filter {
+                    !compactViewControllers.contains($0)
+                }
+            }
+        }
+    }
 }
 
 
