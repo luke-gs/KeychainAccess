@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class CallsignStatusView: UIView {
+open class CallsignStatusView: UIControl {
     
     public let viewModel: CallsignStatusViewModel
     

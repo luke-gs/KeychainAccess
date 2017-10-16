@@ -41,7 +41,7 @@ open class CallsignStatusViewModel {
         }
     }
     
-    public var state: CallsignState = .unassigned(subtitle: "View all callsigns") {
+    public var state: CallsignState = .unassigned(subtitle: "View All Callsigns") {
         didSet {
             // TODO: Post a notification or something?
         }

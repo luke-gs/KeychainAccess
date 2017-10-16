@@ -17,10 +17,8 @@ open class CADStatusTabBarController: StatusTabBarController {
         
         // Add callsign view to status area
         callsignView = CallsignStatusView()
+        callsignView.addTarget(self, action: #selector(selectedCallsignStatusView), for: .touchUpInside)
         
-        // Receive taps from callsign view
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(selectedCallsignStatusView))
-        callsignView.addGestureRecognizer(tapGestureRecognizer)
         
         statusView = callsignView
         tabBar.isTranslucent = false
