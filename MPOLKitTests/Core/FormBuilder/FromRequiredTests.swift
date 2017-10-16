@@ -21,12 +21,14 @@ class FromRequiredTests: XCTestCase {
         let requiredPlaceholder = formRequired.requiredPlaceholder
         let notRequiredPlaceholder = formRequired.notRequiredPlaceholder
         let color = formRequired.color
+        let dropdownAction = formRequired.dropDownAction
 
         // Thene
         XCTAssertEqual(message, "This is required.")
         XCTAssertEqual(symbol, "*")
         XCTAssertEqual(requiredPlaceholder, "Required")
         XCTAssertEqual(notRequiredPlaceholder, "Optional")
+        XCTAssertEqual(dropdownAction, "Select")
         XCTAssertEqual(color, UIColor(red: 1.0, green: 59.0 / 255.0, blue: 48.0 / 255, alpha: 1.0))
     }
 
