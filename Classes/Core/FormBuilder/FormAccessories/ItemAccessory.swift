@@ -53,14 +53,4 @@ public struct ItemAccessory: ItemAccessorisable {
         self.onThemeChanged?(theme, view)
     }
 
-    mutating func tintColor(_ tintColor: UIColor?) -> ItemAccessory {
-        self.tintColor = tintColor
-        return self
-    }
-
-    mutating func onThemeChanged(_ onThemeChanged: ((Theme, FormAccessoryImageView) -> ())?) -> ItemAccessory {
-        self.onThemeChanged = onThemeChanged
-        return self
-    }
-
 }
