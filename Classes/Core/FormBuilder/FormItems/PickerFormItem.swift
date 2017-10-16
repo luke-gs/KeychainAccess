@@ -42,7 +42,6 @@ public class PickerFormItem<T>: BaseFormItem, SelectionActionable, DefaultReusab
 
         selectionStyle = .underline
         accessory = ItemAccessory.dropDown
-        placeholder = "Select"
     }
 
     public convenience init(pickerAction: ValueSelectionAction<T>) {
@@ -62,8 +61,8 @@ public class PickerFormItem<T>: BaseFormItem, SelectionActionable, DefaultReusab
             titleLabel.makeRequired(with: title ?? pickerAction?.title)
         }
 
-        cell.valueLabel.apply(sizable: pickerAction?.displayText() ?? value, defaultFont: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection))
-        cell.placeholderLabel.apply(sizable: placeholder, defaultFont: .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection))
+        cell.valueLabel.apply(sizable: pickerAction?.displayText(), defaultFont: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection))
+        cell.placeholderLabel.apply(sizable: placeholder ?? FormRequired.default.dropDownAction, defaultFont: .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection))
         cell.imageView.image = image
 
         pickerAction?.updateHandler = { [weak self] in
@@ -115,11 +114,13 @@ public class PickerFormItem<T>: BaseFormItem, SelectionActionable, DefaultReusab
         cell.placeholderLabel.textColor = placeholderTextColor
     }
 
+    @discardableResult
     public func pickerAction(_ pickerAction: ValueSelectionAction<T>?) -> Self {
         self.pickerAction = pickerAction
         return self
     }
 
+    @discardableResult
     public func onValueChanged(_ onValueChanged: ((T?) -> ())?) -> Self {
         self.onValueChanged = onValueChanged
         return self

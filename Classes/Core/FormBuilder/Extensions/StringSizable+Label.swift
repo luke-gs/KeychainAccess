@@ -22,6 +22,8 @@ public struct FormRequired {
 
     public let notRequiredPlaceholder = NSLocalizedString("Optional", comment: "Form placeholder text - Optional")
 
+    public let dropDownAction = NSLocalizedString("Select", comment: "Form placeholder text - Select")
+
     public func placeholder(withRequired required: Bool) -> String {
         return required ? requiredPlaceholder : notRequiredPlaceholder
     }
