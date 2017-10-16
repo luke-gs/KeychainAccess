@@ -32,7 +32,7 @@ public class TextFieldFormItem: BaseFormItem, FormValidatable {
         selectionStyle = .underline
     }
 
-    public convenience init(title: StringSizable?, text: StringSizable?, placeholder: StringSizable?) {
+    public convenience init(title: StringSizable?, text: StringSizable? = nil, placeholder: StringSizable? = nil) {
         self.init()
 
         self.title = title
@@ -42,6 +42,7 @@ public class TextFieldFormItem: BaseFormItem, FormValidatable {
 
     public override func configure(_ cell: CollectionViewFormCell) {
         let cell = cell as! CollectionViewFormTextFieldCell
+        cell.labelSeparation = labelSeparation
 
         let traitCollection = cell.traitCollection
 
