@@ -57,3 +57,11 @@ public struct ImageSizing: ImageSizable {
     }
 
 }
+
+extension ImageSizing: Equatable {
+
+    public static func ==(lhs: ImageSizing, rhs: ImageSizing) -> Bool {
+        return lhs.image == rhs.image && lhs.size == rhs.size
+    }
+
+}
