@@ -9,10 +9,13 @@
 import UIKit
 
 /// Delegate for base CAD form collection view models
-public protocol CADFormCollectionViewModelDelegate: class {
+public protocol CADFormCollectionViewModelDelegate: PopoverPresenter {
 
     // Notify form that sections were updated
     func sectionsUpdated()
+
+    /// Dismiss the UI representing this view model
+    func dismiss()
 }
 
 /// Abstract base class for CAD form collection view models

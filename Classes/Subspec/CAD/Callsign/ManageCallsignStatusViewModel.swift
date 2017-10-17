@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PromiseKit
 
 /// View model for a single callsign status item
 public struct ManageCallsignStatusItemViewModel {
@@ -14,11 +15,46 @@ public struct ManageCallsignStatusItemViewModel {
     public let image: UIImage
 }
 
+/// Enum for action button types
+private enum ActionButton : Int {
+    case viewCallsign
+    case manageCallsign
+    case terminateShift
+
+    var title: String {
+        switch self {
+        case .viewCallsign:
+            return NSLocalizedString("View My Callsign", comment: "View callsign button text")
+        case .manageCallsign:
+            return NSLocalizedString("Manage Callsign", comment: "Manage callsign button text")
+        case .terminateShift:
+            return NSLocalizedString("Terminate Shift", comment: "Terminate shift button text")
+        }
+    }
+}
+
 /// View model for the callsign status screen
 open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCallsignStatusItemViewModel> {
 
+    public override init() {
+        selectedIndexPath = IndexPath(row: 0, section: 0)
+        super.init()
+        updateData()
+    }
+
+    /// Create the view controller for this view model
+    public func createViewController() -> UIViewController {
+        let vc = ManageCallsignStatusViewController(viewModel: self)
+        self.delegate = vc
+        return vc
+    }
+
+    public var currentStatus: ManageCallsignStatus {
+        return statusForIndexPath(selectedIndexPath)
+    }
+
     /// The current state
-    public var selectedIndexPath: IndexPath? {
+    public private(set) var selectedIndexPath: IndexPath {
         didSet {
             // Update session
         }
@@ -28,27 +64,64 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
     public var actionButtons: [String] {
         get {
             return [
-                NSLocalizedString("View My Callsign", comment: "View callsign button text"),
-                NSLocalizedString("Manage Callsign", comment: "Manage callsign button text"),
-                NSLocalizedString("Terminate Shift", comment: "Terminate shift button text")
+                ActionButton.viewCallsign.title,
+                ActionButton.manageCallsign.title,
+                ActionButton.terminateShift.title
             ]
         }
-    }
-
-    public override init() {
-        super.init()
-        updateData()
-    }
-
-    /// Create the view controller for this view model
-    public func createViewController() -> UIViewController {
-        return ManageCallsignStatusViewController(viewModel: self)
     }
 
     /// The subtitle to use in the navigation bar
     open func navSubtitle() -> String {
         // TODO: get from user session
         return "10:30 - 18:30"
+    }
+
+    /// Attempt to select a new status
+    open func setSelectedIndexPath(_ indexPath: IndexPath) -> Promise<ManageCallsignStatus> {
+        let newStatus = statusForIndexPath(indexPath)
+        if currentStatus.canChangeToStatus(newStatus: newStatus) {
+
+            // TODO: change status on network
+
+            selectedIndexPath = indexPath
+            return Promise.init(value: currentStatus)
+        } else {
+            let message = NSLocalizedString("Selection not allowed from this state", comment: "")
+            let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Alert - OK"), style: .cancel, handler: nil))
+            AlertQueue.shared.add(alert)
+            return Promise.init(value: currentStatus)
+        }
+    }
+
+    /// Method for handling button actions
+    open func didTapActionButtonAtIndex(_ index: Int) {
+        if let actionButton = ActionButton(rawValue: index) {
+            switch actionButton {
+            case .viewCallsign:
+                break
+            case .manageCallsign:
+                break
+            case .terminateShift:
+                if currentStatus.canTerminate {
+                    delegate?.dismiss()
+                } else {
+                    let message = NSLocalizedString("Terminating shift is not allowed from this state", comment: "")
+                    let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Alert - OK"), style: .cancel, handler: nil))
+                    AlertQueue.shared.add(alert)
+                }
+                break
+            }
+        }
+    }
+
+    // MARK: - Internal
+
+    private func statusForIndexPath(_ indexPath: IndexPath) -> ManageCallsignStatus {
+        let index = indexPath.section * numberOfItems(for: 0) + indexPath.row
+        return ManageCallsignStatus(rawValue: index)!
     }
 
     // MARK: - Override
@@ -66,7 +139,7 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
 
     // MARK: - Data
 
-    private func itemFromStatus(_ status: CallsignStatusMatrix) -> ManageCallsignStatusItemViewModel {
+    private func itemFromStatus(_ status: ManageCallsignStatus) -> ManageCallsignStatusItemViewModel {
         return ManageCallsignStatusItemViewModel(title: status.title, image: AssetManager.shared.image(forKey: status.imageKey)!)
     }
 
@@ -92,6 +165,5 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
                                                 itemFromStatus(.inquiries2)
                 ])
         ]
-        selectedIndexPath = IndexPath(row: 0, section: 0)
     }
 }

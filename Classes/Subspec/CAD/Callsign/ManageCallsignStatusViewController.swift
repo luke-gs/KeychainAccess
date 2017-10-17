@@ -56,12 +56,12 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
         view.backgroundColor = theme.color(forKey: .background)!
 
         // Create done button
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonDidSelect(_:)))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(didTapDoneButton(_:)))
     }
 
     public func createSubviews() {
         collectionViewLayout = UICollectionViewFlowLayout()
-        collectionViewLayout.estimatedItemSize = CGSize(width: 116, height: 90)
+        collectionViewLayout.itemSize = CGSize(width: 116, height: 90)
         collectionViewLayout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         collectionViewLayout.minimumInteritemSpacing = 0
         collectionViewLayout.minimumLineSpacing = 0
@@ -83,7 +83,7 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
         let theme = ThemeManager.shared.theme(for: .current)
         let tintColor = theme.color(forKey: .tint)!
 
-        for buttonText in viewModel.actionButtons {
+        for (index, buttonText) in viewModel.actionButtons.enumerated() {
             let separatorView = UIView(frame: .zero)
             separatorView.backgroundColor = iOSStandardSeparatorColor
             separatorView.translatesAutoresizingMaskIntoConstraints = false
@@ -91,10 +91,13 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
             buttonStackView.addArrangedSubview(separatorView)
 
             let button = UIButton(type: .custom)
-            button.contentEdgeInsets = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+            let inset = 16 as CGFloat
+            button.contentEdgeInsets = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
             button.setTitle(buttonText, for: .normal)
             button.setTitleColor(tintColor, for: .normal)
             button.setTitleColor(tintColor.withAlphaComponent(0.5), for: .highlighted)
+            button.addTarget(self, action: #selector(didTapActionButton(_:)), for: .touchUpInside)
+            button.tag = index
             buttonStackView.addArrangedSubview(button)
         }
     }
@@ -126,9 +129,14 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
         cell.imageView.tintColor = theme.color(forKey: selected ? .tint : .primaryText)!
     }
 
-    @objc private func doneButtonDidSelect(_ item: UIBarButtonItem) {
+    @objc private func didTapDoneButton(_ button: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
     }
+
+    @objc private func didTapActionButton(_ button: UIButton) {
+        viewModel.didTapActionButtonAtIndex(button.tag)
+    }
+
 }
 
 // MARK: - UICollectionViewDataSource
@@ -164,6 +172,19 @@ extension ManageCallsignStatusViewController: UICollectionViewDataSource {
 
 }
 
+// MARK: - CADFormCollectionViewModelDelegate
+extension ManageCallsignStatusViewController: CADFormCollectionViewModelDelegate {
+
+    public func sectionsUpdated() {
+        collectionView.reloadData()
+    }
+
+    public func dismiss() {
+        dismiss(animated: true, completion: nil)
+    }
+
+}
+
 // MARK: - UICollectionViewDelegateFlowLayout
 extension ManageCallsignStatusViewController: UICollectionViewDelegateFlowLayout {
 
@@ -191,14 +212,15 @@ extension ManageCallsignStatusViewController: UICollectionViewDelegate {
         collectionView.deselectItem(at: indexPath, animated: false)
 
         if indexPath != viewModel.selectedIndexPath {
-            // TODO: change status on network
 
             let oldIndexPath = viewModel.selectedIndexPath
-            viewModel.selectedIndexPath = indexPath
-            UIView.performWithoutAnimation {
-                collectionView.performBatchUpdates({
-                    collectionView.reloadItems(at: [indexPath, oldIndexPath].removeNils())
-                }, completion: nil)
+            _ = viewModel.setSelectedIndexPath(indexPath).then { status -> Void in
+                // Cancel progress overlay
+                UIView.performWithoutAnimation {
+                    collectionView.performBatchUpdates({
+                        collectionView.reloadItems(at: [indexPath, oldIndexPath])
+                    }, completion: nil)
+                }
             }
         }
     }

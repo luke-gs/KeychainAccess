@@ -1,5 +1,5 @@
 //
-//  CallsignStatusMatrix.swift
+//  ManageCallsignStatus.swift
 //  MPOLKit
 //
 //  Created by Trent Fitzgibbon on 17/10/17.
@@ -8,7 +8,8 @@
 
 import UIKit
 
-enum CallsignStatusMatrix {
+/// Enum for callsign status states and logic from https://gridstone.atlassian.net/browse/MPOLA-520
+public enum ManageCallsignStatus: Int {
     // General
     case unavailable
     case onAir
@@ -81,6 +82,37 @@ enum CallsignStatusMatrix {
         case .inquiries2:
             return .sourceBarNone
         }
+    }
+
+    var canTerminate: Bool {
+        switch self {
+        // Current state where terminating shift is allowed
+        case .unavailable: fallthrough
+        case .onAir: fallthrough
+        case .mealBreak: fallthrough
+        case .trafficStop: fallthrough
+        case .court: fallthrough
+        case .atStation: fallthrough
+        case .onCell: fallthrough
+        case .inquiries1:
+            return true
+
+        // Current state where terminating shift is NOT allowed
+        case .proceeding: fallthrough
+        case .atIncident: fallthrough
+        case .finalise: fallthrough
+        case .inquiries2:
+            return false
+        }
+    }
+
+    func canChangeToStatus(newStatus: ManageCallsignStatus) -> Bool {
+        // Rather than write entire matrix of true/falses, just check for the few that aren't allowed
+        if self == .proceeding && newStatus == .finalise ||
+            self == .atIncident && newStatus == .proceeding {
+            return false
+        }
+        return true
     }
 }
 
