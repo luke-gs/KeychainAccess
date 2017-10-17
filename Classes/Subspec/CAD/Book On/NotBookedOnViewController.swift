@@ -18,15 +18,23 @@ public class NotBookedOnViewController: CADFormCollectionViewController<NotBooke
         return viewModel as? NotBookedOnViewModel
     }
     
+    private struct LayoutConstants {
+        static let headerHeight: CGFloat = 100
+        static let footerHeight: CGFloat = 55
+        static let topMargin: CGFloat = 24
+        static let bottomMargin: CGFloat = 16
+        static let horizontalMargin: CGFloat = 40
+    }
+    
     public init(viewModel: NotBookedOnViewModel) {
         super.init(viewModel: viewModel)
-//        calculatesContentHeight = true
+        preferredContentSize = CGSize(width: 512, height: 608)
         if #available(iOS 11, *) {
-            additionalSafeAreaInsets.top = 100
-            additionalSafeAreaInsets.bottom = 55
+            additionalSafeAreaInsets.top = LayoutConstants.headerHeight
+            additionalSafeAreaInsets.bottom = LayoutConstants.footerHeight
         } else {
-            legacy_additionalSafeAreaInsets.top = 100
-            legacy_additionalSafeAreaInsets.bottom = 55
+            legacy_additionalSafeAreaInsets.top = LayoutConstants.headerHeight
+            legacy_additionalSafeAreaInsets.bottom = LayoutConstants.footerHeight
         }
     }
     
@@ -36,6 +44,7 @@ public class NotBookedOnViewController: CADFormCollectionViewController<NotBooke
     
     override public func viewDidLoad() {
         super.viewDidLoad()
+        
         edgesForExtendedLayout = []
         
         titleLabel = UILabel()
@@ -62,20 +71,17 @@ public class NotBookedOnViewController: CADFormCollectionViewController<NotBooke
         allCallsignsButton.addTarget(self, action: #selector(didSelectAllCallsignsButton), for: .touchUpInside)
         allCallsignsButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(allCallsignsButton)
-        
+
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 24),
+            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: LayoutConstants.topMargin),
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            titleLabel.heightAnchor.constraint(equalToConstant: 40),
             
-            stayOffDutyButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -24),
-            stayOffDutyButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
-            stayOffDutyButton.heightAnchor.constraint(equalToConstant: 15),
+            stayOffDutyButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -LayoutConstants.bottomMargin),
+            stayOffDutyButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: LayoutConstants.horizontalMargin),
             
-            allCallsignsButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -24),
-            allCallsignsButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
-            allCallsignsButton.heightAnchor.constraint(equalToConstant: 15),
+            allCallsignsButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -LayoutConstants.bottomMargin),
+            allCallsignsButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -LayoutConstants.horizontalMargin),
         ])
     }
     
@@ -97,12 +103,29 @@ public class NotBookedOnViewController: CADFormCollectionViewController<NotBooke
         cell.highlightStyle = .fade
         cell.selectionStyle = .fade
         cell.separatorStyle = .indented
+        cell.separatorColor = UIColor.red
         cell.accessoryView = FormAccessoryView(style: .disclosure)
         
         if let cell = cell as? CollectionViewFormSubtitleCell {
             cell.titleLabel.text = viewModel.title
             cell.subtitleLabel.text = viewModel.subtitle
-            cell.imageView.image = viewModel.image
+            cell.imageView.image = viewModel.image?.withRenderingMode(.alwaysTemplate)
+            cell.imageView.tintColor = viewModel.imageColor
+        }
+    }
+    
+    public override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
+        
+        if let cell = cell as? CollectionViewFormCell {
+            cell.separatorColor = iOSStandardSeparatorColor
+        }
+    }
+    
+    override open func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
+        super.collectionView(collectionView, willDisplaySupplementaryView: view, forElementKind: elementKind, at: indexPath)
+        if let header = view as? CollectionViewFormHeaderView {
+            header.separatorColor = iOSStandardSeparatorColor
         }
     }
     
