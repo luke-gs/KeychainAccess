@@ -10,13 +10,13 @@ import UIKit
 
 open class TasksSplitViewModel {
 
-    // View models
-    private let tasksListViewModel: TasksListViewModel
-    private let tasksListHeaderViewModel: TasksListHeaderViewModel
+    /// Container view model
+    public let listContainerViewModel: TasksListContainerViewModel
+    public let mapViewModel: TasksMapViewModel
 
-    public init() {
-        tasksListViewModel = TasksListViewModel()
-        tasksListHeaderViewModel = TasksListHeaderViewModel()
+    public init(listContainerViewModel: TasksListContainerViewModel, mapViewModel: TasksMapViewModel) {
+        self.listContainerViewModel = listContainerViewModel
+        self.mapViewModel = mapViewModel
     }
 
     /// Create the view controller for this view model
@@ -24,23 +24,14 @@ open class TasksSplitViewModel {
         return TasksSplitViewController(viewModel: self)
     }
 
-    public func createMasterViewControllerHeaderRegular() -> UIViewController {
-        return tasksListHeaderViewModel.createRegularViewController()
+    /// Create the view controller for the master side of split view
+    public func createMasterViewController() -> UIViewController {
+        return listContainerViewModel.createViewController()
     }
 
-    public func createMasterViewControllerHeaderCompact() -> UIViewController {
-        return tasksListHeaderViewModel.createCompactViewController()
-    }
-
-    public func createTasksListViewController() -> UIViewController {
-        let tasksListViewController = tasksListViewModel.createViewController()
-        tasksListViewController.userInterfaceStyle = .dark
-        return tasksListViewController
-    }
-
-    public func createMapViewController() -> UIViewController {
-        let mapViewController = TasksMapViewController()
-        return mapViewController
+    /// Create the view controller for the detail side of the split view
+    public func createDetailViewController() -> UIViewController {
+        return mapViewModel.createViewController()
     }
 
     /// The title to use in the navigation bar
