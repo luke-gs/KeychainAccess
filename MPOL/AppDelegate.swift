@@ -167,6 +167,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     // TEMP
     func logOut() {
         UserSession.current.endSession()
+        APIManager.shared.authenticationPlugin = nil
         window?.rootViewController = Director.shared.presenter.viewController(forPresentable: LandingScreen.login)
     }
 
