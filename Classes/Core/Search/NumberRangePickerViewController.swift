@@ -10,7 +10,9 @@ import UIKit
 
 fileprivate let cellID = "cellID"
 
-public class NumberRangePickerViewController: FormTableViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+fileprivate let pickerHeightAdjustment: CGFloat = 20.0
+
+public class NumberRangePickerViewController: FormTableViewController, UIPickerViewDelegate, UIPickerViewDataSource, UIPopoverPresentationControllerDelegate {
     
     // MARK: - Public properties
     
@@ -75,7 +77,39 @@ public class NumberRangePickerViewController: FormTableViewController, UIPickerV
             }
         }
     }
-    
+
+    open override var modalPresentationStyle: UIModalPresentationStyle {
+        get { return super.modalPresentationStyle }
+        set { }
+    }
+
+    open override var cellBackgroundColor: UIColor? {
+        get { return .clear }
+    }
+
+    open override var separatorColor: UIColor? {
+        get { return isInPopover ? .clear : super.separatorColor }
+    }
+
+    open override var wantsTransparentBackground: Bool {
+        get {
+            return isInPopover || super.wantsTransparentBackground
+        }
+        set {
+            super.wantsTransparentBackground = newValue
+        }
+    }
+
+
+    // MARK: - Private properties
+
+    private var isInPopover = false {
+        didSet {
+            updateForPresentationStyle()
+        }
+    }
+
+    private var isAdaptationChanging: Bool = false
     
     // MARK: - Private properties
     
@@ -113,6 +147,10 @@ public class NumberRangePickerViewController: FormTableViewController, UIPickerV
         _currentMaxValue = currentMax
         
         super.init(style: .grouped)
+
+        super.modalPresentationStyle = .popover
+        popoverPresentationController?.delegate = self
+        calculatesContentHeight = false
     }
     
     public convenience init(min: Int, max: Int) {
@@ -127,20 +165,23 @@ public class NumberRangePickerViewController: FormTableViewController, UIPickerV
     // MARK: - View lifecycle
     
     override public func viewDidLoad() {
+        super.viewDidLoad()
+
         let picker = UIPickerView(frame: .zero)
-        picker.translatesAutoresizingMaskIntoConstraints = false
         picker.delegate   = self
         picker.dataSource = self
         picker.selectRow(currentMinValue - minValue, inComponent: 0, animated: false)
         picker.selectRow(currentMaxValue - minValue, inComponent: 1, animated: false)
         
         let minLabel = UILabel(frame: .zero)
+        minLabel.font = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
         minLabel.translatesAutoresizingMaskIntoConstraints = false
         minLabel.text = NSLocalizedString("Min", comment: "Minimum value in picker view.")
         minLabel.textAlignment = .center
         picker.addSubview(minLabel)
         
         let maxLabel = UILabel(frame: .zero)
+        maxLabel.font = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
         maxLabel.translatesAutoresizingMaskIntoConstraints = false
         maxLabel.text = NSLocalizedString("Max", comment: "Maximum value in picker view")
         maxLabel.textAlignment = .center
@@ -156,16 +197,14 @@ public class NumberRangePickerViewController: FormTableViewController, UIPickerV
         NSLayoutConstraint.activate([
             NSLayoutConstraint(item: minLabel, attribute: .trailing, relatedBy: .equal, toItem: picker, attribute: .centerX, constant: 3.0),
             NSLayoutConstraint(item: minLabel, attribute: .width,    relatedBy: .equal, toConstant: 60.0),
-            NSLayoutConstraint(item: minLabel, attribute: .top,      relatedBy: .equal, toItem: picker, attribute: .top, constant: 5.0),
+            NSLayoutConstraint(item: minLabel, attribute: .top,      relatedBy: .equal, toItem: picker, attribute: .top, constant: 2.0),
             
             NSLayoutConstraint(item: maxLabel, attribute: .leading,  relatedBy: .equal, toItem: picker, attribute: .centerX, constant: 5.0),
             NSLayoutConstraint(item: maxLabel, attribute: .width,    relatedBy: .equal, toConstant: 60.0),
-            NSLayoutConstraint(item: maxLabel, attribute: .top,      relatedBy: .equal, toItem: picker, attribute: .top, constant: 5.0),
+            NSLayoutConstraint(item: maxLabel, attribute: .top,      relatedBy: .equal, toItem: picker, attribute: .top, constant: 2.0),
             
             NSLayoutConstraint(item: dashLabel, attribute: .centerX, relatedBy: .equal, toItem: picker, attribute: .centerX, constant: 5.0),
-            NSLayoutConstraint(item: dashLabel, attribute: .centerY, relatedBy: .equal, toItem: picker, attribute: .centerY),
-            
-            NSLayoutConstraint(item: picker, attribute: .height, relatedBy: .equal, toConstant: picker.intrinsicContentSize.height, priority: .almostRequired)
+            NSLayoutConstraint(item: dashLabel, attribute: .centerY, relatedBy: .equal, toItem: picker, attribute: .centerY)
         ])
         
         self.pickerView = picker
@@ -174,23 +213,24 @@ public class NumberRangePickerViewController: FormTableViewController, UIPickerV
         self.dashLabel  = dashLabel
         
         tableView?.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
-        tableView?.estimatedRowHeight = 44.0
-        
-        super.viewDidLoad()
+        tableView?.rowHeight = picker.intrinsicContentSize.height - pickerHeightAdjustment
+
+        updateForPresentationStyle()
     }
     
     override public func apply(_ theme: Theme) {
         super.apply(theme)
-        
+
         let primaryTextColor = self.primaryTextColor ?? .darkText
-        
+        let secondaryTextColor = self.secondaryTextColor ?? .darkText
+
         minLabel?.textColor  = primaryTextColor
         maxLabel?.textColor  = primaryTextColor
         dashLabel?.textColor = primaryTextColor
-        
+
         pickerView?.reloadAllComponents()
     }
-    
+
     // MARK: - UITableViewDataSource methods
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -210,14 +250,9 @@ public class NumberRangePickerViewController: FormTableViewController, UIPickerV
             cell.selectionStyle = .none
             
             if let pickerView = self.pickerView, pickerView.superview != contentView {
+                pickerView.frame = contentView.bounds
+                pickerView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
                 contentView.addSubview(pickerView)
-                
-                NSLayoutConstraint.activate([
-                    NSLayoutConstraint(item: pickerView, attribute: .leading,  relatedBy: .equal, toItem: contentView, attribute: .leading),
-                    NSLayoutConstraint(item: pickerView, attribute: .trailing, relatedBy: .equal, toItem: contentView, attribute: .trailing),
-                    NSLayoutConstraint(item: pickerView, attribute: .top,      relatedBy: .equal, toItem: contentView, attribute: .top),
-                    NSLayoutConstraint(item: pickerView, attribute: .bottom,   relatedBy: .equal, toItem: contentView, attribute: .bottom),
-                    ])
             }
         } else {
             if pickerView?.superview == contentView {
@@ -235,7 +270,7 @@ public class NumberRangePickerViewController: FormTableViewController, UIPickerV
     
     override public func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         super.tableView(tableView, willDisplay: cell, forRowAt: indexPath)
-        
+
         if indexPath.section == 1 {
             cell.textLabel?.textColor = tintColor
         }
@@ -279,9 +314,9 @@ public class NumberRangePickerViewController: FormTableViewController, UIPickerV
         
         let color: UIColor
         if component == 1 && rowNumber < currentMinValue {
-            color = placeholderTextColor ?? .lightGray
+            color = primaryTextColor ?? secondaryTextColor ?? .darkGray
         } else {
-            color = primaryTextColor ?? .darkText
+            color = primaryTextColor ?? secondaryTextColor ?? .darkGray
         }
         
         return NSAttributedString(string: String(describing: rowNumber), attributes: [NSAttributedStringKey.foregroundColor: color])
@@ -297,6 +332,83 @@ public class NumberRangePickerViewController: FormTableViewController, UIPickerV
         
         delegate?.numberRangePicker(self, didUpdateMinValue: currentMinValue, maxValue: currentMaxValue)
     }
+
+    // MARK: - Containment changes
+
+    open override func didMove(toParentViewController parent: UIViewController?) {
+        super.didMove(toParentViewController: parent)
+        isInPopover = parent == nil
+    }
+
+
+    // MARK - UIPopoverPresentationControllerDelegate methods
+
+    public func prepareForPopoverPresentation(_ popoverPresentationController: UIPopoverPresentationController) {
+        isInPopover = self.parent == nil
+    }
+
+    public func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        if traitCollection.horizontalSizeClass == .compact { return .fullScreen }
+        return .none
+    }
+
+    public func presentationController(_ controller: UIPresentationController, viewControllerForAdaptivePresentationStyle style: UIModalPresentationStyle) -> UIViewController? {
+        if style == .fullScreen {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonItemDidSelect))
+            return UINavigationController(rootViewController: self)
+        }
+
+        return nil
+    }
+
+    public func presentationController(_ presentationController: UIPresentationController, willPresentWithAdaptiveStyle style: UIModalPresentationStyle, transitionCoordinator: UIViewControllerTransitionCoordinator?) {
+        isAdaptationChanging = true
+        isInPopover = style == .none
+        isAdaptationChanging = false
+
+        if isInPopover {
+            navigationItem.rightBarButtonItem = nil
+        }
+    }
+
+
+    // MARK: - Private methods
+
+    private func updateForPresentationStyle() {
+        guard let tableView = self.tableView else { return }
+
+        tableView.isScrollEnabled = isInPopover == false
+
+        if isInPopover {
+            navigationItem.rightBarButtonItem = nil
+
+            let intrinsicPickerSize = pickerView!.intrinsicContentSize
+            let correctContentSize = CGSize(width: intrinsicPickerSize.width, height: intrinsicPickerSize.height - pickerHeightAdjustment)
+
+            if isAdaptationChanging {
+                // Workaround:
+                // When transitioning back to a popover, updates to the content size during the
+                //`presentationController(_:, willPresentWithAdaptiveStyle:, transitionCoordinator:)` are temporarily ignored.
+                // Delay the call to update.
+                DispatchQueue.main.async {
+                    self.preferredContentSize = correctContentSize
+                }
+            } else {
+                preferredContentSize = correctContentSize
+            }
+        } else {
+            tableView.setNeedsLayout()
+            tableView.layoutIfNeeded()
+            preferredContentSize = CGSize(width: preferredContentSize.width, height: tableView.contentSize.height)
+        }
+
+        apply(ThemeManager.shared.theme(for: userInterfaceStyle))
+    }
+
+    @objc private func doneButtonItemDidSelect(_ item: UIBarButtonItem) {
+        dismiss(animated: true)
+    }
+
 }
 
 
