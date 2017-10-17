@@ -320,6 +320,7 @@
 		EA0540061F94931100F6E63C /* TextViewFormItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA0540051F94931100F6E63C /* TextViewFormItemTests.swift */; };
 		EA0540081F94950A00F6E63C /* OptionGroupFormItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA0540071F94950A00F6E63C /* OptionGroupFormItemTests.swift */; };
 		EA05400A1F94988000F6E63C /* PickerFormItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA0540091F94988000F6E63C /* PickerFormItemTests.swift */; };
+		EA05400C1F95781C00F6E63C /* StringSizingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA05400B1F95781C00F6E63C /* StringSizingTests.swift */; };
 		EA09A0481F78B6D400BC3C0E /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA09A0471F78B6D400BC3C0E /* Validator.swift */; };
 		EA09A04C1F78B86A00BC3C0E /* Specification.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA09A04B1F78B86A00BC3C0E /* Specification.swift */; };
 		EA09A04E1F78B92100BC3C0E /* SpecificationOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA09A04D1F78B92100BC3C0E /* SpecificationOperator.swift */; };
@@ -736,6 +737,7 @@
 		EA0540051F94931100F6E63C /* TextViewFormItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewFormItemTests.swift; sourceTree = "<group>"; };
 		EA0540071F94950A00F6E63C /* OptionGroupFormItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionGroupFormItemTests.swift; sourceTree = "<group>"; };
 		EA0540091F94988000F6E63C /* PickerFormItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerFormItemTests.swift; sourceTree = "<group>"; };
+		EA05400B1F95781C00F6E63C /* StringSizingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringSizingTests.swift; sourceTree = "<group>"; };
 		EA09A0471F78B6D400BC3C0E /* Validator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validator.swift; sourceTree = "<group>"; };
 		EA09A04B1F78B86A00BC3C0E /* Specification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Specification.swift; sourceTree = "<group>"; };
 		EA09A04D1F78B92100BC3C0E /* SpecificationOperator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecificationOperator.swift; sourceTree = "<group>"; };
@@ -1608,6 +1610,7 @@
 				12F869EA1F5FD2340006EC5C /* NewUserSessionTests.swift */,
 				196ED03B1F7C0619005F3F7C /* UILayoutPriorityMathExtensionTests.swift */,
 				1908EF8F1F57D7D000382B1C /* Theme */,
+				EA05400B1F95781C00F6E63C /* StringSizingTests.swift */,
 			);
 			path = MPOLKitTests;
 			sourceTree = "<group>";
@@ -2560,6 +2563,7 @@
 				19EFD2FA1F4D5C6300422F2A /* LookupAddressTests.swift in Sources */,
 				C60C890B1ECCB94F00785932 /* SimplePerson.swift in Sources */,
 				EAF76C771F90839000405DC9 /* StringSizing+LabelTests.swift in Sources */,
+				EA05400C1F95781C00F6E63C /* StringSizingTests.swift in Sources */,
 				EAF76C951F94617F00405DC9 /* SummaryThumbnailFormItemTests.swift in Sources */,
 				C65927771F332F7300854C60 /* ModelCodingTestUtility.swift in Sources */,
 				EAF76C6D1F903E7B00405DC9 /* FormBuilderTests.swift in Sources */,
