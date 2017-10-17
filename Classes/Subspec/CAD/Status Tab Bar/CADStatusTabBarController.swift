@@ -25,6 +25,13 @@ open class CADStatusTabBarController: StatusTabBarController {
     }
     
     @objc private func selectedCallsignStatusView() {
-        // TODO: Implement me
+        // TODO: Implement me properly
+        let viewModel = NotBookedOnViewModel()
+        let viewController = viewModel.createViewController()
+        
+        let container = PopoverNavigationController(rootViewController: viewController)
+        container.modalPresentationStyle = .formSheet
+        
+        selectedViewController?.present(container, animated: true)
     }
 }

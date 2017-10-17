@@ -78,6 +78,9 @@
 		276C21061F60C2100003B860 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276C21051F60C2100003B860 /* MapViewController.swift */; };
 		276C21081F60C44B0003B860 /* MapOverlayImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276C21071F60C44B0003B860 /* MapOverlayImageButton.swift */; };
 		278CA1051F7CA4A00073DFBA /* ResourceAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278CA1041F7CA4A00073DFBA /* ResourceAnnotationView.swift */; };
+		27C9C7611F95692400799855 /* NotBookedOnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C9C7601F95692400799855 /* NotBookedOnViewController.swift */; };
+		27C9C7651F95736500799855 /* NotBookedOnViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C9C7641F95736500799855 /* NotBookedOnViewModel.swift */; };
+		27C9C7671F95737C00799855 /* NotBookedOnItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C9C7661F95737C00799855 /* NotBookedOnItem.swift */; };
 		27CBC7561F8B277E00E387C3 /* TimelineCollectionViewFormLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A45E1F83555A00CAE056 /* TimelineCollectionViewFormLayout.swift */; };
 		27CBC7571F8B277E00E387C3 /* TimelineFormCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A45F1F83555A00CAE056 /* TimelineFormCollectionViewController.swift */; };
 		27CBC7581F8B277E00E387C3 /* TimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A4601F83555A00CAE056 /* TimelineView.swift */; };
@@ -421,6 +424,9 @@
 		276C21051F60C2100003B860 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		276C21071F60C44B0003B860 /* MapOverlayImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOverlayImageButton.swift; sourceTree = "<group>"; };
 		278CA1041F7CA4A00073DFBA /* ResourceAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceAnnotationView.swift; sourceTree = "<group>"; };
+		27C9C7601F95692400799855 /* NotBookedOnViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotBookedOnViewController.swift; sourceTree = "<group>"; };
+		27C9C7641F95736500799855 /* NotBookedOnViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotBookedOnViewModel.swift; sourceTree = "<group>"; };
+		27C9C7661F95737C00799855 /* NotBookedOnItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotBookedOnItem.swift; sourceTree = "<group>"; };
 		4420D27F1F66428D00E20304 /* Sequence+Nils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Sequence+Nils.swift"; sourceTree = "<group>"; };
 		44621FF41F59239C007C3150 /* FilterRangeDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterRangeDescriptor.swift; sourceTree = "<group>"; };
 		44621FF51F59239C007C3150 /* FilterValueDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterValueDescriptor.swift; sourceTree = "<group>"; };
@@ -853,6 +859,16 @@
 			path = Annotations;
 			sourceTree = "<group>";
 		};
+		27C9C75F1F95690A00799855 /* Book On */ = {
+			isa = PBXGroup;
+			children = (
+				27C9C7601F95692400799855 /* NotBookedOnViewController.swift */,
+				27C9C7641F95736500799855 /* NotBookedOnViewModel.swift */,
+				27C9C7661F95737C00799855 /* NotBookedOnItem.swift */,
+			);
+			path = "Book On";
+			sourceTree = "<group>";
+		};
 		44F3F14C1F56DDC000D68585 /* FilterDescriptor */ = {
 			isa = PBXGroup;
 			children = (
@@ -886,6 +902,7 @@
 		9624A4581F83555A00CAE056 /* CAD */ = {
 			isa = PBXGroup;
 			children = (
+				27C9C75F1F95690A00799855 /* Book On */,
 				96CF322A1F8C426F00140AF8 /* Shared */,
 				96CF32281F8C352000140AF8 /* Tasks List */,
 				9663D0091F8AF5C1006DB672 /* Tasks Split */,
@@ -2018,6 +2035,7 @@
 				BC9C7DCB1F0DED6600DFFE83 /* UnboxableResponseSerializer.swift in Sources */,
 				BC9C7DF51F0DED6600DFFE83 /* CollectionViewFormCellActionView.swift in Sources */,
 				BC9C7E401F0DED6600DFFE83 /* PopoverNavigationController.swift in Sources */,
+				27C9C7671F95737C00799855 /* NotBookedOnItem.swift in Sources */,
 				BC0448941F219A70005FB857 /* AssetManager.swift in Sources */,
 				BC9C7E271F0DED6600DFFE83 /* GalleryCollectionViewCell.swift in Sources */,
 				C605F8A91ECCAD3B001194DD /* Manifest.xcdatamodeld in Sources */,
@@ -2042,6 +2060,7 @@
 				27CBC7661F8B27D500E387C3 /* CallsignStatusView.swift in Sources */,
 				EA76ECF11F578DCA00524830 /* LocationAdvanceOptions.swift in Sources */,
 				12A8DB471F5FD63400A06005 /* DirectoryManager.swift in Sources */,
+				27C9C7651F95736500799855 /* NotBookedOnViewModel.swift in Sources */,
 				EA8B66481F38014000F09716 /* EntitySummaryDisplayable.swift in Sources */,
 				19FEC9891F440326005692A9 /* NetworkErrorDefinition.swift in Sources */,
 				BC9C7DCE1F0DED6600DFFE83 /* Manifest.swift in Sources */,
@@ -2072,6 +2091,7 @@
 				BC9C7DD71F0DED6600DFFE83 /* URLQueryBuilder.swift in Sources */,
 				27CBC7611F8B27C700E387C3 /* TasksMapViewModel.swift in Sources */,
 				DBE24C3D1F593BEF0088D19B /* EntityDetailSectionsViewModel.swift in Sources */,
+				27C9C7611F95692400799855 /* NotBookedOnViewController.swift in Sources */,
 				BC9C7E1A1F0DED6600DFFE83 /* SelectableButton.swift in Sources */,
 				BC9C7E251F0DED6600DFFE83 /* EntityCollectionViewCell.swift in Sources */,
 				27CBC75E1F8B27C700E387C3 /* IncidentMapViewModel.swift in Sources */,
