@@ -83,7 +83,7 @@ open class CollectionViewFormOptionCell: CollectionViewFormSubtitleCell {
     
     // MARK: - Initializers
     
-    override func commonInit() {
+    override open func commonInit() {
         super.commonInit()
         
         titleLabel.font = SelectableButton.font(compatibleWith: traitCollection)
