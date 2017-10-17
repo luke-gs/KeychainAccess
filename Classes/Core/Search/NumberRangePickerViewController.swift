@@ -221,12 +221,11 @@ public class NumberRangePickerViewController: FormTableViewController, UIPickerV
     override public func apply(_ theme: Theme) {
         super.apply(theme)
 
-        let primaryTextColor = self.primaryTextColor ?? .darkText
-        let secondaryTextColor = self.secondaryTextColor ?? .darkText
+        let color = primaryTextColor ?? secondaryTextColor ?? .darkText
 
-        minLabel?.textColor  = primaryTextColor
-        maxLabel?.textColor  = primaryTextColor
-        dashLabel?.textColor = primaryTextColor
+        minLabel?.textColor  = color
+        maxLabel?.textColor  = color
+        dashLabel?.textColor = color
 
         pickerView?.reloadAllComponents()
     }
