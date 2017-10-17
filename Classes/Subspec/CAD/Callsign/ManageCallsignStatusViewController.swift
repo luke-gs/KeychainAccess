@@ -59,31 +59,6 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonDidSelect(_:)))
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        // Force layout to get preferred modal size
-        view.layoutIfNeeded()
-        updatePreferredContentSize()
-    }
-
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-
-        // Workaround for the way PopoverFormSheetPresentationController re-presents when switching traits
-        coordinator.animate(alongsideTransition: { (context) in
-            self.updatePreferredContentSize()
-        }, completion: nil)
-    }
-
-    private func updatePreferredContentSize() {
-        // Set our preferred content size and also the nav controller in case we are being presented again
-        preferredContentSize = CGSize(width: 540.0, height: self.collectionView.contentSize.height + self.buttonStackView.bounds.height + 10)
-        if preferredContentSize.height > 0 {
-            navigationController?.preferredContentSize = preferredContentSize
-        }
-    }
-
     public func createSubviews() {
         collectionViewLayout = UICollectionViewFlowLayout()
         collectionViewLayout.estimatedItemSize = CGSize(width: 116, height: 90)
