@@ -26,9 +26,7 @@ class ManageCallsignStatusViewCell: UICollectionViewCell, DefaultReusable {
         contentView.addSubview(imageView)
 
         NSLayoutConstraint.activate([
-            contentView.widthAnchor.constraint(equalToConstant: 120),
-
-            imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
+            imageView.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor, constant: 16),
             imageView.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor, constant: 10),
             imageView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -10),
             imageView.bottomAnchor.constraint(equalTo: titleLabel.topAnchor, constant: -10),

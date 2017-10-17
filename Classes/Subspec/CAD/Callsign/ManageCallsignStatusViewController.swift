@@ -48,8 +48,8 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
 
     public func createSubviews() {
         collectionViewLayout = UICollectionViewFlowLayout()
-        collectionViewLayout.estimatedItemSize = CGSize(width: 120, height: 100)
-        collectionViewLayout.sectionInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
+        collectionViewLayout.estimatedItemSize = CGSize(width: 116, height: 100)
+        collectionViewLayout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         collectionViewLayout.minimumInteritemSpacing = 0
         collectionViewLayout.minimumLineSpacing = 0
 
@@ -68,6 +68,7 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
         view.addSubview(buttonStackView)
 
         let theme = ThemeManager.shared.theme(for: .current)
+        let tintColor = theme.color(forKey: .tint)!
 
         for buttonText in viewModel.actionButtons {
             let separatorView = UIView(frame: .zero)
@@ -79,7 +80,8 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
             let button = UIButton(type: .custom)
             button.contentEdgeInsets = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
             button.setTitle(buttonText, for: .normal)
-            button.setTitleColor(theme.color(forKey: .tint)!, for: .normal)
+            button.setTitleColor(tintColor, for: .normal)
+            button.setTitleColor(tintColor.withAlphaComponent(0.5), for: .highlighted)
             buttonStackView.addArrangedSubview(button)
         }
     }
@@ -90,8 +92,8 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
 
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: buttonStackView.topAnchor),
 
             buttonStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -107,6 +109,13 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
 
         let theme = ThemeManager.shared.theme(for: .current)
         view.backgroundColor = theme.color(forKey: .background)!
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+//        collectionView.reloadData()
+//        preferredContentSize = CGSize(width: 540.0, height: collectionView.contentSize.height + buttonStackView.bounds.height)
     }
 
     open func decorate(cell: ManageCallsignStatusViewCell, with viewModel: ManageCallsignStatusItemViewModel, selected: Bool) {
@@ -166,5 +175,33 @@ extension ManageCallsignStatusViewController: UICollectionViewDelegateFlowLayout
 
 // MARK: - UICollectionViewDelegate
 extension ManageCallsignStatusViewController: UICollectionViewDelegate {
+
+    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        if let cell = collectionView.cellForItem(at: indexPath), indexPath != viewModel.selectedIndexPath {
+            cell.contentView.alpha = 0.5
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+        if let cell = collectionView.cellForItem(at: indexPath) {
+            cell.contentView.alpha = 1
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: false)
+
+        if indexPath != viewModel.selectedIndexPath {
+            // TODO: change status on network
+
+            let oldIndexPath = viewModel.selectedIndexPath
+            viewModel.selectedIndexPath = indexPath
+            UIView.performWithoutAnimation {
+                collectionView.performBatchUpdates({
+                    collectionView.reloadItems(at: [indexPath, oldIndexPath].removeNils())
+                }, completion: nil)
+            }
+        }
+    }
 
 }
