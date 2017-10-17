@@ -442,8 +442,8 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         commonInit()
     }
     
-    /// An internal common point for subclasses to override without having to override
-    /// initializers within MPOLKit. When overriding, you must call `super.commonInit()`
+    /// An common point for subclasses to override without having to override
+    /// initializers. When overriding, you must call `super.commonInit()`
     /// **first** as part of your implementation.
     open func commonInit() {
         isAccessibilityElement = true
