@@ -67,7 +67,7 @@ public class PickerAction<T: Pickable>: ValueSelectionAction<[T]> {
 
     public var selectedIndexes: IndexSet?
 
-    public var allowMultipleSelection: Bool
+    public var allowsMultipleSelection: Bool
 
     public override var selectedValue: [T]? {
         get {
@@ -77,9 +77,9 @@ public class PickerAction<T: Pickable>: ValueSelectionAction<[T]> {
         set { }
     }
 
-    public init(title: String, options: [T], selectedIndexes: IndexSet? = nil, allowMultipleSelection: Bool = false) {
+    public init(title: String, options: [T], selectedIndexes: IndexSet? = nil, allowsMultipleSelection: Bool = false) {
         self.options = options
-        self.allowMultipleSelection = allowMultipleSelection
+        self.allowsMultipleSelection = allowsMultipleSelection
 
         super.init(title: title)
 
@@ -90,7 +90,7 @@ public class PickerAction<T: Pickable>: ValueSelectionAction<[T]> {
         let pickerTableViewController = PickerTableViewController(style: .plain, items: options)
         pickerTableViewController.title = title
         pickerTableViewController.selectedIndexes = selectedIndexes ?? IndexSet()
-        pickerTableViewController.allowsMultipleSelection = allowMultipleSelection
+        pickerTableViewController.allowsMultipleSelection = allowsMultipleSelection
         pickerTableViewController.selectionUpdateHandler = { [weak self] picker, selectedIndexes in
             self?.selectedIndexes = selectedIndexes
             self?.updateHandler?()

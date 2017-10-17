@@ -137,7 +137,7 @@ class SignupViewController: FormBuilderViewController {
                 self.details.motto = $0
             }
 
-        builder += PickerFormItem(pickerAction: PickerAction(title: "Interests", options: ["Games", "Sports", "Manga", "Anime", "People", "Travel"], selectedIndexes: nil, allowMultipleSelection: true))
+        builder += PickerFormItem(pickerAction: PickerAction(title: "Interests", options: ["Games", "Sports", "Manga", "Anime", "People", "Travel"], selectedIndexes: nil, allowsMultipleSelection: true))
             .width(.column(1))
             .onValueChanged { [unowned self] in
                 self.details.interests = $0
