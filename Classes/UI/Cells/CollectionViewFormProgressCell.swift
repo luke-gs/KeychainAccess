@@ -12,6 +12,7 @@ import UIKit
 // with the progress view below the content available.
 open class CollectionViewFormProgressCell: CollectionViewFormValueFieldCell {
 
+    public let textLabel: UILabel = UILabel()
     public let progressView: UIProgressView = UIProgressView(progressViewStyle: .default)
     
     override open func commonInit() {
@@ -21,6 +22,12 @@ open class CollectionViewFormProgressCell: CollectionViewFormValueFieldCell {
         progressView.clipsToBounds = true
         progressView.layer.cornerRadius = 2.0
         contentView.addSubview(progressView)
+        
+        // MAKE SURE YOU SET THE COLOR IN THE VC WILL DISPLAY CELL
+        textLabel.font = UIFont.preferredFont(forTextStyle: .subheadline)
+        textLabel.numberOfLines = 1
+        textLabel.lineBreakMode = .byTruncatingMiddle
+        contentView.addSubview(textLabel)
     }
     
     open override func layoutSubviews() {
