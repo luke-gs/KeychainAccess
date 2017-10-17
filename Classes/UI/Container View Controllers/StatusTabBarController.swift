@@ -77,10 +77,6 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
     }
     
     /// An array of the root view controllers displayed by the tab bar interface in **regular** mode.
-    ///
-    /// The default value of this property is an empty array. Setting this property
-    /// changes the `selectedViewController` iff the currently selected view
-    /// controller is not in the current array, to the first item in the array.
     open var regularViewControllers: [UIViewController] = [] {
         didSet {
             updateViewControllersForTraits()
