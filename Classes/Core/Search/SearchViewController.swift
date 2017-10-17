@@ -527,21 +527,6 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
     private func didSelectEntity(_ entity: MPOLKitEntity) {
         let presentable = viewModel.presentable(for: entity)
         present(presentable)
-
-        var recentViewModel = viewModel.recentViewModel
-
-        var recents = recentViewModel.recentlyViewed
-        guard recents.first != entity else { return }
-
-        for (index, oldEntity) in recents.enumerated() {
-            if oldEntity == entity {
-                recents.remove(at: index)
-                break
-            }
-        }
-        recents.insert(entity, at: 0)
-
-        recentViewModel.recentlyViewed = recents
     }
 
 }
