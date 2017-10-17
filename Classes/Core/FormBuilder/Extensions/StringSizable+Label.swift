@@ -65,8 +65,14 @@ extension UILabel {
     /// - Parameter sizable: The `StringSizable`
     public func makeRequired(with sizable: StringSizable?) {
         let text = sizable?.sizing().string ?? ""
-        let title = NSMutableAttributedString(string: text, attributes: [NSAttributedStringKey.foregroundColor: textColor])
-        title.append(NSAttributedString(string: FormRequired.default.symbol, attributes: [NSAttributedStringKey.foregroundColor: FormRequired.default.color]))
+        let title = NSMutableAttributedString(string: text, attributes: [
+            NSAttributedStringKey.foregroundColor: textColor,
+            NSAttributedStringKey.font: self.font
+        ])
+        title.append(NSAttributedString(string: FormRequired.default.symbol, attributes: [
+            NSAttributedStringKey.foregroundColor: FormRequired.default.color,
+            NSAttributedStringKey.font: self.font
+        ]))
         self.attributedText = title
     }
 
