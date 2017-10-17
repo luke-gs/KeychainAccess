@@ -8,8 +8,6 @@
 
 import Foundation
 
-import Foundation
-
 
 public class PickerFormItem<T>: BaseFormItem, SelectionActionable, DefaultReusable, FormValidatable {
 
@@ -214,6 +212,5 @@ extension PickerFormItem {
         self.labelSeparation = separation
         return self
     }
-
 
 }
