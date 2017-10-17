@@ -140,6 +140,7 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
             NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleDidChange), name: .interfaceStyleDidChange, object: nil)
         }
 
+        NotificationCenter.default.addObserver(self, selector: #selector(contentCategorySizeDidChange), name: Notification.Name.UIContentSizeCategoryDidChange, object: nil)
     }
 
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -551,6 +552,12 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
         if userInterfaceStyle != .current { return }
 
         apply(ThemeManager.shared.theme(for: userInterfaceStyle))
+    }
+
+    @objc private func contentCategorySizeDidChange() {
+        if !isViewLoaded { return }
+
+        collectionView?.reloadData()
     }
 
 }
