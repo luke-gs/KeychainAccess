@@ -58,29 +58,29 @@ public enum ManageCallsignStatus: Int {
     var imageKey: AssetManager.ImageKey {
         switch self {
         case .unavailable:
-            return .sourceBarNone
+            return .iconStatusUnavailable
         case .onAir:
-            return .sourceBarNone
+            return .iconStatusOnAir
         case .mealBreak:
-            return .sourceBarNone
+            return .iconStatusMealBreak
         case .trafficStop:
-            return .sourceBarNone
+            return .iconStatusTrafficStop
         case .court:
-            return .sourceBarNone
+            return .iconStatusCourt
         case .atStation:
-            return .sourceBarNone
+            return .iconStatusStation
         case .onCell:
-            return .sourceBarNone
+            return .iconStatusOnCall
         case .inquiries1:
-            return .sourceBarNone
+            return .iconStatusInquiries
         case .proceeding:
-            return .sourceBarNone
+            return .iconStatusProceeding
         case .atIncident:
-            return .sourceBarNone
+            return .iconStatusAtIncident
         case .finalise:
-            return .sourceBarNone
+            return .iconStatusFinalise
         case .inquiries2:
-            return .sourceBarNone
+            return .iconStatusInquiries
         }
     }
 

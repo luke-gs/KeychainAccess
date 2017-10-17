@@ -126,7 +126,7 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
         cell.titleLabel.textColor = theme.color(forKey: .secondaryText)!
 
         cell.imageView.image = viewModel.image
-        cell.imageView.tintColor = theme.color(forKey: selected ? .tint : .primaryText)!
+        cell.imageView.tintColor = theme.color(forKey: selected ? .tint : .secondaryText)!
     }
 
     @objc private func didTapDoneButton(_ button: UIBarButtonItem) {

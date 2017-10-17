@@ -22,7 +22,7 @@ class ManageCallsignStatusViewCell: UICollectionViewCell, DefaultReusable {
         contentView.addSubview(titleLabel)
 
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .center
+        imageView.contentMode = .scaleAspectFit
         contentView.addSubview(imageView)
 
         NSLayoutConstraint.activate([
@@ -31,6 +31,8 @@ class ManageCallsignStatusViewCell: UICollectionViewCell, DefaultReusable {
             imageView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -10),
             imageView.bottomAnchor.constraint(equalTo: titleLabel.topAnchor, constant: -10),
             imageView.centerXAnchor.constraint(equalTo: titleLabel.centerXAnchor),
+            imageView.widthAnchor.constraint(equalToConstant: 32),
+            imageView.heightAnchor.constraint(equalToConstant: 32),
 
             titleLabel.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor, constant: 10),
             titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -10),
