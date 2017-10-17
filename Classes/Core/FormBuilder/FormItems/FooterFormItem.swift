@@ -42,7 +42,7 @@ public class FooterFormItem: BaseSupplementaryFormItem {
 
 }
 
-/// MARK: - Chaining methods
+// MARK: - Chaining methods
 
 extension FooterFormItem {
 

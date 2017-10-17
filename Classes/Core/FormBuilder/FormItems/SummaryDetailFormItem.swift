@@ -11,7 +11,7 @@ import Foundation
 
 public class SummaryDetailFormItem: BaseFormItem {
 
-    /// MARK: - Detail properties
+    // MARK: - Detail properties
 
     public var category: String?
 
@@ -30,7 +30,7 @@ public class SummaryDetailFormItem: BaseFormItem {
     public var image: ImageLoadable?
 
     
-    /// MARK: - Custom actions
+    // MARK: - Custom actions
 
     public var onImageTapped: (() -> ())?
 
@@ -104,7 +104,7 @@ public class SummaryDetailFormItem: BaseFormItem {
 }
 
 
-/// MARK: - Chaining methods
+// MARK: - Chaining methods
 
 extension SummaryDetailFormItem {
 

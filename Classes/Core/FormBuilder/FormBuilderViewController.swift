@@ -15,7 +15,7 @@ fileprivate let tempID = "temp"
 
 open class FormBuilderViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, CollectionViewDelegateFormLayout, PopoverViewController {
 
-    /// MARK: - Public properties
+    // MARK: - Public properties
 
     open let formLayout: CollectionViewFormLayout
 
@@ -25,13 +25,13 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
 
     open private(set) lazy var loadingManager: LoadingStateManager = LoadingStateManager()
 
-    /// MARK: - Form Builder
+    // MARK: - Form Builder
 
     public let builder = FormBuilder()
 
     private var sections: [FormSection] = []
 
-    /// MARK: - Height Calculations
+    // MARK: - Height Calculations
 
     /// A boolean value indicating whether the collection view should automatically calculate
     /// its `preferreContentSize`'s height property from the collection view's content height.
@@ -69,7 +69,7 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
     }
 
 
-    /// MARK: - Appearance properties
+    // MARK: - Appearance properties
 
     /// The user interface style for the collection view.
     ///

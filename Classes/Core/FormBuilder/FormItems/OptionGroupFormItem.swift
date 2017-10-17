@@ -164,7 +164,7 @@ public class OptionGroupFormItem: BaseFormItem, FormItemContainer, FormValidatab
         }
     }
 
-    /// MARK: - Form validatable
+    // MARK: - Form validatable
 
     public private(set) var validator = Validator()
 
@@ -201,7 +201,7 @@ public class OptionGroupFormItem: BaseFormItem, FormItemContainer, FormValidatab
 
 }
 
-/// MARK: - Chaining methods
+// MARK: - Chaining methods
 
 extension OptionGroupFormItem {
 

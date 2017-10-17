@@ -11,12 +11,12 @@ import Foundation
 
 open class BaseSupplementaryFormItem: FormItem {
 
-    /// MARK: - Identifiers
+    // MARK: - Identifiers
 
     public var elementIdentifier: String?
 
 
-    /// MARK: - Item properties
+    // MARK: - Item properties
 
     public let viewType: UICollectionReusableView.Type
 
@@ -25,14 +25,14 @@ open class BaseSupplementaryFormItem: FormItem {
     public var reuseIdentifier: String
 
 
-    /// MARK: - Custom Handlers
+    // MARK: - Custom Handlers
 
     public var onConfigured: ((UICollectionReusableView) -> ())?
 
     public var onThemeChanged: ((UICollectionReusableView, Theme) -> ())?
 
 
-    /// MARK: - Initiailizer
+    // MARK: - Initiailizer
 
     public init(viewType: UICollectionReusableView.Type, kind: String, reuseIdentifier: String) {
         self.viewType = viewType
@@ -44,7 +44,7 @@ open class BaseSupplementaryFormItem: FormItem {
         visitor.visit(self)
     }
 
-    /// MARK: - Collection view related methods. These are called by the form system.
+    // MARK: - Collection view related methods. These are called by the form system.
 
     func view(in collectionView: UICollectionView, for indexPath: IndexPath) -> UICollectionReusableView {
         let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: reuseIdentifier, for: indexPath)
@@ -58,7 +58,7 @@ open class BaseSupplementaryFormItem: FormItem {
         onThemeChanged?(view, theme)
     }
 
-    /// MARK: - Requires Subclass Implementation
+    // MARK: - Requires Subclass Implementation
 
 
     /// Subclass to override.
@@ -91,7 +91,7 @@ open class BaseSupplementaryFormItem: FormItem {
 }
 
 
-/// MARK: - Chaining methods
+// MARK: - Chaining methods
 
 extension BaseSupplementaryFormItem {
 

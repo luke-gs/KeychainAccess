@@ -72,13 +72,13 @@ open class BaseFormItem: NSObject, FormItem {
     }
 
 
-    /// MARK: - Identifiers
+    // MARK: - Identifiers
 
     /// For identification purposes, eg. "firstname"
     public var elementIdentifier: String?
 
 
-    /// MARK: - Item properties
+    // MARK: - Item properties
 
     public let cellType: CollectionViewFormCell.Type
 
@@ -101,7 +101,7 @@ open class BaseFormItem: NSObject, FormItem {
     public var isFocused: Bool = false
 
 
-    /// MARK: - Sizing
+    // MARK: - Sizing
 
     /// Preferred width. Default to `.intrinsic`
     public var width: HorizontalDistribution = .intrinsic
@@ -110,7 +110,7 @@ open class BaseFormItem: NSObject, FormItem {
     public var height: VerticalDistribution = .intrinsic
 
 
-    /// MARK: - Styling
+    // MARK: - Styling
 
     public var contentMode: UIViewContentMode = .center
 
@@ -121,7 +121,7 @@ open class BaseFormItem: NSObject, FormItem {
     public var separatorStyle: CollectionViewFormCell.SeparatorStyle = .indented
 
 
-    /// MARK: - Colors
+    // MARK: - Colors
 
     /// Defines the custom separator color. Setting this will take precedent over the theme.
     public var separatorColor: UIColor?
@@ -133,7 +133,7 @@ open class BaseFormItem: NSObject, FormItem {
     public var focusColor: UIColor?
 
 
-    /// MARK: - Custom Handlers
+    // MARK: - Custom Handlers
 
     /// A custom configuration handler. This is called after the cell has been configured. Use this when
     /// a custom configuration is required.
@@ -146,7 +146,7 @@ open class BaseFormItem: NSObject, FormItem {
     public var onSelection: ((CollectionViewFormCell) -> ())?
 
 
-    /// MARK: - Initializer
+    // MARK: - Initializer
 
     public init(cellType: CollectionViewFormCell.Type, reuseIdentifier: String) {
         self.cellType = cellType
@@ -154,14 +154,14 @@ open class BaseFormItem: NSObject, FormItem {
     }
 
 
-    /// MARK: - Visitor
+    // MARK: - Visitor
 
     public func accept(_ visitor: FormVisitor) {
         visitor.visit(self)
     }
 
 
-    /// MARK: - Collection View Related methods. These methods are called by the form system.
+    // MARK: - Collection View Related methods. These methods are called by the form system.
 
     func cell(forItemAt indexPath: IndexPath, inCollectionView collectionView: UICollectionView) -> CollectionViewFormCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! CollectionViewFormCell
@@ -216,7 +216,7 @@ open class BaseFormItem: NSObject, FormItem {
         onThemeChanged?(cell, theme)
     }
 
-    /// MARK: - Private
+    // MARK: - Private
 
     private func reload(_ cell: CollectionViewFormCell) {
         cell.contentMode = contentMode
@@ -257,7 +257,7 @@ open class BaseFormItem: NSObject, FormItem {
     }
 
 
-    /// MARK: - Requires Subclass Implementation
+    // MARK: - Requires Subclass Implementation
 
 
     /// Subclass to override.
@@ -302,7 +302,7 @@ open class BaseFormItem: NSObject, FormItem {
     open func apply(theme: Theme, toCell cell: CollectionViewFormCell) { }
 
 
-    /// MARK: - View updating
+    // MARK: - View updating
 
     /// The active cell if it is currently displayed on the screen.
     public internal(set) weak var cell: CollectionViewFormCell?
@@ -330,7 +330,7 @@ open class BaseFormItem: NSObject, FormItem {
 
 }
 
-/// MARK: - Chaning Methods
+// MARK: - Chaning Methods
 
 extension BaseFormItem {
 

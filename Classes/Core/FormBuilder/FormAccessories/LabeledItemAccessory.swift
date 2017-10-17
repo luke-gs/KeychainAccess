@@ -53,7 +53,7 @@ public class LabeledItemAccessory: ItemAccessorisable {
         onThemeChanged?(theme, view)
     }
 
-    /// MARK: - Chaining methods
+    // MARK: - Chaining methods
 
     @discardableResult
     public func accessory(_ accessory: ItemAccessorisable?) -> Self {

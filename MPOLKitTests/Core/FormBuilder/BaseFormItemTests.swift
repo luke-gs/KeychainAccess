@@ -144,7 +144,7 @@ class BaseFormItemTests: XCTestCase {
         XCTAssertEqual(cell.validationColor, .red)
     }
 
-    /// MARK: - Distributions
+    // MARK: - Distributions
 
     func testThatItCreatesHorizontalDistributionInfo() {
         // Given
@@ -181,7 +181,7 @@ class BaseFormItemTests: XCTestCase {
     }
 
 
-    /// MARK: - Chainging tests
+    // MARK: - Chainging tests
 
     func testThatItChains() {
         // Given

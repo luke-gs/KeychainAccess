@@ -65,7 +65,7 @@ public class HeaderFormItem: BaseSupplementaryFormItem {
 
 }
 
-/// MARK: - Chaining methods
+// MARK: - Chaining methods
 
 extension HeaderFormItem {
 

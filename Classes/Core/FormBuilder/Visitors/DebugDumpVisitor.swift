@@ -54,7 +54,7 @@ public class DebugDumpVisitor: FormVisitor {
 
     }
 
-    /// MARK: - Private
+    // MARK: - Private
 
     private func extract(_ object: TextFieldFormItem) {
         payload["class"] = "TextFieldFormItem"

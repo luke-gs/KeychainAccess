@@ -31,7 +31,7 @@ public class CustomItemAccessory: ItemAccessorisable {
         onThemeChanged?(theme, view)
     }
 
-    /// MARK: - Chaining methods
+    // MARK: - Chaining methods
 
     public func onThemeChanged(_ onThemeChanged: ((Theme, UIView) -> ())?) -> Self {
         self.onThemeChanged = onThemeChanged

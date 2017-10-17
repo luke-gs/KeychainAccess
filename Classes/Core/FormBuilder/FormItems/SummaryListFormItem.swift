@@ -67,7 +67,7 @@ public class SummaryListFormItem: BaseFormItem {
 }
 
 
-/// MARK: - Chaining methods
+// MARK: - Chaining methods
 
 extension SummaryListFormItem {
 

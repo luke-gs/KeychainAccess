@@ -176,7 +176,7 @@ public class Validator {
     }
 
 
-    /// MARK: - Validation methods
+    // MARK: - Validation methods
 
     private var timer: (timer: Timer, item: BaseFormItem)?
 

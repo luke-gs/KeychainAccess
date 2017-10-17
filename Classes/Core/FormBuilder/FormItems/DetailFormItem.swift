@@ -62,7 +62,7 @@ public class DetailFormItem: BaseFormItem {
 
 }
 
-/// MARK: - Chaining methods
+// MARK: - Chaining methods
 
 extension DetailFormItem {
 

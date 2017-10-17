@@ -110,13 +110,13 @@ public class TextFieldFormItem: BaseFormItem, FormValidatable {
         cell.textField.placeholderTextColor = placeholderTextColor
     }
 
-    /// MARK: - Private
+    // MARK: - Private
 
     private func defaultPlaceholderTextForCurrentState() -> String? {
         return FormRequired.default.placeholder(withRequired: isRequired)
     }
 
-    /// MARK: - Form validatable
+    // MARK: - Form validatable
 
     public private(set) var validator = Validator()
 
@@ -138,7 +138,7 @@ public class TextFieldFormItem: BaseFormItem, FormValidatable {
         validator = Validator(rules: rules)
     }
 
-    /// MARK: - Text input traits
+    // MARK: - Text input traits
 
     public var autocapitalizationType: UITextAutocapitalizationType = .sentences
 
@@ -205,7 +205,7 @@ extension TextFieldFormItem: UITextFieldDelegate {
 }
 
 
-/// MARK: - Chaining methods
+// MARK: - Chaining methods
 
 extension TextFieldFormItem {
 

@@ -126,7 +126,7 @@ public class PickerFormItem<T>: BaseFormItem, SelectionActionable, DefaultReusab
         return self
     }
 
-    /// MARK: - Validation
+    // MARK: - Validation
 
     public private(set) var validator = Validator()
 
@@ -163,7 +163,7 @@ public class PickerFormItem<T>: BaseFormItem, SelectionActionable, DefaultReusab
 }
 
 
-/// MARK: - Chaining methods
+// MARK: - Chaining methods
 
 extension PickerFormItem {
 

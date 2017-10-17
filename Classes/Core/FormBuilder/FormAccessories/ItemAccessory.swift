@@ -11,14 +11,14 @@ import Foundation
 
 public struct ItemAccessory: ItemAccessorisable {
 
-    /// MARK: - Static shorthand
+    // MARK: - Static shorthand
 
     public static let disclosure = ItemAccessory(style: .disclosure)
     public static let checkmark = ItemAccessory(style: .checkmark)
     public static let dropDown = ItemAccessory(style: .dropDown)
 
 
-    /// MARK: - Properties
+    // MARK: - Properties
 
     public let style: Style
 

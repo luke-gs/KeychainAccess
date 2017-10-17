@@ -133,7 +133,7 @@ public class FormBuilder {
         return sections
     }
 
-    /// MARK: - Convenience methods
+    // MARK: - Convenience methods
 
     public static func +=(builder: FormBuilder, formItem: FormItem) {
         builder.add(formItem)
@@ -154,7 +154,7 @@ public class FormBuilder {
 }
 
 
-/// MARK: - Form validation
+// MARK: - Form validation
 
 extension FormBuilder {
 

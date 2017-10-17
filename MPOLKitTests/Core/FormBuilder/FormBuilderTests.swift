@@ -11,7 +11,7 @@ import XCTest
 
 class FormBuilderTests: XCTestCase {
 
-    /// MARK: - Basic form builder tests
+    // MARK: - Basic form builder tests
 
     func testThatItInstantiatesWithCorrectDefaults() {
         // Given
@@ -167,7 +167,7 @@ class FormBuilderTests: XCTestCase {
     }
 
 
-    /// MARK: - Sections generation
+    // MARK: - Sections generation
 
     func testThatItGeneratesASectionWithOnlyBaseItems() {
         // Given

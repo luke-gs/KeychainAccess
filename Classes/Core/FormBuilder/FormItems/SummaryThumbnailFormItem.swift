@@ -78,7 +78,7 @@ public class SummaryThumbnailFormItem: BaseFormItem {
 
 }
 
-/// MARK: - Chaining methods
+// MARK: - Chaining methods
 
 extension SummaryThumbnailFormItem {
 
