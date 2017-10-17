@@ -11,9 +11,18 @@ import MapKit
 
 open class TasksMapViewController: MapViewController {
     
-    let viewModel = TasksMapViewModel()
+    let viewModel: TasksMapViewModel
     var mapLayerFilterButton: UIBarButtonItem!
     var zPositionObservers: [NSKeyValueObservation] = []
+
+    public init(viewModel: TasksMapViewModel, locationManager: CLLocationManager? = nil, zoomsToUserLocationOnLoad: Bool = true, settingsViewModel: MapSettingsViewModel = MapSettingsViewModel()) {
+        self.viewModel = viewModel
+        super.init(withLocationManager: locationManager, zoomsToUserLocationOnLoad: zoomsToUserLocationOnLoad, settingsViewModel: settingsViewModel)
+    }
+
+    public required init?(coder aDecoder: NSCoder) {
+        MPLCodingNotSupported()
+    }
 
     open override func viewDidLoad() {
         super.viewDidLoad()
@@ -104,7 +113,7 @@ open class TasksMapViewController: MapViewController {
 }
 
 extension TasksMapViewController: TasksMapViewModelDelegate {
-    func viewModelStateChanged() {
+    public func viewModelStateChanged() {
         DispatchQueue.main.async {
             self.zPositionObservers.removeAll()
             self.mapView.removeAnnotations(self.mapView.annotations)
