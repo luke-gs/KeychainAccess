@@ -65,15 +65,22 @@ public class TasksListItemCell: CollectionViewFormSubtitleCell {
         super.layoutSubviews()
 
         // We need to manually frame here due to how CollectionViewFormSubtitleCell works, eek!
-        let priorityFrame = CGRect(x: titleLabel.frame.origin.x,
+        var priorityFrame = CGRect(x: titleLabel.frame.origin.x,
                                    y: subtitleLabel.frame.maxY + PriorityConstants.spacingY,
                                    width: PriorityConstants.width,
                                    height: PriorityConstants.height)
 
-        let captionX = priorityFrame.maxX + PriorityConstants.spacingX
-        let captionFrame = CGRect(x: captionX,
-                                  y: priorityFrame.origin.y,
-                                  width: contentView.frame.width - captionX,
+        var captionOrigin = CGPoint(x: priorityFrame.maxX + PriorityConstants.spacingX, y: priorityFrame.origin.y)
+
+        // Remove priority icon if no text
+        if let priorityText = priorityLabel.text, priorityText.isEmpty {
+            captionOrigin = priorityFrame.origin
+            priorityFrame = .zero
+        }
+
+        let captionFrame = CGRect(x: captionOrigin.x,
+                                  y: captionOrigin.y,
+                                  width: contentView.frame.width - captionOrigin.x,
                                   height: PriorityConstants.height)
 
         priorityBackground.frame = priorityFrame

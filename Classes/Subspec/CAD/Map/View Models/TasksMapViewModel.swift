@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 import MapKit
 
-class TasksMapViewModel {
+open class TasksMapViewModel {
 
     public weak var delegate: TasksMapViewModelDelegate?
 
@@ -33,10 +33,15 @@ class TasksMapViewModel {
     
     // MARK: - Init
     
-    init() {
+    public init() {
         filterViewModel.delegate = self
     }
     
+    /// Create the view controller for this view model
+    public func createViewController() -> UIViewController {
+        return TasksMapViewController(viewModel: self)
+    }
+
     // MARK: - Annotations
 
     /// Annotations matching the current filter
@@ -182,12 +187,12 @@ class TasksMapViewModel {
 }
 
 extension TasksMapViewModel: TasksMapFilterViewModelDelegate {
-    func filterDidChange(to filter: TasksMapFilterViewModel.Filter) {
+    public func filterDidChange(to filter: TasksMapFilterViewModel.Filter) {
         delegate?.viewModelStateChanged()
     }
 }
 
-protocol TasksMapViewModelDelegate: class {
+public protocol TasksMapViewModelDelegate: class {
     /// Called when some data or state has changed
     func viewModelStateChanged()
 }
