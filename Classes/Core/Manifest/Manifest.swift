@@ -72,6 +72,42 @@ public final class Manifest: NSObject {
         NotificationCenter.default.addObserver(self, selector: #selector(managedObjectContextDidSave(_:)), name: .NSManagedObjectContextDidSave, object: nil)
     }
     
+    // MARK: - Pre-seed
+    
+    /// Copies file (hopefully the pre-seeded sql file) to the current manifest path. Use as a pre-seed in order to avoid massive initial downloads. Recommended you do this before your first manifest fetch.
+    ///
+    /// - Parameters:
+    ///   - copyUrl:               The URL at which the pre-seeded manifest is kept.
+    ///   - seedDate:              The date of the pre-seed. Used for future fetches.
+    ///   - completion:            returns error in case the copy is unsuccessful or the override is unsuccessful.
+    public func preseedDatabase(withURL copyUrl: URL, seedDate: Date, completion: ((Error?) -> Void)? = nil) {
+        let finalURL = Manifest.storageURL
+        let fileManager = FileManager.default
+        
+        if fileManager.fileExists(at: finalURL) {
+            do {
+                try fileManager.removeItem(at: finalURL)
+            } catch let error {
+                if let completion = completion {
+                    completion(error)
+                    return
+                }
+            }
+        }
+
+        do {
+            try fileManager.copyItem(atPath: copyUrl.path, toPath: finalURL.path)
+            lastUpdateDate = seedDate
+            if let completion = completion {
+                completion(nil)
+            }
+        } catch let error {
+            if let completion = completion {
+                completion(error)
+            }
+        }
+    }
+    
     
     // MARK: - Fetch Methods
     
