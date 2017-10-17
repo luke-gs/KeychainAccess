@@ -34,7 +34,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         searchProxyViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
         searchProxyViewController.tabBarItem.isEnabled = false
 
-        let tasksSplitViewModel = TasksSplitViewModel()
+        let tasksListContainerViewModel = TasksListContainerViewModel(headerViewModel: TasksListHeaderViewModel(), listViewModel: TasksListViewModel())
+        let tasksSplitViewModel = TasksSplitViewModel(listContainerViewModel: tasksListContainerViewModel,
+                                                      mapViewModel: TasksMapViewModel())
         let tasksNavController = UINavigationController(rootViewController: tasksSplitViewModel.createViewController())
         tasksNavController.tabBarItem.image = AssetManager.shared.image(forKey: .tabBarTasks)
         tasksNavController.tabBarItem.title = NSLocalizedString("Tasks", comment: "Tasks Tab Bar Item")
