@@ -17,18 +17,13 @@ open class TasksSplitViewController: MPOLSplitViewController {
 
         self.viewModel = viewModel
 
-        let masterVC = viewModel.createTasksListViewController()
-        let detailVC = viewModel.createMapViewController()
+        let masterVC = viewModel.createMasterViewController()
+        let detailVC = viewModel.createDetailViewController()
 
         super.init(masterViewController: masterVC, detailViewControllers: [detailVC])
 
-        // Configure split to keep showing task list when compact, and to show header when regular
+        // Configure split to keep showing task list when compact
         shouldHideMasterWhenCompact = false
-        containerMasterViewController.onlyVisibleWhenCompact = false
-
-        // Create header views for different size classes
-        masterViewControllerHeaderRegular = viewModel.createMasterViewControllerHeaderRegular()
-        masterViewControllerHeaderCompact = viewModel.createMasterViewControllerHeaderCompact()
     }
 
     public required init?(coder aDecoder: NSCoder) {

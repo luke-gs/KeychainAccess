@@ -28,6 +28,8 @@ open class CADFormCollectionViewController<ItemType>: FormCollectionViewControll
     public init(viewModel: CADFormCollectionViewModel<ItemType>) {
         self.viewModel = viewModel
         super.init()
+
+        self.viewModel.delegate = self
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -93,5 +95,17 @@ open class CADFormCollectionViewController<ItemType>: FormCollectionViewControll
     /// Use @objc here as otherwise this is not called if not overridden in subclass!
     @objc open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
         return CollectionViewFormHeaderView.minimumHeight
+    }
+}
+
+// MARK: - CADFormCollectionViewModelDelegate
+extension CADFormCollectionViewController: CADFormCollectionViewModelDelegate {
+
+    public func sectionsUpdated() {
+        // Update loading state
+        loadingManager.state = viewModel.numberOfSections() == 0 ? .noContent : .loaded
+
+        // Reload content
+        collectionView?.reloadData()
     }
 }
