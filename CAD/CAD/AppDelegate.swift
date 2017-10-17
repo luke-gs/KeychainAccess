@@ -49,8 +49,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         activityNavController.tabBarItem.image = AssetManager.shared.image(forKey: .tabBarActivity)
         activityNavController.tabBarItem.title = NSLocalizedString("Activity Log", comment: "Activity Log Tab Bar Item")
 
-        statusTabBarController.viewControllers = [searchProxyViewController, tasksNavController, activityNavController]
-        statusTabBarController.compactViewControllers = [tempCallsignController]
+        statusTabBarController.regularViewControllers = [searchProxyViewController, tasksNavController, activityNavController]
+        statusTabBarController.compactViewControllers = statusTabBarController.viewControllers + [tempCallsignController]
         statusTabBarController.selectedViewController = tasksNavController
 
         self.window?.rootViewController = statusTabBarController
