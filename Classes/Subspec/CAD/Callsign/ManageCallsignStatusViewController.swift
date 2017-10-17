@@ -48,7 +48,10 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
 
     public func createSubviews() {
         collectionViewLayout = UICollectionViewFlowLayout()
-        collectionViewLayout.estimatedItemSize = CGSize(width: 100, height: 100)
+        collectionViewLayout.estimatedItemSize = CGSize(width: 120, height: 100)
+        collectionViewLayout.sectionInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
+        collectionViewLayout.minimumInteritemSpacing = 0
+        collectionViewLayout.minimumLineSpacing = 0
 
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
         collectionView.dataSource = self
@@ -66,10 +69,19 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
 
         let theme = ThemeManager.shared.theme(for: .current)
 
-        let button = UIButton(type: .custom)
-        button.setTitle("Foo", for: .normal)
-        button.setTitleColor(theme.color(forKey: .tint)!, for: .normal)
-        buttonStackView.addArrangedSubview(button)
+        for buttonText in viewModel.actionButtons {
+            let separatorView = UIView(frame: .zero)
+            separatorView.backgroundColor = iOSStandardSeparatorColor
+            separatorView.translatesAutoresizingMaskIntoConstraints = false
+            separatorView.heightAnchor.constraint(equalToConstant: 1).isActive = true
+            buttonStackView.addArrangedSubview(separatorView)
+
+            let button = UIButton(type: .custom)
+            button.contentEdgeInsets = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+            button.setTitle(buttonText, for: .normal)
+            button.setTitleColor(theme.color(forKey: .tint)!, for: .normal)
+            buttonStackView.addArrangedSubview(button)
+        }
     }
 
     public func createConstraints() {
@@ -77,14 +89,14 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
         buttonStackView.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: safeAreaOrLayoutGuideTopAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: buttonStackView.topAnchor),
 
             buttonStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             buttonStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            buttonStackView.bottomAnchor.constraint(equalTo: safeAreaOrLayoutGuideBottomAnchor, constant: -64),
+            buttonStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor).withPriority(.almostRequired),
         ])
     }
 
@@ -97,10 +109,15 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
         view.backgroundColor = theme.color(forKey: .background)!
     }
 
-    open func decorate(cell: ManageCallsignStatusViewCell, with viewModel: ManageCallsignStatusItemViewModel) {
+    open func decorate(cell: ManageCallsignStatusViewCell, with viewModel: ManageCallsignStatusItemViewModel, selected: Bool) {
         let theme = ThemeManager.shared.theme(for: .current)
+
         cell.titleLabel.text = viewModel.title
-        cell.titleLabel.textColor = theme.color(forKey: .primaryText)!
+        cell.titleLabel.font = .systemFont(ofSize: 13.0, weight: selected ? UIFont.Weight.semibold : UIFont.Weight.regular)
+        cell.titleLabel.textColor = theme.color(forKey: .secondaryText)!
+
+        cell.imageView.image = viewModel.image
+        cell.imageView.tintColor = theme.color(forKey: selected ? .tint : .primaryText)!
     }
 
 }
@@ -119,7 +136,7 @@ extension ManageCallsignStatusViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(of: ManageCallsignStatusViewCell.self, for: indexPath)
         if let item = viewModel.item(at: indexPath) {
-            decorate(cell: cell, with: item)
+            decorate(cell: cell, with: item, selected: viewModel.selectedIndexPath == indexPath)
         }
         return cell
     }
@@ -127,10 +144,22 @@ extension ManageCallsignStatusViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionElementKindSectionHeader {
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
+            let theme = ThemeManager.shared.theme(for: .current)
             header.text = viewModel.headerText(at: indexPath.section)
+            header.tintColor = theme.color(forKey: .secondaryText)!
+            header.layoutMargins = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
             return header
         }
         return collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "", for: indexPath)
+    }
+
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout
+extension ManageCallsignStatusViewController: UICollectionViewDelegateFlowLayout {
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.bounds.width, height: CollectionViewFormHeaderView.minimumHeight)
     }
 
 }

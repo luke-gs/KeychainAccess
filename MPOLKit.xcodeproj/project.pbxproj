@@ -116,6 +116,7 @@
 		9650CA151F958B320087F5C9 /* ManageCallsignStatusViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9650CA121F958B2D0087F5C9 /* ManageCallsignStatusViewCell.swift */; };
 		9650CA161F958B330087F5C9 /* ManageCallsignStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9650CA131F958B2D0087F5C9 /* ManageCallsignStatusViewController.swift */; };
 		9650CA171F958B330087F5C9 /* ManageCallsignStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9650CA141F958B2D0087F5C9 /* ManageCallsignStatusViewModel.swift */; };
+		9650CA191F95B2520087F5C9 /* CallsignStatusMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9650CA181F95B2520087F5C9 /* CallsignStatusMatrix.swift */; };
 		965CD8A81F8ECDBA007C3EEA /* TasksListContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965CD8A71F8ECDBA007C3EEA /* TasksListContainerViewController.swift */; };
 		965CD8AD1F8F14E5007C3EEA /* TasksListHeaderCompactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965CD8AC1F8F14E5007C3EEA /* TasksListHeaderCompactViewController.swift */; };
 		965CD8AF1F902872007C3EEA /* TasksListContainerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965CD8AE1F902872007C3EEA /* TasksListContainerViewModel.swift */; };
@@ -468,6 +469,7 @@
 		9650CA121F958B2D0087F5C9 /* ManageCallsignStatusViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageCallsignStatusViewCell.swift; sourceTree = "<group>"; };
 		9650CA131F958B2D0087F5C9 /* ManageCallsignStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageCallsignStatusViewController.swift; sourceTree = "<group>"; };
 		9650CA141F958B2D0087F5C9 /* ManageCallsignStatusViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageCallsignStatusViewModel.swift; sourceTree = "<group>"; };
+		9650CA181F95B2520087F5C9 /* CallsignStatusMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallsignStatusMatrix.swift; sourceTree = "<group>"; };
 		965CD8A71F8ECDBA007C3EEA /* TasksListContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListContainerViewController.swift; sourceTree = "<group>"; };
 		965CD8AC1F8F14E5007C3EEA /* TasksListHeaderCompactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListHeaderCompactViewController.swift; sourceTree = "<group>"; };
 		965CD8AE1F902872007C3EEA /* TasksListContainerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListContainerViewModel.swift; sourceTree = "<group>"; };
@@ -981,6 +983,7 @@
 				9650CA121F958B2D0087F5C9 /* ManageCallsignStatusViewCell.swift */,
 				9650CA131F958B2D0087F5C9 /* ManageCallsignStatusViewController.swift */,
 				9650CA141F958B2D0087F5C9 /* ManageCallsignStatusViewModel.swift */,
+				9650CA181F95B2520087F5C9 /* CallsignStatusMatrix.swift */,
 			);
 			path = Callsign;
 			sourceTree = "<group>";
@@ -2250,6 +2253,7 @@
 				191BC4D61F7C203B00C8C218 /* TagCollectionView.swift in Sources */,
 				BC9C7E181F0DED6600DFFE83 /* FormTextView.swift in Sources */,
 				27CBC75C1F8B27B100E387C3 /* ActivityLogViewModel.swift in Sources */,
+				9650CA191F95B2520087F5C9 /* CallsignStatusMatrix.swift in Sources */,
 				BC9C7E131F0DED6600DFFE83 /* TableViewFormSubtitleCell.swift in Sources */,
 				19C625C41F55186A00504BD9 /* URLQueryBuilder+Parameterisable.swift in Sources */,
 				19B49BB91F665F2A00502F51 /* CompactSidebarSourceCell.swift in Sources */,

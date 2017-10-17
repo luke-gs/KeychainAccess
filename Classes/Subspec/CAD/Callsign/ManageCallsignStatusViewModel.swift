@@ -17,6 +17,24 @@ public struct ManageCallsignStatusItemViewModel {
 /// View model for the callsign status screen
 open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCallsignStatusItemViewModel> {
 
+    /// The current state
+    public var selectedIndexPath: IndexPath? {
+        didSet {
+            // Update session
+        }
+    }
+
+    /// The action buttons to display below status items
+    public var actionButtons: [String] {
+        get {
+            return [
+                NSLocalizedString("View My Callsign", comment: "View callsign button text"),
+                NSLocalizedString("Manage Callsign", comment: "Manage callsign button text"),
+                NSLocalizedString("Terminate Shift", comment: "Terminate shift button text")
+            ]
+        }
+    }
+
     public override init() {
         super.init()
         updateData()
@@ -48,16 +66,32 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
 
     // MARK: - Data
 
-    open func updateData() {
-
+    private func itemFromStatus(_ status: CallsignStatusMatrix) -> ManageCallsignStatusItemViewModel {
+        return ManageCallsignStatusItemViewModel(title: status.title, image: AssetManager.shared.image(forKey: status.imageKey)!)
     }
 
-    open override func sections() -> [CADFormCollectionSectionViewModel<ManageCallsignStatusItemViewModel>] {
-        return [
+    open func updateData() {
+        sections = [
             CADFormCollectionSectionViewModel(title: NSLocalizedString("General", comment: "General status header text"),
-                                              items: [ManageCallsignStatusItemViewModel(title: "Unavailable", image: AssetManager.shared.image(forKey: .sourceBarNone)!)]),
+                                              items: [
+                                                itemFromStatus(.unavailable),
+                                                itemFromStatus(.onAir),
+                                                itemFromStatus(.mealBreak),
+                                                itemFromStatus(.trafficStop),
+                                                itemFromStatus(.court),
+                                                itemFromStatus(.atStation),
+                                                itemFromStatus(.onCell),
+                                                itemFromStatus(.inquiries1)
+                ]),
+
             CADFormCollectionSectionViewModel(title: NSLocalizedString("Current Task", comment: "Current task status header text"),
-                                              items: [])
+                                              items: [
+                                                itemFromStatus(.proceeding),
+                                                itemFromStatus(.atIncident),
+                                                itemFromStatus(.finalise),
+                                                itemFromStatus(.inquiries2)
+                ])
         ]
+        selectedIndexPath = IndexPath(row: 0, section: 0)
     }
 }
