@@ -46,9 +46,47 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
 
     // MARK: - View lifecycle
 
+    open override func viewDidLoad() {
+        super.viewDidLoad()
+
+        title = viewModel.navTitle()
+
+        // Set initial background color (this may change in wantsTransparentBackground)
+        let theme = ThemeManager.shared.theme(for: .current)
+        view.backgroundColor = theme.color(forKey: .background)!
+
+        // Create done button
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonDidSelect(_:)))
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        // Force layout to get preferred modal size
+        view.layoutIfNeeded()
+        updatePreferredContentSize()
+    }
+
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+
+        // Workaround for the way PopoverFormSheetPresentationController re-presents when switching traits
+        coordinator.animate(alongsideTransition: { (context) in
+            self.updatePreferredContentSize()
+        }, completion: nil)
+    }
+
+    private func updatePreferredContentSize() {
+        // Set our preferred content size and also the nav controller in case we are being presented again
+        preferredContentSize = CGSize(width: 540.0, height: self.collectionView.contentSize.height + self.buttonStackView.bounds.height + 10)
+        if preferredContentSize.height > 0 {
+            navigationController?.preferredContentSize = preferredContentSize
+        }
+    }
+
     public func createSubviews() {
         collectionViewLayout = UICollectionViewFlowLayout()
-        collectionViewLayout.estimatedItemSize = CGSize(width: 116, height: 100)
+        collectionViewLayout.estimatedItemSize = CGSize(width: 116, height: 90)
         collectionViewLayout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         collectionViewLayout.minimumInteritemSpacing = 0
         collectionViewLayout.minimumLineSpacing = 0
@@ -102,22 +140,6 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
         ])
     }
 
-    open override func viewDidLoad() {
-        super.viewDidLoad()
-
-        title = viewModel.navTitle()
-
-        let theme = ThemeManager.shared.theme(for: .current)
-        view.backgroundColor = theme.color(forKey: .background)!
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-//        collectionView.reloadData()
-//        preferredContentSize = CGSize(width: 540.0, height: collectionView.contentSize.height + buttonStackView.bounds.height)
-    }
-
     open func decorate(cell: ManageCallsignStatusViewCell, with viewModel: ManageCallsignStatusItemViewModel, selected: Bool) {
         let theme = ThemeManager.shared.theme(for: .current)
 
@@ -129,6 +151,9 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
         cell.imageView.tintColor = theme.color(forKey: selected ? .tint : .primaryText)!
     }
 
+    @objc private func doneButtonDidSelect(_ item: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
+    }
 }
 
 // MARK: - UICollectionViewDataSource
@@ -170,7 +195,6 @@ extension ManageCallsignStatusViewController: UICollectionViewDelegateFlowLayout
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: collectionView.bounds.width, height: CollectionViewFormHeaderView.minimumHeight)
     }
-
 }
 
 // MARK: - UICollectionViewDelegate
