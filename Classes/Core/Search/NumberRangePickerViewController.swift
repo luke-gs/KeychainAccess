@@ -45,7 +45,7 @@ public class NumberRangePickerViewController: FormTableViewController, UIPickerV
     
     func setCurrentMaxValue(_ maxValue: Int, animated: Bool) {
         if let picker = pickerView {
-            _currentMinValue = picker.selectedRow(inComponent: 0)
+            _currentMinValue = picker.selectedRow(inComponent: 0) + minValue
             _currentMaxValue = max(maxValue, _currentMinValue)
             
             picker.selectRow(_currentMaxValue - minValue, inComponent: 1, animated: animated)
