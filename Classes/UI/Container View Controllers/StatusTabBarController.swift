@@ -44,12 +44,12 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
 
     open var statusTabBarDelegate: StatusTabBarDelegate?
     
-    /// An array of the root view controllers displayed by the tab bar interface.
+    /// An array of the current root view controllers displayed by the tab bar interface in the current trait collection.
     ///
     /// The default value of this property is an empty array. Setting this property
     /// changes the `selectedViewController` iff the currently selected view
     /// controller is not in the current array, to the first item in the array.
-    open var viewControllers: [UIViewController] = [] {
+    open private(set) var viewControllers: [UIViewController] = [] {
         didSet {
             let viewControllers = self.viewControllers
             
@@ -76,10 +76,23 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
         }
     }
     
-    /// An array of additional view controllers to only be displayed in horizontal compact mode
-    open var compactAdditionalViewControllers: [UIViewController]? {
+    /// An array of the root view controllers displayed by the tab bar interface in **regular** mode.
+    ///
+    /// The default value of this property is an empty array. Setting this property
+    /// changes the `selectedViewController` iff the currently selected view
+    /// controller is not in the current array, to the first item in the array.
+    open var regularViewControllers: [UIViewController] = [] {
         didSet {
-            addCompactTabsIfCompact()
+            updateViewControllersForTraits()
+        }
+    }
+    
+    /// An array of the root view controllers displayed by the tab bar interface in **horizontal compact** mode.
+    ///
+    /// If set to nil, the `regularViewControllers` array will be used instead
+    open var compactViewControllers: [UIViewController]? {
+        didSet {
+            updateViewControllersForTraits()
         }
     }
     
@@ -260,7 +273,7 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
             updateBarConstraints()
         }
         
-        addCompactTabsIfCompact()
+        updateViewControllersForTraits()
     }
     
     // MARK: - Tab bar delegate
@@ -364,20 +377,13 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
         forAllChildViewControllers { $0.viewIfLoaded?.setNeedsLayout() }
     }
     
-    /// Adds the `compactAdditionalViewControllers` array to the `viewControllers` array if we are in horizontal compact size
-    private func addCompactTabsIfCompact() {
+    /// Changes the `viewControllers` array values to match the current trait collection
+    private func updateViewControllersForTraits() {
         if traitCollection.horizontalSizeClass == .compact {
-            // Add compact view controllers to the tab bar
-            if let compactAdditionalViewControllers = compactAdditionalViewControllers {
-                viewControllers += compactAdditionalViewControllers
-            }
+            // If in compact, use compact VCs
+            viewControllers = compactViewControllers ?? regularViewControllers
         } else {
-            if let compactAdditionalViewControllers = compactAdditionalViewControllers {
-                // Remove the compact controllers from the tab bar
-                viewControllers = viewControllers.filter {
-                    !compactAdditionalViewControllers.contains($0)
-                }
-            }
+            viewControllers = regularViewControllers
         }
     }
 }
