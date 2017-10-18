@@ -12,10 +12,6 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
 
     /// Layout sizing constants
     public struct LayoutConstants {
-        // MARK: - Sizing
-        static let preferredWidth: CGFloat = 512
-        static let preferredHeight: CGFloat = 608
-        
         // MARK: - Margins
         static let topMargin: CGFloat = 24
         static let bottomMargin: CGFloat = 16
@@ -54,9 +50,7 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
     
     public init(viewModel: NotBookedOnViewModel) {
         super.init(viewModel: viewModel)
-        
-        preferredContentSize = CGSize(width: LayoutConstants.preferredWidth, height: LayoutConstants.preferredHeight)
-        
+                
         setupViews()
         setupConstraints()
     }
