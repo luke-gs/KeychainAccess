@@ -19,12 +19,25 @@ public class NotBookedOnViewController: CADFormCollectionViewController<NotBooke
     }
     
     private struct LayoutConstants {
-        static let headerHeight: CGFloat = 100
+        static let headerHeight: CGFloat = 120
         static let footerHeight: CGFloat = 55
         static let topMargin: CGFloat = 24
         static let bottomMargin: CGFloat = 16
         static let horizontalMargin: CGFloat = 40
+        static let verticalButtonPadding: CGFloat = 24
+        static let horizontalButtonPadding: CGFloat = 40
+        static let edgeButtonPadding: CGFloat = 24
     }
+    
+    /// Support being transparent when in popover/form sheet
+    public override var wantsTransparentBackground: Bool {
+        didSet {
+            let theme = ThemeManager.shared.theme(for: .current)
+            view.backgroundColor = wantsTransparentBackground ? UIColor.clear : theme.color(forKey: .background)!
+        }
+    }
+    
+    // MARK: - Setup
     
     public init(viewModel: NotBookedOnViewModel) {
         super.init(viewModel: viewModel)
@@ -45,6 +58,9 @@ public class NotBookedOnViewController: CADFormCollectionViewController<NotBooke
     override public func viewDidLoad() {
         super.viewDidLoad()
         
+        let theme = ThemeManager.shared.theme(for: .current)
+        let tintColor = theme.color(forKey: .tint)!
+        
         edgesForExtendedLayout = []
         
         titleLabel = UILabel()
@@ -57,31 +73,41 @@ public class NotBookedOnViewController: CADFormCollectionViewController<NotBooke
         view.addSubview(titleLabel)
         
         stayOffDutyButton = UIButton()
+        stayOffDutyButton.contentEdgeInsets = UIEdgeInsets(top: LayoutConstants.verticalButtonPadding,
+                                                           left: LayoutConstants.edgeButtonPadding,
+                                                           bottom: LayoutConstants.verticalButtonPadding,
+                                                           right: LayoutConstants.horizontalButtonPadding)
         stayOffDutyButton.titleLabel?.font = UIFont.systemFont(ofSize: 11, weight: .semibold)
-        stayOffDutyButton.setTitleColor(#colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1), for: .normal)
+        stayOffDutyButton.setTitleColor(tintColor, for: .normal)
+        stayOffDutyButton.setTitleColor(tintColor.withAlphaComponent(0.5), for: .highlighted)
         stayOffDutyButton.setTitle(notBookedOnViewModel?.stayOffDutyButtonText(), for: .normal)
         stayOffDutyButton.addTarget(self, action: #selector(didSelectStayOffDutyButton), for: .touchUpInside)
         stayOffDutyButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(stayOffDutyButton)
         
         allCallsignsButton = UIButton()
+        allCallsignsButton.contentEdgeInsets = UIEdgeInsets(top: LayoutConstants.verticalButtonPadding,
+                                                            left: LayoutConstants.horizontalButtonPadding,
+                                                            bottom: LayoutConstants.verticalButtonPadding,
+                                                            right: LayoutConstants.edgeButtonPadding)
         allCallsignsButton.titleLabel?.font = UIFont.systemFont(ofSize: 11, weight: .semibold)
-        allCallsignsButton.setTitleColor(#colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1), for: .normal)
+        allCallsignsButton.setTitleColor(tintColor, for: .normal)
+        allCallsignsButton.setTitleColor(tintColor.withAlphaComponent(0.5), for: .highlighted)
         allCallsignsButton.setTitle(notBookedOnViewModel?.allCallsignsButtonText(), for: .normal)
         allCallsignsButton.addTarget(self, action: #selector(didSelectAllCallsignsButton), for: .touchUpInside)
         allCallsignsButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(allCallsignsButton)
-
+        
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: LayoutConstants.topMargin),
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
-            stayOffDutyButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -LayoutConstants.bottomMargin),
-            stayOffDutyButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: LayoutConstants.horizontalMargin),
+            stayOffDutyButton.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            stayOffDutyButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             
-            allCallsignsButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -LayoutConstants.bottomMargin),
-            allCallsignsButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -LayoutConstants.horizontalMargin),
+            allCallsignsButton.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            allCallsignsButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
         ])
     }
     
@@ -141,6 +167,13 @@ public class NotBookedOnViewController: CADFormCollectionViewController<NotBooke
             return EntityListCollectionViewCell.minimumContentHeight(compatibleWith: traitCollection)
         }
         return 0
+    }
+    
+    @objc open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 0 {
+            return 16
+        }
+        return CollectionViewFormHeaderView.minimumHeight
     }
 
 }
