@@ -152,6 +152,7 @@ extension AssetManager {
         public static let email          = ImageKey("iconFormEmail")
 
         public static let generalLocation = ImageKey("iconGeneralLocation")
+        public static let otherPatrolArea = ImageKey("iconOtherPatrolArea")
         
         // Entity
         public static let entityOfficer  = ImageKey("iconEntityOfficer")

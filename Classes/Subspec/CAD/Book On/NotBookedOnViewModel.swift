@@ -17,8 +17,8 @@ public class NotBookedOnViewModel: CADFormCollectionViewModel<NotBookedOnItem> {
                                               items: [
                                                 NotBookedOnItem(title: "Collingwood",
                                                                 subtitle: "9 Callsigns",
-                                                                image: AssetManager.shared.image(forKey: .radioButtonSelected),
-                                                                imageColor: #colorLiteral(red: 0, green: 0.4793452024, blue: 0.9990863204, alpha: 1)) // TODO: Get real image
+                                                                image: AssetManager.shared.image(forKey: .otherPatrolArea),
+                                                                imageColor: #colorLiteral(red: 0, green: 0.4793452024, blue: 0.9990863204, alpha: 1))
                 ]
             ),
             
