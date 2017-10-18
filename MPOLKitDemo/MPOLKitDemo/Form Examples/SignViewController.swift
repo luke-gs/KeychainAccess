@@ -59,16 +59,21 @@ class SignupViewController: FormBuilderViewController {
                 self.details.surname = $0
             }
 
-        builder += PickerFormItem(pickerAction: DateAction(title: "Date of birth", mode: .date))
+        builder += DateFormItem(title: "Date of birth")
             .width(.column(2))
             .required()
+            .datePickerMode(.date)
+            .dateFormatter(.formDate)
+            .minimumDate(Date(timeIntervalSince1970: 0))
+            .maximumDate(Date())
             .onValueChanged { [unowned self] in
                 self.details.dateOfBirth = $0
             }
 
-        builder += PickerFormItem(pickerAction: PickerAction(title: "Gender", options: ["Male", "Female", "Unknown"]))
-            .width(.column(2))
+        builder += DropDownFormItem(title: "Gender")
+            .options(["Male", "Female", "Unknown"])
             .required()
+            .width(.column(2))
             .onValueChanged { [unowned self] in
                 self.details.gender = $0?.first
             }
@@ -80,12 +85,13 @@ class SignupViewController: FormBuilderViewController {
                 self.details.email = $0
             }
 
-        builder += PickerFormItem(pickerAction: NumberRangeAction(title: "Age range", range: 1...30))
+        builder += RangeFormItem(title: "Age range")
             .width(.column(1))
+            .range(1...50)
+            .required()
             .onValueChanged { [unowned self] in
                 self.details.ageRange = $0
             }
-
 
         builder += HeaderFormItem(text: "ADDRESS", style: .plain)
 
@@ -137,7 +143,9 @@ class SignupViewController: FormBuilderViewController {
                 self.details.motto = $0
             }
 
-        builder += PickerFormItem(pickerAction: PickerAction(title: "Interests", options: ["Games", "Sports", "Manga", "Anime", "People", "Travel"], selectedIndexes: nil, allowsMultipleSelection: true))
+        builder += DropDownFormItem(title: "Interests")
+            .options(["Games", "Sports", "Manga", "Anime", "People", "Travel"])
+            .allowsMultipleSelection(true)
             .width(.column(1))
             .onValueChanged { [unowned self] in
                 self.details.interests = $0

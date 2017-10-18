@@ -124,6 +124,10 @@ public class DateAction: ValueSelectionAction<Date> {
 
     public let formatter: DateFormatter
 
+    public var minimumDate: Date?
+
+    public var maximumDate: Date?
+
     public init(title: String, mode: UIDatePickerMode = .date, selectedValue: Date? = nil, formatter: DateFormatter = .formDateAndTime) {
         self.mode = mode
         self.formatter = formatter
@@ -140,6 +144,12 @@ public class DateAction: ValueSelectionAction<Date> {
             self?.selectedValue = date
             self?.updateHandler?()
         }
+
+        let datePicker = dateViewController.datePicker
+        datePicker.date = selectedValue ?? Date()
+        datePicker.datePickerMode = mode
+        datePicker.minimumDate = minimumDate
+        datePicker.maximumDate = maximumDate
 
         let navigationController = PopoverNavigationController(rootViewController: dateViewController)
         navigationController.modalPresentationStyle = .popover
@@ -170,6 +180,8 @@ public class NumberRangeAction: ValueSelectionAction<CountableClosedRange<Int>>,
         self.range = range
 
         super.init(title: title)
+
+        self.selectedValue = selected
     }
 
     public override func viewController() -> UIViewController {
