@@ -87,32 +87,34 @@ public enum ManageCallsignStatus: Int {
     var canTerminate: Bool {
         switch self {
         // Current state where terminating shift is allowed
-        case .unavailable: fallthrough
-        case .onAir: fallthrough
-        case .mealBreak: fallthrough
-        case .trafficStop: fallthrough
-        case .court: fallthrough
-        case .atStation: fallthrough
-        case .onCell: fallthrough
-        case .inquiries1:
+        case .unavailable,
+             .onAir,
+             .mealBreak,
+             .trafficStop,
+             .court,
+             .atStation,
+             .onCell,
+             .inquiries1:
             return true
 
         // Current state where terminating shift is NOT allowed
-        case .proceeding: fallthrough
-        case .atIncident: fallthrough
-        case .finalise: fallthrough
-        case .inquiries2:
+        case .proceeding,
+             .atIncident,
+             .finalise,
+             .inquiries2:
             return false
         }
     }
 
     func canChangeToStatus(newStatus: ManageCallsignStatus) -> Bool {
         // Rather than write entire matrix of true/falses, just check for the few that aren't allowed
-        if self == .proceeding && newStatus == .finalise ||
-            self == .atIncident && newStatus == .proceeding {
+        switch (self, newStatus) {
+        case (.proceeding, .finalise),
+             (.atIncident, .proceeding):
             return false
+        default:
+            return true
         }
-        return true
     }
 }
 

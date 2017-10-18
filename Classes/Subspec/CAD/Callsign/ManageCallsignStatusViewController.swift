@@ -25,9 +25,13 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
     /// Support being transparent when in popover/form sheet
     open var wantsTransparentBackground: Bool = true {
         didSet {
-            let theme = ThemeManager.shared.theme(for: .current)
             view.backgroundColor = wantsTransparentBackground ? UIColor.clear : theme.color(forKey: .background)!
         }
+    }
+
+    /// Return the current theme
+    private var theme: Theme {
+        return ThemeManager.shared.theme(for: .current)
     }
 
     // MARK: - Initializers
@@ -52,7 +56,6 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
         setTitleView(title: viewModel.navTitle(), subtitle: viewModel.navSubtitle())
 
         // Set initial background color (this may change in wantsTransparentBackground)
-        let theme = ThemeManager.shared.theme(for: .current)
         view.backgroundColor = theme.color(forKey: .background)!
 
         // Create done button
@@ -71,7 +74,7 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
     open func updateItemSizeForTraits() {
         let availableWidth = collectionView.bounds.width - collectionViewLayout.sectionInset.left - collectionViewLayout.sectionInset.right
         if self.traitCollection.horizontalSizeClass == .compact {
-            self.collectionViewLayout.itemSize = CGSize(width: availableWidth / 2, height: 50)
+            self.collectionViewLayout.itemSize = CGSize(width: availableWidth / 2, height: 45)
         } else {
             self.collectionViewLayout.itemSize = CGSize(width: availableWidth / 4, height: 75)
         }
@@ -107,7 +110,6 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
         buttonStackView.spacing = 0
         view.addSubview(buttonStackView)
 
-        let theme = ThemeManager.shared.theme(for: .current)
         let tintColor = theme.color(forKey: .tint)!
 
         for (index, buttonText) in viewModel.actionButtons.enumerated() {
@@ -118,7 +120,7 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
             buttonStackView.addArrangedSubview(separatorView)
 
             let button = UIButton(type: .custom)
-            let inset = 24 as CGFloat
+            let inset = 20 as CGFloat
             button.contentEdgeInsets = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
             button.setTitle(buttonText, for: .normal)
             button.setTitleColor(tintColor, for: .normal)
@@ -147,8 +149,6 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
     }
 
     open func decorate(cell: ManageCallsignStatusViewCell, with viewModel: ManageCallsignStatusItemViewModel, selected: Bool) {
-        let theme = ThemeManager.shared.theme(for: .current)
-
         cell.titleLabel.text = viewModel.title
         cell.titleLabel.font = .systemFont(ofSize: 13.0, weight: selected ? UIFont.Weight.semibold : UIFont.Weight.regular)
         cell.titleLabel.textColor = theme.color(forKey: .secondaryText)!
@@ -189,7 +189,6 @@ extension ManageCallsignStatusViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionElementKindSectionHeader {
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
-            let theme = ThemeManager.shared.theme(for: .current)
             header.text = viewModel.headerText(at: indexPath.section)
             header.tintColor = theme.color(forKey: .secondaryText)!
             header.layoutMargins = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)

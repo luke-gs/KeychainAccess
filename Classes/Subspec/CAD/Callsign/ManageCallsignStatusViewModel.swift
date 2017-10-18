@@ -16,7 +16,7 @@ public struct ManageCallsignStatusItemViewModel {
 }
 
 /// Enum for action button types
-private enum ActionButton : Int {
+private enum ActionButton: Int {
     case viewCallsign
     case manageCallsign
     case terminateShift

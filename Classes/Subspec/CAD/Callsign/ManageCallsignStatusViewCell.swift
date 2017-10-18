@@ -26,7 +26,10 @@ class ManageCallsignStatusViewCell: UICollectionViewCell, DefaultReusable {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         contentView.addSubview(imageView)
+    }
 
+    required init?(coder aDecoder: NSCoder) {
+        MPLCodingNotSupported()
     }
 
     private var commonConstraints: [NSLayoutConstraint] {
@@ -76,13 +79,5 @@ class ManageCallsignStatusViewCell: UICollectionViewCell, DefaultReusable {
             }
             NSLayoutConstraint.activate(currentConstraints)
         }
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        MPLCodingNotSupported()
-    }
-
-    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
-        return super.preferredLayoutAttributesFitting(layoutAttributes)
     }
 }
