@@ -2,8 +2,8 @@
 //  Manifest.swift
 //  MPOLKit
 //
-//  Created by Rod Brown on 27/10/16.
-//  Copyright © 2016 Gridstone. All rights reserved.
+//  Created by Valery Shorinov 16/10/17
+//  Copyright © 2017 Gridstone. All rights reserved.
 //
 
 import Foundation
