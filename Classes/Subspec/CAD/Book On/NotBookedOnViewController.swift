@@ -182,6 +182,7 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
     }
     
     @objc open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
+        /// Set first header to have less height as we have too much top padding below the header text
         if section == 0 {
             return 16
         }
