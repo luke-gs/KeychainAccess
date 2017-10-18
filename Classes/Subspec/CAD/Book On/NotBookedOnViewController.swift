@@ -50,7 +50,7 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
     
     public init(viewModel: NotBookedOnViewModel) {
         super.init(viewModel: viewModel)
-                
+        
         setupViews()
         setupConstraints()
     }
@@ -175,8 +175,8 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
-        if let _ = viewModel.item(at: indexPath) {
-            return EntityListCollectionViewCell.minimumContentHeight(compatibleWith: traitCollection)
+        if let item = viewModel.item(at: indexPath) {
+            return CollectionViewFormSubtitleCell.minimumContentWidth(withTitle: item.title, subtitle: item.subtitle, compatibleWith: traitCollection)
         }
         return 0
     }
