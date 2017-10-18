@@ -23,7 +23,6 @@ open class CollectionViewFormProgressCell: CollectionViewFormValueFieldCell {
         progressView.layer.cornerRadius = 2.0
         contentView.addSubview(progressView)
         
-        // MAKE SURE YOU SET THE COLOR IN THE VC WILL DISPLAY CELL
         textLabel.font = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
         textLabel.numberOfLines = 1
         textLabel.lineBreakMode = .byTruncatingMiddle
