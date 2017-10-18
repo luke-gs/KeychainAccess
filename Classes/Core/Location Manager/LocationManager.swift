@@ -28,9 +28,25 @@ public extension NSNotification.Name {
 
 public final class LocationManager: NSObject, CLLocationManagerDelegate {
     
+    static let interval:TimeInterval = 5*60
+    static let timeBuffer:Double = 60
+    
     /// Used to see the last time a location was retrieved
     open private(set) var lastLocationTime: Date? = nil
     fileprivate var locationManager: CLLocationManager = CLLocationManager()
+    
+    /// Automatic timer to periodically update location if no location has been obtained recently.
+    fileprivate var timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { (timer) in
+        if let time = LocationManager.shared.lastLocationTime {
+            if Date().timeIntervalSince(time) > timeBuffer { // Refresh location
+                LocationManager.shared.requestLocation(withCompletion: { (location, error) in
+                })
+            }
+        } else {
+            LocationManager.shared.requestLocation(withCompletion: { (location, error) in
+            })
+        }
+    }
     
     /// Used to get the last saved location.
     open var lastLocation: CLLocation? {
