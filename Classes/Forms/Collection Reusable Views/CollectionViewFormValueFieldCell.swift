@@ -111,7 +111,7 @@ open class CollectionViewFormValueFieldCell: CollectionViewFormCell {
     
     // MARK: - Initialization
     
-    override func commonInit() {
+    override open func commonInit() {
         super.commonInit()
         
         let titleLabel = self.titleLabel

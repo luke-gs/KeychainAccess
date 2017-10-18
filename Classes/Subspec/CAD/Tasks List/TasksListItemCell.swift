@@ -32,7 +32,7 @@ public class TasksListItemCell: CollectionViewFormSubtitleCell {
 
     // MARK: - Setup
 
-    override func commonInit() {
+    override public func commonInit() {
         super.commonInit()
 
         priorityBackground.layer.cornerRadius = 2
