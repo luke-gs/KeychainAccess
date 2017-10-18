@@ -407,6 +407,11 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
             listCell.subtitleLabel.textColor = secondaryTextColor
         case let selectionCell as CollectionViewFormOptionCell:
             selectionCell.titleLabel.textColor = primaryTextColor
+        case let progressCell as CollectionViewFormProgressCell:
+            progressCell.textLabel.textColor  = secondaryTextColor
+            progressCell.valueLabel.textColor = progressCell.isEditable ? primaryTextColor : secondaryTextColor
+            progressCell.titleLabel.textColor = secondaryTextColor
+            progressCell.placeholderLabel.textColor = placeholderTextColor
         case let valueFieldCell as CollectionViewFormValueFieldCell:
             valueFieldCell.valueLabel.textColor = valueFieldCell.isEditable ? primaryTextColor : secondaryTextColor
             valueFieldCell.titleLabel.textColor = secondaryTextColor
