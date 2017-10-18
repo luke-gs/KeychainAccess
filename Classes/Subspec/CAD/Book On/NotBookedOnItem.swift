@@ -8,13 +8,13 @@
 
 import UIKit
 
-public class NotBookedOnItem {
-    var title: String
-    var subtitle: String
-    var image: UIImage?
-    var imageColor: UIColor?
+open class NotBookedOnItem {
+    open var title: String
+    open var subtitle: String
+    open var image: UIImage?
+    open var imageColor: UIColor?
     
-    init(title: String, subtitle: String, image: UIImage?, imageColor: UIColor?) {
+    public init(title: String, subtitle: String, image: UIImage?, imageColor: UIColor?) {
         self.title = title
         self.subtitle = subtitle
         self.image = image

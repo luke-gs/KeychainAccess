@@ -8,29 +8,42 @@
 
 import UIKit
 
-public class NotBookedOnViewController: CADFormCollectionViewController<NotBookedOnItem> {
+open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedOnItem> {
 
-    public var titleLabel: UILabel!
-    public var stayOffDutyButton: UIButton!
-    public var allCallsignsButton: UIButton!
-    
-    public var notBookedOnViewModel: NotBookedOnViewModel? {
-        return viewModel as? NotBookedOnViewModel
-    }
-    
-    private struct LayoutConstants {
-        static let headerHeight: CGFloat = 120
-        static let footerHeight: CGFloat = 55
+    /// Layout sizing constants
+    public struct LayoutConstants {
+        // MARK: - Sizing
+        static let preferredWidth: CGFloat = 512
+        static let preferredHeight: CGFloat = 608
+        
+        // MARK: - Margins
         static let topMargin: CGFloat = 24
         static let bottomMargin: CGFloat = 16
         static let horizontalMargin: CGFloat = 40
+        
+        // MARK: - Header
+        static let headerHeight: CGFloat = 120
+        static let footerHeight: CGFloat = 55
+        
+        // MARK: - Button Padding
         static let verticalButtonPadding: CGFloat = 24
         static let horizontalButtonPadding: CGFloat = 40
         static let edgeButtonPadding: CGFloat = 24
     }
     
+    // MARK: - Views
+    
+    open var titleLabel: UILabel!
+    open var stayOffDutyButton: UIButton!
+    open var allCallsignsButton: UIButton!
+    
+    /// `super.viewModel` typecasted to our type
+    open var notBookedOnViewModel: NotBookedOnViewModel? {
+        return viewModel as? NotBookedOnViewModel
+    }
+    
     /// Support being transparent when in popover/form sheet
-    public override var wantsTransparentBackground: Bool {
+    open override var wantsTransparentBackground: Bool {
         didSet {
             let theme = ThemeManager.shared.theme(for: .current)
             view.backgroundColor = wantsTransparentBackground ? UIColor.clear : theme.color(forKey: .background)!
@@ -41,7 +54,10 @@ public class NotBookedOnViewController: CADFormCollectionViewController<NotBooke
     
     public init(viewModel: NotBookedOnViewModel) {
         super.init(viewModel: viewModel)
-        preferredContentSize = CGSize(width: 512, height: 608)
+        
+        preferredContentSize = CGSize(width: LayoutConstants.preferredWidth, height: LayoutConstants.preferredHeight)
+        
+        // Offsets to allow for header text at top and buttons at bottom
         if #available(iOS 11, *) {
             additionalSafeAreaInsets.top = LayoutConstants.headerHeight
             additionalSafeAreaInsets.bottom = LayoutConstants.footerHeight
@@ -49,15 +65,17 @@ public class NotBookedOnViewController: CADFormCollectionViewController<NotBooke
             legacy_additionalSafeAreaInsets.top = LayoutConstants.headerHeight
             legacy_additionalSafeAreaInsets.bottom = LayoutConstants.footerHeight
         }
+        
+        setupViews()
+        setupConstraints()
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
     
-    override public func viewDidLoad() {
-        super.viewDidLoad()
-        
+    /// Creates and styles views
+    private func setupViews() {
         let theme = ThemeManager.shared.theme(for: .current)
         let tintColor = theme.color(forKey: .tint)!
         
@@ -97,7 +115,10 @@ public class NotBookedOnViewController: CADFormCollectionViewController<NotBooke
         allCallsignsButton.addTarget(self, action: #selector(didSelectAllCallsignsButton), for: .touchUpInside)
         allCallsignsButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(allCallsignsButton)
-        
+    }
+    
+    /// Activates view constraints
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: LayoutConstants.topMargin),
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -116,7 +137,7 @@ public class NotBookedOnViewController: CADFormCollectionViewController<NotBooke
     }
     
     @objc public func didSelectAllCallsignsButton() {
-        // TODO:
+        // TODO: Push to all callsigns VC
     }
     
     // MARK: - Override
@@ -140,7 +161,7 @@ public class NotBookedOnViewController: CADFormCollectionViewController<NotBooke
         }
     }
     
-    public override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    open override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
         
         if let cell = cell as? CollectionViewFormCell {

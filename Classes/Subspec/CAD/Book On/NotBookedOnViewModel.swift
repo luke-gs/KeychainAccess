@@ -8,10 +8,11 @@
 
 import UIKit
 
-public class NotBookedOnViewModel: CADFormCollectionViewModel<NotBookedOnItem> {
+open class NotBookedOnViewModel: CADFormCollectionViewModel<NotBookedOnItem> {
     
     public override init() {
         super.init()
+        
         sections = [
             CADFormCollectionSectionViewModel(title: "Patrol Area",
                                               items: [
@@ -50,19 +51,19 @@ public class NotBookedOnViewModel: CADFormCollectionViewModel<NotBookedOnItem> {
     }
     
     /// Create the view controller for this view model
-    public func createViewController() -> NotBookedOnViewController {
+    open func createViewController() -> NotBookedOnViewController {
         return NotBookedOnViewController(viewModel: self)
     }
     
-    func headerText() -> String? {
+    open func headerText() -> String? {
         return NSLocalizedString("You are not viewing all active tasks and resources.\nOnly booked on users can respond to tasks.", comment: "")
     }
     
-    func stayOffDutyButtonText() -> String? {
+    open func stayOffDutyButtonText() -> String? {
         return NSLocalizedString("Stay Off Duty", comment: "").uppercased()
     }
     
-    func allCallsignsButtonText() -> String? {
+    open func allCallsignsButtonText() -> String? {
         return NSLocalizedString("View All Callsigns", comment: "").uppercased()
     }
     
