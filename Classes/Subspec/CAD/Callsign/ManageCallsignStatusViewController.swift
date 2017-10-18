@@ -61,8 +61,8 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
 
     public func createSubviews() {
         collectionViewLayout = UICollectionViewFlowLayout()
-        collectionViewLayout.itemSize = CGSize(width: 116, height: 90)
-        collectionViewLayout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        collectionViewLayout.itemSize = CGSize(width: 116, height: 80)
+        collectionViewLayout.sectionInset = UIEdgeInsets(top: 8, left: 24, bottom: 0, right: 24)
         collectionViewLayout.minimumInteritemSpacing = 0
         collectionViewLayout.minimumLineSpacing = 0
 
@@ -91,11 +91,12 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
             buttonStackView.addArrangedSubview(separatorView)
 
             let button = UIButton(type: .custom)
-            let inset = 16 as CGFloat
+            let inset = 24 as CGFloat
             button.contentEdgeInsets = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
             button.setTitle(buttonText, for: .normal)
             button.setTitleColor(tintColor, for: .normal)
             button.setTitleColor(tintColor.withAlphaComponent(0.5), for: .highlighted)
+            button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
             button.addTarget(self, action: #selector(didTapActionButton(_:)), for: .touchUpInside)
             button.tag = index
             buttonStackView.addArrangedSubview(button)
