@@ -157,10 +157,5 @@ public final class LocationManager: NSObject, CLLocationManagerDelegate {
         }
         requestAuthorizationCompletionArray.removeAll()
     }
-    
-    // MARK: - Automatic refresh
-    public func locationUpdate() {
-        print("update fired")
-    }
 }
 
