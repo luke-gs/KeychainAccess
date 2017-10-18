@@ -22,7 +22,7 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
         static let horizontalMargin: CGFloat = 40
         
         // MARK: - Header
-        static let headerHeight: CGFloat = 120
+        static var headerHeight: CGFloat = 80
         static let footerHeight: CGFloat = 55
         
         // MARK: - Button Padding
@@ -57,17 +57,14 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
         
         preferredContentSize = CGSize(width: LayoutConstants.preferredWidth, height: LayoutConstants.preferredHeight)
         
-        // Offsets to allow for header text at top and buttons at bottom
-        if #available(iOS 11, *) {
-            additionalSafeAreaInsets.top = LayoutConstants.headerHeight
-            additionalSafeAreaInsets.bottom = LayoutConstants.footerHeight
-        } else {
-            legacy_additionalSafeAreaInsets.top = LayoutConstants.headerHeight
-            legacy_additionalSafeAreaInsets.bottom = LayoutConstants.footerHeight
-        }
-        
         setupViews()
         setupConstraints()
+    }
+    
+    open override func loadView() {
+        super.loadView()
+        collectionViewTopConstraint?.constant = LayoutConstants.headerHeight
+        collectionViewBottomConstraint?.constant = -LayoutConstants.footerHeight
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -124,10 +121,10 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
-            stayOffDutyButton.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            stayOffDutyButton.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor),
             stayOffDutyButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             
-            allCallsignsButton.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            allCallsignsButton.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor),
             allCallsignsButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
         ])
     }
