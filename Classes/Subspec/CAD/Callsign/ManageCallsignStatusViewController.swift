@@ -49,7 +49,7 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
     open override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = viewModel.navTitle()
+        setTitleView(title: viewModel.navTitle(), subtitle: viewModel.navSubtitle())
 
         // Set initial background color (this may change in wantsTransparentBackground)
         let theme = ThemeManager.shared.theme(for: .current)
@@ -59,13 +59,12 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(didTapDoneButton(_:)))
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+
+        // Update the item size and title view based on current traits
         updateItemSizeForTraits()
+        setTitleView(title: viewModel.navTitle(), subtitle: viewModel.navSubtitle())
     }
 
     /// Update the item size based on size class
@@ -82,7 +81,9 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         super.willTransition(to: newCollection, with: coordinator)
         coordinator.animate(alongsideTransition: { (context) in
+            // Update the item size and title view based on new traits
             self.updateItemSizeForTraits()
+            self.setTitleView(title: self.viewModel.navTitle(), subtitle: self.viewModel.navSubtitle())
         }, completion: nil)
     }
 
