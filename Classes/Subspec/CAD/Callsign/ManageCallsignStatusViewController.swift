@@ -59,12 +59,38 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(didTapDoneButton(_:)))
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        updateItemSizeForTraits()
+    }
+
+    /// Update the item size based on size class
+    open func updateItemSizeForTraits() {
+        let availableWidth = collectionView.bounds.width - collectionViewLayout.sectionInset.left - collectionViewLayout.sectionInset.right
+        if self.traitCollection.horizontalSizeClass == .compact {
+            self.collectionViewLayout.itemSize = CGSize(width: availableWidth / 2, height: 50)
+        } else {
+            self.collectionViewLayout.itemSize = CGSize(width: availableWidth / 4, height: 75)
+        }
+        self.collectionViewLayout.invalidateLayout()
+    }
+
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.willTransition(to: newCollection, with: coordinator)
+        coordinator.animate(alongsideTransition: { (context) in
+            self.updateItemSizeForTraits()
+        }, completion: nil)
+    }
+
     public func createSubviews() {
         collectionViewLayout = UICollectionViewFlowLayout()
-        collectionViewLayout.itemSize = CGSize(width: 116, height: 80)
-        collectionViewLayout.sectionInset = UIEdgeInsets(top: 8, left: 24, bottom: 0, right: 24)
+        collectionViewLayout.sectionInset = UIEdgeInsets(top: 16, left: 24, bottom: 0, right: 24)
         collectionViewLayout.minimumInteritemSpacing = 0
-        collectionViewLayout.minimumLineSpacing = 0
+        collectionViewLayout.minimumLineSpacing = 10
 
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
         collectionView.dataSource = self
