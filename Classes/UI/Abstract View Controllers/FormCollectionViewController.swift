@@ -43,6 +43,8 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     
     open private(set) lazy var loadingManager: LoadingStateManager = LoadingStateManager()
     
+    open private(set) var collectionViewTopConstraint: NSLayoutConstraint?
+    open private(set) var collectionViewBottomConstraint: NSLayoutConstraint?
     
     // Calculated heights
     
@@ -231,11 +233,14 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
 
         // Layout collection view, using safe area layout guide on iOS 11
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        collectionViewTopConstraint = collectionView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor)
+        collectionViewBottomConstraint = collectionView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor).withPriority(.almostRequired)
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
+            collectionViewTopConstraint!,
             collectionView.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor).withPriority(.almostRequired),
+            collectionViewBottomConstraint!
         ])
     }
     

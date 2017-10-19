@@ -53,7 +53,7 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
         didSet {
             let viewControllers = self.viewControllers
             
-            for vc in viewControllers where oldValue.contains(vc) == false {
+            for vc in viewControllers where !oldValue.contains(vc) {
                 addChildViewController(vc)
                 vc.didMove(toParentViewController: self)
             }
@@ -61,15 +61,15 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
             tabBar.items = viewControllers.map { $0.tabBarItem }
             
             if let selectedViewController = self.selectedViewController {
-                if viewControllers.contains(selectedViewController) == false {
+                if !viewControllers.contains(selectedViewController) {
                     selectedViewController.viewIfLoaded?.removeFromSuperview()
-                    self.selectedViewController = viewControllers.first
+                    self.selectedViewController = viewControllers.first { $0.tabBarItem.isEnabled }
                 }
             } else {
-                selectedViewController = viewControllers.first
+                selectedViewController = viewControllers.first { $0.tabBarItem.isEnabled }
             }
             
-            for vc in oldValue where viewControllers.contains(vc) == false {
+            for vc in oldValue where !viewControllers.contains(vc) {
                 vc.willMove(toParentViewController: nil)
                 vc.removeFromParentViewController()
             }
@@ -258,6 +258,11 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
     open override func viewDidLayoutSubviews() {
         if #available(iOS 11, *) {
             additionalSafeAreaInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: tabBar.frame.height, right: 0.0)
+        } else {
+            if let selectedView = selectedViewController?.view {
+                selectedView.autoresizingMask = []
+                selectedView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height - tabBar.frame.height)
+            }
         }
         super.viewDidLayoutSubviews()
     }
