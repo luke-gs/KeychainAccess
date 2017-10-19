@@ -14,10 +14,16 @@ public class UserSession: UserSessionable {
     private let latestSessionKey = "LatestSessionKey"
 
     public static let current = UserSession()
-    public static var basePath: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-
     private(set) var token: OAuthAccessToken?
     private(set) public var user: User?
+
+    // Use the app group base path for sharing between apps
+    public static var basePath: URL = AppGroup.appBaseFilePath()
+
+    // Use the app group user defaults for sharing between apps
+    public var userDefaults: UserDefaults {
+        return AppGroup.appUserDefaults()
+    }
 
     public var recentlyViewed: [MPOLKitEntity] = [] {
         didSet {
@@ -32,13 +38,13 @@ public class UserSession: UserSessionable {
     }
 
     public var isActive: Bool {
-        guard let _ = UserDefaults.standard.string(forKey: latestSessionKey) else { return false }
+        guard let _ = userDefaults.string(forKey: latestSessionKey) else { return false }
         return true
     }
 
     public var sessionID: String {
-        let sessionID = UserDefaults.standard.string(forKey: latestSessionKey) ?? UUID().uuidString
-        UserDefaults.standard.set(sessionID, forKey: latestSessionKey)
+        let sessionID = userDefaults.string(forKey: latestSessionKey) ?? UUID().uuidString
+        userDefaults.set(sessionID, forKey: latestSessionKey)
         return sessionID
     }
 
@@ -60,7 +66,7 @@ public class UserSession: UserSessionable {
     }
 
     public func endSession() {
-        UserDefaults.standard.removeObject(forKey: latestSessionKey)
+        userDefaults.removeObject(forKey: latestSessionKey)
 
         user = nil
         token = nil
@@ -107,7 +113,6 @@ public class UserSession: UserSessionable {
 
     //MARK: PRIVATE
 
-    private let keychain = KeychainSwift()
     private lazy var directoryManager = {
         return DirectoryManager(baseURL: UserSession.basePath)
     }()
