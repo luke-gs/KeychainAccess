@@ -57,7 +57,11 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity, U : EntityMapSummar
     open func coordinate(for entity: MPOLKitEntity) -> CLLocationCoordinate2D {
         MPLRequiresConcreteImplementation()
     }
-    
+
+    open func mapAnnotation(for entity: MPOLKitEntity) -> MKAnnotation? {
+        MPLRequiresConcreteImplementation()
+    }
+
     // MARK: - AggregateSearchDelegate 
     
     public func aggregatedSearch<U>(_ aggregatedSearch: AggregatedSearch<U>, didBeginSearch request: AggregatedSearchRequest<U>) {

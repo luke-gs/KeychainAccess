@@ -52,7 +52,7 @@ public protocol MapResultViewModelable: SearchResultModelable {
     /// - Parameter coordinate: The coordinate of target location
     func entity(for coordinate: CLLocationCoordinate2D) -> EntityMapSummaryDisplayable?
     
-    func coordinate(for entity: MPOLKitEntity) -> CLLocationCoordinate2D
+    func mapAnnotation(for entity: MPOLKitEntity) -> MKAnnotation?
     
     /// A delegate that will be notified when there are changes to the results.
     weak var delegate: MapResultViewModelDelegate? { get set }
