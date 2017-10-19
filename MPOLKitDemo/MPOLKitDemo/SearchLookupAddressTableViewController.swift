@@ -32,7 +32,7 @@ class SearchLookupAddressTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
 
-        _ = MPOLAPIManager.shared.accessTokenRequest(for: .credentials(username: "matt", password: "vicroads"))
+        _ = APIManager.shared.accessTokenRequest(for: .credentials(username: "matt", password: "vicroads"))
 
         tableView.register(UITableViewCell.self)
 
@@ -120,7 +120,7 @@ extension SearchLookupAddressTableViewController: UISearchBarDelegate, UISearchC
 
     func updateSearchResults(for searchController: UISearchController) {
         if let text = searchController.searchBar.text {
-            _ = MPOLAPIManager.shared.typeAheadSearchAddress(in: MPOLSource.gnaf, with: LookupAddressSearchRequest(searchText: text)).then { [weak self] results -> Void in
+            _ = APIManager.shared.typeAheadSearchAddress(in: MPOLSource.gnaf, with: LookupAddressSearchRequest(searchText: text)).then { [weak self] results -> Void in
                 self?.results = results
                 self?.tableView.reloadData()
             }

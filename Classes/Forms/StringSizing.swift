@@ -124,3 +124,19 @@ public struct StringSizing: StringSizable {
     }
 }
 
+
+extension StringSizing: Equatable {
+
+    /// StringSizing comparison.
+    ///
+    /// - Parameters:
+    ///   - lhs: The StringSizing.
+    ///   - rhs: The other StringSizing.
+    /// - Returns: True if they are the same.
+    public static func ==(lhs: StringSizing, rhs: StringSizing) -> Bool {
+        return lhs.string == rhs.string &&
+               lhs.font == rhs.font &&
+               lhs.numberOfLines == rhs.numberOfLines
+    }
+
+}

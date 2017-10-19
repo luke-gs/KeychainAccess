@@ -157,7 +157,11 @@ open class FormSearchTableViewController: FormTableViewController, UISearchBarDe
             }
         }
     }
-    
+
+    // MARK: - Search bar delegate
+
+    open func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+    }
     
     // MARK: - Overrides
     

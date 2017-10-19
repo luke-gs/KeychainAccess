@@ -33,6 +33,19 @@ public protocol CustomSearchPickable: Pickable {
 }
 
 
+extension String: CustomSearchPickable {
+
+    public var title: String? { return self }
+
+    public var subtitle: String? { return nil }
+
+    public func contains(_ searchText: String) -> Bool {
+        return self.range(of: searchText) != nil
+    }
+
+}
+
+
 /// A table view for picking general items from a list.
 ///
 /// 
@@ -340,12 +353,13 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
                     reloadIndexPaths.append(IndexPath(row: 0, section: 0))
                 }
             } else {
-                if let oldIndexPath = self.indexPathForItem(at: selectedIndexes.first), oldIndexPath != indexPath {
-                    reloadIndexPaths.append(oldIndexPath)
+                let isSelected = selectedIndexes.remove(itemIndex) == nil
+                if isSelected {
+                    reloadIndexPaths.append(contentsOf: selectedIndexes.flatMap({ IndexPath(row: $0, section: 0) }))
+
+                    selectedIndexes = IndexSet(integer: itemIndex)
                 }
-                selectedIndexes = IndexSet(integer: itemIndex)
-                
-                updateCurrentCell(checked: true)
+                updateCurrentCell(checked: isSelected)
             }
         } else if noSectionShowing {
             // "No" item selected. Filter not showing.
@@ -374,15 +388,19 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
         
         tableView.deselectRow(at: indexPath, animated: true)
         selectionUpdateHandler?(self, selectedIndexes)
+
+        if !allowsMultipleSelection {
+            dismiss(animated: true, completion: nil)
+        }
     }
 
     
     // MARK: - Search bar delegate
-    
-    open func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+
+    open override func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         searchTerm = searchText
     }
-    
+
     
     // MARK: - Private methods
     

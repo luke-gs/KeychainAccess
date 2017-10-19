@@ -66,20 +66,25 @@ public class UserSession: UserSessionable {
         token = nil
         recentlyViewed = []
         recentlySearched = []
+        directoryManager.write(nil, toKeyChain: "token")
 
         try! directoryManager.remove(at: paths.session)
     }
 
+    public func isTokenValid() -> Bool {
+        return directoryManager.read(fromKeyChain: "token") != nil
+    }
+
     public func restoreSession(completion: @escaping RestoreSessionCompletion) {
         let userWrapper = directoryManager.read(from: paths.userWrapperPath) as? FileWrapper
-        let viewed = directoryManager.read(from: paths.recentlyViewed) as! [MPOLKitEntity]
-        let searched = directoryManager.read(from: paths.recentlySearched) as! [Searchable]
+        let viewed = directoryManager.read(from: paths.recentlyViewed) as? [MPOLKitEntity] ?? []
+        let searched = directoryManager.read(from: paths.recentlySearched) as? [Searchable] ?? []
 
-        var token: OAuthAccessToken = OAuthAccessToken(accessToken: "", type: "")
+        var token: OAuthAccessToken?
 
         //For testing purposes
         if !TestingDirective.isTesting {
-            token = directoryManager.read(fromKeyChain: "token") as! OAuthAccessToken
+            token = directoryManager.read(fromKeyChain: "token") as? OAuthAccessToken
             self.token = token
         }
 
@@ -97,7 +102,7 @@ public class UserSession: UserSessionable {
         self.recentlyViewed = viewed
         self.recentlySearched = searched
 
-        completion(token)
+        completion(self.token ?? OAuthAccessToken(accessToken: "", type: ""))
     }
 
     //MARK: PRIVATE
