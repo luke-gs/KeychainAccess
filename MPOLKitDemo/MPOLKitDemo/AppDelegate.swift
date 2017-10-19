@@ -86,47 +86,47 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        tabBarController.selectedIndex = 3
 
         struct Test: GenericSearchable {
-            var title: String = "Title 1"
-            var subtitle: String = "Subtitle 1"
-            var section: String = "Section 1"
+            var title: String = "James"
+            var subtitle: String = "Neverdie"
+            var section: String = "On Duty"
             var image: UIImage = UIImage(named: "SidebarAlert")!
 
             func contains(searchString: String) -> Bool {
-                return title.starts(with: searchString)
+                return title.starts(with: searchString) || subtitle.contains(searchString)
             }
         }
 
         struct Test2: GenericSearchable {
-            var title: String = "Title 2"
-            var subtitle: String = "Subtitle 2"
-            var section: String = "Section 2"
-            var image: UIImage = UIImage(named: "SidebarAlert")!
+            var title: String = "Herli"
+            var subtitle: String = "Chad"
+            var section: String = "On Air"
+            var image: UIImage = UIImage(named: "SidebarInfo")!
 
             func contains(searchString: String) -> Bool {
-                return title.starts(with: searchString)
+                return title.starts(with: searchString) || subtitle.contains(searchString)
             }
         }
 
         struct Test3: GenericSearchable {
-            var title: String = "Title 3"
-            var subtitle: String = "Subtitle 3"
-            var section: String = "Section 3"
-            var image: UIImage = UIImage(named: "SidebarAlert")!
+            var title: String = "Luke"
+            var subtitle: String = "Jimmy Boy"
+            var section: String = "Duress"
+            var image: UIImage = UIImage(named: "SidebarAlertFilled")!
 
             func contains(searchString: String) -> Bool {
-                return title.starts(with: searchString)
+                return title.starts(with: searchString) || subtitle.contains(searchString)
             }
         }
 
-        let items1: [GenericSearchable] = Array(repeating: Test(), count: 10)
-        let items2: [GenericSearchable] = Array(repeating: Test2(), count: 10)
-        let items3: [GenericSearchable] = Array(repeating: Test3(), count: 10)
+        let items1: [GenericSearchable] = Array(repeating: Test(), count: 2)
+        let items2: [GenericSearchable] = Array(repeating: Test2(), count: 5)
+        let items3: [GenericSearchable] = Array(repeating: Test3(), count: 1)
 
         var searchVM = GenericSearchViewModel(items: items1 + items2 + items3)
         searchVM.title = "Search Items"
         searchVM.expandableSections = true
         searchVM.delegate = self
-        searchVM.sectionPriority = ["Section 2", "Section 1"]
+        searchVM.sectionPriority = ["Duress", "On Air", "On duty"]
 
         let vc = GenericSearchViewController(viewModel: searchVM)
 
