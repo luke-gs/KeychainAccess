@@ -124,9 +124,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         var searchVM = GenericSearchViewModel(items: items1 + items2 + items3)
         searchVM.title = "Search Items"
-        searchVM.expandableSections = true
+        searchVM.collapsableSections = true
         searchVM.delegate = self
-        searchVM.sectionPriority = ["Duress", "On Duty", "On Air",]
+//        searchVM.sectionPriority = ["Duress", "On Duty", "On Air",]
 
         let background = UIViewController()
         let image = UIImageView(image: UIImage(named: "Login"))

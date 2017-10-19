@@ -8,41 +8,6 @@
 
 import UIKit
 
-public protocol GenericSearchable {
-    var title: String { get }
-    var subtitle: String { get }
-    var section: String { get }
-    var image: UIImage{ get }
-    func contains(searchString: String) -> Bool
-}
-
-public protocol GenericSearchDelegate {
-    func genericSearchViewController(_ viewController: GenericSearchViewController, didSelectRowAt indexPath: IndexPath)
-}
-
-public struct GenericSearchViewModel {
-    public var title: String = "Search"
-    public var expandableSections: Bool = true
-    public var delegate: GenericSearchDelegate?
-    public var sectionPriority: [String] = [String]()
-
-    internal var items: [GenericSearchable]
-
-    public init(items: [GenericSearchable]) {
-        self.items = items
-    }
-}
-
-private struct PrioritisedSection {
-    var title: String
-    var items: [GenericSearchable]
-
-    init(title: String, items: [GenericSearchable]) {
-        self.title = title
-        self.items = items
-    }
-}
-
 open class GenericSearchViewController: FormBuilderViewController, UISearchBarDelegate {
 
     private lazy var searchBar: UISearchBar = {
@@ -56,9 +21,6 @@ open class GenericSearchViewController: FormBuilderViewController, UISearchBarDe
 
     private var viewModel: GenericSearchViewModel
     private var searchString: String = ""
-    private var isSearching: Bool {
-        return searchString != nil && searchString != ""
-    }
 
     private var searchableSections: [String: [GenericSearchable]] {
         let dict = viewModel.items.reduce([String: [GenericSearchable]]()) { (result, item) -> [String: [GenericSearchable]] in
@@ -206,3 +168,86 @@ open class GenericSearchViewController: FormBuilderViewController, UISearchBarDe
     }
 }
 
+
+/// A generic searchable object
+public protocol GenericSearchable {
+
+    /// The main string to display
+    var title: String { get }
+
+    /// The subtitle string to display
+    var subtitle: String { get }
+
+    /// The section this entity should belong to
+    var section: String { get }
+
+    /// The image that should be displayed
+    var image: UIImage{ get }
+
+    /// Perform business logic here to check if the entity should show up when filtering
+    ///
+    /// - Parameter searchString: the search string that is currently beeing filtered with
+    /// - Returns: true if should check passes and entity should be displayed
+    func contains(searchString: String) -> Bool
+}
+
+
+/// The generic search delegate
+public protocol GenericSearchDelegate {
+
+    /// Called when a row of the collection view is tapped
+    ///
+    /// - Parameters:
+    ///   - viewController: the view controller that the tap came form
+    ///   - indexPath: the indexPath that was tapped
+    func genericSearchViewController(_ viewController: GenericSearchViewController, didSelectRowAt indexPath: IndexPath)
+}
+
+/// A view model for the generic search view controller
+public struct GenericSearchViewModel {
+
+    /// The title to be displayed if embedded in nav controller
+    ///
+    /// default: "Search"
+    public var title: String = "Search"
+
+    /// Whether the sections can be collapsed
+    ///
+    /// default: `true`
+    public var collapsableSections: Bool = true
+
+    /// An array of sections sorted by priority
+    ///
+    /// These should match the sections of your `GenericSeaerchable`s
+    ///
+    /// If nothing is provided here, the priority of how they are displayed will be determined by
+    /// how they are stored in a dictionary
+    ///
+    /// default: `[]`
+    public var sectionPriority: [String] = [String]()
+
+    /// The delegate for the collection view touches
+    public var delegate: GenericSearchDelegate?
+
+
+    /// The array of searchable items
+    private(set) var items: [GenericSearchable]
+
+
+    /// Required initialiser
+    ///
+    /// - Parameter items: the searchable items
+    public init(items: [GenericSearchable]) {
+        self.items = items
+    }
+}
+
+private struct PrioritisedSection {
+    var title: String
+    var items: [GenericSearchable]
+
+    init(title: String, items: [GenericSearchable]) {
+        self.title = title
+        self.items = items
+    }
+}
