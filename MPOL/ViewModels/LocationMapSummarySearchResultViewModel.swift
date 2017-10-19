@@ -10,6 +10,7 @@ import Foundation
 import MPOLKit
 import ClientKit
 import CoreLocation
+import MapKit
 
 public class LocationMapSummarySearchResultViewModel: MapSummarySearchResultViewModel<Address, AddressSummaryDisplayable> {
     
@@ -37,6 +38,21 @@ public class LocationMapSummarySearchResultViewModel: MapSummarySearchResultView
         }
         
         return nil
+    }
+
+    open override func mapAnnotation(for entity: MPOLKitEntity) -> MKAnnotation? {
+
+        let displayable = AddressSummaryDisplayable(entity)
+
+        guard let coordinate = displayable.coordinate else {
+            return nil
+        }
+
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = coordinate
+        annotation.title = displayable.title
+        return annotation
+
     }
     
     open override func coordinate(for entity: MPOLKitEntity) -> CLLocationCoordinate2D {
