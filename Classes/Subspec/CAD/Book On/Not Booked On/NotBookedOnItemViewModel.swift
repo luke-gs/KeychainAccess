@@ -1,5 +1,5 @@
 //
-//  NotBookedOnItem.swift
+//  NotBookedOnItemViewModel.swift
 //  MPOLKit
 //
 //  Created by Kyle May on 17/10/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class NotBookedOnItem {
+open class NotBookedOnItemViewModel {
     open var title: String
     open var subtitle: String
     open var image: UIImage?

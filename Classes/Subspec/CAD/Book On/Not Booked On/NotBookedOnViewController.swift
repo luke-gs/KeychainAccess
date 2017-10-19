@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedOnItem> {
+open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedOnItemViewModel> {
 
     /// Layout sizing constants
     public struct LayoutConstants {
@@ -137,7 +137,7 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
         return CollectionViewFormSubtitleCell.self
     }
     
-    override open func decorate(cell: CollectionViewFormCell, with viewModel: NotBookedOnItem) {
+    override open func decorate(cell: CollectionViewFormCell, with viewModel: NotBookedOnItemViewModel) {
         cell.highlightStyle = .fade
         cell.selectionStyle = .fade
         cell.separatorStyle = .indented

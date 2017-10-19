@@ -80,7 +80,7 @@
 		278CA1051F7CA4A00073DFBA /* ResourceAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278CA1041F7CA4A00073DFBA /* ResourceAnnotationView.swift */; };
 		27C9C7611F95692400799855 /* NotBookedOnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C9C7601F95692400799855 /* NotBookedOnViewController.swift */; };
 		27C9C7651F95736500799855 /* NotBookedOnViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C9C7641F95736500799855 /* NotBookedOnViewModel.swift */; };
-		27C9C7671F95737C00799855 /* NotBookedOnItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C9C7661F95737C00799855 /* NotBookedOnItem.swift */; };
+		27C9C7671F95737C00799855 /* NotBookedOnItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C9C7661F95737C00799855 /* NotBookedOnItemViewModel.swift */; };
 		27CBC7561F8B277E00E387C3 /* TimelineCollectionViewFormLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A45E1F83555A00CAE056 /* TimelineCollectionViewFormLayout.swift */; };
 		27CBC7571F8B277E00E387C3 /* TimelineFormCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A45F1F83555A00CAE056 /* TimelineFormCollectionViewController.swift */; };
 		27CBC7581F8B277E00E387C3 /* TimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A4601F83555A00CAE056 /* TimelineView.swift */; };
@@ -434,7 +434,7 @@
 		278CA1041F7CA4A00073DFBA /* ResourceAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceAnnotationView.swift; sourceTree = "<group>"; };
 		27C9C7601F95692400799855 /* NotBookedOnViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotBookedOnViewController.swift; sourceTree = "<group>"; };
 		27C9C7641F95736500799855 /* NotBookedOnViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotBookedOnViewModel.swift; sourceTree = "<group>"; };
-		27C9C7661F95737C00799855 /* NotBookedOnItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotBookedOnItem.swift; sourceTree = "<group>"; };
+		27C9C7661F95737C00799855 /* NotBookedOnItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotBookedOnItemViewModel.swift; sourceTree = "<group>"; };
 		4420D27F1F66428D00E20304 /* Sequence+Nils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Sequence+Nils.swift"; sourceTree = "<group>"; };
 		44621FF41F59239C007C3150 /* FilterRangeDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterRangeDescriptor.swift; sourceTree = "<group>"; };
 		44621FF51F59239C007C3150 /* FilterValueDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterValueDescriptor.swift; sourceTree = "<group>"; };
@@ -846,6 +846,16 @@
 			path = ErrorMapping;
 			sourceTree = "<group>";
 		};
+		274C896E1F984693005B9CF8 /* Not Booked On */ = {
+			isa = PBXGroup;
+			children = (
+				27C9C7601F95692400799855 /* NotBookedOnViewController.swift */,
+				27C9C7641F95736500799855 /* NotBookedOnViewModel.swift */,
+				27C9C7661F95737C00799855 /* NotBookedOnItemViewModel.swift */,
+			);
+			path = "Not Booked On";
+			sourceTree = "<group>";
+		};
 		2768C04A1F86E7A1008532ED /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -878,9 +888,7 @@
 		27C9C75F1F95690A00799855 /* Book On */ = {
 			isa = PBXGroup;
 			children = (
-				27C9C7601F95692400799855 /* NotBookedOnViewController.swift */,
-				27C9C7641F95736500799855 /* NotBookedOnViewModel.swift */,
-				27C9C7661F95737C00799855 /* NotBookedOnItem.swift */,
+				274C896E1F984693005B9CF8 /* Not Booked On */,
 			);
 			path = "Book On";
 			sourceTree = "<group>";
@@ -2070,7 +2078,7 @@
 				BC9C7DCB1F0DED6600DFFE83 /* UnboxableResponseSerializer.swift in Sources */,
 				BC9C7DF51F0DED6600DFFE83 /* CollectionViewFormCellActionView.swift in Sources */,
 				BC9C7E401F0DED6600DFFE83 /* PopoverNavigationController.swift in Sources */,
-				27C9C7671F95737C00799855 /* NotBookedOnItem.swift in Sources */,
+				27C9C7671F95737C00799855 /* NotBookedOnItemViewModel.swift in Sources */,
 				BC0448941F219A70005FB857 /* AssetManager.swift in Sources */,
 				BC9C7E271F0DED6600DFFE83 /* GalleryCollectionViewCell.swift in Sources */,
 				C605F8A91ECCAD3B001194DD /* Manifest.xcdatamodeld in Sources */,
