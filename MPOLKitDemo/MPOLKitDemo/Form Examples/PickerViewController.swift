@@ -29,7 +29,7 @@ class PickerViewController: FormBuilderViewController {
             .range(1...10)
 
         builder += PickerFormItem(pickerAction: RandomValuePicker(options: [1, 2, 3, 4, 5]))
-            .title("Number Picker")
+            .title("Custom Picker")
 
 
         builder += HeaderFormItem(text: "PICKER EXAMPLES WITH FORMATTER")
@@ -56,7 +56,7 @@ class PickerViewController: FormBuilderViewController {
             })
 
         builder += PickerFormItem(pickerAction: RandomValuePicker(options: [1, 2, 3, 4, 5]))
-            .title("Number Picker")
+            .title("Custom Picker")
             .formatter({ return "You have chosen \($0)"})
 
     }

@@ -73,3 +73,50 @@ extension DateFormItem {
     }
 
 }
+
+
+private class DateAction: ValueSelectionAction<Date> {
+
+    public var mode: UIDatePickerMode
+
+    public var minimumDate: Date?
+
+    public var maximumDate: Date?
+
+    public init(mode: UIDatePickerMode = .date, selectedValue: Date? = nil) {
+        self.mode = mode
+
+        super.init()
+
+        self.selectedValue = selectedValue
+    }
+
+    public override func viewController() -> UIViewController {
+        let dateViewController = PopoverDatePickerViewController()
+        dateViewController.title = title
+        dateViewController.dateUpdateHandler = { [weak self] date in
+            self?.selectedValue = date
+            self?.updateHandler?()
+        }
+
+        let datePicker = dateViewController.datePicker
+        datePicker.date = selectedValue ?? Date()
+        datePicker.datePickerMode = mode
+        datePicker.minimumDate = minimumDate
+        datePicker.maximumDate = maximumDate
+
+        let navigationController = PopoverNavigationController(rootViewController: dateViewController)
+        navigationController.modalPresentationStyle = .popover
+        navigationController.dismissHandler = { [weak self] _ in
+            self?.dismissHandler?()
+        }
+
+        return navigationController
+    }
+
+    public override func displayText() -> String? {
+        guard let selectedValue = selectedValue else { return nil }
+        return DateFormatter.formDateAndTime.string(from: selectedValue)
+    }
+
+}

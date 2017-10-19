@@ -55,3 +55,39 @@ extension DropDownFormItem {
     }
 
 }
+
+private class PickerAction<T: Pickable>: ValueSelectionAction<[T]> where T: Equatable {
+
+    public var options: [T] = []
+
+    public var allowsMultipleSelection: Bool = false
+
+    public override func viewController() -> UIViewController {
+        let selectedIndexes = options.indexes { (option) -> Bool in
+            return selectedValue?.contains(option) ?? false
+        }
+
+        let pickerTableViewController = PickerTableViewController(style: .plain, items: options)
+        pickerTableViewController.title = title
+        pickerTableViewController.selectedIndexes = selectedIndexes ?? IndexSet()
+        pickerTableViewController.allowsMultipleSelection = allowsMultipleSelection
+        pickerTableViewController.selectionUpdateHandler = { [weak self] picker, selectedIndexes in
+            self?.selectedValue = self?.options[selectedIndexes]
+            self?.updateHandler?()
+        }
+
+        let navigationController = PopoverNavigationController(rootViewController: pickerTableViewController)
+        navigationController.modalPresentationStyle = .popover
+        navigationController.dismissHandler = { [weak self] _ in
+            self?.dismissHandler?()
+        }
+
+        return navigationController
+    }
+
+    public override func displayText() -> String? {
+        guard let selectedValue = selectedValue else { return nil }
+        return selectedValue.flatMap({ return $0.title }).joined(separator: ", ")
+    }
+
+}

@@ -43,3 +43,40 @@ extension RangeFormItem {
     }
 
 }
+
+private class NumberRangeAction: ValueSelectionAction<CountableClosedRange<Int>>, NumberRangePickerDelegate {
+
+    public var range: CountableClosedRange<Int> = 1...10
+
+    public override func viewController() -> UIViewController {
+        let min = range.min()!
+        let max = range.max()!
+
+        let viewController = NumberRangePickerViewController(min: min, max: max, currentMin: selectedValue?.min() ?? min, currentMax: selectedValue?.max() ?? max)
+        viewController.title = title
+        viewController.delegate = self
+
+        let navigationController = PopoverNavigationController(rootViewController: viewController)
+        navigationController.modalPresentationStyle = .popover
+        navigationController.dismissHandler = { [weak self] _ in
+            self?.dismissHandler?()
+        }
+
+        return navigationController
+    }
+
+    public override func displayText() -> String? {
+        guard let selectedValue = selectedValue, let min = selectedValue.min(), let max = selectedValue.max() else { return nil }
+        return "\(min) - \(max)"
+    }
+
+    public func numberRangePicker(_ numberPicker: NumberRangePickerViewController, didUpdateMinValue minValue: Int, maxValue: Int) {
+        selectedValue = minValue...maxValue
+        updateHandler?()
+    }
+
+    public func numberRangePickerDidSelectNoRange(_ picker: NumberRangePickerViewController) {
+
+    }
+
+}
