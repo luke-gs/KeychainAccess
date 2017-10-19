@@ -10,7 +10,6 @@ import UIKit
 import CoreLocation
 
 open class GeolocationPlugin: PluginType {
-    
     static let locationLatitudeKey = "X-GPS-Latitude"
     static let locationLongitudeKey = "X-GPS-Longitude"
     static let locationTimeOfDayKey = "X-GPS-Time-Of-Day"
