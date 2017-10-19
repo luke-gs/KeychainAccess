@@ -11,6 +11,8 @@ import UIKit
 import MPOLKit
 import Unbox
 
+private let host = "api-location-dev.mpol.solutions"
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
@@ -30,7 +32,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         MPOLKitInitialize()
+
         
+
+
+        APIManager.shared = APIManager(configuration: APIManagerDefaultConfiguration(url: "https://\(host)"))
+
         let theme = ThemeManager.shared.theme(for: .current)
         
         let navBar = UINavigationBar.appearance()
@@ -58,17 +65,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         sidebarDetail2VC.sidebarItem.image = #imageLiteral(resourceName: "SidebarAlert")
         sidebarDetail2VC.sidebarItem.selectedImage = #imageLiteral(resourceName: "SidebarAlertFilled")
         
-        let item1 = SourceItem(title: "CRIMTRAC", state: .loaded(count: 8, color: .red))
-        let item2 = SourceItem(title: "DS2", state: .loaded(count: 2, color: .blue))
-        let item3 = SourceItem(title: "DS3", state: .loaded(count: 1, color: .yellow))
-        
+//        let item1 = SourceItem(title: "CRIMTRAC", state: .loaded(count: 8, color: .red))
+//        let item2 = SourceItem(title: "DS2", state: .loaded(count: 2, color: .blue))
+//        let item3 = SourceItem(title: "DS3", state: .loaded(count: 1, color: .yellow))
+
         let sidebarSplitViewController = SidebarSplitViewController(detailViewControllers: [sidebarDetail1VC, sidebarDetail2VC])
-        sidebarSplitViewController.sidebarViewController.sourceItems = [item1, item2, item3]
-        sidebarSplitViewController.sidebarViewController.selectedSourceIndex = 1
+//        sidebarSplitViewController.sidebarViewController.sourceItems = [item1, item2, item3]
+//        sidebarSplitViewController.sidebarViewController.selectedSourceIndex = 1
         sidebarSplitViewController.title = "Sidebars"
-        
+
+        let formSplitViewController = SidebarSplitViewController(detailViewControllers: examples)
+        formSplitViewController.title = "Form Examples"
+
         let tabBarController = UITabBarController()
-        tabBarController.viewControllers = [pushableSVNavController, UINavigationController(rootViewController: sidebarSplitViewController), UINavigationController(rootViewController:SearchLookupAddressTableViewController(style: .plain))]
+
+        tabBarController.viewControllers = [
+            pushableSVNavController,
+            UINavigationController(rootViewController: sidebarSplitViewController),
+            UINavigationController(rootViewController: SearchLookupAddressTableViewController(style: .plain)),
+            UINavigationController(rootViewController: formSplitViewController)
+        ]
+
+        tabBarController.selectedIndex = 3
+
         self.window?.rootViewController = tabBarController
         
         window.makeKeyAndVisible()
@@ -93,6 +112,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.delayedNetworkEndTimer = nil
         }
     }
+
+    private lazy var examples: [UIViewController] = {
+        let basic = BasicViewController()
+        basic.sidebarItem.regularTitle = "Basic"
+
+        let list = ListViewController()
+        list.sidebarItem.regularTitle = "List"
+
+        let custom = CustomViewController()
+        custom.sidebarItem.regularTitle = "Custom Items"
+
+        let accessory = AccessoryViewController()
+        accessory.sidebarItem.regularTitle = "Accessories"
+
+        let header = HeaderViewController()
+        header.sidebarItem.regularTitle = "Header Styles"
+
+        let picker = PickerViewController()
+        picker.sidebarItem.regularTitle = "Pickers"
+
+        let personDetail = PersonDetailViewController()
+        personDetail.sidebarItem.regularTitle = "Person Details"
+
+        let results = ResultsViewController()
+        results.sidebarItem.regularTitle = "Results"
+
+        let signup = SignupViewController()
+        signup.sidebarItem.regularTitle = "Signup"
+
+        let subscription = SubscriptionViewController()
+        subscription.sidebarItem.regularTitle = "Subscription"
+
+        return [basic, list, custom, accessory, header, picker, personDetail, results, signup, subscription]
+    }()
     
 }
 

@@ -72,7 +72,7 @@ open class PopoverDatePickerViewController: FormTableViewController, UIPopoverPr
     }
     
     open override var cellBackgroundColor: UIColor? {
-        get { return isInPopover ? .clear : super.cellBackgroundColor }
+        get { return .clear }
     }
     
     open override var separatorColor: UIColor? {
@@ -144,7 +144,8 @@ open class PopoverDatePickerViewController: FormTableViewController, UIPopoverPr
     }
     
     open override func apply(_ theme: Theme) {
-        
+        super.apply(theme)
+
         // WORKAROUND: Cannot change the color of text, especially in dark mode.
         // This is PRIVATE API and should be checked on each iOS version.
         // Has been consistent since iOS 7.
