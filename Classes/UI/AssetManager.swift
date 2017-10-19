@@ -188,7 +188,20 @@ extension AssetManager {
         public static let mapUserLocation            = ImageKey("iconUserLocation")
         public static let mapUserTracking            = ImageKey("iconUserTracking")
         public static let mapUserTrackingWithHeading = ImageKey("iconUserTrackingWithHeading")
-        
+
+        // CAD status
+        public static let iconStatusAtIncident   = ImageKey("iconStatusAtIncident")
+        public static let iconStatusCourt        = ImageKey("iconStatusCourt")
+        public static let iconStatusFinalise     = ImageKey("iconStatusFinalise")
+        public static let iconStatusInquiries    = ImageKey("iconStatusInquiries")
+        public static let iconStatusMealBreak    = ImageKey("iconStatusMealBreak")
+        public static let iconStatusOnAir        = ImageKey("iconStatusOnAir")
+        public static let iconStatusOnCall       = ImageKey("iconStatusOnCall")
+        public static let iconStatusProceeding   = ImageKey("iconStatusProceeding")
+        public static let iconStatusStation      = ImageKey("iconStatusStation")
+        public static let iconStatusTrafficStop  = ImageKey("iconStatusTrafficStop")
+        public static let iconStatusUnavailable  = ImageKey("iconStatusUnavailable")
+
     }
 }
 
