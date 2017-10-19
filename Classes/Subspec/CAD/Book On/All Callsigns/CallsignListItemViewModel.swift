@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class CallsignListItemViewModel: CADFormCollectionViewModel<NSObject> {
+open class CallsignListItemViewModel {
     
     open var title: String
     open var subtitle: String
