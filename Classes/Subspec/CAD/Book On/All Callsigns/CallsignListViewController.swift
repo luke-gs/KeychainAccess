@@ -133,6 +133,16 @@ open class CallsignListViewController: CADFormCollectionViewController<CallsignL
         }
     }
     
+    override open func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.willTransition(to: newCollection, with: coordinator)
+        coordinator.animate(alongsideTransition: { (context) in
+            // Update title view based on new traits
+            if let subtitle = self.callsignListViewModel?.navSubtitle() {
+                self.setTitleView(title: self.viewModel.navTitle(), subtitle: subtitle)
+            }
+        }, completion: nil)
+    }
+    
     // MARK: - UICollectionViewDelegate
     
     open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
