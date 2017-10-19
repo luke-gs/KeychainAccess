@@ -9,7 +9,7 @@
 import Foundation
 
 
-/// Custom form item. Use this class to provide a single used cell. Specify the `onConfigured` handler to provide
+/// Custom form item. Use this class to provide a single use cell. Specify the `onConfigured` handler to provide
 /// the custom configuration the cell.
 public final class CustomFormItem: BaseFormItem {
 
