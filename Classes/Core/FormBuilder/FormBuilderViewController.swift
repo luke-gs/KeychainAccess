@@ -29,6 +29,8 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
 
     private var sections: [FormSection] = []
 
+    private var isUnderContruction: Bool = true
+
     // MARK: - Height Calculations
 
     /// A boolean value indicating whether the collection view should automatically calculate
@@ -157,6 +159,8 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
     }
 
     open func reloadForm() {
+        isUnderContruction = true
+
         let items = builder.formItems
         items.forEach({
             if let item = $0 as? BaseFormItem {
@@ -199,7 +203,10 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
         }
 
         self.sections = sections
+
         collectionView?.reloadData()
+
+        isUnderContruction = false
     }
 
     open func scrollTo(_ formItem: FormItem) {
@@ -409,6 +416,8 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
     }
 
     public func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard isUnderContruction == false else { return }
+
         let item = sections[indexPath] as! BaseFormItem
         item.cell = nil
     }
