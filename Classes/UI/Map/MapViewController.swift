@@ -30,7 +30,6 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     
     private var userLocationButton: MapImageButton!
     private var mapTypeButton: MapImageButton!
-    private var mapViewBottomConstraint: NSLayoutConstraint!
     
     // MARK: - Properties
     
@@ -109,8 +108,6 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     
     /// Activates the constraints for the views
     private func setupConstraints() {
-
-        mapViewBottomConstraint = mapView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor)
         NSLayoutConstraint.activate([
             // Make sure buttons are within safe area
             mapTypeButton.bottomAnchor.constraint(equalTo: mapView.safeAreaOrFallbackBottomAnchor, constant: -buttonMargin),
@@ -123,7 +120,7 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
             mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             mapView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
-            mapViewBottomConstraint
+            mapView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor)
         ])
     }
     
@@ -164,17 +161,6 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
         mapSettingsNavController.modalPresentationStyle = .formSheet
         
         present(mapSettingsNavController, animated: true, completion: nil)
-    }
-
-    open override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
-        // Remove once iOS 11+
-        if #available(iOS 11, *) {
-        } else {
-            // The status tab bar controller cannot set the bottom layout guide on iOS 10, so make allowance for it
-            mapViewBottomConstraint?.constant = -(statusTabBarController?.tabBar.frame.height ?? tabBarController?.tabBar.frame.height ?? 0)
-        }
     }
 
     /// Centers the map to the user's location. Note: this method does not zoom.

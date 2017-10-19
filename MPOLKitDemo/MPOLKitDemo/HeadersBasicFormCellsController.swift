@@ -57,7 +57,7 @@ class HeadersBasicFormCellsController: FormCollectionViewController {
     
     // MARK: - Collection view data source
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return Section.count
     }
     

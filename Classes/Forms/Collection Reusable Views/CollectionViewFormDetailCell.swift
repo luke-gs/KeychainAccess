@@ -11,8 +11,6 @@ import UIKit
 
 fileprivate var kvoContext = 1
 
-fileprivate let imageTextInset: CGFloat = 16.0
-
 fileprivate let titleDetailSeparation: CGFloat = 7.0
 
 
@@ -170,7 +168,7 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
         
         if let imageViewSize = _imageView?.intrinsicContentSize, imageViewSize.isEmpty == false {
             imageSize = imageViewSize
-            imageInset = imageViewSize.isEmpty || imageView.isHidden ? 0.0 : imageSize.width + imageTextInset.ceiled(toScale: displayScale)
+            imageInset = imageViewSize.isEmpty || imageView.isHidden ? 0.0 : imageSize.width + CellImageLabelSeparation.ceiled(toScale: displayScale)
         } else {
             imageSize = .zero
             imageInset = 0.0
