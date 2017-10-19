@@ -30,8 +30,7 @@ public class CADUserSession {
     public static var userDefaults: UserDefaults = AppGroup.appUserDefaults()
 
     public var isActive: Bool {
-        guard let _ = UserSession.userDefaults.string(forKey: UserSession.latestSessionKey) else { return false }
-        return true
+        return UserSession.userDefaults.string(forKey: UserSession.latestSessionKey) != nil
     }
 
     public var sessionID: String {
