@@ -17,13 +17,11 @@ public class UserSession: UserSessionable {
     private(set) var token: OAuthAccessToken?
     private(set) public var user: User?
 
-    // Use the app group base path for sharing between apps
+    // Use the app group base path for sharing between apps by default
     public static var basePath: URL = AppGroup.appBaseFilePath()
 
-    // Use the app group user defaults for sharing between apps
-    public var userDefaults: UserDefaults {
-        return AppGroup.appUserDefaults()
-    }
+    // Use the app group user defaults for sharing between apps by default
+    public static var userDefaults: UserDefaults = AppGroup.appUserDefaults()
 
     public var recentlyViewed: [MPOLKitEntity] = [] {
         didSet {
@@ -38,13 +36,13 @@ public class UserSession: UserSessionable {
     }
 
     public var isActive: Bool {
-        guard let _ = userDefaults.string(forKey: latestSessionKey) else { return false }
+        guard let _ = UserSession.userDefaults.string(forKey: latestSessionKey) else { return false }
         return true
     }
 
     public var sessionID: String {
-        let sessionID = userDefaults.string(forKey: latestSessionKey) ?? UUID().uuidString
-        userDefaults.set(sessionID, forKey: latestSessionKey)
+        let sessionID = UserSession.userDefaults.string(forKey: latestSessionKey) ?? UUID().uuidString
+        UserSession.userDefaults.set(sessionID, forKey: latestSessionKey)
         return sessionID
     }
 
@@ -66,7 +64,7 @@ public class UserSession: UserSessionable {
     }
 
     public func endSession() {
-        userDefaults.removeObject(forKey: latestSessionKey)
+        UserSession.userDefaults.removeObject(forKey: latestSessionKey)
 
         user = nil
         token = nil
