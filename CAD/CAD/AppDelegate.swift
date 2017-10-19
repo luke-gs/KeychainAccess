@@ -24,6 +24,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         MPOLKitInitialize()
+
+        let directoryManager = DirectoryManager(baseURL: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!)
+        if let _ = directoryManager.read(fromKeyChain: "token") {
+            print("User is logged in to search app")
+        }
+
         let window = UIWindow()
         self.window = window
         

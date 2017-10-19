@@ -1,0 +1,19 @@
+//
+//  AppConfig-cad-debug.xcconfig
+//  MPOL
+//
+//  Created by QHMW64 on 22/8/17.
+//  Copyright © 2017 Gridstone. All rights reserved.
+//
+
+#include "../../Pods/Target Support Files/Pods-CAD/Pods-CAD.debug.xcconfig"
+
+PRODUCT_NAME=CAD
+CONFIG_HOST_URL=dev-api-2.mpol.solutions
+APP_GROUP_ID=group.enterprise.gridstone.pscore
+
+
+
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) CONFIG_HOST_URL="@\"$(CONFIG_HOST_URL)\""
+
+OTHER_SWIFT_FLAGS = $(inherited)
