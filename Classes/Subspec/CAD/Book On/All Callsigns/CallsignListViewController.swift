@@ -160,7 +160,6 @@ open class CallsignListViewController: CADFormCollectionViewController<CallsignL
         return CollectionViewFormHeaderView.minimumHeight
     }
 
-    
     public func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         callsignListViewModel?.applyFilter(withText: searchText)
     }

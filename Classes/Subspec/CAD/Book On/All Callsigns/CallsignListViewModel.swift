@@ -113,6 +113,9 @@ open class CallsignListViewModel: CADFormCollectionViewModel<CallsignListItemVie
         return nil
     }
     
+    
+    /// Applies the search filter with the specified text, and updates the `sections`
+    /// array to match. If no results found, an empty array will be set for `sections`.
     open func applyFilter(withText text: String?) {
         guard let text = text, text.count > 0 else {
             sections = data
@@ -123,7 +126,7 @@ open class CallsignListViewModel: CADFormCollectionViewModel<CallsignListItemVie
         let filteredData = (data.map { section in
             // Map items
             let filteredItems = (section.items.map { item in
-                // Map if case-insensitive match
+                // Map if title contains case-insensitive match
                 if item.title.lowercased().contains(text.lowercased()) {
                     return item
                 }
