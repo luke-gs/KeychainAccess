@@ -8,35 +8,43 @@
 
 import UIKit
 
+public protocol GenericSearchable {
+    var title: String { get }
+    var subtitle: String { get }
+    var section: String { get }
+    var image: UIImage{ get }
+    func contains(searchString: String) -> Bool
+}
+
 public protocol GenericSearchDelegate {
     func genericSearchViewControllerDidSelectRow(at indexPath: IndexPath)
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String)
 }
 
-public protocol GenericSearchDatasource {
-    func numberOfSections() -> Int
-    func numberOfRows(in section: Int) -> Int
-    func title(for section: Int) -> String
-    func name(for indexPath: IndexPath) -> String
-    func description(for indexPath: IndexPath) -> String
-    func image(for indexPath: IndexPath) -> UIImage
-}
+public struct GenericSearchViewModel {
+    public var title: String = "Search"
+    public var expandableSections: Bool = true
+    public var delegate: GenericSearchDelegate?
+    public var sectionPriority: [String] = [String]()
 
-public struct GenericSearchViewModel<T: Any> {
-    var title: String
-    var expandableSections: Bool
-    var datasource: GenericSearchDatasource
-    var delegate: GenericSearchDelegate?
+    internal var items: [GenericSearchable]
 
-    public init(title: String, expandableSections: Bool, delegate: GenericSearchDelegate, dataSource: GenericSearchDatasource) {
-        self.title = title
-        self.expandableSections = expandableSections
-        self.delegate = delegate
-        self.datasource = dataSource
+    public init(items: [GenericSearchable]) {
+        self.items = items
     }
 }
 
-open class GenericSearchViewController<T: Any>: FormBuilderViewController, UISearchBarDelegate {
+private struct PrioritisedSection {
+    var title: String
+    var items: [GenericSearchable]
+
+    init(title: String, items: [GenericSearchable]) {
+        self.title = title
+        self.items = items
+    }
+}
+
+open class GenericSearchViewController<T: NSObject>: FormBuilderViewController, UISearchBarDelegate {
 
     private lazy var testHeader: UISearchBar = {
         let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: self.view.bounds.size.width, height: 80))
@@ -44,9 +52,42 @@ open class GenericSearchViewController<T: Any>: FormBuilderViewController, UISea
         return searchBar
     }()
 
-    private var viewModel: GenericSearchViewModel<T>
+    private var viewModel: GenericSearchViewModel
 
-    public required init(viewModel: GenericSearchViewModel<T>) {
+    private var searchableSections: [String: [GenericSearchable]] {
+        let dict = viewModel.items.reduce([String: [GenericSearchable]]()) { (result, item) -> [String: [GenericSearchable]] in
+            var mutableResult = result
+            var array = mutableResult[item.section] ?? [GenericSearchable]()
+            array.append(item)
+            mutableResult[item.section] = array
+            return mutableResult
+        }
+
+        return dict
+    }
+
+    private var prioritisedSections: [PrioritisedSection] {
+        var validSections = [PrioritisedSection]()
+        var invalidSections = [PrioritisedSection]()
+
+        var mutatedSections = searchableSections
+
+        // Add valid sections to prioritised sections
+        for (index, item) in viewModel.sectionPriority.enumerated() {
+            if let sections = mutatedSections.removeValue(forKey: item) {
+                validSections.append(PrioritisedSection(title: item, items: sections))
+            }
+        }
+
+        // If section is not specified for priority, add to bottom of list in any order
+        for (key, value) in mutatedSections {
+            invalidSections.append(PrioritisedSection(title: key, items: value))
+        }
+
+        return validSections + invalidSections
+    }
+
+    public required init(viewModel: GenericSearchViewModel) {
         self.viewModel = viewModel
         super.init()
     }
@@ -58,23 +99,56 @@ open class GenericSearchViewController<T: Any>: FormBuilderViewController, UISea
     override open func construct(builder: FormBuilder) {
         builder.title = viewModel.title
 
-        for section in 0..<viewModel.datasource.numberOfSections() {
-            builder += HeaderFormItem(text: viewModel.datasource.title(for: section))
+        for section in 0..<numberOfSections() {
+            builder += HeaderFormItem(text: title(for: section))
 
-            for row in 0..<viewModel.datasource.numberOfRows(in: section) {
+            for row in 0..<numberOfRows(in: section) {
                 let indexPath = IndexPath(row: row, section: section)
-                builder += SubtitleFormItem(title: viewModel.datasource.name(for: indexPath),
-                                            subtitle: viewModel.datasource.description(for: indexPath),
-                                            image: viewModel.datasource.image(for: indexPath),
+                builder += SubtitleFormItem(title: name(for: indexPath),
+                                            subtitle: description(for: indexPath),
+                                            image: image(for: indexPath),
                                             style: .default)
                     .width(.column(1))
                     .accessory(ItemAccessory.disclosure)
                     .height(.fixed(60))
                     .onSelection { [unowned self] cell in
                         self.viewModel.delegate?.genericSearchViewControllerDidSelectRow(at: indexPath)
-                    }
+                }
             }
         }
+    }
+
+    private func numberOfSections() -> Int {
+        let sections = self.prioritisedSections
+        return sections.count
+    }
+
+    private func numberOfRows(in section: Int) -> Int {
+        let section = prioritisedSections[section]
+        return section.items.count
+    }
+
+    private func title(for section: Int) -> String {
+        let section = prioritisedSections[section]
+        return section.title
+    }
+
+    private func name(for indexPath: IndexPath) -> String {
+        let section = prioritisedSections[indexPath.section]
+        let row = section.items[indexPath.row]
+        return row.title
+    }
+
+    private func description(for indexPath: IndexPath) -> String {
+        let section = prioritisedSections[indexPath.section]
+        let row = section.items[indexPath.row]
+        return row.subtitle
+    }
+
+    private func image(for indexPath: IndexPath) -> UIImage? {
+        let section = prioritisedSections[indexPath.section]
+        let row = section.items[indexPath.row]
+        return row.image
     }
 
     open override func viewDidLoad() {

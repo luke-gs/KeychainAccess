@@ -85,10 +85,48 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //
 //        tabBarController.selectedIndex = 3
 
-        let searchVM = GenericSearchViewModel<String>(title: "Search Something",
-                                                      expandableSections: true,
-                                                      delegate: self,
-                                                      dataSource: self)
+        struct Test: GenericSearchable {
+            var title: String = "Title 1"
+            var subtitle: String = "Subtitle 1"
+            var section: String = "Section 1"
+            var image: UIImage = UIImage(named: "SidebarAlert")!
+
+            func contains(searchString: String) -> Bool {
+                return true
+            }
+        }
+
+        struct Test2: GenericSearchable {
+            var title: String = "Title 2"
+            var subtitle: String = "Subtitle 2"
+            var section: String = "Section 2"
+            var image: UIImage = UIImage(named: "SidebarAlert")!
+
+            func contains(searchString: String) -> Bool {
+                return true
+            }
+        }
+
+        struct Test3: GenericSearchable {
+            var title: String = "Title 3"
+            var subtitle: String = "Subtitle 3"
+            var section: String = "Section 3"
+            var image: UIImage = UIImage(named: "SidebarAlert")!
+
+            func contains(searchString: String) -> Bool {
+                return true
+            }
+        }
+
+        let items1: [GenericSearchable] = Array(repeating: Test(), count: 10)
+        let items2: [GenericSearchable] = Array(repeating: Test2(), count: 10)
+        let items3: [GenericSearchable] = Array(repeating: Test3(), count: 10)
+
+        var searchVM = GenericSearchViewModel(items: items1 + items2 + items3)
+        searchVM.title = "Search Items"
+        searchVM.expandableSections = true
+        searchVM.delegate = self
+        searchVM.sectionPriority = ["Section 2", "Section 1"]
 
         let vc = GenericSearchViewController(viewModel: searchVM)
 
@@ -151,7 +189,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
 }
 
-extension AppDelegate: GenericSearchDelegate, GenericSearchDatasource {
+extension AppDelegate: GenericSearchDelegate {
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         print("Hello")
@@ -161,29 +199,29 @@ extension AppDelegate: GenericSearchDelegate, GenericSearchDatasource {
         print("Hello \(indexPath)")
     }
 
-    func numberOfSections() -> Int {
-        return 2
-    }
-
-    func numberOfRows(in section: Int) -> Int {
-        return 10
-    }
-
-    func title(for section: Int) -> String {
-        return "Test Section \(section)"
-    }
-
-    func name(for indexPath: IndexPath) -> String {
-        return "Test Title \(indexPath.row)"
-    }
-
-    func description(for indexPath: IndexPath) -> String {
-        return "Test Description \(indexPath.row)"
-    }
-
-    func image(for indexPath: IndexPath) -> UIImage {
-        return UIImage(named: "SidebarAlert")!
-    }
+//    func numberOfSections() -> Int {
+//        return 2
+//    }
+//
+//    func numberOfRows(in section: Int) -> Int {
+//        return 10
+//    }
+//
+//    func title(for section: Int) -> String {
+//        return "Test Section \(section)"
+//    }
+//
+//    func name(for indexPath: IndexPath) -> String {
+//        return "Test Title \(indexPath.row)"
+//    }
+//
+//    func description(for indexPath: IndexPath) -> String {
+//        return "Test Description \(indexPath.row)"
+//    }
+//
+//    func image(for indexPath: IndexPath) -> UIImage {
+//        return UIImage(named: "SidebarAlert")!
+//    }
 }
 
             
