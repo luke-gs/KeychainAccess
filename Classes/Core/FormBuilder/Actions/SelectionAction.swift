@@ -30,7 +30,7 @@ public protocol SelectionAction: class {
 
 open class ValueSelectionAction<T>: SelectionAction {
 
-    public let title: String
+    public var title: String?
 
     public var selectedValue: T?
 
@@ -38,61 +38,36 @@ open class ValueSelectionAction<T>: SelectionAction {
 
     public var dismissHandler: (() -> ())?
 
-    public var valueFormatter: ((T) -> String?)?
-
-    public init(title: String) {
-        self.title = title
-    }
+    public init() { }
 
     open func viewController() -> UIViewController {
         MPLRequiresConcreteImplementation()
     }
 
     open func displayText() -> String? {
-        guard let selectedValue = selectedValue else { return nil }
-
-        if let formatter = valueFormatter {
-            return formatter(selectedValue)
-        }
-
-        return nil
+        MPLRequiresConcreteImplementation()
     }
 
 }
 
 
-public class PickerAction<T: Pickable>: ValueSelectionAction<[T]> {
+public class PickerAction<T: Pickable>: ValueSelectionAction<[T]> where T: Equatable {
 
-    public let options: [T]
+    public var options: [T] = []
 
-    public var selectedIndexes: IndexSet?
-
-    public var allowsMultipleSelection: Bool
-
-    public override var selectedValue: [T]? {
-        get {
-            guard let selectedIndexes = selectedIndexes else { return nil }
-            return options[selectedIndexes]
-        }
-        set { }
-    }
-
-    public init(title: String, options: [T], selectedIndexes: IndexSet? = nil, allowsMultipleSelection: Bool = false) {
-        self.options = options
-        self.allowsMultipleSelection = allowsMultipleSelection
-
-        super.init(title: title)
-
-        self.selectedIndexes = selectedIndexes
-    }
+    public var allowsMultipleSelection: Bool = false
 
     public override func viewController() -> UIViewController {
+        let selectedIndexes = options.indexes { (option) -> Bool in
+            return selectedValue?.contains(option) ?? false
+        }
+
         let pickerTableViewController = PickerTableViewController(style: .plain, items: options)
         pickerTableViewController.title = title
         pickerTableViewController.selectedIndexes = selectedIndexes ?? IndexSet()
         pickerTableViewController.allowsMultipleSelection = allowsMultipleSelection
         pickerTableViewController.selectionUpdateHandler = { [weak self] picker, selectedIndexes in
-            self?.selectedIndexes = selectedIndexes
+            self?.selectedValue = self?.options[selectedIndexes]
             self?.updateHandler?()
         }
 
@@ -106,13 +81,8 @@ public class PickerAction<T: Pickable>: ValueSelectionAction<[T]> {
     }
 
     public override func displayText() -> String? {
-        guard let selectedIndexes = selectedIndexes else { return nil }
-
-        if let text = super.displayText() {
-            return text
-        }
-
-        return options[selectedIndexes].flatMap({ return $0.title }).joined(separator: ", ")
+        guard let selectedValue = selectedValue else { return nil }
+        return selectedValue.flatMap({ return $0.title }).joined(separator: ", ")
     }
 
 }
@@ -120,19 +90,16 @@ public class PickerAction<T: Pickable>: ValueSelectionAction<[T]> {
 
 public class DateAction: ValueSelectionAction<Date> {
 
-    public let mode: UIDatePickerMode
-
-    public let formatter: DateFormatter
+    public var mode: UIDatePickerMode
 
     public var minimumDate: Date?
 
     public var maximumDate: Date?
 
-    public init(title: String, mode: UIDatePickerMode = .date, selectedValue: Date? = nil, formatter: DateFormatter = .formDateAndTime) {
+    public init(mode: UIDatePickerMode = .date, selectedValue: Date? = nil) {
         self.mode = mode
-        self.formatter = formatter
 
-        super.init(title: title)
+        super.init()
 
         self.selectedValue = selectedValue
     }
@@ -162,27 +129,14 @@ public class DateAction: ValueSelectionAction<Date> {
 
     public override func displayText() -> String? {
         guard let selectedValue = selectedValue else { return nil }
-
-        if let text = super.displayText() {
-            return text
-        }
-
-        return formatter.string(from: selectedValue)
+        return DateFormatter.formDateAndTime.string(from: selectedValue)
     }
 
 }
 
 public class NumberRangeAction: ValueSelectionAction<CountableClosedRange<Int>>, NumberRangePickerDelegate {
 
-    public let range: CountableClosedRange<Int>
-
-    public init(title: String, range: CountableClosedRange<Int>, selected: CountableClosedRange<Int>? = nil) {
-        self.range = range
-
-        super.init(title: title)
-
-        self.selectedValue = selected
-    }
+    public var range: CountableClosedRange<Int> = 1...10
 
     public override func viewController() -> UIViewController {
         let min = range.min()!
@@ -202,13 +156,7 @@ public class NumberRangeAction: ValueSelectionAction<CountableClosedRange<Int>>,
     }
 
     public override func displayText() -> String? {
-        guard let selectedValue = selectedValue else { return nil }
-
-        if let text = super.displayText() {
-            return text
-        }
-
-        guard let min = selectedValue.min(), let max = selectedValue.max() else { return nil }
+        guard let selectedValue = selectedValue, let min = selectedValue.min(), let max = selectedValue.max() else { return nil }
         return "\(min) - \(max)"
     }
 
