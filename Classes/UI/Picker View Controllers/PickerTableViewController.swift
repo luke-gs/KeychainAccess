@@ -229,6 +229,7 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
     open override func viewDidLoad() {
         super.viewDidLoad()
         tableView?.estimatedRowHeight = 44.0
+        searchBar.delegate = self
         searchBar.text = searchTerm
     }
     
@@ -392,6 +393,12 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
 
     
     // MARK: - Search bar delegate
+
+    public func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        print("asdasd")
+
+        return true
+    }
     
     open func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         searchTerm = searchText
