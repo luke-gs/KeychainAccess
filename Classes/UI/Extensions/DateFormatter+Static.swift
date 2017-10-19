@@ -40,7 +40,30 @@ extension DateFormatter {
         formatter.setLocalizedDateFormatFromTemplate("MMM-d-H:mm:ss.SSSSSSSSS-a-yyyy")
         return formatter
     }()
-    
+
+    // MARK - Formatter used in form
+
+    public static let formDate: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = .autoupdatingCurrent
+        formatter.setLocalizedDateFormatFromTemplate("dd MMM yyyy")
+        return formatter
+    }()
+
+    public static let formDateAndTime: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = .autoupdatingCurrent
+        formatter.setLocalizedDateFormatFromTemplate("dd MMM yyyy HH:mm")
+        return formatter
+    }()
+
+    public static let formTime: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = .autoupdatingCurrent
+        formatter.setLocalizedDateFormatFromTemplate("HH:mm")
+        return formatter
+    }()
+
     // MARK: - Locale changes
     
     private static var isListeningForLocaleChanges: Bool = false {
