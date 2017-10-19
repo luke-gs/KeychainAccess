@@ -10,8 +10,6 @@ import Foundation
 
 fileprivate var contentHeightContext = 1
 
-fileprivate let tempID = "temp"
-
 
 open class FormBuilderViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, CollectionViewDelegateFormLayout, PopoverViewController {
 
@@ -224,10 +222,6 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
         collectionView.delegate   = self
         collectionView.alwaysBounceVertical = true
         collectionView.backgroundColor = nil
-        collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: collectionElementKindGlobalHeader,    withReuseIdentifier: tempID)
-        collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: collectionElementKindGlobalFooter,    withReuseIdentifier: tempID)
-        collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: tempID)
-        collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: tempID)
 
         if calculatesContentHeight {
             collectionView.addObserver(self, forKeyPath: #keyPath(UICollectionView.contentSize), options: [.old, .new], context: &contentHeightContext)
