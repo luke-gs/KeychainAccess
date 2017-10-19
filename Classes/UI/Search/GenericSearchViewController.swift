@@ -45,10 +45,12 @@ private struct PrioritisedSection {
 
 open class GenericSearchViewController: FormBuilderViewController, UISearchBarDelegate {
 
-    private lazy var testHeader: UISearchBar = {
-        let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: self.view.bounds.size.width, height: 80))
+    private lazy var searchBar: UISearchBar = {
+        let searchBar = UISearchBar()
         searchBar.placeholder = "Search"
         searchBar.delegate = self
+        searchBar.autoresizingMask = [.flexibleWidth]
+        searchBar.sizeToFit()
         return searchBar
     }()
 
@@ -113,7 +115,7 @@ open class GenericSearchViewController: FormBuilderViewController, UISearchBarDe
 
     open override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.addSubview(testHeader)
+        self.view.addSubview(searchBar)
         updateColour(for: traitCollection)
     }
 
@@ -142,11 +144,11 @@ open class GenericSearchViewController: FormBuilderViewController, UISearchBarDe
         super.viewDidLayoutSubviews()
         
         if #available(iOS 11.0, *) {
-            testHeader.frame.origin.y = self.view.safeAreaInsets.top - testHeader.frame.height
-            testHeader.frame.size.width = self.view.frame.size.width
-            additionalSafeAreaInsets.top = testHeader.frame.height
+            searchBar.frame.origin.y = self.view.safeAreaInsets.top - searchBar.frame.height
+            additionalSafeAreaInsets.top = searchBar.frame.height
         } else {
-            // Fallback on earlier versions
+            searchBar.frame.origin.y = topLayoutGuide.length
+            legacy_additionalSafeAreaInsets.top = searchBar.frame.size.height
         }
     }
 
