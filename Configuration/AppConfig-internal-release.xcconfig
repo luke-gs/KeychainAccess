@@ -10,6 +10,7 @@
 
 PRODUCT_NAME=Fish
 CONFIG_HOST_URL=dev-api-2.mpol.solutions // Needs to be dev-test-api.mpol.solutions in future
+APP_GROUP_ID=group.enterprise.gridstone.pscore
 
 
 
