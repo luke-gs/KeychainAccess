@@ -92,18 +92,22 @@ class DateAction: ValueSelectionAction<Date> {
     }
 
     public override func viewController() -> UIViewController {
-        let dateViewController = PopoverDatePickerViewController()
-        dateViewController.title = title
-        dateViewController.dateUpdateHandler = { [weak self] date in
+        let updateHandler: (Date) -> () = { [weak self] date in
             self?.selectedValue = date
             self?.updateHandler?()
         }
+
+        let dateViewController = PopoverDatePickerViewController()
+        dateViewController.title = title
+        dateViewController.dateUpdateHandler = updateHandler
 
         let datePicker = dateViewController.datePicker
         datePicker.date = selectedValue ?? Date()
         datePicker.datePickerMode = mode
         datePicker.minimumDate = minimumDate
         datePicker.maximumDate = maximumDate
+
+        updateHandler(datePicker.date)
 
         let navigationController = PopoverNavigationController(rootViewController: dateViewController)
         navigationController.modalPresentationStyle = .popover

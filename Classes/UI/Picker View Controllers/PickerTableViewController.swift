@@ -388,6 +388,10 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
         
         tableView.deselectRow(at: indexPath, animated: true)
         selectionUpdateHandler?(self, selectedIndexes)
+
+        if !allowsMultipleSelection {
+            dismiss(animated: true, completion: nil)
+        }
     }
 
     
