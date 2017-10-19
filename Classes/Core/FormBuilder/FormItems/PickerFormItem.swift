@@ -13,6 +13,7 @@ public class PickerFormItem<T>: BaseFormItem, SelectionActionable, DefaultReusab
 
     public var title: StringSizable?
 
+    /// The value of StringSizing is ignored and only the font and the number of lines are used.
     public var value: StringSizable?
 
     public var placeholder: StringSizable?
