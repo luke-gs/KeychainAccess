@@ -16,7 +16,10 @@ import Alamofire
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    
+
+    private var loginViewController: LoginViewController?
+    private var sessionViewController: CADStatusTabBarController?
+
     // FIXME: Temporary
     let locationManager = CLLocationManager()
     
@@ -59,17 +62,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private func updateRootViewController() {
         if UserSession.current.isActive {
-            if self.window?.rootViewController != statusTabBarController {
-                self.window?.rootViewController = statusTabBarController
+            loginViewController = nil
+            if window?.rootViewController == nil || window?.rootViewController != sessionViewController {
+                window?.rootViewController = createSessionViewController()
             }
         } else {
-            if self.window?.rootViewController != notLoggedInViewController {
-                self.window?.rootViewController = notLoggedInViewController
+            sessionViewController = nil
+            if window?.rootViewController == nil || window?.rootViewController != loginViewController {
+                window?.rootViewController = createLoginViewController()
             }
         }
     }
 
-    private lazy var statusTabBarController: UIViewController = {
+    private func createSessionViewController() -> UIViewController {
         let tempCallsignController = UIViewController() // TODO: Add callsign view
         tempCallsignController.tabBarItem = UITabBarItem(title: "Callsign", image: AssetManager.shared.image(forKey: .entityCar), selectedImage: nil)
 
@@ -89,23 +94,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         activityNavController.tabBarItem.image = AssetManager.shared.image(forKey: .tabBarActivity)
         activityNavController.tabBarItem.title = NSLocalizedString("Activity Log", comment: "Activity Log Tab Bar Item")
 
-        let statusTabBarController = CADStatusTabBarController()
-        statusTabBarController.regularViewControllers = [searchProxyViewController, tasksNavController, activityNavController]
-        statusTabBarController.compactViewControllers = statusTabBarController.viewControllers + [tempCallsignController]
-        statusTabBarController.selectedViewController = tasksNavController
+        let sessionViewController = CADStatusTabBarController()
+        sessionViewController.regularViewControllers = [searchProxyViewController, tasksNavController, activityNavController]
+        sessionViewController.compactViewControllers = sessionViewController.viewControllers + [tempCallsignController]
+        sessionViewController.selectedViewController = tasksNavController
+        self.sessionViewController = sessionViewController
+        return sessionViewController
+    }
 
-        return statusTabBarController
-    }()
-
-    private lazy var notLoggedInViewController: UIViewController = {
-        let notLoggedInViewController = UIViewController()
-        let background = UIImageView(image: UIImage(named: "Login"))
-        background.frame = notLoggedInViewController.view.frame
-        background.contentMode = .scaleAspectFill
-        background.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        notLoggedInViewController.view.addSubview(background)
-        return notLoggedInViewController
-    }()
+    private func createLoginViewController() -> UIViewController {
+        let loginViewController = LoginViewController()
+        self.loginViewController = loginViewController
+        return loginViewController
+    }
 
     private func applyCurrentTheme() {
         let theme = ThemeManager.shared.theme(for: .current)
@@ -142,6 +143,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+
+        // Show login or session screen depending on user session
         updateRootViewController()
     }
 
