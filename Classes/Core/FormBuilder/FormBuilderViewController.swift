@@ -10,8 +10,6 @@ import Foundation
 
 fileprivate var contentHeightContext = 1
 
-fileprivate let tempID = "temp"
-
 
 open class FormBuilderViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, CollectionViewDelegateFormLayout, PopoverViewController {
 
@@ -30,6 +28,8 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
     public let builder = FormBuilder()
 
     private var sections: [FormSection] = []
+
+    private var isUnderContruction: Bool = true
 
     // MARK: - Height Calculations
 
@@ -159,6 +159,8 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
     }
 
     open func reloadForm() {
+        isUnderContruction = true
+
         let items = builder.formItems
         items.forEach({
             if let item = $0 as? BaseFormItem {
@@ -201,7 +203,10 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
         }
 
         self.sections = sections
+
         collectionView?.reloadData()
+
+        isUnderContruction = false
     }
 
     open func scrollTo(_ formItem: FormItem) {
@@ -224,10 +229,6 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
         collectionView.delegate   = self
         collectionView.alwaysBounceVertical = true
         collectionView.backgroundColor = nil
-        collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: collectionElementKindGlobalHeader,    withReuseIdentifier: tempID)
-        collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: collectionElementKindGlobalFooter,    withReuseIdentifier: tempID)
-        collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: tempID)
-        collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: tempID)
 
         if calculatesContentHeight {
             collectionView.addObserver(self, forKeyPath: #keyPath(UICollectionView.contentSize), options: [.old, .new], context: &contentHeightContext)
@@ -415,8 +416,10 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
     }
 
     public func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-//        let item = sections[indexPath] as! BaseFormItem
-//        item.cell = nil
+        guard isUnderContruction == false else { return }
+
+        let item = sections[indexPath] as! BaseFormItem
+        item.cell = nil
     }
 
     open func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {

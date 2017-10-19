@@ -9,7 +9,7 @@
 import Foundation
 
 
-/// Custom form item accessory. Use this class to provide a single used accessory.
+/// Custom form item accessory. Use this class to provide a single use accessory.
 public class CustomItemAccessory: ItemAccessorisable {
 
     public let size: CGSize

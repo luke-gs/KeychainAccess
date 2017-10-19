@@ -172,6 +172,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let header = HeaderViewController()
         header.sidebarItem.regularTitle = "Header Styles"
 
+        let picker = PickerViewController()
+        picker.sidebarItem.regularTitle = "Pickers"
+
         let personDetail = PersonDetailViewController()
         personDetail.sidebarItem.regularTitle = "Person Details"
 
@@ -184,7 +187,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let subscription = SubscriptionViewController()
         subscription.sidebarItem.regularTitle = "Subscription"
 
-        return [basic, list, custom, accessory, header, personDetail, results, signup, subscription]
+        return [basic, list, custom, accessory, header, picker, personDetail, results, signup, subscription]
     }()
     
 }

@@ -394,16 +394,10 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
     
     // MARK: - Search bar delegate
 
-    public func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-        print("asdasd")
-
-        return true
-    }
-    
-    open func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+    open override func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         searchTerm = searchText
     }
-    
+
     
     // MARK: - Private methods
     

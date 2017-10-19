@@ -22,16 +22,16 @@ public class DebugDumpVisitor: FormVisitor {
             extract(item)
         case let item as TextViewFormItem:
             extract(item)
-        case let item as PickerFormItem<Array<String>>:
-            extract(item)
-        case let item as PickerFormItem<String>:
-            extract(item)
-        case let item as PickerFormItem<Int>:
-            extract(item)
-        case let item as PickerFormItem<Date>:
-            extract(item)
-        case let item as PickerFormItem<CountableClosedRange<Int>>:
-            extract(item)
+//        case let item as PickerFormItem<Array<String>>:
+//            extract(item)
+//        case let item as PickerFormItem<String>:
+//            extract(item)
+//        case let item as PickerFormItem<Int>:
+//            extract(item)
+//        case let item as PickerFormItem<Date>:
+//            extract(item)
+//        case let item as PickerFormItem<CountableClosedRange<Int>>:
+//            extract(item)
         case let item as HeaderFormItem:
             extract(item)
         case let item as FooterFormItem:
@@ -72,13 +72,13 @@ public class DebugDumpVisitor: FormVisitor {
         payload["value"] = object.text
     }
 
-    private func extract<T>(_ object: PickerFormItem<T>) {
-        payload["class"] = "PickerFormItem"
-        payload["elementIdentifier"] = object.elementIdentifier
-        payload["title"] = object.title
-        payload["placeholder"] = object.placeholder
-        payload["value"] = object.pickerAction?.displayText()
-    }
+//    private func extract<T>(_ object: PickerFormItem<T>) {
+//        payload["class"] = "PickerFormItem"
+//        payload["elementIdentifier"] = object.elementIdentifier
+//        payload["title"] = object.title
+//        payload["placeholder"] = object.placeholder
+//        payload["value"] = object.pickerAction?.displayText()
+//    }
 
     private func extract(_ object: HeaderFormItem) {
         payload["class"] = "HeaderFormItem"

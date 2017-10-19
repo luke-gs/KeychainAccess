@@ -10,55 +10,64 @@ import XCTest
 @testable import MPOLKit
 
 class PickerFormItemTests: XCTestCase {
-    
+
+    class FakeAction: ValueSelectionAction<String> {
+        override func viewController() -> UIViewController {
+            return UIViewController()
+        }
+    }
+
+
     func testThatItInstantiatesWithDefaults() {
         // Given
-        let title = "Hello"
-        let options = ["Hi", "Bye"]
-        let action = PickerAction(title: title, options: options)
+        let action = FakeAction()
 
         // When
         let item = PickerFormItem(pickerAction: action)
 
         // Then
         XCTAssertTrue(item.cellType == CollectionViewFormValueFieldCell.self)
-        XCTAssertEqual(item.reuseIdentifier, PickerFormItem<[String]>.defaultReuseIdentifier)
-        XCTAssertTrue(item.selectionAction is PickerAction<String>)
+        XCTAssertEqual(item.reuseIdentifier, PickerFormItem<String>.defaultReuseIdentifier)
+        XCTAssertTrue(item.selectionAction is FakeAction)
         XCTAssertEqual(item.imageSeparation, CellImageLabelSeparation)
         XCTAssertEqual(item.labelSeparation, CellTitleSubtitleSeparation)
     }
 
     func testThatItChains() {
         // Given
-        let item = PickerFormItem<[String]>()
+        let item = PickerFormItem(pickerAction: FakeAction())
+
 
         // When
         item.title("Hello")
-            .value("Bye")
+            .pickerTitle("Choose one")
+            .selectedValue("Hi")
             .placeholder("Hi")
+            .formatter(nil)
             .image(AssetManager.shared.image(forKey: .info))
             .notRequired()
             .required()
             .imageSeparation(10.0)
             .labelSeparation(15.0)
-            .pickerAction(PickerAction(title: "Hello", options: ["Wow", "Mom"]))
             .onValueChanged(nil)
 
         // Then
         XCTAssertEqual(item.title?.sizing().string, "Hello")
-        XCTAssertEqual(item.value?.sizing().string, "Bye")
+        XCTAssertEqual(item.selectedValue, "Hi")
         XCTAssertEqual(item.placeholder?.sizing().string, "Hi")
         XCTAssertEqual(item.image, AssetManager.shared.image(forKey: .info))
         XCTAssertEqual(item.isRequired, true)
         XCTAssertEqual(item.imageSeparation, 10.0)
         XCTAssertEqual(item.labelSeparation, 15.0)
         XCTAssertNil(item.onValueChanged)
+        XCTAssertNil(item.formatter)
     }
 
     func testThatItConfiguresView() {
         // Given
         let view = CollectionViewFormValueFieldCell()
-        let item = PickerFormItem(pickerAction: PickerAction(title: "Hello", options: ["Hi", "Bye"]))
+        let item = PickerFormItem(pickerAction: FakeAction())
+            .title("Hello")
             .image(AssetManager.shared.image(forKey: .info))
             .placeholder("Choose One")
 
@@ -75,7 +84,9 @@ class PickerFormItemTests: XCTestCase {
     func testThatItConfiguresViewWithRequired() {
         // Given
         let view = CollectionViewFormValueFieldCell()
-        let item = PickerFormItem(pickerAction: PickerAction(title: "Hello", options: ["Hi", "Bye"])).required()
+        let item = PickerFormItem(pickerAction: FakeAction())
+            .required()
+            .title("Hello")
 
         // When
         item.configure(view)
@@ -86,7 +97,9 @@ class PickerFormItemTests: XCTestCase {
 
     func testThatItReturnsIntrinsicWidth() {
         // Given
-        let item = PickerFormItem(pickerAction: PickerAction(title: "Hello", options: ["Hi", "Bye"])).required()
+        let item = PickerFormItem(pickerAction: FakeAction())
+            .required()
+            .title("Hello")
 
         // When
         let width = item.intrinsicWidth(in: UICollectionView(frame: .zero, collectionViewLayout: CollectionViewFormLayout()), layout: CollectionViewFormLayout(), sectionEdgeInsets: .zero, for: UITraitCollection())
@@ -97,7 +110,9 @@ class PickerFormItemTests: XCTestCase {
 
     func testThatItReturnsIntrinsicHeight() {
         // Given
-        let item = PickerFormItem(pickerAction: PickerAction(title: "Hello", options: ["Hi", "Bye"])).required()
+        let item = PickerFormItem(pickerAction: FakeAction())
+            .required()
+            .title("Hello")
 
         // When
         let height = item.intrinsicHeight(in: UICollectionView(frame: .zero, collectionViewLayout: CollectionViewFormLayout()), layout: CollectionViewFormLayout(), givenContentWidth: 200.0, for: UITraitCollection())
@@ -110,7 +125,9 @@ class PickerFormItemTests: XCTestCase {
         // Given
         let view = CollectionViewFormValueFieldCell()
         let theme = ThemeManager.shared.theme(for: .current)
-        let item = PickerFormItem(pickerAction: PickerAction(title: "Hello", options: ["Hi", "Bye"])).required()
+        let item = PickerFormItem(pickerAction: FakeAction())
+            .required()
+            .title("Hello")
 
         // When
         item.apply(theme: theme, toCell: view)
