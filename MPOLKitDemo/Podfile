@@ -10,3 +10,29 @@ project 'MPOLKitDemo.xcodeproj'
 target 'MPOLKitDemo' do
     pod 'MPOLKit', :path => '../'
 end
+
+# Workaround, swift is hard...
+swift_32 = ['Alamofire', 'Unbox', 'Wrap', 'KeychainSwift']
+swift4 = ['MPOLKit', 'PromiseKit']
+
+post_install do |installer|
+    installer.pods_project.targets.each do |target|
+
+        swift_version = nil
+
+        if swift_32.include?(target.name)
+            swift_version = '3.2'
+        end
+
+        if swift4.include?(target.name)
+            swift_version = '4.0'
+        end
+
+        target.build_configurations.each do |config|
+            config.build_settings['ENABLE_BITCODE'] = 'NO'
+            if swift_version
+                config.build_settings['SWIFT_VERSION'] = swift_version
+            end
+        end
+    end
+end
