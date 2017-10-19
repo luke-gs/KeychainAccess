@@ -92,7 +92,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             var image: UIImage = UIImage(named: "SidebarAlert")!
 
             func contains(searchString: String) -> Bool {
-                return true
+                return title.starts(with: searchString)
             }
         }
 
@@ -103,7 +103,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             var image: UIImage = UIImage(named: "SidebarAlert")!
 
             func contains(searchString: String) -> Bool {
-                return true
+                return title.starts(with: searchString)
             }
         }
 
@@ -114,7 +114,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             var image: UIImage = UIImage(named: "SidebarAlert")!
 
             func contains(searchString: String) -> Bool {
-                return true
+                return title.starts(with: searchString)
             }
         }
 

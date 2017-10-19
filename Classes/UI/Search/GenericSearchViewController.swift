@@ -44,7 +44,7 @@ private struct PrioritisedSection {
     }
 }
 
-open class GenericSearchViewController<T: NSObject>: FormBuilderViewController, UISearchBarDelegate {
+open class GenericSearchViewController: FormBuilderViewController, UISearchBarDelegate {
 
     private lazy var testHeader: UISearchBar = {
         let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: self.view.bounds.size.width, height: 80))
@@ -53,6 +53,10 @@ open class GenericSearchViewController<T: NSObject>: FormBuilderViewController, 
     }()
 
     private var viewModel: GenericSearchViewModel
+    private var searchString: String = ""
+    private var isSearching: Bool {
+        return searchString != nil && searchString != ""
+    }
 
     private var searchableSections: [String: [GenericSearchable]] {
         let dict = viewModel.items.reduce([String: [GenericSearchable]]()) { (result, item) -> [String: [GenericSearchable]] in
@@ -87,6 +91,17 @@ open class GenericSearchViewController<T: NSObject>: FormBuilderViewController, 
         return validSections + invalidSections
     }
 
+    private var filteredSections: [PrioritisedSection] {
+        var filteredSections = [PrioritisedSection]()
+
+        for section in prioritisedSections {
+            let validItems = section.items.filter{$0.contains(searchString: searchString)}
+            filteredSections.append(PrioritisedSection(title: section.title, items: validItems))
+        }
+
+        return filteredSections
+    }
+
     public required init(viewModel: GenericSearchViewModel) {
         self.viewModel = viewModel
         super.init()
@@ -119,34 +134,34 @@ open class GenericSearchViewController<T: NSObject>: FormBuilderViewController, 
     }
 
     private func numberOfSections() -> Int {
-        let sections = self.prioritisedSections
+        let sections = self.filteredSections
         return sections.count
     }
 
     private func numberOfRows(in section: Int) -> Int {
-        let section = prioritisedSections[section]
+        let section = filteredSections[section]
         return section.items.count
     }
 
     private func title(for section: Int) -> String {
-        let section = prioritisedSections[section]
+        let section = filteredSections[section]
         return section.title
     }
 
     private func name(for indexPath: IndexPath) -> String {
-        let section = prioritisedSections[indexPath.section]
+        let section = filteredSections[indexPath.section]
         let row = section.items[indexPath.row]
         return row.title
     }
 
     private func description(for indexPath: IndexPath) -> String {
-        let section = prioritisedSections[indexPath.section]
+        let section = filteredSections[indexPath.section]
         let row = section.items[indexPath.row]
         return row.subtitle
     }
 
     private func image(for indexPath: IndexPath) -> UIImage? {
-        let section = prioritisedSections[indexPath.section]
+        let section = filteredSections[indexPath.section]
         let row = section.items[indexPath.row]
         return row.image
     }
@@ -168,7 +183,8 @@ open class GenericSearchViewController<T: NSObject>: FormBuilderViewController, 
     }
 
     public func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        print("Text \(searchText)")
+        searchString = searchText
+        self.reloadForm()
     }
 }
 
