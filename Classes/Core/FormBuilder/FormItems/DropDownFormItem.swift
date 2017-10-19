@@ -25,7 +25,7 @@ public class DropDownFormItem<T: Pickable>: PickerFormItem<[T]> where T: Equatab
         }
     }
 
-    private let action = PickerAction<T>()
+    private let action = DropDownAction<T>()
 
     public init() {
         super.init(pickerAction: action)
@@ -56,7 +56,7 @@ extension DropDownFormItem {
 
 }
 
-private class PickerAction<T: Pickable>: ValueSelectionAction<[T]> where T: Equatable {
+class DropDownAction<T: Pickable>: ValueSelectionAction<[T]> where T: Equatable {
 
     public var options: [T] = []
 
@@ -69,7 +69,7 @@ private class PickerAction<T: Pickable>: ValueSelectionAction<[T]> where T: Equa
 
         let pickerTableViewController = PickerTableViewController(style: .plain, items: options)
         pickerTableViewController.title = title
-        pickerTableViewController.selectedIndexes = selectedIndexes ?? IndexSet()
+        pickerTableViewController.selectedIndexes = selectedIndexes
         pickerTableViewController.allowsMultipleSelection = allowsMultipleSelection
         pickerTableViewController.selectionUpdateHandler = { [weak self] picker, selectedIndexes in
             self?.selectedValue = self?.options[selectedIndexes]

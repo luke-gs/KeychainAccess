@@ -76,10 +76,10 @@ public class PickerFormItem<T>: BaseFormItem, SelectionActionable, DefaultReusab
         let traitCollection = cell.traitCollection
 
         let titleLabel = cell.titleLabel
-        titleLabel.apply(sizable: title ?? pickerAction.title, defaultFont: .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection))
+        titleLabel.apply(sizable: title, defaultFont: .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection))
 
         if isRequired {
-            titleLabel.makeRequired(with: title ?? pickerAction.title)
+            titleLabel.makeRequired(with: title)
         }
 
         cell.valueLabel.apply(sizable: valueSizing(), defaultFont: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection))
@@ -89,7 +89,7 @@ public class PickerFormItem<T>: BaseFormItem, SelectionActionable, DefaultReusab
 
     public override func intrinsicHeight(in collectionView: UICollectionView, layout: CollectionViewFormLayout, givenContentWidth contentWidth: CGFloat, for traitCollection: UITraitCollection) -> CGFloat {
 
-        var title = (self.title ?? pickerAction.title)?.sizing()
+        var title = self.title?.sizing()
         if isRequired {
             title?.makeRequired()
         }
@@ -99,7 +99,7 @@ public class PickerFormItem<T>: BaseFormItem, SelectionActionable, DefaultReusab
 
     public override func intrinsicWidth(in collectionView: UICollectionView, layout: CollectionViewFormLayout, sectionEdgeInsets: UIEdgeInsets, for traitCollection: UITraitCollection) -> CGFloat {
 
-        var title = (self.title ?? pickerAction.title)?.sizing()
+        var title = self.title?.sizing()
         if isRequired {
             title?.makeRequired()
         }
@@ -118,7 +118,7 @@ public class PickerFormItem<T>: BaseFormItem, SelectionActionable, DefaultReusab
         titleLabel.textColor = secondaryTextColor
 
         if isRequired {
-            titleLabel.makeRequired(with: title ?? pickerAction.title)
+            titleLabel.makeRequired(with: title)
         }
 
         cell.valueLabel.textColor = primaryTextColor

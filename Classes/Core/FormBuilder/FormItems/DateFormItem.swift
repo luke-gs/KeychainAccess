@@ -75,7 +75,7 @@ extension DateFormItem {
 }
 
 
-private class DateAction: ValueSelectionAction<Date> {
+class DateAction: ValueSelectionAction<Date> {
 
     public var mode: UIDatePickerMode
 

@@ -13,7 +13,7 @@ public class RangeFormItem: PickerFormItem<CountableClosedRange<Int>> {
 
     // MARK: - Range picker properties
 
-    public var range: CountableClosedRange<Int> = 0...10 {
+    public var range: CountableClosedRange<Int> = 0...1 {
         didSet {
             action.range = range
         }
@@ -44,9 +44,9 @@ extension RangeFormItem {
 
 }
 
-private class NumberRangeAction: ValueSelectionAction<CountableClosedRange<Int>>, NumberRangePickerDelegate {
+class NumberRangeAction: ValueSelectionAction<CountableClosedRange<Int>>, NumberRangePickerDelegate {
 
-    public var range: CountableClosedRange<Int> = 1...10
+    public var range: CountableClosedRange<Int> = 0...1
 
     public override func viewController() -> UIViewController {
         let min = range.min()!
