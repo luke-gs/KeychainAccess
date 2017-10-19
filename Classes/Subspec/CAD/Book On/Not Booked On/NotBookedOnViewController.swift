@@ -66,7 +66,7 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
     }
     
     /// Creates and styles views
-    private func setupViews() {
+    open func setupViews() {
         let theme = ThemeManager.shared.theme(for: .current)
         let tintColor = theme.color(forKey: .tint)!
         
@@ -109,7 +109,7 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
     }
     
     /// Activates view constraints
-    private func setupConstraints() {
+    open func setupConstraints() {
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: LayoutConstants.topMargin),
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -123,12 +123,13 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
         ])
     }
     
-    @objc public func didSelectStayOffDutyButton() {
+    @objc open func didSelectStayOffDutyButton() {
         dismiss(animated: true, completion: nil)
     }
     
-    @objc public func didSelectAllCallsignsButton() {
+    @objc open func didSelectAllCallsignsButton() {
         // TODO: Push to all callsigns VC
+        self.navigationController?.pushViewController(CallsignListViewModel().createViewController(), animated: true)
     }
     
     // MARK: - Override
@@ -176,7 +177,7 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
         if let item = viewModel.item(at: indexPath) {
-            return CollectionViewFormSubtitleCell.minimumContentWidth(withTitle: item.title, subtitle: item.subtitle, compatibleWith: traitCollection)
+            return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: item.title, subtitle: item.subtitle, inWidth: itemWidth, compatibleWith: traitCollection)
         }
         return 0
     }
