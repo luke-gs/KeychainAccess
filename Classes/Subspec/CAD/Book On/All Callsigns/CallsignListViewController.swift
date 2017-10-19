@@ -42,6 +42,10 @@ open class CallsignListViewController: CADFormCollectionViewController<CallsignL
         setupConstraints()
     }
     
+    public required convenience init?(coder aDecoder: NSCoder) {
+        MPLCodingNotSupported()
+    }
+    
     open override func viewDidLoad() {
         super.viewDidLoad()
         if let subtitle = callsignListViewModel?.navSubtitle() {
@@ -53,11 +57,7 @@ open class CallsignListViewController: CADFormCollectionViewController<CallsignL
         super.loadView()
         collectionViewTopConstraint?.constant = LayoutConstants.searchBarHeight
     }
-    
-    public required convenience init?(coder aDecoder: NSCoder) {
-        MPLCodingNotSupported()
-    }
-    
+
     /// Creates and styles views
     open func setupViews() {
         edgesForExtendedLayout = []
@@ -91,7 +91,6 @@ open class CallsignListViewController: CADFormCollectionViewController<CallsignL
             searchBar.heightAnchor.constraint(equalToConstant: LayoutConstants.searchBarHeight)
         ])
     }
-    
     
     @objc open func goBack() {
         self.navigationController?.popViewController(animated: true)
