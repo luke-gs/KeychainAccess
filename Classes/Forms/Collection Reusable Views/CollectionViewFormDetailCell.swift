@@ -92,7 +92,7 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
     
     // MARK: - Initializers
     
-    override func commonInit() {
+    override open func commonInit() {
         super.commonInit()
 
         contentMode = .top

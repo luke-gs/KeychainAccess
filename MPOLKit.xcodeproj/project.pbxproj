@@ -78,6 +78,9 @@
 		276C21061F60C2100003B860 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276C21051F60C2100003B860 /* MapViewController.swift */; };
 		276C21081F60C44B0003B860 /* MapOverlayImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276C21071F60C44B0003B860 /* MapOverlayImageButton.swift */; };
 		278CA1051F7CA4A00073DFBA /* ResourceAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278CA1041F7CA4A00073DFBA /* ResourceAnnotationView.swift */; };
+		27C9C7611F95692400799855 /* NotBookedOnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C9C7601F95692400799855 /* NotBookedOnViewController.swift */; };
+		27C9C7651F95736500799855 /* NotBookedOnViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C9C7641F95736500799855 /* NotBookedOnViewModel.swift */; };
+		27C9C7671F95737C00799855 /* NotBookedOnItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C9C7661F95737C00799855 /* NotBookedOnItem.swift */; };
 		27CBC7561F8B277E00E387C3 /* TimelineCollectionViewFormLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A45E1F83555A00CAE056 /* TimelineCollectionViewFormLayout.swift */; };
 		27CBC7571F8B277E00E387C3 /* TimelineFormCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A45F1F83555A00CAE056 /* TimelineFormCollectionViewController.swift */; };
 		27CBC7581F8B277E00E387C3 /* TimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A4601F83555A00CAE056 /* TimelineView.swift */; };
@@ -113,6 +116,14 @@
 		9624A43F1F81BBEB00CAE056 /* UIFont+Digits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A43E1F81BBEB00CAE056 /* UIFont+Digits.swift */; };
 		962AA8191F8DD37D0087D534 /* PopoverPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 962AA8181F8DD37D0087D534 /* PopoverPresenter.swift */; };
 		9644B1D21F6785E200D031F2 /* CompactFormSheetNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9644B1D11F6785E100D031F2 /* CompactFormSheetNavigationController.swift */; };
+		9650CA151F958B320087F5C9 /* ManageCallsignStatusViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9650CA121F958B2D0087F5C9 /* ManageCallsignStatusViewCell.swift */; };
+		9650CA161F958B330087F5C9 /* ManageCallsignStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9650CA131F958B2D0087F5C9 /* ManageCallsignStatusViewController.swift */; };
+		9650CA171F958B330087F5C9 /* ManageCallsignStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9650CA141F958B2D0087F5C9 /* ManageCallsignStatusViewModel.swift */; };
+		9650CA191F95B2520087F5C9 /* ManageCallsignStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9650CA181F95B2520087F5C9 /* ManageCallsignStatus.swift */; };
+		9650CA1B1F96FA7B0087F5C9 /* UIViewController+Subtitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9650CA1A1F96FA7B0087F5C9 /* UIViewController+Subtitle.swift */; };
+		965CD8A81F8ECDBA007C3EEA /* TasksListContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965CD8A71F8ECDBA007C3EEA /* TasksListContainerViewController.swift */; };
+		965CD8AD1F8F14E5007C3EEA /* TasksListHeaderCompactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965CD8AC1F8F14E5007C3EEA /* TasksListHeaderCompactViewController.swift */; };
+		965CD8AF1F902872007C3EEA /* TasksListContainerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965CD8AE1F902872007C3EEA /* TasksListContainerViewModel.swift */; };
 		9663D0061F86DCDA006DB672 /* MPOLSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9663D0051F86DCDA006DB672 /* MPOLSplitViewController.swift */; };
 		9663D0081F8AD78D006DB672 /* ContainerWithHeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9663D0071F8AD78D006DB672 /* ContainerWithHeaderViewController.swift */; };
 		9663D00B1F8AF666006DB672 /* TasksSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9663D00A1F8AF666006DB672 /* TasksSplitViewController.swift */; };
@@ -506,6 +517,9 @@
 		276C21051F60C2100003B860 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		276C21071F60C44B0003B860 /* MapOverlayImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOverlayImageButton.swift; sourceTree = "<group>"; };
 		278CA1041F7CA4A00073DFBA /* ResourceAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceAnnotationView.swift; sourceTree = "<group>"; };
+		27C9C7601F95692400799855 /* NotBookedOnViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotBookedOnViewController.swift; sourceTree = "<group>"; };
+		27C9C7641F95736500799855 /* NotBookedOnViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotBookedOnViewModel.swift; sourceTree = "<group>"; };
+		27C9C7661F95737C00799855 /* NotBookedOnItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotBookedOnItem.swift; sourceTree = "<group>"; };
 		4420D27F1F66428D00E20304 /* Sequence+Nils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Sequence+Nils.swift"; sourceTree = "<group>"; };
 		44621FF41F59239C007C3150 /* FilterRangeDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterRangeDescriptor.swift; sourceTree = "<group>"; };
 		44621FF51F59239C007C3150 /* FilterValueDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterValueDescriptor.swift; sourceTree = "<group>"; };
@@ -544,6 +558,14 @@
 		9624A4701F83555A00CAE056 /* ResourceMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceMapViewModel.swift; sourceTree = "<group>"; };
 		962AA8181F8DD37D0087D534 /* PopoverPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverPresenter.swift; sourceTree = "<group>"; };
 		9644B1D11F6785E100D031F2 /* CompactFormSheetNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactFormSheetNavigationController.swift; sourceTree = "<group>"; };
+		9650CA121F958B2D0087F5C9 /* ManageCallsignStatusViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageCallsignStatusViewCell.swift; sourceTree = "<group>"; };
+		9650CA131F958B2D0087F5C9 /* ManageCallsignStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageCallsignStatusViewController.swift; sourceTree = "<group>"; };
+		9650CA141F958B2D0087F5C9 /* ManageCallsignStatusViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageCallsignStatusViewModel.swift; sourceTree = "<group>"; };
+		9650CA181F95B2520087F5C9 /* ManageCallsignStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageCallsignStatus.swift; sourceTree = "<group>"; };
+		9650CA1A1F96FA7B0087F5C9 /* UIViewController+Subtitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Subtitle.swift"; sourceTree = "<group>"; };
+		965CD8A71F8ECDBA007C3EEA /* TasksListContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListContainerViewController.swift; sourceTree = "<group>"; };
+		965CD8AC1F8F14E5007C3EEA /* TasksListHeaderCompactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListHeaderCompactViewController.swift; sourceTree = "<group>"; };
+		965CD8AE1F902872007C3EEA /* TasksListContainerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListContainerViewModel.swift; sourceTree = "<group>"; };
 		9663D0051F86DCDA006DB672 /* MPOLSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPOLSplitViewController.swift; sourceTree = "<group>"; };
 		9663D0071F8AD78D006DB672 /* ContainerWithHeaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerWithHeaderViewController.swift; sourceTree = "<group>"; };
 		9663D00A1F8AF666006DB672 /* TasksSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksSplitViewController.swift; sourceTree = "<group>"; };
@@ -1023,6 +1045,16 @@
 			path = Annotations;
 			sourceTree = "<group>";
 		};
+		27C9C75F1F95690A00799855 /* Book On */ = {
+			isa = PBXGroup;
+			children = (
+				27C9C7601F95692400799855 /* NotBookedOnViewController.swift */,
+				27C9C7641F95736500799855 /* NotBookedOnViewModel.swift */,
+				27C9C7661F95737C00799855 /* NotBookedOnItem.swift */,
+			);
+			path = "Book On";
+			sourceTree = "<group>";
+		};
 		44F3F14C1F56DDC000D68585 /* FilterDescriptor */ = {
 			isa = PBXGroup;
 			children = (
@@ -1056,6 +1088,8 @@
 		9624A4581F83555A00CAE056 /* CAD */ = {
 			isa = PBXGroup;
 			children = (
+				27C9C75F1F95690A00799855 /* Book On */,
+				9650CA111F958B2D0087F5C9 /* Callsign */,
 				96CF322A1F8C426F00140AF8 /* Shared */,
 				96CF32281F8C352000140AF8 /* Tasks List */,
 				9663D0091F8AF5C1006DB672 /* Tasks Split */,
@@ -1132,6 +1166,17 @@
 			path = Timeline;
 			sourceTree = "<group>";
 		};
+		9650CA111F958B2D0087F5C9 /* Callsign */ = {
+			isa = PBXGroup;
+			children = (
+				9650CA121F958B2D0087F5C9 /* ManageCallsignStatusViewCell.swift */,
+				9650CA131F958B2D0087F5C9 /* ManageCallsignStatusViewController.swift */,
+				9650CA141F958B2D0087F5C9 /* ManageCallsignStatusViewModel.swift */,
+				9650CA181F95B2520087F5C9 /* ManageCallsignStatus.swift */,
+			);
+			path = Callsign;
+			sourceTree = "<group>";
+		};
 		9663D0041F86DC9D006DB672 /* SplitView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1153,6 +1198,9 @@
 		96CF32281F8C352000140AF8 /* Tasks List */ = {
 			isa = PBXGroup;
 			children = (
+				965CD8A71F8ECDBA007C3EEA /* TasksListContainerViewController.swift */,
+				965CD8AE1F902872007C3EEA /* TasksListContainerViewModel.swift */,
+				965CD8AC1F8F14E5007C3EEA /* TasksListHeaderCompactViewController.swift */,
 				96CF32311F8D7C3400140AF8 /* TasksListHeaderRegularViewController.swift */,
 				96CF32331F8D7C7700140AF8 /* TasksListHeaderViewModel.swift */,
 				96CF32241F8C34C700140AF8 /* TasksListItemCell.swift */,
@@ -1247,14 +1295,15 @@
 			isa = PBXGroup;
 			children = (
 				BC9C7D1D1F0DED6600DFFE83 /* FileManager+URL.swift */,
-				BC9C7D1F1F0DED6600DFFE83 /* UnboxableResponseSerializer.swift */,
-				BC9C7D201F0DED6600DFFE83 /* UserDefaults+MPOL.swift */,
 				C6F640EC1F333D4F003D73B9 /* NSArchiver+SecureArchiver.swift */,
 				4420D27F1F66428D00E20304 /* Sequence+Nils.swift */,
+				9624A43E1F81BBEB00CAE056 /* UIFont+Digits.swift */,
 				196ED0391F7C0207005F3F7C /* UILayoutPriority+Math.swift */,
 				9686FC931F78AAED00C4AB4D /* UIView+SafeArea.swift */,
 				9686FC951F78AC7600C4AB4D /* UIViewController+SafeArea.swift */,
-				9624A43E1F81BBEB00CAE056 /* UIFont+Digits.swift */,
+				9650CA1A1F96FA7B0087F5C9 /* UIViewController+Subtitle.swift */,
+				BC9C7D1F1F0DED6600DFFE83 /* UnboxableResponseSerializer.swift */,
+				BC9C7D201F0DED6600DFFE83 /* UserDefaults+MPOL.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -2297,6 +2346,7 @@
 				EA85C0061F68BAAE002EEB49 /* FormBuilder.swift in Sources */,
 				BC9C7DF61F0DED6600DFFE83 /* CollectionViewFormDetailCell.swift in Sources */,
 				9663D00D1F8AF6F5006DB672 /* TasksSplitViewModel.swift in Sources */,
+				965CD8AD1F8F14E5007C3EEA /* TasksListHeaderCompactViewController.swift in Sources */,
 				BC9C7DF11F0DED6600DFFE83 /* EpochDateTransformer.swift in Sources */,
 				BC9C7DD31F0DED6600DFFE83 /* OAuthAuthorizationGrant.swift in Sources */,
 				EA11F0221F830DD600BF8BCA /* ItemAccessorisable.swift in Sources */,
@@ -2345,6 +2395,7 @@
 				DB88BCDE1F42D0080056FD69 /* SearchViewController.swift in Sources */,
 				BC9C7E111F0DED6600DFFE83 /* TableViewFormCheckboxCell.swift in Sources */,
 				EA69F8291F7C8EAD0092380B /* PickerFormItem.swift in Sources */,
+				9650CA1B1F96FA7B0087F5C9 /* UIViewController+Subtitle.swift in Sources */,
 				BC9C7DEE1F0DED6600DFFE83 /* Serialisable.swift in Sources */,
 				BC9C7DEB1F0DED6600DFFE83 /* EntitySource.swift in Sources */,
 				BC9C7DC91F0DED6600DFFE83 /* FileManager+URL.swift in Sources */,
@@ -2354,6 +2405,7 @@
 				BC9C7E061F0DED6600DFFE83 /* UIFont+Convenience.swift in Sources */,
 				27206B361F8198CD005303A8 /* IncidentAnnotationView.swift in Sources */,
 				BC9C7DF21F0DED6600DFFE83 /* ISO8601DateTransformer+UnboxFormatter.swift in Sources */,
+				9650CA161F958B330087F5C9 /* ManageCallsignStatusViewController.swift in Sources */,
 				BC9C7DCF1F0DED6600DFFE83 /* ManifestCollection.swift in Sources */,
 				46B3FE811F5E49FB0012476A /* ConsoleLogger.swift in Sources */,
 				BC1B260D1F20BB3A009674B7 /* StatusTabBarController.swift in Sources */,
@@ -2373,6 +2425,7 @@
 				BC9C7DCB1F0DED6600DFFE83 /* UnboxableResponseSerializer.swift in Sources */,
 				BC9C7DF51F0DED6600DFFE83 /* CollectionViewFormCellActionView.swift in Sources */,
 				BC9C7E401F0DED6600DFFE83 /* PopoverNavigationController.swift in Sources */,
+				27C9C7671F95737C00799855 /* NotBookedOnItem.swift in Sources */,
 				BC0448941F219A70005FB857 /* AssetManager.swift in Sources */,
 				BC9C7E271F0DED6600DFFE83 /* GalleryCollectionViewCell.swift in Sources */,
 				C605F8A91ECCAD3B001194DD /* Manifest.xcdatamodeld in Sources */,
@@ -2382,6 +2435,7 @@
 				BC9C7E051F0DED6600DFFE83 /* UIEdgeInsets+Convenience.swift in Sources */,
 				BC1B25BA1F2707270090C0AA /* MPOLBarButtonItems.swift in Sources */,
 				19B49BBB1F665F2A00502F51 /* CompactSidebarItemView.swift in Sources */,
+				9650CA151F958B320087F5C9 /* ManageCallsignStatusViewCell.swift in Sources */,
 				BC9C7DFB1F0DED6600DFFE83 /* CollectionViewFormTextFieldCell.swift in Sources */,
 				BC9C7E361F0DED6600DFFE83 /* KeyboardNumberBar.swift in Sources */,
 				BC9C7E421F0DED6600DFFE83 /* ScrollViewInsetManager.swift in Sources */,
@@ -2398,6 +2452,7 @@
 				EAB38FFB1F70A73700341BAF /* ValueFormItem.swift in Sources */,
 				EA76ECF11F578DCA00524830 /* LocationAdvanceOptions.swift in Sources */,
 				12A8DB471F5FD63400A06005 /* DirectoryManager.swift in Sources */,
+				27C9C7651F95736500799855 /* NotBookedOnViewModel.swift in Sources */,
 				EA8B66481F38014000F09716 /* EntitySummaryDisplayable.swift in Sources */,
 				19FEC9891F440326005692A9 /* NetworkErrorDefinition.swift in Sources */,
 				BC9C7DCE1F0DED6600DFFE83 /* Manifest.swift in Sources */,
@@ -2431,9 +2486,11 @@
 				44621FF71F59239C007C3150 /* FilterValueDescriptor.swift in Sources */,
 				C6020FD11F394734001F1E71 /* APIManagerError.swift in Sources */,
 				BC9C7E431F0DED6600DFFE83 /* SidebarItem.swift in Sources */,
+				9650CA171F958B330087F5C9 /* ManageCallsignStatusViewModel.swift in Sources */,
 				BC9C7DD71F0DED6600DFFE83 /* URLQueryBuilder.swift in Sources */,
 				27CBC7611F8B27C700E387C3 /* TasksMapViewModel.swift in Sources */,
 				DBE24C3D1F593BEF0088D19B /* EntityDetailSectionsViewModel.swift in Sources */,
+				27C9C7611F95692400799855 /* NotBookedOnViewController.swift in Sources */,
 				BC9C7E1A1F0DED6600DFFE83 /* SelectableButton.swift in Sources */,
 				BC9C7E251F0DED6600DFFE83 /* EntityCollectionViewCell.swift in Sources */,
 				27CBC75E1F8B27C700E387C3 /* IncidentMapViewModel.swift in Sources */,
@@ -2532,6 +2589,7 @@
 				2742CD2B1F8492C900D08DCF /* TasksMapFilterViewModel.swift in Sources */,
 				DB88BCE51F42D01C0056FD69 /* SortDescriptor.swift in Sources */,
 				44F72B2A1F85E5F000A6FE6B /* SearchResultMessageViewController.swift in Sources */,
+				965CD8AF1F902872007C3EEA /* TasksListContainerViewModel.swift in Sources */,
 				1212B54D1F60F2ED00F90CA0 /* TestingDirective.swift in Sources */,
 				27CBC7601F8B27C700E387C3 /* ResourceMapViewModel.swift in Sources */,
 				EADC4FF31F81E0810066AA2F /* OptionGroupFormItem.swift in Sources */,
@@ -2601,10 +2659,12 @@
 				EAB38FFA1F70A73700341BAF /* DetailFormItem.swift in Sources */,
 				BC9C7E181F0DED6600DFFE83 /* FormTextView.swift in Sources */,
 				27CBC75C1F8B27B100E387C3 /* ActivityLogViewModel.swift in Sources */,
+				9650CA191F95B2520087F5C9 /* ManageCallsignStatus.swift in Sources */,
 				BC9C7E131F0DED6600DFFE83 /* TableViewFormSubtitleCell.swift in Sources */,
 				EA09A0521F78B9A200BC3C0E /* CountSpecification.swift in Sources */,
 				19C625C41F55186A00504BD9 /* URLQueryBuilder+Parameterisable.swift in Sources */,
 				19B49BB91F665F2A00502F51 /* CompactSidebarSourceCell.swift in Sources */,
+				965CD8A81F8ECDBA007C3EEA /* TasksListContainerViewController.swift in Sources */,
 				BC9C7E4D1F0DED6600DFFE83 /* AlertIndicatorView.swift in Sources */,
 				BC79ADAEABB2D9BDDC997334 /* MPOLSpinnerView.swift in Sources */,
 				EA09A0481F78B6D400BC3C0E /* Validator.swift in Sources */,

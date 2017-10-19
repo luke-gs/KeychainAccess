@@ -71,7 +71,8 @@ open class CompactSidebarSourceViewController: UITableViewController {
 
     open override var preferredContentSize: CGSize {
         get {
-            return CGSize(width: view.frame.width - 40, height: max(tableView.contentSize.height, 200))
+            let navHeight = navigationController?.navigationBar.frame.height ?? 0
+            return CGSize(width: view.frame.width - 40, height: max(tableView.contentSize.height + navHeight, 200))
         }
         set {
             super.preferredContentSize = newValue

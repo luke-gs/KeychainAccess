@@ -95,7 +95,7 @@ open class EntityDetailCollectionViewCell: CollectionViewFormCell {
 
     // MARK: - Initializers
 
-    internal override func commonInit() {
+    open override func commonInit() {
         super.commonInit()
         separatorStyle = .none
 

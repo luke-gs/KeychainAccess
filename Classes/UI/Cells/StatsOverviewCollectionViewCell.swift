@@ -160,7 +160,7 @@ open class StatsOverviewCollectionViewCell: CollectionViewFormCell {
     
     // MARK: - Initializers
     
-    override func commonInit() {
+    override open func commonInit() {
         super.commonInit()
         
         let contentView = self.contentView

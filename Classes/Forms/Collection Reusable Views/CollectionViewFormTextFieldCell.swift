@@ -47,7 +47,7 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
     
     // MARK: - Initializers
     
-    override func commonInit() {
+    override open func commonInit() {
         super.commonInit()
         
         selectionStyle = .underline
