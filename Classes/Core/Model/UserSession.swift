@@ -11,7 +11,7 @@ import KeychainSwift
 
 public class UserSession: UserSessionable {
 
-    private let latestSessionKey = "LatestSessionKey"
+    public static let latestSessionKey = "LatestSessionKey"
 
     public static let current = UserSession()
     private(set) var token: OAuthAccessToken?
@@ -36,13 +36,13 @@ public class UserSession: UserSessionable {
     }
 
     public var isActive: Bool {
-        guard let _ = UserSession.userDefaults.string(forKey: latestSessionKey) else { return false }
+        guard let _ = UserSession.userDefaults.string(forKey: UserSession.latestSessionKey) else { return false }
         return true
     }
 
     public var sessionID: String {
-        let sessionID = UserSession.userDefaults.string(forKey: latestSessionKey) ?? UUID().uuidString
-        UserSession.userDefaults.set(sessionID, forKey: latestSessionKey)
+        let sessionID = UserSession.userDefaults.string(forKey: UserSession.latestSessionKey) ?? UUID().uuidString
+        UserSession.userDefaults.set(sessionID, forKey: UserSession.latestSessionKey)
         return sessionID
     }
 
@@ -64,7 +64,7 @@ public class UserSession: UserSessionable {
     }
 
     public func endSession() {
-        UserSession.userDefaults.removeObject(forKey: latestSessionKey)
+        UserSession.userDefaults.removeObject(forKey: UserSession.latestSessionKey)
 
         user = nil
         token = nil
@@ -152,7 +152,7 @@ public class UserSession: UserSessionable {
 /// Restoring user session closure, returns auth token when complete
 public typealias RestoreSessionCompletion = ((_ token: OAuthAccessToken)->())
 
-private struct UserSessionPaths {
+public struct UserSessionPaths {
 
     private let basePath: URL
     private let sessionId: String
