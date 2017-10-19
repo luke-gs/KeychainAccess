@@ -35,55 +35,55 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         APIManager.shared = APIManager(configuration: APIManagerDefaultConfiguration(url: "https://\(host)"))
 
-//        let theme = ThemeManager.shared.theme(for: .current)
-//
-//        let navBar = UINavigationBar.appearance()
-//        navBar.setBackgroundImage(theme.image(forKey: .navigationBarBackground), for: .default)
-//        navBar.shadowImage = theme.image(forKey: .navigationBarShadow)
-//        navBar.barStyle  = theme.navigationBarStyle
-//        navBar.tintColor = theme.color(forKey: .navigationBarTint)
-//
+        //        let theme = ThemeManager.shared.theme(for: .current)
+        //
+        //        let navBar = UINavigationBar.appearance()
+        //        navBar.setBackgroundImage(theme.image(forKey: .navigationBarBackground), for: .default)
+        //        navBar.shadowImage = theme.image(forKey: .navigationBarShadow)
+        //        navBar.barStyle  = theme.navigationBarStyle
+        //        navBar.tintColor = theme.color(forKey: .navigationBarTint)
+        //
         let window = UIWindow()
-//        window.tintColor = theme.color(forKey: .tint)
+        //        window.tintColor = theme.color(forKey: .tint)
         self.window = window
-//
-//        let pushableSplitViewController = PushableSplitViewController(viewControllers: [UINavigationController(rootViewController: CollectionDemoListViewController(style: .grouped)), UINavigationController()])
-//        pushableSplitViewController.embeddedSplitViewController.maximumPrimaryColumnWidth = 320.0
-//        pushableSplitViewController.title = "Collections"
-//        let pushableSVNavController = UINavigationController(rootViewController: pushableSplitViewController)
-//
-//        let sidebarDetail1VC = UIViewController()
-//        sidebarDetail1VC.title = "Sidebars"
-//        sidebarDetail1VC.sidebarItem.image = #imageLiteral(resourceName: "SidebarInfo")
-//        sidebarDetail1VC.sidebarItem.selectedImage = #imageLiteral(resourceName: "SidebarInfoFilled")
-//
-//        let sidebarDetail2VC = CollectionDemoListViewController(style: .plain)
-//        sidebarDetail2VC.title = "Sidebar Test 2"
-//        sidebarDetail2VC.sidebarItem.image = #imageLiteral(resourceName: "SidebarAlert")
-//        sidebarDetail2VC.sidebarItem.selectedImage = #imageLiteral(resourceName: "SidebarAlertFilled")
-//
-////        let item1 = SourceItem(title: "CRIMTRAC", state: .loaded(count: 8, color: .red))
-////        let item2 = SourceItem(title: "DS2", state: .loaded(count: 2, color: .blue))
-////        let item3 = SourceItem(title: "DS3", state: .loaded(count: 1, color: .yellow))
-//
-//        let sidebarSplitViewController = SidebarSplitViewController(detailViewControllers: [sidebarDetail1VC, sidebarDetail2VC])
-////        sidebarSplitViewController.sidebarViewController.sourceItems = [item1, item2, item3]
-////        sidebarSplitViewController.sidebarViewController.selectedSourceIndex = 1
-//        sidebarSplitViewController.title = "Sidebars"
-//
-//        let formSplitViewController = SidebarSplitViewController(detailViewControllers: examples)
-//        formSplitViewController.title = "Form Examples"
-//
-//        let tabBarController = UITabBarController()
-//
-//        tabBarController.viewControllers = [
-//            pushableSVNavController,
-//            UINavigationController(rootViewController: sidebarSplitViewController),
-//            UINavigationController(rootViewController: SearchLookupAddressTableViewController(style: .plain)),
-//            UINavigationController(rootViewController: formSplitViewController)
-//        ]
-//
-//        tabBarController.selectedIndex = 3
+        //
+        //        let pushableSplitViewController = PushableSplitViewController(viewControllers: [UINavigationController(rootViewController: CollectionDemoListViewController(style: .grouped)), UINavigationController()])
+        //        pushableSplitViewController.embeddedSplitViewController.maximumPrimaryColumnWidth = 320.0
+        //        pushableSplitViewController.title = "Collections"
+        //        let pushableSVNavController = UINavigationController(rootViewController: pushableSplitViewController)
+        //
+        //        let sidebarDetail1VC = UIViewController()
+        //        sidebarDetail1VC.title = "Sidebars"
+        //        sidebarDetail1VC.sidebarItem.image = #imageLiteral(resourceName: "SidebarInfo")
+        //        sidebarDetail1VC.sidebarItem.selectedImage = #imageLiteral(resourceName: "SidebarInfoFilled")
+        //
+        //        let sidebarDetail2VC = CollectionDemoListViewController(style: .plain)
+        //        sidebarDetail2VC.title = "Sidebar Test 2"
+        //        sidebarDetail2VC.sidebarItem.image = #imageLiteral(resourceName: "SidebarAlert")
+        //        sidebarDetail2VC.sidebarItem.selectedImage = #imageLiteral(resourceName: "SidebarAlertFilled")
+        //
+        ////        let item1 = SourceItem(title: "CRIMTRAC", state: .loaded(count: 8, color: .red))
+        ////        let item2 = SourceItem(title: "DS2", state: .loaded(count: 2, color: .blue))
+        ////        let item3 = SourceItem(title: "DS3", state: .loaded(count: 1, color: .yellow))
+        //
+        //        let sidebarSplitViewController = SidebarSplitViewController(detailViewControllers: [sidebarDetail1VC, sidebarDetail2VC])
+        ////        sidebarSplitViewController.sidebarViewController.sourceItems = [item1, item2, item3]
+        ////        sidebarSplitViewController.sidebarViewController.selectedSourceIndex = 1
+        //        sidebarSplitViewController.title = "Sidebars"
+        //
+        //        let formSplitViewController = SidebarSplitViewController(detailViewControllers: examples)
+        //        formSplitViewController.title = "Form Examples"
+        //
+        //        let tabBarController = UITabBarController()
+        //
+        //        tabBarController.viewControllers = [
+        //            pushableSVNavController,
+        //            UINavigationController(rootViewController: sidebarSplitViewController),
+        //            UINavigationController(rootViewController: SearchLookupAddressTableViewController(style: .plain)),
+        //            UINavigationController(rootViewController: formSplitViewController)
+        //        ]
+        //
+        //        tabBarController.selectedIndex = 3
 
         struct Test: GenericSearchable {
             var title: String = "James"
@@ -92,7 +92,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             var image: UIImage = UIImage(named: "SidebarAlert")!
 
             func contains(searchString: String) -> Bool {
-                return title.starts(with: searchString) || subtitle.contains(searchString)
+                return title.starts(with: searchString) || subtitle.starts(with: searchString)
             }
         }
 
@@ -103,7 +103,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             var image: UIImage = UIImage(named: "SidebarInfo")!
 
             func contains(searchString: String) -> Bool {
-                return title.starts(with: searchString) || subtitle.contains(searchString)
+                return title.starts(with: searchString) || subtitle.starts(with: searchString)
             }
         }
 
@@ -114,7 +114,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             var image: UIImage = UIImage(named: "SidebarAlertFilled")!
 
             func contains(searchString: String) -> Bool {
-                return title.starts(with: searchString) || subtitle.contains(searchString)
+                return title.starts(with: searchString) || subtitle.starts(with: searchString)
             }
         }
 
@@ -126,15 +126,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         searchVM.title = "Search Items"
         searchVM.expandableSections = true
         searchVM.delegate = self
-        searchVM.sectionPriority = ["Duress", "On Air", "On duty"]
+        searchVM.sectionPriority = ["Duress", "On Duty", "On Air",]
+
+        let background = UIViewController()
+        let image = UIImageView(image: UIImage(named: "Login"))
+
+        image.frame = background.view.bounds
+        image.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        image.translatesAutoresizingMaskIntoConstraints = true
+        background.view.addSubview(image)
 
         let vc = GenericSearchViewController(viewModel: searchVM)
+        let nc = PopoverNavigationController(rootViewController: vc)
+        nc.modalPresentationStyle = .formSheet
 
-        let nc = UINavigationController(rootViewController: vc)
-        self.window?.rootViewController = nc
-        
+        self.window?.rootViewController = background
+
         window.makeKeyAndVisible()
-        
+
+        self.window?.rootViewController!.present(nc, animated: true, completion: nil)
+
         return true
     }
     
@@ -189,43 +200,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         return [basic, list, custom, accessory, header, picker, personDetail, results, signup, subscription]
     }()
-    
 }
 
 extension AppDelegate: GenericSearchDelegate {
+    func genericSearchViewController(_ viewController: GenericSearchViewController, didSelectRowAt indexPath: IndexPath) {
 
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        print("Hello")
     }
-
-    func genericSearchViewControllerDidSelectRow(at indexPath: IndexPath) {
-        print("Hello \(indexPath)")
-    }
-
-//    func numberOfSections() -> Int {
-//        return 2
-//    }
-//
-//    func numberOfRows(in section: Int) -> Int {
-//        return 10
-//    }
-//
-//    func title(for section: Int) -> String {
-//        return "Test Section \(section)"
-//    }
-//
-//    func name(for indexPath: IndexPath) -> String {
-//        return "Test Title \(indexPath.row)"
-//    }
-//
-//    func description(for indexPath: IndexPath) -> String {
-//        return "Test Description \(indexPath.row)"
-//    }
-//
-//    func image(for indexPath: IndexPath) -> UIImage {
-//        return UIImage(named: "SidebarAlert")!
-//    }
 }
 
-            
-    
+
+

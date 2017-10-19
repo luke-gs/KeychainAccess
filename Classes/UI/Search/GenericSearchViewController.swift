@@ -17,8 +17,7 @@ public protocol GenericSearchable {
 }
 
 public protocol GenericSearchDelegate {
-    func genericSearchViewControllerDidSelectRow(at indexPath: IndexPath)
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String)
+    func genericSearchViewController(_ viewController: GenericSearchViewController, didSelectRowAt indexPath: IndexPath)
 }
 
 public struct GenericSearchViewModel {
@@ -48,6 +47,7 @@ open class GenericSearchViewController: FormBuilderViewController, UISearchBarDe
 
     private lazy var testHeader: UISearchBar = {
         let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: self.view.bounds.size.width, height: 80))
+        searchBar.placeholder = "Search"
         searchBar.delegate = self
         return searchBar
     }()
@@ -114,10 +114,12 @@ open class GenericSearchViewController: FormBuilderViewController, UISearchBarDe
     open override func viewDidLoad() {
         super.viewDidLoad()
         self.view.addSubview(testHeader)
+        updateColour(for: traitCollection)
     }
 
     override open func construct(builder: FormBuilder) {
         builder.title = viewModel.title
+        builder.forceLinearLayout = true
 
         for section in 0..<numberOfSections() {
             builder += HeaderFormItem(text: title(for: section))
@@ -128,11 +130,9 @@ open class GenericSearchViewController: FormBuilderViewController, UISearchBarDe
                                             subtitle: description(for: indexPath),
                                             image: image(for: indexPath),
                                             style: .default)
-                    .width(.column(1))
                     .accessory(ItemAccessory.disclosure)
-                    .height(.fixed(60))
                     .onSelection { [unowned self] cell in
-                        self.viewModel.delegate?.genericSearchViewControllerDidSelectRow(at: indexPath)
+                        self.viewModel.delegate?.genericSearchViewController(self, didSelectRowAt: indexPath)
                 }
             }
         }
@@ -143,6 +143,7 @@ open class GenericSearchViewController: FormBuilderViewController, UISearchBarDe
         
         if #available(iOS 11.0, *) {
             testHeader.frame.origin.y = self.view.safeAreaInsets.top - testHeader.frame.height
+            testHeader.frame.size.width = self.view.frame.size.width
             additionalSafeAreaInsets.top = testHeader.frame.height
         } else {
             // Fallback on earlier versions
@@ -184,11 +185,22 @@ open class GenericSearchViewController: FormBuilderViewController, UISearchBarDe
         return row.image
     }
 
+    private func updateColour(for traitCollection: UITraitCollection) {
+        view.backgroundColor = traitCollection.horizontalSizeClass == .compact ? .white : UIColor.white.withAlphaComponent(0.64)
+    }
+
     // MARK: Searchbar delegate
 
     public func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         searchString = searchText
-        self.reloadForm()
+        reloadForm()
+    }
+
+    // MARK: Traits
+
+    open override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.willTransition(to: newCollection, with: coordinator)
+        updateColour(for: newCollection)
     }
 }
 
