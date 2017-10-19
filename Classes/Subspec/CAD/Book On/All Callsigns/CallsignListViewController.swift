@@ -155,10 +155,6 @@ open class CallsignListViewController: CADFormCollectionViewController<CallsignL
         }
         return 0
     }
-    
-    @objc open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
-        return CollectionViewFormHeaderView.minimumHeight
-    }
 
     public func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         callsignListViewModel?.applyFilter(withText: searchText)
