@@ -23,12 +23,6 @@ public class CADUserSession {
     /// The currently booked on callsign, or nil
     public var callsign: String?
 
-    // Use the app group base path for sharing between apps by default
-    public static var basePath: URL = AppGroup.appBaseFilePath()
-
-    // Use the app group user defaults for sharing between apps by default
-    public static var userDefaults: UserDefaults = AppGroup.appUserDefaults()
-
     public var isActive: Bool {
         return UserSession.userDefaults.string(forKey: UserSession.latestSessionKey) != nil
     }
@@ -64,7 +58,7 @@ public class CADUserSession {
         completion(self.token ?? OAuthAccessToken(accessToken: "", type: ""))
     }
 
-    //MARK: PRIVATE
+    // MARK: - Private
 
     private lazy var directoryManager = {
         return DirectoryManager(baseURL: UserSession.basePath)
