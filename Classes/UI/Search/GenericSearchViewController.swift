@@ -76,14 +76,14 @@ open class GenericSearchViewController: FormBuilderViewController, UISearchBarDe
 
         var mutatedSections = searchableSections
 
-        // Add valid sections to prioritised sections
+        // Add valid sections to prioritised sections in order
         for (index, item) in viewModel.sectionPriority.enumerated() {
             if let sections = mutatedSections.removeValue(forKey: item) {
                 validSections.append(PrioritisedSection(title: item, items: sections))
             }
         }
 
-        // If section is not specified for priority, add to bottom of list in any order
+        // If section is not specified for priority, add to bottom of list in whatever order
         for (key, value) in mutatedSections {
             invalidSections.append(PrioritisedSection(title: key, items: value))
         }
@@ -111,6 +111,11 @@ open class GenericSearchViewController: FormBuilderViewController, UISearchBarDe
         fatalError("init(coder:) has not been implemented")
     }
 
+    open override func viewDidLoad() {
+        super.viewDidLoad()
+        self.view.addSubview(testHeader)
+    }
+
     override open func construct(builder: FormBuilder) {
         builder.title = viewModel.title
 
@@ -132,6 +137,19 @@ open class GenericSearchViewController: FormBuilderViewController, UISearchBarDe
             }
         }
     }
+    
+    open override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        if #available(iOS 11.0, *) {
+            testHeader.frame.origin.y = self.view.safeAreaInsets.top - testHeader.frame.height
+            additionalSafeAreaInsets.top = testHeader.frame.height
+        } else {
+            // Fallback on earlier versions
+        }
+    }
+
+    // MARK: Private
 
     private func numberOfSections() -> Int {
         let sections = self.filteredSections
@@ -166,21 +184,7 @@ open class GenericSearchViewController: FormBuilderViewController, UISearchBarDe
         return row.image
     }
 
-    open override func viewDidLoad() {
-        super.viewDidLoad()
-        self.view.addSubview(testHeader)
-    }
-
-    open override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
-        if #available(iOS 11.0, *) {
-            testHeader.frame.origin.y = self.view.safeAreaInsets.top - testHeader.frame.height
-            additionalSafeAreaInsets.top = testHeader.frame.height
-        } else {
-            // Fallback on earlier versions
-        }
-    }
+    // MARK: Searchbar delegate
 
     public func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         searchString = searchText

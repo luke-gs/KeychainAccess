@@ -415,8 +415,8 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
     }
 
     public func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        let item = sections[indexPath] as! BaseFormItem
-        item.cell = nil
+//        let item = sections[indexPath] as! BaseFormItem
+//        item.cell = nil
     }
 
     open func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
