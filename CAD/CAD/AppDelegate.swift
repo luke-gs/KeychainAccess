@@ -10,13 +10,12 @@ import UIKit
 import MPOLKit
 import ClientKit
 import CoreLocation
+import Alamofire
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    
-    let statusTabBarController = CADStatusTabBarController()
     
     // FIXME: Temporary
     let locationManager = CLLocationManager()
@@ -25,20 +24,55 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         MPOLKitInitialize()
 
-        let directoryManager = DirectoryManager(baseURL: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!)
-        if let _ = directoryManager.read(fromKeyChain: "token") {
-            print("User is logged in to search app")
-        }
+        let plugins: [PluginType]?
+        #if DEBUG
+            plugins = [
+                NetworkLoggingPlugin()
+            ]
+        #else
+            plugins = nil
+        #endif
+
+        let host = APP_HOST_URL
+        APIManager.shared = APIManager(configuration: APIManagerDefaultConfiguration(url: "https://\(host)", plugins: plugins, trustPolicyManager: ServerTrustPolicyManager(policies: [host: .disableEvaluation])))
 
         let window = UIWindow()
         self.window = window
         
         applyCurrentTheme()
-        window.makeKeyAndVisible()
+
+        if UserSession.current.isActive == true {
+            UserSession.current.restoreSession { token in
+                APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
+            }
+        }
+        updateRootViewController()
+
+        // TODO: Put this somewhere else I guess. Just need it now for the map.
+        if CLLocationManager.authorizationStatus() == .notDetermined {
+            locationManager.requestWhenInUseAuthorization()
+        }
         
+        window.makeKeyAndVisible()
+        return true
+    }
+
+    private func updateRootViewController() {
+        if UserSession.current.isActive {
+            if self.window?.rootViewController != statusTabBarController {
+                self.window?.rootViewController = statusTabBarController
+            }
+        } else {
+            if self.window?.rootViewController != notLoggedInViewController {
+                self.window?.rootViewController = notLoggedInViewController
+            }
+        }
+    }
+
+    private lazy var statusTabBarController: UIViewController = {
         let tempCallsignController = UIViewController() // TODO: Add callsign view
         tempCallsignController.tabBarItem = UITabBarItem(title: "Callsign", image: AssetManager.shared.image(forKey: .entityCar), selectedImage: nil)
-        
+
         let searchProxyViewController = UIViewController() // TODO: Take me back to the search app
         searchProxyViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
         searchProxyViewController.tabBarItem.isEnabled = false
@@ -55,20 +89,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         activityNavController.tabBarItem.image = AssetManager.shared.image(forKey: .tabBarActivity)
         activityNavController.tabBarItem.title = NSLocalizedString("Activity Log", comment: "Activity Log Tab Bar Item")
 
+        let statusTabBarController = CADStatusTabBarController()
         statusTabBarController.regularViewControllers = [searchProxyViewController, tasksNavController, activityNavController]
         statusTabBarController.compactViewControllers = statusTabBarController.viewControllers + [tempCallsignController]
         statusTabBarController.selectedViewController = tasksNavController
 
-        self.window?.rootViewController = statusTabBarController
+        return statusTabBarController
+    }()
 
-        // TODO: Put this somewhere else I guess. Just need it now for the map.
-        if CLLocationManager.authorizationStatus() == .notDetermined {
-            locationManager.requestWhenInUseAuthorization()
-        }
-        
-        return true
-    }
-    
+    private lazy var notLoggedInViewController: UIViewController = {
+        let notLoggedInViewController = UIViewController()
+        let background = UIImageView(image: UIImage(named: "Login"))
+        background.frame = notLoggedInViewController.view.frame
+        background.contentMode = .scaleAspectFill
+        background.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        notLoggedInViewController.view.addSubview(background)
+        return notLoggedInViewController
+    }()
+
     private func applyCurrentTheme() {
         let theme = ThemeManager.shared.theme(for: .current)
         let shadowImage = theme.image(forKey: .navigationBarShadow)
@@ -104,6 +142,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+        updateRootViewController()
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
