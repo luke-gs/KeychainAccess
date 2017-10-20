@@ -88,7 +88,7 @@ public final class FormAccessoryView: UIView {
             let sizing = StringSizing(string: decoration.text ?? "", font: decoration.font, numberOfLines: 1)
             size.width += sizing.minimumWidth(compatibleWith: traitCollection) + 8.0
             let height = sizing.minimumHeight(inWidth: size.width, compatibleWith: traitCollection)
-            size.height = max(label?.frame.height ?? 0.0, size.height) + 8.0
+            size.height = max(height, size.height) + 8.0
         }
         return size
     }
