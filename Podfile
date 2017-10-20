@@ -14,6 +14,7 @@ def mpol_kit_dependencies
     pod 'Wrap', '2.1.1'
     pod 'lottie-ios', '~> 2.1.3'
     pod 'PromiseKit', '~> 4.4.0'
+    pod 'PromiseKit/CoreLocation'
 	pod 'KeychainSwift', '~> 8.0'
 end
 
