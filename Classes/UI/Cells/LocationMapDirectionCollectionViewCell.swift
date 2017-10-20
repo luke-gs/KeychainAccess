@@ -27,7 +27,7 @@ open class LocationMapDirectionCollectionViewCell: CollectionViewFormCell {
     
     // MARK: - Initialization
     
-    override func commonInit() {
+    override open func commonInit() {
         super.commonInit()
         
         accessibilityTraits |= UIAccessibilityTraitStaticText

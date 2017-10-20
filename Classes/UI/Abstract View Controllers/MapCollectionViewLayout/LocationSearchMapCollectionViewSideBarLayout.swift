@@ -95,7 +95,6 @@ open class LocationSearchMapCollectionViewSideBarLayout: MapCollectionViewLayout
         
         let collectionView = controller.collectionView!
         let mapView = controller.mapView!
-        let searchFieldButton = controller.searchFieldButton!
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         mapView.translatesAutoresizingMaskIntoConstraints = false
@@ -107,10 +106,7 @@ open class LocationSearchMapCollectionViewSideBarLayout: MapCollectionViewLayout
         let sidebarBackground = UIView(frame: .zero)
         sidebarBackground.translatesAutoresizingMaskIntoConstraints = false
         sidebarBackground.backgroundColor = #colorLiteral(red: 0.1058823529, green: 0.1176470588, blue: 0.1411764706, alpha: 1)
-        
-        searchFieldButton.translatesAutoresizingMaskIntoConstraints = false
 
-        view.addSubview(searchFieldButton)
         view.addSubview(mapView)
         view.addSubview(sidebarBackground)
         sidebarBackground.addSubview(collectionView)
@@ -150,28 +146,23 @@ open class LocationSearchMapCollectionViewSideBarLayout: MapCollectionViewLayout
         }
         
         constraints += [
-            
-            searchFieldButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            searchFieldButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            searchFieldButton.topAnchor.constraint(equalTo: controller.topLayoutGuide.bottomAnchor),
             sidebarLayoutGuideLeadingConstraint!,
-            
-            sidebarLayoutGuide.topAnchor.constraint(equalTo: searchFieldButton.bottomAnchor),
+            sidebarLayoutGuide.topAnchor.constraint(equalTo: view.topAnchor),
             sidebarLayoutGuide.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             sidebarMinumumWidthConstraint!,
             sidebarPreferredWidthConstraint!,
             sidebarTrailingConstraint!,
-//
-//            sidebarBackground.topAnchor.constraint(equalTo: sidebarLayoutGuide.topAnchor),
-//            sidebarBackground.bottomAnchor.constraint(equalTo: sidebarLayoutGuide.bottomAnchor),
-//            sidebarBackground.leadingAnchor.constraint(equalTo: sidebarLayoutGuide.leadingAnchor),
-//
-//            collectionView.topAnchor.constraint(equalTo: sidebarBackground.topAnchor),
-//            collectionView.bottomAnchor.constraint(equalTo: sidebarBackground.bottomAnchor),
-//            collectionView.trailingAnchor.constraint(equalTo: sidebarBackground.trailingAnchor),
-//            
+
+            sidebarBackground.topAnchor.constraint(equalTo: sidebarLayoutGuide.topAnchor),
+            sidebarBackground.bottomAnchor.constraint(equalTo: sidebarLayoutGuide.bottomAnchor),
+            sidebarBackground.leadingAnchor.constraint(equalTo: sidebarLayoutGuide.leadingAnchor),
+
+            collectionView.topAnchor.constraint(equalTo: sidebarBackground.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: sidebarBackground.bottomAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: sidebarBackground.trailingAnchor),
+
             mapView.leadingAnchor.constraint(equalTo: sidebarLayoutGuide.trailingAnchor),
-            mapView.topAnchor.constraint(equalTo: searchFieldButton.bottomAnchor),
+            mapView.topAnchor.constraint(equalTo: view.topAnchor),
             mapView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
         ]

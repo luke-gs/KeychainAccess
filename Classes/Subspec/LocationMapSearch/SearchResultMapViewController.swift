@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import MPOLKit
 import CoreLocation
 import MapKit
 
@@ -73,13 +72,17 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
     }
     
     open override func viewDidLoad() {
+        super.viewDidLoad()
+
         let searchFieldButton = SearchFieldButton(frame: .zero)
         searchFieldButton.placeholder = searchFieldPlaceholder
         searchFieldButton.translatesAutoresizingMaskIntoConstraints = false
         searchFieldButton.titleLabel?.font = .systemFont(ofSize: 15, weight: UIFont.Weight.regular)
         searchFieldButton.addTarget(self, action: #selector(searchFieldButtonDidSelect), for: .primaryActionTriggered)
         self.searchFieldButton = searchFieldButton
-        
+
+        view.addSubview(searchFieldButton)
+
         guard let mapView = self.mapView, let collectionView = self.collectionView else { return }
         
         mapView.delegate = self
@@ -98,16 +101,24 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
         collectionView.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         collectionView.register(EntityListCollectionViewCell.self)
         collectionView.register(LocationMapDirectionCollectionViewCell.self)
-        
-        super.viewDidLoad()
+
+        NSLayoutConstraint.activate([
+            searchFieldButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            searchFieldButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            constraintAboveSafeAreaOrBelowTopLayout(searchFieldButton)
+        ])
     }
-    
-    override open func viewDidLayoutSubviews() {
-        let insets: UIEdgeInsets = .zero
-        collectionViewInsetManager?.standardContentInset   = insets
-        collectionViewInsetManager?.standardIndicatorInset = insets
+
+    open override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+
+        if #available(iOS 11, *) {
+            additionalSafeAreaInsets.top = searchFieldButton?.frame.height ?? 0.0
+        } else {
+            legacy_additionalSafeAreaInsets.top = searchFieldButton?.frame.height ?? 0.0
+        }
     }
-    
+
     /// Hide the location details view if touches on the map without pin location selected
     public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         if gestureRecognizer is UITapGestureRecognizer {
