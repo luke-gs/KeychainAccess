@@ -137,10 +137,10 @@ open class APIManager {
         
         let mapper = errorMapper
         return Promise { fulfill, reject in
-            dataRequest.validate().response(completionHandler: { (response: DefaultDataResponse) in
-                allPlugins.forEach {
-                    $0.willSend(dataRequest)
-                }
+            dataRequest.validate().responseData(completionHandler: { response in
+                allPlugins.forEach({
+                    $0.didReceiveResponse(response)
+                })
                 
                 do {
                     if let responseData = response.data{
@@ -153,7 +153,7 @@ open class APIManager {
                         }
                     } else {
                         if let error = response.error {
-                            let wrappedError = APIManagerError(underlyingError: error, response: response)
+                            let wrappedError = APIManagerError(underlyingError: error, response: response.toDefaultDataResponse())
                             if let mapper = mapper {
                                 reject(mapper.mappedError(from: wrappedError))
                             } else {
