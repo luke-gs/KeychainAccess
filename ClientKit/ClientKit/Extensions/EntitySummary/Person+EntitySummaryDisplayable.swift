@@ -75,7 +75,7 @@ public struct PersonSummaryDisplayable: EntitySummaryDisplayable {
             }
         }
         
-        if let firstMiddleNameInitial = person.middleNames?.characters.first {
+        if let firstMiddleNameInitial = person.middleNames?.first {
             formattedName.append(firstMiddleNameInitial)
             formattedName += "."
         }

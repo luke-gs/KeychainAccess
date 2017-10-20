@@ -99,7 +99,7 @@ open class Alias: NSObject, Serialisable {
             }
         }
         
-        if let firstMiddleNameInitial = middleNames?.characters.first {
+        if let firstMiddleNameInitial = middleNames?.first {
             formattedName.append(firstMiddleNameInitial)
             formattedName += "."
         }
