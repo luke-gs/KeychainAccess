@@ -176,7 +176,7 @@ let token = directoryManager.read(fromKeyChain: "token") as! OAuthAccessToken
 
 The `GenericSearchViewController` allows for searching through entities with "type-ahead" functionality.
 
-![Generic Search](/ReadmeAssets/GenericSearch.png "Generic Search")
+<img src="/ReadmeAssets/GenericSearch.png" alt="Generic Search" width="400" height="600">
 
 1. Implement the `GenericSearchable` protocol on the entities that you want to search through.
 
