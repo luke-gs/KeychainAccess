@@ -11,13 +11,17 @@ import KeychainSwift
 
 public class UserSession: UserSessionable {
 
-    private let latestSessionKey = "LatestSessionKey"
+    public static let latestSessionKey = "LatestSessionKey"
 
     public static let current = UserSession()
-    public static var basePath: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-
     private(set) var token: OAuthAccessToken?
     private(set) public var user: User?
+
+    // Use the app group base path for sharing between apps by default
+    public static var basePath: URL = AppGroup.appBaseFilePath()
+
+    // Use the app group user defaults for sharing between apps by default
+    public static var userDefaults: UserDefaults = AppGroup.appUserDefaults()
 
     public var recentlyViewed: [MPOLKitEntity] = [] {
         didSet {
@@ -32,13 +36,12 @@ public class UserSession: UserSessionable {
     }
 
     public var isActive: Bool {
-        guard let _ = UserDefaults.standard.string(forKey: latestSessionKey) else { return false }
-        return true
+        return UserSession.userDefaults.string(forKey: UserSession.latestSessionKey) != nil
     }
 
     public var sessionID: String {
-        let sessionID = UserDefaults.standard.string(forKey: latestSessionKey) ?? UUID().uuidString
-        UserDefaults.standard.set(sessionID, forKey: latestSessionKey)
+        let sessionID = UserSession.userDefaults.string(forKey: UserSession.latestSessionKey) ?? UUID().uuidString
+        UserSession.userDefaults.set(sessionID, forKey: UserSession.latestSessionKey)
         return sessionID
     }
 
@@ -60,7 +63,7 @@ public class UserSession: UserSessionable {
     }
 
     public func endSession() {
-        UserDefaults.standard.removeObject(forKey: latestSessionKey)
+        UserSession.userDefaults.removeObject(forKey: UserSession.latestSessionKey)
 
         user = nil
         token = nil
@@ -107,7 +110,6 @@ public class UserSession: UserSessionable {
 
     //MARK: PRIVATE
 
-    private let keychain = KeychainSwift()
     private lazy var directoryManager = {
         return DirectoryManager(baseURL: UserSession.basePath)
     }()
@@ -149,7 +151,7 @@ public class UserSession: UserSessionable {
 /// Restoring user session closure, returns auth token when complete
 public typealias RestoreSessionCompletion = ((_ token: OAuthAccessToken)->())
 
-private struct UserSessionPaths {
+public struct UserSessionPaths {
 
     private let basePath: URL
     private let sessionId: String
