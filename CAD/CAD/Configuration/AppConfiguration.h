@@ -11,3 +11,4 @@
 
 /// The server endpoint
 static const NSString * APP_HOST_URL = CONFIG_HOST_URL;
+static const NSString * SEARCH_APP_SCHEME = SEARCH_URL_TYPE_SCHEME;

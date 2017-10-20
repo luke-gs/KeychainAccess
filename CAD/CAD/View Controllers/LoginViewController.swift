@@ -46,7 +46,7 @@ class LoginViewController: UIViewController {
 
     @objc private func didTapLogin() {
         // Open search app using URL type
-        if let url = URL(string: "pscoresearch://") {
+        if let url = URL(string: "\(SEARCH_APP_SCHEME)://") {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
