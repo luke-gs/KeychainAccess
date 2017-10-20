@@ -172,6 +172,57 @@ let token = directoryManager.read(fromKeyChain: "token") as! OAuthAccessToken
 
 ```
 
+## Generic Entity Search
+
+The `GenericSearchViewController` allows for searching through entities with "type-ahead" functionality.
+
+1. Implement the `GenericSearchable` protocol on the entities that you want to search through.
+
+eg:
+
+```
+struct Person: GenericSearchable {
+    var title: String = "James"
+    var subtitle: String? = "Neverdie"
+    var section: String? = "Alive"
+    var image: UIImage? = UIImage(named: "SidebarAlert")!
+
+    func contains(searchString: String) -> Bool {
+        return title.starts(with: searchString)
+    }
+}
+```
+
+2. Create the `GenericSearchViewModel` object.
+
+eg:
+
+```
+        // MARK: Generic Search VC
+        let people: [GenericSearchable] = Array(repeating: Person(), count: 10)
+
+        var searchVM = GenericSearchViewModel(items: people)
+        searchVM.title = "Search People"
+        searchVM.collapsableSections = true
+        searchVM.hasSections = true
+        searchVM.delegate = self
+        searchVM.sectionPriority = ["Deceased", "Alive"]
+```
+
+3. Intialise the `GenericSearchViewController` with your viewModel and present however.
+
+eg:
+
+```
+        let viewController = GenericSearchViewController(viewModel: searchVM)
+        let navController = PopoverNavigationController(rootViewController: viewController)
+        navController.modalPresentationStyle = .formSheet
+        
+        self.present(nc, animated: true)
+```
+
+
+
 ## Author
 
 val@gridstone.com.au, val@gridstone.com.au

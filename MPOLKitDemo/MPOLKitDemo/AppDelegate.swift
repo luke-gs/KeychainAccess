@@ -107,12 +107,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         searchVM.collapsableSections = true
         searchVM.hasSections = true
         // searchVM.delegate = self
-        searchVM.sectionPriority = ["Duress", "On Duty", "On Air",]
+        searchVM.sectionPriority = ["Duress", "On Duty", "On Air"]
 
         let vc = GenericSearchViewController(viewModel: searchVM)
         let nc = PopoverNavigationController(rootViewController: vc)
         nc.modalPresentationStyle = .formSheet
-
+        
         return vc
     }
 
@@ -166,7 +166,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         return [basic, list, custom, accessory, header, picker, personDetail, results, signup, subscription]
     }()
-
 }
 
 
@@ -185,9 +184,9 @@ struct Test: GenericSearchable {
 
 struct Test2: GenericSearchable {
     var title: String = "Herli"
-    var subtitle: String? = "Chad"
-    var section: String? = "On Air"
-    var image: UIImage?
+    var subtitle: String? //= "Chad"
+    var section: String? //= "On Air"
+    var image: UIImage? = UIImage(named: "SidebarAlert")!
 
     func contains(searchString: String) -> Bool {
         return title.starts(with: searchString)
@@ -201,6 +200,6 @@ struct Test3: GenericSearchable {
     var image: UIImage? = UIImage(named: "SidebarAlertFilled")!
 
     func contains(searchString: String) -> Bool {
-        return title.starts(with: searchString)
+        return title.starts(with: searchString) || (subtitle?.contains(searchString) ?? false)
     }
 }

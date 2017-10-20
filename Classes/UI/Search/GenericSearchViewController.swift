@@ -24,7 +24,7 @@ open class GenericSearchViewController: FormBuilderViewController, UISearchBarDe
 
     private var searchableSections: [String: [GenericSearchable]] {
         let dict = viewModel.items.reduce([String: [GenericSearchable]]()) { (result, item) -> [String: [GenericSearchable]] in
-            let section = item.section ?? ""
+            let section = item.section ?? "Other"
             var mutableResult = result
             var array = mutableResult[section] ?? [GenericSearchable]()
             array.append(item)
@@ -186,6 +186,8 @@ public protocol GenericSearchable {
     var subtitle: String? { get }
 
     /// The section this entity should belong to
+    ///
+    /// defaults to: `"Other"` if not provided
     var section: String? { get }
 
     /// The image that should be displayed
