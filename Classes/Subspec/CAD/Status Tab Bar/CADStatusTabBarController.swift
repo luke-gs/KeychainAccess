@@ -8,24 +8,34 @@
 
 import UIKit
 
+/// CAD implementation of status tab bar with book-on status
 open class CADStatusTabBarController: StatusTabBarController {
     
-    private(set) var callsignView: CallsignStatusView!
+    open let viewModel: CADStatusTabBarViewModel
+    open var bookOnStatusView: BookOnStatusView!
+    
+    public init(viewModel: CADStatusTabBarViewModel) {
+        self.viewModel = viewModel
+        super.init()
+    }
+    
+    public required init?(coder aDecoder: NSCoder) {
+        MPLCodingNotSupported()
+    }
     
     open override func viewDidLoad() {
         super.viewDidLoad()
+
+        // Add book on status view to status area
+        bookOnStatusView = viewModel.bookOnStatusViewModel.createView()
+        bookOnStatusView.addTarget(self, action: #selector(selectedBookOnStatusView), for: .touchUpInside)
         
-        // Add callsign view to status area
-        callsignView = CallsignStatusView()
-        callsignView.addTarget(self, action: #selector(selectedCallsignStatusView), for: .touchUpInside)
-        
-        
-        statusView = callsignView
+        statusView = bookOnStatusView
         tabBar.isTranslucent = false
     }
     
-    @objc private func selectedCallsignStatusView() {
-        // TODO: Implement me properly
+    @objc open func selectedBookOnStatusView() {
+        // TODO: Get the view model from parent view model
         let viewModel = NotBookedOnViewModel()
         let viewController = viewModel.createViewController()
         
