@@ -72,6 +72,14 @@ public protocol PresenterObserving: class {
 
 }
 
+public extension PresenterObserving {
+    
+    func willPresent(_ presentable: Presentable, fromViewController from: UIViewController, toViewController to: UIViewController) { }
+    
+    func didPresent(_ presentable: Presentable, fromViewController: UIViewController, toViewController to: UIViewController) { }
+    
+}
+
 
 /// A director is the person or thing that says whom or what should put on a good show for the observers to see.
 public final class Director {

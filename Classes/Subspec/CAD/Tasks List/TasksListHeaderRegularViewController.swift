@@ -10,12 +10,15 @@ import UIKit
 
 /// View controller for the header above tasks list showing source name and options to filter and add new tasks,
 /// when split view is in regular size mode
+///
+/// Note: this header is shown/hidden by the tasks container view controller
 open class TasksListHeaderRegularViewController: UIViewController {
 
     private struct Constants {
         static let topMargin: CGFloat = 32
         static let leadingMargin: CGFloat = 24
         static let trailingMargin: CGFloat = 18
+        static let internalMargin: CGFloat = 10
     }
 
     public let viewModel: TasksListHeaderViewModel
@@ -42,6 +45,7 @@ open class TasksListHeaderRegularViewController: UIViewController {
         titleLabel.font = UIFont.systemFont(ofSize: 28, weight: UIFont.Weight.bold)
         titleLabel.textAlignment = .left
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.adjustsFontSizeToFitWidth = true
         view.addSubview(titleLabel)
 
         buttonStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -58,11 +62,15 @@ open class TasksListHeaderRegularViewController: UIViewController {
             buttonStackView.addArrangedSubview(button)
         }
 
+        // Shrink label, not buttons if not enough space
+        buttonStackView.setContentCompressionResistancePriority(.required, for: .horizontal)
+        titleLabel.setContentCompressionResistancePriority(.fittingSizeLevel, for: .horizontal)
+
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.topMargin),
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.leadingMargin),
-            titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: buttonStackView.leadingAnchor),
-            titleLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: buttonStackView.leadingAnchor, constant: -Constants.internalMargin),
+            titleLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor).withPriority(.almostRequired),
 
             buttonStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.trailingMargin),
             buttonStackView.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
@@ -84,6 +92,14 @@ open class TasksListHeaderRegularViewController: UIViewController {
 
 /// Add support for presenting modal dialogs from our non standard bar button items
 extension TasksListHeaderRegularViewController: TasksListHeaderViewModelDelegate {
+
+    public func sourceItemsChanged(_ sourceItems: [SourceItem]) {
+    }
+
+    public func selectedSourceItemChanged(_ selectedSourceIndex: Int) {
+        titleLabel.text = viewModel.titleText()
+    }
+
     public func presentPopover(_ viewController: UIViewController, barButtonIndex: Int, animated: Bool) {
         if let buttonView = buttonStackView.arrangedSubviews[ifExists: barButtonIndex] {
             presentPopover(viewController, sourceView: buttonView, sourceRect: buttonView.bounds, animated: animated)

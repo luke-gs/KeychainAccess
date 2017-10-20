@@ -57,6 +57,15 @@ extension AssetManager {
   AssetManager.shared.registerImage(named: "myAmazingNewImage", in: Bundle.main, forKey: .myVeryWellDefinedDescription)
 
 ```
+
+Images as part of MPOL will be PDF's at a large scale to accommodate for both iOS 11 vector scaling and iOS 10 rescaling of images. If you require an image of a certain size please use the `resizeImageWith` method on the image. This will provide an image of exact size to be used.
+
+### Usage of resizeImageWith:
+```
+let scaledImage = image.resizeImageWith(newSize: CGSize(width: 24.0, height: 24.0), retainAspect: true, renderMode: .alwaysTemplate)
+
+```
+
 ## Data Matching
 
 When viewing an entity's details, there will be rules around how the data is matched between the data sources. There is a convenience object that is used in the `EntityDetailSectionsViewModel` to allow for data matching which should be passed in, in the `init`.

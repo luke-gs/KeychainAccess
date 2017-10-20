@@ -59,9 +59,10 @@ class CollectionDemoListViewController: FormTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let tableView = self.tableView!
-        
-        tableView.rowHeight = 44.0
-        tableView.register(UITableViewCell.self)
+
+        tableView.estimatedRowHeight = 44
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.register(TableViewFormSubtitleCell.self)
         tableView.cellLayoutMargins = UIEdgeInsets(top: 16.0, left: 24.0, bottom: 16.0, right: 12.0)
     }
 
@@ -71,11 +72,12 @@ class CollectionDemoListViewController: FormTableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return CollectionDemo.count
     }
-    
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(of: UITableViewCell.self, for: indexPath)
-        cell.textLabel?.text = CollectionDemo(rawValue: indexPath.row)?.title
-        
+        let cell = tableView.dequeueReusableCell(of: TableViewFormSubtitleCell.self, for: indexPath)
+        cell.textLabel.text = CollectionDemo(rawValue: indexPath.row)?.title
+        cell.detailTextLabel.text = CollectionDemo(rawValue: indexPath.row)?.title
+
         if type(of: cell.selectedBackgroundView) != UIView.self {
             // we want to use a custom background which means we can't use the standard UITableViewCell background on
             // grouped cells which is a subclass. Test it's a standard view, and if not, set a standard one.

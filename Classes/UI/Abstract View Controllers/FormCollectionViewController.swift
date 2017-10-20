@@ -43,6 +43,8 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     
     open private(set) lazy var loadingManager: LoadingStateManager = LoadingStateManager()
     
+    open private(set) var collectionViewTopConstraint: NSLayoutConstraint?
+    open private(set) var collectionViewBottomConstraint: NSLayoutConstraint?
     
     // Calculated heights
     
@@ -205,6 +207,7 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
         let backgroundBounds = UIScreen.main.bounds
         
         let collectionView = collectionViewClass().init(frame: backgroundBounds, collectionViewLayout: formLayout)
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.dataSource = self
         collectionView.delegate   = self
         collectionView.alwaysBounceVertical = true
@@ -228,15 +231,6 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
         
         loadingManager.baseView = backgroundView
         loadingManager.contentView = collectionView
-
-        // Layout collection view, using safe area layout guide on iOS 11
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor).withPriority(.almostRequired),
-        ])
     }
     
     open override func viewDidLoad() {
@@ -402,6 +396,11 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
             listCell.subtitleLabel.textColor = secondaryTextColor
         case let selectionCell as CollectionViewFormOptionCell:
             selectionCell.titleLabel.textColor = primaryTextColor
+        case let progressCell as CollectionViewFormProgressCell:
+            progressCell.textLabel.textColor  = secondaryTextColor
+            progressCell.valueLabel.textColor = progressCell.isEditable ? primaryTextColor : secondaryTextColor
+            progressCell.titleLabel.textColor = secondaryTextColor
+            progressCell.placeholderLabel.textColor = placeholderTextColor
         case let valueFieldCell as CollectionViewFormValueFieldCell:
             valueFieldCell.valueLabel.textColor = valueFieldCell.isEditable ? primaryTextColor : secondaryTextColor
             valueFieldCell.titleLabel.textColor = secondaryTextColor
