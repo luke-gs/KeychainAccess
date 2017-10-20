@@ -150,7 +150,8 @@ open class GenericSearchViewController: FormBuilderViewController, UISearchBarDe
     }
 
     private func updateColour(for traitCollection: UITraitCollection) {
-        view.backgroundColor = traitCollection.horizontalSizeClass == .compact ? .white : UIColor.white.withAlphaComponent(0.64)
+        let shouldBeWhite = traitCollection.horizontalSizeClass == .compact || !self.isBeingPresented
+        view.backgroundColor = shouldBeWhite ? .white : UIColor.white.withAlphaComponent(0.64)
     }
 
     // MARK: Searchbar delegate
