@@ -80,11 +80,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // MARK: Generic Search VC
         let items1: [GenericSearchable] = Array(repeating: Test(), count: 2)
         let items2: [GenericSearchable] = Array(repeating: Test2(), count: 5)
-        let items3: [GenericSearchable] = Array(repeating: Test3(), count: 1)
+        let items3: [GenericSearchable] = Array(repeating: Test3(), count: 3)
 
         var searchVM = GenericSearchViewModel(items: items1 + items2 + items3)
         searchVM.title = "Search Items"
         searchVM.collapsableSections = true
+        searchVM.hasSections = true
         // searchVM.delegate = self
         searchVM.sectionPriority = ["Duress", "On Duty", "On Air",]
 
@@ -170,33 +171,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 struct Test: GenericSearchable {
     var title: String = "James"
-    var subtitle: String = "Neverdie"
-    var section: String = "On Duty"
-    var image: UIImage = UIImage(named: "SidebarAlert")!
+    var subtitle: String? = "Neverdie"
+    var section: String? = "On Duty"
+    var image: UIImage? = UIImage(named: "SidebarAlert")!
 
     func contains(searchString: String) -> Bool {
-        return title.starts(with: searchString) || subtitle.starts(with: searchString)
+        return title.starts(with: searchString)
     }
 }
 
 struct Test2: GenericSearchable {
     var title: String = "Herli"
-    var subtitle: String = "Chad"
-    var section: String = "On Air"
-    var image: UIImage = UIImage(named: "SidebarInfo")!
+    var subtitle: String? = "Chad"
+    var section: String? = "On Air"
+    var image: UIImage?
 
     func contains(searchString: String) -> Bool {
-        return title.starts(with: searchString) || subtitle.starts(with: searchString)
+        return title.starts(with: searchString)
     }
 }
 
 struct Test3: GenericSearchable {
     var title: String = "Luke"
-    var subtitle: String = "Jimmy Boy"
-    var section: String = "Duress"
-    var image: UIImage = UIImage(named: "SidebarAlertFilled")!
+    var subtitle: String? = "Jimmy Boy"
+    var section: String? = "Duress"
+    var image: UIImage? = UIImage(named: "SidebarAlertFilled")!
 
     func contains(searchString: String) -> Bool {
-        return title.starts(with: searchString) || subtitle.starts(with: searchString)
+        return title.starts(with: searchString)
     }
 }

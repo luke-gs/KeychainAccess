@@ -24,10 +24,11 @@ open class GenericSearchViewController: FormBuilderViewController, UISearchBarDe
 
     private var searchableSections: [String: [GenericSearchable]] {
         let dict = viewModel.items.reduce([String: [GenericSearchable]]()) { (result, item) -> [String: [GenericSearchable]] in
+            let section = item.section ?? ""
             var mutableResult = result
-            var array = mutableResult[item.section] ?? [GenericSearchable]()
+            var array = mutableResult[section] ?? [GenericSearchable]()
             array.append(item)
-            mutableResult[item.section] = array
+            mutableResult[section] = array
             return mutableResult
         }
 
@@ -66,6 +67,10 @@ open class GenericSearchViewController: FormBuilderViewController, UISearchBarDe
         return filteredSections
     }
 
+    private var validSections: [PrioritisedSection] {
+        return searchString != "" ? filteredSections : prioritisedSections
+    }
+
     public required init(viewModel: GenericSearchViewModel) {
         self.viewModel = viewModel
         super.init()
@@ -86,8 +91,9 @@ open class GenericSearchViewController: FormBuilderViewController, UISearchBarDe
         builder.forceLinearLayout = true
 
         for section in 0..<numberOfSections() {
-            builder += HeaderFormItem(text: title(for: section))
-
+            if viewModel.hasSections == true {
+                builder += HeaderFormItem(text: title(for: section))
+            }
             for row in 0..<numberOfRows(in: section) {
                 let indexPath = IndexPath(row: row, section: section)
                 builder += SubtitleFormItem(title: name(for: indexPath),
@@ -117,34 +123,34 @@ open class GenericSearchViewController: FormBuilderViewController, UISearchBarDe
     // MARK: Private
 
     private func numberOfSections() -> Int {
-        let sections = self.filteredSections
+        let sections = validSections
         return sections.count
     }
 
     private func numberOfRows(in section: Int) -> Int {
-        let section = filteredSections[section]
+        let section = validSections[section]
         return section.items.count
     }
 
     private func title(for section: Int) -> String {
-        let section = filteredSections[section]
+        let section = validSections[section]
         return section.title
     }
 
     private func name(for indexPath: IndexPath) -> String {
-        let section = filteredSections[indexPath.section]
+        let section = validSections[indexPath.section]
         let row = section.items[indexPath.row]
         return row.title
     }
 
-    private func description(for indexPath: IndexPath) -> String {
-        let section = filteredSections[indexPath.section]
+    private func description(for indexPath: IndexPath) -> String? {
+        let section = validSections[indexPath.section]
         let row = section.items[indexPath.row]
         return row.subtitle
     }
 
     private func image(for indexPath: IndexPath) -> UIImage? {
-        let section = filteredSections[indexPath.section]
+        let section = validSections[indexPath.section]
         let row = section.items[indexPath.row]
         return row.image
     }
@@ -177,13 +183,13 @@ public protocol GenericSearchable {
     var title: String { get }
 
     /// The subtitle string to display
-    var subtitle: String { get }
+    var subtitle: String? { get }
 
     /// The section this entity should belong to
-    var section: String { get }
+    var section: String? { get }
 
     /// The image that should be displayed
-    var image: UIImage{ get }
+    var image: UIImage? { get }
 
     /// Perform business logic here to check if the entity should show up when filtering
     ///
@@ -217,6 +223,11 @@ public struct GenericSearchViewModel {
     /// default: `true`
     public var collapsableSections: Bool = true
 
+    /// Whether the list should be broken down by sections defined in the the `searchables`
+    ///
+    /// default: `true`
+    public var hasSections: Bool = true
+
     /// An array of sections sorted by priority
     ///
     /// These should match the sections of your `GenericSeaerchable`s
@@ -229,7 +240,6 @@ public struct GenericSearchViewModel {
 
     /// The delegate for the collection view touches
     public var delegate: GenericSearchDelegate?
-
 
     /// The array of searchable items
     private(set) var items: [GenericSearchable]
