@@ -49,6 +49,11 @@ class NumberRangeAction: ValueSelectionAction<CountableClosedRange<Int>>, Number
     public var range: CountableClosedRange<Int> = 0...1
 
     public override func viewController() -> UIViewController {
+        if selectedValue == nil {
+            selectedValue = range
+            updateHandler?()
+        }
+        
         let min = range.min()!
         let max = range.max()!
 
