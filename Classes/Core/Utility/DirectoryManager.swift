@@ -12,8 +12,13 @@ import KeychainSwift
 public class DirectoryManager: DirectoryManaging {
 
     private var baseURL: URL
-    private let keychain = KeychainSwift()
     private let operationQueue: OperationQueue
+    private lazy var keychain: KeychainSwift = {
+        // Create keychain using the configured app group
+        let kc = KeychainSwift()
+        kc.accessGroup = AppGroup.appGroupId()
+        return kc
+    }()
 
     required public init(baseURL: URL) {
         self.baseURL = baseURL
