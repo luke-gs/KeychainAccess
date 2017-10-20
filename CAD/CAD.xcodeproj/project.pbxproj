@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8C8D6CC41B08BE3F8BD4323A /* Pods_CAD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFE5675329056751C51108DA /* Pods_CAD.framework */; };
+		962053101F9953A5000CAD49 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9620530F1F9953A5000CAD49 /* LoginViewController.swift */; };
 		9624A4161F7C550B00CAE056 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A4151F7C550B00CAE056 /* AppDelegate.swift */; };
 		9624A41D1F7C550B00CAE056 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9624A41C1F7C550B00CAE056 /* Assets.xcassets */; };
 		9624A4201F7C550B00CAE056 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9624A41E1F7C550B00CAE056 /* LaunchScreen.storyboard */; };
@@ -16,11 +17,17 @@
 /* Begin PBXFileReference section */
 		1DE76078EE629AAABB19522F /* Pods-CAD.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CAD.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CAD/Pods-CAD.debug.xcconfig"; sourceTree = "<group>"; };
 		938AAB0D0D7D4DF633FAD2DB /* Pods-CAD.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CAD.release.xcconfig"; path = "Pods/Target Support Files/Pods-CAD/Pods-CAD.release.xcconfig"; sourceTree = "<group>"; };
+		9620530F1F9953A5000CAD49 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		9624A4121F7C550B00CAE056 /* CAD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CAD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9624A4151F7C550B00CAE056 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9624A41C1F7C550B00CAE056 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9624A41F1F7C550B00CAE056 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9624A4211F7C550B00CAE056 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		96553FC21F9849AC006E063E /* CAD.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CAD.entitlements; sourceTree = "<group>"; };
+		96553FD41F98554E006E063E /* AppConfig-cad-debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-cad-debug.xcconfig"; sourceTree = "<group>"; };
+		96553FD51F98554E006E063E /* AppConfig-cad-release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-cad-release.xcconfig"; sourceTree = "<group>"; };
+		96553FD71F98554E006E063E /* AppConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppConfiguration.h; sourceTree = "<group>"; };
+		96553FD81F98554E006E063E /* CAD-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CAD-Bridging-Header.h"; sourceTree = "<group>"; };
 		EFE5675329056751C51108DA /* Pods_CAD.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CAD.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -53,6 +60,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		9620530E1F995374000CAD49 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				9620530F1F9953A5000CAD49 /* LoginViewController.swift */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
 		9624A4091F7C550B00CAE056 = {
 			isa = PBXGroup;
 			children = (
@@ -75,8 +90,11 @@
 			isa = PBXGroup;
 			children = (
 				9624A4151F7C550B00CAE056 /* AppDelegate.swift */,
+				96553FC21F9849AC006E063E /* CAD.entitlements */,
+				96553FCE1F98554E006E063E /* Configuration */,
 				9624A4281F7C583D00CAE056 /* Resources */,
 				9624A4291F7C585A00CAE056 /* Supporting Files */,
+				9620530E1F995374000CAD49 /* View Controllers */,
 			);
 			path = CAD;
 			sourceTree = "<group>";
@@ -96,6 +114,17 @@
 				9624A4211F7C550B00CAE056 /* Info.plist */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		96553FCE1F98554E006E063E /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				96553FD41F98554E006E063E /* AppConfig-cad-debug.xcconfig */,
+				96553FD51F98554E006E063E /* AppConfig-cad-release.xcconfig */,
+				96553FD71F98554E006E063E /* AppConfiguration.h */,
+				96553FD81F98554E006E063E /* CAD-Bridging-Header.h */,
+			);
+			path = Configuration;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -134,6 +163,11 @@
 					9624A4111F7C550B00CAE056 = {
 						CreatedOnToolsVersion = 9.0;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -243,6 +277,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				962053101F9953A5000CAD49 /* LoginViewController.swift in Sources */,
 				9624A4161F7C550B00CAE056 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -370,9 +405,10 @@
 		};
 		9624A4251F7C550B00CAE056 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1DE76078EE629AAABB19522F /* Pods-CAD.debug.xcconfig */;
+			baseConfigurationReference = 96553FD41F98554E006E063E /* AppConfig-cad-debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = CAD/CAD.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QJQ4TBYRPA;
 				ENABLE_BITCODE = NO;
@@ -381,6 +417,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = enterprise.gridstone.cad.CAD;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "CAD/Configuration/CAD-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -388,9 +425,10 @@
 		};
 		9624A4261F7C550B00CAE056 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 938AAB0D0D7D4DF633FAD2DB /* Pods-CAD.release.xcconfig */;
+			baseConfigurationReference = 96553FD51F98554E006E063E /* AppConfig-cad-release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = CAD/CAD.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QJQ4TBYRPA;
 				ENABLE_BITCODE = NO;
@@ -399,6 +437,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = enterprise.gridstone.cad.CAD;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "CAD/Configuration/CAD-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
