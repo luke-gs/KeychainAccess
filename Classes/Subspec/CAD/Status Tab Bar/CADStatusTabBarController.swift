@@ -35,13 +35,17 @@ open class CADStatusTabBarController: StatusTabBarController {
     }
     
     @objc open func selectedBookOnStatusView() {
-        // TODO: Get the view model from parent view model
-        let viewModel = NotBookedOnViewModel()
-        let viewController = viewModel.createViewController()
+        guard let viewController = viewModel.bookOnStatusViewModel.createActionViewController() else { return }
         
         let container = PopoverNavigationController(rootViewController: viewController)
         container.modalPresentationStyle = .formSheet
         
         selectedViewController?.present(container, animated: true)
+    }
+}
+
+extension CADStatusTabBarController: BookOnStatusViewModelDelegate {
+    public func viewModelStateChanged() {
+        bookOnStatusView.updateViews()
     }
 }

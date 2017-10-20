@@ -11,7 +11,7 @@ import UIKit
 /// View model for the Book-on status view in the tab bar
 open class BookOnStatusViewModel {
     
-    weak var delegate: BookOnStatusViewModelDelegate?
+    open weak var delegate: BookOnStatusViewModelDelegate?
     
     // MARK: - State
     
@@ -97,10 +97,19 @@ open class BookOnStatusViewModel {
         return BookOnStatusView(viewModel: self)
     }
     
+    /// Creates the view controller to present for tapping the button
+    open func createActionViewController() -> UIViewController? {
+        switch state {
+        case .unassigned(_, _):
+            return NotBookedOnViewModel().createViewController()
+        case .assigned(_, _, _):
+            return nil
+        }
+    }
 }
 
 /// Delegate for the book-on status view model
-protocol BookOnStatusViewModelDelegate: class {
+public protocol BookOnStatusViewModelDelegate: class {
     /// Called when the callsign state changes
     func viewModelStateChanged()
 }
