@@ -33,9 +33,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         MPOLKitInitialize()
 
-
-
-
         APIManager.shared = APIManager(configuration: APIManagerDefaultConfiguration(url: "https://\(host)"))
 
         let theme = ThemeManager.shared.theme(for: .current)
@@ -77,6 +74,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let formSplitViewController = SidebarSplitViewController(detailViewControllers: examples)
         formSplitViewController.title = "Form Examples"
 
+        let tabBarController = UITabBarController()
+
+        tabBarController.viewControllers = [
+            pushableSVNavController,
+            UINavigationController(rootViewController: sidebarSplitViewController),
+            UINavigationController(rootViewController: SearchLookupAddressTableViewController(style: .plain)),
+            UINavigationController(rootViewController: genericSearchViewController()),
+            UINavigationController(rootViewController: formSplitViewController)
+        ]
+
+        tabBarController.selectedIndex = 3
+
+        self.window?.rootViewController = tabBarController
+
+        window.makeKeyAndVisible()
+
+        return true
+    }
+
+    // MARK: Generic Search VC
+
+    private func genericSearchViewController() -> UIViewController {
+
         // MARK: Generic Search VC
         let items1: [GenericSearchable] = Array(repeating: Test(), count: 2)
         let items2: [GenericSearchable] = Array(repeating: Test2(), count: 5)
@@ -93,25 +113,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let nc = PopoverNavigationController(rootViewController: vc)
         nc.modalPresentationStyle = .formSheet
 
-        let tabBarController = UITabBarController()
-
-        tabBarController.viewControllers = [
-            pushableSVNavController,
-            UINavigationController(rootViewController: sidebarSplitViewController),
-            UINavigationController(rootViewController: SearchLookupAddressTableViewController(style: .plain)),
-            UINavigationController(rootViewController: vc),
-            UINavigationController(rootViewController: formSplitViewController)
-        ]
-
-        tabBarController.selectedIndex = 3
-
-        self.window?.rootViewController = tabBarController
-
-        window.makeKeyAndVisible()
-
-        return true
+        return vc
     }
-
 
     // MARK: - Network activity
 
@@ -167,7 +170,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 
 
-// MAARK: Generic Seaerch Demo searchables
+// MAARK: Generic Search Demo searchables
 
 struct Test: GenericSearchable {
     var title: String = "James"
