@@ -35,7 +35,6 @@
 		BC12DC961F023EF0001A5BB7 /* ClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC12DC8C1F023EF0001A5BB7 /* ClientKit.framework */; };
 		BC12DC9B1F023EF0001A5BB7 /* ClientKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC12DC9A1F023EF0001A5BB7 /* ClientKitTests.swift */; };
 		BC12DC9D1F023EF0001A5BB7 /* ClientKit.h in Headers */ = {isa = PBXBuildFile; fileRef = BC12DC8F1F023EF0001A5BB7 /* ClientKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BC4FC2701F133D7500F1CAFB /* String+Pickable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4FC26F1F133D7500F1CAFB /* String+Pickable.swift */; };
 		BC75A7AD1F1C3D48004D46F1 /* EntityAlertsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75A7AB1F1C3BF9004D46F1 /* EntityAlertsViewController.swift */; };
 		BC75A7AE1F1C3D48004D46F1 /* EntityAssociationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75A7A61F1C3BF9004D46F1 /* EntityAssociationsViewController.swift */; };
 		BC75A7B11F1C3D48004D46F1 /* EntityOccurrencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75A7AA1F1C3BF9004D46F1 /* EntityOccurrencesViewController.swift */; };
@@ -131,11 +130,6 @@
 		1ABF4EAC1F3B446000C70E62 /* PersonDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonDetailsViewModel.swift; sourceTree = "<group>"; };
 		5919937B6BAC1FE012181DBE /* Pods_ClientKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClientKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BAD23AD53A7E9B377446DB8 /* Pods-ClientKitTests.internal-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKitTests.internal-release.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKitTests/Pods-ClientKitTests.internal-release.xcconfig"; sourceTree = "<group>"; };
-		9624A42E1F7C6D7400CAE056 /* ActivityLogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityLogViewController.swift; sourceTree = "<group>"; };
-		9624A4301F7C6D9300CAE056 /* ActivityLogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityLogViewModel.swift; sourceTree = "<group>"; };
-		9624A4321F7C6DAF00CAE056 /* ActivityLogItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityLogItemCell.swift; sourceTree = "<group>"; };
-		9624A43A1F7CC03000CAE056 /* TimelineCollectionViewFormLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineCollectionViewFormLayout.swift; sourceTree = "<group>"; };
-		9624A43C1F7CC05600CAE056 /* TimelineFormCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineFormCollectionViewController.swift; sourceTree = "<group>"; };
 		A1A86AE5D56580A64BDFA431 /* Pods-ClientKit.external-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKit.external-release.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKit/Pods-ClientKit.external-release.xcconfig"; sourceTree = "<group>"; };
 		A2C88F71035790BEDD97B610 /* Pods-ClientKitTests.internal-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKitTests.internal-debug.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKitTests/Pods-ClientKitTests.internal-debug.xcconfig"; sourceTree = "<group>"; };
 		B4196D7C4B207ED0E1DD5654 /* Pods-ClientKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKit.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKit/Pods-ClientKit.debug.xcconfig"; sourceTree = "<group>"; };
@@ -145,7 +139,6 @@
 		BC12DC951F023EF0001A5BB7 /* ClientKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClientKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC12DC9A1F023EF0001A5BB7 /* ClientKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientKitTests.swift; sourceTree = "<group>"; };
 		BC12DC9C1F023EF0001A5BB7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BC4FC26F1F133D7500F1CAFB /* String+Pickable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Pickable.swift"; sourceTree = "<group>"; };
 		BC75A7981F1C3BF9004D46F1 /* EventDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailViewController.swift; sourceTree = "<group>"; };
 		BC75A79D1F1C3BF9004D46F1 /* VehicleInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleInfoViewController.swift; sourceTree = "<group>"; };
 		BC75A79F1F1C3BF9004D46F1 /* PersonOccurrencesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonOccurrencesViewController.swift; sourceTree = "<group>"; };
@@ -458,7 +451,6 @@
 			children = (
 				EA8B66631F38470300F09716 /* EntitySummary */,
 				BCAEFEDC1F0317DB00C97F9C /* EntityThumbnailView+Configuration.swift */,
-				BC4FC26F1F133D7500F1CAFB /* String+Pickable.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -831,7 +823,6 @@
 				C63408531F30DA15000747B0 /* MPOLSource.swift in Sources */,
 				1A2E8A781F3942FE0062FEA5 /* EntityAlertsViewModel.swift in Sources */,
 				C681A3851F21AEA800F4AC13 /* LicenceParserDefinition.swift in Sources */,
-				BC4FC2701F133D7500F1CAFB /* String+Pickable.swift in Sources */,
 				EA8B665E1F382D2B00F09716 /* PersonSearchParameters.swift in Sources */,
 				1A2E8A7A1F39734E0062FEA5 /* EntityAssociationsViewModel.swift in Sources */,
 				1A2E8A701F37E3380062FEA5 /* PersonDescriptionViewModel.swift in Sources */,
