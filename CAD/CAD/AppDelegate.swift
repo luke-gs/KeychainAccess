@@ -44,12 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         applyCurrentTheme()
 
-        if UserSession.current.isActive == true {
-            UserSession.current.restoreSession { token in
-                APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
-            }
-        }
-        updateRootViewController()
+        updateAppForSessionState()
 
         // TODO: Put this somewhere else I guess. Just need it now for the map.
         if CLLocationManager.authorizationStatus() == .notDetermined {
@@ -60,10 +55,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
-    private func updateRootViewController() {
-        if UserSession.current.isActive {
+    private func updateAppForSessionState() {
+        if CADUserSession.current.isActive {
             loginViewController = nil
             if window?.rootViewController == nil || window?.rootViewController != sessionViewController {
+                CADUserSession.current.restoreSession { token in
+                    APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
+                }
                 window?.rootViewController = createSessionViewController()
             }
         } else {
@@ -145,7 +143,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
 
         // Show login or session screen depending on user session
-        updateRootViewController()
+        updateAppForSessionState()
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
