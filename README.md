@@ -180,8 +180,6 @@ The `GenericSearchViewController` allows for searching through entities with "ty
 
 1. Implement the `GenericSearchable` protocol on the entities that you want to search through.
 
-eg:
-
 ```
 struct Person: GenericSearchable {
     var title: String = "James"
@@ -197,8 +195,6 @@ struct Person: GenericSearchable {
 
 2. Create the `GenericSearchViewModel` object.
 
-eg:
-
 ```
         // MARK: Generic Search VC
         let people: [GenericSearchable] = Array(repeating: Person(), count: 10)
@@ -212,8 +208,6 @@ eg:
 ```
 
 3. Intialise the `GenericSearchViewController` with your viewModel and present however.
-
-eg:
 
 ```
         let viewController = GenericSearchViewController(viewModel: searchVM)
