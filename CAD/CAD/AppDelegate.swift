@@ -92,7 +92,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         activityNavController.tabBarItem.image = AssetManager.shared.image(forKey: .tabBarActivity)
         activityNavController.tabBarItem.title = NSLocalizedString("Activity Log", comment: "Activity Log Tab Bar Item")
 
-        let sessionViewController = CADStatusTabBarController()
+        let userCallsignStatusViewModel = UserCallsignStatusViewModel()
+        let statusTabBarViewModel = CADStatusTabBarViewModel(userCallsignStatusViewModel: userCallsignStatusViewModel)
+        let sessionViewController = statusTabBarViewModel.createViewController()
+
         sessionViewController.regularViewControllers = [searchProxyViewController, tasksNavController, activityNavController]
         sessionViewController.compactViewControllers = sessionViewController.viewControllers + [tempCallsignController]
         sessionViewController.selectedViewController = tasksNavController
