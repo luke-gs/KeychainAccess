@@ -415,7 +415,7 @@
 				INFOPLIST_FILE = "CAD/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = enterprise.gridstone.cad.CAD;
+				PRODUCT_BUNDLE_IDENTIFIER = enterprise.gridstone.pscore.cad;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "CAD/Configuration/CAD-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
@@ -435,7 +435,7 @@
 				INFOPLIST_FILE = "CAD/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = enterprise.gridstone.cad.CAD;
+				PRODUCT_BUNDLE_IDENTIFIER = enterprise.gridstone.pscore.cad;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "CAD/Configuration/CAD-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
