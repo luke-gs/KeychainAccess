@@ -1,5 +1,5 @@
 //
-//  BookOnStatusView.swift
+//  UserCallsignStatusView.swift
 //  MPOLKit
 //
 //  Created by Kyle May on 7/9/17.
@@ -8,10 +8,10 @@
 
 import UIKit
 
-/// Book-on status view in the tab bar
-open class BookOnStatusView: UIControl {
+/// User callsign status view in the tab bar
+open class UserCallsignStatusView: UIControl {
     
-    open let viewModel: BookOnStatusViewModel
+    open let viewModel: UserCallsignStatusViewModel
     
     // MARK: - Constants
     
@@ -32,7 +32,7 @@ open class BookOnStatusView: UIControl {
     
     // MARK: - Setup
 
-    public init(viewModel: BookOnStatusViewModel) {
+    public init(viewModel: UserCallsignStatusViewModel) {
         self.viewModel = viewModel
         super.init(frame: .zero)
 

@@ -11,10 +11,10 @@ import UIKit
 /// View model for the CAD status tab bar
 open class CADStatusTabBarViewModel {
     
-    open let bookOnStatusViewModel: BookOnStatusViewModel
+    open let userCallsignStatusViewModel: UserCallsignStatusViewModel
     
-    public init(bookOnStatusViewModel: BookOnStatusViewModel) {
-        self.bookOnStatusViewModel = bookOnStatusViewModel
+    public init(userCallsignStatusViewModel: UserCallsignStatusViewModel) {
+        self.userCallsignStatusViewModel = userCallsignStatusViewModel
     }
     
     /// Create the view controller for this view model

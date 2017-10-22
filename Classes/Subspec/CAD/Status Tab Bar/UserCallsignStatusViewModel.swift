@@ -1,5 +1,5 @@
 //
-//  BookOnStatusViewModel.swift
+//  UserCallsignStatusViewModel.swift
 //  MPOLKit
 //
 //  Created by Kyle May on 3/10/17.
@@ -8,15 +8,15 @@
 
 import UIKit
 
-/// View model for the Book-on status view in the tab bar
-open class BookOnStatusViewModel {
+/// View model for the user callsign status view in the tab bar
+open class UserCallsignStatusViewModel {
     
-    open weak var delegate: BookOnStatusViewModelDelegate?
+    open weak var delegate: UserCallsignStatusViewModelDelegate?
     
     // MARK: - State
     
-    /// Enum to keep track of un/assigned book-on state
-    public enum BookOnState {
+    /// Enum to keep track of un/assigned callsign state
+    public enum CallsignState {
         /// Not assigned to any callsign
         /// - `title`: Title to show when not booked on
         /// - `subtitle`: Description to show when not booked on
@@ -60,7 +60,7 @@ open class BookOnStatusViewModel {
     }
     
     /// The currently selected state
-    open var state: BookOnState = BookOnStatusViewModel.defaultNotBookedOnState {
+    open var state: CallsignState = UserCallsignStatusViewModel.defaultNotBookedOnState {
         // TODO: Get this from user session and keep updated
         didSet {
             delegate?.viewModelStateChanged()
@@ -68,7 +68,7 @@ open class BookOnStatusViewModel {
     }
     
     /// Default text for not booked on state
-    open static let defaultNotBookedOnState: BookOnState = {
+    open static let defaultNotBookedOnState: CallsignState = {
         return .unassigned(title: NSLocalizedString("Not Booked On", comment: ""),
                            subtitle: NSLocalizedString("View All Callsigns", comment: "")
         )
@@ -93,8 +93,8 @@ open class BookOnStatusViewModel {
     public init() {}
     
     /// Creates the view for this view model
-    open func createView() -> BookOnStatusView {
-        return BookOnStatusView(viewModel: self)
+    open func createView() -> UserCallsignStatusView {
+        return UserCallsignStatusView(viewModel: self)
     }
     
     /// Creates the view controller to present for tapping the button
@@ -108,8 +108,8 @@ open class BookOnStatusViewModel {
     }
 }
 
-/// Delegate for the book-on status view model
-public protocol BookOnStatusViewModelDelegate: class {
+/// Delegate for the user callsign status view model
+public protocol UserCallsignStatusViewModelDelegate: class {
     /// Called when the callsign state changes
     func viewModelStateChanged()
 }

@@ -8,11 +8,11 @@
 
 import UIKit
 
-/// CAD implementation of status tab bar with book-on status
+/// CAD implementation of status tab bar with callsign status
 open class CADStatusTabBarController: StatusTabBarController {
     
     open let viewModel: CADStatusTabBarViewModel
-    open var bookOnStatusView: BookOnStatusView!
+    open var userCallsignStatusView: UserCallsignStatusView!
     
     public init(viewModel: CADStatusTabBarViewModel) {
         self.viewModel = viewModel
@@ -27,15 +27,15 @@ open class CADStatusTabBarController: StatusTabBarController {
         super.viewDidLoad()
 
         // Add book on status view to status area
-        bookOnStatusView = viewModel.bookOnStatusViewModel.createView()
-        bookOnStatusView.addTarget(self, action: #selector(selectedBookOnStatusView), for: .touchUpInside)
+        userCallsignStatusView = viewModel.userCallsignStatusViewModel.createView()
+        userCallsignStatusView.addTarget(self, action: #selector(selectedCallsignStatusView), for: .touchUpInside)
         
-        statusView = bookOnStatusView
+        statusView = userCallsignStatusView
         tabBar.isTranslucent = false
     }
     
-    @objc open func selectedBookOnStatusView() {
-        guard let viewController = viewModel.bookOnStatusViewModel.createActionViewController() else { return }
+    @objc open func selectedCallsignStatusView() {
+        guard let viewController = viewModel.userCallsignStatusViewModel.createActionViewController() else { return }
         
         let container = PopoverNavigationController(rootViewController: viewController)
         container.modalPresentationStyle = .formSheet
@@ -44,8 +44,8 @@ open class CADStatusTabBarController: StatusTabBarController {
     }
 }
 
-extension CADStatusTabBarController: BookOnStatusViewModelDelegate {
+extension CADStatusTabBarController: UserCallsignStatusViewModelDelegate {
     public func viewModelStateChanged() {
-        bookOnStatusView.updateViews()
+        userCallsignStatusView.updateViews()
     }
 }

@@ -101,8 +101,8 @@
 		27CBC7631F8B27CC00E387C3 /* ResourceAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A4681F83555A00CAE056 /* ResourceAnnotation.swift */; };
 		27CBC7641F8B27CC00E387C3 /* TaskAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A4691F83555A00CAE056 /* TaskAnnotation.swift */; };
 		27CBC7651F8B27D500E387C3 /* CADStatusTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A4621F83555A00CAE056 /* CADStatusTabBarController.swift */; };
-		27CBC7661F8B27D500E387C3 /* BookOnStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A4631F83555A00CAE056 /* BookOnStatusView.swift */; };
-		27CBC7671F8B27D500E387C3 /* BookOnStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A4641F83555A00CAE056 /* BookOnStatusViewModel.swift */; };
+		27CBC7661F8B27D500E387C3 /* UserCallsignStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A4631F83555A00CAE056 /* UserCallsignStatusView.swift */; };
+		27CBC7671F8B27D500E387C3 /* UserCallsignStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A4641F83555A00CAE056 /* UserCallsignStatusViewModel.swift */; };
 		4420D2801F66428D00E20304 /* Sequence+Nils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4420D27F1F66428D00E20304 /* Sequence+Nils.swift */; };
 		44621FF61F59239C007C3150 /* FilterRangeDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44621FF41F59239C007C3150 /* FilterRangeDescriptor.swift */; };
 		44621FF71F59239C007C3150 /* FilterValueDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44621FF51F59239C007C3150 /* FilterValueDescriptor.swift */; };
@@ -557,8 +557,8 @@
 		9624A45F1F83555A00CAE056 /* TimelineFormCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineFormCollectionViewController.swift; sourceTree = "<group>"; };
 		9624A4601F83555A00CAE056 /* TimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineView.swift; sourceTree = "<group>"; };
 		9624A4621F83555A00CAE056 /* CADStatusTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADStatusTabBarController.swift; sourceTree = "<group>"; };
-		9624A4631F83555A00CAE056 /* BookOnStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookOnStatusView.swift; sourceTree = "<group>"; };
-		9624A4641F83555A00CAE056 /* BookOnStatusViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookOnStatusViewModel.swift; sourceTree = "<group>"; };
+		9624A4631F83555A00CAE056 /* UserCallsignStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCallsignStatusView.swift; sourceTree = "<group>"; };
+		9624A4641F83555A00CAE056 /* UserCallsignStatusViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCallsignStatusViewModel.swift; sourceTree = "<group>"; };
 		9624A4671F83555A00CAE056 /* IncidentAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentAnnotation.swift; sourceTree = "<group>"; };
 		9624A4681F83555A00CAE056 /* ResourceAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceAnnotation.swift; sourceTree = "<group>"; };
 		9624A4691F83555A00CAE056 /* TaskAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskAnnotation.swift; sourceTree = "<group>"; };
@@ -1157,8 +1157,8 @@
 			children = (
 				9624A4621F83555A00CAE056 /* CADStatusTabBarController.swift */,
 				274C89781F997F94005B9CF8 /* CADStatusTabBarViewModel.swift */,
-				9624A4631F83555A00CAE056 /* BookOnStatusView.swift */,
-				9624A4641F83555A00CAE056 /* BookOnStatusViewModel.swift */,
+				9624A4631F83555A00CAE056 /* UserCallsignStatusView.swift */,
+				9624A4641F83555A00CAE056 /* UserCallsignStatusViewModel.swift */,
 			);
 			path = "Status Tab Bar";
 			sourceTree = "<group>";
@@ -2490,7 +2490,7 @@
 				27CBC7621F8B27CC00E387C3 /* IncidentAnnotation.swift in Sources */,
 				4420D2801F66428D00E20304 /* Sequence+Nils.swift in Sources */,
 				DB88BCDF1F42D00F0056FD69 /* SearchResultViewModelable.swift in Sources */,
-				27CBC7661F8B27D500E387C3 /* BookOnStatusView.swift in Sources */,
+				27CBC7661F8B27D500E387C3 /* UserCallsignStatusView.swift in Sources */,
 				EAB38FFB1F70A73700341BAF /* ValueFormItem.swift in Sources */,
 				EA76ECF11F578DCA00524830 /* LocationAdvanceOptions.swift in Sources */,
 				12A8DB471F5FD63400A06005 /* DirectoryManager.swift in Sources */,
@@ -2647,7 +2647,7 @@
 				19B49BC11F665F2A00502F51 /* CompactSidebarSourceViewController.swift in Sources */,
 				96CF322E1F8C429D00140AF8 /* CADFormCollectionViewController.swift in Sources */,
 				96CF32251F8C34C700140AF8 /* TasksListItemCell.swift in Sources */,
-				27CBC7671F8B27D500E387C3 /* BookOnStatusViewModel.swift in Sources */,
+				27CBC7671F8B27D500E387C3 /* UserCallsignStatusViewModel.swift in Sources */,
 				BC9C7E171F0DED6600DFFE83 /* FormTextField.swift in Sources */,
 				BC9C7E041F0DED6600DFFE83 /* UIColor+ActionColors.swift in Sources */,
 				BC9C7DD01F0DED6600DFFE83 /* ManifestEntry+Location.swift in Sources */,
