@@ -44,6 +44,15 @@ open class APIManager {
         return dataRequestPromise(request)
     }
 
+    /// Perform specified network request that returns the data and the raw response
+    ///
+    /// - Parameter networkRequest: The network request to be executed.
+    /// - Returns: A promise to return of specified type.
+    open func performRequest(_ networkRequest: NetworkRequestType) throws -> Promise<(Data, HTTPURLResponse?)> {
+        let request = try urlRequest(from: networkRequest)
+        return dataRequestPromise(request)
+    }
+
     /// Perform specified network request.
     ///
     /// - Parameter networkRequest: The network request to be executed.
@@ -183,6 +192,40 @@ open class APIManager {
                 switch result {
                 case .success(let result):
                     fulfill(result)
+                case .failure(let error):
+                    let wrappedError = APIManagerError(underlyingError: error, response: response.toDefaultDataResponse())
+                    if let mapper = mapper {
+                        reject(mapper.mappedError(from: wrappedError))
+                    } else {
+                        reject(wrappedError)
+                    }
+                }
+            })
+        }
+    }
+
+    private func dataRequestPromise(_ urlRequest: URLRequest) -> Promise<(Data, HTTPURLResponse?)> {
+
+        let dataRequest = request(urlRequest)
+        let allPlugins = self.allPlugins
+        allPlugins.forEach {
+            $0.willSend(dataRequest)
+        }
+
+        let mapper = errorMapper
+        return Promise { fulfill, reject in
+
+            dataRequest.validate().responseData(completionHandler: { response in
+
+                allPlugins.forEach({
+                    $0.didReceiveResponse(response)
+                })
+
+                let processedResponse = allPlugins.reduce(response) { $1.processResponse($0) }
+                let result: Alamofire.Result<Data> = DataRequest.serializeResponseData(response: processedResponse.response, data: processedResponse.data, error: processedResponse.error)
+                switch result {
+                case .success(let result):
+                    fulfill((result, processedResponse.response))
                 case .failure(let error):
                     let wrappedError = APIManagerError(underlyingError: error, response: response.toDefaultDataResponse())
                     if let mapper = mapper {
