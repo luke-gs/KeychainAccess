@@ -94,7 +94,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let userCallsignStatusViewModel = UserCallsignStatusViewModel()
         let statusTabBarViewModel = CADStatusTabBarViewModel(userCallsignStatusViewModel: userCallsignStatusViewModel)
-        let sessionViewController = CADStatusTabBarController(viewModel: statusTabBarViewModel)
+        let sessionViewController = statusTabBarViewModel.createViewController()
 
         sessionViewController.regularViewControllers = [searchProxyViewController, tasksNavController, activityNavController]
         sessionViewController.compactViewControllers = sessionViewController.viewControllers + [tempCallsignController]
