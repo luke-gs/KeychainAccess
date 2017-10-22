@@ -42,7 +42,7 @@ public struct LicenceParserDefinition: QueryParserDefinition {
                 throw LicenceParseError.invalidLicenceNumber(licenceNumber: value)
             }
             
-            let length = value.characters.count
+            let length = value.count
             if range.contains(length) == false {
                 throw LicenceParseError.invalidLength(licenceNumber: value, requiredLengthRange: range)
             }

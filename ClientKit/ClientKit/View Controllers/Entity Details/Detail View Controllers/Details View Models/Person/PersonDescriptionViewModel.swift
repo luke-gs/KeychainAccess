@@ -38,7 +38,7 @@ public class PersonDescriptionViewModel: EntityDetailViewModelable {
             var orderedSections: [SectionType] = []
             let years = sectionsMap.keys.sorted(by: { $0.localizedCompare($1) == .orderedDescending })
             for year in years {
-                if year.characters.count == 0 {
+                if year.count == 0 {
                     orderedSections.append(("Unknown Year", sectionsMap[year]!))
                 } else {
                     orderedSections.append((year, sectionsMap[year]!))

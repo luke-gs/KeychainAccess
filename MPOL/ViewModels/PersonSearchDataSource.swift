@@ -29,7 +29,7 @@ class PersonSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
 
     private var text: String? {
         didSet {
-            navigationButton?.isEnabled = text?.characters.count ?? 0 > 0
+            navigationButton?.isEnabled = text?.count ?? 0 > 0
             errorMessage = nil
         }
     }

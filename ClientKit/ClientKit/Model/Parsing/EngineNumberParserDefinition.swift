@@ -29,9 +29,9 @@ public class EngineNumberParserDefinition: QueryParserDefinition {
         let definition = QueryTokenDefinition(key: EngineNumberParserDefinition.engineNumberKey, required: true, typeCheck: { token -> Bool in
             let allowedCharacters = CharacterSet.alphanumerics
             let extra = token.trimmingCharacters(in: allowedCharacters)
-            return extra.characters.count == 0
+            return extra.count == 0
         }) { (token, index, map) in
-            let length = token.characters.count
+            let length = token.count
             if range.contains(length) == false {
                 throw EngineNumberParserError.invalidLength(query: token, requiredLengthRange: range)
             }
