@@ -32,7 +32,12 @@ public final class LocationManager: NSObject, CLLocationManagerDelegate {
     static let timeBuffer:Double = 60
     
     /// Used to see the last time a location was retrieved
-    open private(set) var lastLocationTime: Date? = nil
+    open var lastLocationTime: Date? {
+        get {
+            return locationManager.location?.timestamp
+        }
+    }
+    
     fileprivate var locationManager: CLLocationManager = CLLocationManager()
     
     /// Automatic timer to periodically update location if no location has been obtained recently.
@@ -78,6 +83,14 @@ public final class LocationManager: NSObject, CLLocationManagerDelegate {
         locationManager.delegate = self
     }
     
+    private var latestLocation: CLLocation? = nil
+    
+    open func requestLocation() -> Promise<CLLocation> {
+        return CLLocationManager.promise().then { location -> CLLocation in
+            self.latestLocation = location
+            return location
+        }
+    }
     
     /// Request a single location. Will automatically request authorization for both when in use and always depending if the valid description is in the info.plist
     ///
@@ -119,7 +132,6 @@ public final class LocationManager: NSObject, CLLocationManagerDelegate {
             requestCompletionArray.removeAll()
             return
         }
-        lastLocationTime = Date()
 
         for completionBlock in requestCompletionArray {
             completionBlock(lastLocation, nil)
