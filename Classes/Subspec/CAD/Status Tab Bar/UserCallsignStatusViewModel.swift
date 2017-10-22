@@ -103,7 +103,7 @@ open class UserCallsignStatusViewModel {
         case .unassigned(_, _):
             return NotBookedOnViewModel().createViewController()
         case .assigned(_, _, _):
-            return nil
+            return ManageCallsignStatusViewModel().createViewController()
         }
     }
 }
