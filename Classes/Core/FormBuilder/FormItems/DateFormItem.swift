@@ -31,7 +31,7 @@ public class DateFormItem: PickerFormItem<Date> {
         }
     }
 
-    public var locale: Locale? {
+    public var locale: Locale = .current {
         didSet {
             action.locale = locale
         }
@@ -85,7 +85,7 @@ extension DateFormItem {
     }
 
     @discardableResult
-    public func locale(_ locale: Locale?) -> Self {
+    public func locale(_ locale: Locale) -> Self {
         self.locale = locale
         return self
     }
@@ -107,7 +107,7 @@ class DateAction: ValueSelectionAction<Date> {
 
     public var maximumDate: Date?
 
-    public var locale: Locale?
+    public var locale: Locale = .current
 
     public var timeZone: TimeZone?
 
