@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class NotBookedOnViewModel: CADFormCollectionViewModel<NotBookedOnItem> {
+open class NotBookedOnViewModel: CADFormCollectionViewModel<NotBookedOnItemViewModel> {
     
     public override init() {
         super.init()
@@ -16,7 +16,7 @@ open class NotBookedOnViewModel: CADFormCollectionViewModel<NotBookedOnItem> {
         sections = [
             CADFormCollectionSectionViewModel(title: "Patrol Area",
                                               items: [
-                                                NotBookedOnItem(title: "Collingwood",
+                                                NotBookedOnItemViewModel(title: "Collingwood",
                                                                 subtitle: "9 Callsigns",
                                                                 image: AssetManager.shared.image(forKey: .otherPatrolArea),
                                                                 imageColor: #colorLiteral(red: 0, green: 0.4793452024, blue: 0.9990863204, alpha: 1))
@@ -25,22 +25,22 @@ open class NotBookedOnViewModel: CADFormCollectionViewModel<NotBookedOnItem> {
             
             CADFormCollectionSectionViewModel(title: "Recently Used Callsigns",
                                               items: [
-                                                NotBookedOnItem(title: "B14",
+                                                NotBookedOnItemViewModel(title: "B14",
                                                                 subtitle: "Collingwood Station  :  Off Duty",
                                                                 image: AssetManager.shared.image(forKey: .resourceCar),
                                                                 imageColor: #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1)
                                                 ),
-                                                NotBookedOnItem(title: "P24",
+                                                NotBookedOnItemViewModel(title: "P24",
                                                                 subtitle: "Collingwood Station  :  Off Duty",
                                                                 image: AssetManager.shared.image(forKey: .resourceCar),
                                                                 imageColor: #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1)
                                                 ),
-                                                NotBookedOnItem(title: "P29",
+                                                NotBookedOnItemViewModel(title: "P29",
                                                                 subtitle: "Collingwood Station  :  Off Duty",
                                                                 image: AssetManager.shared.image(forKey: .resourceCar),
                                                                 imageColor: #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1)
                                                 ),
-                                                NotBookedOnItem(title: "K94 (1)",
+                                                NotBookedOnItemViewModel(title: "K94 (1)",
                                                                 subtitle: "Each Richmond  :  On Air",
                                                                 image: AssetManager.shared.image(forKey: .resourceDog),
                                                                 imageColor: #colorLiteral(red: 0.2980392157, green: 0.6862745098, blue: 0.3137254902, alpha: 1)

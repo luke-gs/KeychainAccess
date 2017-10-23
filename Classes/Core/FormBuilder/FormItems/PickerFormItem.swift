@@ -148,7 +148,7 @@ public class PickerFormItem<T>: BaseFormItem, SelectionActionable, DefaultReusab
 
     public private(set) var validator = Validator()
 
-    public var candidate: Any? { return value?.sizing().string }
+    public var candidate: Any? { return selectedValue }
 
     fileprivate var rules = [ValidatorRule]()
 
@@ -229,7 +229,9 @@ extension PickerFormItem {
 
     @discardableResult
     public func required(_ message: String = FormRequired.default.message) -> Self {
-        self.requiredSpecification = ValidatorRule.submit(specification: CountSpecification.min(1), message: message)
+        self.requiredSpecification = ValidatorRule.submit(specification: PredicateSpecification(predicate: { (value: T) -> Bool in
+                return value != nil
+            }), message: message)
         return self
     }
 
