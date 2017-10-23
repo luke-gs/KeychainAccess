@@ -11,7 +11,7 @@ import PromiseKit
 
 public protocol EntityDetailSplitViewControllerDelegate: class {
     
-    func entityDetailSplitViewController<Details: EntityDetailDisplayable, Summary: EntitySummaryDisplayable>(_ entityDetailSplitViewController: EntityDetailSplitViewController<Details, Summary>, didPresentEntity entity: MPOLKitEntity)
+    func entityDetailSplitViewController<Details, Summary>(_ entityDetailSplitViewController: EntityDetailSplitViewController<Details, Summary>, didPresentEntity entity: MPOLKitEntity)
 }
 
 open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Summary: EntitySummaryDisplayable>: SidebarSplitViewController {
