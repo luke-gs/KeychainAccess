@@ -1,9 +1,9 @@
 //
-//  Manifest.swift
+//  LocationManager.swift
 //  MPOLKit
 //
-//  Created by Rod Brown on 27/10/16.
-//  Copyright © 2016 Gridstone. All rights reserved.
+//  Created by Val Shorinov on 17/10/17.
+//  Copyright © 2017 Gridstone. All rights reserved.
 //
 
 import Foundation
