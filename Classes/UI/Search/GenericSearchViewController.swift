@@ -23,7 +23,6 @@ final public class GenericSearchViewController: FormBuilderViewController, UISea
     private var searchString: String = ""
 
 
-
     /* Internal section prioritisation
      *
      * If you require to change this logic to suit your business cases
@@ -233,6 +232,7 @@ public protocol GenericSearchDelegate {
     /// - Parameters:
     ///   - viewController: the view controller that the tap came form
     ///   - indexPath: the indexPath that was tapped
+    ///   - withSearchable: teh searchable object for that indexPath
     func genericSearchViewController(_ viewController: GenericSearchViewController, didSelectRowAt indexPath: IndexPath, withSearchable: GenericSearchable)
 }
 
