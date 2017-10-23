@@ -73,7 +73,7 @@ class SummaryThumbnailFormItemTests: XCTestCase {
         XCTAssertEqual(view.subtitleLabel.text, "Bye")
         XCTAssertEqual(view.detailLabel.text, "Detail")
         XCTAssertEqual(view.badgeCount, 20)
-        XCTAssertEqual(view.alertColor, .yellow)
+        XCTAssertEqual(view.borderColor, .yellow)
         XCTAssertEqual(view.thumbnailView.borderColor, .orange)
         XCTAssertEqual(view.thumbnailView.imageView.image, AssetManager.shared.image(forKey: .info))
     }
