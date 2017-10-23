@@ -2,8 +2,8 @@
 //  Manifest.swift
 //  MPOLKit
 //
-//  Created by Valery Shorinov 16/10/17
-//  Copyright © 2017 Gridstone. All rights reserved.
+//  Created by Rod Brown on 27/10/16.
+//  Copyright © 2016 Gridstone. All rights reserved.
 //
 
 import Foundation
@@ -26,7 +26,10 @@ public extension NSNotification.Name {
     static let LocationDidUpdate = NSNotification.Name(rawValue: "LocationDidUpdate")
 }
 
-public final class LocationManager: NSObject, CLLocationManagerDelegate {
+public final class LocationManager: NSObject {
+    
+    /// The singleton shared locationManager. This is the only instance of this class.
+    public static let shared = LocationManager()
     
     static let interval:TimeInterval = 5*60
     static let timeBuffer:Double = 60
@@ -34,11 +37,9 @@ public final class LocationManager: NSObject, CLLocationManagerDelegate {
     /// Used to see the last time a location was retrieved
     open var lastLocationTime: Date? {
         get {
-            return locationManager.location?.timestamp
+            return lastLocation?.timestamp
         }
     }
-    
-    fileprivate var locationManager: CLLocationManager = CLLocationManager()
     
     /// Automatic timer to periodically update location if no location has been obtained recently.
     fileprivate var timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { (timer) in
@@ -54,33 +55,11 @@ public final class LocationManager: NSObject, CLLocationManagerDelegate {
     }
     
     /// Used to get the last saved location.
-    open var lastLocation: CLLocation? {
-        get {
-            return locationManager.location
-        }
-    }
-    
-    /// Used to set desired accuracy of location manager (defaults to nearest 10 meters)
-    open var desiredAccuracy: CLLocationAccuracy {
-        get {
-            return locationManager.desiredAccuracy
-        }
-        set {
-            locationManager.desiredAccuracy = newValue
-        }
-    }
-    
-    /// The singleton shared locationManager. This is the only instance of this class.
-    public static let shared = LocationManager()
+    open var lastLocation: CLLocation? = nil
     
     private override init() {
         super.init()
-        
-        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-        locationManager.delegate = self
     }
-    
-    private var latestLocation: CLLocation? = nil
     
     /// Request a single location. Will automatically request authorization for both when in use and always depending if the valid description is in the info.plist
     ///
@@ -89,7 +68,7 @@ public final class LocationManager: NSObject, CLLocationManagerDelegate {
     ///
     open func requestLocation() -> Promise<CLLocation> {
         return CLLocationManager.promise().then { location -> CLLocation in
-            self.latestLocation = location
+            self.lastLocation = location
             return location
         }
     }
