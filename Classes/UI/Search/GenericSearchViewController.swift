@@ -22,6 +22,17 @@ final public class GenericSearchViewController: FormBuilderViewController, UISea
     private var viewModel: GenericSearchViewModel
     private var searchString: String = ""
 
+
+
+    /* Internal section prioritisation
+     *
+     * If you require to change this logic to suit your business cases
+     * Then this logic should no longer sit in the view controller
+     * And you should consider rewriting how these classes interact
+     */
+
+    // ***************** START ********************
+
     private var searchableSections: [String: [GenericSearchable]] {
         let dict = viewModel.items.reduce([String: [GenericSearchable]]()) { (result, item) -> [String: [GenericSearchable]] in
             let section = item.section ?? "Other"
@@ -79,6 +90,8 @@ final public class GenericSearchViewController: FormBuilderViewController, UISea
         return searchString != "" ? filteredSections : prioritisedSections
     }
 
+    // ***************** END ********************
+
     public required init(viewModel: GenericSearchViewModel) {
         self.viewModel = viewModel
         super.init()
@@ -110,7 +123,8 @@ final public class GenericSearchViewController: FormBuilderViewController, UISea
                                             style: .default)
                     .accessory(ItemAccessory.disclosure)
                     .onSelection { [unowned self] cell in
-                        self.viewModel.delegate?.genericSearchViewController(self, didSelectRowAt: indexPath)
+                        let searchable = self.validSections[section].items[row]
+                        self.viewModel.delegate?.genericSearchViewController(self, didSelectRowAt: indexPath, withSearchable: searchable)
                 }
             }
         }
@@ -221,7 +235,7 @@ public protocol GenericSearchDelegate {
     /// - Parameters:
     ///   - viewController: the view controller that the tap came form
     ///   - indexPath: the indexPath that was tapped
-    func genericSearchViewController(_ viewController: GenericSearchViewController, didSelectRowAt indexPath: IndexPath)
+    func genericSearchViewController(_ viewController: GenericSearchViewController, didSelectRowAt indexPath: IndexPath, withSearchable: GenericSearchable)
 }
 
 /// A view model for the generic search view controller
