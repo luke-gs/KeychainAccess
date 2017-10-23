@@ -14,11 +14,6 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
 
     private var viewModel: BookOnDetailsFormViewModel
 
-    // Form items we need to keep reference to
-    private var startTimeItem: DateFormItem!
-    private var endTimeItem: DateFormItem!
-    private var durationItem: ValueFormItem!
-
     // MARK: - Initializers
 
     public init(viewModel: BookOnDetailsFormViewModel) {
@@ -49,50 +44,55 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
 
     // MARK: - Form
 
-    override open func construct(builder: FormBuilder) {
-
-        builder += HeaderFormItem(text: NSLocalizedString("VEHICLE DETAILS", comment: ""), style: .plain)
-
-        builder += TextFieldFormItem(title: NSLocalizedString("Serial", comment: ""), text: nil)
+    private lazy var serialItem: TextFieldFormItem = {
+        return TextFieldFormItem(title: NSLocalizedString("Serial", comment: ""), text: nil)
             .width(.column(3))
             .required("Serial is required.")
             .strictValidate(CharacterSetSpecification.decimalDigits, message: "Serial must be a number")
             .onValueChanged { [unowned self] in
                 self.viewModel.details.serial = $0
         }
+    }()
 
-        builder += DropDownFormItem(title: NSLocalizedString("Category", comment: ""))
+    private lazy var categoryItem: DropDownFormItem = {
+        return DropDownFormItem(title: NSLocalizedString("Category", comment: ""))
             .options(["1", "2", "3"])
             .required()
             .width(.column(3))
             .onValueChanged { [unowned self] in
                 self.viewModel.details.category = $0?.first
         }
+    }()
 
-        builder += TextFieldFormItem(title: NSLocalizedString("Odometer", comment: ""), text: nil)
+    private lazy var odometerItem: TextFieldFormItem = {
+        return TextFieldFormItem(title: NSLocalizedString("Odometer", comment: ""), text: nil)
             .width(.column(3))
             .strictValidate(CharacterSetSpecification.decimalDigits, message: "Odometer must be a number")
             .onValueChanged { [unowned self] in
                 self.viewModel.details.odometer = $0
         }
+    }()
 
-        builder += TextFieldFormItem(title: NSLocalizedString("Equipment", comment: ""), text: nil)
+    private lazy var equipmentItem: TextFieldFormItem = {
+        return TextFieldFormItem(title: NSLocalizedString("Equipment", comment: ""), text: nil)
             .width(.column(1))
             .onValueChanged { [unowned self] in
                 self.viewModel.details.equipment = $0
         }
+    }()
 
-        builder += TextFieldFormItem(title: NSLocalizedString("Remarks", comment: ""), text: nil)
+    private lazy var remarksItem: TextFieldFormItem = {
+        return TextFieldFormItem(title: NSLocalizedString("Remarks", comment: ""), text: nil)
             .width(.column(1))
             .softValidate(CountSpecification.max(1000), message: "Must be no more than 1000 characters")
             .onValueChanged { [unowned self] in
                 self.viewModel.details.remarks = $0
         }
+    }()
 
-        builder += HeaderFormItem(text: NSLocalizedString("SHIFT DETAILS", comment: ""), style: .plain)
-
-
-        startTimeItem = DateFormItem(title: NSLocalizedString("Start Time", comment: ""))
+    /// Start time of shift
+    private lazy var startTimeItem: DateFormItem = {
+        return DateFormItem(title: NSLocalizedString("Start Time", comment: ""))
             .width(.column(3))
             .required()
             .datePickerMode(.dateAndTime)
@@ -104,8 +104,11 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
                 self.viewModel.details.startTime = $0
                 self.updateDuration()
         }
+    }()
 
-        endTimeItem = DateFormItem(title: NSLocalizedString("Est. End Time", comment: ""))
+    /// End time of shift
+    private lazy var endTimeItem: DateFormItem = {
+        return DateFormItem(title: NSLocalizedString("Est. End Time", comment: ""))
             .width(.column(3))
             .required()
             .datePickerMode(.dateAndTime)
@@ -117,13 +120,29 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
                 self.viewModel.details.endTime = $0
                 self.updateDuration()
         }
+    }()
 
-        durationItem = ValueFormItem(title: NSLocalizedString("Duration", comment: ""), value: "")
+    /// Calculated duration of shift
+    private lazy var durationItem: ValueFormItem = {
+        return ValueFormItem(title: NSLocalizedString("Duration", comment: ""), value: "")
             .width(.column(3))
+    }()
 
+    /// Construct the form
+    override open func construct(builder: FormBuilder) {
+
+        builder += HeaderFormItem(text: NSLocalizedString("Vehicle Details", comment: "").uppercased(), style: .plain)
+        builder += serialItem
+        builder += categoryItem
+        builder += odometerItem
+        builder += equipmentItem
+        builder += remarksItem
+
+        builder += HeaderFormItem(text: NSLocalizedString("Shift Details", comment: "").uppercased(), style: .plain)
         builder += startTimeItem
         builder += endTimeItem
         builder += durationItem
+
         updateDuration()
     }
 
