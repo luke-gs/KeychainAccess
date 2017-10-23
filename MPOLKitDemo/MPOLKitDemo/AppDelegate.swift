@@ -102,15 +102,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let items2: [GenericSearchable] = Array(repeating: Test2(), count: 5)
         let items3: [GenericSearchable] = Array(repeating: Test3(), count: 3)
 
-        let searchVM = GenericSearchViewModel(items: items1 + items2 + items3)
-        searchVM.title = "Search Items"
-        searchVM.collapsableSections = true
-        searchVM.hasSections = false
-        searchVM.hidesSections = true
-        // searchVM.delegate = self
-        searchVM.sectionPriority = ["On Duty", "Duress", "On Air", "On Duty"]
+        let model = GenericSearchModel(items: items1 + items2 + items3)
+        model.title = "Search Items"
+        model.collapsableSections = true
+        model.hasSections = false
+        model.hidesSections = true
+        // model.delegate = self
+        model.sectionPriority = ["On Duty", "Duress", "On Air", "On Duty"]
 
-        let vc = GenericSearchViewController(viewModel: searchVM)
+        let vc = GenericSearchViewController(model: model)
         let nc = PopoverNavigationController(rootViewController: vc)
         nc.modalPresentationStyle = .formSheet
         

@@ -19,21 +19,21 @@ final public class GenericSearchViewController: FormBuilderViewController, UISea
         return searchBar
     }()
 
-    private var viewModel: GenericSearchViewModel
+    private var model: GenericSearchModel
     private var searchString: String = ""
-
 
     /* Internal section prioritisation
      *
      * If you require to change this logic to suit your business cases
      * Then this logic should no longer sit in the view controller
-     * And you should consider rewriting how this class and the viewmodel interact
+     * And you should consider rewriting how this class and the model interact
+     * Effectively creating a customisable view model
      */
 
     // ***************** START ********************
 
     private var searchableSections: [String: [GenericSearchable]] {
-        let dict = viewModel.items.reduce([String: [GenericSearchable]]()) { (result, item) -> [String: [GenericSearchable]] in
+        let dict = model.items.reduce([String: [GenericSearchable]]()) { (result, item) -> [String: [GenericSearchable]] in
             let section = item.section ?? "Other"
             var mutableResult = result
             var array = mutableResult[section] ?? [GenericSearchable]()
@@ -53,7 +53,7 @@ final public class GenericSearchViewController: FormBuilderViewController, UISea
         var mutatedSections = searchableSections
 
         // Add valid sections to prioritised sections in order
-        for item in viewModel.sectionPriority {
+        for item in model.sectionPriority {
             if let sections = mutatedSections.removeValue(forKey: item) {
                 validSections.append(PrioritisedSection(title: item, items: sections))
             }
@@ -65,7 +65,7 @@ final public class GenericSearchViewController: FormBuilderViewController, UISea
         }
 
         // Sort alphabetically if there are is no section priority
-        invalidSections = viewModel.sectionPriority.count > 0 ? invalidSections : invalidSections.sorted(using: [descriptor])
+        invalidSections = model.sectionPriority.count > 0 ? invalidSections : invalidSections.sorted(using: [descriptor])
 
         return (validSections + invalidSections)
     }
@@ -76,7 +76,7 @@ final public class GenericSearchViewController: FormBuilderViewController, UISea
         for section in prioritisedSections {
             let validItems = section.items.filter{$0.matches(searchString: searchString)}
             var section = PrioritisedSection(title: section.title, items: validItems)
-            section.isHidden = viewModel.hidesSections && validItems.count == 0
+            section.isHidden = model.hidesSections && validItems.count == 0
             filteredSections.append(section)
         }
 
@@ -89,8 +89,8 @@ final public class GenericSearchViewController: FormBuilderViewController, UISea
 
     // ***************** END ********************
 
-    public required init(viewModel: GenericSearchViewModel) {
-        self.viewModel = viewModel
+    public required init(model: GenericSearchModel) {
+        self.model = model
         super.init()
     }
 
@@ -105,11 +105,11 @@ final public class GenericSearchViewController: FormBuilderViewController, UISea
     }
 
     override open func construct(builder: FormBuilder) {
-        builder.title = viewModel.title
+        builder.title = model.title
         builder.forceLinearLayout = true
 
         for section in 0..<numberOfSections() {
-            if viewModel.hasSections == true && hidden(for: section) == false {
+            if model.hasSections == true && hidden(for: section) == false {
                 builder += HeaderFormItem(text: title(for: section))
             }
             for row in 0..<numberOfRows(in: section) {
@@ -121,7 +121,7 @@ final public class GenericSearchViewController: FormBuilderViewController, UISea
                     .accessory(ItemAccessory.disclosure)
                     .onSelection { [unowned self] cell in
                         let searchable = self.validSections[section].items[row]
-                        self.viewModel.delegate?.genericSearchViewController(self, didSelectRowAt: indexPath, withSearchable: searchable)
+                        self.model.delegate?.genericSearchViewController(self, didSelectRowAt: indexPath, withSearchable: searchable)
                 }
             }
         }
@@ -236,8 +236,8 @@ public protocol GenericSearchDelegate {
     func genericSearchViewController(_ viewController: GenericSearchViewController, didSelectRowAt indexPath: IndexPath, withSearchable: GenericSearchable)
 }
 
-/// A view model for the generic search view controller
-public class GenericSearchViewModel {
+/// A model for the generic search view controller
+public class GenericSearchModel {
 
     /// The title to be displayed if embedded in nav controller
     ///
