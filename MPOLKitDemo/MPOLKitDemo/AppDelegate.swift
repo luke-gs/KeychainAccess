@@ -102,12 +102,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let items2: [GenericSearchable] = Array(repeating: Test2(), count: 5)
         let items3: [GenericSearchable] = Array(repeating: Test3(), count: 3)
 
-        var searchVM = GenericSearchViewModel(items: items1 + items2 + items3)
+        let searchVM = GenericSearchViewModel(items: items1 + items2 + items3)
         searchVM.title = "Search Items"
         searchVM.collapsableSections = true
-        searchVM.hasSections = true
+        searchVM.hasSections = false
+        searchVM.hidesSections = true
         // searchVM.delegate = self
-        searchVM.sectionPriority = ["Duress", "On Duty", "On Air"]
+        searchVM.sectionPriority = ["On Duty", "Duress", "On Air", "On Duty"]
 
         let vc = GenericSearchViewController(viewModel: searchVM)
         let nc = PopoverNavigationController(rootViewController: vc)
@@ -177,7 +178,7 @@ struct Test: GenericSearchable {
     var section: String? = "On Duty"
     var image: UIImage? = UIImage(named: "SidebarAlert")!
 
-    func contains(searchString: String) -> Bool {
+    func matches(searchString: String) -> Bool {
         return title.starts(with: searchString)
     }
 }
@@ -188,7 +189,7 @@ struct Test2: GenericSearchable {
     var section: String? //= "On Air"
     var image: UIImage? = UIImage(named: "SidebarAlert")!
 
-    func contains(searchString: String) -> Bool {
+    func matches(searchString: String) -> Bool {
         return title.starts(with: searchString)
     }
 }
@@ -199,7 +200,7 @@ struct Test3: GenericSearchable {
     var section: String? = "Duress"
     var image: UIImage? = UIImage(named: "SidebarAlertFilled")!
 
-    func contains(searchString: String) -> Bool {
+    func matches(searchString: String) -> Bool {
         return title.starts(with: searchString) || (subtitle?.contains(searchString) ?? false)
     }
 }

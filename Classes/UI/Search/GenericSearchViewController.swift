@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class GenericSearchViewController: FormBuilderViewController, UISearchBarDelegate {
+final public class GenericSearchViewController: FormBuilderViewController, UISearchBarDelegate {
 
     private lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
@@ -36,6 +36,9 @@ open class GenericSearchViewController: FormBuilderViewController, UISearchBarDe
     }
 
     private var prioritisedSections: [PrioritisedSection] {
+
+        let descriptor = SortDescriptor<PrioritisedSection>(ascending: true) { $0.title }
+
         var validSections = [PrioritisedSection]()
         var invalidSections = [PrioritisedSection]()
 
@@ -53,15 +56,20 @@ open class GenericSearchViewController: FormBuilderViewController, UISearchBarDe
             invalidSections.append(PrioritisedSection(title: key, items: value))
         }
 
-        return validSections + invalidSections
+        // Sort alphabetically if there are is no section priority
+        invalidSections = viewModel.sectionPriority.count > 0 ? invalidSections : invalidSections.sorted(using: [descriptor])
+
+        return (validSections + invalidSections)
     }
 
     private var filteredSections: [PrioritisedSection] {
         var filteredSections = [PrioritisedSection]()
 
         for section in prioritisedSections {
-            let validItems = section.items.filter{$0.contains(searchString: searchString)}
-            filteredSections.append(PrioritisedSection(title: section.title, items: validItems))
+            let validItems = section.items.filter{$0.matches(searchString: searchString)}
+            var section = PrioritisedSection(title: section.title, items: validItems)
+            section.isHidden = viewModel.hidesSections && validItems.count == 0
+            filteredSections.append(section)
         }
 
         return filteredSections
@@ -91,7 +99,7 @@ open class GenericSearchViewController: FormBuilderViewController, UISearchBarDe
         builder.forceLinearLayout = true
 
         for section in 0..<numberOfSections() {
-            if viewModel.hasSections == true {
+            if viewModel.hasSections == true && hidden(for: section) == false {
                 builder += HeaderFormItem(text: title(for: section))
             }
             for row in 0..<numberOfRows(in: section) {
@@ -135,6 +143,10 @@ open class GenericSearchViewController: FormBuilderViewController, UISearchBarDe
     private func title(for section: Int) -> String {
         let section = validSections[section]
         return section.title
+    }
+
+    private func hidden(for section: Int) -> Bool {
+        return validSections[section].isHidden
     }
 
     private func name(for indexPath: IndexPath) -> String {
@@ -195,9 +207,9 @@ public protocol GenericSearchable {
 
     /// Perform business logic here to check if the entity should show up when filtering
     ///
-    /// - Parameter searchString: the search string that is currently beeing filtered with
+    /// - Parameter searchString: the search string that is currently being filtered with
     /// - Returns: true if should check passes and entity should be displayed
-    func contains(searchString: String) -> Bool
+    func matches(searchString: String) -> Bool
 }
 
 
@@ -213,7 +225,7 @@ public protocol GenericSearchDelegate {
 }
 
 /// A view model for the generic search view controller
-public struct GenericSearchViewModel {
+public class GenericSearchViewModel {
 
     /// The title to be displayed if embedded in nav controller
     ///
@@ -230,12 +242,16 @@ public struct GenericSearchViewModel {
     /// default: `true`
     public var hasSections: Bool = true
 
+    /// Whether the list should hide sections when no results are found
+    ///
+    /// default: `false`
+    public var hidesSections: Bool = false
+
     /// An array of sections sorted by priority
     ///
-    /// These should match the sections of your `GenericSeaerchable`s
+    /// These should match the sections of your `GenericSearchable`s
     ///
-    /// If nothing is provided here, the priority of how they are displayed will be determined by
-    /// how they are stored in a dictionary
+    /// If nothing is provided here the sections will be sorted by alphabetical order
     ///
     /// default: `[]`
     public var sectionPriority: [String] = [String]()
@@ -245,7 +261,6 @@ public struct GenericSearchViewModel {
 
     /// The array of searchable items
     private(set) var items: [GenericSearchable]
-
 
     /// Required initialiser
     ///
@@ -258,6 +273,7 @@ public struct GenericSearchViewModel {
 private struct PrioritisedSection {
     var title: String
     var items: [GenericSearchable]
+    var isHidden: Bool = false
 
     init(title: String, items: [GenericSearchable]) {
         self.title = title
