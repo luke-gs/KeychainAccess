@@ -28,7 +28,7 @@ final public class GenericSearchViewController: FormBuilderViewController, UISea
      *
      * If you require to change this logic to suit your business cases
      * Then this logic should no longer sit in the view controller
-     * And you should consider rewriting how these classes interact
+     * And you should consider rewriting how this class and the viewmodel interact
      */
 
     // ***************** START ********************
