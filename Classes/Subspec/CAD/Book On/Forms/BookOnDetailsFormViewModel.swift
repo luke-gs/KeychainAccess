@@ -7,8 +7,24 @@
 //
 
 import UIKit
+import PromiseKit
 
-class BookOnDetailsFormViewModel: NSObject {
+/// View model for the book on details form screen
+open class BookOnDetailsFormViewModel: NSObject {
+
+    /// Internal struct for book on details, to be populated by form
+    public class Details {
+        var serial: String?
+        var category: String?
+        var odometer: String?
+        var equipment: String?
+        var remarks: String?
+        var startTime: Date?
+        var endTime: Date?
+        var duration: String?
+    }
+
+    public let details = Details()
 
     /// Create the view controller for this view model
     public func createViewController() -> UIViewController {
@@ -28,5 +44,9 @@ class BookOnDetailsFormViewModel: NSObject {
         return "Collingwood Station : Patrol"
     }
 
+    open func submitForm() -> Promise<Bool> {
+        // TODO: submit to network
+        return Promise.init(value: true)
+    }
 
 }

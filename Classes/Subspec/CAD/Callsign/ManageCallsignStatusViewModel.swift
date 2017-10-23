@@ -88,9 +88,7 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
             return Promise.init(value: currentStatus)
         } else {
             let message = NSLocalizedString("Selection not allowed from this state", comment: "")
-            let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Alert - OK"), style: .cancel, handler: nil))
-            AlertQueue.shared.add(alert)
+            AlertQueue.shared.addErrorAlert(message: message)
             return Promise.init(value: currentStatus)
         }
     }
@@ -108,9 +106,7 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
                     delegate?.dismiss()
                 } else {
                     let message = NSLocalizedString("Terminating shift is not allowed from this state", comment: "")
-                    let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Alert - OK"), style: .cancel, handler: nil))
-                    AlertQueue.shared.add(alert)
+                    AlertQueue.shared.addErrorAlert(message: message)
                 }
                 break
             }
