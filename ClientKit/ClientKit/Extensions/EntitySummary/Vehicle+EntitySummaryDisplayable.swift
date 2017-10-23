@@ -33,8 +33,12 @@ public struct VehicleSummaryDisplayable: EntitySummaryDisplayable {
         return vehicle.bodyType
     }
     
-    public var alertColor: UIColor? {
+    public var borderColor: UIColor? {
         return vehicle.alertLevel?.color
+    }
+
+    public var iconColor: UIColor? {
+        return nil
     }
     
     public var badge: UInt {

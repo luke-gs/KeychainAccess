@@ -33,8 +33,12 @@ public struct PersonSummaryDisplayable: EntitySummaryDisplayable {
         return formattedSuburbStatePostcode()
     }
     
-    public var alertColor: UIColor? {
+    public var borderColor: UIColor? {
         return person.alertLevel?.color
+    }
+
+    public var iconColor: UIColor? {
+        return nil
     }
     
     public var badge: UInt {
