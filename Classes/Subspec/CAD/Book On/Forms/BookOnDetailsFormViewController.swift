@@ -143,6 +143,20 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         builder += endTimeItem
         builder += durationItem
 
+        builder += HeaderFormItem(text: NSLocalizedString("Officers", comment: "").uppercased(), style: .plain)
+        for officer in viewModel.details.officers {
+            builder += SubtitleFormItem(title: officer.title,
+                                        subtitle: officer.subtitle,
+                                        image: nil,
+                                        style: .default)
+                .width(.column(1))
+                .accessory(ItemAccessory.disclosure)
+                .height(.fixed(60))
+                .onSelection { [unowned self] cell in
+                    self.navigationController?.pushViewController(self.viewModel.officerDetailsViewController(), animated: true)
+            }
+        }
+
         updateDuration()
     }
 

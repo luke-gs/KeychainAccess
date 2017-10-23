@@ -10,7 +10,7 @@ import UIKit
 import PromiseKit
 
 /// View model for the book on details form screen
-open class BookOnDetailsFormViewModel: NSObject {
+open class BookOnDetailsFormViewModel {
 
     /// Internal struct for book on details, to be populated by form
     public class Details {
@@ -22,9 +22,33 @@ open class BookOnDetailsFormViewModel: NSObject {
         var startTime: Date?
         var endTime: Date?
         var duration: String?
+        var officers: [Officer] = []
+    }
+
+    public class Officer {
+        var title: String?
+        var rank: String?
+        var officerId: String?
+        var licenseType: String?
+        var isDriver: Bool?
+
+        var subtitle: String {
+            return [rank, officerId, licenseType].removeNils().joined(separator: " : ")
+        }
     }
 
     public let details = Details()
+
+    public init() {
+        // Initial form has self as one of officers to be book on to callsign
+        let selfOfficer = Officer()
+        selfOfficer.title = "Herli Halim"
+        selfOfficer.rank = "Senior Sergeant"
+        selfOfficer.officerId = "#800256"
+        selfOfficer.licenseType = "Gold Licence"
+
+        details.officers = [selfOfficer]
+    }
 
     /// Create the view controller for this view model
     public func createViewController() -> UIViewController {
@@ -47,6 +71,11 @@ open class BookOnDetailsFormViewModel: NSObject {
     open func submitForm() -> Promise<Bool> {
         // TODO: submit to network
         return Promise.init(value: true)
+    }
+
+    open func officerDetailsViewController() -> UIViewController {
+        // TODO: show officer details form
+        return UIViewController()
     }
 
 }
