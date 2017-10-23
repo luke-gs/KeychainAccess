@@ -42,7 +42,7 @@ open class GenericSearchViewController: FormBuilderViewController, UISearchBarDe
         var mutatedSections = searchableSections
 
         // Add valid sections to prioritised sections in order
-        for (index, item) in viewModel.sectionPriority.enumerated() {
+        for item in viewModel.sectionPriority {
             if let sections = mutatedSections.removeValue(forKey: item) {
                 validSections.append(PrioritisedSection(title: item, items: sections))
             }
