@@ -134,8 +134,11 @@
 		9663D0081F8AD78D006DB672 /* ContainerWithHeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9663D0071F8AD78D006DB672 /* ContainerWithHeaderViewController.swift */; };
 		9663D00B1F8AF666006DB672 /* TasksSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9663D00A1F8AF666006DB672 /* TasksSplitViewController.swift */; };
 		9663D00D1F8AF6F5006DB672 /* TasksSplitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9663D00C1F8AF6F5006DB672 /* TasksSplitViewModel.swift */; };
+		9679A6471F9D9D2D007BC806 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9679A6461F9D9D2D007BC806 /* Date+Extension.swift */; };
 		9686FC941F78AAED00C4AB4D /* UIView+SafeArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9686FC931F78AAED00C4AB4D /* UIView+SafeArea.swift */; };
 		9686FC961F78AC7600C4AB4D /* UIViewController+SafeArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9686FC951F78AC7600C4AB4D /* UIViewController+SafeArea.swift */; };
+		96B9183E1F9D68DE005DEB1A /* BookOnDetailsFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B9183D1F9D68DE005DEB1A /* BookOnDetailsFormViewController.swift */; };
+		96B918401F9D68FD005DEB1A /* BookOnDetailsFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B9183F1F9D68FD005DEB1A /* BookOnDetailsFormViewModel.swift */; };
 		96CF32211F8C337900140AF8 /* TasksListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CF32201F8C337900140AF8 /* TasksListViewController.swift */; };
 		96CF32231F8C349700140AF8 /* TasksListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CF32221F8C349700140AF8 /* TasksListViewModel.swift */; };
 		96CF32251F8C34C700140AF8 /* TasksListItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CF32241F8C34C700140AF8 /* TasksListItemCell.swift */; };
@@ -582,8 +585,11 @@
 		9663D0071F8AD78D006DB672 /* ContainerWithHeaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerWithHeaderViewController.swift; sourceTree = "<group>"; };
 		9663D00A1F8AF666006DB672 /* TasksSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksSplitViewController.swift; sourceTree = "<group>"; };
 		9663D00C1F8AF6F5006DB672 /* TasksSplitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksSplitViewModel.swift; sourceTree = "<group>"; };
+		9679A6461F9D9D2D007BC806 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		9686FC931F78AAED00C4AB4D /* UIView+SafeArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+SafeArea.swift"; sourceTree = "<group>"; };
 		9686FC951F78AC7600C4AB4D /* UIViewController+SafeArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+SafeArea.swift"; sourceTree = "<group>"; };
+		96B9183D1F9D68DE005DEB1A /* BookOnDetailsFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookOnDetailsFormViewController.swift; sourceTree = "<group>"; };
+		96B9183F1F9D68FD005DEB1A /* BookOnDetailsFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookOnDetailsFormViewModel.swift; sourceTree = "<group>"; };
 		96CF32201F8C337900140AF8 /* TasksListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListViewController.swift; sourceTree = "<group>"; };
 		96CF32221F8C349700140AF8 /* TasksListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListViewModel.swift; sourceTree = "<group>"; };
 		96CF32241F8C34C700140AF8 /* TasksListItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListItemCell.swift; sourceTree = "<group>"; };
@@ -1080,6 +1086,7 @@
 		27C9C75F1F95690A00799855 /* Book On */ = {
 			isa = PBXGroup;
 			children = (
+				96B9183C1F9D6819005DEB1A /* Forms */,
 				274C896F1F984C6A005B9CF8 /* All Callsigns */,
 				274C896E1F984693005B9CF8 /* Not Booked On */,
 			);
@@ -1236,6 +1243,15 @@
 			path = "Tasks Split";
 			sourceTree = "<group>";
 		};
+		96B9183C1F9D6819005DEB1A /* Forms */ = {
+			isa = PBXGroup;
+			children = (
+				96B9183D1F9D68DE005DEB1A /* BookOnDetailsFormViewController.swift */,
+				96B9183F1F9D68FD005DEB1A /* BookOnDetailsFormViewModel.swift */,
+			);
+			path = Forms;
+			sourceTree = "<group>";
+		};
 		96CF32281F8C352000140AF8 /* Tasks List */ = {
 			isa = PBXGroup;
 			children = (
@@ -1335,6 +1351,7 @@
 		BC9C7D1C1F0DED6600DFFE83 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				9679A6461F9D9D2D007BC806 /* Date+Extension.swift */,
 				BC9C7D1D1F0DED6600DFFE83 /* FileManager+URL.swift */,
 				C6F640EC1F333D4F003D73B9 /* NSArchiver+SecureArchiver.swift */,
 				4420D27F1F66428D00E20304 /* Sequence+Nils.swift */,
@@ -2407,6 +2424,7 @@
 				BC9C7DF31F0DED6600DFFE83 /* ISO8601DateTransformer.swift in Sources */,
 				BC9C7E281F0DED6600DFFE83 /* StatsOverviewCollectionViewCell.swift in Sources */,
 				BC9C7DEC1F0DED6600DFFE83 /* ModelVersionable.swift in Sources */,
+				96B9183E1F9D68DE005DEB1A /* BookOnDetailsFormViewController.swift in Sources */,
 				BC9C7E101F0DED6600DFFE83 /* TableViewFormCell.swift in Sources */,
 				2742CD2F1F849BE900D08DCF /* IntrinsicHeightCollectionView.swift in Sources */,
 				BC9C7E1E1F0DED6600DFFE83 /* FormCollectionViewController.swift in Sources */,
@@ -2616,6 +2634,7 @@
 				DB88BCE31F42D0110056FD69 /* SearchResultLoadingCell.swift in Sources */,
 				BC9C7E0E1F0DED6600DFFE83 /* CollectionViewFormLayoutAttributes.swift in Sources */,
 				27CBC7581F8B277E00E387C3 /* TimelineView.swift in Sources */,
+				96B918401F9D68FD005DEB1A /* BookOnDetailsFormViewModel.swift in Sources */,
 				DB88BCE41F42D0150056FD69 /* QueryParserDefinitionSelector.swift in Sources */,
 				9644B1D21F6785E200D031F2 /* CompactFormSheetNavigationController.swift in Sources */,
 				19B49BAA1F665ED100502F51 /* NSMutableAttributedString+Append.swift in Sources */,
@@ -2678,6 +2697,7 @@
 				BCC5132F1F333B2000413961 /* FormAccessoryView.swift in Sources */,
 				191BC4D41F7C203B00C8C218 /* HelpViewController.swift in Sources */,
 				EA445DAA1F73A12200ABF70F /* SummaryListFormItem.swift in Sources */,
+				9679A6471F9D9D2D007BC806 /* Date+Extension.swift in Sources */,
 				EA4806B31F56961F00B42313 /* Array+Searching.swift in Sources */,
 				BC9C7E3C1F0DED6600DFFE83 /* FilterViewController.swift in Sources */,
 				EA4E33541F8F51570027E431 /* ItemAccessory.swift in Sources */,
