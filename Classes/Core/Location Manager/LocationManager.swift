@@ -45,12 +45,10 @@ public final class LocationManager: NSObject {
     fileprivate var timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { (timer) in
         if let time = LocationManager.shared.lastLocationTime {
             if Date().timeIntervalSince(time) > timeBuffer { // Refresh location
-                LocationManager.shared.requestLocation().always {
-                }
+                LocationManager.shared.requestLocation()
             }
         } else {
-            LocationManager.shared.requestLocation().always {
-            }
+            LocationManager.shared.requestLocation()
         }
     }
     
@@ -66,6 +64,7 @@ public final class LocationManager: NSObject {
     /// - Return:
     ///     - A promise with a Location
     ///
+    @discardableResult
     open func requestLocation() -> Promise<CLLocation> {
         return CLLocationManager.promise().then { location -> CLLocation in
             self.lastLocation = location
