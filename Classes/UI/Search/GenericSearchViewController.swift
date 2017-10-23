@@ -47,12 +47,10 @@ final public class GenericSearchViewController: FormBuilderViewController, UISea
     }
 
     private var prioritisedSections: [PrioritisedSection] {
-
         let descriptor = SortDescriptor<PrioritisedSection>(ascending: true) { $0.title }
 
         var validSections = [PrioritisedSection]()
         var invalidSections = [PrioritisedSection]()
-
         var mutatedSections = searchableSections
 
         // Add valid sections to prioritised sections in order
