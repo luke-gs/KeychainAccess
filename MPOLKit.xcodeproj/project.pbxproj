@@ -382,6 +382,9 @@
 		EA4E33541F8F51570027E431 /* ItemAccessory.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4E33531F8F51570027E431 /* ItemAccessory.swift */; };
 		EA4E33561F8F51B90027E431 /* LabeledItemAccessory.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4E33551F8F51B90027E431 /* LabeledItemAccessory.swift */; };
 		EA4E33581F8F51DF0027E431 /* CustomItemAccessory.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4E33571F8F51DF0027E431 /* CustomItemAccessory.swift */; };
+		EA53B26F1F9D7F0200B891D8 /* CollectionViewFormStepperCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA53B26E1F9D7F0200B891D8 /* CollectionViewFormStepperCell.swift */; };
+		EA53B2711F9D905800B891D8 /* StepperFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA53B2701F9D905800B891D8 /* StepperFormItem.swift */; };
+		EA53B2731F9ED43600B891D8 /* StepperFormItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA53B2721F9ED43600B891D8 /* StepperFormItemTests.swift */; };
 		EA5649711F8EE4E100BEA144 /* SummaryDetailFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5649701F8EE4E100BEA144 /* SummaryDetailFormItem.swift */; };
 		EA5B875D1F6F5E67002BEC65 /* BaseFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5B875C1F6F5E67002BEC65 /* BaseFormItem.swift */; };
 		EA625B191F9703540025EAFB /* DropDownFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA625B181F9703540025EAFB /* DropDownFormItem.swift */; };
@@ -836,6 +839,9 @@
 		EA4E33531F8F51570027E431 /* ItemAccessory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemAccessory.swift; sourceTree = "<group>"; };
 		EA4E33551F8F51B90027E431 /* LabeledItemAccessory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabeledItemAccessory.swift; sourceTree = "<group>"; };
 		EA4E33571F8F51DF0027E431 /* CustomItemAccessory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomItemAccessory.swift; sourceTree = "<group>"; };
+		EA53B26E1F9D7F0200B891D8 /* CollectionViewFormStepperCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewFormStepperCell.swift; sourceTree = "<group>"; };
+		EA53B2701F9D905800B891D8 /* StepperFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepperFormItem.swift; sourceTree = "<group>"; };
+		EA53B2721F9ED43600B891D8 /* StepperFormItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepperFormItemTests.swift; sourceTree = "<group>"; };
 		EA5649701F8EE4E100BEA144 /* SummaryDetailFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryDetailFormItem.swift; sourceTree = "<group>"; };
 		EA5B875C1F6F5E67002BEC65 /* BaseFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseFormItem.swift; sourceTree = "<group>"; };
 		EA625B181F9703540025EAFB /* DropDownFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDownFormItem.swift; sourceTree = "<group>"; };
@@ -1451,6 +1457,7 @@
 				BC9C7D5B1F0DED6600DFFE83 /* CollectionViewFormTextViewCell.swift */,
 				BC9C7D5C1F0DED6600DFFE83 /* CollectionViewFormValueFieldCell.swift */,
 				EA70ADF31F7B41100040E34B /* CollectionViewFormFooterView.swift */,
+				EA53B26E1F9D7F0200B891D8 /* CollectionViewFormStepperCell.swift */,
 			);
 			path = "Collection Reusable Views";
 			sourceTree = "<group>";
@@ -2048,6 +2055,7 @@
 				EAE806DE1F9859E700C9AA85 /* DateFormItemTests.swift */,
 				EAE806E01F985FD400C9AA85 /* RangeFormItemTests.swift */,
 				EAE806E21F98609200C9AA85 /* DropDownFormItemTests.swift */,
+				EA53B2721F9ED43600B891D8 /* StepperFormItemTests.swift */,
 			);
 			path = FormBuilder;
 			sourceTree = "<group>";
@@ -2108,6 +2116,7 @@
 				EA42F8E91F95CDB000C5C38E /* DateFormItem.swift */,
 				EAA3E4EF1F96EA8200A5E2A5 /* RangeFormItem.swift */,
 				EA625B181F9703540025EAFB /* DropDownFormItem.swift */,
+				EA53B2701F9D905800B891D8 /* StepperFormItem.swift */,
 			);
 			path = FormItems;
 			sourceTree = "<group>";
@@ -2528,6 +2537,7 @@
 				EA11F0241F830EEC00BF8BCA /* ImageLoadable.swift in Sources */,
 				EAAEB3481F661806002D6C65 /* SystemPresenter.swift in Sources */,
 				27CBC75F1F8B27C700E387C3 /* PatrolMapViewModel.swift in Sources */,
+				EA53B2711F9D905800B891D8 /* StepperFormItem.swift in Sources */,
 				96CF322C1F8C428600140AF8 /* CADFormCollectionViewModel.swift in Sources */,
 				BC9C7E3E1F0DED6600DFFE83 /* PopoverDatePickerViewController.swift in Sources */,
 				BC9C7E0C1F0DED6600DFFE83 /* FormDefines.swift in Sources */,
@@ -2681,6 +2691,7 @@
 				EAFACCBC1F4BACE900B93CBA /* SearchFieldAdvanceCell.swift in Sources */,
 				96CF32301F8C4AD300140AF8 /* CADFormCollectionSectionViewModel.swift in Sources */,
 				EA8904B01F6A0C720050DB84 /* FormBuilderViewController.swift in Sources */,
+				EA53B26F1F9D7F0200B891D8 /* CollectionViewFormStepperCell.swift in Sources */,
 				993E3A2E1F86FD65008BBFF8 /* UIImage+Resizing.swift in Sources */,
 				BCED8C761F1488EE004C3C71 /* CollectionViewFormHeaderView.swift in Sources */,
 				BC9C7E0A1F0DED6600DFFE83 /* UITraitCollection+CurrentDisplayScale.swift in Sources */,
@@ -2743,6 +2754,7 @@
 				C6E833AB1F334A4700A21F6D /* NSArchiverTests.swift in Sources */,
 				1211E36D1F3AE0E50012E2E6 /* MiscTests.swift in Sources */,
 				EAE806DF1F9859E700C9AA85 /* DateFormItemTests.swift in Sources */,
+				EA53B2731F9ED43600B891D8 /* StepperFormItemTests.swift in Sources */,
 				C63F71751F3332E7004F5047 /* UserTests.swift in Sources */,
 				1908EF8B1F57D79A00382B1C /* ThemeManagerTests.swift in Sources */,
 				EA42F8D51F9583E600C5C38E /* ReloadValidationStateVisitorTests.swift in Sources */,
