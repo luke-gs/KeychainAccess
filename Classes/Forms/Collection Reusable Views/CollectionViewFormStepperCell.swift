@@ -366,4 +366,17 @@ open class CollectionViewFormStepperCell: CollectionViewFormCell, UITextFieldDel
         collectionView.delegate?.collectionView?(collectionView, didDeselectItemAt: indexPath)
     }
 
+    /// Custom hitTest so that touches landing above, below or behind the stepper doesn't activate the text field.
+    open override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        guard let view = super.hitTest(point, with: event) else {
+            return nil
+        }
+
+        if point.x > stepper.frame.minX {
+            return stepper
+        }
+
+        return view
+    }
+
 }
