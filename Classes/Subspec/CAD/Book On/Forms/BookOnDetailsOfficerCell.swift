@@ -12,7 +12,7 @@ import UIKit
 class BookOnDetailsOfficerCell: CollectionViewFormSubtitleCell {
     
     private struct LayoutConstants {
-        static let spacingX: CGFloat = 4
+        static let spacingX: CGFloat = 8
     }
 
     // MARK: - Views
@@ -29,9 +29,7 @@ class BookOnDetailsOfficerCell: CollectionViewFormSubtitleCell {
         statusLabel.textColor = theme.color(forKey: .primaryText)
         statusLabel.borderColor = statusLabel.textColor
         statusLabel.backgroundColor = .clear
-
-        statusLabel.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(statusLabel)
+        contentView.addSubview(statusLabel)
     }
 
     public override func layoutSubviews() {
@@ -39,20 +37,26 @@ class BookOnDetailsOfficerCell: CollectionViewFormSubtitleCell {
         // Layout rest of cell
         super.layoutSubviews()
 
-        // Get frame relative to top view
-        let titleFrame = titleLabel.convert(titleLabel.bounds, to: self)
+        // Check whether we need to clip the title label to fit the extra view in before the accessoryView
+        let trailingX = (accessoryView?.frame.minX ?? contentView.frame.maxX) - LayoutConstants.spacingX * 2
 
         // Size label and position after title
         statusLabel.sizeToFit()
-        let statusFrame = CGRect(x: titleFrame.maxX + LayoutConstants.spacingX,
-                             y: titleFrame.origin.y + (titleFrame.height - statusLabel.frame.height) / 2,
-                             width: statusLabel.frame.width,
-                             height: statusLabel.frame.height)
+        var titleFrame = titleLabel.frame
+        var statusFrame = CGRect(x: titleFrame.maxX + LayoutConstants.spacingX,
+                                        y: titleFrame.origin.y + (titleFrame.height - statusLabel.frame.height) / 2,
+                                        width: statusLabel.frame.width,
+                                        height: statusLabel.frame.height)
 
-        if statusLabel.frame != statusFrame {
-            DispatchQueue.main.async {
-                self.statusLabel.frame = statusFrame
-            }
+        self.statusLabel.frame = statusFrame
+
+        // Prevent the status label from going off screen if title is too long
+        let overhang = statusFrame.maxX - trailingX
+        if overhang > 0 {
+            statusFrame.origin.x -= overhang
+            titleFrame.size.width -= overhang
+            self.statusLabel.frame = statusFrame
+            self.titleLabel.frame = titleFrame
         }
     }
 }
