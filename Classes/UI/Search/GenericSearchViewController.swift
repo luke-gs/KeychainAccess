@@ -13,7 +13,7 @@ open class GenericSearchViewController: FormBuilderViewController, UISearchBarDe
     /// The delegate for the collection view touches
     public var delegate: GenericSearchDelegate?
 
-    private var viewModel: GenericSearchViewModel
+    public let viewModel: GenericSearchViewModel
 
     private lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
@@ -30,7 +30,7 @@ open class GenericSearchViewController: FormBuilderViewController, UISearchBarDe
     }
 
     public required convenience init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        MPLCodingNotSupported()
     }
 
     open override func viewDidLoad() {
