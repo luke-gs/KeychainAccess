@@ -99,8 +99,18 @@ public class CollectionViewFormHeaderView: UICollectionReusableView, DefaultReus
             }
         }
     }
-    
-    
+
+    public func setActionButtons(_ buttons: [UIButton]) {
+        if buttonContainerConstraint != nil {
+            // Button container exists, replace existing buttons
+            _ = buttonContainer.arrangedSubviews.map { buttonContainer.removeArrangedSubview($0) }
+            _ = buttons.map { buttonContainer.addArrangedSubview($0) }
+        } else if buttons.count > 0 {
+            // Button container does not exist, but need to create it
+            _ = buttons.map { buttonContainer.addArrangedSubview($0) }
+        }
+    }
+
     // MARK: - Private properties
     
     private let titleLabel = UILabel(frame: .zero)
@@ -116,6 +126,8 @@ public class CollectionViewFormHeaderView: UICollectionReusableView, DefaultReus
     private var titleSeparatorConstraint: NSLayoutConstraint!
     
     private var separatorSeparationConstraint: NSLayoutConstraint!
+
+    private var buttonContainerConstraint: NSLayoutConstraint?
     
     private var isRightToLeft: Bool = false {
         didSet {
@@ -127,7 +139,27 @@ public class CollectionViewFormHeaderView: UICollectionReusableView, DefaultReus
         }
     }
     
-    
+    /// Lazily created button container for headers that have action items
+    public lazy var buttonContainer: UIStackView = {
+        let buttonContainer = UIStackView(frame: .zero)
+        buttonContainer.axis = .horizontal
+        buttonContainer.distribution = .equalSpacing
+        buttonContainer.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(buttonContainer)
+
+        // Override constaints to shorten separator line at beginning of buttons
+        buttonContainer.setContentCompressionResistancePriority(.required, for: .horizontal)
+        buttonContainerConstraint = buttonContainer.widthAnchor.constraint(greaterThanOrEqualToConstant: 0)
+        NSLayoutConstraint.activate([
+            separatorView.trailingAnchor.constraint(equalTo: buttonContainer.leadingAnchor),
+            buttonContainer.centerYAnchor.constraint(equalTo: separatorView.centerYAnchor),
+            buttonContainer.trailingAnchor.constraint(equalTo: trailingAnchor),
+            buttonContainerConstraint!
+            ])
+        return buttonContainer
+    }()
+
+
     // MARK: - Initializers
     
     public override init(frame: CGRect) {
@@ -175,7 +207,7 @@ public class CollectionViewFormHeaderView: UICollectionReusableView, DefaultReus
             titleLabel.centerYAnchor.constraint(equalTo: separatorView.centerYAnchor),
             
             separatorView.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor),
-            separatorView.trailingAnchor.constraint(equalTo: self.trailingAnchor).withPriority(.almostRequired),
+            separatorView.trailingAnchor.constraint(equalTo: self.trailingAnchor).withPriority(.defaultHigh),
             
             titleSeparatorConstraint,
             separatorSeparationConstraint,
@@ -225,8 +257,25 @@ public class CollectionViewFormHeaderView: UICollectionReusableView, DefaultReus
         super.tintColorDidChange()
         titleLabel.textColor = tintColor
     }
-    
-    
+
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+
+        // Size button container to minimal size of stack view
+        if let buttonContainerConstraint = buttonContainerConstraint {
+            buttonContainerConstraint.constant = buttonContainer.systemLayoutSizeFitting(UILayoutFittingCompressedSize).width
+        }
+    }
+
+    public override func prepareForReuse() {
+        super.prepareForReuse()
+
+        // Cleanup buttons between cell reuse
+        if buttonContainerConstraint != nil {
+            _ = buttonContainer.arrangedSubviews.map { buttonContainer.removeArrangedSubview($0) }
+        }
+    }
+
     // MARK: - KVO
     
     public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
