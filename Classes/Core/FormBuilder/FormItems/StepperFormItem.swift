@@ -29,13 +29,13 @@ public class StepperFormItem: BaseFormItem {
 
     public init() {
         super.init(cellType: CollectionViewFormStepperCell.self, reuseIdentifier: CollectionViewFormStepperCell.defaultReuseIdentifier)
+        self.selectionStyle = .underline
     }
 
     public convenience init(title: StringSizable? = nil) {
         self.init()
 
         self.title = title
-        self.selectionStyle = .underline
     }
 
     public override func configure(_ cell: CollectionViewFormCell) {
