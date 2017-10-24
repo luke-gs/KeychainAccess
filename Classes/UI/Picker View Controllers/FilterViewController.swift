@@ -190,7 +190,6 @@ open class FilterViewController: FormCollectionViewController {
 
                     let indexPaths = selectedIndexes.flatMap({ (item: Int) -> IndexPath? in
                         if item != indexPath.item {
-                            print(item)
                             return IndexPath(item: item, section: indexPath.section)
                         }
                         return nil
