@@ -14,7 +14,7 @@ extension EntityCollectionViewCell: EntitySummaryDecoratable {
         titleLabel.text    = entitySummary.title
         subtitleLabel.text = entitySummary.detail1
         detailLabel.text   = entitySummary.detail2
-        alertColor         = entitySummary.alertColor
+        borderColor        = entitySummary.borderColor
         badgeCount         = entitySummary.badge
         sourceLabel.text   = entitySummary.category
         highlightStyle     = .fade
@@ -25,8 +25,8 @@ extension EntityCollectionViewCell: EntitySummaryDecoratable {
         } else {
             thumbnailView.imageView.image = nil
         }
-        
-        thumbnailView.borderColor = entitySummary.alertColor
+        thumbnailView.tintColor = entitySummary.iconColor
+        thumbnailView.borderColor = entitySummary.borderColor
     }
 }
 
@@ -38,7 +38,7 @@ extension EntityListCollectionViewCell: EntitySummaryDecoratable {
         titleLabel.text    = entitySummary.title
         subtitleLabel.text = subtitleComponents.isEmpty ? nil : subtitleComponents.joined(separator: " : ")
         
-        alertColor         = entitySummary.alertColor
+        borderColor        = entitySummary.borderColor
         actionCount        = entitySummary.badge
         sourceLabel.text   = entitySummary.category
         highlightStyle     = .fade
@@ -52,7 +52,8 @@ extension EntityListCollectionViewCell: EntitySummaryDecoratable {
             thumbnailView.imageView.image = nil
         }
         
-        thumbnailView.borderColor = entitySummary.alertColor
+        thumbnailView.borderColor = entitySummary.borderColor
+        thumbnailView.tintColor = entitySummary.iconColor
     }
 }
 

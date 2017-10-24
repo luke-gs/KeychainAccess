@@ -217,7 +217,7 @@ public class LocationSearchDataSource<T: LocationAdvancedOptions, U: LocationSea
     private var lastSearchText: String?
     
     @objc private func lookupLocations() {
-        guard let text = text, text.characters.count >= searchStrategy.configuration.minimumCharacters else {
+        guard let text = text, text.count >= searchStrategy.configuration.minimumCharacters else {
             lastSearchText = nil
             errorMessage = nil
 

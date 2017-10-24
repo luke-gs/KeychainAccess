@@ -161,11 +161,11 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
         }
     }
     
-    open var alertColor: UIColor? {
+    open var borderColor: UIColor? {
         didSet {
-            if alertColor == oldValue { return }
+            if borderColor == oldValue { return }
             
-            badgeView.backgroundColor = alertColor ?? .gray
+            badgeView.backgroundColor = borderColor ?? .gray
         }
     }
     
