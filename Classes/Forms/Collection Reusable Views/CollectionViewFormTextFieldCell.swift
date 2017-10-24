@@ -32,7 +32,7 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
             }
         }
     }
-    
+
     /// The selection state of the cell.
     open override var isSelected: Bool {
         didSet {
@@ -43,8 +43,8 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
             }
         }
     }
-    
-    
+
+
     // MARK: - Initializers
     
     override open func commonInit() {
