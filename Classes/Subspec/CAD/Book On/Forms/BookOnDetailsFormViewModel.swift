@@ -35,6 +35,12 @@ open class BookOnDetailsFormViewModel {
         var subtitle: String {
             return [rank, officerId, licenseType].removeNils().joined(separator: " : ")
         }
+        var status: String? {
+            if let isDriver = isDriver, isDriver {
+                return NSLocalizedString("DRIVER", comment: "").uppercased()
+            }
+            return nil
+        }
     }
 
     public let details = Details()
@@ -46,6 +52,7 @@ open class BookOnDetailsFormViewModel {
         selfOfficer.rank = "Senior Sergeant"
         selfOfficer.officerId = "#800256"
         selfOfficer.licenseType = "Gold Licence"
+        selfOfficer.isDriver = true
 
         details.officers = [selfOfficer]
     }
