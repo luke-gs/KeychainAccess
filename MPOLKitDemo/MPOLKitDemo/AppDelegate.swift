@@ -22,11 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     override init() {
         super.init()
-
         NotificationCenter.default.addObserver(self, selector: #selector(networkActivityDidBegin), name: .NetworkActivityDidBegin, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(networkActivityDidEnd),   name: .NetworkActivityDidEnd,   object: nil)
-
-
     }
 
 
@@ -102,14 +99,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let items2: [GenericSearchable] = Array(repeating: Test2(), count: 5)
         let items3: [GenericSearchable] = Array(repeating: Test3(), count: 3)
 
-        var searchVM = GenericSearchViewModel(items: items1 + items2 + items3)
-        searchVM.title = "Search Items"
-        searchVM.collapsableSections = true
-        searchVM.hasSections = true
-        // searchVM.delegate = self
-        searchVM.sectionPriority = ["Duress", "On Duty", "On Air"]
+        let viewModel = GenericSearchDefaultViewModel(items: items1 + items2 + items3)
+        viewModel.title = "Search Items"
+        viewModel.collapsableSections = true
+        viewModel.hasSections = false
+        viewModel.hidesSections = false
+        viewModel.sectionPriority = ["On Duty", "Duress", "On Air", "On Duty"]
 
-        let vc = GenericSearchViewController(viewModel: searchVM)
+        let vc = GenericSearchViewController(viewModel: viewModel)
+        vc.title = "Search Items"
+//        vc.delegate = self
+
         let nc = PopoverNavigationController(rootViewController: vc)
         nc.modalPresentationStyle = .formSheet
         
@@ -177,7 +177,7 @@ struct Test: GenericSearchable {
     var section: String? = "On Duty"
     var image: UIImage? = UIImage(named: "SidebarAlert")!
 
-    func contains(searchString: String) -> Bool {
+    func matches(searchString: String) -> Bool {
         return title.starts(with: searchString)
     }
 }
@@ -188,7 +188,7 @@ struct Test2: GenericSearchable {
     var section: String? //= "On Air"
     var image: UIImage? = UIImage(named: "SidebarAlert")!
 
-    func contains(searchString: String) -> Bool {
+    func matches(searchString: String) -> Bool {
         return title.starts(with: searchString)
     }
 }
@@ -199,7 +199,7 @@ struct Test3: GenericSearchable {
     var section: String? = "Duress"
     var image: UIImage? = UIImage(named: "SidebarAlertFilled")!
 
-    func contains(searchString: String) -> Bool {
+    func matches(searchString: String) -> Bool {
         return title.starts(with: searchString) || (subtitle?.contains(searchString) ?? false)
     }
 }

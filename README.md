@@ -180,6 +180,7 @@ The `GenericSearchViewController` allows for searching through entities with "ty
 
 1. Implement the `GenericSearchable` protocol on the entities that you want to search through.
 
+
 ```
 struct Person: GenericSearchable {
     var title: String = "James"
@@ -187,30 +188,33 @@ struct Person: GenericSearchable {
     var section: String? = "Alive"
     var image: UIImage? = UIImage(named: "SidebarAlert")!
 
-    func contains(searchString: String) -> Bool {
+    func matches(searchString: String) -> Bool {
         return title.starts(with: searchString)
     }
 }
 ```
 
-2. Create the `GenericSearchViewModel` object.
+2. Create a custom `GenericSearchViewModel` object, or just use the default implementation.
+
 
 ```
         // MARK: Generic Search VC
         let people: [GenericSearchable] = Array(repeating: Person(), count: 10)
 
-        var searchVM = GenericSearchViewModel(items: people)
+        var searchVM = GenericSearchDefaultViewModel(items: people)
         searchVM.title = "Search People"
         searchVM.collapsableSections = true
         searchVM.hasSections = true
-        searchVM.delegate = self
+        searchVM.hidesSections = false
         searchVM.sectionPriority = ["Deceased", "Alive"]
 ```
 
-3. Intialise the `GenericSearchViewController` with your viewModel and present however.
+3. Intialise the `GenericSearchViewController` with your viewModel and present however. Don't forgot to set the `GenericSearchDelegate` delegate of the `GenericSearchViewController` if you need to handle row selections.
+
 
 ```
         let viewController = GenericSearchViewController(viewModel: searchVM)
+        viewController.delegate = self
         let navController = PopoverNavigationController(rootViewController: viewController)
         navController.modalPresentationStyle = .formSheet
         
