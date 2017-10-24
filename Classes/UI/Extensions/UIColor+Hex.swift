@@ -18,7 +18,7 @@ extension UIColor {
         let hasHash = hexString.hasPrefix("#")
         let rgba: Bool
         
-        switch (hexString.characters.count, hasHash) {
+        switch (hexString.count, hasHash) {
         case (6, false), (7, true):  rgba = false
         case (8, false), (9, true):  rgba = true
         default: return nil
