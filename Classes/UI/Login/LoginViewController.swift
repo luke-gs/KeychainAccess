@@ -797,8 +797,8 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     private func updateLoginButtonState() {
         if isLoginButtonLoaded == false { return }
         
-        let isUsernameValid: Bool = isUsernameFieldLoaded && usernameField.text?.characters.count ?? 0 >= minimumUsernameLength
-        let isPasswordValid: Bool = isPasswordFieldLoaded && passwordField.text?.characters.count ?? 0 >= minimumPasswordLength
+        let isUsernameValid: Bool = isUsernameFieldLoaded && usernameField.text?.count ?? 0 >= minimumUsernameLength
+            let isPasswordValid: Bool = isPasswordFieldLoaded && passwordField.text?.count ?? 0 >= minimumPasswordLength
         
         loginButton.isEnabled = isUsernameValid && isPasswordValid
     }

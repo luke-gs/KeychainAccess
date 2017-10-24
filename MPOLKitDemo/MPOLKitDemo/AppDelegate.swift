@@ -135,6 +135,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let stepper = StepperViewController()
         stepper.sidebarItem.regularTitle = "Steppers"
 
+        let date = DateViewController()
+        date.sidebarItem.regularTitle = "Date"
+
         let personDetail = PersonDetailViewController()
         personDetail.sidebarItem.regularTitle = "Person Details"
 
@@ -147,7 +150,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let subscription = SubscriptionViewController()
         subscription.sidebarItem.regularTitle = "Subscription"
 
-        return [basic, list, custom, accessory, header, picker, stepper, personDetail, results, signup, subscription]
+        return [basic, list, custom, accessory, header, picker, stepper, date, personDetail, results, signup, subscription]
     }()
     
 }

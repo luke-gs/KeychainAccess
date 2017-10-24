@@ -28,6 +28,7 @@
 		EA950E441F86EEE600B5A349 /* SubscriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA950E431F86EEE600B5A349 /* SubscriptionViewController.swift */; };
 		EA950E481F8DAEC200B5A349 /* CustomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA950E471F8DAEC200B5A349 /* CustomViewController.swift */; };
 		EAE806D91F98328B00C9AA85 /* PickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE806D81F98328B00C9AA85 /* PickerViewController.swift */; };
+		EAFF89FD1F9D6BC40050C471 /* DateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAFF89FC1F9D6BC40050C471 /* DateViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,6 +58,7 @@
 		EA950E431F86EEE600B5A349 /* SubscriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionViewController.swift; sourceTree = "<group>"; };
 		EA950E471F8DAEC200B5A349 /* CustomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewController.swift; sourceTree = "<group>"; };
 		EAE806D81F98328B00C9AA85 /* PickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewController.swift; sourceTree = "<group>"; };
+		EAFF89FC1F9D6BC40050C471 /* DateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateViewController.swift; sourceTree = "<group>"; };
 		F8C6836D38694AC50A4F0D6E /* Pods-MPOLKitDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKitDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKitDemo/Pods-MPOLKitDemo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -157,6 +159,7 @@
 				EA950E471F8DAEC200B5A349 /* CustomViewController.swift */,
 				EAE806D81F98328B00C9AA85 /* PickerViewController.swift */,
 				EA53B2741F9EF0E600B891D8 /* StepperViewController.swift */,
+				EAFF89FC1F9D6BC40050C471 /* DateViewController.swift */,
 			);
 			path = "Form Examples";
 			sourceTree = "<group>";
@@ -325,6 +328,7 @@
 				BCAD1EFD1F262B680033AD66 /* CollectionDemoListViewController.swift in Sources */,
 				EA445D9E1F734B7700ABF70F /* HeaderViewController.swift in Sources */,
 				EA950E481F8DAEC200B5A349 /* CustomViewController.swift in Sources */,
+				EAFF89FD1F9D6BC40050C471 /* DateViewController.swift in Sources */,
 				EAE806D91F98328B00C9AA85 /* PickerViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -65,7 +65,7 @@ class SummaryListFormItemTests: XCTestCase {
         XCTAssertEqual(view.titleLabel.text, "Hello")
         XCTAssertEqual(view.subtitleLabel.text, "Bye")
         XCTAssertEqual(view.actionCount, 20)
-        XCTAssertEqual(view.alertColor, .red)
+        XCTAssertEqual(view.borderColor, .red)
         XCTAssertEqual(view.thumbnailView.borderColor, .yellow)
         XCTAssertEqual(view.thumbnailView.imageView.image, AssetManager.shared.image(forKey: .info))
     }
