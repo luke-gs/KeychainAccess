@@ -53,7 +53,7 @@ public class HeaderFormItem: BaseSupplementaryFormItem {
         view.text = text
 
         // Set or remove action button
-        view.setActionButtons([actionButton].removeNils())
+        view.actionButton = actionButton
     }
 
     public override func intrinsicHeight(in collectionView: UICollectionView, layout: CollectionViewFormLayout, for traitCollection: UITraitCollection) -> CGFloat {
@@ -106,7 +106,6 @@ extension HeaderFormItem {
     @discardableResult
     public func actionButton(title: String, handler: @escaping (() -> Void)) -> Self {
         let button = UIButton(type: .custom)
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle(title, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 11, weight: .semibold)
         button.contentEdgeInsets = UIEdgeInsetsMake(16, 16, 16, 16)
