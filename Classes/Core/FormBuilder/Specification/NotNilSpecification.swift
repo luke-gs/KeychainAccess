@@ -8,7 +8,7 @@
 
 import Foundation
 
-/// Chekc if an object is not nil
+/// Check if an object is not nil
 public class NotNilSpecification: Specification {
 
 
