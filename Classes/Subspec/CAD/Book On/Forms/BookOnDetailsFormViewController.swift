@@ -150,9 +150,9 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
             })
 
         for officer in viewModel.details.officers {
-            builder += OfficerFormItem(title: officer.title,
-                                       subtitle: officer.subtitle,
-                                       status: officer.status)
+            builder += BookOnDetailsOfficerFormItem(title: officer.title,
+                                                    subtitle: officer.subtitle,
+                                                    status: officer.status)
                 .width(.column(1))
                 .accessory(ItemAccessory.disclosure)
                 .height(.fixed(60))

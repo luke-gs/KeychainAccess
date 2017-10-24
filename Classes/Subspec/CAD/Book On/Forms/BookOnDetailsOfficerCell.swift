@@ -1,5 +1,5 @@
 //
-//  CollectionViewFormOfficerCell.swift
+//  BookOnDetailsOfficerCell.swift
 //  MPOLKit
 //
 //  Created by Trent Fitzgibbon on 24/10/17.
@@ -9,7 +9,7 @@
 import UIKit
 
 /// Csutom collection view form cell for displaying officers
-class CollectionViewFormOfficerCell: CollectionViewFormSubtitleCell {
+class BookOnDetailsOfficerCell: CollectionViewFormSubtitleCell {
     
     private struct LayoutConstants {
         static let spacingX: CGFloat = 4

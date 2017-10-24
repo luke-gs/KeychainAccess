@@ -12,7 +12,7 @@ import PromiseKit
 /// View model for the book on details form screen
 open class BookOnDetailsFormViewModel {
 
-    /// Internal struct for book on details, to be populated by form
+    /// Internal class for book on details, to be populated by form
     public class Details {
         var serial: String?
         var category: String?
@@ -23,23 +23,23 @@ open class BookOnDetailsFormViewModel {
         var endTime: Date?
         var duration: String?
         var officers: [Officer] = []
-    }
 
-    public class Officer {
-        var title: String?
-        var rank: String?
-        var officerId: String?
-        var licenseType: String?
-        var isDriver: Bool?
+        public class Officer {
+            var title: String?
+            var rank: String?
+            var officerId: String?
+            var licenseType: String?
+            var isDriver: Bool?
 
-        var subtitle: String {
-            return [rank, officerId, licenseType].removeNils().joined(separator: " : ")
-        }
-        var status: String? {
-            if let isDriver = isDriver, isDriver {
-                return NSLocalizedString("DRIVER", comment: "").uppercased()
+            var subtitle: String {
+                return [rank, officerId, licenseType].removeNils().joined(separator: " : ")
             }
-            return nil
+            var status: String? {
+                if let isDriver = isDriver, isDriver {
+                    return NSLocalizedString("DRIVER", comment: "").uppercased()
+                }
+                return nil
+            }
         }
     }
 
@@ -47,7 +47,7 @@ open class BookOnDetailsFormViewModel {
 
     public init() {
         // Initial form has self as one of officers to be book on to callsign
-        let selfOfficer = Officer()
+        let selfOfficer = Details.Officer()
         selfOfficer.title = "Herli Halim"
         selfOfficer.rank = "Senior Sergeant"
         selfOfficer.officerId = "#800256"
