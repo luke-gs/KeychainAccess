@@ -144,6 +144,10 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         builder += durationItem
 
         builder += HeaderFormItem(text: NSLocalizedString("Officers", comment: "").uppercased(), style: .plain)
+            .actionButton(title: NSLocalizedString("Add", comment: "").uppercased(), handler: {
+                // TODO: show add officer form
+            })
+
         for officer in viewModel.details.officers {
             builder += SubtitleFormItem(title: officer.title,
                                         subtitle: officer.subtitle,
