@@ -13,17 +13,22 @@ import ClientKit
 
 public class RecentlyViewedTracker: PresenterObserving {
 
-    public private(set) var entities: [Entity] = []
-
-    public func willPresent(_ presentable: Presentable, fromViewController from: UIViewController, toViewController to: UIViewController) {
-
-    }
-
     public func didPresent(_ presentable: Presentable, fromViewController: UIViewController, toViewController to: UIViewController) {
         if let presentable = presentable as? EntityScreen {
             switch presentable {
             case .entityDetails(let entity, _):
-                entities.append(entity)
+                var recents = UserSession.current.recentlyViewed
+                guard recents.first != entity else { return }
+                
+                for (index, oldEntity) in recents.enumerated() {
+                    if oldEntity == entity {
+                        recents.remove(at: index)
+                        break
+                    }
+                }
+                recents.insert(entity, at: 0)
+                
+                UserSession.current.recentlyViewed = recents
             default: break
             }
         }

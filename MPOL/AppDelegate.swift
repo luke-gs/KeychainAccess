@@ -76,7 +76,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         applyCurrentTheme()
 
-        UserSession.basePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        // Use default base path, which uses app group if configured
+        // UserSession.basePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
 
         if UserSession.current.isActive == true {
             UserSession.current.restoreSession { token in
@@ -167,6 +168,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     // TEMP
     func logOut() {
         UserSession.current.endSession()
+        APIManager.shared.authenticationPlugin = nil
         window?.rootViewController = Director.shared.presenter.viewController(forPresentable: LandingScreen.login)
     }
 

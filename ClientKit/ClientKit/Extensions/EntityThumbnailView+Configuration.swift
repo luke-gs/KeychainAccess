@@ -22,7 +22,7 @@ extension EntityThumbnailView {
             imageView.image = nil
         }
         
-        borderColor = entity?.alertColor
+        borderColor = entity?.borderColor
     }
     
 }

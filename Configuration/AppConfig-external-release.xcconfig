@@ -11,6 +11,10 @@
 PRODUCT_NAME=PSCore
 CONFIG_HOST_URL=client-demo-api.mpol.solutions
 
+APP_GROUP_ID=group.enterprise.gridstone.pscore
+
+SEARCH_URL_TYPE_ID=enterprise.gridstone.pscore.search
+SEARCH_URL_TYPE_SCHEME=pscoresearch
 
 
 

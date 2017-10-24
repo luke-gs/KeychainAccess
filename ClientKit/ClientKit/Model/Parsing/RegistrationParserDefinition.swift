@@ -31,9 +31,9 @@ public class RegistrationParserDefinition: QueryParserDefinition {
         let definition = QueryTokenDefinition(key: RegistrationParserDefinition.registrationKey, required: true, typeCheck: { token -> Bool in
             let allowedCharacters = CharacterSet.alphanumerics
             let extra = token.trimmingCharacters(in: allowedCharacters)
-            return extra.characters.count == 0
+            return extra.count == 0
         }) { (token, index, map) in
-            let length = token.characters.count
+            let length = token.count
             if range.contains(length) == false {
                 throw RegistrationParserError.invalidLength(query: token, requiredLengthRange: range)
             }

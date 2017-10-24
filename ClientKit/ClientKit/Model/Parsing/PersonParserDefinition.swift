@@ -111,7 +111,7 @@ public class PersonParserDefinition: QueryParserDefinition {
                                 if index != SurnameIndex {
                                     throw PersonParserError.surnameIsNotFirst(surname: token)
                                 }
-                                if token.characters.count > MaximumSurnameLength {
+                                if token.count > MaximumSurnameLength {
                                     throw PersonParserError.surnameExceedsMaxLength(surname: token, maxLength: PersonParserDefinition.MaximumSurnameLength)
                                 }
         })
@@ -122,7 +122,7 @@ public class PersonParserDefinition: QueryParserDefinition {
                              required: false,
                              typeCheck: nameTypeCheck,
                              validate: { (token, index, map) in
-                                if token.characters.count > MaximumGivenNameLength {
+                                if token.count > MaximumGivenNameLength {
                                     throw PersonParserError.givenNameExceedsMaxLength(givenName: token, maxLength: PersonParserDefinition.MaximumGivenNameLength)
                                 }
         })
@@ -135,7 +135,7 @@ public class PersonParserDefinition: QueryParserDefinition {
                              validate: { (token, index, map) in
                                 if PersonParserDefinition.genderTypeCheck(token) && map["gender"] == nil { throw PersonParserError.nameMatchesGenderType(gender: token) }
                                 if map[GivenNameKey] == nil { throw PersonParserError.middleNameExistsWithoutGivenName(foundName: token) }
-                                if token.characters.count > MaximumMiddleNamesLength {
+                                if token.count > MaximumMiddleNamesLength {
                                     throw PersonParserError.middleNamesExceedsMaxLength(middleNames: token, maxLength: PersonParserDefinition.MaximumMiddleNamesLength)
                                 }
         })
@@ -152,12 +152,12 @@ public class PersonParserDefinition: QueryParserDefinition {
                              required: false,
                              typeCheck: { (token) in
                                 let token = token.replacingOccurrences(of: "-", with: "—")
-                                return dateOfBirthRegex.numberOfMatches(in: token, range: NSRange(location: 0, length: token.characters.count)) == 1
+                                return dateOfBirthRegex.numberOfMatches(in: token, range: NSRange(location: 0, length: token.count)) == 1
         },
                              validate: { (token, index, map) in
                                 // We already know that there is only one match for the token because typeCheck returned true by this point
                                 let token = token.replacingOccurrences(of: "-", with: "—")
-                                let match = dateOfBirthRegex.matches(in: token, range: NSRange(location: 0, length: token.characters.count)).first!
+                                let match = dateOfBirthRegex.matches(in: token, range: NSRange(location: 0, length: token.count)).first!
                                 
                                 // Get date components ranges
                                 let dayRange = match.range(at: 1)
@@ -183,11 +183,11 @@ public class PersonParserDefinition: QueryParserDefinition {
         QueryTokenDefinition(key: PersonParserDefinition.AgeGapKey,
                              required: false,
                              typeCheck: { (token) in
-                                return ageGapRegex.numberOfMatches(in: token, range: NSRange(location: 0, length: token.characters.count)) == 1
+                                return ageGapRegex.numberOfMatches(in: token, range: NSRange(location: 0, length: token.count)) == 1
         },
                              validate: { (token, index, map) in
                                 // We already know that there is only one match for the token because typeCheck returned true by this point
-                                let match = ageGapRegex.matches(in: token, range: NSRange(location: 0, length: token.characters.count)).first!
+                                let match = ageGapRegex.matches(in: token, range: NSRange(location: 0, length: token.count)).first!
                                 
                                 // Age range could be xx-yy or just xx.
                                 // 3 capture groups in the regex. Value in 1 & 3 is the interesting bit.
@@ -222,9 +222,9 @@ public class PersonParserDefinition: QueryParserDefinition {
     
     private static let nameTypeCheck: (_ string: String) -> Bool = { (token) in
         guard !token.isEmpty else { return false }
-        let allowedCharacters = CharacterSet.letters.union(.whitespaces).union(CharacterSet(charactersIn: "’'"))
+        let allowedCharacters = CharacterSet.letters.union(.whitespaces).union(CharacterSet(charactersIn: "’'-"))
         let leftover = token.trimmingCharacters(in: allowedCharacters)
-        return leftover.characters.count == 0
+        return leftover.count == 0
     }
     
     

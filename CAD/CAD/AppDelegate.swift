@@ -10,51 +10,105 @@ import UIKit
 import MPOLKit
 import ClientKit
 import CoreLocation
+import Alamofire
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    
-    let statusTabBarController = CADStatusTabBarController()
-    
+
+    private var loginViewController: LoginViewController?
+    private var sessionViewController: CADStatusTabBarController?
+
     // FIXME: Temporary
     let locationManager = CLLocationManager()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         MPOLKitInitialize()
+
+        let plugins: [PluginType]?
+        #if DEBUG
+            plugins = [
+                NetworkLoggingPlugin()
+            ]
+        #else
+            plugins = nil
+        #endif
+
+        let host = APP_HOST_URL
+        APIManager.shared = APIManager(configuration: APIManagerDefaultConfiguration(url: "https://\(host)", plugins: plugins, trustPolicyManager: ServerTrustPolicyManager(policies: [host: .disableEvaluation])))
+
         let window = UIWindow()
         self.window = window
         
         applyCurrentTheme()
-        window.makeKeyAndVisible()
-        
-        let searchProxyViewController = UIViewController() // TODO: Take me back to the search app
-        searchProxyViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
-        searchProxyViewController.tabBarItem.isEnabled = false
 
-        let tasksNavController = UINavigationController(rootViewController: TasksMapViewController())
-        tasksNavController.tabBarItem.image = AssetManager.shared.image(forKey: .tabBarTasks)
-        tasksNavController.tabBarItem.title = NSLocalizedString("Tasks", comment: "Tasks Tab Bar Item")
-
-        let activityNavController = UINavigationController(rootViewController: ActivityLogViewController())
-        activityNavController.tabBarItem.image = AssetManager.shared.image(forKey: .tabBarActivity)
-        activityNavController.tabBarItem.title = NSLocalizedString("Activity Log", comment: "Activity Log Tab Bar Item")
-
-        statusTabBarController.viewControllers = [searchProxyViewController, tasksNavController, activityNavController]
-        statusTabBarController.selectedViewController = tasksNavController
-
-        self.window?.rootViewController = statusTabBarController
+        updateAppForSessionState()
 
         // TODO: Put this somewhere else I guess. Just need it now for the map.
         if CLLocationManager.authorizationStatus() == .notDetermined {
             locationManager.requestWhenInUseAuthorization()
         }
         
+        window.makeKeyAndVisible()
         return true
     }
-    
+
+    private func updateAppForSessionState() {
+        if CADUserSession.current.isActive {
+            loginViewController = nil
+            if window?.rootViewController == nil || window?.rootViewController != sessionViewController {
+                CADUserSession.current.restoreSession { token in
+                    APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
+                }
+                window?.rootViewController = createSessionViewController()
+            }
+        } else {
+            sessionViewController = nil
+            if window?.rootViewController == nil || window?.rootViewController != loginViewController {
+                window?.rootViewController = createLoginViewController()
+            }
+        }
+    }
+
+    private func createSessionViewController() -> UIViewController {
+        let tempCallsignController = UIViewController() // TODO: Add callsign view
+        tempCallsignController.tabBarItem = UITabBarItem(title: "Callsign", image: AssetManager.shared.image(forKey: .entityCar), selectedImage: nil)
+
+        let searchProxyViewController = UIViewController() // TODO: Take me back to the search app
+        searchProxyViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
+        searchProxyViewController.tabBarItem.isEnabled = false
+
+        let tasksListContainerViewModel = TasksListContainerViewModel(headerViewModel: TasksListHeaderViewModel(), listViewModel: TasksListViewModel())
+        let tasksSplitViewModel = TasksSplitViewModel(listContainerViewModel: tasksListContainerViewModel,
+                                                      mapViewModel: TasksMapViewModel())
+        let tasksNavController = UINavigationController(rootViewController: tasksSplitViewModel.createViewController())
+        tasksNavController.tabBarItem.image = AssetManager.shared.image(forKey: .tabBarTasks)
+        tasksNavController.tabBarItem.title = NSLocalizedString("Tasks", comment: "Tasks Tab Bar Item")
+
+        let activityLogViewModel = ActivityLogViewModel()
+        let activityNavController = UINavigationController(rootViewController: activityLogViewModel.createViewController())
+        activityNavController.tabBarItem.image = AssetManager.shared.image(forKey: .tabBarActivity)
+        activityNavController.tabBarItem.title = NSLocalizedString("Activity Log", comment: "Activity Log Tab Bar Item")
+
+        let userCallsignStatusViewModel = UserCallsignStatusViewModel()
+        let statusTabBarViewModel = CADStatusTabBarViewModel(userCallsignStatusViewModel: userCallsignStatusViewModel)
+        let sessionViewController = statusTabBarViewModel.createViewController()
+
+        sessionViewController.regularViewControllers = [searchProxyViewController, tasksNavController, activityNavController]
+        sessionViewController.compactViewControllers = sessionViewController.viewControllers + [tempCallsignController]
+        sessionViewController.selectedViewController = tasksNavController
+        self.sessionViewController = sessionViewController
+        return sessionViewController
+    }
+
+    private func createLoginViewController() -> UIViewController {
+        let loginViewController = LoginViewController()
+        self.loginViewController = loginViewController
+        return loginViewController
+    }
+
     private func applyCurrentTheme() {
         let theme = ThemeManager.shared.theme(for: .current)
         let shadowImage = theme.image(forKey: .navigationBarShadow)
@@ -90,6 +144,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+
+        // Show login or session screen depending on user session
+        updateAppForSessionState()
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {

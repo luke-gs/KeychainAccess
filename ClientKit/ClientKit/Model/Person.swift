@@ -41,7 +41,7 @@ open class Person: Entity {
     public enum Gender: String, CustomStringConvertible, UnboxableEnum, Pickable {
         case female = "F"
         case male = "M"
-        case other
+        case other = "O"
         
         public var description: String {
             switch self {
@@ -49,7 +49,7 @@ open class Person: Entity {
                 return "Female"
             case .male:
                 return "Male"
-            default:
+            case .other:
                 return "Unknown"
             }
         }

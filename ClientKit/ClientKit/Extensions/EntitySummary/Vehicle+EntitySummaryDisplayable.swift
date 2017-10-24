@@ -33,8 +33,12 @@ public struct VehicleSummaryDisplayable: EntitySummaryDisplayable {
         return vehicle.bodyType
     }
     
-    public var alertColor: UIColor? {
+    public var borderColor: UIColor? {
         return vehicle.alertLevel?.color
+    }
+
+    public var iconColor: UIColor? {
+        return nil
     }
     
     public var badge: UInt {
@@ -43,13 +47,14 @@ public struct VehicleSummaryDisplayable: EntitySummaryDisplayable {
     
     public func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> (image: UIImage, mode: UIViewContentMode)? {
         let imageName: String
+
         switch size {
         case .small:
-            imageName = "iconEntityAutomotiveFilled"
+            imageName = "iconEntityAutomotiveCar"
         case .medium:
-            imageName = "iconEntityAutomotive48Filled"
+            imageName = "iconEntityAutomotiveCar48"
         case .large:
-            imageName = "iconEntityAutomotive96Filled"
+            imageName = "iconEntityAutomotiveCar96"
         }
         
         if let image = UIImage(named: imageName, in: .mpolKit, compatibleWith: nil) {
