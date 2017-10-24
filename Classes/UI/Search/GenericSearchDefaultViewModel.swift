@@ -128,17 +128,6 @@ final public class GenericSearchDefaultViewModel: GenericSearchViewModel {
 
 }
 
-private struct PrioritisedSection {
-    var title: String
-    var items: [GenericSearchable]
-    var isHidden: Bool = false
-
-    init(title: String, items: [GenericSearchable]) {
-        self.title = title
-        self.items = items
-    }
-}
-
 /// Generic Search View Model definition
 public protocol GenericSearchViewModel {
 
@@ -224,3 +213,15 @@ public protocol GenericSearchable {
     /// - Returns: true if should check passes and entity should be displayed
     func matches(searchString: String) -> Bool
 }
+
+private struct PrioritisedSection {
+    var title: String
+    var items: [GenericSearchable]
+    var isHidden: Bool = false
+
+    init(title: String, items: [GenericSearchable]) {
+        self.title = title
+        self.items = items
+    }
+}
+
