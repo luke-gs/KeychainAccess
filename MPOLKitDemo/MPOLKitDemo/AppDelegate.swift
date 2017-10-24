@@ -22,11 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     override init() {
         super.init()
-
         NotificationCenter.default.addObserver(self, selector: #selector(networkActivityDidBegin), name: .NetworkActivityDidBegin, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(networkActivityDidEnd),   name: .NetworkActivityDidEnd,   object: nil)
-
-
     }
 
 
@@ -102,15 +99,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let items2: [GenericSearchable] = Array(repeating: Test2(), count: 5)
         let items3: [GenericSearchable] = Array(repeating: Test3(), count: 3)
 
-        let model = GenericSearchModel(items: items1 + items2 + items3)
-        model.title = "Search Items"
-        model.collapsableSections = true
-        model.hasSections = false
-        model.hidesSections = true
-        // model.delegate = self
-        model.sectionPriority = ["On Duty", "Duress", "On Air", "On Duty"]
+        let viewModel = GenericSearchDefaultViewModel(items: items1 + items2 + items3)
+        viewModel.title = "Search Items"
+        viewModel.collapsableSections = true
+        viewModel.hasSections = false
+        viewModel.hidesSections = false
+        viewModel.sectionPriority = ["On Duty", "Duress", "On Air", "On Duty"]
 
-        let vc = GenericSearchViewController(model: model)
+        let vc = GenericSearchViewController(viewModel: viewModel)
+        vc.title = "Search Items"
+//        vc.delegate = self
+
         let nc = PopoverNavigationController(rootViewController: vc)
         nc.modalPresentationStyle = .formSheet
         
