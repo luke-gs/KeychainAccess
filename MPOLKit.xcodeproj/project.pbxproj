@@ -382,6 +382,8 @@
 		EA4E33541F8F51570027E431 /* ItemAccessory.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4E33531F8F51570027E431 /* ItemAccessory.swift */; };
 		EA4E33561F8F51B90027E431 /* LabeledItemAccessory.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4E33551F8F51B90027E431 /* LabeledItemAccessory.swift */; };
 		EA4E33581F8F51DF0027E431 /* CustomItemAccessory.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4E33571F8F51DF0027E431 /* CustomItemAccessory.swift */; };
+		EA53B2771F9EF92B00B891D8 /* NotNilSpecification.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA53B2761F9EF92B00B891D8 /* NotNilSpecification.swift */; };
+		EA53B2791F9EF9BB00B891D8 /* NotNilSpecificationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA53B2781F9EF9BB00B891D8 /* NotNilSpecificationTests.swift */; };
 		EA53B26F1F9D7F0200B891D8 /* CollectionViewFormStepperCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA53B26E1F9D7F0200B891D8 /* CollectionViewFormStepperCell.swift */; };
 		EA53B2711F9D905800B891D8 /* StepperFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA53B2701F9D905800B891D8 /* StepperFormItem.swift */; };
 		EA53B2731F9ED43600B891D8 /* StepperFormItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA53B2721F9ED43600B891D8 /* StepperFormItemTests.swift */; };
@@ -839,6 +841,8 @@
 		EA4E33531F8F51570027E431 /* ItemAccessory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemAccessory.swift; sourceTree = "<group>"; };
 		EA4E33551F8F51B90027E431 /* LabeledItemAccessory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabeledItemAccessory.swift; sourceTree = "<group>"; };
 		EA4E33571F8F51DF0027E431 /* CustomItemAccessory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomItemAccessory.swift; sourceTree = "<group>"; };
+		EA53B2761F9EF92B00B891D8 /* NotNilSpecification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotNilSpecification.swift; sourceTree = "<group>"; };
+		EA53B2781F9EF9BB00B891D8 /* NotNilSpecificationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotNilSpecificationTests.swift; sourceTree = "<group>"; };
 		EA53B26E1F9D7F0200B891D8 /* CollectionViewFormStepperCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewFormStepperCell.swift; sourceTree = "<group>"; };
 		EA53B2701F9D905800B891D8 /* StepperFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepperFormItem.swift; sourceTree = "<group>"; };
 		EA53B2721F9ED43600B891D8 /* StepperFormItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepperFormItemTests.swift; sourceTree = "<group>"; };
@@ -1917,6 +1921,7 @@
 				EA09A0531F78B9C200BC3C0E /* EmailSpecification.swift */,
 				EA09A0541F78B9C200BC3C0E /* PredicateSpecification.swift */,
 				EA09A0551F78B9C200BC3C0E /* RegularExpressionSpecification.swift */,
+				EA53B2761F9EF92B00B891D8 /* NotNilSpecification.swift */,
 			);
 			path = Specification;
 			sourceTree = "<group>";
@@ -1979,6 +1984,7 @@
 				EA42F8E31F95910400C5C38E /* PredicateSpecificationTests.swift */,
 				EA42F8E51F9591AA00C5C38E /* RegularExpressionSpecificationTests.swift */,
 				EA42F8E71F95929100C5C38E /* CharacterSetSpecificationTests.swift */,
+				EA53B2781F9EF9BB00B891D8 /* NotNilSpecificationTests.swift */,
 			);
 			path = Specifications;
 			sourceTree = "<group>";
@@ -2568,6 +2574,7 @@
 				BC9C7DFD1F0DED6600DFFE83 /* CollectionViewFormValueFieldCell.swift in Sources */,
 				BC9C7E4B1F0DED6600DFFE83 /* Theme.swift in Sources */,
 				BC9C7E091F0DED6600DFFE83 /* UITableViewCell+LayoutMargins.swift in Sources */,
+				EA53B2771F9EF92B00B891D8 /* NotNilSpecification.swift in Sources */,
 				BC9C7E521F0DED6600DFFE83 /* FormDisclosureView.swift in Sources */,
 				9663D00B1F8AF666006DB672 /* TasksSplitViewController.swift in Sources */,
 				EA445DA61F73734300ABF70F /* SummaryThumbnailFormItem.swift in Sources */,
@@ -2767,6 +2774,7 @@
 				19EFD2FA1F4D5C6300422F2A /* LookupAddressTests.swift in Sources */,
 				EAE806E11F985FD400C9AA85 /* RangeFormItemTests.swift in Sources */,
 				C60C890B1ECCB94F00785932 /* SimplePerson.swift in Sources */,
+				EA53B2791F9EF9BB00B891D8 /* NotNilSpecificationTests.swift in Sources */,
 				197FBF711F9980F20086875A /* URLQueryBuilderTests.swift in Sources */,
 				EAF76C771F90839000405DC9 /* StringSizing+LabelTests.swift in Sources */,
 				EA05400C1F95781C00F6E63C /* StringSizingTests.swift in Sources */,
