@@ -23,6 +23,8 @@ public class StepperFormItem: BaseFormItem {
 
     public var onValueChanged: ((Double) -> ())?
 
+    public var numberOfDecimalPlaces: Int = 0
+
     public init() {
         super.init(cellType: CollectionViewFormStepperCell.self, reuseIdentifier: CollectionViewFormStepperCell.defaultReuseIdentifier)
     }
@@ -37,18 +39,18 @@ public class StepperFormItem: BaseFormItem {
     public override func configure(_ cell: CollectionViewFormCell) {
         let cell = cell as! CollectionViewFormStepperCell
 
+        cell.titleLabel.apply(sizable: title, defaultFont: .preferredFont(forTextStyle: .subheadline, compatibleWith: cell.traitCollection))
+        cell.valueChangedHandler = { [weak self] in
+            self?.value = $0
+            self?.onValueChanged?($0)
+        }
+        cell.numberOfDecimalPlaces = numberOfDecimalPlaces
+
         let stepper = cell.stepper
         stepper.minimumValue = minimumValue
         stepper.maximumValue = maximumValue
         stepper.stepValue = stepValue
         stepper.value = value
-
-        cell.titleLabel.apply(sizable: title, defaultFont: .preferredFont(forTextStyle: .subheadline, compatibleWith: cell.traitCollection))
-
-        cell.valueChangedHandler = { [weak self] in
-            self?.value = $0
-            self?.onValueChanged?($0)
-        }
     }
 
     public override func intrinsicHeight(in collectionView: UICollectionView, layout: CollectionViewFormLayout, givenContentWidth contentWidth: CGFloat, for traitCollection: UITraitCollection) -> CGFloat {
@@ -112,6 +114,12 @@ extension StepperFormItem {
     @discardableResult
     public func onValueChanged(_ onValueChanged: ((Double) -> ())?) -> Self {
         self.onValueChanged = onValueChanged
+        return self
+    }
+
+    @discardableResult
+    public func numberOfDecimalPlaces(_ numberOfDecimalPlaces: Int) -> Self {
+        self.numberOfDecimalPlaces = numberOfDecimalPlaces
         return self
     }
 

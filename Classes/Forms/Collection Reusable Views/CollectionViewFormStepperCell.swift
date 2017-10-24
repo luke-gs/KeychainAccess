@@ -23,6 +23,8 @@ open class CollectionViewFormStepperCell: CollectionViewFormCell, UITextFieldDel
 
     open var valueChangedHandler: ((Double) -> (Void))?
 
+    open var numberOfDecimalPlaces: Int = 0
+
     /// The horizontal separation between labels.
     open var labelSeparation: CGFloat = CellTitleSubtitleSeparation {
         didSet {
@@ -65,10 +67,9 @@ open class CollectionViewFormStepperCell: CollectionViewFormCell, UITextFieldDel
         titleLabel.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
         textField.font = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
         textField.textAlignment = .right
+        textField.keyboardType = .numberPad
 
         updateTextField()
-
-        stepper.wraps = true
 
         let contentView = self.contentView
         contentView.addSubview(titleLabel)
@@ -103,15 +104,17 @@ open class CollectionViewFormStepperCell: CollectionViewFormCell, UITextFieldDel
         valueChangedHandler?(stepper.value)
     }
 
-    private func updateTextField() {
-        textField.text = String(format: "%.0f", stepper.value)
+    private func updateTextField(force: Bool = false) {
+        if !textField.isFirstResponder || force {
+            textField.text = String(format: "%.\(numberOfDecimalPlaces)f", stepper.value)
+        }
     }
 
     // MARK: - Text field delegate
 
     private let numberFormatter = NumberFormatter()
 
-    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    open func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let currentText = (textField.text ?? "") as NSString
         let newText = currentText.replacingCharacters(in: range, with: string)
 
@@ -119,7 +122,19 @@ open class CollectionViewFormStepperCell: CollectionViewFormCell, UITextFieldDel
             return true
         }
 
+        if numberOfDecimalPlaces > 0 {
+            let tokens = newText.split(separator: ".")
+            if tokens.count > 2 {
+                return false
+            }
+
+            if tokens.last == "." {
+                return true
+            }
+        }
+
         let number = NumberFormatter().number(from: newText)
+
         return number != nil
     }
 
@@ -131,7 +146,11 @@ open class CollectionViewFormStepperCell: CollectionViewFormCell, UITextFieldDel
         stepperValueDidChange()
     }
 
-    public func textFieldDidEndEditing(_ textField: UITextField) {
+    open func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.selectedTextRange = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
+    }
+
+    open func textFieldDidEndEditing(_ textField: UITextField) {
         if let text = textField.text, let value = numberFormatter.number(from: text)?.doubleValue {
             if value > stepper.maximumValue || value < stepper.minimumValue {
                 stepper.value = value
@@ -141,7 +160,16 @@ open class CollectionViewFormStepperCell: CollectionViewFormCell, UITextFieldDel
             stepper.value = 0
             stepperValueDidChange()
         }
+
+        updateTextField(force: true)
     }
+
+    open func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return false
+    }
+
+    // MARK: - Observer
 
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {
