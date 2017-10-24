@@ -23,6 +23,10 @@ public class HeaderFormItem: BaseSupplementaryFormItem {
 
     public var style: HeaderFormItemStyle = .plain
 
+    public var actionButton: UIButton?
+
+    public var actionButtonHandler: (() -> Void)?
+
     public init() {
         super.init(viewType: CollectionViewFormHeaderView.self, kind: UICollectionElementKindSectionHeader, reuseIdentifier: CollectionViewFormHeaderView.defaultReuseIdentifier)
     }
@@ -47,6 +51,9 @@ public class HeaderFormItem: BaseSupplementaryFormItem {
         }
 
         view.text = text
+
+        // Set or remove action button
+        view.setActionButtons([actionButton].removeNils())
     }
 
     public override func intrinsicHeight(in collectionView: UICollectionView, layout: CollectionViewFormLayout, for traitCollection: UITraitCollection) -> CGFloat {
@@ -58,11 +65,14 @@ public class HeaderFormItem: BaseSupplementaryFormItem {
 
         let separatorColor = self.separatorColor ?? theme.color(forKey: .separator)
         let secondaryTextColor = theme.color(forKey: .secondaryText)
+        let tintColor = theme.color(forKey: .tint)
 
         view.tintColor = secondaryTextColor
         view.separatorColor = separatorColor
-    }
 
+        actionButton?.setTitleColor(tintColor, for: .normal)
+        actionButton?.setTitleColor(tintColor?.withAlphaComponent(0.5), for: .highlighted)
+    }
 }
 
 // MARK: - Chaining methods
@@ -91,6 +101,25 @@ extension HeaderFormItem {
     public func style(_ style: HeaderFormItemStyle) -> Self {
         self.style = style
         return self
+    }
+
+    @discardableResult
+    public func actionButton(title: String, handler: @escaping (() -> Void)) -> Self {
+        let button = UIButton(type: .custom)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle(title, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 11, weight: .semibold)
+        button.contentEdgeInsets = UIEdgeInsetsMake(16, 16, 16, 16)
+        button.addTarget(self, action: #selector(actionButtonTapped(button:)), for: .touchUpInside)
+        self.actionButton = button
+        self.actionButtonHandler = handler
+        return self
+    }
+
+    @objc private func actionButtonTapped(button: UIButton) {
+        if let handler = actionButtonHandler {
+            handler()
+        }
     }
 
 }
