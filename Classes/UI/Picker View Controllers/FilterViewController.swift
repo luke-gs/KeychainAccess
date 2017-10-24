@@ -161,12 +161,51 @@ open class FilterViewController: FormCollectionViewController {
                 cell.optionStyle = .checkbox
                 cell.titleLabel.text = list.options[indexPath.item].title
                 cell.separatorStyle = .indentedAtRowLeading
+                cell.isChecked = list.selectedIndexes.contains(indexPath.item)
+                cell.valueChangedHandler = { [unowned self] checked in
+                    var list = self.filterOptions[indexPath.section] as! FilterList
+                    let item = indexPath.item
+                    var selectedIndexes = list.selectedIndexes
+
+                    if checked {
+                        selectedIndexes.insert(item)
+                    } else {
+                        selectedIndexes.remove(item)
+                    }
+
+                    list.selectedIndexes = selectedIndexes
+                    self.filterOptions[indexPath.section] = list
+                }
                 return cell
             case .radioControl:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: radioCellID, for: indexPath) as! CollectionViewFormOptionCell
                 cell.optionStyle = .radio
                 cell.titleLabel.text = list.options[indexPath.item].title
                 cell.separatorStyle = .indentedAtRowLeading
+                cell.isChecked = list.selectedIndexes.contains(indexPath.item)
+                cell.valueChangedHandler = { [unowned self] checked in
+                    var list = self.filterOptions[indexPath.section] as! FilterList
+                    let item = indexPath.item
+                    var selectedIndexes = list.selectedIndexes
+
+                    let indexPaths = selectedIndexes.flatMap({ (item: Int) -> IndexPath? in
+                        if item != indexPath.item {
+                            print(item)
+                            return IndexPath(item: item, section: indexPath.section)
+                        }
+                        return nil
+                    })
+
+                    selectedIndexes.removeAll()
+
+                    if checked {
+                        selectedIndexes.insert(item)
+                    }
+
+                    list.selectedIndexes = selectedIndexes
+                    self.filterOptions[indexPath.section] = list
+                    collectionView.reloadItems(at: indexPaths)
+                }
                 return cell
             case .list:
                 let cell = collectionView.dequeueReusableCell(of: FilterCheckmarkCell.self, for: indexPath)
@@ -213,7 +252,7 @@ open class FilterViewController: FormCollectionViewController {
         switch filterOption {
         case var list as FilterList:
             switch list.displayStyle {
-            case .checkbox, .radioControl, .list:
+            case .list:
                 let item = indexPath.item
                 var selectedIndexes = list.selectedIndexes
                 if list.allowsMultipleSelection == false && selectedIndexes.isEmpty == false {
@@ -249,6 +288,7 @@ open class FilterViewController: FormCollectionViewController {
                     }
                 }
                 show(detailVC, sender: self)
+            default: break
             }
         case var dateRange as FilterDateRange:
             collectionView.deselectItem(at: indexPath, animated: true)
@@ -305,9 +345,7 @@ open class FilterViewController: FormCollectionViewController {
     }
     
     public func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        guard var list = filterOptions[indexPath.section] as? FilterList,
-            list.displayStyle == .checkbox || list.displayStyle == .radioControl || list.displayStyle == .list
-            else { return }
+        guard var list = filterOptions[indexPath.section] as? FilterList, list.displayStyle == .list else { return }
         
         var selectedIndexes = list.selectedIndexes
         if let _ = selectedIndexes.remove(indexPath.item) {
