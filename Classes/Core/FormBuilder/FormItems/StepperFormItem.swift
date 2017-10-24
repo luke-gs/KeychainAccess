@@ -25,6 +25,8 @@ public class StepperFormItem: BaseFormItem {
 
     public var numberOfDecimalPlaces: Int = 0
 
+    public var customValueFont: UIFont?
+
     public init() {
         super.init(cellType: CollectionViewFormStepperCell.self, reuseIdentifier: CollectionViewFormStepperCell.defaultReuseIdentifier)
     }
@@ -40,6 +42,7 @@ public class StepperFormItem: BaseFormItem {
         let cell = cell as! CollectionViewFormStepperCell
 
         cell.titleLabel.apply(sizable: title, defaultFont: .preferredFont(forTextStyle: .subheadline, compatibleWith: cell.traitCollection))
+        cell.textField.font = customValueFont ?? .preferredFont(forTextStyle: .headline, compatibleWith: cell.traitCollection)
         cell.valueChangedHandler = { [weak self] in
             self?.value = $0
             self?.onValueChanged?($0)
@@ -47,18 +50,18 @@ public class StepperFormItem: BaseFormItem {
         cell.numberOfDecimalPlaces = numberOfDecimalPlaces
 
         let stepper = cell.stepper
-        stepper.minimumValue = minimumValue
         stepper.maximumValue = maximumValue
+        stepper.minimumValue = minimumValue
         stepper.stepValue = stepValue
         stepper.value = value
     }
 
     public override func intrinsicHeight(in collectionView: UICollectionView, layout: CollectionViewFormLayout, givenContentWidth contentWidth: CGFloat, for traitCollection: UITraitCollection) -> CGFloat {
-        return CollectionViewFormStepperCell.minimumContentHeight(withTitle: title, value: valueSizing(), inWidth: contentWidth, compatibleWith: traitCollection, stepperSeparation: CellImageLabelSeparation, labelSeparation: CellImageLabelSeparation, accessoryViewSize: accessory?.size ?? .zero)
+        return CollectionViewFormStepperCell.minimumContentHeight(withTitle: title, value: value, valueFont: customValueFont, numberOfDecimalPlaces: numberOfDecimalPlaces, inWidth: contentWidth, compatibleWith: traitCollection, stepperSeparation: CellImageLabelSeparation, labelSeparation: CellImageLabelSeparation, accessoryViewSize: accessory?.size ?? .zero)
     }
 
     public override func intrinsicWidth(in collectionView: UICollectionView, layout: CollectionViewFormLayout, sectionEdgeInsets: UIEdgeInsets, for traitCollection: UITraitCollection) -> CGFloat {
-        return CollectionViewFormStepperCell.minimumContentWidth(withTitle: title, value: valueSizing(), compatibleWith: traitCollection, stepperSeparation: CellImageLabelSeparation, labelSeparation: CellTitleSubtitleSeparation, accessoryViewSize: accessory?.size ?? .zero)
+        return CollectionViewFormStepperCell.minimumContentWidth(withTitle: title, value: value, valueFont: customValueFont, numberOfDecimalPlaces: numberOfDecimalPlaces, compatibleWith: traitCollection, stepperSeparation: CellImageLabelSeparation, labelSeparation: CellTitleSubtitleSeparation, accessoryViewSize: accessory?.size ?? .zero)
     }
 
     public override func apply(theme: Theme, toCell cell: CollectionViewFormCell) {
@@ -69,12 +72,6 @@ public class StepperFormItem: BaseFormItem {
 
         cell.titleLabel.textColor = secondaryTextColor
         cell.textField.textColor = primaryTextColor
-    }
-
-    // MARK: - Private
-
-    private func valueSizing() -> StringSizable? {
-        return String(format: "%.0f", value)
     }
 
 }
@@ -120,6 +117,12 @@ extension StepperFormItem {
     @discardableResult
     public func numberOfDecimalPlaces(_ numberOfDecimalPlaces: Int) -> Self {
         self.numberOfDecimalPlaces = numberOfDecimalPlaces
+        return self
+    }
+
+    @discardableResult
+    public func customValueFont(_ customValueFont: UIFont?) -> Self {
+        self.customValueFont = customValueFont
         return self
     }
 

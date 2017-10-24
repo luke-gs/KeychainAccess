@@ -106,8 +106,12 @@ open class CollectionViewFormStepperCell: CollectionViewFormCell, UITextFieldDel
 
     private func updateTextField(force: Bool = false) {
         if !textField.isFirstResponder || force {
-            textField.text = String(format: "%.\(numberOfDecimalPlaces)f", stepper.value)
+            textField.text = CollectionViewFormStepperCell.textForValue(stepper.value, numberOfDecimalPlaces: numberOfDecimalPlaces)
         }
+    }
+
+    private class func textForValue(_ value: Double, numberOfDecimalPlaces: Int) -> String {
+        return String(format: "%.\(numberOfDecimalPlaces)f", value)
     }
 
     // MARK: - Text field delegate
@@ -249,65 +253,57 @@ open class CollectionViewFormStepperCell: CollectionViewFormCell, UITextFieldDel
 
     }
 
-    open class func minimumContentWidth(withTitle title: StringSizable?, value: StringSizable?, compatibleWith traitCollection: UITraitCollection, stepperSeparation: CGFloat = CellImageLabelSeparation, labelSeparation: CGFloat = CellTitleSubtitleSeparation, accessoryViewSize: CGSize = .zero) -> CGFloat {
+    open class func minimumContentWidth(withTitle title: StringSizable?, value: Double, valueFont: UIFont?, numberOfDecimalPlaces: Int, compatibleWith traitCollection: UITraitCollection, stepperSeparation: CGFloat = CellImageLabelSeparation, labelSeparation: CGFloat = CellTitleSubtitleSeparation, accessoryViewSize: CGSize = .zero) -> CGFloat {
         var titleSizing = title?.sizing()
         if titleSizing != nil {
             if titleSizing!.font == nil {
-                titleSizing!.font = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+                titleSizing!.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
             }
             if titleSizing!.numberOfLines == nil {
                 titleSizing!.numberOfLines = 1
             }
         }
 
-        var subtitleSizing = value?.sizing()
-        if subtitleSizing != nil {
-            if subtitleSizing!.font == nil {
-                subtitleSizing!.font = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
-            }
-            if subtitleSizing!.numberOfLines == nil {
-                subtitleSizing!.numberOfLines = 1
-            }
-        }
+        let valueString = CollectionViewFormStepperCell.textForValue(value, numberOfDecimalPlaces: numberOfDecimalPlaces)
+
+        var valueSizing = valueString.sizing()
+        valueSizing.font = valueFont ?? .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+        valueSizing.numberOfLines = 1
 
         let titleWidth = titleSizing?.minimumWidth(compatibleWith: traitCollection) ?? 0.0
-        let valueWidth = subtitleSizing?.minimumWidth(compatibleWith: traitCollection) ?? 0.0
+        let valueWidth = valueSizing.minimumWidth(compatibleWith: traitCollection)
         let accessorySpace = accessoryViewSize.isEmpty ? 0.0 : accessoryViewSize.width + CollectionViewFormCell.accessoryContentInset
         let stepperWidth: CGFloat = UIStepper().intrinsicContentSize.width
 
         return titleWidth + labelSeparation + valueWidth + stepperSeparation + stepperWidth + accessorySpace
     }
 
-    open class func minimumContentHeight(withTitle title: StringSizable?, value: StringSizable?, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection, stepperSeparation: CGFloat = CellImageLabelSeparation, labelSeparation: CGFloat = CellTitleSubtitleSeparation, accessoryViewSize: CGSize = .zero) -> CGFloat {
+    open class func minimumContentHeight(withTitle title: StringSizable?, value: Double, valueFont: UIFont?, numberOfDecimalPlaces: Int, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection, stepperSeparation: CGFloat = CellImageLabelSeparation, labelSeparation: CGFloat = CellTitleSubtitleSeparation, accessoryViewSize: CGSize = .zero) -> CGFloat {
         var titleSizing = title?.sizing()
         if titleSizing != nil {
             if titleSizing!.font == nil {
-                titleSizing!.font = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+                titleSizing!.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
             }
             if titleSizing!.numberOfLines == nil {
                 titleSizing!.numberOfLines = 1
             }
         }
 
-        var valueSizing = value?.sizing()
-        if valueSizing != nil {
-            if valueSizing!.font == nil {
-                valueSizing!.font = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
-            }
-            if valueSizing!.numberOfLines == nil {
-                valueSizing!.numberOfLines = 1
-            }
-        }
+        let valueString = CollectionViewFormStepperCell.textForValue(value, numberOfDecimalPlaces: numberOfDecimalPlaces)
+
+        var valueSizing = valueString.sizing()
+        valueSizing.font = valueFont ?? .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+        valueSizing.numberOfLines = 1
 
         let isAccesssoryEmpty = accessoryViewSize.isEmpty
 
-        let valueWidth = valueSizing?.minimumWidth(compatibleWith: traitCollection) ?? 0.0
+        let valueWidth = valueSizing.minimumWidth(compatibleWith: traitCollection)
 
         let availableWidth = width - (isAccesssoryEmpty ? 0.0 : accessoryViewSize.width + CollectionViewFormCell.accessoryContentInset)
 
-        let titleWidth = availableWidth - valueWidth - (title == nil || value == nil ? labelSeparation : 0.0)
+        let titleWidth = availableWidth - valueWidth - (title != nil ? labelSeparation : 0.0)
 
-        let valueHeight = valueSizing?.minimumHeight(inWidth: availableWidth, compatibleWith: traitCollection) ?? 0.0
+        let valueHeight = valueSizing.minimumHeight(inWidth: availableWidth, compatibleWith: traitCollection)
         let titleHeight = titleSizing?.minimumHeight(inWidth: titleWidth, compatibleWith: traitCollection) ?? 0.0
 
         let combinedHeight = max(titleHeight, valueHeight).ceiled(toScale: traitCollection.currentDisplayScale)

@@ -33,6 +33,17 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
         }
     }
 
+    /// The selection state of the cell.
+    open override var isSelected: Bool {
+        didSet {
+            if isSelected && oldValue == false && textField.isEnabled {
+                _ = textField.becomeFirstResponder()
+            } else if !isSelected && oldValue == true && textField.isFirstResponder {
+                _ = textField.resignFirstResponder()
+            }
+        }
+    }
+
 
     // MARK: - Initializers
     
