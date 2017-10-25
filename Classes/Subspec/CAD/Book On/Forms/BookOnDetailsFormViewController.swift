@@ -217,6 +217,15 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         }
     }
 
+    open override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
+
+        // Allow shrinking of generated duration value to fit cell, eg "2 days, 5 hr, 30 min"
+        if let cell = cell as? CollectionViewFormValueFieldCell, cell == durationItem.cell {
+            cell.valueLabel.adjustsFontSizeToFitWidth = true
+        }
+    }
+
     // MARK: - Background
 
     /// Less transparent background to default when used in form sheet, to give contrast for form text
