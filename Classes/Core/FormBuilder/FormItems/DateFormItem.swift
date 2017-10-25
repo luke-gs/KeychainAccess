@@ -31,6 +31,18 @@ public class DateFormItem: PickerFormItem<Date> {
         }
     }
 
+    public var locale: Locale = .current {
+        didSet {
+            action.locale = locale
+        }
+    }
+
+    public var timeZone: TimeZone? {
+        didSet {
+            action.timeZone = timeZone
+        }
+    }
+
     private let action = DateAction()
 
     public init() {
@@ -72,6 +84,18 @@ extension DateFormItem {
         return self
     }
 
+    @discardableResult
+    public func locale(_ locale: Locale) -> Self {
+        self.locale = locale
+        return self
+    }
+
+    @discardableResult
+    public func timeZone(_ timeZone: TimeZone?) -> Self {
+        self.timeZone = timeZone
+        return self
+    }
+
 }
 
 
@@ -82,6 +106,10 @@ class DateAction: ValueSelectionAction<Date> {
     public var minimumDate: Date?
 
     public var maximumDate: Date?
+
+    public var locale: Locale = .current
+
+    public var timeZone: TimeZone?
 
     public init(mode: UIDatePickerMode = .date, selectedValue: Date? = nil) {
         self.mode = mode
@@ -106,6 +134,8 @@ class DateAction: ValueSelectionAction<Date> {
         datePicker.datePickerMode = mode
         datePicker.minimumDate = minimumDate
         datePicker.maximumDate = maximumDate
+        datePicker.timeZone = timeZone
+        datePicker.locale = locale
 
         updateHandler(datePicker.date)
 

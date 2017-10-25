@@ -37,7 +37,7 @@ public class SummaryListFormItem: BaseFormItem {
         cell.sourceLabel.text = category
         cell.titleLabel.text = title
         cell.subtitleLabel.text = subtitle
-        cell.alertColor = badgeColor
+        cell.borderColor = badgeColor
         cell.actionCount = badge
         cell.thumbnailView.borderColor = borderColor
         cell.thumbnailView.imageView.image = image?.sizing().image
