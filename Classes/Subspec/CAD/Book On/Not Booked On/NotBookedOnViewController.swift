@@ -172,7 +172,10 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
     
     open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        // TODO: present details?
+
+        if let bookOnViewController = notBookedOnViewModel?.bookOnViewControllerForItem(indexPath) {
+            navigationController?.pushViewController(bookOnViewController, animated: true)
+        }
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
