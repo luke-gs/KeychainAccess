@@ -166,6 +166,14 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
 
     // MARK: - Internal
 
+    /// Date formatter for duration field
+    private var durationDateFormatter: DateComponentsFormatter = {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.day, .hour, .minute]
+        formatter.unitsStyle = .short
+        return formatter
+    }()
+
     private func updateDuration() {
         // Update the generated duration field
         if let startTime = startTimeItem.selectedValue, var endTime = endTimeItem.selectedValue {
@@ -179,11 +187,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
                 endTimeItem.minimumDate = startTime
             }
             // Format duration as abbreviated string, eg "1h 15m"
-            let formatter = DateComponentsFormatter()
-            formatter.allowedUnits = [.day, .hour, .minute]
-            formatter.unitsStyle = .abbreviated
-
-            durationItem.value = formatter.string(from: endTime.timeIntervalSince(startTime))
+            durationItem.value = durationDateFormatter.string(from: endTime.timeIntervalSince(startTime))
         } else {
             durationItem.value = ""
         }

@@ -116,9 +116,7 @@ extension HeaderFormItem {
     }
 
     @objc private func actionButtonTapped(button: UIButton) {
-        if let handler = actionButtonHandler {
-            handler()
-        }
+        actionButtonHandler?()
     }
 
 }
