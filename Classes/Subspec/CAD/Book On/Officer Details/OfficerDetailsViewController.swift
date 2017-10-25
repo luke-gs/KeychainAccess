@@ -109,17 +109,15 @@ open class OfficerDetailsViewController: FormBuilderViewController {
         switch result {
         case .invalid(_, let message):
             builder.validateAndUpdateUI()
-            // TODO: Uncomment when AlertQueue extension merged
-            //AlertQueue.shared.addErrorAlert(message: message)
+            AlertQueue.shared.addErrorAlert(message: message)
         case .valid:
             firstly {
                 return viewModel.submitForm()
                 }.then { status in
                     self.navigationController?.popViewController(animated: true)
                 }.catch { error in
-                    // TODO: Uncomment when AlertQueue extension merged
-                    //let title = NSLocalizedString("Failed to submit form", comment: "")
-                    //AlertQueue.shared.addSimpleAlert(title: title, message: error.localizedDescription)
+                    let title = NSLocalizedString("Failed to submit form", comment: "")
+                    AlertQueue.shared.addSimpleAlert(title: title, message: error.localizedDescription)
             }
         }
     }
