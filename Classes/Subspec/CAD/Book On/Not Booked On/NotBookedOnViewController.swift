@@ -57,8 +57,17 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
     
     open override func loadView() {
         super.loadView()
-        collectionViewTopConstraint?.constant = LayoutConstants.headerHeight
-        collectionViewBottomConstraint?.constant = -LayoutConstants.footerHeight
+        
+        collectionView?.translatesAutoresizingMaskIntoConstraints = false
+        
+        if let collectionView = collectionView {
+            NSLayoutConstraint.activate([
+                collectionView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor, constant: LayoutConstants.headerHeight),
+                collectionView.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor),
+                collectionView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor),
+                collectionView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor, constant: -LayoutConstants.footerHeight).withPriority(.almostRequired)
+            ])
+        }
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {
