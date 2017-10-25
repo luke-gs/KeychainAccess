@@ -66,17 +66,17 @@ open class OfficerDetailsViewController: FormBuilderViewController {
     
     override open func construct(builder: FormBuilder) {
         
-        builder += HeaderFormItem(text: "OFFICER DETAILS", style: .plain)
+        builder += HeaderFormItem(text: NSLocalizedString("OFFICER DETAILS", comment: ""), style: .plain)
         
-        builder += TextFieldFormItem(title: "Contact Number", text: nil)
+        builder += TextFieldFormItem(title: NSLocalizedString("Contact Number", comment: ""), text: nil)
             .width(.column(2))
             .required("Contact number is required.")
             .onValueChanged {
                 self.viewModel.officerDetails.contactNumber = $0
         }
         
-        builder += DropDownFormItem(title: "License")
-            .options(["Gold", "Silver"])
+        builder += DropDownFormItem(title: NSLocalizedString("License", comment: ""))
+            .options([NSLocalizedString("Gold", comment: ""), NSLocalizedString("Silver", comment: "")])
             .required()
             .allowsMultipleSelection(false)
             .width(.column(2))
@@ -84,19 +84,19 @@ open class OfficerDetailsViewController: FormBuilderViewController {
                 self.viewModel.officerDetails.license = $0?.first
         }
         
-        builder += TextFieldFormItem(title: "Capabilities")
+        builder += TextFieldFormItem(title: NSLocalizedString("Capabilities", comment: ""))
             .width(.column(1))
             .onValueChanged {
                 self.viewModel.officerDetails.capabilities = $0
         }
         
-        builder += TextFieldFormItem(title: "Remarks")
+        builder += TextFieldFormItem(title: NSLocalizedString("Remarks", comment: ""))
             .width(.column(1))
             .onValueChanged {
                 self.viewModel.officerDetails.remarks = $0
         }
         
-        builder += OptionFormItem(title: "This officer is the driver")
+        builder += OptionFormItem(title: NSLocalizedString("This officer is the driver", comment: ""))
             .width(.column(1))
             .onValueChanged {
                 self.viewModel.officerDetails.driver = $0
