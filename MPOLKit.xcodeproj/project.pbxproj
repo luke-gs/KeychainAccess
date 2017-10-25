@@ -80,6 +80,9 @@
 		274C89731F984CD0005B9CF8 /* CallsignListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C89721F984CD0005B9CF8 /* CallsignListViewModel.swift */; };
 		274C89751F984CDE005B9CF8 /* CallsignListItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C89741F984CDE005B9CF8 /* CallsignListItemViewModel.swift */; };
 		274C89791F997F94005B9CF8 /* CADStatusTabBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C89781F997F94005B9CF8 /* CADStatusTabBarViewModel.swift */; };
+		274C897F1F9D9E88005B9CF8 /* OfficerListItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C897E1F9D9E88005B9CF8 /* OfficerListItemViewModel.swift */; };
+		274C89811F9D9EAE005B9CF8 /* OfficerListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C89801F9D9EAE005B9CF8 /* OfficerListViewController.swift */; };
+		274C89831F9D9EC3005B9CF8 /* OfficerListViewModelContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C89821F9D9EC3005B9CF8 /* OfficerListViewModelContainer.swift */; };
 		2768C0461F85EB2A008532ED /* MapSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2768C0451F85EB2A008532ED /* MapSettingsViewModel.swift */; };
 		2768C0481F86D60A008532ED /* MapSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2768C0471F86D60A008532ED /* MapSettingsViewController.swift */; };
 		2768C0491F86E78A008532ED /* TasksMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A46A1F83555A00CAE056 /* TasksMapViewController.swift */; };
@@ -535,6 +538,9 @@
 		274C89721F984CD0005B9CF8 /* CallsignListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallsignListViewModel.swift; sourceTree = "<group>"; };
 		274C89741F984CDE005B9CF8 /* CallsignListItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallsignListItemViewModel.swift; sourceTree = "<group>"; };
 		274C89781F997F94005B9CF8 /* CADStatusTabBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADStatusTabBarViewModel.swift; sourceTree = "<group>"; };
+		274C897E1F9D9E88005B9CF8 /* OfficerListItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerListItemViewModel.swift; sourceTree = "<group>"; };
+		274C89801F9D9EAE005B9CF8 /* OfficerListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerListViewController.swift; sourceTree = "<group>"; };
+		274C89821F9D9EC3005B9CF8 /* OfficerListViewModelContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerListViewModelContainer.swift; sourceTree = "<group>"; };
 		2768C0451F85EB2A008532ED /* MapSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSettingsViewModel.swift; sourceTree = "<group>"; };
 		2768C0471F86D60A008532ED /* MapSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSettingsViewController.swift; sourceTree = "<group>"; };
 		276C21051F60C2100003B860 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -1083,6 +1089,16 @@
 			path = "All Callsigns";
 			sourceTree = "<group>";
 		};
+		274C897D1F9D9E72005B9CF8 /* Officer Search */ = {
+			isa = PBXGroup;
+			children = (
+				274C897E1F9D9E88005B9CF8 /* OfficerListItemViewModel.swift */,
+				274C89801F9D9EAE005B9CF8 /* OfficerListViewController.swift */,
+				274C89821F9D9EC3005B9CF8 /* OfficerListViewModelContainer.swift */,
+			);
+			path = "Officer Search";
+			sourceTree = "<group>";
+		};
 		2768C04A1F86E7A1008532ED /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -1117,6 +1133,7 @@
 			children = (
 				274C896F1F984C6A005B9CF8 /* All Callsigns */,
 				274C896E1F984693005B9CF8 /* Not Booked On */,
+				274C897D1F9D9E72005B9CF8 /* Officer Search */,
 			);
 			path = "Book On";
 			sourceTree = "<group>";
@@ -2508,6 +2525,7 @@
 				C6CD6A181F31663500771B8C /* EntitySearchRequest.swift in Sources */,
 				BC9C7DD61F0DED6600DFFE83 /* QueryParser.swift in Sources */,
 				EAB38FF91F70A73700341BAF /* SubtitleFormItem.swift in Sources */,
+				274C89811F9D9EAE005B9CF8 /* OfficerListViewController.swift in Sources */,
 				BC9C7DCB1F0DED6600DFFE83 /* UnboxableResponseSerializer.swift in Sources */,
 				BC9C7DF51F0DED6600DFFE83 /* CollectionViewFormCellActionView.swift in Sources */,
 				BC9C7E401F0DED6600DFFE83 /* PopoverNavigationController.swift in Sources */,
@@ -2530,11 +2548,13 @@
 				BC9C7E2F1F0DED6600DFFE83 /* UIImage+RoundedRects.swift in Sources */,
 				BC9C7DFE1F0DED6600DFFE83 /* Array+IfExists.swift in Sources */,
 				96CF32211F8C337900140AF8 /* TasksListViewController.swift in Sources */,
+				274C897F1F9D9E88005B9CF8 /* OfficerListItemViewModel.swift in Sources */,
 				BC9C7E011F0DED6600DFFE83 /* FloatingPoint+Comparison.swift in Sources */,
 				BC9C7E0D1F0DED6600DFFE83 /* CollectionViewFormLayout.swift in Sources */,
 				27CBC7621F8B27CC00E387C3 /* IncidentAnnotation.swift in Sources */,
 				4420D2801F66428D00E20304 /* Sequence+Nils.swift in Sources */,
 				DB88BCDF1F42D00F0056FD69 /* SearchResultViewModelable.swift in Sources */,
+				274C89831F9D9EC3005B9CF8 /* OfficerListViewModelContainer.swift in Sources */,
 				27CBC7661F8B27D500E387C3 /* UserCallsignStatusView.swift in Sources */,
 				EAB38FFB1F70A73700341BAF /* ValueFormItem.swift in Sources */,
 				EA76ECF11F578DCA00524830 /* LocationAdvanceOptions.swift in Sources */,
