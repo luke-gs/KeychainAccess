@@ -13,7 +13,7 @@ open class OfficerListViewModelContainer {
     
     public init() {
         let items = OfficerListViewModelContainer.sampleData // TODO: Get from network or something
-        viewModel = GenericSearchViewModel(items: items)
+        viewModel = GenericSearchDefaultViewModel(items: items)
         viewModel.title = "Add Officer"
     }
     
