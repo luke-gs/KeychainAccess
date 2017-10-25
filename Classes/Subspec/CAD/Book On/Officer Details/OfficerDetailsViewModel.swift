@@ -7,9 +7,20 @@
 //
 
 import UIKit
+import PromiseKit
 
 public class OfficerDetailsViewModel {
     
+    public class OfficerDetails {
+        var contactNumber: String?
+        var license: String?
+        var capabilities: String?
+        var remarks: String?
+        var driver: Bool?
+    }
+    
+    public var officerDetails = OfficerDetails()
+
     /// Create the view controller for this view model
     public func createViewController() -> UIViewController {
         let vc = OfficerDetailsViewController(viewModel: self)
@@ -28,4 +39,9 @@ public class OfficerDetailsViewModel {
         return "Senior Sergeant : #800108"
     }
 
+    /// Submits the form
+    public func submitForm() -> Promise<Bool> {
+        // TODO: Submit
+        return Promise(value: true)
+    }
 }
