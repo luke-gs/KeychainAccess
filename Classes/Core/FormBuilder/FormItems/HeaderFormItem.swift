@@ -31,9 +31,8 @@ public class HeaderFormItem: BaseSupplementaryFormItem {
         super.init(viewType: CollectionViewFormHeaderView.self, kind: UICollectionElementKindSectionHeader, reuseIdentifier: CollectionViewFormHeaderView.defaultReuseIdentifier)
     }
 
-    public convenience init(text: String? = nil, style: HeaderFormItemStyle = .collapsible) {
+    public convenience init(text: String? = nil, style: HeaderFormItemStyle = .plain) {
         self.init()
-
         self.text = text
         self.style = style
     }
