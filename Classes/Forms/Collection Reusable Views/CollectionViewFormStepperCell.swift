@@ -49,7 +49,9 @@ open class CollectionViewFormStepperCell: CollectionViewFormCell, UITextFieldDel
             if isSelected && oldValue == false && textField.isEnabled {
                 _ = textField.becomeFirstResponder()
             } else if !isSelected && oldValue == true && textField.isFirstResponder {
-                _ = textField.resignFirstResponder()
+                DispatchQueue.main.async {
+                    _ = self.textField.resignFirstResponder()
+                }
             }
         }
     }
