@@ -127,10 +127,3 @@ open class OfficerDetailsViewController: FormBuilderViewController {
     }
 }
 
-struct OfficerDetails {
-    var contactNumber: String?
-    var license: String?
-    var capabilities: String?
-    var remarks: String?
-    var driver: Bool?
-}
