@@ -14,7 +14,7 @@ open class OfficerListViewModelContainer {
     public init() {
         let items = OfficerListViewModelContainer.sampleData // TODO: Get from network or something
         viewModel = GenericSearchDefaultViewModel(items: items)
-        viewModel.title = "Add Officer"
+        viewModel.title = NSLocalizedString("Add Officer", comment: "")
     }
     
     open func createViewController() -> OfficerListViewController {
