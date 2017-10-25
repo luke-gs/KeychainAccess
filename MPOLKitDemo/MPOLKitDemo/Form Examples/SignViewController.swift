@@ -86,11 +86,17 @@ class SignupViewController: FormBuilderViewController {
             }
 
         builder += RangeFormItem(title: "Age range")
-            .width(.column(1))
+            .width(.column(2))
             .range(1...50)
             .required()
             .onValueChanged { [unowned self] in
                 self.details.ageRange = $0
+            }
+
+        builder += StepperFormItem(title: "Age")
+            .width(.column(2))
+            .onValueChanged { [unowned self] in
+                self.details.age = Int($0)
             }
 
         builder += HeaderFormItem(text: "ADDRESS", style: .plain)
@@ -228,6 +234,8 @@ class SignupDetails {
     var email: String?
 
     var ageRange: CountableClosedRange<Int>?
+
+    var age: Int?
 
     var addressLine1: String?
 
