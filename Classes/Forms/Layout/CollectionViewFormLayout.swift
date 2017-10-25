@@ -384,11 +384,15 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         if let globalHeaderHeight = delegate.collectionView?(collectionView, heightForGlobalHeaderInLayout: self) , globalHeaderHeight > 0.0 {
             let headerOriginY: CGFloat
             if pinsGlobalHeaderWhenBouncing {
-                headerOriginY = min(currentYOffset, collectionViewBounds.minY + collectionView.contentInset.top)
+                if #available(iOS 11.0, *) {
+                    headerOriginY = min(currentYOffset, collectionViewBounds.minY + collectionView.adjustedContentInset.top)
+                } else {
+                    headerOriginY = min(currentYOffset, collectionViewBounds.minY + collectionView.contentInset.top)
+                }
             } else {
                 headerOriginY = currentYOffset
             }
-            
+
             let frame = CGRect(x: 0.0, y: headerOriginY, width: collectionViewBounds.width, height: ceil(globalHeaderHeight))
             globalHeaderPosition = ElementPosition(frame: frame, zIndex: 1, layoutMargins: UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0))
             currentYOffset += ceil(globalHeaderHeight)
@@ -461,7 +465,11 @@ open class CollectionViewFormLayout: UICollectionViewLayout {
         
         let correctYOrigin: CGFloat
         if pinsGlobalHeaderWhenBouncing, let collectionView = self.collectionView {
-            correctYOrigin = min(0.0, bounds.minY + collectionView.contentInset.top)
+            if #available(iOS 11.0, *) {
+                correctYOrigin = min(0.0, bounds.minY + collectionView.adjustedContentInset.top)
+            } else {
+                correctYOrigin = min(0.0, bounds.minY + collectionView.contentInset.top)
+            }
         } else {
             correctYOrigin = 0.0
         }

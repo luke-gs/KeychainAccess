@@ -229,9 +229,7 @@ extension PickerFormItem {
 
     @discardableResult
     public func required(_ message: String = FormRequired.default.message) -> Self {
-        self.requiredSpecification = ValidatorRule.submit(specification: PredicateSpecification(predicate: { (value: T) -> Bool in
-                return value != nil
-            }), message: message)
+        self.requiredSpecification = ValidatorRule.submit(specification: NotNilSpecification(), message: message)
         return self
     }
 
