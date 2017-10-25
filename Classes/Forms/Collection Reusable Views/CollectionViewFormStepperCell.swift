@@ -96,6 +96,7 @@ open class CollectionViewFormStepperCell: CollectionViewFormCell, UITextFieldDel
             titleLabel.removeObserver(self, forKeyPath: $0, context: &kvoContext)
         }
         textField.removeObserver(self, forKeyPath: #keyPath(UITextField.font), context: &kvoContext)
+        stepper.removeObserver(self, forKeyPath: #keyPath(UIStepper.value), context: &kvoStepperContext)
     }
 
     // MARK: - Private
