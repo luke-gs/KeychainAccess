@@ -43,9 +43,14 @@ open class BookOnDetailsFormViewModel {
         }
     }
 
+    /// View model of selected not booked on callsign
+    private var callsignViewModel: NotBookedOnItemViewModel
+
     public let details = Details()
 
-    public init() {
+    public init(callsignViewModel: NotBookedOnItemViewModel) {
+        self.callsignViewModel = callsignViewModel
+
         // Initial form has self as one of officers to be book on to callsign
         let selfOfficer = Details.Officer()
         selfOfficer.title = "Herli Halim"
@@ -65,14 +70,12 @@ open class BookOnDetailsFormViewModel {
 
     /// The title to use in the navigation bar
     open func navTitle() -> String {
-        // TODO: get from user session
-        return "Book on P24"
+        return "Book on \(callsignViewModel.title)"
     }
 
     /// The subtitle to use in the navigation bar
     open func navSubtitle() -> String {
-        // TODO: get from user session
-        return "Collingwood Station : Patrol"
+        return callsignViewModel.subtitle
     }
 
     open func submitForm() -> Promise<Bool> {
