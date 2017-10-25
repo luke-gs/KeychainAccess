@@ -70,9 +70,11 @@ open class OfficerDetailsViewController: FormBuilderViewController {
         
         builder += TextFieldFormItem(title: NSLocalizedString("Contact Number", comment: ""), text: nil)
             .width(.column(2))
+            .text(viewModel.editingDetails.contactNumber)
             .required("Contact number is required.")
+            .strictValidate(CharacterSetSpecification.decimalDigits, message: "Contact number must be a number")
             .onValueChanged {
-                self.viewModel.officerDetails.contactNumber = $0
+                self.viewModel.editingDetails.contactNumber = $0
         }
         
         builder += DropDownFormItem(title: NSLocalizedString("License", comment: ""))
@@ -80,26 +82,30 @@ open class OfficerDetailsViewController: FormBuilderViewController {
             .required()
             .allowsMultipleSelection(false)
             .width(.column(2))
+            .selectedValue([viewModel.editingDetails.license].removeNils())
             .onValueChanged {
-                self.viewModel.officerDetails.license = $0?.first
+                self.viewModel.editingDetails.license = $0?.first
         }
         
         builder += TextFieldFormItem(title: NSLocalizedString("Capabilities", comment: ""))
             .width(.column(1))
+            .text(viewModel.editingDetails.capabilities)
             .onValueChanged {
-                self.viewModel.officerDetails.capabilities = $0
+                self.viewModel.editingDetails.capabilities = $0
         }
         
         builder += TextFieldFormItem(title: NSLocalizedString("Remarks", comment: ""))
             .width(.column(1))
+            .text(viewModel.editingDetails.remarks)
             .onValueChanged {
-                self.viewModel.officerDetails.remarks = $0
+                self.viewModel.editingDetails.remarks = $0
         }
         
         builder += OptionFormItem(title: NSLocalizedString("This officer is the driver", comment: ""))
             .width(.column(1))
+            .isChecked(viewModel.editingDetails.isDriver.isTrue)
             .onValueChanged {
-                self.viewModel.officerDetails.driver = $0
+                self.viewModel.editingDetails.isDriver = $0
         }
     }
     

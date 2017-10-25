@@ -26,12 +26,19 @@ open class BookOnDetailsFormViewModel {
         var officers: [Officer] = []
 
         public class Officer {
+            // From sync
             var title: String?
             var rank: String?
             var officerId: String?
             var licenseType: String?
-            var isDriver: Bool?
 
+            // From book on form
+            var contactNumber: String?
+            var license: String?
+            var capabilities: String?
+            var remarks: String?
+            var isDriver: Bool?
+            
             var subtitle: String {
                 return [rank, officerId, licenseType].removeNils().joined(separator: " : ")
             }
@@ -87,9 +94,11 @@ open class BookOnDetailsFormViewModel {
         return Promise(value: true)
     }
 
-    open func officerDetailsViewController() -> UIViewController {
-        // TODO: show officer details form
-        return UIViewController()
+    open func officerDetailsViewController(at index: Int) -> UIViewController? {
+        if let officer = details.officers[ifExists: index] {
+            return OfficerDetailsViewModel(officer: officer).createViewController()
+        }
+        return nil
     }
 
 }

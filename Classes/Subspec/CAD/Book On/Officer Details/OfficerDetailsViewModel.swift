@@ -11,16 +11,20 @@ import PromiseKit
 
 public class OfficerDetailsViewModel {
     
-    public class OfficerDetails {
-        var contactNumber: String?
-        var license: String?
-        var capabilities: String?
-        var remarks: String?
-        var driver: Bool?
+    private var parentDetails: BookOnDetailsFormViewModel.Details.Officer
+    public var editingDetails: BookOnDetailsFormViewModel.Details.Officer
+    
+    public init(officer: BookOnDetailsFormViewModel.Details.Officer) {
+        parentDetails = officer
+        
+        editingDetails = BookOnDetailsFormViewModel.Details.Officer()
+        editingDetails.contactNumber = parentDetails.contactNumber
+        editingDetails.license = parentDetails.license
+        editingDetails.capabilities = parentDetails.capabilities
+        editingDetails.remarks = parentDetails.remarks
+        editingDetails.isDriver = parentDetails.isDriver
     }
     
-    public var officerDetails = OfficerDetails()
-
     /// Create the view controller for this view model
     public func createViewController() -> UIViewController {
         let vc = OfficerDetailsViewController(viewModel: self)
@@ -41,7 +45,12 @@ public class OfficerDetailsViewModel {
 
     /// Submits the form
     public func saveForm() -> Promise<Bool> {
-        // TODO: Submit
+        parentDetails.contactNumber = editingDetails.contactNumber
+        parentDetails.license = editingDetails.license
+        parentDetails.capabilities = editingDetails.capabilities
+        parentDetails.remarks = editingDetails.remarks
+        parentDetails.isDriver = editingDetails.isDriver
+        
         return Promise(value: true)
     }
 }

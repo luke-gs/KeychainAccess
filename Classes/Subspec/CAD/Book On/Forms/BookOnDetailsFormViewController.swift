@@ -149,7 +149,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
                 self.navigationController?.pushViewController(UIViewController(), animated: true)
             })
 
-        for officer in viewModel.details.officers {
+        for (index, officer) in viewModel.details.officers.enumerated() {
             builder += BookOnDetailsOfficerFormItem(title: officer.title,
                                                     subtitle: officer.subtitle,
                                                     status: officer.status)
@@ -157,7 +157,9 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
                 .accessory(ItemAccessory.disclosure)
                 .height(.fixed(60))
                 .onSelection { [unowned self] cell in
-                    self.navigationController?.pushViewController(self.viewModel.officerDetailsViewController(), animated: true)
+                    if let viewController = self.viewModel.officerDetailsViewController(at: index) {
+                        self.navigationController?.pushViewController(viewController, animated: true)
+                    }
             }
         }
 
