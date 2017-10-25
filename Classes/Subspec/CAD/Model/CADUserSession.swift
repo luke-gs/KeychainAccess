@@ -8,6 +8,12 @@
 
 import UIKit
 
+public extension NSNotification.Name {
+
+    /// Notification posted when callsign status changes
+    static let CallSignChanged = NSNotification.Name(rawValue: "MPOLKit_CallSignChanged")
+}
+
 /// CAD specific user session
 public class CADUserSession {
 
@@ -21,7 +27,11 @@ public class CADUserSession {
     private(set) public var user: User?
 
     /// The currently booked on callsign, or nil
-    public var callsign: String?
+    public var callsign: String? {
+        didSet {
+            NotificationCenter.default.post(name: .CallSignChanged, object: self)
+        }
+    }
 
     public var isActive: Bool {
         return UserSession.userDefaults.string(forKey: UserSession.latestSessionKey) != nil

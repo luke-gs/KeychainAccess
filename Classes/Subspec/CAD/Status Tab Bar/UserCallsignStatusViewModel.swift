@@ -90,11 +90,21 @@ open class UserCallsignStatusViewModel {
     
     // MARK: - Setup
     
-    public init() {}
+    public init() {
+        NotificationCenter.default.addObserver(forName: .CallSignChanged, object: nil, queue: nil) { [unowned self] (notification) in
+            if let callSign = CADUserSession.current.callsign {
+                self.state = .assigned(callsign: callSign, status: "At Incident", image: AssetManager.shared.image(forKey: .resourceCar))
+            } else {
+                self.state = UserCallsignStatusViewModel.defaultNotBookedOnState
+            }
+        }
+    }
     
     /// Creates the view for this view model
     open func createView() -> UserCallsignStatusView {
-        return UserCallsignStatusView(viewModel: self)
+        let view = UserCallsignStatusView(viewModel: self)
+        delegate = view
+        return view
     }
     
     /// Creates the view controller to present for tapping the button

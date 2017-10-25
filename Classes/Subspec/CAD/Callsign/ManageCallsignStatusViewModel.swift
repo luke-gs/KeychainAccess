@@ -103,6 +103,8 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
                 break
             case .terminateShift:
                 if currentStatus.canTerminate {
+                    // Update session and dismiss screen
+                    CADUserSession.current.callsign = nil
                     delegate?.dismiss()
                 } else {
                     let message = NSLocalizedString("Terminating shift is not allowed from this state", comment: "")

@@ -9,6 +9,7 @@
 import UIKit
 import PromiseKit
 
+
 /// View model for the book on details form screen
 open class BookOnDetailsFormViewModel {
 
@@ -79,8 +80,11 @@ open class BookOnDetailsFormViewModel {
     }
 
     open func submitForm() -> Promise<Bool> {
+        // Update session
+        CADUserSession.current.callsign = callsignViewModel.title
+
         // TODO: submit to network
-        return Promise.init(value: true)
+        return Promise(value: true)
     }
 
     open func officerDetailsViewController() -> UIViewController {
