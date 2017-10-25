@@ -21,7 +21,9 @@ public protocol EntitySummaryDisplayable {
     
     var detail2: String? { get }
     
-    var alertColor: UIColor? { get }
+    var borderColor: UIColor? { get }
+
+    var iconColor: UIColor? { get }
     
     var badge: UInt { get }
     

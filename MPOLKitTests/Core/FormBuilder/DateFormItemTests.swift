@@ -44,11 +44,15 @@ class DateFormItemTests: XCTestCase {
             .maximumDate(maxDate)
             .datePickerMode(.time)
             .dateFormatter(.formDate)
+            .locale(Locale(identifier: "de"))
+            .timeZone(TimeZone(secondsFromGMT: 3600))
 
         // Then
         XCTAssertEqual(item.minimumDate, minDate)
         XCTAssertEqual(item.maximumDate, maxDate)
         XCTAssertEqual(item.datePickerMode, .time)
+        XCTAssertEqual(item.locale, Locale(identifier: "de"))
+        XCTAssertEqual(item.timeZone, TimeZone(secondsFromGMT: 3600))
         XCTAssertNotNil(item.formatter)
     }
     

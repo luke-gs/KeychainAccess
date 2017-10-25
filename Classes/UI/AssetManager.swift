@@ -162,6 +162,22 @@ extension AssetManager {
         public static let entityTruck    = ImageKey("iconEntityAutomotiveTruck")
         public static let entityBoat     = ImageKey("iconEntityAutomotiveWater")
 
+        public static let entityCarSmall = ImageKey("iconEntityAutomotiveCar")
+        public static let entityCarMedium = ImageKey("iconEntityAutomotiveCar48")
+        public static let entityCarLarge = ImageKey("iconEntityAutomotiveCar96")
+
+        public static let entityMotorbikeSmall = ImageKey("iconEntityAutomotiveMotorbike")
+        public static let entityMotorbikeMedium = ImageKey("iconEntityAutomotiveMotorbike48")
+        public static let entityMotorbikeLarge = ImageKey("iconEntityAutomotiveMotorbike96")
+
+        public static let entityTruckSmall = ImageKey("iconEntityAutomotiveTruck")
+        public static let entityTruckMedium = ImageKey("iconEntityAutomotiveTruck48")
+        public static let entityTruckLarge = ImageKey("iconEntityAutomotiveTruck96")
+
+        public static let entityTrailerSmall = ImageKey("iconEntityAutomotiveTrailer")
+        public static let entityTrailerMedium = ImageKey("iconEntityAutomotiveTrailer48")
+        public static let entityTrailerLarge = ImageKey("iconEntityAutomotiveTrailer96")
+
         // Resource
         public static let resourceCar       = ImageKey("iconResourceCar")
         public static let resourceWater     = ImageKey("iconResourceWater")
