@@ -40,7 +40,7 @@ public class OfficerDetailsViewModel {
     }
 
     /// Submits the form
-    public func submitForm() -> Promise<Bool> {
+    public func saveForm() -> Promise<Bool> {
         // TODO: Submit
         return Promise(value: true)
     }

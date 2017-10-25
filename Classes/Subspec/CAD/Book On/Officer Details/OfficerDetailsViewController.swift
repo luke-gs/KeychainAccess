@@ -112,7 +112,7 @@ open class OfficerDetailsViewController: FormBuilderViewController {
             AlertQueue.shared.addErrorAlert(message: message)
         case .valid:
             firstly {
-                return viewModel.submitForm()
+                return viewModel.saveForm()
                 }.then { status in
                     self.navigationController?.popViewController(animated: true)
                 }.catch { error in
