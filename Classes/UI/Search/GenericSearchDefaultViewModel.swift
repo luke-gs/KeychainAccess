@@ -1,6 +1,6 @@
 //
 //  GenericSearchViewModel.swift
-//  Alamofire
+//  Not Alamofire
 //
 //  Created by Pavel Boryseiko on 24/10/17.
 //
