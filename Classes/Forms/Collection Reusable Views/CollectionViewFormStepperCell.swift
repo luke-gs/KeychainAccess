@@ -104,6 +104,11 @@ open class CollectionViewFormStepperCell: CollectionViewFormCell, UITextFieldDel
     // MARK: - Private
 
     @objc private func stepperValueDidChange() {
+        updateTextField(force: true)
+        notifyValueChange()
+    }
+
+    private func notifyValueChange() {
         valueChangedHandler?(stepper.value)
     }
 
@@ -150,7 +155,7 @@ open class CollectionViewFormStepperCell: CollectionViewFormCell, UITextFieldDel
             return
         }
         stepper.value = value.doubleValue
-        stepperValueDidChange()
+        notifyValueChange()
     }
 
     open func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -161,11 +166,11 @@ open class CollectionViewFormStepperCell: CollectionViewFormCell, UITextFieldDel
         if let text = textField.text, let value = numberFormatter.number(from: text)?.doubleValue {
             if value > stepper.maximumValue || value < stepper.minimumValue {
                 stepper.value = value
-                stepperValueDidChange()
+                notifyValueChange()
             }
         } else {
             stepper.value = 0
-            stepperValueDidChange()
+            notifyValueChange()
         }
 
         updateTextField(force: true)
