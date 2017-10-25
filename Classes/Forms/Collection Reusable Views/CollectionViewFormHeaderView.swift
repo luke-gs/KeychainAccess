@@ -99,8 +99,30 @@ public class CollectionViewFormHeaderView: UICollectionReusableView, DefaultReus
             }
         }
     }
-    
-    
+
+    /// Optional action button to be displayed at right of header
+    public var actionButton: UIButton? {
+        didSet {
+            guard actionButton != oldValue else { return }
+            if let oldValue = oldValue {
+                // Remove old button and associated constraints
+                oldValue.removeFromSuperview()
+            }
+            if let actionButton = actionButton {
+                // Add new button and constaints to shorten separator line at beginning of button
+                addSubview(actionButton)
+                actionButton.translatesAutoresizingMaskIntoConstraints = false
+                actionButton.setContentHuggingPriority(.required, for: .horizontal)
+                actionButton.setContentCompressionResistancePriority(.required, for: .horizontal)
+                NSLayoutConstraint.activate([
+                    separatorView.trailingAnchor.constraint(equalTo: actionButton.leadingAnchor),
+                    actionButton.centerYAnchor.constraint(equalTo: separatorView.centerYAnchor),
+                    actionButton.trailingAnchor.constraint(equalTo: trailingAnchor),
+                ])
+            }
+        }
+    }
+
     // MARK: - Private properties
     
     private let titleLabel = UILabel(frame: .zero)
@@ -116,7 +138,7 @@ public class CollectionViewFormHeaderView: UICollectionReusableView, DefaultReus
     private var titleSeparatorConstraint: NSLayoutConstraint!
     
     private var separatorSeparationConstraint: NSLayoutConstraint!
-    
+
     private var isRightToLeft: Bool = false {
         didSet {
             if isRightToLeft == oldValue { return }
@@ -126,8 +148,7 @@ public class CollectionViewFormHeaderView: UICollectionReusableView, DefaultReus
             }
         }
     }
-    
-    
+
     // MARK: - Initializers
     
     public override init(frame: CGRect) {
@@ -175,7 +196,7 @@ public class CollectionViewFormHeaderView: UICollectionReusableView, DefaultReus
             titleLabel.centerYAnchor.constraint(equalTo: separatorView.centerYAnchor),
             
             separatorView.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor),
-            separatorView.trailingAnchor.constraint(equalTo: self.trailingAnchor).withPriority(.almostRequired),
+            separatorView.trailingAnchor.constraint(equalTo: self.trailingAnchor).withPriority(.defaultHigh),
             
             titleSeparatorConstraint,
             separatorSeparationConstraint,
@@ -225,8 +246,7 @@ public class CollectionViewFormHeaderView: UICollectionReusableView, DefaultReus
         super.tintColorDidChange()
         titleLabel.textColor = tintColor
     }
-    
-    
+
     // MARK: - KVO
     
     public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
