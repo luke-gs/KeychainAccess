@@ -23,10 +23,12 @@
 		EA445DA01F73523700ABF70F /* BasicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA445D9F1F73523700ABF70F /* BasicViewController.swift */; };
 		EA445DA41F735D2B00ABF70F /* SignViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA445DA31F735D2B00ABF70F /* SignViewController.swift */; };
 		EA445DA81F737B6600ABF70F /* ResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA445DA71F737B6600ABF70F /* ResultsViewController.swift */; };
+		EA53B2751F9EF0E600B891D8 /* StepperViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA53B2741F9EF0E600B891D8 /* StepperViewController.swift */; };
 		EA8C063D1F847C9400AE5161 /* DebugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8C063C1F847C9400AE5161 /* DebugViewController.swift */; };
 		EA950E441F86EEE600B5A349 /* SubscriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA950E431F86EEE600B5A349 /* SubscriptionViewController.swift */; };
 		EA950E481F8DAEC200B5A349 /* CustomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA950E471F8DAEC200B5A349 /* CustomViewController.swift */; };
 		EAE806D91F98328B00C9AA85 /* PickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE806D81F98328B00C9AA85 /* PickerViewController.swift */; };
+		EAFF89FD1F9D6BC40050C471 /* DateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAFF89FC1F9D6BC40050C471 /* DateViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,10 +53,12 @@
 		EA445D9F1F73523700ABF70F /* BasicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicViewController.swift; sourceTree = "<group>"; };
 		EA445DA31F735D2B00ABF70F /* SignViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignViewController.swift; sourceTree = "<group>"; };
 		EA445DA71F737B6600ABF70F /* ResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsViewController.swift; sourceTree = "<group>"; };
+		EA53B2741F9EF0E600B891D8 /* StepperViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepperViewController.swift; sourceTree = "<group>"; };
 		EA8C063C1F847C9400AE5161 /* DebugViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugViewController.swift; sourceTree = "<group>"; };
 		EA950E431F86EEE600B5A349 /* SubscriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionViewController.swift; sourceTree = "<group>"; };
 		EA950E471F8DAEC200B5A349 /* CustomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewController.swift; sourceTree = "<group>"; };
 		EAE806D81F98328B00C9AA85 /* PickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewController.swift; sourceTree = "<group>"; };
+		EAFF89FC1F9D6BC40050C471 /* DateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateViewController.swift; sourceTree = "<group>"; };
 		F8C6836D38694AC50A4F0D6E /* Pods-MPOLKitDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKitDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKitDemo/Pods-MPOLKitDemo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -154,6 +158,8 @@
 				EA950E431F86EEE600B5A349 /* SubscriptionViewController.swift */,
 				EA950E471F8DAEC200B5A349 /* CustomViewController.swift */,
 				EAE806D81F98328B00C9AA85 /* PickerViewController.swift */,
+				EA53B2741F9EF0E600B891D8 /* StepperViewController.swift */,
+				EAFF89FC1F9D6BC40050C471 /* DateViewController.swift */,
 			);
 			path = "Form Examples";
 			sourceTree = "<group>";
@@ -311,6 +317,7 @@
 				EA1B3C9F1F7257B100574A41 /* ListViewController.swift in Sources */,
 				EA445DA41F735D2B00ABF70F /* SignViewController.swift in Sources */,
 				EA1B3C9D1F72538A00574A41 /* PersonDetailViewController.swift in Sources */,
+				EA53B2751F9EF0E600B891D8 /* StepperViewController.swift in Sources */,
 				EA950E441F86EEE600B5A349 /* SubscriptionViewController.swift in Sources */,
 				BCAD1EFC1F262B680033AD66 /* AppDelegate.swift in Sources */,
 				BCAD1EFF1F262B680033AD66 /* NoContentCollectionController.swift in Sources */,
@@ -321,6 +328,7 @@
 				BCAD1EFD1F262B680033AD66 /* CollectionDemoListViewController.swift in Sources */,
 				EA445D9E1F734B7700ABF70F /* HeaderViewController.swift in Sources */,
 				EA950E481F8DAEC200B5A349 /* CustomViewController.swift in Sources */,
+				EAFF89FD1F9D6BC40050C471 /* DateViewController.swift in Sources */,
 				EAE806D91F98328B00C9AA85 /* PickerViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -15,7 +15,7 @@ public struct OfficerListItemViewModel: GenericSearchable {
     public var section: String?
     public var image: UIImage?
     
-    public func contains(searchString: String) -> Bool {
+    public func matches(searchString: String) -> Bool {
         return title.localizedCaseInsensitiveContains(searchString)
     }
     

@@ -47,7 +47,7 @@ public class SummaryThumbnailFormItem: BaseFormItem {
         cell.titleLabel.text = title
         cell.subtitleLabel.text = subtitle
         cell.detailLabel.text = detail
-        cell.alertColor = badgeColor
+        cell.borderColor = badgeColor
         cell.badgeCount = badge
         cell.thumbnailView.borderColor = borderColor
         cell.thumbnailView.imageView.image = image?.sizing().image
