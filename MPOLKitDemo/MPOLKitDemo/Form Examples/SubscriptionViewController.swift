@@ -73,7 +73,6 @@ class SubscriptionViewController: FormBuilderViewController {
             ])
             .title("Agrees to terms and condition")
             .required()
-
     }
 
     @objc private func done() {

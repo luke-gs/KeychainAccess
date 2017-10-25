@@ -203,6 +203,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         self.tabStripView      = tabStripView
 
         if #available(iOS 11, *) {
+            collectionView.contentInsetAdjustmentBehavior = .always
             // We don't want the safe area to apply to search container, even though it uses layout margins
             searchContainer.insetsLayoutMarginsFromSafeArea = false
 
