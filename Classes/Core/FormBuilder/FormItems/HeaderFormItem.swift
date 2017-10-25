@@ -25,7 +25,7 @@ public class HeaderFormItem: BaseSupplementaryFormItem {
 
     public var actionButton: UIButton?
 
-    public var actionButtonHandler: (() -> Void)?
+    private var actionButtonHandler: (() -> Void)?
 
     public init() {
         super.init(viewType: CollectionViewFormHeaderView.self, kind: UICollectionElementKindSectionHeader, reuseIdentifier: CollectionViewFormHeaderView.defaultReuseIdentifier)
