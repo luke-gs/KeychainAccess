@@ -91,9 +91,9 @@ open class UserCallsignStatusViewModel {
     // MARK: - Setup
     
     public init() {
-        NotificationCenter.default.addObserver(forName: .CallSignChanged, object: nil, queue: nil) { [unowned self] (notification) in
-            if let callSign = CADUserSession.current.callsign {
-                self.state = .assigned(callsign: callSign, status: "At Incident", image: AssetManager.shared.image(forKey: .resourceCar))
+        NotificationCenter.default.addObserver(forName: .CallsignChanged, object: nil, queue: nil) { [unowned self] (notification) in
+            if let callsign = CADUserSession.current.callsign {
+                self.state = .assigned(callsign: callsign, status: "At Incident", image: AssetManager.shared.image(forKey: .resourceCar))
             } else {
                 self.state = UserCallsignStatusViewModel.defaultNotBookedOnState
             }
