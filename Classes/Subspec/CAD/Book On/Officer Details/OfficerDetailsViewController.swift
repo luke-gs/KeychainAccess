@@ -119,11 +119,11 @@ open class OfficerDetailsViewController: FormBuilderViewController {
         case .valid:
             firstly {
                 return viewModel.saveForm()
-                }.then { status in
-                    self.navigationController?.popViewController(animated: true)
-                }.catch { error in
-                    let title = NSLocalizedString("Failed to submit form", comment: "")
-                    AlertQueue.shared.addSimpleAlert(title: title, message: error.localizedDescription)
+            }.then { status in
+                self.navigationController?.popViewController(animated: true)
+            }.catch { error in
+                let title = NSLocalizedString("Failed to submit form", comment: "")
+                AlertQueue.shared.addSimpleAlert(title: title, message: error.localizedDescription)
             }
         }
     }
