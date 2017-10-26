@@ -149,6 +149,12 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
                 self.navigationController?.pushViewController(viewController, animated: true)
             })
 
+        // Button to delete officer (only available for additional officers)
+        let deleteAction = CollectionViewFormEditAction(title: "Delete", color: .red, handler: { [unowned self] (cell, indexPath) in
+            self.viewModel.removeOfficer(at: indexPath.row)
+            self.reloadForm()
+        })
+
         for (index, officer) in viewModel.details.officers.enumerated() {
             builder += BookOnDetailsOfficerFormItem(title: officer.title,
                                                     subtitle: officer.subtitle,
@@ -156,6 +162,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
                 .width(.column(1))
                 .accessory(ItemAccessory.disclosure)
                 .height(.fixed(60))
+                .editActions([index > 0 ? deleteAction : nil].removeNils())
                 .onSelection { [unowned self] cell in
                     let viewController = self.viewModel.officerDetailsViewController(at: index)
                     self.navigationController?.pushViewController(viewController, animated: true)

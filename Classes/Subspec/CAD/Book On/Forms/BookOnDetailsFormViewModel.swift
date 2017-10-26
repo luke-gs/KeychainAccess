@@ -124,6 +124,9 @@ open class BookOnDetailsFormViewModel {
         return detailsViewController.createViewController()
     }
 
+    open func removeOfficer(at index: Int) {
+        details.officers.remove(at: index)
+    }
 }
 
 extension BookOnDetailsFormViewModel: OfficerDetailsViewModelDelegate {
