@@ -10,18 +10,6 @@ import Foundation
 import PromiseKit
 import CoreLocation
 
-enum LocationError: Error {
-    case deniedAccess
-    case locationServicesTurnedOff
-    
-    var localizedDescription: String {
-        switch self {
-        case .deniedAccess:                 return NSLocalizedString("Location Service Denied", comment: "Location service denied")
-        case .locationServicesTurnedOff:    return NSLocalizedString("Location Service Turned Off", comment: "Location service turned off")
-        }
-    }
-}
-
 public extension NSNotification.Name {
     static let LocationDidUpdate = NSNotification.Name(rawValue: "LocationDidUpdate")
 }
@@ -68,6 +56,7 @@ public final class LocationManager: NSObject {
     open func requestLocation() -> Promise<CLLocation> {
         return CLLocationManager.promise().then { location -> CLLocation in
             self.lastLocation = location
+            NotificationCenter.default.post(name: .LocationDidUpdate, object: self)
             return location
         }
     }
