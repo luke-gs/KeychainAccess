@@ -10,10 +10,10 @@ import UIKit
 
 open class OfficerListViewController: GenericSearchViewController {
     
-    var officerListViewModel: OfficerListViewModel? {
+    open var officerListViewModel: OfficerListViewModel? {
         return viewModel as? OfficerListViewModel
     }
-    
+        
     public required init(viewModel: GenericSearchViewModel) {
         super.init(viewModel: viewModel)
         delegate = self
@@ -52,6 +52,10 @@ extension OfficerListViewController: GenericSearchDelegate {
             }
         }
     }
-    
-    
+}
+
+extension OfficerListViewController: OfficerListViewModelDelegate {
+    public func itemSelectedAndFinishedEditing() {
+        self.navigationController?.popViewController(animated: true)
+    }
 }

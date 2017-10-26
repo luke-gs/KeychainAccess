@@ -8,9 +8,14 @@
 
 import UIKit
 
+public protocol OfficerListViewModelDelegate: class {
+    func itemSelectedAndFinishedEditing()
+}
+
 public class OfficerListViewModel: GenericSearchDefaultViewModel {
     
-    open weak var delegate: OfficerDetailsViewModelDelegate?
+    open weak var detailsDelegate: OfficerDetailsViewModelDelegate?
+    open weak var delegate: OfficerListViewModelDelegate?
     
     public override init() {
         super.init(items: OfficerListViewModel.sampleData) // TODO: Get from network or something
@@ -19,7 +24,9 @@ public class OfficerListViewModel: GenericSearchDefaultViewModel {
     
     
     open func createViewController() -> OfficerListViewController {
-        return OfficerListViewController(viewModel: self)
+        let vc = OfficerListViewController(viewModel: self)
+        delegate = vc
+        return vc
     }
     
     open func officerDetailsViewController(for officer: OfficerListItemViewModel) -> UIViewController {
@@ -27,7 +34,7 @@ public class OfficerListViewModel: GenericSearchDefaultViewModel {
         officerViewModel.title = officer.title
 
         let detailsViewModel = OfficerDetailsViewModel(officer: officerViewModel)
-        detailsViewModel.delegate = delegate
+        detailsViewModel.delegate = self
         return detailsViewModel.createViewController()
     }
     
@@ -44,3 +51,14 @@ public class OfficerListViewModel: GenericSearchDefaultViewModel {
     }
 
 }
+
+extension OfficerListViewModel: OfficerDetailsViewModelDelegate {
+    public func didFinishEditing(with officer: BookOnDetailsFormContentViewModel.Officer, shouldSave: Bool) {
+        detailsDelegate?.didFinishEditing(with: officer, shouldSave: shouldSave)
+        // If should save then let the VC know we are done
+        if shouldSave {
+            delegate?.itemSelectedAndFinishedEditing()
+        }
+    }
+}
+

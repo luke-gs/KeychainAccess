@@ -79,7 +79,7 @@ open class BookOnDetailsFormViewModel {
     
     open func officerSearchViewController() -> UIViewController {
         let searchViewModel = OfficerListViewModel()
-        searchViewModel.delegate = self
+        searchViewModel.detailsDelegate = self
         return searchViewModel.createViewController()
     }
 
