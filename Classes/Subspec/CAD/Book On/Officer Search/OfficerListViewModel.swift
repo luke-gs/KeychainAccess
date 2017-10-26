@@ -17,11 +17,15 @@ public class OfficerListViewModel: GenericSearchDefaultViewModel {
     open weak var detailsDelegate: OfficerDetailsViewModelDelegate?
     open weak var delegate: OfficerListViewModelDelegate?
     
-    public override init() {
+    public init() {
         super.init(items: OfficerListViewModel.sampleData) // TODO: Get from network or something
         title = NSLocalizedString("Add Officer", comment: "")
     }
     
+    public required init(items: [GenericSearchable]) {
+        super.init(items: items)
+        title = NSLocalizedString("Add Officer", comment: "")
+    }
     
     open func createViewController() -> OfficerListViewController {
         let vc = OfficerListViewController(viewModel: self)

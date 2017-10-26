@@ -18,7 +18,7 @@ public class GenericSearchDefaultViewModel: GenericSearchViewModel {
     public var collapsableSections: Bool = true
     public var sectionPriority: [String] = [String]()
 
-    public var items: [GenericSearchable]
+    private var items: [GenericSearchable]
     private var searchString: String = ""
 
     private var searchableSections: [String: [GenericSearchable]] {
@@ -76,11 +76,7 @@ public class GenericSearchDefaultViewModel: GenericSearchViewModel {
         return searchString != "" ? filteredSections() : prioritisedSections
     }
 
-    public init() {
-        self.items = []
-    }
-    
-    public init(items: [GenericSearchable]) {
+    public required init(items: [GenericSearchable]) {
         self.items = items
     }
 
