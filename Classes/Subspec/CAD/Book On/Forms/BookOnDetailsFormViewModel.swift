@@ -18,74 +18,17 @@ public protocol BookOnDetailsFormViewModelDelegate: class {
 open class BookOnDetailsFormViewModel {
 
     open weak var delegate: BookOnDetailsFormViewModelDelegate?
-    
-    /// Internal class for book on details, to be populated by form
-    public class Details {
-        var serial: String?
-        var category: String?
-        var odometer: String?
-        var equipment: String?
-        var remarks: String?
-        var startTime: Date?
-        var endTime: Date?
-        var duration: String?
-        var officers: [Officer] = []
-
-        public class Officer: Equatable {
-            
-            // From sync
-            var title: String?
-            var rank: String?
-            var officerId: String?
-            var licenseType: String?
-
-            // From book on form
-            var contactNumber: String?
-            var capabilities: String?
-            var remarks: String?
-            var isDriver: Bool?
-            
-            var subtitle: String {
-                return [rank, officerId, licenseType].removeNils().joined(separator: " : ")
-            }
-            var status: String? {
-                if let isDriver = isDriver, isDriver {
-                    return NSLocalizedString("DRIVER", comment: "").uppercased()
-                }
-                return nil
-            }
-            
-            public init() {}
-            
-            public init(withOfficer officer: Officer) {
-                self.title = officer.title
-                self.rank = officer.rank
-                self.officerId = officer.officerId
-                self.licenseType = officer.licenseType
-                self.contactNumber = officer.contactNumber
-                self.capabilities = officer.capabilities
-                self.remarks = officer.remarks
-                self.isDriver = officer.isDriver
-            }
-            
-            public static func ==(lhs: BookOnDetailsFormViewModel.Details.Officer, rhs: BookOnDetailsFormViewModel.Details.Officer) -> Bool {
-                guard lhs.officerId != nil && rhs.officerId != nil else { return false }
-                
-                return lhs.officerId == rhs.officerId
-            }
-        }
-    }
 
     /// View model of selected not booked on callsign
     private var callsignViewModel: NotBookedOnItemViewModel
 
-    public let details = Details()
+    public let details = BookOnDetailsFormContentViewModel()
 
     public init(callsignViewModel: NotBookedOnItemViewModel) {
         self.callsignViewModel = callsignViewModel
 
         // Initial form has self as one of officers to be book on to callsign
-        let selfOfficer = Details.Officer()
+        let selfOfficer = BookOnDetailsFormContentViewModel.Officer()
         selfOfficer.title = "Herli Halim"
         selfOfficer.rank = "Senior Sergeant"
         selfOfficer.officerId = "#800256"
@@ -121,12 +64,12 @@ open class BookOnDetailsFormViewModel {
     }
 
     open func officerDetailsViewController(at index: Int? = nil) -> UIViewController {
-        let officer: BookOnDetailsFormViewModel.Details.Officer
+        let officer: BookOnDetailsFormContentViewModel.Officer
         
         if let index = index, let existingOfficer = details.officers[ifExists: index] {
             officer = existingOfficer
         } else {
-            officer = BookOnDetailsFormViewModel.Details.Officer()
+            officer = BookOnDetailsFormContentViewModel.Officer()
         }
             
         let detailsViewController = OfficerDetailsViewModel(officer: officer)
@@ -137,7 +80,7 @@ open class BookOnDetailsFormViewModel {
 }
 
 extension BookOnDetailsFormViewModel: OfficerDetailsViewModelDelegate {
-    public func didFinishEditing(with officer: BookOnDetailsFormViewModel.Details.Officer, shouldSave: Bool) {
+    public func didFinishEditing(with officer: BookOnDetailsFormContentViewModel.Officer, shouldSave: Bool) {
         guard shouldSave else { return }
         
         if let index = details.officers.index(of: officer) {

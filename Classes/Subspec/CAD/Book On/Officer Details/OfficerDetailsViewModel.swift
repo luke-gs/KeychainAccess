@@ -11,12 +11,12 @@ import PromiseKit
 
 public class OfficerDetailsViewModel {
     
-    public var details: BookOnDetailsFormViewModel.Details.Officer
+    public var details: BookOnDetailsFormContentViewModel.Officer
     
     public weak var delegate: OfficerDetailsViewModelDelegate?
     
-    public init(officer: BookOnDetailsFormViewModel.Details.Officer) {
-        details = BookOnDetailsFormViewModel.Details.Officer(withOfficer: officer)
+    public init(officer: BookOnDetailsFormContentViewModel.Officer) {
+        details = BookOnDetailsFormContentViewModel.Officer(withOfficer: officer)
 
     }
     
@@ -50,5 +50,5 @@ public class OfficerDetailsViewModel {
 }
 
 public protocol OfficerDetailsViewModelDelegate: class {
-    func didFinishEditing(with officer: BookOnDetailsFormViewModel.Details.Officer, shouldSave: Bool)
+    func didFinishEditing(with officer: BookOnDetailsFormContentViewModel.Officer, shouldSave: Bool)
 }
