@@ -9,22 +9,32 @@
 import UIKit
 import PromiseKit
 
+/// Delegate protocol for updating UI
 public protocol BookOnDetailsFormViewModelDelegate: class {
     /// Called when did update details
     func didUpdateDetails()
 }
 
+/// View model protocol for callsign details
+public protocol BookOnCallsignViewModelType {
+    var callsign: String {get}
+    var status: String? {get}
+    var location: String? {get}
+}
+
 /// View model for the book on details form screen
 open class BookOnDetailsFormViewModel {
 
+    /// Delegate for UI updates
     open weak var delegate: BookOnDetailsFormViewModelDelegate?
 
-    /// View model of selected not booked on callsign
-    private var callsignViewModel: NotBookedOnItemViewModel
+    /// View model of selected callsign to book on to
+    private var callsignViewModel: BookOnCallsignViewModelType
 
+    /// Details of book on, edited by form
     public let details = BookOnDetailsFormContentViewModel()
 
-    public init(callsignViewModel: NotBookedOnItemViewModel) {
+    public init(callsignViewModel: BookOnCallsignViewModelType) {
         self.callsignViewModel = callsignViewModel
 
         // Initial form has self as one of officers to be book on to callsign
@@ -47,17 +57,18 @@ open class BookOnDetailsFormViewModel {
 
     /// The title to use in the navigation bar
     open func navTitle() -> String {
-        return "Book on \(callsignViewModel.title)"
+        return "Book on \(callsignViewModel.callsign)"
     }
 
     /// The subtitle to use in the navigation bar
     open func navSubtitle() -> String {
-        return callsignViewModel.subtitle
+        let components = [callsignViewModel.location, callsignViewModel.status].removeNils()
+        return components.joined(separator: " : ")
     }
 
     open func submitForm() -> Promise<Bool> {
         // Update session
-        CADUserSession.current.callsign = callsignViewModel.title
+        CADUserSession.current.callsign = callsignViewModel.callsign
 
         // TODO: submit to network
         return Promise(value: true)
