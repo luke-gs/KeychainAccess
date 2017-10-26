@@ -118,11 +118,6 @@ class TasksListContainerViewController: UIViewController {
         self.updateConstraintsForSizeChange()
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        presentFormSheet(ManageCallsignStatusViewModel().createViewController(), animated: true)
-    }
-
     public func createSubviews() {
         let sidebarColor = #colorLiteral(red: 0.1058823529, green: 0.1176470588, blue: 0.1411764706, alpha: 1)
         let sourceBackground = GradientView(frame: .zero)

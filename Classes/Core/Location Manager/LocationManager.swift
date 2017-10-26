@@ -19,24 +19,10 @@ public final class LocationManager: NSObject {
     /// The singleton shared locationManager. This is the only instance of this class.
     public static let shared = LocationManager()
     
-    static let interval:TimeInterval = 5*60
-    static let timeBuffer:Double = 60
-    
     /// Used to see the last time a location was retrieved
     open var lastLocationTime: Date? {
         get {
             return lastLocation?.timestamp
-        }
-    }
-    
-    /// Automatic timer to periodically update location if no location has been obtained recently.
-    fileprivate var timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { (timer) in
-        if let time = LocationManager.shared.lastLocationTime {
-            if Date().timeIntervalSince(time) > timeBuffer { // Refresh location
-                LocationManager.shared.requestLocation()
-            }
-        } else {
-            LocationManager.shared.requestLocation()
         }
     }
     

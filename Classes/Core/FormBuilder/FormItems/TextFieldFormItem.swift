@@ -188,6 +188,10 @@ extension TextFieldFormItem: UITextFieldDelegate {
         return false
     }
 
+    public func textFieldDidEndEditing(_ textField: UITextField, reason: UITextFieldDidEndEditingReason) {
+        validator.validateAndUpdateErrorIfNeeded(candidate, shouldInstallTimer: false, checkSubmitRule: true, forItem: self)
+    }
+
     public func reloadSubmitValidationState() {
         let shouldCheck = candidate != nil || isRequired
         validator.validateAndUpdateErrorIfNeeded(candidate, shouldInstallTimer: false, checkSubmitRule: shouldCheck, forItem: self)

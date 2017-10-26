@@ -103,3 +103,9 @@ open class UserCallsignStatusView: UIControl {
         iconImageView.image = viewModel.iconImage
     }
 }
+
+extension UserCallsignStatusView: UserCallsignStatusViewModelDelegate {
+    public func viewModelStateChanged() {
+        updateViews()
+    }
+}
