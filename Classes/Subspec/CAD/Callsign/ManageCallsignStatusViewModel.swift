@@ -108,7 +108,7 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
                 if let callsign = CADUserSession.current.callsign {
                     let callsignViewModel = BasicBookOnCallsignViewModel(callsign: callsign, status: nil, location: nil)
                     let vc = BookOnDetailsFormViewModel(callsignViewModel: callsignViewModel).createViewController()
-                    delegate?.presentFormSheet(vc, animated: true)
+                    delegate?.presentPushedViewController(vc, animated: true)
                 }
                 break
             case .terminateShift:
@@ -136,8 +136,7 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
 
     /// The title to use in the navigation bar
     open override func navTitle() -> String {
-        // TODO: get from user session
-        return "P24 (2)"
+        return CADUserSession.current.callsign ?? ""
     }
 
     /// Hide arrows
