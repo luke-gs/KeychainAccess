@@ -9,51 +9,26 @@
 import UIKit
 import PromiseKit
 
+public protocol BookOnDetailsFormViewModelDelegate: class {
+    /// Called when did update details
+    func didUpdateDetails()
+}
 
 /// View model for the book on details form screen
 open class BookOnDetailsFormViewModel {
 
-    /// Internal class for book on details, to be populated by form
-    public class Details {
-        var serial: String?
-        var category: String?
-        var odometer: String?
-        var equipment: String?
-        var remarks: String?
-        var startTime: Date?
-        var endTime: Date?
-        var duration: String?
-        var officers: [Officer] = []
-
-        public class Officer {
-            var title: String?
-            var rank: String?
-            var officerId: String?
-            var licenseType: String?
-            var isDriver: Bool?
-
-            var subtitle: String {
-                return [rank, officerId, licenseType].removeNils().joined(separator: " : ")
-            }
-            var status: String? {
-                if let isDriver = isDriver, isDriver {
-                    return NSLocalizedString("DRIVER", comment: "").uppercased()
-                }
-                return nil
-            }
-        }
-    }
+    open weak var delegate: BookOnDetailsFormViewModelDelegate?
 
     /// View model of selected not booked on callsign
     private var callsignViewModel: NotBookedOnItemViewModel
 
-    public let details = Details()
+    public let details = BookOnDetailsFormContentViewModel()
 
     public init(callsignViewModel: NotBookedOnItemViewModel) {
         self.callsignViewModel = callsignViewModel
 
         // Initial form has self as one of officers to be book on to callsign
-        let selfOfficer = Details.Officer()
+        let selfOfficer = BookOnDetailsFormContentViewModel.Officer()
         selfOfficer.title = "Herli Halim"
         selfOfficer.rank = "Senior Sergeant"
         selfOfficer.officerId = "#800256"
@@ -66,6 +41,7 @@ open class BookOnDetailsFormViewModel {
     /// Create the view controller for this view model
     public func createViewController() -> UIViewController {
         let vc = BookOnDetailsFormViewController(viewModel: self)
+        delegate = vc
         return vc
     }
 
@@ -87,9 +63,31 @@ open class BookOnDetailsFormViewModel {
         return Promise(value: true)
     }
 
-    open func officerDetailsViewController() -> UIViewController {
-        // TODO: show officer details form
-        return UIViewController()
+    open func officerDetailsViewController(at index: Int? = nil) -> UIViewController {
+        let officer: BookOnDetailsFormContentViewModel.Officer
+        
+        if let index = index, let existingOfficer = details.officers[ifExists: index] {
+            officer = existingOfficer
+        } else {
+            officer = BookOnDetailsFormContentViewModel.Officer()
+        }
+            
+        let detailsViewController = OfficerDetailsViewModel(officer: officer)
+        detailsViewController.delegate = self
+        return detailsViewController.createViewController()
     }
 
+}
+
+extension BookOnDetailsFormViewModel: OfficerDetailsViewModelDelegate {
+    public func didFinishEditing(with officer: BookOnDetailsFormContentViewModel.Officer, shouldSave: Bool) {
+        guard shouldSave else { return }
+        
+        if let index = details.officers.index(of: officer) {
+            details.officers[index] = officer
+        } else {
+            details.officers.append(officer)
+            delegate?.didUpdateDetails()
+        }
+    }
 }
