@@ -291,6 +291,7 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
             }
             cell.detailTextLabel?.text = nil
             isSelected = false
+            cell.selectionStyle = .none
         }
         
         if let textLabel = cell.textLabel {
