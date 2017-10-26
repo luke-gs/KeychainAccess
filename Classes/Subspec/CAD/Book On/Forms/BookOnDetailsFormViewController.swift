@@ -145,11 +145,11 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
 
         builder += HeaderFormItem(text: NSLocalizedString("Officers", comment: "").uppercased(), style: .plain)
             .actionButton(title: NSLocalizedString("Add", comment: "").uppercased(), handler: { [unowned self] in
-                // TODO: show add officer form
-                self.navigationController?.pushViewController(UIViewController(), animated: true)
+                let viewController = self.viewModel.officerDetailsViewController()
+                self.navigationController?.pushViewController(viewController, animated: true)
             })
 
-        for officer in viewModel.details.officers {
+        for (index, officer) in viewModel.details.officers.enumerated() {
             builder += BookOnDetailsOfficerFormItem(title: officer.title,
                                                     subtitle: officer.subtitle,
                                                     status: officer.status)
@@ -157,7 +157,8 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
                 .accessory(ItemAccessory.disclosure)
                 .height(.fixed(60))
                 .onSelection { [unowned self] cell in
-                    self.navigationController?.pushViewController(self.viewModel.officerDetailsViewController(), animated: true)
+                    let viewController = self.viewModel.officerDetailsViewController(at: index)
+                    self.navigationController?.pushViewController(viewController, animated: true)
             }
         }
 
@@ -244,5 +245,11 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         if wantsTransparentBackground && ThemeManager.shared.currentInterfaceStyle == .light {
             view?.backgroundColor = transparentBackground
         }
+    }
+}
+
+extension BookOnDetailsFormViewController: BookOnDetailsFormViewModelDelegate {
+    public func didUpdateDetails() {
+        reloadForm()
     }
 }
