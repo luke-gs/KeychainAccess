@@ -9,7 +9,7 @@ import UIKit
 
 /// Default implementation of the generic search view model
 /// Allows for basic customisation
-final public class GenericSearchDefaultViewModel: GenericSearchViewModel {
+public class GenericSearchDefaultViewModel: GenericSearchViewModel {
 
     public var title: String = "Search"
 
@@ -18,7 +18,7 @@ final public class GenericSearchDefaultViewModel: GenericSearchViewModel {
     public var collapsableSections: Bool = true
     public var sectionPriority: [String] = [String]()
 
-    private var items: [GenericSearchable]
+    public var items: [GenericSearchable]
     private var searchString: String = ""
 
     private var searchableSections: [String: [GenericSearchable]] {
@@ -76,7 +76,11 @@ final public class GenericSearchDefaultViewModel: GenericSearchViewModel {
         return searchString != "" ? filteredSections() : prioritisedSections
     }
 
-    public required init(items: [GenericSearchable]) {
+    public init() {
+        self.items = []
+    }
+    
+    public init(items: [GenericSearchable]) {
         self.items = items
     }
 

@@ -17,7 +17,6 @@ public class OfficerDetailsViewModel {
     
     public init(officer: BookOnDetailsFormContentViewModel.Officer) {
         details = BookOnDetailsFormContentViewModel.Officer(withOfficer: officer)
-
     }
     
     /// Create the view controller for this view model

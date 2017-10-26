@@ -10,6 +10,15 @@ import UIKit
 
 open class OfficerListViewController: GenericSearchViewController {
     
+    var officerListViewModel: OfficerListViewModel? {
+        return viewModel as? OfficerListViewModel
+    }
+    
+    public required init(viewModel: GenericSearchViewModel) {
+        super.init(viewModel: viewModel)
+        delegate = self
+    }
+    
     /// Support being transparent when in popover/form sheet
     open override var wantsTransparentBackground: Bool {
         didSet {
@@ -32,4 +41,17 @@ open class OfficerListViewController: GenericSearchViewController {
             header.separatorColor = iOSStandardSeparatorColor
         }
     }
+}
+
+extension OfficerListViewController: GenericSearchDelegate {
+    public func genericSearchViewController(_ viewController: GenericSearchViewController, didSelectRowAt indexPath: IndexPath, withSearchable: GenericSearchable) {
+        if let officer = withSearchable as? OfficerListItemViewModel {
+
+            if let officerDetailsViewController = officerListViewModel?.officerDetailsViewController(for: officer) {
+                self.navigationController?.pushViewController(officerDetailsViewController, animated: true)
+            }
+        }
+    }
+    
+    
 }

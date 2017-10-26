@@ -145,7 +145,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
 
         builder += HeaderFormItem(text: NSLocalizedString("Officers", comment: "").uppercased(), style: .plain)
             .actionButton(title: NSLocalizedString("Add", comment: "").uppercased(), handler: { [unowned self] in
-                let viewController = self.viewModel.officerDetailsViewController()
+                let viewController = self.viewModel.officerSearchViewController()
                 self.navigationController?.pushViewController(viewController, animated: true)
             })
 

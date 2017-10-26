@@ -8,17 +8,27 @@
 
 import UIKit
 
-open class OfficerListViewModelContainer {
-    open var viewModel: GenericSearchViewModel
+public class OfficerListViewModel: GenericSearchDefaultViewModel {
     
-    public init() {
-        let items = OfficerListViewModelContainer.sampleData // TODO: Get from network or something
-        viewModel = GenericSearchDefaultViewModel(items: items)
-        viewModel.title = NSLocalizedString("Add Officer", comment: "")
+    open weak var delegate: OfficerDetailsViewModelDelegate?
+    
+    public override init() {
+        super.init(items: OfficerListViewModel.sampleData) // TODO: Get from network or something
+        title = NSLocalizedString("Add Officer", comment: "")
     }
     
+    
     open func createViewController() -> OfficerListViewController {
-        return OfficerListViewController(viewModel: viewModel)
+        return OfficerListViewController(viewModel: self)
+    }
+    
+    open func officerDetailsViewController(for officer: OfficerListItemViewModel) -> UIViewController {
+        let officerViewModel = BookOnDetailsFormContentViewModel.Officer()
+        officerViewModel.title = officer.title
+
+        let detailsViewModel = OfficerDetailsViewModel(officer: officerViewModel)
+        detailsViewModel.delegate = delegate
+        return detailsViewModel.createViewController()
     }
     
     private static var sampleData: [GenericSearchable] {
