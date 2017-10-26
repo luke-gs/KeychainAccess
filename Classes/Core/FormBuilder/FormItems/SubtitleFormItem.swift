@@ -19,12 +19,13 @@ public class SubtitleFormItem: BaseFormItem {
 
     public var style: CollectionViewFormSubtitleStyle = .default
 
-    public init() {
-        super.init(cellType: CollectionViewFormSubtitleCell.self, reuseIdentifier: CollectionViewFormSubtitleCell.defaultReuseIdentifier)
+    // Enforce subtitle cell, but allow subclasses
+    public init(cellType: CollectionViewFormSubtitleCell.Type, reuseIdentifier: String) {
+        super.init(cellType: cellType, reuseIdentifier: reuseIdentifier)
     }
 
     public convenience init(title: StringSizable? = nil, subtitle: StringSizable? = nil, image: UIImage? = nil, style: CollectionViewFormSubtitleStyle = .default) {
-        self.init()
+        self.init(cellType: CollectionViewFormSubtitleCell.self, reuseIdentifier: CollectionViewFormSubtitleCell.defaultReuseIdentifier)
 
         self.title = title
         self.subtitle = subtitle

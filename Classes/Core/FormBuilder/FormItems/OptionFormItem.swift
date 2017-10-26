@@ -32,6 +32,7 @@ public class OptionFormItem: BaseFormItem {
 
     public init() {
         super.init(cellType: CollectionViewFormOptionCell.self, reuseIdentifier: CollectionViewFormOptionCell.defaultReuseIdentifier)
+        width = .column(1)
     }
 
     public convenience init(title: StringSizable?, subtitle: StringSizable? = nil) {
@@ -39,7 +40,6 @@ public class OptionFormItem: BaseFormItem {
 
         self.title = title
         self.subtitle = subtitle
-        self.width = .column(1)
     }
 
     public override func configure(_ cell: CollectionViewFormCell) {

@@ -57,8 +57,17 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
     
     open override func loadView() {
         super.loadView()
-        collectionViewTopConstraint?.constant = LayoutConstants.headerHeight
-        collectionViewBottomConstraint?.constant = -LayoutConstants.footerHeight
+        
+        collectionView?.translatesAutoresizingMaskIntoConstraints = false
+        
+        if let collectionView = collectionView {
+            NSLayoutConstraint.activate([
+                collectionView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor, constant: LayoutConstants.headerHeight),
+                collectionView.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor),
+                collectionView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor),
+                collectionView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor, constant: -LayoutConstants.footerHeight).withPriority(.almostRequired)
+            ])
+        }
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -172,7 +181,10 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
     
     open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        // TODO: present details?
+
+        if let bookOnViewController = notBookedOnViewModel?.bookOnViewControllerForItem(indexPath) {
+            navigationController?.pushViewController(bookOnViewController, animated: true)
+        }
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
