@@ -22,8 +22,11 @@ class SignupViewController: FormBuilderViewController {
         navigationItem.rightBarButtonItems = [
             UIBarButtonItem(title: "Submit", style: .plain, target: self, action: #selector(submitFormTapped)),
             fixerUpper,
-            UIBarButtonItem(title: "Reset", style: .plain, target: self, action: #selector(resetFormTapped))
+            UIBarButtonItem(title: "Reset", style: .plain, target: self, action: #selector(resetFormTapped)),
+            fixerUpper,
+            UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTapped))
         ]
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(closeTapped))
     }
 
     override func construct(builder: FormBuilder) {
@@ -213,6 +216,17 @@ class SignupViewController: FormBuilderViewController {
             alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
             present(alertController, animated: true, completion: nil)
         }
+    }
+
+    @objc private func closeTapped() {
+        dismiss(animated: true, completion: nil)
+    }
+
+    @objc private func addTapped() {
+        let signViewController = SignupViewController()
+        let navigationController = UINavigationController(rootViewController: signViewController)
+        navigationController.modalPresentationStyle = .formSheet
+        present(navigationController, animated: true, completion: nil)
     }
 
 }
