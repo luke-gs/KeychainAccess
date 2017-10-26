@@ -20,7 +20,7 @@ class HeaderFormItemTests: XCTestCase {
 
         // Then
         XCTAssertEqual(item.text, text)
-        XCTAssertEqual(item.style, .collapsible)
+        XCTAssertEqual(item.style, .plain)
         XCTAssertEqual(item.kind, UICollectionElementKindSectionHeader)
         XCTAssertEqual(item.reuseIdentifier, CollectionViewFormHeaderView.defaultReuseIdentifier)
         XCTAssertTrue(item.viewType == CollectionViewFormHeaderView.self)

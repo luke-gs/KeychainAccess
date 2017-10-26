@@ -29,7 +29,7 @@ open class CADStatusTabBarController: StatusTabBarController {
         // Add book on status view to status area
         userCallsignStatusView = viewModel.userCallsignStatusViewModel.createView()
         userCallsignStatusView.addTarget(self, action: #selector(selectedCallsignStatusView), for: .touchUpInside)
-        
+
         statusView = userCallsignStatusView
         tabBar.isTranslucent = false
     }
@@ -44,8 +44,3 @@ open class CADStatusTabBarController: StatusTabBarController {
     }
 }
 
-extension CADStatusTabBarController: UserCallsignStatusViewModelDelegate {
-    public func viewModelStateChanged() {
-        userCallsignStatusView.updateViews()
-    }
-}

@@ -51,8 +51,16 @@ open class NotBookedOnViewModel: CADFormCollectionViewModel<NotBookedOnItemViewM
     }
     
     /// Create the view controller for this view model
-    open func createViewController() -> NotBookedOnViewController {
+    open func createViewController() -> UIViewController {
         return NotBookedOnViewController(viewModel: self)
+    }
+
+    /// Create the book on view controller for a selected callsign
+    open func bookOnViewControllerForItem(_ indexPath: IndexPath) -> UIViewController? {
+        if let itemViewModel = item(at: indexPath) {
+            return BookOnDetailsFormViewModel(callsignViewModel: itemViewModel).createViewController()
+        }
+        return nil
     }
     
     open func headerText() -> String? {
