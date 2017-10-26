@@ -9,7 +9,6 @@
 import Foundation
 
 fileprivate var kvoContext = 1
-fileprivate var kvoStepperContext = 1
 
 open class CollectionViewFormStepperCell: CollectionViewFormCell, UITextFieldDelegate {
 
@@ -56,6 +55,8 @@ open class CollectionViewFormStepperCell: CollectionViewFormCell, UITextFieldDel
         }
     }
 
+    private var valueObservers: [NSKeyValueObservation]?
+
     open override func commonInit() {
         super.commonInit()
 
@@ -82,12 +83,14 @@ open class CollectionViewFormStepperCell: CollectionViewFormCell, UITextFieldDel
             titleLabel.addObserver(self, forKeyPath: $0, context: &kvoContext)
         }
 
-        textField.addObserver(self, forKeyPath: #keyPath(UITextField.font), context: &kvoContext)
         stepper.addTarget(self, action: #selector(stepperValueDidChange), for: .valueChanged)
         textField.addTarget(self, action: #selector(textFieldTextDidChange(_:)), for: .editingChanged)
         textField.delegate = self
 
-        stepper.addObserver(self, forKeyPath: #keyPath(UIStepper.value), options: [], context: &kvoStepperContext)
+        valueObservers = [
+            stepper.observe(\.value) { [unowned self] (_, _) in self.updateTextField() },
+            textField.observe(\.font) { [unowned self] (_, _) in self.setNeedsLayout() }
+        ]
 
         NotificationCenter.default.addObserver(self, selector: #selector(textFieldDidBeginEditingWithNotification(_:)), name: .UITextFieldTextDidBeginEditing, object: textField)
         NotificationCenter.default.addObserver(self, selector: #selector(textFieldDidEndEditingWithNotification(_:)),   name: .UITextFieldTextDidEndEditing,   object: textField)
@@ -97,8 +100,6 @@ open class CollectionViewFormStepperCell: CollectionViewFormCell, UITextFieldDel
         keyPathsAffectingLabelLayout.forEach {
             titleLabel.removeObserver(self, forKeyPath: $0, context: &kvoContext)
         }
-        textField.removeObserver(self, forKeyPath: #keyPath(UITextField.font), context: &kvoContext)
-        stepper.removeObserver(self, forKeyPath: #keyPath(UIStepper.value), context: &kvoStepperContext)
     }
 
     // MARK: - Private
@@ -186,8 +187,6 @@ open class CollectionViewFormStepperCell: CollectionViewFormCell, UITextFieldDel
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &kvoContext {
             setNeedsLayout()
-        } else if context == &kvoStepperContext {
-            updateTextField()
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
