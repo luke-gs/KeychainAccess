@@ -33,7 +33,15 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
     
     /// The selection state of the cell.
     open override var isSelected: Bool {
-        didSet { if isSelected && oldValue == false && textView.isEditable { _ = textView.becomeFirstResponder() } }
+        didSet {
+            if isSelected && oldValue == false && textView.isEditable {
+                _ = textView.becomeFirstResponder()
+            } else if !isSelected && oldValue == true && textView.isFirstResponder {
+                DispatchQueue.main.async {
+                    _ = self.textView.resignFirstResponder()
+                }
+            }
+        }
     }
     
     
