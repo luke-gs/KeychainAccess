@@ -70,11 +70,11 @@ open class OfficerDetailsViewController: FormBuilderViewController {
         
         builder += TextFieldFormItem(title: NSLocalizedString("Contact Number", comment: ""), text: nil)
             .width(.column(2))
-            .text(viewModel.editingDetails.contactNumber)
+            .text(viewModel.details.contactNumber)
             .required("Contact number is required.")
             .strictValidate(CharacterSetSpecification.decimalDigits, message: "Contact number must be a number")
             .onValueChanged {
-                self.viewModel.editingDetails.contactNumber = $0
+                self.viewModel.details.contactNumber = $0
             }
         
         builder += DropDownFormItem(title: NSLocalizedString("License", comment: ""))
@@ -82,30 +82,30 @@ open class OfficerDetailsViewController: FormBuilderViewController {
             .required()
             .allowsMultipleSelection(false)
             .width(.column(2))
-            .selectedValue([viewModel.editingDetails.license].removeNils())
+            .selectedValue([viewModel.details.licenseType].removeNils())
             .onValueChanged {
-                self.viewModel.editingDetails.license = $0?.first
+                self.viewModel.details.licenseType = $0?.first
             }
         
         builder += TextFieldFormItem(title: NSLocalizedString("Capabilities", comment: ""))
             .width(.column(1))
-            .text(viewModel.editingDetails.capabilities)
+            .text(viewModel.details.capabilities)
             .onValueChanged {
-                self.viewModel.editingDetails.capabilities = $0
+                self.viewModel.details.capabilities = $0
             }
         
         builder += TextFieldFormItem(title: NSLocalizedString("Remarks", comment: ""))
             .width(.column(1))
-            .text(viewModel.editingDetails.remarks)
+            .text(viewModel.details.remarks)
             .onValueChanged {
-                self.viewModel.editingDetails.remarks = $0
+                self.viewModel.details.remarks = $0
             }
         
         builder += OptionFormItem(title: NSLocalizedString("This officer is the driver", comment: ""))
             .width(.column(1))
-            .isChecked(viewModel.editingDetails.isDriver.isTrue)
+            .isChecked(viewModel.details.isDriver.isTrue)
             .onValueChanged {
-                self.viewModel.editingDetails.isDriver = $0
+                self.viewModel.details.isDriver = $0
             }
     }
     
@@ -117,18 +117,13 @@ open class OfficerDetailsViewController: FormBuilderViewController {
             builder.validateAndUpdateUI()
             AlertQueue.shared.addErrorAlert(message: message)
         case .valid:
-            firstly {
-                return viewModel.saveForm()
-            }.then { status in
-                self.navigationController?.popViewController(animated: true)
-            }.catch { error in
-                let title = NSLocalizedString("Failed to submit form", comment: "")
-                AlertQueue.shared.addSimpleAlert(title: title, message: error.localizedDescription)
-            }
+            viewModel.saveForm()
+            navigationController?.popViewController(animated: true)
         }
     }
     
     @objc func cancelButtonTapped() {
+        viewModel.cancelForm()
         navigationController?.popViewController(animated: true)
     }
 }

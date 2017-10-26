@@ -11,18 +11,13 @@ import PromiseKit
 
 public class OfficerDetailsViewModel {
     
-    private var parentDetails: BookOnDetailsFormViewModel.Details.Officer
-    public var editingDetails: BookOnDetailsFormViewModel.Details.Officer
+    public var details: BookOnDetailsFormViewModel.Details.Officer
+    
+    public weak var delegate: OfficerDetailsViewModelDelegate?
     
     public init(officer: BookOnDetailsFormViewModel.Details.Officer) {
-        parentDetails = officer
-        
-        editingDetails = BookOnDetailsFormViewModel.Details.Officer()
-        editingDetails.contactNumber = parentDetails.contactNumber
-        editingDetails.license = parentDetails.license
-        editingDetails.capabilities = parentDetails.capabilities
-        editingDetails.remarks = parentDetails.remarks
-        editingDetails.isDriver = parentDetails.isDriver
+        details = BookOnDetailsFormViewModel.Details.Officer(withOfficer: officer)
+
     }
     
     /// Create the view controller for this view model
@@ -44,13 +39,16 @@ public class OfficerDetailsViewModel {
     }
 
     /// Submits the form
-    public func saveForm() -> Promise<Bool> {
-        parentDetails.contactNumber = editingDetails.contactNumber
-        parentDetails.license = editingDetails.license
-        parentDetails.capabilities = editingDetails.capabilities
-        parentDetails.remarks = editingDetails.remarks
-        parentDetails.isDriver = editingDetails.isDriver
-        
-        return Promise(value: true)
+    public func saveForm() {
+        delegate?.didFinishEditing(with: details, shouldSave: true)
     }
+    
+    /// Cancels submitting the form
+    public func cancelForm() {
+        delegate?.didFinishEditing(with: details, shouldSave: false)
+    }
+}
+
+public protocol OfficerDetailsViewModelDelegate: class {
+    func didFinishEditing(with officer: BookOnDetailsFormViewModel.Details.Officer, shouldSave: Bool)
 }
