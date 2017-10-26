@@ -49,6 +49,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
             .width(.column(3))
             .required("Serial is required.")
             .strictValidate(CharacterSetSpecification.decimalDigits, message: "Serial must be a number")
+            .text(viewModel.details.serial)
             .onValueChanged { [weak self] in
                 self?.viewModel.details.serial = $0
         }
@@ -59,6 +60,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
             .options(["1", "2", "3"])
             .required()
             .width(.column(3))
+            .selectedValue([viewModel.details.category].removeNils())
             .onValueChanged { [weak self] in
                 self?.viewModel.details.category = $0?.first
         }
@@ -68,6 +70,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         return TextFieldFormItem(title: NSLocalizedString("Odometer", comment: ""), text: nil)
             .width(.column(3))
             .strictValidate(CharacterSetSpecification.decimalDigits, message: "Odometer must be a number")
+            .text(viewModel.details.odometer)
             .onValueChanged { [weak self] in
                 self?.viewModel.details.odometer = $0
         }
@@ -76,6 +79,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
     private lazy var equipmentItem: TextFieldFormItem = {
         return TextFieldFormItem(title: NSLocalizedString("Equipment", comment: ""), text: nil)
             .width(.column(1))
+            .text(viewModel.details.equipment)
             .onValueChanged { [weak self] in
                 self?.viewModel.details.equipment = $0
         }
@@ -85,6 +89,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         return TextFieldFormItem(title: NSLocalizedString("Remarks", comment: ""), text: nil)
             .width(.column(1))
             .softValidate(CountSpecification.max(1000), message: "Must be no more than 1000 characters")
+            .text(viewModel.details.remarks)
             .onValueChanged { [weak self] in
                 self?.viewModel.details.remarks = $0
         }
@@ -99,7 +104,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
             .dateFormatter(.formTime)
             .minimumDate(Date().rounded(minutes: 15, rounding: .ceil))
             .minuteInterval(15)
-            .selectedValue(Date().rounded(minutes: 60, rounding: .ceil))
+            .selectedValue(viewModel.details.startTime ?? Date().rounded(minutes: 60, rounding: .ceil))
             .onValueChanged { [weak self] in
                 self?.viewModel.details.startTime = $0
                 self?.updateDuration()
@@ -115,7 +120,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
             .dateFormatter(.formTime)
             .minimumDate(Date().rounded(minutes: 15, rounding: .ceil))
             .minuteInterval(15)
-            .selectedValue(Date().rounded(minutes: 60, rounding: .ceil).adding(hours: 8))
+            .selectedValue(viewModel.details.endTime ?? Date().rounded(minutes: 60, rounding: .ceil).adding(hours: 8))
             .onValueChanged { [weak self] in
                 self?.viewModel.details.endTime = $0
                 self?.updateDuration()

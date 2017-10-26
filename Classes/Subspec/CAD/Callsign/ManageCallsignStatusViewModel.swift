@@ -36,7 +36,7 @@ private enum ActionButton: Int {
 /// View model for the callsign status screen
 open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCallsignStatusItemViewModel> {
 
-    struct BasicBookOnCallsignViewModel: BookOnCallsignViewModelType {
+    struct BookOnCallsignViewModel: BookOnCallsignViewModelType {
         var callsign: String
         var status: String?
         var location: String?
@@ -106,7 +106,7 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
                 break
             case .manageCallsign:
                 if let callsign = CADUserSession.current.callsign {
-                    let callsignViewModel = BasicBookOnCallsignViewModel(callsign: callsign, status: nil, location: nil)
+                    let callsignViewModel = BookOnCallsignViewModel(callsign: callsign, status: nil, location: nil)
                     let vc = BookOnDetailsFormViewModel(callsignViewModel: callsignViewModel).createViewController()
                     delegate?.presentPushedViewController(vc, animated: true)
                 }
