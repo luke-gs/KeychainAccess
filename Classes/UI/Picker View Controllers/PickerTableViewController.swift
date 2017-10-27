@@ -86,12 +86,11 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
                     indexPathsToReload.append(IndexPath(row: row, section: 0))
                 }
             } else {
-                let hasNoSection = noItemTitle != nil
-                if hasNoSection && (oldValue.isEmpty || selectedIndexes.isEmpty) {
+                if allowsQuickSelection {
                     indexPathsToReload.append(IndexPath(row: 0, section: 0))
                 }
                 
-                let section = hasNoSection ? 1 : 0
+                let section = allowsQuickSelection ? 1 : 0
                 
                 for row in (0..<items.count) where indexesChangingSelection.contains(row) {
                     indexPathsToReload.append(IndexPath(row: row, section: section))
@@ -140,22 +139,12 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
     /// The parameters are the table view controller, and the indexes selected.
     open var finishUpdateHandler: ((PickerTableViewController<T>, IndexSet) -> Void)?
     
-    
-    /// The title for an item representing no selection.
-    ///
-    /// The default is `nil`, meaning no option is provided for "no selection".
-    open var noItemTitle: String? {
+    /// Indicates if top cell displays "Select/Deselect" button for quicker selection
+    open var allowsQuickSelection: Bool  = false {
         didSet {
-            guard noItemTitle != oldValue,
-                let tableView = self.tableView else {
-                return
-            }
+            guard allowsQuickSelection != oldValue, let tableView = self.tableView else { return }
             
-            if noItemTitle != nil && oldValue != nil {
-                tableView.reloadSections(IndexSet(integer: 0), with: .fade)
-            } else {
-                tableView.reloadData()
-            }
+            tableView.reloadData()
         }
     }
     
@@ -238,7 +227,7 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
         // Scroll to the first selected index in the list.
         
         guard let firstSelectedIndex = selectedIndexes.first else {
-            if noItemTitle != nil {
+            if allowsQuickSelection {
                 tableView?.scrollToRow(at: IndexPath(row: 0, section: 0), at: .none, animated: false)
             }
             return
@@ -251,7 +240,7 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
             section = 0
         } else {
             firstSelectedRow = firstSelectedIndex
-            section = noItemTitle == nil ? 0 : 1
+            section = allowsQuickSelection ? 1 : 0
         }
         
         if let moveToRow = firstSelectedRow {
@@ -272,11 +261,11 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
     
     @objc(numberOfSectionsInTableView:) // Workaround. See: http://stackoverflow.com/questions/39416385/swift-3-objc-optional-protocol-method-not-called-in-subclass
     open func numberOfSections(in tableView: UITableView) -> Int {
-        return noItemTitle != nil && filteredIndexes == nil ? 2 : 1
+        return allowsQuickSelection && filteredIndexes == nil ? 2 : 1
     }
 
     open override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return filteredIndexes?.count ?? (section == 0 && noItemTitle != nil ? 1 : items.count)
+        return filteredIndexes?.count ?? (section == 0 && allowsQuickSelection ? 1 : items.count)
     }
     
     open override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -291,9 +280,18 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
             cell.detailTextLabel?.text = item.subtitle
             isSelected = selectedIndexes.contains(itemIndex)
         } else {
-            cell.textLabel?.text       = noItemTitle
+            if allowsMultipleSelection {
+                if selectedIndexes.count < items.count {
+                    cell.textLabel?.text = NSLocalizedString("Select All", bundle: .mpolKit, comment: "")
+                } else {
+                    cell.textLabel?.text = NSLocalizedString("Deselect All", bundle: .mpolKit, comment: "")
+                }
+            } else {
+                cell.textLabel?.text = NSLocalizedString("Deselect All", bundle: .mpolKit, comment: "")
+            }
             cell.detailTextLabel?.text = nil
-            isSelected = selectedIndexes.isEmpty
+            isSelected = false
+            cell.selectionStyle = .none
         }
         
         if let textLabel = cell.textLabel {
@@ -313,15 +311,12 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
     open override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         super.tableView(tableView, willDisplay: cell, forRowAt: indexPath)
         
-        let isSelected: Bool
-        
         if let itemIndex = indexForItem(at: indexPath) {
-            isSelected = selectedIndexes.contains(itemIndex)
+            cell.textLabel?.alpha = selectedIndexes.contains(itemIndex) ? 1.0 : 0.5
         } else {
-            isSelected = selectedIndexes.isEmpty
+            cell.textLabel?.alpha = 1.0
+            cell.textLabel?.textColor = ThemeManager.shared.theme(for: .current).color(forKey: .tint) ?? tintColor
         }
-        
-        cell.textLabel?.alpha = isSelected ? 1.0 : 0.5
     }
     
     @objc(tableView:didSelectRowAtIndexPath:)
@@ -339,7 +334,7 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
         
         var reloadIndexPaths: [IndexPath] = []
         
-        let noSectionShowing = noItemTitle != nil && filteredIndexes == nil
+        let quickSelectionShowing = allowsQuickSelection && filteredIndexes == nil
         
         if let itemIndex = indexForItem(at: indexPath) {
             if allowsMultipleSelection {
@@ -348,10 +343,6 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
                     selectedIndexes.insert(itemIndex)
                 }
                 updateCurrentCell(checked: isSelected)
-                
-                if (selectedIndexes.isEmpty || (isSelected && selectedIndexes.count == 1)) && noSectionShowing {
-                    reloadIndexPaths.append(IndexPath(row: 0, section: 0))
-                }
             } else {
                 let isSelected = selectedIndexes.remove(itemIndex) == nil
                 if isSelected {
@@ -361,23 +352,34 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
                 }
                 updateCurrentCell(checked: isSelected)
             }
-        } else if noSectionShowing {
-            // "No" item selected. Filter not showing.
+        } else if quickSelectionShowing {
+            // Can be switched from All/None
+            let selectedCount = selectedIndexes.count
             
-            let selectedItemCount = selectedIndexes.count
-            
-            if selectedItemCount > 0 {
+            if !allowsMultipleSelection || selectedCount == items.count {
+            // Deselect all
                 let oldSelectedIndexes = selectedIndexes
-            
+                
                 selectedIndexes.removeAll()
-                updateCurrentCell(checked: true)
-            
-                reloadIndexPaths.reserveCapacity(selectedItemCount)
+                
+                reloadIndexPaths.reserveCapacity(selectedCount + 1)
                 
                 for index in (0..<items.count) where oldSelectedIndexes.contains(index) {
                     reloadIndexPaths.append(IndexPath(row: index, section: 1))
                 }
+            } else {
+                selectedIndexes = IndexSet(integersIn: 0...items.count - 1)
+                
+                reloadIndexPaths.reserveCapacity(items.count + 1)
+                
+                for index in (0..<items.count) {
+                    reloadIndexPaths.append(IndexPath(row: index, section: 1))
+                }
             }
+        }
+        
+        if quickSelectionShowing {
+            reloadIndexPaths.append(IndexPath(row: 0, section: 0))
         }
         
         if reloadIndexPaths.isEmpty == false {
@@ -409,9 +411,8 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
             if indexPath.section != 0 { return nil }
             return filteredItems[indexPath.row]
         }
-        let hasNoItemTitle = noItemTitle != nil
         
-        if (hasNoItemTitle && indexPath.section != 1) || (hasNoItemTitle == false && indexPath.section != 0) {
+        if (allowsQuickSelection && indexPath.section != 1) || (!allowsMultipleSelection && indexPath.section != 0) {
             return nil
         }
         return indexPath.row
@@ -424,10 +425,9 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
             
             return IndexPath(row: row, section: 0)
         } else {
-            let hasNoItem = noItemTitle != nil
             if let index = index {
-                return IndexPath(row: index, section: hasNoItem ? 1 : 0)
-            } else if hasNoItem {
+                return IndexPath(row: index, section: allowsQuickSelection ? 1 : 0)
+            } else if allowsQuickSelection {
                 return IndexPath(row: 0, section: 0)
             }
             return nil
