@@ -35,7 +35,7 @@ open class BookOnDetailsFormViewModel {
     public let details: BookOnDetailsFormContentViewModel
 
     /// Whether we are editing an existing bookon
-    private var isEditing: Bool = false
+    public let isEditing: Bool
 
     // TODO: replace with something in session
     public static var lastSaved: BookOnDetailsFormContentViewModel?
@@ -48,6 +48,7 @@ open class BookOnDetailsFormViewModel {
             isEditing = true
         } else {
             details = BookOnDetailsFormContentViewModel()
+            isEditing = false
 
             // Initial form has self as one of officers to be book on to callsign
             let selfOfficer = BookOnDetailsFormContentViewModel.Officer()

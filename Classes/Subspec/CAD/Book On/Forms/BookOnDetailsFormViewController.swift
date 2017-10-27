@@ -44,30 +44,43 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
 
     // MARK: - Form
 
-    private lazy var serialItem: TextFieldFormItem = {
-        return TextFieldFormItem(title: NSLocalizedString("Serial", comment: ""), text: nil)
-            .width(.column(3))
-            .required("Serial is required.")
-            .strictValidate(CharacterSetSpecification.decimalDigits, message: "Serial must be a number")
-            .text(viewModel.details.serial)
-            .onValueChanged { [weak self] in
-                self?.viewModel.details.serial = $0
+    private lazy var serialItem: BaseFormItem = {
+        let title = NSLocalizedString("Serial", comment: "")
+        if self.viewModel.isEditing {
+            return ValueFormItem(title: title, value: viewModel.details.serial)
+                .width(.column(3))
+        } else {
+            return TextFieldFormItem(title: title, text: nil)
+                .width(.column(3))
+                .required("Serial is required.")
+                .strictValidate(CharacterSetSpecification.decimalDigits, message: "Serial must be a number")
+                .text(viewModel.details.serial)
+                .onValueChanged { [weak self] in
+                    self?.viewModel.details.serial = $0
+            }
         }
     }()
 
-    private lazy var categoryItem: DropDownFormItem = {
-        return DropDownFormItem(title: NSLocalizedString("Category", comment: ""))
-            .options(["1", "2", "3"])
-            .required()
-            .width(.column(3))
-            .selectedValue([viewModel.details.category].removeNils())
-            .onValueChanged { [weak self] in
-                self?.viewModel.details.category = $0?.first
+    private lazy var categoryItem: BaseFormItem = {
+        let title = NSLocalizedString("Category", comment: "")
+        if self.viewModel.isEditing {
+            return ValueFormItem(title: title, value: viewModel.details.category)
+                .width(.column(3))
+        } else {
+            return DropDownFormItem(title: title)
+                .options(["1", "2", "3"])
+                .required()
+                .width(.column(3))
+                .selectedValue([viewModel.details.category].removeNils())
+                .onValueChanged { [weak self] in
+                    self?.viewModel.details.category = $0?.first
+            }
         }
     }()
 
-    private lazy var odometerItem: TextFieldFormItem = {
-        return TextFieldFormItem(title: NSLocalizedString("Odometer", comment: ""), text: nil)
+    private lazy var odometerItem: BaseFormItem = {
+        let title = NSLocalizedString("Odometer", comment: "")
+        return TextFieldFormItem(title: title, text: nil)
             .width(.column(3))
             .strictValidate(CharacterSetSpecification.decimalDigits, message: "Odometer must be a number")
             .text(viewModel.details.odometer)
@@ -76,8 +89,9 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         }
     }()
 
-    private lazy var equipmentItem: TextFieldFormItem = {
-        return TextFieldFormItem(title: NSLocalizedString("Equipment", comment: ""), text: nil)
+    private lazy var equipmentItem: BaseFormItem = {
+        let title = NSLocalizedString("Equipment", comment: "")
+        return TextFieldFormItem(title: title, text: nil)
             .width(.column(1))
             .text(viewModel.details.equipment)
             .onValueChanged { [weak self] in
@@ -85,8 +99,9 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         }
     }()
 
-    private lazy var remarksItem: TextFieldFormItem = {
-        return TextFieldFormItem(title: NSLocalizedString("Remarks", comment: ""), text: nil)
+    private lazy var remarksItem: BaseFormItem = {
+        let title = NSLocalizedString("Remarks", comment: "")
+        return TextFieldFormItem(title: title, text: nil)
             .width(.column(1))
             .softValidate(CountSpecification.max(1000), message: "Must be no more than 1000 characters")
             .text(viewModel.details.remarks)
@@ -96,31 +111,45 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
     }()
 
     /// Start time of shift
-    private lazy var startTimeItem: DateFormItem = {
-        return DateFormItem(title: NSLocalizedString("Start Time", comment: ""))
-            .width(.column(3))
-            .required()
-            .datePickerMode(.dateAndTime)
-            .dateFormatter(.formTime)
-            .minimumDate(Date().rounded(minutes: 15, rounding: .ceil))
-            .minuteInterval(15)
-            .selectedValue(viewModel.details.startTime ?? Date().rounded(minutes: 60, rounding: .ceil))
-            .onValueChanged { [weak self] in
-                self?.viewModel.details.startTime = $0
-                self?.updateDuration()
+    private lazy var startTimeItem: BaseFormItem = {
+        // Set default start time to next hour if not set
+        viewModel.details.startTime = viewModel.details.startTime ?? Date().rounded(minutes: 60, rounding: .ceil)
+
+        let title = NSLocalizedString("Start Time", comment: "")
+        if self.viewModel.isEditing {
+            let value = DateFormatter.formTime.string(from: viewModel.details.startTime!)
+            return ValueFormItem(title: title, value: value)
+                .width(.column(3))
+        } else {
+            return DateFormItem(title: title)
+                .width(.column(3))
+                .required()
+                .datePickerMode(.dateAndTime)
+                .dateFormatter(.formTime)
+                .minimumDate(Date().rounded(minutes: 15, rounding: .ceil))
+                .minuteInterval(15)
+                .selectedValue(viewModel.details.startTime)
+                .onValueChanged { [weak self] in
+                    self?.viewModel.details.startTime = $0
+                    self?.updateDuration()
+            }
         }
     }()
 
     /// End time of shift
     private lazy var endTimeItem: DateFormItem = {
-        return DateFormItem(title: NSLocalizedString("Est. End Time", comment: ""))
+        // Set default end time to start time plus 8 hours if not set
+        viewModel.details.endTime = viewModel.details.endTime ?? Date().rounded(minutes: 60, rounding: .ceil).adding(hours: 8)
+
+        let title = NSLocalizedString("Est. End Time", comment: "")
+        return DateFormItem(title: title)
             .width(.column(3))
             .required()
             .datePickerMode(.dateAndTime)
             .dateFormatter(.formTime)
             .minimumDate(Date().rounded(minutes: 15, rounding: .ceil))
             .minuteInterval(15)
-            .selectedValue(viewModel.details.endTime ?? Date().rounded(minutes: 60, rounding: .ceil).adding(hours: 8))
+            .selectedValue(viewModel.details.endTime)
             .onValueChanged { [weak self] in
                 self?.viewModel.details.endTime = $0
                 self?.updateDuration()
@@ -189,7 +218,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
 
     private func updateDuration() {
         // Update the generated duration field
-        if let startTime = startTimeItem.selectedValue, var endTime = endTimeItem.selectedValue {
+        if let startTime = viewModel.details.startTime, var endTime = viewModel.details.endTime {
             if endTime < startTime {
                 // If endtime is before start time, clip it and reload the cell
                 endTime = startTime
