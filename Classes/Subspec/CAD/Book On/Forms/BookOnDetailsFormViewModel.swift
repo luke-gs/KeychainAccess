@@ -72,9 +72,15 @@ open class BookOnDetailsFormViewModel {
             officer = BookOnDetailsFormContentViewModel.Officer()
         }
             
-        let detailsViewController = OfficerDetailsViewModel(officer: officer)
-        detailsViewController.delegate = self
-        return detailsViewController.createViewController()
+        let detailsViewModel = OfficerDetailsViewModel(officer: officer)
+        detailsViewModel.delegate = self
+        return detailsViewModel.createViewController()
+    }
+    
+    open func officerSearchViewController() -> UIViewController {
+        let searchViewModel = OfficerListViewModel()
+        searchViewModel.detailsDelegate = self
+        return searchViewModel.createViewController()
     }
 
 }
