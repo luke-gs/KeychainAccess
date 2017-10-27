@@ -66,6 +66,7 @@ public final class LocationManager: NSObject {
     open func requestPlacemark() -> Promise<CLPlacemark> {
         return CLLocationManager.promise().then { location in
             self.lastLocation = location
+            NotificationCenter.default.post(name: .LocationDidUpdate, object: self)
             return CLGeocoder().reverseGeocode(location: location).then { placemark -> CLPlacemark in
                 self.lastPlacemark = placemark
                 return placemark
