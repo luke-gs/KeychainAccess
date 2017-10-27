@@ -275,7 +275,7 @@ open class FilterViewController: FormCollectionViewController {
                 detailVC.preferredContentSize.width = preferredContentSize.width
                 detailVC.minimumCalculatedContentHeight = preferredContentSize.height
                 detailVC.allowsMultipleSelection = list.allowsMultipleSelection
-                detailVC.noItemTitle = list.allowsNoSelection ? (list.noSelectionTitle ?? NSLocalizedString("None", comment: "")) : nil
+                detailVC.allowsQuickSelection = true
                 detailVC.finishUpdateHandler = { [weak self] (_, selections) in
                     guard let `self` = self else { return }
                     
