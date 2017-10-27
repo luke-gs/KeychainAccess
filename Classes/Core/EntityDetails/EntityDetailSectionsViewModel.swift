@@ -88,6 +88,7 @@ public class EntityDetailSectionsViewModel {
             noContentView.imageView.tintColor = #colorLiteral(red: 0.6044161711, green: 0.6313971979, blue: 0.6581829122, alpha: 0.6420554578)
 
             noContentView.titleLabel.text = NSLocalizedString(error.localizedDescription, comment: "")
+            noContentView.subtitleLabel.text = nil
             let actionButton = noContentView.actionButton
             actionButton.titleLabel?.font = .systemFont(ofSize: 15.0, weight: UIFont.Weight.semibold)
             actionButton.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 16.0, bottom: 10.0, right: 16.0)
