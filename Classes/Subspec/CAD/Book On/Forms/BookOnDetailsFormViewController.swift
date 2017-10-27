@@ -237,7 +237,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
     }
 
     @objc private func cancelFormTapped() {
-        viewModel.closeForm()
+        closeForm()
     }
 
     @objc private func submitFormTapped() {
@@ -248,12 +248,29 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
             builder.validateAndUpdateUI()
             AlertQueue.shared.addErrorAlert(message: message)
         case .valid:
-            // TODO: show progress overlay
-            firstly {
-                return viewModel.submitForm()
+            self.submitForm()
+        }
+    }
+
+    private func submitForm() {
+        // TODO: show progress overlay
+        firstly {
+            return viewModel.submitForm()
+            }.then { [unowned self] status in
+                self.closeForm()
             }.always {
                 // TODO: Cancel progress overlay
-            }
+            }.catch { error in
+                let title = NSLocalizedString("Failed to submit form", comment: "")
+                AlertQueue.shared.addSimpleAlert(title: title, message: error.localizedDescription)
+        }
+    }
+
+    private func closeForm() {
+        if viewModel.isEditing {
+            _ = navigationController?.popViewController(animated: true)
+        } else {
+            dismiss(animated: true, completion: nil)
         }
     }
 

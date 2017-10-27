@@ -10,7 +10,7 @@ import UIKit
 import PromiseKit
 
 /// Delegate protocol for updating UI
-public protocol BookOnDetailsFormViewModelDelegate: PopoverPresenter, NavigationPresenter {
+public protocol BookOnDetailsFormViewModelDelegate: class {
     /// Called when did update details
     func didUpdateDetails()
 }
@@ -94,20 +94,7 @@ open class BookOnDetailsFormViewModel {
 
         return firstly {
             // TODO: submit to network
-            return Promise(value: true)
-        }.then { [unowned self] status in
-            self.closeForm()
-        }.catch { error in
-            let title = NSLocalizedString("Failed to submit form", comment: "")
-            AlertQueue.shared.addSimpleAlert(title: title, message: error.localizedDescription)
-        }
-    }
-
-    open func closeForm() {
-        if isEditing {
-            _ = delegate?.popPushedViewController(animated: true)
-        } else {
-            delegate?.dismiss(animated: true, completion: nil)
+            return Promise(value: ())
         }
     }
 
