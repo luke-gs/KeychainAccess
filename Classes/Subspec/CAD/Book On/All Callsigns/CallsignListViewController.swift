@@ -51,6 +51,7 @@ open class CallsignListViewController: CADFormCollectionViewController<NotBooked
         if let subtitle = callsignListViewModel?.navSubtitle() {
             setTitleView(title: viewModel.navTitle(), subtitle: subtitle)
         }
+        setupSearchbarColorForTraitCollection()
     }
     
     open override func loadView() {
@@ -86,8 +87,6 @@ open class CallsignListViewController: CADFormCollectionViewController<NotBooked
         searchBar.placeholder = NSLocalizedString("Search", comment: "Search Text Placeholder")
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(searchBar)
-        
-        setupSearchbarColorForTraitCollection()
     }
     
     private func setupSearchbarColorForTraitCollection() {
