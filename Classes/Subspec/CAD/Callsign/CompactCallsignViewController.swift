@@ -8,6 +8,8 @@
 
 import UIKit
 
+/// Used for switching between not booked on and manage callsign
+/// status view controllers as an item in the tab bar in compact mode
 open class CompactCallsignViewController: UIViewController {
 
     private var callsignViewController = UIViewController()
