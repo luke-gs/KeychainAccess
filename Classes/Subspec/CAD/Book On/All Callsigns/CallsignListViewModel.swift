@@ -85,7 +85,7 @@ open class CallsignListViewModel: CADFormCollectionViewModel<NotBookedOnCallsign
                                                                                  image: AssetManager.shared.image(forKey: .resourceCar),
                                                                                  imageColor: #colorLiteral(red: 0.2980392157, green: 0.6862745098, blue: 0.3137254902, alpha: 1)
                                                 ),
-                                                ]
+                                            ]
             )
         ]
     }()
