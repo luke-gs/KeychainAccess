@@ -43,6 +43,8 @@
 		196ED03C1F7C0619005F3F7C /* UILayoutPriorityMathExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196ED03B1F7C0619005F3F7C /* UILayoutPriorityMathExtensionTests.swift */; };
 		1972FCCB1FA6A1EF00CB68EA /* ImageResponseSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1972FCCA1FA6A1EF00CB68EA /* ImageResponseSerializer.swift */; };
 		1972FCCD1FA6A7FC00CB68EA /* ImageError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1972FCCC1FA6A7FC00CB68EA /* ImageError.swift */; };
+		1972FCD01FA6C42900CB68EA /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1972FCCF1FA6C42900CB68EA /* ImageDownloader.swift */; };
+		1972FCD21FA6C4E300CB68EA /* ImageDownloadTicket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1972FCD11FA6C4E300CB68EA /* ImageDownloadTicket.swift */; };
 		197FBF711F9980F20086875A /* URLQueryBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197FBF701F9980F20086875A /* URLQueryBuilderTests.swift */; };
 		19975D8F1F4414AF00E51469 /* ErrorMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19975D8E1F4414AF00E51469 /* ErrorMapperTests.swift */; };
 		19B49BAA1F665ED100502F51 /* NSMutableAttributedString+Append.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B49BA91F665ED100502F51 /* NSMutableAttributedString+Append.swift */; };
@@ -511,6 +513,8 @@
 		196ED03B1F7C0619005F3F7C /* UILayoutPriorityMathExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILayoutPriorityMathExtensionTests.swift; sourceTree = "<group>"; };
 		1972FCCA1FA6A1EF00CB68EA /* ImageResponseSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageResponseSerializer.swift; sourceTree = "<group>"; };
 		1972FCCC1FA6A7FC00CB68EA /* ImageError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageError.swift; sourceTree = "<group>"; };
+		1972FCCF1FA6C42900CB68EA /* ImageDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
+		1972FCD11FA6C4E300CB68EA /* ImageDownloadTicket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloadTicket.swift; sourceTree = "<group>"; };
 		197FBF701F9980F20086875A /* URLQueryBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLQueryBuilderTests.swift; sourceTree = "<group>"; };
 		19975D8E1F4414AF00E51469 /* ErrorMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMapperTests.swift; sourceTree = "<group>"; };
 		19B49BA91F665ED100502F51 /* NSMutableAttributedString+Append.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Append.swift"; sourceTree = "<group>"; };
@@ -1000,8 +1004,10 @@
 		1972FCC91FA6A14800CB68EA /* Image */ = {
 			isa = PBXGroup;
 			children = (
-				1972FCCA1FA6A1EF00CB68EA /* ImageResponseSerializer.swift */,
+				1972FCCF1FA6C42900CB68EA /* ImageDownloader.swift */,
+				1972FCD11FA6C4E300CB68EA /* ImageDownloadTicket.swift */,
 				1972FCCC1FA6A7FC00CB68EA /* ImageError.swift */,
+				1972FCCA1FA6A1EF00CB68EA /* ImageResponseSerializer.swift */,
 			);
 			path = Image;
 			sourceTree = "<group>";
@@ -2610,6 +2616,7 @@
 				BC9C7DFE1F0DED6600DFFE83 /* Array+IfExists.swift in Sources */,
 				96CF32211F8C337900140AF8 /* TasksListViewController.swift in Sources */,
 				274C897F1F9D9E88005B9CF8 /* OfficerListItemViewModel.swift in Sources */,
+				1972FCD01FA6C42900CB68EA /* ImageDownloader.swift in Sources */,
 				274C89881F9EB27A005B9CF8 /* OfficerDetailsViewModel.swift in Sources */,
 				BC9C7E011F0DED6600DFFE83 /* FloatingPoint+Comparison.swift in Sources */,
 				BC9C7E0D1F0DED6600DFFE83 /* CollectionViewFormLayout.swift in Sources */,
@@ -2697,6 +2704,7 @@
 				19FEC9861F43F827005692A9 /* MappedError.swift in Sources */,
 				BC1B260E1F20BB3C009674B7 /* PushableSplitViewController.swift in Sources */,
 				EA09A0571F78B9C200BC3C0E /* PredicateSpecification.swift in Sources */,
+				1972FCD21FA6C4E300CB68EA /* ImageDownloadTicket.swift in Sources */,
 				BC9C7E2A1F0DED6600DFFE83 /* DateFormatter+Static.swift in Sources */,
 				9663D0061F86DCDA006DB672 /* MPOLSplitViewController.swift in Sources */,
 				BC9C7DD11F0DED6600DFFE83 /* ManifestEntry.swift in Sources */,
