@@ -165,17 +165,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
     /// Construct the form
     override open func construct(builder: FormBuilder) {
 
-        builder += HeaderFormItem(text: NSLocalizedString("Vehicle Details", comment: "").uppercased(), style: .plain)
-        builder += serialItem
-        builder += categoryItem
-        builder += odometerItem
-        builder += equipmentItem
-        builder += remarksItem
-
-        builder += HeaderFormItem(text: NSLocalizedString("Shift Details", comment: "").uppercased(), style: .plain)
-        builder += startTimeItem
-        builder += endTimeItem
-        builder += durationItem
+        // Show list of officers first, followed by shift details then optional sections
 
         builder += HeaderFormItem(text: NSLocalizedString("Officers", comment: "").uppercased(), style: .plain)
             .actionButton(title: NSLocalizedString("Add", comment: "").uppercased(), handler: { [unowned self] in
@@ -201,6 +191,20 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
                     let viewController = self.viewModel.officerDetailsViewController(at: index)
                     self.navigationController?.pushViewController(viewController, animated: true)
             }
+        }
+
+        builder += HeaderFormItem(text: NSLocalizedString("Shift Details", comment: "").uppercased(), style: .plain)
+        builder += startTimeItem
+        builder += endTimeItem
+        builder += durationItem
+
+        if viewModel.showVehicleFields {
+            builder += HeaderFormItem(text: NSLocalizedString("Vehicle Details", comment: "").uppercased(), style: .plain)
+            builder += serialItem
+            builder += categoryItem
+            builder += odometerItem
+            builder += equipmentItem
+            builder += remarksItem
         }
 
         updateDuration()
