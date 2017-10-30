@@ -41,6 +41,8 @@
 		191BC4D71F7C203B00C8C218 /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191BC4D21F7C202300C8C218 /* TagCollectionViewCell.swift */; };
 		196ED03A1F7C0207005F3F7C /* UILayoutPriority+Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196ED0391F7C0207005F3F7C /* UILayoutPriority+Math.swift */; };
 		196ED03C1F7C0619005F3F7C /* UILayoutPriorityMathExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196ED03B1F7C0619005F3F7C /* UILayoutPriorityMathExtensionTests.swift */; };
+		1972FCCB1FA6A1EF00CB68EA /* ImageResponseSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1972FCCA1FA6A1EF00CB68EA /* ImageResponseSerializer.swift */; };
+		1972FCCD1FA6A7FC00CB68EA /* ImageError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1972FCCC1FA6A7FC00CB68EA /* ImageError.swift */; };
 		197FBF711F9980F20086875A /* URLQueryBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197FBF701F9980F20086875A /* URLQueryBuilderTests.swift */; };
 		19975D8F1F4414AF00E51469 /* ErrorMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19975D8E1F4414AF00E51469 /* ErrorMapperTests.swift */; };
 		19B49BAA1F665ED100502F51 /* NSMutableAttributedString+Append.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B49BA91F665ED100502F51 /* NSMutableAttributedString+Append.swift */; };
@@ -507,6 +509,8 @@
 		191F77411F44F6C5008BBA44 /* MPOLKitPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MPOLKitPlayground.playground; sourceTree = SOURCE_ROOT; };
 		196ED0391F7C0207005F3F7C /* UILayoutPriority+Math.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILayoutPriority+Math.swift"; sourceTree = "<group>"; };
 		196ED03B1F7C0619005F3F7C /* UILayoutPriorityMathExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILayoutPriorityMathExtensionTests.swift; sourceTree = "<group>"; };
+		1972FCCA1FA6A1EF00CB68EA /* ImageResponseSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageResponseSerializer.swift; sourceTree = "<group>"; };
+		1972FCCC1FA6A7FC00CB68EA /* ImageError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageError.swift; sourceTree = "<group>"; };
 		197FBF701F9980F20086875A /* URLQueryBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLQueryBuilderTests.swift; sourceTree = "<group>"; };
 		19975D8E1F4414AF00E51469 /* ErrorMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMapperTests.swift; sourceTree = "<group>"; };
 		19B49BA91F665ED100502F51 /* NSMutableAttributedString+Append.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Append.swift"; sourceTree = "<group>"; };
@@ -993,6 +997,15 @@
 			path = Theme;
 			sourceTree = "<group>";
 		};
+		1972FCC91FA6A14800CB68EA /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				1972FCCA1FA6A1EF00CB68EA /* ImageResponseSerializer.swift */,
+				1972FCCC1FA6A7FC00CB68EA /* ImageError.swift */,
+			);
+			path = Image;
+			sourceTree = "<group>";
+		};
 		197FBF6F1F9980CC0086875A /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -1468,6 +1481,7 @@
 				C6CD6A171F31663500771B8C /* EntitySearchRequest.swift */,
 				DBE24C2D1F5939C90088D19B /* EntityDetailsFetch.swift */,
 				DBE24C2C1F5939C90088D19B /* EntityDetailsFetchRequest.swift */,
+				1972FCC91FA6A14800CB68EA /* Image */,
 				19C625C11F55143900504BD9 /* NetworkRequest.swift */,
 				19C625BF1F550D2200504BD9 /* NetworkRequestType.swift */,
 				BC9C7D291F0DED6600DFFE83 /* OAuthAuthorizationGrant.swift */,
@@ -2519,6 +2533,7 @@
 				BC9C7DF41F0DED6600DFFE83 /* CollectionViewFormCell.swift in Sources */,
 				EA4806B01F56939100B42313 /* LocationBasicSearchOptions.swift in Sources */,
 				BC9C7E261F0DED6600DFFE83 /* EntityListCollectionViewCell.swift in Sources */,
+				1972FCCD1FA6A7FC00CB68EA /* ImageError.swift in Sources */,
 				19B49BBA1F665F2A00502F51 /* SidebarDelegate.swift in Sources */,
 				BC9C7E191F0DED6600DFFE83 /* RadioButton.swift in Sources */,
 				27CBC75D1F8B27C700E387C3 /* BroadcastMapViewModel.swift in Sources */,
@@ -2553,6 +2568,7 @@
 				BC9C7E061F0DED6600DFFE83 /* UIFont+Convenience.swift in Sources */,
 				27206B361F8198CD005303A8 /* IncidentAnnotationView.swift in Sources */,
 				BC9C7DF21F0DED6600DFFE83 /* ISO8601DateTransformer+UnboxFormatter.swift in Sources */,
+				1972FCCB1FA6A1EF00CB68EA /* ImageResponseSerializer.swift in Sources */,
 				9650CA161F958B330087F5C9 /* ManageCallsignStatusViewController.swift in Sources */,
 				BC9C7DCF1F0DED6600DFFE83 /* ManifestCollection.swift in Sources */,
 				46B3FE811F5E49FB0012476A /* ConsoleLogger.swift in Sources */,
