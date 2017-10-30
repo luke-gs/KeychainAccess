@@ -35,7 +35,6 @@ open class GenericSearchViewController: FormBuilderViewController, UISearchBarDe
 
     open override func viewDidLoad() {
         super.viewDidLoad()
-        edgesForExtendedLayout = []
         self.view.addSubview(searchBar)
         updateColour(for: traitCollection)
     }
