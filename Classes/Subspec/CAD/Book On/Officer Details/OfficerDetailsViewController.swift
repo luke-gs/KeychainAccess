@@ -118,7 +118,6 @@ open class OfficerDetailsViewController: FormBuilderViewController {
             AlertQueue.shared.addErrorAlert(message: message)
         case .valid:
             viewModel.saveForm()
-            navigationController?.popViewController(animated: true)
         }
     }
     

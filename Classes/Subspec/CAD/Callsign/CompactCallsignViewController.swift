@@ -44,6 +44,13 @@ open class CompactCallsignViewController: UIViewController {
         
         addChildViewController(navController, toView: view)
         callsignViewController = newCallsignViewController
-        callsignViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        
+        navController.view.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            navController.view.topAnchor.constraint(equalTo: view.topAnchor),
+            navController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            navController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            navController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ])
     }
 }

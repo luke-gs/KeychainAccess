@@ -131,7 +131,7 @@ extension BookOnDetailsFormViewModel: OfficerDetailsViewModelDelegate {
             details.officers[index] = officer
         } else {
             details.officers.append(officer)
-            delegate?.didUpdateDetails()
         }
+        delegate?.didUpdateDetails()
     }
 }
