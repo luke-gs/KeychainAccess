@@ -44,6 +44,12 @@ open class APIManager {
         return dataRequestPromise(request, using: DataHTTPURLResponsePairResponseSerializer())
     }
 
+    /// Perform specified network request that uses `ResponseSerializing` to map the result.
+    ///
+    /// - Parameters:
+    ///   - networkRequest: The network request to be executed.
+    ///   - serializer: `ResponseSerializing` conformer.
+    /// - Returns: A promise to return result type from `ResponseSerializing`.
     open func performRequest<T: ResponseSerializing>(_ networkRequest: NetworkRequestType, using serializer: T) throws -> Promise<T.ResultType> {
         let request = try urlRequest(from: networkRequest)
         return dataRequestPromise(request, using: serializer)
