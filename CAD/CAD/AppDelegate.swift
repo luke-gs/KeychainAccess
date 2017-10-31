@@ -12,16 +12,18 @@ import ClientKit
 import CoreLocation
 import Alamofire
 
+let TermsAndConditionsVersion = "1.0"
+let WhatsNewVersion = "1.0"
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    private var loginViewController: LoginViewController?
-    private var sessionViewController: CADStatusTabBarController?
-
     // FIXME: Temporary
     let locationManager = CLLocationManager()
+
+    var currentScreen: LandingScreen?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
@@ -39,10 +41,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let host = APP_HOST_URL
         APIManager.shared = APIManager(configuration: APIManagerDefaultConfiguration(url: "https://\(host)", plugins: plugins, trustPolicyManager: ServerTrustPolicyManager(policies: [host: .disableEvaluation])))
 
+        let presenter = PresenterGroup(presenters: [SystemPresenter(), LandingPresenter()])
+        let director = Director(presenter: presenter)
+        Director.shared = director
+
         let window = UIWindow()
         self.window = window
         
         applyCurrentTheme()
+
+        if UserSession.current.isActive == true {
+            UserSession.current.restoreSession { token in
+                APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
+            }
+        }
 
         updateAppForSessionState()
 
@@ -56,57 +68,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func updateAppForSessionState() {
-        if CADUserSession.current.isActive {
-            loginViewController = nil
-            if window?.rootViewController == nil || window?.rootViewController != sessionViewController {
-                CADUserSession.current.restoreSession { token in
-                    APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
-                }
-                window?.rootViewController = createSessionViewController()
+        let screen: LandingScreen
+
+        if let user = UserSession.current.user, UserSession.current.isActive, user.termsAndConditionsVersionAccepted == TermsAndConditionsVersion {
+            if UserSession.current.user?.whatsNewShownVersion != WhatsNewVersion {
+                screen = .whatsNew
+            } else {
+                screen = .landing
             }
         } else {
-            sessionViewController = nil
-            if window?.rootViewController == nil || window?.rootViewController != loginViewController {
-                window?.rootViewController = createLoginViewController()
-            }
+            screen = .login
         }
-    }
 
-    private func createSessionViewController() -> UIViewController {
-        let tempCallsignController = UIViewController() // TODO: Add callsign view
-        tempCallsignController.tabBarItem = UITabBarItem(title: "Callsign", image: AssetManager.shared.image(forKey: .entityCar), selectedImage: nil)
+        // Update screen if necessary
+        if screen != currentScreen {
+            currentScreen = screen
+            window?.rootViewController = Director.shared.presenter.viewController(forPresentable: screen)
+        }
 
-        let searchProxyViewController = UIViewController() // TODO: Take me back to the search app
-        searchProxyViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
-        searchProxyViewController.tabBarItem.isEnabled = false
-
-        let tasksListContainerViewModel = TasksListContainerViewModel(headerViewModel: TasksListHeaderViewModel(), listViewModel: TasksListViewModel())
-        let tasksSplitViewModel = TasksSplitViewModel(listContainerViewModel: tasksListContainerViewModel,
-                                                      mapViewModel: TasksMapViewModel())
-        let tasksNavController = UINavigationController(rootViewController: tasksSplitViewModel.createViewController())
-        tasksNavController.tabBarItem.image = AssetManager.shared.image(forKey: .tabBarTasks)
-        tasksNavController.tabBarItem.title = NSLocalizedString("Tasks", comment: "Tasks Tab Bar Item")
-
-        let activityLogViewModel = ActivityLogViewModel()
-        let activityNavController = UINavigationController(rootViewController: activityLogViewModel.createViewController())
-        activityNavController.tabBarItem.image = AssetManager.shared.image(forKey: .tabBarActivity)
-        activityNavController.tabBarItem.title = NSLocalizedString("Activity Log", comment: "Activity Log Tab Bar Item")
-
-        let userCallsignStatusViewModel = UserCallsignStatusViewModel()
-        let statusTabBarViewModel = CADStatusTabBarViewModel(userCallsignStatusViewModel: userCallsignStatusViewModel)
-        let sessionViewController = statusTabBarViewModel.createViewController()
-
-        sessionViewController.regularViewControllers = [searchProxyViewController, tasksNavController, activityNavController]
-        sessionViewController.compactViewControllers = sessionViewController.viewControllers + [tempCallsignController]
-        sessionViewController.selectedViewController = tasksNavController
-        self.sessionViewController = sessionViewController
-        return sessionViewController
-    }
-
-    private func createLoginViewController() -> UIViewController {
-        let loginViewController = LoginViewController()
-        self.loginViewController = loginViewController
-        return loginViewController
     }
 
     private func applyCurrentTheme() {
