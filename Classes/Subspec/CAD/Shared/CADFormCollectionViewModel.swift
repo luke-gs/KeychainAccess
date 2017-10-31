@@ -9,7 +9,7 @@
 import UIKit
 
 /// Delegate for base CAD form collection view models
-public protocol CADFormCollectionViewModelDelegate: PopoverPresenter {
+public protocol CADFormCollectionViewModelDelegate: PopoverPresenter, NavigationPresenter {
 
     // Notify form that sections were updated
     func sectionsUpdated()

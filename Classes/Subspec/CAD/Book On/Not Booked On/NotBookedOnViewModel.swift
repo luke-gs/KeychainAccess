@@ -17,33 +17,37 @@ open class NotBookedOnViewModel: CADFormCollectionViewModel<NotBookedOnItemViewM
             CADFormCollectionSectionViewModel(title: "Patrol Area",
                                               items: [
                                                 NotBookedOnItemViewModel(title: "Collingwood",
-                                                                subtitle: "9 Callsigns",
-                                                                image: AssetManager.shared.image(forKey: .otherPatrolArea),
-                                                                imageColor: #colorLiteral(red: 0, green: 0.4793452024, blue: 0.9990863204, alpha: 1))
+                                                                         subtitle: "9 Callsigns",
+                                                                         image: AssetManager.shared.image(forKey: .otherPatrolArea),
+                                                                         imageColor: #colorLiteral(red: 0, green: 0.4793452024, blue: 0.9990863204, alpha: 1))
                 ]
             ),
             
             CADFormCollectionSectionViewModel(title: "Recently Used Callsigns",
                                               items: [
-                                                NotBookedOnItemViewModel(title: "B14",
-                                                                subtitle: "Collingwood Station  :  Off Duty",
-                                                                image: AssetManager.shared.image(forKey: .resourceCar),
-                                                                imageColor: #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1)
+                                                NotBookedOnCallsignItemViewModel(callsign: "B14",
+                                                                                 status: "Off Duty",
+                                                                                 location: "Collingwood Station",
+                                                                                 image: AssetManager.shared.image(forKey: .resourceCar),
+                                                                                 imageColor: #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1)
                                                 ),
-                                                NotBookedOnItemViewModel(title: "P24",
-                                                                subtitle: "Collingwood Station  :  Off Duty",
-                                                                image: AssetManager.shared.image(forKey: .resourceCar),
-                                                                imageColor: #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1)
+                                                NotBookedOnCallsignItemViewModel(callsign: "P24",
+                                                                                 status: "Off Duty",
+                                                                                 location: "Collingwood Station",
+                                                                                 image: AssetManager.shared.image(forKey: .resourceCar),
+                                                                                 imageColor: #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1)
                                                 ),
-                                                NotBookedOnItemViewModel(title: "P29",
-                                                                subtitle: "Collingwood Station  :  Off Duty",
-                                                                image: AssetManager.shared.image(forKey: .resourceCar),
-                                                                imageColor: #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1)
+                                                NotBookedOnCallsignItemViewModel(callsign: "P29",
+                                                                                 status: "Off Duty",
+                                                                                 location: "Collingwood Station",
+                                                                                 image: AssetManager.shared.image(forKey: .resourceCar),
+                                                                                 imageColor: #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1)
                                                 ),
-                                                NotBookedOnItemViewModel(title: "K94 (1)",
-                                                                subtitle: "Each Richmond  :  On Air",
-                                                                image: AssetManager.shared.image(forKey: .resourceDog),
-                                                                imageColor: #colorLiteral(red: 0.2980392157, green: 0.6862745098, blue: 0.3137254902, alpha: 1)
+                                                NotBookedOnCallsignItemViewModel(callsign: "K94",
+                                                                                 status: "On Air",
+                                                                                 location: "Each Richmond",
+                                                                                 image: AssetManager.shared.image(forKey: .resourceDog),
+                                                                                 imageColor: #colorLiteral(red: 0.2980392157, green: 0.6862745098, blue: 0.3137254902, alpha: 1)
                                                 )
                 ]
             )
@@ -57,7 +61,7 @@ open class NotBookedOnViewModel: CADFormCollectionViewModel<NotBookedOnItemViewM
 
     /// Create the book on view controller for a selected callsign
     open func bookOnViewControllerForItem(_ indexPath: IndexPath) -> UIViewController? {
-        if let itemViewModel = item(at: indexPath) {
+        if let itemViewModel = item(at: indexPath) as? NotBookedOnCallsignItemViewModel {
             return BookOnDetailsFormViewModel(callsignViewModel: itemViewModel).createViewController()
         }
         return nil
