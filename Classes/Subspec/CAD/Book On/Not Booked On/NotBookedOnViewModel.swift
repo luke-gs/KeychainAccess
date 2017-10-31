@@ -18,7 +18,7 @@ open class NotBookedOnViewModel: CADFormCollectionViewModel<NotBookedOnItemViewM
                                               items: [
                                                 NotBookedOnItemViewModel(title: "Collingwood",
                                                                          subtitle: "9 Callsigns",
-                                                                         image:  AssetManager.shared.image(forKey: .otherPatrolArea),
+                                                                         image:  AssetManager.shared.image(forKey: .location),
                                                                          imageColor: #colorLiteral(red: 0, green: 0.4793452024, blue: 0.9990863204, alpha: 1),
                                                                          imageBackgroundColor: nil)
                 ]
