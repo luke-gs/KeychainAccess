@@ -129,7 +129,7 @@ open class APIManager {
         let path = networkRequest.path
 
         let requestPath: URL
-        if networkRequest.isRelative {
+        if networkRequest.isRelativePath {
             requestPath = baseURL.appendingPathComponent(path)
         } else {
             guard let urlPath = URL(string: path) else {

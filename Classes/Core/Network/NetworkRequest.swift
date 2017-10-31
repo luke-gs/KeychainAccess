@@ -16,7 +16,7 @@ public struct NetworkRequest: NetworkRequestType {
     public let method: HTTPMethod
     public let parameterEncoding: ParameterEncoding
     public let headers: [String : String]?
-    public let isRelative: Bool
+    public let isRelativePath: Bool
 
     private static var queryBuilder = URLQueryBuilder()
 
@@ -30,7 +30,7 @@ public struct NetworkRequest: NetworkRequestType {
         self.path = info.path
         self.parameters = info.parameters
         self.parameterEncoding = parameterEncoding
-        self.isRelative = isRelative
+        self.isRelativePath = isRelative
     }
 
 }
