@@ -168,10 +168,7 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
         if let cell = cell as? CollectionViewFormSubtitleCell {
             cell.titleLabel.text = viewModel.title
             cell.subtitleLabel.text = viewModel.subtitle
-            cell.imageView.image = viewModel.image?.withCircleBackground(tintColor: viewModel.imageColor,
-                                                                         circleColor: viewModel.imageBackgroundColor,
-                                                                         padding: CGSize(width: 25, height: 25),
-                                                                         shrinkImage: false)
+            cell.imageView.image = viewModel.image
 
             if let viewModel = viewModel as? NotBookedOnCallsignItemViewModel, viewModel.badgeText != nil {
                 var edgeInsets = RoundedRectLabel.defaultLayoutMargins
@@ -218,7 +215,7 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
         if let item = viewModel.item(at: indexPath) {
-            return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: item.title, subtitle: item.subtitle, inWidth: itemWidth, compatibleWith: traitCollection)
+            return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: item.title, subtitle: item.subtitle, inWidth: itemWidth, compatibleWith: traitCollection, imageSize: item.image?.size ?? .zero)
         }
         return 0
     }

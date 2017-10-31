@@ -16,13 +16,16 @@ open class NotBookedOnItemViewModel {
     open var imageColor: UIColor?
     open var imageBackgroundColor: UIColor?
 
-
     public init(title: String, subtitle: String, image: UIImage?, imageColor: UIColor?, imageBackgroundColor: UIColor?) {
         self.title = title
         self.subtitle = subtitle
-        self.image = image
         self.imageColor = imageColor
         self.imageBackgroundColor = imageBackgroundColor
+        
+        self.image = image?.withCircleBackground(tintColor: imageColor,
+                                              circleColor: imageBackgroundColor,
+                                              padding: CGSize(width: 25, height: 25),
+                                              shrinkImage: false)
     }
 }
 
