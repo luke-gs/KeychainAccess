@@ -82,7 +82,7 @@
 		274C89791F997F94005B9CF8 /* CADStatusTabBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C89781F997F94005B9CF8 /* CADStatusTabBarViewModel.swift */; };
 		274C897F1F9D9E88005B9CF8 /* OfficerListItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C897E1F9D9E88005B9CF8 /* OfficerListItemViewModel.swift */; };
 		274C89811F9D9EAE005B9CF8 /* OfficerListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C89801F9D9EAE005B9CF8 /* OfficerListViewController.swift */; };
-		274C89831F9D9EC3005B9CF8 /* OfficerListViewModelContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C89821F9D9EC3005B9CF8 /* OfficerListViewModelContainer.swift */; };
+		274C89831F9D9EC3005B9CF8 /* OfficerListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C89821F9D9EC3005B9CF8 /* OfficerListViewModel.swift */; };
 		274C89861F9E91B8005B9CF8 /* OfficerDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C89851F9E91B8005B9CF8 /* OfficerDetailsViewController.swift */; };
 		274C89881F9EB27A005B9CF8 /* OfficerDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C89871F9EB27A005B9CF8 /* OfficerDetailsViewModel.swift */; };
 		275F0A681FA19694002BB9C5 /* BookOnDetailsFormContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275F0A671FA19694002BB9C5 /* BookOnDetailsFormContentViewModel.swift */; };
@@ -553,7 +553,7 @@
 		274C89781F997F94005B9CF8 /* CADStatusTabBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADStatusTabBarViewModel.swift; sourceTree = "<group>"; };
 		274C897E1F9D9E88005B9CF8 /* OfficerListItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerListItemViewModel.swift; sourceTree = "<group>"; };
 		274C89801F9D9EAE005B9CF8 /* OfficerListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerListViewController.swift; sourceTree = "<group>"; };
-		274C89821F9D9EC3005B9CF8 /* OfficerListViewModelContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerListViewModelContainer.swift; sourceTree = "<group>"; };
+		274C89821F9D9EC3005B9CF8 /* OfficerListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerListViewModel.swift; sourceTree = "<group>"; };
 		274C89851F9E91B8005B9CF8 /* OfficerDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerDetailsViewController.swift; sourceTree = "<group>"; };
 		274C89871F9EB27A005B9CF8 /* OfficerDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerDetailsViewModel.swift; sourceTree = "<group>"; };
 		275F0A671FA19694002BB9C5 /* BookOnDetailsFormContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookOnDetailsFormContentViewModel.swift; sourceTree = "<group>"; };
@@ -1121,7 +1121,7 @@
 			children = (
 				274C897E1F9D9E88005B9CF8 /* OfficerListItemViewModel.swift */,
 				274C89801F9D9EAE005B9CF8 /* OfficerListViewController.swift */,
-				274C89821F9D9EC3005B9CF8 /* OfficerListViewModelContainer.swift */,
+				274C89821F9D9EC3005B9CF8 /* OfficerListViewModel.swift */,
 			);
 			path = "Officer Search";
 			sourceTree = "<group>";
@@ -2630,7 +2630,7 @@
 				27CBC7621F8B27CC00E387C3 /* IncidentAnnotation.swift in Sources */,
 				4420D2801F66428D00E20304 /* Sequence+Nils.swift in Sources */,
 				DB88BCDF1F42D00F0056FD69 /* SearchResultViewModelable.swift in Sources */,
-				274C89831F9D9EC3005B9CF8 /* OfficerListViewModelContainer.swift in Sources */,
+				274C89831F9D9EC3005B9CF8 /* OfficerListViewModel.swift in Sources */,
 				27CBC7661F8B27D500E387C3 /* UserCallsignStatusView.swift in Sources */,
 				EAB38FFB1F70A73700341BAF /* ValueFormItem.swift in Sources */,
 				EA76ECF11F578DCA00524830 /* LocationAdvanceOptions.swift in Sources */,
