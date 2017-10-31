@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class CallsignListViewController: CADFormCollectionViewController<CallsignListItemViewModel>, UISearchBarDelegate {
+open class CallsignListViewController: CADFormCollectionViewController<NotBookedOnCallsignItemViewModel>, UISearchBarDelegate {
 
     /// Layout sizing constants
     public struct LayoutConstants {
@@ -46,11 +46,12 @@ open class CallsignListViewController: CADFormCollectionViewController<CallsignL
         MPLCodingNotSupported()
     }
     
-    open override func viewDidLoad() {
-        super.viewDidLoad()
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         if let subtitle = callsignListViewModel?.navSubtitle() {
             setTitleView(title: viewModel.navTitle(), subtitle: subtitle)
         }
+        setupSearchbarColorForTraitCollection()
     }
     
     open override func loadView() {
@@ -87,6 +88,16 @@ open class CallsignListViewController: CADFormCollectionViewController<CallsignL
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(searchBar)
     }
+    
+    private func setupSearchbarColorForTraitCollection() {
+        if traitCollection.horizontalSizeClass == .regular {
+            toolBar.isHidden = false
+            searchBar.searchBarStyle = .minimal
+        } else {
+            toolBar.isHidden = true
+            searchBar.searchBarStyle = .default
+        }
+    }
 
     /// Activates view constraints
     open func setupConstraints() {
@@ -113,7 +124,7 @@ open class CallsignListViewController: CADFormCollectionViewController<CallsignL
         return CollectionViewFormSubtitleCell.self
     }
     
-    override open func decorate(cell: CollectionViewFormCell, with viewModel: CallsignListItemViewModel) {
+    override open func decorate(cell: CollectionViewFormCell, with viewModel: NotBookedOnItemViewModel) {
         cell.highlightStyle = .fade
         cell.selectionStyle = .fade
         cell.separatorStyle = .indented
@@ -157,7 +168,10 @@ open class CallsignListViewController: CADFormCollectionViewController<CallsignL
     
     open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        // TODO: present details?
+        
+        if let bookOnViewController = callsignListViewModel?.bookOnViewControllerForItem(indexPath) {
+            navigationController?.pushViewController(bookOnViewController, animated: true)
+        }
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
