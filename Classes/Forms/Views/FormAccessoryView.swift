@@ -14,21 +14,21 @@ public struct AccessoryLabelDetail {
     var borderColour: UIColor?
     var backgroundColour: UIColor?
     var font: UIFont?
-    var edgeInsets: UIEdgeInsets
+    var layoutMargins: UIEdgeInsets?
 
     public init(text: String?,
          textColour: UIColor? = UIColor.darkGray,
          borderColour: UIColor? = .darkGray,
          backgroundColour: UIColor? = .clear,
          font: UIFont? =  UIFont.boldSystemFont(ofSize: 12.0),
-         edgeInsets: UIEdgeInsets = RoundedRectLabel.defaultLayoutMargins) {
+         layoutMargins: UIEdgeInsets? = nil) {
 
         self.text = text
         self.textColour = textColour
         self.borderColour = borderColour
         self.backgroundColour = backgroundColour
         self.font = font
-        self.edgeInsets = edgeInsets
+        self.layoutMargins = layoutMargins
     }
 }
 
@@ -44,7 +44,9 @@ public enum AccessoryTextStyle {
             label.textColor = details.textColour
             label.borderColor = details.borderColour
             label.text = details.text
-            label.layoutMargins = details.edgeInsets
+            if let layoutMargins = details.layoutMargins {
+                label.layoutMargins = layoutMargins
+            }
             return label
         }
     }

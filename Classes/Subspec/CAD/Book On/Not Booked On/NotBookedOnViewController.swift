@@ -180,7 +180,7 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
                                                                      textColour: viewModel.badgeTextColor,
                                                                      borderColour: viewModel.badgeBorderColor,
                                                                      backgroundColour: viewModel.badgeFillColor,
-                                                                     edgeInsets: edgeInsets)
+                                                                     layoutMargins: edgeInsets)
                 let accessoryTextStyle = AccessoryTextStyle.roundedRect(accessoryLabelDetail)
                 let accessoryView = FormAccessoryView(style: .disclosure, labelStyle: accessoryTextStyle)
                 cell.accessoryView = accessoryView
