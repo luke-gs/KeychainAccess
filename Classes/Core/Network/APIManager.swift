@@ -49,24 +49,6 @@ open class APIManager {
         return dataRequestPromise(request, using: serializer)
     }
     
-    /// Perform specified network request.
-    ///
-    /// - Parameter networkRequest: The network request to be executed.
-    /// - Returns: A promise to return of specified type.
-    open func performRequest<T: Unboxable>(_ networkRequest: NetworkRequestType) throws -> Promise<T> {
-        let request = try urlRequest(from: networkRequest)
-        return dataRequestPromise(request, using: UnboxableResponseSerializer())
-    }
-
-    /// Perform specified network request.
-    ///
-    /// - Parameter networkRequest: The network request to be executed.
-    /// - Returns: A promise to return array of specified type.
-    open func performRequest<T: Unboxable>(_ networkRequest: NetworkRequestType) throws -> Promise<[T]> {
-        let request = try urlRequest(from: networkRequest)
-        return dataRequestPromise(request, using: UnboxableArrayResponseSerializer())
-    }
-
     /// Request for access token.
     ///
     /// Supports implicit `NSProgress` reporting.
