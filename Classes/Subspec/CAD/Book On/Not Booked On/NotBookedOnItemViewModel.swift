@@ -31,11 +31,20 @@ open class NotBookedOnCallsignItemViewModel: NotBookedOnItemViewModel, BookOnCal
     public var callsign: String
     public var status: String?
     public var location: String?
-
-    public init(callsign: String, status: String?, location: String?, image: UIImage?, imageColor: UIColor?) {
+    
+    open var badgeText: String?
+    open var badgeTextColor: UIColor?
+    open var badgeBorderColor: UIColor?
+    open var badgeFillColor: UIColor?
+    
+    public init(callsign: String, status: String?, location: String?, image: UIImage?, imageColor: UIColor?, imageBackgroundColor: UIColor?, badgeText: String? = nil, badgeTextColor: UIColor? = .clear, badgeFillColor: UIColor? = .clear, badgeBorderColor: UIColor? = .clear) {
         self.callsign = callsign
         self.status = status
         self.location = location
+        self.badgeText = badgeText
+        self.badgeTextColor = badgeTextColor
+        self.badgeFillColor = badgeFillColor
+        self.badgeBorderColor = badgeBorderColor
 
         let subtitle = [location, status].removeNils().joined(separator: " : ")
         super.init(title: callsign, subtitle: subtitle, image: image, imageColor: imageColor, imageBackgroundColor: imageBackgroundColor)

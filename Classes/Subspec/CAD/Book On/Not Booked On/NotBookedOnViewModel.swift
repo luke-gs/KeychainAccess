@@ -77,11 +77,11 @@ open class NotBookedOnViewModel: CADFormCollectionViewModel<NotBookedOnItemViewM
     }
     
     open func stayOffDutyButtonText() -> String? {
-        return NSLocalizedString("Stay Off Duty", comment: "").uppercased()
+        return NSLocalizedString("Stay Off Duty", comment: "")
     }
     
     open func allCallsignsButtonText() -> String? {
-        return NSLocalizedString("View All Callsigns", comment: "").uppercased()
+        return NSLocalizedString("View All Callsigns", comment: "")
     }
     
     // MARK: - Override
