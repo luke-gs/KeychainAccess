@@ -11,10 +11,10 @@ import Alamofire
 extension DataRequest {
 
     private static var acceptableImageContentTypes: Set<String> = [
-        "image/tiff",
-        "image/jpeg",
         "image/gif",
+        "image/jpeg",
         "image/png",
+        "image/tiff",
     ]
 
     public class var imageScale: CGFloat {
