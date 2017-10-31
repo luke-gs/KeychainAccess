@@ -10,15 +10,15 @@ import Foundation
 import MapKit
 
 open class MapSummarySearchResultViewModel<T: MPOLKitEntity, U : EntityMapSummaryDisplayable>: MapResultViewModelable, AggregatedSearchDelegate {
+    public var searchType: LocationMapSearchType!
+
 
     public var title: String = "OVERVIEW"
     
     public var status: SearchState? {
         return aggregatedSearch?.state
     }
-    
-    public var searchType: LocationMapSearchType!
-    
+
     public weak var delegate: MapResultViewModelDelegate?
     
     public var aggregatedSearch: AggregatedSearch<T>! {
@@ -64,12 +64,12 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity, U : EntityMapSummar
 
     // MARK: - AggregateSearchDelegate 
     
-    public func aggregatedSearch<U>(_ aggregatedSearch: AggregatedSearch<U>, didBeginSearch request: AggregatedSearchRequest<U>) {
+    public func aggregatedSearch<T>(_ aggregatedSearch: AggregatedSearch<T>, didBeginSearch request: AggregatedSearchRequest<T>) {
         self.results = self.processedResults(from: self.aggregatedSearch.results)
         delegate?.mapResultViewModelDidUpdateResults(self)
     }
     
-    public func aggregatedSearch<U>(_ aggregatedSearch: AggregatedSearch<U>, didEndSearch request: AggregatedSearchRequest<U>) {
+    public func aggregatedSearch<T>(_ aggregatedSearch: AggregatedSearch<T>, didEndSearch request: AggregatedSearchRequest<T>) {
         self.results = self.processedResults(from: self.aggregatedSearch.results)
         delegate?.mapResultViewModelDidUpdateResults(self)
     }

@@ -61,7 +61,7 @@ extension EntityListCollectionViewCell: EntityMapSummaryDecoratable {
     public func decorate(with entitySummary: EntityMapSummaryDisplayable) {
         titleLabel.text    = entitySummary.title
         subtitleLabel.text = entitySummary.detail1
-        alertColor         = entitySummary.alertColor
+        borderColor        = entitySummary.iconColor
         actionCount        = entitySummary.badge
         sourceLabel.text   = entitySummary.category
         highlightStyle     = .fade
@@ -76,6 +76,6 @@ extension EntityListCollectionViewCell: EntityMapSummaryDecoratable {
             thumbnailView.imageView.image = nil
         }
         
-        thumbnailView.borderColor = entitySummary.alertColor
+        thumbnailView.borderColor = entitySummary.borderColor
     }
 }

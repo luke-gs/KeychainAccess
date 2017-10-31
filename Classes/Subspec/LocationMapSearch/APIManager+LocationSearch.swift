@@ -21,7 +21,7 @@ extension APIManager {
         
         let path = "{source}/entity/location/search/radius"
         var parameters = request.parameters
-        parameters["source"] = source
+        parameters["source"] = source.serverSourceName
         
         let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
         
@@ -38,7 +38,7 @@ extension APIManager {
     open func locationBoundingBoxSearch<T: EntitySearchRequestable> (in source: EntitySource, with request: T) -> Promise<SearchResult<T.ResultClass>> {
         let path = "{source}/entity/location/search/boundingbox?"
         var parameters = request.parameters
-        parameters["source"] = source
+        parameters["source"] = source.serverSourceName
         
         let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
         

@@ -45,7 +45,7 @@ public protocol MapResultViewModelable: SearchResultModelable {
     var results: [SearchResultSection] { get set }
     
     /// Search enum, to identifiy the seach type and parameters
-    var searchType: LocationMapSearchType! { get set }
+     var searchType: LocationMapSearchType! { get set }
     
     /// Lookup the first entity matches the coordinate
     ///

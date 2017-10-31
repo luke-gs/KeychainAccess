@@ -280,7 +280,7 @@ public class LocationSearchDataSource<T: LocationAdvancedOptions, U: LocationSea
 
         let preferredViewModel = searchStrategy.resultModelForSearchOnLocation(withResult: result, andSearchable: search)
         let radiusSearch = LocationMapSearchType.make.radiusSearch(coordinate: result.location.coordinate)
-//        preferredViewModel.fetchResults(with: radiusSearch)
+        // preferredViewModel.fetchResults(with: radiusSearch)
 
         updatingDelegate?.searchDataSource(self, didFinishWith: search, andResultViewModel: preferredViewModel)
     }
