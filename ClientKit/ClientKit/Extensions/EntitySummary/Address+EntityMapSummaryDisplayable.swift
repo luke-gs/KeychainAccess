@@ -11,7 +11,7 @@ import MPOLKit
 import MapKit
 
 public struct AddressSummaryDisplayable: EntityMapSummaryDisplayable {
-    
+
     public let address: Address
     
     public init(_ entity: MPOLKitEntity) {
@@ -34,8 +34,12 @@ public struct AddressSummaryDisplayable: EntityMapSummaryDisplayable {
         return address.formatted()
     }
     
-    public var alertColor: UIColor? {
+    public var borderColor: UIColor? {
         return address.alertLevel?.color
+    }
+
+    public var iconColor: UIColor? {
+        return nil
     }
     
     public var badge: UInt {
