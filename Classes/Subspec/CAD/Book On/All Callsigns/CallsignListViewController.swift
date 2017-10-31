@@ -135,6 +135,7 @@ open class CallsignListViewController: CADFormCollectionViewController<NotBooked
             cell.titleLabel.text = viewModel.title
             cell.subtitleLabel.text = viewModel.subtitle
             cell.imageView.image = viewModel.image
+            cell.imageView.tintColor = viewModel.imageColor
             
             if let viewModel = viewModel as? NotBookedOnCallsignItemViewModel, viewModel.badgeText != nil {
                 var edgeInsets = RoundedRectLabel.defaultLayoutMargins

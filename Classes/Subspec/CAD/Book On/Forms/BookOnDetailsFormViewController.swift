@@ -270,11 +270,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         if viewModel.isEditing {
             _ = navigationController?.popViewController(animated: true)
         } else {
-            if presentingViewController != nil {
-                dismiss(animated: true, completion: nil)
-            } else {
-                navigationController?.popViewController(animated: true)
-            } 
+            navigationController?.popViewController(animated: true) 
         }
     }
 

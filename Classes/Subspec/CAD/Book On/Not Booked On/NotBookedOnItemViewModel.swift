@@ -22,10 +22,14 @@ open class NotBookedOnItemViewModel {
         self.imageColor = imageColor
         self.imageBackgroundColor = imageBackgroundColor
         
-        self.image = image?.withCircleBackground(tintColor: imageColor,
-                                              circleColor: imageBackgroundColor,
-                                              padding: CGSize(width: 25, height: 25),
-                                              shrinkImage: false)
+        if imageBackgroundColor != nil {
+            self.image = image?.withCircleBackground(tintColor: imageColor,
+                                                     circleColor: imageBackgroundColor,
+                                                     padding: CGSize(width: 25, height: 25),
+                                                     shrinkImage: false)
+        } else {
+            self.image = image
+        }
     }
 }
 
