@@ -18,8 +18,9 @@ open class NotBookedOnViewModel: CADFormCollectionViewModel<NotBookedOnItemViewM
                                               items: [
                                                 NotBookedOnItemViewModel(title: "Collingwood",
                                                                          subtitle: "9 Callsigns",
-                                                                         image: AssetManager.shared.image(forKey: .otherPatrolArea),
-                                                                         imageColor: #colorLiteral(red: 0, green: 0.4793452024, blue: 0.9990863204, alpha: 1))
+                                                                         image:  AssetManager.shared.image(forKey: .otherPatrolArea),
+                                                                         imageColor: #colorLiteral(red: 0, green: 0.4793452024, blue: 0.9990863204, alpha: 1),
+                                                                         imageBackgroundColor: nil)
                 ]
             ),
             
@@ -29,25 +30,29 @@ open class NotBookedOnViewModel: CADFormCollectionViewModel<NotBookedOnItemViewM
                                                                                  status: "Off Duty",
                                                                                  location: "Collingwood Station",
                                                                                  image: AssetManager.shared.image(forKey: .resourceCar),
-                                                                                 imageColor: #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1)
+                                                                                 imageColor: #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1),
+                                                                                 imageBackgroundColor: #colorLiteral(red: 0.8431372549, green: 0.8431372549, blue: 0.8509803922, alpha: 1)
                                                 ),
                                                 NotBookedOnCallsignItemViewModel(callsign: "P24",
                                                                                  status: "Off Duty",
                                                                                  location: "Collingwood Station",
                                                                                  image: AssetManager.shared.image(forKey: .resourceCar),
-                                                                                 imageColor: #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1)
+                                                                                 imageColor: #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1),
+                                                                                 imageBackgroundColor: #colorLiteral(red: 0.8431372549, green: 0.8431372549, blue: 0.8509803922, alpha: 1)
                                                 ),
                                                 NotBookedOnCallsignItemViewModel(callsign: "P29",
                                                                                  status: "Off Duty",
                                                                                  location: "Collingwood Station",
                                                                                  image: AssetManager.shared.image(forKey: .resourceCar),
-                                                                                 imageColor: #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1)
+                                                                                 imageColor: #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1),
+                                                                                 imageBackgroundColor: #colorLiteral(red: 0.8431372549, green: 0.8431372549, blue: 0.8509803922, alpha: 1)
                                                 ),
                                                 NotBookedOnCallsignItemViewModel(callsign: "K94",
                                                                                  status: "On Air",
                                                                                  location: "Each Richmond",
                                                                                  image: AssetManager.shared.image(forKey: .resourceDog),
-                                                                                 imageColor: #colorLiteral(red: 0.2980392157, green: 0.6862745098, blue: 0.3137254902, alpha: 1)
+                                                                                 imageColor: .black,
+                                                                                 imageBackgroundColor: #colorLiteral(red: 0.2980392157, green: 0.6862745098, blue: 0.3137254902, alpha: 1)
                                                 )
                 ]
             )

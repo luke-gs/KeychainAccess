@@ -14,12 +14,15 @@ open class NotBookedOnItemViewModel {
     open var subtitle: String
     open var image: UIImage?
     open var imageColor: UIColor?
-    
-    public init(title: String, subtitle: String, image: UIImage?, imageColor: UIColor?) {
+    open var imageBackgroundColor: UIColor?
+
+
+    public init(title: String, subtitle: String, image: UIImage?, imageColor: UIColor?, imageBackgroundColor: UIColor?) {
         self.title = title
         self.subtitle = subtitle
         self.image = image
         self.imageColor = imageColor
+        self.imageBackgroundColor = imageBackgroundColor
     }
 }
 
@@ -35,6 +38,6 @@ open class NotBookedOnCallsignItemViewModel: NotBookedOnItemViewModel, BookOnCal
         self.location = location
 
         let subtitle = [location, status].removeNils().joined(separator: " : ")
-        super.init(title: callsign, subtitle: subtitle, image: image, imageColor: imageColor)
+        super.init(title: callsign, subtitle: subtitle, image: image, imageColor: imageColor, imageBackgroundColor: imageBackgroundColor)
     }
 }

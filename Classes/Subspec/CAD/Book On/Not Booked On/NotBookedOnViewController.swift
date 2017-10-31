@@ -157,8 +157,10 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
         if let cell = cell as? CollectionViewFormSubtitleCell {
             cell.titleLabel.text = viewModel.title
             cell.subtitleLabel.text = viewModel.subtitle
-            cell.imageView.image = viewModel.image?.withRenderingMode(.alwaysTemplate)
-            cell.imageView.tintColor = viewModel.imageColor
+            cell.imageView.image = viewModel.image?.withCircleBackground(tintColor: viewModel.imageColor,
+                                                                         circleColor: viewModel.imageBackgroundColor,
+                                                                         padding: CGSize(width: 25, height: 25),
+                                                                         shrinkImage: false)
         }
     }
     
