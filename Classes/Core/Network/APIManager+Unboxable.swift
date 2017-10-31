@@ -9,6 +9,7 @@
 import Unbox
 import PromiseKit
 
+// Extension to perform network request that returns anything that conforms to `Unboxable`
 public extension APIManager {
 
     /// Perform specified network request.
