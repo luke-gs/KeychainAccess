@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// View model of not booked on screen items
 open class NotBookedOnItemViewModel {
     open var title: String
     open var subtitle: String
@@ -19,5 +20,21 @@ open class NotBookedOnItemViewModel {
         self.subtitle = subtitle
         self.image = image
         self.imageColor = imageColor
+    }
+}
+
+/// View model of callsign section of not booked on screen
+open class NotBookedOnCallsignItemViewModel: NotBookedOnItemViewModel, BookOnCallsignViewModelType {
+    public var callsign: String
+    public var status: String?
+    public var location: String?
+
+    public init(callsign: String, status: String?, location: String?, image: UIImage?, imageColor: UIColor?) {
+        self.callsign = callsign
+        self.status = status
+        self.location = location
+
+        let subtitle = [location, status].removeNils().joined(separator: " : ")
+        super.init(title: callsign, subtitle: subtitle, image: image, imageColor: imageColor)
     }
 }

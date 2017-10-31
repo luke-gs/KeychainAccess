@@ -17,7 +17,6 @@ public class OfficerDetailsViewModel {
     
     public init(officer: BookOnDetailsFormContentViewModel.Officer) {
         details = BookOnDetailsFormContentViewModel.Officer(withOfficer: officer)
-
     }
     
     /// Create the view controller for this view model
@@ -28,14 +27,12 @@ public class OfficerDetailsViewModel {
     
     /// The title to use in the navigation bar
     open func navTitle() -> String {
-        // TODO: get from user session
-        return "Jason Chieng"
+        return details.title ?? ""
     }
     
     /// The subtitle to use in the navigation bar
     open func navSubtitle() -> String {
-        // TODO: get from user session
-        return "Senior Sergeant : #800108"
+        return details.subtitle
     }
 
     /// Submits the form
