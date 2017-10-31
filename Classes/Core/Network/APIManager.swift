@@ -35,15 +35,6 @@ open class APIManager {
                                         serverTrustPolicyManager: configuration.trustPolicyManager)
     }
 
-    /// Perform specified network request.
-    ///
-    /// - Parameter networkRequest: The network request to be executed.
-    /// - Returns: A promise to return of specified type.
-    open func performRequest<T: Unboxable>(_ networkRequest: NetworkRequestType) throws -> Promise<T> {
-        let request = try urlRequest(from: networkRequest)
-        return dataRequestPromise(request)
-    }
-
     /// Perform specified network request that returns the data and the raw response
     ///
     /// - Parameter networkRequest: The network request to be executed.
@@ -56,12 +47,21 @@ open class APIManager {
     /// Perform specified network request.
     ///
     /// - Parameter networkRequest: The network request to be executed.
+    /// - Returns: A promise to return of specified type.
+    open func performRequest<T: Unboxable>(_ networkRequest: NetworkRequestType) throws -> Promise<T> {
+        let request = try urlRequest(from: networkRequest)
+        return dataRequestPromise(request)
+    }
+
+    /// Perform specified network request.
+    ///
+    /// - Parameter networkRequest: The network request to be executed.
     /// - Returns: A promise to return array of specified type.
     open func performRequest<T: Unboxable>(_ networkRequest: NetworkRequestType) throws -> Promise<[T]> {
         let request = try urlRequest(from: networkRequest)
         return dataRequestPromise(request)
     }
-
+    
     /// Request for access token.
     ///
     /// Supports implicit `NSProgress` reporting.
@@ -121,10 +121,6 @@ open class APIManager {
 
     // MARK : - Internal Utilities
 
-    private func url(with path: String) -> URL {
-        return baseURL.appendingPathComponent(path)
-    }
-
     private var allPlugins: [PluginType] {
         guard let authenticationPlugin = authenticationPlugin else {
             return plugins
@@ -138,7 +134,16 @@ open class APIManager {
 
     private func urlRequest(from networkRequest: NetworkRequestType) throws -> URLRequest {
         let path = networkRequest.path
-        let requestPath = url(with: path)
+
+        let requestPath: URL
+        if networkRequest.isRelative {
+            requestPath = baseURL.appendingPathComponent(path)
+        } else {
+            guard let urlPath = URL(string: path) else {
+                throw AFError.invalidURL(url: path)
+            }
+            requestPath = urlPath
+        }
 
         let parameters = networkRequest.parameters
 

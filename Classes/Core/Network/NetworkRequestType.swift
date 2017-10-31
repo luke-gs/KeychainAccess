@@ -22,4 +22,6 @@ public protocol NetworkRequestType {
 
     var parameterEncoding: ParameterEncoding { get }
 
+    var isRelative: Bool { get }
+
 }
