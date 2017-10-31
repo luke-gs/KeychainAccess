@@ -114,6 +114,8 @@
 		27CBC7651F8B27D500E387C3 /* CADStatusTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A4621F83555A00CAE056 /* CADStatusTabBarController.swift */; };
 		27CBC7661F8B27D500E387C3 /* UserCallsignStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A4631F83555A00CAE056 /* UserCallsignStatusView.swift */; };
 		27CBC7671F8B27D500E387C3 /* UserCallsignStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A4641F83555A00CAE056 /* UserCallsignStatusViewModel.swift */; };
+		27F9C96C1FA2D7E300825F88 /* CompactCallsignViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F9C96B1FA2D7E300825F88 /* CompactCallsignViewController.swift */; };
+		27F9C96E1FA2D9D000825F88 /* UIViewController+ChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F9C96D1FA2D9D000825F88 /* UIViewController+ChildViewController.swift */; };
 		4420D2801F66428D00E20304 /* Sequence+Nils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4420D27F1F66428D00E20304 /* Sequence+Nils.swift */; };
 		44621FF61F59239C007C3150 /* FilterRangeDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44621FF41F59239C007C3150 /* FilterRangeDescriptor.swift */; };
 		44621FF71F59239C007C3150 /* FilterValueDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44621FF51F59239C007C3150 /* FilterValueDescriptor.swift */; };
@@ -566,6 +568,8 @@
 		27C9C7601F95692400799855 /* NotBookedOnViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotBookedOnViewController.swift; sourceTree = "<group>"; };
 		27C9C7641F95736500799855 /* NotBookedOnViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotBookedOnViewModel.swift; sourceTree = "<group>"; };
 		27C9C7661F95737C00799855 /* NotBookedOnItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotBookedOnItemViewModel.swift; sourceTree = "<group>"; };
+		27F9C96B1FA2D7E300825F88 /* CompactCallsignViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactCallsignViewController.swift; sourceTree = "<group>"; };
+		27F9C96D1FA2D9D000825F88 /* UIViewController+ChildViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+ChildViewController.swift"; sourceTree = "<group>"; };
 		4420D27F1F66428D00E20304 /* Sequence+Nils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Sequence+Nils.swift"; sourceTree = "<group>"; };
 		44621FF41F59239C007C3150 /* FilterRangeDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterRangeDescriptor.swift; sourceTree = "<group>"; };
 		44621FF51F59239C007C3150 /* FilterValueDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterValueDescriptor.swift; sourceTree = "<group>"; };
@@ -1304,6 +1308,7 @@
 				9650CA131F958B2D0087F5C9 /* ManageCallsignStatusViewController.swift */,
 				9650CA141F958B2D0087F5C9 /* ManageCallsignStatusViewModel.swift */,
 				9650CA181F95B2520087F5C9 /* ManageCallsignStatus.swift */,
+				27F9C96B1FA2D7E300825F88 /* CompactCallsignViewController.swift */,
 			);
 			path = Callsign;
 			sourceTree = "<group>";
@@ -1468,6 +1473,7 @@
 				BC9C7D1F1F0DED6600DFFE83 /* UnboxableResponseSerializer.swift */,
 				BC9C7D201F0DED6600DFFE83 /* UserDefaults+MPOL.swift */,
 				2784FDBA1FA1549D007B18B2 /* Optional+Extension.swift */,
+				27F9C96D1FA2D9D000825F88 /* UIViewController+ChildViewController.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -2559,6 +2565,7 @@
 				BC9C7E0B1F0DED6600DFFE83 /* UIView+Convenience.swift in Sources */,
 				EA09A0501F78B95D00BC3C0E /* CharacterSetSpecification.swift in Sources */,
 				EA6CF5421F7494C1002063D8 /* TextViewFormItem.swift in Sources */,
+				27F9C96E1FA2D9D000825F88 /* UIViewController+ChildViewController.swift in Sources */,
 				BC1B26111F20BBD7009674B7 /* UIViewController+ParentSearching.swift in Sources */,
 				BC9C7E491F0DED6600DFFE83 /* SourceItem.swift in Sources */,
 				BC9C7E1B1F0DED6600DFFE83 /* MPOLAssert.swift in Sources */,
@@ -2573,6 +2580,7 @@
 				DB88BCDE1F42D0080056FD69 /* SearchViewController.swift in Sources */,
 				BC9C7E111F0DED6600DFFE83 /* TableViewFormCheckboxCell.swift in Sources */,
 				EA69F8291F7C8EAD0092380B /* PickerFormItem.swift in Sources */,
+				27F9C96C1FA2D7E300825F88 /* CompactCallsignViewController.swift in Sources */,
 				9650CA1B1F96FA7B0087F5C9 /* UIViewController+Subtitle.swift in Sources */,
 				BC9C7DEE1F0DED6600DFFE83 /* Serialisable.swift in Sources */,
 				BC9C7DEB1F0DED6600DFFE83 /* EntitySource.swift in Sources */,
