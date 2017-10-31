@@ -30,8 +30,8 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
 
     // MARK: - View lifecycle
 
-    override open func viewDidLoad() {
-        super.viewDidLoad()
+    override open func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         setTitleView(title: viewModel.navTitle(), subtitle: viewModel.navSubtitle())
     }
 
@@ -270,7 +270,11 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         if viewModel.isEditing {
             _ = navigationController?.popViewController(animated: true)
         } else {
-            dismiss(animated: true, completion: nil)
+            if presentingViewController != nil {
+                dismiss(animated: true, completion: nil)
+            } else {
+                navigationController?.popViewController(animated: true)
+            } 
         }
     }
 
@@ -306,6 +310,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
 
 extension BookOnDetailsFormViewController: BookOnDetailsFormViewModelDelegate {
     public func didUpdateDetails() {
+        navigationController?.popToViewController(self, animated: true)
         reloadForm()
     }
 }
