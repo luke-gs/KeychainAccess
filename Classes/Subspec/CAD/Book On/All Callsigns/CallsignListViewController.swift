@@ -55,7 +55,18 @@ open class CallsignListViewController: CADFormCollectionViewController<CallsignL
     
     open override func loadView() {
         super.loadView()
-        collectionViewTopConstraint?.constant = LayoutConstants.searchBarHeight
+
+        // Disable auto resize masks and apply constraints to make space for search bar
+        collectionView?.translatesAutoresizingMaskIntoConstraints = false
+
+        if let collectionView = collectionView {
+            NSLayoutConstraint.activate([
+                collectionView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor, constant: LayoutConstants.searchBarHeight),
+                collectionView.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor),
+                collectionView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor),
+                collectionView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor).withPriority(.almostRequired)
+            ])
+        }
     }
 
     /// Creates and styles views
