@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PromiseKit
 
 /// View controller for managing the current callsign status
 class ManageCallsignStatusViewController: UIViewController, PopoverViewController {
@@ -240,14 +241,22 @@ extension ManageCallsignStatusViewController: UICollectionViewDelegate {
 
         if indexPath != viewModel.selectedIndexPath {
 
+            // TODO: show progress overlay
             let oldIndexPath = viewModel.selectedIndexPath
-            _ = viewModel.setSelectedIndexPath(indexPath).then { status -> Void in
-                // Cancel progress overlay
+
+            firstly {
+                // Attempt to change state
+                return viewModel.setSelectedIndexPath(indexPath)
+            }.then { _ in
                 UIView.performWithoutAnimation {
                     collectionView.performBatchUpdates({
                         collectionView.reloadItems(at: [indexPath, oldIndexPath])
                     }, completion: nil)
                 }
+            }.always {
+                // TODO: Cancel progress overlay
+            }.catch { error in
+                AlertQueue.shared.addErrorAlert(message: error.localizedDescription)
             }
         }
     }
