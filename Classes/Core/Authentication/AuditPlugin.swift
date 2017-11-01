@@ -1,5 +1,5 @@
 //
-//  AuthenticationPlugin.swift
+//  AuditPlugin.swift
 //  MPOLKit
 //
 //  Created by Valery Shorinov on 19/10/17.

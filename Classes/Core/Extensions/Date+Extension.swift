@@ -16,6 +16,21 @@ enum DateRoundingType {
 
 extension Date {
     
+    /// Returns the time interval till now
+    func dateAge() -> Int {
+        let timeInterval = Date().timeIntervalSince(self)
+        
+        return Int(timeInterval)
+    }
+    
+    /// Returns the number of seconds since start of day (midnight)
+    func minutesSinceMidnight() -> Int {
+        let units : Set<Calendar.Component> = [.hour, .minute]
+        
+        let components = Calendar.current.dateComponents(units, from: self)
+        return 60 * (components.hour ?? 0) + (components.minute ?? 0)
+    }
+    
     /// Rounds a date to specified minutes
     /// - author: https://stackoverflow.com/a/37261029
     func rounded(minutes: Int, rounding: DateRoundingType = .round) -> Date {

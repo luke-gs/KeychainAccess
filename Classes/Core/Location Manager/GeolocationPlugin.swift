@@ -1,5 +1,5 @@
 //
-//  Manifest.swift
+//  GeolocationPlugin.swift
 //  MPOLKit
 //
 //  Created by Valery Shorinov on 18/10/17.
@@ -23,27 +23,14 @@ open class GeolocationPlugin: PluginType {
     open func adapt(_ urlRequest: URLRequest) -> URLRequest {
         var adaptedRequest = urlRequest
         
-        func minutesSinceMidnight(start: Date) -> Int {
-            let units : Set<Calendar.Component> = [.hour, .minute]
-            
-            let components = Calendar.current.dateComponents(units, from: start)
-            return 60 * (components.hour ?? 0) + (components.minute ?? 0)
-        }
-        
-        func dataAge(from: Date) -> Int {
-            let timeInterval = Date().timeIntervalSince(from)
-            
-            return Int(timeInterval)
-        }
-        
         if let location = LocationManager.shared.lastLocation {
             adaptedRequest.addValue(String(location.coordinate.latitude), forHTTPHeaderField: GeolocationPlugin.locationLatitudeKey)
             adaptedRequest.addValue(String(location.coordinate.longitude), forHTTPHeaderField: GeolocationPlugin.locationLongitudeKey)
             adaptedRequest.addValue(String(location.altitude), forHTTPHeaderField: GeolocationPlugin.locationAltitudeKey)
             adaptedRequest.addValue(String(location.horizontalAccuracy), forHTTPHeaderField: GeolocationPlugin.locationHorizontalAccuracyKey)
             adaptedRequest.addValue(String(location.verticalAccuracy), forHTTPHeaderField: GeolocationPlugin.locationVerticalAccuracyKey)
-            adaptedRequest.addValue(String(minutesSinceMidnight(start: location.timestamp)), forHTTPHeaderField: GeolocationPlugin.locationTimeOfDayKey)
-            adaptedRequest.addValue(String(dataAge(from: location.timestamp)), forHTTPHeaderField: GeolocationPlugin.locationDataAge)
+            adaptedRequest.addValue(String(location.timestamp.minutesSinceMidnight()), forHTTPHeaderField: GeolocationPlugin.locationTimeOfDayKey)
+            adaptedRequest.addValue(String(location.timestamp.dateAge()), forHTTPHeaderField: GeolocationPlugin.locationDataAge)
 
             if location.course >= 0.0 { // Check if valid
                 adaptedRequest.addValue(String(location.course), forHTTPHeaderField: GeolocationPlugin.locationDirectionOfTravelKey)
