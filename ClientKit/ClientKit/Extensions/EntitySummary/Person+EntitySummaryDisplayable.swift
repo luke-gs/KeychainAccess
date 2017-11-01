@@ -44,15 +44,9 @@ public struct PersonSummaryDisplayable: EntitySummaryDisplayable {
     public var badge: UInt {
         return person.actionCount
     }
-    
-    public func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> (image: UIImage, mode: UIViewContentMode)? {
-        if let thumbnail = person.thumbnail {
-            return (thumbnail, .scaleAspectFill)
-        }
-        if person.initials?.isEmpty ?? true == false {
-            return (person.initialThumbnail, .scaleAspectFill)
-        }
-        return nil
+
+    public func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> AsynchronousImageSizing? {
+        return PersonImageSizing(person: person)
     }
     
     // MARK: - Private
