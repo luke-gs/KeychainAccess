@@ -6,6 +6,7 @@
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 
+/// Extension on UIImageView to configure itself using `AsynchronousImageSizing`.
 extension UIImageView {
 
     public func setImage(with asynchronousImageSizing: AsynchronousImageSizing) {
