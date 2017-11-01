@@ -346,8 +346,7 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
             } else {
                 let isSelected = selectedIndexes.remove(itemIndex) == nil
                 if isSelected {
-                    reloadIndexPaths.append(contentsOf: selectedIndexes.flatMap({ IndexPath(row: $0, section: 0) }))
-
+                    reloadIndexPaths.append(contentsOf: selectedIndexes.flatMap({ indexPathForItem(at: $0)} ))
                     selectedIndexes = IndexSet(integer: itemIndex)
                 }
                 updateCurrentCell(checked: isSelected)

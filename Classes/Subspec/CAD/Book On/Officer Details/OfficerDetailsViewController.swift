@@ -15,26 +15,6 @@ open class OfficerDetailsViewController: FormBuilderViewController {
     
     private var viewModel: OfficerDetailsViewModel
     
-    // MARK: - View Appearance
-    
-    /// Less transparent background color to default when used in form sheet, to give contrast for form text
-    private let transparentBackgroundColor = UIColor(white: 1, alpha: 0.5)
-    
-    override open var wantsTransparentBackground: Bool {
-        didSet {
-            if wantsTransparentBackground && ThemeManager.shared.currentInterfaceStyle == .light {
-                view?.backgroundColor = transparentBackgroundColor
-            }
-        }
-    }
-    
-    override open func apply(_ theme: Theme) {
-        super.apply(theme)
-        if wantsTransparentBackground && ThemeManager.shared.currentInterfaceStyle == .light {
-            view?.backgroundColor = transparentBackgroundColor
-        }
-    }
-    
     // MARK: - Setup
     
     public init(viewModel: OfficerDetailsViewModel) {
@@ -118,7 +98,6 @@ open class OfficerDetailsViewController: FormBuilderViewController {
             AlertQueue.shared.addErrorAlert(message: message)
         case .valid:
             viewModel.saveForm()
-            navigationController?.popViewController(animated: true)
         }
     }
     

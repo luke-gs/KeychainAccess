@@ -30,8 +30,8 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
 
     // MARK: - View lifecycle
 
-    override open func viewDidLoad() {
-        super.viewDidLoad()
+    override open func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         setTitleView(title: viewModel.navTitle(), subtitle: viewModel.navSubtitle())
     }
 
@@ -279,7 +279,11 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         if viewModel.isEditing {
             _ = navigationController?.popViewController(animated: true)
         } else {
-            dismiss(animated: true, completion: nil)
+            if presentingViewController != nil {
+                dismiss(animated: true, completion: nil)
+            } else {
+                navigationController?.popViewController(animated: true)
+            } 
         }
     }
 
@@ -291,30 +295,11 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
             cell.valueLabel.adjustsFontSizeToFitWidth = true
         }
     }
-
-    // MARK: - Background
-
-    /// Less transparent background to default when used in form sheet, to give contrast for form text
-    private var transparentBackground = UIColor(white: 1, alpha: 0.5)
-
-    override open var wantsTransparentBackground: Bool {
-        didSet {
-            if wantsTransparentBackground && ThemeManager.shared.currentInterfaceStyle == .light {
-                view?.backgroundColor = transparentBackground
-            }
-        }
-    }
-
-    override open func apply(_ theme: Theme) {
-        super.apply(theme)
-        if wantsTransparentBackground && ThemeManager.shared.currentInterfaceStyle == .light {
-            view?.backgroundColor = transparentBackground
-        }
-    }
 }
 
 extension BookOnDetailsFormViewController: BookOnDetailsFormViewModelDelegate {
     public func didUpdateDetails() {
+        navigationController?.popToViewController(self, animated: true)
         reloadForm()
     }
 }
