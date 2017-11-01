@@ -257,6 +257,13 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
             builder.validateAndUpdateUI()
             AlertQueue.shared.addErrorAlert(message: message)
         case .valid:
+            // Check officer forms are also valid
+            for officer in viewModel.details.officers {
+                if officer.incompleteStatus != nil {
+                    AlertQueue.shared.addErrorAlert(message: NSLocalizedString("Please complete details for officers", comment: ""))
+                    return
+                }
+            }
             self.submitForm()
         }
     }
