@@ -92,8 +92,8 @@ open class APIManager {
         parameters["source"] = source.serverSourceName
         parameters["entityType"] = SearchRequest.ResultClass.serverTypeRepresentation
 
-        return LocationManager.shared.requestLocation().recover { error -> CLLocation in
-            return LocationManager.shared.lastLocation ?? CLLocation()
+        return LocationManager.shared.requestLocation().recover { error -> CLLocation? in
+            return LocationManager.shared.lastLocation
             }.then { _ -> Promise<SearchResult<SearchRequest.ResultClass>> in
                 let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
                 
