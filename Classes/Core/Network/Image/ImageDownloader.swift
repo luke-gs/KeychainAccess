@@ -31,6 +31,7 @@ public class ImageDownloader {
         imageCache = try! Storage(diskConfig: diskCacheConfig, memoryConfig: MemoryConfig())
     }
 
+    @discardableResult
     public func fetchImage(using imageResourceDescription: RemoteResourceDescribing) -> Promise<UIImage> {
         // Try to retrieve from cache first.
 
