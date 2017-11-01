@@ -36,7 +36,7 @@ public class ImageDownloader {
         // Try to retrieve from cache first.
 
         func retrieveAndCacheImagePromise() -> Promise<UIImage> {
-            let networkRequest = try! NetworkRequest(pathTemplate: imageResourceDescription.downloadURL.absoluteString, parameters: [:])
+            let networkRequest = try! NetworkRequest(pathTemplate: imageResourceDescription.downloadURL.absoluteString, parameters: [:], isRelativePath: false)
             let promise: Promise<UIImage> = try! _actualAPIManager.performRequest(networkRequest)
 
             return promise.then { [weak self] image -> Promise<UIImage> in
