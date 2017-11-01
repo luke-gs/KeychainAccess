@@ -30,7 +30,6 @@ extension UIImage: ImageSizable {
 
 public struct ImageSizing: ImageLoadable {
 
-
     /// The image
     public var image: UIImage?
 
