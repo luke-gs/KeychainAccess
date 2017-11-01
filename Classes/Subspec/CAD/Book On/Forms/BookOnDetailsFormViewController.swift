@@ -286,26 +286,6 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
             cell.valueLabel.adjustsFontSizeToFitWidth = true
         }
     }
-
-    // MARK: - Background
-
-    /// Less transparent background to default when used in form sheet, to give contrast for form text
-    private var transparentBackground = UIColor(white: 1, alpha: 0.5)
-
-    override open var wantsTransparentBackground: Bool {
-        didSet {
-            if wantsTransparentBackground && ThemeManager.shared.currentInterfaceStyle == .light {
-                view?.backgroundColor = transparentBackground
-            }
-        }
-    }
-
-    override open func apply(_ theme: Theme) {
-        super.apply(theme)
-        if wantsTransparentBackground && ThemeManager.shared.currentInterfaceStyle == .light {
-            view?.backgroundColor = transparentBackground
-        }
-    }
 }
 
 extension BookOnDetailsFormViewController: BookOnDetailsFormViewModelDelegate {
