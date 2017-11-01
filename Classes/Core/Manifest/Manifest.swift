@@ -17,6 +17,22 @@ public extension NSNotification.Name {
     static let ManifestDidUpdate = NSNotification.Name(rawValue: "ManifestDidUpdate")
 }
 
+private enum Coding: String {
+    case active = "active"
+    case collection = "category"
+    case title = "title"
+    case subtitle = "subtitle"
+    case shortTitle = "shortTitle"
+    case rawValue = "value"
+    case sortOrder = "sortOrder"
+    case effectiveDate = "effectiveDate"
+    case expiryDate = "expiryDate"
+    case dateLastUpdated = "dateLastUpdated"
+    case additionalData = "additionalData"
+    case latitude = "latitude"
+    case longitude = "longitude"
+}
+
 public final class Manifest: NSObject {
     
     private static var storageDirectory: URL = {
@@ -207,20 +223,19 @@ public final class Manifest: NSObject {
     }
     
     public static let dateFormatter:ISO8601DateFormatter = ISO8601DateFormatter()
-    private var updateCompletionArray:[(Error?) -> Void] = []
     private var updatingPromiseArray:[Promise<Void>] = []
     
-    public func saveManifest(with manifestItems:[[String : Any]], at checkedAtDate:Date, completion: ((Error?) -> Void)?) {
-        if let completion = completion {
-            updateCompletionArray.append(completion)
-        }
+    public func saveManifest(with manifestItems:[[String : Any]], at checkedAtDate:Date) -> Promise<Void> {
         if isUpdating == false {
-            do {
+            return Promise { fulfill, reject in
                 self.isUpdating = true
                 let managedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
                 managedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator
                 managedObjectContext.perform { [weak managedObjectContext] in
-                    guard manifestItems.isEmpty ==  false, let context = managedObjectContext else { return }
+                    guard manifestItems.isEmpty ==  false, let context = managedObjectContext else {
+                        fulfill(())
+                        return
+                    }
                     
                     for entryDict in manifestItems {
                         guard let id = entryDict["id"] as? String else { continue }
@@ -235,41 +250,41 @@ public final class Manifest: NSObject {
                                 entry.id = id
                             }
                             
-                            entry.active        = entryDict["active"]     as? Bool ?? false
-                            entry.collection    = entryDict["category"]   as? String
-                            entry.title         = entryDict["title"]      as? String
-                            entry.subtitle      = entryDict["subtitle"]   as? String
-                            entry.shortTitle    = entryDict["shortTitle"] as? String
-                            entry.rawValue      = entryDict["value"]      as? String
-                            entry.sortOrder     = entryDict["sortOrder"]  as? Double ?? 0
+                            entry.active        = entryDict[Coding.active.rawValue]     as? Bool ?? false
+                            entry.collection    = entryDict[Coding.collection.rawValue]   as? String
+                            entry.title         = entryDict[Coding.title.rawValue]      as? String
+                            entry.subtitle      = entryDict[Coding.subtitle.rawValue]   as? String
+                            entry.shortTitle    = entryDict[Coding.shortTitle.rawValue] as? String
+                            entry.rawValue      = entryDict[Coding.rawValue.rawValue]      as? String
+                            entry.sortOrder     = entryDict[Coding.sortOrder.rawValue]  as? Double ?? 0
                             
-                            if let effectiveDateString = entryDict["effectiveDate"] as? String {
+                            if let effectiveDateString = entryDict[Coding.effectiveDate.rawValue] as? String {
                                 if let date = Manifest.dateFormatter.date(from: effectiveDateString) as Date? {
                                     entry.effectiveDate = date
                                 }
                             }
                             
-                            if let expiryDateString = entryDict["expiryDate"] as? String {
+                            if let expiryDateString = entryDict[Coding.expiryDate.rawValue] as? String {
                                 if let date = Manifest.dateFormatter.date(from: expiryDateString) as Date? {
                                     entry.expiryDate = date
                                 }
                             }
                             
-                            if let dateLastUpdated = entryDict["dateLastUpdated"] as? String {
+                            if let dateLastUpdated = entryDict[Coding.dateLastUpdated.rawValue] as? String {
                                 if let date = Manifest.dateFormatter.date(from: dateLastUpdated) as Date? {
                                     entry.lastUpdated = date
                                 }
                             }
                             
-                            if var additionalData = entryDict["additionalData"] as? [String: Any] {
+                            if var additionalData = entryDict[Coding.additionalData.rawValue] as? [String: Any] {
                                 
-                                if let latitude = additionalData["latitude"] as? NSNumber {
+                                if let latitude = additionalData[Coding.latitude.rawValue] as? NSNumber {
                                     entry.latitude = latitude
-                                    additionalData.removeValue(forKey: "latitude")
+                                    additionalData.removeValue(forKey: Coding.latitude.rawValue)
                                 }
-                                if let longitude = additionalData["longitude"] as? NSNumber {
+                                if let longitude = additionalData[Coding.longitude.rawValue] as? NSNumber {
                                     entry.longitude = longitude
-                                    additionalData.removeValue(forKey: "longitude")
+                                    additionalData.removeValue(forKey: Coding.longitude.rawValue)
                                 }
                                 
                                 entry.additionalDetails = additionalData
@@ -283,21 +298,17 @@ public final class Manifest: NSObject {
                         
                         DispatchQueue.main.async {
                             self.lastUpdateDate = checkedAtDate
-                            for completionBlock in self.updateCompletionArray {
-                                completionBlock(nil)
-                            }
-                            self.updateCompletionArray.removeAll()
+                            fulfill(())
                         }
                     } catch let error {
                         DispatchQueue.main.async {
-                            for completionBlock in self.updateCompletionArray {
-                                completionBlock(error)
-                            }
-                            self.updateCompletionArray.removeAll()
+                            reject(error)
                         }
                     }
                 }
             }
+        } else {
+            return Promise<Void>(value: ())
         }
     }
     
@@ -313,17 +324,17 @@ public final class Manifest: NSObject {
             
             /// Remove 60 seconds from any last date to ensure we get an overlap.
             /// It's better to catch more items and update them again than to miss any.
-            return APIManager.shared.fetchManifest(for: lastUpdateDate?.addingTimeInterval(-60.0)).then { [weak self] result -> Void in
-                guard let `self` = self else { return }
+            return APIManager.shared.fetchManifest(for: lastUpdateDate?.addingTimeInterval(-60.0)).then { [weak self] result -> Promise<Void> in
+                guard let `self` = self else { return Promise<Void>(value: ()) }
                 guard result.isEmpty == false else {
                     DispatchQueue.main.async {
                         self.isUpdating = false
                         self.lastUpdateDate = checkedAtDate
                     }
-                    return
+                    return Promise<Void>(value: ())
                 }
                 
-                return self.saveManifest(with: result, at:checkedAtDate, completion: nil)
+                return self.saveManifest(with: result, at:checkedAtDate)
                 
                 }.always {
                     self.isUpdating = false
