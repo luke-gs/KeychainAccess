@@ -19,6 +19,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private var loginViewController: LoginViewController?
     private var sessionViewController: CADStatusTabBarController?
+    
+    /// The view controller for the callsign tab in compact mode
+    private var callsignViewController: UIViewController?
 
     // FIXME: Temporary
     let locationManager = CLLocationManager()
@@ -41,7 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let window = UIWindow()
         self.window = window
-        
+
         applyCurrentTheme()
 
         updateAppForSessionState()
@@ -73,9 +76,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func createSessionViewController() -> UIViewController {
-        let tempCallsignController = UIViewController() // TODO: Add callsign view
-        tempCallsignController.tabBarItem = UITabBarItem(title: "Callsign", image: AssetManager.shared.image(forKey: .entityCar), selectedImage: nil)
-
+        let callsignViewController = CompactCallsignViewController()
+        callsignViewController.tabBarItem = UITabBarItem(title: "Callsign", image: AssetManager.shared.image(forKey: .entityCar), selectedImage: nil)
+        
         let searchProxyViewController = UIViewController() // TODO: Take me back to the search app
         searchProxyViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
         searchProxyViewController.tabBarItem.isEnabled = false
@@ -97,11 +100,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let sessionViewController = statusTabBarViewModel.createViewController()
 
         sessionViewController.regularViewControllers = [searchProxyViewController, tasksNavController, activityNavController]
-        sessionViewController.compactViewControllers = sessionViewController.viewControllers + [tempCallsignController]
+        sessionViewController.compactViewControllers = sessionViewController.viewControllers + [callsignViewController]
         sessionViewController.selectedViewController = tasksNavController
         self.sessionViewController = sessionViewController
         return sessionViewController
     }
+    
+
 
     private func createLoginViewController() -> UIViewController {
         let loginViewController = LoginViewController()
