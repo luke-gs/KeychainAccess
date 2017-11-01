@@ -20,13 +20,7 @@ extension EntityCollectionViewCell: EntitySummaryDecoratable {
         highlightStyle     = .fade
         
         if let thumbnailInfo = entitySummary.thumbnail(ofSize: style == .hero ? .large : .medium) {
-
-            thumbnailInfo.loadImage(completion: { sizable in
-                let image = sizable.sizing()
-                self.thumbnailView.imageView.contentMode = image.contentMode ?? .scaleToFill
-                self.thumbnailView.imageView.image = image.image
-            })
-
+            self.thumbnailView.imageView.setImage(with: thumbnailInfo)
         } else {
             thumbnailView.imageView.image = nil
         }
@@ -51,11 +45,7 @@ extension EntityListCollectionViewCell: EntitySummaryDecoratable {
         accessoryView      = accessoryView as? FormAccessoryView ?? FormAccessoryView(style: .disclosure)
 
         if let thumbnailInfo = entitySummary.thumbnail(ofSize: .small) {
-            thumbnailInfo.loadImage(completion: { sizable in
-                let image = sizable.sizing()
-                self.thumbnailView.imageView.contentMode = image.contentMode ?? .scaleToFill
-                self.thumbnailView.imageView.image = image.image
-            })
+            self.thumbnailView.imageView.setImage(with: thumbnailInfo)
         } else {
             thumbnailView.imageView.image = nil
         }
