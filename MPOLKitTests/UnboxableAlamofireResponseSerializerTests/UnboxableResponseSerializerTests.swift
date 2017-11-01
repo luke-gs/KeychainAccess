@@ -1,5 +1,5 @@
 //
-//  UnboxableResponseSerializerTests.swift
+//  UnboxableAlamofireResponseSerializerTests.swift
 //  MPOLKit
 //
 //  Created by Herli Halim on 18/5/17.
@@ -10,7 +10,7 @@
 import XCTest
 import Alamofire
 
-class UnboxableResponseSerializerTests: XCTestCase {
+class UnboxableAlamofireResponseSerializerTests: XCTestCase {
     
     var bundle: Bundle!
     
