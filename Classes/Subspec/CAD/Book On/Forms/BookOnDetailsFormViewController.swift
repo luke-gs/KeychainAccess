@@ -246,7 +246,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
     }
 
     @objc private func cancelFormTapped() {
-        closeForm()
+        closeForm(submitted: false)
     }
 
     @objc private func submitFormTapped() {
@@ -273,7 +273,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         firstly {
             return viewModel.submitForm()
             }.then { [unowned self] status in
-                self.closeForm()
+                self.closeForm(submitted: true)
             }.always {
                 // TODO: Cancel progress overlay
             }.catch { error in
@@ -282,15 +282,12 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         }
     }
 
-    private func closeForm() {
-        if viewModel.isEditing {
-            _ = navigationController?.popViewController(animated: true)
+    private func closeForm(submitted: Bool) {
+        // Dismiss the modal if we are booking on and got presented, go back to previous screen otherwise
+        if submitted && !viewModel.isEditing && presentingViewController != nil {
+            dismiss(animated: true, completion: nil)
         } else {
-            if presentingViewController != nil {
-                dismiss(animated: true, completion: nil)
-            } else {
-                navigationController?.popViewController(animated: true)
-            } 
+            navigationController?.popViewController(animated: true)
         }
     }
 
