@@ -267,7 +267,15 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
     }
 
     private func closeForm() {
-        navigationController?.popViewController(animated: true)
+        if viewModel.isEditing {
+            _ = navigationController?.popViewController(animated: true)
+        } else {
+            if presentingViewController != nil {
+                dismiss(animated: true, completion: nil)
+            } else {
+                navigationController?.popViewController(animated: true)
+            }
+        }
     }
 
     open override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
