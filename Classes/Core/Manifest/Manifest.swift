@@ -79,31 +79,26 @@ public final class Manifest: NSObject {
     /// - Parameters:
     ///   - copyUrl:               The URL at which the pre-seeded manifest is kept.
     ///   - seedDate:              The date of the pre-seed. Used for future fetches.
-    ///   - completion:            returns error in case the copy is unsuccessful or the override is unsuccessful.
-    public func preseedDatabase(withURL copyUrl: URL, seedDate: Date, completion: ((Error?) -> Void)? = nil) {
-        let finalURL = Manifest.storageURL
-        let fileManager = FileManager.default
-        
-        if fileManager.fileExists(at: finalURL) {
-            do {
-                try fileManager.removeItem(at: finalURL)
-            } catch let error {
-                if let completion = completion {
-                    completion(error)
-                    return
+    /// - Returns:                 returns a Void Promise, will fail in case the copy is unsuccessful or the override is unsuccessful.
+    public func preseedDatebase(withURL copyUrl: URL, seedDate: Date) -> Promise<Void> {
+        return Promise { fulfill, reject in
+            let finalURL = Manifest.storageURL
+            let fileManager = FileManager.default
+            
+            if fileManager.fileExists(at: finalURL) {
+                do {
+                    try fileManager.removeItem(at: finalURL)
+                } catch let error {
+                    reject(error)
                 }
             }
-        }
-
-        do {
-            try fileManager.copyItem(atPath: copyUrl.path, toPath: finalURL.path)
-            lastUpdateDate = seedDate
-            if let completion = completion {
-                completion(nil)
-            }
-        } catch let error {
-            if let completion = completion {
-                completion(error)
+            
+            do {
+                try fileManager.copyItem(atPath: copyUrl.path, toPath: finalURL.path)
+                lastUpdateDate = seedDate
+                fulfill(())
+            } catch let error {
+                reject(error)
             }
         }
     }
@@ -213,6 +208,7 @@ public final class Manifest: NSObject {
     
     public static let dateFormatter:ISO8601DateFormatter = ISO8601DateFormatter()
     private var updateCompletionArray:[(Error?) -> Void] = []
+    private var updatingPromiseArray:[Promise<Void>] = []
     
     public func saveManifest(with manifestItems:[[String : Any]], at checkedAtDate:Date, completion: ((Error?) -> Void)?) {
         if let completion = completion {
@@ -310,45 +306,73 @@ public final class Manifest: NSObject {
     /// Uses the APIManager to connect and retrive the latest manifest, using the lastUpdateDate as a Delta
     ///
     /// - Parameter completion: returns an error if any
-    public func update(completion: ((Error?) -> Void)?) {
+    public func update() -> Promise<Void> {
         if isUpdating == false {
             let checkedAtDate = Date()
             isUpdating = true
             
             /// Remove 60 seconds from any last date to ensure we get an overlap.
             /// It's better to catch more items and update them again than to miss any.
-            APIManager.shared.fetchManifest(for: lastUpdateDate?.addingTimeInterval(-60.0)).then { [weak self] result -> Void in
+            return APIManager.shared.fetchManifest(for: lastUpdateDate?.addingTimeInterval(-60.0)).then { [weak self] result -> Void in
                 guard let `self` = self else { return }
                 guard result.isEmpty == false else {
                     DispatchQueue.main.async {
                         self.isUpdating = false
                         self.lastUpdateDate = checkedAtDate
-                        completion?(nil)
-                        for completionBlock in self.updateCompletionArray {
-                            completionBlock(nil)
-                        }
-                        self.updateCompletionArray.removeAll()
                     }
                     return
                 }
                 
-                self.isUpdating = false
-                self.saveManifest(with: result, at:checkedAtDate, completion: completion)
+                return self.saveManifest(with: result, at:checkedAtDate, completion: nil)
                 
-                }.catch { error in
+                }.always {
                     self.isUpdating = false
-                    completion?(error)
-                    for completionBlock in self.updateCompletionArray {
-                        completionBlock(error)
-                    }
-                    self.updateCompletionArray.removeAll()
             }
-        } else {
-            if let completion = completion {
-                updateCompletionArray.append(completion)
-            }
+        } else { // Add to promise array
+            return Promise<Void>(value: ())
         }
     }
+    
+    
+//    public func update(completion: ((Error?) -> Void)?) {
+//        if isUpdating == false {
+//            let checkedAtDate = Date()
+//            isUpdating = true
+//
+//            /// Remove 60 seconds from any last date to ensure we get an overlap.
+//            /// It's better to catch more items and update them again than to miss any.
+//            APIManager.shared.fetchManifest(for: lastUpdateDate?.addingTimeInterval(-60.0)).then { [weak self] result -> Void in
+//                guard let `self` = self else { return }
+//                guard result.isEmpty == false else {
+//                    DispatchQueue.main.async {
+//                        self.isUpdating = false
+//                        self.lastUpdateDate = checkedAtDate
+//                        completion?(nil)
+//                        for completionBlock in self.updateCompletionArray {
+//                            completionBlock(nil)
+//                        }
+//                        self.updateCompletionArray.removeAll()
+//                    }
+//                    return
+//                }
+//
+//                self.isUpdating = false
+//                self.saveManifest(with: result, at:checkedAtDate, completion: completion)
+//
+//                }.catch { error in
+//                    self.isUpdating = false
+//                    completion?(error)
+//                    for completionBlock in self.updateCompletionArray {
+//                        completionBlock(error)
+//                    }
+//                    self.updateCompletionArray.removeAll()
+//            }
+//        } else {
+//            if let completion = completion {
+//                updateCompletionArray.append(completion)
+//            }
+//        }
+//    }
     
 }
 
