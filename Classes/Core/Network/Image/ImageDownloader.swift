@@ -18,7 +18,7 @@ public class ImageDownloader {
 
     public let imageDiskCacheConfig: DiskConfig
 
-    public let `default` = ImageDownloader()
+    public static let `default` = ImageDownloader()
 
     // If `APIManager` is not provided, the `APIManager.shared` will be used.
     // This is to allow to pass in different APIManager setup if required while
