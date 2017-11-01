@@ -79,31 +79,26 @@ public final class Manifest: NSObject {
     /// - Parameters:
     ///   - copyUrl:               The URL at which the pre-seeded manifest is kept.
     ///   - seedDate:              The date of the pre-seed. Used for future fetches.
-    ///   - completion:            returns error in case the copy is unsuccessful or the override is unsuccessful.
-    public func preseedDatabase(withURL copyUrl: URL, seedDate: Date, completion: ((Error?) -> Void)? = nil) {
-        let finalURL = Manifest.storageURL
-        let fileManager = FileManager.default
-        
-        if fileManager.fileExists(at: finalURL) {
-            do {
-                try fileManager.removeItem(at: finalURL)
-            } catch let error {
-                if let completion = completion {
-                    completion(error)
-                    return
+    /// - Returns:                 returns a Void Promise, will fail in case the copy is unsuccessful or the override is unsuccessful.
+    public func preseedDatebase(withURL copyUrl: URL, seedDate: Date) -> Promise<Void> {
+        return Promise { fulfill, reject in
+            let finalURL = Manifest.storageURL
+            let fileManager = FileManager.default
+            
+            if fileManager.fileExists(at: finalURL) {
+                do {
+                    try fileManager.removeItem(at: finalURL)
+                } catch let error {
+                    reject(error)
                 }
             }
-        }
-
-        do {
-            try fileManager.copyItem(atPath: copyUrl.path, toPath: finalURL.path)
-            lastUpdateDate = seedDate
-            if let completion = completion {
-                completion(nil)
-            }
-        } catch let error {
-            if let completion = completion {
-                completion(error)
+            
+            do {
+                try fileManager.copyItem(atPath: copyUrl.path, toPath: finalURL.path)
+                lastUpdateDate = seedDate
+                fulfill(())
+            } catch let error {
+                reject(error)
             }
         }
     }
