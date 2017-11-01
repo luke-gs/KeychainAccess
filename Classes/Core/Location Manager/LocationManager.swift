@@ -39,8 +39,8 @@ public final class LocationManager: NSObject {
     ///     - A promise with a Location
     ///
     @discardableResult
-    open func requestLocation() -> Promise<CLLocation> {
-        return CLLocationManager.promise().then { location -> CLLocation in
+    open func requestLocation() -> Promise<CLLocation?> {
+        return CLLocationManager.promise().then { location -> CLLocation? in
             self.lastLocation = location
             NotificationCenter.default.post(name: .LocationDidUpdate, object: self)
             return location
