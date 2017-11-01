@@ -195,14 +195,13 @@ open class APIManager {
     }
 
     private var allPlugins: [PluginType] {
-        guard let authenticationPlugin = authenticationPlugin else {
-            return plugins
+        var allPlugins = plugins
+        if let authenticationPlugin = authenticationPlugin {
+            allPlugins.append(authenticationPlugin)
+            allPlugins.append(GeolocationPlugin()) // Only add if user is authenticated. i.e: Logged in
         }
-
-        var new = plugins
-        new.append(authenticationPlugin)
-
-        return new
+        
+        return allPlugins
     }
 
     private func urlRequest(from networkRequest: NetworkRequestType) throws -> URLRequest {
