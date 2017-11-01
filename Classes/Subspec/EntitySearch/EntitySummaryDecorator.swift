@@ -21,7 +21,7 @@ extension EntityCollectionViewCell: EntitySummaryDecoratable {
         
         if let thumbnailInfo = entitySummary.thumbnail(ofSize: style == .hero ? .large : .medium) {
 
-            thumbnailInfo.requestImage(completion: { sizable in
+            thumbnailInfo.loadImage(completion: { sizable in
                 let image = sizable.sizing()
                 self.thumbnailView.imageView.contentMode = image.contentMode ?? .scaleToFill
                 self.thumbnailView.imageView.image = image.image
@@ -51,7 +51,7 @@ extension EntityListCollectionViewCell: EntitySummaryDecoratable {
         accessoryView      = accessoryView as? FormAccessoryView ?? FormAccessoryView(style: .disclosure)
 
         if let thumbnailInfo = entitySummary.thumbnail(ofSize: .small) {
-            thumbnailInfo.requestImage(completion: { sizable in
+            thumbnailInfo.loadImage(completion: { sizable in
                 let image = sizable.sizing()
                 self.thumbnailView.imageView.contentMode = image.contentMode ?? .scaleToFill
                 self.thumbnailView.imageView.image = image.image

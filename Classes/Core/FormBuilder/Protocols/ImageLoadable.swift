@@ -13,7 +13,7 @@ import Foundation
 /// `UIImage` implements this protocol.
 public protocol ImageLoadable: ImageSizable {
 
-    func requestImage(completion: @escaping (ImageSizable) -> ())
+    func loadImage(completion: @escaping (ImageSizable) -> ())
 
 }
 
@@ -22,7 +22,7 @@ extension UIImage: ImageLoadable {
     /// UIImage immediately calls completion with self as ImageSizable
     ///
     /// - Parameter completion: The completion handler.
-    public func requestImage(completion: @escaping (ImageSizable) -> ()) {
+    public func loadImage(completion: @escaping (ImageSizable) -> ()) {
         completion(self)
     }
 

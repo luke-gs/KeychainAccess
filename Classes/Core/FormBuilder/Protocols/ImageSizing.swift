@@ -58,7 +58,7 @@ public struct ImageSizing: ImageLoadable {
         return self
     }
 
-    public func requestImage(completion: @escaping (ImageSizable) -> ()) {
+    public func loadImage(completion: @escaping (ImageSizable) -> ()) {
         completion(self)
     }
 
