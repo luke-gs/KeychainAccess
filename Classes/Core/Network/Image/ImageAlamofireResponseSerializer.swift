@@ -1,5 +1,5 @@
 //
-//  ImageResponseSerializer.swift
+//  ImageAlamofireResponseSerializer.swift
 //  MPOLKit
 //
 //  Created by Herli Halim on 30/10/17.
