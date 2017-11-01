@@ -55,8 +55,6 @@ public final class Manifest: NSObject {
     private let managedObjectModel:         NSManagedObjectModel
     private let persistentStoreCoordinator: NSPersistentStoreCoordinator
     
-    public private(set) var isUpdating:Bool = false
-        
     /// The view context for the manifest. This should only be accessed from the main thread.
     public let viewContext: NSManagedObjectContext
     
@@ -223,12 +221,23 @@ public final class Manifest: NSObject {
     }
     
     public static let dateFormatter:ISO8601DateFormatter = ISO8601DateFormatter()
-    private var updatingPromiseArray:[Promise<Void>] = []
+    public private(set) var currenUpdatingPromise:Promise<Void>? = nil
+    public private(set) var currentSavingPromise:Promise<Void>? = nil
     
+    // MARK: - Save manifest
+    
+    /// Uses the APIManager to connect and retrive the latest manifest, using the lastUpdateDate as a Delta
+    ///
+    /// - Parameters:
+    ///     - ManifestItems: a dictionary of items to be saved
+    ///     - checkAtDate: the time/date the manifest was retrieved
+    /// - Return: A promise that returns the successful result once complete
+    ///
     public func saveManifest(with manifestItems:[[String : Any]], at checkedAtDate:Date) -> Promise<Void> {
-        if isUpdating == false {
-            return Promise { fulfill, reject in
-                self.isUpdating = true
+        if let currentPromise = self.currentSavingPromise {
+            return currentPromise
+        } else {
+            let newPromise = Promise<Void> { fulfill, reject in
                 let managedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
                 managedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator
                 managedObjectContext.perform { [weak managedObjectContext] in
@@ -293,7 +302,6 @@ public final class Manifest: NSObject {
                     }
                     
                     do {
-                        self.isUpdating = false
                         try context.save()
                         
                         DispatchQueue.main.async {
@@ -307,8 +315,8 @@ public final class Manifest: NSObject {
                     }
                 }
             }
-        } else {
-            return Promise<Void>(value: ())
+            self.currentSavingPromise = newPromise
+            return newPromise
         }
     }
     
@@ -316,19 +324,20 @@ public final class Manifest: NSObject {
     
     /// Uses the APIManager to connect and retrive the latest manifest, using the lastUpdateDate as a Delta
     ///
-    /// - Parameter completion: returns an error if any
+    /// - Return: A promise that returns the successful result once complete
+    ///
     public func update() -> Promise<Void> {
-        if isUpdating == false {
+        if let currentPromise = self.currenUpdatingPromise {
+            return currentPromise
+        } else {
             let checkedAtDate = Date()
-            isUpdating = true
-            
+        
             /// Remove 60 seconds from any last date to ensure we get an overlap.
             /// It's better to catch more items and update them again than to miss any.
-            return APIManager.shared.fetchManifest(for: lastUpdateDate?.addingTimeInterval(-60.0)).then { [weak self] result -> Promise<Void> in
+            let newPromise = APIManager.shared.fetchManifest(for: lastUpdateDate?.addingTimeInterval(-60.0)).then { [weak self] result -> Promise<Void> in
                 guard let `self` = self else { return Promise<Void>(value: ()) }
                 guard result.isEmpty == false else {
                     DispatchQueue.main.async {
-                        self.isUpdating = false
                         self.lastUpdateDate = checkedAtDate
                     }
                     return Promise<Void>(value: ())
@@ -337,53 +346,11 @@ public final class Manifest: NSObject {
                 return self.saveManifest(with: result, at:checkedAtDate)
                 
                 }.always {
-                    self.isUpdating = false
+                    self.currenUpdatingPromise = nil
             }
-        } else { // Add to promise array
-            return Promise<Void>(value: ())
+        self.currenUpdatingPromise = newPromise
+        return newPromise
         }
     }
-    
-    
-//    public func update(completion: ((Error?) -> Void)?) {
-//        if isUpdating == false {
-//            let checkedAtDate = Date()
-//            isUpdating = true
-//
-//            /// Remove 60 seconds from any last date to ensure we get an overlap.
-//            /// It's better to catch more items and update them again than to miss any.
-//            APIManager.shared.fetchManifest(for: lastUpdateDate?.addingTimeInterval(-60.0)).then { [weak self] result -> Void in
-//                guard let `self` = self else { return }
-//                guard result.isEmpty == false else {
-//                    DispatchQueue.main.async {
-//                        self.isUpdating = false
-//                        self.lastUpdateDate = checkedAtDate
-//                        completion?(nil)
-//                        for completionBlock in self.updateCompletionArray {
-//                            completionBlock(nil)
-//                        }
-//                        self.updateCompletionArray.removeAll()
-//                    }
-//                    return
-//                }
-//
-//                self.isUpdating = false
-//                self.saveManifest(with: result, at:checkedAtDate, completion: completion)
-//
-//                }.catch { error in
-//                    self.isUpdating = false
-//                    completion?(error)
-//                    for completionBlock in self.updateCompletionArray {
-//                        completionBlock(error)
-//                    }
-//                    self.updateCompletionArray.removeAll()
-//            }
-//        } else {
-//            if let completion = completion {
-//                updateCompletionArray.append(completion)
-//            }
-//        }
-//    }
-    
 }
 
