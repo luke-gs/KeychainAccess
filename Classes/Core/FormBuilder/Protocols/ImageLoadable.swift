@@ -10,7 +10,7 @@ import Foundation
 
 
 /// A protocol that allows the retrieving of image to be on demand.
-/// `UIImage` implements this protcol.
+/// `UIImage` implements this protocol.
 public protocol ImageLoadable: ImageSizable {
 
     func requestImage(completion: @escaping (ImageSizable) -> ())

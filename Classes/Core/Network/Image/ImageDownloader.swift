@@ -164,7 +164,7 @@ extension ImageDownloader {
 
     public static let defaultCacheName: String = "au.com.gridstone.ImageDownloader.cache.default"
 
-    // Default config has expiry of 1 hoursand size of 100 MB.
+    // Default config has expiry of 1 hour and size of 100 MB.
     public static var defaultDiskCacheConfig: DiskConfig {
         let config = DiskConfig(name: ImageDownloader.defaultCacheName, expiry: .seconds(3600), maxSize: 150 * 1024 * 1024, directory: nil, protectionType: nil)
         return config
