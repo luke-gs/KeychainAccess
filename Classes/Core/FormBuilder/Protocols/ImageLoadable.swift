@@ -10,13 +10,14 @@ import Foundation
 
 
 /// A protocol that allows the retrieving of image to be on demand.
-/// `UIImage` implements this protocol.
+
 public protocol ImageLoadable: ImageSizable {
 
     func loadImage(completion: @escaping (ImageSizable) -> ())
 
 }
 
+/// Extends `UIImage` to implement ImageLoadable for convenience.
 extension UIImage: ImageLoadable {
 
     /// UIImage immediately calls completion with self as ImageSizable
