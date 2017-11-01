@@ -199,6 +199,7 @@ open class APIManager {
         if let authenticationPlugin = authenticationPlugin {
             allPlugins.append(authenticationPlugin)
             allPlugins.append(GeolocationPlugin()) // Only add if user is authenticated. i.e: Logged in
+            allPlugins.append(AuditPlugin()) // Only add if user is authenticated. i.e: Logged in
         }
         
         return allPlugins

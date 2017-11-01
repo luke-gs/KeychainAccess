@@ -13,8 +13,6 @@ open class AuditPlugin: PluginType {
     static let auditSessionIdKey = "X-Session-ID"
     static let auditDeviceIdKey = "X-Device-ID"
     static let auditTransactionIdKey = "X-Transaction-ID"
-
-
     
     open func adapt(_ urlRequest: URLRequest) -> URLRequest {
         var adaptedRequest = urlRequest
@@ -22,9 +20,11 @@ open class AuditPlugin: PluginType {
         let session = UserSession.current
         
         adaptedRequest.addValue(session.sessionID, forHTTPHeaderField: AuditPlugin.auditSessionIdKey)
-        adaptedRequest.addValue(UIDevice.current.identifierForVendor!.uuidString, forHTTPHeaderField: AuditPlugin.auditDeviceIdKey)
         
-        // transaction ID
+        // Temporary untill we have a Device ID from MDM
+        adaptedRequest.addValue(UIDevice.current.identifierForVendor!.uuidString, forHTTPHeaderField: AuditPlugin.auditDeviceIdKey)
+        // Temporary until we decide how generate and store transaction IDs
+        adaptedRequest.addValue("TestID", forHTTPHeaderField: AuditPlugin.auditTransactionIdKey)
 
         return adaptedRequest
     }
