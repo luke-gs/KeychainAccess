@@ -47,6 +47,7 @@
 		1972FCD21FA6C4E300CB68EA /* ImageDownloadTicket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1972FCD11FA6C4E300CB68EA /* ImageDownloadTicket.swift */; };
 		197FBF711F9980F20086875A /* URLQueryBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197FBF701F9980F20086875A /* URLQueryBuilderTests.swift */; };
 		19975D8F1F4414AF00E51469 /* ErrorMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19975D8E1F4414AF00E51469 /* ErrorMapperTests.swift */; };
+		199ECE8F1FAA1B720065E425 /* RemoteResourceDescribing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199ECE8E1FAA1B720065E425 /* RemoteResourceDescribing.swift */; };
 		19B49BAA1F665ED100502F51 /* NSMutableAttributedString+Append.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B49BA91F665ED100502F51 /* NSMutableAttributedString+Append.swift */; };
 		19B49BB91F665F2A00502F51 /* CompactSidebarSourceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B49BB01F665F2800502F51 /* CompactSidebarSourceCell.swift */; };
 		19B49BBA1F665F2A00502F51 /* SidebarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B49BB11F665F2800502F51 /* SidebarDelegate.swift */; };
@@ -525,6 +526,7 @@
 		1972FCD11FA6C4E300CB68EA /* ImageDownloadTicket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloadTicket.swift; sourceTree = "<group>"; };
 		197FBF701F9980F20086875A /* URLQueryBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLQueryBuilderTests.swift; sourceTree = "<group>"; };
 		19975D8E1F4414AF00E51469 /* ErrorMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMapperTests.swift; sourceTree = "<group>"; };
+		199ECE8E1FAA1B720065E425 /* RemoteResourceDescribing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteResourceDescribing.swift; sourceTree = "<group>"; };
 		19B49BA91F665ED100502F51 /* NSMutableAttributedString+Append.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Append.swift"; sourceTree = "<group>"; };
 		19B49BB01F665F2800502F51 /* CompactSidebarSourceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompactSidebarSourceCell.swift; sourceTree = "<group>"; };
 		19B49BB11F665F2800502F51 /* SidebarDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SidebarDelegate.swift; sourceTree = "<group>"; };
@@ -1025,6 +1027,7 @@
 				1972FCD11FA6C4E300CB68EA /* ImageDownloadTicket.swift */,
 				1972FCCC1FA6A7FC00CB68EA /* ImageError.swift */,
 				1972FCCA1FA6A1EF00CB68EA /* ImageAlamofireResponseSerializer.swift */,
+				199ECE8E1FAA1B720065E425 /* RemoteResourceDescribing.swift */,
 			);
 			path = Image;
 			sourceTree = "<group>";
@@ -2479,6 +2482,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-MPOLKitTests/Pods-MPOLKitTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
 				"${BUILT_PRODUCTS_DIR}/KeychainSwift/KeychainSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Unbox/Unbox.framework",
@@ -2488,6 +2492,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Unbox.framework",
@@ -2906,6 +2911,7 @@
 				19B49BB91F665F2A00502F51 /* CompactSidebarSourceCell.swift in Sources */,
 				965CD8A81F8ECDBA007C3EEA /* TasksListContainerViewController.swift in Sources */,
 				BC9C7E4D1F0DED6600DFFE83 /* AlertIndicatorView.swift in Sources */,
+				199ECE8F1FAA1B720065E425 /* RemoteResourceDescribing.swift in Sources */,
 				BC79ADAEABB2D9BDDC997334 /* MPOLSpinnerView.swift in Sources */,
 				EA09A0481F78B6D400BC3C0E /* Validator.swift in Sources */,
 				EA950E4C1F8DBF5700B5A349 /* SubmissionValidationVisitor.swift in Sources */,
