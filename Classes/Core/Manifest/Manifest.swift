@@ -17,6 +17,22 @@ public extension NSNotification.Name {
     static let ManifestDidUpdate = NSNotification.Name(rawValue: "ManifestDidUpdate")
 }
 
+private enum Coding: String {
+    case active = "active"
+    case collection = "category"
+    case title = "title"
+    case subtitle = "subtitle"
+    case shortTitle = "shortTitle"
+    case rawValue = "value"
+    case sortOrder = "sortOrder"
+    case effectiveDate = "effectiveDate"
+    case expiryDate = "expiryDate"
+    case dateLastUpdated = "dateLastUpdated"
+    case additionalData = "additionalData"
+    case latitude = "latitude"
+    case longitude = "longitude"
+}
+
 public final class Manifest: NSObject {
     
     private static var storageDirectory: URL = {
@@ -234,41 +250,41 @@ public final class Manifest: NSObject {
                                 entry.id = id
                             }
                             
-                            entry.active        = entryDict["active"]     as? Bool ?? false
-                            entry.collection    = entryDict["category"]   as? String
-                            entry.title         = entryDict["title"]      as? String
-                            entry.subtitle      = entryDict["subtitle"]   as? String
-                            entry.shortTitle    = entryDict["shortTitle"] as? String
-                            entry.rawValue      = entryDict["value"]      as? String
-                            entry.sortOrder     = entryDict["sortOrder"]  as? Double ?? 0
+                            entry.active        = entryDict[Coding.active.rawValue]     as? Bool ?? false
+                            entry.collection    = entryDict[Coding.collection.rawValue]   as? String
+                            entry.title         = entryDict[Coding.title.rawValue]      as? String
+                            entry.subtitle      = entryDict[Coding.subtitle.rawValue]   as? String
+                            entry.shortTitle    = entryDict[Coding.shortTitle.rawValue] as? String
+                            entry.rawValue      = entryDict[Coding.rawValue.rawValue]      as? String
+                            entry.sortOrder     = entryDict[Coding.sortOrder.rawValue]  as? Double ?? 0
                             
-                            if let effectiveDateString = entryDict["effectiveDate"] as? String {
+                            if let effectiveDateString = entryDict[Coding.effectiveDate.rawValue] as? String {
                                 if let date = Manifest.dateFormatter.date(from: effectiveDateString) as Date? {
                                     entry.effectiveDate = date
                                 }
                             }
                             
-                            if let expiryDateString = entryDict["expiryDate"] as? String {
+                            if let expiryDateString = entryDict[Coding.expiryDate.rawValue] as? String {
                                 if let date = Manifest.dateFormatter.date(from: expiryDateString) as Date? {
                                     entry.expiryDate = date
                                 }
                             }
                             
-                            if let dateLastUpdated = entryDict["dateLastUpdated"] as? String {
+                            if let dateLastUpdated = entryDict[Coding.dateLastUpdated.rawValue] as? String {
                                 if let date = Manifest.dateFormatter.date(from: dateLastUpdated) as Date? {
                                     entry.lastUpdated = date
                                 }
                             }
                             
-                            if var additionalData = entryDict["additionalData"] as? [String: Any] {
+                            if var additionalData = entryDict[Coding.additionalData.rawValue] as? [String: Any] {
                                 
-                                if let latitude = additionalData["latitude"] as? NSNumber {
+                                if let latitude = additionalData[Coding.latitude.rawValue] as? NSNumber {
                                     entry.latitude = latitude
-                                    additionalData.removeValue(forKey: "latitude")
+                                    additionalData.removeValue(forKey: Coding.latitude.rawValue)
                                 }
-                                if let longitude = additionalData["longitude"] as? NSNumber {
+                                if let longitude = additionalData[Coding.longitude.rawValue] as? NSNumber {
                                     entry.longitude = longitude
-                                    additionalData.removeValue(forKey: "longitude")
+                                    additionalData.removeValue(forKey: Coding.longitude.rawValue)
                                 }
                                 
                                 entry.additionalDetails = additionalData
