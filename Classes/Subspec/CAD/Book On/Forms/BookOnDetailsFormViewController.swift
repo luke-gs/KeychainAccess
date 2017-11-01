@@ -182,13 +182,15 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
             self.reloadForm()
         })
 
+        let incompleteColor = #colorLiteral(red: 0.9843137255, green: 0.3137254902, blue: 0.2980392157, alpha: 1)
         for (index, officer) in viewModel.details.officers.enumerated() {
+            let accessoryLabel = AccessoryTextStyle.roundedRect(AccessoryLabelDetail(text: officer.incompleteStatus, textColour: incompleteColor, borderColour: incompleteColor))
             builder += BookOnDetailsOfficerFormItem(title: officer.title,
                                                     subtitle: officer.subtitle,
-                                                    status: officer.status)
+                                                    status: officer.driverStatus)
                 .width(.column(1))
-                .accessory(ItemAccessory.disclosure)
                 .height(.fixed(60))
+                .accessory(FormAccessoryView(style: .disclosure, labelStyle: accessoryLabel))
                 .editActions([index > 0 ? deleteAction : nil].removeNils())
                 .onSelection { [unowned self] cell in
                     let viewController = self.viewModel.officerDetailsViewController(at: index)
