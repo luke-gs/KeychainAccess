@@ -207,20 +207,19 @@ public final class Manifest: NSObject {
     }
     
     public static let dateFormatter:ISO8601DateFormatter = ISO8601DateFormatter()
-    private var updateCompletionArray:[(Error?) -> Void] = []
     private var updatingPromiseArray:[Promise<Void>] = []
     
-    public func saveManifest(with manifestItems:[[String : Any]], at checkedAtDate:Date, completion: ((Error?) -> Void)?) {
-        if let completion = completion {
-            updateCompletionArray.append(completion)
-        }
+    public func saveManifest(with manifestItems:[[String : Any]], at checkedAtDate:Date) -> Promise<Void> {
         if isUpdating == false {
-            do {
+            return Promise { fulfill, reject in
                 self.isUpdating = true
                 let managedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
                 managedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator
                 managedObjectContext.perform { [weak managedObjectContext] in
-                    guard manifestItems.isEmpty ==  false, let context = managedObjectContext else { return }
+                    guard manifestItems.isEmpty ==  false, let context = managedObjectContext else {
+                        fulfill(())
+                        return
+                    }
                     
                     for entryDict in manifestItems {
                         guard let id = entryDict["id"] as? String else { continue }
@@ -283,21 +282,17 @@ public final class Manifest: NSObject {
                         
                         DispatchQueue.main.async {
                             self.lastUpdateDate = checkedAtDate
-                            for completionBlock in self.updateCompletionArray {
-                                completionBlock(nil)
-                            }
-                            self.updateCompletionArray.removeAll()
+                            fulfill(())
                         }
                     } catch let error {
                         DispatchQueue.main.async {
-                            for completionBlock in self.updateCompletionArray {
-                                completionBlock(error)
-                            }
-                            self.updateCompletionArray.removeAll()
+                            reject(error)
                         }
                     }
                 }
             }
+        } else {
+            return Promise<Void>(value: ())
         }
     }
     
@@ -313,17 +308,17 @@ public final class Manifest: NSObject {
             
             /// Remove 60 seconds from any last date to ensure we get an overlap.
             /// It's better to catch more items and update them again than to miss any.
-            return APIManager.shared.fetchManifest(for: lastUpdateDate?.addingTimeInterval(-60.0)).then { [weak self] result -> Void in
-                guard let `self` = self else { return }
+            return APIManager.shared.fetchManifest(for: lastUpdateDate?.addingTimeInterval(-60.0)).then { [weak self] result -> Promise<Void> in
+                guard let `self` = self else { return Promise<Void>(value: ()) }
                 guard result.isEmpty == false else {
                     DispatchQueue.main.async {
                         self.isUpdating = false
                         self.lastUpdateDate = checkedAtDate
                     }
-                    return
+                    return Promise<Void>(value: ())
                 }
                 
-                return self.saveManifest(with: result, at:checkedAtDate, completion: nil)
+                return self.saveManifest(with: result, at:checkedAtDate)
                 
                 }.always {
                     self.isUpdating = false
