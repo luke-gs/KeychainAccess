@@ -302,8 +302,7 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
                     NSLayoutConstraint(item: thumbnailView, attribute: .top,     relatedBy: .greaterThanOrEqual, toItem: contentModeGuide, attribute: .top),
                     
                     NSLayoutConstraint(item: textLabelGuide, attribute: .leading,  relatedBy: .equal, toItem: thumbnailView, attribute: .trailing, constant: 10.0),
-                    NSLayoutConstraint(item: textLabelGuide, attribute: .centerY,  relatedBy: .equal, toItem: thumbnailView, attribute: .centerY),
-                    NSLayoutConstraint(item: textLabelGuide, attribute: .top,      relatedBy: .greaterThanOrEqual, toItem: contentModeGuide, attribute: .top),
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .top,      relatedBy: .equal, toItem: thumbnailView, attribute: .top, constant: 10.0),
                     NSLayoutConstraint(item: textLabelGuide, attribute: .trailing, relatedBy: .lessThanOrEqual,    toItem: contentModeGuide, attribute: .trailing),
                 ]
             case .thumbnail:
