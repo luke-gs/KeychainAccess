@@ -242,7 +242,7 @@ public final class Manifest: NSObject {
     
     // MARK: - Save manifest
     
-    /// Uses the APIManager to connect and retrive the latest manifest, using the lastUpdateDate as a Delta
+    /// Save dictionary of manifest items to the coredata table
     ///
     /// - Parameters:
     ///     - ManifestItems: a dictionary of items to be saved
