@@ -81,7 +81,6 @@
 		2742CD2F1F849BE900D08DCF /* IntrinsicHeightCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2742CD2E1F849BE900D08DCF /* IntrinsicHeightCollectionView.swift */; };
 		274C89711F984CB8005B9CF8 /* CallsignListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C89701F984CB8005B9CF8 /* CallsignListViewController.swift */; };
 		274C89731F984CD0005B9CF8 /* CallsignListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C89721F984CD0005B9CF8 /* CallsignListViewModel.swift */; };
-		274C89751F984CDE005B9CF8 /* CallsignListItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C89741F984CDE005B9CF8 /* CallsignListItemViewModel.swift */; };
 		274C89791F997F94005B9CF8 /* CADStatusTabBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C89781F997F94005B9CF8 /* CADStatusTabBarViewModel.swift */; };
 		274C897F1F9D9E88005B9CF8 /* OfficerListItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C897E1F9D9E88005B9CF8 /* OfficerListItemViewModel.swift */; };
 		274C89811F9D9EAE005B9CF8 /* OfficerListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C89801F9D9EAE005B9CF8 /* OfficerListViewController.swift */; };
@@ -557,7 +556,6 @@
 		2742CD2E1F849BE900D08DCF /* IntrinsicHeightCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = IntrinsicHeightCollectionView.swift; path = Classes/UI/IntrinsicHeightCollectionView.swift; sourceTree = SOURCE_ROOT; };
 		274C89701F984CB8005B9CF8 /* CallsignListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallsignListViewController.swift; sourceTree = "<group>"; };
 		274C89721F984CD0005B9CF8 /* CallsignListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallsignListViewModel.swift; sourceTree = "<group>"; };
-		274C89741F984CDE005B9CF8 /* CallsignListItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallsignListItemViewModel.swift; sourceTree = "<group>"; };
 		274C89781F997F94005B9CF8 /* CADStatusTabBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADStatusTabBarViewModel.swift; sourceTree = "<group>"; };
 		274C897E1F9D9E88005B9CF8 /* OfficerListItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerListItemViewModel.swift; sourceTree = "<group>"; };
 		274C89801F9D9EAE005B9CF8 /* OfficerListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerListViewController.swift; sourceTree = "<group>"; };
@@ -1130,7 +1128,6 @@
 			children = (
 				274C89701F984CB8005B9CF8 /* CallsignListViewController.swift */,
 				274C89721F984CD0005B9CF8 /* CallsignListViewModel.swift */,
-				274C89741F984CDE005B9CF8 /* CallsignListItemViewModel.swift */,
 			);
 			path = "All Callsigns";
 			sourceTree = "<group>";
@@ -2876,7 +2873,6 @@
 				EA11F01F1F830D0E00BF8BCA /* StringSizable+Label.swift in Sources */,
 				C6F640ED1F333D4F003D73B9 /* NSArchiver+SecureArchiver.swift in Sources */,
 				BC9C7E411F0DED6600DFFE83 /* PopoverViewController.swift in Sources */,
-				274C89751F984CDE005B9CF8 /* CallsignListItemViewModel.swift in Sources */,
 				BC5C11EF1F2806890048CBBF /* NoContentView.swift in Sources */,
 				EA4806B71F56A0DC00B42313 /* LocationSearchStrategy.swift in Sources */,
 				BC9C7E021F0DED6600DFFE83 /* NSLayoutConstraint+Conveniences.swift in Sources */,
