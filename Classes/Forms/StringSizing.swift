@@ -23,6 +23,10 @@ extension String: StringSizable {
     public func sizing() -> StringSizing {
         return StringSizing(string: self)
     }
+
+    public func sizing(withNumberOfLines numberOfLines: Int?, font: UIFont? = nil) -> StringSizing {
+        return StringSizing(string: self, font: font, numberOfLines: numberOfLines)
+    }
     
 }
 
@@ -123,7 +127,6 @@ public struct StringSizing: StringSizable {
         return min(size.height.ceiled(toScale: traitCollection.currentDisplayScale), maximumHeight)
     }
 }
-
 
 extension StringSizing: Equatable {
 
