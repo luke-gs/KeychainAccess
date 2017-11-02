@@ -112,3 +112,23 @@ public final class FormAccessoryView: UIView {
         }
     }
 }
+
+/// Extension to support using a form accessory view in a form item
+extension FormAccessoryView: ItemAccessorisable {
+    public var size: CGSize {
+        return sizeThatFits(.zero)
+    }
+
+    public func view() -> UIView {
+        return self
+    }
+
+    public func apply(theme: Theme, toView view: UIView) {
+        switch style {
+        case .checkmark:  view.tintColor = nil
+        case .disclosure: view.tintColor = theme.color(forKey: .disclosure)
+        case .dropDown:   view.tintColor = theme.color(forKey: .primaryText)
+        }
+    }
+}
+

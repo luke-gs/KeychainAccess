@@ -38,9 +38,17 @@ public class BookOnDetailsFormContentViewModel {
         public var subtitle: String {
             return [rank, officerId, licenseType].removeNils().joined(separator: " : ")
         }
-        public var status: String? {
+
+        public var driverStatus: String? {
             if let isDriver = isDriver, isDriver {
                 return NSLocalizedString("DRIVER", comment: "").uppercased()
+            }
+            return nil
+        }
+
+        public var incompleteStatus: String? {
+            if contactNumber == nil || licenseType == nil {
+                return NSLocalizedString("Incomplete", comment: "").uppercased()
             }
             return nil
         }
