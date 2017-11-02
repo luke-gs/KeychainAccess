@@ -84,11 +84,14 @@ open class APIManager {
         var parameters = request.parameters
         parameters["source"] = source.serverSourceName
         parameters["entityType"] = SearchRequest.ResultClass.serverTypeRepresentation
-
-        let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
-
-        return try! performRequest(networkRequest)
-
+        
+        return LocationManager.shared.requestLocation().recover { error -> CLLocation in
+            return LocationManager.shared.lastLocation ?? CLLocation() // Had to keep this in to avoid making the requestLocation optional
+            }.then { _ -> Promise<SearchResult<SearchRequest.ResultClass>> in
+                let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
+                
+                return try! self.performRequest(networkRequest)
+        }
     }
     
     /// Fetch entity details using specified request.
@@ -105,24 +108,27 @@ open class APIManager {
         var parameters = request.parameters
         parameters["source"] = source.serverSourceName
         parameters["entityType"] = FetchRequest.ResultClass.serverTypeRepresentation
-
-        let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
         
-        return try! performRequest(networkRequest)
-
+        return LocationManager.shared.requestLocation().recover { error -> CLLocation in
+            return LocationManager.shared.lastLocation ?? CLLocation() // Had to keep this in to avoid making the requestLocation optional
+            }.then { _ -> Promise<FetchRequest.ResultClass> in
+                let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
+                
+                return try! self.performRequest(networkRequest)
+        }
     }
 
     // MARK : - Internal Utilities
 
     private var allPlugins: [PluginType] {
-        guard let authenticationPlugin = authenticationPlugin else {
-            return plugins
+        var allPlugins = plugins
+        if let authenticationPlugin = authenticationPlugin {
+            allPlugins.append(authenticationPlugin)
+            allPlugins.append(GeolocationPlugin()) // Only add if user is authenticated. i.e: Logged in
+            allPlugins.append(AuditPlugin()) // Only add if user is authenticated. i.e: Logged in
         }
-
-        var new = plugins
-        new.append(authenticationPlugin)
-
-        return new
+        
+        return allPlugins
     }
 
     private func urlRequest(from networkRequest: NetworkRequestType) throws -> URLRequest {
