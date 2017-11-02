@@ -17,7 +17,7 @@ public class AustralianPhoneSpecification: Specification {
         return false
     }
     
-    /// Checks if the string is a valid Australian mobile phone number
+    /// Checks if the string is a valid Australian phone number
     func isValidAustralianPhoneNumber(_ number: String) -> Bool {
         let phoneRegex = "^\\+?61[0-9]{9}|^(0[0-9])?[0-9]{8}"
         let phoneTest = NSPredicate(format: "SELF MATCHES %@", phoneRegex)
