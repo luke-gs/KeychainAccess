@@ -158,7 +158,7 @@ open class APIManager {
                             if let manifestArray = responseArray as? [[String : Any]] {
                                 fulfill(manifestArray)
                             } else {
-                                fulfill([])
+                                reject(ManifestError("Manifest response not in desired format"))
                             }
                         }
                     } catch let parseError {
