@@ -13,7 +13,7 @@ import UIKit
 extension UIView {
 
     /// Anchor for top of safe area, or fallback to top of view
-    var safeAreaOrFallbackTopAnchor: NSLayoutYAxisAnchor {
+    public var safeAreaOrFallbackTopAnchor: NSLayoutYAxisAnchor {
         if #available(iOS 11.0, *) {
             return safeAreaLayoutGuide.topAnchor
         } else {
@@ -22,7 +22,7 @@ extension UIView {
     }
 
     /// Anchor for bottom of safe area, or fallback to bottom of view
-    var safeAreaOrFallbackBottomAnchor: NSLayoutYAxisAnchor {
+    public var safeAreaOrFallbackBottomAnchor: NSLayoutYAxisAnchor {
         if #available(iOS 11.0, *) {
             return safeAreaLayoutGuide.bottomAnchor
         } else {
@@ -31,7 +31,7 @@ extension UIView {
     }
 
     /// Anchor for leading of safe area, or fallback to leading of view
-    var safeAreaOrFallbackLeadingAnchor: NSLayoutXAxisAnchor {
+    public var safeAreaOrFallbackLeadingAnchor: NSLayoutXAxisAnchor {
         if #available(iOS 11.0, *) {
             return safeAreaLayoutGuide.leadingAnchor
         } else {
@@ -40,7 +40,7 @@ extension UIView {
     }
 
     /// Anchor for trailing of safe area, or fallback to trailing of view
-    var safeAreaOrFallbackTrailingAnchor: NSLayoutXAxisAnchor {
+    public var safeAreaOrFallbackTrailingAnchor: NSLayoutXAxisAnchor {
         if #available(iOS 11.0, *) {
             return safeAreaLayoutGuide.trailingAnchor
         } else {
