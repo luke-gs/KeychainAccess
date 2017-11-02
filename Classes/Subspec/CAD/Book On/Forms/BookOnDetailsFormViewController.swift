@@ -165,19 +165,12 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
     /// Construct the form
     override open func construct(builder: FormBuilder) {
 
-        builder += HeaderFormItem(text: NSLocalizedString("Vehicle Details", comment: "").uppercased(), style: .plain)
-        builder += serialItem
-        builder += categoryItem
-        builder += odometerItem
-        builder += equipmentItem
-        builder += remarksItem
+        // Show list of officers first, followed by shift details then optional sections
 
-        builder += HeaderFormItem(text: NSLocalizedString("Shift Details", comment: "").uppercased(), style: .plain)
-        builder += startTimeItem
-        builder += endTimeItem
-        builder += durationItem
+        let officersTitleFormat = NSLocalizedString("%d Officer(s)", comment: "")
+        let officersTitle = String.localizedStringWithFormat(officersTitleFormat, viewModel.details.officers.count)
 
-        builder += HeaderFormItem(text: NSLocalizedString("Officers", comment: "").uppercased(), style: .plain)
+        builder += HeaderFormItem(text: officersTitle.uppercased(), style: .plain)
             .actionButton(title: NSLocalizedString("Add", comment: "").uppercased(), handler: { [unowned self] in
                 let viewController = self.viewModel.officerSearchViewController()
                 self.navigationController?.pushViewController(viewController, animated: true)
@@ -189,18 +182,34 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
             self.reloadForm()
         })
 
+        let incompleteColor = #colorLiteral(red: 0.9843137255, green: 0.3137254902, blue: 0.2980392157, alpha: 1)
         for (index, officer) in viewModel.details.officers.enumerated() {
+            let accessoryLabel = AccessoryTextStyle.roundedRect(AccessoryLabelDetail(text: officer.incompleteStatus, textColour: incompleteColor, borderColour: incompleteColor))
             builder += BookOnDetailsOfficerFormItem(title: officer.title,
                                                     subtitle: officer.subtitle,
-                                                    status: officer.status)
+                                                    status: officer.driverStatus)
                 .width(.column(1))
-                .accessory(ItemAccessory.disclosure)
                 .height(.fixed(60))
+                .accessory(FormAccessoryView(style: .disclosure, labelStyle: accessoryLabel))
                 .editActions([index > 0 ? deleteAction : nil].removeNils())
                 .onSelection { [unowned self] cell in
                     let viewController = self.viewModel.officerDetailsViewController(at: index)
                     self.navigationController?.pushViewController(viewController, animated: true)
             }
+        }
+
+        builder += HeaderFormItem(text: NSLocalizedString("Shift Details", comment: "").uppercased(), style: .plain)
+        builder += startTimeItem
+        builder += endTimeItem
+        builder += durationItem
+
+        if viewModel.showVehicleFields {
+            builder += HeaderFormItem(text: NSLocalizedString("Vehicle Details", comment: "").uppercased(), style: .plain)
+            builder += serialItem
+            builder += categoryItem
+            builder += odometerItem
+            builder += equipmentItem
+            builder += remarksItem
         }
 
         updateDuration()
@@ -237,7 +246,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
     }
 
     @objc private func cancelFormTapped() {
-        closeForm()
+        closeForm(submitted: false)
     }
 
     @objc private func submitFormTapped() {
@@ -248,6 +257,13 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
             builder.validateAndUpdateUI()
             AlertQueue.shared.addErrorAlert(message: message)
         case .valid:
+            // Check officer forms are also valid
+            for officer in viewModel.details.officers {
+                if officer.incompleteStatus != nil {
+                    AlertQueue.shared.addErrorAlert(message: NSLocalizedString("Please complete details for officers", comment: ""))
+                    return
+                }
+            }
             self.submitForm()
         }
     }
@@ -257,7 +273,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         firstly {
             return viewModel.submitForm()
             }.then { [unowned self] status in
-                self.closeForm()
+                self.closeForm(submitted: true)
             }.always {
                 // TODO: Cancel progress overlay
             }.catch { error in
@@ -266,11 +282,12 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         }
     }
 
-    private func closeForm() {
-        if viewModel.isEditing {
-            _ = navigationController?.popViewController(animated: true)
+    private func closeForm(submitted: Bool) {
+        // Dismiss the modal if we are booking on and got presented, go back to previous screen otherwise
+        if submitted && !viewModel.isEditing && presentingViewController != nil {
+            dismiss(animated: true, completion: nil)
         } else {
-            navigationController?.popViewController(animated: true) 
+            navigationController?.popViewController(animated: true)
         }
     }
 
@@ -280,26 +297,6 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         // Allow shrinking of generated duration value to fit cell, eg "2 days, 5 hr, 30 min"
         if let cell = cell as? CollectionViewFormValueFieldCell, cell == durationItem.cell {
             cell.valueLabel.adjustsFontSizeToFitWidth = true
-        }
-    }
-
-    // MARK: - Background
-
-    /// Less transparent background to default when used in form sheet, to give contrast for form text
-    private var transparentBackground = UIColor(white: 1, alpha: 0.5)
-
-    override open var wantsTransparentBackground: Bool {
-        didSet {
-            if wantsTransparentBackground && ThemeManager.shared.currentInterfaceStyle == .light {
-                view?.backgroundColor = transparentBackground
-            }
-        }
-    }
-
-    override open func apply(_ theme: Theme) {
-        super.apply(theme)
-        if wantsTransparentBackground && ThemeManager.shared.currentInterfaceStyle == .light {
-            view?.backgroundColor = transparentBackground
         }
     }
 }

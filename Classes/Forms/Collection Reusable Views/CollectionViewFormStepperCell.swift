@@ -222,10 +222,10 @@ open class CollectionViewFormStepperCell: CollectionViewFormCell, UITextFieldDel
         let maxTextSize = CGSize(width: contentRect.width, height: .greatestFiniteMagnitude)
         let valueSize = textField.sizeThatFits(maxTextSize).constrained(to: maxTextSize)
 
-        let maxTitleSize = CGSize(width: contentRect.width - valueSize.width - labelSeparation, height: .greatestFiniteMagnitude)
-        let titleSize = titleLabel.sizeThatFits(maxTitleSize).constrained(to: maxTitleSize)
-
         let stepperSize = stepper.intrinsicContentSize
+
+        let maxTitleSize = CGSize(width: contentRect.width - valueSize.width - labelSeparation - stepperSeparation - stepperSize.width, height: .greatestFiniteMagnitude)
+        let titleSize = titleLabel.sizeThatFits(maxTitleSize).constrained(to: maxTitleSize)
 
         // Work out major content positions
         let centerYOfContent: CGFloat
@@ -303,21 +303,20 @@ open class CollectionViewFormStepperCell: CollectionViewFormCell, UITextFieldDel
         valueSizing.numberOfLines = 1
 
         let isAccesssoryEmpty = accessoryViewSize.isEmpty
+        let stepperSize: CGSize = UIStepper().intrinsicContentSize
 
         let valueWidth = valueSizing.minimumWidth(compatibleWith: traitCollection)
 
         let availableWidth = width - (isAccesssoryEmpty ? 0.0 : accessoryViewSize.width + CollectionViewFormCell.accessoryContentInset)
 
-        let titleWidth = availableWidth - valueWidth - (title != nil ? labelSeparation : 0.0)
+        let titleWidth = availableWidth - valueWidth - stepperSize.width - stepperSeparation - (title != nil ? labelSeparation : 0.0)
 
         let valueHeight = valueSizing.minimumHeight(inWidth: availableWidth, compatibleWith: traitCollection)
         let titleHeight = titleSizing?.minimumHeight(inWidth: titleWidth, compatibleWith: traitCollection) ?? 0.0
 
         let combinedHeight = max(titleHeight, valueHeight).ceiled(toScale: traitCollection.currentDisplayScale)
 
-        let stepperHeight: CGFloat = UIStepper().intrinsicContentSize.height
-
-        return max(combinedHeight, stepperHeight, (isAccesssoryEmpty ? 0.0 : accessoryViewSize.height))
+        return max(combinedHeight, stepperSize.height, (isAccesssoryEmpty ? 0.0 : accessoryViewSize.height))
     }
 
     // MARK: - Accessibility

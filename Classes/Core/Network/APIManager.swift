@@ -35,33 +35,26 @@ open class APIManager {
                                         serverTrustPolicyManager: configuration.trustPolicyManager)
     }
 
-    /// Perform specified network request.
-    ///
-    /// - Parameter networkRequest: The network request to be executed.
-    /// - Returns: A promise to return of specified type.
-    open func performRequest<T: Unboxable>(_ networkRequest: NetworkRequestType) throws -> Promise<T> {
-        let request = try urlRequest(from: networkRequest)
-        return dataRequestPromise(request)
-    }
-
     /// Perform specified network request that returns the data and the raw response
     ///
     /// - Parameter networkRequest: The network request to be executed.
     /// - Returns: A promise to return of specified type.
     open func performRequest(_ networkRequest: NetworkRequestType) throws -> Promise<(Data, HTTPURLResponse?)> {
         let request = try urlRequest(from: networkRequest)
-        return dataRequestPromise(request)
+        return dataRequestPromise(request, using: DataHTTPURLResponsePairResponseSerializer())
     }
 
-    /// Perform specified network request.
+    /// Perform specified network request that uses `ResponseSerializing` to map the result.
     ///
-    /// - Parameter networkRequest: The network request to be executed.
-    /// - Returns: A promise to return array of specified type.
-    open func performRequest<T: Unboxable>(_ networkRequest: NetworkRequestType) throws -> Promise<[T]> {
+    /// - Parameters:
+    ///   - networkRequest: The network request to be executed.
+    ///   - serializer: `ResponseSerializing` conformer.
+    /// - Returns: A promise to return result type from `ResponseSerializing`.
+    open func performRequest<T: ResponseSerializing>(_ networkRequest: NetworkRequestType, using serializer: T) throws -> Promise<T.ResultType> {
         let request = try urlRequest(from: networkRequest)
-        return dataRequestPromise(request)
+        return dataRequestPromise(request, using: serializer)
     }
-
+    
     /// Request for access token.
     ///
     /// Supports implicit `NSProgress` reporting.
@@ -91,11 +84,14 @@ open class APIManager {
         var parameters = request.parameters
         parameters["source"] = source.serverSourceName
         parameters["entityType"] = SearchRequest.ResultClass.serverTypeRepresentation
-
-        let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
-
-        return try! performRequest(networkRequest)
-
+        
+        return LocationManager.shared.requestLocation().recover { error -> CLLocation in
+            return LocationManager.shared.lastLocation ?? CLLocation() // Had to keep this in to avoid making the requestLocation optional
+            }.then { _ -> Promise<SearchResult<SearchRequest.ResultClass>> in
+                let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
+                
+                return try! self.performRequest(networkRequest)
+        }
     }
     
     /// Fetch entity details using specified request.
@@ -112,33 +108,41 @@ open class APIManager {
         var parameters = request.parameters
         parameters["source"] = source.serverSourceName
         parameters["entityType"] = FetchRequest.ResultClass.serverTypeRepresentation
-
-        let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
         
-        return try! performRequest(networkRequest)
-
+        return LocationManager.shared.requestLocation().recover { error -> CLLocation in
+            return LocationManager.shared.lastLocation ?? CLLocation() // Had to keep this in to avoid making the requestLocation optional
+            }.then { _ -> Promise<FetchRequest.ResultClass> in
+                let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
+                
+                return try! self.performRequest(networkRequest)
+        }
     }
 
     // MARK : - Internal Utilities
 
-    private func url(with path: String) -> URL {
-        return baseURL.appendingPathComponent(path)
-    }
-
     private var allPlugins: [PluginType] {
-        guard let authenticationPlugin = authenticationPlugin else {
-            return plugins
+        var allPlugins = plugins
+        if let authenticationPlugin = authenticationPlugin {
+            allPlugins.append(authenticationPlugin)
+            allPlugins.append(GeolocationPlugin()) // Only add if user is authenticated. i.e: Logged in
+            allPlugins.append(AuditPlugin()) // Only add if user is authenticated. i.e: Logged in
         }
-
-        var new = plugins
-        new.append(authenticationPlugin)
-
-        return new
+        
+        return allPlugins
     }
 
     private func urlRequest(from networkRequest: NetworkRequestType) throws -> URLRequest {
         let path = networkRequest.path
-        let requestPath = url(with: path)
+
+        let requestPath: URL
+        if networkRequest.isRelativePath {
+            requestPath = baseURL.appendingPathComponent(path)
+        } else {
+            guard let urlPath = URL(string: path) else {
+                throw AFError.invalidURL(url: path)
+            }
+            requestPath = urlPath
+        }
 
         let parameters = networkRequest.parameters
 
@@ -153,7 +157,7 @@ open class APIManager {
         return adaptedRequest
     }
 
-    private func request(_ urlRequest: URLRequest) -> DataRequest {
+    private func dataRequest(from urlRequest: URLRequest) -> DataRequest {
         let dataRequest = sessionManager.request(urlRequest)
         let progress = dataRequest.progress
         progress.cancellationHandler = {
@@ -168,97 +172,25 @@ open class APIManager {
         return dataRequest
     }
 
-    // Handling single object
-    private func dataRequestPromise<T: Unboxable>(_ urlRequest: URLRequest) -> Promise<T> {
+    private func dataRequestPromise<T: ResponseSerializing>(_ urlRequest: URLRequest, using serializer: T) -> Promise<T.ResultType> {
 
-        let dataRequest = request(urlRequest)
+        let request = dataRequest(from: urlRequest)
         let allPlugins = self.allPlugins
         allPlugins.forEach {
-            $0.willSend(dataRequest)
+            $0.willSend(request)
         }
 
         let mapper = errorMapper
         return Promise { fulfill, reject in
 
-            dataRequest.validate().responseData(completionHandler: { response in
+            request.validate().responseData(completionHandler: { response in
 
                 allPlugins.forEach({
                     $0.didReceiveResponse(response)
                 })
 
                 let processedResponse = allPlugins.reduce(response) { $1.processResponse($0) }
-                let result: Alamofire.Result<T> = DataRequest.serializeResponseUnboxable(keyPath: nil, response: processedResponse.response, data: processedResponse.data, error: processedResponse.error)
-
-                switch result {
-                case .success(let result):
-                    fulfill(result)
-                case .failure(let error):
-                    let wrappedError = APIManagerError(underlyingError: error, response: response.toDefaultDataResponse())
-                    if let mapper = mapper {
-                        reject(mapper.mappedError(from: wrappedError))
-                    } else {
-                        reject(wrappedError)
-                    }
-                }
-            })
-        }
-    }
-
-    private func dataRequestPromise(_ urlRequest: URLRequest) -> Promise<(Data, HTTPURLResponse?)> {
-
-        let dataRequest = request(urlRequest)
-        let allPlugins = self.allPlugins
-        allPlugins.forEach {
-            $0.willSend(dataRequest)
-        }
-
-        let mapper = errorMapper
-        return Promise { fulfill, reject in
-
-            dataRequest.validate().responseData(completionHandler: { response in
-
-                allPlugins.forEach({
-                    $0.didReceiveResponse(response)
-                })
-
-                let processedResponse = allPlugins.reduce(response) { $1.processResponse($0) }
-                let result: Alamofire.Result<Data> = DataRequest.serializeResponseData(response: processedResponse.response, data: processedResponse.data, error: processedResponse.error)
-                switch result {
-                case .success(let result):
-                    fulfill((result, processedResponse.response))
-                case .failure(let error):
-                    let wrappedError = APIManagerError(underlyingError: error, response: response.toDefaultDataResponse())
-                    if let mapper = mapper {
-                        reject(mapper.mappedError(from: wrappedError))
-                    } else {
-                        reject(wrappedError)
-                    }
-                }
-            })
-        }
-    }
-
-    // Handling array
-    private func dataRequestPromise<T: Unboxable>(_ urlRequest: URLRequest) -> Promise<[T]> {
-
-        let dataRequest = request(urlRequest)
-        let allPlugins = self.allPlugins
-        allPlugins.forEach {
-            $0.willSend(dataRequest)
-        }
-
-        let mapper = errorMapper
-
-        return Promise { fulfill, reject in
-
-            dataRequest.validate().responseData(completionHandler: { response in
-
-                allPlugins.forEach({
-                    $0.didReceiveResponse(response)
-                })
-
-                let processedResponse = allPlugins.reduce(response) { $1.processResponse($0) }
-                let result: Alamofire.Result<[T]> = DataRequest.serializeResponseUnboxableArray(keyPath: nil, response: processedResponse.response, data: processedResponse.data, error: processedResponse.error)
+                let result = serializer.serializedResponse(from: processedResponse)
 
                 switch result {
                 case .success(let result):
@@ -289,6 +221,46 @@ public extension APIManager {
         }
         set {
             _sharedManager = newValue
+        }
+    }
+}
+
+// MARK: - ResponseSerializing
+
+// Name-spaced default implementation `ResponseSerializing` that handles data.
+extension APIManager {
+
+    fileprivate struct DataHTTPURLResponsePairResponseSerializer: ResponseSerializing {
+        typealias ResultType = (Data, HTTPURLResponse?)
+
+        init() {
+
+        }
+
+        func serializedResponse(from dataResponse: DataResponse<Data>) -> Alamofire.Result<ResultType> {
+            let result = DataRequest.serializeResponseData(response: dataResponse.response, data: dataResponse.data, error: dataResponse.error)
+            let newResult: Alamofire.Result<ResultType>
+
+            switch result {
+            case .success(let value):
+                newResult = .success((value, dataResponse.response))
+            case .failure(let error):
+                newResult = .failure(error)
+            }
+
+            return newResult
+        }
+    }
+
+    public struct DataResponseSerializer: ResponseSerializing {
+        public typealias ResultType = Data
+
+        public init() {
+
+        }
+
+        public func serializedResponse(from dataResponse: DataResponse<Data>) -> Alamofire.Result<ResultType> {
+            return DataRequest.serializeResponseData(response: dataResponse.response, data: dataResponse.data, error: dataResponse.error)
         }
     }
 }

@@ -57,9 +57,13 @@ public extension UIImage {
             circleSize = CGSize(width: self.size.width + padding.width, height: self.size.height + padding.height)
         }
         
+        
+        // Make the circle even (i.e. not an oval)
+        let largestSide = max(circleSize.width, circleSize.height)
+        
         // Create the circle image
-        let circle = UIImage.roundedImage(size: circleSize,
-                                          cornerRadius: max(circleSize.width, circleSize.height) / 2,
+        let circle = UIImage.roundedImage(size: CGSize(width: largestSide, height: largestSide),
+                                          cornerRadius: largestSide / 2,
                                           borderWidth: 0,
                                           borderColor: nil,
                                           fillColor: circleColor)
@@ -76,28 +80,34 @@ public extension UIImage {
             image = tintedImage
         }
         
-        UIGraphicsBeginImageContextWithOptions(circleSize, false, 0)
+        UIGraphicsBeginImageContextWithOptions(circle.size, false, 0)
         
         // Prepare rect sizing
         let circleRect: CGRect
         let imageRect: CGRect
         
+        // Determine the new size for drawing the image
+        let newSize = CGSize(width: circle.size.width - padding.width,
+                             height: circle.size.height - padding.height)
+        
         if shrinkImage {
             circleRect = CGRect(x: 0,
-                                y: self.size.height - circle.size.height,
+                                y: 0,
                                 width: circle.size.width,
                                 height: circle.size.height)
             
+            // Pad equally on both sides, then calculate the shrinking percentage
             imageRect = CGRect(x: padding.width / 2,
                                y: padding.height / 2,
-                               width: image.size.width - padding.width,
-                               height: image.size.height - padding.height)
+                               width: (newSize.width / image.size.width) * image.size.width,
+                               height: (newSize.height / image.size.height) * image.size.height)
         } else {
             circleRect = CGRect(x: 0,
                                 y: 0,
                                 width: circle.size.width,
                                 height: circle.size.height)
             
+            // Pad on both sides, leave image size as-is
             imageRect = CGRect(x: padding.width / 2,
                                y: padding.height / 2,
                                width: image.size.width,

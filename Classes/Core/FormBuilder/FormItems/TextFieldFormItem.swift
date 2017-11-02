@@ -189,7 +189,8 @@ extension TextFieldFormItem: UITextFieldDelegate {
     }
 
     public func textFieldDidEndEditing(_ textField: UITextField, reason: UITextFieldDidEndEditingReason) {
-        validator.validateAndUpdateErrorIfNeeded(candidate, shouldInstallTimer: false, checkSubmitRule: true, forItem: self)
+        let shouldCheck = candidate != nil || isRequired
+        validator.validateAndUpdateErrorIfNeeded(candidate, shouldInstallTimer: false, checkSubmitRule: shouldCheck, forItem: self)
     }
 
     public func reloadSubmitValidationState() {
@@ -203,7 +204,8 @@ extension TextFieldFormItem: UITextFieldDelegate {
     }
 
     public func reloadLiveValidationState() {
-        validator.validateAndUpdateErrorIfNeeded(candidate, shouldInstallTimer: false, checkSubmitRule: false, forItem: self)
+        let shouldCheck = candidate != nil || isRequired
+        validator.validateAndUpdateErrorIfNeeded(candidate, shouldInstallTimer: false, checkSubmitRule: shouldCheck, forItem: self)
     }
 
 }
