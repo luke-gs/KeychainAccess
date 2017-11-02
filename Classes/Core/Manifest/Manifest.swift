@@ -32,7 +32,7 @@ struct ManifestError: LocalizedError {
     }
 }
 
-private enum Coding: String {
+private enum ManifestItemKeys: String {
     case active = "active"
     case collection = "category"
     case title = "title"
@@ -238,7 +238,6 @@ public final class Manifest: NSObject {
     public static let dateFormatter:ISO8601DateFormatter = ISO8601DateFormatter()
     public private(set) var currenUpdatingPromise:Promise<Void>? = nil
     public private(set) var isSaving:Bool = false
-    private let dispatchQueue = DispatchQueue(label: "Manifest.DispatchQueue", attributes: DispatchQueue.Attributes.concurrent)
     
     // MARK: - Save manifest
     
@@ -252,13 +251,12 @@ public final class Manifest: NSObject {
     public func saveManifest(with manifestItems:[[String : Any]], at checkedAtDate:Date) -> Promise<Void> {
         return Promise<Void> { fulfill, reject in
             objc_sync_enter(self)
+            defer { objc_sync_exit(self) }
             if isSaving == true {
                 reject(ManifestError("Already saving, please try again later"))
-                objc_sync_exit(self)
                 return
             }
             isSaving = true
-            objc_sync_exit(self)
             let managedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
             managedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator
             managedObjectContext.perform { [weak managedObjectContext] in
@@ -280,41 +278,41 @@ public final class Manifest: NSObject {
                             entry.id = id
                         }
                         
-                        entry.active        = entryDict[Coding.active.rawValue]     as? Bool ?? false
-                        entry.collection    = entryDict[Coding.collection.rawValue]   as? String
-                        entry.title         = entryDict[Coding.title.rawValue]      as? String
-                        entry.subtitle      = entryDict[Coding.subtitle.rawValue]   as? String
-                        entry.shortTitle    = entryDict[Coding.shortTitle.rawValue] as? String
-                        entry.rawValue      = entryDict[Coding.rawValue.rawValue]      as? String
-                        entry.sortOrder     = entryDict[Coding.sortOrder.rawValue]  as? Double ?? 0
+                        entry.active        = entryDict[ManifestItemKeys.active.rawValue]     as? Bool ?? false
+                        entry.collection    = entryDict[ManifestItemKeys.collection.rawValue]   as? String
+                        entry.title         = entryDict[ManifestItemKeys.title.rawValue]      as? String
+                        entry.subtitle      = entryDict[ManifestItemKeys.subtitle.rawValue]   as? String
+                        entry.shortTitle    = entryDict[ManifestItemKeys.shortTitle.rawValue] as? String
+                        entry.rawValue      = entryDict[ManifestItemKeys.rawValue.rawValue]      as? String
+                        entry.sortOrder     = entryDict[ManifestItemKeys.sortOrder.rawValue]  as? Double ?? 0
                         
-                        if let effectiveDateString = entryDict[Coding.effectiveDate.rawValue] as? String {
+                        if let effectiveDateString = entryDict[ManifestItemKeys.effectiveDate.rawValue] as? String {
                             if let date = Manifest.dateFormatter.date(from: effectiveDateString) as Date? {
                                 entry.effectiveDate = date
                             }
                         }
                         
-                        if let expiryDateString = entryDict[Coding.expiryDate.rawValue] as? String {
+                        if let expiryDateString = entryDict[ManifestItemKeys.expiryDate.rawValue] as? String {
                             if let date = Manifest.dateFormatter.date(from: expiryDateString) as Date? {
                                 entry.expiryDate = date
                             }
                         }
                         
-                        if let dateLastUpdated = entryDict[Coding.dateLastUpdated.rawValue] as? String {
+                        if let dateLastUpdated = entryDict[ManifestItemKeys.dateLastUpdated.rawValue] as? String {
                             if let date = Manifest.dateFormatter.date(from: dateLastUpdated) as Date? {
                                 entry.lastUpdated = date
                             }
                         }
                         
-                        if var additionalData = entryDict[Coding.additionalData.rawValue] as? [String: Any] {
+                        if var additionalData = entryDict[ManifestItemKeys.additionalData.rawValue] as? [String: Any] {
                             
-                            if let latitude = additionalData[Coding.latitude.rawValue] as? NSNumber {
+                            if let latitude = additionalData[ManifestItemKeys.latitude.rawValue] as? NSNumber {
                                 entry.latitude = latitude
-                                additionalData.removeValue(forKey: Coding.latitude.rawValue)
+                                additionalData.removeValue(forKey: ManifestItemKeys.latitude.rawValue)
                             }
-                            if let longitude = additionalData[Coding.longitude.rawValue] as? NSNumber {
+                            if let longitude = additionalData[ManifestItemKeys.longitude.rawValue] as? NSNumber {
                                 entry.longitude = longitude
-                                additionalData.removeValue(forKey: Coding.longitude.rawValue)
+                                additionalData.removeValue(forKey: ManifestItemKeys.longitude.rawValue)
                             }
                             
                             entry.additionalDetails = additionalData
@@ -324,17 +322,12 @@ public final class Manifest: NSObject {
                 
                 do {
                     try context.save()
-                    
-                    DispatchQueue.main.async {
                         self.lastUpdateDate = checkedAtDate
                         fulfill(())
                         self.isSaving = false
-                    }
                 } catch let error {
-                    DispatchQueue.main.async {
                         reject(error)
                         self.isSaving = false
-                    }
                 }
             }
             
@@ -349,8 +342,8 @@ public final class Manifest: NSObject {
     ///
     public func update() -> Promise<Void> {
         objc_sync_enter(self)
+        defer { objc_sync_exit(self) }
         if let currentPromise = self.currenUpdatingPromise {
-            objc_sync_exit(self)
             return currentPromise
         } else {
             let checkedAtDate = Date()
@@ -360,9 +353,7 @@ public final class Manifest: NSObject {
             let newPromise = APIManager.shared.fetchManifest(for: self.lastUpdateDate?.addingTimeInterval(-60.0)).then { [weak self] result -> Promise<Void> in
                 guard let `self` = self else { return Promise<Void>(value: ()) }
                 guard result.isEmpty == false else {
-                    DispatchQueue.main.async {
-                        self.lastUpdateDate = checkedAtDate
-                    }
+                    self.lastUpdateDate = checkedAtDate
                     return Promise<Void>(value: ())
                 }
                 
@@ -372,7 +363,6 @@ public final class Manifest: NSObject {
                     self.currenUpdatingPromise = nil
             }
             self.currenUpdatingPromise = newPromise
-            objc_sync_exit(self)
             return newPromise
         }
     }
