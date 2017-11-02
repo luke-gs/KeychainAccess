@@ -167,8 +167,8 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
 
         // Show list of officers first, followed by shift details then optional sections
 
-        let officersTitleFormat = NSLocalizedString("%d Officer(s)", comment: "") as NSString
-        let officersTitle = NSString.localizedStringWithFormat(officersTitleFormat, viewModel.details.officers.count) as String
+        let officersTitleFormat = NSLocalizedString("%d Officer(s)", comment: "")
+        let officersTitle = String.localizedStringWithFormat(officersTitleFormat, viewModel.details.officers.count)
 
         builder += HeaderFormItem(text: officersTitle.uppercased(), style: .plain)
             .actionButton(title: NSLocalizedString("Add", comment: "").uppercased(), handler: { [unowned self] in
