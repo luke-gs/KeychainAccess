@@ -79,7 +79,7 @@ open class APIManager {
     ///   - request: The request with the parameters to search the entity.
     /// - Returns: A promise to return search result of specified entity.
     open func searchEntity<SearchRequest: EntitySearchRequestable>(in source: EntitySource, with request: SearchRequest) -> Promise<SearchResult<SearchRequest.ResultClass>> {
-
+        
         let path = "{source}/entity/{entityType}/search"
         var parameters = request.parameters
         parameters["source"] = source.serverSourceName
@@ -117,6 +117,66 @@ open class APIManager {
                 return try! self.performRequest(networkRequest)
         }
     }
+    
+    /// Fetch manifest data
+    ///
+    /// - Parameters:
+    ///   - date: The date last successful fetch, to only return items changes since this date. If no date, and entire snapshot of the manifest data will be requested.
+    ///
+    /// - Returns: A promis to return the manifest data
+    open func fetchManifest(for date: Date?) -> Promise<[[String : Any]]> {
+        var path = "manifest/app"
+        var parameters:[String: String] = [:]
+        
+        if let date = date{
+            let interval = Int(date.timeIntervalSince1970)
+            path.append("/{interval}")
+            parameters["interval"] = String(interval)
+        }
+        
+        let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
+        
+        let newRequest = try! urlRequest(from: networkRequest)
+        let dataRequest = self.dataRequest(from: newRequest)
+        let allPlugins = self.allPlugins
+        allPlugins.forEach {
+            $0.willSend(dataRequest)
+        }
+        let mapper = self.errorMapper
+        return Promise { fulfill, reject in
+            dataRequest.validate().responseData(completionHandler: { response in
+                allPlugins.forEach({
+                    $0.didReceiveResponse(response)
+                })
+                
+                switch response.result {
+                case .success(_):
+                    do {
+                        if let responseData = response.data{
+                            
+                            let responseArray = try JSONSerialization.jsonObject(with: responseData, options: .allowFragments)
+                            if let manifestArray = responseArray as? [[String : Any]] {
+                                fulfill(manifestArray)
+                            } else {
+                                fulfill([])
+                            }
+                        }
+                    } catch let parseError {
+                        reject (parseError)
+                    }
+                case .failure(let error):
+                    let wrappedError = APIManagerError(underlyingError: error, response: response.toDefaultDataResponse())
+                    if let mapper = mapper {
+                        reject(mapper.mappedError(from: wrappedError))
+                    } else {
+                        reject(wrappedError)
+                    }
+                    
+                }
+            })
+        }
+    }
+    
 
     // MARK : - Internal Utilities
 
