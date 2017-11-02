@@ -30,7 +30,7 @@ open class GeolocationPlugin: PluginType {
             adaptedRequest.addValue(String(location.horizontalAccuracy), forHTTPHeaderField: GeolocationPlugin.locationHorizontalAccuracyKey)
             adaptedRequest.addValue(String(location.verticalAccuracy), forHTTPHeaderField: GeolocationPlugin.locationVerticalAccuracyKey)
             adaptedRequest.addValue(String(location.timestamp.minutesSinceMidnight()), forHTTPHeaderField: GeolocationPlugin.locationTimeOfDayKey)
-            adaptedRequest.addValue(String(location.timestamp.dateAge()), forHTTPHeaderField: GeolocationPlugin.locationDataAge)
+            adaptedRequest.addValue(String(location.timestamp.timeSinceNow()), forHTTPHeaderField: GeolocationPlugin.locationDataAge)
 
             if location.course >= 0.0 { // Check if valid
                 adaptedRequest.addValue(String(location.course), forHTTPHeaderField: GeolocationPlugin.locationDirectionOfTravelKey)

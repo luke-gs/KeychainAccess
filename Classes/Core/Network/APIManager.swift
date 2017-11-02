@@ -91,14 +91,22 @@ open class APIManager {
         var parameters = request.parameters
         parameters["source"] = source.serverSourceName
         parameters["entityType"] = SearchRequest.ResultClass.serverTypeRepresentation
-
-        return LocationManager.shared.requestLocation().recover { error -> CLLocation? in
-            return LocationManager.shared.lastLocation
+        
+        return LocationManager.shared.requestLocation().recover { error -> CLLocation in
+            return LocationManager.shared.lastLocation ?? CLLocation() // Had to keep this in to avoid making the requestLocation optional
             }.then { _ -> Promise<SearchResult<SearchRequest.ResultClass>> in
                 let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
                 
                 return try! self.performRequest(networkRequest)
         }
+
+//        return LocationManager.shared.requestLocation().recover { error -> CLLocation? in
+//            return LocationManager.shared.lastLocation
+//            }.then { _ -> Promise<SearchResult<SearchRequest.ResultClass>> in
+//                let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
+//
+//                return try! self.performRequest(networkRequest)
+//        }
 
     }
     
@@ -117,8 +125,8 @@ open class APIManager {
         parameters["source"] = source.serverSourceName
         parameters["entityType"] = FetchRequest.ResultClass.serverTypeRepresentation
         
-        return LocationManager.shared.requestLocation().recover { error -> CLLocation? in
-            return LocationManager.shared.lastLocation
+        return LocationManager.shared.requestLocation().recover { error -> CLLocation in
+            return LocationManager.shared.lastLocation ?? CLLocation() // Had to keep this in to avoid making the requestLocation optional
             }.then { _ -> Promise<FetchRequest.ResultClass> in
                 let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
                 

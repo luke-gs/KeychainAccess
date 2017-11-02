@@ -14,6 +14,16 @@ public extension NSNotification.Name {
     static let LocationDidUpdate = NSNotification.Name(rawValue: "LocationDidUpdate")
 }
 
+enum LocationError: LocalizedError {
+    case authorizationError
+    
+    var errorDescription: String? {
+        switch self {
+        case .authorizationError: return "No authorization given to location services"
+        }
+    }
+}
+
 public final class LocationManager: NSObject {
     
     /// The singleton shared locationManager. This is the only instance of this class.
@@ -39,11 +49,18 @@ public final class LocationManager: NSObject {
     ///     - A promise with a Location
     ///
     @discardableResult
-    open func requestLocation() -> Promise<CLLocation?> {
-        return CLLocationManager.promise().then { location -> CLLocation? in
-            self.lastLocation = location
-            NotificationCenter.default.post(name: .LocationDidUpdate, object: self)
-            return location
+    open func requestLocation() -> Promise<CLLocation> {
+        return CLLocationManager.requestAuthorization().then { status -> Promise<CLLocation> in
+            switch status {
+            case .authorizedAlways, .authorizedWhenInUse:
+                return CLLocationManager.promise().then { location -> CLLocation in
+                    self.lastLocation = location
+                    NotificationCenter.default.post(name: .LocationDidUpdate, object: self)
+                    return location
+                }
+            default:
+                throw LocationError.authorizationError
+            }
         }
     }
 }
