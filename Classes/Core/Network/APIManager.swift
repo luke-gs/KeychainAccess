@@ -99,15 +99,6 @@ open class APIManager {
                 
                 return try! self.performRequest(networkRequest)
         }
-
-//        return LocationManager.shared.requestLocation().recover { error -> CLLocation? in
-//            return LocationManager.shared.lastLocation
-//            }.then { _ -> Promise<SearchResult<SearchRequest.ResultClass>> in
-//                let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
-//
-//                return try! self.performRequest(networkRequest)
-//        }
-
     }
     
     /// Fetch entity details using specified request.
