@@ -16,8 +16,8 @@ enum DateRoundingType {
 
 extension Date {
     
-    /// Returns the time interval till now
-    func dateAge() -> Int {
+    /// Returns the time interval till now, rounded to seconds
+    func timeSinceNow() -> Int {
         let timeInterval = Date().timeIntervalSince(self)
         
         return Int(timeInterval)
