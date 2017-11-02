@@ -46,6 +46,8 @@ public class ImageDownloader {
 
         let toBeFulfilled = Promise<UIImage>.pending()
 
+        var newFetchRequest: ImageFetchRequest?
+
         barrierQueue.sync(flags: .barrier) {
             let request: ImageFetchRequest
 
@@ -54,9 +56,13 @@ public class ImageDownloader {
             } else {
                 let fetchPromise = fetchAndCacheImage(using: imageResourceDescription)
                 request = ImageFetchRequest(url: imageResourceDescription.downloadURL, fetchPromise: fetchPromise)
+                newFetchRequest = request
             }
             request.pendingPromises.append(toBeFulfilled)
+            fetchRequests[imageResourceDescription.downloadURL] = request
+        }
 
+        if let request = newFetchRequest {
             request.fetchPromise.then { [weak self] image -> Void in
                 guard let `self` = self else {
                     return
@@ -66,20 +72,19 @@ public class ImageDownloader {
                         fulfill(image)
                     }
                 }
-            }.catch { error in
+                }.catch { error in
                     if let fetchRequest = self.fetchRequest(for: imageResourceDescription.downloadURL) {
                         for (_, _, reject) in fetchRequest.pendingPromises {
                             reject(error)
                         }
                     }
-            }.always { [weak self] in
-                _ = self?.barrierQueue.sync(flags: .barrier) {
-                    self?.fetchRequests.removeValue(forKey: imageResourceDescription.downloadURL)
-                }
+                }.always { [weak self] in
+                    _ = self?.barrierQueue.sync(flags: .barrier) {
+                        self?.fetchRequests.removeValue(forKey: imageResourceDescription.downloadURL)
+                    }
             }
-
-            fetchRequests[imageResourceDescription.downloadURL] = request
         }
+
         return toBeFulfilled.promise
     }
 
