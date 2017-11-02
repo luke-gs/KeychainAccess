@@ -7,6 +7,7 @@
 //
 
 import Alamofire
+import PromiseKit
 
 extension DataRequest {
 
@@ -58,6 +59,25 @@ extension DataRequest {
         -> Self {
             let imageSerializer = DataRequest.imageResponseSerializer(imageScale: imageScale)
             return response(queue: queue, responseSerializer: imageSerializer, completionHandler: completionHandler)
+    }
+
+
+    /// Serialized image from the data.
+    ///
+    /// - Parameter imageScale: The scale factor used for the image. Default is using the screen scale.
+    /// - Returns: The promise to return serialized UIImage.
+    public func responseImage(imageScale: CGFloat = DataRequest.imageScale) -> Promise<UIImage> {
+        let imageSerializer = DataRequest.imageResponseSerializer(imageScale: imageScale)
+        return Promise { fulfill, reject in
+            response(queue: nil, responseSerializer: imageSerializer, completionHandler: { response in
+                switch response.result {
+                case .success(let image):
+                    fulfill(image)
+                case .failure(let error):
+                    reject(error)
+                }
+            })
+        }
     }
     
     private class func image(from data: Data, withImageScale imageScale: CGFloat) throws -> UIImage {
