@@ -50,7 +50,7 @@ public final class LocationManager: NSObject {
     ///
     @discardableResult
     open func requestLocation() -> Promise<CLLocation> {
-        return CLLocationManager.requestAuthorization().then { status -> Promise<CLLocation> in
+        return CLLocationManager.requestAuthorization().then { status -> Promise<CLLocation> in // We must do this becuase the location Promise will hang if no authorisation string is found in the info.plist
             switch status {
             case .authorizedAlways, .authorizedWhenInUse:
                 return CLLocationManager.promise().then { location -> CLLocation in
