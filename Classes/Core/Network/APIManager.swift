@@ -84,15 +84,14 @@ open class APIManager {
         var parameters = request.parameters
         parameters["source"] = source.serverSourceName
         parameters["entityType"] = SearchRequest.ResultClass.serverTypeRepresentation
-
+        
         return LocationManager.shared.requestLocation().recover { error -> CLLocation in
-            return LocationManager.shared.lastLocation ?? CLLocation()
+            return LocationManager.shared.lastLocation ?? CLLocation() // Had to keep this in to avoid making the requestLocation optional
             }.then { _ -> Promise<SearchResult<SearchRequest.ResultClass>> in
                 let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
                 
                 return try! self.performRequest(networkRequest)
         }
-
     }
     
     /// Fetch entity details using specified request.
@@ -111,73 +110,11 @@ open class APIManager {
         parameters["entityType"] = FetchRequest.ResultClass.serverTypeRepresentation
         
         return LocationManager.shared.requestLocation().recover { error -> CLLocation in
-            return LocationManager.shared.lastLocation ?? CLLocation()
+            return LocationManager.shared.lastLocation ?? CLLocation() // Had to keep this in to avoid making the requestLocation optional
             }.then { _ -> Promise<FetchRequest.ResultClass> in
                 let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
                 
                 return try! self.performRequest(networkRequest)
-        }
-    }
-    
-    /// Fetch manifest data
-    ///
-    /// - Parameters:
-    ///   - date: The date last successful fetch, to only return items changes since this date. If no date, and entire snapshot of the manifest data will be requested.
-    ///
-    /// - Returns: A promis to return the manifest data
-    open func fetchManifest(for date: Date?) -> Promise<[[String : Any]]> {
-        var path = "manifest/app"
-        var parameters:[String: String] = [:]
-        
-        if let date = date{
-            let interval = Int(date.timeIntervalSince1970)
-            path.append("/{interval}")
-            parameters["interval"] = String(interval)
-        }
-        
-        return LocationManager.shared.requestLocation().recover { error -> CLLocation in
-            return LocationManager.shared.lastLocation ?? CLLocation()
-            }.then { _ -> Promise<[[String: Any]]> in
-                let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
-                
-                let newRequest = try! self.urlRequest(from: networkRequest)
-                let dataRequest = self.request(newRequest)
-                let allPlugins = self.allPlugins
-                allPlugins.forEach {
-                    $0.willSend(dataRequest)
-                }
-                
-                let mapper = self.errorMapper
-                return Promise { fulfill, reject in
-                    dataRequest.validate().responseData(completionHandler: { response in
-                        allPlugins.forEach({
-                            $0.didReceiveResponse(response)
-                        })
-                        
-                        do {
-                            if let responseData = response.data{
-                                
-                                let responseArray = try JSONSerialization.jsonObject(with: responseData, options: .allowFragments)
-                                if let manifestArray = responseArray as? [[String : Any]] {
-                                    fulfill(manifestArray)
-                                } else {
-                                    fulfill([])
-                                }
-                            } else {
-                                if let error = response.error {
-                                    let wrappedError = APIManagerError(underlyingError: error, response: response.toDefaultDataResponse())
-                                    if let mapper = mapper {
-                                        reject(mapper.mappedError(from: wrappedError))
-                                    } else {
-                                        reject(wrappedError)
-                                    }
-                                }
-                            }
-                        } catch let parseError {
-                            reject (parseError)
-                        }
-                    })
-                }
         }
     }
 
