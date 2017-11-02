@@ -37,6 +37,9 @@ open class BookOnDetailsFormViewModel {
     /// Whether we are editing an existing bookon
     public let isEditing: Bool
 
+    /// Whether to show vehicle fields
+    public let showVehicleFields: Bool = true
+
     // TODO: replace with something in session
     public static var lastSaved: BookOnDetailsFormContentViewModel?
 

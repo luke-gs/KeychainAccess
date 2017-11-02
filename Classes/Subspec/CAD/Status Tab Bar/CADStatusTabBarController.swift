@@ -39,7 +39,10 @@ open class CADStatusTabBarController: StatusTabBarController {
         
         let container = PopoverNavigationController(rootViewController: viewController)
         container.modalPresentationStyle = .formSheet
-        
+
+        // Less transparent background to give more contrast for forms
+        container.lightTransparentBackground = UIColor(white: 1, alpha: 0.5)
+
         selectedViewController?.present(container, animated: true)
     }
 }
