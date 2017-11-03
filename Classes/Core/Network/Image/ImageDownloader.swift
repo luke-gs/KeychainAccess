@@ -80,7 +80,7 @@ public class ImageDownloader {
                         }
                     }
                 }.always { [weak self] in
-                    _ = self?.barrierQueue.sync(flags: .barrier) {
+                    _ = self?.barrierQueue.async(flags: .barrier) {
                         self?.fetchRequests.removeValue(forKey: imageResourceDescription.downloadURL)
                     }
             }
