@@ -8,17 +8,22 @@
 
 open class AsynchronousImageSizing: ImageLoadable {
 
-    open let placeholderImage: ImageSizable?
+    open var placeholderImage: ImageSizable?
 
-    public init(placeholderImage: ImageSizable? = nil) {
+    open var size: CGSize?
+
+    public init(placeholderImage: ImageSizable? = nil, size: CGSize? = nil) {
         self.placeholderImage = placeholderImage
     }
 
     open func sizing() -> ImageSizing {
-        if let sizing = placeholderImage?.sizing() {
+        if var sizing = placeholderImage?.sizing() {
+            if let size = size {
+                sizing.size = size
+            }
             return sizing
         } else {
-            return ImageSizing(image: nil, size: .zero)
+            return ImageSizing(image: nil, size: size ?? .zero)
         }
     }
 
