@@ -6,11 +6,23 @@
 //
 //
 
+public enum ModelVersionableError: Error {
+    case decodeError
+}
+
 public protocol ModelVersionable {
     
     static var modelVersion: Int { get }
-    var modelVersion: Int { get }
-    
+
+    /// Perform migration of user data when the model version changes
+    /// - parameters:
+    ///     - from: The previous version
+    ///     - to: The new version
+    ///     - decoder: The decoder to read values from old object
+    /// - throws: if an error occurs performing migration
+    /// - returns: true if migration was performed, false if not necessary
+    func performMigrationIfNeeded(from: Int, to: Int, decoder: NSCoder) throws -> Bool
+
 }
 
 extension ModelVersionable {
@@ -18,8 +30,8 @@ extension ModelVersionable {
         return 0
     }
     
-    public var modelVersion: Int {
-        return type(of: self).modelVersion
+    public func performMigrationIfNeeded(from: Int, to: Int, decoder: NSCoder) throws -> Bool {
+        // By default, no migration
+        return false
     }
-    
 }
