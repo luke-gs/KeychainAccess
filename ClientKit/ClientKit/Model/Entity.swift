@@ -167,7 +167,7 @@ open class Entity: MPOLKitEntity {
         aCoder.encode(events, forKey: Coding.events.rawValue)
         aCoder.encode(addresses, forKey: Coding.addresses.rawValue)
         aCoder.encode(media, forKey: Coding.media.rawValue)
-        aCoder.encode(modelVersion, forKey: Coding.modelVersion.rawValue)
+        aCoder.encode(Entity.modelVersion, forKey: Coding.modelVersion.rawValue)
 
         if let alertLevel = alertLevel {
             aCoder.encode(alertLevel.rawValue, forKey: Coding.alertLevel.rawValue)
