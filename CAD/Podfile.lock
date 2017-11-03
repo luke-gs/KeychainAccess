@@ -12,12 +12,15 @@ PODS:
     - KeychainSwift (~> 8.0)
     - lottie-ios (~> 2.1.3)
     - PromiseKit (~> 4.4.0)
+    - PromiseKit/CoreLocation
     - Unbox (= 2.5.0)
     - Wrap (= 2.1.1)
   - PromiseKit (4.4.0):
     - PromiseKit/Foundation (= 4.4.0)
     - PromiseKit/QuartzCore (= 4.4.0)
     - PromiseKit/UIKit (= 4.4.0)
+  - PromiseKit/CoreLocation (4.4.0):
+    - PromiseKit/CorePromise
   - PromiseKit/CorePromise (4.4.0)
   - PromiseKit/Foundation (4.4.0):
     - PromiseKit/CorePromise
@@ -45,7 +48,7 @@ SPEC CHECKSUMS:
   HockeySDK: 82bf8dcbe1af3c87c24dc98924fcf2e2ba5be8c4
   KeychainSwift: 213db04dfe7244988e61f77c72a2afb2f775954a
   lottie-ios: 8c150606598931621e927377f1426d2d3e99282d
-  MPOLKit: 3b66cdf2344bac4c25d6b7cf5e7e433a220ba3b1
+  MPOLKit: fda49a893dac94b43d15f517782d8a5e37c63bdb
   PromiseKit: ecf5fe92275d57ee77c9ede858af47a162e9b97e
   Unbox: 30e437e6151a6de16139375fd4e8dd9a664cfbf7
   Wrap: 9cc7da7551bb81d0846cb3df9fb624c6c32d267d
