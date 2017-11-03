@@ -48,21 +48,22 @@ public class ImageDownloader {
 
         var newFetchRequest: ImageFetchRequest?
 
-        barrierQueue.sync(flags: .barrier) {
-            let request: ImageFetchRequest
+        let request: ImageFetchRequest
+        if let fetchRequest = fetchRequest(for: imageResourceDescription.downloadURL) {
+            request = fetchRequest
+        } else {
+            let fetchPromise = fetchAndCacheImage(using: imageResourceDescription)
+            request = ImageFetchRequest(url: imageResourceDescription.downloadURL, fetchPromise: fetchPromise)
+            newFetchRequest = request
+        }
 
-            if let fetchRequest = fetchRequests[imageResourceDescription.downloadURL] {
-                request = fetchRequest
-            } else {
-                let fetchPromise = fetchAndCacheImage(using: imageResourceDescription)
-                request = ImageFetchRequest(url: imageResourceDescription.downloadURL, fetchPromise: fetchPromise)
-                newFetchRequest = request
-            }
+        barrierQueue.async(flags: .barrier) { [weak self] in
             request.pendingPromises.append(toBeFulfilled)
-            fetchRequests[imageResourceDescription.downloadURL] = request
+            self?.fetchRequests[imageResourceDescription.downloadURL] = request
         }
 
         if let request = newFetchRequest {
+
             request.fetchPromise.then { [weak self] image -> Void in
                 guard let `self` = self else {
                     return
@@ -84,7 +85,6 @@ public class ImageDownloader {
                     }
             }
         }
-
         return toBeFulfilled.promise
     }
 
@@ -139,7 +139,7 @@ public class ImageDownloader {
 
     private func fetchRequest(for url: URL) -> ImageFetchRequest? {
         var fetchRequest: ImageFetchRequest?
-        barrierQueue.sync(flags: .barrier) {
+        barrierQueue.sync {
             fetchRequest = fetchRequests[url]
         }
         return fetchRequest
