@@ -71,7 +71,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let screen: LandingScreen
 
         if let user = UserSession.current.user, UserSession.current.isActive, user.termsAndConditionsVersionAccepted == TermsAndConditionsVersion {
-            if UserSession.current.user?.whatsNewShownVersion != WhatsNewVersion {
+            if user.whatsNewShownVersion != WhatsNewVersion {
                 screen = .whatsNew
             } else {
                 screen = .landing

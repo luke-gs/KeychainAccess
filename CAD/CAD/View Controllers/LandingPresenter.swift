@@ -149,7 +149,7 @@ extension LandingPresenter: LoginViewControllerDelegate {
 
             APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
 
-            UserSession.startSession(user: User(username: username), token: token)
+            UserSession.startSession(user: CADUser(username: username), token: token)
 
             let user = UserSession.current.user
             if user?.termsAndConditionsVersionAccepted == TermsAndConditionsVersion {
