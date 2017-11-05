@@ -12,16 +12,16 @@ import Cache
 
 public class ImageDownloader {
 
+    public static let `default` = ImageDownloader()
+
     public let apiManager: APIManager?
 
     private let imageCache: Storage
 
     public let imageDiskCacheConfig: DiskConfig
 
-    public static let `default` = ImageDownloader()
-
     private let barrierQueue: DispatchQueue
-    private var fetchRequests = [URL: ImageFetchRequest]()
+    private var inProgressPromises = [URL: Promise<UIImage>]()
 
     /// If `APIManager` is not provided, the `APIManager.shared` will be used.
     /// This is to allow to pass in different APIManager setup if required while
@@ -44,48 +44,21 @@ public class ImageDownloader {
     @discardableResult
     public func fetchImage(using imageResourceDescription: RemoteResourceDescribing) -> Promise<UIImage> {
 
-        let toBeFulfilled = Promise<UIImage>.pending()
+        let downloadURL = imageResourceDescription.downloadURL
+        let imageRequest: Promise<UIImage>
 
-        var newFetchRequest: ImageFetchRequest?
-
-        let request: ImageFetchRequest
-        if let fetchRequest = fetchRequest(for: imageResourceDescription.downloadURL) {
-            request = fetchRequest
+        if let request = fetchRequest(for: downloadURL) {
+            imageRequest = request
         } else {
-            let fetchPromise = fetchAndCacheImage(using: imageResourceDescription)
-            request = ImageFetchRequest(url: imageResourceDescription.downloadURL, fetchPromise: fetchPromise)
-            newFetchRequest = request
-        }
-
-        barrierQueue.async(flags: .barrier) { [weak self] in
-            request.pendingPromises.append(toBeFulfilled)
-            self?.fetchRequests[imageResourceDescription.downloadURL] = request
-        }
-
-        if let request = newFetchRequest {
-
-            request.fetchPromise.then { [weak self] image -> Void in
-                guard let `self` = self else {
-                    return
-                }
-                if let fetchRequest = self.fetchRequest(for: imageResourceDescription.downloadURL) {
-                    for (_, fulfill, _) in fetchRequest.pendingPromises {
-                        fulfill(image)
-                    }
-                }
-                }.catch { error in
-                    if let fetchRequest = self.fetchRequest(for: imageResourceDescription.downloadURL) {
-                        for (_, _, reject) in fetchRequest.pendingPromises {
-                            reject(error)
-                        }
-                    }
-                }.always { [weak self] in
-                    _ = self?.barrierQueue.async(flags: .barrier) {
-                        self?.fetchRequests.removeValue(forKey: imageResourceDescription.downloadURL)
-                    }
+            let request = fetchAndCacheImage(using: downloadURL)
+            request.always { [weak self] in
+                self?.set(fetchRequest: nil, for: downloadURL)
             }
+            imageRequest = request
+            set(fetchRequest: request, for: downloadURL)
         }
-        return toBeFulfilled.promise
+
+        return imageRequest
     }
 
     private func fetchAndCacheImage(using imageResourceDescription: RemoteResourceDescribing) -> Promise<UIImage> {
@@ -137,12 +110,18 @@ public class ImageDownloader {
 
     // MARK: - Private utilities
 
-    private func fetchRequest(for url: URL) -> ImageFetchRequest? {
-        var fetchRequest: ImageFetchRequest?
+    private func fetchRequest(for url: URL) -> Promise<UIImage>? {
+        var fetchRequest: Promise<UIImage>?
         barrierQueue.sync {
-            fetchRequest = fetchRequests[url]
+            fetchRequest = inProgressPromises[url]
         }
         return fetchRequest
+    }
+
+    private func set(fetchRequest: Promise<UIImage>?, for url: URL) {
+        barrierQueue.async(flags: .barrier) { [weak self] in
+            self?.inProgressPromises[url] = fetchRequest
+        }
     }
 
     private var _actualAPIManager: APIManager {
@@ -150,17 +129,6 @@ public class ImageDownloader {
             return APIManager.shared
         }
         return apiManager
-    }
-}
-
-private class ImageFetchRequest {
-    let url: URL
-    let fetchPromise: Promise<UIImage>
-    var pendingPromises = [(promise: Promise<UIImage>, fulfill: (UIImage) -> Void, reject: (Error) -> Void)]()
-
-    init(url: URL, fetchPromise: Promise<UIImage>) {
-        self.url = url
-        self.fetchPromise = fetchPromise
     }
 }
 
