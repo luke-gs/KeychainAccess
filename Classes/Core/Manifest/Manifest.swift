@@ -359,7 +359,8 @@ public final class Manifest: NSObject {
                 
                 return self.saveManifest(with: result, at:checkedAtDate)
                 
-                }.always {
+                }.always { [weak self] in
+                    guard let `self` = self else { return }
                     self.currenUpdatingPromise = nil
             }
             self.currenUpdatingPromise = newPromise
