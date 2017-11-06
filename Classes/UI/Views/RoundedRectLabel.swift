@@ -14,6 +14,8 @@ import UIKit
 /// priority level.
 open class RoundedRectLabel : UILabel {
     
+    open static let defaultLayoutMargins = UIEdgeInsets(top: 2.0 + (1.0 / UIScreen.main.scale), left: 10.0, bottom: 2.0, right: 10.0)
+    
     open var cornerRadius: CGFloat = 2.0 {
         didSet {
             if cornerRadius ==~ oldValue { return }
@@ -69,7 +71,7 @@ open class RoundedRectLabel : UILabel {
         backgroundColor =  UIColor(white: 0.3, alpha: 0.9)
         
         // Visually this appears slightly different on devices depending on scale. We vary the numbers depending on the screen scale.
-        layoutMargins = UIEdgeInsets(top: 2.0 + (1.0 / UIScreen.main.scale), left: 10.0, bottom: 2.0, right: 10.0)
+        layoutMargins = RoundedRectLabel.defaultLayoutMargins
     }
     
     open override func textRect(forBounds bounds: CGRect, limitedToNumberOfLines numberOfLines: Int) -> CGRect {

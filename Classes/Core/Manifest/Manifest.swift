@@ -258,6 +258,7 @@ public final class Manifest: NSObject {
             }
             isSaving = true
             let managedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+            managedObjectContext.parent = viewContext
             managedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator
             managedObjectContext.perform { [weak managedObjectContext] in
                 guard manifestItems.isEmpty ==  false, let context = managedObjectContext else {
@@ -359,7 +360,8 @@ public final class Manifest: NSObject {
                 
                 return self.saveManifest(with: result, at:checkedAtDate)
                 
-                }.always {
+                }.always { [weak self] in
+                    guard let `self` = self else { return }
                     self.currenUpdatingPromise = nil
             }
             self.currenUpdatingPromise = newPromise
