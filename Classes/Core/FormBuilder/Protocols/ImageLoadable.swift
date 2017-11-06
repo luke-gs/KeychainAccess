@@ -14,7 +14,7 @@ import Foundation
 public protocol ImageLoadable: ImageSizable {
 
     func loadImage(completion: @escaping (ImageSizable) -> ())
-
+    var size: CGSize { get }
 }
 
 /// Extends `UIImage` to implement ImageLoadable for convenience.
@@ -26,5 +26,4 @@ extension UIImage: ImageLoadable {
     public func loadImage(completion: @escaping (ImageSizable) -> ()) {
         completion(self)
     }
-
 }

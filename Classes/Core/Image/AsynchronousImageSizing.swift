@@ -10,25 +10,24 @@ open class AsynchronousImageSizing: ImageLoadable {
 
     open var placeholderImage: ImageSizable?
 
-    open var size: CGSize?
+    open var size: CGSize
 
-    public init(placeholderImage: ImageSizable? = nil, size: CGSize? = nil) {
+    public init(placeholderImage: ImageSizable? = nil, size: CGSize = .zero) {
         self.placeholderImage = placeholderImage
+        self.size = size
     }
 
     open func sizing() -> ImageSizing {
         if var sizing = placeholderImage?.sizing() {
-            if let size = size {
-                sizing.size = size
-            }
+            sizing.size = size
             return sizing
         } else {
-            return ImageSizing(image: nil, size: size ?? .zero)
+            return ImageSizing(image: nil, size: size)
         }
     }
 
     open func loadImage(completion: @escaping (ImageSizable) -> ()) {
-        MPLRequiresConcreteImplementation()
+        MPLUnimplemented()
     }
 
 }
