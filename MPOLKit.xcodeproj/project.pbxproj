@@ -179,6 +179,7 @@
 		995D52591F734A1100701992 /* ManifestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995D52581F734A1100701992 /* ManifestTests.swift */; };
 		995D525A1F7368B100701992 /* manifestItems.json in Resources */ = {isa = PBXBuildFile; fileRef = 995D52571F7344FA00701992 /* manifestItems.json */; };
 		9988CE671FAAD965007BE261 /* ManifestCollectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9988CE661FAAD965007BE261 /* ManifestCollectionTests.swift */; };
+		99DB7B0D1FB00622009B936B /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DB7B0C1FB00622009B936B /* NetworkMonitor.swift */; };
 		99FF8C041F982A22003A8A4B /* AuditPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FF8C031F982A21003A8A4B /* AuditPlugin.swift */; };
 		BA6FEAA4EFE7F66EBAE4C2DC /* Pods_MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9215372B17F43A2FDEB28AD0 /* Pods_MPOLKit.framework */; };
 		BC0448941F219A70005FB857 /* AssetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0448931F219A70005FB857 /* AssetManager.swift */; };
@@ -209,7 +210,6 @@
 		BC9C7DD51F0DED6600DFFE83 /* ParseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D2B1F0DED6600DFFE83 /* ParseError.swift */; };
 		BC9C7DD61F0DED6600DFFE83 /* QueryParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D2C1F0DED6600DFFE83 /* QueryParser.swift */; };
 		BC9C7DD71F0DED6600DFFE83 /* URLQueryBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D2D1F0DED6600DFFE83 /* URLQueryBuilder.swift */; };
-		BC9C7DD81F0DED6600DFFE83 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D2E1F0DED6600DFFE83 /* NetworkMonitor.swift */; };
 		BC9C7DEA1F0DED6600DFFE83 /* DefaultCustomStringConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D461F0DED6600DFFE83 /* DefaultCustomStringConvertible.swift */; };
 		BC9C7DEB1F0DED6600DFFE83 /* EntitySource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D471F0DED6600DFFE83 /* EntitySource.swift */; };
 		BC9C7DEC1F0DED6600DFFE83 /* ModelVersionable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C7D481F0DED6600DFFE83 /* ModelVersionable.swift */; };
@@ -666,6 +666,7 @@
 		995D52571F7344FA00701992 /* manifestItems.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = manifestItems.json; sourceTree = "<group>"; };
 		995D52581F734A1100701992 /* ManifestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManifestTests.swift; sourceTree = "<group>"; };
 		9988CE661FAAD965007BE261 /* ManifestCollectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManifestCollectionTests.swift; sourceTree = "<group>"; };
+		99DB7B0C1FB00622009B936B /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		99FF8C031F982A21003A8A4B /* AuditPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuditPlugin.swift; sourceTree = "<group>"; };
 		BC0448931F219A70005FB857 /* AssetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetManager.swift; sourceTree = "<group>"; };
 		BC0EA3F31F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCollectionViewSidebarLayout.swift; sourceTree = "<group>"; };
@@ -697,7 +698,6 @@
 		BC9C7D2B1F0DED6600DFFE83 /* ParseError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseError.swift; sourceTree = "<group>"; };
 		BC9C7D2C1F0DED6600DFFE83 /* QueryParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QueryParser.swift; sourceTree = "<group>"; };
 		BC9C7D2D1F0DED6600DFFE83 /* URLQueryBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLQueryBuilder.swift; sourceTree = "<group>"; };
-		BC9C7D2E1F0DED6600DFFE83 /* NetworkMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		BC9C7D461F0DED6600DFFE83 /* DefaultCustomStringConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultCustomStringConvertible.swift; sourceTree = "<group>"; };
 		BC9C7D471F0DED6600DFFE83 /* EntitySource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntitySource.swift; sourceTree = "<group>"; };
 		BC9C7D481F0DED6600DFFE83 /* ModelVersionable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelVersionable.swift; sourceTree = "<group>"; };
@@ -1493,7 +1493,6 @@
 				4657CACF1F5D0D7F000295F6 /* Logging */,
 				C63408571F30E59C000747B0 /* Model */,
 				BC9C7D271F0DED6600DFFE83 /* Network */,
-				BC9C7D2E1F0DED6600DFFE83 /* NetworkMonitor.swift */,
 				BC9C7D441F0DED6600DFFE83 /* Protocols */,
 				DB88BCCB1F42CEAA0056FD69 /* Search */,
 				DB88BCC91F42CEA40056FD69 /* SortDescriptor */,
@@ -1561,7 +1560,7 @@
 				DBE24C2D1F5939C90088D19B /* EntityDetailsFetch.swift */,
 				1972FCC91FA6A14800CB68EA /* Image */,
 				DBE24C2C1F5939C90088D19B /* EntityDetailsFetchRequest.swift */,
-				BC9C7D2E1F0DED6600DFFE83 /* NetworkMonitor.swift */,
+				99DB7B0C1FB00622009B936B /* NetworkMonitor.swift */,
 				19C625C11F55143900504BD9 /* NetworkRequest.swift */,
 				19C625BF1F550D2200504BD9 /* NetworkRequestType.swift */,
 				BC9C7D291F0DED6600DFFE83 /* OAuthAuthorizationGrant.swift */,
@@ -1919,7 +1918,6 @@
 				12F057271F3C0F5600CAD6F6 /* EntitySearchRequestTests.swift */,
 				1211E3681F3AD7620012E2E6 /* EpochDateTransformerTests.swift */,
 				1908EF891F57D79A00382B1C /* KeyboardInputManagerTests.swift */,
-				12F057211F3BFB2A00CAD6F6 /* ManifestCollectionTests.swift */,
 				1211E36C1F3AE0E50012E2E6 /* MiscTests.swift */,
 				1908EF8A1F57D79A00382B1C /* ModelVersionableTests.swift */,
 				1211E36A1F3ADC300012E2E6 /* OAuthAuthorizationGrantTests.swift */,
@@ -2868,7 +2866,6 @@
 				1212B54D1F60F2ED00F90CA0 /* TestingDirective.swift in Sources */,
 				27CBC7601F8B27C700E387C3 /* ResourceMapViewModel.swift in Sources */,
 				EADC4FF31F81E0810066AA2F /* OptionGroupFormItem.swift in Sources */,
-				BC9C7DD81F0DED6600DFFE83 /* NetworkMonitor.swift in Sources */,
 				BC9C7DF01F0DED6600DFFE83 /* EpochDateTransformer+UnboxFormatter.swift in Sources */,
 				962AA8191F8DD37D0087D534 /* PopoverPresenter.swift in Sources */,
 				2768C0491F86E78A008532ED /* TasksMapViewController.swift in Sources */,
@@ -2876,6 +2873,7 @@
 				19B49BC11F665F2A00502F51 /* CompactSidebarSourceViewController.swift in Sources */,
 				19DBD5CF1FA8E22B00205EEC /* UnboxResponseSerializer.swift in Sources */,
 				96CF322E1F8C429D00140AF8 /* CADFormCollectionViewController.swift in Sources */,
+				99DB7B0D1FB00622009B936B /* NetworkMonitor.swift in Sources */,
 				96CF32251F8C34C700140AF8 /* TasksListItemCell.swift in Sources */,
 				27CBC7671F8B27D500E387C3 /* UserCallsignStatusViewModel.swift in Sources */,
 				BC9C7E171F0DED6600DFFE83 /* FormTextField.swift in Sources */,
