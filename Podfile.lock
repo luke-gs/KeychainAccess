@@ -1,7 +1,8 @@
 PODS:
   - Alamofire (4.5.1)
+  - Cache (4.1.2)
   - KeychainSwift (8.0.2)
-  - lottie-ios (2.1.3)
+  - lottie-ios (2.1.4)
   - PromiseKit (4.4.3):
     - PromiseKit/Foundation (= 4.4.3)
     - PromiseKit/QuartzCore (= 4.4.3)
@@ -20,6 +21,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (= 4.5.1)
+  - Cache (~> 4.1.2)
   - KeychainSwift (~> 8.0)
   - lottie-ios (~> 2.1.3)
   - PromiseKit (~> 4.4.0)
@@ -29,12 +31,13 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
+  Cache: bd0233fc688b5e83a27bcd87807db7e6f23adcc5
   KeychainSwift: 213db04dfe7244988e61f77c72a2afb2f775954a
-  lottie-ios: 8c150606598931621e927377f1426d2d3e99282d
+  lottie-ios: 94fa2d82547ce3adf1e61157653ba99999fd279f
   PromiseKit: fbb52a0d154402c57eeb6eccd36dd7724fcf6117
   Unbox: 30e437e6151a6de16139375fd4e8dd9a664cfbf7
   Wrap: 9cc7da7551bb81d0846cb3df9fb624c6c32d267d
 
-PODFILE CHECKSUM: a6ac7d08c37e6fb8a20f9e2f394512620d489b9f
+PODFILE CHECKSUM: 1740923ecf2d1c9b2133764766389b1116a0cd9d
 
 COCOAPODS: 1.3.1

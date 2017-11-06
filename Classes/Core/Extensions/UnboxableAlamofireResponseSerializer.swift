@@ -1,5 +1,5 @@
 //
-//  UnboxableResponseSerializer.swift
+//  UnboxableAlamofireResponseSerializer.swift
 //  MPOL
 //
 //  Created by Herli Halim on 11/5/17.
