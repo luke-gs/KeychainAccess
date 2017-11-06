@@ -42,7 +42,7 @@ public class SummaryListFormItem: BaseFormItem {
         cell.thumbnailView.borderColor = borderColor
         cell.thumbnailView.imageView.image = image?.sizing().image
 
-        image?.requestImage(completion: { (imageSizable) in
+        image?.loadImage(completion: { (imageSizable) in
             cell.thumbnailView.imageView.image = imageSizable.sizing().image
         })
     }
