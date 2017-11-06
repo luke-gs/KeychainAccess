@@ -20,7 +20,7 @@ public struct NetworkRequest: NetworkRequestType {
 
     private static var queryBuilder = URLQueryBuilder()
 
-    public init(pathTemplate: String, parameters: [String: Any], method: HTTPMethod = .get, parameterEncoding: ParameterEncoding = URLEncoding.default, headers: [String : String]? = nil, isRelative: Bool = true) throws {
+    public init(pathTemplate: String, parameters: [String: Any], method: HTTPMethod = .get, parameterEncoding: ParameterEncoding = URLEncoding.default, headers: [String : String]? = nil, isRelativePath: Bool = true) throws {
 
         self.method = method
         self.headers = headers
@@ -30,7 +30,7 @@ public struct NetworkRequest: NetworkRequestType {
         self.path = info.path
         self.parameters = info.parameters
         self.parameterEncoding = parameterEncoding
-        self.isRelativePath = isRelative
+        self.isRelativePath = isRelativePath
     }
 
 }

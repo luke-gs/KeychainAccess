@@ -66,7 +66,7 @@ public class SummaryDetailFormItem: BaseFormItem {
             self?.onButtonTapped?()
         }
 
-        image?.requestImage(completion: { (imageSizable) in
+        image?.loadImage(completion: { (imageSizable) in
             cell.thumbnailView.imageView.image = imageSizable.sizing().image
         })
     }
