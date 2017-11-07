@@ -45,7 +45,7 @@ public struct VehicleSummaryDisplayable: EntitySummaryDisplayable {
         return vehicle.actionCount
     }
 
-    public func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> AsynchronousImageSizing? {
+    public func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> ImageLoadable? {
         let imageName: String
 
         switch size {
@@ -58,7 +58,7 @@ public struct VehicleSummaryDisplayable: EntitySummaryDisplayable {
         }
 
         if let image = UIImage(named: imageName, in: .mpolKit, compatibleWith: nil) {
-            return AsynchronousImageSizing(placeholderImage: ImageSizing(image: image, size: image.size, contentMode: .center))
+            return ImageSizing(image: image, size: image.size, contentMode: .center)
         }
 
         return nil

@@ -45,7 +45,7 @@ public struct PersonSummaryDisplayable: EntitySummaryDisplayable {
         return person.actionCount
     }
 
-    public func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> AsynchronousImageSizing? {
+    public func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> ImageLoadable? {
         return PersonImageSizing(person: person)
     }
     
