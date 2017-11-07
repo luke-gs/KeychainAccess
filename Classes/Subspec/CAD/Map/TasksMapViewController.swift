@@ -82,6 +82,36 @@ open class TasksMapViewController: MapViewController {
         }
     }
     
+    public func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        mapView.deselectAnnotation(view.annotation, animated: false)
+        let viewModel: TaskItemViewModel?
+        
+        if let annotation = view.annotation as? ResourceAnnotation {
+            viewModel = ResourceTaskItemViewModel(iconImage: annotation.icon,
+                                                  iconTintColor: .white,
+                                                  color: annotation.iconBackgroundColor,
+                                                  statusText: "Status Text", // FIXME: Get real text
+                                                  itemName: "\(annotation.title ?? "") \(annotation.subtitle ?? "")",
+                                                  lastUpdated: "Updated 2 mins ago")  // FIXME: Get real text
+        } else if let annotation = view.annotation as? IncidentAnnotation {
+            viewModel = IncidentTaskItemViewModel(iconImage: AssetManager.shared.image(forKey: .resourceDog), // FIXME: Get real icon
+                                                  iconTintColor: .darkGray,
+                                                  color: .lightGray,
+                                                  statusText: annotation.subtitle, // FIXME: Get real text
+                itemName: annotation.title ?? "",
+                lastUpdated: "Updated 2 mins ago")  // FIXME: Get real text
+        } else {
+            viewModel = nil
+        }
+        
+        if let viewModel = viewModel {
+            let vc = TasksItemSidebarViewController.init(viewModel: viewModel)
+            splitViewController?.navigationController?.pushViewController(vc, animated: true)
+        }
+        
+    }
+    
+    
     public func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
         // Keep resource annotations on top by observing changes to the layer's zPosition
         // This is needed for iOS 11
