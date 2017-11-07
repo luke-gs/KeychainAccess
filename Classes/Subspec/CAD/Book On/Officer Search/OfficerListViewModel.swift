@@ -43,7 +43,7 @@ public class OfficerListViewModel: GenericSearchDefaultViewModel {
     }
     
     private static var sampleData: [GenericSearchable] {
-        let section = "Recently Used"
+        let section = "Recently Used".uppercased()
         return [
             OfficerListItemViewModel(firstName: "Herli", lastName: "Halim", rank: "Senior Sergeant", callsign: "800256", section: section, image: nil),
             OfficerListItemViewModel(firstName: "Bryan", lastName: "Hathaway", rank: "Constable", callsign: "#8005823", section: section, image: nil),
