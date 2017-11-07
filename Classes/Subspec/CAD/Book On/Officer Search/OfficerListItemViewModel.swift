@@ -10,13 +10,41 @@ import UIKit
 
 public struct OfficerListItemViewModel: GenericSearchable {
     
-    public var title: String
-    public var subtitle: String?
+    private var firstName: String
+    private var lastName: String
+    private var rank: String
+    private var callsign: String
+    
+    public init(firstName: String, lastName: String, rank: String, callsign: String, section: String?, image: UIImage?) {
+        self.firstName = firstName
+        self.lastName = lastName
+        self.rank = rank
+        self.callsign = callsign
+        self.section = section
+        self.image = image
+    }
+    
+    // MARK: - Searchable
+    
+    public var title: String {
+        return "\(firstName) \(lastName)"
+    }
+    
+    public var subtitle: String? {
+        return "\(rank)  •  #\(callsign)"
+    }
+    
     public var section: String?
     public var image: UIImage?
     
     public func matches(searchString: String) -> Bool {
-        return title.localizedCaseInsensitiveContains(searchString)
+        let searchStringLowercase = searchString.lowercased()
+        
+        let matchesFirstName = firstName.lowercased().hasPrefix(searchStringLowercase)
+        let matchesLastName = lastName.lowercased().hasPrefix(searchStringLowercase)
+        let matchesCallsign = callsign.lowercased().hasPrefix(searchStringLowercase)
+        
+        return matchesFirstName || matchesLastName || matchesCallsign
     }
     
 }
