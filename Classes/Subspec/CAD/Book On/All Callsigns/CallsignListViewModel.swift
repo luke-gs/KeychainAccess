@@ -102,7 +102,26 @@ open class CallsignListViewModel: CADFormCollectionViewModel<NotBookedOnCallsign
     public override init() {
         super.init()
         
-        sections = data
+        // Map sections
+        let sortedData = (data.map { section in
+            // Sort items
+            let sortedItems = section.items.sorted {
+                if $0.status == "On Air" && $0.status != $1.status {
+                    // Status is on air, and statuses don't match
+                    return true
+                } else if $0.status == "At Incident" && $0.status != $1.status {
+                    // Statuses don't match, first is at incident. Prioritise if second is not on air
+                    return $1.status != "On Air"
+                } else {
+                    // Status matches, sort alphabetically by callsign
+                    return $0.callsign < $1.callsign
+                }
+            }
+            
+            return CADFormCollectionSectionViewModel(title: section.title, items: sortedItems)
+        } as [CADFormCollectionSectionViewModel<NotBookedOnCallsignItemViewModel>])
+        
+        sections = sortedData
     }
     
     /// Create the book on view controller for a selected callsign
