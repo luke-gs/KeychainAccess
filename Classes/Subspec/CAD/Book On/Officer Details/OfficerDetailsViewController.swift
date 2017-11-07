@@ -57,7 +57,7 @@ open class OfficerDetailsViewController: FormBuilderViewController {
                 self.viewModel.details.contactNumber = $0
             }
         
-        builder += DropDownFormItem(title: NSLocalizedString("License", comment: ""))
+        builder += DropDownFormItem(title: NSLocalizedString("Licence", comment: ""))
             .options([NSLocalizedString("Gold", comment: ""), NSLocalizedString("Silver", comment: "")])
             .required()
             .allowsMultipleSelection(false)
