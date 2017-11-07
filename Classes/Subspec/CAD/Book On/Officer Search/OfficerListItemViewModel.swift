@@ -10,10 +10,10 @@ import UIKit
 
 public struct OfficerListItemViewModel: GenericSearchable {
     
-    private var firstName: String
-    private var lastName: String
-    private var rank: String
-    private var callsign: String
+    public var firstName: String
+    public var lastName: String
+    public var rank: String
+    public var callsign: String
     
     public init(firstName: String, lastName: String, rank: String, callsign: String, section: String?, image: UIImage?) {
         self.firstName = firstName
