@@ -39,7 +39,7 @@ open class User: NSObject, NSSecureCoding, ModelVersionable {
     
     // MARK: - NSSecureCoding
     
-    open static var supportsSecureCoding: Bool {
+    open class var supportsSecureCoding: Bool {
         return true
     }
     
