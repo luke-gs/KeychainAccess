@@ -259,7 +259,6 @@ public final class Manifest: NSObject {
             isSaving = true
             let managedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
             managedObjectContext.parent = viewContext
-//            managedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator
             managedObjectContext.perform { [weak managedObjectContext] in
                 guard manifestItems.isEmpty ==  false, let context = managedObjectContext else {
                     fulfill(())
