@@ -11,6 +11,11 @@ import PromiseKit
 
 open class OfficerDetailsViewController: FormBuilderViewController {
     
+    open static var contactPhoneValidation: (specification: Specification, message: String) = (
+        specification: AustralianPhoneSpecification(),
+        message: NSLocalizedString("Contact number must be a valid Australian phone number", comment: "")
+    )
+    
     // MARK: - View Model
     
     private var viewModel: OfficerDetailsViewModel
@@ -53,6 +58,8 @@ open class OfficerDetailsViewController: FormBuilderViewController {
             .text(viewModel.details.contactNumber)
             .required("Contact number is required.")
             .strictValidate(CharacterSetSpecification.decimalDigits, message: "Contact number must be a number")
+            .submitValidate(OfficerDetailsViewController.contactPhoneValidation.specification,
+                            message: OfficerDetailsViewController.contactPhoneValidation.message)
             .onValueChanged {
                 self.viewModel.details.contactNumber = $0
             }
