@@ -80,6 +80,15 @@ vehicleType = Manifest.shared.entry(withId: id)
 allVehicleTypes = Manifest.shared.entries(for: .VehicleTypes)
 ```
 
+Preseeding a manifest item is in most cases a wise decision as it prevents long downloads and saving of a large manifest file. A convenience method to do this is `preseedDatebase(withURL: seedDate:)`, simply pass the location of the preseeded data base, and the time/date it was seeded and it will replace/add the database to the app and will treat it as the main database
+### Preseeding manifest
+```
+// First check if needs to be preseeded
+Manifest.shared.preseedDatebase(withURL: databaseURL, seedDate: preseedDate).then {
+    // Best to save preseed to userdefaults so it doesn't preseed on every run
+}
+```
+
 ## Data Matching
 
 When viewing an entity's details, there will be rules around how the data is matched between the data sources. There is a convenience object that is used in the `EntityDetailSectionsViewModel` to allow for data matching which should be passed in, in the `init`.
