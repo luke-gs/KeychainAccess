@@ -154,8 +154,13 @@ class Person {
 
 
 public class FakeImageLoader: ImageLoadable {
+    
 
     public private(set) var image: UIImage?
+    
+    public var size: CGSize {
+        return image?.size ?? .zero
+    }
 
     private var attemptToRequest: Bool = false
 
@@ -167,20 +172,20 @@ public class FakeImageLoader: ImageLoadable {
         self.initials = initials
         self.image = UIImage.thumbnail(withInitials: initials)
     }
-
-    public func requestImage(completion: @escaping (ImageSizable) -> ()) {
+    
+    public func loadImage(completion: @escaping (ImageSizable) -> ()) {
         self.completion = completion
-
+        
         if attemptToRequest == true {
             return
         }
-
+        
         let randomSeconds = (Double(arc4random_uniform(2000)) / 1000.0) + 0.3
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + randomSeconds) { [weak self] in
             guard let `self` = self else {
                 return
             }
-
+            
             self.attemptToRequest = true
             self.image = AssetManager.shared.image(forKey: .entityPerson)
             self.completion?(self)

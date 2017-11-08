@@ -27,7 +27,7 @@ public protocol EntitySummaryDisplayable {
     
     var badge: UInt { get }
 
-    func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> AsynchronousImageSizing?
+    func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> ImageLoadable?
 }
 
 public protocol EntitySummaryDecoratable {

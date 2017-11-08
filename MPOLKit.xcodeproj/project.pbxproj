@@ -48,7 +48,7 @@
 		19975D8F1F4414AF00E51469 /* ErrorMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19975D8E1F4414AF00E51469 /* ErrorMapperTests.swift */; };
 		199ECE8F1FAA1B720065E425 /* RemoteResourceDescribing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199ECE8E1FAA1B720065E425 /* RemoteResourceDescribing.swift */; };
 		199ECE951FAA4E410065E425 /* AsynchronousImageSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199ECE941FAA4E400065E425 /* AsynchronousImageSizing.swift */; };
-		199ECE971FAA4FBA0065E425 /* UIImageView+AsynchronousImageSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199ECE961FAA4FBA0065E425 /* UIImageView+AsynchronousImageSizing.swift */; };
+		199ECE971FAA4FBA0065E425 /* UIImageView+ImageLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199ECE961FAA4FBA0065E425 /* UIImageView+ImageLoadable.swift */; };
 		19B49BAA1F665ED100502F51 /* NSMutableAttributedString+Append.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B49BA91F665ED100502F51 /* NSMutableAttributedString+Append.swift */; };
 		19B49BB91F665F2A00502F51 /* CompactSidebarSourceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B49BB01F665F2800502F51 /* CompactSidebarSourceCell.swift */; };
 		19B49BBA1F665F2A00502F51 /* SidebarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B49BB11F665F2800502F51 /* SidebarDelegate.swift */; };
@@ -100,6 +100,7 @@
 		2768C0491F86E78A008532ED /* TasksMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A46A1F83555A00CAE056 /* TasksMapViewController.swift */; };
 		276C21061F60C2100003B860 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276C21051F60C2100003B860 /* MapViewController.swift */; };
 		276C21081F60C44B0003B860 /* MapOverlayImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276C21071F60C44B0003B860 /* MapOverlayImageButton.swift */; };
+		27719E0A1FA92A5B00238059 /* AustralianPhoneSpecification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27719E091FA92A5B00238059 /* AustralianPhoneSpecification.swift */; };
 		2784FDBB1FA1549D007B18B2 /* Optional+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2784FDBA1FA1549D007B18B2 /* Optional+Extension.swift */; };
 		278CA1051F7CA4A00073DFBA /* ResourceAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278CA1041F7CA4A00073DFBA /* ResourceAnnotationView.swift */; };
 		27C9C7611F95692400799855 /* NotBookedOnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C9C7601F95692400799855 /* NotBookedOnViewController.swift */; };
@@ -532,7 +533,7 @@
 		19975D8E1F4414AF00E51469 /* ErrorMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMapperTests.swift; sourceTree = "<group>"; };
 		199ECE8E1FAA1B720065E425 /* RemoteResourceDescribing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteResourceDescribing.swift; sourceTree = "<group>"; };
 		199ECE941FAA4E400065E425 /* AsynchronousImageSizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsynchronousImageSizing.swift; sourceTree = "<group>"; };
-		199ECE961FAA4FBA0065E425 /* UIImageView+AsynchronousImageSizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+AsynchronousImageSizing.swift"; sourceTree = "<group>"; };
+		199ECE961FAA4FBA0065E425 /* UIImageView+ImageLoadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+ImageLoadable.swift"; sourceTree = "<group>"; };
 		19B49BA91F665ED100502F51 /* NSMutableAttributedString+Append.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Append.swift"; sourceTree = "<group>"; };
 		19B49BB01F665F2800502F51 /* CompactSidebarSourceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompactSidebarSourceCell.swift; sourceTree = "<group>"; };
 		19B49BB11F665F2800502F51 /* SidebarDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SidebarDelegate.swift; sourceTree = "<group>"; };
@@ -584,6 +585,7 @@
 		2768C0471F86D60A008532ED /* MapSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSettingsViewController.swift; sourceTree = "<group>"; };
 		276C21051F60C2100003B860 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		276C21071F60C44B0003B860 /* MapOverlayImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOverlayImageButton.swift; sourceTree = "<group>"; };
+		27719E091FA92A5B00238059 /* AustralianPhoneSpecification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AustralianPhoneSpecification.swift; sourceTree = "<group>"; };
 		2784FDBA1FA1549D007B18B2 /* Optional+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+Extension.swift"; sourceTree = "<group>"; };
 		278CA1041F7CA4A00073DFBA /* ResourceAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceAnnotationView.swift; sourceTree = "<group>"; };
 		27C9C7601F95692400799855 /* NotBookedOnViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotBookedOnViewController.swift; sourceTree = "<group>"; };
@@ -1054,7 +1056,7 @@
 			isa = PBXGroup;
 			children = (
 				199ECE941FAA4E400065E425 /* AsynchronousImageSizing.swift */,
-				199ECE961FAA4FBA0065E425 /* UIImageView+AsynchronousImageSizing.swift */,
+				199ECE961FAA4FBA0065E425 /* UIImageView+ImageLoadable.swift */,
 			);
 			path = Image;
 			sourceTree = "<group>";
@@ -1189,6 +1191,7 @@
 			children = (
 				274C89851F9E91B8005B9CF8 /* OfficerDetailsViewController.swift */,
 				274C89871F9EB27A005B9CF8 /* OfficerDetailsViewModel.swift */,
+				27719E091FA92A5B00238059 /* AustralianPhoneSpecification.swift */,
 			);
 			path = "Officer Details";
 			sourceTree = "<group>";
@@ -2741,6 +2744,7 @@
 				BC9C7E291F0DED6600DFFE83 /* Bundle+MPOLKit.swift in Sources */,
 				EA09A0581F78B9C200BC3C0E /* RegularExpressionSpecification.swift in Sources */,
 				EA09A04C1F78B86A00BC3C0E /* Specification.swift in Sources */,
+				27719E0A1FA92A5B00238059 /* AustralianPhoneSpecification.swift in Sources */,
 				BC9C7DD41F0DED6600DFFE83 /* Parameterisable.swift in Sources */,
 				44621FF71F59239C007C3150 /* FilterValueDescriptor.swift in Sources */,
 				C6020FD11F394734001F1E71 /* APIManagerError.swift in Sources */,
@@ -2784,7 +2788,7 @@
 				DB88BCDA1F42D0080056FD69 /* NumberRangePickerViewController.swift in Sources */,
 				199ECE951FAA4E410065E425 /* AsynchronousImageSizing.swift in Sources */,
 				96CF32321F8D7C3400140AF8 /* TasksListHeaderRegularViewController.swift in Sources */,
-				199ECE971FAA4FBA0065E425 /* UIImageView+AsynchronousImageSizing.swift in Sources */,
+				199ECE971FAA4FBA0065E425 /* UIImageView+ImageLoadable.swift in Sources */,
 				19FEC9861F43F827005692A9 /* MappedError.swift in Sources */,
 				BC1B260E1F20BB3C009674B7 /* PushableSplitViewController.swift in Sources */,
 				EA09A0571F78B9C200BC3C0E /* PredicateSpecification.swift in Sources */,
