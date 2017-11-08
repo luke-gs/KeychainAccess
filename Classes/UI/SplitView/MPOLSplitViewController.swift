@@ -146,8 +146,12 @@ open class MPOLSplitViewController: PushableSplitViewController {
 
     /// Is the split view controller being rendered in compact environment, hence collapsed
     public func isCompact() -> Bool {
-        // Return the view controller's size class if the view is loaded, otherwise the window
-        return isViewLoaded ? (self.traitCollection.horizontalSizeClass == .compact) : MPOLSplitViewController.isWindowCompact()
+        // If it is called early enough, `self.traitCollection.horizontalSizeClass` will return .unspecified.
+        // It'll inherit the value from upper chain so delegate that to the window.
+        if self.traitCollection.horizontalSizeClass != .unspecified {
+            return self.traitCollection.horizontalSizeClass == .compact
+        }
+        return MPOLSplitViewController.isWindowCompact()
     }
 
     /// Is the key window being rendered in compact environment
