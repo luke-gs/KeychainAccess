@@ -44,8 +44,8 @@ public struct VehicleSummaryDisplayable: EntitySummaryDisplayable {
     public var badge: UInt {
         return vehicle.actionCount
     }
-    
-    public func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> (image: UIImage, mode: UIViewContentMode)? {
+
+    public func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> ImageLoadable? {
         let imageName: String
 
         switch size {
@@ -56,11 +56,11 @@ public struct VehicleSummaryDisplayable: EntitySummaryDisplayable {
         case .large:
             imageName = "iconEntityAutomotiveCar96"
         }
-        
+
         if let image = UIImage(named: imageName, in: .mpolKit, compatibleWith: nil) {
-            return (image, .center)
+            return ImageSizing(image: image, size: image.size, contentMode: .center)
         }
-        
+
         return nil
     }
     
