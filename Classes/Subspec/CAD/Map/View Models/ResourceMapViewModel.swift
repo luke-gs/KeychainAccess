@@ -15,7 +15,8 @@ public struct ResourceMapViewModel {
     public var subtitle: String
     public var coordinate: CLLocationCoordinate2D
     public var iconImage: UIImage?
-    public var iconColor: UIColor
+    public var iconBackgroundColor: UIColor
+    public var iconTintColor: UIColor?
     public var pulsing: Bool
 }
 
