@@ -127,10 +127,6 @@ open class MPOLSplitViewController: PushableSplitViewController {
 
         // Force early application of trait collection so presentation animation looks good
         updateSplitViewControllerForTraitChange()
-
-        // Get the default selected view controller from the subclass and apply the selection
-        selectedViewController = defaultSelectedViewController()
-        selectedViewControllerDidChange(oldValue: nil)
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -140,6 +136,14 @@ open class MPOLSplitViewController: PushableSplitViewController {
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateNavigationBarForTraitChange()
+
+        // If by the time this view controller is about to be presented, but `selectedViewController`
+        // is not yet set, then set it to default.
+        if selectedViewController == nil {
+            // Get the default selected view controller from the subclass and apply the selection
+            selectedViewController = defaultSelectedViewController()
+            selectedViewControllerDidChange(oldValue: nil)
+        }
     }
 
     // MARK: - Convenience
