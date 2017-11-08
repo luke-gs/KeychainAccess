@@ -134,8 +134,23 @@ open class CallsignListViewController: CADFormCollectionViewController<NotBooked
         if let cell = cell as? CollectionViewFormSubtitleCell {
             cell.titleLabel.text = viewModel.title
             cell.subtitleLabel.text = viewModel.subtitle
-            cell.imageView.image = viewModel.image?.withRenderingMode(.alwaysTemplate)
+            cell.imageView.image = viewModel.image
             cell.imageView.tintColor = viewModel.imageColor
+            
+            if let viewModel = viewModel as? NotBookedOnCallsignItemViewModel, viewModel.badgeText != nil {
+                var edgeInsets = RoundedRectLabel.defaultLayoutMargins
+                edgeInsets.left = 6
+                edgeInsets.right = 6
+                
+                let accessoryLabelDetail = AccessoryLabelDetail.init(text: viewModel.badgeText,
+                                                                     textColour: viewModel.badgeTextColor,
+                                                                     borderColour: viewModel.badgeBorderColor,
+                                                                     backgroundColour: viewModel.badgeFillColor,
+                                                                     layoutMargins: edgeInsets)
+                let accessoryTextStyle = AccessoryTextStyle.roundedRect(accessoryLabelDetail)
+                let accessoryView = FormAccessoryView(style: .disclosure, labelStyle: accessoryTextStyle)
+                cell.accessoryView = accessoryView
+            }
         }
     }
     
@@ -176,7 +191,7 @@ open class CallsignListViewController: CADFormCollectionViewController<NotBooked
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
         if let item = viewModel.item(at: indexPath) {
-            return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: item.title, subtitle: item.subtitle, inWidth: itemWidth, compatibleWith: traitCollection)
+            return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: item.title, subtitle: item.subtitle, inWidth: itemWidth, compatibleWith: traitCollection, imageSize: item.image?.size ?? .zero)
         }
         return 0
     }

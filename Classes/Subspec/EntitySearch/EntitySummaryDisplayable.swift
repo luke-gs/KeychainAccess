@@ -26,8 +26,8 @@ public protocol EntitySummaryDisplayable {
     var iconColor: UIColor? { get }
     
     var badge: UInt { get }
-    
-    func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> (image: UIImage, mode: UIViewContentMode)?
+
+    func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> ImageLoadable?
 }
 
 public protocol EntitySummaryDecoratable {

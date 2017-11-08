@@ -16,6 +16,7 @@ def mpol_kit_dependencies
     pod 'PromiseKit', '~> 4.4.0'
     pod 'PromiseKit/CoreLocation'
 	pod 'KeychainSwift', '~> 8.0'
+    pod 'Cache', '~> 4.1.2'
 end
 
 target 'MPOLKit' do
