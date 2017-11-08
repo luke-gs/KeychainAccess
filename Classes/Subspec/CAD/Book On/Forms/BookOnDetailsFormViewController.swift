@@ -22,6 +22,9 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Cancel", comment: ""), style: .plain, target: self, action: #selector(cancelFormTapped))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Done", comment: ""), style: .done, target: self, action: #selector(submitFormTapped))
+
+        // Disable content under nav bar as this is not properly supported by PopoverNavigationController
+        edgesForExtendedLayout = []
     }
 
     public required convenience init?(coder aDecoder: NSCoder) {

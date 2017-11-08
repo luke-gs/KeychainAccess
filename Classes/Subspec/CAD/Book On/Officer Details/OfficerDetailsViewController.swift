@@ -28,6 +28,9 @@ open class OfficerDetailsViewController: FormBuilderViewController {
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelButtonTapped))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneButtonTapped))
+
+        // Disable content under nav bar as this is not properly supported by PopoverNavigationController
+        edgesForExtendedLayout = []
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {
