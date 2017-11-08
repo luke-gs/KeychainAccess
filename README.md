@@ -65,6 +65,20 @@ Images as part of MPOL will be PDF's at a large scale to accommodate for both iO
 let scaledImage = image.resizeImageWith(newSize: CGSize(width: 24.0, height: 24.0), retainAspect: true, renderMode: .alwaysTemplate)
 
 ```
+## Manifest
+
+Manifest uses coreData to save and fetch manifestEntries. Fetches are delta oriented, however a full manifest may be pulled down if '0' is passed in the 'interval' parameter. ArchivedManifestEntry should be used when saving the entry to an object to best handle the encoding and decoding.
+
+### Fetching a manifestEntry via id
+```
+vehicleType = Manifest.shared.entry(withId: id)
+```
+
+`ManifestCollection` can be extended to add new collection types for convience for retrieving.
+### Usage
+```
+allVehicleTypes = Manifest.shared.entries(for: .VehicleTypes)
+```
 
 ## Data Matching
 
