@@ -4,6 +4,10 @@
 <dict>
 	<key>APP_GROUP_ID</key>
 	<string>$(APP_GROUP_ID)</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>$(SEARCH_URL_TYPE_SCHEME)</string>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
