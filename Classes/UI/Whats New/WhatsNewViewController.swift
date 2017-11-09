@@ -225,7 +225,11 @@ open class WhatsNewViewController: UIViewController, UIPageViewControllerDataSou
     }
     
     private var currentIndex: Int {
-        return viewControllers.index(of: currentViewController!)
+        if let viewController = currentViewController {
+            return viewControllers.index(of: viewController)
+        }
+        
+        return 0
     }
     
     private var lastIndex: Int {

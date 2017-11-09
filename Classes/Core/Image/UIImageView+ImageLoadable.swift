@@ -1,5 +1,5 @@
 //
-//  UIImageView+AsynchronousImageSizing.swift
+//  UIImageView+ImageLoadable.swift
 //  MPOLKit
 //
 //  Created by Herli Halim on 2/11/17.
@@ -9,11 +9,11 @@
 /// Extension on UIImageView to configure itself using `AsynchronousImageSizing`.
 extension UIImageView {
 
-    public func setImage(with asynchronousImageSizing: AsynchronousImageSizing) {
-        let initialSizing = asynchronousImageSizing.sizing()
+    public func setImage(with imageLoadable: ImageLoadable) {
+        let initialSizing = imageLoadable.sizing()
         apply(sizing: initialSizing)
 
-        asynchronousImageSizing.loadImage { [weak self] sizeable in
+        imageLoadable.loadImage { [weak self] sizeable in
             self?.apply(sizing: sizeable.sizing())
         }
     }

@@ -11,6 +11,11 @@ import PromiseKit
 
 open class OfficerDetailsViewController: FormBuilderViewController {
     
+    open static var contactPhoneValidation: (specification: Specification, message: String) = (
+        specification: AustralianPhoneSpecification(),
+        message: NSLocalizedString("Contact number must be a valid Australian phone number", comment: "")
+    )
+    
     // MARK: - View Model
     
     private var viewModel: OfficerDetailsViewModel
@@ -23,6 +28,9 @@ open class OfficerDetailsViewController: FormBuilderViewController {
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelButtonTapped))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneButtonTapped))
+
+        // Disable content under nav bar as this is not properly supported by PopoverNavigationController
+        edgesForExtendedLayout = []
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -53,6 +61,8 @@ open class OfficerDetailsViewController: FormBuilderViewController {
             .text(viewModel.details.contactNumber)
             .required("Contact number is required.")
             .strictValidate(CharacterSetSpecification.decimalDigits, message: "Contact number must be a number")
+            .submitValidate(OfficerDetailsViewController.contactPhoneValidation.specification,
+                            message: OfficerDetailsViewController.contactPhoneValidation.message)
             .onValueChanged {
                 self.viewModel.details.contactNumber = $0
             }
