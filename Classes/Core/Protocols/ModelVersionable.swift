@@ -6,10 +6,6 @@
 //
 //
 
-public enum ModelVersionableError: Error {
-    case decodeError
-}
-
 public protocol ModelVersionable {
     
     static var modelVersion: Int { get }
@@ -34,4 +30,9 @@ extension ModelVersionable {
         // By default, no migration
         return false
     }
+}
+
+/// Enum for model migration errors
+public enum ModelVersionableError: Error {
+    case decodeError
 }

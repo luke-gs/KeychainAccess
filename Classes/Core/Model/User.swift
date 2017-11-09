@@ -8,21 +8,20 @@
 
 import Foundation
 
+
 open class User: NSObject, NSSecureCoding, ModelVersionable {
 
-    /// The username, fixed across apps
+    // The application specific key for app settings. Required to be set if accessing appSettings
+    open static var applicationKey: String!
+
+    /// The username, fixed across apps and required after init completes
     public var username: String!
 
     /// Locally stored user app settings, keyed by specific mpol application
-    public var appSettings: [String: LocalUserSettings] = [:] {
+    public var appSettings: [String: [AppSettingKey: AnyObject]] = [:] {
         didSet {
             UserSession.current.updateUser()
         }
-    }
-
-    /// Return the application specific key for app settings
-    open var applicationKey: String {
-        MPLRequiresConcreteImplementation()
     }
 
     public init(username: String) {
@@ -64,7 +63,7 @@ open class User: NSObject, NSSecureCoding, ModelVersionable {
         guard let username = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.username.rawValue) as String? else {
             return nil
         }
-        guard let appSettings = aDecoder.decodeObject(of: NSDictionary.self, forKey: CodingKeys.appSettings.rawValue) as? [String: LocalUserSettings] else {
+        guard let appSettings = aDecoder.decodeObject(of: NSDictionary.self, forKey: CodingKeys.appSettings.rawValue) as? [String: [AppSettingKey: AnyObject]] else {
             return nil
         }
         self.username = username
@@ -103,21 +102,29 @@ open class User: NSObject, NSSecureCoding, ModelVersionable {
 // MARK: - Convenience methods for app settings
 extension User {
 
+    public func stringValue(forKey settingKey: AppSettingKey) -> String? {
+        return appSettings[User.applicationKey]?[settingKey] as? String
+    }
+
+    public func setStringValue(_ newValue: String?, forKey settingKey: AppSettingKey) {
+        appSettings[User.applicationKey]?[settingKey] = newValue as NSString?
+    }
+
     public var termsAndConditionsVersionAccepted: String? {
         get {
-            return appSettings[applicationKey]?.termsAndConditionsVersionAccepted
+            return stringValue(forKey: .termsAndConditionsVersionAccepted)
         }
         set {
-            appSettings[applicationKey]?.termsAndConditionsVersionAccepted = newValue
+            setStringValue(newValue, forKey: .termsAndConditionsVersionAccepted)
         }
     }
 
     public var whatsNewShownVersion: String? {
         get {
-            return appSettings[applicationKey]?.whatsNewShownVersion
+            return stringValue(forKey: .whatsNewShownVersion)
         }
         set {
-            appSettings[applicationKey]?.whatsNewShownVersion = newValue
+            setStringValue(newValue, forKey: .whatsNewShownVersion)
         }
     }
 }
