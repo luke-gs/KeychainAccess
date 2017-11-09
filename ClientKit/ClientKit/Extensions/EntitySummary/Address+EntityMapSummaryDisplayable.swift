@@ -63,14 +63,12 @@ public struct AddressSummaryDisplayable: EntityMapSummaryDisplayable {
         return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
     
-    public func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> (image: UIImage, mode: UIViewContentMode)? {
+    public func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> ImageLoadable? {
         if let image = AssetManager.shared.image(forKey: .location) {
-            return (image, .center)
+            return ImageSizing(image: image, size: image.size, contentMode: .center)
         }
         return nil
     }
-    
-
     
     private func shortFormattedAddress() -> String? {
         var lines: [[String]] = []
