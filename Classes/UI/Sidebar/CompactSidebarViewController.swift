@@ -31,6 +31,9 @@ open class CompactSidebarViewController: UIViewController {
     /// The current items available to display.
     public var items: [SidebarItem] = [] {
         didSet {
+            guard items != oldValue else {
+                return
+            }
             updatedItems(oldValue: oldValue)
         }
     }
