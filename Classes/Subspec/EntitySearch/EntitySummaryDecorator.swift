@@ -66,10 +66,9 @@ extension EntityListCollectionViewCell: EntityMapSummaryDecoratable {
         separatorStyle     = .none
 
         accessoryView      = accessoryView as? FormAccessoryView ?? FormAccessoryView(style: .disclosure)
-        
+
         if let thumbnailInfo = entitySummary.thumbnail(ofSize: .small) {
-            thumbnailView.imageView.contentMode = thumbnailInfo.mode
-            thumbnailView.imageView.image = thumbnailInfo.image
+            self.thumbnailView.imageView.setImage(with: thumbnailInfo)
         } else {
             thumbnailView.imageView.image = nil
         }
