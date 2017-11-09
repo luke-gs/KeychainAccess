@@ -36,7 +36,7 @@ public class UserSession: UserSessionable {
     }
 
     public var isActive: Bool {
-        return UserSession.userDefaults.string(forKey: UserSession.latestSessionKey) != nil
+        return UserSession.userDefaults.string(forKey: UserSession.latestSessionKey) != nil && user != nil
     }
 
     public var sessionID: String {
