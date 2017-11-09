@@ -66,8 +66,8 @@ public class LandingPresenter: NSObject, Presenter {
             return whatsNewVC
 
         case .landing:
-            let tempCallsignController = UIViewController() // TODO: Add callsign view
-            tempCallsignController.tabBarItem = UITabBarItem(title: "Callsign", image: AssetManager.shared.image(forKey: .entityCar), selectedImage: nil)
+            let callsignViewController = CompactCallsignViewController()
+            callsignViewController.tabBarItem = UITabBarItem(title: "Callsign", image: AssetManager.shared.image(forKey: .entityCar), selectedImage: nil)
 
             let searchProxyViewController = UIViewController() // TODO: Take me back to the search app
             searchProxyViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
@@ -90,7 +90,7 @@ public class LandingPresenter: NSObject, Presenter {
             let sessionViewController = statusTabBarViewModel.createViewController()
 
             sessionViewController.regularViewControllers = [searchProxyViewController, tasksNavController, activityNavController]
-            sessionViewController.compactViewControllers = sessionViewController.viewControllers + [tempCallsignController]
+            sessionViewController.compactViewControllers = sessionViewController.viewControllers + [callsignViewController]
             sessionViewController.selectedViewController = tasksNavController
             return sessionViewController
         }
