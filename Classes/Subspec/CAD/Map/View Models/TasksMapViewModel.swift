@@ -52,6 +52,7 @@ open class TasksMapViewModel {
                                       coordinate: model.coordinate,
                                       title: model.title,
                                       subtitle: model.subtitle,
+                                      status: model.status,
                                       iconText: model.iconText,
                                       iconColor: model.iconColor,
                                       iconFilled: model.iconFilled,
@@ -63,7 +64,8 @@ open class TasksMapViewModel {
             return TaskAnnotation(identifier: model.identifier,
                                           coordinate: model.coordinate,
                                           title: model.title,
-                                          subtitle: model.subtitle)
+                                          subtitle: model.subtitle,
+                                          status: nil)
         }
         
         /// Annotations of the broadcast type
@@ -71,7 +73,8 @@ open class TasksMapViewModel {
             return TaskAnnotation(identifier: model.identifier,
                                           coordinate: model.coordinate,
                                           title: model.title,
-                                          subtitle: model.subtitle)
+                                          subtitle: model.subtitle,
+                                          status: nil)
         }
         
         /// Annotations of the resource type
@@ -80,6 +83,7 @@ open class TasksMapViewModel {
                                           coordinate: model.coordinate,
                                           title: model.title,
                                           subtitle: model.subtitle,
+                                          status: model.status,
                                           icon: model.iconImage,
                                           iconBackgroundColor: model.iconBackgroundColor,
                                           iconTintColor: model.iconTintColor,
@@ -163,6 +167,7 @@ open class TasksMapViewModel {
             ResourceMapViewModel(identifier: "r1",
                                  title: "P03",
                                  subtitle: "(3)",
+                                 status: "In Duress 2:45", // TODO: Countdown...
                                  coordinate: CLLocationCoordinate2D(latitude: -37.807014, longitude: 144.973212),
                                  iconImage: AssetManager.shared.image(forKey: .resourceCar),
                                  iconBackgroundColor: #colorLiteral(red: 0.9455295139, green: 0, blue: 0, alpha: 1),
@@ -172,6 +177,7 @@ open class TasksMapViewModel {
             ResourceMapViewModel(identifier: "r2",
                                  title: "P07",
                                  subtitle: "(2)",
+                                 status: "At Incident",
                                  coordinate: CLLocationCoordinate2D(latitude: -37.802314, longitude: 144.975459),
                                  iconImage: AssetManager.shared.image(forKey: .resourceCar),
                                  iconBackgroundColor: .black,
@@ -181,6 +187,7 @@ open class TasksMapViewModel {
             ResourceMapViewModel(identifier: "r3",
                                  title: "K12",
                                  subtitle: "(1)",
+                                 status: "On Air",
                                  coordinate: CLLocationCoordinate2D(latitude: -37.799788, longitude: 144.992054),
                                  iconImage: AssetManager.shared.image(forKey: .resourceDog),
                                  iconBackgroundColor: #colorLiteral(red: 0.2980392157, green: 0.6862745098, blue: 0.3137254902, alpha: 1),
@@ -190,6 +197,7 @@ open class TasksMapViewModel {
             ResourceMapViewModel(identifier: "r4",
                                  title: "K14",
                                  subtitle: "(2)",
+                                 status: "Resourced",
                                  coordinate: CLLocationCoordinate2D(latitude: -37.801455, longitude: 144.977965),
                                  iconImage: AssetManager.shared.image(forKey: .resourceDog),
                                  iconBackgroundColor: .black,

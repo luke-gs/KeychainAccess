@@ -34,11 +34,11 @@ open class OfficerCell: CollectionViewFormSubtitleCell {
         
         addSubview(buttonsView)
         
+        // TODO: Get real image
         messageButton.setImage(AssetManager.shared.image(forKey: .email), for: .normal)
         messageButton.tintColor = #colorLiteral(red: 0, green: 0.4802979827, blue: 0.9984222054, alpha: 1)  
         buttonsView.addSubview(messageButton)
         
-        // TODO: Get real image
         callButton.setImage(AssetManager.shared.image(forKey: .audioCall), for: .normal)
         callButton.contentMode = .scaleAspectFit
         callButton.tintColor = #colorLiteral(red: 0, green: 0.4802979827, blue: 0.9984222054, alpha: 1)
@@ -47,7 +47,6 @@ open class OfficerCell: CollectionViewFormSubtitleCell {
         videoButton.setImage(AssetManager.shared.image(forKey: .videoCall), for: .normal)
         videoButton.tintColor = #colorLiteral(red: 0, green: 0.4802979827, blue: 0.9984222054, alpha: 1)
         buttonsView.addSubview(videoButton)
-        
         
         imageAlignment = .title
     }

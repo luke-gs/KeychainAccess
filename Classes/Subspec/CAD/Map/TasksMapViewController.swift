@@ -88,20 +88,17 @@ open class TasksMapViewController: MapViewController {
         mapView.deselectAnnotation(view.annotation, animated: false)
         let viewModel: TaskItemViewModel?
         
+        
         if let annotation = view.annotation as? ResourceAnnotation {
             viewModel = ResourceTaskItemViewModel(iconImage: annotation.icon,
                                                   iconTintColor: .white,
-                                                  color: annotation.iconBackgroundColor,
-                                                  statusText: "Status Text", // FIXME: Get real text
+                                                  color: #colorLiteral(red: 0.8431372549, green: 0.8431372549, blue: 0.8509803922, alpha: 1), // TODO: Find out which to use
+                                                  statusText: annotation.status, // FIXME: Get real text
                                                   itemName: "\(annotation.title ?? "") \(annotation.subtitle ?? "")",
                                                   lastUpdated: "Updated 2 mins ago")  // FIXME: Get real text
         } else if let annotation = view.annotation as? IncidentAnnotation {
-            viewModel = IncidentTaskItemViewModel(iconImage: AssetManager.shared.image(forKey: .resourceDog), // FIXME: Get real icon
-                                                  iconTintColor: .darkGray,
-                                                  color: .lightGray,
-                                                  statusText: annotation.subtitle, // FIXME: Get real text
-                itemName: annotation.title ?? "",
-                lastUpdated: "Updated 2 mins ago")  // FIXME: Get real text
+            // TODO: Hook up in CAD Sprint 3
+            viewModel = nil
         } else {
             viewModel = nil
         }

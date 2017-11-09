@@ -27,7 +27,6 @@ public class TaskItemViewModel {
     
     /// Last updated time string (e.g. '2 mins ago')
     var lastUpdated: String?
-    
 
     /// View controllers to show in the list
     func detailViewControllers() -> [UIViewController] {

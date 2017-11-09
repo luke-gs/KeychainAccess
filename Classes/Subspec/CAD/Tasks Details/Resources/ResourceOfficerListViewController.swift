@@ -21,7 +21,6 @@ open class ResourceOfficerListViewController: CADFormCollectionViewController<Re
         MPLCodingNotSupported()
     }
     
-    
     // MARK: - Override
     
     override open func cellType() -> CollectionViewFormCell.Type {

@@ -12,7 +12,6 @@ public class ResourceTaskItemViewModel: TaskItemViewModel {
     
     override func detailViewControllers() -> [UIViewController] {
         return [
-            ResourceOverviewDetailViewController(),
             ResourceOfficerListViewModel().createViewController(),
             ResourceActivityLogViewModel().createViewController(),
         ]

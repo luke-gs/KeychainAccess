@@ -59,14 +59,6 @@ open class TasksItemSidebarViewController: SidebarSplitViewController {
         apply(ThemeManager.shared.theme(for: userInterfaceStyle))
     }
     
-    open override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        if isMovingToParentViewController {
-//            detailViewModel.performFetch()
-        }
-    }
-    
-    
     open override func masterNavTitleSuitable(for traitCollection: UITraitCollection) -> String {
         // Ask the data source for an appropriate title
         if traitCollection.horizontalSizeClass == .compact {
@@ -81,9 +73,9 @@ open class TasksItemSidebarViewController: SidebarSplitViewController {
     
     /// Updates the header view with the details for the latest selected representation.
     /// Call this methodwhen the selected representation changes.
-    fileprivate func updateHeaderView() {
+    private func updateHeaderView() {
         headerView.iconView.image = detailViewModel.iconImage
-        headerView.iconView.contentMode = .center // TODO: Something here
+        headerView.iconView.contentMode = .center
         headerView.captionLabel.text = detailViewModel.statusText?.localizedUppercase
         headerView.titleLabel.text = detailViewModel.itemName
         
@@ -97,7 +89,6 @@ open class TasksItemSidebarViewController: SidebarSplitViewController {
             headerView.iconView.backgroundColor = color
             headerView.captionLabel.textColor = color
         }
-        
     }
     
     // MARK: - Theme
@@ -112,5 +103,4 @@ open class TasksItemSidebarViewController: SidebarSplitViewController {
         
         apply(ThemeManager.shared.theme(for: userInterfaceStyle))
     }
-
 }

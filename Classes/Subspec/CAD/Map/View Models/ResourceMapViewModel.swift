@@ -13,6 +13,7 @@ public struct ResourceMapViewModel {
     public var identifier: String
     public var title: String
     public var subtitle: String
+    public var status: String
     public var coordinate: CLLocationCoordinate2D
     public var iconImage: UIImage?
     public var iconBackgroundColor: UIColor
