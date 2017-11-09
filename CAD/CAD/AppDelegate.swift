@@ -38,6 +38,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             plugins = nil
         #endif
 
+        // Set the application key for app specific user settings
+        User.applicationKey = "CAD"
+
         let host = APP_HOST_URL
         APIManager.shared = APIManager(configuration: APIManagerDefaultConfiguration(url: "https://\(host)", plugins: plugins, trustPolicyManager: ServerTrustPolicyManager(policies: [host: .disableEvaluation])))
 

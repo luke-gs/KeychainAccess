@@ -14,7 +14,6 @@
 		96CED76D1FA7F23D00C0DEB0 /* LandingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CED76C1FA7F23D00C0DEB0 /* LandingPresenter.swift */; };
 		96CED76F1FA7FE4C00C0DEB0 /* termsandconditions.html in Resources */ = {isa = PBXBuildFile; fileRef = 96CED76E1FA7F9AA00C0DEB0 /* termsandconditions.html */; };
 		96CED7751FA8456A00C0DEB0 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 96CED7741FA8456600C0DEB0 /* Localizable.stringsdict */; };
-		96E491FC1FAC03C60051C3A1 /* CADUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E491FB1FAC03C60051C3A1 /* CADUser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,7 +32,6 @@
 		96CED76C1FA7F23D00C0DEB0 /* LandingPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingPresenter.swift; sourceTree = "<group>"; };
 		96CED76E1FA7F9AA00C0DEB0 /* termsandconditions.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = termsandconditions.html; sourceTree = "<group>"; };
 		96CED7741FA8456600C0DEB0 /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
-		96E491FB1FAC03C60051C3A1 /* CADUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADUser.swift; sourceTree = "<group>"; };
 		EFE5675329056751C51108DA /* Pods_CAD.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CAD.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -95,7 +93,6 @@
 		9624A4141F7C550B00CAE056 /* CAD */ = {
 			isa = PBXGroup;
 			children = (
-				96E491F91FAC03A90051C3A1 /* Model */,
 				9624A4151F7C550B00CAE056 /* AppDelegate.swift */,
 				96553FC21F9849AC006E063E /* CAD.entitlements */,
 				96553FCE1F98554E006E063E /* Configuration */,
@@ -134,22 +131,6 @@
 				96553FD81F98554E006E063E /* CAD-Bridging-Header.h */,
 			);
 			path = Configuration;
-			sourceTree = "<group>";
-		};
-		96E491F91FAC03A90051C3A1 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				96E491FA1FAC03B40051C3A1 /* User */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		96E491FA1FAC03B40051C3A1 /* User */ = {
-			isa = PBXGroup;
-			children = (
-				96E491FB1FAC03C60051C3A1 /* CADUser.swift */,
-			);
-			path = User;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -288,7 +269,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-CAD/Pods-CAD-resources.sh",
-				"$PODS_CONFIGURATION_BUILD_DIR/HockeySDK/HockeySDKResources.bundle",
+				$PODS_CONFIGURATION_BUILD_DIR/HockeySDK/HockeySDKResources.bundle,
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -306,7 +287,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96E491FC1FAC03C60051C3A1 /* CADUser.swift in Sources */,
 				96CED76D1FA7F23D00C0DEB0 /* LandingPresenter.swift in Sources */,
 				9624A4161F7C550B00CAE056 /* AppDelegate.swift in Sources */,
 			);

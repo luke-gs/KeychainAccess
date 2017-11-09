@@ -44,6 +44,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             plugins = nil
         #endif
 
+        // Set the application key for app specific user settings
+        User.applicationKey = "Search"
+
         let presenter = PresenterGroup(presenters: [SystemPresenter(), LandingPresenter(), EntityPresenter()])
 
         let director = Director(presenter: presenter)
