@@ -36,6 +36,12 @@ private enum ActionButton: Int {
 /// View model for the callsign status screen
 open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCallsignStatusItemViewModel> {
 
+    struct BookOnCallsignViewModel: BookOnCallsignViewModelType {
+        var callsign: String
+        var status: String?
+        var location: String?
+    }
+
     public override init() {
         selectedIndexPath = IndexPath(row: 0, section: 0)
         super.init()
@@ -85,13 +91,10 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
             // TODO: change status on network
 
             selectedIndexPath = indexPath
-            return Promise.init(value: currentStatus)
+            return Promise(value: currentStatus)
         } else {
             let message = NSLocalizedString("Selection not allowed from this state", comment: "")
-            let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Alert - OK"), style: .cancel, handler: nil))
-            AlertQueue.shared.add(alert)
-            return Promise.init(value: currentStatus)
+            return Promise(error: NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: message]))
         }
     }
 
@@ -102,15 +105,21 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
             case .viewCallsign:
                 break
             case .manageCallsign:
+                if let callsign = CADUserSession.current.callsign {
+                    let callsignViewModel = BookOnCallsignViewModel(callsign: callsign, status: nil, location: nil)
+                    let vc = BookOnDetailsFormViewModel(callsignViewModel: callsignViewModel).createViewController()
+                    delegate?.presentPushedViewController(vc, animated: true)
+                }
                 break
             case .terminateShift:
                 if currentStatus.canTerminate {
+                    // Update session and dismiss screen
+                    CADUserSession.current.callsign = nil
+                    BookOnDetailsFormViewModel.lastSaved = nil
                     delegate?.dismiss()
                 } else {
                     let message = NSLocalizedString("Terminating shift is not allowed from this state", comment: "")
-                    let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Alert - OK"), style: .cancel, handler: nil))
-                    AlertQueue.shared.add(alert)
+                    AlertQueue.shared.addErrorAlert(message: message)
                 }
                 break
             }
@@ -128,8 +137,7 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
 
     /// The title to use in the navigation bar
     open override func navTitle() -> String {
-        // TODO: get from user session
-        return "P24 (2)"
+        return CADUserSession.current.callsign ?? ""
     }
 
     /// Hide arrows

@@ -14,18 +14,21 @@ public struct AccessoryLabelDetail {
     var borderColour: UIColor?
     var backgroundColour: UIColor?
     var font: UIFont?
+    var layoutMargins: UIEdgeInsets?
 
     public init(text: String?,
          textColour: UIColor? = UIColor.darkGray,
          borderColour: UIColor? = .darkGray,
          backgroundColour: UIColor? = .clear,
-         font: UIFont? =  UIFont.boldSystemFont(ofSize: 12.0)) {
+         font: UIFont? =  UIFont.boldSystemFont(ofSize: 12.0),
+         layoutMargins: UIEdgeInsets? = nil) {
 
         self.text = text
         self.textColour = textColour
         self.borderColour = borderColour
         self.backgroundColour = backgroundColour
         self.font = font
+        self.layoutMargins = layoutMargins
     }
 }
 
@@ -41,6 +44,9 @@ public enum AccessoryTextStyle {
             label.textColor = details.textColour
             label.borderColor = details.borderColour
             label.text = details.text
+            if let layoutMargins = details.layoutMargins {
+                label.layoutMargins = layoutMargins
+            }
             return label
         }
     }
@@ -86,7 +92,7 @@ public final class FormAccessoryView: UIView {
         if let labelStyle = labelStyle {
             let decoration = labelStyle.decoration
             let sizing = StringSizing(string: decoration.text ?? "", font: decoration.font, numberOfLines: 1)
-            size.width += sizing.minimumWidth(compatibleWith: traitCollection) + 8.0
+            size.width += sizing.minimumWidth(compatibleWith: traitCollection) + 32.0
             let height = sizing.minimumHeight(inWidth: size.width, compatibleWith: traitCollection)
             size.height = max(height, size.height) + 8.0
         }
@@ -107,8 +113,28 @@ public final class FormAccessoryView: UIView {
             label.frame.origin = CGPoint(x: 0.0, y: 0.0)
             label.center = CGPoint(x: label.center.x, y: centerY)
 
-            imageView.frame.origin = CGPoint(x: label.frame.maxX + 8.0, y: 0.0)
+            imageView.frame.origin = CGPoint(x: label.frame.maxX + 16.0, y: 0.0)
             imageView.center = CGPoint(x: imageView.center.x, y: centerY)
         }
     }
 }
+
+/// Extension to support using a form accessory view in a form item
+extension FormAccessoryView: ItemAccessorisable {
+    public var size: CGSize {
+        return sizeThatFits(.zero)
+    }
+
+    public func view() -> UIView {
+        return self
+    }
+
+    public func apply(theme: Theme, toView view: UIView) {
+        switch style {
+        case .checkmark:  view.tintColor = nil
+        case .disclosure: view.tintColor = theme.color(forKey: .disclosure)
+        case .dropDown:   view.tintColor = theme.color(forKey: .primaryText)
+        }
+    }
+}
+

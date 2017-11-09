@@ -19,7 +19,7 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
         
         // MARK: - Header
         static var headerHeight: CGFloat = 80
-        static let footerHeight: CGFloat = 55
+        static let footerHeight: CGFloat = 64
         
         // MARK: - Button Padding
         static let verticalButtonPadding: CGFloat = 24
@@ -29,6 +29,7 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
     
     // MARK: - Views
     
+    open var footerDivider: UIView!
     open var titleLabel: UILabel!
     open var stayOffDutyButton: UIButton!
     open var allCallsignsButton: UIButton!
@@ -57,8 +58,17 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
     
     open override func loadView() {
         super.loadView()
-        collectionViewTopConstraint?.constant = LayoutConstants.headerHeight
-        collectionViewBottomConstraint?.constant = -LayoutConstants.footerHeight
+        
+        collectionView?.translatesAutoresizingMaskIntoConstraints = false
+        
+        if let collectionView = collectionView {
+            NSLayoutConstraint.activate([
+                collectionView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor, constant: LayoutConstants.headerHeight),
+                collectionView.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor),
+                collectionView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor),
+                collectionView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor, constant: -LayoutConstants.footerHeight).withPriority(.almostRequired)
+            ])
+        }
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -86,7 +96,7 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
                                                            left: LayoutConstants.edgeButtonPadding,
                                                            bottom: LayoutConstants.verticalButtonPadding,
                                                            right: LayoutConstants.horizontalButtonPadding)
-        stayOffDutyButton.titleLabel?.font = UIFont.systemFont(ofSize: 11, weight: .semibold)
+        stayOffDutyButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
         stayOffDutyButton.setTitleColor(tintColor, for: .normal)
         stayOffDutyButton.setTitleColor(tintColor.withAlphaComponent(0.5), for: .highlighted)
         stayOffDutyButton.setTitle(notBookedOnViewModel?.stayOffDutyButtonText(), for: .normal)
@@ -99,13 +109,18 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
                                                             left: LayoutConstants.horizontalButtonPadding,
                                                             bottom: LayoutConstants.verticalButtonPadding,
                                                             right: LayoutConstants.edgeButtonPadding)
-        allCallsignsButton.titleLabel?.font = UIFont.systemFont(ofSize: 11, weight: .semibold)
+        allCallsignsButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
         allCallsignsButton.setTitleColor(tintColor, for: .normal)
         allCallsignsButton.setTitleColor(tintColor.withAlphaComponent(0.5), for: .highlighted)
         allCallsignsButton.setTitle(notBookedOnViewModel?.allCallsignsButtonText(), for: .normal)
         allCallsignsButton.addTarget(self, action: #selector(didSelectAllCallsignsButton), for: .touchUpInside)
         allCallsignsButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(allCallsignsButton)
+        
+        footerDivider = UIView()
+        footerDivider.backgroundColor = UIColor.lightGray.withAlphaComponent(0.3)
+        footerDivider.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(footerDivider)
     }
     
     /// Activates view constraints
@@ -114,6 +129,11 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
             titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: LayoutConstants.topMargin),
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            footerDivider.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            footerDivider.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            footerDivider.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -LayoutConstants.footerHeight),
+            footerDivider.heightAnchor.constraint(equalToConstant: 1),
             
             stayOffDutyButton.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor),
             stayOffDutyButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -148,8 +168,24 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
         if let cell = cell as? CollectionViewFormSubtitleCell {
             cell.titleLabel.text = viewModel.title
             cell.subtitleLabel.text = viewModel.subtitle
-            cell.imageView.image = viewModel.image?.withRenderingMode(.alwaysTemplate)
+            cell.imageView.image = viewModel.image
             cell.imageView.tintColor = viewModel.imageColor
+
+            if let viewModel = viewModel as? NotBookedOnCallsignItemViewModel, viewModel.badgeText != nil {
+                var edgeInsets = RoundedRectLabel.defaultLayoutMargins
+                edgeInsets.left = 6
+                edgeInsets.right = 6
+
+                let accessoryLabelDetail = AccessoryLabelDetail.init(text: viewModel.badgeText,
+                                                                     textColour: viewModel.badgeTextColor,
+                                                                     borderColour: viewModel.badgeBorderColor,
+                                                                     backgroundColour: viewModel.badgeFillColor,
+                                                                     layoutMargins: edgeInsets)
+                let accessoryTextStyle = AccessoryTextStyle.roundedRect(accessoryLabelDetail)
+                let accessoryView = FormAccessoryView(style: .disclosure, labelStyle: accessoryTextStyle)
+                cell.accessoryView = accessoryView
+            }
+
         }
     }
     
@@ -172,12 +208,15 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
     
     open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        // TODO: present details?
+
+        if let bookOnViewController = notBookedOnViewModel?.bookOnViewControllerForItem(indexPath) {
+            navigationController?.pushViewController(bookOnViewController, animated: true)
+        }
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
         if let item = viewModel.item(at: indexPath) {
-            return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: item.title, subtitle: item.subtitle, inWidth: itemWidth, compatibleWith: traitCollection)
+            return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: item.title, subtitle: item.subtitle, inWidth: itemWidth, compatibleWith: traitCollection, imageSize: item.image?.size ?? .zero)
         }
         return 0
     }

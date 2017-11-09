@@ -53,9 +53,9 @@ open class UserCallsignStatusViewModel {
         public var icon: UIImage? {
             if case let .assigned(_, _, image) = self {
                 return image
+            } else {
+                return AssetManager.shared.image(forKey: .iconStatusUnavailable)
             }
-            
-            return nil
         }
     }
     
@@ -90,11 +90,21 @@ open class UserCallsignStatusViewModel {
     
     // MARK: - Setup
     
-    public init() {}
+    public init() {
+        NotificationCenter.default.addObserver(forName: .CallsignChanged, object: nil, queue: nil) { [unowned self] (notification) in
+            if let callsign = CADUserSession.current.callsign {
+                self.state = .assigned(callsign: callsign, status: "At Incident", image: AssetManager.shared.image(forKey: .entityCarSmall))
+            } else {
+                self.state = UserCallsignStatusViewModel.defaultNotBookedOnState
+            }
+        }
+    }
     
     /// Creates the view for this view model
     open func createView() -> UserCallsignStatusView {
-        return UserCallsignStatusView(viewModel: self)
+        let view = UserCallsignStatusView(viewModel: self)
+        delegate = view
+        return view
     }
     
     /// Creates the view controller to present for tapping the button

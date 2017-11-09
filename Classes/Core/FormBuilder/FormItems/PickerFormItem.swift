@@ -167,7 +167,8 @@ public class PickerFormItem<T>: BaseFormItem, SelectionActionable, DefaultReusab
     }
 
     public func reloadSubmitValidationState() {
-        validator.validateAndUpdateErrorIfNeeded(candidate, shouldInstallTimer: false, checkSubmitRule: true, forItem: self)
+        let shouldCheck = candidate != nil || isRequired
+        validator.validateAndUpdateErrorIfNeeded(candidate, shouldInstallTimer: false, checkSubmitRule: shouldCheck, forItem: self)
     }
 
     public func reloadLiveValidationState() {
@@ -175,7 +176,8 @@ public class PickerFormItem<T>: BaseFormItem, SelectionActionable, DefaultReusab
     }
 
     public func validateValueForSubmission() -> ValidateResult {
-        return validator.validate(candidate, checkHardRule: true, checkSoftRule: true, checkSubmitRule: true)
+        let shouldCheck = candidate != nil || isRequired
+        return validator.validate(candidate, checkHardRule: shouldCheck, checkSoftRule: shouldCheck, checkSubmitRule: shouldCheck)
     }
 
 }
@@ -229,9 +231,7 @@ extension PickerFormItem {
 
     @discardableResult
     public func required(_ message: String = FormRequired.default.message) -> Self {
-        self.requiredSpecification = ValidatorRule.submit(specification: PredicateSpecification(predicate: { (value: T) -> Bool in
-                return value != nil
-            }), message: message)
+        self.requiredSpecification = ValidatorRule.submit(specification: NotNilSpecification(), message: message)
         return self
     }
 
@@ -256,6 +256,30 @@ extension PickerFormItem {
     @discardableResult
     public func onValueChanged(_ onValueChanged: ((T?) -> ())?) -> Self {
         self.onValueChanged = onValueChanged
+        return self
+    }
+
+    @discardableResult
+    public func softValidate(_ specification: Specification, message: String) -> Self {
+        let rule = ValidatorRule.soft(specification: specification, message: message)
+        rules.append(rule)
+        validator.addRule(rule)
+        return self
+    }
+
+    @discardableResult
+    public func strictValidate(_ specification: Specification, message: String) -> Self {
+        let rule = ValidatorRule.strict(specification: specification, message: message)
+        rules.append(rule)
+        validator.addRule(rule)
+        return self
+    }
+
+    @discardableResult
+    public func submitValidate(_ specification: Specification, message: String) -> Self {
+        let rule = ValidatorRule.submit(specification: specification, message: message)
+        rules.append(rule)
+        validator.addRule(rule)
         return self
     }
 

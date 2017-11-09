@@ -15,7 +15,7 @@ class ImageLoadableTests: XCTestCase {
 
     func testThatItImageImplementsImageLoadable() {
         // When
-        image?.requestImage(completion: { (finalImage) in
+        image?.loadImage(completion: { (finalImage) in
             // Then
             XCTAssertEqual(finalImage.sizing().image, self.image)
         })

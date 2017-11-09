@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		19EFD2F41F4D308600422F2A /* MPOLSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EFD2F31F4D308600422F2A /* MPOLSource.swift */; };
 		19EFD2F81F4D35FD00422F2A /* SearchLookupAddressTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EFD2F71F4D35FD00422F2A /* SearchLookupAddressTableViewController.swift */; };
+		440CFFFE1FB30594006D491F /* ProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 440CFFFD1FB30594006D491F /* ProgressViewController.swift */; };
 		761ABC5D3D3F8181084EB823 /* Pods_MPOLKitDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BECA0FB8F0943957022C002E /* Pods_MPOLKitDemo.framework */; };
 		BC9C7E7E1F0DF0E700DFFE83 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC9C7E771F0DF0E700DFFE83 /* Assets.xcassets */; };
 		BC9C7E7F1F0DF0E700DFFE83 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BC9C7E781F0DF0E700DFFE83 /* LaunchScreen.storyboard */; };
@@ -23,6 +24,7 @@
 		EA445DA01F73523700ABF70F /* BasicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA445D9F1F73523700ABF70F /* BasicViewController.swift */; };
 		EA445DA41F735D2B00ABF70F /* SignViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA445DA31F735D2B00ABF70F /* SignViewController.swift */; };
 		EA445DA81F737B6600ABF70F /* ResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA445DA71F737B6600ABF70F /* ResultsViewController.swift */; };
+		EA53B2751F9EF0E600B891D8 /* StepperViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA53B2741F9EF0E600B891D8 /* StepperViewController.swift */; };
 		EA8C063D1F847C9400AE5161 /* DebugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8C063C1F847C9400AE5161 /* DebugViewController.swift */; };
 		EA950E441F86EEE600B5A349 /* SubscriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA950E431F86EEE600B5A349 /* SubscriptionViewController.swift */; };
 		EA950E481F8DAEC200B5A349 /* CustomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA950E471F8DAEC200B5A349 /* CustomViewController.swift */; };
@@ -33,6 +35,7 @@
 /* Begin PBXFileReference section */
 		19EFD2F31F4D308600422F2A /* MPOLSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPOLSource.swift; sourceTree = "<group>"; };
 		19EFD2F71F4D35FD00422F2A /* SearchLookupAddressTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchLookupAddressTableViewController.swift; sourceTree = "<group>"; };
+		440CFFFD1FB30594006D491F /* ProgressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressViewController.swift; sourceTree = "<group>"; };
 		456B2831B11E426CBE3F4C4C /* Pods-MPOLKitDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKitDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKitDemo/Pods-MPOLKitDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		BC9C7E601F0DF0AA00DFFE83 /* MPOLKitDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MPOLKitDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC9C7E771F0DF0E700DFFE83 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -52,6 +55,7 @@
 		EA445D9F1F73523700ABF70F /* BasicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicViewController.swift; sourceTree = "<group>"; };
 		EA445DA31F735D2B00ABF70F /* SignViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignViewController.swift; sourceTree = "<group>"; };
 		EA445DA71F737B6600ABF70F /* ResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsViewController.swift; sourceTree = "<group>"; };
+		EA53B2741F9EF0E600B891D8 /* StepperViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepperViewController.swift; sourceTree = "<group>"; };
 		EA8C063C1F847C9400AE5161 /* DebugViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugViewController.swift; sourceTree = "<group>"; };
 		EA950E431F86EEE600B5A349 /* SubscriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionViewController.swift; sourceTree = "<group>"; };
 		EA950E471F8DAEC200B5A349 /* CustomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewController.swift; sourceTree = "<group>"; };
@@ -156,7 +160,9 @@
 				EA950E431F86EEE600B5A349 /* SubscriptionViewController.swift */,
 				EA950E471F8DAEC200B5A349 /* CustomViewController.swift */,
 				EAE806D81F98328B00C9AA85 /* PickerViewController.swift */,
+				EA53B2741F9EF0E600B891D8 /* StepperViewController.swift */,
 				EAFF89FC1F9D6BC40050C471 /* DateViewController.swift */,
+				440CFFFD1FB30594006D491F /* ProgressViewController.swift */,
 			);
 			path = "Form Examples";
 			sourceTree = "<group>";
@@ -279,6 +285,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-MPOLKitDemo/Pods-MPOLKitDemo-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
 				"${BUILT_PRODUCTS_DIR}/KeychainSwift/KeychainSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/MPOLKit/MPOLKit.framework",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
@@ -289,6 +296,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MPOLKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
@@ -314,6 +322,7 @@
 				EA1B3C9F1F7257B100574A41 /* ListViewController.swift in Sources */,
 				EA445DA41F735D2B00ABF70F /* SignViewController.swift in Sources */,
 				EA1B3C9D1F72538A00574A41 /* PersonDetailViewController.swift in Sources */,
+				EA53B2751F9EF0E600B891D8 /* StepperViewController.swift in Sources */,
 				EA950E441F86EEE600B5A349 /* SubscriptionViewController.swift in Sources */,
 				BCAD1EFC1F262B680033AD66 /* AppDelegate.swift in Sources */,
 				BCAD1EFF1F262B680033AD66 /* NoContentCollectionController.swift in Sources */,
@@ -322,6 +331,7 @@
 				19EFD2F81F4D35FD00422F2A /* SearchLookupAddressTableViewController.swift in Sources */,
 				19EFD2F41F4D308600422F2A /* MPOLSource.swift in Sources */,
 				BCAD1EFD1F262B680033AD66 /* CollectionDemoListViewController.swift in Sources */,
+				440CFFFE1FB30594006D491F /* ProgressViewController.swift in Sources */,
 				EA445D9E1F734B7700ABF70F /* HeaderViewController.swift in Sources */,
 				EA950E481F8DAEC200B5A349 /* CustomViewController.swift in Sources */,
 				EAFF89FD1F9D6BC40050C471 /* DateViewController.swift in Sources */,

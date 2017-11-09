@@ -454,7 +454,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
                 filterCell.titleLabel.text = title
                 filterCell.valueLabel.text = value
                 filterCell.placeholderLabel.text = placeholder
-                filterCell.setRequiresValidation(message != nil, validationText: message, animated: false)
+                filterCell.setRequiresValidation(message != nil || isRequired, validationText: message, animated: false)
                 
                 return filterCell
             case .text(let configure):

@@ -17,14 +17,13 @@ open class UserCallsignStatusView: UIControl {
     
     public struct LayoutConstants {
         public static let iconSize: CGFloat = 24
-        public static let imageMargin: CGFloat = 6
-        public static let iconTextMargin: CGFloat = 16
+        public static let imageMargin: CGFloat = 12
+        public static let iconTextMargin: CGFloat = 12
         public static let textMargin: CGFloat = 8
     }
     
     // MARK: - Views
     
-    open var iconView: CircleIconView!
     open var iconImageView: UIImageView!
     open var textStackView: UIStackView!
     open var titleLabel: UILabel!
@@ -47,18 +46,12 @@ open class UserCallsignStatusView: UIControl {
     
     /// Creates and styles views
     open func setupViews() {
-        iconView = CircleIconView()
-        iconView.color = #colorLiteral(red: 0.8431372549, green: 0.8431372549, blue: 0.8509803922, alpha: 1)
-        iconView.isUserInteractionEnabled = false
-        iconView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(iconView)
-        
         iconImageView = UIImageView()
         iconImageView.tintColor = UIColor.black
         iconImageView.contentMode = .scaleAspectFit
         iconImageView.isUserInteractionEnabled = false
         iconImageView.translatesAutoresizingMaskIntoConstraints = false
-        iconView.addSubview(iconImageView)
+        addSubview(iconImageView)
         
         titleLabel = UILabel()
         titleLabel.font = UIFont.systemFont(ofSize: 13, weight: UIFont.Weight.semibold)
@@ -80,15 +73,10 @@ open class UserCallsignStatusView: UIControl {
     /// Activates view constraints
     open func setupConstraints() {
         NSLayoutConstraint.activate([
-            iconView.heightAnchor.constraint(equalToConstant: LayoutConstants.iconSize),
-            iconView.widthAnchor.constraint(equalToConstant: LayoutConstants.iconSize),
-            iconView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            iconView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            
-            iconImageView.topAnchor.constraint(equalTo: iconView.topAnchor, constant: LayoutConstants.imageMargin),
-            iconImageView.leadingAnchor.constraint(equalTo: iconView.leadingAnchor, constant: LayoutConstants.imageMargin),
-            iconImageView.trailingAnchor.constraint(equalTo: iconView.trailingAnchor, constant: -LayoutConstants.imageMargin),
-            iconImageView.bottomAnchor.constraint(equalTo: iconView.bottomAnchor, constant: -LayoutConstants.imageMargin),
+            iconImageView.heightAnchor.constraint(equalToConstant: LayoutConstants.iconSize),
+            iconImageView.widthAnchor.constraint(equalToConstant: LayoutConstants.iconSize),
+            iconImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            iconImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             
             textStackView.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: LayoutConstants.iconTextMargin),
             textStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: LayoutConstants.textMargin),
@@ -100,6 +88,23 @@ open class UserCallsignStatusView: UIControl {
     open func updateViews() {
         titleLabel.text = viewModel.titleText
         subtitleLabel.text = viewModel.subtitleText
-        iconImageView.image = viewModel.iconImage
+        
+        // Set circle background only if callsign is assigned
+        if case UserCallsignStatusViewModel.CallsignState.unassigned(_, _) = viewModel.state {
+            iconImageView.image = viewModel.iconImage
+            iconImageView.tintColor = .darkGray
+        } else {
+            let padding = CGSize(width: LayoutConstants.imageMargin, height: LayoutConstants.imageMargin)
+            iconImageView.image = viewModel.iconImage?.withCircleBackground(tintColor: .black,
+                                                                            circleColor: #colorLiteral(red: 0.8431372549, green: 0.8431372549, blue: 0.8509803922, alpha: 1),
+                                                                            padding: padding,
+                                                                            shrinkImage: true)
+        }
+    }
+}
+
+extension UserCallsignStatusView: UserCallsignStatusViewModelDelegate {
+    public func viewModelStateChanged() {
+        updateViews()
     }
 }

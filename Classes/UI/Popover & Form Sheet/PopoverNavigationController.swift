@@ -20,7 +20,9 @@ import UIKit
 /// updates to be translucent, and observes theme changes to maintain correct appearance.
 open class PopoverNavigationController: UINavigationController, PopoverViewController, UINavigationControllerDelegate, UIPopoverPresentationControllerDelegate, UIViewControllerTransitioningDelegate {
     
-    
+    /// Optional transparent background to use when light color style
+    public var lightTransparentBackground: UIColor?
+
     open var userInterfaceStyle: UserInterfaceStyle = .current {
         didSet {
             if userInterfaceStyle == oldValue { return }
@@ -228,9 +230,8 @@ open class PopoverNavigationController: UINavigationController, PopoverViewContr
             navigationBar.barStyle    = userInterfaceStyle.isDark ? .black : .default
             navigationBar.setBackgroundImage(nil, for: .default)
             
-            // Workaround
-            if UIDevice.current.userInterfaceIdiom == .phone {
-                view.backgroundColor = userInterfaceStyle.isDark ? #colorLiteral(red: 0.09803921569, green: 0.09803921569, blue: 0.09803921569, alpha: 1) : .clear
+            if let lightTransparentBackground = lightTransparentBackground, ThemeManager.shared.currentInterfaceStyle == .light {
+                view.backgroundColor = lightTransparentBackground
             } else {
                 view.backgroundColor = .clear
             }

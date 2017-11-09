@@ -27,6 +27,8 @@ public class SummaryDetailFormItem: BaseFormItem {
 
     public var borderColor: UIColor?
 
+    public var imageTintColor: UIColor?
+
     public var image: ImageLoadable?
 
     
@@ -53,6 +55,7 @@ public class SummaryDetailFormItem: BaseFormItem {
 
         let thumbnailView = cell.thumbnailView
         thumbnailView.borderColor = borderColor
+        thumbnailView.tintColor = imageTintColor
         thumbnailView.imageView.image = image?.sizing().image
 
         thumbnailView.allTargets.forEach {
@@ -66,8 +69,10 @@ public class SummaryDetailFormItem: BaseFormItem {
             self?.onButtonTapped?()
         }
 
-        image?.requestImage(completion: { (imageSizable) in
-            cell.thumbnailView.imageView.image = imageSizable.sizing().image
+        image?.loadImage(completion: { (imageSizable) in
+            let sizing = imageSizable.sizing()
+            cell.thumbnailView.imageView.image = sizing.image
+            cell.thumbnailView.imageView.contentMode = sizing.contentMode ?? .center
         })
     }
 
@@ -147,6 +152,12 @@ extension SummaryDetailFormItem {
     @discardableResult
     public func borderColor(_ borderColor: UIColor?) -> Self {
         self.borderColor = borderColor
+        return self
+    }
+
+    @discardableResult
+    public func imageTintColor(_ imageTintColor: UIColor?) -> Self {
+        self.imageTintColor = imageTintColor
         return self
     }
 

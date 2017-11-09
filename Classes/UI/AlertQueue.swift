@@ -92,6 +92,20 @@ public final class AlertQueue: NSObject {
         
         presentAlerts()
     }
+
+    /// Add a new error alert with OK button and standard Error title
+    public func addErrorAlert(message: String?) {
+        let title = NSLocalizedString("Error", comment: "Alert error title")
+        addSimpleAlert(title: title, message: message)
+    }
+
+    /// Add a simple alert with OK button
+    public func addSimpleAlert(title: String?, message: String?) {
+        let buttonTitle = NSLocalizedString("OK", comment: "Alert OK button")
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: buttonTitle, style: .cancel, handler: nil))
+        AlertQueue.shared.add(alertController)
+    }
     
     
     // MARK: - Private methods

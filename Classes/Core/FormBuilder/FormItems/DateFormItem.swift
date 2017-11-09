@@ -31,6 +31,12 @@ public class DateFormItem: PickerFormItem<Date> {
         }
     }
 
+    public var minuteInterval: Int? {
+        didSet {
+            action.minuteInterval = minuteInterval
+        }
+    }
+
     public var locale: Locale = .current {
         didSet {
             action.locale = locale
@@ -73,6 +79,12 @@ extension DateFormItem {
     }
 
     @discardableResult
+    public func minuteInterval(_ minuteInterval: Int?) -> Self {
+        self.minuteInterval = minuteInterval
+        return self
+    }
+
+    @discardableResult
     public func datePickerMode(_ datePickerMode: UIDatePickerMode) -> Self {
         self.datePickerMode = datePickerMode
         return self
@@ -107,6 +119,8 @@ class DateAction: ValueSelectionAction<Date> {
 
     public var maximumDate: Date?
 
+    public var minuteInterval: Int?
+
     public var locale: Locale = .current
 
     public var timeZone: TimeZone?
@@ -134,6 +148,7 @@ class DateAction: ValueSelectionAction<Date> {
         datePicker.datePickerMode = mode
         datePicker.minimumDate = minimumDate
         datePicker.maximumDate = maximumDate
+        datePicker.minuteInterval = minuteInterval ?? 1
         datePicker.timeZone = timeZone
         datePicker.locale = locale
 

@@ -22,8 +22,11 @@ class SignupViewController: FormBuilderViewController {
         navigationItem.rightBarButtonItems = [
             UIBarButtonItem(title: "Submit", style: .plain, target: self, action: #selector(submitFormTapped)),
             fixerUpper,
-            UIBarButtonItem(title: "Reset", style: .plain, target: self, action: #selector(resetFormTapped))
+            UIBarButtonItem(title: "Reset", style: .plain, target: self, action: #selector(resetFormTapped)),
+            fixerUpper,
+            UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTapped))
         ]
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(closeTapped))
     }
 
     override func construct(builder: FormBuilder) {
@@ -86,11 +89,17 @@ class SignupViewController: FormBuilderViewController {
             }
 
         builder += RangeFormItem(title: "Age range")
-            .width(.column(1))
+            .width(.column(2))
             .range(1...50)
             .required()
             .onValueChanged { [unowned self] in
                 self.details.ageRange = $0
+            }
+
+        builder += StepperFormItem(title: "Age")
+            .width(.column(2))
+            .onValueChanged { [unowned self] in
+                self.details.age = Int($0)
             }
 
         builder += HeaderFormItem(text: "ADDRESS", style: .plain)
@@ -209,6 +218,17 @@ class SignupViewController: FormBuilderViewController {
         }
     }
 
+    @objc private func closeTapped() {
+        dismiss(animated: true, completion: nil)
+    }
+
+    @objc private func addTapped() {
+        let signViewController = SignupViewController()
+        let navigationController = UINavigationController(rootViewController: signViewController)
+        navigationController.modalPresentationStyle = .formSheet
+        present(navigationController, animated: true, completion: nil)
+    }
+
 }
 
 import Wrap
@@ -228,6 +248,8 @@ class SignupDetails {
     var email: String?
 
     var ageRange: CountableClosedRange<Int>?
+
+    var age: Int?
 
     var addressLine1: String?
 
