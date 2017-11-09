@@ -106,6 +106,18 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
 
         updateEverything(for: source)
     }
+    
+    /// Used to perform any last checks/tasks when back button is pressed
+    override open func willMove(toParentViewController parent: UIViewController?) {
+        super.willMove(toParentViewController: parent)
+        // The entity details will be pushed off the stack i.e: dismissed
+        if parent == nil {
+            
+            for case let vc as DismissEntityDetailsControllerProtocol in detailViewControllers {
+                vc.entityDetailsControllerWillDismiss()
+            }
+        }
+    }
 
     // MARK: - Override methods
 
@@ -246,4 +258,8 @@ extension EntityDetailSplitViewController: EntityDetailSectionsDelegate {
         updateHeaderView()
     }
 
+}
+
+@objc public protocol DismissEntityDetailsControllerProtocol: class {
+    func entityDetailsControllerWillDismiss()
 }
