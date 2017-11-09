@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		199ECE9E1FAA5ACD0065E425 /* PersonImageSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199ECE9D1FAA5ACD0065E425 /* PersonImageSizing.swift */; };
 		19FA22AF1F8603F000BE0E03 /* MatchMakers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12048FCA1F788EC20014748E /* MatchMakers.swift */; };
 		19FA22B01F86041800BE0E03 /* Matches.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12048FCC1F788ECA0014748E /* Matches.swift */; };
 		1A159F0D1F4B1C7500075330 /* PersonFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A159F0C1F4B1C7500075330 /* PersonFetchRequest.swift */; };
@@ -109,6 +110,7 @@
 		12048FCA1F788EC20014748E /* MatchMakers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchMakers.swift; sourceTree = "<group>"; };
 		12048FCC1F788ECA0014748E /* Matches.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matches.swift; sourceTree = "<group>"; };
 		1542E603389AAEE96EC1C25A /* Pods-ClientKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKitTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKitTests/Pods-ClientKitTests.debug.xcconfig"; sourceTree = "<group>"; };
+		199ECE9D1FAA5ACD0065E425 /* PersonImageSizing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonImageSizing.swift; sourceTree = "<group>"; };
 		1A159F0C1F4B1C7500075330 /* PersonFetchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonFetchRequest.swift; sourceTree = "<group>"; };
 		1A159F0E1F4B1CA700075330 /* VehicleFetchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleFetchRequest.swift; sourceTree = "<group>"; };
 		1A159F141F4B1DE200075330 /* VehicleDetailsSectionsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleDetailsSectionsDataSource.swift; sourceTree = "<group>"; };
@@ -465,6 +467,7 @@
 			isa = PBXGroup;
 			children = (
 				BCC7AEE01F0BA9E70091AAEA /* DateSorting.swift */,
+				199ECE9D1FAA5ACD0065E425 /* PersonImageSizing.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -696,6 +699,7 @@
 			inputPaths = (
 				"${SRCROOT}/../Pods/Target Support Files/Pods-ClientKitTests/Pods-ClientKitTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
 				"${BUILT_PRODUCTS_DIR}/KeychainSwift/KeychainSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/MPOLKit/MPOLKit.framework",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
@@ -706,6 +710,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MPOLKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
@@ -792,6 +797,7 @@
 				19FA22AF1F8603F000BE0E03 /* MatchMakers.swift in Sources */,
 				BC75A7AE1F1C3D48004D46F1 /* EntityAssociationsViewController.swift in Sources */,
 				EA8B66621F3831C900F09716 /* LicenceSearchParameters.swift in Sources */,
+				199ECE9E1FAA5ACD0065E425 /* PersonImageSizing.swift in Sources */,
 				BC75A7BA1F1C3D58004D46F1 /* PersonInfoViewController.swift in Sources */,
 				BC75A7B21F1C3D50004D46F1 /* EventDetailViewController.swift in Sources */,
 				BCAEFE9A1F03150800C97F9C /* Event.swift in Sources */,
