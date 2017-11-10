@@ -58,7 +58,11 @@ public class ImageDownloader {
             set(fetchRequest: request, for: downloadURL)
         }
 
-        return imageRequest
+        // Catch the error, it's very likely use case
+        // that the fetcher wouldn't handle the error. So catch it here and do nothing.
+        return imageRequest.catch { _ in
+
+        }
     }
 
     private func fetchAndCacheImage(using imageResourceDescription: RemoteResourceDescribing) -> Promise<UIImage> {
@@ -99,9 +103,9 @@ public class ImageDownloader {
             }
 
             // If for whatever reasons fetching from cache failed, then go fetch from remote.
-            return promise.recover(execute: { _ -> Promise<UIImage> in
+            return promise.recover { _ -> Promise<UIImage> in
                 return retrieveAndCacheImagePromise()
-            })
+            }
         } else {
             return retrieveAndCacheImagePromise()
         }
