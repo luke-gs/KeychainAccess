@@ -1,0 +1,26 @@
+//
+//  AuthenticationProvider.swift
+//  MPOLKit
+//
+//  Created by Herli Halim on 10/11/17.
+//  Copyright © 2017 Gridstone. All rights reserved.
+//
+
+import PromiseKit
+
+public protocol AuthenticationProvider {
+
+    /// The URL to begin the login process.
+    var authorizationURL: URL { get }
+
+    /// The URL app url scheme that this provider should handle.
+    var urlScheme: String { get }
+
+    /// The result of the authentication.
+    ///
+    /// - Parameter url: The callback URL that's triggered. This URL should contain the result returned in
+    ///             query strings format.
+    /// - Returns: A Promise to return the result with value of [String: String]
+    func authenticationLinkResult(_ url: URL) -> Promise<[String: String]>
+
+}
