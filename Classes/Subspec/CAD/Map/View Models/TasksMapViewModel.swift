@@ -111,6 +111,24 @@ open class TasksMapViewModel {
         return annotations
     }
     
+    
+    /// Creates a view model from an annotation
+    public func viewModel(for annotation: TaskAnnotation?) -> TaskItemViewModel? {
+        if let annotation = annotation as? ResourceAnnotation {
+            return ResourceTaskItemViewModel(iconImage: annotation.icon,
+                                                  iconTintColor: .white,
+                                                  color: #colorLiteral(red: 0.8431372549, green: 0.8431372549, blue: 0.8509803922, alpha: 1), // TODO: Find out which to use
+                statusText: annotation.status, // FIXME: Get real text
+                itemName: "\(annotation.title ?? "") \(annotation.subtitle ?? "")",
+                lastUpdated: "Updated 2 mins ago")  // FIXME: Get real text
+        } else if let _ = annotation as? IncidentAnnotation {
+            // TODO: Hook up in CAD Sprint 3
+            return nil
+        }
+        
+        return nil
+    }
+    
     // MARK: - Debug
     
     func loadDummyData() {

@@ -86,28 +86,11 @@ open class TasksMapViewController: MapViewController {
     
     public func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         mapView.deselectAnnotation(view.annotation, animated: false)
-        let viewModel: TaskItemViewModel?
-        
-        
-        if let annotation = view.annotation as? ResourceAnnotation {
-            viewModel = ResourceTaskItemViewModel(iconImage: annotation.icon,
-                                                  iconTintColor: .white,
-                                                  color: #colorLiteral(red: 0.8431372549, green: 0.8431372549, blue: 0.8509803922, alpha: 1), // TODO: Find out which to use
-                                                  statusText: annotation.status, // FIXME: Get real text
-                                                  itemName: "\(annotation.title ?? "") \(annotation.subtitle ?? "")",
-                                                  lastUpdated: "Updated 2 mins ago")  // FIXME: Get real text
-        } else if let annotation = view.annotation as? IncidentAnnotation {
-            // TODO: Hook up in CAD Sprint 3
-            viewModel = nil
-        } else {
-            viewModel = nil
-        }
-        
-        if let viewModel = viewModel {
+       
+        if let viewModel = viewModel.viewModel(for: view.annotation as? TaskAnnotation) {
             let vc = TasksItemSidebarViewController.init(viewModel: viewModel)
             splitViewController?.navigationController?.pushViewController(vc, animated: true)
         }
-        
     }
     
     
