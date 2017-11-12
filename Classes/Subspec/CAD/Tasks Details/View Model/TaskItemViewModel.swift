@@ -30,8 +30,12 @@ public class TaskItemViewModel {
 
     /// View controllers to show in the list
     func detailViewControllers() -> [UIViewController] {
-        MPLRequiresConcreteImplementation()
+        return viewModels.map {
+            $0.createViewController()
+        }
     }
+    
+    public var viewModels: [TaskDetailsViewModel]
     
     /// Init
     ///
@@ -42,12 +46,13 @@ public class TaskItemViewModel {
     ///   - statusText: Status text to display below the icon
     ///   - itemName: Name of the item
     ///   - lastUpdated: Last updated time string
-    public init(iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor, statusText: String?, itemName: String?, lastUpdated: String?) {
+    public init(iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor, statusText: String?, itemName: String?, lastUpdated: String?, viewModels: [TaskDetailsViewModel] = []) {
         self.iconImage = iconImage
         self.iconTintColor = iconTintColor
         self.color = color
         self.statusText = statusText
         self.itemName = itemName
         self.lastUpdated = lastUpdated
+        self.viewModels = viewModels
     }
 }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class ResourceActivityLogViewModel: CADFormCollectionViewModel<ActivityLogItemViewModel> {
+public class ResourceActivityLogViewModel: CADFormCollectionViewModel<ActivityLogItemViewModel>, TaskDetailsViewModel {
     
     public override init() {
         super.init()
@@ -16,7 +16,7 @@ public class ResourceActivityLogViewModel: CADFormCollectionViewModel<ActivityLo
     }
     
     /// Create the view controller for this view model
-    public func createViewController() -> ResourceActivityLogViewController {
+    public func createViewController() -> UIViewController {
         return ResourceActivityLogViewController(viewModel: self)
     }
     

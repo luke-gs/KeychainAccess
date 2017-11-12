@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class ResourceOfficerListViewModel: CADFormCollectionViewModel<ResourceOfficerViewModel> {
+open class ResourceOfficerListViewModel: CADFormCollectionViewModel<ResourceOfficerViewModel>, TaskDetailsViewModel {
     
     public override init() {
         super.init()
@@ -16,7 +16,7 @@ open class ResourceOfficerListViewModel: CADFormCollectionViewModel<ResourceOffi
     }
 
     /// Create the view controller for this view model
-    public func createViewController() -> ResourceOfficerListViewController {
+    public func createViewController() -> UIViewController {
         return ResourceOfficerListViewController(viewModel: self)
     }
     

@@ -10,10 +10,13 @@ import UIKit
 
 public class ResourceTaskItemViewModel: TaskItemViewModel {
     
-    override func detailViewControllers() -> [UIViewController] {
-        return [
-            ResourceOfficerListViewModel().createViewController(),
-            ResourceActivityLogViewModel().createViewController(),
+    public init(iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor, statusText: String?, itemName: String?, lastUpdated: String?) {
+        super.init(iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName, lastUpdated: lastUpdated)
+        
+        self.viewModels = [
+            ResourceOfficerListViewModel(),
+            ResourceActivityLogViewModel()
         ]
     }
+   
 }
