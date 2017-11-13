@@ -90,7 +90,7 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
         trackMyLocation()
 
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(performRadiusSearchOnLongPress(gesture:)))
-        longPressGesture.minimumPressDuration = 1.5
+        longPressGesture.minimumPressDuration = 0.5
         mapView.addGestureRecognizer(longPressGesture)
         
         let singleTapGesture = UITapGestureRecognizer(target: self, action:#selector(resetLocationDetailView))
@@ -177,15 +177,15 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let entity = viewModel!.entity(for: selectedLocation!.coordinate)!
-        
+
         if indexPath.item == LocationOverview.detail.rawValue {
             let cell = collectionView.dequeueReusableCell(of: EntityListCollectionViewCell.self, for: indexPath)
-            cell.decorate(with: entity )
+            cell.decorate(with: entity)
             return cell
         }
         
         let cell = collectionView.dequeueReusableCell(of: LocationMapDirectionCollectionViewCell.self, for: indexPath)
-        cell.decorate(with: entity )
+        cell.decorate(with: entity)
         
         // TODO: Wrap it into VM without expose plugin?
         if let destination = selectedLocation, let currentLocation = mapView?.userLocation.location {
@@ -207,8 +207,7 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
                 }
             })
         }
-        // FIXME: Move it to VM
-        cell.streetViewButton.bottomLabel.text = "Street View"
+
         cell.descriptionLabel.textColor = secondaryTextColor
         cell.distanceLabel.textColor = secondaryTextColor
         return cell
@@ -260,27 +259,7 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
     }
     
     public func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        var pinView: MKPinAnnotationView
-        let identifier = "locationPinAnnotationView"
-        
-        if annotation is MKPointAnnotation {
-            if let dequeueView =  mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKPinAnnotationView {
-                dequeueView.annotation = annotation
-                pinView = dequeueView
-            } else {
-                pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-                pinView.animatesDrop = false
-                pinView.canShowCallout = true
-                
-                if let entity = viewModel?.entity(for: annotation.coordinate), let image = entity.mapAnnotationThumbnail() {
-                    pinView.leftCalloutAccessoryView = UIImageView(image: image)
-                }
-            }
-            
-            return pinView
-        }
-        
-        return nil
+        return viewModel?.annotationView(for: annotation, in: mapView)
     }
     
     // MARK: CLLocationManagerDelegate

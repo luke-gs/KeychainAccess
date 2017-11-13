@@ -53,6 +53,10 @@ public protocol MapResultViewModelable: SearchResultModelable {
     func entity(for coordinate: CLLocationCoordinate2D) -> EntityMapSummaryDisplayable?
     
     func mapAnnotation(for entity: MPOLKitEntity) -> MKAnnotation?
+
+    /// The view for each annotation view for the specific mapView
+    /// Subclasses will need to provode their own implementations to provide annotations
+    func annotationView(for annotation: MKAnnotation, in mapView: MKMapView) -> MKAnnotationView?
     
     /// A delegate that will be notified when there are changes to the results.
     weak var delegate: MapResultViewModelDelegate? { get set }

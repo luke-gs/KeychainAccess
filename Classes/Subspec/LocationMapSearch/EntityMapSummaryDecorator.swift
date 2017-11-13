@@ -13,5 +13,7 @@ extension LocationMapDirectionCollectionViewCell: EntityMapSummaryDecoratable {
         descriptionLabel.text = locationSummary.detail2
         selectionStyle = .none
         highlightStyle = .none
+
+        streetViewButton.bottomLabel.text = locationSummary.streetViewButtonTitle
     }
 }

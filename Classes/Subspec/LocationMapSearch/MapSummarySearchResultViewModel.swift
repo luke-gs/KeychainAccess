@@ -62,6 +62,10 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity, U : EntityMapSummar
         MPLRequiresConcreteImplementation()
     }
 
+    open func annotationView(for annotation: MKAnnotation, in mapView: MKMapView) -> MKAnnotationView? {
+        MPLRequiresConcreteImplementation()
+    }
+
     // MARK: - AggregateSearchDelegate 
     
     public func aggregatedSearch<T>(_ aggregatedSearch: AggregatedSearch<T>, didBeginSearch request: AggregatedSearchRequest<T>) {

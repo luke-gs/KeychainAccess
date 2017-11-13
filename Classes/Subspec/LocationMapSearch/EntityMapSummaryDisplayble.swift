@@ -14,6 +14,8 @@ public protocol EntityMapSummaryDisplayable: EntitySummaryDisplayable {
     var coordinate: CLLocationCoordinate2D? { get }
 
     func mapAnnotationThumbnail() -> UIImage?
+
+    var streetViewButtonTitle: String? { get }
 }
 
 public protocol EntityMapSummaryDecoratable {
