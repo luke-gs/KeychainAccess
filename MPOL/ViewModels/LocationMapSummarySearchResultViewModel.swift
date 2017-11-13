@@ -28,7 +28,6 @@ public class LocationMapSummarySearchResultViewModel: MapSummarySearchResultView
     }
 
     open override func mapAnnotation(for entity: MPOLKitEntity) -> MKAnnotation? {
-
         let displayable = AddressSummaryDisplayable(entity)
 
         guard let coordinate = displayable.coordinate else {
@@ -39,9 +38,33 @@ public class LocationMapSummarySearchResultViewModel: MapSummarySearchResultView
         annotation.coordinate = coordinate
         annotation.title = displayable.title
         return annotation
-
     }
-    
+
+
+    open override func annotationView(for annotation: MKAnnotation, in mapView: MKMapView) -> MKAnnotationView? {
+        var pinView: MKPinAnnotationView
+        let identifier = "locationPinAnnotationView"
+
+        if annotation is MKPointAnnotation {
+            if let dequeueView =  mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKPinAnnotationView {
+                dequeueView.annotation = annotation
+                pinView = dequeueView
+            } else {
+                pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+                pinView.animatesDrop = false
+                pinView.canShowCallout = true
+
+                if let entity = entity(for: annotation.coordinate), let image = entity.mapAnnotationThumbnail() {
+                    pinView.leftCalloutAccessoryView = UIImageView(image: image)
+                }
+            }
+
+            return pinView
+        }
+
+        return nil
+    }
+
     open override func coordinate(for entity: MPOLKitEntity) -> CLLocationCoordinate2D {
         return AddressSummaryDisplayable(entity).coordinate!
     }

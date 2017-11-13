@@ -45,7 +45,11 @@ public struct AddressSummaryDisplayable: EntityMapSummaryDisplayable {
     public var badge: UInt {
         return 0
     }
-    
+
+    public var streetViewButtonTitle: String? {
+        return "Street View"
+    }
+
     public func mapAnnotationThumbnail() -> UIImage? {
         
         // TODO: Check alertLevel to assign different image
