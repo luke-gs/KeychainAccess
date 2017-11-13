@@ -45,12 +45,16 @@ public protocol MapResultViewModelable: SearchResultModelable {
     var results: [SearchResultSection] { get set }
     
     /// Search enum, to identifiy the seach type and parameters
-     var searchType: LocationMapSearchType! { get set }
-    
-    /// Lookup the first entity matches the coordinate
+    var searchType: LocationMapSearchType! { get set }
+
+    /// Returns the entity that is associciated with the provided coordinate
+    /// Searches in the results for a matching entity
+    func entity(for coordinate: CLLocationCoordinate2D) -> MPOLKitEntity?
+
+    /// Return a displayable value for the first entity matches the coordinate
     ///
     /// - Parameter coordinate: The coordinate of target location
-    func entity(for coordinate: CLLocationCoordinate2D) -> EntityMapSummaryDisplayable?
+    func entityDisplayable(for coordinate: CLLocationCoordinate2D) -> EntityMapSummaryDisplayable?
     
     func mapAnnotation(for entity: MPOLKitEntity) -> MKAnnotation?
 

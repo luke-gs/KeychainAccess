@@ -40,7 +40,7 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
                     return
                 }
                 
-                let entity = viewModel?.entity(for: selectedLocation.coordinate)
+                let entity = viewModel?.entityDisplayable(for: selectedLocation.coordinate)
                 searchFieldPlaceholder = entity?.title
             }
         }
@@ -158,8 +158,11 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        let entity = viewModel!.results[indexPath.section].entities[indexPath.item]
-        delegate?.searchResultsController(self, didSelectEntity: entity)
+
+        if let entity = viewModel?.entity(for: selectedLocation!.coordinate) {
+            delegate?.searchResultsController(self, didSelectEntity: entity)
+        }
+
     }
     
     open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -176,16 +179,16 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
     }
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let entity = viewModel!.entity(for: selectedLocation!.coordinate)!
+        let displayable = viewModel!.entityDisplayable(for: selectedLocation!.coordinate)!
 
         if indexPath.item == LocationOverview.detail.rawValue {
             let cell = collectionView.dequeueReusableCell(of: EntityListCollectionViewCell.self, for: indexPath)
-            cell.decorate(with: entity)
+            cell.decorate(with: displayable)
             return cell
         }
         
         let cell = collectionView.dequeueReusableCell(of: LocationMapDirectionCollectionViewCell.self, for: indexPath)
-        cell.decorate(with: entity)
+        cell.decorate(with: displayable)
         
         // TODO: Wrap it into VM without expose plugin?
         if let destination = selectedLocation, let currentLocation = mapView?.userLocation.location {
