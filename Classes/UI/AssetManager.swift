@@ -133,8 +133,10 @@ extension AssetManager {
         public static let thumbnail      = ImageKey("iconSystemThumbnail")
         public static let dropDown       = ImageKey("iconSystemDropdown")
         public static let disclosure     = ImageKey("iconSystemDisclosure")
+        public static let overflow       = ImageKey("iconSystemOverflow")
         public static let advancedSearch = ImageKey("iconSystemAdvancedSearch")
         
+
         // General
         public static let alert          = ImageKey("iconGeneralAlert")
         public static let association    = ImageKey("iconGeneralAssociation")
