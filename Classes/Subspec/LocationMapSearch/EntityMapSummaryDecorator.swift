@@ -16,6 +16,10 @@ extension LocationMapDirectionCollectionViewCell: EntityMapSummaryDecoratable {
 
         streetViewButton.bottomLabel.text = locationSummary.streetViewButtonTitle
 
+        // Placeholders as the estimated time will be loaded async 
+        walkingEstButton.bottomLabel.text = locationSummary.walkingLabelPlaceholder
+        automobileEstButton.bottomLabel.text = locationSummary.automobileLabelPlaceholder
+
         let secondaryTextColor = ThemeManager.shared.theme(for: .current).color(forKey: .secondaryText)
         descriptionLabel.textColor = secondaryTextColor
         distanceLabel.textColor = secondaryTextColor

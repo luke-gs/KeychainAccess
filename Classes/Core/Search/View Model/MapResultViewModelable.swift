@@ -43,6 +43,12 @@ public protocol MapResultViewModelable: SearchResultModelable {
     
     /// Contains all the results for each section
     var results: [SearchResultSection] { get set }
+
+    /// The number of sections in the sidebar collection view
+    func numberOfSections() -> Int
+
+    /// The number of items in the sidebar collection view
+    func numberOfItems(in section: Int) -> Int
     
     /// Search enum, to identifiy the seach type and parameters
     var searchType: LocationMapSearchType! { get set }
@@ -57,6 +63,9 @@ public protocol MapResultViewModelable: SearchResultModelable {
     func entityDisplayable(for coordinate: CLLocationCoordinate2D) -> EntityMapSummaryDisplayable?
     
     func mapAnnotation(for entity: MPOLKitEntity) -> MKAnnotation?
+
+    /// Return all the annotations available on the map
+    func annotations() -> [MKAnnotation]?
 
     /// The view for each annotation view for the specific mapView
     /// Subclasses will need to provode their own implementations to provide annotations

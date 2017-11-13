@@ -16,6 +16,10 @@ public protocol EntityMapSummaryDisplayable: EntitySummaryDisplayable {
     func mapAnnotationThumbnail() -> UIImage?
 
     var streetViewButtonTitle: String? { get }
+
+    var walkingLabelPlaceholder: String? { get }
+
+    var automobileLabelPlaceholder: String? { get }
 }
 
 public protocol EntityMapSummaryDecoratable {

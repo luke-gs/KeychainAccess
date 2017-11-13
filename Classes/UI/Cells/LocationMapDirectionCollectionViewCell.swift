@@ -103,7 +103,6 @@ open class LocationMapDirectionCollectionViewCell: CollectionViewFormCell {
         ])
     }
     
-    
     // MARK: - Class sizing methods
     
     /// Calculates the minimum content height for a cell, considering the text details.

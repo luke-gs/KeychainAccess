@@ -134,26 +134,11 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
     // MARK: - UICollectionViewDataSource methods
     
     override open func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return (viewModel?.results.count ?? 0) > 0 ? 1 : 0
+        return viewModel?.numberOfSections() ?? 0
     }
     
     open override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let result = viewModel?.results[section] {
-            switch result.state {
-            case .finished where result.error != nil:
-                return 0
-            case .finished:
-                if section == 0 {
-                    return 2
-                } else {
-                    return result.entities.count
-                }
-            default:
-                break
-            }
-            return 0
-        }
-        return 0
+        return viewModel?.numberOfItems(in: section) ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -197,13 +182,13 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
                     cell.distanceLabel.text = distance
                 }
             })
-            
+
             viewModel?.travelEstimationPlugin.calculateETA(from: currentLocation, to: destination, transportType: .walking, completionHandler: { (estimateTime) in
                 DispatchQueue.main.async {
                     cell.walkingEstButton.bottomLabel.text = estimateTime
                 }
             })
-            
+
             viewModel?.travelEstimationPlugin.calculateETA(from: currentLocation, to: destination, transportType: .automobile, completionHandler: { (estimateTime) in
                 DispatchQueue.main.async {
                     cell.automobileEstButton.bottomLabel.text = estimateTime
@@ -369,20 +354,14 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
     
     /// Add annotations based on the location search results
     private func addAnnotations() {
-        
         /// Remove all the existing annotations, except current user location
         if let annotations = mapView?.annotations {
             let anotationsToRemove = annotations.filter { !($0 is MKUserLocation) }
             mapView?.removeAnnotations(anotationsToRemove)
         }
-        guard let results = viewModel?.results, let locationResult = results.first, !locationResult.entities.isEmpty else {
-            return
+        if let annotations = viewModel?.annotations() {
+            mapView?.addAnnotations(annotations)
         }
-        
-        let annotations = locationResult.entities.flatMap {
-            viewModel?.mapAnnotation(for: $0)
-        }
-        mapView?.addAnnotations(annotations)
     }
     
     /// long press on the map to perform a radius search using default settings

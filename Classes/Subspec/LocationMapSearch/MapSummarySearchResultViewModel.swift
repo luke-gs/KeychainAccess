@@ -34,6 +34,28 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity, U : EntityMapSummar
     public var results: [SearchResultSection]  = []
 
     public required init() { }
+
+    open func numberOfSections() -> Int {
+        return results.count
+    }
+
+    open func numberOfItems(in section: Int) -> Int {
+        let result = results[section]
+        switch result.state {
+        case .finished where result.error != nil:
+            return 0
+        case .finished:
+            if section == 0 {
+                return 2
+            } else {
+                return result.entities.count
+            }
+        default:
+            break
+        }
+        return 0
+
+    }
     
     open func fetchResults(withParameters parameters: Parameterisable) {
         MPLRequiresConcreteImplementation()
@@ -64,6 +86,10 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity, U : EntityMapSummar
     }
 
     open func mapAnnotation(for entity: MPOLKitEntity) -> MKAnnotation? {
+        MPLRequiresConcreteImplementation()
+    }
+
+    open func annotations() -> [MKAnnotation]? {
         MPLRequiresConcreteImplementation()
     }
 
