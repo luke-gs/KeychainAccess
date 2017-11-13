@@ -14,13 +14,12 @@ import UIKit
 /// and buttons for comms
 open class OfficerCell: CollectionViewFormSubtitleCell {
     
+    private struct LayoutConstants {
+        static let spacingX: CGFloat = 8
+    }
+
     /// Badge label
     public let badgeLabel = RoundedRectLabel(frame: .zero)
-    
-    private let buttonsView = UIView(frame: .zero)
-    public let messageButton = UIButton(frame: .zero)
-    public let callButton = UIButton(frame: .zero)
-    public let videoButton = UIButton(frame: .zero)
     
     // MARK: - Initialization
     
@@ -32,22 +31,6 @@ open class OfficerCell: CollectionViewFormSubtitleCell {
         badgeLabel.textColor = badgeColor
         addSubview(badgeLabel)
         
-        addSubview(buttonsView)
-        
-        // TODO: Get real image
-        messageButton.setImage(AssetManager.shared.image(forKey: .email), for: .normal)
-        messageButton.tintColor = #colorLiteral(red: 0, green: 0.4802979827, blue: 0.9984222054, alpha: 1)  
-        buttonsView.addSubview(messageButton)
-        
-        callButton.setImage(AssetManager.shared.image(forKey: .audioCall), for: .normal)
-        callButton.contentMode = .scaleAspectFit
-        callButton.tintColor = #colorLiteral(red: 0, green: 0.4802979827, blue: 0.9984222054, alpha: 1)
-        buttonsView.addSubview(callButton)
-        
-        videoButton.setImage(AssetManager.shared.image(forKey: .videoCall), for: .normal)
-        videoButton.tintColor = #colorLiteral(red: 0, green: 0.4802979827, blue: 0.9984222054, alpha: 1)
-        buttonsView.addSubview(videoButton)
-        
         imageAlignment = .title
     }
     
@@ -58,20 +41,27 @@ open class OfficerCell: CollectionViewFormSubtitleCell {
     open override func layoutSubviews() {
         super.layoutSubviews()
         
-        // Size label to make space for it
-        badgeLabel.sizeToFit()
+        // Check whether we need to clip the title label to fit the extra view in before the accessoryView
+        let trailingX = (accessoryView?.frame.minX ?? contentView.frame.maxX) - LayoutConstants.spacingX * 2
         
-        badgeLabel.frame = CGRect(x: titleLabel.frame.maxX + 10,
-                                 y: titleLabel.frame.origin.y,
+        // Size label and position after title
+        badgeLabel.sizeToFit()
+        var titleFrame = titleLabel.frame
+        var badgeFrame = CGRect(x: titleFrame.maxX + LayoutConstants.spacingX,
+                                 y: titleFrame.origin.y + (titleFrame.height - badgeLabel.frame.height) / 2,
                                  width: badgeLabel.frame.width,
                                  height: badgeLabel.frame.height)
-
-        let imageSize: CGFloat = 24
-        let buttonViewSize: CGFloat = imageSize * 5 // 3 images plus 2 padding between
         
-        buttonsView.frame = CGRect(x: frame.maxX - buttonViewSize - imageSize, y: frame.height / 2 - imageSize / 2, width: buttonViewSize, height: imageSize)
-        messageButton.frame = CGRect(x: 0, y: 0, width: imageSize, height: imageSize)
-        callButton.frame = CGRect(x: messageButton.frame.maxX + imageSize, y: 0, width: imageSize, height: imageSize)
-        videoButton.frame = CGRect(x: callButton.frame.maxX + imageSize, y: 0, width: imageSize, height: imageSize)
+        self.badgeLabel.frame = badgeFrame
+        
+        // Prevent the status label from going off screen if title is too long
+        let overhang = badgeFrame.maxX - trailingX
+        if overhang > 0 {
+            badgeFrame.origin.x -= overhang
+            titleFrame.size.width -= overhang
+            self.badgeLabel.frame = badgeFrame
+            self.titleLabel.frame = titleFrame
+        }
+
     }
 }

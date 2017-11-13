@@ -31,19 +31,33 @@ open class ResourceOfficerListViewController: CADFormCollectionViewController<Re
         cell.highlightStyle = .fade
         cell.selectionStyle = .fade
         cell.separatorStyle = .indented
-        cell.accessoryView = nil
+        
+        let commsView = OfficerCommunicationsView(frame: CGRect(x: 0, y: 0, width: 120, height: 24))
+        if traitCollection.horizontalSizeClass == .compact {
+            cell.accessoryView = FormAccessoryView(style: .overflow)
+        } else {
+            cell.accessoryView = commsView
+        }
         
         if let cell = cell as? OfficerCell {
             let (messageEnabled, callEnabled, videoEnabled) = viewModel.commsEnabled
             
-            cell.messageButton.isEnabled = messageEnabled
-            cell.callButton.isEnabled = callEnabled
-            cell.videoButton.isEnabled = videoEnabled
+            commsView.messageButton.isEnabled = messageEnabled
+            commsView.callButton.isEnabled = callEnabled
+            commsView.videoButton.isEnabled = videoEnabled
             
             cell.titleLabel.text = viewModel.title
             cell.subtitleLabel.text = viewModel.subtitle
             cell.badgeLabel.text = viewModel.badgeText
         }
+    }
+    
+    open override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.willTransition(to: newCollection, with: coordinator)
+        
+        coordinator.animate(alongsideTransition: { context in
+            self.collectionView?.reloadData()
+        }, completion: nil)
     }
     
     // MARK: - UICollectionViewDelegate
