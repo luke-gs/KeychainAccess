@@ -50,6 +50,14 @@ public struct AddressSummaryDisplayable: EntityMapSummaryDisplayable {
         return "Street View"
     }
 
+    public var walkingLabelPlaceholder: String? {
+        return "Calculating"
+    }
+
+    public var automobileLabelPlaceholder: String? {
+        return "Calculating"
+    }
+
     public func mapAnnotationThumbnail() -> UIImage? {
         
         // TODO: Check alertLevel to assign different image

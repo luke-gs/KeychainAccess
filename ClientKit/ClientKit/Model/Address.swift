@@ -169,6 +169,10 @@ open class Address: Entity {
         aCoder.encode(commonName, forKey: Coding.commonName.rawValue)
         aCoder.encode(fullAddress, forKey: Coding.fullAddress.rawValue)
     }
+
+    open override class var localizedDisplayName: String {
+        return NSLocalizedString("Location", comment: "")
+    }
         
     // MARK: - Temp Formatters
     

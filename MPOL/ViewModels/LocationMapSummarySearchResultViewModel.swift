@@ -43,6 +43,13 @@ public class LocationMapSummarySearchResultViewModel: MapSummarySearchResultView
         return annotation
     }
 
+    open override func annotations() -> [MKAnnotation]? {
+        guard  let locationResult = results.first, !locationResult.entities.isEmpty else {
+            return nil
+        }
+        return locationResult.entities.flatMap({ mapAnnotation(for: $0) })
+    }
+
 
     open override func annotationView(for annotation: MKAnnotation, in mapView: MKMapView) -> MKAnnotationView? {
         var pinView: MKPinAnnotationView
