@@ -36,7 +36,7 @@ public class UserSession: UserSessionable {
     }
 
     public var isActive: Bool {
-        return UserSession.userDefaults.string(forKey: UserSession.latestSessionKey) != nil && user != nil
+        return UserSession.userDefaults.string(forKey: UserSession.latestSessionKey) != nil
     }
 
     public var sessionID: String {
@@ -105,7 +105,11 @@ public class UserSession: UserSessionable {
         self.recentlyViewed = viewed
         self.recentlySearched = searched
 
-        completion(self.token ?? OAuthAccessToken(accessToken: "", type: ""))
+        if let token = self.token, self.user != nil {
+            completion(token)
+        } else {
+            completion(OAuthAccessToken(accessToken: "", type: ""))
+        }
     }
 
     //MARK: PRIVATE

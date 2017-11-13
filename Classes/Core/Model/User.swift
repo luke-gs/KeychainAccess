@@ -63,19 +63,24 @@ open class User: NSObject, NSSecureCoding, ModelVersionable {
         guard let username = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.username.rawValue) as String? else {
             return nil
         }
-        guard let appSettings = aDecoder.decodeObject(of: NSDictionary.self, forKey: CodingKeys.appSettings.rawValue) as? [String: [AppSettingKey: AnyObject]] else {
+        self.username = username
+
+        guard let appSettings = aDecoder.decodeObject(of: NSDictionary.self, forKey: CodingKeys.appSettings.rawValue) as? [String: [String: AnyObject]] else {
             return nil
         }
-        self.username = username
-        self.appSettings = appSettings
-
+        // Convert app settings back to custom type
+        let settings = Dictionary(uniqueKeysWithValues: appSettings.map { (appKey, settings) in (appKey, Dictionary(uniqueKeysWithValues: settings.map { (settingKey, value) in (AppSettingKey(rawValue: settingKey), value) })) })
+        self.appSettings = settings
     }
 
     open func encode(with aCoder: NSCoder) {
         // Write the latest model version first, followed by current user properties
         aCoder.encode(User.modelVersion, forKey: CodingKeys.modelVersion.rawValue)
         aCoder.encode(username, forKey: CodingKeys.username.rawValue)
-        aCoder.encode(appSettings, forKey: CodingKeys.appSettings.rawValue)
+
+        // Convert app setting key before encoding, otherwise struct would need to implement NSObject, NSSecureCoding, NSCopying, etc
+        let settings = Dictionary(uniqueKeysWithValues: appSettings.map { (appKey, settings) in (appKey, Dictionary(uniqueKeysWithValues: settings.map { (settingKey, value) in (settingKey.rawValue, value) })) })
+        aCoder.encode(settings, forKey: CodingKeys.appSettings.rawValue)
     }
     
     // MARK: - ModelVersionable
@@ -107,7 +112,10 @@ extension User {
     }
 
     public func setStringValue(_ newValue: String?, forKey settingKey: AppSettingKey) {
-        appSettings[User.applicationKey]?[settingKey] = newValue as NSString?
+        // Update setting and trigger didSet on appSettings
+        var settings = appSettings[User.applicationKey] ?? [:]
+        settings[settingKey] = newValue as NSString?
+        appSettings[User.applicationKey] = settings
     }
 
     public var termsAndConditionsVersionAccepted: String? {
