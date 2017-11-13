@@ -43,7 +43,7 @@ open class LocationMapDirectionCollectionViewCell: CollectionViewFormCell {
         descriptionLabel.textAlignment = .left
         distanceLabel.textAlignment = .right
         descriptionLabel.numberOfLines = 2
-        distanceLabel.numberOfLines = 2
+        distanceLabel.numberOfLines = 1
         
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         distanceLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -76,7 +76,7 @@ open class LocationMapDirectionCollectionViewCell: CollectionViewFormCell {
         
         descriptionLabel.setContentHuggingPriority(UILayoutPriority.defaultHigh, for: .horizontal)
         distanceLabel.setContentHuggingPriority(UILayoutPriority.defaultHigh, for: .horizontal)
-        distanceLabel.setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: .horizontal)
+        distanceLabel.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
 
         let buttonLayoutGuide = UILayoutGuide()
         buttonLayoutGuide.heightAnchor.constraint(equalToConstant: 50)
@@ -85,7 +85,7 @@ open class LocationMapDirectionCollectionViewCell: CollectionViewFormCell {
         NSLayoutConstraint.activate([
             descriptionLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
             descriptionLabel.leadingAnchor.constraint(equalTo: contentModeLayoutGuide.leadingAnchor),
-            descriptionLabel.bottomAnchor.constraint(equalTo: directionStackView.topAnchor, constant: -10.0),
+            descriptionLabel.bottomAnchor.constraint(equalTo: directionStackView.topAnchor, constant: -20.0),
             descriptionLabel.trailingAnchor.constraint(equalTo: distanceLabel.leadingAnchor),
             
             distanceLabel.topAnchor.constraint(equalTo: descriptionLabel.topAnchor),
@@ -98,7 +98,7 @@ open class LocationMapDirectionCollectionViewCell: CollectionViewFormCell {
             
             directionStackView.leadingAnchor.constraint(equalTo: contentModeLayoutGuide.leadingAnchor, constant: 10.0),
             directionStackView.trailingAnchor.constraint(equalTo: contentModeLayoutGuide.trailingAnchor, constant: -10.0),
-            directionStackView.bottomAnchor.constraint(equalTo: contentModeLayoutGuide.bottomAnchor),
+            directionStackView.bottomAnchor.constraint(equalTo: contentModeLayoutGuide.bottomAnchor, constant: -10.0),
             directionStackView.heightAnchor.constraint(equalTo: buttonLayoutGuide.heightAnchor)
         ])
     }
@@ -119,7 +119,7 @@ open class LocationMapDirectionCollectionViewCell: CollectionViewFormCell {
         let subtitleFont = UIFont.preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
         
         let displayScale = traitCollection.currentDisplayScale
-        return titleFont.lineHeight.ceiled(toScale: displayScale) + subtitleFont.lineHeight.ceiled(toScale: displayScale) + 40
+        return titleFont.lineHeight.ceiled(toScale: displayScale) + subtitleFont.lineHeight.ceiled(toScale: displayScale) + 50
     }
 
 }
