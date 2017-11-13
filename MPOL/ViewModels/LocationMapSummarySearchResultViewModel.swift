@@ -14,17 +14,20 @@ import MapKit
 
 public class LocationMapSummarySearchResultViewModel: MapSummarySearchResultViewModel<Address, AddressSummaryDisplayable> {
 
-    open override func entity(for coordinate: CLLocationCoordinate2D) -> EntityMapSummaryDisplayable? {
+    open override func entity(for coordinate: CLLocationCoordinate2D) -> MPOLKitEntity? {
         guard let result = results.first else { return nil }
-        
         for rawEntity in result.entities {
             let entity = AddressSummaryDisplayable(rawEntity)
             if entity.coordinate == coordinate {
-                return entity
+                return rawEntity
             }
         }
-        
         return nil
+    }
+
+    open override func entityDisplayable(for coordinate: CLLocationCoordinate2D) -> EntityMapSummaryDisplayable? {
+        guard let entity = entity(for: coordinate) else { return nil }
+        return AddressSummaryDisplayable(entity)
     }
 
     open override func mapAnnotation(for entity: MPOLKitEntity) -> MKAnnotation? {
@@ -54,7 +57,7 @@ public class LocationMapSummarySearchResultViewModel: MapSummarySearchResultView
                 pinView.animatesDrop = false
                 pinView.canShowCallout = true
 
-                if let entity = entity(for: annotation.coordinate), let image = entity.mapAnnotationThumbnail() {
+                if let entity = entityDisplayable(for: annotation.coordinate), let image = entity.mapAnnotationThumbnail() {
                     pinView.leftCalloutAccessoryView = UIImageView(image: image)
                 }
             }

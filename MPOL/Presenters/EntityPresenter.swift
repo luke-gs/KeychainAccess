@@ -60,7 +60,11 @@ public class EntityPresenter: Presenter {
 
                 return EntityDetailSplitViewController<EntityDetailsDisplayable, VehicleSummaryDisplayable>(viewModel: viewModel)
             case is Address:
-                break
+                dataSources = [LocationMPOLDetailsSectionsDataSource(baseEntity: entity, delegate: delegate)]
+                let viewModel = EntityDetailSectionsViewModel(initialSource: MPOLSource.mpol,
+                                                              dataSources: dataSources,
+                                                              andMatchMaker: nil)
+                return EntityDetailSplitViewController<EntityDetailsDisplayable, AddressSummaryDisplayable>(viewModel: viewModel)
             default:
                 break
             }
