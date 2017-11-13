@@ -15,5 +15,9 @@ extension LocationMapDirectionCollectionViewCell: EntityMapSummaryDecoratable {
         highlightStyle = .none
 
         streetViewButton.bottomLabel.text = locationSummary.streetViewButtonTitle
+
+        let secondaryTextColor = ThemeManager.shared.theme(for: .current).color(forKey: .secondaryText)
+        descriptionLabel.textColor = secondaryTextColor
+        distanceLabel.textColor = secondaryTextColor
     }
 }

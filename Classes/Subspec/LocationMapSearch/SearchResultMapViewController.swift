@@ -210,9 +210,6 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
                 }
             })
         }
-
-        cell.descriptionLabel.textColor = secondaryTextColor
-        cell.distanceLabel.textColor = secondaryTextColor
         return cell
     }
     
