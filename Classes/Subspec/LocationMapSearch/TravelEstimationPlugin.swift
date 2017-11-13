@@ -33,6 +33,7 @@ public protocol TravelEstimationPlugable: class {
 
 extension MKDirections {
 
+    // Wraps the call to calculate the ETA between two points to return a promise
     public func calculateETA() -> Promise<MKETAResponse> {
         return Promise<MKETAResponse> { fufill, reject in
             calculateETA(completionHandler: { (response, error) in
