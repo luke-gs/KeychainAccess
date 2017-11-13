@@ -177,23 +177,12 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
         
         // TODO: Wrap it into VM without expose plugin?
         if let destination = selectedLocation, let currentLocation = mapView?.userLocation.location {
-            viewModel?.travelEstimationPlugin.calculateDistance(from: currentLocation, to: destination, completionHandler: { (distance) in
-                DispatchQueue.main.async {
-                    cell.distanceLabel.text = distance
-                }
-            })
-
-            viewModel?.travelEstimationPlugin.calculateETA(from: currentLocation, to: destination, transportType: .walking, completionHandler: { (estimateTime) in
-                DispatchQueue.main.async {
-                    cell.walkingEstButton.bottomLabel.text = estimateTime
-                }
-            })
-
-            viewModel?.travelEstimationPlugin.calculateETA(from: currentLocation, to: destination, transportType: .automobile, completionHandler: { (estimateTime) in
-                DispatchQueue.main.async {
-                    cell.automobileEstButton.bottomLabel.text = estimateTime
-                }
-            })
+            viewModel?.travelEstimationPlugin.calculateDistance(from: currentLocation, to: destination)
+                .then(on: .main, execute: { cell.distanceLabel.text = $0 })
+            viewModel?.travelEstimationPlugin.calculateETA(from: currentLocation, to: destination, transportType: .walking)
+                .then(on: .main, execute: { cell.walkingEstButton.bottomLabel.text = $0 })
+            viewModel?.travelEstimationPlugin.calculateETA(from: currentLocation, to: destination, transportType: .automobile)
+                .then(on: .main, execute: { cell.automobileEstButton.bottomLabel.text = $0 })
         }
         return cell
     }

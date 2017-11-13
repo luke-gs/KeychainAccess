@@ -121,9 +121,3 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity, U : EntityMapSummar
         return processedResults
     }
 }
-
-extension CLLocationCoordinate2D: Equatable { }
-
-public func == (lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool {
-    return lhs.latitude == rhs.latitude && lhs.longitude == rhs.longitude
-}

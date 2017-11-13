@@ -7,6 +7,7 @@
 //
 
 import MapKit
+import PromiseKit
 
 public protocol TravelEstimationPlugable: class {
     
@@ -16,9 +17,9 @@ public protocol TravelEstimationPlugable: class {
     ///   - location: current user location
     ///   - destination: destination location
     /// - Returns: Returns the lateral distance between two locations.
-    func calculateDistance(from location: CLLocation, to destination: CLLocation, completionHandler: @escaping ((_ text: String?) -> Void))
-    
-    
+    @discardableResult
+    func calculateDistance(from location: CLLocation, to destination: CLLocation) -> Promise<String>
+
     /// Calculate the estimated time arrival between two locations
     ///
     /// - Parameters:
@@ -26,20 +27,35 @@ public protocol TravelEstimationPlugable: class {
     ///   - destination: destination location
     ///   - transportType: transport type
     ///   - completion: Returns the lateral ETA between two locations
-    func calculateETA(from location: CLLocation, to destination: CLLocation, transportType: MKDirectionsTransportType, completionHandler: @escaping ((_ text: String?) -> Void))
+    @discardableResult
+    func calculateETA(from location: CLLocation, to destination: CLLocation, transportType: MKDirectionsTransportType) -> Promise<String?>
 }
 
+extension MKDirections {
+
+    public func calculateETA() -> Promise<MKETAResponse> {
+        return Promise<MKETAResponse> { fufill, reject in
+            calculateETA(completionHandler: { (response, error) in
+                if let error = error {
+                    reject(error)
+                } else if let response = response {
+                    fufill(response)
+                }
+            })
+        }
+    }
+}
 
 /// Default ETA Plugin implementation
 open class TravelEstimationPlugin: TravelEstimationPlugable {
-    
-    open func calculateDistance(from location: CLLocation, to destination: CLLocation, completionHandler: @escaping ((_ text: String?) -> Void)) {
+
+    open func calculateDistance(from location: CLLocation, to destination: CLLocation) -> Promise<String> {
         let distanceInMeters = location.distance(from: destination)
         let formattedDistance = String(format: "%.f m", distanceInMeters)
-        completionHandler(formattedDistance)
+        return Promise(value: formattedDistance)
     }
-    
-    open func calculateETA(from location: CLLocation, to destination: CLLocation, transportType: MKDirectionsTransportType, completionHandler: @escaping ((_ text: String?) -> Void)) {
+
+    open func calculateETA(from location: CLLocation, to destination: CLLocation, transportType: MKDirectionsTransportType) -> Promise<String?> {
         let sourcePlacemark = MKPlacemark(coordinate: location.coordinate, addressDictionary: nil)
         let sourceMapItem = MKMapItem(placemark: sourcePlacemark)
         let destinationPlacemark = MKPlacemark(coordinate: destination.coordinate, addressDictionary: nil)
@@ -51,17 +67,9 @@ open class TravelEstimationPlugin: TravelEstimationPlugable {
         request.transportType = transportType
         request.requestsAlternateRoutes = false
         let directions = MKDirections(request: request)
-        
-        directions.calculateETA { response, error in
-            if error == nil {
-                if let estimate = response {
-                    let formattedEstimateTime = String(format: "%.f mins", estimate.expectedTravelTime / 60)
-                    completionHandler(formattedEstimateTime)
-                }
-            } else {
-                completionHandler("Not Available")
-            }
+
+        return directions.calculateETA().then {
+            return Promise(value: String(format: "%.f mins", $0.expectedTravelTime / 60))
         }
     }
-
 }
