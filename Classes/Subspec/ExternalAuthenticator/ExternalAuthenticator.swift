@@ -20,6 +20,10 @@ public final class ExternalAuthenticator<T: AuthenticationProvider> {
     public var useSafariViewController: Bool = true
 
     public func authenticate(_ authenticationProvider: T) -> Promise<T.Result> {
+
+        let scheme = authenticationProvider.urlScheme
+        precondition(Bundle.main.containsURLScheme(scheme), "\(scheme) is not registered in the Info.plist")
+
         self.authenticationProvider = authenticationProvider
         presentAuthentication(authenticationProvider.authorizationURL)
 
