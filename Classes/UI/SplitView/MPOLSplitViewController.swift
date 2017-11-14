@@ -262,7 +262,7 @@ open class MPOLSplitViewController: PushableSplitViewController {
 
         // Make sure the current master view controller has the back button
         // Note: this can move to detail view controller when switching between regular and compact
-        masterNavItem.leftBarButtonItems = [backButtonItem()].removeNils()
+        masterNavItem.leftBarButtonItems = masterViewController.navigationItem.leftBarButtonItems ?? [backButtonItem()].removeNils()
         detailNavItem?.leftBarButtonItem = nil
 
         if self.isCompact() {
