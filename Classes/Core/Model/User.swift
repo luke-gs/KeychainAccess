@@ -70,7 +70,7 @@ open class User: NSObject, NSSecureCoding, ModelVersionable {
             return nil
         }
         // Convert app settings back to custom type
-        let settings = Dictionary(uniqueKeysWithValues: appSettings.map { (appKey, settings) in (appKey, Dictionary(uniqueKeysWithValues: settings.map { (settingKey, value) in (AppSettingKey(rawValue: settingKey), value) })) })
+        let settings = appSettings.transform { (appKey, settings) in (appKey, settings.transform { (settingKey, value) in (AppSettingKey(rawValue: settingKey), value) }) }
         self.appSettings = settings
     }
 
@@ -80,7 +80,7 @@ open class User: NSObject, NSSecureCoding, ModelVersionable {
         aCoder.encode(username, forKey: CodingKeys.username.rawValue)
 
         // Convert app setting key before encoding, otherwise struct would need to implement NSObject, NSSecureCoding, NSCopying, etc
-        let settings = Dictionary(uniqueKeysWithValues: appSettings.map { (appKey, settings) in (appKey, Dictionary(uniqueKeysWithValues: settings.map { (settingKey, value) in (settingKey.rawValue, value) })) })
+        let settings = appSettings.transform { (appKey, settings) in (appKey, settings.transform { (settingKey, value) in (settingKey.rawValue, value) }) }
         aCoder.encode(settings, forKey: CodingKeys.appSettings.rawValue)
     }
     
@@ -150,4 +150,11 @@ extension User {
         }
     }
 
+}
+
+extension Dictionary {
+    /// Convenience method to map a dictionary's keys and values to a new dictionary with new types
+    public func transform<NewKey, NewValue>(_ transform: ((key: Key, value: Value)) throws -> (NewKey, NewValue)) rethrows -> [NewKey:NewValue] {
+        return Dictionary<NewKey, NewValue>(uniqueKeysWithValues: try self.map(transform))
+    }
 }
