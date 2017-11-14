@@ -17,7 +17,7 @@ open class TasksListViewController: CADFormCollectionViewController<TasksListIte
     // MARK: - Override
 
     override open func cellType() -> CollectionViewFormCell.Type {
-        return TasksListItemCell.self
+        return TasksListItemCollectionViewCell.self
     }
 
     override open func decorate(cell: CollectionViewFormCell, with viewModel: TasksListItemViewModel) {
@@ -26,7 +26,7 @@ open class TasksListViewController: CADFormCollectionViewController<TasksListIte
         cell.contentMode = .top
         cell.accessoryView = FormAccessoryView(style: .disclosure)
 
-        if let cell = cell as? TasksListItemCell {
+        if let cell = cell as? TasksListItemCollectionViewCell {
             cell.titleLabel.text = viewModel.title
             cell.subtitleLabel.text = viewModel.subtitle
             cell.captionLabel.text = viewModel.caption
@@ -37,7 +37,8 @@ open class TasksListViewController: CADFormCollectionViewController<TasksListIte
     open override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
 
-        if let cell = cell as? TasksListItemCell {
+        if let cell = cell as? TasksListItemCollectionViewCell {
+            cell.titleLabel.textColor = primaryTextColor
             cell.subtitleLabel.textColor = primaryTextColor
             cell.captionLabel.textColor = secondaryTextColor
         }
