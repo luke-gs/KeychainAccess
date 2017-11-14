@@ -46,6 +46,8 @@ class TasksListContainerViewController: UIViewController {
             view.setNeedsLayout()
         }
     }
+    
+    public private(set) var isFullScreen: Bool = false
 
     /// A container view for the header, so layout can be applied relative to it
     private var headerContainerView: UIView!
@@ -143,7 +145,37 @@ class TasksListContainerViewController: UIViewController {
         addChildViewController(tasksListViewController)
         view.addSubview(tasksListViewController.view)
         tasksListViewController.didMove(toParentViewController: self)
+        
+        // Add navigation bar buttons
+        navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "Fullscreen", style: .plain, target: self, action: #selector(toggleFullScreen))
     }
+    
+    @objc public func toggleFullScreen() {
+        guard let splitViewController = pushableSplitViewController else { return }
+        
+        let width = isFullScreen ? UISplitViewControllerAutomaticDimension : splitViewController.view.bounds.width
+        
+        UIView.animate(withDuration: 0.3) {
+            splitViewController.embeddedSplitViewController.minimumPrimaryColumnWidth = width
+            splitViewController.embeddedSplitViewController.maximumPrimaryColumnWidth = width
+        }
+        isFullScreen = !isFullScreen
+
+    }
+    
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.willTransition(to: newCollection, with: coordinator)
+        
+        coordinator.animate(alongsideTransition: { _ in
+            if self.isFullScreen, let splitViewController = self.pushableSplitViewController {
+                let width = splitViewController.view.bounds.width
+                splitViewController.embeddedSplitViewController.minimumPrimaryColumnWidth = width
+                splitViewController.embeddedSplitViewController.maximumPrimaryColumnWidth = width
+            }
+        }, completion: nil)
+    }
+    
+    
 
     public func createConstraints() {
         // Layout sidebar on left, header on top right, list bottom right
