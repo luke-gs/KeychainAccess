@@ -17,7 +17,7 @@ public enum ManageCallsignStatus: Int {
     case trafficStop
     case court
     case atStation
-    case onCell
+    case onCall
     case inquiries1
 
     // Current task
@@ -40,8 +40,8 @@ public enum ManageCallsignStatus: Int {
             return NSLocalizedString("Court", comment: "")
         case .atStation:
             return NSLocalizedString("At Station", comment: "")
-        case .onCell:
-            return NSLocalizedString("On Cell", comment: "")
+        case .onCall:
+            return NSLocalizedString("On Call", comment: "")
         case .inquiries1:
             return NSLocalizedString("Inquiries", comment: "")
         case .proceeding:
@@ -69,7 +69,7 @@ public enum ManageCallsignStatus: Int {
             return .iconStatusCourt
         case .atStation:
             return .iconStatusStation
-        case .onCell:
+        case .onCall:
             return .iconStatusOnCall
         case .inquiries1:
             return .iconStatusInquiries
@@ -93,7 +93,7 @@ public enum ManageCallsignStatus: Int {
              .trafficStop,
              .court,
              .atStation,
-             .onCell,
+             .onCall,
              .inquiries1:
             return true
 

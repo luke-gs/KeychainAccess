@@ -161,7 +161,7 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
                                                 itemFromStatus(.trafficStop),
                                                 itemFromStatus(.court),
                                                 itemFromStatus(.atStation),
-                                                itemFromStatus(.onCell),
+                                                itemFromStatus(.onCall),
                                                 itemFromStatus(.inquiries1)
                 ]),
 
