@@ -54,7 +54,8 @@ open class User: NSObject, NSSecureCoding, ModelVersionable {
                     return
                 }
             } catch {
-                // Error return failed init
+                // Failed, so return nil from init
+                print("Failed to migrate old User object")
                 return nil
             }
         }
@@ -103,7 +104,7 @@ open class User: NSObject, NSSecureCoding, ModelVersionable {
     public func performMigrationIfNeeded(from: Int, to: Int, decoder: NSCoder) throws -> Bool {
         // For previous versions, abort migration
         if from < 2 {
-            throw ModelVersionableError.decodeError
+            throw ModelVersionableError.migrationNotsupported
         }
         return false
     }

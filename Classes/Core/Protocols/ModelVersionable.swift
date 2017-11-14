@@ -34,5 +34,5 @@ extension ModelVersionable {
 
 /// Enum for model migration errors
 public enum ModelVersionableError: Error {
-    case decodeError
+    case migrationNotsupported
 }
