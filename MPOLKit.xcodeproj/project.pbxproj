@@ -38,6 +38,7 @@
 		191BC4D51F7C203B00C8C218 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191BC4D11F7C202300C8C218 /* LeftAlignedCollectionViewFlowLayout.swift */; };
 		191BC4D61F7C203B00C8C218 /* TagCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191BC4D01F7C202200C8C218 /* TagCollectionView.swift */; };
 		191BC4D71F7C203B00C8C218 /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191BC4D21F7C202300C8C218 /* TagCollectionViewCell.swift */; };
+		194E21161FBA70580094BBFA /* URLSchemeVerifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194E21151FBA70580094BBFA /* URLSchemeVerifier.swift */; };
 		196ED03A1F7C0207005F3F7C /* UILayoutPriority+Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196ED0391F7C0207005F3F7C /* UILayoutPriority+Math.swift */; };
 		196ED03C1F7C0619005F3F7C /* UILayoutPriorityMathExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196ED03B1F7C0619005F3F7C /* UILayoutPriorityMathExtensionTests.swift */; };
 		1972FCCB1FA6A1EF00CB68EA /* ImageAlamofireResponseSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1972FCCA1FA6A1EF00CB68EA /* ImageAlamofireResponseSerializer.swift */; };
@@ -45,6 +46,8 @@
 		1972FCD01FA6C42900CB68EA /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1972FCCF1FA6C42900CB68EA /* ImageDownloader.swift */; };
 		1972FCD21FA6C4E300CB68EA /* ImageDownloadTicket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1972FCD11FA6C4E300CB68EA /* ImageDownloadTicket.swift */; };
 		197FBF711F9980F20086875A /* URLQueryBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197FBF701F9980F20086875A /* URLQueryBuilderTests.swift */; };
+		199571C81FB913D400950EAB /* OAuth2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199571C71FB913D400950EAB /* OAuth2.swift */; };
+		199571CB1FB91D8300950EAB /* OAuth2Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199571CA1FB91D8300950EAB /* OAuth2Tests.swift */; };
 		19975D8F1F4414AF00E51469 /* ErrorMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19975D8E1F4414AF00E51469 /* ErrorMapperTests.swift */; };
 		199ECE8F1FAA1B720065E425 /* RemoteResourceDescribing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199ECE8E1FAA1B720065E425 /* RemoteResourceDescribing.swift */; };
 		199ECE951FAA4E410065E425 /* AsynchronousImageSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199ECE941FAA4E400065E425 /* AsynchronousImageSizing.swift */; };
@@ -525,6 +528,7 @@
 		191BC4D11F7C202300C8C218 /* LeftAlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		191BC4D21F7C202300C8C218 /* TagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewCell.swift; sourceTree = "<group>"; };
 		191F77411F44F6C5008BBA44 /* MPOLKitPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MPOLKitPlayground.playground; sourceTree = SOURCE_ROOT; };
+		194E21151FBA70580094BBFA /* URLSchemeVerifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSchemeVerifier.swift; sourceTree = "<group>"; };
 		196ED0391F7C0207005F3F7C /* UILayoutPriority+Math.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILayoutPriority+Math.swift"; sourceTree = "<group>"; };
 		196ED03B1F7C0619005F3F7C /* UILayoutPriorityMathExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILayoutPriorityMathExtensionTests.swift; sourceTree = "<group>"; };
 		1972FCCA1FA6A1EF00CB68EA /* ImageAlamofireResponseSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAlamofireResponseSerializer.swift; sourceTree = "<group>"; };
@@ -532,6 +536,8 @@
 		1972FCCF1FA6C42900CB68EA /* ImageDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		1972FCD11FA6C4E300CB68EA /* ImageDownloadTicket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloadTicket.swift; sourceTree = "<group>"; };
 		197FBF701F9980F20086875A /* URLQueryBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLQueryBuilderTests.swift; sourceTree = "<group>"; };
+		199571C71FB913D400950EAB /* OAuth2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2.swift; sourceTree = "<group>"; };
+		199571CA1FB91D8300950EAB /* OAuth2Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Tests.swift; sourceTree = "<group>"; };
 		19975D8E1F4414AF00E51469 /* ErrorMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMapperTests.swift; sourceTree = "<group>"; };
 		199ECE8E1FAA1B720065E425 /* RemoteResourceDescribing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteResourceDescribing.swift; sourceTree = "<group>"; };
 		199ECE941FAA4E400065E425 /* AsynchronousImageSizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsynchronousImageSizing.swift; sourceTree = "<group>"; };
@@ -1056,6 +1062,14 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
+		199571C91FB91D6100950EAB /* ExternalAuthenticator */ = {
+			isa = PBXGroup;
+			children = (
+				199571CA1FB91D8300950EAB /* OAuth2Tests.swift */,
+			);
+			path = ExternalAuthenticator;
+			sourceTree = "<group>";
+		};
 		199ECE931FAA4E280065E425 /* Image */ = {
 			isa = PBXGroup;
 			children = (
@@ -1090,8 +1104,10 @@
 		19D8D7941FB520140002332D /* ExternalAuthenticator */ = {
 			isa = PBXGroup;
 			children = (
-				19D8D7951FB5207A0002332D /* ExternalAuthenticator.swift */,
 				19D8D7971FB520930002332D /* AuthenticationProvider.swift */,
+				19D8D7951FB5207A0002332D /* ExternalAuthenticator.swift */,
+				199571C71FB913D400950EAB /* OAuth2.swift */,
+				194E21151FBA70580094BBFA /* URLSchemeVerifier.swift */,
 			);
 			path = ExternalAuthenticator;
 			sourceTree = "<group>";
@@ -1930,6 +1946,7 @@
 				C63F71731F3332CC004F5047 /* Model */,
 				19DE98CA1F42651C0063F394 /* SortDescriptor */,
 				C605F9F01ECCB5C4001194DD /* UnboxableAlamofireResponseSerializerTests */,
+				199571C91FB91D6100950EAB /* ExternalAuthenticator */,
 				19FEC98A1F440DD7005692A9 /* ErrorMapping */,
 				12F057271F3C0F5600CAD6F6 /* EntitySearchRequestTests.swift */,
 				1211E3681F3AD7620012E2E6 /* EpochDateTransformerTests.swift */,
@@ -2677,6 +2694,7 @@
 				46B3FE811F5E49FB0012476A /* ConsoleLogger.swift in Sources */,
 				BC1B260D1F20BB3A009674B7 /* StatusTabBarController.swift in Sources */,
 				19F8DDB21F4D7D2400D84DA1 /* APIManager.swift in Sources */,
+				199571C81FB913D400950EAB /* OAuth2.swift in Sources */,
 				19D8D7961FB5207A0002332D /* ExternalAuthenticator.swift in Sources */,
 				EA76ECF91F57DB8E00524830 /* LookupAddressAdvancedParameters.swift in Sources */,
 				EA09A0561F78B9C200BC3C0E /* EmailSpecification.swift in Sources */,
@@ -2957,6 +2975,7 @@
 				DBE24C3B1F593BEF0088D19B /* EntityDetailSectionsDataSource.swift in Sources */,
 				191BC4D61F7C203B00C8C218 /* TagCollectionView.swift in Sources */,
 				EAB38FFA1F70A73700341BAF /* DetailFormItem.swift in Sources */,
+				194E21161FBA70580094BBFA /* URLSchemeVerifier.swift in Sources */,
 				BC9C7E181F0DED6600DFFE83 /* FormTextView.swift in Sources */,
 				27CBC75C1F8B27B100E387C3 /* ActivityLogViewModel.swift in Sources */,
 				9650CA191F95B2520087F5C9 /* ManageCallsignStatus.swift in Sources */,
@@ -3051,6 +3070,7 @@
 				EAF76C7B1F908F0000405DC9 /* ValidateResultTests.swift in Sources */,
 				EAF76C8F1F944FB500405DC9 /* CustomFormItemTests.swift in Sources */,
 				EAF76C851F942F7B00405DC9 /* LabeledItemAccessoryTests.swift in Sources */,
+				199571CB1FB91D8300950EAB /* OAuth2Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
