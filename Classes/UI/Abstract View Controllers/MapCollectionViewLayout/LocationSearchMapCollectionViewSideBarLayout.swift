@@ -120,9 +120,9 @@ open class LocationSearchMapCollectionViewSideBarLayout: MapCollectionViewLayout
             collectionLeadingConstraint = accessoryView.trailingAnchor.constraint(equalTo: collectionView.leadingAnchor)
             
             constraints += [
-                accessoryView.leadingAnchor.constraint(equalTo: sidebarBackground.leadingAnchor),
-                accessoryView.topAnchor.constraint(equalTo: controller.topLayoutGuide.bottomAnchor),
-                accessoryView.bottomAnchor.constraint(lessThanOrEqualTo: controller.bottomLayoutGuide.topAnchor),
+                accessoryView.leadingAnchor.constraint(equalTo: sidebarBackground.safeAreaOrFallbackLeadingAnchor),
+                accessoryView.topAnchor.constraint(equalTo: controller.safeAreaOrLayoutGuideTopAnchor),
+                accessoryView.bottomAnchor.constraint(lessThanOrEqualTo: controller.safeAreaOrLayoutGuideBottomAnchor),
                 collectionLeadingConstraint!
             ]
         } else {
@@ -138,8 +138,8 @@ open class LocationSearchMapCollectionViewSideBarLayout: MapCollectionViewLayout
         sidebarPreferredWidthConstraint = sidebarLayoutGuide.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: preferredSidebarWidthFraction).withPriority(UILayoutPriority.defaultHigh)
         
         if controller.traitCollection.horizontalSizeClass == .compact || hidesMapInRegularEnvironment {
-            sidebarLayoutGuideLeadingConstraint = sidebarLayoutGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor)
-            sidebarTrailingConstraint = sidebarBackground.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            sidebarLayoutGuideLeadingConstraint = sidebarLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor)
+            sidebarTrailingConstraint = sidebarBackground.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor)
         } else {
             sidebarLayoutGuideLeadingConstraint = sidebarLayoutGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: -(view.frame.width * preferredSidebarWidthFraction))
             sidebarTrailingConstraint = sidebarBackground.trailingAnchor.constraint(equalTo: sidebarLayoutGuide.trailingAnchor)
@@ -225,5 +225,4 @@ open class LocationSearchMapCollectionViewSideBarLayout: MapCollectionViewLayout
             collectionLeadingConstraint!.isActive = true
         }
     }
-    
 }
