@@ -303,12 +303,8 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
         /// Remove all of existing map overlays
         removeMapOverlays()
         guard let type = viewModel?.searchType else { return }
-        
-        switch type {
-        case .radiusSearch(let coordinate, let radius):
-            radiusCircleOverlay = MKCircle(center: coordinate, radius: radius)
-            mapView?.add(radiusCircleOverlay!)
-        }
+        radiusCircleOverlay = MKCircle(center: type.coordinate, radius: type.radius)
+        mapView?.add(radiusCircleOverlay!)
     }
     
     /// Remove existing map overlays.
@@ -329,16 +325,8 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
     
     /// Center the map region to the search location
     private func setMapRegion() {
-        guard let type = viewModel?.searchType else { return }
-        
-        var region: MKCoordinateRegion
-        switch type {
-        case .radiusSearch(let coordinate, let radius):
-            let distance = radius * 2.0 + 100.0
-            region = MKCoordinateRegionMakeWithDistance(coordinate, distance, distance)
-        }
-        mapView?.setRegion(region, animated: true)
-        
+        guard let mapSearchType = viewModel?.searchType else { return }
+        mapView?.setRegion(mapSearchType.region(), animated: true)
     }
     
     /// Add annotations based on the location search results
@@ -359,7 +347,7 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
         if gesture.state == .began {
             let point = gesture.location(in: mapView)
             if let coordinate = mapView?.convert(point, toCoordinateFrom: mapView) {
-                let radiusSearch = LocationMapSearchType.make.radiusSearch(coordinate: coordinate)
+                let radiusSearch = LocationMapSearchType.radiusSearch(from: coordinate)
                 viewModel?.fetchResults(with: radiusSearch)
             }
         }

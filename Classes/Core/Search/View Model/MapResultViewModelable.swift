@@ -9,19 +9,31 @@
 import Foundation
 import MapKit
 
-public enum LocationMapSearchType {
-    case radiusSearch(coordinate: CLLocationCoordinate2D, radius: Double)
-    //    case boundingSearch(MKPolygon)
-    //    case parametersSearch(Searchable)
-    
-    public enum Builder {
-        public static func radiusSearch(coordinate: CLLocationCoordinate2D, radius: Double = 300) -> LocationMapSearchType {
-            return LocationMapSearchType.radiusSearch(coordinate: coordinate, radius: radius)
-        }
+public struct LocationMapSearchType {
+    public enum MapSearchType {
+        case radius
     }
-    
-    public static var make: LocationMapSearchType.Builder.Type {
-        return LocationMapSearchType.Builder.self
+
+    private let mapSearchType: MapSearchType
+    public let coordinate: CLLocationCoordinate2D
+    public let radius: Double
+
+    private init(coordinate: CLLocationCoordinate2D, radius: Double, mapSearchType: MapSearchType) {
+        self.coordinate = coordinate
+        self.radius = radius
+        self.mapSearchType = mapSearchType
+    }
+
+    public static func radiusSearch(from coordinate: CLLocationCoordinate2D, withRadius radius: Double = 300) -> LocationMapSearchType {
+        return LocationMapSearchType(coordinate: coordinate, radius: radius, mapSearchType: .radius)
+    }
+
+    public func region() -> MKCoordinateRegion {
+        switch mapSearchType {
+        case .radius:
+            let distance = radius * 2.0 + 100.0
+            return MKCoordinateRegionMakeWithDistance(coordinate, distance, distance)
+        }
     }
 }
 
