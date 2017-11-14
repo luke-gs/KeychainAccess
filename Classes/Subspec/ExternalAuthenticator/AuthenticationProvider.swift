@@ -22,7 +22,7 @@ public protocol AuthenticationProvider {
     ///
     /// - Parameter url: The callback URL that's triggered. This URL should contain the result returned in
     ///             query strings format.
-    /// - Returns: A Promise to return the result with value of [String: String]
+    /// - Returns: A Promise to return the result with value of `Result` associatedtype.
     func authenticationLinkResult(_ url: URL) -> Promise<Result>
 
 }
