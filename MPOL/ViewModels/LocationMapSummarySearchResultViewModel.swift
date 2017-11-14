@@ -81,13 +81,8 @@ public class LocationMapSummarySearchResultViewModel: MapSummarySearchResultView
 
     public override func fetchResults(with searchType: LocationMapSearchType) {
         self.searchType = searchType
-        var parameters: EntitySearchRequest<Address>
-
-        switch searchType {
-        case .radiusSearch(let coordinate, let radius):
-            parameters = LocationMapRadiusSearchParameters(latitude: coordinate.latitude, longitude: coordinate.longitude, radius: radius)
-        }
-
+        let coordinate = searchType.coordinate
+        let parameters = LocationMapRadiusSearchParameters(latitude: coordinate.latitude, longitude: coordinate.longitude, radius: searchType.radius)
         let request = LocationMapSearchRequest(source: .gnaf, request: parameters)
         aggregatedSearch = AggregatedSearch(requests: [request])
     }
