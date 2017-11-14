@@ -105,14 +105,14 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
         updateSearchText()
     }
 
-    override func viewWillLayoutSubviews() {
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         if #available(iOS 11, *) {
             additionalSafeAreaInsets.top = searchFieldButton?.frame.height ?? 0.0
         } else {
             legacy_additionalSafeAreaInsets.top = searchFieldButton?.frame.height ?? 0.0
         }
 
-        super.viewWillLayoutSubviews()
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
