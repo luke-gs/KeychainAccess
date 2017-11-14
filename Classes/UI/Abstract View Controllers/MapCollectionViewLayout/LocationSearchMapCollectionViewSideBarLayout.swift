@@ -15,14 +15,8 @@ open class LocationSearchMapCollectionViewSideBarLayout: MapCollectionViewLayout
     /// when in regular width environments, hiding the map. The default is `false`.
     open var hidesMapInRegularEnvironment: Bool = false {
         didSet {
-            guard hidesMapInRegularEnvironment != oldValue && (controller?.traitCollection.horizontalSizeClass ?? .compact) != .compact,
-                let view = controller?.viewIfLoaded,
-                let sidebarBackgroundView = self.sidebarBackgroundView,
-                let sidebarLayoutGuide = self.sidebarLayoutGuide else { return }
-            
-            sidebarTrailingConstraint?.isActive = false
-            sidebarTrailingConstraint = sidebarBackgroundView.trailingAnchor.constraint(equalTo: hidesMapInRegularEnvironment ? view.trailingAnchor : sidebarLayoutGuide.trailingAnchor)
-            sidebarTrailingConstraint?.isActive = true
+            guard hidesMapInRegularEnvironment != oldValue && (controller?.traitCollection.horizontalSizeClass ?? .compact) != .compact else { return }
+            updateSidebarTrailingConstraint(shouldHide: hidesMapInRegularEnvironment)
         }
     }
     
@@ -182,18 +176,22 @@ open class LocationSearchMapCollectionViewSideBarLayout: MapCollectionViewLayout
     
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        
-        guard let controller = self.controller,
-            let view = controller.viewIfLoaded,
-            let sidebarBackground = self.sidebarBackgroundView,
-            let sidebarLayoutGuide = self.sidebarLayoutGuide else { return }
+        guard let controller = self.controller else { return }
         
         let currentSizeClass = controller.traitCollection.horizontalSizeClass
         if previousTraitCollection?.horizontalSizeClass != currentSizeClass && hidesMapInRegularEnvironment == false {
-            sidebarTrailingConstraint?.isActive = false
-            sidebarTrailingConstraint = sidebarBackground.trailingAnchor.constraint(equalTo: currentSizeClass == .compact ? view.trailingAnchor : sidebarLayoutGuide.trailingAnchor)
-            sidebarTrailingConstraint!.isActive = true
+            updateSidebarTrailingConstraint(shouldHide: currentSizeClass == .compact)
         }
+    }
+
+    private func updateSidebarTrailingConstraint(shouldHide: Bool) {
+        guard let sidebarBackground = self.sidebarBackgroundView,
+            let sidebarLayoutGuide = self.sidebarLayoutGuide,
+            let view = controller?.viewIfLoaded else { return }
+
+        sidebarTrailingConstraint?.isActive = false
+        sidebarTrailingConstraint = sidebarBackground.trailingAnchor.constraint(equalTo: shouldHide ? view.trailingAnchor : sidebarLayoutGuide.trailingAnchor)
+        sidebarTrailingConstraint!.isActive = true
     }
     
     open override func accessoryViewDidChange(_ previousAccessoryView: UIView?) {
