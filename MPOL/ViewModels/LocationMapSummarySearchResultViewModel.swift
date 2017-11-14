@@ -47,7 +47,7 @@ public class LocationMapSummarySearchResultViewModel: MapSummarySearchResultView
         guard  let locationResult = results.first, !locationResult.entities.isEmpty else {
             return nil
         }
-        return locationResult.entities.flatMap({ mapAnnotation(for: $0) })
+        return locationResult.entities.flatMap { mapAnnotation(for: $0) }
     }
 
 

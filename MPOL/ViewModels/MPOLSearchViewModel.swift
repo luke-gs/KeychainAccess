@@ -25,7 +25,7 @@ class MPOLSearchViewModel: SearchViewModel {
         strategy.onResultModelForMap = {
             return LocationMapSummarySearchResultViewModel()
         }
-        strategy.onResultModelForResult = { (LookupResult, Searchable) in
+        strategy.onResultModelForResult = { (lookupResult, searchable) in
             return LocationMapSummarySearchResultViewModel()
 //            let preferredViewModel = MapSummarySearchResultViewModel<T, U>()
 //            preferredViewModel.fetchResults(withCoordinate: result.location.coordinate)

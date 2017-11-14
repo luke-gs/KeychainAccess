@@ -187,8 +187,12 @@ open class Address: Entity {
 //        }
         
         var line: [String] = []
-        if let unitNumber = self.unit?.ifNotEmpty() { line.append("Unit \(unitNumber)") }
-        if let floor = self.floor?.ifNotEmpty() { line.append("Floor \(floor)")}
+        if let unitNumber = self.unit?.ifNotEmpty() {
+            line.append("Unit \(unitNumber)")
+        }
+        if let floor = self.floor?.ifNotEmpty() {
+            line.append("Floor \(floor)")
+        }
         if line.isEmpty == false {
             lines.append(line)
             line.removeAll()
@@ -204,9 +208,15 @@ open class Address: Entity {
             }
         }
 
-        if let streetName   = self.streetName?.ifNotEmpty() { line.append(streetName) }
-        if let streetType   = self.streetType?.ifNotEmpty() { line.append(streetType) }
-        if let streetDirectional = self.streetDirectional?.ifNotEmpty() { line.append(streetDirectional) }
+        if let streetName = self.streetName?.ifNotEmpty() {
+            line.append(streetName)
+        }
+        if let streetType = self.streetType?.ifNotEmpty() {
+            line.append(streetType)
+        }
+        if let streetDirectional = self.streetDirectional?.ifNotEmpty() {
+            line.append(streetDirectional)
+        }
         if line.isEmpty == false {
             if includingName && commonName != nil && lines.isEmpty == false && line.joined(separator: " ") == commonName {
                 _ = lines.remove(at: 0)
@@ -223,7 +233,7 @@ open class Address: Entity {
         if line.isEmpty == false { lines.append(line) }
         if let country = self.country?.ifNotEmpty() { lines.append([country]) }
         
-        return lines.flatMap({ $0.isEmpty == false ? $0.joined(separator: " ") : nil })
+        return lines.flatMap { $0.isEmpty == false ? $0.joined(separator: " ") : nil }
     }
     
     func formatted(includingName: Bool = true, withLines: Bool = false) -> String? {
