@@ -79,6 +79,9 @@ public class UserSession: UserSessionable {
     }
 
     public func restoreSession(completion: @escaping RestoreSessionCompletion) {
+        // Recreate paths, as session ID may have changed in another app
+        paths = UserSessionPaths(baseUrl: UserSession.basePath, sessionId: UserSession.current.sessionID)
+
         let userWrapper = directoryManager.read(from: paths.userWrapperPath) as? FileWrapper
         let viewed = directoryManager.read(from: paths.recentlyViewed) as? [MPOLKitEntity] ?? []
         let searched = directoryManager.read(from: paths.recentlySearched) as? [Searchable] ?? []
