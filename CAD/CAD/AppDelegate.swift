@@ -81,7 +81,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func logOut() {
         UserSession.current.endSession()
         APIManager.shared.authenticationPlugin = nil
-        window?.rootViewController = Director.shared.presenter.viewController(forPresentable: LandingScreen.login)
+        landingPresenter.updateInterfaceForUserSession(animated: false)
     }
 
     private func applyCurrentTheme() {

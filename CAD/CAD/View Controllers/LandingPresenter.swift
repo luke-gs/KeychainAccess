@@ -35,6 +35,7 @@ public class LandingPresenter: NSObject, Presenter {
                 }
             }
         } else {
+            // Present screen if not current
             updateInterface(withScreen: screen, animated: animated)
         }
     }
@@ -80,6 +81,11 @@ public class LandingPresenter: NSObject, Presenter {
             return whatsNewVC
 
         case .landing:
+            func settingsBarButtonItem() -> UIBarButtonItem {
+                let settingsItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .settings), style: .plain, target: self, action: #selector(settingsButtonItemDidSelect(_:)))
+                settingsItem.accessibilityLabel = NSLocalizedString("Settings", comment: "SettingsIconAccessibility")
+                return settingsItem
+            }
             let callsignViewController = CompactCallsignViewController()
             callsignViewController.tabBarItem = UITabBarItem(title: "Callsign", image: AssetManager.shared.image(forKey: .entityCar), selectedImage: nil)
 
@@ -93,6 +99,10 @@ public class LandingPresenter: NSObject, Presenter {
             let tasksNavController = UINavigationController(rootViewController: tasksSplitViewModel.createViewController())
             tasksNavController.tabBarItem.image = AssetManager.shared.image(forKey: .tabBarTasks)
             tasksNavController.tabBarItem.title = NSLocalizedString("Tasks", comment: "Tasks Tab Bar Item")
+
+            // Show settings cog on left side of tasks list
+            let masterVC = (tasksNavController.viewControllers.first as? MPOLSplitViewController)?.masterViewController
+            masterVC?.navigationItem.leftBarButtonItem = settingsBarButtonItem()
 
             let activityLogViewModel = ActivityLogViewModel()
             let activityNavController = UINavigationController(rootViewController: activityLogViewModel.createViewController())
@@ -153,16 +163,9 @@ public class LandingPresenter: NSObject, Presenter {
     @discardableResult fileprivate func updateInterface(withScreen screen: LandingScreen, animated: Bool) -> UIViewController? {
         let presenter = Director.shared.presenter
 
-        // DEBUG!!
-        if screen == .landing {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: {
-                UserSession.current.user?.appSettings = [:]
-                (UIApplication.shared.delegate as! AppDelegate).logOut()
-            })
-        }
         // Only update interface if screen has changed
         if let currentScreen = currentScreen, currentScreen == screen {
-            return nil
+            return currentViewController
         }
 
         if let window = (UIApplication.shared.delegate as? AppDelegate)?.window {
@@ -175,6 +178,12 @@ public class LandingPresenter: NSObject, Presenter {
             return currentViewController
         }
         return nil
+    }
+
+    @objc private func settingsButtonItemDidSelect(_ item: UIBarButtonItem) {
+        // DEBUG
+        // UserSession.current.user?.appSettings = [:]
+        (UIApplication.shared.delegate as! AppDelegate).logOut()
     }
 }
 
