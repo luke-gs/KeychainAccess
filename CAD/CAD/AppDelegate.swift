@@ -23,6 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // FIXME: Temporary
     let locationManager = CLLocationManager()
 
+    var landingPresenter: LandingPresenter!
     var currentScreen: LandingScreen?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -44,7 +45,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let host = APP_HOST_URL
         APIManager.shared = APIManager(configuration: APIManagerDefaultConfiguration(url: "https://\(host)", plugins: plugins, trustPolicyManager: ServerTrustPolicyManager(policies: [host: .disableEvaluation])))
 
-        let presenter = PresenterGroup(presenters: [SystemPresenter(), LandingPresenter()])
+        landingPresenter = LandingPresenter()
+        let presenter = PresenterGroup(presenters: [SystemPresenter(), landingPresenter])
         let director = Director(presenter: presenter)
         Director.shared = director
 
@@ -71,24 +73,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func updateAppForSessionState() {
-        let screen: LandingScreen
-
-        if let user = UserSession.current.user, UserSession.current.isActive, user.termsAndConditionsVersionAccepted == TermsAndConditionsVersion {
-            if user.whatsNewShownVersion != WhatsNewVersion {
-                screen = .whatsNew
-            } else {
-                screen = .landing
-            }
-        } else {
-            screen = .login
-        }
-
         // Update screen if necessary
+        let screen = landingPresenter.screenForUserSession()
         if screen != currentScreen {
             currentScreen = screen
-            window?.rootViewController = Director.shared.presenter.viewController(forPresentable: screen)
+            landingPresenter.updateInterfaceForUserSession(animated: false)
+            // window?.rootViewController = Director.shared.presenter.viewController(forPresentable: screen)
         }
+    }
 
+    func logOut() {
+        UserSession.current.endSession()
+        APIManager.shared.authenticationPlugin = nil
+        window?.rootViewController = Director.shared.presenter.viewController(forPresentable: LandingScreen.login)
     }
 
     private func applyCurrentTheme() {

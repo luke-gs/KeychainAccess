@@ -25,6 +25,36 @@ public enum LandingScreen: Presentable {
 
 public class LandingPresenter: NSObject, Presenter {
 
+    /// Return what the current screen should be given the user session state
+    public func screenForUserSession() -> LandingScreen {
+        if let user = UserSession.current.user, UserSession.current.isActive {
+            if user.areTermsAndConditionsAccepted(version: TermsAndConditionsVersion) {
+                if user.whatsNewShownVersion != WhatsNewVersion {
+                    return .whatsNew
+                } else {
+                    return .landing
+                }
+            } else {
+                return .termsAndConditions
+            }
+        }
+        return .login
+    }
+
+    public func updateInterfaceForUserSession(animated: Bool) {
+        let screen = screenForUserSession()
+        if screen == .termsAndConditions {
+            // Present modal dialog for terms and conditions unlike other screens
+            if let loginVC = updateInterface(withScreen: .login, animated: false) {
+                DispatchQueue.main.async {
+                    loginVC.present(screen)
+                }
+            }
+        } else {
+            updateInterface(withScreen: screen, animated: animated)
+        }
+    }
+
     public func viewController(forPresentable presentable: Presentable) -> UIViewController {
         let presentable = presentable as! LandingScreen
 
@@ -37,8 +67,8 @@ public class LandingPresenter: NSObject, Presenter {
             loginViewController.minimumPasswordLength = 1
 
             loginViewController.backgroundImage = #imageLiteral(resourceName: "Login")
-            loginViewController.headerView = LoginHeaderView(title: NSLocalizedString("Tasks", comment: "Login screen header title"),
-                                                             subtitle: NSLocalizedString("Mobile Policing Platform", comment: "Login screen header subtitle"), image: #imageLiteral(resourceName: "MPOLIcon"))
+            loginViewController.headerView = LoginHeaderView(title: NSLocalizedString("PSCore", comment: "Login screen header title"),
+                                                             subtitle: NSLocalizedString("Public Safety Mobile Platform", comment: "Login screen header subtitle"), image: #imageLiteral(resourceName: "MPOLIcon"))
 
             loginViewController.delegate = self
 
@@ -114,13 +144,19 @@ public class LandingPresenter: NSObject, Presenter {
 
     // MARK: - Private
 
-    fileprivate func updateInterface(withScreen screen: LandingScreen, animated: Bool) {
+    @discardableResult fileprivate func updateInterface(withScreen screen: LandingScreen, animated: Bool) -> UIViewController? {
         let presenter = Director.shared.presenter
 
-        if animated, let window = (UIApplication.shared.delegate as? AppDelegate)?.window {
-            window.rootViewController = presenter.viewController(forPresentable: screen)
-            UIView.transition(with: window, duration: 0.2, options: .transitionCrossDissolve, animations: nil, completion: nil)
         }
+        if let window = (UIApplication.shared.delegate as? AppDelegate)?.window {
+            let viewController = presenter.viewController(forPresentable: screen)
+            window.rootViewController = viewController
+            if animated {
+                UIView.transition(with: window, duration: 0.2, options: .transitionCrossDissolve, animations: nil, completion: nil)
+            }
+            return viewController
+        }
+        return nil
     }
 }
 
@@ -128,17 +164,6 @@ public class LandingPresenter: NSObject, Presenter {
 extension LandingPresenter: LoginViewControllerDelegate {
 
     public func loginViewControllerDidAppear(_ controller: LoginViewController) {
-        guard UserSession.current.isActive == true else { return }
-        guard UserSession.current.user != nil else { return }
-
-        let user = UserSession.current.user
-        if user?.termsAndConditionsVersionAccepted == TermsAndConditionsVersion {
-            let screen: LandingScreen = user?.whatsNewShownVersion == WhatsNewVersion ? .landing : .whatsNew
-            self.updateInterface(withScreen: screen, animated: true)
-        } else {
-            controller.present(LandingScreen.termsAndConditions)
-            controller.resetFields()
-        }
     }
 
     public func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String) {
@@ -150,63 +175,47 @@ extension LandingPresenter: LoginViewControllerDelegate {
             APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
 
             UserSession.startSession(user: User(username: username), token: token)
+            self.updateInterfaceForUserSession(animated: true)
 
-            let user = UserSession.current.user
-            if user?.termsAndConditionsVersionAccepted == TermsAndConditionsVersion {
-                let screen: LandingScreen = user?.whatsNewShownVersion == WhatsNewVersion ? .landing : .whatsNew
-                self.updateInterface(withScreen: screen, animated: true)
-            } else {
-                controller.present(LandingScreen.termsAndConditions)
-                controller.resetFields()
-            }
-            }.catch { error in
-                let error = error as NSError
+        }.catch { error in
+            let error = error as NSError
 
-                let title = error.localizedFailureReason ?? "Error"
-                let message = error.localizedDescription
+            let title = error.localizedFailureReason ?? "Error"
+            let message = error.localizedDescription
 
-                controller.present(SystemScreen.serverError(title: title, message: message))
-            }.always {
-                controller.setLoading(false, animated: true)
+            controller.present(SystemScreen.serverError(title: title, message: message))
+        }.always {
+            controller.setLoading(false, animated: true)
         }
     }
 
     public func loginViewController(_ controller: LoginViewController, didTapForgotPasswordButton button: UIButton) {
-
     }
-
 }
 
 extension LandingPresenter: TermsConditionsViewControllerDelegate {
 
     public func termsConditionsController(_ controller: TermsConditionsViewController, didFinishAcceptingConditions accept: Bool) {
-        controller.dismiss(animated: true) {  [weak self] in
+        controller.dismiss(animated: true) { [weak self] in
             guard let `self` = self else { return }
 
             if accept {
-                let user = UserSession.current.user!
-
-                user.termsAndConditionsVersionAccepted = TermsAndConditionsVersion
-
-                let screen: LandingScreen = user.whatsNewShownVersion == WhatsNewVersion ? .landing : .whatsNew
-                self.updateInterface(withScreen: screen, animated: true)
+                UserSession.current.user?.termsAndConditionsVersionAccepted = TermsAndConditionsVersion
             } else {
                 UserSession.current.endSession()
             }
+            self.updateInterfaceForUserSession(animated: true)
         }
     }
-
 }
 
 extension LandingPresenter: WhatsNewViewControllerDelegate {
 
-    public func whatsNewViewControllerDidTapDoneButton(_ whatsNewViewController: WhatsNewViewController) {
-        self.updateInterface(withScreen: LandingScreen.landing, animated: true)
-    }
-
     public func whatsNewViewControllerDidAppear(_ whatsNewViewController: WhatsNewViewController) {
-        let user = UserSession.current.user
-        user!.whatsNewShownVersion = WhatsNewVersion
+        UserSession.current.user?.whatsNewShownVersion = WhatsNewVersion
     }
 
+    public func whatsNewViewControllerDidTapDoneButton(_ whatsNewViewController: WhatsNewViewController) {
+        self.updateInterfaceForUserSession(animated: true)
+    }
 }
