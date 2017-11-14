@@ -23,6 +23,8 @@ public class SummaryListFormItem: BaseFormItem {
 
     public var borderColor: UIColor?
 
+    public var imageTintColor: UIColor?
+
     public var image: ImageLoadable?
 
     public init() {
@@ -40,10 +42,13 @@ public class SummaryListFormItem: BaseFormItem {
         cell.borderColor = badgeColor
         cell.actionCount = badge
         cell.thumbnailView.borderColor = borderColor
+        cell.thumbnailView.tintColor = imageTintColor
         cell.thumbnailView.imageView.image = image?.sizing().image
 
         image?.loadImage(completion: { (imageSizable) in
-            cell.thumbnailView.imageView.image = imageSizable.sizing().image
+            let sizing = imageSizable.sizing()
+            cell.thumbnailView.imageView.image = sizing.image
+            cell.thumbnailView.imageView.contentMode = sizing.contentMode ?? .center
         })
     }
 
@@ -104,6 +109,12 @@ extension SummaryListFormItem {
     @discardableResult
     public func borderColor(_ borderColor: UIColor?) -> Self {
         self.borderColor = borderColor
+        return self
+    }
+
+    @discardableResult
+    public func imageTintColor(_ imageTintColor: UIColor?) -> Self {
+        self.imageTintColor = imageTintColor
         return self
     }
 
