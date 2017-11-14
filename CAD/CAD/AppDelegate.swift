@@ -19,11 +19,10 @@ let WhatsNewVersion = "1.0"
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var landingPresenter: LandingPresenter!
 
     // FIXME: Temporary
     let locationManager = CLLocationManager()
-
-    var landingPresenter: LandingPresenter!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
@@ -118,9 +117,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
-        // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-
-        // Show login or session screen depending on user session
+        // Reload user session and update UI to match current state
         updateAppForUserSession()
     }
 
