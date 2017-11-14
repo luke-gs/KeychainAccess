@@ -25,22 +25,6 @@ public enum LandingScreen: Presentable {
 
 public class LandingPresenter: NSObject, Presenter {
 
-    /// Return what the current screen should be given the user session state
-    public func screenForUserSession() -> LandingScreen {
-        if let user = UserSession.current.user, UserSession.current.isActive {
-            if user.areTermsAndConditionsAccepted(version: TermsAndConditionsVersion) {
-                if user.whatsNewShownVersion != WhatsNewVersion {
-                    return .whatsNew
-                } else {
-                    return .landing
-                }
-            } else {
-                return .termsAndConditions
-            }
-        }
-        return .login
-    }
-
     public func updateInterfaceForUserSession(animated: Bool) {
         let screen = screenForUserSession()
         if screen == .termsAndConditions {
@@ -144,17 +128,51 @@ public class LandingPresenter: NSObject, Presenter {
 
     // MARK: - Private
 
+    /// The currently displayed screen
+    private var currentScreen: LandingScreen?
+
+    /// The currently displayed view controller
+    private var currentViewController: UIViewController?
+
+    /// Return what the current screen should be given the user session state
+    private func screenForUserSession() -> LandingScreen {
+        if let user = UserSession.current.user, UserSession.current.isActive {
+            if user.areTermsAndConditionsAccepted(version: TermsAndConditionsVersion) {
+                if user.whatsNewShownVersion != WhatsNewVersion {
+                    return .whatsNew
+                } else {
+                    return .landing
+                }
+            } else {
+                return .termsAndConditions
+            }
+        }
+        return .login
+    }
+
     @discardableResult fileprivate func updateInterface(withScreen screen: LandingScreen, animated: Bool) -> UIViewController? {
         let presenter = Director.shared.presenter
 
+        // DEBUG!!
+        if screen == .landing {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: {
+                UserSession.current.user?.appSettings = [:]
+                (UIApplication.shared.delegate as! AppDelegate).logOut()
+            })
         }
+        // Only update interface if screen has changed
+        if let currentScreen = currentScreen, currentScreen == screen {
+            return nil
+        }
+
         if let window = (UIApplication.shared.delegate as? AppDelegate)?.window {
-            let viewController = presenter.viewController(forPresentable: screen)
-            window.rootViewController = viewController
+            currentScreen = screen
+            currentViewController = presenter.viewController(forPresentable: screen)
+            window.rootViewController = currentViewController
             if animated {
                 UIView.transition(with: window, duration: 0.2, options: .transitionCrossDissolve, animations: nil, completion: nil)
             }
-            return viewController
+            return currentViewController
         }
         return nil
     }
@@ -175,6 +193,7 @@ extension LandingPresenter: LoginViewControllerDelegate {
             APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
 
             UserSession.startSession(user: User(username: username), token: token)
+            controller.resetFields()
             self.updateInterfaceForUserSession(animated: true)
 
         }.catch { error in

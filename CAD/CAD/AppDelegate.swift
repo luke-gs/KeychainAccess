@@ -24,8 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let locationManager = CLLocationManager()
 
     var landingPresenter: LandingPresenter!
-    var currentScreen: LandingScreen?
-    
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         MPOLKitInitialize()
@@ -55,13 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         applyCurrentTheme()
 
-        if UserSession.current.isActive == true {
-            UserSession.current.restoreSession { token in
-                APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
-            }
-        }
-
-        updateAppForSessionState()
+        updateAppForUserSession()
 
         // TODO: Put this somewhere else I guess. Just need it now for the map.
         if CLLocationManager.authorizationStatus() == .notDetermined {
@@ -72,14 +65,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
-    private func updateAppForSessionState() {
-        // Update screen if necessary
-        let screen = landingPresenter.screenForUserSession()
-        if screen != currentScreen {
-            currentScreen = screen
-            landingPresenter.updateInterfaceForUserSession(animated: false)
-            // window?.rootViewController = Director.shared.presenter.viewController(forPresentable: screen)
+    private func updateAppForUserSession() {
+
+        // Reload user from shared storage if logged in, in case updated by another mpol app
+        if UserSession.current.isActive == true {
+            UserSession.current.restoreSession { token in
+                APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
+            }
         }
+
+        // Update screen if necessary
+        landingPresenter.updateInterfaceForUserSession(animated: false)
     }
 
     func logOut() {
@@ -125,7 +121,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
 
         // Show login or session screen depending on user session
-        updateAppForSessionState()
+        updateAppForUserSession()
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
