@@ -38,7 +38,6 @@
 		191BC4D51F7C203B00C8C218 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191BC4D11F7C202300C8C218 /* LeftAlignedCollectionViewFlowLayout.swift */; };
 		191BC4D61F7C203B00C8C218 /* TagCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191BC4D01F7C202200C8C218 /* TagCollectionView.swift */; };
 		191BC4D71F7C203B00C8C218 /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191BC4D21F7C202300C8C218 /* TagCollectionViewCell.swift */; };
-		194E21161FBA70580094BBFA /* URLSchemeVerifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194E21151FBA70580094BBFA /* URLSchemeVerifier.swift */; };
 		196ED03A1F7C0207005F3F7C /* UILayoutPriority+Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196ED0391F7C0207005F3F7C /* UILayoutPriority+Math.swift */; };
 		196ED03C1F7C0619005F3F7C /* UILayoutPriorityMathExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196ED03B1F7C0619005F3F7C /* UILayoutPriorityMathExtensionTests.swift */; };
 		1972FCCB1FA6A1EF00CB68EA /* ImageAlamofireResponseSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1972FCCA1FA6A1EF00CB68EA /* ImageAlamofireResponseSerializer.swift */; };
@@ -77,6 +76,7 @@
 		19E1347D1F57A88900F4D48C /* PluginType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E1347C1F57A88900F4D48C /* PluginType.swift */; };
 		19EFD2FA1F4D5C6300422F2A /* LookupAddressTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EFD2F91F4D5C6300422F2A /* LookupAddressTests.swift */; };
 		19EFD2FD1F4D5F8700422F2A /* LookupAddress.json in Resources */ = {isa = PBXBuildFile; fileRef = 19EFD2FC1F4D5D1000422F2A /* LookupAddress.json */; };
+		19F2579E1FBB98F700769B26 /* Bundle+URLSchemeVerifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F2579D1FBB98F700769B26 /* Bundle+URLSchemeVerifier.swift */; };
 		19F8DDB01F4D7C9600D84DA1 /* APIManager+LookupAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F8DDAF1F4D7C9600D84DA1 /* APIManager+LookupAddress.swift */; };
 		19F8DDB11F4D7CB800D84DA1 /* LookupAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F8DDAE1F4D7C7D00D84DA1 /* LookupAddress.swift */; };
 		19F8DDB21F4D7D2400D84DA1 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63408501F30D4CA000747B0 /* APIManager.swift */; };
@@ -528,7 +528,6 @@
 		191BC4D11F7C202300C8C218 /* LeftAlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		191BC4D21F7C202300C8C218 /* TagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewCell.swift; sourceTree = "<group>"; };
 		191F77411F44F6C5008BBA44 /* MPOLKitPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MPOLKitPlayground.playground; sourceTree = SOURCE_ROOT; };
-		194E21151FBA70580094BBFA /* URLSchemeVerifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSchemeVerifier.swift; sourceTree = "<group>"; };
 		196ED0391F7C0207005F3F7C /* UILayoutPriority+Math.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILayoutPriority+Math.swift"; sourceTree = "<group>"; };
 		196ED03B1F7C0619005F3F7C /* UILayoutPriorityMathExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILayoutPriorityMathExtensionTests.swift; sourceTree = "<group>"; };
 		1972FCCA1FA6A1EF00CB68EA /* ImageAlamofireResponseSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAlamofireResponseSerializer.swift; sourceTree = "<group>"; };
@@ -569,6 +568,7 @@
 		19E1347C1F57A88900F4D48C /* PluginType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PluginType.swift; sourceTree = "<group>"; };
 		19EFD2F91F4D5C6300422F2A /* LookupAddressTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupAddressTests.swift; sourceTree = "<group>"; };
 		19EFD2FC1F4D5D1000422F2A /* LookupAddress.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = LookupAddress.json; sourceTree = "<group>"; };
+		19F2579D1FBB98F700769B26 /* Bundle+URLSchemeVerifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bundle+URLSchemeVerifier.swift"; sourceTree = "<group>"; };
 		19F8DDAE1F4D7C7D00D84DA1 /* LookupAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupAddress.swift; sourceTree = "<group>"; };
 		19F8DDAF1F4D7C9600D84DA1 /* APIManager+LookupAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIManager+LookupAddress.swift"; sourceTree = "<group>"; };
 		19FE28CC1F53BF3000D70DBD /* LookupAddressSearchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupAddressSearchRequest.swift; sourceTree = "<group>"; };
@@ -1105,9 +1105,9 @@
 			isa = PBXGroup;
 			children = (
 				19D8D7971FB520930002332D /* AuthenticationProvider.swift */,
+				19F2579D1FBB98F700769B26 /* Bundle+URLSchemeVerifier.swift */,
 				19D8D7951FB5207A0002332D /* ExternalAuthenticator.swift */,
 				199571C71FB913D400950EAB /* OAuth2.swift */,
-				194E21151FBA70580094BBFA /* URLSchemeVerifier.swift */,
 			);
 			path = ExternalAuthenticator;
 			sourceTree = "<group>";
@@ -2962,6 +2962,7 @@
 				EA4806B11F56939100B42313 /* LocationSearchDataSource.swift in Sources */,
 				EA2189EF1F5FB2280057048E /* MapResultViewModelable.swift in Sources */,
 				BC9C7E561F0DED6600DFFE83 /* TabStripView.swift in Sources */,
+				19F2579E1FBB98F700769B26 /* Bundle+URLSchemeVerifier.swift in Sources */,
 				EA11F01F1F830D0E00BF8BCA /* StringSizable+Label.swift in Sources */,
 				C6F640ED1F333D4F003D73B9 /* NSArchiver+SecureArchiver.swift in Sources */,
 				BC9C7E411F0DED6600DFFE83 /* PopoverViewController.swift in Sources */,
@@ -2975,7 +2976,6 @@
 				DBE24C3B1F593BEF0088D19B /* EntityDetailSectionsDataSource.swift in Sources */,
 				191BC4D61F7C203B00C8C218 /* TagCollectionView.swift in Sources */,
 				EAB38FFA1F70A73700341BAF /* DetailFormItem.swift in Sources */,
-				194E21161FBA70580094BBFA /* URLSchemeVerifier.swift in Sources */,
 				BC9C7E181F0DED6600DFFE83 /* FormTextView.swift in Sources */,
 				27CBC75C1F8B27B100E387C3 /* ActivityLogViewModel.swift in Sources */,
 				9650CA191F95B2520087F5C9 /* ManageCallsignStatus.swift in Sources */,
