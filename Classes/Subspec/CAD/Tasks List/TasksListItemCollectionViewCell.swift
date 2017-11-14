@@ -101,7 +101,7 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
         contentView.addSubview(middleColumn)
         
         detailLabel.text = "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah "
-        detailLabel.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        detailLabel.textColor = #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1)
         detailLabel.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         detailLabel.numberOfLines = 3
         detailLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -126,7 +126,7 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
             
             leftColumn.topAnchor.constraint(equalTo: contentView.topAnchor),
             leftColumn.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
-            leftColumn.trailingAnchor.constraint(equalTo: accessoryView?.leadingAnchor ?? contentView.layoutMarginsGuide.trailingAnchor).withPriority(.defaultHigh),
+            leftColumn.trailingAnchor.constraint(equalTo: accessoryView?.leadingAnchor ?? contentView.layoutMarginsGuide.trailingAnchor, constant: -LayoutConstants.verticalMargin).withPriority(.defaultHigh),
 //            leftColumn.trailingAnchor.constraint(equalTo: middleColumn.leadingAnchor).withPriority(UILayoutPriority.init(UILayoutPriority.defaultLow.rawValue + 10)),
             leftColumn.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             leftColumn.widthAnchor.constraint(equalToConstant: 256).withPriority(UILayoutPriority.init(UILayoutPriority.defaultHigh.rawValue + 10)),
@@ -160,7 +160,7 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
             middleColumn.widthAnchor.constraint(equalToConstant: 0).withPriority(.defaultLow),
             middleColumn.topAnchor.constraint(equalTo: contentView.topAnchor),
             middleColumn.leadingAnchor.constraint(equalTo: leftColumn.trailingAnchor, constant: LayoutConstants.columnSpacing),
-            middleColumn.trailingAnchor.constraint(equalTo: accessoryView?.leadingAnchor ?? contentView.layoutMarginsGuide.trailingAnchor).withPriority(UILayoutPriority.init(UILayoutPriority.defaultHigh.rawValue + 10)),
+            middleColumn.trailingAnchor.constraint(equalTo: accessoryView?.leadingAnchor ?? contentView.layoutMarginsGuide.trailingAnchor, constant: -LayoutConstants.verticalMargin).withPriority(UILayoutPriority.init(UILayoutPriority.defaultHigh.rawValue + 10)),
             middleColumn.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
             detailLabel.topAnchor.constraint(equalTo: middleColumn.topAnchor, constant: LayoutConstants.verticalMargin),
