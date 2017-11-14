@@ -52,8 +52,9 @@ open class TravelEstimationPlugin: TravelEstimationPlugable {
 
     open func calculateDistance(from location: CLLocation, to destination: CLLocation) -> Promise<String> {
         let distanceInMeters = location.distance(from: destination)
-        let formattedDistance = String(format: "%.f m", distanceInMeters)
-        return Promise(value: formattedDistance)
+        let distanceFormatter = MKDistanceFormatter()
+        distanceFormatter.unitStyle = .abbreviated
+        return Promise(value: distanceFormatter.string(fromDistance: distanceInMeters))
     }
 
     open func calculateETA(from location: CLLocation, to destination: CLLocation, transportType: MKDirectionsTransportType) -> Promise<String?> {
@@ -70,7 +71,11 @@ open class TravelEstimationPlugin: TravelEstimationPlugable {
         let directions = MKDirections(request: request)
 
         return directions.calculateETA().then {
-            return Promise(value: String(format: "%.f mins", $0.expectedTravelTime / 60))
+            let dateFormatter = DateComponentsFormatter()
+            dateFormatter.allowedUnits = [.hour, .minute]
+            dateFormatter.unitsStyle = .abbreviated
+            dateFormatter.maximumUnitCount = 2
+            return Promise(value: dateFormatter.string(from: $0.expectedTravelTime))
         }
     }
 }
