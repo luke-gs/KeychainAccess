@@ -21,7 +21,6 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
     }
     
     // MARK: - Views
-    let label = UILabel()
 
     /// Column on the left
     private let leftColumn = UIView()
@@ -30,7 +29,7 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
     private let middleColumn = UIView()
     
     /// Column on the right
-    private let rightColumn = UIView()
+    private let rightColumn = UIStackView()
     
     /// View for showing updates indicator
     public let updatesIndicator = UIImageView()
@@ -115,23 +114,33 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
         
         
         // Right column
+        rightColumn.axis = .vertical
+        rightColumn.alignment = .top
+        rightColumn.spacing = 10
+        rightColumn.distribution = .fill
         rightColumn.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(rightColumn)
-        label.textColor = .white
-        label.text = "aaafkldgfldasngdfalg"
-        label.translatesAutoresizingMaskIntoConstraints = false
+
+        let tempRow = TasksListCellStatusRow()
+        tempRow.imageView.image = AssetManager.shared.image(forKey: .resourceCar)?.withRenderingMode(.alwaysTemplate)
+        tempRow.imageView.tintColor = .red
+        tempRow.titleLabel.text = "P08 (2)"
+        tempRow.titleLabel.textColor = #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1)
+        tempRow.subtitleLabel.text = "Duress"
+        tempRow.subtitleLabel.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
+        tempRow.subtitleLabel.textColor = .red
         
-//
-//        let tempRow = TasksListCellStatusRow()
-//        tempRow.imageView.image = AssetManager.shared.image(forKey: .resourceCar)
-//        tempRow.imageView.tintColor = .red
-//        tempRow.titleLabel.text = "P08 (2)"
-//        tempRow.titleLabel.textColor = .red
-//        tempRow.subtitleLabel.text = "Duress"
-//        tempRow.subtitleLabel.textColor = .gray
-//        tempRow.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        let tempRow2 = TasksListCellStatusRow()
+        tempRow2.imageView.image = AssetManager.shared.image(forKey: .resourceCar)?.withRenderingMode(.alwaysTemplate)
+        tempRow2.imageView.tintColor = #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1)
+        tempRow2.titleLabel.text = "P24 (2)"
+        tempRow2.titleLabel.textColor = #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1)
+        tempRow2.subtitleLabel.text = "At Incident"
+        tempRow2.subtitleLabel.textColor = #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1)
         
-        rightColumn.addSubview(label)
+        rightColumn.addArrangedSubview(tempRow)
+        rightColumn.addArrangedSubview(tempRow2)
+        rightColumn.addArrangedSubview(UIView())
     }
     
     /// Activates view constraints
@@ -200,15 +209,12 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
             
             // Right column
             
-            rightColumn.topAnchor.constraint(equalTo: contentView.topAnchor),
+            rightColumn.topAnchor.constraint(equalTo: contentView.topAnchor, constant: LayoutConstants.verticalMargin),
             rightColumn.leadingAnchor.constraint(equalTo: middleColumn.trailingAnchor, constant: LayoutConstants.columnSpacing),
             rightColumn.trailingAnchor.constraint(equalTo: accessoryView?.leadingAnchor ?? contentView.layoutMarginsGuide.trailingAnchor, constant: -LayoutConstants.verticalMargin).withPriority(.almostRequired),
             rightColumn.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
-            label.topAnchor.constraint(equalTo: rightColumn.topAnchor, constant: LayoutConstants.verticalMargin),
-            label.leadingAnchor.constraint(equalTo: rightColumn.leadingAnchor),
-            label.trailingAnchor.constraint(equalTo: rightColumn.trailingAnchor),
-            label.bottomAnchor.constraint(equalTo: rightColumn.bottomAnchor, constant: -LayoutConstants.verticalMargin),
+            
         ])
     }
     
