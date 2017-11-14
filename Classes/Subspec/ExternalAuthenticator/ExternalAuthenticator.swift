@@ -9,28 +9,28 @@
 import SafariServices
 import PromiseKit
 
-public final class ExternalAuthenticator {
+public final class ExternalAuthenticator<T: AuthenticationProvider> {
 
-    private static var safariViewController: SFSafariViewController? = nil
-    private static var authenticationProvider: AuthenticationProvider? = nil
-    private static var pendingPromiseResult: Promise<[String: String]>.PendingTuple? = nil
+    private var safariViewController: SFSafariViewController? = nil
+    private var authenticationProvider: T? = nil
+    private var pendingPromiseResult: Promise<T.Result>.PendingTuple? = nil
 
     /// Whether the authentication will be facilitated through SFSafariViewController.
     /// Defaults to `true`. If this value is `false`, Safari will be used.
-    public static var useSafariViewController: Bool = true
+    public var useSafariViewController: Bool = true
 
-    public static func authenticate(_ authenticationProvider: AuthenticationProvider) -> Promise<[String: String]> {
+    public func authenticate(_ authenticationProvider: T) -> Promise<T.Result> {
         self.authenticationProvider = authenticationProvider
         presentAuthentication(authenticationProvider.authorizationURL)
 
-        let pendingTuple: Promise<[String: String]>.PendingTuple = Promise.pending()
+        let pendingTuple: Promise<T.Result>.PendingTuple = Promise.pending()
         self.pendingPromiseResult = pendingTuple
 
         return pendingTuple.promise
     }
 
+    public func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any]) -> Bool {
 
-    public static func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any]) -> Bool {
         if let safariViewController = safariViewController {
             safariViewController.dismiss(animated: true, completion: nil)
             self.safariViewController = nil
@@ -60,7 +60,7 @@ public final class ExternalAuthenticator {
 
     // MARK: - Private Utilities
 
-    private static func presentAuthentication(_ url: URL) {
+    private func presentAuthentication(_ url: URL) {
 
         if useSafariViewController {
             let safariViewController = SFSafariViewController(url: url)
