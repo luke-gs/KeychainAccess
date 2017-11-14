@@ -142,7 +142,6 @@ open class MPOLSplitViewController: PushableSplitViewController {
         if selectedViewController == nil {
             // Get the default selected view controller from the subclass and apply the selection
             selectedViewController = defaultSelectedViewController()
-            selectedViewControllerDidChange(oldValue: nil)
         }
     }
 
@@ -182,8 +181,11 @@ open class MPOLSplitViewController: PushableSplitViewController {
                 self.updateNavigationBarForSelection()
             }
         }
-        // Update the split view content
-        updateSplitViewControllerForSelection()
+        
+        if oldValue != nil {
+            // Update the split view content
+            updateSplitViewControllerForSelection()
+        }
     }
 
     // MARK: - Adaptive UI Support
