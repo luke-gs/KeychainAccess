@@ -21,7 +21,7 @@ extension Bundle {
             return false
         }
 
-        let urlSchemes = urlTypes.flatMap({( $0["CFBundleURLSchemes"] as? [String])?.first })
+        let urlSchemes = urlTypes.flatMap( { ($0["CFBundleURLSchemes"] as? [String])?.first } )
 
         return urlSchemes.contains(scheme)
     }
