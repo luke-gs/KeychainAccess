@@ -207,6 +207,11 @@ class TasksListContainerViewController: UIViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         coordinator.animate(alongsideTransition: { [unowned self] (context) in
+            if self.isFullScreen, let splitViewController = self.pushableSplitViewController {
+                let width = splitViewController.view.bounds.width
+                splitViewController.embeddedSplitViewController.minimumPrimaryColumnWidth = width
+                splitViewController.embeddedSplitViewController.maximumPrimaryColumnWidth = width
+            }
             self.updateConstraintsForSizeChange()
             }, completion: nil)
     }
