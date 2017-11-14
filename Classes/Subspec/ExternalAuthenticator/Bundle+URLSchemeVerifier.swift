@@ -10,11 +10,11 @@ import Foundation
 
 extension Bundle {
 
-    /// Verify that the specified scheme is registered/added in the main Info.plist.
+    /// Verify that the specified scheme is registered/added in the Info.plist.
     ///
     /// - Parameter scheme: The scheme to be verified.
     /// - Returns: A bool value to indicate that the scheme is registered correctly.
-    ///            A scheme is considered valid if it's declared in the Info.plist
+    ///            A scheme is considered valid if it's declared in the Info.plist.
     public func containsURLScheme(_ scheme: String) -> Bool {
 
         guard let urlTypes = infoDictionary?["CFBundleURLTypes"] as? [[String: AnyObject]] else {
