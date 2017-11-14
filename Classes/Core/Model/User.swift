@@ -83,6 +83,18 @@ open class User: NSObject, NSSecureCoding, ModelVersionable {
         aCoder.encode(settings, forKey: CodingKeys.appSettings.rawValue)
     }
     
+    // MARK: - App Settings
+    public func appSettingValue(forKey settingKey: AppSettingKey) -> AnyObject? {
+        return appSettings[User.applicationKey]?[settingKey]
+    }
+
+    public func setAppSettingValue(_ newValue: AnyObject?, forKey settingKey: AppSettingKey) {
+        // Update setting and trigger didSet on appSettings
+        var settings = appSettings[User.applicationKey] ?? [:]
+        settings[settingKey] = newValue
+        appSettings[User.applicationKey] = settings
+    }
+
     // MARK: - ModelVersionable
     public static var modelVersion: Int {
         return 2
@@ -104,35 +116,37 @@ open class User: NSObject, NSSecureCoding, ModelVersionable {
     }
 }
 
-// MARK: - Convenience methods for app settings
+// MARK: - Convenience methods for common app settings
 extension User {
 
-    public func stringValue(forKey settingKey: AppSettingKey) -> String? {
-        return appSettings[User.applicationKey]?[settingKey] as? String
-    }
-
-    public func setStringValue(_ newValue: String?, forKey settingKey: AppSettingKey) {
-        // Update setting and trigger didSet on appSettings
-        var settings = appSettings[User.applicationKey] ?? [:]
-        settings[settingKey] = newValue as NSString?
-        appSettings[User.applicationKey] = settings
+    public func areTermsAndConditionsAccepted(version: String) -> Bool {
+        // Return true if any mpol based app has accepted the requested version
+        for (_, settings) in appSettings {
+            if let acceptedVersion = settings[.termsAndConditionsVersionAccepted] as? String {
+                if acceptedVersion == version {
+                    return true
+                }
+            }
+        }
+        return false
     }
 
     public var termsAndConditionsVersionAccepted: String? {
         get {
-            return stringValue(forKey: .termsAndConditionsVersionAccepted)
+            return appSettingValue(forKey: .termsAndConditionsVersionAccepted) as? String
         }
         set {
-            setStringValue(newValue, forKey: .termsAndConditionsVersionAccepted)
+            setAppSettingValue(newValue as AnyObject, forKey: .termsAndConditionsVersionAccepted)
         }
     }
 
     public var whatsNewShownVersion: String? {
         get {
-            return stringValue(forKey: .whatsNewShownVersion)
+            return appSettingValue(forKey: .whatsNewShownVersion) as? String
         }
         set {
-            setStringValue(newValue, forKey: .whatsNewShownVersion)
+            setAppSettingValue(newValue as AnyObject, forKey: .whatsNewShownVersion)
         }
     }
+
 }
