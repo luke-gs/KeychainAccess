@@ -12,27 +12,48 @@ import PromiseKit
 public final class ExternalAuthenticator<T: AuthenticationProvider> {
 
     private var safariViewController: SFSafariViewController? = nil
-    private var authenticationProvider: T? = nil
     private var pendingPromiseResult: Promise<T.Result>.PendingTuple? = nil
 
-    /// Whether the authentication will be facilitated through SFSafariViewController.
-    /// Defaults to `true`. If this value is `false`, Safari will be used.
-    public var useSafariViewController: Bool = true
+    public let authenticationProvider: T
 
-    public func authenticate(_ authenticationProvider: T) -> Promise<T.Result> {
+    public var useSafariViewController: Bool
+
+    /// Initialise the ExternalAuthenticator.
+    ///
+    /// - Parameters:
+    ///   - authenticationProvider: The AuthenticationProvider conformant.
+    ///   - useSafariViewController: Whether the authentication will be facilitated through SFSafariViewController.
+    ///                              Defaults to `true`. If this value is `false`, Safari will be used.
+    public init(authenticationProvider: T, useSafariViewController: Bool = true) {
+        self.authenticationProvider = authenticationProvider
+        self.useSafariViewController = useSafariViewController
+    }
+
+    /// Starts the authentication workflow by redirecting to the provider's website.
+    ///
+    /// - Parameter authenticationProvider: The authentication provider to be used.
+    /// - Returns: A promise with the result returned by the provider.
+    public func authenticate() -> Promise<T.Result> {
 
         let scheme = authenticationProvider.urlScheme
         precondition(Bundle.main.containsURLScheme(scheme), "\(scheme) is not registered in the Info.plist")
 
-        self.authenticationProvider = authenticationProvider
-        presentAuthentication(authenticationProvider.authorizationURL)
-
         let pendingTuple: Promise<T.Result>.PendingTuple = Promise.pending()
         self.pendingPromiseResult = pendingTuple
+
+        presentAuthentication(authenticationProvider.authorizationURL)
 
         return pendingTuple.promise
     }
 
+    /// The `UIApplication.application:openURL:options:` handler.
+    ///
+    /// - Parameters:
+    ///   - app: The app passed in by the UIApplication callback.
+    ///   - url: The url passed in by the UIApplication callback.
+    ///   - options: The options passed in by the UIApplication callback.
+    /// - Returns: true if the the passed in `url.scheme` successfully handled the request or false if the url is not
+    ///            intended for this authenticator.
     public func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any]) -> Bool {
 
         if let safariViewController = safariViewController {
@@ -41,7 +62,7 @@ public final class ExternalAuthenticator<T: AuthenticationProvider> {
         }
 
         // Not what we want, return false so other could handle it.s
-        guard let authenticationProvider = authenticationProvider, url.scheme == authenticationProvider.urlScheme else {
+        guard url.scheme == authenticationProvider.urlScheme else {
             return false
         }
 
@@ -56,7 +77,6 @@ public final class ExternalAuthenticator<T: AuthenticationProvider> {
             pending.reject($0)
         }
 
-        self.authenticationProvider = nil
         self.pendingPromiseResult = nil
 
         return true
