@@ -10,7 +10,6 @@ import Foundation
 
 public enum OAuth2Error: String, Error {
 
-    case invalidState = "invalid_state"
     case invalidRequest = "invalid_request"
     case unauthorizedClient = "unauthorized_client"
     case accessDenied = "access_denied"
