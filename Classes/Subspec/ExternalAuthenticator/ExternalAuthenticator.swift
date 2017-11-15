@@ -32,7 +32,7 @@ public final class ExternalAuthenticator<T: AuthenticationProvider> {
     /// Starts the authentication workflow by redirecting to the provider's website.
     ///
     /// - Parameter authenticationProvider: The authentication provider to be used.
-    /// - Returns: A promise with the result returned by the provider.
+    /// - Returns: A promise with the result returned by the provider. The promise will throw cancelled error in 300 secs.
     public func authenticate() -> Promise<T.Result> {
 
         let scheme = authenticationProvider.urlScheme
@@ -43,7 +43,9 @@ public final class ExternalAuthenticator<T: AuthenticationProvider> {
 
         presentAuthentication(authenticationProvider.authorizationURL)
 
-        return pendingTuple.promise
+        let timeout: Promise<T.Result> = after(seconds: 300).then { throw NSError.cancelledError() }
+    
+        return race(pendingTuple.promise, timeout)
     }
 
     /// The `UIApplication.application:openURL:options:` handler.
@@ -52,6 +54,9 @@ public final class ExternalAuthenticator<T: AuthenticationProvider> {
     ///   - app: The app passed in by the UIApplication callback.
     ///   - url: The url passed in by the UIApplication callback.
     ///   - options: The options passed in by the UIApplication callback.
+    /// - Important:
+    ///   This relies on `UIApplication.application:openURL:options:` to be passed in to work. Without
+    ///   the promise isn't be fulfillable.
     /// - Returns: true if the the passed in `url.scheme` successfully handled the request or false if the url is not
     ///            intended for this authenticator.
     public func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any]) -> Bool {
