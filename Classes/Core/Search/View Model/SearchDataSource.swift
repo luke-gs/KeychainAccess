@@ -160,6 +160,9 @@ public protocol SearchDataSource: class {
     /// The search button to be displayed in the navigation bar.
     var navigationButton: UIBarButtonItem? { get }
     
+    /// The bar button items to be displayed on the right hand side of the navigation bar for additional actions
+    var additionalBarButtonItems: [UIBarButtonItem]? { get set }
+    
     /// The updating delegate is set on becoming active in the SearchOptionsViewController 
     /// and is guaranteed to be a kind of UIViewController.
     ///
@@ -228,6 +231,12 @@ public protocol SearchDataSourceUpdating: class {
 public extension SearchDataSource {
     /// Default to search style.
     var searchStyle: SearchFieldStyle { return .search(configure: nil, textHandler: nil, errorMessage: nil) }
+    
+    /// No additionalBarButtonItems by default
+    var additionalBarButtonItems: [UIBarButtonItem]? {
+        get { return nil }
+        set {}
+    }
     
     /// Default selection action is '.none'.
     func selectionAction(forFilterAt index: Int) -> SearchOptionAction { return .none }
