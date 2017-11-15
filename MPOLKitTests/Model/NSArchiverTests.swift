@@ -132,16 +132,23 @@ class NSSecureKeyedUnarchiverTests: XCTestCase {
     func testUnarchiving() {
         let testObject = SecureTestArchiverObject(testingProperty: "Hello")
         let data = NSKeyedArchiver.MPL_securelyArchivedData(withRootObject: testObject)
-        let compare: SecureTestArchiverObject = NSKeyedUnarchiver.MPL_securelyUnarchiveObject(with: data)
-        XCTAssertEqual(testObject, compare)
+        let compare: SecureTestArchiverObject? = NSKeyedUnarchiver.MPL_securelyUnarchiveObject(with: data)
+        XCTAssertEqual(testObject, compare!)
     }
     
     func testNonSecureArchiving() {
         let testObject = TestArchiverObject(testingProperty: "Hello")
         let data = NSKeyedArchiver.archivedData(withRootObject: testObject)
-        XCTAssertNoThrow({
-            _ = NSKeyedUnarchiver.MPL_securelyUnarchiveObject(with: data) as TestArchiverObject
-        })
+
+        // Because secure decoding exception is an Objective-C exception, it cannot be caught
+        // using regular swift do/catch. So we use a util to convert it to an error
+        func testDecode() throws {
+            try ObjC.catchException({
+                let _: TestArchiverObject? = NSKeyedUnarchiver.MPL_securelyUnarchiveObject(with: data)
+            })
+        }
+        // Test that trying to decode a non secure object fails
+        XCTAssertThrowsError(try testDecode())
     }
     
     func testReadingFromFile() {

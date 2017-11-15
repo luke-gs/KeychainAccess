@@ -22,8 +22,7 @@ class ModelVersionableTests: XCTestCase {
     }
 
     func testVersion() {
-        let version = TestVersionable()
-        XCTAssertEqual(version.modelVersion, 0)
+        XCTAssertEqual(TestVersionable.modelVersion, 0)
     }
 }
 

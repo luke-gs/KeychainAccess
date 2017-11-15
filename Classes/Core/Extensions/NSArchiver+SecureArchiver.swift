@@ -10,10 +10,14 @@ import Foundation
 
 public extension NSKeyedUnarchiver {
 
-    public class func MPL_securelyUnarchiveObject<T>(with data: Data) -> T where T: NSSecureCoding, T: NSObject {
+    public class func MPL_securelyUnarchiveObject<T>(with data: Data) -> T? where T: NSSecureCoding, T: NSObject {
         let unarchiver = NSKeyedUnarchiver(forReadingWith: data)
         unarchiver.requiresSecureCoding = true
-        return unarchiver.decodeObject(of: T.self, forKey: NSKeyedArchiveRootObjectKey)!
+        let object = unarchiver.decodeObject(of: T.self, forKey: NSKeyedArchiveRootObjectKey)
+
+        // Do not force unwrap result, as it will result in fatalError that cannot be caught
+        // if the optional init?(coder aDecoder: NSCoder) constructor returns nil
+        return object
     }
     
     public class func MPL_securelyUnarchiveObject<T>(from file: String) -> T? where T: NSSecureCoding, T: NSObject {
