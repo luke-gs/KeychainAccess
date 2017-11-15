@@ -27,7 +27,7 @@ open class OAuth2: AuthenticationProvider {
     public let scopes: Set<String>
 
     /// Returns a URL by composing the `authorizationEndpoint` with `requestParameters` as `URLQueryItems`.
-    public var authorizationURL: URL {
+    open var authorizationURL: URL {
         var authorizationURL = URLComponents(url: authorizationEndpoint, resolvingAgainstBaseURL: false)!
 
         authorizationURL.queryItems = requestParameters.flatMap({ URLQueryItem(name: $0.key, value: $0.value) })
@@ -35,7 +35,7 @@ open class OAuth2: AuthenticationProvider {
         return authorizationURL.url!
     }
 
-    public var urlScheme: String {
+    open var urlScheme: String {
         return redirectURL.scheme!
     }
 
@@ -49,7 +49,7 @@ open class OAuth2: AuthenticationProvider {
         self.scopes = scopes
     }
 
-    public func authenticationLinkResult(_ url: URL) -> Promise<Result> {
+    open func authenticationLinkResult(_ url: URL) -> Promise<Result> {
 
         guard let  urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
             return Promise(error: ParsingError.missingRequiredField)
@@ -99,6 +99,9 @@ open class OAuth2: AuthenticationProvider {
         return Promise(value: result)
     }
 
+    open func canHandleURL(_ url: URL) -> Bool {
+        return false
+    }
 
     /// Create the authorization request parameters. Override this to allow more parameters
     /// in subclasses.
