@@ -100,7 +100,7 @@ open class OAuth2: AuthenticationProvider {
     }
 
     open func canHandleURL(_ url: URL) -> Bool {
-        return false
+        return url.scheme == self.urlScheme
     }
 
     /// Create the authorization request parameters. Override this to allow more parameters
