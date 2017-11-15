@@ -80,8 +80,6 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
         let theme = ThemeManager.shared.theme(for: .current)
         let tintColor = theme.color(forKey: .tint)!
         
-        edgesForExtendedLayout = []
-        
         titleLabel = UILabel()
         titleLabel.font = UIFont.systemFont(ofSize: 15)
         titleLabel.text = notBookedOnViewModel?.headerText()
