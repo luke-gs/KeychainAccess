@@ -30,12 +30,13 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
     }
     
     weak var delegate: LocationMapSearchDelegate?
+    var sidebarDelegate: LocationSearchSidebarDelegate?
     
     public var selectedLocation: CLLocation? {
         didSet {
             if oldValue != selectedLocation {
                 guard let selectedLocation = selectedLocation else {
-                    resetLocationDetailView()
+                    sidebarDelegate?.hideSidebar(adjustMapInsets: true)
                     searchFieldPlaceholder = nil
                     return
                 }
@@ -62,8 +63,9 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
         }
     }
     
-    public init() {
-        super.init(layout: LocationSearchMapCollectionViewSideBarLayout())
+    public init(layout: LocationSearchMapCollectionViewSideBarLayout = LocationSearchMapCollectionViewSideBarLayout()) {
+        super.init(layout: layout)
+        sidebarDelegate = layout
         title = NSLocalizedString("Location Search", comment: "Location Search Title")
     }
     
@@ -92,12 +94,7 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(performRadiusSearchOnLongPress(gesture:)))
         longPressGesture.minimumPressDuration = 0.5
         mapView.addGestureRecognizer(longPressGesture)
-        
-        let singleTapGesture = UITapGestureRecognizer(target: self, action:#selector(resetLocationDetailView))
-        singleTapGesture.numberOfTapsRequired = 1
-        singleTapGesture.delegate = self
-        mapView.addGestureRecognizer(singleTapGesture)
-        
+
         collectionView.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         collectionView.register(EntityListCollectionViewCell.self)
         collectionView.register(LocationMapDirectionCollectionViewCell.self)
@@ -174,15 +171,22 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
         
         let cell = collectionView.dequeueReusableCell(of: LocationMapDirectionCollectionViewCell.self, for: indexPath)
         cell.decorate(with: displayable)
-        
-        // TODO: Wrap it into VM without expose plugin?
+        cell.streetViewHandler = {
+
+            // Implement google maps handler?
+
+        }
+
         if let destination = selectedLocation, let currentLocation = mapView?.userLocation.location {
             viewModel?.travelEstimationPlugin.calculateDistance(from: currentLocation, to: destination)
-                .then(on: .main, execute: { cell.distanceLabel.text = $0 })
+                .then { cell.distanceLabel.text = $0 }
+                .catch { _ in cell.distanceLabel.text = "Unknown" }
             viewModel?.travelEstimationPlugin.calculateETA(from: currentLocation, to: destination, transportType: .walking)
-                .then(on: .main, execute: { cell.walkingEstButton.bottomLabel.text = $0 })
+                .then { cell.walkingEstButton.bottomLabel.text = $0 }
+                .catch { _ in cell.distanceLabel.text = "Unknown" }
             viewModel?.travelEstimationPlugin.calculateETA(from: currentLocation, to: destination, transportType: .automobile)
-                .then(on: .main, execute: { cell.automobileEstButton.bottomLabel.text = $0 })
+                .then { cell.automobileEstButton.bottomLabel.text = $0 }
+                .catch { _ in cell.distanceLabel.text = "Unknown" }
         }
         return cell
     }
@@ -214,9 +218,9 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
     
     public func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         if let annotation = view.annotation as? MKPointAnnotation {
+            sidebarDelegate?.showSidebar(adjustMapInsets: selectedLocation == nil)
             selectedLocation = CLLocation(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude)
             collectionView?.reloadData()
-            showLocationDetailView()
         }
     }
     
@@ -345,6 +349,10 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
     @objc
     private func performRadiusSearchOnLongPress(gesture: UILongPressGestureRecognizer) {
         if gesture.state == .began {
+            if sidebarDelegate?.isShowing == true {
+                sidebarDelegate?.showSidebar(adjustMapInsets: true)
+            }
+
             let point = gesture.location(in: mapView)
             if let coordinate = mapView?.convert(point, toCoordinateFrom: mapView) {
                 let radiusSearch = LocationMapSearchType.radiusSearch(from: coordinate)
@@ -352,16 +360,4 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
             }
         }
     }
-    
-    /// Show & dimiss the sidebar detailed view
-    @objc
-    private func resetLocationDetailView() {
-        (layout as! LocationSearchMapCollectionViewSideBarLayout).resetSideBar()
-    }
-    
-    @objc
-    private func showLocationDetailView() {
-        (layout as! LocationSearchMapCollectionViewSideBarLayout).showSideBar()
-    }
-    
 }

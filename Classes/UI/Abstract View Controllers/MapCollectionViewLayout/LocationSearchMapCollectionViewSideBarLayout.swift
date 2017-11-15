@@ -9,6 +9,12 @@
 import Foundation
 import MapKit
 
+public protocol LocationSearchSidebarDelegate {
+    var isShowing: Bool { get }
+    func hideSidebar(adjustMapInsets: Bool)
+    func showSidebar(adjustMapInsets: Bool)
+}
+
 open class LocationSearchMapCollectionViewSideBarLayout: MapCollectionViewLayout {
     
     /// A boolean value indicating whether the sidebar should display fullscreen
@@ -49,7 +55,10 @@ open class LocationSearchMapCollectionViewSideBarLayout: MapCollectionViewLayout
     /// regular size class. The default is 288 points.
     open var minimumSidebarWidth: CGFloat = 288.0
     
-    
+    private var sideBarWidth: CGFloat {
+        return view.frame.width * preferredSidebarWidthFraction
+    }
+
     // MARK: - Private properties
     
     private var sidebarLayoutGuide: UILayoutGuide?
@@ -127,7 +136,11 @@ open class LocationSearchMapCollectionViewSideBarLayout: MapCollectionViewLayout
         let sidebarLayoutGuide = UILayoutGuide()
         self.sidebarLayoutGuide = sidebarLayoutGuide
         view.addLayoutGuide(sidebarLayoutGuide)
-        
+
+        let closeGesture = UISwipeGestureRecognizer(target: self, action: #selector(resetSideBar))
+        closeGesture.direction = .left
+        view.addGestureRecognizer(closeGesture)
+
         sidebarMinumumWidthConstraint = sidebarLayoutGuide.widthAnchor.constraint(greaterThanOrEqualToConstant: minimumSidebarWidth)
         sidebarPreferredWidthConstraint = sidebarLayoutGuide.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: preferredSidebarWidthFraction).withPriority(UILayoutPriority.defaultHigh)
         
@@ -135,7 +148,7 @@ open class LocationSearchMapCollectionViewSideBarLayout: MapCollectionViewLayout
             sidebarLayoutGuideLeadingConstraint = sidebarLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor)
             sidebarTrailingConstraint = sidebarBackground.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor)
         } else {
-            sidebarLayoutGuideLeadingConstraint = sidebarLayoutGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: -(view.frame.width * preferredSidebarWidthFraction))
+            sidebarLayoutGuideLeadingConstraint = sidebarLayoutGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: -sideBarWidth)
             sidebarTrailingConstraint = sidebarBackground.trailingAnchor.constraint(equalTo: sidebarLayoutGuide.trailingAnchor)
         }
         
@@ -155,7 +168,7 @@ open class LocationSearchMapCollectionViewSideBarLayout: MapCollectionViewLayout
             collectionView.bottomAnchor.constraint(equalTo: sidebarBackground.bottomAnchor),
             collectionView.trailingAnchor.constraint(equalTo: sidebarBackground.trailingAnchor),
 
-            mapView.leadingAnchor.constraint(equalTo: sidebarLayoutGuide.trailingAnchor),
+            mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             mapView.topAnchor.constraint(equalTo: view.topAnchor),
             mapView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -166,17 +179,35 @@ open class LocationSearchMapCollectionViewSideBarLayout: MapCollectionViewLayout
         controller.userInterfaceStyle = .dark
     }
     
-    open func showSideBar() {
-        self.sidebarLayoutGuideLeadingConstraint?.constant = 0
+    open func showSideBar(shouldInsetMapView: Bool = true) {
+        sidebarLayoutGuideLeadingConstraint?.constant = 0
+        if let mapView = controller?.mapView, shouldInsetMapView {
+            print(mapView.visibleMapRect)
+            if sidebarLayoutGuideLeadingConstraint?.constant == 0 {
+                mapView.setVisibleMapRect(mapView.visibleMapRect, edgePadding: UIEdgeInsets(top: 0.0, left: minimumSidebarWidth, bottom: 0.0, right: 0.0), animated: true)
+            } else {
+                mapView.setVisibleMapRect(mapView.visibleMapRect, animated: true)
+            }
+        }
+        UIView.animate(withDuration: 0.3) { [unowned self] in
+            self.view.layoutIfNeeded()
+        }
     }
     
-    open func resetSideBar() {
-        self.sidebarLayoutGuideLeadingConstraint?.constant = -(self.view.frame.width * self.preferredSidebarWidthFraction)
+    @objc open func resetSideBar() {
+        sidebarLayoutGuideLeadingConstraint?.constant = -sideBarWidth
+        if let mapView = controller?.mapView {
+            mapView.layoutMargins = UIEdgeInsets.zero
+            mapView.setVisibleMapRect(mapView.visibleMapRect, animated: true)
+        }
+        UIView.animate(withDuration: 0.3) { [unowned self] in
+            self.view.layoutIfNeeded()
+        }
     }
     
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        guard let controller = self.controller else { return }
+        guard let controller = controller else { return }
         
         let currentSizeClass = controller.traitCollection.horizontalSizeClass
         if previousTraitCollection?.horizontalSizeClass != currentSizeClass && hidesMapInRegularEnvironment == false {
@@ -185,8 +216,8 @@ open class LocationSearchMapCollectionViewSideBarLayout: MapCollectionViewLayout
     }
 
     private func updateSidebarTrailingConstraint(shouldHide: Bool) {
-        guard let sidebarBackground = self.sidebarBackgroundView,
-            let sidebarLayoutGuide = self.sidebarLayoutGuide,
+        guard let sidebarBackground = sidebarBackgroundView,
+            let sidebarLayoutGuide = sidebarLayoutGuide,
             let view = controller?.viewIfLoaded else { return }
 
         sidebarTrailingConstraint?.isActive = false
@@ -199,7 +230,7 @@ open class LocationSearchMapCollectionViewSideBarLayout: MapCollectionViewLayout
         
         let controller = self.controller!
         
-        guard let sidebarBackgroundView = self.sidebarBackgroundView,
+        guard let sidebarBackgroundView = sidebarBackgroundView,
             let collectionView = controller.collectionView else { return }
         
         previousAccessoryView?.removeFromSuperview()
@@ -222,5 +253,20 @@ open class LocationSearchMapCollectionViewSideBarLayout: MapCollectionViewLayout
             collectionLeadingConstraint = collectionView.leadingAnchor.constraint(equalTo: sidebarBackgroundView.leadingAnchor)
             collectionLeadingConstraint!.isActive = true
         }
+    }
+}
+
+extension LocationSearchMapCollectionViewSideBarLayout: LocationSearchSidebarDelegate {
+
+    public var isShowing: Bool {
+        return sidebarLayoutGuideLeadingConstraint?.constant == 0
+    }
+
+    public func hideSidebar(adjustMapInsets: Bool) {
+        resetSideBar()
+    }
+
+    public func showSidebar(adjustMapInsets: Bool) {
+        showSideBar(shouldInsetMapView: adjustMapInsets)
     }
 }

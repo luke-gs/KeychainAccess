@@ -16,14 +16,12 @@ open class LocationMapDirectionCollectionViewCell: CollectionViewFormCell {
     /// The distance label, used for diaplaying the estimate distance
     /// from the current location to selected target location
     public let distanceLabel: UILabel = UILabel(frame: .zero)
-
     public let walkingEstButton: CustomSubtitleButton = CustomSubtitleButton(type: .custom)
-    
     public let automobileEstButton: CustomSubtitleButton = CustomSubtitleButton(type: .custom)
-    
     public let streetViewButton: CustomSubtitleButton = CustomSubtitleButton(type: .custom)
-    
     private var directionStackView: UIStackView = UIStackView()
+
+    public var streetViewHandler: (() -> ())?
     
     // MARK: - Initialization
     
@@ -60,7 +58,9 @@ open class LocationMapDirectionCollectionViewCell: CollectionViewFormCell {
         directionStackView.addArrangedSubview(walkingEstButton)
         directionStackView.addArrangedSubview(automobileEstButton)
         directionStackView.addArrangedSubview(streetViewButton)
-        
+
+        streetViewButton.addTarget(self, action: #selector(streetViewTapped), for: .touchUpInside)
+
         descriptionLabel.adjustsFontForContentSizeCategory = true
         distanceLabel.adjustsFontForContentSizeCategory = true
         
@@ -121,4 +121,7 @@ open class LocationMapDirectionCollectionViewCell: CollectionViewFormCell {
         return titleFont.lineHeight.ceiled(toScale: displayScale) + subtitleFont.lineHeight.ceiled(toScale: displayScale) + 50
     }
 
+    @objc private func streetViewTapped() {
+        streetViewHandler?()
+    }
 }
