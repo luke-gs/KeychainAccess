@@ -14,7 +14,15 @@ public enum OAuthAuthorizationGrant: Parameterisable {
     ///   - username: The username.
     ///   - password: The password.
     case credentials(username: String, password: String)
-    
+
+    /// An authorization code grant.
+    /// Authorization code could be acquired from external system.
+    /// - Parameters:
+    ///   - authorizationCode: The code acquired from external system to be used to request for access token.
+    ///   - clientId: The client ID for the application.
+    ///   - redirectURL: The redirectURL that's used in original authorization code request.
+    case authorizationCode(String, clientId: String, redirectURL: URL)
+
     /// A refresh token grant.
     ///
     /// - Parameters:
@@ -40,6 +48,13 @@ public enum OAuthAuthorizationGrant: Parameterisable {
             return [
                 "grant_type": "refresh_token",
                 "refresh_token": refreshToken,
+            ]
+        case .authorizationCode(let code, let clientId, let redirectURL):
+            return [
+                "grant_type": "authorization_code",
+                "code": code,
+                "client_id": clientId,
+                "redirect_uri": redirectURL.absoluteString,
             ]
         case .custom(let parameters):
             return parameters
