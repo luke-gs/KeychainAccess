@@ -20,6 +20,10 @@ open class GeolocationPlugin: PluginType {
     static let locationDirectionOfTravelKey = "X-GPS-Direction-Of-Travel"
     static let locationSpeed = "X-GPS-Speed"
     
+    public init() {
+
+    }
+    
     open func adapt(_ urlRequest: URLRequest) -> URLRequest {
         var adaptedRequest = urlRequest
         
