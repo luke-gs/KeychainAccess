@@ -84,13 +84,19 @@ open class APIManager {
         var parameters = request.parameters
         parameters["source"] = source.serverSourceName
         parameters["entityType"] = SearchRequest.ResultClass.serverTypeRepresentation
-        
-        return LocationManager.shared.requestLocation().recover { error -> CLLocation in
-            return LocationManager.shared.lastLocation ?? CLLocation() // Had to keep this in to avoid making the requestLocation optional
-            }.then { _ -> Promise<SearchResult<SearchRequest.ResultClass>> in
-                let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
-                
-                return try! self.performRequest(networkRequest)
+
+        if requiresLocation {
+            return LocationManager.shared.requestLocation().recover { error -> CLLocation in
+                return LocationManager.shared.lastLocation ?? CLLocation() // Had to keep this in to avoid making the requestLocation optional
+                }.then { _ -> Promise<SearchResult<SearchRequest.ResultClass>> in
+                    let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
+                    
+                    return try! self.performRequest(networkRequest)
+            }
+        } else {
+            let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
+            
+            return try! self.performRequest(networkRequest)
         }
     }
     
@@ -109,12 +115,18 @@ open class APIManager {
         parameters["source"] = source.serverSourceName
         parameters["entityType"] = FetchRequest.ResultClass.serverTypeRepresentation
         
-        return LocationManager.shared.requestLocation().recover { error -> CLLocation in
-            return LocationManager.shared.lastLocation ?? CLLocation() // Had to keep this in to avoid making the requestLocation optional
-            }.then { _ -> Promise<FetchRequest.ResultClass> in
-                let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
-                
-                return try! self.performRequest(networkRequest)
+        if requiresLocation {
+            return LocationManager.shared.requestLocation().recover { error -> CLLocation in
+                return LocationManager.shared.lastLocation ?? CLLocation() // Had to keep this in to avoid making the requestLocation optional
+                }.then { _ -> Promise<FetchRequest.ResultClass> in
+                    let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
+                    
+                    return try! self.performRequest(networkRequest)
+            }
+        } else {
+            let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
+            
+            return try! self.performRequest(networkRequest)
         }
     }
     
@@ -184,13 +196,13 @@ open class APIManager {
         var allPlugins = plugins
         if let authenticationPlugin = authenticationPlugin {
             allPlugins.append(authenticationPlugin)
-            allPlugins.append(GeolocationPlugin()) // Only add if user is authenticated. i.e: Logged in
-            allPlugins.append(AuditPlugin()) // Only add if user is authenticated. i.e: Logged in
         }
         
         return allPlugins
     }
 
+    private var requiresLocation: Bool { return allPlugins.contains(where: { $0 is GeolocationPlugin }) }
+    
     private func urlRequest(from networkRequest: NetworkRequestType) throws -> URLRequest {
         let path = networkRequest.path
 
