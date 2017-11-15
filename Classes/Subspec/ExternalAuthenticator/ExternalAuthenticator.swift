@@ -59,7 +59,7 @@ public final class ExternalAuthenticator<T: AuthenticationProvider> {
         }
 
         // Not what we want, return false so other could handle it.s
-        guard url.scheme == authenticationProvider.urlScheme else {
+        guard authenticationProvider.canHandleURL(url) else {
             return false
         }
 
@@ -92,7 +92,7 @@ public final class ExternalAuthenticator<T: AuthenticationProvider> {
             topController?.present(safariViewController, animated: true, completion: nil)
             self.safariViewController = safariViewController
         } else {
-            UIApplication.shared.open(url, options: [ UIApplicationOpenURLOptionUniversalLinksOnly : true ], completionHandler: nil)
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
 
     }
