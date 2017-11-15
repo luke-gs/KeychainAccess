@@ -20,6 +20,12 @@ public enum OAuthAuthorizationGrant: Parameterisable {
     /// - Parameters:
     ///   - refreshToken: The refresh token.
     case refreshToken(String)
+
+    /// Request token using custom parameters. This is to be used for any non-standard request.
+    ///
+    /// - Parameters:
+    ///    - parameters: The parameters for the request.
+    case custom([String: Any])
         
     /// Returns the authorization grant's parameters.
     public var parameters: [String: Any] {
@@ -35,6 +41,9 @@ public enum OAuthAuthorizationGrant: Parameterisable {
                 "grant_type": "refresh_token",
                 "refresh_token": refreshToken,
             ]
+        case .custom(let parameters):
+            return parameters
         }
+
     }
 }
