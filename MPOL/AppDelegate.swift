@@ -232,7 +232,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         // To re-create the presenter and update the left accessory view of the login view controller with the new endpoint
         // No state is actually fiddled with
-        fiddleWithState()
+        updateAppForUserSession()
     }
     #endif
 }
