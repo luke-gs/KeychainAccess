@@ -201,13 +201,7 @@ open class APIManager {
         return allPlugins
     }
 
-    private var requiresLocation: Bool {
-        if allPlugins.contains(where: { $0 is GeolocationPlugin }) {
-            return true
-        }
-        
-        return false
-    }
+    private var requiresLocation: Bool { return allPlugins.contains(where: { $0 is GeolocationPlugin }) }
     
     private func urlRequest(from networkRequest: NetworkRequestType) throws -> URLRequest {
         let path = networkRequest.path
