@@ -35,6 +35,9 @@ public final class ExternalAuthenticator<T: AuthenticationProvider> {
     /// - Returns: A promise with the result returned by the provider.
     public func authenticate() -> Promise<T.Result> {
 
+        let scheme = authenticationProvider.urlScheme
+        precondition(Bundle.main.containsURLScheme(scheme), "\(scheme) is not registered in the Info.plist")
+
         let pendingTuple: Promise<T.Result>.PendingTuple = Promise.pending()
         self.pendingPromiseResult = pendingTuple
 
