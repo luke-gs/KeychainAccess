@@ -138,6 +138,9 @@ open class PopoverNavigationController: UINavigationController, PopoverViewContr
     }
     
     open override func pushViewController(_ viewController: UIViewController, animated: Bool) {
+        // Disable content under nav bar when shown in this popover controller
+        viewController.edgesForExtendedLayout.remove(.top)
+
         (viewController as? PopoverViewController)?.wantsTransparentBackground = wantsTransparentBackground
         super.pushViewController(viewController, animated: animated)
     }

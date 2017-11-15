@@ -72,8 +72,6 @@ open class CallsignListViewController: CADFormCollectionViewController<NotBooked
 
     /// Creates and styles views
     open func setupViews() {
-        edgesForExtendedLayout = []
-        
         // Replace default back button with 'Back'
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .done, target: self, action: #selector(goBack))
         
