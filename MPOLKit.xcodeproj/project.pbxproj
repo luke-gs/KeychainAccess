@@ -38,6 +38,7 @@
 		191BC4D51F7C203B00C8C218 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191BC4D11F7C202300C8C218 /* LeftAlignedCollectionViewFlowLayout.swift */; };
 		191BC4D61F7C203B00C8C218 /* TagCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191BC4D01F7C202200C8C218 /* TagCollectionView.swift */; };
 		191BC4D71F7C203B00C8C218 /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191BC4D21F7C202300C8C218 /* TagCollectionViewCell.swift */; };
+		1948A7B51FBBDB45005AB301 /* OAuth2Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1948A7B41FBBDB45005AB301 /* OAuth2Error.swift */; };
 		196ED03A1F7C0207005F3F7C /* UILayoutPriority+Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196ED0391F7C0207005F3F7C /* UILayoutPriority+Math.swift */; };
 		196ED03C1F7C0619005F3F7C /* UILayoutPriorityMathExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196ED03B1F7C0619005F3F7C /* UILayoutPriorityMathExtensionTests.swift */; };
 		1972FCCB1FA6A1EF00CB68EA /* ImageAlamofireResponseSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1972FCCA1FA6A1EF00CB68EA /* ImageAlamofireResponseSerializer.swift */; };
@@ -539,6 +540,7 @@
 		191BC4D11F7C202300C8C218 /* LeftAlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		191BC4D21F7C202300C8C218 /* TagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewCell.swift; sourceTree = "<group>"; };
 		191F77411F44F6C5008BBA44 /* MPOLKitPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MPOLKitPlayground.playground; sourceTree = SOURCE_ROOT; };
+		1948A7B41FBBDB45005AB301 /* OAuth2Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Error.swift; sourceTree = "<group>"; };
 		196ED0391F7C0207005F3F7C /* UILayoutPriority+Math.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILayoutPriority+Math.swift"; sourceTree = "<group>"; };
 		196ED03B1F7C0619005F3F7C /* UILayoutPriorityMathExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILayoutPriorityMathExtensionTests.swift; sourceTree = "<group>"; };
 		1972FCCA1FA6A1EF00CB68EA /* ImageAlamofireResponseSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAlamofireResponseSerializer.swift; sourceTree = "<group>"; };
@@ -1129,6 +1131,7 @@
 				19F2579D1FBB98F700769B26 /* Bundle+URLSchemeVerifier.swift */,
 				19D8D7951FB5207A0002332D /* ExternalAuthenticator.swift */,
 				199571C71FB913D400950EAB /* OAuth2.swift */,
+				1948A7B41FBBDB45005AB301 /* OAuth2Error.swift */,
 			);
 			path = ExternalAuthenticator;
 			sourceTree = "<group>";
@@ -1590,7 +1593,6 @@
 				4657CACF1F5D0D7F000295F6 /* Logging */,
 				C63408571F30E59C000747B0 /* Model */,
 				BC9C7D271F0DED6600DFFE83 /* Network */,
-				BC9C7D2E1F0DED6600DFFE83 /* NetworkMonitor.swift */,
 				BC9C7D441F0DED6600DFFE83 /* Protocols */,
 				DB88BCCB1F42CEAA0056FD69 /* Search */,
 				DB88BCC91F42CEA40056FD69 /* SortDescriptor */,
@@ -2017,7 +2019,6 @@
 				12F057271F3C0F5600CAD6F6 /* EntitySearchRequestTests.swift */,
 				1211E3681F3AD7620012E2E6 /* EpochDateTransformerTests.swift */,
 				1908EF891F57D79A00382B1C /* KeyboardInputManagerTests.swift */,
-				12F057211F3BFB2A00CAD6F6 /* ManifestCollectionTests.swift */,
 				1211E36C1F3AE0E50012E2E6 /* MiscTests.swift */,
 				1908EF8A1F57D79A00382B1C /* ModelVersionableTests.swift */,
 				1211E36A1F3ADC300012E2E6 /* OAuthAuthorizationGrantTests.swift */,
@@ -2694,6 +2695,7 @@
 				965CD8AD1F8F14E5007C3EEA /* TasksListHeaderCompactViewController.swift in Sources */,
 				BC9C7DF11F0DED6600DFFE83 /* EpochDateTransformer.swift in Sources */,
 				BC9C7DD31F0DED6600DFFE83 /* OAuthAuthorizationGrant.swift in Sources */,
+				1948A7B51FBBDB45005AB301 /* OAuth2Error.swift in Sources */,
 				EA11F0221F830DD600BF8BCA /* ItemAccessorisable.swift in Sources */,
 				BC9C7E2B1F0DED6600DFFE83 /* String+EmptyFiltering.swift in Sources */,
 				BC9C7E501F0DED6600DFFE83 /* EntityThumbnailView.swift in Sources */,
