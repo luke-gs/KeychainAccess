@@ -52,7 +52,7 @@ open class OAuth2: AuthenticationProvider {
     open func authenticationLinkResult(_ url: URL) -> Promise<Result> {
 
         guard let  urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
-            return Promise(error: ParsingError.missingRequiredField)
+            return Promise(error: OAuth2ResultError.invalidURL)
         }
 
         let queryItems = urlComponents.queryItems
@@ -69,8 +69,23 @@ open class OAuth2: AuthenticationProvider {
             queryDict = [:]
         }
 
-        let result: OAuth2GrantResult
+        // Check for state, considered it's invalid without `state`.
+        guard let resultState = queryDict["state"], resultState == state else {
+            return Promise(error: OAuth2ResultError.invalidState)
+        }
 
+        let possibleErrors = OAuth2Error.allErrorsString
+        let matchingErrors = possibleErrors.intersection(queryDict.keys)
+
+        // Assume the errors are mutually exclusive
+        for error in matchingErrors {
+            if let errorCase = OAuth2Error(rawValue: error) {
+                return Promise(error: errorCase)
+            }
+        }
+
+        let result: OAuth2GrantResult
+        
         switch grantType {
         case .authorizationCode:
             let key = OAuth2GrantType.authorizationCode.rawValue
@@ -118,6 +133,8 @@ open class OAuth2: AuthenticationProvider {
 }
 
 public enum OAuth2ResultError: Error {
+    case invalidURL
+    case invalidState
     case missingRequiredField(String)
 }
 
