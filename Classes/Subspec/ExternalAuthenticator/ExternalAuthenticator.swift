@@ -61,11 +61,12 @@ public final class ExternalAuthenticator<T: AuthenticationProvider> {
             self.safariViewController = nil
         }
 
-        // Not what we want, return false so other could handle it.s
+        // Not intended for this authenticator, return `false`.
         guard authenticationProvider.canHandleURL(url) else {
             return false
         }
 
+        // Shouldn't happen?
         guard let pending = pendingPromiseResult else {
             return false
         }
