@@ -106,7 +106,8 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
             }
         }
     }
-    
+
+    open private(set) lazy var credentialsView: UIView? = nil
     
     open private(set) lazy var usernameLabel: UILabel = {
         let label = UILabel(frame: .zero)
@@ -318,13 +319,48 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
             setNeedsStatusBarAppearanceUpdate()
         }
     }
-    
+
+
+    /// Specifies whether the credentials view is added to the view hierarchy.
+    ///
+    /// The default value is `true`.
+    public var includesCredentialsView: Bool {
+        get {
+            return _includesCredentialsView
+        }
+        set {
+            if newValue == _includesCredentialsView { return }
+
+            _includesCredentialsView = newValue
+
+            if let credentialsView = self.credentialsView {
+                // hide
+                credentialsView.isHidden = !newValue
+                // unconstraint if needed
+            }
+            else if self.contentStackView != nil {
+                // if not created, create
+                credentialsView = createCredentialsView()
+                // insert into stack
+                self.contentStackView?.removeArrangedSubview(loginStackView!)
+                self.contentStackView?.addArrangedSubview(credentialsView!)
+                self.contentStackView?.addArrangedSubview(loginStackView!)
+                // constraints if needed
+                NSLayoutConstraint.activate([credentialsView!.topAnchor.constraint(greaterThanOrEqualTo: contentView!.topAnchor, constant: 20.0),
+                                             credentialsView!.widthAnchor.constraint(equalToConstant: 256.0),
+                                             usernameLabel.widthAnchor.constraint(equalTo: credentialsView!.widthAnchor),
+                                             usernameLabel.leadingAnchor.constraint(equalTo: credentialsView!.leadingAnchor)])
+            }
+        }
+    }
     
     // MARK: - Private properties
     
     private var _preferredStatusBarStyle: UIStatusBarStyle = .lightContent
     
     private var _prefersStatusBarHidden: Bool = false
+
+    private var _includesCredentialsView: Bool = true
     
     private var backgroundView: UIImageView?
     
@@ -439,7 +475,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         contentView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(contentView)
         
-        let credentialsView = createCredentialsView()
+        let credentialsView = includesCredentialsView ? createCredentialsView() : nil
         
         let versionLabel = self.versionLabel
         versionLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -467,6 +503,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         self.contentView       = contentView
         self.contentStackView  = contentStackView
         self.accessoryView     = accessoryView
+        self.credentialsView   = credentialsView
         self.loginStackView    = loginStackView
         
         self.view = backgroundView
@@ -476,45 +513,50 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         
         let showingHeaderConstraint = contentStackView.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor, constant: 20.0)
         let showingAccessoryConstraint = accessoryView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24.0)
-        
-        NSLayoutConstraint.activate([
-            
+
+        var constraints = [
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            
+
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             preferredLayoutGuideBottomConstraint,
-            
-            credentialsView.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor, constant: 20.0),
-            credentialsView.widthAnchor.constraint(equalToConstant: 256.0),
-            usernameLabel.widthAnchor.constraint(equalTo: credentialsView.widthAnchor),
-            usernameLabel.leadingAnchor.constraint(equalTo: credentialsView.leadingAnchor),
-            
+
             showingHeaderConstraint,
             contentStackView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             contentStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).withPriority(.defaultHigh - 2),
             contentStackView.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, constant: -20.0),
             contentStackView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -20.0),
-            
+
             accessoryView.topAnchor.constraint(greaterThanOrEqualTo: contentStackView.bottomAnchor, constant: 15.0),
             accessoryView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24.0),
             accessoryView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24.0),
             showingAccessoryConstraint,
-            
+
             termsAndConditionsLabel.widthAnchor.constraint(equalToConstant: 256.0),
-            
+
             loginButton.widthAnchor.constraint(equalToConstant: 256.0),
             loginButton.heightAnchor.constraint(equalToConstant: 48.0).withPriority(UILayoutPriority.defaultHigh),
-            
+
             loginStackView.leadingAnchor.constraint(greaterThanOrEqualTo: view.readableContentGuide.leadingAnchor),
             loginStackView.trailingAnchor.constraint(lessThanOrEqualTo: view.readableContentGuide.trailingAnchor),
-        ])
+            ]
+
+        if includesCredentialsView {
+            constraints += [
+                credentialsView!.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor, constant: 20.0),
+                credentialsView!.widthAnchor.constraint(equalToConstant: 256.0),
+                usernameLabel.widthAnchor.constraint(equalTo: credentialsView!.widthAnchor),
+                usernameLabel.leadingAnchor.constraint(equalTo: credentialsView!.leadingAnchor)
+            ]
+        }
+
+        NSLayoutConstraint.activate(constraints)
         
         self.preferredLayoutGuideBottomConstraint = preferredLayoutGuideBottomConstraint
         self.showingHeaderConstraint              = showingHeaderConstraint
