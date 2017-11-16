@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 extension EntityCollectionViewCell: EntitySummaryDecoratable {
     public func decorate(with entitySummary: EntitySummaryDisplayable) {
         titleLabel.text    = entitySummary.title
