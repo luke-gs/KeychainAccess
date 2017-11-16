@@ -11,6 +11,11 @@ import Alamofire
 public struct APIManagerError: Error {
     public let underlyingError: Error
     public let response: DefaultDataResponse
+
+    public init(underlyingError: Error, response: DefaultDataResponse) {
+        self.underlyingError = underlyingError
+        self.response = response
+    }
 }
 
 // MARK: CustomNSError Implementations
