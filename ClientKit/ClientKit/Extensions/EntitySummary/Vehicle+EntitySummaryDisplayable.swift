@@ -10,6 +10,10 @@ import Foundation
 import MPOLKit
 
 public struct VehicleSummaryDisplayable: EntitySummaryDisplayable {
+    public func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> AsynchronousImageSizing? {
+        return nil
+    }
+
 
     private var vehicle: Vehicle
 

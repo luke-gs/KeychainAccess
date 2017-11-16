@@ -39,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let plugins: [PluginType]?
         #if DEBUG
             plugins = [
-                NetworkLoggingPlugin()
+                NetworkLoggingPlugin(), NetworkMonitorPlugin()
             ]
         #else
             plugins = nil
