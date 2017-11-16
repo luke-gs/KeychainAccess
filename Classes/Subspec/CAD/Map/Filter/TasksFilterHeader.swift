@@ -14,7 +14,7 @@ open class TasksFilterHeader: UIView {
     open var titleLabel = UILabel()
     
     /// Toggle on the right side
-    open var toggle = UISwitch() // TODO: Use custom class
+    open var toggle = LabeledSwitch()
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -41,6 +41,18 @@ open class TasksFilterHeader: UIView {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(titleLabel)
         
+        toggle.setTitle("SHOW", for: .on)
+        toggle.setTitle("HIDE", for: .off)
+        toggle.setTitleColor(.white, for: .on)
+        toggle.setTitleColor(.gray, for: .off)
+        toggle.setTitleFont(UIFont.systemFont(ofSize: 11, weight: .bold))
+        toggle.image = AssetManager.shared.image(forKey: .map)
+        toggle.setImageColor(#colorLiteral(red: 0.01170070749, green: 0.4809396863, blue: 0.9994120002, alpha: 1), for: .on)
+        toggle.setImageColor(.gray, for: .off)
+        toggle.onTintColor = #colorLiteral(red: 0.01170070749, green: 0.4809396863, blue: 0.9994120002, alpha: 1)
+        toggle.offTintColor = #colorLiteral(red: 0.8431087136, green: 0.8431568742, blue: 0.8508625627, alpha: 1)
+        toggle.onBorderTintColor = .clear
+        toggle.offBorderTintColor = .clear
         toggle.translatesAutoresizingMaskIntoConstraints = false
         addSubview(toggle)
     }
@@ -52,6 +64,7 @@ open class TasksFilterHeader: UIView {
             titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             titleLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             
+            toggle.heightAnchor.constraint(equalToConstant: 32),
             toggle.topAnchor.constraint(equalTo: self.topAnchor),
             toggle.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             toggle.leadingAnchor.constraint(greaterThanOrEqualTo: titleLabel.trailingAnchor),
