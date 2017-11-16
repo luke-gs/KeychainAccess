@@ -54,7 +54,6 @@ public extension Date {
     
     /// The date at 00:00:00
     var beginningOfDay: Date {
-        let calendar = Calendar.current
         return Calendar.current.startOfDay(for: self)
     }
     
