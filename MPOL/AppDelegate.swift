@@ -222,7 +222,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         #if DEBUG
             plugins = [
-                NetworkLoggingPlugin()
+                NetworkLoggingPlugin(), NetworkMonitorPlugin()
             ]
         #else
             plugins = nil
