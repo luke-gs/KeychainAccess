@@ -324,18 +324,13 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     /// Specifies whether the credentials view is added to the view hierarchy.
     ///
     /// The default value is `true`.
-    public var includesCredentialsView: Bool {
-        get {
-            return _includesCredentialsView
-        }
-        set {
-            if newValue == _includesCredentialsView { return }
-
-            _includesCredentialsView = newValue
+    public var includesCredentialsView: Bool = true {
+        didSet {
+            if includesCredentialsView == oldValue { return }
 
             if let credentialsView = self.credentialsView {
                 // hide
-                credentialsView.isHidden = !newValue
+                credentialsView.isHidden = !includesCredentialsView
                 // unconstraint if needed
             }
             else if self.contentStackView != nil {
@@ -360,8 +355,6 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     
     private var _prefersStatusBarHidden: Bool = false
 
-    private var _includesCredentialsView: Bool = true
-    
     private var backgroundView: UIImageView?
     
     private var scrollView: UIScrollView?
