@@ -12,7 +12,8 @@ import Alamofire
 open class NetworkMonitorPlugin: PluginType {
 
     public init() {
-
+        NotificationCenter.default.addObserver(self, selector: #selector(networkActivityDidBegin), name: .NetworkActivityDidBegin, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(networkActivityDidEnd), name: .NetworkActivityDidEnd, object: nil)
     }
 
     open func willSend(_ request: Request) {
@@ -21,5 +22,13 @@ open class NetworkMonitorPlugin: PluginType {
 
     open func didReceiveResponse(_ response: DataResponse<Data>) {
         NetworkMonitor.shared.networkEventDidEnd()
+    }
+
+    @objc func networkActivityDidBegin() {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+    }
+
+    @objc func networkActivityDidEnd() {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
     }
 }

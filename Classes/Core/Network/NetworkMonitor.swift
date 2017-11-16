@@ -64,7 +64,6 @@ public final class NetworkMonitor: NSObject {
             
             if self.activityCount == 1 {
                 NotificationCenter.default.post(name: .NetworkActivityDidBegin, object: self)
-                UIApplication.shared.isNetworkActivityIndicatorVisible = true
             }
         }
     }
@@ -80,7 +79,6 @@ public final class NetworkMonitor: NSObject {
             
             if self.activityCount == 0 {
                 NotificationCenter.default.post(name: .NetworkActivityDidEnd, object: self)
-                UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }
         }
     }
