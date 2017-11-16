@@ -189,7 +189,7 @@ extension TextViewFormItem: UITextViewDelegate {
 
     public func validateValueForSubmission() -> ValidateResult {
         let shouldCheck = candidate != nil || isRequired
-        return validator.validate(candidate, checkHardRule: true, checkSoftRule: true, checkSubmitRule: shouldCheck)
+        return validator.validate(candidate, checkHardRule: shouldCheck, checkSoftRule: shouldCheck, checkSubmitRule: shouldCheck)
     }
 
 }
