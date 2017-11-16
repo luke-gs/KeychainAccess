@@ -9,7 +9,7 @@
 #include "../../Pods/Target Support Files/Pods-CAD/Pods-CAD.release.xcconfig"
 
 PRODUCT_NAME=CAD
-CONFIG_HOST_URL=dev-api-2.mpol.solutions
+CONFIG_HOST_URL=dev-cad-mws.pscore.mobi
 
 APP_GROUP_ID=group.enterprise.gridstone.pscore
 
