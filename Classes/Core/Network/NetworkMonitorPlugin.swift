@@ -11,6 +11,10 @@ import Alamofire
 
 open class NetworkMonitorPlugin: PluginType {
 
+    public init() {
+
+    }
+
     open func willSend(_ request: Request) {
         NetworkMonitor.shared.networkEventDidStart()
     }
