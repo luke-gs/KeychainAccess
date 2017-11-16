@@ -35,6 +35,8 @@ open class AppGroupLandingPresenter: NSObject, Presenter {
         if screen == .termsAndConditions {
             // Switch to login screen if not current, then present modal for terms and conditions
             if let loginViewController = updateInterface(withScreen: .login, animated: false) {
+                // Set current screen to terms and conditions, so changes back to plain login can still be detected
+                currentScreen = screen
                 DispatchQueue.main.async {
                     loginViewController.present(screen)
                 }
