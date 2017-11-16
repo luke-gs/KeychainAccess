@@ -25,10 +25,14 @@ open class NetworkMonitorPlugin: PluginType {
     }
 
     @objc func networkActivityDidBegin() {
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        if !UIApplication.shared.isNetworkActivityIndicatorVisible {
+            UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        }
     }
 
     @objc func networkActivityDidEnd() {
-        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        if UIApplication.shared.isNetworkActivityIndicatorVisible {
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        }
     }
 }
