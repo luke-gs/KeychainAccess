@@ -213,7 +213,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     #if !EXTERNAL
 
-    //MARK: Endpoints
+    // MARK: Endpoints
     @objc private func endpointChanged() {
 
         guard let endpoint = EndpointManager.selectedEndpoint?.url?.absoluteString else { return }
