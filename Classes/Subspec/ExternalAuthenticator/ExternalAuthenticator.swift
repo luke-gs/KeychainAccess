@@ -18,21 +18,24 @@ public final class ExternalAuthenticator<T: AuthenticationProvider> {
 
     public var useSafariViewController: Bool
 
+    public let timeoutInterval: TimeInterval
+
     /// Initialise the ExternalAuthenticator.
     ///
     /// - Parameters:
     ///   - authenticationProvider: The AuthenticationProvider conformant.
-    ///   - useSafariViewController: Whether the authentication will be facilitated through SFSafariViewController.
-    ///                              Defaults to `true`. If this value is `false`, Safari will be used.
-    public init(authenticationProvider: T, useSafariViewController: Bool = true) {
+    ///   - useSafariViewController: Whether the authentication will be facilitated through SFSafariViewController. Defaults to `true`. If this value is `false`, Safari will be used.
+    ///   - timeoutInterval: The time interval the authenticator will wait before timing out the request. The app will not be notified if the user press cancel in external system. So it'll wait forever if there's no timeout.
+    public init(authenticationProvider: T, useSafariViewController: Bool = true, timeoutInterval: TimeInterval = 180) {
         self.authenticationProvider = authenticationProvider
         self.useSafariViewController = useSafariViewController
+        self.timeoutInterval = timeoutInterval
     }
 
     /// Starts the authentication workflow by redirecting to the provider's website.
     ///
     /// - Parameter authenticationProvider: The authentication provider to be used.
-    /// - Returns: A promise with the result returned by the provider. The promise will throw cancelled error in 180 secs.
+    /// - Returns: A promise with the result returned by the provider. The promise will throw cancelled error when timeout interval is reached.
     public func authenticate() -> Promise<T.Result> {
 
         let scheme = authenticationProvider.urlScheme
@@ -43,7 +46,7 @@ public final class ExternalAuthenticator<T: AuthenticationProvider> {
 
         presentAuthentication(authenticationProvider.authorizationURL)
 
-        let timeout: Promise<T.Result> = after(seconds: 180).then { throw NSError.cancelledError() }
+        let timeout: Promise<T.Result> = after(seconds: timeoutInterval).then { throw NSError.cancelledError() }
     
         return race(pendingTuple.promise, timeout)
     }
