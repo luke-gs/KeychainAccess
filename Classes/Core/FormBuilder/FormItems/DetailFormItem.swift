@@ -79,7 +79,7 @@ extension DetailFormItem {
     }
 
     @discardableResult
-    public func detail(_ detail: String?) -> Self {
+    public func detail(_ detail: StringSizable?) -> Self {
         self.detail = detail
         return self
     }

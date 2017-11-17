@@ -8,13 +8,13 @@
 
 import Foundation
 
-enum DateRoundingType {
+public enum DateRoundingType {
     case round
     case ceil
     case floor
 }
 
-extension Date {
+public extension Date {
     
     /// Returns the time interval till now, rounded to seconds
     func timeSinceNow() -> Int {
@@ -54,9 +54,7 @@ extension Date {
     
     /// The date at 00:00:00
     var beginningOfDay: Date {
-        let calendar = Calendar.current
-        let components = calendar.dateComponents([.year, .month, .day], from: self)
-        return calendar.date(from: components)!
+        return Calendar.current.startOfDay(for: self)
     }
     
     /// The date at 23:59:59

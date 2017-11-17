@@ -38,6 +38,7 @@ public final class LocationManager: NSObject {
     
     /// Used to get the last saved location.
     open var lastLocation: CLLocation? = nil
+    open var lastPlacemark: CLPlacemark? = nil
     
     private override init() {
         super.init()
@@ -74,6 +75,30 @@ public final class LocationManager: NSObject {
                 }
             default:
                 throw LocationError.authorizationError
+            }
+        }
+    }
+    
+    /// Request a location to be reversegeocoded. Will automatically request authorization for both when in use and always depending if the valid description is in the info.plist
+    ///
+    /// - Return:
+    ///     - A promise with a Placemark
+    ///
+    open func requestPlacemark(from location: CLLocation) -> Promise<CLPlacemark> {
+        return CLGeocoder().reverseGeocode(location: location)
+    }
+    
+    /// Request a single location reversegeocoded. Will automatically request authorization for both when in use and always depending if the valid description is in the info.plist
+    ///
+    /// - Return:
+    ///     - A promise with a Placemark
+    ///
+    @discardableResult
+    open func requestPlacemark() -> Promise<CLPlacemark> {
+        return self.requestLocation().then { location in
+            return CLGeocoder().reverseGeocode(location: location).then { placemark -> CLPlacemark in
+                self.lastPlacemark = placemark
+                return placemark
             }
         }
     }

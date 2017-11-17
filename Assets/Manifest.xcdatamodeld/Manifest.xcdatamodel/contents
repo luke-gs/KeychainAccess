@@ -1,21 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11759" systemVersion="16C67" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="1.0">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13240" systemVersion="16G29" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="1.0">
     <entity name="ManifestEntry" representedClassName=".ManifestEntry" syncable="YES" codeGenerationType="category">
-        <attribute name="active" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES" indexed="YES" syncable="YES"/>
+        <attribute name="active" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="additionalData" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="code" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="collection" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="collection" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="effectiveDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="expiryDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="id" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="id" attributeType="String" syncable="YES"/>
         <attribute name="lastUpdated" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="latitude" optional="YES" attributeType="Double" usesScalarValueType="NO" indexed="YES" syncable="YES"/>
-        <attribute name="longitude" optional="YES" attributeType="Double" usesScalarValueType="NO" indexed="YES" syncable="YES"/>
+        <attribute name="latitude" optional="YES" attributeType="Double" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="Double" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="rawValue" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="shortTitle" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="sortOrder" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES" indexed="YES" syncable="YES"/>
+        <attribute name="sortOrder" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="subtitle" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <fetchIndex name="byActiveIndex">
+            <fetchIndexElement property="active" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byCollectionIndex">
+            <fetchIndexElement property="collection" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byIdIndex">
+            <fetchIndexElement property="id" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byLatitudeIndex">
+            <fetchIndexElement property="latitude" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="byLongitudeIndex">
+            <fetchIndexElement property="longitude" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <fetchIndex name="bySortOrderIndex">
+            <fetchIndexElement property="sortOrder" type="Binary" order="ascending"/>
+        </fetchIndex>
     </entity>
     <elements>
         <element name="ManifestEntry" positionX="-63" positionY="-18" width="128" height="270"/>

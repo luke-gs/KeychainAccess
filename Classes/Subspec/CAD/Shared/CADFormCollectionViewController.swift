@@ -28,6 +28,7 @@ open class CADFormCollectionViewController<ItemType>: FormCollectionViewControll
     public init(viewModel: CADFormCollectionViewModel<ItemType>) {
         self.viewModel = viewModel
         super.init()
+        title = viewModel.navTitle()
 
         self.viewModel.delegate = self
     }
@@ -41,7 +42,6 @@ open class CADFormCollectionViewController<ItemType>: FormCollectionViewControll
     open override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = viewModel.navTitle()
         loadingManager.noContentView.titleLabel.text = viewModel.noContentTitle()
         loadingManager.noContentView.subtitleLabel.text = viewModel.noContentSubtitle()
 

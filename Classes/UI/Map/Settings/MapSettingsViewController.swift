@@ -51,7 +51,6 @@ open class MapSettingsViewController: UIViewController, PopoverViewController {
     private func setupViews() {
         title = viewModel.navTitle()
         
-        edgesForExtendedLayout = []
         navigationItem.rightBarButtonItem  = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(close))
 
         modeSegmentedControl = UISegmentedControl(items: viewModel.segments())
