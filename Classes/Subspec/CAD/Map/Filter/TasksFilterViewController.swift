@@ -21,7 +21,7 @@ open class TasksFilterViewController: UIViewController {
         static let checkboxOffset: CGFloat = 5
     }
     
-    public let sections: [MapFilterSection]
+    public let viewModel: MapFilterViewModel
     
     // MARK: - Views
     
@@ -32,8 +32,8 @@ open class TasksFilterViewController: UIViewController {
     open var footerSeparator: UIView!
     open var resetButton: UIButton!
     
-    public init(sections: [MapFilterSection]) {
-        self.sections = sections
+    public init(viewModel: MapFilterViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -43,11 +43,11 @@ open class TasksFilterViewController: UIViewController {
     
     open override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         setupViews()
         setupConstraints()
     }
-
+    
     // MARK: - Setup
     
     /// Creates and styles views
@@ -58,7 +58,7 @@ open class TasksFilterViewController: UIViewController {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(scrollView)
         
-        let sectionViews: [MapFilterSectionView] = sections.map {
+        let sectionViews: [MapFilterSectionView] = viewModel.sections.map {
             let section = MapFilterSectionView(section: $0)
             return section
         }
@@ -73,19 +73,19 @@ open class TasksFilterViewController: UIViewController {
         footerSection = UIView()
         footerSection.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(footerSection)
-
+        
         footerSeparator = UIView()
         footerSeparator.backgroundColor = #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 0.24)
         footerSeparator.translatesAutoresizingMaskIntoConstraints = false
         footerSection.addSubview(footerSeparator)
-
+        
         resetButton = UIButton()
         resetButton.setTitle("Reset Filter", for: .normal)
         resetButton.setTitleColor(#colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1), for: .normal)
         resetButton.translatesAutoresizingMaskIntoConstraints = false
         footerSection.addSubview(resetButton)
     }
-
+    
     /// Activates view constraints
     private func setupConstraints() {
         NSLayoutConstraint.activate([
@@ -104,17 +104,17 @@ open class TasksFilterViewController: UIViewController {
             footerSection.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             footerSection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             footerSection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-
+            
             footerSeparator.heightAnchor.constraint(equalToConstant: LayoutConstants.separatorHeight),
             footerSeparator.topAnchor.constraint(equalTo: footerSection.topAnchor),
             footerSeparator.leadingAnchor.constraint(equalTo: footerSection.leadingAnchor),
             footerSeparator.trailingAnchor.constraint(equalTo: footerSection.trailingAnchor),
-
+            
             resetButton.topAnchor.constraint(equalTo: footerSection.topAnchor),
             resetButton.leadingAnchor.constraint(equalTo: footerSection.leadingAnchor),
             resetButton.trailingAnchor.constraint(equalTo: footerSection.trailingAnchor),
             resetButton.bottomAnchor.constraint(equalTo: footerSection.bottomAnchor),
-        ])
+            ])
     }
     
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -125,3 +125,4 @@ open class TasksFilterViewController: UIViewController {
         view.backgroundColor = wantsTransparentBackground ? UIColor.clear : theme.color(forKey: .background)
     }
 }
+
