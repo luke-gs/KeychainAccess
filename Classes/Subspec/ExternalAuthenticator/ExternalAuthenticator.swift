@@ -32,7 +32,7 @@ public final class ExternalAuthenticator<T: AuthenticationProvider> {
     /// Starts the authentication workflow by redirecting to the provider's website.
     ///
     /// - Parameter authenticationProvider: The authentication provider to be used.
-    /// - Returns: A promise with the result returned by the provider. The promise will throw cancelled error in 300 secs.
+    /// - Returns: A promise with the result returned by the provider. The promise will throw cancelled error in 180 secs.
     public func authenticate() -> Promise<T.Result> {
 
         let scheme = authenticationProvider.urlScheme
@@ -43,7 +43,7 @@ public final class ExternalAuthenticator<T: AuthenticationProvider> {
 
         presentAuthentication(authenticationProvider.authorizationURL)
 
-        let timeout: Promise<T.Result> = after(seconds: 300).then { throw NSError.cancelledError() }
+        let timeout: Promise<T.Result> = after(seconds: 180).then { throw NSError.cancelledError() }
     
         return race(pendingTuple.promise, timeout)
     }
