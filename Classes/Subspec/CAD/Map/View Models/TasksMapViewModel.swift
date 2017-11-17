@@ -117,7 +117,7 @@ open class TasksMapViewModel {
         if let annotation = annotation as? ResourceAnnotation {
             return ResourceTaskItemViewModel(iconImage: annotation.icon,
                                                   iconTintColor: .white,
-                                                  color: #colorLiteral(red: 0.8431372549, green: 0.8431372549, blue: 0.8509803922, alpha: 1), // TODO: Find out which to use
+                                                  color: .disabledGray, // TODO: Find out which to use
                 statusText: annotation.status, // FIXME: Get real text
                 itemName: "\(annotation.title ?? "") \(annotation.subtitle ?? "")",
                 lastUpdated: "Updated 2 mins ago")  // FIXME: Get real text
@@ -139,7 +139,7 @@ open class TasksMapViewModel {
                                status: "Assigned",
                                coordinate: CLLocationCoordinate2D(latitude: -37.803258, longitude: 144.983707),
                                iconText: "P1",
-                               iconColor: #colorLiteral(red: 1, green: 0.231372549, blue: 0.1882352941, alpha: 1),
+                               iconColor: .orangeRed,
                                iconFilled: true,
                                usesDarkBackground: false),
 
@@ -149,7 +149,7 @@ open class TasksMapViewModel {
                                status: "Assigned",
                                coordinate: CLLocationCoordinate2D(latitude: -37.808173, longitude: 144.978827),
                                iconText: "P2",
-                               iconColor: #colorLiteral(red: 1, green: 0.8, blue: 0, alpha: 1),
+                               iconColor: .sunflowerYellow,
                                iconFilled: true,
                                usesDarkBackground: false),
 
@@ -159,7 +159,7 @@ open class TasksMapViewModel {
                                status: "Resourced",
                                coordinate: CLLocationCoordinate2D(latitude: -37.797528, longitude: 144.985450),
                                iconText: "P3",
-                               iconColor: #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1),
+                               iconColor: .primaryGray,
                                iconFilled: false,
                                usesDarkBackground: false),
 
@@ -169,7 +169,7 @@ open class TasksMapViewModel {
                                status: "Unassigned",
                                coordinate: CLLocationCoordinate2D(latitude: -37.802048, longitude: 144.987646),
                                iconText: "P4",
-                               iconColor: #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1),
+                               iconColor: .secondaryGray,
                                iconFilled: false,
                                usesDarkBackground: true),
         ]
@@ -188,7 +188,7 @@ open class TasksMapViewModel {
                                  status: "In Duress 2:45", // TODO: Countdown...
                                  coordinate: CLLocationCoordinate2D(latitude: -37.807014, longitude: 144.973212),
                                  iconImage: AssetManager.shared.image(forKey: .resourceCar),
-                                 iconBackgroundColor: #colorLiteral(red: 0.9455295139, green: 0, blue: 0, alpha: 1),
+                                 iconBackgroundColor: .orangeRed,
                                  iconTintColor: .black,
                                  pulsing: true),
             
@@ -198,7 +198,7 @@ open class TasksMapViewModel {
                                  status: "At Incident",
                                  coordinate: CLLocationCoordinate2D(latitude: -37.802314, longitude: 144.975459),
                                  iconImage: AssetManager.shared.image(forKey: .resourceCar),
-                                 iconBackgroundColor: .black,
+                                 iconBackgroundColor: .primaryGray,
                                  iconTintColor: .white,
                                  pulsing: false),
             
@@ -208,7 +208,7 @@ open class TasksMapViewModel {
                                  status: "On Air",
                                  coordinate: CLLocationCoordinate2D(latitude: -37.799788, longitude: 144.992054),
                                  iconImage: AssetManager.shared.image(forKey: .resourceDog),
-                                 iconBackgroundColor: #colorLiteral(red: 0.2980392157, green: 0.6862745098, blue: 0.3137254902, alpha: 1),
+                                 iconBackgroundColor: .midGreen,
                                  iconTintColor: .black,
                                  pulsing: false),
             
@@ -218,7 +218,7 @@ open class TasksMapViewModel {
                                  status: "Resourced",
                                  coordinate: CLLocationCoordinate2D(latitude: -37.801455, longitude: 144.977965),
                                  iconImage: AssetManager.shared.image(forKey: .resourceDog),
-                                 iconBackgroundColor: .black,
+                                 iconBackgroundColor: .primaryGray,
                                  iconTintColor: .white,
                                  pulsing: false),
         ]

@@ -26,12 +26,12 @@ public class ActivityLogViewModel: CADFormCollectionViewModel<ActivityLogItemVie
         // TODO: fetch from network
         sections = [
             CADFormCollectionSectionViewModel(title: "10:24 - Now: Assault - AS4205",
-                                              items: [ActivityLogItemViewModel(dotFillColor: #colorLiteral(red: 0.8431372549, green: 0.8431372549, blue: 0.8509803922, alpha: 1),
+                                              items: [ActivityLogItemViewModel(dotFillColor: .disabledGray,
                                                                                dotStrokeColor: .clear,
                                                                                timestamp: "10:30",
                                                                                title: "Status: At Incident [Assault - AS4205]",
                                                                                subtitle: "Jason Chieng, Herli Halim @ 188 Smith Street, Fitzroy VIC 3065"),
-                                                      ActivityLogItemViewModel(dotFillColor: #colorLiteral(red: 0.8431372549, green: 0.8431372549, blue: 0.8509803922, alpha: 1),
+                                                      ActivityLogItemViewModel(dotFillColor: .disabledGray,
                                                                                dotStrokeColor: .clear,
                                                                                timestamp: "10:24",
                                                                                title: "Status: Proceeding [Assault - AS4205]",

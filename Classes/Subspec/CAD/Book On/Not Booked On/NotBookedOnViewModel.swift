@@ -30,15 +30,15 @@ open class NotBookedOnViewModel: CADFormCollectionViewModel<NotBookedOnItemViewM
                                                                                  status: "Off Duty",
                                                                                  location: "Collingwood Station",
                                                                                  image: AssetManager.shared.image(forKey: .resourceCar),
-                                                                                 imageColor: #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1),
-                                                                                 imageBackgroundColor: #colorLiteral(red: 0.8431372549, green: 0.8431372549, blue: 0.8509803922, alpha: 1)
+                                                                                 imageColor: .secondaryGray,
+                                                                                 imageBackgroundColor: .disabledGray
                                                 ),
                                                 NotBookedOnCallsignItemViewModel(callsign: "P24",
                                                                                  status: "Off Duty",
                                                                                  location: "Collingwood Station",
                                                                                  image: AssetManager.shared.image(forKey: .resourceCar),
-                                                                                 imageColor: #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1),
-                                                                                 imageBackgroundColor: #colorLiteral(red: 0.8431372549, green: 0.8431372549, blue: 0.8509803922, alpha: 1)
+                                                                                 imageColor: .secondaryGray,
+                                                                                 imageBackgroundColor: .disabledGray
                                                 ),
                                                 NotBookedOnCallsignItemViewModel(callsign: "K94",
                                                                                  status: "On Air",

@@ -120,8 +120,8 @@ public class SampleData {
     static func sourceItems() -> [SourceItem] {
         return [
             sourceItemForType(type: .incident,  count: 6, color: .orangeRed),
-            sourceItemForType(type: .patrol,    count: 1, color: #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1)),
-            sourceItemForType(type: .broadcast, count: 4, color: #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1)),
+            sourceItemForType(type: .patrol,    count: 1, color: .secondaryGray),
+            sourceItemForType(type: .broadcast, count: 4, color: .secondaryGray),
             sourceItemForType(type: .resource,  count: 9, color: .orangeRed)
         ]
     }

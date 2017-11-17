@@ -119,9 +119,8 @@ class TasksListContainerViewController: UIViewController {
     }
 
     public func createSubviews() {
-        let sidebarColor = #colorLiteral(red: 0.1058823529, green: 0.1176470588, blue: 0.1411764706, alpha: 1)
         let sourceBackground = GradientView(frame: .zero)
-        sourceBackground.gradientColors = [#colorLiteral(red: 0.05098039216, green: 0.05490196078, blue: 0.06274509804, alpha: 1), sidebarColor]
+        sourceBackground.gradientColors = [.black, .sidebarBlack]
 
         // Add source bar
         sourceBar = SourceBar(frame: .zero)
