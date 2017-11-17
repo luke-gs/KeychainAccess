@@ -70,6 +70,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let formSplitViewController = SidebarSplitViewController(detailViewControllers: examples)
         formSplitViewController.title = "Form Examples"
+        formSplitViewController.selectedViewController = examples[8]
 
         let tabBarController = UITabBarController()
 
@@ -81,7 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UINavigationController(rootViewController: formSplitViewController)
         ]
 
-        tabBarController.selectedIndex = 3
+        tabBarController.selectedIndex = 4
 
         self.window?.rootViewController = tabBarController
 
