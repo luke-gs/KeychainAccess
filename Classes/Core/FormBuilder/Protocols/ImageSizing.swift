@@ -37,15 +37,17 @@ public struct ImageSizing: ImageSizable {
     /// The image size
     public var size: CGSize
 
+    public var contentMode: UIViewContentMode?
 
     /// Initializes an ImageSizing struct.
     ///
     /// - Parameters:
     ///   - image: The image.
     ///   - size:  The size for this image.
-    public init(image: UIImage?, size: CGSize) {
+    public init(image: UIImage?, size: CGSize, contentMode: UIViewContentMode? = nil) {
         self.image = image
         self.size = size
+        self.contentMode = contentMode
     }
 
 
@@ -61,7 +63,7 @@ public struct ImageSizing: ImageSizable {
 extension ImageSizing: Equatable {
 
     public static func ==(lhs: ImageSizing, rhs: ImageSizing) -> Bool {
-        return lhs.image == rhs.image && lhs.size == rhs.size
+        return lhs.image == rhs.image && lhs.size == rhs.size && lhs.contentMode == rhs.contentMode
     }
 
 }

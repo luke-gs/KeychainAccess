@@ -27,3 +27,12 @@ extension UIImage: ImageLoadable {
     }
 
 }
+
+
+extension ImageSizing: ImageLoadable {
+
+    public func requestImage(completion: @escaping (ImageSizable) -> ()) {
+        completion(self)
+    }
+
+}
