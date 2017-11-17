@@ -147,6 +147,11 @@ open class CollectionViewFormStepperCell: CollectionViewFormCell, UITextFieldDel
         }
 
         let number = NumberFormatter().number(from: newText)
+        let maxCount = max("\(stepper.minimumValue)".count, "\(stepper.maximumValue)".count) + numberOfDecimalPlaces + (numberOfDecimalPlaces > 0 ? 1 : 0)
+
+        if let number = number {
+            return number.stringValue.count <= maxCount
+        }
 
         return number != nil
     }

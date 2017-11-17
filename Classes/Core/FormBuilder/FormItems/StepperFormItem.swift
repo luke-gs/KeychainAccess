@@ -9,7 +9,7 @@
 import Foundation
 
 
-public class StepperFormItem: BaseFormItem, FormValidatable {
+public class StepperFormItem: BaseFormItem {
 
     public var title: StringSizable?
 
@@ -26,10 +26,6 @@ public class StepperFormItem: BaseFormItem, FormValidatable {
     public var numberOfDecimalPlaces: Int = 0
 
     public var customValueFont: UIFont?
-
-    public var isRequired: Bool {
-        return requiredSpecification != nil
-    }
 
     public init() {
         super.init(cellType: CollectionViewFormStepperCell.self, reuseIdentifier: CollectionViewFormStepperCell.defaultReuseIdentifier)
@@ -48,7 +44,6 @@ public class StepperFormItem: BaseFormItem, FormValidatable {
         cell.titleLabel.apply(sizable: title, defaultFont: .preferredFont(forTextStyle: .subheadline, compatibleWith: cell.traitCollection))
         cell.textField.font = customValueFont ?? .preferredFont(forTextStyle: .headline, compatibleWith: cell.traitCollection)
 
-        
         cell.valueChangedHandler = { [weak self] in
             self?.value = $0
             self?.onValueChanged?($0)
@@ -60,13 +55,6 @@ public class StepperFormItem: BaseFormItem, FormValidatable {
         stepper.minimumValue = minimumValue
         stepper.stepValue = stepValue
         stepper.value = value
-
-        let textField = cell.textField
-        textField.allTargets.forEach {
-            textField.removeTarget($0, action: #selector(textFieldTextDidChange(_:)), for: .editingChanged)
-        }
-        textField.addTarget(self, action: #selector(textFieldTextDidChange(_:)), for: .editingChanged)
-        textField.delegate = self
     }
 
     public override func intrinsicHeight(in collectionView: UICollectionView, layout: CollectionViewFormLayout, givenContentWidth contentWidth: CGFloat, for traitCollection: UITraitCollection) -> CGFloat {
@@ -85,57 +73,6 @@ public class StepperFormItem: BaseFormItem, FormValidatable {
 
         cell.titleLabel.textColor = secondaryTextColor
         cell.textField.textColor = primaryTextColor
-    }
-
-    // MARK: - Form validatable
-
-    public private(set) var validator = Validator()
-
-    public var candidate: Any? { return "\(value)" }
-
-    fileprivate var rules = [ValidatorRule]()
-
-    fileprivate var requiredSpecification: ValidatorRule? {
-        didSet {
-            updateValidator()
-        }
-    }
-
-    public func reloadLiveValidationState() {
-        let shouldCheck = candidate != nil || isRequired
-        validator.validateAndUpdateErrorIfNeeded(candidate, shouldInstallTimer: false, checkSubmitRule: shouldCheck, forItem: self)
-    }
-
-    public func reloadSubmitValidationState() {
-        let shouldCheck = candidate != nil || isRequired
-        validator.validateAndUpdateErrorIfNeeded(candidate, shouldInstallTimer: false, checkSubmitRule: shouldCheck, forItem: self)
-    }
-
-    public func validateValueForSubmission() -> ValidateResult {
-        let shouldCheck = candidate != nil || isRequired
-        return validator.validate(candidate, checkHardRule: shouldCheck, checkSoftRule: shouldCheck, checkSubmitRule: shouldCheck)
-    }
-
-    private func updateValidator() {
-        var rules = self.rules
-        if let specification = requiredSpecification {
-            rules.insert(specification, at: 0)
-        }
-        validator = Validator(rules: rules)
-    }
-}
-
-extension StepperFormItem: UITextFieldDelegate {
-
-    @objc fileprivate func textFieldTextDidChange(_ textField: UITextField) {
-        let newText = textField.text
-        validator.validateAndUpdateErrorIfNeeded(newText?.ifNotEmpty(), shouldInstallTimer: true, checkSubmitRule: false, forItem: self)
-    }
-
-    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let currentText = (textField.text ?? "") as NSString
-        let newText = currentText.replacingCharacters(in: range, with: string)
-        return validator.validateAndUpdateErrorIfNeeded(newText.ifNotEmpty(), shouldInstallTimer: true, checkSubmitRule: false, forItem: self)
     }
 }
 
@@ -186,42 +123,6 @@ extension StepperFormItem {
     @discardableResult
     public func customValueFont(_ customValueFont: UIFont?) -> Self {
         self.customValueFont = customValueFont
-        return self
-    }
-
-    @discardableResult
-    public func softValidate(_ specification: Specification, message: String) -> Self {
-        let rule = ValidatorRule.soft(specification: specification, message: message)
-        rules.append(rule)
-        validator.addRule(rule)
-        return self
-    }
-
-    @discardableResult
-    public func strictValidate(_ specification: Specification, message: String) -> Self {
-        let rule = ValidatorRule.strict(specification: specification, message: message)
-        rules.append(rule)
-        validator.addRule(rule)
-        return self
-    }
-
-    @discardableResult
-    public func submitValidate(_ specification: Specification, message: String) -> Self {
-        let rule = ValidatorRule.submit(specification: specification, message: message)
-        rules.append(rule)
-        validator.addRule(rule)
-        return self
-    }
-
-    @discardableResult
-    public func required(_ message: String = FormRequired.default.message) -> Self {
-        self.requiredSpecification = ValidatorRule.submit(specification: CountSpecification.min(1), message: message)
-        return self
-    }
-
-    @discardableResult
-    public func notRequired() -> Self {
-        self.requiredSpecification = nil
         return self
     }
 
