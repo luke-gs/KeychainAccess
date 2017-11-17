@@ -43,9 +43,6 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     
     open private(set) lazy var loadingManager: LoadingStateManager = LoadingStateManager()
     
-    open private(set) var collectionViewTopConstraint: NSLayoutConstraint?
-    open private(set) var collectionViewBottomConstraint: NSLayoutConstraint?
-    
     // Calculated heights
     
     /// A boolean value indicating whether the collection view should automatically calculate
@@ -367,6 +364,8 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
                         view.tintColor = disclosureColor
                     case .dropDown:
                         view.tintColor = primaryTextColor
+                    case .overflow:
+                        view.tintColor = tintColor
                     }
                 }
                 

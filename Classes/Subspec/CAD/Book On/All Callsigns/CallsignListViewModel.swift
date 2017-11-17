@@ -8,73 +8,91 @@
 
 import UIKit
 
-open class CallsignListViewModel: CADFormCollectionViewModel<CallsignListItemViewModel> {
+open class CallsignListViewModel: CADFormCollectionViewModel<NotBookedOnCallsignItemViewModel> {
     
-    private var data: [CADFormCollectionSectionViewModel<CallsignListItemViewModel>] = {
+    private var data: [CADFormCollectionSectionViewModel<NotBookedOnCallsignItemViewModel>] = {
         return [
             CADFormCollectionSectionViewModel(title: "2 Off Duty",
                                               items: [
-                                                CallsignListItemViewModel(title: "B14",
-                                                                          subtitle: "Collingwood Station  :  Off Duty",
-                                                                          image: AssetManager.shared.image(forKey: .resourceCar),
-                                                                          imageColor: #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1)
+                                                NotBookedOnCallsignItemViewModel(callsign: "B14",
+                                                                                 status: "Off Duty",
+                                                                                 location: "Collingwood Station",
+                                                                                 image: AssetManager.shared.image(forKey: .resourceCar),
+                                                                                 imageColor: #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1),
+                                                                                 imageBackgroundColor: #colorLiteral(red: 0.8431372549, green: 0.8431372549, blue: 0.8509803922, alpha: 1)
                                                 ),
-                                                CallsignListItemViewModel(title: "P24",
-                                                                          subtitle: "Collingwood Station  :  Off Duty",
-                                                                          image: AssetManager.shared.image(forKey: .resourceCar),
-                                                                          imageColor: #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1)
+                                                NotBookedOnCallsignItemViewModel(callsign: "P24",
+                                                                                 status: "Off Duty",
+                                                                                 location: "Collingwood Station",
+                                                                                 image: AssetManager.shared.image(forKey: .resourceCar),
+                                                                                 imageColor: #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1),
+                                                                                 imageBackgroundColor: #colorLiteral(red: 0.8431372549, green: 0.8431372549, blue: 0.8509803922, alpha: 1)
                                                 ),
-                                                CallsignListItemViewModel(title: "P29",
-                                                                          subtitle: "Collingwood Station  :  Off Duty",
-                                                                          image: AssetManager.shared.image(forKey: .resourceCar),
-                                                                          imageColor: #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1)
+                                                NotBookedOnCallsignItemViewModel(callsign: "P29",
+                                                                                 status: "Off Duty",
+                                                                                 location: "Collingwood Station",
+                                                                                 image: AssetManager.shared.image(forKey: .resourceCar),
+                                                                                 imageColor: #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1),
+                                                                                 imageBackgroundColor: #colorLiteral(red: 0.8431372549, green: 0.8431372549, blue: 0.8509803922, alpha: 1)
                                                 ),
-                                            ]
+                                                ]
             ),
             
             CADFormCollectionSectionViewModel(title: "6 Booked On",
                                               items: [
-                                                CallsignListItemViewModel(title: "K94 (1)",
-                                                                          subtitle: "Each Richmond  :  On Air",
-                                                                          image: AssetManager.shared.image(forKey: .resourceDog),
-                                                                          imageColor: #colorLiteral(red: 0.2980392157, green: 0.6862745098, blue: 0.3137254902, alpha: 1)
+                                                NotBookedOnCallsignItemViewModel(callsign: "K94 (1)",
+                                                                                 status: "On Air",
+                                                                                 location: "Each Richmond",
+                                                                                 image: AssetManager.shared.image(forKey: .resourceDog),
+                                                                                 imageColor: .black,
+                                                                                 imageBackgroundColor: #colorLiteral(red: 0.2980392157, green: 0.6862745098, blue: 0.3137254902, alpha: 1)
                                                 ),
-                                                CallsignListItemViewModel(title: "P03 (3)",
-                                                                          subtitle: "Fitzroy  :  At Incident",
-                                                                          image: AssetManager.shared.image(forKey: .resourceCar),
-                                                                          imageColor: #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1),
-                                                                          badgeText: "P3",
-                                                                          badgeTextColor: #colorLiteral(red: 0, green: 0.4793452024, blue: 0.9990863204, alpha: 1),
-                                                                          badgeBorderColor: #colorLiteral(red: 0, green: 0.4793452024, blue: 0.9990863204, alpha: 1)
+                                                NotBookedOnCallsignItemViewModel(callsign: "P03 (3)",
+                                                                                 status: "At Incident",
+                                                                                 location: "Fitzroy",
+                                                                                 image: AssetManager.shared.image(forKey: .resourceCar),
+                                                                                 imageColor: .white,
+                                                                                 imageBackgroundColor: #colorLiteral(red: 0.337254902, green: 0.3450980392, blue: 0.3843137255, alpha: 1),
+                                                                                 badgeText: "P3",
+                                                                                 badgeTextColor: #colorLiteral(red: 0, green: 0.4793452024, blue: 0.9990863204, alpha: 1),
+                                                                                 badgeBorderColor: #colorLiteral(red: 0, green: 0.4793452024, blue: 0.9990863204, alpha: 1)
                                                 ),
-                                                CallsignListItemViewModel(title: "P12 (1)",
-                                                                          subtitle: "Collingwood  :  At Incident",
-                                                                          image: AssetManager.shared.image(forKey: .resourceCar),
-                                                                          imageColor: #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1),
-                                                                          badgeText: "P2",
-                                                                          badgeTextColor: #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1),
-                                                                          badgeFillColor: #colorLiteral(red: 0.9960784314, green: 0.7960784314, blue: 0.1843137255, alpha: 1)
+                                                NotBookedOnCallsignItemViewModel(callsign: "P12 (1)",
+                                                                                 status: "At Incident",
+                                                                                 location: "Collingwood",
+                                                                                 image: AssetManager.shared.image(forKey: .resourceCar),
+                                                                                 imageColor: #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1),
+                                                                                 imageBackgroundColor: #colorLiteral(red: 0.8431372549, green: 0.8431372549, blue: 0.8509803922, alpha: 1),
+                                                                                 badgeText: "P2",
+                                                                                 badgeTextColor: #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1),
+                                                                                 badgeFillColor: #colorLiteral(red: 0.9960784314, green: 0.7960784314, blue: 0.1843137255, alpha: 1)
                                                 ),
-                                                CallsignListItemViewModel(title: "P17 (2)",
-                                                                          subtitle: "Richmond  :  At Incident",
-                                                                          image: AssetManager.shared.image(forKey: .resourceCar),
-                                                                          imageColor: #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1),
-                                                                          badgeText: "P2",
-                                                                          badgeTextColor: #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1),
-                                                                          badgeFillColor: #colorLiteral(red: 0.9960784314, green: 0.7960784314, blue: 0.1843137255, alpha: 1)
+                                                NotBookedOnCallsignItemViewModel(callsign: "P17 (2)",
+                                                                                 status: "At Incident",
+                                                                                 location: "Richmond",
+                                                                                 image: AssetManager.shared.image(forKey: .resourceCar),
+                                                                                 imageColor: #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1),
+                                                                                 imageBackgroundColor: #colorLiteral(red: 0.8431372549, green: 0.8431372549, blue: 0.8509803922, alpha: 1),
+                                                                                 badgeText: "P2",
+                                                                                 badgeTextColor: #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1),
+                                                                                 badgeFillColor: #colorLiteral(red: 0.9960784314, green: 0.7960784314, blue: 0.1843137255, alpha: 1)
                                                 ),
-                                                CallsignListItemViewModel(title: "P14 (3)",
-                                                                          subtitle: "Abbotsford  :  At Incident",
-                                                                          image: AssetManager.shared.image(forKey: .resourceCar),
-                                                                          imageColor: #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1),
-                                                                          badgeText: "P3",
-                                                                          badgeTextColor: #colorLiteral(red: 0, green: 0.4793452024, blue: 0.9990863204, alpha: 1),
-                                                                          badgeBorderColor: #colorLiteral(red: 0, green: 0.4793452024, blue: 0.9990863204, alpha: 1)
+                                                NotBookedOnCallsignItemViewModel(callsign: "P14 (3)",
+                                                                                 status: "At Incident",
+                                                                                 location: "Abbotsford",
+                                                                                 image: AssetManager.shared.image(forKey: .resourceCar),
+                                                                                 imageColor: #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1),
+                                                                                 imageBackgroundColor: #colorLiteral(red: 0.8431372549, green: 0.8431372549, blue: 0.8509803922, alpha: 1),
+                                                                                 badgeText: "P3",
+                                                                                 badgeTextColor: #colorLiteral(red: 0, green: 0.4793452024, blue: 0.9990863204, alpha: 1),
+                                                                                 badgeBorderColor: #colorLiteral(red: 0, green: 0.4793452024, blue: 0.9990863204, alpha: 1)
                                                 ),
-                                                CallsignListItemViewModel(title: "B18 (2)",
-                                                                          subtitle: "North Richmond  :  On Air",
-                                                                          image: AssetManager.shared.image(forKey: .resourceCar),
-                                                                          imageColor: #colorLiteral(red: 0.2980392157, green: 0.6862745098, blue: 0.3137254902, alpha: 1)
+                                                NotBookedOnCallsignItemViewModel(callsign: "B18 (2)",
+                                                                                 status: "On Air",
+                                                                                 location: "North Richmond",
+                                                                                 image: AssetManager.shared.image(forKey: .resourceCar),
+                                                                                 imageColor: .black,
+                                                                                 imageBackgroundColor: #colorLiteral(red: 0.2980392157, green: 0.6862745098, blue: 0.3137254902, alpha: 1)
                                                 ),
                                             ]
             )
@@ -85,6 +103,14 @@ open class CallsignListViewModel: CADFormCollectionViewModel<CallsignListItemVie
         super.init()
         
         sections = data
+    }
+    
+    /// Create the book on view controller for a selected callsign
+    open func bookOnViewControllerForItem(_ indexPath: IndexPath) -> UIViewController? {
+        if let itemViewModel = item(at: indexPath) {
+            return BookOnDetailsFormViewModel(callsignViewModel: itemViewModel).createViewController()
+        }
+        return nil
     }
     
     /// Create the view controller for this view model
@@ -131,7 +157,7 @@ open class CallsignListViewModel: CADFormCollectionViewModel<CallsignListItemVie
                     return item
                 }
                 return nil
-            } as [CallsignListItemViewModel?]).removeNils()
+            } as [NotBookedOnCallsignItemViewModel?]).removeNils()
             
             // Return the section if items were found
             if filteredItems.count > 0 {
@@ -139,7 +165,7 @@ open class CallsignListViewModel: CADFormCollectionViewModel<CallsignListItemVie
             }
             
             return nil
-        } as [CADFormCollectionSectionViewModel<CallsignListItemViewModel>?]).removeNils()
+        } as [CADFormCollectionSectionViewModel<NotBookedOnCallsignItemViewModel>?]).removeNils()
         
         sections = filteredData
     }

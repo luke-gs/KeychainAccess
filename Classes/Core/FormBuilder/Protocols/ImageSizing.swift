@@ -10,13 +10,13 @@ import UIKit
 
 
 /// A protocol representing items which can be converted into a `ImageSizing` type
-/// `UIImage` implements this protocol.
 public protocol ImageSizable {
 
     func sizing() -> ImageSizing
 
 }
 
+/// Extends `UIImage` to implement ImageSizable for convenience.
 extension UIImage: ImageSizable {
 
     /// Returns an ImageSizing initialized with the image.
@@ -28,8 +28,7 @@ extension UIImage: ImageSizable {
 
 }
 
-
-public struct ImageSizing: ImageSizable {
+public struct ImageSizing: ImageLoadable {
 
     /// The image
     public var image: UIImage?
@@ -56,6 +55,10 @@ public struct ImageSizing: ImageSizable {
     /// - Returns: The ImageSizing.
     public func sizing() -> ImageSizing {
         return self
+    }
+
+    public func loadImage(completion: @escaping (ImageSizable) -> ()) {
+        completion(self)
     }
 
 }

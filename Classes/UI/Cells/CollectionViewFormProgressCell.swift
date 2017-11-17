@@ -14,6 +14,7 @@ open class CollectionViewFormProgressCell: CollectionViewFormValueFieldCell {
 
     public let textLabel: UILabel = UILabel()
     public let progressView: UIProgressView = UIProgressView(progressViewStyle: .default)
+    public var isProgressHidden: Bool = false
     
     override open func commonInit() {
         super.commonInit()
@@ -38,7 +39,7 @@ open class CollectionViewFormProgressCell: CollectionViewFormValueFieldCell {
         let contentRect = contentView.bounds.insetBy(contentView.layoutMargins)
         
         var width = contentRect.width - (max(titleFrame.width, valueFrame.width) + 20.0)
-        progressView.isHidden = width < 20.0
+        progressView.isHidden = isProgressHidden || width < 20.0
         textLabel.isHidden = width < 20.0
         width = max(20.0, width)
         

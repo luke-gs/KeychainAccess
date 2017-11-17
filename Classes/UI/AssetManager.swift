@@ -133,8 +133,10 @@ extension AssetManager {
         public static let thumbnail      = ImageKey("iconSystemThumbnail")
         public static let dropDown       = ImageKey("iconSystemDropdown")
         public static let disclosure     = ImageKey("iconSystemDisclosure")
+        public static let overflow       = ImageKey("iconSystemOverflow")
         public static let advancedSearch = ImageKey("iconSystemAdvancedSearch")
         
+
         // General
         public static let alert          = ImageKey("iconGeneralAlert")
         public static let association    = ImageKey("iconGeneralAssociation")
@@ -150,6 +152,7 @@ extension AssetManager {
         public static let folder         = ImageKey("iconFormFolder")
         public static let refresh        = ImageKey("iconGeneralRefreshMagnify")
         public static let email          = ImageKey("iconFormEmail")
+        public static let duress         = ImageKey("iconDuress")
 
         public static let generalLocation = ImageKey("iconGeneralLocation")
         public static let otherPatrolArea = ImageKey("iconOtherPatrolArea")
@@ -207,6 +210,7 @@ extension AssetManager {
         public static let mapUserLocation            = ImageKey("iconUserLocation")
         public static let mapUserTracking            = ImageKey("iconUserTracking")
         public static let mapUserTrackingWithHeading = ImageKey("iconUserTrackingWithHeading")
+        public static let mapCurrentLocation         = ImageKey("iconCurrentLocation")
 
         // CAD status
         public static let iconStatusAtIncident   = ImageKey("iconStatusAtIncident")

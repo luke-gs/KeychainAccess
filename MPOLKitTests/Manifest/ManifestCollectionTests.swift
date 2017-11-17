@@ -27,8 +27,8 @@ class ManifestCollectionTests: XCTestCase {
     }
 
     func testInequality() {
-        let collection = ManifestCollection.States
-        let testCollection = ManifestCollection.Genders
+        let collection = ManifestCollection(rawValue: "test")
+        let testCollection = ManifestCollection(rawValue: "test2")
 
         XCTAssertNotEqual(collection, testCollection)
     }
@@ -41,8 +41,8 @@ class ManifestCollectionTests: XCTestCase {
     }
 
     func testHashInequality() {
-        let collection = ManifestCollection.Genders.hashValue
-        let testCollection = ManifestCollection.States.hashValue
+        let collection = ManifestCollection(rawValue: "test").hashValue
+        let testCollection = ManifestCollection(rawValue: "test2").hashValue
 
         XCTAssertNotEqual(collection, testCollection)
     }

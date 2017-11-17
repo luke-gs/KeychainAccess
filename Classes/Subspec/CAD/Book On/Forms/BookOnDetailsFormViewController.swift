@@ -30,8 +30,8 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
 
     // MARK: - View lifecycle
 
-    override open func viewDidLoad() {
-        super.viewDidLoad()
+    override open func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         setTitleView(title: viewModel.navTitle(), subtitle: viewModel.navSubtitle())
     }
 
@@ -44,78 +44,112 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
 
     // MARK: - Form
 
-    private lazy var serialItem: TextFieldFormItem = {
-        return TextFieldFormItem(title: NSLocalizedString("Serial", comment: ""), text: nil)
-            .width(.column(3))
-            .required("Serial is required.")
-            .strictValidate(CharacterSetSpecification.decimalDigits, message: "Serial must be a number")
-            .onValueChanged { [weak self] in
-                self?.viewModel.details.serial = $0
+    private lazy var serialItem: BaseFormItem = {
+        let title = NSLocalizedString("Serial", comment: "")
+        if self.viewModel.isEditing {
+            return ValueFormItem(title: title, value: viewModel.details.serial)
+                .width(.column(3))
+        } else {
+            return TextFieldFormItem(title: title, text: nil)
+                .width(.column(3))
+                .required("Serial is required.")
+                .strictValidate(CharacterSetSpecification.decimalDigits, message: "Serial must be a number")
+                .text(viewModel.details.serial)
+                .onValueChanged { [weak self] in
+                    self?.viewModel.details.serial = $0
+            }
         }
     }()
 
-    private lazy var categoryItem: DropDownFormItem = {
-        return DropDownFormItem(title: NSLocalizedString("Category", comment: ""))
-            .options(["1", "2", "3"])
-            .required()
-            .width(.column(3))
-            .onValueChanged { [weak self] in
-                self?.viewModel.details.category = $0?.first
+    private lazy var categoryItem: BaseFormItem = {
+        let title = NSLocalizedString("Category", comment: "")
+        if self.viewModel.isEditing {
+            return ValueFormItem(title: title, value: viewModel.details.category)
+                .width(.column(3))
+        } else {
+            return DropDownFormItem(title: title)
+                .options(["1", "2", "3"])
+                .required()
+                .width(.column(3))
+                .selectedValue([viewModel.details.category].removeNils())
+                .onValueChanged { [weak self] in
+                    self?.viewModel.details.category = $0?.first
+            }
         }
     }()
 
-    private lazy var odometerItem: TextFieldFormItem = {
-        return TextFieldFormItem(title: NSLocalizedString("Odometer", comment: ""), text: nil)
+    private lazy var odometerItem: BaseFormItem = {
+        let title = NSLocalizedString("Odometer", comment: "")
+        return TextFieldFormItem(title: title, text: nil)
             .width(.column(3))
             .strictValidate(CharacterSetSpecification.decimalDigits, message: "Odometer must be a number")
+            .text(viewModel.details.odometer)
             .onValueChanged { [weak self] in
                 self?.viewModel.details.odometer = $0
         }
     }()
 
-    private lazy var equipmentItem: TextFieldFormItem = {
-        return TextFieldFormItem(title: NSLocalizedString("Equipment", comment: ""), text: nil)
+    private lazy var equipmentItem: BaseFormItem = {
+        let title = NSLocalizedString("Equipment", comment: "")
+        return TextFieldFormItem(title: title, text: nil)
             .width(.column(1))
+            .text(viewModel.details.equipment)
             .onValueChanged { [weak self] in
                 self?.viewModel.details.equipment = $0
         }
     }()
 
-    private lazy var remarksItem: TextFieldFormItem = {
-        return TextFieldFormItem(title: NSLocalizedString("Remarks", comment: ""), text: nil)
+    private lazy var remarksItem: BaseFormItem = {
+        let title = NSLocalizedString("Remarks", comment: "")
+        return TextFieldFormItem(title: title, text: nil)
             .width(.column(1))
             .softValidate(CountSpecification.max(1000), message: "Must be no more than 1000 characters")
+            .text(viewModel.details.remarks)
             .onValueChanged { [weak self] in
                 self?.viewModel.details.remarks = $0
         }
     }()
 
     /// Start time of shift
-    private lazy var startTimeItem: DateFormItem = {
-        return DateFormItem(title: NSLocalizedString("Start Time", comment: ""))
-            .width(.column(3))
-            .required()
-            .datePickerMode(.dateAndTime)
-            .dateFormatter(.formTime)
-            .minimumDate(Date().rounded(minutes: 15, rounding: .ceil))
-            .minuteInterval(15)
-            .selectedValue(Date().rounded(minutes: 60, rounding: .ceil))
-            .onValueChanged { [weak self] in
-                self?.viewModel.details.startTime = $0
-                self?.updateDuration()
+    private lazy var startTimeItem: BaseFormItem = {
+        // Set default start time to next hour if not set
+        viewModel.details.startTime = viewModel.details.startTime ?? Date().rounded(minutes: 60, rounding: .ceil)
+
+        let title = NSLocalizedString("Start Time", comment: "")
+        if self.viewModel.isEditing {
+            let value = DateFormatter.formTime.string(from: viewModel.details.startTime!)
+            return ValueFormItem(title: title, value: value)
+                .width(.column(3))
+        } else {
+            return DateFormItem(title: title)
+                .width(.column(3))
+                .required()
+                .datePickerMode(.dateAndTime)
+                .dateFormatter(.formTime)
+                .minimumDate(Date().rounded(minutes: 15, rounding: .ceil))
+                .minuteInterval(15)
+                .selectedValue(viewModel.details.startTime)
+                .onValueChanged { [weak self] in
+                    self?.viewModel.details.startTime = $0
+                    self?.updateDuration()
+            }
         }
     }()
 
     /// End time of shift
     private lazy var endTimeItem: DateFormItem = {
-        return DateFormItem(title: NSLocalizedString("Est. End Time", comment: ""))
+        // Set default end time to start time plus 8 hours if not set
+        viewModel.details.endTime = viewModel.details.endTime ?? Date().rounded(minutes: 60, rounding: .ceil).adding(hours: 8)
+
+        let title = NSLocalizedString("Est. End Time", comment: "")
+        return DateFormItem(title: title)
             .width(.column(3))
             .required()
             .datePickerMode(.dateAndTime)
             .dateFormatter(.formTime)
             .minimumDate(Date().rounded(minutes: 15, rounding: .ceil))
             .minuteInterval(15)
-            .selectedValue(Date().rounded(minutes: 60, rounding: .ceil).adding(hours: 8))
+            .selectedValue(viewModel.details.endTime)
             .onValueChanged { [weak self] in
                 self?.viewModel.details.endTime = $0
                 self?.updateDuration()
@@ -131,34 +165,51 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
     /// Construct the form
     override open func construct(builder: FormBuilder) {
 
-        builder += HeaderFormItem(text: NSLocalizedString("Vehicle Details", comment: "").uppercased(), style: .plain)
-        builder += serialItem
-        builder += categoryItem
-        builder += odometerItem
-        builder += equipmentItem
-        builder += remarksItem
+        // Show list of officers first, followed by shift details then optional sections
+
+        let officersTitleFormat = NSLocalizedString("%d Officer(s)", comment: "")
+        let officersTitle = String.localizedStringWithFormat(officersTitleFormat, viewModel.details.officers.count)
+
+        builder += HeaderFormItem(text: officersTitle.uppercased(), style: .plain)
+            .actionButton(title: NSLocalizedString("Add", comment: "").uppercased(), handler: { [unowned self] in
+                let viewController = self.viewModel.officerSearchViewController()
+                self.navigationController?.pushViewController(viewController, animated: true)
+            })
+
+        // Button to delete officer (only available for additional officers)
+        let deleteAction = CollectionViewFormEditAction(title: "Delete", color: .red, handler: { [unowned self] (cell, indexPath) in
+            self.viewModel.removeOfficer(at: indexPath.row)
+            self.reloadForm()
+        })
+
+        let incompleteColor = #colorLiteral(red: 0.9843137255, green: 0.3137254902, blue: 0.2980392157, alpha: 1)
+        for (index, officer) in viewModel.details.officers.enumerated() {
+            let accessoryLabel = AccessoryTextStyle.roundedRect(AccessoryLabelDetail(text: officer.incompleteStatus, textColour: incompleteColor, borderColour: incompleteColor))
+            builder += BookOnDetailsOfficerFormItem(title: officer.title,
+                                                    subtitle: officer.subtitle,
+                                                    status: officer.driverStatus)
+                .width(.column(1))
+                .height(.fixed(60))
+                .accessory(FormAccessoryView(style: .disclosure, labelStyle: accessoryLabel))
+                .editActions([index > 0 ? deleteAction : nil].removeNils())
+                .onSelection { [unowned self] cell in
+                    let viewController = self.viewModel.officerDetailsViewController(at: index)
+                    self.navigationController?.pushViewController(viewController, animated: true)
+            }
+        }
 
         builder += HeaderFormItem(text: NSLocalizedString("Shift Details", comment: "").uppercased(), style: .plain)
         builder += startTimeItem
         builder += endTimeItem
         builder += durationItem
 
-        builder += HeaderFormItem(text: NSLocalizedString("Officers", comment: "").uppercased(), style: .plain)
-            .actionButton(title: NSLocalizedString("Add", comment: "").uppercased(), handler: { [unowned self] in
-                // TODO: show add officer form
-                self.navigationController?.pushViewController(UIViewController(), animated: true)
-            })
-
-        for officer in viewModel.details.officers {
-            builder += BookOnDetailsOfficerFormItem(title: officer.title,
-                                                    subtitle: officer.subtitle,
-                                                    status: officer.status)
-                .width(.column(1))
-                .accessory(ItemAccessory.disclosure)
-                .height(.fixed(60))
-                .onSelection { [unowned self] cell in
-                    self.navigationController?.pushViewController(self.viewModel.officerDetailsViewController(), animated: true)
-            }
+        if viewModel.showVehicleFields {
+            builder += HeaderFormItem(text: NSLocalizedString("Vehicle Details", comment: "").uppercased(), style: .plain)
+            builder += serialItem
+            builder += categoryItem
+            builder += odometerItem
+            builder += equipmentItem
+            builder += remarksItem
         }
 
         updateDuration()
@@ -176,7 +227,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
 
     private func updateDuration() {
         // Update the generated duration field
-        if let startTime = startTimeItem.selectedValue, var endTime = endTimeItem.selectedValue {
+        if let startTime = viewModel.details.startTime, var endTime = viewModel.details.endTime {
             if endTime < startTime {
                 // If endtime is before start time, clip it and reload the cell
                 endTime = startTime
@@ -195,7 +246,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
     }
 
     @objc private func cancelFormTapped() {
-        dismiss(animated: true, completion: nil)
+        closeForm(submitted: false)
     }
 
     @objc private func submitFormTapped() {
@@ -206,14 +257,37 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
             builder.validateAndUpdateUI()
             AlertQueue.shared.addErrorAlert(message: message)
         case .valid:
-            firstly {
-                return viewModel.submitForm()
-            }.then { status in
-                self.dismiss(animated: true, completion: nil)
+            // Check officer forms are also valid
+            for officer in viewModel.details.officers {
+                if officer.incompleteStatus != nil {
+                    AlertQueue.shared.addErrorAlert(message: NSLocalizedString("Please complete details for officers", comment: ""))
+                    return
+                }
+            }
+            self.submitForm()
+        }
+    }
+
+    private func submitForm() {
+        // TODO: show progress overlay
+        firstly {
+            return viewModel.submitForm()
+            }.then { [unowned self] status in
+                self.closeForm(submitted: true)
+            }.always {
+                // TODO: Cancel progress overlay
             }.catch { error in
                 let title = NSLocalizedString("Failed to submit form", comment: "")
                 AlertQueue.shared.addSimpleAlert(title: title, message: error.localizedDescription)
-            }
+        }
+    }
+
+    private func closeForm(submitted: Bool) {
+        // Dismiss the modal if we are booking on and got presented, go back to previous screen otherwise
+        if submitted && !viewModel.isEditing && presentingViewController != nil {
+            dismiss(animated: true, completion: nil)
+        } else {
+            navigationController?.popViewController(animated: true)
         }
     }
 
@@ -225,24 +299,11 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
             cell.valueLabel.adjustsFontSizeToFitWidth = true
         }
     }
+}
 
-    // MARK: - Background
-
-    /// Less transparent background to default when used in form sheet, to give contrast for form text
-    private var transparentBackground = UIColor(white: 1, alpha: 0.5)
-
-    override open var wantsTransparentBackground: Bool {
-        didSet {
-            if wantsTransparentBackground && ThemeManager.shared.currentInterfaceStyle == .light {
-                view?.backgroundColor = transparentBackground
-            }
-        }
-    }
-
-    override open func apply(_ theme: Theme) {
-        super.apply(theme)
-        if wantsTransparentBackground && ThemeManager.shared.currentInterfaceStyle == .light {
-            view?.backgroundColor = transparentBackground
-        }
+extension BookOnDetailsFormViewController: BookOnDetailsFormViewModelDelegate {
+    public func didUpdateDetails() {
+        navigationController?.popToViewController(self, animated: true)
+        reloadForm()
     }
 }

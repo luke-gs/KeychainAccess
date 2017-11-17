@@ -173,7 +173,8 @@ extension TextViewFormItem: UITextViewDelegate {
     }
 
     public func textViewDidEndEditing(_ textView: UITextView) {
-        validator.validateAndUpdateErrorIfNeeded(candidate, shouldInstallTimer: false, checkSubmitRule: true, forItem: self)
+        let shouldCheck = candidate != nil || isRequired
+        validator.validateAndUpdateErrorIfNeeded(candidate, shouldInstallTimer: false, checkSubmitRule: shouldCheck, forItem: self)
     }
 
     public func reloadSubmitValidationState() {
@@ -182,12 +183,13 @@ extension TextViewFormItem: UITextViewDelegate {
     }
 
     public func reloadLiveValidationState() {
-        validator.validateAndUpdateErrorIfNeeded(candidate, shouldInstallTimer: false, checkSubmitRule: false, forItem: self)
+        let shouldCheck = candidate != nil || isRequired
+        validator.validateAndUpdateErrorIfNeeded(candidate, shouldInstallTimer: false, checkSubmitRule: shouldCheck, forItem: self)
     }
 
     public func validateValueForSubmission() -> ValidateResult {
         let shouldCheck = candidate != nil || isRequired
-        return validator.validate(candidate, checkHardRule: true, checkSoftRule: true, checkSubmitRule: shouldCheck)
+        return validator.validate(candidate, checkHardRule: shouldCheck, checkSoftRule: shouldCheck, checkSubmitRule: shouldCheck)
     }
 
 }

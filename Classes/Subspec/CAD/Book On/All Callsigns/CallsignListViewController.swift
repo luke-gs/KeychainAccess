@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class CallsignListViewController: CADFormCollectionViewController<CallsignListItemViewModel>, UISearchBarDelegate {
+open class CallsignListViewController: CADFormCollectionViewController<NotBookedOnCallsignItemViewModel>, UISearchBarDelegate {
 
     /// Layout sizing constants
     public struct LayoutConstants {
@@ -46,22 +46,32 @@ open class CallsignListViewController: CADFormCollectionViewController<CallsignL
         MPLCodingNotSupported()
     }
     
-    open override func viewDidLoad() {
-        super.viewDidLoad()
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         if let subtitle = callsignListViewModel?.navSubtitle() {
             setTitleView(title: viewModel.navTitle(), subtitle: subtitle)
         }
+        setupSearchbarColorForTraitCollection()
     }
     
     open override func loadView() {
         super.loadView()
-        collectionViewTopConstraint?.constant = LayoutConstants.searchBarHeight
+
+        // Disable auto resize masks and apply constraints to make space for search bar
+        collectionView?.translatesAutoresizingMaskIntoConstraints = false
+
+        if let collectionView = collectionView {
+            NSLayoutConstraint.activate([
+                collectionView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor, constant: LayoutConstants.searchBarHeight),
+                collectionView.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor),
+                collectionView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor),
+                collectionView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor).withPriority(.almostRequired)
+            ])
+        }
     }
 
     /// Creates and styles views
     open func setupViews() {
-        edgesForExtendedLayout = []
-        
         // Replace default back button with 'Back'
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .done, target: self, action: #selector(goBack))
         
@@ -75,6 +85,16 @@ open class CallsignListViewController: CADFormCollectionViewController<CallsignL
         searchBar.placeholder = NSLocalizedString("Search", comment: "Search Text Placeholder")
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(searchBar)
+    }
+    
+    private func setupSearchbarColorForTraitCollection() {
+        if traitCollection.horizontalSizeClass == .regular {
+            toolBar.isHidden = false
+            searchBar.searchBarStyle = .minimal
+        } else {
+            toolBar.isHidden = true
+            searchBar.searchBarStyle = .default
+        }
     }
 
     /// Activates view constraints
@@ -102,7 +122,7 @@ open class CallsignListViewController: CADFormCollectionViewController<CallsignL
         return CollectionViewFormSubtitleCell.self
     }
     
-    override open func decorate(cell: CollectionViewFormCell, with viewModel: CallsignListItemViewModel) {
+    override open func decorate(cell: CollectionViewFormCell, with viewModel: NotBookedOnItemViewModel) {
         cell.highlightStyle = .fade
         cell.selectionStyle = .fade
         cell.separatorStyle = .indented
@@ -112,8 +132,23 @@ open class CallsignListViewController: CADFormCollectionViewController<CallsignL
         if let cell = cell as? CollectionViewFormSubtitleCell {
             cell.titleLabel.text = viewModel.title
             cell.subtitleLabel.text = viewModel.subtitle
-            cell.imageView.image = viewModel.image?.withRenderingMode(.alwaysTemplate)
+            cell.imageView.image = viewModel.image
             cell.imageView.tintColor = viewModel.imageColor
+            
+            if let viewModel = viewModel as? NotBookedOnCallsignItemViewModel, viewModel.badgeText != nil {
+                var edgeInsets = RoundedRectLabel.defaultLayoutMargins
+                edgeInsets.left = 6
+                edgeInsets.right = 6
+                
+                let accessoryLabelDetail = AccessoryLabelDetail.init(text: viewModel.badgeText,
+                                                                     textColour: viewModel.badgeTextColor,
+                                                                     borderColour: viewModel.badgeBorderColor,
+                                                                     backgroundColour: viewModel.badgeFillColor,
+                                                                     layoutMargins: edgeInsets)
+                let accessoryTextStyle = AccessoryTextStyle.roundedRect(accessoryLabelDetail)
+                let accessoryView = FormAccessoryView(style: .disclosure, labelStyle: accessoryTextStyle)
+                cell.accessoryView = accessoryView
+            }
         }
     }
     
@@ -146,12 +181,15 @@ open class CallsignListViewController: CADFormCollectionViewController<CallsignL
     
     open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        // TODO: present details?
+        
+        if let bookOnViewController = callsignListViewModel?.bookOnViewControllerForItem(indexPath) {
+            navigationController?.pushViewController(bookOnViewController, animated: true)
+        }
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
         if let item = viewModel.item(at: indexPath) {
-            return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: item.title, subtitle: item.subtitle, inWidth: itemWidth, compatibleWith: traitCollection)
+            return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: item.title, subtitle: item.subtitle, inWidth: itemWidth, compatibleWith: traitCollection, imageSize: item.image?.size ?? .zero)
         }
         return 0
     }

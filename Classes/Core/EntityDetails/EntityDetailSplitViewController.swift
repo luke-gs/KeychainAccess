@@ -21,26 +21,6 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
     
     public weak var delegate: EntityDetailSplitViewControllerDelegate?
 
-    // Appearance properties
-
-    /// The user interface style for the collection view.
-    ///
-    /// When set to `.current`, the theme autoupdates when the interface
-    /// style changes.
-    open var userInterfaceStyle: UserInterfaceStyle = .current {
-        didSet {
-            if userInterfaceStyle == oldValue { return }
-
-            if userInterfaceStyle == .current {
-                NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleDidChange), name: .interfaceStyleDidChange, object: nil)
-            } else if oldValue == .current {
-                NotificationCenter.default.removeObserver(self, name: .interfaceStyleDidChange, object: nil)
-            }
-
-            apply(ThemeManager.shared.theme(for: userInterfaceStyle))
-        }
-    }
-
     public init(viewModel: EntityDetailSectionsViewModel) {
 
         detailViewModel = viewModel
@@ -57,10 +37,6 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
 
         regularSidebarViewController.title = NSLocalizedString("Details", comment: "")
         regularSidebarViewController.headerView = headerView
-
-        if userInterfaceStyle == .current {
-            NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleDidChange), name: .interfaceStyleDidChange, object: nil)
-        }
     }
 
     open override func viewDidLoad() {
@@ -105,6 +81,18 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
         }
 
         updateEverything(for: source)
+    }
+    
+    /// Used to perform any last checks/tasks when back button is pressed
+    override open func willMove(toParentViewController parent: UIViewController?) {
+        super.willMove(toParentViewController: parent)
+        // The entity details will be pushed off the stack i.e: dismissed
+        if parent == nil {
+            
+            for case let vc as DismissEntityDetailsControllerProtocol in detailViewControllers {
+                vc.entityDetailsControllerWillDismiss()
+            }
+        }
     }
 
     // MARK: - Override methods
@@ -198,9 +186,8 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
 
         headerView.captionLabel.text = detailDisplayable.entityDisplayName?.localizedUppercase
 
-        if let (thumbnail, mode) = summaryDisplayable.thumbnail(ofSize: .small) {
-            headerView.iconView.image = thumbnail
-            headerView.iconView.contentMode = mode
+        if let thumbnailInfo = summaryDisplayable.thumbnail(ofSize: .small) {
+            self.headerView.iconView.setImage(with: thumbnailInfo)
         }
 
         headerView.titleLabel.text = summaryDisplayable.title
@@ -214,19 +201,6 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
 
     private func updateDetailSectionsAvailability(_ isAvailable: Bool) {
         super.allowDetailSelection = isAvailable
-    }
-
-    // MARK: - Theme
-
-    open func apply(_ theme: Theme) {
-        pageViewController.view.backgroundColor = theme.color(forKey: .background)
-    }
-
-    // MARK: - Private methods
-    @objc private func interfaceStyleDidChange() {
-        if userInterfaceStyle != .current { return }
-
-        apply(ThemeManager.shared.theme(for: userInterfaceStyle))
     }
 
 }
@@ -247,4 +221,8 @@ extension EntityDetailSplitViewController: EntityDetailSectionsDelegate {
         updateHeaderView()
     }
 
+}
+
+@objc public protocol DismissEntityDetailsControllerProtocol: class {
+    func entityDetailsControllerWillDismiss()
 }

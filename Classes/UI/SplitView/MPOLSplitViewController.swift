@@ -127,10 +127,6 @@ open class MPOLSplitViewController: PushableSplitViewController {
 
         // Force early application of trait collection so presentation animation looks good
         updateSplitViewControllerForTraitChange()
-
-        // Get the default selected view controller from the subclass and apply the selection
-        selectedViewController = defaultSelectedViewController()
-        selectedViewControllerDidChange(oldValue: nil)
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -140,14 +136,26 @@ open class MPOLSplitViewController: PushableSplitViewController {
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateNavigationBarForTraitChange()
+
+        // If by the time this view controller is about to be presented, but `selectedViewController`
+        // is not yet set, then set it to default.
+        if selectedViewController == nil {
+            // Get the default selected view controller from the subclass and apply the selection
+            selectedViewController = defaultSelectedViewController()
+            selectedViewControllerDidChange(oldValue: nil)
+        }
     }
 
     // MARK: - Convenience
 
     /// Is the split view controller being rendered in compact environment, hence collapsed
     public func isCompact() -> Bool {
-        // Return the view controller's size class if the view is loaded, otherwise the window
-        return isViewLoaded ? (self.traitCollection.horizontalSizeClass == .compact) : MPOLSplitViewController.isWindowCompact()
+        // If it is called early enough, `self.traitCollection.horizontalSizeClass` will return .unspecified.
+        // It'll inherit the value from upper chain so delegate that to the window.
+        if self.traitCollection.horizontalSizeClass != .unspecified {
+            return self.traitCollection.horizontalSizeClass == .compact
+        }
+        return MPOLSplitViewController.isWindowCompact()
     }
 
     /// Is the key window being rendered in compact environment
@@ -254,7 +262,7 @@ open class MPOLSplitViewController: PushableSplitViewController {
 
         // Make sure the current master view controller has the back button
         // Note: this can move to detail view controller when switching between regular and compact
-        masterNavItem.leftBarButtonItems = [backButtonItem()].removeNils()
+        masterNavItem.leftBarButtonItems = masterViewController.navigationItem.leftBarButtonItems ?? [backButtonItem()].removeNils()
         detailNavItem?.leftBarButtonItem = nil
 
         if self.isCompact() {

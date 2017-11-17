@@ -8,13 +8,28 @@
 
 import Foundation
 
-enum DateRoundingType {
+public enum DateRoundingType {
     case round
     case ceil
     case floor
 }
 
-extension Date {
+public extension Date {
+    
+    /// Returns the time interval till now, rounded to seconds
+    func timeSinceNow() -> Int {
+        let timeInterval = Date().timeIntervalSince(self)
+        
+        return Int(timeInterval)
+    }
+    
+    /// Returns the number of seconds since start of day (midnight)
+    func minutesSinceMidnight() -> Int {
+        let units : Set<Calendar.Component> = [.hour, .minute]
+        
+        let components = Calendar.current.dateComponents(units, from: self)
+        return 60 * (components.hour ?? 0) + (components.minute ?? 0)
+    }
     
     /// Rounds a date to specified minutes
     /// - author: https://stackoverflow.com/a/37261029
@@ -39,9 +54,7 @@ extension Date {
     
     /// The date at 00:00:00
     var beginningOfDay: Date {
-        let calendar = Calendar.current
-        let components = calendar.dateComponents([.year, .month, .day], from: self)
-        return calendar.date(from: components)!
+        return Calendar.current.startOfDay(for: self)
     }
     
     /// The date at 23:59:59
