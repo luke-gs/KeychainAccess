@@ -43,6 +43,7 @@ public class StepperFormItem: BaseFormItem {
 
         cell.titleLabel.apply(sizable: title, defaultFont: .preferredFont(forTextStyle: .subheadline, compatibleWith: cell.traitCollection))
         cell.textField.font = customValueFont ?? .preferredFont(forTextStyle: .headline, compatibleWith: cell.traitCollection)
+
         cell.valueChangedHandler = { [weak self] in
             self?.value = $0
             self?.onValueChanged?($0)
@@ -73,7 +74,6 @@ public class StepperFormItem: BaseFormItem {
         cell.titleLabel.textColor = secondaryTextColor
         cell.textField.textColor = primaryTextColor
     }
-
 }
 
 extension StepperFormItem {
