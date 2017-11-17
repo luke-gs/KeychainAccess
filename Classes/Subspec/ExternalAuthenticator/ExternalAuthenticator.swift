@@ -101,7 +101,13 @@ public final class ExternalAuthenticator<T: AuthenticationProvider> {
             topController?.present(safariViewController, animated: true, completion: nil)
             self.safariViewController = safariViewController
         } else {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            UIApplication.shared.open(url, options: [:], completionHandler: { [weak self] success in
+                if !success {
+                    if let pending = self?.pendingPromiseResult {
+                        pending.reject(NSError.cancelledError())
+                    }
+                }
+            })
         }
 
     }
