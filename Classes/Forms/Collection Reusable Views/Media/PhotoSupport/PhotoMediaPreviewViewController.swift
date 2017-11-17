@@ -57,7 +57,7 @@ public class PhotoMediaPreviewViewController: UIViewController {
         view.tintColor = .white
         view.backgroundColor = .white
 
-        photoMedia.thumbnailImage?.requestImage(completion: { [weak self] (image) in
+        photoMedia.thumbnailImage?.loadImage(completion: { [weak self] (image) in
             self?.imageView.image = image.sizing().image
         })
 

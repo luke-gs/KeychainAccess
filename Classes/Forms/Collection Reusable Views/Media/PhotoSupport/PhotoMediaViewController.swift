@@ -39,7 +39,7 @@ public class PhotoMediaViewController: UIViewController, UIScrollViewDelegate {
         scalingImageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(scalingImageView)
 
-        photoMedia.image?.requestImage(completion: { [weak self] (image) in
+        photoMedia.image?.loadImage(completion: { [weak self] (image) in
             self?.scalingImageView.image = image.sizing().image
         })
 

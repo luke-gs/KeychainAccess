@@ -164,7 +164,7 @@ public class PhotoMediaGalleryViewController: UIViewController, UICollectionView
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Identifier.genericCell.rawValue, for: indexPath)
 
         let photoMedia = dataSource.mediaItemAtIndex(indexPath.item)
-        photoMedia?.thumbnailImage?.requestImage(completion: { [weak self] (sizable) in
+        photoMedia?.thumbnailImage?.loadImage(completion: { [weak self] (sizable) in
             let imageView = UIImageView(image: sizable.sizing().image)
             imageView.contentMode = self?.traitCollection.horizontalSizeClass == .compact ? .scaleAspectFill : .scaleAspectFit
             imageView.clipsToBounds = true

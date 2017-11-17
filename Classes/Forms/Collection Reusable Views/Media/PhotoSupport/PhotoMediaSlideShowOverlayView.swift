@@ -210,12 +210,11 @@ public class PhotoMediaSlideShowOverlayView: UIView, PhotoMediaOverlayViewable, 
         return collectionView.isDragging ? .zero : mainItemInsets
     }
 
-
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
         let photoMedia = galleryViewController?.dataSource.mediaItemAtIndex(indexPath.section)
 
-        photoMedia?.thumbnailImage?.requestImage(completion: { (image) in
+        photoMedia?.thumbnailImage?.loadImage(completion: { (image) in
             let imageView = UIImageView(image: image.sizing().image)
             imageView.contentMode = .scaleAspectFill
             cell.backgroundView = imageView
