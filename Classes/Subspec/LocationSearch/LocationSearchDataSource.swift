@@ -274,9 +274,10 @@ public class LocationSearchDataSource<T: LocationAdvancedOptions, U: LocationSea
     // MARK: - Handle address
     
     private func performSearchOnLocation(withResult result: LookupResult) {
+        text = result.location.textRepresentation
         let search = Searchable(text: text,
-                                    options: nil,
-                                    type: LocationSearchDataSourceSearchableType)
+                                options: nil,
+                                type: LocationSearchDataSourceSearchableType)
 
         let preferredViewModel = searchStrategy.resultModelForSearchOnLocation(withResult: result, andSearchable: search)
         updatingDelegate?.searchDataSource(self, didFinishWith: search, andResultViewModel: preferredViewModel)
