@@ -159,6 +159,7 @@ public class LocationSearchDataSource<T: LocationAdvancedOptions, U: LocationSea
         
         if type == nil {
             text = searchable.text
+            attemptSearch(delay: !(text?.isEmpty ?? true))
             
             basicOptions.reset()
             advanceOptions?.populate(withOptions: nil, reset: true)
@@ -176,6 +177,7 @@ public class LocationSearchDataSource<T: LocationAdvancedOptions, U: LocationSea
                 options = advanceOptions
             } else {
                 text = searchable.text
+                attemptSearch(delay: !(text?.isEmpty ?? true))
                 options = basicOptions
             }
             return true
