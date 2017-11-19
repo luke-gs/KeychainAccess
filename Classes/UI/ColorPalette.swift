@@ -28,13 +28,13 @@ open class ColorPalette: NSObject {
 /// Convenience extension to UIColor
 extension UIColor {
 
-    public static var orangeRed         = ColorPalette.shared.orangeRed
-    public static var midGreen          = ColorPalette.shared.midGreen
-    public static var brightBlue        = ColorPalette.shared.brightBlue
-    public static var sunflowerYellow   = ColorPalette.shared.sunflowerYellow
+    open static var orangeRed         = ColorPalette.shared.orangeRed
+    open static var midGreen          = ColorPalette.shared.midGreen
+    open static var brightBlue        = ColorPalette.shared.brightBlue
+    open static var sunflowerYellow   = ColorPalette.shared.sunflowerYellow
 
-    public static var primaryGray       = ColorPalette.shared.primaryGray
-    public static var secondaryGray     = ColorPalette.shared.secondaryGray
-    public static var disabledGray      = ColorPalette.shared.disabledGray
-    public static var sidebarBlack      = ColorPalette.shared.sidebarBlack
+    open static var primaryGray       = ColorPalette.shared.primaryGray
+    open static var secondaryGray     = ColorPalette.shared.secondaryGray
+    open static var disabledGray      = ColorPalette.shared.disabledGray
+    open static var sidebarBlack      = ColorPalette.shared.sidebarBlack
 }
