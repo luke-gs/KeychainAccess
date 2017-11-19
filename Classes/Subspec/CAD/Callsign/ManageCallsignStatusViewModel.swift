@@ -105,7 +105,7 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
             case .viewCallsign:
                 break
             case .manageCallsign:
-                if let callsign = CADUserSession.current.callsign {
+                if let callsign = CADStateManager.shared.callsign {
                     let callsignViewModel = BookOnCallsignViewModel(callsign: callsign, status: nil, location: nil)
                     let vc = BookOnDetailsFormViewModel(callsignViewModel: callsignViewModel).createViewController()
                     delegate?.presentPushedViewController(vc, animated: true)
@@ -114,7 +114,7 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
             case .terminateShift:
                 if currentStatus.canTerminate {
                     // Update session and dismiss screen
-                    CADUserSession.current.callsign = nil
+                    CADStateManager.shared.callsign = nil
                     BookOnDetailsFormViewModel.lastSaved = nil
                     delegate?.dismiss()
                 } else {
@@ -137,7 +137,7 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
 
     /// The title to use in the navigation bar
     open override func navTitle() -> String {
-        return CADUserSession.current.callsign ?? ""
+        return CADStateManager.shared.callsign ?? ""
     }
 
     /// Hide arrows

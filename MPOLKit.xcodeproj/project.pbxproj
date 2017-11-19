@@ -153,7 +153,6 @@
 		46DDAB451F78CF1300ED72DC /* FormAccessoryImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46DDAB441F78CF1300ED72DC /* FormAccessoryImageView.swift */; };
 		8CDAFFA6E9DC54A4594C01FE /* Pods_MPOLKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FE1AAA01D6AE18F86693DF8 /* Pods_MPOLKitTests.framework */; };
 		9620530D1F988239000CAD49 /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9620530C1F988239000CAD49 /* AppGroup.swift */; };
-		962053131F996127000CAD49 /* CADUserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 962053121F996127000CAD49 /* CADUserSession.swift */; };
 		9624A43F1F81BBEB00CAE056 /* UIFont+Digits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A43E1F81BBEB00CAE056 /* UIFont+Digits.swift */; };
 		962AA8191F8DD37D0087D534 /* PopoverPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 962AA8181F8DD37D0087D534 /* PopoverPresenter.swift */; };
 		9644B1D21F6785E200D031F2 /* CompactFormSheetNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9644B1D11F6785E100D031F2 /* CompactFormSheetNavigationController.swift */; };
@@ -175,7 +174,9 @@
 		9686FC941F78AAED00C4AB4D /* UIView+SafeArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9686FC931F78AAED00C4AB4D /* UIView+SafeArea.swift */; };
 		9686FC961F78AC7600C4AB4D /* UIViewController+SafeArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9686FC951F78AC7600C4AB4D /* UIViewController+SafeArea.swift */; };
 		969959661FC2334300CB51EB /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969959651FC2334300CB51EB /* ColorPalette.swift */; };
+		969959691FC2495000CB51EB /* CADStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969959681FC2495000CB51EB /* CADStateManager.swift */; };
 		969DC68F1FBBAC8400010212 /* ObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 969DC68E1FBBAC8400010212 /* ObjC.m */; };
+		969DC6931FBE6D3900010212 /* APIManager+CAD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969DC6921FBE6D3900010212 /* APIManager+CAD.swift */; };
 		96B9183E1F9D68DE005DEB1A /* BookOnDetailsFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B9183D1F9D68DE005DEB1A /* BookOnDetailsFormViewController.swift */; };
 		96B918401F9D68FD005DEB1A /* BookOnDetailsFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B9183F1F9D68FD005DEB1A /* BookOnDetailsFormViewModel.swift */; };
 		96CF32211F8C337900140AF8 /* TasksListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CF32201F8C337900140AF8 /* TasksListViewController.swift */; };
@@ -637,7 +638,6 @@
 		792BA6D7922A9D3748B70A23 /* Pods-MPOLKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKit/Pods-MPOLKit.release.xcconfig"; sourceTree = "<group>"; };
 		9215372B17F43A2FDEB28AD0 /* Pods_MPOLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9620530C1F988239000CAD49 /* AppGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGroup.swift; sourceTree = "<group>"; };
-		962053121F996127000CAD49 /* CADUserSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADUserSession.swift; sourceTree = "<group>"; };
 		9624A43E1F81BBEB00CAE056 /* UIFont+Digits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Digits.swift"; sourceTree = "<group>"; };
 		9624A45A1F83555A00CAE056 /* ActivityLogItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityLogItemCell.swift; sourceTree = "<group>"; };
 		9624A45B1F83555A00CAE056 /* ActivityLogItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityLogItemViewModel.swift; sourceTree = "<group>"; };
@@ -678,9 +678,11 @@
 		9686FC931F78AAED00C4AB4D /* UIView+SafeArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+SafeArea.swift"; sourceTree = "<group>"; };
 		9686FC951F78AC7600C4AB4D /* UIViewController+SafeArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+SafeArea.swift"; sourceTree = "<group>"; };
 		969959651FC2334300CB51EB /* ColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
+		969959681FC2495000CB51EB /* CADStateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADStateManager.swift; sourceTree = "<group>"; };
 		969DC68C1FBBAC8400010212 /* MPOLKitTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MPOLKitTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		969DC68D1FBBAC8400010212 /* ObjC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjC.h; sourceTree = "<group>"; };
 		969DC68E1FBBAC8400010212 /* ObjC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ObjC.m; sourceTree = "<group>"; };
+		969DC6921FBE6D3900010212 /* APIManager+CAD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "APIManager+CAD.swift"; sourceTree = "<group>"; };
 		96B9183D1F9D68DE005DEB1A /* BookOnDetailsFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookOnDetailsFormViewController.swift; sourceTree = "<group>"; };
 		96B9183F1F9D68FD005DEB1A /* BookOnDetailsFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookOnDetailsFormViewModel.swift; sourceTree = "<group>"; };
 		96CF32201F8C337900140AF8 /* TasksListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListViewController.swift; sourceTree = "<group>"; };
@@ -1344,7 +1346,8 @@
 		962053111F9960FA000CAD49 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				962053121F996127000CAD49 /* CADUserSession.swift */,
+				969959671FC2493500CB51EB /* Session */,
+				969DC6911FBE6D3900010212 /* API */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1461,6 +1464,22 @@
 				9663D00C1F8AF6F5006DB672 /* TasksSplitViewModel.swift */,
 			);
 			path = "Tasks Split";
+			sourceTree = "<group>";
+		};
+		969959671FC2493500CB51EB /* Session */ = {
+			isa = PBXGroup;
+			children = (
+				969959681FC2495000CB51EB /* CADStateManager.swift */,
+			);
+			path = Session;
+			sourceTree = "<group>";
+		};
+		969DC6911FBE6D3900010212 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				969DC6921FBE6D3900010212 /* APIManager+CAD.swift */,
+			);
+			path = API;
 			sourceTree = "<group>";
 		};
 		96B9183C1F9D6819005DEB1A /* Forms */ = {
@@ -2773,6 +2792,7 @@
 				9624A43F1F81BBEB00CAE056 /* UIFont+Digits.swift in Sources */,
 				EAFBC8BC1F57DF8700F0004B /* LookupAddressValidator.swift in Sources */,
 				BC9C7E051F0DED6600DFFE83 /* UIEdgeInsets+Convenience.swift in Sources */,
+				969DC6931FBE6D3900010212 /* APIManager+CAD.swift in Sources */,
 				9936C67D1F96C5580091A61C /* GeolocationPlugin.swift in Sources */,
 				BC1B25BA1F2707270090C0AA /* MPOLBarButtonItems.swift in Sources */,
 				19B49BBB1F665F2A00502F51 /* CompactSidebarItemView.swift in Sources */,
@@ -2979,6 +2999,7 @@
 				27CBC75A1F8B27B100E387C3 /* ActivityLogItemCell.swift in Sources */,
 				19F8DDB01F4D7C9600D84DA1 /* APIManager+LookupAddress.swift in Sources */,
 				BC9C7E341F0DED6600DFFE83 /* UIViewAnimationCurve+OptionConversion.swift in Sources */,
+				969959691FC2495000CB51EB /* CADStateManager.swift in Sources */,
 				9679A6491F9EEDB7007BC806 /* BookOnDetailsOfficerFormItem.swift in Sources */,
 				12ADD4221F32A50B00CA8B4D /* MPOLKitProtocols.swift in Sources */,
 				EA11F0261F83357D00BF8BCA /* ImageSizing.swift in Sources */,
@@ -3029,7 +3050,6 @@
 				EA4806B71F56A0DC00B42313 /* LocationSearchStrategy.swift in Sources */,
 				BC9C7E021F0DED6600DFFE83 /* NSLayoutConstraint+Conveniences.swift in Sources */,
 				46DDAB451F78CF1300ED72DC /* FormAccessoryImageView.swift in Sources */,
-				962053131F996127000CAD49 /* CADUserSession.swift in Sources */,
 				19B49BC71F665F5A00502F51 /* WhatsNewTheme.swift in Sources */,
 				46B3FE7B1F5E3B0C0012476A /* FileLogger.swift in Sources */,
 				DBE24C3B1F593BEF0088D19B /* EntityDetailSectionsDataSource.swift in Sources */,

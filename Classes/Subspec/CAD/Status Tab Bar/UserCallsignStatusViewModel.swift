@@ -92,7 +92,7 @@ open class UserCallsignStatusViewModel {
     
     public init() {
         NotificationCenter.default.addObserver(forName: .CallsignChanged, object: nil, queue: nil) { [unowned self] (notification) in
-            if let callsign = CADUserSession.current.callsign {
+            if let callsign = CADStateManager.shared.callsign {
                 self.state = .assigned(callsign: callsign, status: "At Incident", image: AssetManager.shared.image(forKey: .entityCarSmall))
             } else {
                 self.state = UserCallsignStatusViewModel.defaultNotBookedOnState

@@ -31,7 +31,7 @@ open class CompactCallsignViewController: UIViewController {
     @objc private func updateChildViewControllerIfRequired() {
         let newCallsignViewController: UIViewController
         
-        if CADUserSession.current.callsign == nil {
+        if CADStateManager.shared.callsign == nil {
             newCallsignViewController = NotBookedOnViewModel().createViewController()
         } else {
             newCallsignViewController = ManageCallsignStatusViewModel().createViewController()
