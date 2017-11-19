@@ -219,21 +219,3 @@ extension Theme {
     }
     
 }
-
-/// Standard color palette, regardless of theme
-extension UIColor {
-
-    public static var orangeRed         = #colorLiteral(red: 1, green: 0.231372549, blue: 0.1882352941, alpha: 1)
-    public static var midGreen          = #colorLiteral(red: 0.2980392157, green: 0.6862745098, blue: 0.3137254902, alpha: 1)
-    public static var brightBlue        = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
-    public static var sunflowerYellow   = #colorLiteral(red: 1, green: 0.8, blue: 0, alpha: 1)
-
-    public static var primaryGray       = #colorLiteral(red: 0.337254902, green: 0.3450980392, blue: 0.3843137255, alpha: 1)
-    public static var secondaryGray     = #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1)
-    public static var disabledGray      = #colorLiteral(red: 0.8431372549, green: 0.8431372549, blue: 0.8509803922, alpha: 1)
-    public static var sidebarBlack      = #colorLiteral(red: 0.1058823529, green: 0.1176470588, blue: 0.1411764706, alpha: 1)
-
-
-}
-
-
