@@ -21,14 +21,14 @@ open class OfficerCommunicationsView: UIView {
         
         // TODO: Get real image from creative (waiting on exportable...)
         messageButton.setImage(AssetManager.shared.image(forKey: .email), for: .normal)
-        messageButton.tintColor = #colorLiteral(red: 0, green: 0.4802979827, blue: 0.9984222054, alpha: 1)
+        messageButton.tintColor = .brightBlue
         
         callButton.setImage(AssetManager.shared.image(forKey: .audioCall), for: .normal)
         callButton.contentMode = .scaleAspectFit
-        callButton.tintColor = #colorLiteral(red: 0, green: 0.4802979827, blue: 0.9984222054, alpha: 1)
+        callButton.tintColor = .brightBlue
         
         videoButton.setImage(AssetManager.shared.image(forKey: .videoCall), for: .normal)
-        videoButton.tintColor = #colorLiteral(red: 0, green: 0.4802979827, blue: 0.9984222054, alpha: 1)
+        videoButton.tintColor = .brightBlue
 
         stackView = UIStackView(arrangedSubviews: [messageButton, callButton, videoButton])
         

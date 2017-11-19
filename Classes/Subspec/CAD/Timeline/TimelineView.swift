@@ -12,7 +12,9 @@ import UIKit
 public class TimelineView: UICollectionReusableView {
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = #colorLiteral(red: 0.8862745098, green: 0.8901960784, blue: 0.8941176471, alpha: 1)
+
+        let theme = ThemeManager.shared.theme(for: .current)
+        backgroundColor = theme.color(forKey: .separator)
     }
 
     required public init?(coder aDecoder: NSCoder) {
