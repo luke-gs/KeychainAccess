@@ -36,8 +36,8 @@ class MapFilterSectionView: UIView {
         setupViews()
         setupConstraints()
         
-        toggle.isHidden = section.isEnabled == nil
-        toggle.setOn(section.isEnabled ?? false, animated: false)
+        toggle.isHidden = section.isOn == nil
+        toggle.setOn(section.isOn ?? false, animated: false)
         titleLabel.text = section.title
     }
     
@@ -66,6 +66,8 @@ class MapFilterSectionView: UIView {
         toggle.offTintColor = #colorLiteral(red: 0.8431087136, green: 0.8431568742, blue: 0.8508625627, alpha: 1)
         toggle.onBorderTintColor = .clear
         toggle.offBorderTintColor = .clear
+        toggle.addTarget(self, action: #selector(toggleChanged), for: .valueChanged)
+        toggle.isHidden = section.isOn != nil
         toggle.translatesAutoresizingMaskIntoConstraints = false
         addSubview(toggle)
         
@@ -113,6 +115,23 @@ class MapFilterSectionView: UIView {
             separator.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             separator.bottomAnchor.constraint(equalTo: self.bottomAnchor),
         ])
+    }
+    
+    @objc func toggleChanged() {
+        guard section.isOn != nil else { return }
+        toggleRows.forEach { row in
+            for (option, checkbox) in zip(row.toggleRow.options, row.options) {
+                // Disable all checkboxes if toggle is off, otherwise revert to original state
+                checkbox.isEnabled = toggle.isOn ? option.isEnabled : false
+            }
+        }
+    }
+    
+    func applyValues() {
+        section.isOn = toggle.isOn
+        toggleRows.forEach {
+            $0.applyValues()
+        }
     }
     
 }

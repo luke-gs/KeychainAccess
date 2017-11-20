@@ -9,13 +9,13 @@
 import UIKit
 
 /// A section to show in the map filter
-open class MapFilterSection: NSObject {
+open class MapFilterSection {
     
     /// Title for the section
     open var title: String
     
-    /// Whether the filter for the section is enabled. `nil` if option is not shown
-    open var isEnabled: Bool?
+    /// Whether the filter for the section is on. `nil` if option is not shown
+    open var isOn: Bool?
     
     /// Rows of toggle options
     open var toggleRows: [MapFilterToggleRow]
@@ -23,11 +23,11 @@ open class MapFilterSection: NSObject {
     
     /// - Parameters:
     ///   - title: the title for the section
-    ///   - isEnabled: whether the filter for the section is enabled. Set to `nil` to not show an option
+    ///   - isOn: whether the filter for the section is enabled. Set to `nil` to not show an option
     ///   - toggleRows: the rows of toggle options
-    public init(title: String, isEnabled: Bool?, toggleRows: [MapFilterToggleRow] = []) {
+    public init(title: String, isOn: Bool?, toggleRows: [MapFilterToggleRow] = []) {
         self.title = title
-        self.isEnabled = isEnabled
+        self.isOn = isOn
         self.toggleRows = toggleRows
     }
 }

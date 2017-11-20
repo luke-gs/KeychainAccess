@@ -223,6 +223,8 @@ open class LabeledSwitch: UIControl {
             titleLabel?.text = offTitle
         }
         
+        sendActions(for: .valueChanged)
+        
         if animated {
             // Animate background colour change
             UIView.animate(withDuration: animationDuration, animations: {
@@ -238,7 +240,7 @@ open class LabeledSwitch: UIControl {
             
             if let titleLabel = titleLabel {
                 // Fade title color
-                UIView.transition(with: titleLabel, duration: animationDuration, options: [.transitionCrossDissolve, .beginFromCurrentState], animations: {
+                UIView.transition(with: titleLabel, duration: animationDuration, options: .transitionCrossDissolve, animations: {
                     titleLabel.textColor = titleColor
                 }, completion: nil)
                 
@@ -287,10 +289,19 @@ open class LabeledSwitch: UIControl {
         
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(didSelectView))
         addGestureRecognizer(tapRecognizer)
+        
+        let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(didSelectView))
+        addGestureRecognizer(panRecognizer)
     }
     
-    @objc private func didSelectView() {
-        setOn(!isOn, animated: true)
+    @objc private func didSelectView(sender: UIGestureRecognizer) {
+        if sender.state == .ended {
+            if let panGesture = sender as? UIPanGestureRecognizer {
+                let velocity = panGesture.velocity(in: self)
+                guard fabs(velocity.x) > fabs(velocity.y) else { return }
+            }
+            setOn(!isOn, animated: true)
+        }
     }
     
     private struct LayoutConstants {

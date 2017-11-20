@@ -30,5 +30,4 @@ open class MapFilterOption {
         self.isEnabled = isEnabled
         self.isOn = isOn
     }
-    
 }

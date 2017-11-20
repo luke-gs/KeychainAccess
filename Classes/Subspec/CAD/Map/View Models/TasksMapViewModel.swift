@@ -12,6 +12,7 @@ import MapKit
 
 open class TasksMapViewModel {
 
+    public weak var splitViewModel: TasksSplitViewModel?
     public weak var delegate: TasksMapViewModelDelegate?
 
     // MARK: - Data Source
@@ -23,29 +24,118 @@ open class TasksMapViewModel {
     
     // MARK: - Filter
 
-    public private(set) var filterViewModel = TasksMapFilterViewModel()
-    private var filter: TasksMapFilterViewModel.Filter {
-        return filterViewModel.currentFilter
-    }
-
     // TODO: Set from split view table
     var priorityAnnotationType = ResourceAnnotationView.self
     
     // MARK: - Init
     
-    public init() {
-        filterViewModel.delegate = self
-    }
+    public init() {}
     
     /// Create the view controller for this view model
     public func createViewController() -> UIViewController {
         return TasksMapViewController(viewModel: self)
     }
-
+    
     // MARK: - Annotations
 
+    public func applyFilter() {
+        guard let filter = splitViewModel?.filterViewModel else { return }
+        
+        /// Annotations of the patrol type
+        let patrolAnnotations = patrol.map { model in
+            return TaskAnnotation(identifier: model.identifier,
+                                  coordinate: model.coordinate,
+                                  title: model.title,
+                                  subtitle: model.subtitle,
+                                  status: nil)
+        }
+        
+        /// Annotations of the broadcast type
+        let broadcastAnnotations = broadcast.map { model in
+            return TaskAnnotation(identifier: model.identifier,
+                                  coordinate: model.coordinate,
+                                  title: model.title,
+                                  subtitle: model.subtitle,
+                                  status: nil)
+        }
+
+        var annotations: [TaskAnnotation] = []
+        
+        if filter.showIncidents {
+            
+            let filteredIncidents = incidents.filter { model in
+                // TODO: Replace with enum when model classes created
+                let priorityFilter = filter.priorities.contains(model.priority)
+                let resourcedFilter = filter.resourcedIncidents.contains(model.status)
+
+                // If status is not in filter options always show
+                let isOther = model.status != "Resourced" && model.status != "Unresourced"
+                
+                return priorityFilter && (isOther || resourcedFilter)
+            }
+            
+            /// Annotations of the incidents type
+            let incidentsAnnotations = filteredIncidents.map { model in
+                return IncidentAnnotation(identifier: model.identifier,
+                                          coordinate: model.coordinate,
+                                          title: model.title,
+                                          subtitle: model.subtitle,
+                                          status: model.status,
+                                          iconText: model.priority,
+                                          iconColor: model.iconColor,
+                                          iconFilled: model.iconFilled,
+                                          usesDarkBackground: model.usesDarkBackground)
+            }
+            
+            annotations += incidentsAnnotations as [TaskAnnotation]
+        }
+        
+        if filter.showPatrol {
+            annotations += patrolAnnotations
+        }
+        
+        if filter.showBroadcasts {
+            annotations += broadcastAnnotations
+        }
+
+        if filter.showResources {
+            let filteredResources = resources.filter { model in
+                // TODO: Replace with enum when model classes created
+                let taskedFilter = filter.resourcedIncidents.contains(model.status)
+                
+                // If status is not in filter options always show
+                let isOther = model.status != "Tasked" && model.status != "Untasked"
+                
+                return isOther || taskedFilter
+            }
+            
+            let resourceAnnotations = filteredResources.map { model in
+                return ResourceAnnotation(identifier: model.identifier,
+                                          coordinate: model.coordinate,
+                                          title: model.title,
+                                          subtitle: model.subtitle,
+                                          status: model.status,
+                                          icon: model.iconImage,
+                                          iconBackgroundColor: model.iconBackgroundColor,
+                                          iconTintColor: model.iconTintColor,
+                                          pulsing: model.pulsing)
+            }
+            
+            annotations += resourceAnnotations  as [TaskAnnotation]
+        }
+        
+        filteredAnnotations = annotations
+    }
+
     /// Annotations matching the current filter
-    var filteredAnnotations: [TaskAnnotation] {
+    var filteredAnnotations: [TaskAnnotation] = [] {
+        didSet {
+            delegate?.viewModelStateChanged()
+        }
+    }
+    
+    /// All annotations unfiltered
+    var allAnnotations: [TaskAnnotation] {
         /// Annotations of the incidents type
         let incidentsAnnotations = incidents.map { model in
             return IncidentAnnotation(identifier: model.identifier,
@@ -53,11 +143,11 @@ open class TasksMapViewModel {
                                       title: model.title,
                                       subtitle: model.subtitle,
                                       status: model.status,
-                                      iconText: model.iconText,
+                                      iconText: model.priority,
                                       iconColor: model.iconColor,
                                       iconFilled: model.iconFilled,
                                       usesDarkBackground: model.usesDarkBackground)
-        }
+        } as [TaskAnnotation]
         
         /// Annotations of the patrol type
         let patrolAnnotations = patrol.map { model in
@@ -88,27 +178,9 @@ open class TasksMapViewModel {
                                           iconBackgroundColor: model.iconBackgroundColor,
                                           iconTintColor: model.iconTintColor,
                                           pulsing: model.pulsing)
-        }
+        } as [TaskAnnotation]
         
-        var annotations: [TaskAnnotation] = []
-        
-        if filter.contains(.incidents) {
-            annotations += incidentsAnnotations as [TaskAnnotation]
-        }
-        
-        if filter.contains(.patrol) {
-            annotations += patrolAnnotations
-        }
-        
-        if filter.contains(.broadcast) {
-            annotations += broadcastAnnotations
-        }
-        
-        if filter.contains(.resources) {
-            annotations += resourceAnnotations  as [TaskAnnotation]
-        }
-        
-        return annotations
+        return incidentsAnnotations + patrolAnnotations + broadcastAnnotations + resourceAnnotations
     }
     
     
@@ -138,6 +210,8 @@ open class TasksMapViewModel {
                                subtitle: "(2)",
                                status: "Assigned",
                                coordinate: CLLocationCoordinate2D(latitude: -37.803258, longitude: 144.983707),
+                               priority: "P1",
+                               iconColor: #colorLiteral(red: 1, green: 0.231372549, blue: 0.1882352941, alpha: 1),
                                iconText: "P1",
                                iconColor: .orangeRed,
                                iconFilled: true,
@@ -148,6 +222,8 @@ open class TasksMapViewModel {
                                subtitle: "(2)",
                                status: "Assigned",
                                coordinate: CLLocationCoordinate2D(latitude: -37.808173, longitude: 144.978827),
+                               priority: "P2",
+                               iconColor: #colorLiteral(red: 1, green: 0.8, blue: 0, alpha: 1),
                                iconText: "P2",
                                iconColor: .sunflowerYellow,
                                iconFilled: true,
@@ -158,6 +234,8 @@ open class TasksMapViewModel {
                                subtitle: "(1)",
                                status: "Resourced",
                                coordinate: CLLocationCoordinate2D(latitude: -37.797528, longitude: 144.985450),
+                               priority: "P3",
+                               iconColor: #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1),
                                iconText: "P3",
                                iconColor: .primaryGray,
                                iconFilled: false,
@@ -168,6 +246,8 @@ open class TasksMapViewModel {
                                subtitle: nil,
                                status: "Unassigned",
                                coordinate: CLLocationCoordinate2D(latitude: -37.802048, longitude: 144.987646),
+                               priority: "P4",
+                               iconColor: #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1),
                                iconText: "P4",
                                iconColor: .secondaryGray,
                                iconFilled: false,
@@ -215,23 +295,19 @@ open class TasksMapViewModel {
             ResourceMapViewModel(identifier: "r4",
                                  title: "K14",
                                  subtitle: "(2)",
-                                 status: "Resourced",
+                                 status: "Tasked",
                                  coordinate: CLLocationCoordinate2D(latitude: -37.801455, longitude: 144.977965),
                                  iconImage: AssetManager.shared.image(forKey: .resourceDog),
                                  iconBackgroundColor: .primaryGray,
                                  iconTintColor: .white,
                                  pulsing: false),
         ]
+        
+        filteredAnnotations = allAnnotations
     }
     
     func isAnnotationViewDisplayedOnTop(_ annotationView: MKAnnotationView) -> Bool {
         return type(of: annotationView) == priorityAnnotationType
-    }
-}
-
-extension TasksMapViewModel: TasksMapFilterViewModelDelegate {
-    public func filterDidChange(to filter: TasksMapFilterViewModel.Filter) {
-        delegate?.viewModelStateChanged()
     }
 }
 
