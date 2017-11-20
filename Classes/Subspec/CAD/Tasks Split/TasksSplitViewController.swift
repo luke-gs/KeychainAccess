@@ -34,3 +34,9 @@ open class TasksSplitViewController: MPOLSplitViewController {
         return viewModel.navTitle()
     }
 }
+
+extension TasksSplitViewController: MapFilterViewControllerDelegate {
+    public func didSelectDone() {
+        viewModel.applyFilter()
+    }
+}

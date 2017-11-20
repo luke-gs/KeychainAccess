@@ -48,6 +48,8 @@ public enum TaskListType: Int {
 ///
 open class TasksListContainerViewModel {
 
+    public weak var splitViewModel: TasksSplitViewModel?
+
     // MARK: - Properties
 
     // Child view models

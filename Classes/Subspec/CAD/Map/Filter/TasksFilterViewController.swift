@@ -8,6 +8,10 @@
 
 import UIKit
 
+public protocol MapFilterViewControllerDelegate: class {
+    func didSelectDone()
+}
+
 open class TasksFilterViewController: UIViewController {
     
     private struct LayoutConstants {
@@ -23,6 +27,8 @@ open class TasksFilterViewController: UIViewController {
     
     public let viewModel: MapFilterViewModel
     
+    public weak var delegate: MapFilterViewControllerDelegate?
+    
     // MARK: - Views
     
     open var scrollView: UIScrollView!
@@ -30,7 +36,9 @@ open class TasksFilterViewController: UIViewController {
     
     open var footerSection: UIView!
     open var footerSeparator: UIView!
-    open var resetButton: UIButton!
+    open var footerButton: UIButton!
+    
+    private var sectionViews: [MapFilterSectionView] = []
     
     public init(viewModel: MapFilterViewModel) {
         self.viewModel = viewModel
@@ -52,13 +60,15 @@ open class TasksFilterViewController: UIViewController {
     
     /// Creates and styles views
     private func setupViews() {
+        title = viewModel.titleText()
+        
         edgesForExtendedLayout.remove(.top)
         
         scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(scrollView)
         
-        let sectionViews: [MapFilterSectionView] = viewModel.sections.map {
+        sectionViews = viewModel.sections.map {
             let section = MapFilterSectionView(section: $0)
             return section
         }
@@ -79,11 +89,22 @@ open class TasksFilterViewController: UIViewController {
         footerSeparator.translatesAutoresizingMaskIntoConstraints = false
         footerSection.addSubview(footerSeparator)
         
-        resetButton = UIButton()
-        resetButton.setTitle("Reset Filter", for: .normal)
-        resetButton.setTitleColor(#colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1), for: .normal)
-        resetButton.translatesAutoresizingMaskIntoConstraints = false
-        footerSection.addSubview(resetButton)
+        footerButton = UIButton()
+        footerButton.setTitle(viewModel.footerButtonText(), for: .normal)
+        footerButton.setTitleColor(#colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1), for: .normal)
+        footerButton.translatesAutoresizingMaskIntoConstraints = false
+        footerSection.addSubview(footerButton)
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Done", comment: ""),
+                                                            style: .done,
+                                                            target: self,
+                                                            action: #selector(didSelectDone))
+        
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Cancel", comment: ""),
+                                                            style: .done,
+                                                            target: self,
+                                                            action: #selector(didSelectCancel))
     }
     
     /// Activates view constraints
@@ -110,11 +131,11 @@ open class TasksFilterViewController: UIViewController {
             footerSeparator.leadingAnchor.constraint(equalTo: footerSection.leadingAnchor),
             footerSeparator.trailingAnchor.constraint(equalTo: footerSection.trailingAnchor),
             
-            resetButton.topAnchor.constraint(equalTo: footerSection.topAnchor),
-            resetButton.leadingAnchor.constraint(equalTo: footerSection.leadingAnchor),
-            resetButton.trailingAnchor.constraint(equalTo: footerSection.trailingAnchor),
-            resetButton.bottomAnchor.constraint(equalTo: footerSection.bottomAnchor),
-            ])
+            footerButton.topAnchor.constraint(equalTo: footerSection.topAnchor),
+            footerButton.leadingAnchor.constraint(equalTo: footerSection.leadingAnchor),
+            footerButton.trailingAnchor.constraint(equalTo: footerSection.trailingAnchor),
+            footerButton.bottomAnchor.constraint(equalTo: footerSection.bottomAnchor),
+        ])
     }
     
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -123,6 +144,17 @@ open class TasksFilterViewController: UIViewController {
         let wantsTransparentBackground = traitCollection.horizontalSizeClass != .compact
         let theme = ThemeManager.shared.theme(for: .current)
         view.backgroundColor = wantsTransparentBackground ? UIColor.clear : theme.color(forKey: .background)
+    }
+    
+    @objc private func didSelectDone() {
+        sectionViews.forEach {
+            $0.applyValues()
+        }
+        delegate?.didSelectDone()
+    }
+    
+    @objc private func didSelectCancel() {
+        dismiss(animated: true, completion: nil)
     }
 }
 

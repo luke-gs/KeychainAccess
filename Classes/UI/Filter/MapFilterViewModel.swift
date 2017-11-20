@@ -10,6 +10,7 @@ import UIKit
 
 public protocol MapFilterViewModel {
     
+    var sections: [MapFilterSection] { get set }
     func createViewController() -> UIViewController
     func titleText() -> String?
     func footerButtonText() -> String?

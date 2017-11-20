@@ -15,7 +15,7 @@ public struct IncidentMapViewModel {
     public var subtitle: String?
     public var status: String
     public var coordinate: CLLocationCoordinate2D
-    public var iconText: String
+    public var priority: String
     public var iconColor: UIColor
     public var iconFilled: Bool
     public var usesDarkBackground: Bool

@@ -34,7 +34,8 @@ open class CADStatusTabBarController: StatusTabBarController {
         tabBar.isTranslucent = false
     }
     
-    @objc open func selectedCallsignStatusView() {
+    @objc open func selectedCallsignStatusView() {        
+
         guard let viewController = viewModel.userCallsignStatusViewModel.createActionViewController() else { return }
         
         let container = PopoverNavigationController(rootViewController: viewController)
