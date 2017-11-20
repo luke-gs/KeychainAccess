@@ -170,8 +170,7 @@ open class MapFilterViewController: UIViewController {
     
     /// Called when user has selected the footer button
     @objc open func didSelectFooterButton() {
-        viewModel.reset()
-        for (section, sectionView) in zip(viewModel.sections, sectionViews) {
+        for (section, sectionView) in zip(viewModel.defaultSections, sectionViews) {
             sectionView.setValues(for: section)
         }
     }

@@ -20,7 +20,6 @@ open class MapFilterSection {
     /// Rows of toggle options
     open var toggleRows: [MapFilterToggleRow]
     
-    
     /// - Parameters:
     ///   - title: the title for the section
     ///   - isOn: whether the filter for the section is enabled. Set to `nil` to not show an option

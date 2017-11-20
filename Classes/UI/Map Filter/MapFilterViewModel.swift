@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// View model for a `MapFilterViewController
 public protocol MapFilterViewModel {
     
     var defaultSections: [MapFilterSection] { get }
@@ -24,6 +25,4 @@ public protocol MapFilterViewModel {
     
     /// Text for footer button
     func footerButtonText() -> String?
-    
-    
 }
