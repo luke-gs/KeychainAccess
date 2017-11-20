@@ -144,48 +144,24 @@ open class APIManager {
             let interval = Int(date.timeIntervalSince1970)
             path.append("/{interval}")
             parameters["interval"] = String(interval)
+        } else {
+            path.append("/{interval}")
+            parameters["interval"] = "0"
         }
         
         let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
         
-        let newRequest = try! urlRequest(from: networkRequest)
-        let dataRequest = self.dataRequest(from: newRequest)
-        let allPlugins = self.allPlugins
-        allPlugins.forEach {
-            $0.willSend(dataRequest)
-        }
-        let mapper = self.errorMapper
-        return Promise { fulfill, reject in
-            dataRequest.validate().responseData(completionHandler: { response in
-                allPlugins.forEach({
-                    $0.didReceiveResponse(response)
-                })
-                
-                switch response.result {
-                case .success(_):
-                    do {
-                        if let responseData = response.data{
-                            
-                            let responseArray = try JSONSerialization.jsonObject(with: responseData, options: .allowFragments)
-                            if let manifestArray = responseArray as? [[String : Any]] {
-                                fulfill(manifestArray)
-                            } else {
-                                reject(ManifestError("Manifest response not in desired format"))
-                            }
-                        }
-                    } catch let parseError {
-                        reject (parseError)
-                    }
-                case .failure(let error):
-                    let wrappedError = APIManagerError(underlyingError: error, response: response.toDefaultDataResponse())
-                    if let mapper = mapper {
-                        reject(mapper.mappedError(from: wrappedError))
-                    } else {
-                        reject(wrappedError)
-                    }
-                    
+        return try! self.performRequest(networkRequest).then { result -> [[String:Any]] in
+            do {
+                let responseArray = try JSONSerialization.jsonObject(with: result.0, options: .allowFragments)
+                if let manifestArray = responseArray as? [[String : Any]] {
+                    return manifestArray
+                } else {
+                    throw ManifestError("Manifest not in correct format")
                 }
-            })
+            } catch let parseError {
+                throw parseError
+            }
         }
     }
     
