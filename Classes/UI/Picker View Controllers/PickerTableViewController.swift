@@ -411,7 +411,7 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
             return filteredItems[indexPath.row]
         }
         
-        if (allowsQuickSelection && indexPath.section != 1) || (!allowsMultipleSelection && indexPath.section != 0) {
+        if (allowsQuickSelection && indexPath.section != 1) || (!allowsMultipleSelection && indexPath.section != 1) {
             return nil
         }
         return indexPath.row
