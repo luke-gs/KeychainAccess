@@ -56,8 +56,6 @@ open class TasksSplitViewModel {
     }
     
     public func applyFilter() {
-        // TODO: Logic
-        print("Applying filter")
         presenter?.dismiss(animated: true, completion: nil)
         mapViewModel.applyFilter()
         listContainerViewModel.updateListData()
