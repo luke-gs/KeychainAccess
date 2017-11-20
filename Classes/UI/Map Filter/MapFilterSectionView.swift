@@ -14,6 +14,8 @@ class MapFilterSectionView: UIView {
         public static let separatorHeight: CGFloat = 1
         public static let separatorMargin: CGFloat = 24
         public static let rowSpacing: CGFloat = 12
+        public static let toggleHeight: CGFloat = 32
+        public static let trailingMargin: CGFloat = 24
     }
     
     private let section: MapFilterSection
@@ -48,14 +50,15 @@ class MapFilterSectionView: UIView {
     /// Creates and styles views
     private func setupViews() {
 
+        // Add title
         titleLabel.textColor = #colorLiteral(red: 0.337254902, green: 0.3450980392, blue: 0.3843137255, alpha: 1)
-
         titleLabel.font = UIFont.systemFont(ofSize: 22, weight: .semibold)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(titleLabel)
         
-        toggle.setTitle("SHOW", for: .on)
-        toggle.setTitle("HIDE", for: .off)
+        // Add toggle
+        toggle.setTitle(NSLocalizedString("SHOW", comment: "Currently showing this filter"), for: .on)
+        toggle.setTitle(NSLocalizedString("HIDE", comment: "Currently hiding this filter"), for: .off)
         toggle.setTitleColor(.white, for: .on)
         toggle.setTitleColor(.gray, for: .off)
         toggle.setTitleFont(UIFont.systemFont(ofSize: 11, weight: .bold))
@@ -71,7 +74,7 @@ class MapFilterSectionView: UIView {
         toggle.translatesAutoresizingMaskIntoConstraints = false
         addSubview(toggle)
         
-        // for each toggle row, add toggle thing
+        // For each toggle row, add toggle row view
         for (index, toggleRow) in section.toggleRows.enumerated() {
             // Show separator if not last row
             let showSeparator = index < section.toggleRows.count - 1
@@ -88,6 +91,7 @@ class MapFilterSectionView: UIView {
         toggleRowStackView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(toggleRowStackView)
         
+        // Add separator
         separator = UIView()
         separator.backgroundColor = #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 0.24)
         separator.translatesAutoresizingMaskIntoConstraints = false
@@ -100,14 +104,14 @@ class MapFilterSectionView: UIView {
             titleLabel.topAnchor.constraint(equalTo: self.topAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             
-            toggle.heightAnchor.constraint(equalToConstant: 32),
+            toggle.heightAnchor.constraint(equalToConstant: LayoutConstants.toggleHeight),
             toggle.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
             toggle.leadingAnchor.constraint(greaterThanOrEqualTo: titleLabel.trailingAnchor),
-            toggle.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -24),
+            toggle.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -LayoutConstants.trailingMargin),
             
             toggleRowStackView.topAnchor.constraint(equalTo: toggle.bottomAnchor),
             toggleRowStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            toggleRowStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -24),
+            toggleRowStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -LayoutConstants.trailingMargin),
             
             separator.heightAnchor.constraint(equalToConstant: LayoutConstants.separatorHeight),
             separator.topAnchor.constraint(equalTo: toggleRowStackView.bottomAnchor, constant: LayoutConstants.separatorMargin),
@@ -117,16 +121,20 @@ class MapFilterSectionView: UIView {
         ])
     }
     
+    /// Called when the toggle has changed value
     @objc func toggleChanged() {
+        // Do nothing if we aren't using a toggle
         guard section.isOn != nil else { return }
+        
+        // Disable all checkboxes if toggle is off, otherwise revert to original state
         toggleRows.forEach { row in
             for (option, checkbox) in zip(row.toggleRow.options, row.options) {
-                // Disable all checkboxes if toggle is off, otherwise revert to original state
                 checkbox.isEnabled = toggle.isOn ? option.isEnabled : false
             }
         }
     }
     
+    /// Save the view's values to the model
     func applyValues() {
         if section.isOn != nil {
             section.isOn = toggle.isOn
@@ -136,10 +144,14 @@ class MapFilterSectionView: UIView {
         }
     }
     
+    /// Sets the values for a `MapFilterSection`. Use this to reset values
     func setValues(for section: MapFilterSection) {
         if section.isOn != nil {
+            // Set toggle if we are using one
             toggle.setOn(section.isOn.isTrue, animated: false)
         }
+        
+        // Set toggle rows
         for (toggleRow, toggleRowView) in zip(section.toggleRows, toggleRows) {
             toggleRowView.setValues(for: toggleRow)
         }

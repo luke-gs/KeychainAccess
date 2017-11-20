@@ -12,6 +12,7 @@ class MapFilterToggleRowView: UIView {
     
     public struct LayoutConstants {
         public static let checkboxSpacing: CGFloat = 32
+        public static let topMargin: CGFloat = 12
         public static let titleMargin: CGFloat = 8
         /// Checkbox class strangely has a slight leading offset
         public static let checkboxOffset: CGFloat = 5
@@ -77,7 +78,7 @@ class MapFilterToggleRowView: UIView {
     /// Activates view constraints
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: titleLabel.text != nil ? 12 : 0),
+            titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: titleLabel.text != nil ? LayoutConstants.topMargin : 0),
             titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             
@@ -94,12 +95,14 @@ class MapFilterToggleRowView: UIView {
         ])
     }
     
+    /// Save the view's values to the model
     open func applyValues() {
         for (option, checkbox) in zip(toggleRow.options, options) {
             option.isOn = checkbox.isSelected
         }
     }
     
+    /// Sets the values for a `MapFilterToggleRow`. Use this to reset values
     open func setValues(for toggleRow: MapFilterToggleRow) {
         for (option, checkbox) in zip(toggleRow.options, options) {
             checkbox.isSelected = option.isOn
