@@ -1,18 +1,14 @@
 //
 //  LandingPresenter.swift
-//  ClientKit
+//  CAD
 //
-//  Created by KGWH78 on 6/9/17.
+//  Created by Trent Fitzgibbon on 20/10/17.
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 
 import Foundation
 import MPOLKit
 import ClientKit
-
-#if !EXTERNAL
-import EndpointManager
-#endif
 
 public class LandingPresenter: AppGroupLandingPresenter {
 
@@ -50,15 +46,6 @@ public class LandingPresenter: AppGroupLandingPresenter {
                 loginViewController.passwordField.text = "vicroads"
             #endif
 
-            #if !EXTERNAL
-                let configButton = UIButton(type: .system)
-                configButton.setImage(#imageLiteral(resourceName: "endpoint"), for: .normal)
-                configButton.setTitle(EndpointManager.selectedEndpoint?.name, for: .normal)
-                configButton.addTarget(self, action: #selector(showEndpointManager), for: .touchUpInside)
-
-                loginViewController.leftAccessoryView = configButton
-            #endif
-
             return loginViewController
 
         case .termsAndConditions:
@@ -71,10 +58,8 @@ public class LandingPresenter: AppGroupLandingPresenter {
 
         case .whatsNew:
             let whatsNewFirstPage = WhatsNewDetailItem(image: #imageLiteral(resourceName: "WhatsNew"), title: "What's New", detail: "Swipe through and discover the new features and updates that have been included in this release. Refer to the release summary for full update notes.")
-            let whatsNewSecondPage = WhatsNewDetailItem(image: #imageLiteral(resourceName: "RefreshMagnify"), title: "Search", detail: "Search for persons. Search for vehicles.")
-            let whatsNewThirdPage = WhatsNewDetailItem(image: #imageLiteral(resourceName: "Avatar 1"), title: "Details", detail: "View details for person and vehicle entities.")
 
-            let whatsNewVC = WhatsNewViewController(items: [whatsNewFirstPage, whatsNewSecondPage, whatsNewThirdPage])
+            let whatsNewVC = WhatsNewViewController(items: [whatsNewFirstPage])
             whatsNewVC.delegate = self
 
             return whatsNewVC
@@ -85,50 +70,44 @@ public class LandingPresenter: AppGroupLandingPresenter {
                 settingsItem.accessibilityLabel = NSLocalizedString("Settings", comment: "SettingsIconAccessibility")
                 return settingsItem
             }
+            let callsignViewController = CompactCallsignViewController()
+            callsignViewController.tabBarItem = UITabBarItem(title: "Callsign", image: AssetManager.shared.image(forKey: .entityCar), selectedImage: nil)
 
-            let searchViewController = SearchViewController(viewModel: MPOLSearchViewModel())
-            searchViewController.set(leftBarButtonItem: settingsBarButtonItem())
+            let searchProxyViewController = UIViewController() // TODO: Take me back to the search app
+            searchProxyViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
+            searchProxyViewController.tabBarItem.isEnabled = false
 
-            let eventListVC = EventsListViewController()
-            eventListVC.navigationItem.leftBarButtonItem = settingsBarButtonItem()
+            let tasksListContainerViewModel = TasksListContainerViewModel(headerViewModel: TasksListHeaderViewModel(), listViewModel: TasksListViewModel())
+            let tasksSplitViewModel = TasksSplitViewModel(listContainerViewModel: tasksListContainerViewModel,
+                                                          mapViewModel: TasksMapViewModel())
+            let tasksNavController = UINavigationController(rootViewController: tasksSplitViewModel.createViewController())
+            tasksNavController.tabBarItem.image = AssetManager.shared.image(forKey: .tabBarTasks)
+            tasksNavController.tabBarItem.title = NSLocalizedString("Tasks", comment: "Tasks Tab Bar Item")
 
-            let searchNavController = UINavigationController(rootViewController: searchViewController)
-            let actionListNavController = UINavigationController(rootViewController: ActionListViewController())
-            let eventListNavController = UINavigationController(rootViewController: eventListVC)
+            // Show settings cog on left side of tasks list
+            let masterVC = (tasksNavController.viewControllers.first as? MPOLSplitViewController)?.masterViewController
+            masterVC?.navigationItem.leftBarButtonItem = settingsBarButtonItem()
 
-            let tasksProxyViewController = UIViewController()
-            tasksProxyViewController.tabBarItem.title = NSLocalizedString("Tasks", comment: "Tab Bar Item title")
-            tasksProxyViewController.tabBarItem.image = AssetManager.shared.image(forKey: .tabBarTasks)
-            tasksProxyViewController.tabBarItem.isEnabled = false
+            let activityLogViewModel = ActivityLogViewModel()
+            let activityNavController = UINavigationController(rootViewController: activityLogViewModel.createViewController())
+            activityNavController.tabBarItem.image = AssetManager.shared.image(forKey: .tabBarActivity)
+            activityNavController.tabBarItem.title = NSLocalizedString("Activity Log", comment: "Activity Log Tab Bar Item")
 
-            let tabBarController = UITabBarController()
-            tabBarController.viewControllers = [searchNavController, actionListNavController, eventListNavController, tasksProxyViewController]
+            let userCallsignStatusViewModel = UserCallsignStatusViewModel()
+            let statusTabBarViewModel = CADStatusTabBarViewModel(userCallsignStatusViewModel: userCallsignStatusViewModel)
+            let sessionViewController = statusTabBarViewModel.createViewController()
 
-            self.tabBarController = tabBarController
-
-            return tabBarController
+            sessionViewController.regularViewControllers = [searchProxyViewController, tasksNavController, activityNavController]
+            sessionViewController.compactViewControllers = sessionViewController.viewControllers + [callsignViewController]
+            sessionViewController.selectedViewController = tasksNavController
+            return sessionViewController
         }
     }
 
     // MARK: - Private
 
-    private weak var tabBarController: UIViewController?
-
     @objc private func settingsButtonItemDidSelect(_ item: UIBarButtonItem) {
-        let settingsNavController = PopoverNavigationController(rootViewController: SettingsViewController())
-        settingsNavController.modalPresentationStyle = .popover
-
-        if let popoverController = settingsNavController.popoverPresentationController {
-            popoverController.barButtonItem = item
-        }
-
-        tabBarController?.show(settingsNavController, sender: self)
-    }
-
-    @objc private func showEndpointManager() {
-        #if !EXTERNAL
-        EndpointManager.presentEndpointManagerFrom(UIApplication.shared.keyWindow!)
-        #endif
+        (UIApplication.shared.delegate as! AppDelegate).logOut()
     }
 }
 
