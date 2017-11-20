@@ -11,6 +11,12 @@ import UIKit
 /// `UISwitch` replicated with a title and image
 open class LabeledSwitch: UIControl {
     
+    private struct LayoutConstants {
+        static let thumbPadding: CGFloat = 2
+        static let textPadding: CGFloat = 16
+        static let imagePadding: CGFloat = 8
+    }
+    
     // MARK: - State
     
     /// Possible switch states
@@ -294,8 +300,10 @@ open class LabeledSwitch: UIControl {
         addGestureRecognizer(panRecognizer)
     }
     
+    /// Called when view tapped or dragged
     @objc private func didSelectView(sender: UIGestureRecognizer) {
         if sender.state == .ended {
+            /// Make sure pan is only horizontal not vertical
             if let panGesture = sender as? UIPanGestureRecognizer {
                 let velocity = panGesture.velocity(in: self)
                 guard fabs(velocity.x) > fabs(velocity.y) else { return }
@@ -303,16 +311,10 @@ open class LabeledSwitch: UIControl {
             setOn(!isOn, animated: true)
         }
     }
-    
-    private struct LayoutConstants {
-        static let thumbPadding: CGFloat = 2
-        static let textPadding: CGFloat = 16
-        static let imagePadding: CGFloat = 8
-    }
-    
+
     open override func layoutSubviews() {
         super.layoutSubviews()
-        let thumbSize = frame.height - 4
+        let thumbSize = frame.height - (2 * LayoutConstants.thumbPadding)
         
         if let titleLabel = titleLabel {
             let titleSize: CGSize

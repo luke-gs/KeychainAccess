@@ -274,7 +274,6 @@ public class SampleData {
                                                                              boxColor: UIColor.clear,
                                                                              boxFilled: true),
                                                       TasksListItemViewModel(title: "Vehicle: XNR106",
-                                                                             boxText: "",
                                                                              subtitle: "Melbourne",
                                                                              caption: "BC1004  :  4 days ago",
                                                                              boxColor: UIColor.clear,
