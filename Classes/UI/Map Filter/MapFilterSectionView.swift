@@ -128,7 +128,9 @@ class MapFilterSectionView: UIView {
     }
     
     func applyValues() {
-        section.isOn = toggle.isOn
+        if section.isOn != nil {
+            section.isOn = toggle.isOn
+        }
         toggleRows.forEach {
             $0.applyValues()
         }

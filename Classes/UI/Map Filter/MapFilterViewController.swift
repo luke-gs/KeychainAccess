@@ -1,5 +1,5 @@
 //
-//  TasksFilterViewController.swift
+//  MapFilterViewController.swift
 //  MPOLKit
 //
 //  Created by Kyle May on 15/11/17.
@@ -12,7 +12,7 @@ public protocol MapFilterViewControllerDelegate: class {
     func didSelectDone()
 }
 
-open class TasksFilterViewController: UIViewController {
+open class MapFilterViewController: UIViewController {
     
     private struct LayoutConstants {
         static let sectionSpacing: CGFloat = 32

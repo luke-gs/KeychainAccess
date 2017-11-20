@@ -48,7 +48,7 @@ open class TasksSplitViewModel {
     }
     
     public func presentMapFilter() {
-        if let viewController = filterViewModel.createViewController() as? TasksFilterViewController {
+        if let viewController = filterViewModel.createViewController() as? MapFilterViewController {
             viewController.delegate = presenter
             presenter?.presentFormSheet(viewController, animated: true)
         }
