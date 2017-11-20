@@ -12,46 +12,35 @@ import ClientKit
 import CoreLocation
 import MapKit
 
+class EntityMapAnnotation: MKPointAnnotation {
+    var entity: MPOLKitEntity
+
+    init(entity: MPOLKitEntity) {
+        self.entity = entity
+    }
+}
+
 public class LocationMapSummarySearchResultViewModel: MapSummarySearchResultViewModel<Address, AddressSummaryDisplayable> {
 
-    open override func entity(for coordinate: CLLocationCoordinate2D) -> MPOLKitEntity? {
-        guard let result = results.first else { return nil }
-        for rawEntity in result.entities {
-            let entity = AddressSummaryDisplayable(rawEntity)
-            if entity.coordinate == coordinate {
-                return rawEntity
-            }
-        }
-        return nil
-    }
-
-    open override func entityDisplayable(for coordinate: CLLocationCoordinate2D) -> EntityMapSummaryDisplayable? {
-        guard let entity = entity(for: coordinate) else { return nil }
+    public override func entityDisplayable(for annotation: MKAnnotation) -> EntityMapSummaryDisplayable? {
+        guard let entity = entity(for: annotation) else { return nil }
         return AddressSummaryDisplayable(entity)
     }
 
-    open override func mapAnnotation(for entity: MPOLKitEntity) -> MKAnnotation? {
+    public override func mapAnnotation(for entity: MPOLKitEntity) -> MKAnnotation? {
         let displayable = AddressSummaryDisplayable(entity)
 
         guard let coordinate = displayable.coordinate else {
             return nil
         }
 
-        let annotation = MKPointAnnotation()
+        let annotation = EntityMapAnnotation(entity: entity)
         annotation.coordinate = coordinate
         annotation.title = displayable.title
         return annotation
     }
 
-    open override func annotations() -> [MKAnnotation]? {
-        guard  let locationResult = results.first, !locationResult.entities.isEmpty else {
-            return nil
-        }
-        return locationResult.entities.flatMap { mapAnnotation(for: $0) }
-    }
-
-
-    open override func annotationView(for annotation: MKAnnotation, in mapView: MKMapView) -> MKAnnotationView? {
+    public override func annotationView(for annotation: MKAnnotation, in mapView: MKMapView) -> MKAnnotationView? {
         var pinView: MKPinAnnotationView
         let identifier = "locationPinAnnotationView"
 
@@ -64,7 +53,7 @@ public class LocationMapSummarySearchResultViewModel: MapSummarySearchResultView
                 pinView.animatesDrop = false
                 pinView.canShowCallout = true
 
-                if let entity = entityDisplayable(for: annotation.coordinate), let image = entity.mapAnnotationThumbnail() {
+                if let entity = entityDisplayable(for: annotation), let image = entity.mapAnnotationThumbnail() {
                     pinView.leftCalloutAccessoryView = UIImageView(image: image)
                 }
             }
@@ -73,10 +62,6 @@ public class LocationMapSummarySearchResultViewModel: MapSummarySearchResultView
         }
 
         return nil
-    }
-
-    open override func coordinate(for entity: MPOLKitEntity) -> CLLocationCoordinate2D {
-        return AddressSummaryDisplayable(entity).coordinate!
     }
 
     public override func fetchResults(with searchType: LocationMapSearchType) {
