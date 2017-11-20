@@ -11,8 +11,9 @@ import MapKit
 
 open class MapSummarySearchResultViewModel<T: MPOLKitEntity, U : EntityMapSummaryDisplayable>: MapResultViewModelable, AggregatedSearchDelegate {
 
-    public var searchType: LocationMapSearchType!
+    private var _entityAnnotationMappings: [EntityAnnotationMapping]? = []
 
+    public var searchType: LocationMapSearchType!
 
     public var title: String = "OVERVIEW"
     
@@ -31,7 +32,21 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity, U : EntityMapSummar
     
     open var travelEstimationPlugin: TravelEstimationPlugable = TravelEstimationPlugin()
     
-    public var results: [SearchResultSection]  = []
+    open var results: [SearchResultSection]  = [] {
+        didSet {
+            var mapAnnotations = [EntityAnnotationMapping]()
+            for section in results {
+                let annotations = section.entities.flatMap({ entity -> EntityAnnotationMapping? in
+                    guard let annotation = mapAnnotation(for: entity) else {
+                        return nil
+                    }
+                    return EntityAnnotationMapping(entity: entity, annotation: annotation)
+                })
+                mapAnnotations.append(contentsOf: annotations)
+            }
+            self._entityAnnotationMappings = mapAnnotations
+        }
+    }
 
     public required init() { }
 
@@ -56,7 +71,8 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity, U : EntityMapSummar
         return 0
 
     }
-    
+
+    // TODO: - These could be refactored.
     open func fetchResults(withParameters parameters: Parameterisable) {
         MPLRequiresConcreteImplementation()
     }
@@ -69,32 +85,39 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity, U : EntityMapSummar
         MPLRequiresConcreteImplementation()
     }
 
-    open func entity(for coordinate: CLLocationCoordinate2D) -> MPOLKitEntity? {
-        MPLRequiresConcreteImplementation()
+    open func entity(for annotation: MKAnnotation) -> MPOLKitEntity? {
+        guard let index = _entityAnnotationMappings?.index(where: { mapping -> Bool in
+            return mapping.annotation === annotation
+        }) else {
+            return nil
+        }
+        return _entityAnnotationMappings?[index].entity
     }
 
     /// Lookup the first entity matches the coordinate
     ///
     /// - Parameter coordinate: The coordinate of target location
     /// - Returns: The first entity matches the same coordinate
-    open func entityDisplayable(for coordinate: CLLocationCoordinate2D) -> EntityMapSummaryDisplayable? {
-        MPLRequiresConcreteImplementation()
-    }
-    
-    open func coordinate(for entity: MPOLKitEntity) -> CLLocationCoordinate2D {
+
+    open func entityDisplayable(for annotation: MKAnnotation) -> EntityMapSummaryDisplayable? {
         MPLRequiresConcreteImplementation()
     }
 
     open func mapAnnotation(for entity: MPOLKitEntity) -> MKAnnotation? {
-        MPLRequiresConcreteImplementation()
-    }
-
-    open func annotations() -> [MKAnnotation]? {
-        MPLRequiresConcreteImplementation()
+        guard let index = _entityAnnotationMappings?.index(where: { mapping -> Bool in
+            return mapping.entity === entity
+        }) else {
+            return nil
+        }
+        return _entityAnnotationMappings?[index].annotation
     }
 
     open func annotationView(for annotation: MKAnnotation, in mapView: MKMapView) -> MKAnnotationView? {
         MPLRequiresConcreteImplementation()
+    }
+
+    open var allAnnotations: [MKAnnotation]? {
+        return _entityAnnotationMappings?.map({ return $0.annotation })
     }
 
     // MARK: - AggregateSearchDelegate 
@@ -120,4 +143,9 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity, U : EntityMapSummar
         
         return processedResults
     }
+}
+
+fileprivate struct EntityAnnotationMapping {
+    let entity: MPOLKitEntity
+    let annotation: MKAnnotation
 }

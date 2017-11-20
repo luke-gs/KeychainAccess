@@ -31,19 +31,17 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
     
     weak var delegate: LocationMapSearchDelegate?
     var sidebarDelegate: LocationSearchSidebarDelegate?
-    
-    public var selectedLocation: CLLocation? {
+
+    public var selectedAnnotation: MKAnnotation? {
         didSet {
-            if oldValue != selectedLocation {
-                guard let selectedLocation = selectedLocation else {
-                    sidebarDelegate?.hideSidebar(adjustMapInsets: true)
-                    searchFieldPlaceholder = nil
-                    return
-                }
-                
-                let entity = viewModel?.entityDisplayable(for: selectedLocation.coordinate)
-                searchFieldPlaceholder = entity?.title
+            guard let selectedAnnotation = selectedAnnotation else {
+                sidebarDelegate?.hideSidebar(adjustMapInsets: true)
+                searchFieldPlaceholder = nil
+                return
             }
+
+            let entity = viewModel?.entityDisplayable(for: selectedAnnotation)
+            searchFieldPlaceholder = entity?.title
         }
     }
     
@@ -141,10 +139,9 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
 
-        if let entity = viewModel?.entity(for: selectedLocation!.coordinate) {
+        if let selectedAnnotation = selectedAnnotation, let entity = viewModel?.entity(for: selectedAnnotation) {
             delegate?.searchResultsController(self, didSelectEntity: entity)
         }
-
     }
     
     open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -161,7 +158,7 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
     }
     
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let displayable = viewModel!.entityDisplayable(for: selectedLocation!.coordinate)!
+        let displayable = viewModel!.entityDisplayable(for: selectedAnnotation!)!
 
         if indexPath.item == LocationOverview.detail.rawValue {
             let cell = collectionView.dequeueReusableCell(of: EntityListCollectionViewCell.self, for: indexPath)
@@ -174,17 +171,18 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
         cell.streetViewHandler = {
 
             // Implement google maps handler?
-
         }
 
-        if let destination = selectedLocation, let currentLocation = mapView?.userLocation.location {
-            viewModel?.travelEstimationPlugin.calculateDistance(from: currentLocation, to: destination)
+        if let destination = selectedAnnotation, let currentLocation = mapView?.userLocation.location {
+            let coordinate = destination.coordinate
+            let destinationLocation = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+            viewModel?.travelEstimationPlugin.calculateDistance(from: currentLocation, to: destinationLocation)
                 .then { cell.distanceLabel.text = $0 }
                 .catch { _ in cell.distanceLabel.text = "Unknown" }
-            viewModel?.travelEstimationPlugin.calculateETA(from: currentLocation, to: destination, transportType: .walking)
+            viewModel?.travelEstimationPlugin.calculateETA(from: currentLocation, to: destinationLocation, transportType: .walking)
                 .then { cell.walkingEstButton.bottomLabel.text = $0 }
                 .catch { _ in cell.distanceLabel.text = "Unknown" }
-            viewModel?.travelEstimationPlugin.calculateETA(from: currentLocation, to: destination, transportType: .automobile)
+            viewModel?.travelEstimationPlugin.calculateETA(from: currentLocation, to: destinationLocation, transportType: .automobile)
                 .then { cell.automobileEstButton.bottomLabel.text = $0 }
                 .catch { _ in cell.distanceLabel.text = "Unknown" }
         }
@@ -218,8 +216,8 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
     
     public func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         if let annotation = view.annotation as? MKPointAnnotation {
-            sidebarDelegate?.showSidebar(adjustMapInsets: selectedLocation == nil)
-            selectedLocation = CLLocation(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude)
+            sidebarDelegate?.showSidebar(adjustMapInsets: selectedAnnotation == nil)
+            selectedAnnotation = annotation
             collectionView?.reloadData()
         }
     }
@@ -254,7 +252,7 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
         }
         
         /// Update ETA information
-        if let _ = selectedLocation {
+        if let _ = selectedAnnotation {
             collectionView?.reloadData()
         }
     }
@@ -321,7 +319,7 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
     
     @objc
     private func cleanAndRefreshMapView() {
-        selectedLocation = nil
+        selectedAnnotation = nil
         setMapRegion()
         drawMapOverlays()
         addAnnotations()
@@ -340,7 +338,7 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
             let anotationsToRemove = annotations.filter { !($0 is MKUserLocation) }
             mapView?.removeAnnotations(anotationsToRemove)
         }
-        if let annotations = viewModel?.annotations() {
+        if let annotations = viewModel?.allAnnotations {
             mapView?.addAnnotations(annotations)
         }
     }

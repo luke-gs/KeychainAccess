@@ -67,6 +67,9 @@
 		19C625C01F550D2200504BD9 /* NetworkRequestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C625BF1F550D2200504BD9 /* NetworkRequestType.swift */; };
 		19C625C21F55143900504BD9 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C625C11F55143900504BD9 /* NetworkRequest.swift */; };
 		19C625C41F55186A00504BD9 /* URLQueryBuilder+Parameterisable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C625C31F55186A00504BD9 /* URLQueryBuilder+Parameterisable.swift */; };
+		19C9C74E1FC2898B003C8CE4 /* LocationMapDirectionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C9C74D1FC2898B003C8CE4 /* LocationMapDirectionCollectionViewCell.swift */; };
+		19C9C7501FC289BC003C8CE4 /* CustomSubtitleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C9C74F1FC289BC003C8CE4 /* CustomSubtitleButton.swift */; };
+		19C9C7521FC28A6A003C8CE4 /* LocationSearchMapCollectionViewSideBarLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C9C7511FC28A6A003C8CE4 /* LocationSearchMapCollectionViewSideBarLayout.swift */; };
 		19D8D7961FB5207A0002332D /* ExternalAuthenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19D8D7951FB5207A0002332D /* ExternalAuthenticator.swift */; };
 		19D8D7981FB520930002332D /* AuthenticationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19D8D7971FB520930002332D /* AuthenticationProvider.swift */; };
 		19DBD5CB1FA8E1A200205EEC /* ResponseSerializing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DBD5CA1FA8E1A200205EEC /* ResponseSerializing.swift */; };
@@ -579,6 +582,9 @@
 		19C625BF1F550D2200504BD9 /* NetworkRequestType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequestType.swift; sourceTree = "<group>"; };
 		19C625C11F55143900504BD9 /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		19C625C31F55186A00504BD9 /* URLQueryBuilder+Parameterisable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLQueryBuilder+Parameterisable.swift"; sourceTree = "<group>"; };
+		19C9C74D1FC2898B003C8CE4 /* LocationMapDirectionCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationMapDirectionCollectionViewCell.swift; sourceTree = "<group>"; };
+		19C9C74F1FC289BC003C8CE4 /* CustomSubtitleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSubtitleButton.swift; sourceTree = "<group>"; };
+		19C9C7511FC28A6A003C8CE4 /* LocationSearchMapCollectionViewSideBarLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSearchMapCollectionViewSideBarLayout.swift; sourceTree = "<group>"; };
 		19D8D7951FB5207A0002332D /* ExternalAuthenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalAuthenticator.swift; sourceTree = "<group>"; };
 		19D8D7971FB520930002332D /* AuthenticationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationProvider.swift; sourceTree = "<group>"; };
 		19DBD5CA1FA8E1A200205EEC /* ResponseSerializing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseSerializing.swift; sourceTree = "<group>"; };
@@ -1894,6 +1900,7 @@
 				DBE24C311F593AB30088D19B /* EntityDetailCollectionViewCell.swift */,
 				BC9C7D8D1F0DED6600DFFE83 /* EntityListCollectionViewCell.swift */,
 				BC9C7D8E1F0DED6600DFFE83 /* GalleryCollectionViewCell.swift */,
+				19C9C74D1FC2898B003C8CE4 /* LocationMapDirectionCollectionViewCell.swift */,
 				BC9C7D8F1F0DED6600DFFE83 /* StatsOverviewCollectionViewCell.swift */,
 			);
 			path = Cells;
@@ -1984,6 +1991,7 @@
 				BC9C7DBC1F0DED6600DFFE83 /* AlertIndicatorView.swift */,
 				BC9C7DBD1F0DED6600DFFE83 /* BadgeView.swift */,
 				BC9C7DBE1F0DED6600DFFE83 /* CircleIconView.swift */,
+				19C9C74F1FC289BC003C8CE4 /* CustomSubtitleButton.swift */,
 				BC9C7DBF1F0DED6600DFFE83 /* EntityThumbnailView.swift */,
 				BC9C7DC21F0DED6600DFFE83 /* GradientView.swift */,
 				BC9C7DC31F0DED6600DFFE83 /* NavigationBarExtension.swift */,
@@ -2001,6 +2009,7 @@
 		BCFA067F1F3176A8002FA1FF /* MapCollectionViewLayout */ = {
 			isa = PBXGroup;
 			children = (
+				19C9C7511FC28A6A003C8CE4 /* LocationSearchMapCollectionViewSideBarLayout.swift */,
 				BCFA067D1F3176A3002FA1FF /* MapCollectionViewLayout.swift */,
 				BCFA06801F317C29002FA1FF /* MapCollectionViewHeaderLayout.swift */,
 				BC0EA3F31F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift */,
@@ -2973,6 +2982,7 @@
 				C61AC91A1F32FAF100F82FF6 /* User.swift in Sources */,
 				27CBC75B1F8B27B100E387C3 /* ActivityLogItemViewModel.swift in Sources */,
 				9620530D1F988239000CAD49 /* AppGroup.swift in Sources */,
+				19C9C7521FC28A6A003C8CE4 /* LocationSearchMapCollectionViewSideBarLayout.swift in Sources */,
 				BC9C7E541F0DED6600DFFE83 /* NavigationBarExtension.swift in Sources */,
 				19B49BC61F665F5A00502F51 /* WhatsNewDetailViewController.swift in Sources */,
 				BC9C7DEF1F0DED6600DFFE83 /* Transformer.swift in Sources */,
@@ -3026,6 +3036,7 @@
 				DB88BCE51F42D01C0056FD69 /* SortDescriptor.swift in Sources */,
 				274C89731F984CD0005B9CF8 /* CallsignListViewModel.swift in Sources */,
 				44F72B2A1F85E5F000A6FE6B /* SearchResultMessageViewController.swift in Sources */,
+				19C9C74E1FC2898B003C8CE4 /* LocationMapDirectionCollectionViewCell.swift in Sources */,
 				965CD8AF1F902872007C3EEA /* TasksListContainerViewModel.swift in Sources */,
 				1212B54D1F60F2ED00F90CA0 /* TestingDirective.swift in Sources */,
 				E21CD4741FBD4B3800925A38 /* NetworkMonitorPlugin.swift in Sources */,
@@ -3065,6 +3076,7 @@
 				EA3BA38A1F7A1555000E4AD8 /* ReloadValidationStateVisitor.swift in Sources */,
 				BC9C7E471F0DED6600DFFE83 /* SourceBar.swift in Sources */,
 				BC9C7E0F1F0DED6600DFFE83 /* DefaultReusable.swift in Sources */,
+				19C9C7501FC289BC003C8CE4 /* CustomSubtitleButton.swift in Sources */,
 				EAFACCBC1F4BACE900B93CBA /* SearchFieldAdvanceCell.swift in Sources */,
 				96CF32301F8C4AD300140AF8 /* CADFormCollectionSectionViewModel.swift in Sources */,
 				EA8904B01F6A0C720050DB84 /* FormBuilderViewController.swift in Sources */,

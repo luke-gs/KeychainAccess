@@ -65,19 +65,17 @@ public protocol MapResultViewModelable: SearchResultModelable {
     /// Search enum, to identifiy the seach type and parameters
     var searchType: LocationMapSearchType! { get set }
 
-    /// Returns the entity that is associciated with the provided coordinate
-    /// Searches in the results for a matching entity
-    func entity(for coordinate: CLLocationCoordinate2D) -> MPOLKitEntity?
+    /// Return all the annotations available on the map
+    var allAnnotations: [MKAnnotation]? { get }
 
     /// Return a displayable value for the first entity matches the coordinate
     ///
     /// - Parameter coordinate: The coordinate of target location
-    func entityDisplayable(for coordinate: CLLocationCoordinate2D) -> EntityMapSummaryDisplayable?
-    
-    func mapAnnotation(for entity: MPOLKitEntity) -> MKAnnotation?
+    func entityDisplayable(for annotation: MKAnnotation) -> EntityMapSummaryDisplayable?
 
-    /// Return all the annotations available on the map
-    func annotations() -> [MKAnnotation]?
+    func entity(for annotation: MKAnnotation) -> MPOLKitEntity?
+
+    func mapAnnotation(for entity: MPOLKitEntity) -> MKAnnotation?
 
     /// The view for each annotation view for the specific mapView
     /// Subclasses will need to provode their own implementations to provide annotations
