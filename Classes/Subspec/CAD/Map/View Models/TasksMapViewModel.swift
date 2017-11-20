@@ -101,7 +101,7 @@ open class TasksMapViewModel {
         if filter.showResources {
             let filteredResources = resources.filter { model in
                 // TODO: Replace with enum when model classes created
-                let taskedFilter = filter.taskedResources .contains(model.status)
+                let taskedFilter = filter.taskedResources.contains(model.status)
                 
                 // If status is not in filter options always show
                 let isOther = model.status != "Tasked" && model.status != "Untasked"
@@ -208,39 +208,61 @@ open class TasksMapViewModel {
             IncidentMapViewModel(identifier: "i1",
                                title: "Assult",
                                subtitle: "(2)",
-                               status: "Assigned",
-                               coordinate: CLLocationCoordinate2D(latitude: -37.803258, longitude: 144.983707),
+                               status: "Current Incident",
+                               coordinate: CLLocationCoordinate2D(latitude: -37.803166, longitude: 144.983696),
                                priority: "P1",
                                iconColor: .orangeRed,
                                iconFilled: true,
                                usesDarkBackground: false),
-
+            
             IncidentMapViewModel(identifier: "i2",
+                                 title: "Trespassing",
+                                 subtitle: "(1)",
+                                 status: "Resourced",
+                                 coordinate: CLLocationCoordinate2D(latitude: -37.797547, longitude: 144.985428),
+                                 priority: "P3",
+                                 iconColor: .secondaryGray,
+                                 iconFilled: false,
+                                 usesDarkBackground: false),
+            
+            IncidentMapViewModel(identifier: "i3",
+                                 title: "Vandalism",
+                                 subtitle: nil,
+                                 status: "Unresourced",
+                                 coordinate: CLLocationCoordinate2D(latitude: -37.802759, longitude: 144.995149),
+                                 priority: "P4",
+                                 iconColor: .secondaryGray,
+                                 iconFilled: false,
+                                 usesDarkBackground: true),
+            
+            IncidentMapViewModel(identifier: "i4",
+                                 title: "Traffic Crash",
+                                 subtitle: nil,
+                                 status: "Unresourced",
+                                 coordinate: CLLocationCoordinate2D(latitude: -37.807550, longitude: 144.975053),
+                                 priority: "P3",
+                                 iconColor: .secondaryGray,
+                                 iconFilled: false,
+                                 usesDarkBackground: false),
+            
+            
+            IncidentMapViewModel(identifier: "i5",
                                title: "Domestic Violence",
                                subtitle: "(2)",
-                               status: "Assigned",
-                               coordinate: CLLocationCoordinate2D(latitude: -37.808173, longitude: 144.978827),
+                               status: "Resourced",
+                               coordinate: CLLocationCoordinate2D(latitude: -37.800077, longitude: 144.976741),
                                priority: "P2",
                                iconColor: .sunflowerYellow,
                                iconFilled: true,
                                usesDarkBackground: false),
 
-            IncidentMapViewModel(identifier: "i3",
-                               title: "Trespassing",
+
+            IncidentMapViewModel(identifier: "i6",
+                               title: "Public Nuisance",
                                subtitle: "(1)",
                                status: "Resourced",
-                               coordinate: CLLocationCoordinate2D(latitude: -37.797528, longitude: 144.985450),
+                               coordinate: CLLocationCoordinate2D(latitude: -37.808979, longitude: 144.978205),
                                priority: "P3",
-                               iconColor: .primaryGray,
-                               iconFilled: false,
-                               usesDarkBackground: false),
-
-            IncidentMapViewModel(identifier: "i4",
-                               title: "Traffic Crash",
-                               subtitle: nil,
-                               status: "Unassigned",
-                               coordinate: CLLocationCoordinate2D(latitude: -37.802048, longitude: 144.987646),
-                               priority: "P4",
                                iconColor: .secondaryGray,
                                iconFilled: false,
                                usesDarkBackground: true),

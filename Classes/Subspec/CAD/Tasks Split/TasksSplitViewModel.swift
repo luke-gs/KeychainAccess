@@ -60,6 +60,7 @@ open class TasksSplitViewModel {
         print("Applying filter")
         presenter?.dismiss(animated: true, completion: nil)
         mapViewModel.applyFilter()
+        listContainerViewModel.updateListData()
     }
 
 }
