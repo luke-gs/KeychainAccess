@@ -101,7 +101,7 @@ open class TasksMapViewModel {
         if filter.showResources {
             let filteredResources = resources.filter { model in
                 // TODO: Replace with enum when model classes created
-                let taskedFilter = filter.resourcedIncidents.contains(model.status)
+                let taskedFilter = filter.taskedResources .contains(model.status)
                 
                 // If status is not in filter options always show
                 let isOther = model.status != "Tasked" && model.status != "Untasked"

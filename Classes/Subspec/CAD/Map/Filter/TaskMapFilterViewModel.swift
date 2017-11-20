@@ -11,7 +11,39 @@ import UIKit
 public class TaskMapFilterViewModel: MapFilterViewModel {
     
     public var sections: [MapFilterSection] = []
-    public let originalState: [MapFilterSection]
+    
+    public let defaultSections: [MapFilterSection] = [
+        MapFilterSection(title: "General", isOn: nil, toggleRows: [
+            MapFilterToggleRow(options: [
+                MapFilterOption(text: "Show results outside my Patrol Area", isOn: true)
+            ])
+        ]),
+        
+        MapFilterSection(title: "Incidents", isOn: true, toggleRows: [
+            MapFilterToggleRow(title: "Priority", options: [
+                MapFilterOption(text: "P1", isEnabled: false, isOn: true),
+                MapFilterOption(text: "P2", isOn: true),
+                MapFilterOption(text: "P3", isOn: true),
+                MapFilterOption(text: "P4", isOn: true),
+            ]),
+            
+            MapFilterToggleRow(title: "Show incidents that are", options: [
+                MapFilterOption(text: "Resourced", isOn: true),
+                MapFilterOption(text: "Unresourced", isOn: true),
+            ]),
+        ]),
+        
+        MapFilterSection(title: "Patrol", isOn: false),
+        
+        MapFilterSection(title: "Broadcasts", isOn: false),
+        
+        MapFilterSection(title: "Resources", isOn: true, toggleRows: [
+            MapFilterToggleRow(title: "Show resources that are", options: [
+                MapFilterOption(text: "Tasked", isOn: true),
+                MapFilterOption(text: "Untasked", isOn: true),
+            ]),
+        ])
+    ]
     
     /// Indexes for sections. Manually mapped, update if you change something.
     private struct Indexes {
@@ -31,44 +63,14 @@ public class TaskMapFilterViewModel: MapFilterViewModel {
     }
     
     public init() {
-        sections = [
-            MapFilterSection(title: "General", isOn: nil, toggleRows: [
-                MapFilterToggleRow(options: [
-                    MapFilterOption(text: "Show results outside my Patrol Area", isOn: true)
-                ])
-            ]),
-            
-            MapFilterSection(title: "Incidents", isOn: true, toggleRows: [
-                MapFilterToggleRow(title: "Priority", options: [
-                    MapFilterOption(text: "P1", isEnabled: false, isOn: true),
-                    MapFilterOption(text: "P2", isOn: true),
-                    MapFilterOption(text: "P3", isOn: true),
-                    MapFilterOption(text: "P4", isOn: true),
-                ]),
-                
-                MapFilterToggleRow(title: "Show incidents that are", options: [
-                    MapFilterOption(text: "Resourced", isOn: true),
-                    MapFilterOption(text: "Unresourced", isOn: true),
-                ]),
-            ]),
-        
-            MapFilterSection(title: "Patrol", isOn: false),
-            
-            MapFilterSection(title: "Broadcasts", isOn: false),
-            
-            MapFilterSection(title: "Resources", isOn: true, toggleRows: [
-                MapFilterToggleRow(title: "Show resources that are", options: [
-                    MapFilterOption(text: "Tasked", isOn: true),
-                    MapFilterOption(text: "Untasked", isOn: true),
-                ]),
-            ])
-        ]
-        
-        originalState = sections
-        // TODO: Copy
+        sections = defaultSections.copy()
     }
     
     // MARK: - Filter
+    
+    public func reset() {
+        sections = defaultSections.copy()
+    }
     
     // MARK: General
     
@@ -126,12 +128,12 @@ public class TaskMapFilterViewModel: MapFilterViewModel {
     }
     
     /// Which type of resources to show
-    public var taskedResources: (tasked: Bool, untasked: Bool) {
+    public var taskedResources: [String] {
         let options = sections[Indexes.resources].toggleRows[Indexes.ToggleRows.resourcesTasked].options
-        let tasked = options[0].isOn
-        let untasked = options[1].isOn
+        let tasked = options[0].isOn ? options[0].text : nil
+        let untasked = options[1].isOn ? options[1].text : nil
         
-        return (tasked, untasked)
+        return [tasked, untasked].removeNils()
     }
     
     // MARK: - View controller info
@@ -145,6 +147,6 @@ public class TaskMapFilterViewModel: MapFilterViewModel {
     }
     
     public func footerButtonText() -> String? {
-        return NSLocalizedString("Reset Tasks", comment: "")
+        return NSLocalizedString("Reset Filter", comment: "")
     }
 }
