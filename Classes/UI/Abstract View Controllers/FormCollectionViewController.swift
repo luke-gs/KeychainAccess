@@ -364,6 +364,8 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
                         view.tintColor = disclosureColor
                     case .dropDown:
                         view.tintColor = primaryTextColor
+                    case .overflow:
+                        view.tintColor = tintColor
                     }
                 }
                 

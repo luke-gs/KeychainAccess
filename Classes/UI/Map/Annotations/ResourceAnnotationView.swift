@@ -19,11 +19,13 @@ open class ResourceAnnotationView: MKAnnotationView {
         static let detailsViewHeight: CGFloat = 16
         static let detailsViewRadius: CGFloat = 2
         
-        static let circleSize: CGFloat = 50
+        static let circleSize: CGFloat = 40
         static let circleRadius: CGFloat = circleSize / 2
         static let circleImageMargin: CGFloat = 14
         
-        static let borderSize: CGFloat = 4
+        static let imagePadding: CGFloat = 5
+        
+        static let borderSize: CGFloat = 2
     }
     
     // MARK: - Views
@@ -50,12 +52,15 @@ open class ResourceAnnotationView: MKAnnotationView {
         setupConstraints()
     }
     
-    public func configure(withAnnotation annotation: MKAnnotation, circleBorderColor: UIColor = .white, circleBackgroundColor: UIColor, resourceImage: UIImage?) {
+    public func configure(withAnnotation annotation: MKAnnotation, circleBorderColor: UIColor = .white, circleBackgroundColor: UIColor, resourceImage: UIImage?, imageTintColor: UIColor?) {
         self.annotation = annotation
         
         detailsTitleLabel.text = annotation.title ?? ""
         detailsSubtitleLabel.text = annotation.subtitle ?? ""
-        imageView.image = resourceImage
+        imageView.image = resourceImage?.withCircleBackground(tintColor: imageTintColor,
+                                                              circleColor: circleBackgroundColor,
+                                                              padding: CGSize(width: LayoutConstants.imagePadding, height: LayoutConstants.imagePadding),
+                                                              shrinkImage: true)
         circleView.backgroundColor = circleBackgroundColor
         circleView.layer.borderColor = circleBorderColor.cgColor
     }
@@ -131,7 +136,7 @@ open class ResourceAnnotationView: MKAnnotationView {
             circleView.widthAnchor.constraint(equalToConstant: LayoutConstants.circleSize),
 
             imageView.centerXAnchor.constraint(equalTo: circleView.centerXAnchor),
-            imageView.centerYAnchor.constraint(equalTo: circleView.centerYAnchor, constant: -2),
+            imageView.centerYAnchor.constraint(equalTo: circleView.centerYAnchor, constant: -1),
         ])
     }
 }

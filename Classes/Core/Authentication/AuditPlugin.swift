@@ -14,6 +14,10 @@ open class AuditPlugin: PluginType {
     static let auditDeviceIdKey = "X-Device-ID"
     static let auditTransactionIdKey = "X-Transaction-ID"
     
+    public init() {
+        
+    }
+    
     open func adapt(_ urlRequest: URLRequest) -> URLRequest {
         var adaptedRequest = urlRequest
         

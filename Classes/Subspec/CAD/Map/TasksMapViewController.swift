@@ -17,7 +17,7 @@ open class TasksMapViewController: MapViewController {
 
     public init(viewModel: TasksMapViewModel, locationManager: CLLocationManager? = nil, zoomsToUserLocationOnLoad: Bool = true, settingsViewModel: MapSettingsViewModel = MapSettingsViewModel()) {
         self.viewModel = viewModel
-        super.init(withLocationManager: locationManager, zoomsToUserLocationOnLoad: zoomsToUserLocationOnLoad, settingsViewModel: settingsViewModel)
+        super.init(zoomsToUserLocationOnLoad: zoomsToUserLocationOnLoad, settingsViewModel: settingsViewModel)
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -31,6 +31,7 @@ open class TasksMapViewController: MapViewController {
         navigationItem.title = "Activities"
         isUserLocationButtonHidden = false
         isMapTypeButtonHidden = false
+        mapView.showsCompass = false
         
         mapLayerFilterButton = UIBarButtonItem.init(image: AssetManager.shared.image(forKey: .filter), style: .plain, target: self, action: #selector(showMapLayerFilter))
         navigationItem.rightBarButtonItem = mapLayerFilterButton
@@ -59,7 +60,8 @@ open class TasksMapViewController: MapViewController {
             
             annotationView?.configure(withAnnotation: annotation,
                                       circleBackgroundColor: annotation.iconBackgroundColor,
-                                      resourceImage: annotation.icon)
+                                      resourceImage: annotation.icon,
+                                      imageTintColor: annotation.iconTintColor)
             
             return annotationView
         } else if let annotation = annotation as? IncidentAnnotation {
@@ -81,6 +83,16 @@ open class TasksMapViewController: MapViewController {
             return nil
         }
     }
+    
+    public func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        mapView.deselectAnnotation(view.annotation, animated: false)
+       
+        if let viewModel = viewModel.viewModel(for: view.annotation as? TaskAnnotation) {
+            let vc = TasksItemSidebarViewController.init(viewModel: viewModel)
+            splitViewController?.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
     
     public func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
         // Keep resource annotations on top by observing changes to the layer's zPosition

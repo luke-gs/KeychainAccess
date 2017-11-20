@@ -12,7 +12,8 @@ import CoreLocation
 public struct IncidentMapViewModel {
     public var identifier: String
     public var title: String
-    public var subtitle: String
+    public var subtitle: String?
+    public var status: String
     public var coordinate: CLLocationCoordinate2D
     public var iconText: String
     public var iconColor: UIColor

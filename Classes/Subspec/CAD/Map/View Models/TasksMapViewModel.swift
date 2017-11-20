@@ -52,6 +52,7 @@ open class TasksMapViewModel {
                                       coordinate: model.coordinate,
                                       title: model.title,
                                       subtitle: model.subtitle,
+                                      status: model.status,
                                       iconText: model.iconText,
                                       iconColor: model.iconColor,
                                       iconFilled: model.iconFilled,
@@ -63,7 +64,8 @@ open class TasksMapViewModel {
             return TaskAnnotation(identifier: model.identifier,
                                           coordinate: model.coordinate,
                                           title: model.title,
-                                          subtitle: model.subtitle)
+                                          subtitle: model.subtitle,
+                                          status: nil)
         }
         
         /// Annotations of the broadcast type
@@ -71,7 +73,8 @@ open class TasksMapViewModel {
             return TaskAnnotation(identifier: model.identifier,
                                           coordinate: model.coordinate,
                                           title: model.title,
-                                          subtitle: model.subtitle)
+                                          subtitle: model.subtitle,
+                                          status: nil)
         }
         
         /// Annotations of the resource type
@@ -80,8 +83,10 @@ open class TasksMapViewModel {
                                           coordinate: model.coordinate,
                                           title: model.title,
                                           subtitle: model.subtitle,
+                                          status: model.status,
                                           icon: model.iconImage,
-                                          iconBackgroundColor: model.iconColor,
+                                          iconBackgroundColor: model.iconBackgroundColor,
+                                          iconTintColor: model.iconTintColor,
                                           pulsing: model.pulsing)
         }
         
@@ -106,43 +111,65 @@ open class TasksMapViewModel {
         return annotations
     }
     
+    
+    /// Creates a view model from an annotation
+    public func viewModel(for annotation: TaskAnnotation?) -> TaskItemViewModel? {
+        if let annotation = annotation as? ResourceAnnotation {
+            return ResourceTaskItemViewModel(iconImage: annotation.icon,
+                                                  iconTintColor: .white,
+                                                  color: .disabledGray, // TODO: Find out which to use
+                statusText: annotation.status, // FIXME: Get real text
+                itemName: "\(annotation.title ?? "") \(annotation.subtitle ?? "")",
+                lastUpdated: "Updated 2 mins ago")  // FIXME: Get real text
+        } else if let _ = annotation as? IncidentAnnotation {
+            // TODO: Hook up in CAD Sprint 3
+            return nil
+        }
+        
+        return nil
+    }
+    
     // MARK: - Debug
     
     func loadDummyData() {
         incidents = [
             IncidentMapViewModel(identifier: "i1",
                                title: "Assult",
-                               subtitle: "Resourced (2)",
+                               subtitle: "(2)",
+                               status: "Assigned",
                                coordinate: CLLocationCoordinate2D(latitude: -37.803258, longitude: 144.983707),
                                iconText: "P1",
-                               iconColor: #colorLiteral(red: 1, green: 0.231372549, blue: 0.1882352941, alpha: 1),
+                               iconColor: .orangeRed,
                                iconFilled: true,
                                usesDarkBackground: false),
 
             IncidentMapViewModel(identifier: "i2",
                                title: "Domestic Violence",
-                               subtitle: "Assigned",
+                               subtitle: "(2)",
+                               status: "Assigned",
                                coordinate: CLLocationCoordinate2D(latitude: -37.808173, longitude: 144.978827),
                                iconText: "P2",
-                               iconColor: #colorLiteral(red: 1, green: 0.8, blue: 0, alpha: 1),
+                               iconColor: .sunflowerYellow,
                                iconFilled: true,
                                usesDarkBackground: false),
 
             IncidentMapViewModel(identifier: "i3",
                                title: "Trespassing",
-                               subtitle: "Assigned",
+                               subtitle: "(1)",
+                               status: "Resourced",
                                coordinate: CLLocationCoordinate2D(latitude: -37.797528, longitude: 144.985450),
                                iconText: "P3",
-                               iconColor: #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1),
+                               iconColor: .primaryGray,
                                iconFilled: false,
                                usesDarkBackground: false),
 
             IncidentMapViewModel(identifier: "i4",
-                               title: "Unassigned",
-                               subtitle: "Resourced (2)",
+                               title: "Traffic Crash",
+                               subtitle: nil,
+                               status: "Unassigned",
                                coordinate: CLLocationCoordinate2D(latitude: -37.802048, longitude: 144.987646),
                                iconText: "P4",
-                               iconColor: #colorLiteral(red: 0, green: 0.4793452024, blue: 0.9990863204, alpha: 1),
+                               iconColor: .secondaryGray,
                                iconFilled: false,
                                usesDarkBackground: true),
         ]
@@ -158,25 +185,41 @@ open class TasksMapViewModel {
             ResourceMapViewModel(identifier: "r1",
                                  title: "P03",
                                  subtitle: "(3)",
+                                 status: "In Duress 2:45", // TODO: Countdown...
                                  coordinate: CLLocationCoordinate2D(latitude: -37.807014, longitude: 144.973212),
                                  iconImage: AssetManager.shared.image(forKey: .resourceCar),
-                                 iconColor: #colorLiteral(red: 0.9455295139, green: 0, blue: 0, alpha: 1),
+                                 iconBackgroundColor: .orangeRed,
+                                 iconTintColor: .black,
                                  pulsing: true),
             
             ResourceMapViewModel(identifier: "r2",
                                  title: "P07",
                                  subtitle: "(2)",
+                                 status: "At Incident",
                                  coordinate: CLLocationCoordinate2D(latitude: -37.802314, longitude: 144.975459),
                                  iconImage: AssetManager.shared.image(forKey: .resourceCar),
-                                 iconColor: #colorLiteral(red: 0.8431372549, green: 0.8431372549, blue: 0.8509803922, alpha: 1),
+                                 iconBackgroundColor: .primaryGray,
+                                 iconTintColor: .white,
                                  pulsing: false),
             
             ResourceMapViewModel(identifier: "r3",
                                  title: "K12",
                                  subtitle: "(1)",
+                                 status: "On Air",
                                  coordinate: CLLocationCoordinate2D(latitude: -37.799788, longitude: 144.992054),
                                  iconImage: AssetManager.shared.image(forKey: .resourceDog),
-                                 iconColor: #colorLiteral(red: 0.2980392157, green: 0.6862745098, blue: 0.3137254902, alpha: 1),
+                                 iconBackgroundColor: .midGreen,
+                                 iconTintColor: .black,
+                                 pulsing: false),
+            
+            ResourceMapViewModel(identifier: "r4",
+                                 title: "K14",
+                                 subtitle: "(2)",
+                                 status: "Resourced",
+                                 coordinate: CLLocationCoordinate2D(latitude: -37.801455, longitude: 144.977965),
+                                 iconImage: AssetManager.shared.image(forKey: .resourceDog),
+                                 iconBackgroundColor: .primaryGray,
+                                 iconTintColor: .white,
                                  pulsing: false),
         ]
     }

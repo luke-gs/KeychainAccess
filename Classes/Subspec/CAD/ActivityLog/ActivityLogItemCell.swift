@@ -24,7 +24,7 @@ open class ActivityLogItemCell: CollectionViewFormSubtitleCell {
 
         // Add time label
         timeLabel.font = subtitleLabel.font.monospacedDigitFont()
-        timeLabel.textColor = #colorLiteral(red: 0.4588235294, green: 0.5098039216, blue: 0.5529411765, alpha: 1)
+        timeLabel.textColor = .secondaryGray
         addSubview(timeLabel)
 
         imageAlignment = .title

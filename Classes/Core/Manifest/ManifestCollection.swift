@@ -32,8 +32,7 @@ public struct ManifestCollection: RawRepresentable, Equatable, Hashable {
     
     public let rawValue: String
     
-    public static let States     = ManifestCollection(rawValue: "states")
-    public static let Genders    = ManifestCollection(rawValue: "genders")
+    // PSCore doesn't contain any default collections for 25/09/2017
     
     public var hashValue: Int {
         return rawValue.hashValue
