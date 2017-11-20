@@ -94,9 +94,15 @@ class MapFilterToggleRowView: UIView {
         ])
     }
     
-    func applyValues() {
+    open func applyValues() {
         for (option, checkbox) in zip(toggleRow.options, options) {
             option.isOn = checkbox.isSelected
+        }
+    }
+    
+    open func setValues(for toggleRow: MapFilterToggleRow) {
+        for (option, checkbox) in zip(toggleRow.options, options) {
+            checkbox.isSelected = option.isOn
         }
     }
     

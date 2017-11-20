@@ -15,6 +15,8 @@ public protocol MapFilterViewControllerDelegate: class {
 open class MapFilterViewController: UIViewController {
     
     private struct LayoutConstants {
+        static let topMargin: CGFloat = 24
+        static let leftMargin: CGFloat = 24
         static let sectionSpacing: CGFloat = 32
         static let verticalMargin: CGFloat = 16
         static let footerHeight: CGFloat = 64
@@ -40,6 +42,8 @@ open class MapFilterViewController: UIViewController {
     
     private var sectionViews: [MapFilterSectionView] = []
     
+    // MARK: - Init
+    
     public init(viewModel: MapFilterViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -49,14 +53,14 @@ open class MapFilterViewController: UIViewController {
         MPLCodingNotSupported()
     }
     
+    // MARK: - Setup
+
     open override func viewDidLoad() {
         super.viewDidLoad()
         
         setupViews()
         setupConstraints()
     }
-    
-    // MARK: - Setup
     
     /// Creates and styles views
     private func setupViews() {
@@ -68,18 +72,20 @@ open class MapFilterViewController: UIViewController {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(scrollView)
         
+        // Create section views for sections model
         sectionViews = viewModel.sections.map {
             let section = MapFilterSectionView(section: $0)
             return section
         }
         
+        // Create stack view with sections plus spacer
         sectionsStackView = UIStackView(arrangedSubviews: sectionViews + [UIView()])
-        
         sectionsStackView.axis = .vertical
         sectionsStackView.distribution = .fill
         sectionsStackView.spacing = LayoutConstants.sectionSpacing
         sectionsStackView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(sectionsStackView)
+        
         footerSection = UIView()
         footerSection.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(footerSection)
@@ -92,6 +98,7 @@ open class MapFilterViewController: UIViewController {
         footerButton = UIButton()
         footerButton.setTitle(viewModel.footerButtonText(), for: .normal)
         footerButton.setTitleColor(#colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1), for: .normal)
+        footerButton.addTarget(self, action: #selector(didSelectFooterButton), for: .touchUpInside)
         footerButton.translatesAutoresizingMaskIntoConstraints = false
         footerSection.addSubview(footerButton)
         
@@ -111,12 +118,12 @@ open class MapFilterViewController: UIViewController {
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24).withPriority(.almostRequired),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: LayoutConstants.leftMargin).withPriority(.almostRequired),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).withPriority(.almostRequired),
             scrollView.bottomAnchor.constraint(equalTo: footerSection.topAnchor).withPriority(.almostRequired),
             scrollView.widthAnchor.constraint(equalTo: sectionsStackView.widthAnchor).withPriority(.almostRequired),
             
-            sectionsStackView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 24),
+            sectionsStackView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: LayoutConstants.topMargin),
             sectionsStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             sectionsStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             sectionsStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
@@ -146,15 +153,27 @@ open class MapFilterViewController: UIViewController {
         view.backgroundColor = wantsTransparentBackground ? UIColor.clear : theme.color(forKey: .background)
     }
     
-    @objc private func didSelectDone() {
+    // MARK: - Actions
+    
+    /// Called when user has selected the done button
+    @objc open func didSelectDone() {
         sectionViews.forEach {
             $0.applyValues()
         }
         delegate?.didSelectDone()
     }
     
-    @objc private func didSelectCancel() {
+    /// Called when user has selected the cancel button
+    @objc open func didSelectCancel() {
         dismiss(animated: true, completion: nil)
+    }
+    
+    /// Called when user has selected the footer button
+    @objc open func didSelectFooterButton() {
+        viewModel.reset()
+        for (section, sectionView) in zip(viewModel.sections, sectionViews) {
+            sectionView.setValues(for: section)
+        }
     }
 }
 

@@ -136,4 +136,13 @@ class MapFilterSectionView: UIView {
         }
     }
     
+    func setValues(for section: MapFilterSection) {
+        if section.isOn != nil {
+            toggle.setOn(section.isOn.isTrue, animated: false)
+        }
+        for (toggleRow, toggleRowView) in zip(section.toggleRows, toggleRows) {
+            toggleRowView.setValues(for: toggleRow)
+        }
+    }
+    
 }
