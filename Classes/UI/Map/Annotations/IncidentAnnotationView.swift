@@ -17,13 +17,13 @@ open class IncidentAnnotationView: MKAnnotationView {
     
     private struct LayoutConstants {
         static let minimumWidth: CGFloat = 112
-        static let height: CGFloat = 72
+        static let height: CGFloat = 48
         static let priorityIconWidth: CGFloat = 24
         static let priorityIconHeight: CGFloat = 16
         static let priorityIconTextMargin: CGFloat = 4
         
         static let largeMargin: CGFloat = 12
-        static let smallMargin: CGFloat = 8
+        static let smallMargin: CGFloat = 4
 
         static let arrowWidth: CGFloat = 24
         static let arrowHeight: CGFloat = 16
@@ -39,9 +39,6 @@ open class IncidentAnnotationView: MKAnnotationView {
     
     /// Top line label in the bubble
     private var titleLabel: UILabel!
-    
-    /// Second line label in the bubble
-    private var subtitleLabel: UILabel!
     
     /// Rounded rect showing the priority level colour
     private var priorityBackground: UIView!
@@ -60,15 +57,14 @@ open class IncidentAnnotationView: MKAnnotationView {
     public func configure(withAnnotation annotation: MKAnnotation, priorityColor: UIColor, priorityText: String, priorityFilled: Bool, usesDarkBackground: Bool) {
         self.annotation = annotation
         
-        let bubbleColor = usesDarkBackground ? #colorLiteral(red: 0.2549019608, green: 0.2509803922, blue: 0.262745098, alpha: 1) : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        let titleColor = usesDarkBackground ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) : #colorLiteral(red: 0.2549019608, green: 0.2509803922, blue: 0.262745098, alpha: 1)
+        let bubbleColor = usesDarkBackground ? .primaryGray : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        let titleColor = usesDarkBackground ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) : .primaryGray
         
         bubbleView.backgroundColor = bubbleColor
         bottomArrow.color = bubbleColor
         titleLabel.textColor = titleColor
         
-        titleLabel.text = annotation.title ?? ""
-        subtitleLabel.text = annotation.subtitle ?? ""
+        titleLabel.text = [annotation.title ?? "", annotation.subtitle ?? ""].removeNils().joined(separator: " ")
         priorityLabel.text = priorityText
         
         // If we want a filled in priority icon
@@ -123,12 +119,6 @@ open class IncidentAnnotationView: MKAnnotationView {
         priorityLabel.textAlignment = .center
         priorityLabel.translatesAutoresizingMaskIntoConstraints = false
         priorityBackground.addSubview(priorityLabel)
-        
-        subtitleLabel = UILabel()
-        subtitleLabel.font = UIFont.systemFont(ofSize: 13)
-        subtitleLabel.textColor = #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1)
-        subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        bubbleView.addSubview(subtitleLabel)
     }
     
     /// Activates view constraints
@@ -137,13 +127,12 @@ open class IncidentAnnotationView: MKAnnotationView {
             widthAnchor.constraint(greaterThanOrEqualToConstant: LayoutConstants.minimumWidth),
             heightAnchor.constraint(equalToConstant: LayoutConstants.height),
             
-            titleLabel.topAnchor.constraint(equalTo: bubbleView.topAnchor, constant: LayoutConstants.smallMargin),
-            titleLabel.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor, constant: LayoutConstants.largeMargin),
+            titleLabel.centerYAnchor.constraint(equalTo: bubbleView.centerYAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: priorityBackground.trailingAnchor, constant: LayoutConstants.largeMargin),
             titleLabel.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -LayoutConstants.largeMargin),
             
-            priorityBackground.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
-            priorityBackground.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            priorityBackground.bottomAnchor.constraint(equalTo: bubbleView.bottomAnchor, constant: -LayoutConstants.smallMargin),
+            priorityBackground.centerYAnchor.constraint(equalTo: bubbleView.centerYAnchor),
+            priorityBackground.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor, constant: LayoutConstants.largeMargin),
             priorityBackground.widthAnchor.constraint(equalToConstant: LayoutConstants.priorityIconWidth),
             priorityBackground.heightAnchor.constraint(equalToConstant: LayoutConstants.priorityIconHeight),
             
@@ -151,11 +140,6 @@ open class IncidentAnnotationView: MKAnnotationView {
             priorityLabel.leadingAnchor.constraint(equalTo: priorityBackground.leadingAnchor, constant: LayoutConstants.priorityIconTextMargin),
             priorityLabel.trailingAnchor.constraint(equalTo: priorityBackground.trailingAnchor, constant: -LayoutConstants.priorityIconTextMargin),
             priorityLabel.bottomAnchor.constraint(equalTo: priorityBackground.bottomAnchor, constant: -LayoutConstants.priorityIconTextMargin),
-            
-            subtitleLabel.leadingAnchor.constraint(equalTo: priorityBackground.trailingAnchor, constant: LayoutConstants.smallMargin),
-            subtitleLabel.topAnchor.constraint(equalTo: priorityBackground.topAnchor),
-            subtitleLabel.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -LayoutConstants.smallMargin),
-            subtitleLabel.bottomAnchor.constraint(equalTo: bubbleView.bottomAnchor, constant: -LayoutConstants.smallMargin),
             
             bubbleView.topAnchor.constraint(equalTo: self.topAnchor),
             bubbleView.leadingAnchor.constraint(equalTo: self.leadingAnchor),

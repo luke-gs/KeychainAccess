@@ -406,6 +406,8 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
                     view.tintColor = disclosureColor
                 case .dropDown:
                     view.tintColor = primaryTextColor
+                case .overflow:
+                    view.tintColor = tintColor
                 }
             }
             

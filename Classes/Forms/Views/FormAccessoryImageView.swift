@@ -12,13 +12,15 @@ public enum Style {
     case disclosure
     case dropDown
     case checkmark
-
+    case overflow
+    
     var image: UIImage? {
         let key: AssetManager.ImageKey
         switch self {
         case .disclosure: key = .disclosure
         case .dropDown:   key = .dropDown
         case .checkmark:  key = .checkmark
+        case .overflow:   key = .overflow
         }
         return AssetManager.shared.image(forKey: key)
     }

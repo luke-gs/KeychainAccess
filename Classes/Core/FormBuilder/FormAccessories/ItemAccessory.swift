@@ -47,6 +47,7 @@ public struct ItemAccessory: ItemAccessorisable {
             case .checkmark:  view.tintColor = nil
             case .disclosure: view.tintColor = theme.color(forKey: .disclosure)
             case .dropDown:   view.tintColor = theme.color(forKey: .primaryText)
+            case .overflow:   view.tintColor = theme.color(forKey: .tint)
             }
         }
 

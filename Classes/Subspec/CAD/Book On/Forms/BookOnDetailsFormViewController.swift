@@ -22,9 +22,6 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Cancel", comment: ""), style: .plain, target: self, action: #selector(cancelFormTapped))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Done", comment: ""), style: .done, target: self, action: #selector(submitFormTapped))
-
-        // Disable content under nav bar as this is not properly supported by PopoverNavigationController
-        edgesForExtendedLayout = []
     }
 
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -180,14 +177,13 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
             })
 
         // Button to delete officer (only available for additional officers)
-        let deleteAction = CollectionViewFormEditAction(title: "Delete", color: .red, handler: { [unowned self] (cell, indexPath) in
+        let deleteAction = CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { [unowned self] (cell, indexPath) in
             self.viewModel.removeOfficer(at: indexPath.row)
             self.reloadForm()
         })
 
-        let incompleteColor = #colorLiteral(red: 0.9843137255, green: 0.3137254902, blue: 0.2980392157, alpha: 1)
         for (index, officer) in viewModel.details.officers.enumerated() {
-            let accessoryLabel = AccessoryTextStyle.roundedRect(AccessoryLabelDetail(text: officer.incompleteStatus, textColour: incompleteColor, borderColour: incompleteColor))
+            let accessoryLabel = AccessoryTextStyle.roundedRect(AccessoryLabelDetail(text: officer.incompleteStatus, textColour: .orangeRed, borderColour: .orangeRed))
             builder += BookOnDetailsOfficerFormItem(title: officer.title,
                                                     subtitle: officer.subtitle,
                                                     status: officer.driverStatus)
