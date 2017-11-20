@@ -30,6 +30,7 @@ let WhatsNewVersion = "1.0"
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
+    var landingPresenter: LandingPresenter!
 
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
@@ -44,7 +45,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             plugins = nil
         #endif
 
-        let presenter = PresenterGroup(presenters: [SystemPresenter(), LandingPresenter(), EntityPresenter()])
+        // Set the application key for app specific user settings
+        User.applicationKey = "Search"
+
+        landingPresenter = LandingPresenter()
+        let presenter = PresenterGroup(presenters: [SystemPresenter(), landingPresenter, EntityPresenter()])
 
         let director = Director(presenter: presenter)
         director.addPresenterObserver(RecentlyViewedTracker())
@@ -76,16 +81,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         applyCurrentTheme()
 
-        // Use default base path, which uses app group if configured
-        // UserSession.basePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-
-        if UserSession.current.isActive == true {
-            UserSession.current.restoreSession { token in
-                APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
-            }
-        }
-
-        self.fiddleWithState()
+        updateAppForUserSession()
 
         window.makeKeyAndVisible()
 
@@ -106,20 +102,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         return true
     }
 
-    func fiddleWithState() {
-        let screen: LandingScreen
+    private func updateAppForUserSession() {
 
-        if let user = UserSession.current.user, user.termsAndConditionsVersionAccepted == TermsAndConditionsVersion {
-            if UserSession.current.user?.whatsNewShownVersion != WhatsNewVersion {
-                screen = .whatsNew
-            } else {
-                screen = .landing
+        // Reload user from shared storage if logged in, in case updated by another mpol app
+        if UserSession.current.isActive == true {
+            UserSession.current.restoreSession { token in
+                APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
             }
-        } else {
-            screen = .login
         }
 
-        window?.rootViewController = Director.shared.presenter.viewController(forPresentable: screen)
+        // Update screen if necessary
+        landingPresenter.updateInterfaceForUserSession(animated: false)
+    }
+
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        // Reload user session and update UI to match current state
+        updateAppForUserSession()
     }
 
     // MARK: - APNS
@@ -169,7 +167,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func logOut() {
         UserSession.current.endSession()
         APIManager.shared.authenticationPlugin = nil
-        window?.rootViewController = Director.shared.presenter.viewController(forPresentable: LandingScreen.login)
+        landingPresenter.updateInterfaceForUserSession(animated: false)
     }
 
     @objc private func interfaceStyleDidChange() {
@@ -234,7 +232,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         // To re-create the presenter and update the left accessory view of the login view controller with the new endpoint
         // No state is actually fiddled with
-        fiddleWithState()
+        updateAppForUserSession()
     }
     #endif
 }
