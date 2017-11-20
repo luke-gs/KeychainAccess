@@ -137,7 +137,7 @@ public class TaskMapFilterViewModel: MapFilterViewModel {
     // MARK: - View controller info
     
     public func createViewController() -> UIViewController {
-        return TasksFilterViewController(viewModel: self)
+        return MapFilterViewController(viewModel: self)
     }
     
     public func titleText() -> String? {
