@@ -66,7 +66,11 @@ open class MPOLSplitViewController: PushableSplitViewController {
     }
 
     /// Whether the master view controller is hidden when displaying in compact size
-    public var shouldHideMasterWhenCompact: Bool = true
+    public var shouldHideMasterWhenCompact: Bool = true {
+        didSet {
+            updateSplitViewControllerForTraitChange()
+        }
+    }
 
     /// The KVO observer for right bar button items of the selected view controller
     private var rightBarButtonItemsObservation: NSKeyValueObservation?
@@ -142,7 +146,6 @@ open class MPOLSplitViewController: PushableSplitViewController {
         if selectedViewController == nil {
             // Get the default selected view controller from the subclass and apply the selection
             selectedViewController = defaultSelectedViewController()
-            selectedViewControllerDidChange(oldValue: nil)
         }
     }
 
@@ -182,8 +185,10 @@ open class MPOLSplitViewController: PushableSplitViewController {
                 self.updateNavigationBarForSelection()
             }
         }
-        // Update the split view content
-        updateSplitViewControllerForSelection()
+        
+        if oldValue != nil {
+            updateSplitViewControllerForSelection()
+        }
     }
 
     // MARK: - Adaptive UI Support
@@ -264,6 +269,10 @@ open class MPOLSplitViewController: PushableSplitViewController {
         // Note: this can move to detail view controller when switching between regular and compact
         masterNavItem.leftBarButtonItems = masterViewController.navigationItem.leftBarButtonItems ?? [backButtonItem()].removeNils()
         detailNavItem?.leftBarButtonItem = nil
+        
+        if let titleView = masterViewController.navigationItem.titleView {
+            masterNavItem.titleView = titleView
+        }
 
         if self.isCompact() {
             // Use the selected detail right button items if compact
