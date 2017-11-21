@@ -32,18 +32,31 @@ open class CADStateManager: NSObject {
 
     /// Sync the latest manifest items
     open func syncManifestItems() -> Promise<Void> {
+        print("Syncing manifest items")
         return Manifest.shared.update()
     }
 
     /// Sync the latest task summaries
     open func syncSummaries() -> Promise<CADSyncSummaries> {
         // Perform sync and keep result
+        print("Syncing summaries")
         return firstly {
             return APIManager.shared.syncSummaries()
-        }.then { summaries -> CADSyncSummaries in
+        }.then { [unowned self] summaries -> CADSyncSummaries in
             self.lastSync = summaries
             return summaries
         }
     }
+    /// Perform initial sync after login or launching app
+    open func syncInitial() -> Promise<Void> {
 
+        print("Starting initial sync")
+        return firstly {
+            return syncSummaries()
+        }.then { [unowned self] _ -> Promise<Void> in
+            return self.syncManifestItems()
+        }.then { _ in
+            print("Sync complete")
+        }
+    }
 }
