@@ -275,7 +275,7 @@ open class APIManager {
                     for plugin in allPlugins {
                         promise = promise.then { return plugin.processResponse($0) }
                     }
-                    promise.then { response in
+                    _ = promise.then { response in
                         fulfill(response)
                     }
                 })
@@ -288,7 +288,7 @@ open class APIManager {
 
         let mapper = self.errorMapper
         return Promise { fulfill, reject in
-            dataRequest(urlRequest).then { (processedResponse) -> Void in
+            _ = dataRequest(urlRequest).then { (processedResponse) -> Void in
                 let result = serializer.serializedResponse(from: processedResponse)
 
                 switch result {
