@@ -195,13 +195,16 @@ open class LocationSearchMapCollectionViewSideBarLayout: MapCollectionViewLayout
     }
     
     @objc open func resetSideBar() {
+        guard let view = view else {
+            return
+        }
         sidebarLayoutGuideLeadingConstraint?.constant = -sideBarWidth
         if let mapView = controller?.mapView {
             mapView.layoutMargins = UIEdgeInsets.zero
             mapView.setVisibleMapRect(mapView.visibleMapRect, animated: true)
         }
-        UIView.animate(withDuration: 0.3) { [unowned self] in
-            self.view.layoutIfNeeded()
+        UIView.animate(withDuration: 0.3) {
+            view.layoutIfNeeded()
         }
     }
     
