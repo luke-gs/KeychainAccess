@@ -11,6 +11,11 @@ import UIKit
 // The preferred adjustment content is from the center Y when not displaying content.
 fileprivate let contentAdjustmentFromCenterY: CGFloat = -16.0
 
+/// Protocol for a view controller containing a loading state manager
+public protocol LoadableViewController {
+    var loadingManager: LoadingStateManager { get }
+}
+
 /// A manager for a loading view on a base view.
 open class LoadingStateManager: TraitCollectionTrackerDelegate {
     

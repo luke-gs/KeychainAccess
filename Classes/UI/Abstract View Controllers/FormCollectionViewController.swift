@@ -31,7 +31,7 @@ fileprivate let tempID = "temp"
 /// changes, they should override `collectionView(_:willDisplay:for:)` and other
 /// analogous display preparation methods rather than requiring reloads. Other view
 /// based changes can be completed with the open method `apply(_:)`.
-open class FormCollectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, CollectionViewDelegateFormLayout, PopoverViewController {
+open class FormCollectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, CollectionViewDelegateFormLayout, PopoverViewController, LoadableViewController {
     
     // MARK: - Public properties
     
