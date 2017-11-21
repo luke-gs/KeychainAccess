@@ -128,43 +128,7 @@ open class APIManager {
             
             return try! self.performRequest(networkRequest)
         }
-    }
-    
-    /// Fetch manifest data
-    ///
-    /// - Parameters:
-    ///   - date: The date last successful fetch, to only return items changes since this date. If no date, and entire snapshot of the manifest data will be requested.
-    ///
-    /// - Returns: A promis to return the manifest data
-    open func fetchManifest(for date: Date?) -> Promise<[[String : Any]]> {
-        var path = "manifest/app"
-        var parameters:[String: String] = [:]
-        
-        if let date = date{
-            let interval = Int(date.timeIntervalSince1970)
-            path.append("/{interval}")
-            parameters["interval"] = String(interval)
-        } else {
-            path.append("/{interval}")
-            parameters["interval"] = "0"
-        }
-        
-        let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
-        
-        return try! self.performRequest(networkRequest).then { result -> [[String:Any]] in
-            do {
-                let responseArray = try JSONSerialization.jsonObject(with: result.0, options: .allowFragments)
-                if let manifestArray = responseArray as? [[String : Any]] {
-                    return manifestArray
-                } else {
-                    throw ManifestError("Manifest not in correct format")
-                }
-            } catch let parseError {
-                throw parseError
-            }
-        }
-    }
-    
+    }    
 
     // MARK : - Internal Utilities
 
@@ -300,7 +264,7 @@ extension APIManager {
         }
     }
 
-    public struct DataResponseSerializer: ResponseSerializing {
+    fileprivate struct DataResponseSerializer: ResponseSerializing {
         public typealias ResultType = Data
 
         public init() {
@@ -311,4 +275,6 @@ extension APIManager {
             return DataRequest.serializeResponseData(response: dataResponse.response, data: dataResponse.data, error: dataResponse.error)
         }
     }
+    
+    
 }

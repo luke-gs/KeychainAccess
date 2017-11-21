@@ -9,6 +9,7 @@
 import Foundation
 import CoreData
 import PromiseKit
+import Alamofire
 
 fileprivate let manifestLastUpdateKey = "Manifest_LastUpdate"
 
@@ -348,9 +349,21 @@ public final class Manifest: NSObject {
         } else {
             let checkedAtDate = Date()
             
-            /// Remove 60 seconds from any last date to ensure we get an overlap.
-            /// It's better to catch more items and update them again than to miss any. This may change in the back end later for the server to handle this buffer.. or return a time stamp for the updated time.
-            let newPromise = APIManager.shared.fetchManifest(for: self.lastUpdateDate?.addingTimeInterval(-60.0)).then { [weak self] result -> Promise<Void> in
+            var path = "manifest/app"
+            var parameters:[String: String] = [:]
+            
+            if let date = self.lastUpdateDate?.addingTimeInterval(-60.0) {
+                let interval = Int(date.timeIntervalSince1970)
+                path.append("/{interval}")
+                parameters["interval"] = String(interval)
+            } else {
+                path.append("/{interval}")
+                parameters["interval"] = "0"
+            }
+            
+            let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
+            
+            let newPromise = try! APIManager.shared.performRequest(networkRequest, using: JSONManifestResponseSerializer()).then { [weak self] result -> Promise<Void> in
                 guard let `self` = self else { return Promise<Void>(value: ()) }
                 guard result.isEmpty == false else {
                     self.lastUpdateDate = checkedAtDate
@@ -369,3 +382,28 @@ public final class Manifest: NSObject {
     }
 }
 
+extension Manifest {
+    
+    // Serialization of for manifest items
+    public struct JSONManifestResponseSerializer: ResponseSerializing {
+        public typealias ResultType = [[String:Any]]
+        
+        public init() {
+            
+        }
+        
+        public func serializedResponse(from dataResponse: DataResponse<Data>) -> Alamofire.Result<ResultType> {
+            let result = DataRequest.serializeResponseJSON(options: .allowFragments, response: dataResponse.response, data: dataResponse.data, error: dataResponse.error)
+            switch result {
+            case .success(let json):
+                if let json = json as? ResultType {
+                    return .success(json)
+                } else {
+                    return .failure(ParsingError.incorrectFormat)
+                }
+            case .failure(let error):
+                return .failure(error)
+            }
+        }
+    }
+}
