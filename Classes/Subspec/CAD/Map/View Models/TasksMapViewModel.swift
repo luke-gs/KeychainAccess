@@ -55,43 +55,15 @@ open class TasksMapViewModel {
                 return priorityFilter && (isOther || resourcedFilter)
             }
             
-            /// Annotations of the incidents type
-            let incidentsAnnotations = filteredIncidents.map { model in
-                return IncidentAnnotation(identifier: model.identifier,
-                                          coordinate: model.coordinate,
-                                          title: model.title,
-                                          subtitle: model.subtitle,
-                                          status: model.status,
-                                          iconText: model.priority,
-                                          iconColor: model.iconColor,
-                                          iconFilled: model.iconFilled,
-                                          usesDarkBackground: model.usesDarkBackground)
-            }
-            
-            annotations += incidentsAnnotations as [TaskAnnotation]
+            annotations += taskAnnotations(for: filteredIncidents)
         }
         
         if filter.showPatrol {
-            let patrolAnnotations = patrol.map { model in
-                return TaskAnnotation(identifier: model.identifier,
-                                      coordinate: model.coordinate,
-                                      title: model.title,
-                                      subtitle: model.subtitle,
-                                      status: nil)
-            }
-            
-            annotations += patrolAnnotations
+            annotations += taskAnnotations(for: patrol)
         }
         
         if filter.showBroadcasts {
-            let broadcastAnnotations = broadcast.map { model in
-                return TaskAnnotation(identifier: model.identifier,
-                                      coordinate: model.coordinate,
-                                      title: model.title,
-                                      subtitle: model.subtitle,
-                                      status: nil)
-            }
-            annotations += broadcastAnnotations
+            annotations += taskAnnotations(for: broadcast)
         }
 
         if filter.showResources {
@@ -105,19 +77,7 @@ open class TasksMapViewModel {
                 return isOther || taskedFilter
             }
             
-            let resourceAnnotations = filteredResources.map { model in
-                return ResourceAnnotation(identifier: model.identifier,
-                                          coordinate: model.coordinate,
-                                          title: model.title,
-                                          subtitle: model.subtitle,
-                                          status: model.status,
-                                          icon: model.iconImage,
-                                          iconBackgroundColor: model.iconBackgroundColor,
-                                          iconTintColor: model.iconTintColor,
-                                          pulsing: model.pulsing)
-            }
-            
-            annotations += resourceAnnotations  as [TaskAnnotation]
+            annotations += taskAnnotations(for: filteredResources)
         }
         
         filteredAnnotations = annotations
@@ -133,48 +93,16 @@ open class TasksMapViewModel {
     /// All annotations unfiltered
     var allAnnotations: [TaskAnnotation] {
         /// Annotations of the incidents type
-        let incidentsAnnotations = incidents.map { model in
-            return IncidentAnnotation(identifier: model.identifier,
-                                      coordinate: model.coordinate,
-                                      title: model.title,
-                                      subtitle: model.subtitle,
-                                      status: model.status,
-                                      iconText: model.priority,
-                                      iconColor: model.iconColor,
-                                      iconFilled: model.iconFilled,
-                                      usesDarkBackground: model.usesDarkBackground)
-        } as [TaskAnnotation]
+        let incidentsAnnotations = taskAnnotations(for: incidents)
         
         /// Annotations of the patrol type
-        let patrolAnnotations = patrol.map { model in
-            return TaskAnnotation(identifier: model.identifier,
-                                          coordinate: model.coordinate,
-                                          title: model.title,
-                                          subtitle: model.subtitle,
-                                          status: nil)
-        }
+        let patrolAnnotations = taskAnnotations(for: patrol)
         
         /// Annotations of the broadcast type
-        let broadcastAnnotations = broadcast.map { model in
-            return TaskAnnotation(identifier: model.identifier,
-                                          coordinate: model.coordinate,
-                                          title: model.title,
-                                          subtitle: model.subtitle,
-                                          status: nil)
-        }
+        let broadcastAnnotations = taskAnnotations(for: broadcast)
         
         /// Annotations of the resource type
-        let resourceAnnotations = resources.map { model in
-            return ResourceAnnotation(identifier: model.identifier,
-                                          coordinate: model.coordinate,
-                                          title: model.title,
-                                          subtitle: model.subtitle,
-                                          status: model.status,
-                                          icon: model.iconImage,
-                                          iconBackgroundColor: model.iconBackgroundColor,
-                                          iconTintColor: model.iconTintColor,
-                                          pulsing: model.pulsing)
-        } as [TaskAnnotation]
+        let resourceAnnotations = taskAnnotations(for: resources)
         
         return incidentsAnnotations + patrolAnnotations + broadcastAnnotations + resourceAnnotations
     }
@@ -195,6 +123,59 @@ open class TasksMapViewModel {
         }
         
         return nil
+    }
+    
+    // MARK: - Mapping
+    
+    /// Maps incident view models to task annotations
+    func taskAnnotations(for incidents: [IncidentMapViewModel]) -> [TaskAnnotation] {
+        return incidents.map { model in
+            return IncidentAnnotation(identifier: model.identifier,
+                                      coordinate: model.coordinate,
+                                      title: model.title,
+                                      subtitle: model.subtitle,
+                                      status: model.status,
+                                      iconText: model.priority,
+                                      iconColor: model.iconColor,
+                                      iconFilled: model.iconFilled,
+                                      usesDarkBackground: model.usesDarkBackground)
+        }
+    }
+    
+    /// Maps incident view models to task annotations
+    func taskAnnotations(for patrol: [PatrolMapViewModel]) -> [TaskAnnotation] {
+        return patrol.map { model in
+            return TaskAnnotation(identifier: model.identifier,
+                                  coordinate: model.coordinate,
+                                  title: model.title,
+                                  subtitle: model.subtitle,
+                                  status: nil)
+        }
+    }
+    
+    /// Maps incident view models to task annotations
+    func taskAnnotations(for broadcasts: [BroadcastMapViewModel]) -> [TaskAnnotation] {
+        return broadcasts.map { model in
+            return TaskAnnotation(identifier: model.identifier,
+                                  coordinate: model.coordinate,
+                                  title: model.title,
+                                  subtitle: model.subtitle,
+                                  status: nil)
+        }
+    }
+    /// Maps incident view models to task annotations
+    func taskAnnotations(for resources: [ResourceMapViewModel]) -> [TaskAnnotation] {
+        return resources.map { model in
+            return ResourceAnnotation(identifier: model.identifier,
+                                      coordinate: model.coordinate,
+                                      title: model.title,
+                                      subtitle: model.subtitle,
+                                      status: model.status,
+                                      icon: model.iconImage,
+                                      iconBackgroundColor: model.iconBackgroundColor,
+                                      iconTintColor: model.iconTintColor,
+                                      pulsing: model.pulsing)
+        }
     }
     
     // MARK: - Debug
