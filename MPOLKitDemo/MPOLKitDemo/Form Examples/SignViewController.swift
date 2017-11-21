@@ -24,7 +24,9 @@ class SignupViewController: FormBuilderViewController {
             fixerUpper,
             UIBarButtonItem(title: "Reset", style: .plain, target: self, action: #selector(resetFormTapped)),
             fixerUpper,
-            UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTapped))
+            UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTapped)),
+            fixerUpper,
+            UIBarButtonItem(title: "Signature", style: .plain, target: self, action: #selector(signInTapped))
         ]
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(closeTapped))
     }
@@ -226,6 +228,14 @@ class SignupViewController: FormBuilderViewController {
         let signViewController = SignupViewController()
         let navigationController = UINavigationController(rootViewController: signViewController)
         navigationController.modalPresentationStyle = .formSheet
+        present(navigationController, animated: true, completion: nil)
+    }
+
+    @objc private func signInTapped() {
+        let signatureViewController = SignatureViewController()
+        let navigationController = PopoverNavigationController(rootViewController: signatureViewController)
+        navigationController.modalPresentationStyle = .formSheet
+        navigationController.preferredContentSize = CGSize(width: 550, height: 350)
         present(navigationController, animated: true, completion: nil)
     }
 
