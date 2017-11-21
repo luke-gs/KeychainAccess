@@ -130,8 +130,6 @@ public class GenericSearchDefaultViewModel: GenericSearchViewModel {
 
 /// Generic Search View Model definition
 public protocol GenericSearchViewModel {
-    /// Items to be displayed
-    var items: [GenericSearchable] { get set }
 
     /// The title of the form
     var title: String { get set }
