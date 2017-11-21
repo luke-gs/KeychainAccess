@@ -26,6 +26,9 @@ open class MapFilterToggleRowView: UIView {
     open var optionsStackView: UIStackView!
     private var separator: UIView!
     
+    /// Spacer for checkbox stack view when in compact
+    private let spacer = UIView()
+    
     
     private let showsSeparator: Bool
     public let toggleRow: MapFilterToggleRow
@@ -57,7 +60,7 @@ open class MapFilterToggleRowView: UIView {
         optionsStackView = UIStackView(arrangedSubviews: options)
         optionsStackView.axis = .horizontal
         optionsStackView.alignment = .leading
-        optionsStackView.distribution = .fillProportionally
+        optionsStackView.distribution = .fillEqually
         optionsStackView.spacing = traitCollection.horizontalSizeClass == .compact ? LayoutConstants.checkboxSpacingCompact : LayoutConstants.checkboxSpacingRegular
         optionsStackView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(optionsStackView)
@@ -97,7 +100,20 @@ open class MapFilterToggleRowView: UIView {
     
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        optionsStackView.spacing = traitCollection.horizontalSizeClass == .compact ? LayoutConstants.checkboxSpacingCompact : LayoutConstants.checkboxSpacingRegular
+        guard traitCollection.horizontalSizeClass != .unspecified else { return }
+        
+        if traitCollection.horizontalSizeClass == .compact {
+            optionsStackView.spacing = LayoutConstants.checkboxSpacingCompact
+            // Remove spacer if in compact
+            optionsStackView.removeArrangedSubview(spacer)
+        } else {
+            optionsStackView.spacing = LayoutConstants.checkboxSpacingRegular
+            // Add spacer if not in compact and contains more than 1 view
+            if !optionsStackView.arrangedSubviews.contains(spacer)  && optionsStackView.arrangedSubviews.count > 1 {
+                optionsStackView.addArrangedSubview(spacer)
+            }
+        }
+        
     }
     
     /// Save the view's values to the model
