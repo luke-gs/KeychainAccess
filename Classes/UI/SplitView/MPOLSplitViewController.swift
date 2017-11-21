@@ -270,13 +270,16 @@ open class MPOLSplitViewController: PushableSplitViewController {
         masterNavItem.leftBarButtonItems = masterViewController.navigationItem.leftBarButtonItems ?? [backButtonItem()].removeNils()
         detailNavItem?.leftBarButtonItem = nil
         
-        if let titleView = masterViewController.navigationItem.titleView {
-            masterNavItem.titleView = titleView
-        }
+        masterNavItem.titleView = masterViewController.navigationItem.titleView
 
         if self.isCompact() {
-            // Use the selected detail right button items if compact
-            masterNavItem.rightBarButtonItems = selectedViewController?.navigationItem.rightBarButtonItems
+            if let selectedViewController = selectedViewController {
+                // Use the selected detail right button items if compact
+                masterNavItem.rightBarButtonItems = selectedViewController.navigationItem.rightBarButtonItems
+            } else {
+                // Use the master right button items if compact and no VC selected
+                masterNavItem.rightBarButtonItems = masterViewController.navigationItem.rightBarButtonItems
+            }
         } else {
             // Otherwise use the content of the master view controller
             masterNavItem.rightBarButtonItems = containerMasterViewController.contentViewController?.navigationItem.rightBarButtonItems
