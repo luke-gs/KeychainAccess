@@ -329,19 +329,19 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         didSet {
             if loginMode == oldValue { return }
 
+            // if credentials view has been instantiated...
             if let credentialsView = self.credentialsView {
                 // hide
-                credentialsView.isHidden = loginMode == .button
-                // unconstraint if needed
+                credentialsView.isHidden = loginMode == .externalAuth
             }
-            else if self.contentStackView != nil {
-                // if not created, create
+
+            // otherwise, check that the context for its creation exists
+            else if let contentStackView = self.contentStackView {
+                // create a new credentials view
                 credentialsView = createCredentialsView()
                 // insert into stack
-                self.contentStackView?.removeArrangedSubview(loginStackView!)
-                self.contentStackView?.addArrangedSubview(credentialsView!)
-                self.contentStackView?.addArrangedSubview(loginStackView!)
-                // constraints if needed
+                contentStackView.insertArrangedSubview(credentialsView!, at: 0)
+                // apply constraints
                 NSLayoutConstraint.activate([credentialsView!.topAnchor.constraint(greaterThanOrEqualTo: contentView!.topAnchor, constant: 20.0),
                                              credentialsView!.widthAnchor.constraint(equalToConstant: 256.0),
                                              usernameLabel.widthAnchor.constraint(equalTo: credentialsView!.widthAnchor),
@@ -541,12 +541,12 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
             loginStackView.trailingAnchor.constraint(lessThanOrEqualTo: view.readableContentGuide.trailingAnchor),
             ]
 
-        if loginMode == .usernamePassword {
+        if let credentialsView = self.credentialsView {
             constraints += [
-                credentialsView!.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor, constant: 20.0),
-                credentialsView!.widthAnchor.constraint(equalToConstant: 256.0),
-                usernameLabel.widthAnchor.constraint(equalTo: credentialsView!.widthAnchor),
-                usernameLabel.leadingAnchor.constraint(equalTo: credentialsView!.leadingAnchor)
+                credentialsView.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor, constant: 20.0),
+                credentialsView.widthAnchor.constraint(equalToConstant: 256.0),
+                usernameLabel.widthAnchor.constraint(equalTo: credentialsView.widthAnchor),
+                usernameLabel.leadingAnchor.constraint(equalTo: credentialsView.leadingAnchor)
             ]
         }
 
@@ -836,7 +836,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         let isUsernameValid: Bool = isUsernameFieldLoaded && usernameField.text?.count ?? 0 >= minimumUsernameLength
             let isPasswordValid: Bool = isPasswordFieldLoaded && passwordField.text?.count ?? 0 >= minimumPasswordLength
         
-        loginButton.isEnabled = loginMode == .button || isUsernameValid && isPasswordValid
+        loginButton.isEnabled = loginMode == .externalAuth || isUsernameValid && isPasswordValid
     }
     
     private func newTextField() -> UITextField {
@@ -864,5 +864,5 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
 // names are open to feedback
 @objc public enum LoginMode: Int {
     case usernamePassword
-    case button
+    case externalAuth
 }
