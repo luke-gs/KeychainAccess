@@ -149,7 +149,7 @@ open class APIManager {
         let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
         let newRequest = try! urlRequest(from: networkRequest)
         
-        return processDataRequest(from: newRequest).then { (request) in
+        return createSessionRequestWithProgress(from: newRequest).then { (request) in
             let allPlugins = self.allPlugins
             allPlugins.forEach {
                 $0.willSend(request)
@@ -236,7 +236,7 @@ open class APIManager {
         }
     }
     
-    private func processDataRequest(from urlRequest: Promise<URLRequest>) -> Promise<DataRequest> {
+    private func createSessionRequestWithProgress(from urlRequest: Promise<URLRequest>) -> Promise<DataRequest> {
         return urlRequest.then { [unowned self] request in
             let dataRequest = self.sessionManager.request(request)
             let progress = dataRequest.progress
@@ -255,7 +255,7 @@ open class APIManager {
     
     /// Performs a request for the `urlRequest` and returns a `Promise` with processed `DataResponse`.
     public func dataRequest(_ urlRequest: Promise<URLRequest>) -> Promise<DataResponse<Data>> {
-        return processDataRequest(from: urlRequest).then { (request) in
+        return createSessionRequestWithProgress(from: urlRequest).then { (request) in
             
             // Notify plugins of request
             let allPlugins = self.allPlugins
@@ -264,22 +264,18 @@ open class APIManager {
             }
             
             // Perform request
-            return Promise { fulfill, _ in
-                request.validate().responseData(completionHandler: { response in
-                    
+            return request.validate().responseDataPromise()
+                .then { (response) in
                     allPlugins.forEach({
                         $0.didReceiveResponse(response)
                     })
                     
-                    var promise = Promise(value: response)
+                    var processed = Promise(value: response)
                     for plugin in allPlugins {
-                        promise = promise.then { return plugin.processResponse($0) }
+                        processed = processed.then { return plugin.processResponse($0) }
                     }
-                    _ = promise.then { response in
-                        fulfill(response)
-                    }
-                })
-            }
+                    return processed
+                }
         }
     }
 
@@ -360,6 +356,16 @@ extension APIManager {
 
         public func serializedResponse(from dataResponse: DataResponse<Data>) -> Alamofire.Result<ResultType> {
             return DataRequest.serializeResponseData(response: dataResponse.response, data: dataResponse.data, error: dataResponse.error)
+        }
+    }
+}
+
+
+extension DataRequest {
+    
+    func responseDataPromise() -> Promise<DataResponse<Data>> {
+        return Promise { (fulfill, _) in
+            self.responseData { fulfill($0) }
         }
     }
 }
