@@ -49,11 +49,16 @@ open class GenericSearchViewController: FormBuilderViewController, UISearchBarDe
             }
             for row in 0..<viewModel.numberOfRows(in: section) {
                 let indexPath = IndexPath(row: row, section: section)
+                var accessory : ItemAccessory? = nil
+                if viewModel.selectedItem(item: viewModel.searchable(for: indexPath)) == true {
+                    accessory = .checkmark
+                }
+
                 builder += SubtitleFormItem(title: viewModel.title(for: indexPath),
                                             subtitle: viewModel.description(for: indexPath),
                                             image: viewModel.image(for: indexPath),
                                             style: .default)
-                    .accessory(ItemAccessory.disclosure)
+                    .accessory(accessory)
                     .onSelection { [unowned self] cell in
                         let searchable = self.viewModel.searchable(for: indexPath)
                         self.delegate?.genericSearchViewController(self, didSelectRowAt: indexPath, withSearchable: searchable)
@@ -83,6 +88,11 @@ open class GenericSearchViewController: FormBuilderViewController, UISearchBarDe
     // MARK: Searchbar delegate
 
     public func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if viewModel.items.isEmpty {
+            loadingManager.state = .noContent
+        } else {
+            loadingManager.state = .loaded
+        }
         viewModel.searchTextChanged(to: searchText)
         reloadForm()
     }
