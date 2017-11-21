@@ -9,7 +9,7 @@
 import UIKit
 
 /// Split view for top level of CAD application, displaying table of tasks on left and map on right
-open class TasksSplitViewController: MPOLSplitViewController, MapFilterPresenter {
+open class TasksSplitViewController: MPOLSplitViewController {
 
     public let viewModel: TasksSplitViewModel
 
@@ -33,10 +33,5 @@ open class TasksSplitViewController: MPOLSplitViewController, MapFilterPresenter
     open override func masterNavTitleSuitable(for traitCollection: UITraitCollection) -> String {
         return viewModel.navTitle()
     }
-}
 
-extension TasksSplitViewController: MapFilterViewControllerDelegate {
-    public func didSelectDone() {
-        viewModel.applyFilter()
-    }
 }

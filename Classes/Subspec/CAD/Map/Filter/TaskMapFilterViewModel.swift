@@ -138,6 +138,12 @@ public class TaskMapFilterViewModel: MapFilterViewModel {
     
     // MARK: - View controller info
     
+    public func createViewController(delegate: MapFilterViewControllerDelegate?) -> UIViewController {
+        let viewController = MapFilterViewController(viewModel: self)
+        viewController.delegate = delegate
+        return viewController
+    }
+    
     public func createViewController() -> UIViewController {
         return MapFilterViewController(viewModel: self)
     }
