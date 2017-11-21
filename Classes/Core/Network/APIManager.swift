@@ -264,22 +264,18 @@ open class APIManager {
             }
             
             // Perform request
-            return Promise { fulfill, _ in
-                request.validate().responseData(completionHandler: { response in
-                    
+            return request.validate().responseDataPromise()
+                .then { (response) in
                     allPlugins.forEach({
                         $0.didReceiveResponse(response)
                     })
                     
-                    var promise = Promise(value: response)
+                    var processed = Promise(value: response)
                     for plugin in allPlugins {
-                        promise = promise.then { return plugin.processResponse($0) }
+                        processed = processed.then { return plugin.processResponse($0) }
                     }
-                    _ = promise.then { response in
-                        fulfill(response)
-                    }
-                })
-            }
+                    return processed
+                }
         }
     }
 
@@ -360,6 +356,16 @@ extension APIManager {
 
         public func serializedResponse(from dataResponse: DataResponse<Data>) -> Alamofire.Result<ResultType> {
             return DataRequest.serializeResponseData(response: dataResponse.response, data: dataResponse.data, error: dataResponse.error)
+        }
+    }
+}
+
+
+extension DataRequest {
+    
+    func responseDataPromise() -> Promise<DataResponse<Data>> {
+        return Promise { (fulfill, _) in
+            self.responseData { fulfill($0) }
         }
     }
 }
