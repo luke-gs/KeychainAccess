@@ -40,29 +40,10 @@ open class TasksMapViewModel {
 
     public func applyFilter() {
         guard let filter = splitViewModel?.filterViewModel else { return }
-        
-        /// Annotations of the patrol type
-        let patrolAnnotations = patrol.map { model in
-            return TaskAnnotation(identifier: model.identifier,
-                                  coordinate: model.coordinate,
-                                  title: model.title,
-                                  subtitle: model.subtitle,
-                                  status: nil)
-        }
-        
-        /// Annotations of the broadcast type
-        let broadcastAnnotations = broadcast.map { model in
-            return TaskAnnotation(identifier: model.identifier,
-                                  coordinate: model.coordinate,
-                                  title: model.title,
-                                  subtitle: model.subtitle,
-                                  status: nil)
-        }
 
         var annotations: [TaskAnnotation] = []
         
         if filter.showIncidents {
-            
             let filteredIncidents = incidents.filter { model in
                 // TODO: Replace with enum when model classes created
                 let priorityFilter = filter.priorities.contains(model.priority)
@@ -91,10 +72,25 @@ open class TasksMapViewModel {
         }
         
         if filter.showPatrol {
+            let patrolAnnotations = patrol.map { model in
+                return TaskAnnotation(identifier: model.identifier,
+                                      coordinate: model.coordinate,
+                                      title: model.title,
+                                      subtitle: model.subtitle,
+                                      status: nil)
+            }
+            
             annotations += patrolAnnotations
         }
         
         if filter.showBroadcasts {
+            let broadcastAnnotations = broadcast.map { model in
+                return TaskAnnotation(identifier: model.identifier,
+                                      coordinate: model.coordinate,
+                                      title: model.title,
+                                      subtitle: model.subtitle,
+                                      status: nil)
+            }
             annotations += broadcastAnnotations
         }
 
