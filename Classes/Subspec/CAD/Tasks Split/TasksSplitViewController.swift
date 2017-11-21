@@ -9,7 +9,7 @@
 import UIKit
 
 /// Split view for top level of CAD application, displaying table of tasks on left and map on right
-open class TasksSplitViewController: MPOLSplitViewController {
+open class TasksSplitViewController: MPOLSplitViewController, MapFilterPresenter {
 
     public let viewModel: TasksSplitViewModel
 

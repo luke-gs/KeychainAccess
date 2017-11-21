@@ -14,7 +14,7 @@ open class TasksSplitViewModel {
     public let listContainerViewModel: TasksListContainerViewModel
     public let mapViewModel: TasksMapViewModel
     public let filterViewModel: TaskMapFilterViewModel
-    public weak var presenter: (PopoverPresenter & MapFilterViewControllerDelegate)?
+    public weak var presenter: MapFilterPresenter?
 
     public init(listContainerViewModel: TasksListContainerViewModel, mapViewModel: TasksMapViewModel, filterViewModel: TaskMapFilterViewModel) {
         self.listContainerViewModel = listContainerViewModel
