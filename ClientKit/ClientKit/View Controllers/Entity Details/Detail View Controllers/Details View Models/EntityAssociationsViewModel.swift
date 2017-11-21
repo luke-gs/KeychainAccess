@@ -26,6 +26,8 @@ public class EntityAssociationsViewModel: EntityDetailViewModelable {
             
             let count = associatedPersons.count + associatedVehicles.count
             delegate?.updateSidebarItemCount(UInt(count))
+            let color = entity?.associatedAlertLevel?.color
+            delegate?.updateSidebarAlertColor(color)
             
             var sections: [Section] = []
             if associatedPersons.isEmpty == false {
