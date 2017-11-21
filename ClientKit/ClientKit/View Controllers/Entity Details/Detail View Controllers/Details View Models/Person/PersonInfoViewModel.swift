@@ -85,7 +85,7 @@ public class PersonInfoViewModel: EntityDetailViewModelable {
 
     public lazy var collapsedSections: Set<Int> = []
     
-    // MARK: - Public methodsx
+    // MARK: - Public methods
     
     public func numberOfSections() -> Int {
 
