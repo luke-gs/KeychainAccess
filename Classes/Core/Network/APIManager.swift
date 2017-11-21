@@ -149,7 +149,7 @@ open class APIManager {
         let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
         let newRequest = try! urlRequest(from: networkRequest)
         
-        return processDataRequest(from: newRequest).then { (request) in
+        return createSessionRequestWithProgress(from: newRequest).then { (request) in
             let allPlugins = self.allPlugins
             allPlugins.forEach {
                 $0.willSend(request)
@@ -236,7 +236,7 @@ open class APIManager {
         }
     }
     
-    private func processDataRequest(from urlRequest: Promise<URLRequest>) -> Promise<DataRequest> {
+    private func createSessionRequestWithProgress(from urlRequest: Promise<URLRequest>) -> Promise<DataRequest> {
         return urlRequest.then { [unowned self] request in
             let dataRequest = self.sessionManager.request(request)
             let progress = dataRequest.progress
@@ -254,8 +254,8 @@ open class APIManager {
     }
     
     /// Performs a request for the `urlRequest` and returns a `Promise` with processed `DataResponse`.
-    private func dataRequest(_ urlRequest: Promise<URLRequest>) -> Promise<DataResponse<Data>> {
-        return processDataRequest(from: urlRequest).then { (request) in
+    public func dataRequest(_ urlRequest: Promise<URLRequest>) -> Promise<DataResponse<Data>> {
+        return createSessionRequestWithProgress(from: urlRequest).then { (request) in
             
             // Notify plugins of request
             let allPlugins = self.allPlugins
