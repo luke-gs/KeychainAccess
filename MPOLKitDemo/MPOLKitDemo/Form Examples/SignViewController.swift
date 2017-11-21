@@ -233,12 +233,23 @@ class SignupViewController: FormBuilderViewController {
 
     @objc private func signInTapped() {
         let signatureViewController = SignatureViewController()
+        signatureViewController.delegate = self
         let navigationController = PopoverNavigationController(rootViewController: signatureViewController)
         navigationController.modalPresentationStyle = .formSheet
         navigationController.preferredContentSize = CGSize(width: 550, height: 350)
         present(navigationController, animated: true, completion: nil)
     }
 
+}
+
+extension SignupViewController: SignatureViewControllerDelegate {
+    func controllerDidCancelIn(_ controller: SignatureViewController) {
+        print("didCancel")
+    }
+
+    func controller(_ controller: SignatureViewController, didFinishWithSignature signature: UIImage?) {
+        print("didFinish")
+    }
 }
 
 import Wrap

@@ -9,13 +9,13 @@
 import UIKit
 
 public protocol SignatureViewControllerDelegate: class {
-    func controller(didCancelIn controller: SignatureViewController)
-    func controller(didFinishWithSignature signature: UIImage?)
+    func controllerDidCancelIn(_ controller: SignatureViewController)
+    func controller(_ controller: SignatureViewController, didFinishWithSignature signature: UIImage?)
 }
 
 open class SignatureViewController: UIViewController {
 
-    weak var delegate: SignatureViewControllerDelegate?
+    public weak var delegate: SignatureViewControllerDelegate?
     private lazy var signatureView: SignatureView = SignatureView()
 
     public init() {
@@ -66,12 +66,12 @@ open class SignatureViewController: UIViewController {
     }
 
     @objc private func cancelTapped() {
-        delegate?.controller(didCancelIn: self)
+        delegate?.controllerDidCancelIn(self)
         dismiss(animated: true, completion: nil)
     }
 
     @objc private func doneTapped() {
-        delegate?.controller(didFinishWithSignature: signatureView.image)
+        delegate?.controller(self, didFinishWithSignature: signatureView.renderedImage())
         dismiss(animated: true, completion: nil)
     }
 

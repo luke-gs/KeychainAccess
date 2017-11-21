@@ -29,11 +29,14 @@ public class SignatureView: UIView {
         }
     }
 
+    public var containsSignature: Bool {
+        return path.isEmpty
+    }
+
     fileprivate var path = UIBezierPath()
     fileprivate var points: LineControlPoints = LineControlPoints()
 
     override public func draw(_ rect: CGRect) {
-        super.draw(rect)
         strokeColor.setStroke()
         path.stroke()
     }
@@ -62,7 +65,7 @@ public class SignatureView: UIView {
     override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
             points.controlPoint = 0
-            points.setPoint(.left, to: touch.location(in: self))
+            points.setPoint(.leading, to: touch.location(in: self))
         }
         delegate?.didStartSigning()
     }
@@ -70,22 +73,18 @@ public class SignatureView: UIView {
     override public func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
             let point = touch.location(in: self)
-            var controlPoint = points.controlPoint
-            // Increment the control point
-            controlPoint += 1
-            points.setPoint(PointLocation(controlPoint), to: point)
-
+            points.controlPoint += 1
+            points.setPoint(PointLocation(points.controlPoint), to: point)
             if points.isAtLastPoint() {
 
                 // Calculate the center of the points, set the middle point to the calculated value and add a curve to it
                 let centerPoint = CGPoint(x: (points.middle.x + points.trailing.x) * 0.5, y: (points.middle.y + points.trailing.y) * 0.5)
-                points.setPoint(.rightMiddle, to: centerPoint)
+                points.setPoint(.trailingControl, to: centerPoint)
                 path.move(to: points.leading)
-                path.addCurve(to: points.trailingControl, controlPoint1: points.middleControl, controlPoint2: points.middle)
+                path.addCurve(to: points.trailingControl, controlPoint1: points.leadingControl, controlPoint2: points.middle)
 
-                setNeedsDisplay()
-                points.setPoint(.left, to: points.trailingControl)
-                points.setPoint(.leftMiddle, to: points.trailing)
+                points.setPoint(.leading, to: points.trailingControl)
+                points.setPoint(.leadingControl, to: points.trailing)
                 points.controlPoint = 1
             }
 
@@ -112,27 +111,32 @@ public class SignatureView: UIView {
         }
     }
 
-    public var image: UIImage? {
-        UIGraphicsBeginImageContextWithOptions(frame.size, false, 0)
-        UIColor.clear.setFill()
+    public func renderedImage(isOpaque: Bool = false, backgroundColor: UIColor? = nil) -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(frame.size, isOpaque, 0)
+
+        // Set the background colur if supplied
+        backgroundColor?.setFill()
+
         strokeColor.setStroke()
         path.lineWidth = strokeWidth
         path.stroke()
+
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return image
     }
+
 }
 
 public enum PointLocation: Int {
-    case left = 0
-    case leftMiddle
-    case middle
-    case rightMiddle
-    case right
+    case leading = 0
+    case leadingControl = 1
+    case middle = 2
+    case trailingControl = 3
+    case trailing = 4
 
     init(_ controlPoint: Int) {
-        self = PointLocation(rawValue: controlPoint) ?? .left
+        self = PointLocation(rawValue: controlPoint) ?? .leading
     }
 }
 
@@ -152,7 +156,7 @@ private class LineControlPoints {
     var leading: CGPoint {
         return points[0]
     }
-    var middleControl: CGPoint {
+    var leadingControl: CGPoint {
         return points[1]
     }
     var middle: CGPoint {
@@ -170,6 +174,6 @@ private class LineControlPoints {
     }
 
     func isAtLastPoint() -> Bool {
-        return controlPoint == PointLocation.right.rawValue
+        return controlPoint == PointLocation.trailing.rawValue
     }
 }
