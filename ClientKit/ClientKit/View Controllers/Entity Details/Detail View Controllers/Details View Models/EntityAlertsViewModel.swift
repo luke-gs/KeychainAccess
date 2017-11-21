@@ -21,6 +21,10 @@ public class EntityAlertsViewModel: EntityDetailViewModelable {
             delegate?.updateSidebarItemCount(UInt(count))
             
             let color = entity?.alertLevel?.color
+            
+            if let level = entity?.alertLevel, level == .low && entity?.alerts?.count == 0 {
+                print("The BE is returning .low values for `alertLevel` when there are no alerts. See https://gridstone.atlassian.net/browse/MPOLA-873 for more info.")
+            }
             delegate?.updateSidebarAlertColor(color)
             delegate?.updateNoContentDetails(title: noContentTitle(), subtitle: noContentSubtitle())
         }
