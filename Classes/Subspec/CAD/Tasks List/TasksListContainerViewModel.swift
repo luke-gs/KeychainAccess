@@ -51,11 +51,11 @@ open class TasksListContainerViewModel {
     // MARK: - Properties
 
     // Child view models
-    public let headerViewModel: TasksListHeaderViewModel
-    public let listViewModel: TasksListViewModel
+    open let headerViewModel: TasksListHeaderViewModel
+    open let listViewModel: TasksListViewModel
 
     /// The tasks source items, which are basically the different kinds of tasks (not backend sources)
-    public var sourceItems: [SourceItem] = [] {
+    open var sourceItems: [SourceItem] = [] {
         didSet {
             if sourceItems != oldValue {
                 headerViewModel.sourceItems = sourceItems
@@ -64,7 +64,7 @@ open class TasksListContainerViewModel {
     }
 
     /// The selected source index
-    public var selectedSourceIndex: Int = 0 {
+    open var selectedSourceIndex: Int = 0 {
         didSet {
             if selectedSourceIndex != oldValue {
                 headerViewModel.selectedSourceIndex = selectedSourceIndex
@@ -88,14 +88,14 @@ open class TasksListContainerViewModel {
     }
 
     /// Create the view controller for this view model
-    public func createViewController() -> UIViewController {
+    open func createViewController() -> UIViewController {
         return TasksListContainerViewController(viewModel: self)
     }
 
     // MARK: - Public methods
 
     /// Update the source items status
-    public func updateSourceItems() {
+    open func updateSourceItems() {
 
         // TODO: populate counts from network
         sourceItems = SampleData.sourceItems()
@@ -103,11 +103,20 @@ open class TasksListContainerViewModel {
     }
 
     /// Update the task list data
-    public func updateListData() {
+    open func updateListData() {
 
         // TODO: fetch from network
         let type = TaskListType(rawValue: selectedSourceIndex)!
         listViewModel.sections = SampleData.sectionsForType(type)
+    }
+
+    /// Content title shown when no results
+    open func noContentTitle() -> String? {
+        return NSLocalizedString("No Tasks Found", comment: "")
+    }
+
+    open func noContentSubtitle() -> String? {
+        return nil
     }
 }
 
