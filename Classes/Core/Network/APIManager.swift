@@ -254,8 +254,7 @@ open class APIManager {
     }
     
     /// Performs a request for the `urlRequest` and returns a `Promise` with processed `DataResponse`.
-    /// Public for `RetryPlugin` to use when retrying and processing requests.
-    public func dataRequest(_ urlRequest: Promise<URLRequest>) -> Promise<DataResponse<Data>> {
+    private func dataRequest(_ urlRequest: Promise<URLRequest>) -> Promise<DataResponse<Data>> {
         return processDataRequest(from: urlRequest).then { (request) in
             
             // Notify plugins of request
