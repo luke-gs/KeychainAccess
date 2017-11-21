@@ -254,7 +254,7 @@ open class APIManager {
     }
     
     /// Performs a request for the `urlRequest` and returns a `Promise` with processed `DataResponse`.
-    private func dataRequest(_ urlRequest: Promise<URLRequest>) -> Promise<DataResponse<Data>> {
+    public func dataRequest(_ urlRequest: Promise<URLRequest>) -> Promise<DataResponse<Data>> {
         return processDataRequest(from: urlRequest).then { (request) in
             
             // Notify plugins of request
