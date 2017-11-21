@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MapFilterSectionView: UIView {
+open class MapFilterSectionView: UIView {
     
     public struct LayoutConstants {
         public static let separatorHeight: CGFloat = 1
@@ -122,7 +122,7 @@ class MapFilterSectionView: UIView {
     }
     
     /// Called when the toggle has changed value
-    @objc func toggleChanged() {
+    @objc open func toggleChanged() {
         // Do nothing if we aren't using a toggle
         guard section.isOn != nil else { return }
         
@@ -135,7 +135,7 @@ class MapFilterSectionView: UIView {
     }
     
     /// Save the view's values to the model
-    func applyValues() {
+    open func applyValues() {
         if section.isOn != nil {
             section.isOn = toggle.isOn
         }
@@ -145,7 +145,7 @@ class MapFilterSectionView: UIView {
     }
     
     /// Sets the values for a `MapFilterSection`. Use this to reset values
-    func setValues(for section: MapFilterSection) {
+    open func setValues(for section: MapFilterSection) {
         if section.isOn != nil {
             // Set toggle if we are using one
             toggle.setOn(section.isOn.isTrue, animated: false)

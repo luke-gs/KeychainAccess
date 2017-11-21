@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MapFilterToggleRowView: UIView {
+open class MapFilterToggleRowView: UIView {
     
     public struct LayoutConstants {
         public static let checkboxSpacing: CGFloat = 32
@@ -29,7 +29,7 @@ class MapFilterToggleRowView: UIView {
     private let showsSeparator: Bool
     public let toggleRow: MapFilterToggleRow
     
-    init(frame: CGRect = .zero, toggleRow: MapFilterToggleRow, enabledTitleColor: UIColor = #colorLiteral(red: 0.337254902, green: 0.3450980392, blue: 0.3843137255, alpha: 1), disabledTitleColor: UIColor = #colorLiteral(red: 0.5215836167, green: 0.5254672766, blue: 0.5528345108, alpha: 0.5), showsSeparator: Bool = false) {
+    public init(frame: CGRect = .zero, toggleRow: MapFilterToggleRow, enabledTitleColor: UIColor = #colorLiteral(red: 0.337254902, green: 0.3450980392, blue: 0.3843137255, alpha: 1), disabledTitleColor: UIColor = #colorLiteral(red: 0.5215836167, green: 0.5254672766, blue: 0.5528345108, alpha: 0.5), showsSeparator: Bool = false) {
         self.showsSeparator = showsSeparator
         self.toggleRow = toggleRow
         super.init(frame: frame)
@@ -71,7 +71,7 @@ class MapFilterToggleRowView: UIView {
         setupConstraints()
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
     

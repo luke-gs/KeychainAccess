@@ -21,7 +21,7 @@ public struct TasksListItemViewModel {
     public let boxColor: UIColor
     public let boxFilled: Bool
     
-    init(title: String, subtitle: String, caption: String, status: String? = nil, priority: String? = nil, boxColor: UIColor, boxFilled: Bool) {
+    public init(title: String, subtitle: String, caption: String, status: String? = nil, priority: String? = nil, boxColor: UIColor, boxFilled: Bool) {
         self.title = title
         self.subtitle = subtitle
         self.caption = caption
