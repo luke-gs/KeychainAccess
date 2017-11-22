@@ -35,7 +35,7 @@ open class RefreshTokenPlugin: PluginType {
     
     public func adapt(_ urlRequest: URLRequest) -> Promise<URLRequest> {
         // Check for exclude paths
-        if let path = urlRequest.url?.lastPathComponent, excludePaths.contains(path) {
+        if shouldExclude(urlRequest) {
             return Promise(value: urlRequest)
         }
         
@@ -52,7 +52,7 @@ open class RefreshTokenPlugin: PluginType {
     
     public func processResponse(_ response: DataResponse<Data>) -> Promise<DataResponse<Data>> {
         // Check for exclude paths
-        if let path = response.request?.url?.lastPathComponent, excludePaths.contains(path) {
+        if shouldExclude(response.request) {
             return Promise(value: response)
         }
         
@@ -96,6 +96,15 @@ open class RefreshTokenPlugin: PluginType {
         
         // Return promise with response as normal
         return Promise(value: response)
+    }
+    
+    // MARK: - Internal
+    
+    private func shouldExclude(_ request: URLRequest?) -> Bool {
+        if let path = request?.url?.lastPathComponent {
+            return excludePaths.contains(path)
+        }
+        return false
     }
 }
 
