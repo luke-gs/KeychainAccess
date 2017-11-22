@@ -1,5 +1,5 @@
 //
-//  ImageDownloader.swift
+//  RemoteResourceDownloader.swift
 //  MPOLKit
 //
 //  Created by Herli Halim on 30/10/17.
@@ -8,32 +8,31 @@
 
 import Alamofire
 import PromiseKit
+import Unbox
 import Cache
 
-public class ImageDownloader {
-
-    public static let `default` = ImageDownloader()
+public class RemoteResourceDownloader<T: Codable> {
 
     public let apiManager: APIManager?
 
-    private let imageCache: Storage
+    private let resourceCache: Storage
 
-    public let imageDiskCacheConfig: DiskConfig
+    public let resourceDiskCacheConfig: DiskConfig
 
     private let barrierQueue: DispatchQueue
-    private var inProgressPromises = [URL: Promise<UIImage>]()
+    private var inProgressPromises = [URL: Promise<T>]()
 
     /// If `APIManager` is not provided, the `APIManager.shared` will be used.
     /// This is to allow to pass in different APIManager setup if required while
     /// allowing using the global mutating `APIManager.shared`.
-    public init(apiManager: APIManager? = nil, diskCacheConfig: DiskConfig = ImageDownloader.defaultDiskCacheConfig) {
-        self.imageDiskCacheConfig = diskCacheConfig
+    public init(apiManager: APIManager? = nil, diskCacheConfig: DiskConfig = RemoteResourceDownloader.defaultDiskCacheConfig) {
+        self.resourceDiskCacheConfig = diskCacheConfig
         // Use default `MemoryConfig`, it'll automatically clear anyway.
 
         self.apiManager = apiManager
-        imageCache = try! Storage(diskConfig: diskCacheConfig, memoryConfig: MemoryConfig())
+        resourceCache = try! Storage(diskConfig: diskCacheConfig, memoryConfig: MemoryConfig())
 
-        barrierQueue = DispatchQueue(label: "au.com.gridstone.ImageDownloader.Barrier.\(diskCacheConfig.name)", attributes: .concurrent)
+        barrierQueue = DispatchQueue(label: "au.com.gridstone.RemoteResourceDownloader.Barrier.\(diskCacheConfig.name)", attributes: .concurrent)
     }
 
     /// Fetch image using the the `RemoteResourceDescribing`. The result will be cached
@@ -42,60 +41,59 @@ public class ImageDownloader {
     /// - Parameter imageResourceDescription: The description to download and cache the image
     /// - Returns: Promise to return a UIImage when the fetch is completed.
     @discardableResult
-    public func fetchImage(using imageResourceDescription: RemoteResourceDescribing) -> Promise<UIImage> {
+    public func fetchResource(using resourceDescription: RemoteResourceDescribing) -> Promise<T> {
 
-        let downloadURL = imageResourceDescription.downloadURL
-        let imageRequest: Promise<UIImage>
+        let downloadURL = resourceDescription.downloadURL
+        let resourceRequest: Promise<T>
 
         if let request = fetchRequest(for: downloadURL) {
-            imageRequest = request
+            resourceRequest = request
         } else {
-            let request = fetchAndCacheImage(using: downloadURL)
+            let request = fetchAndCacheResource(using: downloadURL)
             request.always { [weak self] in
                 self?.set(fetchRequest: nil, for: downloadURL)
             }
-            imageRequest = request
+            resourceRequest = request
             set(fetchRequest: request, for: downloadURL)
         }
 
         // Catch the error, it's very likely use case
         // that the fetcher wouldn't handle the error. So catch it here and do nothing.
-        return imageRequest.catch { _ in
+        return resourceRequest.catch { _ in
 
         }
     }
 
-    private func fetchAndCacheImage(using imageResourceDescription: RemoteResourceDescribing) -> Promise<UIImage> {
+    private func fetchAndCacheResource(using resourceDescription: RemoteResourceDescribing) -> Promise<T> {
 
         // Try to retrieve from cache first.
-        func retrieveAndCacheImagePromise() -> Promise<UIImage> {
-            let networkRequest = try! NetworkRequest(pathTemplate: imageResourceDescription.downloadURL.absoluteString, parameters: [:], isRelativePath: false)
-            let promise: Promise<UIImage> = try! _actualAPIManager.performRequest(networkRequest)
-
-            return promise.then { [weak self] image -> Promise<UIImage> in
+        func retrieveAndCacheResourcePromise() -> Promise<T> {
+            let networkRequest = try! NetworkRequest(pathTemplate: resourceDescription.downloadURL.absoluteString, parameters: [:], isRelativePath: false)
+            let promise: Promise<T> = try! _actualAPIManager.performRequest(networkRequest, using: CodableResponseSerializing())
+            return promise.then { [weak self] image -> Promise<T> in
 
                 if let strongSelf = self {
-                    let imageWrapper = ImageWrapper(image: image)
                     // Do nothing with the completion, it's not that important anyway.
-                    strongSelf.imageCache.async.setObject(imageWrapper, forKey: imageResourceDescription.cacheKey, completion: { _ in })
+                    strongSelf.resourceCache.async.setObject(image, forKey: resourceDescription.cacheKey, completion: { _ in })
                 }
 
                 return Promise(value: image)
             }
         }
 
-        let isCached = try? imageCache.existsObject(ofType: ImageWrapper.self, forKey: imageResourceDescription.cacheKey)
+        let isCached = try? resourceCache.existsObject(ofType: T.self, forKey: resourceDescription.cacheKey)
 
         if let isCached = isCached, isCached { // If cache for the key exists.
 
-            let promise = Promise<UIImage> { [weak self] fulfill, reject in
+            let promise = Promise<T> { [weak self] fulfill, reject in
                 guard let `self` = self else {
                     throw NSError.cancelledError()
                 }
-                self.imageCache.async.entry(ofType: ImageWrapper.self, forKey: imageResourceDescription.cacheKey, completion: { result in
+                self.resourceCache.async.entry(ofType: T.self, forKey: resourceDescription.cacheKey, completion: { result in
                     switch result {
                     case .value(let entry):
-                        fulfill(entry.object.image)
+                        fulfill(entry.object)
+                        break
                     case .error(let error):
                         reject(error)
                     }
@@ -103,26 +101,26 @@ public class ImageDownloader {
             }
 
             // If for whatever reasons fetching from cache failed, then go fetch from remote.
-            return promise.recover { _ -> Promise<UIImage> in
-                return retrieveAndCacheImagePromise()
+            return promise.recover { _ -> Promise<T> in
+                return retrieveAndCacheResourcePromise()
             }
         } else {
-            return retrieveAndCacheImagePromise()
+            return retrieveAndCacheResourcePromise()
         }
 
     }
 
     // MARK: - Private utilities
 
-    private func fetchRequest(for url: URL) -> Promise<UIImage>? {
-        var fetchRequest: Promise<UIImage>?
+    private func fetchRequest(for url: URL) -> Promise<T>? {
+        var fetchRequest: Promise<T>?
         barrierQueue.sync {
             fetchRequest = inProgressPromises[url]
         }
         return fetchRequest
     }
 
-    private func set(fetchRequest: Promise<UIImage>?, for url: URL) {
+    private func set(fetchRequest: Promise<T>?, for url: URL) {
         barrierQueue.async(flags: .barrier) { [weak self] in
             self?.inProgressPromises[url] = fetchRequest
         }
@@ -137,13 +135,13 @@ public class ImageDownloader {
 }
 
 // MARK: - Default
-extension ImageDownloader {
+extension RemoteResourceDownloader {
 
-    public static let defaultCacheName: String = "au.com.gridstone.ImageDownloader.cache.default"
+    public static var defaultCacheName: String { return "au.com.gridstone.RemoteResourceDownloader.cache.default" }
 
     // Default config has expiry of 1 hour and size of 100 MB.
     public static var defaultDiskCacheConfig: DiskConfig {
-        let config = DiskConfig(name: ImageDownloader.defaultCacheName, expiry: .seconds(3600), maxSize: 150 * 1024 * 1024, directory: nil, protectionType: nil)
+        let config = DiskConfig(name: RemoteResourceDownloader.defaultCacheName, expiry: .seconds(3600), maxSize: 150 * 1024 * 1024, directory: nil, protectionType: nil)
         return config
     }
 }

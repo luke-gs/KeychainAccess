@@ -43,8 +43,7 @@
 		196ED03C1F7C0619005F3F7C /* UILayoutPriorityMathExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196ED03B1F7C0619005F3F7C /* UILayoutPriorityMathExtensionTests.swift */; };
 		1972FCCB1FA6A1EF00CB68EA /* ImageAlamofireResponseSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1972FCCA1FA6A1EF00CB68EA /* ImageAlamofireResponseSerializer.swift */; };
 		1972FCCD1FA6A7FC00CB68EA /* ImageError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1972FCCC1FA6A7FC00CB68EA /* ImageError.swift */; };
-		1972FCD01FA6C42900CB68EA /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1972FCCF1FA6C42900CB68EA /* ImageDownloader.swift */; };
-		1972FCD21FA6C4E300CB68EA /* ImageDownloadTicket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1972FCD11FA6C4E300CB68EA /* ImageDownloadTicket.swift */; };
+		1972FCD21FA6C4E300CB68EA /* ResourceDownloadTicket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1972FCD11FA6C4E300CB68EA /* ResourceDownloadTicket.swift */; };
 		197FBF711F9980F20086875A /* URLQueryBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197FBF701F9980F20086875A /* URLQueryBuilderTests.swift */; };
 		199571C81FB913D400950EAB /* OAuth2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199571C71FB913D400950EAB /* OAuth2.swift */; };
 		19975D8F1F4414AF00E51469 /* ErrorMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19975D8E1F4414AF00E51469 /* ErrorMapperTests.swift */; };
@@ -163,6 +162,8 @@
 		46B3FE7B1F5E3B0C0012476A /* FileLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B3FE7A1F5E3B0C0012476A /* FileLogger.swift */; };
 		46B3FE7F1F5E496B0012476A /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B3FE7E1F5E496B0012476A /* Logger.swift */; };
 		46B3FE811F5E49FB0012476A /* ConsoleLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B3FE801F5E49FB0012476A /* ConsoleLogger.swift */; };
+		46C430CC1FC5252D0047396B /* CodableResponseSerializing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C430CB1FC5252D0047396B /* CodableResponseSerializing.swift */; };
+		46C430D01FC544310047396B /* RemoteResourceDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C430CF1FC544310047396B /* RemoteResourceDownloader.swift */; };
 		46DDAB451F78CF1300ED72DC /* FormAccessoryImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46DDAB441F78CF1300ED72DC /* FormAccessoryImageView.swift */; };
 		8CDAFFA6E9DC54A4594C01FE /* Pods_MPOLKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FE1AAA01D6AE18F86693DF8 /* Pods_MPOLKitTests.framework */; };
 		9620530D1F988239000CAD49 /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9620530C1F988239000CAD49 /* AppGroup.swift */; };
@@ -557,8 +558,7 @@
 		196ED03B1F7C0619005F3F7C /* UILayoutPriorityMathExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILayoutPriorityMathExtensionTests.swift; sourceTree = "<group>"; };
 		1972FCCA1FA6A1EF00CB68EA /* ImageAlamofireResponseSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAlamofireResponseSerializer.swift; sourceTree = "<group>"; };
 		1972FCCC1FA6A7FC00CB68EA /* ImageError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageError.swift; sourceTree = "<group>"; };
-		1972FCCF1FA6C42900CB68EA /* ImageDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
-		1972FCD11FA6C4E300CB68EA /* ImageDownloadTicket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloadTicket.swift; sourceTree = "<group>"; };
+		1972FCD11FA6C4E300CB68EA /* ResourceDownloadTicket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceDownloadTicket.swift; sourceTree = "<group>"; };
 		197FBF701F9980F20086875A /* URLQueryBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLQueryBuilderTests.swift; sourceTree = "<group>"; };
 		199571C71FB913D400950EAB /* OAuth2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2.swift; sourceTree = "<group>"; };
 		19975D8E1F4414AF00E51469 /* ErrorMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMapperTests.swift; sourceTree = "<group>"; };
@@ -659,6 +659,8 @@
 		46B3FE7A1F5E3B0C0012476A /* FileLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileLogger.swift; sourceTree = "<group>"; };
 		46B3FE7E1F5E496B0012476A /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		46B3FE801F5E49FB0012476A /* ConsoleLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConsoleLogger.swift; sourceTree = "<group>"; };
+		46C430CB1FC5252D0047396B /* CodableResponseSerializing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableResponseSerializing.swift; sourceTree = "<group>"; };
+		46C430CF1FC544310047396B /* RemoteResourceDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteResourceDownloader.swift; sourceTree = "<group>"; };
 		46DDAB441F78CF1300ED72DC /* FormAccessoryImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormAccessoryImageView.swift; sourceTree = "<group>"; };
 		70E8FDF2F522A8C05328E451 /* Pods-MPOLKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKitTests/Pods-MPOLKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		792BA6D7922A9D3748B70A23 /* Pods-MPOLKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKit/Pods-MPOLKit.release.xcconfig"; sourceTree = "<group>"; };
@@ -1095,11 +1097,12 @@
 		1972FCC91FA6A14800CB68EA /* Image */ = {
 			isa = PBXGroup;
 			children = (
-				1972FCCF1FA6C42900CB68EA /* ImageDownloader.swift */,
-				1972FCD11FA6C4E300CB68EA /* ImageDownloadTicket.swift */,
+				1972FCD11FA6C4E300CB68EA /* ResourceDownloadTicket.swift */,
 				1972FCCC1FA6A7FC00CB68EA /* ImageError.swift */,
 				1972FCCA1FA6A1EF00CB68EA /* ImageAlamofireResponseSerializer.swift */,
 				199ECE8E1FAA1B720065E425 /* RemoteResourceDescribing.swift */,
+				46C430CF1FC544310047396B /* RemoteResourceDownloader.swift */,
+				46C430CB1FC5252D0047396B /* CodableResponseSerializing.swift */,
 			);
 			path = Image;
 			sourceTree = "<group>";
@@ -2879,6 +2882,7 @@
 				274C89881F9EB27A005B9CF8 /* OfficerDetailsViewModel.swift in Sources */,
 				BC9C7E011F0DED6600DFFE83 /* FloatingPoint+Comparison.swift in Sources */,
 				BC9C7E0D1F0DED6600DFFE83 /* CollectionViewFormLayout.swift in Sources */,
+				46C430CC1FC5252D0047396B /* CodableResponseSerializing.swift in Sources */,
 				2744EEC71FBEA523008DFA7F /* MapFilterViewModel.swift in Sources */,
 				27CBC7621F8B27CC00E387C3 /* IncidentAnnotation.swift in Sources */,
 				4420D2801F66428D00E20304 /* Sequence+Nils.swift in Sources */,
@@ -2973,7 +2977,7 @@
 				BC1B260E1F20BB3C009674B7 /* PushableSplitViewController.swift in Sources */,
 				EA09A0571F78B9C200BC3C0E /* PredicateSpecification.swift in Sources */,
 				27094CCC1FAFFBDA00D4C3D4 /* ResourceTaskItemViewModel.swift in Sources */,
-				1972FCD21FA6C4E300CB68EA /* ImageDownloadTicket.swift in Sources */,
+				1972FCD21FA6C4E300CB68EA /* ResourceDownloadTicket.swift in Sources */,
 				19DBD5D11FA8EA7400205EEC /* APIManager+Unboxable.swift in Sources */,
 				BC9C7E2A1F0DED6600DFFE83 /* DateFormatter+Static.swift in Sources */,
 				9663D0061F86DCDA006DB672 /* MPOLSplitViewController.swift in Sources */,
@@ -3057,6 +3061,7 @@
 				27CBC7601F8B27C700E387C3 /* ResourceMapViewModel.swift in Sources */,
 				EADC4FF31F81E0810066AA2F /* OptionGroupFormItem.swift in Sources */,
 				BC9C7DF01F0DED6600DFFE83 /* EpochDateTransformer+UnboxFormatter.swift in Sources */,
+				46C430D01FC544310047396B /* RemoteResourceDownloader.swift in Sources */,
 				962AA8191F8DD37D0087D534 /* PopoverPresenter.swift in Sources */,
 				2768C0491F86E78A008532ED /* TasksMapViewController.swift in Sources */,
 				BC1ECEBF1F24CC40002C2A68 /* LoadingStateManager.swift in Sources */,
