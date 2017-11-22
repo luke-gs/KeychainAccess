@@ -68,9 +68,6 @@ open class MPOLSplitViewController: PushableSplitViewController {
     /// Whether the master view controller is hidden when displaying in compact size
     public var shouldHideMasterWhenCompact: Bool = true {
         didSet {
-            if shouldHideMasterWhenCompact {
-                selectedViewController = nil
-            }
             updateSplitViewControllerForTraitChange()
         }
     }

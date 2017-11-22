@@ -79,6 +79,9 @@ open class TasksSplitViewController: MPOLSplitViewController {
     /// Called when the segmented control value changed
     @objc private func didChangeSegmentedControl() {
         shouldHideMasterWhenCompact = segmentedControl.selectedSegmentIndex != 0
+        if shouldHideMasterWhenCompact {
+            selectedViewController = nil
+        }
     }
     
     @objc private func showMapLayerFilter() {
