@@ -34,7 +34,7 @@ public class MediaFormItem: BaseFormItem {
     }
 
     public override func intrinsicHeight(in collectionView: UICollectionView, layout: CollectionViewFormLayout, givenContentWidth contentWidth: CGFloat, for traitCollection: UITraitCollection) -> CGFloat {
-        return 96.0
+        return CollectionViewFormMediaCellMinimumItemHeight
     }
 
 }
