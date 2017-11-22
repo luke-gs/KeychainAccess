@@ -13,21 +13,7 @@ fileprivate var kvoContext = 1
 
 
 open class LoginViewController: UIViewController, UITextFieldDelegate {
-    
-    /// The login delegate.
-    ///
-    /// This object receives callback notifications when the login button is triggered.
-    open weak var delegate: LoginViewControllerDelegate? {
-        didSet {
-            let wantsForgotPassword = delegate?.responds(to: #selector(LoginViewControllerDelegate.loginViewController(_:didTapForgotPasswordButton:))) ?? false
-            if isLoginButtonLoaded {
-                forgotPasswordButton.isHidden = wantsForgotPassword == false
-            }
-            forgotPasswordSeparation?.constant = wantsForgotPassword ? 14.0 : 0.0
-        }
-    }
-    
-    
+
     /// The image to present behind the login screen.
     open var backgroundImage: UIImage? {
         didSet {
@@ -167,8 +153,10 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         button.setTitleColor(UIColor(white: 1.0, alpha: 0.64), for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 11.0, weight: UIFont.Weight.medium)
         button.addTarget(self, action: #selector(forgotPasswordButtonTriggered), for: .primaryActionTriggered)
-        button.isHidden = self.delegate?.responds(to: #selector(LoginViewControllerDelegate.loginViewController(_:didTapForgotPasswordButton:))) ?? false == false
-        
+        if case LoginMode.externalAuth = loginMode {
+            button.isHidden = true
+        }
+
         return button
         }()
     
@@ -320,19 +308,21 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
-
     /// Specifies whether the credentials view is added to the view hierarchy.
     ///
     /// The default value is `.UsernamePassword`, which adds the credentials view.
     /// `.button` does not add the credentials view.
-    public var loginMode: LoginMode = .usernamePassword {
+    public var loginMode: LoginMode {
         didSet {
-            if loginMode == oldValue { return }
-
             // if credentials view has been instantiated...
             if let credentialsView = self.credentialsView {
                 // hide
-                credentialsView.isHidden = loginMode == .externalAuth
+                if case LoginMode.externalAuth = loginMode {
+                    credentialsView.isHidden = true
+                }
+                else {
+                    credentialsView.isHidden = false
+                }
             }
 
             // otherwise, check that the context for its creation exists
@@ -423,12 +413,8 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: - Initializers
 
-    public convenience init(name: String) {
-        self.init()
-        usernameField.text = name
-    }
-
-    public init() {
+    public init(mode: LoginMode) {
+        loginMode = mode
         super.init(nibName: nil, bundle: nil)
         
         automaticallyAdjustsScrollViewInsets = false
@@ -440,7 +426,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     public required convenience init(coder aDecoder: NSCoder) {
-        self.init()
+        MPLCodingNotSupported()
     }
     
     deinit {
@@ -469,7 +455,10 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         contentView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(contentView)
         
-        let credentialsView = loginMode == .usernamePassword ? createCredentialsView() : nil
+        var credentialsView: UIView? = nil
+        if case LoginMode.usernamePassword = loginMode {
+            credentialsView = createCredentialsView()
+        }
         
         let versionLabel = self.versionLabel
         versionLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -712,7 +701,12 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
 
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        delegate?.loginViewControllerDidAppear(self)
+        switch loginMode {
+        case .usernamePassword(let delegate):
+            delegate?.loginViewControllerDidAppear(self)
+        case .externalAuth(let delegate):
+            delegate?.loginViewControllerDidAppear(self)
+        }
     }
     
     open override func viewDidDisappear(_ animated: Bool) {
@@ -816,12 +810,16 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         guard let username = usernameField.text, let password = passwordField.text else { return }
         
         view.endEditing(true)
-        
-        delegate?.loginViewController(self, didFinishWithUsername: username, password: password, mode: loginMode)
+
+        if case let LoginMode.usernamePassword(delegate: delegate) = loginMode {
+            delegate?.loginViewController(self, didFinishWithUsername: username, password: password)
+        }
     }
     
     @objc private func forgotPasswordButtonTriggered() {
-        delegate?.loginViewController?(self, didTapForgotPasswordButton: forgotPasswordButton)
+        if case let LoginMode.usernamePassword(delegate: delegate) = loginMode {
+            delegate?.loginViewController(self, didTapForgotPasswordButton: forgotPasswordButton)
+        }
     }
     
     @objc private func textFieldTextDidChange(_ textField: UITextField) {
@@ -832,11 +830,15 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     
     private func updateLoginButtonState() {
         if isLoginButtonLoaded == false { return }
-        
-        let isUsernameValid: Bool = isUsernameFieldLoaded && usernameField.text?.count ?? 0 >= minimumUsernameLength
+
+        switch loginMode {
+        case .usernamePassword:
+            let isUsernameValid: Bool = isUsernameFieldLoaded && usernameField.text?.count ?? 0 >= minimumUsernameLength
             let isPasswordValid: Bool = isPasswordFieldLoaded && passwordField.text?.count ?? 0 >= minimumPasswordLength
-        
-        loginButton.isEnabled = loginMode == .externalAuth || isUsernameValid && isPasswordValid
+            loginButton.isEnabled = isUsernameValid && isPasswordValid
+        case .externalAuth:
+            loginButton.isEnabled = true
+        }
     }
     
     private func newTextField() -> UITextField {
@@ -851,18 +853,24 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
 }
 
 
-@objc public protocol LoginViewControllerDelegate: NSObjectProtocol {
-    
-    func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String?, password: String?, mode: LoginMode)
+public protocol LoginViewControllerDelegate {
 
     func loginViewControllerDidAppear(_ controller: LoginViewController)
-
-    @objc optional func loginViewController(_ controller: LoginViewController, didTapForgotPasswordButton button: UIButton)
-    
 }
 
 // names are open to feedback
-@objc public enum LoginMode: Int {
-    case usernamePassword
-    case externalAuth
+public enum LoginMode {
+    case usernamePassword(delegate: UsernamePasswordDelegate?)
+    case externalAuth(delegate: ExternalAuthDelegate?)
+}
+
+public protocol UsernamePasswordDelegate: LoginViewControllerDelegate {
+
+    func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String)
+    func loginViewController(_ controller: LoginViewController, didTapForgotPasswordButton button: UIButton)
+}
+
+public protocol ExternalAuthDelegate: LoginViewControllerDelegate {
+
+    func loginViewController(_ controller: LoginViewController, didCommenceExternalAuth: () -> Void)
 }
