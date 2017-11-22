@@ -15,7 +15,10 @@ open class TasksSplitViewController: MPOLSplitViewController {
     private let masterVC: UIViewController
     private let detailVC: UIViewController
     private let segmentedControl: UISegmentedControl
-    private var filterButton: UIBarButtonItem!
+    
+    private var filterButton: UIBarButtonItem {
+        return UIBarButtonItem(image: AssetManager.shared.image(forKey: .filter), style: .plain, target: self, action: #selector(showMapLayerFilter))
+    }
     
     public init(viewModel: TasksSplitViewModel) {
 
@@ -28,15 +31,12 @@ open class TasksSplitViewController: MPOLSplitViewController {
         segmentedControl.selectedSegmentIndex = 0
         
         super.init(masterViewController: masterVC, detailViewControllers: [detailVC])
-        
-        filterButton = UIBarButtonItem(image: AssetManager.shared.image(forKey: .filter), style: .plain, target: self, action: #selector(showMapLayerFilter))
 
         // Configure split to keep showing task list when compact
         shouldHideMasterWhenCompact = false
         
         // Change view when changing segmented control value
         segmentedControl.addTarget(self, action: #selector(didChangeSegmentedControl), for: .valueChanged)
-        
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -71,6 +71,7 @@ open class TasksSplitViewController: MPOLSplitViewController {
             masterVC.navigationItem.rightBarButtonItem = filterButton
             detailVC.navigationItem.rightBarButtonItem = filterButton
         } else {
+            masterVC.navigationItem.rightBarButtonItem = nil
             masterVC.navigationItem.titleView = nil
         }
     }
