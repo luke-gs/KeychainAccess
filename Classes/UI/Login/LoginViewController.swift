@@ -807,13 +807,17 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc private func loginButtonTriggered() {
-        guard let username = usernameField.text, let password = passwordField.text else { return }
-        
-        view.endEditing(true)
-
         if case let LoginMode.usernamePassword(delegate: delegate) = loginMode {
+            guard let username = usernameField.text, let password = passwordField.text else { return }
+            view.endEditing(true)
+
             delegate?.loginViewController(self, didFinishWithUsername: username, password: password)
         }
+        else if case let LoginMode.externalAuth(delegate: delegate) = loginMode {
+            delegate?.loginViewControllerDidCommenceExternalAuth(self)
+        }
+
+
     }
     
     @objc private func forgotPasswordButtonTriggered() {
@@ -872,5 +876,5 @@ public protocol UsernamePasswordDelegate: LoginViewControllerDelegate {
 
 public protocol ExternalAuthDelegate: LoginViewControllerDelegate {
 
-    func loginViewController(_ controller: LoginViewController, didCommenceExternalAuth: () -> Void)
+    func loginViewControllerDidCommenceExternalAuth(_ controller: LoginViewController)
 }
