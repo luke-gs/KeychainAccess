@@ -90,7 +90,7 @@ class PersonSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
         return dateFormatter
     }()
 
-    weak var updatingDelegate: SearchDataSourceUpdating?
+    weak var updatingDelegate: (SearchDataSourceUpdating & UIViewController)?
 
     var localizedDisplayName: String {
         return NSLocalizedString("Person", comment: "")
@@ -99,7 +99,7 @@ class PersonSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
     // MARK: - Private
 
     @objc private func didTapHelpButton(_ button: UIButton) {
-        (self.updatingDelegate as? UIViewController)?.present(EntityScreen.help(type: .person))
+        updatingDelegate?.present(EntityScreen.help(type: .person))
     }
 
     private func generateResultModel(_ text: String?, completion: ((SearchResultViewModelable?, Error?) -> ())) {

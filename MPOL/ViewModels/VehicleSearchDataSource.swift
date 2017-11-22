@@ -143,7 +143,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
     let vinParser          = QueryParser(parserDefinition: VINParserDefinition(range: 10...17))
     let engineParser       = QueryParser(parserDefinition: EngineNumberParserDefinition(range: 10...20))
 
-    weak var updatingDelegate: SearchDataSourceUpdating?
+    weak var updatingDelegate: (SearchDataSourceUpdating & UIViewController)?
 
     var localizedDisplayName: String {
         return NSLocalizedString("Vehicle", comment: "")
@@ -181,7 +181,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
     }
 
     @objc private func didTapHelpButton(_ button: UIButton) {
-        (self.updatingDelegate as? UIViewController)?.present(EntityScreen.help(type: .vehicle))
+        updatingDelegate?.present(EntityScreen.help(type: .vehicle))
     }
 
     private func generateResultModel(_ text: String?, completion: ((SearchResultViewModelable?, Error?) -> ())) {
