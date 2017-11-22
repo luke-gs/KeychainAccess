@@ -125,6 +125,8 @@ public class PhotoMediaSlideShowOverlayView: UIView, PhotoMediaOverlayViewable, 
     public func setHidden(_ hidden: Bool, animated: Bool) {
         guard isHidden != hidden else { return }
 
+        let finalColor: UIColor = hidden ? .black : .white
+
         if animated {
             alpha = hidden ? 1.0 : 0.0
             isHidden = hidden
@@ -132,16 +134,16 @@ public class PhotoMediaSlideShowOverlayView: UIView, PhotoMediaOverlayViewable, 
 
             UIView.animate(withDuration: 0.25, delay: 0.0, options: [.allowAnimatedContent, .allowUserInteraction], animations: {
                 self.alpha = hidden ? 0.0 : 1.0
-                self.galleryViewController?.view.backgroundColor = hidden ? .black : .white
+                self.galleryViewController?.view.backgroundColor = finalColor
                 self.galleryViewController?.navigationController?.navigationBar.isHidden = hidden
             }, completion: { result in
                 self.alpha = 1.0
                 self.isHidden = hidden
-                self.galleryViewController?.view.backgroundColor = hidden ? .black : .white
+                self.galleryViewController?.view.backgroundColor = finalColor
             })
         } else {
             isHidden = hidden
-            galleryViewController?.view.backgroundColor = hidden ? .black : .white
+            galleryViewController?.view.backgroundColor = finalColor
         }
     }
 
