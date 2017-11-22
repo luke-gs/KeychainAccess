@@ -28,8 +28,6 @@ extension APIManager {
             return try! performRequest(networkRequest)
         }.then { (data, response) in
             return data
-        }.catch { (error) in
-            print(error)
         }
     }
 
@@ -38,12 +36,9 @@ extension APIManager {
 
         let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: [:], method: .post)
         return firstly {
-            return try! performRequest(networkRequest)
-        }.then { arg -> Promise<CADSyncSummaries> in
-            guard let json = try! JSONSerialization.jsonObject(with: arg.0, options: []) as? [String: AnyObject] else { throw UnboxError.customUnboxingFailed }
+            return try! performRequest(networkRequest, using: APIManager.JSONObjectResponseSerializer())
+        }.then { json -> Promise<CADSyncSummaries> in
             return Promise(value: CADSyncSummaries(fromDictionary: json))
-        }.catch { (error) in
-            print(error)
         }
     }
 }
