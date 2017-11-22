@@ -67,6 +67,9 @@
 		19C625C01F550D2200504BD9 /* NetworkRequestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C625BF1F550D2200504BD9 /* NetworkRequestType.swift */; };
 		19C625C21F55143900504BD9 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C625C11F55143900504BD9 /* NetworkRequest.swift */; };
 		19C625C41F55186A00504BD9 /* URLQueryBuilder+Parameterisable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C625C31F55186A00504BD9 /* URLQueryBuilder+Parameterisable.swift */; };
+		19C9C74E1FC2898B003C8CE4 /* LocationMapDirectionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C9C74D1FC2898B003C8CE4 /* LocationMapDirectionCollectionViewCell.swift */; };
+		19C9C7501FC289BC003C8CE4 /* CustomSubtitleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C9C74F1FC289BC003C8CE4 /* CustomSubtitleButton.swift */; };
+		19C9C7521FC28A6A003C8CE4 /* LocationSearchMapCollectionViewSideBarLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C9C7511FC28A6A003C8CE4 /* LocationSearchMapCollectionViewSideBarLayout.swift */; };
 		19D8D7961FB5207A0002332D /* ExternalAuthenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19D8D7951FB5207A0002332D /* ExternalAuthenticator.swift */; };
 		19D8D7981FB520930002332D /* AuthenticationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19D8D7971FB520930002332D /* AuthenticationProvider.swift */; };
 		19DBD5CB1FA8E1A200205EEC /* ResponseSerializing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DBD5CA1FA8E1A200205EEC /* ResponseSerializing.swift */; };
@@ -157,6 +160,12 @@
 		44F3F14B1F56DBD300D68585 /* FilterDescriptorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F3F14A1F56DBD300D68585 /* FilterDescriptorTests.swift */; };
 		44F3F14E1F56DDDC00D68585 /* FilterDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F3F14D1F56DDC000D68585 /* FilterDescriptor.swift */; };
 		44F72B2A1F85E5F000A6FE6B /* SearchResultMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F72B291F85E5F000A6FE6B /* SearchResultMessageViewController.swift */; };
+		4634B4421FBD6FD200D71E7F /* MapSummarySearchResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4634B43C1FBD6FD200D71E7F /* MapSummarySearchResultViewModel.swift */; };
+		4634B4431FBD6FD200D71E7F /* EntityMapSummaryDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4634B43D1FBD6FD200D71E7F /* EntityMapSummaryDecorator.swift */; };
+		4634B4441FBD6FD200D71E7F /* APIManager+LocationSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4634B43E1FBD6FD200D71E7F /* APIManager+LocationSearch.swift */; };
+		4634B4451FBD6FD200D71E7F /* SearchResultMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4634B43F1FBD6FD200D71E7F /* SearchResultMapViewController.swift */; };
+		4634B4461FBD6FD200D71E7F /* EntityMapSummaryDisplayble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4634B4401FBD6FD200D71E7F /* EntityMapSummaryDisplayble.swift */; };
+		4634B4471FBD6FD200D71E7F /* TravelEstimationPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4634B4411FBD6FD200D71E7F /* TravelEstimationPlugin.swift */; };
 		4657CAD11F5D0DA9000295F6 /* NetworkLoggingPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4657CAD01F5D0DA9000295F6 /* NetworkLoggingPlugin.swift */; };
 		469EB5811F452FAB0005CAF7 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469EB5801F452FAB0005CAF7 /* LoginViewController.swift */; };
 		469EB5831F45320A0005CAF7 /* LoginHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469EB5821F45320A0005CAF7 /* LoginHeaderView.swift */; };
@@ -582,6 +591,9 @@
 		19C625BF1F550D2200504BD9 /* NetworkRequestType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequestType.swift; sourceTree = "<group>"; };
 		19C625C11F55143900504BD9 /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		19C625C31F55186A00504BD9 /* URLQueryBuilder+Parameterisable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLQueryBuilder+Parameterisable.swift"; sourceTree = "<group>"; };
+		19C9C74D1FC2898B003C8CE4 /* LocationMapDirectionCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationMapDirectionCollectionViewCell.swift; sourceTree = "<group>"; };
+		19C9C74F1FC289BC003C8CE4 /* CustomSubtitleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSubtitleButton.swift; sourceTree = "<group>"; };
+		19C9C7511FC28A6A003C8CE4 /* LocationSearchMapCollectionViewSideBarLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSearchMapCollectionViewSideBarLayout.swift; sourceTree = "<group>"; };
 		19D8D7951FB5207A0002332D /* ExternalAuthenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalAuthenticator.swift; sourceTree = "<group>"; };
 		19D8D7971FB520930002332D /* AuthenticationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationProvider.swift; sourceTree = "<group>"; };
 		19DBD5CA1FA8E1A200205EEC /* ResponseSerializing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseSerializing.swift; sourceTree = "<group>"; };
@@ -654,6 +666,12 @@
 		44F3F14A1F56DBD300D68585 /* FilterDescriptorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDescriptorTests.swift; sourceTree = "<group>"; };
 		44F3F14D1F56DDC000D68585 /* FilterDescriptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDescriptor.swift; sourceTree = "<group>"; };
 		44F72B291F85E5F000A6FE6B /* SearchResultMessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultMessageViewController.swift; sourceTree = "<group>"; };
+		4634B43C1FBD6FD200D71E7F /* MapSummarySearchResultViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapSummarySearchResultViewModel.swift; sourceTree = "<group>"; };
+		4634B43D1FBD6FD200D71E7F /* EntityMapSummaryDecorator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityMapSummaryDecorator.swift; sourceTree = "<group>"; };
+		4634B43E1FBD6FD200D71E7F /* APIManager+LocationSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "APIManager+LocationSearch.swift"; sourceTree = "<group>"; };
+		4634B43F1FBD6FD200D71E7F /* SearchResultMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultMapViewController.swift; sourceTree = "<group>"; };
+		4634B4401FBD6FD200D71E7F /* EntityMapSummaryDisplayble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityMapSummaryDisplayble.swift; sourceTree = "<group>"; };
+		4634B4411FBD6FD200D71E7F /* TravelEstimationPlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravelEstimationPlugin.swift; sourceTree = "<group>"; };
 		4657CAD01F5D0DA9000295F6 /* NetworkLoggingPlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkLoggingPlugin.swift; sourceTree = "<group>"; };
 		469EB5801F452FAB0005CAF7 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		469EB5821F45320A0005CAF7 /* LoginHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginHeaderView.swift; sourceTree = "<group>"; };
@@ -1401,6 +1419,19 @@
 			path = FilterDescriptor;
 			sourceTree = "<group>";
 		};
+		4634B43B1FBD6FA200D71E7F /* Location Map Search */ = {
+			isa = PBXGroup;
+			children = (
+				4634B43E1FBD6FD200D71E7F /* APIManager+LocationSearch.swift */,
+				4634B43D1FBD6FD200D71E7F /* EntityMapSummaryDecorator.swift */,
+				4634B4401FBD6FD200D71E7F /* EntityMapSummaryDisplayble.swift */,
+				4634B43C1FBD6FD200D71E7F /* MapSummarySearchResultViewModel.swift */,
+				4634B43F1FBD6FD200D71E7F /* SearchResultMapViewController.swift */,
+				4634B4411FBD6FD200D71E7F /* TravelEstimationPlugin.swift */,
+			);
+			path = "Location Map Search";
+			sourceTree = "<group>";
+		};
 		4657CACF1F5D0D7F000295F6 /* Logging */ = {
 			isa = PBXGroup;
 			children = (
@@ -1920,6 +1951,7 @@
 				DBE24C311F593AB30088D19B /* EntityDetailCollectionViewCell.swift */,
 				BC9C7D8D1F0DED6600DFFE83 /* EntityListCollectionViewCell.swift */,
 				BC9C7D8E1F0DED6600DFFE83 /* GalleryCollectionViewCell.swift */,
+				19C9C74D1FC2898B003C8CE4 /* LocationMapDirectionCollectionViewCell.swift */,
 				BC9C7D8F1F0DED6600DFFE83 /* StatsOverviewCollectionViewCell.swift */,
 			);
 			path = Cells;
@@ -2010,6 +2042,7 @@
 				BC9C7DBC1F0DED6600DFFE83 /* AlertIndicatorView.swift */,
 				BC9C7DBD1F0DED6600DFFE83 /* BadgeView.swift */,
 				BC9C7DBE1F0DED6600DFFE83 /* CircleIconView.swift */,
+				19C9C74F1FC289BC003C8CE4 /* CustomSubtitleButton.swift */,
 				BC9C7DBF1F0DED6600DFFE83 /* EntityThumbnailView.swift */,
 				BC9C7DC21F0DED6600DFFE83 /* GradientView.swift */,
 				BC9C7DC31F0DED6600DFFE83 /* NavigationBarExtension.swift */,
@@ -2027,6 +2060,7 @@
 		BCFA067F1F3176A8002FA1FF /* MapCollectionViewLayout */ = {
 			isa = PBXGroup;
 			children = (
+				19C9C7511FC28A6A003C8CE4 /* LocationSearchMapCollectionViewSideBarLayout.swift */,
 				BCFA067D1F3176A3002FA1FF /* MapCollectionViewLayout.swift */,
 				BCFA06801F317C29002FA1FF /* MapCollectionViewHeaderLayout.swift */,
 				BC0EA3F31F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift */,
@@ -2470,6 +2504,7 @@
 		EA8B66691F393A0000F09716 /* Subspec */ = {
 			isa = PBXGroup;
 			children = (
+				4634B43B1FBD6FA200D71E7F /* Location Map Search */,
 				9624A4581F83555A00CAE056 /* CAD */,
 				EA85BFE81F678945002EEB49 /* ThemeGesture */,
 				EAAEB3461F6617E0002D6C65 /* Presenter */,
@@ -2756,6 +2791,7 @@
 				96CF32231F8C349700140AF8 /* TasksListViewModel.swift in Sources */,
 				4657CAD11F5D0DA9000295F6 /* NetworkLoggingPlugin.swift in Sources */,
 				44621FF61F59239C007C3150 /* FilterRangeDescriptor.swift in Sources */,
+				4634B4451FBD6FD200D71E7F /* SearchResultMapViewController.swift in Sources */,
 				EA85C0061F68BAAE002EEB49 /* FormBuilder.swift in Sources */,
 				BC9C7DF61F0DED6600DFFE83 /* CollectionViewFormDetailCell.swift in Sources */,
 				9663D00D1F8AF6F5006DB672 /* TasksSplitViewModel.swift in Sources */,
@@ -2866,6 +2902,7 @@
 				EAFBC8BC1F57DF8700F0004B /* LookupAddressValidator.swift in Sources */,
 				BC9C7E051F0DED6600DFFE83 /* UIEdgeInsets+Convenience.swift in Sources */,
 				9936C67D1F96C5580091A61C /* GeolocationPlugin.swift in Sources */,
+				4634B4471FBD6FD200D71E7F /* TravelEstimationPlugin.swift in Sources */,
 				BC1B25BA1F2707270090C0AA /* MPOLBarButtonItems.swift in Sources */,
 				19B49BBB1F665F2A00502F51 /* CompactSidebarItemView.swift in Sources */,
 				9650CA151F958B320087F5C9 /* ManageCallsignStatusViewCell.swift in Sources */,
@@ -2955,10 +2992,12 @@
 				EA53B2771F9EF92B00B891D8 /* NotNilSpecification.swift in Sources */,
 				BC9C7E521F0DED6600DFFE83 /* FormDisclosureView.swift in Sources */,
 				9663D00B1F8AF666006DB672 /* TasksSplitViewController.swift in Sources */,
+				4634B4461FBD6FD200D71E7F /* EntityMapSummaryDisplayble.swift in Sources */,
 				EA445DA61F73734300ABF70F /* SummaryThumbnailFormItem.swift in Sources */,
 				19E1347D1F57A88900F4D48C /* PluginType.swift in Sources */,
 				BC9C7DFC1F0DED6600DFFE83 /* CollectionViewFormTextViewCell.swift in Sources */,
 				EA2189F21F5FE8B50057048E /* Presenter.swift in Sources */,
+				4634B4421FBD6FD200D71E7F /* MapSummarySearchResultViewModel.swift in Sources */,
 				BC9C7E1D1F0DED6600DFFE83 /* MPOLKitInitialize.swift in Sources */,
 				19C625C01F550D2200504BD9 /* NetworkRequestType.swift in Sources */,
 				274C89711F984CB8005B9CF8 /* CallsignListViewController.swift in Sources */,
@@ -3000,6 +3039,7 @@
 				C61AC91A1F32FAF100F82FF6 /* User.swift in Sources */,
 				27CBC75B1F8B27B100E387C3 /* ActivityLogItemViewModel.swift in Sources */,
 				9620530D1F988239000CAD49 /* AppGroup.swift in Sources */,
+				19C9C7521FC28A6A003C8CE4 /* LocationSearchMapCollectionViewSideBarLayout.swift in Sources */,
 				BC9C7E541F0DED6600DFFE83 /* NavigationBarExtension.swift in Sources */,
 				19B49BC61F665F5A00502F51 /* WhatsNewDetailViewController.swift in Sources */,
 				BC9C7DEF1F0DED6600DFFE83 /* Transformer.swift in Sources */,
@@ -3055,6 +3095,7 @@
 				DB88BCE51F42D01C0056FD69 /* SortDescriptor.swift in Sources */,
 				274C89731F984CD0005B9CF8 /* CallsignListViewModel.swift in Sources */,
 				44F72B2A1F85E5F000A6FE6B /* SearchResultMessageViewController.swift in Sources */,
+				19C9C74E1FC2898B003C8CE4 /* LocationMapDirectionCollectionViewCell.swift in Sources */,
 				965CD8AF1F902872007C3EEA /* TasksListContainerViewModel.swift in Sources */,
 				1212B54D1F60F2ED00F90CA0 /* TestingDirective.swift in Sources */,
 				E21CD4741FBD4B3800925A38 /* NetworkMonitorPlugin.swift in Sources */,
@@ -3077,8 +3118,10 @@
 				BC9C7DCC1F0DED6600DFFE83 /* UserDefaults+MPOL.swift in Sources */,
 				27CBC75A1F8B27B100E387C3 /* ActivityLogItemCell.swift in Sources */,
 				19F8DDB01F4D7C9600D84DA1 /* APIManager+LookupAddress.swift in Sources */,
+				4634B4431FBD6FD200D71E7F /* EntityMapSummaryDecorator.swift in Sources */,
 				BC9C7E341F0DED6600DFFE83 /* UIViewAnimationCurve+OptionConversion.swift in Sources */,
 				9679A6491F9EEDB7007BC806 /* BookOnDetailsOfficerFormItem.swift in Sources */,
+				4634B4441FBD6FD200D71E7F /* APIManager+LocationSearch.swift in Sources */,
 				12ADD4221F32A50B00CA8B4D /* MPOLKitProtocols.swift in Sources */,
 				EA11F0261F83357D00BF8BCA /* ImageSizing.swift in Sources */,
 				EA8B66461F37FF5900F09716 /* EntitySummarySearchResultViewModel.swift in Sources */,
@@ -3093,6 +3136,7 @@
 				EA3BA38A1F7A1555000E4AD8 /* ReloadValidationStateVisitor.swift in Sources */,
 				BC9C7E471F0DED6600DFFE83 /* SourceBar.swift in Sources */,
 				BC9C7E0F1F0DED6600DFFE83 /* DefaultReusable.swift in Sources */,
+				19C9C7501FC289BC003C8CE4 /* CustomSubtitleButton.swift in Sources */,
 				EAFACCBC1F4BACE900B93CBA /* SearchFieldAdvanceCell.swift in Sources */,
 				96CF32301F8C4AD300140AF8 /* CADFormCollectionSectionViewModel.swift in Sources */,
 				EA8904B01F6A0C720050DB84 /* FormBuilderViewController.swift in Sources */,
