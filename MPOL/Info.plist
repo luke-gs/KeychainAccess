@@ -32,7 +32,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>144</string>
+	<string>147</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -40,6 +40,10 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>The App need to access the current location</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>The App need to access the current location</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
