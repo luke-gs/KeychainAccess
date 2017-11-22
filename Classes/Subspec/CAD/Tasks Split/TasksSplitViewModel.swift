@@ -14,7 +14,7 @@ open class TasksSplitViewModel {
     public let listContainerViewModel: TasksListContainerViewModel
     public let mapViewModel: TasksMapViewModel
     public let filterViewModel: TaskMapFilterViewModel
-    public weak var presenter: (PopoverPresenter & MapFilterViewControllerDelegate)?
+    public weak var presenter: PopoverPresenter?
 
     public init(listContainerViewModel: TasksListContainerViewModel, mapViewModel: TasksMapViewModel, filterViewModel: TaskMapFilterViewModel) {
         self.listContainerViewModel = listContainerViewModel
@@ -59,10 +59,8 @@ open class TasksSplitViewModel {
     
     /// Shows the map filter popup
     public func presentMapFilter() {
-        if let viewController = filterViewModel.createViewController() as? MapFilterViewController {
-            viewController.delegate = presenter
-            presenter?.presentFormSheet(viewController, animated: true)
-        }
+        let viewController = filterViewModel.createViewController(delegate: self)
+        presenter?.presentFormSheet(viewController, animated: true)
     }
     
     /// Applies the filter to the map and task list
@@ -72,4 +70,11 @@ open class TasksSplitViewModel {
         listContainerViewModel.updateListData()
     }
 
+}
+
+
+extension TasksSplitViewModel: MapFilterViewControllerDelegate {
+    public func didSelectDone() {
+        applyFilter()
+    }
 }

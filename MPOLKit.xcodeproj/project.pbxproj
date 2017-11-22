@@ -1864,9 +1864,6 @@
 			isa = PBXGroup;
 			children = (
 				2744EEBD1FBEA50A008DFA7F /* Map Filter */,
-				469EB57F1F452F950005CAF7 /* Login */,
-				EA3C89011F32A6CB00F38461 /* Lottie */,
-				BC9C7D831F0DED6600DFFE83 /* Abstract View Controllers */,
 				BC9C7D891F0DED6600DFFE83 /* AlertQueue.swift */,
 				BC0448931F219A70005FB857 /* AssetManager.swift */,
 				969959651FC2334300CB51EB /* ColorPalette.swift */,
