@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PromiseKit
 
 open class AuthenticationPlugin: PluginType {
 
@@ -16,13 +17,13 @@ open class AuthenticationPlugin: PluginType {
         self.authenticationMode = authenticationMode
     }
 
-    open func adapt(_ urlRequest: URLRequest) -> URLRequest {
+    open func adapt(_ urlRequest: URLRequest) -> Promise<URLRequest> {
         let header = authenticationMode.authorizationHeader
         
         var adaptedRequest = urlRequest
         adaptedRequest.addValue(header.value, forHTTPHeaderField: header.key)
 
-        return adaptedRequest
+        return Promise(value: adaptedRequest)
     }
     
 }

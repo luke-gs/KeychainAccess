@@ -38,22 +38,22 @@ class AuthenticationPluginTests: XCTestCase {
     func testAdaptBasicSignedCorrectly() {
 
         let plugin = AuthenticationPlugin(authenticationMode: .basicAuthentication(username: username, password: password))
-        let adaptedRequest = plugin.adapt(request)
-
-        XCTAssertNil(request.allHTTPHeaderFields)
-        XCTAssertNotNil(adaptedRequest.allHTTPHeaderFields)
-
-        XCTAssertEqual(adaptedRequest.allHTTPHeaderFields!, authHeaderBasic!)
+        _ = plugin.adapt(request).then { adaptedRequest -> Void in
+            XCTAssertNil(self.request.allHTTPHeaderFields)
+            XCTAssertNotNil(adaptedRequest.allHTTPHeaderFields)
+            
+            XCTAssertEqual(adaptedRequest.allHTTPHeaderFields!, self.authHeaderBasic!)
+        }
     }
 
     func testAdaptTokenSignedCorrectly() {
         let plugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: OAuthAccessToken(accessToken: token, type: token)))
-        let adaptedRequest = plugin.adapt(request)
-
-        XCTAssertNil(request.allHTTPHeaderFields)
-        XCTAssertNotNil(adaptedRequest.allHTTPHeaderFields)
-
-        XCTAssertEqual(adaptedRequest.allHTTPHeaderFields!, authHeaderToken!)
+        _ = plugin.adapt(request).then { adaptedRequest -> Void in
+            XCTAssertNil(self.request.allHTTPHeaderFields)
+            XCTAssertNotNil(adaptedRequest.allHTTPHeaderFields)
+            
+            XCTAssertEqual(adaptedRequest.allHTTPHeaderFields!, self.authHeaderToken!)
+        }
     }
 
 }

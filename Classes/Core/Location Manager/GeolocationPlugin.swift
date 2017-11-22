@@ -6,8 +6,8 @@
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 
-import UIKit
 import CoreLocation
+import PromiseKit
 
 open class GeolocationPlugin: PluginType {
     static let locationLatitudeKey = "X-GPS-Latitude"
@@ -24,7 +24,7 @@ open class GeolocationPlugin: PluginType {
 
     }
     
-    open func adapt(_ urlRequest: URLRequest) -> URLRequest {
+    open func adapt(_ urlRequest: URLRequest) -> Promise<URLRequest> {
         var adaptedRequest = urlRequest
         
         if let location = LocationManager.shared.lastLocation {
@@ -45,6 +45,6 @@ open class GeolocationPlugin: PluginType {
             }
         }
         
-        return adaptedRequest
+        return Promise(value: adaptedRequest)
     }
 }
