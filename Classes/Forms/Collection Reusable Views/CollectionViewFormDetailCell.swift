@@ -42,7 +42,8 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
             }
 
             if detailSizing.numberOfLines != nil {
-                detailHeight = max(detailSizing.minimumHeight(inWidth: width, compatibleWith: traitCollection), detailHeight)
+                let imageInset = imageSize?.isEmpty ?? false ? 0.0 : (imageSize?.width ?? 0.0) + CellImageLabelSeparation.ceiled(toScale: displayScale)
+                detailHeight = max(detailSizing.minimumHeight(inWidth: width - imageInset, compatibleWith: traitCollection), detailHeight)
             }
         }
 
