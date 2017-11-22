@@ -27,9 +27,6 @@ public class EntityAssociationsViewModel: EntityDetailViewModelable {
             let count = associatedPersons.count + associatedVehicles.count
             delegate?.updateSidebarItemCount(UInt(count))
 
-            if let level = entity?.associatedAlertLevel, let personCount = entity?.associatedPersons?.count, let vehicleCount = entity?.associatedVehicles?.count, level == .low && personCount + vehicleCount == 0 {
-                print("The BE is returning .low values for `associatedAlertLevel` when there are no associated persons or vehicles. See https://gridstone.atlassian.net/browse/MPOLA-873 for more info.")
-            }
             let color = entity?.associatedAlertLevel?.color
             delegate?.updateSidebarAlertColor(color)
             
