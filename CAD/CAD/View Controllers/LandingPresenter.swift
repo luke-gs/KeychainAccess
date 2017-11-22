@@ -79,7 +79,8 @@ public class LandingPresenter: AppGroupLandingPresenter {
 
             let tasksListContainerViewModel = TasksListContainerViewModel(headerViewModel: TasksListHeaderViewModel(), listViewModel: TasksListViewModel())
             let tasksSplitViewModel = TasksSplitViewModel(listContainerViewModel: tasksListContainerViewModel,
-                                                          mapViewModel: TasksMapViewModel())
+                                                          mapViewModel: TasksMapViewModel(),
+                                                          filterViewModel: TaskMapFilterViewModel())
             let tasksNavController = UINavigationController(rootViewController: tasksSplitViewModel.createViewController())
             tasksNavController.tabBarItem.image = AssetManager.shared.image(forKey: .tabBarTasks)
             tasksNavController.tabBarItem.title = NSLocalizedString("Tasks", comment: "Tasks Tab Bar Item")
